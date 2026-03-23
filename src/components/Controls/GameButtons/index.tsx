@@ -1,5 +1,3 @@
-import "./styles.module.css";
-
 type GameButtonsProps = {
   onConfirm?: () => void;
   onCancel?: () => void;

@@ -1,6 +1,6 @@
 import styles from "./styles.module.css"
 
-export default function HomePage() {
+export default function Home() {
   return (
     <div className={`Master ${styles.image}`}> 
       <img

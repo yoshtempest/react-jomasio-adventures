@@ -25,6 +25,7 @@ a:hover {
 body {
   margin: 0;
   display: flex;
+  flex-direction: row;
   place-items: center;
   max-height: 100vh;
   overflow: hidden;
@@ -72,4 +73,22 @@ h2 {
 
   cursor: pointer;
   transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.gameButtons {
+  display: flex;
+  position: fixed;
+  right: 3%;
+  gap: 12px;
+}
+
+.app {
+  display: flex;
+  flex-direction: row;
+
+  width: 100vw;
+  height: 100vh;
+
+  align-items: center;
+  justify-content: center;
 }

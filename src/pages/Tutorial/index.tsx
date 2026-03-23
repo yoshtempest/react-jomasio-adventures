@@ -1,6 +1,6 @@
 import styles from "./styles.module.css"
 
-export default function TutorialPage() {
+export default function Tutorial() {
   return (
     <div className={`Master ${styles.image}`}> 
         <div className="talking">

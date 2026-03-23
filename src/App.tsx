@@ -1,9 +1,12 @@
-import './App.css'
-import Tutorial from './pages/Tutorial'
+import { Outlet } from "react-router";
+import { GameButtons } from "./components/Controls/GameButtons";
 
 function App() {
   return (
-    <Tutorial />
+    <div className="app">
+      <Outlet />
+      <GameButtons />
+    </div>
   )
 }
 
