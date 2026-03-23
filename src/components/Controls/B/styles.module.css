@@ -1,0 +1,9 @@
+.image {
+    background-image: url("/src/assets/mainGame.svg");
+    background-size: cover;
+}
+
+.logo {
+    width: 20vw;
+    height: 33vh;
+}

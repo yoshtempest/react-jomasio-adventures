@@ -1,0 +1,4 @@
+.image {
+    background-image: url("/src/assets/tutorial.svg");
+    background-size: cover;
+}

@@ -1,0 +1,53 @@
+.navbar{
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    background-color: red;
+}
+
+.title{
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+}
+
+.list{
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    padding: 0;
+}
+
+.link{
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    margin: 10px 0;
+}   
+
+.link:hover{
+    text-decoration: underline;
+}
+
+.link:active{
+    font-weight: bold;
+    background-color: green;
+}
+
+.active{
+    font-weight: bold;
+    background-color: blue;
+}
+
+a.active {
+  color: red;
+}
+a.pending {
+  color: blue;
+}
