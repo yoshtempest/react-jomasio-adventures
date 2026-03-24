@@ -91,3 +91,8 @@ input::placeholder {
   font-weight: bold;
   color: gray;
 }
+
+.character {
+    width: fit-content;
+    height: 15vh;
+}

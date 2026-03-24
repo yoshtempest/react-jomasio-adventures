@@ -7,18 +7,21 @@ import Home from './pages/Home/index.tsx';
 import FirstScreen from './pages/FirstScreen/index.tsx';
 import './index.css'
 import App from './App.tsx'
+import { PlayerProvider } from './contexts/PlayerContext.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <GameControlsProvider>
-        <Routes>
-          <Route path="/" element={<App />}>
-            <Route index element={<Tutorial />} />
-            <Route path="home" element={<Home />} />
-            <Route path="firstscreen" element={<FirstScreen />} />
-          </Route>
-        </Routes>
+        <PlayerProvider>
+          <Routes>
+            <Route path="/" element={<App />}>
+              <Route index element={<Tutorial />} />
+              <Route path="home" element={<Home />} />
+              <Route path="firstscreen" element={<FirstScreen />} />
+            </Route>
+          </Routes>
+        </PlayerProvider>
       </GameControlsProvider>
     </BrowserRouter>
   </StrictMode>

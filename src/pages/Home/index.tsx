@@ -19,7 +19,7 @@ export default function Home() {
     <div className={`Master ${styles.image}`}>
       <img
         src="/src/assets/logo.svg"
-        alt="Pressione A para continuar"
+        alt="logo"
         className={styles.logo}
       />
       <h1>Pressione A para continuar</h1>
