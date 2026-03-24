@@ -3,13 +3,13 @@ import { useNavigate } from "react-router";
 import { usePlayer } from "../../contexts/PlayerContext";
 import styles from "./styles.module.css";
 
-export default function FirstScreen() {
+export default function Cantina() {
   const { player } = usePlayer();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (player.x === -130 && player.y === 10) {
-      navigate("/cantina");
+    if (player.x === 50 && player.y === 250) {
+      navigate("/firstscreen");
     }
   }, [player]);
 

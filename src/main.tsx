@@ -5,6 +5,7 @@ import { GameControlsProvider } from "./contexts/GameControlsContext";
 import Tutorial from './pages/Tutorial/index.tsx';
 import Home from './pages/Home/index.tsx';
 import FirstScreen from './pages/FirstScreen/index.tsx';
+import Cantina from './pages/Cantina/index.tsx';
 import './index.css'
 import App from './App.tsx'
 import { PlayerProvider } from './contexts/PlayerContext.tsx';
@@ -19,6 +20,7 @@ createRoot(document.getElementById('root')!).render(
               <Route index element={<Tutorial />} />
               <Route path="home" element={<Home />} />
               <Route path="firstscreen" element={<FirstScreen />} />
+              <Route path="cantina" element={<Cantina />} />
             </Route>
           </Routes>
         </PlayerProvider>
