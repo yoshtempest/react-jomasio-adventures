@@ -85,3 +85,9 @@ h2 {
   align-items: center;
   justify-content: center;
 }
+
+input::placeholder {
+  font-size: 16px;
+  font-weight: bold;
+  color: gray;
+}

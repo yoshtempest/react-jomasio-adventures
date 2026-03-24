@@ -1,39 +1,78 @@
 import { useEffect, useState } from "react";
 import { useGameControls } from "../../contexts/GameControlsContext";
+import { SendHorizontal } from "lucide-react";
 import Talking from "../../components/Talking";
 import styles from "./styles.module.css";
+import { useNavigate } from "react-router";
+
 
 export default function Tutorial() {
   const { setOnConfirm } = useGameControls();
+  const navigate = useNavigate();
 
   const dialogues = [
     {
       name: "Duque Cê",
-      message: "Bem-vindo ao mundo Po- Real, não vou encher linguiça, você deve investigar o CETI Jomásio dos Santos Barros pelo sumiço da comida.",
+      message:
+        "Bem-vindo ao mundo Po- Real, não vou encher linguiça, você deve investigar o CETI Jomásio dos Santos Barros pelo sumiço da comida.",
     },
     {
       name: "Duque Cê",
-      message: "Mas antes disso, tipo assim, você... qual é seu nome mesmo?",
+      message:
+        "Mas antes disso, tipo assim, você... qual é seu nome mesmo?",
     },
     {
       name: "Duque Cê",
-      message: "Entendo... bem eu não ligo sobre quem é você, apenas faça seu trabalho com perfeição, Adeus.",
+      message:
+        "Entendo... bem eu não ligo sobre quem é você, apenas faça seu trabalho com perfeição, Adeus.",
     },
   ];
 
   const [index, setIndex] = useState(0);
+  const [showInput, setShowInput] = useState(false);
+  const [playerName, setPlayerName] = useState("");
 
   function nextDialogue() {
+    // 🚨 se estiver pedindo nome, não avança
+    if (index === 1 && !showInput) {
+      setShowInput(true);
+      return;
+    }
+
+    // 🚨 se input aberto, não deixa avançar pelo botão A
+    if (showInput) return;
+
     setIndex((prev) => Math.min(prev + 1, dialogues.length - 1));
+  }
+
+  function handleSubmitName() {
+    if (!playerName.trim()) return;
+
+    setShowInput(false);
+    setIndex((prev) => prev + 1);
   }
 
   useEffect(() => {
     setOnConfirm(() => nextDialogue);
 
     return () => {
-      setOnConfirm(undefined); // limpa ao sair da tela
+      setOnConfirm(undefined);
     };
-  }, []);
+  }, [index, showInput]);
+
+  useEffect(() => {
+    let timeout: ReturnType<typeof setTimeout>;
+
+    if (index === 2 && !showInput) {
+      timeout = setTimeout(() => {
+        navigate("/home");
+      }, 3000);
+    }
+
+    return () => {
+      if (timeout) clearTimeout(timeout);
+    };
+  }, [index, showInput]);
 
   return (
     <div className={`Master ${styles.image}`}>
@@ -41,6 +80,25 @@ export default function Tutorial() {
         name={dialogues[index].name}
         message={dialogues[index].message}
       />
+
+      {/* OVERLAY + INPUT */}
+      {showInput && (
+        <div className={styles.overlay}>
+          <div className={styles.modal}>
+            <h1>Nome de usuário</h1>
+            <div className={styles.relative}>
+              <input
+                value={playerName}
+                onChange={(e) => setPlayerName(e.target.value)}
+                placeholder="Digite seu nome"
+              />
+
+              <SendHorizontal size={24} onClick={handleSubmitName} className={styles.sendButton} color="black"/>
+            </div>
+
+          </div>
+        </div>
+      )}
     </div>
   );
 }
