@@ -77,8 +77,6 @@ h2 {
 
 .gameButtons {
   display: flex;
-  position: fixed;
-  right: 3%;
   gap: 12px;
 }
 
