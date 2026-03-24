@@ -1,12 +1,9 @@
 import styles from './styles.module.css';
+import { useGameControls } from "../../../contexts/GameControlsContext";
 
 
-type Props = {
-  onConfirm?: () => void;
-  onCancel?: () => void;
-};
-
-export function GameButtons({ onConfirm, onCancel }: Props) {
+export function GameButtons() {
+  const { onConfirm, onCancel } = useGameControls();
   return (
     <div className={styles.gameButtons}>
       <button className={styles.button} onClick={onCancel}>
