@@ -93,6 +93,7 @@ input::placeholder {
 }
 
 .character {
-    width: fit-content;
-    height: 15vh;
+  display: flex;
+  width: fit-content;
+  height: 15vh;
 }
