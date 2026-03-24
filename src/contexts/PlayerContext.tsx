@@ -1,10 +1,12 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
+import { map } from "../map";
+
 
 type Direction = "up" | "down" | "left" | "right";
 
 type Player = {
-  x: number;
-  y: number;
+  gridX: number;
+  gridY: number;
   direction: Direction;
 };
 
@@ -16,72 +18,82 @@ type PlayerContextType = {
   moveRight: () => void;
 };
 
+function canMoveTo(gridX: number, gridY: number) {
+  // fora do mapa
+  if (!map[gridY] || map[gridY][gridX] === undefined) {
+    return false;
+  }
+
+  // colisão
+  return map[gridY][gridX] === 0;
+}
+
 const PlayerContext = createContext<PlayerContextType | null>(null);
 
 export function PlayerProvider({ children }: { children: ReactNode }) {
-  const STEP = 60;
+  const STEP = 1;
 
   const [player, setPlayer] = useState<Player>({
-    x: -130,
-    y: 250,
-    direction: "down",
+    gridX: 2,
+    gridY: 4,
+    direction: "up",
   });
 
-  function moveUp() {
-    setPlayer((p) => ({ ...p, y: p.y - STEP, direction: "up" }));
-  }
+  // function moveUp() {
+  //   setPlayer((p) => ({ ...p, gridY: p.gridY - STEP, direction: "up" }));
+  // }
 
-  function moveDown() {
-    setPlayer((p) => ({ ...p, y: p.y + STEP, direction: "down" }));
-  }
+  // function moveDown() {
+  //   setPlayer((p) => ({ ...p, gridY: p.gridY + STEP, direction: "down" }));
+  // }
 
-  function moveLeft() {
-    setPlayer((p) => ({ ...p, x: p.x - STEP, direction: "left" }));
-  }
+  // function moveLeft() {
+  //   setPlayer((p) => ({ ...p, gridX: p.gridX - STEP, direction: "left" }));
+  // }
 
-  function moveRight() {
-    setPlayer((p) => ({ ...p, x: p.x + STEP, direction: "right" }));
-  }
+  // function moveRight() {
+  //   setPlayer((p) => ({ ...p, gridX: p.gridX + STEP, direction: "right" }));
+  // }
 
-// function moveUp() {
-//   setPlayer((p) => {
-//     const newY = p.y - STEP;
+function moveUp() {
+  setPlayer((p) => {
+    const newY = p.gridY - STEP;
 
-//     if (!canMoveTo(p.x, newY)) return p;
+    if (!canMoveTo(p.gridX, newY)) return p;
 
-//     return { ...p, y: newY, direction: "up" };
-//   });
-// }
+    return { ...p, gridY: newY, direction: "up" };
+  });
+}
 
-// function moveDown() {
-//   setPlayer((p) => {
-//     const newY = p.y + STEP;
+function moveDown() {
+  setPlayer((p) => {
+    const newY = p.gridY + STEP;
 
-//     if (!canMoveTo(p.x, newY)) return p;
+    if (!canMoveTo(p.gridX, newY)) return p;
 
-//     return { ...p, y: newY, direction: "down" };
-//   });
-// }
+    return { ...p, gridY: newY, direction: "down" };
+  });
+}
 
-// function moveLeft() {
-//   setPlayer((p) => {
-//     const newX = p.x - STEP;
+function moveLeft() {
+  setPlayer((p) => {
+    const newX = p.gridX - STEP;
 
-//     if (!canMoveTo(newX, p.y)) return p;
+    if (!canMoveTo(newX, p.gridY)) return p;
 
-//     return { ...p, x: newX, direction: "left" };
-//   });
-// }
+    return { ...p, gridX: newX, direction: "left" };
+  });
+}
 
-// function moveRight() {
-//   setPlayer((p) => {
-//     const newX = p.x + STEP;
+function moveRight() {
+  setPlayer((p) => {
+    const newX = p.gridX + STEP;
 
-//     if (!canMoveTo(newX, p.y)) return p;
+    if (!canMoveTo(newX, p.gridY)) return p;
 
-//     return { ...p, x: newX, y: p.y, direction: "right" };
-//   });
-// }
+    return { ...p, gridX: newX, direction: "right" };
+  });
+}
 
   return (
     <PlayerContext.Provider
