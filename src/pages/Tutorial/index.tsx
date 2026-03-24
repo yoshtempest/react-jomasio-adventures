@@ -33,13 +33,13 @@ export default function Tutorial() {
   const [playerName, setPlayerName] = useState("");
 
   function nextDialogue() {
-    // 🚨 se estiver pedindo nome, não avança
+    //  Se estiver pedindo nome, não avança
     if (index === 1 && !showInput) {
       setShowInput(true);
       return;
     }
 
-    // 🚨 se input aberto, não deixa avançar pelo botão A
+    // Se input aberto, não deixa avançar pelo botão A
     if (showInput) return;
 
     setIndex((prev) => Math.min(prev + 1, dialogues.length - 1));

@@ -1,0 +1,4 @@
+.image {
+    background-image: url("/src/assets/cenarios/cenario.svg");
+    background-size: cover;
+}
