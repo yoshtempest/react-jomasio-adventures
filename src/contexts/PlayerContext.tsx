@@ -28,7 +28,6 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     direction: "up",
   });
 
-  // ✅ AGORA ESTÁ NO LUGAR CERTO
   const [currentMap, setCurrentMap] = useState<number[][]>([]);
 
   function canMoveTo(gridX: number, gridY: number) {
