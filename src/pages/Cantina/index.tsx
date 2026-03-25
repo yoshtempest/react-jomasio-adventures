@@ -8,7 +8,7 @@ export default function Cantina() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (player.x === 50 && player.y === 250) {
+    if (player.gridX === 50 && player.gridY === 250) {
       navigate("/firstscreen");
     }
   }, [player]);
@@ -19,7 +19,7 @@ export default function Cantina() {
         src={`/src/assets/movement/${player.direction}.svg`}
         className="character"
         style={{
-          transform: `translate(${player.x}px, ${player.y}px)`
+          transform: `translate(${player.gridX}px, ${player.gridY}px)`
         }}
       />
     </div>
