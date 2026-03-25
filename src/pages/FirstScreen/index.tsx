@@ -2,9 +2,10 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { usePlayer } from "../../contexts/PlayerContext";
 import styles from "./styles.module.css";
+import { firstScreenMap } from "../../maps/firstScreenMap";
 
 export default function FirstScreen() {
-  const { player } = usePlayer();
+  const { player, setMap } = usePlayer();
   const navigate = useNavigate();
 
   const MAP_COLS = 17;
@@ -33,6 +34,14 @@ export default function FirstScreen() {
       navigate("/cantina");
     }
   }, [player]);
+
+  useEffect(() => {
+    setMap(firstScreenMap);
+  }, [setMap]);
+
+  useEffect(() => {
+    console.log("Player posição:", player.gridX, player.gridY);
+  }, [player.gridX, player.gridY]);
 
   return (
     <div

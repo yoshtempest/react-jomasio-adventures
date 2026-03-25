@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
-import { map } from "../map";
 
 type Direction = "up" | "down" | "left" | "right";
 
@@ -15,15 +14,8 @@ type PlayerContextType = {
   moveDown: () => void;
   moveLeft: () => void;
   moveRight: () => void;
+  setMap: (map: number[][]) => void;
 };
-
-function canMoveTo(gridX: number, gridY: number) {
-  if (!map[gridY] || map[gridY][gridX] === undefined) {
-    return false;
-  }
-
-  return map[gridY][gridX] === 0;
-}
 
 const PlayerContext = createContext<PlayerContextType | null>(null);
 
@@ -35,6 +27,17 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     gridY: 11,
     direction: "up",
   });
+
+  // ✅ AGORA ESTÁ NO LUGAR CERTO
+  const [currentMap, setCurrentMap] = useState<number[][]>([]);
+
+  function canMoveTo(gridX: number, gridY: number) {
+    if (!currentMap[gridY] || currentMap[gridY][gridX] === undefined) {
+      return false;
+    }
+
+    return currentMap[gridY][gridX] === 0;
+  }
 
   function moveUp() {
     setPlayer((p) => {
@@ -68,9 +71,13 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     });
   }
 
+  function setMap(map: number[][]) {
+    setCurrentMap(map);
+  }
+
   return (
     <PlayerContext.Provider
-      value={{ player, moveUp, moveDown, moveLeft, moveRight }}
+      value={{ player, moveUp, moveDown, moveLeft, moveRight, setMap }}
     >
       {children}
     </PlayerContext.Provider>
