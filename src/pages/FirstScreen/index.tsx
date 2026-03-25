@@ -43,8 +43,6 @@ export default function FirstScreen() {
     <div
       className={`Master ${styles.image}`}
       style={{
-        width: "74vw",
-        height: "100vh",
         margin: "0 auto",
         position: "relative",
         overflow: "hidden",
