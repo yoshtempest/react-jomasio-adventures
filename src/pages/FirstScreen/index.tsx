@@ -73,7 +73,7 @@ export default function FirstScreen() {
 
                   backgroundColor: isPlayer
                     ? "red"
-                    : tile === 1
+                    : tile === 1.4
                     ? "black"
                     : "transparent", // chão visível pra debug
 

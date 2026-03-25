@@ -6,7 +6,7 @@
 
     position: fixed;
     align-self: center;
-    left: 3%;
+    left: 1%;
 
   grid-template-areas:
     ".    up    ."
