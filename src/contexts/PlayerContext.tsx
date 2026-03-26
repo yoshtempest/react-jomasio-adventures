@@ -35,7 +35,9 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       return false;
     }
 
-    return currentMap[gridY][gridX] === 0;
+    const tile = currentMap[gridY][gridX];
+
+    return tile === 0; // só pode andar no chão
   }
 
   function moveUp() {
