@@ -1,14 +1,24 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { SendHorizontal } from "lucide-react";
 import Talking from "@/components/Talking";
 import styles from "./styles.module.css";
+import SOS from "@/assets/SOSFromEarth.m4a";
+import { useGameAudio } from "@/hooks/useGameAudio";
 import { useNavigate } from "react-router";
 
 
 export default function Tutorial() {
   const { setOnConfirm } = useGameControls();
   const navigate = useNavigate();
+
+  const backgroundAudio = useMemo(() => ({
+    src: SOS,
+    loop: true,
+    volume: 1,
+  }), []);
+
+  useGameAudio(backgroundAudio);
 
   const dialogues = [
     {
