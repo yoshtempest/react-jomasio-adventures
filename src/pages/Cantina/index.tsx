@@ -10,11 +10,19 @@ import { NPC } from "@/components/Game/Npc";
 import Talking from "@/components/Talking";
 import { useDialogue } from "@/hooks/useDialogue";
 import { useInteraction } from "@/hooks/useInteraction";
+import LavenderTown from "@/assets/LavenderTown.m4a";
+import { useGameAudio } from "@/hooks/useGameAudio";
 
 
 export default function Cantina() {
   const { player, setMap } = usePlayer();
   const { setOnConfirm } = useGameControls();
+
+  useGameAudio({
+    src: LavenderTown,
+    loop: true,
+    volume: 0.4,
+  });
 
   const dialogueSystem = useDialogue([
     {
