@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 type Dialogue = {
+  src?: string;
   name: string;
   message: string;
 };

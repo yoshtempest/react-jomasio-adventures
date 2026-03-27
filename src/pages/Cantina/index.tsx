@@ -26,10 +26,17 @@ export default function Cantina() {
 
   const dialogueSystem = useDialogue([
     {
+      src: "/src/assets/jhowsimar/right.svg",
       name: "Jhow Simar",
       message: "Tu... tu tá com um objeto amaldiçoado!",
     },
     {
+      src: "/src/assets/default.svg",
+      name: "Protagonista",
+      message: "Como assim? O que vo-",
+    },
+    {
+      src: "/src/assets/jhowsimar/right.svg",
       name: "Jhow Simar",
       message: "Pega a lapada pega",
     },
@@ -75,6 +82,7 @@ export default function Cantina() {
 
       {dialogueSystem.isOpen && (
         <Talking
+          src={dialogueSystem.dialogue.src}
           name={dialogueSystem.dialogue.name}
           message={dialogueSystem.dialogue.message}
         />

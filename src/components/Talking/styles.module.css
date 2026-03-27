@@ -1,9 +1,22 @@
 .talking {
   background-color: #121B31;
-  width: 60%;
+  width: 100%;
   padding: 0% 1%;
   max-height: fit-content;
   text-align: left;
   margin-top: 65vh;
   bottom: 0;
+}
+
+.container {
+  position: relative;
+  width: 60%;
+  display: flex;
+  justify-content: center;
+}
+
+.image {
+  position: absolute;
+  bottom: 15%;
+  left: 0%;
 }
