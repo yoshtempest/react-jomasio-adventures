@@ -15,6 +15,5 @@ export default function Talking({ name, message, src }: Props) {
         <h2>{message}</h2>
       </div>
     </div>
-
   )
 }
