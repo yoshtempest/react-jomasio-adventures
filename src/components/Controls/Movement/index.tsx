@@ -1,5 +1,5 @@
 import { MoveUp, MoveDown, MoveLeft, MoveRight } from "lucide-react";
-import { usePlayer } from "../../../contexts/PlayerContext";
+import { usePlayer } from "@/contexts/PlayerContext";
 import styles from "./styles.module.css";
 
 export function Movement() {

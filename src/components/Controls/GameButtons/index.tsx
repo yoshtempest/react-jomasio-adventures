@@ -1,5 +1,5 @@
 import styles from './styles.module.css';
-import { useGameControls } from "../../../contexts/GameControlsContext";
+import { useGameControls } from "@/contexts/GameControlsContext";
 
 
 export function GameButtons() {

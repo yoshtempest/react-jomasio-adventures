@@ -1,15 +1,15 @@
 import { useEffect } from "react";
-import { useGameControls } from "../../contexts/GameControlsContext";
-import { usePlayer } from "../../contexts/PlayerContext";
+import { useGameControls } from "@/contexts/GameControlsContext";
+import { usePlayer } from "@/contexts/PlayerContext";
 import styles from "./styles.module.css";
-import { cantina } from "../../maps/cantina";
-import { useGameLayout } from "../../hooks/useGameLayout";
-import { GameMap } from "../../components/Game/GameMap";
-import { Player } from "../../components/Game/Player";
-import { NPC } from "../../components/Game/Npc";
-import Talking from "../../components/Talking";
-import { useDialogue } from "../../hooks/useDialogue";
-import { useInteraction } from "../../hooks/useInteraction";
+import { cantina } from "@/maps/cantina";
+import { useGameLayout } from "@/hooks/useGameLayout";
+import { GameMap } from "@/components/Game/GameMap";
+import { Player } from "@/components/Game/Player";
+import { NPC } from "@/components/Game/Npc";
+import Talking from "@/components/Talking";
+import { useDialogue } from "@/hooks/useDialogue";
+import { useInteraction } from "@/hooks/useInteraction";
 
 
 export default function Cantina() {

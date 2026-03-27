@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
-import { useGameControls } from "../../contexts/GameControlsContext";
+import { useGameControls } from "@/contexts/GameControlsContext";
 import styles from "./styles.module.css";
 
 export default function Home() {

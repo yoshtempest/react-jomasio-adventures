@@ -1,12 +1,11 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
-import { usePlayer } from "../../contexts/PlayerContext";
+import { usePlayer } from "@/contexts/PlayerContext";
 import styles from "./styles.module.css";
-import { firstScreenMap } from "../../maps/firstScreenMap";
-import { useGameLayout } from "../../hooks/useGameLayout";
-
-import { GameMap } from "../../components/Game/GameMap";
-import { Player } from "../../components/Game/Player";
+import { firstScreenMap } from "@/maps/firstScreenMap";
+import { useGameLayout } from "@/hooks/useGameLayout";
+import { GameMap } from "@/components/Game/GameMap";
+import { Player } from "@/components/Game/Player";
 
 export default function FirstScreen() {
   const { player, setMap } = usePlayer();

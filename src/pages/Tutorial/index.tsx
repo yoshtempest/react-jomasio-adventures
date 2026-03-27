@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useGameControls } from "../../contexts/GameControlsContext";
+import { useGameControls } from "@/contexts/GameControlsContext";
 import { SendHorizontal } from "lucide-react";
-import Talking from "../../components/Talking";
+import Talking from "@/components/Talking";
 import styles from "./styles.module.css";
 import { useNavigate } from "react-router";
 
@@ -81,7 +81,6 @@ export default function Tutorial() {
         message={dialogues[index].message}
       />
 
-      {/* OVERLAY + INPUT */}
       {showInput && (
         <div className={styles.overlay}>
           <div className={styles.modal}>
@@ -93,7 +92,12 @@ export default function Tutorial() {
                 placeholder="Digite seu nome"
               />
 
-              <SendHorizontal size={24} onClick={handleSubmitName} className={styles.sendButton} color="black"/>
+              <SendHorizontal
+                size={24}
+                onClick={handleSubmitName}
+                className={styles.sendButton}
+                color="black"
+              />
             </div>
 
           </div>
