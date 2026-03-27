@@ -2,3 +2,10 @@
     background-image: url("/src/assets/cenarios/JomasioIntro.svg");
     background-size: cover;
 }
+
+.jhowsimar {
+    position: absolute;
+    top: 18%;
+    margin-left: 8%;
+    height: 22vh;
+}

@@ -1,8 +1,12 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
+import { map } from "../map";
+
 
 type Direction = "up" | "down" | "left" | "right";
 
 type Player = {
+  gridX: number;
+  gridY: number;
   gridX: number;
   gridY: number;
   direction: Direction;
@@ -20,6 +24,7 @@ type PlayerContextType = {
 const PlayerContext = createContext<PlayerContextType | null>(null);
 
 export function PlayerProvider({ children }: { children: ReactNode }) {
+  const STEP = 1;
   const STEP = 1;
 
   const [player, setPlayer] = useState<Player>({
