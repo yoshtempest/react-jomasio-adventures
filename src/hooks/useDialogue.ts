@@ -6,7 +6,10 @@ type Dialogue = {
   message: string;
 };
 
-export function useDialogue(dialogues: Dialogue[]) {
+export function useDialogue(
+  dialogues: Dialogue[],
+  onFinish?: () => void
+) {
   const [index, setIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -19,6 +22,10 @@ export function useDialogue(dialogues: Dialogue[]) {
     setIndex((prev) => {
       if (prev >= dialogues.length - 1) {
         setIsOpen(false);
+
+        // 🔥 AQUI acontece o "fim do diálogo"
+        onFinish?.();
+
         return 0;
       }
       return prev + 1;

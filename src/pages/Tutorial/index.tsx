@@ -109,7 +109,6 @@ export default function Tutorial() {
                 color="black"
               />
             </div>
-
           </div>
         </div>
       )}

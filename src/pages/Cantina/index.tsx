@@ -13,11 +13,13 @@ import { useInteraction } from "@/hooks/useInteraction";
 import LavenderTown from "@/assets/LavenderTown.m4a";
 import { useGameAudio } from "@/hooks/useGameAudio";
 import { useSansTalking } from "@/hooks/useSansTalking";
+import { useNavigate } from "react-router";
 
 
 export default function Cantina() {
   const { player, setMap } = usePlayer();
   const { setOnConfirm } = useGameControls();
+  const navigate = useNavigate();
 
   const dialogueSystem = useDialogue([
     {
@@ -35,7 +37,11 @@ export default function Cantina() {
       name: "Jhow Simar",
       message: "Pega a lapada pega",
     },
-  ]);
+  ],
+  () => {
+    navigate("/firstbattle");
+  }
+);
 
   const { play: playSansTalking } = useSansTalking(dialogueSystem.isOpen);
 
