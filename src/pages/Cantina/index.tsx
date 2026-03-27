@@ -12,19 +12,12 @@ import { useDialogue } from "@/hooks/useDialogue";
 import { useInteraction } from "@/hooks/useInteraction";
 import LavenderTown from "@/assets/LavenderTown.m4a";
 import { useGameAudio } from "@/hooks/useGameAudio";
+import { useSansTalking } from "@/hooks/useSansTalking";
 
 
 export default function Cantina() {
   const { player, setMap } = usePlayer();
   const { setOnConfirm } = useGameControls();
-
-  const audioConfig = useMemo(() => ({
-    src: LavenderTown,
-    loop: true,
-    volume: 0.5,
-  }), []);
-
-  useGameAudio(audioConfig);
 
   const dialogueSystem = useDialogue([
     {
@@ -44,15 +37,27 @@ export default function Cantina() {
     },
   ]);
 
+  const { play: playSansTalking } = useSansTalking(dialogueSystem.isOpen);
+
+  const backgroundAudio = useMemo(() => ({
+    src: LavenderTown,
+    loop: true,
+    volume: 0.5,
+  }), []);
+
+  useGameAudio(backgroundAudio);
+
   const handleInteract = useCallback((tile: number) => {
     if (dialogueSystem.isOpen) {
       dialogueSystem.next();
+      playSansTalking();
       return;
     }
     if (tile === 2) {
       dialogueSystem.start();
+      playSansTalking();
     }
-  }, [dialogueSystem.isOpen]);
+  }, [dialogueSystem.isOpen, playSansTalking]);
 
   useInteraction({
     player,
