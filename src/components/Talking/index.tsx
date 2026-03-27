@@ -1,8 +1,8 @@
 import styles from "./styles.module.css"
 
 interface Props {
-    name: string;
-    message: string;
+  name: string;
+  message: string;
 }
 
 export default function Talking({ name, message }: Props) {
