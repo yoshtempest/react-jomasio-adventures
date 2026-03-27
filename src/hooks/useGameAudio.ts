@@ -15,39 +15,36 @@ export function useGameAudio({
 }: UseGameAudioProps) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  // 🎵 cria o áudio apenas quando o src muda
   useEffect(() => {
     const audio = new Audio(src);
-
-    audio.loop = loop;
-    audio.volume = volume;
-
     audioRef.current = audio;
-
-    if (autoPlay) {
-      audio.play().catch(() => {
-        console.log("Autoplay bloqueado");
-      });
-    }
 
     return () => {
       audio.pause();
       audio.currentTime = 0;
     };
-  }, [src, loop, volume, autoPlay]);
+  }, [src]);
 
-  const play = () => {
-    audioRef.current?.play();
-  };
+  // 🎛️ controla propriedades sem recriar áudio
+  useEffect(() => {
+    if (!audioRef.current) return;
 
-  const pause = () => {
-    audioRef.current?.pause();
-  };
+    audioRef.current.loop = loop;
+    audioRef.current.volume = volume;
+
+    if (autoPlay) {
+      audioRef.current.play().catch(() => {});
+    }
+  }, [loop, volume, autoPlay]);
+
+  const play = () => audioRef.current?.play();
+  const pause = () => audioRef.current?.pause();
 
   const stop = () => {
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0;
-    }
+    if (!audioRef.current) return;
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0;
   };
 
   const setVolume = (value: number) => {
@@ -56,14 +53,19 @@ export function useGameAudio({
     }
   };
 
+  // 🖱️ autoplay fallback com cleanup
   useEffect(() => {
     const handleClick = () => {
-        play();
-        window.removeEventListener("click", handleClick);
+      audioRef.current?.play();
+      window.removeEventListener("click", handleClick);
     };
 
     window.addEventListener("click", handleClick);
-    }, []);
+
+    return () => {
+      window.removeEventListener("click", handleClick);
+    };
+  }, []);
 
   return {
     play,

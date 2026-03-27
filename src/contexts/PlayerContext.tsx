@@ -1,12 +1,8 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
-import { map } from "../map";
-
 
 type Direction = "up" | "down" | "left" | "right";
 
 type Player = {
-  gridX: number;
-  gridY: number;
   gridX: number;
   gridY: number;
   direction: Direction;
@@ -25,7 +21,6 @@ const PlayerContext = createContext<PlayerContextType | null>(null);
 
 export function PlayerProvider({ children }: { children: ReactNode }) {
   const STEP = 1;
-  const STEP = 1;
 
   const [player, setPlayer] = useState<Player>({
     gridX: 6,
@@ -33,6 +28,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     direction: "up",
   });
 
+  // ✅ AGORA ESTÁ NO LUGAR CERTO
   const [currentMap, setCurrentMap] = useState<number[][]>([]);
 
   function canMoveTo(gridX: number, gridY: number) {
@@ -40,9 +36,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       return false;
     }
 
-    const tile = currentMap[gridY][gridX];
-
-    return tile === 0; // só pode andar no chão
+    return currentMap[gridY][gridX] === 0;
   }
 
   function moveUp() {

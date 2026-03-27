@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo, useCallback } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import styles from "./styles.module.css";
@@ -18,11 +18,13 @@ export default function Cantina() {
   const { player, setMap } = usePlayer();
   const { setOnConfirm } = useGameControls();
 
-  useGameAudio({
+  const audioConfig = useMemo(() => ({
     src: LavenderTown,
     loop: true,
-    volume: 0.4,
-  });
+    volume: 0.5,
+  }), []);
+
+  useGameAudio(audioConfig);
 
   const dialogueSystem = useDialogue([
     {
@@ -42,16 +44,21 @@ export default function Cantina() {
     },
   ]);
 
-  useInteraction({ player, map: cantina, setOnConfirm,
-    onInteract: (tile: number) => {
-      if (dialogueSystem.isOpen) {
-        dialogueSystem.next();
-        return;
-      }
-      if(tile === 2) {
-        dialogueSystem.start();
-      }
+  const handleInteract = useCallback((tile: number) => {
+    if (dialogueSystem.isOpen) {
+      dialogueSystem.next();
+      return;
     }
+    if (tile === 2) {
+      dialogueSystem.start();
+    }
+  }, [dialogueSystem.isOpen]);
+
+  useInteraction({
+    player,
+    map: cantina,
+    setOnConfirm,
+    onInteract: handleInteract
   });
 
   const { TILE_SIZE, offsetX, offsetY, PLAYER_SIZE, MAP_COLS, MAP_ROWS } =
