@@ -55,7 +55,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       ...(mode === "battle"
         ? {
             x: 100,
-            y: 300,
+            y: 600,
             state: "idle",
             battleDirection: "right",
           }
