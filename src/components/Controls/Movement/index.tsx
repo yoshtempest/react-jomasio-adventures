@@ -18,10 +18,10 @@ export function Movement() {
 
   const isBattle = player.mode === "battle";
 
-  const up = useHoldAction(isBattle ? moveUpBattle : moveUp, 200);
-  const down = useHoldAction(isBattle ? moveDownBattle : moveDown, 200);
-  const left = useHoldAction(isBattle ? moveLeftBattle : moveLeft, 200);
-  const right = useHoldAction(isBattle ? moveRightBattle : moveRight, 200);
+  const up = useHoldAction(isBattle ? moveUpBattle : moveUp, 300);
+  const down = useHoldAction(isBattle ? moveDownBattle : moveDown, 300);
+  const left = useHoldAction(isBattle ? moveLeftBattle : moveLeft, 300);
+  const right = useHoldAction(isBattle ? moveRightBattle : moveRight, 300);
 
   return (
     <div className={styles.movement}>

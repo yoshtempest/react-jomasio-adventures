@@ -53,7 +53,7 @@ export function useBattleMovement(
         y: p.y + 80,
         state: "idle",
       }));
-    }, 300);
+    }, 200);
   }
 
   function moveDownBattle() {
@@ -74,7 +74,7 @@ export function useBattleMovement(
         y: p.y - 40,
         state: "idle",
       }));
-    }, 300);
+    }, 200);
   }
 
   function punch() {
