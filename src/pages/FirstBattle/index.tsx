@@ -10,11 +10,14 @@ import KenTheme from "@/assets/StreetFighter5KenTheme.m4a";
 import { useGameAudio } from "@/hooks/useGameAudio";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useNpcAI } from "@/hooks/useNpcAi";
-import { HealthBar } from "@/components/Game/HealthBar"
+import { HealthBar } from "@/components/Game/HealthBar";
+import { useNavigate } from "react-router";
 
 export default function FirstBattle() {
   const { player, setMap, setMode, punch } = usePlayer();
   const { setOnConfirm } = useGameControls();
+
+  const navigate = useNavigate();
 
   const [playerHP, setPlayerHP] = useState(100);
   const [npcHP, setNpcHP] = useState(100);
@@ -94,6 +97,35 @@ export default function FirstBattle() {
 
     return () => clearInterval(interval);
   }, [player.x, npc.x]);
+
+  const isEndingRef = useRef(false);
+
+  useEffect(() => {
+    if (isEndingRef.current) return;
+
+    // 🧍 player morreu
+    if (playerHP <= 0) {
+      isEndingRef.current = true;
+
+      setTimeout(() => {
+        setPlayerHP(100);
+        setNpcHP(100);
+        setMode("battle");
+        isEndingRef.current = false;
+      }, 500); // delay opcional
+
+      return;
+    }
+
+  // 🤖 npc morreu
+  if (npcHP <= 0) {
+    isEndingRef.current = true;
+
+    setTimeout(() => {
+      navigate("/cantina");
+    }, 300);
+  }
+}, [playerHP, npcHP]);
 
   return (
     <div className={`Master ${styles.image}`}>
