@@ -17,7 +17,7 @@ export function useBattleMovement(
       };
     });
 
-    resetToIdle();
+    resetToIdle(300);
   }
 
   function moveRightBattle() {
@@ -32,7 +32,7 @@ export function useBattleMovement(
       };
     });
 
-    resetToIdle();
+    resetToIdle(150);
   }
 
   function punch() {

@@ -22,8 +22,8 @@ export function NPCBattle({
       src={src}
       style={{
         position: "absolute",
-        width: TILE_SIZE * 2,
-        height: TILE_SIZE * 2,
+        width: TILE_SIZE * 1.4,
+        height: TILE_SIZE * 1.4,
         left: x,
         top: y,
         transform: "translate(-10%, -20%)",
