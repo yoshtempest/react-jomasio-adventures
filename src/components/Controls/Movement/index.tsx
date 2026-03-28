@@ -9,6 +9,9 @@ export function Movement() {
     moveDown,
     moveLeft,
     moveRight,
+
+    moveUpBattle,
+    moveDownBattle,
     moveLeftBattle,
     moveRightBattle,
   } = usePlayer();
@@ -19,7 +22,7 @@ export function Movement() {
     <div className={styles.movement}>
       <button
         className={styles.up}
-        onClick={isBattle ? undefined : moveUp}
+        onClick={isBattle ? moveUpBattle : moveUp}
       >
         <MoveUp size={16} />
       </button>
@@ -42,7 +45,7 @@ export function Movement() {
 
       <button
         className={styles.down}
-        onClick={isBattle ? undefined : moveDown}
+        onClick={isBattle ? moveDownBattle : moveDown}
       >
         <MoveDown size={16} />
       </button>

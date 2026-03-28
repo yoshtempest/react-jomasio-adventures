@@ -35,6 +35,48 @@ export function useBattleMovement(
     resetToIdle(150);
   }
 
+  function moveUpBattle() {
+    setPlayer((p) => {
+      if (p.mode !== "battle") return p;
+
+      return {
+        ...p,
+        state: "jump",
+        y: p.y - 80, // sobe
+      };
+    });
+
+    // volta pro chão
+    setTimeout(() => {
+      setPlayer((p) => ({
+        ...p,
+        y: p.y + 80,
+        state: "idle",
+      }));
+    }, 300);
+  }
+
+  function moveDownBattle() {
+    setPlayer((p) => {
+      if (p.mode !== "battle") return p;
+
+      return {
+        ...p,
+        state: "crouched",
+        y: p.y + 40, // desce
+      };
+    });
+
+    // sobe de volta
+    setTimeout(() => {
+      setPlayer((p) => ({
+        ...p,
+        y: p.y - 40,
+        state: "idle",
+      }));
+    }, 300);
+  }
+
   function punch() {
     setPlayer((p) => {
       if (p.mode !== "battle") return p;
@@ -54,8 +96,10 @@ export function useBattleMovement(
   }
 
   return {
+    moveUpBattle,
     moveLeftBattle,
     moveRightBattle,
+    moveDownBattle,
     punch,
   };
 }

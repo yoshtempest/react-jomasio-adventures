@@ -11,8 +11,10 @@ type PlayerContextType = {
   moveLeft: () => void;
   moveRight: () => void;
 
+  moveUpBattle: () => void;
   moveLeftBattle: () => void;
   moveRightBattle: () => void;
+  moveDownBattle: () => void;
   punch: () => void;
 
   setMap: (map: number[][]) => void;
@@ -41,7 +43,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const { moveUp, moveDown, moveLeft, moveRight } =
     usePlayerMovement(currentMap, setPlayer);
 
-  const { moveLeftBattle, moveRightBattle, punch } =
+  const { moveUpBattle, moveLeftBattle, moveRightBattle, moveDownBattle, punch } =
     useBattleMovement(setPlayer);
 
   function setMap(map: number[][]) {
@@ -73,8 +75,10 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         moveLeft,
         moveRight,
 
+        moveUpBattle,
         moveLeftBattle,
         moveRightBattle,
+        moveDownBattle,
         punch,
 
         setMap,
