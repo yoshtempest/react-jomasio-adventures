@@ -13,7 +13,7 @@ export function useNpcAI(playerX: number) {
       setNpc((n) => {
         const distance = Math.abs(n.x - playerX);
 
-        if (distance > 60) {
+        if (distance > 50) {
           return {
             ...n,
             x: n.x > playerX ? n.x - 4 : n.x + 4,

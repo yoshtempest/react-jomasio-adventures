@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import styles from "./styles.module.css";
 import { firstBattle } from "@/maps/firstBattle";
@@ -10,10 +10,19 @@ import KenTheme from "@/assets/StreetFighter5KenTheme.m4a";
 import { useGameAudio } from "@/hooks/useGameAudio";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useNpcAI } from "@/hooks/useNpcAi";
+import { HealthBar } from "@/components/Game/HealthBar"
 
 export default function FirstBattle() {
   const { player, setMap, setMode, punch } = usePlayer();
   const { setOnConfirm } = useGameControls();
+
+  const [playerHP, setPlayerHP] = useState(100);
+  const [npcHP, setNpcHP] = useState(100);
+
+  function isInRange() {
+    const distance = Math.abs(player.x - npc.x);
+    return distance < 80; // ajusta depois
+  }
 
   const npc = useNpcAI(player.x);
 
@@ -33,13 +42,45 @@ export default function FirstBattle() {
     setMode("battle");
   }, []);
 
+  const canHitRef = useRef(true);
+
+  function tryHit() {
+    if (!canHitRef.current) return;
+
+    canHitRef.current = false;
+
+    if (isInRange()) {
+      setNpcHP((hp) => Math.max(0, hp - 10));
+    }
+
+    setTimeout(() => {
+      canHitRef.current = true;
+    }, 400);
+  }
+
   useEffect(() => {
-    setOnConfirm(() => punch);
+    function handleAttack() {
+      punch();
+      tryHit();
+    }
+
+    setOnConfirm(() => handleAttack);
+
     return () => setOnConfirm(undefined);
-  }, [punch]);
+  }, [punch]); // ✅ só isso
 
   return (
     <div className={`Master ${styles.image}`}>
+      
+    {/* 🔵 PLAYER HP */}
+    <div style={{ position: "absolute", top: 20, left: 20 }}>
+      <HealthBar hp={playerHP} />
+    </div>
+
+    {/* 🔴 NPC HP */}
+    <div style={{ position: "absolute", top: 20, right: 20 }}>
+      <HealthBar hp={npcHP} />
+    </div>
       <GameMap
         TILE_SIZE={TILE_SIZE}
         offsetX={offsetX}
