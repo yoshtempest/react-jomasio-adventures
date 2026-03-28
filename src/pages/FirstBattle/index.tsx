@@ -67,7 +67,33 @@ export default function FirstBattle() {
     setOnConfirm(() => handleAttack);
 
     return () => setOnConfirm(undefined);
-  }, [punch]); // ✅ só isso
+  }, [punch]);
+
+  const npcCanHitRef = useRef(true);
+
+  function npcTryHit() {
+    if (!npcCanHitRef.current) return;
+
+    const distance = Math.abs(player.x - npc.x);
+
+    if (distance < 60) {
+      npcCanHitRef.current = false;
+
+      setPlayerHP((hp) => Math.max(0, hp - 10));
+
+      setTimeout(() => {
+        npcCanHitRef.current = true;
+      }, 800); // cooldown NPC
+    }
+  }
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      npcTryHit();
+    }, 200); // frequência de verificação
+
+    return () => clearInterval(interval);
+  }, [player.x, npc.x]);
 
   return (
     <div className={`Master ${styles.image}`}>
