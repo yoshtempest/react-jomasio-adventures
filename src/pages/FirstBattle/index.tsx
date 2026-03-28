@@ -1,17 +1,21 @@
 import { useEffect, useMemo } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import styles from "./styles.module.css";
-import { cantina } from "@/maps/cantina";
+import { firstBattle } from "@/maps/firstBattle";
 import { useGameLayout } from "@/hooks/useGameLayout";
 import { GameMap } from "@/components/Game/GameMap";
-import { Player } from "@/components/Game/Player";
-import { NPC } from "@/components/Game/Npc";
+import { PlayerBattle } from "@/components/Game/Player/Battle";
+import { NPCBattle } from "@/components/Game/Npc/Battle";
 import KenTheme from "@/assets/StreetFighter5KenTheme.m4a";
 import { useGameAudio } from "@/hooks/useGameAudio";
+import { useGameControls } from "@/contexts/GameControlsContext";
+import { useNpcAI } from "@/hooks/useNpcAi";
 
+export default function FirstBattle() {
+  const { player, setMap, setMode, punch } = usePlayer();
+  const { setOnConfirm } = useGameControls();
 
-export default function Cantina() {
-  const { player, setMap } = usePlayer();
+  const npc = useNpcAI(player.x);
 
   const backgroundAudio = useMemo(() => ({
     src: KenTheme,
@@ -25,8 +29,14 @@ export default function Cantina() {
     useGameLayout();
 
   useEffect(() => {
-    setMap(cantina);
-  }, [setMap]);
+    setMap(firstBattle);
+    setMode("battle");
+  }, []);
+
+  useEffect(() => {
+    setOnConfirm(() => punch);
+    return () => setOnConfirm(undefined);
+  }, [punch]);
 
   return (
     <div className={`Master ${styles.image}`}>
@@ -37,13 +47,20 @@ export default function Cantina() {
         cols={MAP_COLS}
         rows={MAP_ROWS}
       >
-        <NPC src="/src/assets/jhowsimar/default.svg" gridX={9} gridY={4} TILE_SIZE={TILE_SIZE} />
-        <Player
-          direction={player.direction}
-          gridX={player.gridX}
-          gridY={player.gridY}
+        <NPCBattle
+          x={npc.x}
+          y={npc.y}
           TILE_SIZE={TILE_SIZE}
+          npcType="jhowsimar"
+          state={npc.state}
+        />
+
+        <PlayerBattle
+          x={player.x}
+          y={player.y}
           PLAYER_SIZE={PLAYER_SIZE}
+          state={player.state}
+          direction={player.battleDirection}
         />
       </GameMap>
     </div>

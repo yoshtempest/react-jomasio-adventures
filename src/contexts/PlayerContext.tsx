@@ -1,83 +1,85 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
-
-type Direction = "up" | "down" | "left" | "right";
-
-type Player = {
-  gridX: number;
-  gridY: number;
-  direction: Direction;
-};
+import type { Player, PlayerMode } from "@/utils/types/player";
+import { usePlayerMovement } from "@/hooks/player/usePlayerMovement";
+import { useBattleMovement } from "@/hooks/player/useBattleMovement";
 
 type PlayerContextType = {
   player: Player;
+
   moveUp: () => void;
   moveDown: () => void;
   moveLeft: () => void;
   moveRight: () => void;
+
+  moveLeftBattle: () => void;
+  moveRightBattle: () => void;
+  punch: () => void;
+
   setMap: (map: number[][]) => void;
+  setMode: (mode: PlayerMode) => void;
 };
 
 const PlayerContext = createContext<PlayerContextType | null>(null);
 
 export function PlayerProvider({ children }: { children: ReactNode }) {
-  const STEP = 1;
-
   const [player, setPlayer] = useState<Player>({
     gridX: 6,
     gridY: 11,
     direction: "up",
+
+    x: 100,
+    y: 300,
+    battleDirection: "right",
+    state: "idle",
+
+    mode: "explore",
   });
 
-  // ✅ AGORA ESTÁ NO LUGAR CERTO
   const [currentMap, setCurrentMap] = useState<number[][]>([]);
 
-  function canMoveTo(gridX: number, gridY: number) {
-    if (!currentMap[gridY] || currentMap[gridY][gridX] === undefined) {
-      return false;
-    }
+  // 🔥 hooks separados
+  const { moveUp, moveDown, moveLeft, moveRight } =
+    usePlayerMovement(currentMap, setPlayer);
 
-    return currentMap[gridY][gridX] === 0;
-  }
-
-  function moveUp() {
-    setPlayer((p) => {
-      const newY = p.gridY - STEP;
-      if (!canMoveTo(p.gridX, newY)) return p;
-      return { ...p, gridY: newY, direction: "up" };
-    });
-  }
-
-  function moveDown() {
-    setPlayer((p) => {
-      const newY = p.gridY + STEP;
-      if (!canMoveTo(p.gridX, newY)) return p;
-      return { ...p, gridY: newY, direction: "down" };
-    });
-  }
-
-  function moveLeft() {
-    setPlayer((p) => {
-      const newX = p.gridX - STEP;
-      if (!canMoveTo(newX, p.gridY)) return p;
-      return { ...p, gridX: newX, direction: "left" };
-    });
-  }
-
-  function moveRight() {
-    setPlayer((p) => {
-      const newX = p.gridX + STEP;
-      if (!canMoveTo(newX, p.gridY)) return p;
-      return { ...p, gridX: newX, direction: "right" };
-    });
-  }
+  const { moveLeftBattle, moveRightBattle, punch } =
+    useBattleMovement(setPlayer);
 
   function setMap(map: number[][]) {
     setCurrentMap(map);
   }
 
+  function setMode(mode: PlayerMode) {
+    setPlayer((p) => ({
+      ...p,
+      mode,
+      ...(mode === "battle"
+        ? {
+            x: 100,
+            y: 300,
+            state: "idle",
+            battleDirection: "right",
+          }
+        : {}),
+    }));
+  }
+
   return (
     <PlayerContext.Provider
-      value={{ player, moveUp, moveDown, moveLeft, moveRight, setMap }}
+      value={{
+        player,
+
+        moveUp,
+        moveDown,
+        moveLeft,
+        moveRight,
+
+        moveLeftBattle,
+        moveRightBattle,
+        punch,
+
+        setMap,
+        setMode,
+      }}
     >
       {children}
     </PlayerContext.Provider>

@@ -23,7 +23,7 @@ export default function Cantina() {
 
   const dialogueSystem = useDialogue([
     {
-      src: "/src/assets/jhowsimar/right.svg",
+      src: "/src/assets/npcs/jhowsimar/right.svg",
       name: "Jhow Simar",
       message: "Tu... tu tá com um objeto amaldiçoado!",
     },
@@ -33,7 +33,7 @@ export default function Cantina() {
       message: "Como assim? O que vo-",
     },
     {
-      src: "/src/assets/jhowsimar/right.svg",
+      src: "/src/assets/npcs/jhowsimar/right.svg",
       name: "Jhow Simar",
       message: "Pega a lapada pega",
     },
@@ -88,7 +88,12 @@ export default function Cantina() {
         cols={MAP_COLS}
         rows={MAP_ROWS}
       >
-        <NPC src="/src/assets/jhowsimar/default.svg" gridX={9} gridY={4} TILE_SIZE={TILE_SIZE} />
+        <NPC
+          src="/src/assets/npcs/jhowsimar/default.svg"
+          gridX={9}
+          gridY={4}
+          TILE_SIZE={TILE_SIZE}
+        />
         <Player
           direction={player.direction}
           gridX={player.gridX}

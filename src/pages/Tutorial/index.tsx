@@ -12,6 +12,7 @@ export default function Tutorial() {
   const { setOnConfirm } = useGameControls();
   const navigate = useNavigate();
 
+  // 🔊 áudio estável
   const backgroundAudio = useMemo(() => ({
     src: SOS,
     loop: true,
@@ -20,30 +21,33 @@ export default function Tutorial() {
 
   useGameAudio(backgroundAudio);
 
-  const dialogueSystem = useDialogue(
-    [
-      {
-        name: "Duque Sê",
-        message:
-          "Bem-vindo ao mundo Po- Real, não vou encher linguiça... você deve investigar o CETI Jomásio dos Santos Barros pelo sumiço da comida.",
-      },
-      {
-        name: "Duque Sê",
-        message:
-          "Mas antes disso, tipo assim, você... qual é seu nome mesmo?",
-      },
-      {
-        name: "Duque Sê",
-        message:
-          "Entendo... bem eu não ligo sobre quem é você, apenas faça seu trabalho com perfeição, Adeus.",
-      },
-    ],
-    () => {
-      navigate("/home");
-    }
-  );
+  // ✅ evita recriar função a cada render
+  const handleFinish = useCallback(() => {
+    navigate("/home");
+  }, [navigate]);
 
-  // ✅ inicia automaticamente
+  // ✅ diálogos estáveis
+  const dialogues = useMemo(() => [
+    {
+      name: "Duque Sê",
+      message:
+        "Bem-vindo ao mundo Po- Real, não vou encher linguiça... você deve investigar o CETI Jomásio dos Santos Barros pelo sumiço da comida.",
+    },
+    {
+      name: "Duque Sê",
+      message:
+        "Mas antes disso, tipo assim, você... qual é seu nome mesmo?",
+    },
+    {
+      name: "Duque Sê",
+      message:
+        "Entendo... bem eu não ligo sobre quem é você, apenas faça seu trabalho com perfeição, Adeus.",
+    },
+  ], []);
+
+  const dialogueSystem = useDialogue(dialogues, handleFinish);
+
+  // ✅ inicia automaticamente (agora seguro)
   useEffect(() => {
     dialogueSystem.start();
   }, []);
@@ -51,24 +55,25 @@ export default function Tutorial() {
   const [showInput, setShowInput] = useState(false);
   const [playerName, setPlayerName] = useState("");
 
-  // MEMORIZADO (ESSENCIAL)
-  const handleConfirm = useCallback(() => {
-    const currentMessage = dialogueSystem.dialogue?.message;
+  const currentMessage = dialogueSystem.dialogue?.message;
 
+  // ✅ estável
+  const handleConfirm = useCallback(() => {
     if (!currentMessage) return;
 
-    // trava no input
     if (currentMessage.includes("qual é seu nome")) {
       if (!showInput) {
         setShowInput(true);
         return;
       }
     }
-    if (showInput) return;
-    dialogueSystem.next();
-  }, [dialogueSystem, showInput]);
 
-  // agora está estável
+    if (showInput) return;
+
+    dialogueSystem.next();
+  }, [currentMessage, showInput, dialogueSystem]);
+
+  // ✅ registro global de input
   useEffect(() => {
     setOnConfirm(() => handleConfirm);
 
@@ -77,13 +82,12 @@ export default function Tutorial() {
     };
   }, [handleConfirm, setOnConfirm]);
 
-  function handleSubmitName() {
+  const handleSubmitName = useCallback(() => {
     if (!playerName.trim()) return;
 
     setShowInput(false);
-
     dialogueSystem.next();
-  }
+  }, [playerName, dialogueSystem]);
 
   return (
     <div className={`Master ${styles.image}`}>

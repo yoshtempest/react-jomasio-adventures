@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 
 type Dialogue = {
   src?: string;
@@ -13,29 +13,30 @@ export function useDialogue(
   const [index, setIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
 
-  function start() {
+  const start = useCallback(() => {
     setIndex(0);
     setIsOpen(true);
-  }
+  }, []);
 
-  function next() {
+  const next = useCallback(() => {
     setIndex((prev) => {
       if (prev >= dialogues.length - 1) {
         setIsOpen(false);
-
-        // 🔥 AQUI acontece o "fim do diálogo"
         onFinish?.();
-
         return 0;
       }
       return prev + 1;
     });
-  }
+  }, [dialogues.length, onFinish]);
 
-  return {
-    dialogue: dialogues[index],
+  const dialogue = useMemo(() => {
+    return dialogues[index];
+  }, [dialogues, index]);
+
+  return useMemo(() => ({
+    dialogue,
     isOpen,
     start,
     next,
-  };
+  }), [dialogue, isOpen, start, next]);
 }
