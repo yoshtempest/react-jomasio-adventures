@@ -1,19 +1,23 @@
-import { type Player } from "@/utils/types/player";
+import type { Player } from "@/utils/types/player";
 
 export function useBattleMovement(
   setPlayer: React.Dispatch<React.SetStateAction<Player>>
 ) {
+  const STEP = 50;
+
   function moveLeftBattle() {
     setPlayer((p) => {
       if (p.mode !== "battle") return p;
 
       return {
         ...p,
-        x: Math.max(0, p.x - 5),
+        x: Math.max(0, p.x - STEP),
         battleDirection: "left",
         state: "walk",
       };
     });
+
+    resetToIdle();
   }
 
   function moveRightBattle() {
@@ -22,24 +26,36 @@ export function useBattleMovement(
 
       return {
         ...p,
-        x: Math.min(900, p.x + 5),
+        x: Math.min(900, p.x + STEP),
         battleDirection: "right",
         state: "walk",
       };
     });
+
+    resetToIdle();
   }
 
   function punch() {
     setPlayer((p) => {
       if (p.mode !== "battle") return p;
-
       return { ...p, state: "punch" };
     });
 
-    setTimeout(() => {
-      setPlayer((p) => ({ ...p, state: "idle" }));
-    }, 200);
+    resetToIdle(150);
   }
 
-  return { moveLeftBattle, moveRightBattle, punch };
+  function resetToIdle(delay = 0) {
+    setTimeout(() => {
+      setPlayer((p) => ({
+        ...p,
+        state: "idle",
+      }));
+    }, delay);
+  }
+
+  return {
+    moveLeftBattle,
+    moveRightBattle,
+    punch,
+  };
 }
