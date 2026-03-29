@@ -1,11 +1,10 @@
-type NPCState = "idle" | "walk" | "hit";
-
 type Props = {
   x: number;
   y: number;
   TILE_SIZE: number;
-  npcType: string; // 🔥 pasta do npc
-  state: NPCState;
+  npcType: string;
+  state: "idle" | "walk" | "hit";
+  direction: "left" | "right";
 };
 
 export function NPCBattle({
@@ -14,6 +13,7 @@ export function NPCBattle({
   TILE_SIZE,
   npcType,
   state,
+  direction,
 }: Props) {
   const src = `/src/assets/npcs/${npcType}/${state}.svg`;
 
@@ -26,7 +26,7 @@ export function NPCBattle({
         height: TILE_SIZE * 1.4,
         left: x,
         top: y,
-        transform: "translate(-10%, -20%)",
+        transform: `translate(-10%, -20%) scaleX(${direction === "right" ? -1 : 1})`,
         zIndex: 9,
       }}
     />

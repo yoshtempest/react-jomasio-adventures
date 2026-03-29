@@ -11,9 +11,9 @@ export function useNpcAI({ playerX, onAttack }: Props) {
     x: 900,
     y: 600,
     state: "idle",
+    direction: "right", 
   });
 
-  // 🔥 REF resolve o loop infinito
   const attackRef = useRef(onAttack);
   attackRef.current = onAttack;
 
@@ -24,26 +24,34 @@ export function useNpcAI({ playerX, onAttack }: Props) {
 
         let newX = n.x;
 
+        // 🧠 define direção
+        const direction = playerX < n.x ? "left" : "right";
+
         // 🏃 movimento
-        if (distance > 50) {
+        if (distance > 200) {
+          newX = n.x > playerX ? n.x - 8 : n.x + 8;
+        }
+
+        if (distance > 60 && distance <= 200) {
           newX = n.x > playerX ? n.x - 4 : n.x + 4;
         }
 
         // 👊 ataque
         if (distance <= 60) {
-          attackRef.current(); // ✅ seguro
+          attackRef.current();
         }
 
         return {
           ...n,
           x: newX,
-          state: distance > 50 ? "walk" : "idle",
+          direction, // 👈 IMPORTANTE
+          state: distance > 60 ? "walk" : "idle",
         };
       });
     }, 100);
 
     return () => clearInterval(interval);
-  }, [playerX]); // 🚫 NÃO depende de onAttack
+  }, [playerX]);
 
   return npc;
 }

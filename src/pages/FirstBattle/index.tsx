@@ -102,6 +102,7 @@ export default function FirstBattle() {
           TILE_SIZE={TILE_SIZE}
           npcType="jhowsimar"
           state={npc.state}
+          direction={npc.direction}
         />
 
         <PlayerBattle

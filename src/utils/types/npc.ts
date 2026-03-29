@@ -1,7 +1,8 @@
-export type NPCState = "idle" | "walk";
+export type NPCDirection = "right" | "left";
 
 export type NPCBattleState = {
   x: number;
   y: number;
-  state: NPCState;
+  state: "idle" | "walk" | "hit";
+  direction: NPCDirection;
 };
