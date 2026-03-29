@@ -32,12 +32,12 @@ export function useNpcAI({ playerX, onAttack }: Props) {
           newX = n.x > playerX ? n.x - 8 : n.x + 8;
         }
 
-        if (distance > 60 && distance <= 200) {
+        if (distance > 40 && distance <= 200) {
           newX = n.x > playerX ? n.x - 4 : n.x + 4;
         }
 
         // 👊 ataque
-        if (distance <= 60) {
+        if (distance <= 80) {
           attackRef.current();
         }
 
@@ -45,7 +45,7 @@ export function useNpcAI({ playerX, onAttack }: Props) {
           ...n,
           x: newX,
           direction, // 👈 IMPORTANTE
-          state: distance > 60 ? "walk" : "idle",
+          state: distance > 80 ? "walk" : "idle",
         };
       });
     }, 100);
