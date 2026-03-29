@@ -1,4 +1,4 @@
-type PlayerState = "idle" | "walk" | "punch" | "jump" | "crouched";
+type PlayerState = "idle" | "walk" | "punch" | "jump" | "crouched" | "special";
 type Direction = "left" | "right" | "up" | "down";
 
 type Props = {

@@ -13,10 +13,11 @@ import { firstBattle } from "@/maps/firstBattle";
 import KenTheme from "@/assets/StreetFighter5KenTheme.m4a";
 import styles from "./styles.module.css";
 import { useNavigate } from "react-router";
+import { Deliciometro } from "@/components/Game/Deliciometro";
 
 export default function FirstBattle() {
   const { player, setMap, setMode, punch } = usePlayer();
-  const { setOnConfirm } = useGameControls();
+  const { setOnConfirm, setOnCancel } = useGameControls();
   const navigate = useNavigate();
   const [showVictory, setShowVictory] = useState(false);
 
@@ -79,6 +80,17 @@ export default function FirstBattle() {
     return () => setOnConfirm(undefined);
   }, [punch, battle.playerHit, showVictory]);
 
+  useEffect(() => {
+    function handleSpecial() {
+      if (showVictory) return;
+      battle.specialHit();
+    }
+
+    setOnCancel(() => handleSpecial);
+
+    return () => setOnCancel(undefined);
+  }, [battle.specialHit, showVictory]);
+
   return (
     <div className={`Master ${styles.image}`}>
       
@@ -86,6 +98,11 @@ export default function FirstBattle() {
       <div style={{ position: "absolute", top: 20, left: 20 }}>
         <HealthBar hp={battle.playerHP} />
       </div>
+
+      {/* 🧁 DELICIÔMETRO */}
+    <div style={{ position: "absolute", bottom: 20, left: 20 }}>
+      <Deliciometro delicia={battle.delicia} />
+    </div>
 
       {/* NPC HP */}
       <div style={{ position: "absolute", top: 20, right: 20 }}>

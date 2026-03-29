@@ -86,6 +86,15 @@ export function useBattleMovement(
     resetToIdle(150);
   }
 
+  function special() {
+    setPlayer((p) => {
+      if (p.mode !== "battle") return p;
+      return { ...p, state: "special" };
+    });
+
+    resetToIdle(800);
+  }
+
   function resetToIdle(delay = 0) {
     setTimeout(() => {
       setPlayer((p) => ({
@@ -101,5 +110,6 @@ export function useBattleMovement(
     moveRightBattle,
     moveDownBattle,
     punch,
+    special,
   };
 }

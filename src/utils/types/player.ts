@@ -1,7 +1,7 @@
 export type DirectionExplore = "up" | "down" | "left" | "right";
 export type DirectionBattle = "up" | "down" | "left" | "right";
 
-export type PlayerState = "idle" | "walk" | "punch" | "jump" | "crouched";
+export type PlayerState = "idle" | "walk" | "punch" | "jump" | "crouched" | "special";
 export type PlayerMode = "explore" | "battle";
 
 export type Player = {

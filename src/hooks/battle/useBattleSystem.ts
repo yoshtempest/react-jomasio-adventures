@@ -20,6 +20,9 @@ export function useBattleSystem({
   const npcCooldown = useRef(true);
   const isEnding = useRef(false);
 
+  const [delicia, setDelicia] = useState(0);
+  const MAX_DELICIA = 6;
+
   function isInRange(range = 80) {
     return Math.abs(playerX - npcX) < range;
   }
@@ -32,12 +35,33 @@ export function useBattleSystem({
 
     if (isInRange()) {
       setNpcHP((hp) => Math.max(0, hp - 10));
+
+      // 🔥 ganha delicia
+      setDelicia((d) => Math.min(MAX_DELICIA, d + 1));
     }
 
     setTimeout(() => {
       playerCooldown.current = true;
     }, 400);
   }, [playerX, npcX]);
+
+  const specialHit = useCallback(() => {
+    if (!playerCooldown.current) return;
+    if (delicia < MAX_DELICIA) return;
+
+    playerCooldown.current = false;
+
+    if (isInRange()) {
+      setNpcHP((hp) => Math.max(0, hp - 30)); // 💥 3x dano
+    }
+
+    // 🔥 zera deliciômetro
+    setDelicia(0);
+
+    setTimeout(() => {
+      playerCooldown.current = true;
+    }, 600);
+  }, [playerX, npcX, delicia]);
 
   // 🤖 NPC HIT
   const npcHit = useCallback(() => {
@@ -82,7 +106,10 @@ export function useBattleSystem({
   return {
     playerHP,
     npcHP,
+    delicia,
+    
     playerHit,
+    specialHit,
     npcHit,
   };
 }
