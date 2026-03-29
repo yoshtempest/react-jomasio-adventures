@@ -4,12 +4,12 @@ type Props = {
 };
 
 export function Deliciometro({ delicia, maxDelicia = 6 }: Props) {
-  const angle = (delicia / maxDelicia) * 180;
+  const angle = (delicia / maxDelicia) * 180 - 90;
 
   return (
     <div
       style={{
-        width: 200,
+        width: 50,
         height: 20,
         border: "2px solid black",
         background: "#333",
@@ -25,11 +25,11 @@ export function Deliciometro({ delicia, maxDelicia = 6 }: Props) {
             position: "absolute",
             bottom: 10,
             left: "50%",
-            width: 4,
-            height: 60,
+            width: 2,
+            height: 20,
             background: "red",
-            transformOrigin: "bottom left",
-            transform: `translateX(-50%) rotate(${angle}deg)`,
+            transformOrigin: "bottom center",
+            transform: `translateX(-50%) translateY(40%) rotate(${angle}deg)`,
             transition: "transform 0.2s ease",
             }}
         />

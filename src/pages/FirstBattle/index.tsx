@@ -100,7 +100,7 @@ export default function FirstBattle() {
       </div>
 
       {/* 🧁 DELICIÔMETRO */}
-    <div style={{ position: "absolute", bottom: 20, left: 20 }}>
+    <div style={{ position: "absolute", top: 42, left: 20 }}>
       <Deliciometro delicia={battle.delicia} />
     </div>
 
