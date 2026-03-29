@@ -16,7 +16,7 @@ import { useNavigate } from "react-router";
 import { Deliciometro } from "@/components/Game/Deliciometro";
 
 export default function FirstBattle() {
-  const { player, setMap, setMode, punch } = usePlayer();
+  const { player, setMap, setMode, punch, special } = usePlayer();
   const { setOnConfirm, setOnCancel } = useGameControls();
   const navigate = useNavigate();
   const [showVictory, setShowVictory] = useState(false);
@@ -83,6 +83,7 @@ export default function FirstBattle() {
   useEffect(() => {
     function handleSpecial() {
       if (showVictory) return;
+      special();
       battle.specialHit();
     }
 

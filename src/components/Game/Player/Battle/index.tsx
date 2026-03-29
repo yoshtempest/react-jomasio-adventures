@@ -16,7 +16,10 @@ export function PlayerBattle({
   state,
   direction,
 }: Props) {
-  const src = `/src/assets/player/inFight/${state}.svg`;
+  const src = new URL(
+    `/src/assets/player/inFight/${state}.svg`,
+    import.meta.url
+  ).href;
 
   return (
     <img
