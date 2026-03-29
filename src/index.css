@@ -1,4 +1,8 @@
 :root {
+  --primary-color: #121B31;
+  --background-color: #0A0500;
+
+
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -29,6 +33,12 @@ body {
   place-items: center;
   max-height: 100vh;
   overflow: hidden;
+  background-color: var(--background-color);
+}
+
+button {
+  background-color: var(--primary-color);
+  border: 1px solid black;
 }
 
 .Master {

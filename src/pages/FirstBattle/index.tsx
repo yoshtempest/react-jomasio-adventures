@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useGameLayout } from "@/hooks/useGameLayout";
@@ -18,6 +18,7 @@ export default function FirstBattle() {
   const { player, setMap, setMode, punch } = usePlayer();
   const { setOnConfirm } = useGameControls();
   const navigate = useNavigate();
+  const [showVictory, setShowVictory] = useState(false);
 
   // 🎵 áudio
   const audio = useMemo(() => ({
@@ -43,6 +44,7 @@ export default function FirstBattle() {
   const npc = useNpcAI({
     playerX: player.x,
     onAttack: () => npcDummyAttackRef.current(),
+    isPaused: showVictory,
   });
 
   // Batalha denovo se morrer para o npc e vai para Cantina se matar o npc
@@ -50,7 +52,7 @@ export default function FirstBattle() {
     playerX: player.x,
     npcX: npc.x,
     onPlayerDeath: () => setMode("battle"),
-    onNpcDeath: () => navigate("/cantina"),
+    onNpcDeath: () => setShowVictory(true),
   });
 
   // conecta ataque do NPC (sem loop)
@@ -67,6 +69,7 @@ export default function FirstBattle() {
   // Punch - button A
   useEffect(() => {
     function handleAttack() {
+      if (showVictory) return;
       punch();
       battle.playerHit();
     }
@@ -74,7 +77,7 @@ export default function FirstBattle() {
     setOnConfirm(() => handleAttack);
 
     return () => setOnConfirm(undefined);
-  }, [punch, battle.playerHit]);
+  }, [punch, battle.playerHit, showVictory]);
 
   return (
     <div className={`Master ${styles.image}`}>
@@ -113,6 +116,24 @@ export default function FirstBattle() {
           direction={player.battleDirection}
         />
       </GameMap>
+      {showVictory && (
+        <div className={styles.overlay}>
+          <div className={styles.modal}>
+            <h1>Vitória!</h1>
+            <p>Você derrotou "Jhow Simar, o Vigia"</p>
+            <p>XP adquirido: 1xp</p>
+            <p>XP para o próximo nível: 99xp</p>
+            <p>Progresso na história: 0.1%</p>
+
+            <button
+              onClick={() => navigate("/cantina")}
+              className={styles.button}
+            >
+              Continuar
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

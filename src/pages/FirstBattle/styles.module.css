@@ -2,3 +2,34 @@
     background-image: url("/src/assets/cenarios/firstBattle.svg");
     background-size: cover;
 }
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+.modal {
+  width: 60%;
+  height: 80%;
+  background: #090E19;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1vh;
+}
+
+.button {
+    padding: 12px 24px;
+    font-size: 18px;
+    cursor: pointer;
+}

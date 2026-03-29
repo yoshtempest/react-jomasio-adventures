@@ -17,7 +17,7 @@ import { useNavigate } from "react-router";
 
 
 export default function Cantina() {
-  const { player, setMap } = usePlayer();
+  const { player, setMap, setMode } = usePlayer();
   const { setOnConfirm } = useGameControls();
   const navigate = useNavigate();
 
@@ -77,7 +77,8 @@ export default function Cantina() {
 
   useEffect(() => {
     setMap(cantina);
-  }, [setMap]);
+    setMode("explore");
+  }, []);
 
   return (
     <div className={`Master ${styles.image}`}>

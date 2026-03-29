@@ -4,14 +4,15 @@ import type { NPCBattleState } from "@/utils/types/npc";
 type Props = {
   playerX: number;
   onAttack: () => void;
+  isPaused?: boolean;
 };
 
-export function useNpcAI({ playerX, onAttack }: Props) {
+export function useNpcAI({ playerX, onAttack, isPaused }: Props) {
   const [npc, setNpc] = useState<NPCBattleState>({
     x: 900,
     y: 600,
-    state: "idle",
-    direction: "right", 
+    state: "walk",
+    direction: "left", 
   });
 
   const attackRef = useRef(onAttack);
@@ -20,6 +21,7 @@ export function useNpcAI({ playerX, onAttack }: Props) {
   useEffect(() => {
     const interval = setInterval(() => {
       setNpc((n) => {
+        if (isPaused) return n;
         const distance = Math.abs(n.x - playerX);
 
         let newX = n.x;
