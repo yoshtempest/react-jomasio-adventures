@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 
 type Controls = {
   onConfirm?: () => void;
@@ -20,6 +20,26 @@ export function GameControlsProvider({ children }: { children: ReactNode }) {
     setOnConfirm(undefined);
     setOnCancel(undefined);
   }
+
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      switch (e.key) {
+        case "l":
+          onConfirm?.();
+          break;
+
+        case "b":
+          onCancel?.();
+          break;
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [onConfirm, onCancel]);
 
   return (
     <GameControlsContext.Provider
