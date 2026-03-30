@@ -1,8 +1,8 @@
 .movement {
   display: grid;
 
-  grid-template-columns: 48px 48px 48px;
-  grid-template-rows: 48px 48px 48px;
+  grid-template-columns: 3.6vw 3.6vw 3.6vw;
+  grid-template-rows: 3.6vw 3.6vw 3.6vw;
 
     position: fixed;
     align-self: center;

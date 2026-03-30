@@ -10,6 +10,7 @@ import './index.css'
 import App from './App.tsx'
 import { PlayerProvider } from './contexts/PlayerContext.tsx';
 import FirstBattle from './pages/FirstBattle/index.tsx';
+import Director from './pages/Director/index.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -23,6 +24,7 @@ createRoot(document.getElementById('root')!).render(
               <Route path="firstscreen" element={<FirstScreen />} />
               <Route path="cantina" element={<Cantina />} />
               <Route path="firstbattle" element={<FirstBattle />} />
+              <Route path="director" element={<Director />} />
             </Route>
           </Routes>
         </PlayerProvider>
