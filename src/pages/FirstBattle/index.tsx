@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useGameLayout } from "@/hooks/useGameLayout";
@@ -12,14 +12,19 @@ import { HealthBar } from "@/components/Game/HealthBar";
 import { firstBattle } from "@/maps/firstBattle";
 import KenTheme from "@/assets/StreetFighter5KenTheme.m4a";
 import styles from "./styles.module.css";
-import { useNavigate } from "react-router";
 import { Deliciometro } from "@/components/Game/Deliciometro";
+import { VictoryModal } from "@/components/VictoryModal";
+import { useVictory } from "@/hooks/useVictory";
+
 
 export default function FirstBattle() {
   const { player, setMap, setMode, punch, special } = usePlayer();
   const { setOnConfirm, setOnCancel } = useGameControls();
-  const navigate = useNavigate();
-  const [showVictory, setShowVictory] = useState(false);
+  const {
+    showVictory,
+    triggerVictory,
+    handleContinue,
+  } = useVictory({ redirectTo: "/cantina" });
 
   // 🎵 áudio
   const audio = useMemo(() => ({
@@ -53,7 +58,7 @@ export default function FirstBattle() {
     playerX: player.x,
     npcX: npc.x,
     onPlayerDeath: () => setMode("battle"),
-    onNpcDeath: () => setShowVictory(true),
+    onNpcDeath: triggerVictory,
   });
 
   // conecta ataque do NPC (sem loop)
@@ -135,22 +140,17 @@ export default function FirstBattle() {
         />
       </GameMap>
       {showVictory && (
-        <div className={styles.overlay}>
-          <div className={styles.modal}>
-            <h1>Vitória!</h1>
-            <p>Você derrotou "Jhow Simar, o Vigia"</p>
-            <p>XP adquirido: 1xp</p>
-            <p>XP para o próximo nível: 99xp</p>
-            <p>Progresso na história: 0.1%</p>
-
-            <button
-              onClick={() => navigate("/cantina")}
-              className={styles.button}
-            >
-              Continuar
-            </button>
-          </div>
-        </div>
+        <VictoryModal
+          isOpen={showVictory}
+          title="Vitória!"
+          description="Você derrotou 'Jhow Simar, o Vigia'"
+          rewards={[
+            "XP adquirido: 1xp",
+            "XP para o próximo nível: 99xp",
+            "Progresso na história: 0.1%"
+          ]}
+          onContinue={handleContinue}
+        />
       )}
     </div>
   );

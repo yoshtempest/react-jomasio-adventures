@@ -28,7 +28,7 @@ export function VictoryModal({
           <p key={index}>{reward}</p>
         ))}
 
-        <button onClick={onContinue}>
+        <button className={styles.button} onClick={onContinue}>
           Continuar
         </button>
       </div>
