@@ -23,10 +23,6 @@ export default function FirstScreen() {
     setMap(firstScreenMap);
   }, [setMap]);
 
-  useEffect(() => {
-    console.log("Player posição:", player.gridX, player.gridY);
-  }, [player.gridX, player.gridY]);
-
   return (
     <div className={`Master ${styles.image}`}>
       <GameMap
