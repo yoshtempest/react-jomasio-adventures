@@ -14,7 +14,7 @@ export default function HallOne() {
   const { TILE_SIZE, offsetX, offsetY, PLAYER_SIZE, MAP_COLS, MAP_ROWS } = useGameLayout();
 
   useEffect(() => {
-    if (player.gridX === 6 && player.gridY === 7) {
+    if (player.gridX === 6 && player.gridY === 11) {
       navigate("/cantina");
     }
   }, [player]);

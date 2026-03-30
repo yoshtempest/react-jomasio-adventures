@@ -51,6 +51,12 @@ export default function Cantina() {
     volume: 0.5,
   }), []);
 
+  useEffect(() => {
+    if (player.gridX === 15 && player.gridY === 11) {
+      navigate("/hallone");
+    }
+  }, [player]);
+
   useGameAudio(backgroundAudio);
 
   const handleInteract = useCallback((tile: number) => {
