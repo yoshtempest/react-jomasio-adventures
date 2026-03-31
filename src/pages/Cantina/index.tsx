@@ -39,7 +39,7 @@ export default function Cantina() {
     },
   ],
   () => {
-    navigate("/firstbattle");
+    navigate("/director");
   }
 );
 

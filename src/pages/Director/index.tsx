@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useCallback } from "react";
+import { useEffect, useMemo, useCallback, useRef } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import styles from "./styles.module.css";
@@ -18,6 +18,7 @@ import { useSansTalking } from "@/hooks/useSansTalking";
 export default function Director() {
   const { player, setMap, setMode } = usePlayer();
   const { setOnConfirm } = useGameControls();
+  const hasPlayedDialogue = useRef(false);
 
   const dialogueSystem = useDialogue([
     {
@@ -58,15 +59,11 @@ export default function Director() {
 
   useGameAudio(backgroundAudio);
 
-  const handleInteract = useCallback((tile: number) => {
+  const handleInteract = useCallback(() => {
     if (dialogueSystem.isOpen) {
       dialogueSystem.next();
       playSansTalking();
       return;
-    }
-    if (tile === 2) {
-      dialogueSystem.start();
-      playSansTalking();
     }
   }, [dialogueSystem.isOpen, playSansTalking]);
 
@@ -83,6 +80,13 @@ export default function Director() {
   useEffect(() => {
     setMap(director);
     setMode("explore");
+
+      if (!hasPlayedDialogue.current) {
+        dialogueSystem.start();
+        playSansTalking();
+        hasPlayedDialogue.current = true;
+      }
+      if (!hasPlayedDialogue.current) return;
   }, []);
 
   return (
@@ -95,7 +99,7 @@ export default function Director() {
         rows={MAP_ROWS}
       >
         <NPC
-          src="/src/assets/npcs/jhowsimar/default.svg"
+          src="/src/assets/npcs/system/default.svg"
           gridX={9}
           gridY={4}
           TILE_SIZE={TILE_SIZE}
