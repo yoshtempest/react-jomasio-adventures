@@ -33,10 +33,15 @@ export function useDialogue(
     return dialogues[index];
   }, [dialogues, index]);
 
+  const isLast = index === dialogues.length - 1;
+
   return useMemo(() => ({
     dialogue,
     isOpen,
     start,
     next,
-  }), [dialogue, isOpen, start, next]);
+    isLast,     // 👈 novo
+    index,      // 👈 opcional (mas muito útil)
+    length: dialogues.length, // 👈 opcional
+  }), [dialogue, isOpen, start, next, isLast, index, dialogues.length]);
 }

@@ -1,5 +1,4 @@
-import { useEffect, useMemo, useCallback, useRef } from "react";
-import { useGameControls } from "@/contexts/GameControlsContext";
+import { useEffect, useMemo } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import styles from "./styles.module.css";
 import { director } from "@/maps/director";
@@ -8,8 +7,7 @@ import { GameMap } from "@/components/Game/GameMap";
 import { Player } from "@/components/Game/Player";
 import { NPC } from "@/components/Game/Npc";
 import Talking from "@/components/Talking";
-import { useDialogue } from "@/hooks/useDialogue";
-import { useInteraction } from "@/hooks/useInteraction";
+import { useCutscene } from "@/hooks/useCutscene";
 import LavenderTown from "@/assets/LavenderTown.m4a";
 import { useGameAudio } from "@/hooks/useGameAudio";
 import { useSansTalking } from "@/hooks/useSansTalking";
@@ -17,39 +15,41 @@ import { useSansTalking } from "@/hooks/useSansTalking";
 
 export default function Director() {
   const { player, setMap, setMode } = usePlayer();
-  const { setOnConfirm } = useGameControls();
-  const hasPlayedDialogue = useRef(false);
+  const { play: playSansTalking } = useSansTalking(false);
 
-  const dialogueSystem = useDialogue([
-    {
-      src: "/src/assets/default.svg",
-      name: "Protagonista",
-      message: "Que lugar é esse? Parence uma cela de prisão...",
+  const cutscene = useCutscene({
+    dialogue: [
+      {
+        src: "/src/assets/default.svg",
+        name: "Protagonista",
+        message: "Que lugar é esse? Parence uma cela de prisão...",
+      },
+      {
+        src: "/src/assets/npcs/system/right.svg",
+        name: "Janela de Sistema",
+        message: "Janela de sistema desbloqueada!",
+      },
+      {
+        src: "/src/assets/default.svg",
+        name: "Protagonista",
+        message: "Mas que poha é essa?",
+      },
+      {
+        src: "/src/assets/npcs/system/right.svg",
+        name: "Janela de Sistema",
+        message: "Se vira ai. Não sou pago pra isso",
+      },
+      {
+        src: "/src/assets/default.svg",
+        name: "Protagonista",
+        message: "Então vai se fu- não vou me estressar com isso.",
+      },
+    ],
+    playAudio: playSansTalking,
+    onFinish: () => {
+      setMode("explore"); // libera o player depois
     },
-    {
-      src: "/src/assets/npcs/system/right.svg",
-      name: "Janela de Sistema",
-      message: "Janela de sistema desbloqueada!",
-    },
-    {
-      src: "/src/assets/default.svg",
-      name: "Protagonista",
-      message: "Mas que poha é essa?",
-    },
-    {
-      src: "/src/assets/npcs/system/right.svg",
-      name: "Janela de Sistema",
-      message: "Se vira ai. Não sou pago pra isso",
-    },
-    {
-      src: "/src/assets/default.svg",
-      name: "Protagonista",
-      message: "Então vai se fu- não vou me estressar com isso.",
-    },
-  ],
-);
-
-  const { play: playSansTalking } = useSansTalking(dialogueSystem.isOpen);
+  });
 
   const backgroundAudio = useMemo(() => ({
     src: LavenderTown,
@@ -59,34 +59,12 @@ export default function Director() {
 
   useGameAudio(backgroundAudio);
 
-  const handleInteract = useCallback(() => {
-    if (dialogueSystem.isOpen) {
-      dialogueSystem.next();
-      playSansTalking();
-      return;
-    }
-  }, [dialogueSystem.isOpen, playSansTalking]);
-
-  useInteraction({
-    player,
-    map: director,
-    setOnConfirm,
-    onInteract: handleInteract
-  });
-
   const { TILE_SIZE, offsetX, offsetY, PLAYER_SIZE, MAP_COLS, MAP_ROWS } =
     useGameLayout();
 
   useEffect(() => {
     setMap(director);
     setMode("explore");
-
-      if (!hasPlayedDialogue.current) {
-        dialogueSystem.start();
-        playSansTalking();
-        hasPlayedDialogue.current = true;
-      }
-      if (!hasPlayedDialogue.current) return;
   }, []);
 
   return (
@@ -113,11 +91,11 @@ export default function Director() {
         />
       </GameMap>
 
-      {dialogueSystem.isOpen && (
+      {cutscene.isOpen && (
         <Talking
-          src={dialogueSystem.dialogue.src}
-          name={dialogueSystem.dialogue.name}
-          message={dialogueSystem.dialogue.message}
+          src={cutscene.dialogue.src}
+          name={cutscene.dialogue.name}
+          message={cutscene.dialogue.message}
         />
       )}
     </div>
