@@ -46,9 +46,7 @@ export default function Director() {
       },
     ],
     playAudio: playSansTalking,
-    onFinish: () => {
-      setMode("explore"); // libera o player depois
-    },
+    onFinish: () => {},
   });
 
   const backgroundAudio = useMemo(() => ({
@@ -64,7 +62,6 @@ export default function Director() {
 
   useEffect(() => {
     setMap(director);
-    setMode("explore");
   }, []);
 
   return (

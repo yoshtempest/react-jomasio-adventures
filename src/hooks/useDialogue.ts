@@ -40,8 +40,8 @@ export function useDialogue(
     isOpen,
     start,
     next,
-    isLast,     // 👈 novo
-    index,      // 👈 opcional (mas muito útil)
-    length: dialogues.length, // 👈 opcional
+    isLast,
+    index,
+    length: dialogues.length,
   }), [dialogue, isOpen, start, next, isLast, index, dialogues.length]);
 }
