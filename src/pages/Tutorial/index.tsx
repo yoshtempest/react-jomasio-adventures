@@ -1,18 +1,21 @@
-import { useEffect, useMemo, useState, useCallback } from "react";
-import { useGameControls } from "@/contexts/GameControlsContext";
+import { useMemo, useState, useCallback } from "react";
 import { SendHorizontal } from "lucide-react";
 import Talking from "@/components/Talking";
 import styles from "./styles.module.css";
 import SOS from "@/assets/SOSFromEarth.m4a";
 import { useGameAudio } from "@/hooks/useGameAudio";
 import { useNavigate } from "react-router";
-import { useDialogue } from "@/hooks/useDialogue";
+import { useCutscene } from "@/hooks/useCutscene";
+import { useSansTalking } from "@/hooks/useSansTalking";
 
 export default function Tutorial() {
-  const { setOnConfirm } = useGameControls();
   const navigate = useNavigate();
 
-  // 🔊 áudio estável
+  const [showInput, setShowInput] = useState(false);
+  const [playerName, setPlayerName] = useState("");
+
+  const { play: playSansTalking } = useSansTalking(false);
+
   const backgroundAudio = useMemo(() => ({
     src: SOS,
     loop: true,
@@ -21,82 +24,58 @@ export default function Tutorial() {
 
   useGameAudio(backgroundAudio);
 
-  // ✅ evita recriar função a cada render
-  const handleFinish = useCallback(() => {
-    navigate("/home");
-  }, [navigate]);
-
-  // ✅ diálogos estáveis
-  const dialogues = useMemo(() => [
-    {
-      name: "Duque Sê",
-      message:
-        "Bem-vindo ao mundo Po- Real, não vou encher linguiça... você deve investigar o CETI Jomásio dos Santos Barros pelo sumiço da comida.",
+  const cutscene = useCutscene({
+    dialogue: [
+      {
+        name: "Duque Sê",
+        message:
+          "Bem-vindo ao mundo Po- Real, não vou encher linguiça... você deve investigar o CETI Jomásio dos Santos Barros pelo sumiço da comida.",
+      },
+      {
+        name: "Duque Sê",
+        message:
+          "Mas antes disso, tipo assim, você... qual é seu nome mesmo?",
+      },
+      {
+        name: "Duque Sê",
+        message:
+          "Entendo... bem eu não ligo sobre quem é você, apenas faça seu trabalho com perfeição, Adeus.",
+      },
+    ],
+    playAudio: playSansTalking,
+    onFinish: () => {
+      navigate("/home"); // exemplo
     },
-    {
-      name: "Duque Sê",
-      message:
-        "Mas antes disso, tipo assim, você... qual é seu nome mesmo?",
-    },
-    {
-      name: "Duque Sê",
-      message:
-        "Entendo... bem eu não ligo sobre quem é você, apenas faça seu trabalho com perfeição, Adeus.",
-    },
-  ], []);
+    onBeforeNext: (dialogue) => {
+        if (
+          dialogue.message ===
+          "Mas antes disso, tipo assim, você... qual é seu nome mesmo?"
+        ) {
+          if (!showInput) {
+            setShowInput(true);
+            return false; // 🔥 BLOQUEIA avanço
+          }
+        }
 
-  const dialogueSystem = useDialogue(dialogues, handleFinish);
+        if (showInput) return false;
 
-  // ✅ inicia automaticamente (agora seguro)
-  useEffect(() => {
-    dialogueSystem.start();
-  }, []);
-
-  const [showInput, setShowInput] = useState(false);
-  const [playerName, setPlayerName] = useState("");
-
-  const currentMessage = dialogueSystem.dialogue?.message;
-
-  // ✅ estável
-  const handleConfirm = useCallback(() => {
-    if (!currentMessage) return;
-
-    if (currentMessage.includes("qual é seu nome")) {
-      if (!showInput) {
-        setShowInput(true);
-        return;
-      }
-    }
-
-    if (showInput) return;
-
-    dialogueSystem.next();
-  }, [currentMessage, showInput, dialogueSystem]);
-
-  // ✅ registro global de input
-  useEffect(() => {
-    setOnConfirm(() => handleConfirm);
-
-    return () => {
-      setOnConfirm(undefined);
-    };
-  }, [handleConfirm, setOnConfirm]);
+        return true;
+      },
+  });
 
   const handleSubmitName = useCallback(() => {
     if (!playerName.trim()) return;
 
     setShowInput(false);
-    dialogueSystem.next();
-  }, [playerName, dialogueSystem]);
+    cutscene.next();
+  }, [playerName, cutscene]);
 
   return (
     <div className={`Master ${styles.image}`}>
-      {dialogueSystem.isOpen && dialogueSystem.dialogue && (
-        <Talking
-          name={dialogueSystem.dialogue.name}
-          message={dialogueSystem.dialogue.message}
-        />
-      )}
+      <Talking
+        name={cutscene.dialogue.name}
+        message={cutscene.dialogue.message}
+      />
 
       {showInput && (
         <div className={styles.overlay}>

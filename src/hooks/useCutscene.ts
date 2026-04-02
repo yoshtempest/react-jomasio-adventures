@@ -8,6 +8,7 @@ type UseCutsceneProps = {
   playOnce?: boolean;
   onFinish?: () => void;
   playAudio?: () => void;
+  onBeforeNext?: (dialogue: any) => boolean;
 };
 
 export function useCutscene({
@@ -16,6 +17,7 @@ export function useCutscene({
   playOnce = true,
   onFinish,
   playAudio,
+  onBeforeNext,
 }: UseCutsceneProps) {
   const dialogueSystem = useDialogue(dialogue, onFinish);
   const { setOnConfirm } = useGameControls();
@@ -37,6 +39,10 @@ export function useCutscene({
 
     handleConfirmRef.current = () => {
     if (!dialogueSystem.isOpen) return;
+
+    const shouldContinue = onBeforeNext?.(dialogueSystem.dialogue);
+
+    if (shouldContinue === false) return;
 
     dialogueSystem.next();
     playAudio?.();
