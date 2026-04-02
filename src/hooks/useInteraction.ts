@@ -21,8 +21,10 @@ export function useInteraction({
   // registra o handler UMA VEZ
   useEffect(() => {
     const handler = () => {
-      const { x, y } = getTileInFront(playerRef.current);
-      const tile = mapRef.current[y]?.[x];
+    const { x, y, tile } = getTileInFront(
+      playerRef.current,
+      mapRef.current
+    );
 
       onInteractRef.current(tile, x, y);
     };

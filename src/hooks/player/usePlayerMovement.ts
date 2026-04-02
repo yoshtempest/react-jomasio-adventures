@@ -18,7 +18,9 @@ export function usePlayerMovement(
       if (p.mode !== "explore") return p;
 
       const newY = p.gridY - STEP;
-      if (!canMoveTo(p.gridX, newY)) return p;
+      if (!canMoveTo(p.gridX, newY)) {
+        return { ...p, direction: "up" };
+      };
 
       return { ...p, gridY: newY, direction: "up" };
     });
@@ -29,7 +31,9 @@ export function usePlayerMovement(
       if (p.mode !== "explore") return p;
 
       const newY = p.gridY + STEP;
-      if (!canMoveTo(p.gridX, newY)) return p;
+      if (!canMoveTo(p.gridX, newY)) {
+        return { ...p, direction: "down" };
+      };
 
       return { ...p, gridY: newY, direction: "down" };
     });
@@ -40,7 +44,9 @@ export function usePlayerMovement(
       if (p.mode !== "explore") return p;
 
       const newX = p.gridX - STEP;
-      if (!canMoveTo(newX, p.gridY)) return p;
+      if (!canMoveTo(newX, p.gridY)) {
+        return { ...p, direction: "left" };
+      };
 
       return { ...p, gridX: newX, direction: "left" };
     });
@@ -51,7 +57,9 @@ export function usePlayerMovement(
       if (p.mode !== "explore") return p;
 
       const newX = p.gridX + STEP;
-      if (!canMoveTo(newX, p.gridY)) return p;
+      if (!canMoveTo(newX, p.gridY)) {
+        return { ...p, direction: "right" };
+      };
 
       return { ...p, gridX: newX, direction: "right" };
     });
