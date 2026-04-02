@@ -6,7 +6,7 @@ type Player = {
   direction: Direction;
 };
 
-export function getTileInFront(player: Player) {
+export function getTileInFront(player: Player, map: number[][]) {
   let x = player.gridX;
   let y = player.gridY;
 
@@ -25,5 +25,7 @@ export function getTileInFront(player: Player) {
       break;
   }
 
-  return { x, y };
+  const tile = map[y]?.[x];
+
+  return { x, y, tile };
 }

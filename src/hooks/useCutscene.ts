@@ -35,9 +35,10 @@ export function useCutscene({
     hasPlayed.current = true;
   }, []);
 
-    const handleConfirmRef = useRef<() => void>(() => {});
+  // ▶ handler estável
+  const handleConfirmRef = useRef<() => void>(() => {});
 
-    handleConfirmRef.current = () => {
+  handleConfirmRef.current = () => {
     if (!dialogueSystem.isOpen) return;
 
     const shouldContinue = onBeforeNext?.(dialogueSystem.dialogue);
@@ -46,14 +47,17 @@ export function useCutscene({
 
     dialogueSystem.next();
     playAudio?.();
-    };
+  };
 
-  // ▶ bind no sistema de controles
+  // 🔥 CORREÇÃO AQUI
   useEffect(() => {
+    // 🎬 só controla input quando cutscene estiver aberta
+    if (!dialogueSystem.isOpen) return;
+
     setOnConfirm(() => () => handleConfirmRef.current());
 
     return () => setOnConfirm(undefined);
-  }, []);
+  }, [dialogueSystem.isOpen]); // 👈 ESSENCIAL
 
   return {
     ...dialogueSystem,

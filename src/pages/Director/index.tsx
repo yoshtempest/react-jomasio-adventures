@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import styles from "./styles.module.css";
 import { director } from "@/maps/director";
@@ -11,11 +11,16 @@ import { useCutscene } from "@/hooks/useCutscene";
 import LavenderTown from "@/assets/LavenderTown.m4a";
 import { useGameAudio } from "@/hooks/useGameAudio";
 import { useSansTalking } from "@/hooks/useSansTalking";
-
+import { useGameControls } from "@/contexts/GameControlsContext";
+import { getTileInFront } from "@/utils/getTileInFront";
+import { TILE } from "@/utils/types/tileTypes";
 
 export default function Director() {
   const { player, setMap } = usePlayer();
   const { play: playSansTalking } = useSansTalking(false);
+  const { setOnConfirm } = useGameControls();
+
+  const [popup, setPopup] = useState<string | null>(null);
 
   const cutscene = useCutscene({
     dialogue: [
@@ -46,7 +51,6 @@ export default function Director() {
       },
     ],
     playAudio: playSansTalking,
-    onFinish: () => {},
   });
 
   const backgroundAudio = useMemo(() => ({
@@ -63,6 +67,45 @@ export default function Director() {
   useEffect(() => {
     setMap(director);
   }, []);
+
+  // 🧠 Interações por posição
+  const interactionsByPosition: Record<string, () => void> = {
+    "4,4": () => setPopup("Essa porta está trancada."),
+    "6,4": () => setPopup("Nada por aqui."),
+    "7,4": () => setPopup("Uma chave suspeita, deve ser da porta..."),
+  };
+
+  // 🎮 CONTROLE DE INTERAÇÃO (AGORA CORRETO)
+  useEffect(() => {
+    // 🎬 cutscene já controla input → não interferir
+    if (cutscene.isOpen) return;
+
+    setOnConfirm(() => () => {
+      // 🔁 fechar popup
+      if (popup) {
+        setPopup(null);
+        return;
+      }
+
+      const { x, y, tile } = getTileInFront(player, director);
+
+      // 🎯 prioridade: posição específica
+      const interaction = interactionsByPosition[`${x},${y}`];
+
+      if (interaction) {
+        interaction();
+        return;
+      }
+
+      // 🧱 fallback por tipo
+      if (tile === TILE.InteractiveWall) {
+        setPopup("Uma parede estranha...");
+        return;
+      }
+    });
+
+    return () => setOnConfirm(undefined);
+  }, [player, popup, cutscene.isOpen]);
 
   return (
     <div className={`Master ${styles.image}`}>
@@ -93,6 +136,13 @@ export default function Director() {
           src={cutscene.dialogue.src}
           name={cutscene.dialogue.name}
           message={cutscene.dialogue.message}
+        />
+      )}
+
+      {popup && (
+        <Talking
+          name="Sistema"
+          message={popup}
         />
       )}
     </div>
