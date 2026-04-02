@@ -14,7 +14,7 @@ import { useSansTalking } from "@/hooks/useSansTalking";
 
 
 export default function Director() {
-  const { player, setMap, setMode } = usePlayer();
+  const { player, setMap } = usePlayer();
   const { play: playSansTalking } = useSansTalking(false);
 
   const cutscene = useCutscene({
@@ -22,7 +22,7 @@ export default function Director() {
       {
         src: "/src/assets/default.svg",
         name: "Protagonista",
-        message: "Que lugar é esse? Parence uma cela de prisão...",
+        message: "Que lugar é esse? Parece uma cela de prisão...",
       },
       {
         src: "/src/assets/npcs/system/right.svg",

@@ -34,7 +34,7 @@ export function useBattleSystem({
     playerCooldown.current = false;
 
     if (isInRange()) {
-      setNpcHP((hp) => Math.max(0, hp - 10));
+      setNpcHP((hp) => Math.max(0, hp - 4));
 
       // 🔥 ganha delicia
       setDelicia((d) => Math.min(MAX_DELICIA, d + 1));
@@ -52,7 +52,7 @@ export function useBattleSystem({
     playerCooldown.current = false;
 
     if (isInRange()) {
-      setNpcHP((hp) => Math.max(0, hp - 30)); // 💥 3x dano
+      setNpcHP((hp) => Math.max(0, hp - 12)); // 💥 3x dano
     }
 
     // 🔥 zera deliciômetro
