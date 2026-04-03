@@ -13,7 +13,6 @@ import { useGameAudio } from "@/hooks/useGameAudio";
 import { useSansTalking } from "@/hooks/useSansTalking";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { getTileInFront } from "@/utils/getTileInFront";
-import { TILE } from "@/utils/types/tileTypes";
 import { Inventory } from "@/components/Navbar/Inventory";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavigate } from "react-router";
@@ -107,9 +106,8 @@ export default function Director() {
     },
   };
 
-  // 🎮 CONTROLE DE INTERAÇÃO (AGORA CORRETO)
   useEffect(() => {
-    // 🎬 cutscene já controla input → não interferir
+    // cutscene já controla input → não interferir
     if (cutscene.isOpen) return;
 
     setOnConfirm(() => () => {
@@ -119,19 +117,12 @@ export default function Director() {
         return;
       }
 
-      const { x, y, tile } = getTileInFront(player, director);
+      const { x, y } = getTileInFront(player, director);
 
-      // 🎯 prioridade: posição específica
       const interaction = interactionsByPosition[`${x},${y}`];
 
       if (interaction) {
         interaction();
-        return;
-      }
-
-      // 🧱 fallback por tipo
-      if (tile === TILE.InteractiveWall) {
-        setPopup("Uma parede estranha...");
         return;
       }
     });
