@@ -16,6 +16,7 @@ import { getTileInFront } from "@/utils/getTileInFront";
 import { TILE } from "@/utils/types/tileTypes";
 import { Inventory } from "@/components/Navbar/Inventory";
 import { useInventory } from "@/contexts/InventoryContext";
+import { useNavigate } from "react-router";
 
 export default function Director() {
   const { player, setMap } = usePlayer();
@@ -23,7 +24,9 @@ export default function Director() {
   const { setOnConfirm } = useGameControls();
 
   const [popup, setPopup] = useState<string | null>(null);
-  const { isOpen } = useInventory();
+  const { addItem, hasItem, removeItem, isOpen } = useInventory();
+  const navigate = useNavigate();
+  const [gotKey, setGotKey] = useState(false);
 
   const cutscene = useCutscene({
     dialogue: [
@@ -73,9 +76,35 @@ export default function Director() {
 
   // 🧠 Interações por posição
   const interactionsByPosition: Record<string, () => void> = {
-    "4,4": () => setPopup("Essa porta está trancada."),
+    "4,3": () => {
+    if (hasItem("key_01")) {
+      setPopup("Você usou a chave.");
+
+      setTimeout(() => {
+        removeItem("key_01");
+        navigate("/cantina");
+      }, 1000);
+      } else {
+        setPopup("Essa porta está trancada.");
+      }
+    },
+
     "6,4": () => setPopup("Nada por aqui."),
-    "7,4": () => setPopup("Uma chave suspeita, deve ser da porta..."),
+
+    "7,4": () => {
+      if (!gotKey) {
+        setPopup("Uma chave suspeita, deve ser da porta...");
+
+        addItem({
+          id: "key_01",
+          name: "Chave enferrujada",
+        });
+
+        setGotKey(true);
+      } else {
+        setPopup("Nada mais aqui.");
+      }
+    },
   };
 
   // 🎮 CONTROLE DE INTERAÇÃO (AGORA CORRETO)
@@ -109,24 +138,6 @@ export default function Director() {
 
     return () => setOnConfirm(undefined);
   }, [player, popup, cutscene.isOpen]);
-  // const { addItem } = useInventory();
-
-  // function getKey() {
-  //   addItem({
-  //     id: "key_01",
-  //     name: "Chave enferrujada",
-  //   });
-  // }
-
-  // const { hasItem } = useInventory();
-
-  // if (hasItem("key_01")) {
-  //   // abrir porta
-  // }
-
-//   if (player.gridX === 4 && player.gridY === 4 && hasItem("key_01")) {
-//   useNavigate("/cantina");
-// }
 
   return (
     <div className={`Master ${styles.image}`}>
