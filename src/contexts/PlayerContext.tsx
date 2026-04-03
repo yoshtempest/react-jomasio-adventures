@@ -2,6 +2,7 @@ import { createContext, useContext, useState, type ReactNode } from "react";
 import type { Player, PlayerMode } from "@/utils/types/player";
 import { usePlayerMovement } from "@/hooks/player/usePlayerMovement";
 import { useBattleMovement } from "@/hooks/player/useBattleMovement";
+import { useInventory } from "@/contexts/InventoryContext";
 
 type PlayerContextType = {
   player: Player;
@@ -10,6 +11,7 @@ type PlayerContextType = {
   moveDown: () => void;
   moveLeft: () => void;
   moveRight: () => void;
+  openInventory: () => void;
 
   moveUpBattle: () => void;
   moveLeftBattle: () => void;
@@ -39,6 +41,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   });
 
   const [currentMap, setCurrentMap] = useState<number[][]>([]);
+  const { toggleInventory } = useInventory();
 
   // 🔥 hooks separados
   const { moveUp, moveDown, moveLeft, moveRight } =
@@ -49,6 +52,11 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
   function setMap(map: number[][]) {
     setCurrentMap(map);
+  }
+
+  function openInventory() {
+    if (player.mode !== "explore") return;
+    toggleInventory();
   }
 
   function setMode(mode: PlayerMode) {
@@ -75,6 +83,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         moveDown,
         moveLeft,
         moveRight,
+        openInventory,
 
         moveUpBattle,
         moveLeftBattle,

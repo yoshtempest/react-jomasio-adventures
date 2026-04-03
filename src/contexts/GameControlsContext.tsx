@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { usePlayer } from "./PlayerContext";
 
 type Controls = {
   onConfirm?: () => void;
@@ -16,6 +17,8 @@ export function GameControlsProvider({ children }: { children: ReactNode }) {
   const [onConfirm, setOnConfirm] = useState<(() => void) | undefined>();
   const [onCancel, setOnCancel] = useState<(() => void) | undefined>();
 
+  const { player, special, openInventory } = usePlayer(); // 👈 NOVO
+
   function clearControls() {
     setOnConfirm(undefined);
     setOnCancel(undefined);
@@ -29,8 +32,17 @@ export function GameControlsProvider({ children }: { children: ReactNode }) {
           break;
 
         case "b":
-          onCancel?.();
-          break;
+          if (onCancel) {
+            onCancel();
+            return;
+          }
+
+          // 🧠 fallback inteligente
+          if (player.mode === "battle") {
+            special();
+          } else {
+            openInventory();
+          }
       }
     }
 
@@ -39,7 +51,7 @@ export function GameControlsProvider({ children }: { children: ReactNode }) {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [onConfirm, onCancel]);
+  }, [onConfirm, onCancel, player.mode, special, openInventory]);
 
   return (
     <GameControlsContext.Provider

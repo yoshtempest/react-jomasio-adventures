@@ -13,26 +13,29 @@ import FirstBattle from './pages/FirstBattle/index.tsx';
 import Director from './pages/Director/index.tsx';
 import HallOne from './pages/Hall/First/index.tsx';
 import HallTwo from './pages/Hall/Second/index.tsx';
+import { InventoryProvider } from './contexts/InventoryContext.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-      <GameControlsProvider>
+      <InventoryProvider>
         <PlayerProvider>
-          <Routes>
-            <Route path="/" element={<App />}>
-              <Route index element={<Tutorial />} />
-              <Route path="home" element={<Home />} />
-              <Route path="firstscreen" element={<FirstScreen />} />
-              <Route path="cantina" element={<Cantina />} />
-              <Route path="firstbattle" element={<FirstBattle />} />
-              <Route path="director" element={<Director />} />
-              <Route path="hallone" element={<HallOne />} />
-              <Route path="halltwo" element={<HallTwo />} />
-            </Route>
-          </Routes>
+          <GameControlsProvider>
+            <Routes>
+              <Route path="/" element={<App />}>
+                <Route index element={<Tutorial />} />
+                <Route path="home" element={<Home />} />
+                <Route path="firstscreen" element={<FirstScreen />} />
+                <Route path="cantina" element={<Cantina />} />
+                <Route path="firstbattle" element={<FirstBattle />} />
+                <Route path="director" element={<Director />} />
+                <Route path="hallone" element={<HallOne />} />
+                <Route path="halltwo" element={<HallTwo />} />
+              </Route>
+            </Routes>
+          </GameControlsProvider>
         </PlayerProvider>
-      </GameControlsProvider>
+      </InventoryProvider>
     </BrowserRouter>
   </StrictMode>
 )

@@ -6,10 +6,9 @@ export default function Navbar() {
     <nav id="Navbar" className={styles.navbar}>
       <h1 className={styles.title}>Navbar</h1>
       <ul className={styles.list}>
-        <Link to="/home"><li className={styles.item}>Status</li></Link>
-        <Link to="/home"><li className={styles.item}>Mochila</li></Link>
-        <Link to="/about"><li className={styles.item}>Configurações</li></Link>
-        <Link to="/contact"><li className={styles.item}>Salvar</li></Link>
+        <Link to="/status"><li className={styles.item}>Status</li></Link>
+        <Link to="/inventory"><li className={styles.item}>Mochila</li></Link>
+        <Link to="/config"><li className={styles.item}>Configurações</li></Link>
       </ul>
     </nav>
   )

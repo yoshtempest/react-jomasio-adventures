@@ -14,6 +14,8 @@ import { useSansTalking } from "@/hooks/useSansTalking";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { getTileInFront } from "@/utils/getTileInFront";
 import { TILE } from "@/utils/types/tileTypes";
+import { Inventory } from "@/components/Navbar/Inventory";
+import { useInventory } from "@/contexts/InventoryContext";
 
 export default function Director() {
   const { player, setMap } = usePlayer();
@@ -21,6 +23,7 @@ export default function Director() {
   const { setOnConfirm } = useGameControls();
 
   const [popup, setPopup] = useState<string | null>(null);
+  const { isOpen } = useInventory();
 
   const cutscene = useCutscene({
     dialogue: [
@@ -106,6 +109,24 @@ export default function Director() {
 
     return () => setOnConfirm(undefined);
   }, [player, popup, cutscene.isOpen]);
+  // const { addItem } = useInventory();
+
+  // function getKey() {
+  //   addItem({
+  //     id: "key_01",
+  //     name: "Chave enferrujada",
+  //   });
+  // }
+
+  // const { hasItem } = useInventory();
+
+  // if (hasItem("key_01")) {
+  //   // abrir porta
+  // }
+
+//   if (player.gridX === 4 && player.gridY === 4 && hasItem("key_01")) {
+//   useNavigate("/cantina");
+// }
 
   return (
     <div className={`Master ${styles.image}`}>
@@ -145,6 +166,7 @@ export default function Director() {
           message={popup}
         />
       )}
+      {isOpen && <Inventory />}
     </div>
   );
 }
