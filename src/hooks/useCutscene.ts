@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
-import { useDialogue } from "@/hooks/useDialogue";
+import { useDialogue } from "@/hooks/interaction/useDialogue";
 
 type UseCutsceneProps = {
   dialogue: Parameters<typeof useDialogue>[0];

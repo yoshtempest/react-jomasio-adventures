@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { getTileInFront } from "../utils/getTileInFront";
+import { getTileInFront } from "@/utils/getTileInFront";
 
 export function useInteraction({
   player,
