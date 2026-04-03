@@ -17,6 +17,7 @@ import { Inventory } from "@/components/Navbar/Inventory";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavigate } from "react-router";
 import { directorDialogue } from "@/data/director";
+import { createDirector } from "@/interactions/director";
 
 export default function Director() {
   const { player, setMap } = usePlayer();
@@ -49,37 +50,23 @@ export default function Director() {
   }, []);
 
   // 🧠 Interações por posição
-  const interactionsByPosition: Record<string, () => void> = {
-    "4,3": () => {
-    if (hasItem("key_01")) {
-      setPopup("Você usou a chave.");
-
-      setTimeout(() => {
-        removeItem("key_01");
-        navigate("/cantina");
-      }, 1000);
-      } else {
-        setPopup("Essa porta está trancada.");
-      }
-    },
-
-    "6,4": () => setPopup("Nada por aqui."),
-
-    "7,4": () => {
-      if (!gotKey) {
-        setPopup("Uma chave suspeita, deve ser da porta...");
-
-        addItem({
-          id: "key_01",
-          name: "Chave enferrujada",
-        });
-
-        setGotKey(true);
-      } else {
-        setPopup("Nada mais aqui.");
-      }
-    },
-  };
+  const interactionsByPosition = useMemo(() =>
+    createDirector({
+      hasItem,
+      addItem,
+      removeItem,
+      navigate,
+      setPopup: (msg) => setPopup(msg),
+      gotKey,
+      setGotKey,
+    }),
+  [
+    hasItem,
+    addItem,
+    removeItem,
+    navigate,
+    gotKey,
+  ]);
 
   useEffect(() => {
     // cutscene já controla input → não interferir
