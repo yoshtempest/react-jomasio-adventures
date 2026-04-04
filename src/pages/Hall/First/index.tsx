@@ -8,19 +8,20 @@ import { GameMap } from "@/components/Game/GameMap";
 import { Player } from "@/components/Game/Player";
 
 export default function HallOne() {
-  const { player, setMap } = usePlayer();
+  const { player, setMap, setPosition } = usePlayer();
   const navigate = useNavigate();
 
   const { TILE_SIZE, offsetX, offsetY, PLAYER_SIZE, MAP_COLS, MAP_ROWS } = useGameLayout();
 
   useEffect(() => {
     if (player.gridX === 6 && player.gridY === 11) {
-      navigate("/cantina");
+      navigate("/cantinaThree");
     }
   }, [player]);
 
   useEffect(() => {
     setMap(hallOne);
+    setPosition(9, 5, "up");
   }, [setMap]);
 
   return (

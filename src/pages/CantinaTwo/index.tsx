@@ -1,4 +1,3 @@
-import styles from "./styles.module.css";
 import { SceneWithDialogue } from "@/components/SceneWithDialogue";
 import { cantinaTwo } from "@/maps/cantinaTwo";
 import { cantinaDialogue } from "@/data/cantinaTwo";
@@ -6,7 +5,7 @@ import LavenderTown from "@/assets/LavenderTown.m4a";
 
 export default function CantinaTwo() {
   return (
-    <div className={styles.image}>
+    <div>
       <SceneWithDialogue
         map={cantinaTwo}
         dialogueData={cantinaDialogue}

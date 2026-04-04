@@ -16,7 +16,7 @@ import styles from "./styles.module.css";
 type Props = {
   map: number[][];
   dialogueData: any;
-  nextRoute: string;
+  nextRoute?: string;
   initialPosition: {
     x: number;
     y: number;
@@ -37,7 +37,9 @@ export function SceneWithDialogue({
   const navigate = useNavigate();
 
   const dialogueSystem = useDialogue(dialogueData, () => {
-    navigate(nextRoute);
+    if (nextRoute) {
+      navigate(nextRoute);
+    }
   });
 
   const { play: playSansTalking } = useSansTalking(dialogueSystem.isOpen);
