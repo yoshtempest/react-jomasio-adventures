@@ -24,7 +24,7 @@ export default function FirstBattle() {
     showVictory,
     triggerVictory,
     handleContinue,
-  } = useVictory({ redirectTo: "/cantina" });
+  } = useVictory({ redirectTo: "/cantinathree" });
 
   // 🎵 áudio
   const audio = useMemo(() => ({

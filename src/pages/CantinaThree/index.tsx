@@ -2,7 +2,7 @@ import { useEffect, useMemo, useCallback } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import styles from "./styles.module.css";
-import { cantinaTwo } from "@/maps/cantinaTwo";
+import { cantinaThree } from "@/maps/cantinaThree";
 import { useGameLayout } from "@/hooks/useGameLayout";
 import { GameMap } from "@/components/Game/GameMap";
 import { Player } from "@/components/Game/Player";
@@ -14,19 +14,16 @@ import LavenderTown from "@/assets/LavenderTown.m4a";
 import { useGameAudio } from "@/hooks/useGameAudio";
 import { useSansTalking } from "@/hooks/useSansTalking";
 import { useNavigate } from "react-router";
-import { cantinaDialogue } from "@/data/cantinaTwo";
+import { cantinaDialogue } from "@/data/cantinaThree";
 
 
-export default function CantinaTwo() {
+export default function CantinaThree() {
   const { player, setMap, setMode, setPosition } = usePlayer();
   const { setOnConfirm } = useGameControls();
   const navigate = useNavigate();
 
   const dialogueSystem = useDialogue(
     cantinaDialogue,
-    () => {
-      navigate("/firstBattle");
-    }
   );
 
   const { play: playSansTalking } = useSansTalking(dialogueSystem.isOpen);
@@ -36,6 +33,12 @@ export default function CantinaTwo() {
     loop: true,
     volume: 0.5,
   }), []);
+
+  useEffect(() => {
+    if (player.gridX === 15 && player.gridY === 11) {
+      navigate("/hallOne");
+    }
+  }, [player]);
 
   useGameAudio(backgroundAudio);
 
@@ -53,7 +56,7 @@ export default function CantinaTwo() {
 
   useInteraction({
     player,
-    map: cantinaTwo,
+    map: cantinaThree,
     setOnConfirm,
     onInteract: handleInteract
   });
@@ -62,7 +65,7 @@ export default function CantinaTwo() {
     useGameLayout();
 
   useEffect(() => {
-    setMap(cantinaTwo);
+    setMap(cantinaThree);
     setMode("explore");
     setPosition(10, 4, "down");
   }, []);

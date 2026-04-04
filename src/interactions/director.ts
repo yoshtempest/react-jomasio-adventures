@@ -24,7 +24,7 @@ export function createDirector({
 
         setTimeout(() => {
           removeItem("key_01");
-          navigate("/cantinaTwo");
+          navigate("/cantinatwo");
         }, 1000);
       } else {
         setPopup("Essa porta está trancada.");
