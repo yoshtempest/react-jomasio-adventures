@@ -18,7 +18,7 @@ import { cantinaDialogue } from "@/data/cantina";
 
 
 export default function Cantina() {
-  const { player, setMap, setMode } = usePlayer();
+  const { player, setMap, setMode, setPosition } = usePlayer();
   const { setOnConfirm } = useGameControls();
   const navigate = useNavigate();
 
@@ -70,6 +70,7 @@ export default function Cantina() {
   useEffect(() => {
     setMap(cantina);
     setMode("explore");
+    setPosition(5, 11, "up");
   }, []);
 
   return (

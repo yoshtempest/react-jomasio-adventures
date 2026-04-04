@@ -6,6 +6,7 @@ import { useInventory } from "@/contexts/InventoryContext";
 
 type PlayerContextType = {
   player: Player;
+  setPosition: (x: number, y: number, direction?: Player["direction"]) => void;
 
   moveUp: () => void;
   moveDown: () => void;
@@ -73,6 +74,14 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         : {}),
     }));
   }
+  const setPosition = (x: number, y: number, direction: Player["direction"] = "down") => {
+    setPlayer((prev) => ({
+      ...prev,
+      gridX: x,
+      gridY: y,
+      direction,
+    }));
+  };
 
   return (
     <PlayerContext.Provider
@@ -94,6 +103,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
         setMap,
         setMode,
+        setPosition,
       }}
     >
       {children}
