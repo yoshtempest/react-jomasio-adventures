@@ -15,7 +15,7 @@ export default function HallOne() {
 
   useEffect(() => {
     if (player.gridX === 6 && player.gridY === 11) {
-      navigate("/cantinaThree");
+      navigate("/cantina/three");
     }
   }, [player]);
 

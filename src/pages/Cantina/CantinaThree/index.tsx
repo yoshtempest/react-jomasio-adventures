@@ -12,7 +12,7 @@ export default function CantinaThree() {
   const navigate = useNavigate();
   useEffect(() => {
     if (player.gridX === 15 && player.gridY === 11) {
-      navigate("/hallOne");
+      navigate("/hall/one");
     }
   }, [player]);
   return (

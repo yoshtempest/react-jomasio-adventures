@@ -15,7 +15,7 @@ export default function FirstScreen() {
 
   useEffect(() => {
     if (player.gridX === 6 && player.gridY === 7) {
-      navigate("/cantina");
+      navigate("/cantina/one");
     }
   }, [player]);
 
