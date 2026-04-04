@@ -20,7 +20,7 @@ import { directorDialogue } from "@/data/director";
 import { createDirector } from "@/interactions/director";
 
 export default function Director() {
-  const { player, setMap } = usePlayer();
+  const { player, setMap, setPosition } = usePlayer();
   const { play: playSansTalking } = useSansTalking(false);
   const { setOnConfirm } = useGameControls();
 
@@ -47,6 +47,7 @@ export default function Director() {
 
   useEffect(() => {
     setMap(director);
+    setPosition(9, 5, "up");
   }, []);
 
   // 🧠 Interações por posição

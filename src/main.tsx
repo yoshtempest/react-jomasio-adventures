@@ -13,6 +13,7 @@ import FirstBattle from './pages/FirstBattle/index.tsx';
 import Director from './pages/Director/index.tsx';
 import HallOne from './pages/Hall/First/index.tsx';
 import HallTwo from './pages/Hall/Second/index.tsx';
+import CantinaTwo from './pages/CantinaTwo/index.tsx';
 import { InventoryProvider } from './contexts/InventoryContext.tsx';
 
 createRoot(document.getElementById('root')!).render(
@@ -29,6 +30,7 @@ createRoot(document.getElementById('root')!).render(
                 <Route path="cantina" element={<Cantina />} />
                 <Route path="firstbattle" element={<FirstBattle />} />
                 <Route path="director" element={<Director />} />
+                <Route path="cantinaTwo" element={<CantinaTwo />} />
                 <Route path="hallone" element={<HallOne />} />
                 <Route path="halltwo" element={<HallTwo />} />
               </Route>
