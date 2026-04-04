@@ -14,6 +14,7 @@ import LavenderTown from "@/assets/LavenderTown.m4a";
 import { useGameAudio } from "@/hooks/useGameAudio";
 import { useSansTalking } from "@/hooks/useSansTalking";
 import { useNavigate } from "react-router";
+import { cantinaDialogue } from "@/data/cantina";
 
 
 export default function Cantina() {
@@ -21,27 +22,12 @@ export default function Cantina() {
   const { setOnConfirm } = useGameControls();
   const navigate = useNavigate();
 
-  const dialogueSystem = useDialogue([
-    {
-      src: "/src/assets/npcs/jhowsimar/right.svg",
-      name: "Jhow Simar",
-      message: "Tu... tu tá com um objeto amaldiçoado!",
-    },
-    {
-      src: "/src/assets/default.svg",
-      name: "Protagonista",
-      message: "Como assim? O que vo-",
-    },
-    {
-      src: "/src/assets/npcs/jhowsimar/right.svg",
-      name: "Jhow Simar",
-      message: "Pega a lapada pega",
-    },
-  ],
-  () => {
-    navigate("/director");
-  }
-);
+  const dialogueSystem = useDialogue(
+    cantinaDialogue,
+    () => {
+      navigate("/director");
+    }
+  );
 
   const { play: playSansTalking } = useSansTalking(dialogueSystem.isOpen);
 
