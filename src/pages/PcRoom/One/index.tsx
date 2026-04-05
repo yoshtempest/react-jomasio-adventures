@@ -12,16 +12,33 @@ import { createPcsRoom } from "@/interactions/pcsRoom";
 import { useGameAudio } from "@/hooks/useGameAudio";
 import MonkeyCircle from "@/assets/songs/MonkeyCircle.m4a";
 import { NPC } from "@/components/Game/Npc";
+import Talking from "@/components/Talking";
+import { useDialogue } from "@/hooks/interaction/useDialogue";
+import { pcsRoomDialogue } from "@/data/pcsRoom";
+import { useSansTalking } from "@/hooks/useSansTalking";
+import { getTileInFront } from "@/utils/getTileInFront";
+import { Inventory } from "@/components/Navbar/Inventory";
 
 export default function PcRoomOne() {
     const { player, setMap, setPosition } = usePlayer();
+    const { play: playSansTalking } = useSansTalking(false);
+    const { setOnConfirm } = useGameControls();
+
+    const [popup, setPopup] = useState<string | null>(null);
+    const { addItem, hasItem, removeItem, isOpen } = useInventory();
     const navigate = useNavigate();
+    const [gotKey, setGotKey] = useState(false);
 
     const backgroundAudio = useMemo(() => ({
       src: MonkeyCircle,
       loop: true,
       volume: 0.5,
     }), []);
+
+    const dialogueSystem = useDialogue(
+      pcsRoomDialogue,
+      playSansTalking
+    );
 
     useGameAudio(backgroundAudio);
 
@@ -32,6 +49,48 @@ export default function PcRoomOne() {
         navigate("/hall/one");
       }
     }, [player]);
+
+  const interactionsByPosition = useMemo(() =>
+      createPcsRoom({
+        hasItem,
+        addItem,
+        removeItem,
+        navigate,
+        setPopup: (msg) => setPopup(msg),
+        gotKey,
+        setGotKey,
+      }),
+    [
+      hasItem,
+      addItem,
+      removeItem,
+      navigate,
+      gotKey,
+    ]);
+  
+    useEffect(() => {
+      // cutscene já controla input → não interferir
+      if (dialogueSystem.isOpen) return;
+  
+      setOnConfirm(() => () => {
+        // 🔁 fechar popup
+        if (popup) {
+          setPopup(null);
+          return;
+        }
+  
+        const { x, y } = getTileInFront(player, pcsRoom);
+  
+        const interaction = interactionsByPosition[`${x},${y}`];
+  
+        if (interaction) {
+          interaction();
+          return;
+        }
+      });
+  
+      return () => setOnConfirm(undefined);
+    }, [player, popup, dialogueSystem.isOpen]);
 
     useEffect(() => {
       setMap(pcsRoom);
@@ -61,6 +120,20 @@ export default function PcRoomOne() {
             TILE_SIZE={TILE_SIZE}
           />
         </GameMap>
+        {dialogueSystem.isOpen && (
+          <Talking
+            src={dialogueSystem.dialogue.src}
+            name={dialogueSystem.dialogue.name}
+            message={dialogueSystem.dialogue.message}
+          />
+        )}
+        {popup && (
+          <Talking
+            name="Sistema"
+            message={popup}
+          />
+        )}
+        {isOpen && <Inventory />}
       </div>
     );
 }
