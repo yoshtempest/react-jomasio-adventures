@@ -1,5 +1,5 @@
 import { SceneWithDialogue } from "@/components/SceneWithDialogue";
-import { cantina } from "@/maps/cantina";
+import { cantina } from "@/maps/cantina/cantina";
 import { cantinaDialogue } from "@/data/cantina";
 
 export default function Cantina() {

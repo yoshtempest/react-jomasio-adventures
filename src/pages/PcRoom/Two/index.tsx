@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";
 import styles from "./styles.module.css";
-import { hallOne } from "@/maps/hallOne";
+import { hallOne } from "@/maps/hall/hallOne";
 import { useGameLayout } from "@/hooks/useGameLayout";
 import { GameMap } from "@/components/Game/GameMap";
 import { Player } from "@/components/Game/Player";

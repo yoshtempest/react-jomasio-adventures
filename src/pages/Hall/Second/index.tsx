@@ -1,5 +1,5 @@
 import styles from "./styles.module.css";
-import { hallTwo } from "@/maps/hallTwo";
+import { hallTwo } from "@/maps/hall/hallTwo";
 import { Scene } from "@/components/Scene";
 
 export default function HallTwo() {
