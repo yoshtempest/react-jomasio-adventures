@@ -13,16 +13,22 @@ export default function HallOne() {
 
   const { TILE_SIZE, offsetX, offsetY, PLAYER_SIZE, MAP_COLS, MAP_ROWS } = useGameLayout();
 
+  // useEffect(() => {
+  //   if (player.gridX === 8 && player.gridY === 11) {
+  //     navigate("/cantina/three");
+  //   }
+  // }, [player]);
+
   useEffect(() => {
-    if (player.gridX === 6 && player.gridY === 11) {
-      navigate("/cantina/three");
+    if (player.gridX === 13 && player.gridY === 7) {
+      navigate("/pcroom");
     }
   }, [player]);
 
   useEffect(() => {
     setMap(hallOne);
-    setPosition(9, 5, "up");
-  }, [setMap]);
+    setPosition(9, 10, "up");
+  }, []);
 
   return (
     <div className={`Master ${styles.image}`}>
