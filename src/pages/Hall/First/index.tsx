@@ -19,7 +19,7 @@ export default function HallOne() {
         },
         {
           positions: [{ x: 13, y: 7 }],
-          to: "/pcroom",
+          to: "/pcroom/one",
         },
         {
           positions: [

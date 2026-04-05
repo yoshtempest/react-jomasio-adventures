@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";
 import styles from "./styles.module.css";
-import { hallOne } from "@/maps/hall/hallOne";
+import { pcsRoom } from "@/maps/pcsRoom";
 import { useGameLayout } from "@/hooks/useGameLayout";
 import { GameMap } from "@/components/Game/GameMap";
 import { Player } from "@/components/Game/Player";
@@ -13,21 +13,15 @@ export default function PcRoomOne() {
 
   const { TILE_SIZE, offsetX, offsetY, PLAYER_SIZE, MAP_COLS, MAP_ROWS } = useGameLayout();
 
-  // useEffect(() => {
-  //   if (player.gridX === 8 && player.gridY === 11) {
-  //     navigate("/cantina/three");
-  //   }
-  // }, [player]);
-
   useEffect(() => {
-    if (player.gridX === 13 && player.gridY === 7) {
-      navigate("/pcroom");
+    if (player.gridX === 3 && player.gridY === 3) {
+      navigate("/hall/one");
     }
   }, [player]);
 
   useEffect(() => {
-    setMap(hallOne);
-    setPosition(9, 10, "up");
+    setMap(pcsRoom);
+    setPosition(3, 4, "down");
   }, []);
 
   return (
