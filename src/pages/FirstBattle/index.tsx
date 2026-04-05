@@ -10,7 +10,7 @@ import { PlayerBattle } from "@/components/Game/Player/Battle";
 import { NPCBattle } from "@/components/Game/Npc/Battle";
 import { HealthBar } from "@/components/Game/HealthBar";
 import { firstBattle } from "@/maps/firstBattle";
-import KenTheme from "@/assets/StreetFighter5KenTheme.m4a";
+import KenTheme from "@/assets/songs/StreetFighter5KenTheme.m4a";
 import styles from "./styles.module.css";
 import { Deliciometro } from "@/components/Game/Deliciometro";
 import { VictoryModal } from "@/components/VictoryModal";

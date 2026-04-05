@@ -5,7 +5,7 @@ import { useGameLayout } from "@/hooks/useGameLayout";
 import { GameMap } from "@/components/Game/GameMap";
 import { Player } from "@/components/Game/Player";
 import { useGameAudio } from "@/hooks/useGameAudio";
-import LavenderTown from "@/assets/LavenderTown.m4a";
+import LavenderTown from "@/assets/songs/LavenderTown.m4a";
 
 type Position = {
   x: number;

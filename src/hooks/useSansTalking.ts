@@ -1,5 +1,5 @@
 import { useRef, useCallback, useEffect } from "react";
-import SansTalking from "@/assets/SansTalking.mp3";
+import SansTalking from "@/assets/songs/SansTalking.mp3";
 
 export function useSansTalking(isDialogueOpen: boolean) {
   const audioRef = useRef<HTMLAudioElement | null>(null);

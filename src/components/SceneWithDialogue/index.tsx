@@ -12,7 +12,7 @@ import { useGameAudio } from "@/hooks/useGameAudio";
 import { useSansTalking } from "@/hooks/useSansTalking";
 import { useNavigate } from "react-router";
 import styles from "./styles.module.css";
-import LavenderTown from "@/assets/LavenderTown.m4a";
+import LavenderTown from "@/assets/songs/LavenderTown.m4a";
 
 type Props = {
   map: number[][];

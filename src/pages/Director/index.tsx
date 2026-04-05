@@ -8,7 +8,7 @@ import { Player } from "@/components/Game/Player";
 import { NPC } from "@/components/Game/Npc";
 import Talking from "@/components/Talking";
 import { useCutscene } from "@/hooks/useCutscene";
-import LavenderTown from "@/assets/LavenderTown.m4a";
+import LavenderTown from "@/assets/songs/LavenderTown.m4a";
 import { useGameAudio } from "@/hooks/useGameAudio";
 import { useSansTalking } from "@/hooks/useSansTalking";
 import { useGameControls } from "@/contexts/GameControlsContext";

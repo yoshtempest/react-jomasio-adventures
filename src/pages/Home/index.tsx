@@ -2,7 +2,7 @@ import { useEffect, useMemo } from "react";
 import { useNavigate } from "react-router";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import styles from "./styles.module.css";
-import SOS from "@/assets/SOSFromEarth.m4a";
+import SOS from "@/assets/songs/SOSFromEarth.m4a";
 import { useGameAudio } from "@/hooks/useGameAudio";
 
 export default function Home() {
