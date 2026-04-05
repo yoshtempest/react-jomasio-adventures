@@ -7,35 +7,21 @@ import { useGameLayout } from "@/hooks/useGameLayout";
 import { GameMap } from "@/components/Game/GameMap";
 import { Player } from "@/components/Game/Player";
 
-export default function HallOne() {
+export default function PcRoomOne() {
   const { player, setMap, setPosition } = usePlayer();
   const navigate = useNavigate();
 
   const { TILE_SIZE, offsetX, offsetY, PLAYER_SIZE, MAP_COLS, MAP_ROWS } = useGameLayout();
 
-  useEffect(() => {
-    if (
-      player.gridX === 8 && player.gridY === 11 ||
-      player.gridX === 9 && player.gridY === 11 ||
-      player.gridX === 10 && player.gridY === 11
-    ) {
-      navigate("/cantina/three");
-    }
-  }, [player]);
+  // useEffect(() => {
+  //   if (player.gridX === 8 && player.gridY === 11) {
+  //     navigate("/cantina/three");
+  //   }
+  // }, [player]);
 
   useEffect(() => {
     if (player.gridX === 13 && player.gridY === 7) {
       navigate("/pcroom");
-    }
-  }, [player]);
-
-  useEffect(() => {
-    if (
-      player.gridX === 7 && player.gridY === 2 ||
-      player.gridX === 8 && player.gridY === 2 ||
-      player.gridX === 9 && player.gridY === 2
-    ) {
-      navigate("/hall/two");
     }
   }, [player]);
 

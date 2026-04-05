@@ -8,20 +8,37 @@ import { GameMap } from "@/components/Game/GameMap";
 import { Player } from "@/components/Game/Player";
 
 export default function HallTwo() {
-  const { player, setMap } = usePlayer();
+  const { player, setMap, setPosition } = usePlayer();
   const navigate = useNavigate();
 
   const { TILE_SIZE, offsetX, offsetY, PLAYER_SIZE, MAP_COLS, MAP_ROWS } = useGameLayout();
 
   useEffect(() => {
-    if (player.gridX === 6 && player.gridY === 7) {
-      navigate("/cantina");
+    if (player.gridX === 14 && player.gridY === 7) {
+      navigate("/professorsroom");
+    }
+  }, [player]);
+
+  useEffect(() => {
+    if (player.gridX === 12 && player.gridY === 4) {
+      navigate("/classtwo");
+    }
+  }, [player]);
+
+  useEffect(() => {
+    if (
+      player.gridX === 7 && player.gridY === 11 ||
+      player.gridX === 8 && player.gridY === 11 ||
+      player.gridX === 9 && player.gridY === 11
+    ) {
+      navigate("/hall/one");
     }
   }, [player]);
 
   useEffect(() => {
     setMap(hallTwo);
-  }, [setMap]);
+    setPosition(9, 10, "up");
+  }, []);
 
   return (
     <div className={`Master ${styles.image}`}>
