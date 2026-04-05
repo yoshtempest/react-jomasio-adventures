@@ -1,66 +1,35 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router";
-import { usePlayer } from "@/contexts/PlayerContext";
 import styles from "./styles.module.css";
 import { hallOne } from "@/maps/hallOne";
-import { useGameLayout } from "@/hooks/useGameLayout";
-import { GameMap } from "@/components/Game/GameMap";
-import { Player } from "@/components/Game/Player";
+import { Scene } from "@/components/Scene";
 
 export default function HallOne() {
-  const { player, setMap, setPosition } = usePlayer();
-  const navigate = useNavigate();
-
-  const { TILE_SIZE, offsetX, offsetY, PLAYER_SIZE, MAP_COLS, MAP_ROWS } = useGameLayout();
-
-  useEffect(() => {
-    if (
-      player.gridX === 8 && player.gridY === 11 ||
-      player.gridX === 9 && player.gridY === 11 ||
-      player.gridX === 10 && player.gridY === 11
-    ) {
-      navigate("/cantina/three");
-    }
-  }, [player]);
-
-  useEffect(() => {
-    if (player.gridX === 13 && player.gridY === 7) {
-      navigate("/pcroom");
-    }
-  }, [player]);
-
-  useEffect(() => {
-    if (
-      player.gridX === 7 && player.gridY === 2 ||
-      player.gridX === 8 && player.gridY === 2 ||
-      player.gridX === 9 && player.gridY === 2
-    ) {
-      navigate("/hall/two");
-    }
-  }, [player]);
-
-  useEffect(() => {
-    setMap(hallOne);
-    setPosition(9, 10, "up");
-  }, []);
-
   return (
-    <div className={`Master ${styles.image}`}>
-      <GameMap
-        TILE_SIZE={TILE_SIZE}
-        offsetX={offsetX}
-        offsetY={offsetY}
-        cols={MAP_COLS}
-        rows={MAP_ROWS}
-      >
-        <Player
-          direction={player.direction}
-          gridX={player.gridX}
-          gridY={player.gridY}
-          TILE_SIZE={TILE_SIZE}
-          PLAYER_SIZE={PLAYER_SIZE}
-        />
-      </GameMap>
-    </div>
+    <Scene
+      map={hallOne}
+      className={`Master ${styles.image}`}
+      initialPosition={{ x: 9, y: 10, direction: "up" }}
+      transitions={[
+        {
+          positions: [
+            { x: 8, y: 11 },
+            { x: 9, y: 11 },
+            { x: 10, y: 11 },
+          ],
+          to: "/cantina/three",
+        },
+        {
+          positions: [{ x: 13, y: 7 }],
+          to: "/pcroom",
+        },
+        {
+          positions: [
+            { x: 7, y: 2 },
+            { x: 8, y: 2 },
+            { x: 9, y: 2 },
+          ],
+          to: "/hall/two",
+        },
+      ]}
+    />
   );
 }

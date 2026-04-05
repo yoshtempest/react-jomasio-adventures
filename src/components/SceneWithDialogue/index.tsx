@@ -12,6 +12,7 @@ import { useGameAudio } from "@/hooks/useGameAudio";
 import { useSansTalking } from "@/hooks/useSansTalking";
 import { useNavigate } from "react-router";
 import styles from "./styles.module.css";
+import LavenderTown from "@/assets/LavenderTown.m4a";
 
 type Props = {
   map: number[][];
@@ -22,7 +23,6 @@ type Props = {
     y: number;
     direction: "up" | "down" | "left" | "right";
   };
-  backgroundAudioSrc: string;
 };
 
 export function SceneWithDialogue({
@@ -30,7 +30,6 @@ export function SceneWithDialogue({
   dialogueData,
   nextRoute,
   initialPosition,
-  backgroundAudioSrc
 }: Props) {
   const { player, setMap, setMode, setPosition } = usePlayer();
   const { setOnConfirm } = useGameControls();
@@ -45,10 +44,10 @@ export function SceneWithDialogue({
   const { play: playSansTalking } = useSansTalking(dialogueSystem.isOpen);
 
   const backgroundAudio = useMemo(() => ({
-    src: backgroundAudioSrc,
+    src: LavenderTown,
     loop: true,
     volume: 0.5,
-  }), [backgroundAudioSrc]);
+  }), []);
 
   useGameAudio(backgroundAudio);
 
