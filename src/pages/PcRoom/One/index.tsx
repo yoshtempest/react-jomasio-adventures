@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";
 import styles from "./styles.module.css";
@@ -16,124 +16,148 @@ import Talking from "@/components/Talking";
 import { useDialogue } from "@/hooks/interaction/useDialogue";
 import { pcsRoomDialogue } from "@/data/pcsRoom";
 import { useSansTalking } from "@/hooks/useSansTalking";
-import { getTileInFront } from "@/utils/getTileInFront";
 import { Inventory } from "@/components/Navbar/Inventory";
+import { useInteraction } from "@/hooks/interaction/useInteraction";
 
 export default function PcRoomOne() {
-    const { player, setMap, setPosition } = usePlayer();
-    const { play: playSansTalking } = useSansTalking(false);
-    const { setOnConfirm } = useGameControls();
+  const { player, setMap, setPosition } = usePlayer();
+  const { play: playSansTalking } = useSansTalking(false);
+  const { setOnConfirm } = useGameControls();
 
-    const [popup, setPopup] = useState<string | null>(null);
-    const { addItem, hasItem, removeItem, isOpen } = useInventory();
-    const navigate = useNavigate();
-    const [gotKey, setGotKey] = useState(false);
+  const [popup, setPopup] = useState<string | null>(null);
+  const { addItem, hasItem, removeItem, isOpen } = useInventory();
+  const navigate = useNavigate();
+  const [gotKey, setGotKey] = useState(false);
 
-    const backgroundAudio = useMemo(() => ({
-      src: MonkeyCircle,
-      loop: true,
-      volume: 0.5,
-    }), []);
+  const backgroundAudio = useMemo(() => ({
+    src: MonkeyCircle,
+    loop: true,
+    volume: 0.5,
+  }), []);
 
-    const dialogueSystem = useDialogue(
-      pcsRoomDialogue,
-      playSansTalking
-    );
+  const dialogueSystem = useDialogue(
+    pcsRoomDialogue,
+    playSansTalking
+  );
 
-    useGameAudio(backgroundAudio);
+  useGameAudio(backgroundAudio);
 
-    const { TILE_SIZE, offsetX, offsetY, PLAYER_SIZE, MAP_COLS, MAP_ROWS } = useGameLayout();
+  const { TILE_SIZE, offsetX, offsetY, PLAYER_SIZE, MAP_COLS, MAP_ROWS } = useGameLayout();
 
-    useEffect(() => {
-      if (player.gridX === 3 && player.gridY === 3) {
-        navigate("/hall/one");
-      }
-    }, [player]);
+  // 🚪 Transição de mapa
+  useEffect(() => {
+    if (player.gridX === 3 && player.gridY === 3) {
+      navigate("/hall/one");
+    }
+  }, [player]);
 
+  // 🧠 Interações do mapa
   const interactionsByPosition = useMemo(() =>
-      createPcsRoom({
-        hasItem,
-        addItem,
-        removeItem,
-        navigate,
-        setPopup: (msg) => setPopup(msg),
-        gotKey,
-        setGotKey,
-      }),
-    [
+    createPcsRoom({
       hasItem,
       addItem,
       removeItem,
       navigate,
+      setPopup: (msg) => setPopup(msg),
       gotKey,
-    ]);
-  
-    useEffect(() => {
-      // cutscene já controla input → não interferir
-      if (dialogueSystem.isOpen) return;
-  
-      setOnConfirm(() => () => {
-        // 🔁 fechar popup
-        if (popup) {
-          setPopup(null);
-          return;
-        }
-  
-        const { x, y } = getTileInFront(player, pcsRoom);
-  
-        const interaction = interactionsByPosition[`${x},${y}`];
-  
-        if (interaction) {
-          interaction();
-          return;
-        }
-      });
-  
-      return () => setOnConfirm(undefined);
-    }, [player, popup, dialogueSystem.isOpen]);
+      setGotKey,
+    }),
+    [hasItem, addItem, removeItem, navigate, gotKey]
+  );
 
-    useEffect(() => {
-      setMap(pcsRoom);
-      setPosition(3, 4, "down");
-    }, []);
+  // 🎮 Handler único de interação
+  const handleInteract = useCallback(
+    (tile: number, x: number, y: number) => {
 
-    return (
-      <div className={`Master ${styles.image}`}>
-        <GameMap
+      // 1️⃣ diálogo aberto → avança
+      if (dialogueSystem.isOpen) {
+        dialogueSystem.next();
+        playSansTalking();
+        return;
+      }
+
+      // 2️⃣ fechar popup
+      if (popup) {
+        setPopup(null);
+        return;
+      }
+
+      // 3️⃣ interação por posição
+      const interaction = interactionsByPosition[`${x},${y}`];
+      if (interaction) {
+        interaction();
+        return;
+      }
+
+      // 4️⃣ interação por tile (ex: NPC)
+      if (tile === 2) {
+        dialogueSystem.start();
+        playSansTalking();
+      }
+    },
+    [
+      dialogueSystem,
+      popup,
+      interactionsByPosition,
+      playSansTalking,
+    ]
+  );
+
+  // 🎯 Hook central de interação
+  useInteraction({
+    player,
+    map: pcsRoom,
+    setOnConfirm,
+    onInteract: handleInteract,
+  });
+
+  // 🗺️ Setup inicial
+  useEffect(() => {
+    setMap(pcsRoom);
+    setPosition(3, 4, "down");
+  }, []);
+
+  return (
+    <div className={`Master ${styles.image}`}>
+      <GameMap
+        TILE_SIZE={TILE_SIZE}
+        offsetX={offsetX}
+        offsetY={offsetY}
+        cols={MAP_COLS}
+        rows={MAP_ROWS}
+      >
+        <Player
+          direction={player.direction}
+          gridX={player.gridX}
+          gridY={player.gridY}
           TILE_SIZE={TILE_SIZE}
-          offsetX={offsetX}
-          offsetY={offsetY}
-          cols={MAP_COLS}
-          rows={MAP_ROWS}
-        >
-          <Player
-            direction={player.direction}
-            gridX={player.gridX}
-            gridY={player.gridY}
-            TILE_SIZE={TILE_SIZE}
-            PLAYER_SIZE={PLAYER_SIZE}
-          />
-          <NPC
-            src="/src/assets/npcs/janderson/default.svg"
-            gridX={8}
-            gridY={8}
-            TILE_SIZE={TILE_SIZE}
-          />
-        </GameMap>
-        {dialogueSystem.isOpen && (
-          <Talking
-            src={dialogueSystem.dialogue.src}
-            name={dialogueSystem.dialogue.name}
-            message={dialogueSystem.dialogue.message}
-          />
-        )}
-        {popup && (
-          <Talking
-            name="Sistema"
-            message={popup}
-          />
-        )}
-        {isOpen && <Inventory />}
-      </div>
-    );
+          PLAYER_SIZE={PLAYER_SIZE}
+        />
+
+        <NPC
+          src="/src/assets/npcs/janderson/default.svg"
+          gridX={8}
+          gridY={8}
+          TILE_SIZE={TILE_SIZE}
+        />
+      </GameMap>
+
+      {dialogueSystem.isOpen && (
+        <Talking
+          src={dialogueSystem.dialogue.src}
+          name={dialogueSystem.dialogue.name}
+          message={dialogueSystem.dialogue.message}
+        />
+      )}
+
+      {popup && (
+        <Talking
+          name="Sistema"
+          message={popup}
+        />
+      )}
+
+      {isOpen && <Inventory />}
+    </div>
+  );
 }
