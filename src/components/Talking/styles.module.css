@@ -6,11 +6,13 @@
   text-align: left;
   margin-top: 65vh;
   bottom: 0;
+  border: 1px solid var(--background-color);
+  border-radius: 2px;
 }
 
 .container {
   position: relative;
-  width: 60%;
+  width: 50vw;
   display: flex;
   justify-content: center;
 }
