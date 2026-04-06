@@ -15,7 +15,7 @@ export const pcsRoomDialogue = [
         src: "/src/assets/npcs/janderson/right.svg",
         name: "Juan Derson",
         message:
-            "Ééé... O Denivaldo, ele... A Vanilda, ela...",
+            "Ééé... O Denis, ele... A Vandinha, ela...",
     },
     {
         src: "/src/assets/default.svg",

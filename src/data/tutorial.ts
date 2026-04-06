@@ -2,7 +2,7 @@ export const tutorialDialogue = [
     {
         name: "Duque Sê",
         message:
-            "Bem-vindo ao mundo Po- Real, não vou encher linguiça... você deve investigar o CETI Jomásio dos Santos Barros pelo sumiço da comida.",
+            "Bem-vindo ao mundo Po- Real, não vou encher linguiça... você deve investigar o SETH Jorjão dos Santos pelo sumiço da comida.",
     },
     {
         name: "Duque Sê",
