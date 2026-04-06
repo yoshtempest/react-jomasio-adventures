@@ -16,9 +16,31 @@ export function createPcsRoom({
 }: Dependencies) {
   return {
 
-    "6,4": () => setPopup("Nada por aqui."),
+    "5,3": () => setPopup("Nada por aqui."),
+    "4,3": () => setPopup("Nada por aqui."),
+    "3,3": () => setPopup("Nada por aqui."),
+    "6,3": () => setPopup("Nada por aqui."),
+    "9,3": () => setPopup("Nada por aqui."),
+    "10,3": () => setPopup("Nada por aqui."),
+    "11,3": () => setPopup("Nada por aqui."),
+    "12,3": () => setPopup("Nada por aqui."),
+    "13,3": () => setPopup("Nada por aqui."),
+    "14,3": () => setPopup("Nada por aqui."),
 
-    "7,4": () => {
+    "5,5": () => setPopup("Nada por aqui."),
+    "4,5": () => setPopup("Nada por aqui."),
+    "3,5": () => setPopup("Nada por aqui."),
+    "6,5": () => setPopup("Nada por aqui."),
+    "7,5": () => setPopup("Nada por aqui."),
+    "8,5": () => setPopup("Nada por aqui."),
+    "9,5": () => setPopup("Nada por aqui."),
+    "10,5": () => setPopup("Nada por aqui."),
+    "11,5": () => setPopup("Nada por aqui."),
+    "12,5": () => setPopup("Nada por aqui."),
+    "13,5": () => setPopup("Nada por aqui."),
+    "14,5": () => setPopup("Nada por aqui."),
+
+    "7,3": () => {
       if (!gotKey) {
         setPopup("Que delícia! um suco de laranja");
 
