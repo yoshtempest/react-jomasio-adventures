@@ -12,7 +12,18 @@ import { useGameAudio } from "@/hooks/useGameAudio";
 import { useSansTalking } from "@/hooks/useSansTalking";
 import { useNavigate } from "react-router";
 import styles from "./styles.module.css";
-import LavenderTown from "@/assets/songs/LavenderTown.m4a";
+
+type NPCData = {
+  src: string;
+  gridX: number;
+  gridY: number;
+};
+
+type AudioConfig = {
+  src: string;
+  loop?: boolean;
+  volume?: number;
+};
 
 type Props = {
   map: number[][];
@@ -23,6 +34,8 @@ type Props = {
     y: number;
     direction: "up" | "down" | "left" | "right";
   };
+  npcs?: NPCData[];
+  audio?: AudioConfig;
 };
 
 export function SceneWithDialogue({
@@ -30,6 +43,8 @@ export function SceneWithDialogue({
   dialogueData,
   nextRoute,
   initialPosition,
+  npcs = [],
+  audio,
 }: Props) {
   const { player, setMap, setMode, setPosition } = usePlayer();
   const { setOnConfirm } = useGameControls();
@@ -44,10 +59,10 @@ export function SceneWithDialogue({
   const { play: playSansTalking } = useSansTalking(dialogueSystem.isOpen);
 
   const backgroundAudio = useMemo(() => ({
-    src: LavenderTown,
+    src: audio?.src ?? "",
     loop: true,
     volume: 0.5,
-  }), []);
+  }), [audio]);
 
   useGameAudio(backgroundAudio);
 
@@ -62,13 +77,13 @@ export function SceneWithDialogue({
       dialogueSystem.start();
       playSansTalking();
     }
-  }, [dialogueSystem.isOpen, playSansTalking]);
+  }, [dialogueSystem, playSansTalking]);
 
   useInteraction({
     player,
     map,
     setOnConfirm,
-    onInteract: handleInteract
+    onInteract: handleInteract,
   });
 
   const { TILE_SIZE, offsetX, offsetY, PLAYER_SIZE, MAP_COLS, MAP_ROWS } =
@@ -93,12 +108,16 @@ export function SceneWithDialogue({
         cols={MAP_COLS}
         rows={MAP_ROWS}
       >
-        <NPC
-          src="/src/assets/npcs/jhowsimar/default.svg"
-          gridX={9}
-          gridY={4}
-          TILE_SIZE={TILE_SIZE}
-        />
+        {/* 🧍 NPCs dinâmicos */}
+        {npcs.map((npc, index) => (
+          <NPC
+            key={index}
+            src={npc.src}
+            gridX={npc.gridX}
+            gridY={npc.gridY}
+            TILE_SIZE={TILE_SIZE}
+          />
+        ))}
 
         <Player
           direction={player.direction}

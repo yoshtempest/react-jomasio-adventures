@@ -4,6 +4,7 @@ import { cantinaDialogue } from "@/data/cantinaThree";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useNavigate } from "react-router";
 import { useEffect } from "react";
+import LavenderTown from "@/assets/songs/LavenderTown.m4a";
 
 export default function CantinaThree() {
 
@@ -20,6 +21,14 @@ export default function CantinaThree() {
         map={cantinaThree}
         dialogueData={cantinaDialogue}
         initialPosition={{ x: 10, y: 4, direction: "down" }}
+        audio={{src: LavenderTown}}
+        npcs={[
+          {
+            src: "/src/assets/npcs/jhowsimar/default.svg",
+            gridX: 9,
+            gridY: 4,
+          },
+        ]}
       />
     </div>
   );
