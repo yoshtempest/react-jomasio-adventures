@@ -25,7 +25,7 @@ export default function PcRoomOne() {
   const { setOnConfirm } = useGameControls();
 
   const [popup, setPopup] = useState<string | null>(null);
-  const { addItem, hasItem, removeItem, isOpen } = useInventory();
+  const { addItem, hasItem, isOpen } = useInventory();
   const navigate = useNavigate();
   const [gotKey, setGotKey] = useState(false);
 
@@ -56,13 +56,11 @@ export default function PcRoomOne() {
     createPcsRoom({
       hasItem,
       addItem,
-      removeItem,
-      navigate,
       setPopup: (msg) => setPopup(msg),
       gotKey,
       setGotKey,
     }),
-    [hasItem, addItem, removeItem, navigate, gotKey]
+    [hasItem, addItem, gotKey]
   );
 
   // 🎮 Handler único de interação

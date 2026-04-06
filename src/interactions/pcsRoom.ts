@@ -1,8 +1,6 @@
 type Dependencies = {
   hasItem: (id: string) => boolean;
   addItem: (item: { id: string; name: string }) => void;
-  removeItem: (id: string) => void;
-  navigate: (path: string) => void;
   setPopup: (msg: string) => void;
   gotKey: boolean;
   setGotKey: (value: boolean) => void;
