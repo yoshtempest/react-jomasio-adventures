@@ -5,7 +5,7 @@ import LavenderTown from "@/assets/songs/LavenderTown.m4a";
 
 export default function Cantina() {
   return (
-    <div>
+    <div className={`Master Cantina`}>
       <SceneWithDialogue
         map={cantina}
         dialogueData={cantinaDialogue}

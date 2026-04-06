@@ -16,7 +16,7 @@ export default function CantinaThree() {
     }
   }, [player]);
   return (
-    <div>
+    <div className={`Master Cantina`}>
       <SceneWithDialogue
         map={cantinaThree}
         dialogueData={cantinaDialogue}

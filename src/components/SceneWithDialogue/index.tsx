@@ -11,7 +11,7 @@ import { useInteraction } from "@/hooks/interaction/useInteraction";
 import { useGameAudio } from "@/hooks/useGameAudio";
 import { useSansTalking } from "@/hooks/useSansTalking";
 import { useNavigate } from "react-router";
-import styles from "./styles.module.css";
+
 
 type NPCData = {
   src: string;
@@ -36,6 +36,7 @@ type Props = {
   };
   npcs?: NPCData[];
   audio?: AudioConfig;
+  onInteract?: (tile: number, x: number, y: number) => boolean;
 };
 
 export function SceneWithDialogue({
@@ -45,6 +46,7 @@ export function SceneWithDialogue({
   initialPosition,
   npcs = [],
   audio,
+  onInteract,
 }: Props) {
   const { player, setMap, setMode, setPosition } = usePlayer();
   const { setOnConfirm } = useGameControls();
@@ -66,18 +68,26 @@ export function SceneWithDialogue({
 
   useGameAudio(backgroundAudio);
 
-  const handleInteract = useCallback((tile: number) => {
+  const handleInteract = useCallback((tile: number, x: number, y: number) => {
+    // 1️⃣ diálogo aberto → continua
     if (dialogueSystem.isOpen) {
       dialogueSystem.next();
       playSansTalking();
       return;
     }
 
+    // 2️⃣ interação custom da página
+    if (onInteract) {
+      const handled = onInteract(tile, x, y);
+      if (handled) return; // 👈 só bloqueia se realmente tratou
+    }
+
+    // 3️⃣ comportamento padrão (NPC)
     if (tile === 2) {
       dialogueSystem.start();
       playSansTalking();
     }
-  }, [dialogueSystem, playSansTalking]);
+  }, [dialogueSystem, playSansTalking, onInteract]);
 
   useInteraction({
     player,
@@ -100,7 +110,7 @@ export function SceneWithDialogue({
   }, [map]);
 
   return (
-    <div className={`Master ${styles.image}`}>
+    <div>
       <GameMap
         TILE_SIZE={TILE_SIZE}
         offsetX={offsetX}
