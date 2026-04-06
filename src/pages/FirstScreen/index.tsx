@@ -1,45 +1,22 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router";
-import { usePlayer } from "@/contexts/PlayerContext";
 import styles from "./styles.module.css";
 import { firstScreenMap } from "@/maps/firstScreenMap";
-import { useGameLayout } from "@/hooks/useGameLayout";
-import { GameMap } from "@/components/Game/GameMap";
-import { Player } from "@/components/Game/Player";
+import { Scene } from "@/components/Scene";
 
 export default function FirstScreen() {
-  const { player, setMap } = usePlayer();
-  const navigate = useNavigate();
-
-  const { TILE_SIZE, offsetX, offsetY, PLAYER_SIZE, MAP_COLS, MAP_ROWS } = useGameLayout();
-
-  useEffect(() => {
-    if (player.gridX === 6 && player.gridY === 7) {
-      navigate("/cantina/one");
-    }
-  }, [player]);
-
-  useEffect(() => {
-    setMap(firstScreenMap);
-  }, [setMap]);
 
   return (
-    <div className={`Master ${styles.image}`}>
-      <GameMap
-        TILE_SIZE={TILE_SIZE}
-        offsetX={offsetX}
-        offsetY={offsetY}
-        cols={MAP_COLS}
-        rows={MAP_ROWS}
-      >
-        <Player
-          direction={player.direction}
-          gridX={player.gridX}
-          gridY={player.gridY}
-          TILE_SIZE={TILE_SIZE}
-          PLAYER_SIZE={PLAYER_SIZE}
-        />
-      </GameMap>
-    </div>
+    <Scene
+      map={firstScreenMap}
+      className={`Master ${styles.image}`}
+      initialPosition={{ x: 6, y: 11, direction: "up" }}
+      transitions={[
+        {
+          positions: [
+            { x: 6, y: 7 },
+          ],
+          to: "/cantina/one",
+        },
+      ]}
+    />
   );
 }
