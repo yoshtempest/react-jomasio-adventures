@@ -74,7 +74,7 @@ h2 {
 }
 
 .Cantina {
-  background-image: url("/assets/cenarios/cantina.svg");
+  background-image: url("/src/assets/cenarios/cantina.svg");
   background-size: cover;
   background-position: center;
 }
