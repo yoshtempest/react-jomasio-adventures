@@ -17,11 +17,6 @@ export const cantinaDialogue = [
     {
         src: "/src/assets/npcs/jhowsimar/right.svg",
         name: "Jhow Simar",
-        message: "Buaaa, vou contar pra Vanildaa",
-    },
-    {
-        src: "/src/assets/default.svg",
-        name: "Protagonista",
-        message: "Pera ai, ele desapareceu?",
+        message: "Bem, vai lá embaixo e vira a sua esquerda, beleza?",
     },
 ];
