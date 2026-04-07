@@ -6,7 +6,7 @@ export function useSansTalking(isDialogueOpen: boolean) {
 
   if (!audioRef.current) {
     audioRef.current = new Audio(SansTalking);
-    audioRef.current.volume = 1;
+    audioRef.current.volume = 0.3;
   }
 
   const play = useCallback(() => {
