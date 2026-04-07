@@ -17,7 +17,7 @@ import { VictoryModal } from "@/components/VictoryModal";
 import { useVictory } from "@/hooks/useVictory";
 
 
-export default function FirstBattle() {
+export default function CantinaBattle() {
   const { player, setMap, setMode, punch, special } = usePlayer();
   const { setOnConfirm, setOnCancel } = useGameControls();
   const {

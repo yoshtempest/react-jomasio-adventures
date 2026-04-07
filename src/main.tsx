@@ -9,7 +9,7 @@ import Cantina from './pages/Cantina/CantinaOne/index.tsx';
 import './index.css'
 import App from './App.tsx'
 import { PlayerProvider } from './contexts/PlayerContext.tsx';
-import FirstBattle from './pages/FirstBattle/index.tsx';
+import CantinaBattle from './pages/Cantina/CantinaBattle/index.tsx';
 import Director from './pages/Director/index.tsx';
 import HallOne from './pages/Hall/First/index.tsx';
 import HallTwo from './pages/Hall/Second/index.tsx';
@@ -33,7 +33,7 @@ createRoot(document.getElementById('root')!).render(
                 <Route path="cantina/one" element={<Cantina />} />
                 <Route path="director" element={<Director />} />
                 <Route path="cantina/two" element={<CantinaTwo />} />
-                <Route path="firstbattle" element={<FirstBattle />} />
+                <Route path="cantina/battle" element={<CantinaBattle />} />
                 <Route path="cantina/three" element={<CantinaThree />} />
                 <Route path="hall/one" element={<HallOne />} />
                 <Route path="pcroom/one" element={<PcRoomOne />} />
