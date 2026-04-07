@@ -1,52 +1,78 @@
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";
 import styles from "./styles.module.css";
-import { hallOne } from "@/maps/hall/hallOne";
-import { useGameLayout } from "@/hooks/useGameLayout";
-import { GameMap } from "@/components/Game/GameMap";
-import { Player } from "@/components/Game/Player";
+import { pcsRoom } from "@/maps/pcsRoom";
+import { useInventory } from "@/contexts/InventoryContext";
+import { createPcsRoom } from "@/interactions/pcsRoom";
+import MonkeyCircle from "@/assets/songs/MonkeyCircle.m4a";
+import Talking from "@/components/Talking";
+import { pcsRoomDialogue } from "@/data/maps/pcsRoom/pcsRoom";
+import { SceneWithDialogue } from "@/components/SceneWithDialogue";
 
 export default function PcRoomTwo() {
-  const { player, setMap, setPosition } = usePlayer();
+  const { player } = usePlayer();
+
+  const [popup, setPopup] = useState<string | null>(null);
+  const { addItem, hasItem } = useInventory();
   const navigate = useNavigate();
+  const [gotKey, setGotKey] = useState(false);
 
-  const { TILE_SIZE, offsetX, offsetY, PLAYER_SIZE, MAP_COLS, MAP_ROWS } = useGameLayout();
-
-  // useEffect(() => {
-  //   if (player.gridX === 8 && player.gridY === 11) {
-  //     navigate("/cantina/three");
-  //   }
-  // }, [player]);
-
+  // 🚪 Transição de mapa
   useEffect(() => {
-    if (player.gridX === 13 && player.gridY === 7) {
-      navigate("/pcroom");
+    if (player.gridX === 3 && player.gridY === 3) {
+      navigate("/hall/one");
     }
   }, [player]);
 
-  useEffect(() => {
-    setMap(hallOne);
-    setPosition(9, 10, "up");
-  }, []);
+  // 🧠 Interações do mapa
+  const interactionsByPosition = useMemo(() =>
+    createPcsRoom({
+      hasItem,
+      addItem,
+      setPopup: (msg) => setPopup(msg),
+      gotKey,
+      setGotKey,
+    }),
+    [hasItem, addItem, gotKey]
+  );
 
   return (
     <div className={`Master ${styles.image}`}>
-      <GameMap
-        TILE_SIZE={TILE_SIZE}
-        offsetX={offsetX}
-        offsetY={offsetY}
-        cols={MAP_COLS}
-        rows={MAP_ROWS}
-      >
-        <Player
-          direction={player.direction}
-          gridX={player.gridX}
-          gridY={player.gridY}
-          TILE_SIZE={TILE_SIZE}
-          PLAYER_SIZE={PLAYER_SIZE}
+      <SceneWithDialogue
+        map={pcsRoom}
+        dialogueData={pcsRoomDialogue}
+
+        audio={{src: MonkeyCircle}}
+        nextRoute="/pcroom/two"
+        npcs={[
+          {
+            src: "/src/assets/npcs/jhowsimar/default.svg",
+            gridX: 8,
+            gridY: 5,
+          },
+        ]}
+        onInteract={(_, x, y) => {
+          if (popup) {
+            setPopup(null);
+            return true;
+          }
+
+          const interaction = interactionsByPosition[`${x},${y}`];
+          if (interaction) {
+            interaction();
+            return true;
+          }
+          return false;
+        }}
+      />
+
+      {popup && (
+        <Talking
+          name="Sistema"
+          message={popup}
         />
-      </GameMap>
+      )}
     </div>
   );
 }

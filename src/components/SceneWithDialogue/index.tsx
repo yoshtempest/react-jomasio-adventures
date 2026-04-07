@@ -29,7 +29,7 @@ type Props = {
   map: number[][];
   dialogueData: any;
   nextRoute?: string;
-  initialPosition: {
+  initialPosition?: {
     x: number;
     y: number;
     direction: "up" | "down" | "left" | "right";
@@ -102,11 +102,13 @@ export function SceneWithDialogue({
   useEffect(() => {
     setMap(map);
     setMode("explore");
-    setPosition(
-      initialPosition.x,
-      initialPosition.y,
-      initialPosition.direction
-    );
+    if (initialPosition) {
+      setPosition(
+        initialPosition.x,
+        initialPosition.y,
+        initialPosition.direction
+      );
+    }
   }, [map]);
 
   return (

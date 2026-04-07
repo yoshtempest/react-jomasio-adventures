@@ -44,6 +44,7 @@ export default function PcRoomOne() {
         dialogueData={pcsRoomDialogue}
         initialPosition={{ x: 3, y: 4, direction: "down" }}
         audio={{src: MonkeyCircle}}
+        nextRoute="/pcroom/two"
         npcs={[
           {
             src: "/src/assets/npcs/janderson/default.svg",
