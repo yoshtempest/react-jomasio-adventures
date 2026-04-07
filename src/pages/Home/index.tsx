@@ -12,7 +12,7 @@ export default function Home() {
   const backgroundAudio = useMemo(() => ({
     src: SOS,
     loop: true,
-    volume: 1,
+    volume: 0.3,
   }), []);
 
   useGameAudio(backgroundAudio);
