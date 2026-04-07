@@ -1,4 +1,4 @@
-export const pcsRoomMessages: Record<string, string> = {
+export const directorMessages: Record<string, string> = {
     "6,4": "imagens em preto e branco... deve ter falto tinta...",
     "5,4": "Diário de Reincardion cap 2... Encontrei a chave, mas fui pego por Jhow Simar e jogado aqui novamente...",
     "14,5": "Uma imagem de Vandinha montada em um dinossauro... Como tiraram essa foto?",
