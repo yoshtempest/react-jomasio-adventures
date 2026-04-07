@@ -15,7 +15,7 @@ import { useGameControls } from "@/contexts/GameControlsContext";
 import { getTileInFront } from "@/utils/getTileInFront";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavigate } from "react-router";
-import { directorDialogue } from "@/data/director";
+import { directorDialogue } from "@/data/maps/director/director";
 import { createDirector } from "@/interactions/director";
 
 export default function Director() {

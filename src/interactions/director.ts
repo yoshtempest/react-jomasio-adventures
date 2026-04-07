@@ -31,7 +31,14 @@ export function createDirector({
       }
     },
 
-    "6,4": () => setPopup("Nada por aqui."),
+    "6,4": () => setPopup("imagens em preto e branco... deve ter falto tinta..."),
+    "5,4": () => setPopup("Diário de Reincardion cap 2... Encontrei a chave, mas fui pego por Jhow Simar e jogado aqui novamente..."),
+    "14,5": () => setPopup("Uma imagem de Vandinha montada em um dinossauro... Como tiraram essa foto?"),
+    "15,6": () => setPopup("Uma carta de 20 anos atrás... Pedido de afastamento por Slimita..."),
+    "15,7": () => setPopup("Chaves? Chaves! Aquele do barril, e pensar que teria uma foto aqui"),
+    "8,6": () => setPopup("Pontos fracos de alguém chamado Manin... Por que está em branco?"),
+    "9,6": () => setPopup("Lembranças de um passado distante... as pessoas pareciam não passar fome..."),
+    "10,6": () => setPopup("Diário de Reincardion cap 1... Fui preso nessa cela e estou aqui a dias, sinto fome..."),
 
     "7,4": () => {
       if (!gotKey) {

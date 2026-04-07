@@ -1,6 +1,6 @@
 import { SceneWithDialogue } from "@/components/SceneWithDialogue";
 import { cantinaThree } from "@/maps/cantina/cantinaThree";
-import { cantinaDialogue } from "@/data/cantinaThree";
+import { cantinaDialogue } from "@/data/maps/cantina/cantinaThree";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useNavigate } from "react-router";
 import { useEffect } from "react";
