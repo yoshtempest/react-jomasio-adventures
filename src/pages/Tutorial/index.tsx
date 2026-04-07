@@ -9,6 +9,7 @@ import { useCutscene } from "@/hooks/useCutscene";
 import { useSansTalking } from "@/hooks/useSansTalking";
 import { tutorialDialogue } from "@/data/tutorial";
 
+
 export default function Tutorial() {
   const navigate = useNavigate();
 
@@ -20,7 +21,7 @@ export default function Tutorial() {
   const backgroundAudio = useMemo(() => ({
     src: SOS,
     loop: true,
-    volume: 1,
+    volume: 0.3,
   }), []);
 
   useGameAudio(backgroundAudio);
