@@ -38,7 +38,7 @@ export function createDirector({
       }
     };
 
-    interactions["7,4"] = () => {
+    interactions["15,7"] = () => {
       if (!gotKey) {
         setPopup("Uma chave suspeita, deve ser da porta...");
 
