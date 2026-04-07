@@ -20,6 +20,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<InventoryItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
+
   function addItem(item: InventoryItem) {
     setItems((prev) => {
       // impede duplicado

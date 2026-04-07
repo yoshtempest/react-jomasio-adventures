@@ -8,14 +8,13 @@ import { createPcsRoom } from "@/interactions/pcsRoom";
 import MonkeyCircle from "@/assets/songs/MonkeyCircle.m4a";
 import Talking from "@/components/Talking";
 import { pcsRoomDialogue } from "@/data/pcsRoom";
-import { Inventory } from "@/components/Navbar/Inventory";
 import { SceneWithDialogue } from "@/components/SceneWithDialogue";
 
 export default function PcRoomOne() {
   const { player } = usePlayer();
 
   const [popup, setPopup] = useState<string | null>(null);
-  const { addItem, hasItem, isOpen } = useInventory();
+  const { addItem, hasItem } = useInventory();
   const navigate = useNavigate();
   const [gotKey, setGotKey] = useState(false);
 
@@ -73,8 +72,6 @@ export default function PcRoomOne() {
           message={popup}
         />
       )}
-
-      {isOpen && <Inventory />}
     </div>
   );
 }

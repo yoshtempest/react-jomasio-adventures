@@ -22,7 +22,8 @@ export function Movement() {
   const up = useHoldAction(isBattle ? moveUpBattle : moveUp, 300);
   const down = useHoldAction(isBattle ? moveDownBattle : moveDown, 300);
   const left = useHoldAction(isBattle ? moveLeftBattle : moveLeft, 300);
-  const right = useHoldAction(isBattle ? moveRightBattle : moveRight, 300);
+  const right = useHoldAction(isBattle ? moveRightBattle : moveRight, 300); 
+  const { openInventory } = usePlayer();
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
@@ -45,6 +46,10 @@ export function Movement() {
         case "ArrowRight":
         case "d":
           isBattle ? moveRightBattle() : moveRight();
+          break;
+
+        case "b":
+          openInventory();
           break;
       }
     }

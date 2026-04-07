@@ -13,7 +13,6 @@ import { useGameAudio } from "@/hooks/useGameAudio";
 import { useSansTalking } from "@/hooks/useSansTalking";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { getTileInFront } from "@/utils/getTileInFront";
-import { Inventory } from "@/components/Navbar/Inventory";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavigate } from "react-router";
 import { directorDialogue } from "@/data/director";
@@ -25,7 +24,7 @@ export default function Director() {
   const { setOnConfirm } = useGameControls();
 
   const [popup, setPopup] = useState<string | null>(null);
-  const { addItem, hasItem, removeItem, isOpen } = useInventory();
+  const { addItem, hasItem, removeItem } = useInventory();
   const navigate = useNavigate();
   const [gotKey, setGotKey] = useState(false);
 
@@ -131,7 +130,6 @@ export default function Director() {
           message={popup}
         />
       )}
-      {isOpen && <Inventory />}
     </div>
   );
 }
