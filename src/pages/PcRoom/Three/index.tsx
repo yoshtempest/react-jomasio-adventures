@@ -9,7 +9,7 @@ import Talking from "@/components/Talking";
 import { pcsRoomDialogue } from "@/data/maps/pcsRoom/pcsRoom";
 import { SceneWithDialogue } from "@/components/SceneWithDialogue";
 
-export default function PcRoomTwo() {
+export default function PcRoomThree() {
   const { player } = usePlayer();
 
   const [popup, setPopup] = useState<string | null>(null);

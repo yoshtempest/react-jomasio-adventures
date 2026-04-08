@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";
-import styles from "./styles.module.css";
 import { pcsRoom } from "@/maps/pcsRoom";
 import { useInventory } from "@/contexts/InventoryContext";
 import { createPcsRoom } from "@/interactions/pcsRoom";
@@ -38,7 +37,7 @@ export default function PcRoomOne() {
   );
 
   return (
-    <div className={`Master ${styles.image}`}>
+    <div className={`Master PcsRoom`}>
       <SceneWithDialogue
         map={pcsRoom}
         dialogueData={pcsRoomDialogue}

@@ -79,6 +79,12 @@ h2 {
   background-position: center;
 }
 
+.PcsRoom {
+    background-image: url("/src/assets/cenarios/pcsRoom.svg");
+    background-size: cover;
+    margin: 0 auto; /* centraliza na tela */
+}
+
 .buttonGlobal {
   width: 60px;
   height: 60px;
