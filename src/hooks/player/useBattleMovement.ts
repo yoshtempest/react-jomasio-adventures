@@ -7,10 +7,13 @@ export function useBattleMovement(
   const STEP = 50;
 
   const downLockRef = useRef(false);
+    function isLocked(p: Player) {
+    return p.mode === "battle" && p.state === "crouched";
+  }
 
   function moveLeftBattle() {
     setPlayer((p) => {
-      if (p.mode !== "battle") return p;
+      if (p.mode !== "battle" || isLocked(p)) return p;
 
       return {
         ...p,
@@ -25,7 +28,7 @@ export function useBattleMovement(
 
   function moveRightBattle() {
     setPlayer((p) => {
-      if (p.mode !== "battle") return p;
+      if (p.mode !== "battle" || isLocked(p)) return p;
 
       return {
         ...p,
@@ -40,7 +43,7 @@ export function useBattleMovement(
 
   function moveUpBattle() {
     setPlayer((p) => {
-      if (p.mode !== "battle") return p;
+      if (p.mode !== "battle" || isLocked(p)) return p;
 
       return {
         ...p,
@@ -94,7 +97,7 @@ export function useBattleMovement(
 
   function punch() {
     setPlayer((p) => {
-      if (p.mode !== "battle") return p;
+      if (p.mode !== "battle" || isLocked(p)) return p;
       return { ...p, state: "punch" };
     });
 
@@ -103,7 +106,7 @@ export function useBattleMovement(
 
   function special() {
     setPlayer((p) => {
-      if (p.mode !== "battle") return p;
+      if (p.mode !== "battle" || isLocked(p)) return p;
       return { ...p, state: "special" };
     });
 
@@ -112,10 +115,15 @@ export function useBattleMovement(
 
   function resetToIdle(delay = 0) {
     setTimeout(() => {
-      setPlayer((p) => ({
-        ...p,
-        state: "idle",
-      }));
+      setPlayer((p) => {
+        // 🚫 NÃO sai do crouch automaticamente
+        if (p.state === "crouched") return p;
+
+        return {
+          ...p,
+          state: "idle",
+        };
+      });
     }, delay);
   }
 
