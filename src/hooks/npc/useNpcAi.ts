@@ -46,7 +46,7 @@ export function useNpcAI({ playerX, playerY, onAttack, isPaused }: Props) {
 
         const canAttack =
           distanceX <= 80 &&
-          distanceY <= 50 &&
+          distanceY <= 39 &&
           now - lastAttackRef.current > 200; // cooldown de 0.5s
 
         if (canAttack) {

@@ -57,7 +57,10 @@ export default function CantinaBattle() {
   // Batalha denovo se morrer para o npc e vai para Cantina se matar o npc
   const battle = useBattleSystem({
     playerX: player.x,
+    playerY: player.y,
     npcX: npc.x,
+    npcY: npc.y,
+    playerState: player.state,
     onPlayerDeath: () => setMode("battle"),
     onNpcDeath: triggerVictory,
   });

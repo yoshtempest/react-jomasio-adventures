@@ -2,14 +2,20 @@ import { useRef, useState, useCallback, useEffect } from "react";
 
 type UseBattleSystemProps = {
   playerX: number;
+  playerY: number; // 👈 novo
   npcX: number;
+  npcY: number;    // 👈 novo
   onPlayerDeath: () => void;
   onNpcDeath: () => void;
+  playerState: string;
 };
 
 export function useBattleSystem({
   playerX,
+  playerY, // 👈 novo
   npcX,
+  npcY,    // 👈 novo
+  playerState, // 👈 novo
   onPlayerDeath,
   onNpcDeath,
 }: UseBattleSystemProps) {
@@ -23,8 +29,12 @@ export function useBattleSystem({
   const [delicia, setDelicia] = useState(0);
   const MAX_DELICIA = 6;
 
-  function isInRange(range = 80) {
-    return Math.abs(playerX - npcX) < range;
+  function isInRange(rangeX = 80, rangeY = 50) {
+    if (playerState === "jump" || playerState === "crouched") return false;
+    const dx = Math.abs(playerX - npcX);
+    const dy = Math.abs(playerY - npcY);
+    return dx <= rangeX && dy <= rangeY;
+    
   }
 
   // 👊 PLAYER HIT
@@ -67,7 +77,7 @@ export function useBattleSystem({
   const npcHit = useCallback(() => {
     if (!npcCooldown.current) return;
 
-    if (isInRange(60)) {
+    if (isInRange(60, 50)) {
       npcCooldown.current = false;
 
       setPlayerHP((hp) => Math.max(0, hp - 10));
@@ -76,7 +86,7 @@ export function useBattleSystem({
         npcCooldown.current = true;
       }, 800);
     }
-  }, [playerX, npcX]);
+  }, [playerX, playerY, npcX, npcY]);
 
   // 🧠 AUTO CHECK (MUITO MELHOR)
   useEffect(() => {
