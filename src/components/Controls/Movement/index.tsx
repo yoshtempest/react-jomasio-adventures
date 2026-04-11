@@ -19,14 +19,32 @@ export function Movement() {
 
   const isBattle = player.mode === "battle";
 
-  const up = useHoldAction(isBattle ? moveUpBattle : moveUp, 300);
-  const down = useHoldAction(isBattle ? moveDownBattle : moveDown, 300);
-  const left = useHoldAction(isBattle ? moveLeftBattle : moveLeft, 300);
-  const right = useHoldAction(isBattle ? moveRightBattle : moveRight, 300); 
+  const upHold = useHoldAction(moveUp, 300);
+  const downHold = useHoldAction(moveDown, 300);
+  const leftHold = useHoldAction(moveLeft, 300);
+  const rightHold = useHoldAction(moveRight, 300);
+
+  const up = isBattle
+    ? { onClick: moveUpBattle }
+    : upHold;
+
+  const down = isBattle
+    ? { onClick: moveDownBattle }
+    : downHold;
+
+  const left = isBattle
+    ? { onClick: moveLeftBattle }
+    : leftHold;
+
+  const right = isBattle
+    ? { onClick: moveRightBattle }
+    : rightHold;
   const { openInventory } = usePlayer();
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
+      if (isBattle && e.repeat) return; // 👈 BLOQUEIA SEGURAR
+
       switch (e.key) {
         case "ArrowUp":
         case "w":
