@@ -3,11 +3,12 @@ import type { NPCBattleState } from "@/utils/types/npc";
 
 type Props = {
   playerX: number;
+  playerY: number;
   onAttack: () => void;
   isPaused?: boolean;
 };
 
-export function useNpcAI({ playerX, onAttack, isPaused }: Props) {
+export function useNpcAI({ playerX, playerY, onAttack, isPaused }: Props) {
   const [npc, setNpc] = useState<NPCBattleState>({
     x: 900,
     y: 600,
@@ -17,43 +18,53 @@ export function useNpcAI({ playerX, onAttack, isPaused }: Props) {
 
   const attackRef = useRef(onAttack);
   attackRef.current = onAttack;
+  const lastAttackRef = useRef(0); // 👈 AQUI
 
   useEffect(() => {
     const interval = setInterval(() => {
       setNpc((n) => {
         if (isPaused) return n;
-        const distance = Math.abs(n.x - playerX);
+
+        const distanceX = Math.abs(n.x - playerX);
+        const distanceY = Math.abs(n.y - playerY); // 👈 aqui
 
         let newX = n.x;
 
-        // 🧠 define direção
+        // 🧠 direção
         const direction = playerX < n.x ? "left" : "right";
 
         // 🏃 movimento
-        if (distance > 200) {
+        if (distanceX > 200) {
           newX = n.x > playerX ? n.x - 8 : n.x + 8;
         }
-
-        if (distance > 40 && distance <= 200) {
+        if (distanceX > 40 && distanceX <= 200) {
           newX = n.x > playerX ? n.x - 4 : n.x + 4;
         }
 
-        // 👊 ataque
-        if (distance <= 80) {
+        // 👊 ataque (agora com validação em Y)
+        const now = Date.now();
+
+        const canAttack =
+          distanceX <= 80 &&
+          distanceY <= 50 &&
+          now - lastAttackRef.current > 200; // cooldown de 0.5s
+
+        if (canAttack) {
           attackRef.current();
+          lastAttackRef.current = now;
         }
 
         return {
           ...n,
           x: newX,
-          direction, // 👈 IMPORTANTE
-          state: distance > 80 ? "walk" : "idle",
+          direction,
+          state: distanceX > 80 ? "walk" : "idle",
         };
       });
     }, 100);
 
     return () => clearInterval(interval);
-  }, [playerX]);
+  }, [playerX, playerY, isPaused]);
 
   return npc;
 }

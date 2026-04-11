@@ -49,6 +49,7 @@ export default function CantinaBattle() {
 
   const npc = useNpcAI({
     playerX: player.x,
+    playerY: player.y,
     onAttack: () => npcDummyAttackRef.current(),
     isPaused: showVictory,
   });
