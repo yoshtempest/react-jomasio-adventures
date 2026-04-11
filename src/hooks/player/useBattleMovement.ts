@@ -1,9 +1,12 @@
+import { useRef } from "react";
 import type { Player } from "@/utils/types/player";
 
 export function useBattleMovement(
   setPlayer: React.Dispatch<React.SetStateAction<Player>>
 ) {
   const STEP = 50;
+
+  const downLockRef = useRef(false);
 
   function moveLeftBattle() {
     setPlayer((p) => {
@@ -42,11 +45,10 @@ export function useBattleMovement(
       return {
         ...p,
         state: "jump",
-        y: p.y - 80, // sobe
+        y: p.y - 80,
       };
     });
 
-    // volta pro chão
     setTimeout(() => {
       setPlayer((p) => ({
         ...p,
@@ -56,25 +58,38 @@ export function useBattleMovement(
     }, 200);
   }
 
+  // 👇 SEGURAR ↓
   function moveDownBattle() {
+    if (downLockRef.current) return;
+
+    downLockRef.current = true;
+
     setPlayer((p) => {
       if (p.mode !== "battle") return p;
 
       return {
         ...p,
         state: "crouched",
-        y: p.y + 40, // desce
+        y: p.y + 40,
       };
     });
+  }
 
-    // sobe de volta
-    setTimeout(() => {
-      setPlayer((p) => ({
+  // 👇 SOLTAR ↓
+  function releaseDownBattle() {
+    if (!downLockRef.current) return;
+
+    downLockRef.current = false;
+
+    setPlayer((p) => {
+      if (p.mode !== "battle") return p;
+
+      return {
         ...p,
-        y: p.y - 40,
         state: "idle",
-      }));
-    }, 200);
+        y: p.y - 40,
+      };
+    });
   }
 
   function punch() {
@@ -109,6 +124,7 @@ export function useBattleMovement(
     moveLeftBattle,
     moveRightBattle,
     moveDownBattle,
+    releaseDownBattle, // 👈 NOVO
     punch,
     special,
   };

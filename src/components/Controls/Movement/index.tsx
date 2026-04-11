@@ -15,21 +15,29 @@ export function Movement() {
     moveDownBattle,
     moveLeftBattle,
     moveRightBattle,
+    releaseDownBattle, // 👈 NOVO
+    openInventory,
   } = usePlayer();
 
   const isBattle = player.mode === "battle";
 
+  // 🟢 hooks SEMPRE chamados
   const upHold = useHoldAction(moveUp, 300);
   const downHold = useHoldAction(moveDown, 300);
   const leftHold = useHoldAction(moveLeft, 300);
   const rightHold = useHoldAction(moveRight, 300);
 
+  // 🎮 comportamento dinâmico
   const up = isBattle
     ? { onClick: moveUpBattle }
     : upHold;
 
   const down = isBattle
-    ? { onClick: moveDownBattle }
+    ? {
+        onMouseDown: moveDownBattle,
+        onMouseUp: releaseDownBattle,
+        onMouseLeave: releaseDownBattle,
+      }
     : downHold;
 
   const left = isBattle
@@ -39,31 +47,47 @@ export function Movement() {
   const right = isBattle
     ? { onClick: moveRightBattle }
     : rightHold;
-  const { openInventory } = usePlayer();
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
-      if (isBattle && e.repeat) return; // 👈 BLOQUEIA SEGURAR
-
       switch (e.key) {
         case "ArrowUp":
         case "w":
-          isBattle ? moveUpBattle() : moveUp();
+          if (isBattle) {
+            if (e.repeat) return;
+            moveUpBattle();
+          } else {
+            moveUp();
+          }
           break;
 
         case "ArrowDown":
         case "s":
-          isBattle ? moveDownBattle() : moveDown();
+          if (isBattle) {
+            moveDownBattle(); // 👈 segura
+          } else {
+            moveDown();
+          }
           break;
 
         case "ArrowLeft":
         case "a":
-          isBattle ? moveLeftBattle() : moveLeft();
+          if (isBattle) {
+            if (e.repeat) return;
+            moveLeftBattle();
+          } else {
+            moveLeft();
+          }
           break;
 
         case "ArrowRight":
         case "d":
-          isBattle ? moveRightBattle() : moveRight();
+          if (isBattle) {
+            if (e.repeat) return;
+            moveRightBattle();
+          } else {
+            moveRight();
+          }
           break;
 
         case "b":
@@ -72,10 +96,20 @@ export function Movement() {
       }
     }
 
+    function handleKeyUp(e: KeyboardEvent) {
+      if (e.key === "ArrowDown" || e.key === "s") {
+        if (isBattle) {
+          releaseDownBattle(); // 👈 solta
+        }
+      }
+    }
+
     window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
 
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
     };
   }, [
     isBattle,
@@ -87,6 +121,8 @@ export function Movement() {
     moveDownBattle,
     moveLeftBattle,
     moveRightBattle,
+    releaseDownBattle,
+    openInventory,
   ]);
 
   return (
