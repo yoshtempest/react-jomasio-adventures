@@ -18,6 +18,8 @@ import CantinaThree from './pages/Cantina/CantinaThree/index.tsx';
 import { InventoryProvider } from './contexts/InventoryContext.tsx';
 import PcRoomOne from './pages/PcRoom/One/index.tsx';
 import PcRoomTwo from './pages/PcRoom/Two/index.tsx';
+import PcRoomBattleOne from './pages/PcRoom/BattleOne/index.tsx';
+import PcRoomThree from './pages/PcRoom/Three/index.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -38,7 +40,9 @@ createRoot(document.getElementById('root')!).render(
                 <Route path="hall/one" element={<HallOne />} />
                 <Route path="pcroom/one" element={<PcRoomOne />} />
                 <Route path="pcroom/two" element={<PcRoomTwo />} />
+                <Route path="pcroom/BattleOne" element={<PcRoomBattleOne />} />
                 <Route path="hall/two" element={<HallTwo />} />
+                <Route path="pcroom/three" element={<PcRoomThree />} />
               </Route>
             </Routes>
           </GameControlsProvider>
