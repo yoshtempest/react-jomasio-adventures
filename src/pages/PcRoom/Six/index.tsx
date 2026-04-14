@@ -1,36 +1,34 @@
 import { useMemo, useState } from "react";
-import { pcsRoom } from "@/maps/pcRoom/pcsRoom";
+import { pcsRoomSix } from "@/maps/pcRoom/pcsRoomSix";
 import { useInventory } from "@/contexts/InventoryContext";
 import { createPcsRoom } from "@/interactions/pcsRoom";
 import MonkeyCircle from "@/assets/songs/MonkeyCircle.m4a";
 import Talking from "@/components/Talking";
-import { pcsRoomDialogue } from "@/data/maps/pcsRoom/pcsRoom";
+import { pcsRoomSixDialogue } from "@/data/maps/pcsRoom/pcsRoomSix";
 import { SceneWithDialogue } from "@/components/SceneWithDialogue";
 
-export default function PcRoomFive() {
+export default function PcRoomSix() {
 
   const [popup, setPopup] = useState<string | null>(null);
   const { addItem, hasItem } = useInventory();
-  const [gotKey, setGotKey] = useState(false);
 
-  // 🧠 Interações do mapa
   const interactionsByPosition = useMemo(() =>
     createPcsRoom({
       hasItem,
       addItem,
       setPopup: (msg) => setPopup(msg),
-      gotKey,
-      setGotKey,
     }),
-    [hasItem, addItem, gotKey]
+    [hasItem, addItem]
   );
 
   return (
     <div className={`Master PcsRoom`}>
       <SceneWithDialogue
-        map={pcsRoom}
-        dialogueData={pcsRoomDialogue}
+        map={pcsRoomSix}
+        dialogueData={pcsRoomSixDialogue}
         audio={{src: MonkeyCircle}}
+        nextRoute={"/pcroom/seven"}
+        initialPosition={{ x: 12, y: 4, direction: "left" }}
         npcs={[
           {
             src: "/src/assets/npcs/reincardion/default.svg",

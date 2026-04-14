@@ -4,8 +4,8 @@ type Dependencies = {
   hasItem: (id: string) => boolean;
   addItem: (item: { id: string; name: string }) => void;
   setPopup: (msg: string) => void;
-  gotKey: boolean;
-  setGotKey: (value: boolean) => void;
+  gotKey?: boolean;
+  setGotKey?: (value: boolean) => void;
 };
 
 export function createPcsRoom({
@@ -32,7 +32,7 @@ export function createPcsRoom({
         name: "Suco de laranja",
       });
 
-      setGotKey(true);
+      setGotKey?.(true);
     } else {
       setPopup("Nenhuma outra delícia por aqui.");
     }

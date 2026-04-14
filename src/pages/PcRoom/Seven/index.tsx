@@ -41,6 +41,7 @@ export default function PcRoomFive() {
       <SceneWithDialogue
         map={pcsRoom}
         dialogueData={pcsRoomDialogue}
+        initialPosition={{ x: 12, y: 4, direction: "left" }}
         audio={{src: MonkeyCircle}}
         onInteract={(_, x, y) => {
           if (popup) {
