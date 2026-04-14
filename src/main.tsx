@@ -5,18 +5,18 @@ import { GameControlsProvider } from "./contexts/GameControlsContext";
 import Tutorial from './pages/Tutorial/index.tsx';
 import Home from './pages/Home/index.tsx';
 import FirstScreen from './pages/FirstScreen/index.tsx';
-import Cantina from './pages/Cantina/CantinaOne/index.tsx';
+import Cantina from './pages/Cantina/One/index.tsx';
 import './index.css'
 import App from './App.tsx'
 import { PlayerProvider } from './contexts/PlayerContext.tsx';
-import CantinaBattle from './pages/Cantina/CantinaBattle/index.tsx';
+import CantinaBattle from './pages/Cantina/Battle/index.tsx';
 import Director from './pages/Director/One/index.tsx';
 import DirectorTwo from './pages/Director/Two/index.tsx';
-import HallOne from './pages/Hall/First/index.tsx';
-import HallTwo from './pages/Hall/Second/index.tsx';
-import CantinaTwo from './pages/Cantina/CantinaTwo/index.tsx';
-import CantinaThree from './pages/Cantina/CantinaThree/index.tsx';
-import CantinaFour from './pages/Cantina/CantinaFour/index.tsx';
+import HallOne from './pages/Hall/One/index.tsx';
+import HallTwo from './pages/Hall/Two/index.tsx';
+import CantinaTwo from './pages/Cantina/Two/index.tsx';
+import CantinaThree from './pages/Cantina/Three/index.tsx';
+import CantinaFour from './pages/Cantina/Four/index.tsx';
 import { InventoryProvider } from './contexts/InventoryContext.tsx';
 import PcRoomOne from './pages/PcRoom/One/index.tsx';
 import PcRoomTwo from './pages/PcRoom/Two/index.tsx';
