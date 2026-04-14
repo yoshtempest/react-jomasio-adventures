@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import styles from "./styles.module.css";
-import { director } from "@/maps/director";
+import { blocked } from "@/maps/blocked";
 import { useGameLayout } from "@/hooks/useGameLayout";
 import { GameMap } from "@/components/Game/GameMap";
 import { Player } from "@/components/Game/Player";
@@ -40,7 +40,7 @@ export default function Director() {
     useGameLayout();
 
   useEffect(() => {
-    setMap(director);
+    setMap(blocked);
     setPosition(9, 5, "up");
   }, []);
 

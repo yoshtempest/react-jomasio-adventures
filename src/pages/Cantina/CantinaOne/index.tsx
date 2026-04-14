@@ -9,7 +9,7 @@ export default function Cantina() {
       <SceneWithDialogue
         map={cantina}
         dialogueData={cantinaDialogue}
-        nextRoute="/director"
+        nextRoute="/director/one"
         initialPosition={{ x: 5, y: 11, direction: "up" }}
         audio={{src: LavenderTown}}
         npcs={[
