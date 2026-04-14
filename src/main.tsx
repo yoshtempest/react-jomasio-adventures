@@ -20,6 +20,9 @@ import PcRoomOne from './pages/PcRoom/One/index.tsx';
 import PcRoomTwo from './pages/PcRoom/Two/index.tsx';
 import PcRoomBattleOne from './pages/PcRoom/BattleOne/index.tsx';
 import PcRoomThree from './pages/PcRoom/Three/index.tsx';
+import PcRoomFour from './pages/PcRoom/Four/index.tsx';
+import PcRoomBatleTwo from './pages/PcRoom/BattleTwo/index.tsx';
+import PcRoomFive from './pages/PcRoom/Five/index.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -43,6 +46,9 @@ createRoot(document.getElementById('root')!).render(
                 <Route path="pcroom/BattleOne" element={<PcRoomBattleOne />} />
                 <Route path="hall/two" element={<HallTwo />} />
                 <Route path="pcroom/three" element={<PcRoomThree />} />
+                <Route path="pcroom/four" element={<PcRoomFour />} />
+                <Route path="pcroom/battletwo" element={<PcRoomBatleTwo />} />
+                <Route path="pcroom/five" element={<PcRoomFive />} />
               </Route>
             </Routes>
           </GameControlsProvider>

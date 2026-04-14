@@ -41,16 +41,8 @@ export default function PcRoomFive() {
       <SceneWithDialogue
         map={pcsRoom}
         dialogueData={pcsRoomDialogue}
-
         audio={{src: MonkeyCircle}}
         nextRoute="/pcroom/two"
-        npcs={[
-          {
-            src: "/src/assets/npcs/jhowsimar/default.svg",
-            gridX: 8,
-            gridY: 5,
-          },
-        ]}
         onInteract={(_, x, y) => {
           if (popup) {
             setPopup(null);

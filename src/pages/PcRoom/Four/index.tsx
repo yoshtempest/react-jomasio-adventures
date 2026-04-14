@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";
-import { pcsRoom } from "@/maps/pcRoom/pcsRoom";
 import { useInventory } from "@/contexts/InventoryContext";
 import { createPcsRoom } from "@/interactions/pcsRoom";
 import MonkeyCircle from "@/assets/songs/MonkeyCircle.m4a";
 import Talking from "@/components/Talking";
-import { pcsRoomDialogue } from "@/data/maps/pcsRoom/pcsRoom";
+import { pcsRoomFourDialogue } from "@/data/maps/pcsRoom/pcsRoomFour";
 import { SceneWithDialogue } from "@/components/SceneWithDialogue";
+import { pcsRoomFour } from "@/maps/pcRoom/pcsRoomFour";
 
 export default function PcRoomFour() {
   const { player } = usePlayer();
@@ -39,17 +39,17 @@ export default function PcRoomFour() {
   return (
     <div className={`Master PcsRoom`}>
       <SceneWithDialogue
-        map={pcsRoom}
-        dialogueData={pcsRoomDialogue}
-
+        map={pcsRoomFour}
+        dialogueData={pcsRoomFourDialogue}
+        nextRoute={"/pcroom/battletwo"}
+        initialPosition={{ x: 13, y: 4, direction: "right" }}
         audio={{src: MonkeyCircle}}
-        nextRoute="/pcroom/two"
         npcs={[
           {
-            src: "/src/assets/npcs/jhowsimar/default.svg",
-            gridX: 8,
-            gridY: 5,
-          },
+            src: "/src/assets/npcs/vandinha/default.svg",
+            gridX: 12,
+            gridY: 4,
+          }
         ]}
         onInteract={(_, x, y) => {
           if (popup) {
