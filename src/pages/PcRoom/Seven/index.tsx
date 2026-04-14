@@ -1,17 +1,28 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router";
+import { usePlayer } from "@/contexts/PlayerContext";
+import { pcsRoom } from "@/maps/pcRoom/pcsRoom";
 import { useInventory } from "@/contexts/InventoryContext";
 import { createPcsRoom } from "@/interactions/pcsRoom";
 import MonkeyCircle from "@/assets/songs/MonkeyCircle.m4a";
 import Talking from "@/components/Talking";
-import { pcsRoomTwoDialogue } from "@/data/maps/pcsRoom/pcsRoomTwo";
+import { pcsRoomDialogue } from "@/data/maps/pcsRoom/pcsRoom";
 import { SceneWithDialogue } from "@/components/SceneWithDialogue";
-import { pcsRoomTwo } from "@/maps/pcRoom/pcsRoomTwo";
 
-export default function PcRoomTwo() {
+export default function PcRoomFive() {
+  const { player } = usePlayer();
 
   const [popup, setPopup] = useState<string | null>(null);
   const { addItem, hasItem } = useInventory();
+  const navigate = useNavigate();
   const [gotKey, setGotKey] = useState(false);
+
+  // 🚪 Transição de mapa
+  useEffect(() => {
+    if (player.gridX === 3 && player.gridY === 3) {
+      navigate("/hall/one-after-pc-room");
+    }
+  }, [player]);
 
   // 🧠 Interações do mapa
   const interactionsByPosition = useMemo(() =>
@@ -28,17 +39,9 @@ export default function PcRoomTwo() {
   return (
     <div className={`Master PcsRoom`}>
       <SceneWithDialogue
-        map={pcsRoomTwo}
-        dialogueData={pcsRoomTwoDialogue}
+        map={pcsRoom}
+        dialogueData={pcsRoomDialogue}
         audio={{src: MonkeyCircle}}
-        nextRoute="/pcroom/BattleOne"
-        npcs={[
-          {
-            src: "/src/assets/npcs/jhowsimar/default.svg",
-            gridX: 14,
-            gridY: 4,
-          },
-        ]}
         onInteract={(_, x, y) => {
           if (popup) {
             setPopup(null);

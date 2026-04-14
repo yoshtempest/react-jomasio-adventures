@@ -1,6 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router";
-import { usePlayer } from "@/contexts/PlayerContext";
+import { useMemo, useState } from "react";
 import { useInventory } from "@/contexts/InventoryContext";
 import { createPcsRoom } from "@/interactions/pcsRoom";
 import MonkeyCircle from "@/assets/songs/MonkeyCircle.m4a";
@@ -10,19 +8,10 @@ import { SceneWithDialogue } from "@/components/SceneWithDialogue";
 import { pcsRoomTwo } from "@/maps/pcRoom/pcsRoomTwo";
 
 export default function PcRoomThree() {
-  const { player } = usePlayer();
 
   const [popup, setPopup] = useState<string | null>(null);
   const { addItem, hasItem } = useInventory();
-  const navigate = useNavigate();
   const [gotKey, setGotKey] = useState(false);
-
-  // 🚪 Transição de mapa
-  useEffect(() => {
-    if (player.gridX === 3 && player.gridY === 3) {
-      navigate("/hall/one");
-    }
-  }, [player]);
 
   // 🧠 Interações do mapa
   const interactionsByPosition = useMemo(() =>

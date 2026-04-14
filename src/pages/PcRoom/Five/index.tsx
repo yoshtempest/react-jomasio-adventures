@@ -1,6 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router";
-import { usePlayer } from "@/contexts/PlayerContext";
+import { useMemo, useState } from "react";
 import { pcsRoom } from "@/maps/pcRoom/pcsRoom";
 import { useInventory } from "@/contexts/InventoryContext";
 import { createPcsRoom } from "@/interactions/pcsRoom";
@@ -10,19 +8,10 @@ import { pcsRoomDialogue } from "@/data/maps/pcsRoom/pcsRoom";
 import { SceneWithDialogue } from "@/components/SceneWithDialogue";
 
 export default function PcRoomFive() {
-  const { player } = usePlayer();
 
   const [popup, setPopup] = useState<string | null>(null);
   const { addItem, hasItem } = useInventory();
-  const navigate = useNavigate();
   const [gotKey, setGotKey] = useState(false);
-
-  // 🚪 Transição de mapa
-  useEffect(() => {
-    if (player.gridX === 3 && player.gridY === 3) {
-      navigate("/hall/one");
-    }
-  }, [player]);
 
   // 🧠 Interações do mapa
   const interactionsByPosition = useMemo(() =>
@@ -42,7 +31,18 @@ export default function PcRoomFive() {
         map={pcsRoom}
         dialogueData={pcsRoomDialogue}
         audio={{src: MonkeyCircle}}
-        nextRoute="/pcroom/two"
+        npcs={[
+          {
+            src: "/src/assets/npcs/vandinha/default.svg",
+            gridX: 12,
+            gridY: 4,
+          },
+          {
+            src: "/src/assets/npcs/reincardion/default.svg",
+            gridX: 11,
+            gridY: 4,
+          }
+        ]}
         onInteract={(_, x, y) => {
           if (popup) {
             setPopup(null);
