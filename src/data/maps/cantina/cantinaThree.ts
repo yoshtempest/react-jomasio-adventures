@@ -17,6 +17,6 @@ export const cantinaDialogue = [
     {
         src: "/src/assets/npcs/jhowsimar/right.svg",
         name: "Jhow Simar",
-        message: "Bem, vai lá embaixo e vira a sua esquerda, beleza?",
+        message: "Vou desaparecer, mas obrigado, foi uma delícia te enfrentar.",
     },
 ];

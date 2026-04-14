@@ -12,21 +12,16 @@ import LavenderTown from "@/assets/songs/LavenderTown.m4a";
 import { useGameAudio } from "@/hooks/useGameAudio";
 import { useSansTalking } from "@/hooks/useSansTalking";
 import { useGameControls } from "@/contexts/GameControlsContext";
-import { getTileInFront } from "@/utils/getTileInFront";
-import { useInventory } from "@/contexts/InventoryContext";
-import { useNavigate } from "react-router";
 import { directorDialogue } from "@/data/maps/director/director";
-import { createDirector } from "@/interactions/director";
+import { useNavigate } from "react-router";
 
 export default function Director() {
   const { player, setMap, setPosition } = usePlayer();
   const { play: playSansTalking } = useSansTalking(false);
   const { setOnConfirm } = useGameControls();
+  const navigate = useNavigate();
 
   const [popup, setPopup] = useState<string | null>(null);
-  const { addItem, hasItem, removeItem } = useInventory();
-  const navigate = useNavigate();
-  const [gotKey, setGotKey] = useState(false);
 
   const cutscene = useCutscene({
     dialogue: directorDialogue,
@@ -49,24 +44,19 @@ export default function Director() {
     setPosition(9, 5, "up");
   }, []);
 
-  // 🧠 Interações por posição
-  const interactionsByPosition = useMemo(() =>
-    createDirector({
-      hasItem,
-      addItem,
-      removeItem,
-      navigate,
-      setPopup: (msg) => setPopup(msg),
-      gotKey,
-      setGotKey,
-    }),
-  [
-    hasItem,
-    addItem,
-    removeItem,
-    navigate,
-    gotKey,
-  ]);
+  const [cutsceneStarted, setCutsceneStarted] = useState(false);
+
+  useEffect(() => {
+    if (cutscene.isOpen) {
+      setCutsceneStarted(true);
+    }
+  }, [cutscene.isOpen]);
+
+  useEffect(() => {
+    if (!cutscene.isOpen && cutsceneStarted) {
+      navigate("/director/two");
+    }
+  }, [cutscene.isOpen, cutsceneStarted]);
 
   useEffect(() => {
     // cutscene já controla input → não interferir
@@ -76,15 +66,6 @@ export default function Director() {
       // 🔁 fechar popup
       if (popup) {
         setPopup(null);
-        return;
-      }
-
-      const { x, y } = getTileInFront(player, director);
-
-      const interaction = interactionsByPosition[`${x},${y}`];
-
-      if (interaction) {
-        interaction();
         return;
       }
     });
@@ -121,13 +102,6 @@ export default function Director() {
           src={cutscene.dialogue.src}
           name={cutscene.dialogue.name}
           message={cutscene.dialogue.message}
-        />
-      )}
-
-      {popup && (
-        <Talking
-          name="Sistema"
-          message={popup}
         />
       )}
     </div>

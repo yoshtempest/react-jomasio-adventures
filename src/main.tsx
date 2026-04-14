@@ -10,7 +10,8 @@ import './index.css'
 import App from './App.tsx'
 import { PlayerProvider } from './contexts/PlayerContext.tsx';
 import CantinaBattle from './pages/Cantina/CantinaBattle/index.tsx';
-import Director from './pages/Director/index.tsx';
+import Director from './pages/Director/One/index.tsx';
+import DirectorTwo from './pages/Director/Two/index.tsx';
 import HallOne from './pages/Hall/First/index.tsx';
 import HallTwo from './pages/Hall/Second/index.tsx';
 import CantinaTwo from './pages/Cantina/CantinaTwo/index.tsx';
@@ -39,7 +40,8 @@ createRoot(document.getElementById('root')!).render(
                 <Route path="home" element={<Home />} />
                 <Route path="firstscreen" element={<FirstScreen />} />
                 <Route path="cantina/one" element={<Cantina />} />
-                <Route path="director" element={<Director />} />
+                <Route path="director/one" element={<Director />} />
+                <Route path="director/two" element={<DirectorTwo />} />
                 <Route path="cantina/two" element={<CantinaTwo />} />
                 <Route path="cantina/battle" element={<CantinaBattle />} />
                 <Route path="cantina/three" element={<CantinaThree />} />
