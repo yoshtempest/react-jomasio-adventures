@@ -1,17 +1,16 @@
-import styles from "./styles.module.css";
-import { hallOne } from "@/maps/hall/hallOne";
+import { one } from "@/maps/hall/afterPcRoom/one";
 import { SceneWithDialogue } from "@/components/SceneWithDialogue";
 import { pcsRoomFiveDialogue } from "@/data/maps/pcsRoom/pcsRoomFive";
 import MonkeyCircle from "@/assets/songs/MonkeyCircle.m4a";
 
 export default function AfterPcRoom() {
   return (
-    <div className={`Master ${styles.image}`}>
+    <div className={`Master HallOne`}>
       <SceneWithDialogue
-        map={hallOne}
+        map={one}
         dialogueData={pcsRoomFiveDialogue}
         audio={{src: MonkeyCircle}}
-        nextRoute={"/pcroom/six"}
+        nextRoute={"/hall/afterpcroom/two"}
 
         initialPosition={{ x: 12, y: 7, direction: "left" }}
         // transitions={[

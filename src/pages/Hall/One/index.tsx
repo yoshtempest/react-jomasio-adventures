@@ -1,4 +1,3 @@
-import styles from "./styles.module.css";
 import { hallOne } from "@/maps/hall/hallOne";
 import { Scene } from "@/components/Scene";
 
@@ -6,7 +5,7 @@ export default function HallOne() {
   return (
     <Scene
       map={hallOne}
-      className={`Master ${styles.image}`}
+      className={`Master HallOne`}
       initialPosition={{ x: 9, y: 10, direction: "up" }}
       transitions={[
         {

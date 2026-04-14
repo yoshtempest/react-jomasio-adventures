@@ -27,6 +27,8 @@ import PcRoomBatleTwo from './pages/PcRoom/BattleTwo/index.tsx';
 import PcRoomFive from './pages/PcRoom/Five/index.tsx';
 import PcRoomSix from './pages/PcRoom/Six/index.tsx';
 import PcRoomSeven from './pages/PcRoom/Seven/index.tsx';
+import AfterPcRoom from './pages/Hall/One/AfterPcRoom/One/index.tsx';
+import AfterPcRoomTwo from './pages/Hall/One/AfterPcRoom/Two/index.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -57,6 +59,8 @@ createRoot(document.getElementById('root')!).render(
                 <Route path="pcroom/five" element={<PcRoomFive />} />
                 <Route path="pcroom/six" element={<PcRoomSix />} />
                 <Route path="pcroom/seven" element={<PcRoomSeven />} />
+                <Route path="hall/afterpcroom/one" element={<AfterPcRoom />} />
+                <Route path="hall/afterpcroom/two" element={<AfterPcRoomTwo />} />
               </Route>
             </Routes>
           </GameControlsProvider>
