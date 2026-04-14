@@ -80,7 +80,18 @@ h2 {
 }
 
 .PcsRoom {
-    background-image: url("/src/assets/cenarios/pcsRoom.svg");
+  background-image: url("/src/assets/cenarios/pcsRoom.svg");
+  background-size: cover;
+  margin: 0 auto; /* centraliza na tela */
+}
+
+.PcRoomBattle {
+    background-image: url("/src/assets/cenarios/pcsRoomBattle.svg");
+    background-size: cover;
+}
+
+.Director {
+    background-image: url("/src/assets/cenarios/director.svg");
     background-size: cover;
     margin: 0 auto; /* centraliza na tela */
 }

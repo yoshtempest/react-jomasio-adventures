@@ -11,7 +11,6 @@ import { NPCBattle } from "@/components/Game/Npc/Battle";
 import { HealthBar } from "@/components/Game/HealthBar";
 import { firstBattle } from "@/maps/firstBattle";
 import KenTheme from "@/assets/songs/StreetFighter5KenTheme.m4a";
-import styles from "./styles.module.css";
 import { Deliciometro } from "@/components/Game/Deliciometro";
 import { VictoryModal } from "@/components/VictoryModal";
 import { useVictory } from "@/hooks/useVictory";
@@ -102,7 +101,7 @@ export default function PcRoomBattleTwo() {
   }, [battle.specialHit, showVictory]);
 
   return (
-    <div className={`Master ${styles.image}`}>
+    <div className={`Master PcRoomBattle`}>
       
       {/* PLAYER HP */}
       <div style={{ position: "absolute", top: 20, left: 20 }}>

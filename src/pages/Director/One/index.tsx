@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
-import styles from "./styles.module.css";
 import { blocked } from "@/maps/blocked";
 import { useGameLayout } from "@/hooks/useGameLayout";
 import { GameMap } from "@/components/Game/GameMap";
@@ -74,7 +73,7 @@ export default function Director() {
   }, [player, popup, cutscene.isOpen]);
 
   return (
-    <div className={`Master ${styles.image}`}>
+    <div className={`Master Director`}>
       <GameMap
         TILE_SIZE={TILE_SIZE}
         offsetX={offsetX}

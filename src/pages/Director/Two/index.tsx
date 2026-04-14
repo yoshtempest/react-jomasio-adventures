@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
-import styles from "./styles.module.css";
 import { director } from "@/maps/director";
 import { useGameLayout } from "@/hooks/useGameLayout";
 import { GameMap } from "@/components/Game/GameMap";
@@ -80,7 +79,7 @@ export default function DirectorTwo() {
   }, [player, popup]);
 
   return (
-    <div className={`Master ${styles.image}`}>
+    <div className={`Master Director`}>
       <GameMap
         TILE_SIZE={TILE_SIZE}
         offsetX={offsetX}
