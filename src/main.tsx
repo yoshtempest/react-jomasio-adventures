@@ -15,6 +15,7 @@ import HallOne from './pages/Hall/First/index.tsx';
 import HallTwo from './pages/Hall/Second/index.tsx';
 import CantinaTwo from './pages/Cantina/CantinaTwo/index.tsx';
 import CantinaThree from './pages/Cantina/CantinaThree/index.tsx';
+import CantinaFour from './pages/Cantina/CantinaFour/index.tsx';
 import { InventoryProvider } from './contexts/InventoryContext.tsx';
 import PcRoomOne from './pages/PcRoom/One/index.tsx';
 import PcRoomTwo from './pages/PcRoom/Two/index.tsx';
@@ -42,6 +43,7 @@ createRoot(document.getElementById('root')!).render(
                 <Route path="cantina/two" element={<CantinaTwo />} />
                 <Route path="cantina/battle" element={<CantinaBattle />} />
                 <Route path="cantina/three" element={<CantinaThree />} />
+                <Route path="cantina/four" element={<CantinaFour />} />
                 <Route path="hall/one" element={<HallOne />} />
                 <Route path="pcroom/one" element={<PcRoomOne />} />
                 <Route path="pcroom/two" element={<PcRoomTwo />} />
