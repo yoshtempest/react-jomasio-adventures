@@ -2,8 +2,21 @@ import { hallOne } from "@/maps/hall/one";
 import { SceneWithDialogue } from "@/components/SceneWithDialogue";
 import { pcsRoomFiveDialogue } from "@/data/maps/pcsRoom/five";
 import MonkeyCircle from "@/assets/songs/MonkeyCircle.m4a";
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
+import { usePlayer } from "@/contexts/PlayerContext";
+
+
 
 export default function AfterPcRoomTwo() {
+  const { player } = usePlayer();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (player.gridX === 1 && player.gridY === 11) {
+      navigate("/hall/left/one");
+    }
+  }, [player]);
   return (
     <div className={`Master HallOne`}>
       <SceneWithDialogue

@@ -1,6 +1,6 @@
 import { one } from "@/maps/hall/afterPcRoom/one";
 import { SceneWithDialogue } from "@/components/SceneWithDialogue";
-import { pcsRoomFiveDialogue } from "@/data/maps/pcsRoom/five";
+import { AfterPcRoomOneDialogue } from "@/data/maps/hall/one/afterPcRoom/one";
 import MonkeyCircle from "@/assets/songs/MonkeyCircle.m4a";
 
 export default function AfterPcRoom() {
@@ -8,7 +8,7 @@ export default function AfterPcRoom() {
     <div className={`Master HallOne`}>
       <SceneWithDialogue
         map={one}
-        dialogueData={pcsRoomFiveDialogue}
+        dialogueData={AfterPcRoomOneDialogue}
         audio={{src: MonkeyCircle}}
         nextRoute={"/hall/afterpcroom/two"}
 

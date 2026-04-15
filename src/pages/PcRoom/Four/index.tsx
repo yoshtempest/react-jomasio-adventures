@@ -9,7 +9,7 @@ export default function PcRoomFour() {
       <SceneWithDialogue
         map={pcsRoomFour}
         dialogueData={pcsRoomFourDialogue}
-        nextRoute={"/pcroom/battletwo"}
+        nextRoute={"/pcroom/battle/two"}
         initialPosition={{ x: 13, y: 4, direction: "right" }}
         audio={{src: MonkeyCircle}}
         npcs={[

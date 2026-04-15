@@ -31,7 +31,7 @@ export default function PcRoomTwo() {
         map={pcsRoomTwo}
         dialogueData={pcsRoomTwoDialogue}
         audio={{src: MonkeyCircle}}
-        nextRoute="/pcroom/BattleOne"
+        nextRoute="/pcroom/battle/one"
         npcs={[
           {
             src: "/src/assets/npcs/jhowsimar/default.svg",
