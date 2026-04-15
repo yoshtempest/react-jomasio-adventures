@@ -1,6 +1,6 @@
 import { one } from "@/maps/hall/afterPcRoom/one";
 import { SceneWithDialogue } from "@/components/SceneWithDialogue";
-import { pcsRoomFiveDialogue } from "@/data/maps/pcsRoom/pcsRoomFive";
+import { pcsRoomFiveDialogue } from "@/data/maps/pcsRoom/five";
 import MonkeyCircle from "@/assets/songs/MonkeyCircle.m4a";
 
 export default function AfterPcRoom() {

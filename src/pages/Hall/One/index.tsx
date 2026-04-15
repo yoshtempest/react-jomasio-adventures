@@ -1,4 +1,4 @@
-import { hallOne } from "@/maps/hall/hallOne";
+import { hallOne } from "@/maps/hall/one";
 import { Scene } from "@/components/Scene";
 
 export default function HallOne() {

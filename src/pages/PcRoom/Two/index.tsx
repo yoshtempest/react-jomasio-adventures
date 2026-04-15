@@ -3,9 +3,9 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { createPcsRoom } from "@/interactions/pcsRoom";
 import MonkeyCircle from "@/assets/songs/MonkeyCircle.m4a";
 import Talking from "@/components/Talking";
-import { pcsRoomTwoDialogue } from "@/data/maps/pcsRoom/pcsRoomTwo";
+import { pcsRoomTwoDialogue } from "@/data/maps/pcsRoom/two";
 import { SceneWithDialogue } from "@/components/SceneWithDialogue";
-import { pcsRoomTwo } from "@/maps/pcRoom/pcsRoomTwo";
+import { pcsRoomTwo } from "@/maps/pcRoom/two";
 
 export default function PcRoomTwo() {
 

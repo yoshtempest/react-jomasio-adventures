@@ -1,6 +1,6 @@
-import { pcsRoomSix } from "@/maps/pcRoom/pcsRoomSix";
+import { pcsRoomSix } from "@/maps/pcRoom/six";
 import MonkeyCircle from "@/assets/songs/MonkeyCircle.m4a";
-import { pcsRoomSixDialogue } from "@/data/maps/pcsRoom/pcsRoomSix";
+import { pcsRoomSixDialogue } from "@/data/maps/pcsRoom/six";
 import { SceneWithDialogue } from "@/components/SceneWithDialogue";
 
 export default function PcRoomSix() {

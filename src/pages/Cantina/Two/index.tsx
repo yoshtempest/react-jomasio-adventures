@@ -1,6 +1,6 @@
 import { SceneWithDialogue } from "@/components/SceneWithDialogue";
-import { cantinaTwo } from "@/maps/cantina/cantinaTwo";
-import { cantinaDialogue } from "@/data/maps/cantina/cantinaTwo";
+import { cantinaTwo } from "@/maps/cantina/two";
+import { cantinaDialogue } from "@/data/maps/cantina/two";
 import LavenderTown from "@/assets/songs/LavenderTown.m4a";
 
 export default function CantinaTwo() {

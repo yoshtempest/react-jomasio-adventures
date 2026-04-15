@@ -11,7 +11,7 @@ import LavenderTown from "@/assets/songs/LavenderTown.m4a";
 import { useGameAudio } from "@/hooks/useGameAudio";
 import { useSansTalking } from "@/hooks/useSansTalking";
 import { useGameControls } from "@/contexts/GameControlsContext";
-import { directorDialogue } from "@/data/maps/director/director";
+import { directorDialogue } from "@/data/maps/director/one";
 import { useNavigate } from "react-router";
 
 export default function Director() {
