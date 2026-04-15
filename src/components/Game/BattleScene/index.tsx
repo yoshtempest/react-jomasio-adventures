@@ -9,40 +9,48 @@ import { GameMap } from "@/components/Game/GameMap";
 import { PlayerBattle } from "@/components/Game/Player/Battle";
 import { NPCBattle } from "@/components/Game/Npc/Battle";
 import { HealthBar } from "@/components/Game/HealthBar";
-import { firstBattle } from "@/maps/firstBattle";
-import KenTheme from "@/assets/songs/StreetFighter5KenTheme.m4a";
 import { Deliciometro } from "@/components/Game/Deliciometro";
 import { VictoryModal } from "@/components/VictoryModal";
 import { useVictory } from "@/hooks/useVictory";
 
+type BattleSceneProps = {
+  map: any;
+  npcType: string;
+  redirectTo: string;
+  victoryDescription: string;
+  className?: string;
+  audioSrc: string;
+};
 
-export default function PcRoomBattleOne() {
+export function BattleScene({
+  map,
+  npcType,
+  redirectTo,
+  victoryDescription,
+  className,
+  audioSrc,
+}: BattleSceneProps) {
   const { player, setMap, setMode, punch, special } = usePlayer();
   const { setOnConfirm, setOnCancel } = useGameControls();
-  const {
-    showVictory,
-    triggerVictory,
-    handleContinue,
-  } = useVictory({ redirectTo: "/pcroom/three" });
+
+  const { showVictory, triggerVictory, handleContinue } = useVictory({
+    redirectTo,
+  });
 
   // 🎵 áudio
-  const audio = useMemo(() => ({
-    src: KenTheme,
-    loop: true,
-    volume: 0.5,
-  }), []);
+  const audio = useMemo(
+    () => ({
+      src: audioSrc,
+      loop: true,
+      volume: 0.5,
+    }),
+    [audioSrc]
+  );
 
   useGameAudio(audio);
 
-  const
-  {
-    TILE_SIZE,
-    offsetX,
-    offsetY,
-    PLAYER_SIZE,
-    MAP_COLS,
-    MAP_ROWS
-  } = useGameLayout();
+  const { TILE_SIZE, offsetX, offsetY, PLAYER_SIZE, MAP_COLS, MAP_ROWS } =
+    useGameLayout();
 
   const npcDummyAttackRef = useRef<() => void>(() => {});
 
@@ -53,7 +61,6 @@ export default function PcRoomBattleOne() {
     isPaused: showVictory,
   });
 
-  // Batalha denovo se morrer para o npc e vai para Cantina se matar o npc
   const battle = useBattleSystem({
     playerX: player.x,
     playerY: player.y,
@@ -64,18 +71,18 @@ export default function PcRoomBattleOne() {
     onNpcDeath: triggerVictory,
   });
 
-  // conecta ataque do NPC (sem loop)
+  // conectar ataque NPC
   const npcAttackRef = useRef(battle.npcHit);
   npcAttackRef.current = battle.npcHit;
 
   npcDummyAttackRef.current = () => npcAttackRef.current();
 
   useEffect(() => {
-    setMap(firstBattle);
+    setMap(map);
     setMode("battle");
-  }, []);
+  }, [map]);
 
-  // Punch - button A
+  // Punch
   useEffect(() => {
     function handleAttack() {
       if (showVictory) return;
@@ -84,10 +91,10 @@ export default function PcRoomBattleOne() {
     }
 
     setOnConfirm(() => handleAttack);
-
     return () => setOnConfirm(undefined);
   }, [punch, battle.playerHit, showVictory]);
 
+  // Special
   useEffect(() => {
     function handleSpecial() {
       if (showVictory) return;
@@ -96,22 +103,20 @@ export default function PcRoomBattleOne() {
     }
 
     setOnCancel(() => handleSpecial);
-
     return () => setOnCancel(undefined);
   }, [battle.specialHit, showVictory]);
 
   return (
-    <div className={`Master PcRoomBatle`}>
-      
+    <div className={`Master ${className || ""}`}>
       {/* PLAYER HP */}
       <div style={{ position: "absolute", top: 20, left: 20 }}>
         <HealthBar hp={battle.playerHP} />
       </div>
 
-      {/* 🧁 DELICIÔMETRO */}
-    <div style={{ position: "absolute", top: 42, left: 20 }}>
-      <Deliciometro delicia={battle.delicia} />
-    </div>
+      {/* DELICIÔMETRO */}
+      <div style={{ position: "absolute", top: 42, left: 20 }}>
+        <Deliciometro delicia={battle.delicia} />
+      </div>
 
       {/* NPC HP */}
       <div style={{ position: "absolute", top: 20, right: 20 }}>
@@ -129,7 +134,7 @@ export default function PcRoomBattleOne() {
           x={npc.x}
           y={npc.y}
           TILE_SIZE={TILE_SIZE}
-          npcType="jhowsimar"
+          npcType={npcType}
           state={npc.state}
           direction={npc.direction}
         />
@@ -142,15 +147,16 @@ export default function PcRoomBattleOne() {
           direction={player.battleDirection}
         />
       </GameMap>
+
       {showVictory && (
         <VictoryModal
           isOpen={showVictory}
           title="Vitória!"
-          description="Você derrotou um agroviliano!"
+          description={victoryDescription}
           rewards={[
             "XP adquirido: 1xp",
             "XP para o próximo nível: 99xp",
-            "Progresso na história: 0.1%"
+            "Progresso na história: 0.1%",
           ]}
           onContinue={handleContinue}
         />

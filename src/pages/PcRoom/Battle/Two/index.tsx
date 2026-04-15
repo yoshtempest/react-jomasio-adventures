@@ -1,16 +1,16 @@
 import { BattleScene } from "@/components/Game/BattleScene";
 import { firstBattle } from "@/maps/firstBattle";
 import KenTheme from "@/assets/songs/StreetFighter5KenTheme.m4a";
-import styles from "./styles.module.css";
 
-export default function CantinaBattle() {
+
+export default function PcRoomBattleTwo() {
   return (
     <BattleScene
       map={firstBattle}
-      npcType="jhowsimar"
-      redirectTo="/cantina/three"
-      victoryDescription="Você derrotou 'Jhow Simar, o Vigia'"
-      className={styles.image}
+      npcType="vandinha"
+      redirectTo="/pcroom/Five"
+      className="PcRoomBattle"
+      victoryDescription="Você escapou com sucesso de Vandinha"
       audioSrc={KenTheme}
     />
   );
