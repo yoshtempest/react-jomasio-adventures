@@ -1,5 +1,7 @@
 export const directorMessages: Record<string, string> = {
     "6,4": "imagens em preto e branco... deve ter falto tinta...",
+    "8,4": "Uma carta escrito: 'tu matou a ovelha afogada rapaz?'",
+    "9,4": "-_- ,oiràrtnoc oa aiel oãn",
     "5,4": "Diário de Reincardion cap 2... Encontrei a chave, mas fui pego por Jhow Simar e jogado aqui novamente...",
     "13,4": "Uma carta bem velha: Damn Reincarnation vai ter cap novo? Tomará...",
     "14,5": "Uma imagem de Vandinha montada em um dinossauro... Como tiraram essa foto?",

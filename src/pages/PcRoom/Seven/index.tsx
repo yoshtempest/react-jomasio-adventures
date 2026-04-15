@@ -20,7 +20,7 @@ export default function PcRoomFive() {
   // 🚪 Transição de mapa
   useEffect(() => {
     if (player.gridX === 3 && player.gridY === 3) {
-      navigate("/hall/afterpcroom");
+      navigate("/hall/afterpcroom/one");
     }
   }, [player]);
 
