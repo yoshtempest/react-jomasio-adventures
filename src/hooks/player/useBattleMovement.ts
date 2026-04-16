@@ -95,10 +95,10 @@ export function useBattleMovement(
     });
   }
 
-  function punch() {
+  function attack() {
     setPlayer((p) => {
       if (p.mode !== "battle" || isLocked(p)) return p;
-      return { ...p, state: "punch" };
+      return { ...p, state: "attack" };
     });
 
     resetToIdle(150);
@@ -133,7 +133,7 @@ export function useBattleMovement(
     moveRightBattle,
     moveDownBattle,
     releaseDownBattle, // 👈 NOVO
-    punch,
+    attack,
     special,
   };
 }

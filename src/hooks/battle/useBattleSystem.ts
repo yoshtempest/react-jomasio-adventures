@@ -36,7 +36,7 @@ export function useBattleSystem({
   function isPlayerInRange(rangeX?: number, rangeY = 50) {
     if (playerState === "jump" || playerState === "crouched") return false;
 
-    const defaultRangeX = player.character === "eduarda" ? 120 : 80;
+    const defaultRangeX = player.character === "eduarda" ? 150 : 80;
 
     const dx = Math.abs(playerX - npcX);
     const dy = Math.abs(playerY - npcY);
@@ -45,7 +45,7 @@ export function useBattleSystem({
   }
 
   // 🤖 NPC RANGE
-  function isNpcInRange(rangeX = 60, rangeY = 50) {
+  function isNpcInRange(rangeX = 30, rangeY = 50) {
     const dx = Math.abs(playerX - npcX);
     const dy = Math.abs(playerY - npcY);
 

@@ -20,7 +20,7 @@ type PlayerContextType = {
   moveRightBattle: () => void;
   moveDownBattle: () => void;
   releaseDownBattle: () => void; // 👈 ADICIONE AQUI
-  punch: () => void;
+  attack: () => void;
   special: () => void;
 
   setMap: (map: number[][]) => void;
@@ -57,7 +57,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     moveRightBattle,
     moveDownBattle,
     releaseDownBattle, // 👈 AQUI
-    punch,
+    attack,
     special,
   } = useBattleMovement(setPlayer);
 
@@ -117,7 +117,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         moveRightBattle,
         moveDownBattle,
         releaseDownBattle, // 👈 AQUI
-        punch,
+        attack,
         special,
 
         setMap,

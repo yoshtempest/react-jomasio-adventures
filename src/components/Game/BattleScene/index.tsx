@@ -30,7 +30,7 @@ export function BattleScene({
   className,
   audioSrc,
 }: BattleSceneProps) {
-  const { player, setMap, setMode, punch, special } = usePlayer();
+  const { player, setMap, setMode, attack, special } = usePlayer();
   const { setOnConfirm, setOnCancel } = useGameControls();
 
   const { showVictory, triggerVictory, handleContinue } = useVictory({
@@ -82,17 +82,17 @@ export function BattleScene({
     setMode("battle");
   }, [map]);
 
-  // Punch
+  // attack
   useEffect(() => {
     function handleAttack() {
       if (showVictory) return;
-      punch();
+      attack();
       battle.playerHit();
     }
 
     setOnConfirm(() => handleAttack);
     return () => setOnConfirm(undefined);
-  }, [punch, battle.playerHit, showVictory]);
+  }, [attack, battle.playerHit, showVictory]);
 
   // Special
   useEffect(() => {
