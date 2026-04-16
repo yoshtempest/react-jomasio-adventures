@@ -15,6 +15,6 @@ export const pcsRoomFourDialogue = [
         src: "/src/assets/npcs/vandinha/right.svg",
         name: "Vandinha",
         message:
-            "EU SABIA! AGORA VOCÊ VAI APANHAR MOLEQUE!",
+            "EU SABIA! ESTOU DE OLHO EM VOCÊ A MUITO TEMPO!",
     },
 ];

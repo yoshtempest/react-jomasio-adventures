@@ -1,31 +1,36 @@
 import styles from "./styles.module.css";
 import { hallTwo } from "@/maps/hall/two";
-import { Scene } from "@/components/Scene";
+import { SceneWithDialogue } from "@/components/SceneWithDialogue";
+import { HallTwoDialogue } from "@/data/maps/hall/two/one";
+import MonkeyCircle from "@/assets/songs/MonkeyCircle.m4a";
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
+import { usePlayer } from "@/contexts/PlayerContext";
 
 export default function HallTwo() {
+  const { player } = usePlayer();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (player.gridX === 9 && player.gridY === 11) {
+      navigate("/hall/one");
+    }
+  }, [player]);
   return (
-    <Scene
-      map={hallTwo}
-      className={`Master ${styles.image}`}
-      initialPosition={{ x: 9, y: 10, direction: "up" }}
-      transitions={[
-        {
-          positions: [{ x: 14, y: 7 }],
-          to: "/professorsroom",
-        },
-        {
-          positions: [{ x: 12, y: 4 }],
-          to: "/classtwo",
-        },
-        {
-          positions: [
-            { x: 7, y: 11 },
-            { x: 8, y: 11 },
-            { x: 9, y: 11 },
-          ],
-          to: "/hall/one",
-        },
-      ]}
-    />
+    <div className={`Master ${styles.image}`}>
+      <SceneWithDialogue
+        map={hallTwo}
+        dialogueData={HallTwoDialogue}
+        initialPosition={{ x: 9, y: 10, direction: "up" }}
+        audio={{src: MonkeyCircle}}
+        npcs={[
+          {
+            src: "/src/assets/npcs/jailson/default.svg",
+            gridX: 8,
+            gridY: 3,
+          },
+        ]}
+      />
+    </div>
   );
 }
