@@ -1,10 +1,11 @@
 import { useRef, useState, useCallback, useEffect } from "react";
+import { usePlayer } from "@/contexts/PlayerContext";
 
 type UseBattleSystemProps = {
   playerX: number;
-  playerY: number; // 👈 novo
+  playerY: number;
   npcX: number;
-  npcY: number;    // 👈 novo
+  npcY: number;
   onPlayerDeath: () => void;
   onNpcDeath: () => void;
   playerState: string;
@@ -22,6 +23,8 @@ export function useBattleSystem({
   const [playerHP, setPlayerHP] = useState(100);
   const [npcHP, setNpcHP] = useState(100);
 
+  const { player } = usePlayer();
+
   const playerCooldown = useRef(true);
   const npcCooldown = useRef(true);
   const isEnding = useRef(false);
@@ -29,12 +32,24 @@ export function useBattleSystem({
   const [delicia, setDelicia] = useState(0);
   const MAX_DELICIA = 6;
 
-  function isInRange(rangeX = 80, rangeY = 50) {
+// 👤 PLAYER RANGE
+  function isPlayerInRange(rangeX?: number, rangeY = 50) {
     if (playerState === "jump" || playerState === "crouched") return false;
+
+    const defaultRangeX = player.character === "eduarda" ? 120 : 80;
+
     const dx = Math.abs(playerX - npcX);
     const dy = Math.abs(playerY - npcY);
+
+    return dx <= (rangeX ?? defaultRangeX) && dy <= rangeY;
+  }
+
+  // 🤖 NPC RANGE
+  function isNpcInRange(rangeX = 60, rangeY = 50) {
+    const dx = Math.abs(playerX - npcX);
+    const dy = Math.abs(playerY - npcY);
+
     return dx <= rangeX && dy <= rangeY;
-    
   }
 
   // 👊 PLAYER HIT
@@ -43,7 +58,7 @@ export function useBattleSystem({
 
     playerCooldown.current = false;
 
-    if (isInRange()) {
+    if (isPlayerInRange()) {
       setNpcHP((hp) => Math.max(0, hp - 6));
 
       // 🔥 ganha delicia
@@ -61,7 +76,7 @@ export function useBattleSystem({
 
     playerCooldown.current = false;
 
-    if (isInRange()) {
+    if (isPlayerInRange()) {
       setNpcHP((hp) => Math.max(0, hp - 15)); // 💥 3x dano
     }
 
@@ -77,7 +92,7 @@ export function useBattleSystem({
   const npcHit = useCallback(() => {
     if (!npcCooldown.current) return;
 
-    if (isInRange(60, 50)) {
+    if (isNpcInRange(60, 50)) {
       npcCooldown.current = false;
 
       setPlayerHP((hp) => Math.max(0, hp - 10));
