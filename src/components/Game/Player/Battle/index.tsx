@@ -30,18 +30,41 @@ export function PlayerBattle({
   const scaleX = window.innerWidth / BASE_WIDTH;
   const scaleY = window.innerHeight / BASE_HEIGHT;
 
+  // PLAYER_SIZE vira escala relativa
+  const SCALE = PLAYER_SIZE / BASE_HEIGHT;
+
+  const WIDTH = BASE_WIDTH * SCALE;
+  const HEIGHT = BASE_HEIGHT * SCALE;
+
+
   return (
-    <img
-      src={src}
+    <div
       style={{
         position: "absolute",
-        width: PLAYER_SIZE,
-        height: PLAYER_SIZE,
+        width: WIDTH,
+        height: HEIGHT,
         left: x * scaleX,
         top: y * scaleY,
-        transform: `translate(-10%, -20%) scaleX(${direction === "left" ? -1 : 1})`,
+        transform: "translate(-50%, -30%)", // centraliza melhor no chão
         zIndex: 10,
+        overflow: "visible", // importante pra não cortar o ataque
       }}
-    />
+    >
+      <img
+        src={src}
+        style={{
+          position: "absolute",
+          width: "auto",
+          height: "100%",
+          left: "50%",
+          bottom: 0,
+          transform: `
+            translateX(-50%) 
+            scaleX(${direction === "left" ? -1 : 1})
+          `,
+          pointerEvents: "none",
+        }}
+      />
+    </div>
   );
 }

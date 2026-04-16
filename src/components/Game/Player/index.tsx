@@ -27,6 +27,7 @@ export function Player({
         position: "absolute",
         width: PLAYER_SIZE,
         height: PLAYER_SIZE,
+        objectFit: "contain",
         left: gridX * TILE_SIZE - 11,
         top: gridY * TILE_SIZE,
         transform: "translate(-10%, -20%)",
