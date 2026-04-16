@@ -12,6 +12,11 @@ export const tutorialDialogue = [
     {
         name: "Duque Sê",
         message:
+            "Inclusive... cê é macho ou fêmea? Eu tô de chapéu e não vou parar de farmar aura só para saber disso, entende?",
+    },
+    {
+        name: "Duque Sê",
+        message:
             "Entendo... bem eu não ligo sobre quem é você, apenas faça seu trabalho com perfeição, Adeus.",
     },
 ];

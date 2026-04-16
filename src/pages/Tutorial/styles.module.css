@@ -39,3 +39,23 @@
     right: 3%;
     background-color: none;
 }
+
+.choices {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.choices button {
+  padding: 10px 20px;
+  border: 2px solid black;
+  background: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.choices button:hover {
+  background: black;
+  color: white;
+}
