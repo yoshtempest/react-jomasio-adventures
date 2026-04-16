@@ -51,6 +51,7 @@
   padding: 10px 20px;
   border: 2px solid black;
   background: white;
+  color: black;
   cursor: pointer;
   font-weight: bold;
 }
