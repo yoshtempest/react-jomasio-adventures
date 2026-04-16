@@ -1,5 +1,7 @@
 type PlayerState = "idle" | "walk" | "punch" | "jump" | "crouched" | "special";
 type Direction = "left" | "right" | "up" | "down";
+type Character = "marcelo" | "eduarda" | "lucas" | "samuel" | "artur" | "mayra" | "lucaua" | "riquelme" | "larissa" | "camilly" | "emanuel";
+
 
 type Props = {
   x: number;
@@ -7,6 +9,7 @@ type Props = {
   PLAYER_SIZE: number;
   state: PlayerState;
   direction: Direction;
+  character: Character;
 };
 
 export function PlayerBattle({
@@ -15,9 +18,10 @@ export function PlayerBattle({
   PLAYER_SIZE,
   state,
   direction,
+  character,
 }: Props) {
   const src = new URL(
-    `/src/assets/player/inFight/${state}.svg`,
+    `/src/assets/player/${character}/inFight/${state}.svg`,
     import.meta.url
   ).href;
 

@@ -1,6 +1,8 @@
 type Direction = "up" | "down" | "left" | "right";
+type Character = "marcelo" | "eduarda" | "lucas" | "samuel" | "artur" | "mayra" | "lucaua" | "riquelme" | "larissa" | "camilly" | "emanuel";
 
 type Props = {
+  character: Character;
   direction: Direction;
   gridX: number;
   gridY: number;
@@ -9,13 +11,14 @@ type Props = {
 };
 
 export function Player({
+  character,
   direction,
   gridX,
   gridY,
   TILE_SIZE,
   PLAYER_SIZE,
 }: Props) {
-  const src = `/src/assets/player/movement/${direction}.svg`;
+  const src = `/src/assets/player/${character}/movement/${direction}.svg`;
 
   return (
     <img

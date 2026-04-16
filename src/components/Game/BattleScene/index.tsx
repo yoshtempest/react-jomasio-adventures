@@ -140,6 +140,7 @@ export function BattleScene({
         />
 
         <PlayerBattle
+          character={player.character}
           x={player.x}
           y={player.y}
           PLAYER_SIZE={PLAYER_SIZE}

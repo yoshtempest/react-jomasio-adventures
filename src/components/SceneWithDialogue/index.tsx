@@ -132,6 +132,7 @@ export function SceneWithDialogue({
         ))}
 
         <Player
+          character={player.character}
           direction={player.direction}
           gridX={player.gridX}
           gridY={player.gridY}

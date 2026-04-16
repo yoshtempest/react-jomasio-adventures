@@ -87,6 +87,7 @@ export function Scene({
         rows={MAP_ROWS}
       >
         <Player
+          character={player.character}
           direction={player.direction}
           gridX={player.gridX}
           gridY={player.gridY}
