@@ -102,6 +102,18 @@ h2 {
     margin: 0 auto; /* centraliza na tela */
 }
 
+.HallLeft {
+    background-image: url("/src/assets/cenarios/hallLeft.svg");
+    background-size: cover;
+    margin: 0 auto; /* centraliza na tela */
+}
+
+.HallCenter {
+    background-image: url("/src/assets/cenarios/hallCenter.svg");
+    background-size: cover;
+    margin: 0 auto; /* centraliza na tela */
+}
+
 .buttonGlobal {
   width: 60px;
   height: 60px;

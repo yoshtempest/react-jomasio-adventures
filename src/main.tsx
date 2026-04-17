@@ -15,6 +15,8 @@ import DirectorTwo from './pages/Director/Two/index.tsx';
 
 import HallOne from './pages/Hall/One/index.tsx';
 import HallTwo from './pages/Hall/Two/index.tsx';
+import HallLeftOne from './pages/Hall/Left/One/index.tsx';
+import HallCenterOne from './pages/Hall/Center/One/index.tsx';
 
 import CantinaBattle from './pages/Cantina/Battle/index.tsx';
 import Cantina from './pages/Cantina/One/index.tsx';
@@ -66,6 +68,8 @@ createRoot(document.getElementById('root')!).render(
                 <Route path="pcroom/seven" element={<PcRoomSeven />} />
                 <Route path="hall/afterpcroom/one" element={<AfterPcRoom />} />
                 <Route path="hall/afterpcroom/two" element={<AfterPcRoomTwo />} />
+                <Route path="hall/left/one" element={<HallLeftOne />} />
+                <Route path="hall/center/one" element={<HallCenterOne />} />
               </Route>
             </Routes>
           </GameControlsProvider>
