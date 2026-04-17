@@ -11,8 +11,6 @@ export default function HallOne() {
         {
           positions: [
             { x: 8, y: 11 },
-            { x: 9, y: 11 },
-            { x: 10, y: 11 },
           ],
           to: "/cantina/four",
         },

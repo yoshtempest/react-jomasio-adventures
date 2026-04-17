@@ -2,7 +2,7 @@ import styles from "./styles.module.css";
 import { hallTwo } from "@/maps/hall/two";
 import { SceneWithDialogue } from "@/components/SceneWithDialogue";
 import { HallTwoDialogue } from "@/data/maps/hall/two/one";
-import MonkeyCircle from "@/assets/songs/MonkeyCircle.m4a";
+import LavenderTown from "@/assets/songs/LavenderTown.m4a";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";
@@ -13,7 +13,7 @@ export default function HallTwo() {
 
   useEffect(() => {
     if (player.gridX === 9 && player.gridY === 11) {
-      navigate("/hall/one");
+      navigate(-1);
     }
   }, [player]);
   return (
@@ -22,7 +22,7 @@ export default function HallTwo() {
         map={hallTwo}
         dialogueData={HallTwoDialogue}
         initialPosition={{ x: 9, y: 10, direction: "up" }}
-        audio={{src: MonkeyCircle}}
+        audio={{src: LavenderTown}}
         npcs={[
           {
             src: "/src/assets/npcs/jailson/default.svg",
