@@ -12,7 +12,7 @@ export default function AfterPcRoom() {
         dialogueData={AfterPcRoomOneDialogue}
         audio={{src: LavenderTown}}
         nextRoute={"/hall/afterpcroom/two"}
-
+        autoStartDialogue={true}
         initialPosition={{ x: 12, y: 7, direction: "left" }}
         npcs={[
           {

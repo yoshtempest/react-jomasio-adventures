@@ -12,6 +12,7 @@ export default function PcRoomFour() {
         nextRoute={"/pcroom/battle/two"}
         initialPosition={{ x: 13, y: 4, direction: "right" }}
         audio={{src: MonkeyCircle}}
+        autoStartDialogue={true}
         npcs={[
           {
             src: "/src/assets/npcs/vandinha/default.svg",

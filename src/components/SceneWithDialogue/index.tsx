@@ -37,6 +37,7 @@ type Props = {
   npcs?: NPCData[];
   audio?: AudioConfig;
   onInteract?: (tile: number, x: number, y: number) => boolean;
+  autoStartDialogue?: boolean;
 };
 
 export function SceneWithDialogue({
@@ -46,11 +47,19 @@ export function SceneWithDialogue({
   initialPosition,
   npcs = [],
   audio,
+  autoStartDialogue = false,
   onInteract,
 }: Props) {
   const { player, setMap, setMode, setPosition } = usePlayer();
   const { setOnConfirm } = useGameControls();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (autoStartDialogue && !dialogueSystem.isOpen) {
+      dialogueSystem.start();
+      playSansTalking();
+    }
+  }, [autoStartDialogue]);
 
   const dialogueSystem = useDialogue(dialogueData, () => {
     if (nextRoute) {

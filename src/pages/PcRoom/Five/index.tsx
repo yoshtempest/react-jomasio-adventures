@@ -12,6 +12,7 @@ export default function PcRoomFive() {
         dialogueData={pcsRoomFiveDialogue}
         audio={{src: MonkeyCircle}}
         nextRoute={"/pcroom/six"}
+        autoStartDialogue={true}
         initialPosition={{ x: 13, y: 4, direction: "left" }}
         npcs={[
           {
