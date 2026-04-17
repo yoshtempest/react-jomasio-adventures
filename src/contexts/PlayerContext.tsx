@@ -16,8 +16,10 @@ type PlayerContextType = {
   openInventory: () => void;
 
   moveUpBattle: () => void;
-  moveLeftBattle: () => void;
-  moveRightBattle: () => void;
+  startMoveLeft: () => void;
+  stopMoveLeft: () => void;
+  startMoveRight: () => void;
+  stopMoveRight: () => void;
   moveDownBattle: () => void;
   releaseDownBattle: () => void; // 👈 ADICIONE AQUI
   attack: () => void;
@@ -53,8 +55,10 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
   const {
     moveUpBattle,
-    moveLeftBattle,
-    moveRightBattle,
+    startMoveLeft,
+    stopMoveLeft,
+    startMoveRight,
+    stopMoveRight,
     moveDownBattle,
     releaseDownBattle, // 👈 AQUI
     attack,
@@ -113,8 +117,10 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         openInventory,
 
         moveUpBattle,
-        moveLeftBattle,
-        moveRightBattle,
+        startMoveLeft,
+        stopMoveLeft,
+        startMoveRight,
+        stopMoveRight,
         moveDownBattle,
         releaseDownBattle, // 👈 AQUI
         attack,

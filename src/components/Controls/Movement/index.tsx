@@ -13,8 +13,10 @@ export function Movement() {
     moveRight,
     moveUpBattle,
     moveDownBattle,
-    moveLeftBattle,
-    moveRightBattle,
+    startMoveLeft,
+    stopMoveLeft,
+    startMoveRight,
+    stopMoveRight,
     releaseDownBattle, // 👈 NOVO
     openInventory,
   } = usePlayer();
@@ -41,11 +43,19 @@ export function Movement() {
     : downHold;
 
   const left = isBattle
-    ? { onClick: moveLeftBattle }
+    ? {
+        onMouseDown: startMoveLeft,
+        onMouseUp: stopMoveLeft,
+        onMouseLeave: stopMoveLeft,
+      }
     : leftHold;
 
   const right = isBattle
-    ? { onClick: moveRightBattle }
+    ? {
+        onMouseDown: startMoveRight,
+        onMouseUp: stopMoveRight,
+        onMouseLeave: stopMoveRight,
+      }
     : rightHold;
 
   useEffect(() => {
@@ -73,8 +83,7 @@ export function Movement() {
         case "ArrowLeft":
         case "a":
           if (isBattle) {
-            if (e.repeat) return;
-            moveLeftBattle();
+            startMoveLeft();
           } else {
             moveLeft();
           }
@@ -83,8 +92,7 @@ export function Movement() {
         case "ArrowRight":
         case "d":
           if (isBattle) {
-            if (e.repeat) return;
-            moveRightBattle();
+            startMoveRight();
           } else {
             moveRight();
           }
@@ -97,10 +105,23 @@ export function Movement() {
     }
 
     function handleKeyUp(e: KeyboardEvent) {
-      if (e.key === "ArrowDown" || e.key === "s") {
-        if (isBattle) {
-          releaseDownBattle(); // 👈 solta
-        }
+      if (!isBattle) return;
+
+      switch (e.key) {
+        case "ArrowDown":
+        case "s":
+          releaseDownBattle();
+          break;
+
+        case "ArrowLeft":
+        case "a":
+          stopMoveLeft();
+          break;
+
+        case "ArrowRight":
+        case "d":
+          stopMoveRight();
+          break;
       }
     }
 
@@ -119,8 +140,10 @@ export function Movement() {
     moveRight,
     moveUpBattle,
     moveDownBattle,
-    moveLeftBattle,
-    moveRightBattle,
+    startMoveLeft,
+    stopMoveLeft,
+    startMoveRight,
+    stopMoveRight,
     releaseDownBattle,
     openInventory,
   ]);
