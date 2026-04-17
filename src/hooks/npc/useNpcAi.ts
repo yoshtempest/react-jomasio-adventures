@@ -35,10 +35,10 @@ export function useNpcAI({ playerX, playerY, onAttack, isPaused }: Props) {
 
         // 🏃 movimento
         if (distanceX > 200) {
-          newX = n.x > playerX ? n.x - 8 : n.x + 8;
+          newX = n.x > playerX ? n.x - 2 : n.x + 2;
         }
         if (distanceX > 40 && distanceX <= 200) {
-          newX = n.x > playerX ? n.x - 4 : n.x + 4;
+          newX = n.x > playerX ? n.x - 1 : n.x + 1;
         }
 
         // 👊 ataque (agora com validação em Y)
@@ -61,7 +61,7 @@ export function useNpcAI({ playerX, playerY, onAttack, isPaused }: Props) {
           state: distanceX > 80 ? "walk" : "idle",
         };
       });
-    }, 100);
+    }, 20);
 
     return () => clearInterval(interval);
   }, [playerX, playerY, isPaused]);
