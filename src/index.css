@@ -114,6 +114,36 @@ h2 {
     margin: 0 auto; /* centraliza na tela */
 }
 
+.HallCenterFront {
+    background-image: url("/src/assets/cenarios/hallCenterFront.svg");
+    background-size: cover;
+    margin: 0 auto; /* centraliza na tela */
+}
+
+.HallThirdClass {
+    background-image: url("/src/assets/cenarios/hallThirdClass.svg");
+    background-size: cover;
+    margin: 0 auto; /* centraliza na tela */
+}
+
+.Library {
+    background-image: url("/src/assets/cenarios/library.svg");
+    background-size: cover;
+    margin: 0 auto; /* centraliza na tela */
+}
+
+.LibraryBattle {
+    background-image: url("/src/assets/cenarios/libraryBattle.svg");
+    background-size: cover;
+    margin: 0 auto; /* centraliza na tela */
+}
+
+.brodiClass {
+    background-image: url("/src/assets/cenarios/brodiClass.svg");
+    background-size: cover;
+    margin: 0 auto; /* centraliza na tela */
+}
+
 .buttonGlobal {
   width: 60px;
   height: 60px;

@@ -20,10 +20,11 @@ import CantinaFour from './pages/Cantina/Four/index.tsx';
 import Director from './pages/Director/One/index.tsx';
 import DirectorTwo from './pages/Director/Two/index.tsx';
 
-import HallOne from './pages/Hall/One/index.tsx';
-import HallTwo from './pages/Hall/Two/index.tsx';
-import HallLeftOne from './pages/Hall/Left/One/index.tsx';
+import HallOne from './pages/Hall/Pcs/One/index.tsx';
+import HallTwo from './pages/Hall/Pcs/Two/index.tsx';
+import HallLeftOne from './pages/Hall/PcsToCenter/index.tsx';
 import HallCenterOne from './pages/Hall/Center/One/index.tsx';
+import HallCenterFront from './pages/Hall/Center/Front/index.tsx';
 
 import PcRoomOne from './pages/PcRoom/One/index.tsx';
 import PcRoomTwo from './pages/PcRoom/Two/index.tsx';
@@ -35,8 +36,11 @@ import PcRoomFive from './pages/PcRoom/Five/index.tsx';
 import PcRoomSix from './pages/PcRoom/Six/index.tsx';
 import PcRoomSeven from './pages/PcRoom/Seven/index.tsx';
 
-import AfterPcRoom from './pages/Hall/One/AfterPcRoom/One/index.tsx';
-import AfterPcRoomTwo from './pages/Hall/One/AfterPcRoom/Two/index.tsx';
+import AfterPcRoom from './pages/Hall/Pcs/One/AfterPcRoom/One/index.tsx';
+import AfterPcRoomTwo from './pages/Hall/Pcs/One/AfterPcRoom/Two/index.tsx';
+
+import Library from './pages/Library/index.tsx';
+import HallThirdClass from './pages/Hall/ThirdClass/index.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -78,6 +82,10 @@ createRoot(document.getElementById('root')!).render(
 
                 <Route path="hall/left/one" element={<HallLeftOne />} />
                 <Route path="hall/center/one" element={<HallCenterOne />} />
+                <Route path="hall/center/front" element={<HallCenterFront />} />
+                <Route path="hall/thirdclass" element={<HallThirdClass />} />
+
+                <Route path="library" element={<Library />} />
               </Route>
             </Routes>
           </GameControlsProvider>

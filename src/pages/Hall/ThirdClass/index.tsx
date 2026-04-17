@@ -1,37 +1,24 @@
 import { hallCenter } from "@/maps/hall/center";
 import { Scene } from "@/components/Scene";
 
-export default function HallCenterOne() {
+export default function HallThirdClass() {
   return (
     <Scene
       map={hallCenter}
-      className={`Master HallCenter`}
+      className={`Master HallThirdClass`}
       initialPosition={{ x: 8, y: 10, direction: "up" }}
       transitions={[
         {
           positions: [
             { x: 8, y: 11 },
           ],
-          to: "/cantina/four",
-        },
-        {
-          positions: [
-            { x: 15, y: 6 },
-            { x: 8, y: 5 },
-          ],
           to: "/hall/center/front",
         },
         {
           positions: [
-            { x: 14, y: 7 },
+            { x: 8, y: 5 },
           ],
-          to: "/hall/center/right",
-        },
-        {
-          positions: [
-            { x: 3, y: 7 },
-          ],
-          to: "/hall/left/one",
+          to: "/library",
         },
       ]}
     />
