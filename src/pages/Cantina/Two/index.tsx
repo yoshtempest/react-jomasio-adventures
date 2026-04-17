@@ -10,8 +10,9 @@ export default function CantinaTwo() {
         map={cantinaTwo}
         dialogueData={cantinaDialogue}
         nextRoute="/cantina/battle"
-        initialPosition={{ x: 10, y: 4, direction: "down" }}
+        initialPosition={{ x: 10, y: 4, direction: "left" }}
         audio={{src: LavenderTown}}
+        autoStartDialogue={true}
         npcs={[
           {
             src: "/src/assets/npcs/jhowsimar/default.svg",

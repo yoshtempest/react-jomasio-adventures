@@ -9,7 +9,7 @@ export default function PcRoomBattleOne() {
       map={firstBattle}
       npcType="jhowsimar"
       redirectTo="/pcroom/three"
-      victoryDescription="Você derrotou um agroviliano!"
+      victoryDescription="Você derrotou um morto de fome!"
       className="PcRoomBattle"
       audioSrc={KenTheme}
     />

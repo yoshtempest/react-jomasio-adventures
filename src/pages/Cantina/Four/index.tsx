@@ -1,28 +1,20 @@
-import { SceneWithDialogue } from "@/components/SceneWithDialogue";
 import { cantinaFour } from "@/maps/cantina/four";
-import { cantinaDialogue } from "@/data/maps/cantina/three";
-import { usePlayer } from "@/contexts/PlayerContext";
-import { useNavigate } from "react-router";
-import { useEffect } from "react";
-import LavenderTown from "@/assets/songs/LavenderTown.m4a";
+import { Scene } from "@/components/Scene";
 
-export default function CantinaThree() {
-
-  const { player } = usePlayer();
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (player.gridX === 15 && player.gridY === 11) {
-      navigate("/hall/one");
-    }
-  }, [player]);
+export default function CantinaFour() {
   return (
-    <div className={`Master Cantina`}>
-      <SceneWithDialogue
-        map={cantinaFour}
-        dialogueData={cantinaDialogue}
-        initialPosition={{ x: 10, y: 4, direction: "left" }}
-        audio={{src: LavenderTown}}
-      />
-    </div>
+    <Scene
+      map={cantinaFour}
+      className={`Master Cantina`}
+      initialPosition={{ x: 9, y: 5, direction: "up" }}
+      transitions={[
+        {
+          positions: [
+            { x: 15, y: 11 },
+          ],
+          to: "/hall/one",
+        },
+      ]}
+    />
   );
 }
