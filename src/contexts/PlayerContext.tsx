@@ -36,7 +36,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     gridX: 6,
     gridY: 11,
     direction: "up",
-    character: "eduarda",
+    character: "marcelo",
 
     x: 100,
     y: 300,
