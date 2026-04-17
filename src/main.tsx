@@ -40,6 +40,7 @@ import AfterPcRoom from './pages/Hall/Pcs/One/AfterPcRoom/One/index.tsx';
 import AfterPcRoomTwo from './pages/Hall/Pcs/One/AfterPcRoom/Two/index.tsx';
 
 import Library from './pages/Library/index.tsx';
+import LibraryBattle from './pages/Library/Battle/index.tsx';
 import HallThirdClass from './pages/Hall/ThirdClass/index.tsx';
 
 createRoot(document.getElementById('root')!).render(
@@ -86,6 +87,7 @@ createRoot(document.getElementById('root')!).render(
                 <Route path="hall/thirdclass" element={<HallThirdClass />} />
 
                 <Route path="library" element={<Library />} />
+                <Route path="library/battle" element={<LibraryBattle />} />
               </Route>
             </Routes>
           </GameControlsProvider>
