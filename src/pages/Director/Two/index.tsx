@@ -1,17 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { director } from "@/maps/director";
-import { useGameLayout } from "@/hooks/useGameLayout";
-import { GameMap } from "@/components/Game/GameMap";
-import { Player } from "@/components/Game/Player";
 import Talking from "@/components/Talking";
-import LavenderTown from "@/assets/songs/LavenderTown.m4a";
-import { useGameAudio } from "@/hooks/useGameAudio";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { getTileInFront } from "@/utils/getTileInFront";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavigate } from "react-router";
 import { createDirector } from "@/interactions/director";
+import { Scene } from "@/components/Scene";
 
 export default function DirectorTwo() {
   const { player, setMap } = usePlayer();
@@ -21,17 +17,6 @@ export default function DirectorTwo() {
   const { addItem, hasItem, removeItem } = useInventory();
   const navigate = useNavigate();
   const [gotKey, setGotKey] = useState(false);
-
-  const backgroundAudio = useMemo(() => ({
-    src: LavenderTown,
-    loop: true,
-    volume: 0.5,
-  }), []);
-
-  useGameAudio(backgroundAudio);
-
-  const { TILE_SIZE, offsetX, offsetY, PLAYER_SIZE, MAP_COLS, MAP_ROWS } =
-    useGameLayout();
 
   useEffect(() => {
     setMap(director);
@@ -80,22 +65,19 @@ export default function DirectorTwo() {
 
   return (
     <div className={`Master Director`}>
-      <GameMap
-        TILE_SIZE={TILE_SIZE}
-        offsetX={offsetX}
-        offsetY={offsetY}
-        cols={MAP_COLS}
-        rows={MAP_ROWS}
-      >
-        <Player
-          character={player.character}
-          direction={player.direction}
-          gridX={player.gridX}
-          gridY={player.gridY}
-          TILE_SIZE={TILE_SIZE}
-          PLAYER_SIZE={PLAYER_SIZE}
-        />
-      </GameMap>
+      <Scene
+        map={director}
+        className={`Master Director`}
+        initialPosition={{ x: 9, y: 5, direction: "up" }}
+        transitions={[
+          {
+            positions: [
+              { x: 17, y: 17 },
+            ],
+            to: "/cantina/two",
+          },
+        ]}
+      />
 
       {popup && (
         <Talking
