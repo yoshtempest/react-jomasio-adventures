@@ -6,7 +6,7 @@ export const HallTwoDialogue = [
             "Não garoto, você é muito novo pra isso.",
     },
     {
-        src: "/src/assets/default.svg",
+        isPlayer: true,
         name: "Protagonista",
         message:
             "Mas eu nem disse nada...",

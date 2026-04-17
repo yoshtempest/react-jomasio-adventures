@@ -6,7 +6,7 @@ export const pcsRoomFourDialogue = [
             "Foi você que bateu no meu bêbê, não foi?",
     },
     {
-        src: "/src/assets/default.svg",
+        isPlayer: true,
         name: "Protagonista",
         message:
             "Aquele de agora a pouco?",

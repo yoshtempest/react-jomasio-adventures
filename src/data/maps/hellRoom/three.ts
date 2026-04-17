@@ -6,7 +6,7 @@ export const HellRoomThreeDialogue = [
             "Largue o meu peru!!!",
     },
     {
-        src: "/src/assets/default.svg",
+        isPlayer: true,
         name: "Protagonista",
         message:
             "hm? cadê aquele homem?",

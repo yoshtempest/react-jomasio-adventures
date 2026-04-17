@@ -1,6 +1,6 @@
 export const cantinaDialogue = [
     {
-        src: "/src/assets/default.svg",
+        isPlayer: true,
         name: "Protagonista",
         message: "Tu é fraco Jhow Simar, tu é fraco.",
     },
@@ -10,7 +10,7 @@ export const cantinaDialogue = [
         message: "Cara, eu sou o primeiro NPC, tu queria o que?",
     },
     {
-        src: "/src/assets/default.svg",
+        isPlayer: true,
         name: "Protagonista",
         message: "Chora mais",
     },

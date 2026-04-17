@@ -5,7 +5,7 @@ export const cantinaDialogue = [
         message: "Tu... tu tá com um objeto amaldiçoado!",
     },
     {
-        src: "/src/assets/default.svg",
+        isPlayer: true,
         name: "Protagonista",
         message: "Como assim? O que vo-",
     },

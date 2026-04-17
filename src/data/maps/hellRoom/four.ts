@@ -6,7 +6,7 @@ export const HellRoomFourDialogue = [
             "Aaah, Maugrelooo, por que foges? A noite é apenas uma criança hahaahaha",
     },
     {
-        src: "/src/assets/default.svg",
+        isPlayer: true,
         name: "Protagonista",
         message:
             "MEU JESUS AMADO, OLHA O TAMANHO...",
@@ -24,7 +24,7 @@ export const HellRoomFourDialogue = [
             "Vamos embora daqui tesouro, não fique com essa gentalha",
     },
     {
-        src: "/src/assets/default.svg",
+        isPlayer: true,
         name: "Protagonista",
         message:
             "Ué, quem é você?",

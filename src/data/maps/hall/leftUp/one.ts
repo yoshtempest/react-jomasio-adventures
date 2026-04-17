@@ -6,7 +6,7 @@ export const HallLeftUpDialogue = [
             "Vá pro inferno!",
     },
     {
-        src: "/src/assets/default.svg",
+        isPlayer: true,
         name: "Protagonista",
         message:
             "Eu num vou não",
@@ -18,7 +18,7 @@ export const HallLeftUpDialogue = [
             "Vá pro inferno!",
     },
     {
-        src: "/src/assets/default.svg",
+        isPlayer: true,
         name: "Protagonista",
         message:
             "Quer brigar?",
@@ -30,7 +30,7 @@ export const HallLeftUpDialogue = [
             "Vá pro inferno!",
     },
     {
-        src: "/src/assets/default.svg",
+        isPlayer: true,
         name: "Protagonista",
         message:
             "Então vem pro fight vem",

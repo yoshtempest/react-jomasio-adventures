@@ -6,7 +6,7 @@ export const pcsRoomThreeDialogue = [
             "Obrigado por me libertar da fome... com tamanha delicia, posso descansar em paz.",
     },
     {
-        src: "/src/assets/default.svg",
+        isPlayer: true,
         name: "Protagonista",
         message:
             "Delícia? Bem, descanse em paz.",

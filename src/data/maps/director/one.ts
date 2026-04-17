@@ -1,6 +1,6 @@
 export const directorDialogue = [
   {
-    src: "/src/assets/default.svg",
+    isPlayer: true,
     name: "Protagonista",
     message: "Que lugar é esse? Parece uma cela de prisão...",
   },
@@ -10,7 +10,7 @@ export const directorDialogue = [
     message: "Janela de sistema desbloqueada!",
   },
   {
-    src: "/src/assets/default.svg",
+    isPlayer: true,
     name: "Protagonista",
     message: "Mas que poha é essa?",
   },
@@ -20,7 +20,7 @@ export const directorDialogue = [
     message: "Se vira ai. Não sou pago pra isso",
   },
   {
-    src: "/src/assets/default.svg",
+    isPlayer: true,
     name: "Protagonista",
     message: "Então vai se fu- não vou me estressar com isso.",
   },

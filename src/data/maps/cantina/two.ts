@@ -5,7 +5,7 @@ export const cantinaDialogue = [
         message: "Como que cê saiu?",
     },
     {
-        src: "/src/assets/default.svg",
+        isPlayer: true,
         name: "Protagonista",
         message: "Eu usei a chave uaí",
     },
@@ -15,7 +15,7 @@ export const cantinaDialogue = [
         message: "Ah, eu esqueci de levar a chave comigo",
     },
     {
-        src: "/src/assets/default.svg",
+        isPlayer: true,
         name: "Protagonista",
         message: "Relaxa, tem nada não",
     },
@@ -25,7 +25,7 @@ export const cantinaDialogue = [
         message: "A gente não era para estar brigando?",
     },
     {
-        src: "/src/assets/default.svg",
+        isPlayer: true,
         name: "Protagonista",
         message: "Eu não tenho inimigos",
     },

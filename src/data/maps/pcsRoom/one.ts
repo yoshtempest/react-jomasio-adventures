@@ -6,7 +6,7 @@ export const pcsRoomDialogue = [
             "Tipo assim... eu moro em canabruava",
     },
     {
-        src: "/src/assets/default.svg",
+        isPlayer: true,
         name: "Protagonista",
         message:
             "Achei que você morava em Nova York.",
@@ -18,7 +18,7 @@ export const pcsRoomDialogue = [
             "Ééé... O Denis, ele... A Vandinha, ela...",
     },
     {
-        src: "/src/assets/default.svg",
+        isPlayer: true,
         name: "Protagonista",
         message:
             "Cara, eu não tô entendendo nada.",

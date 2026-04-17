@@ -1,12 +1,12 @@
 export const pcsRoomTwoDialogue = [
     {
-        src: "/src/assets/default.svg",
+        isPlayer: true,
         name: "Protagonista",
         message:
             "Ué, cadê Juan Derson?",
     },
     {
-        src: "/src/assets/default.svg",
+        isPlayer: true,
         name: "Protagonista",
         message:
             "Calma ai, ele tá comendo um mouse?",
@@ -18,7 +18,7 @@ export const pcsRoomTwoDialogue = [
             "Huhuhu, achei um almoço aqui, carne de rato!",
     },
     {
-        src: "/src/assets/default.svg",
+        isPlayer: true,
         name: "Protagonista",
         message:
             "Cara isso num é comida não, macho!",
@@ -30,7 +30,7 @@ export const pcsRoomTwoDialogue = [
             "Sai daqui, eu não vou dividir meu almoço com você!",
     },
     {
-        src: "/src/assets/default.svg",
+        isPlayer: true,
         name: "Protagonista",
         message:
             "Eu não quero brigar cara, eu não tenho inimigos.",

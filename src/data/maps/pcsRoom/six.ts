@@ -24,7 +24,7 @@ export const pcsRoomSixDialogue = [
             "Entregue isso para tia Remedinha e ela irá lhe ajudar.",
     },
     {
-        src: "/src/assets/default.svg",
+        isPlayer: true,
         name: "Protagonista",
         message:
             "Valeu, inclusive, qual é seu nome? Eu não consigo ler a janela de diálogo sabe?",

@@ -12,7 +12,7 @@ export const HallOneDialogue = [
             "Não, não vou, Slimita! Você não faz o meu tipo",
     },
     {
-        src: "/src/assets/default.svg",
+        isPlayer: true,
         name: "Protagonista",
         message:
             "Slimita, eu não vou deixar você fazer isso com o Jailson!",

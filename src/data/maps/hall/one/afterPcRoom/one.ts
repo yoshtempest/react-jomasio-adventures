@@ -1,6 +1,6 @@
 export const AfterPcRoomOneDialogue = [
     {
-        src: "/src/assets/default.svg",
+        isPlayer: true,
         name: "Protagonista",
         message:
             "Você é-",

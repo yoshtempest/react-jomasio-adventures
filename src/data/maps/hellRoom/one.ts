@@ -6,7 +6,7 @@ export const HellRoomDialogue = [
             "Ei você ai",
     },
     {
-        src: "/src/assets/default.svg",
+        isPlayer: true,
         name: "Protagonista",
         message:
             "Que? Eu estava brestes a descer a mão naquele cara...",
@@ -18,7 +18,7 @@ export const HellRoomDialogue = [
             "Cara, eu tô falando com você, desgraçado!",
     },
     {
-        src: "/src/assets/default.svg",
+        isPlayer: true,
         name: "Protagonista",
         message:
             "Quer brigar?",
@@ -30,7 +30,7 @@ export const HellRoomDialogue = [
             "Vá pro inferno!",
     },
     {
-        src: "/src/assets/default.svg",
+        isPlayer: true,
         name: "Protagonista",
         message:
             "Então vem pro fight vem",
@@ -42,7 +42,7 @@ export const HellRoomDialogue = [
             "Não cara, eu não sei brigar, calma ai",
     },
     {
-        src: "/src/assets/default.svg",
+        isPlayer: true,
         name: "Protagonista",
         message:
             "Então me diz, onde estamos?",
@@ -54,7 +54,7 @@ export const HellRoomDialogue = [
             "Não há tempo para perguntas, por favor me responda uma coisa RÁPIDO!",
     },
     {
-        src: "/src/assets/default.svg",
+        isPlayer: true,
         name: "Protagonista",
         message:
             "O que?",

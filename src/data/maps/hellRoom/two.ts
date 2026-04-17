@@ -6,7 +6,7 @@ export const HellRoomTwoDialogue = [
             "Ele pode ser um pouco duro às vezes, mas cuide bem dele por favor",
     },
     {
-        src: "/src/assets/default.svg",
+        isPlayer: true,
         name: "Protagonista",
         message:
             "Mas que baita piruzão em",

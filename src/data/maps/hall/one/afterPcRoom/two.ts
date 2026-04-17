@@ -18,7 +18,7 @@ export const AfterPcRoomTwoDialogue = [
             "Você obteve um pó misterioso",
     },
     {
-        src: "/src/assets/default.svg",
+        isPlayer: true,
         name: "Protagonista",
         message:
             "O que é isso?",
