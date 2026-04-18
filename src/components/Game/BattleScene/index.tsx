@@ -31,7 +31,6 @@ export function BattleScene({
   map,
   npcType,
   redirectTo,
-  victoryDescription,
   className,
   audioSrc,
 }: BattleSceneProps) {
@@ -45,21 +44,11 @@ export function BattleScene({
   const { progress, getXPToNextLevel } = useCharacterProgress();
   const charProgress = progress[player.character];
   const xpNeeded = getXPToNextLevel(charProgress.level);
+  const missingXp = xpNeeded - charProgress.xp;
 
   const { showVictory, triggerVictory, handleContinue } = useVictory({
     redirectTo,
   });
-
-  function formatClass(npcClass: string) {
-    switch (npcClass) {
-      case "common":
-        return "Comum";
-      case "rare":
-        return "Raro";
-      case "boss":
-        return "Chefe";
-    }
-  }
 
   // 🎵 áudio
   const audio = useMemo(
@@ -181,15 +170,10 @@ export function BattleScene({
       {showVictory && (
         <VictoryModal
           isOpen={showVictory}
-          description={victoryDescription}
-          rewards={[
-            `Inimigo nível: ${npcLevel}`,
-            `Classe: ${formatClass(npcData.class)}`,
-            `XP adquirido: ${xpReward}`,
-            `Seu nível: ${charProgress.level}`,
-            `XP: ${charProgress.xp} / ${xpNeeded}`,
-            "Progresso na história: 0.1%",
-          ]}
+          enemyType={npcType}
+          enemyLevel={npcLevel}
+          myLevel={charProgress.level}
+          nextLevelXp={missingXp}
           onContinue={handleContinue}
         />
       )}

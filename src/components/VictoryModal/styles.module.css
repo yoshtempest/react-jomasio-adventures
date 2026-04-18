@@ -28,3 +28,9 @@
     font-size: 18px;
     cursor: pointer;
 }
+
+.levelSection {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+}

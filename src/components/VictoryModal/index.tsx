@@ -2,17 +2,19 @@ import styles from "./styles.module.css";
 
 type Props = {
   isOpen: boolean;
-  title?: string;
-  description?: string;
-  rewards?: string[];
+  enemyType: string;
+  enemyLevel: number;
+  myLevel: number;
+  nextLevelXp: number;
   onContinue: () => void;
 };
 
 export function VictoryModal({
   isOpen,
-  title = "Vitória!",
-  description,
-  rewards = [],
+  enemyType,
+  enemyLevel,
+  myLevel,
+  nextLevelXp,
   onContinue,
 }: Props) {
   if (!isOpen) return null;
@@ -20,13 +22,15 @@ export function VictoryModal({
   return (
     <div className={styles.overlay}>
       <div className={styles.modal}>
-        <h1>{title}</h1>
+        <h1>Vitória!</h1>
 
-        {description && <p>{description}</p>}
+        <p>
+          Você derrotou um {enemyType} nv. {enemyLevel}
+        </p>
 
-        {rewards.map((reward, index) => (
-          <p key={index}>{reward}</p>
-        ))}
+        <p>Seu nível: {myLevel}</p>
+
+        <p>Xp para o próximo nível: {nextLevelXp}</p>
 
         <button className={styles.button} onClick={onContinue}>
           Continuar
