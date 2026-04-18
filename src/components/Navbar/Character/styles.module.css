@@ -33,3 +33,7 @@
   height: 60%;
   width: 60%;
 }
+
+.characterDisabled {
+  filter: brightness(10%); /* 30% mais escuro */
+}
