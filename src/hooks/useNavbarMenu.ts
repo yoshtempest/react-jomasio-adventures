@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { usePlayer } from "@/contexts/PlayerContext";
@@ -12,18 +12,26 @@ export function useNavbarMenu() {
   const [screen, setScreen] = useState("menu");
   const [selectedIndex, setSelectedIndex] = useState(0);
 
+    const selectedIndexRef = useRef(selectedIndex);
+    const screenRef = useRef(screen);
+
+    useEffect(() => {
+        selectedIndexRef.current = selectedIndex;
+        screenRef.current = screen;
+    }, [selectedIndex, screen]);
+
   // 🎮 registrar camada
   useEffect(() => {
     const controls = {
       onConfirm: () => {
         if (screen !== "menu") return;
 
-        const selected = NAVBAR_OPTIONS[selectedIndex];
+        const selected = NAVBAR_OPTIONS[selectedIndexRef.current];
         setScreen(selected.screen);
       },
 
       onCancel: () => {
-        if (screen !== "menu") {
+        if (screenRef.current !== "menu") {
           setScreen("menu");
           return;
         }

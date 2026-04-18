@@ -69,7 +69,6 @@ export function GameControlsProvider({ children }: Props) {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [stack, player.mode, openNavbar]);
-  console.log("STACK:", stack.length);
 
   return (
     <GameControlsContext.Provider
