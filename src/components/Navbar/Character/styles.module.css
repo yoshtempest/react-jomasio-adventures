@@ -1,0 +1,20 @@
+.inventory {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #111;
+  color: #fff;
+  padding: 10px;
+  border: 2px solid #555;
+  border-radius: 8px;
+}
+
+.inventory ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.inventory li {
+  margin: 4px 0;
+}

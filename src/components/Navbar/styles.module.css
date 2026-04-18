@@ -3,12 +3,12 @@
     flex-direction: column;
     position: fixed;
     top: 0;
-    right: 0;
+    right: 13%;
     width: 15vw;
     height: 20vw;
     align-items: center;
     justify-content: center;
-    background-color: red;
+    background-color: var(--primary-color);
 }
 
 .list{

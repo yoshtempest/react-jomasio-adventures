@@ -53,8 +53,6 @@ export function GameControlsProvider({ children }: { children: ReactNode }) {
           // 🧠 fallback inteligente
           if (player.mode === "battle") {
             special();
-          } else {
-            openInventory();
           }
       }
     }
