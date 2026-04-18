@@ -28,7 +28,7 @@ export default function Library() {
     // 🎲 10% de chance
     const chance = Math.random();
 
-    if (chance < 0.02) {
+    if (chance < 0.1) {
       navigate("/library/battle");
     }
   }, [player.gridX, player.gridY]);

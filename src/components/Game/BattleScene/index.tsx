@@ -14,6 +14,9 @@ import { VictoryModal } from "@/components/VictoryModal";
 import { useVictory } from "@/hooks/useVictory";
 import { DefeatModal } from "@/components/DefeatModal";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
+import { NPCS } from "@/data/npc";
+import { generateNpcLevel } from "@/utils/generateNpcLevel";
+import { calculateXP } from "@/utils/calculateXp";
 
 type BattleSceneProps = {
   map: any;
@@ -36,10 +39,27 @@ export function BattleScene({
   const { player, setMap, setMode, attack, special } = usePlayer();
   const { pushControls, popControls } = useGameControls();
   const [showDefeat, setShowDefeat] = useState(false);
+  const [npcLevel] = useState(() => generateNpcLevel());
+  const npcData = NPCS[npcType];
+  const xpReward = calculateXP(npcLevel, npcData.class);
+  const { progress, getXPToNextLevel } = useCharacterProgress();
+  const charProgress = progress[player.character];
+  const xpNeeded = getXPToNextLevel(charProgress.level);
 
   const { showVictory, triggerVictory, handleContinue } = useVictory({
     redirectTo,
   });
+
+  function formatClass(npcClass: string) {
+    switch (npcClass) {
+      case "common":
+        return "Comum";
+      case "rare":
+        return "Raro";
+      case "boss":
+        return "Chefe";
+    }
+  }
 
   // 🎵 áudio
   const audio = useMemo(
@@ -75,7 +95,7 @@ export function BattleScene({
       setShowDefeat(true);
     },
     onNpcDeath: () => {
-      addXP(player.character, 5); // 👈 define quanto XP ganha
+      addXP(player.character, xpReward);
       triggerVictory();
     },
   });
@@ -163,8 +183,11 @@ export function BattleScene({
           isOpen={showVictory}
           description={victoryDescription}
           rewards={[
-            "XP adquirido: 1xp",
-            "XP para o próximo nível: 99xp",
+            `Inimigo nível: ${npcLevel}`,
+            `Classe: ${formatClass(npcData.class)}`,
+            `XP adquirido: ${xpReward}`,
+            `Seu nível: ${charProgress.level}`,
+            `XP: ${charProgress.xp} / ${xpNeeded}`,
             "Progresso na história: 0.1%",
           ]}
           onContinue={handleContinue}
