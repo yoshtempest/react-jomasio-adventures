@@ -33,6 +33,7 @@ export default function PcRoomThree() {
         initialPosition={{ x: 13, y: 4, direction: "right" }}
         audio={{src: MonkeyCircle}}
         nextRoute="/pcroom/four"
+        autoStartDialogue={true}
         npcs={[
           {
             src: "/src/assets/npcs/jhowsimar/default.svg",

@@ -10,7 +10,7 @@ export default function PcRoomFour() {
         map={pcsRoomFour}
         dialogueData={pcsRoomFourDialogue}
         nextRoute={"/pcroom/battle/two"}
-        initialPosition={{ x: 13, y: 4, direction: "right" }}
+        initialPosition={{ x: 13, y: 4, direction: "left" }}
         audio={{src: MonkeyCircle}}
         autoStartDialogue={true}
         npcs={[
