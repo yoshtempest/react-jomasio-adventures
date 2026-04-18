@@ -1,7 +1,9 @@
 import styles from "./styles.module.css";
 import { useCharacterMenu } from "@/hooks/menu/useCharacterMenu";
+import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 
 export function Character() {
+  const { progress, getXPToNextLevel } = useCharacterProgress();
   const { characters, selectableCharacters, selectedIndex } =
     useCharacterMenu();
 
@@ -14,6 +16,9 @@ export function Character() {
           const selectableIndex = selectableCharacters.findIndex(
             (c) => c.name === char.name
           );
+          const charProgress = progress[char.image];
+          const xpNeeded = getXPToNextLevel(charProgress.level);
+          const percent = (charProgress.xp / xpNeeded) * 100;
 
           const isSelected = selectableIndex === selectedIndex;
 
@@ -31,7 +36,18 @@ export function Character() {
                 className={styles.characterImage}
               />
 
-              <h2>{char.name}</h2>
+              <h2>{char.name} - Nv.{charProgress.level}</h2>
+              
+              <div className={styles.xpBar}>
+                <div
+                  className={styles.xpFill}
+                  style={{ width: `${percent}%` }}
+                />
+              </div>
+
+              <p>
+                {charProgress.xp} / {xpNeeded} XP
+              </p>
             </div>
           );
         })}

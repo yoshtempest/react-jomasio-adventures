@@ -7,6 +7,7 @@ import App from './App.tsx'
 import { PlayerProvider } from './contexts/PlayerContext.tsx';
 import { InventoryProvider } from './contexts/InventoryContext.tsx';
 import { NavbarProvider } from './contexts/NavbarContext.tsx';
+import { CharacterProgressProvider } from "./contexts/CharacterProgressContext";
 
 import Tutorial from './pages/Tutorial/index.tsx';
 import Home from './pages/Home/index.tsx';
@@ -49,51 +50,53 @@ createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
       <NavbarProvider>
         <InventoryProvider>
-          <PlayerProvider>
-            <GameControlsProvider>
-              <Routes>
-                <Route path="/" element={<App />}>
-                  <Route index element={<Tutorial />} />
-                  <Route path="home" element={<Home />} />
-                  <Route path="firstscreen" element={<FirstScreen />} />
-                  
-                  <Route path="cantina/one" element={<Cantina />} />
-                  <Route path="director/one" element={<Director />} />
-                  <Route path="director/two" element={<DirectorTwo />} />
-                  <Route path="cantina/two" element={<CantinaTwo />} />
-                  <Route path="cantina/battle" element={<CantinaBattle />} />
-                  <Route path="cantina/three" element={<CantinaThree />} />
-                  <Route path="cantina/four" element={<CantinaFour />} />
+          <CharacterProgressProvider>
+            <PlayerProvider>
+              <GameControlsProvider>
+                <Routes>
+                  <Route path="/" element={<App />}>
+                    <Route index element={<Tutorial />} />
+                    <Route path="home" element={<Home />} />
+                    <Route path="firstscreen" element={<FirstScreen />} />
+                    
+                    <Route path="cantina/one" element={<Cantina />} />
+                    <Route path="director/one" element={<Director />} />
+                    <Route path="director/two" element={<DirectorTwo />} />
+                    <Route path="cantina/two" element={<CantinaTwo />} />
+                    <Route path="cantina/battle" element={<CantinaBattle />} />
+                    <Route path="cantina/three" element={<CantinaThree />} />
+                    <Route path="cantina/four" element={<CantinaFour />} />
 
-                  <Route path="hall/one" element={<HallOne />} />
-                  <Route path="hall/two" element={<HallTwo />} />
+                    <Route path="hall/one" element={<HallOne />} />
+                    <Route path="hall/two" element={<HallTwo />} />
 
-                  <Route path="pcroom/one" element={<PcRoomOne />} />
-                  <Route path="pcroom/two" element={<PcRoomTwo />} />
-                  <Route path="pcroom/battle/one" element={<PcRoomBattleOne />} />
+                    <Route path="pcroom/one" element={<PcRoomOne />} />
+                    <Route path="pcroom/two" element={<PcRoomTwo />} />
+                    <Route path="pcroom/battle/one" element={<PcRoomBattleOne />} />
 
-                  <Route path="pcroom/three" element={<PcRoomThree />} />
-                  <Route path="pcroom/four" element={<PcRoomFour />} />
-                  <Route path="pcroom/battle/two" element={<PcRoomBattleTwo />} />
+                    <Route path="pcroom/three" element={<PcRoomThree />} />
+                    <Route path="pcroom/four" element={<PcRoomFour />} />
+                    <Route path="pcroom/battle/two" element={<PcRoomBattleTwo />} />
 
-                  <Route path="pcroom/five" element={<PcRoomFive />} />
-                  <Route path="pcroom/six" element={<PcRoomSix />} />
-                  <Route path="pcroom/seven" element={<PcRoomSeven />} />
+                    <Route path="pcroom/five" element={<PcRoomFive />} />
+                    <Route path="pcroom/six" element={<PcRoomSix />} />
+                    <Route path="pcroom/seven" element={<PcRoomSeven />} />
 
-                  <Route path="hall/afterpcroom/one" element={<AfterPcRoom />} />
-                  <Route path="hall/afterpcroom/two" element={<AfterPcRoomTwo />} />
+                    <Route path="hall/afterpcroom/one" element={<AfterPcRoom />} />
+                    <Route path="hall/afterpcroom/two" element={<AfterPcRoomTwo />} />
 
-                  <Route path="hall/left/one" element={<HallLeftOne />} />
-                  <Route path="hall/center/one" element={<HallCenterOne />} />
-                  <Route path="hall/center/front" element={<HallCenterFront />} />
-                  <Route path="hall/thirdclass" element={<HallThirdClass />} />
+                    <Route path="hall/left/one" element={<HallLeftOne />} />
+                    <Route path="hall/center/one" element={<HallCenterOne />} />
+                    <Route path="hall/center/front" element={<HallCenterFront />} />
+                    <Route path="hall/thirdclass" element={<HallThirdClass />} />
 
-                  <Route path="library" element={<Library />} />
-                  <Route path="library/battle" element={<LibraryBattle />} />
-                </Route>
-              </Routes>
-            </GameControlsProvider>
-          </PlayerProvider>
+                    <Route path="library" element={<Library />} />
+                    <Route path="library/battle" element={<LibraryBattle />} />
+                  </Route>
+                </Routes>
+              </GameControlsProvider>
+            </PlayerProvider>
+          </CharacterProgressProvider>
         </InventoryProvider>
       </NavbarProvider>
     </BrowserRouter>

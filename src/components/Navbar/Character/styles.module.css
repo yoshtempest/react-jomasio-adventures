@@ -13,6 +13,11 @@
   z-index: 999;
 }
 
+.cursor {
+  position: absolute;
+  top: 10%;
+}
+
 .charactersContainer {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -30,10 +35,24 @@
 }
 
 .characterImage {
-  height: 60%;
-  width: 60%;
+  height: 40%;
+  width: 40%;
 }
 
 .characterDisabled {
   filter: brightness(10%); /* 30% mais escuro */
+}
+
+.xpBar {
+  width: 90%;
+  height: 6px;
+  background: #333;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.xpFill {
+  height: 90%;
+  background: #4ade80;
+  transition: width 0.3s;
 }

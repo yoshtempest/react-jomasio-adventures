@@ -2,6 +2,6 @@ export type CharacterId = "marcelo" | "eduarda";
 
 export type CharacterOption = {
   name: string;
-  image: string;
+  image: CharacterId;
   selectable: boolean;
 };

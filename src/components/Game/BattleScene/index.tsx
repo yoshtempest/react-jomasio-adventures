@@ -13,6 +13,7 @@ import { Deliciometro } from "@/components/Game/Deliciometro";
 import { VictoryModal } from "@/components/VictoryModal";
 import { useVictory } from "@/hooks/useVictory";
 import { DefeatModal } from "@/components/DefeatModal";
+import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 
 type BattleSceneProps = {
   map: any;
@@ -31,6 +32,7 @@ export function BattleScene({
   className,
   audioSrc,
 }: BattleSceneProps) {
+  const { addXP } = useCharacterProgress();
   const { player, setMap, setMode, attack, special } = usePlayer();
   const { pushControls, popControls } = useGameControls();
   const [showDefeat, setShowDefeat] = useState(false);
@@ -72,7 +74,10 @@ export function BattleScene({
     onPlayerDeath: () => {
       setShowDefeat(true);
     },
-    onNpcDeath: triggerVictory,
+    onNpcDeath: () => {
+      addXP(player.character, 5); // 👈 define quanto XP ganha
+      triggerVictory();
+    },
   });
 
   // conectar ataque NPC
