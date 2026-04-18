@@ -3,6 +3,7 @@ import type { Player, PlayerMode } from "@/utils/types/player";
 import { usePlayerMovement } from "@/hooks/player/usePlayerMovement";
 import { useBattleMovement } from "@/hooks/player/useBattleMovement";
 import { useInventory } from "@/contexts/InventoryContext";
+import { useNavbar } from "@/contexts/NavbarContext";
 
 type PlayerContextType = {
   player: Player;
@@ -14,6 +15,7 @@ type PlayerContextType = {
   moveLeft: () => void;
   moveRight: () => void;
   openInventory: () => void;
+  openNavbar: () => void;
 
   moveUpBattle: () => void;
   startMoveLeft: () => void;
@@ -48,6 +50,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
   const [currentMap, setCurrentMap] = useState<number[][]>([]);
   const { toggleInventory } = useInventory();
+  const { toggleNavbar } = useNavbar();
 
   // 🔥 hooks separados
   const { moveUp, moveDown, moveLeft, moveRight } =
@@ -72,6 +75,10 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   function openInventory() {
     if (player.mode !== "explore") return;
     toggleInventory();
+  }
+  function openNavbar() {
+    if (player.mode !== "battle") return;
+    toggleNavbar();
   }
 
   function setMode(mode: PlayerMode) {
@@ -115,6 +122,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         moveLeft,
         moveRight,
         openInventory,
+        openNavbar,
 
         moveUpBattle,
         startMoveLeft,

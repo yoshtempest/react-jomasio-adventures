@@ -20,7 +20,7 @@ export function GameControlsProvider({ children }: { children: ReactNode }) {
   const [onCancel, setOnCancel] = useState<(() => void) | undefined>();
   const [onOpen, setOnOpen] = useState<(() => void) | undefined>();
 
-  const { player, special, openInventory } = usePlayer(); // 👈 NOVO
+  const { player, special, openInventory, openNavbar } = usePlayer(); // 👈 NOVO
 
   function clearControls() {
     setOnConfirm(undefined);
@@ -37,7 +37,7 @@ export function GameControlsProvider({ children }: { children: ReactNode }) {
             return;
           }
           if (player.mode === "explore") {
-            openInventory();
+            openNavbar();
           }
           break;
         case "l":

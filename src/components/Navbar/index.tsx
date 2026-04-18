@@ -1,12 +1,19 @@
 import { Link } from "react-router";
 import styles from "./styles.module.css"
+import { blocked } from "@/maps/blocked";
+import { useEffect } from "react";
+import { usePlayer } from "@/contexts/PlayerContext";
 
-export default function Navbar() {
+export function Navbar() {
+  const { setMap, setMode } = usePlayer();
+    useEffect(() => {
+      setMap(blocked);
+      setMode("select");
+    }, [blocked]);
   return (
     <nav id="Navbar" className={styles.navbar}>
-      <h1 className={styles.title}>Navbar</h1>
       <ul className={styles.list}>
-        <Link to="/status"><li className={styles.item}>Status</li></Link>
+        <Link to="/character"><li className={styles.item}>Personagem</li></Link>
         <Link to="/inventory"><li className={styles.item}>Mochila</li></Link>
         <Link to="/config"><li className={styles.item}>Configurações</li></Link>
       </ul>
