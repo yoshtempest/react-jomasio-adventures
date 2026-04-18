@@ -13,9 +13,8 @@ export function NPC({ gridX, gridY, TILE_SIZE, src }: Props) {
         position: "absolute",
         width: TILE_SIZE * 2,
         height: TILE_SIZE * 2,
-        left: gridX * TILE_SIZE - 30,
-        top: gridY * TILE_SIZE,
-        transform: "translate(-10%, -20%)",
+        left: gridX * TILE_SIZE - 40,
+        top: gridY * TILE_SIZE - 20,
         zIndex: 9,
       }}
     />
