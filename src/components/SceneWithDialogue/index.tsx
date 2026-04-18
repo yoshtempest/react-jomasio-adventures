@@ -51,7 +51,7 @@ export function SceneWithDialogue({
   onInteract,
 }: Props) {
   const { player, setMap, setMode, setPosition } = usePlayer();
-  const { setOnConfirm } = useGameControls();
+  const { pushControls, popControls } = useGameControls();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -66,6 +66,21 @@ export function SceneWithDialogue({
       navigate(nextRoute);
     }
   });
+
+  useEffect(() => {
+    const controls = {
+      onConfirm: () => {
+        if (dialogueSystem.isOpen) {
+          dialogueSystem.next();
+          playSansTalking();
+        }
+      },
+    };
+
+    pushControls(controls);
+
+    return () => popControls();
+  }, [dialogueSystem.isOpen]);
 
   const { play: playSansTalking } = useSansTalking(dialogueSystem.isOpen);
 
@@ -101,7 +116,6 @@ export function SceneWithDialogue({
   useInteraction({
     player,
     map,
-    setOnConfirm,
     onInteract: handleInteract,
   });
 

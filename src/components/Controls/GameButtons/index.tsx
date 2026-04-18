@@ -3,17 +3,17 @@ import { useGameControls } from "@/contexts/GameControlsContext";
 
 
 export function GameButtons() {
-  const { onConfirm, onCancel, onOpen } = useGameControls();
+  const { activeControls } = useGameControls();
 
   return (
     <div className={styles.gameButtons}>
-      <button className={styles.open} onClick={onOpen} />
+      <button className={styles.open} onClick={activeControls?.onOpen} />
       <div className={styles.row}>
-        <button className={styles.button} onClick={onCancel}>
+        <button className={styles.button} onClick={activeControls?.onCancel}>
           B
         </button>
 
-        <button className={styles.button} onClick={onConfirm}>
+        <button className={styles.button} onClick={activeControls?.onConfirm}>
           A
         </button>
       </div>

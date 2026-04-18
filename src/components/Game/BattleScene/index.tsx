@@ -32,7 +32,7 @@ export function BattleScene({
   audioSrc,
 }: BattleSceneProps) {
   const { player, setMap, setMode, attack, special } = usePlayer();
-  const { setOnConfirm, setOnCancel } = useGameControls();
+  const { pushControls, popControls } = useGameControls();
   const [showDefeat, setShowDefeat] = useState(false);
 
   const { showVictory, triggerVictory, handleContinue } = useVictory({
@@ -92,27 +92,23 @@ export function BattleScene({
 
   // attack
   useEffect(() => {
-    function handleAttack() {
-      if (showVictory) return;
-      attack();
-      battle.playerHit();
-    }
+    if (showVictory) return;
 
-    setOnConfirm(() => handleAttack);
-    return () => setOnConfirm(undefined);
-  }, [attack, battle.playerHit, showVictory]);
+    const controls = {
+      onConfirm: () => {
+        attack();
+        battle.playerHit();
+      },
+      onCancel: () => {
+        special();
+        battle.specialHit();
+      },
+    };
 
-  // Special
-  useEffect(() => {
-    function handleSpecial() {
-      if (showVictory) return;
-      special();
-      battle.specialHit();
-    }
+    pushControls(controls);
 
-    setOnCancel(() => handleSpecial);
-    return () => setOnCancel(undefined);
-  }, [battle.specialHit, showVictory]);
+    return () => popControls();
+  }, [attack, battle.playerHit, battle.specialHit, showVictory]);
 
   return (
     <div className={`Master ${className || ""}`}>

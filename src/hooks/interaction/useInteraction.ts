@@ -1,15 +1,16 @@
 import { useEffect, useRef } from "react";
 import { getTileInFront } from "@/utils/getTileInFront";
+import { useGameControls } from "@/contexts/GameControlsContext";
 
 export function useInteraction({
   player,
   map,
   onInteract,
-  setOnConfirm,
 }: any) {
   const playerRef = useRef(player);
   const mapRef = useRef(map);
   const onInteractRef = useRef(onInteract);
+  const { pushControls, popControls } = useGameControls();
 
   // mantém sempre atualizado sem re-render
   useEffect(() => {
@@ -29,8 +30,10 @@ export function useInteraction({
       onInteractRef.current(tile, x, y);
     };
 
-    setOnConfirm(() => handler);
+    pushControls({
+      onConfirm: () => handler()
+    });
 
-    return () => setOnConfirm(undefined);
-  }, [setOnConfirm]);
+    return () => popControls();
+  }, [popControls]);
 }

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { director } from "@/maps/director";
 import Talking from "@/components/Talking";
@@ -11,7 +11,6 @@ import { Scene } from "@/components/Scene";
 
 export default function DirectorTwo() {
   const { player, setMap } = usePlayer();
-  const { setOnConfirm } = useGameControls();
 
   const [popup, setPopup] = useState<string | null>(null);
   const { addItem, hasItem, removeItem } = useInventory();
@@ -20,6 +19,31 @@ export default function DirectorTwo() {
 
   useEffect(() => {
     setMap(director);
+  }, []);
+  const { pushControls, popControls } = useGameControls();
+
+  const handlerRef = useRef<() => void>(() => {});
+
+  handlerRef.current = () => {
+    if (popup) {
+      setPopup(null);
+      return;
+    }
+
+    const { x, y } = getTileInFront(player, director);
+    const interaction = interactionsByPosition[`${x},${y}`];
+
+    if (interaction) {
+      interaction();
+    }
+  };
+
+  useEffect(() => {
+    pushControls({
+      onConfirm: () => handlerRef.current(),
+    });
+
+    return () => popControls();
   }, []);
 
   // 🧠 Interações por posição
@@ -40,28 +64,6 @@ export default function DirectorTwo() {
     navigate,
     gotKey,
   ]);
-
-  useEffect(() => {
-
-    setOnConfirm(() => () => {
-      // 🔁 fechar popup
-      if (popup) {
-        setPopup(null);
-        return;
-      }
-
-      const { x, y } = getTileInFront(player, director);
-
-      const interaction = interactionsByPosition[`${x},${y}`];
-
-      if (interaction) {
-        interaction();
-        return;
-      }
-    });
-
-    return () => setOnConfirm(undefined);
-  }, [player, popup]);
 
   return (
     <div className={`Master Director`}>

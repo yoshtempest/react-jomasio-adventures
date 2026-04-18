@@ -20,7 +20,7 @@ export function useCutscene({
   onBeforeNext,
 }: UseCutsceneProps) {
   const dialogueSystem = useDialogue(dialogue, onFinish);
-  const { setOnConfirm } = useGameControls();
+  const { pushControls, popControls } = useGameControls();
 
   const hasPlayed = useRef(false);
 
@@ -51,13 +51,14 @@ export function useCutscene({
 
   // 🔥 CORREÇÃO AQUI
   useEffect(() => {
-    // 🎬 só controla input quando cutscene estiver aberta
     if (!dialogueSystem.isOpen) return;
 
-    setOnConfirm(() => () => handleConfirmRef.current());
+    pushControls({
+      onConfirm: () => handleConfirmRef.current(),
+    });
 
-    return () => setOnConfirm(undefined);
-  }, [dialogueSystem.isOpen]); // 👈 ESSENCIAL
+    return () => popControls();
+  }, [dialogueSystem.isOpen]);
 
   return {
     ...dialogueSystem,

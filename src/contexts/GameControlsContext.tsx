@@ -1,79 +1,68 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import { usePlayer } from "./PlayerContext";
+import { createContext, useContext, useEffect, useState, useCallback } from "react";
+import type { GameControlLayer } from "@/utils/types/controls";
+import type { ReactNode } from "react";
 
-type Controls = {
-  onConfirm?: () => void;
-  onCancel?: () => void;
-  onOpen?: () => void;
-
-  setOnConfirm: (fn?: () => void) => void;
-  setOnCancel: (fn?: () => void) => void;
-  setOnOpen: (fn?: () => void) => void;
-
-  clearControls: () => void;
+type Props = {
+  children: ReactNode;
 };
 
-const GameControlsContext = createContext<Controls | null>(null);
+type ControlsContextType = {
+  pushControls: (controls: GameControlLayer) => void;
+  popControls: () => void;
+  clearControls: () => void;
+  activeControls?: GameControlLayer; // 👈 ADICIONA ISSO
+};
 
-export function GameControlsProvider({ children }: { children: ReactNode }) {
-  const [onConfirm, setOnConfirm] = useState<(() => void) | undefined>();
-  const [onCancel, setOnCancel] = useState<(() => void) | undefined>();
-  const [onOpen, setOnOpen] = useState<(() => void) | undefined>();
+const GameControlsContext = createContext<ControlsContextType | null>(null);
 
-  const { player, special, openInventory, openNavbar } = usePlayer(); // 👈 NOVO
+export function GameControlsProvider({ children }: Props) {
+  const [stack, setStack] = useState<GameControlLayer[]>([]);
+  
+  const pushControls = useCallback((controls: GameControlLayer) => {
+    setStack((prev) => [...prev, controls]);
+  }, []);
 
-  function clearControls() {
-    setOnConfirm(undefined);
-    setOnCancel(undefined);
-    setOnOpen(undefined);
-  }
+  const popControls = useCallback(() => {
+    setStack((prev) => prev.slice(0, -1));
+  }, []);
 
+  const clearControls = useCallback(() => {
+    setStack([]);
+  }, []);
+
+  // 🎮 input global
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
+      const active = stack[stack.length - 1];
+
+      if (!active) return;
+
       switch (e.key) {
-        case "g":
-          if (onOpen) {
-            onOpen();
-            return;
-          }
-          if (player.mode === "explore") {
-            openNavbar();
-          }
-          break;
         case "l":
-          onConfirm?.();
+          active.onConfirm?.();
           break;
 
         case "b":
-          if (onCancel) {
-            onCancel();
-            return;
-          }
+          active.onCancel?.();
+          break;
 
-          // 🧠 fallback inteligente
-          if (player.mode === "battle") {
-            special();
-          }
+        case "g":
+          active.onOpen?.();
+          break;
       }
     }
 
     window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [onConfirm, onCancel, onOpen, player.mode, special, openInventory]);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [stack]);
 
   return (
     <GameControlsContext.Provider
       value={{
-        onConfirm,
-        onCancel,
-        onOpen,
-        setOnConfirm,
-        setOnCancel,
-        setOnOpen,
+        pushControls,
+        popControls,
         clearControls,
+        activeControls: stack[stack.length - 1],
       }}
     >
       {children}
@@ -82,9 +71,7 @@ export function GameControlsProvider({ children }: { children: ReactNode }) {
 }
 
 export function useGameControls() {
-  const context = useContext(GameControlsContext);
-  if (!context) {
-    throw new Error("useGameControls precisa do GameControlsProvider");
-  }
-  return context;
+  const ctx = useContext(GameControlsContext);
+  if (!ctx) throw new Error("useGameControls precisa do provider");
+  return ctx;
 }

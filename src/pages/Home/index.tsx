@@ -6,7 +6,7 @@ import SOS from "@/assets/songs/SOSFromEarth.m4a";
 import { useGameAudio } from "@/hooks/useGameAudio";
 
 export default function Home() {
-  const { setOnConfirm } = useGameControls();
+  const { pushControls, popControls } = useGameControls();
   const navigate = useNavigate();
 
   const backgroundAudio = useMemo(() => ({
@@ -18,12 +18,12 @@ export default function Home() {
   useGameAudio(backgroundAudio);
 
   useEffect(() => {
-    setOnConfirm(() => () => navigate("/firstscreen"));
+    pushControls({
+      onConfirm: () => navigate("/firstscreen"),
+    });
 
-    return () => {
-      setOnConfirm(undefined);
-    };
-  }, []);
+    return () => popControls();
+  }, [navigate]);
 
   return (
     <div className={`Master ${styles.image}`}>
