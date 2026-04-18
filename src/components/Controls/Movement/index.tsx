@@ -3,6 +3,7 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { useEffect } from "react";
 import { useHoldAction } from "@/hooks/useHoldAction";
 import styles from "./styles.module.css";
+import { useNavbar } from "@/contexts/NavbarContext";
 
 export function Movement() {
   const {
@@ -21,6 +22,9 @@ export function Movement() {
     openInventory,
   } = usePlayer();
 
+  const { isNavOpen } = useNavbar();
+  const isLocked = player.mode === "select" || isNavOpen;
+
   const isBattle = player.mode === "battle";
 
   // 🟢 hooks SEMPRE chamados
@@ -30,11 +34,15 @@ export function Movement() {
   const rightHold = useHoldAction(moveRight, 300);
 
   // 🎮 comportamento dinâmico
-  const up = isBattle
+  const up = isLocked
+    ? {}
+    : isBattle
     ? { onClick: moveUpBattle }
     : upHold;
 
-  const down = isBattle
+  const down = isLocked
+    ? {}
+    : isBattle
     ? {
         onMouseDown: moveDownBattle,
         onMouseUp: releaseDownBattle,
@@ -42,7 +50,9 @@ export function Movement() {
       }
     : downHold;
 
-  const left = isBattle
+  const left = isLocked
+    ? {}
+    : isBattle
     ? {
         onMouseDown: startMoveLeft,
         onMouseUp: stopMoveLeft,
@@ -50,7 +60,9 @@ export function Movement() {
       }
     : leftHold;
 
-  const right = isBattle
+  const right = isLocked
+    ? {}
+    : isBattle
     ? {
         onMouseDown: startMoveRight,
         onMouseUp: stopMoveRight,
@@ -60,6 +72,7 @@ export function Movement() {
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
+      if (isLocked) return; // 🚨 trava tudo
       switch (e.key) {
         case "ArrowUp":
         case "w":
@@ -105,6 +118,7 @@ export function Movement() {
     }
 
     function handleKeyUp(e: KeyboardEvent) {
+      if (isLocked) return; // 🚨 trava tudo
       if (!isBattle) return;
 
       switch (e.key) {

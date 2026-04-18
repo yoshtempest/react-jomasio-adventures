@@ -4,8 +4,8 @@
     position: fixed;
     top: 0;
     right: 0;
-    width: 40vw;
-    height: 25vw;
+    width: 15vw;
+    height: 20vw;
     align-items: center;
     justify-content: center;
     background-color: red;
@@ -18,30 +18,16 @@
     padding: 0;
 }
 
-.link{
-    text-decoration: none;
-    color: white;
-    font-size: 16px;
-    margin: 10px 0;
-}   
-
-.link:hover{
-    text-decoration: underline;
+.item {
+  color: white;
+  padding: 8px;
 }
 
-.link:active{
-    font-weight: bold;
-    background-color: green;
+.active {
+  background-color: blue;
+  font-weight: bold;
 }
 
-.active{
-    font-weight: bold;
-    background-color: blue;
-}
-
-a.active {
-  color: red;
-}
-a.pending {
-  color: blue;
+.active::before {
+  content: "▶ ";
 }

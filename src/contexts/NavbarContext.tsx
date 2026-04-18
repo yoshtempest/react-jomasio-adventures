@@ -4,7 +4,7 @@ import type { NavbarItem } from "@/utils/types/navbar";
 type NavbarContextType = {
   items: NavbarItem[];
 
-  isOpen: boolean;
+  isNavOpen: boolean;
   openNavbar: () => void;
   closeNavbar: () => void;
   toggleNavbar: () => void;
@@ -14,7 +14,7 @@ const NavbarContext = createContext<NavbarContextType | null>(null);
 
 export function NavbarProvider({ children }: { children: ReactNode }) {
   const [items] = useState<NavbarItem[]>([]);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isNavOpen, setIsOpen] = useState(false);
 
   function toggleNavbar() {
     setIsOpen((prev) => !prev);
@@ -32,7 +32,7 @@ export function NavbarProvider({ children }: { children: ReactNode }) {
     <NavbarContext.Provider
       value={{
         items,
-        isOpen,
+        isNavOpen,
         openNavbar,
         closeNavbar,
         toggleNavbar
