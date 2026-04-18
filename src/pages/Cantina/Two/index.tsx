@@ -1,5 +1,5 @@
 import { SceneWithDialogue } from "@/components/SceneWithDialogue";
-import { cantinaTwo } from "@/maps/cantina/two";
+import { blocked } from "@/maps/blocked";
 import { cantinaDialogue } from "@/data/maps/cantina/two";
 import LavenderTown from "@/assets/songs/LavenderTown.m4a";
 
@@ -7,7 +7,7 @@ export default function CantinaTwo() {
   return (
     <div className={`Master Cantina`}>
       <SceneWithDialogue
-        map={cantinaTwo}
+        map={blocked}
         dialogueData={cantinaDialogue}
         nextRoute="/cantina/battle"
         initialPosition={{ x: 10, y: 4, direction: "left" }}

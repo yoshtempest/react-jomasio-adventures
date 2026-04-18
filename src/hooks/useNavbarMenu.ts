@@ -17,6 +17,7 @@ export function useNavbarMenu() {
     const controls = {
       onConfirm: () => {
         if (screen !== "menu") return;
+
         const selected = NAVBAR_OPTIONS[selectedIndex];
         setScreen(selected.screen);
       },
@@ -29,8 +30,9 @@ export function useNavbarMenu() {
 
         closeNavbar();
         setMode("explore");
-        popControls(); // 🔥 remove da stack
       },
+
+        blockGlobalOpen: true,
     };
 
     pushControls(controls);
@@ -38,7 +40,7 @@ export function useNavbarMenu() {
     return () => {
       popControls(); // 🔥 remove ao desmontar
     };
-  }, [screen, selectedIndex]);
+  }, []);
 
   // ⬆️⬇️ ainda pode usar window (ou evoluir depois)
   useEffect(() => {
@@ -60,7 +62,7 @@ export function useNavbarMenu() {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [screen]);
+  }, []);
 
   return {
     screen,

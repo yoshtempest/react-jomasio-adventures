@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useState, useCallback } from "react";
 import type { GameControlLayer } from "@/utils/types/controls";
 import type { ReactNode } from "react";
+import { usePlayer } from "@/contexts/PlayerContext";
+import { useNavbar } from "@/contexts/NavbarContext";
 
 type Props = {
   children: ReactNode;
@@ -17,6 +19,8 @@ const GameControlsContext = createContext<ControlsContextType | null>(null);
 
 export function GameControlsProvider({ children }: Props) {
   const [stack, setStack] = useState<GameControlLayer[]>([]);
+  const { player } = usePlayer();
+  const { openNavbar } = useNavbar();
   
   const pushControls = useCallback((controls: GameControlLayer) => {
     setStack((prev) => [...prev, controls]);
@@ -46,15 +50,26 @@ export function GameControlsProvider({ children }: Props) {
           active.onCancel?.();
           break;
 
-        case "g":
-          active.onOpen?.();
+        case "g": {
+          // tenta no topo primeiro
+          if (active?.onOpen) {
+            active.onOpen();
+            return;
+          }
+
+          // 🔥 fallback global (abrir navbar)
+          if (!active?.blockGlobalOpen && player.mode === "explore") {
+            openNavbar();
+          }
           break;
+        }
       }
     }
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [stack]);
+  }, [stack, player.mode, openNavbar]);
+  console.log("STACK:", stack.length);
 
   return (
     <GameControlsContext.Provider
