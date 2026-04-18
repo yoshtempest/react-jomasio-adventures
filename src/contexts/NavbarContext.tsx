@@ -1,8 +1,8 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
-import type { NavbarItem } from "@/utils/types/navbar";
+import type { NavbarOption } from "@/utils/types/navbar";
 
 type NavbarContextType = {
-  items: NavbarItem[];
+  items: NavbarOption[];
 
   isNavOpen: boolean;
   openNavbar: () => void;
@@ -13,7 +13,7 @@ type NavbarContextType = {
 const NavbarContext = createContext<NavbarContextType | null>(null);
 
 export function NavbarProvider({ children }: { children: ReactNode }) {
-  const [items] = useState<NavbarItem[]>([]);
+  const [items] = useState<NavbarOption[]>([]);
   const [isNavOpen, setIsOpen] = useState(false);
 
   function toggleNavbar() {

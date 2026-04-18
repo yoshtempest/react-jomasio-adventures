@@ -1,4 +1,6 @@
-export type NavbarItem = {
-  id: string;
-  name: string;
+export type NavScreen = "menu" | "character" | "inventory" | "config";
+
+export type NavbarOption = {
+  label: string;
+  screen: NavScreen;
 };
