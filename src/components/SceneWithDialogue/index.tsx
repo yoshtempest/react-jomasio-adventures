@@ -9,7 +9,7 @@ import Talking from "@/components/Talking";
 import { useDialogue } from "@/hooks/interaction/useDialogue";
 import { useInteraction } from "@/hooks/interaction/useInteraction";
 import { useGameAudio } from "@/hooks/useGameAudio";
-import { useSansTalking } from "@/hooks/useSansTalking";
+import { useSansTalking } from "@/hooks/interaction/useSansTalking";
 import { useNavigate } from "react-router";
 
 

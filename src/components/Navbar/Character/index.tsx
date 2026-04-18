@@ -1,5 +1,5 @@
 import styles from "./styles.module.css";
-import { useCharacterMenu } from "@/hooks/useCharacterMenu";
+import { useCharacterMenu } from "@/hooks/menu/useCharacterMenu";
 
 export function Character() {
   const { characters, selectableCharacters, selectedIndex } =
