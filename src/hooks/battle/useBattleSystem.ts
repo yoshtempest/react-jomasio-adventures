@@ -92,7 +92,7 @@ export function useBattleSystem({
   const npcHit = useCallback(() => {
     if (!npcCooldown.current) return;
 
-    if (isNpcInRange(60, 50)) {
+    if (isNpcInRange(20, 50)) {
       npcCooldown.current = false;
 
       setPlayerHP((hp) => Math.max(0, hp - 10));

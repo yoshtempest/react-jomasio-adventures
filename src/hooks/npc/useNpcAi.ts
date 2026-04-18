@@ -37,7 +37,7 @@ export function useNpcAI({ playerX, playerY, onAttack, isPaused }: Props) {
         if (distanceX > 200) {
           newX = n.x > playerX ? n.x - 2 : n.x + 2;
         }
-        if (distanceX > 40 && distanceX <= 200) {
+        if (distanceX > 10 && distanceX <= 200) {
           newX = n.x > playerX ? n.x - 1 : n.x + 1;
         }
 
@@ -45,9 +45,9 @@ export function useNpcAI({ playerX, playerY, onAttack, isPaused }: Props) {
         const now = Date.now();
 
         const canAttack =
-          distanceX <= 80 &&
+          distanceX <= 20 &&
           distanceY <= 39 &&
-          now - lastAttackRef.current > 200; // cooldown de 0.5s
+          now - lastAttackRef.current > 200; // cooldown de 0.2s
 
         if (canAttack) {
           attackRef.current();

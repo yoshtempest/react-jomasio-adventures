@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useGameLayout } from "@/hooks/useGameLayout";
@@ -12,6 +12,7 @@ import { HealthBar } from "@/components/Game/HealthBar";
 import { Deliciometro } from "@/components/Game/Deliciometro";
 import { VictoryModal } from "@/components/VictoryModal";
 import { useVictory } from "@/hooks/useVictory";
+import { DefeatModal } from "@/components/DefeatModal";
 
 type BattleSceneProps = {
   map: any;
@@ -32,6 +33,7 @@ export function BattleScene({
 }: BattleSceneProps) {
   const { player, setMap, setMode, attack, special } = usePlayer();
   const { setOnConfirm, setOnCancel } = useGameControls();
+  const [showDefeat, setShowDefeat] = useState(false);
 
   const { showVictory, triggerVictory, handleContinue } = useVictory({
     redirectTo,
@@ -58,7 +60,7 @@ export function BattleScene({
     playerX: player.x,
     playerY: player.y,
     onAttack: () => npcDummyAttackRef.current(),
-    isPaused: showVictory,
+    isPaused: showVictory || showDefeat,
   });
 
   const battle = useBattleSystem({
@@ -67,7 +69,9 @@ export function BattleScene({
     npcX: npc.x,
     npcY: npc.y,
     playerState: player.state,
-    onPlayerDeath: () => setMode("battle"),
+    onPlayerDeath: () => {
+      setShowDefeat(true);
+    },
     onNpcDeath: triggerVictory,
   });
 
@@ -76,6 +80,10 @@ export function BattleScene({
   npcAttackRef.current = battle.npcHit;
 
   npcDummyAttackRef.current = () => npcAttackRef.current();
+
+  function handleRetry() {
+    window.location.reload();
+  }
 
   useEffect(() => {
     setMap(map);
@@ -152,7 +160,6 @@ export function BattleScene({
       {showVictory && (
         <VictoryModal
           isOpen={showVictory}
-          title="Vitória!"
           description={victoryDescription}
           rewards={[
             "XP adquirido: 1xp",
@@ -160,6 +167,13 @@ export function BattleScene({
             "Progresso na história: 0.1%",
           ]}
           onContinue={handleContinue}
+        />
+      )}
+
+      {showDefeat && (
+        <DefeatModal
+          isOpen={showDefeat}
+          onContinue={handleRetry}
         />
       )}
     </div>
