@@ -1,4 +1,4 @@
-import { useMemo, useState, useCallback } from "react";
+import { useMemo, useState, useCallback, useEffect } from "react";
 import { SendHorizontal } from "lucide-react";
 import Talking from "@/components/Talking";
 import styles from "./styles.module.css";
@@ -17,10 +17,11 @@ export default function Tutorial() {
   const [showNameInput, setShowNameInput] = useState(false);
   const [showGenderChoice, setShowGenderChoice] = useState(false);
   const [playerName, setPlayerName] = useState("");
+  const [genderIndex, setGenderIndex] = useState(0); // 0 = macho, 1 = fêmea
 
   const { play: playSansTalking } = useSansTalking(false);
 
-  const { setCharacter } = usePlayer();
+  const { setCharacter, setMode } = usePlayer();
 
   const backgroundAudio = useMemo(() => ({
     src: SOS,
@@ -43,6 +44,7 @@ export default function Tutorial() {
       ) {
         if (!showNameInput) {
           setShowNameInput(true);
+          setMode("ui");
           return false;
         }
       }
@@ -66,15 +68,44 @@ export default function Tutorial() {
   const handleSubmitName = useCallback(() => {
     if (!playerName.trim()) return;
 
+    localStorage.setItem("playerName", playerName.trim()); // 🔥 salva
+
     setShowNameInput(false);
+    setMode("explore"); // 🔥 IMPORTANTE
     cutscene.next();
   }, [playerName, cutscene]);
 
   const handleChooseGender = (gender: "marcelo" | "eduarda") => {
+    localStorage.setItem("playerCharacter", gender); // 🔥 salva
     setCharacter(gender); // 🔥 salva no contexto global
     setShowGenderChoice(false);
+    setMode("explore"); // 🔥 IMPORTANTE
     cutscene.next();
   };
+
+  useEffect(() => {
+    if (!showGenderChoice) return;
+
+    function handleKeyDown(e: KeyboardEvent) {
+      e.stopPropagation(); // 🔥 impede conflito com o jogo
+
+      if (e.key === "d" || e.key === "ArrowRight") {
+        setGenderIndex(1); // vai pra fêmea
+      }
+
+      if (e.key === "a" || e.key === "ArrowLeft") {
+        setGenderIndex(0); // volta pra macho
+      }
+
+      if (e.key === "Enter") {
+        const selected = genderIndex === 0 ? "marcelo" : "eduarda";
+        handleChooseGender(selected);
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [showGenderChoice, genderIndex]);
 
   return (
     <div className={`Master ${styles.image}`}>
@@ -89,8 +120,16 @@ export default function Tutorial() {
             <h1>Nome de usuário</h1>
             <div className={styles.relative}>
               <input
+                autoFocus // 👈 importante
                 value={playerName}
                 onChange={(e) => setPlayerName(e.target.value)}
+                onKeyDown={(e) => {
+                  e.stopPropagation(); // continua bloqueando o jogo
+
+                  if (e.key === "Enter") {
+                    handleSubmitName(); // 👈 envia com Enter
+                  }
+                }}
                 placeholder="Digite seu nome"
               />
               <SendHorizontal
@@ -109,11 +148,17 @@ export default function Tutorial() {
             <h1>Você é...</h1>
 
             <div className={styles.choices}>
-              <button onClick={() => handleChooseGender("marcelo")}>
+              <button 
+                className={genderIndex === 0 ? styles.selected : ""}
+                onClick={() => handleChooseGender("marcelo")}
+              >
                 Macho
               </button>
 
-              <button onClick={() => handleChooseGender("eduarda")}>
+              <button 
+                className={genderIndex === 1 ? styles.selected : ""}
+                onClick={() => handleChooseGender("eduarda")}
+              >
                 Fêmea
               </button>
             </div>

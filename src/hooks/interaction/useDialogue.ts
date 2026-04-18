@@ -46,10 +46,13 @@ export function useDialogue(
 
   // 🔥 AQUI É A MÁGICA
   const processedDialogues = useMemo(() => {
+    const storedName = localStorage.getItem("playerName") || "Protagonista";
+
     return dialogues.map((line) => {
       if (line.isPlayer) {
         return {
           ...line,
+          name: storedName, // 🔥 substitui o nome
           src: playerSprites[player.character],
         };
       }

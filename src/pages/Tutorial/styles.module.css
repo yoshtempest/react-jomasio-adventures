@@ -47,16 +47,15 @@
   margin-top: 20px;
 }
 
-.choices button {
-  padding: 10px 20px;
-  border: 2px solid black;
-  background: white;
-  color: black;
-  cursor: pointer;
-  font-weight: bold;
+.selected {
+  height: 8vh;
+  border: 2px solid white;
+  background-color: var(--background-color);
+  transform: scale(1.05);
 }
 
-.choices button:hover {
-  background: black;
-  color: white;
+.selected::before {
+  content: "▼";
+  display: block;
+  text-align: center;
 }

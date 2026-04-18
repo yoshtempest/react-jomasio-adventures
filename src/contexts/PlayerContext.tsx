@@ -77,6 +77,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     toggleInventory();
   }
   function openNavbar() {
+
     if (player.mode !== "explore") return;
     toggleNavbar();
   }

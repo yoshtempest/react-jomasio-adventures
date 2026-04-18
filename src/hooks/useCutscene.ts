@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useDialogue } from "@/hooks/interaction/useDialogue";
+import { usePlayer } from "@/contexts/PlayerContext";
 
 type UseCutsceneProps = {
   dialogue: Parameters<typeof useDialogue>[0];
@@ -19,6 +20,7 @@ export function useCutscene({
   playAudio,
   onBeforeNext,
 }: UseCutsceneProps) {
+  const { player } = usePlayer();
   const dialogueSystem = useDialogue(dialogue, onFinish);
   const { pushControls, popControls } = useGameControls();
 
@@ -41,6 +43,8 @@ export function useCutscene({
   handleConfirmRef.current = () => {
     if (!dialogueSystem.isOpen) return;
 
+    if (player.mode === "ui") return;
+
     const shouldContinue = onBeforeNext?.(dialogueSystem.dialogue);
 
     if (shouldContinue === false) return;
@@ -53,12 +57,14 @@ export function useCutscene({
   useEffect(() => {
     if (!dialogueSystem.isOpen) return;
 
+      if (player.mode === "ui") return;
+
     pushControls({
       onConfirm: () => handleConfirmRef.current(),
     });
 
     return () => popControls();
-  }, [dialogueSystem.isOpen]);
+  }, [dialogueSystem.isOpen, player.mode]);
 
   return {
     ...dialogueSystem,
