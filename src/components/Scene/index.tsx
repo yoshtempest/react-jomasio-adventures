@@ -6,6 +6,7 @@ import { GameMap } from "@/components/Game/GameMap";
 import { Player } from "@/components/Game/Player";
 import { useGameAudio } from "@/hooks/useGameAudio";
 import LavenderTown from "@/assets/songs/LavenderTown.m4a";
+import { useGameControls } from "@/contexts/GameControlsContext";
 
 type Position = {
   x: number;
@@ -34,7 +35,8 @@ export function Scene({
     transitions,
     className,
 }: SceneProps) {
-  const { player, setMap, setPosition } = usePlayer();
+  const { player, setMap, setMode, setPosition } = usePlayer();
+    const { pushControls, popControls } = useGameControls();
   const navigate = useNavigate();
 
   const {
@@ -45,6 +47,17 @@ export function Scene({
     MAP_COLS,
     MAP_ROWS,
   } = useGameLayout();
+
+  useEffect(() => {
+    setMode("explore");
+    const controls = {
+      onConfirm: () => {},
+    };
+
+    pushControls(controls);
+
+    return () => popControls();
+  }, []);
 
   // 🔁 Transições
   useEffect(() => {

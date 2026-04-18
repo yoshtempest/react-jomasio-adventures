@@ -5,13 +5,12 @@ import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 
 export default function Library() {
-  const { player, setMode } = usePlayer();
+  const { player } = usePlayer();
   const navigate = useNavigate();
 
   const lastPositionRef = useRef({ x: player.gridX, y: player.gridY });
 
   useEffect(() => {
-    setMode("explore");
     const { gridX, gridY } = player;
 
     const moved =
