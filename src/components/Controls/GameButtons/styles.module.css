@@ -1,8 +1,8 @@
 .gameButtons {
     display: flex;
-    gap: 24px;
-    align-items: center;
-    flex-direction: row;
+    gap: 32px;
+    align-items: flex-end;
+    flex-direction: column;
     position: fixed;
     right: 2%;
 }
@@ -15,4 +15,17 @@
     font-weight: bold;
     align-items: center;
     justify-content: center;
+}
+
+.open {
+    display: flex;
+    width: 3.6vw;
+    height: 1.2vw;
+    border-radius: 10px;
+}
+
+.row {
+    display: flex;
+    gap: 24px;
+    flex-direction: row;
 }

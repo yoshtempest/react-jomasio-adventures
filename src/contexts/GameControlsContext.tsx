@@ -4,9 +4,11 @@ import { usePlayer } from "./PlayerContext";
 type Controls = {
   onConfirm?: () => void;
   onCancel?: () => void;
+  onOpen?: () => void;
 
   setOnConfirm: (fn?: () => void) => void;
   setOnCancel: (fn?: () => void) => void;
+  setOnOpen: (fn?: () => void) => void;
 
   clearControls: () => void;
 };
@@ -16,17 +18,28 @@ const GameControlsContext = createContext<Controls | null>(null);
 export function GameControlsProvider({ children }: { children: ReactNode }) {
   const [onConfirm, setOnConfirm] = useState<(() => void) | undefined>();
   const [onCancel, setOnCancel] = useState<(() => void) | undefined>();
+  const [onOpen, setOnOpen] = useState<(() => void) | undefined>();
 
   const { player, special, openInventory } = usePlayer(); // 👈 NOVO
 
   function clearControls() {
     setOnConfirm(undefined);
     setOnCancel(undefined);
+    setOnOpen(undefined);
   }
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       switch (e.key) {
+        case "g":
+          if (onOpen) {
+            onOpen();
+            return;
+          }
+          if (player.mode === "explore") {
+            openInventory();
+          }
+          break;
         case "l":
           onConfirm?.();
           break;
@@ -51,15 +64,17 @@ export function GameControlsProvider({ children }: { children: ReactNode }) {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [onConfirm, onCancel, player.mode, special, openInventory]);
+  }, [onConfirm, onCancel, onOpen, player.mode, special, openInventory]);
 
   return (
     <GameControlsContext.Provider
       value={{
         onConfirm,
         onCancel,
+        onOpen,
         setOnConfirm,
         setOnCancel,
+        setOnOpen,
         clearControls,
       }}
     >
