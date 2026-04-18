@@ -19,7 +19,6 @@ export function Movement() {
     startMoveRight,
     stopMoveRight,
     releaseDownBattle, // 👈 NOVO
-    openInventory,
   } = usePlayer();
 
   const { isNavOpen } = useNavbar();
@@ -110,10 +109,6 @@ export function Movement() {
             moveRight();
           }
           break;
-
-        case "b":
-          openInventory();
-          break;
       }
     }
 
@@ -159,7 +154,6 @@ export function Movement() {
     startMoveRight,
     stopMoveRight,
     releaseDownBattle,
-    openInventory,
   ]);
 
   return (
