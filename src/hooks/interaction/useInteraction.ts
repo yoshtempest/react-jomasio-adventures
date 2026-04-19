@@ -22,18 +22,31 @@ export function useInteraction({
   // registra o handler UMA VEZ
   useEffect(() => {
     const handler = () => {
-    const { x, y, tile } = getTileInFront(
-      playerRef.current,
-      mapRef.current
-    );
+      const result = getTileInFront(
+        playerRef.current,
+        mapRef.current
+      );
+
+      console.log("INTERACT DEBUG:", result);
+
+      const { x, y, tile } = result;
 
       onInteractRef.current(tile, x, y);
     };
 
     pushControls({
-      onConfirm: () => handler()
+      onConfirm: () => {
+        console.log("PRESSIONEI L - INTERACTION");
+        const { x, y, tile } = getTileInFront(
+          playerRef.current,
+          mapRef.current
+        );
+        console.log("PRESSIONEI L - INTERACTION");
+
+        return onInteractRef.current(tile, x, y);
+      }
     });
 
     return () => popControls();
-  }, [popControls]);
+  }, [pushControls, popControls]);
 }

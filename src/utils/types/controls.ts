@@ -1,6 +1,6 @@
 export type GameControlLayer = {
-    onConfirm?: () => void;
-    onCancel?: () => void;
+    onConfirm?: () => boolean | void;
+    onCancel?: () => boolean | void;
     onOpen?: () => void;
 
     onUp?: () => void;

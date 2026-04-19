@@ -50,7 +50,7 @@ export function SceneWithDialogue({
   autoStartDialogue = false,
   onInteract,
 }: Props) {
-  const { player, setMap, setMode, setPosition } = usePlayer();
+  const { player, setMap, setPosition } = usePlayer();
   const { pushControls, popControls } = useGameControls();
   const navigate = useNavigate();
 
@@ -70,17 +70,17 @@ export function SceneWithDialogue({
   useEffect(() => {
     const controls = {
       onConfirm: () => {
-        if (dialogueSystem.isOpen) {
-          dialogueSystem.next();
-          playSansTalking();
-        }
+        if (!dialogueSystem.isOpen) return false;
+        dialogueSystem.next();
+        playSansTalking();
+        return true;
       },
     };
 
     pushControls(controls);
 
     return () => popControls();
-  }, [dialogueSystem.isOpen]);
+  }, []);
 
   const { play: playSansTalking } = useSansTalking(dialogueSystem.isOpen);
 
@@ -97,20 +97,23 @@ export function SceneWithDialogue({
     if (dialogueSystem.isOpen) {
       dialogueSystem.next();
       playSansTalking();
-      return;
+      return true;
     }
 
     // 2️⃣ interação custom da página
     if (onInteract) {
       const handled = onInteract(tile, x, y);
-      if (handled) return; // 👈 só bloqueia se realmente tratou
+      if (handled) return true; // 👈 só bloqueia se realmente tratou
     }
 
     // 3️⃣ comportamento padrão (NPC)
     if (tile === 2) {
       dialogueSystem.start();
       playSansTalking();
+      return true;
     }
+
+    return false;
   }, [dialogueSystem, playSansTalking, onInteract]);
 
   useInteraction({
@@ -124,7 +127,6 @@ export function SceneWithDialogue({
 
   useEffect(() => {
     setMap(map);
-    setMode("explore");
     if (initialPosition) {
       setPosition(
         initialPosition.x,

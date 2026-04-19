@@ -44,6 +44,7 @@ export function useNavbarMenu() {
 
         const selected = NAVBAR_OPTIONS[selectedIndexRef.current];
         setScreen(selected.screen);
+        return true;
       },
 
       onCancel: () => {
@@ -61,27 +62,6 @@ export function useNavbarMenu() {
 
     pushControls(controls);
     return () => popControls();
-  }, []);
-
-  // ⬆️⬇️ ainda pode usar window (ou evoluir depois)
-  useEffect(() => {
-    function handleKeyDown(e: KeyboardEvent) {
-      if (screen !== "menu") return;
-
-      if (e.key === "ArrowUp" || e.key === "w") {
-        setSelectedIndex((prev) =>
-          prev === 0 ? NAVBAR_OPTIONS.length - 1 : prev - 1
-        );
-      }
-
-      if (e.key === "ArrowDown" || e.key === "s") {
-        setSelectedIndex((prev) =>
-          prev === NAVBAR_OPTIONS.length - 1 ? 0 : prev + 1
-        );
-      }
-    }
-
-    return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
   return {

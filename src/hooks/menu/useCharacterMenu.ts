@@ -41,6 +41,7 @@ export function useCharacterMenu() {
       onConfirm: () => {
         const selected = selectableCharacters[selectedIndexRef.current];
         handleChooseCharacter(selected.image as CharacterId);
+        return true;
       },
 
       onCancel: () => {
@@ -53,25 +54,6 @@ export function useCharacterMenu() {
 
     pushControls(controls);
     return () => popControls();
-  }, []);
-
-  // ⬅️➡️ MOVIMENTO
-  useEffect(() => {
-    function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === "ArrowRight" || e.key === "d") {
-        setSelectedIndex((prev) =>
-          prev === selectableCharacters.length - 1 ? 0 : prev + 1
-        );
-      }
-
-      if (e.key === "ArrowLeft" || e.key === "a") {
-        setSelectedIndex((prev) =>
-          prev === 0 ? selectableCharacters.length - 1 : prev - 1
-        );
-      }
-    }
-
-    return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
   return {

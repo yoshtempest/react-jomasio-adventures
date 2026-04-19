@@ -12,7 +12,7 @@ type ControlsContextType = {
   pushControls: (controls: GameControlLayer) => void;
   popControls: () => void;
   clearControls: () => void;
-  activeControls?: GameControlLayer; // 👈 ADICIONA ISSO
+  activeControls: GameControlLayer;
 };
 
 const GameControlsContext = createContext<ControlsContextType | null>(null);
@@ -21,7 +21,7 @@ export function GameControlsProvider({ children }: Props) {
   const [stack, setStack] = useState<GameControlLayer[]>([]);
   const { player } = usePlayer();
   const { openNavbar } = useNavbar();
-  
+
   const pushControls = useCallback((controls: GameControlLayer) => {
     setStack((prev) => [...prev, controls]);
   }, []);
@@ -34,10 +34,45 @@ export function GameControlsProvider({ children }: Props) {
     setStack([]);
   }, []);
 
-  // 🎮 input global
+  // 🔥 merge inteligente
+  const getMergedControls = useCallback((): GameControlLayer => {
+    const top = stack[stack.length - 1];
+
+    return stack.reduce((acc, layer) => ({
+      // 🎮 movimento pode mesclar
+      onUp: layer.onUp ?? acc.onUp,
+      onDown: layer.onDown ?? acc.onDown,
+      onLeft: layer.onLeft ?? acc.onLeft,
+      onRight: layer.onRight ?? acc.onRight,
+
+      onUpRelease: layer.onUpRelease ?? acc.onUpRelease,
+      onDownRelease: layer.onDownRelease ?? acc.onDownRelease,
+      onLeftRelease: layer.onLeftRelease ?? acc.onLeftRelease,
+      onRightRelease: layer.onRightRelease ?? acc.onRightRelease,
+
+      // 🚨 AQUI É A CORREÇÃO
+      onConfirm: () => {
+        for (let i = stack.length - 1; i >= 0; i--) {
+          const handled = stack[i].onConfirm?.();
+          if (handled === true) break;
+        }
+      },
+
+      onCancel: () => {
+        for (let i = stack.length - 1; i >= 0; i--) {
+          const handled = stack[i].onCancel?.();
+          if (handled === true) break;
+        }
+      },
+      onOpen: top?.onOpen,
+
+      blockGlobalOpen: top?.blockGlobalOpen ?? false,
+    }), {} as GameControlLayer);
+  }, [stack]);
+
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
-      const active = stack[stack.length - 1];
+      const active = getMergedControls();
       if (!active) return;
 
       switch (e.key) {
@@ -70,12 +105,12 @@ export function GameControlsProvider({ children }: Props) {
           break;
 
         case "g":
-          if (active?.onOpen) {
+          if (active.onOpen) {
             active.onOpen();
             return;
           }
 
-          if (!active?.blockGlobalOpen && player.mode === "explore") {
+          if (!active.blockGlobalOpen && player.mode === "explore") {
             openNavbar();
           }
           break;
@@ -83,7 +118,7 @@ export function GameControlsProvider({ children }: Props) {
     }
 
     function handleKeyUp(e: KeyboardEvent) {
-      const active = stack[stack.length - 1];
+      const active = getMergedControls();
       if (!active) return;
 
       switch (e.key) {
@@ -116,7 +151,7 @@ export function GameControlsProvider({ children }: Props) {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
-  }, [stack, player.mode, openNavbar]);
+  }, [getMergedControls, player.mode, openNavbar]);
 
   return (
     <GameControlsContext.Provider
@@ -124,7 +159,7 @@ export function GameControlsProvider({ children }: Props) {
         pushControls,
         popControls,
         clearControls,
-        activeControls: stack[stack.length - 1],
+        activeControls: getMergedControls(),
       }}
     >
       {children}

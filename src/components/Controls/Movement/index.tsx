@@ -1,7 +1,6 @@
 import { MoveUp, MoveDown, MoveLeft, MoveRight } from "lucide-react";
 import { usePlayer } from "@/contexts/PlayerContext";
-import { useEffect } from "react";
-// import { useHoldAction } from "@/hooks/useHoldAction";
+import { useEffect, useRef } from "react";
 import styles from "./styles.module.css";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
@@ -19,146 +18,137 @@ export function Movement() {
     stopMoveLeft,
     startMoveRight,
     stopMoveRight,
-    releaseDownBattle, // 👈 NOVO
+    releaseDownBattle,
   } = usePlayer();
 
   const { isNavOpen } = useNavbar();
-  const { activeControls } = useGameControls();
+  const { activeControls, pushControls, popControls } = useGameControls();
+
   const isLocked = player.mode === "select" || isNavOpen;
-
   const isBattle = player.mode === "battle";
-  
-  // 🟢 hooks SEMPRE chamados
-  // const upHold = useHoldAction(moveUp, 300);
-  // const downHold = useHoldAction(moveDown, 300);
-  // const leftHold = useHoldAction(moveLeft, 300);
-  // const rightHold = useHoldAction(moveRight, 300);
 
-  // 🎮 comportamento dinâmico
-  const up = {
-    onMouseDown: activeControls?.onUp,
-    onMouseUp: activeControls?.onUpRelease,
-  };
+  const isLockedRef = useRef(isLocked);
+  const isBattleRef = useRef(isBattle);
 
-  const down = {
-    onMouseDown: activeControls?.onDown,
-    onMouseUp: activeControls?.onDownRelease,
-  };
+  const moveUpRef = useRef(moveUp);
+  const moveDownRef = useRef(moveDown);
+  const moveLeftRef = useRef(moveLeft);
+  const moveRightRef = useRef(moveRight);
 
-  const left = {
-    onMouseDown: activeControls?.onLeft,
-    onMouseUp: activeControls?.onLeftRelease,
-  };
+  const moveUpBattleRef = useRef(moveUpBattle);
+  const moveDownBattleRef = useRef(moveDownBattle);
 
-  const right = {
-    onMouseDown: activeControls?.onRight,
-    onMouseUp: activeControls?.onRightRelease,
-  };
+  const startMoveLeftRef = useRef(startMoveLeft);
+  const stopMoveLeftRef = useRef(stopMoveLeft);
+  const startMoveRightRef = useRef(startMoveRight);
+  const stopMoveRightRef = useRef(stopMoveRight);
+
+  const releaseDownBattleRef = useRef(releaseDownBattle);
 
   useEffect(() => {
-    function handleKeyDown(e: KeyboardEvent) {
-      if (isLocked) return; // 🚨 trava tudo
-      switch (e.key) {
-        case "ArrowUp":
-        case "w":
-          if (isBattle) {
-            if (e.repeat) return;
-            moveUpBattle();
-          } else {
-            moveUp();
-          }
-          break;
+    isLockedRef.current = isLocked;
+    isBattleRef.current = isBattle;
 
-        case "ArrowDown":
-        case "s":
-          if (isBattle) {
-            moveDownBattle(); // 👈 segura
-          } else {
-            moveDown();
-          }
-          break;
+    moveUpRef.current = moveUp;
+    moveDownRef.current = moveDown;
+    moveLeftRef.current = moveLeft;
+    moveRightRef.current = moveRight;
 
-        case "ArrowLeft":
-        case "a":
-          if (isBattle) {
-            startMoveLeft();
-          } else {
-            moveLeft();
-          }
-          break;
+    moveUpBattleRef.current = moveUpBattle;
+    moveDownBattleRef.current = moveDownBattle;
 
-        case "ArrowRight":
-        case "d":
-          if (isBattle) {
-            startMoveRight();
-          } else {
-            moveRight();
-          }
-          break;
-      }
-    }
+    startMoveLeftRef.current = startMoveLeft;
+    stopMoveLeftRef.current = stopMoveLeft;
+    startMoveRightRef.current = startMoveRight;
+    stopMoveRightRef.current = stopMoveRight;
 
-    function handleKeyUp(e: KeyboardEvent) {
-      if (isLocked) return; // 🚨 trava tudo
-      if (!isBattle) return;
+    releaseDownBattleRef.current = releaseDownBattle;
+  });
 
-      switch (e.key) {
-        case "ArrowDown":
-        case "s":
-          releaseDownBattle();
-          break;
+  // 🔥 registra controls do player
+  useEffect(() => {
+    const controls = {
+      onUp: () => {
+        if (isLockedRef.current) return;
+        isBattleRef.current
+          ? moveUpBattleRef.current()
+          : moveUpRef.current();
+      },
 
-        case "ArrowLeft":
-        case "a":
-          stopMoveLeft();
-          break;
+      onDown: () => {
+        if (isLockedRef.current) return;
+        isBattleRef.current
+          ? moveDownBattleRef.current()
+          : moveDownRef.current();
+      },
 
-        case "ArrowRight":
-        case "d":
-          stopMoveRight();
-          break;
-      }
-    }
+      onLeft: () => {
+        if (isLockedRef.current) return;
+        isBattleRef.current
+          ? startMoveLeftRef.current()
+          : moveLeftRef.current();
+      },
 
-    window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("keyup", handleKeyUp);
+      onRight: () => {
+        if (isLockedRef.current) return;
+        isBattleRef.current
+          ? startMoveRightRef.current()
+          : moveRightRef.current();
+      },
 
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("keyup", handleKeyUp);
+      onLeftRelease: () => {
+        if (isBattleRef.current) stopMoveLeftRef.current();
+      },
+
+      onRightRelease: () => {
+        if (isBattleRef.current) stopMoveRightRef.current();
+      },
+
+      onDownRelease: () => {
+        if (isBattleRef.current) releaseDownBattleRef.current();
+      },
     };
-  }, [
-    isBattle,
-    moveUp,
-    moveDown,
-    moveLeft,
-    moveRight,
-    moveUpBattle,
-    moveDownBattle,
-    startMoveLeft,
-    stopMoveLeft,
-    startMoveRight,
-    stopMoveRight,
-    releaseDownBattle,
-  ]);
+
+    pushControls(controls);
+    return () => popControls();
+  }, []);
+
+  // 🔥 wrapper seguro (resolve stale state)
+  const press = (fn?: () => void) => () => fn?.();
 
   return (
     <div className={styles.movement}>
-      <button className={styles.up} {...up}>
+      <button
+        className={styles.up}
+        onMouseDown={press(activeControls?.onUp)}
+        onMouseUp={press(activeControls?.onUpRelease)}
+      >
         <MoveUp size={16} />
       </button>
 
-      <button className={styles.left} {...left}>
+      <button
+        className={styles.left}
+        onMouseDown={press(activeControls?.onLeft)}
+        onMouseUp={press(activeControls?.onLeftRelease)}
+      >
         <MoveLeft size={16} />
       </button>
 
       <div className={styles.empty}></div>
 
-      <button className={styles.right} {...right}>
+      <button
+        className={styles.right}
+        onMouseDown={press(activeControls?.onRight)}
+        onMouseUp={press(activeControls?.onRightRelease)}
+      >
         <MoveRight size={16} />
       </button>
 
-      <button className={styles.down} {...down}>
+      <button
+        className={styles.down}
+        onMouseDown={press(activeControls?.onDown)}
+        onMouseUp={press(activeControls?.onDownRelease)}
+      >
         <MoveDown size={16} />
       </button>
     </div>
