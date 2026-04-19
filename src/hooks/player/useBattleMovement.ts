@@ -130,7 +130,14 @@ export function useBattleMovement(
     setPlayer((p) => {
       if (p.mode !== "battle") return p;
 
-      if (p.character === "marcelo") {
+      if (p.character == "marcelo") {
+        return {
+          ...p,
+          state: "blocked",
+        };
+      }
+
+      if (p.character == "samuel") {
         return {
           ...p,
           state: "blocked",
@@ -154,6 +161,13 @@ export function useBattleMovement(
       if (p.mode !== "battle") return p;
 
       if (p.character === "marcelo") {
+        return {
+          ...p,
+          state: "idle",
+        };
+      }
+
+      if (p.character == "samuel") {
         return {
           ...p,
           state: "idle",
