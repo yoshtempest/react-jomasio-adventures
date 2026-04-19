@@ -1,7 +1,7 @@
 export const pcsRoomMessages: Record<string, string> = {
-  "5,3": "O que será que tem nesse pc?",
-  "4,3": "Jogos gratuítos para jogar de graça sem pagar nada...",
   "3,3": "Macaco girando, eu gosto disso.",
+  "4,3": "Jogos gratuítos para jogar de graça sem pagar nada...",
+  "5,3": "O que será que tem nesse pc?",
   "6,3": "11? O que isso significa?",
   "9,3": "Leia ao contrário o que está no pc à direita.",
   "10,3": "ah ah uel meuq ed uc o imoC.",
@@ -10,9 +10,8 @@ export const pcsRoomMessages: Record<string, string> = {
   "13,3": "Damn Reincarnation cap novo? MENTIRA!",
   "14,3": "The books on the table",
 
-  "5,5": "Chat GPT - Isso é fisicamente impossível, senão você estaria voando",
   "4,5": "Meu ***** está girando como uma hélice de helicoptero, o que devo fazer GPT?",
-  "3,5": "Top 10 melhores músicas de Luiz Gonzaga...",
+  "5,5": "Chat GPT - Isso é fisicamente impossível, senão você estaria voando",
   "6,5": "Não é brincadeira",
   "7,5": "Chat GPT - Ligue para o Samu e procure ajuda imediatamente",
   "8,5": "Hakari dance...",
