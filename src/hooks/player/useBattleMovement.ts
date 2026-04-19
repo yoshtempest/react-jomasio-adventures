@@ -13,7 +13,7 @@ export function useBattleMovement(
   const downLockRef = useRef(false);
 
   function isLocked(p: Player) {
-    return p.mode === "battle" && p.state === "crouched";
+    return p.mode === "battle" && p.state === "blocked";
   }
 
   // ✅ LIMPEZA AUTOMÁTICA (ESSENCIAL)
@@ -84,7 +84,7 @@ export function useBattleMovement(
   function setIdleIfNotMoving() {
     if (!leftIntervalRef.current && !rightIntervalRef.current) {
       setPlayer((p) => {
-        if (p.state === "crouched") return p;
+        if (p.state === "blocked") return p;
 
         return {
           ...p,
@@ -133,13 +133,13 @@ export function useBattleMovement(
       if (p.character === "marcelo") {
         return {
           ...p,
-          state: "crouched",
+          state: "blocked",
         };
       }
 
       return {
         ...p,
-        state: "crouched",
+        state: "blocked",
         y: p.y + 40,
       };
     });
@@ -193,7 +193,7 @@ export function useBattleMovement(
   function resetToIdle(delay = 0) {
     setTimeout(() => {
       setPlayer((p) => {
-        if (p.state === "crouched") return p;
+        if (p.state === "blocked") return p;
 
         return {
           ...p,

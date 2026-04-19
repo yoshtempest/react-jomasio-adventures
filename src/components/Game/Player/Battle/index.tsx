@@ -1,4 +1,4 @@
-type PlayerState = "idle" | "walk" | "attack" | "jump" | "crouched" | "special";
+type PlayerState = "idle" | "walk" | "attack" | "jump" | "blocked" | "special";
 type Direction = "left" | "right" | "up" | "down";
 type Character = "marcelo" | "eduarda" | "lucas" | "samuel" | "artur" | "mayra" | "lucaua" | "riquelme" | "larissa" | "camilly" | "emanuel" | "hiago";
 

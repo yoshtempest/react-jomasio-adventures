@@ -34,7 +34,7 @@ export function useBattleSystem({
 
 // 👤 PLAYER RANGE
   function isPlayerInRange(rangeX?: number, rangeY = 50) {
-    if (playerState === "jump" || playerState === "crouched") return false;
+    if (playerState === "jump" || playerState === "blocked") return false;
 
     const defaultRangeX = player.character === "eduarda" ? 150 : 80;
 
@@ -92,7 +92,7 @@ export function useBattleSystem({
   const npcHit = useCallback(() => {
     if (!npcCooldown.current) return;
 
-    if (player.state === "crouched") return;
+    if (player.state === "blocked") return;
 
     if (isNpcInRange(20, 50)) {
       npcCooldown.current = false;
