@@ -1,11 +1,15 @@
 import { useRef, useState, useCallback, useEffect } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { getNpcStats } from "@/utils/types/npcProgress";
+import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 
 type UseBattleSystemProps = {
   playerX: number;
   playerY: number;
   npcX: number;
   npcY: number;
+  npcLevel: number;
+  npcClass: "common" | "rare" | "boss";
   onPlayerDeath: () => void;
   onNpcDeath: () => void;
   playerState: string;
@@ -13,10 +17,12 @@ type UseBattleSystemProps = {
 
 export function useBattleSystem({
   playerX,
-  playerY, // 👈 novo
+  playerY,
   npcX,
-  npcY,    // 👈 novo
-  playerState, // 👈 novo
+  npcY,
+  playerState,
+  npcLevel,
+  npcClass,
   onPlayerDeath,
   onNpcDeath,
 }: UseBattleSystemProps) {
@@ -24,10 +30,12 @@ export function useBattleSystem({
   const [npcHP, setNpcHP] = useState(100);
 
   const { player } = usePlayer();
+  const { progress } = useCharacterProgress();
 
   const playerCooldown = useRef(true);
   const npcCooldown = useRef(true);
   const isEnding = useRef(false);
+  
 
   const [delicia, setDelicia] = useState(0);
   const MAX_DELICIA = 6;
@@ -66,10 +74,14 @@ export function useBattleSystem({
   const playerHit = useCallback(() => {
     if (!playerCooldown.current) return;
 
+    const char = progress[player.character];
+    const dmg = 6 + char.stats.strength;
+
     playerCooldown.current = false;
 
     if (isPlayerInRange()) {
-      setNpcHP((hp) => Math.max(0, hp - 6));
+
+      setNpcHP((hp) => Math.max(0, hp - dmg));
 
       // 🔥 ganha delicia
       setDelicia((d) => Math.min(MAX_DELICIA, d + 1));
@@ -84,10 +96,13 @@ export function useBattleSystem({
     if (!playerCooldown.current) return;
     if (delicia < MAX_DELICIA) return;
 
+    const char = progress[player.character];
+    const dmg = 13 + (char.stats.intelligence * 2);
+
     playerCooldown.current = false;
 
     if (isPlayerInRange()) {
-      setNpcHP((hp) => Math.max(0, hp - 15)); // 💥 3x dano
+      setNpcHP((hp) => Math.max(0, hp - dmg)); // 💥 3x dano
     }
 
     // 🔥 zera deliciômetro
@@ -102,12 +117,14 @@ export function useBattleSystem({
   const npcHit = useCallback(() => {
     if (!npcCooldown.current) return;
 
+    const npc = getNpcStats(npcLevel, npcClass);
+
     if (player.state === "blocked") return;
 
     if (isNpcInRange(20, 50)) {
       npcCooldown.current = false;
 
-      setPlayerHP((hp) => Math.max(0, hp - 10));
+      setPlayerHP((hp) => Math.max(0, hp - npc.damage));
 
       setTimeout(() => {
         npcCooldown.current = true;

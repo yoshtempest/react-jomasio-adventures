@@ -1,6 +1,7 @@
 import styles from "./styles.module.css";
 import { useNavbarMenu } from "@/hooks/menu/useNavbarMenu";
 
+import { Status } from "./Status"
 import { Inventory } from "./Inventory";
 import { Character } from "./Character";
 import { Config } from "./Config";
@@ -25,8 +26,9 @@ export function Navbar() {
         </ul>
       )}
 
-      {screen === "inventory" && <Inventory />}
+      {screen === "status" && <Status />}
       {screen === "character" && <Character />}
+      {screen === "inventory" && <Inventory />}
       {screen === "config" && <Config />}
     </nav>
   );

@@ -1,4 +1,4 @@
-export type NavScreen = "menu" | "character" | "inventory" | "config";
+export type NavScreen = "menu" | "character" | "status" | "inventory" | "config";
 
 export type NavbarOption = {
   label: string;
