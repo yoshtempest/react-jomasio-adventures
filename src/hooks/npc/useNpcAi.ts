@@ -18,7 +18,18 @@ export function useNpcAI({ playerX, playerY, onAttack, isPaused }: Props) {
 
   const attackRef = useRef(onAttack);
   attackRef.current = onAttack;
-  const lastAttackRef = useRef(0); // 👈 AQUI
+  const lastAttackRef = useRef(0);
+
+  const resetNpc = () => {
+    setNpc({
+      x: 900,
+      y: 600,
+      state: "walk",
+      direction: "left",
+    });
+
+    lastAttackRef.current = 0;
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -66,5 +77,8 @@ export function useNpcAI({ playerX, playerY, onAttack, isPaused }: Props) {
     return () => clearInterval(interval);
   }, [playerX, playerY, isPaused]);
 
-  return npc;
+  return {
+    ...npc,
+    resetNpc,
+  }
 }

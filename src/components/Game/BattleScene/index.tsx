@@ -35,7 +35,7 @@ export function BattleScene({
   audioSrc,
 }: BattleSceneProps) {
   const { addXP } = useCharacterProgress();
-  const { player, setMap, setMode, attack, special } = usePlayer();
+  const { player, setMap, setMode, attack, special, resetBattleState } = usePlayer();
   const { pushControls, popControls } = useGameControls();
   const [showDefeat, setShowDefeat] = useState(false);
   const [npcLevel] = useState(() => generateNpcLevel());
@@ -45,6 +45,7 @@ export function BattleScene({
   const charProgress = progress[player.character];
   const xpNeeded = getXPToNextLevel(charProgress.level);
   const missingXp = xpNeeded - charProgress.xp;
+  const npcDummyAttackRef = useRef<() => void>(() => {});
 
   const { showVictory, triggerVictory, handleContinue } = useVictory({
     redirectTo,
@@ -64,8 +65,6 @@ export function BattleScene({
 
   const { TILE_SIZE, offsetX, offsetY, PLAYER_SIZE, MAP_COLS, MAP_ROWS } =
     useGameLayout();
-
-  const npcDummyAttackRef = useRef<() => void>(() => {});
 
   const npc = useNpcAI({
     playerX: player.x,
@@ -96,7 +95,11 @@ export function BattleScene({
   npcDummyAttackRef.current = () => npcAttackRef.current();
 
   function handleRetry() {
-    window.location.reload();
+    setShowDefeat(false);
+
+    battle.resetBattle();     // HP + delicia
+    npc.resetNpc();           // posição NPC
+    resetBattleState();
   }
 
   useEffect(() => {

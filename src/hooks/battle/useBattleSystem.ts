@@ -32,6 +32,16 @@ export function useBattleSystem({
   const [delicia, setDelicia] = useState(0);
   const MAX_DELICIA = 6;
 
+  const resetBattle = useCallback(() => {
+    setPlayerHP(100);
+    setNpcHP(100);
+    setDelicia(0);
+
+    playerCooldown.current = true;
+    npcCooldown.current = true;
+    isEnding.current = false;
+  }, []);
+
 // 👤 PLAYER RANGE
   function isPlayerInRange(rangeX?: number, rangeY = 50) {
     if (playerState === "jump" || playerState === "blocked") return false;
@@ -138,5 +148,6 @@ export function useBattleSystem({
     playerHit,
     specialHit,
     npcHit,
+    resetBattle,
   };
 }

@@ -7,7 +7,7 @@ export default function PcRoomBattleOne() {
   return (
     <BattleScene
       map={firstBattle}
-      npcType="jhowsimar"
+      npcType="hungryDeath"
       redirectTo="/pcroom/three"
       victoryDescription="Você derrotou um morto de fome!"
       className="PcRoomBattle"

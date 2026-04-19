@@ -1,4 +1,5 @@
 import styles from "./styles.module.css";
+import { useEffect } from "react";
 
 type Props = {
   isOpen: boolean;
@@ -17,6 +18,22 @@ export function VictoryModal({
   nextLevelXp,
   onContinue,
 }: Props) {
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Enter" || e.key.toLowerCase() === "l") {
+        onContinue();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen, onContinue]);
+
   if (!isOpen) return null;
 
   return (

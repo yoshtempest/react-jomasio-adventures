@@ -29,23 +29,27 @@ type PlayerContextType = {
 
   setMap: (map: number[][]) => void;
   setMode: (mode: PlayerMode) => void;
+  resetBattleState: () => void;
 };
 
 const PlayerContext = createContext<PlayerContextType | null>(null);
 
 export function PlayerProvider({ children }: { children: ReactNode }) {
-  const [player, setPlayer] = useState<Player>({
-    gridX: 6,
-    gridY: 11,
-    direction: "up",
-    character: "marcelo",
+  const [player, setPlayer] = useState<Player>(() => {
+    const savedCharacter = localStorage.getItem("character");
 
-    x: 100,
-    y: 300,
-    battleDirection: "right",
-    state: "idle",
+    return {
+      gridX: 6,
+      gridY: 11,
+      direction: "up",
+      character: (savedCharacter as Player["character"]) || "marcelo",
 
-    mode: "explore",
+      x: 100,
+      y: 300,
+      battleDirection: "right",
+      state: "idle",
+      mode: "explore",
+    };
   });
 
   const [currentMap, setCurrentMap] = useState<number[][]>([]);
@@ -96,6 +100,17 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         : {}),
     }));
   }
+
+  function resetBattleState() {
+    setPlayer((p) => ({
+      ...p,
+      x: 100,
+      y: 600,
+      state: "idle",
+      battleDirection: "right",
+    }));
+  }
+
   const setPosition = (x: number, y: number, direction: Player["direction"] = "down") => {
     setPlayer((prev) => ({
       ...prev,
@@ -106,6 +121,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   };
 
   const setCharacter = (character: Player["character"]) => {
+    localStorage.setItem("character", character); // 👈 salva
     setPlayer((prev) => ({
       ...prev,
       character,
@@ -135,9 +151,11 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         attack,
         special,
 
+        resetBattleState,
         setMap,
         setMode,
         setPosition,
+        
       }}
     >
       {children}

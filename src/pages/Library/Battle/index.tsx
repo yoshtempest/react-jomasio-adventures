@@ -6,7 +6,7 @@ export default function LibraryBattle() {
   return (
     <BattleScene
       map={firstBattle}
-      npcType="jhowsimar"
+      npcType="hungryDeath"
       redirectTo="/library"
       victoryDescription="Você derrotou um morto de fome!"
       className="LibraryBattle"

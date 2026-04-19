@@ -34,7 +34,7 @@ export default function PcRoomTwo() {
         nextRoute="/pcroom/battle/one"
         npcs={[
           {
-            src: "/src/assets/npcs/jhowsimar/default.svg",
+            src: "/src/assets/npcs/hungryDeath/default.svg",
             gridX: 14,
             gridY: 4,
           },
