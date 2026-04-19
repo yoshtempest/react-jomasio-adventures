@@ -12,7 +12,7 @@ export const pcsRoomTwoDialogue = [
             "Calma ai, ele tá comendo um mouse?",
     },
     {
-        src: "/src/assets/npcs/hungryDeath/right.svg",
+        src: "/src/assets/npcs/hungryDeath/withMouse.svg",
         name: "Morto de fome",
         message:
             "Huhuhu, achei um almoço aqui, carne de rato!",
