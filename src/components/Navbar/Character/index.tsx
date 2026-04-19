@@ -9,7 +9,6 @@ export function Character() {
 
   return (
     <div className={styles.container}>
-      <h3 className={styles.characterTitle}>Personagem</h3>
 
       <div className={styles.charactersContainer}>
         {characters.map((char) => {

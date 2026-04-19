@@ -3,8 +3,8 @@
   position: absolute;
   flex-direction: column;
   width: 74vw;
-  height: 80vh;
-  top: 15%;
+  height: 90vh;
+  top: 10%;
   right: 0%;
   background: #111;
   align-items: center;
@@ -15,7 +15,7 @@
 
 .cursor {
   position: absolute;
-  top: 10%;
+  top: 0%;
 }
 
 .charactersContainer {
@@ -23,6 +23,8 @@
   grid-template-columns: repeat(6, 1fr);
   width: 100%;
   height: 87%;
+  margin-top: 2.5%;
+  align-self: center;
 }
 
 .character {
@@ -32,6 +34,7 @@
   justify-content: center;
   width: 100%;
   height: 100%;
+  margin-top: 10%;
 }
 
 .characterImage {
