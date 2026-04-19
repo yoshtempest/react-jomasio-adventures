@@ -11,6 +11,8 @@ export function getNpcStats(level: number, npcClass: NPCClass) {
     boss: { hp: 30, dmg: 4 },
   };
 
+  const safeClass = multipliers[npcClass] ? npcClass : "common";
+
   return {
     hp: baseHp + level * multipliers[npcClass].hp,
     damage: baseDamage + level * multipliers[npcClass].dmg,

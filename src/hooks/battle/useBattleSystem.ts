@@ -117,7 +117,7 @@ export function useBattleSystem({
   const npcHit = useCallback(() => {
     if (!npcCooldown.current) return;
 
-    const npc = getNpcStats(npcLevel, npcClass);
+    const npc = getNpcStats(npcLevel ?? 1, npcClass ?? "common");
 
     if (player.state === "blocked") return;
 

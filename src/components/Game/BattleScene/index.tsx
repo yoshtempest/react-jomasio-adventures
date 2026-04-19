@@ -79,6 +79,8 @@ export function BattleScene({
     npcX: npc.x,
     npcY: npc.y,
     playerState: player.state,
+    npcLevel: npcLevel,
+    npcClass: npcData?.class ?? "common",
     onPlayerDeath: () => {
       setShowDefeat(true);
     },
