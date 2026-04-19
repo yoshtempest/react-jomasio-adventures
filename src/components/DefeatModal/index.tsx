@@ -5,12 +5,14 @@ type Props = {
   isOpen: boolean;
   title?: string;
   onContinue: () => void;
+  onBack: () => void;
 };
 
 export function DefeatModal({
   isOpen,
   title = "Derrota",
   onContinue,
+  onBack,
 }: Props) {
   useEffect(() => {
     if (!isOpen) return;
@@ -18,6 +20,9 @@ export function DefeatModal({
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Enter" || e.key.toLowerCase() === "l") {
         onContinue();
+      }
+      if (e.key === "x" || e.key === "Esc") {
+        onBack();
       }
     };
 
@@ -34,10 +39,15 @@ export function DefeatModal({
     <div className={styles.overlay}>
       <div className={styles.modal}>
         <h1>{title}</h1>
+        <div className={styles.buttonContainer}>
+          <button className={styles.button} onClick={onContinue}>
+            Tentar novamente
+          </button>
+          <button className={styles.button} onClick={onBack}>
+            Fugir
+          </button>
+        </div>
 
-        <button className={styles.button} onClick={onContinue}>
-          Tentar novamente
-        </button>
       </div>
     </div>
   );

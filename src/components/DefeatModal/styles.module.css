@@ -24,10 +24,17 @@
   border-radius: 10px;
 }
 
+.buttonContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 10%;
+}
+
 .button {
     padding: 12px 24px;
     font-size: 18px;
     cursor: pointer;
+    width: 100%;
     background-color: var(--background-color);
     border-radius: 10px;
 }

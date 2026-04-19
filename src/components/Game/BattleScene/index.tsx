@@ -17,6 +17,7 @@ import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { NPCS } from "@/data/npc";
 import { generateNpcLevel } from "@/utils/generateNpcLevel";
 import { calculateXP } from "@/utils/calculateXp";
+import { useNavigate } from "react-router";
 
 type BattleSceneProps = {
   map: any;
@@ -46,6 +47,8 @@ export function BattleScene({
   const xpNeeded = getXPToNextLevel(charProgress.level);
   const missingXp = xpNeeded - charProgress.xp;
   const npcDummyAttackRef = useRef<() => void>(() => {});
+  
+  const navigate = useNavigate();
 
   const { showVictory, triggerVictory, handleContinue } = useVictory({
     redirectTo,
@@ -102,6 +105,9 @@ export function BattleScene({
     battle.resetBattle();     // HP + delicia
     npc.resetNpc();           // posição NPC
     resetBattleState();
+  }
+  function goBack() {
+    navigate(-1)
   }
 
   useEffect(() => {
@@ -187,6 +193,7 @@ export function BattleScene({
         <DefeatModal
           isOpen={showDefeat}
           onContinue={handleRetry}
+          onBack={goBack}
         />
       )}
     </div>
