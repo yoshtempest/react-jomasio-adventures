@@ -39,6 +39,7 @@ export function CharacterProgressProvider({ children }: any) {
       mayra: { level: 1, xp: 0 },
       lucaua: { level: 1, xp: 0 },
       riquelme: { level: 1, xp: 0 },
+      hiago: { level: 1, xp: 0 },
       larissa: { level: 1, xp: 0 },
       camilly: { level: 1, xp: 0 },
       emanuel: { level: 1, xp: 0 },

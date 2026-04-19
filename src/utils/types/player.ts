@@ -3,7 +3,7 @@ export type DirectionBattle = "up" | "down" | "left" | "right";
 
 export type PlayerState = "idle" | "walk" | "attack" | "jump" | "crouched" | "special";
 export type PlayerMode = "explore" | "battle" | "select" | "ui";
-export type Character = "marcelo" | "eduarda" | "lucas" | "samuel" | "artur" | "mayra" | "lucaua" | "riquelme" | "larissa" | "camilly" | "emanuel";
+export type Character = "marcelo" | "eduarda" | "lucas" | "samuel" | "artur" | "mayra" | "lucaua" | "riquelme" | "larissa" | "camilly" | "emanuel" | "hiago";
 
 export type Player = {
     // exploration

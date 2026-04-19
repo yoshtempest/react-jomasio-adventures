@@ -1,5 +1,5 @@
 type Direction = "up" | "down" | "left" | "right";
-type Character = "marcelo" | "eduarda" | "lucas" | "samuel" | "artur" | "mayra" | "lucaua" | "riquelme" | "larissa" | "camilly" | "emanuel";
+type Character = "marcelo" | "eduarda" | "lucas" | "samuel" | "artur" | "mayra" | "lucaua" | "riquelme" | "larissa" | "camilly" | "emanuel" | "hiago";
 
 type Props = {
   character: Character;

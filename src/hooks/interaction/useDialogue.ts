@@ -12,6 +12,7 @@ import riquelmeDefault from "@/assets/player/riquelme/default.svg";
 import samuelDefault from "@/assets/player/samuel/default.svg";
 import larissaDefault from "@/assets/player/larissa/default.svg";
 import lucauaDefault from "@/assets/player/lucaua/default.svg";
+import hiagoDefault from "@/assets/player/hiago/default.svg";
 
 
 type Dialogue = {
@@ -33,6 +34,7 @@ const playerSprites = {
   samuel: samuelDefault,
   larissa: larissaDefault,
   lucaua: lucauaDefault,
+  hiago: hiagoDefault,
 };
 
 export function useDialogue(
