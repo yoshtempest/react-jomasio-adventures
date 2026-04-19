@@ -26,6 +26,18 @@ export function useCharacterMenu() {
   // 🎮 CONTROLES
   useEffect(() => {
     const controls = {
+      onRight: () => {
+        setSelectedIndex((prev) =>
+          prev === selectableCharacters.length - 1 ? 0 : prev + 1
+        );
+      },
+
+      onLeft: () => {
+        setSelectedIndex((prev) =>
+          prev === 0 ? selectableCharacters.length - 1 : prev - 1
+        );
+      },
+
       onConfirm: () => {
         const selected = selectableCharacters[selectedIndexRef.current];
         handleChooseCharacter(selected.image as CharacterId);
@@ -59,7 +71,6 @@ export function useCharacterMenu() {
       }
     }
 
-    window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 

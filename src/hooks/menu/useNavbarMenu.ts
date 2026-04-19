@@ -23,8 +23,24 @@ export function useNavbarMenu() {
   // 🎮 registrar camada
   useEffect(() => {
     const controls = {
+      onUp: () => {
+        if (screenRef.current !== "menu") return;
+
+        setSelectedIndex((prev) =>
+          prev === 0 ? NAVBAR_OPTIONS.length - 1 : prev - 1
+        );
+      },
+
+      onDown: () => {
+        if (screenRef.current !== "menu") return;
+
+        setSelectedIndex((prev) =>
+          prev === NAVBAR_OPTIONS.length - 1 ? 0 : prev + 1
+        );
+      },
+
       onConfirm: () => {
-        if (screen !== "menu") return;
+        if (screenRef.current !== "menu") return;
 
         const selected = NAVBAR_OPTIONS[selectedIndexRef.current];
         setScreen(selected.screen);
@@ -40,14 +56,11 @@ export function useNavbarMenu() {
         setMode("explore");
       },
 
-        blockGlobalOpen: true,
+      blockGlobalOpen: true,
     };
 
     pushControls(controls);
-
-    return () => {
-      popControls(); // 🔥 remove ao desmontar
-    };
+    return () => popControls();
   }, []);
 
   // ⬆️⬇️ ainda pode usar window (ou evoluir depois)
@@ -68,7 +81,6 @@ export function useNavbarMenu() {
       }
     }
 
-    window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 

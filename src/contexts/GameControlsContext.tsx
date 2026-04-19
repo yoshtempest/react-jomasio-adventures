@@ -38,10 +38,29 @@ export function GameControlsProvider({ children }: Props) {
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       const active = stack[stack.length - 1];
-
       if (!active) return;
 
       switch (e.key) {
+        case "ArrowUp":
+        case "w":
+          active.onUp?.();
+          break;
+
+        case "ArrowDown":
+        case "s":
+          active.onDown?.();
+          break;
+
+        case "ArrowLeft":
+        case "a":
+          active.onLeft?.();
+          break;
+
+        case "ArrowRight":
+        case "d":
+          active.onRight?.();
+          break;
+
         case "l":
           active.onConfirm?.();
           break;
@@ -50,24 +69,53 @@ export function GameControlsProvider({ children }: Props) {
           active.onCancel?.();
           break;
 
-        case "g": {
-          // tenta no topo primeiro
+        case "g":
           if (active?.onOpen) {
             active.onOpen();
             return;
           }
 
-          // 🔥 fallback global (abrir navbar)
           if (!active?.blockGlobalOpen && player.mode === "explore") {
             openNavbar();
           }
           break;
-        }
+      }
+    }
+
+    function handleKeyUp(e: KeyboardEvent) {
+      const active = stack[stack.length - 1];
+      if (!active) return;
+
+      switch (e.key) {
+        case "ArrowUp":
+        case "w":
+          active.onUpRelease?.();
+          break;
+
+        case "ArrowDown":
+        case "s":
+          active.onDownRelease?.();
+          break;
+
+        case "ArrowLeft":
+        case "a":
+          active.onLeftRelease?.();
+          break;
+
+        case "ArrowRight":
+        case "d":
+          active.onRightRelease?.();
+          break;
       }
     }
 
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
+    };
   }, [stack, player.mode, openNavbar]);
 
   return (

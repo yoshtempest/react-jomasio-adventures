@@ -1,9 +1,10 @@
 import { MoveUp, MoveDown, MoveLeft, MoveRight } from "lucide-react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useEffect } from "react";
-import { useHoldAction } from "@/hooks/useHoldAction";
+// import { useHoldAction } from "@/hooks/useHoldAction";
 import styles from "./styles.module.css";
 import { useNavbar } from "@/contexts/NavbarContext";
+import { useGameControls } from "@/contexts/GameControlsContext";
 
 export function Movement() {
   const {
@@ -22,52 +23,37 @@ export function Movement() {
   } = usePlayer();
 
   const { isNavOpen } = useNavbar();
+  const { activeControls } = useGameControls();
   const isLocked = player.mode === "select" || isNavOpen;
 
   const isBattle = player.mode === "battle";
-
+  
   // 🟢 hooks SEMPRE chamados
-  const upHold = useHoldAction(moveUp, 300);
-  const downHold = useHoldAction(moveDown, 300);
-  const leftHold = useHoldAction(moveLeft, 300);
-  const rightHold = useHoldAction(moveRight, 300);
+  // const upHold = useHoldAction(moveUp, 300);
+  // const downHold = useHoldAction(moveDown, 300);
+  // const leftHold = useHoldAction(moveLeft, 300);
+  // const rightHold = useHoldAction(moveRight, 300);
 
   // 🎮 comportamento dinâmico
-  const up = isLocked
-    ? {}
-    : isBattle
-    ? { onClick: moveUpBattle }
-    : upHold;
+  const up = {
+    onMouseDown: activeControls?.onUp,
+    onMouseUp: activeControls?.onUpRelease,
+  };
 
-  const down = isLocked
-    ? {}
-    : isBattle
-    ? {
-        onMouseDown: moveDownBattle,
-        onMouseUp: releaseDownBattle,
-        onMouseLeave: releaseDownBattle,
-      }
-    : downHold;
+  const down = {
+    onMouseDown: activeControls?.onDown,
+    onMouseUp: activeControls?.onDownRelease,
+  };
 
-  const left = isLocked
-    ? {}
-    : isBattle
-    ? {
-        onMouseDown: startMoveLeft,
-        onMouseUp: stopMoveLeft,
-        onMouseLeave: stopMoveLeft,
-      }
-    : leftHold;
+  const left = {
+    onMouseDown: activeControls?.onLeft,
+    onMouseUp: activeControls?.onLeftRelease,
+  };
 
-  const right = isLocked
-    ? {}
-    : isBattle
-    ? {
-        onMouseDown: startMoveRight,
-        onMouseUp: stopMoveRight,
-        onMouseLeave: stopMoveRight,
-      }
-    : rightHold;
+  const right = {
+    onMouseDown: activeControls?.onRight,
+    onMouseUp: activeControls?.onRightRelease,
+  };
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
