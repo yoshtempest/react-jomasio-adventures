@@ -1,6 +1,7 @@
 import { useRef, useEffect } from "react";
 import type { Player } from "@/utils/types/player";
 
+
 export function useBattleMovement(
   setPlayer: React.Dispatch<React.SetStateAction<Player>>
 ) {
@@ -129,6 +130,13 @@ export function useBattleMovement(
     setPlayer((p) => {
       if (p.mode !== "battle") return p;
 
+      if (p.character === "marcelo") {
+        return {
+          ...p,
+          state: "crouched",
+        };
+      }
+
       return {
         ...p,
         state: "crouched",
@@ -144,6 +152,13 @@ export function useBattleMovement(
 
     setPlayer((p) => {
       if (p.mode !== "battle") return p;
+
+      if (p.character === "marcelo") {
+        return {
+          ...p,
+          state: "idle",
+        };
+      }
 
       return {
         ...p,

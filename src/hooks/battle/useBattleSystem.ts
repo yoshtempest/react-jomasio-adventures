@@ -92,6 +92,8 @@ export function useBattleSystem({
   const npcHit = useCallback(() => {
     if (!npcCooldown.current) return;
 
+    if (player.state === "crouched") return;
+
     if (isNpcInRange(20, 50)) {
       npcCooldown.current = false;
 
