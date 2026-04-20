@@ -1,4 +1,4 @@
-import { SceneWithDialogue } from "@/components/SceneWithDialogue";
+import { SceneWithDialogue } from "@/components/Game/Scenes/WithDialogue";
 import { cantina } from "@/maps/cantina/one";
 import { cantinaDialogue } from "@/data/maps/cantina/one";
 import LavenderTown from "@/assets/songs/LavenderTown.m4a";

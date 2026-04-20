@@ -1,4 +1,4 @@
-import { BattleScene } from "@/components/Game/BattleScene";
+import { BattleScene } from "@/components/Game/Scenes/Battle";
 import { firstBattle } from "@/maps/firstBattle";
 import KenTheme from "@/assets/songs/StreetFighter5KenTheme.m4a";
 import styles from "./styles.module.css";

@@ -1,5 +1,5 @@
 import { hallLeft } from "@/maps/hall/left";
-import { Scene } from "@/components/Scene";
+import { Scene } from "@/components/Game/Scenes/Default";
 
 export default function HallLeftOne() {
   return (

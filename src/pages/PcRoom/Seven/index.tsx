@@ -7,7 +7,7 @@ import { createPcsRoom } from "@/interactions/pcsRoom";
 import MonkeyCircle from "@/assets/songs/MonkeyCircle.m4a";
 import Talking from "@/components/Talking";
 import { pcsRoomDialogue } from "@/data/maps/pcsRoom/one";
-import { SceneWithDialogue } from "@/components/SceneWithDialogue";
+import { SceneWithDialogue } from "@/components/Game/Scenes/WithDialogue";
 
 export default function PcRoomFive() {
   const { player } = usePlayer();

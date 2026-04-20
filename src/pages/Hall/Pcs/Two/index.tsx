@@ -1,6 +1,6 @@
 import styles from "./styles.module.css";
 import { hallTwo } from "@/maps/hall/two";
-import { SceneWithDialogue } from "@/components/SceneWithDialogue";
+import { SceneWithDialogue } from "@/components/Game/Scenes/WithDialogue";
 import { HallTwoDialogue } from "@/data/maps/hall/two/one";
 import LavenderTown from "@/assets/songs/LavenderTown.m4a";
 import { useEffect } from "react";

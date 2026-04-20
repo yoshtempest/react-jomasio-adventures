@@ -1,6 +1,6 @@
 import styles from "./styles.module.css";
 import { firstScreenMap } from "@/maps/firstScreenMap";
-import { Scene } from "@/components/Scene";
+import { Scene } from "@/components/Game/Scenes/Default";
 
 export default function FirstScreen() {
 

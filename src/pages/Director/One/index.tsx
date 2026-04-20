@@ -1,7 +1,7 @@
 import { blocked } from "@/maps/blocked";
 import LavenderTown from "@/assets/songs/LavenderTown.m4a";
 import { directorDialogue } from "@/data/maps/director/one";
-import { SceneWithDialogue } from "@/components/SceneWithDialogue";
+import { SceneWithDialogue } from "@/components/Game/Scenes/WithDialogue";
 
 export default function Director() {
 

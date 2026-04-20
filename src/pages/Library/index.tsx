@@ -1,4 +1,4 @@
-import { Scene } from "@/components/Scene";
+import { Scene } from "@/components/Game/Scenes/Default";
 import { library } from "@/maps/library";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useEffect, useRef } from "react";

@@ -1,7 +1,7 @@
 import { pcsRoomFour } from "@/maps/pcRoom/four";
 import MonkeyCircle from "@/assets/songs/MonkeyCircle.m4a";
 import { pcsRoomFiveDialogue } from "@/data/maps/pcsRoom/five";
-import { SceneWithDialogue } from "@/components/SceneWithDialogue";
+import { SceneWithDialogue } from "@/components/Game/Scenes/WithDialogue";
 
 export default function PcRoomFive() {
 

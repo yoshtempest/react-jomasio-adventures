@@ -1,5 +1,5 @@
 import { cantinaFour } from "@/maps/cantina/four";
-import { Scene } from "@/components/Scene";
+import { Scene } from "@/components/Game/Scenes/Default";
 
 export default function CantinaFour() {
   return (

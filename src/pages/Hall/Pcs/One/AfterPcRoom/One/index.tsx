@@ -1,5 +1,5 @@
 import { blocked } from "@/maps/blocked";
-import { SceneWithDialogue } from "@/components/SceneWithDialogue";
+import { SceneWithDialogue } from "@/components/Game/Scenes/WithDialogue";
 import { AfterPcRoomOneDialogue } from "@/data/maps/hall/one/afterPcRoom/one";
 import LavenderTown from "@/assets/songs/LavenderTown.m4a";
 

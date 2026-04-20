@@ -1,5 +1,5 @@
 import { hallCenterFront } from "@/maps/hall/centerFront";
-import { Scene } from "@/components/Scene";
+import { Scene } from "@/components/Game/Scenes/Default";
 
 export default function HallCenterFront() {
   return (

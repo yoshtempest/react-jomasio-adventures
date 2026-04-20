@@ -1,5 +1,5 @@
 import { hallThirdClass } from "@/maps/hall/thirdClass";
-import { Scene } from "@/components/Scene";
+import { Scene } from "@/components/Game/Scenes/Default";
 
 export default function HallThirdClass() {
   return (
