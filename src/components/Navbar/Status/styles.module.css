@@ -21,6 +21,12 @@
     height: 80%;
 }
 
+.oneLine {
+    display: flex;
+    flex-direction: row;
+    gap: 5%;
+}
+
 .xpBar {
   width: 90%;
   height: 6px;

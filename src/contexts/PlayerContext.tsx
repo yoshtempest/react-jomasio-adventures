@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
-import type { Player, PlayerMode } from "@/utils/types/player";
+import type { Player, PlayerMode, PlayerClass } from "@/utils/types/player";
 import { usePlayerMovement } from "@/hooks/player/usePlayerMovement";
 import { useBattleMovement } from "@/hooks/player/useBattleMovement";
 import { useInventory } from "@/contexts/InventoryContext";
@@ -30,6 +30,9 @@ type PlayerContextType = {
   setMap: (map: number[][]) => void;
   setMode: (mode: PlayerMode) => void;
   resetBattleState: () => void;
+
+  playerClass: PlayerClass;
+  chooseClass: (cls: PlayerClass) => void;
 };
 
 const PlayerContext = createContext<PlayerContextType | null>(null);
@@ -60,6 +63,16 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const { moveUp, moveDown, moveLeft, moveRight } =
     usePlayerMovement(currentMap, setPlayer);
 
+  const [playerClass, setPlayerClass] = useState<PlayerClass>(() => {
+    const saved = localStorage.getItem("player_class");
+
+    if (saved === "fracote" || saved === "idiota" || saved === "amostradinho") {
+      return saved;
+    }
+
+    return null;
+  });
+
   const {
     moveUpBattle,
     startMoveLeft,
@@ -74,6 +87,11 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
   function setMap(map: number[][]) {
     setCurrentMap(map);
+  }
+
+  function chooseClass(cls: PlayerClass) {
+    localStorage.setItem("player_class", cls!);
+    setPlayerClass(cls);
   }
 
   function openInventory() {
@@ -155,6 +173,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         setMap,
         setMode,
         setPosition,
+        playerClass,
+        chooseClass,
         
       }}
     >

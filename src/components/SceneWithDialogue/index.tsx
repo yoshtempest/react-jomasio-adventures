@@ -38,6 +38,7 @@ type Props = {
   audio?: AudioConfig;
   onInteract?: (tile: number, x: number, y: number) => boolean;
   autoStartDialogue?: boolean;
+  onFinish?: () => void;
 };
 
 export function SceneWithDialogue({
@@ -49,6 +50,7 @@ export function SceneWithDialogue({
   audio,
   autoStartDialogue = false,
   onInteract,
+  onFinish,
 }: Props) {
   const { player, setMap, setPosition } = usePlayer();
   const { pushControls, popControls } = useGameControls();
@@ -62,6 +64,11 @@ export function SceneWithDialogue({
   }, [autoStartDialogue]);
 
   const dialogueSystem = useDialogue(dialogueData, () => {
+    if (onFinish) {
+      onFinish();
+      return;
+    }
+
     if (nextRoute) {
       navigate(nextRoute);
     }

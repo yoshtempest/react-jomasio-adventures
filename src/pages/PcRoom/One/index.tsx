@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import styles from "./styles.module.css"
 import { useNavigate } from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { pcsRoom } from "@/maps/pcRoom/one";
@@ -8,14 +9,17 @@ import MonkeyCircle from "@/assets/songs/MonkeyCircle.m4a";
 import Talking from "@/components/Talking";
 import { pcsRoomDialogue } from "@/data/maps/pcsRoom/one";
 import { SceneWithDialogue } from "@/components/SceneWithDialogue";
+import { useClassSelection } from "@/hooks/menu/useClassSelection";
 
 export default function PcRoomOne() {
-  const { player } = usePlayer();
+  const { player, setMode } = usePlayer();
 
   const [popup, setPopup] = useState<string | null>(null);
   const { addItem, hasItem } = useInventory();
   const navigate = useNavigate();
   const [gotKey, setGotKey] = useState(false);
+  const [showClassModal, setShowClassModal] = useState(false);
+  const { classes, selectedIndex } = useClassSelection(showClassModal);
 
   // 🚪 Transição de mapa
   useEffect(() => {
@@ -23,6 +27,12 @@ export default function PcRoomOne() {
       navigate("/hall/one");
     }
   }, [player]);
+
+  useEffect(() => {
+    if (showClassModal) {
+      setMode("select");
+    }
+  }, [showClassModal]);
 
   // 🧠 Interações do mapa
   const interactionsByPosition = useMemo(() =>
@@ -43,7 +53,7 @@ export default function PcRoomOne() {
         dialogueData={pcsRoomDialogue}
         initialPosition={{ x: 3, y: 4, direction: "down" }}
         audio={{src: MonkeyCircle}}
-        nextRoute="/pcroom/two"
+        onFinish={() => setShowClassModal(true)}
         npcs={[
           {
             src: "/src/assets/npcs/janderson/default.svg",
@@ -65,6 +75,33 @@ export default function PcRoomOne() {
           return false;
         }}
       />
+
+      {showClassModal && (
+        <div className={styles.classModal}>
+          <h2>Escolha sua classe</h2>
+
+          <div className={styles.classList}>
+            {classes.map((cls, index) => (
+              <div
+                key={cls}
+                className={`${styles.classItem} ${
+                  index === selectedIndex ? styles.selected : ""
+                }`}
+              >
+                {index === selectedIndex && (
+                  <span className={styles.cursor}>▼</span>
+                )}
+
+                <h3>{cls}</h3>
+
+                {cls === "fracote" && <p>-1 no deliciômetro</p>}
+                {cls === "idiota" && <p>-8% dano recebido</p>}
+                {cls === "amostradinho" && <p>+1% dano causado</p>}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {popup && (
         <Talking

@@ -1,0 +1,21 @@
+.classList {
+  display: flex;
+  gap: 20px;
+}
+
+.classItem {
+  padding: 20px;
+  border: 2px solid #555;
+  position: relative;
+}
+
+.selected {
+  border-color: yellow;
+}
+
+.cursor {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+}

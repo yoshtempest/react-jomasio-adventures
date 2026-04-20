@@ -29,7 +29,7 @@ export function useBattleSystem({
   const [playerHP, setPlayerHP] = useState(100);
   const [npcHP, setNpcHP] = useState(100);
 
-  const { player } = usePlayer();
+  const { player, playerClass } = usePlayer();
   const { progress } = useCharacterProgress();
 
   const playerCooldown = useRef(true);
@@ -38,7 +38,7 @@ export function useBattleSystem({
   
 
   const [delicia, setDelicia] = useState(0);
-  const MAX_DELICIA = 6;
+  const HITS_TO_SPECIAL = playerClass === "fracote" ? 5 : 6;
 
   const resetBattle = useCallback(() => {
     setPlayerHP(100);
@@ -75,7 +75,11 @@ export function useBattleSystem({
     if (!playerCooldown.current) return;
 
     const char = progress[player.character];
-    const dmg = 6 + char.stats.strength;
+    let dmg = 6 + char.stats.strength;
+
+    if (playerClass === "amostradinho") {
+      dmg *= 1.01;
+    }
 
     playerCooldown.current = false;
 
@@ -84,20 +88,27 @@ export function useBattleSystem({
       setNpcHP((hp) => Math.max(0, hp - dmg));
 
       // 🔥 ganha delicia
-      setDelicia((d) => Math.min(MAX_DELICIA, d + 1));
+      setDelicia((d) => {
+        const next = d + 1;
+        return next >= HITS_TO_SPECIAL ? HITS_TO_SPECIAL : next;
+      });
     }
 
     setTimeout(() => {
       playerCooldown.current = true;
     }, 400);
-  }, [playerX, npcX]);
+  }, [playerX, npcX, playerClass]);
 
   const specialHit = useCallback(() => {
     if (!playerCooldown.current) return;
-    if (delicia < MAX_DELICIA) return;
+    if (delicia !== HITS_TO_SPECIAL) return;
 
     const char = progress[player.character];
-    const dmg = 13 + (char.stats.intelligence * 2);
+    let dmg = 13 + (char.stats.intelligence * 2);
+
+    if (playerClass === "amostradinho") {
+      dmg *= 1.01;
+    }
 
     playerCooldown.current = false;
 
@@ -111,7 +122,7 @@ export function useBattleSystem({
     setTimeout(() => {
       playerCooldown.current = true;
     }, 600);
-  }, [playerX, npcX, delicia]);
+  }, [playerX, npcX, delicia, playerClass]);
 
   // 🤖 NPC HIT
   const npcHit = useCallback(() => {
@@ -124,13 +135,19 @@ export function useBattleSystem({
     if (isNpcInRange(20, 50)) {
       npcCooldown.current = false;
 
-      setPlayerHP((hp) => Math.max(0, hp - npc.damage));
+      let damage = npc.damage;
+
+      if(playerClass === "idiota") {
+        damage *= 0.92;
+      }
+
+      setPlayerHP((hp) => Math.max(0, hp - damage));
 
       setTimeout(() => {
         npcCooldown.current = true;
       }, 800);
     }
-  }, [playerX, playerY, npcX, npcY]);
+  }, [playerX, playerY, npcX, npcY, playerClass]);
 
   // 🧠 AUTO CHECK (MUITO MELHOR)
   useEffect(() => {
@@ -161,6 +178,7 @@ export function useBattleSystem({
     playerHP,
     npcHP,
     delicia,
+    hitsToSpecial: HITS_TO_SPECIAL,
     
     playerHit,
     specialHit,

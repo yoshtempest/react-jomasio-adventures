@@ -144,7 +144,7 @@ export function BattleScene({
 
       {/* DELICIÔMETRO */}
       <div style={{ position: "absolute", top: 42, left: 20 }}>
-        <Deliciometro delicia={battle.delicia} />
+        <Deliciometro delicia={battle.delicia} hitsToSpecial={battle.hitsToSpecial} />
       </div>
 
       {/* NPC HP */}

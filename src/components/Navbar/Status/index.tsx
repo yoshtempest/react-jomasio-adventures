@@ -4,7 +4,7 @@ import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { CHARACTERS } from "@/data/options/characters";
 
 export function Status() {
-  const { player } = usePlayer();
+  const { player, playerClass } = usePlayer();
   const { progress, addStat, getXPToNextLevel } = useCharacterProgress();
 
     const char = progress[player.character] ?? {
@@ -39,15 +39,18 @@ export function Status() {
         <div className={styles.flexColumn}>
           <img src={`/src/assets/player/${player.character}/default.svg`} />
           <h2>{characterData?.name} - Nv.{charProgress.level}</h2>
+          <h2>Classe: {playerClass}</h2>
           <div className={styles.xpBar}>
             <div
               className={styles.xpFill}
               style={{ width: `${percent}%` }}
             />
           </div>
-          <p>HP total: {userHp}</p>
-          <p>Dano normal: {userNormalAttackDamage}</p>
-          <p>Dano especial: {userSpecialDamage}</p>
+          <div className={styles.oneLine}>
+            <p>HP total: {userHp}</p>
+            <p>Dano normal: {userNormalAttackDamage}</p>
+            <p>Dano especial: {userSpecialDamage}</p>
+          </div>
         </div>
 
         <div className={styles.flexColumn}>

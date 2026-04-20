@@ -1,14 +1,15 @@
 type Props = {
   delicia: number; // 0 - 6
-  maxDelicia?: number;
+  hitsToSpecial?: number;
 };
 
-export function Deliciometro({ delicia, maxDelicia = 6 }: Props) {
-  const angle = (delicia / maxDelicia) * 180 - 90;
+export function Deliciometro({ delicia, hitsToSpecial = 6 }: Props) {
+  const angle = (delicia / hitsToSpecial) * 180 - 90;
 
   return (
     <div
       style={{
+        position: "relative",
         width: 50,
         height: 20,
         border: "2px solid black",
@@ -16,10 +17,11 @@ export function Deliciometro({ delicia, maxDelicia = 6 }: Props) {
       }}
     >
         <img src="/src/assets/deliciometro.svg" 
-        style={{
-          width: "100%",
-          height: "100%",
-        }}/>
+          style={{
+            width: "100%",
+            height: "100%",
+          }}
+        />
         <div
             style={{
             position: "absolute",
@@ -29,7 +31,7 @@ export function Deliciometro({ delicia, maxDelicia = 6 }: Props) {
             height: 20,
             background: "red",
             transformOrigin: "bottom center",
-            transform: `translateX(-50%) translateY(40%) rotate(${angle}deg)`,
+            transform: `translateX(-50%) translateY(50%) rotate(${angle}deg)`,
             transition: "transform 0.2s ease",
             }}
         />
