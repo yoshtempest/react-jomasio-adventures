@@ -1,5 +1,6 @@
 import styles from "./styles.module.css";
 import { useEffect } from "react";
+import { usePlayer } from "@/contexts/PlayerContext";
 
 type Props = {
   isOpen: boolean;
@@ -14,6 +15,7 @@ export function DefeatModal({
   onContinue,
   onBack,
 }: Props) {
+  const { setMode } = usePlayer();
   useEffect(() => {
     if (!isOpen) return;
 
@@ -23,6 +25,7 @@ export function DefeatModal({
       }
       if (e.key === "x" || e.key === "Esc") {
         onBack();
+        setMode("explore");
       }
     };
 
