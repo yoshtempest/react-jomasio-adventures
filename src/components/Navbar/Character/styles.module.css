@@ -15,7 +15,9 @@
 
 .cursor {
   position: absolute;
-  top: 0%;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .charactersContainer {
@@ -30,6 +32,7 @@
 .character {
   display: flex;
   flex-direction: column;
+  position: relative;
   align-items: center;
   justify-content: center;
   width: 100%;

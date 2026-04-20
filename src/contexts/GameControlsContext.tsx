@@ -40,10 +40,33 @@ export function GameControlsProvider({ children }: Props) {
 
     return stack.reduce((acc, layer) => ({
       // 🎮 movimento pode mesclar
-      onUp: layer.onUp ?? acc.onUp,
-      onDown: layer.onDown ?? acc.onDown,
-      onLeft: layer.onLeft ?? acc.onLeft,
-      onRight: layer.onRight ?? acc.onRight,
+      onUp: () => {
+        for (let i = stack.length - 1; i >= 0; i--) {
+          const handled = stack[i].onUp?.();
+          if (handled === true) break
+        }
+      },
+
+      onDown: () => {
+        for (let i = stack.length - 1; i >= 0; i--) {
+          const handled = stack[i].onDown?.();
+          if (handled === true) break;
+        }
+      },
+
+      onLeft: () => {
+        for (let i = stack.length - 1; i >= 0; i--) {
+          const handled = stack[i].onLeft?.();
+          if (handled === true) break;
+        }
+      },
+
+      onRight: () => {
+        for (let i = stack.length - 1; i >= 0; i--) {
+          const handled = stack[i].onRight?.();
+          if (handled === true) break;
+        }
+      },
 
       onUpRelease: layer.onUpRelease ?? acc.onUpRelease,
       onDownRelease: layer.onDownRelease ?? acc.onDownRelease,

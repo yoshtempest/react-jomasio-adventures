@@ -10,7 +10,7 @@ export const CHARACTERS: CharacterOption[] = [
   { name: "Mayra", image: "mayra", selectable: false },
   { name: "Camilly", image: "camilly", selectable: false },
   { name: "Lucas", image: "lucas", selectable: false },
-  { name: "Lucaua", image: "lucaua", selectable: false },
+  { name: "Lucauã", image: "lucaua", selectable: false },
   { name: "Riquelme", image: "riquelme", selectable: false },
   { name: "Hiago", image: "hiago", selectable: false },
 ];

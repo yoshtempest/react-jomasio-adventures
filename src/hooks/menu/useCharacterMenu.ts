@@ -25,6 +25,8 @@ export function useCharacterMenu() {
 
   // 🎮 CONTROLES
   useEffect(() => {
+    const COLS = 6;
+
     const controls = {
       onRight: () => {
         setSelectedIndex((prev) =>
@@ -36,6 +38,22 @@ export function useCharacterMenu() {
         setSelectedIndex((prev) =>
           prev === 0 ? selectableCharacters.length - 1 : prev - 1
         );
+      },
+
+      onDown: () => {
+        setSelectedIndex((prev) => {
+          const next = prev + COLS;
+          if (next >= selectableCharacters.length) return prev; // não desce
+          return next;
+        });
+      },
+
+      onUp: () => {
+        setSelectedIndex((prev) => {
+          const next = prev - COLS;
+          if (next < 0) return prev; // não sobe
+          return next;
+        });
       },
 
       onConfirm: () => {
