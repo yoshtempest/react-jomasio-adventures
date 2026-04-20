@@ -29,7 +29,11 @@ export default function Library() {
     const chance = Math.random();
 
     if (chance < 0.1) {
-      navigate("/library/battle");
+      navigate("/library/battle/one");
+    }
+
+    if (chance < 0.01) {
+      navigate("/library/battle/two");
     }
   }, [player.gridX, player.gridY]);
 

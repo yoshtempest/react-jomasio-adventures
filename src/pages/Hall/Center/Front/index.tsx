@@ -1,10 +1,10 @@
-import { hallCenter } from "@/maps/hall/center";
+import { hallCenterFront } from "@/maps/hall/centerFront";
 import { Scene } from "@/components/Scene";
 
 export default function HallCenterFront() {
   return (
     <Scene
-      map={hallCenter}
+      map={hallCenterFront}
       className={`Master HallCenterFront`}
       initialPosition={{ x: 8, y: 10, direction: "up" }}
       transitions={[

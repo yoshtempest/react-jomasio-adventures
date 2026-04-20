@@ -10,7 +10,7 @@ export default function AfterPcRoomTwo() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (player.gridX === 1 && player.gridY === 11) {
+    if (player.gridX === 1 && player.gridY === 10) {
       navigate("/hall/left/one");
     }
   }, [player]);

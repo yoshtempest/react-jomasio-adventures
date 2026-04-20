@@ -16,7 +16,7 @@ export default function PcRoomFive() {
         initialPosition={{ x: 13, y: 4, direction: "left" }}
         npcs={[
           {
-            src: "/src/assets/npcs/vandinha/default.svg",
+            src: "/src/assets/npcs/vandinhaFragment/default.svg",
             gridX: 12,
             gridY: 4,
           },

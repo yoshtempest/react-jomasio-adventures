@@ -15,7 +15,7 @@ export default function PcRoomFour() {
         autoStartDialogue={true}
         npcs={[
           {
-            src: "/src/assets/npcs/vandinha/default.svg",
+            src: "/src/assets/npcs/vandinhaFragment/default.svg",
             gridX: 12,
             gridY: 4,
           }

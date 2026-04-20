@@ -2,15 +2,14 @@ import { BattleScene } from "@/components/Game/BattleScene";
 import { firstBattle } from "@/maps/firstBattle";
 import KenTheme from "@/assets/songs/StreetFighter5KenTheme.m4a";
 
-
-export default function PcRoomBattleTwo() {
+export default function LibraryBattleOne() {
   return (
     <BattleScene
       map={firstBattle}
-      npcType="vandinhaFragment"
-      redirectTo="/pcroom/Five"
-      className="PcRoomBattle"
-      victoryDescription="Você derrotou um fragmento de Vandinha"
+      npcType="hungryDeath"
+      redirectTo="/library"
+      victoryDescription="Você derrotou um morto de fome!"
+      className="LibraryBattle"
       audioSrc={KenTheme}
     />
   );

@@ -1,8 +1,14 @@
 export const pcsRoomFiveDialogue = [
     {
-        src: "/src/assets/npcs/vandinha/right.svg",
-        name: "Vandinha",
+        src: "/src/assets/npcs/vandinhaFragment/right.svg",
+        name: "Fragmento de Vandinha",
         message:
-            "Tá bom... eu vou deixar passar dessa vez.",
+            "Saíba que no meu auge, eu te solava fácil, agora que tô com essas dor na lombar...",
+    },
+    {
+        src: "/src/assets/npcs/vandinhaFragment/right.svg",
+        name: "Fragmento de Vandinha",
+        message:
+            "Vou embora que eu não sou de aço também né",
     },
 ];
