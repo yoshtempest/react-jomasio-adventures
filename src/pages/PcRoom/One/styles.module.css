@@ -1,3 +1,15 @@
+.classModal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    z-index: 99999;
+    background-color: rgb(0, 0, 0, 0.7);
+    height: 100%;
+    width: 100%;
+}
+
 .classList {
   display: flex;
   gap: 20px;
@@ -7,10 +19,13 @@
   padding: 20px;
   border: 2px solid #555;
   position: relative;
+  background-color: var(--primary-color);
+  border-radius: 5px;
+  text-align: center;
 }
 
 .selected {
-  border-color: yellow;
+  border-color: var(--background-color);
 }
 
 .cursor {

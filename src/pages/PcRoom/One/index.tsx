@@ -78,7 +78,7 @@ export default function PcRoomOne() {
 
       {showClassModal && (
         <div className={styles.classModal}>
-          <h2>Escolha sua classe</h2>
+          <h1>Escolha sua classe</h1>
 
           <div className={styles.classList}>
             {classes.map((cls, index) => (
@@ -100,6 +100,7 @@ export default function PcRoomOne() {
               </div>
             ))}
           </div>
+          <p>Sua classe influencia todos os personagens e pode ser alterada futuramente</p>
         </div>
       )}
 
