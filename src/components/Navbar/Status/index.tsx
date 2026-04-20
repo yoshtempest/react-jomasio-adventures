@@ -1,10 +1,11 @@
 import styles from "./styles.module.css";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
+import { CHARACTERS } from "@/data/options/characters";
 
 export function Status() {
   const { player } = usePlayer();
-  const { progress, addStat } = useCharacterProgress();
+  const { progress, addStat, getXPToNextLevel } = useCharacterProgress();
 
     const char = progress[player.character] ?? {
         level: 1,
@@ -23,26 +24,45 @@ export function Status() {
   const userSpecialDamage = 15 + stats.intelligence * 2;
   const userNormalAttackDamage = 6 + stats.strength;
 
+  const charProgress = progress[player.character];
+  const xpNeeded = getXPToNextLevel(charProgress.level);
+  const percent = (charProgress.xp / xpNeeded) * 100;
+  const characterData = CHARACTERS.find(
+    (c) => c.image === player.character
+  );
+
   return (
     <div className={styles.container}>
       <h2>Status</h2>
 
-      <p>Vida: {stats.hp}</p>
-      <button onClick={() => addStat(player.character, "hp")}>+</button>
+      <div className={styles.flexRow}>
+        <div className={styles.flexColumn}>
+          <img src={`/src/assets/player/${player.character}/default.svg`} />
+          <h2>{characterData?.name} - Nv.{charProgress.level}</h2>
+          <div className={styles.xpBar}>
+            <div
+              className={styles.xpFill}
+              style={{ width: `${percent}%` }}
+            />
+          </div>
+          <p>HP total: {userHp}</p>
+          <p>Dano normal: {userNormalAttackDamage}</p>
+          <p>Dano especial: {userSpecialDamage}</p>
+        </div>
 
-      <p>Força: {stats.strength}</p>
-      <button onClick={() => addStat(player.character, "strength")}>+</button>
+        <div className={styles.flexColumn}>
+          <p>Vida: {stats.hp}</p>
+          <button onClick={() => addStat(player.character, "hp")}>+</button>
 
-      <p>Inteligência: {stats.intelligence}</p>
-      <button onClick={() => addStat(player.character, "intelligence")}>+</button>
+          <p>Força: {stats.strength}</p>
+          <button onClick={() => addStat(player.character, "strength")}>+</button>
 
-      <p>Pontos disponíveis: {stats.points}</p>
+          <p>Inteligência: {stats.intelligence}</p>
+          <button onClick={() => addStat(player.character, "intelligence")}>+</button>
 
-      <hr />
-
-      <p>HP total: {userHp}</p>
-      <p>Dano normal: {userNormalAttackDamage}</p>
-      <p>Dano especial: {userSpecialDamage}</p>
+          <p>Pontos disponíveis: {stats.points}</p>
+        </div>
+      </div>
     </div>
   );
 }
