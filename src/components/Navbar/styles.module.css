@@ -10,6 +10,8 @@
     align-items: center;
     justify-content: center;
     background-color: var(--primary-color);
+    border: 1px solid var(--background-color);
+    border-radius: 2px;
 }
 
 .list{
@@ -25,8 +27,9 @@
 }
 
 .active {
-  background-color: blue;
+  background-color: rgb(26, 26, 109);
   font-weight: bold;
+  border-radius: 1px;
 }
 
 .active::before {

@@ -2,10 +2,11 @@ import styles from "./styles.module.css";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { CHARACTERS } from "@/data/options/characters";
+import { useStatusMenu } from "@/hooks/menu/useStatusMenu";
 
 export function Status() {
   const { player, playerClass } = usePlayer();
-  const { progress, addStat, getXPToNextLevel } = useCharacterProgress();
+  const { progress, getXPToNextLevel } = useCharacterProgress();
 
     const char = progress[player.character] ?? {
         level: 1,
@@ -30,6 +31,7 @@ export function Status() {
   const characterData = CHARACTERS.find(
     (c) => c.image === player.character
   );
+  const { selectedIndex } = useStatusMenu(true);
 
   return (
     <div className={styles.container}>
@@ -54,16 +56,21 @@ export function Status() {
         </div>
 
         <div className={styles.flexColumn}>
-          <p>Vida: {stats.hp}</p>
-          <button onClick={() => addStat(player.character, "hp")}>+</button>
+          <div className={selectedIndex === 0 ? styles.active : ""}>
+            <p>Vida: {stats.hp}</p>
+          </div>
 
-          <p>Força: {stats.strength}</p>
-          <button onClick={() => addStat(player.character, "strength")}>+</button>
+          <div className={selectedIndex === 1 ? styles.active : ""}>
+            <p>Força: {stats.strength}</p>
+          </div>
 
-          <p>Inteligência: {stats.intelligence}</p>
-          <button onClick={() => addStat(player.character, "intelligence")}>+</button>
+          <div className={selectedIndex === 2 ? styles.active : ""}>
+            <p>Inteligência: {stats.intelligence}</p>
+          </div>
 
           <p>Pontos disponíveis: {stats.points}</p>
+
+          {stats.points <= 0 && <p>Sem pontos disponíveis</p>}
         </div>
       </div>
     </div>

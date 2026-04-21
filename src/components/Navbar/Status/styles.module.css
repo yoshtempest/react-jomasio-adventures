@@ -40,3 +40,17 @@
   background: #4ade80;
   transition: width 0.3s;
 }
+
+.active {
+  display: flex;              /* 👈 ESSENCIAL */
+  align-items: center;        /* centraliza verticalmente */
+  gap: 6px;                   /* espaço entre seta e texto */
+  background-color: rgb(26, 26, 109);
+  font-weight: bold;
+  border-radius: 1px;
+  padding: 4px;
+}
+
+.active::before {
+  content: "▶ ";
+}
