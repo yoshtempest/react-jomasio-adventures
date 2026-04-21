@@ -11,6 +11,7 @@ export function useBattleMovement(
   const rightIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const downLockRef = useRef(false);
+  const isJumping = useRef(false);
 
   function isLocked(p: Player) {
     return p.mode === "battle" && p.state === "blocked";
@@ -99,6 +100,9 @@ export function useBattleMovement(
   // ========================
 
   function moveUpBattle() {
+    if (isJumping.current) return;
+
+    isJumping.current = true;
     setPlayer((p) => {
       if (p.mode !== "battle" || isLocked(p)) return p;
 
@@ -110,6 +114,7 @@ export function useBattleMovement(
     });
 
     setTimeout(() => {
+      isJumping.current = false;
       setPlayer((p) => ({
         ...p,
         y: p.y + 80,

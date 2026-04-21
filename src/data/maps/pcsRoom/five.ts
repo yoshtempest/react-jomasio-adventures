@@ -1,6 +1,6 @@
 export const pcsRoomFiveDialogue = [
     {
-        src: "/src/assets/npcs/vandinhaFragment/right.svg",
+        src: "/src/assets/npcs/vandinhaFragment/default.svg",
         name: "Fragmento de Vandinha",
         message:
             "Saíba que no meu auge, eu te solava fácil, agora que tô com essas dor na lombar...",
