@@ -16,9 +16,9 @@ export default function PcRoomSix() {
         initialPosition={{ x: 12, y: 4, direction: "left" }}
         npcs={[
           {
-            src: "/src/assets/npcs/reincardion/default.svg",
+            src: "/src/assets/npcs/reincardion/right.svg",
             gridX: 11,
-            gridY: 4,
+            gridY: 3.7,
           }
         ]}
       />

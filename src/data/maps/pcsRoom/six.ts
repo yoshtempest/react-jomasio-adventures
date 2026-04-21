@@ -3,7 +3,7 @@ export const pcsRoomSixDialogue = [
         src: "/src/assets/npcs/reincardion/right.svg",
         name: "Reincardion",
         message:
-            "Você ainda é muito fraco cara, pratique mais antes de se envolver com essa idosa.",
+            "Você ainda é muito fraco cara, sorte sua que era só um fragmento.",
     },
     {
         src: "/src/assets/npcs/reincardion/right.svg",
@@ -30,7 +30,7 @@ export const pcsRoomSixDialogue = [
             "Valeu, inclusive, qual é seu nome? Eu não consigo ler a janela de diálogo sabe?",
     },
     {
-        src: "/src/assets/npcs/reincardion/right.svg",
+        src: "/src/assets/npcs/reincardion/gest.svg",
         name: "Reincardion",
         message:
             "Fui.",
