@@ -18,6 +18,7 @@ import { NPCS } from "@/data/npc";
 import { generateNpcLevel } from "@/utils/generateNpcLevel";
 import { calculateXP } from "@/utils/calculateXp";
 import { useNavigate } from "react-router";
+import { getNpcStats } from "@/utils/types/npcProgress";
 
 type BattleSceneProps = {
   map: any;
@@ -47,6 +48,7 @@ export function BattleScene({
   const xpNeeded = getXPToNextLevel(charProgress.level);
   const missingXp = xpNeeded - charProgress.xp;
   const npcDummyAttackRef = useRef<() => void>(() => {});
+  const npcStats = getNpcStats(npcLevel, npcData.class);
   
   const navigate = useNavigate();
 
@@ -149,7 +151,7 @@ export function BattleScene({
 
       {/* NPC HP */}
       <div style={{ position: "absolute", top: 20, right: 20 }}>
-        <HealthBar hp={battle.npcHP} />
+        <HealthBar hp={battle.npcHP} maxHp={npcStats.hp}/>
       </div>
 
       <GameMap

@@ -27,7 +27,15 @@ export function useBattleSystem({
   onNpcDeath,
 }: UseBattleSystemProps) {
   const [playerHP, setPlayerHP] = useState(100);
-  const [npcHP, setNpcHP] = useState(100);
+  const [npcHP, setNpcHP] = useState(() => {
+    const npc = getNpcStats(npcLevel ?? 1, npcClass ?? "common");
+    return npc.hp;
+  });
+
+  useEffect(() => {
+    const npc = getNpcStats(npcLevel ?? 1, npcClass ?? "common");
+    setNpcHP(npc.hp);
+  }, [npcLevel, npcClass]);
 
   const { player, playerClass } = usePlayer();
   const { progress } = useCharacterProgress();
@@ -41,8 +49,9 @@ export function useBattleSystem({
   const HITS_TO_SPECIAL = playerClass === "fracote" ? 5 : 6;
 
   const resetBattle = useCallback(() => {
+    const npc = getNpcStats(npcLevel ?? 1, npcClass ?? "common");
     setPlayerHP(100);
-    setNpcHP(100);
+    setNpcHP(npc.hp); // ✅ agora respeita classe + level
     setDelicia(0);
 
     playerCooldown.current = true;
@@ -147,7 +156,7 @@ export function useBattleSystem({
         npcCooldown.current = true;
       }, 800);
     }
-  }, [playerX, playerY, npcX, npcY, playerClass]);
+  }, [playerX, playerY, npcX, npcY, playerClass, npcLevel, npcClass]);
 
   // 🧠 AUTO CHECK (MUITO MELHOR)
   useEffect(() => {

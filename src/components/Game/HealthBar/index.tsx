@@ -4,7 +4,10 @@ type Props = {
 };
 
 export function HealthBar({ hp, maxHp = 100 }: Props) {
-  const width = (hp / maxHp) * 100;
+  const percentage = Math.max(
+    0,
+    Math.min(100, (hp / maxHp) * 100)
+  );
 
   return (
     <div
@@ -13,11 +16,12 @@ export function HealthBar({ hp, maxHp = 100 }: Props) {
         height: 20,
         border: "2px solid black",
         background: "#333",
+        overflow: "hidden",
       }}
     >
       <div
         style={{
-          width: `${width}%`,
+          width: `${percentage}%`,
           height: "100%",
           background: "limegreen",
           transition: "width 0.2s",
