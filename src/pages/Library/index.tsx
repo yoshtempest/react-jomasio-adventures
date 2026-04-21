@@ -1,12 +1,60 @@
 import { Scene } from "@/components/Game/Scenes/Default";
 import { library } from "@/maps/library";
 import { usePlayer } from "@/contexts/PlayerContext";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { useNavigate } from "react-router";
+import { createLibrary } from "@/interactions/library";
+import { useInventory } from "@/contexts/InventoryContext";
+import Talking from "@/components/Talking"
+import { getTileInFront } from "@/utils/getTileInFront";
+import { useGameControls } from "@/contexts/GameControlsContext";
 
 export default function Library() {
   const { player } = usePlayer();
+  const [popup, setPopup] = useState<string | null>(null);
+  const { addItem, hasItem } = useInventory();
   const navigate = useNavigate();
+  const [gotKey, setGotKey] = useState(false);
+  const handlerRef = useRef<() => void>(() => {});
+  const { pushControls, popControls } = useGameControls();
+
+  handlerRef.current = () => {
+    if (popup) {
+      setPopup(null);
+      return;
+    }
+
+    const { x, y } = getTileInFront(player, library);
+    const interaction = interactionsByPosition[`${x},${y}`];
+
+    if (interaction) {
+      interaction();
+    }
+  };
+
+  useEffect(() => {
+    pushControls({
+      onConfirm: () => handlerRef.current(),
+    });
+
+    return () => popControls();
+  }, []);
+
+  // 🧠 Interações por posição
+  const interactionsByPosition = useMemo(() =>
+    createLibrary({
+      hasItem,
+      addItem,
+      setPopup: (msg) => setPopup(msg),
+      gotKey,
+      setGotKey,
+    }),
+  [
+    hasItem,
+    addItem,
+    gotKey,
+  ]);
+  
 
   const lastPositionRef = useRef({ x: player.gridX, y: player.gridY });
 
@@ -25,13 +73,14 @@ export default function Library() {
     // Só funciona no modo explore (evita trigger em batalha)
     if (player.mode !== "explore") return;
 
-    // 🎲 10% de chance
+
     const chance = Math.random();
 
-    if (chance < 0.1) {
+    // 5% de chance
+    if (chance < 0.05) {
       navigate("/library/battle/one");
     }
-
+    // 1% de chance
     if (chance < 0.01) {
       navigate("/library/battle/two");
     }
@@ -50,6 +99,12 @@ export default function Library() {
           },
         ]}
       />
+      {popup && (
+        <Talking
+          name="Sistema"
+          message={popup}
+        />
+      )}
     </div>
   );
 }
