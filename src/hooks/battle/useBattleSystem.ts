@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback, useEffect } from "react";
+import { useRef, useState, useCallback, useEffect, useMemo } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { getNpcStats } from "@/utils/types/npcProgress";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
@@ -26,32 +26,47 @@ export function useBattleSystem({
   onPlayerDeath,
   onNpcDeath,
 }: UseBattleSystemProps) {
-  const [playerHP, setPlayerHP] = useState(100);
-  const [npcHP, setNpcHP] = useState(() => {
-    const npc = getNpcStats(npcLevel ?? 1, npcClass ?? "common");
-    return npc.hp;
-  });
+  const { player, playerClass } = usePlayer();
+  const { progress } = useCharacterProgress();
+
+  // player section
+
+  const char = progress[player.character];
+
+  const playerMaxHp = useMemo(() => {
+    return 90 + char.stats.hp * 10;
+  }, [char.stats.hp]);
+
+  const [playerHP, setPlayerHP] = useState(playerMaxHp);
+
+  useEffect(() => {
+    setPlayerHP(playerMaxHp);
+  }, [playerMaxHp]);
+
+  // npc section
+
+  const npcMaxHp = useMemo(() => {
+    return getNpcStats(npcLevel, npcClass).hp;
+  }, [npcLevel, npcClass]);
+
+  const [npcHP, setNpcHP] = useState(npcMaxHp);
 
   useEffect(() => {
     const npc = getNpcStats(npcLevel ?? 1, npcClass ?? "common");
     setNpcHP(npc.hp);
   }, [npcLevel, npcClass]);
 
-  const { player, playerClass } = usePlayer();
-  const { progress } = useCharacterProgress();
-
   const playerCooldown = useRef(true);
   const npcCooldown = useRef(true);
   const isEnding = useRef(false);
   
-
   const [delicia, setDelicia] = useState(0);
   const HITS_TO_SPECIAL = playerClass === "fracote" ? 5 : 6;
 
   const resetBattle = useCallback(() => {
     const npc = getNpcStats(npcLevel ?? 1, npcClass ?? "common");
-    setPlayerHP(100);
-    setNpcHP(npc.hp); // ✅ agora respeita classe + level
+    setPlayerHP(playerMaxHp);
+    setNpcHP(npc.hp);
     setDelicia(0);
 
     playerCooldown.current = true;
@@ -106,7 +121,7 @@ export function useBattleSystem({
     setTimeout(() => {
       playerCooldown.current = true;
     }, 400);
-  }, [playerX, npcX, playerClass]);
+  }, [playerX, npcX, playerClass, char.stats.strength]);
 
   const specialHit = useCallback(() => {
     if (!playerCooldown.current) return;
@@ -131,7 +146,7 @@ export function useBattleSystem({
     setTimeout(() => {
       playerCooldown.current = true;
     }, 600);
-  }, [playerX, npcX, delicia, playerClass]);
+  }, [playerX, npcX, delicia, playerClass, char.stats.intelligence]);
 
   // 🤖 NPC HIT
   const npcHit = useCallback(() => {
@@ -166,8 +181,10 @@ export function useBattleSystem({
       isEnding.current = true;
 
       setTimeout(() => {
-        setPlayerHP(100);
-        setNpcHP(100);
+        const npc = getNpcStats(npcLevel ?? 1, npcClass ?? "common");
+
+        setPlayerHP(playerMaxHp);
+        setNpcHP(npc.hp);
         isEnding.current = false;
         onPlayerDeath();
       }, 500);
@@ -181,11 +198,13 @@ export function useBattleSystem({
         onNpcDeath();
       }, 300);
     }
-  }, [playerHP, npcHP, onPlayerDeath, onNpcDeath]);
+  }, [playerHP, npcHP, onPlayerDeath, onNpcDeath, resetBattle]);
 
   return {
     playerHP,
+    playerMaxHp,
     npcHP,
+    npcMaxHp: getNpcStats(npcLevel, npcClass).hp,
     delicia,
     hitsToSpecial: HITS_TO_SPECIAL,
     

@@ -141,7 +141,7 @@ export function BattleScene({
     <div className={`Master ${className || ""}`}>
       {/* PLAYER HP */}
       <div style={{ position: "absolute", top: 20, left: 20 }}>
-        <HealthBar hp={battle.playerHP} />
+        <HealthBar hp={battle.playerHP} maxHp={battle.playerMaxHp}/>
       </div>
 
       {/* DELICIÔMETRO */}
