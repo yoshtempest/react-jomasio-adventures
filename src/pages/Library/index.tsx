@@ -10,7 +10,7 @@ import { getTileInFront } from "@/utils/getTileInFront";
 import { useGameControls } from "@/contexts/GameControlsContext";
 
 export default function Library() {
-  const { player } = usePlayer();
+  const { player, setPosition } = usePlayer();
   const [popup, setPopup] = useState<string | null>(null);
   const { addItem, hasItem } = useInventory();
   const navigate = useNavigate();
@@ -57,6 +57,20 @@ export default function Library() {
   
 
   const lastPositionRef = useRef({ x: player.gridX, y: player.gridY });
+  useEffect(() => {
+    const saved = localStorage.getItem("library_return_position");
+
+    if (!saved) return;
+
+    const { x, y, direction } = JSON.parse(saved);
+
+    setPosition(x, y, direction);
+
+    requestAnimationFrame(() => {
+      setPosition(x, y, direction);
+      localStorage.removeItem("library_return_position");
+    });
+  }, []);
 
   useEffect(() => {
     const { gridX, gridY } = player;
@@ -73,17 +87,33 @@ export default function Library() {
     // Só funciona no modo explore (evita trigger em batalha)
     if (player.mode !== "explore") return;
 
+    function saveLibraryPosition() {
+      localStorage.setItem(
+        "library_return_position",
+        JSON.stringify({
+          x: player.gridX,
+          y: player.gridY,
+          direction: player.direction,
+        })
+      );
+    }
 
-    const chance = Math.random();
+
+    const encounterChance = Math.random();
 
     // 5% de chance
-    if (chance < 0.05) {
-      navigate("/library/battle/one");
+    if (encounterChance < 0.10) {
+      saveLibraryPosition();
+
+      const battleRoll = Math.random();
+
+      if (battleRoll < 0.95) {
+        navigate("/library/battle/one");
+      } else {
+        navigate("/library/battle/two");
+      }
     }
-    // 1% de chance
-    if (chance < 0.01) {
-      navigate("/library/battle/two");
-    }
+
   }, [player.gridX, player.gridY]);
 
   return (

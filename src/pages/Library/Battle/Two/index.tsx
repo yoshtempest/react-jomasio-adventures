@@ -1,6 +1,6 @@
 import { BattleScene } from "@/components/Game/Scenes/Battle";
 import { firstBattle } from "@/maps/firstBattle";
-import KenTheme from "@/assets/songs/StreetFighter5KenTheme.m4a";
+import Jojo from "@/assets/songs/Jojo.m4a";
 
 export default function LibraryBattleTwo() {
   return (
@@ -10,7 +10,7 @@ export default function LibraryBattleTwo() {
       redirectTo="/library"
       victoryDescription="Você derrotou um fragmento de vandinha!"
       className="LibraryBattle"
-      audioSrc={KenTheme}
+      audioSrc={Jojo}
     />
   );
 }
