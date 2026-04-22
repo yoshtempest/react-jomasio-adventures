@@ -6,9 +6,9 @@ export function getNpcStats(level: number, npcClass: NPCClass) {
   const baseDamage = 10;
 
   const multipliers = {
-    common: { hp: 10, dmg: 1 },
-    rare: { hp: 15, dmg: 2 },
-    boss: { hp: 30, dmg: 4 },
+    common: { hp: 5, dmg: 1 },
+    rare: { hp: 10, dmg: 2 },
+    boss: { hp: 20, dmg: 4 },
   };
 
   return {
