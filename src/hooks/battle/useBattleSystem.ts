@@ -3,7 +3,7 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { getNpcStats } from "@/utils/types/npcProgress";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 
-type UseBattleSystemProps = {
+type Props = {
   playerX: number;
   playerY: number;
   npcX: number;
@@ -25,7 +25,7 @@ export function useBattleSystem({
   npcClass,
   onPlayerDeath,
   onNpcDeath,
-}: UseBattleSystemProps) {
+}: Props) {
   const { player, playerClass } = usePlayer();
   const { progress } = useCharacterProgress();
 

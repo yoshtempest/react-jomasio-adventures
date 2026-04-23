@@ -20,7 +20,7 @@ import { calculateXP } from "@/utils/calculateXp";
 import { useNavigate } from "react-router";
 import { getNpcStats } from "@/utils/types/npcProgress";
 
-type BattleSceneProps = {
+type Props = {
   map: any;
   npcType: string;
   redirectTo: string;
@@ -35,7 +35,7 @@ export function BattleScene({
   redirectTo,
   className,
   audioSrc,
-}: BattleSceneProps) {
+}: Props) {
   const { addXP } = useCharacterProgress();
   const { player, setMap, setMode, attack, special, resetBattleState } = usePlayer();
   const { pushControls, popControls } = useGameControls();

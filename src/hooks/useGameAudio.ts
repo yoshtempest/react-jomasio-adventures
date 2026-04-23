@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-type UseGameAudioProps = {
+type Props = {
   src: string;
   loop?: boolean;
   volume?: number;
@@ -12,7 +12,7 @@ export function useGameAudio({
   loop = true,
   volume = 0.5,
   autoPlay = true,
-}: UseGameAudioProps) {
+}: Props) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   // 🎵 cria o áudio apenas quando o src muda

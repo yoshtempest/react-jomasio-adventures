@@ -3,7 +3,7 @@ import { useGameControls } from "@/contexts/GameControlsContext";
 import { useDialogue } from "@/hooks/interaction/useDialogue";
 import { usePlayer } from "@/contexts/PlayerContext";
 
-type UseCutsceneProps = {
+type Props = {
   dialogue: Parameters<typeof useDialogue>[0];
   autoStart?: boolean;
   playOnce?: boolean;
@@ -19,7 +19,7 @@ export function useCutscene({
   onFinish,
   playAudio,
   onBeforeNext,
-}: UseCutsceneProps) {
+}: Props) {
   const { player } = usePlayer();
   const dialogueSystem = useDialogue(dialogue, onFinish);
   const { pushControls, popControls } = useGameControls();
