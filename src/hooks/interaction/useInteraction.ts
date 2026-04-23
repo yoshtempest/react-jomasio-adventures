@@ -36,12 +36,10 @@ export function useInteraction({
 
     pushControls({
       onConfirm: () => {
-        console.log("PRESSIONEI L - INTERACTION");
         const { x, y, tile } = getTileInFront(
           playerRef.current,
           mapRef.current
         );
-        console.log("PRESSIONEI L - INTERACTION");
 
         return onInteractRef.current(tile, x, y);
       }

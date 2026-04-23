@@ -1,12 +1,12 @@
 import MonkeyCircle from "@/assets/songs/MonkeyCircle.m4a";
 import { pcsRoomFourDialogue } from "@/data/maps/pcsRoom/four";
-import { SceneWithDialogue } from "@/components/Game/Scenes/WithDialogue";
+import { ExploreScene } from "@/components/Game/Scenes/Default";
 import { pcsRoomFour } from "@/maps/pcRoom/four";
 
 export default function PcRoomFour() {
   return (
     <div className={`Master PcsRoom`}>
-      <SceneWithDialogue
+      <ExploreScene
         map={pcsRoomFour}
         dialogueData={pcsRoomFourDialogue}
         nextRoute={"/pcroom/battle/two"}

@@ -1,9 +1,8 @@
 import { hallLeft } from "@/maps/hall/left";
-import { Scene } from "@/components/Game/Scenes/Default";
-
+import { ExploreScene } from "@/components/Game/Scenes/Default";
 export default function HallLeftOne() {
   return (
-    <Scene
+    <ExploreScene
       map={hallLeft}
       className={`Master HallLeft`}
       initialPosition={{ x: 8, y: 10, direction: "up" }}

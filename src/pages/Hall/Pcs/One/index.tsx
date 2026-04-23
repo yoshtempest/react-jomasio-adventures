@@ -1,9 +1,8 @@
 import { hallOne } from "@/maps/hall/one";
-import { Scene } from "@/components/Game/Scenes/Default";
-
+import { ExploreScene } from "@/components/Game/Scenes/Default";
 export default function HallOne() {
   return (
-    <Scene
+    <ExploreScene
       map={hallOne}
       className={`Master HallOne`}
       initialPosition={{ x: 9, y: 10, direction: "up" }}

@@ -1,9 +1,9 @@
 import { hallCenter } from "@/maps/hall/center";
-import { Scene } from "@/components/Game/Scenes/Default";
+import { ExploreScene } from "@/components/Game/Scenes/Default";
 
 export default function HallCenterOne() {
   return (
-    <Scene
+    <ExploreScene
       map={hallCenter}
       className={`Master HallCenter`}
       initialPosition={{ x: 8, y: 10, direction: "up" }}

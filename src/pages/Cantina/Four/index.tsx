@@ -1,11 +1,11 @@
 import { cantinaFour } from "@/maps/cantina/four";
-import { Scene } from "@/components/Game/Scenes/Default";
+import { ExploreScene } from "@/components/Game/Scenes/Default";  
 
 export default function CantinaFour() {
   return (
-    <Scene
+    <ExploreScene
       map={cantinaFour}
-      className={`Master Cantina`}
+      className={`Master Cantina`} 
       initialPosition={{ x: 9, y: 5, direction: "up" }}
       transitions={[
         {

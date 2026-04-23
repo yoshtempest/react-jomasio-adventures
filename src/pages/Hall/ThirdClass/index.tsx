@@ -1,9 +1,8 @@
 import { hallThirdClass } from "@/maps/hall/thirdClass";
-import { Scene } from "@/components/Game/Scenes/Default";
-
+import { ExploreScene } from "@/components/Game/Scenes/Default";
 export default function HallThirdClass() {
   return (
-    <Scene
+    <ExploreScene
       map={hallThirdClass}
       className={`Master HallThirdClass`}
       initialPosition={{ x: 8, y: 10, direction: "up" }}

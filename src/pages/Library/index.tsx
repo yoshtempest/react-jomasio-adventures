@@ -1,5 +1,4 @@
-import { Scene } from "@/components/Game/Scenes/Default";
-import { library } from "@/maps/library";
+import { ExploreScene } from "@/components/Game/Scenes/Default";import { library } from "@/maps/library";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useEffect, useRef, useState, useMemo } from "react";
 import { useNavigate } from "react-router";
@@ -118,7 +117,7 @@ export default function Library() {
 
   return (
     <div className={`Master Library`}>
-      <Scene
+      <ExploreScene
         map={library}
         className={`Master Library`}
         initialPosition={{ x: 4, y: 4, direction: "down" }}

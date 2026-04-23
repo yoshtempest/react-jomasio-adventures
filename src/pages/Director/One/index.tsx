@@ -1,17 +1,15 @@
-import { blocked } from "@/maps/blocked";
-import LavenderTown from "@/assets/songs/LavenderTown.m4a";
+import { blocked } from "@/maps/blocked";  
 import { directorDialogue } from "@/data/maps/director/one";
-import { SceneWithDialogue } from "@/components/Game/Scenes/WithDialogue";
+import { ExploreScene } from "@/components/Game/Scenes/Default";
 
 export default function Director() {
 
   return (
     <div className={`Master Director`}>
-      <SceneWithDialogue
+      <ExploreScene
         map={blocked}
         dialogueData={directorDialogue}
-        initialPosition={{ x: 9, y: 5, direction: "up" }}
-        audio={{src: LavenderTown}}
+        initialPosition={{ x: 9, y: 5, direction: "up" }} 
         autoStartDialogue={true}
         nextRoute="/director/two"
         npcs={[

@@ -1,8 +1,7 @@
 import styles from "./styles.module.css";
 import { hallTwo } from "@/maps/hall/two";
-import { SceneWithDialogue } from "@/components/Game/Scenes/WithDialogue";
-import { HallTwoDialogue } from "@/data/maps/hall/two/one";
-import LavenderTown from "@/assets/songs/LavenderTown.m4a";
+import { ExploreScene } from "@/components/Game/Scenes/Default";
+import { HallTwoDialogue } from "@/data/maps/hall/two/one";  
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";
@@ -18,11 +17,10 @@ export default function HallTwo() {
   }, [player]);
   return (
     <div className={`Master ${styles.image}`}>
-      <SceneWithDialogue
+      <ExploreScene
         map={hallTwo}
         dialogueData={HallTwoDialogue}
-        initialPosition={{ x: 9, y: 10, direction: "up" }}
-        audio={{src: LavenderTown}}
+        initialPosition={{ x: 9, y: 10, direction: "up" }} 
         npcs={[
           {
             src: "/src/assets/npcs/jailson/default.svg",

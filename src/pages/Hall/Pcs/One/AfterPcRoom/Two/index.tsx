@@ -1,8 +1,8 @@
 import { hallOne } from "@/maps/hall/one";
-import { Scene } from "@/components/Game/Scenes/Default";
+import { ExploreScene } from "@/components/Game/Scenes/Default";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
-import { usePlayer } from "@/contexts/PlayerContext";
+import { usePlayer } from "@/contexts/PlayerContext";  
 
 
 export default function AfterPcRoomTwo() {
@@ -15,10 +15,9 @@ export default function AfterPcRoomTwo() {
     }
   }, [player]);
   return (
-    <Scene
+    <ExploreScene
       map={hallOne}
-      className={`Master HallOne`}
-
+      className={`Master HallOne`} 
       initialPosition={{ x: 12, y: 7, direction: "left" }}
       transitions={[
         {

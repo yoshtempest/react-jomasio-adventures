@@ -1,17 +1,15 @@
-import { SceneWithDialogue } from "@/components/Game/Scenes/WithDialogue";
+import { ExploreScene } from "@/components/Game/Scenes/Default";
 import { blocked } from "@/maps/blocked";
-import { cantinaDialogue } from "@/data/maps/cantina/two";
-import LavenderTown from "@/assets/songs/LavenderTown.m4a";
+import { cantinaDialogue } from "@/data/maps/cantina/two";  
 
 export default function CantinaTwo() {
   return (
     <div className={`Master Cantina`}>
-      <SceneWithDialogue
+      <ExploreScene
         map={blocked}
         dialogueData={cantinaDialogue}
         nextRoute="/cantina/battle"
-        initialPosition={{ x: 10, y: 4, direction: "left" }}
-        audio={{src: LavenderTown}}
+        initialPosition={{ x: 10, y: 4, direction: "left" }} 
         autoStartDialogue={true}
         npcs={[
           {

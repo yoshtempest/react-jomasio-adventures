@@ -7,7 +7,7 @@ import { createPcsRoom } from "@/interactions/pcsRoom";
 import MonkeyCircle from "@/assets/songs/MonkeyCircle.m4a";
 import Talking from "@/components/Talking";
 import { pcsRoomDialogue } from "@/data/maps/pcsRoom/one";
-import { SceneWithDialogue } from "@/components/Game/Scenes/WithDialogue";
+import { ExploreScene } from "@/components/Game/Scenes/Default";
 
 export default function PcRoomFive() {
   const { player } = usePlayer();
@@ -38,7 +38,7 @@ export default function PcRoomFive() {
 
   return (
     <div className={`Master PcsRoom`}>
-      <SceneWithDialogue
+      <ExploreScene
         map={pcsRoom}
         dialogueData={pcsRoomDialogue}
         initialPosition={{ x: 12, y: 4, direction: "left" }}

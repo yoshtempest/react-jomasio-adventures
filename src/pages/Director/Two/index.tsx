@@ -7,7 +7,7 @@ import { getTileInFront } from "@/utils/getTileInFront";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavigate } from "react-router";
 import { createDirector } from "@/interactions/director";
-import { Scene } from "@/components/Game/Scenes/Default";
+import { ExploreScene } from "@/components/Game/Scenes/Default";
 
 export default function DirectorTwo() {
   const { player, setMap } = usePlayer();
@@ -67,7 +67,7 @@ export default function DirectorTwo() {
 
   return (
     <div className={`Master Director`}>
-      <Scene
+      <ExploreScene
         map={director}
         className={`Master Director`}
         initialPosition={{ x: 9, y: 5, direction: "up" }}

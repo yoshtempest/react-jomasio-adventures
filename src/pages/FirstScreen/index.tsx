@@ -1,11 +1,11 @@
 import styles from "./styles.module.css";
 import { firstScreenMap } from "@/maps/firstScreenMap";
-import { Scene } from "@/components/Game/Scenes/Default";
+import { ExploreScene } from "@/components/Game/Scenes/Default";
 
 export default function FirstScreen() {
 
   return (
-    <Scene
+    <ExploreScene
       map={firstScreenMap}
       className={`Master ${styles.image}`}
       initialPosition={{ x: 6, y: 11, direction: "up" }}
