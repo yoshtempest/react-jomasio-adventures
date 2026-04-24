@@ -2,15 +2,13 @@
 import { useEffect, useRef, useState } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { usePlayer } from "@/contexts/PlayerContext";
-import { useNavigate } from "react-router";
 import type { PlayerClass } from "@/utils/types/player/player";
 
 const CLASSES: PlayerClass[] = ["fracote", "idiota", "amostradinho"];
 
-export function useClassSelection(isActive: boolean) {
+export function useClassSelection(isActive: boolean, onConfirm ?: () => void) {
   const { pushControls, popControls } = useGameControls();
-  const { chooseClass, setMode } = usePlayer();
-  const navigate = useNavigate();
+  const { chooseClass } = usePlayer();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
   const selectedIndexRef = useRef(selectedIndex);
@@ -38,8 +36,7 @@ export function useClassSelection(isActive: boolean) {
       onConfirm: () => {
         const selected = CLASSES[selectedIndexRef.current];
         chooseClass(selected);
-        navigate("/pcroom/two");
-        setMode("explore")
+        onConfirm?.(); // 👈 aqui está a mágica
         return true;
       },
 

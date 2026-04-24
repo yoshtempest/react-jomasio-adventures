@@ -19,7 +19,11 @@ export default function PcRoomOne() {
   const navigate = useNavigate();
   const [gotKey, setGotKey] = useState(false);
   const [showClassModal, setShowClassModal] = useState(false);
-  const { classes, selectedIndex } = useClassSelection(showClassModal);
+  const { classes, selectedIndex } = useClassSelection(showClassModal, () => {
+    setShowClassModal(false),
+    setMode("explore");
+    navigate("/pcroom/two")
+  });
 
   // 🚪 Transição de mapa
   useEffect(() => {
