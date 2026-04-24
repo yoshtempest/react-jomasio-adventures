@@ -8,6 +8,7 @@ import { PlayerProvider } from './contexts/PlayerContext.tsx';
 import { InventoryProvider } from './contexts/InventoryContext.tsx';
 import { NavbarProvider } from './contexts/NavbarContext.tsx';
 import { CharacterProgressProvider } from "./contexts/CharacterProgressContext";
+import { Navigate } from 'react-router';
 
 import Tutorial from './pages/Tutorial/index.tsx';
 import Home from './pages/Home/index.tsx';
@@ -28,19 +29,9 @@ import HallLeftOne from './pages/Hall/PcsToCenter/index.tsx';
 import HallCenterOne from './pages/Hall/Center/One/index.tsx';
 import HallCenterFront from './pages/Hall/Center/Front/index.tsx';
 
-// import PcRoomOne from './pages/PcRoom/One/index.tsx';
-// import PcRoomTwo from './pages/PcRoom/Two/index.tsx';
-// import PcRoomThree from './pages/PcRoom/Three/index.tsx';
-// import PcRoomFour from './pages/PcRoom/Four/index.tsx';
-// import PcRoomFive from './pages/PcRoom/Five/index.tsx';
-// import PcRoomSix from './pages/PcRoom/Six/index.tsx';
-// import PcRoomSeven from './pages/PcRoom/Seven/index.tsx';
-
 import PcRoomBattleOne from './pages/PcRoom/Battle/One/index.tsx';
 import PcRoomBattleTwo from './pages/PcRoom/Battle/Two/index.tsx';
-
-import { Navigate } from 'react-router';
-import PcRoomPage from './pages/PcRoom/PcRoomPage.tsx';
+import PcRoomPage from './pages/PcRoom/index.tsx';
 
 import AfterPcRoom from './pages/Hall/Pcs/One/AfterPcRoom/One/index.tsx';
 import AfterPcRoomTwo from './pages/Hall/Pcs/One/AfterPcRoom/Two/index.tsx';
@@ -74,18 +65,6 @@ createRoot(document.getElementById('root')!).render(
 
                     <Route path="hall/one" element={<HallOne />} />
                     <Route path="hall/two" element={<HallTwo />} />
-
-                    {/* <Route path="pcroom/one" element={<PcRoomOne />} />
-                    <Route path="pcroom/two" element={<PcRoomTwo />} />
-                    <Route path="pcroom/battle/one" element={<PcRoomBattleOne />} />
-
-                    <Route path="pcroom/three" element={<PcRoomThree />} />
-                    <Route path="pcroom/four" element={<PcRoomFour />} />
-                    <Route path="pcroom/battle/two" element={<PcRoomBattleTwo />} />
-
-                    <Route path="pcroom/five" element={<PcRoomFive />} />
-                    <Route path="pcroom/six" element={<PcRoomSix />} />
-                    <Route path="pcroom/seven" element={<PcRoomSeven />} /> */}
 
                     <Route path="pcroom">
                       <Route index element={<Navigate to="/pcroom/one" />} />

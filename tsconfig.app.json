@@ -29,5 +29,5 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "dump/PcRoom/Five", "dump/PcRoom/Fdump/dump/PcRoom/Sedump/PcRoom/dump/PcRoom/Thdump/PcRoom/Twoeven", "dump/Six", "dump/Three", "dump/Two"]
 }
