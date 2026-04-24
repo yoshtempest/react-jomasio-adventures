@@ -1,5 +1,5 @@
 import { useParams } from "react-router";
-import { PcRoomScene } from "@/components/Game/Scenes/PcRoom";
+import { CantinaScene } from "@/components/Game/Scenes/Cantina/index";
 
 export default function PcRoomPage() {
   
@@ -10,5 +10,5 @@ export default function PcRoomPage() {
     return <div>Parâmetro de cena não fornecido</div>;
   }
 
-  return <PcRoomScene sceneId={id as any} />;
+  return <CantinaScene sceneId={id as any} />;
 }

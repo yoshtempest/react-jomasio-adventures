@@ -1,4 +1,4 @@
-export const cantinaDialogue = [
+export const cantinaThreeDialogue = [
     {
         isPlayer: true,
         name: "Protagonista",

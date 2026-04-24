@@ -111,7 +111,6 @@ export const PCS_ROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
       y: 3,
       route: "/hall/afterpcroom/one",
     },
-    dialogueData: pcsRoomDialogue,
     audio: { src: MonkeyCircle },
   },
 };

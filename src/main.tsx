@@ -15,10 +15,7 @@ import Home from './pages/Home/index.tsx';
 import FirstScreen from './pages/FirstScreen/index.tsx';
 
 import CantinaBattle from './pages/Cantina/Battle/index.tsx';
-import Cantina from './pages/Cantina/One/index.tsx';
-import CantinaTwo from './pages/Cantina/Two/index.tsx';
-import CantinaThree from './pages/Cantina/Three/index.tsx';
-import CantinaFour from './pages/Cantina/Four/index.tsx';
+import CantinaPage from './pages/Cantina/index.tsx';
 
 import Director from './pages/Director/One/index.tsx';
 import DirectorTwo from './pages/Director/Two/index.tsx';
@@ -55,16 +52,19 @@ createRoot(document.getElementById('root')!).render(
                     <Route path="home" element={<Home />} />
                     <Route path="firstscreen" element={<FirstScreen />} />
                     
-                    <Route path="cantina/one" element={<Cantina />} />
+
                     <Route path="director/one" element={<Director />} />
                     <Route path="director/two" element={<DirectorTwo />} />
-                    <Route path="cantina/two" element={<CantinaTwo />} />
                     <Route path="cantina/battle" element={<CantinaBattle />} />
-                    <Route path="cantina/three" element={<CantinaThree />} />
-                    <Route path="cantina/four" element={<CantinaFour />} />
 
                     <Route path="hall/one" element={<HallOne />} />
                     <Route path="hall/two" element={<HallTwo />} />
+
+                    <Route path="cantina">
+                      <Route index element={<Navigate to="/cantina/one" />} />
+                      <Route path=":id" element={<CantinaPage />} />
+                      <Route path="cantina" element={<CantinaBattle />} />
+                    </Route>
 
                     <Route path="pcroom">
                       <Route index element={<Navigate to="/pcroom/one" />} />

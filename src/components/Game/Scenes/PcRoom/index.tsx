@@ -1,5 +1,3 @@
-// PcRoomScene.tsx
-
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";
@@ -13,18 +11,16 @@ import styles from "./styles.module.css"
 import { useClassSelection } from "@/hooks/menu/useClassSelection";
 import Talking from "@/components/Talking";
 
+
 type Props = {
   sceneId: SceneId;
 };
 
 export function PcRoomScene({ sceneId }: Props) {
   const scene = PCS_ROOM_SCENES[sceneId];
-  // console.log("sceneId recebido:", sceneId);
-  // console.log("cenas disponíveis:", Object.keys(PCS_ROOM_SCENES));
-  // console.log("scene encontrada:", PCS_ROOM_SCENES[sceneId]);
 
   if (!scene) {
-  return <div>Scene não encontrada</div>;
+    return <div>Scene não encontrada</div>;
   }
 
   const navigate = useNavigate();

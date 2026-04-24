@@ -1,4 +1,4 @@
-export const cantinaDialogue = [
+export const cantinaTwoDialogue = [
     {
         src: "/src/assets/npcs/jhowsimar/right.svg",
         name: "Jhow Simar",
