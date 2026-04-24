@@ -38,6 +38,8 @@ import PcRoomFive from './pages/PcRoom/Five/index.tsx';
 import PcRoomSix from './pages/PcRoom/Six/index.tsx';
 import PcRoomSeven from './pages/PcRoom/Seven/index.tsx';
 
+// import PcRoomPage from './pages/PcRoom/PcRoomPage.tsx';
+
 import AfterPcRoom from './pages/Hall/Pcs/One/AfterPcRoom/One/index.tsx';
 import AfterPcRoomTwo from './pages/Hall/Pcs/One/AfterPcRoom/Two/index.tsx';
 
@@ -82,6 +84,13 @@ createRoot(document.getElementById('root')!).render(
                     <Route path="pcroom/five" element={<PcRoomFive />} />
                     <Route path="pcroom/six" element={<PcRoomSix />} />
                     <Route path="pcroom/seven" element={<PcRoomSeven />} />
+
+                    {/* <Route path="pcroom">
+                      <Route index element={<Navigate to="/pcroom/one" />} />
+                      <Route path=":id" element={<PcRoomPage />} />
+                      <Route path="battle/one" element={<PcRoomBattleOne />} />
+                      <Route path="battle/two" element={<PcRoomBattleTwo />} />
+                    </Route> */}
 
                     <Route path="hall/afterpcroom/one" element={<AfterPcRoom />} />
                     <Route path="hall/afterpcroom/two" element={<AfterPcRoomTwo />} />

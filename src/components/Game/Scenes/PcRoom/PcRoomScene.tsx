@@ -6,8 +6,8 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { useInventory } from "@/contexts/InventoryContext";
 import { createPcsRoom } from "@/interactions/pcsRoom";
 import { ExploreScene } from "@/components/Game/Scenes/Default";
-import { PCS_ROOM_SCENES } from "./PcRoomScenes";
-import type { SceneId } from "./types";
+import { PCS_ROOM_SCENES } from "@/scenes/PcRoomScenes";
+import type { SceneId } from "@/utils/types/pcRoomTypes";
 
 type Props = {
   sceneId: SceneId;
@@ -15,6 +15,9 @@ type Props = {
 
 export function PcRoomScene({ sceneId }: Props) {
   const scene = PCS_ROOM_SCENES[sceneId];
+  console.log("sceneId recebido:", sceneId);
+console.log("cenas disponíveis:", Object.keys(PCS_ROOM_SCENES));
+console.log("scene encontrada:", PCS_ROOM_SCENES[sceneId]);
 
     if (!scene) {
     return <div>Scene não encontrada</div>;
@@ -61,6 +64,7 @@ export function PcRoomScene({ sceneId }: Props) {
   return (
     <ExploreScene
       {...scene}
+      className={`Master PcsRoom`}
       onInteract={(_, x, y) => {
         if (popup) {
           setPopup(null);
