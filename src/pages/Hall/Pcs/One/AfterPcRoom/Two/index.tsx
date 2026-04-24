@@ -3,6 +3,7 @@ import { ExploreScene } from "@/components/Game/Scenes/Default";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";  
+import { AfterPcRoomTwoDialogue } from "@/data/maps/hall/one/afterPcRoom/two";  
 
 
 export default function AfterPcRoomTwo() {
@@ -17,8 +18,16 @@ export default function AfterPcRoomTwo() {
   return (
     <ExploreScene
       map={hallOne}
-      className={`Master HallOne`} 
-      initialPosition={{ x: 12, y: 7, direction: "left" }}
+      className={`Master HallOne`}
+      dialogueData={AfterPcRoomTwoDialogue} 
+      initialPosition={{ x: 2, y: 9, direction: "left" }}
+      npcs={[
+        {
+          src: "/src/assets/npcs/remedinha/default.svg",
+          gridX: 1,
+          gridY: 9,
+        },
+      ]}
       transitions={[
         {
           positions: [
