@@ -11,6 +11,7 @@ import type { SceneId } from "@/utils/types/maps/sceneConfig";
 import { runSceneEvents } from "@/engine/runSceneEvents";
 import styles from "./styles.module.css"
 import { useClassSelection } from "@/hooks/menu/useClassSelection";
+import Talking from "@/components/Talking";
 
 type Props = {
   sceneId: SceneId;
@@ -125,6 +126,13 @@ export function PcRoomScene({ sceneId }: Props) {
           </div>
           <p>Sua classe influencia todos os personagens e pode ser alterada futuramente</p>
         </div>
+      )}
+
+      {popup && (
+        <Talking
+          name="Sistema"
+          message={popup}
+        />
       )}
     </div>
   );
