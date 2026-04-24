@@ -16,19 +16,18 @@ export default function HallTwo() {
     }
   }, [player]);
   return (
-    <div className={`Master ${styles.image}`}>
-      <ExploreScene
-        map={hallTwo}
-        dialogueData={HallTwoDialogue}
-        initialPosition={{ x: 9, y: 10, direction: "up" }} 
-        npcs={[
-          {
-            src: "/src/assets/npcs/jailson/default.svg",
-            gridX: 8,
-            gridY: 3,
-          },
-        ]}
-      />
-    </div>
+    <ExploreScene
+      map={hallTwo}
+      className={`Master ${styles.image}`}
+      dialogueData={HallTwoDialogue}
+      initialPosition={{ x: 9, y: 10, direction: "up" }} 
+      npcs={[
+        {
+          src: "/src/assets/npcs/jailson/default.svg",
+          gridX: 8,
+          gridY: 3,
+        },
+      ]}
+    />
   );
 }

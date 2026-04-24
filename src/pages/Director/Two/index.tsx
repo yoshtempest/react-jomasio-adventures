@@ -69,7 +69,6 @@ export default function DirectorTwo() {
     <div className={`Master Director`}>
       <ExploreScene
         map={director}
-        className={`Master Director`}
         initialPosition={{ x: 9, y: 5, direction: "up" }}
         transitions={[
           {

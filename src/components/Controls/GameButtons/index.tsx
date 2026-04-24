@@ -28,7 +28,7 @@ export function GameButtons() {
         </button>
 
         <button className={styles.button} onClick={activeControls?.onConfirm}>
-          A
+          L
         </button>
       </div>
     </div>

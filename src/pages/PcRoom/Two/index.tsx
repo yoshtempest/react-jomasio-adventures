@@ -29,6 +29,7 @@ export default function PcRoomTwo() {
     <div className={`Master PcsRoom`}>
       <ExploreScene
         map={pcsRoomTwo}
+        className={`Master PcsRoom`}
         dialogueData={pcsRoomTwoDialogue}
         audio={{src: MonkeyCircle}}
         nextRoute="/pcroom/battle/one"

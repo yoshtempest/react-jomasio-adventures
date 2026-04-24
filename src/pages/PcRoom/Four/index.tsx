@@ -5,22 +5,21 @@ import { pcsRoomFour } from "@/maps/pcRoom/four";
 
 export default function PcRoomFour() {
   return (
-    <div className={`Master PcsRoom`}>
-      <ExploreScene
-        map={pcsRoomFour}
-        dialogueData={pcsRoomFourDialogue}
-        nextRoute={"/pcroom/battle/two"}
-        initialPosition={{ x: 13, y: 4, direction: "left" }}
-        audio={{src: MonkeyCircle}}
-        autoStartDialogue={true}
-        npcs={[
-          {
-            src: "/src/assets/npcs/vandinhaFragment/right.svg",
-            gridX: 12,
-            gridY: 3.5,
-          }
-        ]}
-      />
-    </div>
+    <ExploreScene
+      map={pcsRoomFour}
+      className={`Master PcsRoom`}
+      dialogueData={pcsRoomFourDialogue}
+      nextRoute={"/pcroom/battle/two"}
+      initialPosition={{ x: 13, y: 4, direction: "left" }}
+      audio={{src: MonkeyCircle}}
+      autoStartDialogue={true}
+      npcs={[
+        {
+          src: "/src/assets/npcs/vandinhaFragment/right.svg",
+          gridX: 12,
+          gridY: 3.5,
+        }
+      ]}
+    />
   );
 }

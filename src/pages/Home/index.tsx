@@ -19,7 +19,7 @@ export default function Home() {
 
   useEffect(() => {
     pushControls({
-      onConfirm: () => navigate("/firstscreen"),
+      onConfirm: () => {navigate("/firstscreen")},
     });
 
     return () => popControls();
@@ -32,7 +32,7 @@ export default function Home() {
         alt="logo"
         className={styles.logo}
       />
-      <h1>Pressione A para continuar</h1>
+      <h1>Pressione L para continuar</h1>
     </div>
   );
 }
