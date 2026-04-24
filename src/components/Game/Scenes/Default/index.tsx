@@ -7,13 +7,14 @@ import { NPC } from "@/components/Game/Npc";
 import Talking from "@/components/Talking";
 import { useDialogue } from "@/hooks/interaction/useDialogue";
 import { useSansTalking } from "@/hooks/interaction/useSansTalking";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 import { useSceneNavigation } from "@/hooks/scene/useNavigation";
 import { useSceneSetup } from "@/hooks/scene/useSetup";
 import { useSceneControls } from "@/hooks/scene/useControls";
 import { useSceneInteraction } from "@/hooks/scene/useInteraction";
 import { useSceneAudio } from "@/hooks/scene/useAudio";
+import { useNavigate } from "react-router";
 
 import type { ExploreSceneProps } from "@/utils/types/maps/exploreScene";
 
@@ -27,13 +28,24 @@ export function ExploreScene({
   onInteract,
   autoStartDialogue,
   onFinish,
+  nextRoute,
   className,
 }: ExploreSceneProps) {
   const { player, setMap, setPosition, setMode } = usePlayer();
   const { pushControls, popControls } = useGameControls();
+  const navigate = useNavigate();
 
-  const dialogueSystem = useDialogue(dialogueData, onFinish);
+  const handleFinish = () => {
+    if (onFinish) onFinish();
+
+    if (nextRoute) {
+      navigate(nextRoute);
+    }
+  };
+
+  const dialogueSystem = useDialogue(dialogueData, handleFinish);
   const { play: playSansTalking } = useSansTalking(dialogueSystem.isOpen);
+  const hasStarted = useRef(false);
 
   const { isReady } = useSceneSetup({
     map,
@@ -69,7 +81,8 @@ export function ExploreScene({
   });
 
   useEffect(() => {
-    if (autoStartDialogue && !dialogueSystem.isOpen) {
+    if (autoStartDialogue && !hasStarted.current) {
+      hasStarted.current = true;
       dialogueSystem.start();
       playSansTalking();
     }

@@ -8,7 +8,7 @@ export default function PcRoomBattleTwo() {
     <BattleScene
       map={firstBattle}
       npcType="vandinhaFragment"
-      redirectTo="/pcroom/Five"
+      redirectTo="/pcroom/five"
       className="PcRoomBattle"
       victoryDescription="Você derrotou um fragmento de Vandinha"
       audioSrc={KenTheme}
