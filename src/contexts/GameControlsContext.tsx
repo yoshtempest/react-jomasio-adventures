@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState, useCallback } from "react";
-import type { GameControlLayer } from "@/utils/types/controls";
+import type { GameControlLayer } from "@/utils/types/player/controls";
 import type { ReactNode } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useNavbar } from "@/contexts/NavbarContext";

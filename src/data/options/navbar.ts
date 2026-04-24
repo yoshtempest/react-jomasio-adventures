@@ -1,4 +1,4 @@
-import type { NavbarOption } from "@/utils/types/navbar";
+import type { NavbarOption } from "@/utils/types/player/navbar";
 
 export const NAVBAR_OPTIONS: NavbarOption[] = [
   { label: "Personagem", screen: "character" },

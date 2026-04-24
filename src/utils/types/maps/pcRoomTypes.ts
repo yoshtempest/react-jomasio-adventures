@@ -1,4 +1,4 @@
-import type { ExploreSceneProps } from "@/utils/types/exploreScene";
+import type { ExploreSceneProps } from "@/utils/types/maps/exploreScene";
 
 export type SceneId = "one" | "two" | "three" | "four" | "five" | "six" | "seven";
 

@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import type { NPCBattleState } from "@/utils/types/npc";
+import type { NPCBattleState } from "@/utils/types/npc/npc";
 
 type Props = {
   playerX: number;

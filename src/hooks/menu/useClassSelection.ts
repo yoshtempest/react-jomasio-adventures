@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useNavigate } from "react-router";
-import type { PlayerClass } from "@/utils/types/player";
+import type { PlayerClass } from "@/utils/types/player/player";
 
 const CLASSES: PlayerClass[] = ["fracote", "idiota", "amostradinho"];
 

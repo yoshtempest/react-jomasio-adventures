@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Gender } from "@/utils/types/tutorial";
+import type { Gender } from "@/utils/types/player/tutorial";
 
 export function useGenderChoice(
   isActive: boolean,

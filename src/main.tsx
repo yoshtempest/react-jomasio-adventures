@@ -30,14 +30,16 @@ import HallCenterFront from './pages/Hall/Center/Front/index.tsx';
 
 import PcRoomOne from './pages/PcRoom/One/index.tsx';
 import PcRoomTwo from './pages/PcRoom/Two/index.tsx';
-import PcRoomBattleOne from './pages/PcRoom/Battle/One/index.tsx';
 import PcRoomThree from './pages/PcRoom/Three/index.tsx';
 import PcRoomFour from './pages/PcRoom/Four/index.tsx';
-import PcRoomBattleTwo from './pages/PcRoom/Battle/Two/index.tsx';
 import PcRoomFive from './pages/PcRoom/Five/index.tsx';
 import PcRoomSix from './pages/PcRoom/Six/index.tsx';
 import PcRoomSeven from './pages/PcRoom/Seven/index.tsx';
 
+import PcRoomBattleOne from './pages/PcRoom/Battle/One/index.tsx';
+import PcRoomBattleTwo from './pages/PcRoom/Battle/Two/index.tsx';
+
+// import { Navigate } from 'react-router';
 // import PcRoomPage from './pages/PcRoom/PcRoomPage.tsx';
 
 import AfterPcRoom from './pages/Hall/Pcs/One/AfterPcRoom/One/index.tsx';

@@ -1,5 +1,5 @@
 import { useRef, useEffect } from "react";
-import type { Player } from "@/utils/types/player";
+import type { Player } from "@/utils/types/player/player";
 
 
 export function useBattleMovement(

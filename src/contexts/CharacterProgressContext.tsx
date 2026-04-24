@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import type { Character } from "@/utils/types/player";
+import type { Character } from "@/utils/types/player/player";
 
 type CharacterStats = {
   hp: number;

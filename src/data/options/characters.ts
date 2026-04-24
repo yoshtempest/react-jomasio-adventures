@@ -1,4 +1,4 @@
-import type { CharacterOption } from "@/utils/types/character";
+import type { CharacterOption } from "@/utils/types/player/character";
 
 export const CHARACTERS: CharacterOption[] = [
   { name: "Marcelo", image: "marcelo", selectable: true },

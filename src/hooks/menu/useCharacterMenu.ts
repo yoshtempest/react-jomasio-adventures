@@ -3,7 +3,7 @@ import { useGameControls } from "@/contexts/GameControlsContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { CHARACTERS } from "@/data/options/characters";
-import type { CharacterId } from "@/utils/types/character";
+import type { CharacterId } from "@/utils/types/player/character";
 
 export function useCharacterMenu() {
   const { setCharacter, setMode } = usePlayer();

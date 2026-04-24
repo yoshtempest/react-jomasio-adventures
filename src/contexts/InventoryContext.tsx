@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
-import type { InventoryItem } from "@/utils/types/inventory";
+import type { InventoryItem } from "@/utils/types/player/inventory";
 
 type InventoryContextType = {
   items: InventoryItem[];

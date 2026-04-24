@@ -18,7 +18,7 @@ import { NPCS } from "@/data/npc";
 import { generateNpcLevel } from "@/utils/generateNpcLevel";
 import { calculateXP } from "@/utils/calculateXp";
 import { useNavigate } from "react-router";
-import { getNpcStats } from "@/utils/types/npcProgress";
+import { getNpcStats } from "@/utils/types/npc/npcProgress";
 
 type Props = {
   map: any;

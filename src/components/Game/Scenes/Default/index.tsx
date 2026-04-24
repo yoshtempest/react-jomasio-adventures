@@ -15,7 +15,7 @@ import { useSceneControls } from "@/hooks/scene/useControls";
 import { useSceneInteraction } from "@/hooks/scene/useInteraction";
 import { useSceneAudio } from "@/hooks/scene/useAudio";
 
-import type { ExploreSceneProps } from "@/utils/types/exploreScene";
+import type { ExploreSceneProps } from "@/utils/types/maps/exploreScene";
 
 export function ExploreScene({
   map,

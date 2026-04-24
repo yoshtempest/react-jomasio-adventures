@@ -1,6 +1,6 @@
 import { useRef, useState, useCallback, useEffect, useMemo } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
-import { getNpcStats } from "@/utils/types/npcProgress";
+import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 
 type Props = {

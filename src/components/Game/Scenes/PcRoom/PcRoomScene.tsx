@@ -7,7 +7,7 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { createPcsRoom } from "@/interactions/pcsRoom";
 import { ExploreScene } from "@/components/Game/Scenes/Default";
 import { PCS_ROOM_SCENES } from "@/scenes/PcRoomScenes";
-import type { SceneId } from "@/utils/types/pcRoomTypes";
+import type { SceneId } from "@/utils/types/maps/pcRoomTypes";
 
 type Props = {
   sceneId: SceneId;

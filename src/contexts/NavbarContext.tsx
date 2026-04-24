@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
-import type { NavbarOption } from "@/utils/types/navbar";
+import type { NavbarOption } from "@/utils/types/player/navbar";
 
 type NavbarContextType = {
   items: NavbarOption[];

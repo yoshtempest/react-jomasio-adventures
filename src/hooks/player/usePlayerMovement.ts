@@ -1,4 +1,4 @@
-import { type Player } from "@/utils/types/player";
+import { type Player } from "@/utils/types/player/player";
 
 export function usePlayerMovement(
   currentMap: number[][],
