@@ -1,4 +1,5 @@
 import type { ExploreSceneProps } from "@/utils/types/maps/exploreScene";
+import type { SceneEvent } from "./sceneEvents";
 
 export type SceneId = "one" | "two" | "three" | "four" | "five" | "six" | "seven";
 
@@ -14,7 +15,5 @@ export type SceneConfig = Omit<
     route: string;
   };
 
-  events?: {
-    onFinishType?: "classModal";
-  };
+  events?: SceneEvent[];
 };

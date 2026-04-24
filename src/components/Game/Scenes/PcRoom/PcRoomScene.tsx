@@ -6,8 +6,9 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { useInventory } from "@/contexts/InventoryContext";
 import { createPcsRoom } from "@/interactions/pcsRoom";
 import { ExploreScene } from "@/components/Game/Scenes/Default";
-import { PCS_ROOM_SCENES } from "@/scenes/PcRoomScenes";
-import type { SceneId } from "@/utils/types/maps/pcRoomTypes";
+import { PCS_ROOM_SCENES } from "@/scenes/PcRoom";
+import type { SceneId } from "@/utils/types/maps/sceneConfig";
+import { runSceneEvents } from "@/engine/runSceneEvents";
 
 type Props = {
   sceneId: SceneId;
@@ -25,6 +26,7 @@ console.log("scene encontrada:", PCS_ROOM_SCENES[sceneId]);
 
   const navigate = useNavigate();
   const { player } = usePlayer();
+  const [showClassModal, setShowClassModal] = useState(false);
 
   const [popup, setPopup] = useState<string | null>(null);
   const { addItem, hasItem } = useInventory();
@@ -54,17 +56,16 @@ console.log("scene encontrada:", PCS_ROOM_SCENES[sceneId]);
     }
   }, [player, scene]);
 
-  // 🎬 eventos da cena
-  useEffect(() => {
-    if (scene.events?.onFinishType === "classModal") {
-      // pode centralizar isso depois
-    }
-  }, []);
-
   return (
     <ExploreScene
       {...scene}
       className={`Master PcsRoom`}
+      onFinish={() => {
+        runSceneEvents(scene.events, {
+          navigate,
+          setShowClassModal,
+        });
+      }}
       onInteract={(_, x, y) => {
         if (popup) {
           setPopup(null);

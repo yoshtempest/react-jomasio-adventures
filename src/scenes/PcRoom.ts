@@ -6,7 +6,7 @@ import { pcsRoomTwoDialogue } from "@/data/maps/pcsRoom/two";
 
 import MonkeyCircle from "@/assets/songs/MonkeyCircle.m4a";
 
-import type { SceneConfig, SceneId } from "@/utils/types/maps/pcRoomTypes";
+import type { SceneConfig, SceneId } from "@/utils/types/maps/sceneConfig";
 
 export const PCS_ROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
   one: {
@@ -25,16 +25,18 @@ export const PCS_ROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
       route: "/hall/one",
     },
 
-    events: {
-      onFinishType: "classModal",
-    },
+    events: [
+      { type: "openModal", modal: "class" }
+    ]
   },
 
   two: {
     id: "two",
     map: pcsRoomTwo,
     dialogueData: pcsRoomTwoDialogue,
-    nextRoute: "/pcroom/three",
+    events: [
+      { type: "navigate", to: "/pcroom/three" }
+    ],
     audio: { src: MonkeyCircle },
     npcs: [
       { src: "/src/assets/npcs/hungryDeath/default.svg", gridX: 14, gridY: 4 }
