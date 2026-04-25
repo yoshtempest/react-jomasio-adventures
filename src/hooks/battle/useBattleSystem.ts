@@ -3,6 +3,12 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 
+import { calculatePlayerDamage, calculateSpecialDamage, calculateNpcDamage } from "@/rules/damage";
+import { isNpcInRange } from "@/rules/range";
+import { canPlayerHit } from "@/rules/combat";
+import { getMaxSpecial, gainSpecial } from "@/rules/special";
+import { isDead } from "@/rules/death";
+
 type Props = {
   playerX: number;
   playerY: number;
@@ -28,8 +34,6 @@ export function useBattleSystem({
 }: Props) {
   const { player, playerClass } = usePlayer();
   const { progress } = useCharacterProgress();
-
-  // player section
 
   const char = progress[player.character];
 
@@ -61,7 +65,7 @@ export function useBattleSystem({
   const isEnding = useRef(false);
   
   const [delicia, setDelicia] = useState(0);
-  const HITS_TO_SPECIAL = playerClass === "fracote" ? 5 : 6;
+  const HITS_TO_SPECIAL = getMaxSpecial(playerClass);
 
   const resetBattle = useCallback(() => {
     const npc = getNpcStats(npcLevel ?? 1, npcClass ?? "common");
@@ -74,110 +78,83 @@ export function useBattleSystem({
     isEnding.current = false;
   }, []);
 
-// 👤 PLAYER RANGE
-  function isPlayerInRange(rangeX?: number, rangeY = 50) {
-    if (playerState === "jump" || playerState === "blocked") return false;
-
-    const defaultRangeX = player.character === "eduarda" ? 150 : 80;
-
-    const dx = Math.abs(playerX - npcX);
-    const dy = Math.abs(playerY - npcY);
-
-    return dx <= (rangeX ?? defaultRangeX) && dy <= rangeY;
-  }
-
-  // 🤖 NPC RANGE
-  function isNpcInRange(rangeX = 30, rangeY = 50) {
-    const dx = Math.abs(playerX - npcX);
-    const dy = Math.abs(playerY - npcY);
-
-    return dx <= rangeX && dy <= rangeY;
-  }
 
   // 👊 PLAYER HIT
   const playerHit = useCallback(() => {
     if (!playerCooldown.current) return;
 
-    const char = progress[player.character];
-    let dmg = 6 + char.stats.strength;
+    if (!canPlayerHit({
+      playerX,
+      playerY,
+      npcX,
+      npcY,
+      playerState,
+      character: player.character,
+      direction: player.battleDirection
+    })) return;
 
-    if (playerClass === "amostradinho") {
-      dmg *= 1.01;
-    }
+    const dmg = calculatePlayerDamage(char.stats.strength, playerClass);
+
+    setNpcHP((hp) => Math.max(0, hp - dmg));
+    setDelicia((d) => gainSpecial(d, HITS_TO_SPECIAL));
 
     playerCooldown.current = false;
-
-    if (isPlayerInRange()) {
-
-      setNpcHP((hp) => Math.max(0, hp - dmg));
-
-      // 🔥 ganha delicia
-      setDelicia((d) => {
-        const next = d + 1;
-        return next >= HITS_TO_SPECIAL ? HITS_TO_SPECIAL : next;
-      });
-    }
 
     setTimeout(() => {
       playerCooldown.current = true;
     }, 400);
-  }, [playerX, npcX, playerClass, char.stats.strength]);
+  }, [playerX, playerY, npcX, npcY, playerState, player.character, char.stats.strength, playerClass]);
 
   const specialHit = useCallback(() => {
     if (!playerCooldown.current) return;
     if (delicia !== HITS_TO_SPECIAL) return;
 
-    const char = progress[player.character];
-    let dmg = 13 + (char.stats.intelligence * 2);
+    if (!canPlayerHit({
+      playerX,
+      playerY,
+      npcX,
+      npcY,
+      playerState,
+      character: player.character,
+      direction: player.battleDirection
+    })) return;
 
-    if (playerClass === "amostradinho") {
-      dmg *= 1.01;
-    }
+    const dmg = calculateSpecialDamage(char.stats.intelligence, playerClass);
+
+    setNpcHP((hp) => Math.max(0, hp - dmg));
+    setDelicia(0);
 
     playerCooldown.current = false;
-
-    if (isPlayerInRange()) {
-      setNpcHP((hp) => Math.max(0, hp - dmg)); // 💥 3x dano
-    }
-
-    // 🔥 zera deliciômetro
-    setDelicia(0);
 
     setTimeout(() => {
       playerCooldown.current = true;
     }, 600);
-  }, [playerX, npcX, delicia, playerClass, char.stats.intelligence]);
+  }, [playerX, playerY, npcX, npcY, playerState, player.character, delicia, HITS_TO_SPECIAL, char.stats.intelligence, playerClass]);
 
   // 🤖 NPC HIT
   const npcHit = useCallback(() => {
-    if (!npcCooldown.current) return;
+  if (!npcCooldown.current) return;
+  if (!isNpcInRange(playerX, playerY, npcX, npcY)) return;
+  if (player.state === "blocked") return;
 
-    const npc = getNpcStats(npcLevel ?? 1, npcClass ?? "common");
+  const npc = getNpcStats(npcLevel, npcClass);
 
-    if (player.state === "blocked") return;
+  const dmg = calculateNpcDamage(npc.damage, playerClass);
 
-    if (isNpcInRange(20, 50)) {
-      npcCooldown.current = false;
+  setPlayerHP((hp) => Math.max(0, hp - dmg));
 
-      let damage = npc.damage;
+  npcCooldown.current = false;
 
-      if(playerClass === "idiota") {
-        damage *= 0.92;
-      }
-
-      setPlayerHP((hp) => Math.max(0, hp - damage));
-
-      setTimeout(() => {
-        npcCooldown.current = true;
-      }, 800);
-    }
-  }, [playerX, playerY, npcX, npcY, playerClass, npcLevel, npcClass]);
+  setTimeout(() => {
+    npcCooldown.current = true;
+  }, 800);
+}, [playerX, playerY, npcX, npcY, npcLevel, npcClass, playerClass]);
 
   // 🧠 AUTO CHECK (MUITO MELHOR)
   useEffect(() => {
     if (isEnding.current) return;
 
-    if (playerHP <= 0) {
+    if (isDead(playerHP)) {
       isEnding.current = true;
 
       setTimeout(() => {
@@ -191,14 +168,14 @@ export function useBattleSystem({
       return;
     }
 
-    if (npcHP <= 0) {
+    if (isDead(npcHP)) {
       isEnding.current = true;
 
       setTimeout(() => {
         onNpcDeath();
       }, 300);
     }
-  }, [playerHP, npcHP, onPlayerDeath, onNpcDeath, resetBattle]);
+  }, [playerHP, npcHP, onPlayerDeath, onNpcDeath, npcLevel, npcClass, playerMaxHp]);
 
   return {
     playerHP,
