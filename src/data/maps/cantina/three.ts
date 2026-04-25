@@ -19,4 +19,9 @@ export const cantinaThreeDialogue = [
         name: "Jhow Simar",
         message: "Vou desaparecer, mas obrigado, foi uma delícia te enfrentar.",
     },
+    {
+        src: "/src/assets/npcs/jhowsimar/right.svg",
+        name: "Jhow Simar",
+        message: "Ah é, minhas últimas palavras... Dúvido você ir lá na sala dos pcs...",
+    },
 ];

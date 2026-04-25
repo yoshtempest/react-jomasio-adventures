@@ -1,16 +1,20 @@
 import { hallOne } from "@/maps/hall/one";
 import { ExploreScene } from "@/components/Game/Scenes/Default";
-import { AfterPcRoomTwoDialogue } from "@/data/maps/hall/one/afterPcRoom/two"; 
+import { AfterPcRoomTwoDialogue } from "@/data/maps/hall/one/afterPcRoom/two";
+import { AfterPcRoomThreeDialogue } from "@/data/maps/hall/one/afterPcRoom/three"; 
 import { useInventory } from "@/contexts/InventoryContext";
 import type { Dialogue } from "@/utils/types/dialogue";
+import { useState } from "react"
 
 
 export default function AfterPcRoomTwo() {
+  const [pendingReward, setPendingReward] = useState(false);
 
   const { addItem, hasItem, removeItem } = useInventory();
 
   const npcInteraction = (startDialogue: (d: Dialogue[]) => void) => {
     if (hasItem("key_02")) {
+      setPendingReward(true);
       removeItem("key_02");
 
       addItem({
@@ -18,8 +22,13 @@ export default function AfterPcRoomTwo() {
         name: "Pó do bom",
       });
       startDialogue(AfterPcRoomTwoDialogue); // 🔥 AGORA É DIÁLOGO REAL
-
-    } else {
+      return;
+    }
+    if (hasItem("key_05")) {
+      startDialogue(AfterPcRoomThreeDialogue);
+      return;
+    }
+    {
       startDialogue([
         {
           src: "/src/assets/npcs/remedinha/right.svg",
@@ -36,6 +45,18 @@ export default function AfterPcRoomTwo() {
       className={`Master HallOne`}
       dialogueData={AfterPcRoomTwoDialogue} 
       initialPosition={{ x: 2, y: 9, direction: "left" }}
+      onFinish={() => {
+        if (pendingReward) {
+          removeItem("key_02");
+
+          addItem({
+            id: "key_05",
+            name: "Pó do bom",
+          });
+
+          setPendingReward(false);
+        }
+      }}
       npcs={[
         {
           src: "/src/assets/npcs/remedinha/default.svg",
