@@ -10,9 +10,9 @@ export default function HallCenterOne() {
       transitions={[
         {
           positions: [
-            { x: 8, y: 11 },
+            { x: 9, y: 11 },
           ],
-          to: "/cantina/four",
+          to: "/hall/left/one",
         },
         {
           positions: [

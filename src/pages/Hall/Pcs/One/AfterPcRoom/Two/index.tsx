@@ -1,20 +1,9 @@
 import { hallOne } from "@/maps/hall/one";
 import { ExploreScene } from "@/components/Game/Scenes/Default";
-import { useEffect } from "react";
-import { useNavigate } from "react-router";
-import { usePlayer } from "@/contexts/PlayerContext";  
 import { AfterPcRoomTwoDialogue } from "@/data/maps/hall/one/afterPcRoom/two";  
 
 
 export default function AfterPcRoomTwo() {
-  const { player } = usePlayer();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (player.gridX === 1 && player.gridY === 10) {
-      navigate("/hall/left/one");
-    }
-  }, [player]);
   return (
     <ExploreScene
       map={hallOne}
@@ -31,9 +20,9 @@ export default function AfterPcRoomTwo() {
       transitions={[
         {
           positions: [
-            { x: 8, y: 11 },
+            { x: 1, y: 10 },
           ],
-          to: "/cantina/four",
+          to: "/hall/left/one",
         },
         {
           positions: [{ x: 13, y: 7 }],

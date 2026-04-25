@@ -10,7 +10,7 @@ export default function HallCenterFront() {
       transitions={[
         {
           positions: [
-            { x: 8, y: 11 },
+            { x: 7, y: 11 },
           ],
           to: "/hall/center/one",
         },
