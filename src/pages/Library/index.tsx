@@ -131,7 +131,6 @@ export default function Library() {
     <div className={`Master Library`}>
       <ExploreScene
         map={library}
-        className={`Master Library`}
         initialPosition={{ x: 4, y: 4, direction: "down" }}
         transitions={[
           {
