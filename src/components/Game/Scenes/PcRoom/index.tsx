@@ -74,7 +74,6 @@ export function PcRoomScene({ sceneId }: Props) {
     <div className={`Master PcsRoom`}>
       <ExploreScene
         {...scene}
-        className={`Master PcsRoom`}
         onFinish={() => {
           runSceneEvents(scene.events, {
             navigate,
