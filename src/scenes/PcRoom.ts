@@ -26,11 +26,11 @@ export const PCS_ROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     ],
     audio: { src: MonkeyCircle },
 
-    exitTile: {
+    exitTile: [{
       x: 3,
       y: 3,
       route: "/hall/one",
-    },
+    }],
 
     events: [
       { type: "openModal", modal: "class" }
@@ -106,11 +106,11 @@ export const PCS_ROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
   seven: {
     id: "seven",
     map: pcsRoom,
-    exitTile: {
+    exitTile: [{
       x: 3,
       y: 3,
       route: "/hall/afterpcroom/one",
-    },
+    }],
     audio: { src: MonkeyCircle },
   },
 };

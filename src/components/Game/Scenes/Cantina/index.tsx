@@ -41,14 +41,17 @@ export function CantinaScene({ sceneId }: Props) {
 
   // 🚪 exit tile (genérico e seguro)
   useEffect(() => {
-    const exit = scene.exitTile;
-    if (!exit) return;
+    const exits = scene.exitTile;
+    if (!exits) return;
 
-    if (
-      player.gridX === exit.x &&
-      player.gridY === exit.y
-    ) {
-      navigate(exit.route);
+    const matchedExit = exits.find(
+      (exit) =>
+        player.gridX === exit.x &&
+        player.gridY === exit.y
+    );
+
+    if (matchedExit) {
+      navigate(matchedExit.route);
     }
   }, [player, scene]);
 

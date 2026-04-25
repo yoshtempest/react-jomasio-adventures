@@ -11,7 +11,13 @@ export type SceneId =
 "seven" |
 "afterpcroom/one" |
 "afterpcroom/two" |
-"left";
+"left/one";
+
+export type ExitTile = {
+  x: number;
+  y: number;
+  route: string;
+};
 
 export type SceneConfig = Omit<
   ExploreSceneProps,
@@ -19,11 +25,7 @@ export type SceneConfig = Omit<
 > & {
   id: SceneId;
 
-  exitTile?: {
-    x: number;
-    y: number;
-    route: string;
-  };
+  exitTile?: ExitTile[];
 
   events?: SceneEvent[];
 };
