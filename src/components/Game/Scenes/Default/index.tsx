@@ -15,6 +15,7 @@ import { useSceneControls } from "@/hooks/scene/useControls";
 import { useSceneInteraction } from "@/hooks/scene/useInteraction";
 import { useSceneAudio } from "@/hooks/scene/useAudio";
 import { useNavigate } from "react-router";
+import { getTileInFront } from "@/utils/getTileInFront";
 
 import type { ExploreSceneProps } from "@/utils/types/maps/exploreScene";
 
@@ -72,7 +73,22 @@ export function ExploreScene({
     map,
     dialogueSystem,
     playSansTalking,
-    onInteract,
+    onInteract: (tile, x, y) => {
+      const front = getTileInFront(player, map);
+
+      // 🔥 verifica NPC na frente
+      const npc = npcs.find(
+        (n) => n.gridX === front.x && n.gridY === front.y
+      );
+
+      if (npc?.interaction) {
+        npc.interaction(dialogueSystem.start);
+        return true;
+      }
+
+      // fallback
+      return onInteract?.(tile, x, y) ?? false;
+    },
     isReady,
   });
 

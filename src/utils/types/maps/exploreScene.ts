@@ -1,7 +1,11 @@
+import type { Dialogue } from "@/utils/types/dialogue";
+
 export type NPCData = {
   src: string;
   gridX: number;
   gridY: number;
+
+  interaction?: (startDialogue: (d: Dialogue[]) => void) => void; // 🔥 opcional
 };
 
 export type Position = {

@@ -13,14 +13,7 @@ import samuelDefault from "@/assets/player/samuel/default.svg";
 import larissaDefault from "@/assets/player/larissa/default.svg";
 import lucauaDefault from "@/assets/player/lucaua/default.svg";
 import hiagoDefault from "@/assets/player/hiago/default.svg";
-
-
-type Dialogue = {
-  src?: string;
-  name: string;
-  message: string;
-  isPlayer?: boolean; // 👈 ADICIONE
-};
+import type { Dialogue } from "@/utils/types/dialogue";
 
 const playerSprites = {
   marcelo: marceloDefault,
@@ -45,12 +38,15 @@ export function useDialogue(
 
   const [index, setIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
+  const [customDialogues, setCustomDialogues] = useState<Dialogue[] | null>(null);
+
+  const activeDialogues = customDialogues ?? dialogues;
 
   // 🔥 AQUI É A MÁGICA
   const processedDialogues = useMemo(() => {
     const storedName = localStorage.getItem("playerName") || "Protagonista";
 
-    return dialogues.map((line) => {
+    return activeDialogues.map((line) => {
       if (line.isPlayer) {
         return {
           ...line,
@@ -61,9 +57,12 @@ export function useDialogue(
 
       return line;
     });
-  }, [dialogues, player.character]);
+  }, [activeDialogues, player.character]);
 
-  const start = useCallback(() => {
+  const start = useCallback((newDialogues?: Dialogue[]) => {
+    if (newDialogues) {
+      setCustomDialogues(newDialogues);
+    }
     setIndex(0);
     setIsOpen(true);
   }, []);
@@ -72,6 +71,7 @@ export function useDialogue(
     setIndex((prev) => {
       if (prev >= processedDialogues.length - 1) {
         setIsOpen(false);
+        setCustomDialogues(null);
         onFinish?.();
         return 0;
       }
