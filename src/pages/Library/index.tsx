@@ -1,4 +1,5 @@
-import { ExploreScene } from "@/components/Game/Scenes/Default";import { library } from "@/maps/library";
+import { ExploreScene } from "@/components/Game/Scenes/Default";
+import { library } from "@/maps/library";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useEffect, useRef, useState, useMemo } from "react";
 import { useNavigate } from "react-router";
@@ -73,18 +74,29 @@ export default function Library() {
 
   useEffect(() => {
     const { gridX, gridY } = player;
+    // 🚫 Tiles onde NÃO pode ter encontro
 
     const moved =
       gridX !== lastPositionRef.current.x ||
       gridY !== lastPositionRef.current.y;
 
     if (!moved) return;
-
     // Atualiza última posição
     lastPositionRef.current = { x: gridX, y: gridY };
 
     // Só funciona no modo explore (evita trigger em batalha)
     if (player.mode !== "explore") return;
+
+    const blockedTiles = [
+      { x: 4, y: 4 },
+      { x: 4, y: 3 },
+    ];
+
+    const isBlockedTile = blockedTiles.some(
+      (tile) => tile.x === gridX && tile.y === gridY
+    );
+
+    if (isBlockedTile) return;
 
     function saveLibraryPosition() {
       localStorage.setItem(
