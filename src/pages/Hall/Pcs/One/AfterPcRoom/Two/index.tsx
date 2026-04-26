@@ -20,6 +20,7 @@ export default function AfterPcRoomTwo() {
       addItem({
         id: "key_05",
         name: "Pó do bom",
+        type: "teleport",
       });
       startDialogue(AfterPcRoomTwoDialogue); // 🔥 AGORA É DIÁLOGO REAL
       return;
@@ -52,6 +53,7 @@ export default function AfterPcRoomTwo() {
           addItem({
             id: "key_05",
             name: "Pó do bom",
+            type: "teleport"
           });
 
           setPendingReward(false);

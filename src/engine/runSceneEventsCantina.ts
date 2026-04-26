@@ -22,7 +22,6 @@ export function runSceneEvents(
         break;
 
       case "log":
-        console.log("[SceneEvent]", event.message);
         break;
     }
   }

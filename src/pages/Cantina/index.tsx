@@ -4,7 +4,6 @@ import { CantinaScene } from "@/components/Game/Scenes/Cantina/index";
 export default function PcRoomPage() {
   
   const { id } = useParams();
-  console.log("params:", useParams());
 
     if (!id) {
     return <div>Parâmetro de cena não fornecido</div>;
