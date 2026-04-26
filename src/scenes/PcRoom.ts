@@ -85,8 +85,8 @@ export const PCS_ROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     ],
     audio: { src: MonkeyCircle },
     npcs: [
-      { src: "/src/assets/npcs/vandinhaFragment/default.svg", gridX: 12, gridY: 3.7 },
-      { src: "/src/assets/npcs/reincardion/right.svg", gridX: 11, gridY: 3.7 }
+      { src: "/src/assets/npcs/vandinhaFragment/default.svg", gridX: 12, gridY: 4 },
+      { src: "/src/assets/npcs/reincardion/right.svg", gridX: 11, gridY: 4 }
     ],
   },
 
@@ -99,7 +99,7 @@ export const PCS_ROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     ],
     audio: { src: MonkeyCircle },
     npcs: [
-      { src: "/src/assets/npcs/reincardion/right.svg", gridX: 11, gridY: 3.7 }
+      { src: "/src/assets/npcs/reincardion/right.svg", gridX: 11, gridY: 4 }
     ],
   },
 

@@ -23,7 +23,7 @@ export default function PcRoomFive() {
         {
           src: "/src/assets/npcs/reincardion/right.svg",
           gridX: 11,
-          gridY: 3.7,
+          gridY: 4,
         }
       ]}
     />

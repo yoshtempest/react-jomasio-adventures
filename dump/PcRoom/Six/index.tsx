@@ -18,7 +18,7 @@ export default function PcRoomSix() {
           {
             src: "/src/assets/npcs/reincardion/right.svg",
             gridX: 11,
-            gridY: 3.7,
+            gridY: 4,
           }
         ]}
       />
