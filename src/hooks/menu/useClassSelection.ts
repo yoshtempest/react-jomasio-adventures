@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import type { PlayerClass } from "@/utils/types/player/player";
+import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
+import { getSelected } from "@/gameRules/menu/selection";
 
 const CLASSES: PlayerClass[] = ["fracote", "idiota", "amostradinho"];
 
@@ -23,18 +25,18 @@ export function useClassSelection(isActive: boolean, onConfirm ?: () => void) {
     const controls = {
       onRight: () => {
         setSelectedIndex((prev) =>
-          prev === CLASSES.length - 1 ? 0 : prev + 1
+          circularNext(prev, CLASSES.length)
         );
       },
 
       onLeft: () => {
         setSelectedIndex((prev) =>
-          prev === 0 ? CLASSES.length - 1 : prev - 1
+          circularPrev(prev, CLASSES.length)
         );
       },
 
       onConfirm: () => {
-        const selected = CLASSES[selectedIndexRef.current];
+        const selected = getSelected(CLASSES, selectedIndexRef.current);
         chooseClass(selected);
         onConfirm?.(); // 👈 aqui está a mágica
         return true;

@@ -1,4 +1,4 @@
-import { SPECIAL_HITS_BY_CLASS } from "@/gameRules/menu/constants/classes";
+import { SPECIAL_HITS_BY_CLASS } from "@/utils/types/player/classes";
 import type { PlayerClass } from "@/utils/types/player/player";
 
 export function getMaxSpecial(playerClass: PlayerClass | null) {

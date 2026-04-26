@@ -4,6 +4,8 @@ import { useNavbar } from "@/contexts/NavbarContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { CHARACTERS } from "@/data/options/characters";
 import type { CharacterId } from "@/utils/types/player/character";
+import { circularNext, circularPrev, gridMove } from "@/gameRules/menu/navigation";
+import { getSelected } from "@/gameRules/menu/selection";
 
 export function useCharacterMenu() {
   const { setCharacter, setMode } = usePlayer();
@@ -25,39 +27,34 @@ export function useCharacterMenu() {
 
   // 🎮 CONTROLES
   useEffect(() => {
-    const COLS = 6;
 
     const controls = {
       onRight: () => {
         setSelectedIndex((prev) =>
-          prev === selectableCharacters.length - 1 ? 0 : prev + 1
+          circularNext(prev, selectableCharacters.length)
         );
       },
 
       onLeft: () => {
         setSelectedIndex((prev) =>
-          prev === 0 ? selectableCharacters.length - 1 : prev - 1
+          circularPrev(prev, selectableCharacters.length)
         );
       },
 
       onDown: () => {
-        setSelectedIndex((prev) => {
-          const next = prev + COLS;
-          if (next >= selectableCharacters.length) return prev; // não desce
-          return next;
-        });
+        setSelectedIndex((prev) => 
+          gridMove(prev, 6, "down", selectableCharacters.length)
+        );
       },
 
       onUp: () => {
-        setSelectedIndex((prev) => {
-          const next = prev - COLS;
-          if (next < 0) return prev; // não sobe
-          return next;
-        });
+        setSelectedIndex((prev) =>
+          gridMove(prev, 6, "up", selectableCharacters.length)
+        );
       },
 
       onConfirm: () => {
-        const selected = selectableCharacters[selectedIndexRef.current];
+        const selected = getSelected(selectableCharacters, selectedIndexRef.current);
         handleChooseCharacter(selected.image as CharacterId);
         return true;
       },

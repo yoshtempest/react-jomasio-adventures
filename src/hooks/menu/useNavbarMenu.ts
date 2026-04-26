@@ -3,6 +3,9 @@ import { useGameControls } from "@/contexts/GameControlsContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { NAVBAR_OPTIONS } from "@/data/options/navbar";
+import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
+import { shouldCloseToExplore } from "@/gameRules/menu/flow";
+import { getSelected } from "@/gameRules/menu/selection";
 
 export function useNavbarMenu() {
   const { pushControls, popControls } = useGameControls();
@@ -27,7 +30,7 @@ export function useNavbarMenu() {
         if (screenRef.current !== "menu") return;
 
         setSelectedIndex((prev) =>
-          prev === 0 ? NAVBAR_OPTIONS.length - 1 : prev - 1
+          circularPrev(prev, NAVBAR_OPTIONS.length)
         );
       },
 
@@ -35,20 +38,20 @@ export function useNavbarMenu() {
         if (screenRef.current !== "menu") return;
 
         setSelectedIndex((prev) =>
-          prev === NAVBAR_OPTIONS.length - 1 ? 0 : prev + 1
+          circularNext(prev, NAVBAR_OPTIONS.length)
         );
       },
 
       onConfirm: () => {
         if (screenRef.current !== "menu") return;
 
-        const selected = NAVBAR_OPTIONS[selectedIndexRef.current];
+        const selected = getSelected(NAVBAR_OPTIONS, selectedIndexRef.current);
         setScreen(selected.screen);
         return true;
       },
 
       onCancel: () => {
-        if (screenRef.current !== "menu") {
+        if (!shouldCloseToExplore(screenRef.current)) {
           setScreen("menu");
           return;
         }

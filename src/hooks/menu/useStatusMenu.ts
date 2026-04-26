@@ -2,8 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { canSpendPoints } from "@/gameRules/menu/validation";
+import { STATS } from "@/utils/types/player/stats";
+import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
 
-const OPTIONS = ["hp", "strength", "intelligence"] as const;
+const OPTIONS = STATS;
 
 export function useStatusMenu(isOpen: boolean) {
   const { pushControls, popControls } = useGameControls();
@@ -23,13 +26,13 @@ export function useStatusMenu(isOpen: boolean) {
     const controls = {
       onUp: () => {
         setSelectedIndex((prev) =>
-          prev === 0 ? OPTIONS.length - 1 : prev - 1
+          circularPrev(prev, OPTIONS.length)
         );
       },
 
       onDown: () => {
         setSelectedIndex((prev) =>
-          prev === OPTIONS.length - 1 ? 0 : prev + 1
+          circularNext(prev, OPTIONS.length)
         );
       },
 
@@ -37,7 +40,7 @@ export function useStatusMenu(isOpen: boolean) {
         const stat = OPTIONS[selectedIndexRef.current];
         const char = progress[player.character];
 
-        if (char.stats.points <= 0) return true;
+        if (!canSpendPoints(char.stats.points)) return true;
 
         addStat(player.character, stat);
         return true;
