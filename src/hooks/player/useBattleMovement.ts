@@ -1,21 +1,30 @@
 import { useRef, useEffect } from "react";
 import type { Player } from "@/utils/types/player/player";
+import
+{
+  moveLeftBattle,
+  moveRightBattle,
+  jumpBattle,
+  landBattle,
+  blockStart,
+  blockEnd,
+  attackBattle,
+  specialBattle,
+  idleBattle
+} from "@/gameRules/movement/battle";
+
+import { canJump } from "@/gameRules/movement/state";
 
 
 export function useBattleMovement(
   setPlayer: React.Dispatch<React.SetStateAction<Player>>
 ) {
-  const STEP = 10;
 
   const leftIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const rightIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const downLockRef = useRef(false);
   const isJumping = useRef(false);
-
-  function isLocked(p: Player) {
-    return p.mode === "battle" && p.state === "blocked";
-  }
 
   // ✅ LIMPEZA AUTOMÁTICA (ESSENCIAL)
   useEffect(() => {
@@ -25,24 +34,11 @@ export function useBattleMovement(
     };
   }, []);
 
-  // ========================
-  // ⬅️ MOVIMENTO CONTÍNUO
-  // ========================
-
   function startMoveLeft() {
     if (leftIntervalRef.current) return;
 
     leftIntervalRef.current = setInterval(() => {
-      setPlayer((p) => {
-        if (p.mode !== "battle" || isLocked(p)) return p;
-
-        return {
-          ...p,
-          x: Math.max(60, p.x - STEP),
-          battleDirection: "left",
-          state: "walk",
-        };
-      });
+      setPlayer((p) => moveLeftBattle(p));
     }, 30);
   }
 
@@ -59,16 +55,7 @@ export function useBattleMovement(
     if (rightIntervalRef.current) return;
 
     rightIntervalRef.current = setInterval(() => {
-      setPlayer((p) => {
-        if (p.mode !== "battle" || isLocked(p)) return p;
-
-        return {
-          ...p,
-          x: Math.min(960, p.x + STEP),
-          battleDirection: "right",
-          state: "walk",
-        };
-      });
+      setPlayer((p) => moveRightBattle(p));
     }, 30);
   }
 
@@ -84,141 +71,49 @@ export function useBattleMovement(
   // ✅ evita conflito entre esquerda/direita
   function setIdleIfNotMoving() {
     if (!leftIntervalRef.current && !rightIntervalRef.current) {
-      setPlayer((p) => {
-        if (p.state === "blocked") return p;
-
-        return {
-          ...p,
-          state: "idle",
-        };
-      });
+      setPlayer((p) => idleBattle(p));
     }
   }
 
-  // ========================
-  // ⬆️ PULO
-  // ========================
-
   function moveUpBattle() {
-    if (isJumping.current) return;
-
+    if (!canJump(isJumping.current)) return;
     isJumping.current = true;
-    setPlayer((p) => {
-      if (p.mode !== "battle" || isLocked(p)) return p;
 
-      return {
-        ...p,
-        state: "jump",
-        y: p.y - 80,
-      };
-    });
+    setPlayer((p) => jumpBattle(p));
 
     setTimeout(() => {
       isJumping.current = false;
-      setPlayer((p) => ({
-        ...p,
-        y: p.y + 80,
-        state: "idle",
-      }));
+      setPlayer((p) => landBattle(p));
     }, 450);
   }
 
-  // ========================
-  // ⬇️ AGACHAR (HOLD)
-  // ========================
-
   function moveDownBattle() {
     if (downLockRef.current) return;
-
     downLockRef.current = true;
 
-    setPlayer((p) => {
-      if (p.mode !== "battle") return p;
-
-      if (p.character == "marcelo") {
-        return {
-          ...p,
-          state: "blocked",
-        };
-      }
-
-      if (p.character == "samuel") {
-        return {
-          ...p,
-          state: "blocked",
-        };
-      }
-
-      return {
-        ...p,
-        state: "blocked",
-        y: p.y + 40,
-      };
-    });
+    setPlayer((p) => blockStart(p));
   }
 
   function releaseDownBattle() {
     if (!downLockRef.current) return;
-
     downLockRef.current = false;
 
-    setPlayer((p) => {
-      if (p.mode !== "battle") return p;
-
-      if (p.character === "marcelo") {
-        return {
-          ...p,
-          state: "idle",
-        };
-      }
-
-      if (p.character == "samuel") {
-        return {
-          ...p,
-          state: "idle",
-        };
-      }
-
-      return {
-        ...p,
-        state: "idle",
-        y: p.y - 40,
-      };
-    });
+    setPlayer((p) => blockEnd(p));
   }
 
-  // ========================
-  // 👊 ATAQUES
-  // ========================
-
   function attack() {
-    setPlayer((p) => {
-      if (p.mode !== "battle" || isLocked(p)) return p;
-      return { ...p, state: "attack" };
-    });
-
+    setPlayer((p) => attackBattle(p));
     resetToIdle(250);
   }
 
   function special() {
-    setPlayer((p) => {
-      if (p.mode !== "battle" || isLocked(p)) return p;
-      return { ...p, state: "special" };
-    });
-
+    setPlayer((p) => specialBattle(p));
     resetToIdle(800);
   }
 
   function resetToIdle(delay = 0) {
     setTimeout(() => {
-      setPlayer((p) => {
-        if (p.state === "blocked") return p;
-
-        return {
-          ...p,
-          state: "idle",
-        };
-      });
+      setPlayer((p) => idleBattle(p));
     }, delay);
   }
 

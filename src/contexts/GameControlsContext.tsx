@@ -3,7 +3,7 @@ import type { GameControlLayer } from "@/utils/types/player/controls";
 import type { ReactNode } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useNavbar } from "@/contexts/NavbarContext";
-import { shouldConsumeInput } from "@/gameRules/movement/rules/input";
+import { shouldConsumeInput } from "@/gameRules/movement/input";
 
 type Props = {
   children: ReactNode;

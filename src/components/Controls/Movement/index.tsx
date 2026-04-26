@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import styles from "./styles.module.css";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
+import { isMovementLocked } from "@/gameRules/movement/state";
 
 export function Movement() {
   const {
@@ -24,7 +25,7 @@ export function Movement() {
   const { isNavOpen } = useNavbar();
   const { activeControls, pushControls, popControls } = useGameControls();
 
-  const isLocked = player.mode === "select" || isNavOpen;
+  const isLocked = isMovementLocked(player.mode, isNavOpen);
   const isBattle = player.mode === "battle";
 
   const isLockedRef = useRef(isLocked);

@@ -1,68 +1,25 @@
 import { type Player } from "@/utils/types/player/player";
+import { moveExplore } from "@/gameRules/movement/explore";
 
 export function usePlayerMovement(
   currentMap: number[][],
   setPlayer: React.Dispatch<React.SetStateAction<Player>>
 ) {
-  const STEP = 1;
-
-  function canMoveTo(gridX: number, gridY: number) {
-    if (!currentMap[gridY] || currentMap[gridY][gridX] === undefined) {
-      return false;
-    }
-    return currentMap[gridY][gridX] === 0;
-  }
 
   function moveUp() {
-    setPlayer((p) => {
-      if (p.mode !== "explore") return p;
-
-      const newY = p.gridY - STEP;
-      if (!canMoveTo(p.gridX, newY)) {
-        return { ...p, direction: "up" };
-      };
-
-      return { ...p, gridY: newY, direction: "up" };
-    });
+    setPlayer((p) => moveExplore(p, currentMap, "up"));
   }
 
   function moveDown() {
-    setPlayer((p) => {
-      if (p.mode !== "explore") return p;
-
-      const newY = p.gridY + STEP;
-      if (!canMoveTo(p.gridX, newY)) {
-        return { ...p, direction: "down" };
-      };
-
-      return { ...p, gridY: newY, direction: "down" };
-    });
+    setPlayer((p) => moveExplore(p, currentMap, "down"));
   }
 
   function moveLeft() {
-    setPlayer((p) => {
-      if (p.mode !== "explore") return p;
-
-      const newX = p.gridX - STEP;
-      if (!canMoveTo(newX, p.gridY)) {
-        return { ...p, direction: "left" };
-      };
-
-      return { ...p, gridX: newX, direction: "left" };
-    });
+    setPlayer((p) => moveExplore(p, currentMap, "left"));
   }
 
   function moveRight() {
-    setPlayer((p) => {
-      if (p.mode !== "explore") return p;
-
-      const newX = p.gridX + STEP;
-      if (!canMoveTo(newX, p.gridY)) {
-        return { ...p, direction: "right" };
-      };
-
-      return { ...p, gridX: newX, direction: "right" };
-    });
+    setPlayer((p) => moveExplore(p, currentMap, "right"));
   }
 
   return { moveUp, moveDown, moveLeft, moveRight };

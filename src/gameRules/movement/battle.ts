@@ -1,4 +1,4 @@
-import { BATTLE_STEP, BATTLE_LIMITS } from "@/gameRules/movement/constants/movement";
+import { BATTLE_STEP, BATTLE_LIMITS } from "@/utils/types/player/movement";
 import type { Player } from "@/utils/types/player/player";
 
 

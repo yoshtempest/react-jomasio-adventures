@@ -1,5 +1,5 @@
-import { canMoveTo } from "@/gameRules/movement/rules/collision";
-import { GRID_STEP } from "@/gameRules/movement/constants/movement";
+import { canMoveTo } from "@/gameRules/movement/collision";
+import { GRID_STEP } from "@/utils/types/player/movement";
 import type { Player } from "@/utils/types/player/player";
 
 export function moveExplore(
