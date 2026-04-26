@@ -3,8 +3,8 @@ import { useInventoryMenu } from "@/hooks/menu/useInventoryMenu";
 import styles from "./styles.module.css";
 
 export function Inventory() {
-  const { items, isOpen } = useInventory();
-  const { selectedIndex } = useInventoryMenu(isOpen);
+  const { items } = useInventory();
+  const { selectedIndex } = useInventoryMenu(true);
 
   return (
     <div className={styles.inventory}>

@@ -17,7 +17,12 @@ type InventoryContextType = {
 const InventoryContext = createContext<InventoryContextType | null>(null);
 
 export function InventoryProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<InventoryItem[]>([]);
+  const [items, setItems] = useState<InventoryItem[]>([
+    {
+      id: "key_06",
+      name: "200 do pé de meia",
+    }
+  ]);
   const [isOpen, setIsOpen] = useState(false);
 
 

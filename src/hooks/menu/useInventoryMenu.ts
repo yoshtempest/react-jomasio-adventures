@@ -5,26 +5,24 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { useItemEffect } from "@/gameRules/items/useItem";
 
 export function useInventoryMenu(isOpen: boolean) {
+  console.log("useInventoryMenu rodando");
   const { pushControls, popControls } = useGameControls();
   const { items } = useInventory();
   const { getEffect } = useItemEffect();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
   const selectedIndexRef = useRef(selectedIndex);
-  const itemsRef = useRef(items);
 
-  useEffect(() => {
-    itemsRef.current = items;
-  }, [items]);  
-
+  // mantém ref sincronizada (evita stale no confirm)
   useEffect(() => {
     selectedIndexRef.current = selectedIndex;
   }, [selectedIndex]);
 
+  // garante que o índice nunca fique inválido
   useEffect(() => {
-    if (selectedIndex >= items.length) {
-      setSelectedIndex(0);
-    }
+    setSelectedIndex((prev) =>
+      items.length === 0 ? 0 : Math.min(prev, items.length - 1)
+    );
   }, [items]);
 
   function handleUseItem(index: number) {
@@ -43,14 +41,18 @@ export function useInventoryMenu(isOpen: boolean) {
 
     const controls = {
       onUp: () => {
-        const length = itemsRef.current.length;
+        const length = items.length;
+        if (length === 0) return;
+
         setSelectedIndex((prev) =>
           circularPrev(prev, length)
         );
       },
 
       onDown: () => {
-        const length = itemsRef.current.length;
+        const length = items.length;
+        if (length === 0) return;
+
         setSelectedIndex((prev) =>
           circularNext(prev, length)
         );
@@ -65,7 +67,7 @@ export function useInventoryMenu(isOpen: boolean) {
 
     pushControls(controls);
     return () => popControls();
-  }, [isOpen]);
+  }, [isOpen, items]); // 👈 ESSENCIAL
 
   return {
     selectedIndex,
