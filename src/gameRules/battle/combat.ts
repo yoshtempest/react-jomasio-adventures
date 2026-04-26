@@ -1,6 +1,6 @@
 import type { DirectionBattle } from "@/utils/types/player/player";
-import { isPlayerInRange } from "@/rules/range";
-import { isFacingTarget } from "@/rules/direction";
+import { isPlayerInRange } from "@/gameRules/battle/range";
+import { isFacingTarget } from "@/gameRules/battle/direction";
 
 export function canPlayerHit(params: {
   playerX: number;

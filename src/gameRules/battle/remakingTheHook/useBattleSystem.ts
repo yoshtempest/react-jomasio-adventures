@@ -3,10 +3,10 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 
-import { calculatePlayerDamage, calculateSpecialDamage, calculateNpcDamage } from "@/rules/damage";
-import { isPlayerInRange, isNpcInRange } from "@/rules/range";
-import { getMaxSpecial, gainSpecial } from "@/rules/special";
-import { isDead } from "@/rules/death";
+import { calculatePlayerDamage, calculateSpecialDamage, calculateNpcDamage } from "@/gameRules/battle/damage";
+import { isPlayerInRange, isNpcInRange } from "@/gameRules/battle/range";
+import { getMaxSpecial, gainSpecial } from "@/gameRules/battle/special";
+import { isDead } from "@/gameRules/battle/death";
 
 type Props = {
   playerX: number;
