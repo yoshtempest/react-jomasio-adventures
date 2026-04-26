@@ -1,5 +1,5 @@
 import { type Player } from "@/utils/types/player/player";
-import { moveExplore } from "../rules/explore";
+import { moveExplore } from "@/gameRules/movement/rules/explore";
 
 export function usePlayerMovement(
   currentMap: number[][],

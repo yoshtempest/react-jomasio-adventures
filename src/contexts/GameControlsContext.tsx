@@ -3,6 +3,7 @@ import type { GameControlLayer } from "@/utils/types/player/controls";
 import type { ReactNode } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useNavbar } from "@/contexts/NavbarContext";
+import { shouldConsumeInput } from "@/gameRules/movement/rules/input";
 
 type Props = {
   children: ReactNode;
@@ -43,28 +44,28 @@ export function GameControlsProvider({ children }: Props) {
       onUp: () => {
         for (let i = stack.length - 1; i >= 0; i--) {
           const handled = stack[i].onUp?.();
-          if (handled === true) break
+          if (shouldConsumeInput(handled)) break;
         }
       },
 
       onDown: () => {
         for (let i = stack.length - 1; i >= 0; i--) {
           const handled = stack[i].onDown?.();
-          if (handled === true) break;
+          if (shouldConsumeInput(handled)) break;
         }
       },
 
       onLeft: () => {
         for (let i = stack.length - 1; i >= 0; i--) {
           const handled = stack[i].onLeft?.();
-          if (handled === true) break;
+          if (shouldConsumeInput(handled)) break;
         }
       },
 
       onRight: () => {
         for (let i = stack.length - 1; i >= 0; i--) {
           const handled = stack[i].onRight?.();
-          if (handled === true) break;
+          if (shouldConsumeInput(handled)) break;
         }
       },
 
@@ -77,14 +78,14 @@ export function GameControlsProvider({ children }: Props) {
       onConfirm: () => {
         for (let i = stack.length - 1; i >= 0; i--) {
           const handled = stack[i].onConfirm?.();
-          if (handled === true) break;
+          if (shouldConsumeInput(handled)) break;
         }
       },
 
       onCancel: () => {
         for (let i = stack.length - 1; i >= 0; i--) {
           const handled = stack[i].onCancel?.();
-          if (handled === true) break;
+          if (shouldConsumeInput(handled)) break;
         }
       },
       onOpen: top?.onOpen,
