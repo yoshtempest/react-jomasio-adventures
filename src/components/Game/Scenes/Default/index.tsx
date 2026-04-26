@@ -12,7 +12,7 @@ import { useEffect, useRef } from "react";
 import { useSceneNavigation } from "@/hooks/scene/useNavigation";
 import { useSceneSetup } from "@/hooks/scene/useSetup";
 import { useSceneControls } from "@/hooks/scene/useControls";
-import { useSceneInteraction } from "@/hooks/scene/useInteraction";
+import { useSceneInteraction } from "@/hooks/scene/useSceneInteraction";
 import { useSceneAudio } from "@/hooks/scene/useAudio";
 import { useNavigate } from "react-router";
 import { getTileInFront } from "@/utils/getTileInFront";

@@ -21,19 +21,6 @@ export function useInteraction({
 
   // registra o handler UMA VEZ
   useEffect(() => {
-    const handler = () => {
-      const result = getTileInFront(
-        playerRef.current,
-        mapRef.current
-      );
-
-      console.log("INTERACT DEBUG:", result);
-
-      const { x, y, tile } = result;
-
-      onInteractRef.current(tile, x, y);
-    };
-
     pushControls({
       onConfirm: () => {
         const { x, y, tile } = getTileInFront(

@@ -38,7 +38,7 @@ export function useBattleMovement(
 
         return {
           ...p,
-          x: Math.max(0, p.x - STEP),
+          x: Math.max(60, p.x - STEP),
           battleDirection: "left",
           state: "walk",
         };
@@ -64,7 +64,7 @@ export function useBattleMovement(
 
         return {
           ...p,
-          x: Math.min(900, p.x + STEP),
+          x: Math.min(960, p.x + STEP),
           battleDirection: "right",
           state: "walk",
         };
