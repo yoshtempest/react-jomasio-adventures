@@ -13,4 +13,10 @@ export function emitEvent(event: GameEvent) {
 
 export function subscribe(listener: Listener) {
   listeners.push(listener);
+  return () => {
+    const index = listeners.indexOf(listener);
+    if (index !== -1) {
+      listeners.splice(index, 1);
+    }
+  };
 }

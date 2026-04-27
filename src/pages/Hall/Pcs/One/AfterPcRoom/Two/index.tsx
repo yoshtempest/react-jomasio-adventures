@@ -10,20 +10,13 @@ import { useQuestActions } from "@/hooks/useQuestActions";
 
 export default function AfterPcRoomTwo() {
   const [pendingReward, setPendingReward] = useState(false);
-  const { giveQuest } = useQuestActions();
+  const { giveQuest, progressQuest } = useQuestActions();
 
   const { addItem, hasItem, removeItem } = useInventory();
 
   const npcInteraction = (startDialogue: (d: Dialogue[]) => void) => {
     if (hasItem("key_02")) {
       setPendingReward(true);
-      removeItem("key_02");
-
-      addItem({
-        id: "key_05",
-        name: "Pó do bom",
-        type: "teleport",
-      });
       startDialogue(AfterPcRoomTwoDialogue);
       return;
     }
@@ -43,7 +36,7 @@ export default function AfterPcRoomTwo() {
         id: "buscar_embalagem",
         name: "Entrega suspeita",
         image: "/src/assets/npcs/remedinha/default.svg",
-        description: "Pegue a embalagem suspeita para Remedinha.",
+        description: "Vá na biblioteca e traga a embalagem suspeita para Remedinha.",
         type: "history",
         counter: 1,
         progress: 0,
@@ -67,6 +60,8 @@ export default function AfterPcRoomTwo() {
             name: "Pó do bom",
             type: "teleport"
           });
+
+          progressQuest("buscar_embalagem", 1);
 
           setPendingReward(false);
         }

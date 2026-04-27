@@ -30,7 +30,7 @@ export function QuestProvider({ children }: Props) {
       prev.map(q => {
         if (q.id !== id) return q;
 
-        const newProgress = q.progress + value;
+        const newProgress = Math.min(q.progress + value, q.counter);
 
         return {
           ...q,
