@@ -1,24 +1,23 @@
-import { useInventory } from "@/contexts/InventoryContext";
-import { useInventoryMenu } from "@/hooks/menu/useInventoryMenu";
+import { useQuests } from "@/contexts/QuestContext";
+import { useQuestMenu } from "@/hooks/menu/useQuestMenu";
 import styles from "./styles.module.css";
+import { QuestCard } from "@/components/QuestCard";
 
 export function Mission() {
-  const { items } = useInventory();
-  const { selectedIndex } = useInventoryMenu(true);
+  const { quests } = useQuests();
+  const { selectedIndex } = useQuestMenu(true);
 
   return (
     <div className={styles.inventory}>
       <h3>Missões</h3>
 
       <ul>
-        {items.map((item, index) => ( 
-          <li
-            key={item.id}
-            className=
-            {index === selectedIndex ? styles.active : ""}
-            >
-            {item.name}
-          </li>
+        {quests.map((q, index) => (
+          <QuestCard
+            key={q.id}
+            quest={q}
+            selected={index === selectedIndex}
+          />
         ))}
       </ul>
     </div>

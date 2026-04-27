@@ -37,58 +37,61 @@ import Library from './pages/Library/index.tsx';
 import LibraryBattleOne from './pages/Library/Battle/One/index.tsx';
 import LibraryBattleTwo from './pages/Library/Battle/Two/index.tsx';
 import HallThirdClass from './pages/Hall/ThirdClass/index.tsx';
+import { QuestProvider } from './contexts/QuestContext.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <NavbarProvider>
         <InventoryProvider>
-          <CharacterProgressProvider>
-            <PlayerProvider>
-              <GameControlsProvider>
-                <Routes>
-                  <Route path="/" element={<App />}>
-                    <Route index element={<Tutorial />} />
-                    <Route path="home" element={<Home />} />
-                    <Route path="firstscreen" element={<FirstScreen />} />
-                    
+          <QuestProvider>
+            <CharacterProgressProvider>
+              <PlayerProvider>
+                <GameControlsProvider>
+                  <Routes>
+                    <Route path="/" element={<App />}>
+                      <Route index element={<Tutorial />} />
+                      <Route path="home" element={<Home />} />
+                      <Route path="firstscreen" element={<FirstScreen />} />
+                      
 
-                    <Route path="director/one" element={<Director />} />
-                    <Route path="director/two" element={<DirectorTwo />} />
-                    <Route path="cantina/battle" element={<CantinaBattle />} />
+                      <Route path="director/one" element={<Director />} />
+                      <Route path="director/two" element={<DirectorTwo />} />
+                      <Route path="cantina/battle" element={<CantinaBattle />} />
 
-                    <Route path="hall/one" element={<HallOne />} />
-                    <Route path="hall/two" element={<HallTwo />} />
+                      <Route path="hall/one" element={<HallOne />} />
+                      <Route path="hall/two" element={<HallTwo />} />
 
-                    <Route path="cantina">
-                      <Route index element={<Navigate to="/cantina/one" />} />
-                      <Route path=":id" element={<CantinaPage />} />
-                      <Route path="cantina" element={<CantinaBattle />} />
+                      <Route path="cantina">
+                        <Route index element={<Navigate to="/cantina/one" />} />
+                        <Route path=":id" element={<CantinaPage />} />
+                        <Route path="cantina" element={<CantinaBattle />} />
+                      </Route>
+
+                      <Route path="pcroom">
+                        <Route index element={<Navigate to="/pcroom/one" />} />
+                        <Route path=":id" element={<PcRoomPage />} />
+                        <Route path="battle/one" element={<PcRoomBattleOne />} />
+                        <Route path="battle/two" element={<PcRoomBattleTwo />} />
+                      </Route>
+
+                      <Route path="hall/afterpcroom/one" element={<AfterPcRoom />} />
+                      <Route path="hall/afterpcroom/two" element={<AfterPcRoomTwo />} />
+
+                      <Route path="hall/left/one" element={<HallLeftOne />} />
+                      <Route path="hall/center/one" element={<HallCenterOne />} />
+                      <Route path="hall/center/front" element={<HallCenterFront />} />
+                      <Route path="hall/thirdclass" element={<HallThirdClass />} />
+
+                      <Route path="library" element={<Library />} />
+                      <Route path="library/battle/one" element={<LibraryBattleOne />} />
+                      <Route path="library/battle/two" element={<LibraryBattleTwo />} />
                     </Route>
-
-                    <Route path="pcroom">
-                      <Route index element={<Navigate to="/pcroom/one" />} />
-                      <Route path=":id" element={<PcRoomPage />} />
-                      <Route path="battle/one" element={<PcRoomBattleOne />} />
-                      <Route path="battle/two" element={<PcRoomBattleTwo />} />
-                    </Route>
-
-                    <Route path="hall/afterpcroom/one" element={<AfterPcRoom />} />
-                    <Route path="hall/afterpcroom/two" element={<AfterPcRoomTwo />} />
-
-                    <Route path="hall/left/one" element={<HallLeftOne />} />
-                    <Route path="hall/center/one" element={<HallCenterOne />} />
-                    <Route path="hall/center/front" element={<HallCenterFront />} />
-                    <Route path="hall/thirdclass" element={<HallThirdClass />} />
-
-                    <Route path="library" element={<Library />} />
-                    <Route path="library/battle/one" element={<LibraryBattleOne />} />
-                    <Route path="library/battle/two" element={<LibraryBattleTwo />} />
-                  </Route>
-                </Routes>
-              </GameControlsProvider>
-            </PlayerProvider>
-          </CharacterProgressProvider>
+                  </Routes>
+                </GameControlsProvider>
+              </PlayerProvider>
+            </CharacterProgressProvider>
+          </QuestProvider>
         </InventoryProvider>
       </NavbarProvider>
     </BrowserRouter>

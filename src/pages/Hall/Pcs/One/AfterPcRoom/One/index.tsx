@@ -1,8 +1,10 @@
 import { hallOne } from "@/maps/hall/one";
 import { ExploreScene } from "@/components/Game/Scenes/Default";
-import { AfterPcRoomOneDialogue } from "@/data/maps/hall/one/afterPcRoom/one";  
+import { AfterPcRoomOneDialogue } from "@/data/maps/hall/one/afterPcRoom/one";
+
 
 export default function AfterPcRoom() {
+
 
   return (
     <div className={`Master HallOne`}>

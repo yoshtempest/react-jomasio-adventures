@@ -5,10 +5,12 @@ import { AfterPcRoomThreeDialogue } from "@/data/maps/hall/one/afterPcRoom/three
 import { useInventory } from "@/contexts/InventoryContext";
 import type { Dialogue } from "@/utils/types/dialogue";
 import { useState } from "react"
+import { useQuestActions } from "@/hooks/useQuestActions";
 
 
 export default function AfterPcRoomTwo() {
   const [pendingReward, setPendingReward] = useState(false);
+  const { giveQuest } = useQuestActions();
 
   const { addItem, hasItem, removeItem } = useInventory();
 
@@ -22,7 +24,7 @@ export default function AfterPcRoomTwo() {
         name: "Pó do bom",
         type: "teleport",
       });
-      startDialogue(AfterPcRoomTwoDialogue); // 🔥 AGORA É DIÁLOGO REAL
+      startDialogue(AfterPcRoomTwoDialogue);
       return;
     }
     if (hasItem("key_05")) {
@@ -37,6 +39,16 @@ export default function AfterPcRoomTwo() {
           message: "Vai lá pegar o negócio pra mim, meu filho.",
         },
       ]);
+      giveQuest({
+        id: "buscar_embalagem",
+        name: "Entrega suspeita",
+        image: "/src/assets/npcs/remedinha/default.svg",
+        description: "Pegue a embalagem suspeita para Remedinha.",
+        type: "history",
+        counter: 1,
+        progress: 0,
+        completed: false,
+      });
     }
   };
 
