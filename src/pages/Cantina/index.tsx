@@ -1,7 +1,7 @@
 import { useParams } from "react-router";
 import { CantinaScene } from "@/components/Game/Scenes/Cantina/index";
 
-export default function PcRoomPage() {
+export default function CantinaPage() {
   
   const { id } = useParams();
 

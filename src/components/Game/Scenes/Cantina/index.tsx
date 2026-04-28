@@ -8,6 +8,7 @@ import { runSceneEvents } from "@/engine/runSceneEventsCantina";
 import { createCantina } from "@/interactions/cantina";
 import { useInventory } from "@/contexts/InventoryContext";
 import Talking from "@/components/Talking";
+import { useQuestActions } from "@/hooks/useQuestActions";
 
 
 type Props = {
@@ -16,6 +17,7 @@ type Props = {
 
 export function CantinaScene({ sceneId }: Props) {
   const scene = CANTINA_SCENES[sceneId];
+  const { progressQuest } = useQuestActions();
 
   if (!scene) {
     return <div>Scene não encontrada</div>;
@@ -62,6 +64,7 @@ export function CantinaScene({ sceneId }: Props) {
         onFinish={() => {
           runSceneEvents(scene.events, {
             navigate,
+            progressQuest,
           });
         }}
         onInteract={(_, x, y) => {
