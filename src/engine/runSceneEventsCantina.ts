@@ -24,11 +24,11 @@ export function runSceneEvents(
         break;
 
       case "progressQuest":
-        ctx.progressQuest?.(event.id, event.value); // 👈 aqui
+        ctx.progressQuest?.(event.id, event.value);
         break;
 
       case "giveQuest":
-        ctx.giveQuest?.(event.quest); // 👈 aqui
+        ctx.giveQuest?.(event.quest);
         break;
 
       case "log":

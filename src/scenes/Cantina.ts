@@ -35,7 +35,6 @@ export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
       { src: "/src/assets/npcs/jhowsimar/default.svg", gridX: 9, gridY: 4 }
     ],
     events: [
-      // funciona mas não preciso por enquanto { type: "progressQuest", id: "director_escape", value: 1 },
       { type: "navigate", to: "/cantina/battle" }
     ],
   },

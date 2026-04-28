@@ -10,6 +10,7 @@ import { runSceneEvents } from "@/engine/runSceneEvents";
 import styles from "./styles.module.css"
 import { useClassSelection } from "@/hooks/menu/useClassSelection";
 import Talking from "@/components/Talking";
+import { useQuestActions } from "@/hooks/useQuestActions";
 
 
 type Props = {
@@ -18,6 +19,7 @@ type Props = {
 
 export function PcRoomScene({ sceneId }: Props) {
   const scene = PCS_ROOM_SCENES[sceneId];
+  const { giveQuest, progressQuest } = useQuestActions();
 
   if (!scene) {
     return <div>Scene não encontrada</div>;
@@ -81,6 +83,8 @@ export function PcRoomScene({ sceneId }: Props) {
           runSceneEvents(scene.events, {
             navigate,
             setShowClassModal,
+            progressQuest,
+            giveQuest,
           });
         }}
         onInteract={(_, x, y) => {

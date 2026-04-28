@@ -4,6 +4,8 @@ type EventContext = {
   navigate: (to: string) => void;
   setShowClassModal: (v: boolean) => void;
   setFlags?: (key: string, value: boolean) => void;
+  progressQuest?: (id: string, value: number) => void;
+  giveQuest?: (quest: any) => void;
 };
 
 export function runSceneEvents(
@@ -26,6 +28,14 @@ export function runSceneEvents(
 
       case "setFlag":
         ctx.setFlags?.(event.key, event.value);
+        break;
+
+      case "progressQuest":
+        ctx.progressQuest?.(event.id, event.value);
+        break;
+
+      case "giveQuest":
+        ctx.giveQuest?.(event.quest);
         break;
 
       case "log":

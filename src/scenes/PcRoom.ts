@@ -33,6 +33,7 @@ export const PCS_ROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     }],
 
     events: [
+      { type: "progressQuest", id: "explore_jorjao", value: 1 },
       { type: "openModal", modal: "class" }
     ]
   },
