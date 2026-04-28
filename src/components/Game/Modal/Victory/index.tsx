@@ -8,6 +8,7 @@ type Props = {
   myLevel: number;
   nextLevelXp: number;
   onContinue: () => void;
+  xpReward: number;
 };
 
 export function VictoryModal({
@@ -17,6 +18,7 @@ export function VictoryModal({
   myLevel,
   nextLevelXp,
   onContinue,
+  xpReward,
 }: Props) {
   useEffect(() => {
     if (!isOpen) return;
@@ -44,8 +46,9 @@ export function VictoryModal({
         <p>
           Você derrotou um {enemyType} nv. {enemyLevel}
         </p>
-
         <p>Seu nível: {myLevel}</p>
+
+        <p>Xp ganho: {xpReward}</p>
 
         <p>Xp para o próximo nível: {nextLevelXp}</p>
 

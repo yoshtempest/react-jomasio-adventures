@@ -203,6 +203,7 @@ export function BattleScene({
           enemyType={npcType}
           enemyLevel={npcLevel}
           myLevel={charProgress.level}
+          xpReward={xpReward}
           nextLevelXp={missingXp}
           onContinue={handleContinue}
         />
