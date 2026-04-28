@@ -9,23 +9,22 @@ export default function AfterPcRoom() {
   const { giveQuest } = useQuestActions();
 
   return (
-    <div className={`Master HallOne`}>
-      <ExploreScene
-        map={hallOne}
-        dialogueData={AfterPcRoomOneDialogue} 
-        nextRoute={"/hall/afterpcroom/two"}
-        initialPosition={{ x: 12, y: 7, direction: "left" }}
-        onFinish={() => {
-          giveQuest(QUESTS.search_packaging);
-        }}
-        npcs={[
-          {
-            src: "/src/assets/npcs/remedinha/default.svg",
-            gridX: 1,
-            gridY: 9,
-          },
-        ]}
-      />
-    </div>
+    <ExploreScene
+      map={hallOne}
+      className={`Master HallOne`}
+      dialogueData={AfterPcRoomOneDialogue} 
+      nextRoute={"/hall/afterpcroom/two"}
+      initialPosition={{ x: 12, y: 7, direction: "left" }}
+      onFinish={() => {
+        giveQuest(QUESTS.search_packaging);
+      }}
+      npcs={[
+        {
+          src: "/src/assets/npcs/remedinha/default.svg",
+          gridX: 1,
+          gridY: 9,
+        },
+      ]}
+    />
   );
 }
