@@ -119,9 +119,9 @@ export default function Library() {
       const battleRoll = Math.random();
 
       if (battleRoll < 0.95) {
-        navigate("/library/battle/one");
+        navigate("/battle/hungry");
       } else {
-        navigate("/library/battle/two");
+        navigate("/battle/vandinhafragment");
       }
     }
 

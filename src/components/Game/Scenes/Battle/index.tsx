@@ -19,6 +19,8 @@ import { generateNpcLevel } from "@/utils/generateNpcLevel";
 import { calculateXP } from "@/utils/calculateXp";
 import { useNavigate } from "react-router";
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
+import { useInventory } from "@/contexts/InventoryContext";
+import { useNavbar } from "@/contexts/NavbarContext";
 
 type Props = {
   map: any;
@@ -39,6 +41,8 @@ export function BattleScene({
   onVictory,
 }: Props) {
   const { addXP } = useCharacterProgress();
+  const { closeInventory } = useInventory();
+  const { closeNavbar } = useNavbar(); // assumindo que existe
   const { player, setMap, setMode, attack, special, resetBattleState } = usePlayer();
   const { pushControls, popControls } = useGameControls();
   const [showDefeat, setShowDefeat] = useState(false);
@@ -125,6 +129,9 @@ export function BattleScene({
   useEffect(() => {
     setMap(map);
     setMode("battle");
+
+    closeInventory();
+    closeNavbar();
   }, [map]);
 
   // attack

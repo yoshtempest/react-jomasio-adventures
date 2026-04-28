@@ -34,8 +34,6 @@ import AfterPcRoom from './pages/Hall/Pcs/One/AfterPcRoom/One/index.tsx';
 import AfterPcRoomTwo from './pages/Hall/Pcs/One/AfterPcRoom/Two/index.tsx';
 
 import Library from './pages/Library/index.tsx';
-import LibraryBattleOne from './pages/Library/Battle/One/index.tsx';
-import LibraryBattleTwo from './pages/Library/Battle/Two/index.tsx';
 import HallThirdClass from './pages/Hall/ThirdClass/index.tsx';
 import { QuestProvider } from './contexts/QuestContext.tsx';
 
@@ -89,8 +87,6 @@ createRoot(document.getElementById('root')!).render(
                       <Route path="hall/thirdclass" element={<HallThirdClass />} />
 
                       <Route path="library" element={<Library />} />
-                      <Route path="library/battle/one" element={<LibraryBattleOne />} />
-                      <Route path="library/battle/two" element={<LibraryBattleTwo />} />
                       <Route path="battle/hungry" element={<HungryDeathBattle />} />
                       <Route path="battle/vandinhafragment" element={<VandinhaFragmentBattle />} />
                       <Route path="battle/jhowsimar" element={<JhowSimarBattle />} />
