@@ -12,7 +12,7 @@ export default function JhowSimarBattle() {
       npcType="jhowsimar"
       onVictory={() => navigate(-1)}
       victoryDescription="Você derrotou 'Jhow Simar, o Vigia'"
-      className="PcRoomBattle"
+      className="CantinaBattle"
       audioSrc={KenTheme}
     />
   );

@@ -144,6 +144,11 @@ h2 {
     margin: 0 auto; /* centraliza na tela */
 }
 
+.CantinaBattle {
+    background-image: url("/src/assets/cenarios/cantinaBattle.svg");
+    background-size: cover;
+}
+
 .buttonGlobal {
   width: 60px;
   height: 60px;

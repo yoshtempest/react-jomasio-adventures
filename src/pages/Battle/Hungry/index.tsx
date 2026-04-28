@@ -12,7 +12,7 @@ export default function HungryDeathBattle() {
       npcType="hungryDeath"
       onVictory={() => navigate(-1)}
       victoryDescription="Você derrotou 'Jhow Simar, o Vigia'"
-      className="PcRoomBattle"
+      className="LibraryBattle"
       audioSrc={NoEnemies}
     />
   );
