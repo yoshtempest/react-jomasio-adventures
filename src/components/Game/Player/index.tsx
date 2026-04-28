@@ -18,7 +18,12 @@ export function Player({
   TILE_SIZE,
   PLAYER_SIZE,
 }: Props) {
-  const src = `/src/assets/player/${character}/movement/${direction}.svg`;
+  const spriteDirection = direction === "left" ? "right" : direction;
+
+  const src = new URL(
+    `/src/assets/player/${character}/movement/${spriteDirection}.svg`,
+    import.meta.url
+  ).href;
 
   return (
     <img
@@ -30,7 +35,7 @@ export function Player({
         objectFit: "contain",
         left: gridX * TILE_SIZE - 11,
         top: gridY * TILE_SIZE,
-        transform: "translate(-10%, -20%)",
+        transform: `translate(-10%, -20%) scaleX(${direction === "left" ? -1 : 1})`,
         zIndex: 10,
       }}
     />
