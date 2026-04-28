@@ -6,6 +6,7 @@ import { useInventory } from "@/contexts/InventoryContext";
 import type { Dialogue } from "@/utils/types/dialogue";
 import { useState } from "react"
 import { useQuestActions } from "@/hooks/useQuestActions";
+import { QUESTS } from "@/data/quests";
 
 
 export default function AfterPcRoomTwo() {
@@ -22,16 +23,7 @@ export default function AfterPcRoomTwo() {
     }
     if (hasItem("key_05")) {
       startDialogue(AfterPcRoomThreeDialogue);
-      giveQuest({
-        id: "go_cantina",
-        name: "Ir em busca do linguição",
-        image: "/src/assets/npcs/remedinha/default.svg",
-        description: "Vá ao no refeitório e adquira sua recompensa (linguição)",
-        type: "history",
-        counter: 1,
-        progress: 0,
-        completed: false,
-      });
+      giveQuest(QUESTS.go_cantina);
       return;
     }
     {
@@ -42,16 +34,6 @@ export default function AfterPcRoomTwo() {
           message: "Vai lá pegar o negócio pra mim, meu filho.",
         },
       ]);
-      giveQuest({
-        id: "buscar_embalagem",
-        name: "Entrega suspeita",
-        image: "/src/assets/npcs/remedinha/default.svg",
-        description: "Vá na biblioteca e traga a embalagem suspeita para Remedinha.",
-        type: "history",
-        counter: 1,
-        progress: 0,
-        completed: false,
-      });
     }
   };
 
@@ -71,7 +53,7 @@ export default function AfterPcRoomTwo() {
             type: "teleport"
           });
 
-          progressQuest("buscar_embalagem", 1);
+          progressQuest("search_packaging", 1);
 
           setPendingReward(false);
         }

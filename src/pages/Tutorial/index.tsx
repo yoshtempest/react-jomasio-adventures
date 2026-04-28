@@ -15,6 +15,7 @@ import { useNameInput } from "@/hooks/tutorial/useNameInput";
 import { useGenderChoice } from "@/hooks/tutorial/useGenderChoice";
 import { GENDER_OPTIONS } from "@/data/options/gender";
 import { useQuestActions } from "@/hooks/useQuestActions";
+import { QUESTS } from "@/data/quests";
 
 export default function Tutorial() {
   const navigate = useNavigate();
@@ -75,16 +76,7 @@ export default function Tutorial() {
     dialogue: tutorialDialogue,
     playAudio: playSansTalking,
     onFinish: () => {
-      giveQuest({
-        id: "investigar_jomasio",
-        name: "Investigação do SETH Jorjão",
-        image: "/src/assets/npcs/duqueC/default.svg",
-        description: "Investigue a falta de comida no SETH Jorjão",
-        type: "history",
-        counter: 1,
-        progress: 0,
-        completed: false,
-      });
+      giveQuest(QUESTS.jomasio_investigate)
       navigate("/home")
     },
     onBeforeNext: (dialogue) => {
@@ -134,7 +126,11 @@ export default function Tutorial() {
                 }}
               />
 
-              <SendHorizontal className={styles.sendButton} color="black" onClick={nameInput.submit} />
+              <SendHorizontal
+                className={styles.sendButton}
+                color="black"
+                onClick={nameInput.submit}
+              />
             </div>
           </div>
         </div>
