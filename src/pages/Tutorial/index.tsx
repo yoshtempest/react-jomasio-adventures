@@ -14,11 +14,13 @@ import { useTutorialFlow } from "@/hooks/tutorial/useTutorialFlow";
 import { useNameInput } from "@/hooks/tutorial/useNameInput";
 import { useGenderChoice } from "@/hooks/tutorial/useGenderChoice";
 import { GENDER_OPTIONS } from "@/data/options/gender";
+import { useQuestActions } from "@/hooks/useQuestActions";
 
 export default function Tutorial() {
   const navigate = useNavigate();
   const { setCharacter } = usePlayer();
   const { play: playSansTalking } = useSansTalking(false);
+  const { giveQuest } = useQuestActions();
 
   const flow = useTutorialFlow();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -72,7 +74,19 @@ export default function Tutorial() {
   const cutscene = useCutscene({
     dialogue: tutorialDialogue,
     playAudio: playSansTalking,
-    onFinish: () => navigate("/home"),
+    onFinish: () => {
+      giveQuest({
+        id: "investigar_jomasio",
+        name: "Investigação do SETH Jorjão",
+        image: "/src/assets/npcs/duqueC/default.svg",
+        description: "Investigue a falta de comida no SETH Jorjão",
+        type: "history",
+        counter: 1,
+        progress: 0,
+        completed: false,
+      });
+      navigate("/home")
+    },
     onBeforeNext: (dialogue) => {
       if (dialogue.message.includes("qual é seu nome")) {
         if (!flow.showNameInput) {
