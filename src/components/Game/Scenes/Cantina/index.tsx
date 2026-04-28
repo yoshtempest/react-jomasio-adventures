@@ -17,6 +17,7 @@ type Props = {
 
 export function CantinaScene({ sceneId }: Props) {
   const scene = CANTINA_SCENES[sceneId];
+  const [shouldRunEvents, setShouldRunEvents] = useState(false);
   const { giveQuest, progressQuest } = useQuestActions();
 
   if (!scene) {
@@ -57,16 +58,24 @@ export function CantinaScene({ sceneId }: Props) {
     }
   }, [player, scene]);
 
+  useEffect(() => {
+    if (!shouldRunEvents) return;
+
+    runSceneEvents(scene.events, {
+      navigate,
+      giveQuest,
+      progressQuest,
+    });
+
+    setShouldRunEvents(false);
+  }, [shouldRunEvents]);
+
   return (
     <div className={`Master Cantina`}>
       <ExploreScene
         {...scene}
         onFinish={() => {
-          runSceneEvents(scene.events, {
-            navigate,
-            progressQuest,
-            giveQuest,
-          });
+          setShouldRunEvents(true);
         }}
         onInteract={(_, x, y) => {
           if (popup) {

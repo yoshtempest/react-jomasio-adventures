@@ -1,4 +1,5 @@
 import { type SceneEvent } from "@/utils/types/maps/sceneEvents";
+import { QUESTS } from "@/data/quests";
 
 type EventContext = {
   navigate: (to: string) => void;
@@ -35,7 +36,8 @@ export function runSceneEvents(
         break;
 
       case "giveQuest":
-        ctx.giveQuest?.(event.quest);
+        const quest = QUESTS[event.questId];
+        ctx.giveQuest?.(quest);
         break;
 
       case "log":

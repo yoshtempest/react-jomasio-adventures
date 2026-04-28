@@ -51,16 +51,7 @@ export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     events: [
       {
         type: "giveQuest",
-        quest: {
-          id: "explore_jorjao",
-          name: "Foi uma delicia",
-          image: "/src/assets/npcs/jhowsimar/default.svg",
-          description: "Dúvido você ir lá na sala dos pcs.",
-          type: "history",
-          counter: 1,
-          progress: 0,
-          completed: false,
-        },
+        questId: "explore_jorjao",
       },
       { type: "navigate", to: "/cantina/four" }
     ],
