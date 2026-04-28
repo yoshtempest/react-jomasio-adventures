@@ -22,6 +22,16 @@ export default function AfterPcRoomTwo() {
     }
     if (hasItem("key_05")) {
       startDialogue(AfterPcRoomThreeDialogue);
+      giveQuest({
+        id: "go_cantina",
+        name: "Ir em busca do linguição",
+        image: "/src/assets/npcs/remedinha/default.svg",
+        description: "Vá ao no refeitório e adquira sua recompensa (linguição)",
+        type: "history",
+        counter: 1,
+        progress: 0,
+        completed: false,
+      });
       return;
     }
     {
