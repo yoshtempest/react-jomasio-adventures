@@ -28,7 +28,7 @@ export function createPcsRoom({
       setPopup("Uma engrenagem, Era essa a peça que eu queria!");
 
       addItem({
-        id: "key_04",
+        id: "desired_gear",
         name: "Peça desejada",
       });
 

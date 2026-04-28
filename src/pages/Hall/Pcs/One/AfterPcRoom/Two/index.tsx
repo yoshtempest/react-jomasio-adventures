@@ -16,12 +16,12 @@ export default function AfterPcRoomTwo() {
   const { addItem, hasItem, removeItem } = useInventory();
 
   const npcInteraction = (startDialogue: (d: Dialogue[]) => void) => {
-    if (hasItem("key_02")) {
+    if (hasItem("package_01")) {
       setPendingReward(true);
       startDialogue(AfterPcRoomTwoDialogue);
       return;
     }
-    if (hasItem("key_05")) {
+    if (hasItem("good_powder")) {
       startDialogue(AfterPcRoomThreeDialogue);
       giveQuest(QUESTS.go_cantina);
       return;
@@ -45,10 +45,10 @@ export default function AfterPcRoomTwo() {
       initialPosition={{ x: 2, y: 9, direction: "left" }}
       onFinish={() => {
         if (pendingReward) {
-          removeItem("key_02");
+          removeItem("package_01");
 
           addItem({
-            id: "key_05",
+            id: "good_powder",
             name: "Pó do bom",
             type: "teleport"
           });

@@ -20,14 +20,14 @@ export function createHallOne({
       ])
     );
     interactions["2,9"] = () => {
-      if (hasItem("key_02")) {
+      if (hasItem("package_01")) {
         setPopup("Tome aqui sua embalagem");
 
         setTimeout(() => {
-          removeItem("key_02");
+          removeItem("package_01");
           setPopup("Obrigada, eu estou precisando muito disso!");
           addItem({
-            id: "key_05",
+            id: "good_powder",
             name: "Pó do bom",
           });
         }, 5000);

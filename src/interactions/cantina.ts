@@ -28,7 +28,7 @@ export function createCantina({
       setPopup("Que delícia! um suco de laranja");
 
       addItem({
-        id: "key_03",
+        id: "orange_juice",
         name: "Suco de laranja",
       });
 

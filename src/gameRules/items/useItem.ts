@@ -14,7 +14,7 @@ export function useItemEffect() {
 
   function getEffect(itemId: string) {
     switch (itemId) {
-      case "key_05": // 🔥 Pó do bom
+      case "good_powder": // 🔥 Pó do bom
         return () => {
           const route = rollEncounter();
           navigate(route);

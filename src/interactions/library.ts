@@ -28,7 +28,7 @@ export function createLibrary({
       setPopup("Uma embalagem com surpresinha");
 
       addItem({
-        id: "key_02",
+        id: "package_01",
         name: "Embalagem suspeita",
       });
 
