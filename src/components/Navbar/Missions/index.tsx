@@ -8,7 +8,7 @@ export function Mission() {
   const { selectedIndex } = useQuestMenu(true);
 
   return (
-    <div className={styles.inventory}>
+    <div className={styles.container}>
       <h3>Missões</h3>
 
       <ul>
