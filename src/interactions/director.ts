@@ -1,4 +1,5 @@
 import { directorMessages } from "@/data/maps/director/messages";
+import { useQuestActions } from "@/hooks/useQuestActions";
 
 type Dependencies = {
   hasItem: (id: string) => boolean;
@@ -19,6 +20,7 @@ export function createDirector({
   gotKey,
   setGotKey,
 }: Dependencies) {
+    const { progressQuest } = useQuestActions();
     const interactions: Record<string, () => void> = Object.fromEntries(
       Object.entries(directorMessages).map(([key, message]) => [
         key,
@@ -28,6 +30,7 @@ export function createDirector({
     interactions["4,3"] = () => {
       if (hasItem("key_01")) {
         setPopup("Você usou a chave.");
+        progressQuest("director_escape", 1);
 
         setTimeout(() => {
           removeItem("key_01");

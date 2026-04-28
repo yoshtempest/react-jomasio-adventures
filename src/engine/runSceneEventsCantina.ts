@@ -4,6 +4,7 @@ type EventContext = {
   navigate: (to: string) => void;
   setFlags?: (key: string, value: boolean) => void;
   progressQuest?: (id: string, value: number) => void;
+  giveQuest?: (quest: any) => void;
 };
 
 export function runSceneEvents(
@@ -24,6 +25,10 @@ export function runSceneEvents(
 
       case "progressQuest":
         ctx.progressQuest?.(event.id, event.value); // 👈 aqui
+        break;
+
+      case "giveQuest":
+        ctx.giveQuest?.(event.quest); // 👈 aqui
         break;
 
       case "log":

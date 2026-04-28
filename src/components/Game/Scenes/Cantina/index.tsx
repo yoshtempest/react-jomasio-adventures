@@ -17,7 +17,7 @@ type Props = {
 
 export function CantinaScene({ sceneId }: Props) {
   const scene = CANTINA_SCENES[sceneId];
-  const { progressQuest } = useQuestActions();
+  const { giveQuest, progressQuest } = useQuestActions();
 
   if (!scene) {
     return <div>Scene não encontrada</div>;
@@ -65,6 +65,7 @@ export function CantinaScene({ sceneId }: Props) {
           runSceneEvents(scene.events, {
             navigate,
             progressQuest,
+            giveQuest,
           });
         }}
         onInteract={(_, x, y) => {

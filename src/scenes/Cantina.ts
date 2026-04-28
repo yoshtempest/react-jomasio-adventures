@@ -35,7 +35,7 @@ export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
       { src: "/src/assets/npcs/jhowsimar/default.svg", gridX: 9, gridY: 4 }
     ],
     events: [
-      { type: "progressQuest", id: "director_escape", value: 1 },
+      // funciona mas não preciso por enquanto { type: "progressQuest", id: "director_escape", value: 1 },
       { type: "navigate", to: "/cantina/battle" }
     ],
   },
@@ -50,6 +50,19 @@ export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
       { src: "/src/assets/npcs/jhowsimar/default.svg", gridX: 9, gridY: 4 }
     ],
     events: [
+      {
+        type: "giveQuest",
+        quest: {
+          id: "explore_jorjao",
+          name: "Foi uma delicia",
+          image: "/src/assets/npcs/jhowsimar/default.svg",
+          description: "Dúvido você ir lá na sala dos pcs.",
+          type: "history",
+          counter: 1,
+          progress: 0,
+          completed: false,
+        },
+      },
       { type: "navigate", to: "/cantina/four" }
     ],
   },
