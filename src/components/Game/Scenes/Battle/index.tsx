@@ -23,10 +23,11 @@ import { getNpcStats } from "@/utils/types/npc/npcProgress";
 type Props = {
   map: any;
   npcType: string;
-  redirectTo: string;
+  redirectTo?: string;
   victoryDescription: string;
   className?: string;
   audioSrc: string;
+  onVictory?: () => void;
 };
 
 export function BattleScene({
@@ -35,6 +36,7 @@ export function BattleScene({
   redirectTo,
   className,
   audioSrc,
+  onVictory,
 }: Props) {
   const { addXP } = useCharacterProgress();
   const { player, setMap, setMode, attack, special, resetBattleState } = usePlayer();
@@ -52,9 +54,17 @@ export function BattleScene({
   
   const navigate = useNavigate();
 
-  const { showVictory, triggerVictory, handleContinue } = useVictory({
+  const { showVictory, triggerVictory } = useVictory({
     redirectTo,
   });
+
+  function handleContinue() {
+    if (onVictory) {
+      onVictory(); // 👈 usa navigate(-1)
+    } else if (redirectTo) {
+      navigate(redirectTo); // fallback padrão
+    }
+  }
 
   // 🎵 áudio
   const audio = useMemo(

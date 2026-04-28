@@ -3,10 +3,10 @@ import { useNavigate } from "react-router";
 function rollEncounter() {
   const roll = Math.random() * 100;
 
-  if (roll < 1) return "/vandinha/battle";
-  if (roll < 34) return "/hungry/battle";
-  if (roll < 67) return "/jhowsimar/battle";
-  return "/goat/battle";
+  if (roll < 1) return "/battle/vandinhafragment";
+  if (roll < 90) return "/battle/hungry";
+  if (roll < 95) return "/battle/jhowsimar";
+  return "/battle/goat";
 }
 
 export function useItemEffect() {

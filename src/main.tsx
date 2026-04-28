@@ -39,6 +39,11 @@ import LibraryBattleTwo from './pages/Library/Battle/Two/index.tsx';
 import HallThirdClass from './pages/Hall/ThirdClass/index.tsx';
 import { QuestProvider } from './contexts/QuestContext.tsx';
 
+import VandinhaFragmentBattle from './pages/Battle/Vandinha/index.tsx';
+import GoatBattle from './pages/Battle/Goat/index.tsx';
+import JhowSimarBattle from './pages/Battle/JhowSimar/index.tsx';
+import HungryDeathBattle from './pages/Battle/Hungry/index.tsx';
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
@@ -86,6 +91,10 @@ createRoot(document.getElementById('root')!).render(
                       <Route path="library" element={<Library />} />
                       <Route path="library/battle/one" element={<LibraryBattleOne />} />
                       <Route path="library/battle/two" element={<LibraryBattleTwo />} />
+                      <Route path="battle/hungry" element={<HungryDeathBattle />} />
+                      <Route path="battle/vandinhafragment" element={<VandinhaFragmentBattle />} />
+                      <Route path="battle/jhowsimar" element={<JhowSimarBattle />} />
+                      <Route path="battle/goat" element={<GoatBattle />} />
                     </Route>
                   </Routes>
                 </GameControlsProvider>
