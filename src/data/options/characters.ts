@@ -8,7 +8,7 @@ export const CHARACTERS: CharacterOption[] = [
   { name: "Ematron", image: "emanuel", selectable: false },
   { name: "Laricell", image: "larissa", selectable: false },
   { name: "YRA", image: "mayra", selectable: false },
-  { name: "Camilly", image: "camilly", selectable: false },
+  { name: "Camy Kaze", image: "camilly", selectable: false },
   { name: "Yvel", image: "lucas", selectable: false },
   { name: "Babidi", image: "lucaua", selectable: false },
   { name: "Riquelson", image: "riquelme", selectable: false },
