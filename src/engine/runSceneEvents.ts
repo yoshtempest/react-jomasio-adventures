@@ -1,5 +1,6 @@
 import { type SceneEvent } from "@/utils/types/maps/sceneEvents";
 import { QUESTS } from "@/data/quests";
+import { ITEMS } from "@/data/items";
 
 type EventContext = {
   navigate: (to: string) => void;
@@ -7,6 +8,7 @@ type EventContext = {
   setFlags?: (key: string, value: boolean) => void;
   progressQuest?: (id: string, value: number) => void;
   giveQuest?: (quest: any) => void;
+  addItem?: (item: any) => void;
 };
 
 export function runSceneEvents(
@@ -39,6 +41,13 @@ export function runSceneEvents(
         const quest = QUESTS[event.questId];
         ctx.giveQuest?.(quest);
         break;
+
+      case "addItem": {
+        const item = ITEMS[event.itemId];
+
+        ctx.addItem?.(item); // 👈 agora correto
+        break;
+      }
 
       case "log":
         break;

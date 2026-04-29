@@ -85,6 +85,7 @@ export function PcRoomScene({ sceneId }: Props) {
             setShowClassModal,
             progressQuest,
             giveQuest,
+            addItem,
           });
         }}
         onInteract={(_, x, y) => {

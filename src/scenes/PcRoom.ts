@@ -92,10 +92,11 @@ export const PCS_ROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
   },
 
   six: {
-    id: "three",
+    id: "six",
     map: pcsRoomSix,
     dialogueData: pcsRoomSixDialogue,
     events: [
+      { type: "addItem", itemId: "aura_letter"},
       { type: "navigate", to: "/pcroom/seven" }
     ],
     audio: { src: MonkeyCircle },

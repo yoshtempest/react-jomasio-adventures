@@ -1,4 +1,6 @@
 import type { QuestId } from "@/data/quests";
+import type { ItemId } from "@/data/items";
+
 
 export type SceneEvent =
   | { type: "openModal"; modal: "class" }
@@ -6,4 +8,5 @@ export type SceneEvent =
   | { type: "setFlag"; key: string; value: boolean }
   | { type: "log"; message: string }
   | { type: "progressQuest"; id: string; value: number }
-  | {type: "giveQuest"; questId: QuestId };
+  | {type: "giveQuest"; questId: QuestId }
+  | { type: "addItem"; itemId: ItemId };
