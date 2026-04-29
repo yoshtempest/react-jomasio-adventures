@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
-import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
 import { useQuests } from "@/contexts/QuestContext";
 import { questEffects } from "@/gameRules/quests/effects";
+import { circularNext, circularPrev, gridMove } from "@/gameRules/menu/navigation";
 
 export function useQuestMenu(isOpen: boolean) {
   const { pushControls, popControls } = useGameControls();
@@ -41,21 +41,27 @@ export function useQuestMenu(isOpen: boolean) {
     if (!isOpen) return;
 
     const controls = {
-      onUp: () => {
-        const length = quests.length;
-        if (length === 0) return;
-
+      onRight: () => {
         setSelectedIndex((prev) =>
-          circularPrev(prev, length)
+          circularNext(prev, quests.length)
+        );
+      },
+
+      onLeft: () => {
+        setSelectedIndex((prev) =>
+          circularPrev(prev, quests.length)
         );
       },
 
       onDown: () => {
-        const length = quests.length;
-        if (length === 0) return;
-
         setSelectedIndex((prev) =>
-          circularNext(prev, length)
+          gridMove(prev, 2, "down", quests.length) // 👈 2 colunas
+        );
+      },
+
+      onUp: () => {
+        setSelectedIndex((prev) =>
+          gridMove(prev, 2, "up", quests.length) // 👈 2 colunas
         );
       },
 

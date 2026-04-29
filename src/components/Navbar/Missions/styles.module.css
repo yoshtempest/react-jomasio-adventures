@@ -13,26 +13,12 @@
   z-index: 999;
 }
 
-.inventory ul {
+.container ul {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 colunas */
+  grid-template-rows: repeat(2, auto);   /* 2 linhas */
+  gap: 12px; /* espaçamento opcional */
   list-style: none;
   padding: 0;
-  margin: 0;
-}
-
-.inventory li {
-  margin: 4px 0;
-}
-
-.active {
-  display: flex;              /* 👈 ESSENCIAL */
-  align-items: center;        /* centraliza verticalmente */
-  gap: 6px;                   /* espaço entre seta e texto */
-  background-color: rgb(26, 26, 109);
-  font-weight: bold;
-  border-radius: 1px;
-  padding: 4px;
-}
-
-.active::before {
-  content: "▶ ";
+  margin-left: 2%;
 }
