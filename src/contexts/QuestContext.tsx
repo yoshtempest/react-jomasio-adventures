@@ -10,6 +10,7 @@ type QuestContextType = {
   quests: Quest[];
   addQuest: (quest: Quest) => void;
   updateProgress: (id: string, value: number) => void;
+  claimQuest: (id: string) => void;
 };
 
 const QuestContext = createContext({} as QuestContextType);
@@ -21,7 +22,14 @@ export function QuestProvider({ children }: Props) {
     setQuests((prev) => {
       const exists = prev.find(q => q.id === newQuest.id);
       if (exists) return prev;
-      return [...prev, newQuest];
+
+      return [
+        ...prev,
+        {
+          ...newQuest,
+          claimed: false // 👈 garante consistência
+        }
+      ];
     });
   }
 
@@ -41,8 +49,16 @@ export function QuestProvider({ children }: Props) {
     );
   }
 
+  function claimQuest(id: string) {
+    setQuests((prev) =>
+      prev.map((q) =>
+        q.id === id ? { ...q, claimed: true } : q
+      )
+    );
+  }
+
   return (
-    <QuestContext.Provider value={{ quests, addQuest, updateProgress }}>
+    <QuestContext.Provider value={{ quests, addQuest, updateProgress, claimQuest }}>
       {children}
     </QuestContext.Provider>
   );

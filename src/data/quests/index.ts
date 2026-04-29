@@ -15,6 +15,8 @@ export const QUESTS = {
     image: "/src/assets/npcs/system/default.svg",
     description: "Procure uma forma de sair da diretoria",
     type: "history",
+    rewardsType: "xp",
+    rewards: 10,
     counter: 1,
     progress: 0,
     completed: false
@@ -25,6 +27,8 @@ export const QUESTS = {
     image: "/src/assets/npcs/jhowsimar/default.svg",
     description: "Vá na sala dos pcs para superar o 'dúvido' de Jhow Simar",
     type: "history",
+    rewardsType: "xp",
+    rewards: 10,
     counter: 1,
     progress: 0,
     completed: false
@@ -34,6 +38,8 @@ export const QUESTS = {
     name: "Entrega suspeita",
     image: "/src/assets/npcs/remedinha/default.svg",
     description: "Vá na biblioteca e traga a embalagem suspeita para Remedinha.",
+    rewardsType: "xp",
+    rewards: 10,
     type: "history",
     counter: 1,
     progress: 0,

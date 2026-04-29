@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useQuests } from "@/contexts/QuestContext";
-import { questEffects } from "@/gameRules/quests/effects";
 import { circularNext, circularPrev, gridMove } from "@/gameRules/menu/navigation";
+import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
+import { usePlayer } from "@/contexts/PlayerContext";
 
 export function useQuestMenu(isOpen: boolean) {
   const { pushControls, popControls } = useGameControls();
-  const { quests } = useQuests();
+  const { quests, claimQuest } = useQuests();
+  const { addXP } = useCharacterProgress();
+  const { player } = usePlayer();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
   const selectedIndexRef = useRef(selectedIndex);
@@ -22,18 +25,18 @@ export function useQuestMenu(isOpen: boolean) {
       quests.length === 0 ? 0 : Math.min(prev, quests.length - 1)
     );
   }, [quests]);
-  function getEffect(id: string) {
-    return questEffects[id];
-  }
 
   function handleUseQuest(index: number) {
     const quest = quests[index];
     if (!quest) return false;
 
-    const effect = getEffect(quest.id);
-    if (!effect) return false;
+    if (!quest.completed || quest.claimed) return false;
 
-    effect();
+    if (quest.rewardsType === "xp" && quest.rewards) {
+      addXP(player.character, quest.rewards);
+      claimQuest(quest.id);
+    }
+
     return true;
   }
 

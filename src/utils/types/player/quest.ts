@@ -1,4 +1,5 @@
 export type QuestType = "history" | "sidequest";
+export type QuestRewardsType = "xp" | "item";
 
 export type Quest = {
   id: string;
@@ -9,4 +10,7 @@ export type Quest = {
   counter: number;
   progress: number;
   completed: boolean;
+  rewardsType?: QuestRewardsType;
+  rewards?: any;
+  claimed?: boolean;
 };
