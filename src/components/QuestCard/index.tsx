@@ -8,13 +8,14 @@ type Props = {
 };
 
 export function QuestCard({ quest, selected }: Props) {
+    const isActive = quest.completed && !quest.claimed;
 
     return (
         <div
             style={{
-                background: quest.completed ? "#2e7d32" : "#1a1a1a",
+                background: isActive ? "#2e7d32" : "#1a1a1a",
                 border: selected ? "2px solid yellow" : "2px solid transparent",
-                opacity: quest.completed ? 0.8 : 1,
+                opacity: isActive ? 0.8 : 1,
             }}
             className={styles.container}
         >
@@ -24,10 +25,10 @@ export function QuestCard({ quest, selected }: Props) {
             </div>
 
             <p>{quest.description}</p>
-
-            <span>
-                {quest.progress} / {quest.counter}
-            </span>
+            <div className={styles.rowTwo}>
+                <span>{quest.progress} / {quest.counter} </span>
+                <p>{quest.rewards} XP</p>
+            </div>
         </div>
     );
 }

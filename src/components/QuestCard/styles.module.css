@@ -1,6 +1,5 @@
 .container {
     padding: 10px;
-    margin-bottom: 10px;
     transition: 0.2s;
     border-radius: 4px;
 }
@@ -8,4 +7,17 @@
 .row {
     display: flex;
     flex-direction: row;
+    gap: 4%;
+}
+
+.rowTwo {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.rowTwo span, p {
+    display: flex;
+    width: fit-content;
+    align-self: center;
 }
