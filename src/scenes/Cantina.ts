@@ -61,10 +61,17 @@ export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     id: "four",
     map: cantinaFour,
     audio: { src: LavenderTown },
-    exitTile: [{
+    exitTile: [
+    {
       x: 15,
       y: 11,
       route: "/hall/one",
-    }],
+    },
+    {
+      x: 6,
+      y: 2,
+      route: "/cafeteria/one",
+    }
+  ],
   },
 };
