@@ -57,34 +57,18 @@ export function landBattle(p: Player): Player {
 export function blockStart(p: Player): Player {
   if (!isInBattle(p)) return p;
 
-  if (p.character === "marcelo" || p.character === "samuel") {
-    return {
-      ...p,
-      state: "blocked",
-    };
-  }
-
   return {
     ...p,
     state: "blocked",
-    y: p.y + 40,
   };
 }
 
 export function blockEnd(p: Player): Player {
   if (!isInBattle(p)) return p;
 
-  if (p.character === "marcelo" || p.character === "samuel") {
-    return {
-      ...p,
-      state: "idle",
-    };
-  }
-
   return {
     ...p,
     state: "idle",
-    y: p.y - 40,
   };
 }
 
