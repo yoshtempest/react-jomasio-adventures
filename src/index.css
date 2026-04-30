@@ -82,6 +82,10 @@ h2 {
 
 .PcsRoom {
   background-image: url("/src/assets/cenarios/pcsRoom.svg");
+  margin: 0 auto;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .PcRoomBattle {

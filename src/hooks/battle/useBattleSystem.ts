@@ -8,6 +8,7 @@ import { isNpcInRange } from "@/gameRules/battle/range";
 import { canPlayerHit } from "@/gameRules/battle/combat";
 import { getMaxSpecial, gainSpecial } from "@/gameRules/battle/special";
 import { isDead } from "@/gameRules/battle/death";
+import { battleBehaviors } from "@/gameRules/battle/behaviors";
 
 type Props = {
   playerX: number;
@@ -33,6 +34,8 @@ export function useBattleSystem({
   onNpcDeath,
 }: Props) {
   const { player, playerClass } = usePlayer();
+  const [stacks, setStacks] = useState(0);
+  const behavior = battleBehaviors[player.character] || battleBehaviors.default;
   const { progress } = useCharacterProgress();
 
   const char = progress[player.character];
@@ -69,14 +72,24 @@ export function useBattleSystem({
 
   const resetBattle = useCallback(() => {
     const npc = getNpcStats(npcLevel ?? 1, npcClass ?? "common");
+
     setPlayerHP(playerMaxHp);
     setNpcHP(npc.hp);
     setDelicia(0);
+    setStacks(0);
+
+    behavior.reset?.({ setStacks });
 
     playerCooldown.current = true;
     npcCooldown.current = true;
     isEnding.current = false;
-  }, []);
+  },
+  [
+    npcLevel,
+    npcClass,
+    playerMaxHp,
+    behavior
+  ]);
 
 
   // 👊 PLAYER HIT
@@ -93,21 +106,37 @@ export function useBattleSystem({
       direction: player.battleDirection
     })) return;
 
-    const dmg = calculatePlayerDamage(char.stats.strength, playerClass);
-
-    setNpcHP((hp) => Math.max(0, hp - dmg));
-    setDelicia((d) => gainSpecial(d, HITS_TO_SPECIAL));
+    behavior.onBasicHit({
+      setNpcHP,
+      char,
+      playerClass,
+      setDelicia,
+      HITS_TO_SPECIAL,
+      stacks,
+      setStacks
+    });
 
     playerCooldown.current = false;
 
     setTimeout(() => {
       playerCooldown.current = true;
     }, 400);
-  }, [playerX, playerY, npcX, npcY, playerState, player.character, char.stats.strength, playerClass]);
+  },
+  [
+    playerX,
+    playerY,
+    npcX,
+    npcY,
+    playerState,
+    player.character,
+    char.stats.strength,
+    playerClass,
+    stacks
+  ]);
 
   const specialHit = useCallback(() => {
     if (!playerCooldown.current) return;
-    if (delicia !== HITS_TO_SPECIAL) return;
+    // if (delicia !== HITS_TO_SPECIAL) return;
 
     if (!canPlayerHit({
       playerX,
@@ -119,36 +148,58 @@ export function useBattleSystem({
       direction: player.battleDirection
     })) return;
 
-    const dmg = calculateSpecialDamage(char.stats.intelligence, playerClass);
+    behavior.onSpecialHit({
+      setNpcHP,
+      char,
+      playerClass,
+      setDelicia,
+      stacks,
+      setStacks
+    });
 
-    setNpcHP((hp) => Math.max(0, hp - dmg));
-    setDelicia(0);
+    // const dmg = calculateSpecialDamage(char.stats.intelligence, playerClass);
+
+    // setNpcHP((hp) => Math.max(0, hp - dmg));
+    // setDelicia(0);
 
     playerCooldown.current = false;
 
     setTimeout(() => {
       playerCooldown.current = true;
     }, 600);
-  }, [playerX, playerY, npcX, npcY, playerState, player.character, delicia, HITS_TO_SPECIAL, char.stats.intelligence, playerClass]);
+  },
+  [
+    playerX,
+    playerY,
+    npcX,
+    npcY,
+    playerState,
+    player.character,
+    delicia,
+    HITS_TO_SPECIAL,
+    char,
+    playerClass,
+    stacks
+  ]);
 
   // 🤖 NPC HIT
   const npcHit = useCallback(() => {
-  if (!npcCooldown.current) return;
-  if (!isNpcInRange(playerX, playerY, npcX, npcY)) return;
-  if (player.state === "blocked") return;
+    if (!npcCooldown.current) return;
+    if (!isNpcInRange(playerX, playerY, npcX, npcY)) return;
+    if (player.state === "blocked") return;
 
-  const npc = getNpcStats(npcLevel, npcClass);
+    const npc = getNpcStats(npcLevel, npcClass);
 
-  const dmg = calculateNpcDamage(npc.damage, playerClass);
+    const dmg = calculateNpcDamage(npc.damage, playerClass);
 
-  setPlayerHP((hp) => Math.max(0, hp - dmg));
+    setPlayerHP((hp) => Math.max(0, hp - dmg));
 
-  npcCooldown.current = false;
+    npcCooldown.current = false;
 
-  setTimeout(() => {
-    npcCooldown.current = true;
-  }, 800);
-}, [playerX, playerY, npcX, npcY, npcLevel, npcClass, playerClass]);
+    setTimeout(() => {
+      npcCooldown.current = true;
+    }, 800);
+  }, [playerX, playerY, npcX, npcY, npcLevel, npcClass, playerClass]);
 
   // 🧠 AUTO CHECK (MUITO MELHOR)
   useEffect(() => {
