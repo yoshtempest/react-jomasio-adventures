@@ -61,6 +61,7 @@ export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     id: "four",
     map: cantinaFour,
     audio: { src: LavenderTown },
+    initialPosition: { x: 9, y: 5, direction: "up" },
     exitTile: [
     {
       x: 15,
@@ -71,6 +72,8 @@ export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
       x: 6,
       y: 2,
       route: "/cafeteria/one",
+      requiredQuest: "go_cantina",
+      blockedMessage: "Ainda não é o momento..."
     }
   ],
   },

@@ -31,7 +31,7 @@ export default function HallCenterOne() {
           positions: [
             { x: 3, y: 7 },
           ],
-          to: "/hall/left/one",
+          to: "/cantina/four",
         },
       ]}
     />

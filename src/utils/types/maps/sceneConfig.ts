@@ -1,5 +1,6 @@
 import type { ExploreSceneProps } from "@/utils/types/maps/exploreScene";
 import type { SceneEvent } from "./sceneEvents";
+import type { QuestId } from "@/data/quests";
 
 export type SceneId =
 "one" |
@@ -17,6 +18,9 @@ export type ExitTile = {
   x: number;
   y: number;
   route: string;
+
+  requiredQuest?: QuestId;
+  blockedMessage?: string;
 };
 
 export type SceneConfig = Omit<

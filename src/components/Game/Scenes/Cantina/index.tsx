@@ -9,6 +9,7 @@ import { createCantina } from "@/interactions/cantina";
 import { useInventory } from "@/contexts/InventoryContext";
 import Talking from "@/components/Talking";
 import { useQuestActions } from "@/hooks/useQuestActions";
+import { useQuests } from "@/contexts/QuestContext";
 
 
 type Props = {
@@ -17,6 +18,7 @@ type Props = {
 
 export function CantinaScene({ sceneId }: Props) {
   const scene = CANTINA_SCENES[sceneId];
+  const { quests } = useQuests();
   const [shouldRunEvents, setShouldRunEvents] = useState(false);
   const { giveQuest, progressQuest } = useQuestActions();
 
@@ -54,6 +56,16 @@ export function CantinaScene({ sceneId }: Props) {
     );
 
     if (matchedExit) {
+      if (matchedExit.requiredQuest) {
+        const hasQuest = quests.some(
+          q => q.id === matchedExit.requiredQuest
+        );
+
+        if (!hasQuest) {
+          setPopup(matchedExit.blockedMessage || "Você não pode ir agora.");
+          return; // 🚫 BLOQUEIA
+        }
+      }
       navigate(matchedExit.route);
     }
   }, [player, scene]);
