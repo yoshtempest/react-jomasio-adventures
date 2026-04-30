@@ -51,7 +51,6 @@ button {
   width: 74vw;
   height: 100vh;
   background-size: cover;
-  background-position: center;
   background-repeat: no-repeat;
 }
 
@@ -77,15 +76,12 @@ h2 {
 }
 
 .Cantina {
+  background-position: center;
   background-image: url("/src/assets/cenarios/cantina.svg");
 }
 
 .PcsRoom {
   background-image: url("/src/assets/cenarios/pcsRoom.svg");
-  margin: 0 auto;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
 }
 
 .PcRoomBattle {
