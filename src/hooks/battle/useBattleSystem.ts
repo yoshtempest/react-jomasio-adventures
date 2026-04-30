@@ -3,10 +3,10 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 
-import { calculatePlayerDamage, calculateSpecialDamage, calculateNpcDamage } from "@/gameRules/battle/damage";
+import { calculateNpcDamage } from "@/gameRules/battle/damage";
 import { isNpcInRange } from "@/gameRules/battle/range";
 import { canPlayerHit } from "@/gameRules/battle/combat";
-import { getMaxSpecial, gainSpecial } from "@/gameRules/battle/special";
+import { getMaxSpecial } from "@/gameRules/battle/special";
 import { isDead } from "@/gameRules/battle/death";
 import { battleBehaviors } from "@/gameRules/battle/behaviors";
 
@@ -35,8 +35,24 @@ export function useBattleSystem({
 }: Props) {
   const { player, playerClass } = usePlayer();
   const [stacks, setStacks] = useState(0);
+  const [piercings, setPiercings] = useState<
+    { id: number; x: number; y: number }[]
+  >([]);
+
+  const [isExploding, setIsExploding] = useState(false);
   const behavior = battleBehaviors[player.character] || battleBehaviors.default;
   const { progress } = useCharacterProgress();
+
+  const createRandomOffset = () => {
+    const radius = 20; // distância do centro do NPC
+
+    const angle = Math.random() * Math.PI * 2;
+
+    return {
+      x: Math.cos(angle) * radius,
+      y: Math.sin(angle) * radius,
+    };
+  };
 
   const char = progress[player.character];
 
@@ -116,6 +132,19 @@ export function useBattleSystem({
       setStacks
     });
 
+    if (player.character === "larissa") {
+      const offset = createRandomOffset();
+
+      setPiercings((prev) => [
+        ...prev,
+        {
+          id: Date.now(),
+          x: offset.x,
+          y: offset.y,
+        },
+      ]);
+    }
+
     playerCooldown.current = false;
 
     setTimeout(() => {
@@ -156,6 +185,18 @@ export function useBattleSystem({
       stacks,
       setStacks
     });
+
+    if (player.character === "larissa") {
+      setIsExploding(true);
+
+      // limpa os piercings
+      setPiercings([]);
+
+      // volta ao normal depois de um tempo
+      setTimeout(() => {
+        setIsExploding(false);
+      }, 300);
+    }
 
     // const dmg = calculateSpecialDamage(char.stats.intelligence, playerClass);
 
@@ -240,5 +281,7 @@ export function useBattleSystem({
     specialHit,
     npcHit,
     resetBattle,
+    piercings,
+    isExploding,
   };
 }

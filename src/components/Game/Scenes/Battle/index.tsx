@@ -185,6 +185,8 @@ export function BattleScene({
           npcType={npcType}
           state={npc.state}
           direction={npc.direction}
+          piercings={battle.piercings}
+          isExploding={battle.isExploding}
         />
 
         <PlayerBattle
