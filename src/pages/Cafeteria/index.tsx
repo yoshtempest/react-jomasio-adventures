@@ -6,6 +6,14 @@ export default function CafeteriaOne() {
       map={cafeteria}
       className={`Master Cafeteria`}
       initialPosition={{ x: 9, y: 10, direction: "up" }}
+      transitions={[
+        {
+          positions: [
+            { x: 8, y: 11 },
+          ],
+          to: "/cantina/four",
+        },
+      ]}
     />
   );
 }
