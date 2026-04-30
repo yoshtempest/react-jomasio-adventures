@@ -50,6 +50,9 @@ button {
   justify-content: center;
   width: 74vw;
   height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 h1 {
@@ -75,78 +78,58 @@ h2 {
 
 .Cantina {
   background-image: url("/src/assets/cenarios/cantina.svg");
-  background-size: cover;
-  background-position: center;
 }
 
 .PcsRoom {
   background-image: url("/src/assets/cenarios/pcsRoom.svg");
-  background-size: cover;
-  margin: 0 auto; /* centraliza na tela */
 }
 
 .PcRoomBattle {
-    background-image: url("/src/assets/cenarios/pcsRoomBattle.svg");
-    background-size: cover;
+  background-image: url("/src/assets/cenarios/pcsRoomBattle.svg");
 }
 
 .Director {
-    background-image: url("/src/assets/cenarios/director.svg");
-    background-size: cover;
-    margin: 0 auto; /* centraliza na tela */
+  background-image: url("/src/assets/cenarios/director.svg");
 }
 
 .HallOne {
-    background-image: url("/src/assets/cenarios/hallOne.svg");
-    background-size: cover;
-    margin: 0 auto; /* centraliza na tela */
+  background-image: url("/src/assets/cenarios/hallOne.svg");
 }
 
 .HallLeft {
-    background-image: url("/src/assets/cenarios/hallLeft.svg");
-    background-size: cover;
-    margin: 0 auto; /* centraliza na tela */
+  background-image: url("/src/assets/cenarios/hallLeft.svg");
 }
 
 .HallCenter {
-    background-image: url("/src/assets/cenarios/hallCenter.svg");
-    background-size: cover;
-    margin: 0 auto; /* centraliza na tela */
+  background-image: url("/src/assets/cenarios/hallCenter.svg");
 }
 
 .HallCenterFront {
-    background-image: url("/src/assets/cenarios/hallCenterFront.svg");
-    background-size: cover;
-    margin: 0 auto; /* centraliza na tela */
+  background-image: url("/src/assets/cenarios/hallCenterFront.svg");
 }
 
 .HallThirdClass {
-    background-image: url("/src/assets/cenarios/hallThirdClass.svg");
-    background-size: cover;
-    margin: 0 auto; /* centraliza na tela */
+  background-image: url("/src/assets/cenarios/hallThirdClass.svg");
 }
 
 .Library {
-    background-image: url("/src/assets/cenarios/library.svg");
-    background-size: cover;
-    margin: 0 auto; /* centraliza na tela */
+  background-image: url("/src/assets/cenarios/library.svg");
 }
 
 .LibraryBattle {
-    background-image: url("/src/assets/cenarios/libraryBattle.svg");
-    background-size: cover;
-    margin: 0 auto; /* centraliza na tela */
+  background-image: url("/src/assets/cenarios/libraryBattle.svg");
 }
 
 .brodiClass {
-    background-image: url("/src/assets/cenarios/brodiClass.svg");
-    background-size: cover;
-    margin: 0 auto; /* centraliza na tela */
+  background-image: url("/src/assets/cenarios/brodiClass.svg");
 }
 
 .CantinaBattle {
-    background-image: url("/src/assets/cenarios/cantinaBattle.svg");
-    background-size: cover;
+  background-image: url("/src/assets/cenarios/cantinaBattle.svg");
+}
+
+.Cafeteria {
+  background-image: url("/src/assets/cenarios/cafeteria.svg");
 }
 
 .buttonGlobal {
