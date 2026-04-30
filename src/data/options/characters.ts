@@ -1,7 +1,7 @@
 import type { CharacterOption } from "@/utils/types/player/character";
 
 export const CHARACTERS: CharacterOption[] = [
-  { name: "Shadow", image: "marcelo", selectable: true },
+  { name: "Marshadow", image: "marcelo", selectable: true },
   { name: "Drika", image: "eduarda", selectable: true },
   { name: "Samurion", image: "samuel", selectable: false },
   { name: "Sr. Guaxinim", image: "artur", selectable: false },
