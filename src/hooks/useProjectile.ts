@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import type { Projectile } from "@/utils/types/projectile";
 import type { Dispatch, SetStateAction } from "react";
+import { isFacingTarget } from "@/gameRules/battle/direction";
+import type { DirectionBattle } from "@/utils/types/player/player";
 
 export function useProjectile(
   projectile: Projectile | null,
@@ -8,6 +10,9 @@ export function useProjectile(
   playerX: number,
   playerY: number,
   playerState: string,
+  playerDirection: DirectionBattle,
+  npcX: number,
+  npcY: number,
   onHit: () => void
 ) {
   useEffect(() => {
@@ -22,7 +27,7 @@ export function useProjectile(
 
         const dist = Math.sqrt(dx * dx + dy * dy);
 
-        const speed = 6;
+        const speed = 8;
 
         const next = {
           ...p,
@@ -38,7 +43,9 @@ export function useProjectile(
         const isCloseEnough = distanceToPlayer < 30;
         const yDiff = Math.abs(playerY - next.y);
         const isSameLane = yDiff <= 40; // 🎯 tolerância
-        const isBlocking = playerState === "blocked";
+        const isBlocking =
+          playerState === "blocked" &&
+          isFacingTarget(playerX, playerY, npcX, npcY, playerDirection);
 
         if (isCloseEnough && isSameLane && !isBlocking) {
           onHit();

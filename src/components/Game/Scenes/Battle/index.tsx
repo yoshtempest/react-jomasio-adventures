@@ -91,6 +91,7 @@ export function BattleScene({
     playerX: player.x,
     playerY: player.y,
     playerState: player.state,
+    playerDirection: player.battleDirection,
     npcType: npcType,
     onProjectileHit: () => npcRangedAttackRef.current(),
     onMeleeHit: () => npcMeleeAttackRef.current(),

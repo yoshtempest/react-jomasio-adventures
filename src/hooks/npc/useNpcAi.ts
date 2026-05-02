@@ -3,12 +3,14 @@ import { npcBehaviors } from "@/gameRules/battle/behaviors/npc/index";
 import { useProjectile } from "../useProjectile";
 import type { NPCBattleState } from "@/utils/types/npc/npc";
 import type { Projectile } from "@/utils/types/projectile";
+import type { DirectionBattle } from "@/utils/types/player/player";
 
 
 type Props = {
   playerX: number;
   playerY: number;
   playerState: string;
+  playerDirection: DirectionBattle;
   onProjectileHit: () => void;
   onMeleeHit: () => void;  
   isPaused?: boolean;
@@ -19,6 +21,7 @@ export function useNpcAI({
   playerX,
   playerY,
   playerState,
+  playerDirection,
   onMeleeHit,
   onProjectileHit,
   isPaused,
@@ -41,6 +44,9 @@ export function useNpcAI({
     playerX,
     playerY,
     playerState,
+    playerDirection,
+    npc.x,
+    npc.y,
     () => {
     onProjectileHit();
   });
