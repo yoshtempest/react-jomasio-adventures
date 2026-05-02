@@ -88,6 +88,7 @@ export function BattleScene({
   const npc = useNpcAI({
     playerX: player.x,
     playerY: player.y,
+    npcType: npcType,
     onAttack: () => npcDummyAttackRef.current(),
     isPaused: showVictory || showDefeat,
   });
@@ -187,6 +188,7 @@ export function BattleScene({
           direction={npc.direction}
           piercings={battle.piercings}
           isExploding={battle.isExploding}
+          projectile={npc.projectile}
         />
 
         <PlayerBattle

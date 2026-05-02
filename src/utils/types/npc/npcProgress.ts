@@ -18,6 +18,6 @@ export function getNpcStats(level: number, npcClass: NPCClass) {
 }
 
 export type NPCData = {
-  type: string; // ex: "slime", "teacher", etc
+  type: string;
   class: NPCClass;
 };

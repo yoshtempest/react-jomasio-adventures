@@ -5,7 +5,6 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { useItemEffect } from "@/gameRules/items/useItem";
 
 export function useInventoryMenu(isOpen: boolean) {
-  console.log("useInventoryMenu rodando");
   const { pushControls, popControls } = useGameControls();
   const { items } = useInventory();
   const { getEffect } = useItemEffect();

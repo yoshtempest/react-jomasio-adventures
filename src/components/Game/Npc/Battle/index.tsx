@@ -1,3 +1,8 @@
+type Projectile = {
+  x: number;
+  y: number;
+};
+
 type Props = {
   x: number;
   y: number;
@@ -5,6 +10,7 @@ type Props = {
   npcType: string;
   state: "idle" | "walk" | "hit";
   direction: "left" | "right";
+  projectile?: Projectile | null;
   piercings?: { id: number; x: number; y: number }[];
   isExploding?: boolean;
 };
@@ -16,6 +22,7 @@ export function NPCBattle({
   npcType,
   state,
   direction,
+  projectile,
   piercings = [],
   isExploding = false,
 }: Props) {
@@ -50,6 +57,23 @@ export function NPCBattle({
           position: "absolute",
         }}
       />
+      {projectile && (() => {
+
+        return (
+          <img
+            src="/src/assets/npcs/dish.svg"
+            style={{
+              position: "absolute",
+              left: projectile.x,
+              top: projectile.y,
+              width: TILE_SIZE * 50, // deveria ser 0.6
+              transform: `translate(-50%, -50%)`,
+              zIndex: 9999,
+              background: "red",
+            }}
+          />
+        );
+      })()}
 
       {/* 🗡️ PIERCINGS */}
       {piercings.map((p) => (

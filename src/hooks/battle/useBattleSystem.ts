@@ -8,7 +8,7 @@ import { isNpcInRange } from "@/gameRules/battle/range";
 import { canPlayerHit } from "@/gameRules/battle/combat";
 import { getMaxSpecial } from "@/gameRules/battle/special";
 import { isDead } from "@/gameRules/battle/death";
-import { battleBehaviors } from "@/gameRules/battle/behaviors";
+import { battleBehaviors } from "@/gameRules/battle/behaviors/player";
 
 type Props = {
   playerX: number;

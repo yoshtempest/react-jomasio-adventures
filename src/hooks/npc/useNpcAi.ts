@@ -1,24 +1,43 @@
 import { useEffect, useState, useRef } from "react";
+import { npcBehaviors } from "@/gameRules/battle/behaviors/npc/index";
+import { useProjectile } from "../useProjectile";
 import type { NPCBattleState } from "@/utils/types/npc/npc";
+import type { Projectile } from "@/utils/types/projectile";
+
 
 type Props = {
   playerX: number;
   playerY: number;
   onAttack: () => void;
   isPaused?: boolean;
+  npcType: string;
 };
 
-export function useNpcAI({ playerX, playerY, onAttack, isPaused }: Props) {
+export function useNpcAI({
+  playerX,
+  playerY,
+  onAttack,
+  isPaused,
+  npcType,
+}: Props) {
   const [npc, setNpc] = useState<NPCBattleState>({
     x: 900,
     y: 600,
     state: "walk",
-    direction: "left", 
+    direction: "left",
   });
 
+
+  const [projectile, setProjectile] = useState<Projectile | null>(null);
+  const [forceIdle, setForceIdle] = useState(false);
+
+  const lastAttackRef = useRef(0);
   const attackRef = useRef(onAttack);
   attackRef.current = onAttack;
-  const lastAttackRef = useRef(0);
+
+  useProjectile(projectile, setProjectile, () => {
+    attackRef.current();
+  });
 
   const resetNpc = () => {
     setNpc({
@@ -28,6 +47,7 @@ export function useNpcAI({ playerX, playerY, onAttack, isPaused }: Props) {
       direction: "left",
     });
 
+    setProjectile(null);
     lastAttackRef.current = 0;
   };
 
@@ -36,49 +56,38 @@ export function useNpcAI({ playerX, playerY, onAttack, isPaused }: Props) {
       setNpc((n) => {
         if (isPaused) return n;
 
-        const distanceX = Math.abs(n.x - playerX);
-        const distanceY = Math.abs(n.y - playerY); // 👈 aqui
+        const behavior =
+          npcBehaviors[npcType] || npcBehaviors.default;
 
-        let newX = n.x;
+        const result = behavior({
+          npc: n,
+          playerX,
+          playerY,
+          projectile,
+          setProjectile,
+          lastAttackRef,
+          attack: attackRef.current,
+          setForceIdle,
+        });
 
-        // 🧠 direção
         const direction = playerX < n.x ? "left" : "right";
-
-        // 🏃 movimento
-        if (distanceX > 200) {
-          newX = n.x > playerX ? n.x - 2 : n.x + 2;
-        }
-        if (distanceX > 10 && distanceX <= 200) {
-          newX = n.x > playerX ? n.x - 1 : n.x + 1;
-        }
-
-        // 👊 ataque (agora com validação em Y)
-        const now = Date.now();
-
-        const canAttack =
-          distanceX <= 20 &&
-          distanceY <= 39 &&
-          now - lastAttackRef.current > 200; // cooldown de 0.2s
-
-        if (canAttack) {
-          attackRef.current();
-          lastAttackRef.current = now;
-        }
+        const distanceX = Math.abs(n.x - playerX);
 
         return {
           ...n,
-          x: newX,
+          x: result.x,
           direction,
-          state: distanceX > 80 ? "walk" : "idle",
+          state: forceIdle ? "idle" : distanceX > 80 ? "walk" : "idle",
         };
       });
     }, 20);
 
     return () => clearInterval(interval);
-  }, [playerX, playerY, isPaused]);
+  }, [playerX, playerY, isPaused, npcType, projectile, forceIdle]);
 
   return {
     ...npc,
+    projectile,
     resetNpc,
-  }
+  };
 }
