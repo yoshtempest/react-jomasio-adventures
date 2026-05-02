@@ -5,6 +5,9 @@ import type { Dispatch, SetStateAction } from "react";
 export function useProjectile(
   projectile: Projectile | null,
   setProjectile: Dispatch<SetStateAction<Projectile | null>>,
+  playerX: number,
+  playerY: number,
+  playerState: string,
   onHit: () => void
 ) {
   useEffect(() => {
@@ -19,21 +22,51 @@ export function useProjectile(
 
         const dist = Math.sqrt(dx * dx + dy * dy);
 
-        if (dist < 30) {
-          onHit();
-          return null;
-        }
-
         const speed = 6;
 
-        return {
+        const next = {
           ...p,
           x: p.x + (dx / dist) * speed,
           y: p.y + (dy / dist) * speed,
         };
+
+        const distanceToPlayer = Math.sqrt(
+          (playerX - next.x) ** 2 +
+          (playerY - next.y) ** 2
+        );
+
+        const isCloseEnough = distanceToPlayer < 30;
+        const yDiff = Math.abs(playerY - next.y);
+        const isSameLane = yDiff <= 40; // 🎯 tolerância
+        const isBlocking = playerState === "blocked";
+
+        if (isCloseEnough && isSameLane && !isBlocking) {
+          onHit();
+          return null;
+        }
+
+        if (isCloseEnough) {
+          return null;
+        }
+
+        const passedTarget =
+          (dx > 0 && next.x >= p.targetX) ||
+          (dx < 0 && next.x <= p.targetX);
+
+        if (passedTarget) {
+          return null;
+        }
+
+        return next;
       });
     }, 20);
 
     return () => clearInterval(interval);
-  }, [projectile]);
+  },
+  [
+    projectile,
+    playerX,
+    playerY,
+    playerState
+  ]);
 }

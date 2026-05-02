@@ -8,6 +8,7 @@ import type { Projectile } from "@/utils/types/projectile";
 type Props = {
   playerX: number;
   playerY: number;
+  playerState: string;
   onProjectileHit: () => void;
   onMeleeHit: () => void;  
   isPaused?: boolean;
@@ -17,6 +18,7 @@ type Props = {
 export function useNpcAI({
   playerX,
   playerY,
+  playerState,
   onMeleeHit,
   onProjectileHit,
   isPaused,
@@ -33,7 +35,13 @@ export function useNpcAI({
   const [forceIdle, setForceIdle] = useState(false);
 
   const lastAttackRef = useRef(0);
-  useProjectile(projectile, setProjectile, () => {
+  useProjectile(
+    projectile,
+    setProjectile,
+    playerX,
+    playerY,
+    playerState,
+    () => {
     onProjectileHit();
   });
 

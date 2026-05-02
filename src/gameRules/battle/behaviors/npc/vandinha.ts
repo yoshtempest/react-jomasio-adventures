@@ -30,14 +30,14 @@ export function vandinhaBehavior(ctx: BehaviorContext) {
     lastAttackRef.current = now;
 
     setForceIdle(true);
-    setTimeout(() => setForceIdle(false), 2000);
+    setTimeout(() => setForceIdle(false), 400);
   }
 
   // 🚫 não anda com projétil
   if (projectile) {
     return { x: npc.x };
   }
-  
+
   const newX = getChaseMovement(npc.x, playerX, distanceX);
 
   return { x: newX };

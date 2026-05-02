@@ -90,6 +90,7 @@ export function BattleScene({
   const npc = useNpcAI({
     playerX: player.x,
     playerY: player.y,
+    playerState: player.state,
     npcType: npcType,
     onProjectileHit: () => npcRangedAttackRef.current(),
     onMeleeHit: () => npcMeleeAttackRef.current(),
