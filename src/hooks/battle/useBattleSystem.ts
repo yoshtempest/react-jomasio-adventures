@@ -224,9 +224,11 @@ export function useBattleSystem({
   ]);
 
   // 🤖 NPC HIT
-  const npcHit = useCallback(() => {
+  const npcHit = useCallback((ignoreRange = false) => {
     if (!npcCooldown.current) return;
-    if (!isNpcInRange(playerX, playerY, npcX, npcY)) return;
+
+    if (!ignoreRange && !isNpcInRange(playerX, playerY, npcX, npcY)) return;
+
     if (player.state === "blocked") return;
 
     const npc = getNpcStats(npcLevel, npcClass);

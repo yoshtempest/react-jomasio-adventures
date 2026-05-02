@@ -21,6 +21,7 @@ import { useNavigate } from "react-router";
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
+import { ProjectileSprite } from "@/components/Projectile";
 
 type Props = {
   map: any;
@@ -53,7 +54,7 @@ export function BattleScene({
   const charProgress = progress[player.character];
   const xpNeeded = getXPToNextLevel(charProgress.level);
   const missingXp = xpNeeded - charProgress.xp;
-  const npcDummyAttackRef = useRef<() => void>(() => {});
+  const npcDummyAttackRef = useRef<(ignoreRange?: boolean) => void>(() => {});
   const npcStats = getNpcStats(npcLevel, npcData.class);
   
   const navigate = useNavigate();
@@ -89,7 +90,8 @@ export function BattleScene({
     playerX: player.x,
     playerY: player.y,
     npcType: npcType,
-    onAttack: () => npcDummyAttackRef.current(),
+    onAttack: (ignoreRange?: boolean) =>
+      npcDummyAttackRef.current(ignoreRange),
     isPaused: showVictory || showDefeat,
   });
 
@@ -114,7 +116,8 @@ export function BattleScene({
   const npcAttackRef = useRef(battle.npcHit);
   npcAttackRef.current = battle.npcHit;
 
-  npcDummyAttackRef.current = () => npcAttackRef.current();
+  npcDummyAttackRef.current = (ignoreRange?: boolean) =>
+    npcAttackRef.current(ignoreRange);
 
   function handleRetry() {
     setShowDefeat(false);
@@ -190,6 +193,13 @@ export function BattleScene({
           isExploding={battle.isExploding}
           projectile={npc.projectile}
         />
+
+        {npc.projectile && (
+          <ProjectileSprite
+            projectile={npc.projectile}
+            TILE_SIZE={TILE_SIZE}
+          />
+        )}
 
         <PlayerBattle
           character={player.character}

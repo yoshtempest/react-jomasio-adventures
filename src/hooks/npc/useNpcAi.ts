@@ -8,7 +8,7 @@ import type { Projectile } from "@/utils/types/projectile";
 type Props = {
   playerX: number;
   playerY: number;
-  onAttack: () => void;
+  onAttack: (ignoreRange?: boolean) => void;
   isPaused?: boolean;
   npcType: string;
 };
@@ -35,8 +35,8 @@ export function useNpcAI({
   const attackRef = useRef(onAttack);
   attackRef.current = onAttack;
 
-  useProjectile(projectile, setProjectile, () => {
-    attackRef.current();
+  useProjectile(projectile, setProjectile, (ignoreRange) => {
+    attackRef.current(ignoreRange);
   });
 
   const resetNpc = () => {
