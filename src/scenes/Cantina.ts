@@ -61,7 +61,13 @@ export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     id: "four",
     map: cantinaFour,
     audio: { src: LavenderTown },
-    initialPosition: { x: 9, y: 5, direction: "up" },
+    initialPosition: (lastPage?: string) => {
+      if (lastPage === "/hall/one") {
+        return { x: 14, y: 11, direction: "left" as const };
+      }
+
+      return { x: 9, y: 5, direction: "up" as const };
+    },
     exitTile: [
     {
       x: 15,

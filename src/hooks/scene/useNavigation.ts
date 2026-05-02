@@ -58,7 +58,11 @@ export function useSceneNavigation({
           JSON.stringify(previousPositionRef.current)
         );
 
-        navigate(to);
+        navigate(to, {
+          state: {
+            from: window.location.pathname,
+          },
+        });
       }
     });
   }, [player, transitions, navigate]);

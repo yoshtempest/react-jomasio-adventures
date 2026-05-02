@@ -30,7 +30,7 @@ export function PcRoomScene({ sceneId }: Props) {
   const [showClassModal, setShowClassModal] = useState(false);
 
   const [popup, setPopup] = useState<string | null>(null);
-  const { addItem, hasItem } = useInventory();
+  const { addItem } = useInventory();
   const [gotKey, setGotKey] = useState(false);
 
   const { classes, selectedIndex } = useClassSelection(showClassModal, () => {
@@ -50,13 +50,12 @@ export function PcRoomScene({ sceneId }: Props) {
 
   const interactionsByPosition = useMemo(() =>
     createPcsRoom({
-      hasItem,
       addItem,
       setPopup,
       gotKey,
       setGotKey,
     }),
-    [hasItem, addItem, gotKey]
+    [addItem, gotKey]
   );
 
   // 🚪 exit tile (genérico e seguro)

@@ -23,6 +23,7 @@ export function ExploreScene({
   map,
   dialogueData = [],
   initialPosition,
+  lastPage,
   npcs = [],
   audio,
   transitions,
@@ -48,9 +49,14 @@ export function ExploreScene({
   const { play: playSansTalking } = useSansTalking(dialogueSystem.isOpen);
   const hasStarted = useRef(false);
 
+  const resolvedInitialPosition =
+  typeof initialPosition === "function"
+    ? initialPosition(lastPage) // ⚠️ aqui falta o lastPage ainda
+    : initialPosition;
+
   const { isReady } = useSceneSetup({
     map,
-    initialPosition,
+    initialPosition: resolvedInitialPosition,
     setMap,
     setPosition,
   });

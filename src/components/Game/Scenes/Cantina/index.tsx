@@ -10,6 +10,7 @@ import { useInventory } from "@/contexts/InventoryContext";
 import Talking from "@/components/Talking";
 import { useQuestActions } from "@/hooks/useQuestActions";
 import { useQuests } from "@/contexts/QuestContext";
+import { useLocation } from "react-router";
 
 
 type Props = {
@@ -21,27 +22,34 @@ export function CantinaScene({ sceneId }: Props) {
   const { quests } = useQuests();
   const [shouldRunEvents, setShouldRunEvents] = useState(false);
   const { giveQuest, progressQuest } = useQuestActions();
+  const location = useLocation();
+
+  const lastPage = location.state?.from;
 
   if (!scene) {
     return <div>Scene não encontrada</div>;
   }
 
+  const spawn =
+    typeof scene.initialPosition === "function"
+      ? scene.initialPosition(lastPage)
+      : scene.initialPosition;
+
   const navigate = useNavigate();
   const { player } = usePlayer();
 
   const [popup, setPopup] = useState<string | null>(null);
-  const { addItem, hasItem } = useInventory();
+  const { addItem } = useInventory();
   const [gotKey, setGotKey] = useState(false);
 
     const interactionsByPosition = useMemo(() =>
       createCantina({
-        hasItem,
         addItem,
         setPopup,
         gotKey,
         setGotKey,
       }),
-      [hasItem, addItem, gotKey]
+      [addItem, gotKey]
     );
 
   // 🚪 exit tile (genérico e seguro)
@@ -86,6 +94,8 @@ export function CantinaScene({ sceneId }: Props) {
     <div className={`Master Cantina`}>
       <ExploreScene
         {...scene}
+        initialPosition={spawn}
+        lastPage={lastPage}
         onFinish={() => {
           setShouldRunEvents(true);
         }}
