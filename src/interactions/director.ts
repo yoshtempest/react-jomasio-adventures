@@ -1,47 +1,29 @@
 import { directorMessages } from "@/data/maps/director/messages";
 import { useQuestActions } from "@/hooks/useQuestActions";
+import { createInteractionMap } from "./builder";
+import type { KeyDeps, InventoryDeps } from "@/utils/types/interaction";
 
-type Dependencies = {
-  hasItem: (id: string) => boolean;
-  addItem: (item: { id: string; name: string }) => void;
-  removeItem: (id: string) => void;
-  navigate: (path: string) => void;
-  setPopup: (msg: string) => void;
-  gotKey: boolean;
-  setGotKey: (value: boolean) => void;
-};
+type DirectorDeps = KeyDeps & InventoryDeps;
 
-export function createDirector({
-  hasItem,
-  addItem,
-  removeItem,
-  navigate,
-  setPopup,
-  gotKey,
-  setGotKey,
-}: Dependencies) {
-    const { progressQuest } = useQuestActions();
-    const interactions: Record<string, () => void> = Object.fromEntries(
-      Object.entries(directorMessages).map(([key, message]) => [
-        key,
-        () => setPopup(message),
-      ])
-    );
-    interactions["4,3"] = () => {
+export function createDirector(deps: DirectorDeps) {
+  const { progressQuest } = useQuestActions();
+
+  return createInteractionMap(directorMessages, deps, {
+    "4,3": ({ hasItem, setPopup, removeItem, navigate }) => {
       if (hasItem("key_01")) {
         setPopup("Você usou a chave.");
         progressQuest("director_escape", 1);
 
         setTimeout(() => {
           removeItem("key_01");
-          navigate("/cantina/two");
+          navigate?.("/cantina/two");
         }, 1000);
       } else {
         setPopup("Essa porta está trancada.");
       }
-    };
+    },
 
-    interactions["15,7"] = () => {
+    "15,7": ({ addItem, setPopup, gotKey, setGotKey }) => {
       if (!gotKey) {
         setPopup("Uma chave suspeita, deve ser da porta...");
 
@@ -50,12 +32,10 @@ export function createDirector({
           name: "Chave enferrujada",
         });
 
-        setGotKey(true);
-      }
-      else
-      {
+        setGotKey?.(true);
+      } else {
         setPopup("Nada mais aqui.");
       }
-    };
-    return interactions;
+    },
+  });
 }

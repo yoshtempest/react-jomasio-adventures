@@ -4,7 +4,7 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { ExploreScene } from "@/components/Game/Scenes/Default";
 import { CANTINA_SCENES } from "@/scenes/Cantina";
 import type { SceneId } from "@/utils/types/maps/sceneConfig";
-import { runSceneEvents } from "@/engine/runSceneEventsCantina";
+import { runSceneEvents } from "@/engine/runSceneEvents";
 import { createCantina } from "@/interactions/cantina";
 import { useInventory } from "@/contexts/InventoryContext";
 import Talking from "@/components/Talking";

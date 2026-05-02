@@ -14,6 +14,7 @@ import { pcsRoomSixDialogue } from "@/data/maps/pcsRoom/six";
 import MonkeyCircle from "@/assets/songs/MonkeyCircle.m4a";
 
 import type { SceneConfig, SceneId } from "@/utils/types/maps/sceneConfig";
+import { pcsRoomSeven } from "@/maps/pcRoom/seven";
 
 export const PCS_ROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
   one: {
@@ -107,7 +108,7 @@ export const PCS_ROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
 
   seven: {
     id: "seven",
-    map: pcsRoom,
+    map: pcsRoomSeven,
     exitTile: [{
       x: 3,
       y: 3,

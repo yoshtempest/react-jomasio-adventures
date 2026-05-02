@@ -1,42 +1,22 @@
 import { cantinaMessages } from "@/data/maps/cantina/messages";
+import { createInteractionMap } from "./builder";
+import type { KeyDeps } from "@/utils/types/interaction";
 
-type Dependencies = {
-  hasItem: (id: string) => boolean;
-  addItem: (item: { id: string; name: string }) => void;
-  setPopup: (msg: string) => void;
-  gotKey?: boolean;
-  setGotKey?: (value: boolean) => void;
-};
+export function createCantina(deps: KeyDeps) {
+  return createInteractionMap(cantinaMessages, deps, {
+    "13,4": ({ addItem, setPopup, gotKey, setGotKey }) => {
+      if (!gotKey) {
+        setPopup("Que delícia! um suco de laranja");
 
-export function createCantina({
-  addItem,
-  setPopup,
-  gotKey,
-  setGotKey,
-}: Dependencies) {
+        addItem({
+          id: "orange_juice",
+          name: "Suco de laranja",
+        });
 
-  const interactions: Record<string, () => void> = Object.fromEntries(
-    Object.entries(cantinaMessages).map(([key, message]) => [
-      key,
-      () => setPopup(message),
-    ])
-  );
-
-  // 🔹 Interação especial (com lógica)
-  interactions["13,4"] = () => {
-    if (!gotKey) {
-      setPopup("Que delícia! um suco de laranja");
-
-      addItem({
-        id: "orange_juice",
-        name: "Suco de laranja",
-      });
-
-      setGotKey?.(true);
-    } else {
-      setPopup("Nenhuma outra delícia por aqui.");
-    }
-  };
-
-  return interactions;
+        setGotKey?.(true);
+      } else {
+        setPopup("Nenhuma outra delícia por aqui.");
+      }
+    },
+  });
 }

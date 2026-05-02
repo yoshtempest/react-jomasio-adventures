@@ -4,7 +4,7 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { ExploreScene } from "@/components/Game/Scenes/Default";
 import { HALL_SCENES } from "@/scenes/Hall";
 import type { SceneId } from "@/utils/types/maps/sceneConfig";
-import { runSceneEvents } from "@/engine/runSceneEventsCantina";
+import { runSceneEvents } from "@/engine/runSceneEvents";
 
 
 type Props = {

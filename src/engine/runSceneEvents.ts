@@ -4,7 +4,7 @@ import { ITEMS } from "@/data/items";
 
 type EventContext = {
   navigate: (to: string) => void;
-  setShowClassModal: (v: boolean) => void;
+  setShowClassModal?: (v: boolean) => void;
   setFlags?: (key: string, value: boolean) => void;
   progressQuest?: (id: string, value: number) => void;
   giveQuest?: (quest: any) => void;
@@ -21,7 +21,7 @@ export function runSceneEvents(
     switch (event.type) {
       case "openModal":
         if (event.modal === "class") {
-          ctx.setShowClassModal(true);
+          ctx.setShowClassModal?.(true);
         }
         break;
 
