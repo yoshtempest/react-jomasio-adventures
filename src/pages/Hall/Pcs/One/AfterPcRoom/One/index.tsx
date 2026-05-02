@@ -28,6 +28,12 @@ export default function AfterPcRoom() {
           gridY: 9,
         },
       ]}
+      transitions={[
+        {
+          positions: [{ x: 13, y: 7 }],
+          to: "/pcroom/seven",
+        },
+      ]}
     />
   );
 }

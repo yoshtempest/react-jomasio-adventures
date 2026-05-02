@@ -11,6 +11,7 @@ import styles from "./styles.module.css"
 import { useClassSelection } from "@/hooks/menu/useClassSelection";
 import Talking from "@/components/Talking";
 import { useQuestActions } from "@/hooks/useQuestActions";
+import { useLocation } from "react-router";
 
 
 type Props = {
@@ -20,10 +21,18 @@ type Props = {
 export function PcRoomScene({ sceneId }: Props) {
   const scene = PCS_ROOM_SCENES[sceneId];
   const { giveQuest, progressQuest } = useQuestActions();
+  const location = useLocation();
+
+  const lastPage = location.state?.from;
 
   if (!scene) {
     return <div>Scene não encontrada</div>;
   }
+
+  const spawn =
+    typeof scene.initialPosition === "function"
+      ? scene.initialPosition(lastPage)
+      : scene.initialPosition;
 
   const navigate = useNavigate();
   const { player, setMode } = usePlayer();
@@ -78,6 +87,7 @@ export function PcRoomScene({ sceneId }: Props) {
     <div className={`Master PcsRoom`}>
       <ExploreScene
         {...scene}
+        initialPosition={spawn}
         onFinish={() => {
           runSceneEvents(scene.events, {
             navigate,

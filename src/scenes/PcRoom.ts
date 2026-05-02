@@ -115,5 +115,12 @@ export const PCS_ROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
       route: "/hall/afterpcroom/one",
     }],
     audio: { src: MonkeyCircle },
+    initialPosition: (lastPage?: string) => {
+      if (lastPage === "/pcroom/six") {
+        return { x: 12, y: 4, direction: "down" as const };
+      }
+
+      return { x: 3, y: 4, direction: "left" as const };
+    },
   },
 };
