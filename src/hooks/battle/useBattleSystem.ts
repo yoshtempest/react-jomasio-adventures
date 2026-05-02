@@ -224,15 +224,12 @@ export function useBattleSystem({
   ]);
 
   // 🤖 NPC HIT
-  const npcHit = useCallback((ignoreRange = false) => {
+  const npcMeleeHit = useCallback(() => {
     if (!npcCooldown.current) return;
-
-    if (!ignoreRange && !isNpcInRange(playerX, playerY, npcX, npcY)) return;
-
+    if (!isNpcInRange(playerX, playerY, npcX, npcY)) return;
     if (player.state === "blocked") return;
 
     const npc = getNpcStats(npcLevel, npcClass);
-
     const dmg = calculateNpcDamage(npc.damage, playerClass);
 
     setPlayerHP((hp) => Math.max(0, hp - dmg));
@@ -243,6 +240,22 @@ export function useBattleSystem({
       npcCooldown.current = true;
     }, 800);
   }, [playerX, playerY, npcX, npcY, npcLevel, npcClass, playerClass]);
+
+  const npcRangedHit = useCallback(() => {
+    if (!npcCooldown.current) return;
+    if (player.state === "blocked") return;
+
+    const npc = getNpcStats(npcLevel, npcClass);
+    const dmg = calculateNpcDamage(npc.damage, playerClass);
+
+    setPlayerHP((hp) => Math.max(0, hp - dmg));
+
+    npcCooldown.current = false;
+
+    setTimeout(() => {
+      npcCooldown.current = true;
+    }, 800);
+  }, [npcLevel, npcClass, playerClass]);
 
   // 🧠 AUTO CHECK (MUITO MELHOR)
   useEffect(() => {
@@ -281,7 +294,8 @@ export function useBattleSystem({
     
     playerHit,
     specialHit,
-    npcHit,
+    npcMeleeHit,
+    npcRangedHit,
     resetBattle,
     piercings,
     isExploding,

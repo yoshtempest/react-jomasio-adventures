@@ -8,7 +8,8 @@ import type { Projectile } from "@/utils/types/projectile";
 type Props = {
   playerX: number;
   playerY: number;
-  onAttack: (ignoreRange?: boolean) => void;
+  onProjectileHit: () => void;
+  onMeleeHit: () => void;  
   isPaused?: boolean;
   npcType: string;
 };
@@ -16,7 +17,8 @@ type Props = {
 export function useNpcAI({
   playerX,
   playerY,
-  onAttack,
+  onMeleeHit,
+  onProjectileHit,
   isPaused,
   npcType,
 }: Props) {
@@ -27,16 +29,12 @@ export function useNpcAI({
     direction: "left",
   });
 
-
   const [projectile, setProjectile] = useState<Projectile | null>(null);
   const [forceIdle, setForceIdle] = useState(false);
 
   const lastAttackRef = useRef(0);
-  const attackRef = useRef(onAttack);
-  attackRef.current = onAttack;
-
-  useProjectile(projectile, setProjectile, (ignoreRange) => {
-    attackRef.current(ignoreRange);
+  useProjectile(projectile, setProjectile, () => {
+    onProjectileHit();
   });
 
   const resetNpc = () => {
@@ -66,7 +64,8 @@ export function useNpcAI({
           projectile,
           setProjectile,
           lastAttackRef,
-          attack: attackRef.current,
+          onProjectileHit,
+          onMeleeHit,
           setForceIdle,
         });
 
@@ -83,7 +82,17 @@ export function useNpcAI({
     }, 20);
 
     return () => clearInterval(interval);
-  }, [playerX, playerY, isPaused, npcType, projectile, forceIdle]);
+  },
+  [
+    playerX,
+    playerY,
+    isPaused,
+    npcType,
+    projectile,
+    forceIdle,
+    onProjectileHit,
+    onMeleeHit,
+  ]);
 
   return {
     ...npc,

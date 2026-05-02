@@ -54,7 +54,6 @@ export function BattleScene({
   const charProgress = progress[player.character];
   const xpNeeded = getXPToNextLevel(charProgress.level);
   const missingXp = xpNeeded - charProgress.xp;
-  const npcDummyAttackRef = useRef<(ignoreRange?: boolean) => void>(() => {});
   const npcStats = getNpcStats(npcLevel, npcData.class);
   
   const navigate = useNavigate();
@@ -85,13 +84,15 @@ export function BattleScene({
 
   const { TILE_SIZE, offsetX, offsetY, PLAYER_SIZE, MAP_COLS, MAP_ROWS } =
     useGameLayout();
+  const npcRangedAttackRef = useRef<() => void>(() => {});
+  const npcMeleeAttackRef = useRef<() => void>(() => {});
 
   const npc = useNpcAI({
     playerX: player.x,
     playerY: player.y,
     npcType: npcType,
-    onAttack: (ignoreRange?: boolean) =>
-      npcDummyAttackRef.current(ignoreRange),
+    onProjectileHit: () => npcRangedAttackRef.current(),
+    onMeleeHit: () => npcMeleeAttackRef.current(),
     isPaused: showVictory || showDefeat,
   });
 
@@ -112,12 +113,8 @@ export function BattleScene({
     },
   });
 
-  // conectar ataque NPC
-  const npcAttackRef = useRef(battle.npcHit);
-  npcAttackRef.current = battle.npcHit;
-
-  npcDummyAttackRef.current = (ignoreRange?: boolean) =>
-    npcAttackRef.current(ignoreRange);
+  npcRangedAttackRef.current = battle.npcRangedHit;
+  npcMeleeAttackRef.current = battle.npcMeleeHit;
 
   function handleRetry() {
     setShowDefeat(false);

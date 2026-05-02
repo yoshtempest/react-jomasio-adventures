@@ -8,6 +8,7 @@ export type BehaviorContext = {
   projectile: Projectile | null;
   setProjectile: (p: Projectile | null) => void;
   lastAttackRef: { current: number };
-  attack: () => void;
+  onMeleeHit: () => void;
+  onProjectileHit: () => void;
   setForceIdle: (v: boolean) => void;
 };

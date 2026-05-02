@@ -13,8 +13,6 @@ export function vandinhaBehavior(ctx: BehaviorContext) {
   } = ctx;
 
   const distanceX = Math.abs(npc.x - playerX);
-
-  // 🧨 criar projétil
   const now = Date.now();
 
   const canThrow =
@@ -30,14 +28,16 @@ export function vandinhaBehavior(ctx: BehaviorContext) {
     });
 
     lastAttackRef.current = now;
-    setForceIdle(true);
 
+    setForceIdle(true);
     setTimeout(() => setForceIdle(false), 2000);
   }
 
   // 🚫 não anda com projétil
-  if (projectile) return { x: npc.x };
-
+  if (projectile) {
+    return { x: npc.x };
+  }
+  
   const newX = getChaseMovement(npc.x, playerX, distanceX);
 
   return { x: newX };

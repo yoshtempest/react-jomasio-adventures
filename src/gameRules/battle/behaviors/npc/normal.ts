@@ -8,7 +8,7 @@ export function normalBehavior(ctx: BehaviorContext) {
     playerX,
     playerY,
     lastAttackRef,
-    attack,
+    onMeleeHit,
   } = ctx;
 
   const distanceX = Math.abs(npc.x - playerX);
@@ -17,7 +17,7 @@ export function normalBehavior(ctx: BehaviorContext) {
   const newX = getChaseMovement(npc.x, playerX, distanceX);
 
   if (canNpcAttack(distanceX, distanceY, lastAttackRef.current, 800)) {
-    attack();
+    onMeleeHit();
     lastAttackRef.current = Date.now();
   }
 

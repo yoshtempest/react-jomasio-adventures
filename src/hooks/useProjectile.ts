@@ -5,7 +5,7 @@ import type { Dispatch, SetStateAction } from "react";
 export function useProjectile(
   projectile: Projectile | null,
   setProjectile: Dispatch<SetStateAction<Projectile | null>>,
-  onHit: (ignoreRange?: boolean) => void
+  onHit: () => void
 ) {
   useEffect(() => {
     if (!projectile) return;
@@ -20,7 +20,7 @@ export function useProjectile(
         const dist = Math.sqrt(dx * dx + dy * dy);
 
         if (dist < 30) {
-          onHit(true);
+          onHit();
           return null;
         }
 
