@@ -8,9 +8,9 @@ export default function GoatBattle() {
   return (
     <BattleScene
       map={firstBattle}
-      npcType="jhowsimar"
+      npcType="goat"
       onVictory={() => navigate(-1)}
-      victoryDescription="Você derrotou 'Jhow Simar, o Vigia'"
+      victoryDescription="Você derrotou um bode!"
       className="CantinaBattle"
       audioSrc={KenTheme}
     />

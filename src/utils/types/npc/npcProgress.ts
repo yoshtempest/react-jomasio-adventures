@@ -1,4 +1,4 @@
-export type NPCClass = "common" | "rare" | "boss";
+export type NPCClass = "common" | "rare" | "epic" | "boss";
 
 
 export function getNpcStats(level: number, npcClass: NPCClass) {
@@ -8,7 +8,8 @@ export function getNpcStats(level: number, npcClass: NPCClass) {
   const multipliers = {
     common: { hp: 2, dmg: 1 },
     rare: { hp: 5, dmg: 2 },
-    boss: { hp: 10, dmg: 4 },
+    epic: { hp: 9, dmg: 3 },
+    boss: { hp: 15, dmg: 6 },
   };
 
   return {
