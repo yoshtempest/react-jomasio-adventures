@@ -43,6 +43,7 @@ import JhowSimarBattle from './pages/Battle/JhowSimar/index.tsx';
 import HungryDeathBattle from './pages/Battle/Hungry/index.tsx';
 
 import CafeteriaOne from './pages/Cafeteria/index.tsx';
+import CafeteriaBattle from './pages/Cafeteria/battle/index.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -95,6 +96,7 @@ createRoot(document.getElementById('root')!).render(
                       <Route path="battle/goat" element={<GoatBattle />} />
 
                       <Route path="cafeteria/one" element={<CafeteriaOne/>} />
+                      <Route path="cafeteria/battle" element={<CafeteriaBattle/>} />
                     </Route>
                   </Routes>
                 </GameControlsProvider>

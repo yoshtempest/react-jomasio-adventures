@@ -132,6 +132,10 @@ h2 {
   background-image: url("/src/assets/cenarios/cafeteria.svg");
 }
 
+.CafeteriaBattle {
+  background-image: url("/src/assets/cenarios/cafeteriaBattle.svg");
+}
+
 .buttonGlobal {
   width: 60px;
   height: 60px;
