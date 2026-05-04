@@ -1,6 +1,6 @@
 import { getChaseMovement } from "@/gameRules/movement/npc";
 import { canNpcAttack } from "@/gameRules/battle/npcAttack";
-import type { BehaviorContext } from "./types";
+import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
 
 export function normalBehavior(ctx: BehaviorContext) {
   const {

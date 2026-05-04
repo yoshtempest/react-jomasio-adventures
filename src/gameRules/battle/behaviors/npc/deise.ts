@@ -1,7 +1,7 @@
 import { getChaseMovement } from "@/gameRules/movement/npc";
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
 
-export function vandinhaBehavior(ctx: BehaviorContext) {
+export function deiseBehavior(ctx: BehaviorContext) {
   const {
     npc,
     playerX,

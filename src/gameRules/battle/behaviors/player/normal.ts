@@ -1,4 +1,4 @@
-import type { BattleBehavior } from "./types";
+import type { BattleBehavior } from "@/utils/types/player/playerBehavior";
 import { calculatePlayerDamage, calculateSpecialDamage } from "@/gameRules/battle/damage";
 import { gainSpecial } from "@/gameRules/battle/special";
 
