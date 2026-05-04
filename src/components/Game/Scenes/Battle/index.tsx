@@ -49,7 +49,7 @@ export function BattleScene({
   const [showDefeat, setShowDefeat] = useState(false);
   const [npcLevel] = useState(() => generateNpcLevel());
   const npcData = NPCS[npcType];
-  const xpReward = calculateXP(npcLevel, npcData.class);
+  const xpReward = calculateXP(npcLevel, npcData.class) ?? 0;
   const { progress, getXPToNextLevel } = useCharacterProgress();
   const charProgress = progress[player.character];
   const xpNeeded = getXPToNextLevel(charProgress.level);

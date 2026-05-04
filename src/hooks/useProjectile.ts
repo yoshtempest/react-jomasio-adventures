@@ -27,7 +27,7 @@ export function useProjectile(
 
         const dist = Math.sqrt(dx * dx + dy * dy);
 
-        const speed = 8;
+        const speed = 11;
 
         const next = {
           ...p,
