@@ -10,36 +10,56 @@ export function deiseBehavior(ctx: BehaviorContext) {
     setProjectile,
     lastAttackRef,
     setForceIdle,
+    npcPhase,
+    onMeleeHit,
   } = ctx;
 
   const distanceX = Math.abs(npc.x - playerX);
+  const distanceY = Math.abs(npc.y - playerY);
   const now = Date.now();
 
-  const canThrow =
-    !projectile &&
-    now - lastAttackRef.current > 1000;
+  // 🔥 FASE 2 → vira melee (igual normal)
+  if (npcPhase === 2) {
+    const newX = getChaseMovement(npc.x, playerX, distanceX);
 
-  if (canThrow) {
-    setProjectile({
-      x: npc.x,
-      y: npc.y + 50,
-      targetX: playerX,
-      targetY: playerY + 10,
-      sprite: "goat",
-    });
+    if (
+      distanceX < 80 &&
+      distanceY < 80 &&
+      now - lastAttackRef.current > 800
+    ) {
+      onMeleeHit();
+      lastAttackRef.current = now;
+    }
 
-    lastAttackRef.current = now;
-
-    setForceIdle(true);
-    setTimeout(() => setForceIdle(false), 1000);
+    return { x: newX };
   }
 
-  // 🚫 não anda com projétil
-  if (projectile) {
-    return { x: npc.x };
+  if (npcPhase === 1) {
+    const canThrow =
+      !projectile &&
+      now - lastAttackRef.current > 1000;
+
+    if (canThrow) {
+      setProjectile({
+        x: npc.x,
+        y: npc.y + 50,
+        targetX: playerX,
+        targetY: playerY + 10,
+        sprite: "goat",
+      });
+
+      lastAttackRef.current = now;
+
+      setForceIdle(true);
+      setTimeout(() => setForceIdle(false), 1000);
+    }
+
+    if (projectile) {
+      return { x: npc.x };
+    }
+
+    const newX = getChaseMovement(npc.x, playerX, distanceX);
+
+    return { x: newX };
   }
-
-  const newX = getChaseMovement(npc.x, playerX, distanceX);
-
-  return { x: newX };
 }

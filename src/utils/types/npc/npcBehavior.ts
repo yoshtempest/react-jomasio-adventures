@@ -11,4 +11,5 @@ export type BehaviorContext = {
   onMeleeHit: () => void;
   onProjectileHit: () => void;
   setForceIdle: (v: boolean) => void;
+  npcPhase: number;
 };

@@ -42,6 +42,7 @@ export function useBattleSystem({
   const [isExploding, setIsExploding] = useState(false);
   const behavior = battleBehaviors[player.character] || battleBehaviors.default;
   const { progress } = useCharacterProgress();
+  const [npcPhase, setNpcPhase] = useState(1);
 
   const createRandomOffset = () => {
     const radius = 20; // distância do centro do NPC
@@ -165,7 +166,6 @@ export function useBattleSystem({
 
   const specialHit = useCallback(() => {
     if (!playerCooldown.current) return;
-    // if (delicia !== HITS_TO_SPECIAL) return;
 
     if (!canPlayerHit({
       playerX,
@@ -197,11 +197,6 @@ export function useBattleSystem({
         setIsExploding(false);
       }, 300);
     }
-
-    // const dmg = calculateSpecialDamage(char.stats.intelligence, playerClass);
-
-    // setNpcHP((hp) => Math.max(0, hp - dmg));
-    // setDelicia(0);
 
     playerCooldown.current = false;
 
@@ -276,6 +271,14 @@ export function useBattleSystem({
     }
 
     if (isDead(npcHP)) {
+      if (npcClass === "boss" && npcPhase === 1) {
+        // 🔥 ativa fase 2
+        setNpcPhase(2);
+        setNpcHP(npcMaxHp); // enche a vida
+
+        return; // 🚫 NÃO encerra a batalha
+      }
+
       isEnding.current = true;
 
       setTimeout(() => {
@@ -299,5 +302,6 @@ export function useBattleSystem({
     resetBattle,
     piercings,
     isExploding,
+    npcPhase,
   };
 }

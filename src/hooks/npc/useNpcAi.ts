@@ -15,6 +15,7 @@ type Props = {
   onMeleeHit: () => void;  
   isPaused?: boolean;
   npcType: string;
+  npcPhase: number;
 };
 
 export function useNpcAI({
@@ -26,6 +27,7 @@ export function useNpcAI({
   onProjectileHit,
   isPaused,
   npcType,
+  npcPhase,
 }: Props) {
   const [npc, setNpc] = useState<NPCBattleState>({
     x: 900,
@@ -74,6 +76,7 @@ export function useNpcAI({
         const result = behavior({
           npc: n,
           playerX,
+          npcPhase,
           playerY,
           projectile,
           setProjectile,

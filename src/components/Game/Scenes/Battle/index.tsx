@@ -55,6 +55,7 @@ export function BattleScene({
   const xpNeeded = getXPToNextLevel(charProgress.level);
   const missingXp = xpNeeded - charProgress.xp;
   const npcStats = getNpcStats(npcLevel, npcData.class);
+  const [npcPhase, setNpcPhase] = useState(1);
   
   const navigate = useNavigate();
 
@@ -93,6 +94,7 @@ export function BattleScene({
     playerState: player.state,
     playerDirection: player.battleDirection,
     npcType: npcType,
+    npcPhase,
     onProjectileHit: () => npcRangedAttackRef.current(),
     onMeleeHit: () => npcMeleeAttackRef.current(),
     isPaused: showVictory || showDefeat,
@@ -114,6 +116,10 @@ export function BattleScene({
       triggerVictory();
     },
   });
+
+  useEffect(() => {
+    setNpcPhase(battle.npcPhase);
+  }, [battle.npcPhase]);
 
   npcRangedAttackRef.current = battle.npcRangedHit;
   npcMeleeAttackRef.current = battle.npcMeleeHit;

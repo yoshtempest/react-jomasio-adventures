@@ -6,7 +6,9 @@ export function calculateXP(level: number, npcClass: NPCClass) {
       return level;
     case "rare":
       return level * 2;
-    case "boss":
+    case "epic":
       return level * 5;
+    case "boss":
+      return level * 10;
   }
 }
