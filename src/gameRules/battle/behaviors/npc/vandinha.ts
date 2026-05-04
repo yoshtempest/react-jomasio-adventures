@@ -25,6 +25,7 @@ export function vandinhaBehavior(ctx: BehaviorContext) {
       y: npc.y,
       targetX: playerX,
       targetY: playerY,
+      sprite: "dish",
     });
 
     lastAttackRef.current = now;

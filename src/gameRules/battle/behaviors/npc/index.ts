@@ -4,6 +4,6 @@ import { deiseBehavior } from "./deise";
 
 export const npcBehaviors: Record<string, any> = {
   vandinhaFragment: vandinhaBehavior,
-  deiseBehavior: deiseBehavior,
+  deise: deiseBehavior,
   default: normalBehavior,
 };

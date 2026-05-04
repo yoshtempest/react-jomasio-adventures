@@ -3,4 +3,5 @@ export type Projectile = {
   y: number;
   targetX: number;
   targetY: number;
+  sprite?: string;
 };

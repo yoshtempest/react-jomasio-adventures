@@ -17,20 +17,21 @@ export function deiseBehavior(ctx: BehaviorContext) {
 
   const canThrow =
     !projectile &&
-    now - lastAttackRef.current > 3000;
+    now - lastAttackRef.current > 1000;
 
   if (canThrow) {
     setProjectile({
       x: npc.x,
-      y: npc.y,
+      y: npc.y + 50,
       targetX: playerX,
-      targetY: playerY,
+      targetY: playerY + 10,
+      sprite: "goat",
     });
 
     lastAttackRef.current = now;
 
     setForceIdle(true);
-    setTimeout(() => setForceIdle(false), 400);
+    setTimeout(() => setForceIdle(false), 1000);
   }
 
   // 🚫 não anda com projétil
