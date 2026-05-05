@@ -6,7 +6,8 @@ export const larissaBehavior: BattleBehavior = {
     setNpcHP,
     setStacks,
     setDelicia,
-    HITS_TO_SPECIAL
+    HITS_TO_SPECIAL,
+    spawnPiercing,
   }) => {
     // 🔹 dano fixo
     setNpcHP((hp: number) => Math.max(0, hp - 2));
@@ -16,17 +17,21 @@ export const larissaBehavior: BattleBehavior = {
 
     // 🔹 carrega especial
     setDelicia((d: number) => gainSpecial(d, HITS_TO_SPECIAL));
+
+    spawnPiercing?.();
   },
 
   onSpecialHit: ({
     stacks,
     setNpcHP,
     setStacks,
-    setDelicia
+    setDelicia,
+    triggerExplosion,
   }) => {
     const dmg = stacks * 5;
 
     setNpcHP((hp: number) => Math.max(0, hp - dmg));
+    triggerExplosion?.();
 
     // 🔥 reset total
     setStacks(0);

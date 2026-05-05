@@ -1,0 +1,135 @@
+import { useState, useCallback } from "react";
+import { canPlayerHit } from "@/gameRules/battle/combat";
+
+type Props = {
+  player: any;
+  playerClass: any;
+  char: any;
+  behavior: any;
+
+  playerX: number;
+  playerY: number;
+  npcX: number;
+  npcY: number;
+  playerState: string;
+
+  HITS_TO_SPECIAL: number;
+
+  setNpcHP: React.Dispatch<React.SetStateAction<number>>;
+  playerCooldown: React.RefObject<boolean>;
+
+  spawnPiercing: () => void;
+  triggerExplosion: () => void;
+};
+
+export function usePlayerBattle({
+  player,
+  playerClass,
+  char,
+  behavior,
+  HITS_TO_SPECIAL,
+  setNpcHP,
+  playerCooldown,
+  playerX,
+  playerY,
+  npcX,
+  npcY,
+  playerState,
+  spawnPiercing,
+  triggerExplosion,
+}: Props) {
+  const [delicia, setDelicia] = useState(0);
+  const [stacks, setStacks] = useState(0);
+
+  const playerHit = useCallback(() => {
+    if (!playerCooldown.current) return;
+
+    if (!canPlayerHit({
+      playerX,
+      playerY,
+      npcX,
+      npcY,
+      playerState,
+      character: player.character,
+      direction: player.battleDirection
+    })) return;
+
+    behavior.onBasicHit({
+      setNpcHP,
+      char,
+      playerClass,
+      setDelicia,
+      HITS_TO_SPECIAL,
+      stacks,
+      setStacks,
+      spawnPiercing,
+    });
+    
+    playerCooldown.current = false;
+    setTimeout(() => playerCooldown.current = true, 400);
+
+  }, [
+    playerCooldown,
+    playerX,
+    playerY,
+    npcX,
+    npcY,
+    playerState,
+    player.character,
+    player.battleDirection,
+    behavior,
+    char,
+    playerClass,
+    setNpcHP,
+    HITS_TO_SPECIAL,
+    stacks,
+    spawnPiercing
+  ]);
+
+  const specialHit = useCallback(() => {
+    if (!playerCooldown.current) return;
+    if (delicia < HITS_TO_SPECIAL) return;
+
+    if (!canPlayerHit({
+      playerX,
+      playerY,
+      npcX,
+      npcY,
+      playerState,
+      character: player.character,
+      direction: player.battleDirection
+    })) return;
+
+    behavior.onSpecialHit({
+      setNpcHP,
+      char,
+      playerClass,
+      setDelicia,
+      stacks,
+      setStacks,
+      triggerExplosion,
+    });
+
+    playerCooldown.current = false;
+    setTimeout(() => (playerCooldown.current = true), 600);
+
+    }, [
+    delicia,
+    HITS_TO_SPECIAL,
+    playerX,
+    playerY,
+    npcX,
+    npcY,
+    playerState,
+    stacks
+    ]);
+
+  return {
+    delicia,
+    stacks,
+    setStacks,
+    setDelicia,
+    playerHit,
+    specialHit,
+  };
+}
