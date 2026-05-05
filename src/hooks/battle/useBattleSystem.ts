@@ -166,6 +166,7 @@ export function useBattleSystem({
 
   const specialHit = useCallback(() => {
     if (!playerCooldown.current) return;
+    if (delicia < HITS_TO_SPECIAL) return;
 
     if (!canPlayerHit({
       playerX,
