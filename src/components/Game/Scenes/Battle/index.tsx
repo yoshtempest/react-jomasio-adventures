@@ -197,6 +197,7 @@ export function BattleScene({
           piercings={battle.piercings}
           isExploding={battle.isExploding}
           projectile={npc.projectile}
+          npcPhase={battle.npcPhase}
         />
 
         {npc.projectile && (

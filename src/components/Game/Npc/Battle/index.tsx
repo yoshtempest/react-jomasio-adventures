@@ -13,6 +13,7 @@ type Props = {
   projectile?: Projectile | null;
   piercings?: { id: number; x: number; y: number }[];
   isExploding?: boolean;
+  npcPhase?: number;
 };
 
 export function NPCBattle({
@@ -24,25 +25,43 @@ export function NPCBattle({
   direction,
   piercings = [],
   isExploding = false,
+  npcPhase = 1,
 }: Props) {
-  const src = isExploding
-    ? "/src/assets/npcs/explosion.svg"
-    : `/src/assets/npcs/${npcType}/${state}.svg`;
 
   const BASE_WIDTH = 1280;
   const BASE_HEIGHT = 600;
   const scaleX = window.innerWidth / BASE_WIDTH;
   const scaleY = window.innerHeight / BASE_HEIGHT;
 
+  const sizeMultiplier = npcType === "deise" && npcPhase === 2 ? 3 : 1.4;
+
+  const getSprite = () => {
+    if (npcType === "deise") {
+      if (npcPhase === 2) {
+        return `/src/assets/npcs/deise2/${state}.svg`;
+      }
+      return `/src/assets/npcs/deise/${state}.svg`;
+    }
+
+    // fallback padrão
+    return `/src/assets/npcs/${npcType}/${state}.svg`;
+  };
+
+  const basePath = getSprite();
+
+  const src = isExploding
+    ? "/src/assets/npcs/explosion.svg"
+    : `${basePath}`;
+
   return (
     <div
       style={{
         position: "absolute",
-        width: TILE_SIZE * 1.4,
-        height: TILE_SIZE * 1.4,
+        width: TILE_SIZE * sizeMultiplier,
+        height: TILE_SIZE * sizeMultiplier,
         left: x * scaleX,
         top: y * scaleY,
-        transform: `translate(-10%, -20%)`,
+        transform: `translate(-10%, -30%)`,
         zIndex: 9,
       }}
     >
