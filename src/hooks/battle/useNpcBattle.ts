@@ -45,5 +45,25 @@ export function useNpcBattle({
     setTimeout(() => npcCooldown.current = true, 800);
   }, []);
 
-  return { npcMeleeHit };
+  const npcRangedHit = useCallback(() => {
+    if (!npcCooldown.current) return;
+    if (player.state === "blocked") return;
+
+    const npc = getNpcStats(npcLevel, npcClass);
+    const dmg = calculateNpcDamage(npc.damage, playerClass);
+
+    setPlayerHP((hp) => Math.max(0, hp - dmg));
+
+    npcCooldown.current = false;
+    setTimeout(() => (npcCooldown.current = true), 800);
+  }, [
+    npcCooldown,
+    player.state,
+    npcLevel,
+    npcClass,
+    playerClass,
+    setPlayerHP
+  ]);
+
+  return { npcMeleeHit, npcRangedHit };
 }

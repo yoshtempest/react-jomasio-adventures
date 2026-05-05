@@ -483,6 +483,7 @@ export function useBattleSystem(props: Props) {
     specialHit: playerBattle.specialHit,
 
     npcMeleeHit: npcBattle.npcMeleeHit,
+    npcRangedHit: npcBattle.npcRangedHit,
 
     resetBattle,
 
