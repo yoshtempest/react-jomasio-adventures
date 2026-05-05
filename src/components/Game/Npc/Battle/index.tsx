@@ -61,7 +61,7 @@ export function NPCBattle({
         height: TILE_SIZE * sizeMultiplier,
         left: x * scaleX,
         top: y * scaleY,
-        transform: `translate(-10%, -30%)`,
+        transform: `translate(0%, -30%)`,
         zIndex: 9,
       }}
     >

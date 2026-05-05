@@ -43,7 +43,18 @@ export function useNpcBattle({
 
     npcCooldown.current = false;
     setTimeout(() => npcCooldown.current = true, 800);
-  }, []);
+  }, [
+    npcCooldown,
+    player.state,
+    npcLevel,
+    npcClass,
+    playerClass,
+    setPlayerHP,
+    playerX,
+    playerY,
+    npcX,
+    npcY
+  ]);
 
   const npcRangedHit = useCallback(() => {
     if (!npcCooldown.current) return;
