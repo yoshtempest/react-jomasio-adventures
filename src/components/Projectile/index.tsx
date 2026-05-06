@@ -1,5 +1,11 @@
 type Props = {
-  projectile: { x: number; y: number; sprite?: string; };
+  projectile: {
+    x: number;
+    y: number;
+    sprite?: string;
+    createdAt: number;
+    state: "idle" | "moving";
+  };
   TILE_SIZE: number;
 };
 
@@ -12,10 +18,18 @@ export function ProjectileSprite({ projectile, TILE_SIZE }: Props) {
 
   const spriteMap: Record<string, string> = {
     dish: "/src/assets/npcs/dish.svg",
-    goat: "/src/assets/npcs/goat/walk.svg",
+    "goat-idle": "/src/assets/npcs/goat/idle.svg",
+    "goat-walk": "/src/assets/npcs/goat/walk.svg",
   };
 
-  const src = spriteMap[projectile.sprite || "dish"];
+  const spriteKey =
+    projectile.sprite === "goat"
+      ? projectile.state === "idle"
+        ? "goat-idle"
+        : "goat-walk"
+      : "dish";
+
+  const src = spriteMap[spriteKey];
 
   return (
     <img

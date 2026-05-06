@@ -22,6 +22,19 @@ export function useProjectile(
       setProjectile((p) => {
         if (!p) return null;
 
+          const now = Date.now();
+
+          if (p.state === "walk") {
+            if (now - p.createdAt >= 500) {
+              return {
+                ...p,
+                state: "idle",
+              };
+            }
+
+            return p; // continua parado
+          }
+
         const dx = p.targetX - p.x;
         const dy = p.targetY - p.y;
 

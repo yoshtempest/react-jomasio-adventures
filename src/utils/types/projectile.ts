@@ -4,4 +4,6 @@ export type Projectile = {
   targetX: number;
   targetY: number;
   sprite?: string;
+  createdAt: number;
+  state: "walk" | "idle";
 };

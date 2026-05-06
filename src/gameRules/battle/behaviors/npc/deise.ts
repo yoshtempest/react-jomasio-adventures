@@ -39,6 +39,16 @@ export function deiseBehavior(ctx: BehaviorContext) {
       !projectile &&
       now - lastAttackRef.current > 1000;
 
+      // 🔥 PRIORIDADE: melee se estiver perto
+      if (distanceX <= 30 && distanceY <= 30) {
+        if (now - lastAttackRef.current > 800) {
+          onMeleeHit();
+          lastAttackRef.current = now;
+        }
+
+        return { x: npc.x };
+      }
+
     if (canThrow) {
       setProjectile({
         x: npc.x,
@@ -46,6 +56,8 @@ export function deiseBehavior(ctx: BehaviorContext) {
         targetX: playerX,
         targetY: playerY + 10,
         sprite: "goat",
+        createdAt: Date.now(),
+        state: "walk",
       });
 
       lastAttackRef.current = now;
