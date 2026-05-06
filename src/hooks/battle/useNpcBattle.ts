@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import { calculateNpcDamage } from "@/gameRules/battle/damage";
 import { isNpcInRange } from "@/gameRules/battle/range";
+import { isFacingTarget } from "@/gameRules/battle/direction";
 
 type Props = {
   npcLevel: number;
@@ -34,7 +35,10 @@ export function useNpcBattle({
   const npcMeleeHit = useCallback(() => {
     if (!npcCooldown.current) return;
     if (!isNpcInRange(playerX, playerY, npcX, npcY)) return;
-    if (player.state === "blocked") return;
+    if (
+      player.state === "blocked" &&
+      isFacingTarget(playerX, playerY, npcX, npcY, player.battleDirection)
+    ) return;
 
     const npc = getNpcStats(npcLevel, npcClass);
     const dmg = calculateNpcDamage(npc.damage, playerClass);
@@ -46,6 +50,7 @@ export function useNpcBattle({
   }, [
     npcCooldown,
     player.state,
+    player.battleDirection,
     npcLevel,
     npcClass,
     playerClass,
@@ -58,7 +63,10 @@ export function useNpcBattle({
 
   const npcRangedHit = useCallback(() => {
     if (!npcCooldown.current) return;
-    if (player.state === "blocked") return;
+    if (
+      player.state === "blocked" &&
+      isFacingTarget(playerX, playerY, npcX, npcY, player.battleDirection)
+    ) return;
 
     const npc = getNpcStats(npcLevel, npcClass);
     const dmg = calculateNpcDamage(npc.damage, playerClass);
@@ -70,6 +78,7 @@ export function useNpcBattle({
   }, [
     npcCooldown,
     player.state,
+    player.battleDirection,
     npcLevel,
     npcClass,
     playerClass,
