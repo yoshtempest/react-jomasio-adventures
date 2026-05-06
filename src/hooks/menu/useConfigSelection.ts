@@ -1,15 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { usePlayer } from "@/contexts/PlayerContext";
-import type { PlayerClass } from "@/utils/types/player/player";
+import type { NpcDifficulty } from "@/utils/types/npc/npcProgress";
 import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
 import { getSelected } from "@/gameRules/menu/selection";
 
-const CLASSES: PlayerClass[] = ["fracote", "idiota", "amostradinho"];
+const DIFFICULTY: NpcDifficulty[] = ["easy", "medium", "hard"];
 
-export function useClassSelection(isActive: boolean, onConfirm ?: () => void) {
+export function useConfigSelection(isActive: boolean, onConfirm ?: () => void) {
   const { pushControls, popControls } = useGameControls();
-  const { chooseClass } = usePlayer();
+  const { setDifficulty } = usePlayer();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
   const selectedIndexRef = useRef(selectedIndex);
@@ -24,20 +24,20 @@ export function useClassSelection(isActive: boolean, onConfirm ?: () => void) {
     const controls = {
       onRight: () => {
         setSelectedIndex((prev) =>
-          circularNext(prev, CLASSES.length)
+          circularNext(prev, DIFFICULTY.length)
         );
       },
 
       onLeft: () => {
         setSelectedIndex((prev) =>
-          circularPrev(prev, CLASSES.length)
+          circularPrev(prev, DIFFICULTY.length)
         );
       },
 
       onConfirm: () => {
-        const selected = getSelected(CLASSES, selectedIndexRef.current);
-        chooseClass(selected);
-        onConfirm?.(); // 👈 aqui está a mágica
+        const selected = getSelected(DIFFICULTY, selectedIndexRef.current);
+        setDifficulty(selected);
+        onConfirm?.();
         return true;
       },
 
@@ -49,7 +49,7 @@ export function useClassSelection(isActive: boolean, onConfirm ?: () => void) {
   }, [isActive]);
 
   return {
-    classes: CLASSES,
+    difficulty: DIFFICULTY,
     selectedIndex,
   };
 }

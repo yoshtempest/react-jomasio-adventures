@@ -31,7 +31,7 @@ export function useBattleScene({
 }: Props) {
   const navigate = useNavigate();
 
-  const { player, setMap, setMode, attack, special, resetBattleState } = usePlayer();
+  const { player, setMap, setMode, attack, special, resetBattleState, difficulty } = usePlayer();
   const { pushControls, popControls } = useGameControls();
   const { addXP, progress, getXPToNextLevel } = useCharacterProgress();
   const { closeInventory } = useInventory();
@@ -48,7 +48,7 @@ export function useBattleScene({
   const xpNeeded = getXPToNextLevel(charProgress.level);
   const missingXp = xpNeeded - charProgress.xp;
 
-  const npcStats = getNpcStats(npcLevel, npcData.class);
+  const npcStats = getNpcStats(npcLevel, npcData.class, difficulty);
 
   const { showVictory, triggerVictory } = useVictory({ redirectTo });
 
@@ -83,6 +83,7 @@ export function useBattleScene({
     playerState: player.state,
     npcLevel,
     npcClass: npcData.class,
+    difficulty,
     onPlayerDeath: () => setShowDefeat(true),
     onNpcDeath: () => {
       addXP(player.character, xpReward);

@@ -4,11 +4,16 @@ import { usePlayerMovement } from "@/hooks/player/usePlayerMovement";
 import { useBattleMovement } from "@/hooks/player/useBattleMovement";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
+import type { NpcDifficulty } from "@/utils/types/npc/npcProgress";
 
 type PlayerContextType = {
   player: Player;
+  difficulty: NpcDifficulty;
+  setDifficulty: (difficulty: NpcDifficulty) => void;
+
   setPosition: (x: number, y: number, direction?: Player["direction"]) => void;
   setCharacter: (character: Player["character"]) => void;
+
 
   moveUp: () => void;
   moveDown: () => void;
@@ -38,6 +43,7 @@ type PlayerContextType = {
 const PlayerContext = createContext<PlayerContextType | null>(null);
 
 export function PlayerProvider({ children }: { children: ReactNode }) {
+  const [difficulty, setDifficulty] = useState<NpcDifficulty>("medium");
   const [player, setPlayer] = useState<Player>(() => {
     const savedCharacter = localStorage.getItem("character");
 
@@ -175,6 +181,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         setPosition,
         playerClass,
         chooseClass,
+        difficulty,
+        setDifficulty,
         
       }}
     >

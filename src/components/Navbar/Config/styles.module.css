@@ -87,3 +87,29 @@
   display: flex;
   flex-direction: column;
 }
+
+.difficultyContainer {
+  display: flex;
+  gap: 20px;
+}
+
+.difficultyItem {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  padding: 10px;
+  border-radius: 5px;
+  border: 2px solid var(--primary-color);
+  width: 8vw;
+}
+
+.selected {
+  outline: 2px solid white;
+  background-color: var(--primary-color);
+}
+
+.cursor {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}

@@ -3,6 +3,7 @@ import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import { calculateNpcDamage } from "@/gameRules/battle/damage";
 import { isNpcInRange } from "@/gameRules/battle/range";
 import { isFacingTarget } from "@/gameRules/battle/direction";
+import type { NpcDifficulty } from "@/utils/types/npc/npcProgress";
 
 type Props = {
   npcLevel: number;
@@ -18,6 +19,7 @@ type Props = {
 
   setPlayerHP: React.Dispatch<React.SetStateAction<number>>;
   npcCooldown: React.RefObject<boolean>;
+  difficulty: NpcDifficulty;
 };
 
 export function useNpcBattle({
@@ -30,7 +32,8 @@ export function useNpcBattle({
   playerY,
   npcX,
   npcY,
-  player
+  player,
+  difficulty,
 }: Props) {
   const npcMeleeHit = useCallback(() => {
     if (!npcCooldown.current) return;
@@ -40,7 +43,7 @@ export function useNpcBattle({
       isFacingTarget(playerX, playerY, npcX, npcY, player.battleDirection)
     ) return;
 
-    const npc = getNpcStats(npcLevel, npcClass);
+    const npc = getNpcStats(npcLevel, npcClass, difficulty);
     const dmg = calculateNpcDamage(npc.damage, playerClass);
 
     setPlayerHP(hp => Math.max(0, hp - dmg));
@@ -68,7 +71,7 @@ export function useNpcBattle({
       isFacingTarget(playerX, playerY, npcX, npcY, player.battleDirection)
     ) return;
 
-    const npc = getNpcStats(npcLevel, npcClass);
+    const npc = getNpcStats(npcLevel, npcClass, difficulty);
     const dmg = calculateNpcDamage(npc.damage, playerClass);
 
     setPlayerHP((hp) => Math.max(0, hp - dmg));

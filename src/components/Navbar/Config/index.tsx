@@ -1,10 +1,32 @@
 import styles from "./styles.module.css";
 import { MoveUp, MoveDown, MoveLeft, MoveRight } from "lucide-react";
+import { usePlayer } from "@/contexts/PlayerContext";
+import { useConfigMenu } from "@/hooks/menu/useConfigMenu";
 
 export function Config() {
+  const { difficulty } = usePlayer();
+  const { difficultyList, selectedIndex } = useConfigMenu(true);
 
   return (
     <div className={styles.inventory}>
+      <h2>Dificuldade: {difficulty}</h2>
+      <div className={styles.difficultyContainer}>
+        {difficultyList.map((diff, index) => {
+          const isSelected = index === selectedIndex;
+          return (
+            <div
+              key={diff}
+              className={`${styles.difficultyItem} ${
+                isSelected ? styles.selected : ""
+              }`}
+            >
+              {isSelected && <span className={styles.cursor}>▼</span>}
+
+              <p>{diff.toUpperCase()}</p>
+            </div>
+          );
+        })}
+      </div>
       <h3>Como funciona a movimentação:</h3>
       <div className={styles.row}>
         <div className={styles.movement}>
@@ -21,7 +43,6 @@ export function Config() {
 
         <div className={styles.column}>
           <p>Basta apertar na direção que você deseja ir.</p>
-          <p>Como pode ver, é bem simples</p>
         </div>
       </div>
       <h3>Como funcionam os controles:</h3>
@@ -33,10 +54,9 @@ export function Config() {
         </div>
         <p>
           Ao clicar em "B" enquanto está em batalha, 
-          você consegue usar seu Special, e, 
+          você consegue usar seu Special 
           caso seu deliciomêtro esteja carregado, 
-          você consegue causar dano massivo no oponente. 
-          Além disso, "B" também pode ser usado para fechar os menus.
+          Além disso, também pode ser usado para fechar os menus.
         </p>
       </div>
       <div className={styles.row}>
@@ -44,17 +64,17 @@ export function Config() {
         <p>
           Ao clicar em "L", você consegue interagir com as pessoas e com o mapa, 
           caso esteja em batalha, 
-          você ataca ao invés disso.
+          você ataca.
         </p>
       </div>
       <div className={styles.row}>
         <button className={styles.open} />
         <p>
           Ao clicar em "G" pelo teclado ou nesse quadrado retangular, você consegue abrir os menus,
-          assim como você fez 
-          caso esteja em batalha, 
-          e com o deliciomêtro carregado,
-          futuramente você poderá utilizar o modo awakening (despertar).
+          assim como você fez agora, 
+          caso esteja em batalha,
+          após cumprir certas condições
+          você poderá utilizar o modo awakening.
         </p>
       </div>
     </div>

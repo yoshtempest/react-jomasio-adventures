@@ -11,6 +11,7 @@ import { useBattleEffects } from "@/hooks/battle/useBattleEffects";
 import { usePlayerBattle } from "@/hooks/battle/usePlayerBattle";
 import { useNpcBattle } from "@/hooks/battle/useNpcBattle";
 import { useBattleLifecycle } from "@/hooks/battle/useBattleLifecycle";
+import type { NpcDifficulty } from "@/utils/types/npc/npcProgress";
 
 
 type Props = {
@@ -23,6 +24,7 @@ type Props = {
   onPlayerDeath: () => void;
   onNpcDeath: () => void;
   playerState: string;
+  difficulty: NpcDifficulty
 };
 
 export function useBattleSystem(props: Props) {
@@ -34,6 +36,7 @@ export function useBattleSystem(props: Props) {
     npcLevel,
     npcClass,
     playerState,
+    difficulty,
     onPlayerDeath,
     onNpcDeath
   } = props;
@@ -65,7 +68,7 @@ export function useBattleSystem(props: Props) {
 
   // 🤖 npc HP
   const npcMaxHp = useMemo(() => {
-    return getNpcStats(npcLevel, npcClass).hp;
+    return getNpcStats(npcLevel, npcClass, difficulty).hp;
   }, [npcLevel, npcClass]);
 
   const [npcHP, setNpcHP] = useState(npcMaxHp);
@@ -116,7 +119,8 @@ export function useBattleSystem(props: Props) {
     player,
 
     setPlayerHP,
-    npcCooldown
+    npcCooldown,
+    difficulty,
   });
 
   // 🧠 lifecycle

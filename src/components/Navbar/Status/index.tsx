@@ -8,16 +8,16 @@ export function Status() {
   const { player, playerClass } = usePlayer();
   const { progress, getXPToNextLevel } = useCharacterProgress();
 
-    const char = progress[player.character] ?? {
-        level: 1,
-        xp: 0,
-        stats: {
-            hp: 1,
-            strength: 1,
-            intelligence: 1,
-            points: 0,
-        },
-    };
+  const char = progress[player.character] ?? {
+      level: 1,
+      xp: 0,
+      stats: {
+          hp: 1,
+          strength: 1,
+          intelligence: 1,
+          points: 0,
+      },
+  };
 
   const stats = char.stats;
 
