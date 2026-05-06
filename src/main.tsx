@@ -42,7 +42,7 @@ import GoatBattle from './pages/Battle/Goat/index.tsx';
 import JhowSimarBattle from './pages/Battle/JhowSimar/index.tsx';
 import HungryDeathBattle from './pages/Battle/Hungry/index.tsx';
 
-import CafeteriaOne from './pages/Cafeteria/index.tsx';
+import CafeteriaOne from './pages/Cafeteria/One/index.tsx';
 import CafeteriaBattle from './pages/Cafeteria/battle/index.tsx';
 
 createRoot(document.getElementById('root')!).render(

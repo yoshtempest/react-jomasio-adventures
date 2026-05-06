@@ -37,7 +37,7 @@ export function deiseBehavior(ctx: BehaviorContext) {
   if (npcPhase === 1) {
     const canThrow =
       !projectile &&
-      now - lastAttackRef.current > 500;
+      now - lastAttackRef.current > 1500;
 
       // 🔥 PRIORIDADE: melee se estiver perto
       if (distanceX <= 20 && distanceY <= 20) {
