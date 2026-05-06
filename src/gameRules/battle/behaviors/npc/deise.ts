@@ -25,7 +25,7 @@ export function deiseBehavior(ctx: BehaviorContext) {
     if (
       distanceX < 80 &&
       distanceY < 80 &&
-      now - lastAttackRef.current > 800
+      now - lastAttackRef.current > 500
     ) {
       onMeleeHit();
       lastAttackRef.current = now;
@@ -37,10 +37,10 @@ export function deiseBehavior(ctx: BehaviorContext) {
   if (npcPhase === 1) {
     const canThrow =
       !projectile &&
-      now - lastAttackRef.current > 1000;
+      now - lastAttackRef.current > 500;
 
       // 🔥 PRIORIDADE: melee se estiver perto
-      if (distanceX <= 30 && distanceY <= 30) {
+      if (distanceX <= 20 && distanceY <= 20) {
         if (now - lastAttackRef.current > 800) {
           onMeleeHit();
           lastAttackRef.current = now;
