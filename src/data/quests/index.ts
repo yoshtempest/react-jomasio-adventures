@@ -45,8 +45,8 @@ export const QUESTS = {
     progress: 0,
     completed: false
   },
-  go_cantina: {
-    id: "go_cantina",
+  go_cafeteria: {
+    id: "go_cafeteria",
     name: "Ir em busca do linguição",
     image: "/src/assets/npcs/remedinha/default.svg",
     description: "Vá ao no refeitório e adquira sua recompensa (linguição)",

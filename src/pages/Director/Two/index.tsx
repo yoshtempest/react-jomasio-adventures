@@ -10,16 +10,13 @@ import { createDirector } from "@/interactions/director";
 import { ExploreScene } from "@/components/Game/Scenes/Default";
 
 export default function DirectorTwo() {
-  const { player, setMap } = usePlayer();
+  const { player } = usePlayer();
 
   const [popup, setPopup] = useState<string | null>(null);
   const { addItem, hasItem, removeItem } = useInventory();
   const navigate = useNavigate();
   const [gotKey, setGotKey] = useState(false);
 
-  useEffect(() => {
-    setMap(director);
-  }, []);
   const { pushControls, popControls } = useGameControls();
 
   const handlerRef = useRef<() => void>(() => {});
