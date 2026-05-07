@@ -1,7 +1,10 @@
-.inventory {
+.config {
   display: flex;
   position: absolute;
   flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
   width: 74vw;
   height: 90vh;
   top: 10%;
@@ -13,8 +16,9 @@
   z-index: 999;
 }
 
-.inventory h3 {
-  text-align: center;
+.marginTop {
+  margin-top: 8%;
+  margin-bottom: 2%;
 }
 
 .movement {
@@ -52,35 +56,35 @@
 }
 
 .gameButtons {
-    display: flex;
-    gap: 24px;
-    align-items: flex-end;
-    flex-direction: column;
+  display: flex;
+  gap: 24px;
+  align-items: flex-end;
+  flex-direction: column;
 }
 
 .button {
-    display: flex;
-    width: 2.4vw;
-    height: 2.4vw;
-    font-size: 0.8vw;
-    font-weight: bold;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  width: 2.4vw;
+  height: 2.4vw;
+  font-size: 0.8vw;
+  font-weight: bold;
+  align-items: center;
+  justify-content: center;
 }
 
 .open {
-    display: flex;
-    width: 2.4vw;
-    height: 0.8vw;
-    border-radius: 10px;
+  display: flex;
+  width: 2.4vw;
+  height: 0.8vw;
+  border-radius: 10px;
 }
 
 .row {
-    display: flex;
-    gap: 16px;
-    flex-direction: row;
-    align-items: center;
-    max-width: 70%;
+  display: flex;
+  gap: 16px;
+  flex-direction: row;
+  align-items: center;
+  max-width: 70%;
 }
 
 .column {
@@ -90,6 +94,7 @@
 
 .difficultyContainer {
   display: flex;
+  align-items: center;
   gap: 20px;
 }
 
@@ -123,9 +128,38 @@
   width: 200px;
   height: 12px;
   border: 2px solid var(--primary-color);
+  border-radius: 4px;
 }
 
 .volumeFill {
   height: 100%;
   background: var(--background-color);
+}
+
+.tutorialContainer {
+  max-width: 100%;
+  max-height: 100%;
+
+  overflow-y: auto;
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 1);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 999;
+  border: 2px solid white;
+
+  border-radius: 8px;
+}
+
+.tutorialButton {
+  position: relative;
+  margin-top: 5%;
+  padding: 20px;
+  border-radius: 4px;
+  border: 2px solid var(--primary-color)
 }

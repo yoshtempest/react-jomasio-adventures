@@ -7,11 +7,11 @@ import { useAudio } from "@/contexts/AudioContext";
 export function Config() {
   const { difficulty } = usePlayer();
   const { volume } = useAudio();
-  const { difficultyList, selectedIndex, selectedRow } = useConfigMenu(true);
+  const { difficultyList, selectedIndex, selectedRow, screen } = useConfigMenu(true);
 
   return (
-    <div className={styles.inventory}>
-      <h2>Dificuldade: {difficulty}</h2>
+    <div className={styles.config}>
+      <h2 className={styles.marginTop}>Dificuldade: {difficulty}</h2>
       <div className={styles.difficultyContainer}>
         {difficultyList.map((diff, index) => {
           const isSelected =
@@ -45,56 +45,71 @@ export function Config() {
           />
         </div>
       </div>
-      <h3>Como funciona a movimentação:</h3>
-      <div className={styles.row}>
-        <div className={styles.movement}>
-          <MoveUp size={16} className={styles.up}/>
+      <div
+        className={`${styles.tutorialButton} ${
+          selectedRow === 2 ? styles.selected : ""
+        }`}
+      >
+        {selectedRow === 2 && (
+          <span className={styles.cursor}>▼</span>
+        )}
 
-          <MoveLeft size={16} className={styles.left}/>
+        <h2>Ver Tutorial</h2>
+      </div>
+      {screen === "tutorial" && (
+        <div className={styles.tutorialContainer}>
+          <h3>Como funciona a movimentação:</h3>
+          <div className={styles.row}>
+            <div className={styles.movement}>
+              <MoveUp size={16} className={styles.up}/>
 
-          <div className={styles.empty}></div>
+              <MoveLeft size={16} className={styles.left}/>
 
-          <MoveRight size={16} className={styles.right}/>
+              <div className={styles.empty}></div>
 
-          <MoveDown size={16} className={styles.down}/>
+              <MoveRight size={16} className={styles.right}/>
+
+              <MoveDown size={16} className={styles.down}/>
+            </div>
+
+            <div className={styles.column}>
+              <p>Basta apertar na direção que você deseja ir.</p>
+            </div>
+          </div>
+          <h3>Como funcionam os controles:</h3>
+          <div className={styles.row}>
+            <div className={styles.gameButtons}>
+                <button className={styles.button}>
+                  B
+                </button>
+            </div>
+            <p>
+              Ao clicar em "B" enquanto está em batalha, 
+              você consegue usar seu Special 
+              caso seu deliciomêtro esteja carregado, 
+              Além disso, também pode ser usado para fechar os menus.
+            </p>
+          </div>
+          <div className={styles.row}>
+            <button className={styles.button}> L </button>
+            <p>
+              Ao clicar em "L", você consegue interagir com as pessoas e com o mapa, 
+              caso esteja em batalha, 
+              você ataca.
+            </p>
+          </div>
+          <div className={styles.row}>
+            <button className={styles.open} />
+            <p>
+              Ao clicar em "G" pelo teclado ou nesse quadrado retangular, você consegue abrir os menus,
+              assim como você fez agora, 
+              caso esteja em batalha,
+              após cumprir certas condições
+              você poderá utilizar o modo awakening.
+            </p>
+          </div>
         </div>
-
-        <div className={styles.column}>
-          <p>Basta apertar na direção que você deseja ir.</p>
-        </div>
-      </div>
-      <h3>Como funcionam os controles:</h3>
-      <div className={styles.row}>
-        <div className={styles.gameButtons}>
-            <button className={styles.button}>
-              B
-            </button>
-        </div>
-        <p>
-          Ao clicar em "B" enquanto está em batalha, 
-          você consegue usar seu Special 
-          caso seu deliciomêtro esteja carregado, 
-          Além disso, também pode ser usado para fechar os menus.
-        </p>
-      </div>
-      <div className={styles.row}>
-        <button className={styles.button}> L </button>
-        <p>
-          Ao clicar em "L", você consegue interagir com as pessoas e com o mapa, 
-          caso esteja em batalha, 
-          você ataca.
-        </p>
-      </div>
-      <div className={styles.row}>
-        <button className={styles.open} />
-        <p>
-          Ao clicar em "G" pelo teclado ou nesse quadrado retangular, você consegue abrir os menus,
-          assim como você fez agora, 
-          caso esteja em batalha,
-          após cumprir certas condições
-          você poderá utilizar o modo awakening.
-        </p>
-      </div>
+      )}
     </div>
   );
 }
