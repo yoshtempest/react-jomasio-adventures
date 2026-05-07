@@ -20,7 +20,13 @@ export function useGameAudio({
   // 🎵 cria o áudio apenas quando o src muda
   useEffect(() => {
     const audio = new Audio(src);
+    audio.loop = loop;
     audioRef.current = audio;
+
+
+    if (autoPlay) {
+      audio.play().catch(() => {});
+    }
 
     return () => {
       audio.pause();
@@ -32,14 +38,16 @@ export function useGameAudio({
   useEffect(() => {
     if (!audioRef.current) return;
 
-    audioRef.current.loop = loop;
     audioRef.current.volume =
       volume * (masterVolume / 100);
 
-    if (autoPlay) {
-      audioRef.current.play().catch(() => {});
-    }
-  }, [loop, volume, autoPlay]);
+  }, [volume, masterVolume]);
+
+  useEffect(() => {
+    if (!audioRef.current) return;
+
+    audioRef.current.loop = loop;
+  }, [loop]);
 
   const play = () => audioRef.current?.play();
   const pause = () => audioRef.current?.pause();

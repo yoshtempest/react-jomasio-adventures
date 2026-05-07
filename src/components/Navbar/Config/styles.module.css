@@ -122,10 +122,10 @@
 .volumeBar {
   width: 200px;
   height: 12px;
-  border: 2px solid white;
+  border: 2px solid var(--primary-color);
 }
 
 .volumeFill {
   height: 100%;
-  background: white;
+  background: var(--background-color);
 }

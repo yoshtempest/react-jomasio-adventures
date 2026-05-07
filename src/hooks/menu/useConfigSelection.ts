@@ -58,8 +58,15 @@ export function useConfigSelection(isActive: boolean, onConfirm ?: () => void) {
       },
 
       onConfirm: () => {
-        const selected = getSelected(DIFFICULTY, selectedIndexRef.current);
-        setDifficulty(selected);
+        if (selectedRow === 0) {
+          const selected = getSelected(
+            DIFFICULTY,
+            selectedIndexRef.current
+          );
+
+          setDifficulty(selected);
+        }
+
         onConfirm?.();
         return true;
       },
@@ -69,7 +76,11 @@ export function useConfigSelection(isActive: boolean, onConfirm ?: () => void) {
 
     pushControls(controls);
     return () => popControls();
-  }, [isActive]);
+  }, [
+    isActive,
+    selectedRow,
+    volume,
+  ]);
 
   return {
     difficulty: DIFFICULTY,
