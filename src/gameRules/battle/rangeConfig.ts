@@ -37,12 +37,12 @@ export const CHARACTER_RANGE_X: Record<
 
   mayra: {
     normalHitRange: 80,
-    specialHitRange: 250,
+    specialHitRange: 300,
   },
 
   camilly: {
     normalHitRange: 100,
-    specialHitRange: 220,
+    specialHitRange: 100,
   },
 
   lucas: {
@@ -52,12 +52,12 @@ export const CHARACTER_RANGE_X: Record<
 
   lucaua: {
     normalHitRange: 150,
-    specialHitRange: 350,
+    specialHitRange: 3000,
   },
 
   riquelme: {
     normalHitRange: 90,
-    specialHitRange: 260,
+    specialHitRange: 3000,
   },
 
   hiago: {
