@@ -10,6 +10,7 @@ export function canPlayerHit(params: {
   playerState: string;
   character: string;
   direction: DirectionBattle;
+  isSpecial: boolean;
 }) {
   return (
     isPlayerInRange(
@@ -18,7 +19,8 @@ export function canPlayerHit(params: {
       params.npcX,
       params.npcY,
       params.playerState,
-      params.character
+      params.character,
+      params.isSpecial
     ) &&
     isFacingTarget(
       params.playerX,

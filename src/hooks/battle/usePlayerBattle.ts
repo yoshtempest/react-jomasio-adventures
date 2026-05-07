@@ -44,15 +44,20 @@ export function usePlayerBattle({
   const playerHit = useCallback(() => {
     if (!playerCooldown.current) return;
 
-    if (!canPlayerHit({
-      playerX,
-      playerY,
-      npcX,
-      npcY,
-      playerState,
-      character: player.character,
-      direction: player.battleDirection
-    })) return;
+    if (
+      !canPlayerHit({
+        playerX,
+        playerY,
+        npcX,
+        npcY,
+        playerState,
+        character: player.character,
+        direction: player.battleDirection,
+        isSpecial: false,
+      })
+    ) {
+      return;
+    }
 
     behavior.onBasicHit({
       setNpcHP,
@@ -64,10 +69,12 @@ export function usePlayerBattle({
       setStacks,
       spawnPiercing,
     });
-    
-    playerCooldown.current = false;
-    setTimeout(() => playerCooldown.current = true, 400);
 
+    playerCooldown.current = false;
+
+    setTimeout(() => {
+      playerCooldown.current = true;
+    }, 400);
   }, [
     playerCooldown,
     playerX,
@@ -83,22 +90,27 @@ export function usePlayerBattle({
     setNpcHP,
     HITS_TO_SPECIAL,
     stacks,
-    spawnPiercing
+    spawnPiercing,
   ]);
 
   const specialHit = useCallback(() => {
     if (!playerCooldown.current) return;
     if (delicia < HITS_TO_SPECIAL) return;
 
-    if (!canPlayerHit({
-      playerX,
-      playerY,
-      npcX,
-      npcY,
-      playerState,
-      character: player.character,
-      direction: player.battleDirection
-    })) return;
+    if (
+      !canPlayerHit({
+        playerX,
+        playerY,
+        npcX,
+        npcY,
+        playerState,
+        character: player.character,
+        direction: player.battleDirection,
+        isSpecial: true,
+      })
+    ) {
+      return;
+    }
 
     behavior.onSpecialHit({
       setNpcHP,
@@ -111,18 +123,28 @@ export function usePlayerBattle({
     });
 
     playerCooldown.current = false;
-    setTimeout(() => (playerCooldown.current = true), 600);
 
-    }, [
+    setTimeout(() => {
+      playerCooldown.current = true;
+    }, 600);
+  }, [
     delicia,
     HITS_TO_SPECIAL,
+    playerCooldown,
     playerX,
     playerY,
     npcX,
     npcY,
     playerState,
-    stacks
-    ]);
+    player.character,
+    player.battleDirection,
+    behavior,
+    char,
+    playerClass,
+    setNpcHP,
+    stacks,
+    triggerExplosion,
+  ]);
 
   return {
     delicia,

@@ -6,11 +6,20 @@ export function isPlayerInRange(
   npcX: number,
   npcY: number,
   playerState: string,
-  character: string
+  character: string,
+  isSpecial: boolean
 ) {
-  if (playerState === "jump" || playerState === "blocked") return false;
+  if (playerState === "jump" || playerState === "blocked") {
+    return false;
+  }
 
-  const rangeX = CHARACTER_RANGE_X[character];
+  const ranges = CHARACTER_RANGE_X[character];
+
+  if (!ranges) return false;
+
+  const rangeX = isSpecial
+    ? ranges.specialHitRange
+    : ranges.normalHitRange;
 
   const dx = Math.abs(playerX - npcX);
   const dy = Math.abs(playerY - npcY);

@@ -1,14 +1,67 @@
-export const CHARACTER_RANGE_X: Record<string, number> = {
-  eduarda: 150,
-  marcelo: 80,
-  samuel: 100,
-  artur: 120,
-  emanuel: 160,
-  larissa: 8000,
-  mayra: 80,
-  camilly: 100,
-  lucas: 80,
-  lucaua: 150,
-  riquelme: 90,
-  hiago: 80,
+export const CHARACTER_RANGE_X: Record<
+  string,
+  {
+    normalHitRange: number;
+    specialHitRange: number;
+  }
+> = {
+  eduarda: {
+    normalHitRange: 150,
+    specialHitRange: 250,
+  },
+
+  marcelo: {
+    normalHitRange: 80,
+    specialHitRange: 3000,
+  },
+
+  samuel: {
+    normalHitRange: 100,
+    specialHitRange: 220,
+  },
+
+  artur: {
+    normalHitRange: 120,
+    specialHitRange: 260,
+  },
+
+  emanuel: {
+    normalHitRange: 160,
+    specialHitRange: 320,
+  },
+
+  larissa: {
+    normalHitRange: 8000,
+    specialHitRange: 8000,
+  },
+
+  mayra: {
+    normalHitRange: 80,
+    specialHitRange: 250,
+  },
+
+  camilly: {
+    normalHitRange: 100,
+    specialHitRange: 220,
+  },
+
+  lucas: {
+    normalHitRange: 80,
+    specialHitRange: 280,
+  },
+
+  lucaua: {
+    normalHitRange: 150,
+    specialHitRange: 350,
+  },
+
+  riquelme: {
+    normalHitRange: 90,
+    specialHitRange: 260,
+  },
+
+  hiago: {
+    normalHitRange: 80,
+    specialHitRange: 300,
+  },
 };
