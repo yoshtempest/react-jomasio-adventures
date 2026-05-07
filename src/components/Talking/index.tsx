@@ -9,11 +9,11 @@ interface Props {
 export default function Talking({ name, message, src }: Props) {
   return (
     <div className={styles.container}>
-      {src && <img className={styles.image} src={src} alt={name} />}
       <div className={styles.talking}>
         <h1>{name}</h1>
         <h2>{message}</h2>
       </div>
+      {src && <img className={styles.image} src={src} alt={name} />}
     </div>
   )
 }

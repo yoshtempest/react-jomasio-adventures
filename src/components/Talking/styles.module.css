@@ -14,13 +14,15 @@
   text-align: left;
   margin-top: 65vh;
   bottom: 0;
+  z-index: 999;
   border: 1px solid var(--background-color);
   border-radius: 2px;
 }
 
 .image {
   position: absolute;
-  bottom: 15%;
+  z-index: 10;
+  bottom: 20%;
   left: 0%;
   height: 30vh;
 }

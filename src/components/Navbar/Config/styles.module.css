@@ -143,7 +143,7 @@
   overflow-y: auto;
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 1);
+  background: rgba(0, 0, 0, 0.99);
 
   display: flex;
   flex-direction: column;
