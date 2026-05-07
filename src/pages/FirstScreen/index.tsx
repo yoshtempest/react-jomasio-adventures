@@ -3,7 +3,6 @@ import { firstScreenMap } from "@/maps/firstScreenMap";
 import { ExploreScene } from "@/components/Game/Scenes/Default";
 
 export default function FirstScreen() {
-
   return (
     <ExploreScene
       map={firstScreenMap}

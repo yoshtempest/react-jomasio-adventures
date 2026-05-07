@@ -45,6 +45,7 @@ import HungryDeathBattle from './pages/Battle/Hungry/index.tsx';
 import CafeteriaOne from './pages/Cafeteria/One/index.tsx';
 import CafeteriaBattle from './pages/Cafeteria/battle/index.tsx';
 import { AudioProvider } from './contexts/AudioContext.tsx';
+import BrodiClassOne from './pages/BrodiClass/index.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -99,6 +100,7 @@ createRoot(document.getElementById('root')!).render(
 
                         <Route path="cafeteria/one" element={<CafeteriaOne/>} />
                         <Route path="cafeteria/battle" element={<CafeteriaBattle/>} />
+                        <Route path="brodiclass/one" element={<BrodiClassOne/>} />
                       </Route>
                     </Routes>
                   </GameControlsProvider>

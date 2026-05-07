@@ -15,6 +15,12 @@ export default function HallThirdClass() {
         },
         {
           positions: [
+            { x: 3, y: 7 },
+          ],
+          to: "/brodiclass/one",
+        },
+        {
+          positions: [
             { x: 8, y: 5 },
           ],
           to: "/library",
