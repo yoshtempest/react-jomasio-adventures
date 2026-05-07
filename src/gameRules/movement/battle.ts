@@ -21,7 +21,7 @@ export function moveLeftBattle(player: Player): Player {
     ...player,
     x: Math.max(BATTLE_LIMITS.minX, player.x - BATTLE_STEP),
     battleDirection: "left",
-    state: "walk",
+    state: player.state === "jump" ? "jump" : "walk",
   };
 }
 
@@ -32,12 +32,13 @@ export function moveRightBattle(player: Player): Player {
     ...player,
     x: Math.min(BATTLE_LIMITS.maxX, player.x + BATTLE_STEP),
     battleDirection: "right",
-    state: "walk",
+    state: player.state === "jump" ? "jump" : "walk",
   };
 }
 
 export function jumpBattle(p: Player): Player {
   if (!canAct(p)) return p;
+  if (p.state === "blocked") return p;
 
   return {
     ...p,
@@ -47,6 +48,7 @@ export function jumpBattle(p: Player): Player {
 }
 
 export function landBattle(p: Player): Player {
+  if (p.state !== "jump") return p;
   return {
     ...p,
     y: p.y + 80,
@@ -56,6 +58,7 @@ export function landBattle(p: Player): Player {
 
 export function blockStart(p: Player): Player {
   if (!isInBattle(p)) return p;
+  if (p.state === "jump") return p;
 
   return {
     ...p,
@@ -65,6 +68,7 @@ export function blockStart(p: Player): Player {
 
 export function blockEnd(p: Player): Player {
   if (!isInBattle(p)) return p;
+  if (p.state === "jump") return p;
 
   return {
     ...p,
@@ -77,7 +81,7 @@ export function attackBattle(p: Player): Player {
 
   return {
     ...p,
-    state: "attack",
+    state: p.state === "jump" ? "jump" : "attack",
   };
 }
 
@@ -86,7 +90,7 @@ export function specialBattle(p: Player): Player {
 
   return {
     ...p,
-    state: "special",
+    state: p.state === "jump" ? "jump" : "special",
   };
 }
 
@@ -95,6 +99,6 @@ export function idleBattle(p: Player): Player {
 
   return {
     ...p,
-    state: "idle",
+    state: p.state === "jump" ? "jump" : "idle",
   };
 }
