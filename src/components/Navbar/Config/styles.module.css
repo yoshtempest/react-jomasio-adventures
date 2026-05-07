@@ -113,3 +113,19 @@
   left: 50%;
   transform: translateX(-50%);
 }
+
+.volumeContainer {
+  position: relative;
+  margin-top: 20px;
+}
+
+.volumeBar {
+  width: 200px;
+  height: 12px;
+  border: 2px solid white;
+}
+
+.volumeFill {
+  height: 100%;
+  background: white;
+}

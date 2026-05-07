@@ -4,14 +4,17 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import type { NpcDifficulty } from "@/utils/types/npc/npcProgress";
 import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
 import { getSelected } from "@/gameRules/menu/selection";
+import { useAudio } from "@/contexts/AudioContext";
 
 const DIFFICULTY: NpcDifficulty[] = ["easy", "medium", "hard"];
 
 export function useConfigSelection(isActive: boolean, onConfirm ?: () => void) {
   const { pushControls, popControls } = useGameControls();
   const { setDifficulty } = usePlayer();
+  const { volume, setVolume } = useAudio();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedRow, setSelectedRow] = useState(0);
   const selectedIndexRef = useRef(selectedIndex);
 
   useEffect(() => {
@@ -23,15 +26,35 @@ export function useConfigSelection(isActive: boolean, onConfirm ?: () => void) {
 
     const controls = {
       onRight: () => {
-        setSelectedIndex((prev) =>
-          circularNext(prev, DIFFICULTY.length)
-        );
+        if (selectedRow === 0) {
+          setSelectedIndex((prev) =>
+            circularNext(prev, DIFFICULTY.length)
+          );
+        }
+
+        if (selectedRow === 1) {
+          setVolume(Math.min(volume + 10, 100));
+        }
       },
 
       onLeft: () => {
-        setSelectedIndex((prev) =>
-          circularPrev(prev, DIFFICULTY.length)
-        );
+        if (selectedRow === 0) {
+          setSelectedIndex((prev) =>
+            circularPrev(prev, DIFFICULTY.length)
+          );
+        }
+
+        if (selectedRow === 1) {
+          setVolume(Math.max(volume - 10, 0));
+        }
+      },
+
+      onDown: () => {
+        setSelectedRow(1);
+      },
+
+      onUp: () => {
+        setSelectedRow(0);
       },
 
       onConfirm: () => {
@@ -51,5 +74,6 @@ export function useConfigSelection(isActive: boolean, onConfirm ?: () => void) {
   return {
     difficulty: DIFFICULTY,
     selectedIndex,
+    selectedRow,
   };
 }

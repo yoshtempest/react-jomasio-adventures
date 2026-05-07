@@ -2,17 +2,21 @@ import styles from "./styles.module.css";
 import { MoveUp, MoveDown, MoveLeft, MoveRight } from "lucide-react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useConfigMenu } from "@/hooks/menu/useConfigMenu";
+import { useAudio } from "@/contexts/AudioContext";
 
 export function Config() {
   const { difficulty } = usePlayer();
-  const { difficultyList, selectedIndex } = useConfigMenu(true);
+  const { volume } = useAudio();
+  const { difficultyList, selectedIndex, selectedRow } = useConfigMenu(true);
 
   return (
     <div className={styles.inventory}>
       <h2>Dificuldade: {difficulty}</h2>
       <div className={styles.difficultyContainer}>
         {difficultyList.map((diff, index) => {
-          const isSelected = index === selectedIndex;
+          const isSelected =
+            selectedRow === 0 &&
+            index === selectedIndex;
           return (
             <div
               key={diff}
@@ -26,6 +30,20 @@ export function Config() {
             </div>
           );
         })}
+      </div>
+      <div className={styles.volumeContainer}>
+        {selectedRow === 1 && (
+          <span className={styles.cursor}>▼</span>
+        )}
+
+        <h2>Volume: {volume}</h2>
+
+        <div className={styles.volumeBar}>
+          <div
+            className={styles.volumeFill}
+            style={{ width: `${volume}%` }}
+          />
+        </div>
       </div>
       <h3>Como funciona a movimentação:</h3>
       <div className={styles.row}>
