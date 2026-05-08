@@ -54,7 +54,7 @@ import BrodiClassOne from './pages/BrodiClass/index.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/react-jomasio-adventures/">
       <PWAProvider>
         <NavbarProvider>
           <InventoryProvider>
