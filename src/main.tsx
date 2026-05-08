@@ -1,6 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter, Routes, Route } from "react-router";
+import { Routes, Route } from "react-router";
 import { GameControlsProvider } from "./contexts/GameControlsContext";
 import './index.css'
 import App from './App.tsx'
@@ -10,6 +10,7 @@ import { NavbarProvider } from './contexts/NavbarContext.tsx';
 import { CharacterProgressProvider } from "./contexts/CharacterProgressContext";
 import { PWAProvider } from './contexts/PWAContext.tsx';
 import { registerSW } from "virtual:pwa-register";
+import { HashRouter } from "react-router";
 
 registerSW({ immediate: true });
 
@@ -54,7 +55,7 @@ import BrodiClassOne from './pages/BrodiClass/index.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter basename="/react-jomasio-adventures/">
+    <HashRouter>
       <PWAProvider>
         <NavbarProvider>
           <InventoryProvider>
@@ -117,6 +118,6 @@ createRoot(document.getElementById('root')!).render(
           </InventoryProvider>
         </NavbarProvider>
       </PWAProvider>
-    </BrowserRouter>
+    </HashRouter>
   </StrictMode>
 )

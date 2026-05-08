@@ -4,6 +4,7 @@ import { useGameControls } from "@/contexts/GameControlsContext";
 import styles from "./styles.module.css";
 import SOS from "/assets/songs/SOSFromEarth.m4a";
 import { useGameAudio } from "@/hooks/useGameAudio";
+import { asset } from "@/utils/asset";
 
 export default function Home() {
   const { pushControls, popControls } = useGameControls();
@@ -28,7 +29,7 @@ export default function Home() {
   return (
     <div className={`Master ${styles.image}`}>
       <img
-        src="/assets/logo.svg"
+        src={asset("/assets/logo.svg")}
         alt="logo"
         className={styles.logo}
       />

@@ -1,6 +1,7 @@
 import styles from "./styles.module.css";
 import { useCharacterMenu } from "@/hooks/menu/useCharacterMenu";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
+import { asset } from "@/utils/asset";
 
 export function Character() {
   const { progress, getXPToNextLevel } = useCharacterProgress();
@@ -31,7 +32,7 @@ export function Character() {
               {isSelected && <span className={styles.cursor}>▼</span>}
 
               <img
-                src={`/assets/player/${char.image}/default.svg`}
+                src={asset(`/assets/player/${char.image}/default.svg`)}
                 className={styles.characterImage}
               />
 
