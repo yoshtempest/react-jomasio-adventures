@@ -8,18 +8,14 @@ import { useNavigate } from "react-router";
 import { useCutscene } from "@/hooks/interaction/useCutscene";
 import { useSansTalking } from "@/hooks/interaction/useSansTalking";
 import { tutorialDialogue } from "@/data/maps/tutorial";
-import { usePlayer } from "@/contexts/PlayerContext";
 
 import { useTutorialFlow } from "@/hooks/tutorial/useTutorialFlow";
 import { useNameInput } from "@/hooks/tutorial/useNameInput";
-import { useGenderChoice } from "@/hooks/tutorial/useGenderChoice";
-import { GENDER_OPTIONS } from "@/data/options/gender";
 import { useQuestActions } from "@/hooks/useQuestActions";
 import { QUESTS } from "@/data/quests";
 
 export default function Tutorial() {
   const navigate = useNavigate();
-  const { setCharacter } = usePlayer();
   const { play: playSansTalking } = useSansTalking(false);
   const { giveQuest } = useQuestActions();
 
@@ -55,15 +51,6 @@ export default function Tutorial() {
     };
   }, [flow.showNameInput]);
 
-  const handleChooseGender = (gender: "marcelo" | "eduarda") => {
-    localStorage.setItem("playerCharacter", gender);
-    setCharacter(gender);
-    flow.closeGenderChoice();
-    cutscene.next();
-  };
-
-  const gender = useGenderChoice(flow.showGenderChoice, handleChooseGender);
-
   const backgroundAudio = useMemo(() => ({
     src: SOS,
     loop: true,
@@ -87,14 +74,7 @@ export default function Tutorial() {
         }
       }
 
-      if (dialogue.message.includes("cê é macho ou fêmea")) {
-        if (!flow.showGenderChoice) {
-          flow.openGenderChoice();
-          return false;
-        }
-      }
-
-      if (flow.showNameInput || flow.showGenderChoice) return false;
+      if (flow.showNameInput) return false;
 
       return true;
     },
@@ -132,23 +112,6 @@ export default function Tutorial() {
                 onClick={nameInput.submit}
               />
             </div>
-          </div>
-        </div>
-      )}
-
-      {flow.showGenderChoice && (
-        <div className={styles.modal}>
-          <h1>Você é...</h1>
-          <div className={styles.choices}>
-            {GENDER_OPTIONS.map((opt, i) => (
-              <button
-                key={opt.value}
-                className={gender.index === i ? styles.selected : ""}
-                onClick={() => handleChooseGender(opt.value)}
-              >
-                {opt.label}
-              </button>
-            ))}
           </div>
         </div>
       )}
