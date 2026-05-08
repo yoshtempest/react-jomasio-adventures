@@ -23,7 +23,7 @@ export default function AfterPcRoomTwo() {
     }
     if (hasItem("good_powder")) {
       startDialogue(AfterPcRoomThreeDialogue);
-      giveQuest(QUESTS.go_cantina);
+      giveQuest(QUESTS.go_cafeteria);
       return;
     }
     {

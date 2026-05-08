@@ -43,7 +43,6 @@ export default function Library() {
   // 🧠 Interações por posição
   const interactionsByPosition = useMemo(() =>
     createLibrary({
-      hasItem,
       addItem,
       setPopup: (msg) => setPopup(msg),
       gotKey,

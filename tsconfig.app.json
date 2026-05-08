@@ -29,5 +29,5 @@
       "@/*": ["src/*"]
     },
   },
-  "include": ["src", "dump/PcRoom/Five", "dump/PcRoom/Fdump/dump/PcRoom/Sedump/PcRoom/dump/PcRoom/Thdump/PcRoom/Twoeven", "dump/Six", "dump/Three", "dump/Two", "dump/Cantina/Four", "dump/Cantina/Three", "dump/Cantina/One", "dump/Cantina/Two", "src/hooks/menu/useCharacterMenu.ts", "src/hooks/menu/useClassSelection.ts", "src/hooks/menu/useNavbarMenu.ts", "src/hooks/menu/useStatusMenu.ts"]
+  "include": ["src"]
 }
