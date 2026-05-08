@@ -1,0 +1,9 @@
+.button {
+    display: flex;
+    margin-top: 3%;
+    width: 20%;
+    height: 20%;
+    border-radius: 4px;
+    border: 1px solid var(--background-color);
+    background-color: var(--primary-color);
+}

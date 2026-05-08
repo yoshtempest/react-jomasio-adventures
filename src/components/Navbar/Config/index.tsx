@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { configsDialogue } from "@/data/maps/configs";
 import Talking from "@/components/Talking";
 import { useGameControls } from "@/contexts/GameControlsContext";
+import InstallButton from "@/components/PWA";
 
 export function Config() {
   const { difficulty } = usePlayer();
@@ -149,6 +150,7 @@ export function Config() {
           )}
         </div>
       )}
+      <InstallButton />
     </div>
   );
 }
