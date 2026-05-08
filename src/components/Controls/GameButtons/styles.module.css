@@ -29,3 +29,25 @@
     gap: 24px;
     flex-direction: row;
 }
+
+@media (orientation: portrait) {
+    .open {
+        width: 3.6vh;
+        height: 1.2vh;
+    }
+    .button {
+        display: flex;
+        width: 5.4vh;
+        height: 5.4vh;
+        font-size: 16px;
+    }
+    .gameButtons {
+        display: flex;
+        gap: 32px;
+        align-items: flex-end;
+        flex-direction: column;
+        position: fixed;
+        margin-top: 40vh;
+        right: 7%;
+    }
+}

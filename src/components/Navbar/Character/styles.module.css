@@ -62,3 +62,17 @@
   background: #4ade80;
   transition: width 0.3s;
 }
+
+@media (orientation: portrait) {
+  .container {
+    width: 99vw;
+    height: 30vh;
+    top: 0;
+    right: 0;
+    border-radius: 0px;
+  }
+  .container h2, p {
+    font-weight: 400;
+    font-size: 8px;
+  }
+}

@@ -14,17 +14,17 @@
 }
 
 .flexRow {
-    display: flex;
-    flex-direction: row;
-    gap: 10%;
-    width: 80%;
-    height: 80%;
+  display: flex;
+  flex-direction: row;
+  gap: 10%;
+  width: 80%;
+  height: 80%;
 }
 
 .oneLine {
-    display: flex;
-    flex-direction: row;
-    gap: 5%;
+  display: flex;
+  flex-direction: row;
+  gap: 5%;
 }
 
 .xpBar {

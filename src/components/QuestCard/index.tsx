@@ -1,6 +1,6 @@
 import type { Quest } from "@/utils/types/player/quest";
 import styles from "./styles.module.css";
-
+import { asset } from "@/utils/asset";
 
 type Props = {
   quest: Quest;
@@ -20,7 +20,7 @@ export function QuestCard({ quest, selected }: Props) {
             className={styles.container}
         >
             <div className={styles.row}>
-                <img src={quest.image} width={50} />
+                <img src={asset(quest.image)} width={50} />
                 <h3>{quest.name}</h3>
             </div>
 

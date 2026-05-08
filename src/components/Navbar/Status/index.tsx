@@ -3,6 +3,7 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { CHARACTERS } from "@/data/options/characters";
 import { useStatusMenu } from "@/hooks/menu/useStatusMenu";
+import { asset } from "@/utils/asset";
 
 export function Status() {
   const { player, playerClass } = usePlayer();
@@ -39,7 +40,7 @@ export function Status() {
 
       <div className={styles.flexRow}>
         <div className={styles.flexColumn}>
-          <img src={`/assets/player/${player.character}/default.svg`} />
+          <img src={asset(`/assets/player/${player.character}/default.svg`)} />
           <h2>{characterData?.name} - Nv.{charProgress.level}</h2>
           <h2>Classe: {playerClass}</h2>
           <div className={styles.xpBar}>

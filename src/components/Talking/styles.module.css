@@ -26,3 +26,18 @@
   left: 0%;
   height: 30vh;
 }
+
+@media (orientation: portrait) {
+  .container {
+    width: 80vw;
+  }
+  .talking {
+    margin-top: 60vh;
+  }
+  .image {
+    position: absolute;
+    z-index: 10;
+    bottom: 15%;
+    height: 10vh;
+  }
+}

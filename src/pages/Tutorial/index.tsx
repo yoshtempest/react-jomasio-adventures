@@ -137,20 +137,18 @@ export default function Tutorial() {
       )}
 
       {flow.showGenderChoice && (
-        <div className={styles.overlay}>
-          <div className={styles.modal}>
-            <h1>Você é...</h1>
-            <div className={styles.choices}>
-              {GENDER_OPTIONS.map((opt, i) => (
-                <button
-                  key={opt.value}
-                  className={gender.index === i ? styles.selected : ""}
-                  onClick={() => handleChooseGender(opt.value)}
-                >
-                  {opt.label}
-                </button>
-              ))}
-            </div>
+        <div className={styles.modal}>
+          <h1>Você é...</h1>
+          <div className={styles.choices}>
+            {GENDER_OPTIONS.map((opt, i) => (
+              <button
+                key={opt.value}
+                className={gender.index === i ? styles.selected : ""}
+                onClick={() => handleChooseGender(opt.value)}
+              >
+                {opt.label}
+              </button>
+            ))}
           </div>
         </div>
       )}

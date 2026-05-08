@@ -54,6 +54,16 @@ button {
   background-repeat: no-repeat;
 }
 
+@media (orientation: portrait) {
+  .Master {
+    display: flex;
+    width: 100vw;
+    height: 30vh;
+    align-self: flex-start;
+    margin-top: 0%;
+  }
+}
+
 h1 {
   font-size: 24px;
   font-weight: bold;
