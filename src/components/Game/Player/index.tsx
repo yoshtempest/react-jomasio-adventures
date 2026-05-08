@@ -1,3 +1,5 @@
+import { asset } from "@/utils/asset";
+
 type Direction = "up" | "down" | "left" | "right";
 type Character = "marcelo" | "eduarda" | "lucas" | "samuel" | "artur" | "mayra" | "lucaua" | "riquelme" | "larissa" | "camilly" | "emanuel" | "hiago";
 
@@ -20,7 +22,9 @@ export function Player({
 }: Props) {
   const spriteDirection = direction === "left" ? "right" : direction;
 
-  const src = `/assets/player/${character}/movement/${spriteDirection}.svg`;
+  const src = asset(
+    `assets/player/${character}/movement/${spriteDirection}.svg`
+  );
 
   return (
     <img

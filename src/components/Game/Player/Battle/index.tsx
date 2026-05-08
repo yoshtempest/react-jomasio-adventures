@@ -1,7 +1,8 @@
+import { asset } from "@/utils/asset";
+
 type PlayerState = "idle" | "walk" | "attack" | "jump" | "blocked" | "special";
 type Direction = "left" | "right" | "up" | "down";
 type Character = "marcelo" | "eduarda" | "lucas" | "samuel" | "artur" | "mayra" | "lucaua" | "riquelme" | "larissa" | "camilly" | "emanuel" | "hiago";
-
 
 type Props = {
   x: number;
@@ -20,7 +21,9 @@ export function PlayerBattle({
   direction,
   character,
 }: Props) {
-  const src = `/assets/player/${character}/inFight/${state}.svg`;
+  const src = asset(
+    `assets/player/${character}/inFight/${state}.svg`
+  );
 
   const BASE_WIDTH = 1280;
   const BASE_HEIGHT = 600;

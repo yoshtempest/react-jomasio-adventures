@@ -1,3 +1,5 @@
+import { asset } from "@/utils/asset";
+
 type Projectile = {
   x: number;
   y: number;
@@ -38,19 +40,18 @@ export function NPCBattle({
   const getSprite = () => {
     if (npcType === "deise") {
       if (npcPhase === 2) {
-        return `/assets/npcs/deise2/${state}.svg`;
+        return asset(`assets/npcs/deise2/${state}.svg`);
       }
-      return `/assets/npcs/deise/${state}.svg`;
+      return asset(`assets/npcs/deise/${state}.svg`);
     }
 
-    // fallback padrão
-    return `/assets/npcs/${npcType}/${state}.svg`;
+    return asset(`assets/npcs/${npcType}/${state}.svg`);
   };
 
   const basePath = getSprite();
 
   const src = isExploding
-    ? "/assets/npcs/explosion.svg"
+    ? asset("assets/npcs/explosion.svg")
     : `${basePath}`;
 
   return (
@@ -80,7 +81,7 @@ export function NPCBattle({
       {piercings.map((p) => (
         <img
           key={p.id}
-          src="/assets/npcs/piercing.svg"
+          src={asset("assets/npcs/piercing.svg")}
           style={{
             position: "absolute",
             width: TILE_SIZE * 0.4,

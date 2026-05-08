@@ -1,3 +1,5 @@
+import { asset } from "@/utils/asset";
+
 type Props = {
   gridX: number;
   gridY: number;
@@ -8,7 +10,7 @@ type Props = {
 export function NPC({ gridX, gridY, TILE_SIZE, src }: Props) {
   return (
     <img
-      src={src}
+      src={asset(src)}
       style={{
         position: "absolute",
         width: TILE_SIZE * 1.7,

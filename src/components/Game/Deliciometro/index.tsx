@@ -1,3 +1,5 @@
+import { asset } from "@/utils/asset";
+
 type Props = {
   delicia: number; // 0 - 6
   hitsToSpecial?: number;
@@ -16,7 +18,7 @@ export function Deliciometro({ delicia, hitsToSpecial = 6 }: Props) {
         background: "#333",
       }}
     >
-        <img src="/assets/deliciometro.svg" 
+        <img src={asset("/assets/deliciometro.svg")}
           style={{
             width: "100%",
             height: "100%",
