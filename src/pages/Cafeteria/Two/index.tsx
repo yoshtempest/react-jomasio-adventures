@@ -75,7 +75,7 @@ export default function CafeteriaTwo() {
         ]}
         npcs={[
           {
-            src: "/src/assets/npcs/deise/default.svg",
+            src: "/assets/npcs/deise/default.svg",
             gridX: 14,
             gridY: 5,
           },

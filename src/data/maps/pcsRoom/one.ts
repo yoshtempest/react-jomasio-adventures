@@ -1,6 +1,6 @@
 export const pcsRoomDialogue = [
     {
-        src: "/src/assets/npcs/janderson/right.svg",
+        src: "/assets/npcs/janderson/right.svg",
         name: "Juan Derson",
         message:
             "Tipo assim... eu moro em canabruava",
@@ -12,7 +12,7 @@ export const pcsRoomDialogue = [
             "Achei que você morava em Nova York.",
     },
     {
-        src: "/src/assets/npcs/janderson/right.svg",
+        src: "/assets/npcs/janderson/right.svg",
         name: "Juan Derson",
         message:
             "Ééé... O Denis, ele... A Vandinha, ela...",
@@ -24,7 +24,7 @@ export const pcsRoomDialogue = [
             "Cara, eu não tô entendendo nada.",
     },
     {
-        src: "/src/assets/npcs/janderson/right.svg",
+        src: "/assets/npcs/janderson/right.svg",
         name: "Juan Derson",
         message:
             "Não, tipo assim, Você tem que escolher uma classe",

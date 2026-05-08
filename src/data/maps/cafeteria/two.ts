@@ -1,6 +1,6 @@
 export const cafeteriaTwoDialogue = [
     {
-        src: "/src/assets/npcs/deise/right.svg",
+        src: "/assets/npcs/deise/right.svg",
         name: "Deise",
         message: "Oxe, tu venceu? Tinha que ser o protanista né, tem tentativa infinita",
     },
@@ -10,7 +10,7 @@ export const cafeteriaTwoDialogue = [
         message: "Quem pode, pode",
     },
     {
-        src: "/src/assets/npcs/deise/right.svg",
+        src: "/assets/npcs/deise/right.svg",
         name: "Deise",
         message: "Eu voltarei mais forte lá no End-Game viu, nunca vá a lagoa dos crávos...",
     },

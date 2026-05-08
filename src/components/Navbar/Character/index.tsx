@@ -31,7 +31,7 @@ export function Character() {
               {isSelected && <span className={styles.cursor}>▼</span>}
 
               <img
-                src={`/src/assets/player/${char.image}/default.svg`}
+                src={`/assets/player/${char.image}/default.svg`}
                 className={styles.characterImage}
               />
 

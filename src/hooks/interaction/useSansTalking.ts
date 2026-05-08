@@ -1,5 +1,5 @@
 import { useRef, useCallback, useEffect } from "react";
-import SansTalking from "@/assets/songs/SansTalking.mp3";
+import SansTalking from "/assets/songs/SansTalking.mp3";
 import { useAudio } from "@/contexts/AudioContext";
 
 export function useSansTalking(isDialogueOpen: boolean) {

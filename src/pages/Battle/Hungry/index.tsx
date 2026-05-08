@@ -1,6 +1,6 @@
 import { BattleScene } from "@/components/Game/Scenes/Battle";
 import { firstBattle } from "@/maps/firstBattle";
-import NoEnemies from "@/assets/songs/NoEnemies.mp3";
+import NoEnemies from "/assets/songs/NoEnemies.mp3";
 import { useNavigate } from "react-router";
 
 

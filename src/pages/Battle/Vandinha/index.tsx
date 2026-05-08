@@ -1,6 +1,6 @@
 import { BattleScene } from "@/components/Game/Scenes/Battle";
 import { firstBattle } from "@/maps/firstBattle";
-import Jojo from "@/assets/songs/Jojo.m4a";
+import Jojo from "/assets/songs/Jojo.m4a";
 import { useNavigate } from "react-router";
 
 

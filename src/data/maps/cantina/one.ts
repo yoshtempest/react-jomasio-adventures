@@ -1,6 +1,6 @@
 export const cantinaDialogue = [
     {
-        src: "/src/assets/npcs/jhowsimar/right.svg",
+        src: "/assets/npcs/jhowsimar/right.svg",
         name: "Jhow Simar",
         message: "Tu... tu tá com um objeto amaldiçoado!",
     },
@@ -10,7 +10,7 @@ export const cantinaDialogue = [
         message: "Como assim? O que vo-",
     },
     {
-        src: "/src/assets/npcs/jhowsimar/right.svg",
+        src: "/assets/npcs/jhowsimar/right.svg",
         name: "Jhow Simar",
         message: "Pega a lapada pega",
     },

@@ -1,6 +1,6 @@
 export const cafeteriaDialogue = [
     {
-        src: "/src/assets/npcs/deise/right.svg",
+        src: "/assets/npcs/deise/right.svg",
         name: "Deise",
         message: "Tá achando que é quem para entrar em minha expansão de domínio?",
     },
@@ -10,7 +10,7 @@ export const cafeteriaDialogue = [
         message: "Quê? Eu sou o protagonista ué",
     },
     {
-        src: "/src/assets/npcs/deise/right.svg",
+        src: "/assets/npcs/deise/right.svg",
         name: "Deise",
         message: "Isso é o que você pensa!",
     },

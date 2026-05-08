@@ -21,7 +21,7 @@ export default function Director() {
       }}
       npcs={[
         {
-          src: "/src/assets/npcs/system/default.svg",
+          src: "/assets/npcs/system/default.svg",
           gridX: 9,
           gridY: 4,
         },

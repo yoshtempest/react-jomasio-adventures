@@ -23,7 +23,7 @@ export default function HallTwo() {
       initialPosition={{ x: 9, y: 10, direction: "up" }} 
       npcs={[
         {
-          src: "/src/assets/npcs/jailson/default.svg",
+          src: "/assets/npcs/jailson/default.svg",
           gridX: 8,
           gridY: 3,
         },

@@ -2,7 +2,7 @@ export const QUESTS = {
   jomasio_investigate: {
     id: "jomasio_investigate",
     name: "Investigação do SETH Jorjão",
-    image: "/src/assets/npcs/duqueC/default.svg",
+    image: "/assets/npcs/duqueC/default.svg",
     description: "Investigue a falta de comida no SETH Jorjão",
     type: "history",
     counter: 1,
@@ -12,7 +12,7 @@ export const QUESTS = {
   director_escape: {
     id: "director_escape",
     name: "Fuja da diretoria",
-    image: "/src/assets/npcs/system/default.svg",
+    image: "/assets/npcs/system/default.svg",
     description: "Procure uma forma de sair da diretoria",
     type: "history",
     rewardsType: "xp",
@@ -24,7 +24,7 @@ export const QUESTS = {
   explore_jorjao: {
     id: "explore_jorjao",
     name: "Foi uma delicia",
-    image: "/src/assets/npcs/jhowsimar/default.svg",
+    image: "/assets/npcs/jhowsimar/default.svg",
     description: "Vá na sala dos pcs para superar o 'dúvido' de Jhow Simar",
     type: "history",
     rewardsType: "xp",
@@ -36,7 +36,7 @@ export const QUESTS = {
   search_packaging: {
     id: "search_packaging",
     name: "Entrega suspeita",
-    image: "/src/assets/npcs/remedinha/default.svg",
+    image: "/assets/npcs/remedinha/default.svg",
     description: "Vá na biblioteca e traga a embalagem suspeita para Remedinha.",
     rewardsType: "xp",
     rewards: 10,
@@ -48,7 +48,7 @@ export const QUESTS = {
   go_cafeteria: {
     id: "go_cafeteria",
     name: "Ir em busca do linguição",
-    image: "/src/assets/npcs/remedinha/default.svg",
+    image: "/assets/npcs/remedinha/default.svg",
     description: "Vá ao no refeitório e adquira sua recompensa (linguição)",
     type: "history",
     counter: 1,

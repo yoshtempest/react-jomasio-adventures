@@ -9,7 +9,7 @@ export const historyQuests: Record<string, QuestDefinition> = {
   buscar_embalagem: {
     id: "buscar_embalagem",
     name: "Entrega suspeita",
-    image: "/src/assets/npcs/remedinha/default.svg",
+    image: "/assets/npcs/remedinha/default.svg",
     description: "Vá na biblioteca e traga a embalagem suspeita.",
     type: "history",
     counter: 1,
@@ -23,7 +23,7 @@ export const historyQuests: Record<string, QuestDefinition> = {
   falar_com_remedinha: {
     id: "falar_com_remedinha",
     name: "Voltar ao NPC",
-    image: "/src/assets/npcs/remedinha/default.svg",
+    image: "/assets/npcs/remedinha/default.svg",
     description: "Volte e fale com Remedinha.",
     type: "history",
     counter: 1,

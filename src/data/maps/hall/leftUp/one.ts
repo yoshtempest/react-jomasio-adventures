@@ -1,6 +1,6 @@
 export const HallLeftUpDialogue = [
     {
-        src: "/src/assets/npcs/blackao/right.svg",
+        src: "/assets/npcs/blackao/right.svg",
         name: "Negão do Ferro Velho",
         message:
             "Vá pro inferno!",
@@ -12,7 +12,7 @@ export const HallLeftUpDialogue = [
             "Eu num vou não",
     },
     {
-        src: "/src/assets/npcs/blackao/right.svg",
+        src: "/assets/npcs/blackao/right.svg",
         name: "Negão do Ferro Velho",
         message:
             "Vá pro inferno!",
@@ -24,7 +24,7 @@ export const HallLeftUpDialogue = [
             "Quer brigar?",
     },
     {
-        src: "/src/assets/npcs/blackao/right.svg",
+        src: "/assets/npcs/blackao/right.svg",
         name: "Negão do Ferro Velho",
         message:
             "Vá pro inferno!",
@@ -36,7 +36,7 @@ export const HallLeftUpDialogue = [
             "Então vem pro fight vem",
     },
     {
-        src: "/src/assets/npcs/blackao/right.svg",
+        src: "/assets/npcs/blackao/right.svg",
         name: "Negão do Ferro Velho",
         message:
             "Eu mesmo vou te levar então!",

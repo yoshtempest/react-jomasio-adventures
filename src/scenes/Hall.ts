@@ -6,7 +6,7 @@ import { AfterPcRoomOneDialogue } from "@/data/maps/hall/one/afterPcRoom/one";
 import { AfterPcRoomTwoDialogue } from "@/data/maps/hall/one/afterPcRoom/two";
 import { hallTwoDialogue } from "@/data/maps/hall/two";
 
-import LavenderTown from "@/assets/songs/LavenderTown.m4a";
+import LavenderTown from "/assets/songs/LavenderTown.m4a";
 
 import type { SceneConfig, SceneId } from "@/utils/types/maps/sceneConfig";
 
@@ -52,7 +52,7 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     audio: { src: LavenderTown },
     initialPosition: { x: 9, y: 10, direction: "up" },
     npcs: [
-      { src: "/src/assets/npcs/jailson/default.svg", gridX: 8, gridY: 3 }
+      { src: "/assets/npcs/jailson/default.svg", gridX: 8, gridY: 3 }
     ],
     exitTile: [
       {
@@ -77,7 +77,7 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
       { type: "navigate", to: "/hall/afterpcroom/two" }
     ],
     npcs: [
-      { src: "/src/assets/npcs/remedinha/default.svg", gridX: 1, gridY: 9 }
+      { src: "/assets/npcs/remedinha/default.svg", gridX: 1, gridY: 9 }
     ],
     exitTile: [
       {
@@ -94,7 +94,7 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     audio: { src: LavenderTown },
     initialPosition: { x: 9, y: 2, direction: "up" },
     npcs: [
-      { src: "/src/assets/npcs/remedinha/default.svg", gridX: 1, gridY: 9 }
+      { src: "/assets/npcs/remedinha/default.svg", gridX: 1, gridY: 9 }
     ],
     exitTile: [
       {
@@ -121,7 +121,7 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     audio: { src: LavenderTown },
     initialPosition: { x: 8, y: 10, direction: "up" },
     npcs: [
-      { src: "/src/assets/npcs/solange/default.svg", gridX: 7, gridY: 7 }
+      { src: "/assets/npcs/solange/default.svg", gridX: 7, gridY: 7 }
     ],
     exitTile: [
       {

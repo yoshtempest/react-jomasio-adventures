@@ -23,7 +23,7 @@ export default function AfterPcRoom() {
       }}
       npcs={[
         {
-          src: "/src/assets/npcs/remedinha/default.svg",
+          src: "/assets/npcs/remedinha/default.svg",
           gridX: 1,
           gridY: 9,
         },

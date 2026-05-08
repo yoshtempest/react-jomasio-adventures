@@ -1,6 +1,6 @@
 export const hallTwoDialogue = [
     {
-        src: "/src/assets/npcs/jailson/right.svg",
+        src: "/assets/npcs/jailson/right.svg",
         name: "Jailson",
         message:
             "Não garoto, você é muito novo pra isso.",

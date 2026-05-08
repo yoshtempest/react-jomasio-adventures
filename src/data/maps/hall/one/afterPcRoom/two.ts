@@ -1,12 +1,12 @@
 export const AfterPcRoomTwoDialogue = [
     {
-        src: "/src/assets/npcs/remedinha/right.svg",
+        src: "/assets/npcs/remedinha/right.svg",
         name: "Remedinha",
         message:
             "Fique com isso",
     },
     {
-        src: "/src/assets/npcs/remedinha/right.svg",
+        src: "/assets/npcs/remedinha/right.svg",
         name: "Remedinha",
         message:
             "Utilize para batalhar infinitamente com os inimigos na biblioteca",
@@ -23,7 +23,7 @@ export const AfterPcRoomTwoDialogue = [
             "O que é isso?",
     },
     {
-        src: "/src/assets/npcs/remedinha/right.svg",
+        src: "/assets/npcs/remedinha/right.svg",
         name: "Remedinha",
         message:
             "Não faça perguntas",

@@ -5,7 +5,7 @@ import { cantinaDialogue } from "@/data/maps/cantina/one";
 import { cantinaTwoDialogue } from "@/data/maps/cantina/two";
 import { cantinaThreeDialogue } from "@/data/maps/cantina/three";
 
-import LavenderTown from "@/assets/songs/LavenderTown.m4a";
+import LavenderTown from "/assets/songs/LavenderTown.m4a";
 
 import type { SceneConfig, SceneId } from "@/utils/types/maps/sceneConfig";
 
@@ -16,7 +16,7 @@ export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     dialogueData: cantinaDialogue,
     initialPosition: { x: 8, y: 11, direction: "up" },
     npcs: [
-      { src: "/src/assets/npcs/jhowsimar/default.svg", gridX: 9, gridY: 4 }
+      { src: "/assets/npcs/jhowsimar/default.svg", gridX: 9, gridY: 4 }
     ],
     audio: { src: LavenderTown },
 
@@ -32,7 +32,7 @@ export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     audio: { src: LavenderTown },
     initialPosition: { x: 10, y: 4, direction: "up" },
     npcs: [
-      { src: "/src/assets/npcs/jhowsimar/default.svg", gridX: 9, gridY: 4 }
+      { src: "/assets/npcs/jhowsimar/default.svg", gridX: 9, gridY: 4 }
     ],
     events: [
       { type: "navigate", to: "/cantina/battle" }
@@ -46,7 +46,7 @@ export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     audio: { src: LavenderTown },
     initialPosition: { x: 9, y: 5, direction: "up" },
     npcs: [
-      { src: "/src/assets/npcs/jhowsimar/default.svg", gridX: 9, gridY: 4 }
+      { src: "/assets/npcs/jhowsimar/default.svg", gridX: 9, gridY: 4 }
     ],
     events: [
       {

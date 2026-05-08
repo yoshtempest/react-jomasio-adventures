@@ -1,18 +1,18 @@
 import { useState, useCallback, useMemo } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 
-import marceloDefault from "@/assets/player/marcelo/default.svg";
-import eduardaDefault from "@/assets/player/eduarda/default.svg";
-import lucasDefault from "@/assets/player/lucas/default.svg";
-import arturDefault from "@/assets/player/artur/default.svg";
-import camillyDefault from "@/assets/player/camilly/default.svg";
-import emanuelDefault from "@/assets/player/emanuel/default.svg";
-import mayraDefault from "@/assets/player/mayra/default.svg";
-import riquelmeDefault from "@/assets/player/riquelme/default.svg";
-import samuelDefault from "@/assets/player/samuel/default.svg";
-import larissaDefault from "@/assets/player/larissa/default.svg";
-import lucauaDefault from "@/assets/player/lucaua/default.svg";
-import hiagoDefault from "@/assets/player/hiago/default.svg";
+import marceloDefault from "/assets/player/marcelo/default.svg";
+import eduardaDefault from "/assets/player/eduarda/default.svg";
+import lucasDefault from "/assets/player/lucas/default.svg";
+import arturDefault from "/assets/player/artur/default.svg";
+import camillyDefault from "/assets/player/camilly/default.svg";
+import emanuelDefault from "/assets/player/emanuel/default.svg";
+import mayraDefault from "/assets/player/mayra/default.svg";
+import riquelmeDefault from "/assets/player/riquelme/default.svg";
+import samuelDefault from "/assets/player/samuel/default.svg";
+import larissaDefault from "/assets/player/larissa/default.svg";
+import lucauaDefault from "/assets/player/lucaua/default.svg";
+import hiagoDefault from "/assets/player/hiago/default.svg";
 import type { Dialogue } from "@/utils/types/dialogue";
 
 const playerSprites = {

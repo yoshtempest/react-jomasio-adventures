@@ -38,19 +38,19 @@ export function NPCBattle({
   const getSprite = () => {
     if (npcType === "deise") {
       if (npcPhase === 2) {
-        return `/src/assets/npcs/deise2/${state}.svg`;
+        return `/assets/npcs/deise2/${state}.svg`;
       }
-      return `/src/assets/npcs/deise/${state}.svg`;
+      return `/assets/npcs/deise/${state}.svg`;
     }
 
     // fallback padrão
-    return `/src/assets/npcs/${npcType}/${state}.svg`;
+    return `/assets/npcs/${npcType}/${state}.svg`;
   };
 
   const basePath = getSprite();
 
   const src = isExploding
-    ? "/src/assets/npcs/explosion.svg"
+    ? "/assets/npcs/explosion.svg"
     : `${basePath}`;
 
   return (
@@ -80,7 +80,7 @@ export function NPCBattle({
       {piercings.map((p) => (
         <img
           key={p.id}
-          src="/src/assets/npcs/piercing.svg"
+          src="/assets/npcs/piercing.svg"
           style={{
             position: "absolute",
             width: TILE_SIZE * 0.4,

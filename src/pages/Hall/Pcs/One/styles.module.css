@@ -1,5 +1,5 @@
 .image {
-    background-image: url("/src/assets/cenarios/hallOne.svg");
+    background-image: url("/assets/cenarios/hallOne.svg");
     background-size: cover;
     margin: 0 auto; /* centraliza na tela */
 }

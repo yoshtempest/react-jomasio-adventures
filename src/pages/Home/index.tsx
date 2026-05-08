@@ -2,7 +2,7 @@ import { useEffect, useMemo } from "react";
 import { useNavigate } from "react-router";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import styles from "./styles.module.css";
-import SOS from "@/assets/songs/SOSFromEarth.m4a";
+import SOS from "/assets/songs/SOSFromEarth.m4a";
 import { useGameAudio } from "@/hooks/useGameAudio";
 
 export default function Home() {
@@ -28,7 +28,7 @@ export default function Home() {
   return (
     <div className={`Master ${styles.image}`}>
       <img
-        src="/src/assets/logo.svg"
+        src="/assets/logo.svg"
         alt="logo"
         className={styles.logo}
       />

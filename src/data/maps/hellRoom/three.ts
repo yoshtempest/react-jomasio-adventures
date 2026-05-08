@@ -1,6 +1,6 @@
 export const HellRoomThreeDialogue = [
     {
-        src: "/src/assets/npcs/maugrelo/right.svg",
+        src: "/assets/npcs/maugrelo/right.svg",
         name: "Maugrelo",
         message:
             "Largue o meu peru!!!",
@@ -12,7 +12,7 @@ export const HellRoomThreeDialogue = [
             "hm? cadê aquele homem?",
     },
     {
-        src: "/src/assets/npcs/maugrelo/right.svg",
+        src: "/assets/npcs/maugrelo/right.svg",
         name: "Maugrelo",
         message:
             "Eu vou pegar meu Peru de volta!",

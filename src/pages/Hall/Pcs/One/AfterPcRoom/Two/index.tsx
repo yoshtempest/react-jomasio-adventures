@@ -29,7 +29,7 @@ export default function AfterPcRoomTwo() {
     {
       startDialogue([
         {
-          src: "/src/assets/npcs/remedinha/right.svg",
+          src: "/assets/npcs/remedinha/right.svg",
           name: "Remedinha",
           message: "Vai lá pegar o negócio pra mim, meu filho.",
         },
@@ -60,7 +60,7 @@ export default function AfterPcRoomTwo() {
       }}
       npcs={[
         {
-          src: "/src/assets/npcs/remedinha/default.svg",
+          src: "/assets/npcs/remedinha/default.svg",
           gridX: 1,
           gridY: 9,
           interaction: npcInteraction,

@@ -1,6 +1,6 @@
 export const HellRoomDialogue = [
     {
-        src: "/src/assets/npcs/peruFather/right.svg",
+        src: "/assets/npcs/peruFather/right.svg",
         name: "Homem desconhecido",
         message:
             "Ei você ai",
@@ -12,7 +12,7 @@ export const HellRoomDialogue = [
             "Que? Eu estava brestes a descer a mão naquele cara...",
     },
     {
-        src: "/src/assets/npcs/peruFather/right.svg",
+        src: "/assets/npcs/peruFather/right.svg",
         name: "Homem desconhecido",
         message:
             "Cara, eu tô falando com você, desgraçado!",
@@ -24,7 +24,7 @@ export const HellRoomDialogue = [
             "Quer brigar?",
     },
     {
-        src: "/src/assets/npcs/blackao/right.svg",
+        src: "/assets/npcs/blackao/right.svg",
         name: "Homem desconhecido",
         message:
             "Vá pro inferno!",
@@ -36,7 +36,7 @@ export const HellRoomDialogue = [
             "Então vem pro fight vem",
     },
     {
-        src: "/src/assets/npcs/peruFather/right.svg",
+        src: "/assets/npcs/peruFather/right.svg",
         name: "Homem desconhecido",
         message:
             "Não cara, eu não sei brigar, calma ai",
@@ -48,7 +48,7 @@ export const HellRoomDialogue = [
             "Então me diz, onde estamos?",
     },
     {
-        src: "/src/assets/npcs/peruFather/right.svg",
+        src: "/assets/npcs/peruFather/right.svg",
         name: "Homem desconhecido",
         message:
             "Não há tempo para perguntas, por favor me responda uma coisa RÁPIDO!",
@@ -60,7 +60,7 @@ export const HellRoomDialogue = [
             "O que?",
     },
     {
-        src: "/src/assets/npcs/peruFather/right.svg",
+        src: "/assets/npcs/peruFather/right.svg",
         name: "Homem desconhecido",
         message:
             "Você gosta de cavalgar no Peru?",

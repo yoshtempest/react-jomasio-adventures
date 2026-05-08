@@ -20,10 +20,7 @@ export function PlayerBattle({
   direction,
   character,
 }: Props) {
-  const src = new URL(
-    `/src/assets/player/${character}/inFight/${state}.svg`,
-    import.meta.url
-  ).href;
+  const src = `/assets/player/${character}/inFight/${state}.svg`;
 
   const BASE_WIDTH = 1280;
   const BASE_HEIGHT = 600;

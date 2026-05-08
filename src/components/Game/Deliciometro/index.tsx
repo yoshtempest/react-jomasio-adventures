@@ -16,7 +16,7 @@ export function Deliciometro({ delicia, hitsToSpecial = 6 }: Props) {
         background: "#333",
       }}
     >
-        <img src="/src/assets/deliciometro.svg" 
+        <img src="/assets/deliciometro.svg" 
           style={{
             width: "100%",
             height: "100%",

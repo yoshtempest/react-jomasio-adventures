@@ -20,10 +20,7 @@ export function Player({
 }: Props) {
   const spriteDirection = direction === "left" ? "right" : direction;
 
-  const src = new URL(
-    `/src/assets/player/${character}/movement/${spriteDirection}.svg`,
-    import.meta.url
-  ).href;
+  const src = `/assets/player/${character}/movement/${spriteDirection}.svg`;
 
   return (
     <img

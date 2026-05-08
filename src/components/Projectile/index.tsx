@@ -17,9 +17,9 @@ export function ProjectileSprite({ projectile, TILE_SIZE }: Props) {
   const scaleY = window.innerHeight / BASE_HEIGHT;
 
   const spriteMap: Record<string, string> = {
-    dish: "/src/assets/npcs/dish.svg",
-    "goat-idle": "/src/assets/npcs/goat/idle.svg",
-    "goat-walk": "/src/assets/npcs/goat/walk.svg",
+    dish: "/assets/npcs/dish.svg",
+    "goat-idle": "/assets/npcs/goat/idle.svg",
+    "goat-walk": "/assets/npcs/goat/walk.svg",
   };
 
   const spriteKey =

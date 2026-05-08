@@ -77,63 +77,63 @@ h2 {
 
 .Cantina {
   background-position: center;
-  background-image: url("/src/assets/cenarios/cantina.svg");
+  background-image: url("/assets/cenarios/cantina.svg");
 }
 
 .PcsRoom {
-  background-image: url("/src/assets/cenarios/pcsRoom.svg");
+  background-image: url("/assets/cenarios/pcsRoom.svg");
 }
 
 .PcRoomBattle {
-  background-image: url("/src/assets/cenarios/pcsRoomBattle.svg");
+  background-image: url("/assets/cenarios/pcsRoomBattle.svg");
 }
 
 .Director {
-  background-image: url("/src/assets/cenarios/director.svg");
+  background-image: url("/assets/cenarios/director.svg");
 }
 
 .HallOne {
-  background-image: url("/src/assets/cenarios/hallOne.svg");
+  background-image: url("/assets/cenarios/hallOne.svg");
 }
 
 .HallLeft {
-  background-image: url("/src/assets/cenarios/hallLeft.svg");
+  background-image: url("/assets/cenarios/hallLeft.svg");
 }
 
 .HallCenter {
-  background-image: url("/src/assets/cenarios/hallCenter.svg");
+  background-image: url("/assets/cenarios/hallCenter.svg");
 }
 
 .HallCenterFront {
-  background-image: url("/src/assets/cenarios/hallCenterFront.svg");
+  background-image: url("/assets/cenarios/hallCenterFront.svg");
 }
 
 .HallThirdClass {
-  background-image: url("/src/assets/cenarios/hallThirdClass.svg");
+  background-image: url("/assets/cenarios/hallThirdClass.svg");
 }
 
 .Library {
-  background-image: url("/src/assets/cenarios/library.svg");
+  background-image: url("/assets/cenarios/library.svg");
 }
 
 .LibraryBattle {
-  background-image: url("/src/assets/cenarios/libraryBattle.svg");
+  background-image: url("/assets/cenarios/libraryBattle.svg");
 }
 
 .brodiClass {
-  background-image: url("/src/assets/cenarios/brodiClass.svg");
+  background-image: url("/assets/cenarios/brodiClass.svg");
 }
 
 .CantinaBattle {
-  background-image: url("/src/assets/cenarios/cantinaBattle.svg");
+  background-image: url("/assets/cenarios/cantinaBattle.svg");
 }
 
 .Cafeteria {
-  background-image: url("/src/assets/cenarios/cafeteria.svg");
+  background-image: url("/assets/cenarios/cafeteria.svg");
 }
 
 .CafeteriaBattle {
-  background-image: url("/src/assets/cenarios/cafeteriaBattle.svg");
+  background-image: url("/assets/cenarios/cafeteriaBattle.svg");
 }
 
 .buttonGlobal {

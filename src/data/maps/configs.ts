@@ -1,24 +1,24 @@
 export const configsDialogue = [
     {
-        src: "/src/assets/npcs/victor/lyingDown.svg",
+        src: "/assets/npcs/victor/lyingDown.svg",
         name: "Victor",
         message:
             "...",
     },
     {
-        src: "/src/assets/npcs/victor/teleport.svg",
+        src: "/assets/npcs/victor/teleport.svg",
         name: "Victor",
         message:
             "...",
     },
     {
-        src: "/src/assets/npcs/victor/talking.svg",
+        src: "/assets/npcs/victor/talking.svg",
         name: "Victor",
         message:
             "Prazer, meu nome é Victor, eu sou um Novato nesse trampo de 'sistema' e estou aqui para lhe ensinar o básico",
     },
     {
-        src: "/src/assets/npcs/victor/pointing.svg",
+        src: "/assets/npcs/victor/pointing.svg",
         name: "Victor",
         message:
             "Bem, tipo assim, você-",
@@ -30,19 +30,19 @@ export const configsDialogue = [
             "NUNCA MAIS FAÇA ISSO!",
     },
     {
-        src: "/src/assets/npcs/victor/sitting.svg",
+        src: "/assets/npcs/victor/sitting.svg",
         name: "Victor",
         message:
             "Me perdoe... estou pegando esse péssimo hábito do Juan Derson.",
     },
     {
-        src: "/src/assets/npcs/victor/sitting.svg",
+        src: "/assets/npcs/victor/sitting.svg",
         name: "Victor",
         message:
             "Enfim, o Juan Derson deve ter lhe ensinado alguma coisa no ano passado, então, quero seminário para amanhã, boa sorte",
     },
     {
-        src: "/src/assets/npcs/victor/sitting.svg",
+        src: "/assets/npcs/victor/sitting.svg",
         name: "Victor",
         message:
             "Não se preocupe, que você vai sair daqui um Doutor! Tchau.",

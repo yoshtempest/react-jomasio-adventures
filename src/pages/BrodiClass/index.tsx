@@ -10,7 +10,7 @@ import { useGameControls } from "@/contexts/GameControlsContext";
 import { getTileInFront } from "@/utils/getTileInFront";
 import { useInventory } from "@/contexts/InventoryContext";
 import { createCafeteria } from "@/interactions/cafeteira";
-import toothlessDancing from "@/assets/songs/ToothlessDancing.m4a"
+import toothlessDancing from "/assets/songs/ToothlessDancing.m4a"
 
 export default function BrodiClassOne() {
   const { player } = usePlayer();
@@ -81,57 +81,57 @@ export default function BrodiClassOne() {
         ]}
         npcs={[
           {
-            src: "/src/assets/player/samuel/movement/right.svg",
+            src: "/assets/player/samuel/movement/right.svg",
             gridX: 6,
             gridY: 6,
           },
           {
-            src: "/src/assets/player/riquelme/movement/down.svg",
+            src: "/assets/player/riquelme/movement/down.svg",
             gridX: 9,
             gridY: 4,
           },
           {
-            src: "/src/assets/player/lucaua/movement/right.svg",
+            src: "/assets/player/lucaua/movement/right.svg",
             gridX: 2,
             gridY: 7,
           },
           {
-            src: "/src/assets/player/marcelo/movement/up.svg",
+            src: "/assets/player/marcelo/movement/up.svg",
             gridX: 8,
             gridY: 8,
           },
           {
-            src: "/src/assets/player/emanuel/default.svg",
+            src: "/assets/player/emanuel/default.svg",
             gridX: 14,
             gridY: 4,
           },
           {
-            src: "/src/assets/player/artur/movement/down.svg",
+            src: "/assets/player/artur/movement/down.svg",
             gridX: 7,
             gridY: 4,
           },
           {
-            src: "/src/assets/player/lucas/default.svg",
+            src: "/assets/player/lucas/default.svg",
             gridX: 11,
             gridY: 4,
           },
           {
-            src: "/src/assets/player/larissa/movement/up.svg",
+            src: "/assets/player/larissa/movement/up.svg",
             gridX: 15,
             gridY: 10,
           },
           {
-            src: "/src/assets/player/eduarda/movement/up.svg",
+            src: "/assets/player/eduarda/movement/up.svg",
             gridX: 14,
             gridY: 10,
           },
           {
-            src: "/src/assets/player/mayra/default.svg",
+            src: "/assets/player/mayra/default.svg",
             gridX: 13,
             gridY: 9,
           },
           {
-            src: "/src/assets/player/camilly/default.svg",
+            src: "/assets/player/camilly/default.svg",
             gridX: 14,
             gridY: 8,
           },
