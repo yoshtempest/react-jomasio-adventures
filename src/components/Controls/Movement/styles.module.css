@@ -85,6 +85,30 @@
   transition: transform 0.05s linear;
 }
 
+.toggle {
+  position: fixed;
+
+  left: 10%;
+  bottom: 80%;
+
+  width: 4vh;
+  height: 4vh;
+
+  border: none;
+  border-radius: 0.8vh;
+
+  background: rgba(0, 0, 0, 0.55);
+  color: white;
+
+  z-index: 99999;
+
+  backdrop-filter: blur(6px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @media (orientation: portrait) {
   .dpad {
     width: 22vh;
@@ -96,5 +120,9 @@
   .inner {
     width: 7vh;
     height: 7vh;
+  }
+  .toggle {
+    bottom: 38%;
+    left: 12%;
   }
 }

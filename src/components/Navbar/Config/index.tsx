@@ -110,9 +110,11 @@ export function Config() {
                   <MoveDown size={16} className={styles.down}/>
                 </div>
 
-                <div className={styles.column}>
-                  <p>Basta apertar na direção que você deseja ir.</p>
+                <div className={styles.dpad}>
+                  <div className={styles.inner} />
                 </div>
+
+                <p>Basta apertar na direção que você deseja ir.</p>
               </div>
               <h3>Como funcionam os controles:</h3>
               <div className={styles.row}>

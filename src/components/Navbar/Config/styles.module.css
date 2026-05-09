@@ -173,3 +173,33 @@
   border-radius: 4px;
   border: 2px solid var(--primary-color)
 }
+
+.dpad {
+  left: 2%;
+
+  width: 8vw;
+  height: 8vw;
+  z-index: 9999;
+
+  border-radius: 50%;
+  background: rgba(0, 0, 100, 0.1);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  touch-action: none;
+  user-select: none;
+  pointer-events: auto;
+}
+
+.inner {
+  width: 3vw;
+  height: 3vw;
+
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+  transition: transform 0.05s linear;
+}
