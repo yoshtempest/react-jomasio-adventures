@@ -125,7 +125,7 @@ export function PcRoomScene({ sceneId }: Props) {
                 }`}
               >
                 {index === selectedIndex && (
-                  <span className={styles.cursor}>▼</span>
+                  <span className="cursor">▼</span>
                 )}
 
                 <h3>{cls}</h3>

@@ -35,7 +35,7 @@ export function Status() {
   const { selectedIndex } = useStatusMenu(true);
 
   return (
-    <div className={styles.container}>
+    <div className="containerOfNavbar">
       <h2>Status</h2>
 
       <div className={styles.flexRow}>
@@ -43,9 +43,9 @@ export function Status() {
           <img src={asset(`/assets/player/${player.character}/default.svg`)} className={styles.image} />
           <h2>{characterData?.name} - Nv.{charProgress.level}</h2>
           <h2>Classe: {playerClass}</h2>
-          <div className={styles.xpBar}>
+          <div className="xpBar">
             <div
-              className={styles.xpFill}
+              className="xpFill"
               style={{ width: `${percent}%` }}
             />
           </div>
@@ -57,15 +57,15 @@ export function Status() {
         </div>
 
         <div className={styles.flexColumn}>
-          <div className={selectedIndex === 0 ? styles.active : ""}>
+          <div className={selectedIndex === 0 ? "active" : ""}>
             <p>Vida: {stats.hp}</p>
           </div>
 
-          <div className={selectedIndex === 1 ? styles.active : ""}>
+          <div className={selectedIndex === 1 ? "active" : ""}>
             <p>Força: {stats.strength}</p>
           </div>
 
-          <div className={selectedIndex === 2 ? styles.active : ""}>
+          <div className={selectedIndex === 2 ? "active" : ""}>
             <p>Inteligência: {stats.intelligence}</p>
           </div>
 

@@ -1,19 +1,4 @@
-.container {
-  display: flex;
-  position: absolute;
-  flex-direction: column;
-  width: 74vw;
-  height: 90vh;
-  top: 10%;
-  right: 0%;
-  background: #111;
-  align-items: center;
-  border: 2px solid #555;
-  border-radius: 8px;
-  z-index: 999;
-}
-
-.container ul {
+.ul {
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 3 colunas */
   grid-template-rows: repeat(2, auto);   /* 2 linhas */
@@ -21,14 +6,4 @@
   list-style: none;
   padding: 0;
   margin-left: 2%;
-}
-
-@media (orientation: portrait) {
-  .container {
-    width: 99vw;
-    height: 30vh;
-    top: 0;
-    right: 0;
-    border-radius: 0px;
-  }
 }

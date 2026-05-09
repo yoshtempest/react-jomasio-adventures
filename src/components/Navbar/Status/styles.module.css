@@ -1,18 +1,3 @@
-.container {
-  display: flex;
-  position: absolute;
-  flex-direction: column;
-  width: 74vw;
-  height: 90vh;
-  top: 10%;
-  right: 0%;
-  background: #111;
-  align-items: center;
-  border: 2px solid #555;
-  border-radius: 8px;
-  z-index: 999;
-}
-
 .flexRow {
   display: flex;
   flex-direction: row;
@@ -27,42 +12,7 @@
   gap: 5%;
 }
 
-.xpBar {
-  width: 90%;
-  height: 6px;
-  background: #333;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.xpFill {
-  height: 90%;
-  background: #4ade80;
-  transition: width 0.3s;
-}
-
-.active {
-  display: flex;              /* 👈 ESSENCIAL */
-  align-items: center;        /* centraliza verticalmente */
-  gap: 6px;                   /* espaço entre seta e texto */
-  background-color: rgb(26, 26, 109);
-  font-weight: bold;
-  border-radius: 1px;
-  padding: 4px;
-}
-
-.active::before {
-  content: "▶ ";
-}
-
 @media (orientation: portrait) {
-  .container {
-    width: 99vw;
-    height: 30vh;
-    top: 0;
-    right: 0;
-    border-radius: 0px;
-  }
   .image {
     height: 40%;
   }

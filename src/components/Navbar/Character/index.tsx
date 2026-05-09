@@ -9,7 +9,7 @@ export function Character() {
     useCharacterMenu();
 
   return (
-    <div className={styles.container}>
+    <div className="containerOfNavbar">
 
       <div className={styles.charactersContainer}>
         {characters.map((char) => {
@@ -29,23 +29,23 @@ export function Character() {
                 !char.selectable ? styles.characterDisabled : ""
               } ${isSelected ? styles.selected : ""}`}
             >
-              {isSelected && <span className={styles.cursor}>▼</span>}
+              {isSelected && <span className="cursor">▼</span>}
 
               <img
                 src={asset(`/assets/player/${char.image}/default.svg`)}
                 className={styles.characterImage}
               />
 
-              <h2>{char.name} - Nv.{charProgress.level}</h2>
+              <h2 className={styles.text}>{char.name} - Nv.{charProgress.level}</h2>
               
-              <div className={styles.xpBar}>
+              <div className="xpBar">
                 <div
-                  className={styles.xpFill}
+                  className="xpFill"
                   style={{ width: `${percent}%` }}
                 />
               </div>
 
-              <p>
+              <p className={styles.text}>
                 {charProgress.xp} / {xpNeeded} XP
               </p>
             </div>

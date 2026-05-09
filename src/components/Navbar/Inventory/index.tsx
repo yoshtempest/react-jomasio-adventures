@@ -15,7 +15,7 @@ export function Inventory() {
           <li
             key={item.id}
             className=
-            {index === selectedIndex ? styles.active : ""}
+            {index === selectedIndex ? "active" : ""}
             >
             {item.name}
           </li>

@@ -26,16 +26,6 @@
   padding: 8px;
 }
 
-.active {
-  background-color: rgb(26, 26, 109);
-  font-weight: bold;
-  border-radius: 1px;
-}
-
-.active::before {
-  content: "▶ ";
-}
-
 @media (orientation: portrait) {
   .navbar{
     right: 0%;

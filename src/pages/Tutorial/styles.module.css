@@ -1,6 +1,6 @@
 .image {
-    background-image: url("/assets/cenarios/tutorial.svg");
-    background-size: cover;
+  background-image: url("/assets/cenarios/tutorial.svg");
+  background-size: cover;
 }
 
 .overlay {
@@ -17,45 +17,31 @@
 }
 
 .relative {
-    display: flex;
-    align-items: center;
-    position: relative;
+  display: flex;
+  align-items: center;
+  position: relative;
 }
 
 .relative input {
-    background-color: white;
-    width: 30vw;
-    height: 6vh;
-    padding: 8px;
-    border-radius: 6px;
-    border: none;
-    color: black;
-    font-weight: bold;
-    font-size: 16px;
+  background-color: white;
+  width: 30vw;
+  height: 6vh;
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  color: black;
+  font-weight: bold;
+  font-size: 16px;
 }
 
 .sendButton {
-    position: absolute;
-    right: 3%;
-    background-color: none;
+  position: absolute;
+  right: 3%;
+  background-color: none;
 }
 
-.choices {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.selected {
-  height: 8vh;
-  border: 2px solid white;
-  background-color: var(--background-color);
-  transform: scale(1.05);
-}
-
-.selected::before {
-  content: "▼";
-  display: block;
-  text-align: center;
+@media (orientation: portrait) {
+  .relative input {
+    width: 50vw;
+  }
 }

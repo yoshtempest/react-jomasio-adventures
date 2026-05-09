@@ -18,7 +18,7 @@ export function Navbar() {
             <li
               key={item.label}
               className={`${styles.item} ${
-                selectedIndex === index ? styles.active : ""
+                selectedIndex === index ? "active" : ""
               }`}
             >
               {item.label}

@@ -8,10 +8,10 @@ export function Mission() {
   const { selectedIndex } = useQuestMenu(true);
 
   return (
-    <div className={styles.container}>
+    <div className="containerOfNavbar">
       <h3>Missões</h3>
 
-      <ul>
+      <ul className={styles.ul}>
         {quests.map((q, index) => (
           <QuestCard
             key={q.id}
