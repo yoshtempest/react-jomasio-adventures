@@ -1,0 +1,55 @@
+.movement {
+  display: grid;
+
+  grid-template-columns: 3.6vw 3.6vw 3.6vw;
+  grid-template-rows: 3.6vw 3.6vw 3.6vw;
+
+    position: fixed;
+    align-self: center;
+    left: 1%;
+
+  grid-template-areas:
+    ".    up    ."
+    "left .   right"
+    ".   down   .";
+}
+
+/* posições */
+.up {
+  grid-area: up;
+}
+
+.down {
+  grid-area: down;
+}
+
+.left {
+  grid-area: left;
+}
+
+.right {
+  grid-area: right;
+}
+
+.empty {
+  grid-area: center;
+}
+
+@media (orientation: portrait) {
+  .movement {
+    display: grid;
+
+    grid-template-columns: 5.4vh 5.4vh 5.4vh;
+    grid-template-rows: 5.4vh 5.4vh 5.4vh;
+
+    position: fixed;
+    align-self: center;
+    left: 7%;
+    margin-top: 44vh;
+
+    grid-template-areas:
+      ".    up    ."
+      "left .   right"
+      ".   down   .";
+  }
+}
