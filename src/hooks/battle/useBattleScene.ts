@@ -40,6 +40,7 @@ export function useBattleScene({
   const [showDefeat, setShowDefeat] = useState(false);
   const [npcLevel] = useState(() => generateNpcLevel());
   const [npcPhase, setNpcPhase] = useState(1);
+  const [showIntro, setShowIntro] = useState(true);
 
   const npcData = NPCS[npcType];
   const xpReward = calculateXP(npcLevel, npcData.class) ?? 0;
@@ -72,7 +73,7 @@ export function useBattleScene({
     npcPhase,
     onProjectileHit: () => npcRangedAttackRef.current(),
     onMeleeHit: () => npcMeleeAttackRef.current(),
-    isPaused: showVictory || showDefeat,
+    isPaused: showVictory || showDefeat || showIntro,
   });
 
   const battle = useBattleSystem({
@@ -108,7 +109,7 @@ export function useBattleScene({
 
   // controles
   useEffect(() => {
-    if (showVictory) return;
+    if (showVictory || showIntro) return;
 
     const controls = {
       onConfirm: () => {
@@ -124,6 +125,18 @@ export function useBattleScene({
     pushControls(controls);
     return () => popControls();
   }, [attack, battle.playerHit, battle.specialHit, showVictory]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setShowIntro(false);
+    }, 5000);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
+  function skipIntro() {
+    setShowIntro(false);
+  }
 
   function handleRetry() {
     setShowDefeat(false);
@@ -151,5 +164,7 @@ export function useBattleScene({
     handleRetry,
     handleContinue,
     navigate,
+    showIntro,
+    skipIntro,
   };
 }

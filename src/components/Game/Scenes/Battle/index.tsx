@@ -5,6 +5,7 @@ import { useBattleScene } from "@/hooks/battle/useBattleScene";
 import { BattleEntities } from "@/components/Game/BattleEntities";
 import { VictoryModal } from "@/components/Game/Modal/Victory";
 import { DefeatModal } from "@/components/Game/Modal/Defeat";
+import { BattleIntro } from "@/components/Game/BattleIntro";
 
 type Props = {
   map: any;
@@ -33,6 +34,8 @@ export function BattleScene(props: Props) {
     handleRetry,
     handleContinue,
     navigate,
+    showIntro,
+    skipIntro,
   } = useBattleScene(props);
 
   const {
@@ -47,6 +50,13 @@ export function BattleScene(props: Props) {
   return (
     <div className={`Master ${className ?? ""}`}>
       <BattleHUD battle={battle} npcStats={npcStats} />
+      {showIntro && (
+        <BattleIntro
+          playerCharacter={player.character}
+          npcType={npcType}
+          onSkip={skipIntro}
+        />
+      )}
 
       <GameMap
         TILE_SIZE={TILE_SIZE}
