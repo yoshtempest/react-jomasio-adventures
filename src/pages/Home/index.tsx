@@ -5,6 +5,7 @@ import styles from "./styles.module.css";
 import SOS from "/assets/songs/SOSFromEarth.m4a";
 import { useGameAudio } from "@/hooks/useGameAudio";
 import { asset } from "@/utils/asset";
+import { loadGame } from "@/utils/saveGame";
 
 export default function Home() {
   const { pushControls, popControls } = useGameControls();
@@ -20,7 +21,14 @@ export default function Home() {
 
   useEffect(() => {
     pushControls({
-      onConfirm: () => {navigate("/firstscreen")},
+      onConfirm: () => {
+        const save = loadGame();
+        if (save) {
+          navigate(save.lastRoute);
+        } else {
+          navigate("/firstscreen");
+        }
+      },
     });
 
     return () => popControls();

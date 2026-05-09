@@ -1,4 +1,9 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  type ReactNode,
+} from "react";
 import type { InventoryItem } from "@/utils/types/player/inventory";
 
 type InventoryContextType = {
@@ -12,6 +17,7 @@ type InventoryContextType = {
   openInventory: () => void;
   closeInventory: () => void;
   toggleInventory: () => void;
+  setItems: React.Dispatch<React.SetStateAction<InventoryItem[]>>;
 };
 
 const InventoryContext = createContext<InventoryContextType | null>(null);
@@ -23,6 +29,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
       name: "200 do pé de meia",
     }
   ]);
+  
   const [isOpen, setIsOpen] = useState(false);
 
 
@@ -58,6 +65,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
     <InventoryContext.Provider
       value={{
         items,
+        setItems,
         addItem,
         removeItem,
         hasItem,

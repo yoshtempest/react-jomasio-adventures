@@ -11,6 +11,7 @@ type QuestContextType = {
   addQuest: (quest: Quest) => void;
   updateProgress: (id: string, value: number) => void;
   claimQuest: (id: string) => void;
+  setQuests: React.Dispatch<React.SetStateAction<Quest[]>>;
 };
 
 const QuestContext = createContext({} as QuestContextType);
@@ -58,7 +59,7 @@ export function QuestProvider({ children }: Props) {
   }
 
   return (
-    <QuestContext.Provider value={{ quests, addQuest, updateProgress, claimQuest }}>
+    <QuestContext.Provider value={{ quests, setQuests, addQuest, updateProgress, claimQuest }}>
       {children}
     </QuestContext.Provider>
   );

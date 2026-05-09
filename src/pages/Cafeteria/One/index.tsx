@@ -2,6 +2,9 @@ import { cafeteria } from "@/maps/cafeteria";
 import { ExploreScene } from "@/components/Game/Scenes/Default";
 import { cafeteriaDialogue } from "@/data/maps/cafeteria/one";
 
+import { useQuests } from "@/contexts/QuestContext";
+import { saveGame } from "@/utils/saveGame";
+
 import { useEffect, useMemo, useRef, useState } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { director } from "@/maps/director";
@@ -12,7 +15,9 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { createCafeteria } from "@/interactions/cafeteira";
 
 export default function CafeteriaOne() {
-    const { player } = usePlayer();
+  const { player, playerClass } = usePlayer();
+  const { items } = useInventory();
+  const { quests } = useQuests();
 
   const [popup, setPopup] = useState<string | null>(null);
   const { addItem, hasItem, removeItem } = useInventory();
@@ -42,6 +47,18 @@ export default function CafeteriaOne() {
     });
 
     return () => popControls();
+  }, []);
+
+  useEffect(() => {
+    saveGame({
+      lastRoute: "/cafeteria/one",
+
+      inventory: items,
+      quests,
+
+      playerClass,
+      character: player.character,
+    });
   }, []);
 
   // 🧠 Interações por posição

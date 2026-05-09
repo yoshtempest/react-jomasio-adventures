@@ -108,7 +108,6 @@ export default function Library() {
       );
     }
 
-
     const encounterChance = Math.random();
 
     // 5% de chance
