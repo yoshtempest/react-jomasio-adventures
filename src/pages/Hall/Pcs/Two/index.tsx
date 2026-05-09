@@ -5,6 +5,7 @@ import { hallTwoDialogue } from "@/data/maps/hall/two";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";
+import jailsonTheme from "/assets/songs/JailsonTheme.m4a"
 
 export default function HallTwo() {
   const { player } = usePlayer();
@@ -20,6 +21,11 @@ export default function HallTwo() {
       map={hallTwo}
       className={`Master ${styles.image}`}
       dialogueData={hallTwoDialogue}
+      audio={{
+        src: jailsonTheme,
+        loop: true,
+        volume: 0.5,
+      }}
       initialPosition={{ x: 9, y: 10, direction: "up" }} 
       npcs={[
         {
