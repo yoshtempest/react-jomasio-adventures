@@ -1,3 +1,5 @@
+import { asset } from "@/utils/asset";
+
 type Props = {
   projectile: {
     x: number;
@@ -33,7 +35,7 @@ export function ProjectileSprite({ projectile, TILE_SIZE }: Props) {
 
   return (
     <img
-      src={src}
+      src={asset(src)}
       style={{
         position: "absolute",
         left: projectile.x * scaleX,
