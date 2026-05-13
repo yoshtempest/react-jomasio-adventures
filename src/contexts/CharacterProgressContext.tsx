@@ -1,14 +1,14 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import type { Character } from "@/utils/types/player/player";
 
-type CharacterStats = {
+export type CharacterStats = {
   hp: number;
   strength: number;
   intelligence: number;
   points: number;
 };
 
-type CharacterProgress = {
+export type CharacterProgress = {
   level: number;
   xp: number;
   stats: CharacterStats;

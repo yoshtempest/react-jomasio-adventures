@@ -23,37 +23,33 @@ export function CantinaScene({ sceneId }: Props) {
   const [shouldRunEvents, setShouldRunEvents] = useState(false);
   const { giveQuest, progressQuest } = useQuestActions();
   const location = useLocation();
-
-  const lastPage = location.state?.from;
-
-  if (!scene) {
-    return <div>Scene não encontrada</div>;
-  }
-
-  const spawn =
-    typeof scene.initialPosition === "function"
-      ? scene.initialPosition(lastPage)
-      : scene.initialPosition;
-
   const navigate = useNavigate();
   const { player } = usePlayer();
-
   const [popup, setPopup] = useState<string | null>(null);
   const { addItem } = useInventory();
   const [gotKey, setGotKey] = useState(false);
 
-    const interactionsByPosition = useMemo(() =>
-      createCantina({
-        addItem,
-        setPopup,
-        gotKey,
-        setGotKey,
-      }),
-      [addItem, gotKey]
-    );
+  const lastPage = location.state?.from;
+
+  const spawn = scene
+    ? typeof scene.initialPosition === "function"
+      ? scene.initialPosition(lastPage)
+      : scene.initialPosition
+    : undefined;
+
+  const interactionsByPosition = useMemo(() =>
+    createCantina({
+      addItem,
+      setPopup,
+      gotKey,
+      setGotKey,
+    }),
+    [addItem, gotKey]
+  );
 
   // 🚪 exit tile (genérico e seguro)
   useEffect(() => {
+    if (!scene) return;
     const exits = scene.exitTile;
     if (!exits) return;
 
@@ -71,7 +67,7 @@ export function CantinaScene({ sceneId }: Props) {
 
         if (!hasQuest) {
           setPopup(matchedExit.blockedMessage || "Você não pode ir agora.");
-          return; // 🚫 BLOQUEIA
+          return;
         }
       }
       navigate(matchedExit.route);
@@ -79,7 +75,7 @@ export function CantinaScene({ sceneId }: Props) {
   }, [player, scene]);
 
   useEffect(() => {
-    if (!shouldRunEvents) return;
+    if (!shouldRunEvents || !scene) return;
 
     runSceneEvents(scene.events, {
       navigate,
@@ -89,6 +85,10 @@ export function CantinaScene({ sceneId }: Props) {
 
     setShouldRunEvents(false);
   }, [shouldRunEvents]);
+
+  if (!scene) {
+    return <div>Scene não encontrada</div>;
+  }
 
   return (
     <div className={`Master Cantina`}>

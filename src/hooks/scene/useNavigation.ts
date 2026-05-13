@@ -53,14 +53,22 @@ export function useSceneNavigation({
       if (match) {
         hasNavigatedRef.current = true;
 
-        localStorage.setItem(
-          "scene_return_position",
-          JSON.stringify(previousPositionRef.current)
-        );
+        const currentRoute = window.location.hash.replace(/^#/, "") || "/";
+        const stored = localStorage.getItem("scene_return_positions");
+        let map: Record<string, typeof previousPositionRef.current> = {};
+        if (stored) {
+          try {
+            map = JSON.parse(stored);
+          } catch {
+            map = {};
+          }
+        }
+        map[currentRoute] = previousPositionRef.current;
+        localStorage.setItem("scene_return_positions", JSON.stringify(map));
 
         navigate(to, {
           state: {
-            from: window.location.pathname,
+            from: currentRoute,
           },
         });
       }

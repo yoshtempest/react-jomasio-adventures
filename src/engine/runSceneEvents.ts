@@ -37,10 +37,11 @@ export function runSceneEvents(
         ctx.progressQuest?.(event.id, event.value);
         break;
 
-      case "giveQuest":
+      case "giveQuest": {
         const quest = QUESTS[event.questId];
         ctx.giveQuest?.(quest);
         break;
+      }
 
       case "addItem": {
         const item = ITEMS[event.itemId];

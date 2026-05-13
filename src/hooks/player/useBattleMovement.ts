@@ -22,15 +22,18 @@ export function useBattleMovement(
 
   const leftIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const rightIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const jumpTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const idleTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const downLockRef = useRef(false);
   const isJumping = useRef(false);
 
-  // ✅ LIMPEZA AUTOMÁTICA (ESSENCIAL)
   useEffect(() => {
     return () => {
       if (leftIntervalRef.current) clearInterval(leftIntervalRef.current);
       if (rightIntervalRef.current) clearInterval(rightIntervalRef.current);
+      if (jumpTimeoutRef.current) clearTimeout(jumpTimeoutRef.current);
+      if (idleTimeoutRef.current) clearTimeout(idleTimeoutRef.current);
     };
   }, []);
 
@@ -81,9 +84,11 @@ export function useBattleMovement(
 
     setPlayer((p) => jumpBattle(p));
 
-    setTimeout(() => {
+    if (jumpTimeoutRef.current) clearTimeout(jumpTimeoutRef.current);
+    jumpTimeoutRef.current = setTimeout(() => {
       isJumping.current = false;
       setPlayer((p) => landBattle(p));
+      jumpTimeoutRef.current = null;
     }, 450);
   }
 
@@ -112,8 +117,10 @@ export function useBattleMovement(
   }
 
   function resetToIdle(delay = 0) {
-    setTimeout(() => {
+    if (idleTimeoutRef.current) clearTimeout(idleTimeoutRef.current);
+    idleTimeoutRef.current = setTimeout(() => {
       setPlayer((p) => idleBattle(p));
+      idleTimeoutRef.current = null;
     }, delay);
   }
 

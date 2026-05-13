@@ -110,33 +110,29 @@ export function Movement() {
       onUp: () => {
         if (isLockedRef.current) return;
 
-        isBattleRef.current
-          ? moveUpBattleRef.current()
-          : moveUpRef.current();
+        if (isBattleRef.current) moveUpBattleRef.current();
+        else moveUpRef.current();
       },
 
       onDown: () => {
         if (isLockedRef.current) return;
 
-        isBattleRef.current
-          ? moveDownBattleRef.current()
-          : moveDownRef.current();
+        if (isBattleRef.current) moveDownBattleRef.current();
+        else moveDownRef.current();
       },
 
       onLeft: () => {
         if (isLockedRef.current) return;
 
-        isBattleRef.current
-          ? startMoveLeftRef.current()
-          : moveLeftRef.current();
+        if (isBattleRef.current) startMoveLeftRef.current();
+        else moveLeftRef.current();
       },
 
       onRight: () => {
         if (isLockedRef.current) return;
 
-        isBattleRef.current
-          ? startMoveRightRef.current()
-          : moveRightRef.current();
+        if (isBattleRef.current) startMoveRightRef.current();
+        else moveRightRef.current();
       },
 
       onLeftRelease: () => {

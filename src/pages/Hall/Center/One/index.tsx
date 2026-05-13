@@ -23,12 +23,6 @@ export default function HallCenterOne() {
         },
         {
           positions: [
-            { x: 14, y: 7 },
-          ],
-          to: "/hall/center/right",
-        },
-        {
-          positions: [
             { x: 3, y: 7 },
           ],
           to: "/cantina/four",

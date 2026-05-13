@@ -8,9 +8,11 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { useNavigate } from "react-router";
 import { createDirector } from "@/interactions/director";
 import { ExploreScene } from "@/components/Game/Scenes/Default";
+import { useQuestActions } from "@/hooks/useQuestActions";
 
 export default function DirectorTwo() {
   const { player } = usePlayer();
+  const { progressQuest } = useQuestActions();
 
   const [popup, setPopup] = useState<string | null>(null);
   const { addItem, hasItem, removeItem } = useInventory();
@@ -41,7 +43,7 @@ export default function DirectorTwo() {
     });
 
     return () => popControls();
-  }, []);
+  }, [pushControls, popControls]);
 
   // 🧠 Interações por posição
   const interactionsByPosition = useMemo(() =>
@@ -53,6 +55,7 @@ export default function DirectorTwo() {
       setPopup: (msg) => setPopup(msg),
       gotKey,
       setGotKey,
+      progressQuest,
     }),
   [
     hasItem,
@@ -60,6 +63,7 @@ export default function DirectorTwo() {
     removeItem,
     navigate,
     gotKey,
+    progressQuest,
   ]);
 
   return (

@@ -10,9 +10,11 @@ import { useGameControls } from "@/contexts/GameControlsContext";
 import { getTileInFront } from "@/utils/getTileInFront";
 import { useInventory } from "@/contexts/InventoryContext";
 import { createCafeteria } from "@/interactions/cafeteira";
+import { useQuestActions } from "@/hooks/useQuestActions";
 
 export default function CafeteriaTwo() {
   const { player } = usePlayer();
+  const { progressQuest } = useQuestActions();
 
   const [popup, setPopup] = useState<string | null>(null);
   const { addItem, hasItem, removeItem } = useInventory();
@@ -42,7 +44,7 @@ export default function CafeteriaTwo() {
     });
 
     return () => popControls();
-  }, []);
+  }, [pushControls, popControls]);
 
   // 🧠 Interações por posição
   const interactionsByPosition = useMemo(() =>
@@ -53,12 +55,14 @@ export default function CafeteriaTwo() {
       setPopup: (msg) => setPopup(msg),
       gotKey,
       setGotKey,
+      progressQuest,
     }),
   [
     hasItem,
     addItem,
     removeItem,
     gotKey,
+    progressQuest,
   ]);
   return (
     <div className="Master Cafeteria">

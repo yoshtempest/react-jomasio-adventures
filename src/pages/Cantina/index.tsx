@@ -1,13 +1,13 @@
 import { useParams } from "react-router";
 import { CantinaScene } from "@/components/Game/Scenes/Cantina/index";
+import type { SceneId } from "@/utils/types/maps/sceneConfig";
 
 export default function CantinaPage() {
-  
   const { id } = useParams();
 
-    if (!id) {
+  if (!id) {
     return <div>Parâmetro de cena não fornecido</div>;
   }
 
-  return <CantinaScene sceneId={id as any} />;
+  return <CantinaScene sceneId={id as SceneId} />;
 }

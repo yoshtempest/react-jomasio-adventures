@@ -1,6 +1,5 @@
-// effects.ts
 export const questEffects: Record<string, () => void> = {
   buscar_embalagem: () => {
-    console.log("Recompensa dada!");
+    if (import.meta.env.DEV) console.log("Recompensa dada!");
   }
 };

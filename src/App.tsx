@@ -11,6 +11,7 @@ import { loadGame } from "@/utils/saveGame";
 
 import { useQuests } from "@/contexts/QuestContext";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { isCharacter } from "@/utils/types/player/player";
 
 function App() {
   const { isOpen } = useInventory();
@@ -35,8 +36,8 @@ function App() {
       chooseClass(save.playerClass);
     }
 
-    if (save.character) {
-      setCharacter(save.character as any);
+    if (save.character && isCharacter(save.character)) {
+      setCharacter(save.character);
     }
   }, []);
 

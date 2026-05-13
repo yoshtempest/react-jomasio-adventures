@@ -2,9 +2,6 @@ import { cafeteria } from "@/maps/cafeteria";
 import { ExploreScene } from "@/components/Game/Scenes/Default";
 import { cafeteriaDialogue } from "@/data/maps/cafeteria/one";
 
-import { useQuests } from "@/contexts/QuestContext";
-import { saveGame } from "@/utils/saveGame";
-
 import { useEffect, useMemo, useRef, useState } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { director } from "@/maps/director";
@@ -13,11 +10,11 @@ import { useGameControls } from "@/contexts/GameControlsContext";
 import { getTileInFront } from "@/utils/getTileInFront";
 import { useInventory } from "@/contexts/InventoryContext";
 import { createCafeteria } from "@/interactions/cafeteira";
+import { useQuestActions } from "@/hooks/useQuestActions";
 
 export default function CafeteriaOne() {
-  const { player, playerClass } = usePlayer();
-  const { items } = useInventory();
-  const { quests } = useQuests();
+  const { player } = usePlayer();
+  const { progressQuest } = useQuestActions();
 
   const [popup, setPopup] = useState<string | null>(null);
   const { addItem, hasItem, removeItem } = useInventory();
@@ -47,19 +44,7 @@ export default function CafeteriaOne() {
     });
 
     return () => popControls();
-  }, []);
-
-  useEffect(() => {
-    saveGame({
-      lastRoute: "/cafeteria/one",
-
-      inventory: items,
-      quests,
-
-      playerClass,
-      character: player.character,
-    });
-  }, []);
+  }, [pushControls, popControls]);
 
   // 🧠 Interações por posição
   const interactionsByPosition = useMemo(() =>
@@ -70,12 +55,14 @@ export default function CafeteriaOne() {
       setPopup: (msg) => setPopup(msg),
       gotKey,
       setGotKey,
+      progressQuest,
     }),
   [
     hasItem,
     addItem,
     removeItem,
     gotKey,
+    progressQuest,
   ]);
   return (
     <div className="Master Cafeteria">

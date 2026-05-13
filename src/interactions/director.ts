@@ -1,12 +1,11 @@
 import { directorMessages } from "@/data/maps/director/messages";
-import { useQuestActions } from "@/hooks/useQuestActions";
 import { createInteractionMap } from "./builder";
-import type { KeyDeps, InventoryDeps } from "@/utils/types/interaction";
+import type { KeyDeps, InventoryDeps, QuestDeps } from "@/utils/types/interaction";
 
-type DirectorDeps = KeyDeps & InventoryDeps;
+type DirectorDeps = KeyDeps & InventoryDeps & QuestDeps;
 
 export function createDirector(deps: DirectorDeps) {
-  const { progressQuest } = useQuestActions();
+  const { progressQuest } = deps;
 
   return createInteractionMap(directorMessages, deps, {
     "4,3": ({ hasItem, setPopup, removeItem, navigate }) => {

@@ -19,14 +19,30 @@ export function useSceneSetup({
   useLayoutEffect(() => {
     setMap(map);
 
-    const saved = localStorage.getItem("scene_return_position");
+    localStorage.removeItem("scene_return_position");
 
-    if (saved) {
-      const { x, y, direction } = JSON.parse(saved);
-      setPosition(x, y, direction);
-      localStorage.removeItem("scene_return_position");
-      setIsReady(true);
-      return;
+    const currentRoute = window.location.hash.replace(/^#/, "") || "/";
+    const stored = localStorage.getItem("scene_return_positions");
+
+    if (stored) {
+      let positions: Record<string, ScenePosition> = {};
+      try {
+        positions = JSON.parse(stored);
+      } catch {
+        localStorage.removeItem("scene_return_positions");
+      }
+      const saved = positions[currentRoute];
+
+      if (saved) {
+        setPosition(saved.x, saved.y, saved.direction);
+        delete positions[currentRoute];
+        localStorage.setItem(
+          "scene_return_positions",
+          JSON.stringify(positions)
+        );
+        setIsReady(true);
+        return;
+      }
     }
 
     if (initialPosition) {
