@@ -14,7 +14,7 @@ export default defineConfig({
 
       includeAssets: ["favicon.svg"],
       workbox: {
-        globPatterns: ['**/*.{js,css,html,png,svg,gif,mp3,m4a}'],
+        globPatterns: ['**/*.{js,css,html}'],
         runtimeCaching: [
           {
             urlPattern: /\.(png|svg|gif)$/i,
