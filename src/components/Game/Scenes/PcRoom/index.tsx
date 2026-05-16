@@ -22,30 +22,25 @@ export function PcRoomScene({ sceneId }: Props) {
   const scene = PCS_ROOM_SCENES[sceneId];
   const { giveQuest, progressQuest } = useQuestActions();
   const location = useLocation();
-
-  const lastPage = location.state?.from;
-
-  if (!scene) {
-    return <div>Scene não encontrada</div>;
-  }
-
-  const spawn =
-    typeof scene.initialPosition === "function"
-      ? scene.initialPosition(lastPage)
-      : scene.initialPosition;
-
   const navigate = useNavigate();
   const { player, setMode } = usePlayer();
   const [showClassModal, setShowClassModal] = useState(false);
-
   const [popup, setPopup] = useState<string | null>(null);
   const { addItem } = useInventory();
   const [gotKey, setGotKey] = useState(false);
 
+  const lastPage = location.state?.from;
+
+  const spawn = scene
+    ? typeof scene.initialPosition === "function"
+      ? scene.initialPosition(lastPage)
+      : scene.initialPosition
+    : undefined;
+
   const { classes, selectedIndex } = useClassSelection(showClassModal, () => {
-    setShowClassModal(false),
+    setShowClassModal(false);
     setMode("explore");
-    navigate("/pcroom/two")
+    navigate("/pcroom/two");
   });
 
   useEffect(() => {
@@ -67,8 +62,8 @@ export function PcRoomScene({ sceneId }: Props) {
     [addItem, gotKey]
   );
 
-  // 🚪 exit tile (genérico e seguro)
   useEffect(() => {
+    if (!scene) return;
     const exits = scene.exitTile;
     if (!exits) return;
 
@@ -82,6 +77,10 @@ export function PcRoomScene({ sceneId }: Props) {
       navigate(matchedExit.route);
     }
   }, [player, scene]);
+
+  if (!scene) {
+    return <div>Scene não encontrada</div>;
+  }
 
   return (
     <div className={`Master PcsRoom`}>

@@ -14,3 +14,7 @@ export type KeyDeps = BaseDeps & {
   gotKey?: boolean;
   setGotKey?: (value: boolean) => void;
 };
+
+export type QuestDeps = {
+  progressQuest: (id: string, step: number) => void;
+};

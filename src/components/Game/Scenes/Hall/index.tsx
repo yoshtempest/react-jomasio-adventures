@@ -13,16 +13,11 @@ type Props = {
 
 export function HallScene({ sceneId }: Props) {
   const scene = HALL_SCENES[sceneId];
-
-  if (!scene) {
-    return <div>Scene não encontrada</div>;
-  }
-
   const navigate = useNavigate();
   const { player } = usePlayer();
 
-  // 🚪 exit tile (genérico e seguro)
   useEffect(() => {
+    if (!scene) return;
     const exits = scene.exitTile;
     if (!exits) return;
 
@@ -36,6 +31,10 @@ export function HallScene({ sceneId }: Props) {
       navigate(matchedExit.route);
     }
   }, [player, scene]);
+
+  if (!scene) {
+    return <div>Scene não encontrada</div>;
+  }
 
   return (
       <ExploreScene

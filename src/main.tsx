@@ -81,7 +81,6 @@ createRoot(document.getElementById('root')!).render(
                           <Route path="cantina">
                             <Route index element={<Navigate to="/cantina/one" />} />
                             <Route path=":id" element={<CantinaPage />} />
-                            <Route path="cantina" element={<CantinaBattle />} />
                           </Route>
 
                           <Route path="pcroom">

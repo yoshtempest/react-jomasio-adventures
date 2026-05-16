@@ -52,7 +52,7 @@ export class BaseCharacter {
         this.hp = Math.min(this.maxHp, this.hp + hp)
     }
 
-    canHit(): Boolean {
+    canHit(): boolean {
         if (this.cooldown + this.lastHitTime < Date.now()){
             return true
         }

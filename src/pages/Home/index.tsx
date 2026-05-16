@@ -32,7 +32,7 @@ export default function Home() {
     });
 
     return () => popControls();
-  }, [navigate]);
+  }, [navigate, pushControls, popControls]);
 
   return (
     <div className={`Master ${styles.image}`}>

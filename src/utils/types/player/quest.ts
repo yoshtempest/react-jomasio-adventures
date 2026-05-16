@@ -11,6 +11,6 @@ export type Quest = {
   progress: number;
   completed: boolean;
   rewardsType?: QuestRewardsType;
-  rewards?: any;
+  rewards?: number;
   claimed?: boolean;
 };

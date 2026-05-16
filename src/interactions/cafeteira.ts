@@ -1,12 +1,11 @@
 import { cafeteriaMessages } from "@/data/maps/cafeteria/messages";
-import { useQuestActions } from "@/hooks/useQuestActions";
 import { createInteractionMap } from "./builder";
-import type { KeyDeps, InventoryDeps } from "@/utils/types/interaction";
+import type { KeyDeps, InventoryDeps, QuestDeps } from "@/utils/types/interaction";
 
-type CafeteriaDeps = KeyDeps & InventoryDeps;
+type CafeteriaDeps = KeyDeps & InventoryDeps & QuestDeps;
 
 export function createCafeteria(deps: CafeteriaDeps) {
-  const { progressQuest } = useQuestActions();
+  const { progressQuest } = deps;
 
   return createInteractionMap(cafeteriaMessages, deps, {
     "11,10": ({ addItem, setPopup, gotKey, setGotKey }) => {

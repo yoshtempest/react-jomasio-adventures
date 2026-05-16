@@ -1,3 +1,6 @@
+import type { PlayerClass } from "@/utils/types/player/player";
+import type { CharacterProgress } from "@/contexts/CharacterProgressContext";
+
 export type BattleBehavior = {
   onBasicHit: (data: {
     setNpcHP: React.Dispatch<React.SetStateAction<number>>;
@@ -5,8 +8,8 @@ export type BattleBehavior = {
     setDelicia: React.Dispatch<React.SetStateAction<number>>;
     HITS_TO_SPECIAL: number;
 
-    char: any;
-    playerClass: any;
+    char: CharacterProgress;
+    playerClass: PlayerClass;
 
     spawnPiercing?: () => void; // 👈 novo
   }) => void;
@@ -17,8 +20,8 @@ export type BattleBehavior = {
     setStacks: React.Dispatch<React.SetStateAction<number>>;
     setDelicia: React.Dispatch<React.SetStateAction<number>>;
 
-    char: any;
-    playerClass: any;
+    char: CharacterProgress;
+    playerClass: PlayerClass;
 
     triggerExplosion?: () => void; // 👈 novo
   }) => void;

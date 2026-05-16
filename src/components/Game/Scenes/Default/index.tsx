@@ -14,8 +14,11 @@ import { useSceneSetup } from "@/hooks/scene/useSetup";
 import { useSceneControls } from "@/hooks/scene/useControls";
 import { useSceneInteraction } from "@/hooks/scene/useSceneInteraction";
 import { useSceneAudio } from "@/hooks/scene/useAudio";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { getTileInFront } from "@/utils/getTileInFront";
+import { saveGame } from "@/utils/saveGame";
+import { useInventory } from "@/contexts/InventoryContext";
+import { useQuests } from "@/contexts/QuestContext";
 
 import type { ExploreSceneProps } from "@/utils/types/maps/exploreScene";
 
@@ -33,9 +36,22 @@ export function ExploreScene({
   nextRoute,
   className,
 }: ExploreSceneProps) {
-  const { player, setMap, setPosition, setMode } = usePlayer();
+  const { player, playerClass, setMap, setPosition, setMode } = usePlayer();
   const { pushControls, popControls } = useGameControls();
   const navigate = useNavigate();
+  const location = useLocation();
+  const { items } = useInventory();
+  const { quests } = useQuests();
+
+  useEffect(() => {
+    saveGame({
+      lastRoute: location.pathname,
+      inventory: items,
+      quests,
+      playerClass,
+      character: player.character,
+    });
+  }, [location.pathname, items, quests, playerClass, player.character]);
 
   const handleFinish = () => {
     if (onFinish) onFinish();
