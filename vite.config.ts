@@ -13,6 +13,25 @@ export default defineConfig({
       registerType: "autoUpdate",
 
       includeAssets: ["favicon.svg"],
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,png,svg,gif,mp3,m4a}'],
+        runtimeCaching: [
+          {
+            urlPattern: /\.(png|svg|gif)$/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'images',
+            }
+          },
+          {
+            urlPattern: /\.(mp3|m4a)$/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'audio',
+            }
+          }
+        ]
+      },
 
       manifest: {
         name: "Jomasio Adventures",
