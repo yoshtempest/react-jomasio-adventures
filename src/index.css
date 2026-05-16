@@ -136,6 +136,43 @@ h2 {
   background-image: url("/assets/cenarios/cafeteriaBattle.svg");
 }
 
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #0A0500; /* mesma cor do seu jogo */
+  z-index: 9999;
+}
+
+.loading-logo {
+  width: 80px;
+  opacity: 0;
+  animation: zoomIn 0.3s ease forwards;
+}
+
+@keyframes zoomIn {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(3.5); /* cresce bastante */
+    opacity: 1;
+  }
+}
+
 .cursor {
   position: absolute;
   top: -10px;
