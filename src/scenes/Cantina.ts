@@ -66,6 +66,10 @@ export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
         return { x: 14, y: 11, direction: "left" as const };
       }
 
+      if (lastPage === "/hall/center/one") {
+        return { x: 1, y: 11, direction: "right" as const };
+      }
+
       return { x: 9, y: 5, direction: "up" as const };
     },
     exitTile: [

@@ -116,11 +116,12 @@ export const PCS_ROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     }],
     audio: { src: MonkeyCircle },
     initialPosition: (lastPage?: string) => {
+      // console.log("LAST PAGE:", lastPage);
       if (lastPage === "/pcroom/six") {
-        return { x: 12, y: 4, direction: "down" as const };
+        return { x: 12, y: 4, direction: "left" as const };
       }
 
-      return { x: 3, y: 4, direction: "left" as const };
+      return { x: 3, y: 4, direction: "down" as const };
     },
   },
 };

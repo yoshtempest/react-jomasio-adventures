@@ -70,7 +70,9 @@ export function CantinaScene({ sceneId }: Props) {
           return;
         }
       }
-      navigate(matchedExit.route);
+      navigate(matchedExit.route, {
+        state: { from: location.pathname }
+      });
     }
   }, [player, scene]);
 
@@ -81,6 +83,7 @@ export function CantinaScene({ sceneId }: Props) {
       navigate,
       giveQuest,
       progressQuest,
+      location,
     });
 
     setShouldRunEvents(false);

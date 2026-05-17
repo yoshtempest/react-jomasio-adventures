@@ -23,16 +23,6 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
         route: "/hall/two",
       },
       {
-        x: 9,
-        y: 2,
-        route: "/hall/two",
-      },
-      {
-        x: 7,
-        y: 2,
-        route: "/hall/two",
-      },
-      {
         x: 13,
         y: 7,
         route: "/pcroom/one",
@@ -72,7 +62,14 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     map: hallOne,
     dialogueData: AfterPcRoomOneDialogue,
     audio: { src: LavenderTown },
-    initialPosition: { x: 9, y: 10, direction: "up" },
+    initialPosition: (lastPage?: string) => {
+      // console.log("LAST PAGE:", lastPage);
+      if (lastPage === "/pcroom/seven") {
+        return { x: 12, y: 7, direction: "left" as const };
+      }
+
+      return { x: 8, y: 3, direction: "down" as const };
+    },
     events: [
       { type: "navigate", to: "/hall/afterpcroom/two" }
     ],

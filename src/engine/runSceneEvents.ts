@@ -1,9 +1,11 @@
 import { type SceneEvent } from "@/utils/types/maps/sceneEvents";
 import { QUESTS } from "@/data/quests";
 import { ITEMS } from "@/data/items";
+import type { NavigateFunction } from "react-router";
 
 type EventContext = {
-  navigate: (to: string) => void;
+  navigate: NavigateFunction;
+  location: { pathname: string };
   setShowClassModal?: (v: boolean) => void;
   setFlags?: (key: string, value: boolean) => void;
   progressQuest?: (id: string, value: number) => void;
@@ -26,7 +28,9 @@ export function runSceneEvents(
         break;
 
       case "navigate":
-        ctx.navigate(event.to);
+        ctx.navigate(event.to, {
+          state: { from: ctx.location.pathname }
+        });
         break;
 
       case "setFlag":

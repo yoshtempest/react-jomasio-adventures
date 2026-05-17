@@ -43,6 +43,7 @@ export function HallScene({ sceneId }: Props) {
         onFinish={() => {
           runSceneEvents(scene.events, {
             navigate,
+            location,
           });
         }}
       />

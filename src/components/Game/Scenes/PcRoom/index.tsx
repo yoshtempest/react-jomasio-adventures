@@ -74,7 +74,9 @@ export function PcRoomScene({ sceneId }: Props) {
     );
 
     if (matchedExit) {
-      navigate(matchedExit.route);
+      navigate(matchedExit.route, {
+        state: { from: location.pathname }
+      });
     }
   }, [player, scene]);
 
@@ -90,6 +92,7 @@ export function PcRoomScene({ sceneId }: Props) {
         onFinish={() => {
           runSceneEvents(scene.events, {
             navigate,
+            location,
             setShowClassModal,
             progressQuest,
             giveQuest,
