@@ -17,7 +17,15 @@ export default function Home() {
     volume: 0.3,
   }), []);
 
-  useGameAudio(backgroundAudio);
+  const audio = useGameAudio(backgroundAudio); // 🔥 pega controle
+
+  useEffect(() => {
+    audio.play(); // 🔥 toca ao entrar
+
+    return () => {
+      audio.stop(); // 🔥 para ao sair
+    };
+  }, []);
 
   useEffect(() => {
     pushControls({

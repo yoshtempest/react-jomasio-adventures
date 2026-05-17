@@ -9,20 +9,20 @@ const AudioContext = createContext<AudioContextType | null>(null);
 
 export function AudioProvider({ children }: { children: ReactNode }) {
     const [volume, setVolumeState] = useState(() => {
-        const saved = localStorage.getItem("game_volume");
+      const saved = localStorage.getItem("game_volume");
 
-        return saved ? Number(saved) : 50;
+      return saved ? Number(saved) : 50;
     });
 
     const setVolume = useCallback((value: number) => {
-        setVolumeState(value);
-        localStorage.setItem("game_volume", String(value));
+      setVolumeState(value);
+      localStorage.setItem("game_volume", String(value));
     }, []);
 
     return (
-        <AudioContext.Provider value={{ volume, setVolume }}>
-        {children}
-        </AudioContext.Provider>
+      <AudioContext.Provider value={{ volume, setVolume }}>
+      {children}
+      </AudioContext.Provider>
     );
 }
 

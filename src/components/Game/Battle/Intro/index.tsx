@@ -1,6 +1,7 @@
 import { asset } from "@/utils/asset";
 import styles from "./styles.module.css";
 import { useEffect, useRef } from "react";
+import { useAudio } from "@/contexts/AudioContext";
 
 type Props = {
   playerCharacter: string;
@@ -14,13 +15,14 @@ export function BattleIntro({
   onSkip,
 }: Props) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const { volume: masterVolume } = useAudio();
 
   useEffect(() => {
     const audio = new Audio(
       asset("/assets/songs/soundEffects/battle/onePiece.mp3")
     );
 
-    audio.volume = 0.7;
+    audio.volume = 0.5 * (masterVolume / 100);
     audio.currentTime = 0;
 
     audio.play().catch(() => {
