@@ -3,8 +3,11 @@ import {
   useContext,
   useState,
   type ReactNode,
+  useRef,
+  useEffect
 } from "react";
 import type { InventoryItem } from "@/utils/types/player/inventory";
+import { asset } from "@/utils/asset";
 
 type InventoryContextType = {
   items: InventoryItem[];
@@ -29,20 +32,58 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
       name: "200 do pé de meia",
     }
   ]);
+  const itemAudioRef = useRef<HTMLAudioElement | null>(null);
+  const useItemAudioRef = useRef<HTMLAudioElement | null>(null);
+  useEffect(() => {
+    if (!itemAudioRef.current) {
+      itemAudioRef.current = new Audio(
+        asset("/assets/songs/soundEffects/player/receivedAnItem.mp3")
+      );
+    }
+  }, []);
+  function playItemSound() {
+    if (!itemAudioRef.current) return;
+
+    itemAudioRef.current.currentTime = 0;
+    itemAudioRef.current.play().catch(() => {});
+  }
+  useEffect(() => {
+    if (!useItemAudioRef.current) {
+      useItemAudioRef.current = new Audio(
+        asset("/assets/songs/soundEffects/player/usedAnItem.mp3")
+      );
+    }
+  }, []);
+  function playUseItemSound() {
+    if (!useItemAudioRef.current) return;
+
+    useItemAudioRef.current.currentTime = 0;
+    useItemAudioRef.current.play().catch(() => {});
+  }
   
   const [isOpen, setIsOpen] = useState(false);
 
-
   function addItem(item: InventoryItem) {
+    let added = false;
     setItems((prev) => {
       // impede duplicado
       if (prev.find((i) => i.id === item.id)) return prev;
+      added = true;
       return [...prev, item];
     });
+    if (added) {
+      playItemSound();
+    }
   }
 
   function removeItem(id: string) {
+    const exists = items.some((item) => item.id === id);
+
+    if (!exists) return;
+
     setItems((prev) => prev.filter((item) => item.id !== id));
+
+    playUseItemSound();
   }
 
   function hasItem(id: string) {
