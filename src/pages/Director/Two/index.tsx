@@ -9,10 +9,19 @@ import { useNavigate } from "react-router";
 import { createDirector } from "@/interactions/director";
 import { ExploreScene } from "@/components/Game/Scenes/Default";
 import { useQuestActions } from "@/hooks/useQuestActions";
+import { asset } from "@/utils/asset";
+import { useAudio } from "@/contexts/AudioContext";
 
 export default function DirectorTwo() {
   const { player } = usePlayer();
   const { progressQuest } = useQuestActions();
+  const { volume: masterVolume } = useAudio();
+
+  const playSFX = (src: string, volume = 1) => {
+    const audio = new Audio(asset(src));
+    audio.volume = volume * (masterVolume / 100);
+    audio.play().catch(() => {});
+  };
 
   const [popup, setPopup] = useState<string | null>(null);
   const { addItem, hasItem, removeItem } = useInventory();
@@ -56,6 +65,7 @@ export default function DirectorTwo() {
       gotKey,
       setGotKey,
       progressQuest,
+      playSFX,
     }),
   [
     hasItem,
