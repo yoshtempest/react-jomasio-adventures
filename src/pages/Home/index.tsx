@@ -2,7 +2,7 @@ import { useEffect, useMemo } from "react";
 import { useNavigate } from "react-router";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import styles from "./styles.module.css";
-import SOS from "/assets/songs/SOSFromEarth.m4a";
+import undertale from "/assets/songs/UndertaleGameOver.m4a";
 import { useGameAudio } from "@/hooks/useGameAudio";
 import { asset } from "@/utils/asset";
 import { loadGame } from "@/utils/saveGame";
@@ -12,7 +12,7 @@ export default function Home() {
   const navigate = useNavigate();
 
   const backgroundAudio = useMemo(() => ({
-    src: SOS,
+    src: undertale,
     loop: true,
     volume: 0.3,
   }), []);
