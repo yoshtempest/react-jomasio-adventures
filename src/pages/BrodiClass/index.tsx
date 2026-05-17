@@ -1,4 +1,3 @@
-import { cafeteria } from "@/maps/cafeteria";
 import { ExploreScene } from "@/components/Game/Scenes/Default";
 import { cafeteriaDialogue } from "@/data/maps/cafeteria/one";
 
@@ -12,6 +11,7 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { createCafeteria } from "@/interactions/cafeteira";
 import { useQuestActions } from "@/hooks/useQuestActions";
 import toothlessDancing from "/assets/songs/ToothlessDancing.m4a"
+import { brodiClass } from "@/maps/brodiClass";
 
 export default function BrodiClassOne() {
   const { player } = usePlayer();
@@ -68,7 +68,7 @@ export default function BrodiClassOne() {
   return (
     <div className="Master brodiClass">
       <ExploreScene
-        map={cafeteria}
+        map={brodiClass}
         dialogueData={cafeteriaDialogue} 
         nextRoute={"/cafeteria/battle"}
         initialPosition={{ x: 4, y: 4, direction: "down" }}
@@ -79,8 +79,8 @@ export default function BrodiClassOne() {
         }}
         transitions={[
           {
-            positions: [{ x: 8, y: 11 }],
-            to: "/cantina/four",
+            positions: [{ x: 4, y: 3 }],
+            to: "/hall/thirdclass",
           },
         ]}
         npcs={[

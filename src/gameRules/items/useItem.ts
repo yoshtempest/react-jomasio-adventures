@@ -1,5 +1,9 @@
 import { useNavigate } from "react-router";
 
+type Props = {
+  playSFX?: (src: string, volume?: number) => void;
+};
+
 function rollEncounter() {
   const roll = Math.random() * 100;
 
@@ -9,13 +13,14 @@ function rollEncounter() {
   return "/battle/goat";
 }
 
-export function useItemEffect() {
+export function useItemEffect({playSFX}: Props) {
   const navigate = useNavigate();
 
   function getEffect(itemId: string) {
     switch (itemId) {
       case "good_powder": // 🔥 Pó do bom
         return () => {
+          playSFX?.("/assets/songs/transitions/undertaleToBattle.mp3", 0.6);
           const route = rollEncounter();
           navigate(route);
         };

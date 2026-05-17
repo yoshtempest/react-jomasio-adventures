@@ -4,11 +4,22 @@ import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useItemEffect } from "@/gameRules/items/useItem";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
+import { useAudio } from "@/contexts/AudioContext";
+import { asset } from "@/utils/asset";
+
 
 export function useInventoryMenu(isOpen: boolean) {
   const { pushControls, popControls } = useGameControls();
   const { items } = useInventory();
-  const { getEffect } = useItemEffect();
+  const { volume: masterVolume } = useAudio();
+
+  const playSFX = (src: string, volume = 1) => {
+    const audio = new Audio(asset(src));
+    audio.volume = volume * (masterVolume / 100);
+    audio.play().catch(() => {});
+  };
+  
+  const { getEffect } = useItemEffect({ playSFX });
   const { playMove, playSelect } = useMenuSFX();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
