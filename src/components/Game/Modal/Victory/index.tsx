@@ -1,5 +1,7 @@
 import styles from "./styles.module.css";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { asset } from "@/utils/asset";
+
 
 type Props = {
   isOpen: boolean;
@@ -20,6 +22,28 @@ export function VictoryModal({
   onContinue,
   xpReward,
 }: Props) {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const hasPlayedRef = useRef(false);
+
+  useEffect(() => {
+    if (!audioRef.current) {
+      audioRef.current = new Audio(
+        asset("/assets/songs/soundEffects/player/win.mp3")
+      );
+    }
+
+    if (isOpen && !hasPlayedRef.current) {
+      hasPlayedRef.current = true;
+
+      audioRef.current.currentTime = 0;
+      audioRef.current.play().catch(() => {});
+    }
+
+    if (!isOpen) {
+      hasPlayedRef.current = false;
+    }
+  }, [isOpen]);
+  
   useEffect(() => {
     if (!isOpen) return;
 

@@ -1,11 +1,11 @@
-import { BattleHUD } from "@/components/Game/BattleHUD";
+import { BattleHUD } from "@/components/Game/Battle/HUD";
 import { GameMap } from "@/components/Game/GameMap";
 import { useGameLayout } from "@/hooks/useGameLayout";
 import { useBattleScene } from "@/hooks/battle/useBattleScene";
-import { BattleEntities } from "@/components/Game/BattleEntities";
+import { BattleEntities } from "@/components/Game/Battle/Entities";
 import { VictoryModal } from "@/components/Game/Modal/Victory";
 import { DefeatModal } from "@/components/Game/Modal/Defeat";
-import { BattleIntro } from "@/components/Game/BattleIntro";
+import { BattleIntro } from "@/components/Game/Battle/Intro";
 
 type Props = {
   map: any;

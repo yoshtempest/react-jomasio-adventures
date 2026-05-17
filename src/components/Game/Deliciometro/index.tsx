@@ -1,4 +1,6 @@
 import { asset } from "@/utils/asset";
+import { useEffect, useRef } from "react";
+
 
 type Props = {
   delicia: number; // 0 - 6
@@ -7,6 +9,31 @@ type Props = {
 
 export function Deliciometro({ delicia, hitsToSpecial = 6 }: Props) {
   const angle = (delicia / hitsToSpecial) * 180 - 90;
+
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const hasPlayedRef = useRef(false);
+
+  useEffect(() => {
+    // cria áudio uma única vez
+    if (!audioRef.current) {
+      audioRef.current = new Audio(
+        asset("/assets/songs/soundEffects/player/deliciometroIsFull.mp3")
+      );
+    }
+
+    // 🎯 quando atingir o máximo
+    if (delicia >= hitsToSpecial && !hasPlayedRef.current) {
+      hasPlayedRef.current = true;
+
+      audioRef.current.currentTime = 0;
+      audioRef.current.play().catch(() => {});
+    }
+
+    // 🔄 reset quando diminuir
+    if (delicia < hitsToSpecial) {
+      hasPlayedRef.current = false;
+    }
+  }, [delicia, hitsToSpecial]);
 
   return (
     <div

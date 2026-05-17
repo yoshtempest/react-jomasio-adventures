@@ -3,7 +3,6 @@ import { createRoot } from 'react-dom/client'
 import { Routes, Route } from "react-router";
 import './index.css'
 import App from './App.tsx'
-import { asset } from "@/utils/asset";
 
 import { GameControlsProvider } from "./contexts/GameControlsContext";
 import { PlayerProvider } from './contexts/PlayerContext.tsx';
@@ -24,6 +23,7 @@ registerSW({ immediate: true });
 import { Navigate } from 'react-router';
 
 import { Preloader } from "@/components/Preloader";
+import { LoadingScreen } from "@/components/LoadingScreen";
 const Tutorial = lazyLoad(() => import('./pages/Tutorial/index.tsx'));
 const Home = lazyLoad(() => import('./pages/Home/index.tsx'));
 const FirstScreen = lazyLoad(() => import('./pages/FirstScreen/index.tsx'));
@@ -92,13 +92,7 @@ createRoot(document.getElementById('root')!).render(
                   <PlayerProvider>
                     <GameControlsProvider>
                       <Preloader pages={nonBattlePages} />
-                      <Suspense
-                        fallback={
-                          <div className="loading-screen">
-                            <img className="loading-logo" src={asset("/assets/logo.svg")} />
-                          </div>
-                        }
-                      >
+                      <Suspense fallback={<LoadingScreen />}>
                         <Routes>
                           <Route path="/" element={<App />}>
                             <Route index element={<Tutorial />} />
