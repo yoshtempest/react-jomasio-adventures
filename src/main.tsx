@@ -80,7 +80,14 @@ const nonBattlePages = [
   BrodiClassOne,
 ];
 
-createRoot(document.getElementById('root')!).render(
+const container = document.getElementById("root")!;
+
+// 👇 guarda o root no próprio DOM (hack seguro)
+const root =
+  (container as any)._reactRoot ||
+  ((container as any)._reactRoot = createRoot(container));
+
+root.render(
   <StrictMode>
     <HashRouter>
       <PWAProvider>
@@ -149,4 +156,4 @@ createRoot(document.getElementById('root')!).render(
       </PWAProvider>
     </HashRouter>
   </StrictMode>
-)
+);

@@ -23,14 +23,20 @@ export function useGameAudio({
     audio.loop = loop;
     audioRef.current = audio;
 
-
     if (autoPlay) {
-      audio.play().catch(() => {});
+      audio.play().catch((err) => {
+        if (err.name !== "abortErros") {
+          console.error(err);
+        }
+      });
     }
 
     return () => {
-      audio.pause();
-      audio.currentTime = 0;
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.src = ""; // 🔥 ESSENCIAL
+        audioRef.current = null;
+      }
     };
   }, [src]);
 
