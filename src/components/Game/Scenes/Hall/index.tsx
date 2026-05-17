@@ -6,6 +6,8 @@ import { HALL_SCENES } from "@/scenes/Hall";
 import type { SceneId } from "@/utils/types/maps/sceneConfig";
 import { runSceneEvents } from "@/engine/runSceneEvents";
 import { useQuestActions } from "@/hooks/useQuestActions";
+import { useInventory } from "@/contexts/InventoryContext";
+import { useQuests } from "@/contexts/QuestContext";
 
 
 type Props = {
@@ -18,6 +20,11 @@ export function HallScene({ sceneId }: Props) {
   const location = useLocation();
   const { player } = usePlayer();
   const { giveQuest, progressQuest } = useQuestActions();
+  const { addItem, removeItem, hasItem } = useInventory();
+  const { quests } = useQuests();
+
+  const hasQuest = (id: string) => 
+    quests.some(q => q.id === id);
 
   const lastPage = location.state?.from;
 
@@ -60,6 +67,10 @@ export function HallScene({ sceneId }: Props) {
             location,
             giveQuest,
             progressQuest,
+            addItem,
+            removeItem,
+            hasItem,
+            hasQuest,
           });
         }}
       />

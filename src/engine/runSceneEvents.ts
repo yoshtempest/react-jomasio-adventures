@@ -11,6 +11,10 @@ type EventContext = {
   progressQuest?: (id: string, value: number) => void;
   giveQuest?: (quest: any) => void;
   addItem?: (item: any) => void;
+  removeItem?: (itemId: string) => void;
+
+  hasItem?: (itemId: string) => boolean;
+  hasQuest?: (questId: string) => boolean;
 };
 
 export function runSceneEvents(
@@ -21,6 +25,25 @@ export function runSceneEvents(
 
   for (const event of events) {
     switch (event.type) {
+      case "conditional": {
+        const { hasItem, hasQuest } = event.condition;
+
+        let conditionMet = true;
+
+        if (hasItem) {
+          conditionMet = conditionMet && !!ctx.hasItem?.(hasItem);
+        }
+
+        if (hasQuest) {
+          conditionMet = conditionMet && !!ctx.hasQuest?.(hasQuest);
+        }
+
+        runSceneEvents(
+          conditionMet ? event.then : event.else,
+          ctx
+        );
+        break;
+      }
       case "openModal":
         if (event.modal === "class") {
           ctx.setShowClassModal?.(true);
@@ -53,6 +76,10 @@ export function runSceneEvents(
         ctx.addItem?.(item); // 👈 agora correto
         break;
       }
+
+      case "removeItem":
+        ctx.removeItem?.(event.itemId);
+        break;
 
       case "log":
         break;

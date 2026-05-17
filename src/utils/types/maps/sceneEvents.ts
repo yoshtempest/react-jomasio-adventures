@@ -9,4 +9,14 @@ export type SceneEvent =
   | { type: "log"; message: string }
   | { type: "progressQuest"; id: string; value: number }
   | {type: "giveQuest"; questId: QuestId }
-  | { type: "addItem"; itemId: ItemId };
+  | { type: "addItem"; itemId: ItemId }
+  | { type: "removeItem"; itemId: ItemId } // 👈 NOVO
+  | {
+      type: "conditional";
+      condition: {
+        hasItem?: ItemId;
+        hasQuest?: QuestId;
+      };
+      then: SceneEvent[];
+      else?: SceneEvent[];
+    };

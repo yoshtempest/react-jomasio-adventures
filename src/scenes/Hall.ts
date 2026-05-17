@@ -92,9 +92,6 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
 
       return { x: 8, y: 3, direction: "down" as const };
     },
-    events: [
-      { type: "navigate", to: "/hall/afterpcroom-two" }
-    ],
     npcs: [
       { src: "/assets/npcs/remedinha/default.svg", gridX: 1, gridY: 9 }
     ],
@@ -110,6 +107,11 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
         route: "/pcroom/seven",
       },
     ],
+    events: [
+      { type: "removeItem", itemId: "aura_letter" },
+      { type: "giveQuest", questId: "search_packaging" },
+      { type: "navigate", to: "/hall/afterpcroom-two" }
+    ]
   },
   "afterpcroom-two": {
     id: "afterpcroom-two",
@@ -153,6 +155,26 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
         route: "/hall/left-one",
       },
     ],
+    events: [
+      {
+        type: "conditional",
+        condition: { hasItem: "package_01" },
+        then: [
+          { type: "removeItem", itemId: "package_01" },
+          { type: "addItem", itemId: "good_powder" },
+          { type: "progressQuest", id: "search_packaging", value: 1 }
+        ],
+        else: [
+          {
+            type: "conditional",
+            condition: { hasItem: "good_powder" },
+            then: [
+              { type: "giveQuest", questId: "go_cafeteria" }
+            ]
+          }
+        ]
+      }
+    ]
   },
   "left-one": {
     id: "left-one",
