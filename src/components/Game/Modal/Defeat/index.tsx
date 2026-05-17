@@ -1,6 +1,7 @@
 import styles from "./styles.module.css";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { asset } from "@/utils/asset";
 
 type Props = {
   isOpen: boolean;
@@ -16,6 +17,46 @@ export function DefeatModal({
   onBack,
 }: Props) {
   const { setMode } = usePlayer();
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const hasPlayedRef = useRef(false);
+  const runAudioRef = useRef<HTMLAudioElement | null>(null);
+  useEffect(() => {
+    if (!runAudioRef.current) {
+      runAudioRef.current = new Audio(
+        asset("/assets/songs/soundEffects/player/run.mp3")
+      );
+    }
+  }, []);
+
+  const handleBack = () => {
+    if (runAudioRef.current) {
+      runAudioRef.current.currentTime = 0;
+      runAudioRef.current.play().catch(() => {});
+    }
+
+    onBack();
+    setMode("explore");
+  };
+
+  useEffect(() => {
+    if (!audioRef.current) {
+      audioRef.current = new Audio(
+        asset("/assets/songs/soundEffects/player/defeat.mp3")
+      );
+    }
+
+    if (isOpen && !hasPlayedRef.current) {
+      hasPlayedRef.current = true;
+
+      audioRef.current.currentTime = 0;
+      audioRef.current.play().catch(() => {});
+    }
+
+    if (!isOpen) {
+      hasPlayedRef.current = false;
+    }
+  }, [isOpen]);
+
   useEffect(() => {
     if (!isOpen) return;
 
@@ -46,11 +87,10 @@ export function DefeatModal({
           <button className={styles.button} onClick={onContinue}>
             Tentar novamente
           </button>
-          <button className={styles.button} onClick={onBack}>
+          <button className={styles.button} onClick={handleBack}>
             Fugir
           </button>
         </div>
-
       </div>
     </div>
   );
