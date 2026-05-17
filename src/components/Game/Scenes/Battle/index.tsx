@@ -6,6 +6,8 @@ import { BattleEntities } from "@/components/Game/Battle/Entities";
 import { VictoryModal } from "@/components/Game/Modal/Victory";
 import { DefeatModal } from "@/components/Game/Modal/Defeat";
 import { BattleIntro } from "@/components/Game/Battle/Intro";
+import { useGameAudio } from "@/hooks/useGameAudio";
+import { useEffect } from "react";
 
 type Props = {
   map: any;
@@ -46,6 +48,25 @@ export function BattleScene(props: Props) {
     MAP_COLS,
     MAP_ROWS,
   } = useGameLayout();
+
+  const battleAudio = useGameAudio({
+    src: props.audioSrc,
+    loop: true,
+    volume: 0.5,
+    autoPlay: false,
+  });
+
+  useEffect(() => {
+    const shouldPlay = !showIntro && !showVictory && !showDefeat;
+
+    if (shouldPlay && !battleAudio.isPlaying()) {
+      battleAudio.play();
+    }
+
+    else if (!shouldPlay && battleAudio.isPlaying()) {
+      battleAudio.pause();
+    }
+  }, [showIntro, showVictory, showDefeat]);
 
   return (
     <div className={`Master ${className ?? ""}`}>

@@ -11,32 +11,29 @@ type Props = {
 export function useGameAudio({
   src,
   loop = true,
-  autoPlay = true,
   volume = 0.5,
 }: Props) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const { volume: masterVolume } = useAudio();
+  const isPlaying = () => {
+    return !!audioRef.current && !audioRef.current.paused;
+  };
 
   // 🎵 cria o áudio apenas quando o src muda
   useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.src = "";
+      audioRef.current = null;
+    }
+
     const audio = new Audio(src);
     audio.loop = loop;
     audioRef.current = audio;
 
-    if (autoPlay) {
-      audio.play().catch((err) => {
-        if (err.name !== "abortErros") {
-          console.error(err);
-        }
-      });
-    }
-
     return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.src = ""; // 🔥 ESSENCIAL
-        audioRef.current = null;
-      }
+      audio.pause();
+      audio.src = "";
     };
   }, [src]);
 
@@ -70,24 +67,11 @@ export function useGameAudio({
     }
   };
 
-  // 🖱️ autoplay fallback com cleanup
-  useEffect(() => {
-    const handleClick = () => {
-      audioRef.current?.play();
-      window.removeEventListener("click", handleClick);
-    };
-
-    window.addEventListener("click", handleClick);
-
-    return () => {
-      window.removeEventListener("click", handleClick);
-    };
-  }, []);
-
   return {
     play,
     pause,
     stop,
     setVolume,
+    isPlaying,
   };
 }
