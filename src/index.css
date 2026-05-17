@@ -96,6 +96,10 @@ h2 {
   background-image: url("/assets/cenarios/hallOne.svg");
 }
 
+.HallTwo {
+  background-image: url("/assets/cenarios/hallTwo.svg");
+}
+
 .HallLeft {
   background-image: url("/assets/cenarios/hallLeft.svg");
 }

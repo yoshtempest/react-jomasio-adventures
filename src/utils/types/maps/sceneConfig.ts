@@ -10,9 +10,12 @@ export type SceneId =
 "five" |
 "six" |
 "seven" |
-"afterpcroom/one" |
-"afterpcroom/two" |
-"left/one";
+"afterpcroom-one" |
+"afterpcroom-two" |
+"left-one" |
+"center-one" |
+"center-front" |
+"thirdclass";
 
 export type ExitTile = {
   x: number;
@@ -28,6 +31,8 @@ export type SceneConfig = Omit<
   "onInteract" | "className"
 > & {
   id: SceneId;
+
+  className?: string;
 
   exitTile?: ExitTile[];
 

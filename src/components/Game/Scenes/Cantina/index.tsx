@@ -20,7 +20,6 @@ type Props = {
 export function CantinaScene({ sceneId }: Props) {
   const scene = CANTINA_SCENES[sceneId];
   const { quests } = useQuests();
-  const [shouldRunEvents, setShouldRunEvents] = useState(false);
   const { giveQuest, progressQuest } = useQuestActions();
   const location = useLocation();
   const navigate = useNavigate();
@@ -76,19 +75,6 @@ export function CantinaScene({ sceneId }: Props) {
     }
   }, [player, scene]);
 
-  useEffect(() => {
-    if (!shouldRunEvents || !scene) return;
-
-    runSceneEvents(scene.events, {
-      navigate,
-      giveQuest,
-      progressQuest,
-      location,
-    });
-
-    setShouldRunEvents(false);
-  }, [shouldRunEvents]);
-
   if (!scene) {
     return <div>Scene não encontrada</div>;
   }
@@ -100,7 +86,12 @@ export function CantinaScene({ sceneId }: Props) {
         initialPosition={spawn}
         lastPage={lastPage}
         onFinish={() => {
-          setShouldRunEvents(true);
+          runSceneEvents(scene.events, {
+            navigate,
+            location,
+            giveQuest,
+            progressQuest,
+          });
         }}
         onInteract={(_, x, y) => {
           if (popup) {

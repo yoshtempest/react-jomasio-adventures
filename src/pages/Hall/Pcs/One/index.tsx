@@ -1,5 +1,7 @@
 import { hallOne } from "@/maps/hall/one";
 import { ExploreScene } from "@/components/Game/Scenes/Default";
+
+
 export default function HallOne() {
   return (
     <ExploreScene

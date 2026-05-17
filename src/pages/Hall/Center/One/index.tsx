@@ -12,7 +12,7 @@ export default function HallCenterOne() {
           positions: [
             { x: 9, y: 11 },
           ],
-          to: "/hall/left/one",
+          to: "/hall/left-one",
         },
         {
           positions: [

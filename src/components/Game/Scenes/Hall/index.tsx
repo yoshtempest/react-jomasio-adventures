@@ -1,10 +1,11 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { ExploreScene } from "@/components/Game/Scenes/Default";
 import { HALL_SCENES } from "@/scenes/Hall";
 import type { SceneId } from "@/utils/types/maps/sceneConfig";
 import { runSceneEvents } from "@/engine/runSceneEvents";
+import { useQuestActions } from "@/hooks/useQuestActions";
 
 
 type Props = {
@@ -14,7 +15,17 @@ type Props = {
 export function HallScene({ sceneId }: Props) {
   const scene = HALL_SCENES[sceneId];
   const navigate = useNavigate();
+  const location = useLocation();
   const { player } = usePlayer();
+  const { giveQuest, progressQuest } = useQuestActions();
+
+  const lastPage = location.state?.from;
+
+  const spawn = scene
+  ? typeof scene.initialPosition === "function"
+    ? scene.initialPosition(lastPage)
+    : scene.initialPosition
+  : undefined;
 
   useEffect(() => {
     if (!scene) return;
@@ -28,7 +39,9 @@ export function HallScene({ sceneId }: Props) {
     );
 
     if (matchedExit) {
-      navigate(matchedExit.route);
+      navigate(matchedExit.route, {
+        state: { from: location.pathname }
+      });
     }
   }, [player, scene]);
 
@@ -39,11 +52,14 @@ export function HallScene({ sceneId }: Props) {
   return (
       <ExploreScene
         {...scene}
-        className={`Master HallOne`}
+        initialPosition={spawn}
+        className={`Master ${scene.className}`}
         onFinish={() => {
           runSceneEvents(scene.events, {
             navigate,
             location,
+            giveQuest,
+            progressQuest,
           });
         }}
       />

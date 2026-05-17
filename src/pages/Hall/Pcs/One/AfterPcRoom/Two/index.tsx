@@ -71,7 +71,7 @@ export default function AfterPcRoomTwo() {
           positions: [
             { x: 1, y: 10 },
           ],
-          to: "/hall/left/one",
+          to: "/hall/left-one",
         },
         {
           positions: [{ x: 13, y: 7 }],

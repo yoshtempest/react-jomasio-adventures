@@ -112,7 +112,7 @@ export const PCS_ROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     exitTile: [{
       x: 3,
       y: 3,
-      route: "/hall/afterpcroom/one",
+      route: "/hall/afterpcroom-one", // navigate -1
     }],
     audio: { src: MonkeyCircle },
     initialPosition: (lastPage?: string) => {

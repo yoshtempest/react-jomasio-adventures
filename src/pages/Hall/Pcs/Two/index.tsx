@@ -1,4 +1,3 @@
-import styles from "./styles.module.css";
 import { hallTwo } from "@/maps/hall/two";
 import { ExploreScene } from "@/components/Game/Scenes/Default";
 import { hallTwoDialogue } from "@/data/maps/hall/two";  
@@ -19,7 +18,7 @@ export default function HallTwo() {
   return (
     <ExploreScene
       map={hallTwo}
-      className={`Master ${styles.image}`}
+      className={`Master HallTwo`}
       dialogueData={hallTwoDialogue}
       audio={{
         src: jailsonTheme,

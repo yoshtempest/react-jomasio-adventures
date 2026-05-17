@@ -62,12 +62,15 @@ export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     map: cantinaFour,
     audio: { src: LavenderTown },
     initialPosition: (lastPage?: string) => {
-      if (lastPage === "/hall/one") {
-        return { x: 14, y: 11, direction: "left" as const };
-      }
+    if (
+      lastPage === "/hall/one" ||
+      lastPage === "/hall/afterpcroom-two"
+    ) {
+      return { x: 14, y: 11, direction: "left" as const };
+    }
 
-      if (lastPage === "/hall/center/one") {
-        return { x: 1, y: 11, direction: "right" as const };
+      if (lastPage === "/hall/center-one") {
+        return { x: 2, y: 11, direction: "right" as const };
       }
 
       return { x: 9, y: 5, direction: "up" as const };
@@ -83,6 +86,13 @@ export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
       y: 2,
       route: "/cafeteria/one",
       requiredQuest: "go_cafeteria",
+      blockedMessage: "Ainda não é o momento..."
+    },
+    {
+      x: 1,
+      y: 11,
+      route: "/hall/center-one",
+      requiredQuest: "search_packaging",
       blockedMessage: "Ainda não é o momento..."
     }
   ],
