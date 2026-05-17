@@ -1,6 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import type { Quest } from "@/utils/types/player/quest";
-import { type ReactNode } from "react";
+import { type ReactNode, useRef, useEffect } from "react";
+import { asset } from "@/utils/asset";
 
 type Props = {
   children: ReactNode;
@@ -18,11 +19,28 @@ const QuestContext = createContext({} as QuestContextType);
 
 export function QuestProvider({ children }: Props) {
   const [quests, setQuests] = useState<Quest[]>([]);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  useEffect(() => {
+    if (!audioRef.current) {
+      audioRef.current = new Audio(
+        asset("/assets/songs/soundEffects/player/questUpdated.mp3")
+      );
+    }
+  }, []);
+
+  function playQuestSound() {
+    if (!audioRef.current) return;
+
+    audioRef.current.currentTime = 0;
+    audioRef.current.play().catch(() => {});
+  }
 
   function addQuest(newQuest: Quest) {
     setQuests((prev) => {
       const exists = prev.find(q => q.id === newQuest.id);
       if (exists) return prev;
+
+      playQuestSound();
 
       return [
         ...prev,
@@ -40,6 +58,10 @@ export function QuestProvider({ children }: Props) {
         if (q.id !== id) return q;
 
         const newProgress = Math.min(q.progress + value, q.counter);
+
+        if (newProgress !== q.progress) {
+          playQuestSound(); // 🔊 AQUI
+        }
 
         return {
           ...q,
