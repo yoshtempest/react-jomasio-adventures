@@ -3,11 +3,13 @@ import { useGameControls } from "@/contexts/GameControlsContext";
 import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useItemEffect } from "@/gameRules/items/useItem";
+import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 
 export function useInventoryMenu(isOpen: boolean) {
   const { pushControls, popControls } = useGameControls();
   const { items } = useInventory();
   const { getEffect } = useItemEffect();
+  const { playMove, playSelect } = useMenuSFX();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
   const selectedIndexRef = useRef(selectedIndex);
@@ -42,6 +44,7 @@ export function useInventoryMenu(isOpen: boolean) {
       onUp: () => {
         const length = items.length;
         if (length === 0) return;
+        playMove();
 
         setSelectedIndex((prev) =>
           circularPrev(prev, length)
@@ -52,12 +55,14 @@ export function useInventoryMenu(isOpen: boolean) {
         const length = items.length;
         if (length === 0) return;
 
+        playMove();
         setSelectedIndex((prev) =>
           circularNext(prev, length)
         );
       },
 
       onConfirm: () => {
+        playSelect();
         return handleUseItem(selectedIndexRef.current);
       },
 

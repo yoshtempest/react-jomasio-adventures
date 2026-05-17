@@ -5,12 +5,14 @@ import type { PlayerClass } from "@/utils/types/player/player";
 import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
 import { getSelected } from "@/gameRules/menu/selection";
 import { asset } from "@/utils/asset";
+import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 
 const CLASSES: PlayerClass[] = ["fracote", "idiota", "amostradinho"];
 
 export function useClassSelection(isActive: boolean, onConfirm ?: () => void) {
   const { pushControls, popControls } = useGameControls();
   const { chooseClass } = usePlayer();
+  const { playMove, playSelect } = useMenuSFX();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
   const selectedIndexRef = useRef(selectedIndex);
@@ -24,18 +26,21 @@ export function useClassSelection(isActive: boolean, onConfirm ?: () => void) {
 
     const controls = {
       onRight: () => {
+        playMove();
         setSelectedIndex((prev) =>
           circularNext(prev, CLASSES.length)
         );
       },
 
       onLeft: () => {
+        playMove();
         setSelectedIndex((prev) =>
           circularPrev(prev, CLASSES.length)
         );
       },
 
       onConfirm: () => {
+        playSelect();
         const selected = getSelected(CLASSES, selectedIndexRef.current);
         if (selected === "amostradinho") {
           const audio = new Audio(asset("/assets/songs/soundEffects/player/ifClassIsAmostradinho.mp3"));

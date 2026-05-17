@@ -4,12 +4,14 @@ import { useQuests } from "@/contexts/QuestContext";
 import { circularNext, circularPrev, gridMove } from "@/gameRules/menu/navigation";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 
 export function useQuestMenu(isOpen: boolean) {
   const { pushControls, popControls } = useGameControls();
   const { quests, claimQuest } = useQuests();
   const { addXP } = useCharacterProgress();
   const { player } = usePlayer();
+  const { playMove, playSelect } = useMenuSFX();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
   const selectedIndexRef = useRef(selectedIndex);
@@ -45,30 +47,35 @@ export function useQuestMenu(isOpen: boolean) {
 
     const controls = {
       onRight: () => {
+        playMove();
         setSelectedIndex((prev) =>
           circularNext(prev, quests.length)
         );
       },
 
       onLeft: () => {
+        playMove();
         setSelectedIndex((prev) =>
           circularPrev(prev, quests.length)
         );
       },
 
       onDown: () => {
+        playMove();
         setSelectedIndex((prev) =>
           gridMove(prev, 2, "down", quests.length) // 👈 2 colunas
         );
       },
 
       onUp: () => {
+        playMove();
         setSelectedIndex((prev) =>
           gridMove(prev, 2, "up", quests.length) // 👈 2 colunas
         );
       },
 
       onConfirm: () => {
+        playSelect();
         return handleUseQuest(selectedIndexRef.current);
       },
 

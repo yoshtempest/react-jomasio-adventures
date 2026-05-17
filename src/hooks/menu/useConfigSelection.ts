@@ -5,6 +5,7 @@ import type { NpcDifficulty } from "@/utils/types/npc/npcProgress";
 import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
 import { getSelected } from "@/gameRules/menu/selection";
 import { useAudio } from "@/contexts/AudioContext";
+import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 
 const DIFFICULTY: NpcDifficulty[] = ["easy", "medium", "hard"];
 
@@ -16,6 +17,7 @@ export function useConfigSelection(
 
   const { setDifficulty } = usePlayer();
   const { volume, setVolume } = useAudio();
+  const { playMove, playSelect, playClose } = useMenuSFX();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -43,6 +45,7 @@ export function useConfigSelection(
     const controls = {
       onRight: () => {
         if (screenRef.current !== "menu") return;
+        playMove();
 
         if (selectedRowRef.current === 0) {
           setSelectedIndex((prev) =>
@@ -57,6 +60,7 @@ export function useConfigSelection(
 
       onLeft: () => {
         if (screenRef.current !== "menu") return;
+        playMove();
 
         if (selectedRowRef.current === 0) {
           setSelectedIndex((prev) =>
@@ -72,17 +76,21 @@ export function useConfigSelection(
       onDown: () => {
         if (screenRef.current !== "menu") return;
 
+        playMove();
         setSelectedRow((prev) => Math.min(prev + 1, 2));
       },
 
       onUp: () => {
         if (screenRef.current !== "menu") return;
 
+        playMove();
         setSelectedRow((prev) => Math.max(prev - 1, 0));
       },
 
       onConfirm: () => {
         if (screenRef.current !== "menu") return true;
+
+        playSelect();
 
         // dificuldade
         if (selectedRowRef.current === 0) {
@@ -105,6 +113,7 @@ export function useConfigSelection(
       },
 
       onCancel: () => {
+        playClose();
         if (screenRef.current === "tutorial") {
           setScreen("menu");
           return true;

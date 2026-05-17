@@ -6,11 +6,13 @@ import { NAVBAR_OPTIONS } from "@/data/options/navbar";
 import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
 import { shouldCloseToExplore } from "@/gameRules/menu/flow";
 import { getSelected } from "@/gameRules/menu/selection";
+import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 
 export function useNavbarMenu() {
   const { pushControls, popControls } = useGameControls();
   const { closeNavbar } = useNavbar();
   const { setMode } = usePlayer();
+  const { playMove, playSelect, playClose } = useMenuSFX();
 
   const [screen, setScreen] = useState("menu");
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -29,6 +31,7 @@ export function useNavbarMenu() {
       onUp: () => {
         if (screenRef.current !== "menu") return;
 
+        playMove();
         setSelectedIndex((prev) =>
           circularPrev(prev, NAVBAR_OPTIONS.length)
         );
@@ -37,6 +40,7 @@ export function useNavbarMenu() {
       onDown: () => {
         if (screenRef.current !== "menu") return;
 
+        playMove();
         setSelectedIndex((prev) =>
           circularNext(prev, NAVBAR_OPTIONS.length)
         );
@@ -45,12 +49,14 @@ export function useNavbarMenu() {
       onConfirm: () => {
         if (screenRef.current !== "menu") return;
 
+        playSelect();
         const selected = getSelected(NAVBAR_OPTIONS, selectedIndexRef.current);
         setScreen(selected.screen);
         return true;
       },
 
       onCancel: () => {
+        playClose();
         if (!shouldCloseToExplore(screenRef.current)) {
           setScreen("menu");
           return;
