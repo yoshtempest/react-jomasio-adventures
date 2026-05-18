@@ -34,15 +34,7 @@ const CantinaPage = lazyLoad(() => import('./pages/Cantina/index.tsx'));
 const Director = lazyLoad(() => import('./pages/Director/One/index.tsx'));
 const DirectorTwo = lazyLoad(() => import('./pages/Director/Two/index.tsx'));
 
-import HallPage from './pages/Hall/index.tsx';
-// const HallOne = lazyLoad(() => import('./pages/Hall/Pcs/One/index.tsx'));
-// const HallTwo = lazyLoad(() => import('./pages/Hall/Pcs/Two/index.tsx'));
-// const HallLeftOne = lazyLoad(() => import('./pages/Hall/PcsToCenter/index.tsx'));
-// const HallCenterOne = lazyLoad(() => import('./pages/Hall/Center/One/index.tsx'));
-// const HallCenterFront = lazyLoad(() => import('./pages/Hall/Center/Front/index.tsx'));
-// const AfterPcRoom = lazyLoad(() => import('./pages/Hall/Pcs/One/AfterPcRoom/One/index.tsx'));
-// const AfterPcRoomTwo = lazyLoad(() => import('./pages/Hall/Pcs/One/AfterPcRoom/Two/index.tsx'));
-// const HallThirdClass = lazyLoad(() => import('./pages/Hall/ThirdClass/index.tsx'));
+const HallPage = lazyLoad(() => import('./pages/Hall/index.tsx'));
 
 const PcRoomBattleOne = lazyLoad(() => import('./pages/PcRoom/Battle/One/index.tsx'));
 const PcRoomBattleTwo = lazyLoad(() => import('./pages/PcRoom/Battle/Two/index.tsx'));
@@ -64,17 +56,10 @@ const nonBattlePages = [
   Home,
   FirstScreen,
   CantinaPage,
+  HallPage,
   Director,
   DirectorTwo,
   HallPage,
-  // HallOne,
-  // HallTwo,
-  // HallLeftOne,
-  // HallCenterOne,
-  // HallCenterFront,
-  // AfterPcRoom,
-  // AfterPcRoomTwo,
-  // HallThirdClass,
   PcRoomPage,
   Library,
   CafeteriaOne,
@@ -112,13 +97,10 @@ root.render(
                             <Route path="director/two" element={<DirectorTwo />} />
                             <Route path="cantina/battle" element={<CantinaBattle />} />
 
-                            {/* <Route path="hall/one" element={<HallOne />} />
-                            <Route path="hall/two" element={<HallTwo />} /> */}
                             <Route path="hall">
                               <Route index element={<Navigate to="/hall/one" />} />
                               <Route path=":id" element={<HallPage />} />
                             </Route>
-
 
                             <Route path="cantina">
                               <Route index element={<Navigate to="/cantina/one" />} />
@@ -131,14 +113,6 @@ root.render(
                               <Route path="battle/one" element={<PcRoomBattleOne />} />
                               <Route path="battle/two" element={<PcRoomBattleTwo />} />
                             </Route>
-
-                            {/* <Route path="hall/afterpcroom/one" element={<AfterPcRoom />} />
-                            <Route path="hall/afterpcroom/two" element={<AfterPcRoomTwo />} />
-
-                            <Route path="hall/left/one" element={<HallLeftOne />} />
-                            <Route path="hall/center/one" element={<HallCenterOne />} />
-                            <Route path="hall/center/front" element={<HallCenterFront />} />
-                            <Route path="hall/thirdclass" element={<HallThirdClass />} /> */}
 
                             <Route path="library" element={<Library />} />
                             <Route path="battle/hungry" element={<HungryDeathBattle />} />
