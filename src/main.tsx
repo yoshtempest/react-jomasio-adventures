@@ -51,6 +51,8 @@ const HungryDeathBattle = lazyLoad(() => import('./pages/Battle/Hungry/index.tsx
 
 const CafeteriaOne = lazyLoad(() => import('./pages/Cafeteria/One/index.tsx'));
 const CafeteriaBattle = lazyLoad(() => import('./pages/Cafeteria/battle/index.tsx'));
+const CafeteriaTwo = lazyLoad(() => import('./pages/Cafeteria/Two/index.tsx'));
+const CafeteriaThree = lazyLoad(() => import('./pages/Cafeteria/Three/index.tsx'));
 const BrodiClassOne = lazyLoad(() => import('./pages/BrodiClass/index.tsx'));
 
 const nonBattlePages = [
@@ -67,6 +69,8 @@ const nonBattlePages = [
   PcRoomPage,
   Library,
   CafeteriaOne,
+  CafeteriaTwo,
+  CafeteriaThree,
   BrodiClassOne,
 ];
 
@@ -128,6 +132,8 @@ root.render(
 
                             <Route path="cafeteria/one" element={<CafeteriaOne/>} />
                             <Route path="cafeteria/battle" element={<CafeteriaBattle/>} />
+                            <Route path="cafeteria/two" element={<CafeteriaTwo/>} />
+                            <Route path="cafeteria/three" element={<CafeteriaThree/>} />
                             <Route path="brodiclass/one" element={<BrodiClassOne/>} />
                           </Route>
                         </Routes>

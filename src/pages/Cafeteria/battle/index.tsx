@@ -7,7 +7,7 @@ export default function CafeteriaBattle() {
     <BattleScene
       map={firstBattle}
       npcType="deise"
-      redirectTo="/cafeteria/one"
+      redirectTo="/cafeteria/two"
       victoryDescription="Você derrotou Deise, a Lich imortal"
       className="CafeteriaBattle"
       audioSrc={DarkSouls}

@@ -1,6 +1,5 @@
-import { cafeteria } from "@/maps/cafeteria";
+import { cafeteriaTwo } from "@/maps/cafeteriaTwo";
 import { ExploreScene } from "@/components/Game/Scenes/Default";
-import { cafeteriaTwoDialogue } from "@/data/maps/cafeteria/two";
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
@@ -12,7 +11,7 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { createCafeteria } from "@/interactions/cafeteira";
 import { useQuestActions } from "@/hooks/useQuestActions";
 
-export default function CafeteriaTwo() {
+export default function CafeteriaThree() {
   const { player } = usePlayer();
   const { progressQuest } = useQuestActions();
 
@@ -67,21 +66,11 @@ export default function CafeteriaTwo() {
   return (
     <div className="Master Cafeteria">
       <ExploreScene
-        map={cafeteria}
-        dialogueData={cafeteriaTwoDialogue} 
-        nextRoute={"/cafeteria/three"}
-        initialPosition={{ x: 7, y: 11, direction: "left" }}
+        map={cafeteriaTwo}
         transitions={[
           {
             positions: [{ x: 8, y: 11 }],
             to: "/cantina/four",
-          },
-        ]}
-        npcs={[
-          {
-            src: "/assets/npcs/deise/default.svg",
-            gridX: 14,
-            gridY: 5,
           },
         ]}
       />
