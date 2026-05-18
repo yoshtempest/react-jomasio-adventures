@@ -1,0 +1,112 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 4vw;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0,0,0,0.95) 0%,
+      rgba(20,20,20,0.95) 50%,
+      rgba(0,0,0,0.95) 100%
+    );
+
+  animation: fadeIn 300ms ease;
+}
+
+.left,
+.right {
+  width: 35vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.left img,
+.right img {
+  width: 100%;
+  max-width: 320px;
+
+  image-rendering: pixelated;
+
+  animation: zoom 500ms ease;
+}
+
+.left img {
+  transform: scaleX(1);
+}
+
+.right img {
+  transform: scaleX(-1);
+}
+
+.vs {
+  font-size: 5rem;
+  font-weight: bold;
+  color: white;
+
+  animation:
+    pulse 800ms infinite,
+    zoom 500ms ease;
+}
+
+.skip {
+  position: fixed;
+  right: 2vw;
+  bottom: 2vh;
+
+  padding: 1rem 1.5rem;
+
+  border: none;
+  border-radius: 12px;
+
+  background: rgba(255,255,255,0.15);
+  color: white;
+
+  font-size: 1rem;
+  cursor: pointer;
+
+  backdrop-filter: blur(5px);
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes zoom {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

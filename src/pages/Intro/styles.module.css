@@ -1,0 +1,14 @@
+.image {
+    background-image: url("/assets/mainGame.svg");
+    background-size: cover;
+}
+
+.logo {
+    width: 20vw;
+    height: 33vh;
+}
+
+.selected {
+    background-color: var(--primary-color);
+  border: 2px solid var(--background-color);
+}

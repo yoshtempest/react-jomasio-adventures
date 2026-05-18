@@ -1,0 +1,64 @@
+import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router";
+import { useGameControls } from "@/contexts/GameControlsContext";
+import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
+import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
+
+const GAME_MODE_OPTIONS = [
+  { label: "História", route: "/home" },
+  { label: "PVP Online", route: "/matchmaking" },
+  { label: "História Online", route: "/story/online" }, // opcional
+];
+
+export function useGameModeMenu() {
+  const navigate = useNavigate();
+  const { pushControls, popControls } = useGameControls();
+  const { playMove, playSelect } = useMenuSFX();
+
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const selectedIndexRef = useRef(selectedIndex);
+
+  useEffect(() => {
+    selectedIndexRef.current = selectedIndex;
+  }, [selectedIndex]);
+
+  useEffect(() => {
+    const controls = {
+      onUp: () => {
+        playMove();
+        setSelectedIndex((prev) =>
+          circularPrev(prev, GAME_MODE_OPTIONS.length)
+        );
+      },
+
+      onDown: () => {
+        playMove();
+        setSelectedIndex((prev) =>
+          circularNext(prev, GAME_MODE_OPTIONS.length)
+        );
+      },
+
+      onConfirm: () => {
+        playSelect();
+        const selected = GAME_MODE_OPTIONS[selectedIndexRef.current];
+
+        navigate(selected.route);
+        return true;
+      },
+
+      // ❌ não tem cancel aqui (menu inicial)
+      onCancel: () => {},
+
+      blockGlobalOpen: true,
+    };
+
+    pushControls(controls);
+    return () => popControls();
+  }, []);
+
+  return {
+    selectedIndex,
+    options: GAME_MODE_OPTIONS,
+  };
+}
