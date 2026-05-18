@@ -49,10 +49,8 @@ const GoatBattle = lazyLoad(() => import('./pages/Battle/Goat/index.tsx'));
 const JhowSimarBattle = lazyLoad(() => import('./pages/Battle/JhowSimar/index.tsx'));
 const HungryDeathBattle = lazyLoad(() => import('./pages/Battle/Hungry/index.tsx'));
 
-const CafeteriaOne = lazyLoad(() => import('./pages/Cafeteria/One/index.tsx'));
 const CafeteriaBattle = lazyLoad(() => import('./pages/Cafeteria/battle/index.tsx'));
-const CafeteriaTwo = lazyLoad(() => import('./pages/Cafeteria/Two/index.tsx'));
-const CafeteriaThree = lazyLoad(() => import('./pages/Cafeteria/Three/index.tsx'));
+const CafeteriaPage = lazyLoad(() => import('./pages/Cafeteria/index.tsx'));
 const BrodiClassOne = lazyLoad(() => import('./pages/BrodiClass/index.tsx'));
 
 const nonBattlePages = [
@@ -68,9 +66,7 @@ const nonBattlePages = [
   HallPage,
   PcRoomPage,
   Library,
-  CafeteriaOne,
-  CafeteriaTwo,
-  CafeteriaThree,
+  CafeteriaPage,
   BrodiClassOne,
 ];
 
@@ -105,7 +101,6 @@ root.render(
 
                             <Route path="director/one" element={<Director />} />
                             <Route path="director/two" element={<DirectorTwo />} />
-                            <Route path="cantina/battle" element={<CantinaBattle />} />
 
                             <Route path="hall">
                               <Route index element={<Navigate to="/hall/one" />} />
@@ -115,6 +110,13 @@ root.render(
                             <Route path="cantina">
                               <Route index element={<Navigate to="/cantina/one" />} />
                               <Route path=":id" element={<CantinaPage />} />
+                              <Route path="battle" element={<CantinaBattle />} />
+                            </Route>
+
+                            <Route path="cafeteria">
+                              <Route index element={<Navigate to="/cafeteria/one" />} />
+                              <Route path=":id" element={<CafeteriaPage />} />
+                              <Route path="battle" element={<CafeteriaBattle/>} />
                             </Route>
 
                             <Route path="pcroom">
@@ -129,11 +131,6 @@ root.render(
                             <Route path="battle/vandinhafragment" element={<VandinhaFragmentBattle />} />
                             <Route path="battle/jhowsimar" element={<JhowSimarBattle />} />
                             <Route path="battle/goat" element={<GoatBattle />} />
-
-                            <Route path="cafeteria/one" element={<CafeteriaOne/>} />
-                            <Route path="cafeteria/battle" element={<CafeteriaBattle/>} />
-                            <Route path="cafeteria/two" element={<CafeteriaTwo/>} />
-                            <Route path="cafeteria/three" element={<CafeteriaThree/>} />
                             <Route path="brodiclass/one" element={<BrodiClassOne/>} />
                           </Route>
                         </Routes>

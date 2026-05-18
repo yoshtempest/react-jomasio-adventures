@@ -79,25 +79,32 @@ export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
       return { x: 9, y: 5, direction: "up" as const };
     },
     exitTile: [
-    {
-      x: 15,
-      y: 11,
-      route: "/hall/one",
-    },
-    {
-      x: 6,
-      y: 2,
-      route: "/cafeteria/one",
-      requiredQuest: "go_cafeteria",
-      blockedMessage: "Ainda não é o momento..."
-    },
-    {
-      x: 1,
-      y: 11,
-      route: "/hall/center-one",
-      requiredQuest: "search_packaging",
-      blockedMessage: "Ainda não é o momento..."
-    }
-  ],
+      {
+        x: 15,
+        y: 11,
+        route: "/hall/one",
+      },
+      {
+        x: 6,
+        y: 2,
+        route: "/cafeteria/one",
+        requiredQuest: "go_cafeteria",
+        blockedMessage: "Ainda não é o momento..."
+      },
+      {
+        x: 1,
+        y: 3,
+        route: "/cafeteria/three",
+        requiredQuest: "encounter_deise",
+        blockedMessage: "Ainda não é o momento..."
+      },
+      {
+        x: 1,
+        y: 11,
+        route: "/hall/center-one",
+        requiredQuest: "search_packaging",
+        blockedMessage: "Ainda não é o momento..."
+      }
+    ],
   },
 };
