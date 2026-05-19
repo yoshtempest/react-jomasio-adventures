@@ -85,20 +85,6 @@ export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
         route: "/hall/one",
       },
       {
-        x: 6,
-        y: 2,
-        route: "/cafeteria/one",
-        requiredQuest: "go_cafeteria",
-        blockedMessage: "Ainda não é o momento..."
-      },
-      {
-        x: 1,
-        y: 3,
-        route: "/cafeteria/four",
-        requiredQuest: "encounter_deise",
-        blockedMessage: "Ainda não é o momento..."
-      },
-      {
         x: 1,
         y: 11,
         route: "/hall/center-one",
@@ -106,5 +92,20 @@ export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
         blockedMessage: "Ainda não é o momento..."
       }
     ],
+    tiles: [
+      {
+        x: 6,
+        y: 2,
+        getRoute: (_player, quests) => {
+          if (quests.some(q => q.id === "encounter_deise")) {
+            return "/cafeteria/four";
+          } else if (quests.some(q => q.id === "go_cafeteria")) {
+            return "/cafeteria/one";
+          }
+          return null;
+        },
+        blockedMessage: "Ainda não é o momento..."
+      }
+    ]
   },
 };

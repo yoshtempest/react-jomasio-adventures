@@ -49,6 +49,27 @@ export function CantinaScene({ sceneId }: Props) {
   // 🚪 exit tile (genérico e seguro)
   useEffect(() => {
     if (!scene) return;
+
+    // 🧠 1. tiles dinâmicos (PRIORIDADE)
+    const tile = scene.tiles?.find(
+      (t) => player.gridX === t.x && player.gridY === t.y
+    );
+
+    if (tile?.getRoute) {
+      const route = tile.getRoute(player, quests);
+
+      if (route) {
+        navigate(route, {
+          state: { from: location.pathname }
+        });
+      } else {
+        setPopup(tile.blockedMessage || "Você não pode ir agora.");
+      }
+
+      return; // 🚨 impede cair no exitTile
+    }
+
+    // 🚪 2. exitTile normal
     const exits = scene.exitTile;
     if (!exits) return;
 
@@ -69,11 +90,13 @@ export function CantinaScene({ sceneId }: Props) {
           return;
         }
       }
+
       navigate(matchedExit.route, {
         state: { from: location.pathname }
       });
     }
-  }, [player, scene]);
+
+  }, [player, scene, quests]);
 
   if (!scene) {
     return <div>Scene não encontrada</div>;

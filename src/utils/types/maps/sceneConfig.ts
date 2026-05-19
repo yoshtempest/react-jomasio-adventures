@@ -26,6 +26,14 @@ export type ExitTile = {
   blockedMessage?: string;
 };
 
+type SceneTile = {
+  x: number;
+  y: number;
+
+  getRoute?: (player: any, quests: any[]) => string | null;
+  blockedMessage?: string;
+};
+
 export type SceneConfig = Omit<
   ExploreSceneProps,
   "onInteract" | "className"
@@ -37,4 +45,6 @@ export type SceneConfig = Omit<
   exitTile?: ExitTile[];
 
   events?: SceneEvent[];
+
+  tiles?: SceneTile[];
 };
