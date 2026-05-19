@@ -61,7 +61,12 @@ export function ExploreScene({
     }
   };
 
-  const dialogueSystem = useDialogue(dialogueData, handleFinish);
+  const resolvedDialogueData =
+  typeof dialogueData === "function"
+    ? dialogueData(quests, items)
+    : dialogueData;
+
+  const dialogueSystem = useDialogue(resolvedDialogueData, handleFinish);
   const { play: playSansTalking } = useSansTalking(dialogueSystem.isOpen);
   const hasStarted = useRef(false);
 

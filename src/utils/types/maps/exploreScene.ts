@@ -28,7 +28,9 @@ export type AudioConfig = {
 
 export type ExploreSceneProps = {
   map: number[][];
-  dialogueData?: Dialogue[];
+  dialogueData?:
+  | Dialogue[]
+  | ((quests: any[], items: any[]) => Dialogue[]);
   nextRoute?: string;
   initialPosition?:
     | { x: number; y: number; direction: DirectionExplore }

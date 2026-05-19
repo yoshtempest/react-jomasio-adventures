@@ -5,6 +5,9 @@ import { afterPcRoom } from "@/maps/hall/afterPcRoom/one";
 
 import { AfterPcRoomOneDialogue } from "@/data/maps/hall/one/afterPcRoom/one";
 import { AfterPcRoomTwoDialogue } from "@/data/maps/hall/one/afterPcRoom/two";
+import { AfterPcRoomThreeDialogue } from "@/data/maps/hall/one/afterPcRoom/three";
+import { AfterPcRoomFourDialogue } from "@/data/maps/hall/one/afterPcRoom/four";
+import { AfterPcRoomFiveDialogue } from "@/data/maps/hall/one/afterPcRoom/five";
 import { hallTwoDialogue } from "@/data/maps/hall/two";
 
 import LavenderTown from "/assets/songs/LavenderTown.m4a";
@@ -14,6 +17,7 @@ import type { SceneConfig, SceneId } from "@/utils/types/maps/sceneConfig";
 import { hallCenter } from "@/maps/hall/center";
 import { hallCenterFront } from "@/maps/hall/centerFront";
 import { hallThirdClass } from "@/maps/hall/thirdClass";
+import type { QuestId } from "@/data/quests";
 
 export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
   one: {
@@ -117,7 +121,27 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
   "afterpcroom-two": {
     id: "afterpcroom-two",
     map: afterPcRoom,
-    dialogueData: AfterPcRoomTwoDialogue,
+    dialogueData: (quests, items) => {
+      const hasQuest = (id: QuestId) =>
+        quests.some(q => q.id === id);
+
+      const hasItem = (id: string) =>
+        items.some(item => item.id === id);
+
+      if (hasItem("package_01") && !hasItem("good_powder")) {
+        return AfterPcRoomThreeDialogue;
+      }
+
+      if (hasQuest("search_packaging") && (!hasQuest("go_cafeteria"))) {
+        return AfterPcRoomTwoDialogue;
+      }
+
+      if (hasQuest("go_cafeteria")) {
+        return AfterPcRoomFiveDialogue;
+      }
+
+      return AfterPcRoomFourDialogue;
+    },
     className: "HallOne",
     audio: { src: LavenderTown },
     initialPosition: (lastPage?: string) => {
