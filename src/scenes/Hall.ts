@@ -8,6 +8,7 @@ import { AfterPcRoomTwoDialogue } from "@/data/maps/hall/one/afterPcRoom/two";
 import { hallTwoDialogue } from "@/data/maps/hall/two";
 
 import LavenderTown from "/assets/songs/LavenderTown.m4a";
+import JailsonTheme from "/assets/songs/JailsonTheme.m4a";
 
 import type { SceneConfig, SceneId } from "@/utils/types/maps/sceneConfig";
 import { hallCenter } from "@/maps/hall/center";
@@ -60,7 +61,7 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     map: hallTwo,
     dialogueData: hallTwoDialogue,
     className: "HallTwo",
-    audio: { src: LavenderTown },
+    audio: { src: JailsonTheme },
     initialPosition: { x: 9, y: 10, direction: "up" },
     npcs: [
       { src: "/assets/npcs/jailson/default.svg", gridX: 8, gridY: 3 }
