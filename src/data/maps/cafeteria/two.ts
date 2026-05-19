@@ -12,6 +12,11 @@ export const cafeteriaTwoDialogue = [
     {
         src: "/assets/npcs/deise/right.svg",
         name: "Deise",
-        message: "Eu voltarei mais forte lá no End-Game viu, nunca vá a lagoa dos crávos...",
+        message: "Eu voltarei mais forte lá no End-Game viu, nunca vá ao tanque dos crávos...",
+    },
+    {
+        src: "/assets/npcs/deise/right.svg",
+        name: "Deise",
+        message: "Oxe!? Senhor Denis, tá fazendo o que aqui?",
     },
 ];

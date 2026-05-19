@@ -1,7 +1,9 @@
-import { cafeteria } from "@/maps/cafeteria";
-import { cafeteriaTwo } from "@/maps/cafeteriaTwo";
+import { cafeteria } from "@/maps/cafeteria/one";
+import { cafeteriaTwo } from "@/maps/cafeteria/two";
+import { cafeteriaThree } from "@/maps/cafeteria/three";
 import { cafeteriaDialogue } from "@/data/maps/cafeteria/one";
 import { cafeteriaTwoDialogue } from "@/data/maps/cafeteria/two";
+import { cafeteriaThreeDialogue } from "@/data/maps/cafeteria/three";
 
 import LavenderTown from "/assets/songs/LavenderTown.m4a";
 
@@ -57,6 +59,20 @@ export const CAFETERIA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
   three: {
     id: "three",
     map: cafeteriaTwo,
+    dialogueData: cafeteriaThreeDialogue,
+    npcs: [
+      { src: "/assets/npcs/denis/default.svg", gridX: 12, gridY: 5 },
+      { src: "/assets/npcs/deise/default.svg", gridX: 14, gridY: 5 }
+    ],
+    events: [
+      { type: "navigate", to: "/cafeteria/four" }
+    ],
+    audio: { src: LavenderTown },
+    initialPosition: { x: 13, y: 5, direction: "right" },
+  },
+  four: {
+    id: "four",
+    map: cafeteriaThree,
     audio: { src: LavenderTown },
     initialPosition: (lastPage?: string) => {
       if (lastPage?.startsWith("/cafeteria")) {

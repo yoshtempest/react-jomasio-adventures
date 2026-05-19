@@ -94,7 +94,7 @@ export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
       {
         x: 1,
         y: 3,
-        route: "/cafeteria/three",
+        route: "/cafeteria/four",
         requiredQuest: "encounter_deise",
         blockedMessage: "Ainda não é o momento..."
       },

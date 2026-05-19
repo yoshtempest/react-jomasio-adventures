@@ -49,7 +49,7 @@ const GoatBattle = lazyLoad(() => import('./pages/Battle/Goat/index.tsx'));
 const JhowSimarBattle = lazyLoad(() => import('./pages/Battle/JhowSimar/index.tsx'));
 const HungryDeathBattle = lazyLoad(() => import('./pages/Battle/Hungry/index.tsx'));
 
-const CafeteriaBattle = lazyLoad(() => import('./pages/Cafeteria/battle/index.tsx'));
+const CafeteriaBattle = lazyLoad(() => import('./pages/Cafeteria/Battle/One/index.tsx'));
 const CafeteriaPage = lazyLoad(() => import('./pages/Cafeteria/index.tsx'));
 const BrodiClassOne = lazyLoad(() => import('./pages/BrodiClass/index.tsx'));
 
