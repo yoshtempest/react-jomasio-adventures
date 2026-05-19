@@ -17,7 +17,9 @@ export default function Intro() {
   const audio = useGameAudio(backgroundAudio);
 
   useEffect(() => {
-    audio.play();
+    if (audio.isPlaying()) return;
+
+    audio.play()?.catch(() => {});
     return () => audio.stop();
   }, []);
 

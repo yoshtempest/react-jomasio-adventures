@@ -31,5 +31,5 @@ export function useSceneAudio({ audio }: Props) {
       // 🔥 para quando sair da cena (ESSENCIAL)
       audioControls.stop();
     };
-  }, []);
+  }, [backgroundAudio.src]);
 }

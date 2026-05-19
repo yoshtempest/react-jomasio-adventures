@@ -20,7 +20,9 @@ export default function Home() {
   const audio = useGameAudio(backgroundAudio); // 🔥 pega controle
 
   useEffect(() => {
-    audio.play(); // 🔥 toca ao entrar
+    if (audio.isPlaying()) return;
+
+    audio.play()?.catch(() => {});
 
     return () => {
       audio.stop(); // 🔥 para ao sair

@@ -52,7 +52,13 @@ export function useGameAudio({
     audioRef.current.loop = loop;
   }, [loop]);
 
-  const play = () => audioRef.current?.play();
+  const play = async () => {
+    try {
+      await audioRef.current?.play();
+    } catch (err) {
+      // ignora AbortError
+    }
+  };
   const pause = () => audioRef.current?.pause();
 
   const stop = () => {
