@@ -86,41 +86,6 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
   "afterpcroom-one": {
     id: "afterpcroom-one",
     map: afterPcRoom,
-    dialogueData: AfterPcRoomOneDialogue,
-    className: "HallOne",
-    audio: { src: LavenderTown },
-    initialPosition: (lastPage?: string) => {
-      // console.log("LAST PAGE:", lastPage);
-      if (lastPage === "/pcroom/seven") {
-        return { x: 12, y: 7, direction: "left" as const };
-      }
-
-      return { x: 8, y: 3, direction: "down" as const };
-    },
-    npcs: [
-      { src: "/assets/npcs/remedinha/default.svg", gridX: 1, gridY: 9 }
-    ],
-    exitTile: [
-      {
-        x: 8,
-        y: 2,
-        route: "/hall/two",
-      },
-      {
-        x: 13,
-        y: 7,
-        route: "/pcroom/seven",
-      },
-    ],
-    events: [
-      { type: "removeItem", itemId: "aura_letter" },
-      { type: "giveQuest", questId: "search_packaging" },
-      { type: "navigate", to: "/hall/afterpcroom-two" }
-    ]
-  },
-  "afterpcroom-two": {
-    id: "afterpcroom-two",
-    map: afterPcRoom,
     dialogueData: (quests, items) => {
       const hasQuest = (id: QuestId) =>
         quests.some(q => q.id === id);
@@ -128,11 +93,15 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
       const hasItem = (id: string) =>
         items.some(item => item.id === id);
 
+      if (hasItem("aura_letter") && !hasQuest("search_packaging")) {
+        return AfterPcRoomOneDialogue;
+      }
+
       if (hasItem("package_01") && !hasItem("good_powder")) {
         return AfterPcRoomThreeDialogue;
       }
 
-      if (hasQuest("search_packaging") && (!hasQuest("go_cafeteria"))) {
+      if (hasQuest("search_packaging") && !hasQuest("go_cafeteria")) {
         return AfterPcRoomTwoDialogue;
       }
 
@@ -183,20 +152,26 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     events: [
       {
         type: "conditional",
+        condition: { hasItem: "aura_letter" },
+        then: [
+          { type: "removeItem", itemId: "aura_letter" },
+          { type: "giveQuest", questId: "search_packaging" },
+        ],
+      },
+      {
+        type: "conditional",
         condition: { hasItem: "package_01" },
         then: [
           { type: "removeItem", itemId: "package_01" },
           { type: "addItem", itemId: "good_powder" },
           { type: "progressQuest", id: "search_packaging", value: 1 }
         ],
-        else: [
-          {
-            type: "conditional",
-            condition: { hasItem: "good_powder" },
-            then: [
-              { type: "giveQuest", questId: "go_cafeteria" }
-            ]
-          }
+      },
+      {
+        type: "conditional",
+        condition: { hasItem: "good_powder" },
+        then: [
+          { type: "giveQuest", questId: "go_cafeteria" }
         ]
       }
     ]
@@ -232,7 +207,7 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
       {
         x: 9,
         y: 11,
-        route: "/hall/afterpcroom-two", // navigate -1
+        route: "/hall/afterpcroom-one", // navigate -1
       },
     ],
   },

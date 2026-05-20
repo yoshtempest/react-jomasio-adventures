@@ -8,63 +8,81 @@ import { cantinaThreeDialogue } from "@/data/maps/cantina/three";
 import LavenderTown from "/assets/songs/LavenderTown.m4a";
 
 import type { SceneConfig, SceneId } from "@/utils/types/maps/sceneConfig";
+import type { QuestId } from "@/data/quests";
+import type { PageId } from "@/data/pages";
 
 export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
   one: {
     id: "one",
     map: cantina,
-    dialogueData: cantinaDialogue,
-    initialPosition: { x: 8, y: 11, direction: "up" },
+    dialogueData: (quests, lastPage) => {
+      const hasQuest = (id: QuestId) =>
+        quests.some(q => q.id === id);
+
+      const howLastPage = (id: PageId) =>
+        lastPage.some(p => p.id === id);
+
+      if (hasQuest("director_escape") && !hasQuest("explore_jorjao")) {
+        return cantinaTwoDialogue;
+      }
+
+      if (howLastPage("cantina_battle")) {
+        return cantinaThreeDialogue;
+      }
+  
+      return cantinaDialogue;
+    },
+    initialPosition: (lastPage?: string) => {
+      if (
+        lastPage === "/director/two"
+       ) {
+        return { x: 10, y: 4, direction: "down" as const };
+      }
+      if (
+        lastPage === "/cantina/battle"
+      ) {
+        return { x: 9, y: 5, direction: "up" as const };
+      }
+
+      return { x: 8, y: 11, direction: "up" as const };
+    },
     npcs: [
       { src: "/assets/npcs/jhowsimar/default.svg", gridX: 9, gridY: 4 }
     ],
     audio: { src: LavenderTown },
-
-    events: [
-      { type: "navigate", to: "/director/one" }
-    ],
-  },
-
-  two: {
-    id: "two",
-    map: cantina,
-    dialogueData: cantinaTwoDialogue,
-    audio: { src: LavenderTown },
-    initialPosition: { x: 10, y: 4, direction: "up" },
-    npcs: [
-      { src: "/assets/npcs/jhowsimar/default.svg", gridX: 9, gridY: 4 }
-    ],
-    events: [
-      { type: "navigate", to: "/cantina/battle" }
-    ],
-  },
-
-  three: {
-    id: "three",
-    map: cantina,
-    dialogueData: cantinaThreeDialogue,
-    audio: { src: LavenderTown },
-    initialPosition: { x: 9, y: 5, direction: "up" },
-    npcs: [
-      { src: "/assets/npcs/jhowsimar/default.svg", gridX: 9, gridY: 4 }
-    ],
     events: [
       {
-        type: "giveQuest",
-        questId: "explore_jorjao",
+        type: "conditional",
+        condition: { notHasQuest: "director_escape" },
+        then: [
+          { type: "navigate", to: "/director/one" },
+        ],
       },
-      { type: "navigate", to: "/cantina/four" }
-    ],
+      {
+        type: "conditional",
+        condition: { hasQuest: "director_escape", notLastPage: "cantina/battle" },
+        then: [
+          { type: "navigate", to: "/cantina/battle" },
+        ],
+      },
+      {
+        type: "conditional",
+        condition: { lastPage: "cantina/battle" },
+        then: [
+          { type: "giveQuest", questId: "explore_jorjao" },
+          { type: "navigate", to: "/cantina/two"}
+        ]
+      }
+    ]
   },
-
-  four: {
-    id: "four",
+  two: {
+    id: "two",
     map: cantinaFour,
     audio: { src: LavenderTown },
     initialPosition: (lastPage?: string) => {
       if (
         lastPage === "/hall/one" ||
-        lastPage === "/hall/afterpcroom-two"
+        lastPage === "/hall/afterpcroom-one"
       ) {
         return { x: 14, y: 11, direction: "left" as const };
       }
@@ -79,11 +97,6 @@ export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
       return { x: 9, y: 5, direction: "up" as const };
     },
     exitTile: [
-      {
-        x: 15,
-        y: 11,
-        route: "/hall/one",
-      },
       {
         x: 1,
         y: 11,
@@ -105,6 +118,16 @@ export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
           return null;
         },
         blockedMessage: "Ainda não é o momento..."
+      },
+      {
+        x: 15,
+        y: 11,
+        getRoute: (_player, quests) => {
+          if (quests.some(q => q.id === "explore_jorjao")) {
+            return "/hall/afterpcroom-one";
+          }
+          return "hall/one";
+        },
       }
     ]
   },

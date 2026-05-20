@@ -8,14 +8,20 @@ export type SceneEvent =
   | { type: "setFlag"; key: string; value: boolean }
   | { type: "log"; message: string }
   | { type: "progressQuest"; id: string; value: number }
-  | {type: "giveQuest"; questId: QuestId }
+  | { type: "giveQuest"; questId: QuestId }
   | { type: "addItem"; itemId: ItemId }
   | { type: "removeItem"; itemId: ItemId } // 👈 NOVO
   | {
       type: "conditional";
       condition: {
         hasItem?: ItemId;
+        notHasItem?: ItemId;
+
         hasQuest?: QuestId;
+        notHasQuest?: QuestId;
+
+        lastPage?: string;
+        notLastPage?: string;
       };
       then: SceneEvent[];
       else?: SceneEvent[];
