@@ -19,7 +19,7 @@ import { getTileInFront } from "@/utils/getTileInFront";
 import { saveGame } from "@/utils/saveGame";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
-
+import type { SceneEvent } from "@/utils/types/maps/sceneEvents";
 import type { ExploreSceneProps } from "@/utils/types/maps/exploreScene";
 
 export function ExploreScene({
@@ -35,7 +35,8 @@ export function ExploreScene({
   onFinish,
   nextRoute,
   className,
-}: ExploreSceneProps) {
+  events,
+}: ExploreSceneProps & { events?: SceneEvent[] }) {
   const { player, playerClass, setMap, setPosition, setMode } = usePlayer();
   const { pushControls, popControls } = useGameControls();
   const navigate = useNavigate();
@@ -53,7 +54,85 @@ export function ExploreScene({
     });
   }, [location.pathname, items, quests, playerClass, player.character]);
 
+  function checkCondition(condition: any) {
+    if (condition.hasQuest && !quests.some(q => q.id === condition.hasQuest)) {
+      return false;
+    }
+
+    if (condition.notHasQuest && quests.some(q => q.id === condition.notHasQuest)) {
+      return false;
+    }
+
+    if (condition.hasItem && !items.some(i => i.id === condition.hasItem)) {
+      return false;
+    }
+
+    if (condition.notHasItem && items.some(i => i.id === condition.notHasItem)) {
+      return false;
+    }
+
+    if (condition.lastPage && lastPage !== condition.lastPage) {
+      return false;
+    }
+
+    if (condition.notLastPage && lastPage === condition.notLastPage) {
+      return false;
+    }
+
+    return true;
+  }
+
+  function runEvent(event: SceneEvent) {
+    switch (event.type) {
+      case "navigate":
+        navigate(event.to);
+        return;
+
+      case "giveQuest":
+        // você precisa ter isso no contexto
+        console.log("Give quest:", event.questId);
+        return;
+
+      case "addItem":
+        console.log("Add item:", event.itemId);
+        return;
+
+      case "removeItem":
+        console.log("Remove item:", event.itemId);
+        return;
+
+      case "progressQuest":
+        console.log("Progress quest:", event.id);
+        return;
+
+      case "conditional":
+        if (checkCondition(event.condition)) {
+          event.then.forEach(runEvent);
+        } else if (event.else) {
+          event.else.forEach(runEvent);
+        }
+        return;
+    }
+  }
+
   const handleFinish = () => {
+    if (events) {
+      for (const event of events) {
+        if (event.type === "conditional") {
+          if (checkCondition(event.condition)) {
+            event.then.forEach(runEvent);
+            break;
+          } else if (event.else) {
+            event.else.forEach(runEvent);
+            break;
+          }
+        } else {
+          runEvent(event);
+          break;
+        }
+      }
+    }
+
     if (onFinish) onFinish();
 
     if (nextRoute) {
@@ -63,7 +142,7 @@ export function ExploreScene({
 
   const resolvedDialogueData =
   typeof dialogueData === "function"
-    ? dialogueData(quests, items)
+    ? dialogueData(quests, items, lastPage)
     : dialogueData;
 
   const dialogueSystem = useDialogue(resolvedDialogueData, handleFinish);

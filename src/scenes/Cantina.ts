@@ -9,24 +9,24 @@ import LavenderTown from "/assets/songs/LavenderTown.m4a";
 
 import type { SceneConfig, SceneId } from "@/utils/types/maps/sceneConfig";
 import type { QuestId } from "@/data/quests";
-import type { PageId } from "@/data/pages";
+// import type { PageId } from "@/data/pages";
 
 export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
   one: {
     id: "one",
     map: cantina,
-    dialogueData: (quests, lastPage) => {
+    dialogueData: (quests, items, lastPage) => {
       const hasQuest = (id: QuestId) =>
         quests.some(q => q.id === id);
 
-      const howLastPage = (id: PageId) =>
-        lastPage.some(p => p.id === id);
+      const isLastPage = (path: string) =>
+        lastPage === path;
 
       if (hasQuest("director_escape") && !hasQuest("explore_jorjao")) {
         return cantinaTwoDialogue;
       }
 
-      if (howLastPage("cantina_battle")) {
+      if (isLastPage("/cantina/battle")) {
         return cantinaThreeDialogue;
       }
   
@@ -60,7 +60,7 @@ export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
       },
       {
         type: "conditional",
-        condition: { hasQuest: "director_escape", notLastPage: "cantina/battle" },
+        condition: { hasQuest: "director_escape", notLastPage: "/cantina/battle" },
         then: [
           { type: "navigate", to: "/cantina/battle" },
         ],

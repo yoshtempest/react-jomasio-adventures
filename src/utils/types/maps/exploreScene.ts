@@ -30,7 +30,7 @@ export type ExploreSceneProps = {
   map: number[][];
   dialogueData?:
   | Dialogue[]
-  | ((quests: any[], items: any[], lastPage: any[]) => Dialogue[]);
+  | ((quests: any[], items: any[], lastPage?: string) => Dialogue[]);
   nextRoute?: string;
   initialPosition?:
     | { x: number; y: number; direction: DirectionExplore }
