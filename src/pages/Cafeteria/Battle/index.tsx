@@ -2,13 +2,13 @@ import { BattleScene } from "@/components/Game/Scenes/Battle";
 import { firstBattle } from "@/maps/firstBattle";
 import DarkSouls from "/assets/songs/DarkSouls.m4a"
 
-export default function CafeteriaBattleTwo() {
+export default function CafeteriaBattle() {
   return (
     <BattleScene
       map={firstBattle}
-      npcType="denis"
-      redirectTo="/cafeteria/four"
-      victoryDescription="Você derrotou Denis, o Senhor dos Linguições"
+      npcType="deise"
+      redirectTo="/cafeteria/one"
+      victoryDescription="Você derrotou Deise, a Lich imortal"
       className="CafeteriaBattle"
       audioSrc={DarkSouls}
     />

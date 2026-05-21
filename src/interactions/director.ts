@@ -19,7 +19,7 @@ export function createDirector(deps: DirectorDeps) {
         setTimeout(() => {
           removeItem("key_01");
           playSFX?.("/assets/songs/transitions/undertaleToBattle.mp3", 0.6);
-          navigate?.("/cantina/two");
+          navigate?.("/cantina/one");
         }, 1000);
       } else {
         setPopup("Essa porta está trancada.");

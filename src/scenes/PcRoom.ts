@@ -42,9 +42,30 @@ export const PCS_ROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
   two: {
     id: "two",
     map: pcsRoomTwo,
-    dialogueData: pcsRoomTwoDialogue,
+    dialogueData: (quests, items, lastPage) => {
+      const isLastPage = (path: string) =>
+        lastPage === path;
+
+      if (isLastPage("/pcroom/battle/one")) {
+        return pcsRoomThreeDialogue;
+      }
+      return pcsRoomTwoDialogue;
+    },
     events: [
-      { type: "navigate", to: "/pcroom/battle/one" }
+      {
+        type: "conditional",
+        condition: { notLastPage: "/pcroom/battle/one" },
+        then: [
+          { type: "navigate", to: "/pcroom/battle/one" }
+        ],
+      },
+      {
+        type: "conditional",
+        condition: { lastPage: "/pcroom/battle/one" },
+        then: [
+          { type: "navigate", to: "/pcroom/three" }
+        ],
+      },
     ],
     audio: { src: MonkeyCircle },
     npcs: [
@@ -54,19 +75,6 @@ export const PCS_ROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
 
   three: {
     id: "three",
-    map: pcsRoomTwo,
-    dialogueData: pcsRoomThreeDialogue,
-    events: [
-      { type: "navigate", to: "/pcroom/four" }
-    ],
-    audio: { src: MonkeyCircle },
-    npcs: [
-      { src: "/assets/npcs/hungryDeath/default.svg", gridX: 14, gridY: 4 }
-    ],
-  },
-
-  four: {
-    id: "four",
     map: pcsRoomFour,
     dialogueData: pcsRoomFourDialogue,
     events: [
@@ -78,12 +86,12 @@ export const PCS_ROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     ],
   },
 
-  five: {
-    id: "five",
+  four: {
+    id: "four",
     map: pcsRoomFour,
     dialogueData: pcsRoomFiveDialogue,
     events: [
-      { type: "navigate", to: "/pcroom/six" }
+      { type: "navigate", to: "/pcroom/five" }
     ],
     audio: { src: MonkeyCircle },
     npcs: [
@@ -92,13 +100,13 @@ export const PCS_ROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     ],
   },
 
-  six: {
-    id: "six",
+  five: {
+    id: "five",
     map: pcsRoomSix,
     dialogueData: pcsRoomSixDialogue,
     events: [
       { type: "addItem", itemId: "aura_letter"},
-      { type: "navigate", to: "/pcroom/seven" }
+      { type: "navigate", to: "/pcroom/six" }
     ],
     audio: { src: MonkeyCircle },
     npcs: [
@@ -106,8 +114,8 @@ export const PCS_ROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     ],
   },
 
-  seven: {
-    id: "seven",
+  six: {
+    id: "six",
     map: pcsRoomSeven,
     exitTile: [{
       x: 3,
@@ -117,7 +125,7 @@ export const PCS_ROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     audio: { src: MonkeyCircle },
     initialPosition: (lastPage?: string) => {
       // console.log("LAST PAGE:", lastPage);
-      if (lastPage === "/pcroom/six") {
+      if (lastPage === "/pcroom/five") {
         return { x: 12, y: 4, direction: "left" as const };
       }
 

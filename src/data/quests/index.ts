@@ -81,6 +81,18 @@ export const QUESTS = {
     progress: 0,
     completed: false
   },
+  go_to_hell: {
+    id: "go_to_hell",
+    name: "Encontre Negão do Ferro Velho",
+    image: "/assets/npcs/remedinha/default.svg",
+    description: "Vá aos corredores escuros em busca de falar com o Negão",
+    rewardsType: "xp",
+    rewards: 40,
+    type: "history",
+    counter: 1,
+    progress: 0,
+    completed: false
+  },
 } as const;
 
 export type QuestId = keyof typeof QUESTS;

@@ -7,7 +7,7 @@ export default function CantinaBattle() {
     <BattleScene
       map={firstBattle}
       npcType="jhowsimar"
-      redirectTo="/cantina/three"
+      redirectTo="/cantina/one"
       victoryDescription="Você derrotou 'Jhow Simar, o Vigia'"
       className="CantinaBattle"
       audioSrc={KenTheme}

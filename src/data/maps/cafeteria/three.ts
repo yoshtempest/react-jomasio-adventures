@@ -44,4 +44,44 @@ export const cafeteriaThreeDialogue = [
         name: "Denis",
         message: "NÃO! VOCÊ VAI ME DAR O LINGUIÇÃO!",
     },
+    {
+        isPlayer: true,
+        name: "Protagonista",
+        message: "QUE LINGUIÇÃO??",
+    },
+    {
+        src: "/assets/npcs/denis/angry.svg",
+        name: "Denis",
+        message: "EU NÃO SEI, DÁ UM JEITO AI",
+    },
+    {
+        isPlayer: true,
+        name: "Protagonista",
+        message: "EU VOU EMBORA!",
+    },
+    {
+        src: "/assets/npcs/denis/angry.svg",
+        name: "Denis",
+        message: "EU TRANQUEI A PORTA, SÓ VAI SAIR QUANDO ME DER O LINGUIÇÃO!",
+    },
+    {
+        isPlayer: true,
+        name: "Protagonista",
+        message: "SEU MANÍACO!",
+    },
+    {
+        src: "/assets/npcs/denis/angry.svg",
+        name: "Denis",
+        message: "E TU DEISE, SEJA DESINTEGRADA, PERDEU NA LUTA CONTRA O PROTAGONISTA",
+    },
+    {
+        src: "/assets/npcs/deise/right.svg",
+        name: "Deise",
+        message: "MAS NÃO TEM COMO VENCER O PROTAGONISTA",
+    },
+    {
+        src: "/assets/npcs/denis/angry.svg",
+        name: "Denis",
+        message: "EXPANSÃO DE DOMÍNIO, FUUGA.",
+    },
 ];

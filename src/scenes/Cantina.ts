@@ -57,20 +57,24 @@ export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
         then: [
           { type: "navigate", to: "/director/one" },
         ],
-      },
-      {
-        type: "conditional",
-        condition: { hasQuest: "director_escape", notLastPage: "/cantina/battle" },
-        then: [
-          { type: "navigate", to: "/cantina/battle" },
-        ],
-      },
-      {
-        type: "conditional",
-        condition: { lastPage: "cantina/battle" },
-        then: [
-          { type: "giveQuest", questId: "explore_jorjao" },
-          { type: "navigate", to: "/cantina/two"}
+        else: [
+          {
+            type: "conditional",
+            condition: { notLastPage: "/cantina/battle" },
+            then: [
+              { type: "navigate", to: "/cantina/battle" },
+            ],
+            else: [
+              {
+                type: "giveQuest",
+                questId: "explore_jorjao"
+              },
+              {
+                type: "navigate",
+                to: "/cantina/two"
+              }
+            ]
+          }
         ]
       }
     ]
@@ -111,7 +115,7 @@ export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
         y: 2,
         getRoute: (_player, quests) => {
           if (quests.some(q => q.id === "encounter_deise")) {
-            return "/cafeteria/four";
+            return "/cafeteria/three";
           } else if (quests.some(q => q.id === "go_cafeteria")) {
             return "/cafeteria/one";
           }
@@ -126,7 +130,7 @@ export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
           if (quests.some(q => q.id === "explore_jorjao")) {
             return "/hall/afterpcroom-one";
           }
-          return "hall/one";
+          return "/hall/one";
         },
       }
     ]

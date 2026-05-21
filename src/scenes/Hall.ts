@@ -8,6 +8,7 @@ import { AfterPcRoomTwoDialogue } from "@/data/maps/hall/one/afterPcRoom/two";
 import { AfterPcRoomThreeDialogue } from "@/data/maps/hall/one/afterPcRoom/three";
 import { AfterPcRoomFourDialogue } from "@/data/maps/hall/one/afterPcRoom/four";
 import { AfterPcRoomFiveDialogue } from "@/data/maps/hall/one/afterPcRoom/five";
+import { AfterPcRoomSixDialogue } from "@/data/maps/hall/one/afterPcRoom/six";
 import { hallTwoDialogue } from "@/data/maps/hall/two";
 
 import LavenderTown from "/assets/songs/LavenderTown.m4a";
@@ -50,7 +51,7 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
       {
         x: 8,
         y: 11,
-        route: "/cantina/four",
+        route: "/cantina/two",
       },
       {
         x: 1,
@@ -105,8 +106,12 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
         return AfterPcRoomTwoDialogue;
       }
 
-      if (hasQuest("go_cafeteria")) {
+      if (hasQuest("go_cafeteria") && !hasQuest("return_to_remedinha")) {
         return AfterPcRoomFiveDialogue;
+      }
+
+      if (hasQuest("return_to_remedinha") || hasQuest("encounter_deise")) {
+        return AfterPcRoomSixDialogue;
       }
 
       return AfterPcRoomFourDialogue;
@@ -115,7 +120,7 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     audio: { src: LavenderTown },
     initialPosition: (lastPage?: string) => {
       // console.log("LAST PAGE:", lastPage);
-      if (lastPage === "/pcroom/seven") {
+      if (lastPage === "/pcroom/six") {
         return { x: 12, y: 7, direction: "left" as const };
       }
       if (lastPage === "/hall/left-one") {
@@ -136,12 +141,12 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
       {
         x: 13,
         y: 7,
-        route: "/pcroom/seven",
+        route: "/pcroom/six",
       },
       {
         x: 8,
         y: 11,
-        route: "/cantina/four",
+        route: "/cantina/two",
       },
       {
         x: 1,
@@ -173,7 +178,16 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
         then: [
           { type: "giveQuest", questId: "go_cafeteria" }
         ]
-      }
+      },
+      {
+        type: "conditional",
+        condition: { hasQuest: "return_to_remedinha" },
+        then: [
+          { type: "progressQuest", id: "encounter_deise", value: 1 },
+          { type: "progressQuest", id: "return_to_remedinha", value: 1 },
+          { type: "giveQuest", questId: "go_to_hell" }
+        ],
+      },
     ]
   },
   "left-one": {
@@ -228,7 +242,14 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
       {
         x: 3,
         y: 7,
-        route: "/cantina/four",
+        route: "/cantina/two",
+      },
+      {
+        x: 14,
+        y: 7,
+        route: "/hall/hell",
+        requiredQuest: "go_to_hell",
+        blockedMessage: "Tem um negão na frente, não dá para passar..."
       },
       {
         x: 8,
