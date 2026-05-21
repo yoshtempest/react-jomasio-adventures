@@ -35,6 +35,18 @@ export const QUESTS = {
     progress: 0,
     completed: false
   },
+  x1_jhowsimar: {
+    id: "x1_jhowsimar",
+    name: "Vem pro fight",
+    image: "/assets/npcs/jhowsimar/right.svg",
+    description: "Tire o X1 com Jhow Simar para ganhar seu bolsa delicia",
+    type: "history",
+    rewardsType: "coin",
+    rewards: 100,
+    counter: 1,
+    progress: 0,
+    completed: false
+  },
   search_packaging: {
     id: "search_packaging",
     name: "Entrega suspeita",

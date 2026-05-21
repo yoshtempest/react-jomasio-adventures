@@ -29,7 +29,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<InventoryItem[]>([
     {
       id: "money",
-      name: "200 do pé de meia",
+      name: "200 Kwanzas",
     }
   ]);
   const itemAudioRef = useRef<HTMLAudioElement | null>(null);
