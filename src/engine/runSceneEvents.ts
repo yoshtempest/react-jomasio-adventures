@@ -6,15 +6,22 @@ import type { NavigateFunction } from "react-router";
 type EventContext = {
   navigate: NavigateFunction;
   location: { pathname: string };
+
   setShowClassModal?: (v: boolean) => void;
-  setFlags?: (key: string, value: boolean) => void;
+
+  // 🔥 flags
+  setFlag?: (flag: string) => void;
+  hasFlag?: (flag: string) => boolean;
+
+  // 🔥 quests
   progressQuest?: (id: string, value: number) => void;
   giveQuest?: (quest: any) => void;
+  hasQuest?: (questId: string) => boolean;
+
+  // 🔥 inventory
   addItem?: (item: any) => void;
   removeItem?: (itemId: string) => void;
-
   hasItem?: (itemId: string) => boolean;
-  hasQuest?: (questId: string) => boolean;
 };
 
 export function runSceneEvents(
@@ -26,16 +33,39 @@ export function runSceneEvents(
   for (const event of events) {
     switch (event.type) {
       case "conditional": {
-        const { hasItem, hasQuest } = event.condition;
+        const {
+          hasItem,
+          notHasItem,
+          hasQuest,
+          notHasQuest,
+          hasFlag,
+          notHasFlag,
+        } = event.condition;
 
         let conditionMet = true;
 
         if (hasItem) {
-          conditionMet = conditionMet && !!ctx.hasItem?.(hasItem);
+          conditionMet &&= !!ctx.hasItem?.(hasItem);
+        }
+
+        if (notHasItem) {
+          conditionMet &&= !ctx.hasItem?.(notHasItem);
         }
 
         if (hasQuest) {
-          conditionMet = conditionMet && !!ctx.hasQuest?.(hasQuest);
+          conditionMet &&= !!ctx.hasQuest?.(hasQuest);
+        }
+
+        if (notHasQuest) {
+          conditionMet &&= !ctx.hasQuest?.(notHasQuest);
+        }
+
+        if (hasFlag) {
+          conditionMet &&= !!ctx.hasFlag?.(hasFlag);
+        }
+
+        if (notHasFlag) {
+          conditionMet &&= !ctx.hasFlag?.(notHasFlag);
         }
 
         runSceneEvents(
@@ -44,6 +74,7 @@ export function runSceneEvents(
         );
         break;
       }
+
       case "openModal":
         if (event.modal === "class") {
           ctx.setShowClassModal?.(true);
@@ -54,10 +85,10 @@ export function runSceneEvents(
         ctx.navigate(event.to, {
           state: { from: ctx.location.pathname }
         });
-        break;
+        return; // 🔥 IMPORTANTE: para execução após navegar
 
       case "setFlag":
-        ctx.setFlags?.(event.key, event.value);
+        ctx.setFlag?.(event.flag);
         break;
 
       case "progressQuest":
@@ -72,8 +103,7 @@ export function runSceneEvents(
 
       case "addItem": {
         const item = ITEMS[event.itemId];
-
-        ctx.addItem?.(item); // 👈 agora correto
+        ctx.addItem?.(item);
         break;
       }
 
@@ -82,6 +112,7 @@ export function runSceneEvents(
         break;
 
       case "log":
+        console.log(event.message);
         break;
     }
   }

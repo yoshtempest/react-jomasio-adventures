@@ -42,7 +42,7 @@ export const PCS_ROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
   two: {
     id: "two",
     map: pcsRoomTwo,
-    dialogueData: (quests, items, lastPage) => {
+    dialogueData: (_quests, _items, lastPage) => {
       const isLastPage = (path: string) =>
         lastPage === path;
 

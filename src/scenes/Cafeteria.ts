@@ -17,7 +17,7 @@ export const CAFETERIA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
   one: {
     id: "one",
     map: cafeteria,
-    dialogueData: (quests, items, lastPage) => {
+    dialogueData: (_quests, _items, lastPage) => {
 
       const isLastPage = (path: string) =>
         lastPage === path;

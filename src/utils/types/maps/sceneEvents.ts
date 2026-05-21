@@ -5,7 +5,7 @@ import type { ItemId } from "@/data/items";
 export type SceneEvent =
   | { type: "openModal"; modal: "class" }
   | { type: "navigate"; to: string }
-  | { type: "setFlag"; key: string; value: boolean }
+  | { type: "setFlag"; flag: string }
   | { type: "log"; message: string }
   | { type: "progressQuest"; id: string; value: number }
   | { type: "giveQuest"; questId: QuestId }
@@ -19,6 +19,10 @@ export type SceneEvent =
 
         hasQuest?: QuestId;
         notHasQuest?: QuestId;
+
+
+        hasFlag?: string;
+        notHasFlag?: string;
 
         lastPage?: string;
         notLastPage?: string;

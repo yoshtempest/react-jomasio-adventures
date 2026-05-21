@@ -9,13 +9,12 @@ import LavenderTown from "/assets/songs/LavenderTown.m4a";
 
 import type { SceneConfig, SceneId } from "@/utils/types/maps/sceneConfig";
 import type { QuestId } from "@/data/quests";
-// import type { PageId } from "@/data/pages";
 
 export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
   one: {
     id: "one",
     map: cantina,
-    dialogueData: (quests, items, lastPage) => {
+    dialogueData: (quests, _items, lastPage) => {
       const hasQuest = (id: QuestId) =>
         quests.some(q => q.id === id);
 
@@ -55,24 +54,17 @@ export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
         type: "conditional",
         condition: { notHasQuest: "director_escape" },
         then: [
-          { type: "navigate", to: "/director/one" },
+          { type: "navigate", to: "/director/one" }
         ],
         else: [
           {
             type: "conditional",
-            condition: { notLastPage: "/cantina/battle" },
+            condition: { notHasFlag: "cantina_battle_done" },
             then: [
-              { type: "navigate", to: "/cantina/battle" },
+              { type: "navigate", to: "/cantina/battle" }
             ],
             else: [
-              {
-                type: "giveQuest",
-                questId: "explore_jorjao"
-              },
-              {
-                type: "navigate",
-                to: "/cantina/two"
-              }
+              { type: "navigate", to: "/cantina/two" }
             ]
           }
         ]
@@ -107,6 +99,11 @@ export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
         route: "/hall/center-one",
         requiredQuest: "search_packaging",
         blockedMessage: "Ainda não é o momento..."
+      },
+      {
+        x: 11,
+        y: 4,
+        route: "/director/two",
       }
     ],
     tiles: [

@@ -21,6 +21,9 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
 import type { SceneEvent } from "@/utils/types/maps/sceneEvents";
 import type { ExploreSceneProps } from "@/utils/types/maps/exploreScene";
+import { QUESTS } from "@/data/quests";
+import { ITEMS } from "@/data/items";
+import { useFlags } from "@/contexts/FlagContext";
 
 export function ExploreScene({
   map,
@@ -41,8 +44,9 @@ export function ExploreScene({
   const { pushControls, popControls } = useGameControls();
   const navigate = useNavigate();
   const location = useLocation();
-  const { items } = useInventory();
-  const { quests } = useQuests();
+  const { items, addItem, removeItem } = useInventory();
+  const { quests, addQuest, updateProgress } = useQuests();
+  const { setFlag, hasFlag } = useFlags();
 
   useEffect(() => {
     saveGame({
@@ -79,30 +83,55 @@ export function ExploreScene({
       return false;
     }
 
+    if (condition.hasFlag && !hasFlag(condition.hasFlag)) {
+      return false;
+    }
+
+    if (condition.notHasFlag && hasFlag(condition.notHasFlag)) {
+      return false;
+    }
+
     return true;
   }
 
   function runEvent(event: SceneEvent) {
     switch (event.type) {
       case "navigate":
-        navigate(event.to);
+        setTimeout(() => navigate(event.to), 0);
+        return;
+
+      case "setFlag":
+        setFlag(event.flag);
         return;
 
       case "giveQuest":
         // você precisa ter isso no contexto
-        console.log("Give quest:", event.questId);
+        const questData = QUESTS[event.questId];
+        if (!questData) {
+          console.warn("Quest não encontrada:", event.questId);
+          return;
+        }
+
+        addQuest(questData);
         return;
 
       case "addItem":
-        console.log("Add item:", event.itemId);
+        const itemData = ITEMS[event.itemId];
+
+        if (!itemData) {
+          console.warn("Item não encontrado:", event.itemId);
+          return;
+        }
+
+        addItem(itemData);
         return;
 
       case "removeItem":
-        console.log("Remove item:", event.itemId);
+        removeItem(event.itemId);
         return;
 
       case "progressQuest":
-        console.log("Progress quest:", event.id);
+        updateProgress(event.id, event.value);
         return;
 
       case "conditional":
@@ -111,7 +140,7 @@ export function ExploreScene({
         } else if (event.else) {
           event.else.forEach(runEvent);
         }
-        return;
+      return;
     }
   }
 
