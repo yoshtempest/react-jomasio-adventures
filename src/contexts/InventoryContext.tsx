@@ -26,12 +26,7 @@ type InventoryContextType = {
 const InventoryContext = createContext<InventoryContextType | null>(null);
 
 export function InventoryProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<InventoryItem[]>([
-    {
-      id: "money",
-      name: "200 Kwanzas",
-    }
-  ]);
+  const [items, setItems] = useState<InventoryItem[]>([]);
   const itemAudioRef = useRef<HTMLAudioElement | null>(null);
   const useItemAudioRef = useRef<HTMLAudioElement | null>(null);
   useEffect(() => {

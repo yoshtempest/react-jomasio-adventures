@@ -9,6 +9,8 @@ import type { NpcDifficulty } from "@/utils/types/npc/npcProgress";
 type PlayerContextType = {
   player: Player;
   difficulty: NpcDifficulty;
+  coins: number;
+  addCoins: (amount: number) => void;
   setDifficulty: (difficulty: NpcDifficulty) => void;
 
   setPosition: (x: number, y: number, direction?: Player["direction"]) => void;
@@ -44,6 +46,10 @@ const PlayerContext = createContext<PlayerContextType | null>(null);
 
 export function PlayerProvider({ children }: { children: ReactNode }) {
   const [difficulty, setDifficulty] = useState<NpcDifficulty>("medium");
+  const [coins, setCoins] = useState(() => {
+    const saved = localStorage.getItem("coins");
+    return saved ? Number(saved) : 200; // 👈 começa com 200
+  });
   const [player, setPlayer] = useState<Player>(() => {
     const savedCharacter = localStorage.getItem("character");
 
@@ -98,6 +104,14 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   function chooseClass(cls: PlayerClass) {
     localStorage.setItem("player_class", cls!);
     setPlayerClass(cls);
+  }
+
+  function addCoins(amount: number) {
+    setCoins((prev) => {
+      const total = prev + amount;
+      localStorage.setItem("coins", String(total));
+      return total;
+    });
   }
 
   function openInventory() {
@@ -156,6 +170,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     <PlayerContext.Provider
       value={{
         player,
+        coins,
+        addCoins,
         setCharacter,
 
         moveUp,

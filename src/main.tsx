@@ -82,12 +82,12 @@ root.render(
   <StrictMode>
     <HashRouter>
       <PWAProvider>
-        <NavbarProvider>
-          <FlagProvider>
-            <InventoryProvider>
-              <QuestProvider>
-                <CharacterProgressProvider>
-                  <AudioProvider>
+        <AudioProvider>
+          <NavbarProvider>
+            <FlagProvider>
+              <InventoryProvider>
+                <QuestProvider>
+                  <CharacterProgressProvider>
                     <PlayerProvider>
                       <GameControlsProvider>
                         <Preloader pages={nonBattlePages} />
@@ -139,12 +139,12 @@ root.render(
                         </Suspense>
                       </GameControlsProvider>
                     </PlayerProvider>
-                  </AudioProvider>
-                </CharacterProgressProvider>
-              </QuestProvider>
-            </InventoryProvider>
-          </FlagProvider>
-        </NavbarProvider>
+                  </CharacterProgressProvider>
+                </QuestProvider>
+              </InventoryProvider>
+            </FlagProvider>
+          </NavbarProvider>
+        </AudioProvider>
       </PWAProvider>
     </HashRouter>
   </StrictMode>

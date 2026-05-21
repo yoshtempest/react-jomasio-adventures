@@ -1,5 +1,5 @@
 export type QuestType = "history" | "sidequest";
-export type QuestRewardsType = "xp" | "item";
+export type QuestRewardsType = "xp" | "item" | "coin";
 
 export type Quest = {
   id: string;

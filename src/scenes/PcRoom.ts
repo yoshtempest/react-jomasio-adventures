@@ -15,6 +15,7 @@ import MonkeyCircle from "/assets/songs/MonkeyCircle.m4a";
 
 import type { SceneConfig, SceneId } from "@/utils/types/maps/sceneConfig";
 import { pcsRoomSeven } from "@/maps/pcRoom/seven";
+import type { QuestId } from "@/data/quests";
 
 export const PCS_ROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
   one: {
@@ -42,11 +43,11 @@ export const PCS_ROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
   two: {
     id: "two",
     map: pcsRoomTwo,
-    dialogueData: (_quests, _items, lastPage) => {
-      const isLastPage = (path: string) =>
-        lastPage === path;
+    dialogueData: (quests) => {
+      const hasQuest = (id: QuestId) =>
+        quests.some(q => q.id === id);
 
-      if (isLastPage("/pcroom/battle/one")) {
+      if (hasQuest("x1_hungry")) {
         return pcsRoomThreeDialogue;
       }
       return pcsRoomTwoDialogue;
@@ -54,14 +55,15 @@ export const PCS_ROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     events: [
       {
         type: "conditional",
-        condition: { notLastPage: "/pcroom/battle/one" },
+        condition: { notHasQuest: "x1_hungry" },
         then: [
+          { type: "giveQuest", questId: "x1_hungry" },
           { type: "navigate", to: "/pcroom/battle/one" }
         ],
       },
       {
         type: "conditional",
-        condition: { lastPage: "/pcroom/battle/one" },
+        condition: { hasQuest: "x1_hungry" },
         then: [
           { type: "navigate", to: "/pcroom/three" }
         ],

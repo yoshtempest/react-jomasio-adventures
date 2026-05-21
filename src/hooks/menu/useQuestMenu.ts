@@ -10,7 +10,7 @@ export function useQuestMenu(isOpen: boolean) {
   const { pushControls, popControls } = useGameControls();
   const { quests, claimQuest } = useQuests();
   const { addXP } = useCharacterProgress();
-  const { player } = usePlayer();
+  const { player, addCoins } = usePlayer();
   const { playMove, playSelect } = useMenuSFX();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -36,6 +36,11 @@ export function useQuestMenu(isOpen: boolean) {
 
     if (quest.rewardsType === "xp" && quest.rewards) {
       addXP(player.character, quest.rewards);
+      claimQuest(quest.id);
+    }
+
+    if (quest.rewardsType === "coin" && quest.rewards) {
+      addCoins(quest.rewards); // 👈 AQUI
       claimQuest(quest.id);
     }
 

@@ -12,17 +12,16 @@ import { cafeteriaFiveDialogue } from "@/data/maps/cafeteria/five";
 import LavenderTown from "/assets/songs/LavenderTown.m4a";
 
 import type { SceneConfig, SceneId } from "@/utils/types/maps/sceneConfig";
+import type { QuestId } from "@/data/quests";
 
 export const CAFETERIA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
   one: {
     id: "one",
     map: cafeteria,
-    dialogueData: (_quests, _items, lastPage) => {
-
-      const isLastPage = (path: string) =>
-        lastPage === path;
-
-      if (isLastPage("/cafeteria/battle")) {
+    dialogueData: (quests) => {
+    const hasQuest = (id: QuestId) =>
+      quests.some(q => q.id === id);
+      if (hasQuest("x1_deise")) {
         return cafeteriaTwoDialogue;
       }
   
@@ -46,12 +45,13 @@ export const CAFETERIA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
         type: "conditional",
         condition: { notHasQuest: "return_to_remedinha" },
         then: [
+          { type: "giveQuest", questId: "x1_deise" },
           { type: "navigate", to: "/cafeteria/battle" },
         ],
         else: [
           {
             type: "conditional",
-            condition: { lastPage: "/cafeteria/battle" },
+            condition: { hasQuest: "x1_deise" },
             then: [
               {
                 type: "giveQuest",
