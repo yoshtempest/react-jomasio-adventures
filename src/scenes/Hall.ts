@@ -3,13 +3,15 @@ import { hallTwo } from "@/maps/hall/two";
 import { hallLeft } from "@/maps/hall/left";
 import { afterPcRoom } from "@/maps/hall/afterPcRoom/one";
 
-import { AfterPcRoomOneDialogue } from "@/data/maps/hall/one/afterPcRoom/one";
-import { AfterPcRoomTwoDialogue } from "@/data/maps/hall/one/afterPcRoom/two";
-import { AfterPcRoomThreeDialogue } from "@/data/maps/hall/one/afterPcRoom/three";
-import { AfterPcRoomFourDialogue } from "@/data/maps/hall/one/afterPcRoom/four";
-import { AfterPcRoomFiveDialogue } from "@/data/maps/hall/one/afterPcRoom/five";
-import { AfterPcRoomSixDialogue } from "@/data/maps/hall/one/afterPcRoom/six";
+import { AfterPcRoomOneDialogue } from "@/data/maps/hall/one/one";
+import { AfterPcRoomTwoDialogue } from "@/data/maps/hall/one/two";
+import { AfterPcRoomThreeDialogue } from "@/data/maps/hall/one/three";
+import { AfterPcRoomFourDialogue } from "@/data/maps/hall/one/four";
+import { AfterPcRoomFiveDialogue } from "@/data/maps/hall/one/five";
+import { AfterPcRoomSixDialogue } from "@/data/maps/hall/one/six";
+
 import { hallTwoDialogue } from "@/data/maps/hall/two";
+import { hallJailsonDialogue } from "@/data/maps/hall/jailson";
 
 import LavenderTown from "/assets/songs/LavenderTown.m4a";
 import JailsonTheme from "/assets/songs/JailsonTheme.m4a";
@@ -19,6 +21,7 @@ import { hallCenter } from "@/maps/hall/center";
 import { hallCenterFront } from "@/maps/hall/centerFront";
 import { hallThirdClass } from "@/maps/hall/thirdClass";
 import type { QuestId } from "@/data/quests";
+import { hallJailson } from "@/maps/hall/jailson";
 
 export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
   one: {
@@ -62,7 +65,6 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
       },
     ],
   },
-
   two: {
     id: "two",
     map: hallTwo,
@@ -72,6 +74,30 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     initialPosition: { x: 9, y: 10, direction: "up" },
     npcs: [
       { src: "/assets/npcs/jailson/default.svg", gridX: 8, gridY: 3 }
+    ],
+    tiles: [
+      {
+        x: 9,
+        y: 11,
+        route: "/hall/one",
+      },
+      {
+        x: 8,
+        y: 11,
+        route: "/hall/one",
+      }
+    ],
+  },
+  jailson: {
+    id: "jailson",
+    map: hallJailson,
+    dialogueData: hallJailsonDialogue,
+    className: "HallTwo",
+    audio: { src: JailsonTheme },
+    initialPosition: { x: 9, y: 10, direction: "up" },
+    npcs: [
+      { src: "/assets/npcs/jailson/default.svg", gridX: 8, gridY: 3 },
+      { src: "/assets/npcs/slimita/default.svg", gridX: 8, gridY: 4 }
     ],
     tiles: [
       {
@@ -192,7 +218,7 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
         then: [
           { type: "progressQuest", id: "encounter_deise", value: 1 },
           { type: "progressQuest", id: "return_to_remedinha", value: 1 },
-          { type: "giveQuest", questId: "go_to_hell" }
+          { type: "giveQuest", questId: "help_jailson" }
         ],
       },
     ]

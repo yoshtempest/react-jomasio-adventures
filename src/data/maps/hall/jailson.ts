@@ -1,4 +1,4 @@
-export const HallOneDialogue = [
+export const hallJailsonDialogue = [
     {
         src: "/assets/npcs/slimita/right.svg",
         name: "Slimita",
@@ -22,5 +22,23 @@ export const HallOneDialogue = [
         name: "Slimita",
         message:
             "Então vem pra cima garoto, vem!",
+    },
+    {
+        isPlayer: true,
+        name: "Protagonista",
+        message:
+            "Como assim caralho?",
+    },
+    {
+        src: "/assets/npcs/slimita/right.svg",
+        name: "Slimita",
+        message:
+            "Ui, tá com medo é? O Jailson é meu e eu vou pegar ele pra mim!",
+    },
+    {
+        isPlayer: true,
+        name: "Protagonista",
+        message:
+            "Ah tá, achei que era outra coisa, mas se é isso que você quer, então vamos lutar!",
     },
 ];

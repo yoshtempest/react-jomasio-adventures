@@ -1,4 +1,4 @@
-import { hallOneMessages } from "@/data/maps/hall/one/afterPcRoom/messages";
+import { hallOneMessages } from "@/data/maps/hall/one/messages";
 import { createInteractionMap } from "./builder";
 import type { KeyDeps, InventoryDeps } from "@/utils/types/interaction";
 

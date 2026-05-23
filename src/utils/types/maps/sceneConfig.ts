@@ -5,6 +5,7 @@ import type { QuestId } from "@/data/quests";
 export type SceneId =
 "one" |
 "two" |
+"jailson" |
 "three" |
 "four" |
 "five" |

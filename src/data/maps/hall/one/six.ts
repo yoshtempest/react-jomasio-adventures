@@ -39,6 +39,36 @@ export const AfterPcRoomSixDialogue = [
         src: "/assets/npcs/remedinha/right.svg",
         name: "Remedinha",
         message:
-            "Procure um tal de Negão do Ferro Velho pelos corredores que ele vai te mostrar um negócio bacana",
+            "O Jailson está em perigo, tem uma tal de slimita dando em cima dele e preciso que você ajude ele",
+    },
+    {
+        isPlayer: true,
+        name: "Protagonista",
+        message:
+            "Porque eu iria te ajudar? Você vive me zoando...",
+    },
+    {
+        src: "/assets/npcs/remedinha/right.svg",
+        name: "Remedinha",
+        message:
+            "Porque o Jailson é um cara que já aguentou muita coisa por trás, você tem que salvar ele!",
+    },
+    {
+        isPlayer: true,
+        name: "Protagonista",
+        message:
+            "Eu não quero!",
+    },
+    {
+        src: "/assets/npcs/remedinha/right.svg",
+        name: "Remedinha",
+        message:
+            "Então vai ficar preso aqui para sempre, seu trouxão, se não prosseguir na história, não tem como zerar o jogo.",
+    },
+    {
+        isPlayer: true,
+        name: "Protagonista",
+        message:
+            "Tá, tá, estou indo...",
     },
 ];
