@@ -25,6 +25,7 @@ import { Navigate } from 'react-router';
 
 import { Preloader } from "@/components/Preloader";
 import { LoadingScreen } from "@/components/LoadingScreen";
+const EntryPoint = lazyLoad(() => import('./pages/EntryPoint'));
 const Intro = lazyLoad(() => import('./pages/Intro/index.tsx'));
 const Matchmaking = lazyLoad(() => import('./online/Matchmaking/index.tsx'));
 const Tutorial = lazyLoad(() => import('./pages/Tutorial/index.tsx'));
@@ -55,6 +56,7 @@ const CafeteriaPage = lazyLoad(() => import('./pages/Cafeteria/index.tsx'));
 const BrodiClassOne = lazyLoad(() => import('./pages/BrodiClass/index.tsx'));
 
 const nonBattlePages = [
+  EntryPoint,
   Intro,
   Matchmaking,
   Tutorial,
@@ -94,7 +96,8 @@ root.render(
                         <Suspense fallback={<LoadingScreen />}>
                           <Routes>
                             <Route path="/" element={<App />}>
-                              <Route index element={<Tutorial />} />
+                              <Route index element={<EntryPoint />} />
+                              <Route path="tutorial" element={<Tutorial />} />
                               <Route path="intro" element={<Intro />} />
                               <Route path="matchmaking" element={<Matchmaking />} />
                               <Route path="home" element={<Home />} />
