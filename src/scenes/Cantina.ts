@@ -92,7 +92,7 @@ export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
 
       return { x: 9, y: 5, direction: "up" as const };
     },
-    exitTile: [
+    tiles: [
       {
         x: 1,
         y: 11,
@@ -106,9 +106,7 @@ export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
         route: "/director/two",
         requiredQuest: "director_escape",
         blockedMessage: "Ainda não é o momento..."
-      }
-    ],
-    tiles: [
+      },
       {
         x: 6,
         y: 2,
@@ -126,11 +124,15 @@ export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
         x: 15,
         y: 11,
         getRoute: (_player, quests) => {
-          if (quests.some(q => q.id === "encounter_deise" || q.id === "go_cafeteria" || q.id === "go_library")) {
+          if (
+            quests.some(q =>
+              ["encounter_deise", "go_cafeteria", "go_library"].includes(q.id)
+            )
+          ) {
             return "/hall/afterpcroom-one";
           }
           return "/hall/one";
-        },
+        }
       }
     ]
   },

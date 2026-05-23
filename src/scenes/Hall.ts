@@ -37,11 +37,13 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
       return { x: 9, y: 10, direction: "up" as const };
     },
     audio: { src: LavenderTown },
-    exitTile: [
+    tiles: [
       {
         x: 8,
         y: 2,
         route: "/hall/two",
+        blockedMessage: "O Jailson tá bloqueando a passagem, melhor não arriscar...",
+        requiredQuest: "letter_delivery",
       },
       {
         x: 13,
@@ -71,16 +73,16 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     npcs: [
       { src: "/assets/npcs/jailson/default.svg", gridX: 8, gridY: 3 }
     ],
-    exitTile: [
+    tiles: [
       {
         x: 9,
         y: 11,
-        route: "/hall/one", // navigate -1
+        route: "/hall/afterpcroom-one",
       },
       {
         x: 8,
         y: 11,
-        route: "/hall/one", // navigate -1
+        route: "/hall/afterpcroom-one",
       }
     ],
   },
@@ -132,7 +134,7 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     npcs: [
       { src: "/assets/npcs/remedinha/default.svg", gridX: 1, gridY: 9 }
     ],
-    exitTile: [
+    tiles: [
       {
         x: 8,
         y: 2,
@@ -208,7 +210,7 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     npcs: [
       { src: "/assets/npcs/solange/default.svg", gridX: 2, gridY: 8 }
     ],
-    exitTile: [
+    tiles: [
       {
         x: 9,
         y: 4,
@@ -222,7 +224,7 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
       {
         x: 9,
         y: 11,
-        route: "/hall/afterpcroom-one", // navigate -1
+        route: "/hall/afterpcroom-one",
       },
     ],
   },
@@ -239,7 +241,7 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
 
       return { x: 8, y: 10, direction: "up" as const };
     },
-    exitTile: [
+    tiles: [
       {
         x: 3,
         y: 7,
@@ -278,7 +280,7 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
 
       return { x: 8, y: 10, direction: "up" as const };
     },
-    exitTile: [
+    tiles: [
       {
         x: 11,
         y: 7,
@@ -309,7 +311,7 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
 
       return { x: 8, y: 10, direction: "up" as const };
     },
-    exitTile: [
+    tiles: [
       {
         x: 3,
         y: 7,

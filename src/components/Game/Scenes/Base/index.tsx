@@ -4,6 +4,7 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { ExploreScene } from "@/components/Game/Scenes/Default";
 import { runSceneEvents } from "@/engine/runSceneEvents";
 import { useQuestActions } from "@/hooks/useQuestActions";
+import { useQuests } from "@/contexts/QuestContext";
 
 type SceneBaseProps = {
   scene: any;
@@ -15,6 +16,7 @@ type SceneBaseProps = {
 
   handleExit?: (ctx: any) => boolean;
   onFinishExtra?: (ctx: any) => Record<string, any> | void;
+  children?: React.ReactNode;
 };
 
 export function SceneBase({
@@ -25,15 +27,16 @@ export function SceneBase({
   setPopup,
   handleExit,
   onFinishExtra,
+  children,
 }: SceneBaseProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const { player } = usePlayer();
+  const { quests } = useQuests();
   const { giveQuest, progressQuest } = useQuestActions();
 
   const lastPage = location.state?.from;
 
-  // ✅ SPAWN (vem do seu código)
   const spawn = scene
     ? typeof scene.initialPosition === "function"
       ? scene.initialPosition(lastPage)
@@ -44,26 +47,57 @@ export function SceneBase({
   useEffect(() => {
     if (!scene) return;
 
-    // 🔥 permite sobrescrever comportamento (Cantina, etc)
-    if (handleExit?.({ player, scene, navigate, location })) {
+    // 🔥 override (Cantina ainda pode usar)
+    if (handleExit?.({ player, scene, navigate, location, quests })) {
       return;
     }
 
-    const exits = scene.exitTile;
-    if (!exits) return;
-
-    const matchedExit = exits.find(
-      (exit: any) =>
-        player.gridX === exit.x &&
-        player.gridY === exit.y
+    const tile = scene.tiles?.find(
+      (t: any) =>
+        player.gridX === t.x &&
+        player.gridY === t.y
     );
 
-    if (matchedExit) {
-      navigate(matchedExit.route, {
+    if (!tile) return;
+
+    // 🧠 1. rota dinâmica
+    if (tile.getRoute) {
+      const route = tile.getRoute(player, quests);
+
+      if (route) {
+        navigate(route, {
+          state: { from: location.pathname },
+        });
+      } else {
+        setPopup?.(
+          tile.blockedMessage || "Você não pode ir agora."
+        );
+      }
+
+      return;
+    }
+
+    // 🧠 2. valida quest
+    if (tile.requiredQuest) {
+      const hasQuest = quests.some(
+        (q) => q.id === tile.requiredQuest
+      );
+
+      if (!hasQuest) {
+        setPopup?.(
+          tile.blockedMessage || "Você não pode ir agora."
+        );
+        return;
+      }
+    }
+
+    // 🧠 3. rota simples
+    if (tile.route) {
+      navigate(tile.route, {
         state: { from: location.pathname },
       });
     }
-  }, [player, scene]);
+  }, [player, scene, quests]);
 
 
 
@@ -72,50 +106,48 @@ export function SceneBase({
   }
 
   return (
-    <div className={`SceneRoot ${className}`}>
-        {/* 🎮 MAPA */}
-        <div className="SceneMap">
-            <ExploreScene
-            {...scene}
-            initialPosition={spawn}
-            lastPage={lastPage}
-            onFinish={() => {
-                const extra = onFinishExtra?.({
-                navigate,
-                location,
-                });
+    <div className={`Master ${className}`}>
+      <div className="SceneMap">
+        <ExploreScene
+          {...scene}
+          initialPosition={spawn}
+          lastPage={lastPage}
+          onFinish={() => {
+            const extra = onFinishExtra?.({
+              navigate,
+              location,
+            });
 
-                runSceneEvents(scene.events, {
-                navigate,
-                location,
-                giveQuest,
-                progressQuest,
-                ...extra,
-                });
-            }}
-            onInteract={(_, x, y) => {
-                if (popup) {
-                setPopup?.(null);
-                return true;
-                }
+            runSceneEvents(scene.events, {
+              navigate,
+              location,
+              giveQuest,
+              progressQuest,
+              ...extra,
+            });
+          }}
+          onInteract={(_, x, y) => {
+            if (popup) {
+              setPopup?.(null);
+              return true;
+            }
 
-                const interaction = interactions?.[`${x},${y}`];
-                if (interaction) {
-                interaction();
-                return true;
-                }
+            const interaction = interactions?.[`${x},${y}`];
+            if (interaction) {
+              interaction();
+              return true;
+            }
 
-                return false;
-            }}
-            />
+            return false;
+          }}
+        />
+      </div>
+
+      {popup && (
+        <div className="SceneOverlay">
+          {children}
         </div>
-
-        {/* 🌑 OVERLAY */}
-        {popup && (
-            <div className="SceneOverlay">
-            {/* não renderiza mapa aqui, só UI */}
-            </div>
-        )}
-        </div>
+      )}
+    </div>
   );
 }

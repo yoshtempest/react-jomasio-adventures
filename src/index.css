@@ -155,6 +155,29 @@ h2 {
   z-index: 9999;
 }
 
+.SceneMap {
+  position: absolute;
+  inset: 0;
+}
+
+.SceneOverlay {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 999;
+
+  pointer-events: none;
+}
+
+/* conteúdo do popup */
+.SceneOverlay > * {
+  pointer-events: auto;
+}
+
 .loading-logo {
   width: 80px;
   opacity: 0;

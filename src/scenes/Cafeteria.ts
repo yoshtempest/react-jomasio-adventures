@@ -74,7 +74,7 @@ export const CAFETERIA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
         ]
       }
     ],
-    exitTile: [
+    tiles: [
       {
         x: 8,
         y: 11,
@@ -138,7 +138,7 @@ export const CAFETERIA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
 
       return { x: 9, y: 11, direction: "up" as const };
     },
-    exitTile: [
+    tiles: [
       {
         x: 8,
         y: 11,

@@ -17,20 +17,18 @@ export type SceneId =
 "center-front" |
 "thirdclass";
 
-export type ExitTile = {
-  x: number;
-  y: number;
-  route: string;
-
-  requiredQuest?: QuestId;
-  blockedMessage?: string;
-};
-
 type SceneTile = {
   x: number;
   y: number;
 
+  // rota fixa (caso simples)
+  route?: string;
+
+  // rota dinâmica (caso avançado)
   getRoute?: (player: any, quests: any[]) => string | null;
+
+  requiredQuest?: QuestId;
+
   blockedMessage?: string;
 };
 
@@ -41,8 +39,6 @@ export type SceneConfig = Omit<
   id: SceneId;
 
   className?: string;
-
-  exitTile?: ExitTile[];
 
   events?: SceneEvent[];
 

@@ -28,5 +28,5 @@
       "@/*": ["./src/*"]
     },
   },
-  "include": ["src", "dump/ThirdClass", "dump/PcsToCenter", "dump/Pcs", "dump/Center"]
+  "include": ["src", "dump/ThirdClass", "dump/PcsToCenter", "dump/Pcs", "dump/Center", "dump/PcRoom", "dump/Hall", "dump/Cantina", "dump/Cafeteria"]
 }

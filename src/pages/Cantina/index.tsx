@@ -1,5 +1,5 @@
 import { useParams } from "react-router";
-import { CantinaScene } from "@/components/Game/Scenes/Cantina/index";
+import { CantinaScene } from "@/features/cantina/index";
 import type { SceneId } from "@/utils/types/maps/sceneConfig";
 
 export default function CantinaPage() {

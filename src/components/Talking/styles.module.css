@@ -1,9 +1,11 @@
 .container {
-  position: relative;
+  position: absolute;
   width: 50vw;
   display: flex;
   z-index: 9999;
   justify-content: center;
+  left: 50%;
+  transform: translateX(-50%) translateY(5%);
 }
 
 .talking {
