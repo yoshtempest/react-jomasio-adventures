@@ -80,6 +80,7 @@ export default function DirectorTwo() {
     <div className={`Master Director`}>
       <ExploreScene
         map={director}
+        initialPosition={{ x: 9, y: 5, direction: "up" }} 
       />
 
       {popup && (

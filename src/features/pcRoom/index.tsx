@@ -1,0 +1,126 @@
+import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router";
+
+import { SceneBase } from "@/components/Game/Scenes/Base";
+import { PCS_ROOM_SCENES } from "@/scenes/PcRoom";
+import { createPcsRoom } from "@/interactions/pcsRoom";
+
+import { useInventory } from "@/contexts/InventoryContext";
+import { usePlayer } from "@/contexts/PlayerContext";
+import { useQuestActions } from "@/hooks/useQuestActions";
+
+import { useClassSelection } from "@/hooks/menu/useClassSelection";
+import type { SceneId } from "@/utils/types/maps/sceneConfig";
+
+import Talking from "@/components/Talking";
+import styles from "./styles.module.css";
+
+type Props = {
+  sceneId: SceneId;
+};
+
+export function PcRoomScene({ sceneId }: Props) {
+  const scene = PCS_ROOM_SCENES[sceneId];
+
+  const navigate = useNavigate();
+
+  const { setMode } = usePlayer();
+  const { addItem } = useInventory();
+  const { giveQuest, progressQuest } = useQuestActions();
+
+  const [showClassModal, setShowClassModal] = useState(false);
+  const [popup, setPopup] = useState<string | null>(null);
+  const [gotKey, setGotKey] = useState(false);
+
+  // ✅ sistema de seleção de classe
+  const { classes, selectedIndex } = useClassSelection(
+    showClassModal,
+    () => {
+      setShowClassModal(false);
+      setMode("explore");
+      navigate("/pcroom/two");
+    }
+  );
+
+  // ✅ controla modo do player
+  useEffect(() => {
+    if (showClassModal) {
+      setMode("select");
+    } else {
+      setMode("explore");
+    }
+  }, [showClassModal]);
+
+  // ✅ interações da sala
+  const interactions = useMemo(
+    () =>
+      createPcsRoom({
+        addItem,
+        setPopup,
+        gotKey,
+        setGotKey,
+      }),
+    [addItem, gotKey]
+  );
+
+  return (
+    <>
+      <SceneBase
+        scene={scene}
+        className="Master PcsRoom"
+        interactions={interactions}
+        popup={popup}
+        setPopup={setPopup}
+
+        // 🔥 equivalente ao onFinish antigo
+        onFinishExtra={() => ({
+          setShowClassModal,
+          progressQuest,
+          giveQuest,
+          addItem,
+        })}
+      />
+
+      {/* 🧠 MODAL (continua fora do SceneBase) */}
+      {showClassModal && (
+        <div className={styles.classModal}>
+          <h1>Escolha sua classe</h1>
+
+          <div className={styles.classList}>
+            {classes.map((cls, index) => (
+              <div
+                key={cls}
+                className={`${styles.classItem} ${
+                  index === selectedIndex ? styles.selected : ""
+                }`}
+              >
+                {index === selectedIndex && (
+                  <span className="cursor">▼</span>
+                )}
+
+                <h3>{cls}</h3>
+
+                {cls === "fracote" && <p>-1 no deliciômetro</p>}
+                {cls === "idiota" && <p>-8% dano recebido</p>}
+                {cls === "amostradinho" && <p>+1% dano causado</p>}
+              </div>
+            ))}
+          </div>
+
+          <p>
+            Sua classe influencia todos os personagens e pode ser alterada
+            futuramente
+          </p>
+        </div>
+      )}
+
+      {/* 💬 popup */}
+      {popup && (
+        <Talking
+          name="Sistema"
+          message={popup}
+        />
+      )}
+    </>
+  );
+}
