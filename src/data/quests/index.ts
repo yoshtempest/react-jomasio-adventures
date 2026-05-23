@@ -155,6 +155,18 @@ export const QUESTS = {
     progress: 0,
     completed: false
   },
+  help_jailson: {
+    id: "help_jailson",
+    name: "Ajude Jailson, ele está em perigo!",
+    image: "/assets/npcs/remedinha/default.svg",
+    description: "Tem uma feiosa dando em cima dele, vá lá e ajude ele a se livrar dela",
+    rewardsType: "xp",
+    rewards: 40,
+    type: "history",
+    counter: 1,
+    progress: 0,
+    completed: false
+  },
   go_to_hell: {
     id: "go_to_hell",
     name: "Encontre Negão do Ferro Velho",

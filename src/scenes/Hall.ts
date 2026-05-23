@@ -121,7 +121,6 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     className: "HallOne",
     audio: { src: LavenderTown },
     initialPosition: (lastPage?: string) => {
-      // console.log("LAST PAGE:", lastPage);
       if (lastPage === "/pcroom/six") {
         return { x: 12, y: 7, direction: "left" as const };
       }
@@ -138,7 +137,12 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
       {
         x: 8,
         y: 2,
-        route: "/hall/two",
+        getRoute: (_player, quests) => {
+          if (quests.some(q => q.id === "help_jailson")) {
+            return "/hall/jailson";
+          }
+          return "/hall/two";
+        },
       },
       {
         x: 13,
@@ -200,7 +204,6 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     className: "HallLeft",
     audio: { src: LavenderTown },
     initialPosition: (lastPage?: string) => {
-      // console.log("LAST PAGE:", lastPage);
       if (lastPage === "/hall/center-one") {
         return { x: 9, y: 5, direction: "down" as const };
       }
@@ -234,7 +237,6 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     className: "HallCenter",
     audio: { src: LavenderTown },
     initialPosition: (lastPage?: string) => {
-      // console.log("LAST PAGE:", lastPage);
       if (lastPage === "/hall/center-front") {
         return { x: 8, y: 6, direction: "down" as const };
       }
@@ -273,7 +275,6 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     className: "HallCenterFront",
     audio: { src: LavenderTown },
     initialPosition: (lastPage?: string) => {
-      // console.log("LAST PAGE:", lastPage);
       if (lastPage === "/hall/thirdclass") {
         return { x: 10, y: 7, direction: "left" as const };
       }
@@ -300,7 +301,6 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     className: "HallThirdClass",
     audio: { src: LavenderTown },
     initialPosition: (lastPage?: string) => {
-      // console.log("LAST PAGE:", lastPage);
       if (lastPage === "/library") {
         return { x: 8, y: 6, direction: "down" as const };
       }
