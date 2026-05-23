@@ -20,7 +20,7 @@ export function QuestCard({ quest, selected }: Props) {
             className={styles.container}
         >
             <div className={styles.row}>
-                <img src={asset(quest.image)} width={50} />
+                <img src={asset(quest.image)} className={styles.image} width={50} />
                 <h3>{quest.name}</h3>
             </div>
 

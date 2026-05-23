@@ -21,3 +21,8 @@
     width: fit-content;
     align-self: center;
 }
+
+.image {
+    max-height: 16vh;
+    width: 10vh;
+}
