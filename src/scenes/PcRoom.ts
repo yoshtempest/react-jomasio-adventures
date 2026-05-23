@@ -57,7 +57,7 @@ export const PCS_ROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     events: [
       {
         type: "conditional",
-        condition: { notHasFlag: "hungry_intro_done" },
+        condition: { notHasQuest: "x1_hungry" },
         then: [
           { type: "giveQuest", questId: "x1_hungry" },
           { type: "navigate", to: "/pcroom/battle/one" }
@@ -65,7 +65,7 @@ export const PCS_ROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
       },
       {
         type: "conditional",
-        condition: { hasQuest: "x1_hungry" },
+        condition: { hasFlag: "hungry_battle_won" },
         then: [
           { type: "progressQuest", id: "x1_hungry", value: 1 },
           { type: "navigate", to: "/pcroom/three" }

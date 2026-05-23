@@ -12,6 +12,7 @@ export default function PcRoomBattleOne() {
       redirectTo="/pcroom/two"
       onVictory={() => {
         setFlag("hungry_intro_done");
+        setFlag("hungry_battle_won");
       }}
       victoryDescription="Você derrotou um morto de fome!"
       className="PcRoomBattle"

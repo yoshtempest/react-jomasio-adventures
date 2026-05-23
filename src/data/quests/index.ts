@@ -146,7 +146,7 @@ export const QUESTS = {
   encounter_deise: {
     id: "encounter_deise",
     name: "Nunca me encontre",
-    image: "/assets/npcs/deise/default.svg",
+    image: "/assets/npcs/deise/right.svg",
     description: "Vá ao Tanque dos Cravos",
     rewardsType: "xp",
     rewards: 1000,
