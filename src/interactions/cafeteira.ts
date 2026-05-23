@@ -14,7 +14,7 @@ export function createCafeteria(deps: CafeteriaDeps) {
         progressQuest("go_cafeteria", 1);
 
         addItem({
-          id: "key_01",
+          id: "sausage",
           name: "Linguição",
         });
 

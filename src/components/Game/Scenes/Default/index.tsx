@@ -97,7 +97,9 @@ export function ExploreScene({
   function runEvent(event: SceneEvent) {
     switch (event.type) {
       case "navigate":
-        setTimeout(() => navigate(event.to), 0);
+        setTimeout(() =>
+          navigate(event.to, { state: { from: location.pathname } })
+        , 0);
         return;
 
       case "setFlag":
@@ -165,7 +167,7 @@ export function ExploreScene({
     if (onFinish) onFinish();
 
     if (nextRoute) {
-      navigate(nextRoute);
+      navigate(nextRoute, { state: { from: location.pathname } });
     }
   };
 

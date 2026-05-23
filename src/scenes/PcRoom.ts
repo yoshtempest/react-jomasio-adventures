@@ -55,7 +55,7 @@ export const PCS_ROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     events: [
       {
         type: "conditional",
-        condition: { notHasQuest: "x1_hungry" },
+        condition: { notHasFlag: "hungry_intro_done" },
         then: [
           { type: "giveQuest", questId: "x1_hungry" },
           { type: "navigate", to: "/pcroom/battle/one" }

@@ -43,7 +43,7 @@ export const CAFETERIA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     events: [
       {
         type: "conditional",
-        condition: { notHasQuest: "return_to_remedinha" },
+        condition: { notHasFlag: "deise_intro_done" },
         then: [
           { type: "giveQuest", questId: "x1_deise" },
           { type: "navigate", to: "/cafeteria/battle" },
@@ -60,6 +60,10 @@ export const CAFETERIA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
               {
                 type: "giveQuest",
                 questId: "encounter_deise",
+              },
+              {
+                type: "progressQuest",
+                id: "x1_deise", value: 1
               },
               {
                 type: "navigate",
@@ -88,6 +92,7 @@ export const CAFETERIA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
       { src: "/assets/npcs/deise/default.svg", gridX: 14, gridY: 5 }
     ],
     events: [
+      { type: "giveQuest", questId: "denis_sausage", },
       { type: "navigate", to: "/cafeteria/three" }
     ],
     audio: { src: LavenderTown },
@@ -97,7 +102,10 @@ export const CAFETERIA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     id: "three",
     map: cafeteriaThree,
     audio: { src: LavenderTown },
-    dialogueData: (items) => {
+    npcs: [
+      { src: "/assets/npcs/denis/default.svg", gridX: 12, gridY: 5 },
+    ],
+    dialogueData: (_quests, items) => {
       const hasItem = (id: string) =>
         items.some(item => item.id === id);
 
@@ -111,8 +119,9 @@ export const CAFETERIA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
         type: "conditional",
         condition: { hasItem: "sausage" },
         then: [
-          { type: "removeItem", itemId: "sausage" },
+          { type: "progressQuest", id: "denis_sausage", value: 1 },
           { type: "navigate", to: "/cafeteria/four" },
+          { type: "removeItem", itemId: "sausage" },
         ],
       }
     ],
@@ -124,7 +133,7 @@ export const CAFETERIA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     audio: { src: LavenderTown },
     initialPosition: (lastPage?: string) => {
       if (lastPage?.startsWith("/cafeteria")) {
-        return { x: 13, y: 5, direction: "right" as const };
+        return { x: 13, y: 5, direction: "left" as const };
       }
 
       return { x: 9, y: 11, direction: "up" as const };

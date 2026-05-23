@@ -119,9 +119,21 @@ export const QUESTS = {
   },
   return_to_remedinha: {
     id: "return_to_remedinha",
-    name: "Contar a fofoca do dia",
+    name: "Conte a fofoca do dia",
     image: "/assets/npcs/remedinha/default.svg",
     description: "Volte e reporte a Remedinha sobre o ocorrido no refeitório",
+    rewardsType: "xp",
+    rewards: 10,
+    type: "history",
+    counter: 1,
+    progress: 0,
+    completed: false
+  },
+  denis_sausage: {
+    id: "denis_sausage",
+    name: "Me dê o linguição",
+    image: "/assets/npcs/denis/default.svg",
+    description: "Entregue seu linguição para Denis",
     rewardsType: "xp",
     rewards: 10,
     type: "history",

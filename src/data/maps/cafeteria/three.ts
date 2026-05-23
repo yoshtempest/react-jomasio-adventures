@@ -52,7 +52,7 @@ export const cafeteriaThreeDialogue = [
     {
         src: "/assets/npcs/denis/angry.svg",
         name: "Denis",
-        message: "EU NÃO SEI, DÁ UM JEITO AI",
+        message: "E O QUE É ISSO NO MEIO DE SUAS PERNAS?",
     },
     {
         isPlayer: true,
