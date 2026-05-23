@@ -1,4 +1,3 @@
-// src/components/LoadingScreen.tsx
 import { useEffect, useRef } from "react";
 import { asset } from "@/utils/asset";
 

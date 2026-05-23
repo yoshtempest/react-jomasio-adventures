@@ -10,7 +10,7 @@ export function createDirector(deps: DirectorDeps) {
   const { progressQuest } = deps;
 
   return createInteractionMap(directorMessages, deps, {
-    "4,3": ({ hasItem, setPopup, removeItem, navigate, playSFX }) => {
+    "4,3": ({ hasItem, setPopup, navigate, playSFX }) => {
       if (hasItem("key_01")) {
         setPopup("Você usou a chave.");
         progressQuest("director_escape", 1);
