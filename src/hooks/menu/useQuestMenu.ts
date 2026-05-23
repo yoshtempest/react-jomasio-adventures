@@ -6,8 +6,12 @@ import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 
-export function useQuestMenu(isOpen: boolean) {
+export function useQuestMenu(
+  isOpen: boolean,
+  listRef?: React.RefObject<HTMLUListElement | null>
+) {
   const { pushControls, popControls } = useGameControls();
+  
   const { quests, claimQuest } = useQuests();
   const { addXP } = useCharacterProgress();
   const { player, addCoins } = usePlayer();
@@ -19,6 +23,37 @@ export function useQuestMenu(isOpen: boolean) {
   // mantém ref sincronizada (evita stale no confirm)
   useEffect(() => {
     selectedIndexRef.current = selectedIndex;
+  }, [selectedIndex]);
+
+  useEffect(() => {
+    if (!listRef?.current) return;
+
+    const container = listRef.current;
+    const selectedElement = container.children[selectedIndex] as HTMLElement;
+
+    if (!selectedElement) return;
+
+    const COLS = 3;
+
+    // 👇 calcula em qual linha estamos
+    const rowIndex = Math.floor(selectedIndex / COLS);
+
+    // pega altura de um item (assumindo grid uniforme)
+    const itemHeight = selectedElement.offsetHeight;
+
+    // pega gap (IMPORTANTE)
+    const styles = window.getComputedStyle(container);
+    const gap = parseInt(styles.rowGap || "0");
+
+    const rowHeight = itemHeight + gap;
+
+    // 👇 scroll baseado na linha (não no item)
+    const targetScroll = rowIndex * rowHeight;
+
+    container.scrollTo({
+      top: targetScroll,
+      behavior: "smooth",
+    });
   }, [selectedIndex]);
 
   // garante que o índice nunca fique inválido
@@ -68,14 +103,14 @@ export function useQuestMenu(isOpen: boolean) {
       onDown: () => {
         playMove();
         setSelectedIndex((prev) =>
-          gridMove(prev, 2, "down", quests.length) // 👈 2 colunas
+          gridMove(prev, 3, "down", quests.length) // 👈 3 colunas
         );
       },
 
       onUp: () => {
         playMove();
         setSelectedIndex((prev) =>
-          gridMove(prev, 2, "up", quests.length) // 👈 2 colunas
+          gridMove(prev, 3, "up", quests.length) // 👈 3 colunas
         );
       },
 
