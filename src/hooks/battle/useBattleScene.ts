@@ -13,6 +13,7 @@ import { useNavigate } from "react-router";
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
+import { useLocation } from "react-router";
 
 type Props = {
   map: any;
@@ -30,6 +31,7 @@ export function useBattleScene({
   onVictory,
 }: Props) {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { player, setMap, setMode, attack, special, resetBattleState, difficulty } = usePlayer();
   const { pushControls, popControls } = useGameControls();
@@ -147,7 +149,12 @@ export function useBattleScene({
 
   function handleContinue() {
     if (onVictory) onVictory();
-    else if (redirectTo) navigate(redirectTo);
+
+    if (redirectTo) {
+      navigate(redirectTo, {
+        state: { from: location.pathname }
+      });
+    }
   }
 
   return {

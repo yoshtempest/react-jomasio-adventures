@@ -159,6 +159,7 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
         type: "conditional",
         condition: { hasItem: "aura_letter" },
         then: [
+          { type: "progressQuest", id: "letter_delivery", value: 1 },
           { type: "removeItem", itemId: "aura_letter" },
           { type: "giveQuest", questId: "search_packaging" },
         ],

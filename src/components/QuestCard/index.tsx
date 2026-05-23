@@ -27,7 +27,7 @@ export function QuestCard({ quest, selected }: Props) {
             <p>{quest.description}</p>
             <div className={styles.rowTwo}>
                 <span>{quest.progress} / {quest.counter} </span>
-                <p>{quest.rewards} XP</p>
+                <p>{quest.rewards} {quest.rewardsType?.toUpperCase()}</p>
             </div>
         </div>
     );

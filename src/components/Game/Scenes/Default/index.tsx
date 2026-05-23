@@ -29,7 +29,6 @@ export function ExploreScene({
   map,
   dialogueData = [],
   initialPosition,
-  lastPage,
   npcs = [],
   audio,
   transitions,
@@ -47,6 +46,7 @@ export function ExploreScene({
   const { items, addItem, removeItem } = useInventory();
   const { quests, addQuest, updateProgress } = useQuests();
   const { setFlag, hasFlag } = useFlags();
+  const lastPage = location.state?.from;
 
   useEffect(() => {
     saveGame({

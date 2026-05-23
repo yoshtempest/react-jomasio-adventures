@@ -1,11 +1,11 @@
 import { pcsRoom } from "@/maps/pcRoom/one";
 import { pcsRoomTwo } from "@/maps/pcRoom/two";
-import { pcsRoomFour } from "@/maps/pcRoom/four";
+import { pcsRoomThree } from "@/maps/pcRoom/three";
+import { pcsRoomFive } from "@/maps/pcRoom/five";
 import { pcsRoomSix } from "@/maps/pcRoom/six";
 
 import { pcsRoomDialogue } from "@/data/maps/pcsRoom/one";
 import { pcsRoomTwoDialogue } from "@/data/maps/pcsRoom/two";
-
 import { pcsRoomThreeDialogue } from "@/data/maps/pcsRoom/three";
 import { pcsRoomFourDialogue } from "@/data/maps/pcsRoom/four";
 import { pcsRoomFiveDialogue } from "@/data/maps/pcsRoom/five";
@@ -14,7 +14,7 @@ import { pcsRoomSixDialogue } from "@/data/maps/pcsRoom/six";
 import MonkeyCircle from "/assets/songs/MonkeyCircle.m4a";
 
 import type { SceneConfig, SceneId } from "@/utils/types/maps/sceneConfig";
-import { pcsRoomSeven } from "@/maps/pcRoom/seven";
+
 import type { QuestId } from "@/data/quests";
 
 export const PCS_ROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
@@ -65,6 +65,7 @@ export const PCS_ROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
         type: "conditional",
         condition: { hasQuest: "x1_hungry" },
         then: [
+          { type: "progressQuest", id: "x1_hungry", value: 1 },
           { type: "navigate", to: "/pcroom/three" }
         ],
       },
@@ -77,9 +78,10 @@ export const PCS_ROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
 
   three: {
     id: "three",
-    map: pcsRoomFour,
+    map: pcsRoomThree,
     dialogueData: pcsRoomFourDialogue,
     events: [
+      { type: "giveQuest", questId: "x1_vandinha" },
       { type: "navigate", to: "/pcroom/battle/two" }
     ],
     audio: { src: MonkeyCircle },
@@ -90,9 +92,10 @@ export const PCS_ROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
 
   four: {
     id: "four",
-    map: pcsRoomFour,
+    map: pcsRoomThree,
     dialogueData: pcsRoomFiveDialogue,
     events: [
+      { type: "progressQuest", id: "x1_vandinha", value: 1 },
       { type: "navigate", to: "/pcroom/five" }
     ],
     audio: { src: MonkeyCircle },
@@ -104,9 +107,10 @@ export const PCS_ROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
 
   five: {
     id: "five",
-    map: pcsRoomSix,
+    map: pcsRoomFive,
     dialogueData: pcsRoomSixDialogue,
     events: [
+      { type: "giveQuest", questId: "letter_delivery" },
       { type: "addItem", itemId: "aura_letter"},
       { type: "navigate", to: "/pcroom/six" }
     ],
@@ -118,7 +122,7 @@ export const PCS_ROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
 
   six: {
     id: "six",
-    map: pcsRoomSeven,
+    map: pcsRoomSix,
     exitTile: [{
       x: 3,
       y: 3,

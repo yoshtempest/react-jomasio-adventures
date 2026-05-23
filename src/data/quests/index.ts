@@ -71,11 +71,35 @@ export const QUESTS = {
     progress: 0,
     completed: false
   },
+  x1_vandinha: {
+    id: "x1_vandinha",
+    name: "Vem pro fight",
+    image: "/assets/npcs/vandinhaFragment/right.svg",
+    description: "Sobreviva a luta com um fragmento contendo 1% do poder de Vandinha",
+    type: "history",
+    rewardsType: "coin",
+    rewards: 100,
+    counter: 1,
+    progress: 0,
+    completed: false
+  },
   search_packaging: {
     id: "search_packaging",
     name: "Entrega suspeita",
     image: "/assets/npcs/remedinha/default.svg",
     description: "Vá na biblioteca e traga a embalagem suspeita para Remedinha.",
+    rewardsType: "xp",
+    rewards: 10,
+    type: "history",
+    counter: 1,
+    progress: 0,
+    completed: false
+  },
+  letter_delivery: {
+    id: "letter_delivery",
+    name: "Entrega de aura",
+    image: "/assets/npcs/reincardion/right.svg",
+    description: "Entregue a carta de muita aura para Remedinha",
     rewardsType: "xp",
     rewards: 10,
     type: "history",

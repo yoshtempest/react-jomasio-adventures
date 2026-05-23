@@ -1,5 +1,5 @@
 import { cantina } from "@/maps/cantina/one";
-import { cantinaFour } from "@/maps/cantina/four";
+import { cantinaTwo } from "@/maps/cantina/two";
 
 import { cantinaDialogue } from "@/data/maps/cantina/one";
 import { cantinaTwoDialogue } from "@/data/maps/cantina/two";
@@ -62,6 +62,7 @@ export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
               { type: "navigate", to: "/cantina/battle" }
             ],
             else: [
+              { type: "progressQuest", id: "x1_jhowsimar", value: 1 },
               { type: "giveQuest", questId: "explore_jorjao", },
               { type: "navigate", to: "/cantina/two" }
             ]
@@ -72,7 +73,7 @@ export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
   },
   two: {
     id: "two",
-    map: cantinaFour,
+    map: cantinaTwo,
     audio: { src: LavenderTown },
     initialPosition: (lastPage?: string) => {
       if (
@@ -100,9 +101,11 @@ export const CANTINA_SCENES: Partial<Record<SceneId, SceneConfig>> = {
         blockedMessage: "Ainda não é o momento..."
       },
       {
-        x: 11,
-        y: 4,
+        x: 10,
+        y: 2,
         route: "/director/two",
+        requiredQuest: "director_escape",
+        blockedMessage: "Ainda não é o momento..."
       }
     ],
     tiles: [
