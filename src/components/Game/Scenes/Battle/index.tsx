@@ -70,7 +70,7 @@ export function BattleScene(props: Props) {
 
   return (
     <div className={`Master ${className ?? ""}`}>
-      <BattleHUD battle={battle} npcStats={npcStats} />
+      <BattleHUD battle={battle} npcStats={npcStats} npcType={npcType} />
       {showIntro && (
         <BattleIntro
           playerCharacter={player.character}

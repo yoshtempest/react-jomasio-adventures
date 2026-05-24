@@ -6,8 +6,9 @@
 }
 
 .image {
-    background-color: black;
+    background-color: var(--background-color);
     border: 1px solid white;
+    border-radius: 2px;
     width: 12vh;
     height: 12vh;
     object-fit: contain;
