@@ -7,7 +7,7 @@ export const CHARACTER_RANGE_X: Record<
 > = {
   eduarda: {
     normalHitRange: 150,
-    specialHitRange: 250,
+    specialHitRange: 180,
   },
 
   marcelo: {
@@ -17,7 +17,7 @@ export const CHARACTER_RANGE_X: Record<
 
   samuel: {
     normalHitRange: 100,
-    specialHitRange: 220,
+    specialHitRange: 180,
   },
 
   artur: {
