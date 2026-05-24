@@ -1,3 +1,5 @@
+import { hallTwo } from "@/maps/hall/two";
+
 import { HALL_MUSIC } from "../shared/music";
 import { HALL_ROUTES } from "../shared/routes";
 
@@ -6,8 +8,12 @@ import {
   createNpc,
 } from "../shared/factories";
 
-export const jailsonOneScene = {
+import type { SceneConfig } from "@/utils/types/maps/sceneConfig";
+
+export const jailsonOneScene: SceneConfig = {
   id: "jailson-one",
+
+  map: hallTwo,
 
   audio: {
     src: HALL_MUSIC.jailson,
