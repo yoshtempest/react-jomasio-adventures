@@ -10,7 +10,7 @@ export default function JailsonHallBattle() {
     <BattleScene
       map={firstBattle}
       npcType="slimita"
-      redirectTo="/hall/jailson"
+      redirectTo="/hall/jailson-two"
       onVictory={() => {
         setFlag("slimita_intro_done");
         setFlag("slimita_battle_won");

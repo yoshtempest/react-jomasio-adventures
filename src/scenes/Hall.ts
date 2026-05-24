@@ -10,8 +10,15 @@ import { AfterPcRoomFourDialogue } from "@/data/maps/hall/one/four";
 import { AfterPcRoomFiveDialogue } from "@/data/maps/hall/one/five";
 import { AfterPcRoomSixDialogue } from "@/data/maps/hall/one/six";
 
-import { hallTwoDialogue } from "@/data/maps/hall/two";
-import { hallJailsonDialogue } from "@/data/maps/hall/jailson";
+import { hallJailsonOneDialogue } from "@/data/maps/hall/jailson/one";
+import { hallJailsonTwoDialogue } from "@/data/maps/hall/jailson/two";
+import { hallJailsonThreeDialogue } from "@/data/maps/hall/jailson/three";
+import { hallJailsonFourDialogue } from "@/data/maps/hall/jailson/four";
+import { hallJailsonFiveDialogue } from "@/data/maps/hall/jailson/five";
+import { hallJailsonSixDialogue } from "@/data/maps/hall/jailson/six";
+import { hallJailsonSevenDialogue } from "@/data/maps/hall/jailson/seven";
+import { hallJailsonEightDialogue } from "@/data/maps/hall/jailson/eight";
+import { hallJailsonNineDialogue } from "@/data/maps/hall/jailson/nine";
 
 import LavenderTown from "/assets/songs/LavenderTown.m4a";
 import JailsonTheme from "/assets/songs/JailsonTheme.m4a";
@@ -23,13 +30,14 @@ import { hallThirdClass } from "@/maps/hall/thirdClass";
 import type { QuestId } from "@/data/quests";
 import { hallJailson } from "@/maps/hall/jailson";
 
+
 export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
   one: {
     id: "one",
     map: hallOne,
     className: "HallOne",
     initialPosition: (lastPage?: string) => {
-      if (lastPage === "/hall/two") {
+      if (lastPage === "/hall/jailson-one") {
         return { x: 8, y: 3, direction: "down" as const };
       }
 
@@ -44,9 +52,7 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
       {
         x: 8,
         y: 2,
-        route: "/hall/two",
-        blockedMessage: "O Jailson tá bloqueando a passagem, melhor não arriscar...",
-        requiredQuest: "letter_delivery",
+        route: "/hall/jailson-one",
       },
       {
         x: 13,
@@ -65,13 +71,50 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
       },
     ],
   },
-  two: {
-    id: "two",
+  "jailson-one": {
+    id: "jailson-one",
     map: hallTwo,
-    dialogueData: hallTwoDialogue,
+    dialogueData: (quests, items) => {
+      const hasQuest = (id: QuestId) =>
+        quests.some(q => q.id === id);
+
+      const hasItem = (id: string) =>
+        items.some(item => item.id === id);
+
+      if (!hasQuest("give_orange_juice")) {
+        return hallJailsonFourDialogue;
+      }
+
+      if (hasQuest("give_orange_juice") && !hasItem("orange_juice") && !hasQuest("create_map")) {
+        return hallJailsonFiveDialogue;
+      }
+
+      if (hasQuest("give_orange_juice") && hasItem("orange_juice")) {
+        return hallJailsonSixDialogue;
+      }
+
+      if (hasQuest("create_map") && !hasItem("desired_gear") && !hasItem("jorjao_map")) {
+        return hallJailsonSevenDialogue;
+      }
+
+      if (hasQuest("create_map") && hasItem("desired_gear")) {
+        return hallJailsonEightDialogue;
+      }
+
+      if (hasItem("jorjao_map")) {
+        return hallJailsonNineDialogue;
+      }
+
+      return hallJailsonOneDialogue;
+    },
     className: "HallTwo",
     audio: { src: JailsonTheme },
-    initialPosition: { x: 9, y: 10, direction: "up" },
+    initialPosition: (lastPage?: string) => {
+      if (lastPage === "/hall/jailson-two") {
+        return { x: 9, y: 4, direction: "left" as const };
+      }
+      return { x: 9, y: 10, direction: "up" as const };
+    },
     npcs: [
       { src: "/assets/npcs/jailson/default.svg", gridX: 8, gridY: 3 }
     ],
@@ -79,19 +122,65 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
       {
         x: 9,
         y: 11,
-        route: "/hall/one",
+        getRoute: (_player, quests) => {
+          if (quests.some(q => q.id === "letter_delivery" || "help_jailson" || "x1_slimita")) {
+            return "/hall/afterpcroom-one";
+          }
+          return "/hall/one";
+        },
       },
       {
         x: 8,
         y: 11,
-        route: "/hall/one",
-      }
+        getRoute: (_player, quests) => {
+          if (quests.some(q => q.id === "letter_delivery" || "help_jailson" || "x1_slimita")) {
+            return "/hall/afterpcroom-one";
+          }
+          return "/hall/one";
+        },
+      },
+    ],
+    events: [
+      {
+        type: "conditional",
+        condition: { notHasQuest: "give_orange_juice" },
+        then: [
+          { type: "giveQuest", questId: "give_orange_juice" },
+        ],
+      },
+      {
+        type: "conditional",
+        condition: { hasItem: "orange_juice", hasQuest: "give_orange_juice" },
+        then: [
+          { type: "removeItem", itemId: "orange_juice" },
+          { type: "giveQuest", questId: "create_map" },
+          { type: "progressQuest", id: "give_orange_juice", value: 1 },
+        ],
+      },
+      {
+        type: "conditional",
+        condition: { hasQuest: "create_map", hasItem: "desired_gear" },
+        then: [
+          { type: "removeItem", itemId: "desired_gear" },
+          { type: "addItem", itemId: "jorjao_map" },
+          { type: "progressQuest", id: "create_map", value: 1 },
+        ],
+      },
     ],
   },
-  jailson: {
-    id: "jailson",
+  "jailson-two": {
+    id: "jailson-two",
     map: hallJailson,
-    dialogueData: hallJailsonDialogue,
+    dialogueData: (quests) => {
+      const hasQuest = (id: QuestId) =>
+        quests.some(q => q.id === id);
+
+      if (hasQuest("x1_slimita")) {
+        return hallJailsonThreeDialogue;
+      }
+
+      return hallJailsonTwoDialogue;
+    },
     className: "HallTwo",
     audio: { src: JailsonTheme },
     initialPosition: { x: 9, y: 10, direction: "up" },
@@ -127,12 +216,11 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
           hasFlag: "slimita_battle_won"
         },
         then: [
+          { type: "giveQuest", questId: "give_orange_juice" },
           { type: "progressQuest", id: "x1_slimita", value: 1 },
-          { type: "navigate", to: "/hall/jailson-two" }
+          { type: "navigate", to: "/hall/jailson-one" }
         ],
       },
-      { type: "giveQuest", questId: "x1_slimita" },
-      { type: "navigate", to: "/hall/jailson/battle" }
     ],
   },
   "afterpcroom-one": {
@@ -176,6 +264,9 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
       if (lastPage === "/hall/left-one") {
         return { x: 2, y: 10, direction: "right" as const };
       }
+      if (lastPage === "/hall/jailson-one" || lastPage === "/hall/jailson-two") {
+        return { x: 8, y: 3, direction: "down" as const };
+      }
 
       return { x: 2, y: 9, direction: "down" as const };
     },
@@ -188,9 +279,29 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
         y: 2,
         getRoute: (_player, quests) => {
           if (quests.some(q => q.id === "help_jailson")) {
-            return "/hall/jailson";
+            return "/hall/jailson-two";
           }
-          return "/hall/two";
+          return "/hall/jailson-one";
+        },
+      },
+      {
+        x: 9,
+        y: 2,
+        getRoute: (_player, quests) => {
+          if (quests.some(q => q.id === "help_jailson")) {
+            return "/hall/jailson-two";
+          }
+          return "/hall/jailson-one";
+        },
+      },
+      {
+        x: 7,
+        y: 2,
+        getRoute: (_player, quests) => {
+          if (quests.some(q => q.id === "help_jailson")) {
+            return "/hall/jailson-two";
+          }
+          return "/hall/jailson-one";
         },
       },
       {

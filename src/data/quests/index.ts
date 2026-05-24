@@ -179,6 +179,30 @@ export const QUESTS = {
     progress: 0,
     completed: false
   },
+  give_orange_juice: {
+    id: "give_orange_juice",
+    name: "Dê o suco de laranja",
+    image: "/assets/npcs/jailson/default.svg",
+    description: "Agora eu to a fim de relaxar, me traga um suco de laranja.",
+    rewardsType: "xp",
+    rewards: 40,
+    type: "history",
+    counter: 1,
+    progress: 0,
+    completed: false
+  },
+  create_map: {
+    id: "create_map",
+    name: "Preciso de uma peça",
+    image: "/assets/npcs/jailson/default.svg",
+    description: "Se você me trouxer a peça que eu quero, eu faço um mapa pra você",
+    rewardsType: "xp",
+    rewards: 40,
+    type: "history",
+    counter: 1,
+    progress: 0,
+    completed: false
+  },
   go_to_hell: {
     id: "go_to_hell",
     name: "Encontre Negão do Ferro Velho",

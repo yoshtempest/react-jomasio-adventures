@@ -1,4 +1,4 @@
-export const hallTwoDialogue = [
+export const hallJailsonOneDialogue = [
     {
         src: "/assets/npcs/jailson/right.svg",
         name: "Jailson",
