@@ -6,6 +6,7 @@ export const NPCS: Record<string, NPCData> = {
   goat: { type: "goat", class: "rare" },
   vandinhaFragment: { type: "vandinhaFragment", class: "epic" },
   deise: { type: "deise", class: "boss" },
+  slimita: { type: "slimita", class: "boss" },
   elitHungry: { type: "elitHungry", class: "epic" },
   denis: { type: "denis", class: "boss" },
   srGuaxinim: { type: "srGuaxinim", class: "epic" },

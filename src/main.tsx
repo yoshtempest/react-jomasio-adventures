@@ -54,6 +54,7 @@ const HungryDeathBattle = lazyLoad(() => import('./pages/Battle/Hungry/index.tsx
 const CafeteriaBattle = lazyLoad(() => import('./pages/Cafeteria/Battle/index.tsx'));
 const CafeteriaPage = lazyLoad(() => import('./pages/Cafeteria/index.tsx'));
 const BrodiClassOne = lazyLoad(() => import('./pages/BrodiClass/index.tsx'));
+import JailsonHallBattle from './pages/Hall/Battle/index.tsx';
 
 const nonBattlePages = [
   EntryPoint,
@@ -110,6 +111,7 @@ root.render(
                               <Route path="hall">
                                 <Route index element={<Navigate to="/hall/one" />} />
                                 <Route path=":id" element={<HallPage />} />
+                                <Route path="jailson/battle" element={<JailsonHallBattle />} />
                               </Route>
 
                               <Route path="cantina">

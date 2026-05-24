@@ -140,6 +140,10 @@ h2 {
   background-image: url("/assets/cenarios/cafeteriaBattle.svg");
 }
 
+.jailsonHallBattle {
+  background-image: url("/assets/cenarios/jailsonHallBattle.svg");
+}
+
 .loading-screen {
   position: fixed;
   top: 0;

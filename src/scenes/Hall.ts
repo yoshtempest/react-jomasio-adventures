@@ -97,7 +97,7 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
     initialPosition: { x: 9, y: 10, direction: "up" },
     npcs: [
       { src: "/assets/npcs/jailson/default.svg", gridX: 8, gridY: 3 },
-      { src: "/assets/npcs/slimita/default.svg", gridX: 8, gridY: 4 }
+      { src: "/assets/npcs/slimita/up.svg", gridX: 8, gridY: 4 }
     ],
     tiles: [
       {
@@ -110,6 +110,29 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
         y: 11,
         route: "/hall/afterpcroom-one",
       }
+    ],
+    events: [
+      {
+        type: "conditional",
+        condition: { notHasFlag: "slimita_battle_won" },
+        then: [
+          { type: "giveQuest", questId: "x1_slimita" },
+          { type: "navigate", to: "/hall/jailson/battle" }
+        ],
+      },
+      {
+        type: "conditional",
+        condition: {
+          hasQuest: "x1_slimita",
+          hasFlag: "slimita_battle_won"
+        },
+        then: [
+          { type: "progressQuest", id: "x1_slimita", value: 1 },
+          { type: "navigate", to: "/hall/jailson-two" }
+        ],
+      },
+      { type: "giveQuest", questId: "x1_slimita" },
+      { type: "navigate", to: "/hall/jailson/battle" }
     ],
   },
   "afterpcroom-one": {

@@ -83,6 +83,18 @@ export const QUESTS = {
     progress: 0,
     completed: false
   },
+  x1_slimita: {
+    id: "x1_slimita",
+    name: "Vem pro fight",
+    image: "/assets/npcs/slimita/right.svg",
+    description: "O jailson é só meu, se quer ele terá que passar por mim primeiro!",
+    type: "history",
+    rewardsType: "coin",
+    rewards: 100,
+    counter: 1,
+    progress: 0,
+    completed: false
+  },
   search_packaging: {
     id: "search_packaging",
     name: "Entrega suspeita",
