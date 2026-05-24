@@ -150,7 +150,10 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
       },
       {
         type: "conditional",
-        condition: { hasItem: "orange_juice", hasQuest: "give_orange_juice" },
+        condition: {
+          hasItem: "orange_juice",
+          hasQuest: "give_orange_juice"
+        },
         then: [
           { type: "removeItem", itemId: "orange_juice" },
           { type: "giveQuest", questId: "create_map" },
@@ -341,7 +344,10 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
       },
       {
         type: "conditional",
-        condition: { hasItem: "good_powder" },
+        condition: {
+          hasItem: "good_powder",
+          notHasQuest: "go_cafeteria"
+        },
         then: [
           { type: "giveQuest", questId: "go_cafeteria" }
         ]
