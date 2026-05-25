@@ -7,7 +7,7 @@ import { hallJailsonEightDialogue } from "@/data/maps/hall/jailson/eight";
 import { hallJailsonNineDialogue } from "@/data/maps/hall/jailson/nine";
 
 import type { QuestId } from "@/data/quests";
-import { hasQuest, hasItem } from "../shared/helpers";
+import { hasQuest, hasItem } from "../../shared/helpers";
 
 export const getJailsonOneDialogue = (
   quests: { id: QuestId }[],

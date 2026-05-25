@@ -15,6 +15,10 @@ export const HALL_ROUTES = {
 
 export const PCROOM_ROUTES = {
   ONE: "/pcroom/one",
+  TWO: "/pcroom/two",
+  THREE: "/pcroom/three",
+  FOUR: "/pcroom/four",
+  FIVE: "/pcroom/five",
   SIX: "/pcroom/six",
 };
 

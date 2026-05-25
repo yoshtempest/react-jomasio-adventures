@@ -1,7 +1,7 @@
-import { createConditionalTile } from "../shared/factories";
+import { createConditionalTile } from "../../shared/factories";
 
-import { HALL_ROUTES } from "../shared/routes";
-import { hasAnyQuest } from "../shared/helpers";
+import { HALL_ROUTES } from "../../shared/routes";
+import { hasAnyQuest } from "../../shared/helpers";
 
 export const jailsonOneTiles = [
   createConditionalTile(

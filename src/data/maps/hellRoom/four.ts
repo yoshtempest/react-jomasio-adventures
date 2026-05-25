@@ -27,7 +27,7 @@ export const HellRoomFourDialogue = [
         isPlayer: true,
         name: "Protagonista",
         message:
-            "Ué, quem é você?",
+            "Ué, quem é você mesmo?",
     },
     {
         src: "/assets/npcs/reincardion/right.svg",

@@ -1,7 +1,7 @@
 import { hallOne } from "@/maps/hall/one";
 import { hallTwo } from "@/maps/hall/two";
 import { hallLeft } from "@/maps/hall/left";
-import { afterPcRoom } from "@/maps/hall/afterPcRoom/one";
+import { afterPcRoom } from "@/maps/hall/afterPcRoom";
 
 import { AfterPcRoomOneDialogue } from "@/data/maps/hall/one/one";
 import { AfterPcRoomTwoDialogue } from "@/data/maps/hall/one/two";
@@ -437,7 +437,6 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
   "center-front": {
     id: "center-front",
     map: hallCenterFront,
-    dialogueData: AfterPcRoomTwoDialogue,
     className: "HallCenterFront",
     audio: { src: LavenderTown },
     initialPosition: (lastPage?: string) => {
@@ -463,7 +462,6 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
   "thirdclass": {
     id: "thirdclass",
     map: hallThirdClass,
-    dialogueData: AfterPcRoomTwoDialogue,
     className: "HallThirdClass",
     audio: { src: LavenderTown },
     initialPosition: (lastPage?: string) => {

@@ -1,17 +1,19 @@
 import { hallTwo } from "@/maps/hall/two";
+import { getJailsonOneDialogue } from "./dialogue"
 
-import { HALL_MUSIC } from "../shared/music";
-import { HALL_ROUTES } from "../shared/routes";
+import { HALL_MUSIC } from "../../shared/music";
+import { HALL_ROUTES } from "../../shared/routes";
 
 import {
   createDoorTile,
   createNpc,
-} from "../shared/factories";
+} from "../../shared/factories";
 
 import type { SceneConfig } from "@/utils/types/maps/sceneConfig";
 
 export const jailsonOneScene: SceneConfig = {
   id: "jailson-one",
+  dialogueData: getJailsonOneDialogue,
 
   map: hallTwo,
 
@@ -31,7 +33,12 @@ export const jailsonOneScene: SceneConfig = {
     createDoorTile(
       8,
       11,
-      HALL_ROUTES.ONE
+      HALL_ROUTES.AFTER_PCROOM_ONE
     ),
+    createDoorTile(
+      9,
+      11,
+      HALL_ROUTES.AFTER_PCROOM_ONE
+    )
   ],
 };
