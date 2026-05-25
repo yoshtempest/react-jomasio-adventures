@@ -1,10 +1,9 @@
 import { SceneBase } from "@/components/Game/Scenes/Base";
-import { HALL_SCENES } from "@/scenes/Hall";
-
+import { HALL_SCENES } from "@/scenes/hall";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
-
 import type { SceneId } from "@/utils/types/maps/sceneConfig";
+
 
 type Props = {
   sceneId: SceneId;
@@ -16,7 +15,6 @@ export function HallScene({ sceneId }: Props) {
   const { addItem, removeItem, hasItem } = useInventory();
   const { quests } = useQuests();
 
-  // ✅ helper específico do hall
   const hasQuest = (id: string) =>
     quests.some((q) => q.id === id);
 
@@ -27,9 +25,7 @@ export function HallScene({ sceneId }: Props) {
   return (
     <SceneBase
       scene={scene}
-      className={`Master ${scene.className}`}
-
-      // 🔥 aqui vai o diferencial do Hall
+      className={`Master ${scene.className ?? ""}`}
       onFinishExtra={() => ({
         addItem,
         removeItem,
