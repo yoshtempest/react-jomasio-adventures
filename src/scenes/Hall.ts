@@ -1,5 +1,5 @@
 import { hallOne } from "@/maps/hall/one";
-import { hallTwo } from "@/maps/hall/two";
+import { hallJailsonOne } from "@/maps/hall/jailsonOne";
 import { hallLeft } from "@/maps/hall/left";
 import { afterPcRoom } from "@/maps/hall/afterPcRoom";
 
@@ -28,7 +28,7 @@ import { hallCenter } from "@/maps/hall/center";
 import { hallCenterFront } from "@/maps/hall/centerFront";
 import { hallThirdClass } from "@/maps/hall/thirdClass";
 import type { QuestId } from "@/data/quests";
-import { hallJailson } from "@/maps/hall/jailson";
+import { hallJailsonTwo } from "@/maps/hall/jailsonTwo";
 
 
 export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
@@ -73,7 +73,7 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
   },
   "jailson-one": {
     id: "jailson-one",
-    map: hallTwo,
+    map: hallJailsonOne,
     dialogueData: (quests, items) => {
       const hasQuest = (id: QuestId) =>
         quests.some(q => q.id === id);
@@ -173,7 +173,7 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
   },
   "jailson-two": {
     id: "jailson-two",
-    map: hallJailson,
+    map: hallJailsonTwo,
     dialogueData: (quests) => {
       const hasQuest = (id: QuestId) =>
         quests.some(q => q.id === id);

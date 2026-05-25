@@ -1,20 +1,17 @@
 import { hallOne } from "@/maps/hall/one";
+import { getHallOneInitialPosition } from "@/scenes/hall/one/position";
+import { HALL_MUSIC } from "@/scenes/shared/music";
+import { HALL_ROUTES, PCROOM_ROUTES, OTHER_ROUTES } from "@/scenes/shared/routes";
 
-import { HALL_MUSIC } from "../../shared/music";
-import { HALL_ROUTES, PCROOM_ROUTES, OTHER_ROUTES } from "../../shared/routes";
-
-import { createDoorTile } from "../../shared/factories";
+import { createDoorTile } from "@/scenes/shared/factories";
 
 import type { SceneConfig } from "@/utils/types/maps/sceneConfig";
 
 export const hallOneScene: SceneConfig = {
   id: "one",
-
+  initialPosition: getHallOneInitialPosition,
   map: hallOne,
-
-  audio: {
-    src: HALL_MUSIC.default,
-  },
+  audio: { src: HALL_MUSIC.default },
 
   tiles: [
     createDoorTile(

@@ -1,4 +1,6 @@
-export const afterPcRoomOneEvents = [
+import type { SceneEvent } from "@/utils/types/maps/sceneEvents";
+
+export const afterPcRoomOneEvents: SceneEvent[] = [
     {
         type: "conditional",
         condition: { hasItem: "aura_letter" },

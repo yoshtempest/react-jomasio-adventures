@@ -1,4 +1,6 @@
-export const jailsonOneEvents = [
+import type { SceneEvent } from "@/utils/types/maps/sceneEvents";
+
+export const jailsonOneEvents: SceneEvent[] = [
     {
         type: "conditional",
         condition: { notHasQuest: "give_orange_juice" },

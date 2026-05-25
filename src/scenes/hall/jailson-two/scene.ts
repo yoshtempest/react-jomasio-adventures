@@ -1,49 +1,20 @@
-import { hallJailson } from "@/maps/hall/jailson";
+import { hallJailsonTwo } from "@/maps/hall/jailsonTwo";
 import { getJailsonTwoDialogue } from "./dialogue"
-
-import { HALL_MUSIC } from "../../shared/music";
-import { HALL_ROUTES } from "../../shared/routes";
-
-import {
-  createDoorTile,
-  createNpc,
-} from "../../shared/factories";
-
+import { getJailsonTwoInitialPosition } from "./position";
+import { jailsonTwoEvents } from "./events";
+import { jailsonTwoNpcs } from "./npcs"
 import type { SceneConfig } from "@/utils/types/maps/sceneConfig";
+import { HALL_MUSIC } from "@/scenes/shared/music";
+import { jailsonTwoTiles } from "./tiles";
+
 
 export const jailsonTwoScene: SceneConfig = {
     id: "jailson-two",
     dialogueData: getJailsonTwoDialogue,
-
-    map: hallJailson,
-
-    audio: {
-        src: HALL_MUSIC.jailson,
-    },
-
-    npcs: [
-        createNpc(
-            "/assets/npcs/jailson/default.svg",
-            8,
-            3
-        ),
-        createNpc(
-            "/assets/npcs/slimita/up.svg",
-            8,
-            4
-        )
-    ],
-
-    tiles: [
-        createDoorTile(
-            8,
-            11,
-            HALL_ROUTES.AFTER_PCROOM_ONE
-        ),
-        createDoorTile(
-            9,
-            11,
-            HALL_ROUTES.AFTER_PCROOM_ONE
-        )
-    ],
+    events: jailsonTwoEvents,
+    tiles: jailsonTwoTiles,
+    map: hallJailsonTwo,
+    initialPosition: getJailsonTwoInitialPosition,
+    audio: { src: HALL_MUSIC.jailson },
+    npcs: jailsonTwoNpcs
 };

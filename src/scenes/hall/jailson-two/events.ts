@@ -1,4 +1,6 @@
-export const jailsonTwoEvents = [
+import type { SceneEvent } from "@/utils/types/maps/sceneEvents";
+
+export const jailsonTwoEvents: SceneEvent[] = [
     {
         type: "conditional",
         condition: { notHasFlag: "slimita_battle_won" },
