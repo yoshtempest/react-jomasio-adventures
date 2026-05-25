@@ -5,7 +5,7 @@ import {
     PCROOM_ROUTES
 } from "@/scenes/shared/routes";
 
-export const hallLeftOneTiles = [
+export const hallOneTiles = [
     createDoorTile(
         8,
         2,

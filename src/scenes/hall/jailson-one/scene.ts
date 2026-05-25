@@ -9,6 +9,7 @@ import { jailsonOneNpcs } from "./npcs";
 
 export const jailsonOneScene: SceneConfig = {
   id: "jailson-one",
+  className: "HallJailson",
   map: hallJailsonOne,
   tiles: jailsonOneTiles,
   events: jailsonOneEvents,

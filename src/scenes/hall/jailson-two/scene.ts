@@ -10,6 +10,7 @@ import { jailsonTwoTiles } from "./tiles";
 
 export const jailsonTwoScene: SceneConfig = {
     id: "jailson-two",
+    className: "HallJailson",
     dialogueData: getJailsonTwoDialogue,
     events: jailsonTwoEvents,
     tiles: jailsonTwoTiles,

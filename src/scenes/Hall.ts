@@ -107,7 +107,7 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
 
       return hallJailsonOneDialogue;
     },
-    className: "HallTwo",
+    className: "HallJailson",
     audio: { src: JailsonTheme },
     initialPosition: (lastPage?: string) => {
       if (lastPage === "/hall/jailson-two") {
@@ -184,7 +184,7 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
 
       return hallJailsonTwoDialogue;
     },
-    className: "HallTwo",
+    className: "HallJailson",
     audio: { src: JailsonTheme },
     initialPosition: { x: 9, y: 10, direction: "up" },
     npcs: [

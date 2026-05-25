@@ -11,6 +11,7 @@ export const HALL_ROUTES = {
   AFTER_PCROOM_ONE: "/hall/afterpcroom-one",
 
   THIRD_CLASS: "/hall/thirdclass",
+  HELL: "/hall/hell",
 };
 
 export const PCROOM_ROUTES = {

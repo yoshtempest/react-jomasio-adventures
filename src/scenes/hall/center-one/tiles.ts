@@ -1,44 +1,12 @@
-import { createConditionalTile } from "@/scenes/shared/factories";
-
-import { HALL_ROUTES } from "@/scenes/shared/routes";
-import { hasAnyQuest } from "@/scenes/shared/helpers";
+import { createDoorTile } from "@/scenes/shared/factories";
+import {
+  HALL_ROUTES,
+  OTHER_ROUTES
+} from "@/scenes/shared/routes";
 
 export const centerOneTiles = [
-  createConditionalTile(
-    9,
-    11,
-
-    (_player, quests) => {
-      if (
-        hasAnyQuest(quests, [
-          "letter_delivery",
-          "help_jailson",
-          "x1_slimita",
-        ])
-      ) {
-        return HALL_ROUTES.AFTER_PCROOM_ONE;
-      }
-
-      return HALL_ROUTES.ONE;
-    }
-  ),
-
-  createConditionalTile(
-    8,
-    11,
-
-    (_player, quests) => {
-      if (
-        hasAnyQuest(quests, [
-          "letter_delivery",
-          "help_jailson",
-          "x1_slimita",
-        ])
-      ) {
-        return HALL_ROUTES.AFTER_PCROOM_ONE;
-      }
-
-      return HALL_ROUTES.ONE;
-    }
-  ),
+  createDoorTile(14, 7, HALL_ROUTES.HELL),
+  createDoorTile(3, 7, OTHER_ROUTES.CANTINA_TWO),
+  createDoorTile(8, 5, HALL_ROUTES.CENTER_FRONT),
+  createDoorTile(7, 11, HALL_ROUTES.LEFT_ONE),
 ];

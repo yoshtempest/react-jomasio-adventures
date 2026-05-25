@@ -7,8 +7,9 @@ import { getAfterPcRoomOneInitialPosition } from "./position";
 import { HALL_MUSIC } from "@/scenes/shared/music";
 import type { SceneConfig } from "@/utils/types/maps/sceneConfig";
 
-export const afterPcRoomOneScene: SceneConfig = {
+export const afterPcRoomScene: SceneConfig = {
   id: "afterpcroom-one",
+  className: "HallOne",
   dialogueData: getAfterPcRoomOneDialogue,
   map: afterPcRoom,
   audio: { src: HALL_MUSIC.jailson },

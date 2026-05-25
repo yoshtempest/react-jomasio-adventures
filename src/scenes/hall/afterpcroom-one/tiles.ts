@@ -1,44 +1,61 @@
-import { createConditionalTile } from "@/scenes/shared/factories";
+import {
+  createConditionalTile,
+  createDoorTile
+} from "@/scenes/shared/factories";
 
-import { HALL_ROUTES } from "@/scenes/shared/routes";
-import { hasAnyQuest } from "@/scenes/shared/helpers";
+import {
+  HALL_ROUTES, 
+  OTHER_ROUTES,
+  PCROOM_ROUTES
+} from "@/scenes/shared/routes";
+import { hasQuest } from "@/scenes/shared/helpers";
 
 export const afterPcRoomOneTiles = [
   createConditionalTile(
     9,
-    11,
+    2,
 
     (_player, quests) => {
       if (
-        hasAnyQuest(quests, [
-          "letter_delivery",
-          "help_jailson",
-          "x1_slimita",
-        ])
+        hasQuest(quests, "help_jailson")
       ) {
-        return HALL_ROUTES.AFTER_PCROOM_ONE;
+        return HALL_ROUTES.JAILSON_TWO;
       }
 
-      return HALL_ROUTES.ONE;
+      return HALL_ROUTES.JAILSON_ONE;
     }
   ),
 
   createConditionalTile(
     8,
-    11,
+    2,
 
     (_player, quests) => {
       if (
-        hasAnyQuest(quests, [
-          "letter_delivery",
-          "help_jailson",
-          "x1_slimita",
-        ])
+        hasQuest(quests, "help_jailson")
       ) {
-        return HALL_ROUTES.AFTER_PCROOM_ONE;
+        return HALL_ROUTES.JAILSON_TWO;
       }
 
-      return HALL_ROUTES.ONE;
+      return HALL_ROUTES.JAILSON_ONE;
     }
   ),
+
+  createConditionalTile(
+    7,
+    2,
+
+    (_player, quests) => {
+      if (
+        hasQuest(quests, "help_jailson")
+      ) {
+        return HALL_ROUTES.JAILSON_TWO;
+      }
+
+      return HALL_ROUTES.JAILSON_ONE;
+    }
+  ),
+  createDoorTile(13, 7, PCROOM_ROUTES.SIX),
+  createDoorTile(8, 11, OTHER_ROUTES.CANTINA_TWO),
+  createDoorTile(1, 10, HALL_ROUTES.LEFT_ONE),
 ];

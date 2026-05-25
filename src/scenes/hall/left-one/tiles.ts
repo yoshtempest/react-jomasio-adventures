@@ -13,9 +13,9 @@ export const hallLeftOneTiles = [
         (_player, quests) => {
         if (
             hasAnyQuest(quests, [
-            "letter_delivery",
-            "help_jailson",
-            "x1_slimita",
+                "letter_delivery",
+                "help_jailson",
+                "x1_slimita",
             ])
         ) {
             return HALL_ROUTES.AFTER_PCROOM_ONE;
@@ -30,9 +30,9 @@ export const hallLeftOneTiles = [
         (_player, quests) => {
         if (
             hasAnyQuest(quests, [
-            "letter_delivery",
-            "help_jailson",
-            "x1_slimita",
+                "letter_delivery",
+                "help_jailson",
+                "x1_slimita",
             ])
         ) {
             return HALL_ROUTES.AFTER_PCROOM_ONE;
@@ -41,14 +41,6 @@ export const hallLeftOneTiles = [
         return HALL_ROUTES.ONE;
         }
     ),
-    createDoorTile(
-        9,
-        4,
-        HALL_ROUTES.CENTER_ONE
-    ),
-    createDoorTile(
-        8,
-        4,
-        HALL_ROUTES.CENTER_ONE
-    ),
+    createDoorTile(9, 4, HALL_ROUTES.CENTER_ONE),
+    createDoorTile(8, 4, HALL_ROUTES.CENTER_ONE),
 ];

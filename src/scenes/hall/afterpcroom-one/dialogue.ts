@@ -6,7 +6,7 @@ import { AfterPcRoomFiveDialogue } from "@/data/maps/hall/one/five";
 import { AfterPcRoomSixDialogue } from "@/data/maps/hall/one/six";
 
 import type { QuestId } from "@/data/quests";
-import { hasQuest, hasItem } from "../../shared/helpers";
+import { hasQuest, hasItem } from "@/scenes//shared/helpers";
 
 
 export const getAfterPcRoomOneDialogue = (
