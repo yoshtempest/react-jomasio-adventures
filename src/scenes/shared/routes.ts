@@ -27,5 +27,13 @@ export const OTHER_ROUTES = {
   CANTINA_TWO: "/cantina/two",
   LIBRARY: "/library",
   BRODI_CLASS: "/brodiclass/one",
-  HELL: "/hall/hell",
+  DIRECTOR_ONE: "/director/one",
+  DIRECTOR_TWO: "/director/two",
 };
+
+export const CAFETERIA_ROUTES = {
+  ONE: "/cafeteria/one",
+  TWO: "/cafeteria/two",
+  THREE: "/cafeteria/three",
+  FOUR: "/cafeteria/four"
+}
