@@ -1,4 +1,4 @@
-export const HallRightUpDialogue = [
+export const HallHellDialogue = [
     {
         src: "/assets/npcs/blackao/right.svg",
         name: "Negão do Ferro Velho",

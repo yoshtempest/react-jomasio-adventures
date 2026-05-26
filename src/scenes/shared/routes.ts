@@ -3,13 +3,9 @@ export const HALL_ROUTES = {
   LEFT_ONE: "/hall/left-one",
   CENTER_ONE: "/hall/center-one",
   CENTER_FRONT: "/hall/center-front",
-
   JAILSON_ONE: "/hall/jailson-one",
   JAILSON_TWO: "/hall/jailson-two",
-  JAILSON_BATTLE: "/hall/jailson/battle",
-
   AFTER_PCROOM_ONE: "/hall/afterpcroom-one",
-
   THIRD_CLASS: "/hall/thirdclass",
   HELL: "/hall/hell",
 };

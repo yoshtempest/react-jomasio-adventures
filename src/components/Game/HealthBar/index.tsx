@@ -9,6 +9,21 @@ export function HealthBar({ hp, maxHp = 100 }: Props) {
     Math.min(100, (hp / maxHp) * 100)
   );
 
+  // function backgroundColor {
+  //   if (percentage <= 70) {
+  //     const background = "limegreen"
+  //   }
+
+  //   else if (percentage <= 30) {
+  //     const background = "red"
+  //   }
+
+  //   else {
+  //     const background = "orange"
+  //   }
+  // }
+
+
   return (
     <div
       style={{

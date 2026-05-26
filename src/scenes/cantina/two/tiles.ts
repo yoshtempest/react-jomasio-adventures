@@ -1,4 +1,4 @@
-import { createConditionalTile } from "@/scenes/shared/factories";
+import { createConditionalTile, createDoorTile } from "@/scenes/shared/factories";
 import {
     OTHER_ROUTES,
     HALL_ROUTES,
@@ -7,16 +7,7 @@ import {
 import { hasAnyQuest, hasQuest } from "@/scenes/shared/helpers";
 
 export const cantinaTwoTiles = [
-    createConditionalTile(
-        1,
-        11,
-        (_player, quests) => {
-        if (hasQuest(quests, "search_packaging")) {
-            return HALL_ROUTES.CENTER_ONE;
-        }
-        return null;
-        }
-    ),
+    createDoorTile(1, 11, HALL_ROUTES.CENTER_ONE),
     createConditionalTile(
         10,
         2,
@@ -25,6 +16,7 @@ export const cantinaTwoTiles = [
             return OTHER_ROUTES.DIRECTOR_TWO;
         }
         return null;
+        blockedMessage: "Vou colocar que seja necessário apertar L na porta para entrar com a chave ao invés de apertar andar em cima da porta"
         }
     ),
     createConditionalTile(
@@ -37,6 +29,7 @@ export const cantinaTwoTiles = [
             return CAFETERIA_ROUTES.ONE
         }
         return null;
+        blockedMessage: "Vou colocar que seja necessário apertar L na porta para entrar com a chave ao invés de apertar andar em cima da porta"
         }
     ),
     createConditionalTile(
