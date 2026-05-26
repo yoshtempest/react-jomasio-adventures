@@ -9,6 +9,7 @@ import { hallLeftOneTiles } from "./tiles";
 
 export const leftOneScene: SceneConfig = {
   id: "left-one",
+  className: "HallLeft",
   dialogueData: getHallLeftDialogue,
   map: hallLeft,
   audio: { src: MUSICS.default },

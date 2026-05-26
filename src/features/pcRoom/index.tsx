@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 
 import { SceneBase } from "@/components/Game/Scenes/Base";
-import { PCS_ROOM_SCENES } from "@/scenes/PcRoom";
+import { PCROOM_SCENES } from "@/scenes/pcroom";
 import { createPcsRoom } from "@/interactions/pcsRoom";
 
 import { useInventory } from "@/contexts/InventoryContext";
@@ -20,7 +20,7 @@ type Props = {
 };
 
 export function PcRoomScene({ sceneId }: Props) {
-  const scene = PCS_ROOM_SCENES[sceneId];
+  const scene = PCROOM_SCENES[sceneId];
 
   const navigate = useNavigate();
 

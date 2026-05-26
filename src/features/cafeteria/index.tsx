@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 
 import { SceneBase } from "@/components/Game/Scenes/Base";
-import { CAFETERIA_SCENES } from "@/scenes/Cafeteria";
+import { CAFETERIA_SCENES } from "@/scenes/cafeteria";
 import { createCafeteria } from "@/interactions/cafeteira";
 
 import { useInventory } from "@/contexts/InventoryContext";

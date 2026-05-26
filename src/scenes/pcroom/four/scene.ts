@@ -1,4 +1,4 @@
-import { pcsRoom } from "@/maps/pcRoom/one";
+import { pcsRoomThree } from "@/maps/pcRoom/three";
 import { MUSICS } from "@/scenes/shared/music";
 import type { SceneConfig } from "@/utils/types/maps/sceneConfig";
 import { getPcRoomFourDialogue } from "./dialogue"
@@ -8,8 +8,9 @@ import { pcRoomFourEvents } from "./events"
 
 export const pcRoomFourScene: SceneConfig = {
     id: "four",
+    className: "PcsRoom",
     dialogueData: getPcRoomFourDialogue,
-    map: pcsRoom,
+    map: pcsRoomThree,
     events: pcRoomFourEvents,
     audio: { src: MUSICS.monkeyCircle },
     npcs: pcRoomFourNpcs,
