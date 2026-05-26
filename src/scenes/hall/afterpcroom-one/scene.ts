@@ -4,7 +4,7 @@ import { afterPcRoomOneTiles } from "./tiles";
 import { afterPcRoomOneEvents } from "./events";
 import { afterPcRoomOneNpcs } from "./npcs";
 import { getAfterPcRoomOneInitialPosition } from "./position";
-import { HALL_MUSIC } from "@/scenes/shared/music";
+import { MUSICS } from "@/scenes/shared/music";
 import type { SceneConfig } from "@/utils/types/maps/sceneConfig";
 
 export const afterPcRoomScene: SceneConfig = {
@@ -12,7 +12,7 @@ export const afterPcRoomScene: SceneConfig = {
   className: "HallOne",
   dialogueData: getAfterPcRoomOneDialogue,
   map: afterPcRoom,
-  audio: { src: HALL_MUSIC.jailson },
+  audio: { src: MUSICS.jailson },
   npcs: afterPcRoomOneNpcs,
   initialPosition: getAfterPcRoomOneInitialPosition,
   events: afterPcRoomOneEvents,

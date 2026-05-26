@@ -1,5 +1,5 @@
 import { hallLeft } from "@/maps/hall/left";
-import { HALL_MUSIC } from "@/scenes/shared/music";
+import { MUSICS } from "@/scenes/shared/music";
 import type { SceneConfig } from "@/utils/types/maps/sceneConfig";
 import { getHallLeftDialogue } from "./dialogue"
 import { leftOneNpcs } from "./npcs";
@@ -11,7 +11,7 @@ export const leftOneScene: SceneConfig = {
   id: "left-one",
   dialogueData: getHallLeftDialogue,
   map: hallLeft,
-  audio: { src: HALL_MUSIC.default },
+  audio: { src: MUSICS.default },
   npcs: leftOneNpcs,
   initialPosition: getHallLeftOneInitialPosition,
   tiles: hallLeftOneTiles,

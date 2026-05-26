@@ -1,6 +1,6 @@
 import { hallJailsonOne } from "@/maps/hall/jailsonOne";
 import { getJailsonOneDialogue } from "./dialogue"
-import { HALL_MUSIC } from "@/scenes/shared/music";
+import { MUSICS } from "@/scenes/shared/music";
 import { jailsonOneTiles } from "./tiles";
 import { getJailsonOneInitialPosition } from "./position";
 import type { SceneConfig } from "@/utils/types/maps/sceneConfig";
@@ -15,6 +15,6 @@ export const jailsonOneScene: SceneConfig = {
   events: jailsonOneEvents,
   dialogueData: getJailsonOneDialogue,
   initialPosition: getJailsonOneInitialPosition,
-  audio: { src: HALL_MUSIC.jailson },
+  audio: { src: MUSICS.jailson },
   npcs: jailsonOneNpcs
 };
