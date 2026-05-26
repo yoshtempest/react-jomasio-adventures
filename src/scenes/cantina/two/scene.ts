@@ -5,7 +5,7 @@ import { getCantinaTwoInitialPosition } from "./position";
 import { cantinaTwoTiles } from "./tiles";
 
 
-export const cantinaTwoScene: SceneConfig = {
+export const twoScene: SceneConfig = {
     id: "two",
     className: "Cantina",
     map: cantinaTwo,

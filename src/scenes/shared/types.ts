@@ -13,4 +13,4 @@ export type Quest = {
 export type TileRouteFunction = (
   player: Player,
   quests: Quest[]
-) => string;
+) => string | null;

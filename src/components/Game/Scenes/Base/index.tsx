@@ -64,7 +64,7 @@ export function SceneBase({
     if (tile.getRoute) {
       const route = tile.getRoute(player, quests);
 
-      if (route) {
+      if (route !== null) {
         navigate(route, {
           state: { from: location.pathname },
         });

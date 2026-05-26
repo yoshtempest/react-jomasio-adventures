@@ -8,7 +8,7 @@ export const centerFrontScene: SceneConfig = {
   id: "center-front",
   className: "HallCenterFront",
   map: hallCenterFront,
-  audio: { src: MUSICS.jailson },
+  audio: { src: MUSICS.default },
   initialPosition: getCenterFrontInitialPosition,
   tiles: hallCenterFrontTiles,
 };

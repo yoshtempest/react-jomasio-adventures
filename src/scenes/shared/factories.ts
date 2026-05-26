@@ -1,3 +1,7 @@
+type ConditionalTileOptions = {
+  blockedMessage?: string;
+};
+
 export const createDoorTile = (
   x: number,
   y: number,
@@ -8,18 +12,18 @@ export const createDoorTile = (
   route,
 });
 
-import type {
-  TileRouteFunction
-} from "./types";
+import type { TileRouteFunction } from "./types";
 
 export const createConditionalTile = (
   x: number,
   y: number,
-  getRoute: TileRouteFunction
+  getRoute: TileRouteFunction,
+  options?: ConditionalTileOptions
 ) => ({
   x,
   y,
   getRoute,
+  blockedMessage: options?.blockedMessage,
 });
 
 export const createNpc = (

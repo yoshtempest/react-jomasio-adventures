@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 
 import { SceneBase } from "@/components/Game/Scenes/Base";
-import { CANTINA_SCENES } from "@/scenes/Cantina";
+import { CANTINA_SCENES } from "@/scenes/cantina";
 import { createCantina } from "@/interactions/cantina";
 
 import { useInventory } from "@/contexts/InventoryContext";
@@ -50,30 +50,6 @@ export function CantinaScene({ sceneId }: Props) {
 
         // 🔥 AQUI fica a lógica especial da Cantina
         handleExit={({ player, scene }) => {
-          // 🧠 1. tiles dinâmicos (PRIORIDADE)
-          const tile = scene.tiles?.find(
-            (t: any) =>
-              player.gridX === t.x &&
-              player.gridY === t.y
-          );
-
-          if (tile?.getRoute) {
-            const route = tile.getRoute(player, quests);
-
-            if (route) {
-              navigate(route, {
-                state: { from: location.pathname },
-              });
-            } else {
-              setPopup(
-                tile.blockedMessage || "Você não pode ir agora."
-              );
-            }
-
-            return true; // 🚨 bloqueia exit padrão
-          }
-
-          // 🚪 2. exitTile com validação de quest
           const exits = scene.exitTile;
           if (!exits) return false;
 

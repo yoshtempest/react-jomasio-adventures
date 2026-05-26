@@ -12,7 +12,7 @@ export const afterPcRoomScene: SceneConfig = {
   className: "HallOne",
   dialogueData: getAfterPcRoomOneDialogue,
   map: afterPcRoom,
-  audio: { src: MUSICS.jailson },
+  audio: { src: MUSICS.default },
   npcs: afterPcRoomOneNpcs,
   initialPosition: getAfterPcRoomOneInitialPosition,
   events: afterPcRoomOneEvents,

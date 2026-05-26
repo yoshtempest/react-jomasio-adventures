@@ -5,9 +5,10 @@ import { getCantinaOneInitialPosition } from "./position";
 import { getCantinaOneDialogue } from "./dialogue";
 import { cantinaOneNpcs } from "./npcs";
 import { cantinaOneEvents } from "./events"
+import { cantinaOneTiles } from "./tiles";
 
 
-export const cantinaOneScene: SceneConfig = {
+export const oneScene: SceneConfig = {
     id: "one",
     className: "Cantina",
     map: cantina,
@@ -16,4 +17,5 @@ export const cantinaOneScene: SceneConfig = {
     dialogueData: getCantinaOneDialogue,
     audio: { src: MUSICS.default },
     initialPosition: getCantinaOneInitialPosition,
+    tiles: cantinaOneTiles,
 };
