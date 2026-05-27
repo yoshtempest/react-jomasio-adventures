@@ -371,6 +371,18 @@ export const QUESTS = {
     progress: 0,
     completed: false
   },
+  get_suspect_milk: {
+    id: "get_suspect_milk",
+    name: "Pegue o leite suspeito",
+    image: "/assets/npcs/juju/right.svg",
+    description: "Quero fazer um bolo com aquele leite bovino",
+    rewardsType: "xp",
+    rewards: 40,
+    type: "sidequest",
+    counter: 1,
+    progress: 0,
+    completed: false
+  },
 } as const;
 
 export type QuestId = keyof typeof QUESTS;
