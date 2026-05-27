@@ -4,6 +4,8 @@ import { AfterPcRoomThreeDialogue } from "@/data/maps/hall/one/three";
 import { AfterPcRoomFourDialogue } from "@/data/maps/hall/one/four";
 import { AfterPcRoomFiveDialogue } from "@/data/maps/hall/one/five";
 import { AfterPcRoomSixDialogue } from "@/data/maps/hall/one/six";
+import { AfterPcRoomSevenDialogue } from "@/data/maps/hall/one/seven";
+import { AfterPcRoomGenericDialogue } from "@/data/maps/hall/one/generic";
 
 import type { QuestId } from "@/data/quests";
 import { hasQuest, hasItem } from "@/scenes//shared/helpers";
@@ -16,14 +18,19 @@ export const getAfterPcRoomOneDialogue = (
     if (hasItem(items, "aura_letter") && !hasQuest(quests, "search_packaging")) {
         return AfterPcRoomOneDialogue;
     }
+    
+    if (hasQuest(quests, "search_packaging") && !hasItem(quests, "package_01")) {
+        return AfterPcRoomTwoDialogue;
+    }
 
     if (hasItem(items, "package_01") && !hasItem(items, "good_powder")) {
         return AfterPcRoomThreeDialogue;
     }
 
-    if (hasQuest(quests, "search_packaging") && !hasQuest(quests, "go_cafeteria")) {
-        return AfterPcRoomTwoDialogue;
+    if (hasItem(items, "package_01") && hasItem(items, "good_powder")) {
+        return AfterPcRoomFourDialogue;
     }
+
 
     if (hasQuest(quests, "go_cafeteria") && !hasQuest(quests, "return_to_remedinha")) {
         return AfterPcRoomFiveDialogue;
@@ -33,5 +40,9 @@ export const getAfterPcRoomOneDialogue = (
         return AfterPcRoomSixDialogue;
     }
 
-    return AfterPcRoomFourDialogue;
+    if (hasQuest(quests, "x1_slimita") && !hasQuest(quests, "go_to_hell")) {
+        return AfterPcRoomSevenDialogue;
+    }
+
+    return AfterPcRoomGenericDialogue;
 }

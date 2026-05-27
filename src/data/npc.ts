@@ -13,4 +13,8 @@ export const NPCS: Record<string, NPCData> = {
   neimito: { type: "neimito", class: "boss" },
   planetarySisters: { type: "planetarySisters", class: "boss" },
   vandinha: { type: "vandinha", class: "boss" },
+  manim: { type: "manim", class: "boss" },
+  dragonKing: { type: "dragonKing", class: "boss" },
+  maura: { type: "maura", class: "boss" },
+  lupita: { type: "lupita", class: "boss" },
 };

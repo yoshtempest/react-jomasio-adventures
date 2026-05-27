@@ -31,11 +31,26 @@ export const afterPcRoomOneEvents: SceneEvent[] = [
     },
     {
         type: "conditional",
-        condition: { hasQuest: "return_to_remedinha" },
+        condition: { hasQuest: "return_to_remedinha", notHasQuest: "help_jailson" },
         then: [
             { type: "progressQuest", id: "encounter_deise", value: 1 },
             { type: "progressQuest", id: "return_to_remedinha", value: 1 },
             { type: "giveQuest", questId: "help_jailson" }
+        ],
+    },
+    {
+        type: "conditional",
+        condition: { hasQuest: "x1_slimita", notHasQuest: "go_to_hell" },
+        then: [
+            { type: "progressQuest", id: "help_jailson", value: 1 },
+            { type: "giveQuest", questId: "go_to_hell" }
+        ],
+    },
+    {
+        type: "conditional",
+        condition: { hasQuest: "x1_maugrelo", notHasQuest: "go_to_brodiclass" },
+        then: [
+            { type: "giveQuest", questId: "go_to_brodiclass" }
         ],
     },
 ]

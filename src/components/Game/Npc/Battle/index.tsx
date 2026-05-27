@@ -35,6 +35,8 @@ export function NPCBattle({
   const scaleX = window.innerWidth / BASE_WIDTH;
   const scaleY = window.innerHeight / BASE_HEIGHT;
 
+  const bosses = ["deise", "slimita", "elitHungry"]
+
   const sizeMultiplier = npcType === "deise" && npcPhase === 2 ? 3 : 1.4;
 
   const getSprite = () => {
@@ -43,6 +45,13 @@ export function NPCBattle({
         return asset(`assets/npcs/deise2/${state}.svg`);
       }
       return asset(`assets/npcs/deise/${state}.svg`);
+    }
+
+    if (npcType === "slimita") {
+      if (npcPhase === 2) {
+        return asset(`assets/npcs/slimita2/${state}.svg`);
+      }
+      return asset(`assets/npcs/slimita/${state}.svg`);
     }
 
     return asset(`assets/npcs/${npcType}/${state}.svg`);
