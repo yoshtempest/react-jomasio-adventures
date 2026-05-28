@@ -7,7 +7,7 @@ import {
 import { hasAnyQuest, hasQuest } from "@/scenes/shared/helpers";
 
 export const cantinaTwoTiles = [
-    createDoorTile(1, 11, HALL_ROUTES.CENTER_ONE),
+    createDoorTile(2, 3, HALL_ROUTES.CENTER_ONE),
     createConditionalTile(
         10,
         3,

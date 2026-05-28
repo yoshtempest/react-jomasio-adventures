@@ -6,11 +6,13 @@ import { thirdClassScene } from "./thirdclass/scene";
 import { centerFrontScene } from "./center-front/scene";
 import { centerOneScene } from "./center-one/scene";
 import { leftOneScene } from "./left-one/scene";
+import { hellScene } from "./hell/scene"
 
 import type { SceneConfig, SceneId } from "@/utils/types/maps/sceneConfig";
 
 export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
   one: oneScene,
+  hell: hellScene,
   "jailson-one": jailsonOneScene,
   "jailson-two": jailsonTwoScene,
   "afterpcroom-one": afterPcRoomScene,

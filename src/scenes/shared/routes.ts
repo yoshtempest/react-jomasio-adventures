@@ -8,6 +8,7 @@ export const HALL_ROUTES = {
   AFTER_PCROOM_ONE: "/hall/afterpcroom-one",
   THIRD_CLASS: "/hall/thirdclass",
   HELL: "/hall/hell",
+  PANDEMONY: "/hall/pandemony"
 };
 
 export const PCROOM_ROUTES = {
@@ -32,4 +33,8 @@ export const CAFETERIA_ROUTES = {
   TWO: "/cafeteria/two",
   THREE: "/cafeteria/three",
   FOUR: "/cafeteria/four"
+};
+
+export const HELLROOM_ROUTES = {
+  ONE: "/hellroom/one"
 }

@@ -17,7 +17,9 @@ export type SceneId =
 "left-one" |
 "center-one" |
 "center-front" |
-"thirdclass";
+"thirdclass" |
+"hell" |
+"pandemony";
 
 type SceneTile = {
   x: number;

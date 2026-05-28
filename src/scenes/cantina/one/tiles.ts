@@ -1,11 +1,25 @@
 import { createConditionalTile } from "@/scenes/shared/factories";
 import {
     OTHER_ROUTES,
+    HALL_ROUTES,
     CAFETERIA_ROUTES
 } from "@/scenes/shared/routes";
 import { hasQuest } from "@/scenes/shared/helpers";
 
 export const cantinaOneTiles = [
+    createConditionalTile(
+        2,
+        4,
+        (_player, quests) => {
+        if (hasQuest(quests, "explore_jorjao")) {
+            return HALL_ROUTES.CENTER_ONE;
+        }
+        return null;
+        },
+        {
+            blockedMessage: "Passagem bloqueada"
+        }
+    ),
     createConditionalTile(
         10,
         3,
