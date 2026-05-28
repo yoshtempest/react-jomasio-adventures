@@ -6,8 +6,9 @@ export const ITEMS = {
   orange_juice: { id: "orange_juice", name: "Suco de laranja" },
   sausage: { id: "sausage", name: "Linguição Grosso" },
   jorjao_map: { id: "jorjao_map", name: "Mapa Escolar" },
-  peruzao: { id: "peruzao", name: "Peru Comprido" }
-  
+  peruzao: { id: "peruzao", name: "Peru Comprido" },
+  suspect_milk: { id: "suspect_milk", name: "Leite Bovino" },
+  skool: { id: "skool", name: "Latinha de Cerveja" },
 } as const;
 
 export type ItemId =
@@ -18,4 +19,6 @@ export type ItemId =
   | "orange_juice"
   | "sausage"
   | "jorjao_map"
-  | "peruzao";
+  | "peruzao"
+  | "suspect_milk"
+  | "skool";

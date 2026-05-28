@@ -25,6 +25,18 @@ export function useItemEffect({playSFX}: Props) {
           navigate(route);
         };
 
+      // case "jorjao_map":
+      //   return () => {
+      //     playSFX?.("/assets/songs/transitions/openMap.mp3", 0.6);
+      //     // openMapMenu()
+      //   };
+
+      // case "peru": //
+      //   return () => {
+      //     playSFX?.("/assets/songs/transitions/openMap.mp3", 0.6);
+      //     // changePlayerMovement()
+      //   };
+
       default:
         return null;
     }
