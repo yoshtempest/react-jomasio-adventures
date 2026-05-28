@@ -1,4 +1,4 @@
-export type NPCClass = "common" | "rare" | "epic" | "boss";
+export type NPCClass = "common" | "rare" | "epic" | "boss" | "legendary";
 export type NpcDifficulty = "easy" | "medium" | "hard";
 
 
@@ -16,6 +16,7 @@ export function getNpcStats(
       rare: { hp: 2.5, dmg: 0.5 },
       epic: { hp: 4.5, dmg: 1 },
       boss: { hp: 7.5, dmg: 2 },
+      legendary: { hp: 12, dmg: 4 },
     },
 
     medium: {
@@ -23,6 +24,7 @@ export function getNpcStats(
       rare: { hp: 4, dmg: 1 },
       epic: { hp: 8, dmg: 2 },
       boss: { hp: 12, dmg: 3 },
+      legendary: { hp: 16, dmg: 5 },
     },
 
     hard: {
@@ -30,6 +32,7 @@ export function getNpcStats(
       rare: { hp: 5, dmg: 2 },
       epic: { hp: 9, dmg: 3 },
       boss: { hp: 15, dmg: 6 },
+      legendary: { hp: 25, dmg: 12 },
     },
   };
 

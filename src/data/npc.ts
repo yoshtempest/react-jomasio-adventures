@@ -6,35 +6,42 @@ export const NPCS: Record<string, NPCData> = {
   jhowsimar: { type: "jhowsimar", class: "rare" },
   goat: { type: "goat", class: "rare" },
   vandinhaFragment: { type: "vandinhaFragment", class: "epic" },
-  trueVandinha: { type: "trueVanidnha", class: "boss" },
+  trueVandinha: { type: "trueVanidnha", class: "legendary" },
   deise: { type: "deise", class: "boss" },
   slimita: { type: "slimita", class: "boss" },
-  elitHungry: { type: "elitHungry", class: "epic" },
+  elitHungry: { type: "elitHungry", class: "epic" }, /* culto de Samurion */
   denis: { type: "denis", class: "boss" },
   srGuaxinim: { type: "srGuaxinim", class: "epic" },
   neimito: { type: "neimito", class: "boss" },
   planetarySisters: { type: "planetarySisters", class: "boss" },
-  vandinha: { type: "vandinha", class: "boss" },
   manim: { type: "manim", class: "boss" },
   maura: { type: "maura", class: "boss" },
 
   /* Bocaina */
+  deadDog: { type: "deadDog", class: "common" },
   lupita: { type: "lupita", class: "boss" },
   riquelsonDog: { type: "riquelsonDog", class: "epic" },
   baiano: { type: "baiano", class: "epic" },
-  spiritMotocycler: { type: "spiritMotocycler", class: "boss" },
+  spiritMotocycler: { type: "spiritMotocycler", class: "boss" }, /* Juan Derson */
 
   /* Lagoa grande */
+  deadFish: { type: "deadFish", class: "common" },
+  fischer: { type: "deadFish", class: "rare" },
   monsterOfNessRiver: { type: "monsterOfNessRiver", class: "boss" },
   /* Cachoeiras */
   figurantOfBaalCult: { type: "figurantOfBaalCult", class: "common" },
-  baal: { type: "baal", class: "boss" },
+  baal: { type: "baal", class: "legendary" },
+  madame: { type: "madame", class: "legendary" }, /* aranha de cão de caça dos baskerville */
   /* Barragem */
   figurantOfLordSeaCult: { type: "figurantOfLordSeaCult", class: "common" },
   crocodile: { type: "crocodile", class: "rare" },
   elitCrocodile: { type: "elitCrocodile", class: "epic" },
-  ancestralLordOfSea: { type: "ancestralLordOfSea", class: "boss" },
+  ancestralLordOfSea: { type: "ancestralLordOfSea", class: "boss" }, /* baleia */
   /* Tanque dos crávos */
   figurantOfDragonKingCult: { type: "figurantOfDragonKingCult", class: "common" },
-  dragonKing: { type: "dragonKing", class: "boss" },
+  dragonKing: { type: "dragonKing", class: "legendary" },
+  /* Lagoa do Canto */
+  deadPigs: { type: "pigs", class: "common" },
+  deadTechnoblade: { type: "spiritOfTechnoblade", class: "boss" },
+  spiritOfTechnoblade: { type: "spiritOfTechnoblade", class: "legendary" },
 };
