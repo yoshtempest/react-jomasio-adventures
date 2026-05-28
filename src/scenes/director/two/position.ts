@@ -1,5 +1,5 @@
 export function getDirectorTwoInitialPosition(lastPage?: string) {
-  if (lastPage === "/cantina/two") {
+  if (lastPage?.startsWith("/cantina")) {
     return { x: 4, y: 4, direction: "down" as const };
   }
 

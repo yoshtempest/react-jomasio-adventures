@@ -35,8 +35,7 @@ const FirstScreen = lazyLoad(() => import('./pages/FirstScreen/index.tsx'));
 const CantinaBattle = lazyLoad(() => import('./pages/Cantina/Battle/index.tsx'));
 const CantinaPage = lazyLoad(() => import('./pages/Cantina/index.tsx'));
 
-const Director = lazyLoad(() => import('./pages/Director/One/index.tsx'));
-const DirectorTwo = lazyLoad(() => import('./pages/Director/Two/index.tsx'));
+const DirectorPage = lazyLoad(() => import('./pages/Director/index.tsx'));
 
 const HallPage = lazyLoad(() => import('./pages/Hall/index.tsx'));
 
@@ -57,6 +56,7 @@ const BrodiClassOne = lazyLoad(() => import('./pages/BrodiClass/index.tsx'));
 import JailsonHallBattle from './pages/Hall/Battle/index.tsx';
 
 const nonBattlePages = [
+  DirectorPage,
   EntryPoint,
   Intro,
   Matchmaking,
@@ -65,8 +65,6 @@ const nonBattlePages = [
   FirstScreen,
   CantinaPage,
   HallPage,
-  Director,
-  DirectorTwo,
   HallPage,
   PcRoomPage,
   Library,
@@ -103,15 +101,16 @@ root.render(
                               <Route path="matchmaking" element={<Matchmaking />} />
                               <Route path="home" element={<Home />} />
                               <Route path="firstscreen" element={<FirstScreen />} />
-                              
-
-                              <Route path="director/one" element={<Director />} />
-                              <Route path="director/two" element={<DirectorTwo />} />
 
                               <Route path="hall">
                                 <Route index element={<Navigate to="/hall/one" />} />
                                 <Route path=":id" element={<HallPage />} />
                                 <Route path="jailson/battle" element={<JailsonHallBattle />} />
+                              </Route>
+
+                              <Route path="director">
+                                <Route index element={<Navigate to="/director/one" />} />
+                                <Route path=":id" element={<DirectorPage />} />
                               </Route>
 
                               <Route path="cantina">

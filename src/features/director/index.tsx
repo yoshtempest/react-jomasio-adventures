@@ -7,6 +7,9 @@ import { createDirector } from "@/interactions/director";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuestActions } from "@/hooks/useQuestActions";
 import type { SceneId } from "@/utils/types/maps/sceneConfig";
+import { useNavigate } from "react-router";
+import { asset } from "@/utils/asset";
+import { useAudio } from "@/contexts/AudioContext";
 
 import Talking from "@/components/Talking";
 
@@ -16,6 +19,7 @@ type Props = {
 
 export function DirectorScene({ sceneId }: Props) {
   const scene = DIRECTOR_SCENES[sceneId];
+  const navigate = useNavigate();
 
   const { addItem, hasItem, removeItem } = useInventory();
   const { progressQuest } = useQuestActions();
@@ -23,18 +27,34 @@ export function DirectorScene({ sceneId }: Props) {
   const [popup, setPopup] = useState<string | null>(null);
   const [gotKey, setGotKey] = useState(false);
 
-  const interactions = useMemo(
-    () =>
-      createDirector({
-        hasItem,
-        addItem,
-        removeItem,
-        setPopup,
-        gotKey,
-        setGotKey,
-        progressQuest,
-      }),
-    [addItem, gotKey]
+  const { volume: masterVolume } = useAudio();
+
+  const playSFX = (src: string, volume = 1) => {
+    const audio = new Audio(asset(src));
+    audio.volume = volume * (masterVolume / 100);
+    audio.play().catch(() => {});
+  };
+
+  const interactions = useMemo(() =>
+    createDirector({
+      hasItem,
+      addItem,
+      removeItem,
+      navigate,
+      setPopup: (msg) => setPopup(msg),
+      gotKey,
+      setGotKey,
+      progressQuest,
+      playSFX,
+    }),
+    [
+      hasItem,
+      addItem,
+      removeItem,
+      navigate,
+      gotKey,
+      progressQuest,
+    ]
   );
 
   return (
