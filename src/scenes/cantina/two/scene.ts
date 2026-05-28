@@ -7,7 +7,6 @@ import { cantinaTwoTiles } from "./tiles";
 
 export const twoScene: SceneConfig = {
     id: "two",
-    className: "Cantina",
     map: cantinaTwo,
     audio: { src: MUSICS.default },
     initialPosition: getCantinaTwoInitialPosition,

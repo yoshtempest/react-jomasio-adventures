@@ -10,7 +10,6 @@ import { cantinaOneTiles } from "./tiles";
 
 export const oneScene: SceneConfig = {
     id: "one",
-    className: "Cantina",
     map: cantina,
     events: cantinaOneEvents,
     npcs: cantinaOneNpcs,

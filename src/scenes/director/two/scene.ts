@@ -6,7 +6,6 @@ import { getDirectorTwoInitialPosition } from "./position";
 
 export const twoScene: SceneConfig = {
     id: "two",
-    className: "Director",
     initialPosition: getDirectorTwoInitialPosition,
     map: director,
     audio: { src: MUSICS.default },

@@ -10,7 +10,6 @@ import { pcRoomOneEvents } from "./events"
 
 export const pcRoomOneScene: SceneConfig = {
     id: "one",
-    className: "PcsRoom",
     dialogueData: getPcRoomOneDialogue,
     map: pcsRoom,
     events: pcRoomOneEvents,

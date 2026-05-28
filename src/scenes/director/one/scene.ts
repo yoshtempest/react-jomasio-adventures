@@ -9,7 +9,6 @@ import { getDirectorOneInitialPosition } from "./position";
 
 export const oneScene: SceneConfig = {
     id: "one",
-    className: "Director",
     dialogueData: getDirectorDialogue,
     initialPosition: getDirectorOneInitialPosition,
     map: blocked,

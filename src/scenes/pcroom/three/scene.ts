@@ -9,7 +9,6 @@ import { pcRoomThreeEvents } from "./events"
 
 export const pcRoomThreeScene: SceneConfig = {
     id: "three",
-    className: "PcsRoom",
     dialogueData: getPcRoomThreeDialogue,
     map: pcsRoomThree,
     events: pcRoomThreeEvents,
