@@ -35,9 +35,19 @@ export function NPCBattle({
   const scaleX = window.innerWidth / BASE_WIDTH;
   const scaleY = window.innerHeight / BASE_HEIGHT;
 
-  const bosses = ["deise", "slimita", "elitHungry"]
+  const bossScales: Record<string, { base: number; phase2: number }> = {
+    deise: { base: 1.8, phase2: 3 },
+    slimita: { base: 1.6, phase2: 4 },
+    elitHungry: { base: 2, phase2: 3.2 },
+  };
 
-  const sizeMultiplier = npcType === "deise" && npcPhase === 2 ? 3 : 1.4;
+  const bossConfig = bossScales[npcType];
+
+  const sizeMultiplier = bossConfig
+    ? npcPhase === 2
+      ? bossConfig.phase2
+      : bossConfig.base
+    : 1.4;
 
   const getSprite = () => {
     if (npcType === "deise") {
