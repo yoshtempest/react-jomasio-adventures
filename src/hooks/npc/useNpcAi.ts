@@ -9,7 +9,7 @@ import type { DirectionBattle } from "@/utils/types/player/player";
 type Props = {
   playerX: number;
   playerY: number;
-  playerState: string;
+  playerState: playerState;
   playerDirection: DirectionBattle;
   onProjectileHit: () => void;
   onMeleeHit: () => void;  

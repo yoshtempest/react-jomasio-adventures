@@ -11,7 +11,7 @@ type Props = {
   playerY: number;
   npcX: number;
   npcY: number;
-  playerState: string;
+  playerState: playerState;
 
   HITS_TO_SPECIAL: number;
 

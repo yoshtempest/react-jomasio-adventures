@@ -20,10 +20,10 @@ type Props = {
   npcX: number;
   npcY: number;
   npcLevel: number;
-  npcClass: "common" | "rare" | "epic" | "boss";
+  npcClass: "common" | "rare" | "epic" | "boss" | "legendary";
   onPlayerDeath: () => void;
   onNpcDeath: () => void;
-  playerState: string;
+  playerState: playerState;
   difficulty: NpcDifficulty
 };
 

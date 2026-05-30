@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
-import type { PlayerPosition, Transition } from "@/utils/types/sceneHooks";
+import type { Transition } from "@/utils/types/sceneHooks";
 
 type Props = {
   player: PlayerPosition;

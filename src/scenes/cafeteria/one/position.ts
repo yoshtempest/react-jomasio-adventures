@@ -1,4 +1,4 @@
-export function getCafeteriaOneInitialPosition(lastPage: LastPage) {
+export function getCafeteriaOneInitialPosition(lastPage?: LastPage) {
     if (
         lastPage === "/cafeteria/battle"
     ) {

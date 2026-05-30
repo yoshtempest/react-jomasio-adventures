@@ -1,1 +1,0 @@
-export type Gender = "marcelo" | "eduarda";

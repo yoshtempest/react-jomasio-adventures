@@ -1,7 +1,5 @@
 import { asset } from "@/utils/asset";
 
-type Character = "marcelo" | "eduarda" | "lucas" | "samuel" | "artur" | "mayra" | "lucaua" | "riquelme" | "larissa" | "camilly" | "emanuel" | "hiago";
-
 type Props = {
   character: Character;
   direction: Direction;

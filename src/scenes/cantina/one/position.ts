@@ -1,4 +1,4 @@
-export function getCantinaOneInitialPosition(lastPage: LastPage) {
+export function getCantinaOneInitialPosition(lastPage?: LastPage) {
     if (
         lastPage === "/director/two"
        ) {

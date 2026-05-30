@@ -24,7 +24,7 @@ export type SceneEvent =
         hasFlag?: string;
         notHasFlag?: string;
 
-        lastPage: LastPage;
+        lastPage?: LastPage;
         notLastPage?: string;
       };
       then: SceneEvent[];

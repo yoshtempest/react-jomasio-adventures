@@ -1,10 +1,4 @@
-type Player = {
-  gridX: number;
-  gridY: number;
-  direction: Direction;
-};
-
-export function getTileInFront(player: Player, map: number[][]) {
+export function getTileInFront(player: PlayerPosition, map: number[][]) {
   let x = player.gridX;
   let y = player.gridY;
 

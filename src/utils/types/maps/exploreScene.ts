@@ -29,11 +29,11 @@ export type ExploreSceneProps = {
   map: number[][];
   dialogueData?:
   | Dialogue[]
-  | ((quests: any[], items: any[], lastPage: LastPage) => Dialogue[]);
+  | ((quests: any[], items: any[], lastPage?: LastPage) => Dialogue[]);
   nextRoute?: string;
   initialPosition?:
   | ExplorePosition
-  | ((lastPage: LastPage) => ExplorePosition);
+  | ((lastPage?: LastPage) => ExplorePosition);
   npcs?: NPCData[];
   audio?: AudioConfig;
   transitions?: Transition[];
@@ -41,5 +41,5 @@ export type ExploreSceneProps = {
   autoStartDialogue?: boolean;
   onFinish?: () => void;
   className?: string;
-  lastPage: LastPage;
+  lastPage?: LastPage;
 };

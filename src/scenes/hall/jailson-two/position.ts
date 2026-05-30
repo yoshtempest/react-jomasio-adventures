@@ -1,4 +1,4 @@
-export function getJailsonTwoInitialPosition(lastPage: LastPage) {
+export function getJailsonTwoInitialPosition(lastPage?: LastPage) {
   if (lastPage === "/hall/jailson-two") {
     return { x: 9, y: 4, direction: "left" };
   }

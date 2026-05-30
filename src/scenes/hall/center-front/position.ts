@@ -1,4 +1,4 @@
-export function getCenterFrontInitialPosition(lastPage: LastPage) {
+export function getCenterFrontInitialPosition(lastPage?: LastPage) {
   if (lastPage === "/hall/thirdclass") {
     return { x: 10, y: 7, direction: "left" };
   }

@@ -9,12 +9,6 @@ export type DialogueSystem = {
   start: () => void;
 };
 
-export type PlayerPosition = {
-  gridX: number;
-  gridY: number;
-  direction: Direction;
-};
-
 export type Transition = {
   positions: { x: number; y: number }[];
   to: string;

@@ -9,7 +9,7 @@ export function useProjectile(
   setProjectile: Dispatch<SetStateAction<Projectile | null>>,
   playerX: number,
   playerY: number,
-  playerState: string,
+  playerState: playerState,
   playerDirection: DirectionBattle,
   npcX: number,
   npcY: number,

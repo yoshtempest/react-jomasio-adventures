@@ -3,7 +3,6 @@ import { usePlayer } from "@/contexts/PlayerContext";
 
 export function useTutorialFlow() {
   const [showNameInput, setShowNameInput] = useState(false);
-  const [showGenderChoice, setShowGenderChoice] = useState(false);
 
   const { setMode } = usePlayer();
 
@@ -17,22 +16,9 @@ export function useTutorialFlow() {
     setMode("explore");
   }
 
-  function openGenderChoice() {
-    setShowGenderChoice(true);
-    setMode("ui");
-  }
-
-  function closeGenderChoice() {
-    setShowGenderChoice(false);
-    setMode("explore");
-  }
-
   return {
     showNameInput,
-    showGenderChoice,
     openNameInput,
     closeNameInput,
-    openGenderChoice,
-    closeGenderChoice,
   };
 }

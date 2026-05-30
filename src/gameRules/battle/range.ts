@@ -5,7 +5,7 @@ export function isPlayerInRange(
   playerY: number,
   npcX: number,
   npcY: number,
-  playerState: string,
+  playerState: playerState,
   character: string,
   isSpecial: boolean
 ) {

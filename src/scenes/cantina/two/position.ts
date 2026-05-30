@@ -1,4 +1,4 @@
-export function getCantinaTwoInitialPosition(lastPage: LastPage) {
+export function getCantinaTwoInitialPosition(lastPage?: LastPage) {
     if (
         lastPage === "/hall/one" ||
         lastPage === "/hall/afterpcroom-one"
