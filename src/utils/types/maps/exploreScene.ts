@@ -1,5 +1,4 @@
 import type { Dialogue } from "@/utils/types/dialogue";
-import type { DirectionExplore } from "@/utils/types/player/player"
 
 export type NPCData = {
   src: string;
@@ -30,11 +29,11 @@ export type ExploreSceneProps = {
   map: number[][];
   dialogueData?:
   | Dialogue[]
-  | ((quests: any[], items: any[], lastPage?: string) => Dialogue[]);
+  | ((quests: any[], items: any[], lastPage: LastPage) => Dialogue[]);
   nextRoute?: string;
   initialPosition?:
-    | { x: number; y: number; direction: DirectionExplore }
-    | ((lastPage?: string) => { x: number; y: number; direction: DirectionExplore });
+  | ExplorePosition
+  | ((lastPage: LastPage) => ExplorePosition);
   npcs?: NPCData[];
   audio?: AudioConfig;
   transitions?: Transition[];
@@ -42,5 +41,5 @@ export type ExploreSceneProps = {
   autoStartDialogue?: boolean;
   onFinish?: () => void;
   className?: string;
-  lastPage?: string;
+  lastPage: LastPage;
 };

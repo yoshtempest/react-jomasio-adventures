@@ -39,8 +39,8 @@ export const createNpc = (
 export const createPosition = (
   x: number,
   y: number,
-  direction: "up" | "down" | "left" | "right"
-) => ({
+  direction: Direction
+): ExplorePosition => ({
   x,
   y,
   direction,

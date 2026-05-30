@@ -1,3 +1,3 @@
 export function getHellInitialPosition() {
-  return { x: 8, y: 10, direction: "up" as const };
+  return { x: 8, y: 10, direction: "up" };
 }

@@ -1,3 +1,3 @@
 export function getCafeteriaThreeInitialPosition() {
-    return { x: 13, y: 5, direction: "left" as const };
+    return { x: 13, y: 5, direction: "left" };
 }

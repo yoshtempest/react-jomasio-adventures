@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import styles from "./styles.module.css";
 
-type Dir = "up" | "down" | "left" | "right";
+type Dir = Direction;
 
 type Props = {
   activeControls: any;

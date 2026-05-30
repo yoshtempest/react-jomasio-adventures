@@ -3,7 +3,7 @@ import type { QuestId } from "@/data/quests";
 export type Player = {
   x: number;
   y: number;
-  direction: "up" | "down" | "left" | "right";
+  direction: Direction;
 };
 
 export type Quest = {

@@ -12,15 +12,13 @@ export type DialogueSystem = {
 export type PlayerPosition = {
   gridX: number;
   gridY: number;
-  direction: "up" | "down" | "left" | "right";
+  direction: Direction;
 };
 
 export type Transition = {
   positions: { x: number; y: number }[];
   to: string;
 };
-
-export type Direction = "up" | "down" | "left" | "right";
 
 export type ScenePosition = {
   x: number;

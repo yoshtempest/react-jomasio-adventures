@@ -5,7 +5,7 @@ import type { Player } from "@/utils/types/player/player";
 export function moveExplore(
   player: Player,
   map: number[][],
-  direction: "up" | "down" | "left" | "right"
+  direction: Direction
 ): Player {
   if (player.mode !== "explore") return player;
 

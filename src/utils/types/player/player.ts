@@ -1,5 +1,5 @@
-export type DirectionExplore = "up" | "down" | "left" | "right";
-export type DirectionBattle = "up" | "down" | "left" | "right";
+export type DirectionExplore = Direction;
+export type DirectionBattle = Direction;
 
 export type PlayerState = "idle" | "walk" | "attack" | "jump" | "blocked" | "special";
 export type PlayerMode = "explore" | "battle" | "select" | "ui";

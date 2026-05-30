@@ -1,15 +1,15 @@
-export function getCenterOneInitialPosition(lastPage?: string) {
+export function getCenterOneInitialPosition(lastPage: LastPage) {
   if (lastPage === "/hall/center-front") {
-    return { x: 8, y: 6, direction: "down" as const };
+    return { x: 8, y: 6, direction: "down" };
   }
 
   if (lastPage === "/cantina/two") {
-    return { x: 4, y: 7, direction: "right" as const };
+    return { x: 4, y: 7, direction: "right" };
   }
 
   if (lastPage === "/hall/hell") {
-    return { x: 13, y: 7, direction: "left" as const };
+    return { x: 13, y: 7, direction: "left" };
   }
 
-  return { x: 8, y: 10, direction: "up" as const };
+  return { x: 8, y: 10, direction: "up" };
 }

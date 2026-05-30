@@ -1,5 +1,3 @@
-type Direction = "up" | "down" | "left" | "right";
-
 type Player = {
   gridX: number;
   gridY: number;
