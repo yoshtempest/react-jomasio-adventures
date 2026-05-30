@@ -16,7 +16,6 @@ type PlayerContextType = {
   setPosition: (x: number, y: number, direction?: Player["direction"]) => void;
   setCharacter: (character: Player["character"]) => void;
 
-
   moveUp: () => void;
   moveDown: () => void;
   moveLeft: () => void;

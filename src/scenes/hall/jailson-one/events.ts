@@ -5,6 +5,7 @@ export const jailsonOneEvents: SceneEvent[] = [
         type: "conditional",
         condition: { notHasQuest: "give_orange_juice" },
         then: [
+            { type: "addItem", itemId: "jorjao_map"},
             { type: "giveQuest", questId: "give_orange_juice" },
         ],
     },

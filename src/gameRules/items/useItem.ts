@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router";
+import { usePlayer } from "@/contexts/PlayerContext";
 
 type Props = {
   playSFX?: (src: string, volume?: number) => void;
@@ -15,6 +16,7 @@ function rollEncounter() {
 
 export function useItemEffect({playSFX}: Props) {
   const navigate = useNavigate();
+  const { setMode } = usePlayer();
 
   function getEffect(itemId: string) {
     switch (itemId) {
@@ -25,11 +27,11 @@ export function useItemEffect({playSFX}: Props) {
           navigate(route);
         };
 
-      // case "jorjao_map":
-      //   return () => {
-      //     playSFX?.("/assets/songs/transitions/openMap.mp3", 0.6);
-      //     // openMapMenu()
-      //   };
+      case "jorjao_map":
+        return () => {
+          playSFX?.("/assets/songs/transitions/openMap.mp3", 0.6);
+          setMode("map"); // 🔥 entra no modo mapa
+        };
 
       // case "peru": //
       //   return () => {

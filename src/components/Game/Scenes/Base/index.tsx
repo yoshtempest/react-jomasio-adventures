@@ -5,6 +5,7 @@ import { ExploreScene } from "@/components/Game/Scenes/Default";
 import { runSceneEvents } from "@/engine/runSceneEvents";
 import { useQuestActions } from "@/hooks/useQuestActions";
 import { useQuests } from "@/contexts/QuestContext";
+import { MapOverlay } from "@/components/Game/MenuMap";
 
 type SceneBaseProps = {
   scene: any;
@@ -142,6 +143,14 @@ export function SceneBase({
           }}
         />
       </div>
+
+      {player.mode === "map" && (
+        <MapOverlay
+          map={scene.map}
+          playerX={player.gridX}
+          playerY={player.gridY}
+        />
+      )}
 
       {popup && (
         <div className="SceneOverlay">
