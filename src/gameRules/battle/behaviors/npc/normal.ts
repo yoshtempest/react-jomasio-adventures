@@ -11,15 +11,22 @@ export function normalBehavior(ctx: BehaviorContext) {
     onMeleeHit,
   } = ctx;
 
+  npc.state = "walk";
+
   const distanceX = Math.abs(npc.x - playerX);
   const distanceY = Math.abs(npc.y - playerY);
 
-  const newX = getChaseMovement(npc.x, playerX, distanceX);
+  const { x, y } = getChaseMovement(
+        npc.x,
+        npc.y,
+        playerX,
+        playerY
+  );
 
   if (canNpcAttack(distanceX, distanceY, lastAttackRef.current, 800)) {
     onMeleeHit();
     lastAttackRef.current = Date.now();
   }
 
-  return { x: newX };
+  return { x, y };
 }

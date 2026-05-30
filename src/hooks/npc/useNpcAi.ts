@@ -92,6 +92,7 @@ export function useNpcAI({
         return {
           ...n,
           x: result.x,
+          y: result.y ?? n.y,
           direction,
           state: forceIdle ? "idle" : distanceX > 80 ? "walk" : "idle",
         };

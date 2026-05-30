@@ -12,7 +12,6 @@ export function vandinhaBehavior(ctx: BehaviorContext) {
     setForceIdle,
   } = ctx;
 
-  const distanceX = Math.abs(npc.x - playerX);
   const now = Date.now();
 
   const canThrow =
@@ -41,7 +40,12 @@ export function vandinhaBehavior(ctx: BehaviorContext) {
     return { x: npc.x };
   }
 
-  const newX = getChaseMovement(npc.x, playerX, distanceX);
+  const { x, y } = getChaseMovement(
+    npc.x,
+    npc.y,
+    playerX,
+    playerY
+  );
 
-  return { x: newX };
+  return { x, y };
 }

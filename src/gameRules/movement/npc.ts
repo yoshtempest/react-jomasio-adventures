@@ -1,15 +1,31 @@
 export function getChaseMovement(
   npcX: number,
+  npcY: number,
   playerX: number,
-  distanceX: number
+  playerY: number
 ) {
-  if (distanceX > 200) {
-    return npcX > playerX ? npcX - 2 : npcX + 2;
+  const dx = playerX - npcX;
+  const dy = playerY - npcY;
+
+  const distance = Math.hypot(dx, dy);
+
+  if (distance === 0) {
+    return { x: npcX, y: npcY };
   }
 
-  if (distanceX > 10) {
-    return npcX > playerX ? npcX - 1 : npcX + 1;
-  }
+  // velocidade baseada na distância
+  let speed = 0;
 
-  return npcX;
+  if (distance > 200) speed = 2;
+  else if (distance > 10) speed = 1;
+  else speed = 0;
+
+  // normaliza direção (movimento suave em qualquer ângulo)
+  const dirX = dx / distance;
+  const dirY = dy / distance;
+
+  return {
+    x: npcX + dirX * speed,
+    y: npcY + dirY * speed,
+  };
 }

@@ -18,9 +18,16 @@ export function deiseBehavior(ctx: BehaviorContext) {
   const distanceY = Math.abs(npc.y - playerY);
   const now = Date.now();
 
-  // 🔥 FASE 2 → vira melee (igual normal)
+  // 🔥 FASE 2 → melee
   if (npcPhase === 2) {
-    const newX = getChaseMovement(npc.x, playerX, distanceX);
+    npc.state = "walk";
+
+    const { x, y } = getChaseMovement(
+      npc.x,
+      npc.y,
+      playerX,
+      playerY
+    );
 
     if (
       distanceX < 80 &&
@@ -31,25 +38,30 @@ export function deiseBehavior(ctx: BehaviorContext) {
       lastAttackRef.current = now;
     }
 
-    return { x: newX };
+    return { x, y };
   }
 
+  // 🟢 FASE 1
   if (npcPhase === 1) {
     const canThrow =
       !projectile &&
       now - lastAttackRef.current > 1500;
 
-      // 🔥 PRIORIDADE: melee se estiver perto
-      if (distanceX <= 20 && distanceY <= 20) {
-        if (now - lastAttackRef.current > 800) {
-          onMeleeHit();
-          lastAttackRef.current = now;
-        }
+    // melee prioridade
+    if (distanceX <= 20 && distanceY <= 20) {
+      npc.state = "idle";
 
-        return { x: npc.x };
+      if (now - lastAttackRef.current > 800) {
+        onMeleeHit();
+        lastAttackRef.current = now;
       }
 
+      return { x: npc.x, y: npc.y };
+    }
+
     if (canThrow) {
+      npc.state = "idle";
+
       setProjectile({
         x: npc.x,
         y: npc.y + 50,
@@ -66,12 +78,21 @@ export function deiseBehavior(ctx: BehaviorContext) {
       setTimeout(() => setForceIdle(false), 1000);
     }
 
+    // 🚫 parado enquanto projétil existe
     if (projectile) {
-      return { x: npc.x };
+      npc.state = "idle";
+      return { x: npc.x, y: npc.y };
     }
 
-    const newX = getChaseMovement(npc.x, playerX, distanceX);
+    npc.state = "walk";
 
-    return { x: newX };
+    const { x, y } = getChaseMovement(
+      npc.x,
+      npc.y,
+      playerX,
+      playerY
+    );
+
+    return { x, y };
   }
 }
