@@ -10,6 +10,7 @@ export function useMapMenu() {
     const controls = {
       onCancel: () => {
         setMode("explore");
+        return true;
       },
       blockGlobalOpen: true,
     };
