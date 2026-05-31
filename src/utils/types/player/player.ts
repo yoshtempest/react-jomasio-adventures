@@ -31,6 +31,8 @@ export type Player = {
     // battle
     x: number;
     y: number;
+    velY: number;
+    groundY: number;
     battleDirection: DirectionBattle;
     state: PlayerState;
 

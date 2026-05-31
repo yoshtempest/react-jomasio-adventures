@@ -4,8 +4,6 @@ import
 {
   moveLeftBattle,
   moveRightBattle,
-  jumpBattle,
-  landBattle,
   blockStart,
   blockEnd,
   idleBattle
@@ -20,19 +18,54 @@ export function useBattleMovement(
 
   const leftIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const rightIntervalRef = useRef<NodeJS.Timeout | null>(null);
-  const jumpTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const idleTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const downLockRef = useRef(false);
   const isJumping = useRef(false);
 
+  const gravity = 1.2;
+  const jumpForce = -15;
+
   useEffect(() => {
     return () => {
       if (leftIntervalRef.current) clearInterval(leftIntervalRef.current);
       if (rightIntervalRef.current) clearInterval(rightIntervalRef.current);
-      if (jumpTimeoutRef.current) clearTimeout(jumpTimeoutRef.current);
       if (idleTimeoutRef.current) clearTimeout(idleTimeoutRef.current);
     };
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPlayer((p) => {
+        // só aplica física se estiver no ar
+        if (p.y === p.groundY && p.velY === 0) return p;
+
+        let newVelY = p.velY + gravity;
+        let newY = p.y + newVelY;
+
+        // 🧱 colisão com o chão
+        if (newY >= p.groundY) {
+          newY = p.groundY;
+          newVelY = 0;
+
+          return {
+            ...p,
+            y: newY,
+            velY: newVelY,
+            state: "idle",
+          };
+        }
+
+        return {
+          ...p,
+          y: newY,
+          velY: newVelY,
+          state: "jump",
+        };
+      });
+    }, 16); // ~60fps
+
+    return () => clearInterval(interval);
   }, []);
 
   function startMoveLeft() {
@@ -78,22 +111,27 @@ export function useBattleMovement(
 
   function moveUpBattle() {
     if (!canJump(isJumping.current)) return;
-    isJumping.current = true;
 
-    // 👇 primeiro animação de preparação
-    setPlayer((p) => ({
-      ...p,
-      state: "preJump",
-    }));
+    setPlayer((p) => {
+      if (p.y !== p.groundY) return p;
+
+      return {
+        ...p,
+        state: "preJump",
+      };
+    });
 
     setTimeout(() => {
-      setPlayer((p) => jumpBattle(p));
-    }, 120);
+      setPlayer((p) => {
+        if (p.y !== p.groundY) return p;
 
-    jumpTimeoutRef.current = setTimeout(() => {
-      isJumping.current = false;
-      setPlayer((p) => landBattle(p));
-    }, 450);
+        return {
+          ...p,
+          velY: jumpForce,
+          state: "jump",
+        };
+      });
+    }, 120);
   }
 
   function moveDownBattle() {

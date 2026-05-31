@@ -36,26 +36,6 @@ export function moveRightBattle(player: Player): Player {
   };
 }
 
-export function jumpBattle(p: Player): Player {
-  if (!canAct(p)) return p;
-  if (p.state === "blocked") return p;
-
-  return {
-    ...p,
-    state: "jump",
-    y: p.y - 80,
-  };
-}
-
-export function landBattle(p: Player): Player {
-  if (p.state !== "jump") return p;
-  return {
-    ...p,
-    y: p.y + 80,
-    state: "idle",
-  };
-}
-
 export function blockStart(p: Player): Player {
   if (!isInBattle(p)) return p;
   if (p.state === "jump") return p;

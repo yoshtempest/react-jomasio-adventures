@@ -61,6 +61,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
       x: 100,
       y: 300,
+      groundY: 600,
+      velY: 0,
       battleDirection: "right",
       state: "idle",
       mode: "explore",
@@ -133,6 +135,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         ? {
             x: 100,
             y: 600,
+            groundY: 600,
+            velY: 0,
             state: "idle",
             battleDirection: "right",
           }
@@ -145,6 +149,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       ...p,
       x: 100,
       y: 600,
+      groundY: 600,
+      velY: 0,
       state: "idle",
       battleDirection: "right",
     }));
