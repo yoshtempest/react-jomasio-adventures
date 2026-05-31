@@ -1,6 +1,6 @@
 export const HellRoomFourDialogue = [
     {
-        src: "/assets/npcs/kidBengala/right.svg",
+        src: "/assets/npcs/kidBengala/terror.svg",
         name: "Kid Bengala",
         message:
             "Aaah, Maugrelooo, por que foges? A noite é apenas uma criança hahaahaha",
