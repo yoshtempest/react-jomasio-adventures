@@ -152,6 +152,10 @@ h2 {
   background-image: url("/assets/cenarios/jailsonHallBattle.svg");
 }
 
+.HellRoom {
+  background-image: url("/assets/cenarios/hellRoom.svg");
+}
+
 .loading-screen {
   position: fixed;
   top: 0;

@@ -33,10 +33,10 @@ export const NPCS: Record<string, NPCData> = {
   baal: { type: "baal", class: "legendary" },
   madame: { type: "madame", class: "legendary" }, /* aranha de cão de caça dos baskerville */
   /* Barragem */
-  figurantOfLordSeaCult: { type: "figurantOfLordSeaCult", class: "common" },
+  figurantOfMobyDickCult: { type: "figurantOfMobyDickCult", class: "common" },
   crocodile: { type: "crocodile", class: "rare" },
   elitCrocodile: { type: "elitCrocodile", class: "epic" },
-  ancestralLordOfSea: { type: "ancestralLordOfSea", class: "boss" }, /* baleia */
+  mobyDick: { type: "mobyDick", class: "boss" }, /* baleia */
   /* Tanque dos crávos */
   figurantOfDragonKingCult: { type: "figurantOfDragonKingCult", class: "common" },
   dragonKing: { type: "dragonKing", class: "legendary" },
