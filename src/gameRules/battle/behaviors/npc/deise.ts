@@ -22,7 +22,7 @@ export function deiseBehavior(ctx: BehaviorContext) {
   if (npcPhase === 2) {
     npc.state = "walk";
 
-    const { x, y } = getChaseMovement(
+    const { x } = getChaseMovement(
       npc.x,
       npc.y,
       playerX,
@@ -38,7 +38,7 @@ export function deiseBehavior(ctx: BehaviorContext) {
       lastAttackRef.current = now;
     }
 
-    return { x, y };
+    return { x, y: npc.y };
   }
 
   // 🟢 FASE 1
@@ -86,13 +86,13 @@ export function deiseBehavior(ctx: BehaviorContext) {
 
     npc.state = "walk";
 
-    const { x, y } = getChaseMovement(
+    const { x } = getChaseMovement(
       npc.x,
       npc.y,
       playerX,
       playerY
     );
 
-    return { x, y };
+    return { x, y: npc.y };
   }
 }

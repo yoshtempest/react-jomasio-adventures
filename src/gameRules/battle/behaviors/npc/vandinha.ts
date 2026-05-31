@@ -40,12 +40,12 @@ export function vandinhaBehavior(ctx: BehaviorContext) {
     return { x: npc.x };
   }
 
-  const { x, y } = getChaseMovement(
+  const { x } = getChaseMovement(
     npc.x,
     npc.y,
     playerX,
     playerY
   );
 
-  return { x, y };
+  return { x, y: npc.y };
 }

@@ -34,7 +34,7 @@ export function slimitaBehavior(ctx: BehaviorContext) {
   if (npcPhase === 1) {
     npc.state = "walk";
 
-    const { x, y } = getChaseMovement(
+    const { x } = getChaseMovement(
       npc.x,
       npc.y,
       playerX,
@@ -45,7 +45,7 @@ export function slimitaBehavior(ctx: BehaviorContext) {
       onMeleeHit();
     }
 
-    return { x, y };
+    return { x, y: npc.y };
   }
 
   // 🔥 FASE 2

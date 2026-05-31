@@ -16,11 +16,11 @@ export function normalBehavior(ctx: BehaviorContext) {
   const distanceX = Math.abs(npc.x - playerX);
   const distanceY = Math.abs(npc.y - playerY);
 
-  const { x, y } = getChaseMovement(
-        npc.x,
-        npc.y,
-        playerX,
-        playerY
+  const { x } = getChaseMovement(
+    npc.x,
+    npc.y,
+    playerX,
+    playerY
   );
 
   if (canNpcAttack(distanceX, distanceY, lastAttackRef.current, 800)) {
@@ -28,5 +28,5 @@ export function normalBehavior(ctx: BehaviorContext) {
     lastAttackRef.current = Date.now();
   }
 
-  return { x, y };
+  return { x, y: npc.y };
 }
