@@ -8,8 +8,6 @@ import
   landBattle,
   blockStart,
   blockEnd,
-  attackBattle,
-  specialBattle,
   idleBattle
 } from "@/gameRules/movement/battle";
 
@@ -82,13 +80,19 @@ export function useBattleMovement(
     if (!canJump(isJumping.current)) return;
     isJumping.current = true;
 
-    setPlayer((p) => jumpBattle(p));
+    // 👇 primeiro animação de preparação
+    setPlayer((p) => ({
+      ...p,
+      state: "preJump",
+    }));
 
-    if (jumpTimeoutRef.current) clearTimeout(jumpTimeoutRef.current);
+    setTimeout(() => {
+      setPlayer((p) => jumpBattle(p));
+    }, 120);
+
     jumpTimeoutRef.current = setTimeout(() => {
       isJumping.current = false;
       setPlayer((p) => landBattle(p));
-      jumpTimeoutRef.current = null;
     }, 450);
   }
 
@@ -107,21 +111,25 @@ export function useBattleMovement(
   }
 
   function attack() {
-    setPlayer((p) => attackBattle(p));
-    resetToIdle(250);
+    setPlayer((p) => {
+      if (p.state !== "idle") return p;
+
+      return {
+        ...p,
+        state: "preAttack",
+      };
+    });
   }
 
   function special() {
-    setPlayer((p) => specialBattle(p));
-    resetToIdle(800);
-  }
+    setPlayer((p) => {
+      if (p.state !== "idle") return p;
 
-  function resetToIdle(delay = 0) {
-    if (idleTimeoutRef.current) clearTimeout(idleTimeoutRef.current);
-    idleTimeoutRef.current = setTimeout(() => {
-      setPlayer((p) => idleBattle(p));
-      idleTimeoutRef.current = null;
-    }, delay);
+      return {
+        ...p,
+        state: "preSpecial",
+      };
+    });
   }
 
   return {

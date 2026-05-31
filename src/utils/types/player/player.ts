@@ -1,7 +1,17 @@
 export type DirectionExplore = Direction;
 export type DirectionBattle = Direction;
 
-export type PlayerState = "idle" | "walk" | "attack" | "jump" | "blocked" | "special";
+export type PlayerState =
+  | "idle"
+  | "walk"
+  | "attack"
+  | "jump"
+  | "blocked"
+  | "special"
+  | "preAttack"
+  | "preWalk"
+  | "preJump"
+  | "preSpecial";
 export type PlayerMode = "explore" | "battle" | "select" | "ui" | "map";
 export const CHARACTERS = ["marcelo", "eduarda", "lucas", "samuel", "artur", "mayra", "lucaua", "riquelme", "larissa", "camilly", "emanuel", "hiago"] as const;
 export type Character = typeof CHARACTERS[number];
@@ -17,7 +27,6 @@ export type Player = {
     gridY: number;
     direction: DirectionExplore;
     character: Character;
-
 
     // battle
     x: number;

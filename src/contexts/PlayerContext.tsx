@@ -5,6 +5,7 @@ import { useBattleMovement } from "@/hooks/player/useBattleMovement";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import type { NpcDifficulty } from "@/utils/types/npc/npcProgress";
+import { usePlayerAnimation } from "@/hooks/battle/usePlayerAnimation";
 
 type PlayerContextType = {
   player: Player;
@@ -65,6 +66,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       mode: "explore",
     };
   });
+  usePlayerAnimation(player, setPlayer);
 
   const [currentMap, setCurrentMap] = useState<number[][]>([]);
   const { toggleInventory } = useInventory();
