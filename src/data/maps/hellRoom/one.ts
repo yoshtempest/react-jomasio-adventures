@@ -9,7 +9,7 @@ export const HellRoomDialogue = [
         isPlayer: true,
         name: "Protagonista",
         message:
-            "Que? Eu estava brestes a descer a mão naquele cara...",
+            "Que? Eu estava prestes a descer a mão naquele cara...",
     },
     {
         src: "/assets/npcs/peruFather/right.svg",
@@ -22,18 +22,6 @@ export const HellRoomDialogue = [
         name: "Protagonista",
         message:
             "Quer brigar?",
-    },
-    {
-        src: "/assets/npcs/blackao/right.svg",
-        name: "Homem desconhecido",
-        message:
-            "Vá pro inferno!",
-    },
-    {
-        isPlayer: true,
-        name: "Protagonista",
-        message:
-            "Então vem pro fight vem",
     },
     {
         src: "/assets/npcs/peruFather/right.svg",

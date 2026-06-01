@@ -23,6 +23,7 @@ export const NPCS: Record<string, NPCData> = {
   riquelsonDog: { type: "riquelsonDog", class: "epic" },
   baiano: { type: "baiano", class: "epic" },
   spiritMotocycler: { type: "spiritMotocycler", class: "boss" }, /* Juan Derson */
+  tim: { type: "tim", class: "boss" }, /* Assassino que pula e faz acrobacias com as 2 facas de sashimi*/
 
   /* Lagoa grande */
   deadFish: { type: "deadFish", class: "common" },
