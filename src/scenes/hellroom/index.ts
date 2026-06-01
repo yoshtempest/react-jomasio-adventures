@@ -1,0 +1,11 @@
+import { oneScene } from "./one/scene";
+import { twoScene } from "./two/scene";
+import { threeScene } from "./three/scene";
+
+import type { SceneConfig, SceneId } from "@/utils/types/maps/sceneConfig";
+
+export const HELLROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
+  one: oneScene,
+  two: twoScene,
+  three: threeScene,
+};

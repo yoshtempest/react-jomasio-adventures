@@ -53,10 +53,13 @@ const HungryDeathBattle = lazyLoad(() => import('./pages/Battle/Hungry/index.tsx
 const CafeteriaBattle = lazyLoad(() => import('./pages/Cafeteria/Battle/index.tsx'));
 const CafeteriaPage = lazyLoad(() => import('./pages/Cafeteria/index.tsx'));
 const BrodiClassOne = lazyLoad(() => import('./pages/BrodiClass/index.tsx'));
+const HellroomPage = lazyLoad(() => import('./pages/HellRoom/index.tsx'));
+const HellroomBattle = lazyLoad(() => import('./pages/HellRoom/Battle/index.tsx'));
 import JailsonHallBattle from './pages/Hall/Battle/index.tsx';
 
 const nonBattlePages = [
   DirectorPage,
+  HellroomPage,
   EntryPoint,
   Intro,
   Matchmaking,
@@ -117,6 +120,12 @@ root.render(
                                 <Route index element={<Navigate to="/cantina/one" />} />
                                 <Route path=":id" element={<CantinaPage />} />
                                 <Route path="battle" element={<CantinaBattle />} />
+                              </Route>
+
+                              <Route path="hellroom">
+                                <Route index element={<Navigate to="/hellroom/one" />} />
+                                <Route path=":id" element={<HellroomPage />} />
+                                <Route path="battle" element={<HellroomBattle />} />
                               </Route>
 
                               <Route path="cafeteria">

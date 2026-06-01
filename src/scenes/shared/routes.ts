@@ -36,5 +36,7 @@ export const CAFETERIA_ROUTES = {
 };
 
 export const HELLROOM_ROUTES = {
-  ONE: "/hellroom/one"
+  ONE: "/hellroom/one",
+  TWO: "/hellroom/two",
+  THREE: "/hellroom/three",
 }
