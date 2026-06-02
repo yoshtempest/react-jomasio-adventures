@@ -25,7 +25,6 @@ export const NPCS: Record<string, NPCData> = {
   spiritMotocycler: { type: "spiritMotocycler", class: "boss" }, /* Juan Derson */
   tim: { type: "tim", class: "boss" }, /* Assassino que pula e faz acrobacias com as 2 facas de sashimi*/
   muyMacho: { type: "muyMacho", class: "boss" },
-
   
   /* Lagoa grande */
   deadFish: { type: "deadFish", class: "common" },

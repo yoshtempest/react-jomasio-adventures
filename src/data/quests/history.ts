@@ -194,4 +194,40 @@ export const HISTORY_QUESTS: Record<string, Quest> = {
         progress: 0,
         completed: false
     },
+    cancel_mobydick_ressurrection: {
+        id: "cancel_mobydick_ressurrection",
+        name: "Impeça o culto",
+        image: "/assets/npcs/brodiclass/default.svg",
+        description: "Pare a ressurreição da baleia ancestral",
+        rewardsType: "xp",
+        rewards: 1000,
+        type: "history",
+        counter: 1,
+        progress: 0,
+        completed: false
+    },
+    cancel_dragonking_ressurrection: {
+        id: "cancel_dragonking_ressurrection",
+        name: "Impeça o culto",
+        image: "/assets/npcs/brodiclass/default.svg",
+        description: "Pare a ressurreição do dragão fundador",
+        rewardsType: "xp",
+        rewards: 1000,
+        type: "history",
+        counter: 1,
+        progress: 0,
+        completed: false
+    },
+    cancel_baal_invocation: {
+        id: "cancel_baal_invocation",
+        name: "Impeça a invocação de Baal",
+        image: "/assets/npcs/brodiclass/default.svg",
+        description: "Salve o mundo",
+        rewardsType: "xp",
+        rewards: 1000,
+        type: "history",
+        counter: 1,
+        progress: 0,
+        completed: false
+    },
 }

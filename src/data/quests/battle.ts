@@ -13,6 +13,42 @@ export const BATTLE_QUESTS: Record<string, Quest> = {
         progress: 0,
         completed: false
     },
+    x1_crocodile: {
+        id: "x1_crocodile",
+        name: "Você não é peixe para mim",
+        image: "/assets/npcs/crocodile/right.svg",
+        description: "Tu não é peixe",
+        type: "history",
+        rewardsType: "coin",
+        rewards: 250,
+        counter: 1,
+        progress: 0,
+        completed: false
+    },
+    x1_elit_crocodile: {
+        id: "x1_elit_crocodile",
+        name: "Você não é peixe para mim",
+        image: "/assets/npcs/elitCrocodile/right.svg",
+        description: "Tu não é peixe",
+        type: "history",
+        rewardsType: "coin",
+        rewards: 500,
+        counter: 1,
+        progress: 0,
+        completed: false
+    },
+    x1_muy_macho: {
+        id: "x1_muy_macho",
+        name: "Eu era valente, macho",
+        image: "/assets/npcs/muyMacho/right.svg",
+        description: "E muito macho",
+        type: "history",
+        rewardsType: "coin",
+        rewards: 500,
+        counter: 1,
+        progress: 0,
+        completed: false
+    },
     x1_fischer: {
         id: "x1_fischer",
         name: "Esses peixes são meus",
