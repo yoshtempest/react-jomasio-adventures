@@ -19,7 +19,7 @@ export const getAfterPcRoomOneDialogue = (
         return AfterPcRoomOneDialogue;
     }
     
-    if (hasQuest(quests, "search_packaging") && !hasItem(quests, "package_01")) {
+    if (hasQuest(quests, "search_packaging") && !hasItem(items, "package_01")) {
         return AfterPcRoomTwoDialogue;
     }
 
@@ -30,7 +30,6 @@ export const getAfterPcRoomOneDialogue = (
     if (hasItem(items, "package_01") && hasItem(items, "good_powder")) {
         return AfterPcRoomFourDialogue;
     }
-
 
     if (hasQuest(quests, "go_cafeteria") && !hasQuest(quests, "return_to_remedinha")) {
         return AfterPcRoomFiveDialogue;
