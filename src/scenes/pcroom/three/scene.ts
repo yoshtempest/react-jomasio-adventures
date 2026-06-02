@@ -7,7 +7,7 @@ import { getPcRoomThreeInitialPosition } from "./position";
 import { pcRoomThreeEvents } from "./events"
 
 
-export const pcRoomThreeScene: SceneConfig = {
+export const threeScene: SceneConfig = {
     id: "three",
     dialogueData: getPcRoomThreeDialogue,
     map: pcsRoomThree,

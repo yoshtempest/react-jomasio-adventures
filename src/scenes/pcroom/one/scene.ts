@@ -8,7 +8,7 @@ import { pcRoomOneTiles } from "./tiles";
 import { pcRoomOneEvents } from "./events"
 
 
-export const pcRoomOneScene: SceneConfig = {
+export const oneScene: SceneConfig = {
     id: "one",
     dialogueData: getPcRoomOneDialogue,
     map: pcsRoom,

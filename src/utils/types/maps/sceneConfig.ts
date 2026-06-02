@@ -12,8 +12,9 @@ export type SceneId =
 "five" |
 "six" |
 "seven" |
+"eight" |
+"nine" |
 "afterpcroom-one" |
-"afterpcroom-two" |
 "left-one" |
 "center-one" |
 "center-front" |

@@ -5,7 +5,7 @@ import { pcRoomSixTiles } from "./tiles";
 import { getPcRoomSixInitialPosition } from "./position";
 
 
-export const pcRoomSixScene: SceneConfig = {
+export const sixScene: SceneConfig = {
   id: "six",
   map: pcsRoomSix,
   audio: { src: MUSICS.monkeyCircle },

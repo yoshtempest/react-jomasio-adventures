@@ -7,7 +7,7 @@ import { cafeteriaTwoEvents } from "./events";
 import { getCafeteriaTwoDialogue } from "./dialogue";
 
 
-export const cafeteriaTwoScene: SceneConfig = {
+export const twoScene: SceneConfig = {
   id: "two",
   className: "Cafeteria",
   map: cafeteriaTwo,

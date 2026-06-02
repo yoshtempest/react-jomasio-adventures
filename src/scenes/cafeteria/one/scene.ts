@@ -8,7 +8,7 @@ import { cafeteriaOneNpcs } from "./npcs";
 import { cafeteriaOneEvents } from "./events"
 
 
-export const cafeteriaOneScene: SceneConfig = {
+export const oneScene: SceneConfig = {
     id: "one",
     className: "Cafeteria",
     map: cafeteria,

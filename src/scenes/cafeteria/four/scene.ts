@@ -5,7 +5,7 @@ import { getCafeteriaFourInitialPosition } from "./position";
 import { cafeteriaFourTiles } from "./tiles";
 
 
-export const cafeteriaFourScene: SceneConfig = {
+export const fourScene: SceneConfig = {
   id: "four",
   className: "Cafeteria",
   map: cafeteriaFour,

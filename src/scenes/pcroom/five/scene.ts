@@ -6,7 +6,7 @@ import { pcRoomFiveNpcs } from "./npcs";
 import { pcRoomFiveEvents } from "./events"
 
 
-export const pcRoomFiveScene: SceneConfig = {
+export const fiveScene: SceneConfig = {
     id: "five",
     dialogueData: getPcRoomFiveDialogue,
     map: pcsRoomFive,
