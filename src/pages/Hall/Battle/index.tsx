@@ -12,8 +12,7 @@ export default function JailsonHallBattle() {
       npcType="slimita"
       redirectTo="/hall/jailson-two"
       onVictory={() => {
-        setFlag("slimita_intro_done");
-        setFlag("slimita_battle_won");
+        setFlag("slimita");
       }}
       victoryDescription="Você derrotou Slimita, a Paquera de Jailson"
       className="jailsonHallBattle"

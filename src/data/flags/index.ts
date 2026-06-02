@@ -1,0 +1,24 @@
+export const FLAGS = {
+  jhowsimar: { id: "jhowsimar"},
+  hungryDeath: { id: "hungryDeath"},
+  vandinhaFragment: { id: "vandinhaFragment"},
+  deise: { id: "deise"},
+  slimita: { id: "slimita"},
+  maugrelo: { id: "maugrelo"},
+  hungryKing: { id: "hungryKing"},
+  hungryDog: { id: "hungryDog"},
+  hungryFish: { id: "hungryFish"},
+  madame: { id: "madame"},
+  technoblade: { id: "technoblade"},
+  dragonKing: { id: "dragonKing"},
+  manim: { id: "manim"},
+  maura: { id: "maura"},
+  planetarySisters: { id: "planetarySisters"},
+  trueVandinha: { id: "trueVandinha"},
+  goat: { id: "goat"},
+  neimito: { id: "neimito"},
+  spiritMotocycler: { id: "spiritMotocycler"},
+  srGuaxinim: { id: "srGuaxinim"},
+} as const;
+
+export type FlagId = keyof typeof FLAGS;

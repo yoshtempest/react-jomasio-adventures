@@ -12,8 +12,7 @@ export default function HellroomBattle() {
       npcType="maugrelo"
       redirectTo="/hellroom/three"
       onVictory={() => {
-        setFlag("maugrelo_intro_done");
-        setFlag("maugrelo_battle_won");
+        setFlag("maugrelo");
       }}
       victoryDescription="Você derrotou Maugrelo, mas ele parece ter gostado de apanhar?"
       className="hellroomBattle"

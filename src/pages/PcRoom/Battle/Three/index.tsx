@@ -12,8 +12,7 @@ export default function PcRoomBattleThree() {
       redirectTo="/pcroom/nine"
       className="PcRoomBattle"
       onVictory={() => {
-        setFlag("hungryking_intro_done");
-        setFlag("hungryking_battle_won");
+        setFlag("hungryKing");
       }}
       victoryDescription="Você salvou Samurion de seu próprio culto de mortos de fome"
       audioSrc={KenTheme}

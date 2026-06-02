@@ -11,7 +11,7 @@ export default function CantinaBattle() {
       npcType="jhowsimar"
       redirectTo="/cantina/one"
       onVictory={() => {
-        setFlag("cantina_battle_done");
+        setFlag("jhowsimar");
       }}
       victoryDescription="Você derrotou 'Jhow Simar, o Vigia'"
       className="CantinaBattle"

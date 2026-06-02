@@ -12,8 +12,7 @@ export default function CafeteriaBattle() {
       npcType="deise"
       redirectTo="/cafeteria/one"
       onVictory={() => {
-        setFlag("deise_intro_done");
-        setFlag("deise_battle_won");
+        setFlag("deise");
       }}
       victoryDescription="Você derrotou Deise, a Lich imortal"
       className="CafeteriaBattle"

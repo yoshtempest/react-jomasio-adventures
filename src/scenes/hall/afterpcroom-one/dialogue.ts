@@ -8,12 +8,13 @@ import { AfterPcRoomSevenDialogue } from "@/data/maps/hall/one/seven";
 import { AfterPcRoomGenericDialogue } from "@/data/maps/hall/one/generic";
 
 import type { QuestId } from "@/data/quests";
+import type { ItemId } from "@/data/items";
 import { hasQuest, hasItem } from "@/scenes//shared/helpers";
 
 
 export const getAfterPcRoomOneDialogue = (
   quests: { id: QuestId }[],
-  items: { id: string }[]
+  items: { id: ItemId }[]
 ) => {
     if (hasItem(items, "aura_letter") && !hasQuest(quests, "search_packaging")) {
         return AfterPcRoomOneDialogue;

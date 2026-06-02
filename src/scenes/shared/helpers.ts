@@ -1,4 +1,6 @@
 import type { QuestId } from "@/data/quests";
+import type { ItemId } from "@/data/items";
+import type { FlagId } from "@/data/flags";
 
 export const hasQuest = (
   quests: { id: QuestId }[],
@@ -15,31 +17,29 @@ export const hasAnyQuest = (
 };
 
 export const hasItem = (
-  items: { id: string }[],
-  id: string
+  items: { id: ItemId }[],
+  id: ItemId
 ) => {
   return items.some(item => item.id === id);
 };
 
 export const hasAnyItem = (
-  items: { id: string }[],
-  ids: string[]
+  items: { id: ItemId }[],
+  ids: ItemId[]
 ) => {
   return items.some(item => ids.includes(item.id));
 };
 
 export const hasFlag = (
-  flags: string[],
-  flag: string
+  flags: { id: FlagId}[],
+  id: FlagId
 ) => {
-  return flags.includes(flag);
+  return flags.some(flag => flag.id === id);
 };
 
 export const hasAnyFlag = (
-  flags: string[],
-  flagList: string[]
+  flags: { id: FlagId}[],
+  ids: FlagId[]
 ) => {
-  return flagList.some(flag =>
-    flags.includes(flag)
-  );
+  return flags.some(flag => ids.includes(flag.id));
 };

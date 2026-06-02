@@ -11,8 +11,7 @@ export default function PcRoomBattleOne() {
       npcType="hungryDeath"
       redirectTo="/pcroom/two"
       onVictory={() => {
-        setFlag("hungry_intro_done");
-        setFlag("hungry_battle_won");
+        setFlag("hungry");
       }}
       victoryDescription="Você derrotou um morto de fome!"
       className="PcRoomBattle"

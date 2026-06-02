@@ -9,7 +9,7 @@ export const NPCS: Record<string, NPCData> = {
   trueVandinha: { type: "trueVanidnha", class: "legendary" },
   deise: { type: "deise", class: "boss" },
   slimita: { type: "slimita", class: "boss" },
-  elitHungry: { type: "elitHungry", class: "epic" }, /* culto de Samurion */
+  hungryKing: { type: "hungryKing", class: "epic" }, /* culto de Samurion */
   denis: { type: "denis", class: "boss" },
   srGuaxinim: { type: "srGuaxinim", class: "epic" },
   neimito: { type: "neimito", class: "boss" },
