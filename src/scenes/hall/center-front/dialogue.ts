@@ -11,7 +11,11 @@ export const getCenterFrontDialogue = (
   quests: { id: QuestId }[],
   characters: { id: CharacterId }[]
 ) => {
-  if (playerCharacter(characters, "marcelo")) {
+  if (
+    playerCharacter(characters, "marcelo") &&
+    !hasQuest(quests, "save_samurion") &&
+    !hasQuest(quests, "save_ematron")
+    ) {
     return centerFrontFourDialogue;
   }
 
@@ -19,7 +23,7 @@ export const getCenterFrontDialogue = (
     return centerFrontThreeDialogue;
   }
 
-  if (hasQuest(quests, "save_samurion")) {
+  if (hasQuest(quests, "save_samurion") && !hasQuest(quests, "save_ematron")) {
     return centerFrontTwoDialogue;
   }
 

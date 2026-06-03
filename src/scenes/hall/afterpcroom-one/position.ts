@@ -5,7 +5,7 @@ export function getAfterPcRoomOneInitialPosition(lastPage?: LastPage) {
   if (lastPage === "/hall/left-one") {
     return { x: 2, y: 10, direction: "right" };
   }
-  if (lastPage === "/hall/jailson-one" || lastPage === "/hall/jailson-two") {
+  if (lastPage?.startsWith("/hall/jailson")) {
     return { x: 8, y: 3, direction: "down" };
   }
 

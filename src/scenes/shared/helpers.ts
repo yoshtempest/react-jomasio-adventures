@@ -10,18 +10,18 @@ export const hasQuest = (
   return quests.some(q => q.id === id);
 };
 
-export const playerCharacter = (
-  characters: { id: CharacterId }[],
-  id: CharacterId
-) => {
-  return characters.some(c => c.id === id);
-};
-
 export const hasAnyQuest = (
   quests: { id: QuestId }[],
   ids: QuestId[]
 ) => {
   return quests.some(q => ids.includes(q.id));
+};
+
+export const playerCharacter = (
+  characters: { id: CharacterId }[],
+  id: CharacterId
+) => {
+  return characters.some(c => c.id === id);
 };
 
 export const hasItem = (
