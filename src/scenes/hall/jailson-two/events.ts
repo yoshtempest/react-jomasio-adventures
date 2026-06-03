@@ -3,7 +3,7 @@ import type { SceneEvent } from "@/utils/types/maps/sceneEvents";
 export const jailsonTwoEvents: SceneEvent[] = [
     {
         type: "conditional",
-        condition: { notHasFlag: "slimita_battle_won" },
+        condition: { notHasFlag: "slimita" },
         then: [
           { type: "giveQuest", questId: "x1_slimita" },
           { type: "navigate", to: "/hall/jailson/battle" }
@@ -13,7 +13,7 @@ export const jailsonTwoEvents: SceneEvent[] = [
         type: "conditional",
         condition: {
           hasQuest: "x1_slimita",
-          hasFlag: "slimita_battle_won"
+          hasFlag: "slimita"
         },
         then: [
           { type: "giveQuest", questId: "give_orange_juice" },

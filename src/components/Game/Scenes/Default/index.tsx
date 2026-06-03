@@ -103,7 +103,7 @@ export function ExploreScene({
         return;
 
       case "setFlag":
-        setFlag(event.flag);
+        setFlag(event.flagId);
         return;
 
       case "giveQuest":
@@ -147,28 +147,30 @@ export function ExploreScene({
   }
 
   const handleFinish = () => {
-    if (events) {
-      for (const event of events) {
-        if (event.type === "conditional") {
-          if (checkCondition(event.condition)) {
-            event.then.forEach(runEvent);
-            break;
-          } else if (event.else) {
-            event.else.forEach(runEvent);
+    setTimeout(() => {
+      if (events) {
+        for (const event of events) {
+          if (event.type === "conditional") {
+            if (checkCondition(event.condition)) {
+              event.then.forEach(runEvent);
+              break;
+            } else if (event.else) {
+              event.else.forEach(runEvent);
+              break;
+            }
+          } else {
+            runEvent(event);
             break;
           }
-        } else {
-          runEvent(event);
-          break;
         }
       }
-    }
 
-    if (onFinish) onFinish();
+      if (onFinish) onFinish();
 
-    if (nextRoute) {
-      navigate(nextRoute, { state: { from: location.pathname } });
-    }
+      if (nextRoute) {
+        navigate(nextRoute, { state: { from: location.pathname } });
+      }
+    }, 0);
   };
 
   const resolvedDialogueData =

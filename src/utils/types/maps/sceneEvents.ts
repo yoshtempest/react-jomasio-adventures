@@ -1,13 +1,14 @@
 import type { QuestId } from "@/data/quests";
 import type { ItemId } from "@/data/items";
+import type { FlagId } from "@/data/flags";
 
 
 export type SceneEvent =
   | { type: "openModal"; modal: "class" }
   | { type: "navigate"; to: string }
-  | { type: "setFlag"; flag: string }
+  | { type: "setFlag"; flagId: FlagId }
   | { type: "log"; message: string }
-  | { type: "progressQuest"; id: string; value: number }
+  | { type: "progressQuest"; id: QuestId; value: number }
   | { type: "giveQuest"; questId: QuestId }
   | { type: "addItem"; itemId: ItemId }
   | { type: "removeItem"; itemId: ItemId } // 👈 NOVO
@@ -21,11 +22,11 @@ export type SceneEvent =
         notHasQuest?: QuestId;
 
 
-        hasFlag?: string;
-        notHasFlag?: string;
+        hasFlag?: FlagId;
+        notHasFlag?: FlagId;
 
         lastPage?: LastPage;
-        notLastPage?: string;
+        notLastPage?: LastPage;
       };
       then: SceneEvent[];
       else?: SceneEvent[];

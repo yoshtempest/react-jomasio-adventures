@@ -1,6 +1,7 @@
 import { type SceneEvent } from "@/utils/types/maps/sceneEvents";
-import { QUESTS } from "@/data/quests";
-import { ITEMS } from "@/data/items";
+import { type QuestId } from "@/data/quests";
+import { type ItemId } from "@/data/items";
+import { type FlagId } from "@/data/flags";
 import type { NavigateFunction } from "react-router";
 
 type EventContext = {
@@ -10,18 +11,18 @@ type EventContext = {
   setShowClassModal?: (v: boolean) => void;
 
   // 🔥 flags
-  setFlag?: (flag: string) => void;
-  hasFlag?: (flag: string) => boolean;
+  setFlag?: (flag: FlagId) => void;
+  hasFlag?: (flag: FlagId) => boolean;
 
   // 🔥 quests
-  progressQuest?: (id: string, value: number) => void;
-  giveQuest?: (quest: any) => void;
-  hasQuest?: (questId: string) => boolean;
+  progressQuest?: (id: QuestId, value: number) => void;
+  giveQuest?: (quest: QuestId) => void;
+  hasQuest?: (questId: QuestId) => boolean;
 
   // 🔥 inventory
-  addItem?: (item: any) => void;
-  removeItem?: (itemId: string) => void;
-  hasItem?: (itemId: string) => boolean;
+  addItem?: (item: ItemId) => void;
+  removeItem?: (itemId: ItemId) => void;
+  hasItem?: (itemId: ItemId) => boolean;
 };
 
 export function runSceneEvents(
@@ -88,7 +89,7 @@ export function runSceneEvents(
         return; // 🔥 IMPORTANTE: para execução após navegar
 
       case "setFlag":
-        ctx.setFlag?.(event.flag);
+        ctx.setFlag?.(event.flagId);
         break;
 
       case "progressQuest":
@@ -96,14 +97,12 @@ export function runSceneEvents(
         break;
 
       case "giveQuest": {
-        const quest = QUESTS[event.questId];
-        ctx.giveQuest?.(quest);
+        ctx.giveQuest?.(event.questId);
         break;
       }
 
       case "addItem": {
-        const item = ITEMS[event.itemId];
-        ctx.addItem?.(item);
+        ctx.addItem?.(event.itemId);
         break;
       }
 

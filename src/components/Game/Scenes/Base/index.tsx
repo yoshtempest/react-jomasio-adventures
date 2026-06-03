@@ -6,6 +6,7 @@ import { runSceneEvents } from "@/engine/runSceneEvents";
 import { useQuestActions } from "@/hooks/useQuestActions";
 import { useQuests } from "@/contexts/QuestContext";
 import { MapOverlay } from "@/components/Game/MenuMap";
+import { QUESTS } from "@/data/quests";
 
 type SceneBaseProps = {
   scene: any;
@@ -122,7 +123,12 @@ export function SceneBase({
             runSceneEvents(scene.events, {
               navigate,
               location,
-              giveQuest,
+              giveQuest: (questId) => {
+                const quest = QUESTS[questId];
+                if (!quest) return;
+
+                giveQuest(quest); // agora sim: objeto → contexto
+              },
               progressQuest,
               ...extra,
             });
