@@ -5,6 +5,7 @@ import { afterPcRoomScene } from "./afterpcroom-one/scene";
 import { thirdClassScene } from "./thirdclass/scene";
 import { centerFrontScene } from "./center-front/scene";
 import { centerOneScene } from "./center-one/scene";
+import { centerTwoScene } from "./center-two/scene";
 import { leftOneScene } from "./left-one/scene";
 import { hellScene } from "./hell/scene"
 
@@ -19,5 +20,6 @@ export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
   thirdclass: thirdClassScene,
   "center-front": centerFrontScene,
   "center-one": centerOneScene,
+  "center-two": centerTwoScene,
   "left-one": leftOneScene
 };

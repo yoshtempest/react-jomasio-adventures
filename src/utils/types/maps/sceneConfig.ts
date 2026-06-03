@@ -17,6 +17,7 @@ export type SceneId =
 "afterpcroom-one" |
 "left-one" |
 "center-one" |
+"center-two" |
 "center-front" |
 "thirdclass" |
 "hell" |

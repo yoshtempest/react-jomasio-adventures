@@ -1,0 +1,22 @@
+import { BattleScene } from "@/components/Game/Scenes/Battle";
+import { firstBattle } from "@/maps/firstBattle";
+import SpiderDance from "/assets/songs/SpiderDance.m4a"
+import { useFlags } from "@/contexts/FlagContext";
+
+export default function planetarySistersBattle() {
+  const { setFlag } = useFlags();
+
+  return (
+    <BattleScene
+      map={firstBattle}
+      npcType="planetarySisters"
+      redirectTo="/hall/center-front-one"
+      onVictory={() => {
+        setFlag("planetarySisters");
+      }}
+      victoryDescription="Você derrotou as Irmãs Planetárias e agora pode passar"
+      className="HallCenterFrontBattle"
+      audioSrc={SpiderDance}
+    />
+  );
+}
