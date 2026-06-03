@@ -242,7 +242,7 @@ export const BATTLE_QUESTS: Record<string, Quest> = {
         completed: false
     },
     x1_planetary_sisters: {
-        id: "x1_planetary_sister",
+        id: "x1_planetary_sisters",
         name: "Num da para passar!",
         image: "/assets/npcs/system/default.svg",
         description: "Tire esses planetas da frente",

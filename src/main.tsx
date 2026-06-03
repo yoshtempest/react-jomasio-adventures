@@ -41,6 +41,7 @@ const HallPage = lazyLoad(() => import('./pages/Hall/index.tsx'));
 
 const PcRoomBattleOne = lazyLoad(() => import('./pages/PcRoom/Battle/One/index.tsx'));
 const PcRoomBattleTwo = lazyLoad(() => import('./pages/PcRoom/Battle/Two/index.tsx'));
+const PcRoomBattleThree = lazyLoad(() => import('./pages/PcRoom/Battle/Three/index.tsx'));
 const HallCenterBattle = lazyLoad(() => import('./pages/Hall/Battle/Two/index.tsx'));
 const PcRoomPage = lazyLoad(() => import('./pages/PcRoom/index.tsx'));
 
@@ -141,6 +142,7 @@ root.render(
                                 <Route path=":id" element={<PcRoomPage />} />
                                 <Route path="battle/one" element={<PcRoomBattleOne />} />
                                 <Route path="battle/two" element={<PcRoomBattleTwo />} />
+                                <Route path="battle/three" element={<PcRoomBattleThree />} />
                               </Route>
 
                               <Route path="library" element={<Library />} />

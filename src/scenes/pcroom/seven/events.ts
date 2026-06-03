@@ -5,7 +5,7 @@ export const pcRoomSevenEvents: SceneEvent[] = [
         type: "conditional",
         condition: { notHasFlag: "hungryking_battle_won" },
         then: [
-            { type: "giveQuest", questId: "x1_hungryKing" },
+            { type: "giveQuest", questId: "x1_hungry_king" },
             { type: "navigate", to: "/pcroom/battle/three" }
         ],
     },

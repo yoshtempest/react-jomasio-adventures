@@ -38,7 +38,7 @@ export function NPCBattle({
   const bossScales: Record<string, { base: number; phase2: number }> = {
     deise: { base: 1.8, phase2: 3 },
     slimita: { base: 1.6, phase2: 4 },
-    elitHungry: { base: 2, phase2: 3.2 },
+    hungryKing: { base: 3, phase2: 5 },
   };
 
   const bossConfig = bossScales[npcType];
