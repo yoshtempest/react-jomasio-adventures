@@ -16,7 +16,6 @@ import { useNavbar } from "@/contexts/NavbarContext";
 import { useLocation } from "react-router";
 
 type Props = {
-  map: any;
   npcType: string;
   redirectTo?: string;
   audioSrc: string;
@@ -24,7 +23,6 @@ type Props = {
 };
 
 export function useBattleScene({
-  map,
   npcType,
   redirectTo,
   audioSrc,
@@ -33,7 +31,7 @@ export function useBattleScene({
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { player, setMap, setMode, attack, special, resetBattleState, difficulty } = usePlayer();
+  const { player, setMode, attack, special, resetBattleState, difficulty } = usePlayer();
   const { pushControls, popControls } = useGameControls();
   const { addXP, progress, getXPToNextLevel } = useCharacterProgress();
   const { closeInventory } = useInventory();
@@ -103,11 +101,10 @@ export function useBattleScene({
 
   // setup inicial
   useEffect(() => {
-    setMap(map);
     setMode("battle");
     closeInventory();
     closeNavbar();
-  }, [map]);
+  }, []);
 
   // controles
   useEffect(() => {

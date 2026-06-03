@@ -1,5 +1,4 @@
 import { BattleScene } from "@/components/Game/Scenes/Battle";
-import { firstBattle } from "@/maps/firstBattle";
 import DarkSouls from "/assets/songs/DarkSouls.m4a"
 import { useFlags } from "@/contexts/FlagContext";
 
@@ -8,7 +7,6 @@ export default function CafeteriaBattle() {
 
   return (
     <BattleScene
-      map={firstBattle}
       npcType="deise"
       redirectTo="/cafeteria/one"
       onVictory={() => {

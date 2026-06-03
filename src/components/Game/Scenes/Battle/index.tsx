@@ -10,7 +10,6 @@ import { useGameAudio } from "@/hooks/useGameAudio";
 import { useEffect } from "react";
 
 type Props = {
-  map: any;
   npcType: string;
   redirectTo?: string;
   victoryDescription: string;
