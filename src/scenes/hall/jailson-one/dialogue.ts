@@ -8,10 +8,11 @@ import { hallJailsonNineDialogue } from "@/data/maps/hall/jailson/nine";
 
 import type { QuestId } from "@/data/quests";
 import { hasQuest, hasItem } from "@/scenes/shared/helpers";
+import type { ItemId } from "@/data/items";
 
 export const getJailsonOneDialogue = (
   quests: { id: QuestId }[],
-  items: { id: string }[]
+  items: { id: ItemId }[]
 ) => {
   if (!hasQuest(quests, "give_orange_juice")) {
     return hallJailsonFourDialogue;

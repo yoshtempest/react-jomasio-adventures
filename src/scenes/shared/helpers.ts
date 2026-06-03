@@ -1,12 +1,20 @@
 import type { QuestId } from "@/data/quests";
 import type { ItemId } from "@/data/items";
 import type { FlagId } from "@/data/flags";
+import type { CharacterId } from "@/utils/types/player/character";
 
 export const hasQuest = (
   quests: { id: QuestId }[],
   id: QuestId
 ) => {
   return quests.some(q => q.id === id);
+};
+
+export const playerCharacter = (
+  characters: { id: CharacterId }[],
+  id: CharacterId
+) => {
+  return characters.some(c => c.id === id);
 };
 
 export const hasAnyQuest = (
