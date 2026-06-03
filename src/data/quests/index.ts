@@ -8,4 +8,4 @@ export const QUESTS = {
   ...BATTLE_QUESTS,
 } as const;
 
-export type QuestId = keyof typeof QUESTS;
+export type QuestId = Extract<keyof typeof QUESTS, string>;
