@@ -7,10 +7,13 @@ import type { CharacterId } from "@/utils/types/player/character";
 import type { QuestId } from "@/data/quests";
 import { hasQuest, playerCharacter} from "@/scenes/shared/helpers";
 
-export const getCenterFrontDialogue = (
+export const getCenterFrontDialogue = ({
+  quests,
+  characters
+}: {
   quests: { id: QuestId }[],
   characters: { id: CharacterId }[]
-) => {
+}) => {
   if (
     playerCharacter(characters, "marcelo") &&
     !hasQuest(quests, "save_samurion") &&

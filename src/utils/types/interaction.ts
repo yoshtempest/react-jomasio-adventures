@@ -1,20 +1,24 @@
+import type { ItemId } from "@/data/items";
+import type { QuestId } from "@/data/quests";
+import type { InventoryItem } from "@/utils/types/player/inventory";
+
 export type BaseDeps = {
   setPopup: (msg: string) => void;
 };
 
 export type InventoryDeps = BaseDeps & {
-  hasItem: (id: string) => boolean;
-  addItem: (item: { id: string; name: string }) => void;
-  removeItem: (id: string) => void;
+  hasItem: (id: ItemId) => boolean;
+  addItem: (item: InventoryItem) => void;
+  removeItem: (id: ItemId) => void;
   navigate?: (path: string) => void;
 };
 
 export type KeyDeps = BaseDeps & {
-  addItem: (item: { id: string; name: string }) => void;
+  addItem: (item: InventoryItem) => void;
   gotKey?: boolean;
-  setGotKey?: (value: boolean) => void;
+  setGotKey?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export type QuestDeps = {
-  progressQuest: (id: string, step: number) => void;
+  progressQuest: (id: QuestId, step: number) => void;
 };

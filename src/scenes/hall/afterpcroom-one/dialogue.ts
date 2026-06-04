@@ -12,10 +12,13 @@ import type { ItemId } from "@/data/items";
 import { hasQuest, hasItem } from "@/scenes//shared/helpers";
 
 
-export const getAfterPcRoomOneDialogue = (
-  quests: { id: QuestId }[],
-  items: { id: ItemId }[]
-) => {
+export const getAfterPcRoomOneDialogue = ({
+    quests,
+    items
+}: {
+    quests: { id: QuestId }[],
+    items: { id: ItemId }[]
+}) => {
     if (hasItem(items, "aura_letter") && !hasQuest(quests, "search_packaging")) {
         return AfterPcRoomOneDialogue;
     }

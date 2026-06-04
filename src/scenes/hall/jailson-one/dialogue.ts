@@ -10,10 +10,13 @@ import type { QuestId } from "@/data/quests";
 import { hasQuest, hasItem } from "@/scenes/shared/helpers";
 import type { ItemId } from "@/data/items";
 
-export const getJailsonOneDialogue = (
+export const getJailsonOneDialogue = ({
+  quests,
+  items
+}: {
   quests: { id: QuestId }[],
   items: { id: ItemId }[]
-) => {
+}) => {
   if (!hasQuest(quests, "give_orange_juice")) {
     return hallJailsonFourDialogue;
   }

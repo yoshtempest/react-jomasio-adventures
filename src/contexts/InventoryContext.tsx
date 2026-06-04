@@ -8,13 +8,14 @@ import {
 } from "react";
 import type { InventoryItem } from "@/utils/types/player/inventory";
 import { asset } from "@/utils/asset";
+import type { ItemId } from "@/data/items";
 
 type InventoryContextType = {
   items: InventoryItem[];
 
   addItem: (item: InventoryItem) => void;
-  removeItem: (id: string) => void;
-  hasItem: (id: string) => boolean;
+  removeItem: (id: ItemId) => void;
+  hasItem: (id: ItemId) => boolean;
 
   isOpen: boolean;
   openInventory: () => void;
@@ -71,7 +72,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  function removeItem(id: string) {
+  function removeItem(id: ItemId) {
     const exists = items.some((item) => item.id === id);
 
     if (!exists) return;
@@ -81,7 +82,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
     playUseItemSound();
   }
 
-  function hasItem(id: string) {
+  function hasItem(id: ItemId) {
     return items.some((item) => item.id === id);
   }
 

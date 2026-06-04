@@ -4,7 +4,11 @@ import { cafeteriaTwoDialogue } from "@/data/maps/cafeteria/two";
 import { hasFlag } from "@/scenes/shared/helpers";
 
 
-export const getCafeteriaOneDialogue = (flags: FlagId[]) => {
+export const getCafeteriaOneDialogue = ({
+    flags,
+}: {
+    flags: FlagId[];
+}) => {
     if (hasFlag(flags, "deise")) {
         return cafeteriaTwoDialogue;
     }

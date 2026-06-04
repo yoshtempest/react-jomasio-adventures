@@ -1,5 +1,8 @@
+import type { ItemId } from "@/data/items";
+
 export type InventoryItem = {
-  id: string;
+  id: ItemId;
   name: string;
+  image?: string;
   type?: "map" | "teleport" | "key" | "none";
 };
