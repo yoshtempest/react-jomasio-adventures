@@ -1,38 +1,18 @@
-import { asset } from "@/utils/asset";
-import { useGameAudio } from "../useGameAudio";
+import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 
 export function useMenuSFX() {
-  const moveAudio = useGameAudio({
-    src: asset("/assets/songs/soundEffects/menu/move.mp3"),
-    loop: false,
-    volume: 1,
-  });
-
-  const selectAudio = useGameAudio({
-    src: asset("/assets/songs/soundEffects/menu/select.mp3"),
-    loop: false,
-    volume: 1,
-  });
-
-  const closeAudio = useGameAudio({
-    src: asset("/assets/songs/soundEffects/menu/close.mp3"),
-    loop: false,
-    volume: 1,
-  });
+  const { playSound } = useSoundEffects();
 
   function playMove() {
-    moveAudio.stop();
-    moveAudio.play();
+    playSound("moveMenu");
   }
 
   function playSelect() {
-    selectAudio.stop();
-    selectAudio.play();
+    playSound("selectMenu");
   }
 
   function playClose() {
-    closeAudio.stop();
-    closeAudio.play();
+    playSound("closeMenu");
   }
 
   return {

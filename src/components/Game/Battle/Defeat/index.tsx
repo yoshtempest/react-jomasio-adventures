@@ -1,7 +1,7 @@
 import styles from "./styles.module.css";
 import { useEffect, useRef } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
-import { asset } from "@/utils/asset";
+import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 
 type Props = {
   isOpen: boolean;
@@ -17,55 +17,23 @@ export function DefeatModal({
   onBack,
 }: Props) {
   const { setMode } = usePlayer();
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const { playSound } = useSoundEffects();
   const hasPlayedRef = useRef(false);
-  const runAudioRef = useRef<HTMLAudioElement | null>(null);
-  const tryAgainAudioRef = useRef<HTMLAudioElement | null>(null);
-  useEffect(() => {
-    if (!runAudioRef.current) {
-      runAudioRef.current = new Audio(
-        asset("/assets/songs/soundEffects/player/run.mp3")
-      );
-    }
-  }, []);
-  useEffect(() => {
-    if (!tryAgainAudioRef.current) {
-      tryAgainAudioRef.current = new Audio(
-        asset("/assets/songs/soundEffects/player/tryAgain.mp3")
-      );
-    }
-  }, []);
 
   const handleBack = () => {
-    if (runAudioRef.current) {
-      runAudioRef.current.currentTime = 0;
-      runAudioRef.current.play().catch(() => {});
-    }
-
+    playSound("run");
     onBack();
     setMode("explore");
   };
   const handleTryAgain = () => {
-    if (tryAgainAudioRef.current) {
-      tryAgainAudioRef.current.currentTime = 0;
-      tryAgainAudioRef.current.play().catch(() => {});
-    }
-
+    playSound("tryAgain");
     onContinue();
   };
 
   useEffect(() => {
-    if (!audioRef.current) {
-      audioRef.current = new Audio(
-        asset("/assets/songs/soundEffects/player/defeat.mp3")
-      );
-    }
-
     if (isOpen && !hasPlayedRef.current) {
       hasPlayedRef.current = true;
-
-      audioRef.current.currentTime = 0;
-      audioRef.current.play().catch(() => {});
+      playSound("defeat");
     }
 
     if (!isOpen) {

@@ -5,14 +5,15 @@ import './index.css'
 import App from './App.tsx'
 
 import { FlagProvider } from "@/contexts/FlagContext";
-import { GameControlsProvider } from "./contexts/GameControlsContext";
-import { PlayerProvider } from './contexts/PlayerContext.tsx';
-import { InventoryProvider } from './contexts/InventoryContext.tsx';
-import { NavbarProvider } from './contexts/NavbarContext.tsx';
-import { CharacterProgressProvider } from "./contexts/CharacterProgressContext";
-import { QuestProvider } from './contexts/QuestContext.tsx';
-import { AudioProvider } from './contexts/AudioContext.tsx';
-import { PWAProvider } from './contexts/PWAContext.tsx';
+import { GameControlsProvider } from "@/contexts/GameControlsContext";
+import { PlayerProvider } from '@/contexts/PlayerContext.tsx';
+import { InventoryProvider } from '@/contexts/InventoryContext.tsx';
+import { NavbarProvider } from '@/contexts/NavbarContext.tsx';
+import { CharacterProgressProvider } from "@/contexts/CharacterProgressContext";
+import { QuestProvider } from '@/contexts/QuestContext.tsx';
+import { AudioProvider } from '@/contexts/AudioContext.tsx';
+import { PWAProvider } from '@/contexts/PWAContext.tsx';
+import { SoundEffectsProvider } from "@/contexts/SoundEffectsContext";
 
 import { registerSW } from "virtual:pwa-register";
 import { HashRouter } from "react-router";
@@ -89,78 +90,80 @@ root.render(
     <HashRouter>
       <PWAProvider>
         <AudioProvider>
-          <NavbarProvider>
-            <FlagProvider>
-              <InventoryProvider>
-                <QuestProvider>
-                  <CharacterProgressProvider>
-                    <PlayerProvider>
-                      <GameControlsProvider>
-                        <Preloader pages={nonBattlePages} />
-                        <Suspense fallback={<LoadingScreen />}>
-                          <Routes>
-                            <Route path="/" element={<App />}>
-                              <Route index element={<EntryPoint />} />
-                              <Route path="tutorial" element={<Tutorial />} />
-                              <Route path="intro" element={<Intro />} />
-                              <Route path="matchmaking" element={<Matchmaking />} />
-                              <Route path="home" element={<Home />} />
-                              <Route path="firstscreen" element={<FirstScreen />} />
+          <SoundEffectsProvider>
+            <NavbarProvider>
+              <FlagProvider>
+                <InventoryProvider>
+                  <QuestProvider>
+                    <CharacterProgressProvider>
+                      <PlayerProvider>
+                        <GameControlsProvider>
+                          <Preloader pages={nonBattlePages} />
+                          <Suspense fallback={<LoadingScreen />}>
+                            <Routes>
+                              <Route path="/" element={<App />}>
+                                <Route index element={<EntryPoint />} />
+                                <Route path="tutorial" element={<Tutorial />} />
+                                <Route path="intro" element={<Intro />} />
+                                <Route path="matchmaking" element={<Matchmaking />} />
+                                <Route path="home" element={<Home />} />
+                                <Route path="firstscreen" element={<FirstScreen />} />
 
-                              <Route path="hall">
-                                <Route index element={<Navigate to="/hall/one" />} />
-                                <Route path=":id" element={<HallPage />} />
-                                <Route path="jailson/battle" element={<JailsonHallBattle />} />
-                                <Route path="hall/center/battle" element={<HallCenterBattle />} />
+                                <Route path="hall">
+                                  <Route index element={<Navigate to="/hall/one" />} />
+                                  <Route path=":id" element={<HallPage />} />
+                                  <Route path="jailson/battle" element={<JailsonHallBattle />} />
+                                  <Route path="hall/center/battle" element={<HallCenterBattle />} />
+                                </Route>
+
+                                <Route path="director">
+                                  <Route index element={<Navigate to="/director/one" />} />
+                                  <Route path=":id" element={<DirectorPage />} />
+                                </Route>
+
+                                <Route path="cantina">
+                                  <Route index element={<Navigate to="/cantina/one" />} />
+                                  <Route path=":id" element={<CantinaPage />} />
+                                  <Route path="battle" element={<CantinaBattle />} />
+                                </Route>
+
+                                <Route path="hellroom">
+                                  <Route index element={<Navigate to="/hellroom/one" />} />
+                                  <Route path=":id" element={<HellroomPage />} />
+                                  <Route path="battle" element={<HellroomBattle />} />
+                                </Route>
+
+                                <Route path="cafeteria">
+                                  <Route index element={<Navigate to="/cafeteria/one" />} />
+                                  <Route path=":id" element={<CafeteriaPage />} />
+                                  <Route path="battle" element={<CafeteriaBattle/>} />
+                                </Route>
+
+                                <Route path="pcroom">
+                                  <Route index element={<Navigate to="/pcroom/one" />} />
+                                  <Route path=":id" element={<PcRoomPage />} />
+                                  <Route path="battle/one" element={<PcRoomBattleOne />} />
+                                  <Route path="battle/two" element={<PcRoomBattleTwo />} />
+                                  <Route path="battle/three" element={<PcRoomBattleThree />} />
+                                </Route>
+
+                                <Route path="library" element={<Library />} />
+                                <Route path="battle/hungry" element={<HungryDeathBattle />} />
+                                <Route path="battle/vandinhafragment" element={<VandinhaFragmentBattle />} />
+                                <Route path="battle/jhowsimar" element={<JhowSimarBattle />} />
+                                <Route path="battle/goat" element={<GoatBattle />} />
+                                <Route path="brodiclass/one" element={<BrodiClassOne/>} />
                               </Route>
-
-                              <Route path="director">
-                                <Route index element={<Navigate to="/director/one" />} />
-                                <Route path=":id" element={<DirectorPage />} />
-                              </Route>
-
-                              <Route path="cantina">
-                                <Route index element={<Navigate to="/cantina/one" />} />
-                                <Route path=":id" element={<CantinaPage />} />
-                                <Route path="battle" element={<CantinaBattle />} />
-                              </Route>
-
-                              <Route path="hellroom">
-                                <Route index element={<Navigate to="/hellroom/one" />} />
-                                <Route path=":id" element={<HellroomPage />} />
-                                <Route path="battle" element={<HellroomBattle />} />
-                              </Route>
-
-                              <Route path="cafeteria">
-                                <Route index element={<Navigate to="/cafeteria/one" />} />
-                                <Route path=":id" element={<CafeteriaPage />} />
-                                <Route path="battle" element={<CafeteriaBattle/>} />
-                              </Route>
-
-                              <Route path="pcroom">
-                                <Route index element={<Navigate to="/pcroom/one" />} />
-                                <Route path=":id" element={<PcRoomPage />} />
-                                <Route path="battle/one" element={<PcRoomBattleOne />} />
-                                <Route path="battle/two" element={<PcRoomBattleTwo />} />
-                                <Route path="battle/three" element={<PcRoomBattleThree />} />
-                              </Route>
-
-                              <Route path="library" element={<Library />} />
-                              <Route path="battle/hungry" element={<HungryDeathBattle />} />
-                              <Route path="battle/vandinhafragment" element={<VandinhaFragmentBattle />} />
-                              <Route path="battle/jhowsimar" element={<JhowSimarBattle />} />
-                              <Route path="battle/goat" element={<GoatBattle />} />
-                              <Route path="brodiclass/one" element={<BrodiClassOne/>} />
-                            </Route>
-                          </Routes>
-                        </Suspense>
-                      </GameControlsProvider>
-                    </PlayerProvider>
-                  </CharacterProgressProvider>
-                </QuestProvider>
-              </InventoryProvider>
-            </FlagProvider>
-          </NavbarProvider>
+                            </Routes>
+                          </Suspense>
+                        </GameControlsProvider>
+                      </PlayerProvider>
+                    </CharacterProgressProvider>
+                  </QuestProvider>
+                </InventoryProvider>
+              </FlagProvider>
+            </NavbarProvider>
+          </SoundEffectsProvider>
         </AudioProvider>
       </PWAProvider>
     </HashRouter>

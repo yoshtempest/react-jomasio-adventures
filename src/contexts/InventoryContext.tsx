@@ -5,8 +5,7 @@ import {
   type ReactNode,
 } from "react";
 import type { InventoryItem } from "@/utils/types/player/inventory";
-import { asset } from "@/utils/asset";
-import { useGameAudio } from "@/hooks/useGameAudio";
+import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 
 type InventoryContextType = {
   items: InventoryItem[];
@@ -26,27 +25,7 @@ const InventoryContext = createContext<InventoryContextType | null>(null);
 
 export function InventoryProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<InventoryItem[]>([]);
-  const itemAudio = useGameAudio({
-    src: asset("/assets/songs/soundEffects/player/receivedAnItem.mp3"),
-    loop: false,
-    volume: 1,
-  });
-
-  const useItemAudio = useGameAudio({
-    src: asset("/assets/songs/soundEffects/player/usedAnItem.mp3"),
-    loop: false,
-    volume: 1,
-  });
-
-  function playItemSound() {
-    itemAudio.stop();
-    itemAudio.play();
-  }
-
-  function playUseItemSound() {
-    useItemAudio.stop();
-    useItemAudio.play();
-  }
+  const { playSound } = useSoundEffects();
   
   const [isOpen, setIsOpen] = useState(false);
 
@@ -59,7 +38,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
       return [...prev, item];
     });
     if (added) {
-      playItemSound();
+      playSound("receivedItem");
     }
   }
 
@@ -70,7 +49,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
 
     setItems((prev) => prev.filter((item) => item.id !== id));
 
-    playUseItemSound();
+    playSound("usedItem");
   }
 
   function hasItem(id: ItemId) {

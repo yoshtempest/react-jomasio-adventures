@@ -3,30 +3,23 @@ import { useAudio } from "@/contexts/AudioContext";
 
 type Props = {
   src: string;
-  loop?: boolean;
   volume?: number;
 };
 
-export function useGameAudio({
+export function useSoundEffect({
   src,
-  loop = true,
-  volume = 0.5,
+  volume = 1,
 }: Props) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const { volume: masterVolume } = useAudio();
 
-  const isPlaying = () => {
-    return !!audioRef.current && !audioRef.current.paused;
-  };
-
   useEffect(() => {
     const audio = new Audio(src);
 
-    audio.loop = loop;
+    // pré-carrega o arquivo
     audio.preload = "auto";
 
-    audio.volume =
-      volume * (masterVolume / 100);
+    audio.volume = volume * (masterVolume / 100);
 
     audio.load();
 
@@ -45,44 +38,19 @@ export function useGameAudio({
       volume * (masterVolume / 100);
   }, [volume, masterVolume]);
 
-  useEffect(() => {
-    if (!audioRef.current) return;
-
-    audioRef.current.loop = loop;
-  }, [loop]);
-
   const play = async () => {
     if (!audioRef.current) return;
 
     try {
+      audioRef.current.currentTime = 0;
+
       await audioRef.current.play();
     } catch (err) {
       console.error(err);
     }
   };
 
-  const pause = () => {
-    audioRef.current?.pause();
-  };
-
-  const stop = () => {
-    if (!audioRef.current) return;
-
-    audioRef.current.pause();
-    audioRef.current.currentTime = 0;
-  };
-
-  const setVolume = (value: number) => {
-    if (!audioRef.current) return;
-
-    audioRef.current.volume = value;
-  };
-
   return {
     play,
-    pause,
-    stop,
-    setVolume,
-    isPlaying,
   };
 }
