@@ -179,6 +179,7 @@ export function ExploreScene({
           quests,
           items,
           flags,
+          character: player.character,
           lastPage,
         })
       : dialogueData;

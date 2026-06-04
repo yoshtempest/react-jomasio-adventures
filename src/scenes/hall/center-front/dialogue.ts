@@ -9,13 +9,13 @@ import { hasQuest, playerCharacter} from "@/scenes/shared/helpers";
 
 export const getCenterFrontDialogue = ({
   quests,
-  characters
+  character
 }: {
   quests: { id: QuestId }[],
-  characters: { id: CharacterId }[]
+  character: CharacterId
 }) => {
   if (
-    playerCharacter(characters, "marcelo") &&
+    playerCharacter(character, "marcelo") &&
     !hasQuest(quests, "save_samurion") &&
     !hasQuest(quests, "save_ematron")
     ) {

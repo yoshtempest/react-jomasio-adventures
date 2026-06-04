@@ -18,10 +18,10 @@ export const hasAnyQuest = (
 };
 
 export const playerCharacter = (
-  characters: { id: CharacterId }[],
+  character: CharacterId,
   id: CharacterId
 ) => {
-  return characters.some(c => c.id === id);
+  return character === id;
 };
 
 export const hasItem = (
