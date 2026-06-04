@@ -1,4 +1,3 @@
-import type { DirectionBattle } from "@/utils/types/player/player";
 import { isPlayerInRange } from "@/gameRules/battle/range";
 import { isFacingTarget } from "@/gameRules/battle/direction";
 
@@ -9,7 +8,7 @@ export function canPlayerHit(params: {
   npcY: number;
   playerState: playerState;
   character: string;
-  direction: DirectionBattle;
+  direction: Direction;
   isSpecial: boolean;
 }) {
   return (

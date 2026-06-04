@@ -1,5 +1,3 @@
-export type DirectionExplore = Direction;
-export type DirectionBattle = Direction;
 
 export type PlayerState =
   | "idle"
@@ -25,7 +23,7 @@ export type Player = {
     // exploration
     gridX: number;
     gridY: number;
-    direction: DirectionExplore;
+    direction: Direction;
     character: Character;
 
     // battle
@@ -33,7 +31,7 @@ export type Player = {
     y: number;
     velY: number;
     groundY: number;
-    battleDirection: DirectionBattle;
+    battleDirection: Direction;
     state: PlayerState;
 
     // geral

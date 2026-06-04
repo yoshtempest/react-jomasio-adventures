@@ -1,11 +1,9 @@
-import type { DirectionBattle } from "@/utils/types/player/player";
-
 export function isFacingTarget(
   playerX: number,
   playerY: number,
   npcX: number,
   npcY: number,
-  direction: DirectionBattle
+  direction: Direction
 ) {
   const dx = npcX - playerX;
   const dy = npcY - playerY;

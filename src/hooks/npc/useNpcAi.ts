@@ -3,14 +3,13 @@ import { npcBehaviors } from "@/gameRules/battle/behaviors/npc/index";
 import { useProjectile } from "../useProjectile";
 import type { NPCBattleState } from "@/utils/types/npc/npc";
 import type { Projectile } from "@/utils/types/projectile";
-import type { DirectionBattle } from "@/utils/types/player/player";
 
 
 type Props = {
   playerX: number;
   playerY: number;
   playerState: playerState;
-  playerDirection: DirectionBattle;
+  playerDirection: Direction;
   onProjectileHit: () => void;
   onMeleeHit: () => void;  
   isPaused?: boolean;

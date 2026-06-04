@@ -12,7 +12,7 @@ declare global {
     type ExplorePosition = {
         x: number;
         y: number;
-        direction: DirectionExplore;
+        direction: Direction;
     };
 
     type PlayerPosition = {

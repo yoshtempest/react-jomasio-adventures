@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import type { Projectile } from "@/utils/types/projectile";
 import type { Dispatch, SetStateAction } from "react";
 import { isFacingTarget } from "@/gameRules/battle/direction";
-import type { DirectionBattle } from "@/utils/types/player/player";
 
 export function useProjectile(
   projectile: Projectile | null,
@@ -10,7 +9,7 @@ export function useProjectile(
   playerX: number,
   playerY: number,
   playerState: playerState,
-  playerDirection: DirectionBattle,
+  playerDirection: Direction,
   npcX: number,
   npcY: number,
   onHit: () => void
