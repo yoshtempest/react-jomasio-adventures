@@ -1,8 +1,7 @@
-import type { Quest } from "@/utils/types/player/quest";
+import { createQuests } from "@/utils/createQuest";
 
-export const HISTORY_QUESTS: Record<string, Quest> = {
+export const HISTORY_QUESTS = createQuests({
     jomasio_investigate: {
-        id: "jomasio_investigate",
         name: "Investigação do SETH Jorjão",
         image: "/assets/npcs/duqueC/default.svg",
         description: "Investigue a falta de comida no SETH Jorjão",
@@ -14,7 +13,6 @@ export const HISTORY_QUESTS: Record<string, Quest> = {
         completed: false
     },
     director_escape: {
-        id: "director_escape",
         name: "Fuja da diretoria",
         image: "/assets/npcs/system/default.svg",
         description: "Procure uma forma de sair da diretoria",
@@ -26,7 +24,6 @@ export const HISTORY_QUESTS: Record<string, Quest> = {
         completed: false
     },
     explore_jorjao: {
-        id: "explore_jorjao",
         name: "Foi uma delicia",
         image: "/assets/npcs/jhowsimar/default.svg",
         description: "Vá na sala dos pcs para superar o 'dúvido' de Jhow Simar",
@@ -39,7 +36,6 @@ export const HISTORY_QUESTS: Record<string, Quest> = {
     },
 
     kill_goats: {
-        id: "kill_goats",
         name: "Elimine 10 bodes",
         image: "/assets/npcs/goat/walk.svg",
         description: "Mate os bodes e purifique um pouco o ambiente",
@@ -51,7 +47,6 @@ export const HISTORY_QUESTS: Record<string, Quest> = {
         completed: false
     },
     save_ematron: {
-        id: "save_ematron",
         name: "Salve Ematron",
         image: "/assets/npcs/brodis/default.svg",
         description: "Lute com Neimito para salvar Ematron de seu Genjutsu Infinito",
@@ -63,7 +58,6 @@ export const HISTORY_QUESTS: Record<string, Quest> = {
         completed: false
     },
     like_peru: {
-        id: "like_peru",
         name: "Você gosta do Peru",
         image: "/assets/npcs/peruFather/default.svg",
         description: "Meu filho é um peruzao, cuide bem dele",
@@ -75,7 +69,6 @@ export const HISTORY_QUESTS: Record<string, Quest> = {
         completed: false
     },
     search_packaging: {
-        id: "search_packaging",
         name: "Entrega suspeita",
         image: "/assets/npcs/remedinha/default.svg",
         description: "Vá na biblioteca e traga a embalagem suspeita para Remedinha.",
@@ -87,7 +80,6 @@ export const HISTORY_QUESTS: Record<string, Quest> = {
         completed: false
     },
     letter_delivery: {
-        id: "letter_delivery",
         name: "Entrega de aura",
         image: "/assets/npcs/reincardion/right.svg",
         description: "Entregue a carta de muita aura para Remedinha",
@@ -99,7 +91,6 @@ export const HISTORY_QUESTS: Record<string, Quest> = {
         completed: false
     },
     go_cafeteria: {
-        id: "go_cafeteria",
         name: "Ir em busca do linguição",
         image: "/assets/npcs/remedinha/default.svg",
         description: "Vá ao no refeitório e adquira sua recompensa (linguição)",
@@ -111,7 +102,6 @@ export const HISTORY_QUESTS: Record<string, Quest> = {
         completed: false
     },
     return_to_remedinha: {
-        id: "return_to_remedinha",
         name: "Conte a fofoca do dia",
         image: "/assets/npcs/remedinha/default.svg",
         description: "Volte e reporte a Remedinha sobre o ocorrido no refeitório",
@@ -123,7 +113,6 @@ export const HISTORY_QUESTS: Record<string, Quest> = {
         completed: false
     },
     encounter_secret_passages: {
-        id: "encounter_secret_passages",
         name: "Procure as passagens",
         image: "/assets/npcs/remedinha/default.svg",
         description: "Vague pelos locais que podem ter documentos e procure por passagens secretas",
@@ -135,7 +124,6 @@ export const HISTORY_QUESTS: Record<string, Quest> = {
         completed: false
     },
     denis_sausage: {
-        id: "denis_sausage",
         name: "Me dê o linguição",
         image: "/assets/npcs/denis/default.svg",
         description: "Entregue seu linguição para Denis",
@@ -147,7 +135,6 @@ export const HISTORY_QUESTS: Record<string, Quest> = {
         completed: false
     },
     encounter_deise: {
-        id: "encounter_deise",
         name: "Nunca me encontre",
         image: "/assets/npcs/deise/right.svg",
         description: "Vá ao Tanque dos Cravos",
@@ -159,7 +146,6 @@ export const HISTORY_QUESTS: Record<string, Quest> = {
         completed: false
     },
     help_jailson: {
-        id: "help_jailson",
         name: "Ajude Jailson, ele está em perigo!",
         image: "/assets/npcs/remedinha/default.svg",
         description: "Tem uma feiosa dando em cima dele, vá lá e ajude ele a se livrar dela",
@@ -171,7 +157,6 @@ export const HISTORY_QUESTS: Record<string, Quest> = {
         completed: false
     },
     go_to_hell: {
-        id: "go_to_hell",
         name: "Encontre Negão do Ferro Velho",
         image: "/assets/npcs/remedinha/default.svg",
         description: "Vá aos corredores escuros em busca de falar com o Negão",
@@ -183,7 +168,6 @@ export const HISTORY_QUESTS: Record<string, Quest> = {
         completed: false
     },
     go_to_brodiclass: {
-        id: "go_to_brodiclass",
         name: "Vá a sala dos brodi",
         image: "/assets/npcs/remedinha/default.svg",
         description: "Junte-se ao conselho dos manos como espião e obtenha informações",
@@ -195,7 +179,6 @@ export const HISTORY_QUESTS: Record<string, Quest> = {
         completed: false
     },
     cancel_mobydick_ressurrection: {
-        id: "cancel_mobydick_ressurrection",
         name: "Impeça o culto",
         image: "/assets/npcs/brodiclass/default.svg",
         description: "Pare a ressurreição da baleia ancestral",
@@ -207,7 +190,6 @@ export const HISTORY_QUESTS: Record<string, Quest> = {
         completed: false
     },
     cancel_dragonking_ressurrection: {
-        id: "cancel_dragonking_ressurrection",
         name: "Impeça o culto",
         image: "/assets/npcs/brodiclass/default.svg",
         description: "Pare a ressurreição do dragão fundador",
@@ -219,7 +201,6 @@ export const HISTORY_QUESTS: Record<string, Quest> = {
         completed: false
     },
     cancel_baal_invocation: {
-        id: "cancel_baal_invocation",
         name: "Impeça a invocação de Baal",
         image: "/assets/npcs/brodiclass/default.svg",
         description: "Salve o mundo",
@@ -230,4 +211,4 @@ export const HISTORY_QUESTS: Record<string, Quest> = {
         progress: 0,
         completed: false
     },
-}
+} as const);
