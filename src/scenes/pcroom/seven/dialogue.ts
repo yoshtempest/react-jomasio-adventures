@@ -1,9 +1,9 @@
 import { pcsRoomSevenDialogue } from "@/data/maps/pcsRoom/seven";
 import { pcsRoomEightDialogue } from "@/data/maps/pcsRoom/eight";
-import type { FlagId } from "@/data/flags";
 import { hasFlag } from "@/scenes/shared/helpers";
+import type { FlagId } from "@/data/flags";
 
-export const getPcRoomSevenDialogue = ( flags: { id: FlagId }[] ) => {
+export const getPcRoomSevenDialogue = ( flags: FlagId[] ) => {
   if (hasFlag(flags, "hungryKing")) {
       return pcsRoomEightDialogue;
   }

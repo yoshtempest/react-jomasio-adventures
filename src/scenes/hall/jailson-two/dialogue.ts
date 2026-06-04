@@ -1,9 +1,9 @@
 import { hallJailsonTwoDialogue } from "@/data/maps/hall/jailson/two";
 import { hallJailsonThreeDialogue } from "@/data/maps/hall/jailson/three";
-import type { FlagId } from "@/data/flags";
 import { hasFlag } from "@/scenes/shared/helpers";
+import type { FlagId } from "@/data/flags";
 
-export const getJailsonTwoDialogue = ( flags: { id: FlagId }[] ) => {
+export const getJailsonTwoDialogue = ( flags: FlagId[] ) => {
     if (hasFlag(flags, "slimita")) {
         return hallJailsonThreeDialogue;
     }

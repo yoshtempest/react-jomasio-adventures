@@ -1,3 +1,6 @@
+import type { FlagId } from "@/data/flags";
+import type { ItemId } from "@/data/items";
+import type { QuestId } from "@/data/quests";
 import type { Dialogue } from "@/utils/types/dialogue";
 
 export type NPCData = {
@@ -25,11 +28,18 @@ export type AudioConfig = {
   volume?: number;
 };
 
+type DialogueContext = {
+  quests: { id: QuestId }[];
+  items: { id: ItemId }[];
+  flags: FlagId[];
+  lastPage?: LastPage;
+};
+
 export type ExploreSceneProps = {
   map: number[][];
   dialogueData?:
-  | Dialogue[]
-  | ((quests: any[], items: any[], lastPage?: LastPage) => Dialogue[]);
+    | Dialogue[]
+    | ((context: DialogueContext) => Dialogue[]);
   nextRoute?: string;
   initialPosition?:
   | ExplorePosition

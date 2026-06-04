@@ -1,9 +1,10 @@
+import type { FlagId } from "@/data/flags";
 import { createContext, useContext, useState, type ReactNode } from "react";
 
 type FlagContextType = {
-  flags: string[];
-  setFlag: (flag: string) => void;
-  hasFlag: (flag: string) => boolean;
+  flags: FlagId[];
+  setFlag: (flag: FlagId) => void;
+  hasFlag: (flag: FlagId) => boolean;
 };
 
 
@@ -14,13 +15,13 @@ type Props = {
 const FlagContext = createContext({} as FlagContextType);
 
 export function FlagProvider({ children }: Props) {
-  const [flags, setFlags] = useState<string[]>([]);
+  const [flags, setFlags] = useState<FlagId[]>([]);
 
-  function setFlag(flag: string) {
+  function setFlag(flag: FlagId) {
     setFlags(prev => prev.includes(flag) ? prev : [...prev, flag]);
   }
 
-  function hasFlag(flag: string) {
+  function hasFlag(flag: FlagId) {
     return flags.includes(flag);
   }
 

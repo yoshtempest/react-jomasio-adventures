@@ -12,7 +12,7 @@ export const cantinaOneEvents: SceneEvent[] = [
         type: "conditional",
         condition: {
           hasQuest: "director_escape",
-          notHasQuest: "x1_jhowsimar",
+          notHasFlag: "jhowsimar",
         },
         then: [
           { type: "giveQuest", questId: "x1_jhowsimar" },
@@ -21,20 +21,7 @@ export const cantinaOneEvents: SceneEvent[] = [
     },
     {
         type: "conditional",
-        condition: {
-          hasQuest: "x1_jhowsimar",
-          notHasFlag: "cantina_battle_done",
-        },
-        then: [
-          { type: "navigate", to: "/cantina/battle" }
-        ],
-    },
-    {
-        type: "conditional",
-        condition: {
-          hasQuest: "x1_jhowsimar",
-          hasFlag: "cantina_battle_done",
-        },
+        condition: { hasFlag: "jhowsimar" },
         then: [
           { type: "progressQuest", id: "x1_jhowsimar", value: 1 },
           { type: "giveQuest", questId: "explore_jorjao" },

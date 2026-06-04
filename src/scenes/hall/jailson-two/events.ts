@@ -11,10 +11,7 @@ export const jailsonTwoEvents: SceneEvent[] = [
     },
     {
         type: "conditional",
-        condition: {
-          hasQuest: "x1_slimita",
-          hasFlag: "slimita"
-        },
+        condition: { hasFlag: "slimita" },
         then: [
           { type: "giveQuest", questId: "give_orange_juice" },
           { type: "progressQuest", id: "x1_slimita", value: 1 },

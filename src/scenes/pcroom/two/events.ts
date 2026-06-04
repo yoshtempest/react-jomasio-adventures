@@ -3,7 +3,7 @@ import type { SceneEvent } from "@/utils/types/maps/sceneEvents";
 export const pcRoomTwoEvents: SceneEvent[] = [
     {
         type: "conditional",
-        condition: { notHasQuest: "x1_hungry" },
+        condition: { notHasFlag: "hungryDeath" },
         then: [
             { type: "giveQuest", questId: "x1_hungry" },
             { type: "navigate", to: "/pcroom/battle/one" }
@@ -11,7 +11,7 @@ export const pcRoomTwoEvents: SceneEvent[] = [
     },
     {
         type: "conditional",
-        condition: { hasFlag: "hungry_battle_won" },
+        condition: { hasFlag: "hungryDeath" },
         then: [
             { type: "progressQuest", id: "x1_hungry", value: 1 },
             { type: "navigate", to: "/pcroom/three" }

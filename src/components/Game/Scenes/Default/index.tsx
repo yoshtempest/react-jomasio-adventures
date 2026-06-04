@@ -45,7 +45,7 @@ export function ExploreScene({
   const location = useLocation();
   const { items, addItem, removeItem } = useInventory();
   const { quests, addQuest, updateProgress } = useQuests();
-  const { setFlag, hasFlag } = useFlags();
+  const { setFlag, hasFlag, flags } = useFlags();
   const lastPage = location.state?.from;
 
   useEffect(() => {
@@ -174,9 +174,14 @@ export function ExploreScene({
   };
 
   const resolvedDialogueData =
-  typeof dialogueData === "function"
-    ? dialogueData(quests, items, lastPage)
-    : dialogueData;
+    typeof dialogueData === "function"
+      ? dialogueData({
+          quests,
+          items,
+          flags,
+          lastPage,
+        })
+      : dialogueData;
 
   const dialogueSystem = useDialogue(resolvedDialogueData, handleFinish);
   const { play: playSansTalking } = useSansTalking(dialogueSystem.isOpen);

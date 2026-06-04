@@ -39,15 +39,15 @@ export const hasAnyItem = (
 };
 
 export const hasFlag = (
-  flags: { id: FlagId}[],
+  flags: FlagId[],
   id: FlagId
 ) => {
-  return flags.some(flag => flag.id === id);
+  return flags.includes(id);
 };
 
 export const hasAnyFlag = (
-  flags: { id: FlagId}[],
+  flags: FlagId[],
   ids: FlagId[]
 ) => {
-  return flags.some(flag => ids.includes(flag.id));
+  return ids.some(id => flags.includes(id));
 };
