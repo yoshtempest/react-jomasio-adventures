@@ -63,8 +63,8 @@ export function VictoryModal({
   if (!isOpen) return null;
 
   return (
-    <div className={styles.overlay}>
-      <div className={styles.modal}>
+    <div className="overlay">
+      <div className={`modal ${styles.modal}`}>
         <h1>Vitória!</h1>
 
         <p>

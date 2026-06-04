@@ -47,7 +47,7 @@ export function BattleIntro({
     onSkip();
   };
   return (
-    <div className={styles.overlay}>
+    <div className="overlay">
       <div className={styles.left}>
         <img
           src={asset(`/assets/player/${playerCharacter}/default.svg`)}

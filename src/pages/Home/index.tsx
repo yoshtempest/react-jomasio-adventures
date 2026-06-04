@@ -45,7 +45,7 @@ export default function Home() {
   }, [navigate, pushControls, popControls]);
 
   return (
-    <div className={`Master ${styles.image}`}>
+    <div className={`Master Home`}>
       <img
         src={asset("/assets/logo.svg")}
         alt="logo"

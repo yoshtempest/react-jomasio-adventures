@@ -96,8 +96,8 @@ export function DefeatModal({
   if (!isOpen) return null;
 
   return (
-    <div className={styles.overlay}>
-      <div className={styles.modal}>
+    <div className="overlay">
+      <div className={`modal ${styles.modal}`}>
         <h1>{title}</h1>
         <div className={styles.buttonContainer}>
           <button className={styles.button} onClick={handleTryAgain}>

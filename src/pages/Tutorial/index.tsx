@@ -91,15 +91,15 @@ export default function Tutorial() {
   });
 
   return (
-    <div className={`Master ${styles.image}`}>
+    <div className={`Master Tutorial`}>
       <Talking
         name={cutscene.dialogue.name}
         message={cutscene.dialogue.message}
       />
 
       {flow.showNameInput && (
-        <div className={styles.overlay}>
-          <div className={styles.modal}>
+        <div className={`overlay ${styles.overlay}`}>
+          <div>
             <h1>Nome de usuário</h1>
 
             <div className={styles.relative}>
