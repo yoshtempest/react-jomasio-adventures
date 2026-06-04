@@ -11,7 +11,7 @@ export function createDirector(deps: DirectorDeps) {
 
   return createInteractionMap(directorMessages, deps, {
     "4,3": ({ hasItem, setPopup, navigate, playSFX }) => {
-      if (hasItem("key_01")) {
+      if (hasItem("director_key")) {
         setPopup("Você usou a chave.");
         progressQuest("director_escape", 1);
         playSFX?.("/assets/songs/transitions/doorOpen.mp3", 0.6);
@@ -30,7 +30,7 @@ export function createDirector(deps: DirectorDeps) {
         setPopup("Uma chave suspeita, deve ser da porta...");
 
         addItem({
-          id: "key_01",
+          id: "director_key",
           name: "Chave enferrujada",
         });
 

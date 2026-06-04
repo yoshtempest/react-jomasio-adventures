@@ -52,7 +52,6 @@ export function BattleScene(props: Props) {
     src: props.audioSrc,
     loop: true,
     volume: 0.5,
-    autoPlay: false,
   });
 
   useEffect(() => {

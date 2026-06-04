@@ -1,4 +1,5 @@
 export const ITEMS = {
+  director_key: { id: "director_key", name: "Chave enferrujada" },
   aura_letter: { id: "aura_letter", name: "Carta de muita aura" },
   package_01: { id: "package_01", name: "Embalagem com surpresinha" },
   good_powder: { id: "good_powder", name: "Pó do bom" },
