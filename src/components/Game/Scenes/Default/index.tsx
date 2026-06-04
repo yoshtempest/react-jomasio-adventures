@@ -21,9 +21,8 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
 import type { SceneEvent } from "@/utils/types/maps/sceneEvents";
 import type { ExploreSceneProps } from "@/utils/types/maps/exploreScene";
-import { QUESTS } from "@/data/quests";
-import { ITEMS } from "@/data/items";
 import { useFlags } from "@/contexts/FlagContext";
+import { useSceneEvents } from "@/hooks/scene/useSceneEvents";
 
 export function ExploreScene({
   map,
@@ -43,10 +42,11 @@ export function ExploreScene({
   const { pushControls, popControls } = useGameControls();
   const navigate = useNavigate();
   const location = useLocation();
-  const { items, addItem, removeItem } = useInventory();
-  const { quests, addQuest, updateProgress } = useQuests();
-  const { setFlag, hasFlag, flags } = useFlags();
+  const { items } = useInventory();
+  const { quests } = useQuests();
+  const { flags } = useFlags();
   const lastPage = location.state?.from;
+  const { runEvent, checkCondition } = useSceneEvents();
 
   useEffect(() => {
     saveGame({
@@ -57,94 +57,6 @@ export function ExploreScene({
       character: player.character,
     });
   }, [location.pathname, items, quests, playerClass, player.character]);
-
-  function checkCondition(condition: any) {
-    if (condition.hasQuest && !quests.some(q => q.id === condition.hasQuest)) {
-      return false;
-    }
-
-    if (condition.notHasQuest && quests.some(q => q.id === condition.notHasQuest)) {
-      return false;
-    }
-
-    if (condition.hasItem && !items.some(i => i.id === condition.hasItem)) {
-      return false;
-    }
-
-    if (condition.notHasItem && items.some(i => i.id === condition.notHasItem)) {
-      return false;
-    }
-
-    if (condition.lastPage && lastPage !== condition.lastPage) {
-      return false;
-    }
-
-    if (condition.notLastPage && lastPage === condition.notLastPage) {
-      return false;
-    }
-
-    if (condition.hasFlag && !hasFlag(condition.hasFlag)) {
-      return false;
-    }
-
-    if (condition.notHasFlag && hasFlag(condition.notHasFlag)) {
-      return false;
-    }
-
-    return true;
-  }
-
-  function runEvent(event: SceneEvent) {
-    switch (event.type) {
-      case "navigate":
-        setTimeout(() =>
-          navigate(event.to, { state: { from: location.pathname } })
-        , 0);
-        return;
-
-      case "setFlag":
-        setFlag(event.flagId);
-        return;
-
-      case "giveQuest":
-        // você precisa ter isso no contexto
-        const questData = QUESTS[event.questId];
-        if (!questData) {
-          console.warn("Quest não encontrada:", event.questId);
-          return;
-        }
-
-        addQuest(questData);
-        return;
-
-      case "addItem":
-        const itemData = ITEMS[event.itemId];
-
-        if (!itemData) {
-          console.warn("Item não encontrado:", event.itemId);
-          return;
-        }
-
-        addItem(itemData);
-        return;
-
-      case "removeItem":
-        removeItem(event.itemId);
-        return;
-
-      case "progressQuest":
-        updateProgress(event.id, event.value);
-        return;
-
-      case "conditional":
-        if (checkCondition(event.condition)) {
-          event.then.forEach(runEvent);
-        } else if (event.else) {
-          event.else.forEach(runEvent);
-        }
-      return;
-    }
-  }
 
   const handleFinish = () => {
     setTimeout(() => {
