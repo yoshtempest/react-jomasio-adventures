@@ -1,4 +1,3 @@
-import type { ItemId } from "@/data/items";
 import { HellRoomDialogue } from "@/data/maps/hellRoom/one";
 import { HellRoomTwoDialogue } from "@/data/maps/hellRoom/two";
 import { hasItem } from "@/scenes/shared/helpers";

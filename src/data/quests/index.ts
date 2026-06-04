@@ -7,5 +7,3 @@ export const QUESTS = {
   ...SIDE_QUESTS,
   ...BATTLE_QUESTS,
 } as const;
-
-export type QuestId = Extract<keyof typeof QUESTS, string>;

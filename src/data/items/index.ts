@@ -10,17 +10,3 @@ export const ITEMS = {
   suspect_milk: { id: "suspect_milk", name: "Leite Bovino" },
   skool: { id: "skool", name: "Latinha de Cerveja" },
 } as const;
-
-export type ItemId = keyof typeof ITEMS;
-
-// export type ItemId =
-//   | "aura_letter"
-//   | "package_01"
-//   | "good_powder"
-//   | "desired_gear"
-//   | "orange_juice"
-//   | "sausage"
-//   | "jorjao_map"
-//   | "turkey"
-//   | "suspect_milk"
-//   | "skool";

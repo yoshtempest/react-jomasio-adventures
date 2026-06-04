@@ -1,5 +1,3 @@
-import type { ItemId } from "@/data/items";
-
 export type InventoryItem = {
   id: ItemId;
   name: string;

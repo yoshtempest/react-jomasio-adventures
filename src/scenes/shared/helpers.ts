@@ -1,8 +1,3 @@
-import type { QuestId } from "@/data/quests";
-import type { ItemId } from "@/data/items";
-import type { FlagId } from "@/data/flags";
-import type { CharacterId } from "@/utils/types/player/character";
-
 export const hasQuest = (
   quests: { id: QuestId }[],
   id: QuestId

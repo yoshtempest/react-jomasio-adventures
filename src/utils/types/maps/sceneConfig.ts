@@ -1,6 +1,5 @@
 import type { ExploreSceneProps } from "@/utils/types/maps/exploreScene";
 import type { SceneEvent } from "./sceneEvents";
-import type { QuestId } from "@/data/quests";
 
 export type SceneId =
 "one" |

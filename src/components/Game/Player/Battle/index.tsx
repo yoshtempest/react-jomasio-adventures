@@ -8,7 +8,7 @@ type Props = {
   PLAYER_SIZE: number;
   state: PlayerState;
   direction: Direction;
-  character: Character;
+  character: CharacterId;
 };
 
 export function PlayerBattle({

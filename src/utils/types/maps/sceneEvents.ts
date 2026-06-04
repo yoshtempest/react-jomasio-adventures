@@ -1,8 +1,3 @@
-import type { QuestId } from "@/data/quests";
-import type { ItemId } from "@/data/items";
-import type { FlagId } from "@/data/flags";
-
-
 export type SceneEvent =
   | { type: "openModal"; modal: "class" }
   | { type: "navigate"; to: string }

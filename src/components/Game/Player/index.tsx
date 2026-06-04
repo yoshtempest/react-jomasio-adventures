@@ -1,7 +1,7 @@
 import { asset } from "@/utils/asset";
 
 type Props = {
-  character: Character;
+  character: CharacterId;
   direction: Direction;
   gridX: number;
   gridY: number;

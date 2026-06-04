@@ -1,4 +1,3 @@
-import type { FlagId } from "@/data/flags";
 import { createContext, useContext, useState, type ReactNode } from "react";
 
 type FlagContextType = {

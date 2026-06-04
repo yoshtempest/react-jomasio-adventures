@@ -6,7 +6,6 @@ import {
 } from "react";
 import type { InventoryItem } from "@/utils/types/player/inventory";
 import { asset } from "@/utils/asset";
-import type { ItemId } from "@/data/items";
 import { useGameAudio } from "@/hooks/useGameAudio";
 
 type InventoryContextType = {

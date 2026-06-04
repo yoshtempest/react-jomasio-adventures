@@ -7,8 +7,6 @@ import { AfterPcRoomSixDialogue } from "@/data/maps/hall/one/six";
 import { AfterPcRoomSevenDialogue } from "@/data/maps/hall/one/seven";
 import { AfterPcRoomGenericDialogue } from "@/data/maps/hall/one/generic";
 
-import type { QuestId } from "@/data/quests";
-import type { ItemId } from "@/data/items";
 import { hasQuest, hasItem } from "@/scenes//shared/helpers";
 
 

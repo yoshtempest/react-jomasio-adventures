@@ -1,4 +1,3 @@
-import type { FlagId } from "@/data/flags";
 import { cafeteriaDialogue } from "@/data/maps/cafeteria/one";
 import { cafeteriaTwoDialogue } from "@/data/maps/cafeteria/two";
 import { hasFlag } from "@/scenes/shared/helpers";

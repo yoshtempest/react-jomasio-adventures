@@ -20,5 +20,3 @@ export const FLAGS = {
   spiritMotocycler: { id: "spiritMotocycler"},
   srGuaxinim: { id: "srGuaxinim"},
 } as const;
-
-export type FlagId = keyof typeof FLAGS;

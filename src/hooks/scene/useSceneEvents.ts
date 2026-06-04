@@ -5,11 +5,10 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
 import { useFlags } from "@/contexts/FlagContext";
 
-import { QUESTS, type QuestId } from "@/data/quests";
-import { ITEMS, type ItemId } from "@/data/items";
+import { QUESTS } from "@/data/quests";
+import { ITEMS } from "@/data/items";
 
 import type { SceneEvent } from "@/utils/types/maps/sceneEvents";
-import type { FlagId } from "@/data/flags";
 
 type Condition = {
     hasItem?: ItemId;

@@ -1,5 +1,3 @@
-import type { QuestId } from "@/data/quests";
-
 export type Player = {
   x: number;
   y: number;

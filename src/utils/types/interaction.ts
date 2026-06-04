@@ -1,5 +1,3 @@
-import type { ItemId } from "@/data/items";
-import type { QuestId } from "@/data/quests";
 import type { InventoryItem } from "@/utils/types/player/inventory";
 
 export type BaseDeps = {

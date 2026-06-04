@@ -1,8 +1,4 @@
-import type { FlagId } from "@/data/flags";
-import type { ItemId } from "@/data/items";
-import type { QuestId } from "@/data/quests";
 import type { Dialogue } from "@/utils/types/dialogue";
-import type { CharacterId } from "../player/character";
 
 export type NPCData = {
   src: string;
@@ -35,7 +31,6 @@ type DialogueContext = {
   flags: FlagId[];
   character: CharacterId;
   lastPage?: LastPage;
-
 };
 
 export type ExploreSceneProps = {
