@@ -1,6 +1,7 @@
-import { createContext, useContext, useEffect, useState, type ReactNode, useRef } from "react";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import type { Character } from "@/utils/types/player/player";
 import { asset } from "@/utils/asset";
+import { useGameAudio } from "@/hooks/useGameAudio";
 
 export type CharacterStats = {
   hp: number;
@@ -88,22 +89,16 @@ export function CharacterProgressProvider({ children }: { children: ReactNode })
     localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
   }, [progress]);
 
-  const levelUpAudioRef = useRef<HTMLAudioElement | null>(null);
-
-  useEffect(() => {
-    if (!levelUpAudioRef.current) {
-      levelUpAudioRef.current = new Audio(
-        asset("/assets/songs/soundEffects/player/levelUp.mp3")
-      );
+    const levelUpAudio = useGameAudio({
+      src: asset("/assets/songs/soundEffects/player/levelUp.mp3"),
+      loop: false,
+      volume: 1,
+    });
+  
+    function playLevelUpSound() {
+      levelUpAudio.stop();
+      levelUpAudio.play();
     }
-  }, []);
-
-  function playLevelUpSound() {
-    if (!levelUpAudioRef.current) return;
-
-    levelUpAudioRef.current.currentTime = 0;
-    levelUpAudioRef.current.play().catch(() => {});
-  }
 
   // ⭐ XP + LEVEL + POINTS
   function addXP(character: Character, amount: number) {

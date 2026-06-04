@@ -1,41 +1,39 @@
 import { asset } from "@/utils/asset";
-import { useRef } from "react";
+import { useGameAudio } from "../useGameAudio";
 
 export function useMenuSFX() {
-  const lastPlayRef = useRef(0);
+  const moveAudio = useGameAudio({
+    src: asset("/assets/songs/soundEffects/menu/move.mp3"),
+    loop: false,
+    volume: 1,
+  });
 
-    const playMove = () => {
-        const now = Date.now();
-        if (now - lastPlayRef.current < 80) return;
+  const selectAudio = useGameAudio({
+    src: asset("/assets/songs/soundEffects/menu/select.mp3"),
+    loop: false,
+    volume: 1,
+  });
 
-        lastPlayRef.current = now;
+  const closeAudio = useGameAudio({
+    src: asset("/assets/songs/soundEffects/menu/close.mp3"),
+    loop: false,
+    volume: 1,
+  });
 
-        const audio = new Audio(asset("/assets/songs/soundEffects/menu/move.mp3"));
-        audio.volume = 0.4; // depois a gente integra com contexto melhor
-        audio.play().catch(() => {});
-    };
+  function playMove() {
+    moveAudio.stop();
+    moveAudio.play();
+  }
 
-    const playSelect = () => {
-        const now = Date.now();
-        if (now - lastPlayRef.current < 80) return;
+  function playSelect() {
+    selectAudio.stop();
+    selectAudio.play();
+  }
 
-        lastPlayRef.current = now;
-
-        const audio = new Audio(asset("/assets/songs/soundEffects/menu/select.mp3"));
-        audio.volume = 0.5; // depois a gente integra com contexto melhor
-        audio.play().catch(() => {});
-    };
-
-    const playClose = () => {
-        const now = Date.now();
-        if (now - lastPlayRef.current < 80) return;
-
-        lastPlayRef.current = now;
-
-        const audio = new Audio(asset("/assets/songs/soundEffects/menu/close.mp3"));
-        audio.volume = 0.4; // depois a gente integra com contexto melhor
-        audio.play().catch(() => {});
-    };
+  function playClose() {
+    closeAudio.stop();
+    closeAudio.play();
+  }
 
   return {
     playMove,

@@ -3,12 +3,11 @@ import {
   useContext,
   useState,
   type ReactNode,
-  useRef,
-  useEffect
 } from "react";
 import type { InventoryItem } from "@/utils/types/player/inventory";
 import { asset } from "@/utils/asset";
 import type { ItemId } from "@/data/items";
+import { useGameAudio } from "@/hooks/useGameAudio";
 
 type InventoryContextType = {
   items: InventoryItem[];
@@ -28,33 +27,26 @@ const InventoryContext = createContext<InventoryContextType | null>(null);
 
 export function InventoryProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<InventoryItem[]>([]);
-  const itemAudioRef = useRef<HTMLAudioElement | null>(null);
-  const useItemAudioRef = useRef<HTMLAudioElement | null>(null);
-  useEffect(() => {
-    if (!itemAudioRef.current) {
-      itemAudioRef.current = new Audio(
-        asset("/assets/songs/soundEffects/player/receivedAnItem.mp3")
-      );
-    }
-  }, []);
+  const itemAudio = useGameAudio({
+    src: asset("/assets/songs/soundEffects/player/receivedAnItem.mp3"),
+    loop: false,
+    volume: 1,
+  });
+
+  const useItemAudio = useGameAudio({
+    src: asset("/assets/songs/soundEffects/player/usedAnItem.mp3"),
+    loop: false,
+    volume: 1,
+  });
+
   function playItemSound() {
-    if (!itemAudioRef.current) return;
-
-    itemAudioRef.current.currentTime = 0;
-    itemAudioRef.current.play().catch(() => {});
+    itemAudio.stop();
+    itemAudio.play();
   }
-  useEffect(() => {
-    if (!useItemAudioRef.current) {
-      useItemAudioRef.current = new Audio(
-        asset("/assets/songs/soundEffects/player/usedAnItem.mp3")
-      );
-    }
-  }, []);
-  function playUseItemSound() {
-    if (!useItemAudioRef.current) return;
 
-    useItemAudioRef.current.currentTime = 0;
-    useItemAudioRef.current.play().catch(() => {});
+  function playUseItemSound() {
+    useItemAudio.stop();
+    useItemAudio.play();
   }
   
   const [isOpen, setIsOpen] = useState(false);
