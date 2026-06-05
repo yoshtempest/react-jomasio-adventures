@@ -2,6 +2,16 @@ export const footballCourtDialogue = [
     {
         src: "/assets/npcs/neimito/right.svg",
         name: "Neimito",
+        message: "Bom dia pessoal, vamo ver onde foi que paramos",
+    },
+    {
+        src: "/assets/npcs/neimito/right.svg",
+        name: "Neimito",
+        message: "Ematron, observe o seguinte",
+    },
+    {
+        src: "/assets/npcs/neimito/right.svg",
+        name: "Neimito",
         message: "Certo, nada haver né? Certo?",
     },
     {
@@ -12,12 +22,22 @@ export const footballCourtDialogue = [
     {
         src: "/assets/npcs/neimito/right.svg",
         name: "Neimito",
+        message: "O quê que motosserra tem haver com a aula?",
+    },
+    {
+        src: "/assets/npcs/neimito/right.svg",
+        name: "Neimito",
         message: "Certo Ematron, eu sou o menino Ney, certo?",
     },
     {
         src: "/assets/player/emanuel/default.svg",
         name: "Ematron",
         message: "Certo...",
+    },
+    {
+        src: "/assets/npcs/neimito/right.svg",
+        name: "Neimito",
+        message: "Que sono é esse? Você nem trabalha.",
     },
     {
         src: "/assets/npcs/neimito/right.svg",
