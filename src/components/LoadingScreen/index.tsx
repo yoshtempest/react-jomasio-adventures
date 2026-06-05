@@ -1,27 +1,12 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { asset } from "@/utils/asset";
+import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 
 export function LoadingScreen() {
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const { playSound } = useSoundEffects();
 
   useEffect(() => {
-    const audio = new Audio(
-      asset("/assets/songs/transitions/blink.mp3")
-    );
-
-    audio.volume = 0.6;
-    audio.currentTime = 0;
-
-    audio.play().catch(() => {
-      // evita erro de autoplay bloqueado
-    });
-
-    audioRef.current = audio;
-
-    return () => {
-      audio.pause();
-      audio.currentTime = 0;
-    };
+    playSound("loading");
   }, []);
 
   return (
