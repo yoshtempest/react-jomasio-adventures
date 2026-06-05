@@ -1,3 +1,4 @@
+import { createDirectionalProjectile } from "@/gameRules/npc/createDirectionalProjectile";
 import { rangedChaseBehavior } from "@/gameRules/npc/rangedChaseBehavior";
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
 
@@ -12,14 +13,13 @@ export function vandinhaBehavior(
       npc,
       playerX,
       playerY,
-    }) => ({
-      x: npc.x,
-      y: npc.y,
+    }) => createDirectionalProjectile({
+      startX: npc.x - 40,
+      startY: npc.y,
       targetX: playerX,
-      targetY: playerY,
+      targetY: playerY + 10,
       sprite: "dish",
-      createdAt: Date.now(),
-      state: "idle",
-    }),
+      state: "walk",
+    })
   });
 }

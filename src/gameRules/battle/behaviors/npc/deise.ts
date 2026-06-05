@@ -3,6 +3,7 @@ import { tryMeleeAttack } from "@/gameRules/npc/attack";
 import { rangedChaseBehavior } from "@/gameRules/npc/rangedChaseBehavior";
 
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
+import { createDirectionalProjectile } from "@/gameRules/npc/createDirectionalProjectile";
 
 export function deiseBehavior(ctx: BehaviorContext) {
   const {
@@ -50,15 +51,14 @@ export function deiseBehavior(ctx: BehaviorContext) {
         npc,
         playerX,
         playerY,
-      }) => ({
-        x: npc.x,
-        y: npc.y + 50,
+      }) => createDirectionalProjectile({
+        startX: npc.x - 70,
+        startY: npc.y + 50,
         targetX: playerX,
         targetY: playerY + 10,
         sprite: "goat",
-        createdAt: Date.now(),
         state: "walk",
-      }),
+      })
     });
   }
 }

@@ -34,22 +34,30 @@ export function useProjectile(
             return p; // continua parado
           }
 
-        const dx = p.targetX - p.x;
-        const dy = p.targetY - p.y;
-
-        const dist = Math.sqrt(dx * dx + dy * dy);
-
         const speed = 11;
 
         const next = {
           ...p,
-          x: p.x + (dx / dist) * speed,
-          y: p.y + (dy / dist) * speed,
+          x: p.x + p.dirX * speed,
+          y: p.y + p.dirY * speed,
         };
 
-        const distanceToPlayer = Math.sqrt(
-          (playerX - next.x) ** 2 +
-          (playerY - next.y) ** 2
+        const OFFSCREEN_MARGIN = 200;
+        const MAP_WIDTH = 1280;
+        const MAP_HEIGHT = 600;
+
+        if (
+          next.x < -OFFSCREEN_MARGIN ||
+          next.x > MAP_WIDTH + OFFSCREEN_MARGIN ||
+          next.y < -OFFSCREEN_MARGIN ||
+          next.y > MAP_HEIGHT + OFFSCREEN_MARGIN
+        ) {
+          return null;
+        }
+
+        const distanceToPlayer = Math.hypot(
+          playerX - next.x,
+          playerY - next.y
         );
 
         const isCloseEnough = distanceToPlayer < 30;
@@ -65,14 +73,6 @@ export function useProjectile(
         }
 
         if (isCloseEnough) {
-          return null;
-        }
-
-        const passedTarget =
-          (dx > 0 && next.x >= p.targetX) ||
-          (dx < 0 && next.x <= p.targetX);
-
-        if (passedTarget) {
           return null;
         }
 
