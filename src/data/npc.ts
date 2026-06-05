@@ -44,6 +44,5 @@ export const NPCS: Record<string, NPCData> = {
   dragonKing: { type: "dragonKing", class: "legendary" },
   /* Lagoa do Canto */
   deadPigs: { type: "pigs", class: "common" },
-  deadTechnoblade: { type: "spiritOfTechnoblade", class: "boss" },
-  spiritOfTechnoblade: { type: "spiritOfTechnoblade", class: "legendary" },
+  technoblade: { type: "technoblade", class: "legendary" },
 };
