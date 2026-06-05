@@ -10,7 +10,6 @@ export type NPCBattleState = {
     slimita?: {
       state: "idle" | "air" | "resting";
       startTime: number;
-      baseY: number;
       targetX: number;
     };
   };

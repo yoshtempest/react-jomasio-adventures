@@ -54,11 +54,10 @@ export function slimitaBehavior(ctx: BehaviorContext) {
         npc,
         playerX,
         playerY
-      );
+      )
 
       state.state = "air";
       state.startTime = now;
-      state.baseY = npc.y;
       state.targetX = playerX;
 
       npc.state = "jumping";
@@ -78,12 +77,11 @@ export function slimitaBehavior(ctx: BehaviorContext) {
         elapsed / duration,
         1
       );
+      const GROUND_Y = 600;
 
-      const height =
-        Math.sin(progress * Math.PI) * 200;
+      const height = Math.sin(progress * Math.PI) * 200;
 
-      const newY =
-        state.baseY - height;
+      const newY = GROUND_Y - height
 
       const newX =
         npc.x +
@@ -107,7 +105,7 @@ export function slimitaBehavior(ctx: BehaviorContext) {
 
         return {
           x: state.targetX,
-          y: state.baseY,
+          y: GROUND_Y,
         };
       }
 

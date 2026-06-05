@@ -12,7 +12,6 @@ export function getSlimitaState(
     npc.ai.slimita = {
       state: "idle",
       startTime: now,
-      baseY: npc.y,
       targetX: playerX,
     };
   }
