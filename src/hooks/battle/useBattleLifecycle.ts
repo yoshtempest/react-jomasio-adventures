@@ -17,6 +17,7 @@ type Props = {
   onNpcDeath: () => void;
 
   isEnding: React.RefObject<boolean>;
+  setNpcDying: (value: boolean) => void;
 };
 
 export function useBattleLifecycle({
@@ -29,7 +30,8 @@ export function useBattleLifecycle({
   npcMaxHp,
   onPlayerDeath,
   onNpcDeath,
-  isEnding
+  isEnding,
+  setNpcDying
 }: Props) {
   useEffect(() => {
     if (isEnding.current) return;
@@ -50,6 +52,7 @@ export function useBattleLifecycle({
       }
 
       isEnding.current = true;
+      setNpcDying(true);
       setTimeout(() => {
         onNpcDeath();
       }, 300);

@@ -46,6 +46,7 @@ export function useBattleSystem(props: Props) {
 
   const char = progress[player.character];
   const behavior = battleBehaviors[player.character] || battleBehaviors.default;
+  const [isNpcDying, setNpcDying] = useState(false);
 
   // 🧠 cooldowns
   const { playerCooldown, npcCooldown, isEnding } = useBattleCooldowns();
@@ -139,7 +140,8 @@ export function useBattleSystem(props: Props) {
     onPlayerDeath,
     onNpcDeath,
 
-    isEnding
+    isEnding,
+    setNpcDying
   });
 
   // 🔄 reset
@@ -181,6 +183,8 @@ export function useBattleSystem(props: Props) {
     npcRangedHit: npcBattle.npcRangedHit,
 
     resetBattle,
+    isNpcDying,
+    setNpcDying,
 
     piercings: effects.piercings,
     isExploding: effects.isExploding

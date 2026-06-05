@@ -1,5 +1,5 @@
 import styles from "./styles.module.css";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 
 type Props = {
@@ -24,9 +24,23 @@ export function VictoryModal({
   const { playSound } = useSoundEffects();
 
   const hasPlayedRef = useRef(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    if (isOpen && !hasPlayedRef.current) {
+    if (!isOpen) {
+      setIsVisible(false);
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      setIsVisible(true);
+    }, 3000);
+
+    return () => clearTimeout(timeout);
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (isVisible && !hasPlayedRef.current) {
       hasPlayedRef.current = true;
 
       playSound("win");
@@ -35,10 +49,10 @@ export function VictoryModal({
     if (!isOpen) {
       hasPlayedRef.current = false;
     }
-  }, [isOpen]);
+  }, [isVisible, isOpen]);
   
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isVisible) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Enter" || e.key.toLowerCase() === "l") {
@@ -51,9 +65,9 @@ export function VictoryModal({
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen, onContinue]);
+  }, [isVisible, onContinue]);
 
-  if (!isOpen) return null;
+  if (!isVisible) return null;
 
   return (
     <div className="overlay">

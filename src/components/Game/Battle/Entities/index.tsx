@@ -26,6 +26,7 @@ export function BattleEntities({ npc, player, battle, npcType, TILE_SIZE, PLAYER
         isExploding={battle.isExploding}
         projectile={npc.projectile}
         npcPhase={battle.npcPhase}
+        isDying={battle.isNpcDying}
       />
 
       {npc.projectile && (

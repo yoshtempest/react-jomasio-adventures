@@ -16,6 +16,7 @@ type Props = {
   piercings?: { id: number; x: number; y: number }[];
   isExploding?: boolean;
   npcPhase?: number;
+  isDying?: boolean;
 };
 
 export function NPCBattle({
@@ -28,6 +29,7 @@ export function NPCBattle({
   piercings = [],
   isExploding = false,
   npcPhase = 1,
+  isDying = false,
 }: Props) {
 
   const BASE_WIDTH = 1280;
@@ -93,6 +95,9 @@ export function NPCBattle({
           height: "100%",
           transform: `scaleX(${direction === "right" ? -1 : 1})`,
           position: "absolute",
+          opacity: isDying ? 0 : 1,
+          filter: isDying ? "grayscale(100%)" : "none",
+          transition: "opacity 3s linear, filter 3s linear",
         }}
       />
 
