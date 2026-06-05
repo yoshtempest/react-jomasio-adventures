@@ -1,25 +1,18 @@
-import { chasePlayer } from "@/gameRules/npc/movement";
-import { tryThrowProjectile } from "@/gameRules/npc/projectile";
-
+import { rangedChaseBehavior } from "@/gameRules/npc/rangedChaseBehavior";
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
 
-export function vandinhaBehavior(ctx: BehaviorContext) {
-  const {
-    npc,
-    playerX,
-    playerY,
-    projectile,
-    setProjectile,
-    lastAttackRef,
-    setForceIdle,
-  } = ctx;
+export function vandinhaBehavior(
+  ctx: BehaviorContext
+) {
+  return rangedChaseBehavior(ctx, {
+    projectileCooldown: 3000,
+    idleDuration: 400,
 
-  tryThrowProjectile({
-    projectile,
-    cooldown: 3000,
-    lastAttackRef,
-    setProjectile,
-    projectileData: {
+    createProjectile: ({
+      npc,
+      playerX,
+      playerY,
+    }) => ({
       x: npc.x,
       y: npc.y,
       targetX: playerX,
@@ -27,29 +20,6 @@ export function vandinhaBehavior(ctx: BehaviorContext) {
       sprite: "dish",
       createdAt: Date.now(),
       state: "idle",
-    },
-    setForceIdle,
-    idleDuration: 400,
+    }),
   });
-
-  // 🚫 não anda enquanto houver projétil ativo
-  if (projectile) {
-    npc.state = "idle";
-
-    return {
-      x: npc.x,
-      y: npc.y,
-    };
-  }
-
-  const { x } = chasePlayer(
-    npc,
-    playerX,
-    playerY
-  );
-
-  return {
-    x,
-    y: npc.y,
-  };
 }
