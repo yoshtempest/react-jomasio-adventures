@@ -1,12 +1,9 @@
 import { type SceneEvent } from "@/utils/types/maps/sceneEvents";
-import { type QuestId } from "@/data/quests";
-import { type ItemId } from "@/data/items";
-import { type FlagId } from "@/data/flags";
 import type { NavigateFunction } from "react-router";
 
 type EventContext = {
   navigate: NavigateFunction;
-  location: { pathname: string };
+  location: { pathname: LastPage };
 
   setShowClassModal?: (v: boolean) => void;
 

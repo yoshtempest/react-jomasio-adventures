@@ -2,7 +2,7 @@ export type QuestType = "history" | "sidequest";
 export type QuestRewardsType = "xp" | "item" | "coin";
 
 export type Quest = {
-  id: string;
+  id: QuestId;
   name: string;
   image: string;
   description: string;

@@ -1,5 +1,3 @@
-// hooks/scene/useSceneEvents.ts
-
 import { useLocation, useNavigate } from "react-router";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
@@ -11,14 +9,14 @@ import { ITEMS } from "@/data/items";
 import type { SceneEvent } from "@/utils/types/maps/sceneEvents";
 
 type Condition = {
-    hasItem?: ItemId;
-    notHasItem?: ItemId;
-    hasQuest?: QuestId;
-    notHasQuest?: QuestId;
-    hasFlag?: FlagId;
-    notHasFlag?: FlagId;
-    lastPage?: LastPage;
-    notLastPage?: LastPage;
+  hasItem?: ItemId;
+  notHasItem?: ItemId;
+  hasQuest?: QuestId;
+  notHasQuest?: QuestId;
+  hasFlag?: FlagId;
+  notHasFlag?: FlagId;
+  lastPage?: LastPage;
+  notLastPage?: LastPage;
 };
 
 export function useSceneEvents() {

@@ -1,11 +1,9 @@
+import type { Quest } from "@/utils/types/player/quest";
+
 export type Player = {
   x: number;
   y: number;
   direction: Direction;
-};
-
-export type Quest = {
-  id: QuestId;
 };
 
 export type TileRouteFunction = (

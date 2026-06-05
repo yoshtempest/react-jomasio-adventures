@@ -1,4 +1,5 @@
 import type { Dialogue } from "@/utils/types/dialogue";
+import type { Quest } from "@/utils/types/player/quest";
 
 export type NPCData = {
   src: string;
@@ -26,7 +27,7 @@ export type AudioConfig = {
 };
 
 type DialogueContext = {
-  quests: { id: QuestId }[];
+  quests: Quest[];
   items: { id: ItemId }[];
   flags: FlagId[];
   character: CharacterId;
