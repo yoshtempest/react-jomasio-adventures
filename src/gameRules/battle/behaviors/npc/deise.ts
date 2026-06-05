@@ -1,4 +1,7 @@
-import { getChaseMovement } from "@/gameRules/movement/npc";
+import { chasePlayer } from "@/gameRules/npc/movement";
+import { tryMeleeAttack } from "@/gameRules/npc/attack";
+import { tryThrowProjectile } from "@/gameRules/npc/projectile";
+
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
 
 export function deiseBehavior(ctx: BehaviorContext) {
@@ -14,85 +17,87 @@ export function deiseBehavior(ctx: BehaviorContext) {
     onMeleeHit,
   } = ctx;
 
-  const distanceX = Math.abs(npc.x - playerX);
-  const distanceY = Math.abs(npc.y - playerY);
-  const now = Date.now();
-
-  // 🔥 FASE 2 → melee
+  // 🔥 FASE 2 → melee agressivo
   if (npcPhase === 2) {
-    npc.state = "walk";
-
-    const { x } = getChaseMovement(
-      npc.x,
-      npc.y,
+    const { x } = chasePlayer(
+      npc,
       playerX,
       playerY
     );
 
-    if (
-      distanceX < 80 &&
-      distanceY < 80 &&
-      now - lastAttackRef.current > 500
-    ) {
-      onMeleeHit();
-      lastAttackRef.current = now;
-    }
+    tryMeleeAttack({
+      npcX: npc.x,
+      npcY: npc.y,
+      playerX,
+      playerY,
+      range: 80,
+      cooldown: 500,
+      lastAttackRef,
+      onHit: onMeleeHit,
+    });
 
     return { x, y: npc.y };
   }
 
   // 🟢 FASE 1
-  if (npcPhase === 1) {
-    const canThrow =
-      !projectile &&
-      now - lastAttackRef.current > 1500;
 
-    // melee prioridade
-    if (distanceX <= 20 && distanceY <= 20) {
-      npc.state = "idle";
+  // melee tem prioridade
+  const meleeHit = tryMeleeAttack({
+    npcX: npc.x,
+    npcY: npc.y,
+    playerX,
+    playerY,
+    range: 20,
+    cooldown: 800,
+    lastAttackRef,
+    onHit: onMeleeHit,
+  });
 
-      if (now - lastAttackRef.current > 800) {
-        onMeleeHit();
-        lastAttackRef.current = now;
-      }
+  if (meleeHit) {
+    npc.state = "idle";
 
-      return { x: npc.x, y: npc.y };
-    }
-
-    if (canThrow) {
-      npc.state = "idle";
-
-      setProjectile({
-        x: npc.x,
-        y: npc.y + 50,
-        targetX: playerX,
-        targetY: playerY + 10,
-        sprite: "goat",
-        createdAt: Date.now(),
-        state: "walk",
-      });
-
-      lastAttackRef.current = now;
-
-      setForceIdle(true);
-      setTimeout(() => setForceIdle(false), 1000);
-    }
-
-    // 🚫 parado enquanto projétil existe
-    if (projectile) {
-      npc.state = "idle";
-      return { x: npc.x, y: npc.y };
-    }
-
-    npc.state = "walk";
-
-    const { x } = getChaseMovement(
-      npc.x,
-      npc.y,
-      playerX,
-      playerY
-    );
-
-    return { x, y: npc.y };
+    return {
+      x: npc.x,
+      y: npc.y,
+    };
   }
+
+  tryThrowProjectile({
+    projectile,
+    cooldown: 1500,
+    lastAttackRef,
+    setProjectile,
+    projectileData: {
+      x: npc.x,
+      y: npc.y + 50,
+      targetX: playerX,
+      targetY: playerY + 10,
+      sprite: "goat",
+      createdAt: Date.now(),
+      state: "walk",
+    },
+    setForceIdle,
+    idleDuration: 1000,
+  });
+
+  // 🚫 parado enquanto projétil existe
+  if (projectile) {
+    npc.state = "idle";
+
+    return {
+      x: npc.x,
+      y: npc.y,
+    };
+  }
+
+  const { x } = chasePlayer(
+    npc,
+    playerX,
+    playerY
+  );
+
+  return {
+    x,
+    y: npc.y,
+  };
 }

@@ -1,5 +1,5 @@
-import { getChaseMovement } from "@/gameRules/movement/npc";
-import { canNpcAttack } from "@/gameRules/battle/npcAttack";
+import { chasePlayer } from "@/gameRules/npc/movement";
+import { tryMeleeAttack } from "@/gameRules/npc/attack";
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
 
 export function normalBehavior(ctx: BehaviorContext) {
@@ -11,22 +11,18 @@ export function normalBehavior(ctx: BehaviorContext) {
     onMeleeHit,
   } = ctx;
 
-  npc.state = "walk";
+  const { x } = chasePlayer(npc, playerX, playerY);
 
-  const distanceX = Math.abs(npc.x - playerX);
-  const distanceY = Math.abs(npc.y - playerY);
-
-  const { x } = getChaseMovement(
-    npc.x,
-    npc.y,
+  tryMeleeAttack({
+    npcX: npc.x,
+    npcY: npc.y,
     playerX,
-    playerY
-  );
-
-  if (canNpcAttack(distanceX, distanceY, lastAttackRef.current, 800)) {
-    onMeleeHit();
-    lastAttackRef.current = Date.now();
-  }
+    playerY,
+    range: 40,
+    cooldown: 800,
+    lastAttackRef,
+    onHit: onMeleeHit,
+  });
 
   return { x, y: npc.y };
 }

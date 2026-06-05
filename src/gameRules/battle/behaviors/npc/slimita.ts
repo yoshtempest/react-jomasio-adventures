@@ -1,4 +1,7 @@
-import { getChaseMovement } from "@/gameRules/movement/npc";
+import { chasePlayer } from "@/gameRules/npc/movement";
+import { isNear } from "@/gameRules/npc/behavior";
+import { getSlimitaState } from "@/gameRules/npc/slimitaState";
+
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
 
 export function slimitaBehavior(ctx: BehaviorContext) {
@@ -12,63 +15,53 @@ export function slimitaBehavior(ctx: BehaviorContext) {
 
   const now = Date.now();
 
-  if (!npc.ai) npc.ai = {};
+  const state = getSlimitaState(
+    npc,
+    playerX
+  );
 
-  if (!npc.ai.slimita) {
-    npc.ai.slimita = {
-      state: "idle",
-      startTime: now,
-      baseY: npc.y,
-      targetX: playerX,
-    };
-  }
-
-  const state = npc.ai.slimita;
-
-
-  const dx = npc.x - playerX;
-  const dy = npc.y - playerY;
-  const distance = Math.hypot(dx, dy);
-
-  // 🟢 FASE 1 (normal)
+  // 🟢 FASE 1
   if (npcPhase === 1) {
-    npc.state = "walk";
-
-    const { x } = getChaseMovement(
-      npc.x,
-      npc.y,
+    const { x } = chasePlayer(
+      npc,
       playerX,
       playerY
     );
 
-    if (distance < 50) {
+    if (
+      isNear(
+        npc.x,
+        npc.y,
+        playerX,
+        playerY,
+        50
+      )
+    ) {
       onMeleeHit();
     }
 
-    return { x, y: npc.y };
+    return {
+      x,
+      y: npc.y,
+    };
   }
 
   // 🔥 FASE 2
 
   switch (state.state) {
     case "idle": {
-      npc.state = "walk";
+      const { x, y } = chasePlayer(
+        npc,
+        playerX,
+        playerY
+      );
 
-    const { x, y } = getChaseMovement(
-      npc.x,
-      npc.y,
-      playerX,
-      playerY
-    );
+      state.state = "air";
+      state.startTime = now;
+      state.baseY = npc.y;
+      state.targetX = playerX;
 
-      if (distance < 9999) {
-        state.state = "air";
-        state.startTime = now;
-        state.baseY = npc.y;
-        state.targetX = playerX;
-
-        npc.state = "jumping";
-      }
+      npc.state = "jumping";
 
       return { x, y };
     }
@@ -76,25 +69,39 @@ export function slimitaBehavior(ctx: BehaviorContext) {
     case "air": {
       npc.state = "jumping";
 
-      const elapsed = now - state.startTime;
+      const elapsed =
+        now - state.startTime;
+
       const duration = 2000;
 
-      const progress = Math.min(elapsed / duration, 1);
+      const progress = Math.min(
+        elapsed / duration,
+        1
+      );
 
-      // altura (parábola)
-      const height = Math.sin(progress * Math.PI) * 200;
-      const newY = (state.baseY - height);
+      const height =
+        Math.sin(progress * Math.PI) * 200;
 
-      // 👉 movimento horizontal durante o pulo
+      const newY =
+        state.baseY - height;
+
       const newX =
-        npc.x + (state.targetX - npc.x) * 0.05;
+        npc.x +
+        (state.targetX - npc.x) * 0.05;
 
-      // terminou o pulo
       if (elapsed >= duration) {
         state.state = "resting";
         state.startTime = now;
 
-        if (distance < 140) {
+        if (
+          isNear(
+            npc.x,
+            npc.y,
+            playerX,
+            playerY,
+            140
+          )
+        ) {
           onMeleeHit();
         }
 
@@ -113,16 +120,23 @@ export function slimitaBehavior(ctx: BehaviorContext) {
     case "resting": {
       npc.state = "idle";
 
-      const restTime = now - state.startTime;
+      const restTime =
+        now - state.startTime;
 
       if (restTime < 500) {
-        return { x: npc.x, y: npc.y };
+        return {
+          x: npc.x,
+          y: npc.y,
+        };
       }
 
       state.state = "idle";
       state.startTime = now;
 
-      return { x: npc.x, y: npc.y };
+      return {
+        x: npc.x,
+        y: npc.y,
+      };
     }
   }
 }
