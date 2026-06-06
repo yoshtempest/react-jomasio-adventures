@@ -85,7 +85,7 @@ h2 {
 }
 
 .PcRoomBattle {
-  background-image: url("/assets/cenarios/pcsRoomBattle.svg");
+  background-image: url("/assets/cenarios/jomasio/battle/pcsRoom.svg");
 }
 
 .Director {
@@ -93,35 +93,35 @@ h2 {
 }
 
 .HallOne {
-  background-image: url("/assets/cenarios/hallOne.svg");
+  background-image: url("/assets/cenarios/jomasio/hall/one.svg");
 }
 
 .HallJailson {
-  background-image: url("/assets/cenarios/hallTwo.svg");
+  background-image: url("/assets/cenarios/jomasio/hall/two.svg");
 }
 
 .HallHell {
-  background-image: url("/assets/cenarios/hallHell.svg");
+  background-image: url("/assets/cenarios/jomasio/hall/hell.svg");
 }
 
 .HallPandemony {
-  background-image: url("/assets/cenarios/hallPandemony.svg");
+  background-image: url("/assets/cenarios/jomasio/hall/pandemony.svg");
 }
 
 .HallLeft {
-  background-image: url("/assets/cenarios/hallLeft.svg");
+  background-image: url("/assets/cenarios/jomasio/hall/left.svg");
 }
 
 .HallCenter {
-  background-image: url("/assets/cenarios/hallCenter.svg");
+  background-image: url("/assets/cenarios/jomasio/hall/center.svg");
 }
 
 .HallCenterFront {
-  background-image: url("/assets/cenarios/hallCenterFront.svg");
+  background-image: url("/assets/cenarios/jomasio/hall/centerFront.svg");
 }
 
 .HallThirdClass {
-  background-image: url("/assets/cenarios/hallThirdClass.svg");
+  background-image: url("/assets/cenarios/jomasio/hall/thirdClass.svg");
 }
 
 .Library {
@@ -129,7 +129,7 @@ h2 {
 }
 
 .LibraryBattle {
-  background-image: url("/assets/cenarios/libraryBattle.svg");
+  background-image: url("/assets/cenarios/jomasio/battle/library.svg");
 }
 
 .brodiClass {
@@ -137,7 +137,7 @@ h2 {
 }
 
 .CantinaBattle {
-  background-image: url("/assets/cenarios/cantinaBattle.svg");
+  background-image: url("/assets/cenarios/jomasio/battle/cantina.svg");
 }
 
 .Cafeteria {
@@ -145,11 +145,15 @@ h2 {
 }
 
 .CafeteriaBattle {
-  background-image: url("/assets/cenarios/cafeteriaBattle.svg");
+  background-image: url("/assets/cenarios/jomasio/battle/cafeteria.svg");
 }
 
 .jailsonHallBattle {
-  background-image: url("/assets/cenarios/jailsonHallBattle.svg");
+  background-image: url("/assets/cenarios/jomasio/battle/jailsonHall.svg");
+}
+
+.hallCenterBattle {
+  background-image: url("/assets/cenarios/jomasio/battle/hallCenter.svg");
 }
 
 .HellRoom {

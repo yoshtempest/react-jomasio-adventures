@@ -18,7 +18,7 @@ export const NPCS: Record<string, NPCData> = {
   maura: { type: "maura", class: "boss" },
 
   /* Bocaina */
-  deadDog: { type: "deadDog", class: "common" },
+  hungryDog: { type: "hungryDog", class: "common" },
   lupita: { type: "lupita", class: "boss" },
   riquelsonDog: { type: "riquelsonDog", class: "epic" },
   baiano: { type: "baiano", class: "epic" },
@@ -27,8 +27,9 @@ export const NPCS: Record<string, NPCData> = {
   muyMacho: { type: "muyMacho", class: "boss" },
   
   /* Lagoa grande */
-  deadFish: { type: "deadFish", class: "common" },
-  fischer: { type: "deadFish", class: "rare" },
+  hungryFish: { type: "hungryFish", class: "common" },
+  hungryCow: { type: "hungryCow", class: "common" },
+  fischer: { type: "fischer", class: "rare" },
   monsterOfNessRiver: { type: "monsterOfNessRiver", class: "boss" },
   /* Cachoeiras */
   figurantOfBaalCult: { type: "figurantOfBaalCult", class: "common" },
@@ -39,10 +40,30 @@ export const NPCS: Record<string, NPCData> = {
   crocodile: { type: "crocodile", class: "rare" },
   elitCrocodile: { type: "elitCrocodile", class: "epic" },
   mobyDick: { type: "mobyDick", class: "boss" }, /* baleia */
+  yangKai: { type: "yangKai", class: "legendary" },
   /* Tanque dos crávos */
   figurantOfDragonKingCult: { type: "figurantOfDragonKingCult", class: "common" },
+  ains: { type: "ains", class: "boss" }, /* OVERLORD */
   dragonKing: { type: "dragonKing", class: "legendary" },
   /* Lagoa do Canto */
-  deadPigs: { type: "pigs", class: "common" },
+  hungryPigs: { type: "hungryPigs", class: "common" },
   technoblade: { type: "technoblade", class: "legendary" },
 };
+
+/*
+Personagens que fazem parte do culto de Baal 
+  1 - figurantOfBaalCult
+  2 - Goat
+  3 - SrGuaxinim
+  4 - Tim
+  5 - baal
+*/
+
+/*
+Personagens que fazem parte do culto ao rei dragão 
+  1 - figurantOfDragonKingCult
+  2 - Deise
+  3 - Ains
+  4 - hungryKing
+  5 - dragonKing
+*/

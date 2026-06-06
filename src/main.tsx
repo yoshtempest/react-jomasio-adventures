@@ -43,7 +43,7 @@ const HallPage = lazyLoad(() => import('./pages/Hall/index.tsx'));
 const PcRoomBattleOne = lazyLoad(() => import('./pages/PcRoom/Battle/One/index.tsx'));
 const PcRoomBattleTwo = lazyLoad(() => import('./pages/PcRoom/Battle/Two/index.tsx'));
 const PcRoomBattleThree = lazyLoad(() => import('./pages/PcRoom/Battle/Three/index.tsx'));
-const HallCenterBattle = lazyLoad(() => import('./pages/Hall/Battle/Two/index.tsx'));
+const PlanetarySistersBattle = lazyLoad(() => import('./pages/Hall/Battle/Two/index.tsx'));
 const PcRoomPage = lazyLoad(() => import('./pages/PcRoom/index.tsx'));
 
 const Library = lazyLoad(() => import('./pages/Library/index.tsx'));
@@ -113,7 +113,7 @@ root.render(
                                   <Route index element={<Navigate to="/hall/one" />} />
                                   <Route path=":id" element={<HallPage />} />
                                   <Route path="jailson/battle" element={<JailsonHallBattle />} />
-                                  <Route path="hall/center/battle" element={<HallCenterBattle />} />
+                                  <Route path="hall/center/battle" element={<PlanetarySistersBattle />} />
                                 </Route>
 
                                 <Route path="director">
