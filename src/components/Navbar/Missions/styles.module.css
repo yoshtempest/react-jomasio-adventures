@@ -1,17 +1,53 @@
 .ul {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 colunas */
-  grid-template-rows: repeat(2, auto);   /* 2 linhas */
-  gap: 12px; /* espaçamento opcional */
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 12px;
   list-style: none;
   padding: 0;
-  max-height: 90vh;
+  max-height: 70vh;
   overflow-y: auto;
   margin: 2%;
-  scrollbar-width: none;       /* Firefox */
-  -ms-overflow-style: none;    /* IE/Edge antigo */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .ul::-webkit-scrollbar {
   display: none;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.tab {
+  background: #1a1a1a;
+  color: #aaa;
+  border: 1px solid #333;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.tab:hover {
+  background: #2a2a2a;
+  color: #fff;
+}
+
+.tabActive {
+  background: #2e7d32;
+  color: #fff;
+  border-color: #2e7d32;
+}
+
+.empty {
+  text-align: center;
+  color: #666;
+  padding: 24px;
+  font-size: 14px;
 }

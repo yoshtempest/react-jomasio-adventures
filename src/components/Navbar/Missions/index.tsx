@@ -7,21 +7,52 @@ import { useRef } from "react";
 export function Mission() {
   const { quests } = useQuests();
   const listRef = useRef<HTMLUListElement>(null);
-  const { selectedIndex } = useQuestMenu(true, listRef);
+
+  const {
+    selectedIndex,
+    activeTab,
+    activeQuests,
+    completedQuests,
+    visibleQuests,
+    switchTab,
+  } = useQuestMenu(true, quests, listRef);
 
   return (
     <div className="containerOfNavbar">
       <h3>Missões</h3>
 
-      <ul className={styles.ul} ref={listRef}>
-        {quests.map((q, index) => (
-          <QuestCard
-            key={q.id}
-            quest={q}
-            selected={index === selectedIndex}
-          />
-        ))}
-      </ul>
+      <div className={styles.tabs}>
+        <button
+          className={`${styles.tab} ${activeTab === "active" ? styles.tabActive : ""}`}
+          onClick={() => switchTab("active")}
+        >
+          Em andamento ({activeQuests.length})
+        </button>
+        <button
+          className={`${styles.tab} ${activeTab === "completed" ? styles.tabActive : ""}`}
+          onClick={() => switchTab("completed")}
+        >
+          Concluídas ({completedQuests.length})
+        </button>
+      </div>
+
+      {visibleQuests.length === 0 ? (
+        <p className={styles.empty}>
+          {activeTab === "active"
+            ? "Nenhuma missão em andamento."
+            : "Nenhuma missão concluída."}
+        </p>
+      ) : (
+        <ul className={styles.ul} ref={listRef}>
+          {visibleQuests.map((q, index) => (
+            <QuestCard
+              key={q.id}
+              quest={q}
+              selected={index === selectedIndex}
+            />
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
