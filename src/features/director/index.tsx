@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useCallback } from "react";
 
 import { SceneBase } from "@/components/Game/Scenes/Base";
 import { DIRECTOR_SCENES } from "@/scenes/director";
@@ -7,7 +7,7 @@ import { createDirector } from "@/interactions/director";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuestActions } from "@/hooks/useQuestActions";
 import type { SceneId } from "@/utils/types/maps/sceneConfig";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import { asset } from "@/utils/asset";
 import { useAudio } from "@/contexts/AudioContext";
 
@@ -20,6 +20,7 @@ type Props = {
 export function DirectorScene({ sceneId }: Props) {
   const scene = DIRECTOR_SCENES[sceneId];
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { addItem, hasItem, removeItem } = useInventory();
   const { progressQuest } = useQuestActions();
@@ -35,12 +36,16 @@ export function DirectorScene({ sceneId }: Props) {
     audio.play().catch(() => {});
   };
 
+  const navigateFrom = useCallback((to: string) => {
+    navigate(to, { state: { from: location.pathname } });
+  }, [navigate, location.pathname]);
+
   const interactions = useMemo(() =>
     createDirector({
       hasItem,
       addItem,
       removeItem,
-      navigate,
+      navigate: navigateFrom,
       setPopup: (msg) => setPopup(msg),
       gotKey,
       setGotKey,
@@ -51,7 +56,7 @@ export function DirectorScene({ sceneId }: Props) {
       hasItem,
       addItem,
       removeItem,
-      navigate,
+      navigateFrom,
       gotKey,
       progressQuest,
     ]
