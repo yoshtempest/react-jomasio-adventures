@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { ExploreScene } from "@/components/Game/Scenes/Default";
@@ -45,9 +45,23 @@ export function SceneBase({
       : scene.initialPosition
     : undefined;
 
+  // 🛡️ Pula primeira execução do efeito de saída após troca de cena,
+  // pois o player ainda está com a posição defasada da cena anterior.
+  // O useLayoutEffect do useSceneSetup roda depois e posiciona o jogador.
+  const sceneInitRef = useRef(true);
+
+  useEffect(() => {
+    sceneInitRef.current = false;
+  }, [scene]);
+
   // ✅ EXIT TILE (com override)
   useEffect(() => {
     if (!scene) return;
+
+    if (!sceneInitRef.current) {
+      sceneInitRef.current = true;
+      return;
+    }
 
     // 🔥 override (Cantina ainda pode usar)
     if (handleExit?.({ player, scene, navigate, location, quests })) {
