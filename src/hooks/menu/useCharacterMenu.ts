@@ -5,13 +5,22 @@ import { CHARACTERS } from "@/data/options/characters";
 import { circularNext, circularPrev, gridMove } from "@/gameRules/menu/navigation";
 import { getSelected } from "@/gameRules/menu/selection";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
+import { useFlags } from "@/contexts/FlagContext";
 
 export function useCharacterMenu() {
   const { setCharacter } = usePlayer();
   const { pushControls, popControls } = useGameControls();
   const { playMove, playSelect } = useMenuSFX();
+  const { hasFlag } = useFlags();
 
-  const selectableCharacters = CHARACTERS.filter((c) => c.selectable);
+  const selectableCharacters = CHARACTERS.filter((c) =>
+    c.selectable || (c.image === "samuel" && hasFlag("samurionUnlocked"))
+  );
+
+  const characters = CHARACTERS.map((c) => ({
+    ...c,
+    selectable: c.selectable || (c.image === "samuel" && hasFlag("samurionUnlocked")),
+  }));
 
   const [selectedIndex, setSelectedIndex] = useState(0);
   const selectedIndexRef = useRef(selectedIndex);
@@ -70,7 +79,7 @@ export function useCharacterMenu() {
   }, []);
 
   return {
-    characters: CHARACTERS,
+    characters,
     selectableCharacters,
     selectedIndex,
   };

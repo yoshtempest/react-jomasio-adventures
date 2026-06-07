@@ -11,13 +11,33 @@ type Props = {
   children: ReactNode;
 };
 
+const STORAGE_KEY = "flags";
+
+function loadFlags(): FlagId[] {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    return saved ? (JSON.parse(saved) as FlagId[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveFlags(flags: FlagId[]) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(flags));
+}
+
 const FlagContext = createContext({} as FlagContextType);
 
 export function FlagProvider({ children }: Props) {
-  const [flags, setFlags] = useState<FlagId[]>([]);
+  const [flags, setFlags] = useState<FlagId[]>(loadFlags);
 
   function setFlag(flag: FlagId) {
-    setFlags(prev => prev.includes(flag) ? prev : [...prev, flag]);
+    setFlags(prev => {
+      if (prev.includes(flag)) return prev;
+      const next = [...prev, flag];
+      saveFlags(next);
+      return next;
+    });
   }
 
   function hasFlag(flag: FlagId) {

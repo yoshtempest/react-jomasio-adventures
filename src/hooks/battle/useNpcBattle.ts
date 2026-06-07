@@ -20,6 +20,7 @@ type Props = {
   setPlayerHP: React.Dispatch<React.SetStateAction<number>>;
   npcCooldown: React.RefObject<boolean>;
   difficulty: NpcDifficulty;
+  isEnding: React.RefObject<boolean>;
 };
 
 export function useNpcBattle({
@@ -34,8 +35,10 @@ export function useNpcBattle({
   npcY,
   player,
   difficulty,
+  isEnding,
 }: Props) {
   const npcMeleeHit = useCallback(() => {
+    if (isEnding.current) return;
     if (!npcCooldown.current) return;
     if (!isNpcInRange(playerX, playerY, npcX, npcY)) return;
     if (
@@ -51,6 +54,7 @@ export function useNpcBattle({
     npcCooldown.current = false;
     setTimeout(() => npcCooldown.current = true, 800);
   }, [
+    isEnding,
     npcCooldown,
     player.state,
     player.battleDirection,
@@ -65,6 +69,7 @@ export function useNpcBattle({
   ]);
 
   const npcRangedHit = useCallback(() => {
+    if (isEnding.current) return;
     if (!npcCooldown.current) return;
     if (
       player.state === "blocked" &&
@@ -79,6 +84,7 @@ export function useNpcBattle({
     npcCooldown.current = false;
     setTimeout(() => (npcCooldown.current = true), 800);
   }, [
+    isEnding,
     npcCooldown,
     player.state,
     player.battleDirection,

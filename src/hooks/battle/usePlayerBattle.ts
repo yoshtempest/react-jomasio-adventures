@@ -17,6 +17,7 @@ type Props = {
 
   setNpcHP: React.Dispatch<React.SetStateAction<number>>;
   playerCooldown: React.RefObject<boolean>;
+  isEnding: React.RefObject<boolean>;
 
   spawnPiercing: () => void;
   triggerExplosion: () => void;
@@ -30,6 +31,7 @@ export function usePlayerBattle({
   HITS_TO_SPECIAL,
   setNpcHP,
   playerCooldown,
+  isEnding,
   playerX,
   playerY,
   npcX,
@@ -42,6 +44,7 @@ export function usePlayerBattle({
   const [stacks, setStacks] = useState(0);
 
   const playerHit = useCallback(() => {
+    if (isEnding.current) return;
     if (!playerCooldown.current) return;
 
     if (
@@ -76,6 +79,7 @@ export function usePlayerBattle({
       playerCooldown.current = true;
     }, 400);
   }, [
+    isEnding,
     playerCooldown,
     playerX,
     playerY,
@@ -94,6 +98,7 @@ export function usePlayerBattle({
   ]);
 
   const specialHit = useCallback(() => {
+    if (isEnding.current) return;
     if (!playerCooldown.current) return;
     if (delicia < HITS_TO_SPECIAL) return;
 
@@ -128,6 +133,7 @@ export function usePlayerBattle({
       playerCooldown.current = true;
     }, 600);
   }, [
+    isEnding,
     delicia,
     HITS_TO_SPECIAL,
     playerCooldown,

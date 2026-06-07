@@ -101,6 +101,7 @@ export function useBattleSystem(props: Props) {
 
     setNpcHP,
     playerCooldown,
+    isEnding,
 
     spawnPiercing: effects.spawnPiercing,
     triggerExplosion: effects.triggerExplosion
@@ -122,6 +123,7 @@ export function useBattleSystem(props: Props) {
     setPlayerHP,
     npcCooldown,
     difficulty,
+    isEnding,
   });
 
   // 🧠 lifecycle

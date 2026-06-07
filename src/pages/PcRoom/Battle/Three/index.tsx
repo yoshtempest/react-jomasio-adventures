@@ -7,10 +7,11 @@ export default function PcRoomBattleThree() {
   return (
     <BattleScene
       npcType="hungryKing"
-      redirectTo="/pcroom/nine"
+      redirectTo="/pcroom/seven"
       className="PcRoomBattle"
       onVictory={() => {
         setFlag("hungryKing");
+        setFlag("samurionUnlocked");
       }}
       victoryDescription="Você salvou Samurion de seu próprio culto de mortos de fome"
       audioSrc={KenTheme}
