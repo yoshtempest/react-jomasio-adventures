@@ -175,8 +175,8 @@ export function ExploreScene({
         cols={MAP_COLS}
         rows={MAP_ROWS}
       >
-        {npcs.map((npc, index) => (
-          <NPC key={index} {...npc} TILE_SIZE={TILE_SIZE} />
+        {npcs.map((npc) => (
+          <NPC key={`${npc.gridX},${npc.gridY}`} {...npc} TILE_SIZE={TILE_SIZE} />
         ))}
 
         <Player

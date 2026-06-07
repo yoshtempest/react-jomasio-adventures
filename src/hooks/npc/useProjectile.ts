@@ -86,6 +86,8 @@ export function useProjectile(
     projectile,
     playerX,
     playerY,
+    npcX,
+    npcY,
     playerState
   ]);
 }

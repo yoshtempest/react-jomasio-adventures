@@ -92,7 +92,6 @@ export function CharacterProgressProvider({ children }: { children: ReactNode })
 
   // ⭐ XP + LEVEL + POINTS
   function addXP(character: Character, amount: number) {
-    let leveledUp = false;
     setProgress((prev) => {
       const char = prev[character];
 
@@ -106,7 +105,7 @@ export function CharacterProgressProvider({ children }: { children: ReactNode })
         newXP -= xpNeeded;
         newLevel++;
         pointsGained++;
-        leveledUp = true;
+        playSound("levelUp");
         xpNeeded = getXPToNextLevel(newLevel);
       }
 
@@ -122,9 +121,6 @@ export function CharacterProgressProvider({ children }: { children: ReactNode })
         },
       };
     });
-    if (leveledUp) {
-      playSound("levelUp");
-    }
   }
 
   // ➕ DISTRIBUIR PONTOS

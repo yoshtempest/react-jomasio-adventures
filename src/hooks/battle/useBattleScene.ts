@@ -106,24 +106,34 @@ export function useBattleScene({
     closeNavbar();
   }, []);
 
+  // refs para evitar stale closures nos controles
+  const attackRef = useRef(attack);
+  const specialRef = useRef(special);
+  const playerHitRef = useRef(battle.playerHit);
+  const specialHitRef = useRef(battle.specialHit);
+  attackRef.current = attack;
+  specialRef.current = special;
+  playerHitRef.current = battle.playerHit;
+  specialHitRef.current = battle.specialHit;
+
   // controles
   useEffect(() => {
     if (showVictory || showIntro) return;
 
     const controls = {
       onConfirm: () => {
-        attack();
-        battle.playerHit();
+        attackRef.current();
+        playerHitRef.current();
       },
       onCancel: () => {
-        special();
-        battle.specialHit();
+        specialRef.current();
+        specialHitRef.current();
       },
     };
 
     pushControls(controls);
     return () => popControls();
-  }, [attack, battle.playerHit, battle.specialHit, showVictory]);
+  }, [showVictory, showIntro]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {

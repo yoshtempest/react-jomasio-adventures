@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { npcBehaviors } from "@/gameRules/battle/behaviors/npc/index";
-import { useProjectile } from "../useProjectile";
+import { useProjectile } from "./useProjectile";
 import type { NPCBattleState } from "@/utils/types/npc/npc";
 import type { Projectile } from "@/utils/types/projectile";
 
@@ -38,6 +38,8 @@ export function useNpcAI({
   const [projectile, setProjectile] = useState<Projectile | null>(null);
   const [forceIdle, setForceIdle] = useState(false);
 
+  const projectileRef = useRef(projectile);
+  projectileRef.current = projectile;
   const lastAttackRef = useRef(0);
   useProjectile(
     projectile,
@@ -68,6 +70,7 @@ export function useNpcAI({
     const interval = setInterval(() => {
       setNpc((n) => {
         if (isPaused) return n;
+        const p = projectileRef.current; // valor fresco via ref
 
         const behavior =
           npcBehaviors[npcType] || npcBehaviors.default;
@@ -77,7 +80,7 @@ export function useNpcAI({
           playerX,
           npcPhase,
           playerY,
-          projectile,
+          projectile: p,
           setProjectile,
           lastAttackRef,
           onProjectileHit,
@@ -105,7 +108,6 @@ export function useNpcAI({
     playerY,
     isPaused,
     npcType,
-    projectile,
     forceIdle,
     onProjectileHit,
     onMeleeHit,

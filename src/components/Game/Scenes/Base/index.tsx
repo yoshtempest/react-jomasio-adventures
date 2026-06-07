@@ -99,7 +99,7 @@ export function SceneBase({
         state: { from: location.pathname },
       });
     }
-  }, [player, scene, quests]);
+  }, [player.gridX, player.gridY, scene, quests]);
 
 
 

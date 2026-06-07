@@ -26,8 +26,6 @@ export function QuestProvider({ children }: Props) {
       const exists = prev.find(q => q.id === newQuest.id);
       if (exists) return prev;
 
-      playSound("questUpdated");
-
       return [
         ...prev,
         {
@@ -36,6 +34,7 @@ export function QuestProvider({ children }: Props) {
         }
       ];
     });
+    playSound("questUpdated");
   }
 
   function updateProgress(id: string, value: number) {
@@ -45,10 +44,6 @@ export function QuestProvider({ children }: Props) {
 
         const newProgress = Math.min(q.progress + value, q.counter);
 
-        if (newProgress !== q.progress) {
-          playSound("questUpdated");
-        }
-
         return {
           ...q,
           progress: newProgress,
@@ -56,6 +51,7 @@ export function QuestProvider({ children }: Props) {
         };
       })
     );
+    playSound("questUpdated");
   }
 
   function claimQuest(id: string) {

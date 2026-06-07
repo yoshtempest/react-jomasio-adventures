@@ -30,16 +30,12 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
 
   function addItem(item: InventoryItem) {
-    let added = false;
     setItems((prev) => {
       // impede duplicado
       if (prev.find((i) => i.id === item.id)) return prev;
-      added = true;
+      playSound("receivedItem");
       return [...prev, item];
     });
-    if (added) {
-      playSound("receivedItem");
-    }
   }
 
   function removeItem(id: ItemId) {

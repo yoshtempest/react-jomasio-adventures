@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, useCallback } from "react";
+import { createContext, useContext, useEffect, useState, useCallback, useMemo } from "react";
 import type { GameControlLayer } from "@/utils/types/player/controls";
 import type { ReactNode } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
@@ -36,7 +36,7 @@ export function GameControlsProvider({ children }: Props) {
   }, []);
 
   // 🔥 merge inteligente
-  const getMergedControls = useCallback((): GameControlLayer => {
+  const activeControls = useMemo((): GameControlLayer => {
     const top = stack[stack.length - 1];
 
     return stack.reduce((acc, layer) => ({
@@ -96,45 +96,42 @@ export function GameControlsProvider({ children }: Props) {
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
-      const active = getMergedControls();
-      if (!active) return;
-
       switch (e.key) {
         case "ArrowUp":
         case "w":
-          active.onUp?.();
+          activeControls.onUp?.();
           break;
 
         case "ArrowDown":
         case "s":
-          active.onDown?.();
+          activeControls.onDown?.();
           break;
 
         case "ArrowLeft":
         case "a":
-          active.onLeft?.();
+          activeControls.onLeft?.();
           break;
 
         case "ArrowRight":
         case "d":
-          active.onRight?.();
+          activeControls.onRight?.();
           break;
 
         case "l":
-          active.onConfirm?.();
+          activeControls.onConfirm?.();
           break;
 
         case "b":
-          active.onCancel?.();
+          activeControls.onCancel?.();
           break;
 
         case "g":
-          if (active.onOpen) {
-            active.onOpen();
+          if (activeControls.onOpen) {
+            activeControls.onOpen();
             return;
           }
 
-          if (!active.blockGlobalOpen && player.mode === "explore") {
+          if (!activeControls.blockGlobalOpen && player.mode === "explore") {
             openNavbar();
           }
           break;
@@ -142,28 +139,27 @@ export function GameControlsProvider({ children }: Props) {
     }
 
     function handleKeyUp(e: KeyboardEvent) {
-      const active = getMergedControls();
-      if (!active) return;
+      if (!activeControls) return;
 
       switch (e.key) {
         case "ArrowUp":
         case "w":
-          active.onUpRelease?.();
+          activeControls.onUpRelease?.();
           break;
 
         case "ArrowDown":
         case "s":
-          active.onDownRelease?.();
+          activeControls.onDownRelease?.();
           break;
 
         case "ArrowLeft":
         case "a":
-          active.onLeftRelease?.();
+          activeControls.onLeftRelease?.();
           break;
 
         case "ArrowRight":
         case "d":
-          active.onRightRelease?.();
+          activeControls.onRightRelease?.();
           break;
       }
     }
@@ -175,7 +171,7 @@ export function GameControlsProvider({ children }: Props) {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
-  }, [getMergedControls, player.mode, openNavbar]);
+  }, [activeControls, player.mode, openNavbar]);
 
   return (
     <GameControlsContext.Provider
@@ -183,7 +179,7 @@ export function GameControlsProvider({ children }: Props) {
         pushControls,
         popControls,
         clearControls,
-        activeControls: getMergedControls(),
+        activeControls,
       }}
     >
       {children}

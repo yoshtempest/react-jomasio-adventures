@@ -34,14 +34,15 @@ export function useBattleLifecycle({
   setNpcDying
 }: Props) {
   useEffect(() => {
+    const timeouts: number[] = [];
     if (isEnding.current) return;
 
     if (isDead(playerHP)) {
       isEnding.current = true;
-      setTimeout(() => {
+      timeouts.push(window.setTimeout(() => {
         onPlayerDeath();
         isEnding.current = false;
-      }, 500);
+      }, 500));
     }
 
     if (isDead(npcHP)) {
@@ -53,9 +54,10 @@ export function useBattleLifecycle({
 
       isEnding.current = true;
       setNpcDying(true);
-      setTimeout(() => {
+      timeouts.push(window.setTimeout(() => {
         onNpcDeath();
-      }, 300);
+      }, 300));
     }
+    return () => timeouts.forEach(clearTimeout);
   }, [playerHP, npcHP]);
 }
