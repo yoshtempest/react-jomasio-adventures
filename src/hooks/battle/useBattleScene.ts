@@ -128,7 +128,7 @@ export function useBattleScene({
 
   // controles
   useEffect(() => {
-    if (showVictory || showIntro) return;
+    if (showVictory || showDefeat || showIntro) return;
 
     const controls = {
       onConfirm: () => {
@@ -143,7 +143,7 @@ export function useBattleScene({
 
     pushControls(controls);
     return () => popControls();
-  }, [showVictory, showIntro]);
+  }, [showVictory, showDefeat, showIntro]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {

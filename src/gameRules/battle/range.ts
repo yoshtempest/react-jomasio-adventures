@@ -24,7 +24,7 @@ export function isPlayerInRange(
   const dx = Math.abs(playerX - npcX);
   const dy = Math.abs(playerY - npcY);
 
-  return dx <= rangeX && dy <= 50;
+  return dx <= rangeX && dy <= 150;
 }
 
 export function isNpcInRange(
@@ -36,5 +36,5 @@ export function isNpcInRange(
   const dx = Math.abs(playerX - npcX);
   const dy = Math.abs(playerY - npcY);
 
-  return dx <= 20 && dy <= 50;
+  return dx <= 20 && dy <= 150;
 }

@@ -52,10 +52,10 @@ export function deiseBehavior(ctx: BehaviorContext) {
         playerX,
         playerY,
       }) => createDirectionalProjectile({
-        startX: npc.x - 70,
-        startY: npc.y + 50,
+        startX: npc.x - 80,
+        startY: npc.y - 30,
         targetX: playerX,
-        targetY: playerY + 10,
+        targetY: playerY - 50,
         sprite: "goat",
         state: "walk",
       })

@@ -30,7 +30,7 @@ export function useNpcAI({
 }: Props) {
   const [npc, setNpc] = useState<NPCBattleState>({
     x: 900,
-    y: 600,
+    y: 670,
     state: "walk",
     direction: "left",
   });
@@ -57,7 +57,7 @@ export function useNpcAI({
   const resetNpc = () => {
     setNpc({
       x: 900,
-      y: 600,
+      y: 670,
       state: "walk",
       direction: "left",
     });

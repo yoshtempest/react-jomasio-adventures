@@ -43,7 +43,7 @@ export function PlayerBattle({
         height: HEIGHT,
         left: x * scaleX,
         top: y * scaleY,
-        transform: "translate(-50%, -30%)", // centraliza melhor no chão
+        transform: "translate(-50%, -100%)", // ancora os pés no chão
         zIndex: 10,
         overflow: "visible", // importante pra não cortar o ataque
       }}

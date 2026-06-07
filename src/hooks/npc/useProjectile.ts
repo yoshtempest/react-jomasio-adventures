@@ -55,24 +55,18 @@ export function useProjectile(
           return null;
         }
 
-        const distanceToPlayer = Math.hypot(
-          playerX - next.x,
-          playerY - next.y
-        );
-
-        const isCloseEnough = distanceToPlayer < 30;
-        const yDiff = Math.abs(playerY - next.y);
-        const isSameLane = yDiff <= 40; // 🎯 tolerância
+        const dx = Math.abs(playerX - next.x);
+        const dy = Math.abs(playerY - next.y);
         const isBlocking =
           playerState === "blocked" &&
           isFacingTarget(playerX, playerY, npcX, npcY, playerDirection);
 
-        if (isCloseEnough && isSameLane && !isBlocking) {
+        if (dx < 40 && dy <= 120 && !isBlocking) {
           onHit();
           return null;
         }
 
-        if (isCloseEnough) {
+        if (dx < 40) {
           return null;
         }
 
