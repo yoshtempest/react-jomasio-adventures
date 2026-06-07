@@ -31,7 +31,7 @@ export function useBattleScene({
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { player, setMode, attack, special, resetBattleState, difficulty } = usePlayer();
+  const { player, setMode, attack, special, resetBattleState, difficulty, addCoins } = usePlayer();
   const { pushControls, popControls } = useGameControls();
   const { addXP, progress, getXPToNextLevel } = useCharacterProgress();
   const { closeInventory } = useInventory();
@@ -44,6 +44,15 @@ export function useBattleScene({
 
   const npcData = NPCS[npcType];
   const xpReward = calculateXP(npcLevel, npcData.class) ?? 0;
+
+  const COIN_REWARDS: Record<string, number> = {
+    common: 5,
+    rare: 10,
+    epic: 25,
+    boss: 50,
+    legendary: 100,
+  };
+  const coinReward = (COIN_REWARDS[npcData.class] ?? 0) * npcLevel;
 
   const charProgress = progress[player.character];
   const xpNeeded = getXPToNextLevel(charProgress.level);
@@ -88,6 +97,7 @@ export function useBattleScene({
     onPlayerDeath: () => setShowDefeat(true),
     onNpcDeath: () => {
       addXP(player.character, xpReward);
+      addCoins(coinReward);
       triggerVictory();
     },
   });
