@@ -20,4 +20,5 @@ export const FLAGS = {
   spiritMotocycler: { id: "spiritMotocycler"},
   srGuaxinim: { id: "srGuaxinim"},
   samurionUnlocked: { id: "samurionUnlocked"},
+  yvelUnlocked: { id: "yvelUnlocked"},
 } as const;

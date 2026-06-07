@@ -14,12 +14,17 @@ export function useCharacterMenu() {
   const { hasFlag } = useFlags();
 
   const selectableCharacters = CHARACTERS.filter((c) =>
-    c.selectable || (c.image === "samuel" && hasFlag("samurionUnlocked"))
+    c.selectable ||
+    (c.image === "samuel" && hasFlag("samurionUnlocked")) ||
+    (c.image === "lucas" && hasFlag("yvelUnlocked"))
   );
 
   const characters = CHARACTERS.map((c) => ({
     ...c,
-    selectable: c.selectable || (c.image === "samuel" && hasFlag("samurionUnlocked")),
+    selectable:
+      c.selectable ||
+      (c.image === "samuel" && hasFlag("samurionUnlocked")) ||
+      (c.image === "lucas" && hasFlag("yvelUnlocked")),
   }));
 
   const [selectedIndex, setSelectedIndex] = useState(0);
