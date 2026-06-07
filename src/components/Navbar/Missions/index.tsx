@@ -23,13 +23,13 @@ export function Mission() {
 
       <div className={styles.tabs}>
         <button
-          className={`${styles.tab} ${activeTab === "active" ? styles.tabActive : ""}`}
+          className={`${styles.tab} ${activeTab === "active" ? styles.tabActive : ""} ${selectedIndex === 0 ? styles.tabSelected : ""}`}
           onClick={() => switchTab("active")}
         >
           Em andamento ({activeQuests.length})
         </button>
         <button
-          className={`${styles.tab} ${activeTab === "completed" ? styles.tabActive : ""}`}
+          className={`${styles.tab} ${activeTab === "completed" ? styles.tabActive : ""} ${selectedIndex === 1 ? styles.tabSelected : ""}`}
           onClick={() => switchTab("completed")}
         >
           Concluídas ({completedQuests.length})
@@ -48,7 +48,7 @@ export function Mission() {
             <QuestCard
               key={q.id}
               quest={q}
-              selected={index === selectedIndex}
+              selected={index === selectedIndex - 2}
             />
           ))}
         </ul>

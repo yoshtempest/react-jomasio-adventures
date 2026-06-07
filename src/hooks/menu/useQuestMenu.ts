@@ -9,6 +9,9 @@ import type { Quest } from "@/utils/types/player/quest";
 
 export type QuestTab = "active" | "completed";
 
+const TAB_COUNT = 2;
+const COLS = 3;
+
 export function useQuestMenu(
   isOpen: boolean,
   allQuests: Quest[],
@@ -28,38 +31,29 @@ export function useQuestMenu(
   const activeQuests = allQuests.filter((q) => !q.completed || !q.claimed);
   const completedQuests = allQuests.filter((q) => q.completed && q.claimed);
   const visibleQuests = activeTab === "active" ? activeQuests : completedQuests;
+  const totalItems = TAB_COUNT + visibleQuests.length;
 
-  // mantém ref sincronizada (evita stale no confirm)
+  // mantém ref sincronizada
   useEffect(() => {
     selectedIndexRef.current = selectedIndex;
   }, [selectedIndex]);
 
+  // scroll automático em quest cards (ignora abas)
   useEffect(() => {
     if (!listRef?.current) return;
 
+    const questIndex = selectedIndex - TAB_COUNT;
+    if (questIndex < 0) return;
+
     const container = listRef.current;
-
-    if (container.children.length === 0) return;
-
-    const selectedElement = container.children[selectedIndex] as HTMLElement;
-
+    const selectedElement = container.children[questIndex] as HTMLElement;
     if (!selectedElement) return;
 
-    const COLS = 3;
-
-    // 👇 calcula em qual linha estamos
-    const rowIndex = Math.floor(selectedIndex / COLS);
-
-    // pega altura de um item (assumindo grid uniforme)
+    const rowIndex = Math.floor(questIndex / COLS);
     const itemHeight = selectedElement.offsetHeight;
-
-    // pega gap (IMPORTANTE)
     const styles = window.getComputedStyle(container);
     const gap = parseInt(styles.rowGap || "0");
-
     const rowHeight = itemHeight + gap;
-
-    // 👇 scroll baseado na linha (não no item)
     const targetScroll = rowIndex * rowHeight;
 
     container.scrollTo({
@@ -68,17 +62,24 @@ export function useQuestMenu(
     });
   }, [selectedIndex]);
 
-  // garante que o índice nunca fique inválido ao trocar de aba
+  // garante índice válido quando totalItems muda
   useEffect(() => {
     setSelectedIndex((prev) =>
-      visibleQuests.length === 0 ? 0 : Math.min(prev, visibleQuests.length - 1)
+      totalItems === 0 ? 0 : Math.min(prev, totalItems - 1)
     );
-  }, [visibleQuests]);
+  }, [totalItems]);
 
-  function handleUseQuest(index: number) {
-    const quest = quests.find((q) => q.id === visibleQuests[index]?.id);
+  function handleUseItem(index: number) {
+    if (index < TAB_COUNT) {
+      const tab: QuestTab = index === 0 ? "active" : "completed";
+      playSelect();
+      setActiveTab(tab);
+      setSelectedIndex(index);
+      return true;
+    }
+
+    const quest = quests.find((q) => q.id === visibleQuests[index - TAB_COUNT]?.id);
     if (!quest) return false;
-
     if (!quest.completed || quest.claimed) return false;
 
     if (quest.rewardsType === "xp" && quest.rewards) {
@@ -96,7 +97,7 @@ export function useQuestMenu(
 
   function switchTab(tab: QuestTab) {
     setActiveTab(tab);
-    setSelectedIndex(0);
+    setSelectedIndex(tab === "active" ? 0 : 1);
   }
 
   useEffect(() => {
@@ -105,33 +106,26 @@ export function useQuestMenu(
     const controls = {
       onRight: () => {
         playMove();
-        setActiveTab((prev) => (prev === "active" ? "completed" : "active"));
-        setSelectedIndex(0);
+        setSelectedIndex((prev) => gridMove(prev, COLS, "right", totalItems));
       },
 
       onLeft: () => {
         playMove();
-        setActiveTab((prev) => (prev === "completed" ? "active" : "completed"));
-        setSelectedIndex(0);
+        setSelectedIndex((prev) => gridMove(prev, COLS, "left", totalItems));
       },
 
       onDown: () => {
         playMove();
-        setSelectedIndex((prev) =>
-          gridMove(prev, 3, "down", visibleQuests.length)
-        );
+        setSelectedIndex((prev) => gridMove(prev, COLS, "down", totalItems));
       },
 
       onUp: () => {
         playMove();
-        setSelectedIndex((prev) =>
-          gridMove(prev, 3, "up", visibleQuests.length)
-        );
+        setSelectedIndex((prev) => gridMove(prev, COLS, "up", totalItems));
       },
 
       onConfirm: () => {
-        playSelect();
-        return handleUseQuest(selectedIndexRef.current);
+        return handleUseItem(selectedIndexRef.current);
       },
 
       blockGlobalOpen: true,
@@ -139,7 +133,7 @@ export function useQuestMenu(
 
     pushControls(controls);
     return () => popControls();
-  }, [isOpen, visibleQuests, activeTab]);
+  }, [isOpen, totalItems]);
 
   return {
     selectedIndex,

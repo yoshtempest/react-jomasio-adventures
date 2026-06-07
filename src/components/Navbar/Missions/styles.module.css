@@ -45,6 +45,11 @@
   border-color: #2e7d32;
 }
 
+.tabSelected {
+  outline: 2px solid yellow;
+  outline-offset: 1px;
+}
+
 .empty {
   text-align: center;
   color: #666;

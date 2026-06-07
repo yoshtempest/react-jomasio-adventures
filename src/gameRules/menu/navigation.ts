@@ -9,7 +9,7 @@ export function circularPrev(index: number, length: number) {
 export function gridMove(
   index: number,
   cols: number,
-  direction: "up" | "down",
+  direction: "up" | "down" | "left" | "right",
   length: number
 ) {
   if (direction === "down") {
@@ -17,6 +17,16 @@ export function gridMove(
     return next >= length ? index : next;
   }
 
-  const next = index - cols;
+  if (direction === "up") {
+    const next = index - cols;
+    return next < 0 ? index : next;
+  }
+
+  if (direction === "right") {
+    const next = index + 1;
+    return next >= length ? index : next;
+  }
+
+  const next = index - 1;
   return next < 0 ? index : next;
 }
