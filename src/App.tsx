@@ -39,7 +39,7 @@ function App() {
     if (save.character && isCharacter(save.character)) {
       setCharacter(save.character);
     }
-  }, []);
+  }, [setItems, setQuests, chooseClass, setCharacter]);
 
   return (
     <div className="app">
