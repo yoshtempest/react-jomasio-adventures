@@ -4,11 +4,11 @@ export function getHallOneInitialPosition(lastPage?: LastPage) {
   }
 
   if (lastPage === "/pcroom/one") {
-    return { x: 12, y: 7, direction: "left" };
+    return { x: 11, y: 7, direction: "left" };
   }
 
   if (lastPage === "/hall/left-one") {
-    return { x: 2, y: 10, direction: "right" };
+    return { x: 3, y: 8, direction: "right" };
   }
 
   return { x: 9, y: 10, direction: "up" };

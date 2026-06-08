@@ -6,6 +6,6 @@ import {
 
 export const hallThirdClassTiles = [
     createDoorTile(3, 7, OTHER_ROUTES.BRODI_CLASS),
-    createDoorTile(8, 5, OTHER_ROUTES.LIBRARY),
-    createDoorTile(9, 11, HALL_ROUTES.CENTER_FRONT),
+    createDoorTile(8, 3, OTHER_ROUTES.LIBRARY),
+    createDoorTile(8, 11, HALL_ROUTES.CENTER_FRONT),
 ];

@@ -1,5 +1,5 @@
 import { createNpc } from "@/scenes/shared/factories";
 
 export const afterPcRoomOneNpcs = [
-  createNpc("/assets/npcs/remedinha/default.svg", 1, 9),
+  createNpc("/assets/npcs/remedinha/default.svg", 4, 7),
 ];

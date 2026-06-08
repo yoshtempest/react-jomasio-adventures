@@ -12,12 +12,12 @@ export const hallOneTiles = [
         HALL_ROUTES.JAILSON_ONE
     ),
     createDoorTile(
-        1,
-        10,
+        2,
+        8,
         HALL_ROUTES.LEFT_ONE
     ),
     createDoorTile(
-        13,
+        12,
         7,
         PCROOM_ROUTES.ONE
     ),
