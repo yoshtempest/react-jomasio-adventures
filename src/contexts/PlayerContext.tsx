@@ -102,8 +102,18 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   } = useBattleMovement(setPlayer);
 
   const attack = () => {
+    if (player.state !== "idle") return;
+
     if (player.character === "eduarda") {
       const audio = new Audio(asset("/assets/songs/soundEffects/player/eduarda/normalAttack.mp3"));
+      audio.volume = 0.2;
+      audio.play().catch(() => {});
+    }
+
+    if (player.character === "marcelo") {
+      const sounds = ["sword-slash-1", "sword-slash-2", "sword-slash-4"];
+      const pick = sounds[Math.floor(Math.random() * sounds.length)];
+      const audio = new Audio(asset(`/assets/songs/soundEffects/player/marcelo/${pick}.mp3`));
       audio.volume = 0.2;
       audio.play().catch(() => {});
     }
