@@ -12,12 +12,12 @@ export const hellTiles = [
       7,
       (_player, quests) => {
       if (hasQuest(quests, "go_to_hell")) {
-          return HELLROOM_ROUTES.ONE;
+        return HELLROOM_ROUTES.ONE;
       }
       return null;
       },
       {
-          blockedMessage: "Porta trancada"
+        blockedMessage: "Porta trancada"
       }
   ),
 ];
