@@ -16,7 +16,8 @@ export function useCharacterMenu() {
   const selectableCharacters = CHARACTERS.filter((c) =>
     c.selectable ||
     (c.image === "samuel" && hasFlag("samurionUnlocked")) ||
-    (c.image === "lucas" && hasFlag("yvelUnlocked"))
+    (c.image === "lucas" && hasFlag("yvelUnlocked")) ||
+    (c.image === "artur" && hasFlag("srGuaxinimUnlocked"))
   );
 
   const characters = CHARACTERS.map((c) => ({
@@ -24,7 +25,8 @@ export function useCharacterMenu() {
     selectable:
       c.selectable ||
       (c.image === "samuel" && hasFlag("samurionUnlocked")) ||
-      (c.image === "lucas" && hasFlag("yvelUnlocked")),
+      (c.image === "lucas" && hasFlag("yvelUnlocked")) ||
+      (c.image === "artur" && hasFlag("srGuaxinimUnlocked")),
   }));
 
   const [selectedIndex, setSelectedIndex] = useState(0);

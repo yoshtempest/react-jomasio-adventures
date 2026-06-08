@@ -56,6 +56,7 @@ const HungryDeathBattle = lazyLoad(() => import('./pages/Battle/Hungry/index.tsx
 const CafeteriaBattle = lazyLoad(() => import('./pages/Cafeteria/Battle/index.tsx'));
 const CafeteriaPage = lazyLoad(() => import('./pages/Cafeteria/index.tsx'));
 const BrodiClassOne = lazyLoad(() => import('./pages/BrodiClass/index.tsx'));
+const BrodiclassBattle = lazyLoad(() => import('./pages/BrodiClass/Battle/index.tsx'));
 const HellroomPage = lazyLoad(() => import('./pages/HellRoom/index.tsx'));
 const HellroomBattle = lazyLoad(() => import('./pages/HellRoom/Battle/index.tsx'));
 import JailsonHallBattle from './pages/Hall/Battle/One/index.tsx';
@@ -113,7 +114,7 @@ root.render(
                                   <Route index element={<Navigate to="/hall/one" />} />
                                   <Route path=":id" element={<HallPage />} />
                                   <Route path="jailson/battle" element={<JailsonHallBattle />} />
-                                  <Route path="hall/center/battle" element={<PlanetarySistersBattle />} />
+                                  <Route path="center/battle" element={<PlanetarySistersBattle />} />
                                 </Route>
 
                                 <Route path="director">
@@ -153,6 +154,7 @@ root.render(
                                 <Route path="battle/jhowsimar" element={<JhowSimarBattle />} />
                                 <Route path="battle/goat" element={<GoatBattle />} />
                                 <Route path="brodiclass/one" element={<BrodiClassOne/>} />
+                                <Route path="brodiclass/battle" element={<BrodiclassBattle />} /> 
                               </Route>
                             </Routes>
                           </Suspense>

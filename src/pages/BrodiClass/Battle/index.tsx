@@ -8,9 +8,10 @@ export default function BrodiclassBattle() {
   return (
     <BattleScene
       npcType="srGuaxinim"
-      redirectTo="/hellroom/three"
+      redirectTo="/brodiclass/one"
       onVictory={() => {
         setFlag("srGuaxinim");
+        setFlag("srGuaxinimUnlocked");
       }}
       victoryDescription="Você derrotou Sr.Guaxinim e se livrou momentaneamente da fúria de Baal."
       className="hellroomBattle"

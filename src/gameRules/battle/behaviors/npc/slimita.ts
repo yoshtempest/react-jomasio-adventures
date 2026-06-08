@@ -77,7 +77,7 @@ export function slimitaBehavior(ctx: BehaviorContext) {
         elapsed / duration,
         1
       );
-      const GROUND_Y = 600;
+      const GROUND_Y = 720;
 
       const height = Math.sin(progress * Math.PI) * 200;
 
