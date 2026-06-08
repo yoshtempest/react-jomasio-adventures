@@ -17,7 +17,7 @@ export const arcadeSpecialEventDialogue = [
     {
         isPlayer: true,
         name: "Protagonista",
-        message: "Que legal, é justo o número dos atacantes de futebol né, como um protagonista...",
+        message: "Que legal, é justo o número dos atacantes de futebol né, como um protagonista de 2011...",
     },
     {
         src: "/assets/player/lucas/default.svg",
