@@ -1,4 +1,4 @@
-export function getFootballCourtOneInitialPosition(lastPage?: LastPage) {
+export function getFootballCourtOneInitialPosition(lastPage?: LastPage): ExplorePosition {
     if (
         lastPage === "/director/two"
        ) {

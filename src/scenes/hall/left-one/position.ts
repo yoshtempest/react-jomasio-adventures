@@ -1,4 +1,4 @@
-export function getHallLeftOneInitialPosition(lastPage?: LastPage) {
+export function getHallLeftOneInitialPosition(lastPage?: LastPage): ExplorePosition {
   if (lastPage === "/hall/center-one") {
     return { x: 8, y: 3, direction: "down" };
   }

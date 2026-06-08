@@ -1,4 +1,4 @@
-export function getAfterPcRoomOneInitialPosition(lastPage?: LastPage) {
+export function getAfterPcRoomOneInitialPosition(lastPage?: LastPage): ExplorePosition {
   if (lastPage === "/pcroom/six") {
     return { x: 11, y: 7, direction: "left" };
   }

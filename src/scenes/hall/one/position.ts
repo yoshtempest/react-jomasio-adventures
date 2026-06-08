@@ -1,4 +1,4 @@
-export function getHallOneInitialPosition(lastPage?: LastPage) {
+export function getHallOneInitialPosition(lastPage?: LastPage): ExplorePosition {
   if (lastPage?.startsWith("/hall/jailson")) {
     return { x: 8, y: 3, direction: "down" };
   }
