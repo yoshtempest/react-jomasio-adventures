@@ -43,9 +43,7 @@ export function BattleHUD({
         <div style={{ position: "absolute", top: 0, right: 80 }}>
           <h2 className={styles.name}>{npcType}</h2>
 
-          <div style={{ transform: "scaleX(-1)" }}>
-            <HealthBar hp={battle.npcHP} maxHp={npcStats.hp} />
-          </div>
+          <HealthBar hp={battle.npcHP} maxHp={npcStats.hp} reversed />
         </div>
         <img
           src={asset(`/assets/npcs/${npcType}/face.svg`)}
