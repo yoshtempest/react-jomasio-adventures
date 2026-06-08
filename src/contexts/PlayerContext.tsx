@@ -6,6 +6,7 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import type { NpcDifficulty } from "@/utils/types/npc/npcProgress";
 import { usePlayerAnimation } from "@/hooks/battle/usePlayerAnimation";
+import { asset } from "@/utils/asset";
 
 type PlayerContextType = {
   player: Player;
@@ -96,9 +97,19 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     stopMoveRight,
     moveDownBattle,
     releaseDownBattle, // 👈 AQUI
-    attack,
+    attack: rawAttack,
     special,
   } = useBattleMovement(setPlayer);
+
+  const attack = () => {
+    if (player.character === "eduarda") {
+      const audio = new Audio(asset("/assets/songs/soundEffects/player/eduarda/normalAttack.mp3"));
+      audio.volume = 0.2;
+      audio.play().catch(() => {});
+    }
+
+    rawAttack();
+  };
 
   function setMap(map: number[][]) {
     setCurrentMap(map);
