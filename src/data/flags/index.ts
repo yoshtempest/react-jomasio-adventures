@@ -22,4 +22,10 @@ export const FLAGS = {
   samurionUnlocked: { id: "samurionUnlocked"},
   yvelUnlocked: { id: "yvelUnlocked"},
   srGuaxinimUnlocked: { id: "srGuaxinimUnlocked" },
+  ematronUnlocked: { id: "ematronUnlocked" },
+  kamykazeUnlocked: { id: "kamykazeUnlocked" },
+  yraUnlocked: { id: "yraUnlocked" },
+  laricellUnlocked: { id: "laricellUnlocked" },
+  babidiUnlocked: { id: "babidiUnlocked" },
+  riquelsonUnlocked: { id: "riquelsonUnlocked" },
 } as const;
