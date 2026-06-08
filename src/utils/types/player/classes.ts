@@ -7,11 +7,11 @@ export const CLASSES: PlayerClass[] = [
 ];
 
 export const SPECIAL_HITS_BY_CLASS = {
-  fracote: 5,
+  fracote: 4,
   default: 6,
 };
 
 export const CLASS_DAMAGE_MODIFIER = {
-  amostradinho: 1.01,
-  idiota: 0.92,
+  amostradinho: 1.1,
+  idiota: 0.8,
 };

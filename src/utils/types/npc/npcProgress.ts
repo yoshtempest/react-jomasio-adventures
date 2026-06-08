@@ -12,27 +12,27 @@ export function getNpcStats(
 
   const difficultyMultipliers = {
     easy: {
-      common: { hp: 1, dmg: 0.25 },
-      rare: { hp: 2.5, dmg: 0.5 },
-      epic: { hp: 4.5, dmg: 1 },
-      boss: { hp: 7.5, dmg: 2 },
-      legendary: { hp: 12, dmg: 4 },
+      common: { hp: 0.2, dmg: 0.08 },
+      rare: { hp: 0.5, dmg: 0.20 },
+      epic: { hp: 1.2, dmg: 0.50 },
+      boss: { hp: 2.5, dmg: 1.20 },
+      legendary: { hp: 4.0, dmg: 2.00 },
     },
 
     medium: {
-      common: { hp: 2, dmg: 0.5 },
-      rare: { hp: 4, dmg: 1 },
-      epic: { hp: 8, dmg: 2 },
-      boss: { hp: 12, dmg: 3 },
-      legendary: { hp: 16, dmg: 5 },
+      common: { hp: 0.8, dmg: 0.30 },
+      rare: { hp: 1.8, dmg: 0.70 },
+      epic: { hp: 3.5, dmg: 1.50 },
+      boss: { hp: 6.0, dmg: 2.80 },
+      legendary: { hp: 10.0, dmg: 4.00 },
     },
 
     hard: {
-      common: { hp: 2, dmg: 1 },
-      rare: { hp: 5, dmg: 2 },
-      epic: { hp: 9, dmg: 3 },
-      boss: { hp: 15, dmg: 6 },
-      legendary: { hp: 25, dmg: 12 },
+      common: { hp: 2.0, dmg: 0.80 },
+      rare: { hp: 4.0, dmg: 1.80 },
+      epic: { hp: 7.0, dmg: 3.00 },
+      boss: { hp: 12.0, dmg: 5.00 },
+      legendary: { hp: 18.0, dmg: 9.00 },
     },
   };
 

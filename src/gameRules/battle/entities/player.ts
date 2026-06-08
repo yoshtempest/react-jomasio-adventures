@@ -1,3 +1,3 @@
 export function getPlayerMaxHp(baseHp: number) {
-  return 90 + baseHp * 10;
+  return 90 + baseHp * 15;
 }

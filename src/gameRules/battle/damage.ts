@@ -2,26 +2,26 @@ export function calculatePlayerDamage(
   strength: number,
   playerClass: string | null
 ) {
-  let dmg = 6 + strength;
+  let dmg = 12 + strength;
 
   if (playerClass === "amostradinho") {
-    dmg *= 1.01;
+    dmg *= 1.1;
   }
 
-  return dmg;
+  return Math.round(dmg);
 }
 
 export function calculateSpecialDamage(
   intelligence: number,
   playerClass: string | null
 ) {
-  let dmg = 13 + intelligence * 2;
+  let dmg = 18 + intelligence * 3;
 
   if (playerClass === "amostradinho") {
-    dmg *= 1.01;
+    dmg *= 1.1;
   }
 
-  return dmg;
+  return Math.round(dmg);
 }
 
 export function calculateNpcDamage(
@@ -29,8 +29,8 @@ export function calculateNpcDamage(
   playerClass: string | null
 ) {
   if (playerClass === "idiota") {
-    return baseDamage * 0.92;
+    return Math.round(baseDamage * 0.8);
   }
 
-  return baseDamage;
+  return Math.round(baseDamage);
 }
