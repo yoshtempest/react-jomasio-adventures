@@ -1,3 +1,3 @@
 export function getLibraryOneInitialPosition(): ExplorePosition {
-    return { x: 8, y: 11, direction: "up" };
+    return { x: 4, y: 4, direction: "down" };
 }
