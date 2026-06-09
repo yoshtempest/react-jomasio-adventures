@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useGameAudio } from "@/hooks/useGameAudio";
@@ -13,12 +13,10 @@ import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { useLocation } from "react-router";
-import { calculatePlayerDamage } from "@/gameRules/battle/damage";
 import { calculateNpcDamage } from "@/gameRules/battle/damage";
-import { isPlayerInRange } from "@/gameRules/battle/range";
-import { isFacingTarget } from "@/gameRules/battle/direction";
 import { useBattleRewards } from "@/hooks/battle/useBattleRewards";
 import { useSummons } from "@/hooks/battle/useSummons";
+import { usePlayerBattleActions } from "@/hooks/battle/usePlayerBattleActions";
 
 type Props = {
   npcType: string;
@@ -43,7 +41,6 @@ export function useBattleScene({
     special,
     resetBattleState,
     difficulty,
-    addCoins,
     playerClass
   } = usePlayer();
 
@@ -53,7 +50,6 @@ export function useBattleScene({
   } = useGameControls();
   
   const {
-    addXP,
     progress,
     getXPToNextLevel
   } = useCharacterProgress();
@@ -140,6 +136,22 @@ export function useBattleScene({
       giveRewards();
       triggerVictory();
     },
+  });
+
+  const {
+    handlePlayerHit,
+    handleSpecialHit,
+  } = usePlayerBattleActions({
+    player,
+    npc,
+    summons,
+    setSummons,
+    npcHP: battle.npcHP,
+    playerClass,
+    progress,
+    npcLevel,
+    battle,
+    giveSummonRewards,
   });
 
   // Track NPC position for summon spawns
@@ -231,117 +243,6 @@ export function useBattleScene({
     return () => timeouts.forEach(clearTimeout);
   }, [summons]);
 
-  const handlePlayerHit = useCallback(() => {
-    if (!battle.playerCooldown.current || battle.isEnding.current) return;
-
-    const targets: { id: string; x: number; y: number }[] = [];
-
-    if (battle.npcHP > 0) targets.push({ id: "main", x: npc.x, y: npc.y });
-    for (const s of summons) {
-      if (s.hp > 0 && !s.isDying) targets.push({ id: s.id, x: s.x, y: s.y });
-    }
-
-    targets.sort((a, b) => {
-      const da = Math.abs(player.x - a.x);
-      const db = Math.abs(player.x - b.x);
-      return da - db;
-    });
-
-    const char = progress[player.character];
-
-    for (const target of targets) {
-      if (target.id === "main") {
-        battle.playerHit();
-        return;
-      }
-
-      if (
-        isPlayerInRange(
-          player.x,
-          player.y,
-          target.x,
-          target.y,
-          player.state,
-          player.character,
-          false
-        ) &&
-        isFacingTarget(
-          player.x,
-          player.y,
-          target.x,
-          target.y,
-          player.battleDirection
-        )
-      ) {
-        const targetSummon = summons.find(s => s.id === target.id);
-        if (!targetSummon) return;
-
-        const dmg = Math.round(calculatePlayerDamage(char.stats.strength, playerClass));
-        const newHp = Math.max(0, Math.round(targetSummon.hp) - dmg);
-
-        if (newHp <= 0) {
-          giveSummonRewards("rare");
-        }
-
-        setSummons(prev => prev.map(s =>
-          s.id === target.id ? { ...s, hp: newHp } : s
-        ));
-        return;
-      }
-    }
-  }, [
-    player.x,
-    player.y,
-    player.state,
-    player.battleDirection,
-    player.character,
-    npc.x, npc.y,
-    battle.npcHP,
-    summons,
-    playerClass,
-    progress,
-    battle.playerCooldown,
-    battle.isEnding,
-    battle.playerHit,
-    addXP,
-    addCoins,
-    npcLevel
-  ]);
-
-  const handleSpecialHit = useCallback(() => {
-    if (!battle.playerCooldown.current || battle.isEnding.current) return;
-
-    const targets: { id: string; x: number; y: number }[] = [];
-
-    if (battle.npcHP > 0) targets.push({ id: "main", x: npc.x, y: npc.y });
-    for (const s of summons) {
-      if (s.hp > 0 && !s.isDying) targets.push({ id: s.id, x: s.x, y: s.y });
-    }
-
-    targets.sort((a, b) => {
-      const da = Math.abs(player.x - a.x);
-      const db = Math.abs(player.x - b.x);
-      return da - db;
-    });
-
-    for (const target of targets) {
-      if (target.id === "main") {
-        battle.specialHit();
-        return;
-      }
-    }
-  }, [
-    player.x,
-    player.y,
-    player.character,
-    npc.x, npc.y,
-    battle.npcHP,
-    summons,
-    progress,
-    battle.playerCooldown,
-    battle.isEnding,
-    battle.specialHit
-  ]);
 
   const attackRef = useRef(attack);
   const specialRef = useRef(special);

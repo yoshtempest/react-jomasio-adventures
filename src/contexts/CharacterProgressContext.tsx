@@ -15,7 +15,7 @@ export type CharacterProgress = {
   stats: CharacterStats;
 };
 
-type CharactersProgress = Record<Character, CharacterProgress>;
+export type CharactersProgress = Record<Character, CharacterProgress>;
 
 type ContextType = {
   progress: CharactersProgress;
