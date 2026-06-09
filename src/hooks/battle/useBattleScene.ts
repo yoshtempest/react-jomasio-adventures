@@ -8,20 +8,17 @@ import { useVictory } from "@/hooks/useVictory";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { NPCS } from "@/data/npc";
 import { generateNpcLevel } from "@/utils/generateNpcLevel";
-import { calculateXP } from "@/utils/calculateXp";
 import { useNavigate } from "react-router";
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
-import { useEquipment } from "@/contexts/EquipmentContext";
-import { rollDrop } from "@/data/equipment/drops";
-import { EQUIPMENT_LIST } from "@/data/equipment";
 import { useLocation } from "react-router";
 import { calculatePlayerDamage } from "@/gameRules/battle/damage";
 import { calculateNpcDamage } from "@/gameRules/battle/damage";
 import { isPlayerInRange } from "@/gameRules/battle/range";
 import { isFacingTarget } from "@/gameRules/battle/direction";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
+import { useBattleRewards } from "@/hooks/battle/useBattleRewards";
 
 type Props = {
   npcType: string;
@@ -43,7 +40,6 @@ export function useBattleScene({
   const { pushControls, popControls } = useGameControls();
   const { addXP, progress, getXPToNextLevel } = useCharacterProgress();
   const { closeInventory } = useInventory();
-  const { addDrop } = useEquipment();
   const { closeNavbar } = useNavbar();
 
   const [showDefeat, setShowDefeat] = useState(false);
@@ -54,16 +50,15 @@ export function useBattleScene({
   const summonLastAttacksRef = useRef<Record<string, number>>({});
 
   const npcData = NPCS[npcType];
-  const xpReward = calculateXP(npcLevel, npcData.class) ?? 0;
 
-  const COIN_REWARDS: Record<string, number> = {
-    common: 5,
-    rare: 10,
-    epic: 25,
-    boss: 50,
-    legendary: 100,
-  };
-  const coinReward = (COIN_REWARDS[npcData.class] ?? 0) * npcLevel;
+  const {
+    xpReward,
+    giveRewards,
+    giveSummonRewards,
+  } = useBattleRewards({
+    npcClass: npcData.class,
+    npcLevel,
+  });
 
   const charProgress = progress[player.character];
   const xpNeeded = getXPToNextLevel(charProgress.level);
@@ -137,18 +132,7 @@ export function useBattleScene({
     difficulty,
     onPlayerDeath: () => setShowDefeat(true),
     onNpcDeath: () => {
-      addXP(player.character, xpReward);
-      addCoins(coinReward);
-
-      const droppedRank = rollDrop(npcData.class);
-      if (droppedRank) {
-        const pool = EQUIPMENT_LIST.filter((e) => e.rank === droppedRank);
-        if (pool.length > 0) {
-          const picked = pool[Math.floor(Math.random() * pool.length)];
-          addDrop(player.character, picked.id);
-        }
-      }
-
+      giveRewards();
       triggerVictory();
     },
   });
@@ -267,8 +251,22 @@ export function useBattleScene({
       }
 
       if (
-        isPlayerInRange(player.x, player.y, target.x, target.y, player.state, player.character, false) &&
-        isFacingTarget(player.x, player.y, target.x, target.y, player.battleDirection)
+        isPlayerInRange(
+          player.x,
+          player.y,
+          target.x,
+          target.y,
+          player.state,
+          player.character,
+          false
+        ) &&
+        isFacingTarget(
+          player.x,
+          player.y,
+          target.x,
+          target.y,
+          player.battleDirection
+        )
       ) {
         const targetSummon = summons.find(s => s.id === target.id);
         if (!targetSummon) return;
@@ -277,10 +275,7 @@ export function useBattleScene({
         const newHp = Math.max(0, Math.round(targetSummon.hp) - dmg);
 
         if (newHp <= 0) {
-          const goatXp = calculateXP(npcLevel, "rare") ?? 0;
-          const goatCoins = (COIN_REWARDS["rare"] ?? 0) * npcLevel;
-          addXP(player.character, goatXp);
-          addCoins(goatCoins);
+          giveSummonRewards("rare");
         }
 
         setSummons(prev => prev.map(s =>
@@ -289,7 +284,24 @@ export function useBattleScene({
         return;
       }
     }
-  }, [player.x, player.y, player.state, player.battleDirection, player.character, npc.x, npc.y, battle.npcHP, summons, playerClass, progress, battle.playerCooldown, battle.isEnding, battle.playerHit, addXP, addCoins, npcLevel]);
+  }, [
+    player.x,
+    player.y,
+    player.state,
+    player.battleDirection,
+    player.character,
+    npc.x, npc.y,
+    battle.npcHP,
+    summons,
+    playerClass,
+    progress,
+    battle.playerCooldown,
+    battle.isEnding,
+    battle.playerHit,
+    addXP,
+    addCoins,
+    npcLevel
+  ]);
 
   const handleSpecialHit = useCallback(() => {
     if (!battle.playerCooldown.current || battle.isEnding.current) return;
