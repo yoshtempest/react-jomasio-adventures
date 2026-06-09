@@ -1,15 +1,15 @@
 import { librarySecretPassage } from "@/maps/hall/librarySecretPassage";
-import { getHallLibrarySecretPassageInitialPosition } from "./position";
+import { getSecretPassageInitialPosition } from "./position";
 import { MUSICS } from "@/scenes/shared/music";
 import type { SceneConfig } from "@/utils/types/maps/sceneConfig";
-import { librarySecretPassageTiles } from "./tiles";
+import { secretPassageTiles } from "./tiles";
 
 
-export const oneScene: SceneConfig = {
+export const threeScene: SceneConfig = {
   id: "one",
   className: "LibrarySecretPassage",
-  initialPosition: getHallLibrarySecretPassageInitialPosition,
+  initialPosition: getSecretPassageInitialPosition,
   map: librarySecretPassage,
   audio: { src: MUSICS.default },
-  tiles: librarySecretPassageTiles,
+  tiles: secretPassageTiles,
 };

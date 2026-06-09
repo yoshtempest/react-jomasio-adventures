@@ -1,4 +1,4 @@
-export function getHallLibrarySecretPassageInitialPosition(lastPage?: LastPage): ExplorePosition {
+export function getSecretPassageInitialPosition(lastPage?: LastPage): ExplorePosition {
   if (lastPage?.startsWith("/hall/jailson")) {
     return { x: 8, y: 3, direction: "down" };
   }
