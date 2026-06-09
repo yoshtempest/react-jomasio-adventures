@@ -1,6 +1,6 @@
 import { createConditionalTile } from "@/scenes/shared/factories";
 import {
-    OTHER_ROUTES,
+    DIRECTOR_ROUTES,
     HALL_ROUTES,
     CAFETERIA_ROUTES
 } from "@/scenes/shared/routes";
@@ -25,7 +25,7 @@ export const cantinaOneTiles = [
         3,
         (_player, quests) => {
         if (hasQuest(quests, "director_escape")) {
-            return OTHER_ROUTES.DIRECTOR_TWO;
+            return DIRECTOR_ROUTES.TWO;
         }
         return null;
         },

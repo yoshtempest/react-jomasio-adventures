@@ -148,7 +148,7 @@ root.render(
                                   <Route path="battle/three" element={<PcRoomBattleThree />} />
                                 </Route>
 
-                                <Route path="library" element={<Library />} />
+                                <Route path="library/one" element={<Library />} />
                                 <Route path="battle/hungry" element={<HungryDeathBattle />} />
                                 <Route path="battle/vandinhafragment" element={<VandinhaFragmentBattle />} />
                                 <Route path="battle/jhowsimar" element={<JhowSimarBattle />} />

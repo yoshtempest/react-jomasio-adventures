@@ -5,7 +5,7 @@ import {
 
 import {
   HALL_ROUTES, 
-  OTHER_ROUTES,
+  CANTINA_ROUTES,
   PCROOM_ROUTES
 } from "@/scenes/shared/routes";
 import { hasQuest } from "@/scenes/shared/helpers";
@@ -27,6 +27,6 @@ export const afterPcRoomOneTiles = [
   ),
 
   createDoorTile(12, 7, PCROOM_ROUTES.SIX),
-  createDoorTile(8, 11, OTHER_ROUTES.CANTINA_TWO),
+  createDoorTile(8, 11, CANTINA_ROUTES.TWO),
   createDoorTile(2, 8, HALL_ROUTES.LEFT_ONE),
 ];

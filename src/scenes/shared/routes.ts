@@ -9,7 +9,6 @@ export const HALL_ROUTES = {
   THIRD_CLASS: "/hall/thirdclass",
   HELL: "/hall/hell",
   PANDEMONY: "/hall/pandemony",
-  LIBRARY_SECRET_PASSAGE: "/hall/library-secret-passage",
 };
 
 export const PCROOM_ROUTES = {
@@ -22,15 +21,29 @@ export const PCROOM_ROUTES = {
   SEVEN: "/pcroom/seven",
 };
 
-export const OTHER_ROUTES = {
-  CANTINA_TWO: "/cantina/two",
-  LIBRARY: "/library",
-  LIBRARY_TWO: "/library/two",
-  BRODI_CLASS: "/brodiclass/one",
-  DIRECTOR_ONE: "/director/one",
-  DIRECTOR_TWO: "/director/two",
-  FOOTBALLCOURT_ONE: "/footballcourt/one",
-  FOOTBALLCOURT_TWO: "/footballcourt/two",
+export const CANTINA_ROUTES = {
+  ONE: "/cantina/one",
+  TWO: "/cantina/two"
+}
+
+export const BRODICLASS_ROUTES = {
+  ONE: "/brodiclass/one"
+}
+
+export const DIRECTOR_ROUTES = {
+  ONE: "/director/one",
+  TWO: "/director/two",
+};
+
+export const FOOTBALLCOURT_ROUTES = {
+  ONE: "/footballcourt/one",
+  TWO: "/footballcourt/two",
+};
+
+export const LIBRARY_ROUTES = {
+  ONE: "/library/one",
+  TWO: "/library/two",
+  THREE: "/library/secret-passage"
 };
 
 export const CAFETERIA_ROUTES = {

@@ -1,7 +1,7 @@
 import { createDoorTile } from "@/scenes/shared/factories";
 import {
     HALL_ROUTES,
-    OTHER_ROUTES,
+    CANTINA_ROUTES,
     PCROOM_ROUTES
 } from "@/scenes/shared/routes";
 
@@ -24,6 +24,6 @@ export const hallOneTiles = [
     createDoorTile(
         8,
         11,
-        OTHER_ROUTES.CANTINA_TWO
+        CANTINA_ROUTES.TWO
     )
 ];

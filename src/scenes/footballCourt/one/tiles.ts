@@ -1,6 +1,6 @@
 import { createDoorTile } from "@/scenes/shared/factories";
-import { HALL_ROUTES } from "@/scenes/shared/routes";
+import { LIBRARY_ROUTES } from "@/scenes/shared/routes";
 
 export const footballCourtOneTiles = [
-    createDoorTile(8, 11, HALL_ROUTES.LIBRARY_SECRET_PASSAGE),
+    createDoorTile(8, 11, LIBRARY_ROUTES.THREE),
 ];
