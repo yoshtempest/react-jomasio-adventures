@@ -42,6 +42,24 @@ export function useNpcAI({
 
   const projectileRef = useRef(projectile);
   projectileRef.current = projectile;
+  const playerXRef = useRef(playerX);
+  playerXRef.current = playerX;
+  const playerYRef = useRef(playerY);
+  playerYRef.current = playerY;
+  const npcPhaseRef = useRef(npcPhase);
+  npcPhaseRef.current = npcPhase;
+  const forceIdleRef = useRef(forceIdle);
+  forceIdleRef.current = forceIdle;
+  const isPausedRef = useRef(isPaused);
+  isPausedRef.current = isPaused;
+  const npcTypeRef = useRef(npcType);
+  npcTypeRef.current = npcType;
+  const onProjectileHitRef = useRef(onProjectileHit);
+  onProjectileHitRef.current = onProjectileHit;
+  const onMeleeHitRef = useRef(onMeleeHit);
+  onMeleeHitRef.current = onMeleeHit;
+  const onSummonRef = useRef(onSummon);
+  onSummonRef.current = onSummon;
   const lastAttackRef = useRef(0);
   const summonTimerRef = useRef(0);
   useProjectile(
@@ -72,52 +90,42 @@ export function useNpcAI({
   useEffect(() => {
     const interval = setInterval(() => {
       setNpc((n) => {
-        if (isPaused) return n;
-        const p = projectileRef.current; // valor fresco via ref
+        if (isPausedRef.current) return n;
+        const p = projectileRef.current;
 
         const behavior =
-          npcBehaviors[npcType] || npcBehaviors.default;
+          npcBehaviors[npcTypeRef.current] || npcBehaviors.default;
 
         const result = behavior({
           npc: n,
-          playerX,
-          npcPhase,
-          playerY,
+          playerX: playerXRef.current,
+          npcPhase: npcPhaseRef.current,
+          playerY: playerYRef.current,
           projectile: p,
           setProjectile,
           lastAttackRef,
-          onProjectileHit,
-          onMeleeHit,
+          onProjectileHit: onProjectileHitRef.current,
+          onMeleeHit: onMeleeHitRef.current,
           setForceIdle,
-          onSummon,
+          onSummon: onSummonRef.current,
           summonTimerRef,
         });
 
-        const direction = playerX < n.x ? "left" : "right";
-        const distanceX = Math.abs(n.x - playerX);
+        const direction = playerXRef.current < n.x ? "left" : "right";
+        const distanceX = Math.abs(n.x - playerXRef.current);
 
         return {
           ...n,
           x: result.x,
           y: result.y ?? n.y,
           direction,
-          state: forceIdle ? "idle" : distanceX > 80 ? "walk" : "idle",
+          state: forceIdleRef.current ? "idle" : distanceX > 80 ? "walk" : "idle",
         };
       });
     }, 20);
 
     return () => clearInterval(interval);
-  },
-  [
-    playerX,
-    playerY,
-    isPaused,
-    npcType,
-    forceIdle,
-    onProjectileHit,
-    onMeleeHit,
-    onSummon,
-  ]);
+  }, []);
 
   return {
     ...npc,

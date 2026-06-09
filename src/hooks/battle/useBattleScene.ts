@@ -21,7 +21,6 @@ import { calculatePlayerDamage } from "@/gameRules/battle/damage";
 import { calculateNpcDamage } from "@/gameRules/battle/damage";
 import { isPlayerInRange } from "@/gameRules/battle/range";
 import { isFacingTarget } from "@/gameRules/battle/direction";
-import { CHARACTER_RANGE_X } from "@/gameRules/battle/rangeConfig";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 
 type Props = {
@@ -82,6 +81,11 @@ export function useBattleScene({
 
   const npcRangedAttackRef = useRef<() => void>(() => {});
   const npcMeleeAttackRef = useRef<() => void>(() => {});
+
+  const playerXRef = useRef(player.x);
+  playerXRef.current = player.x;
+  const playerYRef = useRef(player.y);
+  playerYRef.current = player.y;
 
   const SPAWN_POSITIONS = [700, 1050];
 
@@ -175,15 +179,21 @@ export function useBattleScene({
   }, []);
 
   const isPaused = showVictory || showDefeat || showIntro;
+  const isPausedRef = useRef(isPaused);
+  isPausedRef.current = isPaused;
 
   // Summon AI — chase + melee
   useEffect(() => {
     const interval = setInterval(() => {
+      if (isPausedRef.current) return;
+
+      const px = playerXRef.current;
+
       setSummons(prev => prev.map(s => {
         if (s.isDying || s.hp <= 0) return s;
 
-        const speed = Math.abs(s.x - player.x) > 200 ? 3 : 1.5;
-        const dx = player.x - s.x;
+        const speed = Math.abs(s.x - px) > 200 ? 3 : 1.5;
+        const dx = px - s.x;
         const direction: "left" | "right" = dx > 0 ? "right" : "left";
 
         let newX = s.x;
@@ -215,7 +225,7 @@ export function useBattleScene({
     }, 20);
 
     return () => clearInterval(interval);
-  }, [player.x, player.y, npcLevel, difficulty, playerClass, isPaused]);
+  }, []);
 
   // Remove dead summons after delay
   useEffect(() => {
@@ -297,15 +307,24 @@ export function useBattleScene({
       return da - db;
     });
 
-    const char = progress[player.character];
-
     for (const target of targets) {
       if (target.id === "main") {
         battle.specialHit();
         return;
       }
     }
-  }, [player.x, player.y, player.character, npc.x, npc.y, battle.npcHP, summons, progress, battle.playerCooldown, battle.isEnding, battle.specialHit]);
+  }, [
+    player.x,
+    player.y,
+    player.character,
+    npc.x, npc.y,
+    battle.npcHP,
+    summons,
+    progress,
+    battle.playerCooldown,
+    battle.isEnding,
+    battle.specialHit
+  ]);
 
   const attackRef = useRef(attack);
   const specialRef = useRef(special);

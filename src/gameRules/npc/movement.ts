@@ -6,8 +6,6 @@ export function chasePlayer(
   playerX: number,
   playerY: number
 ) {
-  npc.state = "walk";
-
   return getChaseMovement(
     npc.x,
     npc.y,
