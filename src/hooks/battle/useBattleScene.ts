@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
-import { useGameControls } from "@/contexts/GameControlsContext";
 import { useGameAudio } from "@/hooks/useGameAudio";
 import { useNpcAI } from "@/hooks/npc/useNpcAi";
 import { useBattleSystem } from "@/hooks/battle/useBattleSystem";
@@ -17,6 +16,7 @@ import { useBattleRewards } from "@/hooks/battle/useBattleRewards";
 import { useSummons } from "@/hooks/battle/useSummons";
 import { usePlayerBattleActions } from "@/hooks/battle/usePlayerBattleActions";
 import { useSummonAI } from "@/hooks/battle/useSummonsAi";
+import { useBattleControls } from "@/hooks/battle/useBattleControls";
 
 type Props = {
   npcType: string;
@@ -43,11 +43,6 @@ export function useBattleScene({
     difficulty,
     playerClass
   } = usePlayer();
-
-  const {
-    pushControls,
-    popControls
-  } = useGameControls();
   
   const {
     progress,
@@ -192,32 +187,13 @@ export function useBattleScene({
     closeNavbar();
   }, []);
 
-  const attackRef = useRef(attack);
-  const specialRef = useRef(special);
-  const playerHitRef = useRef(handlePlayerHit);
-  const specialHitRef = useRef(handleSpecialHit);
-  attackRef.current = attack;
-  specialRef.current = special;
-  playerHitRef.current = handlePlayerHit;
-  specialHitRef.current = handleSpecialHit;
-
-  useEffect(() => {
-    if (showVictory || showDefeat || showIntro) return;
-
-    const controls = {
-      onConfirm: () => {
-        attackRef.current();
-        playerHitRef.current();
-      },
-      onCancel: () => {
-        specialRef.current();
-        specialHitRef.current();
-      },
-    };
-
-    pushControls(controls);
-    return () => popControls();
-  }, [showVictory, showDefeat, showIntro]);
+  useBattleControls({
+    attack,
+    special,
+    handlePlayerHit,
+    handleSpecialHit,
+    disabled: isPaused,
+  });
 
   useEffect(() => {
     const timeout = setTimeout(() => {
