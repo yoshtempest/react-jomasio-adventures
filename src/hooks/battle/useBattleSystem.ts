@@ -9,8 +9,8 @@ import { battleBehaviors } from "@/gameRules/battle/behaviors/player";
 
 import { useBattleCooldowns } from "@/hooks/battle/useBattleCooldowns";
 import { useBattleEffects } from "@/hooks/battle/useBattleEffects";
-import { usePlayerBattle } from "@/hooks/battle/usePlayerBattle";
-import { useNpcBattle } from "@/hooks/battle/useNpcBattle";
+import { usePlayerBattle } from "@/hooks/battle/player/usePlayerBattle";
+import { useNpcBattle } from "@/hooks/battle/npc/useNpcBattle";
 import { useBattleLifecycle } from "@/hooks/battle/useBattleLifecycle";
 import type { NpcDifficulty } from "@/utils/types/npc/npcProgress";
 

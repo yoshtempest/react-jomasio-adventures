@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useGameAudio } from "@/hooks/useGameAudio";
-import { useNpcAI } from "@/hooks/npc/useNpcAi";
+import { useNpcAI } from "@/hooks/battle/npc/useNpcAi";
 import { useBattleSystem } from "@/hooks/battle/useBattleSystem";
 import { useVictory } from "@/hooks/useVictory";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
@@ -13,9 +13,9 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { useLocation } from "react-router";
 import { useBattleRewards } from "@/hooks/battle/useBattleRewards";
-import { useSummons } from "@/hooks/battle/useSummons";
-import { usePlayerBattleActions } from "@/hooks/battle/usePlayerBattleActions";
-import { useSummonAI } from "@/hooks/battle/useSummonsAi";
+import { useSummons } from "@/hooks/battle/npc/useSummons";
+import { usePlayerBattleActions } from "@/hooks/battle/player/usePlayerBattleActions";
+import { useSummonAI } from "@/hooks/battle/npc/useSummonsAi";
 import { useBattleControls } from "@/hooks/battle/useBattleControls";
 
 type Props = {

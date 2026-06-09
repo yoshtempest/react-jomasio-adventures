@@ -5,7 +5,7 @@ import { useBattleMovement } from "@/hooks/player/useBattleMovement";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import type { NpcDifficulty } from "@/utils/types/npc/npcProgress";
-import { usePlayerAnimation } from "@/hooks/battle/usePlayerAnimation";
+import { usePlayerAnimation } from "@/hooks/battle/player/usePlayerAnimation";
 import { asset } from "@/utils/asset";
 
 type PlayerContextType = {
