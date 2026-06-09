@@ -10,6 +10,7 @@ import { PlayerProvider } from '@/contexts/PlayerContext.tsx';
 import { InventoryProvider } from '@/contexts/InventoryContext.tsx';
 import { NavbarProvider } from '@/contexts/NavbarContext.tsx';
 import { CharacterProgressProvider } from "@/contexts/CharacterProgressContext";
+import { EquipmentProvider } from "@/contexts/EquipmentContext";
 import { QuestProvider } from '@/contexts/QuestContext.tsx';
 import { AudioProvider } from '@/contexts/AudioContext.tsx';
 import { PWAProvider } from '@/contexts/PWAContext.tsx';
@@ -101,6 +102,7 @@ root.render(
                 <InventoryProvider>
                   <QuestProvider>
                     <CharacterProgressProvider>
+                      <EquipmentProvider>
                       <PlayerProvider>
                         <GameControlsProvider>
                           <Preloader pages={nonBattlePages} />
@@ -174,6 +176,7 @@ root.render(
                           </Suspense>
                         </GameControlsProvider>
                       </PlayerProvider>
+                      </EquipmentProvider>
                     </CharacterProgressProvider>
                   </QuestProvider>
                 </InventoryProvider>

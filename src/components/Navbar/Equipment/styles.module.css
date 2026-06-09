@@ -1,0 +1,126 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 74vw;
+  height: 100vh;
+  position: absolute;
+  top: 10%;
+  right: 0%;
+  background: #111;
+  border: 2px solid #555;
+  border-radius: 8px;
+  padding: 16px;
+  gap: 12px;
+  overflow-y: auto;
+}
+
+@media (orientation: portrait) {
+  .container {
+    width: 99vw;
+    height: 30vh;
+    top: 0;
+    right: 0;
+    border-radius: 0px;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.slotCard {
+  display: flex;
+  flex-direction: column;
+  background: #1a1a2e;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 12px;
+  gap: 6px;
+}
+
+.slotLabel {
+  font-weight: bold;
+  font-size: 14px;
+  color: #aaa;
+  border-bottom: 1px solid #333;
+  padding-bottom: 4px;
+}
+
+.equippedItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.itemName {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.itemStats {
+  font-size: 12px;
+  color: #ccc;
+}
+
+.emptySlot {
+  font-size: 12px;
+  color: #666;
+  font-style: italic;
+}
+
+.equipButton {
+  margin-top: 4px;
+  padding: 4px 8px;
+  font-size: 12px;
+  cursor: pointer;
+  background: #2a2a4e;
+  color: #fff;
+  border: 1px solid #555;
+  border-radius: 4px;
+}
+
+.equipButton:hover {
+  background: #3a3a6e;
+}
+
+.collection {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.collectionTitle {
+  font-size: 14px;
+  font-weight: bold;
+  color: #aaa;
+  border-bottom: 1px solid #333;
+  padding-bottom: 4px;
+}
+
+.collectionItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 8px;
+  background: #1a1a2e;
+  border: 1px solid #333;
+  border-radius: 4px;
+}
+
+.collectionItemName {
+  font-size: 13px;
+}
+
+.collectionItemSlot {
+  font-size: 11px;
+  color: #888;
+}
+
+.emptyText {
+  font-size: 12px;
+  color: #666;
+  font-style: italic;
+}

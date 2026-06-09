@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
+import { getEquipmentStatsBonus } from "@/gameRules/battle/equipment";
 
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import { getMaxSpecial } from "@/gameRules/battle/special";
@@ -44,7 +45,7 @@ export function useBattleSystem(props: Props) {
   const { player, playerClass } = usePlayer();
   const { progress } = useCharacterProgress();
 
-  const char = progress[player.character];
+  const baseChar = progress[player.character];
   const behavior = battleBehaviors[player.character] || battleBehaviors.default;
   const [isNpcDying, setNpcDying] = useState(false);
 
@@ -56,7 +57,24 @@ export function useBattleSystem(props: Props) {
     character: player.character
   });
 
-  // 📊 player HP
+  // 📦 equipamento
+  const equipmentBonus = useMemo(() => {
+    return getEquipmentStatsBonus();
+  }, []);
+
+  // 🧠 stats do personagem + bônus de equipamento
+  const char = useMemo(() => {
+    if (!baseChar) return baseChar;
+    return {
+      ...baseChar,
+      stats: {
+        hp: baseChar.stats.hp + equipmentBonus.hp,
+        strength: baseChar.stats.strength + equipmentBonus.strength,
+        intelligence: baseChar.stats.intelligence + equipmentBonus.intelligence,
+      },
+    };
+  }, [baseChar, equipmentBonus]);
+
   const playerMaxHp = useMemo(() => {
     return 90 + char.stats.hp * 10;
   }, [char.stats.hp]);

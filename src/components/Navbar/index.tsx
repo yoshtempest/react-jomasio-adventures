@@ -6,6 +6,7 @@ import { Inventory } from "./Inventory";
 import { Character } from "./Character";
 import { Config } from "./Config";
 import { Mission } from "./Missions";
+import { Equipment } from "./Equipment";
 
 export function Navbar() {
   const { screen, selectedIndex, options } = useNavbarMenu();
@@ -32,6 +33,7 @@ export function Navbar() {
       {screen === "inventory" && <Inventory />}
       {screen === "config" && <Config />}
       {screen === "missions" && <Mission />}
+      {screen === "equipment" && <Equipment />}
     </nav>
   );
 }

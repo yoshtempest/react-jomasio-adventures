@@ -13,6 +13,9 @@ import { useNavigate } from "react-router";
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
+import { useEquipment } from "@/contexts/EquipmentContext";
+import { rollDrop } from "@/data/equipment/drops";
+import { EQUIPMENT_LIST } from "@/data/equipment";
 import { useLocation } from "react-router";
 import { calculatePlayerDamage } from "@/gameRules/battle/damage";
 import { calculateNpcDamage } from "@/gameRules/battle/damage";
@@ -20,7 +23,6 @@ import { isPlayerInRange } from "@/gameRules/battle/range";
 import { isFacingTarget } from "@/gameRules/battle/direction";
 import { CHARACTER_RANGE_X } from "@/gameRules/battle/rangeConfig";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
-import type { Direction } from "@/utils/types/global";
 
 type Props = {
   npcType: string;
@@ -42,6 +44,7 @@ export function useBattleScene({
   const { pushControls, popControls } = useGameControls();
   const { addXP, progress, getXPToNextLevel } = useCharacterProgress();
   const { closeInventory } = useInventory();
+  const { addDrop } = useEquipment();
   const { closeNavbar } = useNavbar();
 
   const [showDefeat, setShowDefeat] = useState(false);
@@ -132,6 +135,16 @@ export function useBattleScene({
     onNpcDeath: () => {
       addXP(player.character, xpReward);
       addCoins(coinReward);
+
+      const droppedRank = rollDrop(npcData.class);
+      if (droppedRank) {
+        const pool = EQUIPMENT_LIST.filter((e) => e.rank === droppedRank);
+        if (pool.length > 0) {
+          const picked = pool[Math.floor(Math.random() * pool.length)];
+          addDrop(picked.id);
+        }
+      }
+
       triggerVictory();
     },
   });
