@@ -70,6 +70,11 @@ export function LibraryScene({ sceneId }: Props) {
     const blockedTiles = [
       { x: 4, y: 4 },
       { x: 4, y: 3 },
+      { x: 12, y: 3 },
+      { x: 12, y: 4 },
+      { x: 8, y: 10 },
+      { x: 8, y: 2 },
+      { x: 8, y: 3 },
     ];
 
     const isBlockedTile = blockedTiles.some(
@@ -106,11 +111,15 @@ export function LibraryScene({ sceneId }: Props) {
   
   }, [player.gridX, player.gridY]);
 
+  if (!scene) {
+    return <div>Scene não encontrada</div>;
+  }
+
   return (
     <>
       <SceneBase
         scene={scene}
-        className="Master Library"
+        className={`Master Library ${scene.className ?? ""}`}
         interactions={interactions}
         popup={popup}
         setPopup={setPopup}

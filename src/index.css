@@ -180,6 +180,10 @@ h2 {
   background-image: url("/assets/cenarios/libraryPassageOpened.svg");
 }
 
+.FootballCourt {
+  background-image: url("/assets/cenarios/footballCourt.svg");
+}
+
 
 .overlay {
   position: fixed;

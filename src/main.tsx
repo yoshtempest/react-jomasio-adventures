@@ -47,6 +47,9 @@ const PlanetarySistersBattle = lazyLoad(() => import('./pages/Hall/Battle/Two/in
 const PcRoomPage = lazyLoad(() => import('./pages/PcRoom/index.tsx'));
 
 const LibraryPage = lazyLoad(() => import('./pages/Library/index.tsx'));
+const FootballCourtPage = lazyLoad(() => import('./pages/FootballCourt/index.tsx'));
+
+const FootballCourtBattle = lazyLoad(() => import('./pages/FootballCourt/Battle/index.tsx'));
 
 const VandinhaFragmentBattle = lazyLoad(() => import('./pages/Battle/Vandinha/index.tsx'));
 const GoatBattle = lazyLoad(() => import('./pages/Battle/Goat/index.tsx'));
@@ -76,6 +79,7 @@ const nonBattlePages = [
   PcRoomPage,
   LibraryPage,
   CafeteriaPage,
+  FootballCourtPage,
   BrodiClassOne,
 ];
 
@@ -131,6 +135,12 @@ root.render(
                                   <Route index element={<Navigate to="/cantina/one" />} />
                                   <Route path=":id" element={<CantinaPage />} />
                                   <Route path="battle" element={<CantinaBattle />} />
+                                </Route>
+
+                                <Route path="footballcourt">
+                                  <Route index element={<Navigate to="/footballcourt/one" />} />
+                                  <Route path=":id" element={<FootballCourtPage />} />
+                                  <Route path="battle" element={<FootballCourtBattle />} />
                                 </Route>
 
                                 <Route path="hellroom">

@@ -20,6 +20,8 @@ export type SceneId =
 "center-front" |
 "thirdclass" |
 "hell" |
+"secret-passage" |
+"footballcourt" |
 "pandemony";
 
 type SceneTile = {

@@ -5,7 +5,7 @@ import type { SceneConfig } from "@/utils/types/maps/sceneConfig";
 import { secretPassageTiles } from "./tiles";
 
 
-export const threeScene: SceneConfig = {
+export const secretPassageScene: SceneConfig = {
   id: "one",
   className: "LibrarySecretPassage",
   initialPosition: getSecretPassageInitialPosition,

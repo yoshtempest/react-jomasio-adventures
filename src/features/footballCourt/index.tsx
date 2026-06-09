@@ -25,7 +25,7 @@ export function FootballCourtScene({ sceneId }: Props) {
   return (
     <SceneBase
       scene={scene}
-      className={`Master ${scene.className ?? ""}`}
+      className={`Master FootballCourt`}
       onFinishExtra={() => ({
         addItem,
         removeItem,
