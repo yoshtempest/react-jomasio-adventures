@@ -13,10 +13,10 @@ import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { useLocation } from "react-router";
-import { calculateNpcDamage } from "@/gameRules/battle/damage";
 import { useBattleRewards } from "@/hooks/battle/useBattleRewards";
 import { useSummons } from "@/hooks/battle/useSummons";
 import { usePlayerBattleActions } from "@/hooks/battle/usePlayerBattleActions";
+import { useSummonAI } from "@/hooks/battle/useSummonsAi";
 
 type Props = {
   npcType: string;
@@ -61,7 +61,6 @@ export function useBattleScene({
   const [npcLevel] = useState(() => generateNpcLevel());
   const [npcPhase, setNpcPhase] = useState(1);
   const [showIntro, setShowIntro] = useState(true);
-  const summonLastAttacksRef = useRef<Record<string, number>>({});
 
   const npcData = NPCS[npcType];
 
@@ -104,8 +103,6 @@ export function useBattleScene({
   const npcRangedAttackRef = useRef<() => void>(() => {});
   const npcMeleeAttackRef = useRef<() => void>(() => {});
 
-  const playerXRef = useRef(player.x);
-  playerXRef.current = player.x;
   const playerYRef = useRef(player.y);
   playerYRef.current = player.y;
 
@@ -154,6 +151,22 @@ export function useBattleScene({
     giveSummonRewards,
   });
 
+  const isPaused =
+    showVictory ||
+    showDefeat ||
+    showIntro;
+
+  useSummonAI({
+    summons,
+    setSummons,
+    isPaused,
+    playerX: player.x,
+    playerClass,
+    npcLevel,
+    difficulty,
+    damagePlayer: battle.damagePlayer,
+  });
+
   // Track NPC position for summon spawns
   useEffect(() => {
     updateNpcPosition(npc.x);
@@ -178,71 +191,6 @@ export function useBattleScene({
     closeInventory();
     closeNavbar();
   }, []);
-
-  const isPaused = showVictory || showDefeat || showIntro;
-  const isPausedRef = useRef(isPaused);
-  isPausedRef.current = isPaused;
-
-  // Summon AI — chase + melee
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (isPausedRef.current) return;
-
-      const px = playerXRef.current;
-
-      setSummons(prev => prev.map(s => {
-        if (s.isDying || s.hp <= 0) return s;
-
-        const speed = Math.abs(s.x - px) > 200 ? 3 : 1.5;
-        const dx = px - s.x;
-        const direction: "left" | "right" = dx > 0 ? "right" : "left";
-
-        let newX = s.x;
-        if (Math.abs(dx) > 40) {
-          newX += dx > 0 ? speed : -speed;
-        }
-
-        if (Math.abs(dx) <= 40) {
-          const now = Date.now();
-          const lastAttack = summonLastAttacksRef.current[s.id] ?? 0;
-          if (now - lastAttack >= 800) {
-            summonLastAttacksRef.current[s.id] = now;
-            const data = NPCS[s.npcType];
-            if (data) {
-              const stats = getNpcStats(npcLevel, data.class, difficulty);
-              const dmg = calculateNpcDamage(stats.damage, playerClass);
-              battle.damagePlayer(dmg);
-            }
-          }
-        }
-
-        return {
-          ...s,
-          x: newX,
-          direction,
-          state: Math.abs(dx) > 80 ? "walk" : "idle",
-        };
-      }));
-    }, 20);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  // Remove dead summons after delay
-  useEffect(() => {
-    const dying = summons.filter(s => s.hp <= 0 && !s.isDying);
-    if (dying.length === 0) return;
-
-    const timeouts = dying.map(s => {
-      setSummons(prev => prev.map(s2 => s2.id === s.id ? { ...s2, isDying: true } : s2));
-      return window.setTimeout(() => {
-        setSummons(prev => prev.filter(s2 => s2.id !== s.id));
-      }, 500);
-    });
-
-    return () => timeouts.forEach(clearTimeout);
-  }, [summons]);
-
 
   const attackRef = useRef(attack);
   const specialRef = useRef(special);
