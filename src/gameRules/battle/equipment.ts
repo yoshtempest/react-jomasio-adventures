@@ -4,19 +4,21 @@ import { getEquipmentById } from "@/data/equipment";
 
 const EQUIP_KEY = "jomasio_equipment";
 
-function loadEquipped(): EquippedItems {
+function loadEquipped(character: CharacterId): EquippedItems {
   try {
     const raw = localStorage.getItem(EQUIP_KEY);
     if (!raw) return createEmptyEquipped();
-    const parsed = JSON.parse(raw);
-    return { ...createEmptyEquipped(), ...parsed.equipped };
+    const all = JSON.parse(raw);
+    const data = all[character];
+    if (!data) return createEmptyEquipped();
+    return { ...createEmptyEquipped(), ...data.equipped };
   } catch {
     return createEmptyEquipped();
   }
 }
 
-export function getEquipmentStatsBonus(): { hp: number; strength: number; intelligence: number } {
-  const equipped = loadEquipped();
+export function getEquipmentStatsBonus(character: CharacterId): { hp: number; strength: number; intelligence: number } {
+  const equipped = loadEquipped(character);
   const bonus = { hp: 0, strength: 0, intelligence: 0 };
 
   for (const slot of Object.keys(equipped) as (keyof EquippedItems)[]) {

@@ -141,7 +141,7 @@ export function useBattleScene({
         const pool = EQUIPMENT_LIST.filter((e) => e.rank === droppedRank);
         if (pool.length > 0) {
           const picked = pool[Math.floor(Math.random() * pool.length)];
-          addDrop(picked.id);
+          addDrop(player.character, picked.id);
         }
       }
 

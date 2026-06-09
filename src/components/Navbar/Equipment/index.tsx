@@ -1,3 +1,4 @@
+import { usePlayer } from "@/contexts/PlayerContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { getEquipmentById } from "@/data/equipment";
 import {
@@ -9,19 +10,27 @@ import {
 import styles from "./styles.module.css";
 
 export function Equipment() {
-  const { equipped, collection, equip, unequip, getEquippedItem } = useEquipment();
+  const { player } = usePlayer();
+  const { getEquippedItem, getCollection, equip, unequip } = useEquipment();
+  const character = player.character;
+
+  const collection = getCollection(character);
 
   function handleEquip(id: EquipmentId) {
     const item = getEquipmentById(id);
     if (!item) return;
 
-    const current = getEquippedItem(item.slot);
+    const current = getEquippedItem(character, item.slot);
     if (current && current.id !== id) {
-      unequip(item.slot);
+      unequip(character, item.slot);
     }
 
-    equip(id);
+    equip(character, id);
   }
+
+  const collectionEntries = Object.entries(collection).filter(
+    ([, qty]) => qty > 0
+  );
 
   return (
     <div className="containerOfNavbar">
@@ -29,7 +38,7 @@ export function Equipment() {
 
       <div className={styles.grid}>
         {EQUIPMENT_SLOTS.map((slot) => {
-          const item = getEquippedItem(slot);
+          const item = getEquippedItem(character, slot);
 
           return (
             <div key={slot} className={styles.slotCard}>
@@ -52,7 +61,7 @@ export function Equipment() {
                   </span>
                   <button
                     className={styles.equipButton}
-                    onClick={() => unequip(slot)}
+                    onClick={() => unequip(character, slot)}
                   >
                     Remover
                   </button>
@@ -68,17 +77,17 @@ export function Equipment() {
       <div className={styles.collection}>
         <div className={styles.collectionTitle}>Itens Coletados</div>
 
-        {collection.length === 0 && (
+        {collectionEntries.length === 0 && (
           <div className={styles.emptyText}>
             Nenhum equipamento coletado ainda. Derrote NPCs para conseguir!
           </div>
         )}
 
-        {collection.map((id) => {
+        {collectionEntries.map(([id, qty]) => {
           const item = getEquipmentById(id);
           if (!item) return null;
 
-          const isEquipped = equipped[item.slot] === id;
+          const isEquipped = getEquippedItem(character, item.slot)?.id === id;
 
           return (
             <div key={id} className={styles.collectionItem}>
@@ -91,7 +100,7 @@ export function Equipment() {
                 </span>
                 <span className={styles.collectionItemSlot}>
                   {" "}
-                  ({SLOT_LABELS[item.slot]} — {RANK_LABELS[item.rank]})
+                  ({SLOT_LABELS[item.slot]} — {RANK_LABELS[item.rank]}) x{qty}
                 </span>
               </div>
 

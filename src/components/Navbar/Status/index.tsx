@@ -10,10 +10,11 @@ import type { EquipmentSlot } from "@/utils/types/player/equipment";
 
 export function Status() {
   const { player, playerClass } = usePlayer();
+  const character = player.character;
   const { progress, getXPToNextLevel } = useCharacterProgress();
   const { getTotalBonus, getEquippedItem } = useEquipment();
 
-  const char = progress[player.character] ?? {
+  const char = progress[character] ?? {
     level: 1,
     xp: 0,
     stats: {
@@ -25,7 +26,7 @@ export function Status() {
   };
 
   const stats = char.stats;
-  const bonus = getTotalBonus();
+  const bonus = getTotalBonus(character);
 
   const totalHp = stats.hp + bonus.hp;
   const totalStrength = stats.strength + bonus.strength;
@@ -85,7 +86,7 @@ export function Status() {
           <div style={{ marginTop: 16 }}>
             <p style={{ fontWeight: "bold", color: "#aaa", fontSize: 14, borderBottom: "1px solid #333", paddingBottom: 4 }}>Equipamentos</p>
             {(EQUIPMENT_SLOTS as EquipmentSlot[]).map((slot) => {
-              const item = getEquippedItem(slot);
+              const item = getEquippedItem(character, slot);
               const label = SLOT_LABELS[slot];
               return (
                 <p key={slot} style={{ fontSize: 12, marginTop: 4 }}>

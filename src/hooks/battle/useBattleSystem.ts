@@ -59,8 +59,8 @@ export function useBattleSystem(props: Props) {
 
   // 📦 equipamento
   const equipmentBonus = useMemo(() => {
-    return getEquipmentStatsBonus();
-  }, []);
+    return getEquipmentStatsBonus(player.character);
+  }, [player.character]);
 
   // 🧠 stats do personagem + bônus de equipamento
   const char = useMemo(() => {

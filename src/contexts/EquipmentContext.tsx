@@ -3,25 +3,27 @@ import {
   useContext,
   useState,
   useEffect,
+  useCallback,
   type ReactNode,
 } from "react";
 import type { EquipmentSlot, EquippedItems, Equipment } from "@/utils/types/player/equipment";
 import { createEmptyEquipped } from "@/utils/types/player/equipment";
 import { getEquipmentById } from "@/data/equipment";
 
-type EquipmentContextType = {
+type CharacterEquipmentData = {
   equipped: EquippedItems;
-  collection: EquipmentId[];
+  collection: Record<EquipmentId, number>;
+};
 
-  equip: (id: EquipmentId) => void;
-  unequip: (slot: EquipmentSlot) => void;
-  addDrop: (id: EquipmentId) => void;
-
-  getEquippedItem: (slot: EquipmentSlot) => Equipment | null;
-  getTotalBonus: () => { hp: number; strength: number; intelligence: number };
-
-  hasEquipped: (slot: EquipmentSlot) => boolean;
-  isOwned: (id: EquipmentId) => boolean;
+type EquipmentContextType = {
+  getEquippedItem: (character: CharacterId, slot: EquipmentSlot) => Equipment | null;
+  getTotalBonus: (character: CharacterId) => { hp: number; strength: number; intelligence: number };
+  getCollection: (character: CharacterId) => Record<EquipmentId, number>;
+  getQuantity: (character: CharacterId, id: EquipmentId) => number;
+  isOwned: (character: CharacterId, id: EquipmentId) => boolean;
+  equip: (character: CharacterId, id: EquipmentId) => void;
+  unequip: (character: CharacterId, slot: EquipmentSlot) => void;
+  addDrop: (character: CharacterId, id: EquipmentId) => void;
 };
 
 /* eslint-disable react-refresh/only-export-components */
@@ -30,95 +32,159 @@ const EquipmentContext = createContext<EquipmentContextType | null>(null);
 
 const EQUIP_KEY = "jomasio_equipment";
 
-function loadEquipData(): { equipped: EquippedItems; collection: EquipmentId[] } {
+function createEmptyCharacterData(): CharacterEquipmentData {
+  return { equipped: createEmptyEquipped(), collection: {} };
+}
+
+function createEmptyAllData(): Record<CharacterId, CharacterEquipmentData> {
+  return {} as Record<CharacterId, CharacterEquipmentData>;
+}
+
+function loadAllData(): Record<CharacterId, CharacterEquipmentData> {
   try {
     const raw = localStorage.getItem(EQUIP_KEY);
-    if (!raw) return { equipped: createEmptyEquipped(), collection: [] };
-    const parsed = JSON.parse(raw);
-    return {
-      equipped: { ...createEmptyEquipped(), ...parsed.equipped },
-      collection: Array.isArray(parsed.collection) ? parsed.collection : [],
-    };
+    if (!raw) return createEmptyAllData();
+    return JSON.parse(raw);
   } catch {
-    return { equipped: createEmptyEquipped(), collection: [] };
+    return createEmptyAllData();
   }
 }
 
+function getCharacterData(
+  all: Record<CharacterId, CharacterEquipmentData>,
+  character: CharacterId
+): CharacterEquipmentData {
+  if (!all[character]) {
+    all[character] = createEmptyCharacterData();
+  }
+  return all[character];
+}
+
 export function EquipmentProvider({ children }: { children: ReactNode }) {
-  const [equipped, setEquipped] = useState<EquippedItems>(createEmptyEquipped());
-  const [collection, setCollection] = useState<EquipmentId[]>([]);
+  const [allData, setAllData] = useState<Record<CharacterId, CharacterEquipmentData>>(createEmptyAllData);
 
   useEffect(() => {
-    const data = loadEquipData();
-    setEquipped(data.equipped);
-    setCollection(data.collection);
+    setAllData(loadAllData());
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(
-      EQUIP_KEY,
-      JSON.stringify({ equipped, collection })
-    );
-  }, [equipped, collection]);
+    localStorage.setItem(EQUIP_KEY, JSON.stringify(allData));
+  }, [allData]);
 
-  function equip(id: EquipmentId) {
+  const getEquippedItem = useCallback(
+    (character: CharacterId, slot: EquipmentSlot): Equipment | null => {
+      const data = getCharacterData(allData, character);
+      const id = data.equipped[slot];
+      if (!id) return null;
+      return getEquipmentById(id) ?? null;
+    },
+    [allData]
+  );
+
+  const getTotalBonus = useCallback(
+    (character: CharacterId): { hp: number; strength: number; intelligence: number } => {
+      const data = getCharacterData(allData, character);
+      const bonus = { hp: 0, strength: 0, intelligence: 0 };
+      for (const slot of Object.keys(data.equipped) as EquipmentSlot[]) {
+        const id = data.equipped[slot];
+        if (!id) continue;
+        const item = getEquipmentById(id);
+        if (!item) continue;
+        bonus.hp += item.stats.hp;
+        bonus.strength += item.stats.strength;
+        bonus.intelligence += item.stats.intelligence;
+      }
+      return bonus;
+    },
+    [allData]
+  );
+
+  const getCollection = useCallback(
+    (character: CharacterId): Record<EquipmentId, number> => {
+      return getCharacterData(allData, character).collection;
+    },
+    [allData]
+  );
+
+  const getQuantity = useCallback(
+    (character: CharacterId, id: EquipmentId): number => {
+      return getCharacterData(allData, character).collection[id] ?? 0;
+    },
+    [allData]
+  );
+
+  const isOwned = useCallback(
+    (character: CharacterId, id: EquipmentId): boolean => {
+      return getQuantity(character, id) > 0;
+    },
+    [getQuantity]
+  );
+
+  const equip = useCallback((character: CharacterId, id: EquipmentId) => {
     const item = getEquipmentById(id);
     if (!item) return;
 
-    setEquipped((prev) => ({ ...prev, [item.slot]: id }));
-  }
+    setAllData((prev) => {
+      const next = { ...prev };
+      const data = { ...getCharacterData(next, character) };
+      const collection = { ...data.collection };
 
-  function unequip(slot: EquipmentSlot) {
-    setEquipped((prev) => ({ ...prev, [slot]: null }));
-  }
+      if (!collection[id] || collection[id] <= 0) return prev;
 
-  function addDrop(id: EquipmentId) {
-    setCollection((prev) => {
-      if (prev.includes(id)) return prev;
-      return [...prev, id];
+      const oldId = data.equipped[item.slot];
+      collection[id] -= 1;
+      if (collection[id] <= 0) delete collection[id];
+
+      const equipped = { ...data.equipped, [item.slot]: id };
+
+      if (oldId) {
+        collection[oldId] = (collection[oldId] ?? 0) + 1;
+      }
+
+      next[character] = { equipped, collection };
+      return next;
     });
-  }
+  }, []);
 
-  function getEquippedItem(slot: EquipmentSlot): Equipment | null {
-    const id = equipped[slot];
-    if (!id) return null;
-    return getEquipmentById(id) ?? null;
-  }
+  const unequip = useCallback((character: CharacterId, slot: EquipmentSlot) => {
+    setAllData((prev) => {
+      const next = { ...prev };
+      const data = { ...getCharacterData(next, character) };
+      const oldId = data.equipped[slot];
+      if (!oldId) return prev;
 
-  function getTotalBonus() {
-    const bonus = { hp: 0, strength: 0, intelligence: 0 };
-    for (const slot of Object.keys(equipped) as EquipmentSlot[]) {
-      const id = equipped[slot];
-      if (!id) continue;
-      const item = getEquipmentById(id);
-      if (!item) continue;
-      bonus.hp += item.stats.hp;
-      bonus.strength += item.stats.strength;
-      bonus.intelligence += item.stats.intelligence;
-    }
-    return bonus;
-  }
+      const collection = { ...data.collection };
+      collection[oldId] = (collection[oldId] ?? 0) + 1;
 
-  function hasEquipped(slot: EquipmentSlot) {
-    return equipped[slot] !== null;
-  }
+      const equipped = { ...data.equipped, [slot]: null };
 
-  function isOwned(id: EquipmentId) {
-    return collection.includes(id);
-  }
+      next[character] = { equipped, collection };
+      return next;
+    });
+  }, []);
+
+  const addDrop = useCallback((character: CharacterId, id: EquipmentId) => {
+    setAllData((prev) => {
+      const next = { ...prev };
+      const data = { ...getCharacterData(next, character) };
+      const collection = { ...data.collection };
+      collection[id] = (collection[id] ?? 0) + 1;
+      next[character] = { ...data, collection };
+      return next;
+    });
+  }, []);
 
   return (
     <EquipmentContext.Provider
       value={{
-        equipped,
-        collection,
+        getEquippedItem,
+        getTotalBonus,
+        getCollection,
+        getQuantity,
+        isOwned,
         equip,
         unequip,
         addDrop,
-        getEquippedItem,
-        getTotalBonus,
-        hasEquipped,
-        isOwned,
       }}
     >
       {children}
