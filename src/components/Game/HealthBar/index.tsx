@@ -58,7 +58,7 @@ export function HealthBar({ hp, maxHp = 100, reversed = false }: Props) {
           pointerEvents: "none",
         }}
       >
-        {hp} / {maxHp}
+        {Math.round(hp)} / {maxHp}
       </div>
     </div>
   );

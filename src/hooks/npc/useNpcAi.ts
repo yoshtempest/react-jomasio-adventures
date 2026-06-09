@@ -15,6 +15,7 @@ type Props = {
   isPaused?: boolean;
   npcType: string;
   npcPhase: number;
+  onSummon?: (npcType: string) => void;
 };
 
 export function useNpcAI({
@@ -27,6 +28,7 @@ export function useNpcAI({
   isPaused,
   npcType,
   npcPhase,
+  onSummon,
 }: Props) {
   const [npc, setNpc] = useState<NPCBattleState>({
     x: 900,
@@ -41,6 +43,7 @@ export function useNpcAI({
   const projectileRef = useRef(projectile);
   projectileRef.current = projectile;
   const lastAttackRef = useRef(0);
+  const summonTimerRef = useRef(0);
   useProjectile(
     projectile,
     setProjectile,
@@ -86,6 +89,8 @@ export function useNpcAI({
           onProjectileHit,
           onMeleeHit,
           setForceIdle,
+          onSummon,
+          summonTimerRef,
         });
 
         const direction = playerX < n.x ? "left" : "right";
@@ -111,6 +116,7 @@ export function useNpcAI({
     forceIdle,
     onProjectileHit,
     onMeleeHit,
+    onSummon,
   ]);
 
   return {

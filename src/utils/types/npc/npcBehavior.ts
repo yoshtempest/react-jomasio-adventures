@@ -12,4 +12,6 @@ export type BehaviorContext = {
   onProjectileHit: () => void;
   setForceIdle: (v: boolean) => void;
   npcPhase: number;
+  onSummon?: (npcType: string) => void;
+  summonTimerRef?: { current: number };
 };

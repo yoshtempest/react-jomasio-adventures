@@ -14,3 +14,15 @@ export type NPCBattleState = {
     };
   };
 };
+
+export type SummonedNpc = {
+  id: string;
+  npcType: string;
+  x: number;
+  y: number;
+  direction: NPCDirection;
+  state: "idle" | "walk";
+  hp: number;
+  maxHp: number;
+  isDying: boolean;
+};

@@ -27,6 +27,7 @@ export function BattleScene(props: Props) {
     battle,
     npcStats,
     npcLevel,
+    summons,
     charProgress,
     missingXp,
     xpReward,
@@ -68,7 +69,7 @@ export function BattleScene(props: Props) {
 
   return (
     <div className={`Master ${className ?? ""}`}>
-      <BattleHUD battle={battle} npcStats={npcStats} npcType={npcType} />
+      <BattleHUD battle={battle} npcStats={npcStats} npcType={npcType} summons={summons} />
       {showIntro && (
         <BattleIntro
           playerCharacter={player.character}
@@ -89,6 +90,7 @@ export function BattleScene(props: Props) {
           player={player}
           battle={battle}
           npcType={npcType}
+          summons={summons}
           TILE_SIZE={TILE_SIZE}
           PLAYER_SIZE={PLAYER_SIZE}
         />

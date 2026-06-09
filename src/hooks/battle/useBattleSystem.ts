@@ -146,6 +146,11 @@ export function useBattleSystem(props: Props) {
     setNpcDying
   });
 
+  // 💥 external damage to player (summons, etc.)
+  const damagePlayer = (damage: number) => {
+    setPlayerHP(hp => Math.max(0, hp - damage));
+  };
+
   // 🔄 reset
   const resetBattle = () => {
     setPlayerHP(playerMaxHp);
@@ -185,8 +190,11 @@ export function useBattleSystem(props: Props) {
     npcRangedHit: npcBattle.npcRangedHit,
 
     resetBattle,
+    damagePlayer,
     isNpcDying,
     setNpcDying,
+    playerCooldown,
+    isEnding,
 
     piercings: effects.piercings,
     isExploding: effects.isExploding

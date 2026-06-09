@@ -3,18 +3,21 @@ import { Deliciometro } from "@/components/Game/Deliciometro";
 import { asset } from "@/utils/asset";
 import styles from "./styles.module.css";
 import { usePlayer } from "@/contexts/PlayerContext";
+import type { SummonedNpc } from "@/utils/types/npc/npc";
 
 
 type Props = {
   battle: any;
   npcStats: any;
-  npcType: string;
+  npcType?: string;
+  summons?: SummonedNpc[];
 };
 
 export function BattleHUD({
   battle,
   npcStats,
-  npcType
+  npcType,
+  summons,
 }: Props) {
   const { player } = usePlayer();
   const playerName = localStorage.getItem("playerName") || "Protagonista";
@@ -39,18 +42,34 @@ export function BattleHUD({
         </div>
       </div>
 
-      <div className={styles.container} style={{ right: 10, top: 10 }}>
-        <div style={{ position: "absolute", top: 0, right: 80 }}>
-          <h2 className={styles.name}>{npcType}</h2>
+      {npcType && (
+        <div className={styles.container} style={{ right: 10, top: 10 }}>
+          <div style={{ position: "absolute", top: 0, right: 80 }}>
+            <h2 className={styles.name}>{npcType}</h2>
 
-          <HealthBar hp={battle.npcHP} maxHp={npcStats.hp} reversed />
+            <HealthBar hp={battle.npcHP} maxHp={npcStats.hp} reversed />
+          </div>
+          <img
+            src={asset(`/assets/npcs/${npcType}/face.svg`)}
+            alt="Npc HUD"
+            className={styles.image}
+          />
         </div>
-        <img
-          src={asset(`/assets/npcs/${npcType}/face.svg`)}
-          alt="Npc HUD"
-          className={styles.image}
-        />
-      </div>
+      )}
+
+      {summons && summons.length > 0 && summons.filter(s => s.hp > 0).map((s, i) => (
+        <div key={s.id} className={styles.container} style={{ right: 10, top: 10 + (i + 1) * 100 }}>
+          <div style={{ position: "absolute", top: 0, right: 80 }}>
+            <h2 className={styles.name}>{s.npcType}</h2>
+            <HealthBar hp={s.hp} maxHp={s.maxHp} reversed />
+          </div>
+          <img
+            src={asset(`/assets/npcs/${s.npcType}/face.svg`)}
+            alt={`${s.npcType} HUD`}
+            className={styles.image}
+          />
+        </div>
+      ))}
     </>
   );
 }

@@ -1,9 +1,7 @@
 import { chasePlayer } from "@/gameRules/npc/movement";
 import { tryMeleeAttack } from "@/gameRules/npc/attack";
-import { rangedChaseBehavior } from "@/gameRules/npc/rangedChaseBehavior";
 
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
-import { createDirectionalProjectile } from "@/gameRules/npc/createDirectionalProjectile";
 
 export function deiseBehavior(ctx: BehaviorContext) {
   const {
@@ -13,52 +11,51 @@ export function deiseBehavior(ctx: BehaviorContext) {
     lastAttackRef,
     npcPhase,
     onMeleeHit,
+    onSummon,
+    summonTimerRef,
   } = ctx;
 
-  // 🔥 FASE 2 → melee agressivo
   if (npcPhase === 2) {
-    const { x } = chasePlayer(
-      npc,
-      playerX,
-      playerY
-    );
+    const { x, y } = chasePlayer(npc, playerX, playerY);
 
     tryMeleeAttack({
       npcX: npc.x,
       npcY: npc.y,
       playerX,
       playerY,
-      range: 80,
-      cooldown: 500,
+      range: 60,
+      cooldown: 600,
       lastAttackRef,
       onHit: onMeleeHit,
     });
 
-    return { x, y: npc.y };
+    return { x, y };
   }
 
   if (npcPhase === 1) {
-    return rangedChaseBehavior(ctx, {
-      projectileCooldown: 1500,
-      idleDuration: 1000,
-
-      melee: {
-        range: 20,
-        cooldown: 800,
-      },
-
-      createProjectile: ({
-        npc,
-        playerX,
-        playerY,
-      }) => createDirectionalProjectile({
-        startX: npc.x - 80,
-        startY: npc.y - 30,
-        targetX: playerX,
-        targetY: playerY - 50,
-        sprite: "goat",
-        state: "walk",
-      })
+    tryMeleeAttack({
+      npcX: npc.x,
+      npcY: npc.y,
+      playerX,
+      playerY,
+      range: 300,
+      cooldown: 2000,
+      lastAttackRef,
+      onHit: onMeleeHit,
     });
+
+    const now = Date.now();
+    if (
+      onSummon &&
+      summonTimerRef &&
+      (summonTimerRef.current === 0 || now - summonTimerRef.current >= 10000)
+    ) {
+      summonTimerRef.current = now;
+      onSummon("goat");
+    }
+
+    return { x: npc.x, y: npc.y };
   }
+
+  return { x: npc.x, y: npc.y };
 }

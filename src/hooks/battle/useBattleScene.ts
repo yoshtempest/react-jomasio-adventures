@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useGameAudio } from "@/hooks/useGameAudio";
@@ -14,6 +14,13 @@ import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { useLocation } from "react-router";
+import { calculatePlayerDamage } from "@/gameRules/battle/damage";
+import { calculateNpcDamage } from "@/gameRules/battle/damage";
+import { isPlayerInRange } from "@/gameRules/battle/range";
+import { isFacingTarget } from "@/gameRules/battle/direction";
+import { CHARACTER_RANGE_X } from "@/gameRules/battle/rangeConfig";
+import type { SummonedNpc } from "@/utils/types/npc/npc";
+import type { Direction } from "@/utils/types/global";
 
 type Props = {
   npcType: string;
@@ -31,7 +38,7 @@ export function useBattleScene({
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { player, setMode, attack, special, resetBattleState, difficulty, addCoins } = usePlayer();
+  const { player, setMode, attack, special, resetBattleState, difficulty, addCoins, playerClass } = usePlayer();
   const { pushControls, popControls } = useGameControls();
   const { addXP, progress, getXPToNextLevel } = useCharacterProgress();
   const { closeInventory } = useInventory();
@@ -41,6 +48,8 @@ export function useBattleScene({
   const [npcLevel] = useState(() => generateNpcLevel());
   const [npcPhase, setNpcPhase] = useState(1);
   const [showIntro, setShowIntro] = useState(true);
+  const [summons, setSummons] = useState<SummonedNpc[]>([]);
+  const summonLastAttacksRef = useRef<Record<string, number>>({});
 
   const npcData = NPCS[npcType];
   const xpReward = calculateXP(npcLevel, npcData.class) ?? 0;
@@ -62,16 +71,40 @@ export function useBattleScene({
 
   const { showVictory, triggerVictory } = useVictory({ redirectTo });
 
-  // 🎵 áudio
   useGameAudio({
     src: audioSrc,
     loop: true,
     volume: 0.5,
   });
 
-  // refs de ataque
   const npcRangedAttackRef = useRef<() => void>(() => {});
   const npcMeleeAttackRef = useRef<() => void>(() => {});
+
+  const SPAWN_POSITIONS = [700, 1050];
+
+  const npcXRef = useRef(900);
+
+  function summonNpc(npcType: string) {
+    const data = NPCS[npcType];
+    if (!data) return;
+
+    const maxHp = getNpcStats(npcLevel, data.class, difficulty).hp;
+    const taken = summons.map(s => s.x);
+    const free = SPAWN_POSITIONS.find(pos => !taken.includes(pos));
+    const spawnX = free ?? npcXRef.current;
+
+    setSummons(prev => [...prev, {
+      id: `summon_${Date.now()}`,
+      npcType,
+      x: spawnX,
+      y: player.groundY,
+      direction: spawnX < player.x ? "right" : "left",
+      state: "walk",
+      hp: maxHp,
+      maxHp,
+      isDying: false,
+    }]);
+  }
 
   const npc = useNpcAI({
     playerX: player.x,
@@ -83,6 +116,7 @@ export function useBattleScene({
     onProjectileHit: () => npcRangedAttackRef.current(),
     onMeleeHit: () => npcMeleeAttackRef.current(),
     isPaused: showVictory || showDefeat || showIntro,
+    onSummon: summonNpc,
   });
 
   const battle = useBattleSystem({
@@ -102,6 +136,18 @@ export function useBattleScene({
     },
   });
 
+  // Track NPC position for summon spawns
+  useEffect(() => {
+    npcXRef.current = npc.x;
+  }, [npc.x]);
+
+  // Despawn summons on boss phase 2
+  useEffect(() => {
+    if (battle.npcPhase === 2) {
+      setSummons([]);
+    }
+  }, [battle.npcPhase]);
+
   useEffect(() => {
     setNpcPhase(battle.npcPhase);
   }, [battle.npcPhase]);
@@ -109,24 +155,154 @@ export function useBattleScene({
   npcRangedAttackRef.current = battle.npcRangedHit;
   npcMeleeAttackRef.current = battle.npcMeleeHit;
 
-  // setup inicial
   useEffect(() => {
     setMode("battle");
     closeInventory();
     closeNavbar();
   }, []);
 
-  // refs para evitar stale closures nos controles
+  const isPaused = showVictory || showDefeat || showIntro;
+
+  // Summon AI — chase + melee
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSummons(prev => prev.map(s => {
+        if (s.isDying || s.hp <= 0) return s;
+
+        const speed = Math.abs(s.x - player.x) > 200 ? 3 : 1.5;
+        const dx = player.x - s.x;
+        const direction: "left" | "right" = dx > 0 ? "right" : "left";
+
+        let newX = s.x;
+        if (Math.abs(dx) > 40) {
+          newX += dx > 0 ? speed : -speed;
+        }
+
+        if (Math.abs(dx) <= 40) {
+          const now = Date.now();
+          const lastAttack = summonLastAttacksRef.current[s.id] ?? 0;
+          if (now - lastAttack >= 800) {
+            summonLastAttacksRef.current[s.id] = now;
+            const data = NPCS[s.npcType];
+            if (data) {
+              const stats = getNpcStats(npcLevel, data.class, difficulty);
+              const dmg = calculateNpcDamage(stats.damage, playerClass);
+              battle.damagePlayer(dmg);
+            }
+          }
+        }
+
+        return {
+          ...s,
+          x: newX,
+          direction,
+          state: Math.abs(dx) > 80 ? "walk" : "idle",
+        };
+      }));
+    }, 20);
+
+    return () => clearInterval(interval);
+  }, [player.x, player.y, npcLevel, difficulty, playerClass, isPaused]);
+
+  // Remove dead summons after delay
+  useEffect(() => {
+    const dying = summons.filter(s => s.hp <= 0 && !s.isDying);
+    if (dying.length === 0) return;
+
+    const timeouts = dying.map(s => {
+      setSummons(prev => prev.map(s2 => s2.id === s.id ? { ...s2, isDying: true } : s2));
+      return window.setTimeout(() => {
+        setSummons(prev => prev.filter(s2 => s2.id !== s.id));
+      }, 500);
+    });
+
+    return () => timeouts.forEach(clearTimeout);
+  }, [summons]);
+
+  const handlePlayerHit = useCallback(() => {
+    if (!battle.playerCooldown.current || battle.isEnding.current) return;
+
+    const targets: { id: string; x: number; y: number }[] = [];
+
+    if (battle.npcHP > 0) targets.push({ id: "main", x: npc.x, y: npc.y });
+    for (const s of summons) {
+      if (s.hp > 0 && !s.isDying) targets.push({ id: s.id, x: s.x, y: s.y });
+    }
+
+    targets.sort((a, b) => {
+      const da = Math.abs(player.x - a.x);
+      const db = Math.abs(player.x - b.x);
+      return da - db;
+    });
+
+    const char = progress[player.character];
+
+    for (const target of targets) {
+      if (target.id === "main") {
+        battle.playerHit();
+        return;
+      }
+
+      if (
+        isPlayerInRange(player.x, player.y, target.x, target.y, player.state, player.character, false) &&
+        isFacingTarget(player.x, player.y, target.x, target.y, player.battleDirection)
+      ) {
+        const targetSummon = summons.find(s => s.id === target.id);
+        if (!targetSummon) return;
+
+        const dmg = Math.round(calculatePlayerDamage(char.stats.strength, playerClass));
+        const newHp = Math.max(0, Math.round(targetSummon.hp) - dmg);
+
+        if (newHp <= 0) {
+          const goatXp = calculateXP(npcLevel, "rare") ?? 0;
+          const goatCoins = (COIN_REWARDS["rare"] ?? 0) * npcLevel;
+          addXP(player.character, goatXp);
+          addCoins(goatCoins);
+        }
+
+        setSummons(prev => prev.map(s =>
+          s.id === target.id ? { ...s, hp: newHp } : s
+        ));
+        return;
+      }
+    }
+  }, [player.x, player.y, player.state, player.battleDirection, player.character, npc.x, npc.y, battle.npcHP, summons, playerClass, progress, battle.playerCooldown, battle.isEnding, battle.playerHit, addXP, addCoins, npcLevel]);
+
+  const handleSpecialHit = useCallback(() => {
+    if (!battle.playerCooldown.current || battle.isEnding.current) return;
+
+    const targets: { id: string; x: number; y: number }[] = [];
+
+    if (battle.npcHP > 0) targets.push({ id: "main", x: npc.x, y: npc.y });
+    for (const s of summons) {
+      if (s.hp > 0 && !s.isDying) targets.push({ id: s.id, x: s.x, y: s.y });
+    }
+
+    targets.sort((a, b) => {
+      const da = Math.abs(player.x - a.x);
+      const db = Math.abs(player.x - b.x);
+      return da - db;
+    });
+
+    const char = progress[player.character];
+
+    for (const target of targets) {
+      if (target.id === "main") {
+        battle.specialHit();
+        return;
+      }
+    }
+  }, [player.x, player.y, player.character, npc.x, npc.y, battle.npcHP, summons, progress, battle.playerCooldown, battle.isEnding, battle.specialHit]);
+
   const attackRef = useRef(attack);
   const specialRef = useRef(special);
-  const playerHitRef = useRef(battle.playerHit);
-  const specialHitRef = useRef(battle.specialHit);
+  const playerHitRef = useRef(handlePlayerHit);
+  const specialHitRef = useRef(handleSpecialHit);
   attackRef.current = attack;
   specialRef.current = special;
-  playerHitRef.current = battle.playerHit;
-  specialHitRef.current = battle.specialHit;
+  playerHitRef.current = handlePlayerHit;
+  specialHitRef.current = handleSpecialHit;
 
-  // controles
   useEffect(() => {
     if (showVictory || showDefeat || showIntro) return;
 
@@ -159,6 +335,7 @@ export function useBattleScene({
 
   function handleRetry() {
     setShowDefeat(false);
+    setSummons([]);
     battle.resetBattle();
     npc.resetNpc();
     resetBattleState();
@@ -180,6 +357,7 @@ export function useBattleScene({
     battle,
     npcStats,
     npcLevel,
+    summons,
     charProgress,
     missingXp,
     xpReward,
