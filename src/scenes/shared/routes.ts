@@ -8,7 +8,8 @@ export const HALL_ROUTES = {
   AFTER_PCROOM_ONE: "/hall/afterpcroom-one",
   THIRD_CLASS: "/hall/thirdclass",
   HELL: "/hall/hell",
-  PANDEMONY: "/hall/pandemony"
+  PANDEMONY: "/hall/pandemony",
+  LIBRARY_SECRET_PASSAGE: "/hall/library-secret-passage",
 };
 
 export const PCROOM_ROUTES = {
@@ -18,6 +19,7 @@ export const PCROOM_ROUTES = {
   FOUR: "/pcroom/four",
   FIVE: "/pcroom/five",
   SIX: "/pcroom/six",
+  SEVEN: "/pcroom/seven",
 };
 
 export const OTHER_ROUTES = {

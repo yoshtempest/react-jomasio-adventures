@@ -5,6 +5,7 @@ export const footballCourtOneEvents: SceneEvent[] = [
         type: "conditional",
         condition: { notHasFlag: "neimito" },
         then: [
+          { type: "giveQuest", questId: "x1_neimito" },
           { type: "navigate", to: "/footballcourt/one" }
         ],
     },
