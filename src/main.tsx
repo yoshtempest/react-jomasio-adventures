@@ -46,7 +46,7 @@ const PcRoomBattleThree = lazyLoad(() => import('./pages/PcRoom/Battle/Three/ind
 const PlanetarySistersBattle = lazyLoad(() => import('./pages/Hall/Battle/Two/index.tsx'));
 const PcRoomPage = lazyLoad(() => import('./pages/PcRoom/index.tsx'));
 
-const Library = lazyLoad(() => import('./pages/Library/index.tsx'));
+const LibraryPage = lazyLoad(() => import('./pages/Library/index.tsx'));
 
 const VandinhaFragmentBattle = lazyLoad(() => import('./pages/Battle/Vandinha/index.tsx'));
 const GoatBattle = lazyLoad(() => import('./pages/Battle/Goat/index.tsx'));
@@ -74,7 +74,7 @@ const nonBattlePages = [
   HallPage,
   HallPage,
   PcRoomPage,
-  Library,
+  LibraryPage,
   CafeteriaPage,
   BrodiClassOne,
 ];
@@ -122,6 +122,11 @@ root.render(
                                   <Route path=":id" element={<DirectorPage />} />
                                 </Route>
 
+                                <Route path="library">
+                                  <Route index element={<Navigate to="/library/one" />} />
+                                  <Route path=":id" element={<LibraryPage />} />
+                                </Route>
+
                                 <Route path="cantina">
                                   <Route index element={<Navigate to="/cantina/one" />} />
                                   <Route path=":id" element={<CantinaPage />} />
@@ -147,8 +152,7 @@ root.render(
                                   <Route path="battle/two" element={<PcRoomBattleTwo />} />
                                   <Route path="battle/three" element={<PcRoomBattleThree />} />
                                 </Route>
-
-                                <Route path="library/one" element={<Library />} />
+                                
                                 <Route path="battle/hungry" element={<HungryDeathBattle />} />
                                 <Route path="battle/vandinhafragment" element={<VandinhaFragmentBattle />} />
                                 <Route path="battle/jhowsimar" element={<JhowSimarBattle />} />

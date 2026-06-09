@@ -1,5 +1,5 @@
 export function getThirdClassInitialPosition(lastPage?: LastPage): ExplorePosition {
-  if (lastPage === "/library") {
+  if (lastPage?.startsWith ("/library")) {
     return { x: 8, y: 4, direction: "down" };
   }
 
