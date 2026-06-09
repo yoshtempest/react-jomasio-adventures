@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
 import type { Player, PlayerMode, PlayerClass } from "@/utils/types/player/player";
 import { usePlayerMovement } from "@/hooks/player/usePlayerMovement";
 import { useBattleMovement } from "@/hooks/player/useBattleMovement";
@@ -7,6 +7,15 @@ import { useNavbar } from "@/contexts/NavbarContext";
 import type { NpcDifficulty } from "@/utils/types/npc/npcProgress";
 import { usePlayerAnimation } from "@/hooks/battle/player/usePlayerAnimation";
 import { playAttackSound } from "@/utils/playAttackSound";
+
+const BATTLE_DEFAULT_STATE = {
+  x: 100,
+  y: 670,
+  groundY: 670,
+  velY: 0,
+  state: "idle" as const,
+  battleDirection: "right" as const,
+};
 
 type PlayerContextType = {
   player: Player;
@@ -60,12 +69,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       direction: "up",
       character: (savedCharacter as Player["character"]) || "marcelo",
 
-      x: 100,
-      y: 300,
-      groundY: 670,
-      velY: 0,
-      battleDirection: "right",
-      state: "idle",
+      ...BATTLE_DEFAULT_STATE,
       mode: "explore",
     };
   });
@@ -89,6 +93,16 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     return null;
   });
 
+  useEffect(() => {
+    localStorage.setItem("coins", String(coins));
+  }, [coins]);
+
+  useEffect(() => {
+    if (playerClass) {
+      localStorage.setItem("player_class", playerClass);
+    }
+  }, [playerClass]);
+
   const {
     moveUpBattle,
     startMoveLeft,
@@ -102,10 +116,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   } = useBattleMovement(setPlayer);
 
   const attack = () => {
-    if (player.state !== "idle") return;
-
     playAttackSound(player.character);
-
     rawAttack();
   };
 
@@ -114,16 +125,11 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   }
 
   function chooseClass(cls: PlayerClass) {
-    localStorage.setItem("player_class", cls!);
     setPlayerClass(cls);
   }
 
   function addCoins(amount: number) {
-    setCoins((prev) => {
-      const total = prev + amount;
-      localStorage.setItem("coins", String(total));
-      return total;
-    });
+    setCoins((prev) => prev + amount);
   }
 
   function openInventory() {
@@ -139,28 +145,14 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     setPlayer((p) => ({
       ...p,
       mode,
-      ...(mode === "battle"
-        ? {
-            x: 100,
-            y: 670,
-            groundY: 670,
-            velY: 0,
-            state: "idle",
-            battleDirection: "right",
-          }
-        : {}),
+      ...(mode === "battle" ? BATTLE_DEFAULT_STATE : {}),
     }));
   }
 
   function resetBattleState() {
     setPlayer((p) => ({
       ...p,
-      x: 100,
-      y: 670,
-      groundY: 670,
-      velY: 0,
-      state: "idle",
-      battleDirection: "right",
+      ...BATTLE_DEFAULT_STATE,
     }));
   }
 
