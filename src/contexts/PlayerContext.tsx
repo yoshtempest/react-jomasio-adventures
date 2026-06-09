@@ -6,7 +6,7 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import type { NpcDifficulty } from "@/utils/types/npc/npcProgress";
 import { usePlayerAnimation } from "@/hooks/battle/player/usePlayerAnimation";
-import { asset } from "@/utils/asset";
+import { playAttackSound } from "@/utils/playAttackSound";
 
 type PlayerContextType = {
   player: Player;
@@ -104,19 +104,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const attack = () => {
     if (player.state !== "idle") return;
 
-    if (player.character === "eduarda") {
-      const audio = new Audio(asset("/assets/songs/soundEffects/player/eduarda/normalAttack.mp3"));
-      audio.volume = 0.2;
-      audio.play().catch(() => {});
-    }
-
-    if (player.character === "marcelo") {
-      const sounds = ["sword-slash-1", "sword-slash-2", "sword-slash-4"];
-      const pick = sounds[Math.floor(Math.random() * sounds.length)];
-      const audio = new Audio(asset(`/assets/songs/soundEffects/player/marcelo/${pick}.mp3`));
-      audio.volume = 0.2;
-      audio.play().catch(() => {});
-    }
+    playAttackSound(player.character);
 
     rawAttack();
   };
@@ -143,7 +131,6 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     toggleInventory();
   }
   function openNavbar() {
-
     if (player.mode !== "explore") return;
     toggleNavbar();
   }
