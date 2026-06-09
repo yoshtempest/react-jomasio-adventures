@@ -172,6 +172,14 @@ h2 {
   background-image: url("/assets/cenarios/tutorial.svg");
 }
 
+.LibrarySecretPassage {
+  background-image: url("/assets/cenarios/librarySecretPassage.svg");
+}
+
+.LibraryPassageOpened {
+  background-image: url("/assets/cenarios/libraryPassageOpened.svg");
+}
+
 
 .overlay {
   position: fixed;

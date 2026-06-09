@@ -25,9 +25,12 @@ export const PCROOM_ROUTES = {
 export const OTHER_ROUTES = {
   CANTINA_TWO: "/cantina/two",
   LIBRARY: "/library",
+  LIBRARY_TWO: "/library/two",
   BRODI_CLASS: "/brodiclass/one",
   DIRECTOR_ONE: "/director/one",
   DIRECTOR_TWO: "/director/two",
+  FOOTBALLCOURT_ONE: "/footballcourt/one",
+  FOOTBALLCOURT_TWO: "/footballcourt/two",
 };
 
 export const CAFETERIA_ROUTES = {
