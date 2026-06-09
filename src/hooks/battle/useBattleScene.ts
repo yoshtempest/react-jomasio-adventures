@@ -17,8 +17,8 @@ import { calculatePlayerDamage } from "@/gameRules/battle/damage";
 import { calculateNpcDamage } from "@/gameRules/battle/damage";
 import { isPlayerInRange } from "@/gameRules/battle/range";
 import { isFacingTarget } from "@/gameRules/battle/direction";
-import type { SummonedNpc } from "@/utils/types/npc/npc";
 import { useBattleRewards } from "@/hooks/battle/useBattleRewards";
+import { useSummons } from "@/hooks/battle/useSummons";
 
 type Props = {
   npcType: string;
@@ -36,9 +36,28 @@ export function useBattleScene({
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { player, setMode, attack, special, resetBattleState, difficulty, addCoins, playerClass } = usePlayer();
-  const { pushControls, popControls } = useGameControls();
-  const { addXP, progress, getXPToNextLevel } = useCharacterProgress();
+  const {
+    player,
+    setMode,
+    attack,
+    special,
+    resetBattleState,
+    difficulty,
+    addCoins,
+    playerClass
+  } = usePlayer();
+
+  const {
+    pushControls,
+    popControls
+  } = useGameControls();
+  
+  const {
+    addXP,
+    progress,
+    getXPToNextLevel
+  } = useCharacterProgress();
+
   const { closeInventory } = useInventory();
   const { closeNavbar } = useNavbar();
 
@@ -46,7 +65,6 @@ export function useBattleScene({
   const [npcLevel] = useState(() => generateNpcLevel());
   const [npcPhase, setNpcPhase] = useState(1);
   const [showIntro, setShowIntro] = useState(true);
-  const [summons, setSummons] = useState<SummonedNpc[]>([]);
   const summonLastAttacksRef = useRef<Record<string, number>>({});
 
   const npcData = NPCS[npcType];
@@ -58,6 +76,19 @@ export function useBattleScene({
   } = useBattleRewards({
     npcClass: npcData.class,
     npcLevel,
+  });
+
+  const {
+    summons,
+    setSummons,
+    summonNpc,
+    clearSummons,
+    updateNpcPosition,
+  } = useSummons({
+    npcLevel,
+    difficulty,
+    playerX: player.x,
+    playerGroundY: player.groundY,
   });
 
   const charProgress = progress[player.character];
@@ -81,32 +112,6 @@ export function useBattleScene({
   playerXRef.current = player.x;
   const playerYRef = useRef(player.y);
   playerYRef.current = player.y;
-
-  const SPAWN_POSITIONS = [700, 1050];
-
-  const npcXRef = useRef(900);
-
-  function summonNpc(npcType: string) {
-    const data = NPCS[npcType];
-    if (!data) return;
-
-    const maxHp = getNpcStats(npcLevel, data.class, difficulty).hp;
-    const taken = summons.map(s => s.x);
-    const free = SPAWN_POSITIONS.find(pos => !taken.includes(pos));
-    const spawnX = free ?? npcXRef.current;
-
-    setSummons(prev => [...prev, {
-      id: `summon_${Date.now()}`,
-      npcType,
-      x: spawnX,
-      y: player.groundY,
-      direction: spawnX < player.x ? "right" : "left",
-      state: "walk",
-      hp: maxHp,
-      maxHp,
-      isDying: false,
-    }]);
-  }
 
   const npc = useNpcAI({
     playerX: player.x,
@@ -139,13 +144,13 @@ export function useBattleScene({
 
   // Track NPC position for summon spawns
   useEffect(() => {
-    npcXRef.current = npc.x;
-  }, [npc.x]);
+    updateNpcPosition(npc.x);
+  }, [npc.x, updateNpcPosition]);
 
   // Despawn summons on boss phase 2
   useEffect(() => {
     if (battle.npcPhase === 2) {
-      setSummons([]);
+      clearSummons();
     }
   }, [battle.npcPhase]);
 
@@ -379,7 +384,7 @@ export function useBattleScene({
 
   function handleRetry() {
     setShowDefeat(false);
-    setSummons([]);
+    clearSummons();
     battle.resetBattle();
     npc.resetNpc();
     resetBattleState();

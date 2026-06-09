@@ -32,40 +32,38 @@ export function useBattleRewards({
     const xpReward = calculateXP(npcLevel, npcClass) ?? 0;
     const coinReward = (COIN_REWARDS[npcClass] ?? 0) * npcLevel;
 
-    function giveSummonRewards(
-        npcClass: NPCClass
-        ) {
-        const xp = calculateXP(npcLevel, npcClass) ?? 0;
-        const coins = (COIN_REWARDS[npcClass] ?? 0) * npcLevel;
+    function giveSummonRewards(npcClass: NPCClass) {
+      const xp = calculateXP(npcLevel, npcClass) ?? 0;
+      const coins = (COIN_REWARDS[npcClass] ?? 0) * npcLevel;
 
-        addXP(player.character, xp);
-        addCoins(coins);
+      addXP(player.character, xp);
+      addCoins(coins);
     }
 
     function giveRewards() {
-        addXP(player.character, xpReward);
-        addCoins(coinReward);
+      addXP(player.character, xpReward);
+      addCoins(coinReward);
 
-        const droppedRank = rollDrop(npcClass);
+      const droppedRank = rollDrop(npcClass);
 
-        if (!droppedRank) return;
+      if (!droppedRank) return;
 
-        const pool = EQUIPMENT_LIST.filter(
-        equipment => equipment.rank === droppedRank
-        );
+      const pool = EQUIPMENT_LIST.filter(
+      equipment => equipment.rank === droppedRank
+      );
 
-        if (pool.length === 0) return;
+      if (pool.length === 0) return;
 
-        const picked =
-        pool[Math.floor(Math.random() * pool.length)];
+      const picked =
+      pool[Math.floor(Math.random() * pool.length)];
 
-        addDrop(player.character, picked.id);
+      addDrop(player.character, picked.id);
     }
 
     return {
-        xpReward,
-        coinReward,
-        giveRewards,
-        giveSummonRewards
+      xpReward,
+      coinReward,
+      giveRewards,
+      giveSummonRewards
     };
 }
