@@ -1,4 +1,3 @@
-// src/components/Preloader.tsx
 import { useEffect } from "react";
 import { preloadPages } from "@/utils/preloadPages";
 

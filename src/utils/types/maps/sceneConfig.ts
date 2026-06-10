@@ -1,5 +1,6 @@
 import type { ExploreSceneProps } from "@/utils/types/maps/exploreScene";
 import type { SceneEvent } from "./sceneEvents";
+import type { Player } from "@/scenes/shared/types";
 
 export type SceneId =
 "one" |
@@ -32,7 +33,7 @@ type SceneTile = {
   route?: string;
 
   // rota dinâmica (caso avançado)
-  getRoute?: (player: any, quests: any[]) => string | null;
+  getRoute?: (player: Player, quests: QuestId[]) => string | null;
 
   requiredQuest?: QuestId;
 
