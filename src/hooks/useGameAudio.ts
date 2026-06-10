@@ -63,6 +63,7 @@ export function useGameAudio({
     try {
       await audioRef.current.play();
     } catch (err) {
+      if (err instanceof DOMException && err.name === "AbortError") return;
       console.error(err);
     }
   };
