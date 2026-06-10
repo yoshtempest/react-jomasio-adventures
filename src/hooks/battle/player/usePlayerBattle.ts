@@ -95,7 +95,6 @@ export function usePlayerBattle({
     playerClass,
     setNpcHP,
     HITS_TO_SPECIAL,
-    stacks,
     spawnPiercing,
   ]);
 

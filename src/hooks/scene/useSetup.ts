@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import type { ScenePosition } from "@/utils/types/sceneHooks";
 
 type Props = {
@@ -15,9 +15,15 @@ export function useSceneSetup({
   setPosition,
 }: Props) {
   const [isReady, setIsReady] = useState(false);
+  const setMapRef = useRef(setMap);
+  setMapRef.current = setMap;
+  const setPositionRef = useRef(setPosition);
+  setPositionRef.current = setPosition;
+  const initialPositionRef = useRef(initialPosition);
+  initialPositionRef.current = initialPosition;
 
   useLayoutEffect(() => {
-    setMap(map);
+    setMapRef.current(map);
 
     localStorage.removeItem("scene_return_position");
 
@@ -34,7 +40,7 @@ export function useSceneSetup({
       const saved = positions[currentRoute];
 
       if (saved) {
-        setPosition(saved.x, saved.y, saved.direction);
+        setPositionRef.current(saved.x, saved.y, saved.direction);
         delete positions[currentRoute];
         localStorage.setItem(
           "scene_return_positions",
@@ -45,12 +51,10 @@ export function useSceneSetup({
       }
     }
 
-    if (initialPosition) {
-      setPosition(
-        initialPosition.x,
-        initialPosition.y,
-        initialPosition.direction
-      );
+    const pos = initialPositionRef.current;
+
+    if (pos) {
+      setPositionRef.current(pos.x, pos.y, pos.direction);
     }
 
     setIsReady(true);
