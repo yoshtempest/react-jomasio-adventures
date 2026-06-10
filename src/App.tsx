@@ -6,7 +6,7 @@ import { Inventory } from "@/components/Navbar/Inventory";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { Navbar } from "@/components/Navbar";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { loadGame } from "@/utils/saveGame";
 
 import { useQuests } from "@/contexts/QuestContext";
@@ -24,20 +24,29 @@ function App() {
     setCharacter,
   } = usePlayer();
 
+  const chooseClassRef = useRef(chooseClass);
+  chooseClassRef.current = chooseClass;
+  const setCharacterRef = useRef(setCharacter);
+  setCharacterRef.current = setCharacter;
+  const setItemsRef = useRef(setItems);
+  setItemsRef.current = setItems;
+  const setQuestsRef = useRef(setQuests);
+  setQuestsRef.current = setQuests;
+
   useEffect(() => {
     const save = loadGame();
 
     if (!save) return;
 
-    setItems(save.inventory);
-    setQuests(save.quests);
+    setItemsRef.current(save.inventory);
+    setQuestsRef.current(save.quests);
 
     if (save.playerClass) {
-      chooseClass(save.playerClass);
+      chooseClassRef.current(save.playerClass);
     }
 
     if (save.character && isCharacter(save.character)) {
-      setCharacter(save.character);
+      setCharacterRef.current(save.character);
     }
   }, []);
 
