@@ -1,9 +1,10 @@
 import { useCallback } from "react";
 import { useInteraction } from "@/hooks/interaction/useInteraction";
+import type { Player } from "@/utils/types/player/player";
 import type { InteractionHandler, DialogueSystem } from "@/utils/types/sceneHooks";
 
 type Props = {
-  player: any; // depois você pode tipar melhor
+  player: Player;
   map: number[][];
   dialogueSystem: DialogueSystem;
   playSansTalking: () => void;

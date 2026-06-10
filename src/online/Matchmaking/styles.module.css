@@ -1,8 +1,0 @@
-.input {
-    background-color: var(--primary-color);
-}
-
-.selected {
-    background-color: var(--primary-color);
-  border: 2px solid var(--background-color);
-}

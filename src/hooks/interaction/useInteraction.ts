@@ -1,12 +1,18 @@
 import { useEffect, useRef } from "react";
 import { getTileInFront } from "@/utils/getTileInFront";
 import { useGameControls } from "@/contexts/GameControlsContext";
+import type { Player } from "@/utils/types/player/player";
+import type { InteractionHandler } from "@/utils/types/sceneHooks";
 
 export function useInteraction({
   player,
   map,
   onInteract,
-}: any) {
+}: {
+  player: Player;
+  map: number[][];
+  onInteract: InteractionHandler;
+}) {
   const playerRef = useRef(player);
   const mapRef = useRef(map);
   const onInteractRef = useRef(onInteract);

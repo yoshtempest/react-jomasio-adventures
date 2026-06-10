@@ -29,7 +29,6 @@ import { Preloader } from "@/components/Preloader";
 import { LoadingScreen } from "@/components/LoadingScreen";
 const EntryPoint = lazyLoad(() => import('./pages/EntryPoint'));
 const Intro = lazyLoad(() => import('./pages/Intro/index.tsx'));
-const Matchmaking = lazyLoad(() => import('./online/Matchmaking/index.tsx'));
 const Tutorial = lazyLoad(() => import('./pages/Tutorial/index.tsx'));
 const Home = lazyLoad(() => import('./pages/Home/index.tsx'));
 const FirstScreen = lazyLoad(() => import('./pages/FirstScreen/index.tsx'));
@@ -70,7 +69,6 @@ const nonBattlePages = [
   HellroomPage,
   EntryPoint,
   Intro,
-  Matchmaking,
   Tutorial,
   Home,
   FirstScreen,
@@ -87,9 +85,10 @@ const nonBattlePages = [
 const container = document.getElementById("root")!;
 
 // 👇 guarda o root no próprio DOM (hack seguro)
+type ContainerWithRoot = HTMLElement & { _reactRoot: ReturnType<typeof createRoot> };
 const root =
-  (container as any)._reactRoot ||
-  ((container as any)._reactRoot = createRoot(container));
+  (container as ContainerWithRoot)._reactRoot ||
+  ((container as ContainerWithRoot)._reactRoot = createRoot(container));
 
 root.render(
   <StrictMode>
@@ -112,7 +111,6 @@ root.render(
                                 <Route index element={<EntryPoint />} />
                                 <Route path="tutorial" element={<Tutorial />} />
                                 <Route path="intro" element={<Intro />} />
-                                <Route path="matchmaking" element={<Matchmaking />} />
                                 <Route path="home" element={<Home />} />
                                 <Route path="firstscreen" element={<FirstScreen />} />
 

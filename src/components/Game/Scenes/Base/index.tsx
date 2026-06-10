@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useNavigate, useLocation } from "react-router";
+import { useNavigate, useLocation, type NavigateFunction, type Location } from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { ExploreScene } from "@/components/Game/Scenes/Default";
 import { runSceneEvents } from "@/engine/runSceneEvents";
@@ -7,17 +7,29 @@ import { useQuestActions } from "@/hooks/useQuestActions";
 import { useQuests } from "@/contexts/QuestContext";
 import { MapOverlay } from "@/components/Game/MenuMap";
 import { QUESTS } from "@/data/quests";
+import type { SceneConfig, SceneTile } from "@/utils/types/maps/sceneConfig";
+import type { Player } from "@/utils/types/player/player";
+import type { Quest } from "@/utils/types/player/quest";
 
 type SceneBaseProps = {
-  scene: any;
+  scene: SceneConfig;
   className?: string;
 
   interactions?: Record<string, () => void>;
   popup?: string | null;
   setPopup?: (msg: string | null) => void;
 
-  handleExit?: (ctx: any) => boolean;
-  onFinishExtra?: (ctx: any) => Record<string, any> | void;
+  handleExit?: (ctx: {
+    player: Player;
+    scene: SceneConfig;
+    navigate: NavigateFunction;
+    location: Location;
+    quests: Quest[];
+  }) => boolean;
+  onFinishExtra?: (ctx: {
+    navigate: NavigateFunction;
+    location: Location;
+  }) => Record<string, unknown> | void;
   children?: React.ReactNode;
 };
 
@@ -69,7 +81,7 @@ export function SceneBase({
     }
 
     const tile = scene.tiles?.find(
-      (t: any) =>
+      (t: SceneTile) =>
         player.gridX === t.x &&
         player.gridY === t.y
     );

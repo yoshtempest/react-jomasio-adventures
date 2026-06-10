@@ -6,9 +6,22 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 
 
+type BattleHUDState = {
+  playerHP: number;
+  playerMaxHp: number;
+  npcHP: number;
+  delicia: number;
+  hitsToSpecial: number;
+};
+
+type NpcStats = {
+  hp: number;
+  damage: number;
+};
+
 type Props = {
-  battle: any;
-  npcStats: any;
+  battle: BattleHUDState;
+  npcStats: NpcStats;
   npcType?: string;
   summons?: SummonedNpc[];
 };
