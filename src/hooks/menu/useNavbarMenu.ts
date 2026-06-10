@@ -25,13 +25,28 @@ export function useNavbarMenu() {
         screenRef.current = screen;
     }, [selectedIndex, screen]);
 
+  const playMoveRef = useRef(playMove);
+  playMoveRef.current = playMove;
+  const playSelectRef = useRef(playSelect);
+  playSelectRef.current = playSelect;
+  const playCloseRef = useRef(playClose);
+  playCloseRef.current = playClose;
+  const pushControlsRef = useRef(pushControls);
+  pushControlsRef.current = pushControls;
+  const popControlsRef = useRef(popControls);
+  popControlsRef.current = popControls;
+  const closeNavbarRef = useRef(closeNavbar);
+  closeNavbarRef.current = closeNavbar;
+  const setModeRef = useRef(setMode);
+  setModeRef.current = setMode;
+
   // 🎮 registrar camada
   useEffect(() => {
     const controls = {
       onUp: () => {
         if (screenRef.current !== "menu") return;
 
-        playMove();
+        playMoveRef.current();
         setSelectedIndex((prev) =>
           circularPrev(prev, NAVBAR_OPTIONS.length)
         );
@@ -40,7 +55,7 @@ export function useNavbarMenu() {
       onDown: () => {
         if (screenRef.current !== "menu") return;
 
-        playMove();
+        playMoveRef.current();
         setSelectedIndex((prev) =>
           circularNext(prev, NAVBAR_OPTIONS.length)
         );
@@ -49,28 +64,28 @@ export function useNavbarMenu() {
       onConfirm: () => {
         if (screenRef.current !== "menu") return;
 
-        playSelect();
+        playSelectRef.current();
         const selected = getSelected(NAVBAR_OPTIONS, selectedIndexRef.current);
         setScreen(selected.screen);
         return true;
       },
 
       onCancel: () => {
-        playClose();
+        playCloseRef.current();
         if (!shouldCloseToExplore(screenRef.current)) {
           setScreen("menu");
           return;
         }
 
-        closeNavbar();
-        setMode("explore");
+        closeNavbarRef.current();
+        setModeRef.current("explore");
       },
 
       blockGlobalOpen: true,
     };
 
-    pushControls(controls);
-    return () => popControls();
+    pushControlsRef.current(controls);
+    return () => popControlsRef.current();
   }, []);
 
   return {

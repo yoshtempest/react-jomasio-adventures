@@ -23,12 +23,23 @@ export function useMatchmakingMenu() {
     typingRef.current = typing;
   }, [selectedIndex, typing]);
 
+  const playMoveRef = useRef(playMove);
+  playMoveRef.current = playMove;
+  const playSelectRef = useRef(playSelect);
+  playSelectRef.current = playSelect;
+  const playCloseRef = useRef(playClose);
+  playCloseRef.current = playClose;
+  const pushControlsRef = useRef(pushControls);
+  pushControlsRef.current = pushControls;
+  const popControlsRef = useRef(popControls);
+  popControlsRef.current = popControls;
+
   useEffect(() => {
     const controls = {
       onUp: () => {
         if (typingRef.current) return;
 
-        playMove();
+        playMoveRef.current();
         setSelectedIndex((prev) =>
           circularPrev(prev, OPTIONS.length)
         );
@@ -37,7 +48,7 @@ export function useMatchmakingMenu() {
       onDown: () => {
         if (typingRef.current) return;
 
-        playMove();
+        playMoveRef.current();
         setSelectedIndex((prev) =>
           circularNext(prev, OPTIONS.length)
         );
@@ -46,7 +57,7 @@ export function useMatchmakingMenu() {
       onConfirm: () => {
         const index = selectedIndexRef.current;
 
-        playSelect();
+        playSelectRef.current();
 
         // 👉 Criar sala
         if (index === 0) {
@@ -71,16 +82,16 @@ export function useMatchmakingMenu() {
           return;
         }
 
-        playClose();
+        playCloseRef.current();
         navigate("/");
       },
 
       blockGlobalOpen: true,
     };
 
-    pushControls(controls);
-    return () => popControls();
-  }, [roomCode]);
+    pushControlsRef.current(controls);
+    return () => popControlsRef.current();
+  }, [roomCode, navigate]);
 
   return {
     selectedIndex,

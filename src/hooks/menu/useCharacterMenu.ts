@@ -36,53 +36,62 @@ export function useCharacterMenu() {
     selectedIndexRef.current = selectedIndex;
   }, [selectedIndex]);
 
-  function handleChooseCharacter(id: CharacterId) {
-    setCharacter(id);
-  }
+  const handleChooseCharacterRef = useRef<(id: CharacterId) => void>(() => {});
+  handleChooseCharacterRef.current = (id: CharacterId) => setCharacter(id);
+  const playMoveRef = useRef(playMove);
+  playMoveRef.current = playMove;
+  const playSelectRef = useRef(playSelect);
+  playSelectRef.current = playSelect;
+  const pushControlsRef = useRef(pushControls);
+  pushControlsRef.current = pushControls;
+  const popControlsRef = useRef(popControls);
+  popControlsRef.current = popControls;
+  const selectableCharactersRef = useRef(selectableCharacters);
+  selectableCharactersRef.current = selectableCharacters;
 
   // 🎮 CONTROLES
   useEffect(() => {
     const controls = {
       onRight: () => {
-        playMove();
+        playMoveRef.current();
         setSelectedIndex((prev) =>
-          circularNext(prev, selectableCharacters.length)
+          circularNext(prev, selectableCharactersRef.current.length)
         );
       },
 
       onLeft: () => {
-        playMove();
+        playMoveRef.current();
         setSelectedIndex((prev) =>
-          circularPrev(prev, selectableCharacters.length)
+          circularPrev(prev, selectableCharactersRef.current.length)
         );
       },
 
       onDown: () => {
-        playMove();
+        playMoveRef.current();
         setSelectedIndex((prev) => 
-          gridMove(prev, 6, "down", selectableCharacters.length)
+          gridMove(prev, 6, "down", selectableCharactersRef.current.length)
         );
       },
 
       onUp: () => {
-        playMove();
+        playMoveRef.current();
         setSelectedIndex((prev) =>
-          gridMove(prev, 6, "up", selectableCharacters.length)
+          gridMove(prev, 6, "up", selectableCharactersRef.current.length)
         );
       },
 
       onConfirm: () => {
-        playSelect();
-        const selected = getSelected(selectableCharacters, selectedIndexRef.current);
-        handleChooseCharacter(selected.image as CharacterId);
+        playSelectRef.current();
+        const selected = getSelected(selectableCharactersRef.current, selectedIndexRef.current);
+        handleChooseCharacterRef.current(selected.image as CharacterId);
         return true;
       },
 
       blockGlobalOpen: true,
     };
 
-    pushControls(controls);
-    return () => popControls();
+    pushControlsRef.current(controls);
+    return () => popControlsRef.current();
   }, []);
 
   return {

@@ -13,9 +13,12 @@ export function useInventoryMenu(isOpen: boolean) {
   const { items } = useInventory();
   const { volume: masterVolume } = useAudio();
 
+  const masterVolumeRef = useRef(masterVolume);
+  masterVolumeRef.current = masterVolume;
+
   const playSFX = (src: string, volume = 1) => {
     const audio = new Audio(asset(src));
-    audio.volume = volume * (masterVolume / 100);
+    audio.volume = volume * (masterVolumeRef.current / 100);
     audio.play().catch(() => {});
   };
   
@@ -37,7 +40,8 @@ export function useInventoryMenu(isOpen: boolean) {
     );
   }, [items]);
 
-  function handleUseItem(index: number) {
+  const handleUseItemRef = useRef<(index: number) => boolean>(() => false);
+  handleUseItemRef.current = function handleUseItem(index: number) {
     const item = items[index];
     if (!item) return false;
 
@@ -46,7 +50,16 @@ export function useInventoryMenu(isOpen: boolean) {
 
     effect();
     return true;
-  }
+  };
+
+  const playMoveRef = useRef(playMove);
+  playMoveRef.current = playMove;
+  const playSelectRef = useRef(playSelect);
+  playSelectRef.current = playSelect;
+  const pushControlsRef = useRef(pushControls);
+  pushControlsRef.current = pushControls;
+  const popControlsRef = useRef(popControls);
+  popControlsRef.current = popControls;
 
   useEffect(() => {
     if (!isOpen) return;
@@ -55,7 +68,7 @@ export function useInventoryMenu(isOpen: boolean) {
       onUp: () => {
         const length = items.length;
         if (length === 0) return;
-        playMove();
+        playMoveRef.current();
 
         setSelectedIndex((prev) =>
           circularPrev(prev, length)
@@ -66,22 +79,22 @@ export function useInventoryMenu(isOpen: boolean) {
         const length = items.length;
         if (length === 0) return;
 
-        playMove();
+        playMoveRef.current();
         setSelectedIndex((prev) =>
           circularNext(prev, length)
         );
       },
 
       onConfirm: () => {
-        playSelect();
-        return handleUseItem(selectedIndexRef.current);
+        playSelectRef.current();
+        return handleUseItemRef.current(selectedIndexRef.current);
       },
 
       blockGlobalOpen: true,
     };
 
-    pushControls(controls);
-    return () => popControls();
+    pushControlsRef.current(controls);
+    return () => popControlsRef.current();
   }, [isOpen, items]); // 👈 ESSENCIAL
 
   return {

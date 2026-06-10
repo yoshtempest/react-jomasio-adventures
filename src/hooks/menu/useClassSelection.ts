@@ -21,41 +21,54 @@ export function useClassSelection(isActive: boolean, onConfirm ?: () => void) {
     selectedIndexRef.current = selectedIndex;
   }, [selectedIndex]);
 
+  const playMoveRef = useRef(playMove);
+  playMoveRef.current = playMove;
+  const playSelectRef = useRef(playSelect);
+  playSelectRef.current = playSelect;
+  const pushControlsRef = useRef(pushControls);
+  pushControlsRef.current = pushControls;
+  const popControlsRef = useRef(popControls);
+  popControlsRef.current = popControls;
+  const chooseClassRef = useRef(chooseClass);
+  chooseClassRef.current = chooseClass;
+  const onConfirmRef = useRef(onConfirm);
+  onConfirmRef.current = onConfirm;
+
   useEffect(() => {
     if (!isActive) return;
 
     const controls = {
       onRight: () => {
-        playMove();
+        playMoveRef.current();
         setSelectedIndex((prev) =>
           circularNext(prev, CLASSES.length)
         );
       },
 
       onLeft: () => {
-        playMove();
+        playMoveRef.current();
         setSelectedIndex((prev) =>
           circularPrev(prev, CLASSES.length)
         );
       },
 
       onConfirm: () => {
-        playSelect();
+        playSelectRef.current();
         const selected = getSelected(CLASSES, selectedIndexRef.current);
         if (selected === "amostradinho") {
           const audio = new Audio(asset("/assets/songs/soundEffects/player/ifClassIsAmostradinho.mp3"));
           audio.play().catch(() => {});
         }
-        chooseClass(selected);
-        onConfirm?.(); // 👈 aqui está a mágica
+        chooseClassRef.current(selected);
+        onConfirmRef.current?.(); // 👈 aqui está a mágica
         return true;
       },
 
       blockGlobalOpen: true,
     };
 
-    pushControls(controls);
-    return () => popControls();
+    pushControlsRef.current(controls);
+    return () => popControlsRef.current();
   }, [isActive]);
 
   return {

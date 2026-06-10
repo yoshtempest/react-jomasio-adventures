@@ -23,24 +23,33 @@ export function useGameModeMenu() {
     selectedIndexRef.current = selectedIndex;
   }, [selectedIndex]);
 
+  const playMoveRef = useRef(playMove);
+  playMoveRef.current = playMove;
+  const playSelectRef = useRef(playSelect);
+  playSelectRef.current = playSelect;
+  const pushControlsRef = useRef(pushControls);
+  pushControlsRef.current = pushControls;
+  const popControlsRef = useRef(popControls);
+  popControlsRef.current = popControls;
+
   useEffect(() => {
     const controls = {
       onUp: () => {
-        playMove();
+        playMoveRef.current();
         setSelectedIndex((prev) =>
           circularPrev(prev, GAME_MODE_OPTIONS.length)
         );
       },
 
       onDown: () => {
-        playMove();
+        playMoveRef.current();
         setSelectedIndex((prev) =>
           circularNext(prev, GAME_MODE_OPTIONS.length)
         );
       },
 
       onConfirm: () => {
-        playSelect();
+        playSelectRef.current();
         const selected = GAME_MODE_OPTIONS[selectedIndexRef.current];
 
         navigate(selected.route);
@@ -53,9 +62,9 @@ export function useGameModeMenu() {
       blockGlobalOpen: true,
     };
 
-    pushControls(controls);
-    return () => popControls();
-  }, []);
+    pushControlsRef.current(controls);
+    return () => popControlsRef.current();
+  }, [navigate]);
 
   return {
     selectedIndex,

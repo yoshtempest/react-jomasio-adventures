@@ -22,40 +22,51 @@ export function useStatusMenu(isOpen: boolean) {
     selectedIndexRef.current = selectedIndex;
   }, [selectedIndex]);
 
+  const playMoveRef = useRef(playMove);
+  playMoveRef.current = playMove;
+  const playSelectRef = useRef(playSelect);
+  playSelectRef.current = playSelect;
+  const pushControlsRef = useRef(pushControls);
+  pushControlsRef.current = pushControls;
+  const popControlsRef = useRef(popControls);
+  popControlsRef.current = popControls;
+  const addStatRef = useRef(addStat);
+  addStatRef.current = addStat;
+
   useEffect(() => {
     if (!isOpen) return;
 
     const controls = {
       onUp: () => {
-        playMove();
+        playMoveRef.current();
         setSelectedIndex((prev) =>
           circularPrev(prev, OPTIONS.length)
         );
       },
 
       onDown: () => {
-        playMove();
+        playMoveRef.current();
         setSelectedIndex((prev) =>
           circularNext(prev, OPTIONS.length)
         );
       },
 
       onConfirm: () => {
-        playSelect();
+        playSelectRef.current();
         const stat = OPTIONS[selectedIndexRef.current];
         const char = progress[player.character];
 
         if (!canSpendPoints(char.stats.points)) return true;
 
-        addStat(player.character, stat);
+        addStatRef.current(player.character, stat);
         return true;
       },
 
       blockGlobalOpen: true,
     };
 
-    pushControls(controls);
-    return () => popControls();
+    pushControlsRef.current(controls);
+    return () => popControlsRef.current();
   }, [isOpen, progress, player.character]);
 
   return {

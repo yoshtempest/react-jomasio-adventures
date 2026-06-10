@@ -39,13 +39,30 @@ export function useConfigSelection(
     screenRef.current = screen;
   }, [selectedIndex, selectedRow, screen]);
 
+  const playMoveRef = useRef(playMove);
+  playMoveRef.current = playMove;
+  const playSelectRef = useRef(playSelect);
+  playSelectRef.current = playSelect;
+  const playCloseRef = useRef(playClose);
+  playCloseRef.current = playClose;
+  const pushControlsRef = useRef(pushControls);
+  pushControlsRef.current = pushControls;
+  const popControlsRef = useRef(popControls);
+  popControlsRef.current = popControls;
+  const setDifficultyRef = useRef(setDifficulty);
+  setDifficultyRef.current = setDifficulty;
+  const setVolumeRef = useRef(setVolume);
+  setVolumeRef.current = setVolume;
+  const onConfirmRef = useRef(onConfirm);
+  onConfirmRef.current = onConfirm;
+
   useEffect(() => {
     if (!isActive) return;
 
     const controls = {
       onRight: () => {
         if (screenRef.current !== "menu") return;
-        playMove();
+        playMoveRef.current();
 
         if (selectedRowRef.current === 0) {
           setSelectedIndex((prev) =>
@@ -54,13 +71,13 @@ export function useConfigSelection(
         }
 
         if (selectedRowRef.current === 1) {
-          setVolume(Math.min(volume + 10, 100));
+          setVolumeRef.current(Math.min(volume + 10, 100));
         }
       },
 
       onLeft: () => {
         if (screenRef.current !== "menu") return;
-        playMove();
+        playMoveRef.current();
 
         if (selectedRowRef.current === 0) {
           setSelectedIndex((prev) =>
@@ -69,28 +86,28 @@ export function useConfigSelection(
         }
 
         if (selectedRowRef.current === 1) {
-          setVolume(Math.max(volume - 10, 0));
+          setVolumeRef.current(Math.max(volume - 10, 0));
         }
       },
 
       onDown: () => {
         if (screenRef.current !== "menu") return;
 
-        playMove();
+        playMoveRef.current();
         setSelectedRow((prev) => Math.min(prev + 1, 2));
       },
 
       onUp: () => {
         if (screenRef.current !== "menu") return;
 
-        playMove();
+        playMoveRef.current();
         setSelectedRow((prev) => Math.max(prev - 1, 0));
       },
 
       onConfirm: () => {
         if (screenRef.current !== "menu") return true;
 
-        playSelect();
+        playSelectRef.current();
 
         // dificuldade
         if (selectedRowRef.current === 0) {
@@ -99,7 +116,7 @@ export function useConfigSelection(
             selectedIndexRef.current
           );
 
-          setDifficulty(selected);
+          setDifficultyRef.current(selected);
         }
 
         // tutorial
@@ -107,13 +124,13 @@ export function useConfigSelection(
           setScreen("tutorial");
         }
 
-        onConfirm?.();
+        onConfirmRef.current?.();
 
         return true;
       },
 
       onCancel: () => {
-        playClose();
+        playCloseRef.current();
         if (screenRef.current === "tutorial") {
           setScreen("menu");
           return true;
@@ -125,9 +142,9 @@ export function useConfigSelection(
       blockGlobalOpen: true,
     };
 
-    pushControls(controls);
+    pushControlsRef.current(controls);
 
-    return () => popControls();
+    return () => popControlsRef.current();
   }, [isActive, volume]);
 
   return {

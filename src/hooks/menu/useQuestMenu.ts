@@ -60,7 +60,7 @@ export function useQuestMenu(
       top: targetScroll,
       behavior: "smooth",
     });
-  }, [selectedIndex]);
+  }, [selectedIndex, listRef]);
 
   // garante índice válido quando totalItems muda
   useEffect(() => {
@@ -100,39 +100,50 @@ export function useQuestMenu(
     setSelectedIndex(tab === "active" ? 0 : 1);
   }
 
+  const playMoveRef = useRef(playMove);
+  playMoveRef.current = playMove;
+  const playSelectRef = useRef(playSelect);
+  playSelectRef.current = playSelect;
+  const pushControlsRef = useRef(pushControls);
+  pushControlsRef.current = pushControls;
+  const popControlsRef = useRef(popControls);
+  popControlsRef.current = popControls;
+  const handleUseItemRef = useRef<(index: number) => boolean>(() => false);
+  handleUseItemRef.current = handleUseItem;
+
   useEffect(() => {
     if (!isOpen) return;
 
     const controls = {
       onRight: () => {
-        playMove();
+        playMoveRef.current();
         setSelectedIndex((prev) => gridMove(prev, COLS, "right", totalItems));
       },
 
       onLeft: () => {
-        playMove();
+        playMoveRef.current();
         setSelectedIndex((prev) => gridMove(prev, COLS, "left", totalItems));
       },
 
       onDown: () => {
-        playMove();
+        playMoveRef.current();
         setSelectedIndex((prev) => gridMove(prev, COLS, "down", totalItems));
       },
 
       onUp: () => {
-        playMove();
+        playMoveRef.current();
         setSelectedIndex((prev) => gridMove(prev, COLS, "up", totalItems));
       },
 
       onConfirm: () => {
-        return handleUseItem(selectedIndexRef.current);
+        return handleUseItemRef.current(selectedIndexRef.current);
       },
 
       blockGlobalOpen: true,
     };
 
-    pushControls(controls);
-    return () => popControls();
+    pushControlsRef.current(controls);
+    return () => popControlsRef.current();
   }, [isOpen, totalItems]);
 
   return {
