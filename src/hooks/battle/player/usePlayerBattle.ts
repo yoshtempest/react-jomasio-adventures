@@ -5,7 +5,7 @@ import type { PlayerClass } from "@/utils/types/player/player";
 type Props = {
   player: any;
   playerClass: PlayerClass;
-  char: any;
+  char: CharacterId;
   behavior: any;
 
   playerX: number;

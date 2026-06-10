@@ -6,9 +6,10 @@ import {
 } from "lucide-react";
 
 import styles from "./styles.module.css";
+import type { GameControlLayer } from "@/utils/types/player/controls";
 
 type Props = {
-  activeControls: any;
+  activeControls: GameControlLayer;
 };
 
 export function ButtonsMovement({
