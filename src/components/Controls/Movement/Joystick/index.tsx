@@ -1,10 +1,11 @@
 import { useRef } from "react";
 import styles from "./styles.module.css";
+import type { GameControlLayer } from "@/utils/types/player/controls";
 
 type Dir = Direction;
 
 type Props = {
-  activeControls: any;
+  activeControls: GameControlLayer;
 };
 
 export function JoystickMovement({
