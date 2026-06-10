@@ -14,7 +14,7 @@
   align-items: center;
   gap: 8px;
   flex-shrink: 0;
-  width: 180px;
+  width: 190px;
   border-right: 1px solid #333;
   padding-right: 8px;
 }
@@ -58,6 +58,13 @@
   letter-spacing: 1px;
 }
 
+.itemRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
 .itemName {
   font-size: 13px;
   font-weight: bold;
@@ -66,6 +73,15 @@
 .stats {
   font-size: 11px;
   color: #ccc;
+}
+
+.qtyBadge {
+  font-size: 10px;
+  color: #888;
+  background: #222;
+  padding: 1px 5px;
+  border-radius: 4px;
+  white-space: nowrap;
 }
 
 .slotTag {
@@ -96,15 +112,47 @@
 .rightPanel {
   display: flex;
   flex-direction: column;
+  flex: 1;
+  gap: 6px;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.filterTabs {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+.filterTab {
+  padding: 4px 10px;
+  font-size: 12px;
+  background: #1a1a1a;
+  color: #aaa;
+  border: 1px solid #333;
+  border-radius: 6px;
+  cursor: default;
+  transition: background 0.2s, color 0.2s;
+}
+
+.filterTabActive {
+  background: #2e7d32;
+  color: #fff;
+  border-color: #2e7d32;
+}
+
+.itemsContainer {
+  display: flex;
+  flex-direction: column;
   gap: 6px;
   flex: 1;
   overflow-y: auto;
-  max-height: 70vh;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
 
-.rightPanel::-webkit-scrollbar {
+.itemsContainer::-webkit-scrollbar {
   display: none;
 }
 
@@ -117,13 +165,6 @@
   border-radius: 6px;
   padding: 8px;
   transition: border-color 0.15s;
-}
-
-.collectedHeader {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
 }
 
 .emptyText {

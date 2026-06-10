@@ -1,27 +1,30 @@
 import { useRef } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
-import { useEquipmentMenu } from "@/hooks/menu/useEquipmentMenu";
+import { useEquipment } from "@/contexts/EquipmentContext";
+import {
+  useEquipmentMenu,
+  FILTER_LABELS,
+} from "@/hooks/menu/useEquipmentMenu";
+import type { EquipmentFilter } from "@/hooks/menu/useEquipmentMenu";
 import { asset } from "@/utils/asset";
 import {
   SLOT_LABELS,
-  RANK_LABELS,
   RANK_COLORS,
 } from "@/utils/types/player/equipment";
 import styles from "./styles.module.css";
 
 const EQUIPPED_COUNT = 4;
+const FILTER_TAB_COUNT = 5;
+const FILTER_TABS: EquipmentFilter[] = ["all", "helmet", "chestplate", "pants", "boots"];
 
 export function Equipment() {
   const { player } = usePlayer();
+  const { getQuantity } = useEquipment();
   const character = player.character;
   const leftPanelRef = useRef<HTMLDivElement | null>(null);
-  const rightPanelRef = useRef<HTMLDivElement | null>(null);
-  const { selectedIndex, equippedItems, collectedItems } = useEquipmentMenu(
-    true,
-    character,
-    leftPanelRef,
-    rightPanelRef
-  );
+  const rightItemsRef = useRef<HTMLDivElement | null>(null);
+  const { selectedIndex, equippedItems, filteredItems, filter } =
+    useEquipmentMenu(true, character, leftPanelRef, rightItemsRef);
 
   return (
     <div className="containerOfNavbar">
@@ -49,14 +52,22 @@ export function Equipment() {
                   </div>
                   {entry.item ? (
                     <>
-                      <span
-                        className={styles.itemName}
-                        style={{ color: RANK_COLORS[entry.item.rank] }}
-                      >
-                        {entry.item.name}
-                      </span>
+                      <div className={styles.itemRow}>
+                        <span
+                          className={styles.itemName}
+                          style={{ color: RANK_COLORS[entry.item.rank] }}
+                        >
+                          {entry.item.name}
+                        </span>
+                        {(() => {
+                          const extra = getQuantity(character, entry.item.id);
+                          return extra > 0 ? (
+                            <span className={styles.qtyBadge}>x{extra + 1}</span>
+                          ) : null;
+                        })()}
+                      </div>
                       <span className={styles.stats}>
-                        {RANK_LABELS[entry.item.rank]} — HP: +{entry.item.stats.hp} | Força: +{entry.item.stats.strength}
+                        HP: +{entry.item.stats.hp} | Força: +{entry.item.stats.strength}
                         {entry.item.stats.intelligence > 0
                           ? ` | Int: +${entry.item.stats.intelligence}`
                           : ""}
@@ -74,42 +85,65 @@ export function Equipment() {
           </div>
         </div>
 
-        <div className={styles.rightPanel} ref={rightPanelRef}>
-          {collectedItems.length === 0 && (
-            <div className={styles.emptyText}>
-              Nenhum equipamento coletado ainda.
-            </div>
-          )}
+        <div className={styles.rightPanel}>
+          <div className={styles.filterTabs}>
+            {FILTER_TABS.map((tab, i) => {
+              const globalIndex = EQUIPPED_COUNT + i;
+              const isSelected = globalIndex === selectedIndex;
+              const isActive = tab === filter;
 
-          {collectedItems.map((entry, index) => {
-            const globalIndex = EQUIPPED_COUNT + index;
-            const isSelected = globalIndex === selectedIndex;
+              return (
+                <div
+                  key={tab}
+                  className={`${styles.filterTab} ${isActive ? styles.filterTabActive : ""} ${isSelected ? styles.selected : ""}`}
+                >
+                  {FILTER_LABELS[tab]}
+                </div>
+              );
+            })}
+          </div>
 
-            return (
-              <div
-                key={`collected-${entry.item.id}`}
-                className={`${styles.collectedCard} ${isSelected ? styles.selected : ""}`}
-              >
-                <div className={styles.collectedHeader}>
-                  <span
-                    className={styles.itemName}
-                    style={{ color: RANK_COLORS[entry.item.rank] }}
-                  >
-                    {entry.item.name}
+          <div className={styles.itemsContainer} ref={rightItemsRef}>
+            {filteredItems.length === 0 && (
+              <div className={styles.emptyText}>
+                Nenhum equipamento encontrado.
+              </div>
+            )}
+
+            {filteredItems.map((entry, index) => {
+              const globalIndex = EQUIPPED_COUNT + FILTER_TAB_COUNT + index;
+              const isSelected = globalIndex === selectedIndex;
+
+              return (
+                <div
+                  key={`collected-${entry.item.id}`}
+                  className={`${styles.collectedCard} ${isSelected ? styles.selected : ""}`}
+                >
+                  <div className={styles.itemRow}>
+                    <span
+                      className={styles.itemName}
+                      style={{ color: RANK_COLORS[entry.item.rank] }}
+                    >
+                      {entry.item.name}
+                    </span>
+                    <span className={styles.qtyBadge}>x{entry.qty}</span>
+                    <span className={styles.slotTag}>
+                      {SLOT_LABELS[entry.item.slot]}
+                    </span>
+                  </div>
+                  <span className={styles.stats}>
+                    HP: +{entry.item.stats.hp} | Força: +{entry.item.stats.strength}
+                    {entry.item.stats.intelligence > 0
+                      ? ` | Int: +${entry.item.stats.intelligence}`
+                      : ""}
                   </span>
-                  <span className={styles.slotTag}>
-                    {SLOT_LABELS[entry.item.slot]}
+                  <span className={styles.actionHint}>
+                    Confirmar: Equipar
                   </span>
                 </div>
-                <span className={styles.rankLabel}>
-                  {RANK_LABELS[entry.item.rank]}
-                </span>
-                <span className={styles.actionHint}>
-                  Confirmar: Equipar
-                </span>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>

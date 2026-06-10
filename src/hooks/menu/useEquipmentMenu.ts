@@ -15,52 +15,74 @@ export type EquipmentMenuItem =
   | {
       type: "collected";
       item: Equipment;
+      qty: number;
     };
 
 const EQUIPPED_COUNT = 4;
+const FILTER_TAB_COUNT = 5;
+const FILTER_TABS = ["all", "helmet", "chestplate", "pants", "boots"] as const;
+
+export type EquipmentFilter = (typeof FILTER_TABS)[number];
+
+export const FILTER_LABELS: Record<EquipmentFilter, string> = {
+  all: "Todos",
+  helmet: "Elmos",
+  chestplate: "Peitorais",
+  pants: "Calças",
+  boots: "Botas",
+};
 
 export function useEquipmentMenu(
   isOpen: boolean,
   character: CharacterId,
-  leftListRef?: React.RefObject<HTMLDivElement | null>,
-  rightListRef?: React.RefObject<HTMLDivElement | null>
+  leftPanelRef?: React.RefObject<HTMLDivElement | null>,
+  rightItemsRef?: React.RefObject<HTMLDivElement | null>
 ) {
   const { pushControls, popControls } = useGameControls();
-  const { getEquippedItem, getCollection, equip, unequip } = useEquipment();
+  const { getEquippedItem, getCollection, equip, unequip } =
+    useEquipment();
   const { playMove, playSelect } = useMenuSFX();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
   const selectedIndexRef = useRef(selectedIndex);
+  const [filter, setFilter] = useState<EquipmentFilter>("all");
 
-  const equippedItems: EquipmentMenuItem[] = EQUIPMENT_SLOTS.map((slot) => ({
+  const equippedItems = EQUIPMENT_SLOTS.map((slot) => ({
     type: "slot" as const,
     slot,
     item: getEquippedItem(character, slot),
   }));
 
-  const collectedItems: EquipmentMenuItem[] = Object.entries(
-    getCollection(character)
-  )
+  const allCollected = Object.entries(getCollection(character))
     .filter(([, qty]) => qty > 0)
-    .map(([id]) => getEquipmentById(id))
-    .filter((e): e is Equipment => e !== null)
-    .map((item) => ({ type: "collected" as const, item }));
+    .map(([id, qty]) => {
+      const item = getEquipmentById(id);
+      return item ? { item, qty } : null;
+    })
+    .filter((e): e is { item: Equipment; qty: number } => e !== null);
 
-  const totalItems = EQUIPPED_COUNT + collectedItems.length;
+  const filteredItems =
+    filter === "all"
+      ? allCollected
+      : allCollected.filter(({ item }) => item.slot === filter);
+
+  const rightPanelCount = FILTER_TAB_COUNT + filteredItems.length;
+  const totalItems = EQUIPPED_COUNT + rightPanelCount;
 
   useEffect(() => {
     selectedIndexRef.current = selectedIndex;
   }, [selectedIndex]);
 
-  // auto-scroll right panel
   useEffect(() => {
-    if (!rightListRef?.current) return;
+    if (!rightItemsRef?.current) return;
 
-    const container = rightListRef.current;
-    const relativeIndex = selectedIndex - EQUIPPED_COUNT;
+    const container = rightItemsRef.current;
+    const relativeIndex = selectedIndex - EQUIPPED_COUNT - FILTER_TAB_COUNT;
     if (relativeIndex < 0) return;
 
-    const selectedElement = container.children[relativeIndex] as HTMLElement | undefined;
+    const selectedElement = container.children[relativeIndex] as
+      | HTMLElement
+      | undefined;
     if (!selectedElement) return;
 
     const itemHeight = selectedElement.offsetHeight;
@@ -70,9 +92,8 @@ export function useEquipmentMenu(
     const targetScroll = relativeIndex * rowHeight;
 
     container.scrollTo({ top: targetScroll, behavior: "smooth" });
-  }, [selectedIndex, rightListRef]);
+  }, [selectedIndex, rightItemsRef]);
 
-  // clamp index when total changes
   useEffect(() => {
     setSelectedIndex((prev) =>
       totalItems === 0 ? 0 : Math.min(prev, totalItems - 1)
@@ -88,7 +109,18 @@ export function useEquipmentMenu(
       return true;
     }
 
-    const entry = collectedItems[index - EQUIPPED_COUNT];
+    const rightIndex = index - EQUIPPED_COUNT;
+
+    if (rightIndex < FILTER_TAB_COUNT) {
+      const newFilter = FILTER_TABS[rightIndex];
+      if (newFilter !== filter) {
+        playSelect();
+        setFilter(newFilter);
+      }
+      return false;
+    }
+
+    const entry = filteredItems[rightIndex - FILTER_TAB_COUNT];
     if (!entry) return false;
     playSelect();
     equip(character, entry.item.id);
@@ -166,6 +198,8 @@ export function useEquipmentMenu(
   return {
     selectedIndex,
     equippedItems,
-    collectedItems,
+    filteredItems,
+    filter,
+    allCollected,
   };
 }
