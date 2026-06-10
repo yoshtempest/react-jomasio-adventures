@@ -1,67 +1,84 @@
-.container {
+.layout {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  width: 100%;
+  overflow: hidden;
+  gap: 8px;
+  padding: 0 8px 8px;
+}
+
+.leftPanel {
   display: flex;
   flex-direction: column;
-  width: 74vw;
-  height: 100vh;
-  position: absolute;
-  top: 10%;
-  right: 0%;
-  background: #111;
-  border: 2px solid #555;
-  border-radius: 8px;
-  padding: 16px;
-  gap: 12px;
-  overflow-y: auto;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  width: 180px;
+  border-right: 1px solid #333;
+  padding-right: 8px;
 }
 
-@media (orientation: portrait) {
-  .container {
-    width: 99vw;
-    height: 30vh;
-    top: 0;
-    right: 0;
-    border-radius: 0px;
-  }
+.portrait {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  margin-top: 4px;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.slotCard {
+.equippedGrid {
   display: flex;
   flex-direction: column;
-  background: #1a1a2e;
-  border: 1px solid #333;
-  border-radius: 8px;
-  padding: 12px;
   gap: 6px;
+  width: 100%;
+}
+
+.equippedCard {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: #1a1a2e;
+  border: 2px solid #333;
+  border-radius: 6px;
+  padding: 8px;
+  transition: border-color 0.15s;
+}
+
+.selected {
+  outline: 2px solid yellow;
+  outline-offset: 1px;
 }
 
 .slotLabel {
   font-weight: bold;
-  font-size: 14px;
+  font-size: 11px;
   color: #aaa;
-  border-bottom: 1px solid #333;
-  padding-bottom: 4px;
-}
-
-.equippedItem {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .itemName {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: bold;
 }
 
-.itemStats {
-  font-size: 12px;
+.stats {
+  font-size: 11px;
   color: #ccc;
+}
+
+.slotTag {
+  font-size: 10px;
+  color: #888;
+  background: #222;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.rankLabel {
+  font-size: 11px;
+  color: #888;
 }
 
 .emptySlot {
@@ -70,57 +87,48 @@
   font-style: italic;
 }
 
-.equipButton {
-  margin-top: 4px;
-  padding: 4px 8px;
-  font-size: 12px;
-  cursor: pointer;
-  background: #2a2a4e;
-  color: #fff;
-  border: 1px solid #555;
-  border-radius: 4px;
+.actionHint {
+  font-size: 10px;
+  color: #666;
+  margin-top: 2px;
 }
 
-.equipButton:hover {
-  background: #3a3a6e;
-}
-
-.collection {
+.rightPanel {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  margin-top: 8px;
+  flex: 1;
+  overflow-y: auto;
+  max-height: 70vh;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-.collectionTitle {
-  font-size: 14px;
-  font-weight: bold;
-  color: #aaa;
-  border-bottom: 1px solid #333;
-  padding-bottom: 4px;
+.rightPanel::-webkit-scrollbar {
+  display: none;
 }
 
-.collectionItem {
+.collectedCard {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 6px 8px;
+  flex-direction: column;
+  gap: 2px;
   background: #1a1a2e;
-  border: 1px solid #333;
-  border-radius: 4px;
+  border: 2px solid #333;
+  border-radius: 6px;
+  padding: 8px;
+  transition: border-color 0.15s;
 }
 
-.collectionItemName {
-  font-size: 13px;
-}
-
-.collectionItemSlot {
-  font-size: 11px;
-  color: #888;
+.collectedHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
 }
 
 .emptyText {
-  font-size: 12px;
+  text-align: center;
   color: #666;
-  font-style: italic;
+  padding: 24px;
+  font-size: 14px;
 }
