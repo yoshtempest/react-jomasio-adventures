@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
 import { canPlayerHit } from "@/gameRules/battle/combat";
+import { playAttackSound } from "@/utils/playAttackSound";
 import type { PlayerClass, Player } from "@/utils/types/player/player";
 import type { BattleBehavior } from "@/utils/types/player/playerBehavior";
 import type { CharacterProgress } from "@/contexts/CharacterProgressContext";
@@ -64,6 +65,8 @@ export function usePlayerBattle({
     ) {
       return;
     }
+
+    playAttackSound(player.character);
 
     behavior.onBasicHit({
       setNpcHP,

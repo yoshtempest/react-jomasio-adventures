@@ -6,7 +6,6 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import type { NpcDifficulty } from "@/utils/types/npc/npcProgress";
 import { usePlayerAnimation } from "@/hooks/battle/player/usePlayerAnimation";
-import { playAttackSound } from "@/utils/playAttackSound";
 
 const BATTLE_DEFAULT_STATE = {
   x: 100,
@@ -116,7 +115,6 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   } = useBattleMovement(setPlayer);
 
   const attack = () => {
-    playAttackSound(player.character);
     rawAttack();
   };
 
