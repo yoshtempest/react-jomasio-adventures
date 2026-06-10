@@ -14,6 +14,12 @@ export function useGameAudio({
 }: Props) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const { volume: masterVolume } = useAudio();
+  const loopRef = useRef(loop);
+  loopRef.current = loop;
+  const volumeRef = useRef(volume);
+  volumeRef.current = volume;
+  const masterVolumeRef = useRef(masterVolume);
+  masterVolumeRef.current = masterVolume;
 
   const isPlaying = () => {
     return !!audioRef.current && !audioRef.current.paused;
@@ -22,11 +28,11 @@ export function useGameAudio({
   useEffect(() => {
     const audio = new Audio(src);
 
-    audio.loop = loop;
+    audio.loop = loopRef.current;
     audio.preload = "auto";
 
     audio.volume =
-      volume * (masterVolume / 100);
+      volumeRef.current * (masterVolumeRef.current / 100);
 
     audio.load();
 

@@ -16,13 +16,15 @@ export function BattleIntro({
 }: Props) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const { volume: masterVolume } = useAudio();
+  const masterVolumeRef = useRef(masterVolume);
+  masterVolumeRef.current = masterVolume;
 
   useEffect(() => {
     const audio = new Audio(
       asset("/assets/songs/soundEffects/battle/onePiece.mp3")
     );
 
-    audio.volume = 0.5 * (masterVolume / 100);
+    audio.volume = 0.5 * (masterVolumeRef.current / 100);
     audio.currentTime = 0;
 
     audio.play().catch(() => {

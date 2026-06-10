@@ -1,4 +1,4 @@
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, useRef } from "react";
 import { useGameAudio } from "@/hooks/useGameAudio";
 import LavenderTown from "/assets/songs/LavenderTown.m4a";
 import type { AudioConfig } from "@/utils/types/sceneHooks";
@@ -22,14 +22,16 @@ export function useSceneAudio({ audio }: Props) {
   }, [audio]);
 
   const audioControls = useGameAudio(backgroundAudio);
+  const audioControlsRef = useRef(audioControls);
+  audioControlsRef.current = audioControls;
 
   // 🔥 toca automaticamente ao entrar na cena
   useEffect(() => {
-    audioControls.play();
+    audioControlsRef.current.play();
 
     return () => {
       // 🔥 para quando sair da cena (ESSENCIAL)
-      audioControls.stop();
+      audioControlsRef.current.stop();
     };
   }, [backgroundAudio.src]);
 }

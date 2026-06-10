@@ -22,6 +22,8 @@ export function VictoryModal({
   xpReward,
 }: Props) {
   const { playSound } = useSoundEffects();
+  const playSoundRef = useRef(playSound);
+  playSoundRef.current = playSound;
 
   const hasPlayedRef = useRef(false);
   const [isVisible, setIsVisible] = useState(false);
@@ -43,7 +45,7 @@ export function VictoryModal({
     if (isVisible && !hasPlayedRef.current) {
       hasPlayedRef.current = true;
 
-      playSound("win");
+      playSoundRef.current("win");
     }
 
     if (!isOpen) {

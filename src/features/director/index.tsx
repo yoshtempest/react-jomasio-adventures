@@ -1,4 +1,4 @@
-import { useMemo, useState, useCallback } from "react";
+import { useMemo, useState, useCallback, useRef } from "react";
 
 import { SceneBase } from "@/components/Game/Scenes/Base";
 import { DIRECTOR_SCENES } from "@/scenes/director";
@@ -29,12 +29,14 @@ export function DirectorScene({ sceneId }: Props) {
   const [gotKey, setGotKey] = useState(false);
 
   const { volume: masterVolume } = useAudio();
+  const masterVolumeRef = useRef(masterVolume);
+  masterVolumeRef.current = masterVolume;
 
-  const playSFX = (src: string, volume = 1) => {
+  const playSFX = useCallback((src: string, volume = 1) => {
     const audio = new Audio(asset(src));
-    audio.volume = volume * (masterVolume / 100);
+    audio.volume = volume * (masterVolumeRef.current / 100);
     audio.play().catch(() => {});
-  };
+  }, []);
 
   const navigateFrom = useCallback((to: string) => {
     navigate(to, { state: { from: location.pathname } });
@@ -59,8 +61,13 @@ export function DirectorScene({ sceneId }: Props) {
       navigateFrom,
       gotKey,
       progressQuest,
+      playSFX,
     ]
   );
+
+  if (!scene) {
+    return <div>Scene não encontrada</div>;
+  }
 
   return (
     <>

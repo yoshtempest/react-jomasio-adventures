@@ -1,12 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { asset } from "@/utils/asset";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 
 export function LoadingScreen() {
   const { playSound } = useSoundEffects();
+  const playSoundRef = useRef(playSound);
+  playSoundRef.current = playSound;
 
   useEffect(() => {
-    playSound("loading");
+    playSoundRef.current("loading");
   }, []);
 
   return (

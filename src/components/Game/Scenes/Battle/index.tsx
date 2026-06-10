@@ -7,7 +7,7 @@ import { VictoryModal } from "@/components/Game/Battle/Victory";
 import { DefeatModal } from "@/components/Game/Battle/Defeat";
 import { BattleIntro } from "@/components/Game/Battle/Intro";
 import { useGameAudio } from "@/hooks/useGameAudio";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 type Props = {
   npcType: string;
@@ -54,16 +54,18 @@ export function BattleScene(props: Props) {
     loop: true,
     volume: 0.5,
   });
+  const battleAudioRef = useRef(battleAudio);
+  battleAudioRef.current = battleAudio;
 
   useEffect(() => {
     const shouldPlay = !showIntro && !showVictory && !showDefeat;
 
-    if (shouldPlay && !battleAudio.isPlaying()) {
-      battleAudio.play();
+    if (shouldPlay && !battleAudioRef.current.isPlaying()) {
+      battleAudioRef.current.play();
     }
 
-    else if (!shouldPlay && battleAudio.isPlaying()) {
-      battleAudio.pause();
+    else if (!shouldPlay && battleAudioRef.current.isPlaying()) {
+      battleAudioRef.current.pause();
     }
   }, [showIntro, showVictory, showDefeat]);
 

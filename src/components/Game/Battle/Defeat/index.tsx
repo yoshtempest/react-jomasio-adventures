@@ -18,6 +18,8 @@ export function DefeatModal({
 }: Props) {
   const { setMode } = usePlayer();
   const { playSound } = useSoundEffects();
+  const playSoundRef = useRef(playSound);
+  playSoundRef.current = playSound;
   const hasPlayedRef = useRef(false);
 
   const handleBack = () => {
@@ -33,7 +35,7 @@ export function DefeatModal({
   useEffect(() => {
     if (isOpen && !hasPlayedRef.current) {
       hasPlayedRef.current = true;
-      playSound("defeat");
+      playSoundRef.current("defeat");
     }
 
     if (!isOpen) {
