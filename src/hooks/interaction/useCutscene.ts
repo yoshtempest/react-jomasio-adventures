@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useDialogue } from "@/hooks/interaction/useDialogue";
 import { usePlayer } from "@/contexts/PlayerContext";
+import type { Dialogue } from "@/utils/types/dialogue";
 
 type Props = {
   dialogue: Parameters<typeof useDialogue>[0];
@@ -9,7 +10,7 @@ type Props = {
   playOnce?: boolean;
   onFinish?: () => void;
   playAudio?: () => void;
-  onBeforeNext?: (dialogue: any) => boolean;
+  onBeforeNext?: (dialogue: Dialogue) => boolean;
 };
 
 export function useCutscene({
@@ -57,7 +58,7 @@ export function useCutscene({
   useEffect(() => {
     if (!dialogueSystem.isOpen) return;
 
-      if (player.mode === "ui") return;
+    if (player.mode === "ui") return;
 
     pushControls({
       onConfirm: () => handleConfirmRef.current(),
