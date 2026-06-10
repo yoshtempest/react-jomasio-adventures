@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import styles from "./styles.module.css";
 import undertale from "/assets/songs/UndertaleGameOver.m4a";
 import { useGameAudio } from "@/hooks/useGameAudio";
@@ -15,12 +15,14 @@ export default function Intro() {
   }), []);
 
   const audio = useGameAudio(backgroundAudio);
+  const audioRef = useRef(audio);
+  audioRef.current = audio;
 
   useEffect(() => {
-    if (audio.isPlaying()) return;
+    if (audioRef.current.isPlaying()) return;
 
-    audio.play()?.catch(() => {});
-    return () => audio.stop();
+    audioRef.current.play()?.catch(() => {});
+    return () => audioRef.current.stop();
   }, []);
 
   return (

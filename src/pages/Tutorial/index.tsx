@@ -58,14 +58,16 @@ export default function Tutorial() {
   }), []);
 
   const audio = useGameAudio(backgroundAudio); // 🔥 pega controle
+  const audioRef = useRef(audio);
+  audioRef.current = audio;
 
   useEffect(() => {
-    if (audio.isPlaying()) return;
+    if (audioRef.current.isPlaying()) return;
 
-    audio.play()?.catch(() => {});
+    audioRef.current.play()?.catch(() => {});
 
     return () => {
-      audio.stop(); // 🔥 para ao sair
+      audioRef.current.stop(); // 🔥 para ao sair
     };
   }, []);
 
