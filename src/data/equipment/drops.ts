@@ -9,27 +9,61 @@ type DropConfig = {
 export const DROP_CONFIG: Record<NPCClass, DropConfig> = {
   common: {
     baseChance: 0.03,
-    rankWeights: { common: 1, rare: 0, epic: 0, legendary: 0 },
+    rankWeights: {
+      common: 80,
+      rare: 15,
+      epic: 4,
+      boss: 0.9,
+      legendary: 0.1,
+    },
   },
+
   rare: {
     baseChance: 0.08,
-    rankWeights: { common: 0.5, rare: 0.5, epic: 0, legendary: 0 },
+    rankWeights: {
+      common: 55,
+      rare: 30,
+      epic: 10,
+      boss: 4,
+      legendary: 1,
+    },
   },
+
   epic: {
     baseChance: 0.15,
-    rankWeights: { common: 0.15, rare: 0.35, epic: 0.5, legendary: 0 },
+    rankWeights: {
+      common: 25,
+      rare: 35,
+      epic: 25,
+      boss: 10,
+      legendary: 5,
+    },
   },
+
   boss: {
     baseChance: 0.25,
-    rankWeights: { common: 0, rare: 0.1, epic: 0.5, legendary: 0.4 },
+    rankWeights: {
+      common: 5,
+      rare: 20,
+      epic: 35,
+      boss: 30,
+      legendary: 10,
+    },
   },
+
   legendary: {
     baseChance: 0.40,
-    rankWeights: { common: 0, rare: 0, epic: 0.2, legendary: 0.8 },
+    rankWeights: {
+      common: 1,
+      rare: 4,
+      epic: 15,
+      boss: 30,
+      legendary: 50,
+    },
   },
 };
 
-const RANKS: EquipmentRank[] = ["common", "rare", "epic", "legendary"];
+const RANKS: EquipmentRank[] = ["common", "rare", "epic", "boss", "legendary"];
 
 function pickWeighted(weights: Record<EquipmentRank, number>): EquipmentRank {
   const total = RANKS.reduce((sum, r) => sum + weights[r], 0);

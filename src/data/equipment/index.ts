@@ -14,7 +14,8 @@ const STATS_BY_RANK: Record<EquipmentRank, { hp: number; strength: number; intel
   common: { hp: 1, strength: 1, intelligence: 0 },
   rare: { hp: 2, strength: 2, intelligence: 1 },
   epic: { hp: 4, strength: 3, intelligence: 2 },
-  legendary: { hp: 7, strength: 5, intelligence: 4 },
+  boss: { hp: 7, strength: 5, intelligence: 4 },
+  legendary: { hp: 10, strength: 8, intelligence: 7 },
 };
 
 const NAMES: Record<EquipmentSlot, Record<EquipmentRank, string>> = {
@@ -22,24 +23,28 @@ const NAMES: Record<EquipmentSlot, Record<EquipmentRank, string>> = {
     common: "Boné Velho",
     rare: "Elmo de Ferro",
     epic: "Coroa Arcana",
+    boss: "Coroa do Rei",
     legendary: "Diadema Lendária",
   },
   chestplate: {
     common: "Colete Rasgado",
     rare: "Armadura de Aço",
     epic: "Peitoral Reforçado",
+    boss: "Manto do Rei",
     legendary: "Armadura Lendária",
   },
   pants: {
     common: "Calças Remendadas",
     rare: "Grevas de Ferro",
     epic: "Calças Reforçadas",
+    boss: "Calça do Rei",
     legendary: "Calças Lendárias",
   },
   boots: {
     common: "Chinelos Velhos",
     rare: "Botas de Couro",
     epic: "Botas Épicas",
+    boss: "Grevas do Rei",
     legendary: "Botas Lendárias",
   },
 };
@@ -61,7 +66,7 @@ function buildEquipment(config: EquipmentConfig): Equipment {
 function generateAll(): Equipment[] {
   const list: Equipment[] = [];
   const slots: EquipmentSlot[] = ["helmet", "chestplate", "pants", "boots"];
-  const ranks: EquipmentRank[] = ["common", "rare", "epic", "legendary"];
+  const ranks: EquipmentRank[] = ["common", "rare", "epic", "boss", "legendary"];
 
   for (const slot of slots) {
     for (const rank of ranks) {
