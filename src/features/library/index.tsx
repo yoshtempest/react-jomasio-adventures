@@ -6,8 +6,8 @@ import { createLibrary } from "@/interactions/library";
 
 import { useInventory } from "@/contexts/InventoryContext";
 import type { SceneId } from "@/utils/types/maps/sceneConfig";
-import { useNavigate } from "react-router";
-import { usePlayer } from "@/contexts/PlayerContext";
+  import { useNavigate } from "react-router";
+  import { usePlayer } from "@/contexts/PlayerContext";
 
 import Talking from "@/components/Talking";
 
@@ -37,6 +37,9 @@ export function LibraryScene({ sceneId }: Props) {
   );
 
   const lastPositionRef = useRef({ x: player.gridX, y: player.gridY });
+  const setPositionRef = useRef(setPosition);
+  setPositionRef.current = setPosition;
+
   useEffect(() => {
     const saved = localStorage.getItem("library_return_position");
 
@@ -44,16 +47,20 @@ export function LibraryScene({ sceneId }: Props) {
 
     const { x, y, direction } = JSON.parse(saved);
 
-    setPosition(x, y, direction);
+    setPositionRef.current(x, y, direction);
 
     requestAnimationFrame(() => {
-      setPosition(x, y, direction);
+      setPositionRef.current(x, y, direction);
       localStorage.removeItem("library_return_position");
     });
   }, []);
 
+  const playerRef = useRef(player);
+  playerRef.current = player;
+
   useEffect(() => {
-    const { gridX, gridY } = player;
+    const currentPlayer = playerRef.current;
+    const { gridX, gridY } = currentPlayer;
     // 🚫 Tiles onde NÃO pode ter encontro
 
     const moved =
@@ -65,7 +72,7 @@ export function LibraryScene({ sceneId }: Props) {
     lastPositionRef.current = { x: gridX, y: gridY };
 
     // Só funciona no modo explore (evita trigger em batalha)
-    if (player.mode !== "explore") return;
+    if (currentPlayer.mode !== "explore") return;
 
     const blockedTiles = [
       { x: 4, y: 4 },
@@ -87,9 +94,9 @@ export function LibraryScene({ sceneId }: Props) {
       localStorage.setItem(
         "library_return_position",
         JSON.stringify({
-          x: player.gridX,
-          y: player.gridY,
-          direction: player.direction,
+          x: currentPlayer.gridX,
+          y: currentPlayer.gridY,
+          direction: currentPlayer.direction,
         })
       );
     }
@@ -109,7 +116,7 @@ export function LibraryScene({ sceneId }: Props) {
       }
     }
   
-  }, [player.gridX, player.gridY]);
+  }, [player.gridX, player.gridY, navigate]);
 
   if (!scene) {
     return <div>Scene não encontrada</div>;

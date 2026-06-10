@@ -105,6 +105,11 @@ export function Movement() {
       releaseDownBattle;
   });
 
+  const pushControlsRef = useRef(pushControls);
+  pushControlsRef.current = pushControls;
+  const popControlsRef = useRef(popControls);
+  popControlsRef.current = popControls;
+
   useEffect(() => {
     const controls = {
       onUp: () => {
@@ -151,9 +156,9 @@ export function Movement() {
       },
     };
 
-    pushControls(controls);
+    pushControlsRef.current(controls);
 
-    return () => popControls();
+    return () => popControlsRef.current();
   }, []);
 
   return (

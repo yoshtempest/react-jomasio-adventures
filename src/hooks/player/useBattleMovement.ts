@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useMemo } from "react";
 import type { Player } from "@/utils/types/player/player";
 import
 {
@@ -26,13 +26,17 @@ export function useBattleMovement(
   const gravity = 1.2;
   const jumpForce = -15;
 
+  const idleTimeout = useMemo(() => idleTimeoutRef.current, []);
   useEffect(() => {
+    const left = leftIntervalRef.current;
+    const right = rightIntervalRef.current;
+    const timeout = idleTimeout;
     return () => {
-      if (leftIntervalRef.current) clearInterval(leftIntervalRef.current);
-      if (rightIntervalRef.current) clearInterval(rightIntervalRef.current);
-      if (idleTimeoutRef.current) clearTimeout(idleTimeoutRef.current);
+      if (left) clearInterval(left);
+      if (right) clearInterval(right);
+      if (timeout) clearTimeout(timeout);
     };
-  }, []);
+  }, [idleTimeout]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -66,7 +70,7 @@ export function useBattleMovement(
     }, 16); // ~60fps
 
     return () => clearInterval(interval);
-  }, []);
+  }, [setPlayer]);
 
   function startMoveLeft() {
     if (leftIntervalRef.current) return;

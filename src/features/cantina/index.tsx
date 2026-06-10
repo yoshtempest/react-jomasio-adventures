@@ -32,6 +32,10 @@ export function CantinaScene({ sceneId }: Props) {
     [addItem, gotKey]
   );
 
+  if (!scene) {
+    return <div>Scene não encontrada</div>;
+  }
+
   return (
     <>
       <SceneBase

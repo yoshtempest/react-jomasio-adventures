@@ -83,6 +83,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useInventory() {
   const context = useContext(InventoryContext);
   if (!context) throw new Error("useInventory deve ser usado dentro do Provider");

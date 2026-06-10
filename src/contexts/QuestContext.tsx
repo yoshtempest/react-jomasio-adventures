@@ -69,4 +69,5 @@ export function QuestProvider({ children }: Props) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useQuests = () => useContext(QuestContext);

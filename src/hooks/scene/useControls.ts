@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import type { Controls, DialogueSystem, SetPlayerMode } from "@/utils/types/sceneHooks";
 
 type Props = {
@@ -16,20 +16,31 @@ export function useSceneControls({
   playSansTalking,
   setMode,
 }: Props) {
+  const pushControlsRef = useRef(pushControls);
+  pushControlsRef.current = pushControls;
+  const popControlsRef = useRef(popControls);
+  popControlsRef.current = popControls;
+  const dialogueSystemRef = useRef(dialogueSystem);
+  dialogueSystemRef.current = dialogueSystem;
+  const playSansTalkingRef = useRef(playSansTalking);
+  playSansTalkingRef.current = playSansTalking;
+  const setModeRef = useRef(setMode);
+  setModeRef.current = setMode;
+
   useEffect(() => {
-    setMode("explore");
+    setModeRef.current("explore");
 
     const controls = {
       onConfirm: () => {
-        if (!dialogueSystem.isOpen) return false;
-        dialogueSystem.next();
-        playSansTalking();
+        if (!dialogueSystemRef.current.isOpen) return false;
+        dialogueSystemRef.current.next();
+        playSansTalkingRef.current();
         return true;
       },
     };
 
-    pushControls(controls);
+    pushControlsRef.current(controls);
 
-    return () => popControls();
+    return () => popControlsRef.current();
   }, []);
 }

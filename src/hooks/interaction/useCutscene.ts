@@ -27,16 +27,21 @@ export function useCutscene({
 
   const hasPlayed = useRef(false);
 
+  const dialogueSystemRef = useRef(dialogueSystem);
+  dialogueSystemRef.current = dialogueSystem;
+  const playAudioRef = useRef(playAudio);
+  playAudioRef.current = playAudio;
+
   // ▶ iniciar automaticamente
   useEffect(() => {
     if (!autoStart) return;
 
     if (playOnce && hasPlayed.current) return;
 
-    dialogueSystem.start();
-    playAudio?.();
+    dialogueSystemRef.current.start();
+    playAudioRef.current?.();
     hasPlayed.current = true;
-  }, []);
+  }, [autoStart, playOnce]);
 
   // ▶ handler estável
   const handleConfirmRef = useRef<() => void>(() => {});
@@ -50,9 +55,14 @@ export function useCutscene({
 
     if (shouldContinue === false) return;
 
-    dialogueSystem.next();
-    playAudio?.();
+    dialogueSystemRef.current.next();
+    playAudioRef.current?.();
   };
+
+  const pushControlsRef = useRef(pushControls);
+  pushControlsRef.current = pushControls;
+  const popControlsRef = useRef(popControls);
+  popControlsRef.current = popControls;
 
   // 🔥 CORREÇÃO AQUI
   useEffect(() => {
@@ -60,11 +70,11 @@ export function useCutscene({
 
     if (player.mode === "ui") return;
 
-    pushControls({
+    pushControlsRef.current({
       onConfirm: () => handleConfirmRef.current(),
     });
 
-    return () => popControls();
+    return () => popControlsRef.current();
   }, [dialogueSystem.isOpen, player.mode]);
 
   return {

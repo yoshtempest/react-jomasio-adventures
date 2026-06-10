@@ -5,5 +5,5 @@ export function getCafeteriaOneInitialPosition(lastPage?: LastPage): ExplorePosi
         return { x: 13, y: 5, direction: "right" };
     }
 
-    return { x: 9, y: 10, direction: "up" };
+    return { x: 8, y: 10, direction: "up" };
 }

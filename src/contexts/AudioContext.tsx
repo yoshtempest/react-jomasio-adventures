@@ -8,24 +8,25 @@ type AudioContextType = {
 const AudioContext = createContext<AudioContextType | null>(null);
 
 export function AudioProvider({ children }: { children: ReactNode }) {
-    const [volume, setVolumeState] = useState(() => {
-      const saved = localStorage.getItem("game_volume");
+  const [volume, setVolumeState] = useState(() => {
+    const saved = localStorage.getItem("game_volume");
 
-      return saved ? Number(saved) : 50;
-    });
+    return saved ? Number(saved) : 50;
+  });
 
-    const setVolume = useCallback((value: number) => {
-      setVolumeState(value);
-      localStorage.setItem("game_volume", String(value));
-    }, []);
+  const setVolume = useCallback((value: number) => {
+    setVolumeState(value);
+    localStorage.setItem("game_volume", String(value));
+  }, []);
 
-    return (
-      <AudioContext.Provider value={{ volume, setVolume }}>
+  return (
+    <AudioContext.Provider value={{ volume, setVolume }}>
       {children}
-      </AudioContext.Provider>
-    );
+    </AudioContext.Provider>
+  );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useAudio() {
   const ctx = useContext(AudioContext);
 

@@ -23,7 +23,7 @@ export const cantinaTwoTiles = [
     ),
     createConditionalTile(
         6,
-        3,
+        2,
         (_player, quests) => {
         if (hasQuest(quests, "denis_sausage")) {
             return CAFETERIA_ROUTES.FOUR;

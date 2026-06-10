@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { useNavigate } from "react-router";
 
 import { SceneBase } from "@/components/Game/Scenes/Base";
@@ -42,12 +42,15 @@ export function PcRoomScene({ sceneId }: Props) {
     }
   );
 
+  const setModeRef = useRef(setMode);
+  setModeRef.current = setMode;
+
   // ✅ controla modo do player
   useEffect(() => {
     if (showClassModal) {
-      setMode("select");
+      setModeRef.current("select");
     } else {
-      setMode("explore");
+      setModeRef.current("explore");
     }
   }, [showClassModal]);
 
@@ -62,6 +65,10 @@ export function PcRoomScene({ sceneId }: Props) {
       }),
     [addItem, gotKey]
   );
+
+  if (!scene) {
+    return <div>Scene não encontrada</div>;
+  }
 
   return (
     <>

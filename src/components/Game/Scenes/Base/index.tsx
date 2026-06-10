@@ -66,6 +66,13 @@ export function SceneBase({
     sceneInitRef.current = false;
   }, [scene]);
 
+  const handleExitRef = useRef(handleExit);
+  handleExitRef.current = handleExit;
+  const setPopupRef = useRef(setPopup);
+  setPopupRef.current = setPopup;
+  const playerRef = useRef(player);
+  playerRef.current = player;
+
   // ✅ EXIT TILE (com override)
   useEffect(() => {
     if (!scene) return;
@@ -75,29 +82,31 @@ export function SceneBase({
       return;
     }
 
+    const currentPlayer = playerRef.current;
+
     // 🔥 override (Cantina ainda pode usar)
-    if (handleExit?.({ player, scene, navigate, location, quests })) {
+    if (handleExitRef.current?.({ player: currentPlayer, scene, navigate, location, quests })) {
       return;
     }
 
     const tile = scene.tiles?.find(
       (t: SceneTile) =>
-        player.gridX === t.x &&
-        player.gridY === t.y
+        currentPlayer.gridX === t.x &&
+        currentPlayer.gridY === t.y
     );
 
     if (!tile) return;
 
     // 🧠 1. rota dinâmica
     if (tile.getRoute) {
-      const route = tile.getRoute(player, quests);
+      const route = tile.getRoute(currentPlayer, quests);
 
       if (route !== null) {
         navigate(route, {
           state: { from: location.pathname },
         });
       } else {
-        setPopup?.(
+        setPopupRef.current?.(
           tile.blockedMessage || "Você não pode ir agora."
         );
       }
@@ -112,7 +121,7 @@ export function SceneBase({
       );
 
       if (!hasQuest) {
-        setPopup?.(
+        setPopupRef.current?.(
           tile.blockedMessage || "Você não pode ir agora."
         );
         return;
@@ -125,9 +134,7 @@ export function SceneBase({
         state: { from: location.pathname },
       });
     }
-  }, [player.gridX, player.gridY, scene, quests]);
-
-
+  }, [player.gridX, player.gridY, scene, quests, navigate, location]);
 
   if (!scene) {
     return <div>Scene não encontrada</div>;

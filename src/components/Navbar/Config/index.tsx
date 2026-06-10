@@ -5,7 +5,7 @@ import { useConfigMenu } from "@/hooks/menu/useConfigMenu";
 import { useAudio } from "@/contexts/AudioContext";
 
 import { useDialogue } from "@/hooks/interaction/useDialogue";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { configsDialogue } from "@/data/maps/configs";
 import Talking from "@/components/Talking";
 import { useGameControls } from "@/contexts/GameControlsContext";
@@ -18,26 +18,33 @@ export function Config() {
   const { pushControls, popControls } = useGameControls();
 
   const dialogueSystem = useDialogue(configsDialogue);
+  const dialogueSystemRef = useRef(dialogueSystem);
+  dialogueSystemRef.current = dialogueSystem;
 
   useEffect(() => {
     if (screen === "tutorial") {
-      dialogueSystem.start();
+      dialogueSystemRef.current.start();
     }
   }, [screen]);
+
+  const pushControlsRef = useRef(pushControls);
+  pushControlsRef.current = pushControls;
+  const popControlsRef = useRef(popControls);
+  popControlsRef.current = popControls;
 
   useEffect(() => {
     if (!dialogueSystem.isOpen) return;
 
     const controls = {
       onConfirm: () => {
-        dialogueSystem.next();
+        dialogueSystemRef.current.next();
         return true;
       },
     };
 
-    pushControls(controls);
+    pushControlsRef.current(controls);
 
-    return () => popControls();
+    return () => popControlsRef.current();
   }, [dialogueSystem.isOpen]);
 
   return (

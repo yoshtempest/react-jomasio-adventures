@@ -187,6 +187,7 @@ export function GameControlsProvider({ children }: Props) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useGameControls() {
   const ctx = useContext(GameControlsContext);
   if (!ctx) throw new Error("useGameControls precisa do provider");

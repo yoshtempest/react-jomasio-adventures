@@ -43,6 +43,11 @@ export function DefeatModal({
     }
   }, [isOpen]);
 
+  const onBackRef = useRef(onBack);
+  onBackRef.current = onBack;
+  const setModeRef = useRef(setMode);
+  setModeRef.current = setMode;
+
   useEffect(() => {
     if (!isOpen) return;
 
@@ -51,8 +56,8 @@ export function DefeatModal({
         onContinue();
       }
       if (e.key === "x" || e.key === "Esc") {
-        onBack();
-        setMode("explore");
+        onBackRef.current();
+        setModeRef.current("explore");
       }
     };
 

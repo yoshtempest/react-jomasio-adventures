@@ -35,8 +35,12 @@ export function CafeteriaScene({ sceneId }: Props) {
         setGotKey,
         progressQuest,
       }),
-    [addItem, gotKey]
+    [addItem, gotKey, hasItem, removeItem, setPopup, setGotKey, progressQuest]
   );
+
+  if (!scene) {
+    return <div>Scene não encontrada</div>;
+  }
 
   return (
     <>

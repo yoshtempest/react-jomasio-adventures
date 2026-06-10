@@ -43,6 +43,7 @@ export function NavbarProvider({ children }: { children: ReactNode }) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useNavbar() {
   const context = useContext(NavbarContext);
   if (!context) throw new Error("useNavbar deve ser usado dentro do Provider");

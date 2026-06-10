@@ -129,6 +129,7 @@ export function SoundEffectsProvider({
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useSoundEffects() {
   const context = useContext(SoundEffectsContext);
 
