@@ -1,12 +1,14 @@
 import { useState, useCallback } from "react";
 import { canPlayerHit } from "@/gameRules/battle/combat";
-import type { PlayerClass } from "@/utils/types/player/player";
+import type { PlayerClass, Player } from "@/utils/types/player/player";
+import type { BattleBehavior } from "@/utils/types/player/playerBehavior";
+import type { CharacterProgress } from "@/contexts/CharacterProgressContext";
 
 type Props = {
-  player: any;
+  player: Player;
   playerClass: PlayerClass;
-  char: CharacterId;
-  behavior: any;
+  char: CharacterProgress;
+  behavior: BattleBehavior;
 
   playerX: number;
   playerY: number;
@@ -69,7 +71,6 @@ export function usePlayerBattle({
       playerClass,
       setDelicia,
       HITS_TO_SPECIAL,
-      stacks,
       setStacks,
       spawnPiercing,
     });

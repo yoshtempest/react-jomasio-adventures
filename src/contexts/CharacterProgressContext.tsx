@@ -48,11 +48,12 @@ function getXPToNextLevel(level: number) {
 }
 
 // 🔥 NORMALIZAÇÃO (ESSENCIAL)
-function normalizeProgress(data: any): CharactersProgress {
-  const safe: CharactersProgress = { ...defaultProgress };
+function normalizeProgress(data: unknown): CharactersProgress {
+  const safe = { ...defaultProgress };
+  const raw = data as Partial<CharactersProgress> | undefined;
 
   for (const key in safe) {
-    const savedChar = data?.[key];
+    const savedChar = raw?.[key as Character];
 
     safe[key as Character] = {
       level: savedChar?.level ?? 1,

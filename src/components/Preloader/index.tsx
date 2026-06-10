@@ -1,7 +1,9 @@
 import { useEffect } from "react";
 import { preloadPages } from "@/utils/preloadPages";
 
-export function Preloader({ pages }: { pages: any[] }) {
+type PreloadablePage = { preload: () => void };
+
+export function Preloader({ pages }: { pages: PreloadablePage[] }) {
   useEffect(() => {
     const timer = setTimeout(() => {
       preloadPages(pages);

@@ -1,7 +1,13 @@
-import { lazy } from "react";
+import { lazy, type ComponentType, type LazyExoticComponent } from "react";
 
-export function lazyLoad(fn: () => Promise<any>) {
-  const Component = lazy(fn);
-  (Component as any).preload = fn;
+type PreloadableComponent<T = unknown> = LazyExoticComponent<ComponentType<T>> & {
+  preload: () => Promise<{ default: ComponentType<T> }>;
+};
+
+export function lazyLoad<T = unknown>(
+  fn: () => Promise<{ default: ComponentType<T> }>
+): PreloadableComponent<T> {
+  const Component = lazy(fn) as PreloadableComponent<T>;
+  Component.preload = fn;
   return Component;
 }

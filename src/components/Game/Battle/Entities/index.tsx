@@ -1,12 +1,21 @@
 import { NPCBattle } from "@/components/Game/Npc/Battle";
 import { ProjectileSprite } from "@/components/Projectile";
 import { PlayerBattle } from "@/components/Game/Player/Battle";
-import type { SummonedNpc } from "@/utils/types/npc/npc";
+import type { SummonedNpc, NPCBattleState } from "@/utils/types/npc/npc";
+import type { Player } from "@/utils/types/player/player";
+import type { Projectile } from "@/utils/types/projectile";
+
+type BattleEntitiesBattle = {
+  piercings: { id: number; x: number; y: number }[];
+  isExploding: boolean;
+  npcPhase: number;
+  isNpcDying: boolean;
+};
 
 type Props = {
-  npc: any;
-  player: any;
-  battle: any;
+  npc: NPCBattleState & { projectile: Projectile | null };
+  player: Player;
+  battle: BattleEntitiesBattle;
   npcType: string;
   summons: SummonedNpc[];
   TILE_SIZE: number;
