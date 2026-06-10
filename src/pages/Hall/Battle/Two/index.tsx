@@ -2,7 +2,7 @@ import { BattleScene } from "@/components/Game/Scenes/Battle";
 import SpiderDance from "/assets/songs/SpiderDance.m4a"
 import { useFlags } from "@/contexts/FlagContext";
 
-export default function planetarySistersBattle() {
+export default function PlanetarySistersBattle() {
   const { setFlag } = useFlags();
 
   return (
