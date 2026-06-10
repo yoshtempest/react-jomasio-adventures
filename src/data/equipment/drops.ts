@@ -8,7 +8,7 @@ type DropConfig = {
 
 export const DROP_CONFIG: Record<NPCClass, DropConfig> = {
   common: {
-    baseChance: 0.03,
+    baseChance: 0.5,
     rankWeights: {
       common: 80,
       rare: 15,
@@ -19,7 +19,7 @@ export const DROP_CONFIG: Record<NPCClass, DropConfig> = {
   },
 
   rare: {
-    baseChance: 0.08,
+    baseChance: 0.8,
     rankWeights: {
       common: 55,
       rare: 30,
@@ -30,7 +30,7 @@ export const DROP_CONFIG: Record<NPCClass, DropConfig> = {
   },
 
   epic: {
-    baseChance: 0.15,
+    baseChance: 1,
     rankWeights: {
       common: 25,
       rare: 35,
@@ -41,18 +41,18 @@ export const DROP_CONFIG: Record<NPCClass, DropConfig> = {
   },
 
   boss: {
-    baseChance: 0.25,
+    baseChance: 1,
     rankWeights: {
-      common: 5,
-      rare: 20,
+      common: 10,
+      rare: 30,
       epic: 35,
-      boss: 30,
-      legendary: 10,
+      boss: 20,
+      legendary: 5,
     },
   },
 
   legendary: {
-    baseChance: 0.40,
+    baseChance: 1,
     rankWeights: {
       common: 1,
       rare: 4,

@@ -20,17 +20,17 @@ const STATS_BY_RANK: Record<EquipmentRank, { hp: number; strength: number; intel
 
 const NAMES: Record<EquipmentSlot, Record<EquipmentRank, string>> = {
   helmet: {
-    common: "Boné Velho",
-    rare: "Elmo de Ferro",
+    common: "Chapéu de Cendeiro",
+    rare: "Yvel glasses",
     epic: "Coroa Arcana",
     boss: "Coroa do Rei",
-    legendary: "Diadema Lendária",
+    legendary: "Tapa olho de Surica",
   },
   chestplate: {
-    common: "Colete Rasgado",
+    common: "Regata do Baiano",
     rare: "Armadura de Aço",
     epic: "Peitoral Reforçado",
-    boss: "Manto do Rei",
+    boss: "Camisa da Insider",
     legendary: "Armadura Lendária",
   },
   pants: {
@@ -41,7 +41,7 @@ const NAMES: Record<EquipmentSlot, Record<EquipmentRank, string>> = {
     legendary: "Calças Lendárias",
   },
   boots: {
-    common: "Chinelos Velhos",
+    common: "Chinelos de Babidi",
     rare: "Botas de Couro",
     epic: "Botas Épicas",
     boss: "Grevas do Rei",
