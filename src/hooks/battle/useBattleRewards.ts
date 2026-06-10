@@ -4,9 +4,10 @@ import { useEquipment } from "@/contexts/EquipmentContext";
 
 import { calculateXP } from "@/utils/calculateXp";
 
-import { rollDrop } from "@/data/equipment/drops";
+import { rollSlotDrop } from "@/data/equipment/drops";
 import { EQUIPMENT_LIST } from "@/data/equipment";
 import type { NPCClass } from "@/utils/types/npc/npcProgress";
+import type { EquipmentSlot } from "@/utils/types/player/equipment";
 
 type Props = {
   npcClass: NPCClass;
@@ -25,45 +26,45 @@ export function useBattleRewards({
   npcClass,
   npcLevel,
 }: Props) {
-    const { player, addCoins } = usePlayer();
-    const { addXP } = useCharacterProgress();
-    const { addDrop } = useEquipment();
+  const { player, addCoins } = usePlayer();
+  const { addXP } = useCharacterProgress();
+  const { addDrop } = useEquipment();
 
-    const xpReward = calculateXP(npcLevel, npcClass) ?? 0;
-    const coinReward = (COIN_REWARDS[npcClass] ?? 0) * npcLevel;
+  const xpReward = calculateXP(npcLevel, npcClass) ?? 0;
+  const coinReward = (COIN_REWARDS[npcClass] ?? 0) * npcLevel;
 
-    function giveSummonRewards(npcClass: NPCClass) {
-      const xp = calculateXP(npcLevel, npcClass) ?? 0;
-      const coins = (COIN_REWARDS[npcClass] ?? 0) * npcLevel;
+  function giveSummonRewards(npcClass: NPCClass) {
+    const xp = calculateXP(npcLevel, npcClass) ?? 0;
+    const coins = (COIN_REWARDS[npcClass] ?? 0) * npcLevel;
 
-      addXP(player.character, xp);
-      addCoins(coins);
-    }
+    addXP(player.character, xp);
+    addCoins(coins);
+  }
 
-    function giveRewards() {
-      addXP(player.character, xpReward);
-      addCoins(coinReward);
+  function giveRewards() {
+    addXP(player.character, xpReward);
+    addCoins(coinReward);
 
-      const droppedRank = rollDrop(npcClass);
+    const slots: EquipmentSlot[] = ["helmet", "chestplate", "pants", "boots"];
 
-      if (!droppedRank) return;
+    for (const slot of slots) {
+      const rank = rollSlotDrop(npcClass);
+      if (!rank) continue;
 
-      const pool = EQUIPMENT_LIST.filter(
-      equipment => equipment.rank === droppedRank
+      const equipment = EQUIPMENT_LIST.find(
+        e => e.slot === slot && e.rank === rank
       );
 
-      if (pool.length === 0) return;
-
-      const picked =
-      pool[Math.floor(Math.random() * pool.length)];
-
-      addDrop(player.character, picked.id);
+      if (equipment) {
+        addDrop(player.character, equipment.id);
+      }
     }
+  }
 
-    return {
-      xpReward,
-      coinReward,
-      giveRewards,
-      giveSummonRewards
-    };
+  return {
+    xpReward,
+    coinReward,
+    giveRewards,
+    giveSummonRewards
+  };
 }
