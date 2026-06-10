@@ -1,9 +1,10 @@
 import { useState, useCallback } from "react";
 import { canPlayerHit } from "@/gameRules/battle/combat";
+import type { PlayerClass } from "@/utils/types/player/player";
 
 type Props = {
   player: any;
-  playerClass: any;
+  playerClass: PlayerClass;
   char: any;
   behavior: any;
 

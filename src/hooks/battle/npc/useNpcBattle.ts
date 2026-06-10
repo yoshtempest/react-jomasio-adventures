@@ -3,12 +3,13 @@ import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import { calculateNpcDamage } from "@/gameRules/battle/damage";
 import { isNpcInRange } from "@/gameRules/battle/range";
 import { isFacingTarget } from "@/gameRules/battle/direction";
-import type { NpcDifficulty } from "@/utils/types/npc/npcProgress";
+import type { NpcDifficulty, NPCClass } from "@/utils/types/npc/npcProgress";
+import type { PlayerClass } from "@/utils/types/player/player";
 
 type Props = {
   npcLevel: number;
-  npcClass: any;
-  playerClass: any;
+  npcClass: NPCClass;
+  playerClass: PlayerClass;
 
   playerX: number;
   playerY: number;
