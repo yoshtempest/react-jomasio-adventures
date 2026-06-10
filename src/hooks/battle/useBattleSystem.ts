@@ -71,6 +71,7 @@ export function useBattleSystem(props: Props) {
         hp: baseChar.stats.hp + equipmentBonus.hp,
         strength: baseChar.stats.strength + equipmentBonus.strength,
         intelligence: baseChar.stats.intelligence + equipmentBonus.intelligence,
+        points: baseChar.stats.points,
       },
     };
   }, [baseChar, equipmentBonus]);
@@ -88,7 +89,7 @@ export function useBattleSystem(props: Props) {
   // 🤖 npc HP
   const npcMaxHp = useMemo(() => {
     return getNpcStats(npcLevel, npcClass, difficulty).hp;
-  }, [npcLevel, npcClass]);
+  }, [npcLevel, npcClass, difficulty]);
 
   const [npcHP, setNpcHP] = useState(npcMaxHp);
 
@@ -185,7 +186,8 @@ export function useBattleSystem(props: Props) {
     isEnding.current = false;
 
     behavior.reset?.({
-      setStacks: playerBattle.setStacks
+      setStacks: playerBattle.setStacks,
+      setDelicia: playerBattle.setDelicia,
     });
   };
 

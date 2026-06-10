@@ -66,7 +66,8 @@ export function useNpcBattle({
     playerX,
     playerY,
     npcX,
-    npcY
+    npcY,
+    difficulty
   ]);
 
   const npcRangedHit = useCallback(() => {
@@ -92,7 +93,12 @@ export function useNpcBattle({
     npcLevel,
     npcClass,
     playerClass,
-    setPlayerHP
+    setPlayerHP,
+    playerX,
+    playerY,
+    npcX,
+    npcY,
+    difficulty
   ]);
 
   return { npcMeleeHit, npcRangedHit };

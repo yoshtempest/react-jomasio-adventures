@@ -35,13 +35,24 @@ export function useSummonAI({
   const isPausedRef = useRef(isPaused);
   isPausedRef.current = isPaused;
 
+  const npcLevelRef = useRef(npcLevel);
+  npcLevelRef.current = npcLevel;
+  const difficultyRef = useRef(difficulty);
+  difficultyRef.current = difficulty;
+  const playerClassRef = useRef(playerClass);
+  playerClassRef.current = playerClass;
+  const damagePlayerRef = useRef(damagePlayer);
+  damagePlayerRef.current = damagePlayer;
+  const setSummonsRef = useRef(setSummons);
+  setSummonsRef.current = setSummons;
+
   useEffect(() => {
     const interval = setInterval(() => {
       if (isPausedRef.current) return;
 
       const px = playerXRef.current;
 
-      setSummons(prev =>
+      setSummonsRef.current(prev =>
         prev.map(s => {
           if (s.isDying || s.hp <= 0) {
             return s;
@@ -78,18 +89,18 @@ export function useSummonAI({
 
               if (data) {
                 const stats = getNpcStats(
-                  npcLevel,
+                  npcLevelRef.current,
                   data.class,
-                  difficulty
+                  difficultyRef.current
                 );
 
                 const damage =
                   calculateNpcDamage(
                     stats.damage,
-                    playerClass
+                    playerClassRef.current
                   );
 
-                damagePlayer(damage);
+                damagePlayerRef.current(damage);
               }
             }
           }

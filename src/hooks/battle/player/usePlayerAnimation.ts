@@ -20,5 +20,5 @@ export function usePlayerAnimation(
     }, current.duration);
 
     return () => clearTimeout(timer);
-  }, [player.state]);
+  }, [player.state, setPlayer]);
 }

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import type { Projectile } from "@/utils/types/projectile";
 import type { Dispatch, SetStateAction } from "react";
 import { isFacingTarget } from "@/gameRules/battle/direction";
@@ -14,6 +14,9 @@ export function useProjectile(
   npcY: number,
   onHit: () => void
 ) {
+  const onHitRef = useRef(onHit);
+  onHitRef.current = onHit;
+
   useEffect(() => {
     if (!projectile) return;
 
@@ -62,7 +65,7 @@ export function useProjectile(
           isFacingTarget(playerX, playerY, npcX, npcY, playerDirection);
 
         if (dx < 40 && dy <= 120 && !isBlocking) {
-          onHit();
+          onHitRef.current();
           return null;
         }
 
@@ -82,6 +85,8 @@ export function useProjectile(
     playerY,
     npcX,
     npcY,
-    playerState
+    playerState,
+    playerDirection,
+    setProjectile
   ]);
 }

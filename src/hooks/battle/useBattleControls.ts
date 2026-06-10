@@ -29,6 +29,11 @@ export function useBattleControls({
   playerHitRef.current = handlePlayerHit;
   specialHitRef.current = handleSpecialHit;
 
+  const pushControlsRef = useRef(pushControls);
+  pushControlsRef.current = pushControls;
+  const popControlsRef = useRef(popControls);
+  popControlsRef.current = popControls;
+
   useEffect(() => {
     if (disabled) return;
 
@@ -44,8 +49,8 @@ export function useBattleControls({
       },
     };
 
-    pushControls(controls);
+    pushControlsRef.current(controls);
 
-    return () => popControls();
+    return () => popControlsRef.current();
   }, [disabled]);
 }

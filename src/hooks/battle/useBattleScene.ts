@@ -167,10 +167,13 @@ export function useBattleScene({
     updateNpcPosition(npc.x);
   }, [npc.x, updateNpcPosition]);
 
+  const clearSummonsRef = useRef(clearSummons);
+  clearSummonsRef.current = clearSummons;
+
   // Despawn summons on boss phase 2
   useEffect(() => {
     if (battle.npcPhase === 2) {
-      clearSummons();
+      clearSummonsRef.current();
     }
   }, [battle.npcPhase]);
 
@@ -181,10 +184,17 @@ export function useBattleScene({
   npcRangedAttackRef.current = battle.npcRangedHit;
   npcMeleeAttackRef.current = battle.npcMeleeHit;
 
+  const setModeRef = useRef(setMode);
+  setModeRef.current = setMode;
+  const closeInventoryRef = useRef(closeInventory);
+  closeInventoryRef.current = closeInventory;
+  const closeNavbarRef = useRef(closeNavbar);
+  closeNavbarRef.current = closeNavbar;
+
   useEffect(() => {
-    setMode("battle");
-    closeInventory();
-    closeNavbar();
+    setModeRef.current("battle");
+    closeInventoryRef.current();
+    closeNavbarRef.current();
   }, []);
 
   useBattleControls({
