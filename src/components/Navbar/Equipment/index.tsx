@@ -21,8 +21,6 @@ export function Equipment() {
 
   return (
     <div className="containerOfNavbar">
-      <h2>Equipamentos</h2>
-
       <div className={styles.layout}>
         <div className={styles.leftPanel}>
           <img

@@ -1,5 +1,5 @@
 .container {
-  max-height: 50vh;
+  max-height: 80vh;
   overflow-y: auto;
   display: flex;
   flex-direction: column;

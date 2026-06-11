@@ -12,6 +12,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   flex-shrink: 0;
   width: 190px;
@@ -30,7 +31,7 @@
 .equippedGrid {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 2px;
   width: 100%;
 }
 
@@ -40,7 +41,6 @@
   gap: 2px;
   background: #1a1a2e;
   border: 2px solid #333;
-  border-radius: 6px;
   padding: 8px;
   transition: border-color 0.15s;
 }
@@ -121,6 +121,7 @@
 .filterTabs {
   display: flex;
   gap: 4px;
+  margin: 20px;
   flex-wrap: wrap;
   flex-shrink: 0;
 }
