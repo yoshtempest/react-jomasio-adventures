@@ -6,7 +6,7 @@ type Props = {
     y: number;
     sprite?: string;
     createdAt: number;
-    state: "idle" | "moving";
+    state: "idle" | "walk";
   };
   TILE_SIZE: number;
 };
