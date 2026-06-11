@@ -15,6 +15,7 @@ import { QuestProvider } from '@/contexts/QuestContext.tsx';
 import { AudioProvider } from '@/contexts/AudioContext.tsx';
 import { PWAProvider } from '@/contexts/PWAContext.tsx';
 import { SoundEffectsProvider } from "@/contexts/SoundEffectsContext";
+import { TitleProvider } from "@/contexts/TitleContext";
 
 import { registerSW } from "virtual:pwa-register";
 import { HashRouter } from "react-router";
@@ -102,6 +103,7 @@ root.render(
                   <QuestProvider>
                     <CharacterProgressProvider>
                       <EquipmentProvider>
+                      <TitleProvider>
                       <PlayerProvider>
                         <GameControlsProvider>
                           <Preloader pages={nonBattlePages} />
@@ -174,6 +176,7 @@ root.render(
                           </Suspense>
                         </GameControlsProvider>
                       </PlayerProvider>
+                      </TitleProvider>
                       </EquipmentProvider>
                     </CharacterProgressProvider>
                   </QuestProvider>

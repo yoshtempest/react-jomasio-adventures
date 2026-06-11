@@ -11,7 +11,8 @@ export type BattleBehavior = {
     char: CharacterProgress;
     playerClass: PlayerClass;
 
-    spawnPiercing?: () => void; // 👈 novo
+    spawnPiercing?: () => void;
+    titleDamageBonus?: number;
   }) => void;
 
   onSpecialHit: (data: {

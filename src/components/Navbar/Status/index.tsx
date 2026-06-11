@@ -2,6 +2,7 @@ import styles from "./styles.module.css";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
+import { useTitles } from "@/contexts/TitleContext";
 import { CHARACTERS } from "@/data/options/characters";
 import { useStatusMenu } from "@/hooks/menu/useStatusMenu";
 import { asset } from "@/utils/asset";
@@ -27,10 +28,12 @@ export function Status() {
 
   const stats = char.stats;
   const bonus = getTotalBonus(character);
+  const { getBonus } = useTitles();
+  const titleBonus = getBonus();
 
-  const totalHp = stats.hp + bonus.hp;
-  const totalStrength = stats.strength + bonus.strength;
-  const totalIntelligence = stats.intelligence + bonus.intelligence;
+  const totalHp = stats.hp + bonus.hp + titleBonus.hp;
+  const totalStrength = stats.strength + bonus.strength + titleBonus.strength;
+  const totalIntelligence = stats.intelligence + bonus.intelligence + titleBonus.intelligence;
 
   const userHp = 90 + totalHp * 10;
   const userSpecialDamage = 15 + totalIntelligence * 2;

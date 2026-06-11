@@ -25,6 +25,7 @@ type Props = {
 
   spawnPiercing: () => void;
   triggerExplosion: () => void;
+  titleDamageBonus: number;
 };
 
 export function usePlayerBattle({
@@ -43,6 +44,7 @@ export function usePlayerBattle({
   playerState,
   spawnPiercing,
   triggerExplosion,
+  titleDamageBonus,
 }: Props) {
   const [delicia, setDelicia] = useState(0);
   const [stacks, setStacks] = useState(0);
@@ -76,6 +78,7 @@ export function usePlayerBattle({
       HITS_TO_SPECIAL,
       setStacks,
       spawnPiercing,
+      titleDamageBonus,
     });
 
     playerCooldown.current = false;
@@ -99,6 +102,7 @@ export function usePlayerBattle({
     setNpcHP,
     HITS_TO_SPECIAL,
     spawnPiercing,
+    titleDamageBonus,
   ]);
 
   const specialHit = useCallback(() => {

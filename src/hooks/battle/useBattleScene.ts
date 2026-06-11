@@ -17,6 +17,7 @@ import { useSummons } from "@/hooks/battle/npc/useSummons";
 import { usePlayerBattleActions } from "@/hooks/battle/player/usePlayerBattleActions";
 import { useSummonAI } from "@/hooks/battle/npc/useSummonsAi";
 import { useBattleControls } from "@/hooks/battle/useBattleControls";
+import { useTitles } from "@/contexts/TitleContext";
 
 type Props = {
   npcType: string;
@@ -127,6 +128,7 @@ export function useBattleScene({
     onNpcDeath: () => {
       giveRewards();
       triggerVictory();
+      incrementKillCounterRef.current(npcTypeRef.current, npcDataRef.current.class);
     },
   });
 
@@ -196,6 +198,14 @@ export function useBattleScene({
     closeInventoryRef.current();
     closeNavbarRef.current();
   }, []);
+
+  const { incrementKillCounter } = useTitles();
+  const incrementKillCounterRef = useRef(incrementKillCounter);
+  incrementKillCounterRef.current = incrementKillCounter;
+  const npcTypeRef = useRef(npcType);
+  npcTypeRef.current = npcType;
+  const npcDataRef = useRef(npcData);
+  npcDataRef.current = npcData;
 
   useBattleControls({
     attack,

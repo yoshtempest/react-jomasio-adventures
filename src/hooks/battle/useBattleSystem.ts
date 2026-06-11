@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
+import { useTitles } from "@/contexts/TitleContext";
 import { getEquipmentStatsBonus } from "@/gameRules/battle/equipment";
 
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
@@ -44,6 +45,7 @@ export function useBattleSystem(props: Props) {
 
   const { player, playerClass } = usePlayer();
   const { progress } = useCharacterProgress();
+  const { getBonus } = useTitles();
 
   const baseChar = progress[player.character];
   const behavior = battleBehaviors[player.character] || battleBehaviors.default;
@@ -62,19 +64,24 @@ export function useBattleSystem(props: Props) {
     return getEquipmentStatsBonus(player.character);
   }, [player.character]);
 
-  // 🧠 stats do personagem + bônus de equipamento
+  // 🏆 título
+  const titleBonus = useMemo(() => {
+    return getBonus();
+  }, [getBonus]);
+
+  // 🧠 stats do personagem + bônus de equipamento + bônus de título
   const char = useMemo(() => {
     if (!baseChar) return baseChar;
     return {
       ...baseChar,
       stats: {
-        hp: baseChar.stats.hp + equipmentBonus.hp,
-        strength: baseChar.stats.strength + equipmentBonus.strength,
-        intelligence: baseChar.stats.intelligence + equipmentBonus.intelligence,
+        hp: baseChar.stats.hp + equipmentBonus.hp + titleBonus.hp,
+        strength: baseChar.stats.strength + equipmentBonus.strength + titleBonus.strength,
+        intelligence: baseChar.stats.intelligence + equipmentBonus.intelligence + titleBonus.intelligence,
         points: baseChar.stats.points,
       },
     };
-  }, [baseChar, equipmentBonus]);
+  }, [baseChar, equipmentBonus, titleBonus]);
 
   const playerMaxHp = useMemo(() => {
     return 90 + char.stats.hp * 10;
@@ -123,7 +130,8 @@ export function useBattleSystem(props: Props) {
     isEnding,
 
     spawnPiercing: effects.spawnPiercing,
-    triggerExplosion: effects.triggerExplosion
+    triggerExplosion: effects.triggerExplosion,
+    titleDamageBonus: titleBonus.damage,
   });
 
   // 🤖 npc

@@ -3,8 +3,8 @@ import { calculatePlayerDamage, calculateSpecialDamage } from "@/gameRules/battl
 import { gainSpecial } from "@/gameRules/battle/special";
 
 export const normalBehavior: BattleBehavior = {
-  onBasicHit: ({ setNpcHP, char, playerClass, setDelicia, HITS_TO_SPECIAL }) => {
-    const dmg = Math.round(calculatePlayerDamage(char.stats.strength, playerClass));
+  onBasicHit: ({ setNpcHP, char, playerClass, setDelicia, HITS_TO_SPECIAL, titleDamageBonus }) => {
+    const dmg = Math.round(calculatePlayerDamage(char.stats.strength, playerClass, titleDamageBonus));
 
     setNpcHP((hp: number) => Math.max(0, Math.round(hp) - dmg));
     setDelicia((d: number) => gainSpecial(d, HITS_TO_SPECIAL));

@@ -35,7 +35,6 @@ export const FILTER_LABELS: Record<EquipmentFilter, string> = {
 export function useEquipmentMenu(
   isOpen: boolean,
   character: CharacterId,
-  leftPanelRef?: React.RefObject<HTMLDivElement | null>,
   rightItemsRef?: React.RefObject<HTMLDivElement | null>
 ) {
   const { pushControls, popControls } = useGameControls();

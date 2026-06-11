@@ -1,8 +1,9 @@
 export function calculatePlayerDamage(
   strength: number,
-  playerClass: string | null
+  playerClass: string | null,
+  baseDamageBonus: number = 0
 ) {
-  let dmg = 12 + strength;
+  let dmg = 12 + strength + baseDamageBonus;
 
   if (playerClass === "amostradinho") {
     dmg *= 1.1;

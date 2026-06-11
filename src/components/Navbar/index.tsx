@@ -7,6 +7,7 @@ import { Character } from "./Character";
 import { Config } from "./Config";
 import { Mission } from "./Missions";
 import { Equipment } from "./Equipment";
+import { TitlesScreen } from "./Titles";
 
 export function Navbar() {
   const { screen, selectedIndex, options } = useNavbarMenu();
@@ -34,6 +35,7 @@ export function Navbar() {
       {screen === "config" && <Config />}
       {screen === "missions" && <Mission />}
       {screen === "equipment" && <Equipment />}
+      {screen === "titles" && <TitlesScreen />}
     </nav>
   );
 }

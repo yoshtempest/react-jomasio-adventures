@@ -7,4 +7,5 @@ export const NAVBAR_OPTIONS: NavbarOption[] = [
   { label: "Equipamentos", screen: "equipment" },
   { label: "Mochila", screen: "inventory" },
   { label: "Missões", screen: "missions" },
+  { label: "Títulos", screen: "titles" },
 ];
