@@ -1,21 +1,14 @@
 import { useRef } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
-import {
-  useEquipmentMenu,
-  FILTER_LABELS,
-} from "@/hooks/menu/useEquipmentMenu";
-import type { EquipmentFilter } from "@/hooks/menu/useEquipmentMenu";
+import { useEquipmentMenu } from "@/hooks/menu/useEquipmentMenu";
+import { EQUIPPED_COUNT, FILTER_TAB_COUNT, FILTER_TABS, FILTER_LABELS } from "@/data/equipmentMenu";
 import { asset } from "@/utils/asset";
 import {
   SLOT_LABELS,
   RANK_COLORS,
 } from "@/utils/types/player/equipment";
 import styles from "./styles.module.css";
-
-const EQUIPPED_COUNT = 7;
-const FILTER_TAB_COUNT = 8;
-const FILTER_TABS: EquipmentFilter[] = ["all", "helmet", "chestplate", "pants", "boots", "accessory", "bag", "pet"];
 
 export function Equipment() {
   const { player } = usePlayer();
