@@ -131,19 +131,35 @@ export function useEquipmentMenu(
     prev: number,
     direction: "up" | "down" | "left" | "right"
   ): number {
+    const firstTab = EQUIPPED_COUNT;
+    const lastTab = EQUIPPED_COUNT + FILTER_TAB_COUNT - 1;
+    const firstItem = EQUIPPED_COUNT + FILTER_TAB_COUNT;
+
     if (prev < EQUIPPED_COUNT) {
       if (direction === "up") return prev > 0 ? prev - 1 : prev;
       if (direction === "down")
         return prev < EQUIPPED_COUNT - 1 ? prev + 1 : prev;
       if (direction === "right" && totalItems > EQUIPPED_COUNT)
-        return EQUIPPED_COUNT;
+        return firstTab;
       return prev;
     }
 
-    if (direction === "up") return prev > EQUIPPED_COUNT ? prev - 1 : prev;
+    if (prev <= lastTab) {
+      if (direction === "right") return prev < lastTab ? prev + 1 : prev;
+      if (direction === "left")
+        return prev > firstTab ? prev - 1 : EQUIPPED_COUNT - 1;
+      if (direction === "down") {
+        if (filteredItems.length > 0) return firstItem;
+        return EQUIPPED_COUNT - 1;
+      }
+      if (direction === "up") return EQUIPPED_COUNT - 1;
+      return prev;
+    }
+
+    if (direction === "up") return prev > firstItem ? prev - 1 : firstTab;
     if (direction === "down")
       return prev < totalItems - 1 ? prev + 1 : prev;
-    if (direction === "left") return EQUIPPED_COUNT - 1;
+    if (direction === "left") return firstTab;
     return prev;
   }
 
