@@ -2,24 +2,10 @@ import { useRef } from "react";
 import styles from "./styles.module.css";
 import { useTitleMenu } from "@/hooks/menu/useTitleMenu";
 import { useTitles } from "@/contexts/TitleContext";
-import { TITLES } from "@/data/titles";
+import { TITLES } from "@/data/titles/index";
+import { STAT_LABEL } from "@/data/titles/statLabel";
+import { ICON_MAP } from "@/data/titles/icons";
 
-const ICON_MAP: Record<string, string> = {
-  skull: "💀",
-  goat: "🐐",
-  cultist: "🗡️",
-  rare: "💎",
-  boss: "👑",
-  legendary: "⭐",
-  warrior: "⚔️",
-};
-
-const STAT_LABEL: Record<string, string> = {
-  damage: "Dano",
-  hp: "HP",
-  strength: "Força",
-  intelligence: "Inteligência",
-};
 
 export function TitlesScreen() {
   const { titlesData } = useTitles();

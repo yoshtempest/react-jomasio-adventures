@@ -24,7 +24,7 @@ export function Equipment() {
   const leftPanelRef = useRef<HTMLDivElement | null>(null);
   const rightItemsRef = useRef<HTMLDivElement | null>(null);
   const { selectedIndex, equippedItems, filteredItems, filter } =
-    useEquipmentMenu(true, character, leftPanelRef, rightItemsRef);
+    useEquipmentMenu(true, character, rightItemsRef);
 
   return (
     <div className="containerOfNavbar">

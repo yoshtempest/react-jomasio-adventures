@@ -1,0 +1,6 @@
+export const STAT_LABEL: Record<string, string> = {
+  damage: "Dano",
+  hp: "HP",
+  strength: "Força",
+  intelligence: "Inteligência",
+};
