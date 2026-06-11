@@ -1,6 +1,5 @@
 import { useInventory } from "@/contexts/InventoryContext";
 import { useInventoryMenu } from "@/hooks/menu/useInventoryMenu";
-import styles from "./styles.module.css";
 import { usePlayer } from "@/contexts/PlayerContext";
 
 export function Inventory() {
@@ -9,7 +8,7 @@ export function Inventory() {
   const { selectedIndex } = useInventoryMenu(true);
 
   return (
-    <div className={styles.inventory}>
+    <div className="containerOfNavbar">
       <h3>Inventário</h3>
       <span>{coins} Kwanzas</span>
 
