@@ -1,6 +1,6 @@
 .modal {
   width: 75%;
-  max-width: 700px;
+  width: 60vw;
   max-height: 90vh;
   overflow-y: auto;
   padding: 24px 32px;
@@ -33,8 +33,20 @@
 
 .rewardsGrid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(1, 4fr);
   gap: 12px;
+}
+
+.flexRow {
+  display: flex;
+  flex-direction: row;
+  gap: 4vw;
+}
+
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
 }
 
 .rewardCard {
