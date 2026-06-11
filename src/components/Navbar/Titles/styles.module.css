@@ -5,6 +5,12 @@
   flex-direction: column;
   gap: 8px;
   padding: 8px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
 }
 
 .titleCard {

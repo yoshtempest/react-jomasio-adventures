@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import styles from "./styles.module.css";
 import { useTitleMenu } from "@/hooks/menu/useTitleMenu";
 import { useTitles } from "@/contexts/TitleContext";
@@ -22,13 +23,14 @@ const STAT_LABEL: Record<string, string> = {
 
 export function TitlesScreen() {
   const { titlesData } = useTitles();
-  const { titleIds, selectedIndex, equippedId } = useTitleMenu(true);
+  const listRef = useRef<HTMLDivElement | null>(null);
+  const { titleIds, selectedIndex, equippedId } = useTitleMenu(true, listRef);
 
   return (
     <div className="containerOfNavbar">
       <h2>Títulos</h2>
 
-      <div className={styles.container}>
+      <div className={styles.container} ref={listRef}>
         {titleIds.map((id, index) => {
           const def = TITLES[id];
           const progress = titlesData.progress[id];

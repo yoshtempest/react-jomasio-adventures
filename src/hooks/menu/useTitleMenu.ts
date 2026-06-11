@@ -4,7 +4,10 @@ import { useTitles } from "@/contexts/TitleContext";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { TITLE_IDS } from "@/data/titles";
 
-export function useTitleMenu(isOpen: boolean) {
+export function useTitleMenu(
+  isOpen: boolean,
+  listRef?: React.RefObject<HTMLDivElement | null>
+) {
   const { pushControls, popControls } = useGameControls();
   const { titlesData, equipTitle } = useTitles();
   const { playMove, playSelect } = useMenuSFX();
@@ -15,6 +18,20 @@ export function useTitleMenu(isOpen: boolean) {
   useEffect(() => {
     selectedIndexRef.current = selectedIndex;
   }, [selectedIndex]);
+
+  // scroll suave automático
+  useEffect(() => {
+    if (!listRef?.current) return;
+
+    const container = listRef.current;
+    const selectedElement = container.children[selectedIndex] as HTMLElement;
+    if (!selectedElement) return;
+
+    container.scrollTo({
+      top: selectedElement.offsetTop - container.offsetTop,
+      behavior: "smooth",
+    });
+  }, [selectedIndex, listRef]);
 
   const playMoveRef = useRef(playMove);
   playMoveRef.current = playMove;
