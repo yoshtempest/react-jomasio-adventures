@@ -8,67 +8,67 @@ type DropConfig = {
 
 export const DROP_CONFIG: Record<NPCClass, DropConfig> = {
   common: {
-    baseChance: 0.1,
+    baseChance: 0.08,
     rankWeights: {
-      common: 80,
-      rare: 15,
-      epic: 4,
-      boss: 0.9,
-      legendary: 0.1,
+      common: 85,
+      rare: 13,
+      epic: 2,
+      boss: 0,
+      legendary: 0,
     },
   },
 
   rare: {
-    baseChance: 0.25,
+    baseChance: 0.15,
     rankWeights: {
-      common: 55,
-      rare: 30,
-      epic: 10,
-      boss: 4,
-      legendary: 1,
+      common: 65,
+      rare: 28,
+      epic: 6,
+      boss: 1,
+      legendary: 0,
     },
   },
 
   epic: {
-    baseChance: 5,
+    baseChance: 0.35,
     rankWeights: {
-      common: 25,
+      common: 35,
       rare: 35,
-      epic: 25,
-      boss: 10,
-      legendary: 5,
+      epic: 22,
+      boss: 7,
+      legendary: 1,
     },
   },
 
   boss: {
-    baseChance: 0.75,
+    baseChance: 0.55,
     rankWeights: {
-      common: 10,
+      common: 15,
       rare: 30,
-      epic: 35,
-      boss: 20,
+      epic: 32,
+      boss: 18,
       legendary: 5,
     },
   },
 
   legendary: {
-    baseChance: 1,
+    baseChance: 0.80,
     rankWeights: {
-      common: 1,
-      rare: 4,
-      epic: 15,
+      common: 2,
+      rare: 8,
+      epic: 25,
       boss: 30,
-      legendary: 50,
+      legendary: 35,
     },
   },
 };
 
 const SLOT_CHANCE: Record<NPCClass, number> = {
-  common: 0.25,
-  rare: 0.45,
-  epic: 0.60,
-  boss: 0.75,
-  legendary: 0.90,
+  common: 0.15,
+  rare: 0.25,
+  epic: 0.40,
+  boss: 0.55,
+  legendary: 0.70,
 };
 
 const RANKS: EquipmentRank[] = ["common", "rare", "epic", "boss", "legendary"];

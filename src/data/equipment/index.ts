@@ -13,10 +13,10 @@ type EquipmentConfig = {
 
 const STATS_BY_RANK: Record<EquipmentRank, { hp: number; strength: number; intelligence: number }> = {
   common: { hp: 1, strength: 1, intelligence: 0 },
-  rare: { hp: 2, strength: 2, intelligence: 1 },
-  epic: { hp: 4, strength: 3, intelligence: 2 },
-  boss: { hp: 7, strength: 5, intelligence: 4 },
-  legendary: { hp: 10, strength: 8, intelligence: 7 },
+  rare: { hp: 1, strength: 1, intelligence: 1 },
+  epic: { hp: 2, strength: 2, intelligence: 1 },
+  boss: { hp: 4, strength: 3, intelligence: 2 },
+  legendary: { hp: 6, strength: 5, intelligence: 4 },
 };
 
 const NAMES: Partial<Record<EquipmentSlot, Record<EquipmentRank, string>>> = {
