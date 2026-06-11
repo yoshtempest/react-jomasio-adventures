@@ -10,4 +10,12 @@ export const ITEMS = {
   turkey: { id: "turkey", name: "Peru Comprido" },
   suspect_milk: { id: "suspect_milk", name: "Leite Bovino" },
   skool: { id: "skool", name: "Latinha de Cerveja" },
+
+  hungry_essence: { id: "hungry_essence", name: "Essência de Morto" },
+  goat_horn: { id: "goat_horn", name: "Chifre de Cabra" },
+  figurant_totem: { id: "figurant_totem", name: "Totem de Figurante" },
+  rare_scale: { id: "rare_scale", name: "Escama Rara" },
+  epic_core: { id: "epic_core", name: "Núcleo Épico" },
+  boss_soul: { id: "boss_soul", name: "Alma de Chefão" },
+  legendary_fragment: { id: "legendary_fragment", name: "Fragmento Lendário" },
 } as const;

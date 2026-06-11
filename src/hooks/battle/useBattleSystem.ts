@@ -1,8 +1,9 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useTitles } from "@/contexts/TitleContext";
 import { getEquipmentStatsBonus } from "@/gameRules/battle/equipment";
+import { useEquipment } from "@/contexts/EquipmentContext";
 
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import { getMaxSpecial } from "@/gameRules/battle/special";
@@ -13,6 +14,7 @@ import { useBattleEffects } from "@/hooks/battle/useBattleEffects";
 import { usePlayerBattle } from "@/hooks/battle/player/usePlayerBattle";
 import { useNpcBattle } from "@/hooks/battle/npc/useNpcBattle";
 import { useBattleLifecycle } from "@/hooks/battle/useBattleLifecycle";
+import { usePetBattle } from "@/hooks/battle/usePetBattle";
 import type { NpcDifficulty } from "@/utils/types/npc/npcProgress";
 
 
@@ -50,6 +52,9 @@ export function useBattleSystem(props: Props) {
   const baseChar = progress[player.character];
   const behavior = battleBehaviors[player.character] || battleBehaviors.default;
   const [isNpcDying, setNpcDying] = useState(false);
+
+  const { getEquippedItem } = useEquipment();
+  const hasPet = getEquippedItem(player.character, "pet") !== null;
 
   // 🧠 cooldowns
   const { playerCooldown, npcCooldown, isEnding } = useBattleCooldowns();
@@ -173,6 +178,23 @@ export function useBattleSystem(props: Props) {
     setNpcDying
   });
 
+  // 🐐 pet damage
+  const petDamageRef = useRef(() => {});
+  petDamageRef.current = () => {
+    if (isEnding.current) return;
+    setNpcHP((hp) => Math.max(0, hp - 8));
+  };
+
+  const { pet } = usePetBattle({
+    enabled: hasPet,
+    playerX,
+    playerY,
+    npcX,
+    npcY,
+    isPaused: isEnding.current,
+    onPetDamage: () => petDamageRef.current(),
+  });
+
   // 💥 external damage to player (summons, etc.)
   const damagePlayer = (damage: number) => {
     setPlayerHP(hp => Math.max(0, hp - damage));
@@ -225,6 +247,8 @@ export function useBattleSystem(props: Props) {
     isEnding,
 
     piercings: effects.piercings,
-    isExploding: effects.isExploding
+    isExploding: effects.isExploding,
+
+    pet,
   };
 }

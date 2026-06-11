@@ -13,9 +13,9 @@ import {
 } from "@/utils/types/player/equipment";
 import styles from "./styles.module.css";
 
-const EQUIPPED_COUNT = 4;
-const FILTER_TAB_COUNT = 5;
-const FILTER_TABS: EquipmentFilter[] = ["all", "helmet", "chestplate", "pants", "boots"];
+const EQUIPPED_COUNT = 7;
+const FILTER_TAB_COUNT = 8;
+const FILTER_TABS: EquipmentFilter[] = ["all", "helmet", "chestplate", "pants", "boots", "accessory", "bag", "pet"];
 
 export function Equipment() {
   const { player } = usePlayer();

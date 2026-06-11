@@ -1,4 +1,5 @@
 import type { Equipment, EquipmentRank, EquipmentSlot } from "@/utils/types/player/equipment";
+import { EQUIPMENT_SLOTS } from "@/utils/types/player/equipment";
 
 type EquipmentConfig = {
   id: EquipmentId;
@@ -18,7 +19,7 @@ const STATS_BY_RANK: Record<EquipmentRank, { hp: number; strength: number; intel
   legendary: { hp: 10, strength: 8, intelligence: 7 },
 };
 
-const NAMES: Record<EquipmentSlot, Record<EquipmentRank, string>> = {
+const NAMES: Partial<Record<EquipmentSlot, Record<EquipmentRank, string>>> = {
   helmet: {
     common: "Chapéu de Cendeiro",
     rare: "Yvel glasses",
@@ -47,6 +48,20 @@ const NAMES: Record<EquipmentSlot, Record<EquipmentRank, string>> = {
     boss: "Grevas do Rei",
     legendary: "Botas Lendárias",
   },
+  accessory: {
+    common: "Anel de Latão",
+    rare: "Anel de Prata",
+    epic: "Anel de Ouro",
+    boss: "Anel do Rei",
+    legendary: "Anel Lendário",
+  },
+  bag: {
+    common: "Bolsa de Pano",
+    rare: "Mochila de Couro",
+    epic: "Mochila Reforçada",
+    boss: "Mochila do Rei",
+    legendary: "Mochila Lendária",
+  },
 };
 
 function buildEquipment(config: EquipmentConfig): Equipment {
@@ -65,16 +80,33 @@ function buildEquipment(config: EquipmentConfig): Equipment {
 
 function generateAll(): Equipment[] {
   const list: Equipment[] = [];
-  const slots: EquipmentSlot[] = ["helmet", "chestplate", "pants", "boots"];
   const ranks: EquipmentRank[] = ["common", "rare", "epic", "boss", "legendary"];
 
-  for (const slot of slots) {
+  for (const slot of EQUIPMENT_SLOTS) {
+    if (slot === "pet") {
+      list.push(
+        buildEquipment({
+          id: "pet_goat",
+          name: "Bode de Estimação",
+          slot: "pet",
+          rank: "epic",
+          hp: 0,
+          strength: 0,
+          intelligence: 0,
+        })
+      );
+      continue;
+    }
+
+    const slotNames = NAMES[slot];
+    if (!slotNames) continue;
+
     for (const rank of ranks) {
       const stats = STATS_BY_RANK[rank];
       list.push(
         buildEquipment({
           id: `${slot}_${rank}`,
-          name: NAMES[slot][rank],
+          name: slotNames[rank],
           slot,
           rank,
           hp: stats.hp,

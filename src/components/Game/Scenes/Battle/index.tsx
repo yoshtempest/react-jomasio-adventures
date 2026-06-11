@@ -28,6 +28,7 @@ export function BattleScene(props: Props) {
     npcStats,
     npcLevel,
     summons,
+    pet,
     charProgress,
     missingXp,
     xpReward,
@@ -93,6 +94,7 @@ export function BattleScene(props: Props) {
           battle={battle}
           npcType={npcType}
           summons={summons}
+          pet={pet}
           TILE_SIZE={TILE_SIZE}
           PLAYER_SIZE={PLAYER_SIZE}
         />

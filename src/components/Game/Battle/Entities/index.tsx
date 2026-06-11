@@ -4,6 +4,7 @@ import { PlayerBattle } from "@/components/Game/Player/Battle";
 import type { SummonedNpc, NPCBattleState } from "@/utils/types/npc/npc";
 import type { Player } from "@/utils/types/player/player";
 import type { Projectile } from "@/utils/types/projectile";
+import type { PetState } from "@/hooks/battle/usePetBattle";
 
 type BattleEntitiesBattle = {
   piercings: { id: number; x: number; y: number }[];
@@ -18,11 +19,12 @@ type Props = {
   battle: BattleEntitiesBattle;
   npcType: string;
   summons: SummonedNpc[];
+  pet: PetState;
   TILE_SIZE: number;
   PLAYER_SIZE: number;
 };
 
-export function BattleEntities({ npc, player, battle, npcType, summons, TILE_SIZE, PLAYER_SIZE }: Props) {
+export function BattleEntities({ npc, player, battle, npcType, summons, pet, TILE_SIZE, PLAYER_SIZE }: Props) {
   return (
     <>
       <NPCBattle
@@ -55,6 +57,17 @@ export function BattleEntities({ npc, player, battle, npcType, summons, TILE_SIZ
           isDying={s.isDying}
         />
       ))}
+
+      {pet && (
+        <NPCBattle
+          x={pet.x}
+          y={pet.y}
+          TILE_SIZE={TILE_SIZE}
+          npcType={pet.npcType}
+          state={pet.state}
+          direction={pet.direction}
+        />
+      )}
 
       <PlayerBattle
         character={player.character}

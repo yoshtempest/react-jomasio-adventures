@@ -67,6 +67,7 @@ export function useBattleScene({
   } = useBattleRewards({
     npcClass: npcData.class,
     npcLevel,
+    npcType,
   });
 
   const {
@@ -252,6 +253,7 @@ export function useBattleScene({
     npcStats,
     npcLevel,
     summons,
+    pet: battle.pet,
     charProgress,
     missingXp,
     xpReward,

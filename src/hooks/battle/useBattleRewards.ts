@@ -1,17 +1,21 @@
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
+import { useInventory } from "@/contexts/InventoryContext";
 
 import { calculateXP } from "@/utils/calculateXp";
 
 import { rollSlotDrop } from "@/data/equipment/drops";
 import { EQUIPMENT_LIST } from "@/data/equipment";
+import { rollCraftDrops } from "@/data/items/crafting";
+import { ITEMS } from "@/data/items";
 import type { NPCClass } from "@/utils/types/npc/npcProgress";
 import type { EquipmentSlot } from "@/utils/types/player/equipment";
 
 type Props = {
   npcClass: NPCClass;
   npcLevel: number;
+  npcType: string;
 };
 
 export const COIN_REWARDS: Record<string, number> = {
@@ -25,10 +29,12 @@ export const COIN_REWARDS: Record<string, number> = {
 export function useBattleRewards({
   npcClass,
   npcLevel,
+  npcType,
 }: Props) {
   const { player, addCoins } = usePlayer();
   const { addXP } = useCharacterProgress();
   const { addDrop } = useEquipment();
+  const { addItem } = useInventory();
 
   const xpReward = calculateXP(npcLevel, npcClass) ?? 0;
   const coinReward = (COIN_REWARDS[npcClass] ?? 0) * npcLevel;
@@ -58,6 +64,18 @@ export function useBattleRewards({
       if (equipment) {
         addDrop(player.character, equipment.id);
       }
+    }
+
+    const materialDrops = rollCraftDrops(npcClass, npcType);
+    for (const [materialId, qty] of Object.entries(materialDrops)) {
+      const def = ITEMS[materialId as keyof typeof ITEMS];
+      if (def) {
+        addItem({ id: def.id, name: def.name, type: "material", qty });
+      }
+    }
+
+    if (npcType.startsWith("goat") && Math.random() < 0.01) {
+      addDrop(player.character, "pet_goat");
     }
   }
 

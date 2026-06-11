@@ -1,10 +1,14 @@
-export type EquipmentSlot = "helmet" | "chestplate" | "pants" | "boots";
+export type EquipmentSlot = "helmet" | "chestplate" | "pants" | "boots" | "accessory" | "bag" | "pet";
 
 export type EquipmentRank = "common" | "rare" | "epic" | "boss" | "legendary";
 
-export const EQUIPMENT_SLOTS: EquipmentSlot[] = ["helmet", "chestplate", "pants", "boots"];
+export const EQUIPMENT_SLOTS: EquipmentSlot[] = ["helmet", "chestplate", "pants", "boots", "accessory", "bag", "pet"];
 
 export const EQUIPMENT_RANKS: EquipmentRank[] = ["common", "rare", "epic", "boss", "legendary"];
+
+export const PET_EQUIPMENT_IDS = ["pet_goat"] as const;
+
+export type PetEquipmentId = typeof PET_EQUIPMENT_IDS[number];
 
 export type Equipment = {
   id: EquipmentId;
@@ -28,6 +32,9 @@ export function createEmptyEquipped(): EquippedItems {
     chestplate: null,
     pants: null,
     boots: null,
+    accessory: null,
+    bag: null,
+    pet: null,
   };
 }
 
@@ -52,4 +59,7 @@ export const SLOT_LABELS: Record<EquipmentSlot, string> = {
   chestplate: "Peitoral",
   pants: "Calças",
   boots: "Botas",
+  accessory: "Acessório",
+  bag: "Bolsa",
+  pet: "Pet",
 };

@@ -21,6 +21,7 @@ export function Inventory() {
             {index === selectedIndex ? "active" : ""}
             >
             {item.name}
+            {item.qty && item.qty > 1 && <span style={{ color: "#888", marginLeft: 6 }}>x{item.qty}</span>}
           </li>
         ))}
       </ul>

@@ -18,9 +18,9 @@ export type EquipmentMenuItem =
       qty: number;
     };
 
-const EQUIPPED_COUNT = 4;
-const FILTER_TAB_COUNT = 5;
-const FILTER_TABS = ["all", "helmet", "chestplate", "pants", "boots"] as const;
+const EQUIPPED_COUNT = 7;
+const FILTER_TAB_COUNT = 8;
+const FILTER_TABS = ["all", "helmet", "chestplate", "pants", "boots", "accessory", "bag", "pet"] as const;
 
 export type EquipmentFilter = (typeof FILTER_TABS)[number];
 
@@ -30,6 +30,9 @@ export const FILTER_LABELS: Record<EquipmentFilter, string> = {
   chestplate: "Peitorais",
   pants: "Calças",
   boots: "Botas",
+  accessory: "Acessórios",
+  bag: "Bolsas",
+  pet: "Pets",
 };
 
 export function useEquipmentMenu(

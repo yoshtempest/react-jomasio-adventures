@@ -31,19 +31,33 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
 
   function addItem(item: InventoryItem) {
     setItems((prev) => {
-      // impede duplicado
-      if (prev.find((i) => i.id === item.id)) return prev;
+      const existing = prev.find((i) => i.id === item.id);
+      if (existing) {
+        playSound("receivedItem");
+        return prev.map((i) =>
+          i.id === item.id
+            ? { ...i, qty: (i.qty ?? 1) + (item.qty ?? 1) }
+            : i
+        );
+      }
       playSound("receivedItem");
-      return [...prev, item];
+      return [...prev, { ...item, qty: item.qty ?? 1 }];
     });
   }
 
   function removeItem(id: ItemId) {
-    const exists = items.some((item) => item.id === id);
+    const found = items.find((i) => i.id === id);
+    if (!found) return;
 
-    if (!exists) return;
+    setItems((prev) => {
+      const next = prev.map((i) => {
+        if (i.id !== id) return i;
+        const nextQty = (i.qty ?? 1) - 1;
+        return nextQty <= 0 ? null : { ...i, qty: nextQty };
+      }).filter(Boolean) as InventoryItem[];
 
-    setItems((prev) => prev.filter((item) => item.id !== id));
+      return next;
+    });
 
     playSound("usedItem");
   }
