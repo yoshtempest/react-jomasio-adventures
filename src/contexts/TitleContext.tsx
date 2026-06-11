@@ -17,7 +17,7 @@ const TitleContext = createContext({} as ContextType);
 function getDefaultProgress(): Record<string, TitleProgress> {
   const progress: Record<string, TitleProgress> = {};
   for (const id of Object.keys(TITLES)) {
-    progress[id] = { current: 0, unlocked: false };
+    progress[id] = { current: 0, level: 0 };
   }
   return progress;
 }
@@ -43,7 +43,7 @@ function loadData(): TitlesData {
         if (saved) {
           progress[id] = {
             current: saved.current ?? 0,
-            unlocked: saved.unlocked ?? false,
+            level: saved.level ?? 0,
           };
         }
       }
@@ -77,9 +77,13 @@ export function TitleProvider({ children }: { children: ReactNode }) {
     if (!title) return bonus;
 
     const progress = titlesData.progress[titlesData.equippedId];
-    if (!progress?.unlocked) return bonus;
+    if (!progress || progress.level === 0) return bonus;
 
-    for (const b of title.bonus) {
+    const levelIndex = progress.level - 1;
+    const levelDef = title.levels[levelIndex];
+    if (!levelDef) return bonus;
+
+    for (const b of levelDef.bonus) {
       bonus[b.stat] += b.value;
     }
 
@@ -109,12 +113,13 @@ export function TitleProvider({ children }: { children: ReactNode }) {
             shouldIncrement = true;
           }
 
-          if (shouldIncrement && !prog.unlocked) {
+          if (shouldIncrement && prog.level < def.levels.length) {
             const nextCurrent = prog.current + 1;
-            const nowUnlocked = nextCurrent >= def.condition.count;
+            const nextLevelTarget = def.levels[prog.level].count;
+            const nextLevel = nextCurrent >= nextLevelTarget ? prog.level + 1 : prog.level;
             nextProgress[titleId] = {
               current: nextCurrent,
-              unlocked: nowUnlocked,
+              level: nextLevel,
             };
             changed = true;
           }
@@ -134,7 +139,7 @@ export function TitleProvider({ children }: { children: ReactNode }) {
 
   const equipTitle = useCallback((id: string) => {
     setTitlesData((prev) => {
-      if (!prev.progress[id]?.unlocked) return prev;
+      if (!prev.progress[id] || prev.progress[id].level === 0) return prev;
       return { ...prev, equippedId: prev.equippedId === id ? null : id };
     });
   }, []);

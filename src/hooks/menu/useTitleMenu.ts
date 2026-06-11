@@ -65,7 +65,7 @@ export function useTitleMenu(
       onConfirm: () => {
         const id = TITLE_IDS[selectedIndexRef.current];
         const prog = titlesData.progress[id];
-        if (!prog?.unlocked) return true;
+        if (!prog || prog.level === 0) return true;
 
         playSelectRef.current();
         equipTitleRef.current(id);

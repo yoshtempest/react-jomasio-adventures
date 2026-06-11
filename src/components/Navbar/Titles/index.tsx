@@ -37,9 +37,18 @@ export function TitlesScreen() {
           if (!def || !progress) return null;
 
           const isSelected = index === selectedIndex;
-          const isUnlocked = progress.unlocked;
+          const level = progress.level;
+          const isUnlocked = level > 0;
           const isEquipped = equippedId === id;
-          const pct = Math.min(100, (progress.current / def.condition.count) * 100);
+          const isMaxLevel = level >= def.levels.length;
+
+          const currentLevelDef = isUnlocked ? def.levels[level - 1] : null;
+          const nextLevelDef = isMaxLevel ? null : def.levels[level];
+          const nextCount = nextLevelDef?.count ?? null;
+
+          const pct = nextCount
+            ? Math.min(100, (progress.current / nextCount) * 100)
+            : 100;
 
           return (
             <div
@@ -61,19 +70,20 @@ export function TitlesScreen() {
               <div className={styles.info}>
                 <div className={styles.titleName}>
                   {def.name}
+                  {isUnlocked && ` Nv.${level}`}
                 </div>
 
                 <div className={styles.titleDesc}>
                   {def.description}
                 </div>
 
-                {def.bonus.length > 0 && (
+                {currentLevelDef && (
                   <div className={styles.bonusText}>
-                    {def.bonus.map((b) => `${STAT_LABEL[b.stat] ?? b.stat} +${b.value}`).join(", ")}
+                    {currentLevelDef.bonus.map((b) => `${STAT_LABEL[b.stat] ?? b.stat} +${b.value}`).join(", ")}
                   </div>
                 )}
 
-                {!isUnlocked && (
+                {!isMaxLevel && (
                   <>
                     <div className={styles.progressBar}>
                       <div
@@ -82,9 +92,15 @@ export function TitlesScreen() {
                       />
                     </div>
                     <div className={styles.progressText}>
-                      {progress.current}/{def.condition.count}
+                      {progress.current}/{nextCount}
                     </div>
                   </>
+                )}
+
+                {isMaxLevel && (
+                  <div className={styles.progressText}>
+                    Nv.MAX
+                  </div>
                 )}
               </div>
 
