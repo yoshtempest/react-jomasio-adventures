@@ -32,6 +32,7 @@ export function BattleScene(props: Props) {
     charProgress,
     missingXp,
     xpReward,
+    lastRewards,
     showVictory,
     showDefeat,
     handleRetry,
@@ -103,11 +104,13 @@ export function BattleScene(props: Props) {
       {showVictory && (
         <VictoryModal
           isOpen={showVictory}
+          character={player.character}
           enemyType={npcType}
           enemyLevel={npcLevel}
           myLevel={charProgress.level}
           xpReward={xpReward}
           nextLevelXp={missingXp}
+          rewards={lastRewards}
           onContinue={handleContinue}
         />
       )}

@@ -10,7 +10,27 @@ import { EQUIPMENT_LIST } from "@/data/equipment";
 import { rollCraftDrops } from "@/data/items/crafting";
 import { ITEMS } from "@/data/items";
 import type { NPCClass } from "@/utils/types/npc/npcProgress";
-import type { EquipmentSlot } from "@/utils/types/player/equipment";
+import type { EquipmentSlot, EquipmentRank } from "@/utils/types/player/equipment";
+
+export type EquipmentDropInfo = {
+  id: string;
+  name: string;
+  slot: EquipmentSlot;
+  rank: EquipmentRank;
+};
+
+export type ItemDropInfo = {
+  id: string;
+  name: string;
+  qty: number;
+};
+
+export type RewardInfo = {
+  coinReward: number;
+  xpReward: number;
+  equipmentDrops: EquipmentDropInfo[];
+  itemDrops: ItemDropInfo[];
+};
 
 type Props = {
   npcClass: NPCClass;
@@ -47,10 +67,11 @@ export function useBattleRewards({
     addCoins(coins);
   }
 
-  function giveRewards() {
+  function giveRewards(): RewardInfo {
     addXP(player.character, xpReward);
     addCoins(coinReward);
 
+    const equipmentDrops: EquipmentDropInfo[] = [];
     const slots: EquipmentSlot[] = ["helmet", "chestplate", "pants", "boots"];
 
     for (const slot of slots) {
@@ -63,20 +84,39 @@ export function useBattleRewards({
 
       if (equipment) {
         addDrop(player.character, equipment.id);
+        equipmentDrops.push({
+          id: equipment.id,
+          name: equipment.name,
+          slot: equipment.slot,
+          rank: equipment.rank,
+        });
       }
     }
 
+    const itemDrops: ItemDropInfo[] = [];
     const materialDrops = rollCraftDrops(npcClass, npcType);
     for (const [materialId, qty] of Object.entries(materialDrops)) {
       const def = ITEMS[materialId as keyof typeof ITEMS];
       if (def) {
         addItem({ id: def.id, name: def.name, type: "material", qty });
+        itemDrops.push({ id: def.id, name: def.name, qty });
       }
     }
 
     if (npcType.startsWith("goat") && Math.random() < 0.01) {
       addDrop(player.character, "pet_goat");
+      const pet = EQUIPMENT_LIST.find(e => e.id === "pet_goat");
+      if (pet) {
+        equipmentDrops.push({
+          id: pet.id,
+          name: pet.name,
+          slot: pet.slot,
+          rank: pet.rank,
+        });
+      }
     }
+
+    return { coinReward, xpReward, equipmentDrops, itemDrops };
   }
 
   return {

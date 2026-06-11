@@ -12,7 +12,7 @@ import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { useLocation } from "react-router";
-import { useBattleRewards } from "@/hooks/battle/useBattleRewards";
+import { useBattleRewards, type RewardInfo } from "@/hooks/battle/useBattleRewards";
 import { useSummons } from "@/hooks/battle/npc/useSummons";
 import { usePlayerBattleActions } from "@/hooks/battle/player/usePlayerBattleActions";
 import { useSummonAI } from "@/hooks/battle/npc/useSummonsAi";
@@ -54,6 +54,7 @@ export function useBattleScene({
   const { closeNavbar } = useNavbar();
 
   const [showDefeat, setShowDefeat] = useState(false);
+  const [lastRewards, setLastRewards] = useState<RewardInfo | null>(null);
   const [npcLevel] = useState(() => generateNpcLevel());
   const [npcPhase, setNpcPhase] = useState(1);
   const [showIntro, setShowIntro] = useState(true);
@@ -127,7 +128,8 @@ export function useBattleScene({
     difficulty,
     onPlayerDeath: () => setShowDefeat(true),
     onNpcDeath: () => {
-      giveRewards();
+      const rewards = giveRewards();
+      setLastRewards(rewards);
       triggerVictory();
       incrementKillCounterRef.current(npcTypeRef.current, npcDataRef.current.class);
     },
@@ -257,6 +259,7 @@ export function useBattleScene({
     charProgress,
     missingXp,
     xpReward,
+    lastRewards,
     showVictory,
     showDefeat,
     handleRetry,
