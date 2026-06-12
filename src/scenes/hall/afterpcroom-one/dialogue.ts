@@ -5,6 +5,7 @@ import { AfterPcRoomFourDialogue } from "@/data/maps/hall/one/four";
 import { AfterPcRoomFiveDialogue } from "@/data/maps/hall/one/five";
 import { AfterPcRoomSixDialogue } from "@/data/maps/hall/one/six";
 import { AfterPcRoomSevenDialogue } from "@/data/maps/hall/one/seven";
+import { AfterPcRoomEightDialogue } from "@/data/maps/hall/one/eight";
 import { AfterPcRoomGenericDialogue } from "@/data/maps/hall/one/generic";
 
 import { hasQuest, hasItem } from "@/scenes//shared/helpers";
@@ -43,6 +44,10 @@ export const getAfterPcRoomOneDialogue = ({
 
     if (hasQuest(quests, "x1_slimita") && !hasQuest(quests, "go_to_hell")) {
         return AfterPcRoomSevenDialogue;
+    }
+
+    if (hasQuest(quests, "x1_maugrelo") && !hasQuest(quests, "go_to_brodiclass")) {
+        return AfterPcRoomEightDialogue;
     }
 
     return AfterPcRoomGenericDialogue;
