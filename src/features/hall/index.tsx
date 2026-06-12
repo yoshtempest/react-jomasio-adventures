@@ -27,7 +27,7 @@ export function HallScene({ sceneId }: Props) {
 
   const handleExit = useCallback(
     ({ player }: { player: { gridX: number; gridY: number } }) => {
-      if (player.gridX === 8 && player.gridY === 3) {
+      if (sceneId === "hell" && player.gridX === 8 && player.gridY === 3) {
         const hasPandemony = quests.some((q) => q.id === "go_to_pandemony");
         if (hasPandemony) {
           setShowPuzzle(true);
@@ -38,7 +38,7 @@ export function HallScene({ sceneId }: Props) {
       }
       return false;
     },
-    [quests],
+    [quests, sceneId],
   );
 
   function handlePuzzleSolved() {
