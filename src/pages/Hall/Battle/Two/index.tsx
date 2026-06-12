@@ -1,5 +1,5 @@
 import { BattleScene } from "@/components/Game/Scenes/Battle";
-import SpiderDance from "/assets/songs/SpiderDance.m4a"
+import KickBack from "/assets/songs/KickBack.mp3"
 import { useFlags } from "@/contexts/FlagContext";
 
 export default function PlanetarySistersBattle() {
@@ -14,7 +14,7 @@ export default function PlanetarySistersBattle() {
       }}
       victoryDescription="Você derrotou as Irmãs Planetárias e agora pode passar"
       className="hallCenterBattle"
-      audioSrc={SpiderDance}
+      audioSrc={KickBack}
     />
   );
 }

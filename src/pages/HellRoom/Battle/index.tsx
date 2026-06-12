@@ -1,5 +1,5 @@
 import { BattleScene } from "@/components/Game/Scenes/Battle";
-import SpiderDance from "/assets/songs/SpiderDance.m4a"
+import GuiltyGear from "/assets/songs/GuiltyGear.mp3"
 import { useFlags } from "@/contexts/FlagContext";
 
 export default function HellroomBattle() {
@@ -14,7 +14,7 @@ export default function HellroomBattle() {
       }}
       victoryDescription="Você derrotou Maugrelo, mas ele parece ter gostado de apanhar?"
       className="hellroomBattle"
-      audioSrc={SpiderDance}
+      audioSrc={GuiltyGear}
     />
   );
 }

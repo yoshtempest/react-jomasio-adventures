@@ -1,5 +1,5 @@
 import { SceneBase } from "@/components/Game/Scenes/Base";
-import { HALL_SCENES } from "@/scenes/hall";
+import { HELLROOM_SCENES } from "@/scenes/hellroom";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
 import type { SceneId } from "@/utils/types/maps/sceneConfig";
@@ -10,7 +10,7 @@ type Props = {
 };
 
 export function HellScene({ sceneId }: Props) {
-  const scene = HALL_SCENES[sceneId];
+  const scene = HELLROOM_SCENES[sceneId];
 
   const { addItem, removeItem, hasItem } = useInventory();
   const { quests } = useQuests();
