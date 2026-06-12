@@ -18,12 +18,14 @@ import { usePlayerBattleActions } from "@/hooks/battle/player/usePlayerBattleAct
 import { useSummonAI } from "@/hooks/battle/npc/useSummonsAi";
 import { useBattleControls } from "@/hooks/battle/useBattleControls";
 import { useTitles } from "@/contexts/TitleContext";
+import type { BattleMapConfig } from "@/utils/types/battleMap";
 
 type Props = {
   npcType: string;
   redirectTo?: string;
   audioSrc: string;
   onVictory?: () => void;
+  map?: BattleMapConfig;
 };
 
 export function useBattleScene({
@@ -31,6 +33,7 @@ export function useBattleScene({
   redirectTo,
   audioSrc,
   onVictory,
+  map,
 }: Props) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -115,6 +118,7 @@ export function useBattleScene({
     onMeleeHit: () => npcMeleeAttackRef.current(),
     isPaused: showVictory || showDefeat || showIntro,
     onSummon: summonNpc,
+    obstacles: map?.obstacles,
   });
 
   const battle = useBattleSystem({

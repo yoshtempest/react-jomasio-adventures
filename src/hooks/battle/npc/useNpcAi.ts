@@ -1,8 +1,10 @@
 import { useEffect, useState, useRef } from "react";
 import { npcBehaviors } from "@/gameRules/battle/behaviors/npc/index";
 import { useProjectile } from "./useProjectile";
+import { isHorizontallyBlocked } from "@/utils/types/battleMap";
 import type { NPCBattleState } from "@/utils/types/npc/npc";
 import type { Projectile } from "@/utils/types/projectile";
+import type { BattleObstacle } from "@/utils/types/battleMap";
 
 
 type Props = {
@@ -16,6 +18,7 @@ type Props = {
   npcType: string;
   npcPhase: number;
   onSummon?: (npcType: string) => void;
+  obstacles?: BattleObstacle[];
 };
 
 export function useNpcAI({
@@ -29,6 +32,7 @@ export function useNpcAI({
   npcType,
   npcPhase,
   onSummon,
+  obstacles,
 }: Props) {
   const [npc, setNpc] = useState<NPCBattleState>({
     x: 900,
@@ -62,6 +66,8 @@ export function useNpcAI({
   onSummonRef.current = onSummon;
   const lastAttackRef = useRef(0);
   const summonTimerRef = useRef(0);
+  const obstaclesRef = useRef(obstacles ?? []);
+  obstaclesRef.current = obstacles ?? [];
   useProjectile(
     projectile,
     setProjectile,
@@ -113,14 +119,23 @@ export function useNpcAI({
 
         const direction = playerXRef.current < n.x ? "left" : "right";
         const distanceX = Math.abs(n.x - playerXRef.current);
+        const state = forceIdleRef.current ? "idle" : distanceX > 80 ? "walk" : "idle";
+        const nextX = result.x;
+        const nextY = result.y ?? n.y;
 
-        return {
-          ...n,
-          x: result.x,
-          y: result.y ?? n.y,
-          direction,
-          state: forceIdleRef.current ? "idle" : distanceX > 80 ? "walk" : "idle",
-        };
+        const obstacles = obstaclesRef.current;
+        if (obstacles.length > 0) {
+          const npcLeft = nextX - 15;
+          const npcTop = nextY - 50;
+          const npcRight = nextX + 15;
+          const npcBottom = nextY;
+
+          if (isHorizontallyBlocked(npcLeft, npcTop, npcRight, npcBottom, obstacles)) {
+            return { ...n, y: nextY, direction, state };
+          }
+        }
+
+        return { ...n, x: nextX, y: nextY, direction, state };
       });
     }, 20);
 

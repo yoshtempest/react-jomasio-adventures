@@ -3,11 +3,14 @@ import { GameMap } from "@/components/Game/GameMap";
 import { useGameLayout } from "@/hooks/useGameLayout";
 import { useBattleScene } from "@/hooks/battle/useBattleScene";
 import { BattleEntities } from "@/components/Game/Battle/Entities";
+import { BattleMap } from "@/components/Game/Battle/Map";
 import { VictoryModal } from "@/components/Game/Battle/Victory";
 import { DefeatModal } from "@/components/Game/Battle/Defeat";
 import { BattleIntro } from "@/components/Game/Battle/Intro";
 import { useGameAudio } from "@/hooks/useGameAudio";
+import { usePlayer } from "@/contexts/PlayerContext";
 import { useEffect, useRef } from "react";
+import type { BattleMapConfig } from "@/utils/types/battleMap";
 
 type Props = {
   npcType: string;
@@ -16,10 +19,11 @@ type Props = {
   className?: string;
   audioSrc: string;
   onVictory?: () => void;
+  map?: BattleMapConfig;
 };
 
 export function BattleScene(props: Props) {
-  const { npcType, className } = props;
+  const { npcType, className, map } = props;
 
   const {
     player,
@@ -49,7 +53,26 @@ export function BattleScene(props: Props) {
     PLAYER_SIZE,
     MAP_COLS,
     MAP_ROWS,
+    scaleX,
+    scaleY,
   } = useGameLayout();
+
+  const { setBattleCollision } = usePlayer();
+
+  useEffect(() => {
+    setBattleCollision({
+      map: map ?? null,
+      TILE_SIZE,
+      scaleX,
+      scaleY,
+    });
+  }, [map, TILE_SIZE, scaleX, scaleY, setBattleCollision]);
+
+  useEffect(() => {
+    return () => {
+      setBattleCollision({ map: null, TILE_SIZE: 0, scaleX: 1, scaleY: 1 });
+    };
+  }, [setBattleCollision]);
 
   const battleAudio = useGameAudio({
     src: props.audioSrc,
@@ -89,6 +112,8 @@ export function BattleScene(props: Props) {
         cols={MAP_COLS}
         rows={MAP_ROWS}
       >
+        {map && <BattleMap map={map} scaleX={scaleX} scaleY={scaleY} />}
+
         <BattleEntities
           npc={npc}
           player={player}

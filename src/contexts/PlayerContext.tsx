@@ -1,7 +1,8 @@
-import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, useRef, useCallback, type ReactNode } from "react";
 import type { Player, PlayerMode, PlayerClass } from "@/utils/types/player/player";
 import { usePlayerMovement } from "@/hooks/player/usePlayerMovement";
 import { useBattleMovement } from "@/hooks/player/useBattleMovement";
+import type { CollisionParams } from "@/hooks/player/useBattleMovement";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import type { NpcDifficulty } from "@/utils/types/npc/npcProgress";
@@ -46,6 +47,7 @@ type PlayerContextType = {
   setMap: (map: number[][]) => void;
   setMode: (mode: PlayerMode) => void;
   resetBattleState: () => void;
+  setBattleCollision: (params: CollisionParams) => void;
 
   playerClass: PlayerClass;
   chooseClass: (cls: PlayerClass) => void;
@@ -102,6 +104,10 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     }
   }, [playerClass]);
 
+  const battleCollisionRef = useRef<CollisionParams>({
+    map: null, TILE_SIZE: 0, scaleX: 1, scaleY: 1,
+  });
+
   const {
     moveUpBattle,
     startMoveLeft,
@@ -112,7 +118,11 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     releaseDownBattle, // 👈 AQUI
     attack: rawAttack,
     special,
-  } = useBattleMovement(setPlayer);
+  } = useBattleMovement(setPlayer, battleCollisionRef);
+
+  const setBattleCollision = useCallback((params: CollisionParams) => {
+    battleCollisionRef.current = params;
+  }, []);
 
   const attack = () => {
     rawAttack();
@@ -200,6 +210,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         setMap,
         setMode,
         setPosition,
+        setBattleCollision,
         playerClass,
         chooseClass,
         difficulty,
