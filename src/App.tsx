@@ -11,18 +11,28 @@ import { loadGame } from "@/utils/saveGame";
 
 import { useQuests } from "@/contexts/QuestContext";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { useEquipment } from "@/contexts/EquipmentContext";
 import { isCharacter } from "@/utils/types/player/player";
 
 function App() {
   const { isOpen } = useInventory();
   const { isNavOpen } = useNavbar();
-  const { setItems } = useInventory();
+  const { setItems, setMaxSlots } = useInventory();
   const { setQuests } = useQuests();
 
   const {
     chooseClass,
     setCharacter,
+    player,
   } = usePlayer();
+
+  const { getEquippedItem } = useEquipment();
+
+  useEffect(() => {
+    const bag = getEquippedItem(player.character, "bag");
+    const bonus = bag?.bonusSlots ?? 0;
+    setMaxSlots(20 + bonus);
+  }, [player.character, getEquippedItem, setMaxSlots]);
 
   const chooseClassRef = useRef(chooseClass);
   chooseClassRef.current = chooseClass;

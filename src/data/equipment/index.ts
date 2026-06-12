@@ -9,6 +9,7 @@ type EquipmentConfig = {
   hp: number;
   strength: number;
   intelligence: number;
+  bonusSlots?: number;
 };
 
 const STATS_BY_RANK: Record<EquipmentRank, { hp: number; strength: number; intelligence: number }> = {
@@ -17,6 +18,14 @@ const STATS_BY_RANK: Record<EquipmentRank, { hp: number; strength: number; intel
   epic: { hp: 2, strength: 2, intelligence: 1 },
   boss: { hp: 4, strength: 3, intelligence: 2 },
   legendary: { hp: 6, strength: 5, intelligence: 4 },
+};
+
+const BAG_SLOT_BONUS: Record<EquipmentRank, number> = {
+  common: 20,
+  rare: 40,
+  epic: 70,
+  boss: 100,
+  legendary: Infinity,
 };
 
 const NAMES: Partial<Record<EquipmentSlot, Record<EquipmentRank, string>>> = {
@@ -67,7 +76,7 @@ const NAMES: Partial<Record<EquipmentSlot, Record<EquipmentRank, string>>> = {
     rare: "Mochila de Couro",
     epic: "Mochila Reforçada",
     boss: "Mochila do Rei",
-    legendary: "Mochila Lendária",
+    legendary: "Distorce Espaço-Tempo",
   },
 };
 
@@ -82,6 +91,7 @@ function buildEquipment(config: EquipmentConfig): Equipment {
       strength: config.strength,
       intelligence: config.intelligence,
     },
+    ...(config.bonusSlots !== undefined && { bonusSlots: config.bonusSlots }),
   };
 }
 
@@ -94,7 +104,7 @@ function generateAll(): Equipment[] {
       list.push(
         buildEquipment({
           id: "pet_goat",
-          name: "Bode de Estimação",
+          name: "Bodão",
           slot: "pet",
           rank: "epic",
           hp: 0,
@@ -119,6 +129,7 @@ function generateAll(): Equipment[] {
           hp: stats.hp,
           strength: stats.strength,
           intelligence: stats.intelligence,
+          ...(slot === "bag" && { bonusSlots: BAG_SLOT_BONUS[rank] }),
         })
       );
     }

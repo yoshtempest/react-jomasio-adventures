@@ -57,6 +57,7 @@ const VandinhaFragmentBattle = lazyLoad(() => import('./pages/Battle/Vandinha/in
 const GoatBattle = lazyLoad(() => import('./pages/Battle/Goat/index.tsx'));
 const JhowSimarBattle = lazyLoad(() => import('./pages/Battle/JhowSimar/index.tsx'));
 const HungryDeathBattle = lazyLoad(() => import('./pages/Battle/Hungry/index.tsx'));
+const TechnobladeBattle = lazyLoad(() => import('./pages/Battle/Technoblade/index.tsx'));
 
 const CafeteriaBattle = lazyLoad(() => import('./pages/Cafeteria/Battle/index.tsx'));
 const CafeteriaPage = lazyLoad(() => import('./pages/Cafeteria/index.tsx'));
@@ -173,6 +174,7 @@ root.render(
                                 <Route path="battle/goat" element={<GoatBattle />} />
                                 <Route path="brodiclass/one" element={<BrodiClassOne/>} />
                                 <Route path="brodiclass/battle" element={<BrodiclassBattle />} /> 
+                                 <Route path="battle/technoblade" element={<TechnobladeBattle />} /> 
                               </Route>
                             </Routes>
                           </Suspense>

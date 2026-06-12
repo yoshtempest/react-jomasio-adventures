@@ -2,6 +2,7 @@ import {
   createContext,
   useContext,
   useState,
+  useRef,
   type ReactNode,
 } from "react";
 import type { InventoryItem } from "@/utils/types/player/inventory";
@@ -10,7 +11,7 @@ import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 type InventoryContextType = {
   items: InventoryItem[];
 
-  addItem: (item: InventoryItem) => void;
+  addItem: (item: InventoryItem) => boolean;
   removeItem: (id: ItemId) => void;
   hasItem: (id: ItemId) => boolean;
 
@@ -19,6 +20,8 @@ type InventoryContextType = {
   closeInventory: () => void;
   toggleInventory: () => void;
   setItems: React.Dispatch<React.SetStateAction<InventoryItem[]>>;
+  maxSlots: number;
+  setMaxSlots: (slots: number) => void;
 };
 
 const InventoryContext = createContext<InventoryContextType | null>(null);
@@ -29,7 +32,12 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
   
   const [isOpen, setIsOpen] = useState(false);
 
-  function addItem(item: InventoryItem) {
+  const [maxSlots, setMaxSlots] = useState(20);
+  const maxSlotsRef = useRef(maxSlots);
+  maxSlotsRef.current = maxSlots;
+
+  function addItem(item: InventoryItem): boolean {
+    let added = false;
     setItems((prev) => {
       const existing = prev.find((i) => i.id === item.id);
       if (existing) {
@@ -40,9 +48,17 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
             : i
         );
       }
+
+      const max = maxSlotsRef.current;
+      if (prev.length >= max) {
+        return prev;
+      }
+
       playSound("receivedItem");
+      added = true;
       return [...prev, { ...item, qty: item.qty ?? 1 }];
     });
+    return added;
   }
 
   function removeItem(id: ItemId) {
@@ -89,7 +105,9 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
         isOpen,
         openInventory,
         closeInventory,
-        toggleInventory
+        toggleInventory,
+        maxSlots,
+        setMaxSlots,
       }}
     >
       {children}

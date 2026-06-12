@@ -20,6 +20,7 @@ export type Equipment = {
     strength: number;
     intelligence: number;
   };
+  bonusSlots?: number;
 };
 
 export type EquippedItems = {

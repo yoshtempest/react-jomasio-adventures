@@ -3,14 +3,21 @@ import { useInventoryMenu } from "@/hooks/menu/useInventoryMenu";
 import { usePlayer } from "@/contexts/PlayerContext";
 
 export function Inventory() {
-  const { items } = useInventory();
+  const { items, maxSlots } = useInventory();
   const { coins } = usePlayer();
   const { selectedIndex } = useInventoryMenu(true);
+
+  const slotsLabel = maxSlots === Infinity
+    ? `${items.length} / ∞`
+    : `${items.length} / ${maxSlots}`;
 
   return (
     <div className="containerOfNavbar">
       <h3>Inventário</h3>
       <span>{coins} Kwanzas</span>
+      <span style={{ display: "block", fontSize: 12, color: "#aaa" }}>
+        Slots: {slotsLabel}
+      </span>
 
       <ul>
         {items.map((item, index) => ( 

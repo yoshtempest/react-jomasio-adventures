@@ -16,7 +16,7 @@ export function getNpcStats(
       rare: { hp: 1.0, dmg: 0.35 },
       epic: { hp: 2.0, dmg: 0.80 },
       boss: { hp: 3.5, dmg: 1.50 },
-      legendary: { hp: 5.0, dmg: 2.50 },
+      legendary: { hp: 25.0, dmg: 30.0 },
     },
 
     medium: {
@@ -24,7 +24,7 @@ export function getNpcStats(
       rare: { hp: 3.0, dmg: 0.90 },
       epic: { hp: 5.0, dmg: 2.00 },
       boss: { hp: 8.0, dmg: 3.50 },
-      legendary: { hp: 13.0, dmg: 5.50 },
+      legendary: { hp: 50.0, dmg: 60.0 },
     },
 
     hard: {
@@ -32,7 +32,7 @@ export function getNpcStats(
       rare: { hp: 7.0, dmg: 2.20 },
       epic: { hp: 12.0, dmg: 4.50 },
       boss: { hp: 18.0, dmg: 7.00 },
-      legendary: { hp: 26.0, dmg: 12.00 },
+      legendary: { hp: 100.0, dmg: 120.00 },
     },
   };
 
