@@ -20,4 +20,17 @@ export const hellTiles = [
         blockedMessage: "Porta trancada"
       }
   ),
+  createConditionalTile(
+      8,
+      3,
+      (_player, quests) => {
+      if (hasQuest(quests, "go_to_pandemony")) {
+        return HELLROOM_ROUTES.ONE;
+      }
+      return null;
+      },
+      {
+        blockedMessage: "Porta trancada"
+      }
+  ),
 ];

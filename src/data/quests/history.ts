@@ -167,6 +167,17 @@ export const HISTORY_QUESTS = createQuests({
         progress: 0,
         completed: false
     },
+    go_to_pandemony: {
+        name: "Salve Maura da Loucura",
+        image: "/assets/player/larissa/default.svg",
+        description: "Encontre Maura no Corredor do Pandemônio",
+        rewardsType: "xp",
+        rewards: 40,
+        type: "history",
+        counter: 1,
+        progress: 0,
+        completed: false
+    },
     go_to_brodiclass: {
         name: "Vá a sala dos brodi",
         image: "/assets/npcs/remedinha/default.svg",
