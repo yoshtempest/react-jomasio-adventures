@@ -4,8 +4,8 @@ import { hellTiles } from "./tiles";
 import type { SceneConfig } from "@/utils/types/maps/sceneConfig";
 import { getHellInitialPosition } from "./position";
 import { hellNpcs } from "./npcs";
-import { getHellDialogue } from "./dialogue"
-import { hellEvents } from "./events"
+import { getHellDialogue } from "./dialogue";
+import { hellEvents } from "./events";
 
 export const hellScene: SceneConfig = {
   id: "hell",
