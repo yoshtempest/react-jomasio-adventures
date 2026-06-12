@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { SceneBase } from "@/components/Game/Scenes/Base";
 import { HALL_SCENES } from "@/scenes/hall";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
 import type { SceneId } from "@/utils/types/maps/sceneConfig";
+import Talking from "@/components/Talking";
 
 
 type Props = {
@@ -11,6 +13,7 @@ type Props = {
 
 export function HallScene({ sceneId }: Props) {
   const scene = HALL_SCENES[sceneId];
+  const [popup, setPopup] = useState<string | null>(null);
 
   const { addItem, removeItem, hasItem } = useInventory();
   const { quests } = useQuests();
@@ -23,15 +26,26 @@ export function HallScene({ sceneId }: Props) {
   }
 
   return (
-    <SceneBase
-      scene={scene}
-      className={`Master ${scene.className ?? ""}`}
-      onFinishExtra={() => ({
-        addItem,
-        removeItem,
-        hasItem,
-        hasQuest,
-      })}
-    />
+    <>
+      <SceneBase
+        scene={scene}
+        className={`Master ${scene.className ?? ""}`}
+        popup={popup}
+        setPopup={setPopup}
+        onFinishExtra={() => ({
+          addItem,
+          removeItem,
+          hasItem,
+          hasQuest,
+        })}
+      />
+
+      {popup && (
+        <Talking
+          name="Sistema"
+          message={popup}
+        />
+      )}
+    </>
   );
 }
