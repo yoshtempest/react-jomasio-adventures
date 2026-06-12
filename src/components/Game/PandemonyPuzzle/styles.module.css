@@ -1,0 +1,105 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 1000;
+}
+
+.modal {
+  background: #1a1a2e;
+  border: 2px solid #b8860b;
+  border-radius: 12px;
+  padding: 32px;
+  min-width: 360px;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffd700;
+  text-align: center;
+}
+
+.instruction {
+  font-size: 14px;
+  color: #ccc;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.slotsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.slotRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 12px;
+  border: 2px solid #333;
+  border-radius: 8px;
+  background: #16213e;
+  transition: border-color 0.15s;
+}
+
+.slotRowSelected {
+  border-color: #ffd700;
+}
+
+.slotLabel {
+  font-size: 12px;
+  font-weight: bold;
+  color: #888;
+  min-width: 50px;
+}
+
+.symbolBox {
+  width: 96px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  background: #0f3460;
+  border: 2px solid #555;
+  border-radius: 8px;
+  transition: all 0.15s;
+}
+
+.symbolActive {
+  background: #533483;
+  border-color: #b8860b;
+  transform: scale(1.05);
+}
+
+.hints {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 11px;
+  color: #666;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.solved {
+  color: #4caf50;
+}
+
+.unsolved {
+  color: #ff9800;
+}

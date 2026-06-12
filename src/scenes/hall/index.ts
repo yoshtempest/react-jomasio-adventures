@@ -8,12 +8,14 @@ import { centerOneScene } from "./center-one/scene";
 import { centerTwoScene } from "./center-two/scene";
 import { leftOneScene } from "./left-one/scene";
 import { hellScene } from "./hell/scene"
+import { pandemonyScene } from "./pandemony/scene"
 
 import type { SceneConfig, SceneId } from "@/utils/types/maps/sceneConfig";
 
 export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
   one: oneScene,
   hell: hellScene,
+  pandemony: pandemonyScene,
   "jailson-one": jailsonOneScene,
   "jailson-two": jailsonTwoScene,
   "afterpcroom-one": afterPcRoomScene,

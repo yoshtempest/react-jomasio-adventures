@@ -25,7 +25,7 @@ export const hellTiles = [
       3,
       (_player, quests) => {
       if (hasQuest(quests, "go_to_pandemony")) {
-        return HELLROOM_ROUTES.ONE;
+        return HALL_ROUTES.PANDEMONY;
       }
       return null;
       },
