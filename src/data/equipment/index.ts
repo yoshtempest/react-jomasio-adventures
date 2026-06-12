@@ -20,6 +20,13 @@ const STATS_BY_RANK: Record<EquipmentRank, { hp: number; strength: number; intel
 };
 
 const NAMES: Partial<Record<EquipmentSlot, Record<EquipmentRank, string>>> = {
+  weapon: {
+    common: "Caneta Azul",
+    rare: "Bengala de Juju",
+    epic: "Lâmina Arcana",
+    boss: "Espada do Rei",
+    legendary: "Espadão do Rei Artur",
+  },
   helmet: {
     common: "Chapéu de Cendeiro",
     rare: "Yvel glasses",

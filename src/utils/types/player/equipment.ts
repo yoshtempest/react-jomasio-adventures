@@ -1,8 +1,8 @@
-export type EquipmentSlot = "helmet" | "chestplate" | "pants" | "boots" | "accessory" | "bag" | "pet";
+export type EquipmentSlot = "weapon" | "helmet" | "chestplate" | "pants" | "boots" | "accessory" | "bag" | "pet";
 
 export type EquipmentRank = "common" | "rare" | "epic" | "boss" | "legendary";
 
-export const EQUIPMENT_SLOTS: EquipmentSlot[] = ["helmet", "chestplate", "pants", "boots", "accessory", "bag", "pet"];
+export const EQUIPMENT_SLOTS: EquipmentSlot[] = ["weapon", "helmet", "chestplate", "pants", "boots", "accessory", "bag", "pet"];
 
 export const EQUIPMENT_RANKS: EquipmentRank[] = ["common", "rare", "epic", "boss", "legendary"];
 
@@ -28,6 +28,7 @@ export type EquippedItems = {
 
 export function createEmptyEquipped(): EquippedItems {
   return {
+    weapon: null,
     helmet: null,
     chestplate: null,
     pants: null,
@@ -55,6 +56,7 @@ export const RANK_COLORS: Record<EquipmentRank, string> = {
 };
 
 export const SLOT_LABELS: Record<EquipmentSlot, string> = {
+  weapon: "Arma",
   helmet: "Elmo",
   chestplate: "Peitoral",
   pants: "Calças",
