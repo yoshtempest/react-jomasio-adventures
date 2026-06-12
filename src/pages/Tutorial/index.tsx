@@ -76,7 +76,7 @@ export default function Tutorial() {
     playAudio: playSansTalking,
     onFinish: () => {
       giveQuest(QUESTS.jomasio_investigate)
-      navigate("/home")
+      navigate("/combatTutorial")
     },
     onBeforeNext: (dialogue) => {
       if (dialogue.message.includes("qual é seu nome")) {

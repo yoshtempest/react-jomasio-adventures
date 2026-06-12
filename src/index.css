@@ -188,6 +188,10 @@ h2 {
   background-image: url("/assets/cenarios/jomasio/battle/hell.svg");
 }
 
+.CombatTutorial {
+  background-image: url("/assets/cenarios/jomasio/battle/tutorial.svg");
+}
+
 
 .overlay {
   position: fixed;

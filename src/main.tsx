@@ -33,6 +33,7 @@ const Intro = lazyLoad(() => import('./pages/Intro/index.tsx'));
 const Tutorial = lazyLoad(() => import('./pages/Tutorial/index.tsx'));
 const Home = lazyLoad(() => import('./pages/Home/index.tsx'));
 const FirstScreen = lazyLoad(() => import('./pages/FirstScreen/index.tsx'));
+const CombatTutorial = lazyLoad(() => import('./pages/CombatTutorial/index.tsx'));
 
 const CantinaBattle = lazyLoad(() => import('./pages/Cantina/Battle/index.tsx'));
 const CantinaPage = lazyLoad(() => import('./pages/Cantina/index.tsx'));
@@ -73,6 +74,7 @@ const nonBattlePages = [
   EntryPoint,
   Intro,
   Tutorial,
+  CombatTutorial,
   Home,
   FirstScreen,
   CantinaPage,
@@ -114,6 +116,7 @@ root.render(
                               <Route path="/" element={<App />}>
                                 <Route index element={<EntryPoint />} />
                                 <Route path="tutorial" element={<Tutorial />} />
+                                <Route path="combatTutorial" element={<CombatTutorial />} />
                                 <Route path="intro" element={<Intro />} />
                                 <Route path="home" element={<Home />} />
                                 <Route path="firstscreen" element={<FirstScreen />} />
