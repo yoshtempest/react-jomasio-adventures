@@ -13,7 +13,7 @@ export default function HellroomBattle() {
         setFlag("maugrelo");
       }}
       victoryDescription="Você derrotou Maugrelo, mas ele parece ter gostado de apanhar?"
-      className="hellroomBattle"
+      className="HellRoomBattle"
       audioSrc={GuiltyGear}
     />
   );

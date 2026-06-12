@@ -12,7 +12,7 @@ export const FLAGS = {
   technoblade: { id: "technoblade"},
   dragonKing: { id: "dragonKing"},
   manim: { id: "manim"},
-  maura: { id: "maura"},
+  maurao: { id: "maurao"},
   planetarySisters: { id: "planetarySisters"},
   trueVandinha: { id: "trueVandinha"},
   goat: { id: "goat"},

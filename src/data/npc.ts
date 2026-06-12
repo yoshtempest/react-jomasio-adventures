@@ -15,7 +15,7 @@ export const NPCS: Record<string, NPCData> = {
   neimito: { type: "neimito", class: "boss" },
   planetarySisters: { type: "planetarySisters", class: "boss" },
   manim: { type: "manim", class: "boss" },
-  maura: { type: "maura", class: "boss" },
+  maurao: { type: "maurao", class: "boss" },
   maugrelo: { type: "maugrelo", class: "boss" },
 
   /* Bocaina */

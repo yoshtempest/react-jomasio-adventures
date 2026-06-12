@@ -184,6 +184,10 @@ h2 {
   background-image: url("/assets/cenarios/footballCourt.svg");
 }
 
+.HellRoomBattle {
+  background-image: url("/assets/cenarios/jomasio/battle/hell.svg");
+}
+
 
 .overlay {
   position: fixed;
