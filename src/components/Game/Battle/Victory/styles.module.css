@@ -116,6 +116,13 @@
   min-width: 64px;
 }
 
+.dropIcon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
 .dropName {
   font-size: 14px;
   color: #eee;

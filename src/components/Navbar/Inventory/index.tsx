@@ -1,6 +1,7 @@
 import { useInventory } from "@/contexts/InventoryContext";
 import { useInventoryMenu } from "@/hooks/menu/useInventoryMenu";
 import { usePlayer } from "@/contexts/PlayerContext";
+import styles from "./styles.module.css";
 
 export function Inventory() {
   const { items, maxSlots } = useInventory();
@@ -19,15 +20,30 @@ export function Inventory() {
         Slots: {slotsLabel}
       </span>
 
-      <ul>
-        {items.map((item, index) => ( 
+      <ul className={styles.list}>
+        {items.map((item, index) => (
           <li
             key={item.id}
-            className=
-            {index === selectedIndex ? "active" : ""}
-            >
-            {item.name}
-            {item.qty && item.qty > 1 && <span style={{ color: "#888", marginLeft: 6 }}>x{item.qty}</span>}
+            className={`${styles.item} ${index === selectedIndex ? styles.active : ""}`}
+          >
+            <div className={styles.itemRow}>
+              <img
+                className={styles.icon}
+                src={`${import.meta.env.BASE_URL}assets/items/${item.id}.svg`}
+                alt={item.name}
+              />
+              <div className={styles.info}>
+                <span className={styles.name}>
+                  {item.name}
+                  {item.qty && item.qty > 1 && (
+                    <span className={styles.qty}> x{item.qty}</span>
+                  )}
+                </span>
+                {item.description && (
+                  <span className={styles.description}>{item.description}</span>
+                )}
+              </div>
+            </div>
           </li>
         ))}
       </ul>
