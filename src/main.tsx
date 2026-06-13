@@ -16,6 +16,7 @@ import { AudioProvider } from '@/contexts/AudioContext.tsx';
 import { PWAProvider } from '@/contexts/PWAContext.tsx';
 import { SoundEffectsProvider } from "@/contexts/SoundEffectsContext";
 import { TitleProvider } from "@/contexts/TitleContext";
+import { SettingsProvider } from "@/contexts/SettingsContext";
 
 import { registerSW } from "virtual:pwa-register";
 import { HashRouter } from "react-router";
@@ -99,6 +100,7 @@ root.render(
   <StrictMode>
     <HashRouter>
       <PWAProvider>
+        <SettingsProvider>
         <AudioProvider>
           <SoundEffectsProvider>
             <NavbarProvider>
@@ -192,6 +194,7 @@ root.render(
             </NavbarProvider>
           </SoundEffectsProvider>
         </AudioProvider>
+        </SettingsProvider>
       </PWAProvider>
     </HashRouter>
   </StrictMode>

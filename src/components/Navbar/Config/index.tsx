@@ -3,6 +3,7 @@ import { MoveUp, MoveDown, MoveLeft, MoveRight } from "lucide-react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useConfigMenu } from "@/hooks/menu/useConfigMenu";
 import { useAudio } from "@/contexts/AudioContext";
+import { useSettings, DIALOGUE_SPEED_LIST, SPEED_LABEL } from "@/contexts/SettingsContext";
 
 import { useDialogue } from "@/hooks/interaction/useDialogue";
 import { useEffect, useRef } from "react";
@@ -14,6 +15,7 @@ import InstallButton from "@/components/PWA";
 export function Config() {
   const { difficulty } = usePlayer();
   const { volume } = useAudio();
+  const { dialogueSpeed } = useSettings();
   const { difficultyList, selectedIndex, selectedRow, screen } = useConfigMenu(true);
   const { pushControls, popControls } = useGameControls();
 
@@ -83,12 +85,37 @@ export function Config() {
           />
         </div>
       </div>
+      <div className={styles.speedContainer}>
+        {selectedRow === 2 && (
+          <span className={styles.cursor}>▼</span>
+        )}
+
+        <h2>Velocidade do Diálogo: {SPEED_LABEL[dialogueSpeed]}</h2>
+
+        <div className={styles.speedOptions}>
+          {DIALOGUE_SPEED_LIST.map((speed, index) => {
+            const isSelected =
+              selectedRow === 2 &&
+              index === selectedIndex;
+            return (
+              <div
+                key={speed}
+                className={`${styles.speedItem} ${
+                  isSelected ? styles.selected : ""
+                }`}
+              >
+                <p>{SPEED_LABEL[speed].toUpperCase()}</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
       <div
         className={`${styles.tutorialButton} ${
-          selectedRow === 2 ? styles.selected : ""
+          selectedRow === 3 ? styles.selected : ""
         }`}
       >
-        {selectedRow === 2 && (
+        {selectedRow === 3 && (
           <span className={styles.cursor}>▼</span>
         )}
 

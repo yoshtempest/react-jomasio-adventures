@@ -6,6 +6,7 @@ import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
 import { getSelected } from "@/gameRules/menu/selection";
 import { useAudio } from "@/contexts/AudioContext";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
+import { useSettings, DIALOGUE_SPEED_LIST } from "@/contexts/SettingsContext";
 
 const DIFFICULTY: NpcDifficulty[] = ["easy", "medium", "hard"];
 
@@ -17,13 +18,15 @@ export function useConfigSelection(
 
   const { setDifficulty } = usePlayer();
   const { volume, setVolume } = useAudio();
+  const { setDialogueSpeed } = useSettings();
   const { playMove, playSelect, playClose } = useMenuSFX();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   // 0 = dificuldade
   // 1 = volume
-  // 2 = tutorial
+  // 2 = velocidade do diálogo
+  // 3 = tutorial
   const [selectedRow, setSelectedRow] = useState(0);
 
   // menu | tutorial
@@ -53,6 +56,8 @@ export function useConfigSelection(
   setDifficultyRef.current = setDifficulty;
   const setVolumeRef = useRef(setVolume);
   setVolumeRef.current = setVolume;
+  const setDialogueSpeedRef = useRef(setDialogueSpeed);
+  setDialogueSpeedRef.current = setDialogueSpeed;
   const onConfirmRef = useRef(onConfirm);
   onConfirmRef.current = onConfirm;
 
@@ -73,6 +78,12 @@ export function useConfigSelection(
         if (selectedRowRef.current === 1) {
           setVolumeRef.current(Math.min(volume + 10, 100));
         }
+
+        if (selectedRowRef.current === 2) {
+          setSelectedIndex((prev) =>
+            circularNext(prev, DIALOGUE_SPEED_LIST.length)
+          );
+        }
       },
 
       onLeft: () => {
@@ -88,13 +99,19 @@ export function useConfigSelection(
         if (selectedRowRef.current === 1) {
           setVolumeRef.current(Math.max(volume - 10, 0));
         }
+
+        if (selectedRowRef.current === 2) {
+          setSelectedIndex((prev) =>
+            circularPrev(prev, DIALOGUE_SPEED_LIST.length)
+          );
+        }
       },
 
       onDown: () => {
         if (screenRef.current !== "menu") return;
 
         playMoveRef.current();
-        setSelectedRow((prev) => Math.min(prev + 1, 2));
+        setSelectedRow((prev) => Math.min(prev + 1, 3));
       },
 
       onUp: () => {
@@ -119,8 +136,18 @@ export function useConfigSelection(
           setDifficultyRef.current(selected);
         }
 
-        // tutorial
+        // velocidade do diálogo
         if (selectedRowRef.current === 2) {
+          const selected = getSelected(
+            DIALOGUE_SPEED_LIST,
+            selectedIndexRef.current
+          );
+
+          setDialogueSpeedRef.current(selected);
+        }
+
+        // tutorial
+        if (selectedRowRef.current === 3) {
           setScreen("tutorial");
         }
 
