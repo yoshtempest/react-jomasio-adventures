@@ -39,6 +39,10 @@ export default function Talking({ name, message, src }: Props) {
 
   useEffect(() => {
     const controls = {
+      onUp: () => true,
+      onDown: () => true,
+      onLeft: () => true,
+      onRight: () => true,
       onConfirm: () => {
         if (!isCompleteRef.current) {
           skipRef.current();
