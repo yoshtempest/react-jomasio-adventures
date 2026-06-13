@@ -1,25 +1,16 @@
 import { createContext, useCallback, useContext, useState, type ReactNode } from "react";
-
-export type DialogueSpeed = "fast" | "normal" | "slow";
-
-type SettingsContextType = {
-  dialogueSpeed: DialogueSpeed;
-  setDialogueSpeed: (speed: DialogueSpeed) => void;
-  dialogueSpeedMs: number;
-};
-
-export const DIALOGUE_SPEED_LIST: DialogueSpeed[] = ["fast", "normal", "slow"];
-
-export const SPEED_LABEL: Record<DialogueSpeed, string> = {
-  fast: "Rápido",
-  normal: "Normal",
-  slow: "Devagar",
-};
+import type { DialogueSpeed } from "@/utils/settings";
 
 const SPEED_MAP: Record<DialogueSpeed, number> = {
   fast: 25,
   normal: 50,
   slow: 90,
+};
+
+type SettingsContextType = {
+  dialogueSpeed: DialogueSpeed;
+  setDialogueSpeed: (speed: DialogueSpeed) => void;
+  dialogueSpeedMs: number;
 };
 
 const STORAGE_KEY = "dialogue_speed";

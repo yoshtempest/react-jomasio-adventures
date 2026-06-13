@@ -113,8 +113,8 @@ export function SoundEffectsProvider({
       audio.currentTime = 0;
 
       await audio.play();
-    } catch (err) {
-      console.error(err);
+    } catch {
+      // AbortError é esperado quando play() é interrompido por pause()
     }
   };
 

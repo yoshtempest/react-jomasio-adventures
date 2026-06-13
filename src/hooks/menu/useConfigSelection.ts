@@ -6,7 +6,8 @@ import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
 import { getSelected } from "@/gameRules/menu/selection";
 import { useAudio } from "@/contexts/AudioContext";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
-import { useSettings, DIALOGUE_SPEED_LIST } from "@/contexts/SettingsContext";
+import { useSettings } from "@/contexts/SettingsContext";
+import { DIALOGUE_SPEED_LIST } from "@/utils/settings";
 
 const DIFFICULTY: NpcDifficulty[] = ["easy", "medium", "hard"];
 
