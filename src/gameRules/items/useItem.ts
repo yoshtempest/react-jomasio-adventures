@@ -16,7 +16,7 @@ function rollEncounter() {
 
 export function useItemEffect({playSFX}: Props) {
   const navigate = useNavigate();
-  const { setMode } = usePlayer();
+  const { setMode, player, toggleHasPeru } = usePlayer();
 
   function getEffect(itemId: string) {
     switch (itemId) {
@@ -33,11 +33,13 @@ export function useItemEffect({playSFX}: Props) {
           setMode("map"); // 🔥 entra no modo mapa
         };
 
-      // case "peru": //
-      //   return () => {
-      //     playSFX?.("/assets/songs/transitions/openMap.mp3", 0.6);
-      //     // changePlayerMovement()
-      //   };
+      case "turkey":
+        return () => {
+          if (player.mode !== "explore") return;
+          const isEquipping = !player.hasPeru;
+          playSFX?.(isEquipping ? "/assets/songs/transitions/equip.mp3" : "/assets/songs/transitions/unequip.mp3", 0.5);
+          toggleHasPeru();
+        };
 
       default:
         return null;

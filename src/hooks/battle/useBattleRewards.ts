@@ -22,6 +22,7 @@ export type EquipmentDropInfo = {
 export type ItemDropInfo = {
   id: string;
   name: string;
+  image?: string;
   qty: number;
 };
 
@@ -98,8 +99,8 @@ export function useBattleRewards({
     for (const [materialId, qty] of Object.entries(materialDrops)) {
       const def = ITEMS[materialId as keyof typeof ITEMS];
       if (def) {
-        addItem({ id: def.id, name: def.name, type: "material", qty });
-        itemDrops.push({ id: def.id, name: def.name, qty });
+        addItem({ id: def.id, name: def.name, type: "material", qty, image: def.image });
+        itemDrops.push({ id: def.id, name: def.name, qty, image: def.image });
       }
     }
 

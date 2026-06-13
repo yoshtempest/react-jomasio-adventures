@@ -149,7 +149,7 @@ export function VictoryModal({
                     <div key={item.id} className={styles.dropItem}>
                       <img
                         className={styles.dropIcon}
-                        src={`${import.meta.env.BASE_URL}assets/items/${item.id}.svg`}
+                        src={item.image ? `${import.meta.env.BASE_URL}${item.image.replace(/^\//, "")}` : `${import.meta.env.BASE_URL}assets/items/${item.id}.svg`}
                         alt={item.name}
                       />
                       <span className={styles.dropName}>{item.name}</span>

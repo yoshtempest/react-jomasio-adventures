@@ -29,7 +29,10 @@ export function Inventory() {
             <div className={styles.itemRow}>
               <img
                 className={styles.icon}
-                src={`${import.meta.env.BASE_URL}assets/items/${item.id}.svg`}
+                src={
+                  item.image ?
+                  `${import.meta.env.BASE_URL}${item.image.replace(/^\//, "")}` :
+                  `${import.meta.env.BASE_URL}assets/items/${item.id}.svg`}
                 alt={item.name}
               />
               <div className={styles.info}>

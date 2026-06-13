@@ -7,6 +7,7 @@ type Props = {
   gridY: number;
   TILE_SIZE: number;
   PLAYER_SIZE: number;
+  hasPeru?: boolean;
 };
 
 export function Player({
@@ -16,12 +17,15 @@ export function Player({
   gridY,
   TILE_SIZE,
   PLAYER_SIZE,
+  hasPeru,
 }: Props) {
   const spriteDirection = direction === "left" ? "right" : direction;
 
-  const src = asset(
-    `assets/player/${character}/movement/${spriteDirection}.svg`
-  );
+  const spritePath = hasPeru
+    ? `assets/player/${character}/movement/withPeru/${spriteDirection}.svg`
+    : `assets/player/${character}/movement/${spriteDirection}.svg`;
+
+  const src = asset(spritePath);
 
   return (
     <img

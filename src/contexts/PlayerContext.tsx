@@ -51,6 +51,8 @@ type PlayerContextType = {
 
   playerClass: PlayerClass;
   chooseClass: (cls: PlayerClass) => void;
+
+  toggleHasPeru: () => void;
 };
 
 const PlayerContext = createContext<PlayerContextType | null>(null);
@@ -181,6 +183,13 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     }));
   };
 
+  function toggleHasPeru() {
+    setPlayer((prev) => ({
+      ...prev,
+      hasPeru: !prev.hasPeru,
+    }));
+  }
+
   return (
     <PlayerContext.Provider
       value={{
@@ -215,7 +224,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         chooseClass,
         difficulty,
         setDifficulty,
-        
+        toggleHasPeru,
       }}
     >
       {children}

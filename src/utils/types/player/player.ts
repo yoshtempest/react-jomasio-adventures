@@ -1,4 +1,3 @@
-
 export type PlayerState =
   | "idle"
   | "walk"
@@ -11,7 +10,20 @@ export type PlayerState =
   | "preJump"
   | "preSpecial";
 export type PlayerMode = "explore" | "battle" | "select" | "ui" | "map";
-export const CHARACTERS = ["marcelo", "eduarda", "lucas", "samuel", "artur", "mayra", "lucaua", "riquelme", "larissa", "camilly", "emanuel", "hiago"] as const;
+export const CHARACTERS = [
+  "marcelo",
+  "eduarda",
+  "lucas",
+  "samuel",
+  "artur",
+  "mayra",
+  "lucaua",
+  "riquelme",
+  "larissa",
+  "camilly",
+  "emanuel",
+  "hiago"
+] as const;
 export type Character = typeof CHARACTERS[number];
 
 export function isCharacter(value: unknown): value is Character {
@@ -36,4 +48,7 @@ export type Player = {
 
     // geral
     mode: PlayerMode;
+
+    // pet
+    hasPeru?: boolean;
 };
