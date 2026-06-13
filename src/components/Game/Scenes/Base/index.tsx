@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
-import { useNavigate, useLocation, type NavigateFunction, type Location } from "react-router";
+import { useLocation, type NavigateFunction, type Location } from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { useTransitionCtx } from "@/contexts/TransitionContext";
 import { ExploreScene } from "@/components/Game/Scenes/Default";
 import { runSceneEvents } from "@/engine/runSceneEvents";
 import { useQuestActions } from "@/hooks/useQuestActions";
@@ -43,7 +44,7 @@ export function SceneBase({
   onFinishExtra,
   children,
 }: SceneBaseProps) {
-  const navigate = useNavigate();
+  const { navigateWithFade } = useTransitionCtx();
   const location = useLocation();
   const { player } = usePlayer();
   const { quests } = useQuests();
@@ -85,7 +86,7 @@ export function SceneBase({
     const currentPlayer = playerRef.current;
 
     // 🔥 override (Cantina ainda pode usar)
-    if (handleExitRef.current?.({ player: currentPlayer, scene, navigate, location, quests })) {
+    if (handleExitRef.current?.({ player: currentPlayer, scene, navigate: navigateWithFade, location, quests })) {
       return;
     }
 
@@ -102,7 +103,7 @@ export function SceneBase({
       const route = tile.getRoute(currentPlayer, quests);
 
       if (route !== null) {
-        navigate(route, {
+        navigateWithFade(route, {
           state: { from: location.pathname },
         });
       } else {
@@ -130,11 +131,11 @@ export function SceneBase({
 
     // 🧠 3. rota simples
     if (tile.route) {
-      navigate(tile.route, {
+      navigateWithFade(tile.route, {
         state: { from: location.pathname },
       });
     }
-  }, [player.gridX, player.gridY, scene, quests, navigate, location]);
+  }, [player.gridX, player.gridY, scene, quests, navigateWithFade, location]);
 
   if (!scene) {
     return <div>Scene não encontrada</div>;
@@ -149,12 +150,12 @@ export function SceneBase({
           lastPage={lastPage}
           onFinish={() => {
             const extra = onFinishExtra?.({
-              navigate,
+              navigate: navigateWithFade,
               location,
             });
 
             runSceneEvents(scene.events, {
-              navigate,
+              navigate: navigateWithFade,
               location,
               giveQuest: (questId) => {
                 const quest = QUESTS[questId];

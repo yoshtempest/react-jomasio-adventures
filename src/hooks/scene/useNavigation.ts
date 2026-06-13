@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useNavigate } from "react-router";
+import { useTransitionCtx } from "@/contexts/TransitionContext";
 import type { Transition } from "@/utils/types/sceneHooks";
 
 type Props = {
@@ -11,7 +11,7 @@ export function useSceneNavigation({
   player,
   transitions,
 }: Props) {
-  const navigate = useNavigate();
+  const { navigateWithFade } = useTransitionCtx();
   const hasNavigatedRef = useRef(false);
   const previousPositionRef = useRef({
     x: player.gridX,
@@ -66,12 +66,12 @@ export function useSceneNavigation({
         map[currentRoute] = previousPositionRef.current;
         localStorage.setItem("scene_return_positions", JSON.stringify(map));
 
-        navigate(to, {
+        navigateWithFade(to, {
           state: {
             from: currentRoute,
           },
         });
       }
     });
-  }, [player, transitions, navigate]);
+  }, [player, transitions, navigateWithFade]);
 }

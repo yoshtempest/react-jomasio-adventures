@@ -14,7 +14,8 @@ import { useSceneSetup } from "@/hooks/scene/useSetup";
 import { useSceneControls } from "@/hooks/scene/useControls";
 import { useSceneInteraction } from "@/hooks/scene/useSceneInteraction";
 import { useSceneAudio } from "@/hooks/scene/useAudio";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation } from "react-router";
+import { useTransitionCtx } from "@/contexts/TransitionContext";
 import { getTileInFront } from "@/utils/getTileInFront";
 import { saveGame } from "@/utils/saveGame";
 import { useInventory } from "@/contexts/InventoryContext";
@@ -40,7 +41,7 @@ export function ExploreScene({
 }: ExploreSceneProps & { events?: SceneEvent[] }) {
   const { player, playerClass, setMap, setPosition, setMode } = usePlayer();
   const { pushControls, popControls } = useGameControls();
-  const navigate = useNavigate();
+  const { navigateWithFade } = useTransitionCtx();
   const location = useLocation();
   const { items } = useInventory();
   const { quests } = useQuests();
@@ -80,7 +81,7 @@ export function ExploreScene({
       if (onFinish) onFinish();
 
       if (nextRoute) {
-        navigate(nextRoute, { state: { from: location.pathname } });
+        navigateWithFade(nextRoute, { state: { from: location.pathname } });
       }
     }, 0);
   };

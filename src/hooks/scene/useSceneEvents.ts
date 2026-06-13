@@ -1,4 +1,5 @@
-import { useLocation, useNavigate } from "react-router";
+import { useLocation } from "react-router";
+import { useTransitionCtx } from "@/contexts/TransitionContext";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
 import { useFlags } from "@/contexts/FlagContext";
@@ -20,7 +21,7 @@ type Condition = {
 };
 
 export function useSceneEvents() {
-  const navigate = useNavigate();
+  const { navigateWithFade } = useTransitionCtx();
   const location = useLocation();
 
   const { items, addItem, removeItem } = useInventory();
@@ -93,7 +94,7 @@ export function useSceneEvents() {
     switch (event.type) {
       case "navigate":
         setTimeout(() => {
-          navigate(event.to, {
+          navigateWithFade(event.to, {
             state: { from: location.pathname },
           });
         }, 0);

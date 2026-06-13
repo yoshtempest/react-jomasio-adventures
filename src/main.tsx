@@ -17,6 +17,7 @@ import { PWAProvider } from '@/contexts/PWAContext.tsx';
 import { SoundEffectsProvider } from "@/contexts/SoundEffectsContext";
 import { TitleProvider } from "@/contexts/TitleContext";
 import { SettingsProvider } from "@/contexts/SettingsContext";
+import { TransitionProvider } from "@/contexts/TransitionContext";
 
 import { registerSW } from "virtual:pwa-register";
 import { HashRouter } from "react-router";
@@ -99,6 +100,7 @@ const root =
 root.render(
   <StrictMode>
     <HashRouter>
+      <TransitionProvider>
       <PWAProvider>
         <SettingsProvider>
         <AudioProvider>
@@ -196,6 +198,7 @@ root.render(
         </AudioProvider>
         </SettingsProvider>
       </PWAProvider>
+      </TransitionProvider>
     </HashRouter>
   </StrictMode>
 );
