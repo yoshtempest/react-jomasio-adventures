@@ -59,7 +59,7 @@ export default function CombatTutorial() {
 
   useEffect(() => {
     if (currentTask !== "moveLeft") return;
-    if (player.x <= initialX.current! - 30) setCurrentTask("moveRight");
+    if (player.x <= initialX.current! - 10) setCurrentTask("moveRight");
   }, [player.x, currentTask]);
 
   useEffect(() => {
