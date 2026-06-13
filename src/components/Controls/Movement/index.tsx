@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
@@ -7,6 +7,8 @@ import { JoystickMovement } from "./Joystick";
 import { ButtonsMovement } from "./Buttons";
 
 import styles from "./styles.module.css";
+
+type Dir = "up" | "down" | "left" | "right";
 
 export function Movement() {
   const {
@@ -42,6 +44,24 @@ export function Movement() {
   const [mode, setMode] = useState<
     "joystick" | "buttons"
   >("joystick");
+
+  const [pressed, setPressed] = useState<Set<Dir>>(new Set());
+
+  const press = useCallback((dir: Dir) => {
+    setPressed((prev) => {
+      if (prev.has(dir)) return prev;
+      return new Set(prev).add(dir);
+    });
+  }, []);
+
+  const release = useCallback((dir: Dir) => {
+    setPressed((prev) => {
+      if (!prev.has(dir)) return prev;
+      const next = new Set(prev);
+      next.delete(dir);
+      return next;
+    });
+  }, []);
 
   const isLockedRef = useRef(isLocked);
   const isBattleRef = useRef(isBattle);
@@ -110,49 +130,54 @@ export function Movement() {
   const popControlsRef = useRef(popControls);
   popControlsRef.current = popControls;
 
+  const pressRef = useRef(press);
+  pressRef.current = press;
+  const releaseRef = useRef(release);
+  releaseRef.current = release;
+
   useEffect(() => {
     const controls = {
       onUp: () => {
         if (isLockedRef.current) return;
-
+        pressRef.current("up");
         if (isBattleRef.current) moveUpBattleRef.current();
         else moveUpRef.current();
+      },
+      onUpRelease: () => {
+        releaseRef.current("up");
       },
 
       onDown: () => {
         if (isLockedRef.current) return;
-
+        pressRef.current("down");
         if (isBattleRef.current) moveDownBattleRef.current();
         else moveDownRef.current();
+      },
+      onDownRelease: () => {
+        releaseRef.current("down");
+        if (isBattleRef.current) releaseDownBattleRef.current();
       },
 
       onLeft: () => {
         if (isLockedRef.current) return;
-
+        pressRef.current("left");
         if (isBattleRef.current) startMoveLeftRef.current();
         else moveLeftRef.current();
+      },
+      onLeftRelease: () => {
+        releaseRef.current("left");
+        if (isBattleRef.current) stopMoveLeftRef.current();
       },
 
       onRight: () => {
         if (isLockedRef.current) return;
-
+        pressRef.current("right");
         if (isBattleRef.current) startMoveRightRef.current();
         else moveRightRef.current();
       },
-
-      onLeftRelease: () => {
-        if (isBattleRef.current)
-          stopMoveLeftRef.current();
-      },
-
       onRightRelease: () => {
-        if (isBattleRef.current)
-          stopMoveRightRef.current();
-      },
-
-      onDownRelease: () => {
-        if (isBattleRef.current)
-          releaseDownBattleRef.current();
+        releaseRef.current("right");
+        if (isBattleRef.current) stopMoveRightRef.current();
       },
     };
 
@@ -185,6 +210,7 @@ export function Movement() {
       ) : (
         <ButtonsMovement
           activeControls={activeControls}
+          pressed={pressed}
         />
       )}
     </>

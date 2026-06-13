@@ -54,7 +54,8 @@
   }
 }
 
-.movement button:active {
+.movement button:active,
+.movement button.pressed {
   background: rgba(255, 255, 255, 0.35);
   transform: scale(0.9);
 }

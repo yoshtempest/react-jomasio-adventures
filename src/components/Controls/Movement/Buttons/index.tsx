@@ -11,10 +11,12 @@ import type { GameControlLayer } from "@/utils/types/player/controls";
 
 type Props = {
   activeControls: GameControlLayer;
+  pressed: Set<string>;
 };
 
 export function ButtonsMovement({
   activeControls,
+  pressed,
 }: Props) {
   const holdRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -33,10 +35,14 @@ export function ButtonsMovement({
     releaseFn?.();
   }
 
+  function btnClass(dir: string) {
+    return `${styles[dir as keyof typeof styles]} ${pressed.has(dir) ? styles.pressed : ""}`;
+  }
+
   return (
     <div className={styles.movement}>
       <button
-        className={styles.up}
+        className={btnClass("up")}
         onPointerDown={() => activeControls?.onUp?.()}
         onPointerUp={() => activeControls?.onUpRelease?.()}
         onPointerLeave={() => activeControls?.onUpRelease?.()}
@@ -45,7 +51,7 @@ export function ButtonsMovement({
       </button>
 
       <button
-        className={styles.left}
+        className={btnClass("left")}
         onPointerDown={() => startHold(activeControls?.onLeft)}
         onPointerUp={() => stopHold(activeControls?.onLeftRelease)}
         onPointerLeave={() => stopHold(activeControls?.onLeftRelease)}
@@ -54,7 +60,7 @@ export function ButtonsMovement({
       </button>
 
       <button
-        className={styles.right}
+        className={btnClass("right")}
         onPointerDown={() => startHold(activeControls?.onRight)}
         onPointerUp={() => stopHold(activeControls?.onRightRelease)}
         onPointerLeave={() => stopHold(activeControls?.onRightRelease)}
@@ -63,7 +69,7 @@ export function ButtonsMovement({
       </button>
 
       <button
-        className={styles.down}
+        className={btnClass("down")}
         onPointerDown={() => activeControls?.onDown?.()}
         onPointerUp={() => activeControls?.onDownRelease?.()}
         onPointerLeave={() => activeControls?.onDownRelease?.()}
