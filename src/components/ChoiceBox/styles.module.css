@@ -1,0 +1,45 @@
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.box {
+  background: var(--primary-color);
+  border: 2px solid var(--background-color);
+  border-radius: 4px;
+  padding: 1.5rem;
+  min-width: 260px;
+  text-align: center;
+}
+
+.prompt {
+  font-size: 1.1rem;
+  margin-bottom: 1.2rem;
+  color: var(--text-color);
+  line-height: 1.4;
+}
+
+.options {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.option {
+  padding: 0.5rem 1rem;
+  margin: 0.25rem 0;
+  cursor: default;
+  font-size: 1rem;
+  border-radius: 2px;
+  transition: background 0.15s;
+}
+
+.optionSelected {
+  background: var(--accent-color, #555);
+  color: #fff;
+}
