@@ -3,7 +3,10 @@ import type { SceneEvent } from "@/utils/types/maps/sceneEvents";
 export const cantinaOneEvents: SceneEvent[] = [
     {
         type: "conditional",
-        condition: { notHasQuest: "director_escape" },
+        condition: {
+          notHasFlag: "jhowsimar",
+          notHasQuest: "director_escape"
+        },
         then: [
           { type: "navigate", to: "/director/one" }
         ],

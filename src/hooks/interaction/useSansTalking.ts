@@ -21,7 +21,7 @@ export function useSansTalking(isDialogueOpen: boolean) {
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
-      audioRef.current.play();
+      audioRef.current.play().catch(() => {});
     }
   }, []);
 

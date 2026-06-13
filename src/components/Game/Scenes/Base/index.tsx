@@ -2,6 +2,8 @@ import { useEffect, useRef } from "react";
 import { useLocation, type NavigateFunction, type Location } from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useTransitionCtx } from "@/contexts/TransitionContext";
+import { useFlags } from "@/contexts/FlagContext";
+import { useInventory } from "@/contexts/InventoryContext";
 import { ExploreScene } from "@/components/Game/Scenes/Default";
 import { runSceneEvents } from "@/engine/runSceneEvents";
 import { useQuestActions } from "@/hooks/useQuestActions";
@@ -48,6 +50,8 @@ export function SceneBase({
   const location = useLocation();
   const { player } = usePlayer();
   const { quests } = useQuests();
+  const { hasFlag } = useFlags();
+  const { hasItem } = useInventory();
   const { giveQuest, progressQuest } = useQuestActions();
 
   const lastPage = location.state?.from;
@@ -145,6 +149,7 @@ export function SceneBase({
     <div className={`Master ${className}`}>
       <div className="SceneMap">
         <ExploreScene
+          key={scene.id}
           {...scene}
           initialPosition={spawn}
           lastPage={lastPage}
@@ -157,6 +162,9 @@ export function SceneBase({
             runSceneEvents(scene.events, {
               navigate: navigateWithFade,
               location,
+              hasQuest: (questId) => quests.some((q) => q.id === questId),
+              hasFlag,
+              hasItem,
               giveQuest: (questId) => {
                 const quest = QUESTS[questId];
                 if (!quest) return;
