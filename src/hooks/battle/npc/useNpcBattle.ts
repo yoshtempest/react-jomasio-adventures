@@ -51,6 +51,7 @@ export function useNpcBattle({
     const dmg = calculateNpcDamage(npc.damage, playerClass);
 
     setPlayerHP(hp => Math.max(0, hp - dmg));
+    navigator.vibrate?.(40);
 
     npcCooldown.current = false;
     setTimeout(() => npcCooldown.current = true, 800);
@@ -82,6 +83,7 @@ export function useNpcBattle({
     const dmg = calculateNpcDamage(npc.damage, playerClass);
 
     setPlayerHP((hp) => Math.max(0, hp - dmg));
+    navigator.vibrate?.(40);
 
     npcCooldown.current = false;
     setTimeout(() => (npcCooldown.current = true), 800);

@@ -69,6 +69,7 @@ export function usePlayerBattle({
     }
 
     playAttackSound(player.character);
+    navigator.vibrate?.(20);
 
     behavior.onBasicHit({
       setNpcHP,
@@ -124,6 +125,8 @@ export function usePlayerBattle({
     ) {
       return;
     }
+
+    navigator.vibrate?.(30);
 
     behavior.onSpecialHit({
       setNpcHP,

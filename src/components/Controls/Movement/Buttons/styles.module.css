@@ -35,6 +35,17 @@
   grid-area: center;
 }
 
+.movement button {
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.movement button:active {
+  background: rgba(255, 255, 255, 0.35);
+  transform: scale(0.9);
+}
+
 @media (orientation: portrait) {
   .movement {
     display: grid;

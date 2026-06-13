@@ -35,6 +35,7 @@ export function Player({
         top: gridY * TILE_SIZE,
         transform: `translate(-10%, -20%) scaleX(${direction === "left" ? -1 : 1})`,
         zIndex: 10,
+        transition: "left 0.08s, top 0.08s",
       }}
     />
   );

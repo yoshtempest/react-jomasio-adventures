@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import {
   MoveUp,
   MoveDown,
@@ -15,31 +16,39 @@ type Props = {
 export function ButtonsMovement({
   activeControls,
 }: Props) {
-  const press =
-    (fn?: () => void) => () => fn?.();
+  const holdRef = useRef<NodeJS.Timeout | null>(null);
+
+  function startHold(fn?: () => void) {
+    fn?.();
+    holdRef.current = setInterval(() => {
+      fn?.();
+    }, 180);
+  }
+
+  function stopHold(releaseFn?: () => void) {
+    if (holdRef.current) {
+      clearInterval(holdRef.current);
+      holdRef.current = null;
+    }
+    releaseFn?.();
+  }
 
   return (
     <div className={styles.movement}>
       <button
         className={styles.up}
-        onMouseDown={press(
-          activeControls?.onUp
-        )}
-        onMouseUp={press(
-          activeControls?.onUpRelease
-        )}
+        onPointerDown={() => activeControls?.onUp?.()}
+        onPointerUp={() => activeControls?.onUpRelease?.()}
+        onPointerLeave={() => activeControls?.onUpRelease?.()}
       >
         <MoveUp size={16} />
       </button>
 
       <button
         className={styles.left}
-        onMouseDown={press(
-          activeControls?.onLeft
-        )}
-        onMouseUp={press(
-          activeControls?.onLeftRelease
-        )}
+        onPointerDown={() => startHold(activeControls?.onLeft)}
+        onPointerUp={() => stopHold(activeControls?.onLeftRelease)}
+        onPointerLeave={() => stopHold(activeControls?.onLeftRelease)}
       >
         <MoveLeft size={16} />
       </button>
@@ -48,24 +57,18 @@ export function ButtonsMovement({
 
       <button
         className={styles.right}
-        onMouseDown={press(
-          activeControls?.onRight
-        )}
-        onMouseUp={press(
-          activeControls?.onRightRelease
-        )}
+        onPointerDown={() => startHold(activeControls?.onRight)}
+        onPointerUp={() => stopHold(activeControls?.onRightRelease)}
+        onPointerLeave={() => stopHold(activeControls?.onRightRelease)}
       >
         <MoveRight size={16} />
       </button>
 
       <button
         className={styles.down}
-        onMouseDown={press(
-          activeControls?.onDown
-        )}
-        onMouseUp={press(
-          activeControls?.onDownRelease
-        )}
+        onPointerDown={() => activeControls?.onDown?.()}
+        onPointerUp={() => activeControls?.onDownRelease?.()}
+        onPointerLeave={() => activeControls?.onDownRelease?.()}
       >
         <MoveDown size={16} />
       </button>
