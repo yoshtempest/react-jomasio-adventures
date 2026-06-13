@@ -22,7 +22,7 @@ export function ButtonsMovement({
     fn?.();
     holdRef.current = setInterval(() => {
       fn?.();
-    }, 180);
+    }, 120);
   }
 
   function stopHold(releaseFn?: () => void) {
@@ -41,7 +41,7 @@ export function ButtonsMovement({
         onPointerUp={() => activeControls?.onUpRelease?.()}
         onPointerLeave={() => activeControls?.onUpRelease?.()}
       >
-        <MoveUp size={16} />
+        <MoveUp size={22} />
       </button>
 
       <button
@@ -50,10 +50,8 @@ export function ButtonsMovement({
         onPointerUp={() => stopHold(activeControls?.onLeftRelease)}
         onPointerLeave={() => stopHold(activeControls?.onLeftRelease)}
       >
-        <MoveLeft size={16} />
+        <MoveLeft size={22} />
       </button>
-
-      <div className={styles.empty}></div>
 
       <button
         className={styles.right}
@@ -61,7 +59,7 @@ export function ButtonsMovement({
         onPointerUp={() => stopHold(activeControls?.onRightRelease)}
         onPointerLeave={() => stopHold(activeControls?.onRightRelease)}
       >
-        <MoveRight size={16} />
+        <MoveRight size={22} />
       </button>
 
       <button
@@ -70,7 +68,7 @@ export function ButtonsMovement({
         onPointerUp={() => activeControls?.onDownRelease?.()}
         onPointerLeave={() => activeControls?.onDownRelease?.()}
       >
-        <MoveDown size={16} />
+        <MoveDown size={22} />
       </button>
     </div>
   );

@@ -12,6 +12,7 @@
 
   background: rgba(0, 0, 0, 0.55);
   color: white;
+  border: 1px solid white;
 
   z-index: 99999;
 

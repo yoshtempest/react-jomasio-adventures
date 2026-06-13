@@ -178,6 +178,17 @@ export const HISTORY_QUESTS = createQuests({
         progress: 0,
         completed: false
     },
+    save_samurion: {
+        name: "Ajude Samurion",
+        image: "/assets/npcs/brodis/default.svg",
+        description: "Estão enchendo o saco dele, ajuda o homi lá",
+        type: "history",
+        rewardsType: "xp",
+        rewards: 50,
+        counter: 10,
+        progress: 0,
+        completed: false
+    },
     go_to_pandemony: {
         name: "Salve Maura da Loucura",
         image: "/assets/player/larissa/default.svg",
