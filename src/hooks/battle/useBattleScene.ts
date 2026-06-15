@@ -107,6 +107,8 @@ export function useBattleScene({
   const playerYRef = useRef(player.y);
   playerYRef.current = player.y;
 
+  const hitstopRef = useRef(0);
+
   const npc = useNpcAI({
     playerX: player.x,
     playerY: player.y,
@@ -119,6 +121,7 @@ export function useBattleScene({
     isPaused: showVictory || showDefeat || showIntro,
     onSummon: summonNpc,
     obstacles: map?.obstacles,
+    hitstopRef,
   });
 
   const battle = useBattleSystem({
@@ -137,6 +140,7 @@ export function useBattleScene({
       triggerVictory();
       incrementKillCounterRef.current(npcTypeRef.current, npcDataRef.current.class);
     },
+    hitstopRef,
   });
 
   const spawnDamageRef = useRef(battle.spawnDamageNumber);
@@ -175,6 +179,7 @@ export function useBattleScene({
     difficulty,
     damagePlayer: battle.damagePlayer,
     spawnDamageRef,
+    hitstopRef,
   });
 
   // Track NPC position for summon spawns

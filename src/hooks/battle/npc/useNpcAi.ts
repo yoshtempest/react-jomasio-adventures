@@ -19,6 +19,7 @@ type Props = {
   npcPhase: number;
   onSummon?: (npcType: string) => void;
   obstacles?: BattleObstacle[];
+  hitstopRef: React.RefObject<number>;
 };
 
 export function useNpcAI({
@@ -33,6 +34,7 @@ export function useNpcAI({
   npcPhase,
   onSummon,
   obstacles,
+  hitstopRef,
 }: Props) {
   const [npc, setNpc] = useState<NPCBattleState>({
     x: 900,
@@ -79,7 +81,9 @@ export function useNpcAI({
     npc.y,
     () => {
     onProjectileHit();
-  });
+  },
+    hitstopRef,
+  );
 
   const resetNpc = () => {
     setNpc({
@@ -93,10 +97,13 @@ export function useNpcAI({
     lastAttackRef.current = 0;
   };
 
+  const hitstopRef_ = hitstopRef;
+
   useEffect(() => {
     const interval = setInterval(() => {
       setNpc((n) => {
         if (isPausedRef.current) return n;
+        if (hitstopRef_.current > Date.now()) return n;
         const p = projectileRef.current;
 
         const behavior =

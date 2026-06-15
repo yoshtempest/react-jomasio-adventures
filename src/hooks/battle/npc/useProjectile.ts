@@ -12,7 +12,8 @@ export function useProjectile(
   playerDirection: Direction,
   npcX: number,
   npcY: number,
-  onHit: () => void
+  onHit: () => void,
+  hitstopRef: React.RefObject<number>,
 ) {
   const onHitRef = useRef(onHit);
   onHitRef.current = onHit;
@@ -21,7 +22,9 @@ export function useProjectile(
     if (!projectile) return;
 
     const interval = setInterval(() => {
+      if (hitstopRef.current > Date.now()) return;
       setProjectile((p) => {
+        if (!p) return null;
         if (!p) return null;
 
           const now = Date.now();

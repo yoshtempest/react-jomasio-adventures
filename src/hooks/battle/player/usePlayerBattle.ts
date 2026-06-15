@@ -29,6 +29,7 @@ type Props = {
   triggerExplosion: () => void;
   titleDamageBonus: number;
   spawnDamageRef: React.RefObject<((value: number, x: number, y: number, type: DamageType) => void)>;
+  hitstopRef: React.RefObject<number>;
 };
 
 export function usePlayerBattle({
@@ -49,6 +50,7 @@ export function usePlayerBattle({
   triggerExplosion,
   titleDamageBonus,
   spawnDamageRef,
+  hitstopRef,
 }: Props) {
   const [delicia, setDelicia] = useState(0);
   const [stacks, setStacks] = useState(0);
@@ -90,6 +92,7 @@ export function usePlayerBattle({
     });
 
     spawnDamageRef.current?.(dmg, npcX, npcY, isLarissa ? "player" : "player");
+    hitstopRef.current = Date.now() + 60;
 
     playerCooldown.current = false;
 
@@ -114,6 +117,7 @@ export function usePlayerBattle({
     spawnPiercing,
     titleDamageBonus,
     spawnDamageRef,
+    hitstopRef,
   ]);
 
   const specialHit = useCallback(() => {
@@ -152,6 +156,7 @@ export function usePlayerBattle({
     });
 
     spawnDamageRef.current?.(dmg, npcX, npcY, "special");
+    hitstopRef.current = Date.now() + 100;
 
     playerCooldown.current = false;
 
@@ -177,6 +182,7 @@ export function usePlayerBattle({
     stacks,
     triggerExplosion,
     spawnDamageRef,
+    hitstopRef,
   ]);
 
   return {

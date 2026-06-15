@@ -29,7 +29,8 @@ type Props = {
   onPlayerDeath: () => void;
   onNpcDeath: () => void;
   playerState: playerState;
-  difficulty: NpcDifficulty
+  difficulty: NpcDifficulty;
+  hitstopRef: React.RefObject<number>;
 };
 
 export function useBattleSystem(props: Props) {
@@ -43,7 +44,8 @@ export function useBattleSystem(props: Props) {
     playerState,
     difficulty,
     onPlayerDeath,
-    onNpcDeath
+    onNpcDeath,
+    hitstopRef,
   } = props;
 
   const { player, playerClass } = usePlayer();
@@ -144,6 +146,7 @@ export function useBattleSystem(props: Props) {
     triggerExplosion: effects.triggerExplosion,
     titleDamageBonus: titleBonus.damage,
     spawnDamageRef,
+    hitstopRef,
   });
 
   // 🤖 npc
@@ -164,6 +167,7 @@ export function useBattleSystem(props: Props) {
     difficulty,
     isEnding,
     spawnDamageRef,
+    hitstopRef,
   });
 
   // 🧠 lifecycle
@@ -192,6 +196,7 @@ export function useBattleSystem(props: Props) {
     if (isEnding.current) return;
     setNpcHP((hp) => Math.max(0, hp - 8));
     spawnDamageRef.current?.(8, npcX, npcY, "pet");
+    hitstopRef.current = Date.now() + 40;
   };
 
   const { pet } = usePetBattle({
@@ -202,6 +207,7 @@ export function useBattleSystem(props: Props) {
     npcY,
     isPaused: isEnding.current,
     onPetDamage: () => petDamageRef.current(),
+    hitstopRef,
   });
 
   // 💥 external damage to player (summons, etc.)

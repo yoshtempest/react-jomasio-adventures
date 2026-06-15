@@ -17,6 +17,7 @@ type Props = {
   difficulty: NpcDifficulty;
   damagePlayer: (damage: number) => void;
   spawnDamageRef: React.RefObject<((value: number, x: number, y: number, type: DamageType) => void)>;
+  hitstopRef: React.RefObject<number>;
 };
 
 export function useSummonAI({
@@ -30,6 +31,7 @@ export function useSummonAI({
   difficulty,
   damagePlayer,
   spawnDamageRef,
+  hitstopRef,
 }: Props) {
   const summonLastAttacksRef =
     useRef<Record<string, number>>({});
@@ -56,6 +58,7 @@ export function useSummonAI({
   useEffect(() => {
     const interval = setInterval(() => {
       if (isPausedRef.current) return;
+      if (hitstopRef.current > Date.now()) return;
 
       const px = playerXRef.current;
 
@@ -109,6 +112,7 @@ export function useSummonAI({
 
                 damagePlayerRef.current(damage);
                 spawnDamageRef.current?.(damage, playerXRef.current, playerYRef.current, "summon");
+                hitstopRef.current = Date.now() + 40;
               }
             }
           }

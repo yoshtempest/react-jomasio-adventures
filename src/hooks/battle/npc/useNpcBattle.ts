@@ -24,6 +24,7 @@ type Props = {
   difficulty: NpcDifficulty;
   isEnding: React.RefObject<boolean>;
   spawnDamageRef: React.RefObject<((value: number, x: number, y: number, type: DamageType) => void)>;
+  hitstopRef: React.RefObject<number>;
 };
 
 export function useNpcBattle({
@@ -40,6 +41,7 @@ export function useNpcBattle({
   difficulty,
   isEnding,
   spawnDamageRef,
+  hitstopRef,
 }: Props) {
   const npcMeleeHit = useCallback(() => {
     if (isEnding.current) return;
@@ -57,6 +59,7 @@ export function useNpcBattle({
     setPlayerHP(hp => Math.max(0, hp - dmg));
     navigator.vibrate?.(40);
     spawnDamageRef.current?.(dmg, playerX, playerY, "npc");
+    hitstopRef.current = Date.now() + 50;
 
     npcCooldown.current = false;
     setTimeout(() => npcCooldown.current = true, 800);
@@ -75,6 +78,7 @@ export function useNpcBattle({
     npcY,
     difficulty,
     spawnDamageRef,
+    hitstopRef,
   ]);
 
   const npcRangedHit = useCallback(() => {
@@ -92,6 +96,7 @@ export function useNpcBattle({
     setPlayerHP((hp) => Math.max(0, hp - dmg));
     navigator.vibrate?.(40);
     spawnDamageRef.current?.(dmg, playerX, playerY, "npc");
+    hitstopRef.current = Date.now() + 30;
 
     npcCooldown.current = false;
     setTimeout(() => (npcCooldown.current = true), 800);
@@ -110,6 +115,7 @@ export function useNpcBattle({
     npcY,
     difficulty,
     spawnDamageRef,
+    hitstopRef,
   ]);
 
   return { npcMeleeHit, npcRangedHit };

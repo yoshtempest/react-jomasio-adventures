@@ -8,6 +8,7 @@ type Props = {
   npcY: number;
   isPaused: boolean;
   onPetDamage: () => void;
+  hitstopRef: React.RefObject<number>;
 };
 
 export type PetState = {
@@ -26,6 +27,7 @@ export function usePetBattle({
   npcY,
   isPaused,
   onPetDamage,
+  hitstopRef,
 }: Props) {
   const [pet, setPet] = useState<PetState>(null);
 
@@ -64,6 +66,7 @@ export function usePetBattle({
 
     const interval = setInterval(() => {
       if (isPausedRef.current) return;
+      if (hitstopRef.current > Date.now()) return;
 
       const nx = npcXRef.current;
 
