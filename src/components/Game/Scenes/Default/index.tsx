@@ -32,6 +32,7 @@ export function ExploreScene({
   npcs = [],
   audio,
   transitions,
+  signs,
   onInteract,
   autoStartDialogue,
   onFinish,
@@ -178,6 +179,23 @@ export function ExploreScene({
       >
         {npcs.map((npc) => (
           <NPC key={`${npc.gridX},${npc.gridY}`} {...npc} TILE_SIZE={TILE_SIZE} />
+        ))}
+
+        {signs?.map((sign) => (
+          <div
+            key={`sign-${sign.x}-${sign.y}`}
+            style={{
+              position: "absolute",
+              left: sign.x * TILE_SIZE,
+              top: sign.y * TILE_SIZE,
+              width: TILE_SIZE,
+              height: TILE_SIZE,
+              backgroundColor: "rgba(255, 0, 0, 0.5)",
+              border: "1px solid red",
+              zIndex: 5,
+              pointerEvents: "none",
+            }}
+          />
         ))}
 
         <Player

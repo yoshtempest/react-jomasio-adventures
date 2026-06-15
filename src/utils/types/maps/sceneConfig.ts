@@ -40,6 +40,12 @@ export type SceneTile = {
   blockedMessage?: string;
 };
 
+export type SceneSign = {
+  x: number;
+  y: number;
+  message: string;
+};
+
 export type SceneConfig = Omit<
   ExploreSceneProps,
   "onInteract" | "className"
@@ -51,4 +57,6 @@ export type SceneConfig = Omit<
   events?: SceneEvent[];
 
   tiles?: SceneTile[];
+
+  signs?: SceneSign[];
 };

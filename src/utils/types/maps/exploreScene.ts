@@ -1,5 +1,6 @@
 import type { Dialogue } from "@/utils/types/dialogue";
 import type { Quest } from "@/utils/types/player/quest";
+import type { SceneSign } from "@/utils/types/maps/sceneConfig";
 
 export type NPCData = {
   src: string;
@@ -35,6 +36,7 @@ type DialogueContext = {
 };
 
 export type ExploreSceneProps = {
+  name?: string;
   map: number[][];
   dialogueData?:
     | Dialogue[]
@@ -46,6 +48,7 @@ export type ExploreSceneProps = {
   npcs?: NPCData[];
   audio?: AudioConfig;
   transitions?: Transition[];
+  signs?: SceneSign[];
   onInteract?: (tile: number, x: number, y: number) => boolean;
   autoStartDialogue?: boolean;
   onFinish?: () => void;
