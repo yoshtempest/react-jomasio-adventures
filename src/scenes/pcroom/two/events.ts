@@ -1,4 +1,3 @@
-import type { SceneEvent } from "@/utils/types/maps/sceneEvents";
 
 export const pcRoomTwoEvents: SceneEvent[] = [
   {

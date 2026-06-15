@@ -11,7 +11,6 @@ import { useNpcBattle } from "@/hooks/battle/npc/useNpcBattle";
 import { useBattleLifecycle } from "@/hooks/battle/useBattleLifecycle";
 import { usePetBattle } from "@/hooks/battle/usePetBattle";
 import { useDamageNumbers } from "@/hooks/battle/useDamageNumbers";
-import type { NpcDifficulty } from "@/utils/types/npc/npcProgress";
 
 type Props = {
   playerX: number;

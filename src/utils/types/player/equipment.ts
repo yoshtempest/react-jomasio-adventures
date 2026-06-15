@@ -8,7 +8,7 @@ export type EquipmentSlot =
   | "bag"
   | "pet";
 
-export type EquipmentRank = "common" | "rare" | "epic" | "boss" | "legendary";
+export type EquipmentRank = NPCClass;
 
 export const EQUIPMENT_SLOTS: EquipmentSlot[] = [
   "weapon",
@@ -41,12 +41,7 @@ export const PET_EQUIPMENT_IDS = ["pet_goat"] as const;
 
 export type PetEquipmentId = (typeof PET_EQUIPMENT_IDS)[number];
 
-export type EquipmentStats = {
-  hp: number;
-  strength: number;
-  intelligence: number;
-  armor: number;
-};
+export type EquipmentStats = StatBlock;
 
 export type Equipment = {
   id: EquipmentId;

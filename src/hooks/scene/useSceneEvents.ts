@@ -7,7 +7,6 @@ import { useFlags } from "@/contexts/FlagContext";
 import { QUESTS } from "@/data/quests";
 import { ITEMS } from "@/data/items";
 
-import type { SceneEvent } from "@/utils/types/maps/sceneEvents";
 
 type Condition = {
   hasItem?: ItemId;

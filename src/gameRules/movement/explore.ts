@@ -1,5 +1,4 @@
 import { canMoveTo } from "@/gameRules/movement/collision";
-import type { Player } from "@/utils/types/player/player";
 
 function tryMove(
   player: Player,

@@ -10,7 +10,6 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { useQuestActions } from "@/hooks/useQuestActions";
 
 import { useClassSelection } from "@/hooks/menu/useClassSelection";
-import type { SceneId } from "@/utils/types/maps/sceneConfig";
 
 import Talking from "@/components/Talking";
 import styles from "./styles.module.css";

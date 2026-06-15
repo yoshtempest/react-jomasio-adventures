@@ -1,6 +1,5 @@
 import { cafeteria } from "@/maps/cafeteria/one";
 import { MUSICS } from "@/scenes/shared/music";
-import type { SceneConfig } from "@/utils/types/maps/sceneConfig";
 import { getCafeteriaOneInitialPosition } from "./position";
 import { cafeteriaOneTiles } from "./tiles";
 import { getCafeteriaOneDialogue } from "./dialogue";

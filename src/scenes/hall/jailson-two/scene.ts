@@ -3,7 +3,6 @@ import { getJailsonTwoDialogue } from "./dialogue";
 import { getJailsonTwoInitialPosition } from "./position";
 import { jailsonTwoEvents } from "./events";
 import { jailsonTwoNpcs } from "./npcs";
-import type { SceneConfig } from "@/utils/types/maps/sceneConfig";
 import { MUSICS } from "@/scenes/shared/music";
 import { jailsonTwoTiles } from "./tiles";
 

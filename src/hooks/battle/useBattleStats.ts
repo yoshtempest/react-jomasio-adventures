@@ -10,7 +10,6 @@ import {
 } from "@/gameRules/battle/equipment";
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import { getMaxSpecial } from "@/gameRules/battle/special";
-import type { NpcDifficulty } from "@/utils/types/npc/npcProgress";
 
 type Props = {
   npcLevel: number;

@@ -6,7 +6,6 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
 import { useFlags } from "@/contexts/FlagContext";
 import { ITEMS } from "@/data/items";
-import type { SceneId } from "@/utils/types/maps/sceneConfig";
 
 type Props = {
   sceneId: SceneId;

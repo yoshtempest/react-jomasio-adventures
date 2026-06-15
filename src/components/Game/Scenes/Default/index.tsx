@@ -20,8 +20,6 @@ import { getTileInFront } from "@/utils/getTileInFront";
 import { saveGame } from "@/utils/saveGame";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
-import type { SceneEvent } from "@/utils/types/maps/sceneEvents";
-import type { ExploreSceneProps } from "@/utils/types/maps/exploreScene";
 import { useFlags } from "@/contexts/FlagContext";
 import { useSceneEvents } from "@/hooks/scene/useSceneEvents";
 

@@ -5,7 +5,6 @@ import { HALL_SCENES } from "@/scenes/hall";
 import { PandemonyPuzzle } from "@/components/Game/PandemonyPuzzle";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
-import type { SceneId } from "@/utils/types/maps/sceneConfig";
 import Talking from "@/components/Talking";
 
 type Props = {

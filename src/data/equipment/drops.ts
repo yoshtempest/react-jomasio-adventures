@@ -1,5 +1,3 @@
-import type { NPCClass } from "@/utils/types/npc/npcProgress";
-import type { EquipmentRank } from "@/utils/types/player/equipment";
 
 type DropConfig = {
   baseChance: number;

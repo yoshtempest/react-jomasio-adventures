@@ -1,6 +1,4 @@
 import type { InventoryItem } from "@/utils/types/player/inventory";
-import type { Quest } from "@/utils/types/player/quest";
-import type { PlayerClass } from "@/utils/types/player/player";
 
 type SaveData = {
   lastRoute: string;

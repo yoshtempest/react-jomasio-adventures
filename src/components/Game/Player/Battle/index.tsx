@@ -1,17 +1,5 @@
 import { asset } from "@/utils/asset";
 
-type PlayerState =
-  | "idle"
-  | "walk"
-  | "attack"
-  | "jump"
-  | "blocked"
-  | "special"
-  | "preAttack"
-  | "preWalk"
-  | "preJump"
-  | "preSpecial";
-
 type Props = {
   x: number;
   y: number;

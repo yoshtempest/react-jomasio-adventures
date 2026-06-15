@@ -5,8 +5,6 @@ import { isPlayerInRange } from "@/gameRules/battle/range";
 import { isFacingTarget } from "@/gameRules/battle/direction";
 
 import type { SummonedNpc } from "@/utils/types/npc/npc";
-import type { NPCClass } from "@/utils/types/npc/npcProgress";
-import type { Player, PlayerClass } from "@/utils/types/player/player";
 import type { CharactersProgress } from "@/contexts/CharacterProgressContext";
 import type { DamageType } from "@/hooks/battle/useDamageNumbers";
 

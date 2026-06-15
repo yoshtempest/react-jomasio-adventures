@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
 import { getTileInFront } from "@/utils/getTileInFront";
 import { useGameControls } from "@/contexts/GameControlsContext";
-import type { Player } from "@/utils/types/player/player";
 import type { InteractionHandler } from "@/utils/types/sceneHooks";
 
 export function useInteraction({

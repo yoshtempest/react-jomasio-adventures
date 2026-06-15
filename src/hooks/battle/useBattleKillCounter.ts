@@ -1,6 +1,5 @@
 import { useRef } from "react";
 import { useTitles } from "@/contexts/TitleContext";
-import type { NPCClass } from "@/utils/types/npc/npcProgress";
 
 export function useBattleKillCounter() {
   const { incrementKillCounter } = useTitles();

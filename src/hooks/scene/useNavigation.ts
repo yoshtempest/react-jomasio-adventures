@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
 import { useTransitionCtx } from "@/contexts/TransitionContext";
-import type { Transition } from "@/utils/types/sceneHooks";
 
 type Props = {
   player: PlayerPosition;

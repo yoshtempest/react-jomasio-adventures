@@ -1,4 +1,3 @@
-import type { Projectile } from "@/utils/types/projectile";
 
 type ThrowProjectileParams = {
   projectile: Projectile | null;

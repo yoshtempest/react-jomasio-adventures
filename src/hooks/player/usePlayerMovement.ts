@@ -1,4 +1,3 @@
-import { type Player } from "@/utils/types/player/player";
 import { moveExplore } from "@/gameRules/movement/explore";
 
 export function usePlayerMovement(

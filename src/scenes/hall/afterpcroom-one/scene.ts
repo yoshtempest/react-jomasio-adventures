@@ -5,7 +5,6 @@ import { afterPcRoomOneEvents } from "./events";
 import { afterPcRoomOneNpcs } from "./npcs";
 import { getAfterPcRoomOneInitialPosition } from "./position";
 import { MUSICS } from "@/scenes/shared/music";
-import type { SceneConfig } from "@/utils/types/maps/sceneConfig";
 
 export const afterPcRoomScene: SceneConfig = {
   id: "afterpcroom-one",

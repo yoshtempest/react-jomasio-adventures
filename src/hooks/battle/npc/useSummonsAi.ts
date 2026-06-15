@@ -1,9 +1,8 @@
 import { useEffect, useRef } from "react";
 import { NPCS } from "@/data/npc";
 import { calculateNpcDamage } from "@/gameRules/battle/damage";
-import { getNpcStats, type NpcDifficulty } from "@/utils/types/npc/npcProgress";
+import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
-import type { PlayerClass } from "@/utils/types/player/player";
 import type { DamageType } from "@/hooks/battle/useDamageNumbers";
 
 type Props = {

@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-import type { Projectile } from "@/utils/types/projectile";
 import type { Dispatch, SetStateAction } from "react";
 import { isFacingTarget } from "@/gameRules/battle/direction";
 

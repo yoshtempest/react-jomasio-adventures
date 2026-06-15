@@ -15,13 +15,6 @@ import { useQuests } from "@/contexts/QuestContext";
 import { MapOverlay } from "@/components/Game/MenuMap";
 import { QUESTS } from "@/data/quests";
 import { getSceneName, autoSigns } from "@/scenes/shared/signs";
-import type {
-  SceneConfig,
-  SceneSign,
-  SceneTile,
-} from "@/utils/types/maps/sceneConfig";
-import type { Player } from "@/utils/types/player/player";
-import type { Quest } from "@/utils/types/player/quest";
 
 type SceneBaseProps = {
   scene: SceneConfig;

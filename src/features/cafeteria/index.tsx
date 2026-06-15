@@ -6,7 +6,6 @@ import { createCafeteria } from "@/interactions/cafeteira";
 
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuestActions } from "@/hooks/useQuestActions";
-import type { SceneId } from "@/utils/types/maps/sceneConfig";
 
 import Talking from "@/components/Talking";
 

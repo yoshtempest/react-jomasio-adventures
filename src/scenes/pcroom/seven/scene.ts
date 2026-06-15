@@ -1,6 +1,5 @@
 import { pcsRoomSeven } from "@/maps/pcRoom/seven";
 import { MUSICS } from "@/scenes/shared/music";
-import type { SceneConfig } from "@/utils/types/maps/sceneConfig";
 import { getPcRoomSevenDialogue } from "./dialogue";
 import { pcRoomSevenNpcs } from "./npcs";
 import { getPcRoomSevenInitialPosition } from "./position";

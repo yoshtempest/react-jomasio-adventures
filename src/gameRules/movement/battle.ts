@@ -3,7 +3,6 @@ import {
   DASH_STEP,
   BATTLE_LIMITS,
 } from "@/utils/types/player/movement";
-import type { Player } from "@/utils/types/player/player";
 
 export function canAct(player: Player) {
   return (

@@ -1,5 +1,4 @@
 import { useRef, useEffect, useMemo, type MutableRefObject } from "react";
-import type { Player } from "@/utils/types/player/player";
 import type { BattleMapConfig } from "@/utils/types/battleMap";
 import {
   moveLeftBattle,

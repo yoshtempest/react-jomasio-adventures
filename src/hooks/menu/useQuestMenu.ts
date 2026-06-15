@@ -7,7 +7,6 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { ITEMS } from "@/data/items";
-import type { Quest } from "@/utils/types/player/quest";
 
 export type QuestTab = "active" | "completed" | "daily" | "weekly";
 

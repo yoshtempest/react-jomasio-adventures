@@ -1,6 +1,5 @@
 import { library } from "@/maps/library/one";
 import { MUSICS } from "@/scenes/shared/music";
-import type { SceneConfig } from "@/utils/types/maps/sceneConfig";
 import { getLibraryOneInitialPosition } from "./position";
 import { libraryOneTiles } from "./tiles";
 

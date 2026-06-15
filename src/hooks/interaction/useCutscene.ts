@@ -2,7 +2,6 @@ import { useEffect, useRef } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useDialogue } from "@/hooks/interaction/useDialogue";
 import { usePlayer } from "@/contexts/PlayerContext";
-import type { Dialogue } from "@/utils/types/dialogue";
 
 type Props = {
   dialogue: Parameters<typeof useDialogue>[0];

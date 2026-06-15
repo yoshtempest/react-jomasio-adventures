@@ -5,7 +5,7 @@ import {
   useEffect,
   useCallback,
 } from "react";
-import type { Quest, QuestTemplate } from "@/utils/types/player/quest";
+import type { QuestTemplate } from "@/utils/types/player/quest";
 import { type ReactNode } from "react";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { DAILY_QUEST_POOL } from "@/data/quests/daily";

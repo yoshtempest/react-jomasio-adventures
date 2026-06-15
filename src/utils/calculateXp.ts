@@ -1,5 +1,3 @@
-import type { NPCClass } from "@/utils/types/npc/npcProgress";
-
 export function calculateXP(level: number, npcClass: NPCClass) {
   switch (npcClass) {
     case "common":

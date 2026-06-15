@@ -1,6 +1,5 @@
 import { footballCourt } from "@/maps/footballCourt/one";
 import { MUSICS } from "@/scenes/shared/music";
-import type { SceneConfig } from "@/utils/types/maps/sceneConfig";
 import { getFootballCourtOneInitialPosition } from "./position";
 import { getFootballCourtOneDialogue } from "./dialogue";
 import { footballCourtOneNpcs } from "./npcs";

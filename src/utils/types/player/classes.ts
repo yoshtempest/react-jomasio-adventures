@@ -1,5 +1,3 @@
-import type { PlayerClass } from "@/utils/types/player/player";
-
 export const CLASSES: PlayerClass[] = ["fracote", "idiota", "amostradinho"];
 
 export const SPECIAL_HITS_BY_CLASS = {

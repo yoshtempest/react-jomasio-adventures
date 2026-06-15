@@ -3,7 +3,6 @@ import { npcBehaviors } from "@/gameRules/battle/behaviors/npc/index";
 import { useProjectile } from "./useProjectile";
 import { isHorizontallyBlocked } from "@/utils/types/battleMap";
 import type { NPCBattleState } from "@/utils/types/npc/npc";
-import type { Projectile } from "@/utils/types/projectile";
 import type { BattleObstacle } from "@/utils/types/battleMap";
 import type { DamageType } from "@/hooks/battle/useDamageNumbers";
 

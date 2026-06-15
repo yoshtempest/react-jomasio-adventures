@@ -1,6 +1,5 @@
 import { useParams } from "react-router";
 import { HallScene } from "@/features/hall";
-import type { SceneId } from "@/utils/types/maps/sceneConfig";
 
 export default function HallPage() {
   const { id } = useParams();

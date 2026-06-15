@@ -1,7 +1,6 @@
 import { hallTwoCenter } from "@/maps/hall/centerTwo";
 import { MUSICS } from "@/scenes/shared/music";
 import { centerTwoTiles } from "./tiles";
-import type { SceneConfig } from "@/utils/types/maps/sceneConfig";
 import { getCenterTwoInitialPosition } from "./position";
 import { centerTwoNpcs } from "./npcs";
 import { getHallCenterDialogue } from "./dialogue";

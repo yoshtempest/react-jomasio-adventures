@@ -1,44 +1,240 @@
 import { QUESTS } from "@/data/quests";
 import { ITEMS } from "@/data/items";
 import { FLAGS } from "@/data/flags";
+import { CHARACTERS } from "@/utils/types/player/player";
 
 export {};
 
 declare global {
+  // ── Primitives ──────────────────────────────────────────
   type LastPage = string | undefined;
-
   type Direction = "up" | "down" | "left" | "right";
+  type playerState = string;
+  type EquipmentId = string;
 
+  // ── IDs (derivados de dados estáticos) ──────────────────
+  type QuestId = Extract<keyof typeof QUESTS, string>;
+  type ItemId = Extract<keyof typeof ITEMS, string>;
+  type FlagId = Extract<keyof typeof FLAGS, string>;
+  type CharacterId = (typeof CHARACTERS)[number];
+
+  // ── Geometria ───────────────────────────────────────────
+  type Position = { x: number; y: number };
   type ExplorePosition = {
     x: number;
     y: number;
     direction: Direction;
   };
-
   type PlayerPosition = {
     gridX: number;
     gridY: number;
     direction: Direction;
   };
 
-  type playerState = string;
+  // ── Stats (repetido em equipment, character, titles) ──
+  type StatBlock = {
+    hp: number;
+    strength: number;
+    intelligence: number;
+    armor: number;
+  };
 
-  type QuestId = Extract<keyof typeof QUESTS, string>;
-  type ItemId = Extract<keyof typeof ITEMS, string>;
-  type EquipmentId = string;
-  type FlagId = Extract<keyof typeof FLAGS, string>;
+  // ── Áudio / Transição ──────────────────────────────────
+  type AudioConfig = {
+    src: string;
+    loop?: boolean;
+    volume?: number;
+  };
 
-  type CharacterId =
-    | "marcelo"
-    | "eduarda"
-    | "samuel"
-    | "artur"
-    | "emanuel"
-    | "larissa"
-    | "mayra"
-    | "camilly"
-    | "lucas"
-    | "lucaua"
-    | "riquelme"
-    | "hiago";
+  type Transition = {
+    positions: Position[];
+    to: string;
+    state?: string;
+  };
+
+  // ── Diálogo ────────────────────────────────────────────
+  type Dialogue = {
+    src?: string;
+    name: string;
+    message: string;
+    isPlayer?: boolean;
+  };
+
+  // ── Scene system ───────────────────────────────────────
+  type SceneId =
+    | "one"
+    | "two"
+    | "jailson-one"
+    | "jailson-two"
+    | "three"
+    | "four"
+    | "five"
+    | "six"
+    | "seven"
+    | "eight"
+    | "nine"
+    | "afterpcroom-one"
+    | "left-one"
+    | "center-one"
+    | "center-two"
+    | "center-front"
+    | "thirdclass"
+    | "hell"
+    | "secret-passage"
+    | "footballcourt"
+    | "pandemony";
+
+  type SceneTile = {
+    x: number;
+    y: number;
+    route?: string;
+    getRoute?: (player: ExplorePosition, quests: Quest[]) => string | null;
+    requiredQuest?: QuestId;
+    blockedMessage?: string;
+  };
+
+  type SceneSign = {
+    x: number;
+    y: number;
+    message: string;
+  };
+
+  type SceneEvent =
+    | { type: "openModal"; modal: "class" }
+    | { type: "navigate"; to: string }
+    | { type: "setFlag"; flagId: FlagId }
+    | { type: "log"; message: string }
+    | { type: "progressQuest"; id: QuestId; value: number }
+    | { type: "giveQuest"; questId: QuestId }
+    | { type: "addItem"; itemId: ItemId }
+    | { type: "removeItem"; itemId: ItemId }
+    | {
+        type: "conditional";
+        condition: {
+          hasItem?: ItemId;
+          notHasItem?: ItemId;
+          hasQuest?: QuestId;
+          notHasQuest?: QuestId;
+          hasFlag?: FlagId;
+          notHasFlag?: FlagId;
+          lastPage?: LastPage;
+          notLastPage?: LastPage;
+        };
+        then: SceneEvent[];
+        else?: SceneEvent[];
+      };
+
+  type DialogueContext = {
+    quests: Quest[];
+    items: { id: ItemId }[];
+    flags: FlagId[];
+    character: CharacterId;
+    lastPage?: LastPage;
+  };
+
+  type SceneNPCData = {
+    src: string;
+    gridX: number;
+    gridY: number;
+    interaction?: (startDialogue: (d: Dialogue[]) => void) => void;
+  };
+
+  type ExploreSceneProps = {
+    name?: string;
+    map: number[][];
+    dialogueData?: Dialogue[] | ((context: DialogueContext) => Dialogue[]);
+    nextRoute?: string;
+    initialPosition?:
+      | ExplorePosition
+      | ((lastPage?: LastPage) => ExplorePosition);
+    npcs?: SceneNPCData[];
+    audio?: AudioConfig;
+    transitions?: Transition[];
+    signs?: SceneSign[];
+    onInteract?: (tile: number, x: number, y: number) => boolean;
+    autoStartDialogue?: boolean;
+    onFinish?: () => void;
+    className?: string;
+    lastPage?: LastPage;
+  };
+
+  type SceneConfig = Omit<ExploreSceneProps, "onInteract" | "className"> & {
+    id: SceneId;
+    className?: string;
+    events?: SceneEvent[];
+    tiles?: SceneTile[];
+    signs?: SceneSign[];
+  };
+
+  // ── NPC ─────────────────────────────────────────────────
+  type NPCClass = "common" | "rare" | "epic" | "boss" | "legendary";
+  type NpcDifficulty = "easy" | "medium" | "hard";
+  type EquipmentRank = NPCClass;
+
+  type Projectile = {
+    x: number;
+    y: number;
+    startX: number;
+    startY: number;
+    dirX: number;
+    dirY: number;
+    sprite?: string;
+    createdAt: number;
+    state: "walk" | "idle";
+  };
+
+  // ── Player ──────────────────────────────────────────────
+  type PlayerState =
+    | "idle"
+    | "walk"
+    | "attack"
+    | "jump"
+    | "blocked"
+    | "special"
+    | "dash"
+    | "preAttack"
+    | "preWalk"
+    | "preJump"
+    | "preSpecial";
+
+  type PlayerMode = "explore" | "battle" | "select" | "ui" | "map";
+
+  type PlayerClass = "fracote" | "idiota" | "amostradinho" | null;
+
+  type Player = {
+    gridX: number;
+    gridY: number;
+    direction: Direction;
+    character: CharacterId;
+    x: number;
+    y: number;
+    velY: number;
+    groundY: number;
+    battleDirection: Direction;
+    state: PlayerState;
+    mode: PlayerMode;
+    hasPeru?: boolean;
+  };
+
+  // ── Quest ───────────────────────────────────────────────
+  type QuestType = "history" | "sidequest";
+  type QuestRewardsType = "xp" | "item" | "coin" | "hyperCoin";
+  type QuestFrequency = "daily" | "weekly";
+
+  type Quest = {
+    id: string;
+    name: string;
+    image: string;
+    description: string;
+    type: QuestType;
+    counter: number;
+    progress: number;
+    completed: boolean;
+    rewardsType?: QuestRewardsType;
+    rewards?: number;
+    claimed?: boolean;
+    frequency?: QuestFrequency;
+    rewardItemId?: string;
+    progressType?: string;
+  };
 }

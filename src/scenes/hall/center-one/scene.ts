@@ -1,7 +1,6 @@
 import { hallCenter } from "@/maps/hall/center";
 import { MUSICS } from "@/scenes/shared/music";
 import { centerOneTiles } from "./tiles";
-import type { SceneConfig } from "@/utils/types/maps/sceneConfig";
 import { getCenterOneInitialPosition } from "./position";
 
 export const centerOneScene: SceneConfig = {

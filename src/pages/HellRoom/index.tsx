@@ -1,6 +1,5 @@
 import { useParams } from "react-router";
 import { HellScene } from "@/features/hellRoom";
-import type { SceneId } from "@/utils/types/maps/sceneConfig";
 
 export default function HellRoomPage() {
   const { id } = useParams();

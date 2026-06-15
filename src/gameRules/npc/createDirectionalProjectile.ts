@@ -1,5 +1,3 @@
-import type { Projectile } from "@/utils/types/projectile";
-
 type Params = {
   startX: number;
   startY: number;

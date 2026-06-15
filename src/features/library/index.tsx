@@ -5,7 +5,6 @@ import { LIBRARY_SCENES } from "@/scenes/library";
 import { createLibrary } from "@/interactions/library";
 
 import { useInventory } from "@/contexts/InventoryContext";
-import type { SceneId } from "@/utils/types/maps/sceneConfig";
 import { useNavigate } from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";
 

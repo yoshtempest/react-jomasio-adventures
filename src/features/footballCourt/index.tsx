@@ -2,7 +2,6 @@ import { SceneBase } from "@/components/Game/Scenes/Base";
 import { FOOTBALLCOURT_SCENES } from "@/scenes/footballCourt";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
-import type { SceneId } from "@/utils/types/maps/sceneConfig";
 
 type Props = {
   sceneId: SceneId;

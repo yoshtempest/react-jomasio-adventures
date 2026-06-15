@@ -1,4 +1,3 @@
-import type { Quest } from "@/utils/types/player/quest";
 import styles from "./styles.module.css";
 import { asset } from "@/utils/asset";
 

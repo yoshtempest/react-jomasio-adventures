@@ -1,6 +1,5 @@
 import { blocked } from "@/maps/blocked";
 import { MUSICS } from "@/scenes/shared/music";
-import type { SceneConfig } from "@/utils/types/maps/sceneConfig";
 import { getDirectorDialogue } from "./dialogue";
 import { directorNpcs } from "./npcs";
 import { directorEvents } from "./events";

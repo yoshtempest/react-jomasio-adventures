@@ -1,5 +1,4 @@
 import { asset } from "@/utils/asset";
-import type { Player } from "@/utils/types/player/player";
 
 type AttackSoundConfig = {
   volume: number;

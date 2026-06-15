@@ -1,16 +1,3 @@
-export type PlayerState =
-  | "idle"
-  | "walk"
-  | "attack"
-  | "jump"
-  | "blocked"
-  | "special"
-  | "dash"
-  | "preAttack"
-  | "preWalk"
-  | "preJump"
-  | "preSpecial";
-export type PlayerMode = "explore" | "battle" | "select" | "ui" | "map";
 export const CHARACTERS = [
   "marcelo",
   "eduarda",
@@ -33,26 +20,3 @@ export function isCharacter(value: unknown): value is Character {
     (CHARACTERS as readonly string[]).includes(value)
   );
 }
-export type PlayerClass = "fracote" | "idiota" | "amostradinho" | null;
-
-export type Player = {
-  // exploration
-  gridX: number;
-  gridY: number;
-  direction: Direction;
-  character: Character;
-
-  // battle
-  x: number;
-  y: number;
-  velY: number;
-  groundY: number;
-  battleDirection: Direction;
-  state: PlayerState;
-
-  // geral
-  mode: PlayerMode;
-
-  // pet
-  hasPeru?: boolean;
-};

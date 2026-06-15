@@ -1,8 +1,4 @@
-import type {
-  Equipment,
-  EquipmentRank,
-  EquipmentSlot,
-} from "@/utils/types/player/equipment";
+import type { Equipment, EquipmentSlot } from "@/utils/types/player/equipment";
 import { EQUIPMENT_SLOTS } from "@/utils/types/player/equipment";
 
 type EquipmentConfig = {

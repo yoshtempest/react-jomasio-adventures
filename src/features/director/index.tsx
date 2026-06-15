@@ -6,7 +6,6 @@ import { createDirector } from "@/interactions/director";
 
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuestActions } from "@/hooks/useQuestActions";
-import type { SceneId } from "@/utils/types/maps/sceneConfig";
 import { useNavigate, useLocation } from "react-router";
 import { asset } from "@/utils/asset";
 import { useAudio } from "@/contexts/AudioContext";

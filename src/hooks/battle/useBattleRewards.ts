@@ -9,11 +9,7 @@ import { rollSlotDrop } from "@/data/equipment/drops";
 import { EQUIPMENT_LIST } from "@/data/equipment";
 import { rollCraftDrops } from "@/data/items/crafting";
 import { ITEMS } from "@/data/items";
-import type { NPCClass } from "@/utils/types/npc/npcProgress";
-import type {
-  EquipmentSlot,
-  EquipmentRank,
-} from "@/utils/types/player/equipment";
+import type { EquipmentSlot } from "@/utils/types/player/equipment";
 
 function rollEnhance(): number {
   return Math.floor(Math.random() * 6);

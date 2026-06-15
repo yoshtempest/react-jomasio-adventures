@@ -2,8 +2,6 @@ import { NPCBattle } from "@/components/Game/Npc/Battle";
 import { ProjectileSprite } from "@/components/Projectile";
 import { PlayerBattle } from "@/components/Game/Player/Battle";
 import type { SummonedNpc, NPCBattleState } from "@/utils/types/npc/npc";
-import type { Player } from "@/utils/types/player/player";
-import type { Projectile } from "@/utils/types/projectile";
 import type { PetState } from "@/hooks/battle/usePetBattle";
 
 type BattleEntitiesBattle = {

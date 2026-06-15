@@ -6,7 +6,6 @@ import { fiveScene } from "./five/scene";
 import { sixScene } from "./six/scene";
 import { sevenScene } from "./seven/scene";
 
-import type { SceneConfig, SceneId } from "@/utils/types/maps/sceneConfig";
 
 export const PCROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
   one: oneScene,

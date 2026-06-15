@@ -1,5 +1,4 @@
 import { MUSICS } from "@/scenes/shared/music";
-import type { SceneConfig } from "@/utils/types/maps/sceneConfig";
 import { getHellroomThreeInitialPosition } from "./position";
 import { hellroomThreeNpcs } from "./npcs";
 import { getHellroomThreeDialogue } from "./dialogue";

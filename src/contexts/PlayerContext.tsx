@@ -7,17 +7,11 @@ import {
   useCallback,
   type ReactNode,
 } from "react";
-import type {
-  Player,
-  PlayerMode,
-  PlayerClass,
-} from "@/utils/types/player/player";
 import { usePlayerMovement } from "@/hooks/player/usePlayerMovement";
 import { useBattleMovement } from "@/hooks/player/useBattleMovement";
 import type { CollisionParams } from "@/hooks/player/useBattleMovement";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
-import type { NpcDifficulty } from "@/utils/types/npc/npcProgress";
 import { usePlayerAnimation } from "@/hooks/battle/player/usePlayerAnimation";
 
 const BATTLE_DEFAULT_STATE = {

@@ -1,6 +1,5 @@
 import { pcsRoomThree } from "@/maps/pcRoom/three";
 import { MUSICS } from "@/scenes/shared/music";
-import type { SceneConfig } from "@/utils/types/maps/sceneConfig";
 import { getPcRoomFourDialogue } from "./dialogue";
 import { pcRoomFourNpcs } from "./npcs";
 import { pcRoomFourEvents } from "./events";

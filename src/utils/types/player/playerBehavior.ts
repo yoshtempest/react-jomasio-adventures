@@ -1,4 +1,3 @@
-import type { PlayerClass } from "@/utils/types/player/player";
 import type { CharacterProgress } from "@/contexts/CharacterProgressContext";
 
 export type BattleBehavior = {

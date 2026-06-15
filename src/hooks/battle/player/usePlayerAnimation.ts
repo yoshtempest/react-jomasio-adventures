@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { animationFlow } from "@/utils/animationFlow";
-import type { Player } from "@/utils/types/player/player";
 
 export function usePlayerAnimation(
   player: Player,

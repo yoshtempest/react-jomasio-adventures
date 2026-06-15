@@ -1,4 +1,3 @@
-import type { Player } from "@/utils/types/player/player";
 import { ATTACK_SOUNDS } from "@/data/player/attackSounds";
 
 export function playAttackSound(character: Player["character"]) {

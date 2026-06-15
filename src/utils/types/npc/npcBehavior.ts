@@ -1,5 +1,4 @@
 import type { NPCBattleState } from "@/utils/types/npc/npc";
-import type { Projectile } from "@/utils/types/projectile";
 
 export type BehaviorContext = {
   npc: NPCBattleState;

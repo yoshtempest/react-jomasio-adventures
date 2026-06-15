@@ -1,6 +1,5 @@
 import { useParams } from "react-router";
 import { PcRoomScene } from "@/features/pcRoom";
-import type { SceneId } from "@/utils/types/maps/sceneConfig";
 
 export default function PcRoomPage() {
   const { id } = useParams();

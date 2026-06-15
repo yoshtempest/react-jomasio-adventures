@@ -6,7 +6,6 @@ import {
   calculateSpecialDamage,
   calculateDamageToNpc,
 } from "@/gameRules/battle/damage";
-import type { PlayerClass, Player } from "@/utils/types/player/player";
 import type { BattleBehavior } from "@/utils/types/player/playerBehavior";
 import type { CharacterProgress } from "@/contexts/CharacterProgressContext";
 import type { DamageType } from "@/hooks/battle/useDamageNumbers";

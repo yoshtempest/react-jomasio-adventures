@@ -3,7 +3,6 @@ import { tryMeleeAttack } from "@/gameRules/npc/attack";
 import { tryThrowProjectile } from "@/gameRules/npc/projectile";
 
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
-import type { Projectile } from "@/utils/types/projectile";
 
 type RangedChaseBehaviorOptions = {
   projectileCooldown: number;

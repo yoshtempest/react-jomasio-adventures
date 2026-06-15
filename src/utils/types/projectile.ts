@@ -1,13 +1,2 @@
-export type Projectile = {
-  x: number;
-  y: number;
-
-  startX: number;
-  startY: number;
-
-  dirX: number;
-  dirY: number;
-  sprite?: string;
-  createdAt: number;
-  state: "walk" | "idle";
-};
+// Type moved to global.d.ts — kept as empty module for backward-compatible imports
+export {};

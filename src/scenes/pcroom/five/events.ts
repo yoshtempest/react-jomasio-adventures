@@ -1,4 +1,3 @@
-import type { SceneEvent } from "@/utils/types/maps/sceneEvents";
 
 export const pcRoomFiveEvents: SceneEvent[] = [
   { type: "giveQuest", questId: "letter_delivery" },

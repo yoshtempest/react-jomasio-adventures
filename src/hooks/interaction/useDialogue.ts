@@ -2,7 +2,6 @@ import { useState, useCallback, useMemo } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { asset } from "@/utils/asset";
 
-import type { Dialogue } from "@/utils/types/dialogue";
 
 const playerSprites = {
   marcelo: asset("assets/player/marcelo/default.svg"),

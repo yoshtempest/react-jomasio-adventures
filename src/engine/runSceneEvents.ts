@@ -1,4 +1,3 @@
-import { type SceneEvent } from "@/utils/types/maps/sceneEvents";
 import type { NavigateFunction } from "react-router";
 
 type EventContext = {

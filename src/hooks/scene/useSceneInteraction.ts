@@ -1,6 +1,5 @@
 import { useCallback } from "react";
 import { useInteraction } from "@/hooks/interaction/useInteraction";
-import type { Player } from "@/utils/types/player/player";
 import type {
   InteractionHandler,
   DialogueSystem,

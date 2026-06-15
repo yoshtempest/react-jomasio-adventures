@@ -1,4 +1,3 @@
-import type { SceneTile, SceneSign } from "@/utils/types/maps/sceneConfig";
 
 const DIRS = [
   { dx: 0, dy: -1 },

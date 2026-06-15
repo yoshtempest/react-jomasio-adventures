@@ -1,6 +1,5 @@
 import { cafeteriaThree } from "@/maps/cafeteria/three";
 import { MUSICS } from "@/scenes/shared/music";
-import type { SceneConfig } from "@/utils/types/maps/sceneConfig";
 import { getCafeteriaThreeInitialPosition } from "./position";
 import { cafeteriaThreeNpcs } from "./npcs";
 import { cafeteriaThreeEvents } from "./events";

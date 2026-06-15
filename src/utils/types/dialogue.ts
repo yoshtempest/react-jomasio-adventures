@@ -1,6 +1,2 @@
-export type Dialogue = {
-  src?: string;
-  name: string;
-  message: string;
-  isPlayer?: boolean;
-};
+// Type moved to global.d.ts — kept as empty module for backward-compatible imports
+export {};

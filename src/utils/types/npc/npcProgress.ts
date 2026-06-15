@@ -1,6 +1,3 @@
-export type NPCClass = "common" | "rare" | "epic" | "boss" | "legendary";
-export type NpcDifficulty = "easy" | "medium" | "hard";
-
 export function getNpcStats(
   level: number,
   npcClass: NPCClass,

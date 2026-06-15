@@ -5,7 +5,6 @@ import { CANTINA_SCENES } from "@/scenes/cantina";
 import { createCantina } from "@/interactions/cantina";
 
 import { useInventory } from "@/contexts/InventoryContext";
-import type { SceneId } from "@/utils/types/maps/sceneConfig";
 
 import Talking from "@/components/Talking";
 

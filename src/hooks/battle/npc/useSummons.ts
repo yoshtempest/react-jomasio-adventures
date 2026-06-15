@@ -6,8 +6,6 @@ import { NPCS } from "@/data/npc";
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
 
 import type { SummonedNpc } from "@/utils/types/npc/npc";
-import type { NPCClass } from "@/utils/types/npc/npcProgress";
-import type { NpcDifficulty } from "@/utils/types/npc/npcProgress";
 
 type Props = {
   npcLevel: number;
