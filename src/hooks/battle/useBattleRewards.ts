@@ -78,7 +78,7 @@ export function useBattleRewards({
     addCoins(coinReward);
 
     const equipmentDrops: EquipmentDropInfo[] = [];
-    const slots: EquipmentSlot[] = ["helmet", "chestplate", "pants", "boots"];
+    const slots: EquipmentSlot[] = ["weapon", "helmet", "chestplate", "pants", "boots", "accessory", "bag"];
 
     for (const slot of slots) {
       const rank = rollSlotDrop(npcClass);
