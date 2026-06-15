@@ -18,7 +18,8 @@ import { usePlayerBattleActions } from "@/hooks/battle/player/usePlayerBattleAct
 import { useSummonAI } from "@/hooks/battle/npc/useSummonsAi";
 import { useBattleControls } from "@/hooks/battle/useBattleControls";
 import { useComboSystem } from "@/hooks/battle/useComboSystem";
-import { useTitles } from "@/contexts/TitleContext";
+import { useBattleRefs } from "@/hooks/battle/useBattleRefs";
+import { useBattleKillCounter } from "@/hooks/battle/useBattleKillCounter";
 import type { BattleMapConfig } from "@/utils/types/battleMap";
 
 type Props = {
@@ -96,24 +97,26 @@ export function useBattleScene({
 
   const { showVictory, triggerVictory } = useVictory({ redirectTo });
 
-  useGameAudio({
-    src: audioSrc,
-    loop: true,
-    volume: 0.5,
-  });
+  useGameAudio({ src: audioSrc, loop: true, volume: 0.5 });
 
-  const npcRangedAttackRef = useRef<() => void>(() => {});
-  const npcMeleeAttackRef = useRef<() => void>(() => {});
+  // 🔧 refs compartilhados entre subsistemas
+  const refs = useBattleRefs();
 
-  const playerYRef = useRef(player.y);
-  playerYRef.current = player.y;
+  const clearSummonsRef = useRef(clearSummons);
+  clearSummonsRef.current = clearSummons;
+  const setModeRef = useRef(setMode);
+  setModeRef.current = setMode;
+  const closeInventoryRef = useRef(closeInventory);
+  closeInventoryRef.current = closeInventory;
+  const closeNavbarRef = useRef(closeNavbar);
+  closeNavbarRef.current = closeNavbar;
 
-  const hitstopRef = useRef(0);
-  const npcStaggerRef = useRef(0);
-  const spawnDamageRef = useRef<((value: number, x: number, y: number, type: import("@/hooks/battle/useDamageNumbers").DamageType) => void)>(
-    () => {},
-  );
+  // 🏆 kill counter
+  const killCounter = useBattleKillCounter();
+  killCounter.npcTypeRef.current = npcType;
+  killCounter.npcDataRef.current = npcData;
 
+  // 🤖 AI do NPC
   const npc = useNpcAI({
     playerX: player.x,
     playerY: player.y,
@@ -121,17 +124,15 @@ export function useBattleScene({
     playerDirection: player.battleDirection,
     npcType,
     npcPhase,
-    onProjectileHit: () => npcRangedAttackRef.current(),
-    onMeleeHit: () => npcMeleeAttackRef.current(),
+    onProjectileHit: () => refs.npcRangedAttackRef.current(),
+    onMeleeHit: () => refs.npcMeleeAttackRef.current(),
     isPaused: showVictory || showDefeat || showIntro,
     onSummon: summonNpc,
     obstacles: map?.obstacles,
-    hitstopRef,
-    npcStaggerRef,
-    spawnDamageRef,
+    hitstopRef: refs.hitstopRef,
+    npcStaggerRef: refs.npcStaggerRef,
+    spawnDamageRef: refs.spawnDamageRef,
   });
-
-  const registerHitRef = useRef<(damage: number) => void>(() => {});
 
   const battle = useBattleSystem({
     playerX: player.x,
@@ -147,18 +148,26 @@ export function useBattleScene({
       const rewards = giveRewards();
       setLastRewards(rewards);
       triggerVictory();
-      incrementKillCounterRef.current(npcTypeRef.current, npcDataRef.current.class);
+      killCounter.handleNpcDeath(killCounter.npcTypeRef.current, killCounter.npcDataRef.current.class);
     },
-    hitstopRef,
-    npcStaggerRef,
-    registerHitRef,
+    hitstopRef: refs.hitstopRef,
+    npcStaggerRef: refs.npcStaggerRef,
+    registerHitRef: refs.registerHitRef,
   });
 
-  const { comboCount, comboRank, progress: comboProgressValue, nextRank, registerHit, resetCombo } = useComboSystem({ npcMaxHp: battle.npcMaxHp });
-  registerHitRef.current = registerHit;
+  // 🎯 combo
+  const {
+    comboCount,
+    comboRank,
+    progress: comboProgressValue,
+    nextRank,
+    registerHit,
+    resetCombo
+  } = useComboSystem({ npcMaxHp: battle.npcMaxHp });
+  refs.registerHitRef.current = registerHit;
+  refs.spawnDamageRef.current = battle.spawnDamageNumber;
 
-  spawnDamageRef.current = battle.spawnDamageNumber;
-
+  // 👊 player battle actions (main NPC + summons alvo)
   const {
     handlePlayerHit,
     handleSpecialHit,
@@ -173,15 +182,13 @@ export function useBattleScene({
     npcLevel,
     battle,
     giveSummonRewards,
-    spawnDamageRef,
-    registerHitRef,
+    spawnDamageRef: refs.spawnDamageRef,
+    registerHitRef: refs.registerHitRef,
   });
 
-  const isPaused =
-    showVictory ||
-    showDefeat ||
-    showIntro;
+  const isPaused = showVictory || showDefeat || showIntro;
 
+  // 🧟 summon AI
   useSummonAI({
     summons,
     setSummons,
@@ -192,53 +199,39 @@ export function useBattleScene({
     npcLevel,
     difficulty,
     damagePlayer: battle.damagePlayer,
-    spawnDamageRef,
-    hitstopRef,
+    spawnDamageRef: refs.spawnDamageRef,
+    hitstopRef: refs.hitstopRef,
   });
 
-  // Track NPC position for summon spawns
+  // 📍 Track NPC position for summon spawns
   useEffect(() => {
     updateNpcPosition(npc.x);
   }, [npc.x, updateNpcPosition]);
 
-  const clearSummonsRef = useRef(clearSummons);
-  clearSummonsRef.current = clearSummons;
-
-  // Despawn summons on boss phase 2
+  // 💀 Despawn summons on boss phase 2
   useEffect(() => {
     if (battle.npcPhase === 2) {
       clearSummonsRef.current();
     }
   }, [battle.npcPhase]);
 
+  // 🔄 Sync npcPhase
   useEffect(() => {
     setNpcPhase(battle.npcPhase);
   }, [battle.npcPhase]);
 
-  npcRangedAttackRef.current = battle.npcRangedHit;
-  npcMeleeAttackRef.current = battle.npcMeleeHit;
+  // 🔗 Sincronizar refs de ataque do NPC após battle ser criado
+  refs.npcRangedAttackRef.current = battle.npcRangedHit;
+  refs.npcMeleeAttackRef.current = battle.npcMeleeHit;
 
-  const setModeRef = useRef(setMode);
-  setModeRef.current = setMode;
-  const closeInventoryRef = useRef(closeInventory);
-  closeInventoryRef.current = closeInventory;
-  const closeNavbarRef = useRef(closeNavbar);
-  closeNavbarRef.current = closeNavbar;
-
+  // ⚙️ Modo batalha + fechar painéis
   useEffect(() => {
     setModeRef.current("battle");
     closeInventoryRef.current();
     closeNavbarRef.current();
   }, []);
 
-  const { incrementKillCounter } = useTitles();
-  const incrementKillCounterRef = useRef(incrementKillCounter);
-  incrementKillCounterRef.current = incrementKillCounter;
-  const npcTypeRef = useRef(npcType);
-  npcTypeRef.current = npcType;
-  const npcDataRef = useRef(npcData);
-  npcDataRef.current = npcData;
-
+  // ⌨️ Controles
   useBattleControls({
     attack,
     special,
@@ -247,17 +240,13 @@ export function useBattleScene({
     disabled: isPaused,
   });
 
+  // ⏰ Auto-dismiss intro
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setShowIntro(false);
-    }, 5000);
-
+    const timeout = setTimeout(() => setShowIntro(false), 5000);
     return () => clearTimeout(timeout);
   }, []);
 
-  function skipIntro() {
-    setShowIntro(false);
-  }
+  function skipIntro() { setShowIntro(false); }
 
   function handleRetry() {
     setShowDefeat(false);
@@ -270,11 +259,8 @@ export function useBattleScene({
 
   function handleContinue() {
     if (onVictory) onVictory();
-
     if (redirectTo) {
-      navigate(redirectTo, {
-        state: { from: location.pathname }
-      });
+      navigate(redirectTo, { state: { from: location.pathname } });
     }
   }
 

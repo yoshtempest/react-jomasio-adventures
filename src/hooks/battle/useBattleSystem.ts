@@ -1,15 +1,9 @@
-import { useState, useMemo, useEffect, useRef } from "react";
-import { usePlayer } from "@/contexts/PlayerContext";
-import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
-import { useTitles } from "@/contexts/TitleContext";
-import { getEquipmentStatsBonus, getWeaponCritRate, getTotalArmor } from "@/gameRules/battle/equipment";
-import { useEquipment } from "@/contexts/EquipmentContext";
-
-import { getNpcStats } from "@/utils/types/npc/npcProgress";
+import { useState, useRef } from "react";
 import { calculateDamageToNpc } from "@/gameRules/battle/damage";
-import { getMaxSpecial } from "@/gameRules/battle/special";
 import { battleBehaviors } from "@/gameRules/battle/behaviors/player";
 
+import { useBattleStats } from "@/hooks/battle/useBattleStats";
+import { useBattleHP } from "@/hooks/battle/useBattleHP";
 import { useBattleCooldowns } from "@/hooks/battle/useBattleCooldowns";
 import { useBattleEffects } from "@/hooks/battle/useBattleEffects";
 import { usePlayerBattle } from "@/hooks/battle/player/usePlayerBattle";
@@ -18,7 +12,6 @@ import { useBattleLifecycle } from "@/hooks/battle/useBattleLifecycle";
 import { usePetBattle } from "@/hooks/battle/usePetBattle";
 import { useDamageNumbers } from "@/hooks/battle/useDamageNumbers";
 import type { NpcDifficulty } from "@/utils/types/npc/npcProgress";
-
 
 type Props = {
   playerX: number;
@@ -53,98 +46,48 @@ export function useBattleSystem(props: Props) {
     registerHitRef,
   } = props;
 
-  const { player, playerClass } = usePlayer();
-  const { progress } = useCharacterProgress();
-  const { getBonus } = useTitles();
-
-  const baseChar = progress[player.character];
-  const behavior = battleBehaviors[player.character] || battleBehaviors.default;
   const [isNpcDying, setNpcDying] = useState(false);
+  const [npcPhase, setNpcPhase] = useState(1);
 
-  const { getEquippedItem } = useEquipment();
-  const hasPet = getEquippedItem(player.character, "pet") !== null;
+  // 📊 stats
+  const stats = useBattleStats({ npcLevel, npcClass, difficulty, npcPhase });
+  const {
+    player,
+    playerClass,
+    char,
+    totalArmor,
+    titleBonus,
+    playerMaxHp,
+    npcMaxHp,
+    npcArmor,
+    HITS_TO_SPECIAL,
+    hasPet
+  } = stats;
+
+  const behavior = battleBehaviors[player.character] || battleBehaviors.default;
 
   // 🧠 cooldowns
   const { playerCooldown, npcCooldown, isEnding } = useBattleCooldowns();
 
   // ✨ efeitos
-  const effects = useBattleEffects({
-    character: player.character
-  });
+  const effects = useBattleEffects({ character: player.character });
 
   // 💥 damage numbers + screen shake
-  const { damageNumbers, spawnDamageNumber, clearDamageNumbers } = useDamageNumbers();
+  const {
+    damageNumbers,
+    spawnDamageNumber,
+    clearDamageNumbers
+  } = useDamageNumbers();
   const spawnDamageRef = useRef(spawnDamageNumber);
   spawnDamageRef.current = spawnDamageNumber;
 
-  // 📦 equipamento
-  const equipmentBonus = useMemo(() => {
-    return getEquipmentStatsBonus(player.character);
-  }, [player.character]);
-
-  // ⚔️ taxa de crítico da arma
-  const weaponCritRate = useMemo(() => {
-    return getWeaponCritRate(player.character);
-  }, [player.character]);
-
-  const critRate = 1 + weaponCritRate;
-
-  // 🛡️ armadura total
-  const totalArmor = useMemo(() => {
-    return getTotalArmor(player.character);
-  }, [player.character]);
-
-  // 🏆 título
-  const titleBonus = useMemo(() => {
-    return getBonus();
-  }, [getBonus]);
-
-  // 🧠 stats do personagem + bônus de equipamento + bônus de título
-  const char = useMemo(() => {
-    if (!baseChar) return baseChar;
-    return {
-      ...baseChar,
-      stats: {
-        hp: baseChar.stats.hp + equipmentBonus.hp + titleBonus.hp,
-        strength: baseChar.stats.strength + equipmentBonus.strength + titleBonus.strength,
-        intelligence: baseChar.stats.intelligence + equipmentBonus.intelligence + titleBonus.intelligence,
-        points: baseChar.stats.points,
-      },
-    };
-  }, [baseChar, equipmentBonus, titleBonus]);
-
-  const playerMaxHp = useMemo(() => {
-    return 90 + char.stats.hp * 10;
-  }, [char.stats.hp]);
-
-  const [playerHP, setPlayerHP] = useState(playerMaxHp);
-
-  useEffect(() => {
-    setPlayerHP(playerMaxHp);
-  }, [playerMaxHp]);
-
-  // 🤖 npc HP
-  const npcMaxHp = useMemo(() => {
-    return getNpcStats(npcLevel, npcClass, difficulty).hp;
-  }, [npcLevel, npcClass, difficulty]);
-
-  const [npcHP, setNpcHP] = useState(npcMaxHp);
-
-  useEffect(() => {
-    setNpcHP(npcMaxHp);
-  }, [npcMaxHp]);
-
-  // 🧠 fase do boss
-  const [npcPhase, setNpcPhase] = useState(1);
-
-  // 🛡️ armadura do npc (fase 2 = 1.5x)
-  const npcArmor = useMemo(() => {
-    const stats = getNpcStats(npcLevel, npcClass, difficulty);
-    return npcPhase === 2 ? Math.round(stats.armor * 1.5) : stats.armor;
-  }, [npcLevel, npcClass, difficulty, npcPhase]);
-
-  // ⚡ special
-  const HITS_TO_SPECIAL = getMaxSpecial(playerClass);
+  // ❤️ HP state (player + npc)
+  const { 
+    playerHP,
+    setPlayerHP,
+    npcHP,
+    setNpcHP
+  } = useBattleHP(playerMaxHp, npcMaxHp);
 
   // 👊 player
   const playerBattle = usePlayerBattle({
@@ -152,23 +95,19 @@ export function useBattleSystem(props: Props) {
     playerClass,
     char,
     behavior,
-
     playerX,
     playerY,
     npcX,
     npcY,
     playerState,
-
     HITS_TO_SPECIAL,
-
     setNpcHP,
     playerCooldown,
     isEnding,
-
     spawnPiercing: effects.spawnPiercing,
     triggerExplosion: effects.triggerExplosion,
     titleDamageBonus: titleBonus.damage,
-    critRate,
+    critRate: stats.critRate,
     npcArmor,
     spawnDamageRef,
     hitstopRef,
@@ -180,15 +119,12 @@ export function useBattleSystem(props: Props) {
     npcLevel,
     npcClass,
     playerClass,
-
     playerX,
     playerY,
     npcX,
     npcY,
-
     player,
     totalArmor,
-
     setPlayerHP,
     npcCooldown,
     difficulty,
@@ -202,20 +138,15 @@ export function useBattleSystem(props: Props) {
   useBattleLifecycle({
     playerHP,
     npcHP,
-
     npcClass,
     npcPhase,
-
     setNpcPhase,
     setNpcHP,
-
     npcMaxHp,
-
     onPlayerDeath,
     onNpcDeath,
-
     isEnding,
-    setNpcDying
+    setNpcDying,
   });
 
   // 🐐 pet damage
@@ -230,10 +161,7 @@ export function useBattleSystem(props: Props) {
 
   const { pet } = usePetBattle({
     enabled: hasPet,
-    playerX,
-    playerY,
-    npcX,
-    npcY,
+    playerX, playerY, npcX, npcY,
     isPaused: isEnding.current,
     onPetDamage: () => petDamageRef.current(),
     hitstopRef,
@@ -251,54 +179,36 @@ export function useBattleSystem(props: Props) {
     setPlayerHP(playerMaxHp);
     setNpcHP(npcMaxHp);
     setNpcPhase(1);
-
     playerBattle.setDelicia(0);
     playerBattle.setStacks(0);
-
     effects.resetEffects();
     clearDamageNumbers();
-
     playerCooldown.current = true;
     npcCooldown.current = true;
     isEnding.current = false;
-
     behavior.reset?.({
       setStacks: playerBattle.setStacks,
-      setDelicia: playerBattle.setDelicia,
+      setDelicia: playerBattle.setDelicia
     });
   };
 
   return {
-    playerHP,
-    playerMaxHp,
-
-    npcHP,
-    npcMaxHp,
-
+    playerHP, playerMaxHp,
+    npcHP, npcMaxHp,
     npcPhase,
-
     delicia: playerBattle.delicia,
     hitsToSpecial: HITS_TO_SPECIAL,
-
     playerHit: playerBattle.playerHit,
     specialHit: playerBattle.specialHit,
-
     npcMeleeHit: npcBattle.npcMeleeHit,
     npcRangedHit: npcBattle.npcRangedHit,
-
     resetBattle,
     damagePlayer,
-    isNpcDying,
-    setNpcDying,
-    playerCooldown,
-    isEnding,
-
+    isNpcDying, setNpcDying,
+    playerCooldown, isEnding,
     piercings: effects.piercings,
     isExploding: effects.isExploding,
-
     pet,
-
-    damageNumbers,
-    spawnDamageNumber,
+    damageNumbers, spawnDamageNumber,
   };
 }
