@@ -9,7 +9,7 @@ export const getCenterFrontDialogue = ({
   quests,
   character,
 }: {
-  quests: { id: QuestId }[];
+  quests: { id: string }[];
   character: CharacterId;
 }) => {
   if (

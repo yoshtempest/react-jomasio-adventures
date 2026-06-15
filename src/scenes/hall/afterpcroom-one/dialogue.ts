@@ -14,7 +14,7 @@ export const getAfterPcRoomOneDialogue = ({
   quests,
   items,
 }: {
-  quests: { id: QuestId }[];
+  quests: { id: string }[];
   items: { id: ItemId }[];
 }) => {
   if (hasItem(items, "aura_letter") && !hasQuest(quests, "search_packaging")) {

@@ -12,7 +12,7 @@ export const getJailsonOneDialogue = ({
   quests,
   items,
 }: {
-  quests: { id: QuestId }[];
+  quests: { id: string }[];
   items: { id: ItemId }[];
 }) => {
   if (!hasQuest(quests, "give_orange_juice")) {

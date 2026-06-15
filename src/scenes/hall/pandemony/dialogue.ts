@@ -6,7 +6,7 @@ import { hasQuest } from "@/scenes/shared/helpers";
 export const getPandemonyDialogue = ({
   quests,
 }: {
-  quests: { id: QuestId }[];
+  quests: { id: string }[];
 }) => {
   if (hasQuest(quests, "go_to_hell")) {
     return hallHellTwoDialogue;

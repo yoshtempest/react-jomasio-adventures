@@ -5,7 +5,7 @@ import { hasFlag } from "@/scenes/shared/helpers";
 export const getFootballCourtOneDialogue = ({
   flags,
 }: {
-  quests: { id: QuestId }[];
+  quests: { id: string }[];
   flags: FlagId[];
 }) => {
   if (hasFlag(flags, "neimito")) {

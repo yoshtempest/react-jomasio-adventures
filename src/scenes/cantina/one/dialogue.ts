@@ -7,7 +7,7 @@ export const getCantinaOneDialogue = ({
   quests,
   flags,
 }: {
-  quests: { id: QuestId }[];
+  quests: { id: string }[];
   flags: FlagId[];
 }) => {
   if (hasQuest(quests, "director_escape") && !hasFlag(flags, "jhowsimar")) {
