@@ -14,9 +14,12 @@ export function useProjectile(
   npcY: number,
   onHit: () => void,
   hitstopRef: React.RefObject<number>,
+  onBlocked?: () => void,
 ) {
   const onHitRef = useRef(onHit);
   onHitRef.current = onHit;
+  const onBlockedRef = useRef(onBlocked);
+  onBlockedRef.current = onBlocked;
 
   useEffect(() => {
     if (!projectile) return;
@@ -75,6 +78,9 @@ export function useProjectile(
         }
 
         if (dx < 40 && !isDashing) {
+          if (isBlocking) {
+            onBlockedRef.current?.();
+          }
           return null;
         }
 

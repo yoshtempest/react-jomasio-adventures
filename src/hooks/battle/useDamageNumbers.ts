@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef } from "react";
 
-export type DamageType = "player" | "npc" | "special" | "pet" | "summon";
+export type DamageType = "player" | "npc" | "special" | "pet" | "summon" | "blocked";
 
 export type DamageNumber = {
   id: number;

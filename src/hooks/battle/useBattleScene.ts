@@ -108,6 +108,10 @@ export function useBattleScene({
   playerYRef.current = player.y;
 
   const hitstopRef = useRef(0);
+  const npcStaggerRef = useRef(0);
+  const spawnDamageRef = useRef<((value: number, x: number, y: number, type: import("@/hooks/battle/useDamageNumbers").DamageType) => void)>(
+    () => {},
+  );
 
   const npc = useNpcAI({
     playerX: player.x,
@@ -122,6 +126,8 @@ export function useBattleScene({
     onSummon: summonNpc,
     obstacles: map?.obstacles,
     hitstopRef,
+    npcStaggerRef,
+    spawnDamageRef,
   });
 
   const battle = useBattleSystem({
@@ -141,9 +147,9 @@ export function useBattleScene({
       incrementKillCounterRef.current(npcTypeRef.current, npcDataRef.current.class);
     },
     hitstopRef,
+    npcStaggerRef,
   });
 
-  const spawnDamageRef = useRef(battle.spawnDamageNumber);
   spawnDamageRef.current = battle.spawnDamageNumber;
 
   const {

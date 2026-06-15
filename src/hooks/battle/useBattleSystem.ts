@@ -31,6 +31,7 @@ type Props = {
   playerState: playerState;
   difficulty: NpcDifficulty;
   hitstopRef: React.RefObject<number>;
+  npcStaggerRef: React.RefObject<number>;
 };
 
 export function useBattleSystem(props: Props) {
@@ -46,6 +47,7 @@ export function useBattleSystem(props: Props) {
     onPlayerDeath,
     onNpcDeath,
     hitstopRef,
+    npcStaggerRef,
   } = props;
 
   const { player, playerClass } = usePlayer();
@@ -168,6 +170,7 @@ export function useBattleSystem(props: Props) {
     isEnding,
     spawnDamageRef,
     hitstopRef,
+    npcStaggerRef,
   });
 
   // 🧠 lifecycle

@@ -33,6 +33,17 @@
   color: #ff8844;
 }
 
+.blocked {
+  color: #00ffff;
+  font-size: 16px;
+  text-transform: uppercase;
+  text-shadow:
+    0 0 6px rgba(0, 255, 255, 0.8),
+    1px 1px 0 rgba(0, 0, 0, 0.8),
+    -1px -1px 0 rgba(0, 0, 0, 0.8);
+  animation: floatBlocked 0.8s ease-out forwards;
+}
+
 @keyframes floatUp {
   0% {
     opacity: 1;
@@ -45,5 +56,20 @@
   100% {
     opacity: 0;
     transform: translateY(-60px) scale(0.9);
+  }
+}
+
+@keyframes floatBlocked {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-20px) scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-40px) scale(0.8);
   }
 }

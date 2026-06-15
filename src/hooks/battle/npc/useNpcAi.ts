@@ -5,6 +5,7 @@ import { isHorizontallyBlocked } from "@/utils/types/battleMap";
 import type { NPCBattleState } from "@/utils/types/npc/npc";
 import type { Projectile } from "@/utils/types/projectile";
 import type { BattleObstacle } from "@/utils/types/battleMap";
+import type { DamageType } from "@/hooks/battle/useDamageNumbers";
 
 
 type Props = {
@@ -20,6 +21,8 @@ type Props = {
   onSummon?: (npcType: string) => void;
   obstacles?: BattleObstacle[];
   hitstopRef: React.RefObject<number>;
+  npcStaggerRef: React.RefObject<number>;
+  spawnDamageRef: React.RefObject<((value: number, x: number, y: number, type: DamageType) => void)>;
 };
 
 export function useNpcAI({
@@ -35,6 +38,8 @@ export function useNpcAI({
   onSummon,
   obstacles,
   hitstopRef,
+  npcStaggerRef,
+  spawnDamageRef,
 }: Props) {
   const [npc, setNpc] = useState<NPCBattleState>({
     x: 900,
@@ -83,6 +88,10 @@ export function useNpcAI({
     onProjectileHit();
   },
     hitstopRef,
+    () => {
+      spawnDamageRef.current?.(0, playerX, playerY - 40, "blocked");
+      npcStaggerRef.current = Date.now() + 400;
+    },
   );
 
   const resetNpc = () => {
@@ -98,12 +107,19 @@ export function useNpcAI({
   };
 
   const hitstopRef_ = hitstopRef;
+  const npcStaggerRef_ = npcStaggerRef;
 
   useEffect(() => {
     const interval = setInterval(() => {
       setNpc((n) => {
         if (isPausedRef.current) return n;
         if (hitstopRef_.current > Date.now()) return n;
+
+        if (npcStaggerRef_.current > Date.now()) {
+          const direction = playerXRef.current < n.x ? "left" : "right";
+          return { ...n, direction, state: "walk" };
+        }
+
         const p = projectileRef.current;
 
         const behavior =

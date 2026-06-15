@@ -25,6 +25,7 @@ type Props = {
   isEnding: React.RefObject<boolean>;
   spawnDamageRef: React.RefObject<((value: number, x: number, y: number, type: DamageType) => void)>;
   hitstopRef: React.RefObject<number>;
+  npcStaggerRef: React.RefObject<number>;
 };
 
 export function useNpcBattle({
@@ -42,6 +43,7 @@ export function useNpcBattle({
   isEnding,
   spawnDamageRef,
   hitstopRef,
+  npcStaggerRef,
 }: Props) {
   const npcMeleeHit = useCallback(() => {
     if (isEnding.current) return;
@@ -51,7 +53,14 @@ export function useNpcBattle({
     if (
       player.state === "blocked" &&
       isFacingTarget(playerX, playerY, npcX, npcY, player.battleDirection)
-    ) return;
+    ) {
+      hitstopRef.current = Date.now() + 60;
+      npcStaggerRef.current = Date.now() + 500;
+      spawnDamageRef.current?.(0, playerX, playerY - 40, "blocked");
+      npcCooldown.current = false;
+      setTimeout(() => npcCooldown.current = true, 500);
+      return;
+    }
 
     const npc = getNpcStats(npcLevel, npcClass, difficulty);
     const dmg = calculateNpcDamage(npc.damage, playerClass);
@@ -79,6 +88,7 @@ export function useNpcBattle({
     difficulty,
     spawnDamageRef,
     hitstopRef,
+    npcStaggerRef,
   ]);
 
   const npcRangedHit = useCallback(() => {
