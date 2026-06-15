@@ -22,6 +22,8 @@ type PlayerContextType = {
   difficulty: NpcDifficulty;
   coins: number;
   addCoins: (amount: number) => void;
+  hyperCoins: number;
+  addHyperCoins: (amount: number) => void;
   setDifficulty: (difficulty: NpcDifficulty) => void;
 
   setPosition: (x: number, y: number, direction?: Player["direction"]) => void;
@@ -63,6 +65,10 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     const saved = localStorage.getItem("coins");
     return saved ? Number(saved) : 200; // 👈 começa com 200
   });
+  const [hyperCoins, setHyperCoins] = useState(() => {
+    const saved = localStorage.getItem("hyperCoins");
+    return saved ? Number(saved) : 0;
+  });
   const [player, setPlayer] = useState<Player>(() => {
     const savedCharacter = localStorage.getItem("character");
 
@@ -99,6 +105,10 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     localStorage.setItem("coins", String(coins));
   }, [coins]);
+
+  useEffect(() => {
+    localStorage.setItem("hyperCoins", String(hyperCoins));
+  }, [hyperCoins]);
 
   useEffect(() => {
     if (playerClass) {
@@ -140,6 +150,10 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
   function addCoins(amount: number) {
     setCoins((prev) => prev + amount);
+  }
+
+  function addHyperCoins(amount: number) {
+    setHyperCoins((prev) => prev + amount);
   }
 
   function openInventory() {
@@ -196,6 +210,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         player,
         coins,
         addCoins,
+        hyperCoins,
+        addHyperCoins,
         setCharacter,
 
         moveUp,

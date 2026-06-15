@@ -10,6 +10,8 @@ type SaveData = {
 
   playerClass: PlayerClass;
   character: string;
+
+  hyperCoins?: number;
 };
 
 const SAVE_KEY = "game_save";

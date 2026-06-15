@@ -7,6 +7,11 @@ type Props = {
   selected: boolean;
 };
 
+const FREQ_LABEL: Record<string, string> = {
+  daily: "DIÁRIA",
+  weekly: "SEMANAL",
+};
+
 export function QuestCard({ quest, selected }: Props) {
     const isActive = quest.completed && !quest.claimed;
 
@@ -25,7 +30,14 @@ export function QuestCard({ quest, selected }: Props) {
                     className={styles.image}
                     width={50}
                 />
-                <h3>{quest.name}</h3>
+                <div>
+                    <h3>{quest.name}</h3>
+                    {quest.frequency && (
+                        <span className={styles.freqBadge} data-freq={quest.frequency}>
+                            {FREQ_LABEL[quest.frequency]}
+                        </span>
+                    )}
+                </div>
             </div>
 
             <p>{quest.description}</p>

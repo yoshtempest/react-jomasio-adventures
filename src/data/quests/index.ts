@@ -7,3 +7,6 @@ export const QUESTS = {
   ...SIDE_QUESTS,
   ...BATTLE_QUESTS,
 } as const;
+
+export { DAILY_QUEST_POOL } from "./daily";
+export { WEEKLY_QUEST_POOL } from "./weekly";
