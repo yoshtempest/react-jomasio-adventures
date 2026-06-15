@@ -28,6 +28,7 @@ type Props = {
   spawnPiercing: () => void;
   triggerExplosion: () => void;
   titleDamageBonus: number;
+  critRate: number;
   spawnDamageRef: React.RefObject<((value: number, x: number, y: number, type: DamageType) => void)>;
   hitstopRef: React.RefObject<number>;
   registerHitRef: React.RefObject<(damage: number) => void>;
@@ -50,12 +51,20 @@ export function usePlayerBattle({
   spawnPiercing,
   triggerExplosion,
   titleDamageBonus,
+  critRate,
   spawnDamageRef,
   hitstopRef,
   registerHitRef,
 }: Props) {
   const [delicia, setDelicia] = useState(0);
   const [stacks, setStacks] = useState(0);
+
+  function rollCrit(damage: number): { damage: number; type: DamageType } {
+    if (Math.random() * 100 < critRate) {
+      return { damage: damage * 2, type: "crit" };
+    }
+    return { damage, type: "player" };
+  }
 
   const playerHit = useCallback(() => {
     if (isEnding.current) return;
@@ -80,7 +89,8 @@ export function usePlayerBattle({
     navigator.vibrate?.(20);
 
     const isLarissa = player.character === "larissa";
-    const dmg = isLarissa ? 2 : calculatePlayerDamage(char.stats.strength, playerClass, titleDamageBonus);
+    const rawDmg = isLarissa ? 2 : calculatePlayerDamage(char.stats.strength, playerClass, titleDamageBonus);
+    const { damage: dmg, type: dmgType } = rollCrit(rawDmg);
 
     behavior.onBasicHit({
       setNpcHP,
@@ -93,7 +103,7 @@ export function usePlayerBattle({
       titleDamageBonus,
     });
 
-    spawnDamageRef.current?.(dmg, npcX, npcY, isLarissa ? "player" : "player");
+    spawnDamageRef.current?.(dmg, npcX, npcY, dmgType);
     registerHitRef.current?.(dmg);
     hitstopRef.current = Date.now() + 60;
 
@@ -122,6 +132,7 @@ export function usePlayerBattle({
     spawnDamageRef,
     hitstopRef,
     registerHitRef,
+    critRate,
   ]);
 
   const specialHit = useCallback(() => {
@@ -147,7 +158,8 @@ export function usePlayerBattle({
     navigator.vibrate?.(30);
 
     const isLarissa = player.character === "larissa";
-    const dmg = isLarissa ? stacks * 5 : calculateSpecialDamage(char.stats.intelligence, playerClass);
+    const rawDmg = isLarissa ? stacks * 5 : calculateSpecialDamage(char.stats.intelligence, playerClass);
+    const { damage: dmg, type: dmgType } = rollCrit(rawDmg);
 
     behavior.onSpecialHit({
       setNpcHP,
@@ -159,7 +171,7 @@ export function usePlayerBattle({
       triggerExplosion,
     });
 
-    spawnDamageRef.current?.(dmg, npcX, npcY, "special");
+    spawnDamageRef.current?.(dmg, npcX, npcY, dmgType);
     registerHitRef.current?.(dmg);
     hitstopRef.current = Date.now() + 100;
 
@@ -189,6 +201,7 @@ export function usePlayerBattle({
     spawnDamageRef,
     hitstopRef,
     registerHitRef,
+    critRate,
   ]);
 
   return {

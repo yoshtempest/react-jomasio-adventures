@@ -12,6 +12,7 @@ const TYPE_CLASS: Record<string, string> = {
   pet: styles.pet,
   summon: styles.summon,
   blocked: styles.blocked,
+  crit: styles.crit,
 };
 
 export function DamageNumbers({ numbers }: Props) {

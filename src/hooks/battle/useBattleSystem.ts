@@ -2,7 +2,7 @@ import { useState, useMemo, useEffect, useRef } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useTitles } from "@/contexts/TitleContext";
-import { getEquipmentStatsBonus } from "@/gameRules/battle/equipment";
+import { getEquipmentStatsBonus, getWeaponCritRate } from "@/gameRules/battle/equipment";
 import { useEquipment } from "@/contexts/EquipmentContext";
 
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
@@ -81,6 +81,13 @@ export function useBattleSystem(props: Props) {
     return getEquipmentStatsBonus(player.character);
   }, [player.character]);
 
+  // ⚔️ taxa de crítico da arma
+  const weaponCritRate = useMemo(() => {
+    return getWeaponCritRate(player.character);
+  }, [player.character]);
+
+  const critRate = 1 + weaponCritRate;
+
   // 🏆 título
   const titleBonus = useMemo(() => {
     return getBonus();
@@ -149,6 +156,7 @@ export function useBattleSystem(props: Props) {
     spawnPiercing: effects.spawnPiercing,
     triggerExplosion: effects.triggerExplosion,
     titleDamageBonus: titleBonus.damage,
+    critRate,
     spawnDamageRef,
     hitstopRef,
     registerHitRef,

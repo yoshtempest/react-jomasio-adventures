@@ -1,6 +1,14 @@
-import type { EquippedItems } from "@/utils/types/player/equipment";
+import type { EquippedItems, EquipmentRank } from "@/utils/types/player/equipment";
 import { createEmptyEquipped, EQUIPMENT_SLOTS } from "@/utils/types/player/equipment";
 import { getEquipmentById } from "@/data/equipment";
+
+const WEAPON_CRIT_RATE: Record<EquipmentRank, number> = {
+  common: 1,
+  rare: 3,
+  epic: 7,
+  boss: 13,
+  legendary: 20,
+};
 
 const EQUIP_KEY = "jomasio_equipment";
 
@@ -15,6 +23,15 @@ function loadEquipped(character: CharacterId): EquippedItems {
   } catch {
     return createEmptyEquipped();
   }
+}
+
+export function getWeaponCritRate(character: CharacterId): number {
+  const equipped = loadEquipped(character);
+  const weaponId = equipped.weapon;
+  if (!weaponId) return 0;
+  const weapon = getEquipmentById(weaponId);
+  if (!weapon) return 0;
+  return WEAPON_CRIT_RATE[weapon.rank] ?? 0;
 }
 
 export function getEquipmentStatsBonus(character: CharacterId): { hp: number; strength: number; intelligence: number } {
