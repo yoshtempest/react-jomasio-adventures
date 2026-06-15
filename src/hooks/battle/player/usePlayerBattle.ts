@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import { canPlayerHit } from "@/gameRules/battle/combat";
 import { playAttackSound } from "@/utils/playAttackSound";
-import { calculatePlayerDamage, calculateSpecialDamage } from "@/gameRules/battle/damage";
+import { calculatePlayerDamage, calculateSpecialDamage, calculateDamageToNpc } from "@/gameRules/battle/damage";
 import type { PlayerClass, Player } from "@/utils/types/player/player";
 import type { BattleBehavior } from "@/utils/types/player/playerBehavior";
 import type { CharacterProgress } from "@/contexts/CharacterProgressContext";
@@ -29,6 +29,7 @@ type Props = {
   triggerExplosion: () => void;
   titleDamageBonus: number;
   critRate: number;
+  npcArmor: number;
   spawnDamageRef: React.RefObject<((value: number, x: number, y: number, type: DamageType) => void)>;
   hitstopRef: React.RefObject<number>;
   registerHitRef: React.RefObject<(damage: number) => void>;
@@ -52,6 +53,7 @@ export function usePlayerBattle({
   triggerExplosion,
   titleDamageBonus,
   critRate,
+  npcArmor,
   spawnDamageRef,
   hitstopRef,
   registerHitRef,
@@ -90,9 +92,11 @@ export function usePlayerBattle({
 
     const isLarissa = player.character === "larissa";
     const rawDmg = isLarissa ? 2 : calculatePlayerDamage(char.stats.strength, playerClass, titleDamageBonus);
-    const { damage: dmg, type: dmgType } = rollCrit(rawDmg);
+    const { damage: critDmg, type: dmgType } = rollCrit(rawDmg);
+    const dmg = calculateDamageToNpc(critDmg, npcArmor);
 
     behavior.onBasicHit({
+      damage: dmg,
       setNpcHP,
       char,
       playerClass,
@@ -159,9 +163,11 @@ export function usePlayerBattle({
 
     const isLarissa = player.character === "larissa";
     const rawDmg = isLarissa ? stacks * 5 : calculateSpecialDamage(char.stats.intelligence, playerClass);
-    const { damage: dmg, type: dmgType } = rollCrit(rawDmg);
+    const { damage: critDmg, type: dmgType } = rollCrit(rawDmg);
+    const dmg = calculateDamageToNpc(critDmg, npcArmor);
 
     behavior.onSpecialHit({
+      damage: dmg,
       setNpcHP,
       char,
       playerClass,

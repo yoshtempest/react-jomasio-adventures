@@ -42,3 +42,8 @@ export function calculateNpcDamage(
 
   return Math.round(dmg);
 }
+
+export function calculateDamageToNpc(damage: number, npcArmor: number = 0): number {
+  if (npcArmor <= 0) return damage;
+  return Math.round(damage * 100 / (100 + npcArmor));
+}

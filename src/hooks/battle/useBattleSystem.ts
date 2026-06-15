@@ -6,6 +6,7 @@ import { getEquipmentStatsBonus, getWeaponCritRate, getTotalArmor } from "@/game
 import { useEquipment } from "@/contexts/EquipmentContext";
 
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
+import { calculateDamageToNpc } from "@/gameRules/battle/damage";
 import { getMaxSpecial } from "@/gameRules/battle/special";
 import { battleBehaviors } from "@/gameRules/battle/behaviors/player";
 
@@ -136,6 +137,12 @@ export function useBattleSystem(props: Props) {
   // 🧠 fase do boss
   const [npcPhase, setNpcPhase] = useState(1);
 
+  // 🛡️ armadura do npc (fase 2 = 1.5x)
+  const npcArmor = useMemo(() => {
+    const stats = getNpcStats(npcLevel, npcClass, difficulty);
+    return npcPhase === 2 ? Math.round(stats.armor * 1.5) : stats.armor;
+  }, [npcLevel, npcClass, difficulty, npcPhase]);
+
   // ⚡ special
   const HITS_TO_SPECIAL = getMaxSpecial(playerClass);
 
@@ -162,6 +169,7 @@ export function useBattleSystem(props: Props) {
     triggerExplosion: effects.triggerExplosion,
     titleDamageBonus: titleBonus.damage,
     critRate,
+    npcArmor,
     spawnDamageRef,
     hitstopRef,
     registerHitRef,
@@ -214,8 +222,9 @@ export function useBattleSystem(props: Props) {
   const petDamageRef = useRef(() => {});
   petDamageRef.current = () => {
     if (isEnding.current) return;
-    setNpcHP((hp) => Math.max(0, hp - 8));
-    spawnDamageRef.current?.(8, npcX, npcY, "pet");
+    const dmg = calculateDamageToNpc(8, npcArmor);
+    setNpcHP((hp) => Math.max(0, hp - dmg));
+    spawnDamageRef.current?.(dmg, npcX, npcY, "pet");
     hitstopRef.current = Date.now() + 40;
   };
 

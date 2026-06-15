@@ -3,6 +3,7 @@ import type { CharacterProgress } from "@/contexts/CharacterProgressContext";
 
 export type BattleBehavior = {
   onBasicHit: (data: {
+    damage: number;
     setNpcHP: React.Dispatch<React.SetStateAction<number>>;
     setStacks: React.Dispatch<React.SetStateAction<number>>;
     setDelicia: React.Dispatch<React.SetStateAction<number>>;
@@ -16,6 +17,7 @@ export type BattleBehavior = {
   }) => void;
 
   onSpecialHit: (data: {
+    damage: number;
     stacks: number;
     setNpcHP: React.Dispatch<React.SetStateAction<number>>;
     setStacks: React.Dispatch<React.SetStateAction<number>>;
@@ -24,7 +26,7 @@ export type BattleBehavior = {
     char: CharacterProgress;
     playerClass: PlayerClass;
 
-    triggerExplosion?: () => void; // 👈 novo
+    triggerExplosion?: () => void;
   }) => void;
 
   reset?: (data: {

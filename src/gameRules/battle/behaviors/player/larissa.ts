@@ -3,37 +3,28 @@ import { gainSpecial } from "@/gameRules/battle/special";
 
 export const larissaBehavior: BattleBehavior = {
   onBasicHit: ({
+    damage,
     setNpcHP,
     setStacks,
     setDelicia,
     HITS_TO_SPECIAL,
     spawnPiercing,
   }) => {
-    // 🔹 dano fixo
-    setNpcHP((hp: number) => Math.max(0, hp - 2));
-
-    // 🔹 acumula stacks
+    setNpcHP((hp: number) => Math.max(0, hp - damage));
     setStacks((s: number) => s + 1);
-
-    // 🔹 carrega especial
     setDelicia((d: number) => gainSpecial(d, HITS_TO_SPECIAL));
-
     spawnPiercing?.();
   },
 
   onSpecialHit: ({
-    stacks,
+    damage,
     setNpcHP,
     setStacks,
     setDelicia,
     triggerExplosion,
   }) => {
-    const dmg = stacks * 5;
-
-    setNpcHP((hp: number) => Math.max(0, hp - dmg));
+    setNpcHP((hp: number) => Math.max(0, hp - damage));
     triggerExplosion?.();
-
-    // 🔥 reset total
     setStacks(0);
     setDelicia(0);
   },
