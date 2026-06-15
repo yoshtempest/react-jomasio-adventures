@@ -37,6 +37,7 @@ type Props = {
   ) => void;
 
   spawnDamageRef: React.RefObject<((value: number, x: number, y: number, type: DamageType) => void)>;
+  registerHitRef: React.RefObject<(damage: number) => void>;
 };
 
 export function usePlayerBattleActions({
@@ -50,6 +51,7 @@ export function usePlayerBattleActions({
   setSummons,
   giveSummonRewards,
   spawnDamageRef,
+  registerHitRef,
 }: Props) {
 
   const handlePlayerHit = useCallback(() => {
@@ -141,6 +143,7 @@ export function usePlayerBattleActions({
         );
 
         spawnDamageRef.current?.(damage, target.x, target.y, "summon");
+        registerHitRef.current?.(damage);
 
         const newHp = Math.max(
           0,
@@ -177,6 +180,7 @@ export function usePlayerBattleActions({
     setSummons,
     giveSummonRewards,
     spawnDamageRef,
+    registerHitRef,
   ]);
 
   const handleSpecialHit = useCallback(() => {

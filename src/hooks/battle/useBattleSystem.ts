@@ -32,6 +32,7 @@ type Props = {
   difficulty: NpcDifficulty;
   hitstopRef: React.RefObject<number>;
   npcStaggerRef: React.RefObject<number>;
+  registerHitRef: React.RefObject<(damage: number) => void>;
 };
 
 export function useBattleSystem(props: Props) {
@@ -48,6 +49,7 @@ export function useBattleSystem(props: Props) {
     onNpcDeath,
     hitstopRef,
     npcStaggerRef,
+    registerHitRef,
   } = props;
 
   const { player, playerClass } = usePlayer();
@@ -149,6 +151,7 @@ export function useBattleSystem(props: Props) {
     titleDamageBonus: titleBonus.damage,
     spawnDamageRef,
     hitstopRef,
+    registerHitRef,
   });
 
   // 🤖 npc

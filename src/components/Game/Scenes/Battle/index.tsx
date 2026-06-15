@@ -5,6 +5,7 @@ import { useBattleScene } from "@/hooks/battle/useBattleScene";
 import { BattleEntities } from "@/components/Game/Battle/Entities";
 import { BattleMap } from "@/components/Game/Battle/Map";
 import { DamageNumbers } from "@/components/Game/Battle/DamageNumbers";
+import { ComboDisplay } from "@/components/Game/Battle/ComboDisplay";
 import { VictoryModal } from "@/components/Game/Battle/Victory";
 import { DefeatModal } from "@/components/Game/Battle/Defeat";
 import { BattleIntro } from "@/components/Game/Battle/Intro";
@@ -45,6 +46,10 @@ export function BattleScene(props: Props) {
     navigate,
     showIntro,
     skipIntro,
+    comboCount,
+    comboRank,
+    comboProgress,
+    nextRank,
   } = useBattleScene(props);
 
   const {
@@ -98,6 +103,7 @@ export function BattleScene(props: Props) {
   return (
     <div className={`Master ${className ?? ""}`}>
       <BattleHUD battle={battle} npcStats={npcStats} npcType={npcType} summons={summons} />
+      <ComboDisplay count={comboCount} rank={comboRank} progress={comboProgress} nextRank={nextRank} />
       {showIntro && (
         <BattleIntro
           playerCharacter={player.character}

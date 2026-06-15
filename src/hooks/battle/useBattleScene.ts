@@ -17,6 +17,7 @@ import { useSummons } from "@/hooks/battle/npc/useSummons";
 import { usePlayerBattleActions } from "@/hooks/battle/player/usePlayerBattleActions";
 import { useSummonAI } from "@/hooks/battle/npc/useSummonsAi";
 import { useBattleControls } from "@/hooks/battle/useBattleControls";
+import { useComboSystem } from "@/hooks/battle/useComboSystem";
 import { useTitles } from "@/contexts/TitleContext";
 import type { BattleMapConfig } from "@/utils/types/battleMap";
 
@@ -130,6 +131,8 @@ export function useBattleScene({
     spawnDamageRef,
   });
 
+  const registerHitRef = useRef<(damage: number) => void>(() => {});
+
   const battle = useBattleSystem({
     playerX: player.x,
     playerY: player.y,
@@ -148,7 +151,11 @@ export function useBattleScene({
     },
     hitstopRef,
     npcStaggerRef,
+    registerHitRef,
   });
+
+  const { comboCount, comboRank, progress: comboProgressValue, nextRank, registerHit, resetCombo } = useComboSystem({ npcMaxHp: battle.npcMaxHp });
+  registerHitRef.current = registerHit;
 
   spawnDamageRef.current = battle.spawnDamageNumber;
 
@@ -167,6 +174,7 @@ export function useBattleScene({
     battle,
     giveSummonRewards,
     spawnDamageRef,
+    registerHitRef,
   });
 
   const isPaused =
@@ -257,6 +265,7 @@ export function useBattleScene({
     battle.resetBattle();
     npc.resetNpc();
     resetBattleState();
+    resetCombo();
   }
 
   function handleContinue() {
@@ -288,5 +297,9 @@ export function useBattleScene({
     navigate,
     showIntro,
     skipIntro,
+    comboCount,
+    comboRank,
+    comboProgress: comboProgressValue,
+    nextRank,
   };
 }

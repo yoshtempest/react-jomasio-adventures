@@ -1,0 +1,99 @@
+.container {
+  position: absolute;
+  bottom: 16vh;
+  right: 2vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 50;
+  pointer-events: none;
+  user-select: none;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rank {
+  font-size: 36px;
+  font-weight: 900;
+  line-height: 1;
+  transition: color 0.3s;
+}
+
+.count {
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+  margin-top: 2px;
+}
+
+.progressBar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  width: 100%;
+}
+
+.progressTrack {
+  flex: 1;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: #ff6b35;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.nextLabel {
+  font-size: 11px;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.rankF {
+  color: #888;
+}
+
+.rankE {
+  color: #8b8b00;
+}
+
+.rankD {
+  color: #cd7f32;
+}
+
+.rankC {
+  color: #c0c0c0;
+}
+
+.rankB {
+  color: #ffd700;
+}
+
+.rankA {
+  color: #ff6b35;
+}
+
+.rankS {
+  color: #ff0044;
+  font-size: 42px;
+}
+
+.rankSplus {
+  color: #ff00ff;
+  font-size: 42px;
+}
+
+.rankSS {
+  color: #00ffff;
+  font-size: 42px;
+}
