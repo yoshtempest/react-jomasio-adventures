@@ -5,10 +5,7 @@ type Props = {
 };
 
 export function HealthBar({ hp, maxHp = 100, reversed = false }: Props) {
-  const percentage = Math.max(
-    0,
-    Math.min(100, (hp / maxHp) * 100)
-  );
+  const percentage = Math.max(0, Math.min(100, (hp / maxHp) * 100));
 
   function getBackgroundColor() {
     if (percentage <= 30) {
@@ -19,7 +16,6 @@ export function HealthBar({ hp, maxHp = 100, reversed = false }: Props) {
       return "limegreen";
     }
   }
-
 
   return (
     <div

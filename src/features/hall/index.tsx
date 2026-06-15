@@ -8,7 +8,6 @@ import { useQuests } from "@/contexts/QuestContext";
 import type { SceneId } from "@/utils/types/maps/sceneConfig";
 import Talking from "@/components/Talking";
 
-
 type Props = {
   sceneId: SceneId;
 };
@@ -22,8 +21,7 @@ export function HallScene({ sceneId }: Props) {
   const { addItem, removeItem, hasItem } = useInventory();
   const { quests } = useQuests();
 
-  const hasQuest = (id: string) =>
-    quests.some((q) => q.id === id);
+  const hasQuest = (id: string) => quests.some((q) => q.id === id);
 
   const handleExit = useCallback(
     ({ player }: { player: { gridX: number; gridY: number } }) => {
@@ -70,12 +68,7 @@ export function HallScene({ sceneId }: Props) {
         })}
       />
 
-      {popup && (
-        <Talking
-          name="Sistema"
-          message={popup}
-        />
-      )}
+      {popup && <Talking name="Sistema" message={popup} />}
 
       <PandemonyPuzzle
         isOpen={showPuzzle}

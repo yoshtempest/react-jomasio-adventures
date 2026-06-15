@@ -2,7 +2,7 @@ export function getChaseMovement(
   npcX: number,
   npcY: number,
   playerX: number,
-  playerY: number
+  playerY: number,
 ) {
   const dx = playerX - npcX;
   const dy = playerY - npcY;

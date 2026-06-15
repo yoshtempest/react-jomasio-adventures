@@ -3,12 +3,12 @@ import { cafeteriaFiveDialogue } from "@/data/maps/cafeteria/five";
 import { hasItem } from "@/scenes/shared/helpers";
 
 export const getCafeteriaThreeDialogue = ({
-    items,
+  items,
 }: {
-    items: { id: ItemId }[]
+  items: { id: ItemId }[];
 }) => {
-    if (hasItem(items, "sausage")) {
-        return cafeteriaFiveDialogue;
-    }
-    return cafeteriaFourDialogue;
+  if (hasItem(items, "sausage")) {
+    return cafeteriaFiveDialogue;
+  }
+  return cafeteriaFourDialogue;
 };

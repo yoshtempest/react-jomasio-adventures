@@ -1,5 +1,9 @@
 import { useEffect, useMemo, useRef } from "react";
-import { useLocation, type NavigateFunction, type Location } from "react-router";
+import {
+  useLocation,
+  type NavigateFunction,
+  type Location,
+} from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useTransitionCtx } from "@/contexts/TransitionContext";
 import { useFlags } from "@/contexts/FlagContext";
@@ -11,7 +15,11 @@ import { useQuests } from "@/contexts/QuestContext";
 import { MapOverlay } from "@/components/Game/MenuMap";
 import { QUESTS } from "@/data/quests";
 import { getSceneName, autoSigns } from "@/scenes/shared/signs";
-import type { SceneConfig, SceneSign, SceneTile } from "@/utils/types/maps/sceneConfig";
+import type {
+  SceneConfig,
+  SceneSign,
+  SceneTile,
+} from "@/utils/types/maps/sceneConfig";
 import type { Player } from "@/utils/types/player/player";
 import type { Quest } from "@/utils/types/player/quest";
 
@@ -59,7 +67,9 @@ export function SceneBase({
   const sceneName = scene.name ?? getSceneName(location.pathname);
 
   const signs = useMemo(
-    () => scene.signs ?? (scene.tiles ? autoSigns(scene.tiles, scene.map, sceneName) : []),
+    () =>
+      scene.signs ??
+      (scene.tiles ? autoSigns(scene.tiles, scene.map, sceneName) : []),
     [scene.tiles, scene.map, sceneName, scene.signs],
   );
 
@@ -97,14 +107,21 @@ export function SceneBase({
     const currentPlayer = playerRef.current;
 
     // 🔥 override (Cantina ainda pode usar)
-    if (handleExitRef.current?.({ player: currentPlayer, scene, navigate: navigateWithFade, location, quests })) {
+    if (
+      handleExitRef.current?.({
+        player: currentPlayer,
+        scene,
+        navigate: navigateWithFade,
+        location,
+        quests,
+      })
+    ) {
       return;
     }
 
     const tile = scene.tiles?.find(
       (t: SceneTile) =>
-        currentPlayer.gridX === t.x &&
-        currentPlayer.gridY === t.y
+        currentPlayer.gridX === t.x && currentPlayer.gridY === t.y,
     );
 
     if (!tile) return;
@@ -118,9 +135,7 @@ export function SceneBase({
           state: { from: location.pathname },
         });
       } else {
-        setPopupRef.current?.(
-          tile.blockedMessage || "Você não pode ir agora."
-        );
+        setPopupRef.current?.(tile.blockedMessage || "Você não pode ir agora.");
       }
 
       return;
@@ -128,14 +143,10 @@ export function SceneBase({
 
     // 🧠 2. valida quest
     if (tile.requiredQuest) {
-      const hasQuest = quests.some(
-        (q) => q.id === tile.requiredQuest
-      );
+      const hasQuest = quests.some((q) => q.id === tile.requiredQuest);
 
       if (!hasQuest) {
-        setPopupRef.current?.(
-          tile.blockedMessage || "Você não pode ir agora."
-        );
+        setPopupRef.current?.(tile.blockedMessage || "Você não pode ir agora.");
         return;
       }
     }
@@ -214,11 +225,7 @@ export function SceneBase({
         />
       )}
 
-      {popup && (
-        <div className="SceneOverlay">
-          {children}
-        </div>
-      )}
+      {popup && <div className="SceneOverlay">{children}</div>}
     </div>
   );
 }

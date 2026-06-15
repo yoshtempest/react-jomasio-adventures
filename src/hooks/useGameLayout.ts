@@ -22,8 +22,7 @@ export function useGameLayout() {
   const containerHeight = dimensions.height;
 
   const TILE_SIZE =
-    Math.min(containerWidth / MAP_COLS, containerHeight / MAP_ROWS) *
-    SCALE_FIX;
+    Math.min(containerWidth / MAP_COLS, containerHeight / MAP_ROWS) * SCALE_FIX;
 
   const offsetX = (containerWidth - MAP_COLS * TILE_SIZE) / 2;
   const offsetY = (containerHeight - MAP_ROWS * TILE_SIZE) / 2;

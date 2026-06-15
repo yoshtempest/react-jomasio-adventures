@@ -11,11 +11,14 @@ export default function Home() {
   const { pushControls, popControls } = useGameControls();
   const navigate = useNavigate();
 
-  const backgroundAudio = useMemo(() => ({
-    src: undertale,
-    loop: true,
-    volume: 0.3,
-  }), []);
+  const backgroundAudio = useMemo(
+    () => ({
+      src: undertale,
+      loop: true,
+      volume: 0.3,
+    }),
+    [],
+  );
 
   const audio = useGameAudio(backgroundAudio); // 🔥 pega controle
   const audioRef = useRef(audio);
@@ -48,11 +51,7 @@ export default function Home() {
 
   return (
     <div className={`Master Home`}>
-      <img
-        src={asset("/assets/logo.svg")}
-        alt="logo"
-        className={styles.logo}
-      />
+      <img src={asset("/assets/logo.svg")} alt="logo" className={styles.logo} />
       <h1>Pressione L para continuar</h1>
     </div>
   );

@@ -195,7 +195,7 @@
   margin-top: 5%;
   padding: 20px;
   border-radius: 4px;
-  border: 2px solid var(--primary-color)
+  border: 2px solid var(--primary-color);
 }
 
 .dpad {

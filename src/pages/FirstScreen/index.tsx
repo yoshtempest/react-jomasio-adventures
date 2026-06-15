@@ -9,9 +9,7 @@ export default function FirstScreen() {
       initialPosition={{ x: 6, y: 11, direction: "up" }}
       transitions={[
         {
-          positions: [
-            { x: 6, y: 7 },
-          ],
+          positions: [{ x: 6, y: 7 }],
           to: "/cantina/one",
         },
       ]}

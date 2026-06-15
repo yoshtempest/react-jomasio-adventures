@@ -24,7 +24,9 @@ type Props = {
   npcCooldown: React.RefObject<boolean>;
   difficulty: NpcDifficulty;
   isEnding: React.RefObject<boolean>;
-  spawnDamageRef: React.RefObject<((value: number, x: number, y: number, type: DamageType) => void)>;
+  spawnDamageRef: React.RefObject<
+    (value: number, x: number, y: number, type: DamageType) => void
+  >;
   hitstopRef: React.RefObject<number>;
   npcStaggerRef: React.RefObject<number>;
 };
@@ -60,20 +62,20 @@ export function useNpcBattle({
       npcStaggerRef.current = Date.now() + 500;
       spawnDamageRef.current?.(0, playerX, playerY - 40, "blocked");
       npcCooldown.current = false;
-      setTimeout(() => npcCooldown.current = true, 500);
+      setTimeout(() => (npcCooldown.current = true), 500);
       return;
     }
 
     const npc = getNpcStats(npcLevel, npcClass, difficulty);
     const dmg = calculateNpcDamage(npc.damage, playerClass, totalArmor);
 
-    setPlayerHP(hp => Math.max(0, hp - dmg));
+    setPlayerHP((hp) => Math.max(0, hp - dmg));
     navigator.vibrate?.(40);
     spawnDamageRef.current?.(dmg, playerX, playerY, "npc");
     hitstopRef.current = Date.now() + 50;
 
     npcCooldown.current = false;
-    setTimeout(() => npcCooldown.current = true, 800);
+    setTimeout(() => (npcCooldown.current = true), 800);
   }, [
     isEnding,
     npcCooldown,
@@ -101,7 +103,8 @@ export function useNpcBattle({
     if (
       player.state === "blocked" &&
       isFacingTarget(playerX, playerY, npcX, npcY, player.battleDirection)
-    ) return;
+    )
+      return;
 
     const npc = getNpcStats(npcLevel, npcClass, difficulty);
     const dmg = calculateNpcDamage(npc.damage, playerClass, totalArmor);

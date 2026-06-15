@@ -52,7 +52,7 @@ export const DROP_CONFIG: Record<NPCClass, DropConfig> = {
   },
 
   legendary: {
-    baseChance: 0.80,
+    baseChance: 0.8,
     rankWeights: {
       common: 2,
       rare: 8,
@@ -66,9 +66,9 @@ export const DROP_CONFIG: Record<NPCClass, DropConfig> = {
 const SLOT_CHANCE: Record<NPCClass, number> = {
   common: 0.15,
   rare: 0.25,
-  epic: 0.40,
+  epic: 0.4,
   boss: 0.55,
-  legendary: 0.70,
+  legendary: 0.7,
 };
 
 const RANKS: EquipmentRank[] = ["common", "rare", "epic", "boss", "legendary"];
@@ -92,7 +92,10 @@ export function rollDrop(npcClass: NPCClass): EquipmentRank | null {
 
   if (Math.random() > config.baseChance) return null;
 
-  const totalWeight = Object.values(config.rankWeights).reduce((a, b) => a + b, 0);
+  const totalWeight = Object.values(config.rankWeights).reduce(
+    (a, b) => a + b,
+    0,
+  );
   if (totalWeight <= 0) return null;
 
   return pickWeighted(config.rankWeights);

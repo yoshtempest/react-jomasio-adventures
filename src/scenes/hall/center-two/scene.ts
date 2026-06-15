@@ -4,8 +4,8 @@ import { centerTwoTiles } from "./tiles";
 import type { SceneConfig } from "@/utils/types/maps/sceneConfig";
 import { getCenterTwoInitialPosition } from "./position";
 import { centerTwoNpcs } from "./npcs";
-import { getHallCenterDialogue } from "./dialogue"
-import { hallCenterTwoEvents } from "./events"
+import { getHallCenterDialogue } from "./dialogue";
+import { hallCenterTwoEvents } from "./events";
 
 export const centerTwoScene: SceneConfig = {
   id: "center-two",

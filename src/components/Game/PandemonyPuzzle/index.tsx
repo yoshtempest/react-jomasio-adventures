@@ -1,4 +1,8 @@
-import { usePandemonyPuzzle, SYMBOLS, type PuzzleState } from "@/hooks/puzzle/usePandemonyPuzzle";
+import {
+  usePandemonyPuzzle,
+  SYMBOLS,
+  type PuzzleState,
+} from "@/hooks/puzzle/usePandemonyPuzzle";
 import styles from "./styles.module.css";
 
 type Props = {
@@ -15,9 +19,7 @@ function renderSlots(state: PuzzleState, selectedSlot: number) {
         key={slotIndex}
         className={`${styles.slotRow} ${isSelected ? styles.slotRowSelected : ""}`}
       >
-        <div className={styles.slotLabel}>
-          Linha {slotIndex + 1}
-        </div>
+        <div className={styles.slotLabel}>Linha {slotIndex + 1}</div>
         <div
           className={`${styles.symbolBox} ${isSelected ? styles.symbolActive : ""}`}
         >
@@ -29,7 +31,11 @@ function renderSlots(state: PuzzleState, selectedSlot: number) {
 }
 
 export function PandemonyPuzzle({ isOpen, onSolved, onClose }: Props) {
-  const { state, selectedSlot, solved } = usePandemonyPuzzle(isOpen, onSolved, onClose);
+  const { state, selectedSlot, solved } = usePandemonyPuzzle(
+    isOpen,
+    onSolved,
+    onClose,
+  );
 
   if (!isOpen) return null;
 
@@ -43,7 +49,9 @@ export function PandemonyPuzzle({ isOpen, onSolved, onClose }: Props) {
         </div>
 
         <div className={solved ? styles.solved : styles.unsolved}>
-          {solved ? "Porta destrancada! Pressione L para entrar." : "Use ◄/► para trocar o símbolo"}
+          {solved
+            ? "Porta destrancada! Pressione L para entrar."
+            : "Use ◄/► para trocar o símbolo"}
         </div>
       </div>
     </div>

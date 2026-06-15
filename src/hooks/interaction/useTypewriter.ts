@@ -1,9 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 
-export function useTypewriter(
-  text: string,
-  speedMs: number,
-) {
+export function useTypewriter(text: string, speedMs: number) {
   const safeText = text ?? "";
   const [displayedCount, setDisplayedCount] = useState(0);
   const countRef = useRef(0);

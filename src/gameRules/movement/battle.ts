@@ -1,9 +1,16 @@
-import { BATTLE_STEP, DASH_STEP, BATTLE_LIMITS } from "@/utils/types/player/movement";
+import {
+  BATTLE_STEP,
+  DASH_STEP,
+  BATTLE_LIMITS,
+} from "@/utils/types/player/movement";
 import type { Player } from "@/utils/types/player/player";
 
-
 export function canAct(player: Player) {
-  return player.mode === "battle" && player.state !== "blocked" && player.state !== "dash";
+  return (
+    player.mode === "battle" &&
+    player.state !== "blocked" &&
+    player.state !== "dash"
+  );
 }
 
 export function isInBattle(player: Player) {

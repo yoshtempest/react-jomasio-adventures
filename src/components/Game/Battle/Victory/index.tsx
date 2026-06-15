@@ -4,7 +4,11 @@ import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { useTitles } from "@/contexts/TitleContext";
 import { asset } from "@/utils/asset";
 import { TITLES } from "@/data/titles";
-import { RANK_COLORS, RANK_LABELS, SLOT_LABELS } from "@/utils/types/player/equipment";
+import {
+  RANK_COLORS,
+  RANK_LABELS,
+  SLOT_LABELS,
+} from "@/utils/types/player/equipment";
 import type { RewardInfo } from "@/hooks/battle/useBattleRewards";
 
 type Props = {
@@ -62,7 +66,7 @@ export function VictoryModal({
       hasPlayedRef.current = false;
     }
   }, [isVisible, isOpen]);
-  
+
   useEffect(() => {
     if (!isVisible) return;
 
@@ -118,7 +122,9 @@ export function VictoryModal({
             </div>
             <div className={styles.rewardCard}>
               <span className={styles.rewardLabel}>Moedas</span>
-              <span className={styles.rewardValue}>+{rewards?.coinReward ?? 0}</span>
+              <span className={styles.rewardValue}>
+                +{rewards?.coinReward ?? 0}
+              </span>
             </div>
           </div>
           <div className={styles.flexColumn}>
@@ -136,9 +142,15 @@ export function VictoryModal({
                       </span>
                       <span className={styles.dropName}>
                         {eq.name}
-                        {eq.enhance > 0 ? <span className={styles.enhanceBadge}>+{eq.enhance}</span> : null}
+                        {eq.enhance > 0 ? (
+                          <span className={styles.enhanceBadge}>
+                            +{eq.enhance}
+                          </span>
+                        ) : null}
                       </span>
-                      <span className={styles.dropSlot}>({SLOT_LABELS[eq.slot]})</span>
+                      <span className={styles.dropSlot}>
+                        ({SLOT_LABELS[eq.slot]})
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -152,7 +164,11 @@ export function VictoryModal({
                     <div key={item.id} className={styles.dropItem}>
                       <img
                         className={styles.dropIcon}
-                        src={item.image ? `${import.meta.env.BASE_URL}${item.image.replace(/^\//, "")}` : `${import.meta.env.BASE_URL}assets/items/${item.id}.svg`}
+                        src={
+                          item.image
+                            ? `${import.meta.env.BASE_URL}${item.image.replace(/^\//, "")}`
+                            : `${import.meta.env.BASE_URL}assets/items/${item.id}.svg`
+                        }
                         alt={item.name}
                       />
                       <span className={styles.dropName}>{item.name}</span>

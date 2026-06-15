@@ -19,14 +19,14 @@ export function canPlayerHit(params: {
       params.npcY,
       params.playerState,
       params.character,
-      params.isSpecial
+      params.isSpecial,
     ) &&
     isFacingTarget(
       params.playerX,
       params.playerY,
       params.npcX,
       params.npcY,
-      params.direction
+      params.direction,
     )
   );
 }

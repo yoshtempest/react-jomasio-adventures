@@ -4,7 +4,6 @@ import type { SceneConfig } from "@/utils/types/maps/sceneConfig";
 import { pcRoomSixTiles } from "./tiles";
 import { getPcRoomSixInitialPosition } from "./position";
 
-
 export const sixScene: SceneConfig = {
   id: "six",
   map: pcsRoomSix,

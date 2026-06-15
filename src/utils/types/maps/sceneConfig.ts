@@ -3,27 +3,27 @@ import type { SceneEvent } from "./sceneEvents";
 import type { Quest } from "@/utils/types/player/quest";
 
 export type SceneId =
-"one" |
-"two" |
-"jailson-one" |
-"jailson-two" |
-"three" |
-"four" |
-"five" |
-"six" |
-"seven" |
-"eight" |
-"nine" |
-"afterpcroom-one" |
-"left-one" |
-"center-one" |
-"center-two" |
-"center-front" |
-"thirdclass" |
-"hell" |
-"secret-passage" |
-"footballcourt" |
-"pandemony";
+  | "one"
+  | "two"
+  | "jailson-one"
+  | "jailson-two"
+  | "three"
+  | "four"
+  | "five"
+  | "six"
+  | "seven"
+  | "eight"
+  | "nine"
+  | "afterpcroom-one"
+  | "left-one"
+  | "center-one"
+  | "center-two"
+  | "center-front"
+  | "thirdclass"
+  | "hell"
+  | "secret-passage"
+  | "footballcourt"
+  | "pandemony";
 
 export type SceneTile = {
   x: number;

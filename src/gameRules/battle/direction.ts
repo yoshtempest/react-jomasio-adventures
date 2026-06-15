@@ -3,7 +3,7 @@ export function isFacingTarget(
   playerY: number,
   npcX: number,
   npcY: number,
-  direction: Direction
+  direction: Direction,
 ) {
   const dx = npcX - playerX;
   const dy = npcY - playerY;

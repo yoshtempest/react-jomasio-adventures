@@ -17,13 +17,13 @@ export function useNavbarMenu() {
   const [screen, setScreen] = useState("menu");
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-    const selectedIndexRef = useRef(selectedIndex);
-    const screenRef = useRef(screen);
+  const selectedIndexRef = useRef(selectedIndex);
+  const screenRef = useRef(screen);
 
-    useEffect(() => {
-        selectedIndexRef.current = selectedIndex;
-        screenRef.current = screen;
-    }, [selectedIndex, screen]);
+  useEffect(() => {
+    selectedIndexRef.current = selectedIndex;
+    screenRef.current = screen;
+  }, [selectedIndex, screen]);
 
   const playMoveRef = useRef(playMove);
   playMoveRef.current = playMove;
@@ -47,18 +47,14 @@ export function useNavbarMenu() {
         if (screenRef.current !== "menu") return;
 
         playMoveRef.current();
-        setSelectedIndex((prev) =>
-          circularPrev(prev, NAVBAR_OPTIONS.length)
-        );
+        setSelectedIndex((prev) => circularPrev(prev, NAVBAR_OPTIONS.length));
       },
 
       onDown: () => {
         if (screenRef.current !== "menu") return;
 
         playMoveRef.current();
-        setSelectedIndex((prev) =>
-          circularNext(prev, NAVBAR_OPTIONS.length)
-        );
+        setSelectedIndex((prev) => circularNext(prev, NAVBAR_OPTIONS.length));
       },
 
       onConfirm: () => {

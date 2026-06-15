@@ -10,9 +10,7 @@ type ThrowProjectileParams = {
   idleDuration: number;
 };
 
-export function tryThrowProjectile(
-  params: ThrowProjectileParams
-) {
+export function tryThrowProjectile(params: ThrowProjectileParams) {
   const {
     projectile,
     cooldown,
@@ -25,10 +23,7 @@ export function tryThrowProjectile(
 
   const now = Date.now();
 
-  if (
-    projectile ||
-    now - lastAttackRef.current < cooldown
-  ) {
+  if (projectile || now - lastAttackRef.current < cooldown) {
     return false;
   }
 
@@ -38,10 +33,7 @@ export function tryThrowProjectile(
 
   setForceIdle(true);
 
-  setTimeout(
-    () => setForceIdle(false),
-    idleDuration
-  );
+  setTimeout(() => setForceIdle(false), idleDuration);
 
   return true;
 }

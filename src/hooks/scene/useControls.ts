@@ -1,5 +1,9 @@
 import { useEffect, useRef } from "react";
-import type { Controls, DialogueSystem, SetPlayerMode } from "@/utils/types/sceneHooks";
+import type {
+  Controls,
+  DialogueSystem,
+  SetPlayerMode,
+} from "@/utils/types/sceneHooks";
 
 type Props = {
   pushControls: (controls: Controls) => void;

@@ -23,12 +23,12 @@ export const PCROOM_ROUTES = {
 
 export const CANTINA_ROUTES = {
   ONE: "/cantina/one",
-  TWO: "/cantina/two"
-}
+  TWO: "/cantina/two",
+};
 
 export const BRODICLASS_ROUTES = {
-  ONE: "/brodiclass/one"
-}
+  ONE: "/brodiclass/one",
+};
 
 export const DIRECTOR_ROUTES = {
   ONE: "/director/one",
@@ -43,18 +43,18 @@ export const FOOTBALLCOURT_ROUTES = {
 export const LIBRARY_ROUTES = {
   ONE: "/library/one",
   TWO: "/library/two",
-  THREE: "/library/secret-passage"
+  THREE: "/library/secret-passage",
 };
 
 export const CAFETERIA_ROUTES = {
   ONE: "/cafeteria/one",
   TWO: "/cafeteria/two",
   THREE: "/cafeteria/three",
-  FOUR: "/cafeteria/four"
+  FOUR: "/cafeteria/four",
 };
 
 export const HELLROOM_ROUTES = {
   ONE: "/hellroom/one",
   TWO: "/hellroom/two",
   THREE: "/hellroom/three",
-}
+};

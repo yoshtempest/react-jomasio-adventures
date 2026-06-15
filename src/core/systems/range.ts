@@ -4,7 +4,7 @@ export function isInRange(
   x2: number,
   y2: number,
   rangeX: number,
-  rangeY: number
+  rangeY: number,
 ) {
   const dx = Math.abs(x1 - x2);
   const dy = Math.abs(y1 - y2);

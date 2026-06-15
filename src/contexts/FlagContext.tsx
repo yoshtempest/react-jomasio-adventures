@@ -6,7 +6,6 @@ type FlagContextType = {
   hasFlag: (flag: FlagId) => boolean;
 };
 
-
 type Props = {
   children: ReactNode;
 };
@@ -32,7 +31,7 @@ export function FlagProvider({ children }: Props) {
   const [flags, setFlags] = useState<FlagId[]>(loadFlags);
 
   function setFlag(flag: FlagId) {
-    setFlags(prev => {
+    setFlags((prev) => {
       if (prev.includes(flag)) return prev;
       const next = [...prev, flag];
       saveFlags(next);

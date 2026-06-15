@@ -18,7 +18,7 @@ const TYPE_CLASS: Record<string, string> = {
 export function DamageNumbers({ numbers }: Props) {
   return (
     <>
-      {numbers.map(n => (
+      {numbers.map((n) => (
         <div
           key={n.id}
           className={`${styles.number} ${TYPE_CLASS[n.type] ?? styles.npc}`}
@@ -27,7 +27,11 @@ export function DamageNumbers({ numbers }: Props) {
             top: n.y - 40,
           }}
         >
-          {n.type === "blocked" ? "BLOCKED!" : n.value > 0 ? `-${n.value}` : "0"}
+          {n.type === "blocked"
+            ? "BLOCKED!"
+            : n.value > 0
+              ? `-${n.value}`
+              : "0"}
         </div>
       ))}
     </>

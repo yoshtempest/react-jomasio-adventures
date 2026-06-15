@@ -10,11 +10,11 @@ export const getCantinaOneDialogue = ({
   quests: { id: QuestId }[];
   flags: FlagId[];
 }) => {
-    if (hasQuest(quests, "director_escape") && !hasFlag(flags, "jhowsimar")) {
-      return cantinaTwoDialogue;
-    }
-    if (hasFlag(flags, "jhowsimar")) {
-      return cantinaThreeDialogue;
-    }
-    return cantinaDialogue;
+  if (hasQuest(quests, "director_escape") && !hasFlag(flags, "jhowsimar")) {
+    return cantinaTwoDialogue;
+  }
+  if (hasFlag(flags, "jhowsimar")) {
+    return cantinaThreeDialogue;
+  }
+  return cantinaDialogue;
 };

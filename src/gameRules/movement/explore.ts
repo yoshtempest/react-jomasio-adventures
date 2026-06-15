@@ -5,7 +5,7 @@ function tryMove(
   player: Player,
   map: number[][],
   direction: Direction,
-  step: number
+  step: number,
 ): { moved: boolean; newX: number; newY: number } {
   let newX = player.gridX;
   let newY = player.gridY;
@@ -40,7 +40,7 @@ function tryMove(
 export function moveExplore(
   player: Player,
   map: number[][],
-  direction: Direction
+  direction: Direction,
 ): Player {
   if (player.mode !== "explore") return player;
 

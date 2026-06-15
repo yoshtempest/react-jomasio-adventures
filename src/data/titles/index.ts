@@ -78,11 +78,46 @@ export const TITLES: Record<string, TitleDef> = {
     icon: "legendary",
     condition: { type: "killNpcClass", npcClass: "legendary" },
     levels: [
-      { count: 1, bonus: [{ stat: "strength", value: 1 }, { stat: "intelligence", value: 1 }, { stat: "hp", value: 5 }] },
-      { count: 3, bonus: [{ stat: "strength", value: 2 }, { stat: "intelligence", value: 2 }, { stat: "hp", value: 10 }] },
-      { count: 6, bonus: [{ stat: "strength", value: 3 }, { stat: "intelligence", value: 3 }, { stat: "hp", value: 15 }] },
-      { count: 12, bonus: [{ stat: "strength", value: 5 }, { stat: "intelligence", value: 5 }, { stat: "hp", value: 25 }] },
-      { count: 25, bonus: [{ stat: "strength", value: 8 }, { stat: "intelligence", value: 8 }, { stat: "hp", value: 40 }] },
+      {
+        count: 1,
+        bonus: [
+          { stat: "strength", value: 1 },
+          { stat: "intelligence", value: 1 },
+          { stat: "hp", value: 5 },
+        ],
+      },
+      {
+        count: 3,
+        bonus: [
+          { stat: "strength", value: 2 },
+          { stat: "intelligence", value: 2 },
+          { stat: "hp", value: 10 },
+        ],
+      },
+      {
+        count: 6,
+        bonus: [
+          { stat: "strength", value: 3 },
+          { stat: "intelligence", value: 3 },
+          { stat: "hp", value: 15 },
+        ],
+      },
+      {
+        count: 12,
+        bonus: [
+          { stat: "strength", value: 5 },
+          { stat: "intelligence", value: 5 },
+          { stat: "hp", value: 25 },
+        ],
+      },
+      {
+        count: 25,
+        bonus: [
+          { stat: "strength", value: 8 },
+          { stat: "intelligence", value: 8 },
+          { stat: "hp", value: 40 },
+        ],
+      },
     ],
   },
   batalhador: {
@@ -93,10 +128,34 @@ export const TITLES: Record<string, TitleDef> = {
     condition: { type: "killTotal" },
     levels: [
       { count: 50, bonus: [{ stat: "strength", value: 1 }] },
-      { count: 100, bonus: [{ stat: "strength", value: 1 }, { stat: "intelligence", value: 1 }] },
-      { count: 200, bonus: [{ stat: "strength", value: 2 }, { stat: "intelligence", value: 2 }] },
-      { count: 500, bonus: [{ stat: "strength", value: 3 }, { stat: "intelligence", value: 3 }] },
-      { count: 1000, bonus: [{ stat: "strength", value: 5 }, { stat: "intelligence", value: 5 }] },
+      {
+        count: 100,
+        bonus: [
+          { stat: "strength", value: 1 },
+          { stat: "intelligence", value: 1 },
+        ],
+      },
+      {
+        count: 200,
+        bonus: [
+          { stat: "strength", value: 2 },
+          { stat: "intelligence", value: 2 },
+        ],
+      },
+      {
+        count: 500,
+        bonus: [
+          { stat: "strength", value: 3 },
+          { stat: "intelligence", value: 3 },
+        ],
+      },
+      {
+        count: 1000,
+        bonus: [
+          { stat: "strength", value: 5 },
+          { stat: "intelligence", value: 5 },
+        ],
+      },
     ],
   },
 };

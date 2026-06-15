@@ -40,18 +40,14 @@ export function useMatchmakingMenu() {
         if (typingRef.current) return;
 
         playMoveRef.current();
-        setSelectedIndex((prev) =>
-          circularPrev(prev, OPTIONS.length)
-        );
+        setSelectedIndex((prev) => circularPrev(prev, OPTIONS.length));
       },
 
       onDown: () => {
         if (typingRef.current) return;
 
         playMoveRef.current();
-        setSelectedIndex((prev) =>
-          circularNext(prev, OPTIONS.length)
-        );
+        setSelectedIndex((prev) => circularNext(prev, OPTIONS.length));
       },
 
       onConfirm: () => {

@@ -3,20 +3,20 @@ import { centerFrontTwoDialogue } from "@/data/maps/hall/centerFront/two";
 import { centerFrontThreeDialogue } from "@/data/maps/hall/centerFront/three";
 import { centerFrontFourDialogue } from "@/data/maps/hall/centerFront/four";
 
-import { hasQuest, playerCharacter} from "@/scenes/shared/helpers";
+import { hasQuest, playerCharacter } from "@/scenes/shared/helpers";
 
 export const getCenterFrontDialogue = ({
   quests,
-  character
+  character,
 }: {
-  quests: { id: QuestId }[],
-  character: CharacterId
+  quests: { id: QuestId }[];
+  character: CharacterId;
 }) => {
   if (
     playerCharacter(character, "marcelo") &&
     !hasQuest(quests, "save_samurion") &&
     !hasQuest(quests, "save_ematron")
-    ) {
+  ) {
     return centerFrontFourDialogue;
   }
 

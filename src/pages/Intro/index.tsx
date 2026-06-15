@@ -8,11 +8,14 @@ import { useGameModeMenu } from "@/hooks/menu/useGameModeMenu";
 export default function Intro() {
   const { selectedIndex, options } = useGameModeMenu();
 
-  const backgroundAudio = useMemo(() => ({
-    src: undertale,
-    loop: true,
-    volume: 0.3,
-  }), []);
+  const backgroundAudio = useMemo(
+    () => ({
+      src: undertale,
+      loop: true,
+      volume: 0.3,
+    }),
+    [],
+  );
 
   const audio = useGameAudio(backgroundAudio);
   const audioRef = useRef(audio);
@@ -27,11 +30,7 @@ export default function Intro() {
 
   return (
     <div className={`Master ${styles.image}`}>
-      <img
-        src={asset("/assets/logo.svg")}
-        alt="logo"
-        className={styles.logo}
-      />
+      <img src={asset("/assets/logo.svg")} alt="logo" className={styles.logo} />
 
       <div className={styles.menu}>
         {options.map((option, index) => (

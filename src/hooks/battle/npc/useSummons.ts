@@ -2,7 +2,6 @@
 
 import { useCallback, useRef, useState } from "react";
 
-
 import { NPCS } from "@/data/npc";
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
 
@@ -33,51 +32,43 @@ export function useSummons({
     npcXRef.current = npcX;
   }, []);
 
-  const summonNpc = useCallback((npcType: string) => {
-    const data = NPCS[npcType];
+  const summonNpc = useCallback(
+    (npcType: string) => {
+      const data = NPCS[npcType];
 
-    if (!data) return;
+      if (!data) return;
 
-    const maxHp = getNpcStats(
-      npcLevel,
-      data.class as NPCClass,
-      difficulty
-    ).hp;
+      const maxHp = getNpcStats(
+        npcLevel,
+        data.class as NPCClass,
+        difficulty,
+      ).hp;
 
-    const takenPositions = summons.map(
-      summon => summon.x
-    );
+      const takenPositions = summons.map((summon) => summon.x);
 
-    const freePosition = SPAWN_POSITIONS.find(
-      position => !takenPositions.includes(position)
-    );
+      const freePosition = SPAWN_POSITIONS.find(
+        (position) => !takenPositions.includes(position),
+      );
 
-    const spawnX = freePosition ?? npcXRef.current;
+      const spawnX = freePosition ?? npcXRef.current;
 
-    setSummons(prev => [
-      ...prev,
-      {
-        id: `summon_${Date.now()}`,
-        npcType,
-        x: spawnX,
-        y: playerGroundY,
-        direction:
-          spawnX < playerX
-            ? "right"
-            : "left",
-        state: "walk",
-        hp: maxHp,
-        maxHp,
-        isDying: false,
-      },
-    ]);
-  }, [
-    summons,
-    npcLevel,
-    difficulty,
-    playerGroundY,
-    playerX,
-  ]);
+      setSummons((prev) => [
+        ...prev,
+        {
+          id: `summon_${Date.now()}`,
+          npcType,
+          x: spawnX,
+          y: playerGroundY,
+          direction: spawnX < playerX ? "right" : "left",
+          state: "walk",
+          hp: maxHp,
+          maxHp,
+          isDying: false,
+        },
+      ]);
+    },
+    [summons, npcLevel, difficulty, playerGroundY, playerX],
+  );
 
   const clearSummons = useCallback(() => {
     setSummons([]);

@@ -37,14 +37,14 @@ export function useGameModeMenu() {
       onUp: () => {
         playMoveRef.current();
         setSelectedIndex((prev) =>
-          circularPrev(prev, GAME_MODE_OPTIONS.length)
+          circularPrev(prev, GAME_MODE_OPTIONS.length),
         );
       },
 
       onDown: () => {
         playMoveRef.current();
         setSelectedIndex((prev) =>
-          circularNext(prev, GAME_MODE_OPTIONS.length)
+          circularNext(prev, GAME_MODE_OPTIONS.length),
         );
       },
 

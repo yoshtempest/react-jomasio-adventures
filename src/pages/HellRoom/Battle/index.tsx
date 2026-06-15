@@ -1,5 +1,5 @@
 import { BattleScene } from "@/components/Game/Scenes/Battle";
-import GuiltyGear from "/assets/songs/GuiltyGear.mp3"
+import GuiltyGear from "/assets/songs/GuiltyGear.mp3";
 import { useFlags } from "@/contexts/FlagContext";
 
 export default function HellroomBattle() {

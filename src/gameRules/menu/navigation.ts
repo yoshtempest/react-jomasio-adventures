@@ -10,7 +10,7 @@ export function gridMove(
   index: number,
   cols: number,
   direction: "up" | "down" | "left" | "right",
-  length: number
+  length: number,
 ) {
   if (direction === "down") {
     const next = index + cols;

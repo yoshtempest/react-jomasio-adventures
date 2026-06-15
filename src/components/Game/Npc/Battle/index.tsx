@@ -31,7 +31,6 @@ export function NPCBattle({
   npcPhase = 1,
   isDying = false,
 }: Props) {
-
   const BASE_WIDTH = 1280;
   const BASE_HEIGHT = 600;
   const scaleX = window.innerWidth / BASE_WIDTH;
@@ -71,9 +70,7 @@ export function NPCBattle({
 
   const basePath = getSprite();
 
-  const src = isExploding
-    ? asset("assets/npcs/explosion.svg")
-    : `${basePath}`;
+  const src = isExploding ? asset("assets/npcs/explosion.svg") : `${basePath}`;
 
   return (
     <div

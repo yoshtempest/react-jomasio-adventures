@@ -1,20 +1,17 @@
 export const HellRoomThreeDialogue = [
-    {
-        src: "/assets/npcs/maugrelo/right.svg",
-        name: "Maugrelo",
-        message:
-            "Largue o meu peru!!!",
-    },
-    {
-        isPlayer: true,
-        name: "Protagonista",
-        message:
-            "hm? cadê aquele homem?",
-    },
-    {
-        src: "/assets/npcs/maugrelo/right.svg",
-        name: "Maugrelo",
-        message:
-            "Eu vou pegar meu Peru de volta!",
-    },
+  {
+    src: "/assets/npcs/maugrelo/right.svg",
+    name: "Maugrelo",
+    message: "Largue o meu peru!!!",
+  },
+  {
+    isPlayer: true,
+    name: "Protagonista",
+    message: "hm? cadê aquele homem?",
+  },
+  {
+    src: "/assets/npcs/maugrelo/right.svg",
+    name: "Maugrelo",
+    message: "Eu vou pegar meu Peru de volta!",
+  },
 ];

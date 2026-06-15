@@ -24,7 +24,7 @@
 }
 
 @media (orientation: portrait) {
-  .toggle { 
+  .toggle {
     bottom: 40%;
     left: 35%;
   }

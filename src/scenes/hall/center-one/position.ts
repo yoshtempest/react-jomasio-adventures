@@ -1,4 +1,6 @@
-export function getCenterOneInitialPosition(lastPage?: LastPage): ExplorePosition {
+export function getCenterOneInitialPosition(
+  lastPage?: LastPage,
+): ExplorePosition {
   if (lastPage === "/hall/center-front") {
     return { x: 8, y: 4, direction: "down" };
   }

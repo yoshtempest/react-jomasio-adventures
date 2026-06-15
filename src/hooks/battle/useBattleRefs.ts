@@ -1,7 +1,12 @@
 import { useRef } from "react";
 import type { DamageType } from "@/hooks/battle/useDamageNumbers";
 
-type SpawnDamageFn = (value: number, x: number, y: number, type: DamageType) => void;
+type SpawnDamageFn = (
+  value: number,
+  x: number,
+  y: number,
+  type: DamageType,
+) => void;
 
 export function useBattleRefs() {
   const npcRangedAttackRef = useRef<() => void>(() => {});

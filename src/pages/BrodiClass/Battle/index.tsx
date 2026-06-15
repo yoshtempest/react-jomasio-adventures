@@ -1,5 +1,5 @@
 import { BattleScene } from "@/components/Game/Scenes/Battle";
-import SpiderDance from "/assets/songs/SpiderDance.m4a"
+import SpiderDance from "/assets/songs/SpiderDance.m4a";
 import { useFlags } from "@/contexts/FlagContext";
 
 export default function BrodiclassBattle() {

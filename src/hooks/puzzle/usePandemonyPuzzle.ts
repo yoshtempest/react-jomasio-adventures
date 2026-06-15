@@ -41,7 +41,7 @@ export function usePandemonyPuzzle(
   function cycleSlot(slotIndex: number, delta: number) {
     setState((prev) => {
       const next: PuzzleState = [...prev];
-      next[slotIndex] = ((next[slotIndex] + delta) % 4 + 4) % 4;
+      next[slotIndex] = (((next[slotIndex] + delta) % 4) + 4) % 4;
       return next;
     });
   }

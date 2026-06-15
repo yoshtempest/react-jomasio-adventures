@@ -4,7 +4,7 @@ export type Projectile = {
 
   startX: number;
   startY: number;
-  
+
   dirX: number;
   dirY: number;
   sprite?: string;

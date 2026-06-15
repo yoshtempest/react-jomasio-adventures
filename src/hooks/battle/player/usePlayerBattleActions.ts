@@ -28,15 +28,13 @@ type Props = {
     specialHit: () => void;
   };
 
-  setSummons: React.Dispatch<
-    React.SetStateAction<SummonedNpc[]>
+  setSummons: React.Dispatch<React.SetStateAction<SummonedNpc[]>>;
+
+  giveSummonRewards: (npcClass: NPCClass) => void;
+
+  spawnDamageRef: React.RefObject<
+    (value: number, x: number, y: number, type: DamageType) => void
   >;
-
-  giveSummonRewards: (
-    npcClass: NPCClass
-  ) => void;
-
-  spawnDamageRef: React.RefObject<((value: number, x: number, y: number, type: DamageType) => void)>;
   registerHitRef: React.RefObject<(damage: number) => void>;
 };
 
@@ -53,12 +51,8 @@ export function usePlayerBattleActions({
   spawnDamageRef,
   registerHitRef,
 }: Props) {
-
   const handlePlayerHit = useCallback(() => {
-    if (
-      !battle.playerCooldown.current ||
-      battle.isEnding.current
-    ) {
+    if (!battle.playerCooldown.current || battle.isEnding.current) {
       return;
     }
 
@@ -77,10 +71,7 @@ export function usePlayerBattleActions({
     }
 
     for (const summon of summons) {
-      if (
-        summon.hp > 0 &&
-        !summon.isDying
-      ) {
+      if (summon.hp > 0 && !summon.isDying) {
         targets.push({
           id: summon.id,
           x: summon.x,
@@ -96,11 +87,9 @@ export function usePlayerBattleActions({
       return da - db;
     });
 
-    const char =
-      progress[player.character];
+    const char = progress[player.character];
 
     for (const target of targets) {
-
       if (target.id === "main") {
         battle.playerHit();
         return;
@@ -114,56 +103,44 @@ export function usePlayerBattleActions({
           target.y,
           player.state,
           player.character,
-          false
+          false,
         ) &&
         isFacingTarget(
           player.x,
           player.y,
           target.x,
           target.y,
-          player.battleDirection
+          player.battleDirection,
         )
       ) {
-
-        const targetSummon =
-          summons.find(
-            summon =>
-              summon.id === target.id
-          );
+        const targetSummon = summons.find((summon) => summon.id === target.id);
 
         if (!targetSummon) {
           return;
         }
 
         const damage = Math.round(
-          calculatePlayerDamage(
-            char.stats.strength,
-            playerClass
-          )
+          calculatePlayerDamage(char.stats.strength, playerClass),
         );
 
         spawnDamageRef.current?.(damage, target.x, target.y, "summon");
         registerHitRef.current?.(damage);
 
-        const newHp = Math.max(
-          0,
-          Math.round(targetSummon.hp) -
-            damage
-        );
+        const newHp = Math.max(0, Math.round(targetSummon.hp) - damage);
 
         if (newHp <= 0) {
           giveSummonRewards("rare");
         }
 
-        setSummons(prev =>
-          prev.map(summon =>
+        setSummons((prev) =>
+          prev.map((summon) =>
             summon.id === target.id
               ? {
                   ...summon,
                   hp: newHp,
                 }
-              : summon
-          )
+              : summon,
+          ),
         );
 
         return;
@@ -184,11 +161,7 @@ export function usePlayerBattleActions({
   ]);
 
   const handleSpecialHit = useCallback(() => {
-
-    if (
-      !battle.playerCooldown.current ||
-      battle.isEnding.current
-    ) {
+    if (!battle.playerCooldown.current || battle.isEnding.current) {
       return;
     }
 
@@ -203,10 +176,7 @@ export function usePlayerBattleActions({
     }
 
     for (const summon of summons) {
-      if (
-        summon.hp > 0 &&
-        !summon.isDying
-      ) {
+      if (summon.hp > 0 && !summon.isDying) {
         targets.push({
           id: summon.id,
           x: summon.x,
@@ -228,14 +198,7 @@ export function usePlayerBattleActions({
         return;
       }
     }
-
-  }, [
-    player,
-    npc,
-    npcHP,
-    summons,
-    battle,
-  ]);
+  }, [player, npc, npcHP, summons, battle]);
 
   return {
     handlePlayerHit,

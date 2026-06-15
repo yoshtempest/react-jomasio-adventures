@@ -1,8 +1,5 @@
 import { createDoorTile } from "@/scenes/shared/factories";
-import {
-  HALL_ROUTES,
-  CANTINA_ROUTES
-} from "@/scenes/shared/routes";
+import { HALL_ROUTES, CANTINA_ROUTES } from "@/scenes/shared/routes";
 
 export const centerOneTiles = [
   createDoorTile(13, 7, HALL_ROUTES.HELL),

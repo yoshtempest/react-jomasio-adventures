@@ -29,7 +29,7 @@ export function CantinaScene({ sceneId }: Props) {
         gotKey,
         setGotKey,
       }),
-    [addItem, gotKey]
+    [addItem, gotKey],
   );
 
   if (!scene) {
@@ -47,12 +47,7 @@ export function CantinaScene({ sceneId }: Props) {
       />
 
       {/* ✅ popup continua fora do SceneBase */}
-      {popup && (
-        <Talking
-          name="Sistema"
-          message={popup}
-        />
-      )}
+      {popup && <Talking name="Sistema" message={popup} />}
     </>
   );
 }

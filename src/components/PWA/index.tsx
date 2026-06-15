@@ -1,5 +1,5 @@
 import { usePWA } from "@/contexts/PWAContext";
-import styles from "./styles.module.css"
+import styles from "./styles.module.css";
 
 export default function InstallButton() {
   const { canInstall, install } = usePWA();

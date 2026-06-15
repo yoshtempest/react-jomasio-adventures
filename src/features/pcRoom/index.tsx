@@ -33,14 +33,11 @@ export function PcRoomScene({ sceneId }: Props) {
   const [gotKey, setGotKey] = useState(false);
 
   // ✅ sistema de seleção de classe
-  const { classes, selectedIndex } = useClassSelection(
-    showClassModal,
-    () => {
-      setShowClassModal(false);
-      setMode("explore");
-      navigate("/pcroom/two");
-    }
-  );
+  const { classes, selectedIndex } = useClassSelection(showClassModal, () => {
+    setShowClassModal(false);
+    setMode("explore");
+    navigate("/pcroom/two");
+  });
 
   const setModeRef = useRef(setMode);
   setModeRef.current = setMode;
@@ -63,7 +60,7 @@ export function PcRoomScene({ sceneId }: Props) {
         gotKey,
         setGotKey,
       }),
-    [addItem, gotKey]
+    [addItem, gotKey],
   );
 
   if (!scene) {
@@ -78,7 +75,6 @@ export function PcRoomScene({ sceneId }: Props) {
         interactions={interactions}
         popup={popup}
         setPopup={setPopup}
-
         // 🔥 equivalente ao onFinish antigo
         onFinishExtra={() => ({
           setShowClassModal,
@@ -101,9 +97,7 @@ export function PcRoomScene({ sceneId }: Props) {
                   index === selectedIndex ? styles.selected : ""
                 }`}
               >
-                {index === selectedIndex && (
-                  <span className="cursor">▼</span>
-                )}
+                {index === selectedIndex && <span className="cursor">▼</span>}
 
                 <h3>{cls}</h3>
 
@@ -122,12 +116,7 @@ export function PcRoomScene({ sceneId }: Props) {
       )}
 
       {/* 💬 popup */}
-      {popup && (
-        <Talking
-          name="Sistema"
-          message={popup}
-        />
-      )}
+      {popup && <Talking name="Sistema" message={popup} />}
     </>
   );
 }

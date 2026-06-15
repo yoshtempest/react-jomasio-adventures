@@ -3,8 +3,8 @@ import { MUSICS } from "@/scenes/shared/music";
 import type { SceneConfig } from "@/utils/types/maps/sceneConfig";
 import { getCafeteriaTwoInitialPosition } from "./position";
 import { getCafeteriaTwoDialogue } from "./dialogue";
-import { cafeteriaTwoNpcs } from "./npcs"
-import { cafeteriaTwoEvents } from "./events"
+import { cafeteriaTwoNpcs } from "./npcs";
+import { cafeteriaTwoEvents } from "./events";
 
 export const cafeteriaTwoScene: SceneConfig = {
   id: "one",

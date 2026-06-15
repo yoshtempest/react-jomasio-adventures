@@ -20,11 +20,7 @@ function App() {
   const { setItems, setMaxSlots } = useInventory();
   const { setQuests } = useQuests();
 
-  const {
-    chooseClass,
-    setCharacter,
-    player,
-  } = usePlayer();
+  const { chooseClass, setCharacter, player } = usePlayer();
 
   const { getEquippedItem } = useEquipment();
 
@@ -68,7 +64,7 @@ function App() {
       {isOpen && <Inventory />}
       {isNavOpen && <Navbar />}
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

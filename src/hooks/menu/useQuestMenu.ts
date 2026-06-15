@@ -18,7 +18,7 @@ const COLS = 3;
 export function useQuestMenu(
   isOpen: boolean,
   allQuests: Quest[],
-  listRef?: React.RefObject<HTMLUListElement | null>
+  listRef?: React.RefObject<HTMLUListElement | null>,
 ) {
   const { pushControls, popControls } = useGameControls();
 
@@ -32,16 +32,23 @@ export function useQuestMenu(
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const activeQuests = allQuests.filter(
-    (q) => q.frequency !== "daily" && q.frequency !== "weekly" && (!q.completed || !q.claimed)
+    (q) =>
+      q.frequency !== "daily" &&
+      q.frequency !== "weekly" &&
+      (!q.completed || !q.claimed),
   );
   const completedQuests = allQuests.filter(
-    (q) => q.frequency !== "daily" && q.frequency !== "weekly" && q.completed && q.claimed
+    (q) =>
+      q.frequency !== "daily" &&
+      q.frequency !== "weekly" &&
+      q.completed &&
+      q.claimed,
   );
   const dailyQuests = allQuests.filter(
-    (q) => q.frequency === "daily" && !q.claimed
+    (q) => q.frequency === "daily" && !q.claimed,
   );
   const weeklyQuests = allQuests.filter(
-    (q) => q.frequency === "weekly" && !q.claimed
+    (q) => q.frequency === "weekly" && !q.claimed,
   );
 
   const tabMap: Record<QuestTab, Quest[]> = {

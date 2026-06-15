@@ -1,15 +1,26 @@
 export const libraryMessages: Record<string, string> = {
-    "11,3": "11 livros enfileirados",
-    "12,3": "Cardápio do dia seguinte: Lupita",
-    "13,3": "10/03: um homem chamado Samurion acendeu a luz para nós, meros mortais, apartir de hoje, nós o cultuamos.",
-    "14,3": "11/03: nosso lorde Samurion nos espancou e chamou de lixo, quanta benevolência, gastar seu precioso tempo conosco, meros famintos.",
-    "3,6": "Reza a lenda que um dia irá aparecer um herói e purificar todos os monstros que aqui, um dia foram pessoas...",
-    "4,6": "Já pensou se todos os personagens principais até mesmo aqueles que não se falam, se reunissem para pensar em um jogo?",
-    "5,8": "Você sabia que o Seth Jorjão dos Santos tinha apenas homens? Até que um dia, uma garota perguntou: 'desde quando isso é uma dinastia em que só se pode homens?'",
-    "6,9": "Apartir de então, existem mais sobreviventes à fome do que o esperado",
-    "11,9": "'Você pode até chutá-la com uma intenção mas ela nunca vai nessa mesma direção' - by Filósofo Yvel",
-    "11,8": "'Deve ser dificil lidar com muitos inimigos, já pensou se a cada passo que você desse, aparecesse um morto de fome?' - by GameDeveloper",
-    "8,6": "Tudo começou quando o trono foi trocado, a Rainha dos Marianos abdicou do trono",
-    "9,6": "Naquele momento, o Conselho dos Brodi ainda não era formado e por causa disso, Vandinha subiu ao poder",
-    "10,6": "Os mortos de fome às vezes murmuram lembranças de seus tempos enquanto vivos",
+  "11,3": "11 livros enfileirados",
+  "12,3": "Cardápio do dia seguinte: Lupita",
+  "13,3":
+    "10/03: um homem chamado Samurion acendeu a luz para nós, meros mortais, apartir de hoje, nós o cultuamos.",
+  "14,3":
+    "11/03: nosso lorde Samurion nos espancou e chamou de lixo, quanta benevolência, gastar seu precioso tempo conosco, meros famintos.",
+  "3,6":
+    "Reza a lenda que um dia irá aparecer um herói e purificar todos os monstros que aqui, um dia foram pessoas...",
+  "4,6":
+    "Já pensou se todos os personagens principais até mesmo aqueles que não se falam, se reunissem para pensar em um jogo?",
+  "5,8":
+    "Você sabia que o Seth Jorjão dos Santos tinha apenas homens? Até que um dia, uma garota perguntou: 'desde quando isso é uma dinastia em que só se pode homens?'",
+  "6,9":
+    "Apartir de então, existem mais sobreviventes à fome do que o esperado",
+  "11,9":
+    "'Você pode até chutá-la com uma intenção mas ela nunca vai nessa mesma direção' - by Filósofo Yvel",
+  "11,8":
+    "'Deve ser dificil lidar com muitos inimigos, já pensou se a cada passo que você desse, aparecesse um morto de fome?' - by GameDeveloper",
+  "8,6":
+    "Tudo começou quando o trono foi trocado, a Rainha dos Marianos abdicou do trono",
+  "9,6":
+    "Naquele momento, o Conselho dos Brodi ainda não era formado e por causa disso, Vandinha subiu ao poder",
+  "10,6":
+    "Os mortos de fome às vezes murmuram lembranças de seus tempos enquanto vivos",
 };

@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from "react";
 import type { Character } from "@/utils/types/player/player";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 
@@ -20,7 +26,10 @@ export type CharactersProgress = Record<Character, CharacterProgress>;
 type ContextType = {
   progress: CharactersProgress;
   addXP: (character: Character, amount: number) => void;
-  addStat: (character: Character, stat: keyof Omit<CharacterStats, "points">) => void;
+  addStat: (
+    character: Character,
+    stat: keyof Omit<CharacterStats, "points">,
+  ) => void;
   getXPToNextLevel: (level: number) => number;
 };
 
@@ -28,18 +37,66 @@ const CharacterProgressContext = createContext({} as ContextType);
 const STORAGE_KEY = "characters_progress";
 
 const defaultProgress: CharactersProgress = {
-  marcelo: { level: 1, xp: 0, stats: { hp: 1, strength: 1, intelligence: 1, points: 0 } },
-  eduarda: { level: 1, xp: 0, stats: { hp: 1, strength: 1, intelligence: 1, points: 0 } },
-  lucas: { level: 1, xp: 0, stats: { hp: 1, strength: 1, intelligence: 1, points: 0 } },
-  samuel: { level: 1, xp: 0, stats: { hp: 1, strength: 1, intelligence: 1, points: 0 } },
-  artur: { level: 1, xp: 0, stats: { hp: 1, strength: 1, intelligence: 1, points: 0 } },
-  mayra: { level: 1, xp: 0, stats: { hp: 1, strength: 1, intelligence: 1, points: 0 } },
-  lucaua: { level: 1, xp: 0, stats: { hp: 1, strength: 1, intelligence: 1, points: 0 } },
-  riquelme: { level: 1, xp: 0, stats: { hp: 1, strength: 1, intelligence: 1, points: 0 } },
-  hiago: { level: 1, xp: 0, stats: { hp: 1, strength: 1, intelligence: 1, points: 0 } },
-  larissa: { level: 1, xp: 0, stats: { hp: 1, strength: 1, intelligence: 1, points: 0 } },
-  camilly: { level: 1, xp: 0, stats: { hp: 1, strength: 1, intelligence: 1, points: 0 } },
-  emanuel: { level: 1, xp: 0, stats: { hp: 1, strength: 1, intelligence: 1, points: 0 } },
+  marcelo: {
+    level: 1,
+    xp: 0,
+    stats: { hp: 1, strength: 1, intelligence: 1, points: 0 },
+  },
+  eduarda: {
+    level: 1,
+    xp: 0,
+    stats: { hp: 1, strength: 1, intelligence: 1, points: 0 },
+  },
+  lucas: {
+    level: 1,
+    xp: 0,
+    stats: { hp: 1, strength: 1, intelligence: 1, points: 0 },
+  },
+  samuel: {
+    level: 1,
+    xp: 0,
+    stats: { hp: 1, strength: 1, intelligence: 1, points: 0 },
+  },
+  artur: {
+    level: 1,
+    xp: 0,
+    stats: { hp: 1, strength: 1, intelligence: 1, points: 0 },
+  },
+  mayra: {
+    level: 1,
+    xp: 0,
+    stats: { hp: 1, strength: 1, intelligence: 1, points: 0 },
+  },
+  lucaua: {
+    level: 1,
+    xp: 0,
+    stats: { hp: 1, strength: 1, intelligence: 1, points: 0 },
+  },
+  riquelme: {
+    level: 1,
+    xp: 0,
+    stats: { hp: 1, strength: 1, intelligence: 1, points: 0 },
+  },
+  hiago: {
+    level: 1,
+    xp: 0,
+    stats: { hp: 1, strength: 1, intelligence: 1, points: 0 },
+  },
+  larissa: {
+    level: 1,
+    xp: 0,
+    stats: { hp: 1, strength: 1, intelligence: 1, points: 0 },
+  },
+  camilly: {
+    level: 1,
+    xp: 0,
+    stats: { hp: 1, strength: 1, intelligence: 1, points: 0 },
+  },
+  emanuel: {
+    level: 1,
+    xp: 0,
+    stats: { hp: 1, strength: 1, intelligence: 1, points: 0 },
+  },
 };
 
 function getXPToNextLevel(level: number) {
@@ -69,8 +126,11 @@ function normalizeProgress(data: unknown): CharactersProgress {
   return safe;
 }
 
-
-export function CharacterProgressProvider({ children }: { children: ReactNode }) {
+export function CharacterProgressProvider({
+  children,
+}: {
+  children: ReactNode;
+}) {
   const [progress, setProgress] = useState<CharactersProgress>(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
 
@@ -89,7 +149,6 @@ export function CharacterProgressProvider({ children }: { children: ReactNode })
     localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
   }, [progress]);
   const { playSound } = useSoundEffects();
-  
 
   // ⭐ XP + LEVEL + POINTS
   function addXP(character: Character, amount: number) {
@@ -125,7 +184,10 @@ export function CharacterProgressProvider({ children }: { children: ReactNode })
   }
 
   // ➕ DISTRIBUIR PONTOS
-  function addStat(character: Character, stat: "hp" | "strength" | "intelligence") {
+  function addStat(
+    character: Character,
+    stat: "hp" | "strength" | "intelligence",
+  ) {
     setProgress((prev) => {
       const char = prev[character];
 

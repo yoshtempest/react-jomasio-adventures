@@ -1,5 +1,5 @@
 import { BattleScene } from "@/components/Game/Scenes/Battle";
-import KickBack from "/assets/songs/KickBack.mp3"
+import KickBack from "/assets/songs/KickBack.mp3";
 import { useFlags } from "@/contexts/FlagContext";
 
 export default function PlanetarySistersBattle() {

@@ -9,9 +9,7 @@ type RangedChaseBehaviorOptions = {
   projectileCooldown: number;
   idleDuration: number;
 
-  createProjectile: (
-    ctx: BehaviorContext
-  ) => Projectile;
+  createProjectile: (ctx: BehaviorContext) => Projectile;
 
   melee?: {
     range: number;
@@ -21,7 +19,7 @@ type RangedChaseBehaviorOptions = {
 
 export function rangedChaseBehavior(
   ctx: BehaviorContext,
-  options: RangedChaseBehaviorOptions
+  options: RangedChaseBehaviorOptions,
 ) {
   const {
     npc,
@@ -34,12 +32,7 @@ export function rangedChaseBehavior(
     onMeleeHit,
   } = ctx;
 
-  const {
-    projectileCooldown,
-    idleDuration,
-    createProjectile,
-    melee,
-  } = options;
+  const { projectileCooldown, idleDuration, createProjectile, melee } = options;
 
   // melee opcional
   if (melee) {
@@ -83,11 +76,7 @@ export function rangedChaseBehavior(
     };
   }
 
-  const { x } = chasePlayer(
-    npc,
-    playerX,
-    playerY
-  );
+  const { x } = chasePlayer(npc, playerX, playerY);
 
   return {
     x,

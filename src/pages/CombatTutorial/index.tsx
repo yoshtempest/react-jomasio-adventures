@@ -12,9 +12,23 @@ type Task = "moveLeft" | "moveRight" | "jump" | "attack" | "block" | "done";
 
 export default function CombatTutorial() {
   const navigate = useNavigate();
-  const { player, setMode, setBattleCollision, attack: rawAttack } = usePlayer();
+  const {
+    player,
+    setMode,
+    setBattleCollision,
+    attack: rawAttack,
+  } = usePlayer();
   const { pushControls, popControls } = useGameControls();
-  const { TILE_SIZE, PLAYER_SIZE, offsetX, offsetY, MAP_COLS, MAP_ROWS, scaleX, scaleY } = useGameLayout();
+  const {
+    TILE_SIZE,
+    PLAYER_SIZE,
+    offsetX,
+    offsetY,
+    MAP_COLS,
+    MAP_ROWS,
+    scaleX,
+    scaleY,
+  } = useGameLayout();
 
   const setModeRef = useRef(setMode);
   setModeRef.current = setMode;
@@ -45,13 +59,21 @@ export default function CombatTutorial() {
 
   useEffect(() => {
     setBattleCollisionRef.current({ map: null, TILE_SIZE, scaleX, scaleY });
-    return () => setBattleCollisionRef.current({ map: null, TILE_SIZE: 0, scaleX: 1, scaleY: 1 });
+    return () =>
+      setBattleCollisionRef.current({
+        map: null,
+        TILE_SIZE: 0,
+        scaleX: 1,
+        scaleY: 1,
+      });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     pushControlsRef.current({
-      onConfirm: () => { attackRef.current(); },
+      onConfirm: () => {
+        attackRef.current();
+      },
       blockGlobalOpen: true,
     });
     return () => popControlsRef.current();
@@ -77,7 +99,8 @@ export default function CombatTutorial() {
 
   useEffect(() => {
     if (currentTask !== "attack") return;
-    if (player.state === "preAttack" || player.state === "attack") setCurrentTask("block");
+    if (player.state === "preAttack" || player.state === "attack")
+      setCurrentTask("block");
   }, [player.state, currentTask]);
 
   useEffect(() => {
@@ -95,10 +118,19 @@ export default function CombatTutorial() {
   }, [currentTask]);
 
   const taskInstructions: Record<Task, { text: string; sub: string }> = {
-    moveLeft: { text: "Pressione A ou ← para se mover", sub: "Ande para a esquerda" },
-    moveRight: { text: "Pressione D ou → para se mover", sub: "Ande para a direita" },
+    moveLeft: {
+      text: "Pressione A ou ← para se mover",
+      sub: "Ande para a esquerda",
+    },
+    moveRight: {
+      text: "Pressione D ou → para se mover",
+      sub: "Ande para a direita",
+    },
     jump: { text: "Pressione W ou ↑ para pular", sub: "Pule" },
-    attack: { text: "Pressione L para atacar", sub: "Ataque o boneco de treino" },
+    attack: {
+      text: "Pressione L para atacar",
+      sub: "Ataque o boneco de treino",
+    },
     block: { text: "Pressione S ou ↓ para bloquear", sub: "Bloqueie" },
     done: { text: "Parabéns!", sub: "Você está pronto para sua jornada!" },
   };
@@ -140,8 +172,24 @@ export default function CombatTutorial() {
         </div>
 
         <div className={styles.steps}>
-          {(["moveLeft", "moveRight", "jump", "attack", "block", "done"] as const).map((t) => {
-            const order: Record<Task, number> = { moveLeft: 1, moveRight: 2, jump: 3, attack: 4, block: 5, done: 6 };
+          {(
+            [
+              "moveLeft",
+              "moveRight",
+              "jump",
+              "attack",
+              "block",
+              "done",
+            ] as const
+          ).map((t) => {
+            const order: Record<Task, number> = {
+              moveLeft: 1,
+              moveRight: 2,
+              jump: 3,
+              attack: 4,
+              block: 5,
+              done: 6,
+            };
             const taskOrder = order[t];
             const currentOrder = order[currentTask];
             const isCompleted = taskOrder < currentOrder;

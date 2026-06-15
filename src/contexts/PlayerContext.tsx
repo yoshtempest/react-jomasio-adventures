@@ -1,5 +1,17 @@
-import { createContext, useContext, useState, useEffect, useRef, useCallback, type ReactNode } from "react";
-import type { Player, PlayerMode, PlayerClass } from "@/utils/types/player/player";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  type ReactNode,
+} from "react";
+import type {
+  Player,
+  PlayerMode,
+  PlayerClass,
+} from "@/utils/types/player/player";
 import { usePlayerMovement } from "@/hooks/player/usePlayerMovement";
 import { useBattleMovement } from "@/hooks/player/useBattleMovement";
 import type { CollisionParams } from "@/hooks/player/useBattleMovement";
@@ -90,8 +102,10 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const { toggleNavbar } = useNavbar();
 
   // 🔥 hooks separados
-  const { moveUp, moveDown, moveLeft, moveRight } =
-    usePlayerMovement(currentMap, setPlayer);
+  const { moveUp, moveDown, moveLeft, moveRight } = usePlayerMovement(
+    currentMap,
+    setPlayer,
+  );
 
   const [playerClass, setPlayerClass] = useState<PlayerClass>(() => {
     const saved = localStorage.getItem("player_class");
@@ -118,7 +132,10 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   }, [playerClass]);
 
   const battleCollisionRef = useRef<CollisionParams>({
-    map: null, TILE_SIZE: 0, scaleX: 1, scaleY: 1,
+    map: null,
+    TILE_SIZE: 0,
+    scaleX: 1,
+    scaleY: 1,
   });
 
   const {
@@ -182,7 +199,11 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     }));
   }
 
-  const setPosition = (x: number, y: number, direction: Player["direction"] = "down") => {
+  const setPosition = (
+    x: number,
+    y: number,
+    direction: Player["direction"] = "down",
+  ) => {
     setPlayer((prev) => ({
       ...prev,
       gridX: x,

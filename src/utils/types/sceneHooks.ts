@@ -1,4 +1,8 @@
-export type InteractionHandler = (tile: number, x: number, y: number) => boolean;
+export type InteractionHandler = (
+  tile: number,
+  x: number,
+  y: number,
+) => boolean;
 import type { PlayerMode } from "@/utils/types/player/player";
 
 export type SetPlayerMode = (mode: PlayerMode) => void;

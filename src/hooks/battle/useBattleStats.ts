@@ -3,7 +3,11 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useTitles } from "@/contexts/TitleContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
-import { getEquipmentStatsBonus, getWeaponCritRate, getTotalArmor } from "@/gameRules/battle/equipment";
+import {
+  getEquipmentStatsBonus,
+  getWeaponCritRate,
+  getTotalArmor,
+} from "@/gameRules/battle/equipment";
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import { getMaxSpecial } from "@/gameRules/battle/special";
 import type { NpcDifficulty } from "@/utils/types/npc/npcProgress";
@@ -15,7 +19,12 @@ type Props = {
   npcPhase: number;
 };
 
-export function useBattleStats({ npcLevel, npcClass, difficulty, npcPhase }: Props) {
+export function useBattleStats({
+  npcLevel,
+  npcClass,
+  difficulty,
+  npcPhase,
+}: Props) {
   const { player, playerClass } = usePlayer();
   const { progress } = useCharacterProgress();
   const { getBonus } = useTitles();
@@ -47,8 +56,14 @@ export function useBattleStats({ npcLevel, npcClass, difficulty, npcPhase }: Pro
       ...baseChar,
       stats: {
         hp: baseChar.stats.hp + equipmentBonus.hp + titleBonus.hp,
-        strength: baseChar.stats.strength + equipmentBonus.strength + titleBonus.strength,
-        intelligence: baseChar.stats.intelligence + equipmentBonus.intelligence + titleBonus.intelligence,
+        strength:
+          baseChar.stats.strength +
+          equipmentBonus.strength +
+          titleBonus.strength,
+        intelligence:
+          baseChar.stats.intelligence +
+          equipmentBonus.intelligence +
+          titleBonus.intelligence,
         points: baseChar.stats.points,
       },
     };

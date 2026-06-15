@@ -5,7 +5,6 @@ import styles from "./styles.module.css";
 import { usePlayer } from "@/contexts/PlayerContext";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 
-
 type BattleHUDState = {
   playerHP: number;
   playerMaxHp: number;
@@ -26,12 +25,7 @@ type Props = {
   summons?: SummonedNpc[];
 };
 
-export function BattleHUD({
-  battle,
-  npcStats,
-  npcType,
-  summons,
-}: Props) {
+export function BattleHUD({ battle, npcStats, npcType, summons }: Props) {
   const { player } = usePlayer();
   const playerName = localStorage.getItem("playerName") || "Protagonista";
   return (
@@ -70,19 +64,27 @@ export function BattleHUD({
         </div>
       )}
 
-      {summons && summons.length > 0 && summons.filter(s => s.hp > 0).map((s, i) => (
-        <div key={s.id} className={styles.container} style={{ right: 10, top: 10 + (i + 1) * 100 }}>
-          <div style={{ position: "absolute", top: 0, right: 80 }}>
-            <h2 className={styles.name}>{s.npcType}</h2>
-            <HealthBar hp={s.hp} maxHp={s.maxHp} reversed />
-          </div>
-          <img
-            src={asset(`/assets/npcs/${s.npcType}/face.svg`)}
-            alt={`${s.npcType} HUD`}
-            className={styles.image}
-          />
-        </div>
-      ))}
+      {summons &&
+        summons.length > 0 &&
+        summons
+          .filter((s) => s.hp > 0)
+          .map((s, i) => (
+            <div
+              key={s.id}
+              className={styles.container}
+              style={{ right: 10, top: 10 + (i + 1) * 100 }}
+            >
+              <div style={{ position: "absolute", top: 0, right: 80 }}>
+                <h2 className={styles.name}>{s.npcType}</h2>
+                <HealthBar hp={s.hp} maxHp={s.maxHp} reversed />
+              </div>
+              <img
+                src={asset(`/assets/npcs/${s.npcType}/face.svg`)}
+                alt={`${s.npcType} HUD`}
+                className={styles.image}
+              />
+            </div>
+          ))}
     </>
   );
 }

@@ -38,13 +38,11 @@ type DialogueContext = {
 export type ExploreSceneProps = {
   name?: string;
   map: number[][];
-  dialogueData?:
-    | Dialogue[]
-    | ((context: DialogueContext) => Dialogue[]);
+  dialogueData?: Dialogue[] | ((context: DialogueContext) => Dialogue[]);
   nextRoute?: string;
   initialPosition?:
-  | ExplorePosition
-  | ((lastPage?: LastPage) => ExplorePosition);
+    | ExplorePosition
+    | ((lastPage?: LastPage) => ExplorePosition);
   npcs?: NPCData[];
   audio?: AudioConfig;
   transitions?: Transition[];

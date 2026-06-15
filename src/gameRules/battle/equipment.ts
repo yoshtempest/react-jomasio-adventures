@@ -1,5 +1,13 @@
-import type { EquippedItems, EquipmentRank, EquipmentStats } from "@/utils/types/player/equipment";
-import { createEmptyEquipped, EQUIPMENT_SLOTS, ARMOR_SLOTS } from "@/utils/types/player/equipment";
+import type {
+  EquippedItems,
+  EquipmentRank,
+  EquipmentStats,
+} from "@/utils/types/player/equipment";
+import {
+  createEmptyEquipped,
+  EQUIPMENT_SLOTS,
+  ARMOR_SLOTS,
+} from "@/utils/types/player/equipment";
 import { getEquipmentById } from "@/data/equipment";
 
 const WEAPON_CRIT_RATE: Record<EquipmentRank, number> = {
@@ -38,7 +46,12 @@ function loadEquipped(character: CharacterId): EquippedItems {
 }
 
 function getEnhanceBonus(itemId: string, enhance: number): EquipmentStats {
-  const bonus: EquipmentStats = { hp: 0, strength: 0, intelligence: 0, armor: 0 };
+  const bonus: EquipmentStats = {
+    hp: 0,
+    strength: 0,
+    intelligence: 0,
+    armor: 0,
+  };
   if (enhance <= 0) return bonus;
 
   const item = getEquipmentById(itemId);
@@ -58,7 +71,7 @@ function getEnhanceBonus(itemId: string, enhance: number): EquipmentStats {
   }
 
   for (let i = 0; i < enhance; i++) {
-    seed = ((seed * 1103515245 + 12345) & 0x7fffffff);
+    seed = (seed * 1103515245 + 12345) & 0x7fffffff;
     const idx = seed % avail.length;
     bonus[avail[idx]] += 1;
   }
@@ -66,7 +79,10 @@ function getEnhanceBonus(itemId: string, enhance: number): EquipmentStats {
   return bonus;
 }
 
-export function getEffectiveStats(itemId: string, enhance: number): EquipmentStats {
+export function getEffectiveStats(
+  itemId: string,
+  enhance: number,
+): EquipmentStats {
   const item = getEquipmentById(itemId);
   if (!item) return { hp: 0, strength: 0, intelligence: 0, armor: 0 };
   const enhanceBonus = getEnhanceBonus(itemId, enhance);
@@ -101,7 +117,11 @@ export function getTotalArmor(character: CharacterId): number {
   return total;
 }
 
-export function getEquipmentStatsBonus(character: CharacterId): { hp: number; strength: number; intelligence: number } {
+export function getEquipmentStatsBonus(character: CharacterId): {
+  hp: number;
+  strength: number;
+  intelligence: number;
+} {
   const equipped = loadEquipped(character);
   const bonus = { hp: 0, strength: 0, intelligence: 0 };
 

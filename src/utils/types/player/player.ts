@@ -23,33 +23,36 @@ export const CHARACTERS = [
   "larissa",
   "camilly",
   "emanuel",
-  "hiago"
+  "hiago",
 ] as const;
-export type Character = typeof CHARACTERS[number];
+export type Character = (typeof CHARACTERS)[number];
 
 export function isCharacter(value: unknown): value is Character {
-  return typeof value === "string" && (CHARACTERS as readonly string[]).includes(value);
+  return (
+    typeof value === "string" &&
+    (CHARACTERS as readonly string[]).includes(value)
+  );
 }
 export type PlayerClass = "fracote" | "idiota" | "amostradinho" | null;
 
 export type Player = {
-    // exploration
-    gridX: number;
-    gridY: number;
-    direction: Direction;
-    character: Character;
+  // exploration
+  gridX: number;
+  gridY: number;
+  direction: Direction;
+  character: Character;
 
-    // battle
-    x: number;
-    y: number;
-    velY: number;
-    groundY: number;
-    battleDirection: Direction;
-    state: PlayerState;
+  // battle
+  x: number;
+  y: number;
+  velY: number;
+  groundY: number;
+  battleDirection: Direction;
+  state: PlayerState;
 
-    // geral
-    mode: PlayerMode;
+  // geral
+  mode: PlayerMode;
 
-    // pet
-    hasPeru?: boolean;
+  // pet
+  hasPeru?: boolean;
 };

@@ -10,7 +10,7 @@ import { getTileInFront } from "@/utils/getTileInFront";
 import { useInventory } from "@/contexts/InventoryContext";
 import { createCafeteria } from "@/interactions/cafeteira";
 import { useQuestActions } from "@/hooks/useQuestActions";
-import toothlessDancing from "/assets/songs/ToothlessDancing.m4a"
+import toothlessDancing from "/assets/songs/ToothlessDancing.m4a";
 import { brodiClass } from "@/maps/brodiClass";
 
 export default function BrodiClassOne() {
@@ -48,28 +48,24 @@ export default function BrodiClassOne() {
   }, [pushControls, popControls]);
 
   // 🧠 Interações por posição
-  const interactionsByPosition = useMemo(() =>
-    createCafeteria({
-      hasItem,
-      addItem,
-      removeItem,
-      setPopup: (msg) => setPopup(msg),
-      gotKey,
-      setGotKey,
-      progressQuest,
-    }),
-  [
-    hasItem,
-    addItem,
-    removeItem,
-    gotKey,
-    progressQuest,
-  ]);
+  const interactionsByPosition = useMemo(
+    () =>
+      createCafeteria({
+        hasItem,
+        addItem,
+        removeItem,
+        setPopup: (msg) => setPopup(msg),
+        gotKey,
+        setGotKey,
+        progressQuest,
+      }),
+    [hasItem, addItem, removeItem, gotKey, progressQuest],
+  );
   return (
     <div className="Master brodiClass">
       <ExploreScene
         map={brodiClass}
-        dialogueData={cafeteriaDialogue} 
+        dialogueData={cafeteriaDialogue}
         nextRoute={"/cafeteria/battle"}
         initialPosition={{ x: 4, y: 4, direction: "down" }}
         audio={{
@@ -141,12 +137,7 @@ export default function BrodiClassOne() {
           },
         ]}
       />
-      {popup && (
-        <Talking
-          name="Sistema"
-          message={popup}
-        />
-      )}
+      {popup && <Talking name="Sistema" message={popup} />}
     </div>
   );
 }

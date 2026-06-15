@@ -1,6 +1,6 @@
 import type { SceneEvent } from "@/utils/types/maps/sceneEvents";
 
 export const hallCenterTwoEvents: SceneEvent[] = [
-    { type: "navigate", to: "/hall/center/battle" },
-    { type: "giveQuest", questId: "x1_planetary_sisters" },
-]
+  { type: "navigate", to: "/hall/center/battle" },
+  { type: "giveQuest", questId: "x1_planetary_sisters" },
+];

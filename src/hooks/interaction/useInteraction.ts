@@ -31,11 +31,11 @@ export function useInteraction({
       onConfirm: () => {
         const { x, y, tile } = getTileInFront(
           playerRef.current,
-          mapRef.current
+          mapRef.current,
         );
 
         return onInteractRef.current(tile, x, y);
-      }
+      },
     });
 
     return () => popControls();

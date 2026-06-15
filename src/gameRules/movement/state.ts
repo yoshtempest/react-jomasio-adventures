@@ -1,9 +1,6 @@
 import type { Player } from "@/utils/types/player/player";
 
-export function isMovementLocked(
-  mode: Player["mode"],
-  isNavOpen: boolean
-) {
+export function isMovementLocked(mode: Player["mode"], isNavOpen: boolean) {
   return mode === "select" || isNavOpen;
 }
 

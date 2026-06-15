@@ -1,4 +1,10 @@
-import { createContext, useContext, useState, useEffect, useCallback } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 import type { Quest, QuestTemplate } from "@/utils/types/player/quest";
 import { type ReactNode } from "react";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
@@ -41,23 +47,28 @@ function getWeekStart(): string {
   return `${monday.getFullYear()}-${String(monday.getMonth() + 1).padStart(2, "0")}-${String(monday.getDate()).padStart(2, "0")}`;
 }
 
-function generateQuestsFromPool(pool: QuestTemplate[], prefix: string): Quest[] {
-  return shufflePool(pool, prefix === "daily" ? DAILY_COUNT : WEEKLY_COUNT).map((template, index) => ({
-    id: `${prefix}_${index}`,
-    name: template.name,
-    image: template.image,
-    description: template.description,
-    type: template.type,
-    counter: template.counter,
-    progress: 0,
-    completed: false,
-    claimed: false,
-    rewardsType: template.rewardsType,
-    rewards: template.rewards,
-    frequency: template.frequency,
-    rewardItemId: template.rewardItemId,
-    progressType: template.progressType,
-  }));
+function generateQuestsFromPool(
+  pool: QuestTemplate[],
+  prefix: string,
+): Quest[] {
+  return shufflePool(pool, prefix === "daily" ? DAILY_COUNT : WEEKLY_COUNT).map(
+    (template, index) => ({
+      id: `${prefix}_${index}`,
+      name: template.name,
+      image: template.image,
+      description: template.description,
+      type: template.type,
+      counter: template.counter,
+      progress: 0,
+      completed: false,
+      claimed: false,
+      rewardsType: template.rewardsType,
+      rewards: template.rewards,
+      frequency: template.frequency,
+      rewardItemId: template.rewardItemId,
+      progressType: template.progressType,
+    }),
+  );
 }
 
 export function QuestProvider({ children }: Props) {
@@ -77,7 +88,7 @@ export function QuestProvider({ children }: Props) {
 
     setQuests((prev) => {
       const filtered = prev.filter(
-        (q) => q.frequency !== "daily" && q.frequency !== "weekly"
+        (q) => q.frequency !== "daily" && q.frequency !== "weekly",
       );
 
       if (needsDailyReset) {
@@ -88,7 +99,10 @@ export function QuestProvider({ children }: Props) {
 
       if (needsWeeklyReset) {
         localStorage.setItem("weeklyQuestDate", weekStart);
-        const weeklyQuests = generateQuestsFromPool(WEEKLY_QUEST_POOL, "weekly");
+        const weeklyQuests = generateQuestsFromPool(
+          WEEKLY_QUEST_POOL,
+          "weekly",
+        );
         filtered.push(...weeklyQuests);
       }
 
@@ -102,15 +116,15 @@ export function QuestProvider({ children }: Props) {
 
   function addQuest(newQuest: Quest) {
     setQuests((prev) => {
-      const exists = prev.find(q => q.id === newQuest.id);
+      const exists = prev.find((q) => q.id === newQuest.id);
       if (exists) return prev;
 
       return [
         ...prev,
         {
           ...newQuest,
-          claimed: false
-        }
+          claimed: false,
+        },
       ];
     });
     playSound("questUpdated");
@@ -118,7 +132,7 @@ export function QuestProvider({ children }: Props) {
 
   function updateProgress(id: string, value: number) {
     setQuests((prev) =>
-      prev.map(q => {
+      prev.map((q) => {
         if (q.id !== id) return q;
 
         const newProgress = Math.min(q.progress + value, q.counter);
@@ -126,18 +140,16 @@ export function QuestProvider({ children }: Props) {
         return {
           ...q,
           progress: newProgress,
-          completed: newProgress >= q.counter
+          completed: newProgress >= q.counter,
         };
-      })
+      }),
     );
     playSound("questUpdated");
   }
 
   function claimQuest(id: string) {
     setQuests((prev) =>
-      prev.map((q) =>
-        q.id === id ? { ...q, claimed: true } : q
-      )
+      prev.map((q) => (q.id === id ? { ...q, claimed: true } : q)),
     );
   }
 
@@ -152,15 +164,24 @@ export function QuestProvider({ children }: Props) {
         return {
           ...q,
           progress: newProgress,
-          completed: newProgress >= q.counter
+          completed: newProgress >= q.counter,
         };
-      })
+      }),
     );
     playSound("questUpdated");
   }
 
   return (
-    <QuestContext.Provider value={{ quests, setQuests, addQuest, updateProgress, claimQuest, progressDailyWeekly }}>
+    <QuestContext.Provider
+      value={{
+        quests,
+        setQuests,
+        addQuest,
+        updateProgress,
+        claimQuest,
+        progressDailyWeekly,
+      }}
+    >
       {children}
     </QuestContext.Provider>
   );

@@ -14,7 +14,17 @@ export type EquipmentMenuItem =
 
 export const EQUIPPED_COUNT = 8;
 export const FILTER_TAB_COUNT = 9;
-export const FILTER_TABS = ["all", "weapon", "helmet", "chestplate", "pants", "boots", "accessory", "bag", "pet"] as const;
+export const FILTER_TABS = [
+  "all",
+  "weapon",
+  "helmet",
+  "chestplate",
+  "pants",
+  "boots",
+  "accessory",
+  "bag",
+  "pet",
+] as const;
 
 export type EquipmentFilter = (typeof FILTER_TABS)[number];
 

@@ -1,6 +1,16 @@
 import { asset } from "@/utils/asset";
 
-type PlayerState = "idle" | "walk" | "attack" | "jump" | "blocked" | "special" | "preAttack" | "preWalk" | "preJump" | "preSpecial";
+type PlayerState =
+  | "idle"
+  | "walk"
+  | "attack"
+  | "jump"
+  | "blocked"
+  | "special"
+  | "preAttack"
+  | "preWalk"
+  | "preJump"
+  | "preSpecial";
 
 type Props = {
   x: number;
@@ -19,9 +29,7 @@ export function PlayerBattle({
   direction,
   character,
 }: Props) {
-  const src = asset(
-    `assets/player/${character}/inFight/${state}.svg`
-  );
+  const src = asset(`assets/player/${character}/inFight/${state}.svg`);
 
   const BASE_WIDTH = 1280;
   const BASE_HEIGHT = 600;
@@ -33,7 +41,6 @@ export function PlayerBattle({
 
   const WIDTH = BASE_WIDTH * SCALE;
   const HEIGHT = BASE_HEIGHT * SCALE;
-
 
   return (
     <div

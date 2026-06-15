@@ -3,9 +3,8 @@ import { moveExplore } from "@/gameRules/movement/explore";
 
 export function usePlayerMovement(
   currentMap: number[][],
-  setPlayer: React.Dispatch<React.SetStateAction<Player>>
+  setPlayer: React.Dispatch<React.SetStateAction<Player>>,
 ) {
-
   function moveUp() {
     setPlayer((p) => moveExplore(p, currentMap, "up"));
   }

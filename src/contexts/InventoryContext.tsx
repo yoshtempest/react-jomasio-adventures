@@ -29,7 +29,7 @@ const InventoryContext = createContext<InventoryContextType | null>(null);
 export function InventoryProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<InventoryItem[]>([]);
   const { playSound } = useSoundEffects();
-  
+
   const [isOpen, setIsOpen] = useState(false);
 
   const [maxSlots, setMaxSlots] = useState(20);
@@ -43,9 +43,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
       if (existing) {
         playSound("receivedItem");
         return prev.map((i) =>
-          i.id === item.id
-            ? { ...i, qty: (i.qty ?? 1) + (item.qty ?? 1) }
-            : i
+          i.id === item.id ? { ...i, qty: (i.qty ?? 1) + (item.qty ?? 1) } : i,
         );
       }
 
@@ -66,11 +64,13 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
     if (!found) return;
 
     setItems((prev) => {
-      const next = prev.map((i) => {
-        if (i.id !== id) return i;
-        const nextQty = (i.qty ?? 1) - 1;
-        return nextQty <= 0 ? null : { ...i, qty: nextQty };
-      }).filter(Boolean) as InventoryItem[];
+      const next = prev
+        .map((i) => {
+          if (i.id !== id) return i;
+          const nextQty = (i.qty ?? 1) - 1;
+          return nextQty <= 0 ? null : { ...i, qty: nextQty };
+        })
+        .filter(Boolean) as InventoryItem[];
 
       return next;
     });
@@ -118,6 +118,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
 // eslint-disable-next-line react-refresh/only-export-components
 export function useInventory() {
   const context = useContext(InventoryContext);
-  if (!context) throw new Error("useInventory deve ser usado dentro do Provider");
+  if (!context)
+    throw new Error("useInventory deve ser usado dentro do Provider");
   return context;
 }

@@ -16,7 +16,9 @@ type Props = {
   npcLevel: number;
   difficulty: NpcDifficulty;
   damagePlayer: (damage: number) => void;
-  spawnDamageRef: React.RefObject<((value: number, x: number, y: number, type: DamageType) => void)>;
+  spawnDamageRef: React.RefObject<
+    (value: number, x: number, y: number, type: DamageType) => void
+  >;
   hitstopRef: React.RefObject<number>;
 };
 
@@ -33,8 +35,7 @@ export function useSummonAI({
   spawnDamageRef,
   hitstopRef,
 }: Props) {
-  const summonLastAttacksRef =
-    useRef<Record<string, number>>({});
+  const summonLastAttacksRef = useRef<Record<string, number>>({});
 
   const playerXRef = useRef(playerX);
   playerXRef.current = playerX;
@@ -62,35 +63,28 @@ export function useSummonAI({
 
       const px = playerXRef.current;
 
-      setSummonsRef.current(prev =>
-        prev.map(s => {
+      setSummonsRef.current((prev) =>
+        prev.map((s) => {
           if (s.isDying || s.hp <= 0) {
             return s;
           }
 
-          const speed =
-            Math.abs(s.x - px) > 200
-              ? 3
-              : 1.5;
+          const speed = Math.abs(s.x - px) > 200 ? 3 : 1.5;
 
           const dx = px - s.x;
 
-          const direction: "left" | "right" =
-            dx > 0 ? "right" : "left";
+          const direction: "left" | "right" = dx > 0 ? "right" : "left";
 
           let newX = s.x;
 
           if (Math.abs(dx) > 40) {
-            newX += dx > 0
-              ? speed
-              : -speed;
+            newX += dx > 0 ? speed : -speed;
           }
 
           if (Math.abs(dx) <= 40) {
             const now = Date.now();
 
-            const lastAttack =
-              summonLastAttacksRef.current[s.id] ?? 0;
+            const lastAttack = summonLastAttacksRef.current[s.id] ?? 0;
 
             if (now - lastAttack >= 800) {
               summonLastAttacksRef.current[s.id] = now;
@@ -101,17 +95,21 @@ export function useSummonAI({
                 const stats = getNpcStats(
                   npcLevelRef.current,
                   data.class,
-                  difficultyRef.current
+                  difficultyRef.current,
                 );
 
-                const damage =
-                  calculateNpcDamage(
-                    stats.damage,
-                    playerClassRef.current
-                  );
+                const damage = calculateNpcDamage(
+                  stats.damage,
+                  playerClassRef.current,
+                );
 
                 damagePlayerRef.current(damage);
-                spawnDamageRef.current?.(damage, playerXRef.current, playerYRef.current, "summon");
+                spawnDamageRef.current?.(
+                  damage,
+                  playerXRef.current,
+                  playerYRef.current,
+                  "summon",
+                );
                 hitstopRef.current = Date.now() + 40;
               }
             }
@@ -121,44 +119,29 @@ export function useSummonAI({
             ...s,
             x: newX,
             direction,
-            state:
-              Math.abs(dx) > 80
-                ? "walk"
-                : "idle",
+            state: Math.abs(dx) > 80 ? "walk" : "idle",
           };
-        })
+        }),
       );
     }, 20);
 
     return () => clearInterval(interval);
   }, []);
-  
+
   useEffect(() => {
-    const dying = summons.filter(
-      summon =>
-        summon.hp <= 0 &&
-        !summon.isDying
-    );
+    const dying = summons.filter((summon) => summon.hp <= 0 && !summon.isDying);
 
     if (dying.length === 0) {
       return;
     }
 
-    const timeouts = dying.map(summon => {
-      setSummons(prev =>
-        prev.map(s =>
-          s.id === summon.id
-            ? { ...s, isDying: true }
-            : s
-        )
+    const timeouts = dying.map((summon) => {
+      setSummons((prev) =>
+        prev.map((s) => (s.id === summon.id ? { ...s, isDying: true } : s)),
       );
 
       return window.setTimeout(() => {
-        setSummons(prev =>
-          prev.filter(
-            s => s.id !== summon.id
-          )
-        );
+        setSummons((prev) => prev.filter((s) => s.id !== summon.id));
       }, 500);
     });
 

@@ -1,8 +1,7 @@
 export const AfterPcRoomGenericDialogue = [
-    {
-        src: "/assets/npcs/remedinha/right.svg",
-        name: "Remedinha",
-        message:
-            "Vai lá vai",
-    },
+  {
+    src: "/assets/npcs/remedinha/right.svg",
+    name: "Remedinha",
+    message: "Vai lá vai",
+  },
 ];

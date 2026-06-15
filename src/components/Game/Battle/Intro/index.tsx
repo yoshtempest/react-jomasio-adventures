@@ -9,11 +9,7 @@ type Props = {
   onSkip: () => void;
 };
 
-export function BattleIntro({
-  playerCharacter,
-  npcType,
-  onSkip,
-}: Props) {
+export function BattleIntro({ playerCharacter, npcType, onSkip }: Props) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const { volume: masterVolume } = useAudio();
   const masterVolumeRef = useRef(masterVolume);
@@ -21,7 +17,7 @@ export function BattleIntro({
 
   useEffect(() => {
     const audio = new Audio(
-      asset("/assets/songs/soundEffects/battle/onePiece.mp3")
+      asset("/assets/songs/soundEffects/battle/onePiece.mp3"),
     );
 
     audio.volume = 0.5 * (masterVolumeRef.current / 100);
@@ -57,15 +53,10 @@ export function BattleIntro({
         />
       </div>
 
-      <div className={styles.vs}>
-        VS
-      </div>
+      <div className={styles.vs}>VS</div>
 
       <div className={styles.right}>
-        <img
-          src={asset(`/assets/npcs/${npcType}/right.svg`)}
-          alt=""
-        />
+        <img src={asset(`/assets/npcs/${npcType}/right.svg`)} alt="" />
       </div>
 
       <button className={styles.skip} onClick={handleSkip}>

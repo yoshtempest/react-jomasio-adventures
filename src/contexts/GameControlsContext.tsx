@@ -1,4 +1,11 @@
-import { createContext, useContext, useEffect, useState, useCallback, useMemo } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+} from "react";
 import type { GameControlLayer } from "@/utils/types/player/controls";
 import type { ReactNode } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
@@ -39,59 +46,62 @@ export function GameControlsProvider({ children }: Props) {
   const activeControls = useMemo((): GameControlLayer => {
     const top = stack[stack.length - 1];
 
-    return stack.reduce((acc, layer) => ({
-      // 🎮 movimento pode mesclar
-      onUp: () => {
-        for (let i = stack.length - 1; i >= 0; i--) {
-          const handled = stack[i].onUp?.();
-          if (shouldConsumeInput(handled)) break;
-        }
-      },
+    return stack.reduce(
+      (acc, layer) => ({
+        // 🎮 movimento pode mesclar
+        onUp: () => {
+          for (let i = stack.length - 1; i >= 0; i--) {
+            const handled = stack[i].onUp?.();
+            if (shouldConsumeInput(handled)) break;
+          }
+        },
 
-      onDown: () => {
-        for (let i = stack.length - 1; i >= 0; i--) {
-          const handled = stack[i].onDown?.();
-          if (shouldConsumeInput(handled)) break;
-        }
-      },
+        onDown: () => {
+          for (let i = stack.length - 1; i >= 0; i--) {
+            const handled = stack[i].onDown?.();
+            if (shouldConsumeInput(handled)) break;
+          }
+        },
 
-      onLeft: () => {
-        for (let i = stack.length - 1; i >= 0; i--) {
-          const handled = stack[i].onLeft?.();
-          if (shouldConsumeInput(handled)) break;
-        }
-      },
+        onLeft: () => {
+          for (let i = stack.length - 1; i >= 0; i--) {
+            const handled = stack[i].onLeft?.();
+            if (shouldConsumeInput(handled)) break;
+          }
+        },
 
-      onRight: () => {
-        for (let i = stack.length - 1; i >= 0; i--) {
-          const handled = stack[i].onRight?.();
-          if (shouldConsumeInput(handled)) break;
-        }
-      },
+        onRight: () => {
+          for (let i = stack.length - 1; i >= 0; i--) {
+            const handled = stack[i].onRight?.();
+            if (shouldConsumeInput(handled)) break;
+          }
+        },
 
-      onUpRelease: layer.onUpRelease ?? acc.onUpRelease,
-      onDownRelease: layer.onDownRelease ?? acc.onDownRelease,
-      onLeftRelease: layer.onLeftRelease ?? acc.onLeftRelease,
-      onRightRelease: layer.onRightRelease ?? acc.onRightRelease,
+        onUpRelease: layer.onUpRelease ?? acc.onUpRelease,
+        onDownRelease: layer.onDownRelease ?? acc.onDownRelease,
+        onLeftRelease: layer.onLeftRelease ?? acc.onLeftRelease,
+        onRightRelease: layer.onRightRelease ?? acc.onRightRelease,
 
-      // 🚨 AQUI É A CORREÇÃO
-      onConfirm: () => {
-        for (let i = stack.length - 1; i >= 0; i--) {
-          const handled = stack[i].onConfirm?.();
-          if (shouldConsumeInput(handled)) break;
-        }
-      },
+        // 🚨 AQUI É A CORREÇÃO
+        onConfirm: () => {
+          for (let i = stack.length - 1; i >= 0; i--) {
+            const handled = stack[i].onConfirm?.();
+            if (shouldConsumeInput(handled)) break;
+          }
+        },
 
-      onCancel: () => {
-        for (let i = stack.length - 1; i >= 0; i--) {
-          const handled = stack[i].onCancel?.();
-          if (shouldConsumeInput(handled)) break;
-        }
-      },
-      onOpen: top?.onOpen,
+        onCancel: () => {
+          for (let i = stack.length - 1; i >= 0; i--) {
+            const handled = stack[i].onCancel?.();
+            if (shouldConsumeInput(handled)) break;
+          }
+        },
+        onOpen: top?.onOpen,
 
-      blockGlobalOpen: top?.blockGlobalOpen ?? false,
-    }), {} as GameControlLayer);
+        blockGlobalOpen: top?.blockGlobalOpen ?? false,
+      }),
+      {} as GameControlLayer,
+    );
   }, [stack]);
 
   useEffect(() => {

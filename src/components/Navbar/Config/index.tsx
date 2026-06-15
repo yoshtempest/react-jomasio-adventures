@@ -17,7 +17,8 @@ export function Config() {
   const { difficulty } = usePlayer();
   const { volume } = useAudio();
   const { dialogueSpeed } = useSettings();
-  const { difficultyList, selectedIndex, selectedRow, screen } = useConfigMenu(true);
+  const { difficultyList, selectedIndex, selectedRow, screen } =
+    useConfigMenu(true);
   const { pushControls, popControls } = useGameControls();
 
   const dialogueSystem = useDialogue(configsDialogue);
@@ -55,9 +56,7 @@ export function Config() {
       <h2 className={styles.marginTop}>Dificuldade: {difficulty}</h2>
       <div className={styles.difficultyContainer}>
         {difficultyList.map((diff, index) => {
-          const isSelected =
-            selectedRow === 0 &&
-            index === selectedIndex;
+          const isSelected = selectedRow === 0 && index === selectedIndex;
           return (
             <div
               key={diff}
@@ -73,31 +72,22 @@ export function Config() {
         })}
       </div>
       <div className={styles.volumeContainer}>
-        {selectedRow === 1 && (
-          <span className={styles.cursor}>▼</span>
-        )}
+        {selectedRow === 1 && <span className={styles.cursor}>▼</span>}
 
         <h2>Volume: {volume}</h2>
 
         <div className={styles.volumeBar}>
-          <div
-            className={styles.volumeFill}
-            style={{ width: `${volume}%` }}
-          />
+          <div className={styles.volumeFill} style={{ width: `${volume}%` }} />
         </div>
       </div>
       <div className={styles.speedContainer}>
-        {selectedRow === 2 && (
-          <span className={styles.cursor}>▼</span>
-        )}
+        {selectedRow === 2 && <span className={styles.cursor}>▼</span>}
 
         <h2>Velocidade do Diálogo: {SPEED_LABEL[dialogueSpeed]}</h2>
 
         <div className={styles.speedOptions}>
           {DIALOGUE_SPEED_LIST.map((speed, index) => {
-            const isSelected =
-              selectedRow === 2 &&
-              index === selectedIndex;
+            const isSelected = selectedRow === 2 && index === selectedIndex;
             return (
               <div
                 key={speed}
@@ -116,33 +106,29 @@ export function Config() {
           selectedRow === 3 ? styles.selected : ""
         }`}
       >
-        {selectedRow === 3 && (
-          <span className={styles.cursor}>▼</span>
-        )}
+        {selectedRow === 3 && <span className={styles.cursor}>▼</span>}
 
         <h2>Ver Tutorial</h2>
       </div>
 
       {screen === "tutorial" && (
         <div className={styles.tutorialContainer}>
-          {dialogueSystem.isOpen && (
-            <Talking {...dialogueSystem.dialogue} />
-          )}
+          {dialogueSystem.isOpen && <Talking {...dialogueSystem.dialogue} />}
 
           {!dialogueSystem.isOpen && (
             <>
               <h3>Como funciona a movimentação:</h3>
               <div className={styles.row}>
                 <div className={styles.movement}>
-                  <MoveUp size={16} className={styles.up}/>
+                  <MoveUp size={16} className={styles.up} />
 
-                  <MoveLeft size={16} className={styles.left}/>
+                  <MoveLeft size={16} className={styles.left} />
 
                   <div className={styles.empty}></div>
 
-                  <MoveRight size={16} className={styles.right}/>
+                  <MoveRight size={16} className={styles.right} />
 
-                  <MoveDown size={16} className={styles.down}/>
+                  <MoveDown size={16} className={styles.down} />
                 </div>
 
                 <div className={styles.dpad}>
@@ -154,33 +140,28 @@ export function Config() {
               <h3>Como funcionam os controles:</h3>
               <div className={styles.row}>
                 <div className={styles.gameButtons}>
-                    <button className={styles.button}>
-                      B
-                    </button>
+                  <button className={styles.button}>B</button>
                 </div>
                 <p>
-                  Ao clicar em "B" enquanto está em batalha, 
-                  você consegue usar seu Special 
-                  caso seu deliciomêtro esteja carregado, 
-                  Além disso, também pode ser usado para fechar os menus.
+                  Ao clicar em "B" enquanto está em batalha, você consegue usar
+                  seu Special caso seu deliciomêtro esteja carregado, Além
+                  disso, também pode ser usado para fechar os menus.
                 </p>
               </div>
               <div className={styles.row}>
                 <button className={styles.button}> L </button>
                 <p>
-                  Ao clicar em "L", você consegue interagir com as pessoas e com o mapa, 
-                  caso esteja em batalha, 
-                  você ataca.
+                  Ao clicar em "L", você consegue interagir com as pessoas e com
+                  o mapa, caso esteja em batalha, você ataca.
                 </p>
               </div>
               <div className={styles.row}>
                 <button className={styles.open} />
                 <p>
-                  Ao clicar em "G" pelo teclado ou nesse quadrado retangular, você consegue abrir os menus,
-                  assim como você fez agora, 
-                  caso esteja em batalha,
-                  após cumprir certas condições
-                  você poderá utilizar o modo awakening.
+                  Ao clicar em "G" pelo teclado ou nesse quadrado retangular,
+                  você consegue abrir os menus, assim como você fez agora, caso
+                  esteja em batalha, após cumprir certas condições você poderá
+                  utilizar o modo awakening.
                 </p>
               </div>
             </>

@@ -1,5 +1,16 @@
-import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from "react";
-import type { TitleProgress, TitlesData, TitleBonusMap } from "@/utils/types/player/titles";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+  type ReactNode,
+} from "react";
+import type {
+  TitleProgress,
+  TitlesData,
+  TitleBonusMap,
+} from "@/utils/types/player/titles";
 import { TITLES, getTitleById } from "@/data/titles";
 
 const STORAGE_KEY = "titles_data";
@@ -70,7 +81,12 @@ export function TitleProvider({ children }: { children: ReactNode }) {
   }, [titlesData]);
 
   const getBonus = useCallback((): TitleBonusMap => {
-    const bonus: TitleBonusMap = { damage: 0, hp: 0, strength: 0, intelligence: 0 };
+    const bonus: TitleBonusMap = {
+      damage: 0,
+      hp: 0,
+      strength: 0,
+      intelligence: 0,
+    };
     if (!titlesData.equippedId) return bonus;
 
     const title = getTitleById(titlesData.equippedId);
@@ -116,7 +132,8 @@ export function TitleProvider({ children }: { children: ReactNode }) {
           if (shouldIncrement && prog.level < def.levels.length) {
             const nextCurrent = prog.current + 1;
             const nextLevelTarget = def.levels[prog.level].count;
-            const nextLevel = nextCurrent >= nextLevelTarget ? prog.level + 1 : prog.level;
+            const nextLevel =
+              nextCurrent >= nextLevelTarget ? prog.level + 1 : prog.level;
             nextProgress[titleId] = {
               current: nextCurrent,
               level: nextLevel,
@@ -134,7 +151,7 @@ export function TitleProvider({ children }: { children: ReactNode }) {
         };
       });
     },
-    []
+    [],
   );
 
   const equipTitle = useCallback((id: string) => {

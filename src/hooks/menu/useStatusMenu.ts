@@ -39,16 +39,12 @@ export function useStatusMenu(isOpen: boolean) {
     const controls = {
       onUp: () => {
         playMoveRef.current();
-        setSelectedIndex((prev) =>
-          circularPrev(prev, OPTIONS.length)
-        );
+        setSelectedIndex((prev) => circularPrev(prev, OPTIONS.length));
       },
 
       onDown: () => {
         playMoveRef.current();
-        setSelectedIndex((prev) =>
-          circularNext(prev, OPTIONS.length)
-        );
+        setSelectedIndex((prev) => circularNext(prev, OPTIONS.length));
       },
 
       onConfirm: () => {

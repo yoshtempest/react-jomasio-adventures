@@ -1,5 +1,5 @@
 export type NpcBehavioror = "attack" | "walk" | "idle";
-export type PlayerBehavior = "idle" | "attack" | "blocked" | "jump" | "walk"
+export type PlayerBehavior = "idle" | "attack" | "blocked" | "jump" | "walk";
 
 export interface BaseCharacterProps {
   hp: number;
@@ -11,14 +11,14 @@ export interface BaseCharacterProps {
   cooldown?: number;
 }
 
-export interface BaseNPCProps extends BaseCharacterProps{
-    behavior: NpcBehavioror;
+export interface BaseNPCProps extends BaseCharacterProps {
+  behavior: NpcBehavioror;
 }
 
-export interface BasePlayerProps extends BaseCharacterProps{
-    behavior: PlayerBehavior;
-    specialCharge?: number;
-    specialChargeLimit?: number;
+export interface BasePlayerProps extends BaseCharacterProps {
+  behavior: PlayerBehavior;
+  specialCharge?: number;
+  specialChargeLimit?: number;
 }
 
 export class BaseCharacter {
@@ -44,21 +44,20 @@ export class BaseCharacter {
     this.lastHitTime = Date.now() - this.cooldown;
   }
 
-    takeDamage(damage: number) {
-        this.hp = Math.max(0, this.hp - damage);
-    }
+  takeDamage(damage: number) {
+    this.hp = Math.max(0, this.hp - damage);
+  }
 
-    heal(hp: number){
-        this.hp = Math.min(this.maxHp, this.hp + hp)
-    }
+  heal(hp: number) {
+    this.hp = Math.min(this.maxHp, this.hp + hp);
+  }
 
-    canHit(): boolean {
-        if (this.cooldown + this.lastHitTime < Date.now()){
-            return true
-        }
-        return false
+  canHit(): boolean {
+    if (this.cooldown + this.lastHitTime < Date.now()) {
+      return true;
     }
-
+    return false;
+  }
 }
 
 export class BaseNPC extends BaseCharacter {
@@ -72,9 +71,9 @@ export class BaseNPC extends BaseCharacter {
 }
 
 export class BasePlayer extends BaseCharacter {
-    behavior: PlayerBehavior;
-    specialCharge: number;
-    specialChargeLimit: number;
+  behavior: PlayerBehavior;
+  specialCharge: number;
+  specialChargeLimit: number;
 
   constructor(props: BasePlayerProps) {
     super(props);
@@ -86,27 +85,27 @@ export class BasePlayer extends BaseCharacter {
 
   chargeSpecial(amount: number) {
     this.specialCharge = Math.min(
-        this.specialCharge + amount,
-        this.specialChargeLimit
-    )
+      this.specialCharge + amount,
+      this.specialChargeLimit,
+    );
   }
 
   resetSpecial() {
     this.specialCharge = 0;
   }
 
-    block() {
-        this.behavior = "blocked";
-    }
+  block() {
+    this.behavior = "blocked";
+  }
 
-    jump() {
-        this.behavior = "jump";
+  jump() {
+    this.behavior = "jump";
+  }
+
+  takeDamage(damage: number) {
+    if (this.behavior === "blocked" || this.behavior === "jump") {
+      return;
     }
-    
-    takeDamage(damage: number) {
-        if (this.behavior === "blocked" || this.behavior === "jump") {
-            return;
-        }
-        this.hp = Math.max(0, this.hp - damage);
-    }
+    this.hp = Math.max(0, this.hp - damage);
+  }
 }

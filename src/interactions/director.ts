@@ -1,10 +1,16 @@
 import { directorMessages } from "@/data/maps/director/messages";
 import { createInteractionMap } from "./builder";
-import type { KeyDeps, InventoryDeps, QuestDeps } from "@/utils/types/interaction";
+import type {
+  KeyDeps,
+  InventoryDeps,
+  QuestDeps,
+} from "@/utils/types/interaction";
 
-type DirectorDeps = KeyDeps & InventoryDeps & QuestDeps & {
-  playSFX?: (src: string, volume?: number) => void;
-};
+type DirectorDeps = KeyDeps &
+  InventoryDeps &
+  QuestDeps & {
+    playSFX?: (src: string, volume?: number) => void;
+  };
 
 export function createDirector(deps: DirectorDeps) {
   const { progressQuest } = deps;

@@ -6,7 +6,6 @@ import { cafeteriaThreeNpcs } from "./npcs";
 import { cafeteriaThreeEvents } from "./events";
 import { getCafeteriaThreeDialogue } from "./dialogue";
 
-
 export const threeScene: SceneConfig = {
   id: "three",
   className: "Cafeteria",
@@ -15,5 +14,5 @@ export const threeScene: SceneConfig = {
   events: cafeteriaThreeEvents,
   audio: { src: MUSICS.default },
   initialPosition: getCafeteriaThreeInitialPosition,
-  npcs: cafeteriaThreeNpcs
+  npcs: cafeteriaThreeNpcs,
 };

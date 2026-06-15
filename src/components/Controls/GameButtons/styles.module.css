@@ -1,75 +1,77 @@
 .gameButtons {
+  display: flex;
+  gap: 32px;
+  align-items: flex-end;
+  flex-direction: column;
+  position: fixed;
+  right: 2%;
+}
+
+.button {
+  display: flex;
+  width: 3.6vw;
+  height: 3.6vw;
+  font-size: 1.2vw;
+  font-weight: bold;
+  align-items: center;
+  justify-content: center;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    opacity 0.1s,
+    transform 0.1s;
+}
+
+.button:active {
+  background: rgba(255, 255, 255, 0.35);
+  transform: scale(0.9);
+}
+
+.button.cooldown {
+  opacity: 0.4;
+  transform: scale(0.85);
+}
+
+.open {
+  display: flex;
+  width: 3.6vw;
+  height: 1.2vw;
+  border-radius: 10px;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.open:active {
+  background: rgba(255, 255, 255, 0.35);
+  transform: scale(0.9);
+}
+
+.row {
+  display: flex;
+  gap: 24px;
+  flex-direction: row;
+}
+
+@media (orientation: portrait) {
+  .open {
+    width: 3.6vh;
+    height: 1.2vh;
+  }
+  .button {
+    display: flex;
+    width: 5.4vh;
+    height: 5.4vh;
+    font-size: 16px;
+  }
+  .gameButtons {
     display: flex;
     gap: 32px;
     align-items: flex-end;
     flex-direction: column;
     position: fixed;
-    right: 2%;
-}
-
-.button {
-    display: flex;
-    width: 3.6vw;
-    height: 3.6vw;
-    font-size: 1.2vw;
-    font-weight: bold;
-    align-items: center;
-    justify-content: center;
-    touch-action: manipulation;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-    transition: opacity 0.1s, transform 0.1s;
-}
-
-.button:active {
-    background: rgba(255, 255, 255, 0.35);
-    transform: scale(0.9);
-}
-
-.button.cooldown {
-    opacity: 0.4;
-    transform: scale(0.85);
-}
-
-.open {
-    display: flex;
-    width: 3.6vw;
-    height: 1.2vw;
-    border-radius: 10px;
-    touch-action: manipulation;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-}
-
-.open:active {
-    background: rgba(255, 255, 255, 0.35);
-    transform: scale(0.9);
-}
-
-.row {
-    display: flex;
-    gap: 24px;
-    flex-direction: row;
-}
-
-@media (orientation: portrait) {
-    .open {
-        width: 3.6vh;
-        height: 1.2vh;
-    }
-    .button {
-        display: flex;
-        width: 5.4vh;
-        height: 5.4vh;
-        font-size: 16px;
-    }
-    .gameButtons {
-        display: flex;
-        gap: 32px;
-        align-items: flex-end;
-        flex-direction: column;
-        position: fixed;
-        margin-top: 40vh;
-        right: 7%;
-    }
+    margin-top: 40vh;
+    right: 7%;
+  }
 }

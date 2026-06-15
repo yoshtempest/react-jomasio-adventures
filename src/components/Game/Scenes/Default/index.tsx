@@ -103,9 +103,9 @@ export function ExploreScene({
   const hasStarted = useRef(false);
 
   const resolvedInitialPosition =
-  typeof initialPosition === "function"
-    ? initialPosition(lastPage) // ⚠️ aqui falta o lastPage ainda
-    : initialPosition;
+    typeof initialPosition === "function"
+      ? initialPosition(lastPage) // ⚠️ aqui falta o lastPage ainda
+      : initialPosition;
 
   const { isReady } = useSceneSetup({
     map,
@@ -136,9 +136,7 @@ export function ExploreScene({
       const front = getTileInFront(player, map);
 
       // 🔥 verifica NPC na frente
-      const npc = npcs.find(
-        (n) => n.gridX === front.x && n.gridY === front.y
-      );
+      const npc = npcs.find((n) => n.gridX === front.x && n.gridY === front.y);
 
       if (npc?.interaction) {
         npc.interaction(dialogueSystem.start);
@@ -178,7 +176,11 @@ export function ExploreScene({
         rows={MAP_ROWS}
       >
         {npcs.map((npc) => (
-          <NPC key={`${npc.gridX},${npc.gridY}`} {...npc} TILE_SIZE={TILE_SIZE} />
+          <NPC
+            key={`${npc.gridX},${npc.gridY}`}
+            {...npc}
+            TILE_SIZE={TILE_SIZE}
+          />
         ))}
 
         {signs?.map((sign) => (
@@ -209,9 +211,7 @@ export function ExploreScene({
         />
       </GameMap>
 
-      {dialogueSystem.isOpen && (
-        <Talking {...dialogueSystem.dialogue} />
-      )}
+      {dialogueSystem.isOpen && <Talking {...dialogueSystem.dialogue} />}
     </div>
   );
 }

@@ -24,7 +24,7 @@ type EventContext = {
 
 export function runSceneEvents(
   events: SceneEvent[] | undefined,
-  ctx: EventContext
+  ctx: EventContext,
 ) {
   if (!events) return;
 
@@ -66,10 +66,7 @@ export function runSceneEvents(
           conditionMet &&= !ctx.hasFlag?.(notHasFlag);
         }
 
-        runSceneEvents(
-          conditionMet ? event.then : event.else,
-          ctx
-        );
+        runSceneEvents(conditionMet ? event.then : event.else, ctx);
         break;
       }
 
@@ -81,7 +78,7 @@ export function runSceneEvents(
 
       case "navigate":
         ctx.navigate(event.to, {
-          state: { from: ctx.location.pathname }
+          state: { from: ctx.location.pathname },
         });
         return; // 🔥 IMPORTANTE: para execução após navegar
 

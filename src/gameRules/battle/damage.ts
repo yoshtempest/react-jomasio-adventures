@@ -1,7 +1,7 @@
 export function calculatePlayerDamage(
   strength: number,
   playerClass: string | null,
-  baseDamageBonus: number = 0
+  baseDamageBonus: number = 0,
 ) {
   let dmg = 12 + strength + baseDamageBonus;
 
@@ -14,7 +14,7 @@ export function calculatePlayerDamage(
 
 export function calculateSpecialDamage(
   intelligence: number,
-  playerClass: string | null
+  playerClass: string | null,
 ) {
   let dmg = 18 + intelligence * 3;
 
@@ -28,7 +28,7 @@ export function calculateSpecialDamage(
 export function calculateNpcDamage(
   baseDamage: number,
   playerClass: string | null,
-  defense: number = 0
+  defense: number = 0,
 ) {
   let dmg = baseDamage;
 
@@ -43,7 +43,10 @@ export function calculateNpcDamage(
   return Math.round(dmg);
 }
 
-export function calculateDamageToNpc(damage: number, npcArmor: number = 0): number {
+export function calculateDamageToNpc(
+  damage: number,
+  npcArmor: number = 0,
+): number {
   if (npcArmor <= 0) return damage;
-  return Math.round(damage * 100 / (100 + npcArmor));
+  return Math.round((damage * 100) / (100 + npcArmor));
 }

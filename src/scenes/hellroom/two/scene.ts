@@ -7,11 +7,11 @@ import { hellroomTwoEvents } from "./events";
 import { hellRoomTwo } from "@/maps/hellroom/two";
 
 export const twoScene: SceneConfig = {
-    id: "two",
-    initialPosition: getHellroomTwoInitialPosition,
-    dialogueData: getHellroomTwoDialogue,
-    map: hellRoomTwo,
-    events: hellroomTwoEvents,
-    audio: { src: MUSICS.default },
-    npcs: hellroomTwoNpcs,
+  id: "two",
+  initialPosition: getHellroomTwoInitialPosition,
+  dialogueData: getHellroomTwoDialogue,
+  map: hellRoomTwo,
+  events: hellroomTwoEvents,
+  audio: { src: MUSICS.default },
+  npcs: hellroomTwoNpcs,
 };

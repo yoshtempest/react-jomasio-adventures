@@ -13,10 +13,7 @@ interface Props {
 function resolveAsset(path?: string) {
   if (!path) return "";
 
-  if (
-    path.startsWith("http") ||
-    path.startsWith(import.meta.env.BASE_URL)
-  ) {
+  if (path.startsWith("http") || path.startsWith(import.meta.env.BASE_URL)) {
     return path;
   }
 
@@ -29,7 +26,10 @@ function resolveAsset(path?: string) {
 
 export default function Talking({ name, message, src }: Props) {
   const { dialogueSpeedMs } = useSettings();
-  const { displayedText, isComplete, skip } = useTypewriter(message, dialogueSpeedMs);
+  const { displayedText, isComplete, skip } = useTypewriter(
+    message,
+    dialogueSpeedMs,
+  );
   const { pushControls, popControls } = useGameControls();
 
   const isCompleteRef = useRef(isComplete);
@@ -63,11 +63,7 @@ export default function Talking({ name, message, src }: Props) {
         <h2>{displayedText}</h2>
       </div>
       {src && (
-        <img
-          className={styles.image}
-          src={resolveAsset(src)}
-          alt={name}
-        />
+        <img className={styles.image} src={resolveAsset(src)} alt={name} />
       )}
     </div>
   );

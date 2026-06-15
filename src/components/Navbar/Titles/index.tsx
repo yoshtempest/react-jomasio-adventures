@@ -6,7 +6,6 @@ import { TITLES } from "@/data/titles/index";
 import { STAT_LABEL } from "@/data/titles/statLabel";
 import { ICON_MAP } from "@/data/titles/icons";
 
-
 export function TitlesScreen() {
   const { titlesData } = useTitles();
   const listRef = useRef<HTMLDivElement | null>(null);
@@ -49,9 +48,7 @@ export function TitlesScreen() {
                   : styles.titleCardLocked
               }`}
             >
-              <div className={styles.iconBox}>
-                {ICON_MAP[def.icon] ?? "🏆"}
-              </div>
+              <div className={styles.iconBox}>{ICON_MAP[def.icon] ?? "🏆"}</div>
 
               <div className={styles.info}>
                 <div className={styles.titleName}>
@@ -59,13 +56,13 @@ export function TitlesScreen() {
                   {isUnlocked && ` Nv.${level}`}
                 </div>
 
-                <div className={styles.titleDesc}>
-                  {def.description}
-                </div>
+                <div className={styles.titleDesc}>{def.description}</div>
 
                 {currentLevelDef && (
                   <div className={styles.bonusText}>
-                    {currentLevelDef.bonus.map((b) => `${STAT_LABEL[b.stat] ?? b.stat} +${b.value}`).join(", ")}
+                    {currentLevelDef.bonus
+                      .map((b) => `${STAT_LABEL[b.stat] ?? b.stat} +${b.value}`)
+                      .join(", ")}
                   </div>
                 )}
 
@@ -84,9 +81,7 @@ export function TitlesScreen() {
                 )}
 
                 {isMaxLevel && (
-                  <div className={styles.progressText}>
-                    Nv.MAX
-                  </div>
+                  <div className={styles.progressText}>Nv.MAX</div>
                 )}
               </div>
 
@@ -101,9 +96,7 @@ export function TitlesScreen() {
         })}
       </div>
 
-      <div className={styles.hintText}>
-        Confirmar: equipar/remover título
-      </div>
+      <div className={styles.hintText}>Confirmar: equipar/remover título</div>
     </div>
   );
 }

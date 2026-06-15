@@ -1,4 +1,4 @@
-.navbar{
+.navbar {
   display: flex;
   flex-direction: column;
   position: fixed;
@@ -14,7 +14,7 @@
   border-radius: 2px;
 }
 
-.list{
+.list {
   display: flex;
   flex-direction: column;
   list-style: none;
@@ -27,7 +27,7 @@
 }
 
 @media (orientation: portrait) {
-  .navbar{
+  .navbar {
     right: 0%;
     width: 30vw;
     height: 30vh;

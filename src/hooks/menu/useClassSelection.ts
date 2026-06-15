@@ -9,7 +9,7 @@ import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 
 const CLASSES: PlayerClass[] = ["fracote", "idiota", "amostradinho"];
 
-export function useClassSelection(isActive: boolean, onConfirm ?: () => void) {
+export function useClassSelection(isActive: boolean, onConfirm?: () => void) {
   const { pushControls, popControls } = useGameControls();
   const { chooseClass } = usePlayer();
   const { playMove, playSelect } = useMenuSFX();
@@ -40,23 +40,23 @@ export function useClassSelection(isActive: boolean, onConfirm ?: () => void) {
     const controls = {
       onRight: () => {
         playMoveRef.current();
-        setSelectedIndex((prev) =>
-          circularNext(prev, CLASSES.length)
-        );
+        setSelectedIndex((prev) => circularNext(prev, CLASSES.length));
       },
 
       onLeft: () => {
         playMoveRef.current();
-        setSelectedIndex((prev) =>
-          circularPrev(prev, CLASSES.length)
-        );
+        setSelectedIndex((prev) => circularPrev(prev, CLASSES.length));
       },
 
       onConfirm: () => {
         playSelectRef.current();
         const selected = getSelected(CLASSES, selectedIndexRef.current);
         if (selected === "amostradinho") {
-          const audio = new Audio(asset("/assets/songs/soundEffects/player/ifClassIsAmostradinho.mp3"));
+          const audio = new Audio(
+            asset(
+              "/assets/songs/soundEffects/player/ifClassIsAmostradinho.mp3",
+            ),
+          );
           audio.play().catch(() => {});
         }
         chooseClassRef.current(selected);

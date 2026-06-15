@@ -26,12 +26,8 @@ export function ComboDisplay({ count, rank, progress, nextRank }: Props) {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <div className={`${styles.rank} ${RANK_CLASS[rank]}`}>
-          {rank}
-        </div>
-        <div className={styles.count}>
-          {count}
-        </div>
+        <div className={`${styles.rank} ${RANK_CLASS[rank]}`}>{rank}</div>
+        <div className={styles.count}>{count}</div>
       </div>
       {nextRank && (
         <div className={styles.progressBar}>

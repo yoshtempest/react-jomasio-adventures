@@ -1,19 +1,22 @@
 import { useRef, useEffect, useMemo, type MutableRefObject } from "react";
 import type { Player } from "@/utils/types/player/player";
 import type { BattleMapConfig } from "@/utils/types/battleMap";
-import
-{
+import {
   moveLeftBattle,
   moveRightBattle,
   dashLeftBattle,
   dashRightBattle,
   blockStart,
   blockEnd,
-  idleBattle
+  idleBattle,
 } from "@/gameRules/movement/battle";
 
 import { canJump } from "@/gameRules/movement/state";
-import { isHorizontallyBlocked, getLandingY, getGroundAtX } from "@/utils/types/battleMap";
+import {
+  isHorizontallyBlocked,
+  getLandingY,
+  getGroundAtX,
+} from "@/utils/types/battleMap";
 import { DASH_DURATION, DASH_INTERVAL } from "@/utils/types/player/movement";
 
 export type CollisionParams = {
@@ -118,7 +121,10 @@ export function useBattleMovement(
     const playerBottom = p.y;
 
     return isHorizontallyBlocked(
-      playerLeft, playerTop, playerRight, playerBottom,
+      playerLeft,
+      playerTop,
+      playerRight,
+      playerBottom,
       map.obstacles,
     );
   }

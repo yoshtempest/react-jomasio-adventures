@@ -1,10 +1,5 @@
 import { useRef } from "react";
-import {
-  MoveUp,
-  MoveDown,
-  MoveLeft,
-  MoveRight,
-} from "lucide-react";
+import { MoveUp, MoveDown, MoveLeft, MoveRight } from "lucide-react";
 
 import styles from "./styles.module.css";
 import type { GameControlLayer } from "@/utils/types/player/controls";
@@ -14,10 +9,7 @@ type Props = {
   pressed: Set<string>;
 };
 
-export function ButtonsMovement({
-  activeControls,
-  pressed,
-}: Props) {
+export function ButtonsMovement({ activeControls, pressed }: Props) {
   const holdRef = useRef<NodeJS.Timeout | null>(null);
 
   function startHold(fn?: () => void) {

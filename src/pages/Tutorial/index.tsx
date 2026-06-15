@@ -51,11 +51,14 @@ export default function Tutorial() {
     };
   }, [flow.showNameInput]);
 
-  const backgroundAudio = useMemo(() => ({
-    src: SOS,
-    loop: true,
-    volume: 0.3,
-  }), []);
+  const backgroundAudio = useMemo(
+    () => ({
+      src: SOS,
+      loop: true,
+      volume: 0.3,
+    }),
+    [],
+  );
 
   const audio = useGameAudio(backgroundAudio); // 🔥 pega controle
   const audioRef = useRef(audio);
@@ -75,8 +78,8 @@ export default function Tutorial() {
     dialogue: tutorialDialogue,
     playAudio: playSansTalking,
     onFinish: () => {
-      giveQuest(QUESTS.jomasio_investigate)
-      navigate("/combatTutorial")
+      giveQuest(QUESTS.jomasio_investigate);
+      navigate("/combatTutorial");
     },
     onBeforeNext: (dialogue) => {
       if (dialogue.message.includes("qual é seu nome")) {

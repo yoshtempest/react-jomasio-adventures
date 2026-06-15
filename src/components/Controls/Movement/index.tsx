@@ -32,22 +32,13 @@ export function Movement() {
 
   const { isNavOpen } = useNavbar();
 
-  const {
-    activeControls,
-    pushControls,
-    popControls,
-  } = useGameControls();
+  const { activeControls, pushControls, popControls } = useGameControls();
 
-  const isLocked = isMovementLocked(
-    player.mode,
-    isNavOpen
-  );
+  const isLocked = isMovementLocked(player.mode, isNavOpen);
 
   const isBattle = player.mode === "battle";
 
-  const [mode, setMode] = useState<
-    "joystick" | "buttons"
-  >("joystick");
+  const [mode, setMode] = useState<"joystick" | "buttons">("joystick");
 
   const [pressed, setPressed] = useState<Set<Dir>>(new Set());
 
@@ -75,27 +66,19 @@ export function Movement() {
   const moveLeftRef = useRef(moveLeft);
   const moveRightRef = useRef(moveRight);
 
-  const moveUpBattleRef =
-    useRef(moveUpBattle);
+  const moveUpBattleRef = useRef(moveUpBattle);
 
-  const moveDownBattleRef =
-    useRef(moveDownBattle);
+  const moveDownBattleRef = useRef(moveDownBattle);
 
-  const startMoveLeftRef =
-    useRef(startMoveLeft);
+  const startMoveLeftRef = useRef(startMoveLeft);
 
-  const stopMoveLeftRef =
-    useRef(stopMoveLeft);
+  const stopMoveLeftRef = useRef(stopMoveLeft);
 
-  const startMoveRightRef =
-    useRef(startMoveRight);
+  const startMoveRightRef = useRef(startMoveRight);
 
-  const stopMoveRightRef =
-    useRef(stopMoveRight);
+  const stopMoveRightRef = useRef(stopMoveRight);
 
-  const releaseDownBattleRef = useRef(
-    releaseDownBattle
-  );
+  const releaseDownBattleRef = useRef(releaseDownBattle);
 
   const dashRef = useRef(dash);
   const lastLeftPressRef = useRef(0);
@@ -114,26 +97,19 @@ export function Movement() {
     moveLeftRef.current = moveLeft;
     moveRightRef.current = moveRight;
 
-    moveUpBattleRef.current =
-      moveUpBattle;
+    moveUpBattleRef.current = moveUpBattle;
 
-    moveDownBattleRef.current =
-      moveDownBattle;
+    moveDownBattleRef.current = moveDownBattle;
 
-    startMoveLeftRef.current =
-      startMoveLeft;
+    startMoveLeftRef.current = startMoveLeft;
 
-    stopMoveLeftRef.current =
-      stopMoveLeft;
+    stopMoveLeftRef.current = stopMoveLeft;
 
-    startMoveRightRef.current =
-      startMoveRight;
+    startMoveRightRef.current = startMoveRight;
 
-    stopMoveRightRef.current =
-      stopMoveRight;
+    stopMoveRightRef.current = stopMoveRight;
 
-    releaseDownBattleRef.current =
-      releaseDownBattle;
+    releaseDownBattleRef.current = releaseDownBattle;
 
     dashRef.current = dash;
   });
@@ -246,27 +222,16 @@ export function Movement() {
       <button
         className={styles.toggle}
         onClick={() =>
-          setMode((prev) =>
-            prev === "joystick"
-              ? "buttons"
-              : "joystick"
-          )
+          setMode((prev) => (prev === "joystick" ? "buttons" : "joystick"))
         }
       >
-        {mode === "joystick"
-          ? "◉"
-          : "✚"}
+        {mode === "joystick" ? "◉" : "✚"}
       </button>
 
       {mode === "joystick" ? (
-        <JoystickMovement
-          activeControls={activeControls}
-        />
+        <JoystickMovement activeControls={activeControls} />
       ) : (
-        <ButtonsMovement
-          activeControls={activeControls}
-          pressed={pressed}
-        />
+        <ButtonsMovement activeControls={activeControls} pressed={pressed} />
       )}
     </>
   );

@@ -6,8 +6,8 @@ import { createLibrary } from "@/interactions/library";
 
 import { useInventory } from "@/contexts/InventoryContext";
 import type { SceneId } from "@/utils/types/maps/sceneConfig";
-  import { useNavigate } from "react-router";
-  import { usePlayer } from "@/contexts/PlayerContext";
+import { useNavigate } from "react-router";
+import { usePlayer } from "@/contexts/PlayerContext";
 
 import Talking from "@/components/Talking";
 
@@ -33,7 +33,7 @@ export function LibraryScene({ sceneId }: Props) {
         gotKey,
         setGotKey,
       }),
-    [addItem, gotKey]
+    [addItem, gotKey],
   );
 
   const lastPositionRef = useRef({ x: player.gridX, y: player.gridY });
@@ -85,7 +85,7 @@ export function LibraryScene({ sceneId }: Props) {
     ];
 
     const isBlockedTile = blockedTiles.some(
-      (tile) => tile.x === gridX && tile.y === gridY
+      (tile) => tile.x === gridX && tile.y === gridY,
     );
 
     if (isBlockedTile) return;
@@ -97,14 +97,14 @@ export function LibraryScene({ sceneId }: Props) {
           x: currentPlayer.gridX,
           y: currentPlayer.gridY,
           direction: currentPlayer.direction,
-        })
+        }),
       );
     }
 
     const encounterChance = Math.random();
 
     // 5% de chance
-    if (encounterChance < 0.10) {
+    if (encounterChance < 0.1) {
       saveLibraryPosition();
 
       const battleRoll = Math.random();
@@ -115,7 +115,6 @@ export function LibraryScene({ sceneId }: Props) {
         navigate("/battle/vandinhafragment");
       }
     }
-  
   }, [player.gridX, player.gridY, navigate]);
 
   if (!scene) {
@@ -133,12 +132,7 @@ export function LibraryScene({ sceneId }: Props) {
       />
 
       {/* ✅ popup continua fora do SceneBase */}
-      {popup && (
-        <Talking
-          name="Sistema"
-          message={popup}
-        />
-      )}
+      {popup && <Talking name="Sistema" message={popup} />}
     </>
   );
 }

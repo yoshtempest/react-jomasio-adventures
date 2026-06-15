@@ -22,7 +22,10 @@ function calcRank(damagePct: number): ComboRank {
   return "F";
 }
 
-function calcProgress(damagePct: number): { next: ComboRank | null; progress: number } {
+function calcProgress(damagePct: number): {
+  next: ComboRank | null;
+  progress: number;
+} {
   let currentRank: ComboRank = "F";
   let next: ComboRank | null = null;
 
@@ -39,11 +42,19 @@ function calcProgress(damagePct: number): { next: ComboRank | null; progress: nu
     next = RANK_THRESHOLDS[RANK_THRESHOLDS.length - 1]?.rank ?? null;
   }
 
-  const currentThreshold = currentRank === "F" ? 0 : RANK_THRESHOLDS.find(t => t.rank === currentRank)!.pct;
-  const nextThreshold = next ? RANK_THRESHOLDS.find(t => t.rank === next)!.pct : currentThreshold;
+  const currentThreshold =
+    currentRank === "F"
+      ? 0
+      : RANK_THRESHOLDS.find((t) => t.rank === currentRank)!.pct;
+  const nextThreshold = next
+    ? RANK_THRESHOLDS.find((t) => t.rank === next)!.pct
+    : currentThreshold;
 
   const progress = next
-    ? Math.min(1, (damagePct - currentThreshold) / (nextThreshold - currentThreshold))
+    ? Math.min(
+        1,
+        (damagePct - currentThreshold) / (nextThreshold - currentThreshold),
+      )
     : 1;
 
   return { next, progress };
@@ -68,28 +79,34 @@ export function useComboSystem({ npcMaxHp }: Props) {
     }
   }, []);
 
-  const updateRank = useCallback((damage: number) => {
-    const pct = npcMaxHp > 0 ? (damage / npcMaxHp) * 100 : 0;
-    const rankResult = calcRank(pct);
-    setComboRank(rankResult);
+  const updateRank = useCallback(
+    (damage: number) => {
+      const pct = npcMaxHp > 0 ? (damage / npcMaxHp) * 100 : 0;
+      const rankResult = calcRank(pct);
+      setComboRank(rankResult);
 
-    const { next, progress: prog } = calcProgress(pct);
-    setProgress(prog);
-    setNextRank(next);
-  }, [npcMaxHp]);
+      const { next, progress: prog } = calcProgress(pct);
+      setProgress(prog);
+      setNextRank(next);
+    },
+    [npcMaxHp],
+  );
 
-  const registerHit = useCallback((damage: number) => {
-    clearTimer();
+  const registerHit = useCallback(
+    (damage: number) => {
+      clearTimer();
 
-    highestDamageRef.current += damage;
-    updateRank(highestDamageRef.current);
+      highestDamageRef.current += damage;
+      updateRank(highestDamageRef.current);
 
-    setComboCount(prev => prev + 1);
+      setComboCount((prev) => prev + 1);
 
-    timerRef.current = setTimeout(() => {
-      setComboCount(0);
-    }, COMBO_RESET_MS);
-  }, [clearTimer, updateRank]);
+      timerRef.current = setTimeout(() => {
+        setComboCount(0);
+      }, COMBO_RESET_MS);
+    },
+    [clearTimer, updateRank],
+  );
 
   const resetCombo = useCallback(() => {
     clearTimer();

@@ -35,7 +35,7 @@ export function NavbarProvider({ children }: { children: ReactNode }) {
         isNavOpen,
         openNavbar,
         closeNavbar,
-        toggleNavbar
+        toggleNavbar,
       }}
     >
       {children}

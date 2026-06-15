@@ -16,8 +16,7 @@ export function useBattleControls({
   handleSpecialHit,
   disabled,
 }: Props) {
-  const { pushControls, popControls } =
-    useGameControls();
+  const { pushControls, popControls } = useGameControls();
 
   const attackRef = useRef(attack);
   const specialRef = useRef(special);

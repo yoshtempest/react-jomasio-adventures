@@ -4,12 +4,11 @@ import type { SceneConfig } from "@/utils/types/maps/sceneConfig";
 import { getCantinaTwoInitialPosition } from "./position";
 import { cantinaTwoTiles } from "./tiles";
 
-
 export const twoScene: SceneConfig = {
-    id: "two",
-    map: libraryTwo,
-    className: "LibraryPassageOpened",
-    audio: { src: MUSICS.default },
-    initialPosition: getCantinaTwoInitialPosition,
-    tiles: cantinaTwoTiles,
+  id: "two",
+  map: libraryTwo,
+  className: "LibraryPassageOpened",
+  audio: { src: MUSICS.default },
+  initialPosition: getCantinaTwoInitialPosition,
+  tiles: cantinaTwoTiles,
 };

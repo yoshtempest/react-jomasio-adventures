@@ -1,5 +1,5 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 import path from "path";
 import { VitePWA } from "vite-plugin-pwa";
 
@@ -14,23 +14,23 @@ export default defineConfig({
 
       includeAssets: ["favicon.svg"],
       workbox: {
-        globPatterns: ['**/*.{js,css,html}'],
+        globPatterns: ["**/*.{js,css,html}"],
         runtimeCaching: [
           {
             urlPattern: /\.(png|svg|gif)$/i,
-            handler: 'CacheFirst',
+            handler: "CacheFirst",
             options: {
-              cacheName: 'images',
-            }
+              cacheName: "images",
+            },
           },
           {
             urlPattern: /\.(mp3|m4a)$/i,
-            handler: 'CacheFirst',
+            handler: "CacheFirst",
             options: {
-              cacheName: 'audio',
-            }
-          }
-        ]
+              cacheName: "audio",
+            },
+          },
+        ],
       },
 
       manifest: {
@@ -73,4 +73,4 @@ export default defineConfig({
       },
     },
   },
-})
+});

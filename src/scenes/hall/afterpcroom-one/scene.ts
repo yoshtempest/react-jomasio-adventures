@@ -1,5 +1,5 @@
 import { afterPcRoom } from "@/maps/hall/afterPcRoom";
-import { getAfterPcRoomOneDialogue } from "./dialogue"
+import { getAfterPcRoomOneDialogue } from "./dialogue";
 import { afterPcRoomOneTiles } from "./tiles";
 import { afterPcRoomOneEvents } from "./events";
 import { afterPcRoomOneNpcs } from "./npcs";

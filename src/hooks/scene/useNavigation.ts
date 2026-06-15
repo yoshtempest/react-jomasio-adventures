@@ -7,10 +7,7 @@ type Props = {
   transitions?: Transition[];
 };
 
-export function useSceneNavigation({
-  player,
-  transitions,
-}: Props) {
+export function useSceneNavigation({ player, transitions }: Props) {
   const { navigateWithFade } = useTransitionCtx();
   const hasNavigatedRef = useRef(false);
   const previousPositionRef = useRef({
@@ -47,7 +44,7 @@ export function useSceneNavigation({
 
     transitions.forEach(({ positions, to }) => {
       const match = positions.some(
-        (pos) => pos.x === player.gridX && pos.y === player.gridY
+        (pos) => pos.x === player.gridX && pos.y === player.gridY,
       );
 
       if (match) {

@@ -1,7 +1,11 @@
 import { useState, useCallback } from "react";
 import { canPlayerHit } from "@/gameRules/battle/combat";
 import { playAttackSound } from "@/utils/playAttackSound";
-import { calculatePlayerDamage, calculateSpecialDamage, calculateDamageToNpc } from "@/gameRules/battle/damage";
+import {
+  calculatePlayerDamage,
+  calculateSpecialDamage,
+  calculateDamageToNpc,
+} from "@/gameRules/battle/damage";
 import type { PlayerClass, Player } from "@/utils/types/player/player";
 import type { BattleBehavior } from "@/utils/types/player/playerBehavior";
 import type { CharacterProgress } from "@/contexts/CharacterProgressContext";
@@ -30,7 +34,9 @@ type Props = {
   titleDamageBonus: number;
   critRate: number;
   npcArmor: number;
-  spawnDamageRef: React.RefObject<((value: number, x: number, y: number, type: DamageType) => void)>;
+  spawnDamageRef: React.RefObject<
+    (value: number, x: number, y: number, type: DamageType) => void
+  >;
   hitstopRef: React.RefObject<number>;
   registerHitRef: React.RefObject<(damage: number) => void>;
 };
@@ -91,7 +97,13 @@ export function usePlayerBattle({
     navigator.vibrate?.(20);
 
     const isLarissa = player.character === "larissa";
-    const rawDmg = isLarissa ? 2 : calculatePlayerDamage(char.stats.strength, playerClass, titleDamageBonus);
+    const rawDmg = isLarissa
+      ? 2
+      : calculatePlayerDamage(
+          char.stats.strength,
+          playerClass,
+          titleDamageBonus,
+        );
     const { damage: critDmg, type: dmgType } = rollCrit(rawDmg);
     const dmg = calculateDamageToNpc(critDmg, npcArmor);
 
@@ -162,7 +174,9 @@ export function usePlayerBattle({
     navigator.vibrate?.(30);
 
     const isLarissa = player.character === "larissa";
-    const rawDmg = isLarissa ? stacks * 5 : calculateSpecialDamage(char.stats.intelligence, playerClass);
+    const rawDmg = isLarissa
+      ? stacks * 5
+      : calculateSpecialDamage(char.stats.intelligence, playerClass);
     const { damage: critDmg, type: dmgType } = rollCrit(rawDmg);
     const dmg = calculateDamageToNpc(critDmg, npcArmor);
 

@@ -1,4 +1,6 @@
-export function getDirectorTwoInitialPosition(lastPage?: LastPage): ExplorePosition {
+export function getDirectorTwoInitialPosition(
+  lastPage?: LastPage,
+): ExplorePosition {
   if (lastPage?.startsWith("/cantina")) {
     return { x: 4, y: 4, direction: "down" };
   }

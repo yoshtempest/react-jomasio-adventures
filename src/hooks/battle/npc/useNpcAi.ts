@@ -7,14 +7,13 @@ import type { Projectile } from "@/utils/types/projectile";
 import type { BattleObstacle } from "@/utils/types/battleMap";
 import type { DamageType } from "@/hooks/battle/useDamageNumbers";
 
-
 type Props = {
   playerX: number;
   playerY: number;
   playerState: playerState;
   playerDirection: Direction;
   onProjectileHit: () => void;
-  onMeleeHit: () => void;  
+  onMeleeHit: () => void;
   isPaused?: boolean;
   npcType: string;
   npcPhase: number;
@@ -22,7 +21,9 @@ type Props = {
   obstacles?: BattleObstacle[];
   hitstopRef: React.RefObject<number>;
   npcStaggerRef: React.RefObject<number>;
-  spawnDamageRef: React.RefObject<((value: number, x: number, y: number, type: DamageType) => void)>;
+  spawnDamageRef: React.RefObject<
+    (value: number, x: number, y: number, type: DamageType) => void
+  >;
 };
 
 export function useNpcAI({
@@ -85,8 +86,8 @@ export function useNpcAI({
     npc.x,
     npc.y,
     () => {
-    onProjectileHit();
-  },
+      onProjectileHit();
+    },
     hitstopRef,
     () => {
       spawnDamageRef.current?.(0, playerX, playerY - 40, "blocked");
@@ -142,7 +143,11 @@ export function useNpcAI({
 
         const direction = playerXRef.current < n.x ? "left" : "right";
         const distanceX = Math.abs(n.x - playerXRef.current);
-        const state = forceIdleRef.current ? "idle" : distanceX > 80 ? "walk" : "idle";
+        const state = forceIdleRef.current
+          ? "idle"
+          : distanceX > 80
+            ? "walk"
+            : "idle";
         const nextX = result.x;
         const nextY = result.y ?? n.y;
 
@@ -153,7 +158,15 @@ export function useNpcAI({
           const npcRight = nextX + 15;
           const npcBottom = nextY;
 
-          if (isHorizontallyBlocked(npcLeft, npcTop, npcRight, npcBottom, obstacles)) {
+          if (
+            isHorizontallyBlocked(
+              npcLeft,
+              npcTop,
+              npcRight,
+              npcBottom,
+              obstacles,
+            )
+          ) {
             return { ...n, y: nextY, direction, state };
           }
         }

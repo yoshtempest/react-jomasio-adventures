@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import styles from './styles.module.css';
+import styles from "./styles.module.css";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { usePlayer } from "@/contexts/PlayerContext";

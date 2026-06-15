@@ -6,7 +6,7 @@ type NPCClass = Parameters<typeof getNpcStats>[1];
 export function getNpcMaxHp(
   level: number,
   npcClass: NPCClass,
-  difficulty: NpcDifficulty
+  difficulty: NpcDifficulty,
 ) {
   return getNpcStats(level, npcClass, difficulty).hp;
 }

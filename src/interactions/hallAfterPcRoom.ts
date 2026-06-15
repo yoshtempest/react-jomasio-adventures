@@ -23,7 +23,7 @@ export function createHallOne(deps: HallOneDeps) {
 
         setTimeout(() => {
           setPopup(
-            "Fique com isso, esse pó vai lhe ajudar a lutar infinitamente com aqueles rapazes, não faça perguntas, apenas aceite!"
+            "Fique com isso, esse pó vai lhe ajudar a lutar infinitamente com aqueles rapazes, não faça perguntas, apenas aceite!",
           );
         }, 1000);
       } else {

@@ -3,7 +3,7 @@ import type { Quest } from "@/utils/types/player/quest";
 type QuestWithoutId = Omit<Quest, "id">;
 
 export function createQuests<T extends Record<string, QuestWithoutId>>(
-  quests: T
+  quests: T,
 ) {
   return Object.fromEntries(
     Object.entries(quests).map(([id, quest]) => [
@@ -12,7 +12,7 @@ export function createQuests<T extends Record<string, QuestWithoutId>>(
         id,
         ...quest,
       },
-    ])
+    ]),
   ) as {
     [K in keyof T]: T[K] & { id: K };
   };

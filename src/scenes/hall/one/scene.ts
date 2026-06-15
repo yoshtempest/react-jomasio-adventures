@@ -4,7 +4,6 @@ import { MUSICS } from "@/scenes/shared/music";
 import type { SceneConfig } from "@/utils/types/maps/sceneConfig";
 import { hallOneTiles } from "./tiles";
 
-
 export const oneScene: SceneConfig = {
   id: "one",
   className: "HallOne",

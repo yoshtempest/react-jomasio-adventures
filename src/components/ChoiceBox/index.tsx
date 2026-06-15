@@ -46,7 +46,8 @@ export function ChoiceBox({ prompt, options, onSelect }: Props) {
               key={opt}
               className={`${styles.option} ${i === selected ? styles.optionSelected : ""}`}
             >
-              {i === selected ? "▶ " : "  "}{opt}
+              {i === selected ? "▶ " : "  "}
+              {opt}
             </li>
           ))}
         </ul>

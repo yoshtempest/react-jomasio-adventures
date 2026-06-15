@@ -12,7 +12,10 @@ import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { useLocation } from "react-router";
-import { useBattleRewards, type RewardInfo } from "@/hooks/battle/useBattleRewards";
+import {
+  useBattleRewards,
+  type RewardInfo,
+} from "@/hooks/battle/useBattleRewards";
 import { useSummons } from "@/hooks/battle/npc/useSummons";
 import { usePlayerBattleActions } from "@/hooks/battle/player/usePlayerBattleActions";
 import { useSummonAI } from "@/hooks/battle/npc/useSummonsAi";
@@ -47,13 +50,10 @@ export function useBattleScene({
     special,
     resetBattleState,
     difficulty,
-    playerClass
+    playerClass,
   } = usePlayer();
-  
-  const {
-    progress,
-    getXPToNextLevel
-  } = useCharacterProgress();
+
+  const { progress, getXPToNextLevel } = useCharacterProgress();
 
   const { closeInventory } = useInventory();
   const { closeNavbar } = useNavbar();
@@ -66,28 +66,19 @@ export function useBattleScene({
 
   const npcData = NPCS[npcType];
 
-  const {
-    xpReward,
-    giveRewards,
-    giveSummonRewards,
-  } = useBattleRewards({
+  const { xpReward, giveRewards, giveSummonRewards } = useBattleRewards({
     npcClass: npcData.class,
     npcLevel,
     npcType,
   });
 
-  const {
-    summons,
-    setSummons,
-    summonNpc,
-    clearSummons,
-    updateNpcPosition,
-  } = useSummons({
-    npcLevel,
-    difficulty,
-    playerX: player.x,
-    playerGroundY: player.groundY,
-  });
+  const { summons, setSummons, summonNpc, clearSummons, updateNpcPosition } =
+    useSummons({
+      npcLevel,
+      difficulty,
+      playerX: player.x,
+      playerGroundY: player.groundY,
+    });
 
   const charProgress = progress[player.character];
   const xpNeeded = getXPToNextLevel(charProgress.level);
@@ -148,7 +139,10 @@ export function useBattleScene({
       const rewards = giveRewards();
       setLastRewards(rewards);
       triggerVictory();
-      killCounter.handleNpcDeath(killCounter.npcTypeRef.current, killCounter.npcDataRef.current.class);
+      killCounter.handleNpcDeath(
+        killCounter.npcTypeRef.current,
+        killCounter.npcDataRef.current.class,
+      );
     },
     hitstopRef: refs.hitstopRef,
     npcStaggerRef: refs.npcStaggerRef,
@@ -162,16 +156,13 @@ export function useBattleScene({
     progress: comboProgressValue,
     nextRank,
     registerHit,
-    resetCombo
+    resetCombo,
   } = useComboSystem({ npcMaxHp: battle.npcMaxHp });
   refs.registerHitRef.current = registerHit;
   refs.spawnDamageRef.current = battle.spawnDamageNumber;
 
   // 👊 player battle actions (main NPC + summons alvo)
-  const {
-    handlePlayerHit,
-    handleSpecialHit,
-  } = usePlayerBattleActions({
+  const { handlePlayerHit, handleSpecialHit } = usePlayerBattleActions({
     player,
     npc,
     summons,
@@ -246,7 +237,9 @@ export function useBattleScene({
     return () => clearTimeout(timeout);
   }, []);
 
-  function skipIntro() { setShowIntro(false); }
+  function skipIntro() {
+    setShowIntro(false);
+  }
 
   function handleRetry() {
     setShowDefeat(false);

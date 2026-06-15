@@ -10,17 +10,13 @@ export const jailsonOneTiles = [
 
     (_player, quests) => {
       if (
-        hasAnyQuest(quests, [
-          "letter_delivery",
-          "help_jailson",
-          "x1_slimita",
-        ])
+        hasAnyQuest(quests, ["letter_delivery", "help_jailson", "x1_slimita"])
       ) {
         return HALL_ROUTES.AFTER_PCROOM_ONE;
       }
 
       return HALL_ROUTES.ONE;
-    }
+    },
   ),
 
   createConditionalTile(
@@ -29,16 +25,12 @@ export const jailsonOneTiles = [
 
     (_player, quests) => {
       if (
-        hasAnyQuest(quests, [
-          "letter_delivery",
-          "help_jailson",
-          "x1_slimita",
-        ])
+        hasAnyQuest(quests, ["letter_delivery", "help_jailson", "x1_slimita"])
       ) {
         return HALL_ROUTES.AFTER_PCROOM_ONE;
       }
 
       return HALL_ROUTES.ONE;
-    }
+    },
   ),
 ];

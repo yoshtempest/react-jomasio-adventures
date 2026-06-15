@@ -21,13 +21,7 @@ export function tryMeleeAttack({
   lastAttackRef,
   onHit,
 }: MeleeAttackParams) {
-  const near = isNear(
-    npcX,
-    npcY,
-    playerX,
-    playerY,
-    range
-  );
+  const near = isNear(npcX, npcY, playerX, playerY, range);
 
   if (!near) return false;
 

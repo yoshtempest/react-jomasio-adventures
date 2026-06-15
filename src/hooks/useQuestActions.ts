@@ -5,6 +5,6 @@ export function useQuestActions() {
 
   return {
     giveQuest: addQuest,
-    progressQuest: updateProgress
+    progressQuest: updateProgress,
   };
 }

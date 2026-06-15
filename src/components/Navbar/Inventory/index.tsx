@@ -8,9 +8,10 @@ export function Inventory() {
   const { coins } = usePlayer();
   const { selectedIndex } = useInventoryMenu(true);
 
-  const slotsLabel = maxSlots === Infinity
-    ? `${items.length} / ∞`
-    : `${items.length} / ${maxSlots}`;
+  const slotsLabel =
+    maxSlots === Infinity
+      ? `${items.length} / ∞`
+      : `${items.length} / ${maxSlots}`;
 
   return (
     <div className="containerOfNavbar">
@@ -30,9 +31,10 @@ export function Inventory() {
               <img
                 className={styles.icon}
                 src={
-                  item.image ?
-                  `${import.meta.env.BASE_URL}${item.image.replace(/^\//, "")}` :
-                  `${import.meta.env.BASE_URL}assets/items/${item.id}.svg`}
+                  item.image
+                    ? `${import.meta.env.BASE_URL}${item.image.replace(/^\//, "")}`
+                    : `${import.meta.env.BASE_URL}assets/items/${item.id}.svg`
+                }
                 alt={item.name}
               />
               <div className={styles.info}>

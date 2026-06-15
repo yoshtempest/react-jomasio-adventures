@@ -19,15 +19,14 @@ const playerSprites = {
   hiago: asset("assets/player/hiago/default.svg"),
 };
 
-export function useDialogue(
-  dialogues: Dialogue[],
-  onFinish?: () => void
-) {
+export function useDialogue(dialogues: Dialogue[], onFinish?: () => void) {
   const { player } = usePlayer();
 
   const [index, setIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
-  const [customDialogues, setCustomDialogues] = useState<Dialogue[] | null>(null);
+  const [customDialogues, setCustomDialogues] = useState<Dialogue[] | null>(
+    null,
+  );
 
   const activeDialogues = customDialogues ?? dialogues;
 
@@ -74,13 +73,16 @@ export function useDialogue(
 
   const isLast = index === processedDialogues.length - 1;
 
-  return useMemo(() => ({
-    dialogue,
-    isOpen,
-    start,
-    next,
-    isLast,
-    index,
-    length: processedDialogues.length,
-  }), [dialogue, isOpen, start, next, isLast, index, processedDialogues.length]);
+  return useMemo(
+    () => ({
+      dialogue,
+      isOpen,
+      start,
+      next,
+      isLast,
+      index,
+      length: processedDialogues.length,
+    }),
+    [dialogue, isOpen, start, next, isLast, index, processedDialogues.length],
+  );
 }

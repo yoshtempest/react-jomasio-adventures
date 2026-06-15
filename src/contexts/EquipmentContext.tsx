@@ -6,7 +6,12 @@ import {
   useCallback,
   type ReactNode,
 } from "react";
-import type { EquipmentSlot, EquippedItems, Equipment, EquippedItemInfo } from "@/utils/types/player/equipment";
+import type {
+  EquipmentSlot,
+  EquippedItems,
+  Equipment,
+  EquippedItemInfo,
+} from "@/utils/types/player/equipment";
 import { createEmptyEquipped } from "@/utils/types/player/equipment";
 import { getEquipmentById } from "@/data/equipment";
 import { getEffectiveStats } from "@/gameRules/battle/equipment";
@@ -17,12 +22,26 @@ type CharacterEquipmentData = {
 };
 
 type EquipmentContextType = {
-  getEquippedItem: (character: CharacterId, slot: EquipmentSlot) => Equipment | null;
-  getEquippedInfo: (character: CharacterId, slot: EquipmentSlot) => EquippedItemInfo | null;
-  getTotalBonus: (character: CharacterId) => { hp: number; strength: number; intelligence: number };
+  getEquippedItem: (
+    character: CharacterId,
+    slot: EquipmentSlot,
+  ) => Equipment | null;
+  getEquippedInfo: (
+    character: CharacterId,
+    slot: EquipmentSlot,
+  ) => EquippedItemInfo | null;
+  getTotalBonus: (character: CharacterId) => {
+    hp: number;
+    strength: number;
+    intelligence: number;
+  };
   getCollection: (character: CharacterId) => Record<string, number>;
   getQuantityTotal: (character: CharacterId, id: EquipmentId) => number;
-  getQuantity: (character: CharacterId, id: EquipmentId, enhance: number) => number;
+  getQuantity: (
+    character: CharacterId,
+    id: EquipmentId,
+    enhance: number,
+  ) => number;
   isOwned: (character: CharacterId, id: EquipmentId) => boolean;
   equip: (character: CharacterId, id: EquipmentId, enhance?: number) => void;
   unequip: (character: CharacterId, slot: EquipmentSlot) => void;
@@ -53,7 +72,9 @@ function createEmptyCharacterData(): CharacterEquipmentData {
   return { equipped: createEmptyEquipped(), collection: {} };
 }
 
-function migrateAllData(raw: Record<string, unknown>): Record<CharacterId, CharacterEquipmentData> {
+function migrateAllData(
+  raw: Record<string, unknown>,
+): Record<CharacterId, CharacterEquipmentData> {
   const result: Record<string, CharacterEquipmentData> = {};
   for (const [key, val] of Object.entries(raw)) {
     if (!val || typeof val !== "object") continue;
@@ -92,9 +113,14 @@ function loadAllData(): Record<CharacterId, CharacterEquipmentData> {
     const raw = localStorage.getItem(EQUIP_KEY);
     if (!raw) return createEmptyAllData();
     const parsed = JSON.parse(raw);
-    if (typeof parsed !== "object" || parsed === null) return createEmptyAllData();
+    if (typeof parsed !== "object" || parsed === null)
+      return createEmptyAllData();
     const firstVal = Object.values(parsed)[0];
-    if (firstVal && typeof firstVal === "object" && "equipped" in (firstVal as object)) {
+    if (
+      firstVal &&
+      typeof firstVal === "object" &&
+      "equipped" in (firstVal as object)
+    ) {
       const equipped = (firstVal as Record<string, unknown>).equipped;
       if (equipped && typeof equipped === "object") {
         const sample = Object.values(equipped as Record<string, unknown>)[0];
@@ -111,7 +137,7 @@ function loadAllData(): Record<CharacterId, CharacterEquipmentData> {
 
 function getCharacterData(
   all: Record<CharacterId, CharacterEquipmentData>,
-  character: CharacterId
+  character: CharacterId,
 ): CharacterEquipmentData {
   if (!all[character]) {
     all[character] = createEmptyCharacterData();
@@ -120,7 +146,8 @@ function getCharacterData(
 }
 
 export function EquipmentProvider({ children }: { children: ReactNode }) {
-  const [allData, setAllData] = useState<Record<CharacterId, CharacterEquipmentData>>(createEmptyAllData);
+  const [allData, setAllData] =
+    useState<Record<CharacterId, CharacterEquipmentData>>(createEmptyAllData);
 
   useEffect(() => {
     setAllData(loadAllData());
@@ -137,18 +164,20 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
       if (!info) return null;
       return getEquipmentById(info.id) ?? null;
     },
-    [allData]
+    [allData],
   );
 
   const getEquippedInfo = useCallback(
     (character: CharacterId, slot: EquipmentSlot): EquippedItemInfo | null => {
       return getCharacterData(allData, character).equipped[slot];
     },
-    [allData]
+    [allData],
   );
 
   const getTotalBonus = useCallback(
-    (character: CharacterId): { hp: number; strength: number; intelligence: number } => {
+    (
+      character: CharacterId,
+    ): { hp: number; strength: number; intelligence: number } => {
       const data = getCharacterData(allData, character);
       const bonus = { hp: 0, strength: 0, intelligence: 0 };
       for (const slot of Object.keys(data.equipped) as EquipmentSlot[]) {
@@ -161,14 +190,14 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
       }
       return bonus;
     },
-    [allData]
+    [allData],
   );
 
   const getCollection = useCallback(
     (character: CharacterId): Record<string, number> => {
       return getCharacterData(allData, character).collection;
     },
-    [allData]
+    [allData],
   );
 
   const getQuantityTotal = useCallback(
@@ -182,50 +211,59 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
       }
       return total;
     },
-    [allData]
+    [allData],
   );
 
   const getQuantity = useCallback(
     (character: CharacterId, id: EquipmentId, enhance: number): number => {
-      return getCharacterData(allData, character).collection[colKey(id, enhance)] ?? 0;
+      return (
+        getCharacterData(allData, character).collection[colKey(id, enhance)] ??
+        0
+      );
     },
-    [allData]
+    [allData],
   );
 
   const isOwned = useCallback(
     (character: CharacterId, id: EquipmentId): boolean => {
       return getQuantityTotal(character, id) > 0;
     },
-    [getQuantityTotal]
+    [getQuantityTotal],
   );
 
-  const equip = useCallback((character: CharacterId, id: EquipmentId, enhance: number = 0) => {
-    const item = getEquipmentById(id);
-    if (!item) return;
-    const key = colKey(id, enhance);
+  const equip = useCallback(
+    (character: CharacterId, id: EquipmentId, enhance: number = 0) => {
+      const item = getEquipmentById(id);
+      if (!item) return;
+      const key = colKey(id, enhance);
 
-    setAllData((prev) => {
-      const next = { ...prev };
-      const data = { ...getCharacterData(next, character) };
-      const collection = { ...data.collection };
+      setAllData((prev) => {
+        const next = { ...prev };
+        const data = { ...getCharacterData(next, character) };
+        const collection = { ...data.collection };
 
-      if (!collection[key] || collection[key] <= 0) return prev;
+        if (!collection[key] || collection[key] <= 0) return prev;
 
-      const oldInfo = data.equipped[item.slot];
-      collection[key] -= 1;
-      if (collection[key] <= 0) delete collection[key];
+        const oldInfo = data.equipped[item.slot];
+        collection[key] -= 1;
+        if (collection[key] <= 0) delete collection[key];
 
-      const equipped = { ...data.equipped, [item.slot]: { id, enhance } } as EquippedItems;
+        const equipped = {
+          ...data.equipped,
+          [item.slot]: { id, enhance },
+        } as EquippedItems;
 
-      if (oldInfo) {
-        const oldKey = colKey(oldInfo.id, oldInfo.enhance);
-        collection[oldKey] = (collection[oldKey] ?? 0) + 1;
-      }
+        if (oldInfo) {
+          const oldKey = colKey(oldInfo.id, oldInfo.enhance);
+          collection[oldKey] = (collection[oldKey] ?? 0) + 1;
+        }
 
-      next[character] = { equipped, collection };
-      return next;
-    });
-  }, []);
+        next[character] = { equipped, collection };
+        return next;
+      });
+    },
+    [],
+  );
 
   const unequip = useCallback((character: CharacterId, slot: EquipmentSlot) => {
     setAllData((prev) => {
@@ -245,17 +283,20 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  const addDrop = useCallback((character: CharacterId, id: EquipmentId, enhance: number = 0) => {
-    const key = colKey(id, enhance);
-    setAllData((prev) => {
-      const next = { ...prev };
-      const data = { ...getCharacterData(next, character) };
-      const collection = { ...data.collection };
-      collection[key] = (collection[key] ?? 0) + 1;
-      next[character] = { ...data, collection };
-      return next;
-    });
-  }, []);
+  const addDrop = useCallback(
+    (character: CharacterId, id: EquipmentId, enhance: number = 0) => {
+      const key = colKey(id, enhance);
+      setAllData((prev) => {
+        const next = { ...prev };
+        const data = { ...getCharacterData(next, character) };
+        const collection = { ...data.collection };
+        collection[key] = (collection[key] ?? 0) + 1;
+        next[character] = { ...data, collection };
+        return next;
+      });
+    },
+    [],
+  );
 
   return (
     <EquipmentContext.Provider

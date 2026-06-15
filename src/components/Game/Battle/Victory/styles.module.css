@@ -211,7 +211,7 @@
 }
 
 .levelSection {
-    display: flex;
-    flex-direction: row;
-    gap: 24px;
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
 }

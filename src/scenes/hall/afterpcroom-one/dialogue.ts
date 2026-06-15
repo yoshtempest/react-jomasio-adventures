@@ -10,45 +10,53 @@ import { AfterPcRoomGenericDialogue } from "@/data/maps/hall/one/generic";
 
 import { hasQuest, hasItem } from "@/scenes//shared/helpers";
 
-
 export const getAfterPcRoomOneDialogue = ({
-    quests,
-    items
+  quests,
+  items,
 }: {
-    quests: { id: QuestId }[],
-    items: { id: ItemId }[]
+  quests: { id: QuestId }[];
+  items: { id: ItemId }[];
 }) => {
-    if (hasItem(items, "aura_letter") && !hasQuest(quests, "search_packaging")) {
-        return AfterPcRoomOneDialogue;
-    }
-    
-    if (hasQuest(quests, "search_packaging") && !hasItem(items, "package_01")) {
-        return AfterPcRoomTwoDialogue;
-    }
+  if (hasItem(items, "aura_letter") && !hasQuest(quests, "search_packaging")) {
+    return AfterPcRoomOneDialogue;
+  }
 
-    if (hasItem(items, "package_01") && !hasItem(items, "good_powder")) {
-        return AfterPcRoomThreeDialogue;
-    }
+  if (hasQuest(quests, "search_packaging") && !hasItem(items, "package_01")) {
+    return AfterPcRoomTwoDialogue;
+  }
 
-    if (hasItem(items, "package_01") && hasItem(items, "good_powder")) {
-        return AfterPcRoomFourDialogue;
-    }
+  if (hasItem(items, "package_01") && !hasItem(items, "good_powder")) {
+    return AfterPcRoomThreeDialogue;
+  }
 
-    if (hasQuest(quests, "go_cafeteria") && !hasQuest(quests, "return_to_remedinha")) {
-        return AfterPcRoomFiveDialogue;
-    }
+  if (hasItem(items, "package_01") && hasItem(items, "good_powder")) {
+    return AfterPcRoomFourDialogue;
+  }
 
-    if (hasQuest(quests, "return_to_remedinha") || hasQuest(quests, "encounter_deise")) {
-        return AfterPcRoomSixDialogue;
-    }
+  if (
+    hasQuest(quests, "go_cafeteria") &&
+    !hasQuest(quests, "return_to_remedinha")
+  ) {
+    return AfterPcRoomFiveDialogue;
+  }
 
-    if (hasQuest(quests, "x1_slimita") && !hasQuest(quests, "go_to_hell")) {
-        return AfterPcRoomSevenDialogue;
-    }
+  if (
+    hasQuest(quests, "return_to_remedinha") ||
+    hasQuest(quests, "encounter_deise")
+  ) {
+    return AfterPcRoomSixDialogue;
+  }
 
-    if (hasQuest(quests, "x1_maugrelo") && !hasQuest(quests, "go_to_brodiclass")) {
-        return AfterPcRoomEightDialogue;
-    }
+  if (hasQuest(quests, "x1_slimita") && !hasQuest(quests, "go_to_hell")) {
+    return AfterPcRoomSevenDialogue;
+  }
 
-    return AfterPcRoomGenericDialogue;
-}
+  if (
+    hasQuest(quests, "x1_maugrelo") &&
+    !hasQuest(quests, "go_to_brodiclass")
+  ) {
+    return AfterPcRoomEightDialogue;
+  }
+
+  return AfterPcRoomGenericDialogue;
+};

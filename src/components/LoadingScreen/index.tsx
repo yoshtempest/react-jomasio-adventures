@@ -13,10 +13,7 @@ export function LoadingScreen() {
 
   return (
     <div className="loading-screen">
-      <img
-        className="loading-logo"
-        src={asset("/assets/logo.svg")}
-      />
+      <img className="loading-logo" src={asset("/assets/logo.svg")} />
     </div>
   );
 }

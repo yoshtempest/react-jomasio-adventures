@@ -24,7 +24,16 @@ type Props = {
   PLAYER_SIZE: number;
 };
 
-export function BattleEntities({ npc, player, battle, npcType, summons, pet, TILE_SIZE, PLAYER_SIZE }: Props) {
+export function BattleEntities({
+  npc,
+  player,
+  battle,
+  npcType,
+  summons,
+  pet,
+  TILE_SIZE,
+  PLAYER_SIZE,
+}: Props) {
   return (
     <>
       <NPCBattle
@@ -45,7 +54,7 @@ export function BattleEntities({ npc, player, battle, npcType, summons, pet, TIL
         <ProjectileSprite projectile={npc.projectile} TILE_SIZE={TILE_SIZE} />
       )}
 
-      {summons.map(s => (
+      {summons.map((s) => (
         <NPCBattle
           key={s.id}
           x={s.x}

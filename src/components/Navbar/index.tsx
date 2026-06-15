@@ -1,7 +1,7 @@
 import styles from "./styles.module.css";
 import { useNavbarMenu } from "@/hooks/menu/useNavbarMenu";
 
-import { Status } from "./Status"
+import { Status } from "./Status";
 import { Inventory } from "./Inventory";
 import { Character } from "./Character";
 import { Config } from "./Config";

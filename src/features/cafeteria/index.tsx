@@ -35,7 +35,7 @@ export function CafeteriaScene({ sceneId }: Props) {
         setGotKey,
         progressQuest,
       }),
-    [addItem, gotKey, hasItem, removeItem, setPopup, setGotKey, progressQuest]
+    [addItem, gotKey, hasItem, removeItem, setPopup, setGotKey, progressQuest],
   );
 
   if (!scene) {
@@ -53,12 +53,7 @@ export function CafeteriaScene({ sceneId }: Props) {
       />
 
       {/* ✅ popup continua fora */}
-      {popup && (
-        <Talking
-          name="Sistema"
-          message={popup}
-        />
-      )}
+      {popup && <Talking name="Sistema" message={popup} />}
     </>
   );
 }

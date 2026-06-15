@@ -8,7 +8,6 @@ import { useFlags } from "@/contexts/FlagContext";
 import { ITEMS } from "@/data/items";
 import type { SceneId } from "@/utils/types/maps/sceneConfig";
 
-
 type Props = {
   sceneId: SceneId;
 };
@@ -22,8 +21,7 @@ export function HellScene({ sceneId }: Props) {
 
   const [showChoice, setShowChoice] = useState(false);
 
-  const hasQuest = (id: string) =>
-    quests.some((q) => q.id === id);
+  const hasQuest = (id: string) => quests.some((q) => q.id === id);
 
   function handleChoice(chose: boolean) {
     setShowChoice(false);
@@ -43,7 +41,11 @@ export function HellScene({ sceneId }: Props) {
         scene={scene}
         className={`Master HellRoom`}
         onFinishExtra={() => {
-          if (sceneId === "one" && !hasFlag("chose_peru") && !hasItem("turkey")) {
+          if (
+            sceneId === "one" &&
+            !hasFlag("chose_peru") &&
+            !hasItem("turkey")
+          ) {
             setShowChoice(true);
           }
           return {

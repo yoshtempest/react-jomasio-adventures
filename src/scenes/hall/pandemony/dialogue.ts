@@ -4,13 +4,13 @@ import { hallHellTwoDialogue } from "@/data/maps/hall/hell/two";
 import { hasQuest } from "@/scenes/shared/helpers";
 
 export const getPandemonyDialogue = ({
-  quests
+  quests,
 }: {
-  quests: { id: QuestId }[],
+  quests: { id: QuestId }[];
 }) => {
-    if (hasQuest(quests, "go_to_hell")) {
-      return hallHellTwoDialogue;
-    }
+  if (hasQuest(quests, "go_to_hell")) {
+    return hallHellTwoDialogue;
+  }
 
-    return HallPandemonyDialogue;
-}
+  return HallPandemonyDialogue;
+};

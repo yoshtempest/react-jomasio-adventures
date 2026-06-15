@@ -38,22 +38,26 @@ export function DirectorScene({ sceneId }: Props) {
     audio.play().catch(() => {});
   }, []);
 
-  const navigateFrom = useCallback((to: string) => {
-    navigate(to, { state: { from: location.pathname } });
-  }, [navigate, location.pathname]);
+  const navigateFrom = useCallback(
+    (to: string) => {
+      navigate(to, { state: { from: location.pathname } });
+    },
+    [navigate, location.pathname],
+  );
 
-  const interactions = useMemo(() =>
-    createDirector({
-      hasItem,
-      addItem,
-      removeItem,
-      navigate: navigateFrom,
-      setPopup: (msg) => setPopup(msg),
-      gotKey,
-      setGotKey,
-      progressQuest,
-      playSFX,
-    }),
+  const interactions = useMemo(
+    () =>
+      createDirector({
+        hasItem,
+        addItem,
+        removeItem,
+        navigate: navigateFrom,
+        setPopup: (msg) => setPopup(msg),
+        gotKey,
+        setGotKey,
+        progressQuest,
+        playSFX,
+      }),
     [
       hasItem,
       addItem,
@@ -62,7 +66,7 @@ export function DirectorScene({ sceneId }: Props) {
       gotKey,
       progressQuest,
       playSFX,
-    ]
+    ],
   );
 
   if (!scene) {
@@ -80,12 +84,7 @@ export function DirectorScene({ sceneId }: Props) {
       />
 
       {/* ✅ popup continua fora */}
-      {popup && (
-        <Talking
-          name="Sistema"
-          message={popup}
-        />
-      )}
+      {popup && <Talking name="Sistema" message={popup} />}
     </>
   );
 }

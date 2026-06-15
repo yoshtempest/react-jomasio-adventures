@@ -10,10 +10,10 @@ import { hasQuest, hasItem } from "@/scenes/shared/helpers";
 
 export const getJailsonOneDialogue = ({
   quests,
-  items
+  items,
 }: {
-  quests: { id: QuestId }[],
-  items: { id: ItemId }[]
+  quests: { id: QuestId }[];
+  items: { id: ItemId }[];
 }) => {
   if (!hasQuest(quests, "give_orange_juice")) {
     return hallJailsonFourDialogue;
@@ -27,10 +27,7 @@ export const getJailsonOneDialogue = ({
     return hallJailsonFiveDialogue;
   }
 
-  if (
-    hasQuest(quests, "give_orange_juice") &&
-    hasItem(items, "orange_juice")
-  ) {
+  if (hasQuest(quests, "give_orange_juice") && hasItem(items, "orange_juice")) {
     return hallJailsonSixDialogue;
   }
 
@@ -42,10 +39,7 @@ export const getJailsonOneDialogue = ({
     return hallJailsonSevenDialogue;
   }
 
-  if (
-    hasQuest(quests, "create_map") &&
-    hasItem(items, "desired_gear")
-  ) {
+  if (hasQuest(quests, "create_map") && hasItem(items, "desired_gear")) {
     return hallJailsonEightDialogue;
   }
 

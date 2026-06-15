@@ -93,17 +93,25 @@ export function BattleScene(props: Props) {
 
     if (shouldPlay && !battleAudioRef.current.isPlaying()) {
       battleAudioRef.current.play();
-    }
-
-    else if (!shouldPlay && battleAudioRef.current.isPlaying()) {
+    } else if (!shouldPlay && battleAudioRef.current.isPlaying()) {
       battleAudioRef.current.pause();
     }
   }, [showIntro, showVictory, showDefeat]);
 
   return (
     <div className={`Master ${className ?? ""}`}>
-      <BattleHUD battle={battle} npcStats={npcStats} npcType={npcType} summons={summons} />
-      <ComboDisplay count={comboCount} rank={comboRank} progress={comboProgress} nextRank={nextRank} />
+      <BattleHUD
+        battle={battle}
+        npcStats={npcStats}
+        npcType={npcType}
+        summons={summons}
+      />
+      <ComboDisplay
+        count={comboCount}
+        rank={comboRank}
+        progress={comboProgress}
+        nextRank={nextRank}
+      />
       {showIntro && (
         <BattleIntro
           playerCharacter={player.character}

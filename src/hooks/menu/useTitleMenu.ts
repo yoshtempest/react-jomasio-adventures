@@ -6,7 +6,7 @@ import { TITLE_IDS } from "@/data/titles";
 
 export function useTitleMenu(
   isOpen: boolean,
-  listRef?: React.RefObject<HTMLDivElement | null>
+  listRef?: React.RefObject<HTMLDivElement | null>,
 ) {
   const { pushControls, popControls } = useGameControls();
   const { titlesData, equipTitle } = useTitles();
@@ -51,14 +51,14 @@ export function useTitleMenu(
       onUp: () => {
         playMoveRef.current();
         setSelectedIndex((prev) =>
-          prev > 0 ? prev - 1 : TITLE_IDS.length - 1
+          prev > 0 ? prev - 1 : TITLE_IDS.length - 1,
         );
       },
 
       onDown: () => {
         playMoveRef.current();
         setSelectedIndex((prev) =>
-          prev < TITLE_IDS.length - 1 ? prev + 1 : 0
+          prev < TITLE_IDS.length - 1 ? prev + 1 : 0,
         );
       },
 

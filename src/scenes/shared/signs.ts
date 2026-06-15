@@ -7,11 +7,21 @@ const DIRS = [
   { dx: 1, dy: 0 },
 ];
 
-function findAdjacentFloor(map: number[][], x: number, y: number): { x: number; y: number } | null {
+function findAdjacentFloor(
+  map: number[][],
+  x: number,
+  y: number,
+): { x: number; y: number } | null {
   for (const { dx, dy } of DIRS) {
     const ax = x + dx;
     const ay = y + dy;
-    if (ay >= 0 && ay < map.length && ax >= 0 && ax < map[0].length && map[ay][ax] === 0) {
+    if (
+      ay >= 0 &&
+      ay < map.length &&
+      ax >= 0 &&
+      ax < map[0].length &&
+      map[ay][ax] === 0
+    ) {
       return { x: ax, y: ay };
     }
   }
@@ -122,7 +132,10 @@ export function autoSigns(
     const pos = findAdjacentFloor(map, tile.x, tile.y);
     if (!pos) continue;
 
-    const destName = ROUTE_LABELS[tile.route] ?? tile.route.split("/").filter(Boolean).pop() ?? tile.route;
+    const destName =
+      ROUTE_LABELS[tile.route] ??
+      tile.route.split("/").filter(Boolean).pop() ??
+      tile.route;
     const message = `📍 ${sceneName}\n➡️ ${destName}`;
 
     signs.push({ x: pos.x, y: pos.y, message });

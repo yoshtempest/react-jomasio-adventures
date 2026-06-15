@@ -1,5 +1,5 @@
 import { BattleScene } from "@/components/Game/Scenes/Battle";
-import DarkSouls from "/assets/songs/DarkSouls.m4a"
+import DarkSouls from "/assets/songs/DarkSouls.m4a";
 import { useFlags } from "@/contexts/FlagContext";
 
 export default function CafeteriaBattle() {

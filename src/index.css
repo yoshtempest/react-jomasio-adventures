@@ -1,7 +1,6 @@
 :root {
-  --primary-color: #121B31;
-  --background-color: #0A0500;
-
+  --primary-color: #121b31;
+  --background-color: #0a0500;
 
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -192,14 +191,13 @@ h2 {
   background-image: url("/assets/cenarios/jomasio/battle/tutorial.svg");
 }
 
-
 .overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -236,7 +234,7 @@ h2 {
   align-items: center;
   justify-content: center;
 
-  background-color: #0A0500; /* mesma cor do seu jogo */
+  background-color: #0a0500; /* mesma cor do seu jogo */
   z-index: 9999;
 }
 
@@ -293,9 +291,9 @@ h2 {
 }
 
 .active {
-  display: flex;              /* 👈 ESSENCIAL */
-  align-items: center;        /* centraliza verticalmente */
-  gap: 6px;                   /* espaço entre seta e texto */
+  display: flex; /* 👈 ESSENCIAL */
+  align-items: center; /* centraliza verticalmente */
+  gap: 6px; /* espaço entre seta e texto */
   background-color: rgb(26, 26, 109);
   font-weight: bold;
   border-radius: 1px;

@@ -14,7 +14,7 @@ function rollEncounter() {
   return "/battle/goat";
 }
 
-export function useItemEffect({playSFX}: Props) {
+export function useItemEffect({ playSFX }: Props) {
   const navigate = useNavigate();
   const { setMode, player, toggleHasPeru } = usePlayer();
 
@@ -37,7 +37,12 @@ export function useItemEffect({playSFX}: Props) {
         return () => {
           if (player.mode !== "explore") return;
           const isEquipping = !player.hasPeru;
-          playSFX?.(isEquipping ? "/assets/songs/transitions/equip.mp3" : "/assets/songs/transitions/unequip.mp3", 0.5);
+          playSFX?.(
+            isEquipping
+              ? "/assets/songs/transitions/equip.mp3"
+              : "/assets/songs/transitions/unequip.mp3",
+            0.5,
+          );
           toggleHasPeru();
         };
 

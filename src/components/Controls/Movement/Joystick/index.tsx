@@ -8,64 +8,45 @@ type Props = {
   activeControls: GameControlLayer;
 };
 
-export function JoystickMovement({
-  activeControls,
-}: Props) {
+export function JoystickMovement({ activeControls }: Props) {
   const activeDir = useRef<Set<Dir>>(new Set());
 
   const isDragging = useRef(false);
 
-  const centerRef = useRef<HTMLDivElement | null>(
-    null
-  );
+  const centerRef = useRef<HTMLDivElement | null>(null);
 
-  const innerRef = useRef<HTMLDivElement | null>(
-    null
-  );
+  const innerRef = useRef<HTMLDivElement | null>(null);
 
-  function execute(
-    dir: Dir,
-    pressed: boolean
-    ) {
+  function execute(dir: Dir, pressed: boolean) {
     switch (dir) {
-        case "up":
+      case "up":
         if (pressed) activeControls?.onUp?.();
         break;
 
-        case "down":
-        if (pressed)
-            activeControls?.onDown?.();
-        else
-            activeControls?.onDownRelease?.();
+      case "down":
+        if (pressed) activeControls?.onDown?.();
+        else activeControls?.onDownRelease?.();
         break;
 
-        case "left":
-        if (pressed)
-            activeControls?.onLeft?.();
-        else
-            activeControls?.onLeftRelease?.();
+      case "left":
+        if (pressed) activeControls?.onLeft?.();
+        else activeControls?.onLeftRelease?.();
         break;
 
-        case "right":
-        if (pressed)
-            activeControls?.onRight?.();
-        else
-            activeControls?.onRightRelease?.();
+      case "right":
+        if (pressed) activeControls?.onRight?.();
+        else activeControls?.onRightRelease?.();
         break;
     }
-    }
+  }
 
   function resetInner() {
     if (!innerRef.current) return;
 
-    innerRef.current.style.transform =
-      "translate(0px, 0px)";
+    innerRef.current.style.transform = "translate(0px, 0px)";
   }
 
-  function updateDirection(
-    clientX: number,
-    clientY: number
-  ) {
+  function updateDirection(clientX: number, clientY: number) {
     const el = centerRef.current;
     const inner = innerRef.current;
 
@@ -79,8 +60,7 @@ export function JoystickMovement({
     let x = clientX - centerX;
     let y = clientY - centerY;
 
-    const maxRadius =
-      rect.width / 2 - inner.offsetWidth / 2;
+    const maxRadius = rect.width / 2 - inner.offsetWidth / 2;
 
     const distance = Math.sqrt(x * x + y * y);
 
@@ -91,8 +71,7 @@ export function JoystickMovement({
       y *= ratio;
     }
 
-    inner.style.transform =
-      `translate(${x}px, ${y}px)`;
+    inner.style.transform = `translate(${x}px, ${y}px)`;
 
     const deadzone = 15;
 
@@ -119,9 +98,7 @@ export function JoystickMovement({
     activeDir.current = new Set(newDir);
   }
 
-  function handleStart(
-    e: React.PointerEvent
-  ) {
+  function handleStart(e: React.PointerEvent) {
     isDragging.current = true;
 
     const el = e.currentTarget as HTMLElement;
@@ -131,9 +108,7 @@ export function JoystickMovement({
     updateDirection(e.clientX, e.clientY);
   }
 
-  function handleMove(
-    e: React.PointerEvent
-  ) {
+  function handleMove(e: React.PointerEvent) {
     if (!isDragging.current) return;
 
     updateDirection(e.clientX, e.clientY);
@@ -160,10 +135,7 @@ export function JoystickMovement({
       onPointerUp={handleEnd}
       onPointerCancel={handleEnd}
     >
-      <div
-        ref={innerRef}
-        className={styles.inner}
-      />
+      <div ref={innerRef} className={styles.inner} />
     </div>
   );
 }

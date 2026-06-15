@@ -5,7 +5,11 @@ type Props = {
   map: number[][];
   initialPosition?: ScenePosition;
   setMap: (map: number[][]) => void;
-  setPosition: (x: number, y: number, direction: ScenePosition["direction"]) => void;
+  setPosition: (
+    x: number,
+    y: number,
+    direction: ScenePosition["direction"],
+  ) => void;
 };
 
 export function useSceneSetup({
@@ -44,7 +48,7 @@ export function useSceneSetup({
         delete positions[currentRoute];
         localStorage.setItem(
           "scene_return_positions",
-          JSON.stringify(positions)
+          JSON.stringify(positions),
         );
         setIsReady(true);
         return;

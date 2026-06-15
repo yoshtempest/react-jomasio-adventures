@@ -61,7 +61,7 @@ export function useBattleSystem(props: Props) {
     npcMaxHp,
     npcArmor,
     HITS_TO_SPECIAL,
-    hasPet
+    hasPet,
   } = stats;
 
   const behavior = battleBehaviors[player.character] || battleBehaviors.default;
@@ -73,21 +73,16 @@ export function useBattleSystem(props: Props) {
   const effects = useBattleEffects({ character: player.character });
 
   // 💥 damage numbers + screen shake
-  const {
-    damageNumbers,
-    spawnDamageNumber,
-    clearDamageNumbers
-  } = useDamageNumbers();
+  const { damageNumbers, spawnDamageNumber, clearDamageNumbers } =
+    useDamageNumbers();
   const spawnDamageRef = useRef(spawnDamageNumber);
   spawnDamageRef.current = spawnDamageNumber;
 
   // ❤️ HP state (player + npc)
-  const { 
-    playerHP,
-    setPlayerHP,
-    npcHP,
-    setNpcHP
-  } = useBattleHP(playerMaxHp, npcMaxHp);
+  const { playerHP, setPlayerHP, npcHP, setNpcHP } = useBattleHP(
+    playerMaxHp,
+    npcMaxHp,
+  );
 
   // 👊 player
   const playerBattle = usePlayerBattle({
@@ -161,7 +156,10 @@ export function useBattleSystem(props: Props) {
 
   const { pet } = usePetBattle({
     enabled: hasPet,
-    playerX, playerY, npcX, npcY,
+    playerX,
+    playerY,
+    npcX,
+    npcY,
     isPaused: isEnding.current,
     onPetDamage: () => petDamageRef.current(),
     hitstopRef,
@@ -169,8 +167,9 @@ export function useBattleSystem(props: Props) {
 
   // 💥 external damage to player (summons, etc.)
   const damagePlayer = (damage: number) => {
-    const reduced = totalArmor > 0 ? Math.round(damage * 100 / (100 + totalArmor)) : damage;
-    setPlayerHP(hp => Math.max(0, hp - reduced));
+    const reduced =
+      totalArmor > 0 ? Math.round((damage * 100) / (100 + totalArmor)) : damage;
+    setPlayerHP((hp) => Math.max(0, hp - reduced));
     spawnDamageRef.current?.(reduced, playerX, playerY, "summon");
   };
 
@@ -188,13 +187,15 @@ export function useBattleSystem(props: Props) {
     isEnding.current = false;
     behavior.reset?.({
       setStacks: playerBattle.setStacks,
-      setDelicia: playerBattle.setDelicia
+      setDelicia: playerBattle.setDelicia,
     });
   };
 
   return {
-    playerHP, playerMaxHp,
-    npcHP, npcMaxHp,
+    playerHP,
+    playerMaxHp,
+    npcHP,
+    npcMaxHp,
     npcPhase,
     delicia: playerBattle.delicia,
     hitsToSpecial: HITS_TO_SPECIAL,
@@ -204,11 +205,14 @@ export function useBattleSystem(props: Props) {
     npcRangedHit: npcBattle.npcRangedHit,
     resetBattle,
     damagePlayer,
-    isNpcDying, setNpcDying,
-    playerCooldown, isEnding,
+    isNpcDying,
+    setNpcDying,
+    playerCooldown,
+    isEnding,
     piercings: effects.piercings,
     isExploding: effects.isExploding,
     pet,
-    damageNumbers, spawnDamageNumber,
+    damageNumbers,
+    spawnDamageNumber,
   };
 }

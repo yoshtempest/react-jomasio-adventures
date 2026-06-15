@@ -8,7 +8,7 @@ type Listener = (event: GameEvent) => void;
 const listeners: Listener[] = [];
 
 export function emitEvent(event: GameEvent) {
-  listeners.forEach(l => l(event));
+  listeners.forEach((l) => l(event));
 }
 
 export function subscribe(listener: Listener) {

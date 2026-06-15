@@ -11,10 +11,7 @@ import { DIALOGUE_SPEED_LIST } from "@/utils/settings";
 
 const DIFFICULTY: NpcDifficulty[] = ["easy", "medium", "hard"];
 
-export function useConfigSelection(
-  isActive: boolean,
-  onConfirm?: () => void
-) {
+export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   const { pushControls, popControls } = useGameControls();
 
   const { setDifficulty } = usePlayer();
@@ -71,9 +68,7 @@ export function useConfigSelection(
         playMoveRef.current();
 
         if (selectedRowRef.current === 0) {
-          setSelectedIndex((prev) =>
-            circularNext(prev, DIFFICULTY.length)
-          );
+          setSelectedIndex((prev) => circularNext(prev, DIFFICULTY.length));
         }
 
         if (selectedRowRef.current === 1) {
@@ -82,7 +77,7 @@ export function useConfigSelection(
 
         if (selectedRowRef.current === 2) {
           setSelectedIndex((prev) =>
-            circularNext(prev, DIALOGUE_SPEED_LIST.length)
+            circularNext(prev, DIALOGUE_SPEED_LIST.length),
           );
         }
       },
@@ -92,9 +87,7 @@ export function useConfigSelection(
         playMoveRef.current();
 
         if (selectedRowRef.current === 0) {
-          setSelectedIndex((prev) =>
-            circularPrev(prev, DIFFICULTY.length)
-          );
+          setSelectedIndex((prev) => circularPrev(prev, DIFFICULTY.length));
         }
 
         if (selectedRowRef.current === 1) {
@@ -103,7 +96,7 @@ export function useConfigSelection(
 
         if (selectedRowRef.current === 2) {
           setSelectedIndex((prev) =>
-            circularPrev(prev, DIALOGUE_SPEED_LIST.length)
+            circularPrev(prev, DIALOGUE_SPEED_LIST.length),
           );
         }
       },
@@ -129,10 +122,7 @@ export function useConfigSelection(
 
         // dificuldade
         if (selectedRowRef.current === 0) {
-          const selected = getSelected(
-            DIFFICULTY,
-            selectedIndexRef.current
-          );
+          const selected = getSelected(DIFFICULTY, selectedIndexRef.current);
 
           setDifficultyRef.current(selected);
         }
@@ -141,7 +131,7 @@ export function useConfigSelection(
         if (selectedRowRef.current === 2) {
           const selected = getSelected(
             DIALOGUE_SPEED_LIST,
-            selectedIndexRef.current
+            selectedIndexRef.current,
           );
 
           setDialogueSpeedRef.current(selected);

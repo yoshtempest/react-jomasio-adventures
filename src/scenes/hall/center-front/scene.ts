@@ -3,7 +3,7 @@ import { hallCenterFrontTiles } from "./tiles";
 import { getCenterFrontInitialPosition } from "./position";
 import { MUSICS } from "@/scenes/shared/music";
 import type { SceneConfig } from "@/utils/types/maps/sceneConfig";
-import { centerFrontNpcs } from "./npcs"
+import { centerFrontNpcs } from "./npcs";
 import { getCenterFrontDialogue } from "./dialogue";
 
 export const centerFrontScene: SceneConfig = {

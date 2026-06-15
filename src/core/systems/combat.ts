@@ -3,7 +3,7 @@ import { BaseCharacter } from "@/core/characters/base";
 export function attack(
   attacker: BaseCharacter,
   target: BaseCharacter,
-  currentTime: number
+  currentTime: number,
 ) {
   if (currentTime < attacker.cooldown) {
     return { attacker, target, success: false };

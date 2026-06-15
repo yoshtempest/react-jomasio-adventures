@@ -16,7 +16,6 @@ export type SceneEvent =
         hasQuest?: QuestId;
         notHasQuest?: QuestId;
 
-
         hasFlag?: FlagId;
         notHasFlag?: FlagId;
 

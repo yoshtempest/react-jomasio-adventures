@@ -1,5 +1,18 @@
-import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from "react";
-import { useLocation, useNavigate, type NavigateOptions, type To } from "react-router";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
+import {
+  useLocation,
+  useNavigate,
+  type NavigateOptions,
+  type To,
+} from "react-router";
 
 type TransitionContextType = {
   isFading: boolean;
@@ -17,15 +30,18 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
   isFadingRef.current = isFading;
   const prevPathRef = useRef(location.pathname + location.search);
 
-  const navigateWithFade = useCallback((to: To | number, options?: NavigateOptions) => {
-    if (typeof to === "number") {
-      navigate(to);
-      return;
-    }
-    if (isFadingRef.current) return;
-    pendingRef.current = { to, options };
-    setIsFading(true);
-  }, [navigate]);
+  const navigateWithFade = useCallback(
+    (to: To | number, options?: NavigateOptions) => {
+      if (typeof to === "number") {
+        navigate(to);
+        return;
+      }
+      if (isFadingRef.current) return;
+      pendingRef.current = { to, options };
+      setIsFading(true);
+    },
+    [navigate],
+  );
 
   // After fade-out completes, execute the pending navigation
   useEffect(() => {

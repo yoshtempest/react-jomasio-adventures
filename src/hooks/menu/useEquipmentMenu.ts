@@ -6,7 +6,11 @@ import { getEquipmentById } from "@/data/equipment";
 import { EQUIPMENT_SLOTS } from "@/utils/types/player/equipment";
 import type { Equipment } from "@/utils/types/player/equipment";
 import { getEffectiveStats } from "@/gameRules/battle/equipment";
-import { EQUIPPED_COUNT, FILTER_TAB_COUNT, FILTER_TABS } from "@/data/equipmentMenu";
+import {
+  EQUIPPED_COUNT,
+  FILTER_TAB_COUNT,
+  FILTER_TABS,
+} from "@/data/equipmentMenu";
 import type { EquipmentFilter } from "@/data/equipmentMenu";
 
 function parseColKey(key: string): { id: string; enhance: number } {
@@ -28,7 +32,7 @@ export type CollectedEntry = {
 export function useEquipmentMenu(
   isOpen: boolean,
   character: CharacterId,
-  rightItemsRef?: React.RefObject<HTMLDivElement | null>
+  rightItemsRef?: React.RefObject<HTMLDivElement | null>,
 ) {
   const { pushControls, popControls } = useGameControls();
   const { getEquippedItem, getEquippedInfo, getCollection, equip, unequip } =
@@ -46,7 +50,9 @@ export function useEquipmentMenu(
     info: getEquippedInfo(character, slot),
   }));
 
-  const allCollected: CollectedEntry[] = Object.entries(getCollection(character))
+  const allCollected: CollectedEntry[] = Object.entries(
+    getCollection(character),
+  )
     .filter(([, qty]) => (qty as number) > 0)
     .map(([key, qty]) => {
       const { id, enhance } = parseColKey(key);
@@ -92,7 +98,7 @@ export function useEquipmentMenu(
 
   useEffect(() => {
     setSelectedIndex((prev) =>
-      totalItems === 0 ? 0 : Math.min(prev, totalItems - 1)
+      totalItems === 0 ? 0 : Math.min(prev, totalItems - 1),
     );
   }, [totalItems]);
 
@@ -125,7 +131,7 @@ export function useEquipmentMenu(
 
   function navigate(
     prev: number,
-    direction: "up" | "down" | "left" | "right"
+    direction: "up" | "down" | "left" | "right",
   ): number {
     const firstTab = EQUIPPED_COUNT;
     const lastTab = EQUIPPED_COUNT + FILTER_TAB_COUNT - 1;
@@ -135,8 +141,7 @@ export function useEquipmentMenu(
       if (direction === "up") return prev > 0 ? prev - 1 : prev;
       if (direction === "down")
         return prev < EQUIPPED_COUNT - 1 ? prev + 1 : prev;
-      if (direction === "right" && totalItems > EQUIPPED_COUNT)
-        return firstTab;
+      if (direction === "right" && totalItems > EQUIPPED_COUNT) return firstTab;
       return prev;
     }
 
@@ -153,8 +158,7 @@ export function useEquipmentMenu(
     }
 
     if (direction === "up") return prev > firstItem ? prev - 1 : firstTab;
-    if (direction === "down")
-      return prev < totalItems - 1 ? prev + 1 : prev;
+    if (direction === "down") return prev < totalItems - 1 ? prev + 1 : prev;
     if (direction === "left") return firstTab;
     return prev;
   }
@@ -207,12 +211,13 @@ export function useEquipmentMenu(
     return () => popControlsRef.current();
   }, [isOpen, totalItems]);
 
-  const equippedInfos = equippedItems.map(e => ({
+  const equippedInfos = equippedItems.map((e) => ({
     type: "slot" as const,
     slot: e.slot,
     item: e.item,
     info: e.info,
-    stats: e.item && e.info ? getEffectiveStats(e.info.id, e.info.enhance) : null,
+    stats:
+      e.item && e.info ? getEffectiveStats(e.info.id, e.info.enhance) : null,
   }));
 
   return {

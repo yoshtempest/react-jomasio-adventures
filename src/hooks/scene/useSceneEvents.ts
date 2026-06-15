@@ -45,10 +45,7 @@ export function useSceneEvents() {
       return false;
     }
 
-    if (
-      condition.hasItem &&
-      !items.some((i) => i.id === condition.hasItem)
-    ) {
+    if (condition.hasItem && !items.some((i) => i.id === condition.hasItem)) {
       return false;
     }
 
@@ -59,31 +56,19 @@ export function useSceneEvents() {
       return false;
     }
 
-    if (
-      condition.lastPage &&
-      lastPage !== condition.lastPage
-    ) {
+    if (condition.lastPage && lastPage !== condition.lastPage) {
       return false;
     }
 
-    if (
-      condition.notLastPage &&
-      lastPage === condition.notLastPage
-    ) {
+    if (condition.notLastPage && lastPage === condition.notLastPage) {
       return false;
     }
 
-    if (
-      condition.hasFlag &&
-      !hasFlag(condition.hasFlag)
-    ) {
+    if (condition.hasFlag && !hasFlag(condition.hasFlag)) {
       return false;
     }
 
-    if (
-      condition.notHasFlag &&
-      hasFlag(condition.notHasFlag)
-    ) {
+    if (condition.notHasFlag && hasFlag(condition.notHasFlag)) {
       return false;
     }
 

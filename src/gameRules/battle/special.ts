@@ -12,4 +12,3 @@ export function getMaxSpecial(playerClass: PlayerClass | null) {
 export function gainSpecial(current: number, max: number) {
   return Math.min(current + 1, max);
 }
-

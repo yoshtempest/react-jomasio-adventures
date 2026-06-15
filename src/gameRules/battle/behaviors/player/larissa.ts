@@ -32,5 +32,5 @@ export const larissaBehavior: BattleBehavior = {
   reset: ({ setStacks, setDelicia }) => {
     setStacks(0);
     setDelicia(0);
-  }
+  },
 };

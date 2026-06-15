@@ -2,11 +2,7 @@ type ConditionalTileOptions = {
   blockedMessage?: string;
 };
 
-export const createDoorTile = (
-  x: number,
-  y: number,
-  route: string
-) => ({
+export const createDoorTile = (x: number, y: number, route: string) => ({
   x,
   y,
   route,
@@ -18,7 +14,7 @@ export const createConditionalTile = (
   x: number,
   y: number,
   getRoute: TileRouteFunction,
-  options?: ConditionalTileOptions
+  options?: ConditionalTileOptions,
 ) => ({
   x,
   y,
@@ -26,11 +22,7 @@ export const createConditionalTile = (
   blockedMessage: options?.blockedMessage,
 });
 
-export const createNpc = (
-  src: string,
-  gridX: number,
-  gridY: number
-) => ({
+export const createNpc = (src: string, gridX: number, gridY: number) => ({
   src,
   gridX,
   gridY,
@@ -39,16 +31,14 @@ export const createNpc = (
 export const createPosition = (
   x: number,
   y: number,
-  direction: Direction
+  direction: Direction,
 ): ExplorePosition => ({
   x,
   y,
   direction,
 });
 
-export const createGiveQuestEvent = (
-  questId: string
-) => ({
+export const createGiveQuestEvent = (questId: string) => ({
   type: "giveQuest",
   questId,
 });

@@ -1,6 +1,10 @@
 import { cafeteriaMessages } from "@/data/maps/cafeteria/messages";
 import { createInteractionMap } from "./builder";
-import type { KeyDeps, InventoryDeps, QuestDeps } from "@/utils/types/interaction";
+import type {
+  KeyDeps,
+  InventoryDeps,
+  QuestDeps,
+} from "@/utils/types/interaction";
 
 type CafeteriaDeps = KeyDeps & InventoryDeps & QuestDeps;
 

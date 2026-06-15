@@ -6,8 +6,7 @@ export function playAttackSound(character: Player["character"]) {
 
   if (!config) return;
 
-  const pick =
-    config.sounds[Math.floor(Math.random() * config.sounds.length)];
+  const pick = config.sounds[Math.floor(Math.random() * config.sounds.length)];
 
   const audio = new Audio(pick);
 

@@ -3,8 +3,8 @@ import { animationFlow } from "@/utils/animationFlow";
 import type { Player } from "@/utils/types/player/player";
 
 export function usePlayerAnimation(
-    player: Player,
-    setPlayer: React.Dispatch<React.SetStateAction<Player>>
+  player: Player,
+  setPlayer: React.Dispatch<React.SetStateAction<Player>>,
 ) {
   useEffect(() => {
     if (player.state === "jump") return;

@@ -2,12 +2,14 @@ import { useRef } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useEquipmentMenu } from "@/hooks/menu/useEquipmentMenu";
 import type { CollectedEntry } from "@/hooks/menu/useEquipmentMenu";
-import { EQUIPPED_COUNT, FILTER_TAB_COUNT, FILTER_TABS, FILTER_LABELS } from "@/data/equipmentMenu";
-import { asset } from "@/utils/asset";
 import {
-  SLOT_LABELS,
-  RANK_COLORS,
-} from "@/utils/types/player/equipment";
+  EQUIPPED_COUNT,
+  FILTER_TAB_COUNT,
+  FILTER_TABS,
+  FILTER_LABELS,
+} from "@/data/equipmentMenu";
+import { asset } from "@/utils/asset";
+import { SLOT_LABELS, RANK_COLORS } from "@/utils/types/player/equipment";
 import styles from "./styles.module.css";
 
 export function Equipment() {
@@ -52,12 +54,16 @@ export function Equipment() {
                         >
                           {item.name}
                           {info && info.enhance > 0 ? (
-                            <span className={styles.enhanceBadge}>+{info.enhance}</span>
+                            <span className={styles.enhanceBadge}>
+                              +{info.enhance}
+                            </span>
                           ) : null}
                         </span>
                       </div>
                       <span className={styles.stats}>
-                        {stats ? `HP: +${stats.hp} | For: +${stats.strength}${stats.intelligence > 0 ? ` | Int: +${stats.intelligence}` : ""}${stats.armor > 0 ? ` | Arm: +${stats.armor}` : ""}` : ""}
+                        {stats
+                          ? `HP: +${stats.hp} | For: +${stats.strength}${stats.intelligence > 0 ? ` | Int: +${stats.intelligence}` : ""}${stats.armor > 0 ? ` | Arm: +${stats.armor}` : ""}`
+                          : ""}
                       </span>
                       <span className={styles.actionHint}>
                         Confirmar: Remover
@@ -113,7 +119,9 @@ export function Equipment() {
                     >
                       {entry.item.name}
                       {entry.enhance > 0 ? (
-                        <span className={styles.enhanceBadge}>+{entry.enhance}</span>
+                        <span className={styles.enhanceBadge}>
+                          +{entry.enhance}
+                        </span>
                       ) : null}
                     </span>
                     <span className={styles.qtyBadge}>x{entry.qty}</span>
@@ -123,12 +131,14 @@ export function Equipment() {
                   </div>
                   <span className={styles.stats}>
                     HP: +{entry.stats.hp} | For: +{entry.stats.strength}
-                    {entry.stats.intelligence > 0 ? ` | Int: +${entry.stats.intelligence}` : ""}
-                    {entry.stats.armor > 0 ? ` | Arm: +${entry.stats.armor}` : ""}
+                    {entry.stats.intelligence > 0
+                      ? ` | Int: +${entry.stats.intelligence}`
+                      : ""}
+                    {entry.stats.armor > 0
+                      ? ` | Arm: +${entry.stats.armor}`
+                      : ""}
                   </span>
-                  <span className={styles.actionHint}>
-                    Confirmar: Equipar
-                  </span>
+                  <span className={styles.actionHint}>Confirmar: Equipar</span>
                 </div>
               );
             })}

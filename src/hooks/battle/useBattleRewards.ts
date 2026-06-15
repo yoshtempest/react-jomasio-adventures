@@ -10,7 +10,10 @@ import { EQUIPMENT_LIST } from "@/data/equipment";
 import { rollCraftDrops } from "@/data/items/crafting";
 import { ITEMS } from "@/data/items";
 import type { NPCClass } from "@/utils/types/npc/npcProgress";
-import type { EquipmentSlot, EquipmentRank } from "@/utils/types/player/equipment";
+import type {
+  EquipmentSlot,
+  EquipmentRank,
+} from "@/utils/types/player/equipment";
 
 function rollEnhance(): number {
   return Math.floor(Math.random() * 6);
@@ -52,11 +55,7 @@ export const COIN_REWARDS: Record<string, number> = {
   legendary: 100,
 };
 
-export function useBattleRewards({
-  npcClass,
-  npcLevel,
-  npcType,
-}: Props) {
+export function useBattleRewards({ npcClass, npcLevel, npcType }: Props) {
   const { player, addCoins } = usePlayer();
   const { addXP } = useCharacterProgress();
   const { addDrop } = useEquipment();
@@ -78,14 +77,22 @@ export function useBattleRewards({
     addCoins(coinReward);
 
     const equipmentDrops: EquipmentDropInfo[] = [];
-    const slots: EquipmentSlot[] = ["weapon", "helmet", "chestplate", "pants", "boots", "accessory", "bag"];
+    const slots: EquipmentSlot[] = [
+      "weapon",
+      "helmet",
+      "chestplate",
+      "pants",
+      "boots",
+      "accessory",
+      "bag",
+    ];
 
     for (const slot of slots) {
       const rank = rollSlotDrop(npcClass);
       if (!rank) continue;
 
       const equipment = EQUIPMENT_LIST.find(
-        e => e.slot === slot && e.rank === rank
+        (e) => e.slot === slot && e.rank === rank,
       );
 
       if (equipment) {
@@ -115,7 +122,7 @@ export function useBattleRewards({
     if (npcType.startsWith("goat") && Math.random() < 0.01) {
       const enhance = rollEnhance();
       addDrop(player.character, "pet_goat", enhance);
-      const pet = EQUIPMENT_LIST.find(e => e.id === "pet_goat");
+      const pet = EQUIPMENT_LIST.find((e) => e.id === "pet_goat");
       if (pet) {
         equipmentDrops.push({
           id: pet.id,
@@ -134,6 +141,6 @@ export function useBattleRewards({
     xpReward,
     coinReward,
     giveRewards,
-    giveSummonRewards
+    giveSummonRewards,
   };
 }

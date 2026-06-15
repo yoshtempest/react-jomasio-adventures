@@ -10,11 +10,10 @@ export function Character() {
 
   return (
     <div className="containerOfNavbar">
-
       <div className={styles.charactersContainer}>
         {characters.map((char) => {
           const selectableIndex = selectableCharacters.findIndex(
-            (c) => c.name === char.name
+            (c) => c.name === char.name,
           );
           const charProgress = progress[char.image];
           const xpNeeded = getXPToNextLevel(charProgress.level);
@@ -36,13 +35,12 @@ export function Character() {
                 className={styles.characterImage}
               />
 
-              <h2 className={styles.text}>{char.name} - Nv.{charProgress.level}</h2>
-              
+              <h2 className={styles.text}>
+                {char.name} - Nv.{charProgress.level}
+              </h2>
+
               <div className="xpBar">
-                <div
-                  className="xpFill"
-                  style={{ width: `${percent}%` }}
-                />
+                <div className="xpFill" style={{ width: `${percent}%` }} />
               </div>
 
               <p className={styles.text}>

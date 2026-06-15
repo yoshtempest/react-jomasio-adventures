@@ -7,7 +7,6 @@ import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { useAudio } from "@/contexts/AudioContext";
 import { asset } from "@/utils/asset";
 
-
 export function useInventoryMenu(isOpen: boolean) {
   const { pushControls, popControls } = useGameControls();
   const { items } = useInventory();
@@ -21,7 +20,7 @@ export function useInventoryMenu(isOpen: boolean) {
     audio.volume = volume * (masterVolumeRef.current / 100);
     audio.play().catch(() => {});
   };
-  
+
   const { getEffect } = useItemEffect({ playSFX });
   const { playMove, playSelect } = useMenuSFX();
 
@@ -36,7 +35,7 @@ export function useInventoryMenu(isOpen: boolean) {
   // garante que o índice nunca fique inválido
   useEffect(() => {
     setSelectedIndex((prev) =>
-      items.length === 0 ? 0 : Math.min(prev, items.length - 1)
+      items.length === 0 ? 0 : Math.min(prev, items.length - 1),
     );
   }, [items]);
 
@@ -70,9 +69,7 @@ export function useInventoryMenu(isOpen: boolean) {
         if (length === 0) return;
         playMoveRef.current();
 
-        setSelectedIndex((prev) =>
-          circularPrev(prev, length)
-        );
+        setSelectedIndex((prev) => circularPrev(prev, length));
       },
 
       onDown: () => {
@@ -80,9 +77,7 @@ export function useInventoryMenu(isOpen: boolean) {
         if (length === 0) return;
 
         playMoveRef.current();
-        setSelectedIndex((prev) =>
-          circularNext(prev, length)
-        );
+        setSelectedIndex((prev) => circularNext(prev, length));
       },
 
       onConfirm: () => {

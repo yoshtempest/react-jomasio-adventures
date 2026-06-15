@@ -1,7 +1,4 @@
-export function calculatePlayerDamage(
-  strength: number,
-  playerClass: string
-) {
+export function calculatePlayerDamage(strength: number, playerClass: string) {
   let dmg = 6 + strength;
 
   if (playerClass === "amostradinho") {

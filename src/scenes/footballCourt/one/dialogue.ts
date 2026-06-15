@@ -8,8 +8,8 @@ export const getFootballCourtOneDialogue = ({
   quests: { id: QuestId }[];
   flags: FlagId[];
 }) => {
-    if (hasFlag(flags, "neimito")) {
-      return footballCourtTwoDialogue;
-    }
-    return footballCourtDialogue;
+  if (hasFlag(flags, "neimito")) {
+    return footballCourtTwoDialogue;
+  }
+  return footballCourtDialogue;
 };

@@ -5,17 +5,16 @@ import { getCafeteriaOneInitialPosition } from "./position";
 import { cafeteriaOneTiles } from "./tiles";
 import { getCafeteriaOneDialogue } from "./dialogue";
 import { cafeteriaOneNpcs } from "./npcs";
-import { cafeteriaOneEvents } from "./events"
-
+import { cafeteriaOneEvents } from "./events";
 
 export const oneScene: SceneConfig = {
-    id: "one",
-    className: "Cafeteria",
-    map: cafeteria,
-    events: cafeteriaOneEvents,
-    npcs: cafeteriaOneNpcs,
-    dialogueData: getCafeteriaOneDialogue,
-    audio: { src: MUSICS.default },
-    initialPosition: getCafeteriaOneInitialPosition,
-    tiles: cafeteriaOneTiles,
+  id: "one",
+  className: "Cafeteria",
+  map: cafeteria,
+  events: cafeteriaOneEvents,
+  npcs: cafeteriaOneNpcs,
+  dialogueData: getCafeteriaOneDialogue,
+  audio: { src: MUSICS.default },
+  initialPosition: getCafeteriaOneInitialPosition,
+  tiles: cafeteriaOneTiles,
 };

@@ -4,7 +4,6 @@ import { MUSICS } from "@/scenes/shared/music";
 import type { SceneConfig } from "@/utils/types/maps/sceneConfig";
 import { secretPassageTiles } from "./tiles";
 
-
 export const secretPassageScene: SceneConfig = {
   id: "one",
   className: "LibrarySecretPassage",

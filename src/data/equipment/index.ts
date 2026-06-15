@@ -1,4 +1,8 @@
-import type { Equipment, EquipmentRank, EquipmentSlot } from "@/utils/types/player/equipment";
+import type {
+  Equipment,
+  EquipmentRank,
+  EquipmentSlot,
+} from "@/utils/types/player/equipment";
 import { EQUIPMENT_SLOTS } from "@/utils/types/player/equipment";
 
 type EquipmentConfig = {
@@ -13,7 +17,10 @@ type EquipmentConfig = {
   bonusSlots?: number;
 };
 
-const STATS_BY_RANK: Record<EquipmentRank, { hp: number; strength: number; intelligence: number }> = {
+const STATS_BY_RANK: Record<
+  EquipmentRank,
+  { hp: number; strength: number; intelligence: number }
+> = {
   common: { hp: 1, strength: 1, intelligence: 0 },
   rare: { hp: 1, strength: 1, intelligence: 1 },
   epic: { hp: 2, strength: 2, intelligence: 1 },
@@ -21,7 +28,9 @@ const STATS_BY_RANK: Record<EquipmentRank, { hp: number; strength: number; intel
   legendary: { hp: 4, strength: 5, intelligence: 4 },
 };
 
-const ARMOR_BY_SLOT: Partial<Record<EquipmentSlot, Record<EquipmentRank, number>>> = {
+const ARMOR_BY_SLOT: Partial<
+  Record<EquipmentSlot, Record<EquipmentRank, number>>
+> = {
   helmet: { common: 2, rare: 4, epic: 8, boss: 14, legendary: 22 },
   chestplate: { common: 3, rare: 7, epic: 14, boss: 22, legendary: 35 },
   pants: { common: 2, rare: 4, epic: 8, boss: 14, legendary: 22 },
@@ -107,7 +116,13 @@ function buildEquipment(config: EquipmentConfig): Equipment {
 
 function generateAll(): Equipment[] {
   const list: Equipment[] = [];
-  const ranks: EquipmentRank[] = ["common", "rare", "epic", "boss", "legendary"];
+  const ranks: EquipmentRank[] = [
+    "common",
+    "rare",
+    "epic",
+    "boss",
+    "legendary",
+  ];
 
   for (const slot of EQUIPMENT_SLOTS) {
     if (slot === "pet") {
@@ -121,7 +136,7 @@ function generateAll(): Equipment[] {
           strength: 0,
           intelligence: 0,
           armor: 0,
-        })
+        }),
       );
       continue;
     }
@@ -143,7 +158,7 @@ function generateAll(): Equipment[] {
           intelligence: stats.intelligence,
           armor,
           ...(slot === "bag" && { bonusSlots: BAG_SLOT_BONUS[rank] }),
-        })
+        }),
       );
     }
   }

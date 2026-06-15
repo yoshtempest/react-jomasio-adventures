@@ -2,12 +2,14 @@ export const ITEMS = {
   director_key: {
     id: "director_key",
     name: "Chave enferrujada",
-    description: "Uma chave velha e enferrujada. Deve abrir alguma porta por aí.",
+    description:
+      "Uma chave velha e enferrujada. Deve abrir alguma porta por aí.",
   },
   aura_letter: {
     id: "aura_letter",
     name: "Carta de muita aura",
-    description: "Uma carta com uma aura misteriosa. Melhor não ler em voz alta.",
+    description:
+      "Uma carta com uma aura misteriosa. Melhor não ler em voz alta.",
   },
   package_01: {
     id: "package_01",
@@ -27,7 +29,8 @@ export const ITEMS = {
   orange_juice: {
     id: "orange_juice",
     name: "Suco de laranja",
-    description: "Suco natural, geladinho. Refrescante. Perfeito para relaxar...",
+    description:
+      "Suco natural, geladinho. Refrescante. Perfeito para relaxar...",
   },
   sausage: {
     id: "sausage",
@@ -43,7 +46,8 @@ export const ITEMS = {
     id: "turkey",
     image: "/assets/items/peru.svg",
     name: "Peru Comprido",
-    description: "Um peru bem avantajado. O pai do protagonista ficaria orgulhoso.",
+    description:
+      "Um peru bem avantajado. O pai do protagonista ficaria orgulhoso.",
   },
   suspect_milk: {
     id: "suspect_milk",

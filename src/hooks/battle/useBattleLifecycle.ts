@@ -31,7 +31,7 @@ export function useBattleLifecycle({
   onPlayerDeath,
   onNpcDeath,
   isEnding,
-  setNpcDying
+  setNpcDying,
 }: Props) {
   const onPlayerDeathRef = useRef(onPlayerDeath);
   onPlayerDeathRef.current = onPlayerDeath;
@@ -50,10 +50,12 @@ export function useBattleLifecycle({
 
     if (isDead(playerHP)) {
       isEnding.current = true;
-      timeouts.push(window.setTimeout(() => {
-        onPlayerDeathRef.current();
-        isEnding.current = false;
-      }, 500));
+      timeouts.push(
+        window.setTimeout(() => {
+          onPlayerDeathRef.current();
+          isEnding.current = false;
+        }, 500),
+      );
     }
 
     if (isDead(npcHP)) {
@@ -65,9 +67,11 @@ export function useBattleLifecycle({
 
       isEnding.current = true;
       setNpcDying(true);
-      timeouts.push(window.setTimeout(() => {
-        onNpcDeathRef.current();
-      }, 300));
+      timeouts.push(
+        window.setTimeout(() => {
+          onNpcDeathRef.current();
+        }, 300),
+      );
     }
     return () => timeouts.forEach(clearTimeout);
   }, [playerHP, npcHP, setNpcPhase, setNpcHP, setNpcDying, isEnding]);

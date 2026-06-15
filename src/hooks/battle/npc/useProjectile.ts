@@ -30,18 +30,18 @@ export function useProjectile(
         if (!p) return null;
         if (!p) return null;
 
-          const now = Date.now();
+        const now = Date.now();
 
-          if (p.state === "walk") {
-            if (now - p.createdAt >= 500) {
-              return {
-                ...p,
-                state: "idle",
-              };
-            }
-
-            return p; // continua parado
+        if (p.state === "walk") {
+          if (now - p.createdAt >= 500) {
+            return {
+              ...p,
+              state: "idle",
+            };
           }
+
+          return p; // continua parado
+        }
 
         const speed = 11;
 
@@ -89,8 +89,7 @@ export function useProjectile(
     }, 20);
 
     return () => clearInterval(interval);
-  },
-  [
+  }, [
     projectile,
     playerX,
     playerY,
@@ -98,6 +97,6 @@ export function useProjectile(
     npcY,
     playerState,
     playerDirection,
-    setProjectile
+    setProjectile,
   ]);
 }

@@ -4,7 +4,6 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
 import type { SceneId } from "@/utils/types/maps/sceneConfig";
 
-
 type Props = {
   sceneId: SceneId;
 };
@@ -15,8 +14,7 @@ export function FootballCourtScene({ sceneId }: Props) {
   const { addItem, removeItem, hasItem } = useInventory();
   const { quests } = useQuests();
 
-  const hasQuest = (id: string) =>
-    quests.some((q) => q.id === id);
+  const hasQuest = (id: string) => quests.some((q) => q.id === id);
 
   if (!scene) {
     return <div>Scene não encontrada</div>;

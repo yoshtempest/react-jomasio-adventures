@@ -2,7 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { CHARACTERS } from "@/data/options/characters";
-import { circularNext, circularPrev, gridMove } from "@/gameRules/menu/navigation";
+import {
+  circularNext,
+  circularPrev,
+  gridMove,
+} from "@/gameRules/menu/navigation";
 import { getSelected } from "@/gameRules/menu/selection";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { useFlags } from "@/contexts/FlagContext";
@@ -13,11 +17,12 @@ export function useCharacterMenu() {
   const { playMove, playSelect } = useMenuSFX();
   const { hasFlag } = useFlags();
 
-  const selectableCharacters = CHARACTERS.filter((c) =>
-    c.selectable ||
-    (c.image === "samuel" && hasFlag("samurionUnlocked")) ||
-    (c.image === "lucas" && hasFlag("yvelUnlocked")) ||
-    (c.image === "artur" && hasFlag("srGuaxinimUnlocked"))
+  const selectableCharacters = CHARACTERS.filter(
+    (c) =>
+      c.selectable ||
+      (c.image === "samuel" && hasFlag("samurionUnlocked")) ||
+      (c.image === "lucas" && hasFlag("yvelUnlocked")) ||
+      (c.image === "artur" && hasFlag("srGuaxinimUnlocked")),
   );
 
   const characters = CHARACTERS.map((c) => ({
@@ -55,34 +60,37 @@ export function useCharacterMenu() {
       onRight: () => {
         playMoveRef.current();
         setSelectedIndex((prev) =>
-          circularNext(prev, selectableCharactersRef.current.length)
+          circularNext(prev, selectableCharactersRef.current.length),
         );
       },
 
       onLeft: () => {
         playMoveRef.current();
         setSelectedIndex((prev) =>
-          circularPrev(prev, selectableCharactersRef.current.length)
+          circularPrev(prev, selectableCharactersRef.current.length),
         );
       },
 
       onDown: () => {
         playMoveRef.current();
-        setSelectedIndex((prev) => 
-          gridMove(prev, 6, "down", selectableCharactersRef.current.length)
+        setSelectedIndex((prev) =>
+          gridMove(prev, 6, "down", selectableCharactersRef.current.length),
         );
       },
 
       onUp: () => {
         playMoveRef.current();
         setSelectedIndex((prev) =>
-          gridMove(prev, 6, "up", selectableCharactersRef.current.length)
+          gridMove(prev, 6, "up", selectableCharactersRef.current.length),
         );
       },
 
       onConfirm: () => {
         playSelectRef.current();
-        const selected = getSelected(selectableCharactersRef.current, selectedIndexRef.current);
+        const selected = getSelected(
+          selectableCharactersRef.current,
+          selectedIndexRef.current,
+        );
         handleChooseCharacterRef.current(selected.image as CharacterId);
         return true;
       },

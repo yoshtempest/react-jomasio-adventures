@@ -1,16 +1,45 @@
-export type EquipmentSlot = "weapon" | "helmet" | "chestplate" | "pants" | "boots" | "accessory" | "bag" | "pet";
+export type EquipmentSlot =
+  | "weapon"
+  | "helmet"
+  | "chestplate"
+  | "pants"
+  | "boots"
+  | "accessory"
+  | "bag"
+  | "pet";
 
 export type EquipmentRank = "common" | "rare" | "epic" | "boss" | "legendary";
 
-export const EQUIPMENT_SLOTS: EquipmentSlot[] = ["weapon", "helmet", "chestplate", "pants", "boots", "accessory", "bag", "pet"];
+export const EQUIPMENT_SLOTS: EquipmentSlot[] = [
+  "weapon",
+  "helmet",
+  "chestplate",
+  "pants",
+  "boots",
+  "accessory",
+  "bag",
+  "pet",
+];
 
-export const ARMOR_SLOTS: EquipmentSlot[] = ["helmet", "chestplate", "pants", "boots", "accessory"];
+export const ARMOR_SLOTS: EquipmentSlot[] = [
+  "helmet",
+  "chestplate",
+  "pants",
+  "boots",
+  "accessory",
+];
 
-export const EQUIPMENT_RANKS: EquipmentRank[] = ["common", "rare", "epic", "boss", "legendary"];
+export const EQUIPMENT_RANKS: EquipmentRank[] = [
+  "common",
+  "rare",
+  "epic",
+  "boss",
+  "legendary",
+];
 
 export const PET_EQUIPMENT_IDS = ["pet_goat"] as const;
 
-export type PetEquipmentId = typeof PET_EQUIPMENT_IDS[number];
+export type PetEquipmentId = (typeof PET_EQUIPMENT_IDS)[number];
 
 export type EquipmentStats = {
   hp: number;
