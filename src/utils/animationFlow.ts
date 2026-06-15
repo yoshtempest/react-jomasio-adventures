@@ -3,6 +3,7 @@ type PlayerState =
   | "walk"
   | "attack"
   | "jump"
+  | "dash"
   | "blocked"
   | "special"
   | "preAttack"
@@ -29,6 +30,8 @@ export const animationFlow: Record<PlayerState, AnimationStep | null> = {
 
   preSpecial: { next: "special", duration: 200 },
   special: { next: "idle", duration: 500 },
+
+  dash: { next: "idle", duration: 300 },
 
   blocked: null,
 };

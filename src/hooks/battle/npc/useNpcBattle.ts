@@ -42,6 +42,7 @@ export function useNpcBattle({
     if (isEnding.current) return;
     if (!npcCooldown.current) return;
     if (!isNpcInRange(playerX, playerY, npcX, npcY)) return;
+    if (player.state === "dash") return;
     if (
       player.state === "blocked" &&
       isFacingTarget(playerX, playerY, npcX, npcY, player.battleDirection)
@@ -74,6 +75,7 @@ export function useNpcBattle({
   const npcRangedHit = useCallback(() => {
     if (isEnding.current) return;
     if (!npcCooldown.current) return;
+    if (player.state === "dash") return;
     if (
       player.state === "blocked" &&
       isFacingTarget(playerX, playerY, npcX, npcY, player.battleDirection)

@@ -45,6 +45,7 @@ type PlayerContextType = {
   releaseDownBattle: () => void; // 👈 ADICIONE AQUI
   attack: () => void;
   special: () => void;
+  dash: (direction: "left" | "right") => void;
 
   setMap: (map: number[][]) => void;
   setMode: (mode: PlayerMode) => void;
@@ -130,6 +131,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     releaseDownBattle, // 👈 AQUI
     attack: rawAttack,
     special,
+    dash,
   } = useBattleMovement(setPlayer, battleCollisionRef);
 
   const setBattleCollision = useCallback((params: CollisionParams) => {
@@ -230,6 +232,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         releaseDownBattle, // 👈 AQUI
         attack,
         special,
+        dash,
 
         resetBattleState,
         setMap,

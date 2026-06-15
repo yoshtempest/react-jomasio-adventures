@@ -1,9 +1,9 @@
-import { BATTLE_STEP, BATTLE_LIMITS } from "@/utils/types/player/movement";
+import { BATTLE_STEP, DASH_STEP, BATTLE_LIMITS } from "@/utils/types/player/movement";
 import type { Player } from "@/utils/types/player/player";
 
 
 export function canAct(player: Player) {
-  return player.mode === "battle" && player.state !== "blocked";
+  return player.mode === "battle" && player.state !== "blocked" && player.state !== "dash";
 }
 
 export function isInBattle(player: Player) {
@@ -74,11 +74,31 @@ export function specialBattle(p: Player): Player {
   };
 }
 
+export function dashLeftBattle(p: Player): Player {
+  if (p.mode !== "battle") return p;
+  return {
+    ...p,
+    x: Math.max(BATTLE_LIMITS.minX, p.x - DASH_STEP),
+    battleDirection: "left",
+    state: "dash",
+  };
+}
+
+export function dashRightBattle(p: Player): Player {
+  if (p.mode !== "battle") return p;
+  return {
+    ...p,
+    x: Math.min(BATTLE_LIMITS.maxX, p.x + DASH_STEP),
+    battleDirection: "right",
+    state: "dash",
+  };
+}
+
 export function idleBattle(p: Player): Player {
   if (p.state === "blocked") return p;
 
   return {
     ...p,
-    state: p.state === "jump" ? "jump" : "idle",
+    state: p.state === "jump" || p.state === "dash" ? p.state : "idle",
   };
 }

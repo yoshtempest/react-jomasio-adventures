@@ -5,6 +5,8 @@ import
 {
   moveLeftBattle,
   moveRightBattle,
+  dashLeftBattle,
+  dashRightBattle,
   blockStart,
   blockEnd,
   idleBattle
@@ -12,6 +14,7 @@ import
 
 import { canJump } from "@/gameRules/movement/state";
 import { isHorizontallyBlocked, getLandingY, getGroundAtX } from "@/utils/types/battleMap";
+import { DASH_DURATION, DASH_INTERVAL } from "@/utils/types/player/movement";
 
 export type CollisionParams = {
   map: BattleMapConfig | null;
@@ -29,6 +32,7 @@ export function useBattleMovement(
 ) {
   const leftIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const rightIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const dashIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const idleTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const downLockRef = useRef(false);
@@ -42,10 +46,12 @@ export function useBattleMovement(
   useEffect(() => {
     const left = leftIntervalRef.current;
     const right = rightIntervalRef.current;
+    const dash = dashIntervalRef.current;
     const timeout = idleTimeout;
     return () => {
       if (left) clearInterval(left);
       if (right) clearInterval(right);
+      if (dash) clearInterval(dash);
       if (timeout) clearTimeout(timeout);
     };
   }, [idleTimeout]);
@@ -213,6 +219,46 @@ export function useBattleMovement(
     });
   }
 
+  function dash(direction: "left" | "right") {
+    if (dashIntervalRef.current) return;
+
+    if (leftIntervalRef.current) {
+      clearInterval(leftIntervalRef.current);
+      leftIntervalRef.current = null;
+    }
+    if (rightIntervalRef.current) {
+      clearInterval(rightIntervalRef.current);
+      rightIntervalRef.current = null;
+    }
+
+    const steps = DASH_DURATION / DASH_INTERVAL;
+    let stepCount = 0;
+
+    const dashFn = direction === "left" ? dashLeftBattle : dashRightBattle;
+
+    dashIntervalRef.current = setInterval(() => {
+      stepCount++;
+      setPlayer((p) => {
+        if (stepCount >= steps) {
+          if (dashIntervalRef.current) {
+            clearInterval(dashIntervalRef.current);
+            dashIntervalRef.current = null;
+          }
+          return { ...p, state: "idle" };
+        }
+        const moved = dashFn(p);
+        if (checkHorizontalBlock(moved)) {
+          if (dashIntervalRef.current) {
+            clearInterval(dashIntervalRef.current);
+            dashIntervalRef.current = null;
+          }
+          return { ...p, state: "idle" };
+        }
+        return moved;
+      });
+    }, DASH_INTERVAL);
+  }
+
   return {
     moveUpBattle,
     startMoveLeft,
@@ -223,5 +269,6 @@ export function useBattleMovement(
     releaseDownBattle,
     attack,
     special,
+    dash,
   };
 }

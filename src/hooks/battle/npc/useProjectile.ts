@@ -64,12 +64,14 @@ export function useProjectile(
           playerState === "blocked" &&
           isFacingTarget(playerX, playerY, npcX, npcY, playerDirection);
 
-        if (dx < 40 && dy <= 120 && !isBlocking) {
+        const isDashing = playerState === "dash";
+
+        if (dx < 40 && dy <= 120 && !isBlocking && !isDashing) {
           onHitRef.current();
           return null;
         }
 
-        if (dx < 40) {
+        if (dx < 40 && !isDashing) {
           return null;
         }
 

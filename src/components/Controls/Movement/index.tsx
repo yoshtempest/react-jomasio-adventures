@@ -10,6 +10,9 @@ import styles from "./styles.module.css";
 
 type Dir = "up" | "down" | "left" | "right";
 
+const DASH_THRESHOLD = 300;
+const DASH_COOLDOWN = 600;
+
 export function Movement() {
   const {
     player,
@@ -24,6 +27,7 @@ export function Movement() {
     startMoveRight,
     stopMoveRight,
     releaseDownBattle,
+    dash,
   } = usePlayer();
 
   const { isNavOpen } = useNavbar();
@@ -93,6 +97,13 @@ export function Movement() {
     releaseDownBattle
   );
 
+  const dashRef = useRef(dash);
+  const lastLeftPressRef = useRef(0);
+  const lastRightPressRef = useRef(0);
+  const lastDashTimeRef = useRef(0);
+  const isLeftHeldRef = useRef(false);
+  const isRightHeldRef = useRef(false);
+
   useEffect(() => {
     isLockedRef.current = isLocked;
 
@@ -123,6 +134,8 @@ export function Movement() {
 
     releaseDownBattleRef.current =
       releaseDownBattle;
+
+    dashRef.current = dash;
   });
 
   const pushControlsRef = useRef(pushControls);
@@ -160,22 +173,64 @@ export function Movement() {
 
       onLeft: () => {
         if (isLockedRef.current) return;
+        if (isLeftHeldRef.current) {
+          if (isBattleRef.current) startMoveLeftRef.current();
+          else moveLeftRef.current();
+          return;
+        }
+        isLeftHeldRef.current = true;
         pressRef.current("left");
-        if (isBattleRef.current) startMoveLeftRef.current();
-        else moveLeftRef.current();
+        const now = Date.now();
+        if (isBattleRef.current) {
+          if (
+            now - lastLeftPressRef.current < DASH_THRESHOLD &&
+            now - lastDashTimeRef.current > DASH_COOLDOWN
+          ) {
+            dashRef.current("left");
+            lastDashTimeRef.current = now;
+            lastLeftPressRef.current = 0;
+          } else {
+            startMoveLeftRef.current();
+            lastLeftPressRef.current = now;
+          }
+        } else {
+          moveLeftRef.current();
+        }
       },
       onLeftRelease: () => {
+        isLeftHeldRef.current = false;
         releaseRef.current("left");
         if (isBattleRef.current) stopMoveLeftRef.current();
       },
 
       onRight: () => {
         if (isLockedRef.current) return;
+        if (isRightHeldRef.current) {
+          if (isBattleRef.current) startMoveRightRef.current();
+          else moveRightRef.current();
+          return;
+        }
+        isRightHeldRef.current = true;
         pressRef.current("right");
-        if (isBattleRef.current) startMoveRightRef.current();
-        else moveRightRef.current();
+        const now = Date.now();
+        if (isBattleRef.current) {
+          if (
+            now - lastRightPressRef.current < DASH_THRESHOLD &&
+            now - lastDashTimeRef.current > DASH_COOLDOWN
+          ) {
+            dashRef.current("right");
+            lastDashTimeRef.current = now;
+            lastRightPressRef.current = 0;
+          } else {
+            startMoveRightRef.current();
+            lastRightPressRef.current = now;
+          }
+        } else {
+          moveRightRef.current();
+        }
       },
       onRightRelease: () => {
+        isRightHeldRef.current = false;
         releaseRef.current("right");
         if (isBattleRef.current) stopMoveRightRef.current();
       },

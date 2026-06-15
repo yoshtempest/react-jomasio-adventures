@@ -5,6 +5,7 @@ export type PlayerState =
   | "jump"
   | "blocked"
   | "special"
+  | "dash"
   | "preAttack"
   | "preWalk"
   | "preJump"
