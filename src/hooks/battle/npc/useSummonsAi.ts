@@ -4,16 +4,19 @@ import { calculateNpcDamage } from "@/gameRules/battle/damage";
 import { getNpcStats, type NpcDifficulty } from "@/utils/types/npc/npcProgress";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { PlayerClass } from "@/utils/types/player/player";
+import type { DamageType } from "@/hooks/battle/useDamageNumbers";
 
 type Props = {
   summons: SummonedNpc[];
   setSummons: React.Dispatch<React.SetStateAction<SummonedNpc[]>>;
   isPaused: boolean;
   playerX: number;
+  playerY: number;
   playerClass: PlayerClass;
   npcLevel: number;
   difficulty: NpcDifficulty;
   damagePlayer: (damage: number) => void;
+  spawnDamageRef: React.RefObject<((value: number, x: number, y: number, type: DamageType) => void)>;
 };
 
 export function useSummonAI({
@@ -21,16 +24,20 @@ export function useSummonAI({
   setSummons,
   isPaused,
   playerX,
+  playerY,
   playerClass,
   npcLevel,
   difficulty,
   damagePlayer,
+  spawnDamageRef,
 }: Props) {
   const summonLastAttacksRef =
     useRef<Record<string, number>>({});
 
   const playerXRef = useRef(playerX);
   playerXRef.current = playerX;
+  const playerYRef = useRef(playerY);
+  playerYRef.current = playerY;
 
   const isPausedRef = useRef(isPaused);
   isPausedRef.current = isPaused;
@@ -101,6 +108,7 @@ export function useSummonAI({
                   );
 
                 damagePlayerRef.current(damage);
+                spawnDamageRef.current?.(damage, playerXRef.current, playerYRef.current, "summon");
               }
             }
           }

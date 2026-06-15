@@ -139,6 +139,9 @@ export function useBattleScene({
     },
   });
 
+  const spawnDamageRef = useRef(battle.spawnDamageNumber);
+  spawnDamageRef.current = battle.spawnDamageNumber;
+
   const {
     handlePlayerHit,
     handleSpecialHit,
@@ -153,6 +156,7 @@ export function useBattleScene({
     npcLevel,
     battle,
     giveSummonRewards,
+    spawnDamageRef,
   });
 
   const isPaused =
@@ -165,10 +169,12 @@ export function useBattleScene({
     setSummons,
     isPaused,
     playerX: player.x,
+    playerY: player.y,
     playerClass,
     npcLevel,
     difficulty,
     damagePlayer: battle.damagePlayer,
+    spawnDamageRef,
   });
 
   // Track NPC position for summon spawns

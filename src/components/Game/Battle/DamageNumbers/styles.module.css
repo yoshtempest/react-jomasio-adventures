@@ -1,0 +1,49 @@
+.number {
+  position: absolute;
+  font-weight: bold;
+  font-size: 20px;
+  pointer-events: none;
+  text-shadow:
+    1px 1px 0 rgba(0, 0, 0, 0.8),
+    -1px -1px 0 rgba(0, 0, 0, 0.8),
+    1px -1px 0 rgba(0, 0, 0, 0.8),
+    -1px 1px 0 rgba(0, 0, 0, 0.8);
+  z-index: 100;
+  animation: floatUp 1s ease-out forwards;
+}
+
+.player {
+  color: #ffd700;
+}
+
+.npc {
+  color: #ff4444;
+}
+
+.special {
+  color: #ff8800;
+  font-size: 28px;
+}
+
+.pet {
+  color: #44ff44;
+}
+
+.summon {
+  color: #ff8844;
+}
+
+@keyframes floatUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-30px) scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-60px) scale(0.9);
+  }
+}

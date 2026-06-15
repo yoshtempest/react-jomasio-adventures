@@ -8,6 +8,7 @@ import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { NPCClass } from "@/utils/types/npc/npcProgress";
 import type { Player, PlayerClass } from "@/utils/types/player/player";
 import type { CharactersProgress } from "@/contexts/CharacterProgressContext";
+import type { DamageType } from "@/hooks/battle/useDamageNumbers";
 
 type Props = {
   player: Player;
@@ -34,6 +35,8 @@ type Props = {
   giveSummonRewards: (
     npcClass: NPCClass
   ) => void;
+
+  spawnDamageRef: React.RefObject<((value: number, x: number, y: number, type: DamageType) => void)>;
 };
 
 export function usePlayerBattleActions({
@@ -46,6 +49,7 @@ export function usePlayerBattleActions({
   battle,
   setSummons,
   giveSummonRewards,
+  spawnDamageRef,
 }: Props) {
 
   const handlePlayerHit = useCallback(() => {
@@ -136,6 +140,8 @@ export function usePlayerBattleActions({
           )
         );
 
+        spawnDamageRef.current?.(damage, target.x, target.y, "summon");
+
         const newHp = Math.max(
           0,
           Math.round(targetSummon.hp) -
@@ -170,6 +176,7 @@ export function usePlayerBattleActions({
     battle,
     setSummons,
     giveSummonRewards,
+    spawnDamageRef,
   ]);
 
   const handleSpecialHit = useCallback(() => {

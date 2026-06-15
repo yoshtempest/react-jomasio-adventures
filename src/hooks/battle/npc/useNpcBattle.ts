@@ -5,6 +5,7 @@ import { isNpcInRange } from "@/gameRules/battle/range";
 import { isFacingTarget } from "@/gameRules/battle/direction";
 import type { NpcDifficulty, NPCClass } from "@/utils/types/npc/npcProgress";
 import type { Player, PlayerClass } from "@/utils/types/player/player";
+import type { DamageType } from "@/hooks/battle/useDamageNumbers";
 
 type Props = {
   npcLevel: number;
@@ -22,6 +23,7 @@ type Props = {
   npcCooldown: React.RefObject<boolean>;
   difficulty: NpcDifficulty;
   isEnding: React.RefObject<boolean>;
+  spawnDamageRef: React.RefObject<((value: number, x: number, y: number, type: DamageType) => void)>;
 };
 
 export function useNpcBattle({
@@ -37,6 +39,7 @@ export function useNpcBattle({
   player,
   difficulty,
   isEnding,
+  spawnDamageRef,
 }: Props) {
   const npcMeleeHit = useCallback(() => {
     if (isEnding.current) return;
@@ -53,6 +56,7 @@ export function useNpcBattle({
 
     setPlayerHP(hp => Math.max(0, hp - dmg));
     navigator.vibrate?.(40);
+    spawnDamageRef.current?.(dmg, playerX, playerY, "npc");
 
     npcCooldown.current = false;
     setTimeout(() => npcCooldown.current = true, 800);
@@ -69,7 +73,8 @@ export function useNpcBattle({
     playerY,
     npcX,
     npcY,
-    difficulty
+    difficulty,
+    spawnDamageRef,
   ]);
 
   const npcRangedHit = useCallback(() => {
@@ -86,6 +91,7 @@ export function useNpcBattle({
 
     setPlayerHP((hp) => Math.max(0, hp - dmg));
     navigator.vibrate?.(40);
+    spawnDamageRef.current?.(dmg, playerX, playerY, "npc");
 
     npcCooldown.current = false;
     setTimeout(() => (npcCooldown.current = true), 800);
@@ -102,7 +108,8 @@ export function useNpcBattle({
     playerY,
     npcX,
     npcY,
-    difficulty
+    difficulty,
+    spawnDamageRef,
   ]);
 
   return { npcMeleeHit, npcRangedHit };

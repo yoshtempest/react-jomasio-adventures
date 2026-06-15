@@ -4,6 +4,7 @@ import { useGameLayout } from "@/hooks/useGameLayout";
 import { useBattleScene } from "@/hooks/battle/useBattleScene";
 import { BattleEntities } from "@/components/Game/Battle/Entities";
 import { BattleMap } from "@/components/Game/Battle/Map";
+import { DamageNumbers } from "@/components/Game/Battle/DamageNumbers";
 import { VictoryModal } from "@/components/Game/Battle/Victory";
 import { DefeatModal } from "@/components/Game/Battle/Defeat";
 import { BattleIntro } from "@/components/Game/Battle/Intro";
@@ -124,6 +125,8 @@ export function BattleScene(props: Props) {
           TILE_SIZE={TILE_SIZE}
           PLAYER_SIZE={PLAYER_SIZE}
         />
+
+        <DamageNumbers numbers={battle.damageNumbers} />
       </GameMap>
 
       {showVictory && (

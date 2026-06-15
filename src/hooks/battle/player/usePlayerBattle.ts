@@ -1,9 +1,11 @@
 import { useState, useCallback } from "react";
 import { canPlayerHit } from "@/gameRules/battle/combat";
 import { playAttackSound } from "@/utils/playAttackSound";
+import { calculatePlayerDamage, calculateSpecialDamage } from "@/gameRules/battle/damage";
 import type { PlayerClass, Player } from "@/utils/types/player/player";
 import type { BattleBehavior } from "@/utils/types/player/playerBehavior";
 import type { CharacterProgress } from "@/contexts/CharacterProgressContext";
+import type { DamageType } from "@/hooks/battle/useDamageNumbers";
 
 type Props = {
   player: Player;
@@ -26,6 +28,7 @@ type Props = {
   spawnPiercing: () => void;
   triggerExplosion: () => void;
   titleDamageBonus: number;
+  spawnDamageRef: React.RefObject<((value: number, x: number, y: number, type: DamageType) => void)>;
 };
 
 export function usePlayerBattle({
@@ -45,6 +48,7 @@ export function usePlayerBattle({
   spawnPiercing,
   triggerExplosion,
   titleDamageBonus,
+  spawnDamageRef,
 }: Props) {
   const [delicia, setDelicia] = useState(0);
   const [stacks, setStacks] = useState(0);
@@ -71,6 +75,9 @@ export function usePlayerBattle({
     playAttackSound(player.character);
     navigator.vibrate?.(20);
 
+    const isLarissa = player.character === "larissa";
+    const dmg = isLarissa ? 2 : calculatePlayerDamage(char.stats.strength, playerClass, titleDamageBonus);
+
     behavior.onBasicHit({
       setNpcHP,
       char,
@@ -81,6 +88,8 @@ export function usePlayerBattle({
       spawnPiercing,
       titleDamageBonus,
     });
+
+    spawnDamageRef.current?.(dmg, npcX, npcY, isLarissa ? "player" : "player");
 
     playerCooldown.current = false;
 
@@ -104,6 +113,7 @@ export function usePlayerBattle({
     HITS_TO_SPECIAL,
     spawnPiercing,
     titleDamageBonus,
+    spawnDamageRef,
   ]);
 
   const specialHit = useCallback(() => {
@@ -128,6 +138,9 @@ export function usePlayerBattle({
 
     navigator.vibrate?.(30);
 
+    const isLarissa = player.character === "larissa";
+    const dmg = isLarissa ? stacks * 5 : calculateSpecialDamage(char.stats.intelligence, playerClass);
+
     behavior.onSpecialHit({
       setNpcHP,
       char,
@@ -137,6 +150,8 @@ export function usePlayerBattle({
       setStacks,
       triggerExplosion,
     });
+
+    spawnDamageRef.current?.(dmg, npcX, npcY, "special");
 
     playerCooldown.current = false;
 
@@ -161,6 +176,7 @@ export function usePlayerBattle({
     setNpcHP,
     stacks,
     triggerExplosion,
+    spawnDamageRef,
   ]);
 
   return {

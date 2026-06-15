@@ -15,6 +15,7 @@ import { usePlayerBattle } from "@/hooks/battle/player/usePlayerBattle";
 import { useNpcBattle } from "@/hooks/battle/npc/useNpcBattle";
 import { useBattleLifecycle } from "@/hooks/battle/useBattleLifecycle";
 import { usePetBattle } from "@/hooks/battle/usePetBattle";
+import { useDamageNumbers } from "@/hooks/battle/useDamageNumbers";
 import type { NpcDifficulty } from "@/utils/types/npc/npcProgress";
 
 
@@ -63,6 +64,11 @@ export function useBattleSystem(props: Props) {
   const effects = useBattleEffects({
     character: player.character
   });
+
+  // 💥 damage numbers + screen shake
+  const { damageNumbers, spawnDamageNumber, clearDamageNumbers } = useDamageNumbers();
+  const spawnDamageRef = useRef(spawnDamageNumber);
+  spawnDamageRef.current = spawnDamageNumber;
 
   // 📦 equipamento
   const equipmentBonus = useMemo(() => {
@@ -137,6 +143,7 @@ export function useBattleSystem(props: Props) {
     spawnPiercing: effects.spawnPiercing,
     triggerExplosion: effects.triggerExplosion,
     titleDamageBonus: titleBonus.damage,
+    spawnDamageRef,
   });
 
   // 🤖 npc
@@ -156,6 +163,7 @@ export function useBattleSystem(props: Props) {
     npcCooldown,
     difficulty,
     isEnding,
+    spawnDamageRef,
   });
 
   // 🧠 lifecycle
@@ -183,6 +191,7 @@ export function useBattleSystem(props: Props) {
   petDamageRef.current = () => {
     if (isEnding.current) return;
     setNpcHP((hp) => Math.max(0, hp - 8));
+    spawnDamageRef.current?.(8, npcX, npcY, "pet");
   };
 
   const { pet } = usePetBattle({
@@ -198,6 +207,7 @@ export function useBattleSystem(props: Props) {
   // 💥 external damage to player (summons, etc.)
   const damagePlayer = (damage: number) => {
     setPlayerHP(hp => Math.max(0, hp - damage));
+    spawnDamageRef.current?.(damage, playerX, playerY, "summon");
   };
 
   // 🔄 reset
@@ -210,6 +220,7 @@ export function useBattleSystem(props: Props) {
     playerBattle.setStacks(0);
 
     effects.resetEffects();
+    clearDamageNumbers();
 
     playerCooldown.current = true;
     npcCooldown.current = true;
@@ -250,5 +261,8 @@ export function useBattleSystem(props: Props) {
     isExploding: effects.isExploding,
 
     pet,
+
+    damageNumbers,
+    spawnDamageNumber,
   };
 }
