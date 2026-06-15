@@ -12,11 +12,16 @@ import { ITEMS } from "@/data/items";
 import type { NPCClass } from "@/utils/types/npc/npcProgress";
 import type { EquipmentSlot, EquipmentRank } from "@/utils/types/player/equipment";
 
+function rollEnhance(): number {
+  return Math.floor(Math.random() * 6);
+}
+
 export type EquipmentDropInfo = {
   id: string;
   name: string;
   slot: EquipmentSlot;
   rank: EquipmentRank;
+  enhance: number;
 };
 
 export type ItemDropInfo = {
@@ -84,12 +89,14 @@ export function useBattleRewards({
       );
 
       if (equipment) {
-        addDrop(player.character, equipment.id);
+        const enhance = rollEnhance();
+        addDrop(player.character, equipment.id, enhance);
         equipmentDrops.push({
           id: equipment.id,
           name: equipment.name,
           slot: equipment.slot,
           rank: equipment.rank,
+          enhance,
         });
       }
     }
@@ -99,13 +106,15 @@ export function useBattleRewards({
     for (const [materialId, qty] of Object.entries(materialDrops)) {
       const def = ITEMS[materialId as keyof typeof ITEMS];
       if (def) {
-        addItem({ id: def.id, name: def.name, type: "material", qty, image: def.image });
-        itemDrops.push({ id: def.id, name: def.name, qty, image: def.image });
+        const image = "image" in def ? def.image : undefined;
+        addItem({ id: def.id, name: def.name, type: "material", qty, image });
+        itemDrops.push({ id: def.id, name: def.name, qty, image });
       }
     }
 
     if (npcType.startsWith("goat") && Math.random() < 0.01) {
-      addDrop(player.character, "pet_goat");
+      const enhance = rollEnhance();
+      addDrop(player.character, "pet_goat", enhance);
       const pet = EQUIPMENT_LIST.find(e => e.id === "pet_goat");
       if (pet) {
         equipmentDrops.push({
@@ -113,6 +122,7 @@ export function useBattleRewards({
           name: pet.name,
           slot: pet.slot,
           rank: pet.rank,
+          enhance,
         });
       }
     }

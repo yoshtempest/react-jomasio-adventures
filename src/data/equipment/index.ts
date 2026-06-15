@@ -9,6 +9,7 @@ type EquipmentConfig = {
   hp: number;
   strength: number;
   intelligence: number;
+  armor: number;
   bonusSlots?: number;
 };
 
@@ -16,8 +17,16 @@ const STATS_BY_RANK: Record<EquipmentRank, { hp: number; strength: number; intel
   common: { hp: 1, strength: 1, intelligence: 0 },
   rare: { hp: 1, strength: 1, intelligence: 1 },
   epic: { hp: 2, strength: 2, intelligence: 1 },
-  boss: { hp: 4, strength: 3, intelligence: 2 },
-  legendary: { hp: 6, strength: 5, intelligence: 4 },
+  boss: { hp: 3, strength: 3, intelligence: 2 },
+  legendary: { hp: 4, strength: 5, intelligence: 4 },
+};
+
+const ARMOR_BY_SLOT: Partial<Record<EquipmentSlot, Record<EquipmentRank, number>>> = {
+  helmet: { common: 2, rare: 4, epic: 8, boss: 14, legendary: 22 },
+  chestplate: { common: 3, rare: 7, epic: 14, boss: 22, legendary: 35 },
+  pants: { common: 2, rare: 4, epic: 8, boss: 14, legendary: 22 },
+  boots: { common: 1, rare: 3, epic: 6, boss: 10, legendary: 16 },
+  accessory: { common: 1, rare: 3, epic: 6, boss: 10, legendary: 16 },
 };
 
 const BAG_SLOT_BONUS: Record<EquipmentRank, number> = {
@@ -90,6 +99,7 @@ function buildEquipment(config: EquipmentConfig): Equipment {
       hp: config.hp,
       strength: config.strength,
       intelligence: config.intelligence,
+      armor: config.armor,
     },
     ...(config.bonusSlots !== undefined && { bonusSlots: config.bonusSlots }),
   };
@@ -110,6 +120,7 @@ function generateAll(): Equipment[] {
           hp: 0,
           strength: 0,
           intelligence: 0,
+          armor: 0,
         })
       );
       continue;
@@ -120,6 +131,7 @@ function generateAll(): Equipment[] {
 
     for (const rank of ranks) {
       const stats = STATS_BY_RANK[rank];
+      const armor = ARMOR_BY_SLOT[slot]?.[rank] ?? 0;
       list.push(
         buildEquipment({
           id: `${slot}_${rank}`,
@@ -129,6 +141,7 @@ function generateAll(): Equipment[] {
           hp: stats.hp,
           strength: stats.strength,
           intelligence: stats.intelligence,
+          armor,
           ...(slot === "bag" && { bonusSlots: BAG_SLOT_BONUS[rank] }),
         })
       );

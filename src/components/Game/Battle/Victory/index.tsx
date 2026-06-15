@@ -134,7 +134,10 @@ export function VictoryModal({
                       >
                         {RANK_LABELS[eq.rank]}
                       </span>
-                      <span className={styles.dropName}>{eq.name}</span>
+                      <span className={styles.dropName}>
+                        {eq.name}
+                        {eq.enhance > 0 ? <span className={styles.enhanceBadge}>+{eq.enhance}</span> : null}
+                      </span>
                       <span className={styles.dropSlot}>({SLOT_LABELS[eq.slot]})</span>
                     </div>
                   ))}

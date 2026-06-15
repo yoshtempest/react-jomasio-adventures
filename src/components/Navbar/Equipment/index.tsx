@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
-import { useEquipment } from "@/contexts/EquipmentContext";
 import { useEquipmentMenu } from "@/hooks/menu/useEquipmentMenu";
+import type { CollectedEntry } from "@/hooks/menu/useEquipmentMenu";
 import { EQUIPPED_COUNT, FILTER_TAB_COUNT, FILTER_TABS, FILTER_LABELS } from "@/data/equipmentMenu";
 import { asset } from "@/utils/asset";
 import {
@@ -12,7 +12,6 @@ import styles from "./styles.module.css";
 
 export function Equipment() {
   const { player } = usePlayer();
-  const { getQuantity } = useEquipment();
   const character = player.character;
   const leftPanelRef = useRef<HTMLDivElement | null>(null);
   const rightItemsRef = useRef<HTMLDivElement | null>(null);
@@ -32,6 +31,9 @@ export function Equipment() {
           <div className={styles.equippedGrid} ref={leftPanelRef}>
             {equippedItems.map((entry, index) => {
               const isSelected = index === selectedIndex;
+              const info = entry.info;
+              const item = entry.item;
+              const stats = entry.stats;
 
               return (
                 <div
@@ -41,27 +43,21 @@ export function Equipment() {
                   <div className={styles.slotLabel}>
                     {SLOT_LABELS[entry.slot]}
                   </div>
-                  {entry.item ? (
+                  {item ? (
                     <>
                       <div className={styles.itemRow}>
                         <span
                           className={styles.itemName}
-                          style={{ color: RANK_COLORS[entry.item.rank] }}
+                          style={{ color: RANK_COLORS[item.rank] }}
                         >
-                          {entry.item.name}
+                          {item.name}
+                          {info && info.enhance > 0 ? (
+                            <span className={styles.enhanceBadge}>+{info.enhance}</span>
+                          ) : null}
                         </span>
-                        {(() => {
-                          const extra = getQuantity(character, entry.item.id);
-                          return extra > 0 ? (
-                            <span className={styles.qtyBadge}>x{extra + 1}</span>
-                          ) : null;
-                        })()}
                       </div>
                       <span className={styles.stats}>
-                        HP: +{entry.item.stats.hp} | Força: +{entry.item.stats.strength}
-                        {entry.item.stats.intelligence > 0
-                          ? ` | Int: +${entry.item.stats.intelligence}`
-                          : ""}
+                        {stats ? `HP: +${stats.hp} | For: +${stats.strength}${stats.intelligence > 0 ? ` | Int: +${stats.intelligence}` : ""}${stats.armor > 0 ? ` | Arm: +${stats.armor}` : ""}` : ""}
                       </span>
                       <span className={styles.actionHint}>
                         Confirmar: Remover
@@ -101,13 +97,13 @@ export function Equipment() {
               </div>
             )}
 
-            {filteredItems.map((entry, index) => {
+            {filteredItems.map((entry: CollectedEntry, index) => {
               const globalIndex = EQUIPPED_COUNT + FILTER_TAB_COUNT + index;
               const isSelected = globalIndex === selectedIndex;
 
               return (
                 <div
-                  key={`collected-${entry.item.id}`}
+                  key={`collected-${entry.item.id}+${entry.enhance}`}
                   className={`${styles.collectedCard} ${isSelected ? styles.selected : ""}`}
                 >
                   <div className={styles.itemRow}>
@@ -116,6 +112,9 @@ export function Equipment() {
                       style={{ color: RANK_COLORS[entry.item.rank] }}
                     >
                       {entry.item.name}
+                      {entry.enhance > 0 ? (
+                        <span className={styles.enhanceBadge}>+{entry.enhance}</span>
+                      ) : null}
                     </span>
                     <span className={styles.qtyBadge}>x{entry.qty}</span>
                     <span className={styles.slotTag}>
@@ -123,10 +122,9 @@ export function Equipment() {
                     </span>
                   </div>
                   <span className={styles.stats}>
-                    HP: +{entry.item.stats.hp} | Força: +{entry.item.stats.strength}
-                    {entry.item.stats.intelligence > 0
-                      ? ` | Int: +${entry.item.stats.intelligence}`
-                      : ""}
+                    HP: +{entry.stats.hp} | For: +{entry.stats.strength}
+                    {entry.stats.intelligence > 0 ? ` | Int: +${entry.stats.intelligence}` : ""}
+                    {entry.stats.armor > 0 ? ` | Arm: +${entry.stats.armor}` : ""}
                   </span>
                   <span className={styles.actionHint}>
                     Confirmar: Equipar

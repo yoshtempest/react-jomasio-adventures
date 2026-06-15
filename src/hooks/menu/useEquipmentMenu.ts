@@ -5,8 +5,25 @@ import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { getEquipmentById } from "@/data/equipment";
 import { EQUIPMENT_SLOTS } from "@/utils/types/player/equipment";
 import type { Equipment } from "@/utils/types/player/equipment";
+import { getEffectiveStats } from "@/gameRules/battle/equipment";
 import { EQUIPPED_COUNT, FILTER_TAB_COUNT, FILTER_TABS } from "@/data/equipmentMenu";
 import type { EquipmentFilter } from "@/data/equipmentMenu";
+
+function parseColKey(key: string): { id: string; enhance: number } {
+  const i = key.lastIndexOf("+");
+  if (i > 0) {
+    const enhance = parseInt(key.slice(i + 1), 10);
+    if (!isNaN(enhance)) return { id: key.slice(0, i), enhance };
+  }
+  return { id: key, enhance: 0 };
+}
+
+export type CollectedEntry = {
+  item: Equipment;
+  qty: number;
+  enhance: number;
+  stats: ReturnType<typeof getEffectiveStats>;
+};
 
 export function useEquipmentMenu(
   isOpen: boolean,
@@ -14,7 +31,7 @@ export function useEquipmentMenu(
   rightItemsRef?: React.RefObject<HTMLDivElement | null>
 ) {
   const { pushControls, popControls } = useGameControls();
-  const { getEquippedItem, getCollection, equip, unequip } =
+  const { getEquippedItem, getEquippedInfo, getCollection, equip, unequip } =
     useEquipment();
   const { playMove, playSelect } = useMenuSFX();
 
@@ -26,15 +43,19 @@ export function useEquipmentMenu(
     type: "slot" as const,
     slot,
     item: getEquippedItem(character, slot),
+    info: getEquippedInfo(character, slot),
   }));
 
-  const allCollected = Object.entries(getCollection(character))
-    .filter(([, qty]) => qty > 0)
-    .map(([id, qty]) => {
+  const allCollected: CollectedEntry[] = Object.entries(getCollection(character))
+    .filter(([, qty]) => (qty as number) > 0)
+    .map(([key, qty]) => {
+      const { id, enhance } = parseColKey(key);
       const item = getEquipmentById(id);
-      return item ? { item, qty } : null;
+      if (!item) return null;
+      const stats = getEffectiveStats(id, enhance);
+      return { item, qty: qty as number, enhance, stats } as CollectedEntry;
     })
-    .filter((e): e is { item: Equipment; qty: number } => e !== null);
+    .filter((e): e is CollectedEntry => e !== null);
 
   const filteredItems =
     filter === "all"
@@ -98,7 +119,7 @@ export function useEquipmentMenu(
     const entry = filteredItems[rightIndex - FILTER_TAB_COUNT];
     if (!entry) return false;
     playSelect();
-    equip(character, entry.item.id);
+    equip(character, entry.item.id, entry.enhance);
     return true;
   }
 
@@ -186,9 +207,17 @@ export function useEquipmentMenu(
     return () => popControlsRef.current();
   }, [isOpen, totalItems]);
 
+  const equippedInfos = equippedItems.map(e => ({
+    type: "slot" as const,
+    slot: e.slot,
+    item: e.item,
+    info: e.info,
+    stats: e.item && e.info ? getEffectiveStats(e.info.id, e.info.enhance) : null,
+  }));
+
   return {
     selectedIndex,
-    equippedItems,
+    equippedItems: equippedInfos,
     filteredItems,
     filter,
     allCollected,

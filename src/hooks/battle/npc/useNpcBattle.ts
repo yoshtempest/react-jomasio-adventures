@@ -18,6 +18,7 @@ type Props = {
   npcY: number;
 
   player: Player;
+  totalArmor: number;
 
   setPlayerHP: React.Dispatch<React.SetStateAction<number>>;
   npcCooldown: React.RefObject<boolean>;
@@ -32,6 +33,7 @@ export function useNpcBattle({
   npcLevel,
   npcClass,
   playerClass,
+  totalArmor,
   setPlayerHP,
   npcCooldown,
   playerX,
@@ -63,7 +65,7 @@ export function useNpcBattle({
     }
 
     const npc = getNpcStats(npcLevel, npcClass, difficulty);
-    const dmg = calculateNpcDamage(npc.damage, playerClass);
+    const dmg = calculateNpcDamage(npc.damage, playerClass, totalArmor);
 
     setPlayerHP(hp => Math.max(0, hp - dmg));
     navigator.vibrate?.(40);
@@ -80,6 +82,7 @@ export function useNpcBattle({
     npcLevel,
     npcClass,
     playerClass,
+    totalArmor,
     setPlayerHP,
     playerX,
     playerY,
@@ -101,7 +104,7 @@ export function useNpcBattle({
     ) return;
 
     const npc = getNpcStats(npcLevel, npcClass, difficulty);
-    const dmg = calculateNpcDamage(npc.damage, playerClass);
+    const dmg = calculateNpcDamage(npc.damage, playerClass, totalArmor);
 
     setPlayerHP((hp) => Math.max(0, hp - dmg));
     navigator.vibrate?.(40);
@@ -124,6 +127,7 @@ export function useNpcBattle({
     npcX,
     npcY,
     difficulty,
+    totalArmor,
     spawnDamageRef,
     hitstopRef,
   ]);

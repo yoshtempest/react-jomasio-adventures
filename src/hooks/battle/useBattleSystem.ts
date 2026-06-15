@@ -2,7 +2,7 @@ import { useState, useMemo, useEffect, useRef } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useTitles } from "@/contexts/TitleContext";
-import { getEquipmentStatsBonus, getWeaponCritRate } from "@/gameRules/battle/equipment";
+import { getEquipmentStatsBonus, getWeaponCritRate, getTotalArmor } from "@/gameRules/battle/equipment";
 import { useEquipment } from "@/contexts/EquipmentContext";
 
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
@@ -87,6 +87,11 @@ export function useBattleSystem(props: Props) {
   }, [player.character]);
 
   const critRate = 1 + weaponCritRate;
+
+  // 🛡️ armadura total
+  const totalArmor = useMemo(() => {
+    return getTotalArmor(player.character);
+  }, [player.character]);
 
   // 🏆 título
   const titleBonus = useMemo(() => {
@@ -174,6 +179,7 @@ export function useBattleSystem(props: Props) {
     npcY,
 
     player,
+    totalArmor,
 
     setPlayerHP,
     npcCooldown,
@@ -226,8 +232,9 @@ export function useBattleSystem(props: Props) {
 
   // 💥 external damage to player (summons, etc.)
   const damagePlayer = (damage: number) => {
-    setPlayerHP(hp => Math.max(0, hp - damage));
-    spawnDamageRef.current?.(damage, playerX, playerY, "summon");
+    const reduced = totalArmor > 0 ? Math.round(damage * 100 / (100 + totalArmor)) : damage;
+    setPlayerHP(hp => Math.max(0, hp - reduced));
+    spawnDamageRef.current?.(reduced, playerX, playerY, "summon");
   };
 
   // 🔄 reset

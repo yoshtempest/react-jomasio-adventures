@@ -65,6 +65,13 @@
   flex-wrap: wrap;
 }
 
+.enhanceBadge {
+  font-size: 11px;
+  color: #ffd700;
+  margin-left: 3px;
+  font-weight: bold;
+}
+
 .itemName {
   font-size: 13px;
   font-weight: bold;

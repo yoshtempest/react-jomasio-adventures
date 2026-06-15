@@ -4,27 +4,37 @@ export type EquipmentRank = "common" | "rare" | "epic" | "boss" | "legendary";
 
 export const EQUIPMENT_SLOTS: EquipmentSlot[] = ["weapon", "helmet", "chestplate", "pants", "boots", "accessory", "bag", "pet"];
 
+export const ARMOR_SLOTS: EquipmentSlot[] = ["helmet", "chestplate", "pants", "boots", "accessory"];
+
 export const EQUIPMENT_RANKS: EquipmentRank[] = ["common", "rare", "epic", "boss", "legendary"];
 
 export const PET_EQUIPMENT_IDS = ["pet_goat"] as const;
 
 export type PetEquipmentId = typeof PET_EQUIPMENT_IDS[number];
 
+export type EquipmentStats = {
+  hp: number;
+  strength: number;
+  intelligence: number;
+  armor: number;
+};
+
 export type Equipment = {
   id: EquipmentId;
   name: string;
   slot: EquipmentSlot;
   rank: EquipmentRank;
-  stats: {
-    hp: number;
-    strength: number;
-    intelligence: number;
-  };
+  stats: EquipmentStats;
   bonusSlots?: number;
 };
 
+export type EquippedItemInfo = {
+  id: EquipmentId;
+  enhance: number;
+};
+
 export type EquippedItems = {
-  [K in EquipmentSlot]: EquipmentId | null;
+  [K in EquipmentSlot]: EquippedItemInfo | null;
 };
 
 export function createEmptyEquipped(): EquippedItems {

@@ -27,11 +27,18 @@ export function calculateSpecialDamage(
 
 export function calculateNpcDamage(
   baseDamage: number,
-  playerClass: string | null
+  playerClass: string | null,
+  defense: number = 0
 ) {
-  if (playerClass === "idiota") {
-    return Math.round(baseDamage * 0.8);
+  let dmg = baseDamage;
+
+  if (defense > 0) {
+    dmg *= 100 / (100 + defense);
   }
 
-  return Math.round(baseDamage);
+  if (playerClass === "idiota") {
+    dmg *= 0.8;
+  }
+
+  return Math.round(dmg);
 }
