@@ -45,7 +45,6 @@ export function useBattleSystem(props: Props) {
     registerHitRef,
   } = props;
 
-  const [isNpcDying, setNpcDying] = useState(false);
   const [npcPhase, setNpcPhase] = useState(1);
 
   // 📊 stats
@@ -129,7 +128,7 @@ export function useBattleSystem(props: Props) {
   });
 
   // 🧠 lifecycle
-  useBattleLifecycle({
+  const { isNpcDying } = useBattleLifecycle({
     playerHP,
     npcHP,
     npcClass,
@@ -140,7 +139,6 @@ export function useBattleSystem(props: Props) {
     onPlayerDeath,
     onNpcDeath,
     isEnding,
-    setNpcDying,
   });
 
   // 🐐 pet damage
@@ -205,7 +203,6 @@ export function useBattleSystem(props: Props) {
     resetBattle,
     damagePlayer,
     isNpcDying,
-    setNpcDying,
     playerCooldown,
     isEnding,
     piercings: effects.piercings,

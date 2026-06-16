@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { isDead } from "@/gameRules/battle/death";
 
 type Props = {
@@ -17,7 +17,6 @@ type Props = {
   onNpcDeath: () => void;
 
   isEnding: React.RefObject<boolean>;
-  setNpcDying: (value: boolean) => void;
 };
 
 export function useBattleLifecycle({
@@ -31,8 +30,9 @@ export function useBattleLifecycle({
   onPlayerDeath,
   onNpcDeath,
   isEnding,
-  setNpcDying,
 }: Props) {
+  const [isNpcDying, setNpcDying] = useState(false);
+
   const onPlayerDeathRef = useRef(onPlayerDeath);
   onPlayerDeathRef.current = onPlayerDeath;
   const onNpcDeathRef = useRef(onNpcDeath);
@@ -74,5 +74,7 @@ export function useBattleLifecycle({
       );
     }
     return () => timeouts.forEach(clearTimeout);
-  }, [playerHP, npcHP, setNpcPhase, setNpcHP, setNpcDying, isEnding]);
+  }, [playerHP, npcHP, setNpcPhase, setNpcHP, isEnding]);
+
+  return { isNpcDying };
 }
