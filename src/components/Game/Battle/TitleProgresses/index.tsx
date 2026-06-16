@@ -11,14 +11,14 @@ export function TitleProgresses() {
   });
 
   return (
-    <div className={styles.section}>
-      <h2 className={styles.sectionTitle}>
+    <div className="section">
+      <h2 className="sectionTitle">
         Progresso de Títulos
         <span className={styles.totalKills}>
           Total de mortes: {titlesData.totalKills}
         </span>
       </h2>
-      <div className={styles.titlesList}>
+      <div className={styles.list}>
         {activeTitles.length === 0 && (
           <span className={styles.noProgress}>
             Nenhum título em progresso ainda
@@ -29,17 +29,17 @@ export function TitleProgresses() {
           const levelDef = def.levels[prog.level];
           if (!levelDef) return null;
           return (
-            <div key={id} className={styles.titleProgress}>
-              <span className={styles.titleName}>{def.name}</span>
-              <div className={styles.titleBar}>
+            <div key={id} className={styles.progress}>
+              <span className={styles.name}>{def.name}</span>
+              <div className={styles.bar}>
                 <div
-                  className={styles.titleBarFill}
+                  className={styles.barFill}
                   style={{
                     width: `${Math.min(100, (prog.current / levelDef.count) * 100)}%`,
                   }}
                 />
               </div>
-              <span className={styles.titleCount}>
+              <span className={styles.count}>
                 {prog.current}/{levelDef.count}
               </span>
             </div>

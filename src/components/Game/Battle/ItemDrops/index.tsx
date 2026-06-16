@@ -9,13 +9,13 @@ export function ItemDrops({ itemDrops }: Props) {
   if (itemDrops.length === 0) return null;
 
   return (
-    <div className={styles.section}>
-      <h2 className={styles.sectionTitle}>Itens Coletados</h2>
-      <div className={styles.dropsList}>
+    <div className="section">
+      <h2 className="sectionTitle">Itens Coletados</h2>
+      <div className="dropsList">
         {itemDrops.map((item) => (
-          <div key={item.id} className={styles.dropItem}>
+          <div key={item.id} className="dropItem">
             <img
-              className={styles.dropIcon}
+              className="dropIcon"
               src={
                 item.image
                   ? `${import.meta.env.BASE_URL}${item.image.replace(/^\//, "")}`
@@ -23,7 +23,7 @@ export function ItemDrops({ itemDrops }: Props) {
               }
               alt={item.name}
             />
-            <span className={styles.dropName}>{item.name}</span>
+            <span className="dropName">{item.name}</span>
             <span className={styles.dropQty}>x{item.qty}</span>
           </div>
         ))}
