@@ -1,7 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 import { npcBehaviors } from "@/gameRules/battle/behaviors/npc/index";
 import { useProjectile } from "./useProjectile";
-import { isHorizontallyBlocked } from "@/utils/types/battleMap";
+import {
+  getNpcDirection,
+  getNpcState,
+  applyObstacleCollision,
+} from "@/gameRules/battle/npc/npcPosition";
 import type { NPCBattleState } from "@/utils/types/npc/npc";
 import type { BattleObstacle } from "@/utils/types/battleMap";
 import type { DamageType } from "@/hooks/battle/useDamageNumbers";
@@ -75,6 +79,7 @@ export function useNpcAI({
   const summonTimerRef = useRef(0);
   const obstaclesRef = useRef(obstacles ?? []);
   obstaclesRef.current = obstacles ?? [];
+
   useProjectile(
     projectile,
     setProjectile,
@@ -106,21 +111,19 @@ export function useNpcAI({
     lastAttackRef.current = 0;
   };
 
-  const hitstopRef_ = hitstopRef;
-  const npcStaggerRef_ = npcStaggerRef;
-
   useEffect(() => {
     const interval = setInterval(() => {
       setNpc((n) => {
         if (isPausedRef.current) return n;
-        if (hitstopRef_.current > Date.now()) return n;
+        if (hitstopRef.current > Date.now()) return n;
 
-        if (npcStaggerRef_.current > Date.now()) {
-          const direction = playerXRef.current < n.x ? "left" : "right";
-          return { ...n, direction, state: "walk" };
+        if (npcStaggerRef.current > Date.now()) {
+          return {
+            ...n,
+            direction: getNpcDirection(n.x, playerXRef.current),
+            state: "walk",
+          };
         }
-
-        const p = projectileRef.current;
 
         const behavior =
           npcBehaviors[npcTypeRef.current] || npcBehaviors.default;
@@ -130,7 +133,7 @@ export function useNpcAI({
           playerX: playerXRef.current,
           npcPhase: npcPhaseRef.current,
           playerY: playerYRef.current,
-          projectile: p,
+          projectile: projectileRef.current,
           setProjectile,
           lastAttackRef,
           onProjectileHit: onProjectileHitRef.current,
@@ -140,42 +143,19 @@ export function useNpcAI({
           summonTimerRef,
         });
 
-        const direction = playerXRef.current < n.x ? "left" : "right";
-        const distanceX = Math.abs(n.x - playerXRef.current);
-        const state = forceIdleRef.current
-          ? "idle"
-          : distanceX > 80
-            ? "walk"
-            : "idle";
         const nextX = result.x;
         const nextY = result.y ?? n.y;
+        const direction = getNpcDirection(nextX, playerXRef.current);
+        const distanceX = Math.abs(n.x - playerXRef.current);
+        const state = getNpcState(distanceX, forceIdleRef.current);
+        const collision = applyObstacleCollision(nextX, nextY, obstaclesRef.current);
 
-        const obstacles = obstaclesRef.current;
-        if (obstacles.length > 0) {
-          const npcLeft = nextX - 15;
-          const npcTop = nextY - 50;
-          const npcRight = nextX + 15;
-          const npcBottom = nextY;
-
-          if (
-            isHorizontallyBlocked(
-              npcLeft,
-              npcTop,
-              npcRight,
-              npcBottom,
-              obstacles,
-            )
-          ) {
-            return { ...n, y: nextY, direction, state };
-          }
-        }
-
-        return { ...n, x: nextX, y: nextY, direction, state };
+        return { ...n, x: collision.x, y: collision.y, direction, state };
       });
     }, 20);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [hitstopRef, npcStaggerRef]);
 
   return {
     ...npc,
