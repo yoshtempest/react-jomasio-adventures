@@ -29,7 +29,7 @@ function calcProgress(damagePct: number): {
   let currentRank: ComboRank = "F";
   let next: ComboRank | null = null;
 
-  for (let i = RANK_THRESHOLDS.length - 1; i >= 0; i--) {
+  for (let i = 0; i < RANK_THRESHOLDS.length; i++) {
     const entry = RANK_THRESHOLDS[i];
     if (damagePct >= entry.pct) {
       currentRank = entry.rank;
