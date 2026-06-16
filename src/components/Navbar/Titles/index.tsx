@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import styles from "./styles.module.css";
-import { useTitleMenu } from "@/hooks/menu/useTitleMenu";
+import { useTitleMenu } from "@/hooks/menu/useTitle";
 import { useTitles } from "@/contexts/TitleContext";
 import { TITLES } from "@/data/titles/index";
 import { STAT_LABEL } from "@/data/titles/statLabel";

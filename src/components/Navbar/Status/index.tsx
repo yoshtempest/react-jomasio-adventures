@@ -4,7 +4,7 @@ import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { useTitles } from "@/contexts/TitleContext";
 import { CHARACTERS } from "@/data/options/characters";
-import { useStatusMenu } from "@/hooks/menu/useStatusMenu";
+import { useStatusMenu } from "@/hooks/menu/useStatus";
 import { asset } from "@/utils/asset";
 import {
   EQUIPMENT_SLOTS,

@@ -2,7 +2,7 @@ import { NPCBattle } from "@/components/Game/Npc/Battle";
 import { ProjectileSprite } from "@/components/Projectile";
 import { PlayerBattle } from "@/components/Game/Player/Battle";
 import type { SummonedNpc, NPCBattleState } from "@/utils/types/npc/npc";
-import type { PetState } from "@/hooks/battle/usePetBattle";
+import type { PetState } from "@/hooks/battle/player/usePet";
 
 type BattleEntitiesBattle = {
   piercings: { id: number; x: number; y: number }[];

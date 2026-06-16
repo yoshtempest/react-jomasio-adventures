@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
-import { useEquipmentMenu } from "@/hooks/menu/useEquipmentMenu";
-import type { CollectedEntry } from "@/hooks/menu/useEquipmentMenu";
+import { useEquipmentMenu } from "@/hooks/menu/equipment/useEquipment";
+import type { CollectedEntry } from "@/hooks/menu/equipment/useEquipment";
 import {
   EQUIPPED_COUNT,
   FILTER_TAB_COUNT,

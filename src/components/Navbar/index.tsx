@@ -1,5 +1,5 @@
 import styles from "./styles.module.css";
-import { useNavbarMenu } from "@/hooks/menu/useNavbarMenu";
+import { useNavbarMenu } from "@/hooks/menu/useNavbar";
 
 import { Status } from "./Status";
 import { Inventory } from "./Inventory";

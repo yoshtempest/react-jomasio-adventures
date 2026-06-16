@@ -17,7 +17,7 @@ import { DASH_DURATION, DASH_INTERVAL } from "@/utils/types/player/movement";
 import {
   useBattleGravity,
   type CollisionParams,
-} from "@/hooks/player/useBattleGravity";
+} from "@/hooks/battle/useGravity";
 
 const PLAYER_COLLISION_W = 30;
 const PLAYER_COLLISION_H = 50;

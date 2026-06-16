@@ -12,7 +12,7 @@ import { useEffect, useRef } from "react";
 import { useSceneNavigation } from "@/hooks/scene/useNavigation";
 import { useSceneSetup } from "@/hooks/scene/useSetup";
 import { useSceneControls } from "@/hooks/scene/useControls";
-import { useSceneInteraction } from "@/hooks/scene/useSceneInteraction";
+import { useSceneInteraction } from "@/hooks/scene/useInteraction";
 import { useSceneAudio } from "@/hooks/scene/useAudio";
 import { useLocation } from "react-router";
 import { useTransitionCtx } from "@/contexts/TransitionContext";
@@ -21,7 +21,7 @@ import { saveGame } from "@/utils/saveGame";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
 import { useFlags } from "@/contexts/FlagContext";
-import { useSceneEvents } from "@/hooks/scene/useSceneEvents";
+import { useSceneEvents } from "@/hooks/scene/useEvents";
 
 export function ExploreScene({
   map,

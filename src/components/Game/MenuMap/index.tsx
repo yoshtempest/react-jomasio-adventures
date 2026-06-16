@@ -1,5 +1,5 @@
 import styles from "./styles.module.css";
-import { useMapMenu } from "@/hooks/menu/useMapMenu";
+import { useMapMenu } from "@/hooks/menu/useMap";
 
 type Props = {
   map: number[][];

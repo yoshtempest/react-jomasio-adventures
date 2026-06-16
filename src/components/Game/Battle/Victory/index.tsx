@@ -1,12 +1,12 @@
 import styles from "./styles.module.css";
 import { asset } from "@/utils/asset";
-import { useVictoryVisibility } from "@/hooks/battle/useVictoryVisibility";
-import { useVictoryKeyboard } from "@/hooks/battle/useVictoryKeyboard";
+import { useVictoryVisibility } from "@/hooks/battle/victory/useVisibility";
+import { useVictoryKeyboard } from "@/hooks/battle/victory/useKeyboard";
 import { RewardCards } from "@/components/Game/Battle/RewardCards";
 import { EquipmentDrops } from "@/components/Game/Battle/EquipmentDrops";
 import { ItemDrops } from "@/components/Game/Battle/ItemDrops";
 import { TitleProgresses } from "@/components/Game/Battle/TitleProgresses";
-import type { RewardInfo } from "@/hooks/battle/useBattleRewards";
+import type { RewardInfo } from "@/hooks/battle/useRewards";
 
 type Props = {
   isOpen: boolean;

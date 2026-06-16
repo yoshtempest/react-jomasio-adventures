@@ -1,5 +1,5 @@
 import styles from "./styles.module.css";
-import type { ItemDropInfo } from "@/hooks/battle/useBattleRewards";
+import type { ItemDropInfo } from "@/hooks/battle/useRewards";
 
 type Props = {
   itemDrops: ItemDropInfo[];

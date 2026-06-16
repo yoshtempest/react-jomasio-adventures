@@ -1,7 +1,7 @@
 import { BattleHUD } from "@/components/Game/Battle/HUD";
 import { GameMap } from "@/components/Game/GameMap";
 import { useGameLayout } from "@/hooks/useGameLayout";
-import { useBattleScene } from "@/hooks/battle/useBattleScene";
+import { useBattleScene } from "@/hooks/battle/useScene";
 import { BattleEntities } from "@/components/Game/Battle/Entities";
 import { BattleMap } from "@/components/Game/Battle/Map";
 import { DamageNumbers } from "@/components/Game/Battle/DamageNumbers";

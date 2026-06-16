@@ -2,25 +2,25 @@ import { useEffect, useRef, useState } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useGameAudio } from "@/hooks/useGameAudio";
 import { useNpcAI } from "@/hooks/battle/npc/useNpcAi";
-import { useBattleSystem } from "@/hooks/battle/useBattleSystem";
+import { useBattleSystem } from "@/hooks/battle/useSystem";
 import { useVictory } from "@/hooks/useVictory";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useNavigate } from "react-router";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { useLocation } from "react-router";
-import { useNpcSetup } from "@/hooks/battle/useNpcSetup";
+import { useNpcSetup } from "@/hooks/battle/npc/useNpcSetup";
 import {
   useBattleRewards,
   type RewardInfo,
-} from "@/hooks/battle/useBattleRewards";
+} from "@/hooks/battle/useRewards";
 import { useSummons } from "@/hooks/battle/npc/useSummons";
-import { usePlayerBattleActions } from "@/hooks/battle/player/usePlayerBattleActions";
+import { usePlayerBattleActions } from "@/hooks/battle/player/usePlayerActions";
 import { useSummonAI } from "@/hooks/battle/npc/useSummonsAi";
-import { useBattleControls } from "@/hooks/battle/useBattleControls";
+import { useBattleControls } from "@/hooks/battle/useControls";
 import { useComboSystem } from "@/hooks/battle/useComboSystem";
-import { useBattleRefs } from "@/hooks/battle/useBattleRefs";
-import { useBattleKillCounter } from "@/hooks/battle/useBattleKillCounter";
+import { useBattleRefs } from "@/hooks/battle/useRefs";
+import { useBattleKillCounter } from "@/hooks/battle/useKillCounter";
 import type { BattleMapConfig } from "@/utils/types/battleMap";
 
 type Props = {

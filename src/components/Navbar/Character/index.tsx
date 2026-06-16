@@ -1,5 +1,5 @@
 import styles from "./styles.module.css";
-import { useCharacterMenu } from "@/hooks/menu/useCharacterMenu";
+import { useCharacterMenu } from "@/hooks/menu/useCharacter";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { asset } from "@/utils/asset";
 

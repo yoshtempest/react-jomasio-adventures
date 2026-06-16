@@ -1,5 +1,5 @@
 import { useInventory } from "@/contexts/InventoryContext";
-import { useInventoryMenu } from "@/hooks/menu/useInventoryMenu";
+import { useInventoryMenu } from "@/hooks/menu/useInventory";
 import { usePlayer } from "@/contexts/PlayerContext";
 import styles from "./styles.module.css";
 

@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import type { CollisionParams } from "@/hooks/player/useBattleMovement";
+import type { CollisionParams } from "@/hooks/battle/player/useMovement";
 
 export const BATTLE_DEFAULT_STATE = {
   x: 100,

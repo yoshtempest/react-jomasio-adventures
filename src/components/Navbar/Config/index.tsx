@@ -1,7 +1,7 @@
 import styles from "./styles.module.css";
 import { MoveUp, MoveDown, MoveLeft, MoveRight } from "lucide-react";
 import { usePlayer } from "@/contexts/PlayerContext";
-import { useConfigMenu } from "@/hooks/menu/useConfigMenu";
+import { useConfigMenu } from "@/hooks/menu/config/useConfig";
 import { useAudio } from "@/contexts/AudioContext";
 import { useSettings } from "@/contexts/SettingsContext";
 import { DIALOGUE_SPEED_LIST, SPEED_LABEL } from "@/utils/settings";

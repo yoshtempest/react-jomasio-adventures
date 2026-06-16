@@ -2,14 +2,14 @@ import { useState, useRef } from "react";
 import { calculateDamageToNpc } from "@/gameRules/battle/damage";
 import { battleBehaviors } from "@/gameRules/battle/behaviors/player";
 
-import { useBattleStats } from "@/hooks/battle/useBattleStats";
-import { useBattleHP } from "@/hooks/battle/useBattleHP";
-import { useBattleCooldowns } from "@/hooks/battle/useBattleCooldowns";
-import { useBattleEffects } from "@/hooks/battle/useBattleEffects";
-import { usePlayerBattle } from "@/hooks/battle/player/usePlayerBattle";
-import { useNpcBattle } from "@/hooks/battle/npc/useNpcBattle";
-import { useBattleLifecycle } from "@/hooks/battle/useBattleLifecycle";
-import { usePetBattle } from "@/hooks/battle/usePetBattle";
+import { useBattleStats } from "@/hooks/battle/useStats";
+import { useBattleHP } from "@/hooks/battle/useHP";
+import { useBattleCooldowns } from "@/hooks/battle/useCooldowns";
+import { useBattleEffects } from "@/hooks/battle/useEffects";
+import { usePlayerBattle } from "@/hooks/battle/player/usePlayer";
+import { useNpcBattle } from "@/hooks/battle/npc/useNpc";
+import { useBattleLifecycle } from "@/hooks/battle/useLifecycle";
+import { usePetBattle } from "@/hooks/battle/player/usePet";
 import { useDamageNumbers } from "@/hooks/battle/useDamageNumbers";
 
 type Props = {

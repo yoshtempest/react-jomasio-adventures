@@ -3,7 +3,7 @@ import styles from "./styles.module.css";
 import undertale from "/assets/songs/UndertaleGameOver.m4a";
 import { useGameAudio } from "@/hooks/useGameAudio";
 import { asset } from "@/utils/asset";
-import { useGameModeMenu } from "@/hooks/menu/useGameModeMenu";
+import { useGameModeMenu } from "@/hooks/menu/useGameMode";
 
 export default function Intro() {
   const { selectedIndex, options } = useGameModeMenu();
