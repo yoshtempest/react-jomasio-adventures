@@ -12,7 +12,7 @@ import type { CollisionParams } from "@/hooks/player/useBattleMovement";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { usePlayerAnimation } from "@/hooks/battle/player/usePlayerAnimation";
-import { BATTLE_DEFAULT_STATE, createBattleCollisionRef } from "@/contexts/player/playerState";
+import { BATTLE_DEFAULT_STATE, createBattleCollisionRef } from "@/utils/types/player/state";
 
 type PlayerContextType = {
   player: Player;

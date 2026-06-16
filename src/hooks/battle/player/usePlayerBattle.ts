@@ -8,7 +8,7 @@ import {
 } from "@/gameRules/battle/damage";
 import { rollCrit } from "@/gameRules/battle/damageUtils";
 import type { DamageType } from "@/hooks/battle/useDamageNumbers";
-import type { BattleBehavior } from "@/utils/types/player/playerBehavior";
+import type { BattleBehavior } from "@/utils/types/player/behavior";
 import type { CharacterProgress } from "@/contexts/CharacterProgressContext";
 
 type Props = {

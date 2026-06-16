@@ -1,4 +1,4 @@
-import type { BattleBehavior } from "@/utils/types/player/playerBehavior";
+import type { BattleBehavior } from "@/utils/types/player/behavior";
 import { gainSpecial } from "@/gameRules/battle/special";
 
 export const normalBehavior: BattleBehavior = {
