@@ -7,11 +7,11 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { ITEMS } from "@/data/items";
+import { useQuestItems, QUEST_TABS, TAB_COUNT } from "./useQuestItems";
+import type { QuestTab } from "./useQuestItems";
 
-export type QuestTab = "active" | "completed" | "daily" | "weekly";
+export type { QuestTab };
 
-const TABS: QuestTab[] = ["active", "completed", "daily", "weekly"];
-const TAB_COUNT = TABS.length;
 const COLS = 3;
 
 export function useQuestMenu(
@@ -30,34 +30,9 @@ export function useQuestMenu(
   const [activeTab, setActiveTab] = useState<QuestTab>("active");
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const activeQuests = allQuests.filter(
-    (q) =>
-      q.frequency !== "daily" &&
-      q.frequency !== "weekly" &&
-      (!q.completed || !q.claimed),
-  );
-  const completedQuests = allQuests.filter(
-    (q) =>
-      q.frequency !== "daily" &&
-      q.frequency !== "weekly" &&
-      q.completed &&
-      q.claimed,
-  );
-  const dailyQuests = allQuests.filter(
-    (q) => q.frequency === "daily" && !q.claimed,
-  );
-  const weeklyQuests = allQuests.filter(
-    (q) => q.frequency === "weekly" && !q.claimed,
-  );
+  const { visibleQuests, activeQuests, completedQuests, dailyQuests, weeklyQuests } =
+    useQuestItems(allQuests, activeTab);
 
-  const tabMap: Record<QuestTab, Quest[]> = {
-    active: activeQuests,
-    completed: completedQuests,
-    daily: dailyQuests,
-    weekly: weeklyQuests,
-  };
-
-  const visibleQuests = tabMap[activeTab];
   const totalCards = visibleQuests.length;
   const totalItems = TAB_COUNT + totalCards;
 
@@ -68,7 +43,7 @@ export function useQuestMenu(
 
   useEffect(() => {
     setSelectedIndex((prev) => {
-      const currentTabIndex = TABS.indexOf(activeTab);
+      const currentTabIndex = QUEST_TABS.indexOf(activeTab);
       if (prev < TAB_COUNT) return currentTabIndex;
       if (totalCards === 0) return currentTabIndex;
       const cardIndex = prev - TAB_COUNT;
@@ -102,12 +77,12 @@ export function useQuestMenu(
 
   function switchTab(tab: QuestTab) {
     setActiveTab(tab);
-    setSelectedIndex(TABS.indexOf(tab));
+    setSelectedIndex(QUEST_TABS.indexOf(tab));
   }
 
   function handleUseItem(index: number) {
     if (index < TAB_COUNT) {
-      const tab = TABS[index];
+      const tab = QUEST_TABS[index];
       playSelect();
       switchTab(tab);
       return true;
@@ -196,7 +171,7 @@ export function useQuestMenu(
           if (prev < TAB_COUNT) return prev;
           const next = gridMove(prev, COLS, "up", totalItems);
           if (next < TAB_COUNT) {
-            return TABS.indexOf(activeTab);
+            return QUEST_TABS.indexOf(activeTab);
           }
           return next;
         });
@@ -216,7 +191,7 @@ export function useQuestMenu(
   // Sync activeTab when selectedIndex moves across tabs
   useEffect(() => {
     if (selectedIndex < TAB_COUNT) {
-      const tab = TABS[selectedIndex];
+      const tab = QUEST_TABS[selectedIndex];
       if (tab !== activeTab) {
         setActiveTab(tab);
       }
