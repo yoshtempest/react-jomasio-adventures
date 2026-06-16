@@ -14,7 +14,7 @@ import type {
 } from "@/utils/types/player/equipment";
 import { getEquipmentById } from "@/data/equipment";
 import { getEffectiveStats } from "@/gameRules/battle/equipment";
-import { colKey, loadAllData, saveAllData, getCharacterData } from "@/data/equipmentStorage";
+import { colKey, loadAllData, saveAllData, getCharacterData } from "@/data/equipment/storage";
 
 type CharacterEquipmentData = {
   equipped: EquippedItems;
