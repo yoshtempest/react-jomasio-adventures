@@ -5,13 +5,11 @@ import { useNpcAI } from "@/hooks/battle/npc/useNpcAi";
 import { useBattleSystem } from "@/hooks/battle/useBattleSystem";
 import { useVictory } from "@/hooks/useVictory";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
-import { NPCS } from "@/data/npc";
-import { generateNpcLevel } from "@/utils/generateNpcLevel";
 import { useNavigate } from "react-router";
-import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { useLocation } from "react-router";
+import { useNpcSetup } from "@/hooks/battle/useNpcSetup";
 import {
   useBattleRewards,
   type RewardInfo,
@@ -54,17 +52,15 @@ export function useBattleScene({
   } = usePlayer();
 
   const { progress, getXPToNextLevel } = useCharacterProgress();
-
   const { closeInventory } = useInventory();
   const { closeNavbar } = useNavbar();
 
   const [showDefeat, setShowDefeat] = useState(false);
   const [lastRewards, setLastRewards] = useState<RewardInfo | null>(null);
-  const [npcLevel] = useState(() => generateNpcLevel());
   const [npcPhase, setNpcPhase] = useState(1);
   const [showIntro, setShowIntro] = useState(true);
 
-  const npcData = NPCS[npcType];
+  const { npcData, npcLevel, npcStats } = useNpcSetup(npcType, difficulty);
 
   const { xpReward, giveRewards, giveSummonRewards } = useBattleRewards({
     npcClass: npcData.class,
@@ -84,13 +80,10 @@ export function useBattleScene({
   const xpNeeded = getXPToNextLevel(charProgress.level);
   const missingXp = xpNeeded - charProgress.xp;
 
-  const npcStats = getNpcStats(npcLevel, npcData.class, difficulty);
-
   const { showVictory, triggerVictory } = useVictory({ redirectTo });
 
   useGameAudio({ src: audioSrc, loop: true, volume: 0.5 });
 
-  // 🔧 refs compartilhados entre subsistemas
   const refs = useBattleRefs();
 
   const clearSummonsRef = useRef(clearSummons);
@@ -102,12 +95,10 @@ export function useBattleScene({
   const closeNavbarRef = useRef(closeNavbar);
   closeNavbarRef.current = closeNavbar;
 
-  // 🏆 kill counter
   const killCounter = useBattleKillCounter();
   killCounter.npcTypeRef.current = npcType;
   killCounter.npcDataRef.current = npcData;
 
-  // 🤖 AI do NPC
   const npc = useNpcAI({
     playerX: player.x,
     playerY: player.y,
@@ -149,7 +140,6 @@ export function useBattleScene({
     registerHitRef: refs.registerHitRef,
   });
 
-  // 🎯 combo
   const {
     comboCount,
     comboRank,
@@ -161,7 +151,6 @@ export function useBattleScene({
   refs.registerHitRef.current = registerHit;
   refs.spawnDamageRef.current = battle.spawnDamageNumber;
 
-  // 👊 player battle actions (main NPC + summons alvo)
   const { handlePlayerHit, handleSpecialHit } = usePlayerBattleActions({
     player,
     npc,
@@ -179,7 +168,6 @@ export function useBattleScene({
 
   const isPaused = showVictory || showDefeat || showIntro;
 
-  // 🧟 summon AI
   useSummonAI({
     summons,
     setSummons,
@@ -194,35 +182,29 @@ export function useBattleScene({
     hitstopRef: refs.hitstopRef,
   });
 
-  // 📍 Track NPC position for summon spawns
   useEffect(() => {
     updateNpcPosition(npc.x);
   }, [npc.x, updateNpcPosition]);
 
-  // 💀 Despawn summons on boss phase 2
   useEffect(() => {
     if (battle.npcPhase === 2) {
       clearSummonsRef.current();
     }
   }, [battle.npcPhase]);
 
-  // 🔄 Sync npcPhase
   useEffect(() => {
     setNpcPhase(battle.npcPhase);
   }, [battle.npcPhase]);
 
-  // 🔗 Sincronizar refs de ataque do NPC após battle ser criado
   refs.npcRangedAttackRef.current = battle.npcRangedHit;
   refs.npcMeleeAttackRef.current = battle.npcMeleeHit;
 
-  // ⚙️ Modo batalha + fechar painéis
   useEffect(() => {
     setModeRef.current("battle");
     closeInventoryRef.current();
     closeNavbarRef.current();
   }, []);
 
-  // ⌨️ Controles
   useBattleControls({
     attack,
     special,
@@ -231,7 +213,6 @@ export function useBattleScene({
     disabled: isPaused,
   });
 
-  // ⏰ Auto-dismiss intro
   useEffect(() => {
     const timeout = setTimeout(() => setShowIntro(false), 5000);
     return () => clearTimeout(timeout);

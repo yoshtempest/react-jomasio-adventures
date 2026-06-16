@@ -3,7 +3,6 @@ import {
   useContext,
   useState,
   useEffect,
-  useRef,
   useCallback,
   type ReactNode,
 } from "react";
@@ -13,15 +12,7 @@ import type { CollisionParams } from "@/hooks/player/useBattleMovement";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { usePlayerAnimation } from "@/hooks/battle/player/usePlayerAnimation";
-
-const BATTLE_DEFAULT_STATE = {
-  x: 100,
-  y: 670,
-  groundY: 670,
-  velY: 0,
-  state: "idle" as const,
-  battleDirection: "right" as const,
-};
+import { BATTLE_DEFAULT_STATE, createBattleCollisionRef } from "@/contexts/player/playerState";
 
 type PlayerContextType = {
   player: Player;
@@ -48,7 +39,7 @@ type PlayerContextType = {
   startMoveRight: () => void;
   stopMoveRight: () => void;
   moveDownBattle: () => void;
-  releaseDownBattle: () => void; // 👈 ADICIONE AQUI
+  releaseDownBattle: () => void;
   attack: () => void;
   special: () => void;
   dash: (direction: "left" | "right") => void;
@@ -70,7 +61,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const [difficulty, setDifficulty] = useState<NpcDifficulty>("medium");
   const [coins, setCoins] = useState(() => {
     const saved = localStorage.getItem("coins");
-    return saved ? Number(saved) : 200; // 👈 começa com 200
+    return saved ? Number(saved) : 200;
   });
   const [hyperCoins, setHyperCoins] = useState(() => {
     const saved = localStorage.getItem("hyperCoins");
@@ -84,7 +75,6 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       gridY: 11,
       direction: "up",
       character: (savedCharacter as Player["character"]) || "marcelo",
-
       ...BATTLE_DEFAULT_STATE,
       mode: "explore",
     };
@@ -95,7 +85,6 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const { toggleInventory } = useInventory();
   const { toggleNavbar } = useNavbar();
 
-  // 🔥 hooks separados
   const { moveUp, moveDown, moveLeft, moveRight } = usePlayerMovement(
     currentMap,
     setPlayer,
@@ -125,12 +114,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     }
   }, [playerClass]);
 
-  const battleCollisionRef = useRef<CollisionParams>({
-    map: null,
-    TILE_SIZE: 0,
-    scaleX: 1,
-    scaleY: 1,
-  });
+  const battleCollisionRef = createBattleCollisionRef();
 
   const {
     moveUpBattle,
@@ -139,7 +123,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     startMoveRight,
     stopMoveRight,
     moveDownBattle,
-    releaseDownBattle, // 👈 AQUI
+    releaseDownBattle,
     attack: rawAttack,
     special,
     dash,
@@ -207,7 +191,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   };
 
   const setCharacter = (character: Player["character"]) => {
-    localStorage.setItem("character", character); // 👈 salva
+    localStorage.setItem("character", character);
     setPlayer((prev) => ({
       ...prev,
       character,
@@ -244,7 +228,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         startMoveRight,
         stopMoveRight,
         moveDownBattle,
-        releaseDownBattle, // 👈 AQUI
+        releaseDownBattle,
         attack,
         special,
         dash,

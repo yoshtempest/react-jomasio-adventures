@@ -6,9 +6,10 @@ import {
   calculateSpecialDamage,
   calculateDamageToNpc,
 } from "@/gameRules/battle/damage";
+import { rollCrit } from "@/gameRules/battle/damageUtils";
+import type { DamageType } from "@/hooks/battle/useDamageNumbers";
 import type { BattleBehavior } from "@/utils/types/player/playerBehavior";
 import type { CharacterProgress } from "@/contexts/CharacterProgressContext";
-import type { DamageType } from "@/hooks/battle/useDamageNumbers";
 
 type Props = {
   player: Player;
@@ -66,13 +67,6 @@ export function usePlayerBattle({
   const [delicia, setDelicia] = useState(0);
   const [stacks, setStacks] = useState(0);
 
-  function rollCrit(damage: number): { damage: number; type: DamageType } {
-    if (Math.random() * 100 < critRate) {
-      return { damage: damage * 2, type: "crit" };
-    }
-    return { damage, type: "player" };
-  }
-
   const playerHit = useCallback(() => {
     if (isEnding.current) return;
     if (!playerCooldown.current) return;
@@ -103,7 +97,7 @@ export function usePlayerBattle({
           playerClass,
           titleDamageBonus,
         );
-    const { damage: critDmg, type: dmgType } = rollCrit(rawDmg);
+    const { damage: critDmg, type: dmgType } = rollCrit(rawDmg, critRate);
     const dmg = calculateDamageToNpc(critDmg, npcArmor);
 
     behavior.onBasicHit({
@@ -176,7 +170,7 @@ export function usePlayerBattle({
     const rawDmg = isLarissa
       ? stacks * 5
       : calculateSpecialDamage(char.stats.intelligence, playerClass);
-    const { damage: critDmg, type: dmgType } = rollCrit(rawDmg);
+    const { damage: critDmg, type: dmgType } = rollCrit(rawDmg, critRate);
     const dmg = calculateDamageToNpc(critDmg, npcArmor);
 
     behavior.onSpecialHit({
