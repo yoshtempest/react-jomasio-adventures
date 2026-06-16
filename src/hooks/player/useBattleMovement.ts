@@ -1,5 +1,4 @@
-import { useRef, useEffect, useMemo, type MutableRefObject } from "react";
-import type { BattleMapConfig } from "@/utils/types/battleMap";
+import { useRef, useEffect, useMemo } from "react";
 import {
   moveLeftBattle,
   moveRightBattle,
@@ -13,24 +12,21 @@ import {
 import { canJump } from "@/gameRules/movement/state";
 import {
   isHorizontallyBlocked,
-  getLandingY,
-  getGroundAtX,
 } from "@/utils/types/battleMap";
 import { DASH_DURATION, DASH_INTERVAL } from "@/utils/types/player/movement";
-
-export type CollisionParams = {
-  map: BattleMapConfig | null;
-  TILE_SIZE: number;
-  scaleX: number;
-  scaleY: number;
-};
+import {
+  useBattleGravity,
+  type CollisionParams,
+} from "@/hooks/player/useBattleGravity";
 
 const PLAYER_COLLISION_W = 30;
 const PLAYER_COLLISION_H = 50;
 
+export type { CollisionParams };
+
 export function useBattleMovement(
   setPlayer: React.Dispatch<React.SetStateAction<Player>>,
-  collisionRef: MutableRefObject<CollisionParams>,
+  collisionRef: React.MutableRefObject<CollisionParams>,
 ) {
   const leftIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const rightIntervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -41,8 +37,9 @@ export function useBattleMovement(
   const isJumping = useRef(false);
   const hasDoubleJumped = useRef(false);
 
-  const gravity = 1.2;
   const jumpForce = -15;
+
+  useBattleGravity(setPlayer, collisionRef, hasDoubleJumped);
 
   const idleTimeout = useMemo(() => idleTimeoutRef.current, []);
   useEffect(() => {
@@ -57,56 +54,6 @@ export function useBattleMovement(
       if (timeout) clearTimeout(timeout);
     };
   }, [idleTimeout]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setPlayer((p) => {
-        const { map } = collisionRef.current;
-        const obstacles = map?.obstacles ?? [];
-
-        const prevY = p.y;
-        const newVelY = p.velY + gravity;
-        const newY = p.y + newVelY;
-
-        if (obstacles.length > 0) {
-          const groundBelow = getGroundAtX(p.y + 2, p.x, obstacles);
-
-          if (p.velY === 0 && p.y === groundBelow) {
-            return { ...p, groundY: groundBelow };
-          }
-
-          const landingY = getLandingY(prevY, newY, p.x, obstacles);
-
-          if (newY >= landingY) {
-            hasDoubleJumped.current = false;
-            const wasAirborne = p.state === "jump" || p.state === "preJump";
-            return {
-              ...p,
-              y: landingY,
-              velY: 0,
-              groundY: landingY,
-              state: wasAirborne ? "idle" : p.state,
-            };
-          }
-        } else {
-          if (newY >= p.groundY) {
-            hasDoubleJumped.current = false;
-            const wasAirborne = p.state === "jump" || p.state === "preJump";
-            return {
-              ...p,
-              y: p.groundY,
-              velY: 0,
-              state: wasAirborne ? "idle" : p.state,
-            };
-          }
-        }
-
-        return { ...p, y: newY, velY: newVelY, state: "jump" };
-      });
-    }, 16);
-
-    return () => clearInterval(interval);
-  }, [setPlayer, collisionRef]);
 
   function checkHorizontalBlock(p: Player): boolean {
     const { map } = collisionRef.current;

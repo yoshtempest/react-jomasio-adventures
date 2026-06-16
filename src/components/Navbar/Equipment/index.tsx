@@ -7,7 +7,7 @@ import {
   FILTER_TAB_COUNT,
   FILTER_TABS,
   FILTER_LABELS,
-} from "@/data/equipmentMenu";
+} from "@/utils/equipmentMenu";
 import { asset } from "@/utils/asset";
 import { SLOT_LABELS, RANK_COLORS } from "@/utils/types/player/equipment";
 import styles from "./styles.module.css";

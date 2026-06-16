@@ -10,8 +10,8 @@ import {
   EQUIPPED_COUNT,
   FILTER_TAB_COUNT,
   FILTER_TABS,
-} from "@/data/equipmentMenu";
-import type { EquipmentFilter } from "@/data/equipmentMenu";
+} from "@/utils/equipmentMenu";
+import type { EquipmentFilter } from "@/utils/equipmentMenu";
 
 function parseColKey(key: string): { id: string; enhance: number } {
   const i = key.lastIndexOf("+");

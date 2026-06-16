@@ -12,9 +12,9 @@ import type {
   Equipment,
   EquippedItemInfo,
 } from "@/utils/types/player/equipment";
-import { createEmptyEquipped } from "@/utils/types/player/equipment";
 import { getEquipmentById } from "@/data/equipment";
 import { getEffectiveStats } from "@/gameRules/battle/equipment";
+import { colKey, loadAllData, saveAllData, getCharacterData } from "@/data/equipmentStorage";
 
 type CharacterEquipmentData = {
   equipped: EquippedItems;
@@ -52,114 +52,21 @@ type EquipmentContextType = {
 
 const EquipmentContext = createContext<EquipmentContextType | null>(null);
 
-const EQUIP_KEY = "jomasio_equipment";
-
-function colKey(id: EquipmentId, enhance: number): string {
-  return `${id}+${enhance}`;
-}
-
-function migrateEquipped(slot: unknown): EquippedItemInfo | null {
-  if (!slot) return null;
-  if (typeof slot === "string") return { id: slot, enhance: 0 };
-  if (typeof slot === "object" && slot !== null) {
-    const s = slot as Record<string, unknown>;
-    return { id: String(s.id ?? ""), enhance: Number(s.enhance ?? 0) };
-  }
-  return null;
-}
-
-function createEmptyCharacterData(): CharacterEquipmentData {
-  return { equipped: createEmptyEquipped(), collection: {} };
-}
-
-function migrateAllData(
-  raw: Record<string, unknown>,
-): Record<CharacterId, CharacterEquipmentData> {
-  const result: Record<string, CharacterEquipmentData> = {};
-  for (const [key, val] of Object.entries(raw)) {
-    if (!val || typeof val !== "object") continue;
-    const d = val as Record<string, unknown>;
-    const equipped = createEmptyEquipped();
-    const rawEquip = d.equipped as Record<string, unknown> | undefined;
-    if (rawEquip) {
-      for (const s of Object.keys(equipped) as EquipmentSlot[]) {
-        equipped[s] = migrateEquipped(rawEquip[s]);
-      }
-    }
-    const collection: Record<string, number> = {};
-    const rawCol = d.collection as Record<string, number> | undefined;
-    if (rawCol) {
-      for (const [k, qty] of Object.entries(rawCol)) {
-        if (qty > 0) {
-          if (k.includes("+")) {
-            collection[k] = qty;
-          } else {
-            collection[colKey(k, 0)] = qty;
-          }
-        }
-      }
-    }
-    result[key] = { equipped, collection };
-  }
-  return result as Record<CharacterId, CharacterEquipmentData>;
-}
-
-function createEmptyAllData(): Record<CharacterId, CharacterEquipmentData> {
-  return {} as Record<CharacterId, CharacterEquipmentData>;
-}
-
-function loadAllData(): Record<CharacterId, CharacterEquipmentData> {
-  try {
-    const raw = localStorage.getItem(EQUIP_KEY);
-    if (!raw) return createEmptyAllData();
-    const parsed = JSON.parse(raw);
-    if (typeof parsed !== "object" || parsed === null)
-      return createEmptyAllData();
-    const firstVal = Object.values(parsed)[0];
-    if (
-      firstVal &&
-      typeof firstVal === "object" &&
-      "equipped" in (firstVal as object)
-    ) {
-      const equipped = (firstVal as Record<string, unknown>).equipped;
-      if (equipped && typeof equipped === "object") {
-        const sample = Object.values(equipped as Record<string, unknown>)[0];
-        if (typeof sample === "string" || sample === null) {
-          return migrateAllData(parsed as Record<string, unknown>);
-        }
-      }
-    }
-    return parsed as Record<CharacterId, CharacterEquipmentData>;
-  } catch {
-    return createEmptyAllData();
-  }
-}
-
-function getCharacterData(
-  all: Record<CharacterId, CharacterEquipmentData>,
-  character: CharacterId,
-): CharacterEquipmentData {
-  if (!all[character]) {
-    all[character] = createEmptyCharacterData();
-  }
-  return all[character];
-}
-
 export function EquipmentProvider({ children }: { children: ReactNode }) {
   const [allData, setAllData] =
-    useState<Record<CharacterId, CharacterEquipmentData>>(createEmptyAllData);
+    useState<Record<CharacterId, CharacterEquipmentData>>({} as Record<CharacterId, CharacterEquipmentData>);
 
   useEffect(() => {
-    setAllData(loadAllData());
+    setAllData(loadAllData() as Record<CharacterId, CharacterEquipmentData>);
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(EQUIP_KEY, JSON.stringify(allData));
+    saveAllData(allData as Record<string, CharacterEquipmentData>);
   }, [allData]);
 
   const getEquippedItem = useCallback(
     (character: CharacterId, slot: EquipmentSlot): Equipment | null => {
-      const data = getCharacterData(allData, character);
+      const data = getCharacterData(allData as Record<string, CharacterEquipmentData>, character);
       const info = data.equipped[slot];
       if (!info) return null;
       return getEquipmentById(info.id) ?? null;
@@ -169,7 +76,7 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
 
   const getEquippedInfo = useCallback(
     (character: CharacterId, slot: EquipmentSlot): EquippedItemInfo | null => {
-      return getCharacterData(allData, character).equipped[slot];
+      return getCharacterData(allData as Record<string, CharacterEquipmentData>, character).equipped[slot];
     },
     [allData],
   );
@@ -178,7 +85,7 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
     (
       character: CharacterId,
     ): { hp: number; strength: number; intelligence: number } => {
-      const data = getCharacterData(allData, character);
+      const data = getCharacterData(allData as Record<string, CharacterEquipmentData>, character);
       const bonus = { hp: 0, strength: 0, intelligence: 0 };
       for (const slot of Object.keys(data.equipped) as EquipmentSlot[]) {
         const info = data.equipped[slot];
@@ -195,14 +102,14 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
 
   const getCollection = useCallback(
     (character: CharacterId): Record<string, number> => {
-      return getCharacterData(allData, character).collection;
+      return getCharacterData(allData as Record<string, CharacterEquipmentData>, character).collection;
     },
     [allData],
   );
 
   const getQuantityTotal = useCallback(
     (character: CharacterId, id: EquipmentId): number => {
-      const collection = getCharacterData(allData, character).collection;
+      const collection = getCharacterData(allData as Record<string, CharacterEquipmentData>, character).collection;
       let total = 0;
       for (const [key, qty] of Object.entries(collection)) {
         if (key.startsWith(id + "+") || key === id) {
@@ -217,7 +124,7 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
   const getQuantity = useCallback(
     (character: CharacterId, id: EquipmentId, enhance: number): number => {
       return (
-        getCharacterData(allData, character).collection[colKey(id, enhance)] ??
+        getCharacterData(allData as Record<string, CharacterEquipmentData>, character).collection[colKey(id, enhance)] ??
         0
       );
     },
@@ -239,7 +146,7 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
 
       setAllData((prev) => {
         const next = { ...prev };
-        const data = { ...getCharacterData(next, character) };
+        const data = { ...getCharacterData(next as Record<string, CharacterEquipmentData>, character) };
         const collection = { ...data.collection };
 
         if (!collection[key] || collection[key] <= 0) return prev;
@@ -258,7 +165,7 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
           collection[oldKey] = (collection[oldKey] ?? 0) + 1;
         }
 
-        next[character] = { equipped, collection };
+        next[character] = { equipped, collection } as CharacterEquipmentData;
         return next;
       });
     },
@@ -268,7 +175,7 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
   const unequip = useCallback((character: CharacterId, slot: EquipmentSlot) => {
     setAllData((prev) => {
       const next = { ...prev };
-      const data = { ...getCharacterData(next, character) };
+      const data = { ...getCharacterData(next as Record<string, CharacterEquipmentData>, character) };
       const oldInfo = data.equipped[slot];
       if (!oldInfo) return prev;
 
@@ -278,7 +185,7 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
 
       const equipped = { ...data.equipped, [slot]: null };
 
-      next[character] = { equipped, collection };
+      next[character] = { equipped, collection } as CharacterEquipmentData;
       return next;
     });
   }, []);
@@ -288,10 +195,10 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
       const key = colKey(id, enhance);
       setAllData((prev) => {
         const next = { ...prev };
-        const data = { ...getCharacterData(next, character) };
+        const data = { ...getCharacterData(next as Record<string, CharacterEquipmentData>, character) };
         const collection = { ...data.collection };
         collection[key] = (collection[key] ?? 0) + 1;
-        next[character] = { ...data, collection };
+        next[character] = { ...data, collection } as CharacterEquipmentData;
         return next;
       });
     },
