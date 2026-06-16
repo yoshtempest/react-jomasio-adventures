@@ -18,6 +18,8 @@ import {
   useBattleGravity,
   type CollisionParams,
 } from "@/hooks/battle/useGravity";
+import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
+import { getSkillTree } from "@/data/passiveSkills";
 
 const PLAYER_COLLISION_W = 30;
 const PLAYER_COLLISION_H = 50;
@@ -36,6 +38,10 @@ export function useBattleMovement(
   const downLockRef = useRef(false);
   const isJumping = useRef(false);
   const hasDoubleJumped = useRef(false);
+
+  const { progress } = useCharacterProgress();
+  const progressRef = useRef(progress);
+  progressRef.current = progress;
 
   const jumpForce = -15;
 
@@ -125,14 +131,17 @@ export function useBattleMovement(
     if (!canJump(isJumping.current)) return;
 
     setPlayer((p) => {
-      const isMarshadow = p.character === "marcelo";
+      const tree = getSkillTree(p.character);
+      const skill = tree.skills.find((s) => s.id === "doubleJump");
+      const level = progressRef.current[p.character]?.level ?? 1;
+      const canDoubleJump = skill ? level >= skill.levelRequired : false;
 
       if (p.y === p.groundY) {
         hasDoubleJumped.current = false;
         return { ...p, state: "preJump" };
       }
 
-      if (!isMarshadow || hasDoubleJumped.current) return p;
+      if (!canDoubleJump || hasDoubleJumped.current) return p;
       hasDoubleJumped.current = true;
       return { ...p, velY: jumpForce, state: "jump" };
     });

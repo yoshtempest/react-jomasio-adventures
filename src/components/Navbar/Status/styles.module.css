@@ -12,6 +12,32 @@
   gap: 5%;
 }
 
+.title {
+  font-weight: bold;
+  color: #aaa;
+  font-size: 14px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 4px;
+}
+
+.flexColumn span {
+  color: #4ade80;
+}
+
+.marginTop {
+  margin-top: 16px;
+}
+
+.fontSize {
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.italic {
+  color: #666;
+  font-style: italic;
+}
+
 @media (orientation: portrait) {
   .image {
     height: 40%;

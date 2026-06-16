@@ -3,6 +3,8 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { isMovementLocked } from "@/gameRules/movement/state";
+import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
+import { getSkillTree } from "@/data/passiveSkills";
 
 type Dir = "up" | "down" | "left" | "right";
 
@@ -67,6 +69,12 @@ export function useKeyboardMovement() {
   const startMoveRightRef = useRef(startMoveRight);
   const stopMoveRightRef = useRef(stopMoveRight);
   const releaseDownBattleRef = useRef(releaseDownBattle);
+
+  const { progress } = useCharacterProgress();
+  const progressRef = useRef(progress);
+  progressRef.current = progress;
+  const playerRef = useRef(player);
+  playerRef.current = player;
 
   const dashRef = useRef(dash);
   const lastLeftPressRef = useRef(0);
@@ -144,9 +152,18 @@ export function useKeyboardMovement() {
             now - lastLeftPressRef.current < DASH_THRESHOLD &&
             now - lastDashTimeRef.current > DASH_COOLDOWN
           ) {
-            dashRef.current("left");
-            lastDashTimeRef.current = now;
-            lastLeftPressRef.current = 0;
+            const level = progressRef.current[playerRef.current.character]?.level ?? 1;
+            const tree = getSkillTree(playerRef.current.character);
+            const skill = tree.skills.find((s) => s.id === "dash");
+            const canDash = skill ? level >= skill.levelRequired : false;
+            if (canDash) {
+              dashRef.current("left");
+              lastDashTimeRef.current = now;
+              lastLeftPressRef.current = 0;
+            } else {
+              startMoveLeftRef.current();
+              lastLeftPressRef.current = now;
+            }
           } else {
             startMoveLeftRef.current();
             lastLeftPressRef.current = now;
@@ -176,9 +193,18 @@ export function useKeyboardMovement() {
             now - lastRightPressRef.current < DASH_THRESHOLD &&
             now - lastDashTimeRef.current > DASH_COOLDOWN
           ) {
-            dashRef.current("right");
-            lastDashTimeRef.current = now;
-            lastRightPressRef.current = 0;
+            const level = progressRef.current[playerRef.current.character]?.level ?? 1;
+            const tree = getSkillTree(playerRef.current.character);
+            const skill = tree.skills.find((s) => s.id === "dash");
+            const canDash = skill ? level >= skill.levelRequired : false;
+            if (canDash) {
+              dashRef.current("right");
+              lastDashTimeRef.current = now;
+              lastRightPressRef.current = 0;
+            } else {
+              startMoveRightRef.current();
+              lastRightPressRef.current = now;
+            }
           } else {
             startMoveRightRef.current();
             lastRightPressRef.current = now;

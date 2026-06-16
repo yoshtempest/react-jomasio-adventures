@@ -1,0 +1,16 @@
+.title {
+  font-weight: bold;
+  color: #aaa;
+  font-size: 14px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 4px;
+}
+
+.marginTop {
+  margin-top: 16px;
+}
+
+.unlocked {
+  font-size: 11px;
+  color: #666;
+}
