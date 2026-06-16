@@ -31,12 +31,6 @@
   color: #ccc;
 }
 
-.rewardsGrid {
-  display: grid;
-  grid-template-columns: repeat(1, 4fr);
-  gap: 12px;
-}
-
 .flexRow {
   display: flex;
   flex-direction: row;
@@ -47,137 +41,6 @@
   display: flex;
   flex-direction: column;
   gap: 2vh;
-}
-
-.rewardCard {
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 8px;
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-}
-
-.rewardLabel {
-  font-size: 12px;
-  color: #999;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.rewardValue {
-  font-size: 20px;
-  font-weight: 700;
-  color: #fff;
-}
-
-.section {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.sectionTitle {
-  font-size: 16px;
-  font-weight: 600;
-  color: #ddd;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.totalKills {
-  font-size: 12px;
-  font-weight: 400;
-  color: #888;
-}
-
-.dropsList {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.dropItem {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 6px;
-  padding: 8px 12px;
-}
-
-.dropRank {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  min-width: 64px;
-}
-
-.dropIcon {
-  width: 28px;
-  height: 28px;
-  object-fit: contain;
-  flex-shrink: 0;
-}
-
-.dropName {
-  font-size: 14px;
-  color: #eee;
-}
-
-.dropSlot {
-  font-size: 12px;
-  color: #777;
-  margin-left: auto;
-}
-
-.dropQty {
-  font-size: 13px;
-  color: #aaa;
-  margin-left: auto;
-}
-
-.titlesList {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.titleProgress {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.titleName {
-  font-size: 13px;
-  color: #ddd;
-  min-width: 120px;
-}
-
-.titleBar {
-  flex: 1;
-  height: 10px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 5px;
-  overflow: hidden;
-}
-
-.titleBarFill {
-  height: 100%;
-  background: linear-gradient(90deg, #4a9eff, #b44aff);
-  border-radius: 5px;
-  transition: width 0.3s;
-}
-
-.titleCount {
-  font-size: 12px;
-  color: #aaa;
-  min-width: 60px;
-  text-align: right;
 }
 
 .noProgress {
@@ -197,13 +60,6 @@
   color: #fff;
   cursor: pointer;
   transition: opacity 0.2s;
-}
-
-.enhanceBadge {
-  font-size: 12px;
-  color: #ffd700;
-  margin-left: 4px;
-  font-weight: bold;
 }
 
 .button:hover {

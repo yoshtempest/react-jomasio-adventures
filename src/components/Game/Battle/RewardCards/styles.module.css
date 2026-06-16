@@ -1,0 +1,28 @@
+.rewardsGrid {
+  display: grid;
+  grid-template-columns: repeat(1, 4fr);
+  gap: 12px;
+}
+
+.rewardCard {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.rewardLabel {
+  font-size: 12px;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.rewardValue {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+}
