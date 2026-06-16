@@ -2,32 +2,16 @@ import { useEffect, useRef, useState } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
-import { getEquipmentById } from "@/data/equipment";
-import { EQUIPMENT_SLOTS } from "@/utils/types/player/equipment";
-import type { Equipment } from "@/utils/types/player/equipment";
-import { getEffectiveStats } from "@/gameRules/battle/equipment";
 import {
   EQUIPPED_COUNT,
   FILTER_TAB_COUNT,
   FILTER_TABS,
 } from "@/utils/equipmentMenu";
 import type { EquipmentFilter } from "@/utils/equipmentMenu";
+import { useEquipmentItems } from "./useEquipmentItems";
+import type { CollectedEntry } from "./useEquipmentItems";
 
-function parseColKey(key: string): { id: string; enhance: number } {
-  const i = key.lastIndexOf("+");
-  if (i > 0) {
-    const enhance = parseInt(key.slice(i + 1), 10);
-    if (!isNaN(enhance)) return { id: key.slice(0, i), enhance };
-  }
-  return { id: key, enhance: 0 };
-}
-
-export type CollectedEntry = {
-  item: Equipment;
-  qty: number;
-  enhance: number;
-  stats: ReturnType<typeof getEffectiveStats>;
-};
+export type { CollectedEntry };
 
 export function useEquipmentMenu(
   isOpen: boolean,
@@ -35,38 +19,15 @@ export function useEquipmentMenu(
   rightItemsRef?: React.RefObject<HTMLDivElement | null>,
 ) {
   const { pushControls, popControls } = useGameControls();
-  const { getEquippedItem, getEquippedInfo, getCollection, equip, unequip } =
-    useEquipment();
+  const { equip, unequip } = useEquipment();
   const { playMove, playSelect } = useMenuSFX();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
   const selectedIndexRef = useRef(selectedIndex);
   const [filter, setFilter] = useState<EquipmentFilter>("all");
 
-  const equippedItems = EQUIPMENT_SLOTS.map((slot) => ({
-    type: "slot" as const,
-    slot,
-    item: getEquippedItem(character, slot),
-    info: getEquippedInfo(character, slot),
-  }));
-
-  const allCollected: CollectedEntry[] = Object.entries(
-    getCollection(character),
-  )
-    .filter(([, qty]) => (qty as number) > 0)
-    .map(([key, qty]) => {
-      const { id, enhance } = parseColKey(key);
-      const item = getEquipmentById(id);
-      if (!item) return null;
-      const stats = getEffectiveStats(id, enhance);
-      return { item, qty: qty as number, enhance, stats } as CollectedEntry;
-    })
-    .filter((e): e is CollectedEntry => e !== null);
-
-  const filteredItems =
-    filter === "all"
-      ? allCollected
-      : allCollected.filter(({ item }) => item.slot === filter);
+  const { equippedItems, allCollected, filteredItems } =
+    useEquipmentItems(character, filter);
 
   const rightPanelCount = FILTER_TAB_COUNT + filteredItems.length;
   const totalItems = EQUIPPED_COUNT + rightPanelCount;
@@ -211,18 +172,9 @@ export function useEquipmentMenu(
     return () => popControlsRef.current();
   }, [isOpen, totalItems]);
 
-  const equippedInfos = equippedItems.map((e) => ({
-    type: "slot" as const,
-    slot: e.slot,
-    item: e.item,
-    info: e.info,
-    stats:
-      e.item && e.info ? getEffectiveStats(e.info.id, e.info.enhance) : null,
-  }));
-
   return {
     selectedIndex,
-    equippedItems: equippedInfos,
+    equippedItems,
     filteredItems,
     filter,
     allCollected,
