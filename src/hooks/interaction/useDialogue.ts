@@ -55,16 +55,14 @@ export function useDialogue(dialogues: Dialogue[], onFinish?: () => void) {
   }, []);
 
   const next = useCallback(() => {
-    setIndex((prev) => {
-      if (prev >= processedDialogues.length - 1) {
-        setIsOpen(false);
-        setCustomDialogues(null);
-        onFinish?.();
-        return 0;
-      }
-      return prev + 1;
-    });
-  }, [processedDialogues.length, onFinish]);
+    if (index >= processedDialogues.length - 1) {
+      setIsOpen(false);
+      setCustomDialogues(null);
+      onFinish?.();
+      return;
+    }
+    setIndex((prev) => prev + 1);
+  }, [index, processedDialogues.length, onFinish]);
 
   const dialogue = useMemo(() => {
     return processedDialogues[index];

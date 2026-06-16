@@ -8,6 +8,7 @@ interface Props {
   name: string;
   message: string;
   src?: string;
+  onNext?: () => void;
 }
 
 function resolveAsset(path?: string) {
@@ -24,7 +25,7 @@ function resolveAsset(path?: string) {
   return path;
 }
 
-export default function Talking({ name, message, src }: Props) {
+export default function Talking({ name, message, src, onNext }: Props) {
   const { dialogueSpeedMs } = useSettings();
   const { displayedText, isComplete, skip } = useTypewriter(
     message,
@@ -36,6 +37,8 @@ export default function Talking({ name, message, src }: Props) {
   isCompleteRef.current = isComplete;
   const skipRef = useRef(skip);
   skipRef.current = skip;
+  const onNextRef = useRef(onNext);
+  onNextRef.current = onNext;
 
   useEffect(() => {
     const controls = {
@@ -46,6 +49,10 @@ export default function Talking({ name, message, src }: Props) {
       onConfirm: () => {
         if (!isCompleteRef.current) {
           skipRef.current();
+          return true;
+        }
+        if (onNextRef.current) {
+          onNextRef.current();
           return true;
         }
         return;

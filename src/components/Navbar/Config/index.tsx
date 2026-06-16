@@ -10,7 +10,6 @@ import { useDialogue } from "@/hooks/interaction/useDialogue";
 import { useEffect, useRef } from "react";
 import { configsDialogue } from "@/data/maps/configs";
 import Talking from "@/components/Talking";
-import { useGameControls } from "@/contexts/GameControlsContext";
 import InstallButton from "@/components/PWA";
 
 export function Config() {
@@ -19,8 +18,6 @@ export function Config() {
   const { dialogueSpeed } = useSettings();
   const { difficultyList, selectedIndex, selectedRow, screen } =
     useConfigMenu(true);
-  const { pushControls, popControls } = useGameControls();
-
   const dialogueSystem = useDialogue(configsDialogue);
   const dialogueSystemRef = useRef(dialogueSystem);
   dialogueSystemRef.current = dialogueSystem;
@@ -30,26 +27,6 @@ export function Config() {
       dialogueSystemRef.current.start();
     }
   }, [screen]);
-
-  const pushControlsRef = useRef(pushControls);
-  pushControlsRef.current = pushControls;
-  const popControlsRef = useRef(popControls);
-  popControlsRef.current = popControls;
-
-  useEffect(() => {
-    if (!dialogueSystem.isOpen) return;
-
-    const controls = {
-      onConfirm: () => {
-        dialogueSystemRef.current.next();
-        return true;
-      },
-    };
-
-    pushControlsRef.current(controls);
-
-    return () => popControlsRef.current();
-  }, [dialogueSystem.isOpen]);
 
   return (
     <div className={styles.config}>
@@ -113,7 +90,7 @@ export function Config() {
 
       {screen === "tutorial" && (
         <div className={styles.tutorialContainer}>
-          {dialogueSystem.isOpen && <Talking {...dialogueSystem.dialogue} />}
+          {dialogueSystem.isOpen && <Talking {...dialogueSystem.dialogue} onNext={dialogueSystem.next} />}
 
           {!dialogueSystem.isOpen && (
             <>
