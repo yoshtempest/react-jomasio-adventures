@@ -1,9 +1,6 @@
 import { useEffect } from "react";
 
-export function useVictoryKeyboard(
-  isVisible: boolean,
-  onContinue: () => void,
-) {
+export function useVictoryKeyboard(isVisible: boolean, onContinue: () => void) {
   useEffect(() => {
     if (!isVisible) return;
 

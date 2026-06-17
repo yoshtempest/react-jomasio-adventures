@@ -1,4 +1,3 @@
-
 export const cantinaOneEvents: SceneEvent[] = [
   {
     type: "conditional",

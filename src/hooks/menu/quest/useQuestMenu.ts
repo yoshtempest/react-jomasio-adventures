@@ -30,8 +30,13 @@ export function useQuestMenu(
   const [activeTab, setActiveTab] = useState<QuestTab>("active");
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const { visibleQuests, activeQuests, completedQuests, dailyQuests, weeklyQuests } =
-    useQuestItems(allQuests, activeTab);
+  const {
+    visibleQuests,
+    activeQuests,
+    completedQuests,
+    dailyQuests,
+    weeklyQuests,
+  } = useQuestItems(allQuests, activeTab);
 
   const totalCards = visibleQuests.length;
   const totalItems = TAB_COUNT + totalCards;

@@ -1,4 +1,3 @@
-
 export const jailsonTwoEvents: SceneEvent[] = [
   {
     type: "conditional",

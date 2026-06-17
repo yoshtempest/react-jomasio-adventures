@@ -77,26 +77,20 @@ export function Status() {
 
         <div className={styles.flexColumn}>
           <p className={styles.title}>Pontos disponíveis: {stats.points}</p>
-          {stats.points <= 0 && <p className={styles.title}>Sem pontos disponíveis</p>}
+          {stats.points <= 0 && (
+            <p className={styles.title}>Sem pontos disponíveis</p>
+          )}
           <div className={selectedIndex === 0 ? "active" : ""}>
             <p>
               Vida: {stats.hp}
-              {bonus.hp > 0 ? (
-                <span> +{bonus.hp}</span>
-              ) : (
-                ""
-              )}
+              {bonus.hp > 0 ? <span> +{bonus.hp}</span> : ""}
             </p>
           </div>
 
           <div className={selectedIndex === 1 ? "active" : ""}>
             <p>
               Força: {stats.strength}
-              {bonus.strength > 0 ? (
-                <span> +{bonus.strength}</span>
-              ) : (
-                ""
-              )}
+              {bonus.strength > 0 ? <span> +{bonus.strength}</span> : ""}
             </p>
           </div>
 
@@ -105,31 +99,33 @@ export function Status() {
               Inteligência: {stats.intelligence}
               {bonus.intelligence > 0 ? (
                 <span> +{bonus.intelligence}</span>
-              ) : ("")}
+              ) : (
+                ""
+              )}
             </p>
           </div>
         </div>
         <div className={styles.marginTop}>
-            <p className={styles.title}>Equipamentos</p>
-            {(EQUIPMENT_SLOTS as EquipmentSlot[]).map((slot) => {
-              const item = getEquippedItem(character, slot);
-              const label = SLOT_LABELS[slot];
-              return (
-                <p key={slot} className={styles.fontSize}>
-                  {label}:{" "}
-                  {item ? (
-                    <span style={{ color: RANK_COLORS[item.rank] }}>
-                      {item.name}
-                    </span>
-                  ) : (
-                    <span className={styles.italic}>Vazio</span>
-                  )}
-                </p>
-              );
-            })}
-          </div>
+          <p className={styles.title}>Equipamentos</p>
+          {(EQUIPMENT_SLOTS as EquipmentSlot[]).map((slot) => {
+            const item = getEquippedItem(character, slot);
+            const label = SLOT_LABELS[slot];
+            return (
+              <p key={slot} className={styles.fontSize}>
+                {label}:{" "}
+                {item ? (
+                  <span style={{ color: RANK_COLORS[item.rank] }}>
+                    {item.name}
+                  </span>
+                ) : (
+                  <span className={styles.italic}>Vazio</span>
+                )}
+              </p>
+            );
+          })}
+        </div>
 
-          <PassiveSkills characterId={character} />
+        <PassiveSkills characterId={character} />
       </div>
     </div>
   );

@@ -31,9 +31,7 @@ export function EquipmentDrops({ equipmentDrops }: Props) {
                 <span className={styles.enhanceBadge}>+{eq.enhance}</span>
               ) : null}
             </span>
-            <span className={styles.dropSlot}>
-              ({SLOT_LABELS[eq.slot]})
-            </span>
+            <span className={styles.dropSlot}>({SLOT_LABELS[eq.slot]})</span>
           </div>
         ))}
       </div>

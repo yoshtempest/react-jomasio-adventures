@@ -1,177 +1,395 @@
 import type { Equipment, EquipmentSlot } from "@/utils/types/player/equipment";
-import { EQUIPMENT_SLOTS } from "@/utils/types/player/equipment";
 
-type EquipmentConfig = {
-  id: EquipmentId;
-  name: string;
-  slot: EquipmentSlot;
-  rank: EquipmentRank;
-  hp: number;
-  strength: number;
-  intelligence: number;
-  armor: number;
-  bonusSlots?: number;
-};
-
-const STATS_BY_RANK: Record<
-  EquipmentRank,
-  { hp: number; strength: number; intelligence: number }
-> = {
-  common: { hp: 1, strength: 1, intelligence: 0 },
-  rare: { hp: 1, strength: 1, intelligence: 1 },
-  epic: { hp: 2, strength: 2, intelligence: 1 },
-  boss: { hp: 3, strength: 3, intelligence: 2 },
-  legendary: { hp: 4, strength: 5, intelligence: 4 },
-};
-
-const ARMOR_BY_SLOT: Partial<
-  Record<EquipmentSlot, Record<EquipmentRank, number>>
-> = {
-  helmet: { common: 2, rare: 4, epic: 8, boss: 14, legendary: 22 },
-  chestplate: { common: 3, rare: 7, epic: 14, boss: 22, legendary: 35 },
-  pants: { common: 2, rare: 4, epic: 8, boss: 14, legendary: 22 },
-  boots: { common: 1, rare: 3, epic: 6, boss: 10, legendary: 16 },
-  accessory: { common: 1, rare: 3, epic: 6, boss: 10, legendary: 16 },
-};
-
-const BAG_SLOT_BONUS: Record<EquipmentRank, number> = {
-  common: 20,
-  rare: 40,
-  epic: 70,
-  boss: 100,
-  legendary: Infinity,
-};
-
-const NAMES: Partial<Record<EquipmentSlot, Record<EquipmentRank, string>>> = {
-  weapon: {
-    common: "Caneta Azul",
-    rare: "Bengala de Juju",
-    epic: "Lâmina Arcana",
-    boss: "Espada do Rei",
-    legendary: "Espadão do Rei Artur",
+const EQUIPMENT_DB: Equipment[] = [
+  // ── Weapons ──
+  {
+    id: "weapon_caneta_azul",
+    name: "Caneta Azul",
+    slot: "weapon",
+    rank: "common",
+    stats: { hp: 1, strength: 1, intelligence: 0, armor: 0 },
   },
-  helmet: {
-    common: "Chapéu de Cendeiro",
-    rare: "Yvel glasses",
-    epic: "Coroa Arcana",
-    boss: "Coroa do Rei",
-    legendary: "Tapa olho de Surica",
+  {
+    id: "weapon_bengala_juju",
+    name: "Bengala de Juju",
+    slot: "weapon",
+    rank: "common",
+    stats: { hp: 0, strength: 2, intelligence: 0, armor: 0 },
   },
-  chestplate: {
-    common: "Regata do Baiano",
-    rare: "Armadura de Aço",
-    epic: "Peitoral Reforçado",
-    boss: "Camisa da Insider",
-    legendary: "Armadura Lendária",
+  {
+    id: "weapon_livro_mestre",
+    name: "Livro do Mestre",
+    slot: "weapon",
+    rank: "common",
+    stats: { hp: 0, strength: 0, intelligence: 2, armor: 0 },
   },
-  pants: {
-    common: "Calças Remendadas",
-    rare: "Grevas de Ferro",
-    epic: "Calças Reforçadas",
-    boss: "Calça do Rei",
-    legendary: "Calças Lendárias",
+  {
+    id: "weapon_faca_osso",
+    name: "Faca de Osso",
+    slot: "weapon",
+    rank: "common",
+    stats: { hp: 1, strength: 0, intelligence: 0, armor: 0 },
   },
-  boots: {
-    common: "Chinelos de Babidi",
-    rare: "Botas de Couro",
-    epic: "Botas Épicas",
-    boss: "Grevas do Rei",
-    legendary: "Botas Lendárias",
+  {
+    id: "weapon_lamina_arcana",
+    name: "Lâmina Arcana",
+    slot: "weapon",
+    rank: "rare",
+    stats: { hp: 1, strength: 1, intelligence: 1, armor: 0 },
   },
-  accessory: {
-    common: "Anel de Latão",
-    rare: "Anel de Prata",
-    epic: "Anel de Ouro",
-    boss: "Anel do Rei",
-    legendary: "Anel Lendário",
+  {
+    id: "weapon_arco_preciso",
+    name: "Arco Preciso",
+    slot: "weapon",
+    rank: "rare",
+    stats: { hp: 0, strength: 2, intelligence: 1, armor: 0 },
   },
-  bag: {
-    common: "Bolsa de Pano",
-    rare: "Mochila de Couro",
-    epic: "Mochila Reforçada",
-    boss: "Mochila do Rei",
-    legendary: "Distorce Espaço-Tempo",
+  {
+    id: "weapon_cajado_runas",
+    name: "Cajado de Runas",
+    slot: "weapon",
+    rank: "rare",
+    stats: { hp: 0, strength: 0, intelligence: 3, armor: 0 },
   },
-};
+  {
+    id: "weapon_espada_rei",
+    name: "Espada do Rei",
+    slot: "weapon",
+    rank: "epic",
+    stats: { hp: 2, strength: 3, intelligence: 1, armor: 0 },
+  },
+  {
+    id: "weapon_cajado_arcano",
+    name: "Cajado Arcano",
+    slot: "weapon",
+    rank: "epic",
+    stats: { hp: 1, strength: 1, intelligence: 3, armor: 0 },
+  },
+  {
+    id: "weapon_martelo_guerra",
+    name: "Martelo de Guerra",
+    slot: "weapon",
+    rank: "boss",
+    stats: { hp: 3, strength: 4, intelligence: 0, armor: 0 },
+  },
+  {
+    id: "weapon_cetro_real",
+    name: "Cetro Real",
+    slot: "weapon",
+    rank: "boss",
+    stats: { hp: 2, strength: 2, intelligence: 3, armor: 0 },
+  },
+  {
+    id: "weapon_espadao_artur",
+    name: "Espadão do Rei Artur",
+    slot: "weapon",
+    rank: "legendary",
+    stats: { hp: 4, strength: 5, intelligence: 4, armor: 0 },
+  },
 
-function buildEquipment(config: EquipmentConfig): Equipment {
-  return {
-    id: config.id,
-    name: config.name,
-    slot: config.slot,
-    rank: config.rank,
-    stats: {
-      hp: config.hp,
-      strength: config.strength,
-      intelligence: config.intelligence,
-      armor: config.armor,
-    },
-    ...(config.bonusSlots !== undefined && { bonusSlots: config.bonusSlots }),
-  };
-}
+  // ── Helmets ──
+  {
+    id: "helmet_chapeu_cendeiro",
+    name: "Chapéu de Cendeiro",
+    slot: "helmet",
+    rank: "common",
+    stats: { hp: 1, strength: 1, intelligence: 0, armor: 2 },
+  },
+  {
+    id: "helmet_touca_algodao",
+    name: "Touca de Algodão",
+    slot: "helmet",
+    rank: "common",
+    stats: { hp: 2, strength: 0, intelligence: 0, armor: 1 },
+  },
+  {
+    id: "helmet_faixa_cabeca",
+    name: "Faixa de Cabeça",
+    slot: "helmet",
+    rank: "common",
+    stats: { hp: 0, strength: 0, intelligence: 1, armor: 1 },
+  },
+  {
+    id: "helmet_yvel_glasses",
+    name: "Yvel glasses",
+    slot: "helmet",
+    rank: "rare",
+    stats: { hp: 1, strength: 1, intelligence: 1, armor: 4 },
+  },
+  {
+    id: "helmet_capacete_ferro",
+    name: "Capacete de Ferro",
+    slot: "helmet",
+    rank: "rare",
+    stats: { hp: 0, strength: 2, intelligence: 0, armor: 5 },
+  },
+  {
+    id: "helmet_coroa_arcana",
+    name: "Coroa Arcana",
+    slot: "helmet",
+    rank: "epic",
+    stats: { hp: 2, strength: 2, intelligence: 1, armor: 8 },
+  },
+  {
+    id: "helmet_elmo_reforcado",
+    name: "Elmo Reforçado",
+    slot: "helmet",
+    rank: "epic",
+    stats: { hp: 0, strength: 2, intelligence: 0, armor: 10 },
+  },
+  {
+    id: "helmet_coroa_rei",
+    name: "Coroa do Rei",
+    slot: "helmet",
+    rank: "boss",
+    stats: { hp: 3, strength: 3, intelligence: 2, armor: 14 },
+  },
+  {
+    id: "helmet_tapa_olho_surica",
+    name: "Tapa olho de Surica",
+    slot: "helmet",
+    rank: "legendary",
+    stats: { hp: 4, strength: 5, intelligence: 4, armor: 22 },
+  },
 
-function generateAll(): Equipment[] {
-  const list: Equipment[] = [];
-  const ranks: EquipmentRank[] = [
-    "common",
-    "rare",
-    "epic",
-    "boss",
-    "legendary",
-  ];
+  // ── Chestplates ──
+  {
+    id: "chestplate_regata_baiano",
+    name: "Regata do Baiano",
+    slot: "chestplate",
+    rank: "common",
+    stats: { hp: 1, strength: 1, intelligence: 0, armor: 3 },
+  },
+  {
+    id: "chestplate_colete_couro",
+    name: "Colete de Couro",
+    slot: "chestplate",
+    rank: "common",
+    stats: { hp: 0, strength: 0, intelligence: 1, armor: 4 },
+  },
+  {
+    id: "chestplate_armadura_aco",
+    name: "Armadura de Aço",
+    slot: "chestplate",
+    rank: "rare",
+    stats: { hp: 1, strength: 1, intelligence: 1, armor: 7 },
+  },
+  {
+    id: "chestplate_peitoral_reforcado",
+    name: "Peitoral Reforçado",
+    slot: "chestplate",
+    rank: "epic",
+    stats: { hp: 2, strength: 2, intelligence: 1, armor: 14 },
+  },
+  {
+    id: "chestplate_camisa_insider",
+    name: "Camisa da Insider",
+    slot: "chestplate",
+    rank: "boss",
+    stats: { hp: 3, strength: 3, intelligence: 2, armor: 22 },
+  },
+  {
+    id: "chestplate_armadura_lendaria",
+    name: "Armadura Lendária",
+    slot: "chestplate",
+    rank: "legendary",
+    stats: { hp: 4, strength: 5, intelligence: 4, armor: 35 },
+  },
 
-  for (const slot of EQUIPMENT_SLOTS) {
-    if (slot === "pet") {
-      list.push(
-        buildEquipment({
-          id: "pet_goat",
-          name: "Bodão",
-          slot: "pet",
-          rank: "epic",
-          hp: 0,
-          strength: 0,
-          intelligence: 0,
-          armor: 0,
-        }),
-      );
-      continue;
-    }
+  // ── Pants ──
+  {
+    id: "pants_calcas_remendadas",
+    name: "Calças Remendadas",
+    slot: "pants",
+    rank: "common",
+    stats: { hp: 1, strength: 1, intelligence: 0, armor: 2 },
+  },
+  {
+    id: "pants_grevas_ferro",
+    name: "Grevas de Ferro",
+    slot: "pants",
+    rank: "rare",
+    stats: { hp: 1, strength: 1, intelligence: 1, armor: 4 },
+  },
+  {
+    id: "pants_calcas_reforcadas",
+    name: "Calças Reforçadas",
+    slot: "pants",
+    rank: "epic",
+    stats: { hp: 2, strength: 2, intelligence: 1, armor: 8 },
+  },
+  {
+    id: "pants_calca_rei",
+    name: "Calça do Rei",
+    slot: "pants",
+    rank: "boss",
+    stats: { hp: 3, strength: 3, intelligence: 2, armor: 14 },
+  },
+  {
+    id: "pants_calcas_lendarias",
+    name: "Calças Lendárias",
+    slot: "pants",
+    rank: "legendary",
+    stats: { hp: 4, strength: 5, intelligence: 4, armor: 22 },
+  },
 
-    const slotNames = NAMES[slot];
-    if (!slotNames) continue;
+  // ── Boots ──
+  {
+    id: "boots_chinelos_babidi",
+    name: "Chinelos de Babidi",
+    slot: "boots",
+    rank: "common",
+    stats: { hp: 1, strength: 1, intelligence: 0, armor: 1 },
+  },
+  {
+    id: "boots_sandalias_humildade",
+    name: "Sandálias da Humildade",
+    slot: "boots",
+    rank: "common",
+    stats: { hp: 0, strength: 0, intelligence: 1, armor: 1 },
+  },
+  {
+    id: "boots_botas_couro",
+    name: "Botas de Couro",
+    slot: "boots",
+    rank: "rare",
+    stats: { hp: 1, strength: 1, intelligence: 1, armor: 3 },
+  },
+  {
+    id: "boots_botas_epicas",
+    name: "Botas Épicas",
+    slot: "boots",
+    rank: "epic",
+    stats: { hp: 2, strength: 2, intelligence: 1, armor: 6 },
+  },
+  {
+    id: "boots_grevas_rei",
+    name: "Grevas do Rei",
+    slot: "boots",
+    rank: "boss",
+    stats: { hp: 3, strength: 3, intelligence: 2, armor: 10 },
+  },
+  {
+    id: "boots_botas_lendarias",
+    name: "Botas Lendárias",
+    slot: "boots",
+    rank: "legendary",
+    stats: { hp: 4, strength: 5, intelligence: 4, armor: 16 },
+  },
 
-    for (const rank of ranks) {
-      const stats = STATS_BY_RANK[rank];
-      const armor = ARMOR_BY_SLOT[slot]?.[rank] ?? 0;
-      list.push(
-        buildEquipment({
-          id: `${slot}_${rank}`,
-          name: slotNames[rank],
-          slot,
-          rank,
-          hp: stats.hp,
-          strength: stats.strength,
-          intelligence: stats.intelligence,
-          armor,
-          ...(slot === "bag" && { bonusSlots: BAG_SLOT_BONUS[rank] }),
-        }),
-      );
-    }
-  }
+  // ── Accessories ──
+  {
+    id: "accessory_anel_latao",
+    name: "Anel de Latão",
+    slot: "accessory",
+    rank: "common",
+    stats: { hp: 1, strength: 1, intelligence: 0, armor: 1 },
+  },
+  {
+    id: "accessory_colar_osso",
+    name: "Colar de Osso",
+    slot: "accessory",
+    rank: "common",
+    stats: { hp: 2, strength: 0, intelligence: 0, armor: 0 },
+  },
+  {
+    id: "accessory_anel_prata",
+    name: "Anel de Prata",
+    slot: "accessory",
+    rank: "rare",
+    stats: { hp: 1, strength: 1, intelligence: 1, armor: 3 },
+  },
+  {
+    id: "accessory_anel_ouro",
+    name: "Anel de Ouro",
+    slot: "accessory",
+    rank: "epic",
+    stats: { hp: 2, strength: 2, intelligence: 1, armor: 6 },
+  },
+  {
+    id: "accessory_anel_rei",
+    name: "Anel do Rei",
+    slot: "accessory",
+    rank: "boss",
+    stats: { hp: 3, strength: 3, intelligence: 2, armor: 10 },
+  },
+  {
+    id: "accessory_anel_lendario",
+    name: "Anel Lendário",
+    slot: "accessory",
+    rank: "legendary",
+    stats: { hp: 4, strength: 5, intelligence: 4, armor: 16 },
+  },
 
-  return list;
-}
+  // ── Bags ──
+  {
+    id: "bag_bolsa_pano",
+    name: "Bolsa de Pano",
+    slot: "bag",
+    rank: "common",
+    stats: { hp: 1, strength: 1, intelligence: 0, armor: 0 },
+    bonusSlots: 20,
+  },
+  {
+    id: "bag_mochila_couro",
+    name: "Mochila de Couro",
+    slot: "bag",
+    rank: "rare",
+    stats: { hp: 1, strength: 1, intelligence: 1, armor: 0 },
+    bonusSlots: 40,
+  },
+  {
+    id: "bag_mochila_reforcada",
+    name: "Mochila Reforçada",
+    slot: "bag",
+    rank: "epic",
+    stats: { hp: 2, strength: 2, intelligence: 1, armor: 0 },
+    bonusSlots: 70,
+  },
+  {
+    id: "bag_mochila_rei",
+    name: "Mochila do Rei",
+    slot: "bag",
+    rank: "boss",
+    stats: { hp: 3, strength: 3, intelligence: 2, armor: 0 },
+    bonusSlots: 100,
+  },
+  {
+    id: "bag_distorce_espaco",
+    name: "Distorce Espaço-Tempo",
+    slot: "bag",
+    rank: "legendary",
+    stats: { hp: 4, strength: 5, intelligence: 4, armor: 0 },
+    bonusSlots: Infinity,
+  },
 
-export const EQUIPMENT_LIST: Equipment[] = generateAll();
+  // ── Pet ──
+  {
+    id: "pet_goat",
+    name: "Bodão",
+    slot: "pet",
+    rank: "epic",
+    stats: { hp: 0, strength: 0, intelligence: 0, armor: 0 },
+  },
+];
+
+export const EQUIPMENT_LIST: Equipment[] = EQUIPMENT_DB;
 
 export function getEquipmentById(id: EquipmentId): Equipment | undefined {
-  return EQUIPMENT_LIST.find((e) => e.id === id);
+  return EQUIPMENT_DB.find((e) => e.id === id);
 }
 
 export function getEquipmentBySlot(slot: EquipmentSlot): Equipment[] {
-  return EQUIPMENT_LIST.filter((e) => e.slot === slot);
+  return EQUIPMENT_DB.filter((e) => e.slot === slot);
 }
 
 export function getEquipmentByRank(rank: EquipmentRank): Equipment[] {
-  return EQUIPMENT_LIST.filter((e) => e.rank === rank);
+  return EQUIPMENT_DB.filter((e) => e.rank === rank);
+}
+
+export function getEquipmentBySlotAndRank(
+  slot: EquipmentSlot,
+  rank: EquipmentRank,
+): Equipment[] {
+  return EQUIPMENT_DB.filter((e) => e.slot === slot && e.rank === rank);
 }

@@ -1,4 +1,7 @@
-import type { EquippedItems, EquipmentStats } from "@/utils/types/player/equipment";
+import type {
+  EquippedItems,
+  EquipmentStats,
+} from "@/utils/types/player/equipment";
 import {
   createEmptyEquipped,
   EQUIPMENT_SLOTS,

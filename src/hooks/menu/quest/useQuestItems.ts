@@ -1,6 +1,11 @@
 export type QuestTab = "active" | "completed" | "daily" | "weekly";
 
-export const QUEST_TABS: QuestTab[] = ["active", "completed", "daily", "weekly"];
+export const QUEST_TABS: QuestTab[] = [
+  "active",
+  "completed",
+  "daily",
+  "weekly",
+];
 export const TAB_COUNT = QUEST_TABS.length;
 
 type QuestMap = Record<QuestTab, Quest[]>;
@@ -21,10 +26,7 @@ function partitionQuests(allQuests: Quest[]): QuestMap {
   };
 }
 
-export function useQuestItems(
-  allQuests: Quest[],
-  activeTab: QuestTab,
-) {
+export function useQuestItems(allQuests: Quest[], activeTab: QuestTab) {
   const tabMap = partitionQuests(allQuests);
   const visibleQuests = tabMap[activeTab];
 

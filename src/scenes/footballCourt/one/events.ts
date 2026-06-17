@@ -1,4 +1,3 @@
-
 export const footballCourtOneEvents: SceneEvent[] = [
   {
     type: "conditional",

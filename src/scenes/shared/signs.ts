@@ -1,4 +1,3 @@
-
 const DIRS = [
   { dx: 0, dy: -1 },
   { dx: 0, dy: 1 },

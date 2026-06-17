@@ -1,4 +1,3 @@
-
 type DropConfig = {
   baseChance: number;
   rankWeights: Record<EquipmentRank, number>;

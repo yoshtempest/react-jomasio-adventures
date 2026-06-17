@@ -1,5 +1,9 @@
 import { useMemo, useRef } from "react";
-import { useLocation, type NavigateFunction, type Location } from "react-router";
+import {
+  useLocation,
+  type NavigateFunction,
+  type Location,
+} from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useTransitionCtx } from "@/contexts/TransitionContext";
 import { useFlags } from "@/contexts/FlagContext";

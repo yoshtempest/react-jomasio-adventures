@@ -219,12 +219,27 @@ export function useChargeAttack(props: Props) {
           Math.min(BATTLE_LIMITS.maxX, p.x + step),
         );
 
-        if (!hitDealt && isPlayerInRange(newX, dashY, npcXRef.current, npcYRef.current, "idle", dashCharacter, false)) {
+        if (
+          !hitDealt &&
+          isPlayerInRange(
+            newX,
+            dashY,
+            npcXRef.current,
+            npcYRef.current,
+            "idle",
+            dashCharacter,
+            false,
+          )
+        ) {
           hitDealt = true;
           dealChargeDamage();
         }
 
-        if (stepCount >= steps || newX <= BATTLE_LIMITS.minX || newX >= BATTLE_LIMITS.maxX) {
+        if (
+          stepCount >= steps ||
+          newX <= BATTLE_LIMITS.minX ||
+          newX >= BATTLE_LIMITS.maxX
+        ) {
           if (dashIntervalRef.current) {
             clearInterval(dashIntervalRef.current);
             dashIntervalRef.current = null;

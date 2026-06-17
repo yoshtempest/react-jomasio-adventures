@@ -152,7 +152,8 @@ export function useKeyboardMovement() {
             now - lastLeftPressRef.current < DASH_THRESHOLD &&
             now - lastDashTimeRef.current > DASH_COOLDOWN
           ) {
-            const level = progressRef.current[playerRef.current.character]?.level ?? 1;
+            const level =
+              progressRef.current[playerRef.current.character]?.level ?? 1;
             const tree = getSkillTree(playerRef.current.character);
             const skill = tree.skills.find((s) => s.id === "dash");
             const canDash = skill ? level >= skill.levelRequired : false;
@@ -193,7 +194,8 @@ export function useKeyboardMovement() {
             now - lastRightPressRef.current < DASH_THRESHOLD &&
             now - lastDashTimeRef.current > DASH_COOLDOWN
           ) {
-            const level = progressRef.current[playerRef.current.character]?.level ?? 1;
+            const level =
+              progressRef.current[playerRef.current.character]?.level ?? 1;
             const tree = getSkillTree(playerRef.current.character);
             const skill = tree.skills.find((s) => s.id === "dash");
             const canDash = skill ? level >= skill.levelRequired : false;

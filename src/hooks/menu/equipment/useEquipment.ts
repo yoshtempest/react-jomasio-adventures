@@ -26,8 +26,10 @@ export function useEquipmentMenu(
   const selectedIndexRef = useRef(selectedIndex);
   const [filter, setFilter] = useState<EquipmentFilter>("all");
 
-  const { equippedItems, allCollected, filteredItems } =
-    useEquipmentItems(character, filter);
+  const { equippedItems, allCollected, filteredItems } = useEquipmentItems(
+    character,
+    filter,
+  );
 
   const rightPanelCount = FILTER_TAB_COUNT + filteredItems.length;
   const totalItems = EQUIPPED_COUNT + rightPanelCount;

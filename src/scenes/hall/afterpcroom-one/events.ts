@@ -1,4 +1,3 @@
-
 export const afterPcRoomOneEvents: SceneEvent[] = [
   {
     type: "conditional",

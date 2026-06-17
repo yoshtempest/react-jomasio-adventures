@@ -10,10 +10,7 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { useLocation } from "react-router";
 import { useNpcSetup } from "@/hooks/battle/npc/useNpcSetup";
-import {
-  useBattleRewards,
-  type RewardInfo,
-} from "@/hooks/battle/useRewards";
+import { useBattleRewards, type RewardInfo } from "@/hooks/battle/useRewards";
 import { useSummons } from "@/hooks/battle/npc/useSummons";
 import { usePlayerBattleActions } from "@/hooks/battle/player/usePlayerActions";
 import { useSummonAI } from "@/hooks/battle/npc/useSummonsAi";

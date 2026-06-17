@@ -1,4 +1,3 @@
-
 export const cafeteriaThreeEvents: SceneEvent[] = [
   {
     type: "conditional",

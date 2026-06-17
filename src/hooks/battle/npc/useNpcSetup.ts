@@ -9,7 +9,10 @@ type NpcSetupResult = {
   npcStats: ReturnType<typeof getNpcStats>;
 };
 
-export function useNpcSetup(npcType: string, difficulty: NpcDifficulty): NpcSetupResult {
+export function useNpcSetup(
+  npcType: string,
+  difficulty: NpcDifficulty,
+): NpcSetupResult {
   const npcData = NPCS[npcType];
   const [npcLevel] = useState(() => generateNpcLevel());
   const npcStats = getNpcStats(npcLevel, npcData.class, difficulty);

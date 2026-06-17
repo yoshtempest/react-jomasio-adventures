@@ -6,7 +6,6 @@ import { fiveScene } from "./five/scene";
 import { sixScene } from "./six/scene";
 import { sevenScene } from "./seven/scene";
 
-
 export const PCROOM_SCENES: Partial<Record<SceneId, SceneConfig>> = {
   one: oneScene,
   two: twoScene,

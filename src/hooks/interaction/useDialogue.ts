@@ -2,7 +2,6 @@ import { useState, useCallback, useMemo } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { asset } from "@/utils/asset";
 
-
 const playerSprites = {
   marcelo: asset("assets/player/marcelo/default.svg"),
   eduarda: asset("assets/player/eduarda/default.svg"),

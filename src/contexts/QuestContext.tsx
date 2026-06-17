@@ -7,10 +7,7 @@ import {
 } from "react";
 import type { ReactNode } from "react";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
-import {
-  DAILY_QUEST_POOL,
-  WEEKLY_QUEST_POOL,
-} from "@/data/quests";
+import { DAILY_QUEST_POOL, WEEKLY_QUEST_POOL } from "@/data/quests";
 import {
   getTodayDate,
   getWeekStart,

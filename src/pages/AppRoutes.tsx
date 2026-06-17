@@ -24,7 +24,9 @@ const HallPage = lazyLoad(() => import("@/pages/Hall"));
 const PcRoomBattleOne = lazyLoad(() => import("@/pages/PcRoom/Battle/One"));
 const PcRoomBattleTwo = lazyLoad(() => import("@/pages/PcRoom/Battle/Two"));
 const PcRoomBattleThree = lazyLoad(() => import("@/pages/PcRoom/Battle/Three"));
-const PlanetarySistersBattle = lazyLoad(() => import("@/pages/Hall/Battle/Two"));
+const PlanetarySistersBattle = lazyLoad(
+  () => import("@/pages/Hall/Battle/Two"),
+);
 const MauraoBattle = lazyLoad(() => import("@/pages/Hall/Battle/Three"));
 const PcRoomPage = lazyLoad(() => import("@/pages/PcRoom"));
 
@@ -136,28 +138,16 @@ export function AppRoutes() {
               <Route path="battle/three" element={<PcRoomBattleThree />} />
             </Route>
 
-            <Route
-              path="battle/hungry"
-              element={<HungryDeathBattle />}
-            />
+            <Route path="battle/hungry" element={<HungryDeathBattle />} />
             <Route
               path="battle/vandinhafragment"
               element={<VandinhaFragmentBattle />}
             />
-            <Route
-              path="battle/jhowsimar"
-              element={<JhowSimarBattle />}
-            />
+            <Route path="battle/jhowsimar" element={<JhowSimarBattle />} />
             <Route path="battle/goat" element={<GoatBattle />} />
             <Route path="brodiclass/one" element={<BrodiClassOne />} />
-            <Route
-              path="brodiclass/battle"
-              element={<BrodiclassBattle />}
-            />
-            <Route
-              path="battle/technoblade"
-              element={<TechnobladeBattle />}
-            />
+            <Route path="brodiclass/battle" element={<BrodiclassBattle />} />
+            <Route path="battle/technoblade" element={<TechnobladeBattle />} />
           </Route>
         </Routes>
       </Suspense>

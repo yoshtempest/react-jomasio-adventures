@@ -1,4 +1,10 @@
-export type Task = "moveLeft" | "moveRight" | "jump" | "attack" | "block" | "done";
+export type Task =
+  | "moveLeft"
+  | "moveRight"
+  | "jump"
+  | "attack"
+  | "block"
+  | "done";
 
 export const TASKS: Task[] = [
   "moveLeft",

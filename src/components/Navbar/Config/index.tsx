@@ -90,7 +90,12 @@ export function Config() {
 
       {screen === "tutorial" && (
         <div className={styles.tutorialContainer}>
-          {dialogueSystem.isOpen && <Talking {...dialogueSystem.dialogue} onNext={dialogueSystem.next} />}
+          {dialogueSystem.isOpen && (
+            <Talking
+              {...dialogueSystem.dialogue}
+              onNext={dialogueSystem.next}
+            />
+          )}
 
           {!dialogueSystem.isOpen && (
             <>

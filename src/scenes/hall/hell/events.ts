@@ -1,4 +1,3 @@
-
 export const hellEvents: SceneEvent[] = [
   {
     type: "conditional",

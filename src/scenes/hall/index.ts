@@ -10,7 +10,6 @@ import { leftOneScene } from "./left-one/scene";
 import { hellScene } from "./hell/scene";
 import { pandemonyScene } from "./pandemony/scene";
 
-
 export const HALL_SCENES: Partial<Record<SceneId, SceneConfig>> = {
   one: oneScene,
   hell: hellScene,

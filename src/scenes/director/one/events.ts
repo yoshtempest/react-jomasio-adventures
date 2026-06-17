@@ -1,4 +1,3 @@
-
 export const directorEvents: SceneEvent[] = [
   {
     type: "conditional",

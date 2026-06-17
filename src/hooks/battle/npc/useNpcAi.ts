@@ -148,7 +148,11 @@ export function useNpcAI({
         const direction = getNpcDirection(nextX, playerXRef.current);
         const distanceX = Math.abs(n.x - playerXRef.current);
         const state = getNpcState(distanceX, forceIdleRef.current);
-        const collision = applyObstacleCollision(nextX, nextY, obstaclesRef.current);
+        const collision = applyObstacleCollision(
+          nextX,
+          nextY,
+          obstaclesRef.current,
+        );
 
         return { ...n, x: collision.x, y: collision.y, direction, state };
       });

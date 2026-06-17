@@ -29,7 +29,10 @@ export type EquippedEntry = {
   stats: EquipmentStats | null;
 };
 
-export function useEquipmentItems(character: CharacterId, filter: EquipmentFilter) {
+export function useEquipmentItems(
+  character: CharacterId,
+  filter: EquipmentFilter,
+) {
   const { getEquippedItem, getEquippedInfo, getCollection } = useEquipment();
 
   const equippedItems: EquippedEntry[] = EQUIPMENT_SLOTS.map((slot) => {

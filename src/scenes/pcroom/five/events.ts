@@ -1,4 +1,3 @@
-
 export const pcRoomFiveEvents: SceneEvent[] = [
   { type: "giveQuest", questId: "letter_delivery" },
   { type: "addItem", itemId: "aura_letter" },

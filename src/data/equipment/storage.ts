@@ -1,4 +1,8 @@
-import type { EquipmentSlot, EquippedItems, EquippedItemInfo } from "@/utils/types/player/equipment";
+import type {
+  EquipmentSlot,
+  EquippedItems,
+  EquippedItemInfo,
+} from "@/utils/types/player/equipment";
 import { createEmptyEquipped } from "@/utils/types/player/equipment";
 
 type CharacterEquipmentData = {

@@ -1,4 +1,3 @@
-
 export function isMovementLocked(mode: Player["mode"], isNavOpen: boolean) {
   return mode === "select" || isNavOpen;
 }

@@ -6,7 +6,7 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { calculateXP } from "@/utils/calculateXp";
 
 import { rollSlotDrop } from "@/data/equipment/drops";
-import { EQUIPMENT_LIST } from "@/data/equipment";
+import { getEquipmentBySlotAndRank, getEquipmentById } from "@/data/equipment";
 import { rollCraftDrops } from "@/data/items/crafting";
 import { ITEMS } from "@/data/items";
 import type { EquipmentSlot } from "@/utils/types/player/equipment";
@@ -87,21 +87,20 @@ export function useBattleRewards({ npcClass, npcLevel, npcType }: Props) {
       const rank = rollSlotDrop(npcClass);
       if (!rank) continue;
 
-      const equipment = EQUIPMENT_LIST.find(
-        (e) => e.slot === slot && e.rank === rank,
-      );
+      const candidates = getEquipmentBySlotAndRank(slot, rank);
+      if (candidates.length === 0) continue;
 
-      if (equipment) {
-        const enhance = rollEnhance();
-        addDrop(player.character, equipment.id, enhance);
-        equipmentDrops.push({
-          id: equipment.id,
-          name: equipment.name,
-          slot: equipment.slot,
-          rank: equipment.rank,
-          enhance,
-        });
-      }
+      const equipment =
+        candidates[Math.floor(Math.random() * candidates.length)];
+      const enhance = rollEnhance();
+      addDrop(player.character, equipment.id, enhance);
+      equipmentDrops.push({
+        id: equipment.id,
+        name: equipment.name,
+        slot: equipment.slot,
+        rank: equipment.rank,
+        enhance,
+      });
     }
 
     const itemDrops: ItemDropInfo[] = [];
@@ -118,7 +117,7 @@ export function useBattleRewards({ npcClass, npcLevel, npcType }: Props) {
     if (npcType.startsWith("goat") && Math.random() < 0.01) {
       const enhance = rollEnhance();
       addDrop(player.character, "pet_goat", enhance);
-      const pet = EQUIPMENT_LIST.find((e) => e.id === "pet_goat");
+      const pet = getEquipmentById("pet_goat");
       if (pet) {
         equipmentDrops.push({
           id: pet.id,

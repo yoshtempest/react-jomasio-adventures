@@ -7,7 +7,6 @@ import { useFlags } from "@/contexts/FlagContext";
 import { QUESTS } from "@/data/quests";
 import { ITEMS } from "@/data/items";
 
-
 type Condition = {
   hasItem?: ItemId;
   notHasItem?: ItemId;

@@ -1,4 +1,3 @@
-
 type ThrowProjectileParams = {
   projectile: Projectile | null;
   cooldown: number;

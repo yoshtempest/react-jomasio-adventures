@@ -1,4 +1,3 @@
-
 export const pcRoomTwoEvents: SceneEvent[] = [
   {
     type: "conditional",
