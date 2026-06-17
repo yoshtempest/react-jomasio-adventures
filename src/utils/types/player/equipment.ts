@@ -48,7 +48,7 @@ export type Equipment = {
   name: string;
   slot: EquipmentSlot;
   rank: EquipmentRank;
-  stats: EquipmentStats;
+  stats: Partial<EquipmentStats>;
   bonusSlots?: number;
 };
 

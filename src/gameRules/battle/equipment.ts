@@ -60,11 +60,11 @@ function getEnhanceBonus(itemId: string, enhance: number): EquipmentStats {
   if (!item) return bonus;
 
   const avail: (keyof EquipmentStats)[] = [];
-  if (item.stats.hp > 0) avail.push("hp");
-  if (item.stats.strength > 0) avail.push("strength");
-  if (item.stats.intelligence > 0) avail.push("intelligence");
-  if (item.stats.armor > 0) avail.push("armor");
-  if (item.stats.shield > 0) avail.push("shield");
+  if ((item.stats.hp ?? 0) > 0) avail.push("hp");
+  if ((item.stats.strength ?? 0) > 0) avail.push("strength");
+  if ((item.stats.intelligence ?? 0) > 0) avail.push("intelligence");
+  if ((item.stats.armor ?? 0) > 0) avail.push("armor");
+  if ((item.stats.shield ?? 0) > 0) avail.push("shield");
 
   if (avail.length === 0) return bonus;
 
@@ -91,13 +91,13 @@ export function getEffectiveStats(
     return { hp: 0, strength: 0, intelligence: 0, armor: 0, shield: 0, vampirism: 0, reflect: 0 };
   const enhanceBonus = getEnhanceBonus(itemId, enhance);
   return {
-    hp: item.stats.hp + enhanceBonus.hp,
-    strength: item.stats.strength + enhanceBonus.strength,
-    intelligence: item.stats.intelligence + enhanceBonus.intelligence,
-    armor: item.stats.armor + enhanceBonus.armor,
-    shield: item.stats.shield + enhanceBonus.shield,
-    vampirism: item.stats.vampirism,
-    reflect: item.stats.reflect,
+    hp: (item.stats.hp ?? 0) + enhanceBonus.hp,
+    strength: (item.stats.strength ?? 0) + enhanceBonus.strength,
+    intelligence: (item.stats.intelligence ?? 0) + enhanceBonus.intelligence,
+    armor: (item.stats.armor ?? 0) + enhanceBonus.armor,
+    shield: (item.stats.shield ?? 0) + enhanceBonus.shield,
+    vampirism: item.stats.vampirism ?? 0,
+    reflect: item.stats.reflect ?? 0,
   };
 }
 
