@@ -2,7 +2,6 @@ import {
   createContext,
   useContext,
   useState,
-  useEffect,
   useCallback,
 } from "react";
 import type { ReactNode } from "react";
@@ -25,6 +24,7 @@ type QuestContextType = {
   claimQuest: (id: string) => void;
   setQuests: React.Dispatch<React.SetStateAction<Quest[]>>;
   progressDailyWeekly: (type: string, value: number) => void;
+  refreshDailyWeekly: () => void;
 };
 
 const QuestContext = createContext({} as QuestContextType);
@@ -34,17 +34,20 @@ export function QuestProvider({ children }: Props) {
   const { playSound } = useSoundEffects();
 
   const generateDailyWeekly = useCallback(() => {
-    const todayDate = getTodayDate();
-    const weekStart = getWeekStart();
-    const savedDailyDate = localStorage.getItem("dailyQuestDate");
-    const savedWeeklyDate = localStorage.getItem("weeklyQuestDate");
-
-    const needsDailyReset = savedDailyDate !== todayDate;
-    const needsWeeklyReset = savedWeeklyDate !== weekStart;
-
-    if (!needsDailyReset && !needsWeeklyReset) return;
-
     setQuests((prev) => {
+      const todayDate = getTodayDate();
+      const weekStart = getWeekStart();
+      const savedDailyDate = localStorage.getItem("dailyQuestDate");
+      const savedWeeklyDate = localStorage.getItem("weeklyQuestDate");
+
+      const hasDaily = prev.some((q) => q.frequency === "daily");
+      const hasWeekly = prev.some((q) => q.frequency === "weekly");
+
+      const needsDailyReset = savedDailyDate !== todayDate || !hasDaily;
+      const needsWeeklyReset = savedWeeklyDate !== weekStart || !hasWeekly;
+
+      if (!needsDailyReset && !needsWeeklyReset) return prev;
+
       const filtered = prev.filter(
         (q) => q.frequency !== "daily" && q.frequency !== "weekly",
       );
@@ -67,10 +70,6 @@ export function QuestProvider({ children }: Props) {
       return filtered;
     });
   }, []);
-
-  useEffect(() => {
-    generateDailyWeekly();
-  }, [generateDailyWeekly]);
 
   function addQuest(newQuest: Quest) {
     setQuests((prev) => {
@@ -138,6 +137,7 @@ export function QuestProvider({ children }: Props) {
         updateProgress,
         claimQuest,
         progressDailyWeekly,
+        refreshDailyWeekly: generateDailyWeekly,
       }}
     >
       {children}

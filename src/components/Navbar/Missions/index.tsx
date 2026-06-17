@@ -2,7 +2,11 @@ import { useQuests } from "@/contexts/QuestContext";
 import { useQuestMenu, type QuestTab } from "@/hooks/menu/quest/useQuestMenu";
 import styles from "./styles.module.css";
 import { QuestCard } from "@/components/QuestCard";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import {
+  getTimeUntilMidnight,
+  getTimeUntilMonday,
+} from "@/utils/questTimer";
 
 const TAB_LABELS: Record<QuestTab, string> = {
   active: "Em andamento",
@@ -41,6 +45,18 @@ export function Mission() {
     switchTab,
   } = useQuestMenu(true, quests, listRef);
 
+  const [dailyTimer, setDailyTimer] = useState(getTimeUntilMidnight());
+  const [weeklyTimer, setWeeklyTimer] = useState(getTimeUntilMonday());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDailyTimer(getTimeUntilMidnight());
+      setWeeklyTimer(getTimeUntilMonday());
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const tabCountMap: Record<QuestTab, number> = {
     active: activeQuests.length,
     completed: completedQuests.length,
@@ -63,6 +79,17 @@ export function Mission() {
           </button>
         ))}
       </div>
+
+      {(activeTab === "daily" || activeTab === "weekly") && (
+        <div className={styles.timerBar}>
+          {activeTab === "daily" && (
+            <span>Reset em: <strong>{dailyTimer}</strong></span>
+          )}
+          {activeTab === "weekly" && (
+            <span>Reset em: <strong>{weeklyTimer}</strong></span>
+          )}
+        </div>
+      )}
 
       {visibleQuests.length === 0 ? (
         <p className={styles.empty}>{getEmptyMessage(activeTab)}</p>

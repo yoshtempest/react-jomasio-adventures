@@ -18,7 +18,7 @@ function App() {
   const { isOpen } = useInventory();
   const { isNavOpen } = useNavbar();
   const { setItems, setMaxSlots } = useInventory();
-  const { setQuests } = useQuests();
+  const { setQuests, refreshDailyWeekly } = useQuests();
 
   const { chooseClass, setCharacter, player } = usePlayer();
 
@@ -38,14 +38,20 @@ function App() {
   setItemsRef.current = setItems;
   const setQuestsRef = useRef(setQuests);
   setQuestsRef.current = setQuests;
+  const refreshDailyWeeklyRef = useRef(refreshDailyWeekly);
+  refreshDailyWeeklyRef.current = refreshDailyWeekly;
 
   useEffect(() => {
     const save = loadGame();
 
-    if (!save) return;
+    if (save) {
+      setItemsRef.current(save.inventory);
+      setQuestsRef.current(save.quests);
+    }
 
-    setItemsRef.current(save.inventory);
-    setQuestsRef.current(save.quests);
+    refreshDailyWeeklyRef.current();
+
+    if (!save) return;
 
     if (save.playerClass) {
       chooseClassRef.current(save.playerClass);
