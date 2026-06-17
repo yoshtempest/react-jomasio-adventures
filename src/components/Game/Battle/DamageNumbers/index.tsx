@@ -13,6 +13,7 @@ const TYPE_CLASS: Record<string, string> = {
   summon: styles.summon,
   blocked: styles.blocked,
   crit: styles.crit,
+  charge: styles.charge,
 };
 
 export function DamageNumbers({ numbers }: Props) {

@@ -7,7 +7,8 @@ export type DamageType =
   | "pet"
   | "summon"
   | "blocked"
-  | "crit";
+  | "crit"
+  | "charge";
 
 export type DamageNumber = {
   id: number;

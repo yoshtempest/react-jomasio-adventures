@@ -77,6 +77,9 @@ export function GameControlsProvider({ children }: Props) {
           }
         },
 
+        onConfirmRelease: layer.onConfirmRelease ?? acc.onConfirmRelease,
+        onCancelRelease: layer.onCancelRelease ?? acc.onCancelRelease,
+
         onUpRelease: layer.onUpRelease ?? acc.onUpRelease,
         onDownRelease: layer.onDownRelease ?? acc.onDownRelease,
         onLeftRelease: layer.onLeftRelease ?? acc.onLeftRelease,
@@ -170,6 +173,14 @@ export function GameControlsProvider({ children }: Props) {
         case "ArrowRight":
         case "d":
           activeControls.onRightRelease?.();
+          break;
+
+        case "l":
+          activeControls.onConfirmRelease?.();
+          break;
+
+        case "b":
+          activeControls.onCancelRelease?.();
           break;
       }
     }

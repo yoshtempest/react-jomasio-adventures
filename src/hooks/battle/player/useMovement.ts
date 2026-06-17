@@ -180,6 +180,13 @@ export function useBattleMovement(
     });
   }
 
+  function setPlayerState(state: PlayerState) {
+    setPlayer((p) => {
+      if (p.mode !== "battle") return p;
+      return { ...p, state };
+    });
+  }
+
   function dash(direction: "left" | "right") {
     if (dashIntervalRef.current) return;
 
@@ -231,5 +238,6 @@ export function useBattleMovement(
     attack,
     special,
     dash,
+    setPlayerState,
   };
 }

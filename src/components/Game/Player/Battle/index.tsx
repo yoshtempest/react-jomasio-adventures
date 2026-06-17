@@ -17,7 +17,8 @@ export function PlayerBattle({
   direction,
   character,
 }: Props) {
-  const src = asset(`assets/player/${character}/inFight/${state}.svg`);
+  const resolvedState = state === "charging" ? "idle" : state;
+  const src = asset(`assets/player/${character}/inFight/${resolvedState}.svg`);
 
   const BASE_WIDTH = 1280;
   const BASE_HEIGHT = 600;

@@ -9,6 +9,7 @@ import { ComboDisplay } from "@/components/Game/Battle/ComboDisplay";
 import { VictoryModal } from "@/components/Game/Battle/Victory";
 import { DefeatModal } from "@/components/Game/Battle/Defeat";
 import { BattleIntro } from "@/components/Game/Battle/Intro";
+import { ChargeParticles } from "@/components/Game/Battle/ChargeParticles";
 import { useGameAudio } from "@/hooks/useGameAudio";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useEffect, useRef } from "react";
@@ -50,6 +51,7 @@ export function BattleScene(props: Props) {
     comboRank,
     comboProgress,
     nextRank,
+    charge,
   } = useBattleScene(props);
 
   const {
@@ -138,6 +140,14 @@ export function BattleScene(props: Props) {
           pet={pet}
           TILE_SIZE={TILE_SIZE}
           PLAYER_SIZE={PLAYER_SIZE}
+        />
+
+        <ChargeParticles
+          particles={charge.particles}
+          playerX={player.x}
+          playerY={player.y}
+          chargeReady={charge.chargeReady}
+          isCharging={charge.isCharging}
         />
 
         <DamageNumbers numbers={battle.damageNumbers} />

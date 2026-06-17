@@ -8,6 +8,9 @@ export type GameControlLayer = {
   onLeft?: () => boolean | void;
   onRight?: () => boolean | void;
 
+  onConfirmRelease?: () => void;
+  onCancelRelease?: () => void;
+
   onUpRelease?: () => void;
   onDownRelease?: () => void;
   onLeftRelease?: () => void;

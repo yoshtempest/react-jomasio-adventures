@@ -192,6 +192,7 @@ declare global {
     | "blocked"
     | "special"
     | "dash"
+    | "charging"
     | "preAttack"
     | "preWalk"
     | "preJump"

@@ -58,6 +58,7 @@ export function useBattleSystem(props: Props) {
     playerMaxHp,
     npcMaxHp,
     npcArmor,
+    critRate,
     HITS_TO_SPECIAL,
     hasPet,
   } = stats;
@@ -192,6 +193,7 @@ export function useBattleSystem(props: Props) {
     playerHP,
     playerMaxHp,
     npcHP,
+    setNpcHP,
     npcMaxHp,
     npcPhase,
     delicia: playerBattle.delicia,
@@ -210,5 +212,9 @@ export function useBattleSystem(props: Props) {
     pet,
     damageNumbers,
     spawnDamageNumber,
+    char,
+    critRate,
+    npcArmor,
+    titleDamageBonus: titleBonus.damage,
   };
 }

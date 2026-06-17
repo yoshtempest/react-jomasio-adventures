@@ -25,11 +25,15 @@ export function GameButtons() {
     }
   }
 
-  function handleConfirm() {
+  function handleConfirmDown() {
     activeControls?.onConfirm?.();
     setLCooldown(true);
     if (lTimerRef.current) clearTimeout(lTimerRef.current);
     lTimerRef.current = setTimeout(() => setLCooldown(false), 400);
+  }
+
+  function handleConfirmUp() {
+    activeControls?.onConfirmRelease?.();
   }
 
   function handleCancel() {
@@ -52,7 +56,9 @@ export function GameButtons() {
 
         <button
           className={`${styles.button} ${lCooldown ? styles.cooldown : ""}`}
-          onPointerDown={handleConfirm}
+          onPointerDown={handleConfirmDown}
+          onPointerUp={handleConfirmUp}
+          onPointerLeave={handleConfirmUp}
         >
           L
         </button>

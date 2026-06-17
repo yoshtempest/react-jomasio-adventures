@@ -21,6 +21,7 @@ import { useBattleControls } from "@/hooks/battle/useControls";
 import { useComboSystem } from "@/hooks/battle/useComboSystem";
 import { useBattleRefs } from "@/hooks/battle/useRefs";
 import { useBattleKillCounter } from "@/hooks/battle/useKillCounter";
+import { useChargeAttack } from "@/hooks/battle/useChargeAttack";
 import type { BattleMapConfig } from "@/utils/types/battleMap";
 
 type Props = {
@@ -43,12 +44,14 @@ export function useBattleScene({
 
   const {
     player,
+    setPlayer,
     setMode,
     attack,
     special,
     resetBattleState,
     difficulty,
     playerClass,
+    setPlayerState,
   } = usePlayer();
 
   const { progress, getXPToNextLevel } = useCharacterProgress();
@@ -196,8 +199,14 @@ export function useBattleScene({
     setNpcPhase(battle.npcPhase);
   }, [battle.npcPhase]);
 
-  refs.npcRangedAttackRef.current = battle.npcRangedHit;
-  refs.npcMeleeAttackRef.current = battle.npcMeleeHit;
+  refs.npcRangedAttackRef.current = () => {
+    if (player.state === "charging") charge.cancelCharge();
+    battle.npcRangedHit();
+  };
+  refs.npcMeleeAttackRef.current = () => {
+    if (player.state === "charging") charge.cancelCharge();
+    battle.npcMeleeHit();
+  };
 
   useEffect(() => {
     setModeRef.current("battle");
@@ -205,12 +214,34 @@ export function useBattleScene({
     closeNavbarRef.current();
   }, []);
 
+  const charge = useChargeAttack({
+    player,
+    setPlayer,
+    npcX: npc.x,
+    npcY: npc.y,
+    npcArmor: battle.npcArmor,
+    char: battle.char,
+    playerClass,
+    critRate: battle.critRate,
+    titleDamageBonus: battle.titleDamageBonus,
+    setNpcHP: battle.setNpcHP,
+    playerCooldown: battle.playerCooldown,
+    isEnding: battle.isEnding,
+    hitstopRef: refs.hitstopRef,
+    spawnDamageRef: refs.spawnDamageRef,
+    registerHitRef: refs.registerHitRef,
+    setPlayerState,
+  });
+
   useBattleControls({
     attack,
     special,
     handlePlayerHit,
     handleSpecialHit,
     disabled: isPaused,
+    onChargePress: charge.startCharge,
+    onChargeRelease: charge.releaseCharge,
+    onChargeCancel: charge.cancelCharge,
   });
 
   useEffect(() => {
@@ -223,6 +254,7 @@ export function useBattleScene({
   }
 
   function handleRetry() {
+    charge.cancelCharge();
     setShowDefeat(false);
     clearSummons();
     battle.resetBattle();
@@ -261,5 +293,6 @@ export function useBattleScene({
     comboRank,
     comboProgress: comboProgressValue,
     nextRank,
+    charge,
   };
 }

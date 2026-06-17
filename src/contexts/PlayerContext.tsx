@@ -16,6 +16,7 @@ import { BATTLE_DEFAULT_STATE, createBattleCollisionRef } from "@/utils/types/pl
 
 type PlayerContextType = {
   player: Player;
+  setPlayer: React.Dispatch<React.SetStateAction<Player>>;
   difficulty: NpcDifficulty;
   coins: number;
   addCoins: (amount: number) => void;
@@ -43,6 +44,7 @@ type PlayerContextType = {
   attack: () => void;
   special: () => void;
   dash: (direction: "left" | "right") => void;
+  setPlayerState: (state: PlayerState) => void;
 
   setMap: (map: number[][]) => void;
   setMode: (mode: PlayerMode) => void;
@@ -127,6 +129,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     attack: rawAttack,
     special,
     dash,
+    setPlayerState,
   } = useBattleMovement(setPlayer, battleCollisionRef);
 
   const setBattleCollision = useCallback((params: CollisionParams) => {
@@ -209,6 +212,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     <PlayerContext.Provider
       value={{
         player,
+        setPlayer,
         coins,
         addCoins,
         hyperCoins,
@@ -232,6 +236,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         attack,
         special,
         dash,
+
+        setPlayerState,
 
         resetBattleState,
         setMap,

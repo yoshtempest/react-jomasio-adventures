@@ -8,7 +8,8 @@ export function canAct(player: Player) {
   return (
     player.mode === "battle" &&
     player.state !== "blocked" &&
-    player.state !== "dash"
+    player.state !== "dash" &&
+    player.state !== "charging"
   );
 }
 
@@ -105,6 +106,9 @@ export function idleBattle(p: Player): Player {
 
   return {
     ...p,
-    state: p.state === "jump" || p.state === "dash" ? p.state : "idle",
+    state:
+      p.state === "jump" || p.state === "dash" || p.state === "charging"
+        ? p.state
+        : "idle",
   };
 }
