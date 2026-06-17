@@ -30,6 +30,14 @@ export function getNpcStats(
       boss: { hp: 18.0, dmg: 7.0, armor: 28 },
       legendary: { hp: 100.0, dmg: 120.0, armor: 60 },
     },
+
+    insano: {
+      common: { hp: 10.0, dmg: 2.5, armor: 10 },
+      rare: { hp: 18.0, dmg: 6.0, armor: 20 },
+      epic: { hp: 30.0, dmg: 12.0, armor: 36 },
+      boss: { hp: 50.0, dmg: 20.0, armor: 64 },
+      legendary: { hp: 300.0, dmg: 350.0, armor: 150 },
+    },
   };
 
   const multipliers = difficultyMultipliers[difficulty][npcClass];

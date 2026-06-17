@@ -1,5 +1,5 @@
 import styles from "./styles.module.css";
-import { MoveUp, MoveDown, MoveLeft, MoveRight } from "lucide-react";
+import { MoveUp, MoveDown, MoveLeft, MoveRight, Lock } from "lucide-react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useConfigMenu } from "@/hooks/menu/config/useConfig";
 import { useAudio } from "@/contexts/AudioContext";
@@ -11,6 +11,13 @@ import { useEffect, useRef } from "react";
 import { configsDialogue } from "@/data/maps/configs";
 import Talking from "@/components/Talking";
 import InstallButton from "@/components/PWA";
+
+const DIFFICULTY_LABEL: Record<NpcDifficulty, string> = {
+  easy: "Fácil",
+  medium: "Médio",
+  hard: "Difícil",
+  insano: "Insano",
+};
 
 export function Config() {
   const { difficulty } = usePlayer();
@@ -30,7 +37,7 @@ export function Config() {
 
   return (
     <div className={styles.config}>
-      <h2 className={styles.marginTop}>Dificuldade: {difficulty}</h2>
+      <h2 className={styles.marginTop}>Dificuldade: {DIFFICULTY_LABEL[difficulty]}</h2>
       <div className={styles.difficultyContainer}>
         {difficultyList.map((diff, index) => {
           const isSelected = selectedRow === 0 && index === selectedIndex;
@@ -43,10 +50,17 @@ export function Config() {
             >
               {isSelected && <span className={styles.cursor}>▼</span>}
 
-              <p>{diff.toUpperCase()}</p>
+              <p>{DIFFICULTY_LABEL[diff].toUpperCase()}</p>
             </div>
           );
         })}
+
+        <div className={`${styles.difficultyItem} ${styles.locked}`}>
+          <div className={styles.chainLeft} />
+          <Lock size={16} />
+          <p>INSANO</p>
+          <div className={styles.chainRight} />
+        </div>
       </div>
       <div className={styles.volumeContainer}>
         {selectedRow === 1 && <span className={styles.cursor}>▼</span>}
