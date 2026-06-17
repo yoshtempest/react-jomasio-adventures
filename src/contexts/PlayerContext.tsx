@@ -14,7 +14,7 @@ import { useNavbar } from "@/contexts/NavbarContext";
 import { usePlayerAnimation } from "@/hooks/battle/player/usePlayerAnimation";
 import {
   BATTLE_DEFAULT_STATE,
-  createBattleCollisionRef,
+  useBattleCollisionRef,
 } from "@/utils/types/player/state";
 
 type PlayerContextType = {
@@ -119,7 +119,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     }
   }, [playerClass]);
 
-  const battleCollisionRef = createBattleCollisionRef();
+  const battleCollisionRef = useBattleCollisionRef();
 
   const {
     moveUpBattle,
@@ -137,7 +137,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
   const setBattleCollision = useCallback((params: CollisionParams) => {
     battleCollisionRef.current = params;
-  }, []);
+  }, [battleCollisionRef]);
 
   const attack = () => {
     rawAttack();

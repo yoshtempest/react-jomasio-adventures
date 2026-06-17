@@ -100,7 +100,7 @@ export function usePetBattle({
     }, 20);
 
     return () => clearInterval(interval);
-  }, [enabled, pet]);
+  }, [enabled, pet, hitstopRef]);
 
   return { pet };
 }

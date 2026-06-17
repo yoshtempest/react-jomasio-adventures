@@ -97,5 +97,6 @@ export function useProjectile(
     playerState,
     playerDirection,
     setProjectile,
+    hitstopRef,
   ]);
 }

@@ -10,7 +10,7 @@ export const BATTLE_DEFAULT_STATE = {
   battleDirection: "right" as const,
 };
 
-export function createBattleCollisionRef() {
+export function useBattleCollisionRef() {
   return useRef<CollisionParams>({
     map: null,
     TILE_SIZE: 0,

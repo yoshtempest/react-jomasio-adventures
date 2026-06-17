@@ -142,6 +142,7 @@ export function usePlayerBattle({
     hitstopRef,
     registerHitRef,
     critRate,
+    npcArmor,
   ]);
 
   const specialHit = useCallback(() => {
@@ -215,6 +216,7 @@ export function usePlayerBattle({
     hitstopRef,
     registerHitRef,
     critRate,
+    npcArmor,
   ]);
 
   return {

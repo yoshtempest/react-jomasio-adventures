@@ -125,7 +125,7 @@ export function useSummonAI({
     }, 20);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [hitstopRef, spawnDamageRef]);
 
   useEffect(() => {
     const dying = summons.filter((summon) => summon.hp <= 0 && !summon.isDying);
