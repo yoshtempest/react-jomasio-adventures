@@ -12,7 +12,17 @@ import {
   RANK_COLORS,
 } from "@/utils/types/player/equipment";
 import type { EquipmentSlot } from "@/utils/types/player/equipment";
+import { getTotalArmor } from "@/gameRules/battle/equipment";
 import { PassiveSkills } from "../../PassiveSkills";
+
+const STAT_TIPS: Record<string, string> = {
+  hp: "Aumenta a vida máxima. Cada ponto concede 10 de HP.",
+  strength: "Aumenta o dano de ataques normais. Cada ponto concede +1 de dano.",
+  intelligence:
+    "Aumenta o dano de ataques especiais. Cada ponto concede +2 de dano.",
+  resistance:
+    "Aumenta a armadura do personagem. Cada ponto concede 2 de armadura, reduzindo o dano recebido.",
+};
 
 export function Status() {
   const { player, playerClass } = usePlayer();
@@ -27,6 +37,7 @@ export function Status() {
       hp: 1,
       strength: 1,
       intelligence: 1,
+      resistance: 1,
       points: 0,
     },
   };
@@ -44,12 +55,16 @@ export function Status() {
   const userHp = 90 + totalHp * 10;
   const userSpecialDamage = 15 + totalIntelligence * 2;
   const userNormalAttackDamage = 6 + totalStrength;
+  const userArmor = getTotalArmor(character, stats.resistance);
+  const totalShield = bonus.shield;
 
   const charProgress = progress[player.character];
   const xpNeeded = getXPToNextLevel(charProgress.level);
   const percent = (charProgress.xp / xpNeeded) * 100;
   const characterData = CHARACTERS.find((c) => c.image === player.character);
-  const { selectedIndex } = useStatusMenu(true);
+  const { selectedIndex, options } = useStatusMenu(true);
+
+  const selectedStat = options[selectedIndex];
 
   return (
     <div className="containerOfNavbar">
@@ -72,6 +87,8 @@ export function Status() {
             <p>HP total: {userHp}</p>
             <p>Dano normal: {userNormalAttackDamage}</p>
             <p>Dano especial: {userSpecialDamage}</p>
+            <p>Armadura: {userArmor}</p>
+            {totalShield > 0 && <p>Escudo: {totalShield}</p>}
           </div>
         </div>
 
@@ -80,6 +97,7 @@ export function Status() {
           {stats.points <= 0 && (
             <p className={styles.title}>Sem pontos disponíveis</p>
           )}
+
           <div className={selectedIndex === 0 ? "active" : ""}>
             <p>
               Vida: {stats.hp}
@@ -104,7 +122,18 @@ export function Status() {
               )}
             </p>
           </div>
+
+          <div className={selectedIndex === 3 ? "active" : ""}>
+            <p>
+              Resistência: {stats.resistance ?? 1}
+            </p>
+          </div>
+
+          {selectedStat && STAT_TIPS[selectedStat] && (
+            <p className={styles.tip}>{STAT_TIPS[selectedStat]}</p>
+          )}
         </div>
+
         <div className={styles.marginTop}>
           <p className={styles.title}>Equipamentos</p>
           {(EQUIPMENT_SLOTS as EquipmentSlot[]).map((slot) => {

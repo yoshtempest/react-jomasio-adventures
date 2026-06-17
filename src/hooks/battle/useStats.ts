@@ -7,6 +7,7 @@ import {
   getEquipmentStatsBonus,
   getWeaponCritRate,
   getTotalArmor,
+  getTotalShield,
 } from "@/gameRules/battle/equipment";
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import { getMaxSpecial } from "@/gameRules/battle/special";
@@ -42,7 +43,11 @@ export function useBattleStats({
   const critRate = 1 + weaponCritRate;
 
   const totalArmor = useMemo(() => {
-    return getTotalArmor(player.character);
+    return getTotalArmor(player.character, baseChar.stats.resistance);
+  }, [player.character, baseChar.stats.resistance]);
+
+  const totalShield = useMemo(() => {
+    return getTotalShield(player.character);
   }, [player.character]);
 
   const titleBonus = useMemo(() => {
@@ -93,6 +98,7 @@ export function useBattleStats({
     equipmentBonus,
     critRate,
     totalArmor,
+    totalShield,
     titleBonus,
     playerMaxHp,
     npcMaxHp,

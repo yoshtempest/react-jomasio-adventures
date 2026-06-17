@@ -18,7 +18,7 @@ type Props = {
   player: Player;
   totalArmor: number;
 
-  setPlayerHP: React.Dispatch<React.SetStateAction<number>>;
+  damagePlayerHp: (damage: number) => void;
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;
   npcCooldown: React.RefObject<boolean>;
   difficulty: NpcDifficulty;
@@ -34,7 +34,7 @@ type Props = {
 
 function applyGuardBreak(
   remainingDmg: number,
-  setPlayerHP: React.Dispatch<React.SetStateAction<number>>,
+  damagePlayerHp: (damage: number) => void,
   setPlayer: React.Dispatch<React.SetStateAction<Player>>,
   spawnDamageRef: React.RefObject<
     (value: number, x: number, y: number, type: DamageType) => void
@@ -42,14 +42,14 @@ function applyGuardBreak(
   playerX: number,
   playerY: number,
 ) {
-  setPlayerHP((hp) => Math.max(0, hp - remainingDmg));
+  damagePlayerHp(remainingDmg);
   setPlayer((p) => ({ ...p, state: "stun" }));
   spawnDamageRef.current?.(remainingDmg, playerX, playerY, "npc");
 }
 
 function applyDesperateBlock(
   dmg: number,
-  setPlayerHP: React.Dispatch<React.SetStateAction<number>>,
+  damagePlayerHp: (damage: number) => void,
   setPlayer: React.Dispatch<React.SetStateAction<Player>>,
   spawnDamageRef: React.RefObject<
     (value: number, x: number, y: number, type: DamageType) => void
@@ -58,7 +58,7 @@ function applyDesperateBlock(
   playerY: number,
 ) {
   const halved = Math.max(1, Math.round(dmg / 2));
-  setPlayerHP((hp) => Math.max(0, hp - halved));
+  damagePlayerHp(halved);
   setPlayer((p) => ({ ...p, state: "stun" }));
   spawnDamageRef.current?.(halved, playerX, playerY, "npc");
 }
@@ -68,7 +68,7 @@ export function useNpcBattle({
   npcClass,
   playerClass,
   totalArmor,
-  setPlayerHP,
+  damagePlayerHp,
   setPlayer,
   npcCooldown,
   playerX,
@@ -111,7 +111,7 @@ export function useNpcBattle({
       const remaining = dmg - blockLimit;
       applyGuardBreak(
         remaining,
-        setPlayerHP,
+        damagePlayerHp,
         setPlayer,
         spawnDamageRef,
         playerX,
@@ -130,7 +130,7 @@ export function useNpcBattle({
     if (recentBlock) {
       applyDesperateBlock(
         dmg,
-        setPlayerHP,
+        damagePlayerHp,
         setPlayer,
         spawnDamageRef,
         playerX,
@@ -142,7 +142,7 @@ export function useNpcBattle({
       return;
     }
 
-    setPlayerHP((hp) => Math.max(0, hp - dmg));
+    damagePlayerHp(dmg);
     navigator.vibrate?.(40);
     spawnDamageRef.current?.(dmg, playerX, playerY, "npc");
     hitstopRef.current = Date.now() + 50;
@@ -158,7 +158,7 @@ export function useNpcBattle({
     npcClass,
     playerClass,
     totalArmor,
-    setPlayerHP,
+    damagePlayerHp,
     setPlayer,
     playerX,
     playerY,
@@ -201,7 +201,7 @@ export function useNpcBattle({
     if (recentBlock) {
       applyDesperateBlock(
         dmg,
-        setPlayerHP,
+        damagePlayerHp,
         setPlayer,
         spawnDamageRef,
         playerX,
@@ -213,7 +213,7 @@ export function useNpcBattle({
       return;
     }
 
-    setPlayerHP((hp) => Math.max(0, hp - dmg));
+    damagePlayerHp(dmg);
     navigator.vibrate?.(40);
     spawnDamageRef.current?.(dmg, playerX, playerY, "npc");
     hitstopRef.current = Date.now() + 30;
@@ -228,7 +228,7 @@ export function useNpcBattle({
     npcLevel,
     npcClass,
     playerClass,
-    setPlayerHP,
+    damagePlayerHp,
     setPlayer,
     playerX,
     playerY,

@@ -59,6 +59,7 @@ export function useBattleSystem(props: Props) {
     playerClass,
     char,
     totalArmor,
+    totalShield,
     titleBonus,
     playerMaxHp,
     npcMaxHp,
@@ -85,10 +86,22 @@ export function useBattleSystem(props: Props) {
   spawnDamageRef.current = spawnDamageNumber;
 
   // ❤️ HP state (player + npc)
-  const { playerHP, setPlayerHP, npcHP, setNpcHP } = useBattleHP(
-    playerMaxHp,
-    npcMaxHp,
-  );
+  const { playerHP, setPlayerHP, npcHP, setNpcHP, playerShield, setPlayerShield } =
+    useBattleHP(playerMaxHp, npcMaxHp, totalShield);
+
+  const playerShieldRef = useRef(playerShield);
+  playerShieldRef.current = playerShield;
+
+  const damagePlayerHp = (damage: number) => {
+    const shield = playerShieldRef.current;
+    if (shield >= damage) {
+      setPlayerShield((s) => s - damage);
+      return;
+    }
+    setPlayerShield(0);
+    const remaining = damage - shield;
+    setPlayerHP((hp) => Math.max(0, hp - remaining));
+  };
 
   // 👊 player
   const playerBattle = usePlayerBattle({
@@ -126,7 +139,7 @@ export function useBattleSystem(props: Props) {
     npcY,
     player,
     totalArmor,
-    setPlayerHP,
+    damagePlayerHp,
     setPlayer,
     npcCooldown,
     difficulty,
@@ -181,7 +194,7 @@ export function useBattleSystem(props: Props) {
         return;
       }
       const remaining = damage - blockLimit;
-      setPlayerHP((hp) => Math.max(0, hp - remaining));
+      damagePlayerHp(remaining);
       setPlayer((p) => ({ ...p, state: "stun" }));
       spawnDamageRef.current?.(remaining, playerX, playerY, "summon");
       return;
@@ -189,13 +202,14 @@ export function useBattleSystem(props: Props) {
 
     const reduced =
       totalArmor > 0 ? Math.round((damage * 100) / (100 + totalArmor)) : damage;
-    setPlayerHP((hp) => Math.max(0, hp - reduced));
+    damagePlayerHp(reduced);
     spawnDamageRef.current?.(reduced, playerX, playerY, "summon");
   };
 
   // 🔄 reset
   const resetBattle = () => {
     setPlayerHP(playerMaxHp);
+    setPlayerShield(totalShield);
     setNpcHP(npcMaxHp);
     setNpcPhase(1);
     playerBattle.setDelicia(0);
@@ -214,6 +228,7 @@ export function useBattleSystem(props: Props) {
   return {
     playerHP,
     playerMaxHp,
+    playerShield,
     npcHP,
     setNpcHP,
     npcMaxHp,

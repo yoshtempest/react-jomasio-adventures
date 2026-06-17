@@ -38,6 +38,15 @@
   font-style: italic;
 }
 
+.tip {
+  font-size: 11px;
+  color: #aaa;
+  font-style: italic;
+  margin-top: 8px;
+  max-width: 200px;
+  line-height: 1.3;
+}
+
 @media (orientation: portrait) {
   .image {
     height: 40%;

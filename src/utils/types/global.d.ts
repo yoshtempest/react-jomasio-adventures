@@ -37,6 +37,7 @@ declare global {
     strength: number;
     intelligence: number;
     armor: number;
+    shield: number;
   };
 
   // ── Áudio / Transição ──────────────────────────────────

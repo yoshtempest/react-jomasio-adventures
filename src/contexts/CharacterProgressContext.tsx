@@ -12,6 +12,7 @@ export type CharacterStats = {
   hp: number;
   strength: number;
   intelligence: number;
+  resistance: number;
   points: number;
 };
 
@@ -40,62 +41,62 @@ const defaultProgress: CharactersProgress = {
   marcelo: {
     level: 1,
     xp: 0,
-    stats: { hp: 1, strength: 1, intelligence: 1, points: 0 },
+    stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
   eduarda: {
     level: 1,
     xp: 0,
-    stats: { hp: 1, strength: 1, intelligence: 1, points: 0 },
+    stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
   lucas: {
     level: 1,
     xp: 0,
-    stats: { hp: 1, strength: 1, intelligence: 1, points: 0 },
+    stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
   samuel: {
     level: 1,
     xp: 0,
-    stats: { hp: 1, strength: 1, intelligence: 1, points: 0 },
+    stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
   artur: {
     level: 1,
     xp: 0,
-    stats: { hp: 1, strength: 1, intelligence: 1, points: 0 },
+    stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
   mayra: {
     level: 1,
     xp: 0,
-    stats: { hp: 1, strength: 1, intelligence: 1, points: 0 },
+    stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
   lucaua: {
     level: 1,
     xp: 0,
-    stats: { hp: 1, strength: 1, intelligence: 1, points: 0 },
+    stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
   riquelme: {
     level: 1,
     xp: 0,
-    stats: { hp: 1, strength: 1, intelligence: 1, points: 0 },
+    stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
   hiago: {
     level: 1,
     xp: 0,
-    stats: { hp: 1, strength: 1, intelligence: 1, points: 0 },
+    stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
   larissa: {
     level: 1,
     xp: 0,
-    stats: { hp: 1, strength: 1, intelligence: 1, points: 0 },
+    stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
   camilly: {
     level: 1,
     xp: 0,
-    stats: { hp: 1, strength: 1, intelligence: 1, points: 0 },
+    stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
   emanuel: {
     level: 1,
     xp: 0,
-    stats: { hp: 1, strength: 1, intelligence: 1, points: 0 },
+    stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
 };
 
@@ -119,6 +120,7 @@ function normalizeProgress(data: unknown): CharactersProgress {
         hp: savedChar?.stats?.hp ?? 1,
         strength: savedChar?.stats?.strength ?? 1,
         intelligence: savedChar?.stats?.intelligence ?? 1,
+        resistance: savedChar?.stats?.resistance ?? 1,
         points: savedChar?.stats?.points ?? 0,
       },
     };
@@ -186,7 +188,7 @@ export function CharacterProgressProvider({
   // ➕ DISTRIBUIR PONTOS
   function addStat(
     character: Character,
-    stat: "hp" | "strength" | "intelligence",
+    stat: keyof Omit<CharacterStats, "points">,
   ) {
     setProgress((prev) => {
       const char = prev[character];
@@ -199,7 +201,7 @@ export function CharacterProgressProvider({
           ...char,
           stats: {
             ...char.stats,
-            [stat]: char.stats[stat] + 1,
+            [stat]: (char.stats[stat] || 0) + 1,
             points: char.stats.points - 1,
           },
         },

@@ -50,6 +50,7 @@ function getEnhanceBonus(itemId: string, enhance: number): EquipmentStats {
     strength: 0,
     intelligence: 0,
     armor: 0,
+    shield: 0,
   };
   if (enhance <= 0) return bonus;
 
@@ -61,6 +62,7 @@ function getEnhanceBonus(itemId: string, enhance: number): EquipmentStats {
   if (item.stats.strength > 0) avail.push("strength");
   if (item.stats.intelligence > 0) avail.push("intelligence");
   if (item.stats.armor > 0) avail.push("armor");
+  if (item.stats.shield > 0) avail.push("shield");
 
   if (avail.length === 0) return bonus;
 
@@ -83,13 +85,15 @@ export function getEffectiveStats(
   enhance: number,
 ): EquipmentStats {
   const item = getEquipmentById(itemId);
-  if (!item) return { hp: 0, strength: 0, intelligence: 0, armor: 0 };
+  if (!item)
+    return { hp: 0, strength: 0, intelligence: 0, armor: 0, shield: 0 };
   const enhanceBonus = getEnhanceBonus(itemId, enhance);
   return {
     hp: item.stats.hp + enhanceBonus.hp,
     strength: item.stats.strength + enhanceBonus.strength,
     intelligence: item.stats.intelligence + enhanceBonus.intelligence,
     armor: item.stats.armor + enhanceBonus.armor,
+    shield: item.stats.shield + enhanceBonus.shield,
   };
 }
 
@@ -102,9 +106,16 @@ export function getWeaponCritRate(character: CharacterId): number {
   return WEAPON_CRIT_RATE[weapon.rank] ?? 0;
 }
 
-export function getTotalArmor(character: CharacterId): number {
+export function getResistanceArmor(resistance: number): number {
+  return resistance * 2;
+}
+
+export function getTotalArmor(
+  character: CharacterId,
+  resistance?: number,
+): number {
   const equipped = loadEquipped(character);
-  let total = 0;
+  let total = resistance !== undefined ? getResistanceArmor(resistance) : 0;
 
   for (const slot of ARMOR_SLOTS) {
     const info = equipped[slot];
@@ -123,13 +134,28 @@ export function getBlockLimit(
   return 20 + level * 3 + totalArmor * 2;
 }
 
+export function getTotalShield(character: CharacterId): number {
+  const equipped = loadEquipped(character);
+  let total = 0;
+
+  for (const slot of EQUIPMENT_SLOTS) {
+    const info = equipped[slot];
+    if (!info) continue;
+    const stats = getEffectiveStats(info.id, info.enhance);
+    total += stats.shield;
+  }
+
+  return total;
+}
+
 export function getEquipmentStatsBonus(character: CharacterId): {
   hp: number;
   strength: number;
   intelligence: number;
+  shield: number;
 } {
   const equipped = loadEquipped(character);
-  const bonus = { hp: 0, strength: 0, intelligence: 0 };
+  const bonus = { hp: 0, strength: 0, intelligence: 0, shield: 0 };
 
   for (const slot of EQUIPMENT_SLOTS) {
     const info = equipped[slot];
@@ -138,6 +164,7 @@ export function getEquipmentStatsBonus(character: CharacterId): {
     bonus.hp += stats.hp;
     bonus.strength += stats.strength;
     bonus.intelligence += stats.intelligence;
+    bonus.shield += stats.shield;
   }
 
   return bonus;

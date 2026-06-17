@@ -9,6 +9,7 @@ import type { SummonedNpc } from "@/utils/types/npc/npc";
 type BattleHUDState = {
   playerHP: number;
   playerMaxHp: number;
+  playerShield: number;
   npcHP: number;
   delicia: number;
   hitsToSpecial: number;
@@ -44,6 +45,27 @@ export function BattleHUD({ battle, npcStats, npcType, summons }: Props) {
           <div className={styles.flexRow}>
             <div>
               <HealthBar hp={battle.playerHP} maxHp={battle.playerMaxHp} />
+              {battle.playerShield > 0 && (
+                <div
+                  style={{
+                    width: 200,
+                    height: 6,
+                    background: "#555",
+                    borderRadius: 2,
+                    overflow: "hidden",
+                    marginTop: 2,
+                  }}
+                >
+                  <div
+                    style={{
+                      width: `${Math.min(100, (battle.playerShield / battle.playerMaxHp) * 100)}%`,
+                      height: "100%",
+                      background: "#e0e0e0",
+                      transition: "width 0.2s",
+                    }}
+                  />
+                </div>
+              )}
               <BlockGauge
                 blockLimit={battle.blockLimit}
                 isBlocking={player.state === "blocked"}

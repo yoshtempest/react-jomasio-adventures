@@ -3,4 +3,5 @@ export const STAT_LABEL: Record<string, string> = {
   hp: "HP",
   strength: "Força",
   intelligence: "Inteligência",
+  resistance: "Resistência",
 };
