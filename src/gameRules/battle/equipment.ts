@@ -51,6 +51,8 @@ function getEnhanceBonus(itemId: string, enhance: number): EquipmentStats {
     intelligence: 0,
     armor: 0,
     shield: 0,
+    vampirism: 0,
+    reflect: 0,
   };
   if (enhance <= 0) return bonus;
 
@@ -86,7 +88,7 @@ export function getEffectiveStats(
 ): EquipmentStats {
   const item = getEquipmentById(itemId);
   if (!item)
-    return { hp: 0, strength: 0, intelligence: 0, armor: 0, shield: 0 };
+    return { hp: 0, strength: 0, intelligence: 0, armor: 0, shield: 0, vampirism: 0, reflect: 0 };
   const enhanceBonus = getEnhanceBonus(itemId, enhance);
   return {
     hp: item.stats.hp + enhanceBonus.hp,
@@ -94,6 +96,8 @@ export function getEffectiveStats(
     intelligence: item.stats.intelligence + enhanceBonus.intelligence,
     armor: item.stats.armor + enhanceBonus.armor,
     shield: item.stats.shield + enhanceBonus.shield,
+    vampirism: item.stats.vampirism,
+    reflect: item.stats.reflect,
   };
 }
 
@@ -153,9 +157,11 @@ export function getEquipmentStatsBonus(character: CharacterId): {
   strength: number;
   intelligence: number;
   shield: number;
+  vampirism: number;
+  reflect: number;
 } {
   const equipped = loadEquipped(character);
-  const bonus = { hp: 0, strength: 0, intelligence: 0, shield: 0 };
+  const bonus = { hp: 0, strength: 0, intelligence: 0, shield: 0, vampirism: 0, reflect: 0 };
 
   for (const slot of EQUIPMENT_SLOTS) {
     const info = equipped[slot];
@@ -165,7 +171,37 @@ export function getEquipmentStatsBonus(character: CharacterId): {
     bonus.strength += stats.strength;
     bonus.intelligence += stats.intelligence;
     bonus.shield += stats.shield;
+    bonus.vampirism += stats.vampirism;
+    bonus.reflect += stats.reflect;
   }
 
   return bonus;
+}
+
+export function getTotalVampirism(character: CharacterId): number {
+  const equipped = loadEquipped(character);
+  let total = 0;
+
+  for (const slot of EQUIPMENT_SLOTS) {
+    const info = equipped[slot];
+    if (!info) continue;
+    const stats = getEffectiveStats(info.id, info.enhance);
+    total += stats.vampirism;
+  }
+
+  return total;
+}
+
+export function getTotalReflect(character: CharacterId): number {
+  const equipped = loadEquipped(character);
+  let total = 0;
+
+  for (const slot of EQUIPMENT_SLOTS) {
+    const info = equipped[slot];
+    if (!info) continue;
+    const stats = getEffectiveStats(info.id, info.enhance);
+    total += stats.reflect;
+  }
+
+  return total;
 }

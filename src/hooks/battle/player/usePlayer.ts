@@ -26,6 +26,9 @@ type Props = {
   HITS_TO_SPECIAL: number;
 
   setNpcHP: React.Dispatch<React.SetStateAction<number>>;
+  setPlayerHP: React.Dispatch<React.SetStateAction<number>>;
+  playerMaxHp: number;
+  totalVampirism: number;
   playerCooldown: React.RefObject<boolean>;
   isEnding: React.RefObject<boolean>;
 
@@ -48,6 +51,9 @@ export function usePlayerBattle({
   behavior,
   HITS_TO_SPECIAL,
   setNpcHP,
+  setPlayerHP,
+  playerMaxHp,
+  totalVampirism,
   playerCooldown,
   isEnding,
   playerX,
@@ -116,6 +122,11 @@ export function usePlayerBattle({
     registerHitRef.current?.(dmg);
     hitstopRef.current = Date.now() + 60;
 
+    if (totalVampirism > 0) {
+      const heal = Math.round(dmg * totalVampirism / 100);
+      if (heal > 0) setPlayerHP((hp) => Math.min(playerMaxHp, hp + heal));
+    }
+
     playerCooldown.current = false;
 
     setTimeout(() => {
@@ -143,6 +154,9 @@ export function usePlayerBattle({
     registerHitRef,
     critRate,
     npcArmor,
+    setPlayerHP,
+    playerMaxHp,
+    totalVampirism,
   ]);
 
   const specialHit = useCallback(() => {
@@ -189,6 +203,11 @@ export function usePlayerBattle({
     registerHitRef.current?.(dmg);
     hitstopRef.current = Date.now() + 100;
 
+    if (totalVampirism > 0) {
+      const heal = Math.round(dmg * totalVampirism / 100);
+      if (heal > 0) setPlayerHP((hp) => Math.min(playerMaxHp, hp + heal));
+    }
+
     playerCooldown.current = false;
 
     setTimeout(() => {
@@ -210,6 +229,9 @@ export function usePlayerBattle({
     char,
     playerClass,
     setNpcHP,
+    setPlayerHP,
+    playerMaxHp,
+    totalVampirism,
     stacks,
     triggerExplosion,
     spawnDamageRef,

@@ -38,6 +38,8 @@ declare global {
     intelligence: number;
     armor: number;
     shield: number;
+    vampirism: number;
+    reflect: number;
   };
 
   // ── Áudio / Transição ──────────────────────────────────

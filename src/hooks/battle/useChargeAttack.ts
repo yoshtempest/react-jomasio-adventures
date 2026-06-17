@@ -49,6 +49,9 @@ type Props = {
   setSummons: React.Dispatch<React.SetStateAction<SummonedNpc[]>>;
   setDelicia: React.Dispatch<React.SetStateAction<number>>;
   hitsToSpecial: number;
+  setPlayerHP: React.Dispatch<React.SetStateAction<number>>;
+  playerMaxHp: number;
+  totalVampirism: number;
 };
 
 export function useChargeAttack(props: Props) {
@@ -73,6 +76,9 @@ export function useChargeAttack(props: Props) {
     setSummons,
     setDelicia,
     hitsToSpecial,
+    setPlayerHP,
+    playerMaxHp,
+    totalVampirism,
   } = props;
 
   const [isCharging, setIsCharging] = useState(false);
@@ -97,6 +103,12 @@ export function useChargeAttack(props: Props) {
   setSummonsRef.current = setSummons;
   const setDeliciaRef = useRef(setDelicia);
   setDeliciaRef.current = setDelicia;
+  const setPlayerHPRef = useRef(setPlayerHP);
+  setPlayerHPRef.current = setPlayerHP;
+  const playerMaxHpRef = useRef(playerMaxHp);
+  playerMaxHpRef.current = playerMaxHp;
+  const vampirismRef = useRef(totalVampirism);
+  vampirismRef.current = totalVampirism;
   const hitTargetsRef = useRef(new Set<string>());
 
   const cleanup = useCallback(() => {
@@ -254,6 +266,10 @@ export function useChargeAttack(props: Props) {
             if (target.id === "main") {
               const dmg = calculateDamageToNpc(critDmg, npcArmor);
               setNpcHP((hp) => Math.max(0, hp - dmg));
+              if (vampirismRef.current > 0) {
+                const heal = Math.round(dmg * vampirismRef.current / 100);
+                if (heal > 0) setPlayerHPRef.current((hp) => Math.min(playerMaxHpRef.current, hp + heal));
+              }
               spawnDamageRef.current?.(
                 dmg,
                 target.x,
@@ -273,6 +289,11 @@ export function useChargeAttack(props: Props) {
               );
               registerHitRef.current?.(critDmg);
               hitstopRef.current = Date.now() + 80;
+
+              if (vampirismRef.current > 0) {
+                const heal = Math.round(critDmg * vampirismRef.current / 100);
+                if (heal > 0) setPlayerHPRef.current((hp) => Math.min(playerMaxHpRef.current, hp + heal));
+              }
 
               setSummonsRef.current((prev) =>
                 prev.map((s) =>

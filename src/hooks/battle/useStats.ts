@@ -8,6 +8,8 @@ import {
   getWeaponCritRate,
   getTotalArmor,
   getTotalShield,
+  getTotalVampirism,
+  getTotalReflect,
 } from "@/gameRules/battle/equipment";
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import { getMaxSpecial } from "@/gameRules/battle/special";
@@ -50,6 +52,14 @@ export function useBattleStats({
     return getTotalShield(player.character);
   }, [player.character]);
 
+  const totalVampirism = useMemo(() => {
+    return getTotalVampirism(player.character);
+  }, [player.character]);
+
+  const totalReflect = useMemo(() => {
+    return getTotalReflect(player.character);
+  }, [player.character]);
+
   const titleBonus = useMemo(() => {
     return getBonus();
   }, [getBonus]);
@@ -68,6 +78,7 @@ export function useBattleStats({
           baseChar.stats.intelligence +
           equipmentBonus.intelligence +
           titleBonus.intelligence,
+        resistance: baseChar.stats.resistance,
         points: baseChar.stats.points,
       },
     };
@@ -99,6 +110,8 @@ export function useBattleStats({
     critRate,
     totalArmor,
     totalShield,
+    totalVampirism,
+    totalReflect,
     titleBonus,
     playerMaxHp,
     npcMaxHp,

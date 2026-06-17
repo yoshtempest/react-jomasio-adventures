@@ -40,6 +40,8 @@ type EquipmentContextType = {
     strength: number;
     intelligence: number;
     shield: number;
+    vampirism: number;
+    reflect: number;
   };
   getCollection: (character: CharacterId) => Record<string, number>;
   getQuantityTotal: (character: CharacterId, id: EquipmentId) => number;
@@ -97,12 +99,12 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
   const getTotalBonus = useCallback(
     (
       character: CharacterId,
-    ): { hp: number; strength: number; intelligence: number; shield: number } => {
+    ): { hp: number; strength: number; intelligence: number; shield: number; vampirism: number; reflect: number } => {
       const data = getCharacterData(
         allData as Record<string, CharacterEquipmentData>,
         character,
       );
-      const bonus = { hp: 0, strength: 0, intelligence: 0, shield: 0 };
+      const bonus = { hp: 0, strength: 0, intelligence: 0, shield: 0, vampirism: 0, reflect: 0 };
       for (const slot of Object.keys(data.equipped) as EquipmentSlot[]) {
         const info = data.equipped[slot];
         if (!info) continue;
@@ -111,6 +113,8 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
         bonus.strength += stats.strength;
         bonus.intelligence += stats.intelligence;
         bonus.shield += stats.shield;
+        bonus.vampirism += stats.vampirism;
+        bonus.reflect += stats.reflect;
       }
       return bonus;
     },

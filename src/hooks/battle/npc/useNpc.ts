@@ -20,6 +20,8 @@ type Props = {
 
   damagePlayerHp: (damage: number) => void;
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;
+  setNpcHP: React.Dispatch<React.SetStateAction<number>>;
+  totalReflect: number;
   npcCooldown: React.RefObject<boolean>;
   difficulty: NpcDifficulty;
   isEnding: React.RefObject<boolean>;
@@ -70,6 +72,8 @@ export function useNpcBattle({
   totalArmor,
   damagePlayerHp,
   setPlayer,
+  setNpcHP,
+  totalReflect,
   npcCooldown,
   playerX,
   playerY,
@@ -84,6 +88,20 @@ export function useNpcBattle({
   blockLimit,
   lastBlockPressRef,
 }: Props) {
+  const damagePlayerWithReflect = useCallback((damage: number) => {
+    damagePlayerHp(damage);
+    if (damage > 0) {
+      const reflectPct = Math.min(totalReflect, 10);
+      if (reflectPct > 0) {
+        const reflectAmt = Math.round(damage * reflectPct / 100);
+        if (reflectAmt > 0) {
+          setNpcHP((hp) => Math.max(0, hp - reflectAmt));
+          spawnDamageRef.current?.(reflectAmt, npcX, npcY, "reflect");
+        }
+      }
+    }
+  }, [damagePlayerHp, totalReflect, setNpcHP, spawnDamageRef, npcX, npcY]);
+
   const npcMeleeHit = useCallback(() => {
     if (isEnding.current) return;
     if (!npcCooldown.current) return;
@@ -111,7 +129,7 @@ export function useNpcBattle({
       const remaining = dmg - blockLimit;
       applyGuardBreak(
         remaining,
-        damagePlayerHp,
+        damagePlayerWithReflect,
         setPlayer,
         spawnDamageRef,
         playerX,
@@ -130,7 +148,7 @@ export function useNpcBattle({
     if (recentBlock) {
       applyDesperateBlock(
         dmg,
-        damagePlayerHp,
+        damagePlayerWithReflect,
         setPlayer,
         spawnDamageRef,
         playerX,
@@ -142,7 +160,7 @@ export function useNpcBattle({
       return;
     }
 
-    damagePlayerHp(dmg);
+    damagePlayerWithReflect(dmg);
     navigator.vibrate?.(40);
     spawnDamageRef.current?.(dmg, playerX, playerY, "npc");
     hitstopRef.current = Date.now() + 50;
@@ -158,7 +176,6 @@ export function useNpcBattle({
     npcClass,
     playerClass,
     totalArmor,
-    damagePlayerHp,
     setPlayer,
     playerX,
     playerY,
@@ -170,6 +187,7 @@ export function useNpcBattle({
     npcStaggerRef,
     blockLimit,
     lastBlockPressRef,
+    damagePlayerWithReflect,
   ]);
 
   const npcRangedHit = useCallback(() => {
@@ -201,7 +219,7 @@ export function useNpcBattle({
     if (recentBlock) {
       applyDesperateBlock(
         dmg,
-        damagePlayerHp,
+        damagePlayerWithReflect,
         setPlayer,
         spawnDamageRef,
         playerX,
@@ -213,7 +231,7 @@ export function useNpcBattle({
       return;
     }
 
-    damagePlayerHp(dmg);
+    damagePlayerWithReflect(dmg);
     navigator.vibrate?.(40);
     spawnDamageRef.current?.(dmg, playerX, playerY, "npc");
     hitstopRef.current = Date.now() + 30;
@@ -228,7 +246,6 @@ export function useNpcBattle({
     npcLevel,
     npcClass,
     playerClass,
-    damagePlayerHp,
     setPlayer,
     playerX,
     playerY,
@@ -240,6 +257,7 @@ export function useNpcBattle({
     hitstopRef,
     npcStaggerRef,
     lastBlockPressRef,
+    damagePlayerWithReflect,
   ]);
 
   return { npcMeleeHit, npcRangedHit };

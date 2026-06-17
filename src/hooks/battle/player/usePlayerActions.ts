@@ -36,6 +36,10 @@ type Props = {
     (value: number, x: number, y: number, type: DamageType) => void
   >;
   registerHitRef: React.RefObject<(damage: number) => void>;
+
+  setPlayerHP: React.Dispatch<React.SetStateAction<number>>;
+  playerMaxHp: number;
+  totalVampirism: number;
 };
 
 export function usePlayerBattleActions({
@@ -50,6 +54,9 @@ export function usePlayerBattleActions({
   giveSummonRewards,
   spawnDamageRef,
   registerHitRef,
+  setPlayerHP,
+  playerMaxHp,
+  totalVampirism,
 }: Props) {
   const handlePlayerHit = useCallback(() => {
     if (!battle.playerCooldown.current || battle.isEnding.current) {
@@ -127,6 +134,11 @@ export function usePlayerBattleActions({
         registerHitRef.current?.(damage);
         battle.setDelicia((d) => Math.min(d + 1, battle.hitsToSpecial));
 
+        if (totalVampirism > 0) {
+          const heal = Math.round(damage * totalVampirism / 100);
+          if (heal > 0) setPlayerHP((hp) => Math.min(playerMaxHp, hp + heal));
+        }
+
         const newHp = Math.max(0, Math.round(targetSummon.hp) - damage);
 
         if (newHp <= 0) {
@@ -159,6 +171,9 @@ export function usePlayerBattleActions({
     giveSummonRewards,
     spawnDamageRef,
     registerHitRef,
+    setPlayerHP,
+    playerMaxHp,
+    totalVampirism,
   ]);
 
   const handleSpecialHit = useCallback(() => {

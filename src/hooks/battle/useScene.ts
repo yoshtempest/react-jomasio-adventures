@@ -167,6 +167,9 @@ export function useBattleScene({
     giveSummonRewards,
     spawnDamageRef: refs.spawnDamageRef,
     registerHitRef: refs.registerHitRef,
+    setPlayerHP: battle.setPlayerHP,
+    playerMaxHp: battle.playerMaxHp,
+    totalVampirism: battle.totalVampirism,
   });
 
   const isPaused = showVictory || showDefeat || showIntro;
@@ -235,6 +238,9 @@ export function useBattleScene({
     setSummons,
     setDelicia: battle.setDelicia,
     hitsToSpecial: battle.hitsToSpecial,
+    setPlayerHP: battle.setPlayerHP,
+    playerMaxHp: battle.playerMaxHp,
+    totalVampirism: battle.totalVampirism,
   });
 
   useBattleControls({
