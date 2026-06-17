@@ -49,6 +49,7 @@ export function useBattleScene({
     difficulty,
     playerClass,
     setPlayerState,
+    lastBlockPressRef,
   } = usePlayer();
 
   const { progress, getXPToNextLevel } = useCharacterProgress();
@@ -138,6 +139,8 @@ export function useBattleScene({
     hitstopRef: refs.hitstopRef,
     npcStaggerRef: refs.npcStaggerRef,
     registerHitRef: refs.registerHitRef,
+    setPlayer,
+    lastBlockPressRef,
   });
 
   const {
@@ -228,6 +231,10 @@ export function useBattleScene({
     spawnDamageRef: refs.spawnDamageRef,
     registerHitRef: refs.registerHitRef,
     setPlayerState,
+    summons,
+    setSummons,
+    setDelicia: battle.setDelicia,
+    hitsToSpecial: battle.hitsToSpecial,
   });
 
   useBattleControls({

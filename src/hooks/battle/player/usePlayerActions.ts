@@ -24,6 +24,8 @@ type Props = {
     isEnding: React.RefObject<boolean>;
     playerHit: () => void;
     specialHit: () => void;
+    setDelicia: React.Dispatch<React.SetStateAction<number>>;
+    hitsToSpecial: number;
   };
 
   setSummons: React.Dispatch<React.SetStateAction<SummonedNpc[]>>;
@@ -123,6 +125,7 @@ export function usePlayerBattleActions({
 
         spawnDamageRef.current?.(damage, target.x, target.y, "summon");
         registerHitRef.current?.(damage);
+        battle.setDelicia((d) => Math.min(d + 1, battle.hitsToSpecial));
 
         const newHp = Math.max(0, Math.round(targetSummon.hp) - damage);
 

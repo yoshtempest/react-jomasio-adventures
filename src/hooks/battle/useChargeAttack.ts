@@ -12,6 +12,7 @@ import {
   BATTLE_LIMITS,
 } from "@/utils/types/player/movement";
 import type { DamageType } from "@/hooks/battle/useDamageNumbers";
+import type { SummonedNpc } from "@/utils/types/npc/npc";
 
 const CHARGE_TIME = 3000;
 
@@ -44,6 +45,10 @@ type Props = {
   registerHitRef: React.RefObject<(damage: number) => void>;
   setPlayerState: (state: PlayerState) => void;
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;
+  summons: SummonedNpc[];
+  setSummons: React.Dispatch<React.SetStateAction<SummonedNpc[]>>;
+  setDelicia: React.Dispatch<React.SetStateAction<number>>;
+  hitsToSpecial: number;
 };
 
 export function useChargeAttack(props: Props) {
@@ -64,6 +69,10 @@ export function useChargeAttack(props: Props) {
     registerHitRef,
     setPlayerState,
     setPlayer,
+    summons,
+    setSummons,
+    setDelicia,
+    hitsToSpecial,
   } = props;
 
   const [isCharging, setIsCharging] = useState(false);
@@ -82,6 +91,13 @@ export function useChargeAttack(props: Props) {
   npcXRef.current = npcX;
   const npcYRef = useRef(npcY);
   npcYRef.current = npcY;
+  const summonsRef = useRef(summons);
+  summonsRef.current = summons;
+  const setSummonsRef = useRef(setSummons);
+  setSummonsRef.current = setSummons;
+  const setDeliciaRef = useRef(setDelicia);
+  setDeliciaRef.current = setDelicia;
+  const hitTargetsRef = useRef(new Set<string>());
 
   const cleanup = useCallback(() => {
     if (chargeTimerRef.current) {
@@ -165,32 +181,6 @@ export function useChargeAttack(props: Props) {
     setPlayerState("idle");
   }
 
-  function dealChargeDamage() {
-    const rawDmg = calculatePlayerDamage(
-      char.stats.strength,
-      playerClass,
-      titleDamageBonus,
-    );
-    const chargeDmg = Math.round(rawDmg * 1.5);
-    const { damage: critDmg, type: critType } = rollCrit(chargeDmg, critRate);
-    const dmg = calculateDamageToNpc(critDmg, npcArmor);
-
-    setNpcHP((hp) => Math.max(0, hp - dmg));
-    spawnDamageRef.current?.(
-      dmg,
-      npcXRef.current,
-      npcYRef.current,
-      critType === "crit" ? "crit" : "charge",
-    );
-    registerHitRef.current?.(dmg);
-    hitstopRef.current = Date.now() + 80;
-
-    playerCooldown.current = false;
-    setTimeout(() => {
-      playerCooldown.current = true;
-    }, 500);
-  }
-
   function executeChargeDash() {
     cleanup();
     setIsCharging(false);
@@ -202,10 +192,11 @@ export function useChargeAttack(props: Props) {
     const dir = player.battleDirection;
     const steps = Math.round(DASH_DURATION / DASH_INTERVAL);
     let stepCount = 0;
-    let hitDealt = false;
 
     const dashY = player.y;
     const dashCharacter = player.character;
+
+    hitTargetsRef.current = new Set();
 
     setPlayerState("dash");
 
@@ -219,20 +210,79 @@ export function useChargeAttack(props: Props) {
           Math.min(BATTLE_LIMITS.maxX, p.x + step),
         );
 
-        if (
-          !hitDealt &&
-          isPlayerInRange(
-            newX,
-            dashY,
-            npcXRef.current,
-            npcYRef.current,
-            "idle",
-            dashCharacter,
-            false,
-          )
-        ) {
-          hitDealt = true;
-          dealChargeDamage();
+        const rawDmg = calculatePlayerDamage(
+          char.stats.strength,
+          playerClass,
+          titleDamageBonus,
+        );
+        const chargeDmg = Math.round(rawDmg * 1.5);
+        const { damage: critDmg, type: critType } = rollCrit(chargeDmg, critRate);
+
+        const targets: { id: string; x: number; y: number }[] = [];
+
+        if (npcXRef.current && npcYRef.current) {
+          targets.push({
+            id: "main",
+            x: npcXRef.current,
+            y: npcYRef.current,
+          });
+        }
+
+        for (const summon of summonsRef.current) {
+          if (summon.hp > 0 && !summon.isDying) {
+            targets.push({ id: summon.id, x: summon.x, y: summon.y });
+          }
+        }
+
+        for (const target of targets) {
+          if (hitTargetsRef.current.has(target.id)) continue;
+
+          if (
+            isPlayerInRange(
+              newX,
+              dashY,
+              target.x,
+              target.y,
+              "idle",
+              dashCharacter,
+              false,
+            )
+          ) {
+            hitTargetsRef.current.add(target.id);
+            setDeliciaRef.current((d) => Math.min(d + 1, hitsToSpecial));
+
+            if (target.id === "main") {
+              const dmg = calculateDamageToNpc(critDmg, npcArmor);
+              setNpcHP((hp) => Math.max(0, hp - dmg));
+              spawnDamageRef.current?.(
+                dmg,
+                target.x,
+                target.y,
+                critType === "crit" ? "crit" : "charge",
+              );
+              registerHitRef.current?.(dmg);
+              hitstopRef.current = Date.now() + 80;
+              playerCooldown.current = false;
+              setTimeout(() => { playerCooldown.current = true; }, 500);
+            } else {
+              spawnDamageRef.current?.(
+                critDmg,
+                target.x,
+                target.y,
+                critType === "crit" ? "crit" : "charge",
+              );
+              registerHitRef.current?.(critDmg);
+              hitstopRef.current = Date.now() + 80;
+
+              setSummonsRef.current((prev) =>
+                prev.map((s) =>
+                  s.id === target.id
+                    ? { ...s, hp: Math.max(0, Math.round(s.hp) - critDmg) }
+                    : s,
+                ),
+              );
+            }
+          }
         }
 
         if (

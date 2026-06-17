@@ -1,5 +1,6 @@
 import { HealthBar } from "@/components/Game/HealthBar";
 import { Deliciometro } from "@/components/Game/Deliciometro";
+import { BlockGauge } from "@/components/Game/BlockGauge";
 import { asset } from "@/utils/asset";
 import styles from "./styles.module.css";
 import { usePlayer } from "@/contexts/PlayerContext";
@@ -11,6 +12,7 @@ type BattleHUDState = {
   npcHP: number;
   delicia: number;
   hitsToSpecial: number;
+  blockLimit: number;
 };
 
 type NpcStats = {
@@ -40,7 +42,13 @@ export function BattleHUD({ battle, npcStats, npcType, summons }: Props) {
           <h2 className={styles.playerName}>{playerName}</h2>
 
           <div className={styles.flexRow}>
-            <HealthBar hp={battle.playerHP} maxHp={battle.playerMaxHp} />
+            <div>
+              <HealthBar hp={battle.playerHP} maxHp={battle.playerMaxHp} />
+              <BlockGauge
+                blockLimit={battle.blockLimit}
+                isBlocking={player.state === "blocked"}
+              />
+            </div>
             <Deliciometro
               delicia={battle.delicia}
               hitsToSpecial={battle.hitsToSpecial}

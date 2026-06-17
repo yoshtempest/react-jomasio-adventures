@@ -190,6 +190,7 @@ declare global {
     | "attack"
     | "jump"
     | "blocked"
+    | "stun"
     | "special"
     | "dash"
     | "charging"

@@ -116,6 +116,13 @@ export function getTotalArmor(character: CharacterId): number {
   return total;
 }
 
+export function getBlockLimit(
+  level: number,
+  totalArmor: number,
+): number {
+  return 20 + level * 3 + totalArmor * 2;
+}
+
 export function getEquipmentStatsBonus(character: CharacterId): {
   hp: number;
   strength: number;

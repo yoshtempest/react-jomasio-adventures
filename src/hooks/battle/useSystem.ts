@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { calculateDamageToNpc } from "@/gameRules/battle/damage";
+import { getBlockLimit } from "@/gameRules/battle/equipment";
 import { battleBehaviors } from "@/gameRules/battle/behaviors/player";
 
 import { useBattleStats } from "@/hooks/battle/useStats";
@@ -26,6 +27,8 @@ type Props = {
   hitstopRef: React.RefObject<number>;
   npcStaggerRef: React.RefObject<number>;
   registerHitRef: React.RefObject<(damage: number) => void>;
+  setPlayer: React.Dispatch<React.SetStateAction<Player>>;
+  lastBlockPressRef: React.MutableRefObject<number>;
 };
 
 export function useBattleSystem(props: Props) {
@@ -43,6 +46,8 @@ export function useBattleSystem(props: Props) {
     hitstopRef,
     npcStaggerRef,
     registerHitRef,
+    setPlayer,
+    lastBlockPressRef,
   } = props;
 
   const [npcPhase, setNpcPhase] = useState(1);
@@ -62,6 +67,8 @@ export function useBattleSystem(props: Props) {
     HITS_TO_SPECIAL,
     hasPet,
   } = stats;
+
+  const blockLimit = getBlockLimit(char.level, totalArmor);
 
   const behavior = battleBehaviors[player.character] || battleBehaviors.default;
 
@@ -120,12 +127,15 @@ export function useBattleSystem(props: Props) {
     player,
     totalArmor,
     setPlayerHP,
+    setPlayer,
     npcCooldown,
     difficulty,
     isEnding,
     spawnDamageRef,
     hitstopRef,
     npcStaggerRef,
+    blockLimit,
+    lastBlockPressRef,
   });
 
   // 🧠 lifecycle
@@ -165,6 +175,18 @@ export function useBattleSystem(props: Props) {
 
   // 💥 external damage to player (summons, etc.)
   const damagePlayer = (damage: number) => {
+    if (player.state === "blocked") {
+      if (damage <= blockLimit) {
+        spawnDamageRef.current?.(0, playerX, playerY - 40, "blocked");
+        return;
+      }
+      const remaining = damage - blockLimit;
+      setPlayerHP((hp) => Math.max(0, hp - remaining));
+      setPlayer((p) => ({ ...p, state: "stun" }));
+      spawnDamageRef.current?.(remaining, playerX, playerY, "summon");
+      return;
+    }
+
     const reduced =
       totalArmor > 0 ? Math.round((damage * 100) / (100 + totalArmor)) : damage;
     setPlayerHP((hp) => Math.max(0, hp - reduced));
@@ -197,6 +219,7 @@ export function useBattleSystem(props: Props) {
     npcMaxHp,
     npcPhase,
     delicia: playerBattle.delicia,
+    setDelicia: playerBattle.setDelicia,
     hitsToSpecial: HITS_TO_SPECIAL,
     playerHit: playerBattle.playerHit,
     specialHit: playerBattle.specialHit,
@@ -216,5 +239,6 @@ export function useBattleSystem(props: Props) {
     critRate,
     npcArmor,
     titleDamageBonus: titleBonus.damage,
+    blockLimit,
   };
 }

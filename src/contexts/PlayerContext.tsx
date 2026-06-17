@@ -4,6 +4,7 @@ import {
   useState,
   useEffect,
   useCallback,
+  useRef,
   type ReactNode,
 } from "react";
 import { usePlayerMovement } from "@/hooks/player/usePlayerMovement";
@@ -58,6 +59,7 @@ type PlayerContextType = {
   chooseClass: (cls: PlayerClass) => void;
 
   toggleHasPeru: () => void;
+  lastBlockPressRef: React.MutableRefObject<number>;
 };
 
 const PlayerContext = createContext<PlayerContextType | null>(null);
@@ -120,6 +122,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   }, [playerClass]);
 
   const battleCollisionRef = useBattleCollisionRef();
+  const lastBlockPressRef = useRef(0);
 
   const {
     moveUpBattle,
@@ -133,7 +136,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     special,
     dash,
     setPlayerState,
-  } = useBattleMovement(setPlayer, battleCollisionRef);
+  } = useBattleMovement(setPlayer, battleCollisionRef, lastBlockPressRef);
 
   const setBattleCollision = useCallback((params: CollisionParams) => {
     battleCollisionRef.current = params;
@@ -252,6 +255,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         difficulty,
         setDifficulty,
         toggleHasPeru,
+        lastBlockPressRef,
       }}
     >
       {children}

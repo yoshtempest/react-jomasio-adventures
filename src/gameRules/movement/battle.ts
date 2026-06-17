@@ -8,6 +8,7 @@ export function canAct(player: Player) {
   return (
     player.mode === "battle" &&
     player.state !== "blocked" &&
+    player.state !== "stun" &&
     player.state !== "dash" &&
     player.state !== "charging"
   );
@@ -18,7 +19,7 @@ export function isInBattle(player: Player) {
 }
 
 export function canExitState(player: Player) {
-  return player.state !== "blocked";
+  return player.state !== "blocked" && player.state !== "stun";
 }
 
 export function moveLeftBattle(player: Player): Player {
@@ -102,7 +103,7 @@ export function dashRightBattle(p: Player): Player {
 }
 
 export function idleBattle(p: Player): Player {
-  if (p.state === "blocked") return p;
+  if (p.state === "blocked" || p.state === "stun") return p;
 
   return {
     ...p,
