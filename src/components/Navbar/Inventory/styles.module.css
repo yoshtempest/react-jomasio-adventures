@@ -54,3 +54,65 @@
   line-height: 1.3;
   word-wrap: break-word;
 }
+
+.chestActions {
+  margin-top: 0.75rem;
+  padding: 0.5rem;
+  border-top: 1px solid #444;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.chestLabel {
+  font-size: 0.85rem;
+  color: #ccc;
+}
+
+.noKey {
+  color: #e74c3c;
+  font-size: 0.8rem;
+}
+
+.button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #555;
+  border-radius: 6px;
+  background: #2c2c2c;
+  color: #eee;
+  cursor: pointer;
+  font-size: 0.9rem;
+  width: 100%;
+}
+
+.button:hover {
+  background: #3a3a3a;
+}
+
+.section {
+  margin: 0.75rem 0;
+}
+
+.section h4 {
+  margin: 0 0 0.35rem;
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+.dropRow {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.2rem 0;
+  font-size: 0.85rem;
+}
+
+.slot {
+  color: #888;
+  font-size: 0.8rem;
+}
+
+.enhance {
+  color: #4caf50;
+  font-size: 0.8rem;
+}
