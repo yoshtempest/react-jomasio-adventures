@@ -114,7 +114,6 @@ export function useBattleScene({
     obstacles: map?.obstacles,
     hitstopRef: refs.hitstopRef,
     npcStaggerRef: refs.npcStaggerRef,
-    spawnDamageRef: refs.spawnDamageRef,
   });
 
   const battle = useBattleSystem({

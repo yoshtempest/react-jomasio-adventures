@@ -13,6 +13,7 @@ type BattleHUDState = {
   npcHP: number;
   delicia: number;
   hitsToSpecial: number;
+  blockGauge: number;
   blockLimit: number;
 };
 
@@ -67,8 +68,8 @@ export function BattleHUD({ battle, npcStats, npcType, summons }: Props) {
                 </div>
               )}
               <BlockGauge
+                blockGauge={battle.blockGauge}
                 blockLimit={battle.blockLimit}
-                isBlocking={player.state === "blocked"}
               />
             </div>
             <Deliciometro

@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { calculateDamageToNpc } from "@/gameRules/battle/damage";
 import { getBlockLimit } from "@/gameRules/battle/equipment";
 import { battleBehaviors } from "@/gameRules/battle/behaviors/player";
@@ -72,6 +72,14 @@ export function useBattleSystem(props: Props) {
   } = stats;
 
   const blockLimit = getBlockLimit(char.level, totalArmor);
+  const [blockGauge, setBlockGauge] = useState(blockLimit);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setBlockGauge((g) => Math.min(blockLimit, g + 1));
+    }, 100);
+    return () => clearInterval(interval);
+  }, [blockLimit]);
 
   const behavior = battleBehaviors[player.character] || battleBehaviors.default;
 
@@ -154,7 +162,8 @@ export function useBattleSystem(props: Props) {
     spawnDamageRef,
     hitstopRef,
     npcStaggerRef,
-    blockLimit,
+    blockGauge,
+    setBlockGauge,
     lastBlockPressRef,
   });
 
@@ -196,14 +205,23 @@ export function useBattleSystem(props: Props) {
   // 💥 external damage to player (summons, etc.)
   const damagePlayer = (damage: number) => {
     if (player.state === "blocked") {
-      if (damage <= blockLimit) {
-        spawnDamageRef.current?.(0, playerX, playerY - 40, "blocked");
+      if (blockGauge > 0) {
+        if (damage <= blockGauge) {
+          setBlockGauge((g) => Math.max(0, g - damage));
+          spawnDamageRef.current?.(0, playerX, playerY - 40, "blocked");
+          return;
+        }
+        const remaining = damage - blockGauge;
+        setBlockGauge(0);
+        damagePlayerHp(remaining);
+        setPlayer((p) => ({ ...p, state: "stun" }));
+        spawnDamageRef.current?.(remaining, playerX, playerY, "summon");
         return;
       }
-      const remaining = damage - blockLimit;
-      damagePlayerHp(remaining);
-      setPlayer((p) => ({ ...p, state: "stun" }));
-      spawnDamageRef.current?.(remaining, playerX, playerY, "summon");
+
+      const halved = Math.max(1, Math.round(damage / 2));
+      damagePlayerHp(halved);
+      spawnDamageRef.current?.(halved, playerX, playerY, "summon");
       return;
     }
 
@@ -217,6 +235,7 @@ export function useBattleSystem(props: Props) {
   const resetBattle = () => {
     setPlayerHP(playerMaxHp);
     setPlayerShield(totalShield);
+    setBlockGauge(blockLimit);
     setNpcHP(npcMaxHp);
     setNpcPhase(1);
     playerBattle.setDelicia(0);
@@ -264,6 +283,7 @@ export function useBattleSystem(props: Props) {
     totalVampirism,
     totalReflect,
     titleDamageBonus: titleBonus.damage,
+    blockGauge,
     blockLimit,
   };
 }

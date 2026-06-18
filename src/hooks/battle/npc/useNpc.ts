@@ -30,7 +30,8 @@ type Props = {
   >;
   hitstopRef: React.RefObject<number>;
   npcStaggerRef: React.RefObject<number>;
-  blockLimit: number;
+  blockGauge: number;
+  setBlockGauge: React.Dispatch<React.SetStateAction<number>>;
   lastBlockPressRef: React.MutableRefObject<number>;
 };
 
@@ -85,7 +86,8 @@ export function useNpcBattle({
   spawnDamageRef,
   hitstopRef,
   npcStaggerRef,
-  blockLimit,
+  blockGauge,
+  setBlockGauge,
   lastBlockPressRef,
 }: Props) {
   const damagePlayerWithReflect = useCallback((damage: number) => {
@@ -117,27 +119,39 @@ export function useNpcBattle({
       isFacingTarget(playerX, playerY, npcX, npcY, player.battleDirection);
 
     if (isBlocking) {
-      if (dmg <= blockLimit) {
-        hitstopRef.current = Date.now() + 60;
-        npcStaggerRef.current = Date.now() + 500;
-        spawnDamageRef.current?.(0, playerX, playerY - 40, "blocked");
+      if (blockGauge > 0) {
+        if (dmg <= blockGauge) {
+          setBlockGauge((g) => Math.max(0, g - dmg));
+          hitstopRef.current = Date.now() + 60;
+          npcStaggerRef.current = Date.now() + 500;
+          spawnDamageRef.current?.(0, playerX, playerY - 40, "blocked");
+          npcCooldown.current = false;
+          setTimeout(() => (npcCooldown.current = true), 500);
+          return;
+        }
+
+        const remaining = dmg - blockGauge;
+        setBlockGauge(0);
+        applyGuardBreak(
+          remaining,
+          damagePlayerWithReflect,
+          setPlayer,
+          spawnDamageRef,
+          playerX,
+          playerY,
+        );
+        hitstopRef.current = Date.now() + 80;
         npcCooldown.current = false;
-        setTimeout(() => (npcCooldown.current = true), 500);
+        setTimeout(() => (npcCooldown.current = true), 800);
         return;
       }
 
-      const remaining = dmg - blockLimit;
-      applyGuardBreak(
-        remaining,
-        damagePlayerWithReflect,
-        setPlayer,
-        spawnDamageRef,
-        playerX,
-        playerY,
-      );
-      hitstopRef.current = Date.now() + 80;
+      const halved = Math.max(1, Math.round(dmg / 2));
+      damagePlayerWithReflect(halved);
+      spawnDamageRef.current?.(halved, playerX, playerY, "npc");
+      hitstopRef.current = Date.now() + 40;
       npcCooldown.current = false;
-      setTimeout(() => (npcCooldown.current = true), 800);
+      setTimeout(() => (npcCooldown.current = true), 500);
       return;
     }
 
@@ -185,7 +199,8 @@ export function useNpcBattle({
     spawnDamageRef,
     hitstopRef,
     npcStaggerRef,
-    blockLimit,
+    blockGauge,
+    setBlockGauge,
     lastBlockPressRef,
     damagePlayerWithReflect,
   ]);
@@ -195,22 +210,50 @@ export function useNpcBattle({
     if (!npcCooldown.current) return;
     if (player.state === "dash") return;
 
+    const npc = getNpcStats(npcLevel, npcClass, difficulty);
+    const baseDmg = npc.damage;
+    const dmg = calculateNpcDamage(baseDmg, playerClass, totalArmor);
+
     const isBlocking =
       player.state === "blocked" &&
       isFacingTarget(playerX, playerY, npcX, npcY, player.battleDirection);
 
     if (isBlocking) {
-      hitstopRef.current = Date.now() + 60;
-      npcStaggerRef.current = Date.now() + 500;
-      spawnDamageRef.current?.(0, playerX, playerY - 40, "blocked");
+      if (blockGauge > 0) {
+        if (dmg <= blockGauge) {
+          setBlockGauge((g) => Math.max(0, g - dmg));
+          hitstopRef.current = Date.now() + 60;
+          npcStaggerRef.current = Date.now() + 500;
+          spawnDamageRef.current?.(0, playerX, playerY - 40, "blocked");
+          npcCooldown.current = false;
+          setTimeout(() => (npcCooldown.current = true), 500);
+          return;
+        }
+
+        const remaining = dmg - blockGauge;
+        setBlockGauge(0);
+        applyGuardBreak(
+          remaining,
+          damagePlayerWithReflect,
+          setPlayer,
+          spawnDamageRef,
+          playerX,
+          playerY,
+        );
+        hitstopRef.current = Date.now() + 80;
+        npcCooldown.current = false;
+        setTimeout(() => (npcCooldown.current = true), 800);
+        return;
+      }
+
+      const halved = Math.max(1, Math.round(dmg / 2));
+      damagePlayerWithReflect(halved);
+      spawnDamageRef.current?.(halved, playerX, playerY, "npc");
+      hitstopRef.current = Date.now() + 40;
       npcCooldown.current = false;
       setTimeout(() => (npcCooldown.current = true), 500);
       return;
     }
-
-    const npc = getNpcStats(npcLevel, npcClass, difficulty);
-    const baseDmg = npc.damage;
-    const dmg = calculateNpcDamage(baseDmg, playerClass, totalArmor);
 
     const recentBlock =
       lastBlockPressRef.current > 0 &&
@@ -256,6 +299,8 @@ export function useNpcBattle({
     spawnDamageRef,
     hitstopRef,
     npcStaggerRef,
+    blockGauge,
+    setBlockGauge,
     lastBlockPressRef,
     damagePlayerWithReflect,
   ]);

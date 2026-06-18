@@ -1,10 +1,11 @@
 type Props = {
+  blockGauge: number;
   blockLimit: number;
-  isBlocking: boolean;
 };
 
-export function BlockGauge({ blockLimit, isBlocking }: Props) {
-  if (!isBlocking) return null;
+export function BlockGauge({ blockGauge, blockLimit }: Props) {
+  const pct = blockLimit > 0 ? (blockGauge / blockLimit) * 100 : 0;
+  const barColor = pct > 50 ? "#4488ff" : pct > 20 ? "#ffaa00" : "#ff4444";
 
   return (
     <div
@@ -20,9 +21,9 @@ export function BlockGauge({ blockLimit, isBlocking }: Props) {
     >
       <div
         style={{
-          width: "100%",
+          width: `${pct}%`,
           height: "100%",
-          background: "#4488ff",
+          background: barColor,
           transition: "width 0.15s",
         }}
       />
@@ -43,7 +44,7 @@ export function BlockGauge({ blockLimit, isBlocking }: Props) {
           pointerEvents: "none",
         }}
       >
-        BLOCK {blockLimit}
+        BLOCK {blockGauge}/{blockLimit}
       </div>
     </div>
   );

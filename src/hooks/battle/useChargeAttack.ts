@@ -14,7 +14,7 @@ import {
 import type { DamageType } from "@/hooks/battle/useDamageNumbers";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 
-const CHARGE_TIME = 3000;
+const CHARGE_TIME = 2000;
 
 export type ChargeParticle = {
   id: number;

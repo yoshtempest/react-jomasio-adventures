@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
 import type { Dispatch, SetStateAction } from "react";
-import { isFacingTarget } from "@/gameRules/battle/direction";
 
 export function useProjectile(
   projectile: Projectile | null,
@@ -13,12 +12,9 @@ export function useProjectile(
   npcY: number,
   onHit: () => void,
   hitstopRef: React.RefObject<number>,
-  onBlocked?: () => void,
 ) {
   const onHitRef = useRef(onHit);
   onHitRef.current = onHit;
-  const onBlockedRef = useRef(onBlocked);
-  onBlockedRef.current = onBlocked;
 
   useEffect(() => {
     if (!projectile) return;
@@ -39,7 +35,7 @@ export function useProjectile(
             };
           }
 
-          return p; // continua parado
+          return p;
         }
 
         const speed = 11;
@@ -65,21 +61,10 @@ export function useProjectile(
 
         const dx = Math.abs(playerX - next.x);
         const dy = Math.abs(playerY - next.y);
-        const isBlocking =
-          playerState === "blocked" &&
-          isFacingTarget(playerX, playerY, npcX, npcY, playerDirection);
-
         const isDashing = playerState === "dash";
 
-        if (dx < 40 && dy <= 120 && !isBlocking && !isDashing) {
+        if (dx < 40 && dy <= 120 && !isDashing) {
           onHitRef.current();
-          return null;
-        }
-
-        if (dx < 40 && !isDashing) {
-          if (isBlocking) {
-            onBlockedRef.current?.();
-          }
           return null;
         }
 

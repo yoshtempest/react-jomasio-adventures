@@ -8,7 +8,6 @@ import {
 } from "@/gameRules/battle/npc/npcPosition";
 import type { NPCBattleState } from "@/utils/types/npc/npc";
 import type { BattleObstacle } from "@/utils/types/battleMap";
-import type { DamageType } from "@/hooks/battle/useDamageNumbers";
 
 type Props = {
   playerX: number;
@@ -24,9 +23,6 @@ type Props = {
   obstacles?: BattleObstacle[];
   hitstopRef: React.RefObject<number>;
   npcStaggerRef: React.RefObject<number>;
-  spawnDamageRef: React.RefObject<
-    (value: number, x: number, y: number, type: DamageType) => void
-  >;
 };
 
 export function useNpcAI({
@@ -43,7 +39,6 @@ export function useNpcAI({
   obstacles,
   hitstopRef,
   npcStaggerRef,
-  spawnDamageRef,
 }: Props) {
   const [npc, setNpc] = useState<NPCBattleState>({
     x: 900,
@@ -93,10 +88,6 @@ export function useNpcAI({
       onProjectileHit();
     },
     hitstopRef,
-    () => {
-      spawnDamageRef.current?.(0, playerX, playerY - 40, "blocked");
-      npcStaggerRef.current = Date.now() + 400;
-    },
   );
 
   const resetNpc = () => {
