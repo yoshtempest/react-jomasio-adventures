@@ -21,10 +21,13 @@ type SoundId =
   | "loading"
   | "moveMenu"
   | "selectMenu"
+  | "chargeAttack"
+  | "chargingAttack"
   | "closeMenu";
 
 type SoundEffectsContextType = {
-  playSound: (sound: SoundId) => void;
+  playSound: (sound: SoundId, loop?: boolean) => void;
+  stopSound: (sound: SoundId) => void;
 };
 
 const SoundEffectsContext = createContext<SoundEffectsContextType | null>(null);
@@ -65,6 +68,8 @@ export function SoundEffectsProvider({ children }: { children: ReactNode }) {
         asset("/assets/songs/soundEffects/menu/select.mp3"),
       ),
       closeMenu: new Audio(asset("/assets/songs/soundEffects/menu/close.mp3")),
+      chargingAttack: new Audio(asset("/assets/songs/soundEffects/player/chargingAttack.mp3")),
+      chargeAttack: new Audio(asset("/assets/songs/soundEffects/player/chargeAttack.mp3")),
     };
 
     Object.values(soundsRef.current).forEach((audio) => {
@@ -86,7 +91,7 @@ export function SoundEffectsProvider({ children }: { children: ReactNode }) {
     });
   }, [masterVolume]);
 
-  const playSound = async (sound: SoundId) => {
+  const playSound = async (sound: SoundId, loop?: boolean) => {
     const audio = soundsRef.current[sound];
 
     if (!audio) return;
@@ -94,6 +99,7 @@ export function SoundEffectsProvider({ children }: { children: ReactNode }) {
     try {
       audio.pause();
       audio.currentTime = 0;
+      audio.loop = loop ?? false;
 
       await audio.play();
     } catch {
@@ -101,12 +107,22 @@ export function SoundEffectsProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const stopSound = (sound: SoundId) => {
+    const audio = soundsRef.current[sound];
+
+    if (!audio) return;
+
+    audio.pause();
+    audio.currentTime = 0;
+  };
+
   return (
-    <SoundEffectsContext.Provider
-      value={{
-        playSound,
-      }}
-    >
+      <SoundEffectsContext.Provider
+        value={{
+          playSound,
+          stopSound,
+        }}
+      >
       {children}
     </SoundEffectsContext.Provider>
   );

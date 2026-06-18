@@ -1,4 +1,4 @@
-import { useEffect, type MutableRefObject } from "react";
+import { useEffect, type RefObject } from "react";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import { getLandingY, getGroundAtX } from "@/utils/types/maps/battle";
 
@@ -13,8 +13,8 @@ const gravity = 1.2;
 
 export function useBattleGravity(
   setPlayer: React.Dispatch<React.SetStateAction<Player>>,
-  collisionRef: MutableRefObject<CollisionParams>,
-  hasDoubleJumped: MutableRefObject<boolean>,
+  collisionRef: RefObject<CollisionParams>,
+  hasDoubleJumped: RefObject<boolean>,
 ) {
   useEffect(() => {
     const interval = setInterval(() => {

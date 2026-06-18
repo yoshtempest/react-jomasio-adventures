@@ -7,6 +7,7 @@ import type {
 } from "@/utils/types/battle/charge";
 import type { DamageType } from "@/hooks/battle/useDamageNumbers";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
+import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 
 export type { ChargeParticle };
 
@@ -65,6 +66,8 @@ export function useChargeAttack(props: Props) {
     totalVampirism,
   } = props;
 
+  const { playSound, stopSound } = useSoundEffects();
+
   const particlesHook = useChargeParticles();
   const dashHook = useChargeDash({
     player,
@@ -102,12 +105,14 @@ export function useChargeAttack(props: Props) {
     isHoldingRef.current = true;
     chargeStartRef.current = Date.now();
     particlesHook.start();
+    playSound("chargingAttack", true);
     setPlayerState("charging");
   }
 
   function cancelCharge() {
     if (!isHoldingRef.current) return;
     particlesHook.stop();
+    stopSound("chargingAttack");
     isHoldingRef.current = false;
     setPlayerState("idle");
   }
@@ -119,6 +124,8 @@ export function useChargeAttack(props: Props) {
 
     if (elapsed >= CHARGE_TIME) {
       particlesHook.stop();
+      stopSound("chargingAttack");
+      playSound("chargeAttack");
       dashHook.execute(player);
       isHoldingRef.current = false;
     } else {

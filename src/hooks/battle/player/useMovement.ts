@@ -26,8 +26,8 @@ export type { CollisionParams };
 
 export function useBattleMovement(
   setPlayer: React.Dispatch<React.SetStateAction<Player>>,
-  collisionRef: React.MutableRefObject<CollisionParams>,
-  lastBlockPressRef: React.MutableRefObject<number>,
+  collisionRef: React.RefObject<CollisionParams>,
+  lastBlockPressRef: React.RefObject<number>,
 ) {
   const leftIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const rightIntervalRef = useRef<NodeJS.Timeout | null>(null);

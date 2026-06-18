@@ -3,6 +3,7 @@ import { useCallback } from "react";
 import { calculatePlayerDamage } from "@/gameRules/battle/damage";
 import { isPlayerInRange } from "@/gameRules/battle/range";
 import { isFacingTarget } from "@/gameRules/battle/direction";
+import { playAttackSound } from "@/utils/types/battle/playAttackSound";
 
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { CharactersProgress } from "@/contexts/CharacterProgressContext";
@@ -125,6 +126,8 @@ export function usePlayerBattleActions({
         if (!targetSummon) {
           return;
         }
+
+        playAttackSound(player.character);
 
         const damage = Math.round(
           calculatePlayerDamage(char.stats.strength, playerClass),

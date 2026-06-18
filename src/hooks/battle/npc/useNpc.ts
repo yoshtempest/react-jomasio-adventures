@@ -32,7 +32,7 @@ type Props = {
   npcStaggerRef: React.RefObject<number>;
   blockGauge: number;
   setBlockGauge: React.Dispatch<React.SetStateAction<number>>;
-  lastBlockPressRef: React.MutableRefObject<number>;
+  lastBlockPressRef: React.RefObject<number>;
 };
 
 function applyGuardBreak(

@@ -28,7 +28,7 @@ type Props = {
   npcStaggerRef: React.RefObject<number>;
   registerHitRef: React.RefObject<(damage: number) => void>;
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;
-  lastBlockPressRef: React.MutableRefObject<number>;
+  lastBlockPressRef: React.RefObject<number>;
 };
 
 export function useBattleSystem(props: Props) {

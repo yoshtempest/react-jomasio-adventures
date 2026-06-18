@@ -59,7 +59,7 @@ type PlayerContextType = {
   chooseClass: (cls: PlayerClass) => void;
 
   toggleHasPeru: () => void;
-  lastBlockPressRef: React.MutableRefObject<number>;
+  lastBlockPressRef: React.RefObject<number>;
 };
 
 const PlayerContext = createContext<PlayerContextType | null>(null);
