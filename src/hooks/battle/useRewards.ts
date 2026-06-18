@@ -35,6 +35,8 @@ export type RewardInfo = {
   xpReward: number;
   equipmentDrops: EquipmentDropInfo[];
   itemDrops: ItemDropInfo[];
+  chestDrop: { id: string; name: string } | null;
+  keyDrop: { id: string; name: string } | null;
 };
 
 type Props = {
@@ -49,6 +51,22 @@ export const COIN_REWARDS: Record<string, number> = {
   epic: 25,
   boss: 50,
   legendary: 100,
+};
+
+export const CHEST_DROP_CHANCE: Record<NPCClass, number> = {
+  common: 0.15,
+  rare: 0.25,
+  epic: 0.4,
+  boss: 0.55,
+  legendary: 0.7,
+};
+
+export const KEY_DROP_CHANCE: Record<NPCClass, number> = {
+  common: 0.1,
+  rare: 0.15,
+  epic: 0.2,
+  boss: 0.25,
+  legendary: 0.35,
 };
 
 export function useBattleRewards({ npcClass, npcLevel, npcType }: Props) {
@@ -87,6 +105,9 @@ export function useBattleRewards({ npcClass, npcLevel, npcType }: Props) {
       const rank = rollSlotDrop(npcClass);
       if (!rank) continue;
 
+      // Legendary items only come from chests
+      if (rank === "legendary") continue;
+
       const candidates = getEquipmentBySlotAndRank(slot, rank);
       if (candidates.length === 0) continue;
 
@@ -114,6 +135,28 @@ export function useBattleRewards({ npcClass, npcLevel, npcType }: Props) {
       }
     }
 
+    // Chest drop
+    let chestDrop: { id: string; name: string } | null = null;
+    if (Math.random() < CHEST_DROP_CHANCE[npcClass]) {
+      const chestId = `${npcClass}_chest` as const;
+      const def = ITEMS[chestId as keyof typeof ITEMS];
+      if (def) {
+        addItem({ id: def.id, name: def.name, type: "chest" });
+        chestDrop = { id: def.id, name: def.name };
+      }
+    }
+
+    // Key drop
+    let keyDrop: { id: string; name: string } | null = null;
+    if (Math.random() < KEY_DROP_CHANCE[npcClass]) {
+      const keyId = `${npcClass}_key` as const;
+      const def = ITEMS[keyId as keyof typeof ITEMS];
+      if (def) {
+        addItem({ id: def.id, name: def.name, type: "key" });
+        keyDrop = { id: def.id, name: def.name };
+      }
+    }
+
     if (npcType.startsWith("goat") && Math.random() < 0.01) {
       const enhance = rollEnhance();
       addDrop(player.character, "pet_goat", enhance);
@@ -129,7 +172,7 @@ export function useBattleRewards({ npcClass, npcLevel, npcType }: Props) {
       }
     }
 
-    return { coinReward, xpReward, equipmentDrops, itemDrops };
+    return { coinReward, xpReward, equipmentDrops, itemDrops, chestDrop, keyDrop };
   }
 
   return {

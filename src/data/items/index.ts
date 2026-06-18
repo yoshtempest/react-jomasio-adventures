@@ -95,4 +95,58 @@ export const ITEMS = {
     name: "Fragmento Lendário",
     description: "Um fragmento de poder lendário. Dizem que reúne os sete.",
   },
+
+  // ── Chaves ──────────────────────────────────────────────
+  common_key: {
+    id: "common_key",
+    name: "Chave Simples",
+    description: "Uma chave simples. Abre baús comuns.",
+  },
+  rare_key: {
+    id: "rare_key",
+    name: "Chave Rara",
+    description: "Uma chave reluzente. Abre baús raros.",
+  },
+  epic_key: {
+    id: "epic_key",
+    name: "Chave Épica",
+    description: "Uma chave energizada. Abre baús épicos.",
+  },
+  boss_key: {
+    id: "boss_key",
+    name: "Chave de Chefão",
+    description: "Uma chave temível. Abre baús de chefão.",
+  },
+  legendary_key: {
+    id: "legendary_key",
+    name: "Chave Lendária",
+    description: "Uma chave mística. Abre baús lendários.",
+  },
+
+  // ── Baús ────────────────────────────────────────────────
+  common_chest: {
+    id: "common_chest",
+    name: "Baú Simples",
+    description: "Um baú de madeira. Quem sabe o que tem dentro?",
+  },
+  rare_chest: {
+    id: "rare_chest",
+    name: "Baú Raro",
+    description: "Um baú prateado. Parece ter coisas valiosas.",
+  },
+  epic_chest: {
+    id: "epic_chest",
+    name: "Baú Épico",
+    description: "Um baú energizado. Coisas poderosas o aguardam.",
+  },
+  boss_chest: {
+    id: "boss_chest",
+    name: "Baú de Chefão",
+    description: "Um baú imponente. Apenas os fortes o abrem.",
+  },
+  legendary_chest: {
+    id: "legendary_chest",
+    name: "Baú Lendário",
+    description: "Um baú místico. Dizem que contém itens lendários.",
+  },
 } as const;

@@ -3,6 +3,6 @@ export type InventoryItem = {
   name: string;
   image?: string;
   description?: string;
-  type?: "map" | "teleport" | "key" | "material" | "none";
+  type?: "map" | "teleport" | "key" | "material" | "chest" | "none";
   qty?: number;
 };

@@ -6,6 +6,7 @@ import { useVictoryKeyboard } from "@/hooks/battle/victory/useKeyboard";
 import { RewardCards } from "@/components/Game/Battle/RewardCards";
 import { EquipmentDrops } from "@/components/Game/Battle/EquipmentDrops";
 import { ItemDrops } from "@/components/Game/Battle/ItemDrops";
+import { ChestDrops } from "@/components/Game/Battle/ChestDrop";
 import { TitleProgresses } from "@/components/Game/Battle/TitleProgresses";
 import type { RewardInfo } from "@/hooks/battle/useRewards";
 
@@ -65,6 +66,10 @@ export function VictoryModal({
           <div className={styles.flexColumn}>
             <EquipmentDrops equipmentDrops={rewards?.equipmentDrops ?? []} />
             <ItemDrops itemDrops={rewards?.itemDrops ?? []} />
+            <ChestDrops
+              chestDrop={rewards?.chestDrop ?? null}
+              keyDrop={rewards?.keyDrop ?? null}
+            />
             <TitleProgresses />
           </div>
         </div>
