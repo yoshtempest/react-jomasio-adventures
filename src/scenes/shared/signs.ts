@@ -71,28 +71,28 @@ export const SCENE_NAMES: Record<string, string> = {
 };
 
 export const ROUTE_LABELS: Record<string, string> = {
-  "/hall/one": "Hall de Entrada",
-  "/hall/hell": "Corredor Escuro",
+  "/hall/one": "Corredor Um",
+  "/hall/hell": "Corredor Infernal",
   "/hall/pandemony": "Pandemônio",
-  "/hall/center-one": "Hall Centro",
-  "/hall/center-two": "Hall Centro",
-  "/hall/center-front": "Hall Centro",
+  "/hall/center-one": "Corredor Central",
+  "/hall/center-two": "Corredor Central",
+  "/hall/center-front": "Frente do Corredor Central",
   "/hall/jailson-one": "Sala do Jailson",
   "/hall/jailson-two": "Sala do Jailson",
-  "/hall/left-one": "Hall Esquerdo",
-  "/hall/afterpcroom-one": "Hall - Saída do PC",
-  "/hall/thirdclass": "Terceira Sala",
+  "/hall/left-one": "Corredor da esquerda",
+  "/hall/afterpcroom-one": "Corredor",
+  "/hall/thirdclass": "Conselho dos Manos",
 
-  "/pcroom/one": "Sala de PC 1",
-  "/pcroom/two": "Sala de PC 2",
-  "/pcroom/three": "Sala de PC 3",
-  "/pcroom/four": "Sala de PC 4",
-  "/pcroom/five": "Sala de PC 5",
-  "/pcroom/six": "Sala de PC 6",
-  "/pcroom/seven": "Sala de PC 7",
+  "/pcroom/one": "Sala dos pcs",
+  "/pcroom/two": "Sala dos pcs",
+  "/pcroom/three": "Sala dos pcs",
+  "/pcroom/four": "Sala dos pcs",
+  "/pcroom/five": "Sala dos pcs",
+  "/pcroom/six": "Sala dos pcs",
+  "/pcroom/seven": "Sala dos pcs",
 
   "/cantina/one": "Cantina",
-  "/cantina/two": "Cantina - Fundos",
+  "/cantina/two": "Cantina",
 
   "/cafeteria/one": "Refeitório",
   "/cafeteria/two": "Refeitório",
@@ -101,7 +101,7 @@ export const ROUTE_LABELS: Record<string, string> = {
   "/director/one": "Diretoria",
   "/director/two": "Diretoria",
   "/footballcourt/one": "Quadra",
-  "/footballcourt/two": "Quadra - Vestuários",
+  "/footballcourt/two": "Quadra",
 
   "/library/one": "Biblioteca",
   "/library/two": "Biblioteca",
@@ -134,7 +134,7 @@ export function autoSigns(
       ROUTE_LABELS[tile.route] ??
       tile.route.split("/").filter(Boolean).pop() ??
       tile.route;
-    const message = `📍 ${sceneName}\n➡️ ${destName}`;
+    const message = `Local atual: ${sceneName}\n, caso siga em frente: ${destName}`;
 
     signs.push({ x: pos.x, y: pos.y, message });
   }
