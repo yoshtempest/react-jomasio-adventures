@@ -36,6 +36,7 @@ export function slimitaBehavior(ctx: BehaviorContext) {
       state.targetX = playerX;
 
       npc.state = "jumping";
+      npc.jumpLandingX = playerX;
 
       return { x, y };
     }
@@ -59,6 +60,7 @@ export function slimitaBehavior(ctx: BehaviorContext) {
       if (elapsed >= duration) {
         state.state = "resting";
         state.startTime = now;
+        npc.jumpLandingX = undefined;
 
         if (isNear(npc.x, npc.y, playerX, playerY, 140)) {
           onMeleeHit();

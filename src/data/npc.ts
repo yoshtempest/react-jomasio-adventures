@@ -59,7 +59,7 @@ export const NPCS: Record<string, NPCData> = {
   ains: { type: "ains", class: "boss" } /* OVERLORD */,
   dragonKing: { type: "dragonKing", class: "legendary" },
   /* Lagoa do Canto */
-  hungryPigs: { type: "hungryPigs", class: "common" },
+  hungryPig: { type: "hungryPig", class: "common" },
   technoblade: { type: "technoblade", class: "legendary" },
 };
 

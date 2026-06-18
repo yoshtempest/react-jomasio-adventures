@@ -2,6 +2,7 @@ import { HealthBar } from "@/components/Game/HealthBar";
 import { Deliciometro } from "@/components/Game/Deliciometro";
 import { BlockGauge } from "@/components/Game/BlockGauge";
 import { asset } from "@/utils/asset";
+import { getNpcDisplayName } from "@/utils/types/npc/npcNames";
 import styles from "./styles.module.css";
 import { usePlayer } from "@/contexts/PlayerContext";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
@@ -83,7 +84,7 @@ export function BattleHUD({ battle, npcStats, npcType, summons }: Props) {
       {npcType && (
         <div className={styles.container} style={{ right: 10, top: 10 }}>
           <div style={{ position: "absolute", top: 0, right: 80 }}>
-            <h2 className={styles.name}>{npcType}</h2>
+            <h2 className={styles.name}>{getNpcDisplayName(npcType)}</h2>
 
             <HealthBar hp={battle.npcHP} maxHp={npcStats.hp} reversed />
           </div>
@@ -106,7 +107,7 @@ export function BattleHUD({ battle, npcStats, npcType, summons }: Props) {
               style={{ right: 10, top: 10 + (i + 1) * 100 }}
             >
               <div style={{ position: "absolute", top: 0, right: 80 }}>
-                <h2 className={styles.name}>{s.npcType}</h2>
+                <h2 className={styles.name}>{getNpcDisplayName(s.npcType)}</h2>
                 <HealthBar hp={s.hp} maxHp={s.maxHp} reversed />
               </div>
               <img

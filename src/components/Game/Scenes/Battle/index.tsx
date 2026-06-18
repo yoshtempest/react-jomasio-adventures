@@ -10,6 +10,7 @@ import { VictoryModal } from "@/components/Game/Battle/Victory";
 import { DefeatModal } from "@/components/Game/Battle/Defeat";
 import { BattleIntro } from "@/components/Game/Battle/Intro";
 import { ChargeParticles } from "@/components/Game/Battle/ChargeParticles";
+import { JumpIndicator } from "@/components/Game/Battle/JumpIndicator";
 import { useGameAudio } from "@/hooks/useGameAudio";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useEffect, useRef } from "react";
@@ -149,6 +150,10 @@ export function BattleScene(props: Props) {
           chargeReady={charge.chargeReady}
           isCharging={charge.isCharging}
         />
+
+        {npc.jumpLandingX != null && (
+          <JumpIndicator landingX={npc.jumpLandingX} groundY={720} />
+        )}
 
         <DamageNumbers numbers={battle.damageNumbers} />
       </GameMap>

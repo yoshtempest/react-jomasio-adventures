@@ -5,6 +5,7 @@ export type NPCBattleState = {
   y: number;
   state: "idle" | "walk" | "hit" | "jumping";
   direction: NPCDirection;
+  jumpLandingX?: number;
 
   ai?: {
     slimita?: {

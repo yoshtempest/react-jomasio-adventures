@@ -1,5 +1,6 @@
 import styles from "./styles.module.css";
 import { asset } from "@/utils/asset";
+import { getNpcDisplayName } from "@/utils/types/npc/npcNames";
 import { useVictoryVisibility } from "@/hooks/battle/victory/useVisibility";
 import { useVictoryKeyboard } from "@/hooks/battle/victory/useKeyboard";
 import { RewardCards } from "@/components/Game/Battle/RewardCards";
@@ -48,7 +49,7 @@ export function VictoryModal({
           <div>
             <h1>Vitória!</h1>
             <p>
-              Você derrotou um {enemyType} - nv.{enemyLevel}
+              Você derrotou um {getNpcDisplayName(enemyType)} - nv.{enemyLevel}
             </p>
           </div>
         </div>
