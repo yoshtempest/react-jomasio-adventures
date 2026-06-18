@@ -1,33 +1,23 @@
 import type { InventoryItem } from "@/utils/types/player/inventory";
+import { saveCompressed, loadCompressed, removeKey } from "@/utils/storage";
 
-type SaveData = {
+export type SaveData = {
   lastRoute: string;
-
   inventory: InventoryItem[];
   quests: Quest[];
-
   playerClass: PlayerClass;
   character: string;
-
   hyperCoins?: number;
 };
 
 const SAVE_KEY = "game_save";
 
 export function saveGame(data: SaveData) {
-  localStorage.setItem(SAVE_KEY, JSON.stringify(data));
+  saveCompressed(SAVE_KEY, data);
 }
 
 export function loadGame(): SaveData | null {
-  const save = localStorage.getItem(SAVE_KEY);
-
-  if (!save) return null;
-
-  try {
-    return JSON.parse(save);
-  } catch {
-    return null;
-  }
+  return loadCompressed<SaveData>(SAVE_KEY);
 }
 
 export function hasSave() {
@@ -35,5 +25,5 @@ export function hasSave() {
 }
 
 export function deleteSave() {
-  localStorage.removeItem(SAVE_KEY);
+  removeKey(SAVE_KEY);
 }

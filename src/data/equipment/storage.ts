@@ -4,6 +4,7 @@ import type {
   EquippedItemInfo,
 } from "@/utils/types/player/equipment";
 import { createEmptyEquipped } from "@/utils/types/player/equipment";
+import { saveCompressed, loadCompressed } from "@/utils/storage";
 
 type CharacterEquipmentData = {
   equipped: EquippedItems;
@@ -68,11 +69,9 @@ function createEmptyAllData(): Record<string, CharacterEquipmentData> {
 
 export function loadAllData(): Record<string, CharacterEquipmentData> {
   try {
-    const raw = localStorage.getItem(EQUIP_KEY);
-    if (!raw) return createEmptyAllData();
-    const parsed = JSON.parse(raw);
-    if (typeof parsed !== "object" || parsed === null)
-      return createEmptyAllData();
+    const parsed = loadCompressed<Record<string, unknown>>(EQUIP_KEY);
+    if (!parsed) return createEmptyAllData();
+    if (typeof parsed !== "object") return createEmptyAllData();
     const firstVal = Object.values(parsed)[0];
     if (
       firstVal &&
@@ -96,7 +95,7 @@ export function loadAllData(): Record<string, CharacterEquipmentData> {
 export function saveAllData(
   allData: Record<string, CharacterEquipmentData>,
 ): void {
-  localStorage.setItem(EQUIP_KEY, JSON.stringify(allData));
+  saveCompressed(EQUIP_KEY, allData);
 }
 
 export function getCharacterData(

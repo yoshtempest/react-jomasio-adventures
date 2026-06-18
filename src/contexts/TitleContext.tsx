@@ -12,6 +12,7 @@ import type {
   TitleBonusMap,
 } from "@/utils/types/player/titles";
 import { TITLES, getTitleById } from "@/data/titles";
+import { saveCompressed, loadCompressed } from "@/utils/storage";
 
 const STORAGE_KEY = "titles_data";
 
@@ -43,9 +44,8 @@ function getDefaultData(): TitlesData {
 
 function loadData(): TitlesData {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return getDefaultData();
-    const parsed = JSON.parse(raw) as Partial<TitlesData>;
+    const parsed = loadCompressed<Partial<TitlesData>>(STORAGE_KEY);
+    if (!parsed) return getDefaultData();
 
     const progress = getDefaultProgress();
     if (parsed.progress) {
@@ -77,7 +77,7 @@ export function TitleProvider({ children }: { children: ReactNode }) {
   const [titlesData, setTitlesData] = useState<TitlesData>(loadData);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(titlesData));
+    saveCompressed(STORAGE_KEY, titlesData);
   }, [titlesData]);
 
   const getBonus = useCallback((): TitleBonusMap => {

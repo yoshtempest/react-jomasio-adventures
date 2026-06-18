@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import type { ScenePosition } from "@/utils/types/sceneHooks";
+import { saveCompressed, loadCompressed } from "@/utils/storage";
 
 type Props = {
   map: number[][];
@@ -11,6 +12,8 @@ type Props = {
     direction: ScenePosition["direction"],
   ) => void;
 };
+
+const SCENE_POSITIONS_KEY = "scene_return_positions";
 
 export function useSceneSetup({
   map,
@@ -32,27 +35,16 @@ export function useSceneSetup({
     localStorage.removeItem("scene_return_position");
 
     const currentRoute = window.location.hash.replace(/^#/, "") || "/";
-    const stored = localStorage.getItem("scene_return_positions");
+    const positions = loadCompressed<Record<string, ScenePosition>>(SCENE_POSITIONS_KEY) ?? {};
 
-    if (stored) {
-      let positions: Record<string, ScenePosition> = {};
-      try {
-        positions = JSON.parse(stored);
-      } catch {
-        localStorage.removeItem("scene_return_positions");
-      }
-      const saved = positions[currentRoute];
+    const saved = positions[currentRoute];
 
-      if (saved) {
-        setPositionRef.current(saved.x, saved.y, saved.direction);
-        delete positions[currentRoute];
-        localStorage.setItem(
-          "scene_return_positions",
-          JSON.stringify(positions),
-        );
-        setIsReady(true);
-        return;
-      }
+    if (saved) {
+      setPositionRef.current(saved.x, saved.y, saved.direction);
+      delete positions[currentRoute];
+      saveCompressed(SCENE_POSITIONS_KEY, positions);
+      setIsReady(true);
+      return;
     }
 
     const pos = initialPositionRef.current;

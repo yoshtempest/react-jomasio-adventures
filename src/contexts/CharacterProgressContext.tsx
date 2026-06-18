@@ -7,6 +7,7 @@ import {
 } from "react";
 import type { Character } from "@/utils/types/player/player";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import { saveCompressed, loadCompressed } from "@/utils/storage";
 
 export type CharacterStats = {
   hp: number;
@@ -134,13 +135,12 @@ export function CharacterProgressProvider({
   children: ReactNode;
 }) {
   const [progress, setProgress] = useState<CharactersProgress>(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
+    const saved = loadCompressed<CharactersProgress>(STORAGE_KEY);
 
     if (!saved) return defaultProgress;
 
     try {
-      const parsed = JSON.parse(saved);
-      return normalizeProgress(parsed);
+      return normalizeProgress(saved);
     } catch {
       return defaultProgress;
     }
@@ -148,7 +148,7 @@ export function CharacterProgressProvider({
 
   // 💾 salvar
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+    saveCompressed(STORAGE_KEY, progress);
   }, [progress]);
   const { playSound } = useSoundEffects();
 

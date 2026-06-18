@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
+import { saveCompressed, loadCompressed } from "@/utils/storage";
 
 type FlagContextType = {
   flags: FlagId[];
@@ -14,15 +15,15 @@ const STORAGE_KEY = "flags";
 
 function loadFlags(): FlagId[] {
   try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    return saved ? (JSON.parse(saved) as FlagId[]) : [];
+    const saved = loadCompressed<FlagId[]>(STORAGE_KEY);
+    return saved ?? [];
   } catch {
     return [];
   }
 }
 
 function saveFlags(flags: FlagId[]) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(flags));
+  saveCompressed(STORAGE_KEY, flags);
 }
 
 const FlagContext = createContext({} as FlagContextType);

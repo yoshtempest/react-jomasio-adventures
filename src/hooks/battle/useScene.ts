@@ -7,6 +7,7 @@ import { useVictory } from "@/hooks/useVictory";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useNavigate } from "react-router";
 import { useInventory } from "@/contexts/InventoryContext";
+import { useQuests } from "@/contexts/QuestContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { useLocation } from "react-router";
 import { useNpcSetup } from "@/hooks/battle/npc/useNpcSetup";
@@ -20,6 +21,7 @@ import { useBattleRefs } from "@/hooks/battle/useRefs";
 import { useBattleKillCounter } from "@/hooks/battle/useKillCounter";
 import { useChargeAttack } from "@/hooks/battle/charge/useAttack";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
+import { saveGame } from "@/utils/saveGame";
 
 type Props = {
   npcType: string;
@@ -50,10 +52,13 @@ export function useBattleScene({
     playerClass,
     setPlayerState,
     lastBlockPressRef,
+    coins,
+    hyperCoins,
   } = usePlayer();
 
   const { progress, getXPToNextLevel } = useCharacterProgress();
-  const { closeInventory } = useInventory();
+  const { items: inventoryItems, closeInventory } = useInventory();
+  const { quests } = useQuests();
   const { closeNavbar } = useNavbar();
 
   const [showDefeat, setShowDefeat] = useState(false);
@@ -96,6 +101,9 @@ export function useBattleScene({
   const closeNavbarRef = useRef(closeNavbar);
   closeNavbarRef.current = closeNavbar;
 
+  const saveDataRef = useRef({ items: inventoryItems, quests, character: player.character, playerClass, hyperCoins, coins });
+  saveDataRef.current = { items: inventoryItems, quests, character: player.character, playerClass, hyperCoins, coins };
+
   const killCounter = useBattleKillCounter();
   killCounter.npcTypeRef.current = npcType;
   killCounter.npcDataRef.current = npcData;
@@ -129,6 +137,15 @@ export function useBattleScene({
     onNpcDeath: () => {
       const rewards = giveRewards();
       setLastRewards(rewards);
+      const d = saveDataRef.current;
+      saveGame({
+        lastRoute: location.pathname,
+        inventory: d.items,
+        quests: d.quests,
+        playerClass: d.playerClass,
+        character: d.character,
+        hyperCoins: d.hyperCoins,
+      });
       triggerVictory();
       killCounter.handleNpcDeath(
         killCounter.npcTypeRef.current,
