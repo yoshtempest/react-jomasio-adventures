@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { canPlayerHit } from "@/gameRules/battle/combat";
-import { playAttackSound } from "@/utils/playAttackSound";
+import { playAttackSound } from "@/utils/types/battle/playAttackSound";
 import {
   calculatePlayerDamage,
   calculateSpecialDamage,

@@ -3,7 +3,7 @@ import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { useInventory } from "@/contexts/InventoryContext";
 
-import { calculateXP } from "@/utils/calculateXp";
+import { calculateXP } from "@/utils/types/battle/calculateXp";
 
 import { rollSlotDrop } from "@/data/equipment/drops";
 import { getEquipmentBySlotAndRank, getEquipmentById } from "@/data/equipment";

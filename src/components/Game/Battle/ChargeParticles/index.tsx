@@ -1,4 +1,4 @@
-import type { ChargeParticle } from "@/hooks/battle/useChargeAttack";
+import type { ChargeParticle } from "@/hooks/battle/charge/useAttack";
 
 type Props = {
   particles: ChargeParticle[];

@@ -1,6 +1,6 @@
 import { useEffect, type MutableRefObject } from "react";
-import type { BattleMapConfig } from "@/utils/types/battleMap";
-import { getLandingY, getGroundAtX } from "@/utils/types/battleMap";
+import type { BattleMapConfig } from "@/utils/types/maps/battle";
+import { getLandingY, getGroundAtX } from "@/utils/types/maps/battle";
 
 export type CollisionParams = {
   map: BattleMapConfig | null;

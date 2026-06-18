@@ -13,7 +13,7 @@ import { ChargeParticles } from "@/components/Game/Battle/ChargeParticles";
 import { useGameAudio } from "@/hooks/useGameAudio";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useEffect, useRef } from "react";
-import type { BattleMapConfig } from "@/utils/types/battleMap";
+import type { BattleMapConfig } from "@/utils/types/maps/battle";
 
 type Props = {
   npcType: string;

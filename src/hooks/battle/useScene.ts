@@ -18,8 +18,8 @@ import { useBattleControls } from "@/hooks/battle/useControls";
 import { useComboSystem } from "@/hooks/battle/useComboSystem";
 import { useBattleRefs } from "@/hooks/battle/useRefs";
 import { useBattleKillCounter } from "@/hooks/battle/useKillCounter";
-import { useChargeAttack } from "@/hooks/battle/useChargeAttack";
-import type { BattleMapConfig } from "@/utils/types/battleMap";
+import { useChargeAttack } from "@/hooks/battle/charge/useAttack";
+import type { BattleMapConfig } from "@/utils/types/maps/battle";
 
 type Props = {
   npcType: string;

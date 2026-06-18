@@ -1,4 +1,4 @@
-import type { BattleMapConfig } from "@/utils/types/battleMap";
+import type { BattleMapConfig } from "@/utils/types/maps/battle";
 
 const TILE_COLORS: Record<string, string> = {
   wall: "#5a4a3a",

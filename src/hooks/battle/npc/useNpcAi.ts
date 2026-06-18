@@ -7,7 +7,7 @@ import {
   applyObstacleCollision,
 } from "@/gameRules/battle/npc/npcPosition";
 import type { NPCBattleState } from "@/utils/types/npc/npc";
-import type { BattleObstacle } from "@/utils/types/battleMap";
+import type { BattleObstacle } from "@/utils/types/maps/battle";
 
 type Props = {
   playerX: number;

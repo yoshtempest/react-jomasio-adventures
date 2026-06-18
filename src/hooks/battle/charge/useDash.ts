@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useRef, useCallback, useEffect } from "react";
 import {
   calculatePlayerDamage,
   calculateDamageToNpc,
@@ -14,18 +14,6 @@ import {
 import type { DamageType } from "@/hooks/battle/useDamageNumbers";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 
-const CHARGE_TIME = 2000;
-
-export type ChargeParticle = {
-  id: number;
-  size: number;
-  opacity: number;
-  life: number;
-  maxLife: number;
-  offsetX: number;
-  offsetY: number;
-};
-
 type Props = {
   player: Player;
   npcX: number;
@@ -37,14 +25,13 @@ type Props = {
   titleDamageBonus: number;
   setNpcHP: React.Dispatch<React.SetStateAction<number>>;
   playerCooldown: React.RefObject<boolean>;
-  isEnding: React.RefObject<boolean>;
   hitstopRef: React.RefObject<number>;
   spawnDamageRef: React.RefObject<
     (value: number, x: number, y: number, type: DamageType) => void
   >;
   registerHitRef: React.RefObject<(damage: number) => void>;
-  setPlayerState: (state: PlayerState) => void;
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;
+  setPlayerState: (state: PlayerState) => void;
   summons: SummonedNpc[];
   setSummons: React.Dispatch<React.SetStateAction<SummonedNpc[]>>;
   setDelicia: React.Dispatch<React.SetStateAction<number>>;
@@ -54,72 +41,43 @@ type Props = {
   totalVampirism: number;
 };
 
-export function useChargeAttack(props: Props) {
+export function useChargeDash(props: Props) {
   const {
-    player,
-    npcX,
-    npcY,
-    npcArmor,
     char,
     playerClass,
     critRate,
     titleDamageBonus,
-    setNpcHP,
+    npcArmor,
     playerCooldown,
-    isEnding,
     hitstopRef,
     spawnDamageRef,
     registerHitRef,
-    setPlayerState,
     setPlayer,
-    summons,
-    setSummons,
-    setDelicia,
+    setPlayerState,
+    setNpcHP,
     hitsToSpecial,
-    setPlayerHP,
-    playerMaxHp,
-    totalVampirism,
+    setSummons,
   } = props;
 
-  const [isCharging, setIsCharging] = useState(false);
-  const [chargeReady, setChargeReady] = useState(false);
-  const [particles, setParticles] = useState<ChargeParticle[]>([]);
-
-  const chargeStartRef = useRef(0);
-  const chargeReadyRef = useRef(false);
-  const chargeTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const particleIntervalRef = useRef<NodeJS.Timeout | null>(null);
-  const dashIntervalRef = useRef<NodeJS.Timeout | null>(null);
-  const isHoldingRef = useRef(false);
-  const particleIdRef = useRef(0);
-
-  const npcXRef = useRef(npcX);
-  npcXRef.current = npcX;
-  const npcYRef = useRef(npcY);
-  npcYRef.current = npcY;
-  const summonsRef = useRef(summons);
-  summonsRef.current = summons;
-  const setSummonsRef = useRef(setSummons);
-  setSummonsRef.current = setSummons;
-  const setDeliciaRef = useRef(setDelicia);
-  setDeliciaRef.current = setDelicia;
-  const setPlayerHPRef = useRef(setPlayerHP);
-  setPlayerHPRef.current = setPlayerHP;
-  const playerMaxHpRef = useRef(playerMaxHp);
-  playerMaxHpRef.current = playerMaxHp;
-  const vampirismRef = useRef(totalVampirism);
-  vampirismRef.current = totalVampirism;
+  const dashIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const hitTargetsRef = useRef(new Set<string>());
 
+  const npcXRef = useRef(props.npcX);
+  npcXRef.current = props.npcX;
+  const npcYRef = useRef(props.npcY);
+  npcYRef.current = props.npcY;
+  const summonsRef = useRef(props.summons);
+  summonsRef.current = props.summons;
+  const setDeliciaRef = useRef(props.setDelicia);
+  setDeliciaRef.current = props.setDelicia;
+  const setPlayerHPRef = useRef(props.setPlayerHP);
+  setPlayerHPRef.current = props.setPlayerHP;
+  const playerMaxHpRef = useRef(props.playerMaxHp);
+  playerMaxHpRef.current = props.playerMaxHp;
+  const vampirismRef = useRef(props.totalVampirism);
+  vampirismRef.current = props.totalVampirism;
+
   const cleanup = useCallback(() => {
-    if (chargeTimerRef.current) {
-      clearTimeout(chargeTimerRef.current);
-      chargeTimerRef.current = null;
-    }
-    if (particleIntervalRef.current) {
-      clearInterval(particleIntervalRef.current);
-      particleIntervalRef.current = null;
-    }
     if (dashIntervalRef.current) {
       clearInterval(dashIntervalRef.current);
       dashIntervalRef.current = null;
@@ -128,87 +86,15 @@ export function useChargeAttack(props: Props) {
 
   useEffect(() => cleanup, [cleanup]);
 
-  function createParticle(): ChargeParticle {
-    const angle = Math.random() * Math.PI * 2;
-    const radius = 20 + Math.random() * 25;
-    particleIdRef.current++;
-    return {
-      id: particleIdRef.current,
-      size: 3 + Math.random() * 5,
-      opacity: 0.7 + Math.random() * 0.3,
-      life: 0,
-      maxLife: 600 + Math.random() * 400,
-      offsetX: Math.cos(angle) * radius,
-      offsetY: Math.sin(angle) * radius - 10,
-    };
-  }
-
-  function updateParticles() {
-    const ready = chargeReadyRef.current;
-    setParticles((prev) => {
-      const alive = prev
-        .map((p) => ({ ...p, life: p.life + 100 }))
-        .filter((p) => p.life < p.maxLife);
-
-      const maxParticles = ready ? 28 : 15;
-      while (alive.length < maxParticles) {
-        alive.push(createParticle());
-        if (ready) alive.push(createParticle());
-      }
-
-      return alive;
-    });
-  }
-
-  function startCharge() {
-    if (isEnding.current) return;
-    if (!playerCooldown.current) return;
-    if (isHoldingRef.current) return;
-
-    isHoldingRef.current = true;
-    setIsCharging(true);
-    setChargeReady(false);
-    chargeReadyRef.current = false;
-    setParticles([]);
-    chargeStartRef.current = Date.now();
-
-    setPlayerState("charging");
-
-    particleIntervalRef.current = setInterval(updateParticles, 100);
-
-    chargeTimerRef.current = setTimeout(() => {
-      setChargeReady(true);
-      chargeReadyRef.current = true;
-    }, CHARGE_TIME);
-  }
-
-  function cancelCharge() {
-    if (!isHoldingRef.current) return;
+  function execute(player: Player) {
     cleanup();
-    setIsCharging(false);
-    setChargeReady(false);
-    chargeReadyRef.current = false;
-    setParticles([]);
-    isHoldingRef.current = false;
-    setPlayerState("idle");
-  }
-
-  function executeChargeDash() {
-    cleanup();
-    setIsCharging(false);
-    setChargeReady(false);
-    chargeReadyRef.current = false;
-    setParticles([]);
-    isHoldingRef.current = false;
+    hitTargetsRef.current = new Set();
 
     const dir = player.battleDirection;
     const steps = Math.round(DASH_DURATION / DASH_INTERVAL);
     let stepCount = 0;
-
     const dashY = player.y;
     const dashCharacter = player.character;
-
-    hitTargetsRef.current = new Set();
 
     setPlayerState("dash");
 
@@ -268,7 +154,11 @@ export function useChargeAttack(props: Props) {
               setNpcHP((hp) => Math.max(0, hp - dmg));
               if (vampirismRef.current > 0) {
                 const heal = Math.round(dmg * vampirismRef.current / 100);
-                if (heal > 0) setPlayerHPRef.current((hp) => Math.min(playerMaxHpRef.current, hp + heal));
+                if (heal > 0) {
+                  setPlayerHPRef.current((hp) =>
+                    Math.min(playerMaxHpRef.current, hp + heal)
+                  );
+                }
               }
               spawnDamageRef.current?.(
                 dmg,
@@ -292,10 +182,14 @@ export function useChargeAttack(props: Props) {
 
               if (vampirismRef.current > 0) {
                 const heal = Math.round(critDmg * vampirismRef.current / 100);
-                if (heal > 0) setPlayerHPRef.current((hp) => Math.min(playerMaxHpRef.current, hp + heal));
+                if (heal > 0) {
+                  setPlayerHPRef.current((hp) =>
+                    Math.min(playerMaxHpRef.current, hp + heal)
+                  );
+                }
               }
 
-              setSummonsRef.current((prev) =>
+              setSummons((prev) =>
                 prev.map((s) =>
                   s.id === target.id
                     ? { ...s, hp: Math.max(0, Math.round(s.hp) - critDmg) }
@@ -323,29 +217,5 @@ export function useChargeAttack(props: Props) {
     }, DASH_INTERVAL);
   }
 
-  function releaseCharge() {
-    if (!isHoldingRef.current) return;
-
-    const elapsed = Date.now() - chargeStartRef.current;
-
-    if (elapsed >= CHARGE_TIME) {
-      executeChargeDash();
-    } else {
-      cancelCharge();
-    }
-  }
-
-  const chargeProgress = chargeStartRef.current
-    ? Math.min(1, (Date.now() - chargeStartRef.current) / CHARGE_TIME)
-    : 0;
-
-  return {
-    isCharging,
-    chargeReady,
-    particles,
-    chargeProgress,
-    startCharge,
-    releaseCharge,
-    cancelCharge,
-  };
+  return { execute };
 }

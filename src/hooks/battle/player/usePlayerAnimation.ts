@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { animationFlow } from "@/utils/animationFlow";
+import { animationFlow } from "@/utils/types/battle/animationFlow";
 
 export function usePlayerAnimation(
   player: Player,
