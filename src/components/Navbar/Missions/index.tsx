@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import {
   getTimeUntilMidnight,
   getTimeUntilMonday,
-} from "@/utils/questTimer";
+} from "@/utils/quest/questTimer";
 
 const TAB_LABELS: Record<QuestTab, string> = {
   active: "Em andamento",

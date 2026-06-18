@@ -1,4 +1,4 @@
-import { createQuests } from "@/utils/createQuest";
+import { createQuests } from "@/utils/quest/createQuest";
 
 export const SIDE_QUESTS = createQuests({
   give_orange_juice: {

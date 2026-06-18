@@ -1,4 +1,4 @@
-import { createQuests } from "@/utils/createQuest";
+import { createQuests } from "@/utils/quest/createQuest";
 
 export const HISTORY_QUESTS = createQuests({
   jomasio_investigate: {
