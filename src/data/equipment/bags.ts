@@ -6,7 +6,7 @@ export const BAGS: Equipment[] = [
     name: "Bolsa de Pano",
     slot: "bag",
     rank: "common",
-    stats: { hp: 1, strength: 1 },
+    stats: {},
     bonusSlots: 20,
   },
   {
@@ -14,7 +14,7 @@ export const BAGS: Equipment[] = [
     name: "Mochila de Couro",
     slot: "bag",
     rank: "rare",
-    stats: { hp: 1, strength: 1, intelligence: 1 },
+    stats: {},
     bonusSlots: 40,
   },
   {
@@ -22,7 +22,7 @@ export const BAGS: Equipment[] = [
     name: "Mochila Reforçada",
     slot: "bag",
     rank: "epic",
-    stats: { hp: 2, strength: 2, intelligence: 1 },
+    stats: {},
     bonusSlots: 70,
   },
   {
@@ -30,7 +30,7 @@ export const BAGS: Equipment[] = [
     name: "Mochila do Rei",
     slot: "bag",
     rank: "boss",
-    stats: { hp: 3, strength: 3, intelligence: 2 },
+    stats: {},
     bonusSlots: 100,
   },
   {
@@ -38,7 +38,7 @@ export const BAGS: Equipment[] = [
     name: "Distorce Espaço-Tempo",
     slot: "bag",
     rank: "legendary",
-    stats: { hp: 4, strength: 5, intelligence: 4 },
+    stats: {},
     bonusSlots: Infinity,
   },
 ];
