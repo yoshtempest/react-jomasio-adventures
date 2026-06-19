@@ -39,6 +39,6 @@ export const configsDialogue = [
   {
     src: "/assets/npcs/victor/sitting.svg",
     name: "Victor",
-    message: "Não se preocupe, que você vai sair daqui um Doutor! Tchau.",
+    message: "Não se preocupe, que você vai sair daqui um Doutor! Vou ir ver My World, tchau.",
   },
 ];

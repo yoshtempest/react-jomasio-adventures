@@ -13,37 +13,40 @@ import { EquipmentProvider } from "@/contexts/EquipmentContext";
 import { TitleProvider } from "@/contexts/TitleContext";
 import { PlayerProvider } from "@/contexts/PlayerContext";
 import { GameControlsProvider } from "@/contexts/GameControlsContext";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 export function AppProviders({ children }: { children: ReactNode }) {
   return (
-    <TransitionProvider>
-      <PWAProvider>
-        <SettingsProvider>
-          <AudioProvider>
-            <SoundEffectsProvider>
-              <NavbarProvider>
-                <FlagProvider>
-                  <InventoryProvider>
-                    <QuestProvider>
-                      <CharacterProgressProvider>
-                        <EquipmentProvider>
-                          <TitleProvider>
-                            <PlayerProvider>
-                              <GameControlsProvider>
-                                {children}
-                              </GameControlsProvider>
-                            </PlayerProvider>
-                          </TitleProvider>
-                        </EquipmentProvider>
-                      </CharacterProgressProvider>
-                    </QuestProvider>
-                  </InventoryProvider>
-                </FlagProvider>
-              </NavbarProvider>
-            </SoundEffectsProvider>
-          </AudioProvider>
-        </SettingsProvider>
-      </PWAProvider>
-    </TransitionProvider>
+    <AuthProvider>
+      <TransitionProvider>
+        <PWAProvider>
+          <SettingsProvider>
+            <AudioProvider>
+              <SoundEffectsProvider>
+                <NavbarProvider>
+                  <FlagProvider>
+                    <InventoryProvider>
+                      <QuestProvider>
+                        <CharacterProgressProvider>
+                          <EquipmentProvider>
+                            <TitleProvider>
+                              <PlayerProvider>
+                                <GameControlsProvider>
+                                  {children}
+                                </GameControlsProvider>
+                              </PlayerProvider>
+                            </TitleProvider>
+                          </EquipmentProvider>
+                        </CharacterProgressProvider>
+                      </QuestProvider>
+                    </InventoryProvider>
+                  </FlagProvider>
+                </NavbarProvider>
+              </SoundEffectsProvider>
+            </AudioProvider>
+          </SettingsProvider>
+        </PWAProvider>
+      </TransitionProvider>
+    </AuthProvider>
   );
 }

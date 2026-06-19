@@ -7,12 +7,18 @@ import { useNavbar } from "@/contexts/NavbarContext";
 import { Navbar } from "@/components/Navbar";
 
 import { useEffect, useRef } from "react";
-import { loadGame, saveGame } from "@/utils/saveGame";
+import {
+  loadGame,
+  saveGame,
+  saveGameToCloud,
+  loadGameFromCloud,
+} from "@/utils/saveGame";
 
 import { useQuests } from "@/contexts/QuestContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { isCharacter } from "@/utils/types/player/player";
+import { useAuth } from "@/contexts/AuthContext";
 
 function App() {
   const { isOpen } = useInventory();
@@ -20,13 +26,15 @@ function App() {
   const { items, setItems, setMaxSlots } = useInventory();
   const { setQuests, refreshDailyWeekly, quests } = useQuests();
 
-  const { chooseClass, setCharacter, player, playerClass, hyperCoins } =
+  const { chooseClass, setCharacter, player, playerClass, hyperCoins, coins } =
     usePlayer();
 
   const { getEquippedItem } = useEquipment();
   const location = useLocation();
+  const { isAuthenticated } = useAuth();
 
   const prevRouteRef = useRef(location.pathname);
+  const didSyncRef = useRef(false);
 
   useEffect(() => {
     const bag = getEquippedItem(player.character, "bag");
@@ -36,6 +44,23 @@ function App() {
 
   const SKIP_LAST_ROUTE = new Set(["/", "/home", "/tutorial"]);
 
+  // Sync from cloud on mount
+  useEffect(() => {
+    if (!isAuthenticated || didSyncRef.current) return;
+    didSyncRef.current = true;
+
+    loadGameFromCloud().then((cloud) => {
+      if (!cloud) return;
+      setItems(cloud.inventory);
+      setQuests(cloud.quests);
+      if (cloud.playerClass) chooseClass(cloud.playerClass);
+      if (cloud.character && isCharacter(cloud.character)) {
+        setCharacter(cloud.character);
+      }
+    });
+  }, [isAuthenticated, setItems, setQuests, chooseClass, setCharacter]);
+
+  // Save on route change
   useEffect(() => {
     if (prevRouteRef.current === location.pathname) return;
     prevRouteRef.current = location.pathname;
@@ -44,15 +69,30 @@ function App() {
       ? (loadGame()?.lastRoute ?? "/firstscreen")
       : location.pathname;
 
-    saveGame({
+    const data = {
       lastRoute,
       inventory: items,
       quests,
       playerClass,
       character: player.character,
       hyperCoins,
-    });
-  }, [location.pathname, items, quests, playerClass, player.character, hyperCoins]);
+      coins,
+    };
+
+    saveGame(data);
+    if (isAuthenticated) {
+      saveGameToCloud(data);
+    }
+  }, [
+    location.pathname,
+    items,
+    quests,
+    playerClass,
+    player.character,
+    hyperCoins,
+    coins,
+    isAuthenticated,
+  ]);
 
   const chooseClassRef = useRef(chooseClass);
   chooseClassRef.current = chooseClass;

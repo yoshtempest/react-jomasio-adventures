@@ -6,6 +6,7 @@
   "scripts": {
     "type-check": "tsc --noEmit",
     "dev": "vite",
+    "dev:server": "npm run dev --prefix server",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview --port 4173",
