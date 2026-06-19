@@ -49,7 +49,7 @@ export function BattleEntities({
       />
 
       {npc.projectile && (
-        <ProjectileSprite projectile={npc.projectile} TILE_SIZE={TILE_SIZE} />
+        <ProjectileSprite projectile={npc.projectile} />
       )}
 
       {summons.map((s) => (

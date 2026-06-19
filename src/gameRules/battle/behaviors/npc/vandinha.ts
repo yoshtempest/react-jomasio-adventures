@@ -9,10 +9,10 @@ export function vandinhaBehavior(ctx: BehaviorContext) {
 
     createProjectile: ({ npc, playerX, playerY }) =>
       createDirectionalProjectile({
-        startX: npc.x - 40,
-        startY: npc.y - 50,
+        startX: npc.x - 100,
+        startY: npc.y - 120,
         targetX: playerX,
-        targetY: playerY - 50,
+        targetY: playerY - 120,
         sprite: "dish",
         state: "walk",
       }),

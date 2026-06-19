@@ -67,6 +67,7 @@ export function useBattleScene({
   const npcPhaseRef = useRef(npcPhase);
   npcPhaseRef.current = npcPhase;
   const [showIntro, setShowIntro] = useState(true);
+  const [isPhaseTransitioning, setIsPhaseTransitioning] = useState(false);
 
   const { npcData, npcLevel, npcStats } = useNpcSetup(npcType, difficulty);
 
@@ -119,7 +120,7 @@ export function useBattleScene({
     npcPhaseRef,
     onProjectileHit: () => refs.npcRangedAttackRef.current(),
     onMeleeHit: () => refs.npcMeleeAttackRef.current(),
-    isPaused: showVictory || showDefeat || showIntro,
+    isPaused: showVictory || showDefeat || showIntro || isPhaseTransitioning,
     onSummon: summonNpc,
     obstacles: map?.obstacles,
     hitstopRef: refs.hitstopRef,
@@ -214,7 +215,20 @@ export function useBattleScene({
   useEffect(() => {
     if (battle.npcPhase === 2) {
       clearSummonsRef.current();
+      npc.resetNpc("pitch");
+      setPlayer((p) => ({
+        ...p,
+        x: 100,
+        y: 670,
+        groundY: 670,
+        velY: 0,
+        battleDirection: "right",
+      }));
+      setIsPhaseTransitioning(true);
+      const t = setTimeout(() => setIsPhaseTransitioning(false), 3000);
+      return () => clearTimeout(t);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [battle.npcPhase]);
 
   useEffect(() => {
@@ -267,7 +281,7 @@ export function useBattleScene({
     special,
     handlePlayerHit,
     handleSpecialHit,
-    disabled: isPaused,
+    disabled: isPaused || isPhaseTransitioning,
     onChargePress: charge.startCharge,
     onChargeRelease: charge.releaseCharge,
     onChargeCancel: charge.cancelCharge,

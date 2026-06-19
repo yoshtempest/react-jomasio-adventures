@@ -1,5 +1,4 @@
 import { getDistance } from "@/gameRules/npc/behavior";
-import { chasePlayer } from "@/gameRules/npc/movement";
 import { tryMeleeAttack } from "@/gameRules/npc/attack";
 import { createDirectionalProjectile } from "@/gameRules/npc/createDirectionalProjectile";
 
@@ -29,6 +28,8 @@ export function deiseBehavior(ctx: BehaviorContext) {
     const start = Date.now();
     npc.ai.deise = {
       knownPhase: npcPhase,
+      phase2OpeningDone: false,
+      phase2PitchEnd: 0,
       lastStaffThrow: start - STAFF_COOLDOWN,
       lastSummon: start,
       lastAction: start - MIN_ACTION_GAP,
@@ -43,6 +44,7 @@ export function deiseBehavior(ctx: BehaviorContext) {
     ai.lastSummon = 0;
     ai.lastAction = 0;
     ai.knownPhase = npcPhase;
+    ai.phase2OpeningDone = false;
   }
 
   const now = Date.now();
@@ -50,22 +52,37 @@ export function deiseBehavior(ctx: BehaviorContext) {
   const isPlayerClose = distance <= CLOSE_RANGE;
   const canAct = now - ai.lastAction >= MIN_ACTION_GAP;
 
-  // Fase 2: só chase + melee, sem summon
+  // Fase 2: arremessa lanças continuamente
   if (npcPhase === 2) {
-    const { x, y } = chasePlayer(npc, playerX, playerY);
+    const isInPitch = now < ai.phase2PitchEnd;
 
-    tryMeleeAttack({
-      npcX: npc.x,
-      npcY: npc.y,
-      playerX,
-      playerY,
-      range: 60,
-      cooldown: 600,
-      lastAttackRef,
-      onHit: onMeleeHit,
-    });
+    if (isInPitch) {
+      return { x: npc.x, y: npc.y, state: "pitch" };
+    }
 
-    return { x, y };
+    if (!projectile) {
+      setProjectile({
+        x: npc.x - 40,
+        y: npc.y + 100,
+        startX: npc.x - 40,
+        startY: npc.y + 600,
+        dirX: 0,
+        dirY: -1,
+        sprite: "spear",
+        createdAt: now,
+        state: "idle",
+        fallTargetX: playerX,
+        spear: { phase: "rising" },
+      });
+
+      ai.lastStaffThrow = now;
+      ai.lastAction = now;
+      ai.phase2OpeningDone = true;
+      ai.phase2PitchEnd = now + 200;
+      return { x: npc.x, y: npc.y, state: "pitch" };
+    }
+
+    return { x: npc.x, y: npc.y };
   }
 
   // Fase 1: alterna com base na distância

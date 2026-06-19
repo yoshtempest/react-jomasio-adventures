@@ -7,11 +7,13 @@ type Props = {
     sprite?: string;
     createdAt: number;
     state: "idle" | "walk";
+    spear?: {
+      phase: "rising" | "falling";
+    };
   };
-  TILE_SIZE: number;
 };
 
-export function ProjectileSprite({ projectile, TILE_SIZE }: Props) {
+export function ProjectileSprite({ projectile }: Props) {
   const BASE_WIDTH = 1280;
   const BASE_HEIGHT = 600;
 
@@ -23,18 +25,19 @@ export function ProjectileSprite({ projectile, TILE_SIZE }: Props) {
     "goat-idle": "/assets/npcs/goat/idle.svg",
     "goat-walk": "/assets/npcs/goat/walk.svg",
     staff: "/assets/npcs/staff.svg",
+    spear: "/assets/npcs/spear.svg",
   };
 
-  const spriteKey =
-    projectile.sprite === "goat"
-      ? projectile.state === "idle"
-        ? "goat-idle"
-        : "goat-walk"
-      : projectile.sprite === "staff"
-        ? "staff"
-        : "staff";
+  const spriteKey = projectile.sprite === "goat"
+    ? projectile.state === "idle"
+      ? "goat-idle"
+      : "goat-walk"
+    : projectile.sprite && spriteMap[projectile.sprite]
+      ? projectile.sprite
+      : "staff";
 
   const src = spriteMap[spriteKey];
+  const isFalling = projectile.spear?.phase === "falling";
 
   return (
     <img
@@ -43,7 +46,8 @@ export function ProjectileSprite({ projectile, TILE_SIZE }: Props) {
         position: "absolute",
         left: projectile.x * scaleX,
         top: projectile.y * scaleY,
-        width: TILE_SIZE * 2,
+        width: 100,
+        transform: isFalling ? "scaleY(-1)" : undefined,
         zIndex: 9999,
         pointerEvents: "none",
       }}

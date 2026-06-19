@@ -88,11 +88,11 @@ export function useNpcAI({
     hitstopRef,
   );
 
-  const resetNpc = () => {
+  const resetNpc = (stateOverride?: NPCBattleState["state"]) => {
     setNpc({
       x: 900,
       y: 670,
-      state: "walk",
+      state: stateOverride ?? "walk",
       direction: "left",
     });
 
@@ -136,14 +136,13 @@ export function useNpcAI({
         const nextY = result.y ?? n.y;
         const direction = getNpcDirection(nextX, playerXRef.current);
         const distanceX = Math.abs(n.x - playerXRef.current);
-        const state = getNpcState(distanceX, forceIdleRef.current);
         const collision = applyObstacleCollision(
           nextX,
           nextY,
           obstaclesRef.current,
         );
 
-        return { ...n, x: collision.x, y: collision.y, direction, state };
+        return { ...n, x: collision.x, y: collision.y, direction, state: (result.state ?? getNpcState(distanceX, forceIdleRef.current)) as NPCBattleState["state"] };
       });
     }, 20);
 

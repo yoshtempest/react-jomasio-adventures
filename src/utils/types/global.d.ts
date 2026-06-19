@@ -193,6 +193,10 @@ declare global {
     sprite?: string;
     createdAt: number;
     state: "walk" | "idle";
+    fallTargetX?: number;
+    spear?: {
+      phase: "rising" | "falling";
+    };
   };
 
   // ── Player ──────────────────────────────────────────────

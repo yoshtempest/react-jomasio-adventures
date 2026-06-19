@@ -3,7 +3,7 @@ export type NPCDirection = "right" | "left";
 export type NPCBattleState = {
   x: number;
   y: number;
-  state: "idle" | "walk" | "hit" | "jumping";
+  state: "idle" | "walk" | "hit" | "jumping" | "pitch" | "inAir" | "falling" | "airAttack" | "preAttack" | "preJump";
   direction: NPCDirection;
   jumpLandingX?: number;
 
@@ -15,6 +15,8 @@ export type NPCBattleState = {
     };
     deise?: {
       knownPhase: number;
+      phase2OpeningDone: boolean;
+      phase2PitchEnd: number;
       lastStaffThrow: number;
       lastSummon: number;
       lastAction: number;
