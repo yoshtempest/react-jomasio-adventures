@@ -105,8 +105,9 @@ export function useBattleRewards({ npcClass, npcLevel, npcType }: Props) {
       const rank = rollSlotDrop(npcClass);
       if (!rank) continue;
 
-      // Legendary items only come from chests
-      if (rank === "legendary") continue;
+      // Highest ranks only come from chests
+      if (rank === "EX") continue;
+      if (rank >= 9) continue;
 
       const candidates = getEquipmentBySlotAndRank(slot, rank);
       if (candidates.length === 0) continue;

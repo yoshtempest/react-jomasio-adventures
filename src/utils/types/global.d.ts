@@ -181,7 +181,7 @@ declare global {
   // ── NPC ─────────────────────────────────────────────────
   type NPCClass = "common" | "rare" | "epic" | "boss" | "legendary";
   type NpcDifficulty = "easy" | "medium" | "hard" | "insano";
-  type EquipmentRank = NPCClass;
+  type EquipmentRank = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0 | "EX";
 
   type Projectile = {
     x: number;

@@ -8,7 +8,7 @@ export type EquipmentSlot =
   | "bag"
   | "pet";
 
-export type EquipmentRank = NPCClass;
+export type EquipmentRank = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0 | "EX";
 
 export const EQUIPMENT_SLOTS: EquipmentSlot[] = [
   "weapon",
@@ -30,11 +30,7 @@ export const ARMOR_SLOTS: EquipmentSlot[] = [
 ];
 
 export const EQUIPMENT_RANKS: EquipmentRank[] = [
-  "common",
-  "rare",
-  "epic",
-  "boss",
-  "legendary",
+  1, 2, 3, 4, 5, 6, 7, 8, 9, 0, "EX",
 ];
 
 export const PET_EQUIPMENT_IDS = ["pet_goat"] as const;
@@ -76,19 +72,31 @@ export function createEmptyEquipped(): EquippedItems {
 }
 
 export const RANK_LABELS: Record<EquipmentRank, string> = {
-  common: "Comum",
-  rare: "Raro",
-  epic: "Épico",
-  boss: "Chefão",
-  legendary: "Lendário",
+  1: "Ferro",
+  2: "Bronze",
+  3: "Prata",
+  4: "Ouro",
+  5: "Platina",
+  6: "Esmeralda",
+  7: "Rubi",
+  8: "Safira",
+  9: "Diamante",
+  0: "Transcendente",
+  EX: "Divino",
 };
 
 export const RANK_COLORS: Record<EquipmentRank, string> = {
-  common: "#9d9d9d",
-  rare: "#4a9eff",
-  epic: "#b44aff",
-  boss: "#dd0808",
-  legendary: "#ff8c00",
+  1: "#9d9d9d",
+  2: "#b87333",
+  3: "#c0c0c0",
+  4: "#ffd700",
+  5: "#b44aff",
+  6: "#50c878",
+  7: "#e0115f",
+  8: "#0f52ba",
+  9: "#00ffff",
+  0: "#ff6ec7",
+  EX: "#ff4500",
 };
 
 export const SLOT_LABELS: Record<EquipmentSlot, string> = {

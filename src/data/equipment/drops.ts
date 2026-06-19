@@ -7,55 +7,85 @@ export const DROP_CONFIG: Record<NPCClass, DropConfig> = {
   common: {
     baseChance: 0.08,
     rankWeights: {
-      common: 85,
-      rare: 13,
-      epic: 2,
-      boss: 0,
-      legendary: 0,
+      1: 50,
+      2: 30,
+      3: 13,
+      4: 5,
+      5: 2,
+      6: 0,
+      7: 0,
+      8: 0,
+      9: 0,
+      0: 0,
+      EX: 0,
     },
   },
 
   rare: {
     baseChance: 0.15,
     rankWeights: {
-      common: 65,
-      rare: 28,
-      epic: 6,
-      boss: 1,
-      legendary: 0,
+      1: 15,
+      2: 30,
+      3: 25,
+      4: 15,
+      5: 10,
+      6: 4,
+      7: 1,
+      8: 0,
+      9: 0,
+      0: 0,
+      EX: 0,
     },
   },
 
   epic: {
     baseChance: 0.35,
     rankWeights: {
-      common: 35,
-      rare: 35,
-      epic: 22,
-      boss: 7,
-      legendary: 1,
+      1: 5,
+      2: 10,
+      3: 20,
+      4: 20,
+      5: 20,
+      6: 12,
+      7: 8,
+      8: 4,
+      9: 1,
+      0: 0,
+      EX: 0,
     },
   },
 
   boss: {
     baseChance: 0.55,
     rankWeights: {
-      common: 15,
-      rare: 30,
-      epic: 32,
-      boss: 18,
-      legendary: 5,
+      1: 0,
+      2: 5,
+      3: 10,
+      4: 15,
+      5: 20,
+      6: 18,
+      7: 15,
+      8: 10,
+      9: 5,
+      0: 2,
+      EX: 0,
     },
   },
 
   legendary: {
     baseChance: 0.8,
     rankWeights: {
-      common: 2,
-      rare: 8,
-      epic: 25,
-      boss: 30,
-      legendary: 35,
+      1: 0,
+      2: 0,
+      3: 2,
+      4: 5,
+      5: 10,
+      6: 15,
+      7: 20,
+      8: 18,
+      9: 15,
+      0: 10,
+      EX: 5,
     },
   },
 };
@@ -68,11 +98,14 @@ const SLOT_CHANCE: Record<NPCClass, number> = {
   legendary: 0.7,
 };
 
-const RANKS: EquipmentRank[] = ["common", "rare", "epic", "boss", "legendary"];
+const RANKS: EquipmentRank[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, "EX"];
 
 function pickWeighted(weights: Record<EquipmentRank, number>): EquipmentRank {
-  const total = RANKS.reduce((sum, r) => sum + weights[r], 0);
-  if (total <= 0) return "common";
+  let total = 0;
+  for (const r of RANKS) {
+    total += weights[r];
+  }
+  if (total <= 0) return 1;
 
   let roll = Math.random() * total;
   for (const rank of RANKS) {
@@ -80,7 +113,7 @@ function pickWeighted(weights: Record<EquipmentRank, number>): EquipmentRank {
     if (roll <= 0) return rank;
   }
 
-  return "common";
+  return 1;
 }
 
 export function rollDrop(npcClass: NPCClass): EquipmentRank | null {

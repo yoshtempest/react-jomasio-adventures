@@ -10,23 +10,23 @@ type ChestDropTable = {
 export const CHEST_DROP_TABLES: Record<NPCClass, ChestDropTable> = {
   common: {
     materialWeights: { hungry_essence: 70, figurant_totem: 30 },
-    equipmentRankWeights: { common: 85, rare: 13, epic: 2, boss: 0, legendary: 0 },
+    equipmentRankWeights: { 1: 50, 2: 30, 3: 13, 4: 5, 5: 2, 6: 0, 7: 0, 8: 0, 9: 0, 0: 0, EX: 0 },
   },
   rare: {
     materialWeights: { rare_scale: 60, goat_horn: 40 },
-    equipmentRankWeights: { common: 65, rare: 28, epic: 6, boss: 1, legendary: 0 },
+    equipmentRankWeights: { 1: 15, 2: 30, 3: 25, 4: 15, 5: 10, 6: 4, 7: 1, 8: 0, 9: 0, 0: 0, EX: 0 },
   },
   epic: {
     materialWeights: { epic_core: 100 },
-    equipmentRankWeights: { common: 35, rare: 35, epic: 22, boss: 7, legendary: 1 },
+    equipmentRankWeights: { 1: 5, 2: 10, 3: 20, 4: 20, 5: 20, 6: 12, 7: 8, 8: 4, 9: 1, 0: 0, EX: 0 },
   },
   boss: {
     materialWeights: { boss_soul: 100 },
-    equipmentRankWeights: { common: 15, rare: 30, epic: 32, boss: 18, legendary: 5 },
+    equipmentRankWeights: { 1: 0, 2: 5, 3: 10, 4: 15, 5: 20, 6: 18, 7: 15, 8: 10, 9: 5, 0: 2, EX: 0 },
   },
   legendary: {
     materialWeights: { legendary_fragment: 100 },
-    equipmentRankWeights: { common: 2, rare: 8, epic: 25, boss: 30, legendary: 35 },
+    equipmentRankWeights: { 1: 0, 2: 0, 3: 2, 4: 5, 5: 10, 6: 15, 7: 20, 8: 18, 9: 15, 0: 10, EX: 5 },
   },
 };
 
@@ -84,10 +84,11 @@ export function openChest(chestTier: NPCClass): ChestDropResult {
       const rank = pickWeighted(table.equipmentRankWeights);
       if (!rank) continue;
 
-      if (chestTier !== "legendary" && rank === "legendary") continue;
+      const rankId = rank as unknown as EquipmentRank;
+      if (chestTier !== "legendary" && (rankId === "EX" || rankId === 0)) continue;
 
       const slot = SLOTS[Math.floor(Math.random() * SLOTS.length)];
-      const candidates = getEquipmentBySlotAndRank(slot, rank as EquipmentRank);
+      const candidates = getEquipmentBySlotAndRank(slot, rankId);
       if (candidates.length === 0) continue;
 
       const equip = candidates[Math.floor(Math.random() * candidates.length)];

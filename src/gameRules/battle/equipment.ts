@@ -11,11 +11,17 @@ import {
 import { getEquipmentById } from "@/data/equipment";
 
 const WEAPON_CRIT_RATE: Record<EquipmentRank, number> = {
-  common: 1,
-  rare: 3,
-  epic: 7,
-  boss: 13,
-  legendary: 20,
+  1: 1,
+  2: 2,
+  3: 3,
+  4: 5,
+  5: 7,
+  6: 10,
+  7: 13,
+  8: 16,
+  9: 20,
+  0: 25,
+  EX: 30,
 };
 
 export const SET_SLOTS: EquipmentSlot[] = [
