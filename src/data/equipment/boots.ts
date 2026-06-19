@@ -35,6 +35,7 @@ export const BOOTS: Equipment[] = [
     slot: "boots",
     rank: "boss",
     stats: { hp: 3, armor: 10, reflect: 2 },
+    set: "rei",
   },
   {
     id: "boots_botas_lendarias",
@@ -42,5 +43,6 @@ export const BOOTS: Equipment[] = [
     slot: "boots",
     rank: "legendary",
     stats: { hp: 4, armor: 16, reflect: 3 },
+    set: "lendario",
   },
 ];

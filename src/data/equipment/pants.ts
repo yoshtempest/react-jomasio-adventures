@@ -21,6 +21,7 @@ export const PANTS: Equipment[] = [
     slot: "pants",
     rank: "epic",
     stats: { hp: 2, armor: 8 },
+    set: "reforcado",
   },
   {
     id: "pants_calca_rei",
@@ -28,6 +29,7 @@ export const PANTS: Equipment[] = [
     slot: "pants",
     rank: "boss",
     stats: { hp: 3, armor: 14, reflect: 2 },
+    set: "rei",
   },
   {
     id: "pants_calcas_lendarias",
@@ -35,5 +37,6 @@ export const PANTS: Equipment[] = [
     slot: "pants",
     rank: "legendary",
     stats: { hp: 4, armor: 22, reflect: 3 },
+    set: "lendario",
   },
 ];

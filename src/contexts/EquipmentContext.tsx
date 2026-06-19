@@ -13,7 +13,11 @@ import type {
   EquippedItemInfo,
 } from "@/utils/types/player/equipment";
 import { getEquipmentById } from "@/data/equipment";
-import { getEffectiveStats } from "@/gameRules/battle/equipment";
+import {
+  getEffectiveStats,
+  SET_MULTIPLIER,
+  SET_SLOTS,
+} from "@/gameRules/battle/equipment";
 import {
   colKey,
   loadAllData,
@@ -104,17 +108,35 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
         allData as Record<string, CharacterEquipmentData>,
         character,
       );
+
+      const setPieces: Record<string, string[]> = {};
+      for (const slot of SET_SLOTS) {
+        const info = data.equipped[slot];
+        if (!info) continue;
+        const item = getEquipmentById(info.id);
+        if (!item?.set) continue;
+        if (!setPieces[item.set]) setPieces[item.set] = [];
+        setPieces[item.set].push(info.id);
+      }
+      const setItemIds = new Set<string>();
+      for (const ids of Object.values(setPieces)) {
+        if (ids.length >= 3) {
+          for (const id of ids) setItemIds.add(id);
+        }
+      }
+
       const bonus = { hp: 0, strength: 0, intelligence: 0, shield: 0, vampirism: 0, reflect: 0 };
       for (const slot of Object.keys(data.equipped) as EquipmentSlot[]) {
         const info = data.equipped[slot];
         if (!info) continue;
         const stats = getEffectiveStats(info.id, info.enhance);
-        bonus.hp += stats.hp;
-        bonus.strength += stats.strength;
-        bonus.intelligence += stats.intelligence;
-        bonus.shield += stats.shield;
-        bonus.vampirism += stats.vampirism;
-        bonus.reflect += stats.reflect;
+        const multiplier = setItemIds.has(info.id) ? SET_MULTIPLIER : 1;
+        bonus.hp += Math.round(stats.hp * multiplier);
+        bonus.strength += Math.round(stats.strength * multiplier);
+        bonus.intelligence += Math.round(stats.intelligence * multiplier);
+        bonus.shield += Math.round(stats.shield * multiplier);
+        bonus.vampirism += Math.round(stats.vampirism * multiplier);
+        bonus.reflect += Math.round(stats.reflect * multiplier);
       }
       return bonus;
     },

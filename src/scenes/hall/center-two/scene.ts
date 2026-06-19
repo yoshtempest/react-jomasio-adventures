@@ -5,6 +5,7 @@ import { getCenterTwoInitialPosition } from "./position";
 import { centerTwoNpcs } from "./npcs";
 import { getHallCenterDialogue } from "./dialogue";
 import { hallCenterTwoEvents } from "./events";
+import { centerTwoPlates } from "./plate";
 
 export const centerTwoScene: SceneConfig = {
   id: "center-two",
@@ -15,5 +16,6 @@ export const centerTwoScene: SceneConfig = {
   initialPosition: getCenterTwoInitialPosition,
   map: hallTwoCenter,
   npcs: centerTwoNpcs,
+  plates: centerTwoPlates,
   audio: { src: MUSICS.default },
 };

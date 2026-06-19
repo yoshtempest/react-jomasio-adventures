@@ -35,6 +35,7 @@ export const ACCESSORIES: Equipment[] = [
     slot: "accessory",
     rank: "boss",
     stats: { hp: 3, strength: 3, intelligence: 2, armor: 10, shield: 12 },
+    set: "rei",
   },
   {
     id: "accessory_anel_lendario",
@@ -42,5 +43,6 @@ export const ACCESSORIES: Equipment[] = [
     slot: "accessory",
     rank: "legendary",
     stats: { hp: 4, strength: 5, intelligence: 4, armor: 16, shield: 20 },
+    set: "lendario",
   },
 ];

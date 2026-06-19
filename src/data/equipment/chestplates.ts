@@ -28,6 +28,7 @@ export const CHESTPLATES: Equipment[] = [
     slot: "chestplate",
     rank: "epic",
     stats: { hp: 2, armor: 14 },
+    set: "reforcado",
   },
   {
     id: "chestplate_camisa_insider",
@@ -42,5 +43,6 @@ export const CHESTPLATES: Equipment[] = [
     slot: "chestplate",
     rank: "legendary",
     stats: { hp: 4, armor: 35, reflect: 3 },
+    set: "lendario",
   },
 ];

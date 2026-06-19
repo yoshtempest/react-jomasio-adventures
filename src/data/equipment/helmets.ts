@@ -49,6 +49,7 @@ export const HELMETS: Equipment[] = [
     slot: "helmet",
     rank: "epic",
     stats: { armor: 10 },
+    set: "reforcado",
   },
   {
     id: "helmet_coroa_rei",
@@ -56,6 +57,7 @@ export const HELMETS: Equipment[] = [
     slot: "helmet",
     rank: "boss",
     stats: { hp: 3, armor: 14, reflect: 2 },
+    set: "rei",
   },
   {
     id: "helmet_tapa_olho_surica",

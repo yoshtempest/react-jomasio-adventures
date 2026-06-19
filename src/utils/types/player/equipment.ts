@@ -50,6 +50,7 @@ export type Equipment = {
   rank: EquipmentRank;
   stats: Partial<EquipmentStats>;
   bonusSlots?: number;
+  set?: string;
 };
 
 export type EquippedItemInfo = {
