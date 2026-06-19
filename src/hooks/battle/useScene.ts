@@ -213,6 +213,24 @@ export function useBattleScene({
     updateNpcPosition(npc.x);
   }, [npc.x, updateNpcPosition]);
 
+  const npcMaxHpRef = useRef(battle.npcMaxHp);
+  npcMaxHpRef.current = battle.npcMaxHp;
+  const setNpcHPRef = useRef(battle.setNpcHP);
+  setNpcHPRef.current = battle.setNpcHP;
+
+  useEffect(() => {
+    if (npcType !== "hungryKing") return;
+    if (battle.npcPhase !== 2) return;
+
+    const interval = setInterval(() => {
+      setNpcHPRef.current((hp: number) =>
+        Math.min(npcMaxHpRef.current, hp + 5),
+      );
+    }, 200);
+
+    return () => clearInterval(interval);
+  }, [npcType, battle.npcPhase]);
+
   const phaseTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   useEffect(() => {
     if (battle.npcPhase === 2) {

@@ -27,6 +27,10 @@ export type NPCBattleState = {
       spearRainWarningStart: number;
       spearRainPositions: number[];
     };
+    hungryKing?: {
+      knownPhase: number;
+      hasSummoned: boolean;
+    };
   };
 };
 
