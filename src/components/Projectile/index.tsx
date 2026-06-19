@@ -22,6 +22,7 @@ export function ProjectileSprite({ projectile, TILE_SIZE }: Props) {
     dish: "/assets/npcs/dish.svg",
     "goat-idle": "/assets/npcs/goat/idle.svg",
     "goat-walk": "/assets/npcs/goat/walk.svg",
+    staff: "/assets/npcs/staff.svg",
   };
 
   const spriteKey =
@@ -29,7 +30,9 @@ export function ProjectileSprite({ projectile, TILE_SIZE }: Props) {
       ? projectile.state === "idle"
         ? "goat-idle"
         : "goat-walk"
-      : "dish";
+      : projectile.sprite === "staff"
+        ? "staff"
+        : "staff";
 
   const src = spriteMap[spriteKey];
 
@@ -40,9 +43,9 @@ export function ProjectileSprite({ projectile, TILE_SIZE }: Props) {
         position: "absolute",
         left: projectile.x * scaleX,
         top: projectile.y * scaleY,
-        width: TILE_SIZE * 2, // ✅ agora funciona
-        transform: "translate(-50%, -50%)",
+        width: TILE_SIZE * 2,
         zIndex: 9999,
+        pointerEvents: "none",
       }}
     />
   );

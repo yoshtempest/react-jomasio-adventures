@@ -18,7 +18,7 @@ type Props = {
   onMeleeHit: () => void;
   isPaused?: boolean;
   npcType: string;
-  npcPhase: number;
+  npcPhaseRef: React.RefObject<number>;
   onSummon?: (npcType: string) => void;
   obstacles?: BattleObstacle[];
   hitstopRef: React.RefObject<number>;
@@ -34,7 +34,7 @@ export function useNpcAI({
   onProjectileHit,
   isPaused,
   npcType,
-  npcPhase,
+  npcPhaseRef,
   onSummon,
   obstacles,
   hitstopRef,
@@ -56,8 +56,6 @@ export function useNpcAI({
   playerXRef.current = playerX;
   const playerYRef = useRef(playerY);
   playerYRef.current = playerY;
-  const npcPhaseRef = useRef(npcPhase);
-  npcPhaseRef.current = npcPhase;
   const forceIdleRef = useRef(forceIdle);
   forceIdleRef.current = forceIdle;
   const isPausedRef = useRef(isPaused);
@@ -122,7 +120,7 @@ export function useNpcAI({
         const result = behavior({
           npc: n,
           playerX: playerXRef.current,
-          npcPhase: npcPhaseRef.current,
+          npcPhase: npcPhaseRef.current, // eager-ref — updated sync before React re-render
           playerY: playerYRef.current,
           projectile: projectileRef.current,
           setProjectile,
@@ -150,7 +148,7 @@ export function useNpcAI({
     }, 20);
 
     return () => clearInterval(interval);
-  }, [hitstopRef, npcStaggerRef]);
+  }, [hitstopRef, npcStaggerRef, npcPhaseRef]);
 
   return {
     ...npc,

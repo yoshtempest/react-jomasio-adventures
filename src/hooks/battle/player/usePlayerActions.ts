@@ -159,6 +159,11 @@ export function usePlayerBattleActions({
           ),
         );
 
+        battle.playerCooldown.current = false;
+        setTimeout(() => {
+          battle.playerCooldown.current = true;
+        }, 400);
+
         return;
       }
     }

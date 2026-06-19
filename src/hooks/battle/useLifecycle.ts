@@ -6,9 +6,9 @@ type Props = {
   npcHP: number;
 
   npcClass: string;
-  npcPhase: number;
 
   setNpcPhase: (n: number) => void;
+  npcPhaseRef: React.RefObject<number>;
   setNpcHP: (n: number) => void;
 
   npcMaxHp: number;
@@ -23,8 +23,8 @@ export function useBattleLifecycle({
   playerHP,
   npcHP,
   npcClass,
-  npcPhase,
   setNpcPhase,
+  npcPhaseRef,
   setNpcHP,
   npcMaxHp,
   onPlayerDeath,
@@ -39,8 +39,6 @@ export function useBattleLifecycle({
   onNpcDeathRef.current = onNpcDeath;
   const npcClassRef = useRef(npcClass);
   npcClassRef.current = npcClass;
-  const npcPhaseRef = useRef(npcPhase);
-  npcPhaseRef.current = npcPhase;
   const npcMaxHpRef = useRef(npcMaxHp);
   npcMaxHpRef.current = npcMaxHp;
 
@@ -60,6 +58,7 @@ export function useBattleLifecycle({
 
     if (isDead(npcHP)) {
       if (npcClassRef.current === "boss" && npcPhaseRef.current === 1) {
+        npcPhaseRef.current = 2; // atualiza ref sincronamente antes do render
         setNpcPhase(2);
         setNpcHP(npcMaxHpRef.current);
         return;
@@ -74,7 +73,7 @@ export function useBattleLifecycle({
       );
     }
     return () => timeouts.forEach(clearTimeout);
-  }, [playerHP, npcHP, setNpcPhase, setNpcHP, isEnding]);
+  }, [playerHP, npcHP, setNpcPhase, setNpcHP, isEnding, npcPhaseRef]);
 
   return { isNpcDying };
 }

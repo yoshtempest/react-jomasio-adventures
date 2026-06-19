@@ -64,6 +64,8 @@ export function useBattleScene({
   const [showDefeat, setShowDefeat] = useState(false);
   const [lastRewards, setLastRewards] = useState<RewardInfo | null>(null);
   const [npcPhase, setNpcPhase] = useState(1);
+  const npcPhaseRef = useRef(npcPhase);
+  npcPhaseRef.current = npcPhase;
   const [showIntro, setShowIntro] = useState(true);
 
   const { npcData, npcLevel, npcStats } = useNpcSetup(npcType, difficulty);
@@ -114,7 +116,7 @@ export function useBattleScene({
     playerState: player.state,
     playerDirection: player.battleDirection,
     npcType,
-    npcPhase,
+    npcPhaseRef,
     onProjectileHit: () => refs.npcRangedAttackRef.current(),
     onMeleeHit: () => refs.npcMeleeAttackRef.current(),
     isPaused: showVictory || showDefeat || showIntro,
@@ -157,6 +159,7 @@ export function useBattleScene({
     registerHitRef: refs.registerHitRef,
     setPlayer,
     lastBlockPressRef,
+    npcPhaseRef,
   });
 
   const {

@@ -23,7 +23,6 @@ export function useProjectile(
       if (hitstopRef.current > Date.now()) return;
       setProjectile((p) => {
         if (!p) return null;
-        if (!p) return null;
 
         const now = Date.now();
 

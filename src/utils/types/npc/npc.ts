@@ -13,6 +13,12 @@ export type NPCBattleState = {
       startTime: number;
       targetX: number;
     };
+    deise?: {
+      knownPhase: number;
+      lastStaffThrow: number;
+      lastSummon: number;
+      lastAction: number;
+    };
   };
 };
 

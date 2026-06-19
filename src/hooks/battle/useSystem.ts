@@ -29,6 +29,7 @@ type Props = {
   registerHitRef: React.RefObject<(damage: number) => void>;
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;
   lastBlockPressRef: React.RefObject<number>;
+  npcPhaseRef: React.RefObject<number>;
 };
 
 export function useBattleSystem(props: Props) {
@@ -48,6 +49,7 @@ export function useBattleSystem(props: Props) {
     registerHitRef,
     setPlayer,
     lastBlockPressRef,
+    npcPhaseRef,
   } = props;
 
   const [npcPhase, setNpcPhase] = useState(1);
@@ -172,8 +174,8 @@ export function useBattleSystem(props: Props) {
     playerHP,
     npcHP,
     npcClass,
-    npcPhase,
     setNpcPhase,
+    npcPhaseRef,
     setNpcHP,
     npcMaxHp,
     onPlayerDeath,
