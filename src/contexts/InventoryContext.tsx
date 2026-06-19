@@ -2,11 +2,15 @@ import {
   createContext,
   useContext,
   useState,
+  useEffect,
   useRef,
   type ReactNode,
 } from "react";
 import type { InventoryItem } from "@/utils/types/player/inventory";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import { saveCompressed, loadCompressed } from "@/utils/storage";
+
+const INVENTORY_KEY = "jomasio_inventory";
 
 type InventoryContextType = {
   items: InventoryItem[];
@@ -27,8 +31,14 @@ type InventoryContextType = {
 const InventoryContext = createContext<InventoryContextType | null>(null);
 
 export function InventoryProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<InventoryItem[]>([]);
+  const [items, setItems] = useState<InventoryItem[]>(() =>
+    loadCompressed<InventoryItem[]>(INVENTORY_KEY) ?? [],
+  );
   const { playSound } = useSoundEffects();
+
+  useEffect(() => {
+    saveCompressed(INVENTORY_KEY, items);
+  }, [items]);
 
   const [isOpen, setIsOpen] = useState(false);
 
