@@ -1,6 +1,6 @@
 import { normalBehavior } from "./normal";
 import { vandinhaBehavior } from "./vandinha";
-import { deiseBehavior } from "./deise";
+import { deiseBehavior } from "./deise/index";
 import { slimitaBehavior } from "./slimita";
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
 import type { NPCBattleState } from "@/utils/types/npc/npc";
