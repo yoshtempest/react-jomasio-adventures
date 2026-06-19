@@ -4,6 +4,7 @@ import { useGameLayout } from "@/hooks/useGameLayout";
 import { GameMap } from "@/components/Game/GameMap";
 import { Player } from "@/components/Game/Player";
 import { NPC } from "@/components/Game/Npc";
+import { Plate } from "@/components/Game/Plate";
 import Talking from "@/components/Talking";
 import { useDialogue } from "@/hooks/interaction/useDialogue";
 import { useSansTalking } from "@/hooks/interaction/useSansTalking";
@@ -28,16 +29,18 @@ export function ExploreScene({
   dialogueData = [],
   initialPosition,
   npcs = [],
+  plates = [],
   audio,
   transitions,
-  signs,
   onInteract,
   autoStartDialogue,
   onFinish,
   nextRoute,
   className,
   events,
-}: ExploreSceneProps & { events?: SceneEvent[] }) {
+  setPopup,
+  popup,
+}: ExploreSceneProps & { events?: SceneEvent[]; setPopup?: (msg: string | null) => void; popup?: string | null }) {
   const { player, playerClass, setMap, setPosition, setMode } = usePlayer();
   const { pushControls, popControls } = useGameControls();
   const { navigateWithFade } = useTransitionCtx();
@@ -133,11 +136,25 @@ export function ExploreScene({
     onInteract: (tile, x, y) => {
       const front = getTileInFront(player, map);
 
+      // 🔥 se popup ativo, fecha ao interagir
+      if (popup) {
+        setPopup?.(null);
+        return true;
+      }
+
       // 🔥 verifica NPC na frente
       const npc = npcs.find((n) => n.gridX === front.x && n.gridY === front.y);
 
       if (npc?.interaction) {
         npc.interaction(dialogueSystem.start);
+        return true;
+      }
+
+      // 🔥 verifica placa na frente
+      const plate = plates.find((p) => p.gridX === front.x && p.gridY === front.y);
+
+      if (plate?.message) {
+        setPopup?.(plate.message);
         return true;
       }
 
@@ -181,20 +198,11 @@ export function ExploreScene({
           />
         ))}
 
-        {signs?.map((sign) => (
-          <div
-            key={`sign-${sign.x}-${sign.y}`}
-            style={{
-              position: "absolute",
-              left: sign.x * TILE_SIZE,
-              top: sign.y * TILE_SIZE,
-              width: TILE_SIZE,
-              height: TILE_SIZE,
-              backgroundColor: "rgba(255, 0, 0, 0.5)",
-              border: "1px solid red",
-              zIndex: 5,
-              pointerEvents: "none",
-            }}
+        {plates.map((plate) => (
+          <Plate
+            key={`plate-${plate.gridX}-${plate.gridY}`}
+            {...plate}
+            TILE_SIZE={TILE_SIZE}
           />
         ))}
 

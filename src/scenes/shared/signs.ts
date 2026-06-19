@@ -1,31 +1,3 @@
-const DIRS = [
-  { dx: 0, dy: -1 },
-  { dx: 0, dy: 1 },
-  { dx: -1, dy: 0 },
-  { dx: 1, dy: 0 },
-];
-
-function findAdjacentFloor(
-  map: number[][],
-  x: number,
-  y: number,
-): { x: number; y: number } | null {
-  for (const { dx, dy } of DIRS) {
-    const ax = x + dx;
-    const ay = y + dy;
-    if (
-      ay >= 0 &&
-      ay < map.length &&
-      ax >= 0 &&
-      ax < map[0].length &&
-      map[ay][ax] === 0
-    ) {
-      return { x: ax, y: ay };
-    }
-  }
-  return null;
-}
-
 export const SCENE_NAMES: Record<string, string> = {
   "hall/one": "Hall de Entrada",
   "hall/hell": "Corredor Escuro",
@@ -70,74 +42,7 @@ export const SCENE_NAMES: Record<string, string> = {
   "hellroom/three": "Sala do Inferno - Masmorra",
 };
 
-export const ROUTE_LABELS: Record<string, string> = {
-  "/hall/one": "Corredor Um",
-  "/hall/hell": "Corredor Infernal",
-  "/hall/pandemony": "Pandemônio",
-  "/hall/center-one": "Corredor Central",
-  "/hall/center-two": "Corredor Central",
-  "/hall/center-front": "Frente do Corredor Central",
-  "/hall/jailson-one": "Sala do Jailson",
-  "/hall/jailson-two": "Sala do Jailson",
-  "/hall/left-one": "Corredor da esquerda",
-  "/hall/afterpcroom-one": "Corredor",
-  "/hall/thirdclass": "Conselho dos Manos",
-
-  "/pcroom/one": "Sala dos pcs",
-  "/pcroom/two": "Sala dos pcs",
-  "/pcroom/three": "Sala dos pcs",
-  "/pcroom/four": "Sala dos pcs",
-  "/pcroom/five": "Sala dos pcs",
-  "/pcroom/six": "Sala dos pcs",
-  "/pcroom/seven": "Sala dos pcs",
-
-  "/cantina/one": "Cantina",
-  "/cantina/two": "Cantina",
-
-  "/cafeteria/one": "Refeitório",
-  "/cafeteria/two": "Refeitório",
-  "/cafeteria/three": "Refeitório",
-  "/cafeteria/four": "Refeitório",
-  "/director/one": "Diretoria",
-  "/director/two": "Diretoria",
-  "/footballcourt/one": "Quadra",
-  "/footballcourt/two": "Quadra",
-
-  "/library/one": "Biblioteca",
-  "/library/two": "Biblioteca",
-  "/library/secret-passage": "Passagem Secreta",
-
-  "/hellroom/one": "Sala do Inferno",
-  "/hellroom/two": "Sala do Inferno",
-  "/hellroom/three": "Sala do Inferno",
-};
-
 export function getSceneName(pathname: string): string {
   const key = pathname.replace(/^\//, "");
   return SCENE_NAMES[key] ?? key;
-}
-
-export function autoSigns(
-  tiles: SceneTile[],
-  map: number[][],
-  sceneName: string,
-): SceneSign[] {
-  const signs: SceneSign[] = [];
-
-  for (const tile of tiles) {
-    if (!tile.route) continue;
-
-    const pos = findAdjacentFloor(map, tile.x, tile.y);
-    if (!pos) continue;
-
-    const destName =
-      ROUTE_LABELS[tile.route] ??
-      tile.route.split("/").filter(Boolean).pop() ??
-      tile.route;
-    const message = `Local atual: ${sceneName}\n, caso siga em frente: ${destName}`;
-
-    signs.push({ x: pos.x, y: pos.y, message });
-  }
-
-  return signs;
 }

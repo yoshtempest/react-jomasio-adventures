@@ -102,6 +102,13 @@ declare global {
     message: string;
   };
 
+  type ScenePlateData = {
+    src: string;
+    gridX: number;
+    gridY: number;
+    message?: string;
+  };
+
   type SceneEvent =
     | { type: "openModal"; modal: "class" }
     | { type: "navigate"; to: string }
@@ -151,6 +158,7 @@ declare global {
       | ExplorePosition
       | ((lastPage?: LastPage) => ExplorePosition);
     npcs?: SceneNPCData[];
+    plates?: ScenePlateData[];
     audio?: AudioConfig;
     transitions?: Transition[];
     signs?: SceneSign[];
@@ -166,6 +174,7 @@ declare global {
     className?: string;
     events?: SceneEvent[];
     tiles?: SceneTile[];
+    plates?: ScenePlateData[];
     signs?: SceneSign[];
   };
 

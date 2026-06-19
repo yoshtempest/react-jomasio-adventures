@@ -1,4 +1,4 @@
-import { useMemo, useRef } from "react";
+import { useRef } from "react";
 import {
   useLocation,
   type NavigateFunction,
@@ -14,7 +14,6 @@ import { useQuestActions } from "@/hooks/useQuestActions";
 import { useQuests } from "@/contexts/QuestContext";
 import { MapOverlay } from "@/components/Game/MenuMap";
 import { QUESTS } from "@/data/quests";
-import { getSceneName, autoSigns } from "@/scenes/shared/signs";
 import { useExitTile } from "@/hooks/scene/useExitTile";
 
 type SceneBaseProps = {
@@ -58,17 +57,9 @@ export function SceneBase({
   const { giveQuest, progressQuest } = useQuestActions();
 
   const lastPage = location.state?.from;
-  const sceneName = scene.name ?? getSceneName(location.pathname);
 
   const setPopupRef = useRef(setPopup);
   setPopupRef.current = setPopup;
-
-  const signs = useMemo(
-    () =>
-      scene.signs ??
-      (scene.tiles ? autoSigns(scene.tiles, scene.map, sceneName) : []),
-    [scene.tiles, scene.map, sceneName, scene.signs],
-  );
 
   const spawn = scene
     ? typeof scene.initialPosition === "function"
@@ -96,9 +87,10 @@ export function SceneBase({
         <ExploreScene
           key={scene.id}
           {...scene}
-          signs={signs}
           initialPosition={spawn}
           lastPage={lastPage}
+          setPopup={setPopup}
+          popup={popup}
           onFinish={() => {
             const extra = onFinishExtra?.({
               navigate: navigateWithFade,
@@ -130,12 +122,6 @@ export function SceneBase({
             const interaction = interactions?.[`${x},${y}`];
             if (interaction) {
               interaction();
-              return true;
-            }
-
-            const sign = signs.find((s: SceneSign) => s.x === x && s.y === y);
-            if (sign) {
-              setPopupRef.current?.(sign.message);
               return true;
             }
 
