@@ -67,11 +67,7 @@ const EquipmentContext = createContext<EquipmentContextType | null>(null);
 export function EquipmentProvider({ children }: { children: ReactNode }) {
   const [allData, setAllData] = useState<
     Record<CharacterId, CharacterEquipmentData>
-  >({} as Record<CharacterId, CharacterEquipmentData>);
-
-  useEffect(() => {
-    setAllData(loadAllData() as Record<CharacterId, CharacterEquipmentData>);
-  }, []);
+  >(() => loadAllData() as Record<CharacterId, CharacterEquipmentData>);
 
   useEffect(() => {
     saveAllData(allData as Record<string, CharacterEquipmentData>);
