@@ -129,6 +129,7 @@ export function useBattleSystem(props: Props) {
     HITS_TO_SPECIAL,
     setNpcHP,
     setPlayerHP,
+    playerHP,
     playerMaxHp,
     totalVampirism,
     playerCooldown,

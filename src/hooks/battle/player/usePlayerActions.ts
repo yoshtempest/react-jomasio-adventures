@@ -1,6 +1,9 @@
 import { useCallback } from "react";
 
-import { calculatePlayerDamage } from "@/gameRules/battle/damage";
+import {
+  calculatePlayerDamage,
+  getBerserkMultiplier,
+} from "@/gameRules/battle/damage";
 import { isPlayerInRange } from "@/gameRules/battle/range";
 import { isFacingTarget } from "@/gameRules/battle/direction";
 import { playAttackSound } from "@/utils/types/battle/playAttackSound";
@@ -39,6 +42,7 @@ type Props = {
   registerHitRef: React.RefObject<(damage: number) => void>;
 
   setPlayerHP: React.Dispatch<React.SetStateAction<number>>;
+  playerHP: number;
   playerMaxHp: number;
   totalVampirism: number;
 };
@@ -56,6 +60,7 @@ export function usePlayerBattleActions({
   spawnDamageRef,
   registerHitRef,
   setPlayerHP,
+  playerHP,
   playerMaxHp,
   totalVampirism,
 }: Props) {
@@ -129,8 +134,11 @@ export function usePlayerBattleActions({
 
         playAttackSound(player.character);
 
+        const raw = calculatePlayerDamage(char.stats.strength, playerClass);
         const damage = Math.round(
-          calculatePlayerDamage(char.stats.strength, playerClass),
+          player.character === "samuel" && char.level >= 20
+            ? raw * getBerserkMultiplier(playerHP, playerMaxHp)
+            : raw,
         );
 
         spawnDamageRef.current?.(damage, target.x, target.y, "summon");
@@ -179,6 +187,7 @@ export function usePlayerBattleActions({
     giveSummonRewards,
     spawnDamageRef,
     registerHitRef,
+    playerHP,
     setPlayerHP,
     playerMaxHp,
     totalVampirism,

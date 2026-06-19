@@ -2,6 +2,7 @@ import { useRef, useCallback, useEffect } from "react";
 import {
   calculatePlayerDamage,
   calculateDamageToNpc,
+  getBerserkMultiplier,
 } from "@/gameRules/battle/damage";
 import { rollCrit } from "@/gameRules/battle/damageUtils";
 import { isPlayerInRange } from "@/gameRules/battle/range";
@@ -19,7 +20,7 @@ type Props = {
   npcX: number;
   npcY: number;
   npcArmor: number;
-  char: { stats: { strength: number } };
+  char: { level: number; stats: { strength: number } };
   playerClass: PlayerClass;
   critRate: number;
   titleDamageBonus: number;
@@ -37,6 +38,7 @@ type Props = {
   setDelicia: React.Dispatch<React.SetStateAction<number>>;
   hitsToSpecial: number;
   setPlayerHP: React.Dispatch<React.SetStateAction<number>>;
+  playerHP: number;
   playerMaxHp: number;
   totalVampirism: number;
 };
@@ -74,6 +76,10 @@ export function useChargeDash(props: Props) {
   setPlayerHPRef.current = props.setPlayerHP;
   const playerMaxHpRef = useRef(props.playerMaxHp);
   playerMaxHpRef.current = props.playerMaxHp;
+  const playerHpRef = useRef(props.playerHP);
+  playerHpRef.current = props.playerHP;
+  const dashCharRef = useRef(props.char);
+  dashCharRef.current = props.char;
   const vampirismRef = useRef(props.totalVampirism);
   vampirismRef.current = props.totalVampirism;
 
@@ -113,7 +119,18 @@ export function useChargeDash(props: Props) {
           playerClass,
           titleDamageBonus,
         );
-        const chargeDmg = Math.round(rawDmg * 1.5);
+        const berserkRaw =
+          dashCharacter === "samuel" &&
+          dashCharRef.current.level >= 20
+            ? Math.round(
+                rawDmg *
+                  getBerserkMultiplier(
+                    playerHpRef.current,
+                    playerMaxHpRef.current,
+                  ),
+              )
+            : rawDmg;
+        const chargeDmg = Math.round(berserkRaw * 1.5);
         const { damage: critDmg, type: critType } = rollCrit(chargeDmg, critRate);
 
         const targets: { id: string; x: number; y: number }[] = [];

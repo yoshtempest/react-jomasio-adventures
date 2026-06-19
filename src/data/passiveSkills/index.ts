@@ -23,6 +23,16 @@ const CHARACTER_SKILLS: Partial<Record<CharacterId, PassiveSkillNode[]>> = {
       levelRequired: 20,
     },
   ],
+  samuel: [
+    {
+      id: "berserk",
+      name: "Berserk",
+      description:
+        "Quanto menor a vida, maior o dano causado — até o dobro com 10% de HP",
+      icon: "Flame",
+      levelRequired: 20,
+    },
+  ],
 };
 
 export function getSkillTree(characterId: CharacterId): CharacterSkillTree {

@@ -188,6 +188,7 @@ export function useBattleScene({
     spawnDamageRef: refs.spawnDamageRef,
     registerHitRef: refs.registerHitRef,
     setPlayerHP: battle.setPlayerHP,
+    playerHP: battle.playerHP,
     playerMaxHp: battle.playerMaxHp,
     totalVampirism: battle.totalVampirism,
   });
@@ -326,6 +327,7 @@ export function useBattleScene({
     setDelicia: battle.setDelicia,
     hitsToSpecial: battle.hitsToSpecial,
     setPlayerHP: battle.setPlayerHP,
+    playerHP: battle.playerHP,
     playerMaxHp: battle.playerMaxHp,
     totalVampirism: battle.totalVampirism,
   });

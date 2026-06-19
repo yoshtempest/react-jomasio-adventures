@@ -5,6 +5,7 @@ import {
   calculatePlayerDamage,
   calculateSpecialDamage,
   calculateDamageToNpc,
+  getBerserkMultiplier,
 } from "@/gameRules/battle/damage";
 import { rollCrit } from "@/gameRules/battle/damageUtils";
 import type { DamageType } from "@/hooks/battle/useDamageNumbers";
@@ -27,6 +28,7 @@ type Props = {
 
   setNpcHP: React.Dispatch<React.SetStateAction<number>>;
   setPlayerHP: React.Dispatch<React.SetStateAction<number>>;
+  playerHP: number;
   playerMaxHp: number;
   totalVampirism: number;
   playerCooldown: React.RefObject<boolean>;
@@ -52,6 +54,7 @@ export function usePlayerBattle({
   HITS_TO_SPECIAL,
   setNpcHP,
   setPlayerHP,
+  playerHP,
   playerMaxHp,
   totalVampirism,
   playerCooldown,
@@ -103,7 +106,11 @@ export function usePlayerBattle({
           playerClass,
           titleDamageBonus,
         );
-    const { damage: critDmg, type: dmgType } = rollCrit(rawDmg, critRate);
+    const berserkDmg =
+      player.character === "samuel" && char.level >= 20
+        ? Math.round(rawDmg * getBerserkMultiplier(playerHP, playerMaxHp))
+        : rawDmg;
+    const { damage: critDmg, type: dmgType } = rollCrit(berserkDmg, critRate);
     const dmg = calculateDamageToNpc(critDmg, npcArmor);
 
     behavior.onBasicHit({
@@ -154,6 +161,7 @@ export function usePlayerBattle({
     registerHitRef,
     critRate,
     npcArmor,
+    playerHP,
     setPlayerHP,
     playerMaxHp,
     totalVampirism,
@@ -185,7 +193,11 @@ export function usePlayerBattle({
     const rawDmg = isLarissa
       ? stacks * 5
       : calculateSpecialDamage(char.stats.intelligence, playerClass);
-    const { damage: critDmg, type: dmgType } = rollCrit(rawDmg, critRate);
+    const berserkDmg =
+      player.character === "samuel" && char.level >= 20
+        ? Math.round(rawDmg * getBerserkMultiplier(playerHP, playerMaxHp))
+        : rawDmg;
+    const { damage: critDmg, type: dmgType } = rollCrit(berserkDmg, critRate);
     const dmg = calculateDamageToNpc(critDmg, npcArmor);
 
     behavior.onSpecialHit({
@@ -239,6 +251,7 @@ export function usePlayerBattle({
     registerHitRef,
     critRate,
     npcArmor,
+    playerHP,
   ]);
 
   return {

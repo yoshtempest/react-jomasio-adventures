@@ -1,4 +1,4 @@
-export type PassiveSkillId = "doubleJump" | "dash";
+export type PassiveSkillId = "doubleJump" | "dash" | "berserk";
 
 export type PassiveSkillNode = {
   id: PassiveSkillId;

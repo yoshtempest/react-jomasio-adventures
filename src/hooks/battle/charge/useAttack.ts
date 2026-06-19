@@ -16,7 +16,7 @@ type Props = {
   npcX: number;
   npcY: number;
   npcArmor: number;
-  char: { stats: { strength: number } };
+  char: { level: number; stats: { strength: number } };
   playerClass: PlayerClass;
   critRate: number;
   titleDamageBonus: number;
@@ -35,6 +35,7 @@ type Props = {
   setDelicia: React.Dispatch<React.SetStateAction<number>>;
   hitsToSpecial: number;
   setPlayerHP: React.Dispatch<React.SetStateAction<number>>;
+  playerHP: number;
   playerMaxHp: number;
   totalVampirism: number;
 };
@@ -62,6 +63,7 @@ export function useChargeAttack(props: Props) {
     setDelicia,
     hitsToSpecial,
     setPlayerHP,
+    playerHP,
     playerMaxHp,
     totalVampirism,
   } = props;
@@ -90,6 +92,7 @@ export function useChargeAttack(props: Props) {
     setDelicia,
     hitsToSpecial,
     setPlayerHP,
+    playerHP,
     playerMaxHp,
     totalVampirism,
   });
