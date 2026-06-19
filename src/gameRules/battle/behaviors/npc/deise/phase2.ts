@@ -1,3 +1,5 @@
+import { chasePlayer } from "@/gameRules/npc/movement";
+import { tryMeleeAttack } from "@/gameRules/npc/attack";
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
 import type { DeiseAI } from "./state";
 
@@ -12,8 +14,9 @@ export function deisePhase2(
   ai: DeiseAI,
 ): Phase2Result {
   const {
-    npc, playerX,
+    npc, playerX, playerY,
     projectile, setProjectile,
+    lastAttackRef, onMeleeHit,
   } = ctx;
 
   const now = Date.now();
@@ -45,5 +48,19 @@ export function deisePhase2(
     return { x: npc.x, y: npc.y, state: "pitch" };
   }
 
-  return { x: npc.x, y: npc.y };
+  // Spear is in flight — chase player and attempt melee
+  const { x } = chasePlayer(npc, playerX, playerY);
+
+  tryMeleeAttack({
+    npcX: npc.x,
+    npcY: npc.y,
+    playerX,
+    playerY,
+    range: 200,
+    cooldown: 2000,
+    lastAttackRef,
+    onHit: onMeleeHit,
+  });
+
+  return { x, y: npc.y, state: "walk" };
 }
