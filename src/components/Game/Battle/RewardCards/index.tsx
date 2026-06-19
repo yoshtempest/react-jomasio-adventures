@@ -1,4 +1,5 @@
 import styles from "./styles.module.css";
+import { getRank, formatRank } from "@/gameRules/rank";
 
 type Props = {
   myLevel: number;
@@ -13,11 +14,17 @@ export function RewardCards({
   nextLevelXp,
   coinReward,
 }: Props) {
+  const rank = getRank(myLevel);
+
   return (
     <div className={styles.rewardsGrid}>
       <div className={styles.rewardCard}>
         <span className={styles.rewardLabel}>Seu nível</span>
         <span className={styles.rewardValue}>{myLevel}</span>
+      </div>
+      <div className={styles.rewardCard}>
+        <span className={styles.rewardLabel}>Ranque</span>
+        <span className={styles.rankValue}>{formatRank(rank)}</span>
       </div>
       <div className={styles.rewardCard}>
         <span className={styles.rewardLabel}>XP ganho</span>

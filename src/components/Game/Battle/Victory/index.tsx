@@ -9,6 +9,7 @@ import { ItemDrops } from "@/components/Game/Battle/ItemDrops";
 import { ChestDrops } from "@/components/Game/Battle/ChestDrop";
 import { TitleProgresses } from "@/components/Game/Battle/TitleProgresses";
 import type { RewardInfo } from "@/hooks/battle/useRewards";
+import { getRank, formatRank } from "@/gameRules/rank";
 
 type Props = {
   isOpen: boolean;
@@ -51,6 +52,9 @@ export function VictoryModal({
             <h1>Vitória!</h1>
             <p>
               Você derrotou um {getNpcDisplayName(enemyType)} - nv.{enemyLevel}
+            </p>
+            <p className={styles.rankText}>
+              NPC: {formatRank(getRank(enemyLevel))}
             </p>
           </div>
         </div>

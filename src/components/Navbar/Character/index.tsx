@@ -2,6 +2,7 @@ import styles from "./styles.module.css";
 import { useCharacterMenu } from "@/hooks/menu/useCharacter";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { asset } from "@/utils/asset";
+import { getRank, formatRank } from "@/gameRules/rank";
 
 export function Character() {
   const { progress, getXPToNextLevel } = useCharacterProgress();
@@ -38,6 +39,9 @@ export function Character() {
               <h2 className={styles.text}>
                 {char.name} - Nv.{charProgress.level}
               </h2>
+              <p className={styles.rank}>
+                {formatRank(getRank(charProgress.level))}
+              </p>
 
               <div className="xpBar">
                 <div className="xpFill" style={{ width: `${percent}%` }} />

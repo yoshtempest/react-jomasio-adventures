@@ -14,6 +14,7 @@ import {
 import type { EquipmentSlot } from "@/utils/types/player/equipment";
 import { getTotalArmor } from "@/gameRules/battle/equipment";
 import { PassiveSkills } from "../../PassiveSkills";
+import { getRank, formatRank } from "@/gameRules/rank";
 
 const STAT_TIPS: Record<string, string> = {
   hp: "Aumenta a vida máxima. Cada ponto concede 10 de HP.",
@@ -78,6 +79,9 @@ export function Status() {
           />
           <h2>
             {characterData?.name} - Nv.{charProgress.level}
+          </h2>
+          <h2 className={styles.rank}>
+            {formatRank(getRank(charProgress.level))}
           </h2>
           <h2>Classe: {playerClass}</h2>
           <div className="xpBar">

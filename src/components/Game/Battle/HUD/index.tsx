@@ -5,7 +5,9 @@ import { asset } from "@/utils/asset";
 import { getNpcDisplayName } from "@/utils/types/npc/npcNames";
 import styles from "./styles.module.css";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
+import { getRank, formatRank } from "@/gameRules/rank";
 
 type BattleHUDState = {
   playerHP: number;
@@ -27,12 +29,15 @@ type Props = {
   battle: BattleHUDState;
   npcStats: NpcStats;
   npcType?: string;
+  npcLevel?: number;
   summons?: SummonedNpc[];
 };
 
-export function BattleHUD({ battle, npcStats, npcType, summons }: Props) {
+export function BattleHUD({ battle, npcStats, npcType, npcLevel, summons }: Props) {
   const { player } = usePlayer();
+  const { progress } = useCharacterProgress();
   const playerName = localStorage.getItem("playerName") || "Protagonista";
+  const playerRank = formatRank(getRank(progress[player.character]?.level ?? 1));
   return (
     <>
       <div className={styles.container} style={{ left: 10, top: 10 }}>
@@ -43,6 +48,7 @@ export function BattleHUD({ battle, npcStats, npcType, summons }: Props) {
         />
         <div style={{ position: "absolute", top: 0, left: 80 }}>
           <h2 className={styles.playerName}>{playerName}</h2>
+          <p className={styles.playerRank}>{playerRank}</p>
 
           <div className={styles.flexRow}>
             <div>
@@ -85,6 +91,11 @@ export function BattleHUD({ battle, npcStats, npcType, summons }: Props) {
         <div className={styles.container} style={{ right: 10, top: 10 }}>
           <div style={{ position: "absolute", top: 0, right: 80 }}>
             <h2 className={styles.name}>{getNpcDisplayName(npcType)}</h2>
+            {npcLevel !== undefined && (
+              <p className={styles.npcRank}>
+                {formatRank(getRank(npcLevel))}
+              </p>
+            )}
 
             <HealthBar hp={battle.npcHP} maxHp={npcStats.hp} reversed />
           </div>

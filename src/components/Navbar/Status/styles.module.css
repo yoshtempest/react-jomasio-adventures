@@ -38,6 +38,11 @@
   font-style: italic;
 }
 
+.rank {
+  color: #fbbf24;
+  font-size: 14px;
+}
+
 .tip {
   font-size: 11px;
   color: #aaa;

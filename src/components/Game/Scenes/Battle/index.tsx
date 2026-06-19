@@ -108,6 +108,7 @@ export function BattleScene(props: Props) {
         battle={battle}
         npcStats={npcStats}
         npcType={npcType}
+        npcLevel={npcLevel}
         summons={summons}
       />
       <ComboDisplay

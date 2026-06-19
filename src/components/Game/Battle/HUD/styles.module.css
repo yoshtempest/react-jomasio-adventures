@@ -35,3 +35,18 @@
 .name {
   text-align: right;
 }
+
+.playerRank,
+.npcRank {
+  font-size: 11px;
+  color: #fbbf24;
+  margin: 0;
+}
+
+.playerRank {
+  text-align: left;
+}
+
+.npcRank {
+  text-align: right;
+}
