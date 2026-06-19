@@ -270,7 +270,7 @@ export function useBattleScene({
           npc.resetNpc("pitch");
           phaseTimeoutRef.current = setTimeout(
             () => setIsPhaseTransitioning(false),
-            2500,
+            600,
           );
         }
       }

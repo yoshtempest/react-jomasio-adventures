@@ -79,7 +79,7 @@ export function slimitaBehavior(ctx: BehaviorContext) {
     }
 
     case "resting": {
-      npc.state = "idle";
+      npc.state = "attack";
 
       const restTime = now - state.startTime;
 

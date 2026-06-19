@@ -47,7 +47,7 @@ export function rangedChaseBehavior(
     });
 
     if (hit) {
-      npc.state = "idle";
+      npc.state = "attack";
 
       return {
         x: npc.x,
@@ -67,7 +67,7 @@ export function rangedChaseBehavior(
   });
 
   if (projectile) {
-    npc.state = "idle";
+    npc.state = "attack";
 
     return {
       x: npc.x,

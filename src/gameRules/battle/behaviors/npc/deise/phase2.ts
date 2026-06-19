@@ -14,7 +14,7 @@ import {
 type Phase2Result = {
   x: number;
   y: number;
-  state?: "pitch" | "walk" | "idle";
+  state?: "pitch" | "walk" | "attack";
 };
 
 export function deisePhase2(
@@ -55,19 +55,22 @@ export function deisePhase2(
 
       ai.lastStaffThrow = now;
       ai.lastAction = now;
-      ai.phase2PitchEnd = now + 200;
+      ai.phase2PitchEnd = now;
       ai.phase2OpeningDone = true;
       return { x: npc.x, y: npc.y, state: "pitch" };
     }
 
     // Opening spear in flight — chase during this period
     const { x } = chasePlayer(npc, playerX, playerY);
-    tryMeleeAttack({
+    const meleeHit = tryMeleeAttack({
       npcX: npc.x, npcY: npc.y,
       playerX, playerY,
       range: 200, cooldown: 2000,
       lastAttackRef, onHit: onMeleeHit,
     });
+    if (meleeHit) {
+      return { x, y: npc.y, state: "attack" };
+    }
     return { x, y: npc.y, state: "walk" };
   }
 
@@ -136,15 +139,18 @@ export function deisePhase2(
     (ai.phase2OpeningDone && projectile != null)
   ) {
     const { x } = chasePlayer(npc, playerX, playerY);
-    tryMeleeAttack({
+    const meleeHit = tryMeleeAttack({
       npcX: npc.x, npcY: npc.y,
       playerX, playerY,
       range: 200, cooldown: 2000,
       lastAttackRef, onHit: onMeleeHit,
     });
+    if (meleeHit) {
+      return { x, y: npc.y, state: "attack" };
+    }
     return { x, y: npc.y, state: "walk" };
   }
 
   // Standing still during falling phase
-  return { x: npc.x, y: npc.y, state: "idle" };
+  return { x: npc.x, y: npc.y, state: "attack" };
 }

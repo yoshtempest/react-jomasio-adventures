@@ -38,7 +38,7 @@ export function useProjectile(
         }
 
         const speed = 11;
-        const spearRiseSpeed = 25;
+        const spearRiseSpeed = 120;
         const OFFSCREEN_MARGIN = 200;
         const MAP_WIDTH = 1280;
         const MAP_HEIGHT = 600;

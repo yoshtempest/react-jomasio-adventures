@@ -3,7 +3,7 @@ export type NPCDirection = "right" | "left";
 export type NPCBattleState = {
   x: number;
   y: number;
-  state: "idle" | "walk" | "hit" | "jumping" | "pitch" | "inAir" | "falling" | "airAttack" | "preAttack" | "preJump";
+  state: "idle" | "walk" | "hit" | "jumping" | "pitch" | "inAir" | "falling" | "airAttack" | "preAttack" | "preJump" | "attack";
   direction: NPCDirection;
   jumpLandingX?: number;
   dangerZones?: Array<{ x: number; startTime: number }>;
@@ -36,7 +36,7 @@ export type SummonedNpc = {
   x: number;
   y: number;
   direction: NPCDirection;
-  state: "idle" | "walk";
+  state: "idle" | "walk" | "attack";
   hp: number;
   maxHp: number;
   isDying: boolean;
