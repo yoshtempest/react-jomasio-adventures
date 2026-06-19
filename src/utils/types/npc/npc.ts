@@ -3,7 +3,7 @@ export type NPCDirection = "right" | "left";
 export type NPCBattleState = {
   x: number;
   y: number;
-  state: "idle" | "walk" | "hit" | "jumping" | "pitch" | "inAir" | "falling" | "airAttack" | "preAttack" | "preJump" | "attack";
+  state: "idle" | "walk" | "hit" | "jumping" | "pitch" | "inAir" | "falling" | "airAttack" | "preAttack" | "preJump" | "attack" | "inJump" | "jumpAttack";
   direction: NPCDirection;
   jumpLandingX?: number;
   dangerZones?: Array<{ x: number; startTime: number }>;
@@ -30,6 +30,11 @@ export type NPCBattleState = {
     hungryKing?: {
       knownPhase: number;
       hasSummoned: boolean;
+      jumpState: "idle" | "jumping" | "inJump" | "jumpAttack";
+      jumpStartTime: number;
+      jumpTargetX: number;
+      lastJump: number;
+      landingTime: number;
     };
   };
 };

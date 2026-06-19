@@ -10,7 +10,7 @@ type Props = {
   y: number;
   TILE_SIZE: number;
   npcType: string;
-  state: "idle" | "walk" | "hit" | "jumping" | "attack" | "pitch" | "inAir" | "falling" | "airAttack" | "preAttack" | "preJump";
+  state: "idle" | "walk" | "hit" | "jumping" | "attack" | "pitch" | "inAir" | "falling" | "airAttack" | "preAttack" | "preJump" | "inJump" | "jumpAttack";
   direction: "left" | "right";
   projectile?: Projectile | null;
   piercings?: { id: number; x: number; y: number }[];

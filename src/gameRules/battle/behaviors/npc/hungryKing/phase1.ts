@@ -1,0 +1,88 @@
+import { chasePlayer } from "@/gameRules/npc/movement";
+import { tryMeleeAttack } from "@/gameRules/npc/attack";
+import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
+import type { NPCBattleState } from "@/utils/types/npc/npc";
+import type { HungryKingAI } from "./state";
+import {
+  JUMP_COOLDOWN,
+  JUMP_DURATION,
+  JUMP_THRESHOLD,
+  JUMP_HEIGHT,
+  GROUND_Y,
+  JUMP_RISE_MS,
+  JUMP_FLIGHT_MS,
+  JUMP_RECOVERY_MS,
+} from "./state";
+
+type Phase1Result = { x: number; y: number; state?: NPCBattleState["state"] };
+
+function getJumpState(elapsed: number): NPCBattleState["state"] {
+  if (elapsed < JUMP_RISE_MS) return "jumping";
+  if (elapsed < JUMP_RISE_MS + JUMP_FLIGHT_MS) return "inJump";
+  return "jumpAttack";
+}
+
+export function hungryKingPhase1(
+  ctx: BehaviorContext,
+  ai: HungryKingAI,
+): Phase1Result {
+  const { npc, playerX, playerY, lastAttackRef, onMeleeHit } = ctx;
+  const now = Date.now();
+  const distance = Math.hypot(npc.x - playerX, npc.y - playerY);
+
+  // ── landing recovery ─────────────────────────────
+  if (ai.jumpState === "jumpAttack") {
+    if (now - ai.landingTime < JUMP_RECOVERY_MS) {
+      return { x: npc.x, y: npc.y, state: "jumpAttack" };
+    }
+    ai.jumpState = "idle";
+  }
+
+  // ── idle (normal chase + melee + jump start) ─────
+  if (ai.jumpState === "idle") {
+    const { x } = chasePlayer(npc, playerX, playerY);
+
+    tryMeleeAttack({
+      npcX: npc.x,
+      npcY: npc.y,
+      playerX,
+      playerY,
+      range: 40,
+      cooldown: 800,
+      lastAttackRef,
+      onHit: onMeleeHit,
+    });
+
+    if (distance > JUMP_THRESHOLD && now - ai.lastJump > JUMP_COOLDOWN) {
+      ai.jumpState = "jumping";
+      ai.jumpStartTime = now;
+      ai.jumpTargetX = playerX;
+      ai.lastJump = now;
+      npc.jumpLandingX = playerX;
+      return { x, y: npc.y, state: "jumping" };
+    }
+
+    return { x, y: npc.y };
+  }
+
+  // ── in-air (jumping / inJump) ────────────────────
+  const elapsed = now - ai.jumpStartTime;
+
+  if (elapsed < JUMP_DURATION) {
+    const progress = elapsed / JUMP_DURATION;
+    const height = Math.sin(progress * Math.PI) * JUMP_HEIGHT;
+    const newX = npc.x + (ai.jumpTargetX - npc.x) * 0.04;
+    return { x: newX, y: GROUND_Y - height, state: getJumpState(elapsed) };
+  }
+
+  // ── landing ──────────────────────────────────────
+  ai.jumpState = "jumpAttack";
+  ai.landingTime = now;
+  npc.jumpLandingX = undefined;
+
+  if (Math.hypot(ai.jumpTargetX - playerX, GROUND_Y - playerY) < 150) {
+    onMeleeHit();
+  }
+
+  return { x: ai.jumpTargetX, y: GROUND_Y, state: "jumpAttack" };
+}

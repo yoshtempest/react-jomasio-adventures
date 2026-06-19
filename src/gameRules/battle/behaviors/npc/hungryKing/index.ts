@@ -1,8 +1,8 @@
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
 import type { NPCBattleState } from "@/utils/types/npc/npc";
 import { initHungryKingAi, handlePhaseChange } from "./state";
+import { hungryKingPhase1 } from "./phase1";
 import { hungryKingPhase2 } from "./phase2";
-import { normalBehavior } from "@/gameRules/battle/behaviors/npc/normal";
 
 export function hungryKingBehavior(
   ctx: BehaviorContext,
@@ -24,5 +24,5 @@ export function hungryKingBehavior(
     return hungryKingPhase2(ctx, ai);
   }
 
-  return normalBehavior(ctx);
+  return hungryKingPhase1(ctx, ai);
 }
