@@ -1,39 +1,39 @@
 export const ITEMS = {
   director_key: {
     id: "director_key",
-    image: "/assets/items/oldKey.svg",
+    image: "/assets/items/director_key.svg",
     name: "Chave enferrujada",
     description:
       "Uma chave velha e enferrujada. Deve abrir alguma porta por aí.",
   },
   aura_letter: {
     id: "aura_letter",
-    image: "/assets/items/auraLetter.svg",
+    image: "/assets/items/aura_letter.svg",
     name: "Carta de muita aura",
     description:
       "Uma carta com uma aura misteriosa. Melhor não ler em voz alta.",
   },
   package_01: {
     id: "package_01",
-    image: "/assets/items/suspectPackage.svg",
+    image: "/assets/items/package_01.svg",
     name: "Embalagem com surpresinha",
     description: "Um pacote suspeito. Quem sabe o que tem dentro?",
   },
   good_powder: {
     id: "good_powder",
-    image: "/assets/items/goodPowder.svg",
+    image: "/assets/items/good_powder.svg",
     name: "Pó do bom",
     description: "Um pó brilhante e cheiroso. Dizem que causa alucinações.",
   },
   desired_gear: {
     id: "desired_gear",
-    image: "/assets/items/desiredGear.svg",
+    image: "/assets/items/desired_gear.svg",
     name: "Peça desejada",
     description: "Era essa a peça que o Jailson queria?",
   },
   orange_juice: {
     id: "orange_juice",
-    image: "/assets/items/orangeJuice.svg",
+    image: "/assets/items/orange_juice.svg",
     name: "Suco de laranja",
     description:
       "Suco natural, geladinho. Refrescante. Perfeito para relaxar...",
@@ -46,7 +46,7 @@ export const ITEMS = {
   },
   jorjao_map: {
     id: "jorjao_map",
-    image: "/assets/items/jorjaoMap.svg",
+    image: "/assets/items/jorjao_map.svg",
     name: "Mapa Escolar",
     description: "Um mapa do Jorjão. Use para se localizar.",
   },
@@ -59,7 +59,7 @@ export const ITEMS = {
   },
   suspect_milk: {
     id: "suspect_milk",
-    image: "/assets/items/suspectMilk.svg",
+    image: "/assets/items/suspect_milk.svg",
     name: "Leite Bovino",
     description: "Um leite suspeito. Venceu mês passado.",
   },
