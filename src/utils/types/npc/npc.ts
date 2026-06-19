@@ -6,6 +6,8 @@ export type NPCBattleState = {
   state: "idle" | "walk" | "hit" | "jumping" | "pitch" | "inAir" | "falling" | "airAttack" | "preAttack" | "preJump";
   direction: NPCDirection;
   jumpLandingX?: number;
+  dangerZones?: Array<{ x: number; startTime: number }>;
+  fallingSpears?: Array<{ x: number; y: number; hit?: boolean }>;
 
   ai?: {
     slimita?: {
@@ -20,6 +22,10 @@ export type NPCBattleState = {
       lastStaffThrow: number;
       lastSummon: number;
       lastAction: number;
+      spearRainPhase: "idle" | "warning" | "falling";
+      lastSpearRain: number;
+      spearRainWarningStart: number;
+      spearRainPositions: number[];
     };
   };
 };
