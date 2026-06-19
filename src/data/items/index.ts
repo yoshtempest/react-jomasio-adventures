@@ -134,26 +134,31 @@ export const ITEMS = {
   // ── Baús ────────────────────────────────────────────────
   common_chest: {
     id: "common_chest",
+    image: "/assets/items/chest.svg",
     name: "Baú Simples",
     description: "Um baú de madeira. Quem sabe o que tem dentro?",
   },
   rare_chest: {
     id: "rare_chest",
+    image: "/assets/items/chest.svg",
     name: "Baú Raro",
     description: "Um baú prateado. Parece ter coisas valiosas.",
   },
   epic_chest: {
     id: "epic_chest",
+    image: "/assets/items/chest.svg",
     name: "Baú Épico",
     description: "Um baú energizado. Coisas poderosas o aguardam.",
   },
   boss_chest: {
     id: "boss_chest",
+    image: "/assets/items/chest.svg",
     name: "Baú de Chefão",
     description: "Um baú imponente. Apenas os fortes o abrem.",
   },
   legendary_chest: {
     id: "legendary_chest",
+    image: "/assets/items/chest.svg",
     name: "Baú Lendário",
     description: "Um baú místico. Dizem que contém itens lendários.",
   },

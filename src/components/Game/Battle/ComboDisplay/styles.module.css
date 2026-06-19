@@ -1,6 +1,6 @@
 .container {
   position: absolute;
-  bottom: 16vh;
+  bottom: 38vh;
   right: 2vw;
   display: flex;
   flex-direction: column;
@@ -59,6 +59,10 @@
   color: rgba(255, 255, 255, 0.6);
 }
 
+.rank {
+  font-size: 42px;
+}
+
 .rankF {
   color: #888;
 }
@@ -85,15 +89,12 @@
 
 .rankS {
   color: #ff0044;
-  font-size: 42px;
 }
 
 .rankSplus {
   color: #ff00ff;
-  font-size: 42px;
 }
 
 .rankSS {
   color: #00ffff;
-  font-size: 42px;
 }

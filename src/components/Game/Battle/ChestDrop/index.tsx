@@ -14,13 +14,13 @@ export function ChestDrops({ chestDrop, keyDrop }: Props) {
       <div className="dropsList">
         {chestDrop && (
           <div className="dropItem">
-            <span className={styles.dropIcon}>📦</span>
+            <span className={styles.dropIcon}></span>
             <span className="dropName">{chestDrop.name}</span>
           </div>
         )}
         {keyDrop && (
           <div className="dropItem">
-            <span className={styles.dropIcon}>🔑</span>
+            <span className={styles.dropIcon}></span>
             <span className="dropName">{keyDrop.name}</span>
           </div>
         )}
