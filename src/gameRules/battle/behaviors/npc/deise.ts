@@ -4,9 +4,9 @@ import { createDirectionalProjectile } from "@/gameRules/npc/createDirectionalPr
 
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
 
-const STAFF_COOLDOWN = 4000;
+const STAFF_COOLDOWN = 500;
 const SUMMON_COOLDOWN = 7000;
-const MIN_ACTION_GAP = 2000;
+const MIN_ACTION_GAP = 100;
 const CLOSE_RANGE = 200;
 
 export function deiseBehavior(ctx: BehaviorContext) {
@@ -100,7 +100,7 @@ export function deiseBehavior(ctx: BehaviorContext) {
         setProjectile(createDirectionalProjectile({
           startX: npc.x - 40,
           startY: npc.y - 50,
-          targetX: playerX,
+          targetX: playerX - 100,
           targetY: playerY - 50,
           sprite: "staff",
           state: "idle",

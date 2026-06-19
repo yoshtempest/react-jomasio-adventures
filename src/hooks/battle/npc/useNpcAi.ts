@@ -149,9 +149,14 @@ export function useNpcAI({
     return () => clearInterval(interval);
   }, [hitstopRef, npcStaggerRef, npcPhaseRef]);
 
+  const updateNpc = (partial: Partial<NPCBattleState>) => {
+    setNpc((n) => ({ ...n, ...partial }));
+  };
+
   return {
     ...npc,
     projectile,
     resetNpc,
+    updateNpc,
   };
 }
