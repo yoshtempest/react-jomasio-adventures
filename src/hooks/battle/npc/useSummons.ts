@@ -1,5 +1,3 @@
-// hooks/battle/useSummons.ts
-
 import { useCallback, useRef, useState } from "react";
 
 import { NPCS } from "@/data/npc";
@@ -14,7 +12,7 @@ type Props = {
   playerGroundY: number;
 };
 
-const SPAWN_POSITIONS = [700, 1050];
+const SPAWN_POSITIONS = [550, 850, 1150];
 
 export function useSummons({
   npcLevel,
@@ -25,6 +23,7 @@ export function useSummons({
   const [summons, setSummons] = useState<SummonedNpc[]>([]);
 
   const npcXRef = useRef(900);
+  const nextSpawnIndex = useRef(0);
 
   const updateNpcPosition = useCallback((npcX: number) => {
     npcXRef.current = npcX;
@@ -42,13 +41,8 @@ export function useSummons({
         difficulty,
       ).hp;
 
-      const takenPositions = summons.map((summon) => summon.x);
-
-      const freePosition = SPAWN_POSITIONS.find(
-        (position) => !takenPositions.includes(position),
-      );
-
-      const spawnX = freePosition ?? npcXRef.current;
+      const spawnX = SPAWN_POSITIONS[nextSpawnIndex.current % SPAWN_POSITIONS.length] ?? npcXRef.current;
+      nextSpawnIndex.current += 1;
 
       setSummons((prev) => [
         ...prev,
@@ -65,11 +59,12 @@ export function useSummons({
         },
       ]);
     },
-    [summons, npcLevel, difficulty, playerGroundY, playerX],
+    [npcLevel, difficulty, playerGroundY, playerX],
   );
 
   const clearSummons = useCallback(() => {
     setSummons([]);
+    nextSpawnIndex.current = 0;
   }, []);
 
   return {

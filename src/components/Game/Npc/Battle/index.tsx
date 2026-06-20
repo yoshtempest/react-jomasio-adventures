@@ -65,6 +65,10 @@ export function NPCBattle({
       return asset(`assets/npcs/slimita/${state}.svg`);
     }
 
+    if (npcType === "hungryKing" && npcPhase === 2 && state === "pitch") {
+      return asset("assets/npcs/hungryKing/invoking.svg");
+    }
+
     return asset(`assets/npcs/${npcType}/${state}.svg`);
   };
 

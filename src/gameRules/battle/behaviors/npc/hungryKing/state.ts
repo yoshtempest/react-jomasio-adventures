@@ -6,6 +6,7 @@ export type HungryKingAI = {
   jumpTargetX: number;
   lastJump: number;
   landingTime: number;
+  summonEndTime: number;
 };
 
 export const JUMP_COOLDOWN = 4000;
@@ -27,6 +28,7 @@ export function initHungryKingAi(phase: number): HungryKingAI {
     jumpTargetX: 0,
     lastJump: 0,
     landingTime: now,
+    summonEndTime: 0,
   };
 }
 
