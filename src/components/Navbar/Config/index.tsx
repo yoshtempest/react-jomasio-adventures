@@ -21,7 +21,7 @@ const DIFFICULTY_LABEL: Record<NpcDifficulty, string> = {
 
 export function Config() {
   const { difficulty } = usePlayer();
-  const { volume } = useAudio();
+  const { sfxVolume, bgmVolume } = useAudio();
   const { dialogueSpeed } = useSettings();
   const { difficultyList, selectedIndex, selectedRow, screen } =
     useConfigMenu(true);
@@ -65,20 +65,29 @@ export function Config() {
       <div className={styles.volumeContainer}>
         {selectedRow === 1 && <span className={styles.cursor}>▼</span>}
 
-        <h2>Volume: {volume}</h2>
+        <h2>Efeitos Sonoros: {sfxVolume}</h2>
 
         <div className={styles.volumeBar}>
-          <div className={styles.volumeFill} style={{ width: `${volume}%` }} />
+          <div className={styles.volumeFill} style={{ width: `${sfxVolume}%` }} />
+        </div>
+      </div>
+      <div className={styles.volumeContainer}>
+        {selectedRow === 2 && <span className={styles.cursor}>▼</span>}
+
+        <h2>Música de Fundo: {bgmVolume}</h2>
+
+        <div className={styles.volumeBar}>
+          <div className={styles.volumeFill} style={{ width: `${bgmVolume}%` }} />
         </div>
       </div>
       <div className={styles.speedContainer}>
-        {selectedRow === 2 && <span className={styles.cursor}>▼</span>}
+        {selectedRow === 3 && <span className={styles.cursor}>▼</span>}
 
         <h2>Velocidade do Diálogo: {SPEED_LABEL[dialogueSpeed]}</h2>
 
         <div className={styles.speedOptions}>
           {DIALOGUE_SPEED_LIST.map((speed, index) => {
-            const isSelected = selectedRow === 2 && index === selectedIndex;
+            const isSelected = selectedRow === 3 && index === selectedIndex;
             return (
               <div
                 key={speed}
@@ -94,10 +103,10 @@ export function Config() {
       </div>
       <div
         className={`${styles.tutorialButton} ${
-          selectedRow === 3 ? styles.selected : ""
+          selectedRow === 4 ? styles.selected : ""
         }`}
       >
-        {selectedRow === 3 && <span className={styles.cursor}>▼</span>}
+        {selectedRow === 4 && <span className={styles.cursor}>▼</span>}
 
         <h2>Ver Tutorial</h2>
       </div>

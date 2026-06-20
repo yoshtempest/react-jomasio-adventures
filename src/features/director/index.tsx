@@ -27,13 +27,13 @@ export function DirectorScene({ sceneId }: Props) {
   const [popup, setPopup] = useState<string | null>(null);
   const [gotKey, setGotKey] = useState(false);
 
-  const { volume: masterVolume } = useAudio();
-  const masterVolumeRef = useRef(masterVolume);
-  masterVolumeRef.current = masterVolume;
+  const { sfxVolume } = useAudio();
+  const sfxVolumeRef = useRef(sfxVolume);
+  sfxVolumeRef.current = sfxVolume;
 
   const playSFX = useCallback((src: string, volume = 1) => {
     const audio = new Audio(asset(src));
-    audio.volume = volume * (masterVolumeRef.current / 100);
+    audio.volume = volume * (sfxVolumeRef.current / 100);
     audio.play().catch(() => {});
   }, []);
 

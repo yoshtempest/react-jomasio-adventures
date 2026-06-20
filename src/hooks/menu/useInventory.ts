@@ -10,14 +10,14 @@ import { asset } from "@/utils/asset";
 export function useInventoryMenu(isOpen: boolean) {
   const { pushControls, popControls } = useGameControls();
   const { items } = useInventory();
-  const { volume: masterVolume } = useAudio();
+  const { sfxVolume } = useAudio();
 
-  const masterVolumeRef = useRef(masterVolume);
-  masterVolumeRef.current = masterVolume;
+  const sfxVolumeRef = useRef(sfxVolume);
+  sfxVolumeRef.current = sfxVolume;
 
   const playSFX = (src: string, volume = 1) => {
     const audio = new Audio(asset(src));
-    audio.volume = volume * (masterVolumeRef.current / 100);
+    audio.volume = volume * (sfxVolumeRef.current / 100);
     audio.play().catch(() => {});
   };
 

@@ -4,7 +4,7 @@ import { useAudio } from "@/contexts/AudioContext";
 
 export function useSansTalking(isDialogueOpen: boolean) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const { volume } = useAudio();
+  const { sfxVolume } = useAudio();
 
   if (!audioRef.current) {
     audioRef.current = new Audio(SansTalking);
@@ -14,8 +14,8 @@ export function useSansTalking(isDialogueOpen: boolean) {
     if (!audioRef.current) return;
 
     // 0.3 = volume base do efeito
-    audioRef.current.volume = (volume / 100) * 0.3;
-  }, [volume]);
+    audioRef.current.volume = (sfxVolume / 100) * 0.3;
+  }, [sfxVolume]);
 
   const play = useCallback(() => {
     if (audioRef.current) {

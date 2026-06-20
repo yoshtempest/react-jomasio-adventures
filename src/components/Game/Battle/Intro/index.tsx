@@ -11,16 +11,16 @@ type Props = {
 
 export function BattleIntro({ playerCharacter, npcType, onSkip }: Props) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const { volume: masterVolume } = useAudio();
-  const masterVolumeRef = useRef(masterVolume);
-  masterVolumeRef.current = masterVolume;
+  const { sfxVolume } = useAudio();
+  const sfxVolumeRef = useRef(sfxVolume);
+  sfxVolumeRef.current = sfxVolume;
 
   useEffect(() => {
     const audio = new Audio(
       asset("/assets/songs/soundEffects/battle/onePiece.mp3"),
     );
 
-    audio.volume = 0.5 * (masterVolumeRef.current / 100);
+    audio.volume = 0.5 * (sfxVolumeRef.current / 100);
     audio.currentTime = 0;
 
     audio.play().catch(() => {

@@ -33,7 +33,7 @@ type SoundEffectsContextType = {
 const SoundEffectsContext = createContext<SoundEffectsContextType | null>(null);
 
 export function SoundEffectsProvider({ children }: { children: ReactNode }) {
-  const { volume: masterVolume } = useAudio();
+  const { sfxVolume } = useAudio();
 
   const soundsRef = useRef<Record<SoundId, HTMLAudioElement>>(
     {} as Record<SoundId, HTMLAudioElement>,
@@ -87,9 +87,9 @@ export function SoundEffectsProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     Object.values(soundsRef.current).forEach((audio) => {
-      audio.volume = masterVolume / 100;
+      audio.volume = sfxVolume / 100;
     });
-  }, [masterVolume]);
+  }, [sfxVolume]);
 
   const playSound = async (sound: SoundId, loop?: boolean) => {
     const audio = soundsRef.current[sound];

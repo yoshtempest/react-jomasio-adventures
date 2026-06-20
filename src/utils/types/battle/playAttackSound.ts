@@ -9,8 +9,8 @@ export function playAttackSound(character: Player["character"]) {
 
   const audio = new Audio(pick);
 
-  const saved = localStorage.getItem("game_volume");
-  const masterVolume = saved !== null ? Number(saved) : 50;
-  audio.volume = config.volume * (masterVolume / 100);
+  const saved = localStorage.getItem("game_sfx_volume");
+  const sfxVolume = saved !== null ? Number(saved) : 50;
+  audio.volume = config.volume * (sfxVolume / 100);
   audio.play().catch(() => {});
 }

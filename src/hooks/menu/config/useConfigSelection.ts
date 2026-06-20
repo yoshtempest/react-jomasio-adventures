@@ -9,21 +9,23 @@ import { useSettings } from "@/contexts/SettingsContext";
 import { DIALOGUE_SPEED_LIST } from "@/utils/settings";
 
 const DIFFICULTY: NpcDifficulty[] = ["easy", "medium", "hard"];
+const MAX_ROW = 4;
 
 export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   const { pushControls, popControls } = useGameControls();
 
   const { setDifficulty } = usePlayer();
-  const { volume, setVolume } = useAudio();
+  const { sfxVolume, setSfxVolume, bgmVolume, setBgmVolume } = useAudio();
   const { setDialogueSpeed } = useSettings();
   const { playMove, playSelect, playClose } = useMenuSFX();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   // 0 = dificuldade
-  // 1 = volume
-  // 2 = velocidade do diálogo
-  // 3 = tutorial
+  // 1 = volume SFX
+  // 2 = volume BGM
+  // 3 = velocidade do diálogo
+  // 4 = tutorial
   const [selectedRow, setSelectedRow] = useState(0);
 
   // menu | tutorial
@@ -51,8 +53,10 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   popControlsRef.current = popControls;
   const setDifficultyRef = useRef(setDifficulty);
   setDifficultyRef.current = setDifficulty;
-  const setVolumeRef = useRef(setVolume);
-  setVolumeRef.current = setVolume;
+  const setSfxVolumeRef = useRef(setSfxVolume);
+  setSfxVolumeRef.current = setSfxVolume;
+  const setBgmVolumeRef = useRef(setBgmVolume);
+  setBgmVolumeRef.current = setBgmVolume;
   const setDialogueSpeedRef = useRef(setDialogueSpeed);
   setDialogueSpeedRef.current = setDialogueSpeed;
   const onConfirmRef = useRef(onConfirm);
@@ -71,10 +75,14 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
         }
 
         if (selectedRowRef.current === 1) {
-          setVolumeRef.current(Math.min(volume + 10, 100));
+          setSfxVolumeRef.current(Math.min(sfxVolume + 10, 100));
         }
 
         if (selectedRowRef.current === 2) {
+          setBgmVolumeRef.current(Math.min(bgmVolume + 10, 100));
+        }
+
+        if (selectedRowRef.current === 3) {
           setSelectedIndex((prev) =>
             circularNext(prev, DIALOGUE_SPEED_LIST.length),
           );
@@ -90,10 +98,14 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
         }
 
         if (selectedRowRef.current === 1) {
-          setVolumeRef.current(Math.max(volume - 10, 0));
+          setSfxVolumeRef.current(Math.max(sfxVolume - 10, 0));
         }
 
         if (selectedRowRef.current === 2) {
+          setBgmVolumeRef.current(Math.max(bgmVolume - 10, 0));
+        }
+
+        if (selectedRowRef.current === 3) {
           setSelectedIndex((prev) =>
             circularPrev(prev, DIALOGUE_SPEED_LIST.length),
           );
@@ -104,7 +116,7 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
         if (screenRef.current !== "menu") return;
 
         playMoveRef.current();
-        setSelectedRow((prev) => Math.min(prev + 1, 3));
+        setSelectedRow((prev) => Math.min(prev + 1, MAX_ROW));
       },
 
       onUp: () => {
@@ -122,22 +134,20 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
         // dificuldade
         if (selectedRowRef.current === 0) {
           const selected = getSelected(DIFFICULTY, selectedIndexRef.current);
-
           setDifficultyRef.current(selected);
         }
 
         // velocidade do diálogo
-        if (selectedRowRef.current === 2) {
+        if (selectedRowRef.current === 3) {
           const selected = getSelected(
             DIALOGUE_SPEED_LIST,
             selectedIndexRef.current,
           );
-
           setDialogueSpeedRef.current(selected);
         }
 
         // tutorial
-        if (selectedRowRef.current === 3) {
+        if (selectedRowRef.current === 4) {
           setScreen("tutorial");
         }
 
@@ -162,7 +172,7 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
     pushControlsRef.current(controls);
 
     return () => popControlsRef.current();
-  }, [isActive, volume]);
+  }, [isActive, sfxVolume, bgmVolume]);
 
   return {
     difficulty: DIFFICULTY,

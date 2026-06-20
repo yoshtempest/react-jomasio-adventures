@@ -7,26 +7,42 @@ import {
 } from "react";
 
 type AudioContextType = {
-  volume: number;
-  setVolume: (value: number) => void;
+  sfxVolume: number;
+  setSfxVolume: (value: number) => void;
+  bgmVolume: number;
+  setBgmVolume: (value: number) => void;
 };
 
 const AudioContext = createContext<AudioContextType | null>(null);
 
-export function AudioProvider({ children }: { children: ReactNode }) {
-  const [volume, setVolumeState] = useState(() => {
-    const saved = localStorage.getItem("game_volume");
+const SFX_KEY = "game_sfx_volume";
+const BGM_KEY = "game_bgm_volume";
 
+export function AudioProvider({ children }: { children: ReactNode }) {
+  const [sfxVolume, setSfxVolumeState] = useState(() => {
+    const saved = localStorage.getItem(SFX_KEY);
     return saved ? Number(saved) : 50;
   });
 
-  const setVolume = useCallback((value: number) => {
-    setVolumeState(value);
-    localStorage.setItem("game_volume", String(value));
+  const [bgmVolume, setBgmVolumeState] = useState(() => {
+    const saved = localStorage.getItem(BGM_KEY);
+    return saved ? Number(saved) : 50;
+  });
+
+  const setSfxVolume = useCallback((value: number) => {
+    setSfxVolumeState(value);
+    localStorage.setItem(SFX_KEY, String(value));
+  }, []);
+
+  const setBgmVolume = useCallback((value: number) => {
+    setBgmVolumeState(value);
+    localStorage.setItem(BGM_KEY, String(value));
   }, []);
 
   return (
-    <AudioContext.Provider value={{ volume, setVolume }}>
+    <AudioContext.Provider
+      value={{ sfxVolume, setSfxVolume, bgmVolume, setBgmVolume }}
+    >
       {children}
     </AudioContext.Provider>
   );
