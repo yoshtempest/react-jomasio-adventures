@@ -52,6 +52,7 @@ const BrodiclassBattle = lazyLoad(() => import("@/pages/BrodiClass/Battle"));
 const HellroomPage = lazyLoad(() => import("@/pages/HellRoom"));
 const HellroomBattle = lazyLoad(() => import("@/pages/HellRoom/Battle"));
 
+const Landing = lazyLoad(() => import("@/pages/Landing"));
 const Login = lazyLoad(() => import("@/pages/Login"));
 const Register = lazyLoad(() => import("@/pages/Register"));
 
@@ -79,7 +80,8 @@ export function AppRoutes() {
       <Preloader pages={nonBattlePages} />
       <Suspense fallback={<LoadingScreen />}>
         <Routes>
-          {/* Auth routes — outside App layout */}
+          {/* Standalone routes — outside App layout */}
+          <Route path="/landing" element={<Landing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
