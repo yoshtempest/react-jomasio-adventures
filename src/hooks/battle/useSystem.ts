@@ -12,6 +12,7 @@ import { useNpcBattle } from "@/hooks/battle/npc/useNpc";
 import { useBattleLifecycle } from "@/hooks/battle/useLifecycle";
 import { usePetBattle } from "@/hooks/battle/player/usePet";
 import { useDamageNumbers } from "@/hooks/battle/useDamageNumbers";
+import { useExternalDamage } from "@/hooks/battle/useExternalDamage";
 
 type Props = {
   playerX: number;
@@ -101,19 +102,20 @@ export function useBattleSystem(props: Props) {
   const { playerHP, setPlayerHP, npcHP, setNpcHP, playerShield, setPlayerShield } =
     useBattleHP(playerMaxHp, npcMaxHp, totalShield);
 
-  const playerShieldRef = useRef(playerShield);
-  playerShieldRef.current = playerShield;
-
-  const damagePlayerHp = (damage: number) => {
-    const shield = playerShieldRef.current;
-    if (shield >= damage) {
-      setPlayerShield((s) => s - damage);
-      return;
-    }
-    setPlayerShield(0);
-    const remaining = damage - shield;
-    setPlayerHP((hp) => Math.max(0, hp - remaining));
-  };
+  // 💥 external damage
+  const { damagePlayerHp, damagePlayer } = useExternalDamage({
+    playerX,
+    playerY,
+    player,
+    totalArmor,
+    blockGauge,
+    playerShield,
+    setPlayerHP,
+    setPlayerShield,
+    setBlockGauge,
+    setPlayer,
+    spawnDamageRef,
+  });
 
   // 👊 player
   const playerBattle = usePlayerBattle({
@@ -204,35 +206,6 @@ export function useBattleSystem(props: Props) {
     onPetDamage: () => petDamageRef.current(),
     hitstopRef,
   });
-
-  // 💥 external damage to player (summons, etc.)
-  const damagePlayer = (damage: number) => {
-    if (player.state === "blocked") {
-      if (blockGauge > 0) {
-        if (damage <= blockGauge) {
-          setBlockGauge((g) => Math.max(0, g - damage));
-          spawnDamageRef.current?.(0, playerX, playerY - 40, "blocked");
-          return;
-        }
-        const remaining = damage - blockGauge;
-        setBlockGauge(0);
-        damagePlayerHp(remaining);
-        setPlayer((p) => ({ ...p, state: "stun" }));
-        spawnDamageRef.current?.(remaining, playerX, playerY, "summon");
-        return;
-      }
-
-      const halved = Math.max(1, Math.round(damage / 2));
-      damagePlayerHp(halved);
-      spawnDamageRef.current?.(halved, playerX, playerY, "summon");
-      return;
-    }
-
-    const reduced =
-      totalArmor > 0 ? Math.round((damage * 100) / (100 + totalArmor)) : damage;
-    damagePlayerHp(reduced);
-    spawnDamageRef.current?.(reduced, playerX, playerY, "summon");
-  };
 
   // 🔄 reset
   const resetBattle = () => {

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useGameAudio } from "@/hooks/useGameAudio";
-import { useNpcAI } from "@/hooks/battle/npc/useNpcAi";
+import { useNpcAI } from "@/hooks/battle/npc/useAi";
 import { useBattleSystem } from "@/hooks/battle/useSystem";
 import { useVictory } from "@/hooks/useVictory";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
@@ -10,16 +10,17 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { useLocation } from "react-router";
-import { useNpcSetup } from "@/hooks/battle/npc/useNpcSetup";
-import { useBattleRewards, type RewardInfo } from "@/hooks/battle/useRewards";
-import { useSummons } from "@/hooks/battle/npc/useSummons";
+import { useNpcSetup } from "@/hooks/battle/npc/useSetup";
+import { useBattleRewards, type RewardInfo } from "@/hooks/battle/rewards/useRewards";
+import { useSummons } from "@/hooks/battle/summon/useSummons";
 import { usePlayerBattleActions } from "@/hooks/battle/player/usePlayerActions";
-import { useSummonAI } from "@/hooks/battle/npc/useSummonsAi";
+import { useSummonAI } from "@/hooks/battle/summon/useAi";
 import { useBattleControls } from "@/hooks/battle/useControls";
 import { useComboSystem } from "@/hooks/battle/useComboSystem";
 import { useBattleRefs } from "@/hooks/battle/useRefs";
 import { useBattleKillCounter } from "@/hooks/battle/useKillCounter";
 import { useChargeAttack } from "@/hooks/battle/charge/useAttack";
+import { usePhaseTransition } from "@/hooks/battle/usePhaseTransition";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import { saveGame } from "@/utils/saveGame";
 
@@ -95,8 +96,6 @@ export function useBattleScene({
 
   const refs = useBattleRefs();
 
-  const clearSummonsRef = useRef(clearSummons);
-  clearSummonsRef.current = clearSummons;
   const setModeRef = useRef(setMode);
   setModeRef.current = setMode;
   const closeInventoryRef = useRef(closeInventory);
@@ -231,78 +230,14 @@ export function useBattleScene({
     return () => clearInterval(interval);
   }, [npcType, battle.npcPhase]);
 
-  const phaseTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  useEffect(() => {
-    if (battle.npcPhase === 2) {
-      clearSummonsRef.current();
-      setIsPhaseTransitioning(true);
-
-      const startPlayerX = player.x;
-      const startPlayerY = player.y;
-      const startNpcX = npc.x;
-      const TARGET_X = 100;
-      const TARGET_NPC_X = 900;
-      const TARGET_Y = 670;
-      const DURATION = 700;
-
-      setPlayer((p) => ({
-        ...p,
-        state: "walk",
-        battleDirection: "right",
-      }));
-      npc.updateNpc({ direction: "left", state: "walk" });
-
-      const startTime = performance.now();
-      let animFrame: number;
-
-      function animate(now: number) {
-        const elapsed = now - startTime;
-        const t = Math.min(elapsed / DURATION, 1);
-        const ease = 1 - Math.pow(1 - t, 3);
-
-        const px = startPlayerX + (TARGET_X - startPlayerX) * ease;
-        const py = startPlayerY + (TARGET_Y - startPlayerY) * ease;
-        const nx = startNpcX + (TARGET_NPC_X - startNpcX) * ease;
-
-        setPlayer((p) => ({
-          ...p,
-          x: px,
-          y: py,
-          groundY: TARGET_Y,
-          velY: 0,
-          battleDirection: "right",
-        }));
-        npc.updateNpc({ x: nx, y: TARGET_Y });
-
-        if (t < 1) {
-          animFrame = requestAnimationFrame(animate);
-        } else {
-          setPlayer((p) => ({
-            ...p,
-            x: TARGET_X,
-            y: TARGET_Y,
-            groundY: TARGET_Y,
-            velY: 0,
-            state: "idle",
-            battleDirection: "right",
-          }));
-          npc.resetNpc("pitch");
-          phaseTimeoutRef.current = setTimeout(
-            () => setIsPhaseTransitioning(false),
-            600,
-          );
-        }
-      }
-
-      animFrame = requestAnimationFrame(animate);
-
-      return () => {
-        cancelAnimationFrame(animFrame);
-        clearTimeout(phaseTimeoutRef.current);
-      };
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [battle.npcPhase]);
+  usePhaseTransition({
+    npcPhase: battle.npcPhase,
+    player,
+    setPlayer,
+    npc,
+    clearSummons,
+    setIsPhaseTransitioning,
+  });
 
   useEffect(() => {
     setNpcPhase(battle.npcPhase);

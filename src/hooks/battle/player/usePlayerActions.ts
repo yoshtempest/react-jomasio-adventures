@@ -4,9 +4,8 @@ import {
   calculatePlayerDamage,
   getBerserkMultiplier,
 } from "@/gameRules/battle/damage";
-import { isPlayerInRange } from "@/gameRules/battle/range";
-import { isFacingTarget } from "@/gameRules/battle/direction";
 import { playAttackSound } from "@/utils/types/battle/playAttackSound";
+import { useBuildTargetList } from "./usePlayerTargeting";
 
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { CharactersProgress } from "@/contexts/CharacterProgressContext";
@@ -64,42 +63,19 @@ export function usePlayerBattleActions({
   playerMaxHp,
   totalVampirism,
 }: Props) {
+  const { getTargets, isInAttackRange } = useBuildTargetList(
+    player,
+    npc,
+    npcHP,
+    summons,
+  );
+
   const handlePlayerHit = useCallback(() => {
     if (!battle.playerCooldown.current || battle.isEnding.current) {
       return;
     }
 
-    const targets: {
-      id: string;
-      x: number;
-      y: number;
-    }[] = [];
-
-    if (npcHP > 0) {
-      targets.push({
-        id: "main",
-        x: npc.x,
-        y: npc.y,
-      });
-    }
-
-    for (const summon of summons) {
-      if (summon.hp > 0 && !summon.isDying) {
-        targets.push({
-          id: summon.id,
-          x: summon.x,
-          y: summon.y,
-        });
-      }
-    }
-
-    targets.sort((a, b) => {
-      const da = Math.abs(player.x - a.x);
-      const db = Math.abs(player.x - b.x);
-
-      return da - db;
-    });
-
+    const targets = getTargets();
     const char = progress[player.character];
 
     for (const target of targets) {
@@ -108,89 +84,53 @@ export function usePlayerBattleActions({
         return;
       }
 
-      if (
-        isPlayerInRange(
-          player.x,
-          player.y,
-          target.x,
-          target.y,
-          player.state,
-          player.character,
-          false,
-        ) &&
-        isFacingTarget(
-          player.x,
-          player.y,
-          target.x,
-          target.y,
-          player.battleDirection,
-        )
-      ) {
-        const targetSummon = summons.find((summon) => summon.id === target.id);
+      if (!isInAttackRange(target)) continue;
 
-        if (!targetSummon) {
-          return;
-        }
+      const targetSummon = summons.find((summon) => summon.id === target.id);
+      if (!targetSummon) return;
 
-        playAttackSound(player.character);
+      playAttackSound(player.character);
 
-        const raw = calculatePlayerDamage(char.stats.strength, playerClass);
-        const damage = Math.round(
-          player.character === "samuel" && char.level >= 20
-            ? raw * getBerserkMultiplier(playerHP, playerMaxHp)
-            : raw,
-        );
+      const raw = calculatePlayerDamage(char.stats.strength, playerClass);
+      const damage = Math.round(
+        player.character === "samuel" && char.level >= 20
+          ? raw * getBerserkMultiplier(playerHP, playerMaxHp)
+          : raw,
+      );
 
-        spawnDamageRef.current?.(damage, target.x, target.y, "summon");
-        registerHitRef.current?.(damage);
-        battle.setDelicia((d) => Math.min(d + 1, battle.hitsToSpecial));
+      spawnDamageRef.current?.(damage, target.x, target.y, "summon");
+      registerHitRef.current?.(damage);
+      battle.setDelicia((d) => Math.min(d + 1, battle.hitsToSpecial));
 
-        if (totalVampirism > 0) {
-          const heal = Math.round(damage * totalVampirism / 100);
-          if (heal > 0) setPlayerHP((hp) => Math.min(playerMaxHp, hp + heal));
-        }
-
-        const newHp = Math.max(0, Math.round(targetSummon.hp) - damage);
-
-        if (newHp <= 0) {
-          giveSummonRewards("rare");
-        }
-
-        setSummons((prev) =>
-          prev.map((summon) =>
-            summon.id === target.id
-              ? {
-                  ...summon,
-                  hp: newHp,
-                }
-              : summon,
-          ),
-        );
-
-        battle.playerCooldown.current = false;
-        setTimeout(() => {
-          battle.playerCooldown.current = true;
-        }, 400);
-
-        return;
+      if (totalVampirism > 0) {
+        const heal = Math.round((damage * totalVampirism) / 100);
+        if (heal > 0) setPlayerHP((hp) => Math.min(playerMaxHp, hp + heal));
       }
+
+      const newHp = Math.max(0, Math.round(targetSummon.hp) - damage);
+
+      if (newHp <= 0) {
+        giveSummonRewards("rare");
+      }
+
+      setSummons((prev) =>
+        prev.map((summon) =>
+          summon.id === target.id ? { ...summon, hp: newHp } : summon,
+        ),
+      );
+
+      battle.playerCooldown.current = false;
+      setTimeout(() => {
+        battle.playerCooldown.current = true;
+      }, 400);
+
+      return;
     }
   }, [
-    player,
-    npc,
-    npcHP,
-    summons,
-    progress,
-    playerClass,
-    battle,
-    setSummons,
-    giveSummonRewards,
-    spawnDamageRef,
-    registerHitRef,
-    playerHP,
-    setPlayerHP,
-    playerMaxHp,
-    totalVampirism,
+    player, summons, progress, playerClass, battle,
+    setSummons, giveSummonRewards, spawnDamageRef, registerHitRef,
+    playerHP, setPlayerHP, playerMaxHp, totalVampirism,
+    getTargets, isInAttackRange,
   ]);
 
   const handleSpecialHit = useCallback(() => {
@@ -198,32 +138,7 @@ export function usePlayerBattleActions({
       return;
     }
 
-    const targets = [];
-
-    if (npcHP > 0) {
-      targets.push({
-        id: "main",
-        x: npc.x,
-        y: npc.y,
-      });
-    }
-
-    for (const summon of summons) {
-      if (summon.hp > 0 && !summon.isDying) {
-        targets.push({
-          id: summon.id,
-          x: summon.x,
-          y: summon.y,
-        });
-      }
-    }
-
-    targets.sort((a, b) => {
-      const da = Math.abs(player.x - a.x);
-      const db = Math.abs(player.x - b.x);
-
-      return da - db;
-    });
+    const targets = getTargets();
 
     for (const target of targets) {
       if (target.id === "main") {
@@ -231,7 +146,7 @@ export function usePlayerBattleActions({
         return;
       }
     }
-  }, [player, npc, npcHP, summons, battle]);
+  }, [battle, getTargets]);
 
   return {
     handlePlayerHit,

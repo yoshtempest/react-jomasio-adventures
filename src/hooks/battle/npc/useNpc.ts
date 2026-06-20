@@ -3,6 +3,7 @@ import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import { calculateNpcDamage } from "@/gameRules/battle/damage";
 import { isNpcInRange } from "@/gameRules/battle/range";
 import { isFacingTarget } from "@/gameRules/battle/direction";
+import { handleNpcBlocking } from "./useBlocking";
 import type { DamageType } from "@/hooks/battle/useDamageNumbers";
 
 type Props = {
@@ -34,37 +35,6 @@ type Props = {
   setBlockGauge: React.Dispatch<React.SetStateAction<number>>;
   lastBlockPressRef: React.RefObject<number>;
 };
-
-function applyGuardBreak(
-  remainingDmg: number,
-  damagePlayerHp: (damage: number) => void,
-  setPlayer: React.Dispatch<React.SetStateAction<Player>>,
-  spawnDamageRef: React.RefObject<
-    (value: number, x: number, y: number, type: DamageType) => void
-  >,
-  playerX: number,
-  playerY: number,
-) {
-  damagePlayerHp(remainingDmg);
-  setPlayer((p) => ({ ...p, state: "stun" }));
-  spawnDamageRef.current?.(remainingDmg, playerX, playerY, "npc");
-}
-
-function applyDesperateBlock(
-  dmg: number,
-  damagePlayerHp: (damage: number) => void,
-  setPlayer: React.Dispatch<React.SetStateAction<Player>>,
-  spawnDamageRef: React.RefObject<
-    (value: number, x: number, y: number, type: DamageType) => void
-  >,
-  playerX: number,
-  playerY: number,
-) {
-  const halved = Math.max(1, Math.round(dmg / 2));
-  damagePlayerHp(halved);
-  setPlayer((p) => ({ ...p, state: "stun" }));
-  spawnDamageRef.current?.(halved, playerX, playerY, "npc");
-}
 
 export function useNpcBattle({
   npcLevel,
@@ -118,61 +88,22 @@ export function useNpcBattle({
       player.state === "blocked" &&
       isFacingTarget(playerX, playerY, npcX, npcY, player.battleDirection);
 
-    if (isBlocking) {
-      if (blockGauge > 0) {
-        if (dmg <= blockGauge) {
-          setBlockGauge((g) => Math.max(0, g - dmg));
-          hitstopRef.current = Date.now() + 60;
-          npcStaggerRef.current = Date.now() + 500;
-          spawnDamageRef.current?.(0, playerX, playerY - 40, "blocked");
-          npcCooldown.current = false;
-          setTimeout(() => (npcCooldown.current = true), 500);
-          return;
-        }
-
-        const remaining = dmg - blockGauge;
-        setBlockGauge(0);
-        applyGuardBreak(
-          remaining,
-          damagePlayerWithReflect,
-          setPlayer,
-          spawnDamageRef,
-          playerX,
-          playerY,
-        );
-        hitstopRef.current = Date.now() + 80;
-        npcCooldown.current = false;
-        setTimeout(() => (npcCooldown.current = true), 800);
-        return;
-      }
-
-      const halved = Math.max(1, Math.round(dmg / 2));
-      damagePlayerWithReflect(halved);
-      spawnDamageRef.current?.(halved, playerX, playerY, "npc");
-      hitstopRef.current = Date.now() + 40;
-      npcCooldown.current = false;
-      setTimeout(() => (npcCooldown.current = true), 500);
-      return;
-    }
-
-    const recentBlock =
-      lastBlockPressRef.current > 0 &&
-      Date.now() - lastBlockPressRef.current < 300;
-
-    if (recentBlock) {
-      applyDesperateBlock(
-        dmg,
-        damagePlayerWithReflect,
-        setPlayer,
-        spawnDamageRef,
-        playerX,
-        playerY,
-      );
-      hitstopRef.current = Date.now() + 60;
-      npcCooldown.current = false;
-      setTimeout(() => (npcCooldown.current = true), 600);
-      return;
-    }
+    const blocked = handleNpcBlocking({
+      dmg,
+      isBlocking,
+      blockGauge,
+      setBlockGauge,
+      damagePlayerWithReflect,
+      setPlayer,
+      spawnDamageRef,
+      playerX,
+      playerY,
+      hitstopRef,
+      npcStaggerRef,
+      npcCooldown,
+      lastBlockPressRef,
+    });
+    if (blocked) return;
 
     damagePlayerWithReflect(dmg);
     navigator.vibrate?.(40);
@@ -182,27 +113,11 @@ export function useNpcBattle({
     npcCooldown.current = false;
     setTimeout(() => (npcCooldown.current = true), 800);
   }, [
-    isEnding,
-    npcCooldown,
-    player.state,
-    player.battleDirection,
-    npcLevel,
-    npcClass,
-    playerClass,
-    totalArmor,
-    setPlayer,
-    playerX,
-    playerY,
-    npcX,
-    npcY,
-    difficulty,
-    spawnDamageRef,
-    hitstopRef,
-    npcStaggerRef,
-    blockGauge,
-    setBlockGauge,
-    lastBlockPressRef,
-    damagePlayerWithReflect,
+    isEnding, npcCooldown, player.state, player.battleDirection,
+    npcLevel, npcClass, playerClass, totalArmor, setPlayer,
+    playerX, playerY, npcX, npcY, difficulty,
+    spawnDamageRef, hitstopRef, npcStaggerRef,
+    blockGauge, setBlockGauge, lastBlockPressRef, damagePlayerWithReflect,
   ]);
 
   const npcRangedHit = useCallback(() => {
@@ -218,61 +133,22 @@ export function useNpcBattle({
       player.state === "blocked" &&
       isFacingTarget(playerX, playerY, npcX, npcY, player.battleDirection);
 
-    if (isBlocking) {
-      if (blockGauge > 0) {
-        if (dmg <= blockGauge) {
-          setBlockGauge((g) => Math.max(0, g - dmg));
-          hitstopRef.current = Date.now() + 60;
-          npcStaggerRef.current = Date.now() + 500;
-          spawnDamageRef.current?.(0, playerX, playerY - 40, "blocked");
-          npcCooldown.current = false;
-          setTimeout(() => (npcCooldown.current = true), 500);
-          return;
-        }
-
-        const remaining = dmg - blockGauge;
-        setBlockGauge(0);
-        applyGuardBreak(
-          remaining,
-          damagePlayerWithReflect,
-          setPlayer,
-          spawnDamageRef,
-          playerX,
-          playerY,
-        );
-        hitstopRef.current = Date.now() + 80;
-        npcCooldown.current = false;
-        setTimeout(() => (npcCooldown.current = true), 800);
-        return;
-      }
-
-      const halved = Math.max(1, Math.round(dmg / 2));
-      damagePlayerWithReflect(halved);
-      spawnDamageRef.current?.(halved, playerX, playerY, "npc");
-      hitstopRef.current = Date.now() + 40;
-      npcCooldown.current = false;
-      setTimeout(() => (npcCooldown.current = true), 500);
-      return;
-    }
-
-    const recentBlock =
-      lastBlockPressRef.current > 0 &&
-      Date.now() - lastBlockPressRef.current < 300;
-
-    if (recentBlock) {
-      applyDesperateBlock(
-        dmg,
-        damagePlayerWithReflect,
-        setPlayer,
-        spawnDamageRef,
-        playerX,
-        playerY,
-      );
-      hitstopRef.current = Date.now() + 50;
-      npcCooldown.current = false;
-      setTimeout(() => (npcCooldown.current = true), 600);
-      return;
-    }
+    const blocked = handleNpcBlocking({
+      dmg,
+      isBlocking,
+      blockGauge,
+      setBlockGauge,
+      damagePlayerWithReflect,
+      setPlayer,
+      spawnDamageRef,
+      playerX,
+      playerY,
+      hitstopRef,
+      npcStaggerRef,
+      npcCooldown,
+      lastBlockPressRef,
+    });
+    if (blocked) return;
 
     damagePlayerWithReflect(dmg);
     navigator.vibrate?.(40);
@@ -282,27 +158,11 @@ export function useNpcBattle({
     npcCooldown.current = false;
     setTimeout(() => (npcCooldown.current = true), 800);
   }, [
-    isEnding,
-    npcCooldown,
-    player.state,
-    player.battleDirection,
-    npcLevel,
-    npcClass,
-    playerClass,
-    setPlayer,
-    playerX,
-    playerY,
-    npcX,
-    npcY,
-    difficulty,
-    totalArmor,
-    spawnDamageRef,
-    hitstopRef,
-    npcStaggerRef,
-    blockGauge,
-    setBlockGauge,
-    lastBlockPressRef,
-    damagePlayerWithReflect,
+    isEnding, npcCooldown, player.state, player.battleDirection,
+    npcLevel, npcClass, playerClass, totalArmor, setPlayer,
+    playerX, playerY, npcX, npcY, difficulty,
+    spawnDamageRef, hitstopRef, npcStaggerRef,
+    blockGauge, setBlockGauge, lastBlockPressRef, damagePlayerWithReflect,
   ]);
 
   return { npcMeleeHit, npcRangedHit };
