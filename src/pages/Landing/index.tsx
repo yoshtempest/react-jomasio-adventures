@@ -53,22 +53,22 @@ const funnyMoments = [
   {
     title: "O Peru",
     desc: "Tu num é nem gente Peru! Glu Glu Glu",
-    icon: "🦃",
+    image: asset("/assets/items/peru.svg"),
   },
   {
     title: "Deliciômetro",
     desc: "Meça o nível de delícia da sua gameplay com este medidor sagrado.",
-    icon: "📊",
+    image: asset("/assets/deliciometro.svg"),
   },
   {
     title: "Morto de Fome",
     desc: "É duas fungada e a comida se acaba, é duas pedalada e a corrente cai.",
-    icon: "💀",
+    image: asset("/assets/npcs/hungryDeath/face.svg"),
   },
   {
     title: "Leite Suspeito",
     desc: "Achou um leite na cantina? Melhor pensar duas vezes antes de beber.",
-    icon: "🥛",
+    image: asset("/assets/items/suspect_milk.svg"),
   },
 ];
 
@@ -252,7 +252,8 @@ export default function Landing() {
       <section className={styles.section}>
         <div className={styles.sectionInner}>
           <h2 className={styles.sectionTitle}>
-            😂 Momentos Inesquecíveis
+            <Sparkles size={28} />
+            Momentos Inesquecíveis
           </h2>
           <p className={styles.sectionDesc}>
             O jogo é repleto de referências e situações hilárias que todo
@@ -261,7 +262,7 @@ export default function Landing() {
           <div className={styles.funnyGrid}>
             {funnyMoments.map((moment) => (
               <div key={moment.title} className={styles.funnyCard}>
-                <span className={styles.funnyIcon}>{moment.icon}</span>
+                <img src={moment.image} alt={moment.title} className={styles.funnyImage} />
                 <h3>{moment.title}</h3>
                 <p>{moment.desc}</p>
               </div>

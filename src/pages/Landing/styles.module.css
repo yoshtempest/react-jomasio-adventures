@@ -355,10 +355,13 @@
   background: rgba(18, 27, 49, 0.6);
 }
 
-.funnyIcon {
-  font-size: 2rem;
+.funnyImage {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
   display: block;
   margin-bottom: 12px;
+  image-rendering: pixelated;
 }
 
 .funnyCard h3 {
