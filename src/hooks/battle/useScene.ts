@@ -110,6 +110,8 @@ export function useBattleScene({
   killCounter.npcTypeRef.current = npcType;
   killCounter.npcDataRef.current = npcData;
 
+  const isPaused = showVictory || showDefeat || showIntro;
+
   const npc = useNpcAI({
     playerX: player.x,
     playerY: player.y,
@@ -119,7 +121,7 @@ export function useBattleScene({
     npcPhaseRef,
     onProjectileHit: () => refs.npcRangedAttackRef.current(),
     onMeleeHit: () => refs.npcMeleeAttackRef.current(),
-    isPaused: showVictory || showDefeat || showIntro || isPhaseTransitioning,
+    isPaused: isPaused || isPhaseTransitioning,
     onSummon: summonNpc,
     obstacles: map?.obstacles,
     hitstopRef: refs.hitstopRef,
@@ -192,8 +194,6 @@ export function useBattleScene({
     totalVampirism: battle.totalVampirism,
   });
 
-  const isPaused = showVictory || showDefeat || showIntro;
-
   useSummonAI({
     summons,
     setSummons,
@@ -217,11 +217,15 @@ export function useBattleScene({
   const setNpcHPRef = useRef(battle.setNpcHP);
   setNpcHPRef.current = battle.setNpcHP;
 
+  const isEndingRef = useRef(battle.isEnding);
+  isEndingRef.current = battle.isEnding;
+
   useEffect(() => {
     if (npcType !== "hungryKing") return;
     if (battle.npcPhase !== 2) return;
 
     const interval = setInterval(() => {
+      if (isEndingRef.current.current) return;
       setNpcHPRef.current((hp: number) =>
         Math.min(npcMaxHpRef.current, hp + 1),
       );

@@ -76,21 +76,25 @@ export function usePlayerBattleActions({
     }
 
     const targets = getTargets();
-    const char = progress[player.character];
+    const mainTarget = targets.find((t) => t.id === "main");
 
+    // Priority 1: hit main NPC (boss) if in range
+    if (mainTarget && isInAttackRange(mainTarget)) {
+      battle.playerHit();
+      return;
+    }
+
+    // Priority 2: hit the closest summon in range (only one per attack)
     for (const target of targets) {
-      if (target.id === "main") {
-        battle.playerHit();
-        return;
-      }
-
+      if (target.id === "main") continue;
       if (!isInAttackRange(target)) continue;
 
       const targetSummon = summons.find((summon) => summon.id === target.id);
-      if (!targetSummon) return;
+      if (!targetSummon) continue;
 
       playAttackSound(player.character);
 
+      const char = progress[player.character];
       const raw = calculatePlayerDamage(char.stats.strength, playerClass);
       const damage = Math.round(
         player.character === "samuel" && char.level >= 20
