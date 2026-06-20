@@ -1,0 +1,1 @@
+var e=`/react-jomasio-adventures/assets/songs/StreetFighter5KenTheme.m4a`;export{e as t};

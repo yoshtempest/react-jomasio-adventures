@@ -1,0 +1,1 @@
+function e(e,t,n){let r=Object.fromEntries(Object.entries(e).map(([e,n])=>[e,()=>t.setPopup(n)]));if(n)for(let e in n)r[e]=()=>n[e](t);return r}export{e as t};

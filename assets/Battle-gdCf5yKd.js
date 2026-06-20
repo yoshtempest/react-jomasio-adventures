@@ -1,0 +1,1 @@
+import{E as e,M as t,R as n,n as r}from"./index-Hd5qZ0xQ.js";var i=`/react-jomasio-adventures/assets/songs/DarkSouls.m4a`,a=n(t());function o(){let{setFlag:t}=e();return(0,a.jsx)(r,{npcType:`deise`,redirectTo:`/cafeteria/one`,onVictory:()=>{t(`deise`)},victoryDescription:`Você derrotou Deise, a Lich imortal`,className:`CafeteriaBattle`,audioSrc:i})}export{o as default};

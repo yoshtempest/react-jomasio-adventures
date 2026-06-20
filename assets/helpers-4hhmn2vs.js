@@ -1,0 +1,1 @@
+const e=(e,t)=>e.some(e=>e.id===t),t=(e,t)=>e.some(e=>t.some(t=>t===e.id)),n=(e,t)=>e===t,r=(e,t)=>e.some(e=>e.id===t),i=(e,t)=>e.includes(t);export{n as a,e as i,i as n,r,t};

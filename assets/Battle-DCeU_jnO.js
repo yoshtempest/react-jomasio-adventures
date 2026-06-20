@@ -1,0 +1,1 @@
+import{E as e,M as t,R as n,n as r}from"./index-Hd5qZ0xQ.js";import{t as i}from"./StreetFighter5KenTheme-CZnl9JcQ.js";var a=n(t());function o(){let{setFlag:t}=e();return(0,a.jsx)(r,{npcType:`jhowsimar`,redirectTo:`/cantina/one`,onVictory:()=>{t(`jhowsimar`)},victoryDescription:`Você derrotou 'Jhow Simar, o Vigia'`,className:`CantinaBattle`,audioSrc:i})}export{o as default};

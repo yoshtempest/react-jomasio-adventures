@@ -1,0 +1,1 @@
+var e=`/react-jomasio-adventures/assets/songs/KickBack.mp3`;export{e as t};

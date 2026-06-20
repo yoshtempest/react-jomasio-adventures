@@ -1,0 +1,1 @@
+import{F as e,M as t,R as n,n as r}from"./index-Hd5qZ0xQ.js";import{t as i}from"./StreetFighter5KenTheme-CZnl9JcQ.js";var a=n(t());function o(){let t=e();return(0,a.jsx)(r,{npcType:`technoblade`,onVictory:()=>t(-1),victoryDescription:`Você derrotou o rei`,className:`CantinaBattle`,audioSrc:i})}export{o as default};
