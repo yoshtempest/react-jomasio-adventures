@@ -42,8 +42,6 @@ function App() {
     setMaxSlots(20 + bonus);
   }, [player.character, getEquippedItem, setMaxSlots]);
 
-  const SKIP_LAST_ROUTE = new Set(["/", "/home", "/tutorial"]);
-
   // Sync from cloud on mount
   useEffect(() => {
     if (!isAuthenticated || didSyncRef.current) return;
@@ -65,7 +63,8 @@ function App() {
     if (prevRouteRef.current === location.pathname) return;
     prevRouteRef.current = location.pathname;
 
-    const lastRoute = SKIP_LAST_ROUTE.has(location.pathname)
+    const skipRoutes = new Set(["/", "/home", "/tutorial"]);
+    const lastRoute = skipRoutes.has(location.pathname)
       ? (loadGame()?.lastRoute ?? "/firstscreen")
       : location.pathname;
 
