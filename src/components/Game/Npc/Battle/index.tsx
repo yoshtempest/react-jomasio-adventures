@@ -53,14 +53,14 @@ export function NPCBattle({
   const getSprite = () => {
     if (npcType === "deise") {
       if (npcPhase === 2) {
-        return asset(`assets/npcs/deise2/${state}.svg`);
+        return asset(`assets/npcs/deise/phase2/${state}.svg`);
       }
       return asset(`assets/npcs/deise/${state}.svg`);
     }
 
     if (npcType === "slimita") {
       if (npcPhase === 2) {
-        return asset(`assets/npcs/slimita2/${state}.svg`);
+        return asset(`assets/npcs/slimita/phase2/${state}.svg`);
       }
       return asset(`assets/npcs/slimita/${state}.svg`);
     }
