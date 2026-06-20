@@ -14,6 +14,7 @@ export type NPCBattleState = {
       state: "idle" | "air" | "resting";
       startTime: number;
       targetX: number;
+      lastPullThrow: number;
     };
     deise?: {
       knownPhase: number;

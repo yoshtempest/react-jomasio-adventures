@@ -63,6 +63,7 @@ export function useBattleScene({
   const { closeNavbar } = useNavbar();
 
   const [showDefeat, setShowDefeat] = useState(false);
+  const [showOutro, setShowOutro] = useState<"victory" | "defeat" | null>(null);
   const [lastRewards, setLastRewards] = useState<RewardInfo | null>(null);
   const [npcPhase, setNpcPhase] = useState(1);
   const npcPhaseRef = useRef(npcPhase);
@@ -92,6 +93,22 @@ export function useBattleScene({
 
   const { showVictory, triggerVictory } = useVictory({ redirectTo });
 
+  useEffect(() => {
+    if (showVictory) {
+      setShowOutro("victory");
+      const timer = setTimeout(() => setShowOutro(null), 2500);
+      return () => clearTimeout(timer);
+    }
+  }, [showVictory]);
+
+  useEffect(() => {
+    if (showDefeat) {
+      setShowOutro("defeat");
+      const timer = setTimeout(() => setShowOutro(null), 2500);
+      return () => clearTimeout(timer);
+    }
+  }, [showDefeat]);
+
   useGameAudio({ src: audioSrc, loop: true, volume: 0.5 });
 
   const refs = useBattleRefs();
@@ -110,7 +127,7 @@ export function useBattleScene({
   killCounter.npcTypeRef.current = npcType;
   killCounter.npcDataRef.current = npcData;
 
-  const isPaused = showVictory || showDefeat || showIntro;
+  const isPaused = showVictory || showDefeat || showIntro || showOutro != null;
 
   const npc = useNpcAI({
     playerX: player.x,
@@ -123,6 +140,7 @@ export function useBattleScene({
     onMeleeHit: () => refs.npcMeleeAttackRef.current(),
     isPaused: isPaused || isPhaseTransitioning,
     onSummon: summonNpc,
+    onPullPlayer: (x: number) => setPlayer((p) => ({ ...p, x })),
     obstacles: map?.obstacles,
     hitstopRef: refs.hitstopRef,
     npcStaggerRef: refs.npcStaggerRef,
@@ -340,6 +358,7 @@ export function useBattleScene({
     lastRewards,
     showVictory,
     showDefeat,
+    showOutro,
     handleRetry,
     handleContinue,
     navigate,

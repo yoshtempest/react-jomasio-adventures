@@ -194,6 +194,7 @@ declare global {
     createdAt: number;
     state: "walk" | "idle";
     fallTargetX?: number;
+    pullPlayerX?: number;
     spear?: {
       phase: "rising" | "falling";
     };

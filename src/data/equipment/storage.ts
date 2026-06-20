@@ -27,8 +27,16 @@ function migrateEquipped(slot: unknown): EquippedItemInfo | null {
   return null;
 }
 
-function createEmptyCharacterData(): CharacterEquipmentData {
-  return { equipped: createEmptyEquipped(), collection: {} };
+function createEmptyCharacterData(character?: string): CharacterEquipmentData {
+  const equipped = createEmptyEquipped();
+  const collection: Record<string, number> = {};
+
+  if (character === "marcelo") {
+    equipped.weapon = { id: "weapon_espada_ferro", enhance: 0 };
+    collection[colKey("weapon_espada_ferro", 0)] = 1;
+  }
+
+  return { equipped, collection };
 }
 
 function migrateAllData(
@@ -103,7 +111,7 @@ export function getCharacterData(
   character: CharacterId,
 ): CharacterEquipmentData {
   if (!all[character]) {
-    all[character] = createEmptyCharacterData();
+    all[character] = createEmptyCharacterData(character);
   }
   return all[character];
 }

@@ -12,9 +12,12 @@ export function useProjectile(
   npcY: number,
   onHit: () => void,
   hitstopRef: React.RefObject<number>,
+  onPullPlayer?: (x: number) => void,
 ) {
   const onHitRef = useRef(onHit);
   onHitRef.current = onHit;
+  const onPullPlayerRef = useRef(onPullPlayer);
+  onPullPlayerRef.current = onPullPlayer;
 
   useEffect(() => {
     if (!projectile) return;
@@ -37,7 +40,7 @@ export function useProjectile(
           return p;
         }
 
-        const speed = 11;
+        const speed = 20;
         const spearRiseSpeed = 120;
         const OFFSCREEN_MARGIN = 200;
         const MAP_WIDTH = 1280;
@@ -112,6 +115,9 @@ export function useProjectile(
         const isDashing = playerState === "dash";
 
         if (dx < 40 && dy <= 120 && !isDashing) {
+          if (p.pullPlayerX != null) {
+            onPullPlayerRef.current?.(p.pullPlayerX);
+          }
           onHitRef.current();
           return null;
         }

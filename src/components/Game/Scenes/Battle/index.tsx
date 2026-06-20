@@ -9,6 +9,7 @@ import { ComboDisplay } from "@/components/Game/Battle/ComboDisplay";
 import { VictoryModal } from "@/components/Game/Battle/Victory";
 import { DefeatModal } from "@/components/Game/Battle/Defeat";
 import { BattleIntro } from "@/components/Game/Battle/Intro";
+import { BattleOutro } from "@/components/Game/Battle/Outro";
 import { ChargeParticles } from "@/components/Game/Battle/ChargeParticles";
 import { JumpIndicator } from "@/components/Game/Battle/JumpIndicator";
 import { asset } from "@/utils/asset";
@@ -44,6 +45,7 @@ export function BattleScene(props: Props) {
     lastRewards,
     showVictory,
     showDefeat,
+    showOutro,
     handleRetry,
     handleContinue,
     navigate,
@@ -180,7 +182,14 @@ export function BattleScene(props: Props) {
         <DamageNumbers numbers={battle.damageNumbers} />
       </GameMap>
 
-      {showVictory && (
+      {showOutro && (
+        <BattleOutro
+          character={player.character}
+          type={showOutro}
+        />
+      )}
+
+      {!showOutro && showVictory && (
         <VictoryModal
           isOpen={showVictory}
           character={player.character}
@@ -194,7 +203,7 @@ export function BattleScene(props: Props) {
         />
       )}
 
-      {showDefeat && (
+      {!showOutro && showDefeat && (
         <DefeatModal
           isOpen={showDefeat}
           onContinue={handleRetry}

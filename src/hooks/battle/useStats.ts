@@ -13,6 +13,7 @@ import {
 } from "@/gameRules/battle/equipment";
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import { getMaxSpecial } from "@/gameRules/battle/special";
+import { getRankMultiplier } from "@/gameRules/rank";
 
 type Props = {
   npcLevel: number;
@@ -64,25 +65,36 @@ export function useBattleStats({
     return getBonus();
   }, [getBonus]);
 
+  const rankMultiplier = useMemo(() => {
+    return getRankMultiplier(baseChar?.level ?? 1);
+  }, [baseChar]);
+
   const char = useMemo(() => {
     if (!baseChar) return baseChar;
+    const base = {
+      hp: baseChar.stats.hp + equipmentBonus.hp + titleBonus.hp,
+      strength:
+        baseChar.stats.strength +
+        equipmentBonus.strength +
+        titleBonus.strength,
+      intelligence:
+        baseChar.stats.intelligence +
+        equipmentBonus.intelligence +
+        titleBonus.intelligence,
+      resistance: baseChar.stats.resistance,
+      points: baseChar.stats.points,
+    };
     return {
       ...baseChar,
       stats: {
-        hp: baseChar.stats.hp + equipmentBonus.hp + titleBonus.hp,
-        strength:
-          baseChar.stats.strength +
-          equipmentBonus.strength +
-          titleBonus.strength,
-        intelligence:
-          baseChar.stats.intelligence +
-          equipmentBonus.intelligence +
-          titleBonus.intelligence,
-        resistance: baseChar.stats.resistance,
-        points: baseChar.stats.points,
+        hp: Math.round(base.hp * rankMultiplier),
+        strength: Math.round(base.strength * rankMultiplier),
+        intelligence: Math.round(base.intelligence * rankMultiplier),
+        resistance: Math.round(base.resistance * rankMultiplier),
+        points: base.points,
       },
     };
-  }, [baseChar, equipmentBonus, titleBonus]);
+  }, [baseChar, equipmentBonus, titleBonus, rankMultiplier]);
 
   const playerMaxHp = useMemo(() => {
     return 90 + char.stats.hp * 10;

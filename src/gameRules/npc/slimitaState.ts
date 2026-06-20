@@ -10,6 +10,7 @@ export function getSlimitaState(npc: NPCBattleState, playerX: number) {
       state: "idle",
       startTime: now,
       targetX: playerX,
+      lastPullThrow: 0,
     };
   }
 

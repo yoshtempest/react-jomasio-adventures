@@ -2,6 +2,13 @@ import type { Equipment } from "@/utils/types/player/equipment";
 
 export const WEAPONS: Equipment[] = [
   {
+    id: "weapon_espada_ferro",
+    name: "Espada de Ferro",
+    slot: "weapon",
+    rank: 1,
+    stats: { strength: 2 },
+  },
+  {
     id: "weapon_caneta_azul",
     name: "Caneta Azul",
     slot: "weapon",

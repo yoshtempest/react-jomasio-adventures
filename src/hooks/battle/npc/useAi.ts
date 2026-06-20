@@ -20,6 +20,7 @@ type Props = {
   npcType: string;
   npcPhaseRef: React.RefObject<number>;
   onSummon?: (npcType: string) => void;
+  onPullPlayer?: (x: number) => void;
   obstacles?: BattleObstacle[];
   hitstopRef: React.RefObject<number>;
   npcStaggerRef: React.RefObject<number>;
@@ -36,6 +37,7 @@ export function useNpcAI({
   npcType,
   npcPhaseRef,
   onSummon,
+  onPullPlayer,
   obstacles,
   hitstopRef,
   npcStaggerRef,
@@ -68,6 +70,8 @@ export function useNpcAI({
   onMeleeHitRef.current = onMeleeHit;
   const onSummonRef = useRef(onSummon);
   onSummonRef.current = onSummon;
+  const onPullPlayerRef = useRef(onPullPlayer);
+  onPullPlayerRef.current = onPullPlayer;
   const lastAttackRef = useRef(0);
   const summonTimerRef = useRef(0);
   const obstaclesRef = useRef(obstacles ?? []);
@@ -86,6 +90,7 @@ export function useNpcAI({
       onProjectileHit();
     },
     hitstopRef,
+    onPullPlayer,
   );
 
   const resetNpc = (stateOverride?: NPCBattleState["state"]) => {
@@ -120,7 +125,7 @@ export function useNpcAI({
         const result = behavior({
           npc: n,
           playerX: playerXRef.current,
-          npcPhase: npcPhaseRef.current, // eager-ref — updated sync before React re-render
+          npcPhase: npcPhaseRef.current,
           playerY: playerYRef.current,
           projectile: projectileRef.current,
           setProjectile,
@@ -129,6 +134,7 @@ export function useNpcAI({
           onMeleeHit: onMeleeHitRef.current,
           setForceIdle,
           onSummon: onSummonRef.current,
+          onPullPlayer: onPullPlayerRef.current,
           summonTimerRef,
         });
 

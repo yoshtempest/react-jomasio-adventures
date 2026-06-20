@@ -1,0 +1,71 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.sprite {
+  height: 300px;
+  image-rendering: pixelated;
+}
+
+.speechBubble {
+  background: #fff;
+  border: 3px solid #333;
+  border-radius: 16px;
+  padding: 24px 32px;
+  max-width: 400px;
+  position: relative;
+  font-size: 1.3rem;
+  color: #222;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+.speechBubble::before {
+  content: "";
+  position: absolute;
+  left: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 10px solid transparent;
+  border-right-color: #fff;
+}
+
+.speechBubble::after {
+  content: "";
+  position: absolute;
+  left: -24px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 10px solid transparent;
+  border-right-color: #333;
+  z-index: -1;
+  width: 0;
+}
+
+.title {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.victory {
+  color: #2e7d32;
+}
+
+.defeat {
+  color: #c62828;
+}
+
+.text {
+  font-style: italic;
+}

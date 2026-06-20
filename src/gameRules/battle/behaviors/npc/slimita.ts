@@ -1,11 +1,18 @@
 import { chasePlayer } from "@/gameRules/npc/movement";
 import { isNear } from "@/gameRules/npc/behavior";
+import { tryMeleeAttack } from "@/gameRules/npc/attack";
+import { createDirectionalProjectile } from "@/gameRules/npc/createDirectionalProjectile";
 import { getSlimitaState } from "@/gameRules/npc/slimitaState";
 
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
 
+const PULL_COOLDOWN = 3000;
+const FAR_DISTANCE_X = 260;
+const MELEE_RANGE = 50;
+const MELEE_COOLDOWN = 800;
+
 export function slimitaBehavior(ctx: BehaviorContext) {
-  const { npc, playerX, playerY, npcPhase, onMeleeHit } = ctx;
+  const { npc, playerX, playerY, npcPhase, onMeleeHit, projectile, setProjectile, setForceIdle, lastAttackRef } = ctx;
 
   const now = Date.now();
 
@@ -13,11 +20,43 @@ export function slimitaBehavior(ctx: BehaviorContext) {
 
   // 🟢 FASE 1
   if (npcPhase === 1) {
-    const { x } = chasePlayer(npc, playerX, playerY);
+    const distanceX = Math.abs(npc.x - playerX);
 
-    if (isNear(npc.x, npc.y, playerX, playerY, 50)) {
-      onMeleeHit();
+    if (distanceX > FAR_DISTANCE_X) {
+      const canPull = !projectile && now - state.lastPullThrow >= PULL_COOLDOWN;
+
+      if (canPull) {
+        setProjectile({
+          ...createDirectionalProjectile({
+            startX: npc.x - 40,
+            startY: npc.y - 50,
+            targetX: playerX,
+            targetY: playerY,
+            sprite: "staff",
+            state: "idle",
+          }),
+          pullPlayerX: npc.x - 60,
+        });
+
+        setForceIdle(true);
+        setTimeout(() => setForceIdle(false), 400);
+
+        state.lastPullThrow = now;
+      }
     }
+
+    tryMeleeAttack({
+      npcX: npc.x,
+      npcY: npc.y,
+      playerX,
+      playerY,
+      range: MELEE_RANGE,
+      cooldown: MELEE_COOLDOWN,
+      lastAttackRef,
+      onHit: onMeleeHit,
+    });
+
+    const { x } = chasePlayer(npc, playerX, playerY);
 
     return {
       x,

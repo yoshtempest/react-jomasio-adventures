@@ -28,3 +28,13 @@ export function getRank(level: number): RankInfo {
 export function formatRank(rank: RankInfo): string {
   return `Ranque ${rank.id} — ${rank.label}`;
 }
+
+export function getRankIndex(rank: RankInfo): number {
+  return RANKS.findIndex((r) => r.id === rank.id && r.label === rank.label);
+}
+
+export function getRankMultiplier(level: number): number {
+  const rank = getRank(level);
+  const index = getRankIndex(rank);
+  return 1 + index * 0.1;
+}

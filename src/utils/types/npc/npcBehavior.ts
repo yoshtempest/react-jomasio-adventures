@@ -12,5 +12,6 @@ export type BehaviorContext = {
   setForceIdle: (v: boolean) => void;
   npcPhase: number;
   onSummon?: (npcType: string) => void;
+  onPullPlayer?: (x: number) => void;
   summonTimerRef?: { current: number };
 };
