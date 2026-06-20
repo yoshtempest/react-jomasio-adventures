@@ -112,11 +112,13 @@ export function GameControlsProvider({ children }: Props) {
       switch (e.key) {
         case "ArrowUp":
         case "w":
+        case "W":
           activeControls.onUp?.();
           break;
 
         case "ArrowDown":
         case "s":
+        case "S":
           activeControls.onDown?.();
           break;
 
@@ -127,18 +129,33 @@ export function GameControlsProvider({ children }: Props) {
 
         case "ArrowRight":
         case "d":
+        case "D":
           activeControls.onRight?.();
           break;
 
         case "l":
+        case "L":
+        case "A":
+        case "Enter":
           activeControls.onConfirm?.();
           break;
 
         case "b":
+        case "B":
+        case "x":
+        case "X":
+        case "Delete":
           activeControls.onCancel?.();
           break;
 
+        case "Shift":
+          if (player.mode === "battle") {
+            activeControls.onDown?.();
+          }
+          break;
+
         case "g":
+        case "G":
           if (activeControls.onOpen) {
             activeControls.onOpen();
             return;
@@ -157,11 +174,13 @@ export function GameControlsProvider({ children }: Props) {
       switch (e.key) {
         case "ArrowUp":
         case "w":
+        case "W":
           activeControls.onUpRelease?.();
           break;
 
         case "ArrowDown":
         case "s":
+        case "S":
           activeControls.onDownRelease?.();
           break;
 
@@ -172,15 +191,27 @@ export function GameControlsProvider({ children }: Props) {
 
         case "ArrowRight":
         case "d":
+        case "D":
           activeControls.onRightRelease?.();
           break;
 
         case "l":
+        case "L":
+        case "A":
           activeControls.onConfirmRelease?.();
           break;
 
         case "b":
+        case "B":
+        case "x":
+        case "X":
           activeControls.onCancelRelease?.();
+          break;
+
+        case "Shift":
+          if (player.mode === "battle") {
+            activeControls.onDownRelease?.();
+          }
           break;
       }
     }

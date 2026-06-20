@@ -1,7 +1,10 @@
 import styles from "./styles.module.css";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import { useGameControls } from "@/contexts/GameControlsContext";
+
+type Option = "retry" | "flee";
 
 type Props = {
   isOpen: boolean;
@@ -16,21 +19,39 @@ export function DefeatModal({
   onContinue,
   onBack,
 }: Props) {
+  const [selected, setSelected] = useState<Option>("retry");
   const { setMode } = usePlayer();
   const { playSound } = useSoundEffects();
+  const { pushControls, popControls } = useGameControls();
   const playSoundRef = useRef(playSound);
   playSoundRef.current = playSound;
   const hasPlayedRef = useRef(false);
 
-  const handleBack = () => {
-    playSound("run");
-    onBack();
-    setMode("explore");
-  };
-  const handleTryAgain = () => {
-    playSound("tryAgain");
-    onContinue();
-  };
+  const onContinueRef = useRef(onContinue);
+  onContinueRef.current = onContinue;
+  const onBackRef = useRef(onBack);
+  onBackRef.current = onBack;
+  const setModeRef = useRef(setMode);
+  setModeRef.current = setMode;
+
+  const executeSelected = useCallback(() => {
+    if (selected === "retry") {
+      playSoundRef.current("tryAgain");
+      onContinueRef.current();
+    } else {
+      playSoundRef.current("run");
+      onBackRef.current();
+      setModeRef.current("explore");
+    }
+  }, [selected]);
+
+  const selectNext = useCallback(() => {
+    setSelected((prev) => (prev === "retry" ? "flee" : "retry"));
+  }, []);
+
+  const selectPrev = useCallback(() => {
+    setSelected((prev) => (prev === "flee" ? "retry" : "flee"));
+  }, []);
 
   useEffect(() => {
     if (isOpen && !hasPlayedRef.current) {
@@ -40,33 +61,26 @@ export function DefeatModal({
 
     if (!isOpen) {
       hasPlayedRef.current = false;
+      setSelected("retry");
     }
   }, [isOpen]);
-
-  const onBackRef = useRef(onBack);
-  onBackRef.current = onBack;
-  const setModeRef = useRef(setMode);
-  setModeRef.current = setMode;
 
   useEffect(() => {
     if (!isOpen) return;
 
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Enter" || e.key.toLowerCase() === "l") {
-        onContinue();
-      }
-      if (e.key === "x" || e.key === "Esc") {
+    pushControls({
+      onLeft: selectPrev,
+      onRight: selectNext,
+      onConfirm: executeSelected,
+      onCancel: () => {
+        playSoundRef.current("run");
         onBackRef.current();
         setModeRef.current("explore");
-      }
-    };
+      },
+    });
 
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [isOpen, onContinue]);
+    return () => popControls();
+  }, [isOpen, executeSelected, selectPrev, selectNext, pushControls, popControls]);
 
   if (!isOpen) return null;
 
@@ -75,10 +89,16 @@ export function DefeatModal({
       <div className={`modal ${styles.modal}`}>
         <h1>{title}</h1>
         <div className={styles.buttonContainer}>
-          <button className={styles.button} onClick={handleTryAgain}>
+          <button
+            className={`${styles.button} ${selected === "retry" ? styles.active : ""}`}
+            onClick={executeSelected}
+          >
             Tentar novamente
           </button>
-          <button className={styles.button} onClick={handleBack}>
+          <button
+            className={`${styles.button} ${selected === "flee" ? styles.active : ""}`}
+            onClick={executeSelected}
+          >
             Fugir
           </button>
         </div>

@@ -5,7 +5,8 @@ export function useVictoryKeyboard(isVisible: boolean, onContinue: () => void) {
     if (!isVisible) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Enter" || e.key.toLowerCase() === "l") {
+      const key = e.key.toLowerCase();
+      if (key === "enter" || key === "l" || key === "a") {
         onContinue();
       }
     };
