@@ -43,37 +43,37 @@ export function useBattleLifecycle({
   npcMaxHpRef.current = npcMaxHp;
 
   useEffect(() => {
-    const timeouts: number[] = [];
     if (isEnding.current) return;
+    if (!isDead(playerHP)) return;
 
-    if (isDead(playerHP)) {
-      isEnding.current = true;
-      timeouts.push(
-        window.setTimeout(() => {
-          onPlayerDeathRef.current();
-          isEnding.current = false;
-        }, 500),
-      );
+    isEnding.current = true;
+    const timeout = window.setTimeout(() => {
+      onPlayerDeathRef.current();
+      isEnding.current = false;
+    }, 500);
+
+    return () => clearTimeout(timeout);
+  }, [playerHP, isEnding]);
+
+  useEffect(() => {
+    if (isEnding.current) return;
+    if (!isDead(npcHP)) return;
+
+    if (npcClassRef.current === "boss" && npcPhaseRef.current === 1) {
+      npcPhaseRef.current = 2;
+      setNpcPhase(2);
+      setNpcHP(npcMaxHpRef.current);
+      return;
     }
 
-    if (isDead(npcHP)) {
-      if (npcClassRef.current === "boss" && npcPhaseRef.current === 1) {
-        npcPhaseRef.current = 2; // atualiza ref sincronamente antes do render
-        setNpcPhase(2);
-        setNpcHP(npcMaxHpRef.current);
-        return;
-      }
+    isEnding.current = true;
+    setNpcDying(true);
+    const timeout = window.setTimeout(() => {
+      onNpcDeathRef.current();
+    }, 300);
 
-      isEnding.current = true;
-      setNpcDying(true);
-      timeouts.push(
-        window.setTimeout(() => {
-          onNpcDeathRef.current();
-        }, 300),
-      );
-    }
-    return () => timeouts.forEach(clearTimeout);
-  }, [playerHP, npcHP, setNpcPhase, setNpcHP, isEnding, npcPhaseRef]);
+    return () => clearTimeout(timeout);
+  }, [npcHP, setNpcPhase, setNpcHP, isEnding, npcPhaseRef]);
 
   return { isNpcDying };
 }

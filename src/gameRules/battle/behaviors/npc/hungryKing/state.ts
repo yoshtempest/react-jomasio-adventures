@@ -9,11 +9,11 @@ export type HungryKingAI = {
   summonEndTime: number;
 };
 
-export const JUMP_COOLDOWN = 4000;
+export const JUMP_COOLDOWN = 3000;
 export const JUMP_DURATION = 1500;
-export const JUMP_THRESHOLD = 350;
+export const JUMP_THRESHOLD = 200;
 export const JUMP_HEIGHT = 220;
-export const GROUND_Y = 720;
+export const GROUND_Y = 670;
 export const JUMP_RISE_MS = 400;
 export const JUMP_FLIGHT_MS = 600;
 export const JUMP_RECOVERY_MS = 500;
