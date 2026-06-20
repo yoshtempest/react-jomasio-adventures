@@ -224,9 +224,9 @@ export function useBattleScene({
 
     const interval = setInterval(() => {
       setNpcHPRef.current((hp: number) =>
-        Math.min(npcMaxHpRef.current, hp + 5),
+        Math.min(npcMaxHpRef.current, hp + 1),
       );
-    }, 200);
+    }, 400);
 
     return () => clearInterval(interval);
   }, [npcType, battle.npcPhase]);
