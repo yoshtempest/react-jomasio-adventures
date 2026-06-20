@@ -34,5 +34,5 @@ export function isNpcInRange(
   const dx = Math.abs(playerX - npcX);
   const dy = Math.abs(playerY - npcY);
 
-  return dx <= 20 && dy <= 150;
+  return dx <= 50 && dy <= 150;
 }
