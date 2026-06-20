@@ -1,0 +1,46 @@
+.funnyGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.funnyCard {
+  padding: 24px;
+  background: rgba(18, 27, 49, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.funnyCard:hover {
+  border-color: rgba(255, 200, 50, 0.2);
+  background: rgba(18, 27, 49, 0.6);
+}
+
+.funnyImage {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  display: block;
+  margin-bottom: 12px;
+  image-rendering: pixelated;
+}
+
+.funnyCard h3 {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+.funnyCard p {
+  margin: 0;
+  line-height: 1.6;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+@media (max-width: 768px) {
+  .funnyGrid {
+    grid-template-columns: 1fr;
+  }
+}

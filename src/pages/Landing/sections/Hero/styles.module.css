@@ -1,0 +1,85 @@
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url("/assets/loading.svg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 5, 0, 0.3) 0%,
+    rgba(10, 5, 0, 0.7) 50%,
+    rgba(10, 5, 0, 0.95) 100%
+  );
+}
+
+.heroContent {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  padding: 24px;
+  text-align: center;
+}
+
+.logo {
+  width: min(40vw, 400px);
+  height: auto;
+  filter: drop-shadow(0 0 30px rgba(18, 27, 49, 0.8));
+}
+
+.subtitle {
+  max-width: 560px;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.ctaButton {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 56px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #121b31, #1e2d4f);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.25s;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.ctaButton:hover {
+  background: linear-gradient(135deg, #1e2d4f, #2a3d6b);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(18, 27, 49, 0.6);
+}
+
+.ctaButton:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.scrollIndicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 48px;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+}

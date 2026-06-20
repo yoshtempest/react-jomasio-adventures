@@ -1,0 +1,97 @@
+.combatGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  margin-bottom: 64px;
+}
+
+.combatCard {
+  padding: 28px;
+  background: rgba(18, 27, 49, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  text-align: center;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.combatCard:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(18, 27, 49, 0.6);
+}
+
+.combatIcon {
+  margin-bottom: 16px;
+  color: #4a7cff;
+}
+
+.combatCard h3 {
+  margin: 0 0 10px;
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+.combatCard p {
+  margin: 0;
+  line-height: 1.6;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.bossesTitle {
+  margin: 0 0 24px;
+  font-size: 1.4rem;
+  color: #fff;
+  text-align: center;
+}
+
+.bossesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 16px;
+}
+
+.bossCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px 12px;
+  background: rgba(18, 27, 49, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  text-align: center;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.bossCard:hover {
+  border-color: rgba(255, 100, 100, 0.3);
+  transform: translateY(-2px);
+}
+
+.bossImage {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.bossDesc {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+@media (max-width: 768px) {
+  .combatGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .bossesGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .bossesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

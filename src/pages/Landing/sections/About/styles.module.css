@@ -1,0 +1,36 @@
+.aboutGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.aboutCard {
+  padding: 32px;
+  background: rgba(18, 27, 49, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.aboutCard:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(18, 27, 49, 0.6);
+}
+
+.aboutCard h3 {
+  margin: 0 0 12px;
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+.aboutCard p {
+  margin: 0;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+@media (max-width: 768px) {
+  .aboutGrid {
+    grid-template-columns: 1fr;
+  }
+}

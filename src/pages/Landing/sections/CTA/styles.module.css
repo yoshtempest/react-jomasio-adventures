@@ -1,0 +1,76 @@
+.ctaSection {
+  position: relative;
+  padding: 120px 24px;
+  text-align: center;
+  background-image: url("/assets/loading.svg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.ctaOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 5, 0, 0.85);
+}
+
+.ctaContent {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.ctaTitle {
+  margin: 0;
+  font-size: 2.4rem;
+  color: #fff;
+}
+
+.ctaDesc {
+  max-width: 480px;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+}
+
+.ctaButtonBig {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 22px 64px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #121b31, #1e2d4f);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.25s;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.ctaButtonBig:hover {
+  background: linear-gradient(135deg, #1e2d4f, #2a3d6b);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(18, 27, 49, 0.6);
+}
+
+.ctaButtonBig:active {
+  transform: translateY(0) scale(0.97);
+}
+
+@media (max-width: 768px) {
+  .ctaButtonBig {
+    padding: 14px 32px;
+    font-size: 1rem;
+  }
+
+  .ctaTitle {
+    font-size: 1.6rem;
+  }
+}
