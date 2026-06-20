@@ -15,7 +15,7 @@ export function About() {
             <h3>O que é Jomásio Adventures?</h3>
             <p>
               Jomásio Adventures é um RPG 2D em tile-based grid que se
-              passa nos corredores do Instituto Federal. Explore salas,
+              passa nos corredores da escola. Explore salas,
               enfrente bosses lendários, complete quests e descubra os
               segredos escondidos em cada canto da escola.
             </p>
@@ -25,7 +25,7 @@ export function About() {
             <p>
               Inspirado em clássicos RPGs e na cultura da internet
               brasileira, o jogo mistura humor, referências e uma
-              gameplay viciante com combates em turnos, sistema de
+              gameplay viciante com combates em estilo Street Fighter, sistema de
               classes e muito mais.
             </p>
           </div>
@@ -33,7 +33,7 @@ export function About() {
             <h3>Multiplayer</h3>
             <p>
               Crie sua conta, salve seu progresso na nuvem e
-              compita com seus amigos para ver quem consegue derrotar
+              dispute com seus amigos para ver quem consegue derrotar
               todos os bosses primeiro!
             </p>
           </div>
