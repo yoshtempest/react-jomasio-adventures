@@ -4,7 +4,7 @@ import {
   RANK_LABELS,
   SLOT_LABELS,
 } from "@/utils/types/player/equipment";
-import type { EquipmentDropInfo } from "@/hooks/battle/useRewards";
+import type { EquipmentDropInfo } from "@/hooks/battle/rewards/useRewards";
 
 type Props = {
   equipmentDrops: EquipmentDropInfo[];

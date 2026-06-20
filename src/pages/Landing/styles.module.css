@@ -30,7 +30,7 @@
 
 .sectionDesc {
   margin: -24px 0 40px;
-  font-size: 1.05rem;
+  font-size: 16px;
   color: rgba(255, 255, 255, 0.6);
 }
 
@@ -49,6 +49,6 @@
   }
 
   .sectionTitle {
-    font-size: 1.5rem;
+    font-size: 24px;
   }
 }

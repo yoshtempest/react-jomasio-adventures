@@ -8,7 +8,7 @@ import { EquipmentDrops } from "@/components/Game/Battle/EquipmentDrops";
 import { ItemDrops } from "@/components/Game/Battle/ItemDrops";
 import { ChestDrops } from "@/components/Game/Battle/ChestDrop";
 import { TitleProgresses } from "@/components/Game/Battle/TitleProgresses";
-import type { RewardInfo } from "@/hooks/battle/useRewards";
+import type { RewardInfo } from "@/hooks/battle/rewards/useRewards";
 import { getRank, formatRank } from "@/gameRules/rank";
 
 type Props = {

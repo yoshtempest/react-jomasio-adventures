@@ -1,11 +1,15 @@
 import { chasePlayer } from "@/gameRules/npc/movement";
 import { tryMeleeAttack } from "@/gameRules/npc/attack";
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
+import type { NPCBattleState } from "@/utils/types/npc/npc";
 import type { HungryKingAI } from "./state";
 
 const INVOKING_DURATION = 2000;
 
-export function hungryKingPhase2(ctx: BehaviorContext, ai: HungryKingAI) {
+export function hungryKingPhase2(
+  ctx: BehaviorContext,
+  ai: HungryKingAI,
+): { x: number; y: number; state?: NPCBattleState["state"] } {
   const { npc, playerX, playerY, lastAttackRef, onMeleeHit, onSummon } = ctx;
 
   if (!ai.hasSummoned) {

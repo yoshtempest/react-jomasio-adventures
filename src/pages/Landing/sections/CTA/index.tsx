@@ -13,7 +13,7 @@ export function CTA() {
           Pronto para essa aventura?
         </h2>
         <p className={styles.ctaDesc}>
-          Junte-se a Jomásio e descubra todos os segredos da escola!
+          Junte-se a nossa turma e descubra todos os segredos da escola!
         </p>
         <button className={styles.ctaButtonBig} onClick={() => navigate("/")}>
           <Gamepad2 size={28} />

@@ -26,7 +26,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
+  font-size: 18px;
   font-weight: 700;
   color: #fff;
   background: #121b31;
@@ -35,14 +35,14 @@
 
 .howtoStep h3 {
   margin: 0 0 6px;
-  font-size: 1rem;
+  font-size: 16px;
   color: #fff;
 }
 
 .howtoStep p {
   margin: 0;
   line-height: 1.5;
-  font-size: 0.85rem;
+  font-size: 14px;
   color: rgba(255, 255, 255, 0.6);
 }
 

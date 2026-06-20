@@ -35,6 +35,7 @@ export type NPCBattleState = {
       jumpTargetX: number;
       lastJump: number;
       landingTime: number;
+      summonEndTime: number;
     };
   };
 };
