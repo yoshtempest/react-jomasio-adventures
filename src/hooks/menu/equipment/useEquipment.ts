@@ -60,6 +60,18 @@ export function useEquipmentMenu(
     });
   }, [totalItems, equippedItems]);
 
+  // Auto-activate filter tab when navigating over it
+  useEffect(() => {
+    if (selectedIndex < EQUIPPED_COUNT) return;
+    const tabIndex = selectedIndex - EQUIPPED_COUNT;
+    if (tabIndex < FILTER_TAB_COUNT) {
+      const newFilter = FILTER_TABS[tabIndex];
+      if (newFilter !== filter) {
+        setFilter(newFilter);
+      }
+    }
+  }, [selectedIndex, filter]);
+
   useEffect(() => {
     if (!rightItemsRef?.current) return;
 
