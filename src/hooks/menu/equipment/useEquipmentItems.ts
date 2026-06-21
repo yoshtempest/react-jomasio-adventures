@@ -1,7 +1,7 @@
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { getEquipmentById } from "@/data/equipment";
 import { getEffectiveStats } from "@/gameRules/battle/equipment";
-import { EQUIPMENT_SLOTS, MAX_ACCESSORIES } from "@/utils/types/player/equipment";
+import { EQUIPMENT_SLOTS, MAX_ACCESSORIES, ACCESSORY_UNLOCKED_COUNT } from "@/utils/types/player/equipment";
 import type { Equipment, EquipmentStats, EquippedItemInfo } from "@/utils/types/player/equipment";
 import type { EquipmentFilter } from "@/utils/equipmentMenu";
 
@@ -35,6 +35,7 @@ export type EquippedEntry =
       item: Equipment | null;
       info: { id: EquipmentId; enhance: number } | null;
       stats: EquipmentStats | null;
+      locked: boolean;
     };
 
 export function useEquipmentItems(
@@ -43,17 +44,19 @@ export function useEquipmentItems(
 ) {
   const { getEquippedItem, getEquippedInfo, getEquippedAccessories, getCollection } = useEquipment();
 
-  const equippedItems: EquippedEntry[] = EQUIPMENT_SLOTS.map((slot) => {
-    const item = getEquippedItem(character, slot);
-    const info = getEquippedInfo(character, slot);
-    return {
-      type: "slot" as const,
-      slot,
-      item,
-      info,
-      stats: item && info ? getEffectiveStats(info.id, info.enhance) : null,
-    };
-  });
+  const equippedItems: EquippedEntry[] = EQUIPMENT_SLOTS
+    .filter((slot) => slot !== "accessory")
+    .map((slot) => {
+      const item = getEquippedItem(character, slot);
+      const info = getEquippedInfo(character, slot);
+      return {
+        type: "slot" as const,
+        slot,
+        item,
+        info,
+        stats: item && info ? getEffectiveStats(info.id, info.enhance) : null,
+      };
+    });
 
   const baseAccInfo = getEquippedInfo(character, "accessory");
   const accessories = getEquippedAccessories(character);
@@ -72,6 +75,7 @@ export function useEquipmentItems(
       item,
       info: info ?? null,
       stats: item && info ? getEffectiveStats(info.id, info.enhance) : null,
+      locked: i >= ACCESSORY_UNLOCKED_COUNT,
     });
   }
 

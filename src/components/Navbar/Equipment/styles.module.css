@@ -15,7 +15,7 @@
   justify-content: center;
   gap: 8px;
   flex-shrink: 0;
-  width: 190px;
+  width: 40%;
   border-right: 1px solid #333;
   padding-right: 8px;
 }
@@ -29,8 +29,8 @@
 }
 
 .equippedGrid {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(4, 2fr);
   gap: 2px;
   width: 100%;
 }
@@ -48,6 +48,57 @@
 .selected {
   outline: 2px solid yellow;
   outline-offset: 1px;
+}
+
+.lockedCard {
+  opacity: 0.4;
+  filter: grayscale(0.8);
+  border-color: #555;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.02) 0px,
+    rgba(255, 255, 255, 0.02) 4px,
+    rgba(0, 0, 0, 0.1) 4px,
+    rgba(0, 0, 0, 0.1) 8px
+  );
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.lockedCard::before,
+.lockedCard::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 10px;
+  background: radial-gradient(circle at 50% 50%, #555 1px, transparent 1px);
+  background-size: 5px 10px;
+  opacity: 0.5;
+}
+
+.lockedCard::before {
+  left: -4px;
+  border-right: 2px solid #555;
+}
+
+.lockedCard::after {
+  right: -4px;
+  border-left: 2px solid #555;
+}
+
+.chainLeft,
+.chainRight {
+  display: none;
+}
+
+.lockIcon {
+  color: #888;
 }
 
 .slotLabel {
@@ -154,6 +205,7 @@
 
 .itemsContainer {
   display: flex;
+  margin-right: 10px;
   flex-direction: column;
   gap: 6px;
   flex: 1;

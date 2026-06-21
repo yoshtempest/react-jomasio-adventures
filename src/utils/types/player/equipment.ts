@@ -54,7 +54,8 @@ export type EquippedItemInfo = {
   enhance: number;
 };
 
-export const MAX_ACCESSORIES = 10;
+export const MAX_ACCESSORIES = 9;
+export const ACCESSORY_UNLOCKED_COUNT = 1;
 
 export type EquippedItems = {
   weapon: EquippedItemInfo | null;

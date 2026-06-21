@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { Lock } from "lucide-react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useEquipmentMenu } from "@/hooks/menu/equipment/useEquipment";
 import type { CollectedEntry } from "@/hooks/menu/equipment/useEquipment";
@@ -35,7 +36,6 @@ export function Equipment() {
               const isSelected = index === selectedIndex;
               const info = entry.info;
               const item = entry.item;
-              const stats = entry.stats;
 
               const label = entry.type === "accessory-slot"
                 ? `Acessório ${entry.index + 1}`
@@ -44,6 +44,20 @@ export function Equipment() {
               const key = entry.type === "accessory-slot"
                 ? `acc-${entry.index}`
                 : `slot-${entry.slot}`;
+
+              if (entry.type === "accessory-slot" && entry.locked) {
+                return (
+                  <div
+                    key={key}
+                    className={`${styles.equippedCard} ${styles.lockedCard}`}
+                  >
+                    <div className={styles.chainLeft} />
+                    <Lock size={14} className={styles.lockIcon} />
+                    <div className={styles.slotLabel}>{label}</div>
+                    <div className={styles.chainRight} />
+                  </div>
+                );
+              }
 
               return (
                 <div
@@ -68,14 +82,7 @@ export function Equipment() {
                           ) : null}
                         </span>
                       </div>
-                      <span className={styles.stats}>
-                        {stats
-                          ? `HP: +${stats.hp} | For: +${stats.strength}${stats.intelligence > 0 ? ` | Int: +${stats.intelligence}` : ""}${stats.armor > 0 ? ` | Arm: +${stats.armor}` : ""}`
-                          : ""}
-                      </span>
-                      <span className={styles.actionHint}>
-                        Confirmar: Remover
-                      </span>
+
                     </>
                   ) : (
                     <span className={styles.emptySlot}>Vazio</span>

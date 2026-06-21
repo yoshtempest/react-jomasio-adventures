@@ -12,7 +12,7 @@ export type EquipmentMenuItem =
       qty: number;
     };
 
-export const EQUIPPED_COUNT = 17;
+export const EQUIPPED_COUNT = 16;
 export const FILTER_TAB_COUNT = 9;
 export const FILTER_TABS = [
   "all",

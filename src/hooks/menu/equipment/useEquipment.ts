@@ -34,9 +34,31 @@ export function useEquipmentMenu(
   const rightPanelCount = FILTER_TAB_COUNT + filteredItems.length;
   const totalItems = EQUIPPED_COUNT + rightPanelCount;
 
+  function isLockedIndex(index: number): boolean {
+    const entry = equippedItems[index];
+    return entry?.type === "accessory-slot" && entry.locked;
+  }
+
+  function lastNonLockedInEquipped(): number {
+    let i = EQUIPPED_COUNT - 1;
+    while (i >= 0 && isLockedIndex(i)) i--;
+    return Math.max(i, 0);
+  }
+
   useEffect(() => {
     selectedIndexRef.current = selectedIndex;
   }, [selectedIndex]);
+
+  useEffect(() => {
+    setSelectedIndex((prev) => {
+      if (totalItems === 0) return 0;
+      const clamped = Math.min(prev, totalItems - 1);
+      if (clamped < EQUIPPED_COUNT && isLockedIndex(clamped)) {
+        return lastNonLockedInEquipped();
+      }
+      return clamped;
+    });
+  }, [totalItems, equippedItems]);
 
   useEffect(() => {
     if (!rightItemsRef?.current) return;
@@ -59,16 +81,10 @@ export function useEquipmentMenu(
     container.scrollTo({ top: targetScroll, behavior: "smooth" });
   }, [selectedIndex, rightItemsRef]);
 
-  useEffect(() => {
-    setSelectedIndex((prev) =>
-      totalItems === 0 ? 0 : Math.min(prev, totalItems - 1),
-    );
-  }, [totalItems]);
-
   function handleUseItem(index: number) {
     if (index < EQUIPPED_COUNT) {
       const entry = equippedItems[index];
-      if (!entry || !entry.item) return false;
+      if (!entry || !entry.item || isLockedIndex(index)) return false;
       playSelect();
       if (entry.type === "accessory-slot") {
         if (entry.index === 0) {
@@ -109,9 +125,22 @@ export function useEquipmentMenu(
     const firstItem = EQUIPPED_COUNT + FILTER_TAB_COUNT;
 
     if (prev < EQUIPPED_COUNT) {
-      if (direction === "up") return prev > 0 ? prev - 1 : prev;
-      if (direction === "down")
-        return prev < EQUIPPED_COUNT - 1 ? prev + 1 : prev;
+      if (direction === "up") {
+        let next = prev;
+        while (next > 0) {
+          next--;
+          if (!isLockedIndex(next)) return next;
+        }
+        return prev;
+      }
+      if (direction === "down") {
+        let next = prev;
+        while (next < EQUIPPED_COUNT - 1) {
+          next++;
+          if (!isLockedIndex(next)) return next;
+        }
+        return prev;
+      }
       if (direction === "right" && totalItems > EQUIPPED_COUNT) return firstTab;
       return prev;
     }
@@ -119,12 +148,12 @@ export function useEquipmentMenu(
     if (prev <= lastTab) {
       if (direction === "right") return prev < lastTab ? prev + 1 : prev;
       if (direction === "left")
-        return prev > firstTab ? prev - 1 : EQUIPPED_COUNT - 1;
+        return prev > firstTab ? prev - 1 : lastNonLockedInEquipped();
       if (direction === "down") {
         if (filteredItems.length > 0) return firstItem;
-        return EQUIPPED_COUNT - 1;
+        return lastNonLockedInEquipped();
       }
-      if (direction === "up") return EQUIPPED_COUNT - 1;
+      if (direction === "up") return lastNonLockedInEquipped();
       return prev;
     }
 
