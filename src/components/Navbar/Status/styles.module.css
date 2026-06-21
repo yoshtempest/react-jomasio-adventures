@@ -2,14 +2,8 @@
   display: flex;
   flex-direction: row;
   gap: 10%;
-  width: 80%;
+  width: 100%;
   height: 80%;
-}
-
-.oneLine {
-  display: flex;
-  flex-direction: row;
-  gap: 5%;
 }
 
 .title {
@@ -24,8 +18,8 @@
   color: #4ade80;
 }
 
-.marginTop {
-  margin-top: 16px;
+.flexColumn p {
+  white-space: nowrap;
 }
 
 .fontSize {

@@ -79,13 +79,14 @@ export function Status() {
           <div className="xpBar">
             <div className="xpFill" style={{ width: `${percent}%` }} />
           </div>
-          <div className={styles.oneLine}>
-            <p>HP total: {userHp}</p>
-            <p>Dano normal: {userNormalAttackDamage}</p>
-            <p>Dano especial: {userSpecialDamage}</p>
-            <p>Armadura: {userArmor}</p>
-            {totalShield > 0 && <p>Escudo: {totalShield}</p>}
-          </div>
+        </div>
+
+        <div className={styles.flexColumn}>
+          <p>HP total: {userHp}</p>
+          <p>Dano normal: {userNormalAttackDamage}</p>
+          <p>Dano especial: {userSpecialDamage}</p>
+          <p>Armadura: {userArmor}</p>
+          {totalShield > 0 && <p>Escudo: {totalShield}</p>}
         </div>
 
         <div className={styles.flexColumn}>
@@ -130,7 +131,7 @@ export function Status() {
           )}
         </div>
 
-        <div className={styles.marginTop}>
+        <div className={styles.flexColumn}>
           <p className={styles.title}>Equipamentos</p>
           {(EQUIPMENT_SLOTS as EquipmentSlot[]).map((slot) => {
             const item = getEquippedItem(character, slot);
