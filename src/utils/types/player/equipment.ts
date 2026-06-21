@@ -54,8 +54,18 @@ export type EquippedItemInfo = {
   enhance: number;
 };
 
+export const MAX_ACCESSORIES = 10;
+
 export type EquippedItems = {
-  [K in EquipmentSlot]: EquippedItemInfo | null;
+  weapon: EquippedItemInfo | null;
+  helmet: EquippedItemInfo | null;
+  chestplate: EquippedItemInfo | null;
+  pants: EquippedItemInfo | null;
+  boots: EquippedItemInfo | null;
+  bag: EquippedItemInfo | null;
+  pet: EquippedItemInfo | null;
+  accessory: EquippedItemInfo | null;
+  accessories: EquippedItemInfo[];
 };
 
 export function createEmptyEquipped(): EquippedItems {
@@ -68,6 +78,7 @@ export function createEmptyEquipped(): EquippedItems {
     accessory: null,
     bag: null,
     pet: null,
+    accessories: [],
   };
 }
 

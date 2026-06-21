@@ -1,9 +1,8 @@
 import type {
-  EquipmentSlot,
   EquippedItems,
   EquippedItemInfo,
 } from "@/utils/types/player/equipment";
-import { createEmptyEquipped } from "@/utils/types/player/equipment";
+import { createEmptyEquipped, EQUIPMENT_SLOTS } from "@/utils/types/player/equipment";
 import { saveCompressed, loadCompressed } from "@/utils/storage";
 
 type CharacterEquipmentData = {
@@ -49,8 +48,13 @@ function migrateAllData(
     const equipped = createEmptyEquipped();
     const rawEquip = d.equipped as Record<string, unknown> | undefined;
     if (rawEquip) {
-      for (const s of Object.keys(equipped) as EquipmentSlot[]) {
+      for (const s of EQUIPMENT_SLOTS) {
         equipped[s] = migrateEquipped(rawEquip[s]);
+      }
+      if (Array.isArray(rawEquip.accessories)) {
+        equipped.accessories = rawEquip.accessories.map(
+          (a: unknown) => migrateEquipped(a) ?? { id: "", enhance: 0 },
+        ).filter((a: EquippedItemInfo) => a.id !== "");
       }
     }
     const collection: Record<string, number> = {};
@@ -94,7 +98,13 @@ export function loadAllData(): Record<string, CharacterEquipmentData> {
         }
       }
     }
-    return parsed as Record<string, CharacterEquipmentData>;
+    const data = parsed as Record<string, CharacterEquipmentData>;
+    for (const charData of Object.values(data)) {
+      if (charData?.equipped && !Array.isArray(charData.equipped.accessories)) {
+        (charData.equipped as EquippedItems).accessories = [];
+      }
+    }
+    return data;
   } catch {
     return createEmptyAllData();
   }

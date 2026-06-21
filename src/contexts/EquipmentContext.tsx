@@ -12,6 +12,7 @@ import type {
   Equipment,
   EquippedItemInfo,
 } from "@/utils/types/player/equipment";
+import { MAX_ACCESSORIES, EQUIPMENT_SLOTS } from "@/utils/types/player/equipment";
 import { getEquipmentById } from "@/data/equipment";
 import {
   getEffectiveStats,
@@ -39,6 +40,7 @@ type EquipmentContextType = {
     character: CharacterId,
     slot: EquipmentSlot,
   ) => EquippedItemInfo | null;
+  getEquippedAccessories: (character: CharacterId) => EquippedItemInfo[];
   getTotalBonus: (character: CharacterId) => {
     hp: number;
     strength: number;
@@ -57,6 +59,7 @@ type EquipmentContextType = {
   isOwned: (character: CharacterId, id: EquipmentId) => boolean;
   equip: (character: CharacterId, id: EquipmentId, enhance?: number) => void;
   unequip: (character: CharacterId, slot: EquipmentSlot) => void;
+  unequipAccessoryAtIndex: (character: CharacterId, index: number) => void;
   addDrop: (character: CharacterId, id: EquipmentId, enhance?: number) => void;
 };
 
@@ -96,6 +99,56 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
     [allData],
   );
 
+  const getEquippedAccessories = useCallback(
+    (character: CharacterId): EquippedItemInfo[] => {
+      return getCharacterData(
+        allData as Record<string, CharacterEquipmentData>,
+        character,
+      ).equipped.accessories;
+    },
+    [allData],
+  );
+
+  function addItemBonus(
+    bonus: { hp: number; strength: number; intelligence: number; shield: number; vampirism: number; reflect: number },
+    info: EquippedItemInfo,
+    setItemIds: Set<string>,
+  ) {
+    const stats = getEffectiveStats(info.id, info.enhance);
+    const multiplier = setItemIds.has(info.id) ? SET_MULTIPLIER : 1;
+    bonus.hp += Math.round(stats.hp * multiplier);
+    bonus.strength += Math.round(stats.strength * multiplier);
+    bonus.intelligence += Math.round(stats.intelligence * multiplier);
+    bonus.shield += Math.round(stats.shield * multiplier);
+    bonus.vampirism += Math.round(stats.vampirism * multiplier);
+    bonus.reflect += Math.round(stats.reflect * multiplier);
+  }
+
+  function buildSetItemIds(equipped: EquippedItems): Set<string> {
+    const setPieces: Record<string, string[]> = {};
+    for (const slot of SET_SLOTS) {
+      const info = equipped[slot];
+      if (!info) continue;
+      const item = getEquipmentById(info.id);
+      if (!item?.set) continue;
+      if (!setPieces[item.set]) setPieces[item.set] = [];
+      setPieces[item.set].push(info.id);
+    }
+    for (const acc of equipped.accessories) {
+      const item = getEquipmentById(acc.id);
+      if (!item?.set) continue;
+      if (!setPieces[item.set]) setPieces[item.set] = [];
+      setPieces[item.set].push(acc.id);
+    }
+    const setItemIds = new Set<string>();
+    for (const ids of Object.values(setPieces)) {
+      if (ids.length >= 3) {
+        for (const id of ids) setItemIds.add(id);
+      }
+    }
+    return setItemIds;
+  }
+
   const getTotalBonus = useCallback(
     (
       character: CharacterId,
@@ -105,35 +158,18 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
         character,
       );
 
-      const setPieces: Record<string, string[]> = {};
-      for (const slot of SET_SLOTS) {
+      const setItemIds = buildSetItemIds(data.equipped);
+      const bonus = { hp: 0, strength: 0, intelligence: 0, shield: 0, vampirism: 0, reflect: 0 };
+
+      for (const slot of EQUIPMENT_SLOTS) {
         const info = data.equipped[slot];
         if (!info) continue;
-        const item = getEquipmentById(info.id);
-        if (!item?.set) continue;
-        if (!setPieces[item.set]) setPieces[item.set] = [];
-        setPieces[item.set].push(info.id);
+        addItemBonus(bonus, info, setItemIds);
       }
-      const setItemIds = new Set<string>();
-      for (const ids of Object.values(setPieces)) {
-        if (ids.length >= 3) {
-          for (const id of ids) setItemIds.add(id);
-        }
+      for (const info of data.equipped.accessories) {
+        addItemBonus(bonus, info, setItemIds);
       }
 
-      const bonus = { hp: 0, strength: 0, intelligence: 0, shield: 0, vampirism: 0, reflect: 0 };
-      for (const slot of Object.keys(data.equipped) as EquipmentSlot[]) {
-        const info = data.equipped[slot];
-        if (!info) continue;
-        const stats = getEffectiveStats(info.id, info.enhance);
-        const multiplier = setItemIds.has(info.id) ? SET_MULTIPLIER : 1;
-        bonus.hp += Math.round(stats.hp * multiplier);
-        bonus.strength += Math.round(stats.strength * multiplier);
-        bonus.intelligence += Math.round(stats.intelligence * multiplier);
-        bonus.shield += Math.round(stats.shield * multiplier);
-        bonus.vampirism += Math.round(stats.vampirism * multiplier);
-        bonus.reflect += Math.round(stats.reflect * multiplier);
-      }
       return bonus;
     },
     [allData],
@@ -203,14 +239,40 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
 
         if (!collection[key] || collection[key] <= 0) return prev;
 
-        const oldInfo = data.equipped[item.slot];
         collection[key] -= 1;
         if (collection[key] <= 0) delete collection[key];
 
+        if (item.slot === "accessory") {
+          const baseSlot = data.equipped.accessory;
+          const extras = data.equipped.accessories;
+
+          if (!baseSlot) {
+            const equipped = {
+              ...data.equipped,
+              accessory: { id, enhance },
+            };
+            next[character] = { equipped, collection } as CharacterEquipmentData;
+            return next;
+          }
+
+          if (extras.length >= MAX_ACCESSORIES) {
+            collection[key] = (collection[key] ?? 0) + 1;
+            return prev;
+          }
+
+          const equipped = {
+            ...data.equipped,
+            accessories: [...extras, { id, enhance }],
+          };
+          next[character] = { equipped, collection } as CharacterEquipmentData;
+          return next;
+        }
+
+        const oldInfo = data.equipped[item.slot];
         const equipped = {
           ...data.equipped,
           [item.slot]: { id, enhance },
-        } as EquippedItems;
+        };
 
         if (oldInfo) {
           const oldKey = colKey(oldInfo.id, oldInfo.enhance);
@@ -233,6 +295,24 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
           character,
         ),
       };
+
+      if (slot === "accessory") {
+        const extras = data.equipped.accessories;
+        if (extras.length > 0) {
+          const lastInfo = extras[extras.length - 1];
+          const collection = { ...data.collection };
+          const oldKey = colKey(lastInfo.id, lastInfo.enhance);
+          collection[oldKey] = (collection[oldKey] ?? 0) + 1;
+
+          const equipped = {
+            ...data.equipped,
+            accessories: extras.slice(0, -1),
+          };
+          next[character] = { equipped, collection } as CharacterEquipmentData;
+          return next;
+        }
+      }
+
       const oldInfo = data.equipped[slot];
       if (!oldInfo) return prev;
 
@@ -246,6 +326,37 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
       return next;
     });
   }, []);
+
+  const unequipAccessoryAtIndex = useCallback(
+    (character: CharacterId, index: number) => {
+      setAllData((prev) => {
+        const next = { ...prev };
+        const data = {
+          ...getCharacterData(
+            next as Record<string, CharacterEquipmentData>,
+            character,
+          ),
+        };
+
+        const extras = data.equipped.accessories;
+        if (index < 0 || index >= extras.length) return prev;
+
+        const info = extras[index];
+        const collection = { ...data.collection };
+        const oldKey = colKey(info.id, info.enhance);
+        collection[oldKey] = (collection[oldKey] ?? 0) + 1;
+
+        const equipped = {
+          ...data.equipped,
+          accessories: extras.filter((_, i) => i !== index),
+        };
+
+        next[character] = { equipped, collection } as CharacterEquipmentData;
+        return next;
+      });
+    },
+    [],
+  );
 
   const addDrop = useCallback(
     (character: CharacterId, id: EquipmentId, enhance: number = 0) => {
@@ -272,6 +383,7 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
       value={{
         getEquippedItem,
         getEquippedInfo,
+        getEquippedAccessories,
         getTotalBonus,
         getCollection,
         getQuantityTotal,
@@ -279,6 +391,7 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
         isOwned,
         equip,
         unequip,
+        unequipAccessoryAtIndex,
         addDrop,
       }}
     >

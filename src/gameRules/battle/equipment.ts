@@ -1,5 +1,6 @@
 import type {
   EquippedItems,
+  EquippedItemInfo,
   EquipmentStats,
   EquipmentSlot,
 } from "@/utils/types/player/equipment";
@@ -52,6 +53,16 @@ function loadEquipped(character: CharacterId): EquippedItems {
       } else {
         result[slot] = { id: val.id ?? val, enhance: val.enhance ?? 0 };
       }
+    }
+    if (Array.isArray(rawEquipped.accessories)) {
+      result.accessories = rawEquipped.accessories.map(
+        (a: unknown) => {
+          if (!a) return null;
+          if (typeof a === "string") return { id: a, enhance: 0 };
+          const obj = a as Record<string, unknown>;
+          return { id: String(obj.id ?? ""), enhance: Number(obj.enhance ?? 0) };
+        },
+      ).filter((a: EquippedItemInfo | null): a is EquippedItemInfo => a !== null && a.id !== "");
     }
     return result;
   } catch {
@@ -129,6 +140,13 @@ export function getActiveSetItemIds(character: CharacterId): Set<string> {
     setPieces[item.set].push(info.id);
   }
 
+  for (const info of equipped.accessories) {
+    const item = getEquipmentById(info.id);
+    if (!item?.set) continue;
+    if (!setPieces[item.set]) setPieces[item.set] = [];
+    setPieces[item.set].push(info.id);
+  }
+
   const activeIds = new Set<string>();
   for (const ids of Object.values(setPieces)) {
     if (ids.length >= MIN_SET_PIECES) {
@@ -151,6 +169,13 @@ export function getSetMultiplier(
   for (const slot of SET_SLOTS) {
     const info = equipped[slot];
     if (!info) continue;
+    const item = getEquipmentById(info.id);
+    if (!item?.set) continue;
+    if (!setPieces[item.set]) setPieces[item.set] = [];
+    setPieces[item.set].push(info.id);
+  }
+
+  for (const info of equipped.accessories) {
     const item = getEquipmentById(info.id);
     if (!item?.set) continue;
     if (!setPieces[item.set]) setPieces[item.set] = [];
@@ -214,6 +239,12 @@ export function getTotalShield(character: CharacterId): number {
     total += Math.round(stats.shield * multiplier);
   }
 
+  for (const info of equipped.accessories) {
+    const stats = getEffectiveStats(info.id, info.enhance);
+    const multiplier = setItemIds.has(info.id) ? SET_MULTIPLIER : 1;
+    total += Math.round(stats.shield * multiplier);
+  }
+
   return total;
 }
 
@@ -242,6 +273,17 @@ export function getEquipmentStatsBonus(character: CharacterId): {
     bonus.reflect += Math.round(stats.reflect * multiplier);
   }
 
+  for (const info of equipped.accessories) {
+    const stats = getEffectiveStats(info.id, info.enhance);
+    const multiplier = setItemIds.has(info.id) ? SET_MULTIPLIER : 1;
+    bonus.hp += Math.round(stats.hp * multiplier);
+    bonus.strength += Math.round(stats.strength * multiplier);
+    bonus.intelligence += Math.round(stats.intelligence * multiplier);
+    bonus.shield += Math.round(stats.shield * multiplier);
+    bonus.vampirism += Math.round(stats.vampirism * multiplier);
+    bonus.reflect += Math.round(stats.reflect * multiplier);
+  }
+
   return bonus;
 }
 
@@ -258,6 +300,12 @@ export function getTotalVampirism(character: CharacterId): number {
     total += Math.round(stats.vampirism * multiplier);
   }
 
+  for (const info of equipped.accessories) {
+    const stats = getEffectiveStats(info.id, info.enhance);
+    const multiplier = setItemIds.has(info.id) ? SET_MULTIPLIER : 1;
+    total += Math.round(stats.vampirism * multiplier);
+  }
+
   return total;
 }
 
@@ -269,6 +317,12 @@ export function getTotalReflect(character: CharacterId): number {
   for (const slot of EQUIPMENT_SLOTS) {
     const info = equipped[slot];
     if (!info) continue;
+    const stats = getEffectiveStats(info.id, info.enhance);
+    const multiplier = setItemIds.has(info.id) ? SET_MULTIPLIER : 1;
+    total += Math.round(stats.reflect * multiplier);
+  }
+
+  for (const info of equipped.accessories) {
     const stats = getEffectiveStats(info.id, info.enhance);
     const multiplier = setItemIds.has(info.id) ? SET_MULTIPLIER : 1;
     total += Math.round(stats.reflect * multiplier);

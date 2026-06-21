@@ -1,8 +1,8 @@
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { getEquipmentById } from "@/data/equipment";
 import { getEffectiveStats } from "@/gameRules/battle/equipment";
-import { EQUIPMENT_SLOTS } from "@/utils/types/player/equipment";
-import type { Equipment, EquipmentStats } from "@/utils/types/player/equipment";
+import { EQUIPMENT_SLOTS, MAX_ACCESSORIES } from "@/utils/types/player/equipment";
+import type { Equipment, EquipmentStats, EquippedItemInfo } from "@/utils/types/player/equipment";
 import type { EquipmentFilter } from "@/utils/equipmentMenu";
 
 function parseColKey(key: string): { id: string; enhance: number } {
@@ -21,19 +21,27 @@ export type CollectedEntry = {
   stats: ReturnType<typeof getEffectiveStats>;
 };
 
-export type EquippedEntry = {
-  type: "slot";
-  slot: (typeof EQUIPMENT_SLOTS)[number];
-  item: Equipment | null;
-  info: { id: EquipmentId; enhance: number } | null;
-  stats: EquipmentStats | null;
-};
+export type EquippedEntry =
+  | {
+      type: "slot";
+      slot: (typeof EQUIPMENT_SLOTS)[number];
+      item: Equipment | null;
+      info: { id: EquipmentId; enhance: number } | null;
+      stats: EquipmentStats | null;
+    }
+  | {
+      type: "accessory-slot";
+      index: number;
+      item: Equipment | null;
+      info: { id: EquipmentId; enhance: number } | null;
+      stats: EquipmentStats | null;
+    };
 
 export function useEquipmentItems(
   character: CharacterId,
   filter: EquipmentFilter,
 ) {
-  const { getEquippedItem, getEquippedInfo, getCollection } = useEquipment();
+  const { getEquippedItem, getEquippedInfo, getEquippedAccessories, getCollection } = useEquipment();
 
   const equippedItems: EquippedEntry[] = EQUIPMENT_SLOTS.map((slot) => {
     const item = getEquippedItem(character, slot);
@@ -46,6 +54,26 @@ export function useEquipmentItems(
       stats: item && info ? getEffectiveStats(info.id, info.enhance) : null,
     };
   });
+
+  const baseAccInfo = getEquippedInfo(character, "accessory");
+  const accessories = getEquippedAccessories(character);
+  const fills: (EquippedItemInfo | null)[] = baseAccInfo
+    ? [baseAccInfo, ...accessories]
+    : [...accessories];
+  for (let i = fills.length; i < MAX_ACCESSORIES; i++) {
+    fills.push(null);
+  }
+  for (let i = 0; i < MAX_ACCESSORIES; i++) {
+    const info = fills[i];
+    const item = info ? getEquipmentById(info.id) ?? null : null;
+    equippedItems.push({
+      type: "accessory-slot",
+      index: i,
+      item,
+      info: info ?? null,
+      stats: item && info ? getEffectiveStats(info.id, info.enhance) : null,
+    });
+  }
 
   const allCollected: CollectedEntry[] = Object.entries(
     getCollection(character),

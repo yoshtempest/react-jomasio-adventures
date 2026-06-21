@@ -37,13 +37,21 @@ export function Equipment() {
               const item = entry.item;
               const stats = entry.stats;
 
+              const label = entry.type === "accessory-slot"
+                ? `Acessório ${entry.index + 1}`
+                : SLOT_LABELS[entry.slot];
+
+              const key = entry.type === "accessory-slot"
+                ? `acc-${entry.index}`
+                : `slot-${entry.slot}`;
+
               return (
                 <div
-                  key={`slot-${entry.slot}`}
+                  key={key}
                   className={`${styles.equippedCard} ${isSelected ? styles.selected : ""}`}
                 >
                   <div className={styles.slotLabel}>
-                    {SLOT_LABELS[entry.slot]}
+                    {label}
                   </div>
                   {item ? (
                     <>

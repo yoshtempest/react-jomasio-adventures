@@ -19,7 +19,7 @@ export function useEquipmentMenu(
   rightItemsRef?: React.RefObject<HTMLDivElement | null>,
 ) {
   const { pushControls, popControls } = useGameControls();
-  const { equip, unequip } = useEquipment();
+  const { equip, unequip, unequipAccessoryAtIndex } = useEquipment();
   const { playMove, playSelect } = useMenuSFX();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -70,7 +70,15 @@ export function useEquipmentMenu(
       const entry = equippedItems[index];
       if (!entry || !entry.item) return false;
       playSelect();
-      unequip(character, entry.slot);
+      if (entry.type === "accessory-slot") {
+        if (entry.index === 0) {
+          unequip(character, "accessory");
+        } else {
+          unequipAccessoryAtIndex(character, entry.index - 1);
+        }
+      } else {
+        unequip(character, entry.slot);
+      }
       return true;
     }
 
