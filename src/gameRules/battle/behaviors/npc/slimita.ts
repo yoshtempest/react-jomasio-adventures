@@ -1,7 +1,7 @@
 import { chasePlayer } from "@/gameRules/npc/movement";
 import { isNear } from "@/gameRules/npc/behavior";
 import { tryMeleeAttack } from "@/gameRules/npc/attack";
-import { createDirectionalProjectile } from "@/gameRules/npc/createDirectionalProjectile";
+import { createPullProjectile } from "@/gameRules/npc/createDirectionalProjectile";
 import { getSlimitaState } from "@/gameRules/npc/slimitaState";
 
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
@@ -26,17 +26,15 @@ export function slimitaBehavior(ctx: BehaviorContext) {
       const canPull = !projectile && now - state.lastPullThrow >= PULL_COOLDOWN;
 
       if (canPull) {
-        setProjectile({
-          ...createDirectionalProjectile({
-            startX: npc.x - 40,
-            startY: npc.y - 50,
-            targetX: playerX,
-            targetY: playerY,
-            sprite: "staff",
-            state: "idle",
-          }),
-          pullPlayerX: npc.x - 60,
-        });
+        setProjectile(createPullProjectile({
+          startX: npc.x - 40,
+          startY: npc.y - 50,
+          targetX: playerX,
+          targetY: playerY,
+          sprite: "staff",
+          state: "idle",
+          pullTargetX: npc.x - 60,
+        }));
 
         setForceIdle(true);
         setTimeout(() => setForceIdle(false), 400);

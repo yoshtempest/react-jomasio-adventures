@@ -11,7 +11,6 @@ type Props = {
   npcType: string;
   state: "idle" | "walk" | "hit" | "jumping" | "attack" | "pitch" | "inAir" | "falling" | "airAttack" | "preAttack" | "preJump" | "inJump" | "jumpAttack";
   direction: "left" | "right";
-  projectile?: Projectile | null;
   piercings?: { id: number; x: number; y: number }[];
   isExploding?: boolean;
   npcPhase?: number;

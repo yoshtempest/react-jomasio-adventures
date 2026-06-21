@@ -1,12 +1,11 @@
 import { chasePlayer } from "@/gameRules/npc/movement";
 import { tryMeleeAttack } from "@/gameRules/npc/attack";
+import { createCommonProjectile, createRainProjectile } from "@/gameRules/npc/createDirectionalProjectile";
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
 import type { DeiseAI } from "./state";
 import {
   SPEAR_RAIN_COOLDOWN,
   SPEAR_RAIN_WARNING_DURATION,
-  SPEAR_FALL_SPEED,
-  OFFSCREEN_BOTTOM,
   MIN_ACTION_GAP,
   generateSpearPositions,
 } from "./state";
@@ -25,7 +24,6 @@ export function deisePhase2(
     npc, playerX, playerY,
     projectile, setProjectile,
     lastAttackRef, onMeleeHit,
-    onProjectileHit,
   } = ctx;
 
   const now = Date.now();
@@ -39,19 +37,14 @@ export function deisePhase2(
     }
 
     if (!projectile) {
-      setProjectile({
-        x: npc.x - 40,
-        y: npc.y + 100,
+      setProjectile(createCommonProjectile({
         startX: npc.x - 40,
-        startY: npc.y + 600,
-        dirX: 0,
-        dirY: -1,
+        startY: npc.y + 100,
+        targetX: npc.x - 40,
+        targetY: 0,
         sprite: "spear",
-        createdAt: now,
         state: "idle",
-        fallTargetX: playerX,
-        spear: { phase: "rising" },
-      });
+      }));
 
       ai.lastStaffThrow = now;
       ai.lastAction = now;
@@ -74,70 +67,23 @@ export function deisePhase2(
     return { x, y: npc.y, state: "walk" };
   }
 
-  // ── 2. Spear rain cycle (only when no projectile active) ──
-  if (!projectile) {
-    // 2a. Update falling spears
-    if (ai.spearRainPhase === "falling") {
-      const spears = npc.fallingSpears;
-      if (spears && spears.length > 0) {
-        let allDone = true;
-        for (const s of spears) {
-          s.y += SPEAR_FALL_SPEED;
-          if (s.y < OFFSCREEN_BOTTOM) {
-            allDone = false;
-            if (!s.hit && s.y >= 550 && s.y <= OFFSCREEN_BOTTOM) {
-              const dx = Math.abs(playerX - s.x);
-              if (dx < 60) {
-                s.hit = true;
-                onProjectileHit();
-              }
-            }
-          }
-        }
-        if (allDone) {
-          npc.fallingSpears = undefined;
-          ai.spearRainPhase = "idle";
-        }
-      } else {
-        ai.spearRainPhase = "idle";
-      }
-    }
-
-    // 2b. Start new spear rain warning
-    if (
-      ai.spearRainPhase === "idle" &&
-      canAct &&
-      now - ai.lastSpearRain >= SPEAR_RAIN_COOLDOWN
-    ) {
-      const positions = generateSpearPositions(playerX);
-      npc.dangerZones = positions.map((x) => ({ x, startTime: now }));
-      ai.spearRainPhase = "warning";
-      ai.spearRainWarningStart = now;
-      ai.spearRainPositions = positions;
-      ai.lastSpearRain = now;
-      ai.lastAction = now;
-    }
-
-    // 2c. Transition warning → falling
-    if (
-      ai.spearRainPhase === "warning" &&
-      now - ai.spearRainWarningStart >= SPEAR_RAIN_WARNING_DURATION
-    ) {
-      npc.fallingSpears = ai.spearRainPositions.map((x) => ({
-        x,
-        y: -50,
-      }));
-      npc.dangerZones = undefined;
-      ai.spearRainPhase = "falling";
-    }
+  // ── 2. Spear rain cycle ──
+  if (
+    !projectile &&
+    canAct &&
+    now - ai.lastSpearRain >= SPEAR_RAIN_COOLDOWN
+  ) {
+    const positions = generateSpearPositions(playerX);
+    setProjectile(createRainProjectile({
+      warningDuration: SPEAR_RAIN_WARNING_DURATION,
+      spearPositions: positions,
+    }));
+    ai.lastSpearRain = now;
+    ai.lastAction = now;
   }
 
   // ── 3. Movement & melee ──
-  if (
-    ai.spearRainPhase === "idle" ||
-    ai.spearRainPhase === "warning" ||
-    (ai.phase2OpeningDone && projectile != null)
-  ) {
+  if (!projectile || projectile.variant !== "rain") {
     const { x } = chasePlayer(npc, playerX, playerY);
     const meleeHit = tryMeleeAttack({
       npcX: npc.x, npcY: npc.y,
@@ -151,6 +97,5 @@ export function deisePhase2(
     return { x, y: npc.y, state: "walk" };
   }
 
-  // Standing still during falling phase
   return { x: npc.x, y: npc.y, state: "attack" };
 }

@@ -1,4 +1,4 @@
-import { createDirectionalProjectile } from "@/gameRules/npc/createDirectionalProjectile";
+import { createCommonProjectile } from "@/gameRules/npc/createDirectionalProjectile";
 import { tryMeleeAttack } from "@/gameRules/npc/attack";
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
 import type { DeiseAI } from "./state";
@@ -36,7 +36,7 @@ export function deisePhase1(
   } else {
     const staffReady = canAct && !projectile && now - ai.lastStaffThrow >= STAFF_COOLDOWN;
     if (staffReady) {
-      setProjectile(createDirectionalProjectile({
+      setProjectile(createCommonProjectile({
         startX: npc.x - 40,
         startY: npc.y - 50,
         targetX: playerX - 100,

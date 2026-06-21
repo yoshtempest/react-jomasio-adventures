@@ -183,7 +183,8 @@ declare global {
   type NpcDifficulty = "easy" | "medium" | "hard" | "insano";
   type EquipmentRank = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0 | "EX";
 
-  type Projectile = {
+  type ProjectileCommon = {
+    variant: "common";
     x: number;
     y: number;
     startX: number;
@@ -193,12 +194,42 @@ declare global {
     sprite?: string;
     createdAt: number;
     state: "walk" | "idle";
-    fallTargetX?: number;
-    pullPlayerX?: number;
-    spear?: {
-      phase: "rising" | "falling";
-    };
   };
+
+  type ProjectilePull = {
+    variant: "pull";
+    x: number;
+    y: number;
+    startX: number;
+    startY: number;
+    dirX: number;
+    dirY: number;
+    sprite?: string;
+    createdAt: number;
+    state: "walk" | "idle";
+    pullTargetX: number;
+  };
+
+  type FallingSpear = {
+    x: number;
+    y: number;
+    hit?: boolean;
+  };
+
+  type ProjectileRain = {
+    variant: "rain";
+    x: number;
+    y: number;
+    startX: number;
+    startY: number;
+    createdAt: number;
+    sprite?: string;
+    warningStartTime: number;
+    warningDuration: number;
+    spears: FallingSpear[];
+  };
+
+  type Projectile = ProjectileCommon | ProjectilePull | ProjectileRain;
 
   // ── Player ──────────────────────────────────────────────
   type PlayerState =

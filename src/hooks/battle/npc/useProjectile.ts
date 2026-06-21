@@ -1,15 +1,22 @@
 import { useEffect, useRef } from "react";
 import type { Dispatch, SetStateAction } from "react";
 
+const SPEED = 20;
+const SPEAR_FALL_SPEED = 18;
+const OFFSCREEN_MARGIN = 200;
+const MAP_WIDTH = 1280;
+const MAP_HEIGHT = 600;
+const OFFSCREEN_BOTTOM = 800;
+
 export function useProjectile(
   projectile: Projectile | null,
   setProjectile: Dispatch<SetStateAction<Projectile | null>>,
   playerX: number,
   playerY: number,
   playerState: playerState,
-  playerDirection: Direction,
-  npcX: number,
-  npcY: number,
+  _playerDirection: Direction,
+  _npcX: number,
+  _npcY: number,
   onHit: () => void,
   hitstopRef: React.RefObject<number>,
   onPullPlayer?: (x: number) => void,
@@ -27,102 +34,14 @@ export function useProjectile(
       setProjectile((p) => {
         if (!p) return null;
 
-        const now = Date.now();
-
-        if (p.state === "walk") {
-          if (now - p.createdAt >= 500) {
-            return {
-              ...p,
-              state: "idle",
-            };
-          }
-
-          return p;
+        switch (p.variant) {
+          case "common":
+            return handleCommon(p, playerX, playerY, playerState, onHitRef.current);
+          case "pull":
+            return handlePull(p, playerX, playerY, playerState, onHitRef.current, onPullPlayerRef.current);
+          case "rain":
+            return handleRain(p, playerX, playerState, onHitRef.current);
         }
-
-        const speed = 20;
-        const spearRiseSpeed = 120;
-        const OFFSCREEN_MARGIN = 200;
-        const MAP_WIDTH = 1280;
-        const MAP_HEIGHT = 600;
-
-        // ── Spear two-phase ───────────────────────────────────
-        if (p.spear) {
-          if (p.spear.phase === "rising") {
-            const next = {
-              ...p,
-              y: p.y + p.dirY * spearRiseSpeed,
-            };
-
-            // Saiu da tela subindo → teleporta pro topo e cai
-            if (next.y < -OFFSCREEN_MARGIN) {
-              return {
-                ...p,
-                x: p.fallTargetX ?? playerX,
-                y: -50,
-                dirX: 0,
-                dirY: 1,
-                spear: { phase: "falling" },
-              } as Projectile;
-            }
-
-            return next;
-          }
-
-          // falling: cai na posição X onde foi arremessada
-          const next = {
-            ...p,
-            x: p.fallTargetX ?? playerX,
-            y: p.y + 11,
-          };
-
-          // Saiu da tela caindo
-          if (next.y > MAP_HEIGHT + OFFSCREEN_MARGIN) {
-            return null;
-          }
-
-          // Colisão com o jogador (só na queda)
-          const dx = Math.abs(playerX - next.x);
-          const dy = Math.abs(playerY - next.y);
-          const isDashing = playerState === "dash";
-
-          if (dx < 40 && dy <= 120 && !isDashing) {
-            onHitRef.current();
-            return null;
-          }
-
-          return next;
-        }
-
-        // ── Projétil normal ────────────────────────────────────
-        const next = {
-          ...p,
-          x: p.x + p.dirX * speed,
-          y: p.y + p.dirY * speed,
-        };
-
-        if (
-          next.x < -OFFSCREEN_MARGIN ||
-          next.x > MAP_WIDTH + OFFSCREEN_MARGIN ||
-          next.y < -OFFSCREEN_MARGIN ||
-          next.y > MAP_HEIGHT + OFFSCREEN_MARGIN
-        ) {
-          return null;
-        }
-
-        const dx = Math.abs(playerX - next.x);
-        const dy = Math.abs(playerY - next.y);
-        const isDashing = playerState === "dash";
-
-        if (dx < 40 && dy <= 120 && !isDashing) {
-          if (p.pullPlayerX != null) {
-            onPullPlayerRef.current?.(p.pullPlayerX);
-          }
-          onHitRef.current();
-          return null;
-        }
-
-        return next;
       });
     }, 20);
 
@@ -131,11 +50,131 @@ export function useProjectile(
     projectile,
     playerX,
     playerY,
-    npcX,
-    npcY,
     playerState,
-    playerDirection,
     setProjectile,
     hitstopRef,
   ]);
+}
+
+function handleCommon(
+  p: ProjectileCommon,
+  playerX: number,
+  playerY: number,
+  playerState: playerState,
+  onHit: () => void,
+): ProjectileCommon | null {
+  if (p.state === "walk") {
+    if (Date.now() - p.createdAt >= 500) {
+      return { ...p, state: "idle" };
+    }
+    return p;
+  }
+
+  const next = {
+    ...p,
+    x: p.x + p.dirX * SPEED,
+    y: p.y + p.dirY * SPEED,
+  };
+
+  if (
+    next.x < -OFFSCREEN_MARGIN ||
+    next.x > MAP_WIDTH + OFFSCREEN_MARGIN ||
+    next.y < -OFFSCREEN_MARGIN ||
+    next.y > MAP_HEIGHT + OFFSCREEN_MARGIN
+  ) {
+    return null;
+  }
+
+  const dx = Math.abs(playerX - next.x);
+  const dy = Math.abs(playerY - next.y);
+  const isDashing = playerState === "dash";
+
+  if (dx < 40 && dy <= 120 && !isDashing) {
+    onHit();
+    return null;
+  }
+
+  return next;
+}
+
+function handlePull(
+  p: ProjectilePull,
+  playerX: number,
+  playerY: number,
+  playerState: playerState,
+  onHit: () => void,
+  onPullPlayer?: (x: number) => void,
+): ProjectilePull | null {
+  if (p.state === "walk") {
+    if (Date.now() - p.createdAt >= 500) {
+      return { ...p, state: "idle" };
+    }
+    return p;
+  }
+
+  const next = {
+    ...p,
+    x: p.x + p.dirX * SPEED,
+    y: p.y + p.dirY * SPEED,
+  };
+
+  if (
+    next.x < -OFFSCREEN_MARGIN ||
+    next.x > MAP_WIDTH + OFFSCREEN_MARGIN ||
+    next.y < -OFFSCREEN_MARGIN ||
+    next.y > MAP_HEIGHT + OFFSCREEN_MARGIN
+  ) {
+    return null;
+  }
+
+  const dx = Math.abs(playerX - next.x);
+  const dy = Math.abs(playerY - next.y);
+  const isDashing = playerState === "dash";
+
+  if (dx < 40 && dy <= 120 && !isDashing) {
+    onPullPlayer?.(p.pullTargetX);
+    onHit();
+    return null;
+  }
+
+  return next;
+}
+
+function handleRain(
+  p: ProjectileRain,
+  playerX: number,
+  playerState: playerState,
+  onHit: () => void,
+): ProjectileRain | null {
+  const now = Date.now();
+  const elapsed = now - p.warningStartTime;
+
+  // Warning phase — spears not yet falling
+  if (elapsed < p.warningDuration) {
+    return p;
+  }
+
+  // Falling phase
+  let allDone = true;
+  const newSpears = p.spears.map((s) => {
+    if (s.hit || s.y > OFFSCREEN_BOTTOM) return s;
+    allDone = false;
+
+    const newY = s.y + SPEAR_FALL_SPEED;
+    const isDashing = playerState === "dash";
+
+    if (!s.hit && newY >= 550 && newY <= OFFSCREEN_BOTTOM && !isDashing) {
+      const dx = Math.abs(playerX - s.x);
+      if (dx < 60) {
+        onHit();
+        return { x: s.x, y: newY, hit: true };
+      }
+    }
+
+    return { x: s.x, y: newY };
+  });
+
+  if (allDone) return null;
+
+  return { ...p, spears: newSpears };
 }

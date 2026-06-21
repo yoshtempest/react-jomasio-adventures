@@ -20,6 +20,8 @@ type Props = {
   pet: PetState;
   TILE_SIZE: number;
   PLAYER_SIZE: number;
+  scaleX: number;
+  scaleY: number;
 };
 
 export function BattleEntities({
@@ -31,6 +33,8 @@ export function BattleEntities({
   pet,
   TILE_SIZE,
   PLAYER_SIZE,
+  scaleX,
+  scaleY,
 }: Props) {
   return (
     <>
@@ -43,13 +47,12 @@ export function BattleEntities({
         direction={npc.direction}
         piercings={battle.piercings}
         isExploding={battle.isExploding}
-        projectile={npc.projectile}
         npcPhase={battle.npcPhase}
         isDying={battle.isNpcDying}
       />
 
       {npc.projectile && (
-        <ProjectileSprite projectile={npc.projectile} />
+        <ProjectileSprite projectile={npc.projectile} scaleX={scaleX} scaleY={scaleY} />
       )}
 
       {summons.map((s) => (

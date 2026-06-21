@@ -12,7 +12,6 @@ import { BattleIntro } from "@/components/Game/Battle/Intro";
 import { BattleOutro } from "@/components/Game/Battle/Outro";
 import { ChargeParticles } from "@/components/Game/Battle/ChargeParticles";
 import { JumpIndicator } from "@/components/Game/Battle/JumpIndicator";
-import { asset } from "@/utils/asset";
 import { useGameAudio } from "@/hooks/useGameAudio";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useEffect, useRef } from "react";
@@ -145,6 +144,8 @@ export function BattleScene(props: Props) {
           pet={pet}
           TILE_SIZE={TILE_SIZE}
           PLAYER_SIZE={PLAYER_SIZE}
+          scaleX={scaleX}
+          scaleY={scaleY}
         />
 
         <ChargeParticles
@@ -158,26 +159,6 @@ export function BattleScene(props: Props) {
         {npc.jumpLandingX != null && (
           <JumpIndicator landingX={npc.jumpLandingX} groundY={720} />
         )}
-
-        {npc.dangerZones?.map((zone, i) => (
-          <JumpIndicator key={i} landingX={zone.x} groundY={720} />
-        ))}
-
-        {npc.fallingSpears?.map((spear, i) => (
-          <img
-            key={i}
-            src={asset("/assets/npcs/spear.svg")}
-            style={{
-              position: "absolute",
-              left: spear.x * scaleX,
-              top: spear.y * scaleY,
-              width: 60,
-              transform: "scaleY(-1)",
-              zIndex: 9999,
-              pointerEvents: "none",
-            }}
-          />
-        ))}
 
         <DamageNumbers numbers={battle.damageNumbers} />
       </GameMap>
