@@ -15,6 +15,7 @@ import { useQuests } from "@/contexts/QuestContext";
 import { MapOverlay } from "@/components/Game/MenuMap";
 import { QUESTS } from "@/data/quests";
 import { useExitTile } from "@/hooks/scene/useExitTile";
+import { useQuestWaypoints } from "@/hooks/quest/useQuestWaypoints";
 
 type SceneBaseProps = {
   scene: SceneConfig;
@@ -61,6 +62,13 @@ export function SceneBase({
   const setPopupRef = useRef(setPopup);
   setPopupRef.current = setPopup;
 
+  const currentRoute = location.pathname;
+
+  const { highlightTiles, questNpcPositions } = useQuestWaypoints(
+    scene,
+    currentRoute,
+  );
+
   const spawn = scene
     ? typeof scene.initialPosition === "function"
       ? scene.initialPosition(lastPage)
@@ -91,6 +99,8 @@ export function SceneBase({
           lastPage={lastPage}
           setPopup={setPopup}
           popup={popup}
+          questHighlightTiles={highlightTiles}
+          questNpcPositions={questNpcPositions}
           onFinish={() => {
             const extra = onFinishExtra?.({
               navigate: navigateWithFade,

@@ -17,7 +17,7 @@ export function Config() {
   const { difficulty } = usePlayer();
   const { sfxVolume, bgmVolume } = useAudio();
   const { dialogueSpeed } = useSettings();
-  const { difficultyList, selectedIndex, selectedRow, screen } =
+  const { difficultyList, selectedIndex, selectedRow, screen, showQuestIndicator } =
     useConfigMenu(true);
   const dialogueSystem = useDialogue(configsDialogue);
   const dialogueSystemRef = useRef(dialogueSystem);
@@ -96,11 +96,20 @@ export function Config() {
         </div>
       </div>
       <div
-        className={`${styles.tutorialButton} ${
+        className={`${styles.speedContainer} ${
           selectedRow === 4 ? styles.selected : ""
         }`}
       >
         {selectedRow === 4 && <span className={styles.cursor}>▼</span>}
+
+        <h2>Indicador de Missões: {showQuestIndicator ? "ON" : "OFF"}</h2>
+      </div>
+      <div
+        className={`${styles.tutorialButton} ${
+          selectedRow === 5 ? styles.selected : ""
+        }`}
+      >
+        {selectedRow === 5 && <span className={styles.cursor}>▼</span>}
 
         <h2>Ver Tutorial</h2>
       </div>

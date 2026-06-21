@@ -1,0 +1,52 @@
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.arrow {
+  position: absolute;
+  z-index: 20;
+  font-size: 20px;
+  text-align: center;
+  animation: bounce 1s ease-in-out infinite;
+  pointer-events: none;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 0, 0.8));
+  color: #ffd700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translateY(-3px) scale(1.15);
+  }
+}
+
+.badge {
+  position: absolute;
+  z-index: 25;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background: #ffd700;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pulse 1s ease-in-out infinite;
+  pointer-events: none;
+  box-shadow: 0 0 6px rgba(255, 215, 0, 0.9);
+  line-height: 1;
+}

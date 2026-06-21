@@ -14,3 +14,4 @@ export const PLAYER_CLASS_KEY = "player_class";
 export const LIBRARY_RETURN_KEY = "library_return_position";
 export const DAILY_QUEST_DATE_KEY = "dailyQuestDate";
 export const WEEKLY_QUEST_DATE_KEY = "weeklyQuestDate";
+export const SHOW_QUEST_INDICATOR_KEY = "showQuestIndicator";

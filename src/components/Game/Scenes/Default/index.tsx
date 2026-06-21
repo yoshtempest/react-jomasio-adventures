@@ -5,6 +5,7 @@ import { GameMap } from "@/components/Game/GameMap";
 import { Player } from "@/components/Game/Player";
 import { NPC } from "@/components/Game/Npc";
 import { Plate } from "@/components/Game/Plate";
+import { QuestArrow, QuestNPCBadge } from "@/components/Game/QuestIndicator";
 import Talking from "@/components/Talking";
 import { useDialogue } from "@/hooks/interaction/useDialogue";
 import { useSansTalking } from "@/hooks/interaction/useSansTalking";
@@ -24,6 +25,9 @@ import { useQuests } from "@/contexts/QuestContext";
 import { useFlags } from "@/contexts/FlagContext";
 import { useSceneEvents } from "@/hooks/scene/useEvents";
 
+type QuestHighlightTile = { x: number; y: number };
+type QuestNpcPosition = { gridX: number; gridY: number };
+
 export function ExploreScene({
   map,
   dialogueData = [],
@@ -40,7 +44,9 @@ export function ExploreScene({
   events,
   setPopup,
   popup,
-}: ExploreSceneProps & { events?: SceneEvent[]; setPopup?: (msg: string | null) => void; popup?: string | null }) {
+  questHighlightTiles,
+  questNpcPositions,
+}: ExploreSceneProps & { events?: SceneEvent[]; setPopup?: (msg: string | null) => void; popup?: string | null; questHighlightTiles?: QuestHighlightTile[]; questNpcPositions?: QuestNpcPosition[] }) {
   const { player, playerClass, setMap, setPosition, setMode } = usePlayer();
   const { pushControls, popControls } = useGameControls();
   const { navigateWithFade } = useTransitionCtx();
@@ -194,6 +200,24 @@ export function ExploreScene({
           <NPC
             key={`${npc.gridX},${npc.gridY}`}
             {...npc}
+            TILE_SIZE={TILE_SIZE}
+          />
+        ))}
+
+        {questNpcPositions?.map((pos) => (
+          <QuestNPCBadge
+            key={`quest-npc-${pos.gridX}-${pos.gridY}`}
+            gridX={pos.gridX}
+            gridY={pos.gridY}
+            TILE_SIZE={TILE_SIZE}
+          />
+        ))}
+
+        {questHighlightTiles?.map((tile) => (
+          <QuestArrow
+            key={`quest-arrow-${tile.x}-${tile.y}`}
+            x={tile.x}
+            y={tile.y}
             TILE_SIZE={TILE_SIZE}
           />
         ))}

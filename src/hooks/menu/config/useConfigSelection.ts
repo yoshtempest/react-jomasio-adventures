@@ -9,14 +9,14 @@ import { useSettings } from "@/contexts/SettingsContext";
 import { DIALOGUE_SPEED_LIST } from "@/utils/settings";
 
 const DIFFICULTY: NpcDifficulty[] = ["easy", "medium", "hard"];
-const MAX_ROW = 4;
+const MAX_ROW = 5;
 
 export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   const { pushControls, popControls } = useGameControls();
 
   const { setDifficulty } = usePlayer();
   const { sfxVolume, setSfxVolume, bgmVolume, setBgmVolume } = useAudio();
-  const { setDialogueSpeed } = useSettings();
+  const { setDialogueSpeed, showQuestIndicator, setShowQuestIndicator } = useSettings();
   const { playMove, playSelect, playClose } = useMenuSFX();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -25,7 +25,8 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   // 1 = volume SFX
   // 2 = volume BGM
   // 3 = velocidade do diálogo
-  // 4 = tutorial
+  // 4 = indicador de missão
+  // 5 = tutorial
   const [selectedRow, setSelectedRow] = useState(0);
 
   // menu | tutorial
@@ -59,6 +60,8 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   setBgmVolumeRef.current = setBgmVolume;
   const setDialogueSpeedRef = useRef(setDialogueSpeed);
   setDialogueSpeedRef.current = setDialogueSpeed;
+  const setShowQuestIndicatorRef = useRef(setShowQuestIndicator);
+  setShowQuestIndicatorRef.current = setShowQuestIndicator;
   const onConfirmRef = useRef(onConfirm);
   onConfirmRef.current = onConfirm;
 
@@ -87,6 +90,10 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
             circularNext(prev, DIALOGUE_SPEED_LIST.length),
           );
         }
+
+        if (selectedRowRef.current === 4) {
+          setShowQuestIndicatorRef.current(true);
+        }
       },
 
       onLeft: () => {
@@ -109,6 +116,10 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
           setSelectedIndex((prev) =>
             circularPrev(prev, DIALOGUE_SPEED_LIST.length),
           );
+        }
+
+        if (selectedRowRef.current === 4) {
+          setShowQuestIndicatorRef.current(false);
         }
       },
 
@@ -146,8 +157,15 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
           setDialogueSpeedRef.current(selected);
         }
 
-        // tutorial
+        // indicador de missão
         if (selectedRowRef.current === 4) {
+          setShowQuestIndicatorRef.current(
+            (prev) => !prev,
+          );
+        }
+
+        // tutorial
+        if (selectedRowRef.current === 5) {
           setScreen("tutorial");
         }
 
@@ -179,5 +197,6 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
     selectedIndex,
     selectedRow,
     screen,
+    showQuestIndicator,
   };
 }
