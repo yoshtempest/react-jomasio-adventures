@@ -54,6 +54,13 @@
   margin-top: 8px;
 }
 
+.xpText {
+  font-size: 11px;
+  color: #888;
+  margin-top: 4px;
+  text-align: center;
+}
+
 @media (orientation: portrait) {
   .image {
     height: 40%;

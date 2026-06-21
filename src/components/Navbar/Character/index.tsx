@@ -10,8 +10,8 @@ export function Character() {
     useCharacterMenu();
 
   return (
-    <div className="containerOfNavbar">
-      <div className={styles.charactersContainer}>
+    <div className={`containerOfNavbar ${styles.charactersContainer}`}>
+
         {characters.map((char) => {
           const selectableIndex = selectableCharacters.findIndex(
             (c) => c.name === char.name,
@@ -29,7 +29,7 @@ export function Character() {
                 !char.selectable ? styles.characterDisabled : ""
               } ${isSelected ? styles.selected : ""}`}
             >
-              {isSelected && <span className="cursor">▼</span>}
+              {isSelected && <span className={`cursor ${styles.cursor}`}>▼</span>}
 
               <img
                 src={asset(`/assets/player/${char.image}/default.svg`)}
@@ -53,7 +53,7 @@ export function Character() {
             </div>
           );
         })}
-      </div>
+
     </div>
   );
 }

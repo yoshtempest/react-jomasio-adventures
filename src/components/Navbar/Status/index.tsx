@@ -142,6 +142,9 @@ export function Status() {
           <div className="xpBar">
             <div className="xpFill" style={{ width: `${percent}%` }} />
           </div>
+          <p className={styles.xpText}>
+            XP: {charProgress.xp}/{xpNeeded} — Nv.{charProgress.level + 1}
+          </p>
         </div>
 
         <div className={styles.flexColumn}>
