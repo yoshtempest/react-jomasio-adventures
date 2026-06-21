@@ -30,7 +30,7 @@ export function slimitaBehavior(ctx: BehaviorContext) {
           startX: npc.x - 40,
           startY: npc.y - 50,
           targetX: playerX,
-          targetY: playerY,
+          targetY: playerY - 80,
           sprite: "staff",
           state: "idle",
           pullTargetX: npc.x - 60,

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import type { Dispatch, SetStateAction } from "react";
 
-const SPEED = 20;
+const SPEED = 17;
 const SPEAR_FALL_SPEED = 18;
 const OFFSCREEN_MARGIN = 200;
 const MAP_WIDTH = 1280;
