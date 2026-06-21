@@ -8,6 +8,8 @@ import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 
 const OPTIONS = STATS;
+const TOTAL_OPTIONS = STATS.length + 1;
+const SKILL_TREE_INDEX = STATS.length;
 
 export function useStatusMenu(isOpen: boolean) {
   const { pushControls, popControls } = useGameControls();
@@ -16,11 +18,14 @@ export function useStatusMenu(isOpen: boolean) {
   const { playMove, playSelect } = useMenuSFX();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [view, setView] = useState<"stats" | "skillTree">("stats");
   const selectedIndexRef = useRef(selectedIndex);
+  const viewRef = useRef(view);
 
   useEffect(() => {
     selectedIndexRef.current = selectedIndex;
-  }, [selectedIndex]);
+    viewRef.current = view;
+  }, [selectedIndex, view]);
 
   const playMoveRef = useRef(playMove);
   playMoveRef.current = playMove;
@@ -38,24 +43,37 @@ export function useStatusMenu(isOpen: boolean) {
 
     const controls = {
       onUp: () => {
+        if (viewRef.current !== "stats") return;
         playMoveRef.current();
-        setSelectedIndex((prev) => circularPrev(prev, OPTIONS.length));
+        setSelectedIndex((prev) => circularPrev(prev, TOTAL_OPTIONS));
       },
 
       onDown: () => {
+        if (viewRef.current !== "stats") return;
         playMoveRef.current();
-        setSelectedIndex((prev) => circularNext(prev, OPTIONS.length));
+        setSelectedIndex((prev) => circularNext(prev, TOTAL_OPTIONS));
       },
 
       onConfirm: () => {
+        if (viewRef.current === "skillTree") return true;
         playSelectRef.current();
-        const stat = OPTIONS[selectedIndexRef.current];
+        const index = selectedIndexRef.current;
+        if (index === SKILL_TREE_INDEX) {
+          setView("skillTree");
+          return true;
+        }
+        const stat = STATS[index];
         const char = progress[player.character];
-
         if (!canSpendPoints(char.stats.points)) return true;
-
         addStatRef.current(player.character, stat);
         return true;
+      },
+
+      onCancel: () => {
+        if (viewRef.current === "skillTree") {
+          setView("stats");
+          return true;
+        }
       },
 
       blockGlobalOpen: true,
@@ -68,5 +86,6 @@ export function useStatusMenu(isOpen: boolean) {
   return {
     selectedIndex,
     options: OPTIONS,
+    view,
   };
 }

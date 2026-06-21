@@ -55,9 +55,18 @@ export function Status() {
   const xpNeeded = getXPToNextLevel(charProgress.level);
   const percent = (charProgress.xp / xpNeeded) * 100;
   const characterData = CHARACTERS.find((c) => c.image === player.character);
-  const { selectedIndex, options } = useStatusMenu(true);
+  const { selectedIndex, options, view } = useStatusMenu(true);
 
-  const selectedStat = options[selectedIndex];
+  if (view === "skillTree") {
+    return (
+      <div className="containerOfNavbar">
+        <h2>Árvore de Habilidades</h2>
+        <PassiveSkills characterId={character} />
+      </div>
+    );
+  }
+
+  const selectedStat = selectedIndex < options.length ? options[selectedIndex] : null;
 
   return (
     <div className="containerOfNavbar">
@@ -126,6 +135,10 @@ export function Status() {
             </p>
           </div>
 
+          <div className={selectedIndex === 4 ? "active" : ""}>
+            <p className={styles.skillTreeBtn}>Ver árvore de habilidades</p>
+          </div>
+
           {selectedStat && STAT_TIPS[selectedStat] && (
             <p className={styles.tip}>{STAT_TIPS[selectedStat]}</p>
           )}
@@ -150,8 +163,6 @@ export function Status() {
             );
           })}
         </div>
-
-        <PassiveSkills characterId={character} />
       </div>
     </div>
   );
