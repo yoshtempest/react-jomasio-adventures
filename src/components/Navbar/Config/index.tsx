@@ -22,6 +22,7 @@ export function Config() {
   const dialogueSystem = useDialogue(configsDialogue);
   const dialogueSystemRef = useRef(dialogueSystem);
   dialogueSystemRef.current = dialogueSystem;
+  const configRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (screen === "tutorial") {
@@ -29,8 +30,18 @@ export function Config() {
     }
   }, [screen]);
 
+  useEffect(() => {
+    if (!configRef.current) return;
+    const selectedEl = configRef.current.children[selectedRow] as HTMLElement | undefined;
+    if (!selectedEl) return;
+    configRef.current.scrollTo({
+      top: selectedEl.offsetTop - configRef.current.offsetTop,
+      behavior: "smooth",
+    });
+  }, [selectedRow]);
+
   return (
-    <div className={styles.config}>
+    <div className={styles.config} ref={configRef}>
       <h2 className={styles.marginTop}>Dificuldade: {DIFFICULTY_LABEL[difficulty]}</h2>
       <div className={styles.difficultyContainer}>
         {difficultyList.map((diff, index) => {
@@ -44,7 +55,7 @@ export function Config() {
             >
               {isSelected && <span className={styles.cursor}>▼</span>}
 
-              <p>{DIFFICULTY_LABEL[diff].toUpperCase()}</p>
+              <h2>{DIFFICULTY_LABEL[diff].toUpperCase()}</h2>
             </div>
           );
         })}
@@ -52,7 +63,7 @@ export function Config() {
         <div className={`${styles.difficultyItem} ${styles.locked}`}>
           <div className={styles.chainLeft} />
           <Lock size={16} />
-          <p>INSANO</p>
+          <h2>INSANO</h2>
           <div className={styles.chainRight} />
         </div>
       </div>
@@ -75,11 +86,11 @@ export function Config() {
         </div>
       </div>
       <div className={styles.speedContainer}>
-        {selectedRow === 3 && <span className={styles.cursor}>▼</span>}
 
         <h2>Velocidade do Diálogo: {SPEED_LABEL[dialogueSpeed]}</h2>
 
         <div className={styles.speedOptions}>
+          {selectedRow === 3 && <span className={styles.cursor}>▼</span>}
           {DIALOGUE_SPEED_LIST.map((speed, index) => {
             const isSelected = selectedRow === 3 && index === selectedIndex;
             return (
@@ -89,7 +100,7 @@ export function Config() {
                   isSelected ? styles.selected : ""
                 }`}
               >
-                <p>{SPEED_LABEL[speed].toUpperCase()}</p>
+                <h2>{SPEED_LABEL[speed].toUpperCase()}</h2>
               </div>
             );
           })}
