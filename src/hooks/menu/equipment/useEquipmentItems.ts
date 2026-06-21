@@ -5,6 +5,10 @@ import { EQUIPMENT_SLOTS, MAX_ACCESSORIES, ACCESSORY_UNLOCKED_COUNT } from "@/ut
 import type { Equipment, EquipmentStats, EquippedItemInfo } from "@/utils/types/player/equipment";
 import type { EquipmentFilter } from "@/utils/equipmentMenu";
 
+function totalStats(stats: EquipmentStats): number {
+  return stats.hp + stats.strength + stats.intelligence + stats.armor + stats.shield + stats.vampirism + stats.reflect;
+}
+
 function parseColKey(key: string): { id: string; enhance: number } {
   const i = key.lastIndexOf("+");
   if (i > 0) {
@@ -19,6 +23,7 @@ export type CollectedEntry = {
   qty: number;
   enhance: number;
   stats: ReturnType<typeof getEffectiveStats>;
+  arrow: "up" | "down" | null;
 };
 
 export type EquippedEntry =
@@ -79,6 +84,14 @@ export function useEquipmentItems(
     });
   }
 
+  const equippedTotals = new Map<string, number>();
+  for (const slot of EQUIPMENT_SLOTS) {
+    const info = getEquippedInfo(character, slot);
+    if (info) {
+      equippedTotals.set(slot, totalStats(getEffectiveStats(info.id, info.enhance)));
+    }
+  }
+
   const allCollected: CollectedEntry[] = Object.entries(
     getCollection(character),
   )
@@ -88,7 +101,14 @@ export function useEquipmentItems(
       const item = getEquipmentById(id);
       if (!item) return null;
       const stats = getEffectiveStats(id, enhance);
-      return { item, qty: qty as number, enhance, stats } as CollectedEntry;
+      const itemTotal = totalStats(stats);
+      const equippedTotal = equippedTotals.get(item.slot);
+      let arrow: "up" | "down" | null = null;
+      if (equippedTotal !== undefined) {
+        if (itemTotal > equippedTotal) arrow = "up";
+        else if (itemTotal < equippedTotal) arrow = "down";
+      }
+      return { item, qty: qty as number, enhance, stats, arrow } as CollectedEntry;
     })
     .filter((e): e is CollectedEntry => e !== null);
 

@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Lock } from "lucide-react";
+import { Lock, ArrowUp, ArrowDown } from "lucide-react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useEquipmentMenu } from "@/hooks/menu/equipment/useEquipment";
 import type { CollectedEntry } from "@/hooks/menu/equipment/useEquipment";
@@ -128,6 +128,12 @@ export function Equipment() {
                   className={`${styles.collectedCard} ${isSelected ? styles.selected : ""}`}
                 >
                   <div className={styles.itemRow}>
+                    {entry.arrow === "up" && (
+                      <ArrowUp size={14} className={styles.arrowUp} />
+                    )}
+                    {entry.arrow === "down" && (
+                      <ArrowDown size={14} className={styles.arrowDown} />
+                    )}
                     <span
                       className={styles.itemName}
                       style={{ color: RANK_COLORS[entry.item.rank] }}
