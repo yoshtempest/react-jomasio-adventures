@@ -1,6 +1,6 @@
 import type { InventoryItem } from "@/utils/types/player/inventory";
 import { saveCompressed, loadCompressed, removeKey } from "@/utils/storage";
-import type { CharactersProgress } from "@/contexts/CharacterProgressContext";
+import type { CharactersProgress } from "@/data/characters/defaultProgress";
 
 export type SaveData = {
   lastRoute: string;

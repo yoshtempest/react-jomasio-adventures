@@ -9,15 +9,9 @@ import { DIALOGUE_SPEED_LIST, SPEED_LABEL } from "@/utils/settings";
 import { useDialogue } from "@/hooks/interaction/useDialogue";
 import { useEffect, useRef } from "react";
 import { configsDialogue } from "@/data/maps/configs";
+import { DIFFICULTY_LABEL } from "@/data/npc/difficultyLabels";
 import Talking from "@/components/Talking";
 import InstallButton from "@/components/PWA";
-
-const DIFFICULTY_LABEL: Record<NpcDifficulty, string> = {
-  easy: "Fácil",
-  medium: "Médio",
-  hard: "Difícil",
-  insano: "Insano",
-};
 
 export function Config() {
   const { difficulty } = usePlayer();

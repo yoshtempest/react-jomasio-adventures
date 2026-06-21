@@ -15,15 +15,7 @@ import type { EquipmentSlot } from "@/utils/types/player/equipment";
 import { getTotalArmor } from "@/gameRules/battle/equipment";
 import { PassiveSkills } from "../../PassiveSkills";
 import { getRank, formatRank } from "@/gameRules/rank";
-
-const STAT_TIPS: Record<string, string> = {
-  hp: "Aumenta a vida máxima. Cada ponto concede 10 de HP.",
-  strength: "Aumenta o dano de ataques normais. Cada ponto concede +1 de dano.",
-  intelligence:
-    "Aumenta o dano de ataques especiais. Cada ponto concede +2 de dano.",
-  resistance:
-    "Aumenta a armadura do personagem. Cada ponto concede 2 de armadura, reduzindo o dano recebido.",
-};
+import { STAT_TIPS } from "@/data/stats/tips";
 
 export function Status() {
   const { player, playerClass } = usePlayer();

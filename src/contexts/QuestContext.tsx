@@ -14,8 +14,7 @@ import {
   generateQuestsFromPool,
 } from "@/data/quests/generation";
 import { saveCompressed, loadCompressed } from "@/utils/storage";
-
-const QUESTS_KEY = "jomasio_quests";
+import { QUESTS_KEY, DAILY_QUEST_DATE_KEY, WEEKLY_QUEST_DATE_KEY } from "@/data/storageKeys";
 
 type Props = {
   children: ReactNode;
@@ -47,8 +46,8 @@ export function QuestProvider({ children }: Props) {
     setQuests((prev) => {
       const todayDate = getTodayDate();
       const weekStart = getWeekStart();
-      const savedDailyDate = localStorage.getItem("dailyQuestDate");
-      const savedWeeklyDate = localStorage.getItem("weeklyQuestDate");
+      const savedDailyDate = localStorage.getItem(DAILY_QUEST_DATE_KEY);
+      const savedWeeklyDate = localStorage.getItem(WEEKLY_QUEST_DATE_KEY);
 
       const hasDaily = prev.some((q) => q.frequency === "daily");
       const hasWeekly = prev.some((q) => q.frequency === "weekly");
@@ -63,13 +62,13 @@ export function QuestProvider({ children }: Props) {
       );
 
       if (needsDailyReset) {
-        localStorage.setItem("dailyQuestDate", todayDate);
+        localStorage.setItem(DAILY_QUEST_DATE_KEY, todayDate);
         const dailyQuests = generateQuestsFromPool(DAILY_QUEST_POOL, "daily");
         filtered.push(...dailyQuests);
       }
 
       if (needsWeeklyReset) {
-        localStorage.setItem("weeklyQuestDate", weekStart);
+        localStorage.setItem(WEEKLY_QUEST_DATE_KEY, weekStart);
         const weeklyQuests = generateQuestsFromPool(
           WEEKLY_QUEST_POOL,
           "weekly",

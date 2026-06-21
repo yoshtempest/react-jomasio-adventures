@@ -1,9 +1,5 @@
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
-
-const TILE_COLORS: Record<string, string> = {
-  wall: "#5a4a3a",
-  platform: "#6b8e23",
-};
+import { TILE_COLORS } from "@/data/battle/tileColors";
 
 type Props = {
   map: BattleMapConfig;

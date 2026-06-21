@@ -6,12 +6,8 @@ import {
   type ReactNode,
 } from "react";
 import type { DialogueSpeed } from "@/utils/settings";
-
-const SPEED_MAP: Record<DialogueSpeed, number> = {
-  fast: 25,
-  normal: 50,
-  slow: 90,
-};
+import { SPEED_MAP } from "@/data/settings/dialogueSpeed";
+import { DIALOGUE_SPEED_KEY } from "@/data/storageKeys";
 
 type SettingsContextType = {
   dialogueSpeed: DialogueSpeed;
@@ -19,7 +15,7 @@ type SettingsContextType = {
   dialogueSpeedMs: number;
 };
 
-const STORAGE_KEY = "dialogue_speed";
+const STORAGE_KEY = DIALOGUE_SPEED_KEY;
 
 const SettingsContext = createContext<SettingsContextType | null>(null);
 

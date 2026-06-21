@@ -5,6 +5,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { SFX_KEY, BGM_KEY } from "@/data/storageKeys";
 
 type AudioContextType = {
   sfxVolume: number;
@@ -14,9 +15,6 @@ type AudioContextType = {
 };
 
 const AudioContext = createContext<AudioContextType | null>(null);
-
-const SFX_KEY = "game_sfx_volume";
-const BGM_KEY = "game_bgm_volume";
 
 export function AudioProvider({ children }: { children: ReactNode }) {
   const [sfxVolume, setSfxVolumeState] = useState(() => {

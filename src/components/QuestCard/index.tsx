@@ -1,14 +1,10 @@
 import styles from "./styles.module.css";
 import { asset } from "@/utils/asset";
+import { FREQ_LABEL } from "@/data/quests/frequencies";
 
 type Props = {
   quest: Quest;
   selected: boolean;
-};
-
-const FREQ_LABEL: Record<string, string> = {
-  daily: "DIÁRIA",
-  weekly: "SEMANAL",
 };
 
 export function QuestCard({ quest, selected }: Props) {

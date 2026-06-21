@@ -17,6 +17,12 @@ import {
   BATTLE_DEFAULT_STATE,
   useBattleCollisionRef,
 } from "@/utils/types/player/state";
+import {
+  COINS_KEY,
+  HYPER_COINS_KEY,
+  CHARACTER_KEY,
+  PLAYER_CLASS_KEY,
+} from "@/data/storageKeys";
 
 type PlayerContextType = {
   player: Player;
@@ -67,15 +73,15 @@ const PlayerContext = createContext<PlayerContextType | null>(null);
 export function PlayerProvider({ children }: { children: ReactNode }) {
   const [difficulty, setDifficulty] = useState<NpcDifficulty>("medium");
   const [coins, setCoins] = useState(() => {
-    const saved = localStorage.getItem("coins");
+    const saved = localStorage.getItem(COINS_KEY);
     return saved ? Number(saved) : 200;
   });
   const [hyperCoins, setHyperCoins] = useState(() => {
-    const saved = localStorage.getItem("hyperCoins");
+    const saved = localStorage.getItem(HYPER_COINS_KEY);
     return saved ? Number(saved) : 0;
   });
   const [player, setPlayer] = useState<Player>(() => {
-    const savedCharacter = localStorage.getItem("character");
+    const savedCharacter = localStorage.getItem(CHARACTER_KEY);
 
     return {
       gridX: 6,
@@ -98,7 +104,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   );
 
   const [playerClass, setPlayerClass] = useState<PlayerClass>(() => {
-    const saved = localStorage.getItem("player_class");
+    const saved = localStorage.getItem(PLAYER_CLASS_KEY);
 
     if (saved === "fracote" || saved === "idiota" || saved === "amostradinho") {
       return saved;
@@ -108,16 +114,16 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   });
 
   useEffect(() => {
-    localStorage.setItem("coins", String(coins));
+    localStorage.setItem(COINS_KEY, String(coins));
   }, [coins]);
 
   useEffect(() => {
-    localStorage.setItem("hyperCoins", String(hyperCoins));
+    localStorage.setItem(HYPER_COINS_KEY, String(hyperCoins));
   }, [hyperCoins]);
 
   useEffect(() => {
     if (playerClass) {
-      localStorage.setItem("player_class", playerClass);
+      localStorage.setItem(PLAYER_CLASS_KEY, playerClass);
     }
   }, [playerClass]);
 
@@ -200,7 +206,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   };
 
   const setCharacter = (character: Player["character"]) => {
-    localStorage.setItem("character", character);
+    localStorage.setItem(CHARACTER_KEY, character);
     setPlayer((prev) => ({
       ...prev,
       character,

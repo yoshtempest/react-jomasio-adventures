@@ -1,9 +1,8 @@
 import { asset } from "@/utils/asset";
-
-type Projectile = {
-  x: number;
-  y: number;
-};
+import {
+  getSpritePath,
+  getBossSizeMultiplier,
+} from "@/utils/npc/getSpritePath";
 
 type Props = {
   x: number;
@@ -36,43 +35,9 @@ export function NPCBattle({
   const scaleX = window.innerWidth / BASE_WIDTH;
   const scaleY = window.innerHeight / BASE_HEIGHT;
 
-  const bossScales: Record<string, { base: number; phase2: number }> = {
-    deise: { base: 1.8, phase2: 3 },
-    slimita: { base: 1.6, phase2: 4 },
-    hungryKing: { base: 3, phase2: 5 },
-  };
+  const sizeMultiplier = getBossSizeMultiplier(npcType, npcPhase);
 
-  const bossConfig = bossScales[npcType];
-
-  const sizeMultiplier = bossConfig
-    ? npcPhase === 2
-      ? bossConfig.phase2
-      : bossConfig.base
-    : 1.4;
-
-  const getSprite = () => {
-    if (npcType === "deise") {
-      if (npcPhase === 2) {
-        return asset(`assets/npcs/deise/phase2/${state}.svg`);
-      }
-      return asset(`assets/npcs/deise/${state}.svg`);
-    }
-
-    if (npcType === "slimita") {
-      if (npcPhase === 2) {
-        return asset(`assets/npcs/slimita/phase2/${state}.svg`);
-      }
-      return asset(`assets/npcs/slimita/${state}.svg`);
-    }
-
-    if (npcType === "hungryKing" && npcPhase === 2 && state === "pitch") {
-      return asset("assets/npcs/hungryKing/invoking.svg");
-    }
-
-    return asset(`assets/npcs/${npcType}/${state}.svg`);
-  };
-
-  const basePath = getSprite();
+  const basePath = getSpritePath(npcType, state, npcPhase);
 
   const src = isExploding ? asset("assets/npcs/explosion.svg") : `${basePath}`;
 

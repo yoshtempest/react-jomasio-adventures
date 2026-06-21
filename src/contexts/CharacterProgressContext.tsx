@@ -8,22 +8,13 @@ import {
 import type { Character } from "@/utils/types/player/player";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { saveCompressed, loadCompressed } from "@/utils/storage";
-
-export type CharacterStats = {
-  hp: number;
-  strength: number;
-  intelligence: number;
-  resistance: number;
-  points: number;
-};
-
-export type CharacterProgress = {
-  level: number;
-  xp: number;
-  stats: CharacterStats;
-};
-
-export type CharactersProgress = Record<Character, CharacterProgress>;
+import { CHARACTER_PROGRESS_KEY } from "@/data/storageKeys";
+import type {
+  CharacterStats,
+  CharactersProgress,
+} from "@/data/characters/defaultProgress";
+import { defaultProgress } from "@/data/characters/defaultProgress";
+import { normalizeProgress, getXPToNextLevel } from "@/utils/character/progress";
 
 type ContextType = {
   progress: CharactersProgress;
@@ -36,98 +27,7 @@ type ContextType = {
 };
 
 const CharacterProgressContext = createContext({} as ContextType);
-const STORAGE_KEY = "characters_progress";
-
-const defaultProgress: CharactersProgress = {
-  marcelo: {
-    level: 1,
-    xp: 0,
-    stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
-  },
-  eduarda: {
-    level: 1,
-    xp: 0,
-    stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
-  },
-  lucas: {
-    level: 1,
-    xp: 0,
-    stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
-  },
-  samuel: {
-    level: 1,
-    xp: 0,
-    stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
-  },
-  artur: {
-    level: 1,
-    xp: 0,
-    stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
-  },
-  mayra: {
-    level: 1,
-    xp: 0,
-    stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
-  },
-  lucaua: {
-    level: 1,
-    xp: 0,
-    stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
-  },
-  riquelme: {
-    level: 1,
-    xp: 0,
-    stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
-  },
-  hiago: {
-    level: 1,
-    xp: 0,
-    stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
-  },
-  larissa: {
-    level: 1,
-    xp: 0,
-    stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
-  },
-  camilly: {
-    level: 1,
-    xp: 0,
-    stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
-  },
-  emanuel: {
-    level: 1,
-    xp: 0,
-    stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
-  },
-};
-
-function getXPToNextLevel(level: number) {
-  if (level <= 10) return level * 10;
-  return level * 10 + 90;
-}
-
-// 🔥 NORMALIZAÇÃO (ESSENCIAL)
-function normalizeProgress(data: unknown): CharactersProgress {
-  const safe = { ...defaultProgress };
-  const raw = data as Partial<CharactersProgress> | undefined;
-
-  for (const key in safe) {
-    const savedChar = raw?.[key as Character];
-
-    safe[key as Character] = {
-      level: savedChar?.level ?? 1,
-      xp: savedChar?.xp ?? 0,
-      stats: {
-        hp: savedChar?.stats?.hp ?? 1,
-        strength: savedChar?.stats?.strength ?? 1,
-        intelligence: savedChar?.stats?.intelligence ?? 1,
-        resistance: savedChar?.stats?.resistance ?? 1,
-        points: savedChar?.stats?.points ?? 0,
-      },
-    };
-  }
-  return safe;
-}
+const STORAGE_KEY = CHARACTER_PROGRESS_KEY;
 
 export function CharacterProgressProvider({
   children,

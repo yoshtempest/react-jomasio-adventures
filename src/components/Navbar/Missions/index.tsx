@@ -7,28 +7,7 @@ import {
   getTimeUntilMidnight,
   getTimeUntilMonday,
 } from "@/utils/quest/questTimer";
-
-const TAB_LABELS: Record<QuestTab, string> = {
-  active: "Em andamento",
-  completed: "Concluídas",
-  daily: "Diárias",
-  weekly: "Semanais",
-};
-
-const TAB_KEYS: QuestTab[] = ["active", "completed", "daily", "weekly"];
-
-function getEmptyMessage(tab: QuestTab): string {
-  switch (tab) {
-    case "active":
-      return "Nenhuma missão em andamento.";
-    case "completed":
-      return "Nenhuma missão concluída.";
-    case "daily":
-      return "Nenhuma missão diária disponível.";
-    case "weekly":
-      return "Nenhuma missão semanal disponível.";
-  }
-}
+import { TAB_LABELS, TAB_KEYS, getEmptyMessage } from "@/data/quests/tabs";
 
 export function Mission() {
   const { quests } = useQuests();

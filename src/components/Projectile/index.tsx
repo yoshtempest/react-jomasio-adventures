@@ -1,4 +1,5 @@
 import { asset } from "@/utils/asset";
+import { spriteMap } from "@/data/battle/projectileSprites";
 
 type Props = {
   projectile: {
@@ -19,14 +20,6 @@ export function ProjectileSprite({ projectile }: Props) {
 
   const scaleX = window.innerWidth / BASE_WIDTH;
   const scaleY = window.innerHeight / BASE_HEIGHT;
-
-  const spriteMap: Record<string, string> = {
-    dish: "/assets/npcs/dish.svg",
-    "goat-idle": "/assets/npcs/goat/idle.svg",
-    "goat-walk": "/assets/npcs/goat/walk.svg",
-    staff: "/assets/npcs/staff.svg",
-    spear: "/assets/npcs/spear.svg",
-  };
 
   const spriteKey = projectile.sprite === "goat"
     ? projectile.state === "idle"

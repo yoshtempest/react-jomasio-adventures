@@ -1,5 +1,5 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
-import { saveCompressed, loadCompressed } from "@/utils/storage";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { loadFlags, saveFlags } from "@/utils/flag/storage";
 
 type FlagContextType = {
   flags: FlagId[];
@@ -11,21 +11,6 @@ type Props = {
   children: ReactNode;
 };
 
-const STORAGE_KEY = "flags";
-
-function loadFlags(): FlagId[] {
-  try {
-    const saved = loadCompressed<FlagId[]>(STORAGE_KEY);
-    return saved ?? [];
-  } catch {
-    return [];
-  }
-}
-
-function saveFlags(flags: FlagId[]) {
-  saveCompressed(STORAGE_KEY, flags);
-}
-
 const FlagContext = createContext({} as FlagContextType);
 
 export function FlagProvider({ children }: Props) {
@@ -34,11 +19,13 @@ export function FlagProvider({ children }: Props) {
   function setFlag(flag: FlagId) {
     setFlags((prev) => {
       if (prev.includes(flag)) return prev;
-      const next = [...prev, flag];
-      saveFlags(next);
-      return next;
+      return [...prev, flag];
     });
   }
+
+  useEffect(() => {
+    saveFlags(flags);
+  }, [flags]);
 
   function hasFlag(flag: FlagId) {
     return flags.includes(flag);

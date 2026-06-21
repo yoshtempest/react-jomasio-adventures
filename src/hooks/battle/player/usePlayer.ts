@@ -10,7 +10,7 @@ import {
 import { rollCrit } from "@/gameRules/battle/damageUtils";
 import type { DamageType } from "@/hooks/battle/useDamageNumbers";
 import type { BattleBehavior } from "@/utils/types/player/behavior";
-import type { CharacterProgress } from "@/contexts/CharacterProgressContext";
+import type { CharacterProgress } from "@/data/characters/defaultProgress";
 
 type Props = {
   player: Player;

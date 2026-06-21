@@ -1,0 +1,16 @@
+export const SFX_KEY = "game_sfx_volume";
+export const BGM_KEY = "game_bgm_volume";
+export const TOKEN_KEY = "jomasio_token";
+export const FLAGS_KEY = "flags";
+export const CHARACTER_PROGRESS_KEY = "characters_progress";
+export const TITLES_KEY = "titles_data";
+export const INVENTORY_KEY = "jomasio_inventory";
+export const QUESTS_KEY = "jomasio_quests";
+export const DIALOGUE_SPEED_KEY = "dialogue_speed";
+export const COINS_KEY = "coins";
+export const HYPER_COINS_KEY = "hyperCoins";
+export const CHARACTER_KEY = "character";
+export const PLAYER_CLASS_KEY = "player_class";
+export const LIBRARY_RETURN_KEY = "library_return_position";
+export const DAILY_QUEST_DATE_KEY = "dailyQuestDate";
+export const WEEKLY_QUEST_DATE_KEY = "weeklyQuestDate";

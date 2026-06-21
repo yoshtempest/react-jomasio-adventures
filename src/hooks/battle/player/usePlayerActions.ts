@@ -8,7 +8,7 @@ import { playAttackSound } from "@/utils/types/battle/playAttackSound";
 import { useBuildTargetList } from "./usePlayerTargeting";
 
 import type { SummonedNpc } from "@/utils/types/npc/npc";
-import type { CharactersProgress } from "@/contexts/CharacterProgressContext";
+import type { CharactersProgress } from "@/data/characters/defaultProgress";
 import type { DamageType } from "@/hooks/battle/useDamageNumbers";
 
 type Props = {

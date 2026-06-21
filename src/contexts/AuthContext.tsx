@@ -7,6 +7,7 @@ import {
   type ReactNode,
 } from "react";
 import { api } from "@/utils/api";
+import { getStoredToken, storeToken } from "@/utils/auth/storage";
 
 type User = {
   id: number;
@@ -25,28 +26,6 @@ type AuthContextType = {
 };
 
 const AuthContext = createContext({} as AuthContextType);
-
-const TOKEN_KEY = "jomasio_token";
-
-function getStoredToken(): string | null {
-  try {
-    return localStorage.getItem(TOKEN_KEY);
-  } catch {
-    return null;
-  }
-}
-
-function storeToken(token: string | null) {
-  try {
-    if (token) {
-      localStorage.setItem(TOKEN_KEY, token);
-    } else {
-      localStorage.removeItem(TOKEN_KEY);
-    }
-  } catch {
-    // localStorage indisponível
-  }
-}
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);

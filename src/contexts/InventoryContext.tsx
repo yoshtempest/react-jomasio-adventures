@@ -9,8 +9,7 @@ import {
 import type { InventoryItem } from "@/utils/types/player/inventory";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { saveCompressed, loadCompressed } from "@/utils/storage";
-
-const INVENTORY_KEY = "jomasio_inventory";
+import { INVENTORY_KEY } from "@/data/storageKeys";
 
 type InventoryContextType = {
   items: InventoryItem[];

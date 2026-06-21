@@ -1,4 +1,4 @@
-import type { CharacterProgress } from "@/contexts/CharacterProgressContext";
+import type { CharacterProgress } from "@/data/characters/defaultProgress";
 
 export type BattleBehavior = {
   onBasicHit: (data: {

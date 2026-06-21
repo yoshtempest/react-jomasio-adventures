@@ -7,14 +7,11 @@ import {
   type ReactNode,
 } from "react";
 import type {
-  TitleProgress,
   TitlesData,
   TitleBonusMap,
 } from "@/utils/types/player/titles";
 import { TITLES, getTitleById } from "@/data/titles";
-import { saveCompressed, loadCompressed } from "@/utils/storage";
-
-const STORAGE_KEY = "titles_data";
+import { loadData, saveData } from "@/utils/titles/storage";
 
 type ContextType = {
   titlesData: TitlesData;
@@ -26,58 +23,11 @@ type ContextType = {
 
 const TitleContext = createContext({} as ContextType);
 
-function getDefaultProgress(): Record<string, TitleProgress> {
-  const progress: Record<string, TitleProgress> = {};
-  for (const id of Object.keys(TITLES)) {
-    progress[id] = { current: 0, level: 0 };
-  }
-  return progress;
-}
-
-function getDefaultData(): TitlesData {
-  return {
-    equippedId: null,
-    totalKills: 0,
-    progress: getDefaultProgress(),
-  };
-}
-
-function loadData(): TitlesData {
-  try {
-    const parsed = loadCompressed<Partial<TitlesData>>(STORAGE_KEY);
-    if (!parsed) return getDefaultData();
-
-    const progress = getDefaultProgress();
-    if (parsed.progress) {
-      for (const id of Object.keys(progress)) {
-        const saved = parsed.progress[id];
-        if (saved) {
-          progress[id] = {
-            current: saved.current ?? 0,
-            level: saved.level ?? 0,
-          };
-        }
-      }
-    }
-
-    return {
-      equippedId:
-        parsed.equippedId && parsed.equippedId in TITLES
-          ? parsed.equippedId
-          : null,
-      totalKills: parsed.totalKills ?? 0,
-      progress,
-    };
-  } catch {
-    return getDefaultData();
-  }
-}
-
 export function TitleProvider({ children }: { children: ReactNode }) {
   const [titlesData, setTitlesData] = useState<TitlesData>(loadData);
 
   useEffect(() => {
-    saveCompressed(STORAGE_KEY, titlesData);
+    saveData(titlesData);
   }, [titlesData]);
 
   const getBonus = useCallback((): TitleBonusMap => {
