@@ -1,8 +1,8 @@
 .container {
   max-height: 80vh;
   overflow-y: auto;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 8px;
   padding: 8px;
   scrollbar-width: none;

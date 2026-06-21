@@ -5,7 +5,7 @@ export type RankInfo = {
   label: string;
 };
 
-const RANKS: RankInfo[] = [
+export const RANKS: RankInfo[] = [
   { id: 1, label: "Ferro" },
   { id: 2, label: "Bronze" },
   { id: 3, label: "Prata" },

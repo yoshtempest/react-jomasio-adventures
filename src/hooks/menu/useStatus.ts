@@ -8,8 +8,9 @@ import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 
 const OPTIONS = STATS;
-const TOTAL_OPTIONS = STATS.length + 1;
+const TOTAL_OPTIONS = STATS.length + 2;
 const SKILL_TREE_INDEX = STATS.length;
+const RANKS_INDEX = STATS.length + 1;
 
 export function useStatusMenu(isOpen: boolean) {
   const { pushControls, popControls } = useGameControls();
@@ -18,7 +19,7 @@ export function useStatusMenu(isOpen: boolean) {
   const { playMove, playSelect } = useMenuSFX();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [view, setView] = useState<"stats" | "skillTree">("stats");
+  const [view, setView] = useState<"stats" | "skillTree" | "ranks">("stats");
   const selectedIndexRef = useRef(selectedIndex);
   const viewRef = useRef(view);
 
@@ -56,10 +57,15 @@ export function useStatusMenu(isOpen: boolean) {
 
       onConfirm: () => {
         if (viewRef.current === "skillTree") return true;
+        if (viewRef.current === "ranks") return true;
         playSelectRef.current();
         const index = selectedIndexRef.current;
         if (index === SKILL_TREE_INDEX) {
           setView("skillTree");
+          return true;
+        }
+        if (index === RANKS_INDEX) {
+          setView("ranks");
           return true;
         }
         const stat = STATS[index];
@@ -70,7 +76,7 @@ export function useStatusMenu(isOpen: boolean) {
       },
 
       onCancel: () => {
-        if (viewRef.current === "skillTree") {
+        if (viewRef.current !== "stats") {
           setView("stats");
           return true;
         }

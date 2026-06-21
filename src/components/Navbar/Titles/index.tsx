@@ -95,8 +95,6 @@ export function TitlesScreen() {
           );
         })}
       </div>
-
-      <div className={styles.hintText}>Confirmar: equipar/remover título</div>
     </div>
   );
 }
