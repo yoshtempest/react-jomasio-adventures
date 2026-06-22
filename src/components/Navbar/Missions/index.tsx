@@ -1,7 +1,7 @@
 import { useQuests } from "@/contexts/QuestContext";
 import { useQuestMenu, type QuestTab } from "@/hooks/menu/quest/useQuestMenu";
 import styles from "./styles.module.css";
-import { QuestCard } from "@/components/QuestCard";
+import { QuestCard } from "@/components/Game/Quest/Card";
 import { useEffect, useRef, useState } from "react";
 import {
   getTimeUntilMidnight,

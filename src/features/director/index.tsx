@@ -5,7 +5,7 @@ import { DIRECTOR_SCENES } from "@/scenes/director";
 import { createDirector } from "@/interactions/director";
 
 import { useInventory } from "@/contexts/InventoryContext";
-import { useQuestActions } from "@/hooks/useQuestActions";
+import { useQuestActions } from "@/hooks/quest/useQuestActions";
 import { useNavigate, useLocation } from "react-router";
 import { asset } from "@/utils/asset";
 import { useAudio } from "@/contexts/AudioContext";

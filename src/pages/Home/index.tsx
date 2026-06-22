@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import styles from "./styles.module.css";
 import undertale from "/assets/songs/UndertaleGameOver.m4a";
-import { useGameAudio } from "@/hooks/useGameAudio";
+import { useGameAudio } from "@/hooks/game/useGameAudio";
 import { asset } from "@/utils/asset";
 import { loadGame } from "@/utils/saveGame";
 

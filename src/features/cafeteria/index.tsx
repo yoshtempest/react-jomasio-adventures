@@ -5,7 +5,7 @@ import { CAFETERIA_SCENES } from "@/scenes/cafeteria";
 import { createCafeteria } from "@/interactions/cafeteira";
 
 import { useInventory } from "@/contexts/InventoryContext";
-import { useQuestActions } from "@/hooks/useQuestActions";
+import { useQuestActions } from "@/hooks/quest/useQuestActions";
 
 import Talking from "@/components/Talking";
 

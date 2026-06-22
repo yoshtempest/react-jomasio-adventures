@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
-import { useGameAudio } from "@/hooks/useGameAudio";
+import { useGameAudio } from "@/hooks/game/useGameAudio";
 import { useNpcAI } from "@/hooks/battle/npc/useAi";
 import { useBattleSystem } from "@/hooks/battle/useSystem";
 import { useVictory } from "@/hooks/useVictory";

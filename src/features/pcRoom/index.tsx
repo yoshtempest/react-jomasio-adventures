@@ -7,7 +7,7 @@ import { createPcsRoom } from "@/interactions/pcsRoom";
 
 import { useInventory } from "@/contexts/InventoryContext";
 import { usePlayer } from "@/contexts/PlayerContext";
-import { useQuestActions } from "@/hooks/useQuestActions";
+import { useQuestActions } from "@/hooks/quest/useQuestActions";
 
 import { useClassSelection } from "@/hooks/menu/useClassSelection";
 

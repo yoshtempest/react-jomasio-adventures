@@ -1,8 +1,8 @@
 import { usePlayer } from "@/contexts/PlayerContext";
-import { useGameLayout } from "@/hooks/useGameLayout";
+import { useGameLayout } from "@/hooks/game/useGameLayout";
 import { useCombatTasks } from "@/hooks/tutorial/useCombatTasks";
 import { useCombatTutorialSetup } from "@/hooks/tutorial/useCombatTutorialSetup";
-import { GameMap } from "@/components/Game/GameMap";
+import { GameMap } from "@/components/Game/Map/Game";
 import { PlayerBattle } from "@/components/Game/Player/Battle";
 import { NPCBattle } from "@/components/Game/Npc/Battle";
 import { TASKS } from "@/gameRules/tutorial/combatTasks";

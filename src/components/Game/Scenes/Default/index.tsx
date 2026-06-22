@@ -1,11 +1,11 @@
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
-import { useGameLayout } from "@/hooks/useGameLayout";
-import { GameMap } from "@/components/Game/GameMap";
+import { useGameLayout } from "@/hooks/game/useGameLayout";
+import { GameMap } from "@/components/Game/Map/Game";
 import { Player } from "@/components/Game/Player";
 import { NPC } from "@/components/Game/Npc";
 import { Plate } from "@/components/Game/Plate";
-import { QuestArrow, QuestNPCBadge } from "@/components/Game/QuestIndicator";
+import { QuestArrow, QuestNPCBadge } from "@/components/Game/Quest/Indicator";
 import Talking from "@/components/Talking";
 import { useDialogue } from "@/hooks/interaction/useDialogue";
 import { useSansTalking } from "@/hooks/interaction/useSansTalking";

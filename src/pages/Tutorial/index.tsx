@@ -3,7 +3,7 @@ import { SendHorizontal } from "lucide-react";
 import Talking from "@/components/Talking";
 import styles from "./styles.module.css";
 import SOS from "/assets/songs/SOSFromEarth.m4a";
-import { useGameAudio } from "@/hooks/useGameAudio";
+import { useGameAudio } from "@/hooks/game/useGameAudio";
 import { useNavigate } from "react-router";
 import { useCutscene } from "@/hooks/interaction/useCutscene";
 import { useSansTalking } from "@/hooks/interaction/useSansTalking";
@@ -11,7 +11,7 @@ import { tutorialDialogue } from "@/data/maps/tutorial";
 
 import { useTutorialFlow } from "@/hooks/tutorial/useTutorialFlow";
 import { useNameInput } from "@/hooks/tutorial/useNameInput";
-import { useQuestActions } from "@/hooks/useQuestActions";
+import { useQuestActions } from "@/hooks/quest/useQuestActions";
 import { QUESTS } from "@/data/quests";
 
 export default function Tutorial() {

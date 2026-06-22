@@ -1,6 +1,6 @@
-import { HealthBar } from "@/components/Game/HealthBar";
-import { Deliciometro } from "@/components/Game/Deliciometro";
-import { BlockGauge } from "@/components/Game/BlockGauge";
+import { HealthBar } from "@/components/Game/Battle/HUD/HealthBar";
+import { Deliciometro } from "@/components/Game/Battle/HUD/Deliciometro";
+import { BlockGauge } from "@/components/Game/Battle/HUD/BlockGauge";
 import { asset } from "@/utils/asset";
 import { getNpcDisplayName } from "@/utils/types/npc/npcNames";
 import styles from "./styles.module.css";

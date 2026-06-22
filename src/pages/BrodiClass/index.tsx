@@ -9,7 +9,7 @@ import { useGameControls } from "@/contexts/GameControlsContext";
 import { getTileInFront } from "@/utils/getTileInFront";
 import { useInventory } from "@/contexts/InventoryContext";
 import { createCafeteria } from "@/interactions/cafeteira";
-import { useQuestActions } from "@/hooks/useQuestActions";
+import { useQuestActions } from "@/hooks/quest/useQuestActions";
 import toothlessDancing from "/assets/songs/ToothlessDancing.m4a";
 import { brodiClass } from "@/maps/brodiClass";
 
