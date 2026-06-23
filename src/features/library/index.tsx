@@ -127,6 +127,7 @@ export function LibraryScene({ sceneId }: Props) {
         scene={scene}
         className={`Master Library ${scene.className ?? ""}`}
         interactions={interactions}
+        itemPickupTiles={[{ x: 12, y: 9, visible: !gotKey }]}
         popup={popup}
         setPopup={setPopup}
       />

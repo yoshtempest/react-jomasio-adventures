@@ -47,6 +47,7 @@ export function CafeteriaScene({ sceneId }: Props) {
         scene={scene}
         className="Master Cafeteria"
         interactions={interactions}
+        itemPickupTiles={[{ x: 11, y: 10, visible: !gotKey }]}
         popup={popup}
         setPopup={setPopup}
       />

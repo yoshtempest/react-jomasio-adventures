@@ -24,6 +24,7 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
 import { useFlags } from "@/contexts/FlagContext";
 import { useSceneEvents } from "@/hooks/scene/useEvents";
+import { asset } from "@/utils/asset";
 
 type QuestHighlightTile = { x: number; y: number };
 type QuestNpcPosition = { gridX: number; gridY: number };
@@ -46,7 +47,15 @@ export function ExploreScene({
   popup,
   questHighlightTiles,
   questNpcPositions,
-}: ExploreSceneProps & { events?: SceneEvent[]; setPopup?: (msg: string | null) => void; popup?: string | null; questHighlightTiles?: QuestHighlightTile[]; questNpcPositions?: QuestNpcPosition[] }) {
+  itemPickupTiles,
+}: ExploreSceneProps & {
+  events?: SceneEvent[];
+  setPopup?: (msg: string | null) => void;
+  popup?: string | null;
+  questHighlightTiles?: QuestHighlightTile[];
+  questNpcPositions?: QuestNpcPosition[];
+  itemPickupTiles?: { x: number; y: number; visible: boolean }[]
+}) {
   const { player, playerClass, setMap, setPosition, setMode } = usePlayer();
   const { pushControls, popControls } = useGameControls();
   const { navigateWithFade } = useTransitionCtx();
@@ -229,6 +238,26 @@ export function ExploreScene({
             TILE_SIZE={TILE_SIZE}
           />
         ))}
+
+        {itemPickupTiles?.map(
+          (tile) =>
+            tile.visible && (
+              <img
+                key={`item-${tile.x}-${tile.y}`}
+                src={asset("/assets/items/chest.svg")}
+                alt=""
+                style={{
+                  position: "absolute",
+                  width: TILE_SIZE,
+                  height: TILE_SIZE,
+                  left: tile.x * TILE_SIZE,
+                  top: tile.y * TILE_SIZE,
+                  zIndex: 5,
+                  pointerEvents: "none",
+                }}
+              />
+            ),
+        )}
 
         <Player
           character={player.character}

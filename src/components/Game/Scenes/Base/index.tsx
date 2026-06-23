@@ -22,6 +22,7 @@ type SceneBaseProps = {
   className?: string;
 
   interactions?: Record<string, () => void>;
+  itemPickupTiles?: { x: number; y: number; visible: boolean }[];
   popup?: string | null;
   setPopup?: (msg: string | null) => void;
 
@@ -43,6 +44,7 @@ export function SceneBase({
   scene,
   className,
   interactions,
+  itemPickupTiles,
   popup,
   setPopup,
   handleExit,
@@ -101,6 +103,7 @@ export function SceneBase({
           popup={popup}
           questHighlightTiles={highlightTiles}
           questNpcPositions={questNpcPositions}
+          itemPickupTiles={itemPickupTiles}
           onFinish={() => {
             const extra = onFinishExtra?.({
               navigate: navigateWithFade,

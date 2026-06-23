@@ -78,6 +78,7 @@ export function DirectorScene({ sceneId }: Props) {
         scene={scene}
         className="Master Director"
         interactions={interactions}
+        itemPickupTiles={[{ x: 15, y: 7, visible: !gotKey }]}
         popup={popup}
         setPopup={setPopup}
       />

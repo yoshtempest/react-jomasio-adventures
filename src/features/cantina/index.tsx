@@ -41,6 +41,7 @@ export function CantinaScene({ sceneId }: Props) {
         scene={scene}
         className="Master Cantina"
         interactions={interactions}
+        itemPickupTiles={[{ x: 13, y: 4, visible: !gotKey }]}
         popup={popup}
         setPopup={setPopup}
       />
