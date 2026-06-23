@@ -5,6 +5,7 @@ type Props = {
   projectile: Projectile;
   scaleX: number;
   scaleY: number;
+  groundY?: number;
 };
 
 function getSpriteKey(projectile: Projectile): string {
@@ -18,7 +19,7 @@ function getSpriteKey(projectile: Projectile): string {
   return sprite && spriteMap[sprite] ? sprite : "staff";
 }
 
-export function ProjectileSprite({ projectile, scaleX, scaleY }: Props) {
+export function ProjectileSprite({ projectile, scaleX, scaleY, groundY = 600 }: Props) {
   const spriteKey = getSpriteKey(projectile);
   const src = spriteMap[spriteKey];
 
@@ -35,12 +36,12 @@ export function ProjectileSprite({ projectile, scaleX, scaleY }: Props) {
               key={i}
               style={{
                 position: "absolute",
-                left: spear.x * scaleX,
-                top: 600 * scaleY - 10,
-                width: 16,
-                height: 10,
+                left: (spear.x - 30) * scaleX,
+                top: groundY * scaleY - 4,
+                width: 60 * scaleX,
+                height: 10 * scaleY,
                 backgroundColor: "rgba(255, 0, 0, 0.5)",
-                borderRadius: 2,
+                borderRadius: 100,
                 zIndex: 9999,
                 pointerEvents: "none",
               }}
