@@ -7,7 +7,7 @@ import { Preloader } from "@/components/Preloader";
 import App from "@/App";
 import JailsonHallBattle from "@/pages/Hall/Battle/One";
 
-const EntryPoint = lazyLoad(() => import("@/pages/EntryPoint"));
+const Loading = lazyLoad(() => import("@/pages/Loading"));
 const Intro = lazyLoad(() => import("@/pages/Intro"));
 const Tutorial = lazyLoad(() => import("@/pages/Tutorial"));
 const Home = lazyLoad(() => import("@/pages/Home"));
@@ -59,7 +59,7 @@ const Register = lazyLoad(() => import("@/pages/Register"));
 const nonBattlePages = [
   DirectorPage,
   HellroomPage,
-  EntryPoint,
+  Loading,
   Intro,
   Tutorial,
   CombatTutorial,
@@ -86,7 +86,7 @@ export function AppRoutes() {
           <Route path="/register" element={<Register />} />
 
           <Route path="/" element={<App />}>
-            <Route index element={<EntryPoint />} />
+            <Route index element={<Loading />} />
             <Route path="tutorial" element={<Tutorial />} />
             <Route path="combatTutorial" element={<CombatTutorial />} />
             <Route path="intro" element={<Intro />} />

@@ -1,0 +1,42 @@
+.screen {
+  position: fixed;
+  width: 74vw;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  z-index: 9999;
+}
+
+.barTrack {
+  width: 280px;
+  height: 8px;
+  background: #2a1a0a;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid #5a3a1a;
+}
+
+.barFill {
+  height: 100%;
+  background: linear-gradient(90deg, #c89b3c, #e8c56a);
+  border-radius: 4px;
+  transition: width 0.1s linear;
+}
+
+.barDone {
+  background: linear-gradient(90deg, #4caf50, #81c784);
+  transition: width 0.3s ease;
+}
+
+.label {
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+  color: #a08050;
+  font-family: "Courier New", monospace;
+  letter-spacing: 0.1em;
+}
