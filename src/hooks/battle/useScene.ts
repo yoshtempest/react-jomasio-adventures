@@ -59,7 +59,7 @@ export function useBattleScene({
 
   const { progress, getXPToNextLevel } = useCharacterProgress();
   const { items: inventoryItems, closeInventory } = useInventory();
-  const { quests } = useQuests();
+  const { quests, progressDailyWeekly } = useQuests();
   const { closeNavbar } = useNavbar();
 
   const [showDefeat, setShowDefeat] = useState(false);
@@ -159,6 +159,16 @@ export function useBattleScene({
     onNpcDeath: () => {
       const rewards = giveRewards();
       setLastRewards(rewards);
+
+      progressDailyWeekly("win_battle", 1);
+      progressDailyWeekly("kill_any", 1);
+
+      const npcClass = killCounter.npcDataRef.current.class;
+      if (npcClass === "common") progressDailyWeekly("kill_common", 1);
+      else if (npcClass === "rare") progressDailyWeekly("kill_rare", 1);
+      else if (npcClass === "epic") progressDailyWeekly("kill_epic", 1);
+      else if (npcClass === "boss") progressDailyWeekly("kill_boss", 1);
+
       const d = saveDataRef.current;
       saveGame({
         lastRoute: location.pathname,
