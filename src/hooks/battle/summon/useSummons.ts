@@ -44,10 +44,12 @@ export function useSummons({
       const spawnX = SPAWN_POSITIONS[nextSpawnIndex.current % SPAWN_POSITIONS.length] ?? npcXRef.current;
       nextSpawnIndex.current += 1;
 
+      const spawnId = nextSpawnIndex.current;
+
       setSummons((prev) => [
         ...prev,
         {
-          id: `summon_${Date.now()}`,
+          id: `summon_${Date.now()}_${spawnId}`,
           npcType,
           x: spawnX,
           y: playerGroundY,
