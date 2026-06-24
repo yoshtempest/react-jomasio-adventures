@@ -9,7 +9,7 @@ export type CollisionParams = {
   scaleY: number;
 };
 
-const gravity = 1.2;
+const gravity = 1.5;
 
 export function useBattleGravity(
   setPlayer: React.Dispatch<React.SetStateAction<Player>>,
@@ -37,7 +37,7 @@ export function useBattleGravity(
 
           if (newY >= landingY) {
             hasDoubleJumped.current = false;
-            const wasAirborne = p.state === "jump" || p.state === "preJump";
+            const wasAirborne = p.state === "jump" || p.state === "preJump" || p.state === "falling";
             return {
               ...p,
               y: landingY,
@@ -49,7 +49,7 @@ export function useBattleGravity(
         } else {
           if (newY >= p.groundY) {
             hasDoubleJumped.current = false;
-            const wasAirborne = p.state === "jump" || p.state === "preJump";
+            const wasAirborne = p.state === "jump" || p.state === "preJump" || p.state === "falling";
             return {
               ...p,
               y: p.groundY,
@@ -59,7 +59,7 @@ export function useBattleGravity(
           }
         }
 
-        return { ...p, y: newY, velY: newVelY, state: "jump" };
+        return { ...p, y: newY, velY: newVelY, state: newVelY > 0 ? "falling" : "jump" };
       });
     }, 16);
 

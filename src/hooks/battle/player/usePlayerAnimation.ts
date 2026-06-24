@@ -6,7 +6,7 @@ export function usePlayerAnimation(
   setPlayer: React.Dispatch<React.SetStateAction<Player>>,
 ) {
   useEffect(() => {
-    if (player.state === "jump") return;
+    if (player.state === "jump" || player.state === "falling") return;
     const current = animationFlow[player.state];
 
     if (!current) return;

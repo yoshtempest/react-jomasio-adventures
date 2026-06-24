@@ -14,7 +14,8 @@ type PlayerState =
   | "preSpecial"
   | "preRun"
   | "run"
-  | "crit";
+  | "crit"
+  | "falling";
 
 type AnimationStep = {
   next: PlayerState;
@@ -37,6 +38,7 @@ export const animationFlow: Record<PlayerState, AnimationStep | null> = {
 
   preJump: null,
   jump: null,
+  falling: null, // controlado pela gravidade
 
   preSpecial: { next: "special", duration: 200 },
   special: { next: "idle", duration: 500 },

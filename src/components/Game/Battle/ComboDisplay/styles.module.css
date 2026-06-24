@@ -42,14 +42,12 @@
   flex: 1;
   height: 6px;
   background: rgba(255, 255, 255, 0.2);
-  border-radius: 3px;
   overflow: hidden;
 }
 
 .progressFill {
   height: 100%;
   background: #ff6b35;
-  border-radius: 3px;
   transition: width 0.3s ease;
 }
 
