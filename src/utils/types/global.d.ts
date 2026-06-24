@@ -245,7 +245,9 @@ declare global {
     | "preAttack"
     | "preWalk"
     | "preJump"
-    | "preSpecial";
+    | "preSpecial"
+    | "preRun"
+    | "run";
 
   type PlayerMode = "explore" | "battle" | "select" | "ui" | "map";
 

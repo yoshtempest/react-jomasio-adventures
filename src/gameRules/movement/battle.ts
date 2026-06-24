@@ -22,25 +22,41 @@ export function canExitState(player: Player) {
   return player.state !== "blocked" && player.state !== "stun";
 }
 
+const MOVEMENT_STATES = new Set(["walk", "preRun", "run"]);
+
 export function moveLeftBattle(player: Player): Player {
   if (!canAct(player)) return player;
+
+  const nextState =
+    player.state === "jump"
+      ? "jump"
+      : MOVEMENT_STATES.has(player.state)
+        ? player.state
+        : "walk";
 
   return {
     ...player,
     x: Math.max(BATTLE_LIMITS.minX, player.x - BATTLE_STEP),
     battleDirection: "left",
-    state: player.state === "jump" ? "jump" : "walk",
+    state: nextState,
   };
 }
 
 export function moveRightBattle(player: Player): Player {
   if (!canAct(player)) return player;
 
+  const nextState =
+    player.state === "jump"
+      ? "jump"
+      : MOVEMENT_STATES.has(player.state)
+        ? player.state
+        : "walk";
+
   return {
     ...player,
     x: Math.min(BATTLE_LIMITS.maxX, player.x + BATTLE_STEP),
     battleDirection: "right",
-    state: player.state === "jump" ? "jump" : "walk",
+    state: nextState,
   };
 }
 
