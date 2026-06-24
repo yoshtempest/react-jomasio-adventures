@@ -1,0 +1,100 @@
+.container {
+  position: absolute;
+  pointer-events: none;
+  z-index: 11;
+}
+
+.auraGlow {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 40px;
+  height: 60px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  animation: kaiokenPulse 0.6s ease-in-out infinite alternate;
+}
+
+.auraFlameOutline {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  width: 40px;
+  height: 60px;
+  transform: translate(0%, 0%);
+  border-radius: 50%;
+  opacity: 0.4;
+  animation: kaiokenFlame 0.4s ease-in-out infinite alternate;
+}
+
+.auraInnerFlame {
+  position: absolute;
+  left: 50%;
+  top: 0%;
+  width: 60px;
+  height: 80px;
+  transform: translate(0%, 0%);
+  border-radius: 50%;
+  border: 2px solid #ffcc00;
+  opacity: 0.3;
+  animation: kaiokenFlame 0.5s ease-in-out infinite alternate-reverse;
+}
+
+.streamer {
+  position: absolute;
+  top: 0;
+  width: 3px;
+  border-radius: 2px;
+}
+
+.sparkParticle {
+  position: absolute;
+  border-radius: 50%;
+  transition: top 0.1s linear, opacity 0.1s linear;
+}
+
+.pulsingRingOuter {
+  position: absolute;
+  left: 50%;
+  top: 0%;
+  width: 60px;
+  height: 60px;
+  transform: translate(0%, 0%);
+  border-radius: 50%;
+  opacity: 0.5;
+  animation: chargePulse 0.6s ease-in-out infinite alternate;
+}
+
+.pulsingRingInner {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  width: 90px;
+  height: 90px;
+  transform: translate(0%, 0%);
+  border-radius: 50%;
+  border: 2px solid #ffcc00;
+  opacity: 0.3;
+  animation: chargePulse 0.9s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes kaiokenPulse {
+  0% { transform: translate(-50%, -50%) scale(0.85); opacity: 0.6; }
+  100% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+}
+
+@keyframes kaiokenFlame {
+  0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.3; }
+  100% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.6; }
+}
+
+@keyframes kaiokenStreamer {
+  0% { transform: translateY(0); opacity: 0.2; }
+  50% { opacity: 0.8; }
+  100% { transform: translateY(-80px); opacity: 0; }
+}
+
+@keyframes chargePulse {
+  0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.3; }
+  100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.7; }
+}
