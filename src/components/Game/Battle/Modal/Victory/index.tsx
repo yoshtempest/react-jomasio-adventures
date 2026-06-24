@@ -21,6 +21,7 @@ type Props = {
   onContinue: () => void;
   xpReward: number;
   rewards: RewardInfo | null;
+  skipDelay?: boolean;
 };
 
 export function VictoryModal({
@@ -33,8 +34,9 @@ export function VictoryModal({
   onContinue,
   xpReward,
   rewards,
+  skipDelay = false,
 }: Props) {
-  const isVisible = useVictoryVisibility(isOpen);
+  const isVisible = useVictoryVisibility(isOpen, skipDelay);
   useVictoryKeyboard(isVisible, onContinue);
 
   if (!isVisible) return null;

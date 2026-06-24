@@ -50,6 +50,7 @@ export function BattleScene(props: Props) {
     navigate,
     showIntro,
     skipIntro,
+    skipVictoryDelay,
     comboCount,
     comboRank,
     comboProgress,
@@ -181,6 +182,7 @@ export function BattleScene(props: Props) {
           nextLevelXp={missingXp}
           rewards={lastRewards}
           onContinue={handleContinue}
+          skipDelay={skipVictoryDelay}
         />
       )}
 

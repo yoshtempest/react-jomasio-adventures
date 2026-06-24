@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 
-export function useVictoryVisibility(isOpen: boolean) {
+export function useVictoryVisibility(isOpen: boolean, skipDelay = false) {
   const { playSound } = useSoundEffects();
   const playSoundRef = useRef(playSound);
   playSoundRef.current = playSound;
@@ -15,12 +15,17 @@ export function useVictoryVisibility(isOpen: boolean) {
       return;
     }
 
+    if (skipDelay) {
+      setIsVisible(true);
+      return;
+    }
+
     const timeout = setTimeout(() => {
       setIsVisible(true);
     }, 3000);
 
     return () => clearTimeout(timeout);
-  }, [isOpen]);
+  }, [isOpen, skipDelay]);
 
   useEffect(() => {
     if (isVisible && !hasPlayedRef.current) {

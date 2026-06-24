@@ -21,6 +21,7 @@ import { useBattleRefs } from "@/hooks/battle/useRefs";
 import { useBattleKillCounter } from "@/hooks/battle/useKillCounter";
 import { useChargeAttack } from "@/hooks/battle/charge/useAttack";
 import { usePhaseTransition } from "@/hooks/battle/usePhaseTransition";
+import { useGameControls } from "@/contexts/GameControlsContext";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import { saveGame } from "@/utils/saveGame";
 
@@ -70,6 +71,8 @@ export function useBattleScene({
   npcPhaseRef.current = npcPhase;
   const [showIntro, setShowIntro] = useState(true);
   const [isPhaseTransitioning, setIsPhaseTransitioning] = useState(false);
+  const [skipVictoryDelay, setSkipVictoryDelay] = useState(false);
+  const outroTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   const { npcData, npcLevel, npcStats } = useNpcSetup(npcType, difficulty);
 
@@ -96,16 +99,16 @@ export function useBattleScene({
   useEffect(() => {
     if (showVictory) {
       setShowOutro("victory");
-      const timer = setTimeout(() => setShowOutro(null), 2500);
-      return () => clearTimeout(timer);
+      outroTimeoutRef.current = setTimeout(() => setShowOutro(null), 2500);
+      return () => clearTimeout(outroTimeoutRef.current);
     }
   }, [showVictory]);
 
   useEffect(() => {
     if (showDefeat) {
       setShowOutro("defeat");
-      const timer = setTimeout(() => setShowOutro(null), 2500);
-      return () => clearTimeout(timer);
+      outroTimeoutRef.current = setTimeout(() => setShowOutro(null), 2500);
+      return () => clearTimeout(outroTimeoutRef.current);
     }
   }, [showDefeat]);
 
@@ -290,6 +293,32 @@ export function useBattleScene({
     closeNavbarRef.current();
   }, []);
 
+  const { pushControls, popControls } = useGameControls();
+
+  useEffect(() => {
+    if (!showIntro) return;
+    pushControls({
+      onConfirm: () => {
+        skipIntro();
+        return true;
+      },
+    });
+    return () => popControls();
+  }, [showIntro, pushControls, popControls]);
+
+  useEffect(() => {
+    if (!showOutro) return;
+    pushControls({
+      onConfirm: () => {
+        clearTimeout(outroTimeoutRef.current);
+        setShowOutro(null);
+        setSkipVictoryDelay(true);
+        return true;
+      },
+    });
+    return () => popControls();
+  }, [showOutro, pushControls, popControls]);
+
   const charge = useChargeAttack({
     player,
     setPlayer,
@@ -374,6 +403,7 @@ export function useBattleScene({
     navigate,
     showIntro,
     skipIntro,
+    skipVictoryDelay,
     comboCount,
     comboRank,
     comboProgress: comboProgressValue,
