@@ -36,11 +36,15 @@ export function GameButtons() {
     activeControls?.onConfirmRelease?.();
   }
 
-  function handleCancel() {
+  function handleCancelDown() {
     activeControls?.onCancel?.();
     setBCooldown(true);
     if (bTimerRef.current) clearTimeout(bTimerRef.current);
     bTimerRef.current = setTimeout(() => setBCooldown(false), 600);
+  }
+
+  function handleCancelUp() {
+    activeControls?.onCancelRelease?.();
   }
 
   return (
@@ -49,7 +53,9 @@ export function GameButtons() {
       <div className={styles.row}>
         <button
           className={`${styles.button} ${bCooldown ? styles.cooldown : ""}`}
-          onPointerDown={handleCancel}
+          onPointerDown={handleCancelDown}
+          onPointerUp={handleCancelUp}
+          onPointerLeave={handleCancelUp}
         >
           B
         </button>

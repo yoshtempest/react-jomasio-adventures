@@ -7,6 +7,7 @@ import {
   blockStart,
   blockEnd,
   idleBattle,
+  crouchToggle,
 } from "@/gameRules/movement/battle";
 
 import { canJump } from "@/gameRules/movement/state";
@@ -153,17 +154,21 @@ export function useBattleMovement(
     }, 120);
   }
 
-  function moveDownBattle() {
+  function blockStartAction() {
     if (downLockRef.current) return;
     downLockRef.current = true;
     lastBlockPressRef.current = Date.now();
     setPlayer((p) => blockStart(p));
   }
 
-  function releaseDownBattle() {
+  function blockEndAction() {
     if (!downLockRef.current) return;
     downLockRef.current = false;
     setPlayer((p) => blockEnd(p));
+  }
+
+  function toggleCrouch() {
+    setPlayer((p) => crouchToggle(p));
   }
 
   function attack() {
@@ -233,8 +238,9 @@ export function useBattleMovement(
     stopMoveLeft,
     startMoveRight,
     stopMoveRight,
-    moveDownBattle,
-    releaseDownBattle,
+    blockStart: blockStartAction,
+    blockEnd: blockEndAction,
+    toggleCrouch,
     attack,
     special,
     dash,

@@ -15,7 +15,9 @@ type PlayerState =
   | "preRun"
   | "run"
   | "crit"
-  | "falling";
+  | "falling"
+  | "idleCrounched"
+  | "walkCrounched";
 
 type AnimationStep = {
   next: PlayerState;
@@ -50,4 +52,7 @@ export const animationFlow: Record<PlayerState, AnimationStep | null> = {
   blocked: null,
 
   stun: { next: "idle", duration: 500 },
+
+  idleCrounched: null,
+  walkCrounched: null,
 };

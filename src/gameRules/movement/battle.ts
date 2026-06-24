@@ -4,6 +4,9 @@ import {
   BATTLE_LIMITS,
 } from "@/utils/types/player/movement";
 
+const CROUCHED_STEP = 4;
+const CROUCHED_STATES = new Set<PlayerState>(["idleCrounched", "walkCrounched"]);
+
 export function canAct(player: Player) {
   return (
     player.mode === "battle" &&
@@ -24,39 +27,37 @@ export function canExitState(player: Player) {
 
 const MOVEMENT_STATES = new Set(["walk", "preRun", "run"]);
 
+function resolveMovementState(state: PlayerState): PlayerState {
+  if (state === "jump") return "jump";
+  if (MOVEMENT_STATES.has(state)) return state;
+  if (CROUCHED_STATES.has(state)) return "walkCrounched";
+  if (state === "preJump") return "preJump";
+  return "walk";
+}
+
+function getStep(state: PlayerState): number {
+  return CROUCHED_STATES.has(state) ? CROUCHED_STEP : BATTLE_STEP;
+}
+
 export function moveLeftBattle(player: Player): Player {
   if (!canAct(player)) return player;
 
-  const nextState =
-    player.state === "jump"
-      ? "jump"
-      : MOVEMENT_STATES.has(player.state)
-        ? player.state
-        : "walk";
-
   return {
     ...player,
-    x: Math.max(BATTLE_LIMITS.minX, player.x - BATTLE_STEP),
+    x: Math.max(BATTLE_LIMITS.minX, player.x - getStep(player.state)),
     battleDirection: "left",
-    state: nextState,
+    state: resolveMovementState(player.state),
   };
 }
 
 export function moveRightBattle(player: Player): Player {
   if (!canAct(player)) return player;
 
-  const nextState =
-    player.state === "jump"
-      ? "jump"
-      : MOVEMENT_STATES.has(player.state)
-        ? player.state
-        : "walk";
-
   return {
     ...player,
-    x: Math.min(BATTLE_LIMITS.maxX, player.x + BATTLE_STEP),
+    x: Math.min(BATTLE_LIMITS.maxX, player.x + getStep(player.state)),
     battleDirection: "right",
-    state: nextState,
+    state: resolveMovementState(player.state),
   };
 }
 
@@ -100,6 +101,7 @@ export function specialBattle(p: Player): Player {
 
 export function dashLeftBattle(p: Player): Player {
   if (p.mode !== "battle") return p;
+  if (CROUCHED_STATES.has(p.state)) return p;
   return {
     ...p,
     x: Math.max(BATTLE_LIMITS.minX, p.x - DASH_STEP),
@@ -110,6 +112,7 @@ export function dashLeftBattle(p: Player): Player {
 
 export function dashRightBattle(p: Player): Player {
   if (p.mode !== "battle") return p;
+  if (CROUCHED_STATES.has(p.state)) return p;
   return {
     ...p,
     x: Math.min(BATTLE_LIMITS.maxX, p.x + DASH_STEP),
@@ -118,8 +121,14 @@ export function dashRightBattle(p: Player): Player {
   };
 }
 
+export { CROUCHED_STATES };
+
 export function idleBattle(p: Player): Player {
   if (p.state === "blocked" || p.state === "stun") return p;
+
+  if (CROUCHED_STATES.has(p.state)) {
+    return { ...p, state: "idleCrounched" };
+  }
 
   return {
     ...p,
@@ -128,4 +137,16 @@ export function idleBattle(p: Player): Player {
         ? p.state
         : "idle",
   };
+}
+
+export function crouchToggle(player: Player): Player {
+  if (player.state === "jump" || player.state === "falling" || player.state === "preJump") {
+    return player;
+  }
+
+  if (CROUCHED_STATES.has(player.state)) {
+    return { ...player, state: "idle" };
+  }
+
+  return { ...player, state: "idleCrounched" };
 }

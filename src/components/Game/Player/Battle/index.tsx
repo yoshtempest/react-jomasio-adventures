@@ -9,6 +9,11 @@ type Props = {
   character: CharacterId;
 };
 
+const CROUCH_STATE_MAP: Record<string, string> = {
+  idleCrounched: "idleCrounched",
+  walkCrounched: "walkCrounched",
+};
+
 export function PlayerBattle({
   x,
   y,
@@ -17,7 +22,7 @@ export function PlayerBattle({
   direction,
   character,
 }: Props) {
-  const resolvedState = state === "charging" ? "idle" : state;
+  const resolvedState = CROUCH_STATE_MAP[state] ?? (state === "charging" ? "idle" : state);
   const src = asset(`assets/player/${character}/inFight/${resolvedState}.svg`);
 
   const BASE_WIDTH = 1280;

@@ -78,7 +78,7 @@ export function useNpcBattle({
     if (isEnding.current) return;
     if (!npcCooldown.current) return;
     if (!isNpcInRange(playerX, playerY, npcX, npcY)) return;
-    if (player.state === "dash") return;
+    if (player.state === "dash" || player.state === "idleCrounched" || player.state === "walkCrounched") return;
 
     const npc = getNpcStats(npcLevel, npcClass, difficulty);
     const baseDmg = npc.damage;
@@ -123,7 +123,7 @@ export function useNpcBattle({
   const npcRangedHit = useCallback(() => {
     if (isEnding.current) return;
     if (!npcCooldown.current) return;
-    if (player.state === "dash") return;
+    if (player.state === "dash" || player.state === "idleCrounched" || player.state === "walkCrounched") return;
 
     const npc = getNpcStats(npcLevel, npcClass, difficulty);
     const baseDmg = npc.damage;

@@ -4,6 +4,8 @@ import { useGameControls } from "@/contexts/GameControlsContext";
 type Props = {
   attack: () => void;
   special: () => void;
+  blockStart: () => void;
+  blockEnd: () => void;
   handlePlayerHit: () => void;
   handleSpecialHit: () => void;
   disabled: boolean;
@@ -17,6 +19,8 @@ const HOLD_DISCRIMINATOR = 150;
 export function useBattleControls({
   attack,
   special,
+  blockStart,
+  blockEnd,
   handlePlayerHit,
   handleSpecialHit,
   disabled,
@@ -28,6 +32,8 @@ export function useBattleControls({
 
   const attackRef = useRef(attack);
   const specialRef = useRef(special);
+  const blockStartRef = useRef(blockStart);
+  const blockEndRef = useRef(blockEnd);
   const playerHitRef = useRef(handlePlayerHit);
   const specialHitRef = useRef(handleSpecialHit);
   const chargePressRef = useRef(onChargePress ?? (() => {}));
@@ -36,6 +42,8 @@ export function useBattleControls({
 
   attackRef.current = attack;
   specialRef.current = special;
+  blockStartRef.current = blockStart;
+  blockEndRef.current = blockEnd;
   playerHitRef.current = handlePlayerHit;
   specialHitRef.current = handleSpecialHit;
   chargePressRef.current = onChargePress ?? (() => {});
@@ -77,7 +85,6 @@ export function useBattleControls({
             if (holdTimer) {
               clearTimeout(holdTimer);
               holdTimer = null;
-              // tap < 150ms → normal attack
               attackRef.current();
               playerHitRef.current();
               return;
@@ -88,6 +95,14 @@ export function useBattleControls({
         : undefined,
 
       onCancel: () => {
+        blockStartRef.current();
+      },
+
+      onCancelRelease: () => {
+        blockEndRef.current();
+      },
+
+      onOpen: () => {
         specialRef.current();
         specialHitRef.current();
       },

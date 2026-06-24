@@ -349,6 +349,14 @@ export function useBattleScene({
   useBattleControls({
     attack,
     special,
+    blockStart: () => setPlayer((p) => {
+      if (p.state === "jump") return p;
+      return { ...p, state: "blocked" };
+    }),
+    blockEnd: () => setPlayer((p) => {
+      if (p.state !== "blocked") return p;
+      return { ...p, state: "idle" };
+    }),
     handlePlayerHit,
     handleSpecialHit,
     disabled: isPaused || isPhaseTransitioning,

@@ -249,7 +249,9 @@ declare global {
     | "preRun"
     | "run"
     | "crit"
-    | "falling";
+    | "falling"
+    | "idleCrounched"
+    | "walkCrounched";
 
   type PlayerMode = "explore" | "battle" | "select" | "ui" | "map";
 

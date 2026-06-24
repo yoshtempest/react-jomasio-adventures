@@ -19,12 +19,11 @@ export function useKeyboardMovement() {
     moveLeft,
     moveRight,
     moveUpBattle,
-    moveDownBattle,
+    toggleCrouch,
     startMoveLeft,
     stopMoveLeft,
     startMoveRight,
     stopMoveRight,
-    releaseDownBattle,
     dash,
   } = usePlayer();
 
@@ -62,13 +61,12 @@ export function useKeyboardMovement() {
   const moveRightRef = useRef(moveRight);
 
   const moveUpBattleRef = useRef(moveUpBattle);
-  const moveDownBattleRef = useRef(moveDownBattle);
+  const toggleCrouchRef = useRef(toggleCrouch);
 
   const startMoveLeftRef = useRef(startMoveLeft);
   const stopMoveLeftRef = useRef(stopMoveLeft);
   const startMoveRightRef = useRef(startMoveRight);
   const stopMoveRightRef = useRef(stopMoveRight);
-  const releaseDownBattleRef = useRef(releaseDownBattle);
 
   const { progress } = useCharacterProgress();
   const progressRef = useRef(progress);
@@ -93,13 +91,12 @@ export function useKeyboardMovement() {
     moveRightRef.current = moveRight;
 
     moveUpBattleRef.current = moveUpBattle;
-    moveDownBattleRef.current = moveDownBattle;
+    toggleCrouchRef.current = toggleCrouch;
 
     startMoveLeftRef.current = startMoveLeft;
     stopMoveLeftRef.current = stopMoveLeft;
     startMoveRightRef.current = startMoveRight;
     stopMoveRightRef.current = stopMoveRight;
-    releaseDownBattleRef.current = releaseDownBattle;
 
     dashRef.current = dash;
   });
@@ -129,12 +126,11 @@ export function useKeyboardMovement() {
       onDown: () => {
         if (isLockedRef.current) return;
         pressRef.current("down");
-        if (isBattleRef.current) moveDownBattleRef.current();
+        if (isBattleRef.current) toggleCrouchRef.current();
         else moveDownRef.current();
       },
       onDownRelease: () => {
         releaseRef.current("down");
-        if (isBattleRef.current) releaseDownBattleRef.current();
       },
 
       onLeft: () => {

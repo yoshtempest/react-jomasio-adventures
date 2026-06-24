@@ -49,8 +49,9 @@ type PlayerContextType = {
   stopMoveLeft: () => void;
   startMoveRight: () => void;
   stopMoveRight: () => void;
-  moveDownBattle: () => void;
-  releaseDownBattle: () => void;
+  blockStart: () => void;
+  blockEnd: () => void;
+  toggleCrouch: () => void;
   attack: () => void;
   special: () => void;
   dash: (direction: "left" | "right") => void;
@@ -136,8 +137,9 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     stopMoveLeft,
     startMoveRight,
     stopMoveRight,
-    moveDownBattle,
-    releaseDownBattle,
+    blockStart,
+    blockEnd,
+    toggleCrouch,
     attack: rawAttack,
     special,
     dash,
@@ -243,8 +245,9 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         stopMoveLeft,
         startMoveRight,
         stopMoveRight,
-        moveDownBattle,
-        releaseDownBattle,
+        blockStart,
+        blockEnd,
+        toggleCrouch,
         attack,
         special,
         dash,

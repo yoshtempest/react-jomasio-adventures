@@ -86,10 +86,14 @@ function handleCommon(
   }
 
   const dx = Math.abs(playerX - next.x);
-  const dy = Math.abs(playerY - next.y);
   const isDashing = playerState === "dash";
+  const isCrouched = playerState === "idleCrounched" || playerState === "walkCrounched";
+  const dodgeProjectile = isDashing || isCrouched;
 
-  if (dx < 40 && dy <= 120 && !isDashing) {
+  const hitY = isCrouched ? playerY - 30 : playerY;
+  const hitDy = Math.abs(hitY - next.y);
+
+  if (dx < 40 && hitDy <= 120 && !dodgeProjectile) {
     onHit();
     return null;
   }
@@ -128,10 +132,14 @@ function handlePull(
   }
 
   const dx = Math.abs(playerX - next.x);
-  const dy = Math.abs(playerY - next.y);
   const isDashing = playerState === "dash";
+  const isCrouched = playerState === "idleCrounched" || playerState === "walkCrounched";
+  const dodgeProjectile = isDashing || isCrouched;
 
-  if (dx < 40 && dy <= 120 && !isDashing) {
+  const hitY = isCrouched ? playerY - 30 : playerY;
+  const hitDy = Math.abs(hitY - next.y);
+
+  if (dx < 40 && hitDy <= 120 && !dodgeProjectile) {
     onPullPlayer?.(p.pullTargetX);
     onHit();
     return null;
@@ -163,7 +171,8 @@ function handleRain(
     const newY = s.y + SPEAR_FALL_SPEED;
     const isDashing = playerState === "dash";
 
-    if (!s.hit && newY >= 550 && newY <= OFFSCREEN_BOTTOM && !isDashing) {
+    const isCrouched = playerState === "idleCrounched" || playerState === "walkCrounched";
+    if (!s.hit && newY >= 550 && newY <= OFFSCREEN_BOTTOM && !isDashing && !isCrouched) {
       const dx = Math.abs(playerX - s.x);
       if (dx < 30) {
         onHit();
