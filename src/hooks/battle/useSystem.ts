@@ -144,6 +144,7 @@ export function useBattleSystem(props: Props) {
     spawnDamageRef,
     hitstopRef,
     registerHitRef,
+    setPlayer,
   });
 
   // 🤖 npc

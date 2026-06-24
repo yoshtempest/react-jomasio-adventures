@@ -13,7 +13,8 @@ type PlayerState =
   | "preJump"
   | "preSpecial"
   | "preRun"
-  | "run";
+  | "run"
+  | "crit";
 
 type AnimationStep = {
   next: PlayerState;
@@ -22,6 +23,8 @@ type AnimationStep = {
 
 export const animationFlow: Record<PlayerState, AnimationStep | null> = {
   idle: null,
+
+  crit: { next: "idle", duration: 300 },
 
   preAttack: { next: "attack", duration: 150 },
   attack: { next: "idle", duration: 300 },

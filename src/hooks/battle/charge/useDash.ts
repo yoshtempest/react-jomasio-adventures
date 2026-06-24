@@ -82,6 +82,7 @@ export function useChargeDash(props: Props) {
   dashCharRef.current = props.char;
   const vampirismRef = useRef(props.totalVampirism);
   vampirismRef.current = props.totalVampirism;
+  const wasCritRef = useRef(false);
 
   const cleanup = useCallback(() => {
     if (dashIntervalRef.current) {
@@ -132,6 +133,7 @@ export function useChargeDash(props: Props) {
             : rawDmg;
         const chargeDmg = Math.round(berserkRaw * 1.5);
         const { damage: critDmg, type: critType } = rollCrit(chargeDmg, critRate);
+        if (critType === "crit") wasCritRef.current = true;
 
         const targets: { id: string; x: number; y: number }[] = [];
 
@@ -226,7 +228,8 @@ export function useChargeDash(props: Props) {
             clearInterval(dashIntervalRef.current);
             dashIntervalRef.current = null;
           }
-          return { ...p, x: newX, state: "idle" as const };
+          const endState = wasCritRef.current ? "crit" : "idle";
+          return { ...p, x: newX, state: endState as const };
         }
 
         return { ...p, x: newX, state: "dash" as const };

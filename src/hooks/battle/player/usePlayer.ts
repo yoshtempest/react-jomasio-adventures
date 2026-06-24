@@ -44,6 +44,7 @@ type Props = {
   >;
   hitstopRef: React.RefObject<number>;
   registerHitRef: React.RefObject<(damage: number) => void>;
+  setPlayer: React.Dispatch<React.SetStateAction<Player>>;
 };
 
 export function usePlayerBattle({
@@ -72,6 +73,7 @@ export function usePlayerBattle({
   spawnDamageRef,
   hitstopRef,
   registerHitRef,
+  setPlayer,
 }: Props) {
   const [delicia, setDelicia] = useState(0);
   const [stacks, setStacks] = useState(0);
@@ -111,6 +113,7 @@ export function usePlayerBattle({
         ? Math.round(rawDmg * getBerserkMultiplier(playerHP, playerMaxHp))
         : rawDmg;
     const { damage: critDmg, type: dmgType } = rollCrit(berserkDmg, critRate);
+    if (dmgType === "crit") setPlayer((p) => ({ ...p, state: "crit" }));
     const dmg = calculateDamageToNpc(critDmg, npcArmor);
 
     behavior.onBasicHit({
@@ -198,6 +201,7 @@ export function usePlayerBattle({
         ? Math.round(rawDmg * getBerserkMultiplier(playerHP, playerMaxHp))
         : rawDmg;
     const { damage: critDmg, type: dmgType } = rollCrit(berserkDmg, critRate);
+    if (dmgType === "crit") setPlayer((p) => ({ ...p, state: "crit" }));
     const dmg = calculateDamageToNpc(critDmg, npcArmor);
 
     behavior.onSpecialHit({
