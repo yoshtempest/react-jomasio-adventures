@@ -26,16 +26,16 @@ export function useChargeParticles() {
   useEffect(() => cleanup, [cleanup]);
 
   function createParticle(): ChargeParticle {
-    const angle = Math.random() * Math.PI * 2;
-    const radius = 20 + Math.random() * 25;
+    const angle = -Math.PI / 2 + (Math.random() - 0.5) * 1.2;
+    const radius = 10 + Math.random() * 35;
     particleIdRef.current++;
     return {
       id: particleIdRef.current,
-      size: 3 + Math.random() * 5,
-      opacity: 0.7 + Math.random() * 0.3,
+      size: 2 + Math.random() * 3,
+      opacity: 0.6 + Math.random() * 0.4,
       life: 0,
-      maxLife: 600 + Math.random() * 400,
-      offsetX: Math.cos(angle) * radius,
+      maxLife: 400 + Math.random() * 300,
+      offsetX: Math.cos(angle) * radius * 0.5,
       offsetY: Math.sin(angle) * radius - 10,
     };
   }
