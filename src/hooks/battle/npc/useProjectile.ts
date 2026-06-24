@@ -165,7 +165,7 @@ function handleRain(
 
     if (!s.hit && newY >= 550 && newY <= OFFSCREEN_BOTTOM && !isDashing) {
       const dx = Math.abs(playerX - s.x);
-      if (dx < 60) {
+      if (dx < 30) {
         onHit();
         return { x: s.x, y: newY, hit: true };
       }

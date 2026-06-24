@@ -257,7 +257,7 @@ export function useBattleScene({
       setNpcHPRef.current((hp: number) =>
         Math.min(npcMaxHpRef.current, hp + 1),
       );
-    }, 400);
+    }, 1000);
 
     return () => clearInterval(interval);
   }, [npcType, battle.npcPhase]);

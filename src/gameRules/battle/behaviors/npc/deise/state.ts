@@ -44,7 +44,7 @@ export function generateSpearPositions(playerX: number): number[] {
   const positions: number[] = [];
   for (let i = 0; i < SPEAR_RAIN_COUNT; i++) {
     const offset = (i - Math.floor(SPEAR_RAIN_COUNT / 2)) * 100;
-    positions.push(playerX + offset + (Math.random() - 0.5) * 60);
+    positions.push(playerX + offset + (Math.random() - 0.5) * 24);
   }
   return positions;
 }
