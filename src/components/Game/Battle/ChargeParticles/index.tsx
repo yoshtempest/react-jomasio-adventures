@@ -26,14 +26,20 @@ export function ChargeParticles({
 }: Props) {
   if (!isCharging || particles.length === 0) return null;
 
+  const BASE_WIDTH = 1280;
+  const BASE_HEIGHT = 600;
+  const scaleX = window.innerWidth / BASE_WIDTH;
+  const scaleY = window.innerHeight / BASE_HEIGHT;
+  const DANTIAN_OFFSET = 40;
+
   const glowColor = chargeReady ? AURA_COLORS.glowReady : AURA_COLORS.glow;
 
   return (
     <div
       className={styles.container}
       style={{
-        left: playerX,
-        top: playerY,
+        left: playerX * scaleX,
+        top: (playerY - DANTIAN_OFFSET) * scaleY,
       }}
     >
       <div
