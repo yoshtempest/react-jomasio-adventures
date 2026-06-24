@@ -3,3 +3,8 @@ export const bossScales: Record<string, { base: number; phase2: number }> = {
   slimita: { base: 1.6, phase2: 4 },
   hungryKing: { base: 3, phase2: 5 },
 };
+
+/** Fração do container que fica abaixo dos pés do personagem (letterboxing). */
+export const npcSpriteYOffset: Record<string, number> = {
+  hungryKing: 0.20,
+};

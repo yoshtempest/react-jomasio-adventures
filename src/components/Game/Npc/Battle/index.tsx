@@ -2,6 +2,7 @@ import { asset } from "@/utils/asset";
 import {
   getSpritePath,
   getBossSizeMultiplier,
+  getNpcSpriteYOffset,
 } from "@/utils/npc/getSpritePath";
 
 type Props = {
@@ -35,6 +36,7 @@ export function NPCBattle({
   const scaleY = window.innerHeight / BASE_HEIGHT;
 
   const sizeMultiplier = getBossSizeMultiplier(npcType, npcPhase);
+  const yOffset = getNpcSpriteYOffset(npcType);
 
   const basePath = getSpritePath(npcType, state, npcPhase);
 
@@ -48,7 +50,7 @@ export function NPCBattle({
         height: TILE_SIZE * sizeMultiplier,
         left: x * scaleX,
         top: y * scaleY,
-        transform: `translate(-50%, -100%)`,
+        transform: `translate(-50%, calc(-100% + ${yOffset * 100}%))`,
         zIndex: 9,
       }}
     >

@@ -1,5 +1,5 @@
 import { asset } from "@/utils/asset";
-import { bossScales } from "@/data/npc/bossScales";
+import { bossScales, npcSpriteYOffset } from "@/data/npc/bossScales";
 
 export function getSpritePath(
   npcType: string,
@@ -36,4 +36,8 @@ export function getBossSizeMultiplier(
     return npcPhase === 2 ? config.phase2 : config.base;
   }
   return 1.4;
+}
+
+export function getNpcSpriteYOffset(npcType: string): number {
+  return npcSpriteYOffset[npcType] ?? 0;
 }
