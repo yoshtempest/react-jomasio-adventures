@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useGameAudio } from "@/hooks/game/useGameAudio";
 import { useNpcAI } from "@/hooks/battle/npc/useAi";
@@ -111,6 +111,12 @@ export function useBattleScene({
       return () => clearTimeout(outroTimeoutRef.current);
     }
   }, [showDefeat]);
+
+  const handleCloseOutro = useCallback(() => {
+    clearTimeout(outroTimeoutRef.current);
+    setShowOutro(null);
+    setSkipVictoryDelay(true);
+  }, []);
 
   useGameAudio({ src: audioSrc, loop: true, volume: 0.5 });
 
@@ -331,19 +337,6 @@ export function useBattleScene({
     return () => popControls();
   }, [showIntro, pushControls, popControls]);
 
-  useEffect(() => {
-    if (!showOutro) return;
-    pushControls({
-      onConfirm: () => {
-        clearTimeout(outroTimeoutRef.current);
-        setShowOutro(null);
-        setSkipVictoryDelay(true);
-        return true;
-      },
-    });
-    return () => popControls();
-  }, [showOutro, pushControls, popControls]);
-
   const charge = useChargeAttack({
     player,
     setPlayer,
@@ -431,6 +424,7 @@ export function useBattleScene({
     showVictory,
     showDefeat,
     showOutro,
+    handleCloseOutro,
     handleRetry,
     handleContinue,
     navigate,

@@ -25,7 +25,9 @@ type SoundId =
   | "chargingAttack"
   | "closeMenu"
   | "swordDeflected"
-  | "jhowsimarVemCa";
+  | "jhowsimarVemCa"
+  | "marshadowSpecial"
+  | "drikaSpecial";
 
 type SoundEffectsContextType = {
   playSound: (sound: SoundId, loop?: boolean) => void;
@@ -60,6 +62,8 @@ export function SoundEffectsProvider({ children }: { children: ReactNode }) {
       chargeAttack: new Audio(asset("/assets/songs/soundEffects/player/chargeAttack.mp3")),
       swordDeflected: new Audio(asset("/assets/songs/soundEffects/player/marcelo/sword-deflected.mp3")),
       jhowsimarVemCa: new Audio(asset("/assets/songs/soundEffects/npc/jhowsimar-vem-ca.mp3")),
+      marshadowSpecial: new Audio(asset("/assets/songs/soundEffects/player/marcelo/special.mp3")),
+      drikaSpecial: new Audio(asset("/assets/songs/soundEffects/player/eduarda/special.mp3")),
     };
 
     Object.values(soundsRef.current).forEach((audio) => {

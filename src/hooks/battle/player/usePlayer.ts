@@ -11,6 +11,7 @@ import { rollCrit } from "@/gameRules/battle/damageUtils";
 import type { DamageType } from "@/hooks/battle/useDamageNumbers";
 import type { BattleBehavior } from "@/utils/types/player/behavior";
 import type { CharacterProgress } from "@/data/characters/defaultProgress";
+import { asset } from "@/utils/asset";
 
 type Props = {
   player: Player;
@@ -188,6 +189,11 @@ export function usePlayerBattle({
       })
     ) {
       return;
+    }
+
+    if (player.character === "marcelo") {
+      const audio = new Audio(asset("/assets/songs/soundEffects/player/marcelo/special.mp3"));
+      audio.play().catch(() => {});
     }
 
     navigator.vibrate?.(30);

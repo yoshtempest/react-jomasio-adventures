@@ -45,6 +45,7 @@ export function BattleScene(props: Props) {
     showVictory,
     showDefeat,
     showOutro,
+    handleCloseOutro,
     handleRetry,
     handleContinue,
     navigate,
@@ -172,6 +173,7 @@ export function BattleScene(props: Props) {
         <BattleOutro
           character={player.character}
           type={showOutro}
+          onNext={handleCloseOutro}
         />
       )}
 

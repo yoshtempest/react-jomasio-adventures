@@ -2,70 +2,49 @@
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.75);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   z-index: 999;
 }
 
 .container {
+  position: absolute;
+  width: 50vw;
   display: flex;
-  align-items: center;
-  gap: 32px;
+  z-index: 9999;
+  justify-content: center;
+  left: 50%;
+  transform: translateX(-50%) translateY(5%);
 }
 
-.sprite {
-  height: 300px;
-  image-rendering: pixelated;
+.talking {
+  background-color: var(--primary-color);
+  width: 100%;
+  padding: 0% 1%;
+  max-height: fit-content;
+  text-align: left;
+  margin-top: 65vh;
+  bottom: 0;
+  z-index: 999;
+  border: 1px solid var(--background-color);
+  border-radius: 2px;
 }
 
-.speechBubble {
-  background: var(--text-color);
-  border: 3px solid var(--border-default);
-  border-radius: 16px;
-  padding: 24px 32px;
-  max-width: 400px;
-  position: relative;
-  font-size: 1.3rem;
-  color: #222;
-  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
-}
-
-.speechBubble::before {
-  content: "";
+.image {
   position: absolute;
-  left: -20px;
-  top: 50%;
-  transform: translateY(-50%);
-  border: 10px solid transparent;
-  border-right-color: var(--text-color);
+  z-index: 10;
+  bottom: 20%;
+  left: 0%;
+  height: 30vh;
 }
 
-.speechBubble::after {
-  content: "";
-  position: absolute;
-  left: -24px;
-  top: 50%;
-  transform: translateY(-50%);
-  border: 10px solid transparent;
-  border-right-color: var(--border-default);
-  z-index: -1;
-  width: 0;
-}
-
-.title {
-  font-weight: bold;
-  margin-bottom: 8px;
-}
-
-.victory {
-  color: #2e7d32;
-}
-
-.defeat {
-  color: #c62828;
-}
-
-.text {
-  font-style: italic;
+@media (orientation: portrait) {
+  .container {
+    width: 80vw;
+  }
+  .talking {
+    margin-top: 60vh;
+  }
+  .image {
+    bottom: 15%;
+    height: 10vh;
+  }
 }
