@@ -68,8 +68,8 @@ export function useNpcAI({
   playerXRef.current = playerX;
   const playerYRef = useRef(playerY);
   playerYRef.current = playerY;
-  const playerStateRef = useRef(playerState);
-  playerStateRef.current = playerState;
+  const playerStateRef = useRef<PlayerState>(playerState as PlayerState);
+  playerStateRef.current = playerState as PlayerState;
   const forceIdleRef = useRef(forceIdle);
   forceIdleRef.current = forceIdle;
   const isPausedRef = useRef(isPaused);
