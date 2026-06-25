@@ -30,6 +30,8 @@ type Props = {
   petYRef?: React.RefObject<number>;
   hasPetRef?: React.RefObject<boolean>;
   npcTargetIsPetRef?: React.RefObject<boolean>;
+  npcHpRef?: React.RefObject<number>;
+  npcMaxHpRef?: React.RefObject<number>;
 };
 
 export function useNpcAI({
@@ -51,6 +53,8 @@ export function useNpcAI({
   petYRef,
   hasPetRef,
   npcTargetIsPetRef,
+  npcHpRef,
+  npcMaxHpRef,
 }: Props) {
   const [npc, setNpc] = useState<NPCBattleState>({
     x: 900,
@@ -95,6 +99,10 @@ export function useNpcAI({
   const stopSoundRef = useRef(stopSound);
   stopSoundRef.current = stopSound;
   const jhowsimarSoundPlayingRef = useRef(false);
+  const npcHpValueRef = useRef(npcHpRef?.current ?? 0);
+  npcHpValueRef.current = npcHpRef?.current ?? 0;
+  const npcMaxHpValueRef = useRef(npcMaxHpRef?.current ?? 1);
+  npcMaxHpValueRef.current = npcMaxHpRef?.current ?? 1;
 
   useProjectile(
     projectile,
@@ -190,6 +198,9 @@ export function useNpcAI({
           onSummon: onSummonRef.current,
           onPullPlayer: onPullPlayerRef.current,
           summonTimerRef,
+          playSound: (sound, loop) => playSoundRef.current(sound as any, loop),
+          npcHp: npcHpValueRef.current,
+          npcMaxHp: npcMaxHpValueRef.current,
         });
 
         const nextX = result.x;

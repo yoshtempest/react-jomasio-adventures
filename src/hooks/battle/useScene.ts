@@ -145,6 +145,9 @@ export function useBattleScene({
   const petYRef = useRef(0);
   const hasPetRef = useRef(false);
 
+  const npcAiHpRef = useRef(npcStats.hp);
+  const npcAiMaxHpRef = useRef(npcStats.hp);
+
   const npc = useNpcAI({
     playerX: player.x,
     playerY: player.y,
@@ -164,6 +167,8 @@ export function useBattleScene({
     petYRef,
     hasPetRef,
     npcTargetIsPetRef,
+    npcHpRef: npcAiHpRef,
+    npcMaxHpRef: npcAiMaxHpRef,
   });
 
   const battle = useBattleSystem({
@@ -225,6 +230,11 @@ export function useBattleScene({
       hasPetRef.current = false;
     }
   }, [battle.pet?.x, battle.pet?.y, battle.pet, petXRef, petYRef]);
+
+  // sync NPC HP refs so useNpcAI can read them for behavior logic
+  useEffect(() => {
+    npcAiHpRef.current = battle.npcHP;
+  }, [battle.npcHP, npcAiHpRef]);
 
   const {
     comboCount,

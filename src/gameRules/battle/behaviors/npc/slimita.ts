@@ -3,8 +3,12 @@ import { isNear } from "@/gameRules/npc/behavior";
 import { tryMeleeAttack } from "@/gameRules/npc/attack";
 import { createPullProjectile } from "@/gameRules/npc/createDirectionalProjectile";
 import { getSlimitaState } from "@/gameRules/npc/slimitaState";
+import { asset } from "@/utils/asset";
 
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
+
+const boomAudio = new Audio(asset("/assets/songs/soundEffects/npc/boom.mp3"));
+boomAudio.volume = 0.7;
 
 const PULL_COOLDOWN = 3000;
 const FAR_DISTANCE_X = 260;
@@ -64,8 +68,14 @@ export function slimitaBehavior(ctx: BehaviorContext) {
 
   // 🔥 FASE 2
 
+  const hpRatio = ctx.npcMaxHp ? (ctx.npcHp ?? ctx.npcMaxHp) / ctx.npcMaxHp : 1;
+  const jumpDuration = 500 + 1500 * hpRatio;
+  const restDuration = 1000;
+
   switch (state.state) {
     case "idle": {
+      ctx.playSound?.("slimitaJump");
+
       const { x, y } = chasePlayer(npc, targetX, targetY);
 
       state.state = "air";
@@ -83,7 +93,7 @@ export function slimitaBehavior(ctx: BehaviorContext) {
 
       const elapsed = now - state.startTime;
 
-      const duration = 2000;
+      const duration = jumpDuration;
 
       const progress = Math.min(elapsed / duration, 1);
       const GROUND_Y = 720;
@@ -95,6 +105,7 @@ export function slimitaBehavior(ctx: BehaviorContext) {
       const newX = npc.x + (state.targetX - npc.x) * 0.05;
 
       if (elapsed >= duration) {
+        boomAudio.currentTime = 0; boomAudio.play().catch(() => {});
         state.state = "resting";
         state.startTime = now;
         npc.jumpLandingX = undefined;
@@ -120,7 +131,7 @@ export function slimitaBehavior(ctx: BehaviorContext) {
 
       const restTime = now - state.startTime;
 
-      if (restTime < 500) {
+      if (restTime < restDuration) {
         return {
           x: npc.x,
           y: npc.y,

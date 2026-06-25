@@ -16,4 +16,7 @@ export type BehaviorContext = {
   onSummon?: (npcType: string) => void;
   onPullPlayer?: (x: number) => void;
   summonTimerRef?: { current: number };
+  playSound?: (sound: string, loop?: boolean) => void;
+  npcHp?: number;
+  npcMaxHp?: number;
 };

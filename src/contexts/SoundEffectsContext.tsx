@@ -27,7 +27,9 @@ type SoundId =
   | "swordDeflected"
   | "jhowsimarVemCa"
   | "marshadowSpecial"
-  | "drikaSpecial";
+  | "drikaSpecial"
+  | "slimitaJump"
+  | "boom";
 
 type SoundEffectsContextType = {
   playSound: (sound: SoundId, loop?: boolean) => void;
@@ -64,6 +66,8 @@ export function SoundEffectsProvider({ children }: { children: ReactNode }) {
       jhowsimarVemCa: new Audio(asset("/assets/songs/soundEffects/npc/jhowsimar-vem-ca.mp3")),
       marshadowSpecial: new Audio(asset("/assets/songs/soundEffects/player/marcelo/special.mp3")),
       drikaSpecial: new Audio(asset("/assets/songs/soundEffects/player/eduarda/special.mp3")),
+      slimitaJump: new Audio(asset("/assets/songs/soundEffects/npc/slimita-jump.mp3")),
+      boom: new Audio(asset("/assets/songs/soundEffects/npc/boom.mp3")),
     };
 
     Object.values(soundsRef.current).forEach((audio) => {
@@ -78,6 +82,11 @@ export function SoundEffectsProvider({ children }: { children: ReactNode }) {
       });
     };
   }, []);
+
+  const soundVolumes: Partial<Record<SoundId, number>> = {
+    boom: 3,
+    slimitaJump: 0.3,
+  };
 
   useEffect(() => {
     Object.values(soundsRef.current).forEach((audio) => {
@@ -94,6 +103,7 @@ export function SoundEffectsProvider({ children }: { children: ReactNode }) {
       audio.pause();
       audio.currentTime = 0;
       audio.loop = loop ?? false;
+      audio.volume = (sfxVolume / 100) * (soundVolumes[sound] ?? 1);
 
       await audio.play();
     } catch {
