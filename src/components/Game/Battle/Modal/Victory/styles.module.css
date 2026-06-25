@@ -61,7 +61,7 @@
   font-weight: 700;
   border: none;
   border-radius: 8px;
-  color: #fff;
+  color: var(--text-color);
   cursor: pointer;
   transition: opacity 0.2s;
 }

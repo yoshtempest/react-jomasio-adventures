@@ -20,6 +20,7 @@ type Props = {
   totalArmor: number;
 
   damagePlayerHp: (damage: number) => void;
+  damagePet?: (damage: number) => void;
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;
   setNpcHP: React.Dispatch<React.SetStateAction<number>>;
   totalReflect: number;
@@ -34,6 +35,9 @@ type Props = {
   blockGauge: number;
   setBlockGauge: React.Dispatch<React.SetStateAction<number>>;
   lastBlockPressRef: React.RefObject<number>;
+  npcTargetIsPetRef?: React.RefObject<boolean>;
+  petXRef?: React.RefObject<number>;
+  petYRef?: React.RefObject<number>;
 };
 
 export function useNpcBattle({
@@ -42,6 +46,7 @@ export function useNpcBattle({
   playerClass,
   totalArmor,
   damagePlayerHp,
+  damagePet,
   setPlayer,
   setNpcHP,
   totalReflect,
@@ -59,6 +64,9 @@ export function useNpcBattle({
   blockGauge,
   setBlockGauge,
   lastBlockPressRef,
+  npcTargetIsPetRef,
+  petXRef,
+  petYRef,
 }: Props) {
   const damagePlayerWithReflect = useCallback((damage: number) => {
     damagePlayerHp(damage);
@@ -74,50 +82,75 @@ export function useNpcBattle({
     }
   }, [damagePlayerHp, totalReflect, setNpcHP, spawnDamageRef, npcX, npcY]);
 
+  const applyNpcDamage = useCallback((dmg: number, tx: number, ty: number, isPet: boolean) => {
+    if (isPet) {
+      damagePet?.(dmg);
+      spawnDamageRef.current?.(dmg, tx, ty, "npc");
+    } else {
+      const isBlocking =
+        player.state === "blocked" &&
+        isFacingTarget(playerX, playerY, npcX, npcY, player.battleDirection);
+
+      const blocked = handleNpcBlocking({
+        dmg,
+        isBlocking,
+        blockGauge,
+        setBlockGauge,
+        damagePlayerWithReflect,
+        setPlayer,
+        spawnDamageRef,
+        playerX,
+        playerY,
+        hitstopRef,
+        npcStaggerRef,
+        npcCooldown,
+        lastBlockPressRef,
+      });
+      if (blocked) return;
+
+      damagePlayerWithReflect(dmg);
+      spawnDamageRef.current?.(dmg, tx, ty, "npc");
+    }
+    navigator.vibrate?.(40);
+  }, [
+    damagePet, damagePlayerWithReflect, setPlayer, spawnDamageRef,
+    playerX, playerY, npcX, npcY, player.state, player.battleDirection,
+    blockGauge, setBlockGauge, hitstopRef, npcStaggerRef, npcCooldown,
+    lastBlockPressRef,
+  ]);
+
   const npcMeleeHit = useCallback(() => {
     if (isEnding.current) return;
     if (!npcCooldown.current) return;
-    if (!isNpcInRange(playerX, playerY, npcX, npcY)) return;
-    if (player.state === "dash" || player.state === "idleCrounched" || player.state === "walkCrounched") return;
+
+    const targetIsPet = npcTargetIsPetRef?.current === true;
+
+    if (!targetIsPet) {
+      if (!isNpcInRange(playerX, playerY, npcX, npcY)) return;
+      if (player.state === "dash" || player.state === "idleCrounched" || player.state === "walkCrounched") return;
+    } else {
+      if (!petXRef?.current || !petYRef?.current) return;
+      if (!isNpcInRange(petXRef.current, petYRef.current, npcX, npcY)) return;
+    }
 
     const npc = getNpcStats(npcLevel, npcClass, difficulty);
     const baseDmg = npc.damage;
     const dmg = calculateNpcDamage(baseDmg, playerClass, totalArmor);
 
-    const isBlocking =
-      player.state === "blocked" &&
-      isFacingTarget(playerX, playerY, npcX, npcY, player.battleDirection);
+    const tx = targetIsPet ? (petXRef?.current ?? playerX) : playerX;
+    const ty = targetIsPet ? (petYRef?.current ?? playerY) : playerY;
 
-    const blocked = handleNpcBlocking({
-      dmg,
-      isBlocking,
-      blockGauge,
-      setBlockGauge,
-      damagePlayerWithReflect,
-      setPlayer,
-      spawnDamageRef,
-      playerX,
-      playerY,
-      hitstopRef,
-      npcStaggerRef,
-      npcCooldown,
-      lastBlockPressRef,
-    });
-    if (blocked) return;
-
-    damagePlayerWithReflect(dmg);
-    navigator.vibrate?.(40);
-    spawnDamageRef.current?.(dmg, playerX, playerY, "npc");
+    applyNpcDamage(dmg, tx, ty, targetIsPet);
     hitstopRef.current = Date.now() + 50;
 
     npcCooldown.current = false;
     setTimeout(() => (npcCooldown.current = true), 800);
   }, [
-    isEnding, npcCooldown, player.state, player.battleDirection,
-    npcLevel, npcClass, playerClass, totalArmor, setPlayer,
+    isEnding, npcCooldown, player.state,
+    npcLevel, npcClass, playerClass, totalArmor,
     playerX, playerY, npcX, npcY, difficulty,
-    spawnDamageRef, hitstopRef, npcStaggerRef,
-    blockGauge, setBlockGauge, lastBlockPressRef, damagePlayerWithReflect,
+    hitstopRef, applyNpcDamage,
+    npcTargetIsPetRef, petXRef, petYRef,
   ]);
 
   const npcRangedHit = useCallback(() => {

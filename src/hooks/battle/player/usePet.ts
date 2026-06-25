@@ -17,7 +17,11 @@ export type PetState = {
   direction: "left" | "right";
   state: "idle" | "walk" | "attack";
   npcType: string;
+  hp: number;
+  maxHp: number;
 } | null;
+
+export const PET_MAX_HP = 30;
 
 export function usePetBattle({
   enabled,
@@ -52,14 +56,28 @@ export function usePetBattle({
       return;
     }
 
-    setPet({
-      x: playerX - 60,
-      y: playerY,
-      direction: "right",
-      state: "idle",
-      npcType: "goat",
+    setPet((prev) => {
+      if (prev && prev.hp > 0) return prev;
+      return {
+        x: playerX - 60,
+        y: playerY,
+        direction: "right",
+        state: "idle",
+        npcType: "goat",
+        hp: PET_MAX_HP,
+        maxHp: PET_MAX_HP,
+      };
     });
   }, [enabled, playerX, playerY]);
+
+  function damagePet(dmg: number) {
+    setPet((prev) => {
+      if (!prev) return prev;
+      const newHp = Math.max(0, prev.hp - dmg);
+      if (newHp <= 0) return null;
+      return { ...prev, hp: newHp };
+    });
+  }
 
   useEffect(() => {
     if (!enabled || !pet) return;
@@ -102,5 +120,18 @@ export function usePetBattle({
     return () => clearInterval(interval);
   }, [enabled, pet, hitstopRef]);
 
-  return { pet };
+  function resetPet() {
+    if (!enabled) return;
+    setPet({
+      x: playerX - 60,
+      y: playerY,
+      direction: "right",
+      state: "idle",
+      npcType: "goat",
+      hp: PET_MAX_HP,
+      maxHp: PET_MAX_HP,
+    });
+  }
+
+  return { pet, damagePet, resetPet };
 }

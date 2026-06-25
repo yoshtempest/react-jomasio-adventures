@@ -26,9 +26,9 @@ export function hungryKingPhase1(
   ctx: BehaviorContext,
   ai: HungryKingAI,
 ): Phase1Result {
-  const { npc, playerX, playerY, lastAttackRef, onMeleeHit } = ctx;
+  const { npc, targetX, targetY, lastAttackRef, onMeleeHit } = ctx;
   const now = Date.now();
-  const distance = Math.hypot(npc.x - playerX, npc.y - playerY);
+  const distance = Math.hypot(npc.x - targetX, npc.y - targetY);
 
   // ── landing recovery ─────────────────────────────
   if (ai.jumpState === "jumpAttack") {
@@ -40,13 +40,13 @@ export function hungryKingPhase1(
 
   // ── idle (normal chase + melee + jump start) ─────
   if (ai.jumpState === "idle") {
-    const { x } = chasePlayer(npc, playerX, playerY);
+    const { x } = chasePlayer(npc, targetX, targetY);
 
     tryMeleeAttack({
       npcX: npc.x,
       npcY: npc.y,
-      playerX,
-      playerY,
+      playerX: targetX,
+      playerY: targetY,
       range: 40,
       cooldown: 800,
       lastAttackRef,
@@ -56,9 +56,9 @@ export function hungryKingPhase1(
     if (distance > JUMP_THRESHOLD && now - ai.lastJump > JUMP_COOLDOWN) {
       ai.jumpState = "jumping";
       ai.jumpStartTime = now;
-      ai.jumpTargetX = playerX;
+      ai.jumpTargetX = targetX;
       ai.lastJump = now;
-      npc.jumpLandingX = playerX;
+      npc.jumpLandingX = targetX;
       return { x, y: npc.y, state: "jumping" };
     }
 
@@ -80,7 +80,7 @@ export function hungryKingPhase1(
   ai.landingTime = now;
   npc.jumpLandingX = undefined;
 
-  if (Math.hypot(ai.jumpTargetX - playerX, GROUND_Y - playerY) < 150) {
+  if (Math.hypot(ai.jumpTargetX - targetX, GROUND_Y - targetY) < 150) {
     onMeleeHit();
   }
 

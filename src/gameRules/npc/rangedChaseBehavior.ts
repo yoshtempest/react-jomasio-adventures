@@ -22,8 +22,8 @@ export function rangedChaseBehavior(
 ) {
   const {
     npc,
-    playerX,
-    playerY,
+    targetX,
+    targetY,
     projectile,
     setProjectile,
     lastAttackRef,
@@ -38,8 +38,8 @@ export function rangedChaseBehavior(
     const hit = tryMeleeAttack({
       npcX: npc.x,
       npcY: npc.y,
-      playerX,
-      playerY,
+      playerX: targetX,
+      playerY: targetY,
       range: melee.range,
       cooldown: melee.cooldown,
       lastAttackRef,
@@ -75,7 +75,7 @@ export function rangedChaseBehavior(
     };
   }
 
-  const { x } = chasePlayer(npc, playerX, playerY);
+  const { x } = chasePlayer(npc, targetX, targetY);
 
   return {
     x,

@@ -40,7 +40,7 @@
 }
 
 .selected {
-  outline: 2px solid #fff;
+  outline: 2px solid var(--text-color);
   outline-offset: 2px;
 }
 
@@ -59,7 +59,7 @@
 .titleName {
   font-weight: bold;
   font-size: 14px;
-  color: #fff;
+  color: var(--text-color);
 }
 
 .titleDesc {
@@ -72,14 +72,14 @@
   width: 100%;
   height: 4px;
   border-radius: 2px;
-  background: #333;
+  background: var(--border-default);
   margin-top: 4px;
   overflow: hidden;
 }
 
 .progressFill {
   height: 100%;
-  background: #4ade80;
+  background: var(--success);
   border-radius: 2px;
   transition: width 0.3s;
 }
@@ -104,7 +104,7 @@
   font-size: 10px;
   padding: 4px 8px;
   border-radius: 3px;
-  background: #4ade80;
+  background: var(--success);
   color: #000;
   font-weight: bold;
   cursor: pointer;

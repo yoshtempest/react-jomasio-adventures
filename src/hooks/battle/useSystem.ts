@@ -31,6 +31,9 @@ type Props = {
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;
   lastBlockPressRef: React.RefObject<number>;
   npcPhaseRef: React.RefObject<number>;
+  npcTargetIsPetRef: React.RefObject<boolean>;
+  petXRef: React.RefObject<number>;
+  petYRef: React.RefObject<number>;
 };
 
 export function useBattleSystem(props: Props) {
@@ -51,6 +54,9 @@ export function useBattleSystem(props: Props) {
     setPlayer,
     lastBlockPressRef,
     npcPhaseRef,
+    npcTargetIsPetRef,
+    petXRef,
+    petYRef,
   } = props;
 
   const [npcPhase, setNpcPhase] = useState(1);
@@ -147,6 +153,27 @@ export function useBattleSystem(props: Props) {
     setPlayer,
   });
 
+  // 🐐 pet damage + pet AI
+  const petDamageRef = useRef(() => {});
+  petDamageRef.current = () => {
+    if (isEnding.current) return;
+    const dmg = calculateDamageToNpc(8, npcArmor);
+    setNpcHP((hp) => Math.max(0, hp - dmg));
+    spawnDamageRef.current?.(dmg, npcX, npcY, "pet");
+    hitstopRef.current = Date.now() + 40;
+  };
+
+  const { pet, damagePet, resetPet } = usePetBattle({
+    enabled: hasPet,
+    playerX,
+    playerY,
+    npcX,
+    npcY,
+    isPaused: isEnding.current,
+    onPetDamage: () => petDamageRef.current(),
+    hitstopRef,
+  });
+
   // 🤖 npc
   const npcBattle = useNpcBattle({
     npcLevel,
@@ -159,6 +186,7 @@ export function useBattleSystem(props: Props) {
     player,
     totalArmor,
     damagePlayerHp,
+    damagePet,
     setPlayer,
     setNpcHP,
     totalReflect,
@@ -171,6 +199,9 @@ export function useBattleSystem(props: Props) {
     blockGauge,
     setBlockGauge,
     lastBlockPressRef,
+    npcTargetIsPetRef,
+    petXRef,
+    petYRef,
   });
 
   // 🧠 lifecycle
@@ -187,26 +218,14 @@ export function useBattleSystem(props: Props) {
     isEnding,
   });
 
-  // 🐐 pet damage
-  const petDamageRef = useRef(() => {});
-  petDamageRef.current = () => {
-    if (isEnding.current) return;
-    const dmg = calculateDamageToNpc(8, npcArmor);
-    setNpcHP((hp) => Math.max(0, hp - dmg));
-    spawnDamageRef.current?.(dmg, npcX, npcY, "pet");
-    hitstopRef.current = Date.now() + 40;
-  };
-
-  const { pet } = usePetBattle({
-    enabled: hasPet,
-    playerX,
-    playerY,
-    npcX,
-    npcY,
-    isPaused: isEnding.current,
-    onPetDamage: () => petDamageRef.current(),
-    hitstopRef,
-  });
+  // sync pet position into refs whenever pet changes
+  // (refs are owned by useScene, shared with useNpcAI)
+  useEffect(() => {
+    if (pet) {
+      petXRef.current = pet.x;
+      petYRef.current = pet.y;
+    }
+  }, [pet?.x, pet?.y, petXRef, petYRef]);
 
   // 🔄 reset
   const resetBattle = () => {
@@ -226,6 +245,7 @@ export function useBattleSystem(props: Props) {
       setStacks: playerBattle.setStacks,
       setDelicia: playerBattle.setDelicia,
     });
+    resetPet();
   };
 
   return {
@@ -252,6 +272,7 @@ export function useBattleSystem(props: Props) {
     piercings: effects.piercings,
     isExploding: effects.isExploding,
     pet,
+    damagePet,
     damageNumbers,
     spawnDamageNumber,
     char,

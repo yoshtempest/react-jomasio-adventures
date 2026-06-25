@@ -14,7 +14,7 @@
   max-width: 360px;
   padding: 32px;
   background: var(--surface-primary);
-  border: 1px solid #333;
+  border: 1px solid var(--border-default);
   border-radius: 8px;
 }
 
@@ -38,21 +38,21 @@
   font-size: var(--small);
   color: #e0e0e0;
   background: #0f0f23;
-  border: 1px solid #333;
+  border: 1px solid var(--border-default);
   border-radius: 4px;
   outline: none;
   transition: border-color 0.2s;
 }
 
 .input:focus {
-  border-color: #666;
+  border-color: var(--text-hint);
 }
 
 .button {
   padding: 12px;
   font-size: var(--small);
   font-weight: 600;
-  color: #fff;
+  color: var(--text-color);
   background: #3a3a5c;
   border: none;
   border-radius: 4px;

@@ -3,11 +3,15 @@ import type { NPCData } from "@/utils/types/npc/npcProgress";
 export const NPCS: Record<string, NPCData> = {
   /* Jomasio */
   hungryDeath: { type: "hungryDeath", class: "common" },
+  piupiu: { type: "piupiu", class: "rare" },
+  rice: { type: "rice", class: "common" },
+  bean: { type: "bean", class: "common" },
   jhowsimar: { type: "jhowsimar", class: "rare" },
   goat: { type: "goat", class: "rare" },
   vandinhaFragment: { type: "vandinhaFragment", class: "epic" },
   trueVandinha: { type: "trueVanidnha", class: "legendary" },
   deise: { type: "deise", class: "boss" },
+  necromancer: { type: "necromancer", class: "boss" },
   slimita: { type: "slimita", class: "boss" },
   hungryKing: { type: "hungryKing", class: "boss" } /* culto de Samurion */,
   denis: { type: "denis", class: "boss" },

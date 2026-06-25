@@ -65,7 +65,7 @@
 .shieldTrack {
   width: 200px;
   height: 6px;
-  background: #555;
+  background: var(--border-medium);
   border-radius: 2px;
   overflow: hidden;
   margin-top: 2px;
@@ -75,4 +75,40 @@
   height: 100%;
   background: #e0e0e0;
   transition: width 0.2s;
+}
+
+.petTrack {
+  position: relative;
+  width: 200px;
+  height: 14px;
+  background: var(--border-default);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 4px;
+  border: 1px solid var(--text-muted);
+}
+
+.petFill {
+  height: 100%;
+  background: var(--success);
+  transition: width 0.2s;
+}
+
+.petLabel {
+  position: absolute;
+  left: 4px;
+  top: 0;
+  font-size: 10px;
+  line-height: 14px;
+  color: var(--text-color);
+  font-weight: bold;
+}
+
+.petText {
+  position: absolute;
+  right: 4px;
+  top: 0;
+  font-size: 10px;
+  line-height: 14px;
+  color: var(--text-color);
 }

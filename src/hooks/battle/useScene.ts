@@ -132,6 +132,13 @@ export function useBattleScene({
 
   const isPaused = showVictory || showDefeat || showIntro || showOutro != null;
 
+  // 🎯 NPC targeting refs — shared between AI and battle system
+  // Refs avoid circular dependency (AI needs pet pos, battle needs NPC pos)
+  const npcTargetIsPetRef = useRef(false);
+  const petXRef = useRef(0);
+  const petYRef = useRef(0);
+  const hasPetRef = useRef(false);
+
   const npc = useNpcAI({
     playerX: player.x,
     playerY: player.y,
@@ -147,6 +154,10 @@ export function useBattleScene({
     obstacles: map?.obstacles,
     hitstopRef: refs.hitstopRef,
     npcStaggerRef: refs.npcStaggerRef,
+    petXRef,
+    petYRef,
+    hasPetRef,
+    npcTargetIsPetRef,
   });
 
   const battle = useBattleSystem({
@@ -193,7 +204,21 @@ export function useBattleScene({
     setPlayer,
     lastBlockPressRef,
     npcPhaseRef,
+    npcTargetIsPetRef,
+    petXRef,
+    petYRef,
   });
+
+  // sync pet position to shared refs so useNpcAI can read it
+  useEffect(() => {
+    if (battle.pet) {
+      petXRef.current = battle.pet.x;
+      petYRef.current = battle.pet.y;
+      hasPetRef.current = true;
+    } else {
+      hasPetRef.current = false;
+    }
+  }, [battle.pet?.x, battle.pet?.y, battle.pet, petXRef, petYRef]);
 
   const {
     comboCount,

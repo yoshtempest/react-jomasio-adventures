@@ -15,14 +15,14 @@ export function deisePhase1(
   ai: DeiseAI,
 ): Phase1Result {
   const {
-    npc, playerX, playerY,
+    npc, playerX, playerY, targetX, targetY,
     lastAttackRef, onMeleeHit,
     onSummon, projectile, setProjectile,
     setForceIdle,
   } = ctx;
 
   const now = Date.now();
-  const distance = Math.hypot(npc.x - playerX, npc.y - playerY);
+  const distance = Math.hypot(npc.x - targetX, npc.y - targetY);
   const isPlayerClose = distance <= CLOSE_RANGE;
   const canAct = now - ai.lastAction >= MIN_ACTION_GAP;
 
@@ -56,8 +56,8 @@ export function deisePhase1(
   tryMeleeAttack({
     npcX: npc.x,
     npcY: npc.y,
-    playerX,
-    playerY,
+    playerX: targetX,
+    playerY: targetY,
     range: 300,
     cooldown: 2000,
     lastAttackRef,

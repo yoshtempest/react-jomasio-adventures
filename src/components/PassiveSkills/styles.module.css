@@ -2,7 +2,7 @@
   font-weight: bold;
   color: var(--text-secondary);
   font-size: 14px;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid var(--border-default);
   padding-bottom: 4px;
 }
 

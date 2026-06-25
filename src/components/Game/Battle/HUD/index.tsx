@@ -18,6 +18,8 @@ type BattleHUDState = {
   hitsToSpecial: number;
   blockGauge: number;
   blockLimit: number;
+  petHP?: number;
+  petMaxHp?: number;
 };
 
 type NpcStats = {
@@ -67,6 +69,18 @@ export function BattleHUD({ battle, npcStats, npcType, npcLevel, summons }: Prop
                 blockGauge={battle.blockGauge}
                 blockLimit={battle.blockLimit}
               />
+              {battle.petHP !== undefined && battle.petMaxHp !== undefined && (
+                <div className={styles.petTrack}>
+                  <span className={styles.petLabel}>Pet</span>
+                  <div
+                    className={styles.petFill}
+                    style={{
+                      width: `${(battle.petHP / battle.petMaxHp) * 100}%`,
+                    }}
+                  />
+                  <span className={styles.petText}>{battle.petHP}/{battle.petMaxHp}</span>
+                </div>
+              )}
             </div>
             <Deliciometro
               delicia={battle.delicia}

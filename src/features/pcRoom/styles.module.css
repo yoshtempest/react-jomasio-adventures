@@ -17,7 +17,7 @@
 
 .classItem {
   padding: 20px;
-  border: 2px solid #555;
+  border: 2px solid var(--border-medium);
   position: relative;
   background-color: var(--primary-color);
   border-radius: 5px;

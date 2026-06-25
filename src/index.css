@@ -266,7 +266,7 @@ h2 {
 
 .modal {
   background: var(--primary-color);
-  color: #fff;
+  color: var(--text-color);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -372,14 +372,14 @@ h2 {
 .xpBar {
   width: 90%;
   height: 6px;
-  background: #333;
+  background: var(--border-default);
   border-radius: 4px;
   overflow: hidden;
 }
 
 .xpFill {
   height: 90%;
-  background: #4ade80;
+  background: var(--success);
   transition: width 0.3s;
 }
 
@@ -393,7 +393,7 @@ h2 {
   right: 0%;
   background: var(--surface-dark);
   align-items: center;
-  border: 2px solid #555;
+  border: 2px solid var(--border-medium);
   border-radius: 8px;
   z-index: 999;
 }

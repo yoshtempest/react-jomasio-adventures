@@ -12,15 +12,15 @@ const MELEE_RANGE = 50;
 const MELEE_COOLDOWN = 800;
 
 export function slimitaBehavior(ctx: BehaviorContext) {
-  const { npc, playerX, playerY, npcPhase, onMeleeHit, projectile, setProjectile, setForceIdle, lastAttackRef } = ctx;
+  const { npc, playerX, playerY, targetX, targetY, npcPhase, onMeleeHit, projectile, setProjectile, setForceIdle, lastAttackRef } = ctx;
 
   const now = Date.now();
 
-  const state = getSlimitaState(npc, playerX);
+  const state = getSlimitaState(npc, targetX);
 
   // 🟢 FASE 1
   if (npcPhase === 1) {
-    const distanceX = Math.abs(npc.x - playerX);
+    const distanceX = Math.abs(npc.x - targetX);
 
     if (distanceX > FAR_DISTANCE_X) {
       const canPull = !projectile && now - state.lastPullThrow >= PULL_COOLDOWN;
@@ -46,15 +46,15 @@ export function slimitaBehavior(ctx: BehaviorContext) {
     tryMeleeAttack({
       npcX: npc.x,
       npcY: npc.y,
-      playerX,
-      playerY,
+      playerX: targetX,
+      playerY: targetY,
       range: MELEE_RANGE,
       cooldown: MELEE_COOLDOWN,
       lastAttackRef,
       onHit: onMeleeHit,
     });
 
-    const { x } = chasePlayer(npc, playerX, playerY);
+    const { x } = chasePlayer(npc, targetX, targetY);
 
     return {
       x,
@@ -66,14 +66,14 @@ export function slimitaBehavior(ctx: BehaviorContext) {
 
   switch (state.state) {
     case "idle": {
-      const { x, y } = chasePlayer(npc, playerX, playerY);
+      const { x, y } = chasePlayer(npc, targetX, targetY);
 
       state.state = "air";
       state.startTime = now;
-      state.targetX = playerX;
+      state.targetX = targetX;
 
       npc.state = "jumping";
-      npc.jumpLandingX = playerX;
+      npc.jumpLandingX = targetX;
 
       return { x, y };
     }
@@ -99,7 +99,7 @@ export function slimitaBehavior(ctx: BehaviorContext) {
         state.startTime = now;
         npc.jumpLandingX = undefined;
 
-        if (isNear(npc.x, npc.y, playerX, playerY, 140)) {
+        if (isNear(npc.x, npc.y, targetX, targetY, 140)) {
           onMeleeHit();
         }
 

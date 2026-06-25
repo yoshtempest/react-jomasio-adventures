@@ -20,8 +20,8 @@
 }
 
 .speechBubble {
-  background: #fff;
-  border: 3px solid #333;
+  background: var(--text-color);
+  border: 3px solid var(--border-default);
   border-radius: 16px;
   padding: 24px 32px;
   max-width: 400px;
@@ -38,7 +38,7 @@
   top: 50%;
   transform: translateY(-50%);
   border: 10px solid transparent;
-  border-right-color: #fff;
+  border-right-color: var(--text-color);
 }
 
 .speechBubble::after {
@@ -48,7 +48,7 @@
   top: 50%;
   transform: translateY(-50%);
   border: 10px solid transparent;
-  border-right-color: #333;
+  border-right-color: var(--border-default);
   z-index: -1;
   width: 0;
 }

@@ -107,7 +107,11 @@ export function BattleScene(props: Props) {
   return (
     <div className={`Master ${className ?? ""}`}>
       <BattleHUD
-        battle={battle}
+        battle={{
+          ...battle,
+          petHP: pet?.hp,
+          petMaxHp: pet?.maxHp,
+        }}
         npcStats={npcStats}
         npcType={npcType}
         npcLevel={npcLevel}

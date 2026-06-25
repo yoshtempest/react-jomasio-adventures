@@ -13,11 +13,11 @@
 }
 
 .player {
-  color: #ffd700;
+  color: var(--gold);
 }
 
 .npc {
-  color: #ff4444;
+  color: var(--danger);
 }
 
 .special {

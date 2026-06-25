@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { npcBehaviors } from "@/gameRules/battle/behaviors/npc/index";
+import { CROUCHED_STATES } from "@/gameRules/movement/battle";
 import { useProjectile } from "./useProjectile";
 import {
   getNpcDirection,
@@ -24,6 +25,10 @@ type Props = {
   obstacles?: BattleObstacle[];
   hitstopRef: React.RefObject<number>;
   npcStaggerRef: React.RefObject<number>;
+  petXRef?: React.RefObject<number>;
+  petYRef?: React.RefObject<number>;
+  hasPetRef?: React.RefObject<boolean>;
+  npcTargetIsPetRef?: React.RefObject<boolean>;
 };
 
 export function useNpcAI({
@@ -41,6 +46,10 @@ export function useNpcAI({
   obstacles,
   hitstopRef,
   npcStaggerRef,
+  petXRef,
+  petYRef,
+  hasPetRef,
+  npcTargetIsPetRef,
 }: Props) {
   const [npc, setNpc] = useState<NPCBattleState>({
     x: 900,
@@ -58,6 +67,8 @@ export function useNpcAI({
   playerXRef.current = playerX;
   const playerYRef = useRef(playerY);
   playerYRef.current = playerY;
+  const playerStateRef = useRef(playerState);
+  playerStateRef.current = playerState;
   const forceIdleRef = useRef(forceIdle);
   forceIdleRef.current = forceIdle;
   const isPausedRef = useRef(isPaused);
@@ -106,6 +117,32 @@ export function useNpcAI({
   };
 
   useEffect(() => {
+    function getTarget(n: NPCBattleState) {
+      const isCrouched = CROUCHED_STATES.has(playerStateRef.current);
+
+      if (hasPetRef?.current) {
+        const px = petXRef?.current ?? 0;
+        const py = petYRef?.current ?? 0;
+
+        if (isCrouched) {
+          return { targetX: px, targetY: py, targetIsPet: true };
+        }
+
+        const petDist = Math.hypot(px - n.x, py - n.y);
+        const playerDist = Math.hypot(playerXRef.current - n.x, playerYRef.current - n.y);
+
+        if (petDist < playerDist) {
+          return { targetX: px, targetY: py, targetIsPet: true };
+        }
+      }
+
+      return {
+        targetX: playerXRef.current,
+        targetY: playerYRef.current,
+        targetIsPet: false,
+      };
+    }
+
     const interval = setInterval(() => {
       setNpc((n) => {
         if (isPausedRef.current) return n;
@@ -122,11 +159,20 @@ export function useNpcAI({
         const behavior =
           npcBehaviors[npcTypeRef.current] || npcBehaviors.default;
 
+        const { targetX, targetY, targetIsPet } = getTarget(n);
+
+        // expose target info for npc melee/ranged hit
+        if (npcTargetIsPetRef) {
+          npcTargetIsPetRef.current = targetIsPet;
+        }
+
         const result = behavior({
           npc: n,
           playerX: playerXRef.current,
-          npcPhase: npcPhaseRef.current,
           playerY: playerYRef.current,
+          targetX,
+          targetY,
+          npcPhase: npcPhaseRef.current,
           projectile: projectileRef.current,
           setProjectile,
           lastAttackRef,
@@ -153,7 +199,7 @@ export function useNpcAI({
     }, 20);
 
     return () => clearInterval(interval);
-  }, [hitstopRef, npcStaggerRef, npcPhaseRef]);
+  }, [hitstopRef, npcStaggerRef, npcPhaseRef, npcTargetIsPetRef, hasPetRef, petXRef, petYRef]);
 
   const updateNpc = (partial: Partial<NPCBattleState>) => {
     setNpc((n) => ({ ...n, ...partial }));

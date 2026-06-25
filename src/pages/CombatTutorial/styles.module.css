@@ -21,7 +21,7 @@
 }
 
 .taskText {
-  color: #fff;
+  color: var(--text-color);
   font-size: 18px;
   font-weight: 600;
   margin: 0;
@@ -49,12 +49,12 @@
 }
 
 .dotDone {
-  background: #4ade80;
+  background: var(--success);
   box-shadow: 0 0 6px rgba(74, 222, 128, 0.6);
 }
 
 .dotActive {
-  background: #fff;
+  background: var(--text-color);
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
   transform: scale(1.3);
 }

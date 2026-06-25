@@ -16,7 +16,7 @@
   gap: 8px;
   flex-shrink: 0;
   width: 40%;
-  border-right: 1px solid #333;
+  border-right: 1px solid var(--border-default);
   padding-right: 8px;
 }
 
@@ -40,20 +40,15 @@
   flex-direction: column;
   gap: 2px;
   background: var(--surface-primary);
-  border: 2px solid #333;
+  border: 2px solid var(--border-default);
   padding: 8px;
   transition: border-color 0.15s;
-}
-
-.selected {
-  outline: 2px solid yellow;
-  outline-offset: 1px;
 }
 
 .lockedCard {
   opacity: 0.4;
   filter: grayscale(0.8);
-  border-color: #555;
+  border-color: var(--border-medium);
   background: repeating-linear-gradient(
     45deg,
     rgba(255, 255, 255, 0.02) 0px,
@@ -84,12 +79,12 @@
 
 .lockedCard::before {
   left: -4px;
-  border-right: 2px solid #555;
+  border-right: 2px solid var(--border-medium);
 }
 
 .lockedCard::after {
   right: -4px;
-  border-left: 2px solid #555;
+  border-left: 2px solid var(--border-medium);
 }
 
 .chainLeft,
@@ -199,7 +194,7 @@
   font-size: var(--smaller);
   background: var(--surface-card);
   color: var(--text-secondary);
-  border: 1px solid #333;
+  border: 1px solid var(--border-default);
   border-radius: 6px;
   cursor: default;
   transition:
@@ -209,7 +204,7 @@
 
 .filterTabActive {
   background: #2e7d32;
-  color: #fff;
+  color: var(--text-color);
   border-color: #2e7d32;
 }
 
@@ -233,7 +228,7 @@
   flex-direction: column;
   gap: 2px;
   background: var(--surface-primary);
-  border: 2px solid #333;
+  border: 2px solid var(--border-default);
   border-radius: 6px;
   padding: 8px;
   transition: border-color 0.15s;
@@ -244,4 +239,8 @@
   color: var(--text-hint);
   padding: 24px;
   font-size: 14px;
+}
+
+.selected {
+  border: 2px solid var(--accent-color);
 }

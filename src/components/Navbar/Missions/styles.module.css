@@ -26,7 +26,7 @@
 .tab {
   background: var(--surface-card);
   color: var(--text-secondary);
-  border: 1px solid #333;
+  border: 1px solid var(--border-default);
   padding: 8px 16px;
   border-radius: 6px;
   cursor: pointer;
@@ -38,12 +38,12 @@
 
 .tab:hover {
   background: #2a2a2a;
-  color: #fff;
+  color: var(--text-color);
 }
 
 .tabActive {
   background: #2e7d32;
-  color: #fff;
+  color: var(--text-color);
   border-color: #2e7d32;
 }
 
@@ -67,14 +67,14 @@
   margin-bottom: 12px;
   padding: 6px 12px;
   background: var(--surface-card);
-  border: 1px solid #333;
+  border: 1px solid var(--border-default);
   border-radius: 6px;
   font-size: 13px;
   color: var(--text-secondary);
 }
 
 .timerBar strong {
-  color: #fff;
+  color: var(--text-color);
   font-family: monospace;
   font-size: 14px;
   letter-spacing: 1px;

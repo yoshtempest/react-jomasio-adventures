@@ -39,10 +39,10 @@ p {
 
 .freqBadge[data-freq="daily"] {
   background: #1565c0;
-  color: #fff;
+  color: var(--text-color);
 }
 
 .freqBadge[data-freq="weekly"] {
   background: #6a1b9a;
-  color: #fff;
+  color: var(--text-color);
 }

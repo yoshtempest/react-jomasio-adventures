@@ -10,7 +10,7 @@ export function hungryKingPhase2(
   ctx: BehaviorContext,
   ai: HungryKingAI,
 ): { x: number; y: number; state?: NPCBattleState["state"] } {
-  const { npc, playerX, playerY, lastAttackRef, onMeleeHit, onSummon } = ctx;
+  const { npc, targetX, targetY, lastAttackRef, onMeleeHit, onSummon } = ctx;
 
   if (!ai.hasSummoned) {
     ai.hasSummoned = true;
@@ -25,13 +25,13 @@ export function hungryKingPhase2(
     return { x: npc.x, y: npc.y, state: "pitch" };
   }
 
-  const { x } = chasePlayer(npc, playerX, playerY);
+  const { x } = chasePlayer(npc, targetX, targetY);
 
   tryMeleeAttack({
     npcX: npc.x,
     npcY: npc.y,
-    playerX,
-    playerY,
+    playerX: targetX,
+    playerY: targetY,
     range: 40,
     cooldown: 800,
     lastAttackRef,

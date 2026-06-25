@@ -24,7 +24,7 @@
 .rewardValue {
   font-size: var(--low-medium);
   font-weight: 700;
-  color: #fff;
+  color: var(--text-color);
 }
 
 .rankValue {

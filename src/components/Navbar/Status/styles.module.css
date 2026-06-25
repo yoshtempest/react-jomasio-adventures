@@ -11,7 +11,7 @@
   font-weight: bold;
   color: var(--text-secondary);
   font-size: 14px;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid var(--border-default);
   padding-bottom: 4px;
 }
 
@@ -84,7 +84,7 @@
   justify-content: space-between;
   height: 10vh;
   background: var(--surface-primary);
-  border: 1px solid #333;
+  border: 1px solid var(--border-default);
   border-radius: 6px;
   padding: 8px 12px;
 }
@@ -98,7 +98,7 @@
 .rankName {
   font-size: 14px;
   font-weight: bold;
-  color: #fff;
+  color: var(--text-color);
 }
 
 .rankLevels {
