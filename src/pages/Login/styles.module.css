@@ -20,7 +20,7 @@
 
 .title {
   margin: 0;
-  font-size: 24px;
+  font-size: var(--medium);
   color: #e0e0e0;
   text-align: center;
 }
@@ -35,7 +35,7 @@
 
 .input {
   padding: 10px 12px;
-  font-size: 16px;
+  font-size: var(--small);
   color: #e0e0e0;
   background: #0f0f23;
   border: 1px solid #333;
@@ -50,7 +50,7 @@
 
 .button {
   padding: 12px;
-  font-size: 16px;
+  font-size: var(--small);
   font-weight: 600;
   color: #fff;
   background: #3a3a5c;

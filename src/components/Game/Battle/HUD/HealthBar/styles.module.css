@@ -22,7 +22,7 @@
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 12px;
+  font-size: var(--smaller);
   font-weight: bold;
   text-shadow: 1px 1px 2px black;
   pointer-events: none;

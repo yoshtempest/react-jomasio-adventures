@@ -44,4 +44,14 @@ export const skinShopIfNakamuraDialogue = [
     name: "Marcelinho",
     message: "Sério?",
   },
+  {
+    src: "/assets/npcs/bruninho/right.svg",
+    name: "Bruninho",
+    message: "Simm!",
+  },
+  {
+    src: "/assets/player/marcelo/nakamura.svg",
+    name: "Marcelinho",
+    message: "Entre o céu e a Terra, eu sou o mais honrado.",
+  },
 ];

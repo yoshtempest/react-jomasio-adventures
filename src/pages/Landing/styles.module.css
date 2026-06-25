@@ -24,13 +24,13 @@
   align-items: center;
   gap: 12px;
   margin: 0 0 40px;
-  font-size: 2rem;
+  font-size: var(--small);
   color: #fff;
 }
 
 .sectionDesc {
   margin: -24px 0 40px;
-  font-size: 16px;
+  font-size: var(--small);
   color: rgba(255, 255, 255, 0.6);
 }
 
@@ -49,6 +49,6 @@
   }
 
   .sectionTitle {
-    font-size: 24px;
+    font-size: var(--medium);
   }
 }

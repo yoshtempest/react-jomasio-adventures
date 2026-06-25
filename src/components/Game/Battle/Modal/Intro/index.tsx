@@ -2,6 +2,7 @@ import { asset } from "@/utils/asset";
 import styles from "./styles.module.css";
 import { useEffect, useRef } from "react";
 import { useAudio } from "@/contexts/AudioContext";
+import { useGameControls } from "@/contexts/GameControlsContext";
 
 type Props = {
   playerCharacter: string;
@@ -14,6 +15,7 @@ export function BattleIntro({ playerCharacter, npcType, onSkip }: Props) {
   const { sfxVolume } = useAudio();
   const sfxVolumeRef = useRef(sfxVolume);
   sfxVolumeRef.current = sfxVolume;
+  const { pushControls, popControls } = useGameControls();
 
   useEffect(() => {
     const audio = new Audio(
@@ -44,6 +46,25 @@ export function BattleIntro({ playerCharacter, npcType, onSkip }: Props) {
 
     onSkip();
   };
+
+  const handleSkipRef = useRef(handleSkip);
+  handleSkipRef.current = handleSkip;
+
+  useEffect(() => {
+    const controls = {
+      onUp: () => true,
+      onDown: () => true,
+      onLeft: () => true,
+      onRight: () => true,
+      onConfirm: () => {
+        handleSkipRef.current();
+        return true;
+      },
+    };
+
+    pushControls(controls);
+    return () => popControls();
+  }, [pushControls, popControls]);
   return (
     <div className="overlay">
       <div className={styles.left}>

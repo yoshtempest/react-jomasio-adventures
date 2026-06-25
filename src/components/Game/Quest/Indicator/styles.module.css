@@ -10,7 +10,7 @@
 .arrow {
   position: absolute;
   z-index: 20;
-  font-size: 20px;
+  font-size: var(--low-medium);
   text-align: center;
   animation: bounce 1s ease-in-out infinite;
   pointer-events: none;
@@ -35,7 +35,7 @@
 .badge {
   position: absolute;
   z-index: 25;
-  font-size: 16px;
+  font-size: var(--small);
   font-weight: bold;
   color: #fff;
   background: #ffd700;

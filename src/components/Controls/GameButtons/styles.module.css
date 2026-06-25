@@ -63,7 +63,7 @@
     display: flex;
     width: 5.4vh;
     height: 5.4vh;
-    font-size: 16px;
+    font-size: var(--small);
   }
   .gameButtons {
     display: flex;

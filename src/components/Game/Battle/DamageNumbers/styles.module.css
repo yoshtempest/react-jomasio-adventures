@@ -1,7 +1,7 @@
 .number {
   position: absolute;
   font-weight: bold;
-  font-size: 20px;
+  font-size: var(--low-medium);
   pointer-events: none;
   text-shadow:
     1px 1px 0 rgba(0, 0, 0, 0.8),
@@ -62,7 +62,7 @@
 
 .blocked {
   color: #00ffff;
-  font-size: 16px;
+  font-size: var(--small);
   text-transform: uppercase;
   text-shadow:
     0 0 6px rgba(0, 255, 255, 0.8),

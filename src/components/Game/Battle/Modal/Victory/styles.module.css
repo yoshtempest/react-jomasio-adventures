@@ -32,7 +32,7 @@
 }
 
 .rankText {
-  font-size: 12px;
+  font-size: var(--smaller);
   color: #fbbf24;
 }
 
@@ -57,11 +57,10 @@
 .button {
   align-self: center;
   padding: 10px 32px;
-  font-size: 16px;
+  font-size: var(--small);
   font-weight: 700;
   border: none;
   border-radius: 8px;
-  background: linear-gradient(135deg, #4a9eff, #b44aff);
   color: #fff;
   cursor: pointer;
   transition: opacity 0.2s;

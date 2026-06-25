@@ -166,7 +166,7 @@
 }
 
 .emptySlot {
-  font-size: 12px;
+  font-size: var(--smaller);
   color: #666;
   font-style: italic;
 }
@@ -196,7 +196,7 @@
 
 .filterTab {
   padding: 4px 10px;
-  font-size: 12px;
+  font-size: var(--smaller);
   background: #1a1a1a;
   color: #aaa;
   border: 1px solid #333;

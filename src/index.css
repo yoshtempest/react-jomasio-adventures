@@ -2,6 +2,11 @@
   --primary-color: #121b31;
   --background-color: #0a0500;
 
+  --smaller: 12px;
+  --small: 16px;
+  --low-medium: 20px;
+  --medium: 24px;
+
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -63,13 +68,13 @@ button {
 }
 
 h1 {
-  font-size: 24px;
+  font-size: var(--medium);
   font-weight: bold;
   color: white;
 }
 
 h2 {
-  font-size: 16px;
+  font-size: var(--small);
   color: white;
 }
 
@@ -197,7 +202,7 @@ h2 {
 }
 
 .sectionTitle {
-  font-size: 16px;
+  font-size: var(--small);
   font-weight: 600;
   color: #ddd;
   margin: 0;
@@ -403,7 +408,7 @@ h2 {
 }
 
 input::placeholder {
-  font-size: 16px;
+  font-size: var(--small);
   font-weight: bold;
   color: gray;
 }

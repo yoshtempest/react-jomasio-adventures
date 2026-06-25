@@ -22,7 +22,7 @@
 }
 
 .title {
-  font-size: 20px;
+  font-size: var(--low-medium);
   font-weight: bold;
   color: #ffd700;
   text-align: center;
@@ -59,7 +59,7 @@
 }
 
 .slotLabel {
-  font-size: 12px;
+  font-size: var(--smaller);
   font-weight: bold;
   color: #888;
   min-width: 50px;

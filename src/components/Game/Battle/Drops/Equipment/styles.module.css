@@ -6,13 +6,13 @@
 }
 
 .dropSlot {
-  font-size: 12px;
+  font-size: var(--smaller);
   color: #777;
   margin-left: auto;
 }
 
 .enhanceBadge {
-  font-size: 12px;
+  font-size: var(--smaller);
   color: #ffd700;
   margin-left: 4px;
   font-weight: bold;

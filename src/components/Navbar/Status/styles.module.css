@@ -24,7 +24,7 @@
 }
 
 .fontSize {
-  font-size: 12px;
+  font-size: var(--smaller);
   margin-top: 4px;
 }
 
@@ -66,7 +66,7 @@
     height: 40%;
   }
   .flexColumn p {
-    font-size: 12px;
+    font-size: var(--smaller);
   }
 }
 
@@ -107,7 +107,7 @@
 }
 
 .rankBuff {
-  font-size: 12px;
+  font-size: var(--smaller);
   color: #4ade80;
   font-weight: bold;
 }

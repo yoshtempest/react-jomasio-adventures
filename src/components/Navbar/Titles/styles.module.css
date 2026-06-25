@@ -45,7 +45,7 @@
 }
 
 .iconBox {
-  font-size: 24px;
+  font-size: var(--medium);
   width: 36px;
   text-align: center;
   flex-shrink: 0;

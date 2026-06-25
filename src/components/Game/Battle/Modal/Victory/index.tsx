@@ -77,12 +77,11 @@ export function VictoryModal({
               keyDrop={rewards?.keyDrop ?? null}
             />
             <TitleProgresses />
+            <button className={styles.button} onClick={onContinue}>
+              Continuar
+            </button>
           </div>
         </div>
-
-        <button className={styles.button} onClick={onContinue}>
-          Continuar
-        </button>
       </div>
     </div>
   );

@@ -15,14 +15,14 @@
 }
 
 .rewardLabel {
-  font-size: 12px;
+  font-size: var(--smaller);
   color: #999;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .rewardValue {
-  font-size: 20px;
+  font-size: var(--low-medium);
   font-weight: 700;
   color: #fff;
 }

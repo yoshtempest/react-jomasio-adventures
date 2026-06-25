@@ -67,7 +67,7 @@
 @media (max-width: 768px) {
   .ctaButtonBig {
     padding: 14px 32px;
-    font-size: 1rem;
+    font-size: var(--small);
   }
 
   .ctaTitle {
