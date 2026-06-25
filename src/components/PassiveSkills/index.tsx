@@ -20,13 +20,8 @@ export function PassiveSkills({ characterId }: { characterId: CharacterId }) {
         return (
           <div
             key={skill.id}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              marginTop: 8,
-              opacity: unlocked ? 1 : 0.5,
-            }}
+            className={styles.skillRow}
+            style={{ opacity: unlocked ? 1 : 0.5 }}
           >
             {unlocked ? (
               <CheckCircle size={16} color="#4ade80" />
@@ -34,7 +29,7 @@ export function PassiveSkills({ characterId }: { characterId: CharacterId }) {
               <Lock size={16} color="#666" />
             )}
             <Icon size={16} color={unlocked ? "#fbbf24" : "#666"} />
-            <span style={{ fontSize: 13, color: unlocked ? "#fff" : "#888" }}>
+            <span className={styles.skillName} style={{ color: unlocked ? "#fff" : "#888" }}>
               {skill.name}
             </span>
             <span className={styles.unlocked}>

@@ -7,6 +7,17 @@
 }
 
 .image {
- width: 100%;
- height: 100%;
+  width: 100%;
+  height: 100%;
+}
+
+.needle {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  width: 2px;
+  height: 20px;
+  background: red;
+  transform-origin: bottom center;
+  transition: transform 0.2s ease;
 }

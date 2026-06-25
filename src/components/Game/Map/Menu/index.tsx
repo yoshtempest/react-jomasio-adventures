@@ -36,11 +36,8 @@ export function MapOverlay({ map, playerX, playerY }: Props) {
             return (
               <div
                 key={`${x}-${y}`}
-                style={{
-                  width: 16,
-                  height: 16,
-                  backgroundColor: color,
-                }}
+                className={styles.cell}
+                style={{ backgroundColor: color }}
               />
             );
           }),

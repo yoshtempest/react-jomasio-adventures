@@ -37,16 +37,9 @@ export function Deliciometro({ delicia, hitsToSpecial = 6 }: Props) {
         className={styles.image}
       />
       <div
+        className={styles.needle}
         style={{
-          position: "absolute",
-          bottom: 10,
-          left: "50%",
-          width: 2,
-          height: 20,
-          background: "red",
-          transformOrigin: "bottom center",
           transform: `translateX(-50%) translateY(50%) rotate(${angle}deg)`,
-          transition: "transform 0.2s ease",
         }}
       />
     </div>

@@ -49,3 +49,30 @@
 .npcRank {
   text-align: right;
 }
+
+.playerInfo {
+  position: absolute;
+  top: 0;
+  left: 80px;
+}
+
+.npcInfo {
+  position: absolute;
+  top: 0;
+  right: 80px;
+}
+
+.shieldTrack {
+  width: 200px;
+  height: 6px;
+  background: #555;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 2px;
+}
+
+.shieldFill {
+  height: 100%;
+  background: #e0e0e0;
+  transition: width 0.2s;
+}

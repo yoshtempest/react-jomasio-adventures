@@ -12,11 +12,10 @@ export function BlockGauge({ blockGauge, blockLimit }: Props) {
   return (
     <div className={styles.colorEffect}>
       <div
+        className={styles.fill}
         style={{
           width: `${pct}%`,
-          height: "100%",
           background: barColor,
-          transition: "width 0.15s",
         }}
       />
       <div className={styles.text}>

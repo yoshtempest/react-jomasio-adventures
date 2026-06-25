@@ -22,11 +22,10 @@ export function HealthBar({ hp, maxHp = 100, reversed = false }: Props) {
   return (
     <div className={styles.container}>
       <div
+        className={styles.fill}
         style={{
           width: `${percentage}%`,
-          height: "100%",
           background: getBackgroundColor(),
-          transition: "width 0.2s, background 0.2s",
           ...(reversed ? { marginLeft: `${100 - percentage}%` } : {}),
         }}
       />

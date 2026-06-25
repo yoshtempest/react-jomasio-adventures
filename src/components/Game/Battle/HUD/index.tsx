@@ -46,7 +46,7 @@ export function BattleHUD({ battle, npcStats, npcType, npcLevel, summons }: Prop
           alt="Player HUD"
           className={styles.image}
         />
-        <div style={{ position: "absolute", top: 0, left: 80 }}>
+        <div className={styles.playerInfo}>
           <h2 className={styles.playerName}>{playerName}</h2>
           <p className={styles.playerRank}>{playerRank}</p>
 
@@ -54,22 +54,11 @@ export function BattleHUD({ battle, npcStats, npcType, npcLevel, summons }: Prop
             <div>
               <HealthBar hp={battle.playerHP} maxHp={battle.playerMaxHp} />
               {battle.playerShield > 0 && (
-                <div
-                  style={{
-                    width: 200,
-                    height: 6,
-                    background: "#555",
-                    borderRadius: 2,
-                    overflow: "hidden",
-                    marginTop: 2,
-                  }}
-                >
+                <div className={styles.shieldTrack}>
                   <div
+                    className={styles.shieldFill}
                     style={{
                       width: `${Math.min(100, (battle.playerShield / battle.playerMaxHp) * 100)}%`,
-                      height: "100%",
-                      background: "#e0e0e0",
-                      transition: "width 0.2s",
                     }}
                   />
                 </div>
@@ -89,7 +78,7 @@ export function BattleHUD({ battle, npcStats, npcType, npcLevel, summons }: Prop
 
       {npcType && (
         <div className={styles.container} style={{ right: 10, top: 10 }}>
-          <div style={{ position: "absolute", top: 0, right: 80 }}>
+          <div className={styles.npcInfo}>
             <h2 className={styles.name}>{getNpcDisplayName(npcType)}</h2>
             {npcLevel !== undefined && (
               <p className={styles.npcRank}>
@@ -117,7 +106,7 @@ export function BattleHUD({ battle, npcStats, npcType, npcLevel, summons }: Prop
               className={styles.container}
               style={{ right: 10, top: 10 + (i + 1) * 100 }}
             >
-              <div style={{ position: "absolute", top: 0, right: 80 }}>
+              <div className={styles.npcInfo}>
                 <h2 className={styles.name}>{getNpcDisplayName(s.npcType)}</h2>
                 <HealthBar hp={s.hp} maxHp={s.maxHp} reversed />
               </div>

@@ -93,7 +93,7 @@ export function Inventory() {
     <div className="containerOfNavbar">
       <h3>Inventário</h3>
       <span>{coins} Kwanzas</span>
-      <span style={{ display: "block", fontSize: 12, color: "#aaa" }}>
+      <span className={styles.slotsLabel}>
         Slots: {slotsLabel}
       </span>
 
