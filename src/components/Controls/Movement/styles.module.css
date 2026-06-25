@@ -11,8 +11,8 @@
   border-radius: 0.8vh;
 
   background: rgba(0, 0, 0, 0.55);
-  color: white;
-  border: 1px solid white;
+  color: var(--text-color);
+  border: 1px solid var(--text-color);
 
   z-index: 99999;
 

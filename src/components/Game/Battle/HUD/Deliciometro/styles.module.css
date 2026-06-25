@@ -2,7 +2,7 @@
  position: relative;
  width: 50px;
  height: 20px;
- border: 2px solid black;
+ border: 2px solid var(--surface-dark);
  background: var(--border-default);
 }
 

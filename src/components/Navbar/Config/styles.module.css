@@ -124,7 +124,7 @@
 }
 
 .selected {
-  outline: 2px solid white;
+  outline: 2px solid var(--text-color);
   background-color: var(--primary-color);
 }
 
@@ -213,7 +213,7 @@
   align-items: center;
 
   z-index: 999;
-  border: 2px solid white;
+  border: 2px solid var(--text-color);
 
   border-radius: 8px;
 }

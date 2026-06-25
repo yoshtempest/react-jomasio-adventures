@@ -6,7 +6,7 @@
 
 .image {
   background-color: var(--background-color);
-  border: 1px solid white;
+  border: 1px solid var(--text-color);
   border-radius: 2px;
   width: 12vh;
   height: 12vh;

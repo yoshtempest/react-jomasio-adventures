@@ -54,7 +54,7 @@ body {
 
 button {
   background-color: var(--primary-color);
-  border: 1px solid black;
+  border: 1px solid var(--surface-dark);
 }
 
 .Master {
@@ -83,12 +83,12 @@ button {
 h1 {
   font-size: var(--medium);
   font-weight: bold;
-  color: white;
+  color: var(--text-color);
 }
 
 h2 {
   font-size: var(--small);
-  color: white;
+  color: var(--text-color);
 }
 
 .Cantina {

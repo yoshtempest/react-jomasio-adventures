@@ -9,13 +9,13 @@
 }
 
 .relative input {
-  background-color: white;
+  background-color: var(--text-color);
   width: 30vw;
   height: 6vh;
   padding: 8px;
   border-radius: 6px;
   border: none;
-  color: black;
+  color: var(--surface-dark);
   font-weight: bold;
   font-size: var(--small);
 }

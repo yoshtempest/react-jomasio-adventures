@@ -27,7 +27,7 @@
 .vs {
   font-size: 5rem;
   font-weight: bold;
-  color: white;
+  color: var(--text-color);
 
   animation:
     pulse 800ms infinite,
@@ -45,7 +45,7 @@
   border-radius: 12px;
 
   background: rgba(255, 255, 255, 0.15);
-  color: white;
+  color: var(--text-color);
 
   font-size: var(--small);
   cursor: pointer;
