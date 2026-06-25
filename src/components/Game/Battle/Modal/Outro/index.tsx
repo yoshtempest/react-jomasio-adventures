@@ -15,7 +15,7 @@ export function BattleOutro({ character, type }: Props) {
       <div className={styles.container}>
         <img
           className={styles.sprite}
-          src={asset(`/assets/player/${character}/default.svg`)}
+          src={asset(`/assets/player/${character}/${type}.svg`)}
           alt={character}
         />
 

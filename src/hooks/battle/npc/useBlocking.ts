@@ -43,6 +43,7 @@ type HandleBlockingParams = {
   npcStaggerRef: React.RefObject<number>;
   npcCooldown: React.RefObject<boolean>;
   lastBlockPressRef: React.RefObject<number>;
+  onFullBlock?: () => void;
 };
 
 export function handleNpcBlocking({
@@ -59,6 +60,7 @@ export function handleNpcBlocking({
   npcStaggerRef,
   npcCooldown,
   lastBlockPressRef,
+  onFullBlock,
 }: HandleBlockingParams): boolean {
   if (isBlocking) {
     if (blockGauge > 0) {
@@ -68,6 +70,7 @@ export function handleNpcBlocking({
         npcStaggerRef.current = Date.now() + 500;
         spawnDamageRef.current?.(0, playerX, playerY - 40, "blocked");
         npcCooldown.current = false;
+        onFullBlock?.();
         setTimeout(() => (npcCooldown.current = true), 500);
         return true;
       }

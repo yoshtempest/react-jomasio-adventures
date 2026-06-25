@@ -23,6 +23,7 @@ export function PlayerBattle({
   character,
 }: Props) {
   const resolvedState = CROUCH_STATE_MAP[state] ?? (state === "charging" ? "idle" : state);
+  const isCrouching = state === "idleCrounched" || state === "walkCrounched";
   const src = asset(`assets/player/${character}/inFight/${resolvedState}.svg`);
 
   const BASE_WIDTH = 1280;
@@ -51,18 +52,20 @@ export function PlayerBattle({
     >
       <img
         src={src}
-        style={{
-          position: "absolute",
-          width: "auto",
-          height: "100%",
-          left: "50%",
-          bottom: 0,
-          transform: `
-            translateX(-50%) 
-            scaleX(${direction === "left" ? -1 : 1})
-          `,
-          pointerEvents: "none",
-        }}
+          style={{
+            position: "absolute",
+            width: "auto",
+            height: "100%",
+            left: "50%",
+            bottom: 0,
+            transform: `
+              translateX(-50%) 
+              scaleX(${direction === "left" ? -1 : 1})
+              ${isCrouching ? "scale(0.7)" : ""}
+            `,
+            transformOrigin: isCrouching ? "bottom center" : undefined,
+            pointerEvents: "none",
+          }}
       />
     </div>
   );

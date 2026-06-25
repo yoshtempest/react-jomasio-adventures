@@ -9,6 +9,7 @@ import {
 } from "@/gameRules/battle/npc/npcPosition";
 import type { NPCBattleState } from "@/utils/types/npc/npc";
 import type { BattleObstacle } from "@/utils/types/maps/battle";
+import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 
 type Props = {
   playerX: number;
@@ -87,6 +88,13 @@ export function useNpcAI({
   const summonTimerRef = useRef(0);
   const obstaclesRef = useRef(obstacles ?? []);
   obstaclesRef.current = obstacles ?? [];
+
+  const { playSound, stopSound } = useSoundEffects();
+  const playSoundRef = useRef(playSound);
+  playSoundRef.current = playSound;
+  const stopSoundRef = useRef(stopSound);
+  stopSoundRef.current = stopSound;
+  const jhowsimarSoundPlayingRef = useRef(false);
 
   useProjectile(
     projectile,
@@ -188,6 +196,18 @@ export function useNpcAI({
         const nextY = result.y ?? n.y;
         const direction = getNpcDirection(nextX, playerXRef.current);
         const distanceX = Math.abs(n.x - playerXRef.current);
+
+        if (npcTypeRef.current === "jhowsimar") {
+          const inRange = distanceX <= 50 && Math.abs(playerYRef.current - n.y) <= 150;
+          if (!inRange && !jhowsimarSoundPlayingRef.current) {
+            jhowsimarSoundPlayingRef.current = true;
+            playSoundRef.current("jhowsimarVemCa", true);
+          } else if (inRange && jhowsimarSoundPlayingRef.current) {
+            jhowsimarSoundPlayingRef.current = false;
+            stopSoundRef.current("jhowsimarVemCa");
+          }
+        }
+
         const collision = applyObstacleCollision(
           nextX,
           nextY,
@@ -198,7 +218,10 @@ export function useNpcAI({
       });
     }, 20);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      stopSoundRef.current("jhowsimarVemCa");
+    };
   }, [hitstopRef, npcStaggerRef, npcPhaseRef, npcTargetIsPetRef, hasPetRef, petXRef, petYRef]);
 
   const updateNpc = (partial: Partial<NPCBattleState>) => {

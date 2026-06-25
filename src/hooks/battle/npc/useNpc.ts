@@ -5,6 +5,7 @@ import { isNpcInRange } from "@/gameRules/battle/range";
 import { isFacingTarget } from "@/gameRules/battle/direction";
 import { handleNpcBlocking } from "./useBlocking";
 import type { DamageType } from "@/hooks/battle/useDamageNumbers";
+import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 
 type Props = {
   npcLevel: number;
@@ -68,6 +69,8 @@ export function useNpcBattle({
   petXRef,
   petYRef,
 }: Props) {
+  const { playSound } = useSoundEffects();
+
   const damagePlayerWithReflect = useCallback((damage: number) => {
     damagePlayerHp(damage);
     if (damage > 0) {
@@ -81,6 +84,12 @@ export function useNpcBattle({
       }
     }
   }, [damagePlayerHp, totalReflect, setNpcHP, spawnDamageRef, npcX, npcY]);
+
+  const onFullBlock = useCallback(() => {
+    if (player.character === "marcelo") {
+      playSound("swordDeflected");
+    }
+  }, [player.character, playSound]);
 
   const applyNpcDamage = useCallback((dmg: number, tx: number, ty: number, isPet: boolean) => {
     if (isPet) {
@@ -105,6 +114,7 @@ export function useNpcBattle({
         npcStaggerRef,
         npcCooldown,
         lastBlockPressRef,
+        onFullBlock,
       });
       if (blocked) return;
 
@@ -116,7 +126,7 @@ export function useNpcBattle({
     damagePet, damagePlayerWithReflect, setPlayer, spawnDamageRef,
     playerX, playerY, npcX, npcY, player.state, player.battleDirection,
     blockGauge, setBlockGauge, hitstopRef, npcStaggerRef, npcCooldown,
-    lastBlockPressRef,
+    lastBlockPressRef, onFullBlock,
   ]);
 
   const npcMeleeHit = useCallback(() => {
@@ -180,6 +190,7 @@ export function useNpcBattle({
       npcStaggerRef,
       npcCooldown,
       lastBlockPressRef,
+      onFullBlock,
     });
     if (blocked) return;
 
@@ -195,7 +206,7 @@ export function useNpcBattle({
     npcLevel, npcClass, playerClass, totalArmor, setPlayer,
     playerX, playerY, npcX, npcY, difficulty,
     spawnDamageRef, hitstopRef, npcStaggerRef,
-    blockGauge, setBlockGauge, lastBlockPressRef, damagePlayerWithReflect,
+    blockGauge, setBlockGauge, lastBlockPressRef, damagePlayerWithReflect, onFullBlock,
   ]);
 
   return { npcMeleeHit, npcRangedHit };
