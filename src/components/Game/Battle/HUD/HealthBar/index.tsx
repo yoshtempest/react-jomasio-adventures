@@ -1,3 +1,5 @@
+import styles from "./styles.module.css"
+
 type Props = {
   hp: number;
   maxHp?: number;
@@ -19,6 +21,7 @@ export function HealthBar({ hp, maxHp = 100, reversed = false }: Props) {
 
   return (
     <div
+    className={styles.container}
       style={{
         position: "relative",
         width: 200,
@@ -37,23 +40,7 @@ export function HealthBar({ hp, maxHp = 100, reversed = false }: Props) {
           ...(reversed ? { marginLeft: `${100 - percentage}%` } : {}),
         }}
       />
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          color: "white",
-          fontSize: 12,
-          fontWeight: "bold",
-          textShadow: "1px 1px 2px black",
-          pointerEvents: "none",
-        }}
-      >
+      <div className={styles.text}>
         {Math.round(hp)} / {maxHp}
       </div>
     </div>

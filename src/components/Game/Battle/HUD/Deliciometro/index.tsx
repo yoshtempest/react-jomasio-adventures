@@ -1,6 +1,7 @@
 import { asset } from "@/utils/asset";
 import { useEffect, useRef } from "react";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import styles from "./styles.module.css";
 
 type Props = {
   delicia: number; // 0 - 6
@@ -30,16 +31,10 @@ export function Deliciometro({ delicia, hitsToSpecial = 6 }: Props) {
 
   return (
     <div
-      style={{
-        position: "relative",
-        width: 50,
-        height: 20,
-        border: "2px solid black",
-        background: "#333",
-      }}
-    >
+    className={styles.container}>
       <img
         src={asset("/assets/deliciometro.svg")}
+        className={styles.image}
         style={{
           width: "100%",
           height: "100%",

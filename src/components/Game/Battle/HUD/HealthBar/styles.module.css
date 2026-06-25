@@ -1,0 +1,24 @@
+.container {
+  position: relative;
+  width: 200px;
+  height: 20px;
+  border: 2px solid black;
+  background: #333;
+  overflow: hidden;
+}
+
+.text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px black;
+  pointer-events: none;
+}
