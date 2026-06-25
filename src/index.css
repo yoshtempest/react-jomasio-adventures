@@ -1,6 +1,19 @@
 :root {
   --primary-color: #121b31;
   --background-color: #0a0500;
+  --accent-color: #fbbf24;
+  --text-color: #ffffff;
+  --text-secondary: #aaaaaa;
+  --text-muted: #888888;
+  --text-hint: #666666;
+  --surface-primary: #1a1a2e;
+  --surface-dark: #111111;
+  --surface-card: #1a1a1a;
+  --border-default: #333333;
+  --border-medium: #555555;
+  --success: #4ade80;
+  --danger: #ff4444;
+  --gold: #ffd700;
 
   --smaller: 12px;
   --small: 16px;
@@ -378,7 +391,7 @@ h2 {
   height: 90vh;
   top: 10%;
   right: 0%;
-  background: #111;
+  background: var(--surface-dark);
   align-items: center;
   border: 2px solid #555;
   border-radius: 8px;

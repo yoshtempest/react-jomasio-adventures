@@ -1,7 +1,7 @@
 .totalKills {
   font-size: var(--smaller);
   font-weight: 400;
-  color: #888;
+  color: var(--text-muted);
 }
 
 .list {
@@ -39,7 +39,7 @@
 
 .count {
   font-size: var(--smaller);
-  color: #aaa;
+  color: var(--text-secondary);
   min-width: 60px;
   text-align: right;
 }

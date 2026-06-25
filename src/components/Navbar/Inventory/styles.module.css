@@ -42,7 +42,7 @@
 }
 
 .qty {
-  color: #888;
+  color: var(--text-muted);
   margin-left: 4px;
   font-weight: normal;
 }
@@ -108,7 +108,7 @@
 }
 
 .slot {
-  color: #888;
+  color: var(--text-muted);
   font-size: 0.8rem;
 }
 
@@ -120,5 +120,5 @@
 .slotsLabel {
   display: block;
   font-size: var(--smaller);
-  color: #aaa;
+  color: var(--text-secondary);
 }

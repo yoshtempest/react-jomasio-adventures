@@ -38,7 +38,7 @@
 .playerRank,
 .npcRank {
   font-size: 11px;
-  color: #fbbf24;
+  color: var(--accent-color);
   margin: 0;
 }
 

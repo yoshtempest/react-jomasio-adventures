@@ -15,7 +15,7 @@
   animation: bounce 1s ease-in-out infinite;
   pointer-events: none;
   filter: drop-shadow(0 0 4px rgba(255, 255, 0, 0.8));
-  color: #ffd700;
+  color: var(--gold);
   display: flex;
   align-items: center;
   justify-content: center;

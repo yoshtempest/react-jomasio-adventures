@@ -33,7 +33,7 @@
 
 .rankText {
   font-size: var(--smaller);
-  color: #fbbf24;
+  color: var(--accent-color);
 }
 
 .flexRow {
@@ -50,7 +50,7 @@
 
 .noProgress {
   font-size: 13px;
-  color: #666;
+  color: var(--text-hint);
   font-style: italic;
 }
 

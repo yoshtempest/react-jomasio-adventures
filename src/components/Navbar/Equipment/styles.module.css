@@ -39,7 +39,7 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
-  background: #1a1a2e;
+  background: var(--surface-primary);
   border: 2px solid #333;
   padding: 8px;
   transition: border-color 0.15s;
@@ -98,7 +98,7 @@
 }
 
 .lockIcon {
-  color: #888;
+  color: var(--text-muted);
 }
 
 .arrowUp {
@@ -114,7 +114,7 @@
 .slotLabel {
   font-weight: bold;
   font-size: 11px;
-  color: #aaa;
+  color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -128,7 +128,7 @@
 
 .enhanceBadge {
   font-size: 11px;
-  color: #ffd700;
+  color: var(--gold);
   margin-left: 3px;
   font-weight: bold;
 }
@@ -145,7 +145,7 @@
 
 .qtyBadge {
   font-size: 10px;
-  color: #888;
+  color: var(--text-muted);
   background: #222;
   padding: 1px 5px;
   border-radius: 4px;
@@ -154,7 +154,7 @@
 
 .slotTag {
   font-size: 10px;
-  color: #888;
+  color: var(--text-muted);
   background: #222;
   padding: 1px 6px;
   border-radius: 4px;
@@ -162,18 +162,18 @@
 
 .rankLabel {
   font-size: 11px;
-  color: #888;
+  color: var(--text-muted);
 }
 
 .emptySlot {
   font-size: var(--smaller);
-  color: #666;
+  color: var(--text-hint);
   font-style: italic;
 }
 
 .actionHint {
   font-size: 10px;
-  color: #666;
+  color: var(--text-hint);
   margin-top: 2px;
 }
 
@@ -197,8 +197,8 @@
 .filterTab {
   padding: 4px 10px;
   font-size: var(--smaller);
-  background: #1a1a1a;
-  color: #aaa;
+  background: var(--surface-card);
+  color: var(--text-secondary);
   border: 1px solid #333;
   border-radius: 6px;
   cursor: default;
@@ -232,7 +232,7 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
-  background: #1a1a2e;
+  background: var(--surface-primary);
   border: 2px solid #333;
   border-radius: 6px;
   padding: 8px;
@@ -241,7 +241,7 @@
 
 .emptyText {
   text-align: center;
-  color: #666;
+  color: var(--text-hint);
   padding: 24px;
   font-size: 14px;
 }

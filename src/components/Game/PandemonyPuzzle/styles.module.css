@@ -9,7 +9,7 @@
 }
 
 .modal {
-  background: #1a1a2e;
+  background: var(--surface-primary);
   border: 2px solid #b8860b;
   border-radius: 12px;
   padding: 32px;
@@ -24,7 +24,7 @@
 .title {
   font-size: var(--low-medium);
   font-weight: bold;
-  color: #ffd700;
+  color: var(--gold);
   text-align: center;
 }
 
@@ -55,13 +55,13 @@
 }
 
 .slotRowSelected {
-  border-color: #ffd700;
+  border-color: var(--gold);
 }
 
 .slotLabel {
   font-size: var(--smaller);
   font-weight: bold;
-  color: #888;
+  color: var(--text-muted);
   min-width: 50px;
 }
 
@@ -91,7 +91,7 @@
   flex-direction: column;
   gap: 4px;
   font-size: 11px;
-  color: #666;
+  color: var(--text-hint);
   text-align: center;
   line-height: 1.3;
 }

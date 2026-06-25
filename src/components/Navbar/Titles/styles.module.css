@@ -20,7 +20,7 @@
   padding: 8px;
   border-radius: 4px;
   border: 1px solid #444;
-  background: #1a1a2e;
+  background: var(--surface-primary);
   cursor: default;
 }
 
@@ -31,11 +31,11 @@
 
 .titleCardUnlocked {
   opacity: 1;
-  border-color: #4ade80;
+  border-color: var(--success);
 }
 
 .titleCardEquipped {
-  border-color: #fbbf24;
+  border-color: var(--accent-color);
   background: #2a1a0e;
 }
 
@@ -64,7 +64,7 @@
 
 .titleDesc {
   font-size: 11px;
-  color: #aaa;
+  color: var(--text-secondary);
   margin-top: 2px;
 }
 
@@ -86,7 +86,7 @@
 
 .progressText {
   font-size: 10px;
-  color: #888;
+  color: var(--text-muted);
   margin-top: 2px;
 }
 
@@ -118,13 +118,13 @@
 
 .bonusText {
   font-size: 10px;
-  color: #fbbf24;
+  color: var(--accent-color);
   margin-top: 2px;
 }
 
 .hintText {
   font-size: 10px;
-  color: #666;
+  color: var(--text-hint);
   margin-top: 8px;
   text-align: center;
 }

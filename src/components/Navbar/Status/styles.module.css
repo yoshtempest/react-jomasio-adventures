@@ -9,14 +9,14 @@
 
 .title {
   font-weight: bold;
-  color: #aaa;
+  color: var(--text-secondary);
   font-size: 14px;
   border-bottom: 1px solid #333;
   padding-bottom: 4px;
 }
 
 .flexColumn span {
-  color: #4ade80;
+  color: var(--success);
 }
 
 .flexColumn p {
@@ -29,18 +29,18 @@
 }
 
 .italic {
-  color: #666;
+  color: var(--text-hint);
   font-style: italic;
 }
 
 .rank {
-  color: #fbbf24;
+  color: var(--accent-color);
   font-size: 14px;
 }
 
 .tip {
   font-size: 11px;
-  color: #aaa;
+  color: var(--text-secondary);
   font-style: italic;
   margin-top: 8px;
   max-width: 200px;
@@ -48,7 +48,7 @@
 }
 
 .subBtn {
-  color: #fbbf24;
+  color: var(--accent-color);
   font-weight: bold;
   cursor: pointer;
   margin-top: 8px;
@@ -56,7 +56,7 @@
 
 .xpText {
   font-size: 11px;
-  color: #888;
+  color: var(--text-muted);
   margin-top: 4px;
   text-align: center;
 }
@@ -83,7 +83,7 @@
   align-items: center;
   justify-content: space-between;
   height: 10vh;
-  background: #1a1a2e;
+  background: var(--surface-primary);
   border: 1px solid #333;
   border-radius: 6px;
   padding: 8px 12px;
@@ -103,12 +103,12 @@
 
 .rankLevels {
   font-size: 11px;
-  color: #888;
+  color: var(--text-muted);
 }
 
 .rankBuff {
   font-size: var(--smaller);
-  color: #4ade80;
+  color: var(--success);
   font-weight: bold;
 }
 

@@ -24,8 +24,8 @@
 }
 
 .tab {
-  background: #1a1a1a;
-  color: #aaa;
+  background: var(--surface-card);
+  color: var(--text-secondary);
   border: 1px solid #333;
   padding: 8px 16px;
   border-radius: 6px;
@@ -54,7 +54,7 @@
 
 .empty {
   text-align: center;
-  color: #666;
+  color: var(--text-hint);
   padding: 24px;
   font-size: 14px;
 }
@@ -66,11 +66,11 @@
   gap: 8px;
   margin-bottom: 12px;
   padding: 6px 12px;
-  background: #1a1a1a;
+  background: var(--surface-card);
   border: 1px solid #333;
   border-radius: 6px;
   font-size: 13px;
-  color: #aaa;
+  color: var(--text-secondary);
 }
 
 .timerBar strong {

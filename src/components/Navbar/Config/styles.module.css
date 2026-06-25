@@ -9,7 +9,7 @@
   height: 90vh;
   top: 10%;
   right: 0%;
-  background: #111;
+  background: var(--surface-dark);
   align-items: center;
   border: 2px solid #555;
   border-radius: 8px;

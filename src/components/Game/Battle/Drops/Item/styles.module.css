@@ -1,5 +1,5 @@
 .dropQty {
   font-size: 13px;
-  color: #aaa;
+  color: var(--text-secondary);
   margin-left: auto;
 }
