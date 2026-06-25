@@ -10,7 +10,7 @@ import {
   FILTER_LABELS,
 } from "@/utils/equipmentMenu";
 import { asset } from "@/utils/asset";
-import { SLOT_LABELS, RANK_COLORS } from "@/utils/types/player/equipment";
+import { SLOT_LABELS, RANK_COLORS, RANK_LABELS } from "@/utils/types/player/equipment";
 import styles from "./styles.module.css";
 
 export function Equipment() {
@@ -148,6 +148,12 @@ export function Equipment() {
                     <span className={styles.qtyBadge}>x{entry.qty}</span>
                     <span className={styles.slotTag}>
                       {SLOT_LABELS[entry.item.slot]}
+                    </span>
+                    <span
+                      className={styles.rankLabel}
+                      style={{ color: RANK_COLORS[entry.item.rank] }}
+                    >
+                      {RANK_LABELS[entry.item.rank]}
                     </span>
                   </div>
                   <span className={styles.stats}>
