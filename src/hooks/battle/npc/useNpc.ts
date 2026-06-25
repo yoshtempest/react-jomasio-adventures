@@ -137,7 +137,8 @@ export function useNpcBattle({
 
     if (!targetIsPet) {
       if (!isNpcInRange(playerX, playerY, npcX, npcY)) return;
-      if (player.state === "dash" || player.state === "idleCrounched" || player.state === "walkCrounched") return;
+      if (player.state === "dash") return;
+      if ((player.state === "idleCrounched" || player.state === "walkCrounched") && Math.abs(playerX - npcX) > 80) return;
     } else {
       if (!petXRef?.current || !petYRef?.current) return;
       if (!isNpcInRange(petXRef.current, petYRef.current, npcX, npcY)) return;
@@ -166,7 +167,8 @@ export function useNpcBattle({
   const npcRangedHit = useCallback(() => {
     if (isEnding.current) return;
     if (!npcCooldown.current) return;
-    if (player.state === "dash" || player.state === "idleCrounched" || player.state === "walkCrounched") return;
+    if (player.state === "dash") return;
+    if ((player.state === "idleCrounched" || player.state === "walkCrounched") && Math.abs(playerX - npcX) > 80) return;
 
     const npc = getNpcStats(npcLevel, npcClass, difficulty);
     const baseDmg = npc.damage;
