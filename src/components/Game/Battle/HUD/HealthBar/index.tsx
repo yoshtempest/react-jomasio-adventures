@@ -20,17 +20,7 @@ export function HealthBar({ hp, maxHp = 100, reversed = false }: Props) {
   }
 
   return (
-    <div
-    className={styles.container}
-      style={{
-        position: "relative",
-        width: 200,
-        height: 20,
-        border: "2px solid black",
-        background: "#333",
-        overflow: "hidden",
-      }}
-    >
+    <div className={styles.container}>
       <div
         style={{
           width: `${percentage}%`,

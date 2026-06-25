@@ -35,10 +35,6 @@ export function Deliciometro({ delicia, hitsToSpecial = 6 }: Props) {
       <img
         src={asset("/assets/deliciometro.svg")}
         className={styles.image}
-        style={{
-          width: "100%",
-          height: "100%",
-        }}
       />
       <div
         style={{
