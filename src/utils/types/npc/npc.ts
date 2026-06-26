@@ -3,7 +3,7 @@ export type NPCDirection = "right" | "left";
 export type NPCBattleState = {
   x: number;
   y: number;
-  state: "idle" | "walk" | "hit" | "jumping" | "pitch" | "inAir" | "falling" | "airAttack" | "preAttack" | "preJump" | "attack" | "inJump" | "jumpAttack" | "block" | "meleeAttack";
+  state: "idle" | "walk" | "hit" | "jumping" | "pitch" | "inAir" | "falling" | "airAttack" | "preAttack" | "preJump" | "attack" | "inJump" | "jumpAttack" | "block" | "meleeAttack" | "rangedAttack";
   direction: NPCDirection;
   jumpLandingX?: number;
 
@@ -35,6 +35,7 @@ export type NPCBattleState = {
     };
     vandinha?: {
       lastMeleeAttack: number;
+      lastRangedAttack: number;
     };
   };
 };

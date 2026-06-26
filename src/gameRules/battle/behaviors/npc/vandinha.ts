@@ -5,12 +5,12 @@ import { createCommonProjectile } from "@/gameRules/npc/createDirectionalProject
 import { tryThrowProjectile } from "@/gameRules/npc/projectile";
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
 
-const MELEE_RANGE = 80;
+const MELEE_RANGE = 50;
 const MELEE_COOLDOWN = 800;
 const MELEE_ATTACK_DURATION = 400;
 const PROJECTILE_COOLDOWN = 3000;
 const SWITCH_DISTANCE = 120;
-const IDLE_DURATION = 400;
+const IDLE_DURATION = 100;
 
 export function vandinhaBehavior(ctx: BehaviorContext) {
   const {
@@ -22,12 +22,13 @@ export function vandinhaBehavior(ctx: BehaviorContext) {
   const distanceX = Math.abs(npc.x - targetX);
   const now = Date.now();
 
+  if (!npc.ai) npc.ai = {};
+  if (!npc.ai.vandinha) {
+    npc.ai.vandinha = { lastMeleeAttack: 0, lastRangedAttack: 0 };
+  }
+  const ai = npc.ai.vandinha;
+
   if (distanceX <= SWITCH_DISTANCE) {
-    if (!npc.ai) npc.ai = {};
-    if (!npc.ai.vandinha) {
-      npc.ai.vandinha = { lastMeleeAttack: 0 };
-    }
-    const ai = npc.ai.vandinha;
 
     const hit = tryMeleeAttack({
       npcX: npc.x,
@@ -49,6 +50,10 @@ export function vandinhaBehavior(ctx: BehaviorContext) {
       return { x: npc.x, y: npc.y, state: "meleeAttack" };
     }
 
+    if (distanceX <= MELEE_RANGE) {
+      return { x: npc.x, y: npc.y };
+    }
+
     if (!canAttack(lastAttackRef, MELEE_COOLDOWN)) {
       const { x } = chasePlayer(npc, targetX, targetY);
       return { x, y: npc.y, state: "walk" };
@@ -58,7 +63,7 @@ export function vandinhaBehavior(ctx: BehaviorContext) {
     return { x, y: npc.y };
   }
 
-  tryThrowProjectile({
+  const threw = tryThrowProjectile({
     projectile,
     cooldown: PROJECTILE_COOLDOWN,
     lastAttackRef,
@@ -75,9 +80,12 @@ export function vandinhaBehavior(ctx: BehaviorContext) {
     idleDuration: IDLE_DURATION,
   });
 
-  if (projectile) {
-    npc.state = "attack";
-    return { x: npc.x, y: npc.y };
+  if (threw) {
+    ai.lastRangedAttack = now;
+  }
+
+  if (projectile || now - ai.lastRangedAttack < IDLE_DURATION) {
+    return { x: npc.x, y: npc.y, state: "rangedAttack" };
   }
 
   const { x } = chasePlayer(npc, targetX, targetY);
