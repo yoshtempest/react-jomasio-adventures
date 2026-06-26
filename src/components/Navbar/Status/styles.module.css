@@ -54,6 +54,21 @@
   margin-top: 8px;
 }
 
+.imagesRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.petImage {
+  height: 30%;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
 .xpText {
   font-size: 11px;
   color: var(--text-muted);

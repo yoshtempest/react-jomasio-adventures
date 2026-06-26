@@ -120,6 +120,9 @@ export function Status() {
     );
   }
 
+  const petItem = getEquippedItem(character, "pet");
+  const petNpcType = petItem?.id.replace("pet_", "");
+
   const selectedStat = selectedIndex < options.length ? options[selectedIndex] : null;
 
   return (
@@ -128,10 +131,18 @@ export function Status() {
 
       <div className={styles.flexRow}>
         <div className={styles.flexColumn}>
-          <img
-            src={asset(`/assets/player/${player.character}/default.svg`)}
-            className={styles.image}
-          />
+          <div className={styles.imagesRow}>
+            <img
+              src={asset(`/assets/player/${player.character}/default.svg`)}
+              className={styles.image}
+            />
+            {petItem && petNpcType && (
+              <img
+                src={asset(`/assets/npcs/${petNpcType}/default.svg`)}
+                className={styles.petImage}
+              />
+            )}
+          </div>
           <h2>
             {characterData?.name} - Nv.{charProgress.level}
           </h2>
