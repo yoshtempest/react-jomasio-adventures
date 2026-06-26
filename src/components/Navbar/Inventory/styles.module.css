@@ -3,7 +3,7 @@
   padding: 0;
   margin: 0;
   width: 100%;
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 
 .item {
@@ -55,20 +55,6 @@
   word-wrap: break-word;
 }
 
-.chestActions {
-  margin-top: 0.75rem;
-  padding: 0.5rem;
-  border-top: 1px solid #444;
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-
-.chestLabel {
-  font-size: 0.85rem;
-  color: #ccc;
-}
-
 .noKey {
   color: #e74c3c;
   font-size: 0.8rem;
@@ -82,7 +68,7 @@
   color: #eee;
   cursor: pointer;
   font-size: 0.9rem;
-  width: 100%;
+  width: 10%;
 }
 
 .button:hover {

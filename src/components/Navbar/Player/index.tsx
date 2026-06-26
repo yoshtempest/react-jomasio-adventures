@@ -10,12 +10,14 @@ import { CHARACTERS as CHARACTER_OPTIONS } from "@/data/options/characters";
 import { TITLES } from "@/data/titles";
 import { FLAGS } from "@/data/flags";
 import { BESTIARY_NPC_ORDER } from "@/data/bestiary";
+import { usePlayer } from "@/contexts/PlayerContext";
 
 export function Player() {
   const { progress } = useCharacterProgress();
   const { playTime, getTotalPlayTime } = usePlayTime();
   const { bestiary } = useBestiary();
   const { titlesData } = useTitles();
+  const { coins } = usePlayer();
   const { flags } = useFlags();
   const { selectedChar } = usePlayerMenu(true);
 
@@ -65,6 +67,10 @@ export function Player() {
           <div className={styles.statRow}>
             <span className={styles.statLabel}>Total de inimigos derrotados</span>
             <span className={styles.statValue}>{titlesData.totalKills}</span>
+          </div>
+          <div className={styles.statRow}>
+            <span className={styles.statLabel}>Kwanzas</span>
+            <span className={styles.statValue}>{coins}</span>
           </div>
         </div>
 

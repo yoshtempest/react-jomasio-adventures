@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useInventoryMenu } from "@/hooks/menu/useInventory";
-import { usePlayer } from "@/contexts/PlayerContext";
 import { useChestOpening } from "@/hooks/useChestOpening";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { RANK_COLORS, RANK_LABELS, SLOT_LABELS } from "@/utils/types/player/equipment";
@@ -10,7 +9,6 @@ import styles from "./styles.module.css";
 
 export function Inventory() {
   const { items, maxSlots } = useInventory();
-  const { coins } = usePlayer();
   const { selectedIndex } = useInventoryMenu(true);
   const { openPlayerChest, lastResult, setLastResult } = useChestOpening();
   const { pushControls, popControls } = useGameControls();
@@ -91,11 +89,7 @@ export function Inventory() {
 
   return (
     <div className="containerOfNavbar">
-      <h3>Inventário</h3>
-      <span>{coins} Kwanzas</span>
-      <span className={styles.slotsLabel}>
-        Slots: {slotsLabel}
-      </span>
+      <h3>Inventário {slotsLabel}</h3>
 
       <ul className={styles.list}>
         {items.map((item, index) => (
@@ -124,31 +118,24 @@ export function Inventory() {
                   <span className={styles.description}>{item.description}</span>
                 )}
               </div>
+              {index === selectedIndex && item.type === "chest" && (
+                hasKey ? (
+                  <button
+                    className={styles.button}
+                    onClick={() => openPlayerChest(item.id as ItemId)}
+                  >
+                    Abrir Baú
+                  </button>
+                ) : (
+                  <span className={styles.noKey}>
+                    Sem chave
+                  </span>
+                )
+              )}
             </div>
           </li>
         ))}
       </ul>
-
-      {isChestSelected && selectedItem && (
-        <div className={styles.chestActions}>
-          <span className={styles.chestLabel}>
-            📦 {selectedItem.name}
-            {selectedItem.qty && selectedItem.qty > 1
-              ? ` x${selectedItem.qty}`
-              : ""}
-          </span>
-          {hasKey ? (
-            <button
-              className={styles.button}
-              onClick={() => openPlayerChest(selectedItem.id as ItemId)}
-            >
-              Abrir Baú
-            </button>
-          ) : (
-            <span className={styles.noKey}>Sem chave para este baú</span>
-          )}
-        </div>
-      )}
     </div>
   );
 }
