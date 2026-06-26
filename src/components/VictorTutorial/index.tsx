@@ -39,8 +39,8 @@ export function VictorTutorial() {
                     <MoveDown size={16} className={styles.down} />
                     </div>
 
-                    <div className={styles.dpad}>
-                    <div className={styles.inner} />
+                    <div className={`dpad ${styles.dpad}`}>
+                    <div className="inner" />
                     </div>
 
                     <p>Basta apertar na direção que você deseja ir.</p>

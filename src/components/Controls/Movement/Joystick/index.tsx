@@ -1,5 +1,4 @@
 import { useRef } from "react";
-import styles from "./styles.module.css";
 import type { GameControlLayer } from "@/utils/types/player/controls";
 
 type Dir = Direction;
@@ -129,13 +128,13 @@ export function JoystickMovement({ activeControls }: Props) {
   return (
     <div
       ref={centerRef}
-      className={styles.dpad}
+      className="dpad"
       onPointerDown={handleStart}
       onPointerMove={handleMove}
       onPointerUp={handleEnd}
       onPointerCancel={handleEnd}
     >
-      <div ref={innerRef} className={styles.inner} />
+      <div ref={innerRef} className="inner" />
     </div>
   );
 }

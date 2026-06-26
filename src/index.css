@@ -70,16 +70,6 @@ button {
   background-repeat: no-repeat;
 }
 
-@media (orientation: portrait) {
-  .Master {
-    display: flex;
-    width: 100vw;
-    height: 30vh;
-    align-self: flex-start;
-    margin-top: 0%;
-  }
-}
-
 h1 {
   font-size: var(--medium);
   font-weight: bold;
@@ -365,6 +355,64 @@ h2 {
   padding: 4px;
 }
 
+.dpad {
+  position: fixed;
+  left: 2%;
+
+  width: 8vw;
+  height: 8vw;
+  z-index: 9999;
+
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.25);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  touch-action: none;
+  user-select: none;
+  pointer-events: auto;
+}
+
+.inner {
+  width: 3vw;
+  height: 3vw;
+
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+  transition: transform 0.05s linear;
+}
+
+@media (orientation: portrait) {
+  .dpad {
+    width: 14vh;
+    height: 14vh;
+    left: 12%;
+    bottom: 20%;
+  }
+  .inner {
+    width: 4vh;
+    height: 4vh;
+  }
+  .containerOfNavbar {
+    width: 99vw;
+    height: 30vh;
+    top: 0;
+    right: 0;
+    border-radius: 0px;
+  }
+  .Master {
+    display: flex;
+    width: 100vw;
+    height: 30vh;
+    align-self: flex-start;
+    margin-top: 0%;
+  }
+}
+
 .active::before {
   content: "▶ ";
 }
@@ -396,16 +444,6 @@ h2 {
   border: 2px solid var(--border-medium);
   border-radius: 8px;
   z-index: 999;
-}
-
-@media (orientation: portrait) {
-  .containerOfNavbar {
-    width: 99vw;
-    height: 30vh;
-    top: 0;
-    right: 0;
-    border-radius: 0px;
-  }
 }
 
 .app {
