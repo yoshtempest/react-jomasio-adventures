@@ -50,13 +50,18 @@ export function vandinhaBehavior(ctx: BehaviorContext) {
       return { x: npc.x, y: npc.y, state: "meleeAttack" };
     }
 
-    if (distanceX <= MELEE_RANGE) {
-      return { x: npc.x, y: npc.y };
-    }
+    const inCooldown = !canAttack(lastAttackRef, MELEE_COOLDOWN);
 
-    if (!canAttack(lastAttackRef, MELEE_COOLDOWN)) {
+    if (inCooldown) {
+      if (distanceX <= MELEE_RANGE) {
+        return { x: npc.x, y: npc.y, state: "walk" };
+      }
       const { x } = chasePlayer(npc, targetX, targetY);
       return { x, y: npc.y, state: "walk" };
+    }
+
+    if (distanceX <= MELEE_RANGE) {
+      return { x: npc.x, y: npc.y };
     }
 
     const { x } = chasePlayer(npc, targetX, targetY);

@@ -177,7 +177,6 @@ export function useNpcAI({
           return {
             ...n,
             direction: getNpcDirection(n.x, playerXRef.current),
-            state: "walk",
           };
         }
 
