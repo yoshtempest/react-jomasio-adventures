@@ -45,8 +45,6 @@ export function Mission() {
 
   return (
     <div className="containerOfNavbar">
-      <h3>Missões</h3>
-
       <div className={styles.tabs}>
         {TAB_KEYS.map((key, i) => (
           <button

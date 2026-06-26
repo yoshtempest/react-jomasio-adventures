@@ -5,7 +5,7 @@
   gap: 12px;
   list-style: none;
   padding: 0;
-  max-height: 70vh;
+  max-height: 80vh;
   overflow-y: auto;
   margin: 2%;
   scrollbar-width: none;
@@ -19,6 +19,7 @@
 .tabs {
   display: flex;
   gap: 8px;
+  margin-top: 3vh;
   justify-content: center;
   margin-bottom: 12px;
 }
