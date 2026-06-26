@@ -148,6 +148,11 @@ export function useBattleScene({
   const npcAiHpRef = useRef(npcStats.hp);
   const npcAiMaxHpRef = useRef(npcStats.hp);
 
+  const npcBlockedRef = useRef(false);
+  const npcBlockTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+  const onBeforeNpcHitRef = useRef<() => boolean>(() => false);
+
   const npc = useNpcAI({
     playerX: player.x,
     playerY: player.y,
@@ -169,7 +174,25 @@ export function useBattleScene({
     npcTargetIsPetRef,
     npcHpRef: npcAiHpRef,
     npcMaxHpRef: npcAiMaxHpRef,
+    npcBlockedRef,
   });
+
+  onBeforeNpcHitRef.current = () => {
+    if (npcType !== "piupiu") return false;
+    const distanceX = Math.abs(npc.x - player.x);
+    const distanceY = Math.abs(npc.y - player.y);
+    if (distanceX > 50 || distanceY > 150) return false;
+    if (Math.random() < 0.8) {
+      npcBlockedRef.current = true;
+      npc.updateNpc({ state: "block" });
+      clearTimeout(npcBlockTimerRef.current);
+      npcBlockTimerRef.current = setTimeout(() => {
+        npcBlockedRef.current = false;
+      }, 300);
+      return true;
+    }
+    return false;
+  };
 
   const battle = useBattleSystem({
     playerX: player.x,
@@ -218,6 +241,7 @@ export function useBattleScene({
     npcTargetIsPetRef,
     petXRef,
     petYRef,
+    onBeforeNpcHitRef,
   });
 
   // sync pet position to shared refs so useNpcAI can read it

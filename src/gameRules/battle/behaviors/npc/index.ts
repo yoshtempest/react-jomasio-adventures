@@ -3,6 +3,7 @@ import { vandinhaBehavior } from "./vandinha";
 import { deiseBehavior } from "./deise/index";
 import { slimitaBehavior } from "./slimita";
 import { hungryKingBehavior } from "./hungryKing/index";
+import { piupiuBehavior } from "./piupiu";
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
 import type { NPCBattleState } from "@/utils/types/npc/npc";
 
@@ -13,5 +14,6 @@ export const npcBehaviors: Record<string, NpcBehaviorFn> = {
   deise: deiseBehavior,
   slimita: slimitaBehavior,
   hungryKing: hungryKingBehavior,
+  piupiu: piupiuBehavior,
   default: normalBehavior,
 };

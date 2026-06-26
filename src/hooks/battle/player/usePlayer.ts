@@ -46,6 +46,7 @@ type Props = {
   hitstopRef: React.RefObject<number>;
   registerHitRef: React.RefObject<(damage: number) => void>;
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;
+  onBeforeNpcHitRef?: React.RefObject<() => boolean>;
 };
 
 export function usePlayerBattle({
@@ -75,6 +76,7 @@ export function usePlayerBattle({
   hitstopRef,
   registerHitRef,
   setPlayer,
+  onBeforeNpcHitRef,
 }: Props) {
   const [delicia, setDelicia] = useState(0);
   const [stacks, setStacks] = useState(0);
@@ -95,6 +97,14 @@ export function usePlayerBattle({
         isSpecial: false,
       })
     ) {
+      return;
+    }
+
+    if (onBeforeNpcHitRef?.current?.()) {
+      playerCooldown.current = false;
+      setTimeout(() => {
+        playerCooldown.current = true;
+      }, 400);
       return;
     }
 
@@ -188,6 +198,14 @@ export function usePlayerBattle({
         isSpecial: true,
       })
     ) {
+      return;
+    }
+
+    if (onBeforeNpcHitRef?.current?.()) {
+      playerCooldown.current = false;
+      setTimeout(() => {
+        playerCooldown.current = true;
+      }, 600);
       return;
     }
 

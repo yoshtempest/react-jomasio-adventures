@@ -32,6 +32,7 @@ type Props = {
   npcTargetIsPetRef?: React.RefObject<boolean>;
   npcHpRef?: React.RefObject<number>;
   npcMaxHpRef?: React.RefObject<number>;
+  npcBlockedRef?: React.RefObject<boolean>;
 };
 
 export function useNpcAI({
@@ -55,6 +56,7 @@ export function useNpcAI({
   npcTargetIsPetRef,
   npcHpRef,
   npcMaxHpRef,
+  npcBlockedRef,
 }: Props) {
   const [npc, setNpc] = useState<NPCBattleState>({
     x: 900,
@@ -163,6 +165,13 @@ export function useNpcAI({
       setNpc((n) => {
         if (isPausedRef.current) return n;
         if (hitstopRef.current > Date.now()) return n;
+
+        if (npcBlockedRef?.current) {
+          return {
+            ...n,
+            state: "block" as NPCBattleState["state"],
+          };
+        }
 
         if (npcStaggerRef.current > Date.now()) {
           return {

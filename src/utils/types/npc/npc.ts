@@ -3,7 +3,7 @@ export type NPCDirection = "right" | "left";
 export type NPCBattleState = {
   x: number;
   y: number;
-  state: "idle" | "walk" | "hit" | "jumping" | "pitch" | "inAir" | "falling" | "airAttack" | "preAttack" | "preJump" | "attack" | "inJump" | "jumpAttack";
+  state: "idle" | "walk" | "hit" | "jumping" | "pitch" | "inAir" | "falling" | "airAttack" | "preAttack" | "preJump" | "attack" | "inJump" | "jumpAttack" | "block";
   direction: NPCDirection;
   jumpLandingX?: number;
 

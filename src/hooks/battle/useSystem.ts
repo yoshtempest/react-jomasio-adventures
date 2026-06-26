@@ -34,6 +34,7 @@ type Props = {
   npcTargetIsPetRef: React.RefObject<boolean>;
   petXRef: React.RefObject<number>;
   petYRef: React.RefObject<number>;
+  onBeforeNpcHitRef?: React.RefObject<() => boolean>;
 };
 
 export function useBattleSystem(props: Props) {
@@ -57,6 +58,7 @@ export function useBattleSystem(props: Props) {
     npcTargetIsPetRef,
     petXRef,
     petYRef,
+    onBeforeNpcHitRef,
   } = props;
 
   const [npcPhase, setNpcPhase] = useState(1);
@@ -151,6 +153,7 @@ export function useBattleSystem(props: Props) {
     hitstopRef,
     registerHitRef,
     setPlayer,
+    onBeforeNpcHitRef,
   });
 
   // 🐐 pet damage + pet AI
