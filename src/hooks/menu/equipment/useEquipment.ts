@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
@@ -34,16 +34,16 @@ export function useEquipmentMenu(
   const rightPanelCount = FILTER_TAB_COUNT + filteredItems.length;
   const totalItems = EQUIPPED_COUNT + rightPanelCount;
 
-  function isLockedIndex(index: number): boolean {
+  const isLockedIndex = useCallback((index: number): boolean => {
     const entry = equippedItems[index];
     return entry?.type === "accessory-slot" && entry.locked;
-  }
+  }, [equippedItems]);
 
-  function lastNonLockedInEquipped(): number {
+  const lastNonLockedInEquipped = useCallback((): number => {
     let i = EQUIPPED_COUNT - 1;
     while (i >= 0 && isLockedIndex(i)) i--;
     return Math.max(i, 0);
-  }
+  }, [isLockedIndex]);
 
   useEffect(() => {
     selectedIndexRef.current = selectedIndex;
@@ -58,7 +58,7 @@ export function useEquipmentMenu(
       }
       return clamped;
     });
-  }, [totalItems, equippedItems]);
+  }, [totalItems, equippedItems, isLockedIndex, lastNonLockedInEquipped]);
 
   // Auto-activate filter tab when navigating over it
   useEffect(() => {

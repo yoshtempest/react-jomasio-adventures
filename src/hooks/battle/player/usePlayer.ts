@@ -180,6 +180,7 @@ export function usePlayerBattle({
     playerMaxHp,
     totalVampirism,
     onBeforeNpcHitRef,
+    setPlayer,
   ]);
 
   const specialHit = useCallback(() => {
@@ -282,6 +283,7 @@ export function usePlayerBattle({
     npcArmor,
     playerHP,
     onBeforeNpcHitRef,
+    setPlayer,
   ]);
 
   return {

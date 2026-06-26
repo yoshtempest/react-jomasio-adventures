@@ -228,7 +228,7 @@ export function useBattleSystem(props: Props) {
       petXRef.current = pet.x;
       petYRef.current = pet.y;
     }
-  }, [pet?.x, pet?.y, petXRef, petYRef]);
+  }, [pet?.x, pet?.y, pet, petXRef, petYRef]);
 
   // 🔄 reset
   const resetBattle = () => {

@@ -8,7 +8,7 @@ import {
 import { useAudio } from "@/contexts/AudioContext";
 import { asset } from "@/utils/asset";
 
-type SoundId =
+export type SoundId =
   | "win"
   | "defeat"
   | "run"

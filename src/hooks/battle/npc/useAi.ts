@@ -206,7 +206,7 @@ export function useNpcAI({
           onSummon: onSummonRef.current,
           onPullPlayer: onPullPlayerRef.current,
           summonTimerRef,
-          playSound: (sound, loop) => playSoundRef.current(sound as any, loop),
+          playSound: (sound, loop) => playSoundRef.current(sound, loop),
           npcHp: npcHpValueRef.current,
           npcMaxHp: npcMaxHpValueRef.current,
         });

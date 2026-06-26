@@ -1,4 +1,5 @@
 import type { NPCBattleState } from "@/utils/types/npc/npc";
+import type { SoundId } from "@/contexts/SoundEffectsContext";
 
 export type BehaviorContext = {
   npc: NPCBattleState;
@@ -16,7 +17,7 @@ export type BehaviorContext = {
   onSummon?: (npcType: string) => void;
   onPullPlayer?: (x: number) => void;
   summonTimerRef?: { current: number };
-  playSound?: (sound: string, loop?: boolean) => void;
+  playSound?: (sound: SoundId, loop?: boolean) => void;
   npcHp?: number;
   npcMaxHp?: number;
 };
