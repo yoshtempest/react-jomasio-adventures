@@ -147,6 +147,18 @@ export function DeliciaDex() {
                   className={`${styles.sprite} ${
                     encountered ? "" : styles.silhouette
                   }`}
+                  onError={(e) => {
+                    const img = e.currentTarget;
+
+                    if (img.dataset.fallback === "default") {
+                      img.dataset.fallback = "walk";
+                      img.src = asset(`/assets/npcs/${npcType}/walk.svg`);
+                    } else if (img.dataset.fallback === "walk") {
+                      img.dataset.fallback = "right";
+                      img.src = asset(`/assets/npcs/${npcType}/right.svg`);
+                    }
+                  }}
+                  data-fallback="default"
                 />
               </div>
 
