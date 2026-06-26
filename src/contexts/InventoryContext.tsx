@@ -47,24 +47,30 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
 
   function addItem(item: InventoryItem): boolean {
     let added = false;
+
     setItems((prev) => {
       const existing = prev.find((i) => i.id === item.id);
+
       if (existing) {
         playSound("receivedItem");
+
         return prev.map((i) =>
-          i.id === item.id ? { ...i, qty: (i.qty ?? 1) + (item.qty ?? 1) } : i,
+          i.id === item.id
+            ? { ...i, qty: (i.qty ?? 1) + (item.qty ?? 1) }
+            : i
         );
       }
 
-      const max = maxSlotsRef.current;
-      if (prev.length >= max) {
+      if (prev.length >= maxSlotsRef.current) {
         return prev;
       }
 
       playSound("receivedItem");
       added = true;
-      return [...prev, { ...item, qty: item.qty ?? 1 }];
+
+      return [...prev, { id: item.id, qty: item.qty ?? 1 }];
     });
+
     return added;
   }
 

@@ -6,6 +6,7 @@ import { useGameControls } from "@/contexts/GameControlsContext";
 import { RANK_COLORS, RANK_LABELS, SLOT_LABELS } from "@/utils/types/player/equipment";
 import type { EquipmentRank, EquipmentSlot } from "@/utils/types/player/equipment";
 import styles from "./styles.module.css";
+import { ITEMS } from "@/data/items";
 
 export function Inventory() {
   const { items, maxSlots } = useInventory();
@@ -16,9 +17,13 @@ export function Inventory() {
   const { pushControls, popControls } = useGameControls();
 
   const selectedItem = items[selectedIndex];
-  const isChestSelected = selectedItem?.type === "chest";
+  const selectedItemData = selectedItem
+    ? ITEMS[selectedItem.id as keyof typeof ITEMS]
+    : null;
 
-  const tier = isChestSelected
+const isChestSelected = selectedItemData?.type === "chest";
+
+  const tier = isChestSelected && selectedItem
     ? (selectedItem.id.replace("_chest", "") as NPCClass)
     : null;
   const keyId = tier ? (`${tier}_key` as ItemId) : null;
@@ -96,6 +101,9 @@ export function Inventory() {
       <ul ref={listRef} className={styles.list}>
         {Array.from({ length: maxSlots }).map((_, index) => {
         const item = items[index];
+        const itemData = item
+          ? ITEMS[item.id as keyof typeof ITEMS]
+          : null;
 
         return (
           <li
@@ -104,35 +112,35 @@ export function Inventory() {
               index === selectedIndex ? styles.active : ""
             }`}
           >
-            {item && (
+            {item && itemData && (
               <div className={styles.itemRow}>
                 <img
                   className={styles.icon}
                   src={
-                    item.image
-                      ? `${import.meta.env.BASE_URL}${item.image.replace(/^\//, "")}`
+                    itemData?.image
+                      ? `${import.meta.env.BASE_URL}${itemData?.image.replace(/^\//, "")}`
                       : `${import.meta.env.BASE_URL}assets/items/${item.id}.svg`
                   }
-                  alt={item.name}
+                  alt={itemData?.name}
                 />
 
                 <div className={styles.info}>
                   <span className={styles.name}>
-                    {item.name}
+                    {itemData?.name}
                     {item.qty && item.qty > 0 && (
                       <span className={styles.qty}> x{item.qty}</span>
                     )}
                   </span>
 
-                  {item.description && (
+                  {itemData?.description && (
                     <span className={styles.description}>
-                      {item.description}
+                      {itemData?.description}
                     </span>
                   )}
                 </div>
 
                 {index === selectedIndex &&
-                  item.type === "chest" &&
+                  itemData?.type === "chest" &&
                   (hasKey ? (
                     <button
                       className={styles.button}
