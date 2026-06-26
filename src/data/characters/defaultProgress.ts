@@ -11,6 +11,7 @@ export type CharacterStats = {
 export type CharacterProgress = {
   level: number;
   xp: number;
+  kills: number;
   stats: CharacterStats;
 };
 
@@ -20,61 +21,73 @@ export const defaultProgress: CharactersProgress = {
   marcelo: {
     level: 1,
     xp: 0,
+    kills: 0,
     stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
   eduarda: {
     level: 1,
     xp: 0,
+    kills: 0,
     stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
   lucas: {
     level: 1,
     xp: 0,
+    kills: 0,
     stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
   samuel: {
     level: 1,
     xp: 0,
+    kills: 0,
     stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
   artur: {
     level: 1,
     xp: 0,
+    kills: 0,
     stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
   mayra: {
     level: 1,
     xp: 0,
+    kills: 0,
     stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
   lucaua: {
     level: 1,
     xp: 0,
+    kills: 0,
     stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
   riquelme: {
     level: 1,
     xp: 0,
+    kills: 0,
     stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
   hiago: {
     level: 1,
     xp: 0,
+    kills: 0,
     stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
   larissa: {
     level: 1,
     xp: 0,
+    kills: 0,
     stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
   camilly: {
     level: 1,
     xp: 0,
+    kills: 0,
     stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
   emanuel: {
     level: 1,
     xp: 0,
+    kills: 0,
     stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
 };

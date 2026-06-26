@@ -17,6 +17,7 @@ export function normalizeProgress(data: unknown): CharactersProgress {
     safe[key as Character] = {
       level: savedChar?.level ?? 1,
       xp: savedChar?.xp ?? 0,
+      kills: savedChar?.kills ?? 0,
       stats: {
         hp: savedChar?.stats?.hp ?? 1,
         strength: savedChar?.stats?.strength ?? 1,

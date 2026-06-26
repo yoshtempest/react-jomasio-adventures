@@ -9,6 +9,7 @@ import { FlagProvider } from "@/contexts/FlagContext";
 import { InventoryProvider } from "@/contexts/InventoryContext";
 import { QuestProvider } from "@/contexts/QuestContext";
 import { CharacterProgressProvider } from "@/contexts/CharacterProgressContext";
+import { PlayTimeProvider } from "@/contexts/PlayTimeContext";
 import { EquipmentProvider } from "@/contexts/EquipmentContext";
 import { TitleProvider } from "@/contexts/TitleContext";
 import { BestiaryProvider } from "@/contexts/BestiaryContext";
@@ -33,9 +34,11 @@ export function AppProviders({ children }: { children: ReactNode }) {
                             <TitleProvider>
                               <BestiaryProvider>
                               <PlayerProvider>
+                                <PlayTimeProvider>
                                 <GameControlsProvider>
                                   {children}
                                 </GameControlsProvider>
+                                </PlayTimeProvider>
                               </PlayerProvider>
                               </BestiaryProvider>
                             </TitleProvider>

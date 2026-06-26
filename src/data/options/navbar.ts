@@ -9,4 +9,5 @@ export const NAVBAR_OPTIONS: NavbarOption[] = [
   { label: "Missões", screen: "missions" },
   { label: "Títulos", screen: "titles" },
   { label: "DelíciaDex", screen: "bestiary" },
+  { label: "Jogador", screen: "player" },
 ];

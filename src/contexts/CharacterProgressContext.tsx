@@ -23,6 +23,7 @@ type ContextType = {
     character: Character,
     stat: keyof Omit<CharacterStats, "points">,
   ) => void;
+  incrementKills: (character: Character) => void;
   getXPToNextLevel: (level: number) => number;
 };
 
@@ -85,6 +86,20 @@ export function CharacterProgressProvider({
     });
   }
 
+  // 💀 INCREMENTAR KILLS
+  function incrementKills(character: Character) {
+    setProgress((prev) => {
+      const char = prev[character];
+      return {
+        ...prev,
+        [character]: {
+          ...char,
+          kills: char.kills + 1,
+        },
+      };
+    });
+  }
+
   // ➕ DISTRIBUIR PONTOS
   function addStat(
     character: Character,
@@ -111,7 +126,7 @@ export function CharacterProgressProvider({
 
   return (
     <CharacterProgressContext.Provider
-      value={{ progress, addXP, addStat, getXPToNextLevel }}
+      value={{ progress, addXP, addStat, incrementKills, getXPToNextLevel }}
     >
       {children}
     </CharacterProgressContext.Provider>
