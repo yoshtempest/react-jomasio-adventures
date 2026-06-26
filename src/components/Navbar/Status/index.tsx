@@ -159,6 +159,7 @@ export function Status() {
         </div>
 
         <div className={styles.flexColumn}>
+          <h2 className={styles.title}>Status</h2>
           <p>HP total: {userHp}</p>
           <p>Dano normal: {userNormalAttackDamage}</p>
           <p>Dano especial: {userSpecialDamage}</p>
@@ -166,8 +167,8 @@ export function Status() {
           {totalShield > 0 && <p>Escudo: {totalShield}</p>}
         </div>
 
-        <div className={styles.flexColumn}>
-          <p className={styles.title}>Pontos disponíveis: {stats.points}</p>
+        <div className={styles.flexColumn} style={{ width: "14vw" }}>
+          <h2 className={styles.title}>Pontos disponíveis: {stats.points}</h2>
           {stats.points <= 0 && (
             <p className={styles.title}>Sem pontos disponíveis</p>
           )}
@@ -204,7 +205,7 @@ export function Status() {
           </div>
 
           <div className={selectedIndex === 4 ? "active" : ""}>
-            <p className={styles.subBtn}>Ver árvore de habilidades</p>
+            <p className={styles.subBtn}>Árvore de habilidades</p>
           </div>
 
           <div className={selectedIndex === 5 ? "active" : ""}>
@@ -217,7 +218,7 @@ export function Status() {
         </div>
 
         <div className={styles.flexColumn}>
-          <p className={styles.title}>Equipamentos</p>
+          <h2 className={styles.title}>Equipamentos</h2>
           {(EQUIPMENT_SLOTS as EquipmentSlot[]).map((slot) => {
             const item = getEquippedItem(character, slot);
             const label = SLOT_LABELS[slot];

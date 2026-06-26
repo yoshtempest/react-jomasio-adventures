@@ -21,6 +21,7 @@
 
 .flexColumn p {
   white-space: nowrap;
+  margin-top: 2vh;
 }
 
 .fontSize {
