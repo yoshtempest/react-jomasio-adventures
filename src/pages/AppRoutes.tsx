@@ -42,6 +42,8 @@ const VandinhaFragmentBattle = lazyLoad(
 );
 const GoatBattle = lazyLoad(() => import("@/pages/Battle/Goat"));
 const JhowSimarBattle = lazyLoad(() => import("@/pages/Battle/JhowSimar"));
+const PiuBattle = lazyLoad(() => import("@/pages/Battle/Piu"));
+const RiceBattle = lazyLoad(() => import("@/pages/Battle/Rice"));
 const HungryDeathBattle = lazyLoad(() => import("@/pages/Battle/Hungry"));
 const TechnobladeBattle = lazyLoad(() => import("@/pages/Battle/Technoblade"));
 
@@ -152,6 +154,8 @@ export function AppRoutes() {
               element={<VandinhaFragmentBattle />}
             />
             <Route path="battle/jhowsimar" element={<JhowSimarBattle />} />
+            <Route path="battle/piupiu" element={<PiuBattle />} />
+            <Route path="battle/rice" element={<RiceBattle />} />
             <Route path="battle/goat" element={<GoatBattle />} />
             <Route path="brodiclass/one" element={<BrodiClassOne />} />
             <Route path="brodiclass/battle" element={<BrodiclassBattle />} />
