@@ -85,7 +85,7 @@ export function slimitaBehavior(ctx: BehaviorContext) {
       npc.state = "jumping";
       npc.jumpLandingX = targetX;
 
-      return { x, y };
+      return { x, y, state: "jumping" };
     }
 
     case "air": {
@@ -123,6 +123,7 @@ export function slimitaBehavior(ctx: BehaviorContext) {
       return {
         x: newX,
         y: newY,
+        state: "jumping",
       };
     }
 

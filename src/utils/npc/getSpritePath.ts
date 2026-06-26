@@ -15,6 +15,9 @@ export function getSpritePath(
 
   if (npcType === "slimita") {
     if (npcPhase === 2) {
+      if (state === "jumping") {
+        return asset("assets/npcs/slimita/phase2/air.svg");
+      }
       return asset(`assets/npcs/slimita/phase2/${state}.svg`);
     }
     return asset(`assets/npcs/slimita/${state}.svg`);
