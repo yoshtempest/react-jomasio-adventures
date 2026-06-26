@@ -7,7 +7,10 @@ import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { useAudio } from "@/contexts/AudioContext";
 import { asset } from "@/utils/asset";
 
-export function useInventoryMenu(isOpen: boolean) {
+export function useInventoryMenu(
+  isOpen: boolean,
+  listRef?: React.RefObject<HTMLUListElement | null>,
+) {
   const { pushControls, popControls } = useGameControls();
   const { items } = useInventory();
   const { sfxVolume } = useAudio();
@@ -26,6 +29,20 @@ export function useInventoryMenu(isOpen: boolean) {
 
   const [selectedIndex, setSelectedIndex] = useState(0);
   const selectedIndexRef = useRef(selectedIndex);
+
+  useEffect(() => {
+    if (!listRef?.current) return;
+
+    const container = listRef.current;
+    const selectedElement = container.children[selectedIndex] as HTMLElement;
+
+    if (!selectedElement) return;
+
+    selectedElement.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+    });
+  }, [selectedIndex, listRef]);
 
   // mantém ref sincronizada (evita stale no confirm)
   useEffect(() => {

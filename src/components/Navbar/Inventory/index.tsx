@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useInventoryMenu } from "@/hooks/menu/useInventory";
 import { useChestOpening } from "@/hooks/useChestOpening";
@@ -9,7 +9,9 @@ import styles from "./styles.module.css";
 
 export function Inventory() {
   const { items, maxSlots } = useInventory();
-  const { selectedIndex } = useInventoryMenu(true);
+  const listRef = useRef<HTMLUListElement>(null);
+  const { selectedIndex } = useInventoryMenu(true, listRef);
+
   const { openPlayerChest, lastResult, setLastResult } = useChestOpening();
   const { pushControls, popControls } = useGameControls();
 
@@ -91,7 +93,7 @@ export function Inventory() {
     <div className="containerOfNavbar">
       <h3>Inventário {slotsLabel}</h3>
 
-      <ul className={styles.list}>
+      <ul ref={listRef} className={styles.list}>
         {items.map((item, index) => (
           <li
             key={item.id}
