@@ -57,6 +57,9 @@ export function BattleScene(props: Props) {
     comboProgress,
     nextRank,
     charge,
+    defeatElapsed,
+    bestTime,
+    defeatProgress,
   } = useBattleScene(props);
 
   const {
@@ -197,6 +200,9 @@ export function BattleScene(props: Props) {
           isOpen={showDefeat}
           onContinue={handleRetry}
           onBack={() => navigate(-1)}
+          progress={defeatProgress}
+          elapsed={defeatElapsed}
+          bestTime={bestTime}
         />
       )}
     </div>

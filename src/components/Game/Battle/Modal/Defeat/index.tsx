@@ -11,13 +11,26 @@ type Props = {
   title?: string;
   onContinue: () => void;
   onBack: () => void;
+  progress: number;
+  elapsed: number;
+  bestTime: number;
 };
+
+function formatTime(ms: number): string {
+  const totalSec = Math.floor(ms / 1000);
+  const min = Math.floor(totalSec / 60);
+  const sec = totalSec % 60;
+  return `${min}:${sec.toString().padStart(2, "0")}`;
+}
 
 export function DefeatModal({
   isOpen,
   title = "Derrota",
   onContinue,
   onBack,
+  progress,
+  elapsed,
+  bestTime,
 }: Props) {
   const [selected, setSelected] = useState<Option>("retry");
   const { setMode } = usePlayer();
@@ -88,6 +101,26 @@ export function DefeatModal({
     <div className="overlay">
       <div className={`modal ${styles.modal}`}>
         <h1>{title}</h1>
+        <div className={styles.progressSection}>
+          <p className={styles.label}>Progresso na batalha</p>
+          <div className={styles.bar}>
+            <div
+              className={styles.fill}
+              style={{ width: `${progress * 100}%` }}
+            />
+          </div>
+          <p className={styles.text}>{(progress * 100).toFixed(0)}%</p>
+        </div>
+        <div className={styles.timeSection}>
+          <p className={styles.timeRow}>
+            <span className={styles.timeLabel}>Tempo:</span>
+            <span>{formatTime(elapsed)}</span>
+          </p>
+          <p className={styles.timeRow}>
+            <span className={styles.timeLabel}>Melhor tempo:</span>
+            <span>{bestTime > 0 ? formatTime(bestTime) : "0:00"}</span>
+          </p>
+        </div>
         <div className={styles.buttonContainer}>
           <button
             className={`${styles.button} ${selected === "retry" ? styles.active : ""}`}

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useMemo } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useGameAudio } from "@/hooks/game/useGameAudio";
 import { useNpcAI } from "@/hooks/battle/npc/useAi";
@@ -24,6 +24,20 @@ import { useBattleOutro } from "@/hooks/battle/useOutro";
 import { useBattleSync } from "@/hooks/battle/useSync";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import { saveGame } from "@/utils/saveGame";
+
+const BEST_TIME_PREFIX = "bestTime_";
+
+function loadBestTime(npcType: string): number {
+  const saved = localStorage.getItem(`${BEST_TIME_PREFIX}${npcType}`);
+  return saved ? parseInt(saved, 10) : 0;
+}
+
+function saveBestTime(npcType: string, elapsed: number) {
+  const prev = loadBestTime(npcType);
+  if (prev === 0 || elapsed < prev) {
+    localStorage.setItem(`${BEST_TIME_PREFIX}${npcType}`, elapsed.toString());
+  }
+}
 
 type Props = {
   npcType: string;
@@ -67,6 +81,10 @@ export function useBattleScene({
   const npcPhaseRef = useRef(npcPhase);
   npcPhaseRef.current = npcPhase;
   const [isPhaseTransitioning, setIsPhaseTransitioning] = useState(false);
+
+  const battleStartRef = useRef(Date.now());
+  const [defeatElapsed, setDefeatElapsed] = useState(0);
+  const [bestTime, setBestTime] = useState(loadBestTime(npcType));
 
   const { showIntro, skipIntro } = useBattleIntro();
 
@@ -203,7 +221,10 @@ export function useBattleScene({
     npcLevel,
     npcClass: npcData.class,
     difficulty,
-    onPlayerDeath: () => setShowDefeat(true),
+    onPlayerDeath: () => {
+      setShowDefeat(true);
+      setDefeatElapsed(Date.now() - battleStartRef.current);
+    },
     onNpcDeath: () => {
       const rewards = giveRewards();
       setLastRewards(rewards);
@@ -226,6 +247,9 @@ export function useBattleScene({
         character: d.character,
         hyperCoins: d.hyperCoins,
       });
+      const victoryElapsed = Date.now() - battleStartRef.current;
+      saveBestTime(npcType, victoryElapsed);
+      setBestTime(loadBestTime(npcType));
       triggerVictory();
       killCounter.handleNpcDeath(
         killCounter.npcTypeRef.current,
@@ -254,6 +278,20 @@ export function useBattleScene({
   } = useComboSystem({ npcMaxHp: battle.npcMaxHp });
   refs.registerHitRef.current = registerHit;
   refs.spawnDamageRef.current = battle.spawnDamageNumber;
+
+  const defeatProgress: number = useMemo(() => {
+    if (showDefeat) {
+      const totalPhases = npcData.class === "boss" ? 2 : 1;
+      const currentPhase = battle.npcPhase ?? 1;
+      const completedPhases = Math.max(0, currentPhase - 1);
+      const hpProgress = battle.npcMaxHp > 0
+        ? (battle.npcMaxHp - battle.npcHP) / battle.npcMaxHp
+        : 0;
+      const raw = (completedPhases + hpProgress) / totalPhases;
+      return Math.min(1, Math.max(0, raw));
+    }
+    return 0;
+  }, [showDefeat, battle.npcHP, battle.npcMaxHp, battle.npcPhase, npcData.class]);
 
   const { handlePlayerHit, handleSpecialHit } = usePlayerBattleActions({
     player,
@@ -384,6 +422,7 @@ export function useBattleScene({
     npc.resetNpc();
     resetBattleState();
     resetCombo();
+    battleStartRef.current = Date.now();
   }
 
   return {
@@ -413,5 +452,8 @@ export function useBattleScene({
     comboProgress: comboProgressValue,
     nextRank,
     charge,
+    defeatElapsed,
+    bestTime,
+    defeatProgress,
   };
 }
