@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import type { DamageType } from "@/hooks/battle/useDamageNumbers";
+import type { DamageType } from "@/hooks/battle/damage/useNumbers";
 
 type SpawnDamageFn = (
   value: number,

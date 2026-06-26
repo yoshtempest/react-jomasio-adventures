@@ -9,7 +9,7 @@ import { useBuildTargetList } from "./usePlayerTargeting";
 
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { CharactersProgress } from "@/data/characters/defaultProgress";
-import type { DamageType } from "@/hooks/battle/useDamageNumbers";
+import type { DamageType } from "@/hooks/battle/damage/useNumbers";
 
 type Props = {
   player: Player;

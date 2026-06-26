@@ -1,5 +1,5 @@
 import styles from "./styles.module.css";
-import type { DamageNumber } from "@/hooks/battle/useDamageNumbers";
+import type { DamageNumber } from "@/hooks/battle/damage/useNumbers";
 
 type Props = {
   numbers: DamageNumber[];

@@ -12,7 +12,7 @@ import {
   DASH_STEP,
   BATTLE_LIMITS,
 } from "@/utils/types/player/movement";
-import type { DamageType } from "@/hooks/battle/useDamageNumbers";
+import type { DamageType } from "@/hooks/battle/damage/useNumbers";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 
 type Props = {
@@ -228,8 +228,7 @@ export function useChargeDash(props: Props) {
             clearInterval(dashIntervalRef.current);
             dashIntervalRef.current = null;
           }
-          const endState = wasCritRef.current ? "crit" : "idle";
-          return { ...p, x: newX, state: endState as const };
+          return { ...p, x: newX, state: wasCritRef.current ? "crit" : "idle" };
         }
 
         return { ...p, x: newX, state: "dash" as const };

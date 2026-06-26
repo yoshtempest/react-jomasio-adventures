@@ -1,4 +1,4 @@
-import type { DamageType } from "@/hooks/battle/useDamageNumbers";
+import type { DamageType } from "@/hooks/battle/damage/useNumbers";
 
 export function rollCrit(
   damage: number,

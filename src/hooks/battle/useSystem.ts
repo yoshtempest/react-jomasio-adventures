@@ -11,8 +11,8 @@ import { usePlayerBattle } from "@/hooks/battle/player/usePlayer";
 import { useNpcBattle } from "@/hooks/battle/npc/useNpc";
 import { useBattleLifecycle } from "@/hooks/battle/useLifecycle";
 import { usePetBattle } from "@/hooks/battle/player/usePet";
-import { useDamageNumbers } from "@/hooks/battle/useDamageNumbers";
-import { useExternalDamage } from "@/hooks/battle/useExternalDamage";
+import { useDamageNumbers } from "@/hooks/battle/damage/useNumbers";
+import { useExternalDamage } from "@/hooks/battle/damage/useExternal";
 
 type Props = {
   playerX: number;
