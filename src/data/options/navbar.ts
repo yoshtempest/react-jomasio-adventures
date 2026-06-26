@@ -8,4 +8,5 @@ export const NAVBAR_OPTIONS: NavbarOption[] = [
   { label: "Mochila", screen: "inventory" },
   { label: "Missões", screen: "missions" },
   { label: "Títulos", screen: "titles" },
+  { label: "DelíciaDex", screen: "bestiary" },
 ];

@@ -11,6 +11,7 @@ import { QuestProvider } from "@/contexts/QuestContext";
 import { CharacterProgressProvider } from "@/contexts/CharacterProgressContext";
 import { EquipmentProvider } from "@/contexts/EquipmentContext";
 import { TitleProvider } from "@/contexts/TitleContext";
+import { BestiaryProvider } from "@/contexts/BestiaryContext";
 import { PlayerProvider } from "@/contexts/PlayerContext";
 import { GameControlsProvider } from "@/contexts/GameControlsContext";
 import { AuthProvider } from "@/contexts/AuthContext";
@@ -30,11 +31,13 @@ export function AppProviders({ children }: { children: ReactNode }) {
                         <CharacterProgressProvider>
                           <EquipmentProvider>
                             <TitleProvider>
+                              <BestiaryProvider>
                               <PlayerProvider>
                                 <GameControlsProvider>
                                   {children}
                                 </GameControlsProvider>
                               </PlayerProvider>
+                              </BestiaryProvider>
                             </TitleProvider>
                           </EquipmentProvider>
                         </CharacterProgressProvider>

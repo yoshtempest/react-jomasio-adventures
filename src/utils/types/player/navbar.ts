@@ -6,7 +6,8 @@ export type NavScreen =
   | "config"
   | "missions"
   | "equipment"
-  | "titles";
+  | "titles"
+  | "bestiary";
 
 export type NavbarOption = {
   label: string;
