@@ -1,4 +1,6 @@
 .list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   list-style: none;
   padding: 0;
   margin: 0;
@@ -9,6 +11,9 @@
 
 .item {
   padding: 8px 12px;
+  background-color: var(--surface-card);
+  border-left: 1px solid var(--background-color);
+  border-bottom: 1px solid var(--background-color);
 }
 
 .active {
@@ -62,14 +67,17 @@
 }
 
 .button {
+  display: flex;
+  align-items: center;
   padding: 0.5rem 1rem;
+  justify-content: center;
   border: 1px solid var(--border-medium);
   border-radius: 6px;
   background: #2c2c2c;
   color: #eee;
   cursor: pointer;
-  font-size: 0.9rem;
-  width: 10%;
+  font-size: 12px;
+  width: 48px;
 }
 
 .button:hover {

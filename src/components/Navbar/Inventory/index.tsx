@@ -126,7 +126,7 @@ export function Inventory() {
                     className={styles.button}
                     onClick={() => openPlayerChest(item.id as ItemId)}
                   >
-                    Abrir Baú
+                    Abrir
                   </button>
                 ) : (
                   <span className={styles.noKey}>
