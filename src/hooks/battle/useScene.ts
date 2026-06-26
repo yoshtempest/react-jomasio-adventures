@@ -1,17 +1,15 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useRef, useState } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useGameAudio } from "@/hooks/game/useGameAudio";
 import { useNpcAI } from "@/hooks/battle/npc/useAi";
 import { useBattleSystem } from "@/hooks/battle/useSystem";
-import { useVictory } from "@/hooks/useVictory";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
 import { useNavbar } from "@/contexts/NavbarContext";
-import { useLocation } from "react-router";
 import { useNpcSetup } from "@/hooks/battle/npc/useSetup";
-import { useBattleRewards, type RewardInfo } from "@/hooks/battle/rewards/useRewards";
+import { useBattleRewards } from "@/hooks/battle/rewards/useRewards";
 import { useSummons } from "@/hooks/battle/summon/useSummons";
 import { usePlayerBattleActions } from "@/hooks/battle/player/usePlayerActions";
 import { useSummonAI } from "@/hooks/battle/summon/useAi";
@@ -21,7 +19,9 @@ import { useBattleRefs } from "@/hooks/battle/useRefs";
 import { useBattleKillCounter } from "@/hooks/battle/useKillCounter";
 import { useChargeAttack } from "@/hooks/battle/charge/useAttack";
 import { usePhaseTransition } from "@/hooks/battle/usePhaseTransition";
-import { useGameControls } from "@/contexts/GameControlsContext";
+import { useBattleIntro } from "@/hooks/battle/useIntro";
+import { useBattleOutro } from "@/hooks/battle/useOutro";
+import { useBattleSync } from "@/hooks/battle/useSync";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import { saveGame } from "@/utils/saveGame";
 
@@ -63,16 +63,12 @@ export function useBattleScene({
   const { quests, progressDailyWeekly } = useQuests();
   const { closeNavbar } = useNavbar();
 
-  const [showDefeat, setShowDefeat] = useState(false);
-  const [showOutro, setShowOutro] = useState<"victory" | "defeat" | null>(null);
-  const [lastRewards, setLastRewards] = useState<RewardInfo | null>(null);
   const [npcPhase, setNpcPhase] = useState(1);
   const npcPhaseRef = useRef(npcPhase);
   npcPhaseRef.current = npcPhase;
-  const [showIntro, setShowIntro] = useState(true);
   const [isPhaseTransitioning, setIsPhaseTransitioning] = useState(false);
-  const [skipVictoryDelay, setSkipVictoryDelay] = useState(false);
-  const outroTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+  const { showIntro, skipIntro } = useBattleIntro();
 
   const { npcData, npcLevel, npcStats } = useNpcSetup(npcType, difficulty);
 
@@ -94,29 +90,18 @@ export function useBattleScene({
   const xpNeeded = getXPToNextLevel(charProgress.level);
   const missingXp = xpNeeded - charProgress.xp;
 
-  const { showVictory, triggerVictory } = useVictory({ redirectTo });
-
-  useEffect(() => {
-    if (showVictory) {
-      setShowOutro("victory");
-      outroTimeoutRef.current = setTimeout(() => setShowOutro(null), 2500);
-      return () => clearTimeout(outroTimeoutRef.current);
-    }
-  }, [showVictory]);
-
-  useEffect(() => {
-    if (showDefeat) {
-      setShowOutro("defeat");
-      outroTimeoutRef.current = setTimeout(() => setShowOutro(null), 2500);
-      return () => clearTimeout(outroTimeoutRef.current);
-    }
-  }, [showDefeat]);
-
-  const handleCloseOutro = useCallback(() => {
-    clearTimeout(outroTimeoutRef.current);
-    setShowOutro(null);
-    setSkipVictoryDelay(true);
-  }, []);
+  const {
+    showVictory,
+    triggerVictory,
+    showDefeat,
+    setShowDefeat,
+    showOutro,
+    skipVictoryDelay,
+    lastRewards,
+    setLastRewards,
+    handleCloseOutro,
+    handleContinue,
+  } = useBattleOutro({ redirectTo, onVictory });
 
   useGameAudio({ src: audioSrc, loop: true, volume: 0.5 });
 
@@ -129,8 +114,22 @@ export function useBattleScene({
   const closeNavbarRef = useRef(closeNavbar);
   closeNavbarRef.current = closeNavbar;
 
-  const saveDataRef = useRef({ items: inventoryItems, quests, character: player.character, playerClass, hyperCoins, coins });
-  saveDataRef.current = { items: inventoryItems, quests, character: player.character, playerClass, hyperCoins, coins };
+  const saveDataRef = useRef({
+    items: inventoryItems,
+    quests,
+    character: player.character,
+    playerClass,
+    hyperCoins,
+    coins,
+  });
+  saveDataRef.current = {
+    items: inventoryItems,
+    quests,
+    character: player.character,
+    playerClass,
+    hyperCoins,
+    coins,
+  };
 
   const killCounter = useBattleKillCounter();
   killCounter.npcTypeRef.current = npcType;
@@ -139,7 +138,6 @@ export function useBattleScene({
   const isPaused = showVictory || showDefeat || showIntro || showOutro != null;
 
   // 🎯 NPC targeting refs — shared between AI and battle system
-  // Refs avoid circular dependency (AI needs pet pos, battle needs NPC pos)
   const npcTargetIsPetRef = useRef(false);
   const petXRef = useRef(0);
   const petYRef = useRef(0);
@@ -149,7 +147,9 @@ export function useBattleScene({
   const npcAiMaxHpRef = useRef(npcStats.hp);
 
   const npcBlockedRef = useRef(false);
-  const npcBlockTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const npcBlockTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(
+    undefined,
+  );
 
   const onBeforeNpcHitRef = useRef<() => boolean>(() => false);
 
@@ -244,22 +244,6 @@ export function useBattleScene({
     onBeforeNpcHitRef,
   });
 
-  // sync pet position to shared refs so useNpcAI can read it
-  useEffect(() => {
-    if (battle.pet) {
-      petXRef.current = battle.pet.x;
-      petYRef.current = battle.pet.y;
-      hasPetRef.current = true;
-    } else {
-      hasPetRef.current = false;
-    }
-  }, [battle.pet?.x, battle.pet?.y, battle.pet, petXRef, petYRef]);
-
-  // sync NPC HP refs so useNpcAI can read them for behavior logic
-  useEffect(() => {
-    npcAiHpRef.current = battle.npcHP;
-  }, [battle.npcHP, npcAiHpRef]);
-
   const {
     comboCount,
     comboRank,
@@ -304,31 +288,13 @@ export function useBattleScene({
     hitstopRef: refs.hitstopRef,
   });
 
-  useEffect(() => {
-    updateNpcPosition(npc.x);
-  }, [npc.x, updateNpcPosition]);
-
+  // Refs that depend on battle (must live after useBattleSystem)
   const npcMaxHpRef = useRef(battle.npcMaxHp);
   npcMaxHpRef.current = battle.npcMaxHp;
   const setNpcHPRef = useRef(battle.setNpcHP);
   setNpcHPRef.current = battle.setNpcHP;
-
   const isEndingRef = useRef(battle.isEnding);
   isEndingRef.current = battle.isEnding;
-
-  useEffect(() => {
-    if (npcType !== "hungryKing") return;
-    if (battle.npcPhase !== 2) return;
-
-    const interval = setInterval(() => {
-      if (isEndingRef.current.current) return;
-      setNpcHPRef.current((hp: number) =>
-        Math.min(npcMaxHpRef.current, hp + 1),
-      );
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [npcType, battle.npcPhase]);
 
   usePhaseTransition({
     npcPhase: battle.npcPhase,
@@ -338,38 +304,6 @@ export function useBattleScene({
     clearSummons,
     setIsPhaseTransitioning,
   });
-
-  useEffect(() => {
-    setNpcPhase(battle.npcPhase);
-  }, [battle.npcPhase]);
-
-  refs.npcRangedAttackRef.current = () => {
-    if (player.state === "charging") charge.cancelCharge();
-    battle.npcRangedHit();
-  };
-  refs.npcMeleeAttackRef.current = () => {
-    if (player.state === "charging") charge.cancelCharge();
-    battle.npcMeleeHit();
-  };
-
-  useEffect(() => {
-    setModeRef.current("battle");
-    closeInventoryRef.current();
-    closeNavbarRef.current();
-  }, []);
-
-  const { pushControls, popControls } = useGameControls();
-
-  useEffect(() => {
-    if (!showIntro) return;
-    pushControls({
-      onConfirm: () => {
-        skipIntro();
-        return true;
-      },
-    });
-    return () => popControls();
-  }, [showIntro, pushControls, popControls]);
 
   const charge = useChargeAttack({
     player,
@@ -398,17 +332,42 @@ export function useBattleScene({
     totalVampirism: battle.totalVampirism,
   });
 
+  useBattleSync({
+    battle,
+    petXRef,
+    petYRef,
+    hasPetRef,
+    npcAiHpRef,
+    npc,
+    updateNpcPosition,
+    npcType,
+    npcMaxHpRef,
+    setNpcHPRef,
+    isEndingRef,
+    setNpcPhase,
+    setModeRef,
+    closeInventoryRef,
+    closeNavbarRef,
+    refs,
+    charge,
+    player,
+    battleNpcRangedHit: battle.npcRangedHit,
+    battleNpcMeleeHit: battle.npcMeleeHit,
+  });
+
   useBattleControls({
     attack,
     special,
-    blockStart: () => setPlayer((p) => {
-      if (p.state === "jump") return p;
-      return { ...p, state: "blocked" };
-    }),
-    blockEnd: () => setPlayer((p) => {
-      if (p.state !== "blocked") return p;
-      return { ...p, state: "idle" };
-    }),
+    blockStart: () =>
+      setPlayer((p) => {
+        if (p.state === "jump") return p;
+        return { ...p, state: "blocked" };
+      }),
+    blockEnd: () =>
+      setPlayer((p) => {
+        if (p.state !== "blocked") return p;
+        return { ...p, state: "idle" };
+      }),
     handlePlayerHit,
     handleSpecialHit,
     disabled: isPaused || isPhaseTransitioning,
@@ -416,15 +375,6 @@ export function useBattleScene({
     onChargeRelease: charge.releaseCharge,
     onChargeCancel: charge.cancelCharge,
   });
-
-  useEffect(() => {
-    const timeout = setTimeout(() => setShowIntro(false), 5000);
-    return () => clearTimeout(timeout);
-  }, []);
-
-  function skipIntro() {
-    setShowIntro(false);
-  }
 
   function handleRetry() {
     charge.cancelCharge();
@@ -434,13 +384,6 @@ export function useBattleScene({
     npc.resetNpc();
     resetBattleState();
     resetCombo();
-  }
-
-  function handleContinue() {
-    if (onVictory) onVictory();
-    if (redirectTo) {
-      navigate(redirectTo, { state: { from: location.pathname } });
-    }
   }
 
   return {
