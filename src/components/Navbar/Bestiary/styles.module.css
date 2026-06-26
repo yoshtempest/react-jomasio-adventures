@@ -1,5 +1,5 @@
 .container {
-  max-height: 75vh;
+  height: 80vh;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -7,6 +7,13 @@
   padding: 8px;
   scrollbar-width: none;
   -ms-overflow-style: none;
+}
+
+.flexRow {
+  display: flex;
+  flex-direction: row;
+  gap: 3vw;
+  align-items: center;
 }
 
 .container::-webkit-scrollbar {

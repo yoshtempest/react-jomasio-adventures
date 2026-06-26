@@ -113,10 +113,12 @@ export function DeliciaDex() {
 
   return (
     <div className="containerOfNavbar">
-      <h2>DelíciaDex</h2>
+      <div className={styles.flexRow}>
+        <h2>DelíciaDex</h2>
 
-      <div className={styles.counter}>
-        {encounteredCount}/{npcIds.length} encontrados
+        <div className={styles.counter}>
+          {encounteredCount}/{npcIds.length} encontrados
+        </div>
       </div>
 
       <div className={styles.container} ref={listRef}>
@@ -214,6 +216,14 @@ export function DeliciaDex() {
                 ) : (
                   <>
                     <div className={styles.unknownName}>???</div>
+                      {npcClass && (
+                        <span
+                          className={styles.classBadge}
+                          style={{ color: CLASS_COLOR[npcClass] }}
+                        >
+                          {CLASS_LABEL[npcClass]}
+                        </span>
+                      )}
                     <div className={styles.unknownHint}>
                       Derrote este inimigo para descobrir mais
                     </div>
