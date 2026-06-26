@@ -21,6 +21,7 @@ export type NPCBattleState = {
       lastStaffThrow: number;
       lastSummon: number;
       lastAction: number;
+      lastSpearRain: number;
     };
     hungryKing?: {
       knownPhase: number;

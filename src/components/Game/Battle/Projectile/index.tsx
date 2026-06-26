@@ -16,7 +16,7 @@ function getSpriteKey(projectile: Projectile): string {
     return projectile.state === "idle" ? "goat-idle" : "goat-walk";
   }
 
-  return sprite && spriteMap[sprite] ? sprite : "staff";
+  return sprite && spriteMap[sprite] ? sprite : "spoon";
 }
 
 export function ProjectileSprite({ projectile, scaleX, scaleY, groundY = 600 }: Props) {

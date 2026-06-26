@@ -29,7 +29,7 @@ export function deisePhase1(
   if (isPlayerClose) {
     const summonReady = canAct && now - ai.lastSummon >= SUMMON_COOLDOWN;
     if (summonReady) {
-      onSummon?.("rice");
+      onSummon?.("goat");
       ai.lastSummon = now;
       ai.lastAction = now;
     }
@@ -37,11 +37,11 @@ export function deisePhase1(
     const staffReady = canAct && !projectile && now - ai.lastStaffThrow >= STAFF_COOLDOWN;
     if (staffReady) {
       setProjectile(createCommonProjectile({
-        startX: npc.x - 100,
-        startY: npc.y - 80,
+        startX: npc.x - 40,
+        startY: npc.y - 50,
         targetX: playerX - 100,
-        targetY: playerY - 80,
-        sprite: "spoon",
+        targetY: playerY - 50,
+        sprite: "staff",
         state: "idle",
       }));
 
