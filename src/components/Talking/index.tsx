@@ -3,7 +3,6 @@ import { useTypewriter } from "@/hooks/interaction/useTypewriter";
 import { useSettings } from "@/contexts/SettingsContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { resolveAsset } from "@/utils/asset";
-import styles from "./styles.module.css";
 
 interface Props {
   name: string;
@@ -51,13 +50,13 @@ export default function Talking({ name, message, src, onNext }: Props) {
   }, [pushControls, popControls]);
 
   return (
-    <div className={styles.container}>
-      <div className={styles.talking}>
+    <div className="talkingContainer">
+      <div className="talking">
         <h1>{name}</h1>
         <h2>{displayedText}</h2>
       </div>
       {src && (
-        <img className={styles.image} src={resolveAsset(src)} alt={name} />
+        <img className="talkingImage" src={resolveAsset(src)} alt={name} />
       )}
     </div>
   );

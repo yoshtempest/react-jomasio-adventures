@@ -204,6 +204,38 @@ h2 {
   gap: 8px;
 }
 
+.talkingContainer {
+  position: absolute;
+  width: 50vw;
+  display: flex;
+  z-index: 9999;
+  justify-content: center;
+  left: 50%;
+  transform: translateX(-50%) translateY(5%);
+}
+
+.talking {
+  background-color: var(--primary-color);
+  width: 100%;
+  padding: 0% 1%;
+  max-height: fit-content;
+  text-align: left;
+  margin-top: 65vh;
+  bottom: 0;
+  z-index: 999;
+  border: 1px solid var(--background-color);
+  border-radius: 2px;
+}
+
+.talkingImage {
+  position: absolute;
+  z-index: 10;
+  bottom: 20%;
+  left: 0%;
+  height: 30vh;
+}
+
+
 .sectionTitle {
   font-size: var(--small);
   font-weight: 600;
@@ -410,6 +442,16 @@ h2 {
     height: 30vh;
     align-self: flex-start;
     margin-top: 0%;
+  }
+  .talkingContainer {
+    width: 80vw;
+  }
+  .talking {
+    margin-top: 60vh;
+  }
+  .talkingImage {
+    bottom: 15%;
+    height: 10vh;
   }
 }
 

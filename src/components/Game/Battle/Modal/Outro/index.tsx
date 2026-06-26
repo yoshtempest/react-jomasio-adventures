@@ -4,7 +4,6 @@ import { getOutroLine } from "@/data/battle/outro";
 import { useTypewriter } from "@/hooks/interaction/useTypewriter";
 import { useSettings } from "@/contexts/SettingsContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
-import styles from "./styles.module.css";
 
 type Props = {
   character: string;
@@ -49,14 +48,14 @@ export function BattleOutro({ character, type, onNext }: Props) {
   }, [pushControls, popControls]);
 
   return (
-    <div className={styles.overlay}>
-      <div className={styles.container}>
-        <div className={styles.talking}>
+    <div className="overlay">
+      <div className="talkingContainer">
+        <div className="talking">
           <h1>{title}</h1>
           <h2>{displayedText}</h2>
         </div>
         <img
-          className={styles.image}
+          className="talkingImage"
           src={asset(`/assets/player/${character}/${type}.svg`)}
           alt={character}
         />
