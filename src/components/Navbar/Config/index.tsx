@@ -10,7 +10,7 @@ import { useDialogue } from "@/hooks/interaction/useDialogue";
 import { useEffect, useRef } from "react";
 import { configsDialogue } from "@/data/maps/configs";
 import { DIFFICULTY_LABEL } from "@/data/npc/difficultyLabels";
-import { VictorTutorial } from "@/components/VictorTutorial";
+import { VictorTutorial } from "@/components/Navbar/Config/VictorTutorial";
 import InstallButton from "@/components/PWA";
 
 export function Config() {
