@@ -94,49 +94,60 @@ export function Inventory() {
       <h3>Inventário {slotsLabel}</h3>
 
       <ul ref={listRef} className={styles.list}>
-        {items.map((item, index) => (
+        {Array.from({ length: maxSlots }).map((_, index) => {
+        const item = items[index];
+
+        return (
           <li
-            key={item.id}
-            className={`${styles.item} ${index === selectedIndex ? styles.active : ""}`}
+            key={index}
+            className={`${styles.item} ${
+              index === selectedIndex ? styles.active : ""
+            }`}
           >
-            <div className={styles.itemRow}>
-              <img
-                className={styles.icon}
-                src={
-                  item.image
-                    ? `${import.meta.env.BASE_URL}${item.image.replace(/^\//, "")}`
-                    : `${import.meta.env.BASE_URL}assets/items/${item.id}.svg`
-                }
-                alt={item.name}
-              />
-              <div className={styles.info}>
-                <span className={styles.name}>
-                  {item.name}
-                  {item.qty && item.qty > 1 && (
-                    <span className={styles.qty}> x{item.qty}</span>
-                  )}
-                </span>
-                {item.description && (
-                  <span className={styles.description}>{item.description}</span>
-                )}
-              </div>
-              {index === selectedIndex && item.type === "chest" && (
-                hasKey ? (
-                  <button
-                    className={styles.button}
-                    onClick={() => openPlayerChest(item.id as ItemId)}
-                  >
-                    Abrir
-                  </button>
-                ) : (
-                  <span className={styles.noKey}>
-                    Sem chave
+            {item && (
+              <div className={styles.itemRow}>
+                <img
+                  className={styles.icon}
+                  src={
+                    item.image
+                      ? `${import.meta.env.BASE_URL}${item.image.replace(/^\//, "")}`
+                      : `${import.meta.env.BASE_URL}assets/items/${item.id}.svg`
+                  }
+                  alt={item.name}
+                />
+
+                <div className={styles.info}>
+                  <span className={styles.name}>
+                    {item.name}
+                    {item.qty && item.qty > 0 && (
+                      <span className={styles.qty}> x{item.qty}</span>
+                    )}
                   </span>
-                )
-              )}
-            </div>
+
+                  {item.description && (
+                    <span className={styles.description}>
+                      {item.description}
+                    </span>
+                  )}
+                </div>
+
+                {index === selectedIndex &&
+                  item.type === "chest" &&
+                  (hasKey ? (
+                    <button
+                      className={styles.button}
+                      onClick={() => openPlayerChest(item.id as ItemId)}
+                    >
+                      Abrir
+                    </button>
+                  ) : (
+                    <span className={styles.noKey}>Sem chave</span>
+                  ))}
+              </div>
+            )}
           </li>
-        ))}
+        );
+      })}
       </ul>
     </div>
   );

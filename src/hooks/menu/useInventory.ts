@@ -12,7 +12,7 @@ export function useInventoryMenu(
   listRef?: React.RefObject<HTMLUListElement | null>,
 ) {
   const { pushControls, popControls } = useGameControls();
-  const { items } = useInventory();
+  const { items, maxSlots } = useInventory();
   const { sfxVolume } = useAudio();
 
   const sfxVolumeRef = useRef(sfxVolume);
@@ -82,7 +82,10 @@ export function useInventoryMenu(
 
     const controls = {
       onUp: () => {
-        const length = items.length;
+        const length =
+          maxSlots === Infinity
+            ? items.length
+            : maxSlots;
         if (length === 0) return;
         playMoveRef.current();
 
@@ -90,7 +93,10 @@ export function useInventoryMenu(
       },
 
       onDown: () => {
-        const length = items.length;
+        const length =
+          maxSlots === Infinity
+            ? items.length
+            : maxSlots;
         if (length === 0) return;
 
         playMoveRef.current();
