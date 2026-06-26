@@ -248,10 +248,10 @@ export function ExploreScene({
                 alt=""
                 style={{
                   position: "absolute",
-                  width: TILE_SIZE,
-                  height: TILE_SIZE,
+                  width: TILE_SIZE * 0.7,
+                  height: TILE_SIZE * 0.7,
                   left: tile.x * TILE_SIZE,
-                  top: tile.y * TILE_SIZE,
+                  top: tile.y * TILE_SIZE * 1.1,
                   zIndex: 5,
                   pointerEvents: "none",
                 }}

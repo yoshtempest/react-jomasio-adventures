@@ -10,6 +10,9 @@ export function getAfterPcRoomOneInitialPosition(
   if (lastPage?.startsWith("/hall/jailson")) {
     return { x: 8, y: 3, direction: "down" };
   }
+  if (lastPage?.startsWith("/cantina")) {
+    return { x: 8, y: 10, direction: "up" };
+  }
 
   return { x: 2, y: 9, direction: "down" };
 }
