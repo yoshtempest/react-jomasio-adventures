@@ -67,28 +67,8 @@ export function Config() {
           <div className={styles.chainRight} />
         </div>
       </div>
-      <div className={styles.volumeContainer}>
-        {selectedRow === 1 && <span className={styles.cursor}>▼</span>}
-
-        <h2>Efeitos Sonoros: {sfxVolume}</h2>
-
-        <div className={styles.volumeBar}>
-          <div className={styles.volumeFill} style={{ width: `${sfxVolume}%` }} />
-        </div>
-      </div>
-      <div className={styles.volumeContainer}>
-        {selectedRow === 2 && <span className={styles.cursor}>▼</span>}
-
-        <h2>Música de Fundo: {bgmVolume}</h2>
-
-        <div className={styles.volumeBar}>
-          <div className={styles.volumeFill} style={{ width: `${bgmVolume}%` }} />
-        </div>
-      </div>
       <div className={styles.speedContainer}>
-
         <h2>Velocidade do Diálogo: {SPEED_LABEL[dialogueSpeed]}</h2>
-
         <div className={styles.speedOptions}>
           {selectedRow === 3 && <span className={styles.cursor}>▼</span>}
           {DIALOGUE_SPEED_LIST.map((speed, index) => {
@@ -106,23 +86,46 @@ export function Config() {
           })}
         </div>
       </div>
-      <div
-        className={`${styles.speedContainer} ${
-          selectedRow === 4 ? styles.selected : ""
-        }`}
-      >
-        {selectedRow === 4 && <span className={styles.cursor}>▼</span>}
+      <div className={styles.flexRow}>
+        <div className={styles.volumeContainer}>
+          {selectedRow === 1 && <span className={styles.cursor}>▼</span>}
 
-        <h2>Indicador de Missões: {showQuestIndicator ? "ON" : "OFF"}</h2>
+          <h2>Efeitos Sonoros: {sfxVolume}</h2>
+
+          <div className={styles.volumeBar}>
+            <div className={styles.volumeFill} style={{ width: `${sfxVolume}%` }} />
+          </div>
+        </div>
+        <div className={styles.volumeContainer}>
+          {selectedRow === 2 && <span className={styles.cursor}>▼</span>}
+
+          <h2>Música de Fundo: {bgmVolume}</h2>
+
+          <div className={styles.volumeBar}>
+            <div className={styles.volumeFill} style={{ width: `${bgmVolume}%` }} />
+          </div>
+        </div>
       </div>
-      <div
-        className={`${styles.tutorialButton} ${
-          selectedRow === 5 ? styles.selected : ""
-        }`}
-      >
-        {selectedRow === 5 && <span className={styles.cursor}>▼</span>}
+      <div className={styles.flexRow}>
+        <div
+          className={`${styles.indicatorButton} ${
+            selectedRow === 4 ? styles.selected : ""
+          }`}
+        >
+          {selectedRow === 4 && <span className={styles.cursor}>▼</span>}
 
-        <h2>Ver Tutorial</h2>
+          <h2 className={styles.indicatorText}>Indicador de Missões: {showQuestIndicator ? "ON" : "OFF"}</h2>
+        </div>
+        <div
+          className={`${styles.tutorialButton} ${
+            selectedRow === 5 ? styles.selected : ""
+          }`}
+        >
+          {selectedRow === 5 && <span className={styles.cursor}>▼</span>}
+
+          <h2>Ver Tutorial</h2>
+        </div>
+        <InstallButton />
       </div>
 
       {screen === "tutorial" && (
@@ -187,7 +190,6 @@ export function Config() {
           )}
         </div>
       )}
-      <InstallButton />
     </div>
   );
 }

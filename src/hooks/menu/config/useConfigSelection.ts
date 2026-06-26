@@ -159,7 +159,7 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
 
         // indicador de missão
         if (selectedRowRef.current === 4) {
-          setShowQuestIndicatorRef.current(!showQuestIndicator);
+          setShowQuestIndicatorRef.current(!setShowQuestIndicator);
         }
 
         // tutorial
