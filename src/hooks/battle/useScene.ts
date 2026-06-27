@@ -24,6 +24,7 @@ import { useBattleOutro } from "@/hooks/battle/useOutro";
 import { useBattleSync } from "@/hooks/battle/useSync";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import { saveGame } from "@/utils/saveGame";
+import { incrementDeath } from "@/utils/rewards/deathCounter";
 
 const BEST_TIME_PREFIX = "bestTime_";
 
@@ -222,6 +223,7 @@ export function useBattleScene({
     npcClass: npcData.class,
     difficulty,
     onPlayerDeath: () => {
+      incrementDeath(player.character);
       setShowDefeat(true);
       setDefeatElapsed(Date.now() - battleStartRef.current);
     },

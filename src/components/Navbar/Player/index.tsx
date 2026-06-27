@@ -12,6 +12,7 @@ import { FLAGS } from "@/data/flags";
 import { BESTIARY_NPC_ORDER } from "@/data/bestiary";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useRewards } from "@/hooks/useRewards";
+import { getDeaths } from "@/utils/rewards/deathCounter";
 
 export function Player() {
   const { progress } = useCharacterProgress();
@@ -36,6 +37,7 @@ export function Player() {
   const storyPct = totalStoryFlags > 0 ? Math.round((completedFlags / totalStoryFlags) * 100) : 0;
 
   const totalPlayTime = getTotalPlayTime();
+  const deaths = getDeaths();
 
   function charLabel(char: string): string {
     const opt = CHARACTER_OPTIONS.find((c) => c.image === char);
@@ -67,8 +69,8 @@ export function Player() {
             <span className={styles.statValue}>{formatTime(totalPlayTime)}</span>
           </div>
           <div className={styles.statRow}>
-            <span className={styles.statLabel}>Total de inimigos derrotados</span>
-            <span className={styles.statValue}>{titlesData.totalKills}</span>
+            <span className={styles.statLabel}>Tempo em batalha</span>
+            <span className={styles.statValue}>{formatTime(getTotalBattleTime())}</span>
           </div>
           <div className={styles.statRow}>
             <span className={styles.statLabel}>Kwanzas</span>
@@ -79,12 +81,16 @@ export function Player() {
             <span className={styles.statValue}>{hyperCoins}</span>
           </div>
           <div className={styles.statRow}>
-            <span className={styles.statLabel}>Tempo em batalha</span>
-            <span className={styles.statValue}>{formatTime(getTotalBattleTime())}</span>
-          </div>
-          <div className={styles.statRow}>
             <span className={styles.statLabel}>Dias jogados</span>
             <span className={styles.statValue}>{loginDays}</span>
+          </div>
+          <div className={styles.statRow}>
+            <span className={styles.statLabel}>Total de inimigos derrotados</span>
+            <span className={styles.statValue}>{titlesData.totalKills}</span>
+          </div>
+          <div className={styles.statRow}>
+            <span className={styles.statLabel}>Total de derrotas</span>
+            <span className={styles.statValue}>{deaths.total}</span>
           </div>
         </div>
 
@@ -93,6 +99,10 @@ export function Player() {
           <div className={styles.statRow}>
             <span className={styles.statLabel}>Tempo jogado</span>
             <span className={styles.statValue}>{formatTime(playTime[selectedChar])}</span>
+          </div>
+          <div className={styles.statRow}>
+            <span className={styles.statLabel}>Tempo em batalha</span>
+            <span className={styles.statValue}>{formatTime(battleTime[selectedChar] ?? 0)}</span>
           </div>
           <div className={styles.statRow}>
             <span className={styles.statLabel}>% do tempo total</span>
@@ -110,8 +120,8 @@ export function Player() {
             </span>
           </div>
           <div className={styles.statRow}>
-            <span className={styles.statLabel}>Tempo em batalha</span>
-            <span className={styles.statValue}>{formatTime(battleTime[selectedChar] ?? 0)}</span>
+            <span className={styles.statLabel}>Derrotas</span>
+            <span className={styles.statValue}>{deaths.perCharacter[selectedChar] ?? 0}</span>
           </div>
         </div>
 
