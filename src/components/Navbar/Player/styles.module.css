@@ -87,3 +87,74 @@
   background: var(--accent-color);
   transition: width 0.3s;
 }
+
+.rewardRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 6px;
+  margin-bottom: 4px;
+  font-size: 11px;
+  background: var(--surface-card);
+  border-radius: 4px;
+  gap: 6px;
+}
+
+.rewardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
+}
+
+.rewardLabel {
+  color: var(--text-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rewardProgress {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.rewardAction {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.rewardValue {
+  font-size: 11px;
+  font-weight: bold;
+  color: #f0d080;
+}
+
+.claimBtn {
+  padding: 3px 10px;
+  border: 1px solid #5a3a5e;
+  border-radius: 4px;
+  background: linear-gradient(135deg, #3a2a4e, #4a2a3e);
+  color: #f0d080;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.claimBtn:hover {
+  background: linear-gradient(135deg, #4a3a5e, #5a3a4e);
+}
+
+.claimBtnDone {
+  padding: 3px 10px;
+  border: 1px solid var(--border-default);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 11px;
+  cursor: default;
+  opacity: 0.5;
+}

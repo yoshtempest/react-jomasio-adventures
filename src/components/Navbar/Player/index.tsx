@@ -11,15 +11,17 @@ import { TITLES } from "@/data/titles";
 import { FLAGS } from "@/data/flags";
 import { BESTIARY_NPC_ORDER } from "@/data/bestiary";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { useRewards } from "@/hooks/useRewards";
 
 export function Player() {
   const { progress } = useCharacterProgress();
   const { playTime, getTotalPlayTime } = usePlayTime();
   const { bestiary } = useBestiary();
   const { titlesData } = useTitles();
-  const { coins } = usePlayer();
+  const { coins, hyperCoins } = usePlayer();
   const { flags } = useFlags();
   const { selectedChar } = usePlayerMenu(true);
+  const { rewards, claim } = useRewards();
 
   const totalTitles = TITLE_IDS.length;
   const acquiredTitles = TITLE_IDS.filter((id) => (titlesData.progress[id]?.level ?? 0) > 0).length;
@@ -71,6 +73,10 @@ export function Player() {
           <div className={styles.statRow}>
             <span className={styles.statLabel}>Kwanzas</span>
             <span className={styles.statValue}>{coins}</span>
+          </div>
+          <div className={styles.statRow}>
+            <span className={styles.statLabel}>HyperCoins</span>
+            <span className={styles.statValue}>{hyperCoins}</span>
           </div>
         </div>
 
@@ -132,6 +138,31 @@ export function Player() {
           <div className={styles.barOuter}>
             <div className={styles.barInner} style={{ width: `${storyPct}%` }} />
           </div>
+        </div>
+
+        <div className={styles.section}>
+          <div className={styles.sectionTitle}>Recompensas</div>
+
+          {rewards.map((r) => (
+            <div key={r.id} className={styles.rewardRow}>
+              <div className={styles.rewardInfo}>
+                <span className={styles.rewardLabel}>{r.label}</span>
+                <span className={styles.rewardProgress}>
+                  {r.current}/{r.requirement}
+                </span>
+              </div>
+              <div className={styles.rewardAction}>
+                <span className={styles.rewardValue}>+{r.reward} HyperCoins</span>
+                <button
+                  className={r.canClaim ? styles.claimBtn : styles.claimBtnDone}
+                  disabled={!r.canClaim}
+                  onClick={() => claim(r.id)}
+                >
+                  {r.canClaim ? "Receber" : "OK"}
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

@@ -3,6 +3,7 @@ import { useTitles } from "@/contexts/TitleContext";
 import { useBestiary } from "@/contexts/BestiaryContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
+import { incrementClassKill } from "@/utils/rewards/classKills";
 
 export function useBattleKillCounter() {
   const { incrementKillCounter } = useTitles();
@@ -16,6 +17,7 @@ export function useBattleKillCounter() {
     incrementKillCounter(npcType, npcClass);
     registerDefeat(npcType);
     incrementKills(player.character);
+    incrementClassKill(npcClass);
   }
 
   return { npcTypeRef, npcDataRef, handleNpcDeath };
