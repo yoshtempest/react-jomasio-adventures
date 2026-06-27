@@ -15,7 +15,7 @@ import { useRewards } from "@/hooks/useRewards";
 
 export function Player() {
   const { progress } = useCharacterProgress();
-  const { playTime, getTotalPlayTime } = usePlayTime();
+  const { playTime, battleTime, getTotalPlayTime, getTotalBattleTime, loginDays } = usePlayTime();
   const { bestiary } = useBestiary();
   const { titlesData } = useTitles();
   const { coins, hyperCoins } = usePlayer();
@@ -78,6 +78,14 @@ export function Player() {
             <span className={styles.statLabel}>HyperCoins</span>
             <span className={styles.statValue}>{hyperCoins}</span>
           </div>
+          <div className={styles.statRow}>
+            <span className={styles.statLabel}>Tempo em batalha</span>
+            <span className={styles.statValue}>{formatTime(getTotalBattleTime())}</span>
+          </div>
+          <div className={styles.statRow}>
+            <span className={styles.statLabel}>Dias jogados</span>
+            <span className={styles.statValue}>{loginDays}</span>
+          </div>
         </div>
 
         <div className={styles.section}>
@@ -100,6 +108,10 @@ export function Player() {
             <span className={styles.statValue}>
               {progress[selectedChar]?.kills ?? 0}
             </span>
+          </div>
+          <div className={styles.statRow}>
+            <span className={styles.statLabel}>Tempo em batalha</span>
+            <span className={styles.statValue}>{formatTime(battleTime[selectedChar] ?? 0)}</span>
           </div>
         </div>
 

@@ -19,6 +19,8 @@ type StoredData = {
   playTime: PlayTimeData;
   battleTime: BattleTimeData;
   visited: VisitedData;
+  loginDays: number;
+  lastLoginDate: string;
 };
 
 function loadData(): StoredData {
@@ -30,6 +32,8 @@ function loadData(): StoredData {
       playTime: normalizeRecord(parsed.playTime, 0),
       battleTime: normalizeRecord(parsed.battleTime, 0),
       visited: parsed.visited ?? {},
+      loginDays: parsed.loginDays ?? 0,
+      lastLoginDate: parsed.lastLoginDate ?? "",
     };
   } catch {
     return createDefault();
@@ -49,6 +53,8 @@ function createDefault(): StoredData {
     playTime: createRecord(0),
     battleTime: createRecord(0),
     visited: {},
+    loginDays: 0,
+    lastLoginDate: "",
   };
 }
 
@@ -90,6 +96,7 @@ type ContextType = {
   playTime: PlayTimeData;
   battleTime: BattleTimeData;
   visited: VisitedData;
+  loginDays: number;
   addBattleTime: (character: Character, seconds: number) => void;
   recordTile: (route: string, x: number, y: number) => void;
   getTotalPlayTime: () => number;
@@ -122,6 +129,22 @@ export function PlayTimeProvider({ children }: { children: ReactNode }) {
     }, 1000);
 
     return () => clearInterval(intervalId);
+  }, []);
+
+  useEffect(() => {
+    const today = new Date().toISOString().split("T")[0];
+    const stored = loadData();
+    if (stored.lastLoginDate !== today) {
+      setData((prev) => {
+        const updated = {
+          ...prev,
+          loginDays: prev.loginDays + 1,
+          lastLoginDate: today,
+        };
+        saveData(updated);
+        return updated;
+      });
+    }
   }, []);
 
   function addBattleTime(character: Character, seconds: number) {
@@ -182,6 +205,7 @@ export function PlayTimeProvider({ children }: { children: ReactNode }) {
         playTime: data.playTime,
         battleTime: data.battleTime,
         visited: data.visited,
+        loginDays: data.loginDays,
         addBattleTime,
         recordTile,
         getTotalPlayTime,
