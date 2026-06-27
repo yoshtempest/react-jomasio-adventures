@@ -17,4 +17,5 @@ export const DAILY_QUEST_DATE_KEY = "dailyQuestDate";
 export const WEEKLY_QUEST_DATE_KEY = "weeklyQuestDate";
 export const SHOW_QUEST_INDICATOR_KEY = "showQuestIndicator";
 export const BESTIARY_KEY = "bestiary";
+export const DAILY_CHEST_KEY = "daily_chest_last_open";
 
