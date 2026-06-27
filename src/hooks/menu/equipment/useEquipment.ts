@@ -137,23 +137,52 @@ export function useEquipmentMenu(
     const firstItem = EQUIPPED_COUNT + FILTER_TAB_COUNT;
 
     if (prev < EQUIPPED_COUNT) {
+      const cols = 4;
+
       if (direction === "up") {
-        let next = prev;
-        while (next > 0) {
+        if (prev < cols) {
+          if (totalItems > EQUIPPED_COUNT) return firstTab;
+          return prev;
+        }
+        let next = prev - cols;
+        while (next >= 0 && isLockedIndex(next)) {
           next--;
-          if (!isLockedIndex(next)) return next;
         }
-        return prev;
+        return next < 0 ? prev : next;
       }
+
       if (direction === "down") {
-        let next = prev;
-        while (next < EQUIPPED_COUNT - 1) {
+        let next = prev + cols;
+        if (next >= EQUIPPED_COUNT) return prev;
+        while (next < EQUIPPED_COUNT && isLockedIndex(next)) {
           next++;
-          if (!isLockedIndex(next)) return next;
         }
-        return prev;
+        return next >= EQUIPPED_COUNT ? prev : next;
       }
-      if (direction === "right" && totalItems > EQUIPPED_COUNT) return firstTab;
+
+      if (direction === "left") {
+        const rowStart = Math.floor(prev / cols) * cols;
+        let next = prev - 1;
+        if (next < rowStart) return prev;
+        while (next >= rowStart && isLockedIndex(next)) {
+          next--;
+        }
+        return next < rowStart ? prev : next;
+      }
+
+      if (direction === "right") {
+        const rowEnd = Math.min(
+          Math.floor(prev / cols) * cols + cols - 1,
+          EQUIPPED_COUNT - 1,
+        );
+        let next = prev + 1;
+        if (next > rowEnd) return prev;
+        while (next <= rowEnd && isLockedIndex(next)) {
+          next++;
+        }
+        return next > rowEnd ? prev : next;
+      }
+
       return prev;
     }
 
