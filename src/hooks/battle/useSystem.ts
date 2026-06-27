@@ -36,6 +36,9 @@ type Props = {
   petYRef: React.RefObject<number>;
   onBeforeNpcHitRef?: React.RefObject<() => boolean>;
   onBlockRef?: React.RefObject<() => void>;
+  onDamageTakenRef?: React.RefObject<(amount: number) => void>;
+  onDodgeRef?: React.RefObject<() => void>;
+  onDamageDealtRef?: React.RefObject<(amount: number) => void>;
 };
 
 export function useBattleSystem(props: Props) {
@@ -61,6 +64,9 @@ export function useBattleSystem(props: Props) {
     petYRef,
     onBeforeNpcHitRef,
     onBlockRef,
+    onDamageTakenRef,
+    onDodgeRef,
+    onDamageDealtRef,
   } = props;
 
   const [npcPhase, setNpcPhase] = useState(1);
@@ -143,6 +149,7 @@ export function useBattleSystem(props: Props) {
     registerHitRef,
     setPlayer,
     onBeforeNpcHitRef,
+    onDamageDealtRef,
   });
 
   const petDamageRef = useRef(() => {});
@@ -193,6 +200,9 @@ export function useBattleSystem(props: Props) {
     petXRef,
     petYRef,
     onBlockRef,
+    titleEnemyMissChance: titleBonus.enemyMissChance,
+    onDamageTakenRef,
+    onDodgeRef,
   });
 
   const { isNpcDying } = useBattleLifecycle({

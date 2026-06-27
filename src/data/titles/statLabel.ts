@@ -4,4 +4,7 @@ export const STAT_LABEL: Record<string, string> = {
   strength: "Força",
   intelligence: "Inteligência",
   resistance: "Resistência",
+  armor: "Armadura",
+  enemyMissChance: "Chance de erro do inimigo",
+  percentAllStats: "Todos os status",
 };

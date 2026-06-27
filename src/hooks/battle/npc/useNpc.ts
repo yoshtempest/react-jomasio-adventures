@@ -40,6 +40,9 @@ type Props = {
   petXRef?: React.RefObject<number>;
   petYRef?: React.RefObject<number>;
   onBlockRef?: React.RefObject<() => void>;
+  titleEnemyMissChance?: number;
+  onDamageTakenRef?: React.RefObject<(amount: number) => void>;
+  onDodgeRef?: React.RefObject<() => void>;
 };
 
 export function useNpcBattle({
@@ -70,6 +73,9 @@ export function useNpcBattle({
   petXRef,
   petYRef,
   onBlockRef,
+  titleEnemyMissChance = 0,
+  onDamageTakenRef,
+  onDodgeRef,
 }: Props) {
   const { playSound } = useSoundEffects();
 
@@ -139,22 +145,40 @@ export function useNpcBattle({
     const targetIsPet = npcTargetIsPetRef?.current === true;
 
     if (!targetIsPet) {
-      if (!isNpcInRange(playerX, playerY, npcX, npcY)) return;
-      if (player.state === "dash") return;
-      if ((player.state === "idleCrounched" || player.state === "walkCrounched") && Math.abs(playerX - npcX) > 80) return;
+      if (!isNpcInRange(playerX, playerY, npcX, npcY)) {
+        onDodgeRef?.current?.();
+        return;
+      }
+      if (player.state === "dash") {
+        onDodgeRef?.current?.();
+        return;
+      }
+      if ((player.state === "idleCrounched" || player.state === "walkCrounched") && Math.abs(playerX - npcX) > 80) {
+        onDodgeRef?.current?.();
+        return;
+      }
     } else {
       if (!petXRef?.current || !petYRef?.current) return;
       if (!isNpcInRange(petXRef.current, petYRef.current, npcX, npcY)) return;
+    }
+
+    const tx = targetIsPet ? (petXRef?.current ?? playerX) : playerX;
+    const ty = targetIsPet ? (petYRef?.current ?? playerY) : playerY;
+
+    const missChance = 0.005 + titleEnemyMissChance / 100;
+    if (Math.random() < missChance) {
+      spawnDamageRef.current?.(0, tx, ty, "miss");
+      npcCooldown.current = false;
+      setTimeout(() => (npcCooldown.current = true), 800);
+      return;
     }
 
     const npc = getNpcStats(npcLevel, npcClass, difficulty);
     const baseDmg = npc.damage;
     const dmg = calculateNpcDamage(baseDmg, playerClass, totalArmor);
 
-    const tx = targetIsPet ? (petXRef?.current ?? playerX) : playerX;
-    const ty = targetIsPet ? (petYRef?.current ?? playerY) : playerY;
-
     applyNpcDamage(dmg, tx, ty, targetIsPet);
+    onDamageTakenRef?.current?.(dmg);
     hitstopRef.current = Date.now() + 50;
 
     npcCooldown.current = false;
@@ -165,6 +189,7 @@ export function useNpcBattle({
     playerX, playerY, npcX, npcY, difficulty,
     hitstopRef, applyNpcDamage,
     npcTargetIsPetRef, petXRef, petYRef,
+    titleEnemyMissChance, onDamageTakenRef, onDodgeRef,
   ]);
 
   const npcRangedHit = useCallback(() => {

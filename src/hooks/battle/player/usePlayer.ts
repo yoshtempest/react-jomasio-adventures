@@ -47,6 +47,7 @@ type Props = {
   registerHitRef: React.RefObject<(damage: number) => void>;
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;
   onBeforeNpcHitRef?: React.RefObject<() => boolean>;
+  onDamageDealtRef?: React.RefObject<(amount: number) => void>;
 };
 
 export function usePlayerBattle({
@@ -77,6 +78,7 @@ export function usePlayerBattle({
   registerHitRef,
   setPlayer,
   onBeforeNpcHitRef,
+  onDamageDealtRef,
 }: Props) {
   const [delicia, setDelicia] = useState(0);
   const [stacks, setStacks] = useState(0);
@@ -141,6 +143,7 @@ export function usePlayerBattle({
 
     spawnDamageRef.current?.(dmg, npcX, npcY, dmgType);
     registerHitRef.current?.(dmg);
+    onDamageDealtRef?.current?.(dmg);
     hitstopRef.current = Date.now() + 60;
 
     if (totalVampirism > 0) {
@@ -173,6 +176,7 @@ export function usePlayerBattle({
     spawnDamageRef,
     hitstopRef,
     registerHitRef,
+    onDamageDealtRef,
     critRate,
     npcArmor,
     playerHP,
@@ -243,6 +247,7 @@ export function usePlayerBattle({
 
     spawnDamageRef.current?.(dmg, npcX, npcY, dmgType);
     registerHitRef.current?.(dmg);
+    onDamageDealtRef?.current?.(dmg);
     hitstopRef.current = Date.now() + 100;
 
     if (totalVampirism > 0) {
@@ -279,6 +284,7 @@ export function usePlayerBattle({
     spawnDamageRef,
     hitstopRef,
     registerHitRef,
+    onDamageDealtRef,
     critRate,
     npcArmor,
     playerHP,

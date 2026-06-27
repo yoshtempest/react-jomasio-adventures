@@ -60,6 +60,17 @@
   animation: floatCrit 1s ease-out forwards;
 }
 
+.miss {
+  color: #aaaaaa;
+  font-size: var(--small);
+  text-transform: uppercase;
+  font-style: italic;
+  text-shadow:
+    0 0 6px rgba(170, 170, 170, 0.6),
+    1px 1px 0 rgba(0, 0, 0, 0.8),
+    -1px -1px 0 rgba(0, 0, 0, 0.8);
+}
+
 .blocked {
   color: #00ffff;
   font-size: var(--small);

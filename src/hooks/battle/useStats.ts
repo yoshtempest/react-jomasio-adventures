@@ -50,8 +50,8 @@ export function useBattleStats({
   }, [getBonus]);
 
   const totalArmor = useMemo(() => {
-    return getTotalArmor(player.character, baseChar.stats.resistance);
-  }, [player.character, baseChar.stats.resistance]);
+    return getTotalArmor(player.character, baseChar.stats.resistance) + titleBonus.armor;
+  }, [player.character, baseChar.stats.resistance, titleBonus.armor]);
 
   const totalShield = useMemo(() => {
     return getTotalShield(player.character) + titleBonus.shield;
@@ -71,17 +71,18 @@ export function useBattleStats({
 
   const char = useMemo(() => {
     if (!baseChar) return baseChar;
+    const allStatsPct = 1 + titleBonus.percentAllStats / 100;
     const base = {
-      hp: baseChar.stats.hp + equipmentBonus.hp + titleBonus.hp,
+      hp: (baseChar.stats.hp + equipmentBonus.hp + titleBonus.hp) * allStatsPct,
       strength:
-        baseChar.stats.strength +
-        equipmentBonus.strength +
-        titleBonus.strength,
+        (baseChar.stats.strength +
+          equipmentBonus.strength +
+          titleBonus.strength) * allStatsPct,
       intelligence:
-        baseChar.stats.intelligence +
-        equipmentBonus.intelligence +
-        titleBonus.intelligence,
-      resistance: baseChar.stats.resistance,
+        (baseChar.stats.intelligence +
+          equipmentBonus.intelligence +
+          titleBonus.intelligence) * allStatsPct,
+      resistance: baseChar.stats.resistance * allStatsPct,
       points: baseChar.stats.points,
     };
     return {

@@ -9,7 +9,8 @@ export type DamageType =
   | "blocked"
   | "crit"
   | "charge"
-  | "reflect";
+  | "reflect"
+  | "miss";
 
 export type DamageNumber = {
   id: number;

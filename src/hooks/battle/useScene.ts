@@ -68,7 +68,13 @@ export function useBattleScene({
   const { items: inventoryItems, closeInventory } = useInventory();
   const { quests, progressDailyWeekly } = useQuests();
   const { closeNavbar } = useNavbar();
-  const { handleDefeat, incrementBlockCounter } = useTitles();
+  const {
+    handleDefeat,
+    incrementBlockCounter,
+    incrementDamageTaken,
+    incrementDamageDealt,
+    incrementDodgeCounter,
+  } = useTitles();
 
   const [npcPhase, setNpcPhase] = useState(1);
   const npcPhaseRef = useRef(npcPhase);
@@ -242,6 +248,21 @@ export function useBattleScene({
     incrementBlockCounter();
   };
 
+  const onDamageTakenRef = useRef<(amount: number) => void>(() => {});
+  onDamageTakenRef.current = (amount: number) => {
+    incrementDamageTaken(amount);
+  };
+
+  const onDodgeRef = useRef(() => {});
+  onDodgeRef.current = () => {
+    incrementDodgeCounter();
+  };
+
+  const onDamageDealtRef = useRef<(amount: number) => void>(() => {});
+  onDamageDealtRef.current = (amount: number) => {
+    incrementDamageDealt(amount);
+  };
+
   const battle = useBattleSystem({
     playerX: player.x,
     playerY: player.y,
@@ -264,6 +285,9 @@ export function useBattleScene({
     petYRef: targeting.petYRef,
     onBeforeNpcHitRef: targeting.onBeforeNpcHitRef,
     onBlockRef,
+    onDamageTakenRef,
+    onDodgeRef,
+    onDamageDealtRef,
   });
 
   const {

@@ -18,6 +18,9 @@ type ContextType = {
   getBonus: () => TitleBonusMap;
   incrementKillCounter: (npcType: string, npcClass: string) => void;
   incrementBlockCounter: () => void;
+  incrementDamageTaken: (amount: number) => void;
+  incrementDamageDealt: (amount: number) => void;
+  incrementDodgeCounter: () => void;
   handleDefeat: () => void;
   equipTitle: (id: string) => void;
   unequipTitle: () => void;
@@ -39,6 +42,9 @@ export function TitleProvider({ children }: { children: ReactNode }) {
       strength: 0,
       intelligence: 0,
       shield: 0,
+      armor: 0,
+      enemyMissChance: 0,
+      percentAllStats: 0,
     };
     if (!titlesData.equippedId) return bonus;
 
@@ -53,7 +59,9 @@ export function TitleProvider({ children }: { children: ReactNode }) {
     if (!levelDef) return bonus;
 
     for (const b of levelDef.bonus) {
-      bonus[b.stat] += b.value;
+      if (b.stat in bonus) {
+        (bonus as Record<string, number>)[b.stat] += b.value;
+      }
     }
 
     return bonus;
@@ -168,6 +176,84 @@ export function TitleProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  const incrementDamageTaken = useCallback((amount: number) => {
+    setTitlesData((prev) => {
+      const nextProgress = { ...prev.progress };
+      let changed = false;
+
+      for (const titleId of Object.keys(TITLES)) {
+        const def = TITLES[titleId];
+        if (def.condition.type !== "damageTaken") continue;
+
+        const prog = { ...nextProgress[titleId] };
+        if (prog.level >= def.levels.length) continue;
+
+        const nextCurrent = prog.current + amount;
+        const nextLevelTarget = def.levels[prog.level].count;
+        const nextLevel =
+          nextCurrent >= nextLevelTarget ? prog.level + 1 : prog.level;
+
+        nextProgress[titleId] = { current: nextCurrent, level: nextLevel };
+        changed = true;
+      }
+
+      if (!changed) return prev;
+      return { ...prev, progress: nextProgress };
+    });
+  }, []);
+
+  const incrementDamageDealt = useCallback((amount: number) => {
+    setTitlesData((prev) => {
+      const nextProgress = { ...prev.progress };
+      let changed = false;
+
+      for (const titleId of Object.keys(TITLES)) {
+        const def = TITLES[titleId];
+        if (def.condition.type !== "damageDealt") continue;
+
+        const prog = { ...nextProgress[titleId] };
+        if (prog.level >= def.levels.length) continue;
+
+        const nextCurrent = prog.current + amount;
+        const nextLevelTarget = def.levels[prog.level].count;
+        const nextLevel =
+          nextCurrent >= nextLevelTarget ? prog.level + 1 : prog.level;
+
+        nextProgress[titleId] = { current: nextCurrent, level: nextLevel };
+        changed = true;
+      }
+
+      if (!changed) return prev;
+      return { ...prev, progress: nextProgress };
+    });
+  }, []);
+
+  const incrementDodgeCounter = useCallback(() => {
+    setTitlesData((prev) => {
+      const nextProgress = { ...prev.progress };
+      let changed = false;
+
+      for (const titleId of Object.keys(TITLES)) {
+        const def = TITLES[titleId];
+        if (def.condition.type !== "dodgeCount") continue;
+
+        const prog = { ...nextProgress[titleId] };
+        if (prog.level >= def.levels.length) continue;
+
+        const nextCurrent = prog.current + 1;
+        const nextLevelTarget = def.levels[prog.level].count;
+        const nextLevel =
+          nextCurrent >= nextLevelTarget ? prog.level + 1 : prog.level;
+
+        nextProgress[titleId] = { current: nextCurrent, level: nextLevel };
+        changed = true;
+      }
+
+      if (!changed) return prev;
+      return { ...prev, progress: nextProgress };
+    });
+  }, []);
+
   const equipTitle = useCallback((id: string) => {
     setTitlesData((prev) => {
       if (!prev.progress[id] || prev.progress[id].level === 0) return prev;
@@ -186,6 +272,9 @@ export function TitleProvider({ children }: { children: ReactNode }) {
         getBonus,
         incrementKillCounter,
         incrementBlockCounter,
+        incrementDamageTaken,
+        incrementDamageDealt,
+        incrementDodgeCounter,
         handleDefeat,
         equipTitle,
         unequipTitle,

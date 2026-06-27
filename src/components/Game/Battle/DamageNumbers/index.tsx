@@ -14,6 +14,7 @@ const TYPE_CLASS: Record<string, string> = {
   blocked: styles.blocked,
   crit: styles.crit,
   charge: styles.charge,
+  miss: styles.miss,
 };
 
 export function DamageNumbers({ numbers }: Props) {
@@ -30,9 +31,11 @@ export function DamageNumbers({ numbers }: Props) {
         >
           {n.type === "blocked"
             ? "BLOCKED!"
-            : n.value > 0
-              ? `-${n.value}`
-              : "0"}
+            : n.type === "miss"
+              ? "MISS!"
+              : n.value > 0
+                ? `-${n.value}`
+                : "0"}
         </div>
       ))}
     </>

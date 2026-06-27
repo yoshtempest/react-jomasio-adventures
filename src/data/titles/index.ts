@@ -186,6 +186,58 @@ export const TITLES: Record<string, TitleDef> = {
       },
     ],
   },
+  masoquista: {
+    id: "masoquista",
+    name: "Masoquista",
+    description: "Receba dano em batalhas",
+    icon: "shield",
+    condition: { type: "damageTaken" },
+    levels: [
+      { count: 500, bonus: [{ stat: "armor", value: 2 }] },
+      { count: 1500, bonus: [{ stat: "armor", value: 5 }] },
+      { count: 3000, bonus: [{ stat: "armor", value: 10 }] },
+      { count: 6000, bonus: [{ stat: "armor", value: 18 }] },
+      { count: 10000, bonus: [{ stat: "armor", value: 30 }] },
+    ],
+  },
+  atacante: {
+    id: "atacante",
+    name: "Atacante",
+    description: "Cause dano em batalhas",
+    icon: "sword",
+    condition: { type: "damageDealt" },
+    levels: [
+      { count: 500, bonus: [{ stat: "damage", value: 2 }] },
+      { count: 1500, bonus: [{ stat: "damage", value: 5 }] },
+      { count: 4000, bonus: [{ stat: "damage", value: 10 }] },
+      { count: 8000, bonus: [{ stat: "damage", value: 18 }] },
+      { count: 15000, bonus: [{ stat: "damage", value: 30 }] },
+    ],
+  },
+  dragonSlayer: {
+    id: "dragonSlayer",
+    name: "Dragon Slayer",
+    description: "Derrote o Rei Dragão",
+    icon: "dragon",
+    condition: { type: "killNpcType", npcTypePrefix: "hungryKing" },
+    levels: [
+      { count: 1, bonus: [{ stat: "percentAllStats", value: 5 }] },
+    ],
+  },
+  ghostPlayer: {
+    id: "ghostPlayer",
+    name: "Ghost Player",
+    description: "Evite ataques em batalhas",
+    icon: "ghost",
+    condition: { type: "dodgeCount" },
+    levels: [
+      { count: 50, bonus: [{ stat: "enemyMissChance", value: 1 }] },
+      { count: 150, bonus: [{ stat: "enemyMissChance", value: 2 }] },
+      { count: 400, bonus: [{ stat: "enemyMissChance", value: 3 }] },
+      { count: 800, bonus: [{ stat: "enemyMissChance", value: 4 }] },
+      { count: 1500, bonus: [{ stat: "enemyMissChance", value: 5 }] },
+    ],
+  },
 };
 
 export const TITLE_IDS = Object.keys(TITLES);
