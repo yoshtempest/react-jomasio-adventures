@@ -116,6 +116,41 @@ export function saveAllData(
   saveCompressed(EQUIP_KEY, allData);
 }
 
+export function loadEquipped(character: CharacterId): EquippedItems {
+  try {
+    const raw = localStorage.getItem(EQUIP_KEY);
+    if (!raw) return createEmptyEquipped();
+    const all = JSON.parse(raw);
+    const data = all[character];
+    if (!data) return createEmptyEquipped();
+    const rawEquipped = data.equipped ?? {};
+    const result = createEmptyEquipped();
+    for (const slot of EQUIPMENT_SLOTS) {
+      const val = rawEquipped[slot];
+      if (!val) {
+        result[slot] = null;
+      } else if (typeof val === "string") {
+        result[slot] = { id: val, enhance: 0 };
+      } else {
+        result[slot] = { id: val.id ?? val, enhance: val.enhance ?? 0 };
+      }
+    }
+    if (Array.isArray(rawEquipped.accessories)) {
+      result.accessories = rawEquipped.accessories.map(
+        (a: unknown) => {
+          if (!a) return null;
+          if (typeof a === "string") return { id: a, enhance: 0 };
+          const obj = a as Record<string, unknown>;
+          return { id: String(obj.id ?? ""), enhance: Number(obj.enhance ?? 0) };
+        },
+      ).filter((a: EquippedItemInfo | null): a is EquippedItemInfo => a !== null && a.id !== "");
+    }
+    return result;
+  } catch {
+    return createEmptyEquipped();
+  }
+}
+
 export function getCharacterData(
   all: Record<string, CharacterEquipmentData>,
   character: CharacterId,
