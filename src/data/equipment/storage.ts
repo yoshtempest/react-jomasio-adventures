@@ -5,7 +5,7 @@ import type {
 import { createEmptyEquipped, EQUIPMENT_SLOTS } from "@/utils/types/player/equipment";
 import { saveCompressed, loadCompressed } from "@/utils/storage";
 
-type CharacterEquipmentData = {
+export type CharacterEquipmentData = {
   equipped: EquippedItems;
   collection: Record<string, number>;
 };

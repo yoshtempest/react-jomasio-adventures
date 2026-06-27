@@ -330,3 +330,54 @@ export function getTotalReflect(character: CharacterId): number {
 
   return total;
 }
+
+export function buildSetItemIds(equipped: EquippedItems): Set<string> {
+  const setPieces: Record<string, string[]> = {};
+
+  for (const slot of SET_SLOTS) {
+    const info = equipped[slot];
+    if (!info) continue;
+    const item = getEquipmentById(info.id);
+    if (!item?.set) continue;
+    if (!setPieces[item.set]) setPieces[item.set] = [];
+    setPieces[item.set].push(info.id);
+  }
+
+  for (const info of equipped.accessories) {
+    const item = getEquipmentById(info.id);
+    if (!item?.set) continue;
+    if (!setPieces[item.set]) setPieces[item.set] = [];
+    setPieces[item.set].push(info.id);
+  }
+
+  const setItemIds = new Set<string>();
+  for (const ids of Object.values(setPieces)) {
+    if (ids.length >= 3) {
+      for (const id of ids) setItemIds.add(id);
+    }
+  }
+
+  return setItemIds;
+}
+
+export function addItemBonus(
+  bonus: {
+    hp: number;
+    strength: number;
+    intelligence: number;
+    shield: number;
+    vampirism: number;
+    reflect: number;
+  },
+  info: EquippedItemInfo,
+  setItemIds: Set<string>,
+) {
+  const stats = getEffectiveStats(info.id, info.enhance);
+  const multiplier = setItemIds.has(info.id) ? SET_MULTIPLIER : 1;
+  bonus.hp += Math.round(stats.hp * multiplier);
+  bonus.strength += Math.round(stats.strength * multiplier);
+  bonus.intelligence += Math.round(stats.intelligence * multiplier);
+  bonus.shield += Math.round(stats.shield * multiplier);
+  bonus.vampirism += Math.round(stats.vampirism * multiplier);
+  bonus.reflect += Math.round(stats.reflect * multiplier);
+}
