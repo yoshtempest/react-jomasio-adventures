@@ -1,8 +1,16 @@
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { getEquipmentById } from "@/data/equipment";
 import { getEffectiveStats } from "@/gameRules/battle/equipment";
-import { EQUIPMENT_SLOTS, MAX_ACCESSORIES, ACCESSORY_UNLOCKED_COUNT } from "@/utils/types/player/equipment";
-import type { Equipment, EquipmentStats, EquippedItemInfo } from "@/utils/types/player/equipment";
+import {
+  EQUIPMENT_SLOTS,
+  MAX_ACCESSORIES,
+  ACCESSORY_UNLOCKED_COUNT
+} from "@/utils/types/player/equipment";
+import type {
+  Equipment,
+  EquipmentStats,
+  EquippedItemInfo
+} from "@/utils/types/player/equipment";
 import type { EquipmentFilter } from "@/utils/equipmentMenu";
 
 function totalStats(stats: EquipmentStats): number {
@@ -107,10 +115,13 @@ export function useEquipmentItems(
       if (equippedTotal !== undefined) {
         if (itemTotal > equippedTotal) arrow = "up";
         else if (itemTotal < equippedTotal) arrow = "down";
+      } else if (itemTotal >= 0) {
+        arrow = "up";
       }
       return { item, qty: qty as number, enhance, stats, arrow } as CollectedEntry;
     })
-    .filter((e): e is CollectedEntry => e !== null);
+    .filter((e): e is CollectedEntry => e !== null)
+    .sort((a, b) => totalStats(b.stats) - totalStats(a.stats));
 
   const filteredItems =
     filter === "all"
