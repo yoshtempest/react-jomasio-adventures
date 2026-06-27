@@ -270,6 +270,7 @@ declare global {
     state: PlayerState;
     mode: PlayerMode;
     hasPeru?: boolean;
+    moving?: boolean;
   };
 
   // ── Quest ───────────────────────────────────────────────

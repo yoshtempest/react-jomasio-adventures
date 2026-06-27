@@ -8,6 +8,7 @@ type Props = {
   TILE_SIZE: number;
   PLAYER_SIZE: number;
   hasPeru?: boolean;
+  moving?: boolean;
 };
 
 export function Player({
@@ -18,12 +19,14 @@ export function Player({
   TILE_SIZE,
   PLAYER_SIZE,
   hasPeru,
+  moving,
 }: Props) {
   const spriteDirection = direction === "left" ? "right" : direction;
+  const spriteName = moving ? `moving${spriteDirection.charAt(0).toUpperCase() + spriteDirection.slice(1)}` : spriteDirection;
 
   const spritePath = hasPeru
-    ? `assets/player/${character}/movement/withPeru/${spriteDirection}.svg`
-    : `assets/player/${character}/movement/${spriteDirection}.svg`;
+    ? `assets/player/${character}/movement/withPeru/${spriteName}.svg`
+    : `assets/player/${character}/movement/${spriteName}.svg`;
 
   const src = asset(spritePath);
 

@@ -267,6 +267,7 @@ export function ExploreScene({
           TILE_SIZE={TILE_SIZE}
           PLAYER_SIZE={PLAYER_SIZE}
           hasPeru={player.hasPeru}
+          moving={player.moving}
         />
       </GameMap>
 

@@ -90,6 +90,20 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   });
   usePlayerAnimation(player, setPlayer);
 
+  const movingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (player.moving) {
+      if (movingTimerRef.current) clearTimeout(movingTimerRef.current);
+      movingTimerRef.current = setTimeout(() => {
+        setPlayer((p) => (p.moving ? { ...p, moving: false } : p));
+      }, 150);
+    }
+    return () => {
+      if (movingTimerRef.current) clearTimeout(movingTimerRef.current);
+    };
+  }, [player.moving, player.gridX, player.gridY, setPlayer]);
+
   const [currentMap, setCurrentMap] = useState<number[][]>([]);
   const { toggleInventory } = useInventory();
   const { toggleNavbar } = useNavbar();
