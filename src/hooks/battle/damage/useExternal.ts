@@ -15,6 +15,7 @@ type Props = {
   setBlockGauge: React.Dispatch<React.SetStateAction<number>>;
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;
   spawnDamageRef: React.RefObject<SpawnDamageFn>;
+  onBlockRef?: React.RefObject<() => void>;
 };
 
 export function useExternalDamage({
@@ -29,6 +30,7 @@ export function useExternalDamage({
   setBlockGauge,
   setPlayer,
   spawnDamageRef,
+  onBlockRef,
 }: Props) {
   const playerShieldRef = useRef(playerShield);
   playerShieldRef.current = playerShield;
@@ -46,6 +48,7 @@ export function useExternalDamage({
 
   const damagePlayer = useCallback((damage: number) => {
     if (player.state === "blocked") {
+      onBlockRef?.current?.();
       if (blockGauge > 0) {
         if (damage <= blockGauge) {
           setBlockGauge((g) => Math.max(0, g - damage));
@@ -72,7 +75,7 @@ export function useExternalDamage({
     spawnDamageRef.current?.(reduced, playerX, playerY, "summon");
   }, [
     player.state, blockGauge, playerX, playerY, totalArmor,
-    setBlockGauge, setPlayer, damagePlayerHp, spawnDamageRef,
+    setBlockGauge, setPlayer, damagePlayerHp, spawnDamageRef, onBlockRef,
   ]);
 
   return { damagePlayerHp, damagePlayer };

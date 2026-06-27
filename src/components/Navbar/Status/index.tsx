@@ -54,7 +54,7 @@ export function Status() {
   const userSpecialDamage = 15 + totalIntelligence * 2;
   const userNormalAttackDamage = 6 + totalStrength;
   const userArmor = getTotalArmor(character, stats.resistance);
-  const totalShield = bonus.shield;
+  const totalShield = bonus.shield + titleBonus.shield;
 
   const charProgress = progress[player.character];
   const xpNeeded = getXPToNextLevel(charProgress.level);

@@ -35,6 +35,7 @@ type Props = {
   petXRef: React.RefObject<number>;
   petYRef: React.RefObject<number>;
   onBeforeNpcHitRef?: React.RefObject<() => boolean>;
+  onBlockRef?: React.RefObject<() => void>;
 };
 
 export function useBattleSystem(props: Props) {
@@ -59,6 +60,7 @@ export function useBattleSystem(props: Props) {
     petXRef,
     petYRef,
     onBeforeNpcHitRef,
+    onBlockRef,
   } = props;
 
   const [npcPhase, setNpcPhase] = useState(1);
@@ -110,6 +112,7 @@ export function useBattleSystem(props: Props) {
     setBlockGauge,
     setPlayer,
     spawnDamageRef,
+    onBlockRef,
   });
 
   const playerBattle = usePlayerBattle({
@@ -189,6 +192,7 @@ export function useBattleSystem(props: Props) {
     npcTargetIsPetRef,
     petXRef,
     petYRef,
+    onBlockRef,
   });
 
   const { isNpcDying } = useBattleLifecycle({

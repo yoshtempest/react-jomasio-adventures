@@ -29,6 +29,20 @@ export const TITLES: Record<string, TitleDef> = {
       { count: 400, bonus: [{ stat: "damage", value: 64 }] },
     ],
   },
+  defensor: {
+    id: "defensor",
+    name: "Defensor",
+    description: "Bloqueie ataques",
+    icon: "warrior",
+    condition: { type: "blockCount" },
+    levels: [
+      { count: 25, bonus: [{ stat: "shield", value: 5 }] },
+      { count: 75, bonus: [{ stat: "shield", value: 10 }] },
+      { count: 150, bonus: [{ stat: "shield", value: 20 }] },
+      { count: 300, bonus: [{ stat: "shield", value: 35 }] },
+      { count: 500, bonus: [{ stat: "shield", value: 50 }] },
+    ],
+  },
   acertadorDeCabras: {
     id: "acertadorDeCabras",
     name: "Acertador de Cabras",

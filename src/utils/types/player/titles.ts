@@ -2,10 +2,11 @@ export type TitleCondition =
   | { type: "killNpcType"; npcTypePrefix: string }
   | { type: "killNpcClass"; npcClass: string }
   | { type: "killTotal" }
-  | { type: "consecutiveWins" };
+  | { type: "consecutiveWins" }
+  | { type: "blockCount" };
 
 export type TitleBonusStat = {
-  stat: "hp" | "strength" | "intelligence" | "damage";
+  stat: "hp" | "strength" | "intelligence" | "damage" | "shield";
   value: number;
 };
 
@@ -39,4 +40,5 @@ export type TitleBonusMap = {
   hp: number;
   strength: number;
   intelligence: number;
+  shield: number;
 };

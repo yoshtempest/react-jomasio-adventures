@@ -13,6 +13,7 @@ import type { CollisionParams } from "@/hooks/battle/player/useMovement";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { usePlayerAnimation } from "@/hooks/battle/player/usePlayerAnimation";
+import { usePersistedNumber } from "@/hooks/usePersistedNumber";
 import {
   BATTLE_DEFAULT_STATE,
   useBattleCollisionRef,
@@ -73,17 +74,11 @@ const PlayerContext = createContext<PlayerContextType | null>(null);
 
 export function PlayerProvider({ children }: { children: ReactNode }) {
   const [difficulty, setDifficulty] = useState<NpcDifficulty>("medium");
-  const [coins, setCoins] = useState(() => {
-    const saved = localStorage.getItem(COINS_KEY);
-    return saved ? Number(saved) : 200;
-  });
-  const [hyperCoins, setHyperCoins] = useState(() => {
-    const saved = localStorage.getItem(HYPER_COINS_KEY);
-    return saved ? Number(saved) : 0;
-  });
+  const [coins, setCoins] = usePersistedNumber(COINS_KEY, 200);
+  const [hyperCoins, setHyperCoins] = usePersistedNumber(HYPER_COINS_KEY, 0);
+
   const [player, setPlayer] = useState<Player>(() => {
     const savedCharacter = localStorage.getItem(CHARACTER_KEY);
-
     return {
       gridX: 6,
       gridY: 11,
@@ -106,26 +101,12 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
   const [playerClass, setPlayerClass] = useState<PlayerClass>(() => {
     const saved = localStorage.getItem(PLAYER_CLASS_KEY);
-
-    if (saved === "fracote" || saved === "idiota" || saved === "amostradinho") {
-      return saved;
-    }
-
+    if (saved === "fracote" || saved === "idiota" || saved === "amostradinho") return saved;
     return null;
   });
 
   useEffect(() => {
-    localStorage.setItem(COINS_KEY, String(coins));
-  }, [coins]);
-
-  useEffect(() => {
-    localStorage.setItem(HYPER_COINS_KEY, String(hyperCoins));
-  }, [hyperCoins]);
-
-  useEffect(() => {
-    if (playerClass) {
-      localStorage.setItem(PLAYER_CLASS_KEY, playerClass);
-    }
+    if (playerClass) localStorage.setItem(PLAYER_CLASS_KEY, playerClass);
   }, [playerClass]);
 
   const battleCollisionRef = useBattleCollisionRef();
@@ -150,30 +131,21 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     battleCollisionRef.current = params;
   }, [battleCollisionRef]);
 
-  const attack = () => {
-    rawAttack();
-  };
+  const attack = () => rawAttack();
 
-  function setMap(map: number[][]) {
-    setCurrentMap(map);
-  }
+  function setMap(map: number[][]) { setCurrentMap(map); }
 
-  function chooseClass(cls: PlayerClass) {
-    setPlayerClass(cls);
-  }
+  function chooseClass(cls: PlayerClass) { setPlayerClass(cls); }
 
-  function addCoins(amount: number) {
-    setCoins((prev) => prev + amount);
-  }
+  function addCoins(amount: number) { setCoins((prev) => prev + amount); }
 
-  function addHyperCoins(amount: number) {
-    setHyperCoins((prev) => prev + amount);
-  }
+  function addHyperCoins(amount: number) { setHyperCoins((prev) => prev + amount); }
 
   function openInventory() {
     if (player.mode !== "explore") return;
     toggleInventory();
   }
+
   function openNavbar() {
     if (player.mode !== "explore") return;
     toggleNavbar();
@@ -188,83 +160,45 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   }
 
   function resetBattleState() {
-    setPlayer((p) => ({
-      ...p,
-      ...BATTLE_DEFAULT_STATE,
-    }));
+    setPlayer((p) => ({ ...p, ...BATTLE_DEFAULT_STATE }));
   }
 
-  const setPosition = (
-    x: number,
-    y: number,
-    direction: Player["direction"] = "down",
-  ) => {
-    setPlayer((prev) => ({
-      ...prev,
-      gridX: x,
-      gridY: y,
-      direction,
-    }));
-  };
+  function setPosition(x: number, y: number, direction: Player["direction"] = "down") {
+    setPlayer((prev) => ({ ...prev, gridX: x, gridY: y, direction }));
+  }
 
-  const setCharacter = (character: Player["character"]) => {
+  function setCharacter(character: Player["character"]) {
     localStorage.setItem(CHARACTER_KEY, character);
-    setPlayer((prev) => ({
-      ...prev,
-      character,
-    }));
-  };
+    setPlayer((prev) => ({ ...prev, character }));
+  }
 
   function toggleHasPeru() {
-    setPlayer((prev) => ({
-      ...prev,
-      hasPeru: !prev.hasPeru,
-    }));
+    setPlayer((prev) => ({ ...prev, hasPeru: !prev.hasPeru }));
   }
 
   return (
     <PlayerContext.Provider
       value={{
-        player,
-        setPlayer,
-        coins,
-        addCoins,
-        hyperCoins,
-        addHyperCoins,
+        player, setPlayer,
+        coins, addCoins,
+        hyperCoins, addHyperCoins,
         setCharacter,
 
-        moveUp,
-        moveDown,
-        moveLeft,
-        moveRight,
-        openInventory,
-        openNavbar,
+        moveUp, moveDown, moveLeft, moveRight,
+        openInventory, openNavbar,
 
-        moveUpBattle,
-        startMoveLeft,
-        stopMoveLeft,
-        startMoveRight,
-        stopMoveRight,
-        blockStart,
-        blockEnd,
-        toggleCrouch,
-        attack,
-        special,
-        dash,
-
+        moveUpBattle, startMoveLeft, stopMoveLeft,
+        startMoveRight, stopMoveRight,
+        blockStart, blockEnd, toggleCrouch,
+        attack, special, dash,
         setPlayerState,
 
         resetBattleState,
-        setMap,
-        setMode,
-        setPosition,
-        setBattleCollision,
-        playerClass,
-        chooseClass,
-        difficulty,
-        setDifficulty,
-        toggleHasPeru,
-        lastBlockPressRef,
+        setMap, setMode, setPosition, setBattleCollision,
+
+        playerClass, chooseClass,
+        difficulty, setDifficulty,
+        toggleHasPeru, lastBlockPressRef,
       }}
     >
       {children}

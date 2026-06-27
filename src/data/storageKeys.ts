@@ -22,4 +22,5 @@ export const REWARDS_KEY = "rewards";
 export const CLASS_KILLS_KEY = "npc_class_kills";
 export const DEATHS_KEY = "deaths";
 export const STREAK_KEY = "streak_stats";
+export const BLOCKS_KEY = "blocks";
 

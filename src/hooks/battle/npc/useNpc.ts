@@ -39,6 +39,7 @@ type Props = {
   npcTargetIsPetRef?: React.RefObject<boolean>;
   petXRef?: React.RefObject<number>;
   petYRef?: React.RefObject<number>;
+  onBlockRef?: React.RefObject<() => void>;
 };
 
 export function useNpcBattle({
@@ -68,6 +69,7 @@ export function useNpcBattle({
   npcTargetIsPetRef,
   petXRef,
   petYRef,
+  onBlockRef,
 }: Props) {
   const { playSound } = useSoundEffects();
 
@@ -115,6 +117,7 @@ export function useNpcBattle({
         npcCooldown,
         lastBlockPressRef,
         onFullBlock,
+        onBlockRef,
       });
       if (blocked) return;
 
@@ -193,6 +196,7 @@ export function useNpcBattle({
       npcCooldown,
       lastBlockPressRef,
       onFullBlock,
+      onBlockRef,
     });
     if (blocked) return;
 

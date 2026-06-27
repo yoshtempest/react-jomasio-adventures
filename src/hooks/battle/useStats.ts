@@ -45,13 +45,17 @@ export function useBattleStats({
 
   const critRate = 1 + weaponCritRate;
 
+  const titleBonus = useMemo(() => {
+    return getBonus();
+  }, [getBonus]);
+
   const totalArmor = useMemo(() => {
     return getTotalArmor(player.character, baseChar.stats.resistance);
   }, [player.character, baseChar.stats.resistance]);
 
   const totalShield = useMemo(() => {
-    return getTotalShield(player.character);
-  }, [player.character]);
+    return getTotalShield(player.character) + titleBonus.shield;
+  }, [player.character, titleBonus.shield]);
 
   const totalVampirism = useMemo(() => {
     return getTotalVampirism(player.character);
@@ -60,10 +64,6 @@ export function useBattleStats({
   const totalReflect = useMemo(() => {
     return getTotalReflect(player.character);
   }, [player.character]);
-
-  const titleBonus = useMemo(() => {
-    return getBonus();
-  }, [getBonus]);
 
   const rankMultiplier = useMemo(() => {
     return getRankMultiplier(baseChar?.level ?? 1);

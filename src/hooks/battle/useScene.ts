@@ -28,6 +28,7 @@ import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import { saveGame } from "@/utils/saveGame";
 import { loadBestTime, saveBestTime } from "@/utils/bestTime";
 import { incrementDeath } from "@/utils/rewards/deathCounter";
+import { incrementBlockCount } from "@/utils/rewards/blockCounter";
 import { recordWin, recordDefeat } from "@/utils/rewards/streakStats";
 
 type Props = {
@@ -67,7 +68,7 @@ export function useBattleScene({
   const { items: inventoryItems, closeInventory } = useInventory();
   const { quests, progressDailyWeekly } = useQuests();
   const { closeNavbar } = useNavbar();
-  const { handleDefeat } = useTitles();
+  const { handleDefeat, incrementBlockCounter } = useTitles();
 
   const [npcPhase, setNpcPhase] = useState(1);
   const npcPhaseRef = useRef(npcPhase);
@@ -235,6 +236,12 @@ export function useBattleScene({
     );
   };
 
+  const onBlockRef = useRef(() => {});
+  onBlockRef.current = () => {
+    incrementBlockCount(player.character);
+    incrementBlockCounter();
+  };
+
   const battle = useBattleSystem({
     playerX: player.x,
     playerY: player.y,
@@ -256,6 +263,7 @@ export function useBattleScene({
     petXRef: targeting.petXRef,
     petYRef: targeting.petYRef,
     onBeforeNpcHitRef: targeting.onBeforeNpcHitRef,
+    onBlockRef,
   });
 
   const {

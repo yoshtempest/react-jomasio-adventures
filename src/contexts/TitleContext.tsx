@@ -17,6 +17,7 @@ type ContextType = {
   titlesData: TitlesData;
   getBonus: () => TitleBonusMap;
   incrementKillCounter: (npcType: string, npcClass: string) => void;
+  incrementBlockCounter: () => void;
   handleDefeat: () => void;
   equipTitle: (id: string) => void;
   unequipTitle: () => void;
@@ -37,6 +38,7 @@ export function TitleProvider({ children }: { children: ReactNode }) {
       hp: 0,
       strength: 0,
       intelligence: 0,
+      shield: 0,
     };
     if (!titlesData.equippedId) return bonus;
 
@@ -137,6 +139,35 @@ export function TitleProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  const incrementBlockCounter = useCallback(() => {
+    setTitlesData((prev) => {
+      const nextProgress = { ...prev.progress };
+      let changed = false;
+
+      for (const titleId of Object.keys(TITLES)) {
+        const def = TITLES[titleId];
+        if (def.condition.type !== "blockCount") continue;
+
+        const prog = { ...nextProgress[titleId] };
+        if (prog.level >= def.levels.length) continue;
+
+        const nextCurrent = prog.current + 1;
+        const nextLevelTarget = def.levels[prog.level].count;
+        const nextLevel =
+          nextCurrent >= nextLevelTarget ? prog.level + 1 : prog.level;
+
+        nextProgress[titleId] = {
+          current: nextCurrent,
+          level: nextLevel,
+        };
+        changed = true;
+      }
+
+      if (!changed) return prev;
+      return { ...prev, progress: nextProgress };
+    });
+  }, []);
+
   const equipTitle = useCallback((id: string) => {
     setTitlesData((prev) => {
       if (!prev.progress[id] || prev.progress[id].level === 0) return prev;
@@ -154,6 +185,7 @@ export function TitleProvider({ children }: { children: ReactNode }) {
         titlesData,
         getBonus,
         incrementKillCounter,
+        incrementBlockCounter,
         handleDefeat,
         equipTitle,
         unequipTitle,
