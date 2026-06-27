@@ -29,6 +29,9 @@ export type SoundId =
   | "marshadowSpecial"
   | "drikaSpecial"
   | "slimitaJump"
+  | "equip"
+  | "unequip"
+  | "unlockedTitle"
   | "boom";
 
 type SoundEffectsContextType = {
@@ -67,6 +70,9 @@ export function SoundEffectsProvider({ children }: { children: ReactNode }) {
       marshadowSpecial: new Audio(asset("/assets/songs/soundEffects/player/marcelo/special.mp3")),
       drikaSpecial: new Audio(asset("/assets/songs/soundEffects/player/eduarda/special.mp3")),
       slimitaJump: new Audio(asset("/assets/songs/soundEffects/npc/slimita-jump.mp3")),
+      equip: new Audio(asset("/assets/songs/transitions/equip.mp3")),
+      unequip: new Audio(asset("/assets/songs/transitions/unequip.mp3")),
+      unlockedTitle: new Audio(asset("/assets/songs/soundEffects/player/unlockedTitle.mp3")),
       boom: new Audio(asset("/assets/songs/soundEffects/npc/boom.mp3")),
     };
 
