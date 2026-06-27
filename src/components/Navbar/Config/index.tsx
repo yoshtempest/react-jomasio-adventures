@@ -70,9 +70,9 @@ export function Config() {
       <div className={styles.speedContainer}>
         <h2>Velocidade do Diálogo: {SPEED_LABEL[dialogueSpeed]}</h2>
         <div className={styles.speedOptions}>
-          {selectedRow === 3 && <span className={styles.cursor}>▼</span>}
+          {selectedRow === 1 && <span className={styles.cursor}>▼</span>}
           {DIALOGUE_SPEED_LIST.map((speed, index) => {
-            const isSelected = selectedRow === 3 && index === selectedIndex;
+            const isSelected = selectedRow === 1 && index === selectedIndex;
             return (
               <div
                 key={speed}
@@ -88,7 +88,7 @@ export function Config() {
       </div>
       <div className={styles.flexRow}>
         <div className={styles.volumeContainer}>
-          {selectedRow === 1 && <span className={styles.cursor}>▼</span>}
+          {selectedRow === 2 && <span className={styles.cursor}>▼</span>}
 
           <h2>Efeitos Sonoros: {sfxVolume}</h2>
 
@@ -97,7 +97,7 @@ export function Config() {
           </div>
         </div>
         <div className={styles.volumeContainer}>
-          {selectedRow === 2 && <span className={styles.cursor}>▼</span>}
+          {selectedRow === 3 && <span className={styles.cursor}>▼</span>}
 
           <h2>Música de Fundo: {bgmVolume}</h2>
 

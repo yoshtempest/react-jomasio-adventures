@@ -21,12 +21,6 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
 
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  // 0 = dificuldade
-  // 1 = volume SFX
-  // 2 = volume BGM
-  // 3 = velocidade do diálogo
-  // 4 = indicador de missão
-  // 5 = tutorial
   const [selectedRow, setSelectedRow] = useState(0);
 
   // menu | tutorial
@@ -78,17 +72,17 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
         }
 
         if (selectedRowRef.current === 1) {
-          setSfxVolumeRef.current(Math.min(sfxVolume + 10, 100));
-        }
-
-        if (selectedRowRef.current === 2) {
-          setBgmVolumeRef.current(Math.min(bgmVolume + 10, 100));
-        }
-
-        if (selectedRowRef.current === 3) {
           setSelectedIndex((prev) =>
             circularNext(prev, DIALOGUE_SPEED_LIST.length),
           );
+        }
+
+        if (selectedRowRef.current === 2) {
+          setSfxVolumeRef.current(Math.min(sfxVolume + 10, 100));
+        }
+
+        if (selectedRowRef.current === 3) {
+          setBgmVolumeRef.current(Math.min(bgmVolume + 10, 100));
         }
 
         if (selectedRowRef.current === 4) {
@@ -105,17 +99,17 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
         }
 
         if (selectedRowRef.current === 1) {
-          setSfxVolumeRef.current(Math.max(sfxVolume - 10, 0));
-        }
-
-        if (selectedRowRef.current === 2) {
-          setBgmVolumeRef.current(Math.max(bgmVolume - 10, 0));
-        }
-
-        if (selectedRowRef.current === 3) {
           setSelectedIndex((prev) =>
             circularPrev(prev, DIALOGUE_SPEED_LIST.length),
           );
+        }
+
+        if (selectedRowRef.current === 2) {
+          setSfxVolumeRef.current(Math.max(sfxVolume - 10, 0));
+        }
+
+        if (selectedRowRef.current === 3) {
+          setBgmVolumeRef.current(Math.max(bgmVolume - 10, 0));
         }
 
         if (selectedRowRef.current === 4) {
@@ -142,14 +136,12 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
 
         playSelectRef.current();
 
-        // dificuldade
         if (selectedRowRef.current === 0) {
           const selected = getSelected(DIFFICULTY, selectedIndexRef.current);
           setDifficultyRef.current(selected);
         }
 
-        // velocidade do diálogo
-        if (selectedRowRef.current === 3) {
+        if (selectedRowRef.current === 1) {
           const selected = getSelected(
             DIALOGUE_SPEED_LIST,
             selectedIndexRef.current,
@@ -157,12 +149,10 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
           setDialogueSpeedRef.current(selected);
         }
 
-        // indicador de missão
         if (selectedRowRef.current === 4) {
           setShowQuestIndicatorRef.current(!setShowQuestIndicator);
         }
 
-        // tutorial
         if (selectedRowRef.current === 5) {
           setScreen("tutorial");
         }
