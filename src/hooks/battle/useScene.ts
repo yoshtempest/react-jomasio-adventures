@@ -26,6 +26,7 @@ import { useBattleSync } from "@/hooks/battle/useSync";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import { saveGame } from "@/utils/saveGame";
 import { incrementDeath } from "@/utils/rewards/deathCounter";
+import { recordWin, recordDefeat } from "@/utils/rewards/streakStats";
 
 const BEST_TIME_PREFIX = "bestTime_";
 
@@ -227,12 +228,14 @@ export function useBattleScene({
     onPlayerDeath: () => {
       incrementDeath(player.character);
       handleDefeat();
+      recordDefeat();
       setShowDefeat(true);
       setDefeatElapsed(Date.now() - battleStartRef.current);
     },
     onNpcDeath: () => {
       const rewards = giveRewards();
       setLastRewards(rewards);
+      recordWin(player.character);
 
       progressDailyWeekly("win_battle", 1);
       progressDailyWeekly("kill_any", 1);

@@ -21,4 +21,5 @@ export const DAILY_CHEST_KEY = "daily_chest_last_open";
 export const REWARDS_KEY = "rewards";
 export const CLASS_KILLS_KEY = "npc_class_kills";
 export const DEATHS_KEY = "deaths";
+export const STREAK_KEY = "streak_stats";
 

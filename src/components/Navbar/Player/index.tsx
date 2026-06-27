@@ -13,6 +13,7 @@ import { BESTIARY_NPC_ORDER } from "@/data/bestiary";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useRewards } from "@/hooks/useRewards";
 import { getDeaths } from "@/utils/rewards/deathCounter";
+import { getStreakStats } from "@/utils/rewards/streakStats";
 
 export function Player() {
   const { progress } = useCharacterProgress();
@@ -38,6 +39,7 @@ export function Player() {
 
   const totalPlayTime = getTotalPlayTime();
   const deaths = getDeaths();
+  const streakStats = getStreakStats();
 
   function charLabel(char: string): string {
     const opt = CHARACTER_OPTIONS.find((c) => c.image === char);
@@ -89,6 +91,10 @@ export function Player() {
             <span className={styles.statValue}>{titlesData.totalKills}</span>
           </div>
           <div className={styles.statRow}>
+            <span className={styles.statLabel}>Máx. vitórias consecutivas</span>
+            <span className={styles.statValue}>{streakStats.bestStreak}</span>
+          </div>
+          <div className={styles.statRow}>
             <span className={styles.statLabel}>Total de derrotas</span>
             <span className={styles.statValue}>{deaths.total}</span>
           </div>
@@ -118,6 +124,10 @@ export function Player() {
             <span className={styles.statValue}>
               {progress[selectedChar]?.kills ?? 0}
             </span>
+          </div>
+          <div className={styles.statRow}>
+            <span className={styles.statLabel}>Máx. vitórias consecutivas</span>
+            <span className={styles.statValue}>{streakStats.bestStreakPerCharacter[selectedChar] ?? 0}</span>
           </div>
           <div className={styles.statRow}>
             <span className={styles.statLabel}>Derrotas</span>
