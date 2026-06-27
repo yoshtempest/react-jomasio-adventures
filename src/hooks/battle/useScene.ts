@@ -23,24 +23,12 @@ import { usePhaseTransition } from "@/hooks/battle/usePhaseTransition";
 import { useBattleIntro } from "@/hooks/battle/useIntro";
 import { useBattleOutro } from "@/hooks/battle/useOutro";
 import { useBattleSync } from "@/hooks/battle/useSync";
+import { useNpcTargeting } from "@/hooks/battle/npc/useNpcTargeting";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import { saveGame } from "@/utils/saveGame";
+import { loadBestTime, saveBestTime } from "@/utils/bestTime";
 import { incrementDeath } from "@/utils/rewards/deathCounter";
 import { recordWin, recordDefeat } from "@/utils/rewards/streakStats";
-
-const BEST_TIME_PREFIX = "bestTime_";
-
-function loadBestTime(npcType: string): number {
-  const saved = localStorage.getItem(`${BEST_TIME_PREFIX}${npcType}`);
-  return saved ? parseInt(saved, 10) : 0;
-}
-
-function saveBestTime(npcType: string, elapsed: number) {
-  const prev = loadBestTime(npcType);
-  if (prev === 0 || elapsed < prev) {
-    localStorage.setItem(`${BEST_TIME_PREFIX}${npcType}`, elapsed.toString());
-  }
-}
 
 type Props = {
   npcType: string;
@@ -128,6 +116,7 @@ export function useBattleScene({
   useGameAudio({ src: audioSrc, loop: true, volume: 0.5 });
 
   const refs = useBattleRefs();
+  const targeting = useNpcTargeting();
 
   const setModeRef = useRef(setMode);
   setModeRef.current = setMode;
@@ -159,21 +148,8 @@ export function useBattleScene({
 
   const isPaused = showVictory || showDefeat || showIntro || showOutro != null;
 
-  // 🎯 NPC targeting refs — shared between AI and battle system
-  const npcTargetIsPetRef = useRef(false);
-  const petXRef = useRef(0);
-  const petYRef = useRef(0);
-  const hasPetRef = useRef(false);
-
-  const npcAiHpRef = useRef(npcStats.hp);
-  const npcAiMaxHpRef = useRef(npcStats.hp);
-
-  const npcBlockedRef = useRef(false);
-  const npcBlockTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(
-    undefined,
-  );
-
-  const onBeforeNpcHitRef = useRef<() => boolean>(() => false);
+  targeting.npcAiHpRef.current = npcStats.hp;
+  targeting.npcAiMaxHpRef.current = npcStats.hp;
 
   const npc = useNpcAI({
     playerX: player.x,
@@ -190,30 +166,73 @@ export function useBattleScene({
     obstacles: map?.obstacles,
     hitstopRef: refs.hitstopRef,
     npcStaggerRef: refs.npcStaggerRef,
-    petXRef,
-    petYRef,
-    hasPetRef,
-    npcTargetIsPetRef,
-    npcHpRef: npcAiHpRef,
-    npcMaxHpRef: npcAiMaxHpRef,
-    npcBlockedRef,
+    petXRef: targeting.petXRef,
+    petYRef: targeting.petYRef,
+    hasPetRef: targeting.hasPetRef,
+    npcTargetIsPetRef: targeting.npcTargetIsPetRef,
+    npcHpRef: targeting.npcAiHpRef,
+    npcMaxHpRef: targeting.npcAiMaxHpRef,
+    npcBlockedRef: targeting.npcBlockedRef,
   });
 
-  onBeforeNpcHitRef.current = () => {
+  targeting.onBeforeNpcHitRef.current = () => {
     if (npcType !== "piupiu") return false;
     const distanceX = Math.abs(npc.x - player.x);
     const distanceY = Math.abs(npc.y - player.y);
     if (distanceX > 50 || distanceY > 150) return false;
     if (Math.random() < 0.8) {
-      npcBlockedRef.current = true;
+      targeting.npcBlockedRef.current = true;
       npc.updateNpc({ state: "block" });
-      clearTimeout(npcBlockTimerRef.current);
-      npcBlockTimerRef.current = setTimeout(() => {
-        npcBlockedRef.current = false;
+      clearTimeout(targeting.npcBlockTimerRef.current);
+      targeting.npcBlockTimerRef.current = setTimeout(() => {
+        targeting.npcBlockedRef.current = false;
       }, 300);
       return true;
     }
     return false;
+  };
+
+  const onPlayerDeathRef = useRef(() => {});
+  onPlayerDeathRef.current = () => {
+    incrementDeath(player.character);
+    handleDefeat();
+    recordDefeat();
+    setShowDefeat(true);
+    setDefeatElapsed(Date.now() - battleStartRef.current);
+  };
+
+  const onNpcDeathRef = useRef(() => {});
+  onNpcDeathRef.current = () => {
+    const rewards = giveRewards();
+    setLastRewards(rewards);
+    recordWin(player.character);
+
+    progressDailyWeekly("win_battle", 1);
+    progressDailyWeekly("kill_any", 1);
+
+    const npcClass = killCounter.npcDataRef.current.class;
+    if (npcClass === "common") progressDailyWeekly("kill_common", 1);
+    else if (npcClass === "rare") progressDailyWeekly("kill_rare", 1);
+    else if (npcClass === "epic") progressDailyWeekly("kill_epic", 1);
+    else if (npcClass === "boss") progressDailyWeekly("kill_boss", 1);
+
+    const d = saveDataRef.current;
+    saveGame({
+      lastRoute: location.pathname,
+      inventory: d.items,
+      quests: d.quests,
+      playerClass: d.playerClass,
+      character: d.character,
+      hyperCoins: d.hyperCoins,
+    });
+    const victoryElapsed = Date.now() - battleStartRef.current;
+    saveBestTime(npcType, victoryElapsed);
+    setBestTime(loadBestTime(npcType));
+    triggerVictory();
+    killCounter.handleNpcDeath(
+      killCounter.npcTypeRef.current,
+      killCounter.npcDataRef.current.class,
+    );
   };
 
   const battle = useBattleSystem({
@@ -225,55 +244,18 @@ export function useBattleScene({
     npcLevel,
     npcClass: npcData.class,
     difficulty,
-    onPlayerDeath: () => {
-      incrementDeath(player.character);
-      handleDefeat();
-      recordDefeat();
-      setShowDefeat(true);
-      setDefeatElapsed(Date.now() - battleStartRef.current);
-    },
-    onNpcDeath: () => {
-      const rewards = giveRewards();
-      setLastRewards(rewards);
-      recordWin(player.character);
-
-      progressDailyWeekly("win_battle", 1);
-      progressDailyWeekly("kill_any", 1);
-
-      const npcClass = killCounter.npcDataRef.current.class;
-      if (npcClass === "common") progressDailyWeekly("kill_common", 1);
-      else if (npcClass === "rare") progressDailyWeekly("kill_rare", 1);
-      else if (npcClass === "epic") progressDailyWeekly("kill_epic", 1);
-      else if (npcClass === "boss") progressDailyWeekly("kill_boss", 1);
-
-      const d = saveDataRef.current;
-      saveGame({
-        lastRoute: location.pathname,
-        inventory: d.items,
-        quests: d.quests,
-        playerClass: d.playerClass,
-        character: d.character,
-        hyperCoins: d.hyperCoins,
-      });
-      const victoryElapsed = Date.now() - battleStartRef.current;
-      saveBestTime(npcType, victoryElapsed);
-      setBestTime(loadBestTime(npcType));
-      triggerVictory();
-      killCounter.handleNpcDeath(
-        killCounter.npcTypeRef.current,
-        killCounter.npcDataRef.current.class,
-      );
-    },
+    onPlayerDeath: () => onPlayerDeathRef.current(),
+    onNpcDeath: () => onNpcDeathRef.current(),
     hitstopRef: refs.hitstopRef,
     npcStaggerRef: refs.npcStaggerRef,
     registerHitRef: refs.registerHitRef,
     setPlayer,
     lastBlockPressRef,
     npcPhaseRef,
-    npcTargetIsPetRef,
-    petXRef,
-    petYRef,
-    onBeforeNpcHitRef,
+    npcTargetIsPetRef: targeting.npcTargetIsPetRef,
+    petXRef: targeting.petXRef,
+    petYRef: targeting.petYRef,
+    onBeforeNpcHitRef: targeting.onBeforeNpcHitRef,
   });
 
   const {
@@ -334,7 +316,6 @@ export function useBattleScene({
     hitstopRef: refs.hitstopRef,
   });
 
-  // Refs that depend on battle (must live after useBattleSystem)
   const npcMaxHpRef = useRef(battle.npcMaxHp);
   npcMaxHpRef.current = battle.npcMaxHp;
   const setNpcHPRef = useRef(battle.setNpcHP);
@@ -380,10 +361,10 @@ export function useBattleScene({
 
   useBattleSync({
     battle,
-    petXRef,
-    petYRef,
-    hasPetRef,
-    npcAiHpRef,
+    petXRef: targeting.petXRef,
+    petYRef: targeting.petYRef,
+    hasPetRef: targeting.hasPetRef,
+    npcAiHpRef: targeting.npcAiHpRef,
     npc,
     updateNpcPosition,
     npcType,
