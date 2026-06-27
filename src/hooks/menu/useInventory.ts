@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
-import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
+import { gridMove } from "@/gameRules/menu/navigation";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useItemEffect } from "@/gameRules/items/useItem";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
@@ -80,27 +80,34 @@ export function useInventoryMenu(
   useEffect(() => {
     if (!isOpen) return;
 
+    const length =
+      maxSlots === Infinity
+        ? items.length
+        : maxSlots;
+
     const controls = {
       onUp: () => {
-        const length =
-          maxSlots === Infinity
-            ? items.length
-            : maxSlots;
         if (length === 0) return;
         playMoveRef.current();
-
-        setSelectedIndex((prev) => circularPrev(prev, length));
+        setSelectedIndex((prev) => gridMove(prev, 4, "up", length));
       },
 
       onDown: () => {
-        const length =
-          maxSlots === Infinity
-            ? items.length
-            : maxSlots;
         if (length === 0) return;
-
         playMoveRef.current();
-        setSelectedIndex((prev) => circularNext(prev, length));
+        setSelectedIndex((prev) => gridMove(prev, 4, "down", length));
+      },
+
+      onLeft: () => {
+        if (length === 0) return;
+        playMoveRef.current();
+        setSelectedIndex((prev) => gridMove(prev, 4, "left", length));
+      },
+
+      onRight: () => {
+        if (length === 0) return;
+        playMoveRef.current();
+        setSelectedIndex((prev) => gridMove(prev, 4, "right", length));
       },
 
       onConfirm: () => {
