@@ -1,7 +1,8 @@
 export type TitleCondition =
   | { type: "killNpcType"; npcTypePrefix: string }
   | { type: "killNpcClass"; npcClass: string }
-  | { type: "killTotal" };
+  | { type: "killTotal" }
+  | { type: "consecutiveWins" };
 
 export type TitleBonusStat = {
   stat: "hp" | "strength" | "intelligence" | "damage";

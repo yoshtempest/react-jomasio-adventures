@@ -17,6 +17,7 @@ type ContextType = {
   titlesData: TitlesData;
   getBonus: () => TitleBonusMap;
   incrementKillCounter: (npcType: string, npcClass: string) => void;
+  handleDefeat: () => void;
   equipTitle: (id: string) => void;
   unequipTitle: () => void;
 };
@@ -77,6 +78,8 @@ export function TitleProvider({ children }: { children: ReactNode }) {
             }
           } else if (def.condition.type === "killTotal") {
             shouldIncrement = true;
+          } else if (def.condition.type === "consecutiveWins") {
+            shouldIncrement = true;
           }
 
           if (shouldIncrement && prog.level < def.levels.length) {
@@ -104,6 +107,36 @@ export function TitleProvider({ children }: { children: ReactNode }) {
     [],
   );
 
+  const handleDefeat = useCallback(() => {
+    setTitlesData((prev) => {
+      const nextProgress = { ...prev.progress };
+      let changed = false;
+
+      for (const titleId of Object.keys(TITLES)) {
+        const def = TITLES[titleId];
+        if (def.condition.type !== "consecutiveWins") continue;
+
+        const prog = { ...nextProgress[titleId] };
+        const nextCurrent = Math.max(0, prog.current - 10);
+
+        if (nextCurrent === prog.current) continue;
+
+        const nextLevelTarget = def.levels[prog.level]?.count ?? Infinity;
+        const nextLevel =
+          nextCurrent >= nextLevelTarget ? prog.level + 1 : prog.level;
+
+        nextProgress[titleId] = {
+          current: nextCurrent,
+          level: nextLevel,
+        };
+        changed = true;
+      }
+
+      if (!changed) return prev;
+      return { ...prev, progress: nextProgress };
+    });
+  }, []);
+
   const equipTitle = useCallback((id: string) => {
     setTitlesData((prev) => {
       if (!prev.progress[id] || prev.progress[id].level === 0) return prev;
@@ -121,6 +154,7 @@ export function TitleProvider({ children }: { children: ReactNode }) {
         titlesData,
         getBonus,
         incrementKillCounter,
+        handleDefeat,
         equipTitle,
         unequipTitle,
       }}

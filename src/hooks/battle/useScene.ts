@@ -8,6 +8,7 @@ import { useNavigate, useLocation } from "react-router";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
 import { useNavbar } from "@/contexts/NavbarContext";
+import { useTitles } from "@/contexts/TitleContext";
 import { useNpcSetup } from "@/hooks/battle/npc/useSetup";
 import { useBattleRewards } from "@/hooks/battle/rewards/useRewards";
 import { useSummons } from "@/hooks/battle/summon/useSummons";
@@ -77,6 +78,7 @@ export function useBattleScene({
   const { items: inventoryItems, closeInventory } = useInventory();
   const { quests, progressDailyWeekly } = useQuests();
   const { closeNavbar } = useNavbar();
+  const { handleDefeat } = useTitles();
 
   const [npcPhase, setNpcPhase] = useState(1);
   const npcPhaseRef = useRef(npcPhase);
@@ -224,6 +226,7 @@ export function useBattleScene({
     difficulty,
     onPlayerDeath: () => {
       incrementDeath(player.character);
+      handleDefeat();
       setShowDefeat(true);
       setDefeatElapsed(Date.now() - battleStartRef.current);
     },

@@ -15,6 +15,20 @@ export const TITLES: Record<string, TitleDef> = {
       { count: 400, bonus: [{ stat: "damage", value: 12 }] },
     ],
   },
+  invicto: {
+    id: "invicto",
+    name: "Invicto",
+    description: "Vença batalhas consecutivamente sem perder",
+    icon: "warrior",
+    condition: { type: "consecutiveWins" },
+    levels: [
+      { count: 20, bonus: [{ stat: "damage", value: 4 }] },
+      { count: 50, bonus: [{ stat: "damage", value: 8 }] },
+      { count: 100, bonus: [{ stat: "damage", value: 16 }] },
+      { count: 200, bonus: [{ stat: "damage", value: 32 }] },
+      { count: 400, bonus: [{ stat: "damage", value: 64 }] },
+    ],
+  },
   acertadorDeCabras: {
     id: "acertadorDeCabras",
     name: "Acertador de Cabras",
