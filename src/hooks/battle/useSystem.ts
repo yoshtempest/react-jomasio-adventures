@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from "react";
 import { calculateDamageToNpc } from "@/gameRules/battle/damage";
-import { getBlockLimit } from "@/gameRules/battle/equipment";
 import { battleBehaviors } from "@/gameRules/battle/behaviors/player";
 
 import { useBattleStats } from "@/hooks/battle/useStats";
@@ -13,6 +12,7 @@ import { useBattleLifecycle } from "@/hooks/battle/useLifecycle";
 import { usePetBattle } from "@/hooks/battle/player/usePet";
 import { useDamageNumbers } from "@/hooks/battle/damage/useNumbers";
 import { useExternalDamage } from "@/hooks/battle/damage/useExternal";
+import { useBlockGauge } from "@/hooks/battle/useBlockGauge";
 
 type Props = {
   playerX: number;
@@ -63,7 +63,6 @@ export function useBattleSystem(props: Props) {
 
   const [npcPhase, setNpcPhase] = useState(1);
 
-  // 📊 stats
   const stats = useBattleStats({ npcLevel, npcClass, difficulty, npcPhase });
   const {
     player,
@@ -82,35 +81,23 @@ export function useBattleSystem(props: Props) {
     hasPet,
   } = stats;
 
-  const blockLimit = getBlockLimit(char.level, totalArmor);
-  const [blockGauge, setBlockGauge] = useState(blockLimit);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setBlockGauge((g) => Math.min(blockLimit, g + 1));
-    }, 100);
-    return () => clearInterval(interval);
-  }, [blockLimit]);
+  const { blockGauge, setBlockGauge, blockLimit, resetBlockGauge } =
+    useBlockGauge(char.level, totalArmor);
 
   const behavior = battleBehaviors[player.character] || battleBehaviors.default;
 
-  // 🧠 cooldowns
   const { playerCooldown, npcCooldown, isEnding } = useBattleCooldowns();
 
-  // ✨ efeitos
   const effects = useBattleEffects({ character: player.character });
 
-  // 💥 damage numbers + screen shake
   const { damageNumbers, spawnDamageNumber, clearDamageNumbers } =
     useDamageNumbers();
   const spawnDamageRef = useRef(spawnDamageNumber);
   spawnDamageRef.current = spawnDamageNumber;
 
-  // ❤️ HP state (player + npc)
   const { playerHP, setPlayerHP, npcHP, setNpcHP, playerShield, setPlayerShield } =
     useBattleHP(playerMaxHp, npcMaxHp, totalShield);
 
-  // 💥 external damage
   const { damagePlayerHp, damagePlayer } = useExternalDamage({
     playerX,
     playerY,
@@ -125,7 +112,6 @@ export function useBattleSystem(props: Props) {
     spawnDamageRef,
   });
 
-  // 👊 player
   const playerBattle = usePlayerBattle({
     player,
     playerClass,
@@ -156,7 +142,6 @@ export function useBattleSystem(props: Props) {
     onBeforeNpcHitRef,
   });
 
-  // 🐐 pet damage + pet AI
   const petDamageRef = useRef(() => {});
   petDamageRef.current = () => {
     if (isEnding.current) return;
@@ -177,7 +162,6 @@ export function useBattleSystem(props: Props) {
     hitstopRef,
   });
 
-  // 🤖 npc
   const npcBattle = useNpcBattle({
     npcLevel,
     npcClass,
@@ -207,7 +191,6 @@ export function useBattleSystem(props: Props) {
     petYRef,
   });
 
-  // 🧠 lifecycle
   const { isNpcDying } = useBattleLifecycle({
     playerHP,
     npcHP,
@@ -221,8 +204,6 @@ export function useBattleSystem(props: Props) {
     isEnding,
   });
 
-  // sync pet position into refs whenever pet changes
-  // (refs are owned by useScene, shared with useNpcAI)
   useEffect(() => {
     if (pet) {
       petXRef.current = pet.x;
@@ -230,11 +211,10 @@ export function useBattleSystem(props: Props) {
     }
   }, [pet?.x, pet?.y, pet, petXRef, petYRef]);
 
-  // 🔄 reset
   const resetBattle = () => {
     setPlayerHP(playerMaxHp);
     setPlayerShield(totalShield);
-    setBlockGauge(blockLimit);
+    resetBlockGauge();
     setNpcHP(npcMaxHp);
     setNpcPhase(1);
     playerBattle.setDelicia(0);
@@ -252,13 +232,8 @@ export function useBattleSystem(props: Props) {
   };
 
   return {
-    playerHP,
-    setPlayerHP,
-    playerMaxHp,
-    playerShield,
-    npcHP,
-    setNpcHP,
-    npcMaxHp,
+    playerHP, setPlayerHP, playerMaxHp, playerShield,
+    npcHP, setNpcHP, npcMaxHp,
     npcPhase,
     delicia: playerBattle.delicia,
     setDelicia: playerBattle.setDelicia,
@@ -274,17 +249,10 @@ export function useBattleSystem(props: Props) {
     isEnding,
     piercings: effects.piercings,
     isExploding: effects.isExploding,
-    pet,
-    damagePet,
-    damageNumbers,
-    spawnDamageNumber,
-    char,
-    critRate,
-    npcArmor,
-    totalVampirism,
-    totalReflect,
+    pet, damagePet,
+    damageNumbers, spawnDamageNumber,
+    char, critRate, npcArmor, totalVampirism, totalReflect,
     titleDamageBonus: titleBonus.damage,
-    blockGauge,
-    blockLimit,
+    blockGauge, blockLimit,
   };
 }
