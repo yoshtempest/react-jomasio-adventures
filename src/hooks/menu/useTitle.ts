@@ -51,14 +51,25 @@ export function useTitleMenu(
       onUp: () => {
         playMoveRef.current();
         setSelectedIndex((prev) =>
-          prev > 0 ? prev - 1 : TITLE_IDS.length - 1,
+          prev > 0 ? prev - 2 : TITLE_IDS.length - 2,
         );
       },
-
+      onLeft: () => {
+        playMoveRef.current();
+        setSelectedIndex((prev) =>
+          prev >= 0 ? prev - 1 : TITLE_IDS.length - 1,
+        );
+      },
+      onRight: () => {
+        playMoveRef.current();
+        setSelectedIndex((prev) =>
+          prev >= 0 ? prev + 1 : TITLE_IDS.length + 1,
+        );
+      },
       onDown: () => {
         playMoveRef.current();
         setSelectedIndex((prev) =>
-          prev < TITLE_IDS.length - 1 ? prev + 1 : 0,
+          prev < TITLE_IDS.length - 2 ? prev + 2 : 0,
         );
       },
 
