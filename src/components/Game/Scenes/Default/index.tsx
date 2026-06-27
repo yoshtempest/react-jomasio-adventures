@@ -244,7 +244,7 @@ export function ExploreScene({
             tile.visible && (
               <img
                 key={`item-${tile.x}-${tile.y}`}
-                src={asset("/assets/items/chest.svg")}
+                src={asset("/assets/items/chests/default.svg")}
                 alt=""
                 style={{
                   position: "absolute",

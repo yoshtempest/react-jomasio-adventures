@@ -160,7 +160,7 @@ export function Inventory() {
         <h3>Inventário {slotsLabel}</h3>
         <div className={styles.dailyChest}>
           <div className={styles.dailyChestInfo}>
-            <img className={styles.image} src="public/assets/items/chest.svg"/>
+            <img className={styles.image} src="public/assets/items/chests/default.svg"/>
             <span className={styles.dailyChestTitle}>Baú Diário - {dailyChest.isReady ? (
               <span className={styles.dailyChestReady}>Disponível!</span>
             ) : (
