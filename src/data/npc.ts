@@ -5,7 +5,6 @@ export const NPCS: Record<string, NPCData> = {
   hungryDeath: { type: "hungryDeath", class: "common" },
   piupiu: { type: "piupiu", class: "rare" },
   rice: { type: "rice", class: "common" },
-  bean: { type: "bean", class: "common" },
   jhowsimar: { type: "jhowsimar", class: "rare" },
   goat: { type: "goat", class: "rare" },
   vandinhaFragment: { type: "vandinhaFragment", class: "epic" },
