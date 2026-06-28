@@ -19,7 +19,7 @@ export function Movement() {
       </button>
 
       {mode === "joystick" ? (
-        <JoystickMovement activeControls={activeControls} />
+        <JoystickMovement activeControls={activeControls} pressed={pressed} />
       ) : (
         <ButtonsMovement activeControls={activeControls} pressed={pressed} />
       )}

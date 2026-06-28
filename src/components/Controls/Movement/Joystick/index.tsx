@@ -1,13 +1,14 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import type { GameControlLayer } from "@/utils/types/player/controls";
 
 type Dir = Direction;
 
 type Props = {
   activeControls: GameControlLayer;
+  pressed: Set<string>;
 };
 
-export function JoystickMovement({ activeControls }: Props) {
+export function JoystickMovement({ activeControls, pressed }: Props) {
   const activeDir = useRef<Set<Dir>>(new Set());
 
   const isDragging = useRef(false);
@@ -15,6 +16,9 @@ export function JoystickMovement({ activeControls }: Props) {
   const centerRef = useRef<HTMLDivElement | null>(null);
 
   const innerRef = useRef<HTMLDivElement | null>(null);
+
+  const pressedRef = useRef(pressed);
+  pressedRef.current = pressed;
 
   function execute(dir: Dir, pressed: boolean) {
     switch (dir) {
@@ -39,11 +43,35 @@ export function JoystickMovement({ activeControls }: Props) {
     }
   }
 
-  function resetInner() {
-    if (!innerRef.current) return;
+  function syncInnerToKeyboard() {
+    if (isDragging.current) return;
+    const inner = innerRef.current;
+    const el = centerRef.current;
+    if (!inner || !el) return;
 
-    innerRef.current.style.transform = "translate(0px, 0px)";
+    const maxRadius = el.offsetWidth / 2 - inner.offsetWidth / 2;
+    const p = pressedRef.current;
+
+    let dx = 0;
+    let dy = 0;
+    if (p.has("left")) dx -= 1;
+    if (p.has("right")) dx += 1;
+    if (p.has("up")) dy -= 1;
+    if (p.has("down")) dy += 1;
+
+    if (dx === 0 && dy === 0) {
+      inner.style.transform = "translate(0px, 0px)";
+      return;
+    }
+
+    const len = Math.sqrt(dx * dx + dy * dy);
+    const ratio = maxRadius / len;
+    inner.style.transform = `translate(${dx * ratio}px, ${dy * ratio}px)`;
   }
+
+  useEffect(() => {
+    syncInnerToKeyboard();
+  }, [pressed]);
 
   function updateDirection(clientX: number, clientY: number) {
     const el = centerRef.current;
@@ -122,7 +150,7 @@ export function JoystickMovement({ activeControls }: Props) {
 
     activeDir.current.clear();
 
-    resetInner();
+    syncInnerToKeyboard();
   }
 
   return (
@@ -135,6 +163,10 @@ export function JoystickMovement({ activeControls }: Props) {
       onPointerCancel={handleEnd}
     >
       <div ref={innerRef} className="inner" />
+      <div className={`dpadArrow dpadArrowUp ${pressed.has("up") ? "dpadArrowActive" : ""}`} />
+      <div className={`dpadArrow dpadArrowDown ${pressed.has("down") ? "dpadArrowActive" : ""}`} />
+      <div className={`dpadArrow dpadArrowLeft ${pressed.has("left") ? "dpadArrowActive" : ""}`} />
+      <div className={`dpadArrow dpadArrowRight ${pressed.has("right") ? "dpadArrowActive" : ""}`} />
     </div>
   );
 }

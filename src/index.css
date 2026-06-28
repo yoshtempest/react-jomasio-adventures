@@ -418,6 +418,74 @@ h2 {
   transition: transform 0.05s linear;
 }
 
+.dpadArrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 0.8vw solid transparent;
+  pointer-events: none;
+  opacity: 0.15;
+  transition: opacity 0.1s;
+}
+
+.dpadArrowActive {
+  opacity: 0.9;
+}
+
+.dpadArrowUp {
+  top: 0.5vw;
+  left: 50%;
+  transform: translateX(-50%);
+  border-bottom-color: #fff;
+  border-top: none;
+}
+
+.dpadArrowDown {
+  bottom: 0.5vw;
+  left: 50%;
+  transform: translateX(-50%);
+  border-top-color: #fff;
+  border-bottom: none;
+}
+
+.dpadArrowLeft {
+  left: 0.5vw;
+  top: 50%;
+  transform: translateY(-50%);
+  border-right-color: #fff;
+  border-left: none;
+}
+
+.dpadArrowRight {
+  right: 0.5vw;
+  top: 50%;
+  transform: translateY(-50%);
+  border-left-color: #fff;
+  border-right: none;
+}
+
+@media (orientation: portrait) {
+  .dpadArrow {
+    border-width: 1.4vh;
+  }
+
+  .dpadArrowUp {
+    top: 1vh;
+  }
+
+  .dpadArrowDown {
+    bottom: 1vh;
+  }
+
+  .dpadArrowLeft {
+    left: 1vh;
+  }
+
+  .dpadArrowRight {
+    right: 1vh;
+  }
+}
+
 @media (orientation: portrait) {
   .dpad {
     width: 14vh;
