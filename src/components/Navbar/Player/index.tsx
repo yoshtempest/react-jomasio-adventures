@@ -12,6 +12,8 @@ import { FLAGS } from "@/data/flags";
 import { BESTIARY_NPC_ORDER } from "@/data/bestiary";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useRewards } from "@/hooks/useRewards";
+import { useDailyReward } from "@/hooks/useDailyReward";
+import { useMonthlyPass } from "@/hooks/useMonthlyPass";
 import { getDeaths } from "@/utils/rewards/deathCounter";
 import { getStreakStats } from "@/utils/rewards/streakStats";
 import { getBlockCount } from "@/utils/rewards/blockCounter";
@@ -34,6 +36,22 @@ export function Player() {
   const { flags } = useFlags();
   const { selectedChar } = usePlayerMenu(true);
   const { rewards, claim } = useRewards();
+  const {
+    canClaim: dailyCanClaim,
+    timer: dailyTimer,
+    claim: claimDaily,
+    hyperCoins: dailyHyperCoins,
+    coinsMin: dailyCoinsMin,
+    coinsMax: dailyCoinsMax,
+  } = useDailyReward();
+  const {
+    missions: passMissions,
+    currentMonth,
+    completedCount,
+    totalCount: passTotal,
+    pct: passPct,
+    claim: claimPass,
+  } = useMonthlyPass();
 
   const totalTitles = TITLE_IDS.length;
   const acquiredTitles = TITLE_IDS.filter((id) => (titlesData.progress[id]?.level ?? 0) > 0).length;
@@ -254,9 +272,73 @@ export function Player() {
             </div>
           ))}
         </div>
+
+        <div className={styles.section}>
+          <div className={styles.sectionTitle}>Recompensa Diária</div>
+          <div className={styles.dailyCard}>
+            <div className={styles.dailyInfo}>
+              <span className={styles.dailyLabel}>
+                {dailyCanClaim ? "Disponível!" : "Já recebida hoje"}
+              </span>
+              <span className={styles.dailyRewards}>
+                +{dailyHyperCoins} HyperCoins · {dailyCoinsMin}–{dailyCoinsMax} Kwanzas
+              </span>
+              {!dailyCanClaim && (
+                <span className={styles.dailyTimer}>{dailyTimer}</span>
+              )}
+            </div>
+            <button
+              className={dailyCanClaim ? styles.claimBtn : styles.claimBtnDone}
+              disabled={!dailyCanClaim}
+              onClick={claimDaily}
+            >
+              {dailyCanClaim ? "Receber" : "Amanhã"}
+            </button>
+          </div>
+        </div>
+
+        <div className={styles.section}>
+          <div className={styles.sectionTitle}>Passe Mensal — {formatMonth(currentMonth)}</div>
+          <div className={styles.statRow}>
+            <span className={styles.statLabel}>Progresso</span>
+            <span className={styles.statValue}>{completedCount}/{passTotal} ({passPct}%)</span>
+          </div>
+          <div className={styles.barOuter}>
+            <div className={styles.barInner} style={{ width: `${passPct}%` }} />
+          </div>
+          {passMissions.map((m) => (
+            <div key={m.id} className={styles.missionRow}>
+              <div className={styles.missionInfo}>
+                <span className={styles.missionLabel}>{m.label}</span>
+                <span className={styles.missionProgress}>
+                  {m.completed ? "Completa" : `${m.progress}/${m.requirement}`}
+                </span>
+              </div>
+              <div className={styles.missionAction}>
+                <span className={styles.missionReward}>+{m.reward}</span>
+                <button
+                  className={m.canClaim ? styles.claimBtn : styles.claimBtnDone}
+                  disabled={!m.canClaim}
+                  onClick={() => claimPass(m.id)}
+                >
+                  {m.claimed ? "OK" : m.completed ? "Receber" : "—"}
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
+}
+
+function formatMonth(ym: string): string {
+  const [y, m] = ym.split("-").map(Number);
+  const months = [
+    "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+    "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro",
+  ];
+  return `${months[m - 1]} ${y}`;
 }
 
 const TITLE_IDS = Object.keys(TITLES);

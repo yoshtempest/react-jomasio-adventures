@@ -24,4 +24,6 @@ export const DEATHS_KEY = "deaths";
 export const STREAK_KEY = "streak_stats";
 export const BLOCKS_KEY = "blocks";
 export const BATTLE_STATS_KEY = "battle_stats";
+export const DAILY_REWARD_KEY = "daily_reward_last_claim";
+export const MONTHLY_PASS_KEY = "monthly_pass";
 
