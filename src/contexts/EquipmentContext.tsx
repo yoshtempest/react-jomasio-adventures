@@ -13,6 +13,7 @@ import type {
 } from "@/utils/types/player/equipment";
 import { EQUIPMENT_SLOTS } from "@/utils/types/player/equipment";
 import { getEquipmentById } from "@/data/equipment";
+import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import {
   buildSetItemIds,
   addItemBonus,
@@ -75,6 +76,8 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     saveAllData(allData as Record<string, CharacterEquipmentData>);
   }, [allData]);
+
+  const { playSound } = useSoundEffects();
 
   const getEquippedItem = useCallback(
     (character: CharacterId, slot: EquipmentSlot): Equipment | null => {
@@ -184,6 +187,7 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
 
   const equip = useCallback(
     (character: CharacterId, id: EquipmentId, enhance: number = 0) => {
+      playSound("equip");
       setAllData((prev) => {
         const next = equipItem(
           prev as Record<string, CharacterEquipmentData>,
@@ -199,6 +203,7 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
 
   const unequip = useCallback(
     (character: CharacterId, slot: EquipmentSlot) => {
+      playSound("unequip");
       setAllData((prev) => {
         const next = unequipItem(
           prev as Record<string, CharacterEquipmentData>,
@@ -213,6 +218,7 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
 
   const unequipAccessoryAtIndex = useCallback(
     (character: CharacterId, index: number) => {
+      playSound("unequip");
       setAllData((prev) => {
         const next = unequipAccessoryAt(
           prev as Record<string, CharacterEquipmentData>,

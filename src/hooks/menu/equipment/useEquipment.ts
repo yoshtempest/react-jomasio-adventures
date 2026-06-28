@@ -20,7 +20,7 @@ export function useEquipmentMenu(
 ) {
   const { pushControls, popControls } = useGameControls();
   const { equip, unequip, unequipAccessoryAtIndex } = useEquipment();
-  const { playMove, playSelect } = useMenuSFX();
+  const { playMove } = useMenuSFX();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
   const selectedIndexRef = useRef(selectedIndex);
@@ -97,7 +97,6 @@ export function useEquipmentMenu(
     if (index < EQUIPPED_COUNT) {
       const entry = equippedItems[index];
       if (!entry || !entry.item || isLockedIndex(index)) return false;
-      playSelect();
       if (entry.type === "accessory-slot") {
         if (entry.index === 0) {
           unequip(character, "accessory");
@@ -115,7 +114,6 @@ export function useEquipmentMenu(
     if (rightIndex < FILTER_TAB_COUNT) {
       const newFilter = FILTER_TABS[rightIndex];
       if (newFilter !== filter) {
-        playSelect();
         setFilter(newFilter);
       }
       return false;
@@ -123,7 +121,6 @@ export function useEquipmentMenu(
 
     const entry = filteredItems[rightIndex - FILTER_TAB_COUNT];
     if (!entry) return false;
-    playSelect();
     equip(character, entry.item.id, entry.enhance);
     return true;
   }
@@ -206,8 +203,6 @@ export function useEquipmentMenu(
 
   const playMoveRef = useRef(playMove);
   playMoveRef.current = playMove;
-  const playSelectRef = useRef(playSelect);
-  playSelectRef.current = playSelect;
   const pushControlsRef = useRef(pushControls);
   pushControlsRef.current = pushControls;
   const popControlsRef = useRef(popControls);
