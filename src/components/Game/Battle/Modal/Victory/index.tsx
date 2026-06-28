@@ -11,6 +11,13 @@ import { TitleProgresses } from "@/components/Game/Battle/TitleProgresses";
 import type { RewardInfo } from "@/hooks/battle/rewards/useRewards";
 import { getRank, formatRank } from "@/gameRules/rank";
 
+function formatTime(ms: number): string {
+  const totalSec = Math.floor(ms / 1000);
+  const min = Math.floor(totalSec / 60);
+  const sec = totalSec % 60;
+  return `${min}:${sec.toString().padStart(2, "0")}`;
+}
+
 type Props = {
   isOpen: boolean;
   character: string;
@@ -22,6 +29,8 @@ type Props = {
   xpReward: number;
   rewards: RewardInfo | null;
   skipDelay?: boolean;
+  elapsed: number;
+  bestTime: number;
 };
 
 export function VictoryModal({
@@ -35,6 +44,8 @@ export function VictoryModal({
   xpReward,
   rewards,
   skipDelay = false,
+  elapsed,
+  bestTime,
 }: Props) {
   const isVisible = useVictoryVisibility(isOpen, skipDelay);
   useVictoryKeyboard(isVisible, onContinue);
@@ -70,6 +81,16 @@ export function VictoryModal({
           />
 
           <div className={styles.flexColumn}>
+            <div className={styles.timeSection}>
+              <p className={styles.timeRow}>
+                <span className={styles.timeLabel}>Tempo:</span>
+                <span>{formatTime(elapsed)}</span>
+              </p>
+              <p className={styles.timeRow}>
+                <span className={styles.timeLabel}>Melhor tempo:</span>
+                <span>{bestTime > 0 ? formatTime(bestTime) : "0:00"}</span>
+              </p>
+            </div>
             <EquipmentDrops equipmentDrops={rewards?.equipmentDrops ?? []} />
             <ItemDrops itemDrops={rewards?.itemDrops ?? []} />
             <ChestDrops

@@ -12,11 +12,12 @@
 .modal {
   width: 75%;
   width: 60vw;
-  max-height: 90vh;
+  max-height: 80vh;
   overflow-y: auto;
   padding: 24px 32px;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   gap: 20px;
   animation: scaleIn 0.5s ease-out;
 }
@@ -86,4 +87,23 @@
   display: flex;
   flex-direction: row;
   gap: 24px;
+}
+
+.timeSection {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 2vw;
+}
+
+.timeRow {
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  font-family: monospace;
+}
+
+.timeLabel {
+  opacity: 0.7;
 }

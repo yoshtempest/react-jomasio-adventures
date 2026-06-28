@@ -95,6 +95,7 @@ export function useBattleScene({
 
   const battleStartRef = useRef(Date.now());
   const [defeatElapsed, setDefeatElapsed] = useState(0);
+  const [victoryElapsed, setVictoryElapsed] = useState(0);
   const [bestTime, setBestTime] = useState(loadBestTime(npcType));
 
   const { showIntro, skipIntro } = useBattleIntro();
@@ -249,9 +250,10 @@ export function useBattleScene({
       character: d.character,
       hyperCoins: d.hyperCoins,
     });
-    const victoryElapsed = Date.now() - battleStartRef.current;
-    addBattleTime(player.character, Math.floor(victoryElapsed / 1000));
-    saveBestTime(npcType, victoryElapsed);
+    const elapsed = Date.now() - battleStartRef.current;
+    setVictoryElapsed(elapsed);
+    addBattleTime(player.character, Math.floor(elapsed / 1000));
+    saveBestTime(npcType, elapsed);
     setBestTime(loadBestTime(npcType));
     triggerVictory();
     killCounter.handleNpcDeath(
@@ -509,6 +511,7 @@ export function useBattleScene({
     nextRank,
     charge,
     defeatElapsed,
+    victoryElapsed,
     bestTime,
     defeatProgress,
   };

@@ -58,6 +58,7 @@ export function BattleScene(props: Props) {
     nextRank,
     charge,
     defeatElapsed,
+    victoryElapsed,
     bestTime,
     defeatProgress,
   } = useBattleScene(props);
@@ -192,6 +193,8 @@ export function BattleScene(props: Props) {
           rewards={lastRewards}
           onContinue={handleContinue}
           skipDelay={skipVictoryDelay}
+          elapsed={victoryElapsed}
+          bestTime={bestTime}
         />
       )}
 
