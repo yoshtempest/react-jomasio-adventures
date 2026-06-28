@@ -9,6 +9,7 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { useTitles } from "@/contexts/TitleContext";
+import { usePlayTime } from "@/contexts/PlayTimeContext";
 import { useNpcSetup } from "@/hooks/battle/npc/useSetup";
 import { useBattleRewards } from "@/hooks/battle/rewards/useRewards";
 import { useSummons } from "@/hooks/battle/summon/useSummons";
@@ -84,6 +85,8 @@ export function useBattleScene({
     incrementDamageDealt,
     incrementDodgeCounter,
   } = useTitles();
+
+  const { addBattleTime } = usePlayTime();
 
   const [npcPhase, setNpcPhase] = useState(1);
   const npcPhaseRef = useRef(npcPhase);
@@ -214,7 +217,9 @@ export function useBattleScene({
     handleDefeat();
     recordDefeat();
     setShowDefeat(true);
-    setDefeatElapsed(Date.now() - battleStartRef.current);
+    const elapsed = Date.now() - battleStartRef.current;
+    setDefeatElapsed(elapsed);
+    addBattleTime(player.character, Math.floor(elapsed / 1000));
   };
 
   const onNpcDeathRef = useRef(() => {});
@@ -245,6 +250,7 @@ export function useBattleScene({
       hyperCoins: d.hyperCoins,
     });
     const victoryElapsed = Date.now() - battleStartRef.current;
+    addBattleTime(player.character, Math.floor(victoryElapsed / 1000));
     saveBestTime(npcType, victoryElapsed);
     setBestTime(loadBestTime(npcType));
     triggerVictory();
