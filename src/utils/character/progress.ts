@@ -14,10 +14,13 @@ export function normalizeProgress(data: unknown): CharactersProgress {
   for (const key in safe) {
     const savedChar = raw?.[key as Character];
 
+    const normalizeNum = (v: unknown, fallback: number): number =>
+      typeof v === "number" && !Number.isNaN(v) ? v : fallback;
+
     safe[key as Character] = {
-      level: savedChar?.level ?? 1,
-      xp: savedChar?.xp ?? 0,
-      kills: savedChar?.kills ?? 0,
+      level: normalizeNum(savedChar?.level, 1),
+      xp: normalizeNum(savedChar?.xp, 0),
+      kills: normalizeNum(savedChar?.kills, 0),
       stats: {
         hp: savedChar?.stats?.hp ?? 1,
         strength: savedChar?.stats?.strength ?? 1,

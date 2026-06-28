@@ -75,6 +75,7 @@ export function CharacterProgressProvider({
       return {
         ...prev,
         [character]: {
+          ...char,
           level: newLevel,
           xp: newXP,
           stats: {
@@ -94,7 +95,7 @@ export function CharacterProgressProvider({
         ...prev,
         [character]: {
           ...char,
-          kills: char.kills + 1,
+          kills: (char.kills ?? 0) + 1,
         },
       };
     });
