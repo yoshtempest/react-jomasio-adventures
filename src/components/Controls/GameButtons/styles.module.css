@@ -48,6 +48,11 @@
   transform: scale(0.9);
 }
 
+.open.cooldown {
+  opacity: 0.4;
+  transform: scale(0.85);
+}
+
 .row {
   display: flex;
   gap: 24px;
