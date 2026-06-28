@@ -5,7 +5,8 @@ import { ButtonsMovement } from "./Buttons";
 import styles from "./styles.module.css";
 
 export function Movement() {
-  const { pressed, mode, setMode, activeControls } = useKeyboardMovement();
+  const { pressed, mode, setMode, activeControls, press, release } =
+    useKeyboardMovement();
 
   return (
     <>
@@ -19,9 +20,19 @@ export function Movement() {
       </button>
 
       {mode === "joystick" ? (
-        <JoystickMovement activeControls={activeControls} pressed={pressed} />
+        <JoystickMovement
+          activeControls={activeControls}
+          pressed={pressed}
+          onPressDir={press}
+          onReleaseDir={release}
+        />
       ) : (
-        <ButtonsMovement activeControls={activeControls} pressed={pressed} />
+        <ButtonsMovement
+          activeControls={activeControls}
+          pressed={pressed}
+          onPressDir={press}
+          onReleaseDir={release}
+        />
       )}
     </>
   );

@@ -6,9 +6,11 @@ type Dir = Direction;
 type Props = {
   activeControls: GameControlLayer;
   pressed: Set<string>;
+  onPressDir?: (dir: Dir) => void;
+  onReleaseDir?: (dir: Dir) => void;
 };
 
-export function JoystickMovement({ activeControls, pressed }: Props) {
+export function JoystickMovement({ activeControls, pressed, onPressDir, onReleaseDir }: Props) {
   const activeDir = useRef<Set<Dir>>(new Set());
 
   const isDragging = useRef(false);
@@ -19,27 +21,27 @@ export function JoystickMovement({ activeControls, pressed }: Props) {
 
   const pressedRef = useRef(pressed);
   pressedRef.current = pressed;
+  const onPressRef = useRef(onPressDir);
+  onPressRef.current = onPressDir;
+  const onReleaseRef = useRef(onReleaseDir);
+  onReleaseRef.current = onReleaseDir;
 
   function execute(dir: Dir, pressed: boolean) {
-    switch (dir) {
-      case "up":
-        if (pressed) activeControls?.onUp?.();
-        break;
-
-      case "down":
-        if (pressed) activeControls?.onDown?.();
-        else activeControls?.onDownRelease?.();
-        break;
-
-      case "left":
-        if (pressed) activeControls?.onLeft?.();
-        else activeControls?.onLeftRelease?.();
-        break;
-
-      case "right":
-        if (pressed) activeControls?.onRight?.();
-        else activeControls?.onRightRelease?.();
-        break;
+    if (pressed) {
+      onPressRef.current?.(dir);
+      switch (dir) {
+        case "up": activeControls?.onUp?.(); break;
+        case "down": activeControls?.onDown?.(); break;
+        case "left": activeControls?.onLeft?.(); break;
+        case "right": activeControls?.onRight?.(); break;
+      }
+    } else {
+      onReleaseRef.current?.(dir);
+      switch (dir) {
+        case "down": activeControls?.onDownRelease?.(); break;
+        case "left": activeControls?.onLeftRelease?.(); break;
+        case "right": activeControls?.onRightRelease?.(); break;
+      }
     }
   }
 

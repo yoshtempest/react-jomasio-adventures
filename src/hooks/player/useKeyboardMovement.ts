@@ -111,27 +111,48 @@ export function useKeyboardMovement() {
   const releaseRef = useRef(release);
   releaseRef.current = release;
 
+  // window-level key tracking — updates pressed regardless of control layers
+  useEffect(() => {
+    const DIR_KEYS: Record<string, Dir> = {
+      ArrowUp: "up", w: "up", W: "up",
+      ArrowDown: "down", s: "down", S: "down",
+      ArrowLeft: "left", a: "left", A: "left",
+      ArrowRight: "right", d: "right", D: "right",
+    };
+
+    function onKeyDown(e: KeyboardEvent) {
+      const dir = DIR_KEYS[e.key];
+      if (dir) pressRef.current(dir);
+    }
+
+    function onKeyUp(e: KeyboardEvent) {
+      const dir = DIR_KEYS[e.key];
+      if (dir) releaseRef.current(dir);
+    }
+
+    window.addEventListener("keydown", onKeyDown);
+    window.addEventListener("keyup", onKeyUp);
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("keyup", onKeyUp);
+    };
+  }, []);
+
   useEffect(() => {
     const controls = {
       onUp: () => {
         if (isLockedRef.current) return;
-        pressRef.current("up");
         if (isBattleRef.current) moveUpBattleRef.current();
         else moveUpRef.current();
       },
-      onUpRelease: () => {
-        releaseRef.current("up");
-      },
+      onUpRelease: () => {},
 
       onDown: () => {
         if (isLockedRef.current) return;
-        pressRef.current("down");
         if (isBattleRef.current) toggleCrouchRef.current();
         else moveDownRef.current();
       },
-      onDownRelease: () => {
-        releaseRef.current("down");
-      },
+      onDownRelease: () => {},
 
       onLeft: () => {
         if (isLockedRef.current) return;
@@ -141,7 +162,6 @@ export function useKeyboardMovement() {
           return;
         }
         isLeftHeldRef.current = true;
-        pressRef.current("left");
         const now = Date.now();
         if (isBattleRef.current) {
           if (
@@ -171,7 +191,6 @@ export function useKeyboardMovement() {
       },
       onLeftRelease: () => {
         isLeftHeldRef.current = false;
-        releaseRef.current("left");
         if (isBattleRef.current) stopMoveLeftRef.current();
       },
 
@@ -183,7 +202,6 @@ export function useKeyboardMovement() {
           return;
         }
         isRightHeldRef.current = true;
-        pressRef.current("right");
         const now = Date.now();
         if (isBattleRef.current) {
           if (
@@ -213,7 +231,6 @@ export function useKeyboardMovement() {
       },
       onRightRelease: () => {
         isRightHeldRef.current = false;
-        releaseRef.current("right");
         if (isBattleRef.current) stopMoveRightRef.current();
       },
     };
@@ -227,5 +244,7 @@ export function useKeyboardMovement() {
     mode,
     setMode,
     activeControls,
+    press,
+    release,
   };
 }
