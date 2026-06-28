@@ -12,8 +12,7 @@
 .modal {
   width: 75%;
   width: 60vw;
-  max-height: 80vh;
-  overflow-y: auto;
+  max-height: 85vh;
   padding: 24px 32px;
   display: flex;
   flex-direction: column;
