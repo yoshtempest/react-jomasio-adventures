@@ -1,0 +1,52 @@
+import { usePlayer } from "@/contexts/PlayerContext";
+import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
+import { useEquipment } from "@/contexts/EquipmentContext";
+import { CHARACTERS } from "@/data/options/characters";
+import { asset } from "@/utils/asset";
+import { getRank, formatRank } from "@/gameRules/rank";
+import styles from "../styles.module.css";
+
+export function CharacterInfo() {
+  const { player, playerClass } = usePlayer();
+  const character = player.character;
+  const { progress, getXPToNextLevel } = useCharacterProgress();
+  const { getEquippedItem } = useEquipment();
+
+  const charProgress = progress[player.character];
+  const xpNeeded = getXPToNextLevel(charProgress.level);
+  const percent = (charProgress.xp / xpNeeded) * 100;
+  const characterData = CHARACTERS.find((c) => c.image === player.character);
+
+  const petItem = getEquippedItem(character, "pet");
+  const petNpcType = petItem?.id.replace("pet_", "");
+
+  return (
+    <div className={styles.flexColumn}>
+      <div className={styles.imagesRow}>
+        <img
+          src={asset(`/assets/player/${player.character}/default.svg`)}
+          className={styles.image}
+        />
+        {petItem && petNpcType && (
+          <img
+            src={asset(`/assets/npcs/${petNpcType}/default.svg`)}
+            className={styles.petImage}
+          />
+        )}
+      </div>
+      <h2>
+        {characterData?.name} - Nv.{charProgress.level}
+      </h2>
+      <h2 className={styles.rank}>
+        {formatRank(getRank(charProgress.level))}
+      </h2>
+      <h2>Classe: {playerClass}</h2>
+      <div className="xpBar">
+        <div className="xpFill" style={{ width: `${percent}%` }} />
+      </div>
+      <p className={styles.xpText}>
+        XP: {charProgress.xp}/{xpNeeded} — Nv.{charProgress.level + 1}
+      </p>
+    </div>
+  );
+}
