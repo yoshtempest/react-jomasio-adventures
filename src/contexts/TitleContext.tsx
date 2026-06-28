@@ -4,6 +4,7 @@ import {
   useState,
   useEffect,
   useCallback,
+  useRef,
   type ReactNode,
 } from "react";
 import type {
@@ -12,6 +13,7 @@ import type {
 } from "@/utils/types/player/titles";
 import { TITLES, getTitleById } from "@/data/titles";
 import { loadData, saveData } from "@/utils/titles/storage";
+import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 
 type ContextType = {
   titlesData: TitlesData;
@@ -34,6 +36,23 @@ export function TitleProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     saveData(titlesData);
   }, [titlesData]);
+
+  const { playSound } = useSoundEffects();
+  const prevProgressRef = useRef(titlesData.progress);
+
+  useEffect(() => {
+    const prev = prevProgressRef.current;
+    const curr = titlesData.progress;
+    for (const id of Object.keys(curr)) {
+      const prevLevel = prev[id]?.level ?? 0;
+      const currLevel = curr[id]?.level ?? 0;
+      if (currLevel > prevLevel) {
+        playSound("unlockedTitle");
+        break;
+      }
+    }
+    prevProgressRef.current = curr;
+  }, [titlesData.progress, playSound]);
 
   const getBonus = useCallback((): TitleBonusMap => {
     const bonus: TitleBonusMap = {
