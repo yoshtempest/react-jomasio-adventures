@@ -13,6 +13,7 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@mumme-it/opencode-caveman": "^0.2.0",
     "lucide-react": "^1.7.0",
     "lz-string": "^1.5.0",
     "react": "^19.1.1",
