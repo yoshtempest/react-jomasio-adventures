@@ -5,6 +5,7 @@ import {
   useState,
   useCallback,
   useMemo,
+  useRef,
 } from "react";
 import type { GameControlLayer } from "@/utils/types/player/controls";
 import type { ReactNode } from "react";
@@ -20,6 +21,7 @@ type ControlsContextType = {
   pushControls: (controls: GameControlLayer) => void;
   popControls: () => void;
   clearControls: () => void;
+  closeAllMenus: () => void;
   activeControls: GameControlLayer;
 };
 
@@ -27,8 +29,12 @@ const GameControlsContext = createContext<ControlsContextType | null>(null);
 
 export function GameControlsProvider({ children }: Props) {
   const [stack, setStack] = useState<GameControlLayer[]>([]);
-  const { player } = usePlayer();
-  const { openNavbar } = useNavbar();
+  const { player, setMode } = usePlayer();
+  const { openNavbar, closeNavbar } = useNavbar();
+  const closeNavbarRef = useRef(closeNavbar);
+  closeNavbarRef.current = closeNavbar;
+  const setModeRef = useRef(setMode);
+  setModeRef.current = setMode;
 
   const pushControls = useCallback((controls: GameControlLayer) => {
     setStack((prev) => [...prev, controls]);
@@ -40,6 +46,11 @@ export function GameControlsProvider({ children }: Props) {
 
   const clearControls = useCallback(() => {
     setStack([]);
+  }, []);
+
+  const closeAllMenus = useCallback(() => {
+    closeNavbarRef.current();
+    setModeRef.current("explore");
   }, []);
 
   // 🔥 merge inteligente
@@ -161,6 +172,11 @@ export function GameControlsProvider({ children }: Props) {
             return;
           }
 
+          if (activeControls.blockGlobalOpen && player.mode === "explore") {
+            closeAllMenus();
+            return;
+          }
+
           if (!activeControls.blockGlobalOpen && player.mode === "explore") {
             openNavbar();
           }
@@ -231,6 +247,7 @@ export function GameControlsProvider({ children }: Props) {
         pushControls,
         popControls,
         clearControls,
+        closeAllMenus,
         activeControls,
       }}
     >

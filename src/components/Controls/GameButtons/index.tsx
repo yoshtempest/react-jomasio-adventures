@@ -5,7 +5,7 @@ import { useNavbar } from "@/contexts/NavbarContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 
 export function GameButtons() {
-  const { activeControls } = useGameControls();
+  const { activeControls, closeAllMenus } = useGameControls();
   const { openNavbar } = useNavbar();
   const { player } = usePlayer();
 
@@ -19,6 +19,11 @@ export function GameButtons() {
   function handleOpen() {
     if (activeControls?.onOpen) {
       activeControls.onOpen();
+      return;
+    }
+
+    if (activeControls?.blockGlobalOpen && player.mode === "explore") {
+      closeAllMenus();
       return;
     }
 
