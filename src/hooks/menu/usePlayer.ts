@@ -3,7 +3,12 @@ import { useGameControls } from "@/contexts/GameControlsContext";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { CHARACTERS } from "@/utils/types/player/player";
 
-export function usePlayerMenu(isOpen: boolean) {
+const SCROLL_AMOUNT = 60;
+
+export function usePlayerMenu(
+  isOpen: boolean,
+  scrollRef?: React.RefObject<HTMLDivElement | null>,
+) {
   const { pushControls, popControls } = useGameControls();
   const { playMove, playSelect } = useMenuSFX();
 
@@ -23,22 +28,22 @@ export function usePlayerMenu(isOpen: boolean) {
   const popControlsRef = useRef(popControls);
   popControlsRef.current = popControls;
 
+  const doScroll = useRef((dy: number) => {
+    scrollRef?.current?.scrollBy({ top: dy, behavior: "smooth" });
+  });
+
   useEffect(() => {
     if (!isOpen) return;
 
     const controls = {
       onUp: () => {
-        playMoveRef.current();
-        setSelectedCharIndex((prev) =>
-          prev > 0 ? prev - 1 : CHARACTERS.length - 1,
-        );
+        doScroll.current(-SCROLL_AMOUNT);
+        return true;
       },
 
       onDown: () => {
-        playMoveRef.current();
-        setSelectedCharIndex((prev) =>
-          prev < CHARACTERS.length - 1 ? prev + 1 : 0,
-        );
+        doScroll.current(SCROLL_AMOUNT);
+        return true;
       },
 
       onLeft: () => {
@@ -46,6 +51,7 @@ export function usePlayerMenu(isOpen: boolean) {
         setSelectedCharIndex((prev) =>
           prev > 0 ? prev - 1 : CHARACTERS.length - 1,
         );
+        return true;
       },
 
       onRight: () => {
@@ -53,6 +59,7 @@ export function usePlayerMenu(isOpen: boolean) {
         setSelectedCharIndex((prev) =>
           prev < CHARACTERS.length - 1 ? prev + 1 : 0,
         );
+        return true;
       },
 
       onConfirm: () => {

@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import styles from "./styles.module.css";
 import { usePlayerMenu } from "@/hooks/menu/usePlayer";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
@@ -28,13 +29,14 @@ import {
 } from "@/utils/rewards/battleStats";
 
 export function Player() {
+  const scrollRef = useRef<HTMLDivElement>(null);
   const { progress } = useCharacterProgress();
   const { playTime, battleTime, getTotalPlayTime, getTotalBattleTime, loginDays } = usePlayTime();
   const { bestiary } = useBestiary();
   const { titlesData } = useTitles();
   const { coins, hyperCoins } = usePlayer();
   const { flags } = useFlags();
-  const { selectedChar } = usePlayerMenu(true);
+  const { selectedChar } = usePlayerMenu(true, scrollRef);
   const { rewards, claim } = useRewards();
   const {
     canClaim: dailyCanClaim,
@@ -86,7 +88,7 @@ export function Player() {
     <div className="containerOfNavbar">
       <h2>Jogador</h2>
 
-      <div className={styles.container}>
+      <div ref={scrollRef} className={styles.container}>
         <div className={styles.charSelectRow}>
           {CHARACTERS.map((char) => (
             <span
