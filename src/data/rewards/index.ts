@@ -48,4 +48,52 @@ export const REWARDS: RewardDef[] = [
     getRequirement: (stage) => 10 * (stage + 1),
     getReward: (stage) => 15 * (stage + 1),
   },
+  {
+    id: "damage_dealt",
+    label: "Cause {req} de dano total",
+    getRequirement: (stage) => 5000 * (stage + 1),
+    getReward: (stage) => 10 * (stage + 1),
+  },
+  {
+    id: "damage_taken",
+    label: "Receba {req} de dano total",
+    getRequirement: (stage) => 3000 * (stage + 1),
+    getReward: (stage) => 10 * (stage + 1),
+  },
+  {
+    id: "blocks",
+    label: "Bloqueie {req} ataques",
+    getRequirement: (stage) => 200 * (stage + 1),
+    getReward: (stage) => 5 * (stage + 1),
+  },
+  {
+    id: "misses",
+    label: "Faça o inimigo errar {req} vezes",
+    getRequirement: (stage) => 100 * (stage + 1),
+    getReward: (stage) => 5 * (stage + 1),
+  },
+  {
+    id: "equipment_drops",
+    label: "Acumule {req} equipamentos dropados",
+    getRequirement: (stage) => 50 * (stage + 1),
+    getReward: (stage) => 10 * (stage + 1),
+  },
+  {
+    id: "hits_used",
+    label: "Use {req} golpes",
+    getRequirement: (stage) => 1000 * (stage + 1),
+    getReward: (stage) => 5 * (stage + 1),
+  },
+  {
+    id: "specials_used",
+    label: "Use {req} especiais",
+    getRequirement: (stage) => 100 * (stage + 1),
+    getReward: (stage) => 10 * (stage + 1),
+  },
+  {
+    id: "attacks_used",
+    label: "Use {req} ataques comuns",
+    getRequirement: (stage) => 500 * (stage + 1),
+    getReward: (stage) => 5 * (stage + 1),
+  },
 ];

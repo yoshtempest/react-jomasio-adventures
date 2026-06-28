@@ -30,6 +30,15 @@ import { loadBestTime, saveBestTime } from "@/utils/bestTime";
 import { incrementDeath } from "@/utils/rewards/deathCounter";
 import { incrementBlockCount } from "@/utils/rewards/blockCounter";
 import { recordWin, recordDefeat } from "@/utils/rewards/streakStats";
+import {
+  incrementDamageDealtStats,
+  incrementDamageTakenStats,
+  incrementMissesStats,
+  incrementEquipmentDropsStats,
+  incrementHitsUsedStats,
+  incrementSpecialsUsedStats,
+  incrementAttacksUsedStats,
+} from "@/utils/rewards/battleStats";
 
 type Props = {
   npcType: string;
@@ -212,6 +221,9 @@ export function useBattleScene({
   onNpcDeathRef.current = () => {
     const rewards = giveRewards();
     setLastRewards(rewards);
+    if (rewards.equipmentDrops.length > 0) {
+      incrementEquipmentDropsStats(rewards.equipmentDrops.length);
+    }
     recordWin(player.character);
 
     progressDailyWeekly("win_battle", 1);
@@ -251,16 +263,31 @@ export function useBattleScene({
   const onDamageTakenRef = useRef<(amount: number) => void>(() => {});
   onDamageTakenRef.current = (amount: number) => {
     incrementDamageTaken(amount);
+    incrementDamageTakenStats(player.character, amount);
   };
 
   const onDodgeRef = useRef(() => {});
   onDodgeRef.current = () => {
     incrementDodgeCounter();
+    incrementMissesStats(player.character);
   };
 
   const onDamageDealtRef = useRef<(amount: number) => void>(() => {});
   onDamageDealtRef.current = (amount: number) => {
     incrementDamageDealt(amount);
+    incrementDamageDealtStats(player.character, amount);
+  };
+
+  const onAttackRef = useRef(() => {});
+  onAttackRef.current = () => {
+    incrementAttacksUsedStats(player.character);
+    incrementHitsUsedStats(player.character);
+  };
+
+  const onSpecialRef = useRef(() => {});
+  onSpecialRef.current = () => {
+    incrementSpecialsUsedStats(player.character);
+    incrementHitsUsedStats(player.character);
   };
 
   const battle = useBattleSystem({
@@ -288,6 +315,8 @@ export function useBattleScene({
     onDamageTakenRef,
     onDodgeRef,
     onDamageDealtRef,
+    onAttackRef,
+    onSpecialRef,
   });
 
   const {

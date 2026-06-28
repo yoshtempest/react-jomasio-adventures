@@ -39,6 +39,8 @@ type Props = {
   onDamageTakenRef?: React.RefObject<(amount: number) => void>;
   onDodgeRef?: React.RefObject<() => void>;
   onDamageDealtRef?: React.RefObject<(amount: number) => void>;
+  onAttackRef?: React.RefObject<() => void>;
+  onSpecialRef?: React.RefObject<() => void>;
 };
 
 export function useBattleSystem(props: Props) {
@@ -67,6 +69,8 @@ export function useBattleSystem(props: Props) {
     onDamageTakenRef,
     onDodgeRef,
     onDamageDealtRef,
+    onAttackRef,
+    onSpecialRef,
   } = props;
 
   const [npcPhase, setNpcPhase] = useState(1);
@@ -150,6 +154,8 @@ export function useBattleSystem(props: Props) {
     setPlayer,
     onBeforeNpcHitRef,
     onDamageDealtRef,
+    onAttackRef,
+    onSpecialRef,
   });
 
   const petDamageRef = useRef(() => {});

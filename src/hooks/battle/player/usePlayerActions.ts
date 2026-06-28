@@ -6,6 +6,10 @@ import {
 } from "@/gameRules/battle/damage";
 import { playAttackSound } from "@/utils/types/battle/playAttackSound";
 import { useBuildTargetList } from "./usePlayerTargeting";
+import {
+  incrementAttacksUsedStats,
+  incrementHitsUsedStats,
+} from "@/utils/rewards/battleStats";
 
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { CharactersProgress } from "@/data/characters/defaultProgress";
@@ -105,6 +109,8 @@ export function usePlayerBattleActions({
       spawnDamageRef.current?.(damage, target.x, target.y, "summon");
       registerHitRef.current?.(damage);
       battle.setDelicia((d) => Math.min(d + 1, battle.hitsToSpecial));
+      incrementAttacksUsedStats(player.character);
+      incrementHitsUsedStats(player.character);
 
       if (totalVampirism > 0) {
         const heal = Math.round((damage * totalVampirism) / 100);

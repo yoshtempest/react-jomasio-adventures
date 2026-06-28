@@ -14,6 +14,16 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { useRewards } from "@/hooks/useRewards";
 import { getDeaths } from "@/utils/rewards/deathCounter";
 import { getStreakStats } from "@/utils/rewards/streakStats";
+import { getBlockCount } from "@/utils/rewards/blockCounter";
+import {
+  getDamageDealtStats,
+  getDamageTakenStats,
+  getMissesStats,
+  getEquipmentDropsStats,
+  getHitsUsedStats,
+  getSpecialsUsedStats,
+  getAttacksUsedStats,
+} from "@/utils/rewards/battleStats";
 
 export function Player() {
   const { progress } = useCharacterProgress();
@@ -40,6 +50,14 @@ export function Player() {
   const totalPlayTime = getTotalPlayTime();
   const deaths = getDeaths();
   const streakStats = getStreakStats();
+  const damageDealtStats = getDamageDealtStats();
+  const damageTakenStats = getDamageTakenStats();
+  const missesStats = getMissesStats();
+  const equipmentDropsStats = getEquipmentDropsStats();
+  const hitsUsedStats = getHitsUsedStats();
+  const specialsUsedStats = getSpecialsUsedStats();
+  const attacksUsedStats = getAttacksUsedStats();
+  const blockCount = getBlockCount();
 
   function charLabel(char: string): string {
     const opt = CHARACTER_OPTIONS.find((c) => c.image === char);
@@ -98,6 +116,38 @@ export function Player() {
             <span className={styles.statLabel}>Total de derrotas</span>
             <span className={styles.statValue}>{deaths.total}</span>
           </div>
+          <div className={styles.statRow}>
+            <span className={styles.statLabel}>Dano total causado</span>
+            <span className={styles.statValue}>{damageDealtStats.total}</span>
+          </div>
+          <div className={styles.statRow}>
+            <span className={styles.statLabel}>Dano total recebido</span>
+            <span className={styles.statValue}>{damageTakenStats.total}</span>
+          </div>
+          <div className={styles.statRow}>
+            <span className={styles.statLabel}>Bloqueios</span>
+            <span className={styles.statValue}>{blockCount.total}</span>
+          </div>
+          <div className={styles.statRow}>
+            <span className={styles.statLabel}>Misses</span>
+            <span className={styles.statValue}>{missesStats.total}</span>
+          </div>
+          <div className={styles.statRow}>
+            <span className={styles.statLabel}>Equipamentos dropados</span>
+            <span className={styles.statValue}>{equipmentDropsStats.total}</span>
+          </div>
+          <div className={styles.statRow}>
+            <span className={styles.statLabel}>Golpes usados</span>
+            <span className={styles.statValue}>{hitsUsedStats.total}</span>
+          </div>
+          <div className={styles.statRow}>
+            <span className={styles.statLabel}>Especiais usados</span>
+            <span className={styles.statValue}>{specialsUsedStats.total}</span>
+          </div>
+          <div className={styles.statRow}>
+            <span className={styles.statLabel}>Ataques comuns</span>
+            <span className={styles.statValue}>{attacksUsedStats.total}</span>
+          </div>
         </div>
 
         <div className={styles.section}>
@@ -132,6 +182,14 @@ export function Player() {
           <div className={styles.statRow}>
             <span className={styles.statLabel}>Derrotas</span>
             <span className={styles.statValue}>{deaths.perCharacter[selectedChar] ?? 0}</span>
+          </div>
+          <div className={styles.statRow}>
+            <span className={styles.statLabel}>Dano causado</span>
+            <span className={styles.statValue}>{damageDealtStats.perCharacter[selectedChar] ?? 0}</span>
+          </div>
+          <div className={styles.statRow}>
+            <span className={styles.statLabel}>Dano recebido</span>
+            <span className={styles.statValue}>{damageTakenStats.perCharacter[selectedChar] ?? 0}</span>
           </div>
         </div>
 

@@ -7,6 +7,16 @@ import { usePlayTime } from "@/contexts/PlayTimeContext";
 import { useFlags } from "@/contexts/FlagContext";
 import { useBestiary } from "@/contexts/BestiaryContext";
 import { getClassKills } from "@/utils/rewards/classKills";
+import { getBlockCount } from "@/utils/rewards/blockCounter";
+import {
+  getDamageDealtStats,
+  getDamageTakenStats,
+  getMissesStats,
+  getEquipmentDropsStats,
+  getHitsUsedStats,
+  getSpecialsUsedStats,
+  getAttacksUsedStats,
+} from "@/utils/rewards/battleStats";
 
 type RewardsProgress = Record<string, number>;
 
@@ -89,6 +99,22 @@ function getProgress(
         current: classKills.rare ?? 0,
         requirement: def.getRequirement(stage),
       };
+    case "damage_dealt":
+      return { current: getDamageDealtStats().total, requirement: def.getRequirement(stage) };
+    case "damage_taken":
+      return { current: getDamageTakenStats().total, requirement: def.getRequirement(stage) };
+    case "blocks":
+      return { current: getBlockCount().total, requirement: def.getRequirement(stage) };
+    case "misses":
+      return { current: getMissesStats().total, requirement: def.getRequirement(stage) };
+    case "equipment_drops":
+      return { current: getEquipmentDropsStats().total, requirement: def.getRequirement(stage) };
+    case "hits_used":
+      return { current: getHitsUsedStats().total, requirement: def.getRequirement(stage) };
+    case "specials_used":
+      return { current: getSpecialsUsedStats().total, requirement: def.getRequirement(stage) };
+    case "attacks_used":
+      return { current: getAttacksUsedStats().total, requirement: def.getRequirement(stage) };
     default:
       return { current: 0, requirement: 0 };
   }
