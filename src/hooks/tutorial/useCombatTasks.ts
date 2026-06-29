@@ -45,7 +45,18 @@ export function useCombatTasks() {
   useEffect(() => {
     if (currentTask !== "attack") return;
     if (player.state === "preAttack" || player.state === "attack")
-      setCurrentTask("block");
+      setCurrentTask("special");
+  }, [player.state, currentTask]);
+
+  useEffect(() => {
+    if (currentTask !== "special") return;
+    if (player.state === "special")
+      setCurrentTask("crounch");
+  }, [player.state, currentTask]);
+
+  useEffect(() => {
+    if (currentTask !== "crounch") return;
+    if (player.state === "idleCrounched") setCurrentTask("block");
   }, [player.state, currentTask]);
 
   useEffect(() => {
