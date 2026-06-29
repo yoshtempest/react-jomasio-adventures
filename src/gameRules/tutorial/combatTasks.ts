@@ -36,7 +36,7 @@ export interface TaskInstruction {
 
 export const TASK_INSTRUCTIONS: Record<Task, TaskInstruction> = {
   moveLeft: {
-    text: "Pressione A ou ← para se mover para esquerda",
+    text: "Pressione A ou ← para se mover para esquerda, vá para a borda do mapa",
   },
   moveRight: {
     text: "Pressione D ou → para se mover para direita",

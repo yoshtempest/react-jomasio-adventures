@@ -69,6 +69,7 @@ function CombatTutorialInner() {
     scaleX,
     scaleY,
   } = useGameLayout();
+  const playerName = localStorage.getItem("playerName") || "Protagonista";
 
   useCombatTutorialSetup({ TILE_SIZE, scaleX, scaleY });
 
@@ -92,7 +93,7 @@ function CombatTutorialInner() {
     <>
       <div className={styles.hudTop}>
         <div className={styles.playerHud}>
-          <span className={styles.hudLabel}>Jogador</span>
+          <span className={styles.hudLabel}>{playerName}</span>
           <HealthBar hp={playerMaxHp} maxHp={playerMaxHp} />
           <Deliciometro delicia={delicia} hitsToSpecial={HITS_TO_SPECIAL} />
         </div>
