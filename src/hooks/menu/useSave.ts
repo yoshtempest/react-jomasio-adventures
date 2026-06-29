@@ -134,10 +134,12 @@ export function useSaveMenu() {
                 const slot = item.slot;
                 if (!isSlotUsed(slot)) return;
                 if (slot === getActiveSlot()) return;
+                const targetSave = loadGameForSlot(slot);
+                if (!targetSave) return;
                 setActiveSlot(slot);
                 closeNavbarRef.current();
                 setModeRef.current("explore");
-                window.location.reload();
+                navigateRef.current(targetSave.lastRoute, { replace: true });
                 }
                 else if (item.key.startsWith("delete-") && item.slot !== undefined) {
                 if (!isSlotUsed(item.slot)) return;
