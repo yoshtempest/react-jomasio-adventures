@@ -113,9 +113,7 @@ export function useSaveMenu() {
                     setConfirmDelete("none");
                     refreshRef.current();
                     if (!getUsedSlots().length) {
-                    closeNavbarRef.current();
-                    setModeRef.current("explore");
-                    navigateRef.current("/tutorial", { replace: true });
+                    window.location.href = "#/tutorial";
                     }
                 } else {
                     playMoveRef.current();
@@ -137,9 +135,8 @@ export function useSaveMenu() {
                 const targetSave = loadGameForSlot(slot);
                 if (!targetSave) return;
                 setActiveSlot(slot);
-                closeNavbarRef.current();
-                setModeRef.current("explore");
-                navigateRef.current(targetSave.lastRoute, { replace: true });
+                sessionStorage.setItem("saveSwitchTarget", targetSave.lastRoute);
+                window.location.href = "#/";
                 }
                 else if (item.key.startsWith("delete-") && item.slot !== undefined) {
                 if (!isSlotUsed(item.slot)) return;
@@ -151,9 +148,7 @@ export function useSaveMenu() {
                     if (free === undefined) return;
                         setActiveSlot(free);
                         clearSlot(free);
-                        closeNavbarRef.current();
-                        setModeRef.current("explore");
-                        navigateRef.current("/tutorial", { replace: true });
+                        window.location.href = "#/tutorial";
                 } else if (item.key === "back") {
                     closeNavbarRef.current();
                     setModeRef.current("explore");
