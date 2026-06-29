@@ -16,7 +16,19 @@ const MELEE_RANGE = 50;
 const MELEE_COOLDOWN = 800;
 
 export function slimitaBehavior(ctx: BehaviorContext) {
-  const { npc, playerX, playerY, targetX, targetY, npcPhase, onMeleeHit, projectile, setProjectile, setForceIdle, lastAttackRef } = ctx;
+  const {
+    npc,
+    playerX,
+    playerY,
+    targetX,
+    targetY,
+    npcPhase,
+    onMeleeHit,
+    projectile,
+    setProjectile,
+    setForceIdle,
+    lastAttackRef
+  } = ctx;
 
   const now = Date.now();
 
@@ -85,7 +97,7 @@ export function slimitaBehavior(ctx: BehaviorContext) {
       npc.state = "jumping";
       npc.jumpLandingX = targetX;
 
-      return { x, y, state: "jumping" };
+      return { x, y, state: "jumping" as const };
     }
 
     case "air": {
@@ -123,7 +135,7 @@ export function slimitaBehavior(ctx: BehaviorContext) {
       return {
         x: newX,
         y: newY,
-        state: "jumping",
+        state: "jumping" as const,
       };
     }
 

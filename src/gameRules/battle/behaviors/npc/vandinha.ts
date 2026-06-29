@@ -43,21 +43,21 @@ export function vandinhaBehavior(ctx: BehaviorContext) {
 
     if (hit) {
       ai.lastMeleeAttack = now;
-      return { x: npc.x, y: npc.y, state: "meleeAttack" };
+      return { x: npc.x, y: npc.y, state: "meleeAttack" as const };
     }
 
     if (now - ai.lastMeleeAttack < MELEE_ATTACK_DURATION) {
-      return { x: npc.x, y: npc.y, state: "meleeAttack" };
+      return { x: npc.x, y: npc.y, state: "meleeAttack" as const };
     }
 
     const inCooldown = !canAttack(lastAttackRef, MELEE_COOLDOWN);
 
     if (inCooldown) {
       if (distanceX <= MELEE_RANGE) {
-        return { x: npc.x, y: npc.y, state: "walk" };
+        return { x: npc.x, y: npc.y, state: "walk" as const };
       }
       const { x } = chasePlayer(npc, targetX, targetY);
-      return { x, y: npc.y, state: "walk" };
+      return { x, y: npc.y, state: "walk" as const };
     }
 
     if (distanceX <= MELEE_RANGE) {
@@ -90,7 +90,7 @@ export function vandinhaBehavior(ctx: BehaviorContext) {
   }
 
   if (projectile || now - ai.lastRangedAttack < IDLE_DURATION) {
-    return { x: npc.x, y: npc.y, state: "rangedAttack" };
+    return { x: npc.x, y: npc.y, state: "rangedAttack" as const };
   }
 
   const { x } = chasePlayer(npc, targetX, targetY);

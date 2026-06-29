@@ -21,7 +21,7 @@ export function piupiuBehavior(ctx: BehaviorContext) {
 
   const STATE_ATTACK_COOLDOWN = 800;
   if (!canAttack(lastAttackRef, STATE_ATTACK_COOLDOWN)) {
-    return { x: npc.x, y: npc.y, state: "idle" };
+    return { x: npc.x, y: npc.y, state: "idle" as const };
   }
 
   return { x, y: npc.y };
