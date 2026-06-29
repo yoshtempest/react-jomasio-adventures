@@ -53,7 +53,7 @@ export const TASK_INSTRUCTIONS: Record<Task, TaskInstruction> = {
     sub: "Ataque o boneco de treino",
   },
   special: {
-    text: "Pressione G para utilizar o ataque especial quando o deliciomêtro estiver carregado",
+    text: "Pressione G para utilizar o especial",
     sub: "Utilize o especial",
   },
   crounch: {

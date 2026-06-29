@@ -9,7 +9,7 @@ interface CombatTutorialSetupLayout {
 }
 
 export function useCombatTutorialSetup(layout: CombatTutorialSetupLayout) {
-  const { setMode, setBattleCollision, attack } = usePlayer();
+  const { setMode, setBattleCollision, attack, special, blockStart, blockEnd } = usePlayer();
   const { pushControls, popControls } = useGameControls();
   const { TILE_SIZE, scaleX, scaleY } = layout;
 
@@ -23,6 +23,12 @@ export function useCombatTutorialSetup(layout: CombatTutorialSetupLayout) {
   popControlsRef.current = popControls;
   const attackRef = useRef(attack);
   attackRef.current = attack;
+  const specialRef = useRef(special);
+  specialRef.current = special;
+  const blockStartRef = useRef(blockStart);
+  blockStartRef.current = blockStart;
+  const blockEndRef = useRef(blockEnd);
+  blockEndRef.current = blockEnd;
 
   useEffect(() => {
     setModeRef.current("battle");
@@ -44,6 +50,15 @@ export function useCombatTutorialSetup(layout: CombatTutorialSetupLayout) {
     pushControlsRef.current({
       onConfirm: () => {
         attackRef.current();
+      },
+      onCancel: () => {
+        blockStartRef.current();
+      },
+      onCancelRelease: () => {
+        blockEndRef.current();
+      },
+      onOpen: () => {
+        specialRef.current();
       },
       blockGlobalOpen: true,
     });

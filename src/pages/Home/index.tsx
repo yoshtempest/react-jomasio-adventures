@@ -38,7 +38,12 @@ export default function Home() {
     pushControls({
       onConfirm: () => {
         const save = loadGame();
-        if (save?.lastRoute && save.lastRoute !== "/home") {
+        if (
+          save?.lastRoute &&
+          save.lastRoute !== "/home" &&
+          save.lastRoute !== "/combatTutorial" &&
+          save.lastRoute !== "/battle"
+        ) {
           navigate(save.lastRoute);
         } else {
           navigate("/firstscreen");
