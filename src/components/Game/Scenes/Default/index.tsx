@@ -19,7 +19,7 @@ import { useSceneAudio } from "@/hooks/scene/useAudio";
 import { useLocation } from "react-router";
 import { useTransitionCtx } from "@/contexts/TransitionContext";
 import { getTileInFront } from "@/utils/getTileInFront";
-import { saveGame } from "@/utils/saveGame";
+import { saveGame } from "@/utils/save/saveGame";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
 import { useFlags } from "@/contexts/FlagContext";

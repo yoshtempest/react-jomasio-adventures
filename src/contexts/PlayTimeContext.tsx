@@ -8,8 +8,9 @@ import {
 } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { CHARACTERS, type Character } from "@/utils/types/player/player";
+import { slotKey } from "@/utils/save/slotManager";
 
-const PLAY_TIME_KEY = "play_time";
+const PLAY_TIME_KEY = () => slotKey("play_time");
 
 type PlayTimeData = Record<Character, number>;
 type BattleTimeData = Record<Character, number>;
@@ -25,7 +26,7 @@ type StoredData = {
 
 function loadData(): StoredData {
   try {
-    const raw = localStorage.getItem(PLAY_TIME_KEY);
+    const raw = localStorage.getItem(PLAY_TIME_KEY());
     if (!raw) return createDefault();
     const parsed = JSON.parse(raw) as Partial<StoredData>;
     return {
@@ -42,7 +43,7 @@ function loadData(): StoredData {
 
 function saveData(data: StoredData): void {
   try {
-    localStorage.setItem(PLAY_TIME_KEY, JSON.stringify(data));
+    localStorage.setItem(PLAY_TIME_KEY(), JSON.stringify(data));
   } catch {
     // ignore
   }

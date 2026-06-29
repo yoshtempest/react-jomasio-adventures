@@ -1,4 +1,5 @@
 import { BATTLE_STATS_KEY } from "@/data/storageKeys";
+import { slotKey } from "@/utils/save/slotManager";
 
 type PerCharacterStats = {
   total: number;
@@ -33,7 +34,7 @@ function createDefault(): BattleStatsData {
 
 function loadStats(): BattleStatsData {
   try {
-    const raw = localStorage.getItem(BATTLE_STATS_KEY);
+    const raw = localStorage.getItem(slotKey(BATTLE_STATS_KEY));
     if (!raw) return createDefault();
     return JSON.parse(raw) as BattleStatsData;
   } catch {
@@ -43,7 +44,7 @@ function loadStats(): BattleStatsData {
 
 function saveStats(data: BattleStatsData): void {
   try {
-    localStorage.setItem(BATTLE_STATS_KEY, JSON.stringify(data));
+    localStorage.setItem(slotKey(BATTLE_STATS_KEY), JSON.stringify(data));
   } catch {}
 }
 

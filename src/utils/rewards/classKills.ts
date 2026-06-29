@@ -1,4 +1,5 @@
 import { CLASS_KILLS_KEY } from "@/data/storageKeys";
+import { slotKey } from "@/utils/save/slotManager";
 
 export type ClassKills = Record<NPCClass, number>;
 
@@ -8,7 +9,7 @@ function createDefault(): ClassKills {
 
 export function loadClassKills(): ClassKills {
   try {
-    const raw = localStorage.getItem(CLASS_KILLS_KEY);
+    const raw = localStorage.getItem(slotKey(CLASS_KILLS_KEY));
     if (!raw) return createDefault();
     return JSON.parse(raw) as ClassKills;
   } catch {
@@ -18,7 +19,7 @@ export function loadClassKills(): ClassKills {
 
 function saveClassKills(data: ClassKills): void {
   try {
-    localStorage.setItem(CLASS_KILLS_KEY, JSON.stringify(data));
+    localStorage.setItem(slotKey(CLASS_KILLS_KEY), JSON.stringify(data));
   } catch {}
 }
 

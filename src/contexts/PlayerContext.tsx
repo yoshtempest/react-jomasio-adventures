@@ -24,6 +24,7 @@ import {
   CHARACTER_KEY,
   PLAYER_CLASS_KEY,
 } from "@/data/storageKeys";
+import { slotKey } from "@/utils/save/slotManager";
 
 type PlayerContextType = {
   player: Player;
@@ -74,11 +75,11 @@ const PlayerContext = createContext<PlayerContextType | null>(null);
 
 export function PlayerProvider({ children }: { children: ReactNode }) {
   const [difficulty, setDifficulty] = useState<NpcDifficulty>("medium");
-  const [coins, setCoins] = usePersistedNumber(COINS_KEY, 200);
-  const [hyperCoins, setHyperCoins] = usePersistedNumber(HYPER_COINS_KEY, 0);
+  const [coins, setCoins] = usePersistedNumber(slotKey(COINS_KEY), 200);
+  const [hyperCoins, setHyperCoins] = usePersistedNumber(slotKey(HYPER_COINS_KEY), 0);
 
   const [player, setPlayer] = useState<Player>(() => {
-    const savedCharacter = localStorage.getItem(CHARACTER_KEY);
+    const savedCharacter = localStorage.getItem(slotKey(CHARACTER_KEY));
     return {
       gridX: 6,
       gridY: 11,
@@ -114,13 +115,13 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   );
 
   const [playerClass, setPlayerClass] = useState<PlayerClass>(() => {
-    const saved = localStorage.getItem(PLAYER_CLASS_KEY);
+    const saved = localStorage.getItem(slotKey(PLAYER_CLASS_KEY));
     if (saved === "fracote" || saved === "idiota" || saved === "amostradinho") return saved;
     return null;
   });
 
   useEffect(() => {
-    if (playerClass) localStorage.setItem(PLAYER_CLASS_KEY, playerClass);
+    if (playerClass) localStorage.setItem(slotKey(PLAYER_CLASS_KEY), playerClass);
   }, [playerClass]);
 
   const battleCollisionRef = useBattleCollisionRef();
@@ -182,7 +183,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   }
 
   function setCharacter(character: Player["character"]) {
-    localStorage.setItem(CHARACTER_KEY, character);
+    localStorage.setItem(slotKey(CHARACTER_KEY), character);
     setPlayer((prev) => ({ ...prev, character }));
   }
 

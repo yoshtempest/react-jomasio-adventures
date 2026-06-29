@@ -13,8 +13,9 @@ import {
   getWeekStart,
   generateQuestsFromPool,
 } from "@/data/quests/generation";
-import { saveCompressed, loadCompressed } from "@/utils/storage";
+import { saveCompressed, loadCompressed } from "@/utils/save/storage";
 import { QUESTS_KEY, DAILY_QUEST_DATE_KEY, WEEKLY_QUEST_DATE_KEY } from "@/data/storageKeys";
+import { slotKey } from "@/utils/save/slotManager";
 
 type Props = {
   children: ReactNode;
@@ -34,20 +35,20 @@ const QuestContext = createContext({} as QuestContextType);
 
 export function QuestProvider({ children }: Props) {
   const [quests, setQuests] = useState<Quest[]>(() =>
-    loadCompressed<Quest[]>(QUESTS_KEY) ?? [],
+    loadCompressed<Quest[]>(slotKey(QUESTS_KEY)) ?? [],
   );
   const { playSound } = useSoundEffects();
 
   useEffect(() => {
-    saveCompressed(QUESTS_KEY, quests);
+    saveCompressed(slotKey(QUESTS_KEY), quests);
   }, [quests]);
 
   const generateDailyWeekly = useCallback(() => {
     setQuests((prev) => {
       const todayDate = getTodayDate();
       const weekStart = getWeekStart();
-      const savedDailyDate = localStorage.getItem(DAILY_QUEST_DATE_KEY);
-      const savedWeeklyDate = localStorage.getItem(WEEKLY_QUEST_DATE_KEY);
+      const savedDailyDate = localStorage.getItem(slotKey(DAILY_QUEST_DATE_KEY));
+      const savedWeeklyDate = localStorage.getItem(slotKey(WEEKLY_QUEST_DATE_KEY));
 
       const hasDaily = prev.some((q) => q.frequency === "daily");
       const hasWeekly = prev.some((q) => q.frequency === "weekly");
@@ -62,13 +63,13 @@ export function QuestProvider({ children }: Props) {
       );
 
       if (needsDailyReset) {
-        localStorage.setItem(DAILY_QUEST_DATE_KEY, todayDate);
+        localStorage.setItem(slotKey(DAILY_QUEST_DATE_KEY), todayDate);
         const dailyQuests = generateQuestsFromPool(DAILY_QUEST_POOL, "daily");
         filtered.push(...dailyQuests);
       }
 
       if (needsWeeklyReset) {
-        localStorage.setItem(WEEKLY_QUEST_DATE_KEY, weekStart);
+        localStorage.setItem(slotKey(WEEKLY_QUEST_DATE_KEY), weekStart);
         const weeklyQuests = generateQuestsFromPool(
           WEEKLY_QUEST_POOL,
           "weekly",

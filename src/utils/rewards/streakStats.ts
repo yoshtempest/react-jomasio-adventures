@@ -1,4 +1,5 @@
 import { STREAK_KEY } from "@/data/storageKeys";
+import { slotKey } from "@/utils/save/slotManager";
 
 type StreakStats = {
   currentStreak: number;
@@ -12,7 +13,7 @@ function createDefault(): StreakStats {
 
 function load(): StreakStats {
   try {
-    const raw = localStorage.getItem(STREAK_KEY);
+    const raw = localStorage.getItem(slotKey(STREAK_KEY));
     if (!raw) return createDefault();
     return JSON.parse(raw) as StreakStats;
   } catch {
@@ -22,7 +23,7 @@ function load(): StreakStats {
 
 function save(data: StreakStats): void {
   try {
-    localStorage.setItem(STREAK_KEY, JSON.stringify(data));
+    localStorage.setItem(slotKey(STREAK_KEY), JSON.stringify(data));
   } catch {}
 }
 

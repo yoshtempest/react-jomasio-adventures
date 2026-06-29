@@ -5,6 +5,7 @@ import { useEquipment } from "@/contexts/EquipmentContext";
 import { useInventory } from "@/contexts/InventoryContext";
 import { openChest, type ChestDropResult } from "@/data/items/chests";
 import { DAILY_CHEST_KEY } from "@/data/storageKeys";
+import { slotKey } from "@/utils/save/slotManager";
 
 const COOLDOWN_MS = 6 * 60 * 60 * 1000;
 
@@ -36,7 +37,7 @@ export function useDailyChest() {
 
   const [lastOpen, setLastOpen] = useState(() => {
     try {
-      const stored = localStorage.getItem(DAILY_CHEST_KEY);
+      const stored = localStorage.getItem(slotKey(DAILY_CHEST_KEY));
       return stored ? Number(stored) : 0;
     } catch {
       return 0;
@@ -75,7 +76,7 @@ export function useDailyChest() {
 
     const now = Date.now();
     try {
-      localStorage.setItem(DAILY_CHEST_KEY, String(now));
+      localStorage.setItem(slotKey(DAILY_CHEST_KEY), String(now));
     } catch {}
     setLastOpen(now);
     const openResult: DailyChestResult = { ...result, tier };

@@ -2,3 +2,39 @@
   width: 20vw;
   height: 33vh;
 }
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.menuItem {
+  color: var(--text-color);
+  font-size: 18px;
+  padding: 8px 24px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+  opacity: 0.7;
+  transition: opacity 0.2s, border-color 0.2s;
+}
+
+.menuItemSelected {
+  opacity: 1;
+  border-color: var(--text-color);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.slotInfo {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--text-color);
+  font-size: 13px;
+  opacity: 0.5;
+}

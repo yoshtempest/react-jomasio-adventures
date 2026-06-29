@@ -1,5 +1,6 @@
 import type { InventoryItem } from "@/utils/types/player/inventory";
-import { saveCompressed, loadCompressed, removeKey } from "@/utils/storage";
+import { saveCompressed, loadCompressed, removeKey } from "@/utils/save/storage";
+import { slotKey, slotKeyFor, hasAnySave, type SlotIndex } from "@/utils/save/slotManager";
 import type { CharactersProgress } from "@/data/characters/defaultProgress";
 
 export type SaveData = {
@@ -13,7 +14,7 @@ export type SaveData = {
   progress?: CharactersProgress;
 };
 
-const SAVE_KEY = "game_save";
+const SAVE_KEY = () => slotKey("game_save");
 const API_BASE = "/api";
 
 function getToken(): string | null {
@@ -27,19 +28,23 @@ function getToken(): string | null {
 // --- Local storage ---
 
 export function saveGame(data: SaveData) {
-  saveCompressed(SAVE_KEY, data);
+  saveCompressed(SAVE_KEY(), data);
 }
 
 export function loadGame(): SaveData | null {
-  return loadCompressed<SaveData>(SAVE_KEY);
+  return loadCompressed<SaveData>(SAVE_KEY());
 }
 
 export function hasSave() {
-  return !!localStorage.getItem(SAVE_KEY);
+  return hasAnySave();
 }
 
 export function deleteSave() {
-  removeKey(SAVE_KEY);
+  removeKey(SAVE_KEY());
+}
+
+export function loadGameForSlot(slot: SlotIndex): SaveData | null {
+  return loadCompressed<SaveData>(slotKeyFor(slot, "game_save"));
 }
 
 // --- Cloud sync ---

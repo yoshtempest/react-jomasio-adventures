@@ -1,6 +1,7 @@
 import type { BestiarySaveData, BestiarySaveEntry } from "@/utils/types/player/bestiary";
 import { BESTIARY_NPC_ORDER } from "@/data/bestiary";
 import { BESTIARY_KEY } from "@/data/storageKeys";
+import { slotKey } from "@/utils/save/slotManager";
 
 function createDefaultEntry(): BestiarySaveEntry {
   return { encountered: false, kills: 0 };
@@ -23,7 +24,7 @@ function migrateEntry(entry: Partial<BestiarySaveEntry>): BestiarySaveEntry {
 
 export function loadBestiary(): BestiarySaveData {
   try {
-    const raw = localStorage.getItem(BESTIARY_KEY);
+    const raw = localStorage.getItem(slotKey(BESTIARY_KEY));
     if (!raw) return createDefaultData();
     const parsed = JSON.parse(raw) as Record<string, Partial<BestiarySaveEntry>>;
     const data: BestiarySaveData = {};
@@ -39,7 +40,7 @@ export function loadBestiary(): BestiarySaveData {
 
 export function saveBestiary(data: BestiarySaveData): void {
   try {
-    localStorage.setItem(BESTIARY_KEY, JSON.stringify(data));
+    localStorage.setItem(slotKey(BESTIARY_KEY), JSON.stringify(data));
   } catch {
     // ignore
   }

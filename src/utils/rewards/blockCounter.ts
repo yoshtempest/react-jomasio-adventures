@@ -1,4 +1,5 @@
 import { BLOCKS_KEY } from "@/data/storageKeys";
+import { slotKey } from "@/utils/save/slotManager";
 
 export type BlockData = {
   total: number;
@@ -11,7 +12,7 @@ function createDefault(): BlockData {
 
 function loadBlocks(): BlockData {
   try {
-    const raw = localStorage.getItem(BLOCKS_KEY);
+    const raw = localStorage.getItem(slotKey(BLOCKS_KEY));
     if (!raw) return createDefault();
     return JSON.parse(raw) as BlockData;
   } catch {
@@ -21,7 +22,7 @@ function loadBlocks(): BlockData {
 
 function saveBlocks(data: BlockData): void {
   try {
-    localStorage.setItem(BLOCKS_KEY, JSON.stringify(data));
+    localStorage.setItem(slotKey(BLOCKS_KEY), JSON.stringify(data));
   } catch {}
 }
 

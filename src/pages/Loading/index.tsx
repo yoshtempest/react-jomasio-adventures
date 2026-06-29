@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router";
 import { asset } from "@/utils/asset";
-import { hasSave } from "@/utils/saveGame";
+import { hasSave } from "@/utils/save/saveGame";
 import styles from "./styles.module.css";
 
 const MIN_LOADING_MS = 6000;

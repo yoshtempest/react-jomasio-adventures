@@ -7,8 +7,9 @@ import {
 } from "react";
 import type { Character } from "@/utils/types/player/player";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
-import { saveCompressed, loadCompressed } from "@/utils/storage";
+import { saveCompressed, loadCompressed } from "@/utils/save/storage";
 import { CHARACTER_PROGRESS_KEY } from "@/data/storageKeys";
+import { slotKey } from "@/utils/save/slotManager";
 import type {
   CharacterStats,
   CharactersProgress,
@@ -36,7 +37,7 @@ export function CharacterProgressProvider({
   children: ReactNode;
 }) {
   const [progress, setProgress] = useState<CharactersProgress>(() => {
-    const saved = loadCompressed<CharactersProgress>(STORAGE_KEY);
+    const saved = loadCompressed<CharactersProgress>(slotKey(STORAGE_KEY));
 
     if (!saved) return defaultProgress;
 
@@ -49,7 +50,7 @@ export function CharacterProgressProvider({
 
   // 💾 salvar
   useEffect(() => {
-    saveCompressed(STORAGE_KEY, progress);
+    saveCompressed(slotKey(STORAGE_KEY), progress);
   }, [progress]);
   const { playSound } = useSoundEffects();
 

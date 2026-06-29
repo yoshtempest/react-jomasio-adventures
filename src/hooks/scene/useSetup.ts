@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import type { ScenePosition } from "@/utils/types/sceneHooks";
-import { saveCompressed, loadCompressed } from "@/utils/storage";
+import { saveCompressed, loadCompressed } from "@/utils/save/storage";
+import { slotKey } from "@/utils/save/slotManager";
 
 type Props = {
   map: number[][];
@@ -13,7 +14,7 @@ type Props = {
   ) => void;
 };
 
-const SCENE_POSITIONS_KEY = "scene_return_positions";
+const SCENE_POSITIONS_KEY = () => slotKey("scene_return_positions");
 
 export function useSceneSetup({
   map,
@@ -35,14 +36,14 @@ export function useSceneSetup({
     localStorage.removeItem("scene_return_position");
 
     const currentRoute = window.location.hash.replace(/^#/, "") || "/";
-    const positions = loadCompressed<Record<string, ScenePosition>>(SCENE_POSITIONS_KEY) ?? {};
+    const positions = loadCompressed<Record<string, ScenePosition>>(SCENE_POSITIONS_KEY()) ?? {};
 
     const saved = positions[currentRoute];
 
     if (saved) {
       setPositionRef.current(saved.x, saved.y, saved.direction);
       delete positions[currentRoute];
-      saveCompressed(SCENE_POSITIONS_KEY, positions);
+      saveCompressed(SCENE_POSITIONS_KEY(), positions);
       setIsReady(true);
       return;
     }

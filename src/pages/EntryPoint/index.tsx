@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
-import { hasSave } from "@/utils/saveGame";
+import { hasSave } from "@/utils/save/saveGame";
 
 export default function EntryPoint() {
   const navigate = useNavigate();

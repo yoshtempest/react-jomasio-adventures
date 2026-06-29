@@ -1,4 +1,5 @@
 import { DEATHS_KEY } from "@/data/storageKeys";
+import { slotKey } from "@/utils/save/slotManager";
 
 export type DeathData = {
   total: number;
@@ -11,7 +12,7 @@ function createDefault(): DeathData {
 
 function loadDeaths(): DeathData {
   try {
-    const raw = localStorage.getItem(DEATHS_KEY);
+    const raw = localStorage.getItem(slotKey(DEATHS_KEY));
     if (!raw) return createDefault();
     return JSON.parse(raw) as DeathData;
   } catch {
@@ -21,7 +22,7 @@ function loadDeaths(): DeathData {
 
 function saveDeaths(data: DeathData): void {
   try {
-    localStorage.setItem(DEATHS_KEY, JSON.stringify(data));
+    localStorage.setItem(slotKey(DEATHS_KEY), JSON.stringify(data));
   } catch {}
 }
 

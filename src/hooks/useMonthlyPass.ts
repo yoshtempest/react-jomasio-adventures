@@ -4,6 +4,7 @@ import { MONTHLY_PASS_KEY } from "@/data/storageKeys";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useTitles } from "@/contexts/TitleContext";
 import { usePlayTime } from "@/contexts/PlayTimeContext";
+import { slotKey } from "@/utils/save/slotManager";
 import { getClassKills } from "@/utils/rewards/classKills";
 import { getBlockCount } from "@/utils/rewards/blockCounter";
 import { getDamageDealtStats } from "@/utils/rewards/battleStats";
@@ -20,7 +21,7 @@ type StoredPass = {
 
 function loadPass(): StoredPass {
   try {
-    const raw = localStorage.getItem(MONTHLY_PASS_KEY);
+    const raw = localStorage.getItem(slotKey(MONTHLY_PASS_KEY));
     if (!raw) return { month: getCurrentMonth(), claimed: [] };
     const parsed = JSON.parse(raw) as StoredPass;
     if (parsed.month !== getCurrentMonth()) {
@@ -34,7 +35,7 @@ function loadPass(): StoredPass {
 
 function savePass(data: StoredPass): void {
   try {
-    localStorage.setItem(MONTHLY_PASS_KEY, JSON.stringify(data));
+    localStorage.setItem(slotKey(MONTHLY_PASS_KEY), JSON.stringify(data));
   } catch {}
 }
 

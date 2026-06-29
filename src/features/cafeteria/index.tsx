@@ -4,6 +4,7 @@ import { SceneBase } from "@/components/Game/Scenes/Base";
 import { CAFETERIA_SCENES } from "@/scenes/cafeteria";
 import { createCafeteria } from "@/interactions/cafeteira";
 import { CAFETERIA_RETURN_KEY } from "@/data/storageKeys";
+import { slotKey } from "@/utils/save/slotManager";
 
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuestActions } from "@/hooks/quest/useQuestActions";
@@ -49,7 +50,7 @@ export function CafeteriaScene({ sceneId }: Props) {
   setPositionRef.current = setPosition;
 
   useEffect(() => {
-    const saved = localStorage.getItem(CAFETERIA_RETURN_KEY);
+    const saved = localStorage.getItem(slotKey(CAFETERIA_RETURN_KEY));
 
     if (!saved) return;
 
@@ -59,7 +60,7 @@ export function CafeteriaScene({ sceneId }: Props) {
 
     requestAnimationFrame(() => {
       setPositionRef.current(x, y, direction);
-      localStorage.removeItem(CAFETERIA_RETURN_KEY);
+      localStorage.removeItem(slotKey(CAFETERIA_RETURN_KEY));
     });
   }, []);
 
@@ -100,7 +101,7 @@ export function CafeteriaScene({ sceneId }: Props) {
 
     function saveLibraryPosition() {
       localStorage.setItem(
-        CAFETERIA_RETURN_KEY,
+        slotKey(CAFETERIA_RETURN_KEY),
         JSON.stringify({
           x: currentPlayer.gridX,
           y: currentPlayer.gridY,

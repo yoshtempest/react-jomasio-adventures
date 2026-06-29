@@ -26,7 +26,7 @@ import { useBattleOutro } from "@/hooks/battle/useOutro";
 import { useBattleSync } from "@/hooks/battle/useSync";
 import { useNpcTargeting } from "@/hooks/battle/npc/useNpcTargeting";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
-import { saveGame } from "@/utils/saveGame";
+import { saveGame } from "@/utils/save/saveGame";
 import { loadBestTime, saveBestTime } from "@/utils/bestTime";
 import { incrementDeath } from "@/utils/rewards/deathCounter";
 import { incrementBlockCount } from "@/utils/rewards/blockCounter";

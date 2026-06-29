@@ -12,7 +12,7 @@ import {
   saveGame,
   saveGameToCloud,
   loadGameFromCloud,
-} from "@/utils/saveGame";
+} from "@/utils/save/saveGame";
 
 import { useQuests } from "@/contexts/QuestContext";
 import { usePlayer } from "@/contexts/PlayerContext";

@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import { DAILY_REWARD } from "@/data/rewards/dailyReward";
 import { DAILY_REWARD_KEY } from "@/data/storageKeys";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { slotKey } from "@/utils/save/slotManager";
 import { getTimeUntilMidnight } from "@/utils/quest/questTimer";
 
 function getTodayDate(): string {
@@ -11,7 +12,7 @@ function getTodayDate(): string {
 
 function loadLastClaim(): string {
   try {
-    return localStorage.getItem(DAILY_REWARD_KEY) ?? "";
+    return localStorage.getItem(slotKey(DAILY_REWARD_KEY)) ?? "";
   } catch {
     return "";
   }
@@ -19,7 +20,7 @@ function loadLastClaim(): string {
 
 function saveLastClaim(date: string): void {
   try {
-    localStorage.setItem(DAILY_REWARD_KEY, date);
+    localStorage.setItem(slotKey(DAILY_REWARD_KEY), date);
   } catch {}
 }
 

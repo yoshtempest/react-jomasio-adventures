@@ -8,6 +8,7 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { useNavigate } from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { LIBRARY_RETURN_KEY } from "@/data/storageKeys";
+import { slotKey } from "@/utils/save/slotManager";
 
 import Talking from "@/components/Talking";
 
@@ -41,7 +42,7 @@ export function LibraryScene({ sceneId }: Props) {
   setPositionRef.current = setPosition;
 
   useEffect(() => {
-    const saved = localStorage.getItem(LIBRARY_RETURN_KEY);
+    const saved = localStorage.getItem(slotKey(LIBRARY_RETURN_KEY));
 
     if (!saved) return;
 
@@ -51,7 +52,7 @@ export function LibraryScene({ sceneId }: Props) {
 
     requestAnimationFrame(() => {
       setPositionRef.current(x, y, direction);
-      localStorage.removeItem(LIBRARY_RETURN_KEY);
+      localStorage.removeItem(slotKey(LIBRARY_RETURN_KEY));
     });
   }, []);
 
@@ -92,7 +93,7 @@ export function LibraryScene({ sceneId }: Props) {
 
     function saveLibraryPosition() {
       localStorage.setItem(
-        LIBRARY_RETURN_KEY,
+        slotKey(LIBRARY_RETURN_KEY),
         JSON.stringify({
           x: currentPlayer.gridX,
           y: currentPlayer.gridY,

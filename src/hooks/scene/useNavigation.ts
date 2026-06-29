@@ -1,8 +1,9 @@
 import { useEffect, useRef } from "react";
 import { useTransitionCtx } from "@/contexts/TransitionContext";
-import { saveCompressed, loadCompressed } from "@/utils/storage";
+import { saveCompressed, loadCompressed } from "@/utils/save/storage";
+import { slotKey } from "@/utils/save/slotManager";
 
-const SCENE_POSITIONS_KEY = "scene_return_positions";
+const SCENE_POSITIONS_KEY = () => slotKey("scene_return_positions");
 
 type Props = {
   player: PlayerPosition;
@@ -53,10 +54,10 @@ export function useSceneNavigation({ player, transitions }: Props) {
         hasNavigatedRef.current = true;
 
         const currentRoute = window.location.hash.replace(/^#/, "") || "/";
-        const stored = loadCompressed<Record<string, typeof previousPositionRef.current>>(SCENE_POSITIONS_KEY);
+        const stored = loadCompressed<Record<string, typeof previousPositionRef.current>>(SCENE_POSITIONS_KEY());
         const map: Record<string, typeof previousPositionRef.current> = stored ?? {};
         map[currentRoute] = previousPositionRef.current;
-        saveCompressed(SCENE_POSITIONS_KEY, map);
+        saveCompressed(SCENE_POSITIONS_KEY(), map);
 
         navigateWithFade(to, {
           state: {

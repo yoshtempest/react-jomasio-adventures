@@ -3,7 +3,8 @@ import type {
   EquippedItemInfo,
 } from "@/utils/types/player/equipment";
 import { createEmptyEquipped, EQUIPMENT_SLOTS } from "@/utils/types/player/equipment";
-import { saveCompressed, loadCompressed } from "@/utils/storage";
+import { saveCompressed, loadCompressed } from "@/utils/save/storage";
+import { slotKey } from "@/utils/save/slotManager";
 
 export type CharacterEquipmentData = {
   equipped: EquippedItems;
@@ -81,7 +82,7 @@ function createEmptyAllData(): Record<string, CharacterEquipmentData> {
 
 export function loadAllData(): Record<string, CharacterEquipmentData> {
   try {
-    const parsed = loadCompressed<Record<string, unknown>>(EQUIP_KEY);
+    const parsed = loadCompressed<Record<string, unknown>>(slotKey(EQUIP_KEY));
     if (!parsed) return createEmptyAllData();
     if (typeof parsed !== "object") return createEmptyAllData();
     const firstVal = Object.values(parsed)[0];
@@ -113,7 +114,7 @@ export function loadAllData(): Record<string, CharacterEquipmentData> {
 export function saveAllData(
   allData: Record<string, CharacterEquipmentData>,
 ): void {
-  saveCompressed(EQUIP_KEY, allData);
+  saveCompressed(slotKey(EQUIP_KEY), allData);
 }
 
 export function loadEquipped(character: CharacterId): EquippedItems {

@@ -1,7 +1,8 @@
 import { TITLES } from "@/data/titles";
 import type { TitleProgress, TitlesData } from "@/utils/types/player/titles";
 import { TITLES_KEY } from "@/data/storageKeys";
-import { saveCompressed, loadCompressed } from "@/utils/storage";
+import { saveCompressed, loadCompressed } from "@/utils/save/storage";
+import { slotKey } from "@/utils/save/slotManager";
 
 export function getDefaultProgress(): Record<string, TitleProgress> {
   const progress: Record<string, TitleProgress> = {};
@@ -21,7 +22,7 @@ export function getDefaultData(): TitlesData {
 
 export function loadData(): TitlesData {
   try {
-    const parsed = loadCompressed<Partial<TitlesData>>(TITLES_KEY);
+    const parsed = loadCompressed<Partial<TitlesData>>(slotKey(TITLES_KEY));
     if (!parsed) return getDefaultData();
 
     const progress = getDefaultProgress();
@@ -51,5 +52,5 @@ export function loadData(): TitlesData {
 }
 
 export function saveData(data: TitlesData) {
-  saveCompressed(TITLES_KEY, data);
+  saveCompressed(slotKey(TITLES_KEY), data);
 }
