@@ -15,10 +15,7 @@ export function createHallOne(deps: HallOneDeps) {
 
           setPopup("Obrigada, eu estou precisando muito disso!");
 
-          addItem({
-            id: "good_powder",
-            name: "Pó do bom",
-          });
+          addItem({ id: "good_powder" });
         }, 5000);
 
         setTimeout(() => {

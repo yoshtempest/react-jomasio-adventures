@@ -35,10 +35,7 @@ export function createDirector(deps: DirectorDeps) {
       if (!gotKey) {
         setPopup("Uma chave suspeita, deve ser da porta...");
 
-        addItem({
-          id: "director_key",
-          name: "Chave enferrujada",
-        });
+        addItem({ id: "director_key" });
 
         setGotKey?.(true);
       } else {

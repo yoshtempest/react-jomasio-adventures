@@ -17,10 +17,7 @@ export function createCafeteria(deps: CafeteriaDeps) {
         setPopup("Você pegou no linguição.");
         progressQuest("go_cafeteria", 1);
 
-        addItem({
-          id: "sausage",
-          name: "Linguição",
-        });
+        addItem({ id: "sausage" });
 
         setGotKey?.(true);
       } else {

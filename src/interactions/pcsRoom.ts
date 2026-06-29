@@ -8,10 +8,7 @@ export function createPcsRoom(deps: KeyDeps) {
       if (!gotKey) {
         setPopup("Uma engrenagem, Era essa a peça que eu queria!");
 
-        addItem({
-          id: "desired_gear",
-          name: "Peça desejada",
-        });
+        addItem({ id: "desired_gear" });
 
         setGotKey?.(true);
       } else {

@@ -8,10 +8,7 @@ export function createLibrary(deps: KeyDeps) {
       if (!gotKey) {
         setPopup("Uma embalagem com surpresinha");
 
-        addItem({
-          id: "package_01",
-          name: "Embalagem suspeita",
-        });
+        addItem({ id: "package_01" });
 
         setGotKey?.(true);
       } else {

@@ -57,7 +57,7 @@ export function rollMaterialDrops(
     if (!def) continue;
 
     const image = "image" in def ? def.image : undefined;
-    addItem({ id: def.id, name: def.name, type: "material", qty, image });
+    addItem({ id: def.id });
     drops.push({ id: def.id, name: def.name, qty, image });
   }
 
@@ -75,7 +75,7 @@ export function rollChestDrop(
   const def = ITEMS[chestId as keyof typeof ITEMS];
   if (!def) return null;
 
-  addItem({ id: def.id, name: def.name, type: "chest" });
+  addItem({ id: def.id });
   return { id: def.id, name: def.name };
 }
 
@@ -90,7 +90,7 @@ export function rollKeyDrop(
   const def = ITEMS[keyId as keyof typeof ITEMS];
   if (!def) return null;
 
-  addItem({ id: def.id, name: def.name, type: "key" });
+  addItem({ id: def.id });
   return { id: def.id, name: def.name };
 }
 

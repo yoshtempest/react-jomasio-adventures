@@ -28,7 +28,6 @@ export function BestiaryProvider({ children }: { children: ReactNode }) {
   const registerDefeat = useCallback((npcType: string) => {
     setBestiary((prev) => {
       const current = prev[npcType];
-      const wasEncountered = current?.encountered ?? false;
       const prevKills = current?.kills ?? 0;
       return {
         ...prev,

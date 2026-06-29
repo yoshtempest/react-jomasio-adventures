@@ -8,10 +8,7 @@ export function createCantina(deps: KeyDeps) {
       if (!gotKey) {
         setPopup("Que delícia! um suco de laranja");
 
-        addItem({
-          id: "orange_juice",
-          name: "Suco de laranja",
-        });
+        addItem({ id: "orange_juice" });
 
         setGotKey?.(true);
       } else {
