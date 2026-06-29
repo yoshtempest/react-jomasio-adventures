@@ -8,7 +8,7 @@ export const AfterPcRoomFourDialogue = [
     src: "/assets/npcs/remedinha/right.svg",
     name: "Remedinha",
     message:
-      "Utilize para batalhar infinitamente com os inimigos na biblioteca",
+      "Utilize para batalhar infinitamente com aqueles rapazes famintos",
   },
   {
     name: "Sistema",
