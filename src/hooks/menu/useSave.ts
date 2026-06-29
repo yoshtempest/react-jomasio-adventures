@@ -166,4 +166,6 @@ export function useSaveMenu() {
         return () => popControls();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [items, confirmDelete, pushControls, popControls]);
+
+    return { confirmDelete, selectedIndex, items, activeSlot };
 }
