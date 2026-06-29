@@ -6,7 +6,7 @@ import { formatTime } from "@/contexts/PlayTimeContext";
 import styles from "./styles.module.css";
 
 export function Saves() {
-  const { confirmDelete } = useSaveMenu();
+  const { confirmDelete, selectedIndex } = useSaveMenu();
   if (confirmDelete !== "none") {
     const confirmItems = ["Sim, excluir", "Não, voltar"];
     return (
