@@ -47,6 +47,18 @@ export function loadGameForSlot(slot: SlotIndex): SaveData | null {
   return loadCompressed<SaveData>(slotKeyFor(slot, "game_save"));
 }
 
+export function getPlayTimeForSlot(slot: SlotIndex): number {
+  try {
+    const raw = localStorage.getItem(slotKeyFor(slot, "play_time"));
+    if (!raw) return 0;
+    const data = JSON.parse(raw) as { playTime?: Record<string, number> };
+    if (!data.playTime) return 0;
+    return Object.values(data.playTime).reduce((sum, t) => sum + (t ?? 0), 0);
+  } catch {
+    return 0;
+  }
+}
+
 // --- Cloud sync ---
 
 async function request<T>(method: string, path: string, body?: unknown): Promise<T> {

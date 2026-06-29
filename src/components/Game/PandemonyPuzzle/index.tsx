@@ -50,7 +50,7 @@ export function PandemonyPuzzle({ isOpen, onSolved, onClose }: Props) {
 
         <div className={solved ? styles.solved : styles.unsolved}>
           {solved
-            ? "Porta destrancada! Pressione L para entrar."
+            ? "Porta destrancada! Faça o L para entrar."
             : "Use ◄/► para trocar o símbolo"}
         </div>
       </div>

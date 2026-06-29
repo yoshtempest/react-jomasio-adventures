@@ -49,7 +49,7 @@ export const TASK_INSTRUCTIONS: Record<Task, TaskInstruction> = {
     sub: "Pule",
   },
   attack: {
-    text: "Pressione L para atacar",
+    text: "Faça o L para atacar",
     sub: "Ataque o boneco de treino",
   },
   special: {
