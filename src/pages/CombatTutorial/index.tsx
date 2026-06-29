@@ -5,6 +5,9 @@ import { useGameLayout } from "@/hooks/game/useGameLayout";
 import { useGameAudio } from "@/hooks/game/useGameAudio";
 import { useCombatTasks } from "@/hooks/tutorial/useCombatTasks";
 import { useCombatTutorialSetup } from "@/hooks/tutorial/useCombatTutorialSetup";
+import { useCutscene } from "@/hooks/interaction/useCutscene";
+import Talking from "@/components/Talking";
+import { combatTutorialDialogue } from "@/data/maps/combatTutorial/one";
 import { GameMap } from "@/components/Game/Map/Game";
 import { PlayerBattle } from "@/components/Game/Player/Battle";
 import { NPCBattle } from "@/components/Game/Npc/Battle";
@@ -19,6 +22,41 @@ const DUMMY_MAX_HP = 10000;
 const HITS_TO_SPECIAL = 6;
 
 export default function CombatTutorial() {
+  const [showTutorial, setShowTutorial] = useState(false);
+  const battleAudio = useGameAudio({ src: KickBack, loop: true, volume: 0.5 });
+  const battleAudioRef = useRef(battleAudio);
+  battleAudioRef.current = battleAudio;
+
+  useEffect(() => {
+    battleAudioRef.current.play();
+    return () => battleAudioRef.current.stop();
+  }, []);
+
+  const cutscene = useCutscene({
+    dialogue: combatTutorialDialogue,
+    onFinish: () => setShowTutorial(true),
+  });
+
+  if (!showTutorial) {
+    return (
+      <div className="Master CombatTutorial">
+        <Talking
+          name={cutscene.dialogue.name}
+          message={cutscene.dialogue.message}
+          src={cutscene.dialogue.src}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className="Master CombatTutorial">
+      <CombatTutorialInner />
+    </div>
+  );
+}
+
+function CombatTutorialInner() {
   const { player } = usePlayer();
   const { progress } = useCharacterProgress();
   const {
@@ -41,15 +79,6 @@ export default function CombatTutorial() {
   const [delicia, setDelicia] = useState(0);
   const prevStateRef = useRef(player.state);
 
-  const battleAudio = useGameAudio({ src: KickBack, loop: true, volume: 0.5 });
-  const battleAudioRef = useRef(battleAudio);
-  battleAudioRef.current = battleAudio;
-
-  useEffect(() => {
-    battleAudioRef.current.play();
-    return () => battleAudioRef.current.stop();
-  }, []);
-
   useEffect(() => {
     const prev = prevStateRef.current;
     if (prev === "preAttack" && player.state === "attack") {
@@ -60,7 +89,7 @@ export default function CombatTutorial() {
   }, [player.state]);
 
   return (
-    <div className={`Master CombatTutorial`}>
+    <>
       <div className={styles.hudTop}>
         <div className={styles.playerHud}>
           <span className={styles.hudLabel}>Jogador</span>
@@ -117,6 +146,6 @@ export default function CombatTutorial() {
           })}
         </div>
       </div>
-    </div>
+    </>
   );
 }

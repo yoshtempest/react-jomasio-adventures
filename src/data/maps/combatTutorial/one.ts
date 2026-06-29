@@ -2,7 +2,7 @@ export const combatTutorialDialogue = [
     {
         src: "/assets/npcs/surica/default.svg",
         name: "Surica",
-        message: "Olá jogador, meu nome é Surica e sou apenas um cara qualquer que notou sua presença nessa linha temporal",
+        message: "Olá jogador, meu nome é Surica e sou apenas um cara qualquer que notou sua presença nessa linha temporal.",
     },
     {
         isPlayer: true,
@@ -12,12 +12,12 @@ export const combatTutorialDialogue = [
     {
         src: "/assets/npcs/surica/default.svg",
         name: "Surica",
-        message: "Uh hum, nas redondezas, foi isso que eu quis dizer.",
+        message: "Uh, nas redondezas, foi isso que eu quis dizer.",
     },
     {
         isPlayer: true,
         name: "Protagonista",
-        message: "Eu tava no tutorial ou algo assim agora pouco não foi?",
+        message: "Eu tava no tutorial ou algo assim agora pouco, não foi?",
     },
     {
         src: "/assets/npcs/surica/default.svg",
@@ -27,7 +27,7 @@ export const combatTutorialDialogue = [
     {
         src: "/assets/npcs/surica/default.svg",
         name: "Surica",
-        message: "Afinal, você precisa saber lutar para sobreviver na Terra nº 284",
+        message: "Afinal, você precisa saber lutar para sobreviver na Terra nº 284.",
     },
     {
         isPlayer: true,
