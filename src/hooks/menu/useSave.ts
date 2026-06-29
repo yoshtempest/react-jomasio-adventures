@@ -43,6 +43,9 @@ export function useSaveMenu() {
     const navigateRef = useRef(navigate);
     navigateRef.current = navigate;
 
+    const selectedIndexRef = useRef(selectedIndex);
+    selectedIndexRef.current = selectedIndex;
+
     const refreshRef = useRef(() => setRefreshKey((k) => k + 1));
 
     const items = useMemo((): SaveItem[] => {
@@ -91,20 +94,21 @@ export function useSaveMenu() {
         pushControls({
             onUp: () => {
                 playMoveRef.current();
-                setSelectedIndex((prev) => circularPrev(prev, items.length));
+                setSelectedIndex((prev) => circularPrev(prev, confirmDelete === "none" ? items.length : 2));
             },
             onDown: () => {
                 playMoveRef.current();
-                setSelectedIndex((prev) => circularNext(prev, items.length));
+                setSelectedIndex((prev) => circularNext(prev, confirmDelete === "none" ? items.length : 2));
             },
             onConfirm: () => {
+                const idx = selectedIndexRef.current;
                 if (confirmDelete !== "none") {
-                if (selectedIndex === 0) {
+                if (idx === 0) {
                     playSelectRef.current();
                     clearSlot(confirmDelete.slot);
                     if (confirmDelete.slot === getActiveSlot()) {
                     const remaining = getUsedSlots();
-                    if (remaining.length > 0) setActiveSlot(remaining[0]);
+                    if (remaining.length > 0) { setActiveSlot(remaining[0]); }
                     }
                     setConfirmDelete("none");
                     refreshRef.current();
@@ -121,7 +125,7 @@ export function useSaveMenu() {
                 return;
                 }
 
-                const item = items[selectedIndex];
+                const item = items[idx];
                 if (!item) return;
 
                 playSelectRef.current();
@@ -134,28 +138,30 @@ export function useSaveMenu() {
                 closeNavbarRef.current();
                 setModeRef.current("explore");
                 window.location.reload();
-                } else if (item.key.startsWith("delete-") && item.slot !== undefined) {
+                }
+                else if (item.key.startsWith("delete-") && item.slot !== undefined) {
                 if (!isSlotUsed(item.slot)) return;
-                setConfirmDelete({ slot: item.slot });
-                setSelectedIndex(0);
-                } else if (item.key === "newGame") {
-                const free = getAvailableSlots()[0];
-                if (free === undefined) return;
-                setActiveSlot(free);
-                clearSlot(free);
-                closeNavbarRef.current();
-                setModeRef.current("explore");
-                navigateRef.current("/tutorial", { replace: true });
+                    setConfirmDelete({ slot: item.slot });
+                    setSelectedIndex(0);
+                }
+                else if (item.key === "newGame") {
+                    const free = getAvailableSlots()[0];
+                    if (free === undefined) return;
+                        setActiveSlot(free);
+                        clearSlot(free);
+                        closeNavbarRef.current();
+                        setModeRef.current("explore");
+                        navigateRef.current("/tutorial", { replace: true });
                 } else if (item.key === "back") {
-                closeNavbarRef.current();
-                setModeRef.current("explore");
+                    closeNavbarRef.current();
+                    setModeRef.current("explore");
                 }
             },
             onCancel: () => {
                 if (confirmDelete !== "none") {
-                setConfirmDelete("none");
-                setSelectedIndex(0);
-                return;
+                    setConfirmDelete("none");
+                    setSelectedIndex(0);
+                    return;
                 }
                 closeNavbarRef.current();
                 setModeRef.current("explore");
