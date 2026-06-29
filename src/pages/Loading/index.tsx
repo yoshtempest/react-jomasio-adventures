@@ -1,9 +1,11 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import { useNavigate } from "react-router";
 import { asset } from "@/utils/asset";
 import { hasSave } from "@/utils/save/saveGame";
 import styles from "./styles.module.css";
 import { useNavbar } from "@/contexts/NavbarContext";
+import { useGameAudio } from "@/hooks/game/useGameAudio";
+import loading from "/assets/songs/transitions/loading.mp3";
 
 const MIN_LOADING_MS = 6000;
 
@@ -12,6 +14,21 @@ export default function Loading() {
   const { closeNavbar } = useNavbar();
   const closeNavbarRef = useRef(closeNavbar);
   closeNavbarRef.current = closeNavbar;
+
+  const backgroundAudio = useMemo(
+    () => ({ src: loading, loop: true, volume: 1 }),
+    [],
+  );
+
+  const audio = useGameAudio(backgroundAudio);
+    const audioRef = useRef(audio);
+    audioRef.current = audio;
+  
+    useEffect(() => {
+      if (audioRef.current.isPlaying()) return;
+      audioRef.current.play()?.catch(() => {});
+      return () => audioRef.current.stop();
+    }, []);
   
   const [progress, setProgress] = useState(0);
   const [phase, setPhase] = useState<"loading" | "done">("loading");
