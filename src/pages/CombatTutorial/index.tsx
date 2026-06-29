@@ -101,8 +101,8 @@ export default function CombatTutorial() {
 
       <div className={styles.overlay}>
         <div className={styles.taskBox}>
+          <img className={styles.image} src="public/assets/npcs/surica/default.svg"/>
           <p className={styles.taskText}>{instruction.text}</p>
-          <p className={styles.taskSub}>{instruction.sub}</p>
         </div>
 
         <div className={styles.steps}>

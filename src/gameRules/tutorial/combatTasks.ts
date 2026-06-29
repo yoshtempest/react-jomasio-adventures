@@ -32,41 +32,32 @@ export const TASK_ORDER: Record<Task, number> = {
 
 export interface TaskInstruction {
   text: string;
-  sub: string;
 }
 
 export const TASK_INSTRUCTIONS: Record<Task, TaskInstruction> = {
   moveLeft: {
-    text: "Pressione A ou ← para se mover",
-    sub: "Ande para a esquerda",
+    text: "Pressione A ou ← para se mover para esquerda",
   },
   moveRight: {
-    text: "Pressione D ou → para se mover",
-    sub: "Ande para a direita",
+    text: "Pressione D ou → para se mover para direita",
   },
   jump: {
     text: "Pressione W ou ↑ para pular",
-    sub: "Pule",
   },
   attack: {
     text: "Faça o L para atacar",
-    sub: "Ataque o boneco de treino",
   },
   special: {
     text: "Pressione G para utilizar o especial",
-    sub: "Utilize o especial",
   },
   crounch: {
     text: "Pressione S ou ↓ para agachar e desviar de projéteis",
-    sub: "Agache",
   },
   block: {
     text: "Pressione B para bloquear ataques",
-    sub: "Bloqueie",
   },
   done: {
-    text: "Parabéns!",
-    sub: "Você está pronto para sua jornada!",
+    text: "Parabéns! Fim do tutorial, te vejo por ai",
   },
 };
 
