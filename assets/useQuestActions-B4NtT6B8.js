@@ -1,1 +1,0 @@
-import{C as e}from"./index-Hd5qZ0xQ.js";function t(){let{addQuest:t,updateProgress:n}=e();return{giveQuest:t,progressQuest:n}}export{t};

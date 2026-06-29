@@ -1,0 +1,1 @@
+import{D as e}from"./index-JDfQk0FB.js";function t(){let{addQuest:t,updateProgress:n}=e();return{giveQuest:t,progressQuest:n}}export{t};

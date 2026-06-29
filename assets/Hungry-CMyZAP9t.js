@@ -1,1 +1,0 @@
-import{F as e,M as t,R as n,n as r}from"./index-Hd5qZ0xQ.js";var i=`/react-jomasio-adventures/assets/songs/NoEnemies.mp3`,a=n(t());function o(){let t=e();return(0,a.jsx)(r,{npcType:`hungryDeath`,onVictory:()=>t(-1),victoryDescription:`Você derrotou 'Jhow Simar, o Vigia'`,className:`LibraryBattle`,audioSrc:i})}export{o as default};

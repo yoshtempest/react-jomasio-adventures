@@ -1,0 +1,1 @@
+import{G as e,H as t,J as n,n as r}from"./index-JDfQk0FB.js";var i=`/react-jomasio-adventures/assets/songs/Jojo.m4a`,a=n(t());function o(){let t=e();return(0,a.jsx)(r,{npcType:`vandinhaFragment`,onVictory:()=>t(-1),className:`PcRoomBattle`,victoryDescription:`Você derrotou um fragmento de Vandinha`,audioSrc:i})}export{o as default};

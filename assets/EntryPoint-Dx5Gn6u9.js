@@ -1,1 +1,0 @@
-import{F as e,L as t,R as n,c as r}from"./index-Hd5qZ0xQ.js";var i=n(t());function a(){let t=e();return(0,i.useEffect)(()=>{r()?t(`/home`,{replace:!0}):t(`/tutorial`,{replace:!0})},[t]),null}export{a as default};
