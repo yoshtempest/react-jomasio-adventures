@@ -42,7 +42,7 @@ export default function Home() {
           save?.lastRoute &&
           save.lastRoute !== "/home" &&
           save.lastRoute !== "/combatTutorial" &&
-          save.lastRoute !== "/battle"
+          !save.lastRoute.includes("battle")
         ) {
           navigate(save.lastRoute);
         } else {
