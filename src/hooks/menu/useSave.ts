@@ -43,43 +43,41 @@ export function useSaveMenu() {
     const navigateRef = useRef(navigate);
     navigateRef.current = navigate;
 
-    const selectedIndexRef = useRef(selectedIndex);
-    selectedIndexRef.current = selectedIndex;
-
     const refreshRef = useRef(() => setRefreshKey((k) => k + 1));
 
     const items = useMemo((): SaveItem[] => {
         const list: SaveItem[] = [];
 
         for (const slot of [0, 1] as SlotIndex[]) {
-        if (isSlotUsed(slot)) {
-            const save = loadGameForSlot(slot);
-            const sceneLabel = save?.lastRoute
-            ? getSceneLabel(save.lastRoute)
-            : "Sem progresso";
-            const isActive = slot === activeSlot;
-            list.push({
-            key: `slot-${slot}`,
-            label: `Save ${slot + 1}: ${sceneLabel}${isActive ? " (Ativo)" : ""}`,
-            slot,
-            });
-            list.push({
-            key: `delete-${slot}`,
-            label: `Excluir Save ${slot + 1}`,
-            danger: true,
-            slot,
-            });
-        } else {
-            list.push({
-            key: `slot-${slot}`,
-            label: `Save ${slot + 1}: Vazio`,
-            slot,
-            });
-        }
+            if (isSlotUsed(slot)) {
+                const save = loadGameForSlot(slot);
+                const sceneLabel = save?.lastRoute
+                ? getSceneLabel(save.lastRoute)
+                : "Sem progresso";
+                const isActive = slot === activeSlot;
+                list.push({
+                    key: `slot-${slot}`,
+                    label: `Save ${slot + 1}: ${sceneLabel}${isActive ? " (Ativo)" : ""}`,
+                    slot,
+                });
+                list.push({
+                    key: `delete-${slot}`,
+                    label: `Excluir Save ${slot + 1}`,
+                    danger: true,
+                    slot,
+                });
+            }
+            else {
+                list.push({
+                    key: `slot-${slot}`,
+                    label: `Save ${slot + 1}: Vazio`,
+                    slot,
+                });
+            }
         }
 
         if (availableSlots.length > 0) {
-        list.push({ key: "newGame", label: "Novo Jogo" });
+            list.push({ key: "newGame", label: "Novo Jogo" });
         }
 
         return list;
@@ -94,62 +92,66 @@ export function useSaveMenu() {
         pushControls({
             onUp: () => {
                 playMoveRef.current();
-                setSelectedIndex((prev) => circularPrev(prev, confirmDelete === "none" ? items.length : 2));
+                setSelectedIndex((prev) => circularPrev(prev, items.length));
             },
             onDown: () => {
                 playMoveRef.current();
-                setSelectedIndex((prev) => circularNext(prev, confirmDelete === "none" ? items.length : 2));
+                setSelectedIndex((prev) => circularNext(prev, items.length));
             },
             onConfirm: () => {
-                const idx = selectedIndexRef.current;
                 if (confirmDelete !== "none") {
-                if (idx === 0) {
-                    playSelectRef.current();
-                    clearSlot(confirmDelete.slot);
-                    if (confirmDelete.slot === getActiveSlot()) {
-                    const remaining = getUsedSlots();
-                    if (remaining.length > 0) { setActiveSlot(remaining[0]); }
+                    if (selectedIndex === 0) {
+                        playSelectRef.current();
+                        clearSlot(confirmDelete.slot);
+                        if (confirmDelete.slot === getActiveSlot()) {
+                            const remaining = getUsedSlots();
+                            if (remaining.length > 0) setActiveSlot(remaining[0]);
+                        }
+                        setConfirmDelete("none");
+                        refreshRef.current();
+                        if (!getUsedSlots().length) {
+                            closeNavbarRef.current();
+                            setModeRef.current("explore");
+                            navigateRef.current("/tutorial", { replace: true });
+                        }
                     }
-                    setConfirmDelete("none");
-                    refreshRef.current();
-                    if (!getUsedSlots().length) {
-                    window.location.href = "#/tutorial";
+                    else {
+                        playMoveRef.current();
+                        setConfirmDelete("none");
+                        setSelectedIndex(0);
                     }
-                } else {
-                    playMoveRef.current();
-                    setConfirmDelete("none");
-                    setSelectedIndex(0);
-                }
                 return;
                 }
 
-                const item = items[idx];
+                const item = items[selectedIndex];
                 if (!item) return;
 
                 playSelectRef.current();
 
                 if (item.key.startsWith("slot-") && item.slot !== undefined) {
-                const slot = item.slot;
-                if (!isSlotUsed(slot)) return;
-                if (slot === getActiveSlot()) return;
-                const targetSave = loadGameForSlot(slot);
-                if (!targetSave) return;
-                setActiveSlot(slot);
-                sessionStorage.setItem("saveSwitchTarget", targetSave.lastRoute);
-                window.location.href = "#/";
+                    const slot = item.slot;
+                    if (!isSlotUsed(slot)) return;
+                    if (slot === getActiveSlot()) return;
+                    setActiveSlot(slot);
+                    closeNavbarRef.current();
+                    setModeRef.current("explore");
+                    window.location.reload();
                 }
                 else if (item.key.startsWith("delete-") && item.slot !== undefined) {
-                if (!isSlotUsed(item.slot)) return;
+                    if (!isSlotUsed(item.slot)) return;
                     setConfirmDelete({ slot: item.slot });
                     setSelectedIndex(0);
                 }
                 else if (item.key === "newGame") {
                     const free = getAvailableSlots()[0];
                     if (free === undefined) return;
-                        setActiveSlot(free);
-                        clearSlot(free);
-                        window.location.href = "#/tutorial";
-                } else if (item.key === "back") {
+                    setActiveSlot(free);
+                    clearSlot(free);
+                    closeNavbarRef.current();
+                    setModeRef.current("explore");
+                    navigateRef.current("/tutorial", { replace: true });
+                }
+                else if (item.key === "back") {
                     closeNavbarRef.current();
                     setModeRef.current("explore");
                 }
