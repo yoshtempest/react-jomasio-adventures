@@ -21,5 +21,4 @@ export const cantinaMessages: Record<string, string> = {
     "Você vive muito e se torna um vilão ou morre cedo como um herói, que dilema.",
   "12,6":
     "Um dia tem 24 horas, em média uma pessoa deve dormir 8 horas de sono, ou seja, 33% do dia é gasto dormindo.",
-  "15,3": "Altas brotheragens acontecendo por aqui.",
 };

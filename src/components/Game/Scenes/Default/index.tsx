@@ -50,6 +50,7 @@ export function ExploreScene({
   questNpcPositions,
   itemPickupTiles,
   interactionKeys,
+  tileDialogues,
 }: ExploreSceneProps & {
   events?: SceneEvent[];
   setPopup?: (msg: string | null) => void;
@@ -58,6 +59,7 @@ export function ExploreScene({
   questNpcPositions?: QuestNpcPosition[];
   itemPickupTiles?: { x: number; y: number; visible: boolean }[];
   interactionKeys?: string[];
+  tileDialogues?: Record<string, Dialogue[]>;
 }) {
   const { player, playerClass, setMap, setPosition, setMode } = usePlayer();
   const { pushControls, popControls } = useGameControls();
@@ -168,6 +170,13 @@ export function ExploreScene({
         return true;
       }
 
+      // 🔥 verifica tileDialogue na frente
+      const tileDialogue = tileDialogues?.[`${front.x},${front.y}`];
+      if (tileDialogue) {
+        dialogueSystem.start(tileDialogue);
+        return true;
+      }
+
       // 🔥 verifica placa na frente
       const plate = plates.find((p) => p.gridX === front.x && p.gridY === front.y);
 
@@ -217,8 +226,10 @@ export function ExploreScene({
 
     if (interactionKeys?.includes(`${x},${y}`)) return "[L] Interagir";
 
+    if (tileDialogues?.[`${x},${y}`]) return "[L] Interagir";
+
     return null;
-  }, [frontTile, npcs, itemPickupTiles, plates, interactionKeys]);
+  }, [frontTile, npcs, itemPickupTiles, plates, interactionKeys, tileDialogues]);
 
   const { TILE_SIZE, offsetX, offsetY, PLAYER_SIZE, MAP_COLS, MAP_ROWS } =
     useGameLayout();

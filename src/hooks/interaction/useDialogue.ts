@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useRef } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { asset } from "@/utils/asset";
 
@@ -25,6 +25,8 @@ export function useDialogue(dialogues: Dialogue[], onFinish?: () => void) {
   const [customDialogues, setCustomDialogues] = useState<Dialogue[] | null>(
     null,
   );
+  const customDialoguesRef = useRef(customDialogues);
+  customDialoguesRef.current = customDialogues;
 
   const activeDialogues = customDialogues ?? dialogues;
 
@@ -56,8 +58,11 @@ export function useDialogue(dialogues: Dialogue[], onFinish?: () => void) {
   const next = useCallback(() => {
     if (index >= processedDialogues.length - 1) {
       setIsOpen(false);
+      const wasSubDialogue = customDialoguesRef.current !== null;
       setCustomDialogues(null);
-      onFinish?.();
+      if (!wasSubDialogue) {
+        onFinish?.();
+      }
       return;
     }
     setIndex((prev) => prev + 1);

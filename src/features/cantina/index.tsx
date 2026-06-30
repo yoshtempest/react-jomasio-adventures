@@ -6,6 +6,8 @@ import { createCantina } from "@/interactions/cantina";
 
 import { useInventory } from "@/contexts/InventoryContext";
 
+import { cantinaBrothersDialogue } from "@/data/maps/cantina/brothers";
+
 import Talking from "@/components/Talking";
 
 type Props = {
@@ -44,6 +46,7 @@ export function CantinaScene({ sceneId }: Props) {
         itemPickupTiles={[{ x: 13, y: 4, visible: !gotKey }]}
         popup={popup}
         setPopup={setPopup}
+        tileDialogues={{ "15,3": cantinaBrothersDialogue }}
       />
 
       {/* ✅ popup continua fora do SceneBase */}
