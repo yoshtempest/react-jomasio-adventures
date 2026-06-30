@@ -1,0 +1,43 @@
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+.locked {
+  opacity: 0.5;
+}
+
+.name {
+  font-weight: bold;
+}
+
+.profession {
+  color: #aaa;
+  font-size: 0.85em;
+}
+
+.level {
+  color: #ffcc00;
+  font-size: 0.85em;
+}
+
+.header {
+  text-align: center;
+  padding: 12px;
+  font-size: 1.1em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  margin-bottom: 8px;
+}
