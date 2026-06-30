@@ -21,6 +21,7 @@ type Props = {
   npcY: number;
   npcLevel: number;
   npcClass: "common" | "rare" | "epic" | "boss" | "legendary";
+  npcType: string;
   onPlayerDeath: () => void;
   onNpcDeath: () => void;
   playerState: playerState;
@@ -51,6 +52,7 @@ export function useBattleSystem(props: Props) {
     npcY,
     npcLevel,
     npcClass,
+    npcType,
     playerState,
     difficulty,
     onPlayerDeath,
@@ -209,6 +211,10 @@ export function useBattleSystem(props: Props) {
     titleEnemyMissChance: titleBonus.enemyMissChance,
     onDamageTakenRef,
     onDodgeRef,
+    npcType,
+    npcHp: npcHP,
+    npcMaxHp,
+    npcPhase,
   });
 
   const { isNpcDying } = useBattleLifecycle({

@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import { calculateNpcDamage } from "@/gameRules/battle/damage";
 import { isNpcInRange } from "@/gameRules/battle/range";
@@ -43,6 +43,11 @@ type Props = {
   titleEnemyMissChance?: number;
   onDamageTakenRef?: React.RefObject<(amount: number) => void>;
   onDodgeRef?: React.RefObject<() => void>;
+
+  npcType: string;
+  npcHp: number;
+  npcMaxHp: number;
+  npcPhase: number;
 };
 
 export function useNpcBattle({
@@ -76,8 +81,17 @@ export function useNpcBattle({
   titleEnemyMissChance = 0,
   onDamageTakenRef,
   onDodgeRef,
+  npcType,
+  npcHp,
+  npcMaxHp,
+  npcPhase,
 }: Props) {
   const { playSound } = useSoundEffects();
+
+  const npcHpRef = useRef(npcHp);
+  npcHpRef.current = npcHp;
+  const npcMaxHpRef = useRef(npcMaxHp);
+  npcMaxHpRef.current = npcMaxHp;
 
   const damagePlayerWithReflect = useCallback((damage: number) => {
     damagePlayerHp(damage);
@@ -99,10 +113,10 @@ export function useNpcBattle({
     }
   }, [player.character, playSound]);
 
-  const applyNpcDamage = useCallback((dmg: number, tx: number, ty: number, isPet: boolean) => {
+  const applyNpcDamage = useCallback((dmg: number, tx: number, ty: number, isPet: boolean, dmgType: DamageType = "npc") => {
     if (isPet) {
       damagePet?.(dmg);
-      spawnDamageRef.current?.(dmg, tx, ty, "npc");
+      spawnDamageRef.current?.(dmg, tx, ty, dmgType);
     } else {
       const isBlocking =
         player.state === "blocked" &&
@@ -128,7 +142,7 @@ export function useNpcBattle({
       if (blocked) return;
 
       damagePlayerWithReflect(dmg);
-      spawnDamageRef.current?.(dmg, tx, ty, "npc");
+      spawnDamageRef.current?.(dmg, tx, ty, dmgType);
     }
     navigator.vibrate?.(40);
   }, [
@@ -177,8 +191,18 @@ export function useNpcBattle({
     const baseDmg = npc.damage;
     const dmg = calculateNpcDamage(baseDmg, playerClass, totalArmor);
 
-    applyNpcDamage(dmg, tx, ty, targetIsPet);
-    onDamageTakenRef?.current?.(dmg);
+    const hpRatio = npcMaxHpRef.current > 0 ? npcHpRef.current / npcMaxHpRef.current : 1;
+    const clampedRatio = Math.max(0, Math.min(1, hpRatio));
+    let critChance = 1;
+    if (npcType === "slimita" && npcPhase >= 2) {
+      critChance = 1 + (1 - clampedRatio) * 9;
+    }
+    const isCrit = Math.random() * 100 < critChance;
+    const finalDmg = isCrit ? dmg * 2 : dmg;
+    const dmgType: DamageType = isCrit ? "crit" : "npc";
+
+    applyNpcDamage(finalDmg, tx, ty, targetIsPet, dmgType);
+    onDamageTakenRef?.current?.(finalDmg);
     hitstopRef.current = Date.now() + 50;
 
     npcCooldown.current = false;
@@ -190,6 +214,7 @@ export function useNpcBattle({
     hitstopRef, applyNpcDamage,
     npcTargetIsPetRef, petXRef, petYRef,
     titleEnemyMissChance, onDamageTakenRef, onDodgeRef,
+    npcType, npcPhase,
   ]);
 
   const npcRangedHit = useCallback(() => {
@@ -225,9 +250,19 @@ export function useNpcBattle({
     });
     if (blocked) return;
 
-    damagePlayerWithReflect(dmg);
+    const hpRatio = npcMaxHpRef.current > 0 ? npcHpRef.current / npcMaxHpRef.current : 1;
+    const clampedRatio = Math.max(0, Math.min(1, hpRatio));
+    let critChance = 1;
+    if (npcType === "slimita" && npcPhase >= 2) {
+      critChance = 1 + (1 - clampedRatio) * 9;
+    }
+    const isCrit = Math.random() * 100 < critChance;
+    const finalDmg = isCrit ? dmg * 2 : dmg;
+    const dmgType: DamageType = isCrit ? "crit" : "npc";
+
+    damagePlayerWithReflect(finalDmg);
     navigator.vibrate?.(40);
-    spawnDamageRef.current?.(dmg, playerX, playerY, "npc");
+    spawnDamageRef.current?.(finalDmg, playerX, playerY, dmgType);
     hitstopRef.current = Date.now() + 30;
 
     npcCooldown.current = false;
@@ -238,6 +273,7 @@ export function useNpcBattle({
     playerX, playerY, npcX, npcY, difficulty,
     spawnDamageRef, hitstopRef, npcStaggerRef,
     blockGauge, setBlockGauge, lastBlockPressRef, damagePlayerWithReflect, onFullBlock,
+    npcType, npcPhase,
   ]);
 
   return { npcMeleeHit, npcRangedHit };

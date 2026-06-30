@@ -306,6 +306,7 @@ export function useBattleScene({
     playerState: player.state,
     npcLevel,
     npcClass: npcData.class,
+    npcType,
     difficulty,
     onPlayerDeath: () => onPlayerDeathRef.current(),
     onNpcDeath: () => onNpcDeathRef.current(),
