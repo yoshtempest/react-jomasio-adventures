@@ -1,12 +1,12 @@
 import { directorMessages } from "@/data/maps/director/messages";
-import { createInteractionMap } from "./builder";
+import { createInteractionMap, createPickupHandler } from "./builder";
 import type {
-  KeyDeps,
+  PickupDeps,
   InventoryDeps,
   QuestDeps,
 } from "@/utils/types/interaction";
 
-type DirectorDeps = KeyDeps &
+type DirectorDeps = PickupDeps &
   InventoryDeps &
   QuestDeps & {
     playSFX?: (src: string, volume?: number) => void;
@@ -31,16 +31,9 @@ export function createDirector(deps: DirectorDeps) {
       }
     },
 
-    "15,7": ({ addItem, setPopup, gotKey, setGotKey }) => {
-      if (!gotKey) {
-        setPopup("Uma chave suspeita, deve ser da porta...");
-
-        addItem({ id: "director_key" });
-
-        setGotKey?.(true);
-      } else {
-        setPopup("Nada mais aqui.");
-      }
-    },
+    "15,7": createPickupHandler({
+      item: { id: "director_key" },
+      pickupMessage: "Uma chave suspeita, deve ser da porta...",
+    }),
   });
 }

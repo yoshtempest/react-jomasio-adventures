@@ -5,7 +5,6 @@ import { LoadingScreen } from "@/components/LoadingScreen";
 import { Preloader } from "@/components/Preloader";
 
 import App from "@/App";
-import JailsonHallBattle from "@/pages/Hall/Battle/One";
 
 const Loading = lazyLoad(() => import("@/pages/Loading"));
 const Intro = lazyLoad(() => import("@/pages/Intro"));
@@ -14,45 +13,22 @@ const Home = lazyLoad(() => import("@/pages/Home"));
 const FirstScreen = lazyLoad(() => import("@/pages/FirstScreen"));
 const CombatTutorial = lazyLoad(() => import("@/pages/CombatTutorial"));
 
-const CantinaBattle = lazyLoad(() => import("@/pages/Cantina/Battle"));
 const CantinaPage = lazyLoad(() => import("@/pages/Cantina"));
 
 const DirectorPage = lazyLoad(() => import("@/pages/Director"));
 
 const HallPage = lazyLoad(() => import("@/pages/Hall"));
 
-const PcRoomBattleOne = lazyLoad(() => import("@/pages/PcRoom/Battle/One"));
-const PcRoomBattleTwo = lazyLoad(() => import("@/pages/PcRoom/Battle/Two"));
-const PcRoomBattleThree = lazyLoad(() => import("@/pages/PcRoom/Battle/Three"));
-const PlanetarySistersBattle = lazyLoad(
-  () => import("@/pages/Hall/Battle/Two"),
-);
-const MauraoBattle = lazyLoad(() => import("@/pages/Hall/Battle/Three"));
 const PcRoomPage = lazyLoad(() => import("@/pages/PcRoom"));
 
 const LibraryPage = lazyLoad(() => import("@/pages/Library"));
 const FootballCourtPage = lazyLoad(() => import("@/pages/FootballCourt"));
 
-const FootballCourtBattle = lazyLoad(
-  () => import("@/pages/FootballCourt/Battle"),
-);
-
-const VandinhaFragmentBattle = lazyLoad(
-  () => import("@/pages/Battle/Vandinha"),
-);
-const GoatBattle = lazyLoad(() => import("@/pages/Battle/Goat"));
-const JhowSimarBattle = lazyLoad(() => import("@/pages/Battle/JhowSimar"));
-const PiuBattle = lazyLoad(() => import("@/pages/Battle/Piu"));
-const RiceBattle = lazyLoad(() => import("@/pages/Battle/Rice"));
-const HungryDeathBattle = lazyLoad(() => import("@/pages/Battle/Hungry"));
-const TechnobladeBattle = lazyLoad(() => import("@/pages/Battle/Technoblade"));
-
-const CafeteriaBattle = lazyLoad(() => import("@/pages/Cafeteria/Battle"));
 const CafeteriaPage = lazyLoad(() => import("@/pages/Cafeteria"));
 const BrodiClassOne = lazyLoad(() => import("@/pages/BrodiClass"));
-const BrodiclassBattle = lazyLoad(() => import("@/pages/BrodiClass/Battle"));
 const HellroomPage = lazyLoad(() => import("@/pages/HellRoom"));
-const HellroomBattle = lazyLoad(() => import("@/pages/HellRoom/Battle"));
+
+const BattlePage = lazyLoad(() => import("@/pages/BattlePage"));
 
 const Landing = lazyLoad(() => import("@/pages/Landing"));
 const Login = lazyLoad(() => import("@/pages/Login"));
@@ -82,7 +58,6 @@ export function AppRoutes() {
       <Preloader pages={nonBattlePages} />
       <Suspense fallback={<LoadingScreen />}>
         <Routes>
-          {/* Standalone routes — outside App layout */}
           <Route path="/landing" element={<Landing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -98,12 +73,9 @@ export function AppRoutes() {
             <Route path="hall">
               <Route index element={<Navigate to="/hall/one" />} />
               <Route path=":id" element={<HallPage />} />
-              <Route path="jailson/battle" element={<JailsonHallBattle />} />
-              <Route
-                path="center/battle"
-                element={<PlanetarySistersBattle />}
-              />
-              <Route path="pandemony/battle" element={<MauraoBattle />} />
+              <Route path="jailson/battle" element={<BattlePage />} />
+              <Route path="center/battle" element={<BattlePage />} />
+              <Route path="pandemony/battle" element={<BattlePage />} />
             </Route>
 
             <Route path="director">
@@ -119,47 +91,44 @@ export function AppRoutes() {
             <Route path="cantina">
               <Route index element={<Navigate to="/cantina/one" />} />
               <Route path=":id" element={<CantinaPage />} />
-              <Route path="battle" element={<CantinaBattle />} />
+              <Route path="battle" element={<BattlePage />} />
             </Route>
 
             <Route path="footballcourt">
               <Route index element={<Navigate to="/footballcourt/one" />} />
               <Route path=":id" element={<FootballCourtPage />} />
-              <Route path="battle" element={<FootballCourtBattle />} />
+              <Route path="battle" element={<BattlePage />} />
             </Route>
 
             <Route path="hellroom">
               <Route index element={<Navigate to="/hellroom/one" />} />
               <Route path=":id" element={<HellroomPage />} />
-              <Route path="battle" element={<HellroomBattle />} />
+              <Route path="battle" element={<BattlePage />} />
             </Route>
 
             <Route path="cafeteria">
               <Route index element={<Navigate to="/cafeteria/one" />} />
               <Route path=":id" element={<CafeteriaPage />} />
-              <Route path="battle" element={<CafeteriaBattle />} />
+              <Route path="battle" element={<BattlePage />} />
             </Route>
 
             <Route path="pcroom">
               <Route index element={<Navigate to="/pcroom/one" />} />
               <Route path=":id" element={<PcRoomPage />} />
-              <Route path="battle/one" element={<PcRoomBattleOne />} />
-              <Route path="battle/two" element={<PcRoomBattleTwo />} />
-              <Route path="battle/three" element={<PcRoomBattleThree />} />
+              <Route path="battle/one" element={<BattlePage />} />
+              <Route path="battle/two" element={<BattlePage />} />
+              <Route path="battle/three" element={<BattlePage />} />
             </Route>
 
-            <Route path="battle/hungry" element={<HungryDeathBattle />} />
-            <Route
-              path="battle/vandinhafragment"
-              element={<VandinhaFragmentBattle />}
-            />
-            <Route path="battle/jhowsimar" element={<JhowSimarBattle />} />
-            <Route path="battle/piupiu" element={<PiuBattle />} />
-            <Route path="battle/rice" element={<RiceBattle />} />
-            <Route path="battle/goat" element={<GoatBattle />} />
+            <Route path="battle/hungry" element={<BattlePage />} />
+            <Route path="battle/vandinhafragment" element={<BattlePage />} />
+            <Route path="battle/jhowsimar" element={<BattlePage />} />
+            <Route path="battle/piupiu" element={<BattlePage />} />
+            <Route path="battle/rice" element={<BattlePage />} />
+            <Route path="battle/goat" element={<BattlePage />} />
             <Route path="brodiclass/one" element={<BrodiClassOne />} />
-            <Route path="brodiclass/battle" element={<BrodiclassBattle />} />
-            <Route path="battle/technoblade" element={<TechnobladeBattle />} />
+            <Route path="brodiclass/battle" element={<BattlePage />} />
+            <Route path="battle/technoblade" element={<BattlePage />} />
           </Route>
         </Routes>
       </Suspense>

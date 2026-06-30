@@ -1,8 +1,13 @@
-type BaseDependencies = {
-  setPopup: (msg: string) => void;
-};
+import type {
+  BaseDeps,
+  PickupDeps,
+  InventoryDeps,
+  QuestDeps,
+  PickupHandlerConfig,
+  ExchangeHandlerConfig,
+} from "@/utils/types/interaction";
 
-export function createInteractionMap<TDeps extends BaseDependencies>(
+export function createInteractionMap<TDeps extends BaseDeps>(
   messages: Record<string, string>,
   deps: TDeps,
   custom?: Record<string, (deps: TDeps) => void>,
@@ -21,4 +26,33 @@ export function createInteractionMap<TDeps extends BaseDependencies>(
   }
 
   return interactions;
+}
+
+type PickupHandlerDeps = PickupDeps & Partial<QuestDeps>;
+
+export function createPickupHandler(config: PickupHandlerConfig) {
+  return (deps: PickupHandlerDeps) => {
+    if (!deps.gotKey) {
+      deps.setPopup(config.pickupMessage);
+      deps.addItem(config.item);
+      if (config.questProgress) {
+        deps.progressQuest?.(config.questProgress.id, config.questProgress.step);
+      }
+      deps.setGotKey?.(true);
+    } else {
+      deps.setPopup(config.alreadyPickedMessage ?? "Nada mais aqui.");
+    }
+  };
+}
+
+type ExchangeHandlerDeps = PickupDeps & InventoryDeps;
+
+export function createExchangeHandler(config: ExchangeHandlerConfig) {
+  return (deps: ExchangeHandlerDeps) => {
+    if (deps.hasItem(config.requiredItem)) {
+      deps.setPopup(config.successMessage);
+      deps.removeItem(config.requiredItem);
+      deps.addItem(config.item);
+    }
+  };
 }

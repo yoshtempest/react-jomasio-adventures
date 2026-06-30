@@ -11,7 +11,7 @@ export type InventoryDeps = BaseDeps & {
   navigate?: (path: string) => void;
 };
 
-export type KeyDeps = BaseDeps & {
+export type PickupDeps = BaseDeps & {
   addItem: (item: InventoryItem) => void;
   gotKey?: boolean;
   setGotKey?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -19,4 +19,18 @@ export type KeyDeps = BaseDeps & {
 
 export type QuestDeps = {
   progressQuest: (id: QuestId, step: number) => void;
+};
+
+export type PickupHandlerConfig = {
+  item: InventoryItem;
+  pickupMessage: string;
+  alreadyPickedMessage?: string;
+  questProgress?: { id: QuestId; step: number };
+};
+
+export type ExchangeHandlerConfig = {
+  coord: string;
+  requiredItem: ItemId;
+  item: InventoryItem;
+  successMessage: string;
 };
