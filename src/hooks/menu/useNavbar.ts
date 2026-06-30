@@ -44,21 +44,23 @@ export function useNavbarMenu() {
   useEffect(() => {
     const controls = {
       onUp: () => {
-        if (screenRef.current !== "menu") return;
+        if (screenRef.current !== "menu") return true;
 
         playMoveRef.current();
         setSelectedIndex((prev) => circularPrev(prev, NAVBAR_OPTIONS.length));
+        return true;
       },
 
       onDown: () => {
-        if (screenRef.current !== "menu") return;
+        if (screenRef.current !== "menu") return true;
 
         playMoveRef.current();
         setSelectedIndex((prev) => circularNext(prev, NAVBAR_OPTIONS.length));
+        return true;
       },
 
       onConfirm: () => {
-        if (screenRef.current !== "menu") return;
+        if (screenRef.current !== "menu") return true;
 
         playSelectRef.current();
         const selected = getSelected(NAVBAR_OPTIONS, selectedIndexRef.current);
@@ -70,11 +72,11 @@ export function useNavbarMenu() {
         playCloseRef.current();
         if (!shouldCloseToExplore(screenRef.current)) {
           setScreen("menu");
-          return;
+        } else {
+          closeNavbarRef.current();
+          setModeRef.current("explore");
         }
-
-        closeNavbarRef.current();
-        setModeRef.current("explore");
+        return true;
       },
 
       blockGlobalOpen: true,
