@@ -26,6 +26,8 @@ export function useSaveMenu() {
     const { playMove, playSelect } = useMenuSFX();
 
     const [selectedIndex, setSelectedIndex] = useState(0);
+    const selectedIndexRef = useRef(selectedIndex);
+    selectedIndexRef.current = selectedIndex;
     const [confirmDelete, setConfirmDelete] = useState<ConfirmScreen>("none");
     const [refreshKey, setRefreshKey] = useState(0);
 
@@ -92,15 +94,18 @@ export function useSaveMenu() {
         pushControls({
             onUp: () => {
                 playMoveRef.current();
-                setSelectedIndex((prev) => circularPrev(prev, items.length));
+                const count = confirmDelete !== "none" ? 2 : items.length;
+                setSelectedIndex((prev) => circularPrev(prev, count));
             },
             onDown: () => {
                 playMoveRef.current();
-                setSelectedIndex((prev) => circularNext(prev, items.length));
+                const count = confirmDelete !== "none" ? 2 : items.length;
+                setSelectedIndex((prev) => circularNext(prev, count));
             },
             onConfirm: () => {
+                const idx = selectedIndexRef.current;
                 if (confirmDelete !== "none") {
-                    if (selectedIndex === 0) {
+                    if (idx === 0) {
                         playSelectRef.current();
                         clearSlot(confirmDelete.slot);
                         if (confirmDelete.slot === getActiveSlot()) {
@@ -123,7 +128,7 @@ export function useSaveMenu() {
                 return;
                 }
 
-                const item = items[selectedIndex];
+                const item = items[idx];
                 if (!item) return;
 
                 playSelectRef.current();
@@ -160,10 +165,9 @@ export function useSaveMenu() {
                 if (confirmDelete !== "none") {
                     setConfirmDelete("none");
                     setSelectedIndex(0);
-                    return;
+                    return true;
                 }
-                closeNavbarRef.current();
-                setModeRef.current("explore");
+                // Let navbar layer handle — returns to menu, not closes everything
             },
             blockGlobalOpen: true,
         });

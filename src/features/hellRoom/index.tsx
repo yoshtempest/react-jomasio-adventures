@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SceneBase } from "@/components/Game/Scenes/Base";
 import { ChoiceBox } from "@/components/ChoiceBox";
 import { HELLROOM_SCENES } from "@/scenes/hellroom";
@@ -22,12 +22,6 @@ export function HellScene({ sceneId }: Props) {
 
   const hasQuest = (id: string) => quests.some((q) => q.id === id);
 
-  useEffect(() => {
-    if (sceneId === "one" && !hasFlag("chose_peru") && !hasItem("turkey")) {
-      setShowChoice(true);
-    }
-  }, [sceneId, hasFlag, hasItem]);
-
   function handleChoice(chose: boolean) {
     setShowChoice(false);
     if (chose) {
@@ -44,13 +38,22 @@ export function HellScene({ sceneId }: Props) {
     <>
       <SceneBase
         scene={scene}
-        className={`Master HellRoom`}
-        onFinishExtra={() => ({
-          addItem,
-          removeItem,
-          hasItem,
-          hasQuest,
-        })}
+        className="Master HellRoom"
+        onFinishExtra={() => {
+          if (
+            sceneId === "one" &&
+            !hasFlag("chose_peru") &&
+            !hasItem("turkey")
+          ) {
+            setShowChoice(true);
+          }
+          return {
+            addItem,
+            removeItem,
+            hasItem,
+            hasQuest,
+          };
+        }}
       />
       {showChoice && (
         <ChoiceBox
