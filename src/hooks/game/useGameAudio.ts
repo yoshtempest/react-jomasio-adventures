@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useAudio } from "@/contexts/AudioContext";
+import { asset } from "@/utils/asset";
 
 type Props = {
   src: string;
@@ -22,7 +23,7 @@ export function useGameAudio({ src, loop = true, volume = 0.5 }: Props) {
   };
 
   useEffect(() => {
-    const audio = new Audio(src);
+    const audio = new Audio(asset(src));
 
     audio.loop = loopRef.current;
     audio.preload = "auto";

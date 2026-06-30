@@ -1,7 +1,9 @@
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   type ReactNode,
 } from "react";
@@ -43,6 +45,8 @@ const SoundEffectsContext = createContext<SoundEffectsContextType | null>(null);
 
 export function SoundEffectsProvider({ children }: { children: ReactNode }) {
   const { sfxVolume } = useAudio();
+  const sfxVolumeRef = useRef(sfxVolume);
+  sfxVolumeRef.current = sfxVolume;
 
   const soundsRef = useRef<Record<SoundId, HTMLAudioElement>>(
     {} as Record<SoundId, HTMLAudioElement>,
@@ -100,7 +104,7 @@ export function SoundEffectsProvider({ children }: { children: ReactNode }) {
     });
   }, [sfxVolume]);
 
-  const playSound = async (sound: SoundId, loop?: boolean) => {
+  const playSound = useCallback(async (sound: SoundId, loop?: boolean) => {
     const audio = soundsRef.current[sound];
 
     if (!audio) return;
@@ -109,30 +113,30 @@ export function SoundEffectsProvider({ children }: { children: ReactNode }) {
       audio.pause();
       audio.currentTime = 0;
       audio.loop = loop ?? false;
-      audio.volume = (sfxVolume / 100) * (soundVolumes[sound] ?? 1);
+      audio.volume = (sfxVolumeRef.current / 100) * (soundVolumes[sound] ?? 1);
 
       await audio.play();
     } catch {
       // AbortError é esperado quando play() é interrompido por pause()
     }
-  };
+  }, []);
 
-  const stopSound = (sound: SoundId) => {
+  const stopSound = useCallback((sound: SoundId) => {
     const audio = soundsRef.current[sound];
 
     if (!audio) return;
 
     audio.pause();
     audio.currentTime = 0;
-  };
+  }, []);
+
+  const value = useMemo(
+    () => ({ playSound, stopSound }),
+    [playSound, stopSound],
+  );
 
   return (
-      <SoundEffectsContext.Provider
-        value={{
-          playSound,
-          stopSound,
-        }}
-      >
+    <SoundEffectsContext.Provider value={value}>
       {children}
     </SoundEffectsContext.Provider>
   );

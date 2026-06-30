@@ -8,6 +8,7 @@ import { RANK_COLORS, RANK_LABELS, SLOT_LABELS } from "@/utils/types/player/equi
 import type { EquipmentRank, EquipmentSlot } from "@/utils/types/player/equipment";
 import styles from "./styles.module.css";
 import { ITEMS } from "@/data/items";
+import { asset } from "@/utils/asset";
 
 function formatTime(ms: number): string {
   const totalSeconds = Math.floor(ms / 1000);
@@ -160,7 +161,7 @@ export function Inventory() {
         <h3>Inventário {slotsLabel}</h3>
         <div className={styles.dailyChest}>
           <div className={styles.dailyChestInfo}>
-            <img className={styles.image} src="public/assets/items/chests/default.svg"/>
+            <img className={styles.image} src={asset("/assets/items/chests/default.svg")}/>
             <span className={styles.dailyChestTitle}>Baú Diário - {dailyChest.isReady ? (
               <span className={styles.dailyChestReady}>Disponível!</span>
             ) : (
