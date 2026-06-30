@@ -104,6 +104,7 @@ export function SceneBase({
           questHighlightTiles={highlightTiles}
           questNpcPositions={questNpcPositions}
           itemPickupTiles={itemPickupTiles}
+          interactionKeys={Object.keys(interactions ?? {})}
           onFinish={() => {
             const extra = onFinishExtra?.({
               navigate: navigateWithFade,

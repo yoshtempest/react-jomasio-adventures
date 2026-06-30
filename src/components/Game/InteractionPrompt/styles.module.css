@@ -1,0 +1,18 @@
+.container {
+  position: absolute;
+  bottom: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  pointer-events: none;
+}
+
+.hint {
+  background: rgba(0, 0, 0, 0.75);
+  color: var(--text-color);
+  padding: 6px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  white-space: nowrap;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
