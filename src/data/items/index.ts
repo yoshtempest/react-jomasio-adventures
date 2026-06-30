@@ -199,4 +199,27 @@ export const ITEMS = {
     description: "Um baú místico. Dizem que contém itens lendários.",
     type: "chest",
   },
+
+  // ── Alimentos ────────────────────────────────────────────
+  queijo_cabra: {
+    id: "queijo_cabra",
+    image: "/assets/items/queijo_cabra.svg",
+    name: "Queijo de Cabra",
+    description: "Queijo curado de cabra. Nutritivo e saboroso. Recupera 30 de fome.",
+    type: "food",
+  },
+  porcao_arroz: {
+    id: "porcao_arroz",
+    image: "/assets/items/porcao_arroz.svg",
+    name: "Porção de Arroz",
+    description: "Arroz fresquinho. Enche a barriga. Recupera 20 de fome.",
+    type: "food",
+  },
+  ovo_piupiu: {
+    id: "ovo_piupiu",
+    image: "/assets/items/ovo_piupiu.svg",
+    name: "Ovo de Piupiu",
+    description: "Ovo misterioso de Piupiu. Frito ou cozido? Recupera 25 de fome.",
+    type: "food",
+  },
 } as const;

@@ -74,7 +74,7 @@ export function useBattleScene({
     hyperCoins,
   } = usePlayer();
 
-  const { progress, getXPToNextLevel } = useCharacterProgress();
+  const { progress, reduceHunger, getXPToNextLevel } = useCharacterProgress();
   const { items: inventoryItems, closeInventory } = useInventory();
   const { quests, progressDailyWeekly } = useQuests();
   const { closeNavbar } = useNavbar();
@@ -227,6 +227,7 @@ export function useBattleScene({
   onNpcDeathRef.current = () => {
     const rewards = giveRewards();
     setLastRewards(rewards);
+    reduceHunger(player.character, 5);
     if (rewards.equipmentDrops.length > 0) {
       incrementEquipmentDropsStats(rewards.equipmentDrops.length);
     }

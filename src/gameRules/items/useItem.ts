@@ -1,5 +1,13 @@
 import { useNavigate } from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { useCharacterProgress, MAX_HUNGER } from "@/contexts/CharacterProgressContext";
+import { useInventory } from "@/contexts/InventoryContext";
+
+const FOOD_RESTORE: Record<string, number> = {
+  queijo_cabra: 30,
+  porcao_arroz: 20,
+  ovo_piupiu: 25,
+};
 
 type Props = {
   playSFX?: (src: string, volume?: number) => void;
@@ -17,6 +25,8 @@ function rollEncounter() {
 export function useItemEffect({ playSFX }: Props) {
   const navigate = useNavigate();
   const { setMode, player, toggleHasPeru } = usePlayer();
+  const { progress, restoreHunger } = useCharacterProgress();
+  const { removeItem } = useInventory();
 
   function getEffect(itemId: string) {
     switch (itemId) {
@@ -46,8 +56,17 @@ export function useItemEffect({ playSFX }: Props) {
           toggleHasPeru();
         };
 
-      default:
+      default: {
+        const restoreAmount = FOOD_RESTORE[itemId];
+        if (restoreAmount) {
+          return () => {
+            if (progress[player.character].hunger >= MAX_HUNGER) return;
+            restoreHunger(player.character, restoreAmount);
+            removeItem(itemId as ItemId);
+          };
+        }
         return null;
+      }
     }
   }
 

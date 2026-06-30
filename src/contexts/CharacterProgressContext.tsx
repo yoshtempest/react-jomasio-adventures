@@ -17,6 +17,13 @@ import type {
 import { defaultProgress } from "@/data/characters/defaultProgress";
 import { normalizeProgress, getXPToNextLevel } from "@/utils/character/progress";
 
+export const MAX_HUNGER = 100;
+
+export function getHungerMultiplier(hunger: number): number {
+  const clamped = Math.max(0, Math.min(MAX_HUNGER, hunger));
+  return 0.5 + clamped / (MAX_HUNGER * 2);
+}
+
 type ContextType = {
   progress: CharactersProgress;
   addXP: (character: Character, amount: number) => void;
@@ -25,6 +32,10 @@ type ContextType = {
     stat: keyof Omit<CharacterStats, "points">,
   ) => void;
   incrementKills: (character: Character) => void;
+  reduceHunger: (character: Character, amount: number) => void;
+  restoreHunger: (character: Character, amount: number) => void;
+  resetHunger: (character: Character) => void;
+  setHunger: (character: Character, value: number) => void;
   getXPToNextLevel: (level: number) => number;
 };
 
@@ -65,10 +76,13 @@ export function CharacterProgressProvider({
 
       let xpNeeded = getXPToNextLevel(newLevel);
 
+      let newHunger = char.hunger;
+
       while (newXP >= xpNeeded) {
         newXP -= xpNeeded;
         newLevel++;
         pointsGained++;
+        newHunger = MAX_HUNGER; // level up → hunger reset to 100%
         playSound("levelUp");
         xpNeeded = getXPToNextLevel(newLevel);
       }
@@ -79,6 +93,7 @@ export function CharacterProgressProvider({
           ...char,
           level: newLevel,
           xp: newXP,
+          hunger: newHunger,
           stats: {
             ...char.stats,
             points: char.stats.points + pointsGained,
@@ -97,6 +112,56 @@ export function CharacterProgressProvider({
         [character]: {
           ...char,
           kills: (char.kills ?? 0) + 1,
+        },
+      };
+    });
+  }
+
+  // 🍽️ FOME
+  function reduceHunger(character: Character, amount: number) {
+    setProgress((prev) => {
+      const char = prev[character];
+      return {
+        ...prev,
+        [character]: {
+          ...char,
+          hunger: Math.max(0, char.hunger - amount),
+        },
+      };
+    });
+  }
+
+  function restoreHunger(character: Character, amount: number) {
+    setProgress((prev) => {
+      const char = prev[character];
+      return {
+        ...prev,
+        [character]: {
+          ...char,
+          hunger: Math.min(MAX_HUNGER, char.hunger + amount),
+        },
+      };
+    });
+  }
+
+  function resetHunger(character: Character) {
+    setProgress((prev) => {
+      const char = prev[character];
+      return {
+        ...prev,
+        [character]: { ...char, hunger: MAX_HUNGER },
+      };
+    });
+  }
+
+  function setHunger(character: Character, value: number) {
+    setProgress((prev) => {
+      const char = prev[character];
+      return {
+        ...prev,
+        [character]: {
+          ...char,
+          hunger: Math.max(0, Math.min(MAX_HUNGER, value)),
         },
       };
     });
@@ -128,7 +193,7 @@ export function CharacterProgressProvider({
 
   return (
     <CharacterProgressContext.Provider
-      value={{ progress, addXP, addStat, incrementKills, getXPToNextLevel }}
+      value={{ progress, addXP, addStat, incrementKills, reduceHunger, restoreHunger, resetHunger, setHunger, getXPToNextLevel }}
     >
       {children}
     </CharacterProgressContext.Provider>

@@ -14,6 +14,7 @@ import {
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import { getMaxSpecial } from "@/gameRules/battle/special";
 import { getRankMultiplier } from "@/gameRules/rank";
+import { getHungerMultiplier } from "@/contexts/CharacterProgressContext";
 
 type Props = {
   npcLevel: number;
@@ -85,13 +86,14 @@ export function useBattleStats({
       resistance: baseChar.stats.resistance * allStatsPct,
       points: baseChar.stats.points,
     };
+    const hungerMultiplier = getHungerMultiplier(baseChar.hunger);
     return {
       ...baseChar,
       stats: {
-        hp: Math.round(base.hp * rankMultiplier),
-        strength: Math.round(base.strength * rankMultiplier),
-        intelligence: Math.round(base.intelligence * rankMultiplier),
-        resistance: Math.round(base.resistance * rankMultiplier),
+        hp: Math.round(base.hp * rankMultiplier * hungerMultiplier),
+        strength: Math.round(base.strength * rankMultiplier * hungerMultiplier),
+        intelligence: Math.round(base.intelligence * rankMultiplier * hungerMultiplier),
+        resistance: Math.round(base.resistance * rankMultiplier * hungerMultiplier),
         points: base.points,
       },
     };

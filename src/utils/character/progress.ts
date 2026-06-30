@@ -21,6 +21,7 @@ export function normalizeProgress(data: unknown): CharactersProgress {
       level: normalizeNum(savedChar?.level, 1),
       xp: normalizeNum(savedChar?.xp, 0),
       kills: normalizeNum(savedChar?.kills, 0),
+      hunger: normalizeNum(savedChar?.hunger, 100),
       stats: {
         hp: savedChar?.stats?.hp ?? 1,
         strength: savedChar?.stats?.strength ?? 1,
