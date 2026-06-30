@@ -4,7 +4,7 @@ import { useEquipment } from "@/contexts/EquipmentContext";
 import { CHARACTERS } from "@/data/options/characters";
 import { asset } from "@/utils/asset";
 import { getRank, formatRank } from "@/gameRules/rank";
-import styles from "../styles.module.css";
+import styles from "../../styles.module.css";
 import { Drumstick } from "lucide-react";
 
 export function CharacterInfo() {

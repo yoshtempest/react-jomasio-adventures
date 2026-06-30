@@ -3,7 +3,7 @@ import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { STAT_TIPS } from "@/data/stats/tips";
 import { STATS } from "@/utils/types/player/stats";
-import styles from "../styles.module.css";
+import styles from "../../styles.module.css";
 
 type AvailableStatsProps = {
   selectedIndex: number;
