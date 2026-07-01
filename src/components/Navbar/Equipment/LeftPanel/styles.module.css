@@ -1,0 +1,101 @@
+.leftPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-shrink: 0;
+  width: 40%;
+  border-right: 1px solid var(--border-default);
+  padding-right: 8px;
+}
+
+.portrait {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  margin-top: 4px;
+}
+
+.equippedGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 2fr);
+  gap: 2px;
+  width: 100%;
+}
+
+.equippedCard {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--surface-primary);
+  border: 2px solid var(--border-default);
+  padding: 8px;
+  transition: border-color 0.15s;
+}
+
+.chainLeft,
+.chainRight {
+  display: none;
+}
+
+.lockIcon {
+  color: var(--text-muted);
+}
+
+.slotLabel {
+  font-weight: bold;
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.lockedCard {
+  opacity: 0.4;
+  filter: grayscale(0.8);
+  border-color: var(--border-medium);
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.02) 0px,
+    rgba(255, 255, 255, 0.02) 4px,
+    rgba(0, 0, 0, 0.1) 4px,
+    rgba(0, 0, 0, 0.1) 8px
+  );
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.lockedCard::before,
+.lockedCard::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 10px;
+  background: radial-gradient(circle at 50% 50%, #555 1px, transparent 1px);
+  background-size: 5px 10px;
+  opacity: 0.5;
+}
+
+.lockedCard::before {
+  left: -4px;
+  border-right: 2px solid var(--border-medium);
+}
+
+.lockedCard::after {
+  right: -4px;
+  border-left: 2px solid var(--border-medium);
+}
+
+.emptySlot {
+  font-size: var(--smaller);
+  color: var(--text-hint);
+  font-style: italic;
+}

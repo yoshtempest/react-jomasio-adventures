@@ -70,23 +70,6 @@ button {
   background-repeat: no-repeat;
 }
 
-.StatusTitle {
-  font-weight: bold;
-  color: var(--text-secondary);
-  font-size: 14px;
-  border-bottom: 1px solid var(--border-default);
-  padding-bottom: 4px;
-}
-
-.StatusColumn span {
-  color: var(--success);
-}
-
-.StatusColumn p {
-  white-space: nowrap;
-  margin-top: 2vh;
-}
-
 h1 {
   font-size: var(--medium);
   font-weight: bold;
@@ -215,12 +198,6 @@ h2 {
   background-image: url("/assets/cenarios/jomasio/battle/tutorial.svg");
 }
 
-.section {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
 .talkingContainer {
   position: absolute;
   width: 50vw;
@@ -252,6 +229,51 @@ h2 {
   height: 30vh;
 }
 
+.StatusTitle {
+  font-weight: bold;
+  color: var(--text-secondary);
+  font-size: 14px;
+  border-bottom: 1px solid var(--border-default);
+  padding-bottom: 4px;
+}
+
+.StatusColumn span {
+  color: var(--success);
+}
+
+.StatusColumn p {
+  white-space: nowrap;
+  margin-top: 2vh;
+}
+
+.EquipmentSelected {
+  border: 2px solid var(--accent-color) !important;
+}
+
+.EquipmentItemName {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.EquipmentItemRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.EquipmentEnhanceBadge {
+  font-size: 11px;
+  color: var(--gold);
+  margin-left: 3px;
+  font-weight: bold;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 
 .sectionTitle {
   font-size: var(--small);
