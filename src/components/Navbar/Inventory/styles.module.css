@@ -9,15 +9,6 @@
   overflow-y: hidden;
 }
 
-.flexRow {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 2vw;
-  margin: 2vh;
-}
-
 .item {
   padding: 8px 12px;
   background-color: var(--surface-card);
@@ -57,11 +48,6 @@
   color: var(--text-color);
 }
 
-.qty {
-  color: var(--text-muted);
-  margin-left: 4px;
-  font-weight: normal;
-}
 
 .description {
   font-size: 11px;
@@ -74,116 +60,4 @@
 .noKey {
   color: #e74c3c;
   font-size: 0.8rem;
-}
-
-.button {
-  display: flex;
-  align-items: center;
-  padding: 0.5rem 1rem;
-  justify-content: center;
-  border: 1px solid var(--border-medium);
-  border-radius: 6px;
-  background: #2c2c2c;
-  color: #eee;
-  cursor: pointer;
-  font-size: 12px;
-  width: 48px;
-}
-
-.button:hover {
-  background: #3a3a3a;
-}
-
-.section {
-  margin: 0.75rem 0;
-}
-
-.section h4 {
-  margin: 0 0 0.35rem;
-  font-size: 0.9rem;
-  color: #ccc;
-}
-
-.dropRow {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.2rem 0;
-  font-size: 0.85rem;
-}
-
-.slot {
-  color: var(--text-muted);
-  font-size: 0.8rem;
-}
-
-.enhance {
-  color: #4caf50;
-  font-size: 0.8rem;
-}
-
-.slotsLabel {
-  display: block;
-  font-size: var(--smaller);
-  color: var(--text-secondary);
-}
-
-.dailyChest {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 14px;
-  background: linear-gradient(135deg, #1a1a3e, #2a1a2e);
-  border: 1px solid #5a3a5e;
-  border-radius: 8px;
-  width: 25%;
-}
-
-.dailyChestInfo {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
-}
-
-.dailyChestTitle {
-  font-size: 15px;
-  font-weight: bold;
-  color: #f0d080;
-}
-
-.dailyChestReady {
-  font-size: 12px;
-  color: #4caf50;
-  font-weight: bold;
-}
-
-.dailyChestTimer {
-  font-size: 12px;
-  color: var(--text-muted);
-  font-family: monospace;
-}
-
-.image {
-  width: 20%;
-  height: 8%;
-}
-
-.dailyButton {
-  display: flex;
-  align-items: center;
-  padding: 8px 18px;
-  justify-content: center;
-  border: 1px solid #5a3a5e;
-  border-radius: 6px;
-  background: linear-gradient(135deg, #3a2a4e, #4a2a3e);
-  color: #f0d080;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: bold;
-}
-
-.dailyButton:hover {
-  background: linear-gradient(135deg, #4a3a5e, #5a3a4e);
 }

@@ -1,0 +1,27 @@
+.section {
+  margin: 0.75rem 0;
+}
+
+.section h4 {
+  margin: 0 0 0.35rem;
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+.dropRow {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.2rem 0;
+  font-size: 0.85rem;
+}
+
+.enhance {
+  color: #4caf50;
+  font-size: 0.8rem;
+}
+
+.slot {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}

@@ -1,0 +1,50 @@
+.flexRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 2vw;
+  margin: 2vh;
+}
+
+.dailyChest {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, #1a1a3e, #2a1a2e);
+  border: 1px solid #5a3a5e;
+  border-radius: 8px;
+  width: 25%;
+}
+
+.dailyChestInfo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.dailyChestTitle {
+  font-size: 15px;
+  font-weight: bold;
+  color: #f0d080;
+}
+
+.dailyChestReady {
+  font-size: 12px;
+  color: #4caf50;
+  font-weight: bold;
+}
+
+.dailyChestTimer {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-family: monospace;
+}
+
+.image {
+  width: 20%;
+  height: 8%;
+}

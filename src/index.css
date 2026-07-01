@@ -269,6 +269,48 @@ h2 {
   font-weight: bold;
 }
 
+.InventoryButton {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  justify-content: center;
+  border: 1px solid var(--border-medium);
+  border-radius: 6px;
+  background: #2c2c2c;
+  color: #eee;
+  cursor: pointer;
+  font-size: 12px;
+  width: 48px;
+}
+
+.InventoryButton:hover {
+  background: #3a3a3a;
+}
+
+.InventoryQty {
+  color: var(--text-muted);
+  margin-left: 4px;
+  font-weight: normal;
+}
+
+.dailyButton {
+  display: flex;
+  align-items: center;
+  padding: 8px 18px;
+  justify-content: center;
+  border: 1px solid #5a3a5e;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #3a2a4e, #4a2a3e) !important;
+  color: #f0d080;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.dailyButton:hover {
+  background: linear-gradient(135deg, #4a3a5e, #5a3a4e) !important;
+}
+
 .section {
   display: flex;
   flex-direction: column;
