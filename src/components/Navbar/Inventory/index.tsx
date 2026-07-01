@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useInventoryMenu } from "@/hooks/menu/useInventory";
 import { useChestOpening } from "@/hooks/useChestOpening";
+import { useDailyChest } from "@/hooks/useDailyChest";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import styles from "./styles.module.css";
 import { ITEMS } from "@/data/items";
@@ -13,7 +14,8 @@ export function Inventory() {
   const listRef = useRef<HTMLUListElement>(null);
   const { selectedIndex } = useInventoryMenu(true, listRef);
 
-  const { openPlayerChest } = useChestOpening();
+  const { openPlayerChest, lastResult } = useChestOpening();
+  const dailyChest = useDailyChest();
   const { pushControls, popControls } = useGameControls();
 
   const selectedItem = items[selectedIndex];
@@ -43,7 +45,13 @@ export function Inventory() {
     return () => popControls();
   }, [isChestSelected, selectedItem, keyId, items, openPlayerChest, pushControls, popControls]);
 
-  <ChestRewards />
+  if (dailyChest.lastResult) {
+    return <ChestRewards />;
+  }
+
+  if (lastResult) {
+    return <ChestRewards />;
+  }
 
   return (
     <div className="containerOfNavbar">

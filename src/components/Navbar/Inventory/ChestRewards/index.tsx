@@ -1,49 +1,12 @@
-import { useEffect, useRef } from "react";
-import { useInventory } from "@/contexts/InventoryContext";
-import { useInventoryMenu } from "@/hooks/menu/useInventory";
 import { useChestOpening } from "@/hooks/useChestOpening";
 import { useDailyChest } from "@/hooks/useDailyChest";
-import { useGameControls } from "@/contexts/GameControlsContext";
 import { RANK_COLORS, RANK_LABELS, SLOT_LABELS } from "@/utils/types/player/equipment";
 import type { EquipmentRank, EquipmentSlot } from "@/utils/types/player/equipment";
 import styles from "./styles.module.css";
-import { ITEMS } from "@/data/items";
 
 export function ChestRewards() {
-  const { items } = useInventory();
-  const listRef = useRef<HTMLUListElement>(null);
-  const { selectedIndex } = useInventoryMenu(true, listRef);
-
-  const { openPlayerChest, lastResult, setLastResult } = useChestOpening();
+  const { lastResult, setLastResult } = useChestOpening();
   const dailyChest = useDailyChest();
-  const { pushControls, popControls } = useGameControls();
-
-  const selectedItem = items[selectedIndex];
-  const selectedItemData = selectedItem
-    ? ITEMS[selectedItem.id as keyof typeof ITEMS]
-    : null;
-
-  const isChestSelected = selectedItemData?.type === "chest";
-
-  const tier = isChestSelected && selectedItem
-    ? (selectedItem.id.replace("_chest", "") as NPCClass)
-    : null;
-  const keyId = tier ? (`${tier}_key` as ItemId) : null;
-
-  useEffect(() => {
-    const controls = {
-      onConfirm: () => {
-        if (!isChestSelected || !selectedItem || !keyId) return false;
-        if (!items.some((i) => i.id === keyId)) return false;
-        openPlayerChest(selectedItem.id as ItemId);
-        return true;
-      },
-    };
-
-    pushControls(controls);
-    return () => popControls();
-  }, [isChestSelected, selectedItem, keyId, items, openPlayerChest, pushControls, popControls]);
-
 
   if (dailyChest.lastResult) {
     const r = dailyChest.lastResult;
