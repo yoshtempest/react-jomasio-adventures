@@ -1,15 +1,24 @@
-export const CLASS_LABEL: Record<string, string> = {
-  common: "Comum",
-  rare: "Raro",
-  epic: "Épico",
-  boss: "Chefão",
-  legendary: "Lendário",
-};
+export const CLASS_DATA = {
+  common: {
+    label: "Comum",
+    color: "#9d9d9d",
+  },
+  rare: {
+    label: "Raro",
+    color: "#50c878",
+  },
+  epic: {
+    label: "Épico",
+    color: "#b44aff",
+  },
+  boss: {
+    label: "Chefão",
+    color: "#e0115f",
+  },
+  legendary: {
+    label: "Lendário",
+    color: "#ff4500",
+  },
+} as const;
 
-export const CLASS_COLOR: Record<string, string> = {
-  common: "#9d9d9d",
-  rare: "#50c878",
-  epic: "#b44aff",
-  boss: "#e0115f",
-  legendary: "#ff4500",
-};
+export type NPCClass = keyof typeof CLASS_DATA;
