@@ -38,7 +38,7 @@ export function Player() {
   const { titlesData } = useTitles();
   const { coins, hyperCoins } = usePlayer();
   const { flags } = useFlags();
-  const { selectedChar } = usePlayerMenu(true, scrollRef);
+  const { selectedChar, isSummaryView } = usePlayerMenu(true, scrollRef);
   const { rewards, claim } = useRewards();
   const {
     canClaim: dailyCanClaim,
@@ -130,11 +130,18 @@ export function Player() {
 
       <div ref={scrollRef} className={styles.container}>
         <div className={styles.charSelectRow}>
+          <span
+            className={`${styles.charBtn} ${
+              isSummaryView ? styles.charBtnActive : ""
+            }`}
+          >
+            Resumo
+          </span>
           {CHARACTERS.map((char) => (
             <span
               key={char}
               className={`${styles.charBtn} ${
-                char === selectedChar ? styles.charBtnActive : ""
+                !isSummaryView && char === selectedChar ? styles.charBtnActive : ""
               }`}
             >
               {charLabel(char)}
@@ -142,27 +149,29 @@ export function Player() {
           ))}
         </div>
 
-        <div className={styles.section}>
-          <div className={styles.sectionTitle}>Resumo</div>
-          {summaryStats.map((stat) => (
-            <StatRow
-              key={stat.label}
-              label={stat.label}
-              value={stat.value}
-            />
-          ))}
-        </div>
-
-        <div className={styles.section}>
-          <div className={styles.sectionTitle}>{charLabel(selectedChar)}</div>
-          {characterStats.map((stat) => (
-            <StatRow
-              key={stat.label}
-              label={stat.label}
-              value={stat.value}
-            />
-          ))}
-        </div>
+        {isSummaryView ? (
+          <div className={styles.section}>
+            <div className={styles.sectionTitle}>Resumo</div>
+            {summaryStats.map((stat) => (
+              <StatRow
+                key={stat.label}
+                label={stat.label}
+                value={stat.value}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className={styles.section}>
+            <div className={styles.sectionTitle}>{charLabel(selectedChar)}</div>
+            {characterStats.map((stat) => (
+              <StatRow
+                key={stat.label}
+                label={stat.label}
+                value={stat.value}
+              />
+            ))}
+          </div>
+        )}
 
         <div className={styles.section}>
           <div className={styles.sectionTitle}>Progresso</div>

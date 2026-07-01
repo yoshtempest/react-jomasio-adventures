@@ -4,6 +4,7 @@ import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { CHARACTERS } from "@/utils/types/player/player";
 
 const SCROLL_AMOUNT = 60;
+const TOTAL_ITEMS = CHARACTERS.length + 1; // Resumo + 12 characters
 
 export function usePlayerMenu(
   isOpen: boolean,
@@ -12,12 +13,12 @@ export function usePlayerMenu(
   const { pushControls, popControls } = useGameControls();
   const { playMove, playSelect } = useMenuSFX();
 
-  const [selectedCharIndex, setSelectedCharIndex] = useState(0);
-  const selectedCharIndexRef = useRef(selectedCharIndex);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const selectedIndexRef = useRef(selectedIndex);
 
   useEffect(() => {
-    selectedCharIndexRef.current = selectedCharIndex;
-  }, [selectedCharIndex]);
+    selectedIndexRef.current = selectedIndex;
+  }, [selectedIndex]);
 
   const playMoveRef = useRef(playMove);
   playMoveRef.current = playMove;
@@ -48,16 +49,16 @@ export function usePlayerMenu(
 
       onLeft: () => {
         playMoveRef.current();
-        setSelectedCharIndex((prev) =>
-          prev > 0 ? prev - 1 : CHARACTERS.length - 1,
+        setSelectedIndex((prev) =>
+          prev > 0 ? prev - 1 : TOTAL_ITEMS - 1,
         );
         return true;
       },
 
       onRight: () => {
         playMoveRef.current();
-        setSelectedCharIndex((prev) =>
-          prev < CHARACTERS.length - 1 ? prev + 1 : 0,
+        setSelectedIndex((prev) =>
+          prev < TOTAL_ITEMS - 1 ? prev + 1 : 0,
         );
         return true;
       },
@@ -74,8 +75,12 @@ export function usePlayerMenu(
     return () => popControlsRef.current();
   }, [isOpen]);
 
+  const isSummaryView = selectedIndex === 0;
+
   return {
-    selectedChar: CHARACTERS[selectedCharIndex],
+    selectedIndex,
+    isSummaryView,
+    selectedChar: isSummaryView ? CHARACTERS[0] : CHARACTERS[selectedIndex - 1],
     charIds: CHARACTERS,
   };
 }
