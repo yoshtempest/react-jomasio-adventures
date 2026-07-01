@@ -21,8 +21,6 @@ import { getBlockCount } from "@/utils/rewards/blockCounter";
 import {
   getDamageDealtStats,
   getDamageTakenStats,
-  getMissesStats,
-  getEquipmentDropsStats,
   getHitsUsedStats,
   getSpecialsUsedStats,
   getAttacksUsedStats,
@@ -73,8 +71,6 @@ export function Player() {
   const streakStats = getStreakStats();
   const damageDealtStats = getDamageDealtStats();
   const damageTakenStats = getDamageTakenStats();
-  const missesStats = getMissesStats();
-  const equipmentDropsStats = getEquipmentDropsStats();
   const hitsUsedStats = getHitsUsedStats();
   const specialsUsedStats = getSpecialsUsedStats();
   const attacksUsedStats = getAttacksUsedStats();
@@ -97,22 +93,25 @@ export function Player() {
     damageDealt: damageDealtStats.total,
     damageTaken: damageTakenStats.total,
     blocks: blockCount.total,
-    misses: missesStats.total,
-    equipmentDrops: equipmentDropsStats.total,
     hitsUsed: hitsUsedStats.total,
     specialsUsed: specialsUsedStats.total,
     attacksUsed: attacksUsedStats.total,
   });
 
   const characterStats = getCharacterStats({
-    playTime: playTime[selectedChar],
-    battleTime: battleTime[selectedChar] ?? 0,
-    totalPlayTime,
-    kills: progress[selectedChar]?.kills ?? 0,
+    totalPlayTime: playTime[selectedChar],
+    totalBattleTime: battleTime[selectedChar] ?? 0,
+    coins: progress[selectedChar]?.coins ?? 0,
+    hyperCoins: progress[selectedChar]?.hyperCoins ?? 0,
+    totalKills: progress[selectedChar]?.kills ?? 0,
     bestStreak: streakStats.bestStreakPerCharacter[selectedChar] ?? 0,
-    deaths: deaths.perCharacter[selectedChar] ?? 0,
+    totalDeaths: deaths.perCharacter[selectedChar] ?? 0,
     damageDealt: damageDealtStats.perCharacter[selectedChar] ?? 0,
     damageTaken: damageTakenStats.perCharacter[selectedChar] ?? 0,
+    blocks: blockCount.perCharacter[selectedChar] ?? 0,
+    hitsUsed: hitsUsedStats.perCharacter[selectedChar] ?? 0,
+    specialsUsed: specialsUsedStats.perCharacter[selectedChar] ?? 0,
+    attacksUsed: attacksUsedStats.perCharacter[selectedChar] ?? 0,
   });
 
   const progressStats = getProgressStat({

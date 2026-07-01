@@ -12,7 +12,6 @@ import {
   getDamageDealtStats,
   getDamageTakenStats,
   getMissesStats,
-  getEquipmentDropsStats,
   getHitsUsedStats,
   getSpecialsUsedStats,
   getAttacksUsedStats,
@@ -107,8 +106,6 @@ function getProgress(
       return { current: getBlockCount().total, requirement: def.getRequirement(stage) };
     case "misses":
       return { current: getMissesStats().total, requirement: def.getRequirement(stage) };
-    case "equipment_drops":
-      return { current: getEquipmentDropsStats().total, requirement: def.getRequirement(stage) };
     case "hits_used":
       return { current: getHitsUsedStats().total, requirement: def.getRequirement(stage) };
     case "specials_used":

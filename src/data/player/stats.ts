@@ -13,22 +13,25 @@ type SummaryStatsProps = {
   damageDealt: number;
   damageTaken: number;
   blocks: number;
-  misses: number;
-  equipmentDrops: number;
   hitsUsed: number;
   specialsUsed: number;
   attacksUsed: number;
 };
 
 type CharacterStatsProps = {
-  playTime: number;
-  battleTime: number;
   totalPlayTime: number;
-  kills: number;
+  totalBattleTime: number;
+  coins: number;
+  hyperCoins: number;
+  totalKills: number;
   bestStreak: number;
-  deaths: number;
+  totalDeaths: number;
   damageDealt: number;
   damageTaken: number;
+  blocks: number;
+  hitsUsed: number;
+  specialsUsed: number;
+  attacksUsed: number;
 };
 
 type ProgressStatsProps = {
@@ -46,32 +49,34 @@ export function getSummaryStats(data: SummaryStatsProps) {
         stat("Tempo em batalha", formatTime(data.totalBattleTime)),
         stat("Kwanzas", data.coins),
         stat("HyperCoins", data.hyperCoins),
-        stat("Dias Jogados", data.loginDays),
         stat("Máx. vitórias consecutivas", data.bestStreak),
         stat("Total de inimigos derrotados", data.totalKills),
         stat("Total de derrotas", data.totalDeaths),
         stat("Dano total causado", data.damageDealt),
         stat("Dano total recebido", data.damageTaken),
         stat("Bloqueios", data.blocks),
-        stat("Misses", data.misses),
-        stat("Equipamentos dropados", data.equipmentDrops),
         stat("Golpes usados", data.hitsUsed),
         stat("Especiais usados", data.specialsUsed),
         stat("Ataques comuns", data.attacksUsed),
+        stat("Dias Jogados", data.loginDays),
     ];
 }
 
 export function getCharacterStats(data: CharacterStatsProps) {
     return [
         stat("Tempo total", formatTime(data.totalPlayTime)),
-        stat("Tempo em batalha", formatTime(data.battleTime)),
-        stat("% do Tempo total", data.totalPlayTime > 0 ? Math.round(
-            (data.playTime / data.totalPlayTime) * 100) : 0),
+        stat("Tempo em batalha", formatTime(data.totalBattleTime)),
+        stat("Kwanzas", data.coins),
+        stat("HyperCoins", data.hyperCoins),
         stat("Máx. vitórias consecutivas", data.bestStreak),
-        stat("Total de inimigos derrotados", data.kills),
-        stat("Total de derrotas", data.deaths),
+        stat("Total de inimigos derrotados", data.totalKills),
+        stat("Total de derrotas", data.totalDeaths),
         stat("Dano total causado", data.damageDealt),
         stat("Dano total recebido", data.damageTaken),
+        stat("Bloqueios", data.blocks),
+        stat("Golpes usados", data.hitsUsed),
+        stat("Especiais usados", data.specialsUsed),
+        stat("Ataques comuns", data.attacksUsed),
     ];
 }
 

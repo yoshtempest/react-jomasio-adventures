@@ -13,6 +13,8 @@ export type CharacterProgress = {
   xp: number;
   kills: number;
   hunger: number;
+  coins: number;
+  hyperCoins: number;
   stats: CharacterStats;
 };
 
@@ -24,6 +26,8 @@ export const defaultProgress: CharactersProgress = {
     xp: 0,
     kills: 0,
     hunger: 100,
+    coins: 0,
+    hyperCoins: 0,
     stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
   eduarda: {
@@ -31,6 +35,8 @@ export const defaultProgress: CharactersProgress = {
     xp: 0,
     kills: 0,
     hunger: 100,
+    coins: 0,
+    hyperCoins: 0,
     stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
   lucas: {
@@ -38,6 +44,8 @@ export const defaultProgress: CharactersProgress = {
     xp: 0,
     kills: 0,
     hunger: 100,
+    coins: 0,
+    hyperCoins: 0,
     stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
   samuel: {
@@ -45,6 +53,8 @@ export const defaultProgress: CharactersProgress = {
     xp: 0,
     kills: 0,
     hunger: 100,
+    coins: 0,
+    hyperCoins: 0,
     stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
   artur: {
@@ -52,6 +62,8 @@ export const defaultProgress: CharactersProgress = {
     xp: 0,
     kills: 0,
     hunger: 100,
+    coins: 0,
+    hyperCoins: 0,
     stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
   mayra: {
@@ -59,6 +71,8 @@ export const defaultProgress: CharactersProgress = {
     xp: 0,
     kills: 0,
     hunger: 100,
+    coins: 0,
+    hyperCoins: 0,
     stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
   lucaua: {
@@ -66,6 +80,8 @@ export const defaultProgress: CharactersProgress = {
     xp: 0,
     kills: 0,
     hunger: 100,
+    coins: 0,
+    hyperCoins: 0,
     stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
   riquelme: {
@@ -73,6 +89,8 @@ export const defaultProgress: CharactersProgress = {
     xp: 0,
     kills: 0,
     hunger: 100,
+    coins: 0,
+    hyperCoins: 0,
     stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
   hiago: {
@@ -80,6 +98,8 @@ export const defaultProgress: CharactersProgress = {
     xp: 0,
     kills: 0,
     hunger: 100,
+    coins: 0,
+    hyperCoins: 0,
     stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
   larissa: {
@@ -87,6 +107,8 @@ export const defaultProgress: CharactersProgress = {
     xp: 0,
     kills: 0,
     hunger: 100,
+    coins: 0,
+    hyperCoins: 0,
     stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
   camilly: {
@@ -94,6 +116,8 @@ export const defaultProgress: CharactersProgress = {
     xp: 0,
     kills: 0,
     hunger: 100,
+    coins: 0,
+    hyperCoins: 0,
     stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
   emanuel: {
@@ -101,6 +125,8 @@ export const defaultProgress: CharactersProgress = {
     xp: 0,
     kills: 0,
     hunger: 100,
+    coins: 0,
+    hyperCoins: 0,
     stats: { hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0 },
   },
 };

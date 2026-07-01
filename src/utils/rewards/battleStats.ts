@@ -91,10 +91,6 @@ export function incrementEquipmentDropsStats(count: number): void {
   saveStats(data);
 }
 
-export function getEquipmentDropsStats(): { total: number } {
-  return loadStats().equipmentDrops;
-}
-
 // Hits used (golpes - total of attacks + specials)
 export function incrementHitsUsedStats(character: string): void {
   const data = loadStats();
