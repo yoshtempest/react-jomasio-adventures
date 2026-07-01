@@ -26,9 +26,6 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
   return (
     <div className="StatusColumn" style={{ width: "14vw" }}>
       <h2 className="StatusTitle">Pontos disponíveis: {stats.points}</h2>
-      {stats.points <= 0 && (
-        <p className="StatusTitle">Sem pontos disponíveis</p>
-      )}
         <div className={selectedIndex === 0 ? "active" : ""}>
           <p>
             Vida: {stats.hp}

@@ -25,6 +25,18 @@
   text-align: center;
 }
 
+.hungerContainer {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.hungerText {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
 @media (orientation: portrait) {
   .image {
     height: 40%;
