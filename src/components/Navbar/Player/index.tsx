@@ -11,7 +11,6 @@ import { CHARACTERS as CHARACTER_OPTIONS } from "@/data/options/characters";
 import { TITLES } from "@/data/titles";
 import { FLAGS } from "@/data/flags";
 import { BESTIARY_NPC_ORDER } from "@/data/bestiary";
-import { usePlayer } from "@/contexts/PlayerContext";
 import { useRewards } from "@/hooks/useRewards";
 import { useDailyReward } from "@/hooks/useDailyReward";
 import { useMonthlyPass } from "@/hooks/useMonthlyPass";
@@ -34,7 +33,6 @@ export function Player() {
   const { playTime, battleTime, getTotalPlayTime, getTotalBattleTime, loginDays } = usePlayTime();
   const { bestiary } = useBestiary();
   const { titlesData } = useTitles();
-  const { coins, hyperCoins } = usePlayer();
   const { flags } = useFlags();
   const { selectedChar, isSummaryView } = usePlayerMenu(true, scrollRef);
   const { rewards, claim } = useRewards();
@@ -81,11 +79,14 @@ export function Player() {
     return opt?.name ?? char;
   }
 
+  const totalCoins = CHARACTERS.reduce((sum, c) => sum + (progress[c]?.coins ?? 0), 0);
+  const totalHyperCoins = CHARACTERS.reduce((sum, c) => sum + (progress[c]?.hyperCoins ?? 0), 0);
+
   const summaryStats = getSummaryStats({
     totalPlayTime,
     totalBattleTime: getTotalBattleTime(),
-    coins,
-    hyperCoins,
+    coins: totalCoins,
+    hyperCoins: totalHyperCoins,
     loginDays,
     totalKills: titlesData.totalKills,
     bestStreak: streakStats.bestStreak,

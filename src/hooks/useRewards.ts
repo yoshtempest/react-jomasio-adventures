@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import { REWARDS, type RewardDef } from "@/data/rewards";
 import { REWARDS_KEY } from "@/data/storageKeys";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useTitles } from "@/contexts/TitleContext";
 import { usePlayTime } from "@/contexts/PlayTimeContext";
 import { useFlags } from "@/contexts/FlagContext";
@@ -118,7 +119,8 @@ function getProgress(
 }
 
 export function useRewards() {
-  const { addHyperCoins } = usePlayer();
+  const { player } = usePlayer();
+  const { addHyperCoins } = useCharacterProgress();
   const { titlesData } = useTitles();
   const { getTotalPlayTime } = usePlayTime();
   const { flags } = useFlags();
@@ -151,7 +153,7 @@ export function useRewards() {
       if (current < requirement) return;
 
       const reward = def.getReward(stage);
-      addHyperCoins(reward);
+      addHyperCoins(player.character, reward);
 
       setProgress((prev) => {
         const next = { ...prev, [rewardId]: stage + 1 };
@@ -159,7 +161,7 @@ export function useRewards() {
         return next;
       });
     },
-    [progress, totalKills, totalPlayTime, unlockedCount, maxNpcKills, classKills, addHyperCoins],
+    [progress, totalKills, totalPlayTime, unlockedCount, maxNpcKills, classKills, player.character, addHyperCoins],
   );
 
   const rewards = REWARDS.map((def) => {

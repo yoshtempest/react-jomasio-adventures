@@ -9,8 +9,6 @@ export type SaveData = {
   quests: Quest[];
   playerClass: PlayerClass;
   character: string;
-  hyperCoins?: number;
-  coins?: number;
   progress?: CharactersProgress;
 };
 

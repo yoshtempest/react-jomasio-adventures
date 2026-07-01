@@ -27,6 +27,8 @@ export function getHungerMultiplier(hunger: number): number {
 type ContextType = {
   progress: CharactersProgress;
   addXP: (character: Character, amount: number) => void;
+  addCoins: (character: Character, amount: number) => void;
+  addHyperCoins: (character: Character, amount: number) => void;
   addStat: (
     character: Character,
     stat: keyof Omit<CharacterStats, "points">,
@@ -117,6 +119,33 @@ export function CharacterProgressProvider({
     });
   }
 
+  // 🪙 MOEDAS
+  function addCoins(character: Character, amount: number) {
+    setProgress((prev) => {
+      const char = prev[character];
+      return {
+        ...prev,
+        [character]: {
+          ...char,
+          coins: (char.coins ?? 0) + amount,
+        },
+      };
+    });
+  }
+
+  function addHyperCoins(character: Character, amount: number) {
+    setProgress((prev) => {
+      const char = prev[character];
+      return {
+        ...prev,
+        [character]: {
+          ...char,
+          hyperCoins: (char.hyperCoins ?? 0) + amount,
+        },
+      };
+    });
+  }
+
   // 🍽️ FOME
   function reduceHunger(character: Character, amount: number) {
     setProgress((prev) => {
@@ -193,7 +222,7 @@ export function CharacterProgressProvider({
 
   return (
     <CharacterProgressContext.Provider
-      value={{ progress, addXP, addStat, incrementKills, reduceHunger, restoreHunger, resetHunger, setHunger, getXPToNextLevel }}
+      value={{ progress, addXP, addCoins, addHyperCoins, addStat, incrementKills, reduceHunger, restoreHunger, resetHunger, setHunger, getXPToNextLevel }}
     >
       {children}
     </CharacterProgressContext.Provider>

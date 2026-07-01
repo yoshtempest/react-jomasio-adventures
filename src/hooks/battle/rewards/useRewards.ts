@@ -68,8 +68,8 @@ export const KEY_DROP_CHANCE: Record<NPCClass, number> = {
 };
 
 export function useBattleRewards({ npcClass, npcLevel, npcType }: Props) {
-  const { player, addCoins } = usePlayer();
-  const { addXP } = useCharacterProgress();
+  const { player } = usePlayer();
+  const { addXP, addCoins } = useCharacterProgress();
   const { addDrop } = useEquipment();
   const { addItem } = useInventory();
 
@@ -81,12 +81,12 @@ export function useBattleRewards({ npcClass, npcLevel, npcType }: Props) {
     const coins = (COIN_REWARDS[npcClass] ?? 0) * npcLevel;
 
     addXP(player.character, xp);
-    addCoins(coins);
+    addCoins(player.character, coins);
   }
 
   function giveRewards(): RewardInfo {
     addXP(player.character, xpReward);
-    addCoins(coinReward);
+    addCoins(player.character, coinReward);
 
     const equipmentDrops = rollEquipmentDrops(npcClass, addDrop, player.character);
     const itemDrops = rollMaterialDrops(npcClass, npcType, addItem);

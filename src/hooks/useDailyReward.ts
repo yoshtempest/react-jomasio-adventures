@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import { DAILY_REWARD } from "@/data/rewards/dailyReward";
 import { DAILY_REWARD_KEY } from "@/data/storageKeys";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { slotKey } from "@/utils/save/slotManager";
 import { getTimeUntilMidnight } from "@/utils/quest/questTimer";
 
@@ -25,7 +26,8 @@ function saveLastClaim(date: string): void {
 }
 
 export function useDailyReward() {
-  const { addHyperCoins, addCoins } = usePlayer();
+  const { player } = usePlayer();
+  const { addCoins, addHyperCoins } = useCharacterProgress();
   const [lastClaimDate, setLastClaimDate] = useState(loadLastClaim);
   const [timer, setTimer] = useState(getTimeUntilMidnight);
 
@@ -44,11 +46,11 @@ export function useDailyReward() {
     const coinsAmount =
       DAILY_REWARD.coinsMin +
       Math.floor(Math.random() * (DAILY_REWARD.coinsMax - DAILY_REWARD.coinsMin + 1));
-    addHyperCoins(DAILY_REWARD.hyperCoins);
-    addCoins(coinsAmount);
+    addHyperCoins(player.character, DAILY_REWARD.hyperCoins);
+    addCoins(player.character, coinsAmount);
     saveLastClaim(today);
     setLastClaimDate(today);
-  }, [canClaim, today, addHyperCoins, addCoins]);
+  }, [canClaim, today, player.character, addHyperCoins, addCoins]);
 
   return {
     canClaim,

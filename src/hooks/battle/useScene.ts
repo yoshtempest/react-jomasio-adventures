@@ -70,8 +70,6 @@ export function useBattleScene({
     playerClass,
     setPlayerState,
     lastBlockPressRef,
-    coins,
-    hyperCoins,
   } = usePlayer();
 
   const { progress, reduceHunger, getXPToNextLevel } = useCharacterProgress();
@@ -150,16 +148,12 @@ export function useBattleScene({
     quests,
     character: player.character,
     playerClass,
-    hyperCoins,
-    coins,
   });
   saveDataRef.current = {
     items: inventoryItems,
     quests,
     character: player.character,
     playerClass,
-    hyperCoins,
-    coins,
   };
 
   const killCounter = useBattleKillCounter();
@@ -249,7 +243,6 @@ export function useBattleScene({
       quests: d.quests,
       playerClass: d.playerClass,
       character: d.character,
-      hyperCoins: d.hyperCoins,
     });
     const elapsed = Date.now() - battleStartRef.current;
     setVictoryElapsed(elapsed);

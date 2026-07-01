@@ -22,8 +22,8 @@ export function useQuestMenu(
   const { pushControls, popControls } = useGameControls();
 
   const { quests, claimQuest } = useQuests();
-  const { addXP } = useCharacterProgress();
-  const { player, addCoins, addHyperCoins } = usePlayer();
+  const { addXP, addCoins, addHyperCoins } = useCharacterProgress();
+  const { player } = usePlayer();
   const { addItem } = useInventory();
   const { playMove, playSelect } = useMenuSFX();
 
@@ -104,12 +104,12 @@ export function useQuestMenu(
     }
 
     if (quest.rewardsType === "coin" && quest.rewards) {
-      addCoins(quest.rewards);
+      addCoins(player.character, quest.rewards);
       claimQuest(quest.id);
     }
 
     if (quest.rewardsType === "hyperCoin" && quest.rewards) {
-      addHyperCoins(quest.rewards);
+      addHyperCoins(player.character, quest.rewards);
       claimQuest(quest.id);
     }
 

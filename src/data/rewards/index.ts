@@ -73,12 +73,6 @@ export const REWARDS: RewardDef[] = [
     getReward: (stage) => 5 * (stage + 1),
   },
   {
-    id: "equipment_drops",
-    label: "Acumule {req} equipamentos dropados",
-    getRequirement: (stage) => 50 * (stage + 1),
-    getReward: (stage) => 10 * (stage + 1),
-  },
-  {
     id: "hits_used",
     label: "Use {req} golpes",
     getRequirement: (stage) => 1000 * (stage + 1),

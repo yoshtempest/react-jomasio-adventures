@@ -27,7 +27,7 @@ function App() {
   const { items, setItems, setMaxSlots } = useInventory();
   const { setQuests, refreshDailyWeekly, quests } = useQuests();
 
-  const { chooseClass, setCharacter, player, playerClass, hyperCoins, coins } =
+  const { chooseClass, setCharacter, player, playerClass } =
     usePlayer();
 
   const { getEquippedItem } = useEquipment();
@@ -77,8 +77,6 @@ function App() {
       quests,
       playerClass,
       character: player.character,
-      hyperCoins,
-      coins,
     };
 
     saveGame(data);
@@ -91,8 +89,6 @@ function App() {
     quests,
     playerClass,
     player.character,
-    hyperCoins,
-    coins,
     isAuthenticated,
   ]);
 

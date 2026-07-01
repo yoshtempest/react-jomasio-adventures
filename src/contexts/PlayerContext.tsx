@@ -13,14 +13,11 @@ import type { CollisionParams } from "@/hooks/battle/player/useMovement";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { usePlayerAnimation } from "@/hooks/battle/player/usePlayerAnimation";
-import { usePersistedNumber } from "@/hooks/usePersistedNumber";
 import {
   BATTLE_DEFAULT_STATE,
   useBattleCollisionRef,
 } from "@/utils/types/player/state";
 import {
-  COINS_KEY,
-  HYPER_COINS_KEY,
   CHARACTER_KEY,
   PLAYER_CLASS_KEY,
 } from "@/data/storageKeys";
@@ -30,10 +27,6 @@ type PlayerContextType = {
   player: Player;
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;
   difficulty: NpcDifficulty;
-  coins: number;
-  addCoins: (amount: number) => void;
-  hyperCoins: number;
-  addHyperCoins: (amount: number) => void;
   setDifficulty: (difficulty: NpcDifficulty) => void;
 
   setPosition: (x: number, y: number, direction?: Player["direction"]) => void;
@@ -75,8 +68,6 @@ const PlayerContext = createContext<PlayerContextType | null>(null);
 
 export function PlayerProvider({ children }: { children: ReactNode }) {
   const [difficulty, setDifficulty] = useState<NpcDifficulty>("medium");
-  const [coins, setCoins] = usePersistedNumber(slotKey(COINS_KEY), 200);
-  const [hyperCoins, setHyperCoins] = usePersistedNumber(slotKey(HYPER_COINS_KEY), 0);
 
   const [player, setPlayer] = useState<Player>(() => {
     const savedCharacter = localStorage.getItem(slotKey(CHARACTER_KEY));
@@ -152,10 +143,6 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
   function chooseClass(cls: PlayerClass) { setPlayerClass(cls); }
 
-  function addCoins(amount: number) { setCoins((prev) => prev + amount); }
-
-  function addHyperCoins(amount: number) { setHyperCoins((prev) => prev + amount); }
-
   function openInventory() {
     if (player.mode !== "explore") return;
     toggleInventory();
@@ -195,8 +182,6 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     <PlayerContext.Provider
       value={{
         player, setPlayer,
-        coins, addCoins,
-        hyperCoins, addHyperCoins,
         setCharacter,
 
         moveUp, moveDown, moveLeft, moveRight,

@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import { MONTHLY_MISSIONS, type MonthlyMissionDef } from "@/data/rewards/monthlyPass";
 import { MONTHLY_PASS_KEY } from "@/data/storageKeys";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useTitles } from "@/contexts/TitleContext";
 import { usePlayTime } from "@/contexts/PlayTimeContext";
 import { slotKey } from "@/utils/save/slotManager";
@@ -67,7 +68,8 @@ function getMissionProgress(
 }
 
 export function useMonthlyPass() {
-  const { addHyperCoins } = usePlayer();
+  const { player } = usePlayer();
+  const { addHyperCoins } = useCharacterProgress();
   const { titlesData } = useTitles();
   const { getTotalPlayTime, loginDays } = usePlayTime();
 
@@ -108,7 +110,7 @@ export function useMonthlyPass() {
       if (progress < def.requirement) return;
       if (stored.claimed.includes(def.id)) return;
 
-      addHyperCoins(def.reward);
+      addHyperCoins(player.character, def.reward);
 
       setStored((prev) => {
         const updated = {
@@ -119,7 +121,7 @@ export function useMonthlyPass() {
         return updated;
       });
     },
-    [stored, totalKills, totalPlayTime, loginDays, classKills, addHyperCoins],
+    [stored, totalKills, totalPlayTime, loginDays, classKills, player.character, addHyperCoins],
   );
 
   return {
