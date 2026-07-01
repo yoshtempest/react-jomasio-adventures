@@ -57,6 +57,8 @@ export function Player() {
     claim: claimPass,
   } = useMonthlyPass();
 
+  const playerName = localStorage.getItem("playerName") || "Protagonista";
+
   const totalTitles = TITLE_IDS.length;
   const acquiredTitles = TITLE_IDS.filter((id) => (titlesData.progress[id]?.level ?? 0) > 0).length;
 
@@ -124,7 +126,7 @@ export function Player() {
 
   return (
     <div className="containerOfNavbar">
-      <h2>Jogador</h2>
+      <h2>{playerName}</h2>
 
       <div ref={scrollRef} className={styles.container}>
         <div className={styles.charSelectRow}>
