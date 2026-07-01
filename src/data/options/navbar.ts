@@ -11,5 +11,5 @@ export const NAVBAR_OPTIONS: NavbarOption[] = [
   { label: "Títulos", screen: "titles" },
   { label: "DelíciaDex", screen: "bestiary" },
   { label: "Jogador", screen: "player" },
-  { label: "Profissões", screen: "profissoes" },
+  { label: "Profissões", screen: "professions" },
 ];

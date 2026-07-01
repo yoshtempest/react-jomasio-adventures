@@ -1,0 +1,56 @@
+.flexColumn span {
+  color: var(--success);
+}
+
+.ranksList {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  padding: 8px;
+}
+
+.rankRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 10vh;
+  background: var(--surface-primary);
+  border: 1px solid var(--border-default);
+  border-radius: 6px;
+  padding: 8px 12px;
+}
+
+.rankInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.rankName {
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+.rankLevels {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.rankBuff {
+  font-size: var(--smaller);
+  color: var(--success);
+  font-weight: bold;
+}
+
+.rankChars {
+  display: flex;
+  gap: 4px;
+}
+
+.rankCharFace {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}

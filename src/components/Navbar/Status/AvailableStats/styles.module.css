@@ -1,0 +1,14 @@
+.subBtn {
+  color: var(--accent-color);
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.tip {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-style: italic;
+  margin-top: 8px;
+  line-height: 1.3;
+}

@@ -6,7 +6,7 @@ import {
   getRankIndex,
   RANKS,
 } from "@/gameRules/rank";
-import styles from "../../styles.module.css";
+import styles from "./styles.module.css";
 
 export function RankList() {
   const { progress } = useCharacterProgress();

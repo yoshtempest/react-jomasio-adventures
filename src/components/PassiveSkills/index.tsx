@@ -12,7 +12,7 @@ export function PassiveSkills({ characterId }: { characterId: CharacterId }) {
 
   return (
     <div className={styles.marginTop}>
-      <p className={styles.title}>Habilidades Passivas</p>
+      <p className="StatusTitle">Habilidades Passivas</p>
       {skills.map((skill) => {
         const unlocked = level >= skill.levelRequired;
         const Icon = ICON_MAP[skill.icon] ?? Zap;

@@ -70,6 +70,23 @@ button {
   background-repeat: no-repeat;
 }
 
+.StatusTitle {
+  font-weight: bold;
+  color: var(--text-secondary);
+  font-size: 14px;
+  border-bottom: 1px solid var(--border-default);
+  padding-bottom: 4px;
+}
+
+.StatusColumn span {
+  color: var(--success);
+}
+
+.StatusColumn p {
+  white-space: nowrap;
+  margin-top: 2vh;
+}
+
 h1 {
   font-size: var(--medium);
   font-weight: bold;
@@ -465,28 +482,6 @@ h2 {
 }
 
 @media (orientation: portrait) {
-  .dpadArrow {
-    border-width: 1.4vh;
-  }
-
-  .dpadArrowUp {
-    top: 1vh;
-  }
-
-  .dpadArrowDown {
-    bottom: 1vh;
-  }
-
-  .dpadArrowLeft {
-    left: 1vh;
-  }
-
-  .dpadArrowRight {
-    right: 1vh;
-  }
-}
-
-@media (orientation: portrait) {
   .dpad {
     width: 14vh;
     height: 14vh;
@@ -520,6 +515,29 @@ h2 {
   .talkingImage {
     bottom: 15%;
     height: 10vh;
+  }
+  .dpadArrow {
+    border-width: 1.4vh;
+  }
+
+  .dpadArrowUp {
+    top: 1vh;
+  }
+
+  .dpadArrowDown {
+    bottom: 1vh;
+  }
+
+  .dpadArrowLeft {
+    left: 1vh;
+  }
+
+  .dpadArrowRight {
+    right: 1vh;
+  }
+
+  .StatusColumn p {
+    font-size: var(--smaller);
   }
 }
 

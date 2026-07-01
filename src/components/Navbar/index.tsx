@@ -11,7 +11,7 @@ import { TitlesScreen } from "./Titles";
 import { DeliciaDex } from "./Bestiary";
 import { Player } from "./Player";
 import { Saves } from "./Saves";
-import { Profissoes } from "./Profissoes";
+import { Professions } from "./Professions";
 
 export function Navbar() {
   const { screen, selectedIndex, options } = useNavbarMenu();
@@ -43,7 +43,7 @@ export function Navbar() {
       {screen === "bestiary" && <DeliciaDex />}
       {screen === "player" && <Player />}
       {screen === "saves" && <Saves />}
-      {screen === "profissoes" && <Profissoes />}
+      {screen === "professions" && <Professions />}
     </nav>
   );
 }

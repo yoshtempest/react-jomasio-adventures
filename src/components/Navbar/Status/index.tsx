@@ -1,10 +1,10 @@
 import { useStatusMenu } from "@/hooks/menu/useStatus";
-import { CharacterInfo } from "./components/CharacterInfo";
-import { CharacterStats } from "./components/CharacterStats";
-import { AvailableStats } from "./components/AvailableStats";
-import { EquipmentList } from "./components/EquipmentList";
-import { RankList } from "./components/RankList";
-import { SkillTreeView } from "./components/SkillTreeView";
+import { CharacterInfo } from "./CharacterInfo";
+import { CharacterStats } from "./CharacterStats";
+import { AvailableStats } from "./AvailableStats";
+import { EquipmentList } from "./EquipmentList";
+import { RankList } from "./RankList";
+import { SkillTreeView } from "./SkillTreeView";
 import styles from "./styles.module.css";
 
 export function Status() {

@@ -1,0 +1,32 @@
+.imagesRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.petImage {
+  height: 30%;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.rank {
+  color: var(--accent-color);
+  font-size: 14px;
+}
+
+.xpText {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  text-align: center;
+}
+
+@media (orientation: portrait) {
+  .image {
+    height: 40%;
+  }
+}

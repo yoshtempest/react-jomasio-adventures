@@ -3,7 +3,7 @@ import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { STAT_TIPS } from "@/data/stats/tips";
 import { STATS } from "@/utils/types/player/stats";
-import styles from "../../styles.module.css";
+import styles from "./styles.module.css";
 
 type AvailableStatsProps = {
   selectedIndex: number;
@@ -24,10 +24,10 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
   const selectedStat = selectedIndex < OPTIONS.length ? OPTIONS[selectedIndex] : null;
 
   return (
-    <div className={styles.flexColumn} style={{ width: "14vw" }}>
-      <h2 className={styles.title}>Pontos disponíveis: {stats.points}</h2>
+    <div className="StatusColumn" style={{ width: "14vw" }}>
+      <h2 className="StatusTitle">Pontos disponíveis: {stats.points}</h2>
       {stats.points <= 0 && (
-        <p className={styles.title}>Sem pontos disponíveis</p>
+        <p className="StatusTitle">Sem pontos disponíveis</p>
       )}
         <div className={selectedIndex === 0 ? "active" : ""}>
           <p>

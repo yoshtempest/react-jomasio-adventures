@@ -6,7 +6,7 @@ import {
   RANK_COLORS,
 } from "@/utils/types/player/equipment";
 import type { EquipmentSlot } from "@/utils/types/player/equipment";
-import styles from "../../styles.module.css";
+import styles from "./styles.module.css";
 
 export function EquipmentList() {
   const { player } = usePlayer();
@@ -14,8 +14,8 @@ export function EquipmentList() {
   const { getEquippedItem } = useEquipment();
 
   return (
-    <div className={styles.flexColumn}>
-      <h2 className={styles.title}>Equipamentos</h2>
+    <div className="StatusColumn">
+      <h2 className="StatusTitle">Equipamentos</h2>
       {(EQUIPMENT_SLOTS as EquipmentSlot[]).map((slot) => {
         const item = getEquippedItem(character, slot);
         const label = SLOT_LABELS[slot];

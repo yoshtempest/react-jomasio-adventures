@@ -4,7 +4,7 @@ import { useEquipment } from "@/contexts/EquipmentContext";
 import { CHARACTERS } from "@/data/options/characters";
 import { asset } from "@/utils/asset";
 import { getRank, formatRank } from "@/gameRules/rank";
-import styles from "../../styles.module.css";
+import styles from "./styles.module.css";
 import { Drumstick } from "lucide-react";
 
 export function CharacterInfo() {
@@ -22,7 +22,7 @@ export function CharacterInfo() {
   const petNpcType = petItem?.id.replace("pet_", "");
 
   return (
-    <div className={styles.flexColumn}>
+    <div className="StatusColumn">
       <div className={styles.imagesRow}>
         <img
           src={asset(`/assets/player/${player.character}/default.svg`)}

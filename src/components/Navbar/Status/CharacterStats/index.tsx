@@ -3,7 +3,6 @@ import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { useTitles } from "@/contexts/TitleContext";
 import { getTotalArmor } from "@/gameRules/battle/equipment";
-import styles from "../../styles.module.css";
 
 export function CharacterStats() {
   const { player } = usePlayer();
@@ -30,8 +29,8 @@ export function CharacterStats() {
   const totalShield = bonus.shield + titleBonus.shield;
 
   return (
-    <div className={styles.flexColumn}>
-      <h2 className={styles.title}>Status</h2>
+    <div className="StatusColumn">
+      <h2 className="StatusTitle">Status</h2>
       <p>HP total: {userHp}</p>
       <p>Dano normal: {userNormalAttackDamage}</p>
       <p>Dano especial: {userSpecialDamage}</p>

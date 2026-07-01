@@ -10,7 +10,7 @@ export type NavScreen =
   | "bestiary"
   | "player"
   | "saves"
-  | "profissoes";
+  | "professions";
 
 export type NavbarOption = {
   label: string;

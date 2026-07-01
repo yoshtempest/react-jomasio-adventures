@@ -1,6 +1,6 @@
 import styles from "./styles.module.css";
 
-const PROFISSOES = [
+const PROFESSIONS = [
   { profession: "Alquimista", name: "Val Val" },
   { profession: "Agricultor", name: "Cendeiro" },
   { profession: "Pescador", name: "???" },
@@ -10,12 +10,12 @@ const PROFISSOES = [
   { profession: "Mecânico", name: "Binha" },
 ];
 
-export function Profissoes() {
+export function Professions() {
   return (
     <div className="containerOfNavbar">
       <h3 className={styles.header}>Profissões</h3>
       <ul className={styles.list}>
-        {PROFISSOES.map((p) => (
+        {PROFESSIONS.map((p) => (
           <li key={p.profession} className={`${styles.item} ${styles.locked}`}>
             <div>
               <div className={styles.name}>{p.name}</div>
