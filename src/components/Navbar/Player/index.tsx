@@ -2,7 +2,7 @@ import { useRef } from "react";
 import styles from "./styles.module.css";
 import { usePlayerMenu } from "@/hooks/menu/usePlayer";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
-import { usePlayTime, formatTime } from "@/contexts/PlayTimeContext";
+import { usePlayTime } from "@/contexts/PlayTimeContext";
 import { useBestiary } from "@/contexts/BestiaryContext";
 import { useTitles } from "@/contexts/TitleContext";
 import { useFlags } from "@/contexts/FlagContext";
@@ -27,6 +27,8 @@ import {
   getSpecialsUsedStats,
   getAttacksUsedStats,
 } from "@/utils/rewards/battleStats";
+import { StatRow } from "./StatRow";
+import { getCharacterStats, getSummaryStats } from "@/data/player/stats";
 
 export function Player() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -84,6 +86,36 @@ export function Player() {
     return opt?.name ?? char;
   }
 
+  const summaryStats = getSummaryStats({
+    totalPlayTime,
+    totalBattleTime: getTotalBattleTime(),
+    coins,
+    hyperCoins,
+    loginDays,
+    totalKills: titlesData.totalKills,
+    bestStreak: streakStats.bestStreak,
+    totalDeaths: deaths.total,
+    damageDealt: damageDealtStats.total,
+    damageTaken: damageTakenStats.total,
+    blocks: blockCount.total,
+    misses: missesStats.total,
+    equipmentDrops: equipmentDropsStats.total,
+    hitsUsed: hitsUsedStats.total,
+    specialsUsed: specialsUsedStats.total,
+    attacksUsed: attacksUsedStats.total,
+  });
+
+  const characterStats = getCharacterStats({
+    playTime: playTime[selectedChar],
+    battleTime: battleTime[selectedChar] ?? 0,
+    totalPlayTime,
+    kills: progress[selectedChar]?.kills ?? 0,
+    bestStreak: streakStats.bestStreakPerCharacter[selectedChar] ?? 0,
+    deaths: deaths.perCharacter[selectedChar] ?? 0,
+    damageDealt: damageDealtStats.perCharacter[selectedChar] ?? 0,
+    damageTaken: damageTakenStats.perCharacter[selectedChar] ?? 0,
+  });
+
   return (
     <div className="containerOfNavbar">
       <h2>Jogador</h2>
@@ -104,113 +136,24 @@ export function Player() {
 
         <div className={styles.section}>
           <div className={styles.sectionTitle}>Resumo</div>
-          <div className={styles.statRow}>
-            <span className={styles.statLabel}>Tempo total</span>
-            <span className={styles.statValue}>{formatTime(totalPlayTime)}</span>
-          </div>
-          <div className={styles.statRow}>
-            <span className={styles.statLabel}>Tempo em batalha</span>
-            <span className={styles.statValue}>{formatTime(getTotalBattleTime())}</span>
-          </div>
-          <div className={styles.statRow}>
-            <span className={styles.statLabel}>Kwanzas</span>
-            <span className={styles.statValue}>{coins}</span>
-          </div>
-          <div className={styles.statRow}>
-            <span className={styles.statLabel}>HyperCoins</span>
-            <span className={styles.statValue}>{hyperCoins}</span>
-          </div>
-          <div className={styles.statRow}>
-            <span className={styles.statLabel}>Dias jogados</span>
-            <span className={styles.statValue}>{loginDays}</span>
-          </div>
-          <div className={styles.statRow}>
-            <span className={styles.statLabel}>Total de inimigos derrotados</span>
-            <span className={styles.statValue}>{titlesData.totalKills}</span>
-          </div>
-          <div className={styles.statRow}>
-            <span className={styles.statLabel}>Máx. vitórias consecutivas</span>
-            <span className={styles.statValue}>{streakStats.bestStreak}</span>
-          </div>
-          <div className={styles.statRow}>
-            <span className={styles.statLabel}>Total de derrotas</span>
-            <span className={styles.statValue}>{deaths.total}</span>
-          </div>
-          <div className={styles.statRow}>
-            <span className={styles.statLabel}>Dano total causado</span>
-            <span className={styles.statValue}>{damageDealtStats.total}</span>
-          </div>
-          <div className={styles.statRow}>
-            <span className={styles.statLabel}>Dano total recebido</span>
-            <span className={styles.statValue}>{damageTakenStats.total}</span>
-          </div>
-          <div className={styles.statRow}>
-            <span className={styles.statLabel}>Bloqueios</span>
-            <span className={styles.statValue}>{blockCount.total}</span>
-          </div>
-          <div className={styles.statRow}>
-            <span className={styles.statLabel}>Misses</span>
-            <span className={styles.statValue}>{missesStats.total}</span>
-          </div>
-          <div className={styles.statRow}>
-            <span className={styles.statLabel}>Equipamentos dropados</span>
-            <span className={styles.statValue}>{equipmentDropsStats.total}</span>
-          </div>
-          <div className={styles.statRow}>
-            <span className={styles.statLabel}>Golpes usados</span>
-            <span className={styles.statValue}>{hitsUsedStats.total}</span>
-          </div>
-          <div className={styles.statRow}>
-            <span className={styles.statLabel}>Especiais usados</span>
-            <span className={styles.statValue}>{specialsUsedStats.total}</span>
-          </div>
-          <div className={styles.statRow}>
-            <span className={styles.statLabel}>Ataques comuns</span>
-            <span className={styles.statValue}>{attacksUsedStats.total}</span>
-          </div>
+          {summaryStats.map((stat) => (
+            <StatRow
+              key={stat.label}
+              label={stat.label}
+              value={stat.value}
+            />
+          ))}
         </div>
 
         <div className={styles.section}>
           <div className={styles.sectionTitle}>{charLabel(selectedChar)}</div>
-          <div className={styles.statRow}>
-            <span className={styles.statLabel}>Tempo jogado</span>
-            <span className={styles.statValue}>{formatTime(playTime[selectedChar])}</span>
-          </div>
-          <div className={styles.statRow}>
-            <span className={styles.statLabel}>Tempo em batalha</span>
-            <span className={styles.statValue}>{formatTime(battleTime[selectedChar] ?? 0)}</span>
-          </div>
-          <div className={styles.statRow}>
-            <span className={styles.statLabel}>% do tempo total</span>
-            <span className={styles.statValue}>
-              {totalPlayTime > 0
-                ? Math.round((playTime[selectedChar] / totalPlayTime) * 100)
-                : 0}
-              %
-            </span>
-          </div>
-          <div className={styles.statRow}>
-            <span className={styles.statLabel}>Inimigos derrotados</span>
-            <span className={styles.statValue}>
-              {progress[selectedChar]?.kills ?? 0}
-            </span>
-          </div>
-          <div className={styles.statRow}>
-            <span className={styles.statLabel}>Máx. vitórias consecutivas</span>
-            <span className={styles.statValue}>{streakStats.bestStreakPerCharacter[selectedChar] ?? 0}</span>
-          </div>
-          <div className={styles.statRow}>
-            <span className={styles.statLabel}>Derrotas</span>
-            <span className={styles.statValue}>{deaths.perCharacter[selectedChar] ?? 0}</span>
-          </div>
-          <div className={styles.statRow}>
-            <span className={styles.statLabel}>Dano causado</span>
-            <span className={styles.statValue}>{damageDealtStats.perCharacter[selectedChar] ?? 0}</span>
-          </div>
-          <div className={styles.statRow}>
-            <span className={styles.statLabel}>Dano recebido</span>
-            <span className={styles.statValue}>{damageTakenStats.perCharacter[selectedChar] ?? 0}</span>
-          </div>
+          {characterStats.map((stat) => (
+            <StatRow
+              key={stat.label}
+              label={stat.label}
+              value={stat.value}
+            />
+          ))}
         </div>
 
         <div className={styles.section}>
