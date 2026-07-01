@@ -1,4 +1,4 @@
-import { stat } from "@/utils/types/stats";
+import { stat, progressStat } from "@/utils/types/stats";
 import { formatTime } from "@/contexts/PlayTimeContext";
 
 type SummaryStatsProps = {
@@ -29,6 +29,15 @@ type CharacterStatsProps = {
   deaths: number;
   damageDealt: number;
   damageTaken: number;
+};
+
+type ProgressStatsProps = {
+    acquiredTitles: number;
+    totalTitles: number;
+    encounteredNpcs: number;
+    totalNpcs: number;
+    completedFlags: number;
+    totalStoryFlags: number;
 };
 
 export function getSummaryStats(data: SummaryStatsProps) {
@@ -64,4 +73,12 @@ export function getCharacterStats(data: CharacterStatsProps) {
         stat("Dano total causado", data.damageDealt),
         stat("Dano total recebido", data.damageTaken),
     ];
+}
+
+export function getProgressStat(data: ProgressStatsProps) {
+    return [
+        progressStat("Títulos", data.acquiredTitles, data.totalTitles),
+        progressStat("NPCs encontrados", data.encounteredNpcs, data.totalNpcs),
+        progressStat("História", data.completedFlags, data.totalStoryFlags),
+    ]
 }

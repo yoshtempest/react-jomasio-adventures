@@ -1,15 +1,32 @@
-import styles from "./styles.module.css"
+import type { ReactNode } from "react";
+import styles from "./styles.module.css";
 
 type StatRowProps = {
-  label: React.ReactNode;
-  value: React.ReactNode;
+  label: ReactNode;
+  value: ReactNode;
+  progress?: number;
 };
 
-export function StatRow({ label, value }: StatRowProps) {
+export function StatRow({
+  label,
+  value,
+  progress,
+}: StatRowProps) {
   return (
-    <div className={styles.statRow}>
-      <span className={styles.statLabel}>{label}</span>
-      <span className={styles.statValue}>{value}</span>
-    </div>
+    <>
+      <div className={styles.statRow}>
+        <span className={styles.statLabel}>{label}</span>
+        <span className={styles.statValue}>{value}</span>
+      </div>
+
+      {progress !== undefined && (
+        <div className={styles.barOuter}>
+          <div
+            className={styles.barInner}
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+      )}
+    </>
   );
 }

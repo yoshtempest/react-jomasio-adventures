@@ -72,22 +72,6 @@
   margin-left: 6px;
 }
 
-.barOuter {
-  width: 100%;
-  height: 6px;
-  border-radius: 3px;
-  background: var(--border-default);
-  overflow: hidden;
-  margin-top: 2px;
-}
-
-.barInner {
-  height: 100%;
-  border-radius: 3px;
-  background: var(--accent-color);
-  transition: width 0.3s;
-}
-
 .rewardRow {
   display: flex;
   align-items: center;

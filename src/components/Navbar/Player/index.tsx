@@ -28,7 +28,7 @@ import {
   getAttacksUsedStats,
 } from "@/utils/rewards/battleStats";
 import { StatRow } from "./StatRow";
-import { getCharacterStats, getSummaryStats } from "@/data/player/stats";
+import { getCharacterStats, getProgressStat, getSummaryStats } from "@/data/player/stats";
 
 export function Player() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -59,15 +59,12 @@ export function Player() {
 
   const totalTitles = TITLE_IDS.length;
   const acquiredTitles = TITLE_IDS.filter((id) => (titlesData.progress[id]?.level ?? 0) > 0).length;
-  const titlePct = totalTitles > 0 ? Math.round((acquiredTitles / totalTitles) * 100) : 0;
 
   const totalNpcs = BESTIARY_NPC_ORDER.length;
   const encounteredNpcs = BESTIARY_NPC_ORDER.filter((id) => bestiary[id]?.encountered).length;
-  const npcPct = totalNpcs > 0 ? Math.round((encounteredNpcs / totalNpcs) * 100) : 0;
 
   const totalStoryFlags = FLAG_IDS.length;
   const completedFlags = FLAG_IDS.filter((id) => flags.includes(id)).length;
-  const storyPct = totalStoryFlags > 0 ? Math.round((completedFlags / totalStoryFlags) * 100) : 0;
 
   const totalPlayTime = getTotalPlayTime();
   const deaths = getDeaths();
@@ -116,6 +113,15 @@ export function Player() {
     damageTaken: damageTakenStats.perCharacter[selectedChar] ?? 0,
   });
 
+  const progressStats = getProgressStat({
+    acquiredTitles,
+    totalTitles,
+    encounteredNpcs,
+    totalNpcs,
+    completedFlags,
+    totalStoryFlags,
+  });
+
   return (
     <div className="containerOfNavbar">
       <h2>Jogador</h2>
@@ -159,38 +165,14 @@ export function Player() {
         <div className={styles.section}>
           <div className={styles.sectionTitle}>Progresso</div>
 
-          <div className={styles.statRow}>
-            <span className={styles.statLabel}>Títulos</span>
-            <span className={styles.statValue}>
-              {acquiredTitles}/{totalTitles}
-              <span className={styles.statPct}>({titlePct}%)</span>
-            </span>
-          </div>
-          <div className={styles.barOuter}>
-            <div className={styles.barInner} style={{ width: `${titlePct}%` }} />
-          </div>
-
-          <div className={styles.statRow}>
-            <span className={styles.statLabel}>NPCs encontrados</span>
-            <span className={styles.statValue}>
-              {encounteredNpcs}/{totalNpcs}
-              <span className={styles.statPct}>({npcPct}%)</span>
-            </span>
-          </div>
-          <div className={styles.barOuter}>
-            <div className={styles.barInner} style={{ width: `${npcPct}%` }} />
-          </div>
-
-          <div className={styles.statRow}>
-            <span className={styles.statLabel}>História</span>
-            <span className={styles.statValue}>
-              {completedFlags}/{totalStoryFlags}
-              <span className={styles.statPct}>({storyPct}%)</span>
-            </span>
-          </div>
-          <div className={styles.barOuter}>
-            <div className={styles.barInner} style={{ width: `${storyPct}%` }} />
-          </div>
+          {progressStats.map((stat) => (
+            <StatRow
+              key={stat.label}
+              label={stat.label}
+              value={stat.value}
+              progress={stat.progress}
+            />
+          ))}
         </div>
 
         <div className={styles.section}>
