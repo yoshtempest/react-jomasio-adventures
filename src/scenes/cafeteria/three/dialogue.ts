@@ -1,5 +1,5 @@
-import { cafeteriaFourDialogue } from "@/data/maps/cafeteria/four";
-import { cafeteriaFiveDialogue } from "@/data/maps/cafeteria/five";
+import { cafeteriaFourDialogue } from "@/data/dialogues/cafeteria/four";
+import { cafeteriaFiveDialogue } from "@/data/dialogues/cafeteria/five";
 import { hasItem } from "@/scenes/shared/helpers";
 
 export const getCafeteriaThreeDialogue = ({

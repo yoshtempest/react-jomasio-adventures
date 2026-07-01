@@ -1,4 +1,4 @@
-import { cafeteriaMessages } from "@/data/maps/cafeteria/messages";
+import { cafeteriaMessages } from "@/data/dialogues/cafeteria/messages";
 import { createInteractionMap, createPickupHandler } from "./builder";
 import type { PickupDeps, InventoryDeps, QuestDeps } from "@/utils/types/interaction";
 

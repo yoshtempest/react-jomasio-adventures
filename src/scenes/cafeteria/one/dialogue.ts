@@ -1,5 +1,5 @@
-import { cafeteriaDialogue } from "@/data/maps/cafeteria/one";
-import { cafeteriaTwoDialogue } from "@/data/maps/cafeteria/two";
+import { cafeteriaDialogue } from "@/data/dialogues/cafeteria/one";
+import { cafeteriaTwoDialogue } from "@/data/dialogues/cafeteria/two";
 import { hasFlag } from "@/scenes/shared/helpers";
 
 export const getCafeteriaOneDialogue = ({ flags }: { flags: FlagId[] }) => {

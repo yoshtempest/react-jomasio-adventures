@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { NPCS } from "@/data/npc";
+import { NPCS } from "@/data/npc/npc";
 import { calculateNpcDamage } from "@/gameRules/battle/damage";
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import type { SummonedNpc } from "@/utils/types/npc/npc";

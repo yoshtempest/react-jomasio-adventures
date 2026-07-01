@@ -1,4 +1,4 @@
-import { cantinaMessages } from "@/data/maps/cantina/messages";
+import { cantinaMessages } from "@/data/dialogues/cantina/messages";
 import { createInteractionMap, createPickupHandler } from "./builder";
 import type { PickupDeps } from "@/utils/types/interaction";
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NPCS } from "@/data/npc";
+import { NPCS } from "@/data/npc/npc";
 import { generateNpcLevel } from "@/utils/types/battle/generateNpcLevel";
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
 

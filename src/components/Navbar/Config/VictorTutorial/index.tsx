@@ -1,6 +1,6 @@
 import styles from "./styles.module.css";
 import { MoveUp, MoveDown, MoveLeft, MoveRight } from "lucide-react";
-import { configsDialogue } from "@/data/maps/configs";
+import { configsDialogue } from "@/data/dialogues/configs";
 import Talking from "@/components/Talking";
 import { useEffect, useRef } from "react";
 import { useDialogue } from "@/hooks/interaction/useDialogue";

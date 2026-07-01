@@ -1,4 +1,4 @@
-import { HellRoomThreeDialogue } from "@/data/maps/hellRoom/three";
+import { HellRoomThreeDialogue } from "@/data/dialogues/hellRoom/three";
 
 export const getHellroomTwoDialogue = () => {
   return HellRoomThreeDialogue;

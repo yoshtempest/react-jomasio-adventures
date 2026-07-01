@@ -8,7 +8,7 @@ import { useCombatTutorialSetup } from "@/hooks/tutorial/useCombatTutorialSetup"
 import { useCutscene } from "@/hooks/interaction/useCutscene";
 import { asset } from "@/utils/asset";
 import Talking from "@/components/Talking";
-import { combatTutorialDialogue } from "@/data/maps/combatTutorial/one";
+import { combatTutorialDialogue } from "@/data/dialogues/combatTutorial/one";
 import { GameMap } from "@/components/Game/Map/Game";
 import { PlayerBattle } from "@/components/Game/Player/Battle";
 import { NPCBattle } from "@/components/Game/Npc/Battle";

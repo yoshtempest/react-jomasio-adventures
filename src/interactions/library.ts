@@ -1,4 +1,4 @@
-import { libraryMessages } from "@/data/maps/library/messages";
+import { libraryMessages } from "@/data/dialogues/library/messages";
 import { createInteractionMap, createPickupHandler } from "./builder";
 import type { PickupDeps } from "@/utils/types/interaction";
 

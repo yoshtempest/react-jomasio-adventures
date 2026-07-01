@@ -1,7 +1,7 @@
-import { centerFrontDialogue } from "@/data/maps/hall/centerFront/one";
-import { centerFrontTwoDialogue } from "@/data/maps/hall/centerFront/two";
-import { centerFrontThreeDialogue } from "@/data/maps/hall/centerFront/three";
-import { centerFrontFourDialogue } from "@/data/maps/hall/centerFront/four";
+import { centerFrontDialogue } from "@/data/dialogues/hall/centerFront/one";
+import { centerFrontTwoDialogue } from "@/data/dialogues/hall/centerFront/two";
+import { centerFrontThreeDialogue } from "@/data/dialogues/hall/centerFront/three";
+import { centerFrontFourDialogue } from "@/data/dialogues/hall/centerFront/four";
 
 import { hasQuest, playerCharacter } from "@/scenes/shared/helpers";
 

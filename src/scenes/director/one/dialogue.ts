@@ -1,4 +1,4 @@
-import { directorDialogue } from "@/data/maps/director/one";
+import { directorDialogue } from "@/data/dialogues/director/one";
 
 export const getDirectorDialogue = () => {
   return directorDialogue;

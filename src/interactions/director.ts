@@ -1,4 +1,4 @@
-import { directorMessages } from "@/data/maps/director/messages";
+import { directorMessages } from "@/data/dialogues/director/messages";
 import { createInteractionMap, createPickupHandler } from "./builder";
 import type {
   PickupDeps,

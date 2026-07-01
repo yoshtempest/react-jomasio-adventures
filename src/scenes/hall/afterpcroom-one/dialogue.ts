@@ -1,12 +1,12 @@
-import { AfterPcRoomOneDialogue } from "@/data/maps/hall/one/one";
-import { AfterPcRoomTwoDialogue } from "@/data/maps/hall/one/two";
-import { AfterPcRoomThreeDialogue } from "@/data/maps/hall/one/three";
-import { AfterPcRoomFourDialogue } from "@/data/maps/hall/one/four";
-import { AfterPcRoomFiveDialogue } from "@/data/maps/hall/one/five";
-import { AfterPcRoomSixDialogue } from "@/data/maps/hall/one/six";
-import { AfterPcRoomSevenDialogue } from "@/data/maps/hall/one/seven";
-import { AfterPcRoomEightDialogue } from "@/data/maps/hall/one/eight";
-import { AfterPcRoomGenericDialogue } from "@/data/maps/hall/one/generic";
+import { AfterPcRoomOneDialogue } from "@/data/dialogues/hall/one/one";
+import { AfterPcRoomTwoDialogue } from "@/data/dialogues/hall/one/two";
+import { AfterPcRoomThreeDialogue } from "@/data/dialogues/hall/one/three";
+import { AfterPcRoomFourDialogue } from "@/data/dialogues/hall/one/four";
+import { AfterPcRoomFiveDialogue } from "@/data/dialogues/hall/one/five";
+import { AfterPcRoomSixDialogue } from "@/data/dialogues/hall/one/six";
+import { AfterPcRoomSevenDialogue } from "@/data/dialogues/hall/one/seven";
+import { AfterPcRoomEightDialogue } from "@/data/dialogues/hall/one/eight";
+import { AfterPcRoomGenericDialogue } from "@/data/dialogues/hall/one/generic";
 
 import { hasQuest, hasItem } from "@/scenes//shared/helpers";
 

@@ -3,29 +3,14 @@ import styles from "./styles.module.css";
 import { useBestiaryMenu } from "@/hooks/menu/useBestiary";
 import { useBestiary } from "@/contexts/BestiaryContext";
 import { BESTIARY_DATA } from "@/data/bestiary";
-import { NPCS } from "@/data/npc";
+import { NPCS } from "@/data/npc/npc";
 import { TITLES } from "@/data/titles";
 import { CRAFT_DROP_TABLES } from "@/data/items/crafting";
 import { DROP_CONFIG } from "@/data/equipment/drops";
 import { COIN_REWARDS, CHEST_DROP_CHANCE, KEY_DROP_CHANCE } from "@/hooks/battle/rewards/useRewards";
 import { ITEMS } from "@/data/items";
 import { asset } from "@/utils/asset";
-
-const CLASS_LABEL: Record<string, string> = {
-  common: "Comum",
-  rare: "Raro",
-  epic: "Épico",
-  boss: "Chefão",
-  legendary: "Lendário",
-};
-
-const CLASS_COLOR: Record<string, string> = {
-  common: "#9d9d9d",
-  rare: "#50c878",
-  epic: "#b44aff",
-  boss: "#e0115f",
-  legendary: "#ff4500",
-};
+import { CLASS_COLOR, CLASS_LABEL } from "@/data/npc/class";
 
 function getNpcClass(npcType: string): string | null {
   return NPCS[npcType]?.class ?? null;

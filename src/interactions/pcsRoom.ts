@@ -1,4 +1,4 @@
-import { pcsRoomMessages } from "@/data/maps/pcsRoom/messages";
+import { pcsRoomMessages } from "@/data/dialogues/pcsRoom/messages";
 import { createInteractionMap, createPickupHandler } from "./builder";
 import type { PickupDeps } from "@/utils/types/interaction";
 

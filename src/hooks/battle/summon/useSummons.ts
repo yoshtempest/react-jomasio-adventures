@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from "react";
 
-import { NPCS } from "@/data/npc";
+import { NPCS } from "@/data/npc/npc";
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
 
 import type { SummonedNpc } from "@/utils/types/npc/npc";

@@ -6,7 +6,7 @@ import { createCantina } from "@/interactions/cantina";
 
 import { useInventory } from "@/contexts/InventoryContext";
 
-import { cantinaBrothersDialogue } from "@/data/maps/cantina/brothers";
+import { cantinaBrothersDialogue } from "@/data/dialogues/cantina/brothers";
 
 import Talking from "@/components/Talking";
 

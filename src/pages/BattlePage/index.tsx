@@ -2,7 +2,7 @@ import { useLocation } from "react-router";
 import { useNavigate } from "react-router";
 import { BattleScene } from "@/components/Game/Scenes/Battle";
 import { useFlags } from "@/contexts/FlagContext";
-import { BATTLE_CONFIGS, ROUTE_TO_BATTLE_KEY } from "@/data/battleConfig";
+import { BATTLE_CONFIGS, ROUTE_TO_BATTLE_KEY } from "@/data/battle/config";
 
 export default function BattlePage() {
   const { pathname } = useLocation();

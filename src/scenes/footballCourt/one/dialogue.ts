@@ -1,5 +1,5 @@
-import { footballCourtDialogue } from "@/data/maps/footballCourt/one";
-import { footballCourtTwoDialogue } from "@/data/maps/footballCourt/two";
+import { footballCourtDialogue } from "@/data/dialogues/footballCourt/one";
+import { footballCourtTwoDialogue } from "@/data/dialogues/footballCourt/two";
 import { hasFlag } from "@/scenes/shared/helpers";
 
 export const getFootballCourtOneDialogue = ({

@@ -1,4 +1,4 @@
-import { pcsRoomSixDialogue } from "@/data/maps/pcsRoom/six";
+import { pcsRoomSixDialogue } from "@/data/dialogues/pcsRoom/six";
 
 export const getPcRoomFiveDialogue = () => {
   return pcsRoomSixDialogue;

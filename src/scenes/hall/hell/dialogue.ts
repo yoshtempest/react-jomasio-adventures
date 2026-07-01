@@ -1,5 +1,5 @@
-import { hallHellOneDialogue } from "@/data/maps/hall/hell/one";
-import { hallHellTwoDialogue } from "@/data/maps/hall/hell/two";
+import { hallHellOneDialogue } from "@/data/dialogues/hall/hell/one";
+import { hallHellTwoDialogue } from "@/data/dialogues/hall/hell/two";
 
 import { hasQuest } from "@/scenes/shared/helpers";
 

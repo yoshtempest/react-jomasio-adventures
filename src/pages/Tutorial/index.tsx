@@ -7,7 +7,7 @@ import { useGameAudio } from "@/hooks/game/useGameAudio";
 import { useNavigate } from "react-router";
 import { useCutscene } from "@/hooks/interaction/useCutscene";
 import { useSansTalking } from "@/hooks/interaction/useSansTalking";
-import { tutorialDialogue } from "@/data/maps/tutorial";
+import { tutorialDialogue } from "@/data/dialogues/tutorial";
 
 import { useTutorialFlow } from "@/hooks/tutorial/useTutorialFlow";
 import { useNameInput } from "@/hooks/tutorial/useNameInput";

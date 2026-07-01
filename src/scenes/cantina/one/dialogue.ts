@@ -1,6 +1,6 @@
-import { cantinaDialogue } from "@/data/maps/cantina/one";
-import { cantinaTwoDialogue } from "@/data/maps/cantina/two";
-import { cantinaThreeDialogue } from "@/data/maps/cantina/three";
+import { cantinaDialogue } from "@/data/dialogues/cantina/one";
+import { cantinaTwoDialogue } from "@/data/dialogues/cantina/two";
+import { cantinaThreeDialogue } from "@/data/dialogues/cantina/three";
 import { hasFlag, hasQuest } from "@/scenes/shared/helpers";
 
 export const getCantinaOneDialogue = ({

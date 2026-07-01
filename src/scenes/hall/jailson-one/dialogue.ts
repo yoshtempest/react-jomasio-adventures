@@ -1,10 +1,10 @@
-import { hallJailsonOneDialogue } from "@/data/maps/hall/jailson/one";
-import { hallJailsonFourDialogue } from "@/data/maps/hall/jailson/four";
-import { hallJailsonFiveDialogue } from "@/data/maps/hall/jailson/five";
-import { hallJailsonSixDialogue } from "@/data/maps/hall/jailson/six";
-import { hallJailsonSevenDialogue } from "@/data/maps/hall/jailson/seven";
-import { hallJailsonEightDialogue } from "@/data/maps/hall/jailson/eight";
-import { hallJailsonNineDialogue } from "@/data/maps/hall/jailson/nine";
+import { hallJailsonOneDialogue } from "@/data/dialogues/hall/jailson/one";
+import { hallJailsonFourDialogue } from "@/data/dialogues/hall/jailson/four";
+import { hallJailsonFiveDialogue } from "@/data/dialogues/hall/jailson/five";
+import { hallJailsonSixDialogue } from "@/data/dialogues/hall/jailson/six";
+import { hallJailsonSevenDialogue } from "@/data/dialogues/hall/jailson/seven";
+import { hallJailsonEightDialogue } from "@/data/dialogues/hall/jailson/eight";
+import { hallJailsonNineDialogue } from "@/data/dialogues/hall/jailson/nine";
 
 import { hasQuest, hasItem } from "@/scenes/shared/helpers";
 

@@ -1,5 +1,5 @@
 import { ExploreScene } from "@/components/Game/Scenes/Default";
-import { cafeteriaDialogue } from "@/data/maps/cafeteria/one";
+import { cafeteriaDialogue } from "@/data/dialogues/cafeteria/one";
 import toothlessDancing from "/assets/songs/ToothlessDancing.m4a";
 import { brodiClass } from "@/maps/brodiClass";
 
