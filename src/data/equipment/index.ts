@@ -1,4 +1,4 @@
-import type { Equipment, EquipmentRank, EquipmentSlot } from "@/utils/types/player/equipment";
+import type { Equipment, EquipmentRank } from "@/utils/types/player/equipment";
 
 import { ACCESSORIES } from "./accessories";
 import { BAGS } from "./bags";

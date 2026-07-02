@@ -2,9 +2,7 @@ import { rollSlotDrop } from "@/data/equipment/drops";
 import { getEquipmentBySlotAndRank, getEquipmentById } from "@/data/equipment";
 import { rollCraftDrops } from "@/data/items/crafting";
 import { ITEMS } from "@/data/items";
-import type { EquipmentSlot } from "@/utils/types/player/equipment";
 import type { InventoryItem } from "@/utils/types/player/inventory";
-import type { EquipmentDropInfo, ItemDropInfo } from "./useRewards";
 
 export function rollEnhance(): number {
   return Math.floor(Math.random() * 6);

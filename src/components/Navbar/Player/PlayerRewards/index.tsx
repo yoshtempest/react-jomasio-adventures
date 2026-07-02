@@ -1,11 +1,10 @@
 import { useRef, useEffect } from "react";
 import styles from "../styles.module.css";
-import type { RewardInfo } from "@/hooks/useRewards";
 import { CHARACTERS } from "@/utils/types/player/player";
 import { CHARACTERS as CHARACTER_OPTIONS } from "@/data/options/characters";
 
 type PlayerRewardsProps = {
-  rewards: RewardInfo[];
+  rewards: RewardProgress[];
   selectedRewardIndex: number;
   onClaim: (rewardId: string) => void;
 };

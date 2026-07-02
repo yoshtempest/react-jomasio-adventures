@@ -1,4 +1,4 @@
-import type { Equipment, EquipmentSlot } from "@/utils/types/player/equipment";
+import type { Equipment } from "@/utils/types/player/equipment";
 
 export type EquipmentMenuItem =
   | {

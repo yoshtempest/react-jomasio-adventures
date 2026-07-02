@@ -8,7 +8,6 @@ import { EquipmentDrops } from "@/components/Game/Battle/Drops/Equipment";
 import { ItemDrops } from "@/components/Game/Battle/Drops/Item";
 import { ChestDrops } from "@/components/Game/Battle/Drops/Chest";
 import { TitleProgresses } from "@/components/Game/Battle/TitleProgresses";
-import type { RewardInfo } from "@/hooks/battle/rewards/useRewards";
 import { getRank, formatRank } from "@/gameRules/rank";
 
 function formatTime(ms: number): string {

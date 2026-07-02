@@ -1,7 +1,7 @@
 import { useChestOpening } from "@/hooks/useChestOpening";
 import { useDailyChest } from "@/hooks/useDailyChest";
 import { RANK_COLORS, RANK_LABELS, SLOT_LABELS } from "@/utils/types/player/equipment";
-import type { EquipmentRank, EquipmentSlot } from "@/utils/types/player/equipment";
+import type { EquipmentRank } from "@/utils/types/player/equipment";
 import styles from "./styles.module.css";
 
 export function ChestRewards() {

@@ -7,7 +7,6 @@ import {
   type ReactNode,
 } from "react";
 import type {
-  EquipmentSlot,
   Equipment,
   EquippedItemInfo,
 } from "@/utils/types/player/equipment";

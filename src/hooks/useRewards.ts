@@ -138,16 +138,6 @@ function getProgress(
   }
 }
 
-export type RewardInfo = {
-  id: string;
-  label: string;
-  current: number;
-  requirement: number;
-  reward: number;
-  canClaim: boolean;
-  charId?: string;
-};
-
 export function useRewards() {
   const { player } = usePlayer();
   const { progress: charsProgress, addHyperCoins } = useCharacterProgress();

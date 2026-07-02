@@ -1,7 +1,7 @@
 import { CRAFT_MATERIALS } from "@/data/items/crafting";
 import { ITEMS } from "@/data/items";
 import { getEquipmentBySlotAndRank } from "@/data/equipment";
-import type { EquipmentSlot, EquipmentRank } from "@/utils/types/player/equipment";
+import type { EquipmentRank } from "@/utils/types/player/equipment";
 
 type ChestDropTable = {
   materialWeights: Record<string, number>;

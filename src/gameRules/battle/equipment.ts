@@ -2,7 +2,6 @@ import type {
   EquippedItems,
   EquippedItemInfo,
   EquipmentStats,
-  EquipmentSlot,
 } from "@/utils/types/player/equipment";
 import { EQUIPMENT_SLOTS } from "@/utils/types/player/equipment";
 import { getEquipmentById } from "@/data/equipment";

@@ -1,13 +1,3 @@
-export type EquipmentSlot =
-  | "weapon"
-  | "helmet"
-  | "chestplate"
-  | "pants"
-  | "boots"
-  | "accessory"
-  | "bag"
-  | "pet";
-
 export type EquipmentRank = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0 | "EX";
 
 export const EQUIPMENT_SLOTS: EquipmentSlot[] = [

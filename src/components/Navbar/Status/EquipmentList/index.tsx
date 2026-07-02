@@ -5,7 +5,6 @@ import {
   SLOT_LABELS,
   RANK_COLORS,
 } from "@/utils/types/player/equipment";
-import type { EquipmentSlot } from "@/utils/types/player/equipment";
 import styles from "./styles.module.css";
 
 export function EquipmentList() {

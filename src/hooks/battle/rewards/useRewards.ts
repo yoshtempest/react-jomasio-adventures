@@ -13,31 +13,6 @@ import {
   rollKeyDrop,
   rollPetGoat,
 } from "./useDrops";
-import type { EquipmentSlot } from "@/utils/types/player/equipment";
-
-export type EquipmentDropInfo = {
-  id: string;
-  name: string;
-  slot: EquipmentSlot;
-  rank: EquipmentRank;
-  enhance: number;
-};
-
-export type ItemDropInfo = {
-  id: string;
-  name: string;
-  image?: string;
-  qty: number;
-};
-
-export type RewardInfo = {
-  coinReward: number;
-  xpReward: number;
-  equipmentDrops: EquipmentDropInfo[];
-  itemDrops: ItemDropInfo[];
-  chestDrop: { id: string; name: string } | null;
-  keyDrop: { id: string; name: string } | null;
-};
 
 type Props = {
   npcClass: NPCClass;

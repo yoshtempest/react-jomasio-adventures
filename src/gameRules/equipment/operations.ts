@@ -1,6 +1,3 @@
-import type {
-  EquipmentSlot,
-} from "@/utils/types/player/equipment";
 import { MAX_ACCESSORIES } from "@/utils/types/player/equipment";
 import { getEquipmentById } from "@/data/equipment";
 import {

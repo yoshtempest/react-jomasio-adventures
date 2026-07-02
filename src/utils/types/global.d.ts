@@ -294,4 +294,48 @@ declare global {
     rewardItemId?: string;
     progressType?: string;
   };
+
+  type RewardProgress = {
+    id: string;
+    label: string;
+    current: number;
+    requirement: number;
+    reward: number;
+    canClaim: boolean;
+    charId?: string;
+  };
+
+  export type EquipmentSlot =
+    | "weapon"
+    | "helmet"
+    | "chestplate"
+    | "pants"
+    | "boots"
+    | "accessory"
+    | "bag"
+    | "pet";
+
+  type EquipmentDropInfo = {
+    id: string;
+    name: string;
+    slot: EquipmentSlot;
+    rank: EquipmentRank;
+    enhance: number;
+  };
+
+  type ItemDropInfo = {
+    id: string;
+    name: string;
+    image?: string;
+    qty: number;
+  };
+
+  type RewardInfo = {
+    coinReward: number;
+    xpReward: number;
+    equipmentDrops: EquipmentDropInfo[];
+    itemDrops: ItemDropInfo[];
+    chestDrop: { id: string; name: string } | null;
+    keyDrop: { id: string; name: string } | null;
+  };
 }
