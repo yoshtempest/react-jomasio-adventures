@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { calculateDamageToNpc } from "@/gameRules/battle/damage";
 import { battleBehaviors } from "@/gameRules/battle/behaviors/player";
+import { getPetBaseDamage } from "@/data/characters/petProgress";
 
 import { useBattleStats } from "@/hooks/battle/useStats";
 import { useBattleHP } from "@/hooks/battle/useHP";
@@ -42,6 +43,7 @@ type Props = {
   onDamageDealtRef?: React.RefObject<(amount: number) => void>;
   onAttackRef?: React.RefObject<() => void>;
   onSpecialRef?: React.RefObject<() => void>;
+  petLevel: number;
 };
 
 export function useBattleSystem(props: Props) {
@@ -73,6 +75,7 @@ export function useBattleSystem(props: Props) {
     onDamageDealtRef,
     onAttackRef,
     onSpecialRef,
+    petLevel,
   } = props;
 
   const [npcPhase, setNpcPhase] = useState(1);
@@ -163,7 +166,8 @@ export function useBattleSystem(props: Props) {
   const petDamageRef = useRef(() => {});
   petDamageRef.current = () => {
     if (isEnding.current) return;
-    const dmg = calculateDamageToNpc(8, npcArmor);
+    const baseDamage = getPetBaseDamage(petLevel);
+    const dmg = calculateDamageToNpc(baseDamage, npcArmor);
     setNpcHP((hp) => Math.max(0, hp - dmg));
     spawnDamageRef.current?.(dmg, npcX, npcY, "pet");
     hitstopRef.current = Date.now() + 40;
@@ -178,6 +182,7 @@ export function useBattleSystem(props: Props) {
     isPaused: isEnding.current,
     onPetDamage: () => petDamageRef.current(),
     hitstopRef,
+    petLevel,
   });
 
   const npcBattle = useNpcBattle({

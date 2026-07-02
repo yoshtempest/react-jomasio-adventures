@@ -4,6 +4,8 @@ import { useGameAudio } from "@/hooks/game/useGameAudio";
 import { useNpcAI } from "@/hooks/battle/npc/useAi";
 import { useBattleSystem } from "@/hooks/battle/useSystem";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
+import { usePetProgress } from "@/contexts/PetProgressContext";
+import { useEquipment } from "@/contexts/EquipmentContext";
 import { useNavigate, useLocation } from "react-router";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
@@ -73,6 +75,10 @@ export function useBattleScene({
   } = usePlayer();
 
   const { progress, reduceHunger, getXPToNextLevel } = useCharacterProgress();
+  const { getPetProgress } = usePetProgress();
+  const { getEquippedInfo } = useEquipment();
+  const petInfo = getEquippedInfo(player.character, "pet");
+  const petLevel = petInfo ? getPetProgress(petInfo.id).level : 1;
   const { items: inventoryItems, closeInventory } = useInventory();
   const { quests, progressDailyWeekly } = useQuests();
   const { closeNavbar } = useNavbar();
@@ -320,6 +326,7 @@ export function useBattleScene({
     onDamageDealtRef,
     onAttackRef,
     onSpecialRef,
+    petLevel,
   });
 
   const {

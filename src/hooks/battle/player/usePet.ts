@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { getPetMaxHp } from "@/data/characters/petProgress";
 
 type Props = {
   enabled: boolean;
@@ -9,6 +10,7 @@ type Props = {
   isPaused: boolean;
   onPetDamage: () => void;
   hitstopRef: React.RefObject<number>;
+  petLevel: number;
 };
 
 export type PetState = {
@@ -21,8 +23,6 @@ export type PetState = {
   maxHp: number;
 } | null;
 
-export const PET_MAX_HP = 30;
-
 export function usePetBattle({
   enabled,
   playerX,
@@ -32,6 +32,7 @@ export function usePetBattle({
   isPaused,
   onPetDamage,
   hitstopRef,
+  petLevel,
 }: Props) {
   const [pet, setPet] = useState<PetState>(null);
 
@@ -58,17 +59,18 @@ export function usePetBattle({
 
     setPet((prev) => {
       if (prev && prev.hp > 0) return prev;
+      const maxHp = getPetMaxHp(petLevel);
       return {
         x: playerX - 60,
         y: playerY,
         direction: "right",
         state: "idle",
         npcType: "goat",
-        hp: PET_MAX_HP,
-        maxHp: PET_MAX_HP,
+        hp: maxHp,
+        maxHp,
       };
     });
-  }, [enabled, playerX, playerY]);
+  }, [enabled, playerX, playerY, petLevel]);
 
   function damagePet(dmg: number) {
     setPet((prev) => {
@@ -122,14 +124,15 @@ export function usePetBattle({
 
   function resetPet() {
     if (!enabled) return;
+    const maxHp = getPetMaxHp(petLevel);
     setPet({
       x: playerX - 60,
       y: playerY,
       direction: "right",
       state: "idle",
       npcType: "goat",
-      hp: PET_MAX_HP,
-      maxHp: PET_MAX_HP,
+      hp: maxHp,
+      maxHp,
     });
   }
 

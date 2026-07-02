@@ -26,4 +26,5 @@ export const BLOCKS_KEY = "blocks";
 export const BATTLE_STATS_KEY = "battle_stats";
 export const DAILY_REWARD_KEY = "daily_reward_last_claim";
 export const MONTHLY_PASS_KEY = "monthly_pass";
+export const PET_PROGRESS_KEY = "pet_progress";
 
