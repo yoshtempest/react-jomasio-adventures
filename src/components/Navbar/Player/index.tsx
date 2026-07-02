@@ -14,6 +14,8 @@ import { BESTIARY_NPC_ORDER } from "@/data/bestiary";
 import { useRewards } from "@/hooks/useRewards";
 import { useDailyReward } from "@/hooks/useDailyReward";
 import { useMonthlyPass } from "@/hooks/useMonthlyPass";
+import { useQuests } from "@/contexts/QuestContext";
+import { SIDE_QUESTS } from "@/data/quests/sidequests";
 import { getDeaths } from "@/utils/rewards/deathCounter";
 import { getStreakStats } from "@/utils/rewards/streakStats";
 import { getBlockCount } from "@/utils/rewards/blockCounter";
@@ -52,6 +54,7 @@ export function Player() {
     pct: passPct,
     claim: claimPass,
   } = useMonthlyPass();
+  const { quests } = useQuests();
 
   const playerName = localStorage.getItem("playerName") || "Protagonista";
 
@@ -63,6 +66,15 @@ export function Player() {
 
   const totalStoryFlags = FLAG_IDS.length;
   const completedFlags = FLAG_IDS.filter((id) => flags.includes(id)).length;
+
+  const maxLevelReached = Math.min(Math.max(...CHARACTERS.map((char) => progress[char]?.level ?? 0)), 100);
+
+  const sideQuestIds = Object.keys(SIDE_QUESTS);
+  const completedSideQuests = sideQuestIds.filter((id) => {
+    const q = quests.find((q) => q.id === id);
+    return q?.completed ?? false;
+  }).length;
+  const totalSideQuests = sideQuestIds.length;
 
   const totalPlayTime = getTotalPlayTime();
   const deaths = getDeaths();
@@ -122,6 +134,9 @@ export function Player() {
     totalNpcs,
     completedFlags,
     totalStoryFlags,
+    maxLevelReached,
+    completedSideQuests,
+    totalSideQuests,
   });
 
   return (

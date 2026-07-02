@@ -41,6 +41,9 @@ type ProgressStatsProps = {
     totalNpcs: number;
     completedFlags: number;
     totalStoryFlags: number;
+    maxLevelReached: number;
+    completedSideQuests: number;
+    totalSideQuests: number;
 };
 
 export function getSummaryStats(data: SummaryStatsProps) {
@@ -85,5 +88,7 @@ export function getProgressStat(data: ProgressStatsProps) {
         progressStat("Títulos", data.acquiredTitles, data.totalTitles),
         progressStat("NPCs encontrados", data.encounteredNpcs, data.totalNpcs),
         progressStat("História", data.completedFlags, data.totalStoryFlags),
+        progressStat("Nível 100", data.maxLevelReached, 100),
+        progressStat("Sidequests", data.completedSideQuests, data.totalSideQuests),
     ]
 }
