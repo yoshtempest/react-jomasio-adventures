@@ -9,6 +9,8 @@ const TOTAL_ITEMS = CHARACTERS.length + 1; // Resumo + 12 characters
 export function usePlayerMenu(
   isOpen: boolean,
   scrollRef?: React.RefObject<HTMLDivElement | null>,
+  claimRewardRef?: React.RefObject<(index: number) => boolean>,
+  rewardsCountRef?: React.RefObject<number>,
 ) {
   const { pushControls, popControls } = useGameControls();
   const { playMove, playSelect } = useMenuSFX();
@@ -16,9 +18,17 @@ export function usePlayerMenu(
   const [selectedIndex, setSelectedIndex] = useState(0);
   const selectedIndexRef = useRef(selectedIndex);
 
+  const [subView, setSubView] = useState<"main" | "rewards">("main");
+  const [selectedRewardIndex, setSelectedRewardIndex] = useState(0);
+  const selectedRewardIndexRef = useRef(selectedRewardIndex);
+
   useEffect(() => {
     selectedIndexRef.current = selectedIndex;
   }, [selectedIndex]);
+
+  useEffect(() => {
+    selectedRewardIndexRef.current = selectedRewardIndex;
+  }, [selectedRewardIndex]);
 
   const playMoveRef = useRef(playMove);
   playMoveRef.current = playMove;
@@ -35,6 +45,47 @@ export function usePlayerMenu(
 
   useEffect(() => {
     if (!isOpen) return;
+
+    if (subView === "rewards") {
+      const controls = {
+        onUp: () => {
+          playMoveRef.current();
+          const count = rewardsCountRef?.current ?? 0;
+          if (count <= 0) return true;
+          setSelectedRewardIndex((prev) =>
+            prev > 0 ? prev - 1 : count - 1,
+          );
+          return true;
+        },
+
+        onDown: () => {
+          playMoveRef.current();
+          const count = rewardsCountRef?.current ?? 0;
+          if (count <= 0) return true;
+          setSelectedRewardIndex((prev) =>
+            prev < count - 1 ? prev + 1 : 0,
+          );
+          return true;
+        },
+
+        onConfirm: () => {
+          const claimed = claimRewardRef?.current(selectedRewardIndexRef.current);
+          if (claimed) playSelectRef.current();
+          return true;
+        },
+
+        onCancel: () => {
+          playSelectRef.current();
+          setSubView("main");
+          return true;
+        },
+
+        blockGlobalOpen: true,
+      };
+
+      pushControlsRef.current(controls);
+      return () => popControlsRef.current();
+    }
 
     const controls = {
       onUp: () => {
@@ -65,6 +116,8 @@ export function usePlayerMenu(
 
       onConfirm: () => {
         playSelectRef.current();
+        setSelectedRewardIndex(0);
+        setSubView("rewards");
         return true;
       },
 
@@ -73,7 +126,7 @@ export function usePlayerMenu(
 
     pushControlsRef.current(controls);
     return () => popControlsRef.current();
-  }, [isOpen]);
+  }, [isOpen, subView, claimRewardRef, rewardsCountRef]);
 
   const isSummaryView = selectedIndex === 0;
 
@@ -82,5 +135,9 @@ export function usePlayerMenu(
     isSummaryView,
     selectedChar: isSummaryView ? CHARACTERS[0] : CHARACTERS[selectedIndex - 1],
     charIds: CHARACTERS,
+    subView,
+    setSubView,
+    selectedRewardIndex,
+    setSelectedRewardIndex,
   };
 }

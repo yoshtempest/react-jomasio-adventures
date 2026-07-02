@@ -27,16 +27,24 @@ import {
   getAttacksUsedStats,
 } from "@/utils/rewards/battleStats";
 import { StatRow } from "./StatRow";
+import { PlayerRewards } from "./PlayerRewards";
 import { getCharacterStats, getProgressStat, getSummaryStats } from "@/data/player/stats";
 
 export function Player() {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const claimRewardRef = useRef<(index: number) => boolean>(() => false);
+  const rewardsCountRef = useRef(0);
   const { progress } = useCharacterProgress();
   const { playTime, battleTime, getTotalPlayTime, getTotalBattleTime, loginDays } = usePlayTime();
   const { bestiary } = useBestiary();
   const { titlesData } = useTitles();
   const { flags } = useFlags();
-  const { selectedChar, isSummaryView } = usePlayerMenu(true, scrollRef);
+  const {
+    selectedChar,
+    isSummaryView,
+    subView,
+    selectedRewardIndex,
+  } = usePlayerMenu(true, scrollRef, claimRewardRef, rewardsCountRef);
   const { rewards, claim } = useRewards();
   const {
     canClaim: dailyCanClaim,
@@ -127,6 +135,16 @@ export function Player() {
     attacksUsed: attacksUsedStats.perCharacter[selectedChar] ?? 0,
   });
 
+  claimRewardRef.current = (index: number): boolean => {
+    const r = rewards[index];
+    if (r?.canClaim) {
+      claim(r.id);
+      return true;
+    }
+    return false;
+  };
+  rewardsCountRef.current = rewards.length;
+
   const progressStats = getProgressStat({
     acquiredTitles,
     totalTitles,
@@ -143,6 +161,13 @@ export function Player() {
     <div className="containerOfNavbar">
       <h2>{playerName}</h2>
 
+      {subView === "rewards" ? (
+        <PlayerRewards
+          rewards={rewards}
+          selectedRewardIndex={selectedRewardIndex}
+          onClaim={claim}
+        />
+      ) : (
       <div ref={scrollRef} className={styles.container}>
         <div className={styles.charSelectRow}>
           <span
@@ -201,62 +226,9 @@ export function Player() {
           ))}
         </div>
 
-        <div className={styles.section}>
-          <div className={styles.sectionTitle}>Recompensas</div>
-
-          {rewards
-            .filter((r) => !r.charId)
-            .map((r) => (
-              <div key={r.id} className={styles.rewardRow}>
-                <div className={styles.rewardInfo}>
-                  <span className={styles.rewardLabel}>{r.label}</span>
-                  <span className={styles.rewardProgress}>
-                    {r.current}/{r.requirement}
-                  </span>
-                </div>
-                <div className={styles.rewardAction}>
-                  <span className={styles.rewardValue}>+{r.reward} HyperCoins</span>
-                  <button
-                    className={r.canClaim ? styles.claimBtn : styles.claimBtnDone}
-                    disabled={!r.canClaim}
-                    onClick={() => claim(r.id)}
-                  >
-                    {r.canClaim ? "Receber" : "OK"}
-                  </button>
-                </div>
-              </div>
-            ))}
-        </div>
-
-        {CHARACTERS.map((char) => {
-          const charRewards = rewards.filter((r) => r.charId === char);
-          if (charRewards.length === 0) return null;
-          return (
-            <div key={char} className={styles.charRewardSection}>
-              <div className={styles.charRewardHeader}>{charLabel(char)}</div>
-              {charRewards.map((r) => (
-                <div key={r.id} className={styles.rewardRow}>
-                  <div className={styles.rewardInfo}>
-                    <span className={styles.rewardLabel}>{r.label}</span>
-                    <span className={styles.rewardProgress}>
-                      {r.current}/{r.requirement}
-                    </span>
-                  </div>
-                  <div className={styles.rewardAction}>
-                    <span className={styles.rewardValue}>+{r.reward} HyperCoins</span>
-                    <button
-                      className={r.canClaim ? styles.claimBtn : styles.claimBtnDone}
-                      disabled={!r.canClaim}
-                      onClick={() => claim(r.id)}
-                    >
-                      {r.canClaim ? "Receber" : "OK"}
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          );
-        })}
+        <button className={styles.rewardsButton}>
+          Recompensas
+        </button>
 
         <div className={styles.section}>
           <div className={styles.sectionTitle}>Recompensa Diária</div>
@@ -313,6 +285,7 @@ export function Player() {
           ))}
         </div>
       </div>
+      )}
     </div>
   );
 }

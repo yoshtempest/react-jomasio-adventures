@@ -72,6 +72,31 @@
   margin-left: 6px;
 }
 
+.rewardsButton {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border: 1px solid var(--accent-color);
+  border-radius: 6px;
+  background: var(--surface-card);
+  color: var(--text-color);
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+}
+
+.rewardsButton:hover {
+  background: #2a1a0e;
+}
+
+.rewardRowSelected {
+  outline: 2px solid var(--accent-color);
+  outline-offset: -2px;
+  background: #2a1a0e;
+}
+
 .rewardRow {
   display: flex;
   align-items: center;
