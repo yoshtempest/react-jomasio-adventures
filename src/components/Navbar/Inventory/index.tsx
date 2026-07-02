@@ -8,7 +8,7 @@ import styles from "./styles.module.css";
 import { ITEMS } from "@/data/items";
 import { Chest } from "./Chest";
 import { ChestRewards } from "./ChestRewards";
-import { activateXpBuff } from "@/utils/buffs/xpBuff";
+import { activateXpBuff, POTION_CONFIG } from "@/utils/buffs/xpBuff";
 
 export function Inventory() {
   const { items, maxSlots, removeItem } = useInventory();
@@ -34,8 +34,9 @@ export function Inventory() {
   const hasKey = keyId ? items.some((i) => i.id === keyId) : false;
 
   function useConsumable(id: string) {
-    if (id === "xp_potion") {
-      activateXpBuff(10 * 60 * 1000);
+    const cfg = POTION_CONFIG[id];
+    if (cfg) {
+      activateXpBuff(cfg.durationMs, cfg.multiplier);
     }
     removeItem(id as ItemId);
   }

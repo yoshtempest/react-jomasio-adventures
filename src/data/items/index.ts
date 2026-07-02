@@ -201,11 +201,39 @@ export const ITEMS = {
   },
 
   // ── Poções ──────────────────────────────────────────────
-  xp_potion: {
-    id: "xp_potion",
-    image: "/assets/items/xp_potion.svg",
-    name: "Poção de XP",
-    description: "Multiplica o XP ganho em 1.5x por 10 minutos.",
+  xp_potion_common: {
+    id: "xp_potion_common",
+    image: "/assets/items/xp_potion_common.svg",
+    name: "Poção de XP Comum",
+    description: "Multiplica o XP ganho em 1.5x por 5 minutos.",
+    type: "consumable",
+  },
+  xp_potion_rare: {
+    id: "xp_potion_rare",
+    image: "/assets/items/xp_potion_rare.svg",
+    name: "Poção de XP Rara",
+    description: "Multiplica o XP ganho em 1.75x por 10 minutos.",
+    type: "consumable",
+  },
+  xp_potion_epic: {
+    id: "xp_potion_epic",
+    image: "/assets/items/xp_potion_epic.svg",
+    name: "Poção de XP Épica",
+    description: "Multiplica o XP ganho em 2x por 15 minutos.",
+    type: "consumable",
+  },
+  xp_potion_boss: {
+    id: "xp_potion_boss",
+    image: "/assets/items/xp_potion_boss.svg",
+    name: "Poção de XP de Chefão",
+    description: "Multiplica o XP ganho em 2.5x por 20 minutos.",
+    type: "consumable",
+  },
+  xp_potion_legendary: {
+    id: "xp_potion_legendary",
+    image: "/assets/items/xp_potion_legendary.svg",
+    name: "Poção de XP Lendária",
+    description: "Multiplica o XP ganho em 3x por 30 minutos.",
     type: "consumable",
   },
 
