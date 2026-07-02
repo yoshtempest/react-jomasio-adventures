@@ -10,6 +10,7 @@ import { cantinaBrothersDialogue } from "@/data/dialogues/cantina/brothers";
 import { sceneBackgrounds } from "@/data/sceneBackground";
 
 import Talking from "@/components/Talking";
+import { cantinaJesoDialogue } from "@/data/dialogues/cantina/jeso";
 
 type Props = {
   sceneId: SceneId;
@@ -48,7 +49,10 @@ export function CantinaScene({ sceneId }: Props) {
         itemPickupTiles={[{ x: 13, y: 4, visible: !gotKey }]}
         popup={popup}
         setPopup={setPopup}
-        tileDialogues={{ "15,3": cantinaBrothersDialogue }}
+        tileDialogues={{
+          "15,3": cantinaBrothersDialogue,
+          "9,4": cantinaJesoDialogue
+        }}
       />
 
       {/* ✅ popup continua fora do SceneBase */}
