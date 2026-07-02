@@ -24,7 +24,7 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
       <h2 className="StatusTitle">Pontos disponíveis: {stats.points}</h2>
         <div
           className={selectedIndex === 0 ? "active" : ""}
-          style={selectedIndex === 0 ? { flexWrap: "wrap", gap: "4px" } : undefined}
+          style={selectedIndex === 0 ? { flexWrap: "wrap" } : undefined}
         >
           <p>
             Vida: {stats.hp}
@@ -35,7 +35,7 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
 
         <div
           className={selectedIndex === 1 ? "active" : ""}
-          style={selectedIndex === 1 ? { flexWrap: "wrap", gap: "4px" } : undefined}
+          style={selectedIndex === 1 ? { flexWrap: "wrap"} : undefined}
         >
           <p>
             Força: {stats.strength}
@@ -46,7 +46,7 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
 
         <div
           className={selectedIndex === 2 ? "active" : ""}
-          style={selectedIndex === 2 ? { flexWrap: "wrap", gap: "4px" } : undefined}
+          style={selectedIndex === 2 ? { flexWrap: "wrap" } : undefined}
         >
           <p>
             Inteligência: {stats.intelligence}
@@ -61,7 +61,7 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
 
         <div
           className={selectedIndex === 3 ? "active" : ""}
-          style={selectedIndex === 3 ? { flexWrap: "wrap", gap: "4px" } : undefined}
+          style={selectedIndex === 3 ? { flexWrap: "wrap" } : undefined}
         >
           <p>
             Resistência: {stats.resistance ?? 1}
