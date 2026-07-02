@@ -1,6 +1,6 @@
 import { useMemo, useEffect, useRef } from "react";
 import { useGameAudio } from "@/hooks/game/useGameAudio";
-import LavenderTown from "/assets/songs/LavenderTown.m4a";
+import LavenderTown from "/assets/songs/background/LavenderTown.m4a";
 
 type Props = {
   audio?: AudioConfig;
