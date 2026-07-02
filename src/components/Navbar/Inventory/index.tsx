@@ -1,6 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useInventoryMenu } from "@/hooks/menu/useInventory";
+import type { FilterConfig } from "@/hooks/menu/useInventory";
 import { useChestOpening } from "@/hooks/useChestOpening";
 import { useDailyChest } from "@/hooks/useDailyChest";
 import { useGameControls } from "@/contexts/GameControlsContext";
@@ -9,17 +10,45 @@ import { ITEMS } from "@/data/items";
 import { Chest } from "./Chest";
 import { ChestRewards } from "./ChestRewards";
 import { activateXpBuff, POTION_CONFIG } from "@/utils/buffs/xpBuff";
+import { FILTER_LABELS } from "@/data/inventory/labels";
+
 
 export function Inventory() {
   const { items, maxSlots, removeItem } = useInventory();
   const listRef = useRef<HTMLUListElement>(null);
-  const { selectedIndex } = useInventoryMenu(true, listRef);
+  const [filterType, setFilterType] = useState<string>("all");
+
+  const filteredItems =
+    filterType === "all"
+      ? items
+      : items.filter((item) => {
+          const itemData = item
+            ? ITEMS[item.id as keyof typeof ITEMS]
+            : null;
+          return itemData?.type === filterType;
+        });
+
+  const filterConfig: FilterConfig | null = {
+    labels: FILTER_LABELS,
+    active: filterType,
+    onChange: (type) => setFilterType(type),
+    filteredItems,
+  };
+
+  const { selectedIndex, filterFocused } = useInventoryMenu(
+    true,
+    listRef,
+    filterConfig,
+  );
+
+  const filterFocusedRef = useRef(filterFocused);
+  filterFocusedRef.current = filterFocused;
 
   const { openPlayerChest, lastResult } = useChestOpening();
   const dailyChest = useDailyChest();
   const { pushControls, popControls } = useGameControls();
 
-  const selectedItem = items[selectedIndex];
+  const selectedItem = filteredItems[selectedIndex];
   const selectedItemData = selectedItem
     ? ITEMS[selectedItem.id as keyof typeof ITEMS]
     : null;
@@ -45,6 +74,8 @@ export function Inventory() {
   useEffect(() => {
     const controls = {
       onConfirm: () => {
+        if (filterFocusedRef.current) return false;
+
         if (selectedItem && isConsumableSelected) {
           consumeItemRef.current(selectedItem.id);
           return true;
@@ -58,7 +89,16 @@ export function Inventory() {
 
     pushControls(controls);
     return () => popControls();
-  }, [isChestSelected, isConsumableSelected, selectedItem, keyId, items, openPlayerChest, pushControls, popControls]);
+  }, [
+    isChestSelected,
+    isConsumableSelected,
+    selectedItem,
+    keyId,
+    items,
+    openPlayerChest,
+    pushControls,
+    popControls,
+  ]);
 
   if (dailyChest.lastResult) {
     return <ChestRewards />;
@@ -68,77 +108,96 @@ export function Inventory() {
     return <ChestRewards />;
   }
 
+  const listItems =
+    filterType === "all"
+      ? (Array.from({ length: maxSlots }, (_, i) => items[i]) as (typeof items)[number][])
+      : filteredItems;
+
   return (
     <div className="containerOfNavbar">
       <Chest />
 
-      <ul ref={listRef} className={styles.list}>
-        {Array.from({ length: maxSlots }).map((_, index) => {
-        const item = items[index];
-        const itemData = item
-          ? ITEMS[item.id as keyof typeof ITEMS]
-          : null;
-
-        return (
-          <li
-            key={index}
-            className={`${styles.item} ${
-              index === selectedIndex ? "active" : ""
-            }`}
+      <div className={styles.filterBar}>
+        {FILTER_LABELS.map((f) => (
+          <button
+            key={f.type}
+            className={`${styles.filterButton} ${
+              filterType === f.type ? styles.filterButtonActive : ""
+            } ${filterFocused && filterType === f.type ? styles.filterButtonFocused : ""}`}
+            onClick={() => setFilterType(f.type)}
           >
-            {item && itemData && (
-              <div className={styles.itemRow}>
-                <img
-                  className={styles.icon}
-                  src={
-                    itemData?.image
-                      ? `${import.meta.env.BASE_URL}${itemData?.image.replace(/^\//, "")}`
-                      : `${import.meta.env.BASE_URL}assets/items/${item.id}.svg`
-                  }
-                  alt={itemData?.name}
-                />
+            {f.label}
+          </button>
+        ))}
+      </div>
 
-                <div className={styles.info}>
-                  <span className={styles.name}>
-                    {itemData?.name}
-                    {item.qty && item.qty > 0 && (
-                      <span className="InventoryQty"> x{item.qty}</span>
-                    )}
-                  </span>
+      <ul ref={listRef} className={styles.list}>
+        {listItems.map((item, index) => {
+          const itemData = item
+            ? ITEMS[item.id as keyof typeof ITEMS]
+            : null;
 
-                  {itemData?.description && (
-                    <span className={styles.description}>
-                      {itemData?.description}
+          return (
+            <li
+              key={index}
+              className={`${styles.item} ${
+                index === selectedIndex ? "active" : ""
+              }`}
+            >
+              {item && itemData && (
+                <div className={styles.itemRow}>
+                  <img
+                    className={styles.icon}
+                    src={
+                      itemData?.image
+                        ? `${import.meta.env.BASE_URL}${itemData?.image.replace(/^\//, "")}`
+                        : `${import.meta.env.BASE_URL}assets/items/${item.id}.svg`
+                    }
+                    alt={itemData?.name}
+                  />
+
+                  <div className={styles.info}>
+                    <span className={styles.name}>
+                      {itemData?.name}
+                      {item.qty && item.qty > 0 && (
+                        <span className="InventoryQty"> x{item.qty}</span>
+                      )}
                     </span>
-                  )}
+
+                    {itemData?.description && (
+                      <span className={styles.description}>
+                        {itemData?.description}
+                      </span>
+                    )}
+                  </div>
+
+                  {index === selectedIndex &&
+                    itemData?.type === "chest" &&
+                    (hasKey ? (
+                      <button
+                        className="InventoryButton"
+                        onClick={() => openPlayerChest(item.id as ItemId)}
+                      >
+                        Abrir
+                      </button>
+                    ) : (
+                      <span className={styles.noKey}>Sem chave</span>
+                    ))}
+
+                  {index === selectedIndex &&
+                    itemData?.type === "consumable" && (
+                      <button
+                        className="InventoryButton"
+                        onClick={() => consumeItemRef.current(item.id)}
+                      >
+                        Usar
+                      </button>
+                    )}
                 </div>
-
-                {index === selectedIndex &&
-                  itemData?.type === "chest" &&
-                  (hasKey ? (
-                    <button
-                      className="InventoryButton"
-                      onClick={() => openPlayerChest(item.id as ItemId)}
-                    >
-                      Abrir
-                    </button>
-                  ) : (
-                    <span className={styles.noKey}>Sem chave</span>
-                  ))}
-
-                {index === selectedIndex && itemData?.type === "consumable" && (
-                  <button
-                    className="InventoryButton"
-                    onClick={() => consumeItem(item.id)}
-                  >
-                    Usar
-                  </button>
-                )}
-              </div>
-            )}
-          </li>
-        );
-      })}
+              )}
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

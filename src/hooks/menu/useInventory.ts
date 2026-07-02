@@ -6,14 +6,26 @@ import { useItemEffect } from "@/gameRules/items/useItem";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { useAudio } from "@/contexts/AudioContext";
 import { asset } from "@/utils/asset";
+import type { InventoryItem } from "@/utils/types/player/inventory";
+
+export type FilterConfig = {
+  labels: { type: string; label: string }[];
+  active: string;
+  onChange: (type: string) => void;
+  filteredItems: InventoryItem[];
+};
 
 export function useInventoryMenu(
   isOpen: boolean,
   listRef?: React.RefObject<HTMLUListElement | null>,
+  filterConfig: FilterConfig | null = null,
 ) {
   const { pushControls, popControls } = useGameControls();
-  const { items, maxSlots } = useInventory();
+  const { items: rawItems } = useInventory();
   const { sfxVolume } = useAudio();
+
+  const items = filterConfig ? filterConfig.filteredItems : rawItems;
+  const navLength = items.length;
 
   const sfxVolumeRef = useRef(sfxVolume);
   sfxVolumeRef.current = sfxVolume;
@@ -30,6 +42,9 @@ export function useInventoryMenu(
   const [selectedIndex, setSelectedIndex] = useState(0);
   const selectedIndexRef = useRef(selectedIndex);
 
+  const [filterFocused, setFilterFocused] = useState(false);
+  const filterFocusedRef = useRef(filterFocused);
+
   useEffect(() => {
     if (!listRef?.current) return;
 
@@ -44,17 +59,19 @@ export function useInventoryMenu(
     });
   }, [selectedIndex, listRef]);
 
-  // mantém ref sincronizada (evita stale no confirm)
   useEffect(() => {
     selectedIndexRef.current = selectedIndex;
   }, [selectedIndex]);
 
-  // garante que o índice nunca fique inválido
+  useEffect(() => {
+    filterFocusedRef.current = filterFocused;
+  }, [filterFocused]);
+
   useEffect(() => {
     setSelectedIndex((prev) =>
-      items.length === 0 ? 0 : Math.min(prev, items.length - 1),
+      navLength === 0 ? 0 : Math.min(prev, navLength - 1),
     );
-  }, [items]);
+  }, [navLength]);
 
   const handleUseItemRef = useRef<(index: number) => boolean>(() => false);
   handleUseItemRef.current = function handleUseItem(index: number) {
@@ -76,41 +93,78 @@ export function useInventoryMenu(
   pushControlsRef.current = pushControls;
   const popControlsRef = useRef(popControls);
   popControlsRef.current = popControls;
+  const filterConfigRef = useRef(filterConfig);
+  filterConfigRef.current = filterConfig;
 
   useEffect(() => {
     if (!isOpen) return;
 
-    const length =
-      maxSlots === Infinity
-        ? items.length
-        : maxSlots;
-
     const controls = {
       onUp: () => {
-        if (length === 0) return;
+        if (filterFocusedRef.current) return;
+
+        if (navLength === 0) return;
+
+        const row = Math.floor(selectedIndexRef.current / 4);
+        if (row === 0 && filterConfigRef.current) {
+          playMoveRef.current();
+          setFilterFocused(true);
+          return;
+        }
+
         playMoveRef.current();
-        setSelectedIndex((prev) => gridMove(prev, 4, "up", length));
+        setSelectedIndex((prev) => gridMove(prev, 4, "up", navLength));
       },
 
       onDown: () => {
-        if (length === 0) return;
+        if (filterFocusedRef.current) {
+          playMoveRef.current();
+          setFilterFocused(false);
+          setSelectedIndex(0);
+          return;
+        }
+
+        if (navLength === 0) return;
         playMoveRef.current();
-        setSelectedIndex((prev) => gridMove(prev, 4, "down", length));
+        setSelectedIndex((prev) => gridMove(prev, 4, "down", navLength));
       },
 
       onLeft: () => {
-        if (length === 0) return;
+        if (filterFocusedRef.current && filterConfigRef.current) {
+          playMoveRef.current();
+          const cfg = filterConfigRef.current;
+          const idx = cfg.labels.findIndex((l) => l.type === cfg.active);
+          const prevIdx = idx <= 0 ? cfg.labels.length - 1 : idx - 1;
+          cfg.onChange(cfg.labels[prevIdx].type);
+          return;
+        }
+
+        if (navLength === 0) return;
         playMoveRef.current();
-        setSelectedIndex((prev) => gridMove(prev, 4, "left", length));
+        setSelectedIndex((prev) => gridMove(prev, 4, "left", navLength));
       },
 
       onRight: () => {
-        if (length === 0) return;
+        if (filterFocusedRef.current && filterConfigRef.current) {
+          playMoveRef.current();
+          const cfg = filterConfigRef.current;
+          const idx = cfg.labels.findIndex((l) => l.type === cfg.active);
+          const nextIdx = idx >= cfg.labels.length - 1 ? 0 : idx + 1;
+          cfg.onChange(cfg.labels[nextIdx].type);
+          return;
+        }
+
+        if (navLength === 0) return;
         playMoveRef.current();
-        setSelectedIndex((prev) => gridMove(prev, 4, "right", length));
+        setSelectedIndex((prev) => gridMove(prev, 4, "right", navLength));
       },
 
       onConfirm: () => {
+        if (filterFocusedRef.current) {
+          playSelectRef.current();
+          return true;
+        }
+
         playSelectRef.current();
         return handleUseItemRef.current(selectedIndexRef.current);
       },
@@ -120,10 +174,11 @@ export function useInventoryMenu(
 
     pushControlsRef.current(controls);
     return () => popControlsRef.current();
-  }, [isOpen, items, maxSlots]); // 👈 ESSENCIAL
+  }, [isOpen, navLength]);
 
   return {
     selectedIndex,
-    options: items,
+    filterFocused,
+    setFilterFocused,
   };
 }

@@ -1,3 +1,40 @@
+.filterBar {
+  display: flex;
+  gap: 4px;
+  padding: 4px 8px;
+  overflow-x: auto;
+  flex-shrink: 0;
+  scrollbar-width: none;
+}
+
+.filterBar::-webkit-scrollbar {
+  display: none;
+}
+
+.filterButton {
+  padding: 4px 8px;
+  border: 1px solid var(--border-default);
+  border-radius: 4px;
+  background: var(--surface-card);
+  color: var(--text-color);
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.filterButtonActive {
+  background: var(--accent-color);
+  color: var(--primary-color);
+  border-color: var(--accent-color);
+  font-weight: bold;
+}
+
+.filterButtonFocused {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
 .list {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
