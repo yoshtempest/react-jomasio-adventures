@@ -40,3 +40,11 @@
   font-family: "Courier New", monospace;
   letter-spacing: 0.1em;
 }
+
+.updateStatus {
+  margin: 0.25rem 0 0;
+  font-size: 0.7rem;
+  color: #806030;
+  font-family: "Courier New", monospace;
+  letter-spacing: 0.05em;
+}

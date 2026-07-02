@@ -2,6 +2,7 @@ import { type ReactNode } from "react";
 import { TransitionProvider } from "@/contexts/TransitionContext";
 import { PWAProvider } from "@/contexts/PWAContext";
 import { SettingsProvider } from "@/contexts/SettingsContext";
+import { UpdateProvider } from "@/contexts/UpdateContext";
 import { AudioProvider } from "@/contexts/AudioContext";
 import { SoundEffectsProvider } from "@/contexts/SoundEffectsContext";
 import { NavbarProvider } from "@/contexts/NavbarContext";
@@ -23,6 +24,7 @@ export function AppProviders({ children }: { children: ReactNode }) {
     <AuthProvider>
       <TransitionProvider>
         <PWAProvider>
+          <UpdateProvider>
           <SettingsProvider>
             <AudioProvider>
               <SoundEffectsProvider>
@@ -54,6 +56,7 @@ export function AppProviders({ children }: { children: ReactNode }) {
               </SoundEffectsProvider>
             </AudioProvider>
           </SettingsProvider>
+          </UpdateProvider>
         </PWAProvider>
       </TransitionProvider>
     </AuthProvider>

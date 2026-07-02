@@ -1,5 +1,5 @@
 import styles from "./styles.module.css";
-import { Lock } from "lucide-react";
+import { Lock, RefreshCw } from "lucide-react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useConfigMenu } from "@/hooks/menu/config/useConfig";
 import { useAudio } from "@/contexts/AudioContext";
@@ -12,6 +12,7 @@ import { configsDialogue } from "@/data/dialogues/configs";
 import { DIFFICULTY_LABEL } from "@/data/npc/difficultyLabels";
 import { VictorTutorial } from "@/components/Navbar/Config/VictorTutorial";
 import InstallButton from "@/components/PWA";
+import { useUpdate } from "@/contexts/UpdateContext";
 
 export function Config() {
   const { difficulty } = usePlayer();
@@ -126,11 +127,34 @@ export function Config() {
           <h2>Ver Tutorial</h2>
         </div>
         <InstallButton />
+        <UpdateButton />
       </div>
 
       {screen === "tutorial" && (
         <VictorTutorial />
       )}
     </div>
+  );
+}
+
+function UpdateButton() {
+  const { status, checkForUpdate } = useUpdate();
+
+  const label = status === "checking"
+    ? "Verificando..."
+    : status === "error"
+      ? "Erro ao verificar"
+      : "Verificar atualização";
+
+  return (
+    <button
+      type="button"
+      className={styles.updateButton}
+      onClick={checkForUpdate}
+      disabled={status === "checking"}
+    >
+      <RefreshCw size={14} className={status === "checking" ? styles.spinning : undefined} />
+      {label}
+    </button>
   );
 }

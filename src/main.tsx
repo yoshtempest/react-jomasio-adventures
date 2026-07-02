@@ -7,10 +7,6 @@ import "./styles/index.css";
 import { AppProviders } from "@/contexts/AppProviders";
 import { AppRoutes } from "@/pages/AppRoutes";
 
-import { registerSW } from "virtual:pwa-register";
-
-registerSW({ immediate: true });
-
 type ContainerWithRoot = HTMLElement & {
   _reactRoot: ReturnType<typeof createRoot>;
 };

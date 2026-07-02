@@ -5,6 +5,7 @@ import { hasSave } from "@/utils/save/saveGame";
 import styles from "./styles.module.css";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { useGameAudio } from "@/hooks/game/useGameAudio";
+import { useUpdate } from "@/contexts/UpdateContext";
 import loading from "/assets/songs/transitions/loading.mp3";
 
 const MIN_LOADING_MS = 6000;
@@ -14,6 +15,8 @@ export default function Loading() {
   const { closeNavbar } = useNavbar();
   const closeNavbarRef = useRef(closeNavbar);
   closeNavbarRef.current = closeNavbar;
+
+  const { status, checkForUpdate } = useUpdate();
 
   const backgroundAudio = useMemo(
     () => ({ src: loading, loop: true, volume: 1 }),
@@ -37,6 +40,8 @@ export default function Loading() {
   useEffect(() => {
     const start = Date.now();
     closeNavbarRef.current();
+
+    checkForUpdate();
 
     const interval = setInterval(() => {
       const elapsed = Date.now() - start;
@@ -65,7 +70,9 @@ export default function Loading() {
       clearInterval(interval);
       clearTimeout(timer);
     };
-  }, [navigate]);
+  }, [navigate, checkForUpdate]);
+
+  const statusLabel = status === "checking" ? "Verificando atualização..." : null;
 
   return (
     <div
@@ -79,6 +86,7 @@ export default function Loading() {
         />
       </div>
       <p className={styles.label}>Carregando...</p>
+      {statusLabel && <p className={styles.updateStatus}>{statusLabel}</p>}
     </div>
   );
 }
