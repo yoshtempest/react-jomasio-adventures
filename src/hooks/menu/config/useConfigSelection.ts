@@ -178,7 +178,7 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
     pushControlsRef.current(controls);
 
     return () => popControlsRef.current();
-  }, [isActive, sfxVolume, bgmVolume]);
+  }, [isActive, sfxVolume, bgmVolume, setShowQuestIndicator]);
 
   return {
     difficulty: DIFFICULTY,

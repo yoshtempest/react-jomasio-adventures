@@ -120,7 +120,7 @@ export function useInventoryMenu(
 
     pushControlsRef.current(controls);
     return () => popControlsRef.current();
-  }, [isOpen, items]); // 👈 ESSENCIAL
+  }, [isOpen, items, maxSlots]); // 👈 ESSENCIAL
 
   return {
     selectedIndex,

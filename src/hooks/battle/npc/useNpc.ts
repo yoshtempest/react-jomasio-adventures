@@ -149,7 +149,7 @@ export function useNpcBattle({
     damagePet, damagePlayerWithReflect, setPlayer, spawnDamageRef,
     playerX, playerY, npcX, npcY, player.state, player.battleDirection,
     blockGauge, setBlockGauge, hitstopRef, npcStaggerRef, npcCooldown,
-    lastBlockPressRef, onFullBlock,
+    lastBlockPressRef, onFullBlock, onBlockRef,
   ]);
 
   const npcMeleeHit = useCallback(() => {
@@ -213,7 +213,7 @@ export function useNpcBattle({
     playerX, playerY, npcX, npcY, difficulty,
     hitstopRef, applyNpcDamage,
     npcTargetIsPetRef, petXRef, petYRef,
-    titleEnemyMissChance, onDamageTakenRef, onDodgeRef,
+    titleEnemyMissChance, onDamageTakenRef, onDodgeRef, spawnDamageRef,
     npcType, npcPhase,
   ]);
 
@@ -273,7 +273,7 @@ export function useNpcBattle({
     playerX, playerY, npcX, npcY, difficulty,
     spawnDamageRef, hitstopRef, npcStaggerRef,
     blockGauge, setBlockGauge, lastBlockPressRef, damagePlayerWithReflect, onFullBlock,
-    npcType, npcPhase,
+    npcType, npcPhase, onBlockRef,
   ]);
 
   return { npcMeleeHit, npcRangedHit };

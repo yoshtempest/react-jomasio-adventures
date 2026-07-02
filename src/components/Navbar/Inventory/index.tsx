@@ -33,19 +33,20 @@ export function Inventory() {
   const keyId = tier ? (`${tier}_key` as ItemId) : null;
   const hasKey = keyId ? items.some((i) => i.id === keyId) : false;
 
-  function useConsumable(id: string) {
+  const consumeItemRef = useRef<(id: string) => void>(() => {});
+  consumeItemRef.current = function consumeItem(id: string) {
     const cfg = POTION_CONFIG[id];
     if (cfg) {
       activateXpBuff(cfg.durationMs, cfg.multiplier);
     }
     removeItem(id as ItemId);
-  }
+  };
 
   useEffect(() => {
     const controls = {
       onConfirm: () => {
         if (selectedItem && isConsumableSelected) {
-          useConsumable(selectedItem.id);
+          consumeItemRef.current(selectedItem.id);
           return true;
         }
         if (!isChestSelected || !selectedItem || !keyId) return false;
@@ -128,7 +129,7 @@ export function Inventory() {
                 {index === selectedIndex && itemData?.type === "consumable" && (
                   <button
                     className="InventoryButton"
-                    onClick={() => useConsumable(item.id)}
+                    onClick={() => consumeItem(item.id)}
                   >
                     Usar
                   </button>

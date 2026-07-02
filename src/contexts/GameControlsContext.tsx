@@ -239,7 +239,7 @@ export function GameControlsProvider({ children }: Props) {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
-  }, [activeControls, player.mode, openNavbar]);
+  }, [activeControls, player.mode, openNavbar, closeAllMenus]);
 
   return (
     <GameControlsContext.Provider

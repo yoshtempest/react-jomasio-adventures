@@ -197,7 +197,7 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
         return (next ?? prev) as Record<CharacterId, CharacterEquipmentData>;
       });
     },
-    [],
+    [playSound],
   );
 
   const unequip = useCallback(
@@ -212,7 +212,7 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
         return (next ?? prev) as Record<CharacterId, CharacterEquipmentData>;
       });
     },
-    [],
+    [playSound],
   );
 
   const unequipAccessoryAtIndex = useCallback(
@@ -227,7 +227,7 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
         return (next ?? prev) as Record<CharacterId, CharacterEquipmentData>;
       });
     },
-    [],
+    [playSound],
   );
 
   const addDrop = useCallback(
@@ -266,7 +266,6 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
   );
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
 export function useEquipment() {
   const ctx = useContext(EquipmentContext);
   if (!ctx) throw new Error("useEquipment precisa do EquipmentProvider");

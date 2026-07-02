@@ -82,6 +82,7 @@ function normalizeRecord(
   return data;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function formatTime(totalSeconds: number): string {
   const h = Math.floor(totalSeconds / 3600);
   const m = Math.floor((totalSeconds % 3600) / 60);

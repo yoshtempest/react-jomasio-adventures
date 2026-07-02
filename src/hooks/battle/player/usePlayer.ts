@@ -190,6 +190,7 @@ export function usePlayerBattle({
     totalVampirism,
     onBeforeNpcHitRef,
     setPlayer,
+    onAttackRef,
   ]);
 
   const specialHit = useCallback(() => {
@@ -296,6 +297,7 @@ export function usePlayerBattle({
     playerHP,
     onBeforeNpcHitRef,
     setPlayer,
+    onSpecialRef,
   ]);
 
   return {

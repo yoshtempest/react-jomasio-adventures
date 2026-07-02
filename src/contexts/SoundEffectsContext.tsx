@@ -43,6 +43,11 @@ type SoundEffectsContextType = {
 
 const SoundEffectsContext = createContext<SoundEffectsContextType | null>(null);
 
+const SOUND_VOLUMES: Partial<Record<SoundId, number>> = {
+  boom: 3,
+  slimitaJump: 0.3,
+};
+
 export function SoundEffectsProvider({ children }: { children: ReactNode }) {
   const { sfxVolume } = useAudio();
   const sfxVolumeRef = useRef(sfxVolume);
@@ -93,11 +98,6 @@ export function SoundEffectsProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  const soundVolumes: Partial<Record<SoundId, number>> = {
-    boom: 3,
-    slimitaJump: 0.3,
-  };
-
   useEffect(() => {
     Object.values(soundsRef.current).forEach((audio) => {
       audio.volume = sfxVolume / 100;
@@ -113,7 +113,7 @@ export function SoundEffectsProvider({ children }: { children: ReactNode }) {
       audio.pause();
       audio.currentTime = 0;
       audio.loop = loop ?? false;
-      audio.volume = (sfxVolumeRef.current / 100) * (soundVolumes[sound] ?? 1);
+      audio.volume = (sfxVolumeRef.current / 100) * (SOUND_VOLUMES[sound] ?? 1);
 
       await audio.play();
     } catch {

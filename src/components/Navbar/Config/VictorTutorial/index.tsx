@@ -8,11 +8,12 @@ import { useDialogue } from "@/hooks/interaction/useDialogue";
 export function VictorTutorial() {
   const dialogueSystem = useDialogue(configsDialogue);
 
-    useEffect(() => {
-        dialogueSystem.start();
-    }, []);
     const dialogueSystemRef = useRef(dialogueSystem);
     dialogueSystemRef.current = dialogueSystem;
+
+    useEffect(() => {
+        dialogueSystemRef.current.start();
+    }, []);
 
     return (
         <div className={styles.tutorialContainer}>
