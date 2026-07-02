@@ -11,6 +11,8 @@ import { sceneBackgrounds } from "@/data/sceneBackground";
 
 import Talking from "@/components/Talking";
 import { cantinaJesoDialogue } from "@/data/dialogues/cantina/jeso";
+import { cantinaJesoTwoDialogue } from "@/data/dialogues/cantina/jesoTwo";
+import { useJesoFoodCooldown } from "@/hooks/useJesoFoodCooldown";
 
 type Props = {
   sceneId: SceneId;
@@ -19,6 +21,7 @@ type Props = {
 export function CantinaScene({ sceneId }: Props) {
   const scene = CANTINA_SCENES[sceneId];
   const { addItem } = useInventory();
+  const { isReady, giveFood } = useJesoFoodCooldown();
 
   const [popup, setPopup] = useState<string | null>(null);
   const [gotKey, setGotKey] = useState(false);
@@ -35,14 +38,39 @@ export function CantinaScene({ sceneId }: Props) {
     [addItem, gotKey],
   );
 
-  if (!scene) {
+  const sceneWithJeso = useMemo(() => {
+    if (!scene) return null;
+    return {
+      ...scene,
+      npcs: (scene.npcs ?? []).map((npc) =>
+        npc.gridX === 9 && npc.gridY === 4
+          ? {
+              ...npc,
+              interaction: (startDialogue: (d: Dialogue[]) => void) => {
+                if (isReady) {
+                  const foods = giveFood();
+                  for (const id of foods) {
+                    addItem({ id: id as ItemId });
+                  }
+                  startDialogue(cantinaJesoDialogue);
+                } else {
+                  startDialogue(cantinaJesoTwoDialogue);
+                }
+              },
+            }
+          : npc,
+      ),
+    };
+  }, [scene, isReady, giveFood, addItem]);
+
+  if (!scene || !sceneWithJeso) {
     return <div>Scene não encontrada</div>;
   }
 
   return (
     <>
       <SceneBase
-        scene={scene}
+        scene={sceneWithJeso}
         className="Master Cantina"
         background={sceneBackgrounds.Cantina}
         interactions={interactions}
@@ -51,7 +79,6 @@ export function CantinaScene({ sceneId }: Props) {
         setPopup={setPopup}
         tileDialogues={{
           "15,3": cantinaBrothersDialogue,
-          "9,4": cantinaJesoDialogue
         }}
       />
 

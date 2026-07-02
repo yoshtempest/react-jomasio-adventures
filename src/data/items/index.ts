@@ -5,6 +5,7 @@ import { COMMON } from "./common";
 import { MAPS } from "./maps";
 import { MOUNT } from "./mount";
 import { POTIONS } from "./potions";
+import { FOODS } from "./food";
 
 export const ITEMS = {
   ...CHESTS,
@@ -14,4 +15,5 @@ export const ITEMS = {
   ...MAPS,
   ...MOUNT,
   ...POTIONS,
+  ...FOODS,
 } as const;
