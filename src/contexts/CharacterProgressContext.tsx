@@ -69,10 +69,13 @@ export function CharacterProgressProvider({
 
   // ⭐ XP + LEVEL + POINTS
   function addXP(character: Character, amount: number) {
+    const isSunday = new Date().getDay() === 0;
+    const finalAmount = isSunday ? Math.floor(amount * 2) : amount;
+
     setProgress((prev) => {
       const char = prev[character];
 
-      let newXP = char.xp + amount;
+      let newXP = char.xp + finalAmount;
       let newLevel = char.level;
       let pointsGained = 0;
 
