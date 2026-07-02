@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { REWARDS, type RewardDef } from "@/data/rewards";
+import { REWARDS, isCharRewardId, type RewardDef } from "@/data/rewards";
 import { REWARDS_KEY } from "@/data/storageKeys";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
@@ -17,6 +17,7 @@ import {
   getSpecialsUsedStats,
   getAttacksUsedStats,
 } from "@/utils/rewards/battleStats";
+import type { Character } from "@/utils/types/player/player";
 
 type RewardsProgress = Record<string, number>;
 
@@ -71,6 +72,7 @@ function getProgress(
   unlockedCount: number,
   maxNpcKills: number,
   classKills: Record<string, number>,
+  charsProgress: Record<string, { level: number }>,
 ): { current: number; requirement: number } {
   switch (def.id) {
     case "kill_enemies":
@@ -113,14 +115,32 @@ function getProgress(
       return { current: getSpecialsUsedStats().total, requirement: def.getRequirement(stage) };
     case "attacks_used":
       return { current: getAttacksUsedStats().total, requirement: def.getRequirement(stage) };
-    default:
-      return { current: 0, requirement: 0 };
+    default: {
+      const parsed = isCharRewardId(def.id);
+      if (!parsed) return { current: 0, requirement: 0 };
+
+      const level = charsProgress[parsed.charId]?.level ?? 0;
+      switch (parsed.type) {
+        case "level":
+          return { current: level, requirement: def.getRequirement(stage) };
+        case "damage":
+          return { current: getDamageDealtStats().perCharacter[parsed.charId] ?? 0, requirement: def.getRequirement(stage) };
+        case "specials":
+          return { current: getSpecialsUsedStats().perCharacter[parsed.charId] ?? 0, requirement: def.getRequirement(stage) };
+        case "hits":
+          return { current: getHitsUsedStats().perCharacter[parsed.charId] ?? 0, requirement: def.getRequirement(stage) };
+        case "attacks":
+          return { current: getAttacksUsedStats().perCharacter[parsed.charId] ?? 0, requirement: def.getRequirement(stage) };
+        default:
+          return { current: 0, requirement: 0 };
+      }
+    }
   }
 }
 
 export function useRewards() {
   const { player } = usePlayer();
-  const { addHyperCoins } = useCharacterProgress();
+  const { progress: charsProgress, addHyperCoins } = useCharacterProgress();
   const { titlesData } = useTitles();
   const { getTotalPlayTime } = usePlayTime();
   const { flags } = useFlags();
@@ -148,12 +168,15 @@ export function useRewards() {
         unlockedCount,
         maxNpcKills,
         classKills,
+        charsProgress,
       );
 
       if (current < requirement) return;
 
       const reward = def.getReward(stage);
-      addHyperCoins(player.character, reward);
+      const parsed = isCharRewardId(rewardId);
+      const recipient = parsed ? (parsed.charId as Character) : player.character;
+      addHyperCoins(recipient, reward);
 
       setProgress((prev) => {
         const next = { ...prev, [rewardId]: stage + 1 };
@@ -161,7 +184,7 @@ export function useRewards() {
         return next;
       });
     },
-    [progress, totalKills, totalPlayTime, unlockedCount, maxNpcKills, classKills, player.character, addHyperCoins],
+    [progress, totalKills, totalPlayTime, unlockedCount, maxNpcKills, classKills, charsProgress, player.character, addHyperCoins],
   );
 
   const rewards = REWARDS.map((def) => {
@@ -174,9 +197,11 @@ export function useRewards() {
       unlockedCount,
       maxNpcKills,
       classKills,
+      charsProgress,
     );
     const reward = def.getReward(stage);
     const canClaim = current >= requirement;
+    const parsed = isCharRewardId(def.id);
 
     return {
       id: def.id,
@@ -185,6 +210,7 @@ export function useRewards() {
       requirement,
       reward,
       canClaim,
+      charId: parsed?.charId,
     };
   });
 

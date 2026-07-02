@@ -189,27 +189,59 @@ export function Player() {
         <div className={styles.section}>
           <div className={styles.sectionTitle}>Recompensas</div>
 
-          {rewards.map((r) => (
-            <div key={r.id} className={styles.rewardRow}>
-              <div className={styles.rewardInfo}>
-                <span className={styles.rewardLabel}>{r.label}</span>
-                <span className={styles.rewardProgress}>
-                  {r.current}/{r.requirement}
-                </span>
+          {rewards
+            .filter((r) => !r.charId)
+            .map((r) => (
+              <div key={r.id} className={styles.rewardRow}>
+                <div className={styles.rewardInfo}>
+                  <span className={styles.rewardLabel}>{r.label}</span>
+                  <span className={styles.rewardProgress}>
+                    {r.current}/{r.requirement}
+                  </span>
+                </div>
+                <div className={styles.rewardAction}>
+                  <span className={styles.rewardValue}>+{r.reward} HyperCoins</span>
+                  <button
+                    className={r.canClaim ? styles.claimBtn : styles.claimBtnDone}
+                    disabled={!r.canClaim}
+                    onClick={() => claim(r.id)}
+                  >
+                    {r.canClaim ? "Receber" : "OK"}
+                  </button>
+                </div>
               </div>
-              <div className={styles.rewardAction}>
-                <span className={styles.rewardValue}>+{r.reward} HyperCoins</span>
-                <button
-                  className={r.canClaim ? styles.claimBtn : styles.claimBtnDone}
-                  disabled={!r.canClaim}
-                  onClick={() => claim(r.id)}
-                >
-                  {r.canClaim ? "Receber" : "OK"}
-                </button>
-              </div>
-            </div>
-          ))}
+            ))}
         </div>
+
+        {CHARACTERS.map((char) => {
+          const charRewards = rewards.filter((r) => r.charId === char);
+          if (charRewards.length === 0) return null;
+          return (
+            <div key={char} className={styles.charRewardSection}>
+              <div className={styles.charRewardHeader}>{charLabel(char)}</div>
+              {charRewards.map((r) => (
+                <div key={r.id} className={styles.rewardRow}>
+                  <div className={styles.rewardInfo}>
+                    <span className={styles.rewardLabel}>{r.label}</span>
+                    <span className={styles.rewardProgress}>
+                      {r.current}/{r.requirement}
+                    </span>
+                  </div>
+                  <div className={styles.rewardAction}>
+                    <span className={styles.rewardValue}>+{r.reward} HyperCoins</span>
+                    <button
+                      className={r.canClaim ? styles.claimBtn : styles.claimBtnDone}
+                      disabled={!r.canClaim}
+                      onClick={() => claim(r.id)}
+                    >
+                      {r.canClaim ? "Receber" : "OK"}
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          );
+        })}
 
         <div className={styles.section}>
           <div className={styles.sectionTitle}>Recompensa Diária</div>
