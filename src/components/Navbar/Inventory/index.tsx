@@ -10,6 +10,8 @@ import { ITEMS } from "@/data/items";
 import { Chest } from "./Chest";
 import { ChestRewards } from "./ChestRewards";
 import { activateXpBuff, POTION_CONFIG } from "@/utils/buffs/xpBuff";
+import { useAudio } from "@/contexts/AudioContext";
+import { asset } from "@/utils/asset";
 import { FILTER_LABELS } from "@/data/inventory/labels";
 
 
@@ -47,6 +49,7 @@ export function Inventory() {
   const { openPlayerChest, lastResult } = useChestOpening();
   const dailyChest = useDailyChest();
   const { pushControls, popControls } = useGameControls();
+  const { sfxVolume } = useAudio();
 
   const selectedItem = filteredItems[selectedIndex];
   const selectedItemData = selectedItem
@@ -64,6 +67,9 @@ export function Inventory() {
 
   const consumeItemRef = useRef<(id: string) => void>(() => {});
   consumeItemRef.current = function consumeItem(id: string) {
+    const audio = new Audio(asset("/assets/songs/soundEffects/player/drinkingPotion.mp3"));
+    audio.volume = 0.6 * (sfxVolume / 100);
+    audio.play().catch(() => {});
     const cfg = POTION_CONFIG[id];
     if (cfg) {
       activateXpBuff(cfg.durationMs, cfg.multiplier);
