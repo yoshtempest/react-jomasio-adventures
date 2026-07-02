@@ -22,13 +22,14 @@ type Props = {
   redirectTo?: string;
   victoryDescription: string;
   className?: string;
+  background?: string;
   audioSrc: string;
   onVictory?: () => void;
   map?: BattleMapConfig;
 };
 
 export function BattleScene(props: Props) {
-  const { npcType, className, map } = props;
+  const { npcType, className, background, map } = props;
 
   const {
     player,
@@ -110,7 +111,14 @@ export function BattleScene(props: Props) {
   }, [showIntro, showVictory, showDefeat]);
 
   return (
-    <div className={`Master ${className ?? ""}`}>
+    <div
+      className={`Master ${className ?? ""}`}
+      style={
+        background
+          ? { backgroundImage: `url(${background})` }
+          : undefined
+      }
+    >
       <BattleHUD
         battle={{
           ...battle,

@@ -12,6 +12,8 @@ import { useQuestActions } from "@/hooks/quest/useQuestActions";
 import { useClassSelection } from "@/hooks/menu/useClassSelection";
 
 import Talking from "@/components/Talking";
+import { sceneBackgrounds } from "@/data/sceneBackground";
+
 import styles from "./styles.module.css";
 
 type Props = {
@@ -70,7 +72,8 @@ export function PcRoomScene({ sceneId }: Props) {
     <>
       <SceneBase
         scene={scene}
-        className="Master PcsRoom"
+        className="Master"
+        background={sceneBackgrounds.PcsRoom}
         interactions={interactions}
         itemPickupTiles={[{ x: 7, y: 3, visible: !gotKey }]}
         popup={popup}

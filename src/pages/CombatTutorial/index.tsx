@@ -17,6 +17,7 @@ import { Deliciometro } from "@/components/Game/Battle/HUD/Deliciometro";
 import { TASKS } from "@/gameRules/tutorial/combatTasks";
 import { gainSpecial } from "@/gameRules/battle/special";
 import KickBack from "/assets/songs/KickBack.mp3";
+import { sceneBackgrounds } from "@/data/sceneBackground";
 import styles from "./styles.module.css";
 
 const DUMMY_MAX_HP = 10000;
@@ -40,7 +41,7 @@ export default function CombatTutorial() {
 
   if (!showTutorial) {
     return (
-      <div className="Master CombatTutorial">
+      <div className="Master" style={{ backgroundImage: `url(${sceneBackgrounds.CombatTutorial})` }}>
         <Talking
           name={cutscene.dialogue.name}
           message={cutscene.dialogue.message}
@@ -51,7 +52,7 @@ export default function CombatTutorial() {
   }
 
   return (
-    <div className="Master CombatTutorial">
+    <div className="Master" style={{ backgroundImage: `url(${sceneBackgrounds.CombatTutorial})` }}>
       <CombatTutorialInner />
     </div>
   );

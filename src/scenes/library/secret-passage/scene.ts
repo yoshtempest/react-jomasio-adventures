@@ -2,10 +2,11 @@ import { librarySecretPassage } from "@/maps/hall/librarySecretPassage";
 import { getSecretPassageInitialPosition } from "./position";
 import { MUSICS } from "@/scenes/shared/music";
 import { secretPassageTiles } from "./tiles";
+import { sceneBackgrounds } from "@/data/sceneBackground";
 
 export const secretPassageScene: SceneConfig = {
   id: "one",
-  className: "LibrarySecretPassage",
+  background: sceneBackgrounds.LibrarySecretPassage,
   initialPosition: getSecretPassageInitialPosition,
   map: librarySecretPassage,
   audio: { src: MUSICS.default },

@@ -7,6 +7,7 @@ import { useGameAudio } from "@/hooks/game/useGameAudio";
 import { asset } from "@/utils/asset";
 import { loadGame } from "@/utils/save/saveGame";
 import { hasAnySave } from "@/utils/save/slotManager";
+import { sceneBackgrounds } from "@/data/sceneBackground";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -57,7 +58,7 @@ export default function Home() {
   }, [pushControls, popControls, handleConfirm]);
 
   return (
-    <div className={`Master Home`}>
+    <div className="Master" style={{ backgroundImage: `url(${sceneBackgrounds.Home})` }}>
       <img src={asset("/assets/logo.svg")} alt="logo" className={styles.logo} />
       <p className={styles.continue}>Faça o L para continuar</p>
     </div>

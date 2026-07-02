@@ -5,10 +5,11 @@ import { afterPcRoomOneEvents } from "./events";
 import { afterPcRoomOneNpcs } from "./npcs";
 import { getAfterPcRoomOneInitialPosition } from "./position";
 import { MUSICS } from "@/scenes/shared/music";
+import { sceneBackgrounds } from "@/data/sceneBackground";
 
 export const afterPcRoomScene: SceneConfig = {
   id: "afterpcroom-one",
-  className: "HallOne",
+  background: sceneBackgrounds.HallOne,
   dialogueData: getAfterPcRoomOneDialogue,
   map: afterPcRoom,
   audio: { src: MUSICS.default },

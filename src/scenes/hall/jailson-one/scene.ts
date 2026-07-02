@@ -5,10 +5,11 @@ import { jailsonOneTiles } from "./tiles";
 import { getJailsonOneInitialPosition } from "./position";
 import { jailsonOneEvents } from "./events";
 import { jailsonOneNpcs } from "./npcs";
+import { sceneBackgrounds } from "@/data/sceneBackground";
 
 export const jailsonOneScene: SceneConfig = {
   id: "jailson-one",
-  className: "HallJailson",
+  background: sceneBackgrounds.HallJailson,
   map: hallJailsonOne,
   tiles: jailsonOneTiles,
   events: jailsonOneEvents,

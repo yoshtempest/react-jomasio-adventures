@@ -60,7 +60,8 @@ export function CafeteriaScene({ sceneId }: Props) {
     <>
       <SceneBase
         scene={scene}
-        className="Master Cafeteria"
+        className="Master"
+        background={scene.background}
         interactions={interactions}
         itemPickupTiles={[{ x: 11, y: 10, visible: !gotKey }]}
         popup={popup}

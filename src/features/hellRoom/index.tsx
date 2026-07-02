@@ -6,6 +6,7 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
 import { useFlags } from "@/contexts/FlagContext";
 import { ITEMS } from "@/data/items";
+import { sceneBackgrounds } from "@/data/sceneBackground";
 
 type Props = {
   sceneId: SceneId;
@@ -38,7 +39,8 @@ export function HellScene({ sceneId }: Props) {
     <>
       <SceneBase
         scene={scene}
-        className="Master HellRoom"
+        className="Master"
+        background={sceneBackgrounds.HellRoom}
         onFinishExtra={() => {
           if (
             sceneId === "one" &&

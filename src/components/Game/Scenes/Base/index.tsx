@@ -20,6 +20,7 @@ import { useQuestWaypoints } from "@/hooks/quest/useQuestWaypoints";
 type SceneBaseProps = {
   scene: SceneConfig;
   className?: string;
+  background?: string;
 
   interactions?: Record<string, () => void>;
   itemPickupTiles?: { x: number; y: number; visible: boolean }[];
@@ -44,6 +45,7 @@ type SceneBaseProps = {
 export function SceneBase({
   scene,
   className,
+  background,
   interactions,
   itemPickupTiles,
   popup,
@@ -94,7 +96,14 @@ export function SceneBase({
   }
 
   return (
-    <div className={`Master ${className}`}>
+    <div
+      className={`Master ${className ?? ""}`}
+      style={
+        background
+          ? { backgroundImage: `url(${background})` }
+          : undefined
+      }
+    >
       <div className="SceneMap">
         <ExploreScene
           key={scene.id}

@@ -4,10 +4,11 @@ import { getCafeteriaTwoInitialPosition } from "./position";
 import { cafeteriaTwoNpcs } from "./npcs";
 import { cafeteriaTwoEvents } from "./events";
 import { getCafeteriaTwoDialogue } from "./dialogue";
+import { sceneBackgrounds } from "@/data/sceneBackground";
 
 export const twoScene: SceneConfig = {
   id: "two",
-  className: "Cafeteria",
+  background: sceneBackgrounds.Cafeteria,
   map: cafeteriaTwo,
   dialogueData: getCafeteriaTwoDialogue,
   events: cafeteriaTwoEvents,

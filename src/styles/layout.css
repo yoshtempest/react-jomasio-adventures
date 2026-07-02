@@ -10,6 +10,10 @@
   justify-content: center;
 }
 
+.Cantina {
+  background-position: center !important;
+}
+
 .Master {
   display: flex;
   position: relative;

@@ -2,6 +2,7 @@ import { SceneBase } from "@/components/Game/Scenes/Base";
 import { FOOTBALLCOURT_SCENES } from "@/scenes/footballCourt";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
+import { sceneBackgrounds } from "@/data/sceneBackground";
 
 type Props = {
   sceneId: SceneId;
@@ -22,7 +23,8 @@ export function FootballCourtScene({ sceneId }: Props) {
   return (
     <SceneBase
       scene={scene}
-      className={`Master FootballCourt`}
+      className="Master"
+      background={sceneBackgrounds.FootballCourt}
       onFinishExtra={() => ({
         addItem,
         removeItem,

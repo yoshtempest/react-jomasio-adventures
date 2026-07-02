@@ -55,7 +55,8 @@ export function HallScene({ sceneId }: Props) {
     <>
       <SceneBase
         scene={scene}
-        className={`Master ${scene.className ?? ""}`}
+        className="Master"
+        background={scene.background}
         popup={popup}
         setPopup={setPopup}
         handleExit={handleExit}

@@ -3,10 +3,11 @@ import { MUSICS } from "@/scenes/shared/music";
 import { centerOneTiles } from "./tiles";
 import { getCenterOneInitialPosition } from "./position";
 import { centerOnePlates } from "./plate";
+import { sceneBackgrounds } from "@/data/sceneBackground";
 
 export const centerOneScene: SceneConfig = {
   id: "center-one",
-  className: "HallCenter",
+  background: sceneBackgrounds.HallCenter,
   tiles: centerOneTiles,
   initialPosition: getCenterOneInitialPosition,
   map: hallCenter,

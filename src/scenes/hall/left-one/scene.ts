@@ -4,10 +4,11 @@ import { getHallLeftDialogue } from "./dialogue";
 import { leftOneNpcs } from "./npcs";
 import { getHallLeftOneInitialPosition } from "./position";
 import { hallLeftOneTiles } from "./tiles";
+import { sceneBackgrounds } from "@/data/sceneBackground";
 
 export const leftOneScene: SceneConfig = {
   id: "left-one",
-  className: "HallLeft",
+  background: sceneBackgrounds.HallLeft,
   dialogueData: getHallLeftDialogue,
   map: hallLeft,
   audio: { src: MUSICS.default },

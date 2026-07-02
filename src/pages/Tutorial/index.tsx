@@ -13,6 +13,7 @@ import { useTutorialFlow } from "@/hooks/tutorial/useTutorialFlow";
 import { useNameInput } from "@/hooks/tutorial/useNameInput";
 import { useQuestActions } from "@/hooks/quest/useQuestActions";
 import { QUESTS } from "@/data/quests";
+import { sceneBackgrounds } from "@/data/sceneBackground";
 
 export default function Tutorial() {
   const navigate = useNavigate();
@@ -96,7 +97,7 @@ export default function Tutorial() {
   });
 
   return (
-    <div className={`Master Tutorial`}>
+    <div className="Master" style={{ backgroundImage: `url(${sceneBackgrounds.Tutorial})` }}>
       <Talking
         name={cutscene.dialogue.name}
         message={cutscene.dialogue.message}

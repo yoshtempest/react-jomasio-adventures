@@ -6,10 +6,11 @@ import { centerTwoNpcs } from "./npcs";
 import { getHallCenterDialogue } from "./dialogue";
 import { hallCenterTwoEvents } from "./events";
 import { centerTwoPlates } from "./plate";
+import { sceneBackgrounds } from "@/data/sceneBackground";
 
 export const centerTwoScene: SceneConfig = {
   id: "center-two",
-  className: "HallCenter",
+  background: sceneBackgrounds.HallCenter,
   events: hallCenterTwoEvents,
   dialogueData: getHallCenterDialogue,
   tiles: centerTwoTiles,

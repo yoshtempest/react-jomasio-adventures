@@ -7,6 +7,7 @@ import { createCantina } from "@/interactions/cantina";
 import { useInventory } from "@/contexts/InventoryContext";
 
 import { cantinaBrothersDialogue } from "@/data/dialogues/cantina/brothers";
+import { sceneBackgrounds } from "@/data/sceneBackground";
 
 import Talking from "@/components/Talking";
 
@@ -42,6 +43,7 @@ export function CantinaScene({ sceneId }: Props) {
       <SceneBase
         scene={scene}
         className="Master Cantina"
+        background={sceneBackgrounds.Cantina}
         interactions={interactions}
         itemPickupTiles={[{ x: 13, y: 4, visible: !gotKey }]}
         popup={popup}

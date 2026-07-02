@@ -2,10 +2,11 @@ import { hallOne } from "@/maps/hall/one";
 import { getHallOneInitialPosition } from "@/scenes/hall/one/position";
 import { MUSICS } from "@/scenes/shared/music";
 import { hallOneTiles } from "./tiles";
+import { sceneBackgrounds } from "@/data/sceneBackground";
 
 export const oneScene: SceneConfig = {
   id: "one",
-  className: "HallOne",
+  background: sceneBackgrounds.HallOne,
   initialPosition: getHallOneInitialPosition,
   map: hallOne,
   audio: { src: MUSICS.default },

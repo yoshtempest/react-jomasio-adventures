@@ -5,10 +5,11 @@ import { jailsonTwoEvents } from "./events";
 import { jailsonTwoNpcs } from "./npcs";
 import { MUSICS } from "@/scenes/shared/music";
 import { jailsonTwoTiles } from "./tiles";
+import { sceneBackgrounds } from "@/data/sceneBackground";
 
 export const jailsonTwoScene: SceneConfig = {
   id: "jailson-two",
-  className: "HallJailson",
+  background: sceneBackgrounds.HallJailson,
   dialogueData: getJailsonTwoDialogue,
   events: jailsonTwoEvents,
   tiles: jailsonTwoTiles,

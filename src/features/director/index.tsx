@@ -10,6 +10,8 @@ import { useNavigate, useLocation } from "react-router";
 import { asset } from "@/utils/asset";
 import { useAudio } from "@/contexts/AudioContext";
 
+import { sceneBackgrounds } from "@/data/sceneBackground";
+
 import Talking from "@/components/Talking";
 
 type Props = {
@@ -76,7 +78,8 @@ export function DirectorScene({ sceneId }: Props) {
     <>
       <SceneBase
         scene={scene}
-        className="Master Director"
+        className="Master"
+        background={sceneBackgrounds.Director}
         interactions={interactions}
         itemPickupTiles={[{ x: 15, y: 7, visible: !gotKey }]}
         popup={popup}

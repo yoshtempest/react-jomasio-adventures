@@ -171,7 +171,7 @@ declare global {
 
   type SceneConfig = Omit<ExploreSceneProps, "onInteract" | "className"> & {
     id: SceneId;
-    className?: string;
+    background?: string;
     events?: SceneEvent[];
     tiles?: SceneTile[];
     plates?: ScenePlateData[];

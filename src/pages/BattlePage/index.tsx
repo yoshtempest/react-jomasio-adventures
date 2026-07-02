@@ -25,7 +25,7 @@ export default function BattlePage() {
       redirectTo={config.redirectTo}
       onVictory={handleVictory}
       victoryDescription={config.victoryDescription}
-      className={config.className}
+      background={config.background}
       audioSrc={config.audioSrc}
     />
   );
