@@ -1,0 +1,59 @@
+@media (orientation: portrait) {
+  .dpad {
+    width: 14vh;
+    height: 14vh;
+    left: 12%;
+    bottom: 20%;
+  }
+  .inner {
+    width: 4vh;
+    height: 4vh;
+  }
+  .containerOfNavbar {
+    width: 99vw;
+    height: 30vh;
+    top: 0;
+    right: 0;
+    border-radius: 0px;
+  }
+  .Master {
+    display: flex;
+    width: 100vw;
+    height: 30vh;
+    align-self: flex-start;
+    margin-top: 0%;
+  }
+  .talkingContainer {
+    width: 80vw;
+  }
+  .talking {
+    margin-top: 60vh;
+  }
+  .talkingImage {
+    bottom: 15%;
+    height: 10vh;
+  }
+  .dpadArrow {
+    border-width: 1.4vh;
+  }
+
+  .dpadArrowUp {
+    top: 1vh;
+  }
+
+  .dpadArrowDown {
+    bottom: 1vh;
+  }
+
+  .dpadArrowLeft {
+    left: 1vh;
+  }
+
+  .dpadArrowRight {
+    right: 1vh;
+  }
+
+  .StatusColumn p {
+    font-size: var(--smaller);
+  }
+}

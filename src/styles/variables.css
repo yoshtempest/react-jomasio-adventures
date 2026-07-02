@@ -1,0 +1,33 @@
+:root {
+  --primary-color: #121b31;
+  --background-color: #0a0500;
+  --accent-color: #fbbf24;
+  --text-color: #ffffff;
+  --text-secondary: #aaaaaa;
+  --text-muted: #888888;
+  --text-hint: #666666;
+  --surface-primary: #1a1a2e;
+  --surface-dark: #111111;
+  --surface-card: #1a1a1a;
+  --border-default: #333333;
+  --border-medium: #555555;
+  --success: #4ade80;
+  --danger: #ff4444;
+  --gold: #ffd700;
+
+  --smaller: 12px;
+  --small: 16px;
+  --low-medium: 20px;
+  --medium: 24px;
+
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

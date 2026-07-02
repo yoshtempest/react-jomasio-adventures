@@ -1,0 +1,55 @@
+.app {
+  display: flex;
+  flex-direction: row;
+
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.Master {
+  display: flex;
+  position: relative;
+  margin: 0 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 74vw;
+  height: 100vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.containerOfNavbar {
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  width: 74vw;
+  height: 90vh;
+  top: 5%;
+  right: 0%;
+  background: var(--surface-dark);
+  align-items: center;
+  border: 2px solid var(--border-medium);
+  border-radius: 8px;
+  z-index: 999;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sectionTitle {
+  font-size: var(--small);
+  font-weight: 600;
+  color: #ddd;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
