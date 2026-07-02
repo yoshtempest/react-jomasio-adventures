@@ -2,7 +2,6 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { STAT_TIPS } from "@/data/stats/tips";
-import { STATS } from "@/utils/types/player/stats";
 import styles from "./styles.module.css";
 
 type AvailableStatsProps = {
@@ -20,27 +19,35 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
   };
   const bonus = getTotalBonus(character);
 
-  const OPTIONS = STATS;
-  const selectedStat = selectedIndex < OPTIONS.length ? OPTIONS[selectedIndex] : null;
-
   return (
     <div className="StatusColumn" style={{ width: "14vw" }}>
       <h2 className="StatusTitle">Pontos disponíveis: {stats.points}</h2>
-        <div className={selectedIndex === 0 ? "active" : ""}>
+        <div
+          className={selectedIndex === 0 ? "active" : ""}
+          style={selectedIndex === 0 ? { flexWrap: "wrap", gap: "4px" } : undefined}
+        >
           <p>
             Vida: {stats.hp}
             {bonus.hp > 0 ? <span> +{bonus.hp}</span> : ""}
           </p>
+          {selectedIndex === 0 && <p className={styles.tip}>{STAT_TIPS.hp}</p>}
         </div>
 
-        <div className={selectedIndex === 1 ? "active" : ""}>
+        <div
+          className={selectedIndex === 1 ? "active" : ""}
+          style={selectedIndex === 1 ? { flexWrap: "wrap", gap: "4px" } : undefined}
+        >
           <p>
             Força: {stats.strength}
             {bonus.strength > 0 ? <span> +{bonus.strength}</span> : ""}
           </p>
+          {selectedIndex === 1 && <p className={styles.tip}>{STAT_TIPS.strength}</p>}
         </div>
 
-        <div className={selectedIndex === 2 ? "active" : ""}>
+        <div
+          className={selectedIndex === 2 ? "active" : ""}
+          style={selectedIndex === 2 ? { flexWrap: "wrap", gap: "4px" } : undefined}
+        >
           <p>
             Inteligência: {stats.intelligence}
             {bonus.intelligence > 0 ? (
@@ -49,12 +56,17 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
               ""
             )}
           </p>
+          {selectedIndex === 2 && <p className={styles.tip}>{STAT_TIPS.intelligence}</p>}
         </div>
 
-        <div className={selectedIndex === 3 ? "active" : ""}>
+        <div
+          className={selectedIndex === 3 ? "active" : ""}
+          style={selectedIndex === 3 ? { flexWrap: "wrap", gap: "4px" } : undefined}
+        >
           <p>
             Resistência: {stats.resistance ?? 1}
           </p>
+          {selectedIndex === 3 && <p className={styles.tip}>{STAT_TIPS.resistance}</p>}
         </div>
 
         <div className={selectedIndex === 4 ? "active" : ""}>
@@ -65,9 +77,6 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
           <p className={styles.subBtn}>Ver ranques</p>
         </div>
 
-        {selectedStat && STAT_TIPS[selectedStat] && (
-          <p className={styles.tip}>{STAT_TIPS[selectedStat]}</p>
-        )}
     </div>
   );
 }

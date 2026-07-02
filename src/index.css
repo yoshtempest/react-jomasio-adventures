@@ -462,7 +462,7 @@ h2 {
   display: flex; /* 👈 ESSENCIAL */
   align-items: center; /* centraliza verticalmente */
   gap: 6px; /* espaço entre seta e texto */
-  background-color: rgb(26, 26, 109);
+  background-color: rgba(0, 0, 0, 0.4) !important;
   font-weight: bold;
   border-radius: 1px;
   padding: 4px;
@@ -629,7 +629,7 @@ h2 {
   flex-direction: column;
   width: 74vw;
   height: 90vh;
-  top: 10%;
+  top: 5%;
   right: 0%;
   background: var(--surface-dark);
   align-items: center;

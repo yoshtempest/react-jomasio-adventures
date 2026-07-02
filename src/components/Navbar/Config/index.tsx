@@ -41,7 +41,7 @@ export function Config() {
   }, [selectedRow]);
 
   return (
-    <div className={styles.config} ref={configRef}>
+    <div className="containerOfNavbar" ref={configRef}>
       <h2 className={styles.marginTop}>Dificuldade: {DIFFICULTY_LABEL[difficulty]}</h2>
       <div className={styles.difficultyContainer}>
         {difficultyList.map((diff, index) => {
@@ -68,7 +68,7 @@ export function Config() {
         </div>
       </div>
       <div className={styles.speedContainer}>
-        <h2>Velocidade do Diálogo: {SPEED_LABEL[dialogueSpeed]}</h2>
+        <h2>Diálogo: {SPEED_LABEL[dialogueSpeed]}</h2>
         <div className={styles.speedOptions}>
           {selectedRow === 1 && <span className={styles.cursor}>▼</span>}
           {DIALOGUE_SPEED_LIST.map((speed, index) => {

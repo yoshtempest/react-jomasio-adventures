@@ -17,12 +17,6 @@
   height: 10vh;
 }
 
-.active {
-  background-color: rgb(26, 26, 109);
-  font-weight: bold;
-  border-radius: 1px;
-}
-
 .itemRow {
   display: flex;
   align-items: center;

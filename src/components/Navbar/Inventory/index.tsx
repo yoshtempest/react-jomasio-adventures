@@ -82,7 +82,7 @@ export function Inventory() {
           <li
             key={index}
             className={`${styles.item} ${
-              index === selectedIndex ? styles.active : ""
+              index === selectedIndex ? "active" : ""
             }`}
           >
             {item && itemData && (

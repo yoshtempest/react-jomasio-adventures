@@ -1,38 +1,3 @@
-.config {
-  display: flex;
-  position: absolute;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  text-align: center;
-  width: 74vw;
-  height: 90vh;
-  top: 10%;
-  right: 0%;
-  background: var(--surface-dark);
-  align-items: center;
-  border: 2px solid var(--border-medium);
-  border-radius: 8px;
-  z-index: 999;
-  overflow-y: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.config::-webkit-scrollbar {
-  display: none;
-}
-
-@media (orientation: portrait) {
-  .config {
-    width: 99vw;
-    height: 50vh;
-    top: 0;
-    right: 0;
-    border-radius: 0px;
-  }
-}
-
 .flexRow {
   display: flex;
   flex-direction: row;
@@ -72,12 +37,16 @@
 .indicatorButton {
   display: flex;
   width: 100%;
+  padding: 8px 12px;
   align-self: center;
   border-radius: 2px;
+  margin-top: 5%;
+  border: 2px solid var(--primary-color);
 }
 
 .indicatorText {
   width: 100%;
+  text-align: center;
 }
 
 .cursor {
@@ -177,7 +146,9 @@
 .tutorialButton {
   position: relative;
   margin-top: 5%;
-  padding: 20px;
+  text-wrap: nowrap;
+  padding: 8px 12px;
   border-radius: 4px;
+  text-align: center;
   border: 2px solid var(--primary-color);
 }
