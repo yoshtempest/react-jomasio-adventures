@@ -31,12 +31,6 @@ export const COMMON = createItems({
     description: "Uma linguiça enorme e suculenta. Dá até água na boca.",
     type: "none",
   },
-  turkey: {
-    image: "/assets/items/peru.svg",
-    name: "Peru Comprido",
-    description: "Um peru bem avantajado. O pai do protagonista ficaria orgulhoso.",
-    type: "none",
-  },
   suspect_milk: {
     image: "/assets/items/suspect_milk.svg",
     name: "Leite Bovino",

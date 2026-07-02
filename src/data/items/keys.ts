@@ -2,7 +2,7 @@ import { createItems } from "@/utils/items/createItem";
 
 export const KEYS = createItems({
   director_key: {
-    image: "/assets/items/director_key.svg",
+    image: "/assets/items/keys/director.svg",
     name: "Chave enferrujada",
     description: "Uma chave velha e enferrujada. Deve abrir alguma porta por aí.",
     type: "key",
