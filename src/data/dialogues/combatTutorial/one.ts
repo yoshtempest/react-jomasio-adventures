@@ -27,7 +27,7 @@ export const combatTutorialDialogue = [
     {
         src: "/assets/npcs/surica/default.svg",
         name: "Surica",
-        message: "Afinal, você precisa saber lutar para sobreviver na Terra nº 284.",
+        message: "Afinal, você precisa saber lutar para sobreviver na Terra nº 11.",
     },
     {
         isPlayer: true,
