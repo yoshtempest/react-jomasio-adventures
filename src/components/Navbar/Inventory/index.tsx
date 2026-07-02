@@ -8,9 +8,10 @@ import styles from "./styles.module.css";
 import { ITEMS } from "@/data/items";
 import { Chest } from "./Chest";
 import { ChestRewards } from "./ChestRewards";
+import { activateXpBuff } from "@/utils/buffs/xpBuff";
 
 export function Inventory() {
-  const { items, maxSlots } = useInventory();
+  const { items, maxSlots, removeItem } = useInventory();
   const listRef = useRef<HTMLUListElement>(null);
   const { selectedIndex } = useInventoryMenu(true, listRef);
 
@@ -24,6 +25,7 @@ export function Inventory() {
     : null;
 
   const isChestSelected = selectedItemData?.type === "chest";
+  const isConsumableSelected = selectedItemData?.type === "consumable";
 
   const tier = isChestSelected && selectedItem
     ? (selectedItem.id.replace("_chest", "") as NPCClass)
@@ -31,9 +33,20 @@ export function Inventory() {
   const keyId = tier ? (`${tier}_key` as ItemId) : null;
   const hasKey = keyId ? items.some((i) => i.id === keyId) : false;
 
+  function useConsumable(id: string) {
+    if (id === "xp_potion") {
+      activateXpBuff(10 * 60 * 1000);
+    }
+    removeItem(id as ItemId);
+  }
+
   useEffect(() => {
     const controls = {
       onConfirm: () => {
+        if (selectedItem && isConsumableSelected) {
+          useConsumable(selectedItem.id);
+          return true;
+        }
         if (!isChestSelected || !selectedItem || !keyId) return false;
         if (!items.some((i) => i.id === keyId)) return false;
         openPlayerChest(selectedItem.id as ItemId);
@@ -43,7 +56,7 @@ export function Inventory() {
 
     pushControls(controls);
     return () => popControls();
-  }, [isChestSelected, selectedItem, keyId, items, openPlayerChest, pushControls, popControls]);
+  }, [isChestSelected, isConsumableSelected, selectedItem, keyId, items, openPlayerChest, pushControls, popControls]);
 
   if (dailyChest.lastResult) {
     return <ChestRewards />;
@@ -110,6 +123,15 @@ export function Inventory() {
                   ) : (
                     <span className={styles.noKey}>Sem chave</span>
                   ))}
+
+                {index === selectedIndex && itemData?.type === "consumable" && (
+                  <button
+                    className="InventoryButton"
+                    onClick={() => useConsumable(item.id)}
+                  >
+                    Usar
+                  </button>
+                )}
               </div>
             )}
           </li>

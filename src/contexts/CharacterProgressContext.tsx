@@ -16,6 +16,7 @@ import type {
 } from "@/data/characters/defaultProgress";
 import { defaultProgress } from "@/data/characters/defaultProgress";
 import { normalizeProgress, getXPToNextLevel } from "@/utils/character/progress";
+import { getXpBuffMultiplier } from "@/utils/buffs/xpBuff";
 
 export const MAX_HUNGER = 100;
 
@@ -70,7 +71,8 @@ export function CharacterProgressProvider({
   // ⭐ XP + LEVEL + POINTS
   function addXP(character: Character, amount: number) {
     const isSunday = new Date().getDay() === 0;
-    const finalAmount = isSunday ? Math.floor(amount * 2) : amount;
+    const xpBuff = getXpBuffMultiplier();
+    const finalAmount = Math.floor(amount * (isSunday ? 2 : 1) * xpBuff);
 
     setProgress((prev) => {
       const char = prev[character];

@@ -2,6 +2,7 @@ import { useNavigate } from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress, MAX_HUNGER } from "@/contexts/CharacterProgressContext";
 import { useInventory } from "@/contexts/InventoryContext";
+import { activateXpBuff } from "@/utils/buffs/xpBuff";
 
 const FOOD_RESTORE: Record<string, number> = {
   queijo_cabra: 30,
@@ -54,6 +55,12 @@ export function useItemEffect({ playSFX }: Props) {
             0.5,
           );
           toggleHasPeru();
+        };
+
+      case "xp_potion":
+        return () => {
+          activateXpBuff(10 * 60 * 1000);
+          removeItem("xp_potion" as ItemId);
         };
 
       default: {

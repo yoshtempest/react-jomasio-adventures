@@ -200,6 +200,15 @@ export const ITEMS = {
     type: "chest",
   },
 
+  // ── Poções ──────────────────────────────────────────────
+  xp_potion: {
+    id: "xp_potion",
+    image: "/assets/items/xp_potion.svg",
+    name: "Poção de XP",
+    description: "Multiplica o XP ganho em 1.5x por 10 minutos.",
+    type: "consumable",
+  },
+
   // ── Alimentos ────────────────────────────────────────────
   queijo_cabra: {
     id: "queijo_cabra",
