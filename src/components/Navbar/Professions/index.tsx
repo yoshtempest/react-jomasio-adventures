@@ -4,7 +4,7 @@ const PROFESSIONS = [
   { profession: "Alquimista", name: "Val Val" },
   { profession: "Agricultor", name: "Cendeiro" },
   { profession: "Pescador", name: "???" },
-  { profession: "Confeiteiro", name: "Juju Cakes" },
+  { profession: "Confeiteiro", name: "Jucimaria" },
   { profession: "Açougueiro", name: "Tim" },
   { profession: "BodyBuilder", name: "Franciane" },
   { profession: "Mecânico", name: "Binha" },
