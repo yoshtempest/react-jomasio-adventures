@@ -275,5 +275,23 @@ export function useNpcBattle({
     npcType, npcPhase, onBlockRef,
   ]);
 
-  return { npcMeleeHit, npcRangedHit };
+  const npcThrowHit = useCallback((multiplier: number = 1) => {
+    if (isEnding.current) return;
+
+    const npc = getNpcStats(npcLevel, npcClass, difficulty);
+    const baseDmg = npc.damage;
+    const dmg = calculateNpcDamage(baseDmg, playerClass, totalArmor);
+    const finalDmg = Math.round(dmg * multiplier);
+
+    damagePlayerWithReflect(finalDmg);
+    spawnDamageRef.current?.(finalDmg, playerX, playerY, "npc");
+    hitstopRef.current = Date.now() + 80;
+    navigator.vibrate?.(80);
+  }, [
+    isEnding, npcLevel, npcClass, playerClass, totalArmor,
+    difficulty, damagePlayerWithReflect, spawnDamageRef,
+    playerX, playerY, hitstopRef,
+  ]);
+
+  return { npcMeleeHit, npcRangedHit, npcThrowHit };
 }

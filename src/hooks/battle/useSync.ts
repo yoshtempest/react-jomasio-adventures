@@ -26,11 +26,13 @@ type SyncProps = {
   refs: {
     npcRangedAttackRef: RefObject<() => void>;
     npcMeleeAttackRef: RefObject<() => void>;
+    npcThrowAttackRef: RefObject<() => void>;
   };
   charge: { cancelCharge: () => void };
   player: { state: string };
   battleNpcRangedHit: () => void;
   battleNpcMeleeHit: () => void;
+  battleNpcThrowHit: (multiplier: number) => void;
 };
 
 export function useBattleSync({
@@ -54,6 +56,7 @@ export function useBattleSync({
   player,
   battleNpcRangedHit,
   battleNpcMeleeHit,
+  battleNpcThrowHit,
 }: SyncProps) {
   // Pet position sync — bridges AI (needs pet pos) and battle system (produces pet)
   useEffect(() => {
@@ -104,6 +107,9 @@ export function useBattleSync({
   refs.npcMeleeAttackRef.current = () => {
     if (player.state === "charging") charge.cancelCharge();
     battleNpcMeleeHit();
+  };
+  refs.npcThrowAttackRef.current = () => {
+    battleNpcThrowHit(1.5);
   };
 
   // Set battle mode and close overlays on mount

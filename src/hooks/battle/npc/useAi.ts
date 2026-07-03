@@ -34,6 +34,8 @@ type Props = {
   npcHpRef?: React.RefObject<number>;
   npcMaxHpRef?: React.RefObject<number>;
   npcBlockedRef?: React.RefObject<boolean>;
+  onGrabPlayer?: () => void;
+  onThrowPlayer?: (damageMultiplier: number) => void;
 };
 
 export function useNpcAI({
@@ -58,6 +60,8 @@ export function useNpcAI({
   npcHpRef,
   npcMaxHpRef,
   npcBlockedRef,
+  onGrabPlayer,
+  onThrowPlayer,
 }: Props) {
   const [npc, setNpc] = useState<NPCBattleState>({
     x: BATTLE_SPAWN.npc.x,
@@ -102,7 +106,10 @@ export function useNpcAI({
   const stopSoundRef = useRef(stopSound);
   stopSoundRef.current = stopSound;
   const jhowsimarSoundPlayingRef = useRef(false);
-
+  const onGrabPlayerRef = useRef(onGrabPlayer);
+  onGrabPlayerRef.current = onGrabPlayer;
+  const onThrowPlayerRef = useRef(onThrowPlayer);
+  onThrowPlayerRef.current = onThrowPlayer;
 
   useProjectile(
     projectile,
@@ -207,6 +214,8 @@ export function useNpcAI({
           playSound: (sound, loop) => playSoundRef.current(sound, loop),
           npcHp: npcHpRef?.current ?? 0,
           npcMaxHp: npcMaxHpRef?.current ?? 1,
+          onGrabPlayer: () => onGrabPlayerRef.current?.(),
+          onThrowPlayer: (mult) => onThrowPlayerRef.current?.(mult),
         });
 
         const nextX = result.x;

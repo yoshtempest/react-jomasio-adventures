@@ -96,6 +96,7 @@ export function useBattleScene({
   const npcPhaseRef = useRef(npcPhase);
   npcPhaseRef.current = npcPhase;
   const [isPhaseTransitioning, setIsPhaseTransitioning] = useState(false);
+  const [isGrabbed, setIsGrabbed] = useState(false);
 
   const battleStartRef = useRef(Date.now());
   const [defeatElapsed, setDefeatElapsed] = useState(0);
@@ -166,7 +167,7 @@ export function useBattleScene({
   killCounter.npcTypeRef.current = npcType;
   killCounter.npcDataRef.current = npcData;
 
-  const isPaused = showVictory || showDefeat || showIntro || showOutro != null;
+  const isPaused = showVictory || showDefeat || showIntro || showOutro != null || isGrabbed;
 
   targeting.npcAiHpRef.current = npcStats.hp;
   targeting.npcAiMaxHpRef.current = npcStats.hp;
@@ -193,6 +194,15 @@ export function useBattleScene({
     npcHpRef: targeting.npcAiHpRef,
     npcMaxHpRef: targeting.npcAiMaxHpRef,
     npcBlockedRef: targeting.npcBlockedRef,
+    onGrabPlayer: () => {
+      setIsGrabbed(true);
+      setPlayer((p) => ({ ...p, grabbedUntil: Date.now() + 1500 }));
+    },
+    onThrowPlayer: (_mult) => {
+      setIsGrabbed(false);
+      setPlayer((p) => ({ ...p, grabbedUntil: 0 }));
+      refs.npcThrowAttackRef.current();
+    },
   });
 
   targeting.onBeforeNpcHitRef.current = () => {
@@ -451,6 +461,7 @@ export function useBattleScene({
     player,
     battleNpcRangedHit: battle.npcRangedHit,
     battleNpcMeleeHit: battle.npcMeleeHit,
+    battleNpcThrowHit: battle.npcThrowHit,
   });
 
   useBattleControls({

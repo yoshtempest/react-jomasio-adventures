@@ -19,7 +19,9 @@ export type NPCBattleState = {
     | "jumpAttack"
     | "block"
     | "meleeAttack"
-    | "rangedAttack";
+    | "rangedAttack"
+    | "get"
+    | "throw";
   direction: NPCDirection;
   jumpLandingX?: number;
 
@@ -52,6 +54,11 @@ export type NPCBattleState = {
     vandinha?: {
       lastMeleeAttack: number;
       lastRangedAttack: number;
+    };
+    jhowsimar?: {
+      attackCount: number;
+      grabPhase: "get" | "throw" | null;
+      startTime: number;
     };
   };
 };

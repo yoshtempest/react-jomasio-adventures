@@ -7,6 +7,7 @@ type Props = {
   state: PlayerState;
   direction: Direction;
   character: CharacterId;
+  grabbedUntil?: number;
 };
 
 const CROUCH_STATE_MAP: Record<string, string> = {
@@ -21,9 +22,11 @@ export function PlayerBattle({
   state,
   direction,
   character,
+  grabbedUntil = 0,
 }: Props) {
   const resolvedState = CROUCH_STATE_MAP[state] ?? (state === "charging" ? "idle" : state);
   const isCrouching = state === "idleCrounched" || state === "walkCrounched";
+  const isGrabbed = Date.now() < grabbedUntil;
   const src = asset(`assets/player/${character}/inFight/${resolvedState}.svg`);
 
   const BASE_WIDTH = 1280;
@@ -61,9 +64,9 @@ export function PlayerBattle({
             transform: `
               translateX(-50%) 
               scaleX(${direction === "left" ? -1 : 1})
-              ${isCrouching ? "scale(0.7)" : ""}
+              ${isGrabbed ? "scaleY(-1)" : isCrouching ? "scale(0.7)" : ""}
             `,
-            transformOrigin: isCrouching ? "bottom center" : undefined,
+            transformOrigin: isCrouching || isGrabbed ? "bottom center" : undefined,
             pointerEvents: "none",
           }}
       />

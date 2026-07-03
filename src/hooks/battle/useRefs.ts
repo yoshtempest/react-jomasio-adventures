@@ -5,6 +5,7 @@ import type { SpawnDamageFn } from "@/utils/types/battle/spawnDamageFn";
 export function useBattleRefs() {
   const npcRangedAttackRef = useRef<() => void>(() => {});
   const npcMeleeAttackRef = useRef<() => void>(() => {});
+  const npcThrowAttackRef = useRef<() => void>(() => {});
   const playerYRef = useRef(0);
   const hitstopRef = useRef(0);
   const npcStaggerRef = useRef(0);
@@ -14,6 +15,7 @@ export function useBattleRefs() {
   return {
     npcRangedAttackRef,
     npcMeleeAttackRef,
+    npcThrowAttackRef,
     playerYRef,
     hitstopRef,
     npcStaggerRef,

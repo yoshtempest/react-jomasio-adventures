@@ -271,6 +271,7 @@ declare global {
     mode: PlayerMode;
     hasPeru?: boolean;
     moving?: boolean;
+    grabbedUntil?: number;
   };
 
   // ── Quest ───────────────────────────────────────────────
