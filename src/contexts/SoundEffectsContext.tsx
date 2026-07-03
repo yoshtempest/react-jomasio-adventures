@@ -37,6 +37,7 @@ export type SoundId =
   | "eating"
   | "drinkingPotion"
   | "jhowsimarJooj"
+  | "gainXp"
   | "boom";
 
 type SoundEffectsContextType = {
@@ -89,6 +90,7 @@ export function SoundEffectsProvider({ children }: { children: ReactNode }) {
       drinkingPotion: new Audio(asset("/assets/songs/soundEffects/player/drinkingPotion.mp3")),
       jhowsimarJooj: new Audio(asset("/assets/songs/soundEffects/npc/jhowsimarJooj.mp3")),
       boom: new Audio(asset("/assets/songs/soundEffects/npc/boom.mp3")),
+      gainXp: new Audio(asset("/assets/songs/soundEffects/player/gainXp.mp3")),
     };
 
     Object.values(soundsRef.current).forEach((audio) => {

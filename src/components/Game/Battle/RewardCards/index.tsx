@@ -1,5 +1,7 @@
+import { useEffect, useState } from "react";
 import styles from "./styles.module.css";
 import { getRank, formatRank } from "@/gameRules/rank";
+import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 
 type Props = {
   myLevel: number;
@@ -14,7 +16,41 @@ export function RewardCards({
   nextLevelXp,
   coinReward,
 }: Props) {
+  const [displayXp, setDisplayXp] = useState(1);
   const rank = getRank(myLevel);
+  const { playSound } = useSoundEffects();
+
+  useEffect(() => {
+    if (xpReward <= 1) {
+      playSound("gainXp");
+      setDisplayXp(xpReward);
+      return;
+    }
+
+    setDisplayXp(1);
+    playSound("gainXp");
+
+    const duration = 3000;
+    let rafId: number;
+    let startTime = 0;
+
+    function animate(now: number) {
+      if (!startTime) startTime = now;
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - (1 - progress) * (1 - progress);
+      const current = Math.max(1, Math.round(eased * xpReward));
+
+      setDisplayXp(Math.min(current, xpReward));
+
+      if (progress < 1) {
+        rafId = requestAnimationFrame(animate);
+      }
+    }
+
+    rafId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(rafId);
+  }, [xpReward, playSound]);
 
   return (
     <div className={styles.rewardsGrid}>
@@ -28,7 +64,7 @@ export function RewardCards({
       </div>
       <div className={styles.rewardCard}>
         <span className={styles.rewardLabel}>XP ganho</span>
-        <span className={styles.rewardValue}>+{xpReward}</span>
+        <span className={styles.rewardValue}>+{displayXp}</span>
       </div>
       <div className={styles.rewardCard}>
         <span className={styles.rewardLabel}>XP até nível</span>
