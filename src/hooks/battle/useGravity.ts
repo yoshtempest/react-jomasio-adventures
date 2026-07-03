@@ -2,6 +2,8 @@ import { useEffect, type RefObject } from "react";
 import { getLandingY, getGroundAtX } from "@/utils/types/maps/battle";
 import type { CollisionParams } from "@/utils/types/battle/collision";
 
+export type { CollisionParams };
+
 const gravity = 1.5;
 
 export function useBattleGravity(

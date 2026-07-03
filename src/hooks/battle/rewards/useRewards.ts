@@ -14,6 +14,8 @@ import {
   rollPetGoat,
 } from "./useDrops";
 
+export type { EquipmentDropInfo };
+
 type Props = {
   npcClass: NPCClass;
   npcLevel: number;
