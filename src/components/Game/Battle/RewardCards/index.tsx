@@ -67,7 +67,7 @@ export function RewardCards({
         <span className={styles.rewardValue}>+{displayXp}</span>
       </div>
       <div className={styles.rewardCard}>
-        <span className={styles.rewardLabel}>XP até nível</span>
+        <span className={styles.rewardLabel}>Próx Nível - XP</span>
         <span className={styles.rewardValue}>{nextLevelXp}</span>
       </div>
       <div className={styles.rewardCard}>

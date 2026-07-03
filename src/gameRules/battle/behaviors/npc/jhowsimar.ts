@@ -4,8 +4,8 @@ import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
 import { NPC_MELEE_COOLDOWN } from "@/data/cooldowns";
 
 const MELEE_RANGE = 50;
-const GET_DURATION = 400;
-const THROW_DURATION = 400;
+const GET_DURATION = 1000;
+const THROW_DURATION = 1000;
 
 export function jhowsimarBehavior(ctx: BehaviorContext) {
   const { npc, targetX, targetY, lastAttackRef, onMeleeHit, playSound } = ctx;
@@ -19,7 +19,6 @@ export function jhowsimarBehavior(ctx: BehaviorContext) {
   const state = npc.ai.jhowsimar;
 
   if (state.grabPhase) {
-    playSound?.("jhowsimarJooj");
     const elapsed = now - state.startTime;
 
     if (state.grabPhase === "get") {
@@ -51,6 +50,7 @@ export function jhowsimarBehavior(ctx: BehaviorContext) {
       lastAttackRef.current = now;
       state.grabPhase = "get";
       state.startTime = now;
+      playSound?.("jhowsimarJooj");
       ctx.onGrabPlayer?.();
       return { x: npc.x, y: npc.y, state: "get" as const };
     }
