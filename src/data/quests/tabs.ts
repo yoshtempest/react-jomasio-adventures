@@ -1,4 +1,4 @@
-import type { QuestTab } from "@/hooks/menu/quest/useQuestItems";
+import type { QuestTab } from "@/utils/types/player/quest";
 
 export const TAB_LABELS: Record<QuestTab, string> = {
   active: "Em andamento",
@@ -21,3 +21,12 @@ export function getEmptyMessage(tab: QuestTab): string {
       return "Nenhuma missão semanal disponível.";
   }
 }
+
+export const QUEST_TABS: QuestTab[] = [
+  "active",
+  "completed",
+  "daily",
+  "weekly",
+];
+
+export const TAB_COUNT = QUEST_TABS.length;

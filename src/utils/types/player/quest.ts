@@ -1,6 +1,7 @@
 export type QuestType = "history" | "sidequest";
 export type QuestRewardsType = "xp" | "item" | "coin" | "hyperCoin";
 export type QuestFrequency = "daily" | "weekly";
+export type QuestTab = "active" | "completed" | "daily" | "weekly";
 
 export type QuestTemplate = {
   name: string;
@@ -31,3 +32,5 @@ export type Quest = {
   rewardItemId?: string;
   progressType?: string;
 };
+
+export type QuestMap = Record<QuestTab, Quest[]>;

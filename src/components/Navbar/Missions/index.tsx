@@ -1,5 +1,6 @@
 import { useQuests } from "@/contexts/QuestContext";
-import { useQuestMenu, type QuestTab } from "@/hooks/menu/quest/useQuestMenu";
+import { useQuestMenu } from "@/hooks/menu/quest/useQuestMenu";
+import type { QuestTab } from "@/utils/types/player/quest";
 import styles from "./styles.module.css";
 import { QuestCard } from "@/components/Game/Quest/Card";
 import { useEffect, useRef, useState } from "react";

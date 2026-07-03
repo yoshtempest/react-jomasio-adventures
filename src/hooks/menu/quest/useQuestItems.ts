@@ -1,14 +1,4 @@
-export type QuestTab = "active" | "completed" | "daily" | "weekly";
-
-export const QUEST_TABS: QuestTab[] = [
-  "active",
-  "completed",
-  "daily",
-  "weekly",
-];
-export const TAB_COUNT = QUEST_TABS.length;
-
-type QuestMap = Record<QuestTab, Quest[]>;
+import type { QuestMap, QuestTab } from "@/utils/types/player/quest";
 
 function partitionQuests(allQuests: Quest[]): QuestMap {
   const isStandard = (q: Quest) =>

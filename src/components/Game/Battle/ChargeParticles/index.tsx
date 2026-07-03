@@ -1,4 +1,4 @@
-import type { ChargeParticle } from "@/hooks/battle/charge/useAttack";
+import type { ChargeParticle } from "@/utils/types/battle/charge";
 import styles from "./styles.module.css";
 
 type Props = {

@@ -23,8 +23,6 @@ import { getSkillTree } from "@/data/passiveSkills";
 const PLAYER_COLLISION_W = 30;
 const PLAYER_COLLISION_H = 50;
 
-export type { CollisionParams };
-
 export function useBattleMovement(
   setPlayer: React.Dispatch<React.SetStateAction<Player>>,
   collisionRef: React.RefObject<CollisionParams>,

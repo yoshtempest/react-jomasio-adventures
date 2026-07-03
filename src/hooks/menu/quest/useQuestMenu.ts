@@ -7,10 +7,9 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { ITEMS } from "@/data/items";
-import { useQuestItems, QUEST_TABS, TAB_COUNT } from "./useQuestItems";
-import type { QuestTab } from "./useQuestItems";
-
-export type { QuestTab };
+import { useQuestItems } from "./useQuestItems";
+import type { QuestTab } from "@/utils/types/player/quest";
+import { QUEST_TABS, TAB_COUNT } from "@/data/quests/tabs";
 
 const COLS = 3;
 
