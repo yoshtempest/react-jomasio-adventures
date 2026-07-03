@@ -36,6 +36,7 @@ export type SoundId =
   | "unlockedTitle"
   | "eating"
   | "drinkingPotion"
+  | "jhowsimarJooj"
   | "boom";
 
 type SoundEffectsContextType = {
@@ -86,6 +87,7 @@ export function SoundEffectsProvider({ children }: { children: ReactNode }) {
       unlockedTitle: new Audio(asset("/assets/songs/soundEffects/player/unlockedTitle.mp3")),
       eating: new Audio(asset("/assets/songs/soundEffects/player/eating.mp3")),
       drinkingPotion: new Audio(asset("/assets/songs/soundEffects/player/drinkingPotion.mp3")),
+      jhowsimarJooj: new Audio(asset("/assets/songs/soundEffects/npc/jhowsimarJooj.mp3")),
       boom: new Audio(asset("/assets/songs/soundEffects/npc/boom.mp3")),
     };
 
