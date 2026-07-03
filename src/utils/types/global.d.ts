@@ -338,4 +338,16 @@ declare global {
     chestDrop: { id: string; name: string } | null;
     keyDrop: { id: string; name: string } | null;
   };
+
+  type DamageType =
+    | "player"
+    | "npc"
+    | "special"
+    | "pet"
+    | "summon"
+    | "blocked"
+    | "crit"
+    | "charge"
+    | "reflect"
+    | "miss";
 }

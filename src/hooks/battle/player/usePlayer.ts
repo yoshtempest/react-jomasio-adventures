@@ -8,7 +8,6 @@ import {
   getBerserkMultiplier,
 } from "@/gameRules/battle/damage";
 import { rollCrit } from "@/gameRules/battle/damageUtils";
-import type { DamageType } from "@/hooks/battle/damage/useNumbers";
 import type { BattleBehavior } from "@/utils/types/player/behavior";
 import type { CharacterProgress } from "@/data/characters/defaultProgress";
 import { asset } from "@/utils/asset";

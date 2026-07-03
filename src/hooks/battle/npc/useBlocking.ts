@@ -1,6 +1,4 @@
-import type { DamageType } from "@/hooks/battle/damage/useNumbers";
-
-type SpawnDamageFn = (value: number, x: number, y: number, type: DamageType) => void;
+import type { SpawnDamageFn } from "@/utils/types/battle/spawnDamageFn";
 
 export function applyGuardBreak(
   remainingDmg: number,

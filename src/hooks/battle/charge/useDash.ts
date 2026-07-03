@@ -12,7 +12,6 @@ import {
   DASH_STEP,
   BATTLE_LIMITS,
 } from "@/utils/types/player/movement";
-import type { DamageType } from "@/hooks/battle/damage/useNumbers";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 
 type Props = {

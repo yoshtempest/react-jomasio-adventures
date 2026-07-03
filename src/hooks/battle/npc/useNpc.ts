@@ -4,7 +4,6 @@ import { calculateNpcDamage } from "@/gameRules/battle/damage";
 import { isNpcInRange } from "@/gameRules/battle/range";
 import { isFacingTarget } from "@/gameRules/battle/direction";
 import { handleNpcBlocking } from "./useBlocking";
-import type { DamageType } from "@/hooks/battle/damage/useNumbers";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 
 type Props = {

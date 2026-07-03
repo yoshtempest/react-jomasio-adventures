@@ -5,7 +5,6 @@ import { CHARGE_TIME } from "@/utils/types/battle/charge";
 import type {
   ChargeParticle,
 } from "@/utils/types/battle/charge";
-import type { DamageType } from "@/hooks/battle/damage/useNumbers";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 

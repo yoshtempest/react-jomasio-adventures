@@ -1,17 +1,5 @@
 import { useState, useCallback, useRef } from "react";
 
-export type DamageType =
-  | "player"
-  | "npc"
-  | "special"
-  | "pet"
-  | "summon"
-  | "blocked"
-  | "crit"
-  | "charge"
-  | "reflect"
-  | "miss";
-
 export type DamageNumber = {
   id: number;
   value: number;
