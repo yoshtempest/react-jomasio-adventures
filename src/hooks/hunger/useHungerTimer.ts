@@ -1,15 +1,8 @@
 import { useEffect, useRef } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
+import { DIFFICULTY_HUNGER_RATE, HUNGER_INTERVAL_MS, HUNGER_TICK_MS } from "@/data/player/hunger";
 
-const HUNGER_TICK_MS = 30_000; // check every 60s
-const HUNGER_INTERVAL_MS = 60_000; // 1 min
-
-const DIFFICULTY_HUNGER_RATE: Record<string, number> = {
-  easy: 0,
-  medium: -1,
-  hard: -2,
-};
 
 export function useHungerTimer() {
   const { difficulty, player } = usePlayer();
