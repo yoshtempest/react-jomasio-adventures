@@ -1,17 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from "react";
-
-const COMBO_RESET_MS = 4000;
-
-const RANK_THRESHOLDS = [
-  { rank: "SS", pct: 75 },
-  { rank: "S+", pct: 55 },
-  { rank: "S", pct: 40 },
-  { rank: "A", pct: 28 },
-  { rank: "B", pct: 18 },
-  { rank: "C", pct: 10 },
-  { rank: "D", pct: 5 },
-  { rank: "E", pct: 2 },
-] as const;
+import { COMBO_RESET_MS, RANK_THRESHOLDS } from "@/data/battle/combo";
 
 export type ComboRank = "F" | "E" | "D" | "C" | "B" | "A" | "S" | "S+" | "SS";
 
