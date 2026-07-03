@@ -2,7 +2,7 @@ import { useMemo, useRef, useEffect } from "react";
 import { SendHorizontal } from "lucide-react";
 import Talking from "@/components/Talking";
 import styles from "./styles.module.css";
-import SOS from "/assets/songs/SOSFromEarth.m4a";
+import SOS from "/assets/songs/background/battle/SOSFromEarth.m4a";
 import { useGameAudio } from "@/hooks/game/useGameAudio";
 import { useNavigate } from "react-router";
 import { useCutscene } from "@/hooks/interaction/useCutscene";

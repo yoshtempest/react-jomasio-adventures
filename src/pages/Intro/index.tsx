@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from "react";
 import styles from "./styles.module.css";
-import undertale from "/assets/songs/UndertaleGameOver.m4a";
+import undertale from "/assets/songs/background/UndertaleGameOver.m4a";
 import { useGameAudio } from "@/hooks/game/useGameAudio";
 import { asset } from "@/utils/asset";
 import { useGameModeMenu } from "@/hooks/menu/useGameMode";

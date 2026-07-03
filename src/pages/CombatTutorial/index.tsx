@@ -16,7 +16,7 @@ import { HealthBar } from "@/components/Game/Battle/HUD/HealthBar";
 import { Deliciometro } from "@/components/Game/Battle/HUD/Deliciometro";
 import { TASKS } from "@/gameRules/tutorial/combatTasks";
 import { gainSpecial } from "@/gameRules/battle/special";
-import KickBack from "/assets/songs/KickBack.mp3";
+import KickBack from "/assets/songs/background/battle/KickBack.mp3";
 import { sceneBackgrounds } from "@/data/sceneBackground";
 import styles from "./styles.module.css";
 

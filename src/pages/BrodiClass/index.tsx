@@ -1,7 +1,7 @@
 import { ExploreScene } from "@/components/Game/Scenes/Default";
 import { cafeteriaDialogue } from "@/data/dialogues/cafeteria/one";
 import { sceneBackgrounds } from "@/data/sceneBackground";
-import toothlessDancing from "/assets/songs/ToothlessDancing.m4a";
+import toothlessDancing from "/assets/songs/background/ToothlessDancing.m4a";
 import { brodiClass } from "@/maps/brodiClass";
 
 export default function BrodiClassOne() {
