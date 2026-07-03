@@ -12,7 +12,7 @@ type Props = {
   playerGroundY: number;
 };
 
-const SPAWN_POSITIONS = [550, 850, 1150];
+const SPAWN_POSITIONS = [550, 650, 750];
 
 export function useSummons({
   npcLevel,

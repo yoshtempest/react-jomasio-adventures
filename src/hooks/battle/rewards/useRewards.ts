@@ -3,7 +3,7 @@ import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { usePetProgress } from "@/contexts/PetProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { useInventory } from "@/contexts/InventoryContext";
-
+import { COIN_REWARDS, CHEST_DROP_CHANCE, KEY_DROP_CHANCE } from "@/data/battle/drops";
 import { calculateXP } from "@/utils/types/battle/calculateXp";
 import { PET_XP_MULTIPLIER } from "@/data/characters/petProgress";
 import {
@@ -18,30 +18,6 @@ type Props = {
   npcClass: NPCClass;
   npcLevel: number;
   npcType: string;
-};
-
-export const COIN_REWARDS: Record<string, number> = {
-  common: 5,
-  rare: 10,
-  epic: 25,
-  boss: 50,
-  legendary: 100,
-};
-
-export const CHEST_DROP_CHANCE: Record<NPCClass, number> = {
-  common: 0.15,
-  rare: 0.25,
-  epic: 0.4,
-  boss: 0.55,
-  legendary: 0.7,
-};
-
-export const KEY_DROP_CHANCE: Record<NPCClass, number> = {
-  common: 0.1,
-  rare: 0.15,
-  epic: 0.2,
-  boss: 0.25,
-  legendary: 0.35,
 };
 
 export function useBattleRewards({ npcClass, npcLevel, npcType }: Props) {

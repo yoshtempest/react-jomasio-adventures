@@ -2,7 +2,7 @@ import { NPCS } from "@/data/npc/npc";
 import { TITLES } from "@/data/titles";
 import { CRAFT_DROP_TABLES } from "@/data/items/crafting";
 import { DROP_CONFIG } from "@/data/equipment/drops";
-import { COIN_REWARDS, CHEST_DROP_CHANCE, KEY_DROP_CHANCE } from "@/hooks/battle/rewards/useRewards";
+import { COIN_REWARDS, CHEST_DROP_CHANCE, KEY_DROP_CHANCE } from "@/data/battle/drops";
 import { ITEMS } from "@/data/items";
 
 export function getNpcClass(npcType: string): NPCClass | null {
