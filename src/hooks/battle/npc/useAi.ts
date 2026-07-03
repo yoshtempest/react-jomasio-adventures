@@ -102,10 +102,7 @@ export function useNpcAI({
   const stopSoundRef = useRef(stopSound);
   stopSoundRef.current = stopSound;
   const jhowsimarSoundPlayingRef = useRef(false);
-  const npcHpValueRef = useRef(npcHpRef?.current ?? 0);
-  npcHpValueRef.current = npcHpRef?.current ?? 0;
-  const npcMaxHpValueRef = useRef(npcMaxHpRef?.current ?? 1);
-  npcMaxHpValueRef.current = npcMaxHpRef?.current ?? 1;
+
 
   useProjectile(
     projectile,
@@ -208,8 +205,8 @@ export function useNpcAI({
           onPullPlayer: onPullPlayerRef.current,
           summonTimerRef,
           playSound: (sound, loop) => playSoundRef.current(sound, loop),
-          npcHp: npcHpValueRef.current,
-          npcMaxHp: npcMaxHpValueRef.current,
+          npcHp: npcHpRef?.current ?? 0,
+          npcMaxHp: npcMaxHpRef?.current ?? 1,
         });
 
         const nextX = result.x;
