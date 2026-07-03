@@ -6,10 +6,9 @@ import { isMovementLocked } from "@/gameRules/movement/state";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { getSkillTree } from "@/data/passiveSkills";
 
-type Dir = "up" | "down" | "left" | "right";
+import { DASH_THRESHOLD, DASH_COOLDOWN } from "@/data/cooldowns";
 
-const DASH_THRESHOLD = 300;
-const DASH_COOLDOWN = 600;
+type Dir = "up" | "down" | "left" | "right";
 
 export function useKeyboardMovement() {
   const {

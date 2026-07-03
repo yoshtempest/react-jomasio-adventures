@@ -5,6 +5,7 @@ import {
   getBerserkMultiplier,
 } from "@/gameRules/battle/damage";
 import { rollCrit } from "@/gameRules/battle/damageUtils";
+import { PLAYER_CHARGE_DASH_COOLDOWN } from "@/data/cooldowns";
 import { isPlayerInRange } from "@/gameRules/battle/range";
 import {
   DASH_DURATION,
@@ -187,7 +188,7 @@ export function useChargeDash(props: Props) {
               registerHitRef.current?.(dmg);
               hitstopRef.current = Date.now() + 80;
               playerCooldown.current = false;
-              setTimeout(() => { playerCooldown.current = true; }, 500);
+              setTimeout(() => { playerCooldown.current = true; }, PLAYER_CHARGE_DASH_COOLDOWN);
             } else {
               spawnDamageRef.current?.(
                 critDmg,

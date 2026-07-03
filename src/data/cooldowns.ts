@@ -1,0 +1,29 @@
+export const PLAYER_BASIC_COOLDOWN = 400;
+export const PLAYER_SPECIAL_COOLDOWN = 600;
+export const PLAYER_CHARGE_DASH_COOLDOWN = 500;
+export const DASH_COOLDOWN = 600;
+export const DASH_THRESHOLD = 300;
+
+export const NPC_MELEE_COOLDOWN = 800;
+export const NPC_BLOCK_COOLDOWN = 500;
+export const NPC_GUARD_BREAK_COOLDOWN = 800;
+export const NPC_RECENT_BLOCK_COOLDOWN = 600;
+export const NPC_PROJECTILE_COOLDOWN = 3000;
+export const NPC_PULL_COOLDOWN = 3000;
+
+export const BOSS_MELEE_COOLDOWN = 2000;
+export const STAFF_COOLDOWN = 500;
+export const SUMMON_COOLDOWN = 7000;
+export const SPEAR_RAIN_COOLDOWN = 4000;
+export const MIN_ACTION_GAP = 100;
+export const JUMP_COOLDOWN = 3000;
+export const STATE_ATTACK_COOLDOWN = 800;
+
+export const JESO_FOOD_COOLDOWN_MS = 600_000;
+export const DAILY_CHEST_COOLDOWN_MS = 21_600_000;
+
+export const UI_BUTTON_L_COOLDOWN = 400;
+export const UI_BUTTON_B_COOLDOWN = 600;
+export const UI_BUTTON_G_COOLDOWN = 400;
+
+export const COMBAT_SYSTEM_COOLDOWN = 500;

@@ -3,12 +3,11 @@ import { tryMeleeAttack } from "@/gameRules/npc/attack";
 import { canAttack } from "@/gameRules/npc/behavior";
 import { createCommonProjectile } from "@/gameRules/npc/createDirectionalProjectile";
 import { tryThrowProjectile } from "@/gameRules/npc/projectile";
+import { NPC_MELEE_COOLDOWN, NPC_PROJECTILE_COOLDOWN } from "@/data/cooldowns";
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
 
 const MELEE_RANGE = 50;
-const MELEE_COOLDOWN = 800;
 const MELEE_ATTACK_DURATION = 400;
-const PROJECTILE_COOLDOWN = 3000;
 const SWITCH_DISTANCE = 120;
 const IDLE_DURATION = 100;
 
@@ -36,7 +35,7 @@ export function vandinhaBehavior(ctx: BehaviorContext) {
       playerX: targetX,
       playerY: targetY,
       range: MELEE_RANGE,
-      cooldown: MELEE_COOLDOWN,
+      cooldown: NPC_MELEE_COOLDOWN,
       lastAttackRef,
       onHit: onMeleeHit,
     });
@@ -50,7 +49,7 @@ export function vandinhaBehavior(ctx: BehaviorContext) {
       return { x: npc.x, y: npc.y, state: "meleeAttack" as const };
     }
 
-    const inCooldown = !canAttack(lastAttackRef, MELEE_COOLDOWN);
+    const inCooldown = !canAttack(lastAttackRef, NPC_MELEE_COOLDOWN);
 
     if (inCooldown) {
       if (distanceX <= MELEE_RANGE) {
@@ -70,7 +69,7 @@ export function vandinhaBehavior(ctx: BehaviorContext) {
 
   const threw = tryThrowProjectile({
     projectile,
-    cooldown: PROJECTILE_COOLDOWN,
+    cooldown: NPC_PROJECTILE_COOLDOWN,
     lastAttackRef,
     setProjectile,
     projectileData: createCommonProjectile({

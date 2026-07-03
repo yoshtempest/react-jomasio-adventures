@@ -6,8 +6,7 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { openChest, type ChestDropResult } from "@/data/items/chests";
 import { DAILY_CHEST_KEY } from "@/data/storageKeys";
 import { slotKey } from "@/utils/save/slotManager";
-
-const COOLDOWN_MS = 6 * 60 * 60 * 1000;
+import { DAILY_CHEST_COOLDOWN_MS } from "@/data/cooldowns";
 
 const TIER_ORDER: NPCClass[] = ["common", "rare", "epic", "boss", "legendary"];
 
@@ -47,7 +46,7 @@ export function useDailyChest() {
   const [lastResult, setLastResult] = useState<DailyChestResult | null>(null);
 
   const calcTimeLeft = useCallback(
-    () => COOLDOWN_MS - (Date.now() - lastOpen),
+    () => DAILY_CHEST_COOLDOWN_MS - (Date.now() - lastOpen),
     [lastOpen],
   );
 

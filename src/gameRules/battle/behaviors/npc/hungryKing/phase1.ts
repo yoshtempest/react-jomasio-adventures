@@ -1,10 +1,10 @@
+import { NPC_MELEE_COOLDOWN, JUMP_COOLDOWN } from "@/data/cooldowns";
 import { chasePlayer } from "@/gameRules/npc/movement";
 import { tryMeleeAttack } from "@/gameRules/npc/attack";
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
 import type { NPCBattleState } from "@/utils/types/npc/npc";
 import type { HungryKingAI } from "./state";
 import {
-  JUMP_COOLDOWN,
   JUMP_DURATION,
   JUMP_THRESHOLD,
   JUMP_HEIGHT,
@@ -49,7 +49,7 @@ export function hungryKingPhase1(
       playerX: targetX,
       playerY: targetY,
       range: 40,
-      cooldown: 800,
+      cooldown: NPC_MELEE_COOLDOWN,
       lastAttackRef,
       onHit: onMeleeHit,
     });

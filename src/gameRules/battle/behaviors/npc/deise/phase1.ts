@@ -1,3 +1,4 @@
+import { BOSS_MELEE_COOLDOWN } from "@/data/cooldowns";
 import { createCommonProjectile } from "@/gameRules/npc/createDirectionalProjectile";
 import { tryMeleeAttack } from "@/gameRules/npc/attack";
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
@@ -59,7 +60,7 @@ export function deisePhase1(
     playerX: targetX,
     playerY: targetY,
     range: 300,
-    cooldown: 2000,
+    cooldown: BOSS_MELEE_COOLDOWN,
     lastAttackRef,
     onHit: onMeleeHit,
   });

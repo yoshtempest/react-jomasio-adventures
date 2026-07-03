@@ -1,3 +1,4 @@
+import { NPC_BLOCK_COOLDOWN, NPC_GUARD_BREAK_COOLDOWN, NPC_RECENT_BLOCK_COOLDOWN } from "@/data/cooldowns";
 import type { SpawnDamageFn } from "@/utils/types/battle/spawnDamageFn";
 
 export function applyGuardBreak(
@@ -72,7 +73,7 @@ export function handleNpcBlocking({
         npcCooldown.current = false;
         onFullBlock?.();
         onBlockRef?.current?.();
-        setTimeout(() => (npcCooldown.current = true), 500);
+        setTimeout(() => (npcCooldown.current = true), NPC_BLOCK_COOLDOWN);
         return true;
       }
 
@@ -89,7 +90,7 @@ export function handleNpcBlocking({
       hitstopRef.current = Date.now() + 80;
       npcCooldown.current = false;
       onBlockRef?.current?.();
-      setTimeout(() => (npcCooldown.current = true), 800);
+      setTimeout(() => (npcCooldown.current = true), NPC_GUARD_BREAK_COOLDOWN);
       return true;
     }
 
@@ -99,7 +100,7 @@ export function handleNpcBlocking({
     hitstopRef.current = Date.now() + 40;
     npcCooldown.current = false;
     onBlockRef?.current?.();
-    setTimeout(() => (npcCooldown.current = true), 500);
+    setTimeout(() => (npcCooldown.current = true), NPC_BLOCK_COOLDOWN);
     return true;
   }
 
@@ -119,7 +120,7 @@ export function handleNpcBlocking({
     hitstopRef.current = Date.now() + 60;
     npcCooldown.current = false;
     onBlockRef?.current?.();
-    setTimeout(() => (npcCooldown.current = true), 600);
+    setTimeout(() => (npcCooldown.current = true), NPC_RECENT_BLOCK_COOLDOWN);
     return true;
   }
 

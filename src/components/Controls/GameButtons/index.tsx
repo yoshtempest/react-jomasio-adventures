@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { UI_BUTTON_L_COOLDOWN, UI_BUTTON_B_COOLDOWN, UI_BUTTON_G_COOLDOWN } from "@/data/cooldowns";
 import styles from "./styles.module.css";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useNavbar } from "@/contexts/NavbarContext";
@@ -36,7 +37,7 @@ export function GameButtons() {
     activeControls?.onConfirm?.();
     setLCooldown(true);
     if (lTimerRef.current) clearTimeout(lTimerRef.current);
-    lTimerRef.current = setTimeout(() => setLCooldown(false), 400);
+    lTimerRef.current = setTimeout(() => setLCooldown(false), UI_BUTTON_L_COOLDOWN);
   }
 
   function handleConfirmUp() {
@@ -47,7 +48,7 @@ export function GameButtons() {
     activeControls?.onCancel?.();
     setBCooldown(true);
     if (bTimerRef.current) clearTimeout(bTimerRef.current);
-    bTimerRef.current = setTimeout(() => setBCooldown(false), 600);
+    bTimerRef.current = setTimeout(() => setBCooldown(false), UI_BUTTON_B_COOLDOWN);
   }
 
   function handleCancelUp() {
@@ -63,7 +64,7 @@ export function GameButtons() {
         case "Enter":
           setLCooldown(true);
           if (lTimerRef.current) clearTimeout(lTimerRef.current);
-          lTimerRef.current = setTimeout(() => setLCooldown(false), 400);
+          lTimerRef.current = setTimeout(() => setLCooldown(false), UI_BUTTON_L_COOLDOWN);
           break;
 
         case "b":
@@ -73,14 +74,14 @@ export function GameButtons() {
         case "Delete":
           setBCooldown(true);
           if (bTimerRef.current) clearTimeout(bTimerRef.current);
-          bTimerRef.current = setTimeout(() => setBCooldown(false), 600);
+          bTimerRef.current = setTimeout(() => setBCooldown(false), UI_BUTTON_B_COOLDOWN);
           break;
 
         case "g":
         case "G":
           setGCooldown(true);
           if (gTimerRef.current) clearTimeout(gTimerRef.current);
-          gTimerRef.current = setTimeout(() => setGCooldown(false), 400);
+          gTimerRef.current = setTimeout(() => setGCooldown(false), UI_BUTTON_G_COOLDOWN);
           break;
       }
     }

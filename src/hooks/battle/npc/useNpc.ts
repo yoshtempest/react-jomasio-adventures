@@ -1,4 +1,5 @@
 import { useCallback, useRef } from "react";
+import { NPC_MELEE_COOLDOWN } from "@/data/cooldowns";
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import { calculateNpcDamage } from "@/gameRules/battle/damage";
 import { isNpcInRange } from "@/gameRules/battle/range";
@@ -182,7 +183,7 @@ export function useNpcBattle({
     if (Math.random() < missChance) {
       spawnDamageRef.current?.(0, tx, ty, "miss");
       npcCooldown.current = false;
-      setTimeout(() => (npcCooldown.current = true), 800);
+      setTimeout(() => (npcCooldown.current = true), NPC_MELEE_COOLDOWN);
       return;
     }
 
@@ -205,7 +206,7 @@ export function useNpcBattle({
     hitstopRef.current = Date.now() + 50;
 
     npcCooldown.current = false;
-    setTimeout(() => (npcCooldown.current = true), 800);
+    setTimeout(() => (npcCooldown.current = true), NPC_MELEE_COOLDOWN);
   }, [
     isEnding, npcCooldown, player.state,
     npcLevel, npcClass, playerClass, totalArmor,
@@ -265,7 +266,7 @@ export function useNpcBattle({
     hitstopRef.current = Date.now() + 30;
 
     npcCooldown.current = false;
-    setTimeout(() => (npcCooldown.current = true), 800);
+    setTimeout(() => (npcCooldown.current = true), NPC_MELEE_COOLDOWN);
   }, [
     isEnding, npcCooldown, player.state, player.battleDirection,
     npcLevel, npcClass, playerClass, totalArmor, setPlayer,

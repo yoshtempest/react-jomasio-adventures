@@ -1,3 +1,4 @@
+import { COMBAT_SYSTEM_COOLDOWN } from "@/data/cooldowns";
 import { BaseCharacter } from "@/core/characters/base";
 
 export function attack(
@@ -16,7 +17,7 @@ export function attack(
 
   const newAttacker = {
     ...attacker,
-    cooldown: currentTime + 500, // meio segundo
+    cooldown: currentTime + COMBAT_SYSTEM_COOLDOWN,
   };
 
   return {

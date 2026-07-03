@@ -2,8 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import { JESO_FOOD_KEY } from "@/data/storageKeys";
 import { slotKey } from "@/utils/save/slotManager";
 import { FOODS } from "@/data/items/food";
-
-const COOLDOWN_MS = 10 * 60 * 1000;
+import { JESO_FOOD_COOLDOWN_MS } from "@/data/cooldowns";
 
 function getRandomFoodIds(count: number): string[] {
   const foodIds = Object.keys(FOODS);
@@ -26,7 +25,7 @@ export function useJesoFoodCooldown() {
   });
 
   const calcTimeLeft = useCallback(
-    () => COOLDOWN_MS - (Date.now() - lastDelivery),
+    () => JESO_FOOD_COOLDOWN_MS - (Date.now() - lastDelivery),
     [lastDelivery],
   );
 

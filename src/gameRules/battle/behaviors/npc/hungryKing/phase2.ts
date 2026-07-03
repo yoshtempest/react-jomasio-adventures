@@ -1,3 +1,4 @@
+import { NPC_MELEE_COOLDOWN } from "@/data/cooldowns";
 import { chasePlayer } from "@/gameRules/npc/movement";
 import { tryMeleeAttack } from "@/gameRules/npc/attack";
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
@@ -33,7 +34,7 @@ export function hungryKingPhase2(
     playerX: targetX,
     playerY: targetY,
     range: 40,
-    cooldown: 800,
+    cooldown: NPC_MELEE_COOLDOWN,
     lastAttackRef,
     onHit: onMeleeHit,
   });

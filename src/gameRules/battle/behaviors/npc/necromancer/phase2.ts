@@ -1,3 +1,4 @@
+import { BOSS_MELEE_COOLDOWN } from "@/data/cooldowns";
 import { chasePlayer } from "@/gameRules/npc/movement";
 import { tryMeleeAttack } from "@/gameRules/npc/attack";
 import { createCommonProjectile, createRainProjectile } from "@/gameRules/npc/createDirectionalProjectile";
@@ -58,7 +59,7 @@ export function deisePhase2(
     const meleeHit = tryMeleeAttack({
       npcX: npc.x, npcY: npc.y,
       playerX: targetX, playerY: targetY,
-      range: 200, cooldown: 2000,
+      range: 200, cooldown: BOSS_MELEE_COOLDOWN,
       lastAttackRef, onHit: onMeleeHit,
     });
     if (meleeHit) {
@@ -88,7 +89,7 @@ export function deisePhase2(
     const meleeHit = tryMeleeAttack({
       npcX: npc.x, npcY: npc.y,
       playerX: targetX, playerY: targetY,
-      range: 200, cooldown: 2000,
+      range: 200, cooldown: BOSS_MELEE_COOLDOWN,
       lastAttackRef, onHit: onMeleeHit,
     });
     if (meleeHit) {

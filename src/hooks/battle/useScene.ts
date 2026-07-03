@@ -200,7 +200,7 @@ export function useBattleScene({
       setIsGrabbed(true);
       setPlayer((p) => ({ ...p, grabbedUntil: Date.now() + 1500 }));
     },
-    onThrowPlayer: (_mult) => {
+    onThrowPlayer: () => {
       setIsGrabbed(false);
       setPlayer((p) => ({ ...p, grabbedUntil: 0 }));
       refs.npcThrowAttackRef.current();

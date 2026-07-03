@@ -1,3 +1,4 @@
+import { NPC_MELEE_COOLDOWN, STATE_ATTACK_COOLDOWN } from "@/data/cooldowns";
 import { chasePlayer } from "@/gameRules/npc/movement";
 import { tryMeleeAttack } from "@/gameRules/npc/attack";
 import { canAttack } from "@/gameRules/npc/behavior";
@@ -14,12 +15,10 @@ export function piupiuBehavior(ctx: BehaviorContext) {
     playerX: targetX,
     playerY: targetY,
     range: 40,
-    cooldown: 800,
+    cooldown: NPC_MELEE_COOLDOWN,
     lastAttackRef,
     onHit: onMeleeHit,
   });
-
-  const STATE_ATTACK_COOLDOWN = 800;
   if (!canAttack(lastAttackRef, STATE_ATTACK_COOLDOWN)) {
     return { x: npc.x, y: npc.y, state: "idle" as const };
   }

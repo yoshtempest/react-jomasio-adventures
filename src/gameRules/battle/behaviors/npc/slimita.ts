@@ -3,6 +3,7 @@ import { isNear } from "@/gameRules/npc/behavior";
 import { tryMeleeAttack } from "@/gameRules/npc/attack";
 import { createPullProjectile } from "@/gameRules/npc/createDirectionalProjectile";
 import { getSlimitaState } from "@/gameRules/npc/slimitaState";
+import { NPC_PULL_COOLDOWN, NPC_MELEE_COOLDOWN } from "@/data/cooldowns";
 import { asset } from "@/utils/asset";
 
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
@@ -10,10 +11,8 @@ import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
 const boomAudio = new Audio(asset("/assets/songs/soundEffects/npc/boom.mp3"));
 boomAudio.volume = 0.7;
 
-const PULL_COOLDOWN = 3000;
 const FAR_DISTANCE_X = 260;
 const MELEE_RANGE = 50;
-const MELEE_COOLDOWN = 800;
 
 export function slimitaBehavior(ctx: BehaviorContext) {
   const {
@@ -39,7 +38,7 @@ export function slimitaBehavior(ctx: BehaviorContext) {
     const distanceX = Math.abs(npc.x - targetX);
 
     if (distanceX > FAR_DISTANCE_X) {
-      const canPull = !projectile && now - state.lastPullThrow >= PULL_COOLDOWN;
+      const canPull = !projectile && now - state.lastPullThrow >= NPC_PULL_COOLDOWN;
 
       if (canPull) {
         setProjectile(createPullProjectile({
@@ -65,7 +64,7 @@ export function slimitaBehavior(ctx: BehaviorContext) {
       playerX: targetX,
       playerY: targetY,
       range: MELEE_RANGE,
-      cooldown: MELEE_COOLDOWN,
+      cooldown: NPC_MELEE_COOLDOWN,
       lastAttackRef,
       onHit: onMeleeHit,
     });

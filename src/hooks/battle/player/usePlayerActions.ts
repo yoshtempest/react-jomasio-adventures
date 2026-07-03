@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 
+import { PLAYER_BASIC_COOLDOWN } from "@/data/cooldowns";
 import {
   calculatePlayerDamage,
   getBerserkMultiplier,
@@ -132,7 +133,7 @@ export function usePlayerBattleActions({
       battle.playerCooldown.current = false;
       setTimeout(() => {
         battle.playerCooldown.current = true;
-      }, 400);
+      }, PLAYER_BASIC_COOLDOWN);
 
       return;
     }

@@ -9,7 +9,9 @@ export type HungryKingAI = {
   summonEndTime: number;
 };
 
-export const JUMP_COOLDOWN = 3000;
+import { JUMP_COOLDOWN } from "@/data/cooldowns";
+
+export { JUMP_COOLDOWN };
 export const JUMP_DURATION = 1500;
 export const JUMP_THRESHOLD = 200;
 export const JUMP_HEIGHT = 220;

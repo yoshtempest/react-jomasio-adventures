@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import { PLAYER_BASIC_COOLDOWN, PLAYER_SPECIAL_COOLDOWN } from "@/data/cooldowns";
 import { canPlayerHit } from "@/gameRules/battle/combat";
 import { playAttackSound } from "@/utils/types/battle/playAttackSound";
 import {
@@ -109,7 +110,7 @@ export function usePlayerBattle({
       playerCooldown.current = false;
       setTimeout(() => {
         playerCooldown.current = true;
-      }, 400);
+      }, PLAYER_BASIC_COOLDOWN);
       return;
     }
 
@@ -159,7 +160,7 @@ export function usePlayerBattle({
 
     setTimeout(() => {
       playerCooldown.current = true;
-    }, 400);
+    }, PLAYER_BASIC_COOLDOWN);
   }, [
     isEnding,
     playerCooldown,
@@ -216,7 +217,7 @@ export function usePlayerBattle({
       playerCooldown.current = false;
       setTimeout(() => {
         playerCooldown.current = true;
-      }, 600);
+      }, PLAYER_SPECIAL_COOLDOWN);
       return;
     }
 
@@ -265,7 +266,7 @@ export function usePlayerBattle({
 
     setTimeout(() => {
       playerCooldown.current = true;
-    }, 600);
+    }, PLAYER_SPECIAL_COOLDOWN);
   }, [
     isEnding,
     delicia,

@@ -1,16 +1,14 @@
 import { chasePlayer } from "@/gameRules/npc/movement";
 import { canAttack, isNear } from "@/gameRules/npc/behavior";
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
-import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import { NPC_MELEE_COOLDOWN } from "@/data/cooldowns";
 
 const MELEE_RANGE = 50;
-const MELEE_COOLDOWN = 800;
 const GET_DURATION = 400;
 const THROW_DURATION = 400;
 
 export function jhowsimarBehavior(ctx: BehaviorContext) {
-  const { playSound } = useSoundEffects();
-  const { npc, targetX, targetY, lastAttackRef, onMeleeHit } = ctx;
+  const { npc, targetX, targetY, lastAttackRef, onMeleeHit, playSound } = ctx;
   const now = Date.now();
 
   if (!npc.ai) npc.ai = {};
@@ -21,7 +19,7 @@ export function jhowsimarBehavior(ctx: BehaviorContext) {
   const state = npc.ai.jhowsimar;
 
   if (state.grabPhase) {
-    playSound("jhowsimarJooj");
+    playSound?.("jhowsimarJooj");
     const elapsed = now - state.startTime;
 
     if (state.grabPhase === "get") {
@@ -46,7 +44,7 @@ export function jhowsimarBehavior(ctx: BehaviorContext) {
 
   const { x } = chasePlayer(npc, targetX, targetY);
   const inRange = isNear(npc.x, npc.y, targetX, targetY, MELEE_RANGE);
-  const readyToAttack = canAttack(lastAttackRef, MELEE_COOLDOWN);
+  const readyToAttack = canAttack(lastAttackRef, NPC_MELEE_COOLDOWN);
 
   if (inRange && readyToAttack) {
     if (state.attackCount >= 3) {

@@ -248,7 +248,7 @@ export function useNpcAI({
       clearInterval(interval);
       stopSoundRef.current("jhowsimarVemCa");
     };
-  }, [hitstopRef, npcStaggerRef, npcPhaseRef, npcTargetIsPetRef, hasPetRef, petXRef, petYRef, npcBlockedRef]);
+  }, [hitstopRef, npcStaggerRef, npcPhaseRef, npcTargetIsPetRef, hasPetRef, petXRef, petYRef, npcBlockedRef, npcHpRef, npcMaxHpRef]);
 
   const updateNpc = (partial: Partial<NPCBattleState>) => {
     setNpc((n) => ({ ...n, ...partial }));

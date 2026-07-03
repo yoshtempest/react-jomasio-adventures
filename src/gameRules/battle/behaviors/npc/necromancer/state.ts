@@ -1,9 +1,8 @@
-export const STAFF_COOLDOWN = 500;
-export const SUMMON_COOLDOWN = 7000;
-export const MIN_ACTION_GAP = 100;
-export const CLOSE_RANGE = 200;
+import { STAFF_COOLDOWN, SUMMON_COOLDOWN, MIN_ACTION_GAP, SPEAR_RAIN_COOLDOWN } from "@/data/cooldowns";
 
-export const SPEAR_RAIN_COOLDOWN = 4000;
+export { STAFF_COOLDOWN, SUMMON_COOLDOWN, MIN_ACTION_GAP, SPEAR_RAIN_COOLDOWN };
+
+export const CLOSE_RANGE = 200;
 export const SPEAR_RAIN_WARNING_DURATION = 1000;
 export const SPEAR_RAIN_COUNT = 5;
 
