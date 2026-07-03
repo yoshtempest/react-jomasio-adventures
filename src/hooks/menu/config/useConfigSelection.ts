@@ -6,10 +6,12 @@ import { getSelected } from "@/gameRules/menu/selection";
 import { useAudio } from "@/contexts/AudioContext";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { useSettings } from "@/contexts/SettingsContext";
+import { useUpdate } from "@/contexts/UpdateContext";
+import { usePWA } from "@/contexts/PWAContext";
 import { DIALOGUE_SPEED_LIST } from "@/utils/settings";
 
 const DIFFICULTY: NpcDifficulty[] = ["easy", "medium", "hard"];
-const MAX_ROW = 5;
+const MAX_ROW = 7;
 
 export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   const { pushControls, popControls } = useGameControls();
@@ -17,6 +19,8 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   const { setDifficulty } = usePlayer();
   const { sfxVolume, setSfxVolume, bgmVolume, setBgmVolume } = useAudio();
   const { setDialogueSpeed, showQuestIndicator, setShowQuestIndicator } = useSettings();
+  const { checkForUpdate } = useUpdate();
+  const { install } = usePWA();
   const { playMove, playSelect, playClose } = useMenuSFX();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -56,6 +60,10 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   setDialogueSpeedRef.current = setDialogueSpeed;
   const setShowQuestIndicatorRef = useRef(setShowQuestIndicator);
   setShowQuestIndicatorRef.current = setShowQuestIndicator;
+  const checkForUpdateRef = useRef(checkForUpdate);
+  checkForUpdateRef.current = checkForUpdate;
+  const installRef = useRef(install);
+  installRef.current = install;
   const onConfirmRef = useRef(onConfirm);
   onConfirmRef.current = onConfirm;
 
@@ -155,6 +163,14 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
 
         if (selectedRowRef.current === 5) {
           setScreen("tutorial");
+        }
+
+        if (selectedRowRef.current === 6) {
+          checkForUpdateRef.current();
+        }
+
+        if (selectedRowRef.current === 7) {
+          installRef.current();
         }
 
         onConfirmRef.current?.();

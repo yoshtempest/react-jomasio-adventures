@@ -109,13 +109,13 @@ export function Config() {
       </div>
       <div className={styles.flexRow}>
         <div
-          className={`${styles.indicatorButton} ${
+          className={`${styles.tutorialButton} ${
             selectedRow === 4 ? styles.selected : ""
           }`}
         >
           {selectedRow === 4 && <span className={styles.cursor}>▼</span>}
 
-          <h2 className={styles.indicatorText}>Indicador de Missões: {showQuestIndicator ? "ON" : "OFF"}</h2>
+          <h2>Indicador de Missões: {showQuestIndicator ? "ON" : "OFF"}</h2>
         </div>
         <div
           className={`${styles.tutorialButton} ${
@@ -126,8 +126,24 @@ export function Config() {
 
           <h2>Ver Tutorial</h2>
         </div>
-        <InstallButton />
-        <UpdateButton />
+        <div
+          className={`${styles.tutorialButton} ${
+            selectedRow === 6 ? styles.selected : ""
+          }`}
+        >
+          {selectedRow === 6 && <span className={styles.cursor}>▼</span>}
+
+          <UpdateButton />
+        </div>
+        <div
+          className={`${styles.tutorialButton} ${
+            selectedRow === 7 ? styles.selected : ""
+          }`}
+        >
+          {selectedRow === 7 && <span className={styles.cursor}>▼</span>}
+
+          <InstallButton />
+        </div>
       </div>
 
       {screen === "tutorial" && (
@@ -149,7 +165,7 @@ function UpdateButton() {
   return (
     <button
       type="button"
-      className={styles.updateButton}
+      className={styles.tutorialButton}
       onClick={checkForUpdate}
       disabled={status === "checking"}
     >
