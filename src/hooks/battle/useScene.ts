@@ -167,7 +167,8 @@ export function useBattleScene({
   killCounter.npcTypeRef.current = npcType;
   killCounter.npcDataRef.current = npcData;
 
-  const isPaused = showVictory || showDefeat || showIntro || showOutro != null || isGrabbed;
+  const isPaused = showVictory || showDefeat || showIntro || showOutro != null;
+  const controlsDisabled = isPaused || isPhaseTransitioning || isGrabbed;
 
   targeting.npcAiHpRef.current = npcStats.hp;
   targeting.npcAiMaxHpRef.current = npcStats.hp;
@@ -479,7 +480,7 @@ export function useBattleScene({
       }),
     handlePlayerHit,
     handleSpecialHit,
-    disabled: isPaused || isPhaseTransitioning,
+    disabled: controlsDisabled,
     onChargePress: charge.startCharge,
     onChargeRelease: charge.releaseCharge,
     onChargeCancel: charge.cancelCharge,

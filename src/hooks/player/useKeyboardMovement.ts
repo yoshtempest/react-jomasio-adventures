@@ -138,10 +138,14 @@ export function useKeyboardMovement() {
     };
   }, []);
 
+  const isGrabbed = () =>
+    playerRef.current.grabbedUntil != null && Date.now() < (playerRef.current.grabbedUntil ?? 0);
+
   useEffect(() => {
     const controls = {
       onUp: () => {
         if (isLockedRef.current) return;
+        if (isGrabbed()) return;
         if (isBattleRef.current) moveUpBattleRef.current();
         else moveUpRef.current();
       },
@@ -149,6 +153,7 @@ export function useKeyboardMovement() {
 
       onDown: () => {
         if (isLockedRef.current) return;
+        if (isGrabbed()) return;
         if (isBattleRef.current) toggleCrouchRef.current();
         else moveDownRef.current();
       },
@@ -156,6 +161,7 @@ export function useKeyboardMovement() {
 
       onLeft: () => {
         if (isLockedRef.current) return;
+        if (isGrabbed()) return;
         if (isLeftHeldRef.current) {
           if (isBattleRef.current) startMoveLeftRef.current();
           else moveLeftRef.current();
@@ -196,6 +202,7 @@ export function useKeyboardMovement() {
 
       onRight: () => {
         if (isLockedRef.current) return;
+        if (isGrabbed()) return;
         if (isRightHeldRef.current) {
           if (isBattleRef.current) startMoveRightRef.current();
           else moveRightRef.current();
