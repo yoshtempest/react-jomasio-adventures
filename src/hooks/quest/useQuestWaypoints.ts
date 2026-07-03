@@ -3,16 +3,7 @@ import { useQuests } from "@/contexts/QuestContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useSettings } from "@/contexts/SettingsContext";
 import { QUEST_ROUTES, QUEST_NPC_POSITIONS } from "@/data/quests/waypoints";
-
-type HighlightTile = {
-  x: number;
-  y: number;
-};
-
-type QuestNpcPosition = {
-  gridX: number;
-  gridY: number;
-};
+import type { HighlightTile, QuestNpcPosition } from "@/utils/types/player/quest";
 
 export function useQuestWaypoints(
   scene: SceneConfig | null,

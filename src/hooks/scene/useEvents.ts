@@ -6,17 +6,7 @@ import { useFlags } from "@/contexts/FlagContext";
 
 import { QUESTS } from "@/data/quests";
 import { ITEMS } from "@/data/items";
-
-type Condition = {
-  hasItem?: ItemId;
-  notHasItem?: ItemId;
-  hasQuest?: QuestId;
-  notHasQuest?: QuestId;
-  hasFlag?: FlagId;
-  notHasFlag?: FlagId;
-  lastPage?: LastPage;
-  notLastPage?: LastPage;
-};
+import type { Condition } from "@/utils/types/maps/conditions";
 
 export function useSceneEvents() {
   const { navigateWithFade } = useTransitionCtx();

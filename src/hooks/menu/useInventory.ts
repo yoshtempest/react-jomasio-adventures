@@ -6,14 +6,8 @@ import { useItemEffect } from "@/gameRules/items/useItem";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { useAudio } from "@/contexts/AudioContext";
 import { asset } from "@/utils/asset";
-import type { InventoryItem } from "@/utils/types/player/inventory";
+import type { FilterConfig } from "@/utils/types/inventory/filterConfig";
 
-export type FilterConfig = {
-  labels: { type: string; label: string }[];
-  active: string;
-  onChange: (type: string) => void;
-  filteredItems: InventoryItem[];
-};
 
 export function useInventoryMenu(
   isOpen: boolean,

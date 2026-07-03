@@ -1,0 +1,1 @@
+export type ComboRank = "F" | "E" | "D" | "C" | "B" | "A" | "S" | "S+" | "SS";

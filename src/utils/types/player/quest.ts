@@ -3,6 +3,16 @@ export type QuestRewardsType = "xp" | "item" | "coin" | "hyperCoin";
 export type QuestFrequency = "daily" | "weekly";
 export type QuestTab = "active" | "completed" | "daily" | "weekly";
 
+export type HighlightTile = {
+  x: number;
+  y: number;
+};
+
+export type QuestNpcPosition = {
+  gridX: number;
+  gridY: number;
+};
+
 export type QuestTemplate = {
   name: string;
   image: string;

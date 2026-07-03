@@ -1,5 +1,5 @@
 import styles from "./styles.module.css";
-import type { ComboRank } from "@/hooks/battle/useComboSystem";
+import type { ComboRank } from "@/utils/types/battle/combo";
 
 type Props = {
   count: number;

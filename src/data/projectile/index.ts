@@ -1,0 +1,8 @@
+export const ProjectileConstants = {
+  SPEED: 17,
+  SPEAR_FALL_SPEED: 18,
+  OFFSCREEN_MARGIN: 200,
+  MAP_WIDTH: 1280,
+  MAP_HEIGHT: 600,
+  OFFSCREEN_BOTTOM: 800
+};

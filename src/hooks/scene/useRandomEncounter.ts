@@ -2,18 +2,8 @@ import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { slotKey } from "@/utils/save/slotManager";
+import type { RandomEncounterConfig, EncounterDef } from "@/utils/types/battle/randomEncounter";
 
-type EncounterDef = {
-  route: string;
-  weight: number;
-};
-
-type RandomEncounterConfig = {
-  storageKey: string;
-  blockedTiles?: { x: number; y: number }[];
-  encounters: EncounterDef[];
-  encounterChance?: number;
-};
 
 function pickEncounter(encounters: EncounterDef[]): string {
   const totalWeight = encounters.reduce((sum, e) => sum + e.weight, 0);

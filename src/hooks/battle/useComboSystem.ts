@@ -1,7 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { COMBO_RESET_MS, RANK_THRESHOLDS } from "@/data/battle/combo";
-
-export type ComboRank = "F" | "E" | "D" | "C" | "B" | "A" | "S" | "S+" | "SS";
+import type { ComboRank } from "@/utils/types/battle/combo";
 
 function calcRank(damagePct: number): ComboRank {
   for (const { rank, pct } of RANK_THRESHOLDS) {

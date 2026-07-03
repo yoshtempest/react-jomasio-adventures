@@ -1,21 +1,6 @@
 import { useEffect, useRef } from "react";
-import type { NavigateFunction, Location } from "react-router";
-
-type ExitTileOptions = {
-  scene: SceneConfig;
-  player: Player;
-  quests: Quest[];
-  navigateWithFade: (to: string, options?: { state?: unknown }) => void;
-  location: Location;
-  handleExit?: (ctx: {
-    player: Player;
-    scene: SceneConfig;
-    navigate: NavigateFunction;
-    location: Location;
-    quests: Quest[];
-  }) => boolean;
-  setPopup?: (msg: string | null) => void;
-};
+import type { NavigateFunction } from "react-router";
+import type { ExitTileOptions } from "@/utils/types/maps/exitTiles";
 
 export function useExitTile({
   scene,

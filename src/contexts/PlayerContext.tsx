@@ -9,7 +9,7 @@ import {
 } from "react";
 import { usePlayerMovement } from "@/hooks/player/usePlayerMovement";
 import { useBattleMovement } from "@/hooks/battle/player/useMovement";
-import type { CollisionParams } from "@/hooks/battle/useGravity";
+import type { CollisionParams } from "@/utils/types/battle/collision";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { usePlayerAnimation } from "@/hooks/battle/player/usePlayerAnimation";

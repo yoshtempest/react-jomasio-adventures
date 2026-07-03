@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useInventoryMenu } from "@/hooks/menu/useInventory";
-import type { FilterConfig } from "@/hooks/menu/useInventory";
+import type { FilterConfig } from "@/utils/types/inventory/filterConfig";
 import { useChestOpening } from "@/hooks/useChestOpening";
 import { useDailyChest } from "@/hooks/useDailyChest";
 import { useGameControls } from "@/contexts/GameControlsContext";

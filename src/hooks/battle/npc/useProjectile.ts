@@ -1,12 +1,7 @@
 import { useEffect, useRef } from "react";
 import type { Dispatch, SetStateAction } from "react";
+import { ProjectileConstants } from "@/data/projectile";
 
-const SPEED = 17;
-const SPEAR_FALL_SPEED = 18;
-const OFFSCREEN_MARGIN = 200;
-const MAP_WIDTH = 1280;
-const MAP_HEIGHT = 600;
-const OFFSCREEN_BOTTOM = 800;
 
 export function useProjectile(
   projectile: Projectile | null,
@@ -72,15 +67,15 @@ function handleCommon(
 
   const next = {
     ...p,
-    x: p.x + p.dirX * SPEED,
-    y: p.y + p.dirY * SPEED,
+    x: p.x + p.dirX * ProjectileConstants.SPEED,
+    y: p.y + p.dirY * ProjectileConstants.SPEED,
   };
 
   if (
-    next.x < -OFFSCREEN_MARGIN ||
-    next.x > MAP_WIDTH + OFFSCREEN_MARGIN ||
-    next.y < -OFFSCREEN_MARGIN ||
-    next.y > MAP_HEIGHT + OFFSCREEN_MARGIN
+    next.x < -ProjectileConstants.OFFSCREEN_MARGIN ||
+    next.x > ProjectileConstants.MAP_WIDTH + ProjectileConstants.OFFSCREEN_MARGIN ||
+    next.y < -ProjectileConstants.OFFSCREEN_MARGIN ||
+    next.y > ProjectileConstants.MAP_HEIGHT + ProjectileConstants.OFFSCREEN_MARGIN
   ) {
     return null;
   }
@@ -118,15 +113,15 @@ function handlePull(
 
   const next = {
     ...p,
-    x: p.x + p.dirX * SPEED,
-    y: p.y + p.dirY * SPEED,
+    x: p.x + p.dirX * ProjectileConstants.SPEED,
+    y: p.y + p.dirY * ProjectileConstants.SPEED,
   };
 
   if (
-    next.x < -OFFSCREEN_MARGIN ||
-    next.x > MAP_WIDTH + OFFSCREEN_MARGIN ||
-    next.y < -OFFSCREEN_MARGIN ||
-    next.y > MAP_HEIGHT + OFFSCREEN_MARGIN
+    next.x < -ProjectileConstants.OFFSCREEN_MARGIN ||
+    next.x > ProjectileConstants.MAP_WIDTH + ProjectileConstants.OFFSCREEN_MARGIN ||
+    next.y < -ProjectileConstants.OFFSCREEN_MARGIN ||
+    next.y > ProjectileConstants.MAP_HEIGHT + ProjectileConstants.OFFSCREEN_MARGIN
   ) {
     return null;
   }
@@ -165,14 +160,14 @@ function handleRain(
   // Falling phase
   let allDone = true;
   const newSpears = p.spears.map((s) => {
-    if (s.hit || s.y > OFFSCREEN_BOTTOM) return s;
+    if (s.hit || s.y > ProjectileConstants.OFFSCREEN_BOTTOM) return s;
     allDone = false;
 
-    const newY = s.y + SPEAR_FALL_SPEED;
+    const newY = s.y + ProjectileConstants.SPEAR_FALL_SPEED;
     const isDashing = playerState === "dash";
 
     const isCrouched = playerState === "idleCrounched" || playerState === "walkCrounched";
-    if (!s.hit && newY >= 550 && newY <= OFFSCREEN_BOTTOM && !isDashing && !isCrouched) {
+    if (!s.hit && newY >= 550 && newY <= ProjectileConstants.OFFSCREEN_BOTTOM && !isDashing && !isCrouched) {
       const dx = Math.abs(playerX - s.x);
       if (dx < 30) {
         onHit();

@@ -1,13 +1,6 @@
 import { useEffect, type RefObject } from "react";
-import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import { getLandingY, getGroundAtX } from "@/utils/types/maps/battle";
-
-export type CollisionParams = {
-  map: BattleMapConfig | null;
-  TILE_SIZE: number;
-  scaleX: number;
-  scaleY: number;
-};
+import type { CollisionParams } from "@/utils/types/battle/collision";
 
 const gravity = 1.5;
 

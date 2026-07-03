@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import type { CollisionParams } from "@/hooks/battle/useGravity";
+import type { CollisionParams } from "@/utils/types/battle/collision";
 import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
 
 export const BATTLE_DEFAULT_STATE = {
