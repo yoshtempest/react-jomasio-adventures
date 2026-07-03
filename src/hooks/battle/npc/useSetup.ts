@@ -12,9 +12,10 @@ type NpcSetupResult = {
 export function useNpcSetup(
   npcType: string,
   difficulty: NpcDifficulty,
+  playerLevel: number = 1,
 ): NpcSetupResult {
   const npcData = NPCS[npcType];
-  const [npcLevel] = useState(() => generateNpcLevel());
+  const [npcLevel] = useState(() => generateNpcLevel(playerLevel));
   const npcStats = getNpcStats(npcLevel, npcData.class, difficulty);
 
   return { npcData, npcLevel, npcStats };

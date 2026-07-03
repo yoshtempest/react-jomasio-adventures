@@ -75,6 +75,7 @@ export function useBattleScene({
   } = usePlayer();
 
   const { progress, reduceHunger, getXPToNextLevel } = useCharacterProgress();
+  const playerLevel = progress[player.character]?.level ?? 1;
   const { getPetProgress } = usePetProgress();
   const { getEquippedInfo } = useEquipment();
   const petInfo = getEquippedInfo(player.character, "pet");
@@ -105,7 +106,7 @@ export function useBattleScene({
 
   const { showIntro, skipIntro } = useBattleIntro();
 
-  const { npcData, npcLevel, npcStats } = useNpcSetup(npcType, difficulty);
+  const { npcData, npcLevel, npcStats } = useNpcSetup(npcType, difficulty, playerLevel);
 
   const { xpReward, giveRewards, giveSummonRewards } = useBattleRewards({
     npcClass: npcData.class,
