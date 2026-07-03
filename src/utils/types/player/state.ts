@@ -1,10 +1,11 @@
 import { useRef } from "react";
 import type { CollisionParams } from "@/hooks/battle/player/useMovement";
+import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
 
 export const BATTLE_DEFAULT_STATE = {
-  x: 100,
-  y: 670,
-  groundY: 670,
+  x: BATTLE_SPAWN.player.x,
+  y: BATTLE_SPAWN.player.y,
+  groundY: BATTLE_SPAWN.player.y,
   velY: 0,
   state: "idle" as const,
   battleDirection: "right" as const,

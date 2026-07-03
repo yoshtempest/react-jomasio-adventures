@@ -19,6 +19,7 @@ import { gainSpecial } from "@/gameRules/battle/special";
 import KickBack from "/assets/songs/background/battle/KickBack.mp3";
 import { sceneBackgrounds } from "@/data/sceneBackground";
 import styles from "./styles.module.css";
+import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
 
 const DUMMY_MAX_HP = 10000;
 const HITS_TO_SPECIAL = 6;
@@ -113,8 +114,8 @@ function CombatTutorialInner() {
         rows={MAP_ROWS}
       >
         <NPCBattle
-          x={700}
-          y={670}
+          x={BATTLE_SPAWN.npc.x}
+          y={BATTLE_SPAWN.npc.y}
           TILE_SIZE={TILE_SIZE}
           npcType="dummy"
           state="idle"

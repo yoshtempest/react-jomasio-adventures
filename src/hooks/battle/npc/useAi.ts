@@ -10,6 +10,7 @@ import {
 import type { NPCBattleState } from "@/utils/types/npc/npc";
 import type { BattleObstacle } from "@/utils/types/maps/battle";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
 
 type Props = {
   playerX: number;
@@ -59,8 +60,8 @@ export function useNpcAI({
   npcBlockedRef,
 }: Props) {
   const [npc, setNpc] = useState<NPCBattleState>({
-    x: 900,
-    y: 670,
+    x: BATTLE_SPAWN.npc.x,
+    y: BATTLE_SPAWN.npc.y,
     state: "walk",
     direction: "left",
   });
@@ -124,8 +125,8 @@ export function useNpcAI({
 
   const resetNpc = (stateOverride?: NPCBattleState["state"]) => {
     setNpc({
-      x: 900,
-      y: 670,
+      x: BATTLE_SPAWN.npc.x,
+      y: BATTLE_SPAWN.npc.y,
       state: stateOverride ?? "walk",
       direction: "left",
     });

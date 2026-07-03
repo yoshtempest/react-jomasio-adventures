@@ -1,3 +1,5 @@
+import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
+
 export type BattleObstacleType = "wall" | "platform";
 
 export type BattleObstacle = {
@@ -11,8 +13,6 @@ export type BattleObstacle = {
 export type BattleMapConfig = {
   obstacles: BattleObstacle[];
 };
-
-export const GROUND_Y = 670;
 
 export function getLandingY(
   prevY: number,
@@ -31,7 +31,7 @@ export function getLandingY(
 
     if (best === null || ob.y > best) best = ob.y;
   }
-  return best ?? GROUND_Y;
+  return best ?? BATTLE_SPAWN.npc.y;
 }
 
 export function getGroundAtX(
@@ -49,7 +49,7 @@ export function getGroundAtX(
 
     if (best === null || ob.y > best) best = ob.y;
   }
-  return best ?? GROUND_Y;
+  return best ?? BATTLE_SPAWN.npc.y;
 }
 
 export function isHorizontallyBlocked(

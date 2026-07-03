@@ -8,11 +8,12 @@ import {
   JUMP_DURATION,
   JUMP_THRESHOLD,
   JUMP_HEIGHT,
-  GROUND_Y,
   JUMP_RISE_MS,
   JUMP_FLIGHT_MS,
   JUMP_RECOVERY_MS,
 } from "./state";
+import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
+
 
 type Phase1Result = { x: number; y: number; state?: NPCBattleState["state"] };
 
@@ -72,7 +73,7 @@ export function hungryKingPhase1(
     const progress = elapsed / JUMP_DURATION;
     const height = Math.sin(progress * Math.PI) * JUMP_HEIGHT;
     const newX = npc.x + (ai.jumpTargetX - npc.x) * 0.04;
-    return { x: newX, y: GROUND_Y - height, state: getJumpState(elapsed) };
+    return { x: newX, y: BATTLE_SPAWN.npc.y - height, state: getJumpState(elapsed) };
   }
 
   // ── landing ──────────────────────────────────────
@@ -80,9 +81,9 @@ export function hungryKingPhase1(
   ai.landingTime = now;
   npc.jumpLandingX = undefined;
 
-  if (Math.hypot(ai.jumpTargetX - targetX, GROUND_Y - targetY) < 150) {
+  if (Math.hypot(ai.jumpTargetX - targetX, BATTLE_SPAWN.npc.y - targetY) < 150) {
     onMeleeHit();
   }
 
-  return { x: ai.jumpTargetX, y: GROUND_Y, state: "jumpAttack" };
+  return { x: ai.jumpTargetX, y: BATTLE_SPAWN.npc.y, state: "jumpAttack" };
 }

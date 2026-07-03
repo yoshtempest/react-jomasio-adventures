@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import type { NPCBattleState } from "@/utils/types/npc/npc";
+import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
 
 type Props = {
   npcPhase: number;
@@ -32,9 +33,6 @@ export function usePhaseTransition({
     const startPlayerX = player.x;
     const startPlayerY = player.y;
     const startNpcX = npc.x;
-    const TARGET_X = 100;
-    const TARGET_NPC_X = 900;
-    const TARGET_Y = 670;
     const DURATION = 700;
 
     setPlayer((p) => ({
@@ -52,28 +50,28 @@ export function usePhaseTransition({
       const t = Math.min(elapsed / DURATION, 1);
       const ease = 1 - Math.pow(1 - t, 3);
 
-      const px = startPlayerX + (TARGET_X - startPlayerX) * ease;
-      const py = startPlayerY + (TARGET_Y - startPlayerY) * ease;
-      const nx = startNpcX + (TARGET_NPC_X - startNpcX) * ease;
+      const px = startPlayerX + (BATTLE_SPAWN.player.x - startPlayerX) * ease;
+      const py = startPlayerY + (BATTLE_SPAWN.npc.y - startPlayerY) * ease;
+      const nx = startNpcX + (BATTLE_SPAWN.npc.x - startNpcX) * ease;
 
       setPlayer((p) => ({
         ...p,
         x: px,
         y: py,
-        groundY: TARGET_Y,
+        groundY: BATTLE_SPAWN.player.y,
         velY: 0,
         battleDirection: "right",
       }));
-      npc.updateNpc({ x: nx, y: TARGET_Y });
+      npc.updateNpc({ x: nx, y: BATTLE_SPAWN.npc.y });
 
       if (t < 1) {
         animFrame = requestAnimationFrame(animate);
       } else {
         setPlayer((p) => ({
           ...p,
-          x: TARGET_X,
-          y: TARGET_Y,
-          groundY: TARGET_Y,
+          x: BATTLE_SPAWN.player.x,
+          y: BATTLE_SPAWN.player.y,
+          groundY: BATTLE_SPAWN.player.y,
           velY: 0,
           state: "idle",
           battleDirection: "right",
