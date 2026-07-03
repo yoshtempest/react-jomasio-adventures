@@ -7,11 +7,11 @@ import {
   ACCESSORY_UNLOCKED_COUNT
 } from "@/utils/types/player/equipment";
 import type {
-  Equipment,
   EquipmentStats,
   EquippedItemInfo
 } from "@/utils/types/player/equipment";
 import type { EquipmentFilter } from "@/utils/equipmentMenu";
+import type { CollectedEntry, EquippedEntry } from "@/utils/types/equipment/entrys";
 
 function totalStats(stats: EquipmentStats): number {
   return stats.hp + stats.strength + stats.intelligence + stats.armor + stats.shield + stats.vampirism + stats.reflect;
@@ -25,31 +25,6 @@ function parseColKey(key: string): { id: string; enhance: number } {
   }
   return { id: key, enhance: 0 };
 }
-
-export type CollectedEntry = {
-  item: Equipment;
-  qty: number;
-  enhance: number;
-  stats: ReturnType<typeof getEffectiveStats>;
-  arrow: "up" | "down" | null;
-};
-
-export type EquippedEntry =
-  | {
-      type: "slot";
-      slot: (typeof EQUIPMENT_SLOTS)[number];
-      item: Equipment | null;
-      info: { id: EquipmentId; enhance: number } | null;
-      stats: EquipmentStats | null;
-    }
-  | {
-      type: "accessory-slot";
-      index: number;
-      item: Equipment | null;
-      info: { id: EquipmentId; enhance: number } | null;
-      stats: EquipmentStats | null;
-      locked: boolean;
-    };
 
 export function useEquipmentItems(
   character: CharacterId,

@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { ArrowUp, ArrowDown } from "lucide-react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useEquipmentMenu } from "@/hooks/menu/equipment/useEquipment";
-import type { CollectedEntry } from "@/hooks/menu/equipment/useEquipment";
+import type { CollectedEntry } from "@/utils/types/equipment/entrys";
 import {
   EQUIPPED_COUNT,
   FILTER_TAB_COUNT,

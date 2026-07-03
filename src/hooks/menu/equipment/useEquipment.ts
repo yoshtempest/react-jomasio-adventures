@@ -9,7 +9,7 @@ import {
 } from "@/utils/equipmentMenu";
 import type { EquipmentFilter } from "@/utils/equipmentMenu";
 import { useEquipmentItems } from "./useEquipmentItems";
-import type { CollectedEntry } from "./useEquipmentItems";
+import type { CollectedEntry } from "@/utils/types/equipment/entrys";
 
 export type { CollectedEntry };
 
