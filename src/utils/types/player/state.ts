@@ -9,6 +9,10 @@ export const BATTLE_DEFAULT_STATE = {
   velY: 0,
   state: "idle" as const,
   battleDirection: "right" as const,
+  bleedUntil: 0,
+  pullFromX: 0,
+  pullToX: 0,
+  pullStartTime: 0,
 };
 
 export function useBattleCollisionRef() {

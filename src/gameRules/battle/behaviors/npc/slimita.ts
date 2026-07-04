@@ -46,7 +46,7 @@ export function slimitaBehavior(ctx: BehaviorContext) {
           targetY: playerY - 80,
           sprite: "staff",
           state: "idle",
-          pullTargetX: npc.x - 60,
+          pullTargetX: npc.x,
         }));
 
         setForceIdle(true);

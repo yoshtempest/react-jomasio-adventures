@@ -273,6 +273,9 @@ declare global {
     moving?: boolean;
     grabbedUntil?: number;
     bleedUntil: number;
+    pullFromX: number;
+    pullToX: number;
+    pullStartTime: number;
   };
 
   // ── Quest ───────────────────────────────────────────────

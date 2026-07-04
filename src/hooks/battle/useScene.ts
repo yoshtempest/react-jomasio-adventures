@@ -185,7 +185,16 @@ export function useBattleScene({
     onMeleeHit: () => refs.npcMeleeAttackRef.current(),
     isPaused: isPaused || isPhaseTransitioning,
     onSummon: summonNpc,
-    onPullPlayer: (x: number) => setPlayer((p) => ({ ...p, x })),
+    onPullPlayer: (npcX: number) => setPlayer((p) => {
+      const direction = npcX > p.x ? 1 : -1;
+      const pullToX = Math.max(50, Math.min(1200, p.x + direction * 200));
+      return {
+        ...p,
+        pullFromX: p.x,
+        pullToX,
+        pullStartTime: Date.now(),
+      };
+    }),
     obstacles: map?.obstacles,
     hitstopRef: refs.hitstopRef,
     npcStaggerRef: refs.npcStaggerRef,

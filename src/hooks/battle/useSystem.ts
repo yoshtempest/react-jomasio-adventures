@@ -260,6 +260,24 @@ export function useBattleSystem(props: Props) {
     return () => clearInterval(interval);
   }, [setPlayerHP, isEnding]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPlayer((p) => {
+        if (p.pullStartTime === 0) return p;
+        const elapsed = Date.now() - p.pullStartTime;
+        const duration = 300;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const currentX = p.pullFromX + (p.pullToX - p.pullFromX) * eased;
+        if (progress >= 1) {
+          return { ...p, x: p.pullToX, pullStartTime: 0 };
+        }
+        return { ...p, x: currentX };
+      });
+    }, 16);
+    return () => clearInterval(interval);
+  }, [setPlayer]);
+
   const resetBattle = () => {
     setPlayerHP(playerMaxHp);
     setPlayerShield(totalShield);
@@ -278,7 +296,7 @@ export function useBattleSystem(props: Props) {
       setDelicia: playerBattle.setDelicia,
     });
     resetPet();
-    setPlayer((p) => ({ ...p, bleedUntil: 0 }));
+    setPlayer((p) => ({ ...p, bleedUntil: 0, pullStartTime: 0 }));
   };
 
   return {
