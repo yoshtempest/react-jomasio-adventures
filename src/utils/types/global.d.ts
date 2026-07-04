@@ -277,6 +277,9 @@ declare global {
     pullFromX: number;
     pullToX: number;
     pullStartTime: number;
+    throwStartTime: number;
+    throwFromX: number;
+    throwToX: number;
   };
 
   // ── Quest ───────────────────────────────────────────────

@@ -1,4 +1,4 @@
-import { useRef, useState, useMemo } from "react";
+import { useRef, useState, useMemo, useEffect } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useGameAudio } from "@/hooks/game/useGameAudio";
 import { useNpcAI } from "@/hooks/battle/npc/useAi";
@@ -208,16 +208,18 @@ export function useBattleScene({
     npcBlockedRef: targeting.npcBlockedRef,
     onGrabPlayer: () => {
       setIsGrabbed(true);
-      setPlayer((p) => ({ ...p, grabbedUntil: Date.now() + 1200 }));
+      setPlayer((p) => ({ ...p, grabbedUntil: Date.now() + 6000 }));
     },
     onThrowStart: (npcX: number, npcDirection: "left" | "right") => {
       setIsThrown(true);
       setPlayer((p) => {
-        const dx = npcX > p.x ? 100 : -100;
-        const newX = Math.max(50, Math.min(1200, p.x + dx));
+        const dirAway = npcX > p.x ? -1 : 1;
+        const throwToX = Math.max(50, Math.min(1200, p.x + dirAway * 300));
         return {
           ...p,
-          x: newX,
+          throwStartTime: Date.now(),
+          throwFromX: p.x,
+          throwToX,
           battleDirection: npcDirection,
           state: "fallen",
         };
@@ -226,25 +228,25 @@ export function useBattleScene({
     onThrowPlayer: () => {
       setIsGrabbed(false);
       refs.npcThrowAttackRef.current();
-      setTimeout(() => {
-        setPlayer((p) => {
-          if (p.state !== "fallen") return p;
-          return { ...p, state: "idleCrounched" };
-        });
-      }, 0);
-      setTimeout(() => {
-        setPlayer((p) => {
-          if (p.state !== "idleCrounched") return p;
-          return { ...p, state: "walkCrounched" };
-        });
-      }, 300);
-      setTimeout(() => {
-        setPlayer((p) => {
-          if (p.state !== "walkCrounched") return p;
-          return { ...p, state: "idle", grabbedUntil: 0 };
-        });
-        setIsThrown(false);
-      }, 400);
+      // setTimeout(() => {
+      //   setPlayer((p) => {
+      //     if (p.state !== "fallen") return p;
+      //     return { ...p, state: "idleCrounched" };
+      //   });
+      // }, 0);
+      // setTimeout(() => {
+      //   setPlayer((p) => {
+      //     if (p.state !== "idleCrounched") return p;
+      //     return { ...p, state: "walkCrounched" };
+      //   });
+      // }, 300);
+      // setTimeout(() => {
+      //   setPlayer((p) => {
+      //     if (p.state !== "walkCrounched") return p;
+      //     return { ...p, state: "idle", grabbedUntil: 0 };
+      //   });
+      //   setIsThrown(false);
+      // }, 400);
     },
   });
 
@@ -506,6 +508,54 @@ export function useBattleScene({
     battleNpcMeleeHit: battle.npcMeleeHit,
     battleNpcThrowHit: battle.npcThrowHit,
   });
+
+  useEffect(() => {
+    const timeouts: ReturnType<typeof setTimeout>[] = [];
+    const interval = setInterval(() => {
+      setPlayer((p) => {
+        if (p.throwStartTime === 0) return p;
+
+        const elapsed = Date.now() - p.throwStartTime;
+        const duration = 2000;
+        const progress = Math.min(elapsed / duration, 1);
+
+        const x = p.throwFromX + (p.throwToX - p.throwFromX) * progress;
+
+        const arcHeight = 100;
+        const yOffset = -arcHeight * 4 * progress * (1 - progress);
+        const y = p.groundY + yOffset;
+
+        if (progress >= 1) {
+          timeouts.push(
+            setTimeout(() => setPlayer((p2) => {
+              if (p2.state !== "fallen") return p2;
+              return { ...p2, state: "idleCrounched" };
+            }), 300),
+            setTimeout(() => setPlayer((p2) => {
+              if (p2.state !== "idleCrounched") return p2;
+              return { ...p2, state: "walkCrounched" };
+            }), 900),
+            setTimeout(() => {
+              setPlayer((p2) => {
+                if (p2.state !== "walkCrounched") return p2;
+                return { ...p2, state: "idle", grabbedUntil: 0, throwStartTime: 0 };
+              });
+              setIsThrown(false);
+            }, 1800),
+          );
+
+          return { ...p, x, y: p.groundY, velY: 0, throwStartTime: 0 };
+        }
+
+        return { ...p, x, y, velY: 0 };
+      });
+    }, 16);
+
+    return () => {
+      clearInterval(interval);
+      timeouts.forEach(clearTimeout);
+    };
+  }, [setPlayer, setIsThrown]);
 
   useBattleControls({
     attack,
