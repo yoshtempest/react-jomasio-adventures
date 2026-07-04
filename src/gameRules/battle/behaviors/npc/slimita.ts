@@ -1,6 +1,5 @@
 import { chasePlayer } from "@/gameRules/npc/movement";
 import { isNear } from "@/gameRules/npc/behavior";
-import { tryMeleeAttack } from "@/gameRules/npc/attack";
 import { createPullProjectile } from "@/gameRules/npc/createDirectionalProjectile";
 import { getSlimitaState } from "@/gameRules/npc/slimitaState";
 import { NPC_PULL_COOLDOWN, NPC_MELEE_COOLDOWN } from "@/data/cooldowns";
@@ -26,7 +25,6 @@ export function slimitaBehavior(ctx: BehaviorContext) {
     projectile,
     setProjectile,
     setForceIdle,
-    lastAttackRef
   } = ctx;
 
   const now = Date.now();
@@ -66,25 +64,38 @@ export function slimitaBehavior(ctx: BehaviorContext) {
       return { x, y: npc.y, state: "rangedAttack" as const };
     }
 
-    const MELEE_ATTACK_DURATION = 400;
-    const hit = tryMeleeAttack({
-      npcX: npc.x,
-      npcY: npc.y,
-      playerX: targetX,
-      playerY: targetY,
-      range: MELEE_RANGE,
-      cooldown: NPC_MELEE_COOLDOWN,
-      lastAttackRef,
-      onHit: onMeleeHit,
-    });
+    const DASH_DURATION = 500;
+    const DASH_EXTRA = 100;
+    const DASH_RANGE = 50;
 
-    if (hit) {
-      state.lastMeleeAttack = now;
-      return { x: npc.x, y: npc.y, state: "meleeAttack" as const };
+    if (state.phase1DashState === "dashing") {
+      const elapsed = now - state.phase1DashStart;
+      const progress = Math.min(elapsed / DASH_DURATION, 1);
+      const newX = state.phase1DashStartX + (state.phase1DashTargetX - state.phase1DashStartX) * progress;
+
+      if (!state.phase1DashHitDone && isNear(newX, npc.y, playerX, playerY, MELEE_RANGE)) {
+        onMeleeHit();
+        state.phase1DashHitDone = true;
+      }
+
+      if (progress >= 1) {
+        state.phase1DashState = "idle";
+        state.phase1DashHitDone = false;
+        state.phase1HopState = "ground";
+        state.phase1HopStart = now;
+        return { x: newX, y: state.phase1BaseY };
+      }
+
+      return { x: newX, y: state.phase1BaseY, state: "meleeAttack" as const };
     }
 
-    if (now - state.lastMeleeAttack < MELEE_ATTACK_DURATION) {
-      return { x: npc.x, y: npc.y, state: "meleeAttack" as const };
+    if (distanceX <= DASH_RANGE && now - state.lastMeleeAttack >= NPC_MELEE_COOLDOWN) {
+      state.phase1DashState = "dashing";
+      state.phase1DashStart = now;
+      state.phase1DashStartX = npc.x;
+      state.phase1DashTargetX = playerX + (playerX > npc.x ? DASH_EXTRA : -DASH_EXTRA);
+      state.phase1DashHitDone = false;
+      state.lastMeleeAttack = now;
     }
 
     const GROUND_DELAY = 150;
@@ -101,22 +112,22 @@ export function slimitaBehavior(ctx: BehaviorContext) {
       return { x: npc.x, y: state.phase1BaseY, state: "default" as const };
     }
 
-    const elapsed = now - state.phase1HopStart;
-    const progress = Math.min(elapsed / HOP_DURATION, 1);
-    const height = Math.sin(progress * Math.PI) * HOP_HEIGHT;
-    const newY = state.phase1BaseY - height;
+    const hopElapsed = now - state.phase1HopStart;
+    const hopProgress = Math.min(hopElapsed / HOP_DURATION, 1);
+    const height = Math.sin(hopProgress * Math.PI) * HOP_HEIGHT;
+    const hopY = state.phase1BaseY - height;
 
     const dx = targetX - npc.x;
     const dir = dx > 0 ? 1 : -1;
     const newX = npc.x + dir * HOP_SPEED;
 
-    if (elapsed >= HOP_DURATION) {
+    if (hopElapsed >= HOP_DURATION) {
       state.phase1HopState = "ground";
       state.phase1HopStart = now;
       return { x: newX, y: state.phase1BaseY };
     }
 
-    return { x: newX, y: newY, state: "walk" as const };
+    return { x: newX, y: hopY, state: "walk" as const };
   }
 
   // 🔥 FASE 2

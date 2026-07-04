@@ -38,6 +38,11 @@ export type NPCBattleState = {
       phase1HopStart: number;
       phase1HopStartX: number;
       phase1BaseY: number;
+      phase1DashState: "idle" | "dashing";
+      phase1DashStart: number;
+      phase1DashStartX: number;
+      phase1DashTargetX: number;
+      phase1DashHitDone: boolean;
     };
     deise?: {
       knownPhase: number;

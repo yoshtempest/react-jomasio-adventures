@@ -17,6 +17,11 @@ export function getSlimitaState(npc: NPCBattleState, playerX: number) {
       phase1HopStart: now,
       phase1HopStartX: npc.x,
       phase1BaseY: npc.y,
+      phase1DashState: "idle",
+      phase1DashStart: 0,
+      phase1DashStartX: npc.x,
+      phase1DashTargetX: npc.x,
+      phase1DashHitDone: false,
     };
   }
 
