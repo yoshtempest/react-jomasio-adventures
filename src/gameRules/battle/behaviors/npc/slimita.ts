@@ -55,10 +55,19 @@ export function slimitaBehavior(ctx: BehaviorContext) {
         setTimeout(() => setForceIdle(false), 400);
 
         state.lastPullThrow = now;
+        state.lastRangedAttack = now;
       }
     }
 
-    tryMeleeAttack({
+    const RANGED_ATTACK_DURATION = 400;
+
+    if (projectile || now - state.lastRangedAttack < RANGED_ATTACK_DURATION) {
+      const { x } = chasePlayer(npc, targetX, targetY);
+      return { x, y: npc.y, state: "rangedAttack" as const };
+    }
+
+    const MELEE_ATTACK_DURATION = 400;
+    const hit = tryMeleeAttack({
       npcX: npc.x,
       npcY: npc.y,
       playerX: targetX,
@@ -68,6 +77,15 @@ export function slimitaBehavior(ctx: BehaviorContext) {
       lastAttackRef,
       onHit: onMeleeHit,
     });
+
+    if (hit) {
+      state.lastMeleeAttack = now;
+      return { x: npc.x, y: npc.y, state: "meleeAttack" as const };
+    }
+
+    if (now - state.lastMeleeAttack < MELEE_ATTACK_DURATION) {
+      return { x: npc.x, y: npc.y, state: "meleeAttack" as const };
+    }
 
     const { x } = chasePlayer(npc, targetX, targetY);
 

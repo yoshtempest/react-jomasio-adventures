@@ -31,6 +31,8 @@ export type NPCBattleState = {
       startTime: number;
       targetX: number;
       lastPullThrow: number;
+      lastMeleeAttack: number;
+      lastRangedAttack: number;
     };
     deise?: {
       knownPhase: number;

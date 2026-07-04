@@ -11,6 +11,8 @@ export function getSlimitaState(npc: NPCBattleState, playerX: number) {
       startTime: now,
       targetX: playerX,
       lastPullThrow: 0,
+      lastMeleeAttack: 0,
+      lastRangedAttack: 0,
     };
   }
 
