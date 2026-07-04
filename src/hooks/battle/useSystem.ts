@@ -112,6 +112,13 @@ export function useBattleSystem(props: Props) {
   const spawnDamageRef = useRef(spawnDamageNumber);
   spawnDamageRef.current = spawnDamageNumber;
 
+  const bleedXRef = useRef(playerX);
+  bleedXRef.current = playerX;
+  const bleedYRef = useRef(playerY);
+  bleedYRef.current = playerY;
+  const bleedUntilRef = useRef(player.bleedUntil);
+  bleedUntilRef.current = player.bleedUntil;
+
   const { playerHP, setPlayerHP, npcHP, setNpcHP, playerShield, setPlayerShield } =
     useBattleHP(playerMaxHp, npcMaxHp, totalShield);
 
@@ -242,6 +249,17 @@ export function useBattleSystem(props: Props) {
     }
   }, [pet?.x, pet?.y, pet, petXRef, petYRef]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (isEnding.current) return;
+      if (bleedUntilRef.current > Date.now()) {
+        setPlayerHP((hp) => Math.max(0, hp - 2));
+        spawnDamageRef.current?.(2, bleedXRef.current, bleedYRef.current, "bleed");
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [setPlayerHP, isEnding]);
+
   const resetBattle = () => {
     setPlayerHP(playerMaxHp);
     setPlayerShield(totalShield);
@@ -260,6 +278,7 @@ export function useBattleSystem(props: Props) {
       setDelicia: playerBattle.setDelicia,
     });
     resetPet();
+    setPlayer((p) => ({ ...p, bleedUntil: 0 }));
   };
 
   return {

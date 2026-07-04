@@ -272,6 +272,7 @@ declare global {
     hasPeru?: boolean;
     moving?: boolean;
     grabbedUntil?: number;
+    bleedUntil: number;
   };
 
   // ── Quest ───────────────────────────────────────────────
@@ -350,5 +351,6 @@ declare global {
     | "crit"
     | "charge"
     | "reflect"
-    | "miss";
+    | "miss"
+    | "bleed";
 }

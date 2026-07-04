@@ -205,13 +205,17 @@ export function useNpcBattle({
     onDamageTakenRef?.current?.(finalDmg);
     hitstopRef.current = Date.now() + 50;
 
+    if (npcType === "hungryDeath" && !targetIsPet) {
+      setPlayer((p) => ({ ...p, bleedUntil: Date.now() + 5000 }));
+    }
+
     npcCooldown.current = false;
     setTimeout(() => (npcCooldown.current = true), NPC_MELEE_COOLDOWN);
   }, [
     isEnding, npcCooldown, player.state,
     npcLevel, npcClass, playerClass, totalArmor,
     playerX, playerY, npcX, npcY, difficulty,
-    hitstopRef, applyNpcDamage,
+    hitstopRef, applyNpcDamage, setPlayer,
     npcTargetIsPetRef, petXRef, petYRef,
     titleEnemyMissChance, onDamageTakenRef, onDodgeRef, spawnDamageRef,
     npcType, npcPhase,
