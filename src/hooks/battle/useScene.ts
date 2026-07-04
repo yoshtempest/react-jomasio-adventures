@@ -98,6 +98,7 @@ export function useBattleScene({
   npcPhaseRef.current = npcPhase;
   const [isPhaseTransitioning, setIsPhaseTransitioning] = useState(false);
   const [isGrabbed, setIsGrabbed] = useState(false);
+  const [isThrown, setIsThrown] = useState(false);
 
   const battleStartRef = useRef(Date.now());
   const [defeatElapsed, setDefeatElapsed] = useState(0);
@@ -169,7 +170,7 @@ export function useBattleScene({
   killCounter.npcDataRef.current = npcData;
 
   const isPaused = showVictory || showDefeat || showIntro || showOutro != null;
-  const controlsDisabled = isPaused || isPhaseTransitioning || isGrabbed;
+  const controlsDisabled = isPaused || isPhaseTransitioning || isGrabbed || isThrown;
 
   targeting.npcAiHpRef.current = npcStats.hp;
   targeting.npcAiMaxHpRef.current = npcStats.hp;
@@ -207,12 +208,43 @@ export function useBattleScene({
     npcBlockedRef: targeting.npcBlockedRef,
     onGrabPlayer: () => {
       setIsGrabbed(true);
-      setPlayer((p) => ({ ...p, grabbedUntil: Date.now() + 1500 }));
+      setPlayer((p) => ({ ...p, grabbedUntil: Date.now() + 1200 }));
+    },
+    onThrowStart: (npcX: number, npcDirection: "left" | "right") => {
+      setIsThrown(true);
+      setPlayer((p) => {
+        const dx = npcX > p.x ? 100 : -100;
+        const newX = Math.max(50, Math.min(1200, p.x + dx));
+        return {
+          ...p,
+          x: newX,
+          battleDirection: npcDirection,
+          state: "fallen",
+        };
+      });
     },
     onThrowPlayer: () => {
       setIsGrabbed(false);
-      setPlayer((p) => ({ ...p, grabbedUntil: 0 }));
       refs.npcThrowAttackRef.current();
+      setTimeout(() => {
+        setPlayer((p) => {
+          if (p.state !== "fallen") return p;
+          return { ...p, state: "idleCrounched" };
+        });
+      }, 0);
+      setTimeout(() => {
+        setPlayer((p) => {
+          if (p.state !== "idleCrounched") return p;
+          return { ...p, state: "walkCrounched" };
+        });
+      }, 300);
+      setTimeout(() => {
+        setPlayer((p) => {
+          if (p.state !== "walkCrounched") return p;
+          return { ...p, state: "idle", grabbedUntil: 0 };
+        });
+        setIsThrown(false);
+      }, 400);
     },
   });
 

@@ -8,7 +8,7 @@
 
 .left img,
 .right img {
-  width: 100%;
+  width: 40%;
   max-width: 320px;
 
   image-rendering: pixelated;

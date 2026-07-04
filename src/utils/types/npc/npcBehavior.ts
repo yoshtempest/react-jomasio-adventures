@@ -21,6 +21,7 @@ export type BehaviorContext = {
   npcHp?: number;
   npcMaxHp?: number;
   onGrabPlayer?: () => void;
+  onThrowStart?: (npcX: number, npcDirection: "left" | "right") => void;
   onThrowPlayer?: (damageMultiplier: number) => void;
 };
 

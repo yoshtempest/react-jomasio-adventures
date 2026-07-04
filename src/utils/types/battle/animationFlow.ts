@@ -17,7 +17,8 @@ type PlayerState =
   | "crit"
   | "falling"
   | "idleCrounched"
-  | "walkCrounched";
+  | "walkCrounched"
+  | "fallen";
 
 type AnimationStep = {
   next: PlayerState;
@@ -55,4 +56,6 @@ export const animationFlow: Record<PlayerState, AnimationStep | null> = {
 
   idleCrounched: null,
   walkCrounched: null,
+
+  fallen: null,
 };

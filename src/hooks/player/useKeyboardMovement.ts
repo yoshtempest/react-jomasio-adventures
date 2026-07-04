@@ -138,7 +138,8 @@ export function useKeyboardMovement() {
   }, []);
 
   const isGrabbed = () =>
-    playerRef.current.grabbedUntil != null && Date.now() < (playerRef.current.grabbedUntil ?? 0);
+    (playerRef.current.grabbedUntil != null && Date.now() < (playerRef.current.grabbedUntil ?? 0)) ||
+    playerRef.current.state === "fallen";
 
   useEffect(() => {
     const controls = {

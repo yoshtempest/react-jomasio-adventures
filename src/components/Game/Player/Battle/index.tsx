@@ -26,7 +26,8 @@ export function PlayerBattle({
 }: Props) {
   const resolvedState = CROUCH_STATE_MAP[state] ?? (state === "charging" ? "idle" : state);
   const isCrouching = state === "idleCrounched" || state === "walkCrounched";
-  const isGrabbed = Date.now() < grabbedUntil;
+  const isFallen = state === "fallen";
+  const isGrabbed = Date.now() < grabbedUntil && !isFallen && !isCrouching;
   const src = asset(`assets/player/${character}/inFight/${resolvedState}.svg`);
 
   const BASE_WIDTH = 1280;
@@ -64,7 +65,7 @@ export function PlayerBattle({
             transform: `
               translateX(-50%) 
               scaleX(${direction === "left" ? -1 : 1})
-              ${isGrabbed ? "scaleY(-1) translate(-50%, 80%)" : isCrouching ? "scale(0.7)" : ""}
+              ${isGrabbed ? "scaleY(-1) translate(-50%, 80%)" : isCrouching ? "scale(0.7)" : isFallen ? "scale(0.7) translate(0, 20%)" : ""}
             `,
             transformOrigin: isCrouching || isGrabbed ? "bottom center" : undefined,
             pointerEvents: "none",

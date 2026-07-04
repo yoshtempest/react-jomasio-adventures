@@ -251,7 +251,8 @@ declare global {
     | "crit"
     | "falling"
     | "idleCrounched"
-    | "walkCrounched";
+    | "walkCrounched"
+    | "fallen";
 
   type PlayerMode = "explore" | "battle" | "select" | "ui" | "map";
 

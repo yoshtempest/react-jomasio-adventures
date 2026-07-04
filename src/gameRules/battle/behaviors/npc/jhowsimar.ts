@@ -25,6 +25,7 @@ export function jhowsimarBehavior(ctx: BehaviorContext) {
       if (elapsed >= GET_DURATION) {
         state.grabPhase = "throw";
         state.startTime = now;
+        ctx.onThrowStart?.(npc.x, npc.direction);
         return { x: npc.x, y: npc.y, state: "throw" as const };
       }
       return { x: npc.x, y: npc.y, state: "get" as const };
