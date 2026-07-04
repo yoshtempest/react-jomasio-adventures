@@ -23,3 +23,9 @@ export type BehaviorContext = {
   onGrabPlayer?: () => void;
   onThrowPlayer?: (damageMultiplier: number) => void;
 };
+
+export type BehaviorResult = {
+  x: number;
+  y?: number;
+  state?: NPCBattleState["state"];
+};

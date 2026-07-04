@@ -1,38 +1,38 @@
 import { chasePlayer } from "@/gameRules/npc/movement";
 import { isNear } from "@/gameRules/npc/behavior";
 import { createPullProjectile } from "@/gameRules/npc/createDirectionalProjectile";
+import {
+  NPC_MELEE_COOLDOWN,
+  NPC_PULL_COOLDOWN
+} from "@/data/cooldowns";
+
+import {
+  FAR_DISTANCE_X,
+  MELEE_RANGE
+} from "./state";
+
 import { getSlimitaState } from "@/gameRules/npc/slimitaState";
-import { NPC_PULL_COOLDOWN, NPC_MELEE_COOLDOWN } from "@/data/cooldowns";
-import { asset } from "@/utils/asset";
 
-import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
+import type { BehaviorContext, BehaviorResult } from "@/utils/types/npc/npcBehavior";
 
-const boomAudio = new Audio(asset("/assets/songs/soundEffects/npc/boom.mp3"));
-boomAudio.volume = 0.7;
+export function handlePhase1(
+    ctx: BehaviorContext,
+    state: ReturnType<typeof getSlimitaState>,
+    now: number
+): BehaviorResult {
+    const {
+      npc,
+      playerX,
+      playerY,
+      targetX,
+      targetY,
+      onMeleeHit,
+      projectile,
+      setProjectile,
+      setForceIdle,
+    } = ctx;
+  
 
-const FAR_DISTANCE_X = 260;
-const MELEE_RANGE = 50;
-
-export function slimitaBehavior(ctx: BehaviorContext) {
-  const {
-    npc,
-    playerX,
-    playerY,
-    targetX,
-    targetY,
-    npcPhase,
-    onMeleeHit,
-    projectile,
-    setProjectile,
-    setForceIdle,
-  } = ctx;
-
-  const now = Date.now();
-
-  const state = getSlimitaState(npc, targetX);
-
-  // 🟢 FASE 1
-  if (npcPhase === 1) {
     const distanceX = Math.abs(npc.x - targetX);
 
     if (distanceX > FAR_DISTANCE_X) {
@@ -127,89 +127,5 @@ export function slimitaBehavior(ctx: BehaviorContext) {
       return { x: newX, y: state.phase1BaseY };
     }
 
-    return { x: newX, y: hopY, state: "walk" as const };
-  }
-
-  // 🔥 FASE 2
-
-  const hpRatio = ctx.npcMaxHp ? (ctx.npcHp ?? ctx.npcMaxHp) / ctx.npcMaxHp : 1;
-  const jumpDuration = 500 + 1500 * hpRatio;
-  const restDuration = 1000;
-
-  switch (state.state) {
-    case "idle": {
-      ctx.playSound?.("slimitaJump");
-
-      const { x, y } = chasePlayer(npc, targetX, targetY);
-
-      state.state = "air";
-      state.startTime = now;
-      state.targetX = targetX;
-
-      npc.state = "jumping";
-      npc.jumpLandingX = targetX;
-
-      return { x, y, state: "jumping" as const };
-    }
-
-    case "air": {
-      npc.state = "jumping";
-
-      const elapsed = now - state.startTime;
-
-      const duration = jumpDuration;
-
-      const progress = Math.min(elapsed / duration, 1);
-      const GROUND_Y = 720;
-
-      const height = Math.sin(progress * Math.PI) * 200;
-
-      const newY = GROUND_Y - height;
-
-      const newX = npc.x + (state.targetX - npc.x) * 0.05;
-
-      if (elapsed >= duration) {
-        boomAudio.currentTime = 0; boomAudio.play().catch(() => {});
-        state.state = "resting";
-        state.startTime = now;
-        npc.jumpLandingX = undefined;
-
-        if (isNear(npc.x, npc.y, targetX, targetY, 140)) {
-          onMeleeHit();
-        }
-
-        return {
-          x: state.targetX,
-          y: GROUND_Y,
-        };
-      }
-
-      return {
-        x: newX,
-        y: newY,
-        state: "jumping" as const,
-      };
-    }
-
-    case "resting": {
-      npc.state = "attack";
-
-      const restTime = now - state.startTime;
-
-      if (restTime < restDuration) {
-        return {
-          x: npc.x,
-          y: npc.y,
-        };
-      }
-
-      state.state = "idle";
-      state.startTime = now;
-
-      return {
-        x: npc.x,
-        y: npc.y,
-      };
-    }
-  }
+  return { x: newX, y: hopY, state: "walk" as const };
 }

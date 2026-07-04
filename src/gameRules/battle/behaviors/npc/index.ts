@@ -1,14 +1,13 @@
 import { normalBehavior } from "./normal";
 import { vandinhaBehavior } from "./vandinha";
 import { deiseBehavior } from "./deise/index";
-import { slimitaBehavior } from "./slimita";
+import { slimitaBehavior } from "./slimita/index";
 import { hungryKingBehavior } from "./hungryKing/index";
 import { piupiuBehavior } from "./piupiu";
 import { jhowsimarBehavior } from "./jhowsimar";
-import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
-import type { NPCBattleState } from "@/utils/types/npc/npc";
+import type { BehaviorContext, BehaviorResult } from "@/utils/types/npc/npcBehavior";
 
-type NpcBehaviorFn = (ctx: BehaviorContext) => { x: number; y?: number; state?: NPCBattleState["state"] };
+type NpcBehaviorFn = (ctx: BehaviorContext) => BehaviorResult;
 
 export const npcBehaviors: Record<string, NpcBehaviorFn> = {
   vandinhaFragment: vandinhaBehavior,
