@@ -14,6 +14,10 @@ export function useBattleGravity(
   useEffect(() => {
     const interval = setInterval(() => {
       setPlayer((p) => {
+        if (p.throwStartTime > 0) {
+          return { ...p, velY: 0, state: "fallen" };
+        }
+
         const { map } = collisionRef.current;
         const obstacles = map?.obstacles ?? [];
 

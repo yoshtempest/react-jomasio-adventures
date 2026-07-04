@@ -228,25 +228,6 @@ export function useBattleScene({
     onThrowPlayer: () => {
       setIsGrabbed(false);
       refs.npcThrowAttackRef.current();
-      // setTimeout(() => {
-      //   setPlayer((p) => {
-      //     if (p.state !== "fallen") return p;
-      //     return { ...p, state: "idleCrounched" };
-      //   });
-      // }, 0);
-      // setTimeout(() => {
-      //   setPlayer((p) => {
-      //     if (p.state !== "idleCrounched") return p;
-      //     return { ...p, state: "walkCrounched" };
-      //   });
-      // }, 300);
-      // setTimeout(() => {
-      //   setPlayer((p) => {
-      //     if (p.state !== "walkCrounched") return p;
-      //     return { ...p, state: "idle", grabbedUntil: 0 };
-      //   });
-      //   setIsThrown(false);
-      // }, 400);
     },
   });
 
@@ -544,10 +525,10 @@ export function useBattleScene({
             }, 1800),
           );
 
-          return { ...p, x, y: p.groundY, velY: 0, throwStartTime: 0 };
+          return { ...p, x, y: p.groundY, velY: 0, throwStartTime: 0, state: "fallen" };
         }
 
-        return { ...p, x, y, velY: 0 };
+        return { ...p, x, y, velY: 0, state: "fallen" };
       });
     }, 16);
 
