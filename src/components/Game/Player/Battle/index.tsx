@@ -64,7 +64,7 @@ export function PlayerBattle({
             transform: `
               translateX(-50%) 
               scaleX(${direction === "left" ? -1 : 1})
-              ${isGrabbed ? "scaleY(-1)" : isCrouching ? "scale(0.7)" : ""}
+              ${isGrabbed ? "scaleY(-1) translate(-50%, 80%)" : isCrouching ? "scale(0.7)" : ""}
             `,
             transformOrigin: isCrouching || isGrabbed ? "bottom center" : undefined,
             pointerEvents: "none",
