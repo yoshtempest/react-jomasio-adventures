@@ -87,12 +87,36 @@ export function slimitaBehavior(ctx: BehaviorContext) {
       return { x: npc.x, y: npc.y, state: "meleeAttack" as const };
     }
 
-    const { x } = chasePlayer(npc, targetX, targetY);
+    const GROUND_DELAY = 150;
+    const HOP_DURATION = 400;
+    const HOP_HEIGHT = 40;
+    const HOP_SPEED = 2;
 
-    return {
-      x,
-      y: npc.y,
-    };
+    if (state.phase1HopState === "ground") {
+      if (now - state.phase1HopStart >= GROUND_DELAY) {
+        state.phase1HopState = "jumping";
+        state.phase1HopStart = now;
+        state.phase1HopStartX = npc.x;
+      }
+      return { x: npc.x, y: state.phase1BaseY, state: "default" as const };
+    }
+
+    const elapsed = now - state.phase1HopStart;
+    const progress = Math.min(elapsed / HOP_DURATION, 1);
+    const height = Math.sin(progress * Math.PI) * HOP_HEIGHT;
+    const newY = state.phase1BaseY - height;
+
+    const dx = targetX - npc.x;
+    const dir = dx > 0 ? 1 : -1;
+    const newX = npc.x + dir * HOP_SPEED;
+
+    if (elapsed >= HOP_DURATION) {
+      state.phase1HopState = "ground";
+      state.phase1HopStart = now;
+      return { x: newX, y: state.phase1BaseY };
+    }
+
+    return { x: newX, y: newY, state: "walk" as const };
   }
 
   // 🔥 FASE 2

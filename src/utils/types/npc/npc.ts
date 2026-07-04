@@ -6,6 +6,7 @@ export type NPCBattleState = {
   state:
     "idle"
     | "walk"
+    | "default"
     | "hit"
     | "jumping"
     | "pitch"
@@ -33,6 +34,10 @@ export type NPCBattleState = {
       lastPullThrow: number;
       lastMeleeAttack: number;
       lastRangedAttack: number;
+      phase1HopState: "ground" | "jumping";
+      phase1HopStart: number;
+      phase1HopStartX: number;
+      phase1BaseY: number;
     };
     deise?: {
       knownPhase: number;

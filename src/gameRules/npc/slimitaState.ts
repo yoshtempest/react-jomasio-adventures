@@ -13,6 +13,10 @@ export function getSlimitaState(npc: NPCBattleState, playerX: number) {
       lastPullThrow: 0,
       lastMeleeAttack: 0,
       lastRangedAttack: 0,
+      phase1HopState: "ground",
+      phase1HopStart: now,
+      phase1HopStartX: npc.x,
+      phase1BaseY: npc.y,
     };
   }
 
