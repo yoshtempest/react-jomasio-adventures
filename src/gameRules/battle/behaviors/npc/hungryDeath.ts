@@ -13,7 +13,13 @@ export function hungryDeathBehavior(ctx: BehaviorContext) {
 
   if (!npc.ai) npc.ai = {};
   if (!npc.ai.hungryDeath) {
-    npc.ai.hungryDeath = { grabPhase: null, grabStartTime: 0, attackCount: 0, lastMeleeAttack: 0, lastGrabEndTime: 0 };
+    npc.ai.hungryDeath = {
+      grabPhase: null,
+      grabStartTime: 0,
+      attackCount: 0,
+      lastMeleeAttack: 0,
+      lastGrabEndTime: 0
+    };
   }
 
   const state = npc.ai.hungryDeath;
@@ -50,8 +56,8 @@ export function hungryDeathBehavior(ctx: BehaviorContext) {
     state.grabPhase = "grabbing";
     state.grabStartTime = now;
     state.lastMeleeAttack = now;
+    playSound?.("hungryDeath");
     onGrabPlayer?.();
-    playSound?.("npcHit");
     return { x: npc.x, y: npc.y, state: "get" as const };
   }
 

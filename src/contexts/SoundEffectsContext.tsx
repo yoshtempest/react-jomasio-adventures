@@ -38,7 +38,8 @@ export type SoundId =
   | "drinkingPotion"
   | "jhowsimarJooj"
   | "gainXp"
-  | "boom";
+  | "boom"
+  | "hungryDeath";
 
 type SoundEffectsContextType = {
   playSound: (sound: SoundId, loop?: boolean) => void;
@@ -91,6 +92,7 @@ export function SoundEffectsProvider({ children }: { children: ReactNode }) {
       jhowsimarJooj: new Audio(asset("/assets/songs/soundEffects/npc/jhowsimarJooj.mp3")),
       boom: new Audio(asset("/assets/songs/soundEffects/npc/boom.mp3")),
       gainXp: new Audio(asset("/assets/songs/soundEffects/player/gainXp.mp3")),
+      hungryDeath: new Audio(asset("/assets/songs/soundEffects/npc/hungryDeath.mp3")),
     };
 
     Object.values(soundsRef.current).forEach((audio) => {
