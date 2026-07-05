@@ -40,6 +40,8 @@ export type SoundId =
   | "gainXp"
   | "boom"
   | "bite"
+  | "vandinhaPunch"
+  | "breakDish"
   | "hungryDeath";
 
 type SoundEffectsContextType = {
@@ -95,6 +97,8 @@ export function SoundEffectsProvider({ children }: { children: ReactNode }) {
       gainXp: new Audio(asset("/assets/songs/soundEffects/player/gainXp.mp3")),
       hungryDeath: new Audio(asset("/assets/songs/soundEffects/npc/hungryDeath/giveMeAPlate.mp3")),
       bite: new Audio(asset("/assets/songs/soundEffects/npc/hungryDeath/bite.mp3")),
+      vandinhaPunch: new Audio(asset("/assets/songs/soundEffects/npc/vandinhaFragment/punch.mp3")),
+      breakDish: new Audio(asset("/assets/songs/soundEffects/npc/vandinhaFragment/breakDish.mp3")),
     };
 
     Object.values(soundsRef.current).forEach((audio) => {

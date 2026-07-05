@@ -125,6 +125,9 @@ export function useNpcAI({
     npc.x,
     npc.y,
     () => {
+      if (npcTypeRef.current === "vandinhaFragment") {
+        playSoundRef.current("breakDish");
+      }
       onProjectileHit();
     },
     hitstopRef,

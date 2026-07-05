@@ -11,6 +11,7 @@ const MELEE_VISUAL_DURATION = 400;
 export function jhowsimarBehavior(ctx: BehaviorContext) {
   const { npc, targetX, targetY, lastAttackRef, onMeleeHit, playSound } = ctx;
   const now = Date.now();
+  const distanceX = Math.abs(npc.x - targetX);
 
   if (!npc.ai) npc.ai = {};
   if (!npc.ai.jhowsimar) {
@@ -65,6 +66,10 @@ export function jhowsimarBehavior(ctx: BehaviorContext) {
 
   if (!state.grabPhase && inRange && now - lastAttackRef.current < MELEE_VISUAL_DURATION) {
     return { x: npc.x, y: npc.y, state: "meleeAttack" as const };
+  }
+
+  if (distanceX <= MELEE_RANGE) {
+    return { x: npc.x, y: npc.y };
   }
 
   return { x, y: npc.y };

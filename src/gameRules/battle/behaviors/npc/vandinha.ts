@@ -15,7 +15,7 @@ export function vandinhaBehavior(ctx: BehaviorContext) {
   const {
     npc, targetX, targetY, playerX, playerY,
     projectile, setProjectile, lastAttackRef,
-    setForceIdle, onMeleeHit,
+    setForceIdle, onMeleeHit, playSound,
   } = ctx;
 
   const distanceX = Math.abs(npc.x - targetX);
@@ -42,6 +42,7 @@ export function vandinhaBehavior(ctx: BehaviorContext) {
 
     if (hit) {
       ai.lastMeleeAttack = now;
+      playSound?.("vandinhaPunch");
       return { x: npc.x, y: npc.y, state: "meleeAttack" as const };
     }
 
