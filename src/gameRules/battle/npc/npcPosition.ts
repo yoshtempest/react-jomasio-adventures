@@ -7,11 +7,11 @@ export function getNpcDirection(npcX: number, playerX: number): NPCDirection {
 }
 
 export function getNpcState(
-  distanceX: number,
+  _distanceX: number,
   forceIdle: boolean,
 ): "idle" | "walk" {
   if (forceIdle) return "idle";
-  return distanceX > 80 ? "walk" : "idle";
+  return "walk";
 }
 
 export function applyObstacleCollision(
