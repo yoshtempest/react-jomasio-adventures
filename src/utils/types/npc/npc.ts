@@ -80,6 +80,14 @@ export type NPCBattleState = {
       lastMeleeAttack: number;
       lastGrabEndTime: number;
     };
+    goat?: {
+      jumpState: "idle" | "jumping" | "inJump" | "jumpAttack";
+      jumpStartTime: number;
+      jumpTargetX: number;
+      lastJump: number;
+      landingTime: number;
+      lastSpriteState?: string;
+    };
   };
 };
 
