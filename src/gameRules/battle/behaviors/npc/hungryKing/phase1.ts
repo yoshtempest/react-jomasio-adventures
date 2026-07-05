@@ -34,9 +34,11 @@ export function hungryKingPhase1(
   // ── landing recovery ─────────────────────────────
   if (ai.jumpState === "jumpAttack") {
     if (now - ai.landingTime < JUMP_RECOVERY_MS) {
+      ai.lastSpriteState = "jumpAttack";
       return { x: npc.x, y: npc.y, state: "jumpAttack" };
     }
     ai.jumpState = "idle";
+    ai.lastSpriteState = undefined;
   }
 
   // ── idle (normal chase + melee + jump start) ─────
@@ -60,9 +62,12 @@ export function hungryKingPhase1(
       ai.jumpTargetX = targetX;
       ai.lastJump = now;
       npc.jumpLandingX = targetX;
+      ai.lastSpriteState = "jumping";
+      ctx.playSound?.("hulk");
       return { x, y: npc.y, state: "jumping" };
     }
 
+    ai.lastSpriteState = undefined;
     return { x, y: npc.y };
   }
 
@@ -73,13 +78,20 @@ export function hungryKingPhase1(
     const progress = elapsed / JUMP_DURATION;
     const height = Math.sin(progress * Math.PI) * JUMP_HEIGHT;
     const newX = npc.x + (ai.jumpTargetX - npc.x) * 0.04;
-    return { x: newX, y: BATTLE_SPAWN.npc.y - height, state: getJumpState(elapsed) };
+    const spriteState = getJumpState(elapsed);
+    if (spriteState === "jumpAttack" && ai.lastSpriteState !== "jumpAttack") {
+      ctx.playSound?.("smash");
+    }
+    ai.lastSpriteState = spriteState;
+    return { x: newX, y: BATTLE_SPAWN.npc.y - height, state: spriteState };
   }
 
   // ── landing ──────────────────────────────────────
   ai.jumpState = "jumpAttack";
   ai.landingTime = now;
   npc.jumpLandingX = undefined;
+  ai.lastSpriteState = "jumpAttack";
+  ctx.playSound?.("boom");
 
   if (Math.hypot(ai.jumpTargetX - targetX, BATTLE_SPAWN.npc.y - targetY) < 150) {
     onMeleeHit();

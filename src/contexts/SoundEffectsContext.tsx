@@ -43,6 +43,8 @@ export type SoundId =
   | "vandinhaPunch"
   | "breakDish"
   | "summon"
+  | "hulk"
+  | "smash"
   | "hungryDeath";
 
 type SoundEffectsContextType = {
@@ -100,6 +102,8 @@ export function SoundEffectsProvider({ children }: { children: ReactNode }) {
       bite: new Audio(asset("/assets/songs/soundEffects/npc/hungryDeath/bite.mp3")),
       vandinhaPunch: new Audio(asset("/assets/songs/soundEffects/npc/vandinhaFragment/punch.mp3")),
       breakDish: new Audio(asset("/assets/songs/soundEffects/npc/vandinhaFragment/breakDish.mp3")),
+      hulk: new Audio(asset("/assets/songs/soundEffects/npc/hungryKing/hulk.mp3")),
+      smash: new Audio(asset("/assets/songs/soundEffects/npc/hungryKing/smash.mp3")),
       summon: new Audio(asset("/assets/songs/soundEffects/npc/hungryKing/summon.mp3")),
     };
 

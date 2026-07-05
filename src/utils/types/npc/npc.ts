@@ -62,6 +62,7 @@ export type NPCBattleState = {
       lastJump: number;
       landingTime: number;
       summonEndTime: number;
+      lastSpriteState?: string;
     };
     vandinha?: {
       lastMeleeAttack: number;

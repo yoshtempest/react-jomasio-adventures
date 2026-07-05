@@ -7,6 +7,7 @@ export type HungryKingAI = {
   lastJump: number;
   landingTime: number;
   summonEndTime: number;
+  lastSpriteState?: string;
 };
 
 import { JUMP_COOLDOWN } from "@/data/cooldowns";
