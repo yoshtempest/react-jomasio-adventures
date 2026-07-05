@@ -9,6 +9,7 @@ import { ItemDrops } from "@/components/Game/Battle/Drops/Item";
 import { ChestDrops } from "@/components/Game/Battle/Drops/Chest";
 import { TitleProgresses } from "@/components/Game/Battle/TitleProgresses";
 import { getRank, formatRank } from "@/gameRules/rank";
+import { useActivePotion } from "@/hooks/useActivePotion";
 
 function formatTime(ms: number): string {
   const totalSec = Math.floor(ms / 1000);
@@ -48,6 +49,7 @@ export function VictoryModal({
 }: Props) {
   const isVisible = useVictoryVisibility(isOpen, skipDelay);
   useVictoryKeyboard(isVisible, onContinue);
+  const activePotion = useActivePotion();
 
   if (!isVisible) return null;
 
@@ -90,6 +92,19 @@ export function VictoryModal({
                 <span>{bestTime > 0 ? formatTime(bestTime) : "0:00"}</span>
               </p>
             </div>
+            {activePotion && (
+              <div className={styles.potionSection}>
+                <img
+                  src={asset(activePotion.image)}
+                  alt={activePotion.name}
+                  className={styles.potionImage}
+                />
+                <span className={styles.potionName}>{activePotion.name}</span>
+                <span className={styles.potionTimer}>
+                  {formatTime(activePotion.remainingMs)}
+                </span>
+              </div>
+            )}
             <EquipmentDrops equipmentDrops={rewards?.equipmentDrops ?? []} />
             <ItemDrops itemDrops={rewards?.itemDrops ?? []} />
             <ChestDrops

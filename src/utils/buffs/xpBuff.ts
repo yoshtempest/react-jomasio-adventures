@@ -3,38 +3,41 @@ const XP_BUFF_KEY = "xp_buff";
 type XpBuffData = {
   expiresAt: number;
   multiplier: number;
+  potionId?: string;
 };
 
-export function getXpBuffMultiplier(): number {
+function getValidBuff(): XpBuffData | null {
   try {
     const raw = localStorage.getItem(XP_BUFF_KEY);
-    if (!raw) return 1;
+    if (!raw) return null;
     const data = JSON.parse(raw) as XpBuffData;
     if (Date.now() >= data.expiresAt) {
       localStorage.removeItem(XP_BUFF_KEY);
-      return 1;
+      return null;
     }
-    return data.multiplier;
+    return data;
   } catch {
-    return 1;
+    return null;
   }
 }
 
-export function activateXpBuff(durationMs: number, multiplier: number): void {
-  const data: XpBuffData = { expiresAt: Date.now() + durationMs, multiplier };
+export function getXpBuffMultiplier(): number {
+  return getValidBuff()?.multiplier ?? 1;
+}
+
+export function activateXpBuff(durationMs: number, multiplier: number, potionId?: string): void {
+  const data: XpBuffData = { expiresAt: Date.now() + durationMs, multiplier, potionId };
   localStorage.setItem(XP_BUFF_KEY, JSON.stringify(data));
 }
 
 export function getXpBuffTimeLeft(): number {
-  try {
-    const raw = localStorage.getItem(XP_BUFF_KEY);
-    if (!raw) return 0;
-    const data = JSON.parse(raw) as XpBuffData;
-    const left = data.expiresAt - Date.now();
-    return left > 0 ? left : 0;
-  } catch {
-    return 0;
-  }
+  const buff = getValidBuff();
+  if (!buff) return 0;
+  return buff.expiresAt - Date.now();
+}
+
+export function getActivePotionId(): string | null {
+  return getValidBuff()?.potionId ?? null;
 }
 
 export const POTION_CONFIG: Record<string, { multiplier: number; durationMs: number; label: string }> = {

@@ -72,7 +72,7 @@ export function Inventory() {
     audio.play().catch(() => {});
     const cfg = POTION_CONFIG[id];
     if (cfg) {
-      activateXpBuff(cfg.durationMs, cfg.multiplier);
+      activateXpBuff(cfg.durationMs, cfg.multiplier, id);
     }
     removeItem(id as ItemId);
   };

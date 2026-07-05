@@ -3,6 +3,8 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
+import { asset } from "@/utils/asset";
+import { useActivePotion } from "@/hooks/useActivePotion";
 
 type Option = "retry" | "flee";
 
@@ -35,6 +37,7 @@ export function DefeatModal({
   const [selected, setSelected] = useState<Option>("retry");
   const { setMode } = usePlayer();
   const { playSound } = useSoundEffects();
+  const activePotion = useActivePotion();
   const { pushControls, popControls } = useGameControls();
   const playSoundRef = useRef(playSound);
   playSoundRef.current = playSound;
@@ -121,6 +124,19 @@ export function DefeatModal({
             <span>{bestTime > 0 ? formatTime(bestTime) : "0:00"}</span>
           </p>
         </div>
+        {activePotion && (
+          <div className={styles.potionSection}>
+            <img
+              src={asset(activePotion.image)}
+              alt={activePotion.name}
+              className={styles.potionImage}
+            />
+            <span className={styles.potionName}>{activePotion.name}</span>
+            <span className={styles.potionTimer}>
+              {formatTime(activePotion.remainingMs)}
+            </span>
+          </div>
+        )}
         <div className={styles.buttonContainer}>
           <button
             className={`${styles.button} ${selected === "retry" ? styles.active : ""}`}

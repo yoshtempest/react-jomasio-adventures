@@ -66,7 +66,7 @@ export function useItemEffect({ playSFX }: Props) {
           playSFX?.("/assets/songs/soundEffects/player/drinkingPotion.mp3", 0.6);
           const cfg = POTION_CONFIG[itemId];
           if (cfg) {
-            activateXpBuff(cfg.durationMs, cfg.multiplier);
+            activateXpBuff(cfg.durationMs, cfg.multiplier, itemId);
             removeItem(itemId as ItemId);
           }
         };
