@@ -23,6 +23,7 @@ import { useBattleRefs } from "@/hooks/battle/useRefs";
 import { useBattleKillCounter } from "@/hooks/battle/useKillCounter";
 import { useChargeAttack } from "@/hooks/battle/charge/useAttack";
 import { usePhaseTransition } from "@/hooks/battle/usePhaseTransition";
+import { useCoffinAnimation } from "@/hooks/battle/useCoffinAnimation";
 import { useBattleIntro } from "@/hooks/battle/useIntro";
 import { useBattleOutro } from "@/hooks/battle/useOutro";
 import { useBattleSync } from "@/hooks/battle/useSync";
@@ -129,6 +130,29 @@ export function useBattleScene({
       playerGroundY: player.groundY,
     });
 
+  const { coffins, beginSequence: beginCoffinSequence, clearCoffins } =
+    useCoffinAnimation();
+
+  const coffinStartedRef = useRef(false);
+  const summonNpcRef = useRef<(npcType: string, overrideX?: number) => void>(() => {});
+  summonNpcRef.current = summonNpc;
+
+  const onSummonWrapperRef = useRef<(summonType: string) => void>(() => {});
+  onSummonWrapperRef.current = (summonType: string) => {
+    if (npcType === "hungryKing" && npcPhaseRef.current === 2 && summonType === "hungryDeath") {
+      if (!coffinStartedRef.current) {
+        coffinStartedRef.current = true;
+        beginCoffinSequence(
+          [550, 650, 750],
+          player.groundY,
+          (_npcType: string, x: number) => summonNpcRef.current("hungryDeath", x),
+        );
+      }
+    } else {
+      summonNpcRef.current(summonType);
+    }
+  };
+
   const charProgress = progress[player.character];
   const xpNeeded = getXPToNextLevel(charProgress.level);
   const missingXp = xpNeeded - charProgress.xp;
@@ -191,7 +215,7 @@ export function useBattleScene({
     onProjectileHit: () => refs.npcRangedAttackRef.current(),
     onMeleeHit: () => refs.npcMeleeAttackRef.current(),
     isPaused: isPaused || isPhaseTransitioning,
-    onSummon: summonNpc,
+    onSummon: onSummonWrapperRef.current,
     onPullPlayer: (npcX: number) => setPlayer((p) => {
       const direction = npcX > p.x ? 1 : -1;
       const pullToX = Math.max(50, Math.min(1200, p.x + direction * 200));
@@ -587,6 +611,8 @@ export function useBattleScene({
     charge.cancelCharge();
     setShowDefeat(false);
     clearSummons();
+    clearCoffins();
+    coffinStartedRef.current = false;
     battle.resetBattle();
     npc.resetNpc();
     resetBattleState();
@@ -604,6 +630,7 @@ export function useBattleScene({
     npcStats,
     npcLevel,
     summons,
+    coffins,
     pet: battle.pet,
     charProgress,
     missingXp,

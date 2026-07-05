@@ -30,7 +30,7 @@ export function useSummons({
   }, []);
 
   const summonNpc = useCallback(
-    (npcType: string) => {
+    (npcType: string, overrideX?: number) => {
       const data = NPCS[npcType];
 
       if (!data) return;
@@ -41,7 +41,7 @@ export function useSummons({
         difficulty,
       ).hp;
 
-      const spawnX = SPAWN_POSITIONS[nextSpawnIndex.current % SPAWN_POSITIONS.length] ?? npcXRef.current;
+      const spawnX = overrideX ?? SPAWN_POSITIONS[nextSpawnIndex.current % SPAWN_POSITIONS.length] ?? npcXRef.current;
       nextSpawnIndex.current += 1;
 
       const spawnId = nextSpawnIndex.current;

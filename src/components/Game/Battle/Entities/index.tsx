@@ -1,8 +1,10 @@
+import { asset } from "@/utils/asset";
 import { NPCBattle } from "@/components/Game/Npc/Battle";
 import { ProjectileSprite } from "@/components/Game/Battle/Projectile";
 import { PlayerBattle } from "@/components/Game/Player/Battle";
 import type { SummonedNpc, NPCBattleState } from "@/utils/types/npc/npc";
 import type { PetState } from "@/hooks/battle/player/usePet";
+import type { CoffinState } from "@/hooks/battle/useCoffinAnimation";
 
 type BattleEntitiesBattle = {
   piercings: { id: number; x: number; y: number }[];
@@ -17,6 +19,7 @@ type Props = {
   battle: BattleEntitiesBattle;
   npcType: string;
   summons: SummonedNpc[];
+  coffins: CoffinState[];
   pet: PetState;
   TILE_SIZE: number;
   PLAYER_SIZE: number;
@@ -31,6 +34,7 @@ export function BattleEntities({
   battle,
   npcType,
   summons,
+  coffins,
   pet,
   TILE_SIZE,
   PLAYER_SIZE,
@@ -56,6 +60,38 @@ export function BattleEntities({
       {npc.projectile && (
         <ProjectileSprite projectile={npc.projectile} scaleX={scaleX} scaleY={scaleY} groundY={player.y} />
       )}
+
+      {coffins.map((c) => {
+        const coffinSrc =
+          c.phase === "closed"
+            ? asset("assets/npcs/hungryKing/coffin.svg")
+            : asset("assets/npcs/hungryKing/coffinOpen.svg");
+
+        return (
+          <div
+            key={c.id}
+            style={{
+              position: "absolute",
+              width: TILE_SIZE * 2,
+              height: TILE_SIZE * 2,
+              left: c.x * scaleX,
+              top: c.y * scaleY,
+              transform: "translate(-50%, -100%)",
+              opacity: c.phase === "fading" ? 0 : 1,
+              transition: "opacity 500ms linear",
+              zIndex: 8,
+            }}
+          >
+            <img
+              src={coffinSrc}
+              style={{
+                width: "100%",
+                height: "100%",
+              }}
+            />
+          </div>
+        );
+      })}
 
       {summons.map((s) => (
         <NPCBattle
