@@ -4,6 +4,7 @@ import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
 
 const MELEE_RANGE = 50;
 const GRAB_DURATION = 4000;
+const GRAB_GET_DURATION = 1000;
 const MELEE_COOLDOWN = 800;
 const GRAB_COOLDOWN = 2000;
 
@@ -34,8 +35,14 @@ export function hungryDeathBehavior(ctx: BehaviorContext) {
       return { x: npc.x, y: npc.y, state: "walk" as const };
     }
 
+    if (elapsed < GRAB_GET_DURATION) {
+      playSound?.("hungryDeath");
+      return { x: npc.x, y: npc.y, state: "get" as const };
+    }
+
     if (now - state.lastMeleeAttack > MELEE_COOLDOWN) {
       onMeleeHit();
+      playSound?.("bite");
       state.attackCount++;
       state.lastMeleeAttack = now;
       return { x: npc.x, y: npc.y, state: "meleeAttack" as const };
@@ -56,9 +63,9 @@ export function hungryDeathBehavior(ctx: BehaviorContext) {
     state.grabPhase = "grabbing";
     state.grabStartTime = now;
     state.lastMeleeAttack = now;
-    playSound?.("hungryDeath");
+
     onGrabPlayer?.(false);
-    return { x: npc.x, y: npc.y, state: "meleeAttack" as const };
+    return { x: npc.x, y: npc.y, state: "get" as const };
   }
 
   return { x, y: npc.y };
