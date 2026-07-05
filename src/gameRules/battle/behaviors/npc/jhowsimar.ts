@@ -6,6 +6,7 @@ import { NPC_MELEE_COOLDOWN } from "@/data/cooldowns";
 const MELEE_RANGE = 50;
 const GET_DURATION = 1000;
 const THROW_DURATION = 1000;
+const MELEE_VISUAL_DURATION = 400;
 
 export function jhowsimarBehavior(ctx: BehaviorContext) {
   const { npc, targetX, targetY, lastAttackRef, onMeleeHit, playSound } = ctx;
@@ -59,6 +60,11 @@ export function jhowsimarBehavior(ctx: BehaviorContext) {
     onMeleeHit();
     state.attackCount++;
     lastAttackRef.current = now;
+    return { x: npc.x, y: npc.y, state: "meleeAttack" as const };
+  }
+
+  if (!state.grabPhase && inRange && now - lastAttackRef.current < MELEE_VISUAL_DURATION) {
+    return { x: npc.x, y: npc.y, state: "meleeAttack" as const };
   }
 
   return { x, y: npc.y };
