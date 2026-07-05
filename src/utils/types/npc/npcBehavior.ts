@@ -20,7 +20,7 @@ export type BehaviorContext = {
   playSound?: (sound: SoundId, loop?: boolean) => void;
   npcHp?: number;
   npcMaxHp?: number;
-  onGrabPlayer?: () => void;
+  onGrabPlayer?: (flipped: boolean) => void;
   onThrowStart?: (npcX: number, npcDirection: "left" | "right") => void;
   onThrowPlayer?: (damageMultiplier: number) => void;
 };

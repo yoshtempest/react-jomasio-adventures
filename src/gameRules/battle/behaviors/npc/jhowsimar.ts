@@ -52,7 +52,7 @@ export function jhowsimarBehavior(ctx: BehaviorContext) {
       state.grabPhase = "get";
       state.startTime = now;
       playSound?.("jhowsimarJooj");
-      ctx.onGrabPlayer?.();
+      ctx.onGrabPlayer?.(true);
       return { x: npc.x, y: npc.y, state: "get" as const };
     }
 

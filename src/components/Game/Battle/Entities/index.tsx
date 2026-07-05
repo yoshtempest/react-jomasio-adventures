@@ -22,6 +22,7 @@ type Props = {
   PLAYER_SIZE: number;
   scaleX: number;
   scaleY: number;
+  grabFlipped?: boolean;
 };
 
 export function BattleEntities({
@@ -35,6 +36,7 @@ export function BattleEntities({
   PLAYER_SIZE,
   scaleX,
   scaleY,
+  grabFlipped = false,
 }: Props) {
   return (
     <>
@@ -87,6 +89,7 @@ export function BattleEntities({
         state={player.state}
         direction={player.battleDirection}
         grabbedUntil={player.grabbedUntil}
+        grabFlipped={grabFlipped}
       />
     </>
   );

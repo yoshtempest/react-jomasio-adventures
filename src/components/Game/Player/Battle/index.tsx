@@ -8,6 +8,7 @@ type Props = {
   direction: Direction;
   character: CharacterId;
   grabbedUntil?: number;
+  grabFlipped?: boolean;
 };
 
 const CROUCH_STATE_MAP: Record<string, string> = {
@@ -23,11 +24,13 @@ export function PlayerBattle({
   direction,
   character,
   grabbedUntil = 0,
+  grabFlipped = false,
 }: Props) {
   const resolvedState = CROUCH_STATE_MAP[state] ?? (state === "charging" ? "idle" : state);
   const isCrouching = state === "idleCrounched" || state === "walkCrounched";
   const isFallen = state === "fallen";
   const isGrabbed = Date.now() < grabbedUntil && !isFallen && !isCrouching;
+  const showFlipped = isGrabbed && grabFlipped;
   const src = asset(`assets/player/${character}/inFight/${resolvedState}.svg`);
 
   const BASE_WIDTH = 1280;
@@ -49,9 +52,9 @@ export function PlayerBattle({
         height: HEIGHT,
         left: x * scaleX,
         top: y * scaleY,
-        transform: "translate(-50%, -100%)", // ancora os pés no chão
+        transform: "translate(-50%, -100%)", // grab the feet on the ground
         zIndex: 10,
-        overflow: "visible", // importante pra não cortar o ataque
+        overflow: "visible", // important to dont cut the image
       }}
     >
       <img
@@ -65,9 +68,14 @@ export function PlayerBattle({
             transform: `
               translateX(-50%) 
               scaleX(${direction === "left" ? -1 : 1})
-              ${isGrabbed ? "scaleY(-1) translate(-50%, 80%)" : isCrouching ? "scale(0.7)" : isFallen ? "scale(0.7) translate(0, 20%)" : ""}
+              ${
+                showFlipped ? "scaleY(-1) translate(-50%, 80%)"
+                : isCrouching ? "scale(0.7)"
+                : isFallen ? "scale(0.7) translate(0, 20%)"
+                : ""
+              }
             `,
-            transformOrigin: isCrouching || isGrabbed ? "bottom center" : undefined,
+            transformOrigin: isCrouching || showFlipped ? "bottom center" : undefined,
             pointerEvents: "none",
           }}
       />

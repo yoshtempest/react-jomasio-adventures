@@ -129,6 +129,7 @@ function CombatTutorialInner() {
           PLAYER_SIZE={PLAYER_SIZE}
           state={player.state}
           direction={player.battleDirection}
+          grabFlipped={false}
         />
       </GameMap>
 

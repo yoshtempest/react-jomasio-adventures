@@ -57,7 +57,7 @@ export function hungryDeathBehavior(ctx: BehaviorContext) {
     state.grabStartTime = now;
     state.lastMeleeAttack = now;
     playSound?.("hungryDeath");
-    onGrabPlayer?.();
+    onGrabPlayer?.(false);
     return { x: npc.x, y: npc.y, state: "get" as const };
   }
 

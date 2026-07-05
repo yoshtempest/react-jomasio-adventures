@@ -100,6 +100,9 @@ export function useBattleScene({
   const [isGrabbed, setIsGrabbed] = useState(false);
   const isGrabbedRef = useRef(false);
   isGrabbedRef.current = isGrabbed;
+  const [grabFlipped, setGrabFlipped] = useState(false);
+  const grabFlippedRef = useRef(false);
+  grabFlippedRef.current = grabFlipped;
   const grabbedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [isThrown, setIsThrown] = useState(false);
 
@@ -209,11 +212,15 @@ export function useBattleScene({
     npcHpRef: targeting.npcAiHpRef,
     npcMaxHpRef: targeting.npcAiMaxHpRef,
     npcBlockedRef: targeting.npcBlockedRef,
-    onGrabPlayer: () => {
+    onGrabPlayer: (flipped) => {
+      setGrabFlipped(flipped);
       setIsGrabbed(true);
       setPlayer((p) => ({ ...p, grabbedUntil: Date.now() + 4000 }));
       if (grabbedTimerRef.current) clearTimeout(grabbedTimerRef.current);
-      grabbedTimerRef.current = setTimeout(() => setIsGrabbed(false), 4000);
+      grabbedTimerRef.current = setTimeout(() => {
+        setIsGrabbed(false);
+        setGrabFlipped(false);
+      }, 4000);
     },
     onThrowStart: (npcX: number, npcDirection: "left" | "right") => {
       setIsThrown(true);
@@ -545,11 +552,11 @@ export function useBattleScene({
 
   useBattleControls({
     attack: () => {
-      if (isGrabbedRef.current) return;
+      if (isGrabbedRef.current && grabFlippedRef.current) return;
       attack();
     },
     special: () => {
-      if (isGrabbedRef.current) return;
+      if (isGrabbedRef.current && grabFlippedRef.current) return;
       special();
     },
     blockStart: () =>
@@ -621,5 +628,6 @@ export function useBattleScene({
     victoryElapsed,
     bestTime,
     defeatProgress,
+    grabFlipped,
   };
 }

@@ -34,7 +34,7 @@ type Props = {
   npcHpRef?: React.RefObject<number>;
   npcMaxHpRef?: React.RefObject<number>;
   npcBlockedRef?: React.RefObject<boolean>;
-  onGrabPlayer?: () => void;
+  onGrabPlayer?: (flipped: boolean) => void;
   onThrowStart?: (npcX: number, npcDirection: "left" | "right") => void;
   onThrowPlayer?: (damageMultiplier: number) => void;
 };
@@ -218,7 +218,7 @@ export function useNpcAI({
           playSound: (sound, loop) => playSoundRef.current(sound, loop),
           npcHp: npcHpRef?.current ?? 0,
           npcMaxHp: npcMaxHpRef?.current ?? 1,
-          onGrabPlayer: () => onGrabPlayerRef.current?.(),
+          onGrabPlayer: (flipped) => onGrabPlayerRef.current?.(flipped),
           onThrowStart: (x, d) => onThrowStartRef.current?.(x, d),
           onThrowPlayer: (mult) => onThrowPlayerRef.current?.(mult),
         });

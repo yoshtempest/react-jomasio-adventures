@@ -62,6 +62,7 @@ export function BattleScene(props: Props) {
     victoryElapsed,
     bestTime,
     defeatProgress,
+    grabFlipped,
   } = useBattleScene(props);
 
   const {
@@ -164,6 +165,7 @@ export function BattleScene(props: Props) {
           PLAYER_SIZE={PLAYER_SIZE}
           scaleX={scaleX}
           scaleY={scaleY}
+          grabFlipped={grabFlipped}
         />
 
         <ChargeParticles
