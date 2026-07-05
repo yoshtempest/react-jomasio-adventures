@@ -31,7 +31,7 @@ export function hungryDeathBehavior(ctx: BehaviorContext) {
       state.grabPhase = null;
       state.attackCount = 0;
       state.lastGrabEndTime = now;
-      return { x: npc.x, y: npc.y };
+      return { x: npc.x, y: npc.y, state: "walk" as const };
     }
 
     if (now - state.lastMeleeAttack > MELEE_COOLDOWN) {
@@ -41,7 +41,7 @@ export function hungryDeathBehavior(ctx: BehaviorContext) {
       return { x: npc.x, y: npc.y, state: "meleeAttack" as const };
     }
 
-    return { x: npc.x, y: npc.y, state: "get" as const };
+    return { x: npc.x, y: npc.y, state: "meleeAttack" as const };
   }
 
   if (now - state.lastGrabEndTime < GRAB_COOLDOWN) {
@@ -58,7 +58,7 @@ export function hungryDeathBehavior(ctx: BehaviorContext) {
     state.lastMeleeAttack = now;
     playSound?.("hungryDeath");
     onGrabPlayer?.(false);
-    return { x: npc.x, y: npc.y, state: "get" as const };
+    return { x: npc.x, y: npc.y, state: "meleeAttack" as const };
   }
 
   return { x, y: npc.y };
