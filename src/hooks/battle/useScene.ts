@@ -98,6 +98,9 @@ export function useBattleScene({
   npcPhaseRef.current = npcPhase;
   const [isPhaseTransitioning, setIsPhaseTransitioning] = useState(false);
   const [isGrabbed, setIsGrabbed] = useState(false);
+  const isGrabbedRef = useRef(false);
+  isGrabbedRef.current = isGrabbed;
+  const grabbedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [isThrown, setIsThrown] = useState(false);
 
   const battleStartRef = useRef(Date.now());
@@ -170,7 +173,7 @@ export function useBattleScene({
   killCounter.npcDataRef.current = npcData;
 
   const isPaused = showVictory || showDefeat || showIntro || showOutro != null;
-  const controlsDisabled = isPaused || isPhaseTransitioning || isGrabbed || isThrown;
+  const controlsDisabled = isPaused || isPhaseTransitioning || isThrown;
 
   targeting.npcAiHpRef.current = npcStats.hp;
   targeting.npcAiMaxHpRef.current = npcStats.hp;
@@ -208,7 +211,9 @@ export function useBattleScene({
     npcBlockedRef: targeting.npcBlockedRef,
     onGrabPlayer: () => {
       setIsGrabbed(true);
-      setPlayer((p) => ({ ...p, grabbedUntil: Date.now() + 6000 }));
+      setPlayer((p) => ({ ...p, grabbedUntil: Date.now() + 4000 }));
+      if (grabbedTimerRef.current) clearTimeout(grabbedTimerRef.current);
+      grabbedTimerRef.current = setTimeout(() => setIsGrabbed(false), 4000);
     },
     onThrowStart: (npcX: number, npcDirection: "left" | "right") => {
       setIsThrown(true);
@@ -539,8 +544,14 @@ export function useBattleScene({
   }, [setPlayer, setIsThrown]);
 
   useBattleControls({
-    attack,
-    special,
+    attack: () => {
+      if (isGrabbedRef.current) return;
+      attack();
+    },
+    special: () => {
+      if (isGrabbedRef.current) return;
+      special();
+    },
     blockStart: () =>
       setPlayer((p) => {
         if (p.state === "jump") return p;
@@ -559,6 +570,12 @@ export function useBattleScene({
     onChargeCancel: charge.cancelCharge,
   });
 
+  useEffect(() => {
+    return () => {
+      if (grabbedTimerRef.current) clearTimeout(grabbedTimerRef.current);
+    };
+  }, []);
+
   function handleRetry() {
     charge.cancelCharge();
     setShowDefeat(false);
@@ -568,6 +585,9 @@ export function useBattleScene({
     resetBattleState();
     resetCombo();
     battleStartRef.current = Date.now();
+    if (grabbedTimerRef.current) clearTimeout(grabbedTimerRef.current);
+    grabbedTimerRef.current = null;
+    setIsGrabbed(false);
   }
 
   return {

@@ -5,6 +5,7 @@ import { slimitaBehavior } from "./slimita/index";
 import { hungryKingBehavior } from "./hungryKing/index";
 import { piupiuBehavior } from "./piupiu";
 import { jhowsimarBehavior } from "./jhowsimar";
+import { hungryDeathBehavior } from "./hungryDeath";
 import type { BehaviorContext, BehaviorResult } from "@/utils/types/npc/npcBehavior";
 
 type NpcBehaviorFn = (ctx: BehaviorContext) => BehaviorResult;
@@ -16,5 +17,6 @@ export const npcBehaviors: Record<string, NpcBehaviorFn> = {
   hungryKing: hungryKingBehavior,
   piupiu: piupiuBehavior,
   jhowsimar: jhowsimarBehavior,
+  hungryDeath: hungryDeathBehavior,
   default: normalBehavior,
 };

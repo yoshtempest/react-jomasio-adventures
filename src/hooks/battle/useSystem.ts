@@ -296,7 +296,7 @@ export function useBattleSystem(props: Props) {
       setDelicia: playerBattle.setDelicia,
     });
     resetPet();
-    setPlayer((p) => ({ ...p, bleedUntil: 0, pullStartTime: 0 }));
+    setPlayer((p) => ({ ...p, bleedUntil: 0, pullStartTime: 0, grabbedUntil: 0 }));
   };
 
   return {

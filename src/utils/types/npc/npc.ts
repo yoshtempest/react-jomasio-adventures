@@ -72,6 +72,13 @@ export type NPCBattleState = {
       grabPhase: "get" | "throw" | null;
       startTime: number;
     };
+    hungryDeath?: {
+      grabPhase: "grabbing" | null;
+      grabStartTime: number;
+      attackCount: number;
+      lastMeleeAttack: number;
+      lastGrabEndTime: number;
+    };
   };
 };
 
