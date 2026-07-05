@@ -15,6 +15,7 @@ export function hungryKingPhase2(
 
   if (!ai.hasSummoned) {
     ai.hasSummoned = true;
+    ctx.playSound?.("summon");
     onSummon?.("hungryDeath");
     onSummon?.("hungryDeath");
     onSummon?.("hungryDeath");

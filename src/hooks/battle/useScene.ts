@@ -7,6 +7,7 @@ import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { usePetProgress } from "@/contexts/PetProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { useNavigate, useLocation } from "react-router";
+import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
 import { useNavbar } from "@/contexts/NavbarContext";
@@ -94,6 +95,8 @@ export function useBattleScene({
 
   const { addBattleTime } = usePlayTime();
 
+  const { playSound } = useSoundEffects();
+
   const [npcPhase, setNpcPhase] = useState(1);
   const npcPhaseRef = useRef(npcPhase);
   npcPhaseRef.current = npcPhase;
@@ -142,6 +145,7 @@ export function useBattleScene({
     if (npcType === "hungryKing" && npcPhaseRef.current === 2 && summonType === "hungryDeath") {
       if (!coffinStartedRef.current) {
         coffinStartedRef.current = true;
+        playSound("summon");
         beginCoffinSequence(
           [550, 650, 750],
           player.groundY,
