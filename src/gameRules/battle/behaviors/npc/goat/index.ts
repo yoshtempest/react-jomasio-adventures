@@ -6,9 +6,9 @@ import type { NPCBattleState } from "@/utils/types/npc/npc";
 import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
 
 const JUMP_COOLDOWN = 3000;
-const JUMP_DURATION = 1500;
+const JUMP_DURATION = 1200;
 const JUMP_THRESHOLD = 200;
-const JUMP_HEIGHT = 220;
+const JUMP_HEIGHT = 40;
 const JUMP_RISE_MS = 400;
 const JUMP_FLIGHT_MS = 600;
 const JUMP_RECOVERY_MS = 500;
@@ -76,7 +76,7 @@ export function goatBehavior(ctx: BehaviorContext): BehaviorResult {
   if (elapsed < JUMP_DURATION) {
     const progress = elapsed / JUMP_DURATION;
     const height = Math.sin(progress * Math.PI) * JUMP_HEIGHT;
-    const newX = npc.x + (ai.jumpTargetX - npc.x) * 0.04;
+    const newX = npc.x + (ai.jumpTargetX - npc.x) * 0.07;
     const spriteState = getJumpState(elapsed);
     if (spriteState === "jumpAttack" && ai.lastSpriteState !== "jumpAttack") {
       ctx.playSound?.("smash");
