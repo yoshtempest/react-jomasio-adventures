@@ -10,6 +10,10 @@ import {
 import { useAudio } from "@/contexts/AudioContext";
 import { asset } from "@/utils/asset";
 
+function sfx(path: string): HTMLAudioElement {
+  return new Audio(asset(`/assets/songs/soundEffects/${path}`));
+}
+
 export type SoundId =
   | "win"
   | "defeat"
@@ -70,41 +74,41 @@ export function SoundEffectsProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     soundsRef.current = {
-      win: new Audio(asset("/assets/songs/soundEffects/player/win.mp3")),
-      defeat: new Audio(asset("/assets/songs/soundEffects/player/defeat.mp3")),
-      run: new Audio(asset("/assets/songs/soundEffects/player/run.mp3")),
-      tryAgain: new Audio(asset("/assets/songs/soundEffects/player/tryAgain.mp3")),
-      receivedItem: new Audio(asset("/assets/songs/soundEffects/player/receivedAnItem.mp3")),
-      usedItem: new Audio(asset("/assets/songs/soundEffects/player/usedAnItem.mp3")),
-      deliciometroIsFull: new Audio(asset("/assets/songs/soundEffects/player/deliciometroIsFull.mp3")),
-      questUpdated: new Audio(asset("/assets/songs/soundEffects/player/questUpdated.mp3")),
-      levelUp: new Audio(asset("/assets/songs/soundEffects/player/levelUp.mp3")),
+      win: sfx("player/win.mp3"),
+      defeat: sfx("player/defeat.mp3"),
+      run: sfx("player/run.mp3"),
+      tryAgain: sfx("player/tryAgain.mp3"),
+      receivedItem: sfx("player/receivedAnItem.mp3"),
+      usedItem: sfx("player/usedAnItem.mp3"),
+      deliciometroIsFull: sfx("player/deliciometroIsFull.mp3"),
+      questUpdated: sfx("player/questUpdated.mp3"),
+      levelUp: sfx("player/levelUp.mp3"),
       loading: new Audio(asset("/assets/songs/transitions/blink.mp3")),
-      moveMenu: new Audio(asset("/assets/songs/soundEffects/menu/move.mp3")),
-      selectMenu: new Audio(asset("/assets/songs/soundEffects/menu/select.mp3")),
-      closeMenu: new Audio(asset("/assets/songs/soundEffects/menu/close.mp3")),
-      chargingAttack: new Audio(asset("/assets/songs/soundEffects/player/chargingAttack.mp3")),
-      chargeAttack: new Audio(asset("/assets/songs/soundEffects/player/chargeAttack.mp3")),
-      swordDeflected: new Audio(asset("/assets/songs/soundEffects/player/marcelo/sword-deflected.mp3")),
-      jhowsimarVemCa: new Audio(asset("/assets/songs/soundEffects/npc/jhowsimar/goHere.mp3")),
-      marshadowSpecial: new Audio(asset("/assets/songs/soundEffects/player/marcelo/special.mp3")),
-      drikaSpecial: new Audio(asset("/assets/songs/soundEffects/player/eduarda/special.mp3")),
-      slimitaJump: new Audio(asset("/assets/songs/soundEffects/npc/slimita/jump.mp3")),
+      moveMenu: sfx("menu/move.mp3"),
+      selectMenu: sfx("menu/select.mp3"),
+      closeMenu: sfx("menu/close.mp3"),
+      chargingAttack: sfx("player/chargingAttack.mp3"),
+      chargeAttack: sfx("player/chargeAttack.mp3"),
+      swordDeflected: sfx("player/marcelo/sword-deflected.mp3"),
+      jhowsimarVemCa: sfx("npc/jhowsimar/goHere.mp3"),
+      marshadowSpecial: sfx("player/marcelo/special.mp3"),
+      drikaSpecial: sfx("player/eduarda/special.mp3"),
+      slimitaJump: sfx("npc/slimita/jump.mp3"),
       equip: new Audio(asset("/assets/songs/transitions/equip.mp3")),
       unequip: new Audio(asset("/assets/songs/transitions/unequip.mp3")),
-      unlockedTitle: new Audio(asset("/assets/songs/soundEffects/player/unlockedTitle.mp3")),
-      eating: new Audio(asset("/assets/songs/soundEffects/player/eating.mp3")),
-      drinkingPotion: new Audio(asset("/assets/songs/soundEffects/player/drinkingPotion.mp3")),
-      jhowsimarJooj: new Audio(asset("/assets/songs/soundEffects/npc/jhowsimar/throw.mp3")),
-      boom: new Audio(asset("/assets/songs/soundEffects/npc/slimita/boom.mp3")),
-      gainXp: new Audio(asset("/assets/songs/soundEffects/player/gainXp.mp3")),
-      hungryDeath: new Audio(asset("/assets/songs/soundEffects/npc/hungryDeath/giveMeAPlate.mp3")),
-      bite: new Audio(asset("/assets/songs/soundEffects/npc/hungryDeath/bite.mp3")),
-      vandinhaPunch: new Audio(asset("/assets/songs/soundEffects/npc/vandinhaFragment/punch.mp3")),
-      breakDish: new Audio(asset("/assets/songs/soundEffects/npc/vandinhaFragment/breakDish.mp3")),
-      hulk: new Audio(asset("/assets/songs/soundEffects/npc/hungryKing/hulk.mp3")),
-      smash: new Audio(asset("/assets/songs/soundEffects/npc/hungryKing/smash.mp3")),
-      summon: new Audio(asset("/assets/songs/soundEffects/npc/hungryKing/summon.mp3")),
+      unlockedTitle: sfx("player/unlockedTitle.mp3"),
+      eating: sfx("player/eating.mp3"),
+      drinkingPotion: sfx("player/drinkingPotion.mp3"),
+      jhowsimarJooj: sfx("npc/jhowsimar/throw.mp3"),
+      boom: sfx("npc/slimita/boom.mp3"),
+      gainXp: sfx("player/gainXp.mp3"),
+      hungryDeath: sfx("npc/hungryDeath/giveMeAPlate.mp3"),
+      bite: sfx("npc/hungryDeath/bite.mp3"),
+      vandinhaPunch: sfx("npc/vandinhaFragment/punch.mp3"),
+      breakDish: sfx("npc/vandinhaFragment/breakDish.mp3"),
+      hulk: sfx("npc/hungryKing/hulk.mp3"),
+      smash: sfx("npc/hungryKing/smash.mp3"),
+      summon: sfx("npc/hungryKing/summon.mp3"),
     };
 
     Object.values(soundsRef.current).forEach((audio) => {
