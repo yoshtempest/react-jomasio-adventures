@@ -13,21 +13,19 @@ export function Deliciometro({ delicia, hitsToSpecial = 6 }: Props) {
 
   const hasPlayedRef = useRef(false);
   const { playSound } = useSoundEffects();
-  const playSoundRef = useRef(playSound);
-  playSoundRef.current = playSound;
 
   useEffect(() => {
     if (delicia >= hitsToSpecial && !hasPlayedRef.current) {
       hasPlayedRef.current = true;
 
-      playSoundRef.current("deliciometroIsFull");
+      playSound("deliciometroIsFull");
     }
 
     // 🔄 reset quando diminuir
     if (delicia < hitsToSpecial) {
       hasPlayedRef.current = false;
     }
-  }, [delicia, hitsToSpecial]);
+  }, [delicia, hitsToSpecial, playSound]);
 
   return (
     <div

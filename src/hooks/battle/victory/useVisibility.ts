@@ -3,8 +3,6 @@ import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 
 export function useVictoryVisibility(isOpen: boolean, skipDelay = false) {
   const { playSound } = useSoundEffects();
-  const playSoundRef = useRef(playSound);
-  playSoundRef.current = playSound;
 
   const hasPlayedRef = useRef(false);
   const [isVisible, setIsVisible] = useState(false);
@@ -30,13 +28,13 @@ export function useVictoryVisibility(isOpen: boolean, skipDelay = false) {
   useEffect(() => {
     if (isVisible && !hasPlayedRef.current) {
       hasPlayedRef.current = true;
-      playSoundRef.current("win");
+      playSound("win");
     }
 
     if (!isOpen) {
       hasPlayedRef.current = false;
     }
-  }, [isVisible, isOpen]);
+  }, [isVisible, isOpen, playSound]);
 
   return isVisible;
 }

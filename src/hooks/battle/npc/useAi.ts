@@ -103,10 +103,6 @@ export function useNpcAI({
   obstaclesRef.current = obstacles ?? [];
 
   const { playSound, stopSound } = useSoundEffects();
-  const playSoundRef = useRef(playSound);
-  playSoundRef.current = playSound;
-  const stopSoundRef = useRef(stopSound);
-  stopSoundRef.current = stopSound;
   const jhowsimarSoundPlayingRef = useRef(false);
   const onGrabPlayerRef = useRef(onGrabPlayer);
   onGrabPlayerRef.current = onGrabPlayer;
@@ -126,7 +122,7 @@ export function useNpcAI({
     npc.y,
     () => {
       if (npcTypeRef.current === "vandinhaFragment") {
-        playSoundRef.current("breakDish");
+        playSound("breakDish");
       }
       onProjectileHit();
     },
@@ -218,7 +214,7 @@ export function useNpcAI({
           onSummon: onSummonRef.current,
           onPullPlayer: onPullPlayerRef.current,
           summonTimerRef,
-          playSound: (sound, loop) => playSoundRef.current(sound, loop),
+          playSound,
           npcHp: npcHpRef?.current ?? 0,
           npcMaxHp: npcMaxHpRef?.current ?? 1,
           onGrabPlayer: (flipped) => onGrabPlayerRef.current?.(flipped),
@@ -235,10 +231,10 @@ export function useNpcAI({
           const inRange = distanceX <= 50 && Math.abs(playerYRef.current - n.y) <= 150;
           if (!inRange && !jhowsimarSoundPlayingRef.current) {
             jhowsimarSoundPlayingRef.current = true;
-            playSoundRef.current("jhowsimarVemCa", true);
+            playSound("jhowsimarVemCa", true);
           } else if (inRange && jhowsimarSoundPlayingRef.current) {
             jhowsimarSoundPlayingRef.current = false;
-            stopSoundRef.current("jhowsimarVemCa");
+            stopSound("jhowsimarVemCa");
           }
         }
 
@@ -254,9 +250,9 @@ export function useNpcAI({
 
     return () => {
       clearInterval(interval);
-      stopSoundRef.current("jhowsimarVemCa");
+      stopSound("jhowsimarVemCa");
     };
-  }, [hitstopRef, npcStaggerRef, npcPhaseRef, npcTargetIsPetRef, hasPetRef, petXRef, petYRef, npcBlockedRef, npcHpRef, npcMaxHpRef]);
+  }, [hitstopRef, npcStaggerRef, npcPhaseRef, npcTargetIsPetRef, hasPetRef, petXRef, petYRef, npcBlockedRef, npcHpRef, npcMaxHpRef, playSound, stopSound]);
 
   const updateNpc = (partial: Partial<NPCBattleState>) => {
     setNpc((n) => ({ ...n, ...partial }));

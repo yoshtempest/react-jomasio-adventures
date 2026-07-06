@@ -1,5 +1,5 @@
 import { stat, progressStat } from "@/utils/types/stats";
-import { formatTime } from "@/contexts/PlayTimeContext";
+import { formatTime } from "@/utils/formatDuration";
 
 type SummaryStatsProps = {
   totalPlayTime: number;

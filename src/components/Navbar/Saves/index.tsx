@@ -2,7 +2,7 @@ import { useSaveMenu } from "@/hooks/menu/useSave";
 import { isSlotUsed } from "@/utils/save/slotManager";
 import { loadGameForSlot, getPlayTimeForSlot } from "@/utils/save/saveGame";
 import { getSceneImage, getSceneLabel } from "@/utils/sceneImages";
-import { formatTime } from "@/contexts/PlayTimeContext";
+import { formatTime } from "@/utils/formatDuration";
 import styles from "./styles.module.css";
 
 export function Saves() {

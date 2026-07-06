@@ -31,8 +31,6 @@ export function DefeatModal({
   const { setMode } = usePlayer();
   const { playSound } = useSoundEffects();
   const { pushControls, popControls } = useGameControls();
-  const playSoundRef = useRef(playSound);
-  playSoundRef.current = playSound;
   const hasPlayedRef = useRef(false);
 
   const onContinueRef = useRef(onContinue);
@@ -44,14 +42,14 @@ export function DefeatModal({
 
   const executeSelected = useCallback(() => {
     if (selected === "retry") {
-      playSoundRef.current("tryAgain");
+      playSound("tryAgain");
       onContinueRef.current();
     } else {
-      playSoundRef.current("run");
+      playSound("run");
       onBackRef.current();
       setModeRef.current("explore");
     }
-  }, [selected]);
+  }, [selected, playSound]);
 
   const selectNext = useCallback(() => {
     setSelected((prev) => (prev === "retry" ? "flee" : "retry"));
@@ -64,14 +62,14 @@ export function DefeatModal({
   useEffect(() => {
     if (isOpen && !hasPlayedRef.current) {
       hasPlayedRef.current = true;
-      playSoundRef.current("defeat");
+      playSound("defeat");
     }
 
     if (!isOpen) {
       hasPlayedRef.current = false;
       setSelected("retry");
     }
-  }, [isOpen]);
+  }, [isOpen, playSound]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -81,14 +79,14 @@ export function DefeatModal({
       onRight: selectNext,
       onConfirm: executeSelected,
       onCancel: () => {
-        playSoundRef.current("run");
+        playSound("run");
         onBackRef.current();
         setModeRef.current("explore");
       },
     });
 
     return () => popControls();
-  }, [isOpen, executeSelected, selectPrev, selectNext, pushControls, popControls]);
+  }, [isOpen, executeSelected, selectPrev, selectNext, pushControls, popControls, playSound]);
 
   if (!isOpen) return null;
 
