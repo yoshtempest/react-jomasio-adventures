@@ -87,32 +87,6 @@
   gap: 24px;
 }
 
-.potionSection {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 10px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 6px;
-}
-
-.potionImage {
-  width: 28px;
-  height: 28px;
-  object-fit: contain;
-}
-
-.potionName {
-  font-size: 0.8rem;
-  flex: 1;
-}
-
-.potionTimer {
-  font-size: 0.8rem;
-  font-family: monospace;
-  opacity: 0.8;
-}
-
 .timeSection {
   width: 100%;
   display: flex;

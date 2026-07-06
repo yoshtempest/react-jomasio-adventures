@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
 import type { NavbarOption } from "@/utils/types/player/navbar";
+import { useToggle } from "@/hooks/useToggle";
 
 type NavbarContextType = {
   items: NavbarOption[];
@@ -14,19 +15,7 @@ const NavbarContext = createContext<NavbarContextType | null>(null);
 
 export function NavbarProvider({ children }: { children: ReactNode }) {
   const [items] = useState<NavbarOption[]>([]);
-  const [isNavOpen, setIsOpen] = useState(false);
-
-  function toggleNavbar() {
-    setIsOpen((prev) => !prev);
-  }
-
-  function openNavbar() {
-    setIsOpen(true);
-  }
-
-  function closeNavbar() {
-    setIsOpen(false);
-  }
+  const { isOpen: isNavOpen, open: openNavbar, close: closeNavbar, toggle: toggleNavbar } = useToggle();
 
   return (
     <NavbarContext.Provider

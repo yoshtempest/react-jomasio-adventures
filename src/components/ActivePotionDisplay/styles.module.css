@@ -1,0 +1,25 @@
+.potionSection {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.potionImage {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.potionName {
+  flex: 1;
+  color: #a8e6ff;
+}
+
+.potionTimer {
+  font-variant-numeric: tabular-nums;
+  color: #ffd700;
+}

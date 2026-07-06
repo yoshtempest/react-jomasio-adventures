@@ -1,9 +1,9 @@
-import { useMemo, useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import { SendHorizontal } from "lucide-react";
 import Talking from "@/components/Talking";
 import styles from "./styles.module.css";
 import SOS from "/assets/songs/background/battle/SOSFromEarth.m4a";
-import { useGameAudio } from "@/hooks/game/useGameAudio";
+import { useBackgroundAudio } from "@/hooks/useBackgroundAudio";
 import { useNavigate } from "react-router";
 import { useCutscene } from "@/hooks/interaction/useCutscene";
 import { useSansTalking } from "@/hooks/interaction/useSansTalking";
@@ -52,28 +52,7 @@ export default function Tutorial() {
     };
   }, [flow.showNameInput]);
 
-  const backgroundAudio = useMemo(
-    () => ({
-      src: SOS,
-      loop: true,
-      volume: 0.3,
-    }),
-    [],
-  );
-
-  const audio = useGameAudio(backgroundAudio); // 🔥 pega controle
-  const audioRef = useRef(audio);
-  audioRef.current = audio;
-
-  useEffect(() => {
-    if (audioRef.current.isPlaying()) return;
-
-    audioRef.current.play()?.catch(() => {});
-
-    return () => {
-      audioRef.current.stop(); // 🔥 para ao sair
-    };
-  }, []);
+  useBackgroundAudio(SOS);
 
   const cutscene = useCutscene({
     dialogue: tutorialDialogue,

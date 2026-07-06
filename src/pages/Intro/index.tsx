@@ -1,32 +1,13 @@
-import { useEffect, useMemo, useRef } from "react";
 import styles from "./styles.module.css";
 import undertale from "/assets/songs/background/UndertaleGameOver.m4a";
-import { useGameAudio } from "@/hooks/game/useGameAudio";
+import { useBackgroundAudio } from "@/hooks/useBackgroundAudio";
 import { asset } from "@/utils/asset";
 import { useGameModeMenu } from "@/hooks/menu/useGameMode";
 
 export default function Intro() {
   const { selectedIndex, options } = useGameModeMenu();
 
-  const backgroundAudio = useMemo(
-    () => ({
-      src: undertale,
-      loop: true,
-      volume: 0.3,
-    }),
-    [],
-  );
-
-  const audio = useGameAudio(backgroundAudio);
-  const audioRef = useRef(audio);
-  audioRef.current = audio;
-
-  useEffect(() => {
-    if (audioRef.current.isPlaying()) return;
-
-    audioRef.current.play()?.catch(() => {});
-    return () => audioRef.current.stop();
-  }, []);
+  useBackgroundAudio(undertale);
 
   return (
     <div className={`Master ${styles.image}`}>

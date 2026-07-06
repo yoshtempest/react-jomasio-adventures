@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import styles from "./styles.module.css";
 import undertale from "/assets/songs/background/UndertaleGameOver.m4a";
-import { useGameAudio } from "@/hooks/game/useGameAudio";
+import { useBackgroundAudio } from "@/hooks/useBackgroundAudio";
 import { asset } from "@/utils/asset";
 import { loadGame } from "@/utils/save/saveGame";
 import { hasAnySave } from "@/utils/save/slotManager";
@@ -13,20 +13,7 @@ export default function Home() {
   const navigate = useNavigate();
   const { pushControls, popControls } = useGameControls();
 
-  const backgroundAudio = useMemo(
-    () => ({ src: undertale, loop: true, volume: 0.3 }),
-    [],
-  );
-
-  const audio = useGameAudio(backgroundAudio);
-  const audioRef = useRef(audio);
-  audioRef.current = audio;
-
-  useEffect(() => {
-    if (audioRef.current.isPlaying()) return;
-    audioRef.current.play()?.catch(() => {});
-    return () => audioRef.current.stop();
-  }, []);
+  useBackgroundAudio(undertale);
 
   useEffect(() => {
     if (!hasAnySave()) {

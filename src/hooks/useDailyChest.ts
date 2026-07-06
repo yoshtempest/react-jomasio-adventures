@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
@@ -7,6 +7,7 @@ import { openChest, type ChestDropResult } from "@/data/items/chests";
 import { DAILY_CHEST_KEY } from "@/data/storageKeys";
 import { slotKey } from "@/utils/save/slotManager";
 import { DAILY_CHEST_COOLDOWN_MS } from "@/data/cooldowns";
+import { useCountdown } from "@/hooks/useCountdown";
 
 const TIER_ORDER: NPCClass[] = ["common", "rare", "epic", "boss", "legendary"];
 
@@ -45,18 +46,7 @@ export function useDailyChest() {
 
   const [lastResult, setLastResult] = useState<DailyChestResult | null>(null);
 
-  const calcTimeLeft = useCallback(
-    () => DAILY_CHEST_COOLDOWN_MS - (Date.now() - lastOpen),
-    [lastOpen],
-  );
-
-  const [timeLeft, setTimeLeft] = useState(calcTimeLeft);
-
-  useEffect(() => {
-    setTimeLeft(calcTimeLeft());
-    const interval = setInterval(() => setTimeLeft(calcTimeLeft()), 1000);
-    return () => clearInterval(interval);
-  }, [calcTimeLeft]);
+  const timeLeft = useCountdown(DAILY_CHEST_COOLDOWN_MS, lastOpen);
 
   const isReady = timeLeft <= 0;
 
@@ -85,7 +75,7 @@ export function useDailyChest() {
 
   return {
     isReady,
-    timeLeft: Math.max(0, timeLeft),
+    timeLeft,
     lastResult,
     setLastResult,
     open,

@@ -3,8 +3,8 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
-import { asset } from "@/utils/asset";
-import { useActivePotion } from "@/hooks/useActivePotion";
+import { formatDuration } from "@/utils/formatDuration";
+import { ActivePotionDisplay } from "@/components/ActivePotionDisplay";
 
 type Option = "retry" | "flee";
 
@@ -18,13 +18,6 @@ type Props = {
   bestTime: number;
 };
 
-function formatTime(ms: number): string {
-  const totalSec = Math.floor(ms / 1000);
-  const min = Math.floor(totalSec / 60);
-  const sec = totalSec % 60;
-  return `${min}:${sec.toString().padStart(2, "0")}`;
-}
-
 export function DefeatModal({
   isOpen,
   title = "Derrota",
@@ -37,7 +30,6 @@ export function DefeatModal({
   const [selected, setSelected] = useState<Option>("retry");
   const { setMode } = usePlayer();
   const { playSound } = useSoundEffects();
-  const activePotion = useActivePotion();
   const { pushControls, popControls } = useGameControls();
   const playSoundRef = useRef(playSound);
   playSoundRef.current = playSound;
@@ -117,26 +109,14 @@ export function DefeatModal({
         <div className={styles.timeSection}>
           <p className={styles.timeRow}>
             <span className={styles.timeLabel}>Tempo:</span>
-            <span>{formatTime(elapsed)}</span>
+            <span>{formatDuration(elapsed)}</span>
           </p>
           <p className={styles.timeRow}>
             <span className={styles.timeLabel}>Melhor tempo:</span>
-            <span>{bestTime > 0 ? formatTime(bestTime) : "0:00"}</span>
+            <span>{bestTime > 0 ? formatDuration(bestTime) : "0:00"}</span>
           </p>
         </div>
-        {activePotion && (
-          <div className={styles.potionSection}>
-            <img
-              src={asset(activePotion.image)}
-              alt={activePotion.name}
-              className={styles.potionImage}
-            />
-            <span className={styles.potionName}>{activePotion.name}</span>
-            <span className={styles.potionTimer}>
-              {formatTime(activePotion.remainingMs)}
-            </span>
-          </div>
-        )}
+        <ActivePotionDisplay />
         <div className={styles.buttonContainer}>
           <button
             className={`${styles.button} ${selected === "retry" ? styles.active : ""}`}

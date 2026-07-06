@@ -1,14 +1,15 @@
 import {
   createContext,
   useContext,
-  useState,
   useRef,
+  useState,
   type ReactNode,
 } from "react";
 import type { InventoryItem } from "@/utils/types/player/inventory";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { INVENTORY_KEY } from "@/data/storageKeys";
 import { useCompressedStorage } from "@/hooks/useCompressedStorage";
+import { useToggle } from "@/hooks/useToggle";
 
 type InventoryContextType = {
   items: InventoryItem[];
@@ -32,7 +33,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useCompressedStorage<InventoryItem[]>(INVENTORY_KEY, []);
   const { playSound } = useSoundEffects();
 
-  const [isOpen, setIsOpen] = useState(false);
+  const { isOpen, open: openInventory, close: closeInventory, toggle: toggleInventory } = useToggle();
 
   const [maxSlots, setMaxSlots] = useState(20);
   const maxSlotsRef = useRef(maxSlots);
@@ -88,18 +89,6 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
 
   function hasItem(id: ItemId) {
     return items.some((item) => item.id === id);
-  }
-
-  function toggleInventory() {
-    setIsOpen((prev) => !prev);
-  }
-
-  function openInventory() {
-    setIsOpen(true);
-  }
-
-  function closeInventory() {
-    setIsOpen(false);
   }
 
   return (
