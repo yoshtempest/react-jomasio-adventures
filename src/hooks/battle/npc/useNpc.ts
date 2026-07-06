@@ -159,10 +159,6 @@ export function useNpcBattle({
     const targetIsPet = npcTargetIsPetRef?.current === true;
 
     if (!targetIsPet) {
-      if (!isNpcInRange(playerX, playerY, npcX, npcY)) {
-        onDodgeRef?.current?.();
-        return;
-      }
       if (player.state === "dash") {
         onDodgeRef?.current?.();
         return;
