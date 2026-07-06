@@ -81,6 +81,7 @@ export function mauraoPhase1(ctx: BehaviorContext, ai: MauraoAI): BehaviorResult
     const newX = ai.dashStartX + (ai.dashTargetX - ai.dashStartX) * progress;
 
     if (!ai.dashHitDone && isNear(newX, npc.y, playerX, playerY, MELEE_RANGE)) {
+      ctx.playSound?.("knifeAttack");
       onMeleeHit();
       ai.dashHitDone = true;
     }

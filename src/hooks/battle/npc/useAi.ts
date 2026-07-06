@@ -124,6 +124,9 @@ export function useNpcAI({
       if (npcTypeRef.current === "vandinhaFragment") {
         playSound("breakDish");
       }
+      if (npcTypeRef.current === "maurao") {
+        playSound("knifeCut");
+      }
       onProjectileHit();
     },
     hitstopRef,

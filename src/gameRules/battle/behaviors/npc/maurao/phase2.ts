@@ -36,6 +36,7 @@ export function mauraoPhase2(ctx: BehaviorContext, ai: MauraoAI): BehaviorResult
     if (now - ai.lastSpinHit >= SPIN_HIT_INTERVAL) {
       ai.lastSpinHit = now;
       if (isNear(newX, npc.y, playerX, playerY, SPIN_MELEE_RANGE)) {
+        ctx.playSound?.("knifeAttack");
         onMeleeHit();
         ai.spinHitCount++;
       }
