@@ -98,6 +98,7 @@ export type NPCBattleState = {
       lastMeleeAttack: number;
     };
     maurao?: {
+      knownPhase: number;
       dashState: "idle" | "windUp" | "dashing" | "postDash";
       dashStart: number;
       dashStartX: number;
