@@ -154,7 +154,10 @@ export function useNpcBattle({
 
   const npcMeleeHit = useCallback(() => {
     if (isEnding.current) return;
-    if (!npcCooldown.current) return;
+
+    const skipCooldown = npcType === "maurao" && npcPhase >= 2;
+
+    if (!skipCooldown && !npcCooldown.current) return;
 
     const targetIsPet = npcTargetIsPetRef?.current === true;
 
@@ -178,8 +181,10 @@ export function useNpcBattle({
     const missChance = 0.005 + titleEnemyMissChance / 100;
     if (Math.random() < missChance) {
       spawnDamageRef.current?.(0, tx, ty, "miss");
-      npcCooldown.current = false;
-      setTimeout(() => (npcCooldown.current = true), NPC_MELEE_COOLDOWN);
+      if (!skipCooldown) {
+        npcCooldown.current = false;
+        setTimeout(() => (npcCooldown.current = true), NPC_MELEE_COOLDOWN);
+      }
       return;
     }
 
@@ -208,8 +213,10 @@ export function useNpcBattle({
       setPlayer((p) => ({ ...p, bleedUntil: Date.now() + 5000 }));
     }
 
-    npcCooldown.current = false;
-    setTimeout(() => (npcCooldown.current = true), NPC_MELEE_COOLDOWN);
+    if (!skipCooldown) {
+      npcCooldown.current = false;
+      setTimeout(() => (npcCooldown.current = true), NPC_MELEE_COOLDOWN);
+    }
   }, [
     isEnding, npcCooldown, player.state,
     npcLevel, npcClass, playerClass, totalArmor,

@@ -27,7 +27,10 @@ export type NPCBattleState = {
     | "inDash"
     | "startThrow"
     | "throwing"
-    | "throwed";
+    | "throwed"
+    | "startSpin"
+    | "inSpin"
+    | "finishSpin";
   direction: NPCDirection;
   jumpLandingX?: number;
 
@@ -105,6 +108,11 @@ export type NPCBattleState = {
       throwState: "idle" | "startThrow" | "throwing" | "throwed";
       throwStart: number;
       lastRangedAttack: number;
+      spinState: "idle" | "spinning" | "resting";
+      spinStart: number;
+      spinRestStart: number;
+      lastSpinHit: number;
+      spinHitCount: number;
     };
   };
 };

@@ -10,7 +10,29 @@ type Props = {
   y: number;
   TILE_SIZE: number;
   npcType: string;
-  state: "idle" | "walk" | "default" | "hit" | "jumping" | "attack" | "pitch" | "inAir" | "falling" | "airAttack" | "preAttack" | "preJump" | "inJump" | "jumpAttack" | "block" | "meleeAttack" | "rangedAttack" | "get" | "throw";
+  state:
+    "idle"
+    | "walk"
+    | "default"
+    | "hit"
+    | "jumping"
+    | "attack"
+    | "pitch"
+    | "inAir"
+    | "falling"
+    | "airAttack"
+    | "preAttack"
+    | "preJump"
+    | "inJump"
+    | "jumpAttack"
+    | "block"
+    | "meleeAttack"
+    | "rangedAttack"
+    | "get"
+    | "throw"
+    | "startSpin"
+    | "inSpin"
+    | "finishSpin";
   direction: "left" | "right";
   piercings?: { id: number; x: number; y: number }[];
   isExploding?: boolean;

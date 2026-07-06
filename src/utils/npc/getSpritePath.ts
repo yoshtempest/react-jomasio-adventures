@@ -27,6 +27,13 @@ export function getSpritePath(
     return asset("assets/npcs/hungryKing/invoking.svg");
   }
 
+  if (npcType === "maurao") {
+    if (npcPhase === 2) {
+      return asset(`assets/npcs/maurao/phase2/${state}.svg`);
+    }
+    return asset(`assets/npcs/maurao/${state}.svg`);
+  }
+
   return asset(`assets/npcs/${npcType}/${state}.svg`);
 }
 
