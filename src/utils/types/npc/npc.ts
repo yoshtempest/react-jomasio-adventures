@@ -87,6 +87,7 @@ export type NPCBattleState = {
       lastJump: number;
       landingTime: number;
       lastSpriteState?: string;
+      lastMeleeAttack: number;
     };
   };
 };

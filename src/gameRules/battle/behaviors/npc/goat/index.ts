@@ -12,6 +12,7 @@ const JUMP_HEIGHT = 40;
 const JUMP_RISE_MS = 400;
 const JUMP_FLIGHT_MS = 600;
 const JUMP_RECOVERY_MS = 500;
+const MELEE_ATTACK_DURATION = 400;
 
 function getJumpState(elapsed: number): NPCBattleState["state"] {
   if (elapsed < JUMP_RISE_MS) return "jumping";
@@ -32,6 +33,7 @@ export function goatBehavior(ctx: BehaviorContext): BehaviorResult {
       jumpTargetX: 0,
       lastJump: 0,
       landingTime: now,
+      lastMeleeAttack: 0,
     };
   }
 
@@ -47,7 +49,7 @@ export function goatBehavior(ctx: BehaviorContext): BehaviorResult {
   if (ai.jumpState === "idle") {
     const { x } = chasePlayer(npc, targetX, targetY);
 
-    tryMeleeAttack({
+    const hit = tryMeleeAttack({
       npcX: npc.x,
       npcY: npc.y,
       playerX: targetX,
@@ -57,6 +59,15 @@ export function goatBehavior(ctx: BehaviorContext): BehaviorResult {
       lastAttackRef,
       onHit: onMeleeHit,
     });
+
+    if (hit) {
+      ai.lastMeleeAttack = now;
+      return { x: npc.x, y: npc.y, state: "meleeAttack" };
+    }
+
+    if (now - ai.lastMeleeAttack < MELEE_ATTACK_DURATION) {
+      return { x: npc.x, y: npc.y, state: "meleeAttack" };
+    }
 
     if (distance > JUMP_THRESHOLD && now - ai.lastJump > JUMP_COOLDOWN) {
       ai.jumpState = "jumping";
