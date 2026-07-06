@@ -24,7 +24,10 @@ export type NPCBattleState = {
     | "get"
     | "throw"
     | "startDash"
-    | "inDash";
+    | "inDash"
+    | "startThrow"
+    | "throwing"
+    | "throwed";
   direction: NPCDirection;
   jumpLandingX?: number;
 
@@ -99,6 +102,9 @@ export type NPCBattleState = {
       dashHitDone: boolean;
       lastMeleeAttack: number;
       postDashStart: number;
+      throwState: "idle" | "startThrow" | "throwing" | "throwed";
+      throwStart: number;
+      lastRangedAttack: number;
     };
   };
 };

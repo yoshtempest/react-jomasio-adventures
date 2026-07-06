@@ -12,6 +12,9 @@ export function getMauraoState(npc: NPCBattleState) {
       dashHitDone: false,
       lastMeleeAttack: 0,
       postDashStart: 0,
+      throwState: "idle",
+      throwStart: 0,
+      lastRangedAttack: 0,
     };
   }
 

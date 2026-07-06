@@ -5,4 +5,5 @@ export const spriteMap: Record<string, string> = {
   staff: "/assets/npcs/staff.svg",
   spear: "/assets/npcs/spear.svg",
   spoon: "/assets/npcs/spoon.svg",
+  knife: "/assets/npcs/knife.svg",
 };

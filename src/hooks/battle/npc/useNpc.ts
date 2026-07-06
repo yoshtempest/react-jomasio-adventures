@@ -208,6 +208,9 @@ export function useNpcBattle({
     if (npcType === "hungryDeath" && !targetIsPet) {
       setPlayer((p) => ({ ...p, bleedUntil: Date.now() + 5000 }));
     }
+    if (npcType === "maurao" && !targetIsPet) {
+      setPlayer((p) => ({ ...p, bleedUntil: Date.now() + 5000 }));
+    }
 
     npcCooldown.current = false;
     setTimeout(() => (npcCooldown.current = true), NPC_MELEE_COOLDOWN);
@@ -268,6 +271,10 @@ export function useNpcBattle({
     navigator.vibrate?.(40);
     spawnDamageRef.current?.(finalDmg, playerX, playerY, dmgType);
     hitstopRef.current = Date.now() + 30;
+
+    if (npcType === "maurao") {
+      setPlayer((p) => ({ ...p, bleedUntil: Date.now() + 5000 }));
+    }
 
     npcCooldown.current = false;
     setTimeout(() => (npcCooldown.current = true), NPC_MELEE_COOLDOWN);
