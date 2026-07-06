@@ -30,6 +30,11 @@ type Props = {
     | "rangedAttack"
     | "get"
     | "throw"
+    | "startDash"
+    | "inDash"
+    | "startThrow"
+    | "throwing"
+    | "throwed"
     | "startSpin"
     | "inSpin"
     | "finishSpin";

@@ -45,6 +45,8 @@ export type SoundId =
   | "summon"
   | "hulk"
   | "smash"
+  | "knifeAttack"
+  | "knifeCut"
   | "hungryDeath";
 
 type SoundEffectsContextType = {

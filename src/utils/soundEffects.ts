@@ -41,5 +41,7 @@ export function createSounds() {
         hulk: sfx("npc/hungryKing/hulk.mp3"),
         smash: sfx("npc/hungryKing/smash.mp3"),
         summon: sfx("npc/hungryKing/summon.mp3"),
+        knifeAttack: sfx("npc/maurao/knifeAttack.mp3"),
+        knifeCut: sfx("npc/maurao/knifeCut.mp3"),
     };
 }
