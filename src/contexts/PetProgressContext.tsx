@@ -1,14 +1,10 @@
 import {
   createContext,
   useContext,
-  useEffect,
-  useState,
   type ReactNode,
 } from "react";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
-import { saveCompressed, loadCompressed } from "@/utils/save/storage";
 import { PET_PROGRESS_KEY } from "@/data/storageKeys";
-import { slotKey } from "@/utils/save/slotManager";
 import type { PetsProgress } from "@/data/characters/petProgress";
 import {
   PET_DEFAULT_PROGRESS,
@@ -18,6 +14,7 @@ import {
   getPetXPToNextLevel,
   getPetClass,
 } from "@/utils/character/petProgress";
+import { useCompressedStorage } from "@/hooks/useCompressedStorage";
 
 type ContextType = {
   petProgress: PetsProgress;
@@ -29,19 +26,11 @@ const PetProgressContext = createContext({} as ContextType);
 const STORAGE_KEY = PET_PROGRESS_KEY;
 
 export function PetProgressProvider({ children }: { children: ReactNode }) {
-  const [petProgress, setPetProgress] = useState<PetsProgress>(() => {
-    const saved = loadCompressed<PetsProgress>(slotKey(STORAGE_KEY));
-    if (!saved) return {};
-    try {
-      return normalizePetProgress(saved);
-    } catch {
-      return {};
-    }
-  });
-
-  useEffect(() => {
-    saveCompressed(slotKey(STORAGE_KEY), petProgress);
-  }, [petProgress]);
+  const [petProgress, setPetProgress] = useCompressedStorage(
+    STORAGE_KEY,
+    {} as PetsProgress,
+    normalizePetProgress,
+  );
 
   const { playSound } = useSoundEffects();
 

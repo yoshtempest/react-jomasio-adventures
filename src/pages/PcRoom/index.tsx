@@ -1,12 +1,6 @@
-import { useParams } from "react-router";
+import ScenePage from "@/components/ScenePage";
 import { PcRoomScene } from "@/features/pcRoom";
 
 export default function PcRoomPage() {
-  const { id } = useParams();
-
-  if (!id) {
-    return <div>Parâmetro de cena não fornecido</div>;
-  }
-
-  return <PcRoomScene sceneId={id as SceneId} />;
+  return <ScenePage SceneComponent={PcRoomScene} />;
 }

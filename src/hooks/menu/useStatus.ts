@@ -1,11 +1,13 @@
-import { useEffect, useRef, useState } from "react";
-import { useGameControls } from "@/contexts/GameControlsContext";
+import { useState } from "react";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { canSpendPoints } from "@/gameRules/menu/validation";
 import { STATS } from "@/utils/types/player/stats";
 import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
+import { useStableCallback } from "@/hooks/useStableCallback";
+import { useGameControlsLayer } from "@/hooks/useGameControlsLayer";
+import { useSelectableIndex } from "@/hooks/useSelectableIndex";
 
 const OPTIONS = STATS;
 const TOTAL_OPTIONS = STATS.length + 2;
@@ -13,81 +15,62 @@ const SKILL_TREE_INDEX = STATS.length;
 const RANKS_INDEX = STATS.length + 1;
 
 export function useStatusMenu(isOpen: boolean) {
-  const { pushControls, popControls } = useGameControls();
   const { addStat, progress } = useCharacterProgress();
   const { player } = usePlayer();
   const { playMove, playSelect } = useMenuSFX();
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
   const [view, setView] = useState<"stats" | "skillTree" | "ranks">("stats");
-  const selectedIndexRef = useRef(selectedIndex);
-  const viewRef = useRef(view);
+  const { selectedIndex, setSelectedIndex, selectedIndexRef } = useSelectableIndex();
 
-  useEffect(() => {
-    selectedIndexRef.current = selectedIndex;
-    viewRef.current = view;
-  }, [selectedIndex, view]);
+  const onUp = useStableCallback(() => {
+    if (view !== "stats") return;
+    playMove();
+    setSelectedIndex((prev) => circularPrev(prev, TOTAL_OPTIONS));
+  });
 
-  const playMoveRef = useRef(playMove);
-  playMoveRef.current = playMove;
-  const playSelectRef = useRef(playSelect);
-  playSelectRef.current = playSelect;
-  const pushControlsRef = useRef(pushControls);
-  pushControlsRef.current = pushControls;
-  const popControlsRef = useRef(popControls);
-  popControlsRef.current = popControls;
-  const addStatRef = useRef(addStat);
-  addStatRef.current = addStat;
+  const onDown = useStableCallback(() => {
+    if (view !== "stats") return;
+    playMove();
+    setSelectedIndex((prev) => circularNext(prev, TOTAL_OPTIONS));
+  });
 
-  useEffect(() => {
-    if (!isOpen) return;
+  const onConfirm = useStableCallback(() => {
+    if (view === "skillTree") return true;
+    if (view === "ranks") return true;
+    playSelect();
+    const index = selectedIndexRef.current;
+    if (index === SKILL_TREE_INDEX) {
+      setView("skillTree");
+      return true;
+    }
+    if (index === RANKS_INDEX) {
+      setView("ranks");
+      return true;
+    }
+    const stat = STATS[index];
+    const char = progress[player.character];
+    if (!canSpendPoints(char.stats.points)) return true;
+    addStat(player.character, stat);
+    return true;
+  });
 
-    const controls = {
-      onUp: () => {
-        if (viewRef.current !== "stats") return;
-        playMoveRef.current();
-        setSelectedIndex((prev) => circularPrev(prev, TOTAL_OPTIONS));
-      },
+  const onCancel = useStableCallback(() => {
+    if (view !== "stats") {
+      setView("stats");
+      return true;
+    }
+  });
 
-      onDown: () => {
-        if (viewRef.current !== "stats") return;
-        playMoveRef.current();
-        setSelectedIndex((prev) => circularNext(prev, TOTAL_OPTIONS));
-      },
-
-      onConfirm: () => {
-        if (viewRef.current === "skillTree") return true;
-        if (viewRef.current === "ranks") return true;
-        playSelectRef.current();
-        const index = selectedIndexRef.current;
-        if (index === SKILL_TREE_INDEX) {
-          setView("skillTree");
-          return true;
-        }
-        if (index === RANKS_INDEX) {
-          setView("ranks");
-          return true;
-        }
-        const stat = STATS[index];
-        const char = progress[player.character];
-        if (!canSpendPoints(char.stats.points)) return true;
-        addStatRef.current(player.character, stat);
-        return true;
-      },
-
-      onCancel: () => {
-        if (viewRef.current !== "stats") {
-          setView("stats");
-          return true;
-        }
-      },
-
+  useGameControlsLayer(
+    {
+      onUp,
+      onDown,
+      onConfirm,
+      onCancel,
       blockGlobalOpen: true,
-    };
-
-    pushControlsRef.current(controls);
-    return () => popControlsRef.current();
-  }, [isOpen, progress, player.character]);
+    },
+    [isOpen],
+  );
 
   return {
     selectedIndex,

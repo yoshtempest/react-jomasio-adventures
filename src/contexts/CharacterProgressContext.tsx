@@ -1,15 +1,11 @@
 import {
   createContext,
   useContext,
-  useEffect,
-  useState,
   type ReactNode,
 } from "react";
 import type { Character } from "@/utils/types/player/player";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
-import { saveCompressed, loadCompressed } from "@/utils/save/storage";
 import { CHARACTER_PROGRESS_KEY } from "@/data/storageKeys";
-import { slotKey } from "@/utils/save/slotManager";
 import type {
   CharacterStats,
   CharactersProgress,
@@ -17,6 +13,7 @@ import type {
 import { defaultProgress } from "@/data/characters/defaultProgress";
 import { normalizeProgress, getXPToNextLevel } from "@/utils/character/progress";
 import { getXpBuffMultiplier } from "@/utils/buffs/xpBuff";
+import { useCompressedStorage } from "@/hooks/useCompressedStorage";
 
 export const MAX_HUNGER = 100;
 
@@ -51,22 +48,11 @@ export function CharacterProgressProvider({
 }: {
   children: ReactNode;
 }) {
-  const [progress, setProgress] = useState<CharactersProgress>(() => {
-    const saved = loadCompressed<CharactersProgress>(slotKey(STORAGE_KEY));
-
-    if (!saved) return defaultProgress;
-
-    try {
-      return normalizeProgress(saved);
-    } catch {
-      return defaultProgress;
-    }
-  });
-
-  // 💾 salvar
-  useEffect(() => {
-    saveCompressed(slotKey(STORAGE_KEY), progress);
-  }, [progress]);
+  const [progress, setProgress] = useCompressedStorage(
+    STORAGE_KEY,
+    defaultProgress,
+    normalizeProgress,
+  );
   const { playSound } = useSoundEffects();
 
   // ⭐ XP + LEVEL + POINTS

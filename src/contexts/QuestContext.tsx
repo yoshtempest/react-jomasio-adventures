@@ -1,8 +1,6 @@
 import {
   createContext,
   useContext,
-  useState,
-  useEffect,
   useCallback,
 } from "react";
 import type { ReactNode } from "react";
@@ -13,9 +11,9 @@ import {
   getWeekStart,
   generateQuestsFromPool,
 } from "@/data/quests/generation";
-import { saveCompressed, loadCompressed } from "@/utils/save/storage";
 import { QUESTS_KEY, DAILY_QUEST_DATE_KEY, WEEKLY_QUEST_DATE_KEY } from "@/data/storageKeys";
 import { slotKey } from "@/utils/save/slotManager";
+import { useCompressedStorage } from "@/hooks/useCompressedStorage";
 
 type Props = {
   children: ReactNode;
@@ -34,14 +32,8 @@ type QuestContextType = {
 const QuestContext = createContext({} as QuestContextType);
 
 export function QuestProvider({ children }: Props) {
-  const [quests, setQuests] = useState<Quest[]>(() =>
-    loadCompressed<Quest[]>(slotKey(QUESTS_KEY)) ?? [],
-  );
+  const [quests, setQuests] = useCompressedStorage<Quest[]>(QUESTS_KEY, []);
   const { playSound } = useSoundEffects();
-
-  useEffect(() => {
-    saveCompressed(slotKey(QUESTS_KEY), quests);
-  }, [quests]);
 
   const generateDailyWeekly = useCallback(() => {
     setQuests((prev) => {
@@ -79,7 +71,7 @@ export function QuestProvider({ children }: Props) {
 
       return filtered;
     });
-  }, []);
+  }, [setQuests]);
 
   function addQuest(newQuest: Quest) {
     setQuests((prev) => {
