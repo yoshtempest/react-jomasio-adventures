@@ -1,7 +1,7 @@
 .bar {
   position: relative;
   width: 100%;
-  background: #333;
+  background: var(--border-default, #333);
   border-radius: 4px;
   overflow: hidden;
 }
@@ -11,6 +11,7 @@
   top: 0;
   left: 0;
   height: 100%;
+  background: var(--success, #4caf50);
   transition: width 0.3s ease;
   border-radius: 4px;
 }

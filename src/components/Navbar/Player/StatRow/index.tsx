@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { ProgressBar } from "@/components/ProgressBar";
 import styles from "./styles.module.css";
 
 type StatRowProps = {
@@ -20,12 +21,12 @@ export function StatRow({
       </div>
 
       {progress !== undefined && (
-        <div className={styles.barOuter}>
-          <div
-            className={styles.barInner}
-            style={{ width: `${progress}%` }}
-          />
-        </div>
+        <ProgressBar
+          value={progress}
+          max={100}
+          className={styles.barOuter}
+          color="var(--accent-color)"
+        />
       )}
     </>
   );

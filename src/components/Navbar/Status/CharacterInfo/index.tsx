@@ -4,6 +4,7 @@ import { useEquipment } from "@/contexts/EquipmentContext";
 import { CHARACTERS } from "@/data/options/characters";
 import { asset } from "@/utils/asset";
 import { getRank, formatRank } from "@/gameRules/rank";
+import { ProgressBar } from "@/components/ProgressBar";
 import styles from "./styles.module.css";
 import { Drumstick } from "lucide-react";
 
@@ -15,7 +16,6 @@ export function CharacterInfo() {
 
   const charProgress = progress[player.character];
   const xpNeeded = getXPToNextLevel(charProgress.level);
-  const percent = (charProgress.xp / xpNeeded) * 100;
   const characterData = CHARACTERS.find((c) => c.image === player.character);
 
   const petItem = getEquippedItem(character, "pet");
@@ -42,9 +42,7 @@ export function CharacterInfo() {
         {formatRank(getRank(charProgress.level))}
       </h2>
       <h2>Classe: {playerClass}</h2>
-      <div className="xpBar">
-        <div className="xpFill" style={{ width: `${percent}%` }} />
-      </div>
+      <ProgressBar value={charProgress.xp} max={xpNeeded} />
       <p className={styles.xpText}>
         XP: {charProgress.xp}/{xpNeeded} — Nv.{charProgress.level + 1}
       </p>
@@ -54,12 +52,11 @@ export function CharacterInfo() {
           <span>Fome</span>
           <span>{charProgress.hunger}/{MAX_HUNGER}</span>
         </div>
-        <div className="xpBar">
-          <div className="xpFill" style={{
-            width: `${(charProgress.hunger / MAX_HUNGER) * 100}%`,
-            background: charProgress.hunger > 50 ? "var(--success)" : charProgress.hunger > 20 ? "orange" : "red",
-          }} />
-        </div>
+        <ProgressBar
+          value={charProgress.hunger}
+          max={MAX_HUNGER}
+          color={charProgress.hunger > 50 ? "var(--success)" : charProgress.hunger > 20 ? "orange" : "red"}
+        />
       </div>
     </div>
   );

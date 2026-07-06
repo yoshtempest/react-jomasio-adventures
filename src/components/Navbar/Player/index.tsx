@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { ProgressBar } from "@/components/ProgressBar";
 import styles from "./styles.module.css";
 import { usePlayerMenu } from "@/hooks/menu/usePlayer";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
@@ -260,9 +261,12 @@ export function Player() {
             <span className={styles.statLabel}>Progresso</span>
             <span className={styles.statValue}>{completedCount}/{passTotal} ({passPct}%)</span>
           </div>
-          <div className={styles.barOuter}>
-            <div className={styles.barInner} style={{ width: `${passPct}%` }} />
-          </div>
+          <ProgressBar
+            value={passPct}
+            max={100}
+            className={styles.barOuter}
+            color="var(--accent-color)"
+          />
           {passMissions.map((m) => (
             <div key={m.id} className={styles.missionRow}>
               <div className={styles.missionInfo}>

@@ -41,3 +41,7 @@
     font-size: 8px;
   }
 }
+
+.progressContainer {
+  width: 90%;
+}
