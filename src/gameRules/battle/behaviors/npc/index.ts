@@ -7,6 +7,7 @@ import { piupiuBehavior } from "./piupiu";
 import { jhowsimarBehavior } from "./jhowsimar";
 import { hungryDeathBehavior } from "./hungryDeath";
 import { goatBehavior } from "./goat/index";
+import { mauraoBehavior } from "./maurao/index";
 import type { BehaviorContext, BehaviorResult } from "@/utils/types/npc/npcBehavior";
 
 type NpcBehaviorFn = (ctx: BehaviorContext) => BehaviorResult;
@@ -20,5 +21,6 @@ export const npcBehaviors: Record<string, NpcBehaviorFn> = {
   jhowsimar: jhowsimarBehavior,
   hungryDeath: hungryDeathBehavior,
   goat: goatBehavior,
+  maurao: mauraoBehavior,
   default: normalBehavior,
 };

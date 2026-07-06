@@ -22,7 +22,9 @@ export type NPCBattleState = {
     | "meleeAttack"
     | "rangedAttack"
     | "get"
-    | "throw";
+    | "throw"
+    | "startDash"
+    | "inDash";
   direction: NPCDirection;
   jumpLandingX?: number;
 
@@ -88,6 +90,15 @@ export type NPCBattleState = {
       landingTime: number;
       lastSpriteState?: string;
       lastMeleeAttack: number;
+    };
+    maurao?: {
+      dashState: "idle" | "windUp" | "dashing" | "postDash";
+      dashStart: number;
+      dashStartX: number;
+      dashTargetX: number;
+      dashHitDone: boolean;
+      lastMeleeAttack: number;
+      postDashStart: number;
     };
   };
 };
