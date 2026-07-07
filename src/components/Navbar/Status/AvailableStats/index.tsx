@@ -70,11 +70,11 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
         </div>
 
         <div className={selectedIndex === 4 ? "active" : ""}>
-          <p className={styles.subBtn}>Árvore de habilidades</p>
+          <p className={styles.subBtn}>Habilidades</p>
         </div>
 
         <div className={selectedIndex === 5 ? "active" : ""}>
-          <p className={styles.subBtn}>Ver ranques</p>
+          <p className={styles.subBtn}>Ranques</p>
         </div>
 
     </div>

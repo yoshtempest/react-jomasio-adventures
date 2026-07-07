@@ -10,6 +10,7 @@ import { cantinaBrothersDialogue } from "@/data/dialogues/cantina/brothers";
 import { sceneBackgrounds } from "@/data/sceneBackground";
 
 import Talking from "@/components/Talking";
+import { JesoFoodBadge } from "@/components/Game/JesoFoodBadge";
 import { cantinaJesoDialogue } from "@/data/dialogues/cantina/jeso";
 import { cantinaJesoTwoDialogue } from "@/data/dialogues/cantina/jesoTwo";
 import { useJesoFoodCooldown } from "@/hooks/useJesoFoodCooldown";
@@ -80,6 +81,9 @@ export function CantinaScene({ sceneId }: Props) {
         tileDialogues={{
           "15,3": cantinaBrothersDialogue,
         }}
+        npcOverlays={[
+          { gridX: 9, gridY: 4, element: <JesoFoodBadge /> },
+        ]}
       />
 
       {/* ✅ popup continua fora do SceneBase */}

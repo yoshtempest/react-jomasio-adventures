@@ -51,6 +51,7 @@ export function ExploreScene({
   itemPickupTiles,
   interactionKeys,
   tileDialogues,
+  npcOverlays,
 }: ExploreSceneProps & {
   events?: SceneEvent[];
   setPopup?: (msg: string | null) => void;
@@ -60,6 +61,7 @@ export function ExploreScene({
   itemPickupTiles?: { x: number; y: number; visible: boolean }[];
   interactionKeys?: string[];
   tileDialogues?: Record<string, Dialogue[]>;
+  npcOverlays?: { gridX: number; gridY: number; element: React.ReactNode }[];
 }) {
   const { player, playerClass, setMap, setPosition, setMode } = usePlayer();
   const { pushControls, popControls } = useGameControls();
@@ -251,6 +253,21 @@ export function ExploreScene({
             {...npc}
             TILE_SIZE={TILE_SIZE}
           />
+        ))}
+
+        {npcOverlays?.map((overlay, i) => (
+          <div
+            key={`overlay-${i}`}
+            style={{
+              position: "absolute",
+              left: overlay.gridX * TILE_SIZE - 40 + (TILE_SIZE * 1.7) / 2,
+              top: overlay.gridY * TILE_SIZE - 80,
+              zIndex: 10,
+              pointerEvents: "none",
+            }}
+          >
+            {overlay.element}
+          </div>
         ))}
 
         {questNpcPositions?.map((pos) => (

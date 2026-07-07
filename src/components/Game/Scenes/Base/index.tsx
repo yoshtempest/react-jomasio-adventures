@@ -39,6 +39,7 @@ type SceneBaseProps = {
     location: Location;
   }) => Record<string, unknown> | void;
   tileDialogues?: Record<string, Dialogue[]>;
+  npcOverlays?: { gridX: number; gridY: number; element: React.ReactNode }[];
   children?: React.ReactNode;
 };
 
@@ -53,6 +54,7 @@ export function SceneBase({
   handleExit,
   onFinishExtra,
   tileDialogues,
+  npcOverlays,
   children,
 }: SceneBaseProps) {
   const { navigateWithFade } = useTransitionCtx();
@@ -117,6 +119,7 @@ export function SceneBase({
           itemPickupTiles={itemPickupTiles}
           interactionKeys={Object.keys(interactions ?? {})}
           tileDialogues={tileDialogues}
+          npcOverlays={npcOverlays}
           onFinish={() => {
             const extra = onFinishExtra?.({
               navigate: navigateWithFade,

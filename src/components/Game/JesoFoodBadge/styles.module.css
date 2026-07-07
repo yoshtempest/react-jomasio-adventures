@@ -1,0 +1,14 @@
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--text-hint);
+  white-space: nowrap;
+  margin-left: -2vw;
+  margin-top: 5vh;
+}
+
+.ready {
+  color: var(--success);
+}
