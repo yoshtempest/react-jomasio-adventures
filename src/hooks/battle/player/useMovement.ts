@@ -41,7 +41,7 @@ export function useBattleMovement(
   const progressRef = useRef(progress);
   progressRef.current = progress;
 
-  const jumpForce = -15;
+  const jumpForce = -16;
 
   useBattleGravity(setPlayer, collisionRef, hasDoubleJumped);
 

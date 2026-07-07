@@ -4,7 +4,7 @@ import type { CollisionParams } from "@/utils/types/battle/collision";
 
 export type { CollisionParams };
 
-const gravity = 1.5;
+const gravity = 1;
 
 export function useBattleGravity(
   setPlayer: React.Dispatch<React.SetStateAction<Player>>,
