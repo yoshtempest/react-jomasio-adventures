@@ -136,7 +136,7 @@ export function useBattleMovement(
 
       if (p.y === p.groundY) {
         hasDoubleJumped.current = false;
-        return { ...p, state: "preJump" };
+        return { ...p, velY: jumpForce, state: "preJump" };
       }
 
       if (!canDoubleJump || hasDoubleJumped.current) return p;
@@ -146,10 +146,10 @@ export function useBattleMovement(
 
     setTimeout(() => {
       setPlayer((p) => {
-        if (p.y !== p.groundY) return p;
-        return { ...p, velY: jumpForce, state: "jump" };
+        if (p.state !== "preJump") return p;
+        return { ...p, state: "jump" };
       });
-    }, 120);
+    }, 250);
   }
 
   function blockStartAction() {

@@ -58,7 +58,7 @@ export function useBattleGravity(
           }
         }
 
-        return { ...p, y: newY, velY: newVelY, state: newVelY > 0 ? "falling" : "jump" };
+        return { ...p, y: newY, velY: newVelY, state: newVelY > 0 ? "falling" : p.state === "preJump" ? "preJump" : "jump" };
       });
     }, 16);
 

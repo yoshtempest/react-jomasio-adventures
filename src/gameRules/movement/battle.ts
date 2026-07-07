@@ -141,7 +141,7 @@ export function idleBattle(p: Player): Player {
 
 export function crouchToggle(player: Player): Player {
   if (player.state === "preJump") {
-    return { ...player, velY: 0, state: "idle" };
+    return { ...player, velY: 0, state: "falling" };
   }
   if (player.state === "jump") {
     return { ...player, velY: 0, state: "falling" };
