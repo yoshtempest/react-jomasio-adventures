@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useRef, useEffect } from "react";
 
 import { PLAYER_BASIC_COOLDOWN } from "@/data/cooldowns";
 import {
@@ -30,7 +30,7 @@ type Props = {
   battle: {
     playerCooldown: React.RefObject<boolean>;
     isEnding: React.RefObject<boolean>;
-    playerHit: () => void;
+    playerHit: (multiplier?: number) => void;
     specialHit: () => void;
     setDelicia: React.Dispatch<React.SetStateAction<number>>;
     hitsToSpecial: number;
@@ -68,6 +68,14 @@ export function usePlayerBattleActions({
   playerMaxHp,
   totalVampirism,
 }: Props) {
+  const fallingAttackUsedRef = useRef(false);
+
+  useEffect(() => {
+    if (player.y === player.groundY) {
+      fallingAttackUsedRef.current = false;
+    }
+  }, [player.y, player.groundY]);
+
   const { getTargets, isInAttackRange } = useBuildTargetList(
     player,
     npc,
@@ -85,7 +93,12 @@ export function usePlayerBattleActions({
 
     // Priority 1: hit main NPC (boss) if in range
     if (mainTarget && isInAttackRange(mainTarget)) {
-      battle.playerHit();
+      if (player.state === "falling" && !fallingAttackUsedRef.current) {
+        fallingAttackUsedRef.current = true;
+        battle.playerHit(1.2);
+      } else {
+        battle.playerHit();
+      }
       return;
     }
 

@@ -250,6 +250,7 @@ declare global {
     | "run"
     | "crit"
     | "falling"
+    | "fallingAttack"
     | "idleCrounched"
     | "walkCrounched"
     | "fallen";

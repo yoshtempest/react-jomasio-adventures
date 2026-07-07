@@ -10,12 +10,17 @@ export function useBattleGravity(
   setPlayer: React.Dispatch<React.SetStateAction<Player>>,
   collisionRef: RefObject<CollisionParams>,
   hasDoubleJumped: RefObject<boolean>,
+  hasUsedFallingAttack?: RefObject<boolean>,
 ) {
   useEffect(() => {
     const interval = setInterval(() => {
       setPlayer((p) => {
         if (p.throwStartTime > 0) {
           return { ...p, velY: 0, state: "fallen" };
+        }
+
+        if (p.state === "fallingAttack") {
+          return { ...p, velY: 0 };
         }
 
         const { map } = collisionRef.current;
@@ -36,7 +41,10 @@ export function useBattleGravity(
 
           if (newY >= landingY) {
             hasDoubleJumped.current = false;
-            const wasAirborne = p.state === "jump" || p.state === "preJump" || p.state === "falling";
+            if (hasUsedFallingAttack) hasUsedFallingAttack.current = false;
+            const wasAirborne = p.state === "jump" ||
+            p.state === "preJump" ||
+            p.state === "falling";
             return {
               ...p,
               y: landingY,
@@ -48,7 +56,10 @@ export function useBattleGravity(
         } else {
           if (newY >= p.groundY) {
             hasDoubleJumped.current = false;
-            const wasAirborne = p.state === "jump" || p.state === "preJump" || p.state === "falling";
+            if (hasUsedFallingAttack) hasUsedFallingAttack.current = false;
+            const wasAirborne = p.state === "jump" ||
+            p.state === "preJump" ||
+            p.state === "falling";
             return {
               ...p,
               y: p.groundY,
@@ -58,7 +69,10 @@ export function useBattleGravity(
           }
         }
 
-        return { ...p, y: newY, velY: newVelY, state: newVelY > 0 ? "falling" : p.state === "preJump" ? "preJump" : "jump" };
+        return { ...p, y: newY, velY: newVelY, state: newVelY > 0 ?
+          "falling" : p.state === "preJump" ?
+          "preJump" : "jump"
+        };
       });
     }, 16);
 

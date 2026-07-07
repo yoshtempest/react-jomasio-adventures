@@ -36,6 +36,7 @@ export function useBattleMovement(
   const downLockRef = useRef(false);
   const isJumping = useRef(false);
   const hasDoubleJumped = useRef(false);
+  const hasUsedFallingAttack = useRef(false);
 
   const { progress } = useCharacterProgress();
   const progressRef = useRef(progress);
@@ -43,7 +44,7 @@ export function useBattleMovement(
 
   const jumpForce = -16;
 
-  useBattleGravity(setPlayer, collisionRef, hasDoubleJumped);
+  useBattleGravity(setPlayer, collisionRef, hasDoubleJumped, hasUsedFallingAttack);
 
   const idleTimeout = useMemo(() => idleTimeoutRef.current, []);
   useEffect(() => {
@@ -136,6 +137,7 @@ export function useBattleMovement(
 
       if (p.y === p.groundY) {
         hasDoubleJumped.current = false;
+        hasUsedFallingAttack.current = false;
         return { ...p, velY: jumpForce, state: "preJump" };
       }
 
@@ -171,6 +173,10 @@ export function useBattleMovement(
 
   function attack() {
     setPlayer((p) => {
+      if (p.state === "falling" && !hasUsedFallingAttack.current) {
+        hasUsedFallingAttack.current = true;
+        return { ...p, state: "fallingAttack" };
+      }
       if (p.state !== "idle") return p;
       return { ...p, state: "preAttack" };
     });

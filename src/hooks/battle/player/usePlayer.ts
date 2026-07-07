@@ -89,7 +89,7 @@ export function usePlayerBattle({
   const [delicia, setDelicia] = useState(0);
   const [stacks, setStacks] = useState(0);
 
-  const playerHit = useCallback(() => {
+  const playerHit = useCallback((damageMultiplier = 1) => {
     if (isEnding.current) return;
     if (!playerCooldown.current) return;
 
@@ -133,7 +133,7 @@ export function usePlayerBattle({
         : rawDmg;
     const { damage: critDmg, type: dmgType } = rollCrit(berserkDmg, critRate);
     if (dmgType === "crit") setPlayer((p) => ({ ...p, state: "crit" }));
-    const dmg = calculateDamageToNpc(critDmg, npcArmor);
+    const dmg = Math.round(calculateDamageToNpc(critDmg, npcArmor) * damageMultiplier);
 
     behavior.onBasicHit({
       damage: dmg,
