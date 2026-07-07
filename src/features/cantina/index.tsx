@@ -81,9 +81,11 @@ export function CantinaScene({ sceneId }: Props) {
         tileDialogues={{
           "15,3": cantinaBrothersDialogue,
         }}
-        npcOverlays={[
-          { gridX: 9, gridY: 4, element: <JesoFoodBadge /> },
-        ]}
+        npcOverlays={
+          sceneId === "two"
+            ? [{ gridX: 9, gridY: 4, element: <JesoFoodBadge /> }]
+            : undefined
+        }
       />
 
       {/* ✅ popup continua fora do SceneBase */}
