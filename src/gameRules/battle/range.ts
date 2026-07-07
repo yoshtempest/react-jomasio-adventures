@@ -9,7 +9,7 @@ export function isPlayerInRange(
   character: string,
   isSpecial: boolean,
 ) {
-  if (playerState === "jump" || playerState === "blocked") {
+  if ((!isSpecial && playerState === "jump") || playerState === "blocked") {
     return false;
   }
 
