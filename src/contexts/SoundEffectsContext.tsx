@@ -50,7 +50,7 @@ export type SoundId =
   | "hungryDeath";
 
 type SoundEffectsContextType = {
-  playSound: (sound: SoundId, loop?: boolean) => void;
+  playSound: (sound: SoundId, loop?: boolean, volumeOverride?: number) => void;
   stopSound: (sound: SoundId) => void;
 };
 
@@ -59,6 +59,8 @@ const SoundEffectsContext = createContext<SoundEffectsContextType | null>(null);
 const SOUND_VOLUMES: Partial<Record<SoundId, number>> = {
   boom: 3,
   slimitaJump: 0.3,
+  marshadowSpecial: 0.7,
+  win: 0.5,
 };
 
 export function SoundEffectsProvider({ children }: { children: ReactNode }) {
@@ -92,7 +94,7 @@ export function SoundEffectsProvider({ children }: { children: ReactNode }) {
     });
   }, [sfxVolume]);
 
-  const playSound = useCallback(async (sound: SoundId, loop?: boolean) => {
+  const playSound = useCallback(async (sound: SoundId, loop?: boolean, volumeOverride?: number) => {
     const audio = soundsRef.current[sound];
 
     if (!audio) return;
@@ -101,7 +103,7 @@ export function SoundEffectsProvider({ children }: { children: ReactNode }) {
       audio.pause();
       audio.currentTime = 0;
       audio.loop = loop ?? false;
-      audio.volume = (sfxVolumeRef.current / 100) * (SOUND_VOLUMES[sound] ?? 1);
+      audio.volume = (sfxVolumeRef.current / 100) * (SOUND_VOLUMES[sound] ?? 1) * (volumeOverride ?? 1);
 
       await audio.play();
     } catch {

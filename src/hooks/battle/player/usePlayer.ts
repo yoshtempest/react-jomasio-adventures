@@ -11,7 +11,7 @@ import {
 import { rollCrit } from "@/gameRules/battle/damageUtils";
 import type { BattleBehavior } from "@/utils/types/player/behavior";
 import type { CharacterProgress } from "@/data/characters/defaultProgress";
-import { asset } from "@/utils/asset";
+import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 
 type Props = {
   player: Player;
@@ -84,6 +84,8 @@ export function usePlayerBattle({
   onAttackRef,
   onSpecialRef,
 }: Props) {
+  const { playSound } = useSoundEffects();
+
   const [delicia, setDelicia] = useState(0);
   const [stacks, setStacks] = useState(0);
 
@@ -222,8 +224,7 @@ export function usePlayerBattle({
     }
 
     if (player.character === "marcelo") {
-      const audio = new Audio(asset("/assets/songs/soundEffects/player/marcelo/special.mp3"));
-      audio.play().catch(() => {});
+      playSound("marshadowSpecial");
     }
 
     navigator.vibrate?.(30);
