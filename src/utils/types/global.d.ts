@@ -254,9 +254,10 @@ declare global {
     | "preSpecialInAir"
     | "specialInAir"
     | "specialInAirFinish"
-    | "idleCrounched"
-    | "walkCrounched"
-    | "fallen";
+  | "blockAttack"
+  | "idleCrounched"
+  | "walkCrounched"
+  | "fallen";
 
   type PlayerMode = "explore" | "battle" | "select" | "ui" | "map";
 

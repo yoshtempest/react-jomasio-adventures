@@ -89,12 +89,11 @@ export function usePlayerBattle({
   const [delicia, setDelicia] = useState(0);
   const [stacks, setStacks] = useState(0);
 
-  const playerHit = useCallback((damageMultiplier = 1) => {
+  const playerHit = useCallback((damageMultiplier = 1, bypassCanPlayerHit = false) => {
     if (isEnding.current) return;
     if (!playerCooldown.current) return;
 
-    if (
-      !canPlayerHit({
+    if (!bypassCanPlayerHit && !canPlayerHit({
         playerX,
         playerY,
         npcX,

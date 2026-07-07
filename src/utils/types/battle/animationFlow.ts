@@ -20,6 +20,7 @@ type PlayerState =
   | "preSpecialInAir"
   | "specialInAir"
   | "specialInAirFinish"
+  | "blockAttack"
   | "idleCrounched"
   | "walkCrounched"
   | "fallen";
@@ -59,6 +60,7 @@ export const animationFlow: Record<PlayerState, AnimationStep | null> = {
   charging: { next: "idle", duration: 500 },
 
   blocked: null,
+  blockAttack: { next: "idle", duration: 300 },
 
   stun: { next: "idle", duration: 500 },
 

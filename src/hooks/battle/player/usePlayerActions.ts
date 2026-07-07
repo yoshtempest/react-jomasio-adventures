@@ -49,6 +49,7 @@ type Props = {
   playerHP: number;
   playerMaxHp: number;
   totalVampirism: number;
+  onNpcPush?: (targetX: number) => void;
 };
 
 export function usePlayerBattleActions({
@@ -67,6 +68,7 @@ export function usePlayerBattleActions({
   playerHP,
   playerMaxHp,
   totalVampirism,
+  onNpcPush,
 }: Props) {
   const fallingAttackUsedRef = useRef(false);
 
@@ -85,6 +87,13 @@ export function usePlayerBattleActions({
 
   const handlePlayerHit = useCallback(() => {
     if (!battle.playerCooldown.current || battle.isEnding.current) {
+      return;
+    }
+
+    if (player.state === "blocked") {
+      const pushDir = player.battleDirection === "right" ? 1 : -1;
+      onNpcPush?.(npc.x + pushDir * 20);
+      battle.playerHit(0.7, true);
       return;
     }
 
@@ -155,6 +164,7 @@ export function usePlayerBattleActions({
     setSummons, giveSummonRewards, spawnDamageRef, registerHitRef,
     playerHP, setPlayerHP, playerMaxHp, totalVampirism,
     getTargets, isInAttackRange,
+    npc.x, onNpcPush,
   ]);
 
   const handleSpecialHit = useCallback(() => {

@@ -177,6 +177,7 @@ export function useBattleMovement(
         hasUsedFallingAttack.current = true;
         return { ...p, state: "fallingAttack" };
       }
+      if (p.state === "blocked") return { ...p, state: "blockAttack" };
       if (p.state !== "idle") return p;
       return { ...p, state: "preAttack" };
     });

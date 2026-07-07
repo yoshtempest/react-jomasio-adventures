@@ -447,6 +447,7 @@ export function useBattleScene({
     playerHP: battle.playerHP,
     playerMaxHp: battle.playerMaxHp,
     totalVampirism: battle.totalVampirism,
+    onNpcPush: (targetX) => npc.updateNpc({ x: targetX }),
   });
 
   useSummonAI({
