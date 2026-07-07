@@ -17,6 +17,9 @@ type PlayerState =
   | "crit"
   | "falling"
   | "fallingAttack"
+  | "preSpecialInAir"
+  | "specialInAir"
+  | "specialInAirFinish"
   | "idleCrounched"
   | "walkCrounched"
   | "fallen";
@@ -44,6 +47,9 @@ export const animationFlow: Record<PlayerState, AnimationStep | null> = {
   jump: null,
   falling: null, // controlado pela gravidade
   fallingAttack: { next: "falling", duration: 200 },
+  preSpecialInAir: { next: "specialInAir", duration: 100 },
+  specialInAir: { next: "specialInAirFinish", duration: 200 },
+  specialInAirFinish: { next: "idle", duration: 150 },
 
   preSpecial: { next: "special", duration: 200 },
   special: { next: "idle", duration: 500 },

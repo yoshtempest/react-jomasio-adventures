@@ -31,7 +31,7 @@ type Props = {
     playerCooldown: React.RefObject<boolean>;
     isEnding: React.RefObject<boolean>;
     playerHit: (multiplier?: number) => void;
-    specialHit: () => void;
+    specialHit: (multiplier?: number) => void;
     setDelicia: React.Dispatch<React.SetStateAction<number>>;
     hitsToSpecial: number;
   };
@@ -166,11 +166,15 @@ export function usePlayerBattleActions({
 
     for (const target of targets) {
       if (target.id === "main") {
-        battle.specialHit();
+        if (player.state === "falling") {
+          battle.specialHit(1.2);
+        } else {
+          battle.specialHit();
+        }
         return;
       }
     }
-  }, [battle, getTargets]);
+  }, [battle, getTargets, player.state]);
 
   return {
     handlePlayerHit,

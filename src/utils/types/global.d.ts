@@ -251,6 +251,9 @@ declare global {
     | "crit"
     | "falling"
     | "fallingAttack"
+    | "preSpecialInAir"
+    | "specialInAir"
+    | "specialInAirFinish"
     | "idleCrounched"
     | "walkCrounched"
     | "fallen";

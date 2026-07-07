@@ -19,7 +19,7 @@ export function useBattleGravity(
           return { ...p, velY: 0, state: "fallen" };
         }
 
-        if (p.state === "fallingAttack") {
+        if (p.state === "fallingAttack" || p.state === "specialInAir" || p.state === "specialInAirFinish") {
           return { ...p, velY: 0 };
         }
 

@@ -184,6 +184,7 @@ export function useBattleMovement(
 
   function special() {
     setPlayer((p) => {
+      if (p.state === "falling") return { ...p, state: "preSpecialInAir" };
       if (p.state !== "idle") return p;
       return { ...p, state: "preSpecial" };
     });

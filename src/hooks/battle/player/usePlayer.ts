@@ -195,7 +195,7 @@ export function usePlayerBattle({
     onAttackRef,
   ]);
 
-  const specialHit = useCallback(() => {
+  const specialHit = useCallback((damageMultiplier = 1) => {
     if (isEnding.current) return;
     if (!playerCooldown.current) return;
     if (delicia < HITS_TO_SPECIAL) return;
@@ -239,7 +239,7 @@ export function usePlayerBattle({
         : rawDmg;
     const { damage: critDmg, type: dmgType } = rollCrit(berserkDmg, critRate);
     if (dmgType === "crit") setPlayer((p) => ({ ...p, state: "crit" }));
-    const dmg = calculateDamageToNpc(critDmg, npcArmor);
+    const dmg = Math.round(calculateDamageToNpc(critDmg, npcArmor) * damageMultiplier);
 
     behavior.onSpecialHit({
       damage: dmg,
