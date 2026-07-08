@@ -8,6 +8,7 @@ import {
 import { playAttackSound } from "@/utils/types/battle/playAttackSound";
 import { isPlayerInRange } from "@/gameRules/battle/range";
 import { isFacingTarget } from "@/gameRules/battle/direction";
+import { BATTLE_LIMITS } from "@/utils/types/player/movement";
 import { useBuildTargetList } from "./usePlayerTargeting";
 import {
   incrementAttacksUsedStats,
@@ -142,12 +143,22 @@ export function usePlayerBattleActions({
           if (heal > 0) setPlayerHP((hp) => Math.min(playerMaxHp, hp + heal));
         }
 
+        const pushDir = player.battleDirection === "right" ? 1 : -1;
         const newHp = Math.max(0, Math.round(targetSummon.hp) - dmg);
         if (newHp <= 0) giveSummonRewards("rare");
 
         setSummons((prev) =>
           prev.map((summon) =>
-            summon.id === target.id ? { ...summon, hp: newHp } : summon,
+            summon.id === target.id
+              ? {
+                  ...summon,
+                  hp: newHp,
+                  x: Math.max(
+                    BATTLE_LIMITS.minX,
+                    Math.min(BATTLE_LIMITS.maxX, summon.x + pushDir * 20),
+                  ),
+                }
+              : summon,
           ),
         );
       }
