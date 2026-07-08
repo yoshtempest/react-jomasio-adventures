@@ -1,6 +1,4 @@
-import { BOSS_MELEE_COOLDOWN } from "@/data/cooldowns";
 import { createCommonProjectile } from "@/gameRules/npc/createDirectionalProjectile";
-import { tryMeleeAttack } from "@/gameRules/npc/attack";
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
 import type { DeiseAI } from "./state";
 import { CLOSE_RANGE, SUMMON_COOLDOWN, MIN_ACTION_GAP, STAFF_COOLDOWN } from "./state";
@@ -17,7 +15,6 @@ export function deisePhase1(
 ): Phase1Result {
   const {
     npc, playerX, playerY, targetX, targetY,
-    lastAttackRef, onMeleeHit,
     onSummon, projectile, setProjectile,
     setForceIdle,
   } = ctx;
@@ -54,16 +51,7 @@ export function deisePhase1(
     }
   }
 
-  tryMeleeAttack({
-    npcX: npc.x,
-    npcY: npc.y,
-    playerX: targetX,
-    playerY: targetY,
-    range: 300,
-    cooldown: BOSS_MELEE_COOLDOWN,
-    lastAttackRef,
-    onHit: onMeleeHit,
-  });
+
 
   return { x: npc.x, y: npc.y };
 }

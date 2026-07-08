@@ -11,6 +11,6 @@ export const oneScene: SceneConfig = {
   initialPosition: getHellroomOneInitialPosition,
   map: blocked,
   events: hellroomEvents,
-  audio: { src: MUSICS.default },
+  audio: { src: MUSICS.hell },
   npcs: hellroomNpcs,
 };

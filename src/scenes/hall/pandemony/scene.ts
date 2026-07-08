@@ -13,7 +13,7 @@ export const pandemonyScene: SceneConfig = {
   tiles: pandemonyTiles,
   initialPosition: getPandemonyInitialPosition,
   map: hallPandemony,
-  audio: { src: MUSICS.default },
+  audio: { src: MUSICS.hell },
   npcs: pandemonyNpcs,
   dialogueData: getPandemonyDialogue,
   events: pandemonyEvents,

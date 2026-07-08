@@ -11,6 +11,6 @@ export const threeScene: SceneConfig = {
   dialogueData: getHellroomThreeDialogue,
   map: hellRoomThree,
   events: hellroomThreeEvents,
-  audio: { src: MUSICS.default },
+  audio: { src: MUSICS.hell },
   npcs: hellroomThreeNpcs,
 };

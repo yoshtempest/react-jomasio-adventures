@@ -6,6 +6,8 @@ import {
   getBerserkMultiplier,
 } from "@/gameRules/battle/damage";
 import { playAttackSound } from "@/utils/types/battle/playAttackSound";
+import { isPlayerInRange } from "@/gameRules/battle/range";
+import { isFacingTarget } from "@/gameRules/battle/direction";
 import { useBuildTargetList } from "./usePlayerTargeting";
 import {
   incrementAttacksUsedStats,
@@ -90,15 +92,71 @@ export function usePlayerBattleActions({
       return;
     }
 
-    if (player.state === "blocked") {
-      const pushDir = player.battleDirection === "right" ? 1 : -1;
-      onNpcPush?.(npc.x + pushDir * 20);
-      battle.playerHit(0.7, true);
-      return;
-    }
-
     const targets = getTargets();
     const mainTarget = targets.find((t) => t.id === "main");
+
+    if (player.state === "blocked") {
+      for (const target of targets) {
+        const inBlockRange = isPlayerInRange(
+          player.x, player.y, target.x, target.y,
+          player.state, player.character, false, true,
+        ) && isFacingTarget(
+          player.x, player.y, target.x, target.y,
+          player.battleDirection,
+        );
+        if (!inBlockRange) continue;
+
+        if (target.id === "main") {
+          const pushDir = player.battleDirection === "right" ? 1 : -1;
+          onNpcPush?.(npc.x + pushDir * 20);
+          battle.playerHit(0.7, true);
+          return;
+        }
+
+        const targetSummon = summons.find((summon) => summon.id === target.id);
+        if (!targetSummon) continue;
+
+        playAttackSound(player.character);
+
+        const char = progress[player.character];
+        const raw = calculatePlayerDamage(char.stats.strength, playerClass);
+        const baseDmg = Math.round(
+          player.character === "samuel" && char.level >= 20
+            ? raw * getBerserkMultiplier(playerHP, playerMaxHp)
+            : raw,
+        );
+        const dmg = Math.round(baseDmg * 0.7);
+
+        spawnDamageRef.current?.(dmg, target.x, target.y, "summon");
+        registerHitRef.current?.(dmg);
+        battle.setDelicia((d) => Math.min(d + 1, battle.hitsToSpecial));
+        incrementAttacksUsedStats(player.character);
+        incrementHitsUsedStats(player.character);
+
+        if (totalVampirism > 0) {
+          const heal = Math.round((dmg * totalVampirism) / 100);
+          if (heal > 0) setPlayerHP((hp) => Math.min(playerMaxHp, hp + heal));
+        }
+
+        const newHp = Math.max(0, Math.round(targetSummon.hp) - dmg);
+        if (newHp <= 0) giveSummonRewards("rare");
+
+        setSummons((prev) =>
+          prev.map((summon) =>
+            summon.id === target.id ? { ...summon, hp: newHp } : summon,
+          ),
+        );
+
+        battle.playerCooldown.current = false;
+        setTimeout(() => {
+          battle.playerCooldown.current = true;
+        }, PLAYER_BASIC_COOLDOWN);
+
+        return;
+      }
+
+      return;
+    }
 
     // Priority 1: hit main NPC (boss) if in range
     if (mainTarget && isInAttackRange(mainTarget)) {
