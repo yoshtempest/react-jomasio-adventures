@@ -96,27 +96,31 @@ export function usePlayerBattleActions({
     const mainTarget = targets.find((t) => t.id === "main");
 
     if (player.state === "blocked") {
-      for (const target of targets) {
-        const inBlockRange = isPlayerInRange(
+      const areaTargets = targets.filter((target) =>
+        isPlayerInRange(
           player.x, player.y, target.x, target.y,
           player.state, player.character, false, true,
         ) && isFacingTarget(
           player.x, player.y, target.x, target.y,
           player.battleDirection,
-        );
-        if (!inBlockRange) continue;
+        ),
+      );
 
+      if (areaTargets.length === 0) return;
+
+      let hitMain = false;
+
+      for (const target of areaTargets) {
         if (target.id === "main") {
+          hitMain = true;
           const pushDir = player.battleDirection === "right" ? 1 : -1;
           onNpcPush?.(npc.x + pushDir * 20);
           battle.playerHit(0.7, true);
-          return;
+          continue;
         }
 
         const targetSummon = summons.find((summon) => summon.id === target.id);
         if (!targetSummon) continue;
-
-        playAttackSound(player.character);
 
         const char = progress[player.character];
         const raw = calculatePlayerDamage(char.stats.strength, playerClass);
@@ -146,13 +150,14 @@ export function usePlayerBattleActions({
             summon.id === target.id ? { ...summon, hp: newHp } : summon,
           ),
         );
+      }
 
+      if (!hitMain) {
+        playAttackSound(player.character);
         battle.playerCooldown.current = false;
         setTimeout(() => {
           battle.playerCooldown.current = true;
         }, PLAYER_BASIC_COOLDOWN);
-
-        return;
       }
 
       return;
