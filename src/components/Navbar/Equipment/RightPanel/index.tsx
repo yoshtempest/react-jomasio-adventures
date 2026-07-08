@@ -11,6 +11,7 @@ import {
 } from "@/utils/equipmentMenu";
 import { SLOT_LABELS, RANK_COLORS, RANK_LABELS } from "@/utils/types/player/equipment";
 import styles from "./styles.module.css";
+import { asset } from "@/utils/asset";
 
 export function RightPanel() {
   const { player } = usePlayer();
@@ -32,7 +33,7 @@ export function RightPanel() {
               key={tab}
               className={`${styles.filterTab} ${isActive ? styles.filterTabActive : ""} ${isSelected ? "EquipmentSelected" : ""}`}
             >
-              {FILTER_LABELS[tab]}
+              <img className={styles.equipmentImage} src={asset(FILTER_LABELS[tab])}/>
             </div>
           );
         })}

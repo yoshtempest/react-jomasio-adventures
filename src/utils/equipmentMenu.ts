@@ -29,13 +29,13 @@ export const FILTER_TABS = [
 export type EquipmentFilter = (typeof FILTER_TABS)[number];
 
 export const FILTER_LABELS: Record<EquipmentFilter, string> = {
-  all: "Todos",
-  weapon: "Armas",
-  helmet: "Elmos",
-  chestplate: "Peitorais",
-  pants: "Calças",
-  boots: "Botas",
-  accessory: "Acessórios",
-  bag: "Bolsas",
-  pet: "Pets",
+  all: "/assets/equipments/all.svg",
+  weapon: "/assets/equipments/weapons.svg",
+  helmet: "/assets/equipments/helmet.svg",
+  chestplate: "/assets/equipments/chestplate.svg",
+  pants: "/assets/equipments/pants.svg",
+  boots: "/assets/equipments/boots.svg",
+  accessory: "/assets/equipments/acessorys.svg",
+  bag: "/assets/equipments/bags.svg",
+  pet: "/assets/equipments/pets.svg",
 };

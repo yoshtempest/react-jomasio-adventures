@@ -59,8 +59,10 @@
 }
 
 .filterTab {
-  padding: 4px 10px;
-  font-size: var(--smaller);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 4px;
   background: var(--surface-card);
   color: var(--text-secondary);
   border: 1px solid var(--border-default);
@@ -71,10 +73,13 @@
     color 0.2s;
 }
 
+.equipmentImage {
+  width: 3.4vw;
+}
+
 .filterTabActive {
-  background: #2e7d32;
   color: var(--text-color);
-  border-color: #2e7d32;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .itemsContainer {
