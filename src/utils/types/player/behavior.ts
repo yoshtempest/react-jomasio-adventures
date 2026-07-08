@@ -21,6 +21,7 @@ export type BattleBehavior = {
     setNpcHP: React.Dispatch<React.SetStateAction<number>>;
     setStacks: React.Dispatch<React.SetStateAction<number>>;
     setDelicia: React.Dispatch<React.SetStateAction<number>>;
+    hitsToSpecial: number;
 
     char: CharacterProgress;
     playerClass: PlayerClass;

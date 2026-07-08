@@ -586,6 +586,7 @@ export function useBattleScene({
     },
     special: () => {
       if (isGrabbedRef.current && grabFlippedRef.current) return;
+      if (battle.delicia < battle.hitsToSpecial) return;
       special();
     },
     blockStart: () =>

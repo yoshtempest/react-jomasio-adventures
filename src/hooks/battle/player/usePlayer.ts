@@ -247,6 +247,7 @@ export function usePlayerBattle({
       char,
       playerClass,
       setDelicia,
+      hitsToSpecial: HITS_TO_SPECIAL,
       stacks,
       setStacks,
       triggerExplosion,

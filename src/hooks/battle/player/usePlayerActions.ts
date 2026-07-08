@@ -185,10 +185,11 @@ export function usePlayerBattleActions({
         if (target.id === "main") {
           if (Math.abs(player.x - target.x) < 150) {
             battle.specialHit(1.2, true);
+            return;
           }
-          return;
         }
       }
+      battle.setDelicia(0);
       return;
     }
 
@@ -198,6 +199,8 @@ export function usePlayerBattleActions({
         return;
       }
     }
+
+    battle.setDelicia(0);
   }, [battle, getTargets, player.state, player.x]);
 
   return {

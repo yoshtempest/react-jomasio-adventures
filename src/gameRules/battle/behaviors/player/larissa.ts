@@ -21,12 +21,13 @@ export const larissaBehavior: BattleBehavior = {
     setNpcHP,
     setStacks,
     setDelicia,
+    hitsToSpecial,
     triggerExplosion,
   }) => {
     setNpcHP((hp: number) => Math.max(0, hp - damage));
     triggerExplosion?.();
     setStacks(0);
-    setDelicia(0);
+    setDelicia((d: number) => gainSpecial(d, hitsToSpecial));
   },
 
   reset: ({ setStacks, setDelicia }) => {

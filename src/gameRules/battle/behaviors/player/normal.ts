@@ -7,8 +7,8 @@ export const normalBehavior: BattleBehavior = {
     setDelicia((d: number) => gainSpecial(d, HITS_TO_SPECIAL));
   },
 
-  onSpecialHit: ({ damage, setNpcHP, setDelicia }) => {
+  onSpecialHit: ({ damage, setNpcHP, setDelicia, hitsToSpecial }) => {
     setNpcHP((hp: number) => Math.max(0, Math.round(hp) - damage));
-    setDelicia(0);
+    setDelicia((d: number) => gainSpecial(d, hitsToSpecial));
   },
 };
