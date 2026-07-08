@@ -19,7 +19,7 @@ export function SkillTreeView() {
   useEffect(() => {
     if (!containerRef.current) return;
     const el = containerRef.current.querySelector(`[data-index="${selectedIndex}"]`) as HTMLElement | null;
-    el?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    el?.scrollIntoView({ behavior: "auto", block: "start" });
   }, [selectedIndex]);
 
   useGameControlsLayer(
