@@ -30,8 +30,8 @@ type Props = {
   battle: {
     playerCooldown: React.RefObject<boolean>;
     isEnding: React.RefObject<boolean>;
-    playerHit: (multiplier?: number) => void;
-    specialHit: (multiplier?: number) => void;
+    playerHit: (multiplier?: number, bypassCanPlayerHit?: boolean) => void;
+    specialHit: (multiplier?: number, bypassRangeCheck?: boolean) => void;
     setDelicia: React.Dispatch<React.SetStateAction<number>>;
     hitsToSpecial: number;
   };
@@ -174,17 +174,31 @@ export function usePlayerBattleActions({
 
     const targets = getTargets();
 
+    const isAirSpecial = player.state === "falling" ||
+      player.state === "jump" ||
+      player.state === "preSpecialInAir" ||
+      player.state === "specialInAir" ||
+      player.state === "specialInAirFinish";
+
+    if (isAirSpecial) {
+      for (const target of targets) {
+        if (target.id === "main") {
+          if (Math.abs(player.x - target.x) < 150) {
+            battle.specialHit(1.2, true);
+          }
+          return;
+        }
+      }
+      return;
+    }
+
     for (const target of targets) {
       if (target.id === "main") {
-        if (player.state === "falling") {
-          battle.specialHit(1.2);
-        } else {
-          battle.specialHit();
-        }
+        battle.specialHit();
         return;
       }
     }
-  }, [battle, getTargets, player.state]);
+  }, [battle, getTargets, player.state, player.x]);
 
   return {
     handlePlayerHit,

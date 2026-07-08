@@ -194,12 +194,13 @@ export function usePlayerBattle({
     onAttackRef,
   ]);
 
-  const specialHit = useCallback((damageMultiplier = 1) => {
+  const specialHit = useCallback((damageMultiplier = 1, bypassRangeCheck = false) => {
     if (isEnding.current) return;
     if (!playerCooldown.current) return;
     if (delicia < HITS_TO_SPECIAL) return;
 
     if (
+      !bypassRangeCheck &&
       !canPlayerHit({
         playerX,
         playerY,
