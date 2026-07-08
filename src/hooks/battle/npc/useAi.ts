@@ -11,6 +11,7 @@ import type { NPCBattleState } from "@/utils/types/npc/npc";
 import type { BattleObstacle } from "@/utils/types/maps/battle";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
+import { BATTLE_LIMITS } from "@/utils/types/player/movement";
 
 type Props = {
   playerX: number;
@@ -247,7 +248,13 @@ export function useNpcAI({
           obstaclesRef.current,
         );
 
-        return { ...n, x: collision.x, y: collision.y, direction, state: (result.state ?? getNpcState(distanceX, forceIdleRef.current)) as NPCBattleState["state"] };
+        return {
+          ...n,
+          x: Math.max(BATTLE_LIMITS.minX, Math.min(BATTLE_LIMITS.maxX, collision.x)),
+          y: collision.y,
+          direction,
+          state: (result.state ?? getNpcState(distanceX, forceIdleRef.current)) as NPCBattleState["state"],
+        };
       });
     }, 20);
 
@@ -258,7 +265,13 @@ export function useNpcAI({
   }, [hitstopRef, npcStaggerRef, npcPhaseRef, npcTargetIsPetRef, hasPetRef, petXRef, petYRef, npcBlockedRef, npcHpRef, npcMaxHpRef, playSound, stopSound]);
 
   const updateNpc = (partial: Partial<NPCBattleState>) => {
-    setNpc((n) => ({ ...n, ...partial }));
+    setNpc((n) => ({
+      ...n,
+      ...partial,
+      x: partial.x != null
+        ? Math.max(BATTLE_LIMITS.minX, Math.min(BATTLE_LIMITS.maxX, partial.x))
+        : n.x,
+    }));
   };
 
   return {

@@ -2,13 +2,29 @@ import type { BestiaryEntryData } from "@/utils/types/player/bestiary";
 
 export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
   /* ── Jomasio ── */
+  jhowsimar: {
+    npcType: "jhowsimar",
+    name: "Jhowsimar",
+    description:
+      "Um lutador de rua enigmático que protege os becos de Jomasio. Ninguém sabe sua verdadeira origem.",
+    location: "Jomasio",
+    attacks: ["Agarro", "E te Jooj"],
+  },
   hungryDeath: {
     npcType: "hungryDeath",
     name: "Morto de Fome",
     description:
       "Um zumbi faminto que vagueia pelas ruas de Jomasio em busca de carne fresca. Dizem que era um estudante que passou tempo demais sem comer.",
     location: "Jomasio",
-    attacks: ["Garra Infectada", "Mordida Voraz"],
+    attacks: ["Agarrão Faminto", "Mordida Cheia de Fome"],
+  },
+  vandinhaFragment: {
+    npcType: "vandinhaFragment",
+    name: "Fragmento de Vandinha",
+    description:
+      "Uma versão fragmentada de Vandinha, espalhada por Jomasio. Cada fragmento guarda um pedaço de seu poder.",
+    location: "Jomasio",
+    attacks: ["Soco", "Olha o prato"],
   },
   piupiu: {
     npcType: "piupiu",
@@ -34,14 +50,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     location: "Jomasio",
     attacks: ["Explosão de Gás", "Cascata de Feijões"],
   },
-  jhowsimar: {
-    npcType: "jhowsimar",
-    name: "Jhowsimar",
-    description:
-      "Um lutador de rua enigmático que protege os becos de Jomasio. Ninguém sabe sua verdadeira origem.",
-    location: "Jomasio",
-    attacks: ["Soco Relâmpago", "Voadora Marcial"],
-  },
   goat: {
     npcType: "goat",
     name: "Bode",
@@ -49,14 +57,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
       "Um bode demoníaco que aparece nos arredores de Jomasio. Seus olhos brilham vermelho sob a lua cheia.",
     location: "Jomasio",
     attacks: ["Chifrada Infernal", "Cabeçada"],
-  },
-  vandinhaFragment: {
-    npcType: "vandinhaFragment",
-    name: "Fragmento de Vandinha",
-    description:
-      "Uma versão fragmentada de Vandinha, espalhada por Jomasio. Cada fragmento guarda um pedaço de seu poder.",
-    location: "Jomasio",
-    attacks: ["Sombra Cortante", "Fragmentação"],
   },
   trueVandinha: {
     npcType: "trueVandinha",
@@ -79,7 +79,7 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     name: "Necromante",
     description:
       "Um feiticeiro sombrio que comanda mortos-vivos. Ele espreita nas catacumbas sob Jomasio.",
-    location: "Jomasio",
+    location: "Tanque dos Crávos",
     attacks: ["Invocar Mortos", "Bola de Fogo Negra", "Maldição Arcana"],
   },
   slimita: {

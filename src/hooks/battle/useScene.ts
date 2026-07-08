@@ -30,6 +30,7 @@ import { useBattleOutro } from "@/hooks/battle/useOutro";
 import { useBattleSync } from "@/hooks/battle/useSync";
 import { useNpcTargeting } from "@/hooks/battle/npc/useNpcTargeting";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
+import { BATTLE_LIMITS } from "@/utils/types/player/movement";
 import { saveGame } from "@/utils/save/saveGame";
 import { loadBestTime, saveBestTime } from "@/utils/bestTime";
 import { incrementDeath } from "@/utils/rewards/deathCounter";
@@ -222,7 +223,7 @@ export function useBattleScene({
     onSummon: onSummonWrapperRef.current,
     onPullPlayer: (npcX: number) => setPlayer((p) => {
       const direction = npcX > p.x ? 1 : -1;
-      const pullToX = Math.max(50, Math.min(1200, p.x + direction * 200));
+      const pullToX = Math.max(BATTLE_LIMITS.minX, Math.min(BATTLE_LIMITS.maxX, p.x + direction * 200));
       return {
         ...p,
         pullFromX: p.x,
@@ -254,7 +255,7 @@ export function useBattleScene({
       setIsThrown(true);
       setPlayer((p) => {
         const dirAway = npcX > p.x ? -1 : 1;
-        const throwToX = Math.max(50, Math.min(1200, p.x + dirAway * 300));
+        const throwToX = Math.max(BATTLE_LIMITS.minX, Math.min(BATTLE_LIMITS.maxX, p.x + dirAway * 300));
         return {
           ...p,
           throwStartTime: Date.now(),
@@ -447,7 +448,9 @@ export function useBattleScene({
     playerHP: battle.playerHP,
     playerMaxHp: battle.playerMaxHp,
     totalVampirism: battle.totalVampirism,
-    onNpcPush: (targetX) => npc.updateNpc({ x: targetX }),
+    onNpcPush: (targetX) => npc.updateNpc({
+      x: Math.max(BATTLE_LIMITS.minX, Math.min(BATTLE_LIMITS.maxX, targetX)),
+    }),
   });
 
   useSummonAI({
