@@ -1,8 +1,10 @@
+import styles from "./styles.module.css"
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { useTitles } from "@/contexts/TitleContext";
 import { getTotalArmor } from "@/gameRules/battle/equipment";
+import { asset } from "@/utils/asset";
 
 export function CharacterStats() {
   const { player } = usePlayer();
@@ -29,13 +31,30 @@ export function CharacterStats() {
   const totalShield = bonus.shield + titleBonus.shield;
 
   return (
-    <div className="StatusColumn">
+    <div className={`StatusColumn ${styles.container}`}>
       <h2 className="StatusTitle">Status</h2>
-      <p>HP total: {userHp}</p>
-      <p>Dano normal: {userNormalAttackDamage}</p>
-      <p>Dano especial: {userSpecialDamage}</p>
-      <p>Armadura: {userArmor}</p>
-      {totalShield > 0 && <p>Escudo: {totalShield}</p>}
+      <div>
+        <img src={asset("/assets/status/hp.svg")} />
+        <p>HP total: {userHp}</p>
+      </div>
+      <div>
+        <img src={asset("/assets/status/basicDamage.svg")} />
+        <p>Dano normal: {userNormalAttackDamage}</p>
+      </div>
+      <div>
+        <img src={asset("/assets/status/specialDamage.svg")} />
+        <p>Dano especial: {userSpecialDamage}</p>
+      </div>
+      <div>
+        <img src={asset("/assets/status/armor.svg")} />
+        <p>Armadura: {userArmor}</p>
+      </div>
+
+      {totalShield > 0 &&
+      <div>
+        <img src={asset("/assets/status/shield.svg")} />
+        <p>Escudo: {totalShield}</p>
+      </div>}
     </div>
   );
 }
