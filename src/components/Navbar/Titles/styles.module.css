@@ -45,10 +45,18 @@
 }
 
 .iconBox {
-  font-size: var(--medium);
   width: 36px;
-  text-align: center;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
+}
+
+.iconImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .info {

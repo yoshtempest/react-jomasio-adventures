@@ -4,7 +4,9 @@ import { useTitleMenu } from "@/hooks/menu/useTitle";
 import { useTitles } from "@/contexts/TitleContext";
 import { TITLES } from "@/data/titles/index";
 import { STAT_LABEL } from "@/data/titles/statLabel";
-import { ICON_MAP } from "@/data/titles/icons";
+import { asset } from "@/utils/asset";
+
+
 
 export function TitlesScreen() {
   const { titlesData } = useTitles();
@@ -48,7 +50,12 @@ export function TitlesScreen() {
                   : styles.titleCardLocked
               }`}
             >
-              <div className={styles.iconBox}>{ICON_MAP[def.icon] ?? "🏆"}</div>
+              <div className={styles.iconBox}>
+                <img
+                  src={asset(def.icon)}
+                  alt=""
+                  className={styles.iconImg} />
+              </div>
 
               <div className={styles.info}>
                 <div className={styles.titleName}>
