@@ -1,9 +1,9 @@
 .fontSize {
   font-size: var(--smaller);
-  margin-top: 4px;
+  gap: 0.4vw;
 }
 
 .italic {
-  color: var(--text-hint);
+  color: var(--text-hint) !important;
   font-style: italic;
 }

@@ -31,14 +31,6 @@
   white-space: nowrap;
 }
 
-.slotTag {
-  color: var(--text-muted);
-  background: #222;
-  padding: 4px;
-  width: 1.4vw;
-  border-radius: 4px;
-}
-
 .rankLabel {
   font-size: 11px;
   color: var(--text-muted);

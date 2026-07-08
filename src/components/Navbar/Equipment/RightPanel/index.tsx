@@ -56,7 +56,7 @@ export function RightPanel() {
               className={`${styles.collectedCard} ${isSelected ? "EquipmentSelected" : ""}`}
             >
               <div className="EquipmentItemRow">
-                <img className={styles.slotTag} src={asset(FILTER_LABELS[entry.item.slot])} />
+                <img className="slotTag" src={asset(FILTER_LABELS[entry.item.slot])} />
                 {entry.arrow === "up" && (
                   <ArrowUp size={14} className={styles.arrowUp} />
                 )}

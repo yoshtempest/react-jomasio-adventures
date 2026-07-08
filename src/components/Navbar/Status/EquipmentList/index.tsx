@@ -2,10 +2,11 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import {
   EQUIPMENT_SLOTS,
-  SLOT_LABELS,
   RANK_COLORS,
 } from "@/utils/types/player/equipment";
 import styles from "./styles.module.css";
+import { asset } from "@/utils/asset";
+import { FILTER_LABELS } from "@/utils/equipmentMenu";
 
 export function EquipmentList() {
   const { player } = usePlayer();
@@ -17,10 +18,9 @@ export function EquipmentList() {
       <h2 className="StatusTitle">Equipamentos</h2>
       {(EQUIPMENT_SLOTS as EquipmentSlot[]).map((slot) => {
         const item = getEquippedItem(character, slot);
-        const label = SLOT_LABELS[slot];
         return (
           <p key={slot} className={styles.fontSize}>
-            {label}:{" "}
+            <img className="slotTag" src={asset(FILTER_LABELS[slot])} />
             {item ? (
               <span style={{ color: RANK_COLORS[item.rank] }}>
                 {item.name}

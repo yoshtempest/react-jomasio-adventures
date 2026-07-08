@@ -37,6 +37,10 @@
   color: var(--text-muted);
 }
 
+.hungerText span {
+  color: var(--text-muted);
+}
+
 @media (orientation: portrait) {
   .image {
     height: 40%;

@@ -38,6 +38,14 @@
   font-weight: bold;
 }
 
+.slotTag {
+  color: var(--text-muted);
+  background: #222;
+  padding: 4px;
+  width: 1.4vw;
+  border-radius: 4px;
+}
+
 .dropsList {
   display: flex;
   flex-direction: column;
