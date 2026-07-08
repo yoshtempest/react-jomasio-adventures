@@ -13,6 +13,7 @@ export type NavScreen =
   | "professions";
 
 export type NavbarOption = {
+  icon: string;
   label: string;
   screen: NavScreen;
 };

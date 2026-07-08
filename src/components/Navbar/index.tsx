@@ -12,6 +12,7 @@ import { DeliciaDex } from "./Bestiary";
 import { Player } from "./Player";
 import { Saves } from "./Saves";
 import { Professions } from "./Professions";
+import { asset } from "@/utils/asset";
 
 export function Navbar() {
   const { screen, selectedIndex, options } = useNavbarMenu();
@@ -27,6 +28,7 @@ export function Navbar() {
                 selectedIndex === index ? "active" : ""
               }`}
             >
+              <img className={styles.icon} src={asset(item.icon)} />
               {item.label}
             </li>
           ))}
