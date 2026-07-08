@@ -20,15 +20,15 @@ const BASE_COMBOS: ComboMove[] = [
   {
     id: "fallingAttack",
     name: "Golpe Aéreo",
-    sequence: ["Pular", "Z"],
-    states: ["jump", "fallingAttack"],
+    sequence: ["↑", "Z"],
+    states: ["falling", "fallingAttack"],
     description: "Golpe ao cair. causa 1.2× de dano.",
     situation: "Use ao cair de um pulo para acertar o inimigo de surpresa.",
   },
   {
     id: "airSpecial",
     name: "Especial Aéreo",
-    sequence: ["Pular", "G"],
+    sequence: ["↑", "G"],
     states: ["jump", "preSpecialInAir", "specialInAir"],
     description: "Especial executado no ar. causa 1.2× de dano.",
     situation: "Use no ar com deliciômetro cheio.",

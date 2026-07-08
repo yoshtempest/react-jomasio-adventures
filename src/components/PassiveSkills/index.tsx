@@ -7,13 +7,13 @@ const ICON_MAP: Record<string, LucideIcon> = {
   ArrowUp,
 };
 
-export function PassiveSkills({ characterId }: { characterId: CharacterId }) {
+export function PassiveSkills({ characterId, startIndex = 0 }: { characterId: CharacterId; startIndex?: number }) {
   const { skills, level } = usePassiveSkills(characterId);
 
   return (
     <div className={styles.marginTop}>
       <p className="StatusTitle">Habilidades Passivas</p>
-      {skills.map((skill) => {
+      {skills.map((skill, i) => {
         const unlocked = level >= skill.levelRequired;
         const Icon = ICON_MAP[skill.icon] ?? Zap;
 
@@ -22,6 +22,7 @@ export function PassiveSkills({ characterId }: { characterId: CharacterId }) {
             key={skill.id}
             className={styles.skillRow}
             style={{ opacity: unlocked ? 1 : 0.5 }}
+            data-index={startIndex + i}
           >
             {unlocked ? (
               <CheckCircle size={16} color="#4ade80" />

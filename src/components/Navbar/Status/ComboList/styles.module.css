@@ -1,5 +1,7 @@
 .section {
-  margin-top: 16px;
+  margin: 16px 0;
+  width: 90%;
+  align-self: center;
 }
 
 .comboCard {
