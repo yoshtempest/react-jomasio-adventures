@@ -1,6 +1,6 @@
 import { useCallback, useRef, useEffect } from "react";
 
-import { PLAYER_BASIC_COOLDOWN } from "@/data/cooldowns";
+import { PLAYER_BASIC_COOLDOWN, PLAYER_SPECIAL_COOLDOWN } from "@/data/cooldowns";
 import {
   calculatePlayerDamage,
   getBerserkMultiplier,
@@ -9,6 +9,7 @@ import { playAttackSound } from "@/utils/types/battle/playAttackSound";
 import { isPlayerInRange } from "@/gameRules/battle/range";
 import { isFacingTarget } from "@/gameRules/battle/direction";
 import { BATTLE_LIMITS } from "@/utils/types/player/movement";
+import { gainSpecial } from "@/gameRules/battle/special";
 import { useBuildTargetList } from "./usePlayerTargeting";
 import {
   incrementAttacksUsedStats,
@@ -255,15 +256,65 @@ export function usePlayerBattleActions({
       player.state === "specialInAirFinish";
 
     if (isAirSpecial) {
-      for (const target of targets) {
-        if (target.id === "main") {
-          if (Math.abs(player.x - target.x) < 150) {
-            battle.specialHit(1.2, true);
-            return;
-          }
-        }
+      const inRangeTargets = targets.filter((target) =>
+        Math.abs(player.x - target.x) < 150,
+      );
+
+      if (inRangeTargets.length === 0) {
+        battle.setDelicia(0);
+        return;
       }
-      battle.setDelicia(0);
+
+      let hitMain = false;
+
+      for (const target of inRangeTargets) {
+        if (target.id === "main") {
+          hitMain = true;
+          battle.specialHit(1.2, true);
+          continue;
+        }
+
+        const targetSummon = summons.find((summon) => summon.id === target.id);
+        if (!targetSummon) continue;
+
+        const char = progress[player.character];
+        const raw = calculatePlayerDamage(char.stats.strength, playerClass);
+        const baseDmg = Math.round(
+          player.character === "samuel" && char.level >= 20
+            ? raw * getBerserkMultiplier(playerHP, playerMaxHp)
+            : raw,
+        );
+        const dmg = Math.round(baseDmg * 1.2);
+
+        spawnDamageRef.current?.(dmg, target.x, target.y, "special");
+        registerHitRef.current?.(dmg);
+        battle.setDelicia((d) => Math.min(gainSpecial(d, battle.hitsToSpecial), battle.hitsToSpecial));
+        incrementAttacksUsedStats(player.character);
+        incrementHitsUsedStats(player.character);
+
+        if (totalVampirism > 0) {
+          const heal = Math.round((dmg * totalVampirism) / 100);
+          if (heal > 0) setPlayerHP((hp) => Math.min(playerMaxHp, hp + heal));
+        }
+
+        const newHp = Math.max(0, Math.round(targetSummon.hp) - dmg);
+        if (newHp <= 0) giveSummonRewards("rare");
+
+        setSummons((prev) =>
+          prev.map((summon) =>
+            summon.id === target.id ? { ...summon, hp: newHp } : summon,
+          ),
+        );
+      }
+
+      if (!hitMain) {
+        playAttackSound(player.character);
+        battle.playerCooldown.current = false;
+        setTimeout(() => {
+          battle.playerCooldown.current = true;
+        }, PLAYER_SPECIAL_COOLDOWN);
+      }
+
       return;
     }
 
@@ -275,7 +326,13 @@ export function usePlayerBattleActions({
     }
 
     battle.setDelicia(0);
-  }, [battle, getTargets, player.state, player.x]);
+  }, [
+    battle, getTargets, player.state, player.x,
+    player.character, playerClass, progress, playerHP,
+    playerMaxHp, totalVampirism, summons, setSummons,
+    giveSummonRewards, spawnDamageRef, registerHitRef,
+    setPlayerHP,
+  ]);
 
   return {
     handlePlayerHit,

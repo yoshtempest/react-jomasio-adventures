@@ -26,6 +26,14 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     location: "Jomasio",
     attacks: ["Soco", "Olha o prato"],
   },
+  goat: {
+    npcType: "goat",
+    name: "Bode",
+    description:
+      "Um bode demoníaco que aparece nos arredores de Jomasio. Seus olhos brilham vermelho sob a lua cheia.",
+    location: "Jomasio",
+    attacks: ["Chifrada Infernal", "Cabeçada"],
+  },
   piupiu: {
     npcType: "piupiu",
     name: "Piupiu",
@@ -42,30 +50,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     location: "Jomasio",
     attacks: ["Grudada", "Chuva de Grãos"],
   },
-  bean: {
-    npcType: "bean",
-    name: "Feijão",
-    description:
-      "O parceiro do Arroz. Juntos, formam o prato mais temido da cidade. Dizem que causa gases explosivos.",
-    location: "Jomasio",
-    attacks: ["Explosão de Gás", "Cascata de Feijões"],
-  },
-  goat: {
-    npcType: "goat",
-    name: "Bode",
-    description:
-      "Um bode demoníaco que aparece nos arredores de Jomasio. Seus olhos brilham vermelho sob a lua cheia.",
-    location: "Jomasio",
-    attacks: ["Chifrada Infernal", "Cabeçada"],
-  },
-  trueVandinha: {
-    npcType: "trueVandinha",
-    name: "Verdadeira Vandinha",
-    description:
-      "A forma completa de Vandinha. Dizem que ela é a guardiã de um segredo ancestral escondido em Jomasio.",
-    location: "Jomasio",
-    attacks: ["Dança das Sombras", "Grito Penetrante", "Noite Eterna"],
-  },
   deise: {
     npcType: "deise",
     name: "Deise",
@@ -73,14 +57,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
       "Uma guerreira implacável devota ao culto do rei dragão. Empunha lâminas gêmeas e jura lealdade ao dragão.",
     location: "Jomasio",
     attacks: ["Lâminas Gêmeas", "Golpe Giratório", "Fúria do Dragão"],
-  },
-  necromancer: {
-    npcType: "necromancer",
-    name: "Necromante",
-    description:
-      "Um feiticeiro sombrio que comanda mortos-vivos. Ele espreita nas catacumbas sob Jomasio.",
-    location: "Tanque dos Crávos",
-    attacks: ["Invocar Mortos", "Bola de Fogo Negra", "Maldição Arcana"],
   },
   slimita: {
     npcType: "slimita",
@@ -90,6 +66,14 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     location: "Jomasio",
     attacks: ["Esmagamento", "Estiramento", "Salto Pegajoso"],
   },
+  maugrelo: {
+    npcType: "maugrelo",
+    name: "Maugrelo",
+    description:
+      "O irmão mais novo de Maurão. Magro mas traiçoeiro, ataca com golpes rápidos e venenosos.",
+    location: "Jomasio",
+    attacks: ["Golpe Venenoso", "Ataque Rápido"],
+  },
   hungryKing: {
     npcType: "hungryKing",
     name: "Rei Faminto",
@@ -97,14 +81,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
       "O governante dos mortos de fome, um ser colossal que consome tudo em seu caminho. Líder do culto ao rei dragão.",
     location: "Jomasio",
     attacks: ["Devorar", "Garra Colossal", "Fome Devastadora"],
-  },
-  denis: {
-    npcType: "denis",
-    name: "Denis",
-    description:
-      "Um ex-guarda-costas que enlouqueceu após um incidente trágico. Sua força bestial é lendária.",
-    location: "Jomasio",
-    attacks: ["Soco Brutal", "Agarrão"],
   },
   srGuaxinim: {
     npcType: "srGuaxinim",
@@ -122,6 +98,22 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     location: "Jomasio",
     attacks: ["Chute Voador", "Sequência Rápida"],
   },
+  maurao: {
+    npcType: "maurao",
+    name: "Maurão",
+    description:
+      "Um brutamonte que aterroriza os arredores de Jomasio. Corpo enorme e pouca paciência.",
+    location: "Jomasio",
+    attacks: ["Pisão", "Braçada"],
+  },
+  denis: {
+    npcType: "denis",
+    name: "Denis",
+    description:
+      "Um ex-guarda-costas que enlouqueceu após um incidente trágico. Sua força bestial é lendária.",
+    location: "Jomasio",
+    attacks: ["Soco Brutal", "Agarrão"],
+  },
   planetarySisters: {
     npcType: "planetarySisters",
     name: "Irmãs Planetárias",
@@ -138,21 +130,13 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     location: "Jomasio",
     attacks: ["Ilusão", "Toque Dimensional"],
   },
-  maurao: {
-    npcType: "maurao",
-    name: "Maurão",
+  trueVandinha: {
+    npcType: "trueVandinha",
+    name: "Verdadeira Vandinha",
     description:
-      "Um brutamonte que aterroriza os arredores de Jomasio. Corpo enorme e pouca paciência.",
+      "A forma completa de Vandinha. Dizem que ela é a guardiã de um segredo ancestral escondido em Jomasio.",
     location: "Jomasio",
-    attacks: ["Pisão", "Braçada"],
-  },
-  maugrelo: {
-    npcType: "maugrelo",
-    name: "Maugrelo",
-    description:
-      "O irmão mais novo de Maurão. Magro mas traiçoeiro, ataca com golpes rápidos e venenosos.",
-    location: "Jomasio",
-    attacks: ["Golpe Venenoso", "Ataque Rápido"],
+    attacks: ["Dança das Sombras", "Grito Penetrante", "Noite Eterna"],
   },
 
   /* ── Bocaina ── */
@@ -323,6 +307,14 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
       "Devotos do Rei Dragão. Usam escamas de dragão como armadura e cospem fogo fraco.",
     location: "Tanque dos Crávos",
     attacks: ["Sopro Rasteiro", "Lança de Escama"],
+  },
+  necromancer: {
+    npcType: "necromancer",
+    name: "Necromante",
+    description:
+      "Um feiticeiro sombrio que comanda mortos-vivos. Ele espreita nas catacumbas sob Jomasio.",
+    location: "Tanque dos Crávos",
+    attacks: ["Invocar Mortos", "Bola de Fogo Negra", "Maldição Arcana"],
   },
   ains: {
     npcType: "ains",
