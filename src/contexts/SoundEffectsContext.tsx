@@ -44,6 +44,7 @@ export type SoundId =
   | "breakDish"
   | "summon"
   | "hulk"
+  | "goatJump"
   | "smash"
   | "knifeAttack"
   | "knifeCut"

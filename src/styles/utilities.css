@@ -13,6 +13,8 @@
   font-weight: bold;
   border-radius: 1px;
   padding: 4px;
+
+  animation: hintPulse 1.5s ease-in-out infinite;
 }
 
 .active::before {

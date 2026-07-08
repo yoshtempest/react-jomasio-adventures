@@ -56,7 +56,7 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     description:
       "Uma guerreira implacável devota ao culto do rei dragão. Empunha lâminas gêmeas e jura lealdade ao dragão.",
     location: "Jomasio",
-    attacks: ["Lâminas Gêmeas", "Golpe Giratório", "Fúria do Dragão"],
+    attacks: ["Lançamento de colher", "Invocação do Mal", "Empurrão Frenético"],
   },
   slimita: {
     npcType: "slimita",
@@ -64,7 +64,7 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     description:
       "Uma criatura pegajosa e elástica que habita os esgotos de Jomasio. Ela pode se esticar e achatar para esmagar suas vítimas.",
     location: "Jomasio",
-    attacks: ["Esmagamento", "Estiramento", "Salto Pegajoso"],
+    attacks: ["Salto Pegajoso", "Cospe arma", "Esmagamento"],
   },
   maugrelo: {
     npcType: "maugrelo",
@@ -72,7 +72,7 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     description:
       "O irmão mais novo de Maurão. Magro mas traiçoeiro, ataca com golpes rápidos e venenosos.",
     location: "Jomasio",
-    attacks: ["Golpe Venenoso", "Ataque Rápido"],
+    attacks: ["Um tapa na... Careca", "Cegar"],
   },
   hungryKing: {
     npcType: "hungryKing",
@@ -80,7 +80,7 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     description:
       "O governante dos mortos de fome, um ser colossal que consome tudo em seu caminho. Líder do culto ao rei dragão.",
     location: "Jomasio",
-    attacks: ["Devorar", "Garra Colossal", "Fome Devastadora"],
+    attacks: ["Hulk Smash", "Explosão energética", "Hora de acordar!"],
   },
   srGuaxinim: {
     npcType: "srGuaxinim",
@@ -104,7 +104,7 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     description:
       "Um brutamonte que aterroriza os arredores de Jomasio. Corpo enorme e pouca paciência.",
     location: "Jomasio",
-    attacks: ["Pisão", "Braçada"],
+    attacks: ["Olha a faca", "Pensa rápido", "Roda Roda Vira, Solta a Roda e Vem"],
   },
   denis: {
     npcType: "denis",

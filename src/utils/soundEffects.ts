@@ -34,6 +34,7 @@ export function createSounds() {
         jhowsimarJooj: sfx("npc/jhowsimar/throw.mp3"),
         boom: sfx("npc/slimita/boom.mp3"),
         gainXp: sfx("player/gainXp.mp3"),
+        goatJump: sfx("npc/goat/jump.mp3"),
         hungryDeath: sfx("npc/hungryDeath/giveMeAPlate.mp3"),
         bite: sfx("npc/hungryDeath/bite.mp3"),
         vandinhaPunch: sfx("npc/vandinhaFragment/punch.mp3"),

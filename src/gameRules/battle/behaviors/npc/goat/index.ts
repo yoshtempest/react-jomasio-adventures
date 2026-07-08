@@ -75,7 +75,7 @@ export function goatBehavior(ctx: BehaviorContext): BehaviorResult {
       ai.jumpTargetX = targetX;
       ai.lastJump = now;
       npc.jumpLandingX = targetX;
-      ctx.playSound?.("hulk");
+      ctx.playSound?.("goatJump");
       return { x, y: npc.y, state: "jumping" };
     }
 
@@ -89,9 +89,7 @@ export function goatBehavior(ctx: BehaviorContext): BehaviorResult {
     const height = Math.sin(progress * Math.PI) * JUMP_HEIGHT;
     const newX = npc.x + (ai.jumpTargetX - npc.x) * 0.07;
     const spriteState = getJumpState(elapsed);
-    if (spriteState === "jumpAttack" && ai.lastSpriteState !== "jumpAttack") {
-      ctx.playSound?.("smash");
-    }
+
     ai.lastSpriteState = spriteState;
     return { x: newX, y: BATTLE_SPAWN.npc.y - height, state: spriteState };
   }
