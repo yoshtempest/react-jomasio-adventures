@@ -19,7 +19,7 @@ export function useBattleGravity(
           return { ...p, velY: 0, state: "fallen" };
         }
 
-        if (p.state === "fallingAttack" || p.state === "preSpecialInAir" || p.state === "specialInAir" || p.state === "specialInAirFinish") {
+        if (p.state === "fallingAttack") {
           return { ...p, velY: 0 };
         }
 
@@ -69,10 +69,8 @@ export function useBattleGravity(
           }
         }
 
-        return { ...p, y: newY, velY: newVelY, state: newVelY > 0 ?
-          "falling" : p.state === "preJump" ?
-          "preJump" : "jump"
-        };
+        const isAirSpecial = p.state === "preSpecialInAir" || p.state === "specialInAir" || p.state === "specialInAirFinish";
+        return { ...p, y: newY, velY: newVelY, state: isAirSpecial ? p.state : (newVelY > 0 ? "falling" : p.state === "preJump" ? "preJump" : "jump") };
       });
     }, 16);
 
