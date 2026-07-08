@@ -73,7 +73,7 @@ export function Inventory() {
   const filterFocusedRef = useRef(filterFocused);
   filterFocusedRef.current = filterFocused;
 
-  const { openPlayerChest, lastResult } = useChestOpening();
+  const { openPlayerChest, lastResult: chestLastResult, setLastResult } = useChestOpening();
   const dailyChest = useDailyChest();
   const { pushControls, popControls } = useGameControls();
   const { sfxVolume } = useAudio();
@@ -134,11 +134,23 @@ export function Inventory() {
   ]);
 
   if (dailyChest.lastResult) {
-    return <ChestRewards />;
+    return (
+      <ChestRewards
+        result={dailyChest.lastResult}
+        isDaily
+        onClose={() => dailyChest.setLastResult(null)}
+      />
+    );
   }
 
-  if (lastResult) {
-    return <ChestRewards />;
+  if (chestLastResult) {
+    return (
+      <ChestRewards
+        result={chestLastResult}
+        isDaily={false}
+        onClose={() => setLastResult(null)}
+      />
+    );
   }
 
   const listItems =

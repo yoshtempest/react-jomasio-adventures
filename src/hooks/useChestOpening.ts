@@ -28,7 +28,7 @@ export function useChestOpening() {
       const result = openChest(tier);
 
       for (const mat of result.materials) {
-        addItem({ id: mat.id as ItemId });
+        addItem({ id: mat.id as ItemId, qty: mat.qty });
       }
       for (const eq of result.equipment) {
         addDrop(player.character, eq.id, eq.enhance);
