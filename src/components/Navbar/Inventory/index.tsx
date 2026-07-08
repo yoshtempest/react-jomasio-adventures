@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useInventoryMenu } from "@/hooks/menu/useInventory";
 import type { FilterConfig } from "@/utils/types/inventory/filterConfig";
@@ -13,29 +13,56 @@ import { activateXpBuff, POTION_CONFIG } from "@/utils/buffs/xpBuff";
 import { useAudio } from "@/contexts/AudioContext";
 import { asset } from "@/utils/asset";
 import { FILTER_LABELS } from "@/data/inventory/labels";
+import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
+import { CHARACTERS } from "@/utils/types/player/player";
+import type { InventoryItem } from "@/utils/types/player/inventory";
 
+const CURRENCY_IDS = ["kwanzas", "hypercoin"] as const;
 
 export function Inventory() {
   const { items, maxSlots, removeItem } = useInventory();
+  const { progress } = useCharacterProgress();
   const listRef = useRef<HTMLUListElement>(null);
   const [filterType, setFilterType] = useState<string>("all");
 
-  const filteredItems =
-    filterType === "all"
-      ? items
-      : items.filter((item) => {
-          const itemData = item
-            ? ITEMS[item.id as keyof typeof ITEMS]
-            : null;
-          return itemData?.type === filterType;
-        });
+  const totalCoins = CHARACTERS.reduce((sum, c) => sum + (progress[c]?.coins ?? 0), 0);
+  const totalHyperCoins = CHARACTERS.reduce((sum, c) => sum + (progress[c]?.hyperCoins ?? 0), 0);
 
-  const filterConfig: FilterConfig | null = {
-    labels: FILTER_LABELS,
-    active: filterType,
-    onChange: (type) => setFilterType(type),
-    filteredItems,
-  };
+  const currencyItems = useMemo<InventoryItem[]>(
+    () => [
+      { id: "kwanzas" as ItemId, qty: totalCoins },
+      { id: "hypercoin" as ItemId, qty: totalHyperCoins },
+    ],
+    [totalCoins, totalHyperCoins],
+  );
+
+  const itemsWithCurrency = useMemo(
+    () => [...currencyItems, ...items],
+    [currencyItems, items],
+  );
+
+  const filteredItems = useMemo(
+    () =>
+      filterType === "all"
+        ? itemsWithCurrency
+        : itemsWithCurrency.filter((item) => {
+            const itemData = item
+              ? ITEMS[item.id as keyof typeof ITEMS]
+              : null;
+            return itemData?.type === filterType;
+          }),
+    [filterType, itemsWithCurrency],
+  );
+
+  const filterConfig = useMemo<FilterConfig | null>(
+    () => ({
+      labels: FILTER_LABELS,
+      active: filterType,
+      onChange: (type) => setFilterType(type),
+      filteredItems,
+    }),
+    [filterType, filteredItems],
+  );
 
   const { selectedIndex, filterFocused } = useInventoryMenu(
     true,
@@ -116,7 +143,10 @@ export function Inventory() {
 
   const listItems =
     filterType === "all"
-      ? (Array.from({ length: maxSlots }, (_, i) => items[i]) as (typeof items)[number][])
+      ? Array.from({ length: maxSlots + CURRENCY_IDS.length }, (_, i) => {
+          if (i < CURRENCY_IDS.length) return currencyItems[i];
+          return items[i - CURRENCY_IDS.length];
+        }) as (typeof items)[number][]
       : filteredItems;
 
   return (

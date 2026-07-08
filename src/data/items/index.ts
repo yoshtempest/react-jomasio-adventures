@@ -6,6 +6,7 @@ import { MAPS } from "./maps";
 import { MOUNT } from "./mount";
 import { POTIONS } from "./potions";
 import { FOODS } from "./food";
+import { COINS } from "./coins";
 
 export const ITEMS = {
   ...CHESTS,
@@ -16,4 +17,5 @@ export const ITEMS = {
   ...MOUNT,
   ...POTIONS,
   ...FOODS,
+  ...COINS,
 } as const;
