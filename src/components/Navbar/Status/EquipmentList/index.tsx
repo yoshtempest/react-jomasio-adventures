@@ -15,7 +15,10 @@ export function EquipmentList() {
 
   return (
     <div className="StatusColumn">
-      <h2 className="StatusTitle">Equipamentos</h2>
+      <div className={styles.flexRow}>
+        <img src={asset("/assets/equipments/all.svg")} />
+        <h2 className="StatusTitle">Equipamentos</h2>
+      </div>
       {(EQUIPMENT_SLOTS as EquipmentSlot[]).map((slot) => {
         const item = getEquippedItem(character, slot);
         return (
