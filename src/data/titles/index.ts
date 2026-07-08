@@ -5,7 +5,7 @@ export const TITLES: Record<string, TitleDef> = {
     id: "matadorDeMortos",
     name: "Matador de Mortos",
     description: "Elimine NPCs do tipo hungry",
-    icon: "skull",
+    icon: "public/assets/titlesBadges/killHungrys.svg",
     condition: { type: "killNpcType", npcTypePrefix: "hungry" },
     levels: [
       { count: 20, bonus: [{ stat: "damage", value: 2 }] },
@@ -19,7 +19,7 @@ export const TITLES: Record<string, TitleDef> = {
     id: "invicto",
     name: "Invicto",
     description: "Vença batalhas consecutivamente sem perder",
-    icon: "warrior",
+    icon: "public/assets/titlesBadges/invict.svg",
     condition: { type: "consecutiveWins" },
     levels: [
       { count: 20, bonus: [{ stat: "damage", value: 4 }] },
@@ -33,7 +33,7 @@ export const TITLES: Record<string, TitleDef> = {
     id: "defensor",
     name: "Defensor",
     description: "Bloqueie ataques",
-    icon: "shield",
+    icon: "public/assets/titlesBadges/blockAttacks.svg",
     condition: { type: "blockCount" },
     levels: [
       { count: 25, bonus: [{ stat: "shield", value: 5 }] },
@@ -69,7 +69,7 @@ export const TITLES: Record<string, TitleDef> = {
     id: "exterminadorDeFigurantes",
     name: "Exterminador de Figurantes",
     description: "Elimine figurantes de cultos",
-    icon: "cultist",
+    icon: "public/assets/titlesBadges/slainFigurants.svg",
     condition: { type: "killNpcType", npcTypePrefix: "figurant" },
     levels: [
       { count: 10, bonus: [{ stat: "strength", value: 1 }] },
@@ -83,7 +83,7 @@ export const TITLES: Record<string, TitleDef> = {
     id: "cacadorDeRaros",
     name: "Caçador de Raros",
     description: "Elimine NPCs raros",
-    icon: "rare",
+    icon: "public/assets/titlesBadges/huntRaresNpcs.svg",
     condition: { type: "killNpcClass", npcClass: "rare" },
     levels: [
       { count: 5, bonus: [{ stat: "intelligence", value: 1 }] },
@@ -97,7 +97,7 @@ export const TITLES: Record<string, TitleDef> = {
     id: "matadorDeChefes",
     name: "Matador de Chefões",
     description: "Elimine chefes",
-    icon: "boss",
+    icon: "public/assets/titlesBadges/huntBosses.svg",
     condition: { type: "killNpcClass", npcClass: "boss" },
     levels: [
       { count: 2, bonus: [{ stat: "hp", value: 5 }] },
@@ -111,7 +111,7 @@ export const TITLES: Record<string, TitleDef> = {
     id: "lendario",
     name: "Lendário",
     description: "Elimine NPCs lendários",
-    icon: "legendary",
+    icon: "public/assets/titlesBadges/huntLegendaryNpcs.svg",
     condition: { type: "killNpcClass", npcClass: "legendary" },
     levels: [
       {
@@ -160,7 +160,7 @@ export const TITLES: Record<string, TitleDef> = {
     id: "batalhador",
     name: "Batalhador",
     description: "Elimine NPCs no total",
-    icon: "warrior",
+    icon: "public/assets/titlesBadges/defeatNpcs.svg",
     condition: { type: "killTotal" },
     levels: [
       { count: 50, bonus: [{ stat: "strength", value: 1 }] },
@@ -198,7 +198,7 @@ export const TITLES: Record<string, TitleDef> = {
     id: "masoquista",
     name: "Masoquista",
     description: "Receba dano em batalhas",
-    icon: "shield",
+    icon: "public/assets/titlesBadges/masoquist.svg",
     condition: { type: "damageTaken" },
     levels: [
       { count: 500, bonus: [{ stat: "armor", value: 2 }] },
@@ -221,7 +221,7 @@ export const TITLES: Record<string, TitleDef> = {
     id: "atacante",
     name: "Atacante",
     description: "Cause dano em batalhas",
-    icon: "sword",
+    icon: "public/assets/titlesBadges/causesDamage.svg",
     condition: { type: "damageDealt" },
     levels: [
       { count: 500, bonus: [{ stat: "damage", value: 2 }] },
@@ -244,7 +244,7 @@ export const TITLES: Record<string, TitleDef> = {
     id: "dragonSlayer",
     name: "Dragon Slayer",
     description: "Derrote o Rei Dragão",
-    icon: "dragon",
+    icon: "public/assets/titlesBadges/dragonSlayer.svg",
     condition: { type: "killNpcType", npcTypePrefix: "dragon" },
     levels: [
       { count: 1, bonus: [{ stat: "percentAllStats", value: 1 }] },
@@ -263,7 +263,7 @@ export const TITLES: Record<string, TitleDef> = {
     id: "ghostPlayer",
     name: "Ghost Player",
     description: "Evite ataques em batalhas",
-    icon: "ghost",
+    icon: "public/assets/titlesBadges/enemyMissAttacks.svg",
     condition: { type: "dodgeCount" },
     levels: [
       { count: 50, bonus: [{ stat: "enemyMissChance", value: 1 }] },
