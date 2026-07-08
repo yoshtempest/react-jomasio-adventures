@@ -32,10 +32,10 @@
 }
 
 .slotTag {
-  font-size: 10px;
   color: var(--text-muted);
   background: #222;
-  padding: 1px 6px;
+  padding: 4px;
+  width: 1.4vw;
   border-radius: 4px;
 }
 

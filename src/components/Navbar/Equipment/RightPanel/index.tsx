@@ -9,7 +9,7 @@ import {
   FILTER_TABS,
   FILTER_LABELS,
 } from "@/utils/equipmentMenu";
-import { SLOT_LABELS, RANK_COLORS, RANK_LABELS } from "@/utils/types/player/equipment";
+import { RANK_COLORS, RANK_LABELS } from "@/utils/types/player/equipment";
 import styles from "./styles.module.css";
 import { asset } from "@/utils/asset";
 
@@ -56,6 +56,7 @@ export function RightPanel() {
               className={`${styles.collectedCard} ${isSelected ? "EquipmentSelected" : ""}`}
             >
               <div className="EquipmentItemRow">
+                <img className={styles.slotTag} src={asset(FILTER_LABELS[entry.item.slot])} />
                 {entry.arrow === "up" && (
                   <ArrowUp size={14} className={styles.arrowUp} />
                 )}
@@ -74,9 +75,6 @@ export function RightPanel() {
                   ) : null}
                 </span>
                 <span className={styles.qtyBadge}>x{entry.qty}</span>
-                <span className={styles.slotTag}>
-                  {SLOT_LABELS[entry.item.slot]}
-                </span>
                 <span
                   className={styles.rankLabel}
                   style={{ color: RANK_COLORS[entry.item.rank] }}
