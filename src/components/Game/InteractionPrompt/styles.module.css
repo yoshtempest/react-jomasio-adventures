@@ -5,6 +5,8 @@
   transform: translateX(-50%);
   z-index: 100;
   pointer-events: none;
+
+  animation: hintPulse 2s ease-in-out infinite;
 }
 
 .hint {
@@ -15,4 +17,15 @@
   font-size: 14px;
   white-space: nowrap;
   border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+@keyframes hintPulse {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+
+  50% {
+    filter: brightness(3);
+  }
 }
