@@ -15,7 +15,7 @@ export function EquipmentList() {
 
   return (
     <div className="StatusColumn">
-      <div className={styles.flexRow}>
+      <div className="statusMainContainer">
         <img src={asset("/assets/equipments/all.svg")} />
         <h2 className="StatusTitle">Equipamentos</h2>
       </div>

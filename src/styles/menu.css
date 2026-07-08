@@ -2,8 +2,23 @@
   font-weight: bold;
   color: var(--text-secondary);
   font-size: 14px;
-  border-bottom: 1px solid var(--border-default);
   padding-bottom: 4px;
+}
+
+.statusMainContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5vw;
+  border-bottom: 1px solid var(--border-default);
+}
+
+.statusMainContainer h2 {
+  border-bottom: none;
+  padding-bottom: none;
+}
+
+.statusMainContainer img {
+  width: 3vw !important;
 }
 
 .StatusColumn span {

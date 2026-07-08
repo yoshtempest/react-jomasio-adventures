@@ -1,3 +1,18 @@
+.container {
+  width: 14vw;
+}
+
+.container div {
+  display: flex;
+  flex-direction: row;
+}
+
+.container img {
+  display: flex;
+  width: 2vw;
+  margin-right: 0.5vw;
+}
+
 .subBtn {
   color: var(--accent-color);
   font-weight: bold;

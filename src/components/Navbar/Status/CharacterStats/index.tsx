@@ -32,7 +32,10 @@ export function CharacterStats() {
 
   return (
     <div className={`StatusColumn ${styles.container}`}>
-      <h2 className="StatusTitle">Status</h2>
+      <div className="statusMainContainer">
+        <img src={asset("/assets/navbar/status.svg")} />
+        <h2 className="StatusTitle">Status</h2>
+      </div>
       <div>
         <img src={asset("/assets/status/hp.svg")} />
         <p>HP total: {userHp}</p>
