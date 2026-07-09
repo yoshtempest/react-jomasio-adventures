@@ -66,12 +66,19 @@
   align-items: center;
   gap: 8px;
   margin-bottom: 12px;
-  padding: 6px 12px;
+  padding: 8px;
   background: var(--surface-card);
   border: 1px solid var(--border-default);
   border-radius: 6px;
   font-size: 13px;
   color: var(--text-secondary);
+}
+
+.timerBar div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5vw;
 }
 
 .timerBar strong {

@@ -9,6 +9,7 @@ import {
   getTimeUntilMonday,
 } from "@/utils/quest/questTimer";
 import { TAB_LABELS, TAB_KEYS, getEmptyMessage } from "@/data/quests/tabs";
+import { Timer } from "lucide-react";
 
 export function Mission() {
   const { quests } = useQuests();
@@ -61,10 +62,17 @@ export function Mission() {
       {(activeTab === "daily" || activeTab === "weekly") && (
         <div className={styles.timerBar}>
           {activeTab === "daily" && (
-            <span>Reset em: <strong>{dailyTimer}</strong></span>
+            <div>
+              <Timer />
+              <span>Reset em: <strong>{dailyTimer}</strong></span>
+            </div>
+
           )}
           {activeTab === "weekly" && (
-            <span>Reset em: <strong>{weeklyTimer}</strong></span>
+            <div>
+              <Timer />
+              <span>Reset em: <strong>{weeklyTimer}</strong></span>
+            </div>
           )}
         </div>
       )}

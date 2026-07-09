@@ -8,6 +8,8 @@ const PROFESSIONS = [
   { profession: "Açougueiro", name: "Tim" },
   { profession: "BodyBuilder", name: "Franciane" },
   { profession: "Mecânico", name: "Binha" },
+  { profession: "Mineiro", name: "???" },
+  { profession: "Pintor", name: "???" },
 ];
 
 export function Professions() {
