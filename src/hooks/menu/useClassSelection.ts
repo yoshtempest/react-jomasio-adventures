@@ -3,7 +3,7 @@ import { useGameControls } from "@/contexts/GameControlsContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
 import { getSelected } from "@/gameRules/menu/selection";
-import { asset } from "@/utils/asset";
+import { asset } from "@/utils/paths";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 
 const CLASSES: PlayerClass[] = ["fracote", "idiota", "amostradinho"];

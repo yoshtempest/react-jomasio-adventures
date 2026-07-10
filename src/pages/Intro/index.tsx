@@ -1,7 +1,7 @@
 import styles from "./styles.module.css";
 import undertale from "/assets/songs/background/UndertaleGameOver.m4a";
 import { useBackgroundAudio } from "@/hooks/useBackgroundAudio";
-import { asset } from "@/utils/asset";
+import { asset } from "@/utils/paths";
 import { useGameModeMenu } from "@/hooks/menu/useGameMode";
 
 export default function Intro() {

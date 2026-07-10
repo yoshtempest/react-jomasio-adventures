@@ -13,7 +13,7 @@ import { ListItem } from "./ListItem";
 import { RewardsView } from "./RewardsView";
 import { activateXpBuff, POTION_CONFIG } from "@/utils/buffs/xpBuff";
 import { useAudio } from "@/contexts/AudioContext";
-import { sfx } from "@/utils/soundEffects";
+import { sfx } from "@/utils/paths";
 import { FILTER_LABELS } from "@/data/inventory/labels";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { CHARACTERS } from "@/utils/types/player/player";

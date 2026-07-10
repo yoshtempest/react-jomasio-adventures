@@ -1,4 +1,4 @@
-import { sfx } from "@/utils/soundEffects";
+import { sfx } from "@/utils/paths";
 
 export const FAR_DISTANCE_X = 260;
 export const MELEE_RANGE = 50;

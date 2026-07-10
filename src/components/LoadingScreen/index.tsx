@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { asset } from "@/utils/asset";
+import { asset } from "@/utils/paths";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 
 export function LoadingScreen() {

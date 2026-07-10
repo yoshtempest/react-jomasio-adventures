@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { useTypewriter } from "@/hooks/interaction/useTypewriter";
 import { useSettings } from "@/contexts/SettingsContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
-import { resolveAsset } from "@/utils/asset";
+import { resolveAsset } from "@/utils/paths";
 
 interface Props {
   name: string;

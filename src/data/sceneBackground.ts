@@ -1,12 +1,4 @@
-import { asset } from "@/utils/asset";
-
-function cenariosPath(path: string) {
-  return (asset(`/assets/cenarios/${path}`));
-}
-
-function jomasioPath(path: string) {
-  return (cenariosPath(`/jomasio/${path}`));
-}
+import { asset, cenariosPath, jomasioPath } from "@/utils/paths";
 
 export const sceneBackgrounds = {
   BrodiClass: jomasioPath("/brodiClass.svg"),

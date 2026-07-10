@@ -1,7 +1,7 @@
 import { useInventory } from "@/contexts/InventoryContext";
 import { useDailyChest } from "@/hooks/useDailyChest";
 import styles from "./styles.module.css";
-import { asset } from "@/utils/asset";
+import { asset } from "@/utils/paths";
 import { formatDurationHms } from "@/utils/formatDuration";
 
 export function Chest() {

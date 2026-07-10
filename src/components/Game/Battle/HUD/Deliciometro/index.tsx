@@ -1,4 +1,4 @@
-import { asset } from "@/utils/asset";
+import { asset } from "@/utils/paths";
 import { useEffect, useRef } from "react";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import styles from "./styles.module.css";

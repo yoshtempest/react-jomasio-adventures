@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
 import { ChevronDown, Gamepad2 } from "lucide-react";
-import { asset } from "@/utils/asset";
+import { asset } from "@/utils/paths";
 import shared from "../../styles.module.css";
 import styles from "./styles.module.css";
 

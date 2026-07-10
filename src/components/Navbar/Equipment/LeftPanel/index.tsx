@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { Lock } from "lucide-react";
 import { usePlayer } from "@/contexts/PlayerContext";
-import { asset } from "@/utils/asset";
+import { asset } from "@/utils/paths";
 import { SLOT_LABELS, RANK_COLORS } from "@/utils/types/player/equipment";
 import styles from "./styles.module.css";
 import { useEquipmentMenu } from "@/hooks/menu/equipment/useEquipment";

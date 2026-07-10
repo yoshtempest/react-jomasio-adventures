@@ -24,7 +24,7 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
 import { useFlags } from "@/contexts/FlagContext";
 import { useSceneEvents } from "@/hooks/scene/useEvents";
-import { asset } from "@/utils/asset";
+import { asset } from "@/utils/paths";
 import { InteractionPrompt } from "@/components/Game/InteractionPrompt";
 
 type QuestHighlightTile = { x: number; y: number };

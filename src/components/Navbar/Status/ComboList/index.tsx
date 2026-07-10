@@ -1,4 +1,4 @@
-import { asset } from "@/utils/asset";
+import { asset } from "@/utils/paths";
 import { getComboMoves } from "@/data/battle/comboMoves";
 import styles from "./styles.module.css";
 

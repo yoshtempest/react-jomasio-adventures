@@ -3,7 +3,7 @@ import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { STAT_TIPS } from "@/data/stats/tips";
 import styles from "./styles.module.css";
-import { asset } from "@/utils/asset";
+import { asset } from "@/utils/paths";
 
 type AvailableStatsProps = {
   selectedIndex: number;

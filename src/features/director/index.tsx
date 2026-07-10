@@ -7,7 +7,7 @@ import { createDirector } from "@/interactions/director";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuestActions } from "@/hooks/quest/useQuestActions";
 import { useNavigate, useLocation } from "react-router";
-import { asset } from "@/utils/asset";
+import { asset } from "@/utils/paths";
 import { useAudio } from "@/contexts/AudioContext";
 
 import { sceneBackgrounds } from "@/data/sceneBackground";

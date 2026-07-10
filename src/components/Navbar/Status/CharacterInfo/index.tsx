@@ -2,7 +2,7 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress, MAX_HUNGER } from "@/contexts/CharacterProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { CHARACTERS } from "@/data/options/characters";
-import { asset } from "@/utils/asset";
+import { asset } from "@/utils/paths";
 import { getRank, formatRank } from "@/gameRules/rank";
 import { ProgressBar } from "@/components/ProgressBar";
 import styles from "./styles.module.css";

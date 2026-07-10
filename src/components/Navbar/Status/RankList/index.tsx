@@ -1,6 +1,6 @@
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { CHARACTERS } from "@/data/options/characters";
-import { asset } from "@/utils/asset";
+import { asset } from "@/utils/paths";
 import {
   getRank,
   getRankIndex,

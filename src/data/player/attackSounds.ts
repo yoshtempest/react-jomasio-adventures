@@ -1,4 +1,4 @@
-import { soundEffectPath } from "@/utils/soundEffects";
+import { soundEffectPath } from "@/utils/paths";
 
 type AttackSoundConfig = {
   volume: number;

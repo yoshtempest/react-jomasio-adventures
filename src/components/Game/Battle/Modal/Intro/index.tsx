@@ -1,9 +1,9 @@
-import { asset } from "@/utils/asset";
+import { asset } from "@/utils/paths";
 import styles from "./styles.module.css";
 import { useEffect, useRef } from "react";
 import { useAudio } from "@/contexts/AudioContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
-import { sfx } from "@/utils/soundEffects";
+import { sfx } from "@/utils/paths";
 
 type Props = {
   playerCharacter: string;

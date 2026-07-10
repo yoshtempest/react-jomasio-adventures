@@ -12,7 +12,7 @@ import { DeliciaDex } from "./Bestiary";
 import { Player } from "./Player";
 import { Saves } from "./Saves";
 import { Professions } from "./Professions";
-import { asset } from "@/utils/asset";
+import { asset } from "@/utils/paths";
 
 export function Navbar() {
   const { screen, selectedIndex, options } = useNavbarMenu();

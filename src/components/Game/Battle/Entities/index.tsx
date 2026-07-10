@@ -1,4 +1,4 @@
-import { asset } from "@/utils/asset";
+import { asset } from "@/utils/paths";
 import { NPCBattle } from "@/components/Game/Npc/Battle";
 import { ProjectileSprite } from "@/components/Game/Battle/Projectile";
 import { PlayerBattle } from "@/components/Game/Player/Battle";

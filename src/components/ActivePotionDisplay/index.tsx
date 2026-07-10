@@ -1,6 +1,6 @@
 import { useActivePotion } from "@/hooks/useActivePotion";
 import styles from "./styles.module.css";
-import { asset } from "@/utils/asset";
+import { asset } from "@/utils/paths";
 import { formatDuration } from "@/utils/formatDuration";
 
 export function ActivePotionDisplay() {

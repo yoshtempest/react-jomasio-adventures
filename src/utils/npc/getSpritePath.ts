@@ -1,4 +1,4 @@
-import { asset } from "@/utils/asset";
+import { asset } from "@/utils/paths";
 import { bossScales, npcSpriteYOffset } from "@/data/npc/bossScales";
 
 export function getSpritePath(

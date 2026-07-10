@@ -1,4 +1,4 @@
-import { asset } from "@/utils/asset";
+import { asset } from "@/utils/paths";
 import { spriteMap } from "@/data/battle/projectileSprites";
 
 type Props = {

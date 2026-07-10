@@ -6,7 +6,7 @@ import { useGameAudio } from "@/hooks/game/useGameAudio";
 import { useCombatTasks } from "@/hooks/tutorial/useCombatTasks";
 import { useCombatTutorialSetup } from "@/hooks/tutorial/useCombatTutorialSetup";
 import { useCutscene } from "@/hooks/interaction/useCutscene";
-import { asset } from "@/utils/asset";
+import { asset } from "@/utils/paths";
 import Talking from "@/components/Talking";
 import { combatTutorialDialogue } from "@/data/dialogues/combatTutorial/one";
 import { GameMap } from "@/components/Game/Map/Game";

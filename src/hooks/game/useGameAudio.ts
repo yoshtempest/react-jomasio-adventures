@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useAudio } from "@/contexts/AudioContext";
-import { resolveAsset } from "@/utils/asset";
+import { resolveAsset } from "@/utils/paths";
 
 type Props = {
   src: string;

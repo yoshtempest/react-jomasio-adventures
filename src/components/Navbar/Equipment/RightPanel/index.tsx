@@ -11,7 +11,7 @@ import {
 } from "@/utils/equipmentMenu";
 import { RANK_COLORS, RANK_LABELS } from "@/utils/types/player/equipment";
 import styles from "./styles.module.css";
-import { asset } from "@/utils/asset";
+import { asset } from "@/utils/paths";
 
 export function RightPanel() {
   const { player } = usePlayer();

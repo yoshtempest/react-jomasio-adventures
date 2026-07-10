@@ -4,7 +4,7 @@ import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { useTitles } from "@/contexts/TitleContext";
 import { getTotalArmor } from "@/gameRules/battle/equipment";
-import { asset } from "@/utils/asset";
+import { asset } from "@/utils/paths";
 
 export function CharacterStats() {
   const { player } = usePlayer();

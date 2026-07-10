@@ -1,5 +1,5 @@
 import styles from "./styles.module.css";
-import { asset } from "@/utils/asset";
+import { asset } from "@/utils/paths";
 import { getNpcDisplayName } from "@/utils/types/npc/npcNames";
 import { useVictoryVisibility } from "@/hooks/battle/victory/useVisibility";
 import { useVictoryKeyboard } from "@/hooks/battle/victory/useKeyboard";

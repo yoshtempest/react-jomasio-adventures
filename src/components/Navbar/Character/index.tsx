@@ -2,7 +2,7 @@ import styles from "./styles.module.css";
 import { useCharacterMenu } from "@/hooks/menu/useCharacter";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { ProgressBar } from "@/components/ProgressBar";
-import { asset } from "@/utils/asset";
+import { asset } from "@/utils/paths";
 import { getRank, formatRank } from "@/gameRules/rank";
 
 export function Character() {

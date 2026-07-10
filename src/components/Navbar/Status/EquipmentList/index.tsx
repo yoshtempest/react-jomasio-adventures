@@ -5,7 +5,7 @@ import {
   RANK_COLORS,
 } from "@/utils/types/player/equipment";
 import styles from "./styles.module.css";
-import { asset } from "@/utils/asset";
+import { asset } from "@/utils/paths";
 import { FILTER_LABELS } from "@/utils/equipmentMenu";
 
 export function EquipmentList() {

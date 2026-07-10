@@ -1,12 +1,12 @@
-import { asset } from "@/utils/asset";
+import { asset, jomasioPath } from "@/utils/paths";
 
 export const locations = [
-  { name: "Hall", image: asset("/assets/cenarios/jomasio/hall/one.svg") },
-  { name: "Cantina", image: asset("/assets/cenarios/cantina.svg") },
-  { name: "Biblioteca", image: asset("/assets/cenarios/library.svg") },
-  { name: "Sala dos PCs", image: asset("/assets/cenarios/pcsRoom.svg") },
-  { name: "Quadra", image: asset("/assets/cenarios/footballCourt.svg") },
-  { name: "Cafeteria", image: asset("/assets/cenarios/cafeteria.svg") },
+  { name: "Hall", image: jomasioPath("/hall/one.svg") },
+  { name: "Cantina", image: jomasioPath("/cantina.svg") },
+  { name: "Biblioteca", image: jomasioPath("/library/default.svg") },
+  { name: "Sala dos PCs", image: jomasioPath("/pcsRoom.svg") },
+  { name: "Quadra", image: jomasioPath("/footballCourt.svg") },
+  { name: "Cafeteria", image: jomasioPath("/cafeteria.svg") },
 ];
 
 export const bosses = [

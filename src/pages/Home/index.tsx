@@ -4,7 +4,7 @@ import { useGameControls } from "@/contexts/GameControlsContext";
 import styles from "./styles.module.css";
 import undertale from "/assets/songs/background/UndertaleGameOver.m4a";
 import { useBackgroundAudio } from "@/hooks/useBackgroundAudio";
-import { asset } from "@/utils/asset";
+import { asset } from "@/utils/paths";
 import { loadGame } from "@/utils/save/saveGame";
 import { hasAnySave } from "@/utils/save/slotManager";
 import { sceneBackgrounds } from "@/data/sceneBackground";

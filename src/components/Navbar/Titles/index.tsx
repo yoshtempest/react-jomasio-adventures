@@ -4,7 +4,7 @@ import { useTitleMenu } from "@/hooks/menu/useTitle";
 import { useTitles } from "@/contexts/TitleContext";
 import { TITLES } from "@/data/titles/index";
 import { STAT_LABEL } from "@/data/titles/statLabel";
-import { asset } from "@/utils/asset";
+import { asset } from "@/utils/paths";
 
 
 

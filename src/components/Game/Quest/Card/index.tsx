@@ -1,5 +1,5 @@
 import styles from "./styles.module.css";
-import { asset } from "@/utils/asset";
+import { asset } from "@/utils/paths";
 import { FREQ_LABEL } from "@/data/quests/frequencies";
 
 type Props = {

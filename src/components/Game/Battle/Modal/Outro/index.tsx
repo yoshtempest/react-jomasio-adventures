@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { asset } from "@/utils/asset";
+import { asset } from "@/utils/paths";
 import { getOutroLine } from "@/data/battle/outro";
 import { useTypewriter } from "@/hooks/interaction/useTypewriter";
 import { useSettings } from "@/contexts/SettingsContext";

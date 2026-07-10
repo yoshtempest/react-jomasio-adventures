@@ -1,4 +1,4 @@
-import { asset } from "@/utils/asset";
+import { asset } from "@/utils/paths";
 
 export const characterSprites = {
   marcelo: asset("assets/player/marcelo/default.svg"),
