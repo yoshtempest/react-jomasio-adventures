@@ -21,7 +21,7 @@
 }
 
 .tip {
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: var(--text-secondary);
   font-style: italic;
 }

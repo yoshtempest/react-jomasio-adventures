@@ -31,7 +31,7 @@
 }
 
 .characterClass {
-  font-size: 0.75rem;
+  font-size: var(--fs-075);
   color: rgba(255, 255, 255, 0.45);
   text-transform: uppercase;
   letter-spacing: 1px;

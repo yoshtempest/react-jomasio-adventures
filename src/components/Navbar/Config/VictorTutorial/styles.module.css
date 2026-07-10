@@ -2,7 +2,7 @@
   display: flex;
   width: 2.4vw;
   height: 2.4vw;
-  font-size: 0.8vw;
+  font-size: var(--fs-080vw);
   font-weight: bold;
   align-items: center;
   justify-content: center;

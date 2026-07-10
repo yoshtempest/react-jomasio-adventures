@@ -4,7 +4,7 @@
 
 .section h4 {
   margin: 0 0 0.35rem;
-  font-size: 0.9rem;
+  font-size: var(--fs-090);
   color: #ccc;
 }
 
@@ -13,17 +13,17 @@
   align-items: center;
   gap: 0.4rem;
   padding: 0.2rem 0;
-  font-size: 0.85rem;
+  font-size: var(--fs-085);
 }
 
 .enhance {
   color: #4caf50;
-  font-size: 0.8rem;
+  font-size: var(--fs-080);
 }
 
 .slot {
   color: var(--text-muted);
-  font-size: 0.8rem;
+  font-size: var(--fs-080);
 }
 
 .actions {

@@ -17,7 +17,7 @@
 }
 
 .rank {
-  font-size: 36px;
+  font-size: var(--fs-36);
   font-weight: 900;
   line-height: 1;
   transition: color 0.3s;
@@ -52,13 +52,13 @@
 }
 
 .nextLabel {
-  font-size: 11px;
+  font-size: var(--fs-11);
   font-weight: bold;
   color: rgba(255, 255, 255, 0.6);
 }
 
 .rank {
-  font-size: 42px;
+  font-size: var(--fs-42);
 }
 
 .rankF {

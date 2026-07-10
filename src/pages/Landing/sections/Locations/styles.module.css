@@ -32,7 +32,7 @@
   right: 0;
   padding: 12px;
   font-weight: 600;
-  font-size: 14px;
+  font-size: var(--fs-14);
   background: linear-gradient(transparent, rgba(10, 5, 0, 0.9));
   color: var(--text-color);
 }

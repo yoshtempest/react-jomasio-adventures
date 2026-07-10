@@ -15,11 +15,11 @@
 
 .rank {
   color: var(--accent-color);
-  font-size: 14px;
+  font-size: var(--fs-14);
 }
 
 .xpText {
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: var(--text-muted);
   margin-top: 4px;
   text-align: center;
@@ -33,7 +33,7 @@
 .hungerText {
   display: flex;
   justify-content: space-between;
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: var(--text-muted);
 }
 

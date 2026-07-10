@@ -17,7 +17,7 @@
 }
 
 .name {
-  font-size: 13px;
+  font-size: var(--fs-13);
   color: #ddd;
   min-width: 120px;
 }

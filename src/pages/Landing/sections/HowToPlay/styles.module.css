@@ -26,7 +26,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: var(--fs-18);
   font-weight: 700;
   color: var(--text-color);
   background: var(--primary-color);
@@ -42,7 +42,7 @@
 .howtoStep p {
   margin: 0;
   line-height: 1.5;
-  font-size: 14px;
+  font-size: var(--fs-14);
   color: rgba(255, 255, 255, 0.6);
 }
 

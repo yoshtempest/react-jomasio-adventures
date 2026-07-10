@@ -15,10 +15,47 @@
   --danger: #ff4444;
   --gold: #ffd700;
 
-  --smaller: 0.9375vw;
-  --small: 1.25vw;
-  --low-medium: 1.5625vw;
-  --medium: 1.875vw;
+  --smaller: 0.9375vw; /* (12 / 1280) * 100 */
+  --small: 1.25vw; /* (16 / 1280) * 100 */
+  --low-medium: 1.5625vw; /* (20 / 1280) * 100 */
+  --medium: 1.875vw; /* (24 / 1280) * 100 */
+
+  --fs-8: 8px;
+  --fs-9: 9px;
+  --fs-10: 10px;
+  --fs-11: 11px;
+  --fs-12: 12px;
+  --fs-13: 13px;
+  --fs-14: 14px;
+  --fs-15: 15px;
+  --fs-18: 18px;
+  --fs-20: 20px;
+  --fs-22: 22px;
+  --fs-28: 28px;
+  --fs-32: 32px;
+  --fs-36: 36px;
+  --fs-42: 42px;
+
+  --fs-070: 0.7rem;
+  --fs-075: 0.75rem;
+  --fs-080: 0.8rem;
+  --fs-085: 0.85rem;
+  --fs-0875: 0.875rem;
+  --fs-090: 0.9rem;
+  --fs-110: 1.1rem;
+  --fs-115: 1.15rem;
+  --fs-120: 1.2rem;
+  --fs-130: 1.3rem;
+  --fs-140: 1.4rem;
+  --fs-160: 1.6rem;
+  --fs-240: 2.4rem;
+  --fs-500: 5rem;
+
+  --fs-085em: 0.85em;
+  --fs-11em: 1.1em;
+
+  --fs-080vw: 0.8vw;
+  --fs-120vw: 1.2vw;
 
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

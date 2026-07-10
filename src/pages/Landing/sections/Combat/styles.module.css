@@ -26,20 +26,20 @@
 
 .combatCard h3 {
   margin: 0 0 10px;
-  font-size: 1.1rem;
+  font-size: var(--fs-110);
   color: var(--text-color);
 }
 
 .combatCard p {
   margin: 0;
   line-height: 1.6;
-  font-size: 0.9rem;
+  font-size: var(--fs-090);
   color: rgba(255, 255, 255, 0.65);
 }
 
 .bossesTitle {
   margin: 0 0 24px;
-  font-size: 1.4rem;
+  font-size: var(--fs-140);
   color: var(--text-color);
   text-align: center;
 }
@@ -76,7 +76,7 @@
 }
 
 .bossDesc {
-  font-size: 0.8rem;
+  font-size: var(--fs-080);
   color: rgba(255, 255, 255, 0.5);
 }
 

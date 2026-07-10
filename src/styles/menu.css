@@ -1,7 +1,7 @@
 .StatusTitle {
   font-weight: bold;
   color: var(--text-secondary);
-  font-size: 14px;
+  font-size: var(--fs-14);
   padding-bottom: 4px;
 }
 
@@ -35,7 +35,7 @@
 }
 
 .EquipmentItemName {
-  font-size: 13px;
+  font-size: var(--fs-13);
   font-weight: bold;
 }
 
@@ -47,7 +47,7 @@
 }
 
 .EquipmentEnhanceBadge {
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: var(--gold);
   margin-left: 3px;
   font-weight: bold;
@@ -75,7 +75,7 @@
 }
 
 .dropName {
-  font-size: 14px;
+  font-size: var(--fs-14);
   color: #eee;
 }
 
@@ -98,7 +98,7 @@
   background: #2c2c2c;
   color: #eee;
   cursor: pointer;
-  font-size: 12px;
+  font-size: var(--fs-12);
   width: 48px;
 }
 
@@ -122,7 +122,7 @@
   background: linear-gradient(135deg, #3a2a4e, #4a2a3e) !important;
   color: #f0d080;
   cursor: pointer;
-  font-size: 13px;
+  font-size: var(--fs-13);
   font-weight: bold;
 }
 

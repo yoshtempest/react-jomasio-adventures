@@ -27,19 +27,19 @@
 }
 
 .dailyChestTitle {
-  font-size: 15px;
+  font-size: var(--fs-15);
   font-weight: bold;
   color: #f0d080;
 }
 
 .dailyChestReady {
-  font-size: 12px;
+  font-size: var(--fs-12);
   color: #4caf50;
   font-weight: bold;
 }
 
 .dailyChestTimer {
-  font-size: 12px;
+  font-size: var(--fs-12);
   color: var(--text-muted);
   font-family: monospace;
 }

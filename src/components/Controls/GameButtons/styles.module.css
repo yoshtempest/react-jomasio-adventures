@@ -11,7 +11,7 @@
   display: flex;
   width: 3.6vw;
   height: 3.6vw;
-  font-size: 1.2vw;
+  font-size: var(--fs-120vw);
   font-weight: bold;
   align-items: center;
   justify-content: center;

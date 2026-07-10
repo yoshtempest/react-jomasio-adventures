@@ -22,7 +22,7 @@
 
 .special {
   color: #ff8800;
-  font-size: 28px;
+  font-size: var(--fs-28);
 }
 
 .pet {
@@ -35,7 +35,7 @@
 
 .charge {
   color: #00bfff;
-  font-size: 28px;
+  font-size: var(--fs-28);
   text-shadow:
     0 0 10px rgba(0, 191, 255, 0.8),
     0 0 20px rgba(0, 191, 255, 0.6),
@@ -48,7 +48,7 @@
 
 .crit {
   color: #ff0044;
-  font-size: 32px;
+  font-size: var(--fs-32);
   font-weight: 900;
   text-shadow:
     0 0 10px #ff0044,

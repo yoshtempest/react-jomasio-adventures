@@ -31,7 +31,7 @@
   padding: 8px 16px;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: var(--fs-14);
   transition:
     background 0.2s,
     color 0.2s;
@@ -57,7 +57,7 @@
   text-align: center;
   color: var(--text-hint);
   padding: 24px;
-  font-size: 14px;
+  font-size: var(--fs-14);
 }
 
 .timerBar {
@@ -70,7 +70,7 @@
   background: var(--surface-card);
   border: 1px solid var(--border-default);
   border-radius: 6px;
-  font-size: 13px;
+  font-size: var(--fs-13);
   color: var(--text-secondary);
 }
 
@@ -84,6 +84,6 @@
 .timerBar strong {
   color: var(--text-color);
   font-family: monospace;
-  font-size: 14px;
+  font-size: var(--fs-14);
   letter-spacing: 1px;
 }

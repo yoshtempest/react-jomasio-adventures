@@ -35,7 +35,7 @@
 
 .label {
   margin: 0.5rem 0 0;
-  font-size: 0.9rem;
+  font-size: var(--fs-090);
   color: #a08050;
   font-family: "Courier New", monospace;
   letter-spacing: 0.1em;
@@ -43,7 +43,7 @@
 
 .updateStatus {
   margin: 0.25rem 0 0;
-  font-size: 0.7rem;
+  font-size: var(--fs-070);
   color: #806030;
   font-family: "Courier New", monospace;
   letter-spacing: 0.05em;

@@ -19,7 +19,7 @@
 
 .aboutCard h3 {
   margin: 0 0 12px;
-  font-size: 1.2rem;
+  font-size: var(--fs-120);
   color: var(--text-color);
 }
 

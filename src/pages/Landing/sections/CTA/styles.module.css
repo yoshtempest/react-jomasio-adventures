@@ -25,13 +25,13 @@
 
 .ctaTitle {
   margin: 0;
-  font-size: 2.4rem;
+  font-size: var(--fs-240);
   color: var(--text-color);
 }
 
 .ctaDesc {
   max-width: 480px;
-  font-size: 1.1rem;
+  font-size: var(--fs-110);
   color: rgba(255, 255, 255, 0.7);
   line-height: 1.6;
 }
@@ -41,7 +41,7 @@
   align-items: center;
   gap: 14px;
   padding: 22px 64px;
-  font-size: 1.3rem;
+  font-size: var(--fs-130);
   font-weight: 700;
   color: var(--text-color);
   background: linear-gradient(135deg, #121b31, #1e2d4f);
@@ -71,6 +71,6 @@
   }
 
   .ctaTitle {
-    font-size: 1.6rem;
+    font-size: var(--fs-160);
   }
 }

@@ -26,18 +26,18 @@
 
 .profession {
   color: #aaa;
-  font-size: 0.85em;
+  font-size: var(--fs-085em);
 }
 
 .level {
   color: #ffcc00;
-  font-size: 0.85em;
+  font-size: var(--fs-085em);
 }
 
 .header {
   text-align: center;
   padding: 12px;
-  font-size: 1.1em;
+  font-size: var(--fs-11em);
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   margin-bottom: 8px;
 }

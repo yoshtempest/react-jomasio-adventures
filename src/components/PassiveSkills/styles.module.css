@@ -1,7 +1,7 @@
 .title {
   font-weight: bold;
   color: var(--text-secondary);
-  font-size: 14px;
+  font-size: var(--fs-14);
   border-bottom: 1px solid var(--border-default);
   padding-bottom: 4px;
 }
@@ -11,7 +11,7 @@
 }
 
 .unlocked {
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: var(--text-hint);
 }
 
@@ -23,5 +23,5 @@
 }
 
 .skillName {
-  font-size: 13px;
+  font-size: var(--fs-13);
 }

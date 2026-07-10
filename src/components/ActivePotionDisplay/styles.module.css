@@ -5,7 +5,7 @@
   padding: 6px 8px;
   background: rgba(0, 0, 0, 0.3);
   border-radius: 6px;
-  font-size: 12px;
+  font-size: var(--fs-12);
 }
 
 .potionImage {

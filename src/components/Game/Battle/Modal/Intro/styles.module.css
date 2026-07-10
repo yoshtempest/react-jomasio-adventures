@@ -25,7 +25,7 @@
 }
 
 .vs {
-  font-size: 5rem;
+  font-size: var(--fs-500);
   font-weight: bold;
   color: var(--text-color);
 

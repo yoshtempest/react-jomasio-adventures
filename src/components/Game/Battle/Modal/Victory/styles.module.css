@@ -60,7 +60,7 @@
 }
 
 .noProgress {
-  font-size: 13px;
+  font-size: var(--fs-13);
   color: var(--text-hint);
   font-style: italic;
 }
@@ -98,7 +98,7 @@
   margin: 0;
   display: flex;
   justify-content: space-between;
-  font-size: 0.85rem;
+  font-size: var(--fs-085);
   font-family: monospace;
 }
 

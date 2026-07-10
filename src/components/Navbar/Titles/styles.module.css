@@ -66,12 +66,12 @@
 
 .titleName {
   font-weight: bold;
-  font-size: 14px;
+  font-size: var(--fs-14);
   color: var(--text-color);
 }
 
 .titleDesc {
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: var(--text-secondary);
   margin-top: 2px;
 }
@@ -93,13 +93,13 @@
 }
 
 .progressText {
-  font-size: 10px;
+  font-size: var(--fs-10);
   color: var(--text-muted);
   margin-top: 2px;
 }
 
 .equipBadge {
-  font-size: 10px;
+  font-size: var(--fs-10);
   padding: 2px 6px;
   border-radius: 3px;
   background: #fbbf24;
@@ -109,7 +109,7 @@
 }
 
 .equipButton {
-  font-size: 10px;
+  font-size: var(--fs-10);
   padding: 4px 8px;
   border-radius: 3px;
   background: var(--success);
@@ -125,13 +125,13 @@
 }
 
 .bonusText {
-  font-size: 10px;
+  font-size: var(--fs-10);
   color: var(--accent-color);
   margin-top: 2px;
 }
 
 .hintText {
-  font-size: 10px;
+  font-size: var(--fs-10);
   color: var(--text-hint);
   margin-top: 8px;
   text-align: center;

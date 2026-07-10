@@ -18,12 +18,12 @@
 }
 
 .stats {
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: #ccc;
 }
 
 .qtyBadge {
-  font-size: 10px;
+  font-size: var(--fs-10);
   color: var(--text-muted);
   background: #222;
   padding: 1px 5px;
@@ -32,12 +32,12 @@
 }
 
 .rankLabel {
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: var(--text-muted);
 }
 
 .actionHint {
-  font-size: 10px;
+  font-size: var(--fs-10);
   color: var(--text-hint);
   margin-top: 2px;
 }
@@ -104,5 +104,5 @@
   text-align: center;
   color: var(--text-hint);
   padding: 24px;
-  font-size: 14px;
+  font-size: var(--fs-14);
 }

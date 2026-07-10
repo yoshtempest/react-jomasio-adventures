@@ -28,14 +28,14 @@
 
 .funnyCard h3 {
   margin: 0 0 8px;
-  font-size: 1.1rem;
+  font-size: var(--fs-110);
   color: var(--text-color);
 }
 
 .funnyCard p {
   margin: 0;
   line-height: 1.6;
-  font-size: 0.9rem;
+  font-size: var(--fs-090);
   color: rgba(255, 255, 255, 0.65);
 }
 

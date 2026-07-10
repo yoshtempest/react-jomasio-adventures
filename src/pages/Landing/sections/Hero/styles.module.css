@@ -41,7 +41,7 @@
 
 .subtitle {
   max-width: 560px;
-  font-size: 1.15rem;
+  font-size: var(--fs-115);
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.8);
 }
@@ -51,7 +51,7 @@
   align-items: center;
   gap: 12px;
   padding: 18px 56px;
-  font-size: 1.2rem;
+  font-size: var(--fs-120);
   font-weight: 700;
   color: var(--text-color);
   background: linear-gradient(135deg, #121b31, #1e2d4f);
@@ -80,6 +80,6 @@
   align-items: center;
   gap: 8px;
   margin-top: 48px;
-  font-size: 0.85rem;
+  font-size: var(--fs-085);
   color: rgba(255, 255, 255, 0.5);
 }

@@ -38,7 +38,7 @@
 @media (orientation: portrait) {
   .text {
     font-weight: 400;
-    font-size: 8px;
+    font-size: var(--fs-8);
   }
 }
 

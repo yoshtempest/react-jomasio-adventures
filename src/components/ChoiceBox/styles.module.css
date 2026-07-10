@@ -18,7 +18,7 @@
 }
 
 .prompt {
-  font-size: 1.1rem;
+  font-size: var(--fs-110);
   margin-bottom: 1.2rem;
   color: var(--text-color);
   line-height: 1.4;

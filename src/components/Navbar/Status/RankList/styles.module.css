@@ -27,13 +27,13 @@
 }
 
 .rankName {
-  font-size: 14px;
+  font-size: var(--fs-14);
   font-weight: bold;
   color: var(--text-color);
 }
 
 .rankLevels {
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: var(--text-muted);
 }
 

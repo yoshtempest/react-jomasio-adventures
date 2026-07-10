@@ -29,7 +29,7 @@
 }
 
 .rankValue {
-  font-size: 14px;
+  font-size: var(--fs-14);
   font-weight: 600;
   color: var(--accent-color);
 }

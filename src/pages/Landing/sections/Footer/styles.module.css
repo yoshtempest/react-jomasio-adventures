@@ -3,7 +3,7 @@
   text-align: center;
   background: #050208;
   color: rgba(255, 255, 255, 0.4);
-  font-size: 0.85rem;
+  font-size: var(--fs-085);
 }
 
 .footer p {
@@ -12,6 +12,6 @@
 
 .footerSmall {
   margin-top: 4px;
-  font-size: 0.75rem;
+  font-size: var(--fs-075);
   color: rgba(255, 255, 255, 0.25);
 }

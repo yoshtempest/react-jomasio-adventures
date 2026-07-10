@@ -1,5 +1,5 @@
 .dropRank {
-  font-size: 11px;
+  font-size: var(--fs-11);
   font-weight: 700;
   text-transform: uppercase;
   min-width: 64px;

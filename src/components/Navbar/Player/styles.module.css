@@ -19,7 +19,7 @@
 }
 
 .charBtn {
-  font-size: 11px;
+  font-size: var(--fs-11);
   padding: 4px 8px;
   border-radius: 4px;
   border: 1px solid var(--border-default);
@@ -39,7 +39,7 @@
 }
 
 .sectionTitle {
-  font-size: 12px;
+  font-size: var(--fs-12);
   font-weight: bold;
   color: var(--text-secondary);
   text-transform: uppercase;
@@ -54,7 +54,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 3px 0;
-  font-size: 12px;
+  font-size: var(--fs-12);
 }
 
 .statLabel {
@@ -67,7 +67,7 @@
 }
 
 .statPct {
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: var(--accent-color);
   margin-left: 6px;
 }
@@ -81,7 +81,7 @@
   border-radius: 6px;
   background: var(--surface-card);
   color: var(--text-color);
-  font-size: 13px;
+  font-size: var(--fs-13);
   font-weight: bold;
   cursor: pointer;
   text-align: center;
@@ -103,7 +103,7 @@
   justify-content: space-between;
   padding: 5px 6px;
   margin-bottom: 4px;
-  font-size: 11px;
+  font-size: var(--fs-11);
   background: var(--surface-card);
   border-radius: 4px;
   gap: 6px;
@@ -125,7 +125,7 @@
 }
 
 .rewardProgress {
-  font-size: 10px;
+  font-size: var(--fs-10);
   color: var(--text-muted);
 }
 
@@ -137,7 +137,7 @@
 }
 
 .rewardValue {
-  font-size: 11px;
+  font-size: var(--fs-11);
   font-weight: bold;
   color: #f0d080;
 }
@@ -149,7 +149,7 @@
   background: linear-gradient(135deg, #3a2a4e, #4a2a3e);
   color: #f0d080;
   cursor: pointer;
-  font-size: 11px;
+  font-size: var(--fs-11);
   font-weight: bold;
 }
 
@@ -163,7 +163,7 @@
   border-radius: 4px;
   background: transparent;
   color: var(--text-muted);
-  font-size: 11px;
+  font-size: var(--fs-11);
   cursor: default;
   opacity: 0.5;
 }
@@ -175,7 +175,7 @@
 }
 
 .charRewardHeader {
-  font-size: 11px;
+  font-size: var(--fs-11);
   font-weight: 600;
   color: var(--text-secondary);
   padding: 4px 6px 3px;
@@ -202,18 +202,18 @@
 }
 
 .dailyLabel {
-  font-size: 13px;
+  font-size: var(--fs-13);
   font-weight: bold;
   color: var(--text-color);
 }
 
 .dailyRewards {
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: #f0d080;
 }
 
 .dailyTimer {
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: var(--text-muted);
   font-variant-numeric: tabular-nums;
 }
@@ -224,7 +224,7 @@
   justify-content: space-between;
   padding: 5px 6px;
   margin-bottom: 4px;
-  font-size: 11px;
+  font-size: var(--fs-11);
   background: var(--surface-card);
   border-radius: 4px;
   gap: 6px;
@@ -246,7 +246,7 @@
 }
 
 .missionProgress {
-  font-size: 10px;
+  font-size: var(--fs-10);
   color: var(--text-muted);
 }
 
@@ -258,7 +258,7 @@
 }
 
 .missionReward {
-  font-size: 11px;
+  font-size: var(--fs-11);
   font-weight: bold;
   color: #f0d080;
 }

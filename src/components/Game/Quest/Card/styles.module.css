@@ -30,7 +30,7 @@ p {
 
 .freqBadge {
   display: inline-block;
-  font-size: 10px;
+  font-size: var(--fs-10);
   font-weight: bold;
   padding: 2px 6px;
   border-radius: 4px;
