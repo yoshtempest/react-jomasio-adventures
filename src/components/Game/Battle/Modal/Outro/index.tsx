@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { asset } from "@/utils/paths";
+import { playerPath } from "@/utils/paths";
 import { getOutroLine } from "@/data/battle/outro";
 import { useTypewriter } from "@/hooks/interaction/useTypewriter";
 import { useSettings } from "@/contexts/SettingsContext";
@@ -56,7 +56,7 @@ export function BattleOutro({ character, type, onNext }: Props) {
         </div>
         <img
           className="talkingImage"
-          src={asset(`/assets/player/${character}/${type}.svg`)}
+          src={playerPath(`/${character}/${type}.svg`)}
           alt={character}
         />
       </div>

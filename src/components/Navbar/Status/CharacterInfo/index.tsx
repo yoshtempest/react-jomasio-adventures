@@ -2,7 +2,7 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress, MAX_HUNGER } from "@/contexts/CharacterProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { CHARACTERS } from "@/data/options/characters";
-import { asset } from "@/utils/paths";
+import { asset, playerPath } from "@/utils/paths";
 import { getRank, formatRank } from "@/gameRules/rank";
 import { ProgressBar } from "@/components/ProgressBar";
 import styles from "./styles.module.css";
@@ -25,7 +25,7 @@ export function CharacterInfo() {
     <div className="StatusColumn">
       <div className={styles.imagesRow}>
         <img
-          src={asset(`/assets/player/${player.character}/default.svg`)}
+          src={playerPath(`/${player.character}/default.svg`)}
           className={styles.image}
         />
         {petItem && petNpcType && (

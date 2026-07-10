@@ -2,7 +2,7 @@ import styles from "./styles.module.css";
 import { useCharacterMenu } from "@/hooks/menu/useCharacter";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { ProgressBar } from "@/components/ProgressBar";
-import { asset } from "@/utils/paths";
+import { playerPath } from "@/utils/paths";
 import { getRank, formatRank } from "@/gameRules/rank";
 
 export function Character() {
@@ -32,7 +32,7 @@ export function Character() {
               {isSelected && <span className={`cursor ${styles.cursor}`}>▼</span>}
 
               <img
-                src={asset(`/assets/player/${char.image}/default.svg`)}
+                src={playerPath(`/${char.image}/default.svg`)}
                 className={styles.characterImage}
               />
 

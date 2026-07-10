@@ -1,4 +1,4 @@
-import { asset, jomasioPath } from "@/utils/paths";
+import { asset, jomasioPath, playerPath } from "@/utils/paths";
 
 export const locations = [
   { name: "Hall", image: jomasioPath("/hall/one.svg") },
@@ -21,17 +21,17 @@ export const bosses = [
 ];
 
 export const characters = [
-  { name: "Marcelo", image: asset("/assets/player/marcelo/default.svg"), class: "Espadachim" },
-  { name: "Artur", image: asset("/assets/player/artur/default.svg"), class: "Explosivo" },
-  { name: "Eduarda", image: asset("/assets/player/eduarda/default.svg"), class: "Inquisidora" },
-  { name: "Riquelme", image: asset("/assets/player/riquelme/default.svg"), class: "Tanque" },
-  { name: "Emanuel", image: asset("/assets/player/emanuel/default.svg"), class: "Atacante" },
-  { name: "Lucas", image: asset("/assets/player/lucas/default.svg"), class: "Boxeador" },
-  { name: "Lucauã", image: asset("/assets/player/lucaua/default.svg"), class: "Versátil" },
-  { name: "Larissa", image: asset("/assets/player/larissa/default.svg"), class: "Atiradora" },
-  { name: "Camilly", image: asset("/assets/player/camilly/default.svg"), class: "Lutadora" },
-  { name: "Samuel", image: asset("/assets/player/samuel/default.svg"), class: "Berserker" },
-  { name: "Mayra", image: asset("/assets/player/mayra/default.svg"), class: "DPS" },
+  { name: "Marcelo", image: playerPath("/marcelo/default.svg"), class: "Espadachim" },
+  { name: "Artur", image: playerPath("/artur/default.svg"), class: "Explosivo" },
+  { name: "Eduarda", image: playerPath("/eduarda/default.svg"), class: "Inquisidora" },
+  { name: "Riquelme", image: playerPath("/riquelme/default.svg"), class: "Tanque" },
+  { name: "Emanuel", image: playerPath("/emanuel/default.svg"), class: "Atacante" },
+  { name: "Lucas", image: playerPath("/lucas/default.svg"), class: "Boxeador" },
+  { name: "Lucauã", image: playerPath("/lucaua/default.svg"), class: "Versátil" },
+  { name: "Larissa", image: playerPath("/larissa/default.svg"), class: "Atiradora" },
+  { name: "Camilly", image: playerPath("/camilly/default.svg"), class: "Lutadora" },
+  { name: "Samuel", image: playerPath("/samuel/default.svg"), class: "Berserker" },
+  { name: "Mayra", image: playerPath("/mayra/default.svg"), class: "DPS" },
 ];
 
 export const funnyMoments = [

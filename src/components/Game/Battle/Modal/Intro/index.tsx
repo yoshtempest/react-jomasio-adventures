@@ -1,4 +1,4 @@
-import { asset } from "@/utils/paths";
+import { asset, playerPath } from "@/utils/paths";
 import styles from "./styles.module.css";
 import { useEffect, useRef } from "react";
 import { useAudio } from "@/contexts/AudioContext";
@@ -68,7 +68,7 @@ export function BattleIntro({ playerCharacter, npcType, onSkip }: Props) {
     <div className="overlay">
       <div className={styles.left}>
         <img
-          src={asset(`/assets/player/${playerCharacter}/default.svg`)}
+          src={playerPath(`/${playerCharacter}/default.svg`)}
           alt=""
         />
       </div>

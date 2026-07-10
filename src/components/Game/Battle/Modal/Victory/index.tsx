@@ -1,5 +1,5 @@
 import styles from "./styles.module.css";
-import { asset } from "@/utils/paths";
+import { playerPath } from "@/utils/paths";
 import { getNpcDisplayName } from "@/utils/types/npc/npcNames";
 import { useVictoryVisibility } from "@/hooks/battle/victory/useVisibility";
 import { useVictoryKeyboard } from "@/hooks/battle/victory/useKeyboard";
@@ -51,7 +51,7 @@ export function VictoryModal({
       <div className={`modal ${styles.modal}`}>
         <div className={styles.header}>
           <img
-            src={asset(`/assets/player/${character}/default.svg`)}
+            src={playerPath(`/${character}/default.svg`)}
             alt={character}
             className={styles.characterImage}
           />

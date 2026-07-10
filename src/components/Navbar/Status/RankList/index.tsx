@@ -1,6 +1,6 @@
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { CHARACTERS } from "@/data/options/characters";
-import { asset } from "@/utils/paths";
+import { playerPath } from "@/utils/paths";
 import {
   getRank,
   getRankIndex,
@@ -43,7 +43,7 @@ export function RankList() {
                   return (
                     <img
                       key={c.image}
-                      src={asset(`/assets/player/${c.image}/face.svg`)}
+                      src={playerPath(`/${c.image}/face.svg`)}
                       alt={c.name}
                       className={styles.rankCharFace}
                       title={`${c.name} (Nv.${charLevel})`}

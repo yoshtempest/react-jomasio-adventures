@@ -102,7 +102,7 @@ export function SceneBase({
       className={`Master ${className ?? ""}`}
       style={
         background
-          ? { backgroundImage: `url(${background})` }
+          ? { backgroundImage: `import { backgroundAudioPath } from "@/utils/paths";(${background})` }
           : undefined
       }
     >
