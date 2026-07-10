@@ -8,7 +8,9 @@ import { useGameControls } from "@/contexts/GameControlsContext";
 import styles from "./styles.module.css";
 import { ITEMS } from "@/data/items";
 import { Chest } from "./Chest";
-import { ChestRewards } from "./ChestRewards";
+import { FilterBar } from "./FilterBar";
+import { ListItem } from "./ListItem";
+import { RewardsView } from "./RewardsView";
 import { activateXpBuff, POTION_CONFIG } from "@/utils/buffs/xpBuff";
 import { useAudio } from "@/contexts/AudioContext";
 import { asset } from "@/utils/asset";
@@ -214,34 +216,20 @@ export function Inventory() {
     popControls,
   ]);
 
-  if (dailyChest.lastResult) {
+  const rewardsVisible = !!(dailyChest.lastResult || chestLastResult);
+  if (rewardsVisible) {
     return (
-      <ChestRewards
-        result={dailyChest.lastResult}
-        isDaily
-        otherChestAvailable={false}
-        selectedIndex={rewardOptionIndex}
+      <RewardsView
+        dailyResult={dailyChest.lastResult}
+        chestResult={chestLastResult}
+        hasOtherChest={hasOtherChest}
+        rewardOptionIndex={rewardOptionIndex}
+        rewardOptionCount={rewardOptionCount}
+        lastOpened={lastOpened}
         onSelect={setRewardOptionIndex}
-        onConfirm={() => dailyChest.setLastResult(null)}
-      />
-    );
-  }
-
-  if (chestLastResult) {
-    return (
-      <ChestRewards
-        result={chestLastResult}
-        isDaily={false}
-        otherChestAvailable={hasOtherChest}
-        selectedIndex={rewardOptionIndex}
-        onSelect={setRewardOptionIndex}
-        onConfirm={() => {
-          if (rewardOptionCount > 1 && rewardOptionIndexRef.current === 0) {
-            openNextChest(lastOpened?.chestId ?? (chestLastResult.tier as unknown as ItemId));
-          } else {
-            setLastResult(null);
-          }
-        }}
+        onCloseDaily={() => dailyChest.setLastResult(null)}
+        onCloseChest={() => setLastResult(null)}
+        onOpenNextChest={openNextChest}
       />
     );
   }
@@ -258,87 +246,24 @@ export function Inventory() {
     <div className="containerOfNavbar">
       <Chest />
 
-      <div className={styles.filterBar}>
-        {FILTER_LABELS.map((f) => (
-          <button
-            key={f.type}
-            className={`${styles.filterButton} ${
-              filterType === f.type ? styles.filterButtonActive : ""
-            } ${filterFocused && filterType === f.type ? styles.filterButtonFocused : ""}`}
-            onClick={() => setFilterType(f.type)}
-          >
-            {f.label}
-          </button>
-        ))}
-      </div>
+      <FilterBar
+        filterType={filterType}
+        filterFocused={filterFocused}
+        onFilterChange={setFilterType}
+      />
 
       <ul ref={listRef} className={styles.list}>
-        {listItems.map((item, index) => {
-          const itemData = item
-            ? ITEMS[item.id as keyof typeof ITEMS]
-            : null;
-
-          return (
-            <li
-              key={index}
-              className={`${styles.item} ${
-                index === selectedIndex ? "active" : ""
-              }`}
-            >
-              {item && itemData && (
-                <div className={styles.itemRow}>
-                  <img
-                    className={styles.icon}
-                    src={
-                      itemData?.image
-                        ? `${import.meta.env.BASE_URL}${itemData?.image.replace(/^\//, "")}`
-                        : `${import.meta.env.BASE_URL}assets/items/${item.id}.svg`
-                    }
-                    alt={itemData?.name}
-                  />
-
-                  <div className={styles.info}>
-                    <span className={styles.name}>
-                      {itemData?.name}
-                      {item.qty && item.qty > 0 && (
-                        <span className="InventoryQty"> x{item.qty}</span>
-                      )}
-                    </span>
-
-                    {itemData?.description && (
-                      <span className={styles.description}>
-                        {itemData?.description}
-                      </span>
-                    )}
-                  </div>
-
-                  {index === selectedIndex &&
-                    itemData?.type === "chest" &&
-                    (hasKey ? (
-                      <button
-                        className="InventoryButton"
-                        onClick={() => openPlayerChest(item.id as ItemId)}
-                      >
-                        Abrir
-                      </button>
-                    ) : (
-                      <span className={styles.noKey}>Sem chave</span>
-                    ))}
-
-                  {index === selectedIndex &&
-                    itemData?.type === "consumable" && (
-                      <button
-                        className="InventoryButton"
-                        onClick={() => consumeItemRef.current(item.id)}
-                      >
-                        Usar
-                      </button>
-                    )}
-                </div>
-              )}
-            </li>
-          );
-        })}
+        {listItems.map((item, index) => (
+          <ListItem
+            key={index}
+            item={item}
+            isSelected={index === selectedIndex}
+            isChest={item ? ITEMS[item.id as keyof typeof ITEMS]?.type === "chest" : false}
+            hasKey={hasKey}
+            onOpenChest={openPlayerChest}
+            onUseItem={(id) => consumeItemRef.current(id)}
+          />
+        ))}
       </ul>
     </div>
   );
