@@ -1,7 +1,7 @@
 .filterBar {
   display: flex;
   gap: var(--size-4);
-  padding: var(--size-4) var(--size-8);
+  padding: var(--size-4) var(--fs-8);
   overflow-x: auto;
   flex-shrink: 0;
   scrollbar-width: none;
@@ -12,7 +12,7 @@
 }
 
 .filterButton {
-  padding: var(--size-4) var(--size-8);
+  padding: var(--size-4) var(--fs-8);
   border: var(--size-1) solid var(--border-default);
   border-radius: var(--size-4);
   background: var(--surface-card);
@@ -47,7 +47,7 @@
 }
 
 .item {
-  padding: var(--size-8) var(--size-12);
+  padding: var(--fs-8) var(--size-12);
   background-color: var(--surface-card);
   border-left: var(--size-1) solid var(--background-color);
   border-bottom: var(--size-1) solid var(--background-color);

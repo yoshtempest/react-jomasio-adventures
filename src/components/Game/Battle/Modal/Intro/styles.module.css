@@ -39,7 +39,7 @@
   right: 2vw;
   bottom: 2vh;
 
-  padding: var(--size-100r) var(--size-150r);
+  padding: var(--small) var(--size-150r);
 
   border: none;
   border-radius: var(--size-12);

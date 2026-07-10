@@ -7,7 +7,7 @@
 }
 
 .marginTop {
-  margin-top: var(--size-16);
+  margin-top: var(--small);
 }
 
 .unlocked {
@@ -18,8 +18,8 @@
 .skillRow {
   display: flex;
   align-items: center;
-  gap: var(--size-8);
-  margin-top: var(--size-8);
+  gap: var(--fs-8);
+  margin-top: var(--fs-8);
 }
 
 .skillName {

@@ -17,7 +17,7 @@
   color: var(--accent-color);
   font-weight: bold;
   cursor: pointer;
-  margin-top: var(--size-8);
+  margin-top: var(--fs-8);
 }
 
 .tip {

@@ -1,7 +1,7 @@
 .container {
   max-height: 80vh;
   overflow-y: auto;
-  padding: var(--size-8);
+  padding: var(--fs-8);
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -20,7 +20,7 @@
 
 .charBtn {
   font-size: var(--fs-11);
-  padding: var(--size-4) var(--size-8);
+  padding: var(--size-4) var(--fs-8);
   border-radius: var(--size-4);
   border: var(--size-1) solid var(--border-default);
   background: var(--surface-primary);
@@ -169,8 +169,8 @@
 }
 
 .charRewardSection {
-  margin-bottom: var(--size-8);
-  padding-left: var(--size-8);
+  margin-bottom: var(--fs-8);
+  padding-left: var(--fs-8);
   border-left: var(--size-2) solid var(--border-default);
 }
 
@@ -186,11 +186,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--size-8) var(--size-10);
+  padding: var(--fs-8) var(--size-10);
   border: var(--size-1) solid var(--accent-color);
   border-radius: var(--size-6);
   background: var(--surface-card);
-  gap: var(--size-8);
+  gap: var(--fs-8);
 }
 
 .dailyInfo {

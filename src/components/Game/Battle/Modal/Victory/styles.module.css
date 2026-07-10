@@ -71,7 +71,7 @@
   font-size: var(--small);
   font-weight: 700;
   border: none;
-  border-radius: var(--size-8);
+  border-radius: var(--fs-8);
   color: var(--text-color);
   cursor: pointer;
   transition: opacity 0.2s;

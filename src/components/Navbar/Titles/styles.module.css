@@ -3,8 +3,8 @@
   overflow-y: auto;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: var(--size-8);
-  padding: var(--size-8);
+  gap: var(--fs-8);
+  padding: var(--fs-8);
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -16,8 +16,8 @@
 .titleCard {
   display: flex;
   align-items: center;
-  gap: var(--size-8);
-  padding: var(--size-8);
+  gap: var(--fs-8);
+  padding: var(--fs-8);
   border-radius: var(--size-4);
   border: var(--size-1) solid #444;
   background: var(--surface-primary);
@@ -110,7 +110,7 @@
 
 .equipButton {
   font-size: var(--fs-10);
-  padding: var(--size-4) var(--size-8);
+  padding: var(--size-4) var(--fs-8);
   border-radius: var(--size-3);
   background: var(--success);
   color: #000;
@@ -133,6 +133,6 @@
 .hintText {
   font-size: var(--fs-10);
   color: var(--text-hint);
-  margin-top: var(--size-8);
+  margin-top: var(--fs-8);
   text-align: center;
 }

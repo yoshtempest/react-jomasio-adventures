@@ -46,10 +46,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--size-16);
+  gap: var(--small);
   padding: var(--size-12);
   border: var(--size-2) solid var(--border-default);
-  border-radius: var(--size-8);
+  border-radius: var(--fs-8);
   background: #16213e;
   transition: border-color 0.15s;
 }
@@ -76,7 +76,7 @@
   color: var(--text-color);
   background: #0f3460;
   border: var(--size-2) solid var(--border-medium);
-  border-radius: var(--size-8);
+  border-radius: var(--fs-8);
   transition: all 0.15s;
 }
 

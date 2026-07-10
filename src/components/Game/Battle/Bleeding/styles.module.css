@@ -8,7 +8,7 @@
     right: 15vw;
     background: rgba(0, 0, 0, 0.6);
     padding: var(--size-6) var(--size-12);
-    border-radius: var(--size-8);
+    border-radius: var(--fs-8);
     color: #ff4444;
     font-weight: bold;
     font-size: var(--fs-14);

@@ -9,7 +9,7 @@
   right: 0%;
   background: var(--surface-dark);
   border: var(--size-2) solid var(--border-medium);
-  border-radius: var(--size-8);
+  border-radius: var(--fs-8);
   z-index: 999;
   overflow-y: auto;
   scrollbar-width: none;
@@ -31,7 +31,7 @@
 }
 
 .title {
-  margin-top: var(--size-16);
+  margin-top: var(--small);
   margin-bottom: var(--size-12);
   font-size: var(--fs-22);
   color: var(--text-color);
@@ -44,7 +44,7 @@
   gap: var(--size-12);
   width: 85%;
   padding: var(--size-10);
-  margin-bottom: var(--size-8);
+  margin-bottom: var(--fs-8);
   border: var(--size-2) solid var(--border-medium);
   border-radius: var(--size-6);
   background: rgba(0, 0, 0, 0.2);
@@ -145,6 +145,6 @@
 }
 
 .backAction {
-  margin-top: var(--size-8);
-  margin-bottom: var(--size-16);
+  margin-top: var(--fs-8);
+  margin-bottom: var(--small);
 }

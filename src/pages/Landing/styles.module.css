@@ -36,7 +36,7 @@
 
 @keyframes bounce {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(var(--size-8)); }
+  50% { transform: translateY(var(--fs-8)); }
 }
 
 .bounce {
@@ -45,7 +45,7 @@
 
 @media (max-width: var(--size-768)) {
   .section {
-    padding: var(--size-48) var(--size-16);
+    padding: var(--size-48) var(--small);
   }
 
   .sectionTitle {

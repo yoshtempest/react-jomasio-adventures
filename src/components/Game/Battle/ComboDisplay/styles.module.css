@@ -13,7 +13,7 @@
 .header {
   display: flex;
   align-items: center;
-  gap: var(--size-8);
+  gap: var(--fs-8);
 }
 
 .rank {

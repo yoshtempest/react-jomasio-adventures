@@ -27,7 +27,7 @@
 }
 
 .funnyCard h3 {
-  margin: 0 0 var(--size-8);
+  margin: 0 0 var(--fs-8);
   font-size: var(--fs-110);
   color: var(--text-color);
 }

@@ -1,5 +1,5 @@
 .section {
-  margin: var(--size-16) 0;
+  margin: var(--small) 0;
   width: 90%;
   align-self: center;
 }
@@ -15,8 +15,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--size-8);
-  margin-bottom: var(--size-8);
+  gap: var(--fs-8);
+  margin-bottom: var(--fs-8);
 }
 
 .comboName {
@@ -49,7 +49,7 @@
 .sprites {
   display: flex;
   gap: var(--size-6);
-  margin-bottom: var(--size-8);
+  margin-bottom: var(--fs-8);
 }
 
 .sprite {

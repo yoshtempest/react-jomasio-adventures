@@ -6,7 +6,7 @@
 
 .rewardCard {
   background: rgba(255, 255, 255, 0.08);
-  border-radius: var(--size-8);
+  border-radius: var(--fs-8);
   padding: var(--size-12);
   display: flex;
   flex-direction: column;

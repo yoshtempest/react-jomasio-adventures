@@ -85,13 +85,13 @@
   gap: var(--size-10);
   background: rgba(255, 255, 255, 0.05);
   border-radius: var(--size-6);
-  padding: var(--size-8) var(--size-12);
+  padding: var(--fs-8) var(--size-12);
 }
 
 .InventoryButton {
   display: flex;
   align-items: center;
-  padding: var(--size-050r) var(--size-100r);
+  padding: var(--fs-8) var(--small);
   justify-content: center;
   border: var(--size-1) solid var(--border-medium);
   border-radius: var(--size-6);
@@ -115,7 +115,7 @@
 .dailyButton {
   display: flex;
   align-items: center;
-  padding: var(--size-8) var(--size-18);
+  padding: var(--fs-8) var(--size-18);
   justify-content: center;
   border: var(--size-1) solid #5a3a5e;
   border-radius: var(--size-6);

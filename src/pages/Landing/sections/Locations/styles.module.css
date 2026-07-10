@@ -1,7 +1,7 @@
 .locationsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(var(--size-160), 1fr));
-  gap: var(--size-16);
+  gap: var(--small);
 }
 
 .locationCard {
@@ -14,7 +14,7 @@
 
 .locationCard:hover {
   transform: translateY(calc(-1 * var(--size-4)));
-  box-shadow: 0 var(--size-8) var(--size-24) rgba(0, 0, 0, 0.5);
+  box-shadow: 0 var(--fs-8) var(--size-24) rgba(0, 0, 0, 0.5);
 }
 
 .locationImage {

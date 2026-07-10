@@ -3,7 +3,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: var(--size-8);
+  gap: var(--fs-8);
   width: 100%;
 }
 
@@ -27,7 +27,7 @@
 
 .hungerContainer {
   width: 100%;
-  margin-top: var(--size-8);
+  margin-top: var(--fs-8);
 }
 
 .hungerText {

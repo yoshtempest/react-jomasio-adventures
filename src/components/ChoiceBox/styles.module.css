@@ -19,7 +19,7 @@
 
 .prompt {
   font-size: var(--fs-110);
-  margin-bottom: var(--size-120r);
+  margin-bottom: var(--fs-120);
   color: var(--text-color);
   line-height: 1.4;
 }
@@ -31,7 +31,7 @@
 }
 
 .option {
-  padding: var(--size-050r) var(--size-100r);
+  padding: var(--fs-8) var(--small);
   margin: var(--size-025r) 0;
   cursor: default;
   font-size: var(--small);

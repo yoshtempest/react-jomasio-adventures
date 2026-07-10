@@ -48,7 +48,7 @@
 
 .crit {
   color: #ff0044;
-  font-size: var(--fs-32);
+  font-size: var(--size-32);
   font-weight: 900;
   text-shadow:
     0 0 var(--size-10) #ff0044,

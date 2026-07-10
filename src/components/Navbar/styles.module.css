@@ -26,7 +26,7 @@
   display: flex;
   font-size: var(--small);
   color: var(--text-color);
-  padding: var(--size-8);
+  padding: var(--fs-8);
   gap: 0.8vw;
 }
 

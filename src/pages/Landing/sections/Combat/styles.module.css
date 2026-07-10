@@ -20,7 +20,7 @@
 }
 
 .combatIcon {
-  margin-bottom: var(--size-16);
+  margin-bottom: var(--small);
   color: #4a7cff;
 }
 
@@ -47,14 +47,14 @@
 .bossesGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(var(--size-130), 1fr));
-  gap: var(--size-16);
+  gap: var(--small);
 }
 
 .bossCard {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--size-8);
+  gap: var(--fs-8);
   padding: var(--size-20) var(--size-12);
   background: rgba(18, 27, 49, 0.3);
   border: var(--size-1) solid rgba(255, 255, 255, 0.06);

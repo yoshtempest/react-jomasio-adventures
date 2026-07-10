@@ -96,7 +96,7 @@
   background: var(--surface-primary);
   border: var(--size-2) solid var(--border-default);
   border-radius: var(--size-6);
-  padding: var(--size-8);
+  padding: var(--fs-8);
   transition: border-color 0.15s;
 }
 

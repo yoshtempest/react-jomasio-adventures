@@ -38,14 +38,14 @@
   background: var(--surface-dark);
   align-items: center;
   border: var(--size-2) solid var(--border-medium);
-  border-radius: var(--size-8);
+  border-radius: var(--fs-8);
   z-index: 999;
 }
 
 .section {
   display: flex;
   flex-direction: column;
-  gap: var(--size-8);
+  gap: var(--fs-8);
 }
 
 .sectionTitle {

@@ -5,8 +5,8 @@
 .ranksList {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: var(--size-8);
-  padding: var(--size-8);
+  gap: var(--fs-8);
+  padding: var(--fs-8);
 }
 
 .rankRow {
@@ -17,7 +17,7 @@
   background: var(--surface-primary);
   border: var(--size-1) solid var(--border-default);
   border-radius: var(--size-6);
-  padding: var(--size-8) var(--size-12);
+  padding: var(--fs-8) var(--size-12);
 }
 
 .rankInfo {

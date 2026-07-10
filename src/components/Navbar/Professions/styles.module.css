@@ -8,7 +8,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--size-8) var(--size-12);
+  padding: var(--fs-8) var(--size-12);
   border-bottom: var(--size-1) solid rgba(255, 255, 255, 0.1);
 }
 
@@ -39,5 +39,5 @@
   padding: var(--size-12);
   font-size: var(--fs-11em);
   border-bottom: var(--size-1) solid rgba(255, 255, 255, 0.2);
-  margin-bottom: var(--size-8);
+  margin-bottom: var(--fs-8);
 }

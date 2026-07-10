@@ -3,11 +3,11 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--size-8);
+  gap: var(--fs-8);
   flex-shrink: 0;
   width: 40%;
   border-right: var(--size-1) solid var(--border-default);
-  padding-right: var(--size-8);
+  padding-right: var(--fs-8);
 }
 
 .portrait {
@@ -31,7 +31,7 @@
   gap: var(--size-2);
   background: var(--surface-primary);
   border: var(--size-2) solid var(--border-default);
-  padding: var(--size-8);
+  padding: var(--fs-8);
   transition: border-color 0.15s;
 }
 
@@ -61,7 +61,7 @@
     rgba(255, 255, 255, 0.02) 0px,
     rgba(255, 255, 255, 0.02) var(--size-4),
     rgba(0, 0, 0, 0.1) var(--size-4),
-    rgba(0, 0, 0, 0.1) var(--size-8)
+    rgba(0, 0, 0, 0.1) var(--fs-8)
   );
   position: relative;
   overflow: hidden;

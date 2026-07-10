@@ -30,7 +30,6 @@
   --fs-18: 1.40625vw;
   --fs-22: 1.71875vw;
   --fs-28: 2.1875vw;
-  --fs-32: 2.5vw;
   --fs-36: 2.8125vw;
   --fs-42: 3.28125vw;
 
@@ -63,11 +62,9 @@
   --size-4: 0.3125vw;
   --size-5: 0.390625vw;
   --size-6: 0.46875vw;
-  --size-8: 0.625vw;
   --size-10: 0.78125vw;
   --size-12: 0.9375vw;
   --size-14: 1.09375vw;
-  --size-16: 1.25vw;
   --size-18: 1.40625vw;
   --size-20: 1.5625vw;
   --size-22: 1.71875vw;
@@ -115,13 +112,8 @@
   --size-030r: 0.375vw;
   --size-035r: 0.4375vw;
   --size-040r: 0.5vw;
-  --size-050r: 0.625vw;
   --size-075r: 0.9375vw;
-  --size-080r: 1vw;
-  --size-100r: 1.25vw;
-  --size-120r: 1.5vw;
   --size-150r: 1.875vw;
-  --size-200r: 2.5vw;
 
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

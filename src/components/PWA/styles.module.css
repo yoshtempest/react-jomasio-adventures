@@ -26,20 +26,20 @@
   flex-direction: column;
   background: var(--primary-color);
   border: var(--size-2) solid var(--background-color);
-  border-radius: var(--size-8);
+  border-radius: var(--fs-8);
   padding: 3vw;
   text-align: center;
   max-width: var(--size-300);
 }
 
 .popup p {
-  margin-bottom: var(--size-100r);
+  margin-bottom: var(--small);
   font-size: var(--small);
 }
 
 .popupButton {
   font-size: var(--small);
-  padding: var(--size-040r) var(--size-120r);
+  padding: var(--size-040r) var(--fs-120);
   border-radius: var(--size-4);
   border: var(--size-1) solid var(--background-color);
   background-color: var(--secondary-color);

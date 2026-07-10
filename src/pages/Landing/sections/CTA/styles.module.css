@@ -57,7 +57,7 @@
   background: linear-gradient(135deg, #1e2d4f, #2a3d6b);
   border-color: rgba(255, 255, 255, 0.5);
   transform: translateY(calc(-1 * var(--size-2)));
-  box-shadow: 0 var(--size-8) var(--size-30) rgba(18, 27, 49, 0.6);
+  box-shadow: 0 var(--fs-8) var(--size-30) rgba(18, 27, 49, 0.6);
 }
 
 .ctaButtonBig:active {
