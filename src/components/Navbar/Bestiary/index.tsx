@@ -3,7 +3,7 @@ import styles from "./styles.module.css";
 import { useBestiaryMenu } from "@/hooks/menu/useBestiary";
 import { useBestiary } from "@/contexts/BestiaryContext";
 import { BESTIARY_DATA } from "@/data/bestiary";
-import { asset } from "@/utils/paths";
+import { npcPath, asset } from "@/utils/paths";
 import { CLASS_DATA } from "@/data/npc/class";
 import { getNpcClass, getLinkedTitles, getDropItems } from "@/gameRules/npc/bestiary";
 
@@ -46,7 +46,7 @@ export function DeliciaDex() {
             >
               <div className={styles.spriteBox}>
                 <img
-                  src={asset(`/assets/npcs/${npcType}/default.svg`)}
+                  src={npcPath(`/${npcType}/default.svg`)}
                   alt={entry.name}
                   className={`${styles.sprite} ${
                     encountered ? "" : styles.silhouette

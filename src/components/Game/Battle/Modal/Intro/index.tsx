@@ -1,4 +1,4 @@
-import { asset, playerPath } from "@/utils/paths";
+import { npcPath, playerPath } from "@/utils/paths";
 import styles from "./styles.module.css";
 import { useEffect, useRef } from "react";
 import { useAudio } from "@/contexts/AudioContext";
@@ -76,7 +76,7 @@ export function BattleIntro({ playerCharacter, npcType, onSkip }: Props) {
       <div className={styles.vs}>VS</div>
 
       <div className={styles.right}>
-        <img src={asset(`/assets/npcs/${npcType}/right.svg`)} alt="" />
+        <img src={npcPath(`/${npcType}/right.svg`)} alt="" />
       </div>
 
       <button className={styles.skip} onClick={handleSkip}>

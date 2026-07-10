@@ -1,7 +1,7 @@
 import { HealthBar } from "@/components/Game/Battle/HUD/HealthBar";
 import { Deliciometro } from "@/components/Game/Battle/HUD/Deliciometro";
 import { BlockGauge } from "@/components/Game/Battle/HUD/BlockGauge";
-import { asset, playerPath } from "@/utils/paths";
+import { asset, playerPath, npcPath } from "@/utils/paths";
 import { getNpcDisplayName } from "@/utils/types/npc/npcNames";
 import styles from "./styles.module.css";
 import { usePlayer } from "@/contexts/PlayerContext";
@@ -103,7 +103,7 @@ export function BattleHUD({ battle, npcStats, npcType, npcLevel, summons }: Prop
             <HealthBar hp={battle.npcHP} maxHp={npcStats.hp} reversed />
           </div>
           <img
-            src={asset(`/assets/npcs/${npcType}/face.svg`)}
+            src={npcPath(`/${npcType}/face.svg`)}
             alt="Npc HUD"
             className={styles.image}
           />
