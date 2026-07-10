@@ -21,17 +21,18 @@ export function LibraryScene({ sceneId }: Props) {
   const { addItem } = useInventory();
 
   const [popup, setPopup] = useState<string | null>(null);
-  const [gotKey, setGotKey] = useState(false);
+  const [gotPackage, setGotPackage] = useState(false);
+  const [gotChest, setGotChest] = useState(false);
 
   const interactions = useMemo(
     () =>
       createLibrary({
         addItem,
         setPopup,
-        gotKey,
-        setGotKey,
+        packageDeps: { gotKey: gotPackage, setGotKey: setGotPackage },
+        chestDeps: { gotKey: gotChest, setGotKey: setGotChest },
       }),
-    [addItem, gotKey, setPopup, setGotKey],
+    [addItem, gotPackage, gotChest, setPopup],
   );
 
   useRandomEncounter({
@@ -58,7 +59,10 @@ export function LibraryScene({ sceneId }: Props) {
         className="Master"
         background={scene.background}
         interactions={interactions}
-        itemPickupTiles={[{ x: 12, y: 9, visible: !gotKey }]}
+        itemPickupTiles={[
+          { x: 12, y: 9, visible: !gotPackage },
+          { x: 3, y: 7, visible: !gotChest },
+        ]}
         popup={popup}
         setPopup={setPopup}
       />
