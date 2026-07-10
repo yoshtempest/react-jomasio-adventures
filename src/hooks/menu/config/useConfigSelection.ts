@@ -20,7 +20,7 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   const { sfxVolume, setSfxVolume, bgmVolume, setBgmVolume } = useAudio();
   const { setDialogueSpeed, showQuestIndicator, setShowQuestIndicator } = useSettings();
   const { checkForUpdate } = useUpdate();
-  const { install } = usePWA();
+  const { install, isInstalled, canInstall, setShowInstalledMessage, setShowNotAvailableMessage } = usePWA();
   const { playMove, playSelect, playClose } = useMenuSFX();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -64,6 +64,14 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   checkForUpdateRef.current = checkForUpdate;
   const installRef = useRef(install);
   installRef.current = install;
+  const isInstalledRef = useRef(isInstalled);
+  isInstalledRef.current = isInstalled;
+  const canInstallRef = useRef(canInstall);
+  canInstallRef.current = canInstall;
+  const setShowInstalledMessageRef = useRef(setShowInstalledMessage);
+  setShowInstalledMessageRef.current = setShowInstalledMessage;
+  const setShowNotAvailableMessageRef = useRef(setShowNotAvailableMessage);
+  setShowNotAvailableMessageRef.current = setShowNotAvailableMessage;
   const onConfirmRef = useRef(onConfirm);
   onConfirmRef.current = onConfirm;
 
@@ -170,7 +178,13 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
         }
 
         if (selectedRowRef.current === 7) {
-          installRef.current();
+          if (isInstalledRef.current) {
+            setShowInstalledMessageRef.current(true);
+          } else if (canInstallRef.current) {
+            installRef.current();
+          } else {
+            setShowNotAvailableMessageRef.current(true);
+          }
         }
 
         onConfirmRef.current?.();

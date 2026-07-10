@@ -10,3 +10,38 @@
   border: 1px solid var(--background-color);
   background-color: var(--primary-color);
 }
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.popup {
+  display: flex;
+  flex-direction: column;
+  background: var(--primary-color);
+  border: 2px solid var(--background-color);
+  border-radius: 8px;
+  padding: 3vw;
+  text-align: center;
+  max-width: 300px;
+}
+
+.popup p {
+  margin-bottom: 1rem;
+  font-size: var(--small);
+}
+
+.popupButton {
+  font-size: var(--small);
+  padding: 0.4rem 1.2rem;
+  border-radius: 4px;
+  border: 1px solid var(--background-color);
+  background-color: var(--secondary-color);
+  cursor: pointer;
+}

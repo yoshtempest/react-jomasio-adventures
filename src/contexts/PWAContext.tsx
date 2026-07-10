@@ -2,11 +2,28 @@ import { createContext, useContext, useEffect, useState, useRef } from "react";
 
 interface PWAContextType {
   canInstall: boolean;
+  isInstalled: boolean;
+  showInstalledMessage: boolean;
+  setShowInstalledMessage: (show: boolean) => void;
+  showNotAvailableMessage: boolean;
+  setShowNotAvailableMessage: (show: boolean) => void;
   install: () => Promise<void>;
+}
+
+function detectInstalled(): boolean {
+  return (
+    window.matchMedia("(display-mode: standalone)").matches ||
+    (navigator as Record<string, unknown>).standalone === true
+  );
 }
 
 const PWAContext = createContext<PWAContextType>({
   canInstall: false,
+  isInstalled: false,
+  showInstalledMessage: false,
+  setShowInstalledMessage: () => {},
+  showNotAvailableMessage: false,
+  setShowNotAvailableMessage: () => {},
   install: async () => {},
 });
 
@@ -22,6 +39,9 @@ if (typeof window !== "undefined") {
 
 export function PWAProvider({ children }: { children: React.ReactNode }) {
   const [canInstall, setCanInstall] = useState(() => _deferredPrompt !== null);
+  const [isInstalled, setIsInstalled] = useState(detectInstalled);
+  const [showInstalledMessage, setShowInstalledMessage] = useState(false);
+  const [showNotAvailableMessage, setShowNotAvailableMessage] = useState(false);
   const deferredPromptRef = useRef(_deferredPrompt);
 
   useEffect(() => {
@@ -36,6 +56,12 @@ export function PWAProvider({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener("beforeinstallprompt", handler);
   }, []);
 
+  useEffect(() => {
+    const onInstalled = () => setIsInstalled(true);
+    window.addEventListener("appinstalled", onInstalled);
+    return () => window.removeEventListener("appinstalled", onInstalled);
+  }, []);
+
   async function install(): Promise<void> {
     const prompt = deferredPromptRef.current;
     if (!prompt) return;
@@ -46,7 +72,7 @@ export function PWAProvider({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <PWAContext.Provider value={{ canInstall, install }}>
+    <PWAContext.Provider value={{ canInstall, isInstalled, showInstalledMessage, setShowInstalledMessage, showNotAvailableMessage, setShowNotAvailableMessage, install }}>
       {children}
     </PWAContext.Provider>
   );
