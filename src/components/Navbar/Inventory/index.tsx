@@ -16,6 +16,9 @@ import { FILTER_LABELS } from "@/data/inventory/labels";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { CHARACTERS } from "@/utils/types/player/player";
 import type { InventoryItem } from "@/utils/types/player/inventory";
+import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
+import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
+import { useStableCallback } from "@/hooks/useStableCallback";
 
 const CURRENCY_IDS = ["kwanzas", "hypercoin"] as const;
 
@@ -73,10 +76,40 @@ export function Inventory() {
   const filterFocusedRef = useRef(filterFocused);
   filterFocusedRef.current = filterFocused;
 
-  const { openPlayerChest, lastResult: chestLastResult, setLastResult } = useChestOpening();
+  const {
+    openPlayerChest,
+    lastResult: chestLastResult,
+    setLastResult,
+    lastOpened,
+    otherChestExists,
+    openNextChest,
+  } = useChestOpening();
   const dailyChest = useDailyChest();
   const { pushControls, popControls } = useGameControls();
   const { sfxVolume } = useAudio();
+  const { playMove, playSelect } = useMenuSFX();
+
+  const [rewardOptionIndex, setRewardOptionIndex] = useState(0);
+  const rewardOptionIndexRef = useRef(rewardOptionIndex);
+  rewardOptionIndexRef.current = rewardOptionIndex;
+
+  const hasOtherChest = !!(
+    chestLastResult &&
+    otherChestExists(chestLastResult.tier as unknown as ItemId)
+  );
+  const chestRewardsVisible = !!(dailyChest.lastResult || chestLastResult);
+  const rewardOptionCount = chestRewardsVisible ? (hasOtherChest ? 2 : 1) : 0;
+
+  const openNextChestRef = useRef(openNextChest);
+  openNextChestRef.current = openNextChest;
+
+  const closeRewards = useStableCallback(() => {
+    if (dailyChest.lastResult) {
+      dailyChest.setLastResult(null);
+    } else {
+      setLastResult(null);
+    }
+  });
 
   const selectedItem = filteredItems[selectedIndex];
   const selectedItemData = selectedItem
@@ -103,6 +136,54 @@ export function Inventory() {
     }
     removeItem(id as ItemId);
   };
+
+  useEffect(() => {
+    if (!chestRewardsVisible) return;
+
+    setRewardOptionIndex(0);
+
+    const controls = {
+      onLeft: () => {
+        if (rewardOptionCount <= 1) return true;
+        playMove();
+        setRewardOptionIndex((prev) => circularPrev(prev, rewardOptionCount));
+        return true;
+      },
+      onRight: () => {
+        if (rewardOptionCount <= 1) return true;
+        playMove();
+        setRewardOptionIndex((prev) => circularNext(prev, rewardOptionCount));
+        return true;
+      },
+      onConfirm: () => {
+        playSelect();
+        if (rewardOptionCount > 1 && rewardOptionIndexRef.current === 0) {
+          openNextChestRef.current(lastOpened?.chestId ?? (chestLastResult?.tier as unknown as ItemId));
+        } else {
+          closeRewards();
+        }
+        return true;
+      },
+      onCancel: () => {
+        playSelect();
+        closeRewards();
+        return true;
+      },
+    };
+
+    pushControls(controls);
+    return () => popControls();
+  }, [
+    chestRewardsVisible,
+    rewardOptionCount,
+    lastOpened,
+    chestLastResult,
+    playMove,
+    playSelect,
+    closeRewards,
+    pushControls,
+    popControls,
+  ]);
 
   useEffect(() => {
     const controls = {
@@ -138,7 +219,10 @@ export function Inventory() {
       <ChestRewards
         result={dailyChest.lastResult}
         isDaily
-        onClose={() => dailyChest.setLastResult(null)}
+        otherChestAvailable={false}
+        selectedIndex={rewardOptionIndex}
+        onSelect={setRewardOptionIndex}
+        onConfirm={() => dailyChest.setLastResult(null)}
       />
     );
   }
@@ -148,7 +232,16 @@ export function Inventory() {
       <ChestRewards
         result={chestLastResult}
         isDaily={false}
-        onClose={() => setLastResult(null)}
+        otherChestAvailable={hasOtherChest}
+        selectedIndex={rewardOptionIndex}
+        onSelect={setRewardOptionIndex}
+        onConfirm={() => {
+          if (rewardOptionCount > 1 && rewardOptionIndexRef.current === 0) {
+            openNextChest(lastOpened?.chestId ?? (chestLastResult.tier as unknown as ItemId));
+          } else {
+            setLastResult(null);
+          }
+        }}
       />
     );
   }

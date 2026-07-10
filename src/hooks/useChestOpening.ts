@@ -13,6 +13,7 @@ export function useChestOpening() {
   const { addDrop } = useEquipment();
   const { addItem, removeItem, items } = useInventory();
   const [lastResult, setLastResult] = useState<ChestOpenResult | null>(null);
+  const [lastOpened, setLastOpened] = useState<{ chestId: ItemId; keyId: ItemId } | null>(null);
 
   const openPlayerChest = useCallback(
     (chestItemId: ItemId): ChestOpenResult | null => {
@@ -39,10 +40,43 @@ export function useChestOpening() {
 
       const openResult: ChestOpenResult = { ...result, tier };
       setLastResult(openResult);
+      setLastOpened({ chestId: chestItemId, keyId });
       return openResult;
     },
     [items, player.character, addDrop, addItem, removeItem],
   );
 
-  return { openPlayerChest, lastResult, setLastResult };
+  const otherChestExists = useCallback(
+    (currentChestId?: ItemId) =>
+      items.some(
+        (i) =>
+          i.id.endsWith("_chest") &&
+          i.id !== currentChestId &&
+          items.some((k) => k.id === `${i.id.replace("_chest", "")}_key`),
+      ),
+    [items],
+  );
+
+  const openNextChest = useCallback(
+    (excludeChestId: ItemId) => {
+      const chest = items.find(
+        (i) =>
+          i.id.endsWith("_chest") &&
+          i.id !== excludeChestId &&
+          items.some((k) => k.id === `${i.id.replace("_chest", "")}_key`),
+      );
+      if (!chest) return null;
+      return openPlayerChest(chest.id as ItemId);
+    },
+    [items, openPlayerChest],
+  );
+
+  return {
+    openPlayerChest,
+    lastResult,
+    setLastResult,
+    lastOpened,
+    otherChestExists,
+    openNextChest,
+  };
 }

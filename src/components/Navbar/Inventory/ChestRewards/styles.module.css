@@ -25,3 +25,12 @@
   color: var(--text-muted);
   font-size: 0.8rem;
 }
+
+.actions {
+  display: flex;
+  gap: 12px;
+}
+
+.actionSelected {
+  outline: 2px solid #f0d080;
+}

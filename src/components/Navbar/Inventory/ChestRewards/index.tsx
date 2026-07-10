@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import type { ChestOpenResult } from "@/hooks/useChestOpening";
 import type { DailyChestResult } from "@/hooks/useDailyChest";
 import { RANK_COLORS, RANK_LABELS, SLOT_LABELS } from "@/utils/types/player/equipment";
@@ -7,10 +8,29 @@ import styles from "./styles.module.css";
 type Props = {
   result: ChestOpenResult | DailyChestResult;
   isDaily: boolean;
-  onClose: () => void;
+  otherChestAvailable: boolean;
+  selectedIndex: number;
+  onSelect: (index: number) => void;
+  onConfirm: () => void;
 };
 
-export function ChestRewards({ result, isDaily, onClose }: Props) {
+export function ChestRewards({
+  result,
+  isDaily,
+  otherChestAvailable,
+  selectedIndex,
+  onSelect,
+  onConfirm,
+}: Props) {
+  const options = useMemo(() => {
+    const list = [];
+    if (!isDaily && otherChestAvailable) {
+      list.push("Abrir outro báu");
+    }
+    list.push("Fechar");
+    return list;
+  }, [isDaily, otherChestAvailable]);
+
   return (
     <div className="containerOfNavbar">
       <h3>{isDaily ? "Baú Diário — Aberto!" : "Baú Aberto!"}</h3>
@@ -49,12 +69,31 @@ export function ChestRewards({ result, isDaily, onClose }: Props) {
         </div>
       )}
 
-      <button
-        className={isDaily ? "dailyButton" : "InventoryButton"}
-        onClick={onClose}
-      >
-        Fechar
-      </button>
+      {options.length === 1 ? (
+        <button
+          className={isDaily ? "dailyButton" : "InventoryButton"}
+          onClick={onConfirm}
+        >
+          {options[0]}
+        </button>
+      ) : (
+        <div className={styles.actions}>
+          {options.map((opt, i) => (
+            <button
+              key={opt}
+              className={`${isDaily ? "dailyButton" : "InventoryButton"} ${
+                i === selectedIndex ? styles.actionSelected : ""
+              }`}
+              onClick={() => {
+                onSelect(i);
+                onConfirm();
+              }}
+            >
+              {opt}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
