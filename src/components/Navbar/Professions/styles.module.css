@@ -8,8 +8,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: var(--size-8) var(--size-12);
+  border-bottom: var(--size-1) solid rgba(255, 255, 255, 0.1);
 }
 
 .item:last-child {
@@ -36,8 +36,8 @@
 
 .header {
   text-align: center;
-  padding: 12px;
+  padding: var(--size-12);
   font-size: var(--fs-11em);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  margin-bottom: 8px;
+  border-bottom: var(--size-1) solid rgba(255, 255, 255, 0.2);
+  margin-bottom: var(--size-8);
 }

@@ -2,14 +2,14 @@
   font-weight: bold;
   color: var(--text-secondary);
   font-size: var(--fs-14);
-  padding-bottom: 4px;
+  padding-bottom: var(--size-4);
 }
 
 .statusMainContainer {
   display: flex;
   flex-direction: row;
   gap: 0.5vw;
-  border-bottom: 1px solid var(--border-default);
+  border-bottom: var(--size-1) solid var(--border-default);
 }
 
 .statusMainContainer h2 {
@@ -31,7 +31,7 @@
 }
 
 .EquipmentSelected {
-  border: 2px solid var(--accent-color) !important;
+  border: var(--size-2) solid var(--accent-color) !important;
 }
 
 .EquipmentItemName {
@@ -42,34 +42,34 @@
 .EquipmentItemRow {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--size-6);
   flex-wrap: wrap;
 }
 
 .EquipmentEnhanceBadge {
   font-size: var(--fs-11);
   color: var(--gold);
-  margin-left: 3px;
+  margin-left: var(--size-3);
   font-weight: bold;
 }
 
 .slotTag {
   color: var(--text-muted);
   background: #222;
-  padding: 4px;
+  padding: var(--size-4);
   width: 1.4vw;
-  border-radius: 4px;
+  border-radius: var(--size-4);
 }
 
 .dropsList {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--size-6);
 }
 
 .dropIcon {
-  width: 28px;
-  height: 28px;
+  width: var(--size-28);
+  height: var(--size-28);
   object-fit: contain;
   flex-shrink: 0;
 }
@@ -82,24 +82,24 @@
 .dropItem {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--size-10);
   background: rgba(255, 255, 255, 0.05);
-  border-radius: 6px;
-  padding: 8px 12px;
+  border-radius: var(--size-6);
+  padding: var(--size-8) var(--size-12);
 }
 
 .InventoryButton {
   display: flex;
   align-items: center;
-  padding: 0.5rem 1rem;
+  padding: var(--size-050r) var(--size-100r);
   justify-content: center;
-  border: 1px solid var(--border-medium);
-  border-radius: 6px;
+  border: var(--size-1) solid var(--border-medium);
+  border-radius: var(--size-6);
   background: #2c2c2c;
   color: #eee;
   cursor: pointer;
   font-size: var(--fs-12);
-  width: 48px;
+  width: var(--size-48);
 }
 
 .InventoryButton:hover {
@@ -108,17 +108,17 @@
 
 .InventoryQty {
   color: var(--text-muted);
-  margin-left: 4px;
+  margin-left: var(--size-4);
   font-weight: normal;
 }
 
 .dailyButton {
   display: flex;
   align-items: center;
-  padding: 8px 18px;
+  padding: var(--size-8) var(--size-18);
   justify-content: center;
-  border: 1px solid #5a3a5e;
-  border-radius: 6px;
+  border: var(--size-1) solid #5a3a5e;
+  border-radius: var(--size-6);
   background: linear-gradient(135deg, #3a2a4e, #4a2a3e) !important;
   color: #f0d080;
   cursor: pointer;

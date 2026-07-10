@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 3px 0;
+  padding: var(--size-3) 0;
   font-size: var(--fs-12);
 }
 
@@ -17,16 +17,16 @@
 
 .barOuter {
   width: 100%;
-  height: 6px;
-  border-radius: 3px;
+  height: var(--size-6);
+  border-radius: var(--size-3);
   background: var(--border-default);
   overflow: hidden;
-  margin-top: 2px;
+  margin-top: var(--size-2);
 }
 
 .barInner {
   height: 100%;
-  border-radius: 3px;
+  border-radius: var(--size-3);
   background: var(--accent-color);
   transition: width 0.3s;
 }

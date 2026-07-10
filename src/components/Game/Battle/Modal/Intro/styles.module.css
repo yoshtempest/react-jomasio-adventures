@@ -9,7 +9,7 @@
 .left img,
 .right img {
   width: 40%;
-  max-width: 320px;
+  max-width: var(--size-320);
 
   image-rendering: pixelated;
 
@@ -39,10 +39,10 @@
   right: 2vw;
   bottom: 2vh;
 
-  padding: 1rem 1.5rem;
+  padding: var(--size-100r) var(--size-150r);
 
   border: none;
-  border-radius: 12px;
+  border-radius: var(--size-12);
 
   background: rgba(255, 255, 255, 0.15);
   color: var(--text-color);
@@ -50,7 +50,7 @@
   font-size: var(--small);
   cursor: pointer;
 
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(var(--size-5));
 }
 
 @keyframes pulse {

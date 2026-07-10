@@ -12,23 +12,23 @@
 .modal {
   width: 60vw;
   max-height: 85vh;
-  padding: 24px 32px;
+  padding: var(--size-24) var(--size-32);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  gap: 20px;
+  gap: var(--size-20);
   animation: scaleIn 0.5s ease-out;
 }
 
 .header {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: var(--size-20);
 }
 
 .characterImage {
-  width: 80px;
-  height: 80px;
+  width: var(--size-80);
+  height: var(--size-80);
   object-fit: contain;
   image-rendering: pixelated;
 }
@@ -38,7 +38,7 @@
 }
 
 .header p {
-  margin: 4px 0 0;
+  margin: var(--size-4) 0 0;
   color: #ccc;
 }
 
@@ -67,11 +67,11 @@
 
 .button {
   align-self: center;
-  padding: 10px 32px;
+  padding: var(--size-10) var(--size-32);
   font-size: var(--small);
   font-weight: 700;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--size-8);
   color: var(--text-color);
   cursor: pointer;
   transition: opacity 0.2s;
@@ -84,7 +84,7 @@
 .levelSection {
   display: flex;
   flex-direction: row;
-  gap: 24px;
+  gap: var(--size-24);
 }
 
 .timeSection {

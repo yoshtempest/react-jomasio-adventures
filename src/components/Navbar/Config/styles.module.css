@@ -17,26 +17,26 @@
 .difficultyContainer {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: var(--size-20);
 }
 
 .difficultyItem {
   display: flex;
   justify-content: center;
   position: relative;
-  border-radius: 5px;
-  border: 2px solid var(--primary-color);
+  border-radius: var(--size-5);
+  border: var(--size-2) solid var(--primary-color);
   width: 8vw;
 }
 
 .selected {
-  outline: 2px solid var(--text-color);
+  outline: var(--size-2) solid var(--text-color);
   background-color: var(--primary-color);
 }
 
 .cursor {
   position: absolute;
-  top: -5px;
+  top: calc(-1 * var(--size-5));
   left: 50%;
   transform: translateX(-50%);
 }
@@ -48,13 +48,13 @@
   filter: grayscale(0.8);
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--size-6);
   background: repeating-linear-gradient(
     45deg,
     rgba(255, 255, 255, 0.02) 0px,
-    rgba(255, 255, 255, 0.02) 4px,
-    rgba(0, 0, 0, 0.1) 4px,
-    rgba(0, 0, 0, 0.1) 8px
+    rgba(255, 255, 255, 0.02) var(--size-4),
+    rgba(0, 0, 0, 0.1) var(--size-4),
+    rgba(0, 0, 0, 0.1) var(--size-8)
   );
   position: relative;
   overflow: hidden;
@@ -66,20 +66,20 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 12px;
-  background: radial-gradient(circle at 50% 50%, #555 1px, transparent 1px);
-  background-size: 6px 12px;
+  width: var(--size-12);
+  background: radial-gradient(circle at 50% 50%, #555 var(--size-1), transparent var(--size-1));
+  background-size: var(--size-6) var(--size-12);
   opacity: 0.5;
 }
 
 .locked::before {
-  left: -6px;
-  border-right: 2px solid var(--border-medium);
+  left: calc(-1 * var(--size-6));
+  border-right: var(--size-2) solid var(--border-medium);
 }
 
 .locked::after {
-  right: -6px;
-  border-left: 2px solid var(--border-medium);
+  right: calc(-1 * var(--size-6));
+  border-left: var(--size-2) solid var(--border-medium);
 }
 
 .chainLeft,
@@ -89,14 +89,14 @@
 
 .volumeContainer {
   position: relative;
-  margin-top: 20px;
+  margin-top: var(--size-20);
 }
 
 .volumeBar {
-  width: 200px;
-  height: 12px;
-  border: 2px solid var(--primary-color);
-  border-radius: 4px;
+  width: var(--size-200);
+  height: var(--size-12);
+  border: var(--size-2) solid var(--primary-color);
+  border-radius: var(--size-4);
 }
 
 .volumeFill {
@@ -106,25 +106,25 @@
 
 .speedContainer {
   position: relative;
-  margin-top: 20px;
+  margin-top: var(--size-20);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: var(--size-8);
 }
 
 .speedOptions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--size-12);
 }
 
 .speedItem {
   display: flex;
   justify-content: center;
-  padding: 8px 12px;
-  border-radius: 5px;
-  border: 2px solid var(--primary-color);
+  padding: var(--size-8) var(--size-12);
+  border-radius: var(--size-5);
+  border: var(--size-2) solid var(--primary-color);
   min-width: 6vw;
 }
 
@@ -132,10 +132,10 @@
   position: relative;
   margin-top: 5%;
   text-wrap: nowrap;
-  padding: 8px 12px;
-  border-radius: 4px;
+  padding: var(--size-8) var(--size-12);
+  border-radius: var(--size-4);
   text-align: center;
-  border: 2px solid var(--primary-color);
+  border: var(--size-2) solid var(--primary-color);
 }
 
 

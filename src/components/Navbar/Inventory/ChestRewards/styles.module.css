@@ -1,9 +1,9 @@
 .section {
-  margin: 0.75rem 0;
+  margin: var(--size-075r) 0;
 }
 
 .section h4 {
-  margin: 0 0 0.35rem;
+  margin: 0 0 var(--size-035r);
   font-size: var(--fs-090);
   color: #ccc;
 }
@@ -11,8 +11,8 @@
 .dropRow {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.2rem 0;
+  gap: var(--size-040r);
+  padding: var(--size-020r) 0;
   font-size: var(--fs-085);
 }
 
@@ -28,9 +28,9 @@
 
 .actions {
   display: flex;
-  gap: 12px;
+  gap: var(--size-12);
 }
 
 .actionSelected {
-  outline: 2px solid #f0d080;
+  outline: var(--size-2) solid #f0d080;
 }

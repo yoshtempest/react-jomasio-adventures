@@ -1,8 +1,8 @@
 .container {
   position: relative;
-  width: 200px;
-  height: 20px;
-  border: 2px solid var(--surface-dark);
+  width: var(--size-200);
+  height: var(--size-20);
+  border: var(--size-2) solid var(--surface-dark);
   background: var(--border-default);
   overflow: hidden;
 }
@@ -24,6 +24,6 @@
   color: var(--text-color);
   font-size: var(--smaller);
   font-weight: bold;
-  text-shadow: 1px 1px 2px var(--surface-dark);
+  text-shadow: var(--size-1) var(--size-1) var(--size-2) var(--surface-dark);
   pointer-events: none;
 }

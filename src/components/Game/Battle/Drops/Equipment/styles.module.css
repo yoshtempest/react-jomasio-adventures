@@ -2,7 +2,7 @@
   font-size: var(--fs-11);
   font-weight: 700;
   text-transform: uppercase;
-  min-width: 64px;
+  min-width: var(--size-64);
 }
 
 .dropSlot {
@@ -14,6 +14,6 @@
 .enhanceBadge {
   font-size: var(--smaller);
   color: var(--gold);
-  margin-left: 4px;
+  margin-left: var(--size-4);
   font-weight: bold;
 }

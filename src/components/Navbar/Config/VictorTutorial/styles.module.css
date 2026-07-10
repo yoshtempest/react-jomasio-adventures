@@ -12,7 +12,7 @@
   display: flex;
   width: 2.4vw;
   height: 0.8vw;
-  border-radius: 10px;
+  border-radius: var(--size-10);
 }
 
 .tutorialContainer {
@@ -27,7 +27,7 @@
   justify-content: center;
   align-items: center;
   z-index: 999;
-  border-radius: 8px;
+  border-radius: var(--size-8);
 }
 
 .dpad {
@@ -36,7 +36,7 @@
 
 .row {
   display: flex;
-  gap: 16px;
+  gap: var(--size-16);
   flex-direction: row;
   align-items: center;
   max-width: 70%;
@@ -81,7 +81,7 @@
 
 .gameButtons {
   display: flex;
-  gap: 24px;
+  gap: var(--size-24);
   align-items: flex-end;
   flex-direction: column;
 }

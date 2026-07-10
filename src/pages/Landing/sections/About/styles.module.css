@@ -1,14 +1,14 @@
 .aboutGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(var(--size-300), 1fr));
+  gap: var(--size-24);
 }
 
 .aboutCard {
-  padding: 32px;
+  padding: var(--size-32);
   background: rgba(18, 27, 49, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 12px;
+  border: var(--size-1) solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--size-12);
   transition: border-color 0.2s, background 0.2s;
 }
 
@@ -18,7 +18,7 @@
 }
 
 .aboutCard h3 {
-  margin: 0 0 12px;
+  margin: 0 0 var(--size-12);
   font-size: var(--fs-120);
   color: var(--text-color);
 }
@@ -29,7 +29,7 @@
   color: rgba(255, 255, 255, 0.7);
 }
 
-@media (max-width: 768px) {
+@media (max-width: var(--size-768)) {
   .aboutGrid {
     grid-template-columns: 1fr;
   }

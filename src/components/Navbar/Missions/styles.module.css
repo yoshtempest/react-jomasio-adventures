@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2, auto);
-  gap: 12px;
+  gap: var(--size-12);
   list-style: none;
   padding: 0;
   max-height: 80vh;
@@ -18,18 +18,18 @@
 
 .tabs {
   display: flex;
-  gap: 8px;
+  gap: var(--size-8);
   margin-top: 3vh;
   justify-content: center;
-  margin-bottom: 12px;
+  margin-bottom: var(--size-12);
 }
 
 .tab {
   background: var(--surface-card);
   color: var(--text-secondary);
-  border: 1px solid var(--border-default);
-  padding: 8px 16px;
-  border-radius: 6px;
+  border: var(--size-1) solid var(--border-default);
+  padding: var(--size-8) var(--size-16);
+  border-radius: var(--size-6);
   cursor: pointer;
   font-size: var(--fs-14);
   transition:
@@ -49,14 +49,14 @@
 }
 
 .tabSelected {
-  outline: 2px solid yellow;
-  outline-offset: 1px;
+  outline: var(--size-2) solid yellow;
+  outline-offset: var(--size-1);
 }
 
 .empty {
   text-align: center;
   color: var(--text-hint);
-  padding: 24px;
+  padding: var(--size-24);
   font-size: var(--fs-14);
 }
 
@@ -64,12 +64,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-  padding: 8px;
+  gap: var(--size-8);
+  margin-bottom: var(--size-12);
+  padding: var(--size-8);
   background: var(--surface-card);
-  border: 1px solid var(--border-default);
-  border-radius: 6px;
+  border: var(--size-1) solid var(--border-default);
+  border-radius: var(--size-6);
   font-size: var(--fs-13);
   color: var(--text-secondary);
 }
@@ -85,5 +85,5 @@
   color: var(--text-color);
   font-family: monospace;
   font-size: var(--fs-14);
-  letter-spacing: 1px;
+  letter-spacing: var(--size-1);
 }

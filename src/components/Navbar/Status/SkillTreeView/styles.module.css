@@ -5,6 +5,6 @@
     overflow-y: auto;
     flex: 1;
     width: 100%;
-    padding: 16px;
+    padding: var(--size-16);
     align-items: center;
 }

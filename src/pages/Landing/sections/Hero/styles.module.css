@@ -28,19 +28,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 32px;
-  padding: 24px;
+  gap: var(--size-32);
+  padding: var(--size-24);
   text-align: center;
 }
 
 .logo {
-  width: min(40vw, 400px);
+  width: min(40vw, var(--size-400));
   height: auto;
-  filter: drop-shadow(0 0 30px rgba(18, 27, 49, 0.8));
+  filter: drop-shadow(0 0 var(--size-30) rgba(18, 27, 49, 0.8));
 }
 
 .subtitle {
-  max-width: 560px;
+  max-width: var(--size-560);
   font-size: var(--fs-115);
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.8);
@@ -49,25 +49,25 @@
 .ctaButton {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 18px 56px;
+  gap: var(--size-12);
+  padding: var(--size-18) var(--size-56);
   font-size: var(--fs-120);
   font-weight: 700;
   color: var(--text-color);
   background: linear-gradient(135deg, #121b31, #1e2d4f);
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
+  border: var(--size-2) solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--size-12);
   cursor: pointer;
   transition: all 0.25s;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: var(--size-2);
 }
 
 .ctaButton:hover {
   background: linear-gradient(135deg, #1e2d4f, #2a3d6b);
   border-color: rgba(255, 255, 255, 0.5);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(18, 27, 49, 0.6);
+  transform: translateY(calc(-1 * var(--size-2)));
+  box-shadow: 0 var(--size-8) var(--size-30) rgba(18, 27, 49, 0.6);
 }
 
 .ctaButton:active {
@@ -78,8 +78,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  margin-top: 48px;
+  gap: var(--size-8);
+  margin-top: var(--size-48);
   font-size: var(--fs-085);
   color: rgba(255, 255, 255, 0.5);
 }

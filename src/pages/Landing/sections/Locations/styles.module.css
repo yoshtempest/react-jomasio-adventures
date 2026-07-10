@@ -1,20 +1,20 @@
 .locationsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(var(--size-160), 1fr));
+  gap: var(--size-16);
 }
 
 .locationCard {
   position: relative;
-  border-radius: 12px;
+  border-radius: var(--size-12);
   overflow: hidden;
   cursor: default;
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .locationCard:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  transform: translateY(calc(-1 * var(--size-4)));
+  box-shadow: 0 var(--size-8) var(--size-24) rgba(0, 0, 0, 0.5);
 }
 
 .locationImage {
@@ -22,7 +22,7 @@
   width: 100%;
   aspect-ratio: 16 / 10;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: var(--size-12);
 }
 
 .locationName {
@@ -30,20 +30,20 @@
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 12px;
+  padding: var(--size-12);
   font-weight: 600;
   font-size: var(--fs-14);
   background: linear-gradient(transparent, rgba(10, 5, 0, 0.9));
   color: var(--text-color);
 }
 
-@media (max-width: 768px) {
+@media (max-width: var(--size-768)) {
   .locationsGrid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: var(--size-480)) {
   .locationsGrid {
     grid-template-columns: 1fr;
   }

@@ -4,10 +4,10 @@
   font-size: var(--low-medium);
   pointer-events: none;
   text-shadow:
-    1px 1px 0 rgba(0, 0, 0, 0.8),
-    -1px -1px 0 rgba(0, 0, 0, 0.8),
-    1px -1px 0 rgba(0, 0, 0, 0.8),
-    -1px 1px 0 rgba(0, 0, 0, 0.8);
+    var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8),
+    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8),
+    var(--size-1) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8),
+    calc(-1 * var(--size-1)) var(--size-1) 0 rgba(0, 0, 0, 0.8);
   z-index: 100;
   animation: floatUp 1s ease-out forwards;
 }
@@ -37,12 +37,12 @@
   color: #00bfff;
   font-size: var(--fs-28);
   text-shadow:
-    0 0 10px rgba(0, 191, 255, 0.8),
-    0 0 20px rgba(0, 191, 255, 0.6),
-    1px 1px 0 rgba(0, 0, 0, 0.8),
-    -1px -1px 0 rgba(0, 0, 0, 0.8),
-    1px -1px 0 rgba(0, 0, 0, 0.8),
-    -1px 1px 0 rgba(0, 0, 0, 0.8);
+    0 0 var(--size-10) rgba(0, 191, 255, 0.8),
+    0 0 var(--size-20) rgba(0, 191, 255, 0.6),
+    var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8),
+    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8),
+    var(--size-1) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8),
+    calc(-1 * var(--size-1)) var(--size-1) 0 rgba(0, 0, 0, 0.8);
   animation: floatCrit 1s ease-out forwards;
 }
 
@@ -51,12 +51,12 @@
   font-size: var(--fs-32);
   font-weight: 900;
   text-shadow:
-    0 0 10px #ff0044,
-    0 0 20px #ff0044,
-    1px 1px 0 rgba(0, 0, 0, 0.8),
-    -1px -1px 0 rgba(0, 0, 0, 0.8),
-    1px -1px 0 rgba(0, 0, 0, 0.8),
-    -1px 1px 0 rgba(0, 0, 0, 0.8);
+    0 0 var(--size-10) #ff0044,
+    0 0 var(--size-20) #ff0044,
+    var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8),
+    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8),
+    var(--size-1) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8),
+    calc(-1 * var(--size-1)) var(--size-1) 0 rgba(0, 0, 0, 0.8);
   animation: floatCrit 1s ease-out forwards;
 }
 
@@ -66,9 +66,9 @@
   text-transform: uppercase;
   font-style: italic;
   text-shadow:
-    0 0 6px rgba(170, 170, 170, 0.6),
-    1px 1px 0 rgba(0, 0, 0, 0.8),
-    -1px -1px 0 rgba(0, 0, 0, 0.8);
+    0 0 var(--size-6) rgba(170, 170, 170, 0.6),
+    var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8),
+    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8);
 }
 
 .blocked {
@@ -76,9 +76,9 @@
   font-size: var(--small);
   text-transform: uppercase;
   text-shadow:
-    0 0 6px rgba(0, 255, 255, 0.8),
-    1px 1px 0 rgba(0, 0, 0, 0.8),
-    -1px -1px 0 rgba(0, 0, 0, 0.8);
+    0 0 var(--size-6) rgba(0, 255, 255, 0.8),
+    var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8),
+    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8);
   animation: floatBlocked 0.8s ease-out forwards;
 }
 
@@ -89,11 +89,11 @@
   }
   50% {
     opacity: 1;
-    transform: translateY(-30px) scale(1.5);
+    transform: translateY(calc(-1 * var(--size-30))) scale(1.5);
   }
   100% {
     opacity: 0;
-    transform: translateY(-60px) scale(1);
+    transform: translateY(calc(-1 * var(--size-60))) scale(1);
   }
 }
 
@@ -104,11 +104,11 @@
   }
   50% {
     opacity: 1;
-    transform: translateY(-30px) scale(1.1);
+    transform: translateY(calc(-1 * var(--size-30))) scale(1.1);
   }
   100% {
     opacity: 0;
-    transform: translateY(-60px) scale(0.9);
+    transform: translateY(calc(-1 * var(--size-60))) scale(0.9);
   }
 }
 
@@ -119,10 +119,10 @@
   }
   50% {
     opacity: 1;
-    transform: translateY(-20px) scale(1.2);
+    transform: translateY(calc(-1 * var(--size-20))) scale(1.2);
   }
   100% {
     opacity: 0;
-    transform: translateY(-40px) scale(0.8);
+    transform: translateY(calc(-1 * var(--size-40))) scale(0.8);
   }
 }

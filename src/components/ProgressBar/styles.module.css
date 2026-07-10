@@ -2,7 +2,7 @@
   position: relative;
   width: 100%;
   background: var(--border-default, #333);
-  border-radius: 4px;
+  border-radius: var(--size-4);
   overflow: hidden;
 }
 
@@ -13,12 +13,12 @@
   height: 100%;
   background: var(--success, #4caf50);
   transition: width 0.3s ease;
-  border-radius: 4px;
+  border-radius: var(--size-4);
 }
 
 .label {
   position: absolute;
-  left: 6px;
+  left: var(--size-6);
   top: 50%;
   transform: translateY(-50%);
   font-size: var(--fs-11);
@@ -29,7 +29,7 @@
 
 .text {
   position: absolute;
-  right: 6px;
+  right: var(--size-6);
   top: 50%;
   transform: translateY(-50%);
   font-size: var(--fs-11);

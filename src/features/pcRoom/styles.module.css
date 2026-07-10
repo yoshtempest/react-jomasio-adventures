@@ -12,15 +12,15 @@
 
 .classList {
   display: flex;
-  gap: 20px;
+  gap: var(--size-20);
 }
 
 .classItem {
-  padding: 20px;
-  border: 2px solid var(--border-medium);
+  padding: var(--size-20);
+  border: var(--size-2) solid var(--border-medium);
   position: relative;
   background-color: var(--primary-color);
-  border-radius: 5px;
+  border-radius: var(--size-5);
   text-align: center;
 }
 

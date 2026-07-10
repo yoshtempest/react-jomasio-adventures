@@ -1,17 +1,17 @@
 .howtoGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(var(--size-240), 1fr));
+  gap: var(--size-24);
 }
 
 .howtoStep {
   display: flex;
-  gap: 16px;
+  gap: var(--size-16);
   align-items: flex-start;
-  padding: 24px;
+  padding: var(--size-24);
   background: rgba(18, 27, 49, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 12px;
+  border: var(--size-1) solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--size-12);
   transition: border-color 0.2s;
 }
 
@@ -21,8 +21,8 @@
 
 .stepNumber {
   flex-shrink: 0;
-  width: 40px;
-  height: 40px;
+  width: var(--size-40);
+  height: var(--size-40);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -34,7 +34,7 @@
 }
 
 .howtoStep h3 {
-  margin: 0 0 6px;
+  margin: 0 0 var(--size-6);
   font-size: var(--small);
   color: var(--text-color);
 }
@@ -46,7 +46,7 @@
   color: rgba(255, 255, 255, 0.6);
 }
 
-@media (max-width: 768px) {
+@media (max-width: var(--size-768)) {
   .howtoGrid {
     grid-template-columns: 1fr;
   }

@@ -1,31 +1,31 @@
 .charactersGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(var(--size-110), 1fr));
+  gap: var(--size-16);
 }
 
 .characterCard {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 20px 8px;
+  gap: var(--size-8);
+  padding: var(--size-20) var(--size-8);
   background: rgba(18, 27, 49, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 12px;
+  border: var(--size-1) solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--size-12);
   text-align: center;
   transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
 }
 
 .characterCard:hover {
   border-color: rgba(255, 255, 255, 0.15);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  transform: translateY(calc(-1 * var(--size-3)));
+  box-shadow: 0 var(--size-8) var(--size-20) rgba(0, 0, 0, 0.4);
 }
 
 .characterImage {
-  width: 56px;
-  height: 56px;
+  width: var(--size-56);
+  height: var(--size-56);
   object-fit: contain;
   image-rendering: pixelated;
 }
@@ -34,16 +34,16 @@
   font-size: var(--fs-075);
   color: rgba(255, 255, 255, 0.45);
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: var(--size-1);
 }
 
-@media (max-width: 768px) {
+@media (max-width: var(--size-768)) {
   .charactersGrid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: var(--size-480)) {
   .charactersGrid {
     grid-template-columns: repeat(2, 1fr);
   }

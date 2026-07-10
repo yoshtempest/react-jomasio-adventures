@@ -12,11 +12,11 @@
 .hint {
   background: rgba(0, 0, 0, 0.75);
   color: var(--text-color);
-  padding: 6px 16px;
-  border-radius: 4px;
+  padding: var(--size-6) var(--size-16);
+  border-radius: var(--size-4);
   font-size: var(--fs-14);
   white-space: nowrap;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: var(--size-1) solid rgba(255, 255, 255, 0.2);
 }
 
 @keyframes hintPulse {

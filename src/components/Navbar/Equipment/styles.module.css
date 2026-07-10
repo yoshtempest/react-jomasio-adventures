@@ -4,6 +4,6 @@
   flex: 1;
   width: 100%;
   overflow: hidden;
-  gap: 8px;
-  padding: 0 8px 8px;
+  gap: var(--size-8);
+  padding: 0 var(--size-8) var(--size-8);
 }

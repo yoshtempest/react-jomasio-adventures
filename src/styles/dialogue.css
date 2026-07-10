@@ -17,8 +17,8 @@
   margin-top: 65vh;
   bottom: 0;
   z-index: 999;
-  border: 1px solid var(--background-color);
-  border-radius: 2px;
+  border: var(--size-1) solid var(--background-color);
+  border-radius: var(--size-2);
 }
 
 .talkingImage {

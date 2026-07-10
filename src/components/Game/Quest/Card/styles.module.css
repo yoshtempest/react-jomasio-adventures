@@ -1,7 +1,7 @@
 .container {
-  padding: 10px;
+  padding: var(--size-10);
   transition: 0.2s;
-  border-radius: 4px;
+  border-radius: var(--size-4);
 }
 
 .row {
@@ -32,9 +32,9 @@ p {
   display: inline-block;
   font-size: var(--fs-10);
   font-weight: bold;
-  padding: 2px 6px;
-  border-radius: 4px;
-  margin-top: 4px;
+  padding: var(--size-2) var(--size-6);
+  border-radius: var(--size-4);
+  margin-top: var(--size-4);
 }
 
 .freqBadge[data-freq="daily"] {

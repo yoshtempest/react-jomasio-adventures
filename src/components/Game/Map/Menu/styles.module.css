@@ -15,11 +15,11 @@
 
 .mapGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, 16px);
-  gap: 6px;
+  grid-template-columns: repeat(auto-fit, var(--size-16));
+  gap: var(--size-6);
 }
 
 .cell {
-  width: 16px;
-  height: 16px;
+  width: var(--size-16);
+  height: var(--size-16);
 }

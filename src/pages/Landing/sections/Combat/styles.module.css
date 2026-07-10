@@ -1,15 +1,15 @@
 .combatGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 20px;
-  margin-bottom: 64px;
+  grid-template-columns: repeat(auto-fit, minmax(var(--size-240), 1fr));
+  gap: var(--size-20);
+  margin-bottom: var(--size-64);
 }
 
 .combatCard {
-  padding: 28px;
+  padding: var(--size-28);
   background: rgba(18, 27, 49, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 12px;
+  border: var(--size-1) solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--size-12);
   text-align: center;
   transition: border-color 0.2s, background 0.2s;
 }
@@ -20,12 +20,12 @@
 }
 
 .combatIcon {
-  margin-bottom: 16px;
+  margin-bottom: var(--size-16);
   color: #4a7cff;
 }
 
 .combatCard h3 {
-  margin: 0 0 10px;
+  margin: 0 0 var(--size-10);
   font-size: var(--fs-110);
   color: var(--text-color);
 }
@@ -38,7 +38,7 @@
 }
 
 .bossesTitle {
-  margin: 0 0 24px;
+  margin: 0 0 var(--size-24);
   font-size: var(--fs-140);
   color: var(--text-color);
   text-align: center;
@@ -46,31 +46,31 @@
 
 .bossesGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(var(--size-130), 1fr));
+  gap: var(--size-16);
 }
 
 .bossCard {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 20px 12px;
+  gap: var(--size-8);
+  padding: var(--size-20) var(--size-12);
   background: rgba(18, 27, 49, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 12px;
+  border: var(--size-1) solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--size-12);
   text-align: center;
   transition: border-color 0.2s, transform 0.2s;
 }
 
 .bossCard:hover {
   border-color: rgba(255, 100, 100, 0.3);
-  transform: translateY(-2px);
+  transform: translateY(calc(-1 * var(--size-2)));
 }
 
 .bossImage {
-  width: 64px;
-  height: 64px;
+  width: var(--size-64);
+  height: var(--size-64);
   object-fit: contain;
   image-rendering: pixelated;
 }
@@ -80,7 +80,7 @@
   color: rgba(255, 255, 255, 0.5);
 }
 
-@media (max-width: 768px) {
+@media (max-width: var(--size-768)) {
   .combatGrid {
     grid-template-columns: 1fr;
   }
@@ -90,7 +90,7 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: var(--size-480)) {
   .bossesGrid {
     grid-template-columns: repeat(2, 1fr);
   }

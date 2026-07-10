@@ -7,39 +7,39 @@
 .list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--size-8);
 }
 
 .progress {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--size-10);
 }
 
 .name {
   font-size: var(--fs-13);
   color: #ddd;
-  min-width: 120px;
+  min-width: var(--size-120);
 }
 
 .bar {
   flex: 1;
-  height: 10px;
+  height: var(--size-10);
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 5px;
+  border-radius: var(--size-5);
   overflow: hidden;
 }
 
 .barFill {
   height: 100%;
   background-color: var(--success);
-  border-radius: 5px;
+  border-radius: var(--size-5);
   transition: width 0.3s;
 }
 
 .count {
   font-size: var(--smaller);
   color: var(--text-secondary);
-  min-width: 60px;
+  min-width: var(--size-60);
   text-align: right;
 }

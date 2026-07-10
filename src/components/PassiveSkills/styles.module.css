@@ -2,12 +2,12 @@
   font-weight: bold;
   color: var(--text-secondary);
   font-size: var(--fs-14);
-  border-bottom: 1px solid var(--border-default);
-  padding-bottom: 4px;
+  border-bottom: var(--size-1) solid var(--border-default);
+  padding-bottom: var(--size-4);
 }
 
 .marginTop {
-  margin-top: 16px;
+  margin-top: var(--size-16);
 }
 
 .unlocked {
@@ -18,8 +18,8 @@
 .skillRow {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 8px;
+  gap: var(--size-8);
+  margin-top: var(--size-8);
 }
 
 .skillName {

@@ -6,8 +6,8 @@
 .continue {
   color: var(--text-color);
   font-size: var(--fs-20);
-  margin-top: 32px;
-  text-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+  margin-top: var(--size-32);
+  text-shadow: 0 0 var(--size-12) rgba(255, 255, 255, 0.4);
   animation: pulse 2s ease-in-out infinite;
 }
 

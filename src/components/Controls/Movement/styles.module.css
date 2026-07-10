@@ -12,11 +12,11 @@
 
   background: rgba(0, 0, 0, 0.55);
   color: var(--text-color);
-  border: 1px solid var(--text-color);
+  border: var(--size-1) solid var(--text-color);
 
   z-index: 99999;
 
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(var(--size-6));
 
   display: flex;
   align-items: center;

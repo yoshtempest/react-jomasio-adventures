@@ -5,17 +5,17 @@
 
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-2px); }
-  75% { transform: translateX(2px); }
+  25% { transform: translateX(calc(-1 * var(--size-2))); }
+  75% { transform: translateX(var(--size-2)); }
 }
 
 .zone {
   position: absolute;
-  width: 200px;
-  height: 40px;
+  width: var(--size-200);
+  height: var(--size-40);
   border-radius: 50%;
   background: rgba(255, 30, 30, 0.4);
-  border: 2px solid #ff3333;
+  border: var(--size-2) solid #ff3333;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -28,6 +28,6 @@
   color: var(--text-color);
   font-weight: bold;
   font-size: var(--medium);
-  text-shadow: 0 0 6px #ff0000;
+  text-shadow: 0 0 var(--size-6) #ff0000;
   animation: shake 0.4s ease-in-out infinite;
 }

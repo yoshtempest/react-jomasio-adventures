@@ -10,15 +10,15 @@
 
 .modal {
   background: var(--surface-primary);
-  border: 2px solid #b8860b;
-  border-radius: 12px;
-  padding: 32px;
-  min-width: 360px;
-  max-width: 420px;
+  border: var(--size-2) solid #b8860b;
+  border-radius: var(--size-12);
+  padding: var(--size-32);
+  min-width: var(--size-360);
+  max-width: var(--size-420);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: var(--size-20);
 }
 
 .title {
@@ -38,7 +38,7 @@
 .slotsContainer {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--size-12);
   width: 100%;
 }
 
@@ -46,10 +46,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  padding: 12px;
-  border: 2px solid var(--border-default);
-  border-radius: 8px;
+  gap: var(--size-16);
+  padding: var(--size-12);
+  border: var(--size-2) solid var(--border-default);
+  border-radius: var(--size-8);
   background: #16213e;
   transition: border-color 0.15s;
 }
@@ -62,12 +62,12 @@
   font-size: var(--smaller);
   font-weight: bold;
   color: var(--text-muted);
-  min-width: 50px;
+  min-width: var(--size-50);
 }
 
 .symbolBox {
-  width: 96px;
-  height: 72px;
+  width: var(--size-96);
+  height: var(--size-72);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -75,8 +75,8 @@
   font-weight: bold;
   color: var(--text-color);
   background: #0f3460;
-  border: 2px solid var(--border-medium);
-  border-radius: 8px;
+  border: var(--size-2) solid var(--border-medium);
+  border-radius: var(--size-8);
   transition: all 0.15s;
 }
 
@@ -89,7 +89,7 @@
 .hints {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--size-4);
   font-size: var(--fs-11);
   color: var(--text-hint);
   text-align: center;

@@ -1,4 +1,4 @@
 .dropIcon {
   font-size: var(--fs-120);
-  margin-right: 0.5rem;
+  margin-right: var(--size-050r);
 }

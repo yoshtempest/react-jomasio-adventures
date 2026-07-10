@@ -3,35 +3,35 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: var(--size-8);
   flex-shrink: 0;
   width: 40%;
-  border-right: 1px solid var(--border-default);
-  padding-right: 8px;
+  border-right: var(--size-1) solid var(--border-default);
+  padding-right: var(--size-8);
 }
 
 .portrait {
-  width: 80px;
-  height: 80px;
+  width: var(--size-80);
+  height: var(--size-80);
   object-fit: contain;
   image-rendering: pixelated;
-  margin-top: 4px;
+  margin-top: var(--size-4);
 }
 
 .equippedGrid {
   display: grid;
   grid-template-columns: repeat(4, 2fr);
-  gap: 2px;
+  gap: var(--size-2);
   width: 100%;
 }
 
 .equippedCard {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--size-2);
   background: var(--surface-primary);
-  border: 2px solid var(--border-default);
-  padding: 8px;
+  border: var(--size-2) solid var(--border-default);
+  padding: var(--size-8);
   transition: border-color 0.15s;
 }
 
@@ -49,7 +49,7 @@
   font-size: var(--fs-11);
   color: var(--text-secondary);
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: var(--size-1);
 }
 
 .lockedCard {
@@ -59,9 +59,9 @@
   background: repeating-linear-gradient(
     45deg,
     rgba(255, 255, 255, 0.02) 0px,
-    rgba(255, 255, 255, 0.02) 4px,
-    rgba(0, 0, 0, 0.1) 4px,
-    rgba(0, 0, 0, 0.1) 8px
+    rgba(255, 255, 255, 0.02) var(--size-4),
+    rgba(0, 0, 0, 0.1) var(--size-4),
+    rgba(0, 0, 0, 0.1) var(--size-8)
   );
   position: relative;
   overflow: hidden;
@@ -69,7 +69,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: var(--size-4);
 }
 
 .lockedCard::before,
@@ -78,20 +78,20 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 10px;
-  background: radial-gradient(circle at 50% 50%, #555 1px, transparent 1px);
-  background-size: 5px 10px;
+  width: var(--size-10);
+  background: radial-gradient(circle at 50% 50%, #555 var(--size-1), transparent var(--size-1));
+  background-size: var(--size-5) var(--size-10);
   opacity: 0.5;
 }
 
 .lockedCard::before {
-  left: -4px;
-  border-right: 2px solid var(--border-medium);
+  left: calc(-1 * var(--size-4));
+  border-right: var(--size-2) solid var(--border-medium);
 }
 
 .lockedCard::after {
-  right: -4px;
-  border-left: 2px solid var(--border-medium);
+  right: calc(-1 * var(--size-4));
+  border-left: var(--size-2) solid var(--border-medium);
 }
 
 .emptySlot {

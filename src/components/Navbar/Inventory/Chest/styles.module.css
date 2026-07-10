@@ -11,10 +11,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 14px;
+  padding: var(--size-10) var(--size-14);
   background: linear-gradient(135deg, #1a1a3e, #2a1a2e);
-  border: 1px solid #5a3a5e;
-  border-radius: 8px;
+  border: var(--size-1) solid #5a3a5e;
+  border-radius: var(--size-8);
   width: 25%;
 }
 
@@ -23,7 +23,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 2px;
+  gap: var(--size-2);
 }
 
 .dailyChestTitle {

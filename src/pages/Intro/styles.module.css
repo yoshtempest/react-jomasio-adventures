@@ -10,5 +10,5 @@
 
 .selected {
   background-color: var(--primary-color);
-  border: 2px solid var(--background-color);
+  border: var(--size-2) solid var(--background-color);
 }

@@ -1,14 +1,14 @@
 .funnyGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(var(--size-280), 1fr));
+  gap: var(--size-20);
 }
 
 .funnyCard {
-  padding: 24px;
+  padding: var(--size-24);
   background: rgba(18, 27, 49, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 12px;
+  border: var(--size-1) solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--size-12);
   transition: border-color 0.2s, background 0.2s;
 }
 
@@ -18,16 +18,16 @@
 }
 
 .funnyImage {
-  width: 48px;
-  height: 48px;
+  width: var(--size-48);
+  height: var(--size-48);
   object-fit: contain;
   display: block;
-  margin-bottom: 12px;
+  margin-bottom: var(--size-12);
   image-rendering: pixelated;
 }
 
 .funnyCard h3 {
-  margin: 0 0 8px;
+  margin: 0 0 var(--size-8);
   font-size: var(--fs-110);
   color: var(--text-color);
 }
@@ -39,7 +39,7 @@
   color: rgba(255, 255, 255, 0.65);
 }
 
-@media (max-width: 768px) {
+@media (max-width: var(--size-768)) {
   .funnyGrid {
     grid-template-columns: 1fr;
   }

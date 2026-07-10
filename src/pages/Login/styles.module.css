@@ -9,13 +9,13 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--size-16);
   width: 100%;
-  max-width: 360px;
-  padding: 32px;
+  max-width: var(--size-360);
+  padding: var(--size-32);
   background: var(--surface-primary);
-  border: 1px solid var(--border-default);
-  border-radius: 8px;
+  border: var(--size-1) solid var(--border-default);
+  border-radius: var(--size-8);
 }
 
 .title {
@@ -28,18 +28,18 @@
 .label {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--size-4);
   font-size: var(--fs-14);
   color: var(--text-secondary);
 }
 
 .input {
-  padding: 10px 12px;
+  padding: var(--size-10) var(--size-12);
   font-size: var(--small);
   color: #e0e0e0;
   background: #0f0f23;
-  border: 1px solid var(--border-default);
-  border-radius: 4px;
+  border: var(--size-1) solid var(--border-default);
+  border-radius: var(--size-4);
   outline: none;
   transition: border-color 0.2s;
 }
@@ -49,13 +49,13 @@
 }
 
 .button {
-  padding: 12px;
+  padding: var(--size-12);
   font-size: var(--small);
   font-weight: 600;
   color: var(--text-color);
   background: #3a3a5c;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--size-4);
   cursor: pointer;
   transition: background 0.2s;
 }
@@ -71,12 +71,12 @@
 
 .error {
   margin: 0;
-  padding: 8px 12px;
+  padding: var(--size-8) var(--size-12);
   font-size: var(--fs-14);
   color: #ff6b6b;
   background: rgba(255, 107, 107, 0.1);
-  border: 1px solid rgba(255, 107, 107, 0.3);
-  border-radius: 4px;
+  border: var(--size-1) solid rgba(255, 107, 107, 0.3);
+  border-radius: var(--size-4);
 }
 
 .link {

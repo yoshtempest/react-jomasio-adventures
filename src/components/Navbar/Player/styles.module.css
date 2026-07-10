@@ -1,7 +1,7 @@
 .container {
   max-height: 80vh;
   overflow-y: auto;
-  padding: 8px;
+  padding: var(--size-8);
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -13,16 +13,16 @@
 .charSelectRow {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
-  margin-bottom: 12px;
+  gap: var(--size-4);
+  margin-bottom: var(--size-12);
   justify-content: center;
 }
 
 .charBtn {
   font-size: var(--fs-11);
-  padding: 4px 8px;
-  border-radius: 4px;
-  border: 1px solid var(--border-default);
+  padding: var(--size-4) var(--size-8);
+  border-radius: var(--size-4);
+  border: var(--size-1) solid var(--border-default);
   background: var(--surface-primary);
   color: var(--text-secondary);
   cursor: pointer;
@@ -35,7 +35,7 @@
 }
 
 .section {
-  margin-bottom: 12px;
+  margin-bottom: var(--size-12);
 }
 
 .sectionTitle {
@@ -43,17 +43,17 @@
   font-weight: bold;
   color: var(--text-secondary);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  border-bottom: 1px solid var(--border-default);
-  padding-bottom: 4px;
-  margin-bottom: 6px;
+  letter-spacing: var(--size-0var(--size-5));
+  border-bottom: var(--size-1) solid var(--border-default);
+  padding-bottom: var(--size-4);
+  margin-bottom: var(--size-6);
 }
 
 .statRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 3px 0;
+  padding: var(--size-3) 0;
   font-size: var(--fs-12);
 }
 
@@ -69,16 +69,16 @@
 .statPct {
   font-size: var(--fs-11);
   color: var(--accent-color);
-  margin-left: 6px;
+  margin-left: var(--size-6);
 }
 
 .rewardsButton {
   display: block;
   width: 100%;
-  padding: 10px;
-  margin-bottom: 12px;
-  border: 1px solid var(--accent-color);
-  border-radius: 6px;
+  padding: var(--size-10);
+  margin-bottom: var(--size-12);
+  border: var(--size-1) solid var(--accent-color);
+  border-radius: var(--size-6);
   background: var(--surface-card);
   color: var(--text-color);
   font-size: var(--fs-13);
@@ -92,8 +92,8 @@
 }
 
 .rewardRowSelected {
-  outline: 2px solid var(--accent-color);
-  outline-offset: -2px;
+  outline: var(--size-2) solid var(--accent-color);
+  outline-offset: calc(-1 * var(--size-2));
   background: #2a1a0e;
 }
 
@@ -101,18 +101,18 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 5px 6px;
-  margin-bottom: 4px;
+  padding: var(--size-5) var(--size-6);
+  margin-bottom: var(--size-4);
   font-size: var(--fs-11);
   background: var(--surface-card);
-  border-radius: 4px;
-  gap: 6px;
+  border-radius: var(--size-4);
+  gap: var(--size-6);
 }
 
 .rewardInfo {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: var(--size-1);
   flex: 1;
   min-width: 0;
 }
@@ -132,7 +132,7 @@
 .rewardAction {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--size-6);
   flex-shrink: 0;
 }
 
@@ -143,9 +143,9 @@
 }
 
 .claimBtn {
-  padding: 3px 10px;
-  border: 1px solid #5a3a5e;
-  border-radius: 4px;
+  padding: var(--size-3) var(--size-10);
+  border: var(--size-1) solid #5a3a5e;
+  border-radius: var(--size-4);
   background: linear-gradient(135deg, #3a2a4e, #4a2a3e);
   color: #f0d080;
   cursor: pointer;
@@ -158,9 +158,9 @@
 }
 
 .claimBtnDone {
-  padding: 3px 10px;
-  border: 1px solid var(--border-default);
-  border-radius: 4px;
+  padding: var(--size-3) var(--size-10);
+  border: var(--size-1) solid var(--border-default);
+  border-radius: var(--size-4);
   background: transparent;
   color: var(--text-muted);
   font-size: var(--fs-11);
@@ -169,34 +169,34 @@
 }
 
 .charRewardSection {
-  margin-bottom: 8px;
-  padding-left: 8px;
-  border-left: 2px solid var(--border-default);
+  margin-bottom: var(--size-8);
+  padding-left: var(--size-8);
+  border-left: var(--size-2) solid var(--border-default);
 }
 
 .charRewardHeader {
   font-size: var(--fs-11);
   font-weight: 600;
   color: var(--text-secondary);
-  padding: 4px 6px 3px;
-  margin-bottom: 2px;
+  padding: var(--size-4) var(--size-6) var(--size-3);
+  margin-bottom: var(--size-2);
 }
 
 .dailyCard {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 10px;
-  border: 1px solid var(--accent-color);
-  border-radius: 6px;
+  padding: var(--size-8) var(--size-10);
+  border: var(--size-1) solid var(--accent-color);
+  border-radius: var(--size-6);
   background: var(--surface-card);
-  gap: 8px;
+  gap: var(--size-8);
 }
 
 .dailyInfo {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--size-2);
   flex: 1;
   min-width: 0;
 }
@@ -222,18 +222,18 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 5px 6px;
-  margin-bottom: 4px;
+  padding: var(--size-5) var(--size-6);
+  margin-bottom: var(--size-4);
   font-size: var(--fs-11);
   background: var(--surface-card);
-  border-radius: 4px;
-  gap: 6px;
+  border-radius: var(--size-4);
+  gap: var(--size-6);
 }
 
 .missionInfo {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: var(--size-1);
   flex: 1;
   min-width: 0;
 }
@@ -253,7 +253,7 @@
 .missionAction {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--size-6);
   flex-shrink: 0;
 }
 

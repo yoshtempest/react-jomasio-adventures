@@ -12,8 +12,8 @@
   background-color: var(--text-color);
   width: 30vw;
   height: 6vh;
-  padding: 8px;
-  border-radius: 6px;
+  padding: var(--size-8);
+  border-radius: var(--size-6);
   border: none;
   color: var(--surface-dark);
   font-weight: bold;

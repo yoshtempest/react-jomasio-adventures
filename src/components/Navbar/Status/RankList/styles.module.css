@@ -5,8 +5,8 @@
 .ranksList {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  padding: 8px;
+  gap: var(--size-8);
+  padding: var(--size-8);
 }
 
 .rankRow {
@@ -15,15 +15,15 @@
   justify-content: space-between;
   height: 10vh;
   background: var(--surface-primary);
-  border: 1px solid var(--border-default);
-  border-radius: 6px;
-  padding: 8px 12px;
+  border: var(--size-1) solid var(--border-default);
+  border-radius: var(--size-6);
+  padding: var(--size-8) var(--size-12);
 }
 
 .rankInfo {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--size-2);
 }
 
 .rankName {
@@ -45,12 +45,12 @@
 
 .rankChars {
   display: flex;
-  gap: 4px;
+  gap: var(--size-4);
 }
 
 .rankCharFace {
-  width: 28px;
-  height: 28px;
+  width: var(--size-28);
+  height: var(--size-28);
   object-fit: contain;
   image-rendering: pixelated;
 }

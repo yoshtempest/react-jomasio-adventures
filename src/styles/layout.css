@@ -37,15 +37,15 @@
   right: 0%;
   background: var(--surface-dark);
   align-items: center;
-  border: 2px solid var(--border-medium);
-  border-radius: 8px;
+  border: var(--size-2) solid var(--border-medium);
+  border-radius: var(--size-8);
   z-index: 999;
 }
 
 .section {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--size-8);
 }
 
 .sectionTitle {

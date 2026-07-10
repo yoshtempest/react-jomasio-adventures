@@ -1,8 +1,8 @@
 .colorEffect {
-  margin-top: 2px;
-  width: 200px;
-  height: 12px;
-  border: 1px solid #5599ff;
+  margin-top: var(--size-2);
+  width: var(--size-200);
+  height: var(--size-12);
+  border: var(--size-1) solid #5599ff;
   background-color: #1a3355;
   overflow: hidden;
   position: relative;
@@ -25,6 +25,6 @@
   color: var(--text-color);
   font-size: var(--fs-10);
   font-weight: bold;
-  text-shadow: 1px 1px 2px var(--surface-dark);
+  text-shadow: var(--size-1) var(--size-1) var(--size-2) var(--surface-dark);
   pointer-events: none;
 }

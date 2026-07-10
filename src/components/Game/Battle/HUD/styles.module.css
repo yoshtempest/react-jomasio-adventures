@@ -6,8 +6,8 @@
 
 .image {
   background-color: var(--background-color);
-  border: 1px solid var(--text-color);
-  border-radius: 2px;
+  border: var(--size-1) solid var(--text-color);
+  border-radius: var(--size-2);
   width: 12vh;
   height: 12vh;
   object-fit: contain;
@@ -53,22 +53,22 @@
 .playerInfo {
   position: absolute;
   top: 0;
-  left: 80px;
+  left: var(--size-80);
 }
 
 .npcInfo {
   position: absolute;
   top: 0;
-  right: 80px;
+  right: var(--size-80);
 }
 
 .shieldTrack {
-  width: 200px;
-  height: 6px;
+  width: var(--size-200);
+  height: var(--size-6);
   background: var(--border-medium);
-  border-radius: 2px;
+  border-radius: var(--size-2);
   overflow: hidden;
-  margin-top: 2px;
+  margin-top: var(--size-2);
 }
 
 .shieldFill {
@@ -79,13 +79,13 @@
 
 .petTrack {
   position: relative;
-  width: 200px;
-  height: 14px;
+  width: var(--size-200);
+  height: var(--size-14);
   background: var(--border-default);
-  border-radius: 2px;
+  border-radius: var(--size-2);
   overflow: hidden;
-  margin-top: 4px;
-  border: 1px solid var(--text-muted);
+  margin-top: var(--size-4);
+  border: var(--size-1) solid var(--text-muted);
 }
 
 .petFill {
@@ -96,19 +96,19 @@
 
 .petLabel {
   position: absolute;
-  left: 4px;
+  left: var(--size-4);
   top: 0;
   font-size: var(--fs-10);
-  line-height: 14px;
+  line-height: var(--size-14);
   color: var(--text-color);
   font-weight: bold;
 }
 
 .petText {
   position: absolute;
-  right: 4px;
+  right: var(--size-4);
   top: 0;
   font-size: var(--fs-10);
-  line-height: 14px;
+  line-height: var(--size-14);
   color: var(--text-color);
 }

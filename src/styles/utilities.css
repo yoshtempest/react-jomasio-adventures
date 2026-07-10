@@ -1,6 +1,6 @@
 .cursor {
   position: absolute;
-  top: -10px;
+  top: calc(-1 * var(--size-10));
   left: 50%;
   transform: translateX(-50%);
 }
@@ -8,11 +8,11 @@
 .active {
   display: flex; /* 👈 ESSENCIAL */
   align-items: center; /* centraliza verticalmente */
-  gap: 6px; /* espaço entre seta e texto */
+  gap: var(--size-6); /* espaço entre seta e texto */
   background-color: rgba(0, 0, 0, 0.4) !important;
   font-weight: bold;
-  border-radius: 1px;
-  padding: 4px;
+  border-radius: var(--size-1);
+  padding: var(--size-4);
 
   animation: hintPulse 1.5s ease-in-out infinite;
 }
@@ -23,9 +23,9 @@
 
 .xpBar {
   width: 90%;
-  height: 6px;
+  height: var(--size-6);
   background: var(--border-default);
-  border-radius: 4px;
+  border-radius: var(--size-4);
   overflow: hidden;
 }
 

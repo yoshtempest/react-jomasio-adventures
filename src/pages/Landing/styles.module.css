@@ -6,7 +6,7 @@
 }
 
 .section {
-  padding: 80px 24px;
+  padding: var(--size-80) var(--size-24);
   background: #0a0500;
 }
 
@@ -15,37 +15,37 @@
 }
 
 .sectionInner {
-  max-width: 1200px;
+  max-width: var(--size-1200);
   margin: 0 auto;
 }
 
 .sectionTitle {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin: 0 0 40px;
+  gap: var(--size-12);
+  margin: 0 0 var(--size-40);
   font-size: var(--small);
   color: var(--text-color);
 }
 
 .sectionDesc {
-  margin: -24px 0 40px;
+  margin: calc(-1 * var(--size-24)) 0 var(--size-40);
   font-size: var(--small);
   color: rgba(255, 255, 255, 0.6);
 }
 
 @keyframes bounce {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(8px); }
+  50% { transform: translateY(var(--size-8)); }
 }
 
 .bounce {
   animation: bounce 2s infinite;
 }
 
-@media (max-width: 768px) {
+@media (max-width: var(--size-768)) {
   .section {
-    padding: 48px 16px;
+    padding: var(--size-48) var(--size-16);
   }
 
   .sectionTitle {
