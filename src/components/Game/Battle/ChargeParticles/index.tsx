@@ -80,8 +80,7 @@ export function ChargeParticles({
               height: `${height}px`,
               background: `linear-gradient(to top, ${glowColor}, ${spikeColors[colorIdx]}, transparent)`,
               transform: `rotate(${angle}deg)`,
-              animationDelay: `${(i * 0.08).toFixed(2)}s`,
-              animationDuration: `${(0.25 + Math.random() * 0.15).toFixed(2)}s`,
+              animation: `spikeFlicker ${(0.25 + Math.random() * 0.15).toFixed(2)}s ease-in-out ${(i * 0.08).toFixed(2)}s infinite alternate`,
             }}
           />
         );
@@ -97,8 +96,7 @@ export function ChargeParticles({
               height: 50 + i * 12,
               background: `linear-gradient(to top, ${glowColor}, ${spikeColors[i % spikeColors.length]}, transparent)`,
               opacity: 0.3 + Math.random() * 0.3,
-              animation: `kaiokenStreamer ${0.6 + Math.random() * 0.3}s ease-in-out infinite`,
-              animationDelay: `${i * 0.08}s`,
+              animation: `kaiokenStreamer ${0.6 + Math.random() * 0.3}s ease-in-out ${i * 0.08}s infinite`,
             }}
           />
         ))}
