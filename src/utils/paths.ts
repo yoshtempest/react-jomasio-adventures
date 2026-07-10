@@ -32,6 +32,10 @@ export function playerPath(path: string) {
   return (asset(`/assets/player/${path}`));
 }
 
+export function npcPath(path: string) {
+  return (asset(`/assets/npcs/${path}`));
+}
+
 export function soundEffectPath(path: string) {
   return (asset(`/assets/songs/soundEffects/${path}`));
 }

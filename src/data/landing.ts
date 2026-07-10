@@ -1,4 +1,4 @@
-import { asset, jomasioPath, playerPath } from "@/utils/paths";
+import { asset, jomasioPath, playerPath, npcPath } from "@/utils/paths";
 
 export const locations = [
   { name: "Hall", image: jomasioPath("/hall/one.svg") },
@@ -10,14 +10,14 @@ export const locations = [
 ];
 
 export const bosses = [
-  { name: "Jailson", image: asset("/assets/npcs/jailson/default.svg"), desc: "O rei da delícia" },
-  { name: "Irmãs Planetárias", image: asset("/assets/npcs/planetarySisters/mary.svg"), desc: "Guardiãs do centro" },
-  { name: "Maurão", image: asset("/assets/npcs/maurao/default.svg"), desc: "A fera do pandemônio" },
-  { name: "Vandinha", image: asset("/assets/npcs/vandinhaFragment/default.svg"), desc: "Fragmento sombrio" },
-  { name: "JhowSimar", image: asset("/assets/npcs/jhowsimar/default.svg"), desc: "O lendário porteiro" },
-  { name: "Hungry King", image: asset("/assets/npcs/hungryKing/default.svg"), desc: "Rei da fome" },
-  { name: "Juan Derson", image: asset("/assets/npcs/janderson/right.svg"), desc: "Professor do café" },
-  { name: "Bode", image: asset("/assets/npcs/goat/default.svg"), desc: "Cardápio principal" },
+  { name: "Jailson", image: npcPath("/jailson/default.svg"), desc: "O rei da delícia" },
+  { name: "Irmãs Planetárias", image: npcPath("/planetarySisters/mary.svg"), desc: "Guardiãs do centro" },
+  { name: "Maurão", image: npcPath("/maurao/default.svg"), desc: "A fera do pandemônio" },
+  { name: "Vandinha", image: npcPath("/vandinhaFragment/default.svg"), desc: "Fragmento sombrio" },
+  { name: "JhowSimar", image: npcPath("/jhowsimar/default.svg"), desc: "O lendário porteiro" },
+  { name: "Hungry King", image: npcPath("/hungryKing/default.svg"), desc: "Rei da fome" },
+  { name: "Juan Derson", image: npcPath("/janderson/right.svg"), desc: "Professor do café" },
+  { name: "Bode", image: npcPath("/goat/default.svg"), desc: "Cardápio principal" },
 ];
 
 export const characters = [
@@ -48,7 +48,7 @@ export const funnyMoments = [
   {
     title: "Morto de Fome",
     desc: "É duas fungada e a comida se acaba, é duas pedalada e a corrente cai.",
-    image: asset("/assets/npcs/hungryDeath/face.svg"),
+    image: npcPath("/hungryDeath/face.svg"),
   },
   {
     title: "Leite Suspeito",

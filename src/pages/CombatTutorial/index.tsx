@@ -6,7 +6,7 @@ import { useGameAudio } from "@/hooks/game/useGameAudio";
 import { useCombatTasks } from "@/hooks/tutorial/useCombatTasks";
 import { useCombatTutorialSetup } from "@/hooks/tutorial/useCombatTutorialSetup";
 import { useCutscene } from "@/hooks/interaction/useCutscene";
-import { asset } from "@/utils/paths";
+import { npcPath } from "@/utils/paths";
 import Talking from "@/components/Talking";
 import { combatTutorialDialogue } from "@/data/dialogues/combatTutorial/one";
 import { GameMap } from "@/components/Game/Map/Game";
@@ -135,7 +135,7 @@ function CombatTutorialInner() {
 
       <div className={styles.overlay}>
         <div className={styles.taskBox}>
-          <img className={styles.image} src={asset("/assets/npcs/surica/default.svg")}/>
+          <img className={styles.image} src={npcPath("/surica/default.svg")}/>
           <p className={styles.taskText}>{instruction.text}</p>
         </div>
 
