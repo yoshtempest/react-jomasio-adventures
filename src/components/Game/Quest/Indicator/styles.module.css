@@ -40,8 +40,8 @@
   color: var(--text-color);
   background: var(--accent-color);
   border-radius: 50%;
-  width: var(--size-20);
-  height: var(--size-20);
+  width: var(--low-medium);
+  height: var(--low-medium);
   display: flex;
   align-items: center;
   justify-content: center;

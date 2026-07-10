@@ -39,10 +39,10 @@
   right: 2vw;
   bottom: 2vh;
 
-  padding: var(--small) var(--size-150r);
+  padding: var(--small) var(--medium);
 
   border: none;
-  border-radius: var(--size-12);
+  border-radius: var(--smaller);
 
   background: rgba(255, 255, 255, 0.15);
   color: var(--text-color);

@@ -44,7 +44,7 @@ export function CantinaScene({ sceneId }: Props) {
     return {
       ...scene,
       npcs: (scene.npcs ?? []).map((npc) =>
-        npc.gridX === 9 && npc.gridY === 4
+        npc.gridX === 9 && npc.gridY === 4 && sceneId === "two"
           ? {
               ...npc,
               interaction: (startDialogue: (d: Dialogue[]) => void) => {
@@ -62,7 +62,7 @@ export function CantinaScene({ sceneId }: Props) {
           : npc,
       ),
     };
-  }, [scene, isReady, giveFood, addItem]);
+  }, [scene, sceneId, isReady, giveFood, addItem]);
 
   if (!scene || !sceneWithJeso) {
     return <div>Scene não encontrada</div>;

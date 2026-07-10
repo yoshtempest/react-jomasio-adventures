@@ -12,11 +12,11 @@
 
 .classList {
   display: flex;
-  gap: var(--size-20);
+  gap: var(--low-medium);
 }
 
 .classItem {
-  padding: var(--size-20);
+  padding: var(--low-medium);
   border: var(--size-2) solid var(--border-medium);
   position: relative;
   background-color: var(--primary-color);

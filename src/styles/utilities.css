@@ -1,6 +1,6 @@
 .cursor {
   position: absolute;
-  top: calc(-1 * var(--size-10));
+  top: calc(-1 * var(--fs-10));
   left: 50%;
   transform: translateX(-50%);
 }

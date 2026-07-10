@@ -16,7 +16,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--size-150r);
+  gap: var(--medium);
   padding: var(--size-32);
   animation: scaleIn 0.5s ease-out;
 }

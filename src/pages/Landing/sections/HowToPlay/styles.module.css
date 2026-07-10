@@ -1,17 +1,17 @@
 .howtoGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(var(--size-240), 1fr));
-  gap: var(--size-24);
+  gap: var(--medium);
 }
 
 .howtoStep {
   display: flex;
   gap: var(--small);
   align-items: flex-start;
-  padding: var(--size-24);
+  padding: var(--medium);
   background: rgba(18, 27, 49, 0.4);
   border: var(--size-1) solid rgba(255, 255, 255, 0.06);
-  border-radius: var(--size-12);
+  border-radius: var(--smaller);
   transition: border-color 0.2s;
 }
 

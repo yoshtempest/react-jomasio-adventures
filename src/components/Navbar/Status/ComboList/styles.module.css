@@ -5,8 +5,8 @@
 }
 
 .comboCard {
-  margin-top: var(--size-12);
-  padding: var(--size-10) var(--size-12);
+  margin-top: var(--smaller);
+  padding: var(--fs-10) var(--smaller);
   border: var(--size-1) solid var(--border-default);
   border-radius: var(--size-6);
 }
@@ -35,8 +35,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: var(--size-28);
-  height: var(--size-24);
+  min-width: var(--fs-28);
+  height: var(--medium);
   padding: 0 var(--size-6);
   font-size: var(--fs-11);
   font-weight: 700;

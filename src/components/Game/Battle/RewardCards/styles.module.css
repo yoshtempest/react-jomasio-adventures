@@ -1,13 +1,13 @@
 .rewardsGrid {
   display: grid;
   grid-template-columns: repeat(1, 4fr);
-  gap: var(--size-12);
+  gap: var(--smaller);
 }
 
 .rewardCard {
   background: rgba(255, 255, 255, 0.08);
   border-radius: var(--fs-8);
-  padding: var(--size-12);
+  padding: var(--smaller);
   display: flex;
   flex-direction: column;
   align-items: center;

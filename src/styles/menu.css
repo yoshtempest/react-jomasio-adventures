@@ -68,8 +68,8 @@
 }
 
 .dropIcon {
-  width: var(--size-28);
-  height: var(--size-28);
+  width: var(--fs-28);
+  height: var(--fs-28);
   object-fit: contain;
   flex-shrink: 0;
 }
@@ -82,10 +82,10 @@
 .dropItem {
   display: flex;
   align-items: center;
-  gap: var(--size-10);
+  gap: var(--fs-10);
   background: rgba(255, 255, 255, 0.05);
   border-radius: var(--size-6);
-  padding: var(--fs-8) var(--size-12);
+  padding: var(--fs-8) var(--smaller);
 }
 
 .InventoryButton {
@@ -115,7 +115,7 @@
 .dailyButton {
   display: flex;
   align-items: center;
-  padding: var(--fs-8) var(--size-18);
+  padding: var(--fs-8) var(--fs-18);
   justify-content: center;
   border: var(--size-1) solid #5a3a5e;
   border-radius: var(--size-6);

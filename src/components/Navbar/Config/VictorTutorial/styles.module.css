@@ -12,7 +12,7 @@
   display: flex;
   width: 2.4vw;
   height: 0.8vw;
-  border-radius: var(--size-10);
+  border-radius: var(--fs-10);
 }
 
 .tutorialContainer {
@@ -81,7 +81,7 @@
 
 .gameButtons {
   display: flex;
-  gap: var(--size-24);
+  gap: var(--medium);
   align-items: flex-end;
   flex-direction: column;
 }

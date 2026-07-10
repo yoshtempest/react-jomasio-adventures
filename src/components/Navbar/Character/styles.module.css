@@ -15,7 +15,7 @@
 }
 
 .cursor {
-  margin-top: var(--size-10);
+  margin-top: var(--fs-10);
 }
 
 .characterImage {

@@ -1,7 +1,7 @@
 .container {
  position: relative;
  width: var(--size-50);
- height: var(--size-20);
+ height: var(--low-medium);
  border: var(--size-2) solid var(--surface-dark);
  background: var(--border-default);
 }
@@ -13,10 +13,10 @@
 
 .needle {
   position: absolute;
-  bottom: var(--size-10);
+  bottom: var(--fs-10);
   left: 50%;
   width: var(--size-2);
-  height: var(--size-20);
+  height: var(--low-medium);
   background: red;
   transform-origin: bottom center;
   transition: transform 0.2s ease;

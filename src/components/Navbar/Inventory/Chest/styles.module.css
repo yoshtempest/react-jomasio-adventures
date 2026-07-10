@@ -11,7 +11,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--size-10) var(--size-14);
+  padding: var(--fs-10) var(--fs-14);
   background: linear-gradient(135deg, #1a1a3e, #2a1a2e);
   border: var(--size-1) solid #5a3a5e;
   border-radius: var(--fs-8);

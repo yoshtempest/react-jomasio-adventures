@@ -1,11 +1,11 @@
 .hudTop {
   position: absolute;
-  top: var(--size-10);
+  top: var(--fs-10);
   left: 0;
   right: 0;
   display: flex;
   justify-content: space-between;
-  padding: 0 var(--size-20);
+  padding: 0 var(--low-medium);
   z-index: 15;
   pointer-events: none;
 }
@@ -52,7 +52,7 @@
   position: relative;
   background: rgba(0, 0, 0, 0.8);
   border: var(--size-2) solid rgba(255, 255, 255, 0.3);
-  border-radius: var(--size-12);
+  border-radius: var(--smaller);
   align-items: center;
   width: 20vw;
   padding: var(--small);
@@ -81,8 +81,8 @@
 }
 
 .dot {
-  width: var(--size-10);
-  height: var(--size-10);
+  width: var(--fs-10);
+  height: var(--fs-10);
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.2);
   transition: all 0.3s ease;
@@ -95,6 +95,6 @@
 
 .dotActive {
   background: var(--text-color);
-  box-shadow: 0 0 var(--size-10) rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 var(--fs-10) rgba(255, 255, 255, 0.8);
   transform: scale(1.3);
 }

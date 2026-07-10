@@ -13,7 +13,7 @@
 .progress {
   display: flex;
   align-items: center;
-  gap: var(--size-10);
+  gap: var(--fs-10);
 }
 
 .name {
@@ -24,7 +24,7 @@
 
 .bar {
   flex: 1;
-  height: var(--size-10);
+  height: var(--fs-10);
   background: rgba(255, 255, 255, 0.1);
   border-radius: var(--size-5);
   overflow: hidden;

@@ -37,8 +37,8 @@
   color: #00bfff;
   font-size: var(--fs-28);
   text-shadow:
-    0 0 var(--size-10) rgba(0, 191, 255, 0.8),
-    0 0 var(--size-20) rgba(0, 191, 255, 0.6),
+    0 0 var(--fs-10) rgba(0, 191, 255, 0.8),
+    0 0 var(--low-medium) rgba(0, 191, 255, 0.6),
     var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8),
     calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8),
     var(--size-1) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8),
@@ -51,8 +51,8 @@
   font-size: var(--size-32);
   font-weight: 900;
   text-shadow:
-    0 0 var(--size-10) #ff0044,
-    0 0 var(--size-20) #ff0044,
+    0 0 var(--fs-10) #ff0044,
+    0 0 var(--low-medium) #ff0044,
     var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8),
     calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8),
     var(--size-1) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8),
@@ -119,7 +119,7 @@
   }
   50% {
     opacity: 1;
-    transform: translateY(calc(-1 * var(--size-20))) scale(1.2);
+    transform: translateY(calc(-1 * var(--low-medium))) scale(1.2);
   }
   100% {
     opacity: 0;

@@ -17,7 +17,7 @@
 .difficultyContainer {
   display: flex;
   align-items: center;
-  gap: var(--size-20);
+  gap: var(--low-medium);
 }
 
 .difficultyItem {
@@ -66,9 +66,9 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  width: var(--size-12);
+  width: var(--smaller);
   background: radial-gradient(circle at 50% 50%, #555 var(--size-1), transparent var(--size-1));
-  background-size: var(--size-6) var(--size-12);
+  background-size: var(--size-6) var(--smaller);
   opacity: 0.5;
 }
 
@@ -89,12 +89,12 @@
 
 .volumeContainer {
   position: relative;
-  margin-top: var(--size-20);
+  margin-top: var(--low-medium);
 }
 
 .volumeBar {
   width: var(--size-200);
-  height: var(--size-12);
+  height: var(--smaller);
   border: var(--size-2) solid var(--primary-color);
   border-radius: var(--size-4);
 }
@@ -106,7 +106,7 @@
 
 .speedContainer {
   position: relative;
-  margin-top: var(--size-20);
+  margin-top: var(--low-medium);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -116,13 +116,13 @@
 .speedOptions {
   display: flex;
   align-items: center;
-  gap: var(--size-12);
+  gap: var(--smaller);
 }
 
 .speedItem {
   display: flex;
   justify-content: center;
-  padding: var(--fs-8) var(--size-12);
+  padding: var(--fs-8) var(--smaller);
   border-radius: var(--size-5);
   border: var(--size-2) solid var(--primary-color);
   min-width: 6vw;
@@ -132,7 +132,7 @@
   position: relative;
   margin-top: 5%;
   text-wrap: nowrap;
-  padding: var(--fs-8) var(--size-12);
+  padding: var(--fs-8) var(--smaller);
   border-radius: var(--size-4);
   text-align: center;
   border: var(--size-2) solid var(--primary-color);

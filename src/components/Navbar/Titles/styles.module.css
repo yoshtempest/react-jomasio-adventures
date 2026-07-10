@@ -45,8 +45,8 @@
 }
 
 .iconBox {
-  width: var(--size-36);
-  height: var(--size-36);
+  width: var(--fs-36);
+  height: var(--fs-36);
   display: flex;
   align-items: center;
   justify-content: center;

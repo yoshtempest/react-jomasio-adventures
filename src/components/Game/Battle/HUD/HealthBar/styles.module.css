@@ -1,7 +1,7 @@
 .container {
   position: relative;
   width: var(--size-200);
-  height: var(--size-20);
+  height: var(--low-medium);
   border: var(--size-2) solid var(--surface-dark);
   background: var(--border-default);
   overflow: hidden;

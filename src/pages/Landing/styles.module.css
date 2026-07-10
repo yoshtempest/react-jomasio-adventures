@@ -6,7 +6,7 @@
 }
 
 .section {
-  padding: var(--size-80) var(--size-24);
+  padding: var(--fs-500) var(--medium);
   background: #0a0500;
 }
 
@@ -22,14 +22,14 @@
 .sectionTitle {
   display: flex;
   align-items: center;
-  gap: var(--size-12);
+  gap: var(--smaller);
   margin: 0 0 var(--size-40);
   font-size: var(--small);
   color: var(--text-color);
 }
 
 .sectionDesc {
-  margin: calc(-1 * var(--size-24)) 0 var(--size-40);
+  margin: calc(-1 * var(--medium)) 0 var(--size-40);
   font-size: var(--small);
   color: rgba(255, 255, 255, 0.6);
 }

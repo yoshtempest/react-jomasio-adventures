@@ -29,12 +29,12 @@
   display: flex;
   flex-direction: column;
   gap: var(--size-4);
-  font-size: var(--fs-0875);
+  font-size: var(--fs-14);
   color: var(--text-secondary);
 }
 
 .input {
-  padding: var(--size-10) var(--size-12);
+  padding: var(--fs-10) var(--smaller);
   font-size: var(--small);
   color: #e0e0e0;
   background: #0f0f23;
@@ -49,7 +49,7 @@
 }
 
 .button {
-  padding: var(--size-12);
+  padding: var(--smaller);
   font-size: var(--small);
   font-weight: 600;
   color: var(--text-color);
@@ -71,8 +71,8 @@
 
 .error {
   margin: 0;
-  padding: var(--fs-8) var(--size-12);
-  font-size: var(--fs-0875);
+  padding: var(--fs-8) var(--smaller);
+  font-size: var(--fs-14);
   color: #ff6b6b;
   background: rgba(255, 107, 107, 0.1);
   border: var(--size-1) solid rgba(255, 107, 107, 0.3);
@@ -81,7 +81,7 @@
 
 .link {
   margin: 0;
-  font-size: var(--fs-0875);
+  font-size: var(--fs-14);
   color: var(--text-muted);
   text-align: center;
 }

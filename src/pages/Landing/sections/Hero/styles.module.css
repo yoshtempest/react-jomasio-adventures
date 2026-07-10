@@ -29,7 +29,7 @@
   flex-direction: column;
   align-items: center;
   gap: var(--size-32);
-  padding: var(--size-24);
+  padding: var(--medium);
   text-align: center;
 }
 
@@ -49,14 +49,14 @@
 .ctaButton {
   display: flex;
   align-items: center;
-  gap: var(--size-12);
-  padding: var(--size-18) var(--size-56);
+  gap: var(--smaller);
+  padding: var(--fs-18) var(--size-56);
   font-size: var(--fs-120);
   font-weight: 700;
   color: var(--text-color);
   background: linear-gradient(135deg, #121b31, #1e2d4f);
   border: var(--size-2) solid rgba(255, 255, 255, 0.2);
-  border-radius: var(--size-12);
+  border-radius: var(--smaller);
   cursor: pointer;
   transition: all 0.25s;
   text-transform: uppercase;

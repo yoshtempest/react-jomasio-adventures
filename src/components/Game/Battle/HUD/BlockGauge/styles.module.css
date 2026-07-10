@@ -1,7 +1,7 @@
 .colorEffect {
   margin-top: var(--size-2);
   width: var(--size-200);
-  height: var(--size-12);
+  height: var(--smaller);
   border: var(--size-1) solid #5599ff;
   background-color: #1a3355;
   overflow: hidden;

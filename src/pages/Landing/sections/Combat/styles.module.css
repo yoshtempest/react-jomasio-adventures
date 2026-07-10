@@ -1,15 +1,15 @@
 .combatGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(var(--size-240), 1fr));
-  gap: var(--size-20);
+  gap: var(--low-medium);
   margin-bottom: var(--size-64);
 }
 
 .combatCard {
-  padding: var(--size-28);
+  padding: var(--fs-28);
   background: rgba(18, 27, 49, 0.4);
   border: var(--size-1) solid rgba(255, 255, 255, 0.06);
-  border-radius: var(--size-12);
+  border-radius: var(--smaller);
   text-align: center;
   transition: border-color 0.2s, background 0.2s;
 }
@@ -25,7 +25,7 @@
 }
 
 .combatCard h3 {
-  margin: 0 0 var(--size-10);
+  margin: 0 0 var(--fs-10);
   font-size: var(--fs-110);
   color: var(--text-color);
 }
@@ -38,7 +38,7 @@
 }
 
 .bossesTitle {
-  margin: 0 0 var(--size-24);
+  margin: 0 0 var(--medium);
   font-size: var(--fs-140);
   color: var(--text-color);
   text-align: center;
@@ -55,10 +55,10 @@
   flex-direction: column;
   align-items: center;
   gap: var(--fs-8);
-  padding: var(--size-20) var(--size-12);
+  padding: var(--low-medium) var(--smaller);
   background: rgba(18, 27, 49, 0.3);
   border: var(--size-1) solid rgba(255, 255, 255, 0.06);
-  border-radius: var(--size-12);
+  border-radius: var(--smaller);
   text-align: center;
   transition: border-color 0.2s, transform 0.2s;
 }

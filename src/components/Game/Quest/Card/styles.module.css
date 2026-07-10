@@ -1,5 +1,5 @@
 .container {
-  padding: var(--size-10);
+  padding: var(--fs-10);
   transition: 0.2s;
   border-radius: var(--size-4);
 }

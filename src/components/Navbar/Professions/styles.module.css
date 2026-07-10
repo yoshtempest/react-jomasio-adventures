@@ -8,7 +8,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--fs-8) var(--size-12);
+  padding: var(--fs-8) var(--smaller);
   border-bottom: var(--size-1) solid rgba(255, 255, 255, 0.1);
 }
 
@@ -26,18 +26,18 @@
 
 .profession {
   color: #aaa;
-  font-size: var(--fs-085em);
+  font-size: var(--fs-085);
 }
 
 .level {
   color: #ffcc00;
-  font-size: var(--fs-085em);
+  font-size: var(--fs-085);
 }
 
 .header {
   text-align: center;
-  padding: var(--size-12);
-  font-size: var(--fs-11em);
+  padding: var(--smaller);
+  font-size: var(--fs-110);
   border-bottom: var(--size-1) solid rgba(255, 255, 255, 0.2);
   margin-bottom: var(--fs-8);
 }

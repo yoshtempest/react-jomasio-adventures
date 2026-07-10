@@ -17,7 +17,7 @@
   background: var(--surface-primary);
   border: var(--size-1) solid var(--border-default);
   border-radius: var(--size-6);
-  padding: var(--fs-8) var(--size-12);
+  padding: var(--fs-8) var(--smaller);
 }
 
 .rankInfo {
@@ -49,8 +49,8 @@
 }
 
 .rankCharFace {
-  width: var(--size-28);
-  height: var(--size-28);
+  width: var(--fs-28);
+  height: var(--fs-28);
   object-fit: contain;
   image-rendering: pixelated;
 }

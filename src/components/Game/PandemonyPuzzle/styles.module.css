@@ -11,14 +11,14 @@
 .modal {
   background: var(--surface-primary);
   border: var(--size-2) solid #b8860b;
-  border-radius: var(--size-12);
+  border-radius: var(--smaller);
   padding: var(--size-32);
   min-width: var(--size-360);
   max-width: var(--size-420);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--size-20);
+  gap: var(--low-medium);
 }
 
 .title {
@@ -38,7 +38,7 @@
 .slotsContainer {
   display: flex;
   flex-direction: column;
-  gap: var(--size-12);
+  gap: var(--smaller);
   width: 100%;
 }
 
@@ -47,7 +47,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--small);
-  padding: var(--size-12);
+  padding: var(--smaller);
   border: var(--size-2) solid var(--border-default);
   border-radius: var(--fs-8);
   background: #16213e;

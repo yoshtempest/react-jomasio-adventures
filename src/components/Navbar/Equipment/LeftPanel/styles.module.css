@@ -11,8 +11,8 @@
 }
 
 .portrait {
-  width: var(--size-80);
-  height: var(--size-80);
+  width: var(--fs-500);
+  height: var(--fs-500);
   object-fit: contain;
   image-rendering: pixelated;
   margin-top: var(--size-4);
@@ -78,9 +78,9 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  width: var(--size-10);
+  width: var(--fs-10);
   background: radial-gradient(circle at 50% 50%, #555 var(--size-1), transparent var(--size-1));
-  background-size: var(--size-5) var(--size-10);
+  background-size: var(--size-5) var(--fs-10);
   opacity: 0.5;
 }
 

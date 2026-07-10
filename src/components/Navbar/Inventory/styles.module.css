@@ -47,7 +47,7 @@
 }
 
 .item {
-  padding: var(--fs-8) var(--size-12);
+  padding: var(--fs-8) var(--smaller);
   background-color: var(--surface-card);
   border-left: var(--size-1) solid var(--background-color);
   border-bottom: var(--size-1) solid var(--background-color);
@@ -57,7 +57,7 @@
 .itemRow {
   display: flex;
   align-items: center;
-  gap: var(--size-10);
+  gap: var(--fs-10);
 }
 
 .icon {

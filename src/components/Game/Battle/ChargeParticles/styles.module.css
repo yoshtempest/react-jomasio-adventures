@@ -83,7 +83,7 @@
 .sparkParticle {
   position: absolute;
   width: var(--size-6);
-  height: var(--size-12);
+  height: var(--smaller);
   clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
   transition: top 0.08s linear, opacity 0.08s linear;
 }
@@ -119,7 +119,7 @@
 @keyframes kaiokenStreamer {
   0% { transform: translateY(0) scaleX(1); opacity: 0.1; }
   30% { opacity: 0.6; }
-  100% { transform: translateY(calc(-1 * var(--size-80))) scaleX(0.3); opacity: 0; }
+  100% { transform: translateY(calc(-1 * var(--fs-500))) scaleX(0.3); opacity: 0; }
 }
 
 @keyframes chargePulse {

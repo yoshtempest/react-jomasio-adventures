@@ -37,7 +37,7 @@
 }
 
 .loading-logo {
-  width: var(--size-80);
+  width: var(--fs-500);
   opacity: 0;
   animation: zoomIn 0.3s ease forwards;
 }

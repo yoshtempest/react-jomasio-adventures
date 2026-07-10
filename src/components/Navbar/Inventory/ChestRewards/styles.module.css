@@ -1,5 +1,5 @@
 .section {
-  margin: var(--size-075r) 0;
+  margin: var(--smaller) 0;
 }
 
 .section h4 {
@@ -28,7 +28,7 @@
 
 .actions {
   display: flex;
-  gap: var(--size-12);
+  gap: var(--smaller);
 }
 
 .actionSelected {

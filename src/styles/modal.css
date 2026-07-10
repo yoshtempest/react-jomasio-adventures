@@ -19,13 +19,13 @@
   align-items: center;
   justify-content: center;
   gap: 1vh;
-  border-radius: var(--size-10);
+  border-radius: var(--fs-10);
 }
 
 .modal button {
-  padding: var(--size-12) var(--size-24);
+  padding: var(--smaller) var(--medium);
   font-size: var(--fs-18);
   cursor: pointer;
   background-color: var(--background-color);
-  border-radius: var(--size-10);
+  border-radius: var(--fs-10);
 }

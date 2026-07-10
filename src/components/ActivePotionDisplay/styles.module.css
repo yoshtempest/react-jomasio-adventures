@@ -9,8 +9,8 @@
 }
 
 .potionImage {
-  width: var(--size-24);
-  height: var(--size-24);
+  width: var(--medium);
+  height: var(--medium);
   object-fit: contain;
 }
 

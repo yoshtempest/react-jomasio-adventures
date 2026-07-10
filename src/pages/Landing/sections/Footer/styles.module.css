@@ -1,5 +1,5 @@
 .footer {
-  padding: var(--size-32) var(--size-24);
+  padding: var(--size-32) var(--medium);
   text-align: center;
   background: #050208;
   color: rgba(255, 255, 255, 0.4);
@@ -12,6 +12,6 @@
 
 .footerSmall {
   margin-top: var(--size-4);
-  font-size: var(--fs-075);
+  font-size: var(--smaller);
   color: rgba(255, 255, 255, 0.25);
 }

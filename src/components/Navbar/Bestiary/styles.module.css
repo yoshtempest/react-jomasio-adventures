@@ -23,8 +23,8 @@
 .card {
   display: flex;
   align-items: flex-start;
-  gap: var(--size-12);
-  padding: var(--size-10);
+  gap: var(--smaller);
+  padding: var(--fs-10);
   border-radius: var(--size-6);
   border: var(--size-1) solid var(--border-default);
   background: var(--surface-primary);

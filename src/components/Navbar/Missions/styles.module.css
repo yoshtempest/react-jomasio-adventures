@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2, auto);
-  gap: var(--size-12);
+  gap: var(--smaller);
   list-style: none;
   padding: 0;
   max-height: 80vh;
@@ -21,7 +21,7 @@
   gap: var(--fs-8);
   margin-top: 3vh;
   justify-content: center;
-  margin-bottom: var(--size-12);
+  margin-bottom: var(--smaller);
 }
 
 .tab {
@@ -56,7 +56,7 @@
 .empty {
   text-align: center;
   color: var(--text-hint);
-  padding: var(--size-24);
+  padding: var(--medium);
   font-size: var(--fs-14);
 }
 
@@ -65,7 +65,7 @@
   justify-content: center;
   align-items: center;
   gap: var(--fs-8);
-  margin-bottom: var(--size-12);
+  margin-bottom: var(--smaller);
   padding: var(--fs-8);
   background: var(--surface-card);
   border: var(--size-1) solid var(--border-default);

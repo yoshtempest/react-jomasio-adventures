@@ -12,23 +12,23 @@
 .modal {
   width: 60vw;
   max-height: 85vh;
-  padding: var(--size-24) var(--size-32);
+  padding: var(--medium) var(--size-32);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  gap: var(--size-20);
+  gap: var(--low-medium);
   animation: scaleIn 0.5s ease-out;
 }
 
 .header {
   display: flex;
   align-items: center;
-  gap: var(--size-20);
+  gap: var(--low-medium);
 }
 
 .characterImage {
-  width: var(--size-80);
-  height: var(--size-80);
+  width: var(--fs-500);
+  height: var(--fs-500);
   object-fit: contain;
   image-rendering: pixelated;
 }
@@ -67,7 +67,7 @@
 
 .button {
   align-self: center;
-  padding: var(--size-10) var(--size-32);
+  padding: var(--fs-10) var(--size-32);
   font-size: var(--small);
   font-weight: 700;
   border: none;
@@ -84,7 +84,7 @@
 .levelSection {
   display: flex;
   flex-direction: row;
-  gap: var(--size-24);
+  gap: var(--medium);
 }
 
 .timeSection {

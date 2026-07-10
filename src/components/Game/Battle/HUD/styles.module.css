@@ -53,13 +53,13 @@
 .playerInfo {
   position: absolute;
   top: 0;
-  left: var(--size-80);
+  left: var(--fs-500);
 }
 
 .npcInfo {
   position: absolute;
   top: 0;
-  right: var(--size-80);
+  right: var(--fs-500);
 }
 
 .shieldTrack {
@@ -80,7 +80,7 @@
 .petTrack {
   position: relative;
   width: var(--size-200);
-  height: var(--size-14);
+  height: var(--fs-14);
   background: var(--border-default);
   border-radius: var(--size-2);
   overflow: hidden;
@@ -99,7 +99,7 @@
   left: var(--size-4);
   top: 0;
   font-size: var(--fs-10);
-  line-height: var(--size-14);
+  line-height: var(--fs-14);
   color: var(--text-color);
   font-weight: bold;
 }
@@ -109,6 +109,6 @@
   right: var(--size-4);
   top: 0;
   font-size: var(--fs-10);
-  line-height: var(--size-14);
+  line-height: var(--fs-14);
   color: var(--text-color);
 }
