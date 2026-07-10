@@ -30,16 +30,6 @@ export default function BrodiClassOne() {
             gridY: 6,
           },
           {
-            src: "/assets/player/riquelme/movement/down.svg",
-            gridX: 9,
-            gridY: 4,
-          },
-          {
-            src: "/assets/player/lucaua/movement/right.svg",
-            gridX: 2,
-            gridY: 7,
-          },
-          {
             src: "/assets/player/marcelo/movement/up.svg",
             gridX: 8,
             gridY: 8,
@@ -52,11 +42,6 @@ export default function BrodiClassOne() {
           {
             src: "/assets/player/artur/movement/down.svg",
             gridX: 7,
-            gridY: 4,
-          },
-          {
-            src: "/assets/player/lucas/default.svg",
-            gridX: 11,
             gridY: 4,
           },
           {
