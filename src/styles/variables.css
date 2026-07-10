@@ -15,10 +15,10 @@
   --danger: #ff4444;
   --gold: #ffd700;
 
-  --smaller: 12px;
-  --small: 16px;
-  --low-medium: 20px;
-  --medium: 24px;
+  --smaller: 0.9375vw;
+  --small: 1.25vw;
+  --low-medium: 1.5625vw;
+  --medium: 1.875vw;
 
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
