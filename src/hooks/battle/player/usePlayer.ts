@@ -300,6 +300,7 @@ export function usePlayerBattle({
     onBeforeNpcHitRef,
     setPlayer,
     onSpecialRef,
+    playSound,
   ]);
 
   return {

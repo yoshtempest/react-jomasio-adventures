@@ -27,7 +27,7 @@ export const larissaBehavior: BattleBehavior = {
     setNpcHP((hp: number) => Math.max(0, hp - damage));
     triggerExplosion?.();
     setStacks(0);
-    setDelicia((d: number) => gainSpecial(0, hitsToSpecial));
+    setDelicia(() => gainSpecial(0, hitsToSpecial));
   },
 
   reset: ({ setStacks, setDelicia }) => {
