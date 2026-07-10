@@ -1,4 +1,4 @@
-import { asset } from "@/utils/asset";
+import { soundEffectPath } from "@/utils/soundEffects";
 
 type AttackSoundConfig = {
   volume: number;
@@ -11,16 +11,16 @@ export const ATTACK_SOUNDS: Partial<
   eduarda: {
     volume: 0.2,
     sounds: [
-      asset("/assets/songs/soundEffects/player/eduarda/normalAttack.mp3"),
+      soundEffectPath("/player/eduarda/normalAttack.mp3"),
     ],
   },
 
   marcelo: {
     volume: 0.2,
     sounds: [
-      asset("/assets/songs/soundEffects/player/marcelo/sword-slash-1.mp3"),
-      asset("/assets/songs/soundEffects/player/marcelo/sword-slash-2.mp3"),
-      asset("/assets/songs/soundEffects/player/marcelo/sword-slash-4.mp3"),
+      soundEffectPath("/player/marcelo/sword-slash-1.mp3"),
+      soundEffectPath("/player/marcelo/sword-slash-2.mp3"),
+      soundEffectPath("/player/marcelo/sword-slash-4.mp3"),
     ],
   },
 };

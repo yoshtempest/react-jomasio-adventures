@@ -3,6 +3,7 @@ import styles from "./styles.module.css";
 import { useEffect, useRef } from "react";
 import { useAudio } from "@/contexts/AudioContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
+import { sfx } from "@/utils/soundEffects";
 
 type Props = {
   playerCharacter: string;
@@ -18,9 +19,7 @@ export function BattleIntro({ playerCharacter, npcType, onSkip }: Props) {
   const { pushControls, popControls } = useGameControls();
 
   useEffect(() => {
-    const audio = new Audio(
-      asset("/assets/songs/soundEffects/battle/onePiece.mp3"),
-    );
+    const audio = sfx("/battle/onePiece.mp3");
 
     audio.volume = 0.5 * (sfxVolumeRef.current / 100);
     audio.currentTime = 0;

@@ -63,7 +63,7 @@ export function useItemEffect({ playSFX }: Props) {
       case "xp_potion_boss":
       case "xp_potion_legendary":
         return () => {
-          playSFX?.("/assets/songs/soundEffects/player/drinkingPotion.mp3", 0.6);
+          playSFX?.("/assets/songs/soundEffects/player/drinkingPotion.mp3", 0.8);
           const cfg = POTION_CONFIG[itemId];
           if (cfg) {
             activateXpBuff(cfg.durationMs, cfg.multiplier, itemId);
@@ -76,7 +76,7 @@ export function useItemEffect({ playSFX }: Props) {
         if (restoreAmount) {
           return () => {
             if (progress[player.character].hunger >= MAX_HUNGER) return;
-            playSFX?.("/assets/songs/soundEffects/player/eating.mp3", 0.6);
+            playSFX?.("/assets/songs/soundEffects/player/eating.mp3", 0.8);
             restoreHunger(player.character, restoreAmount);
             removeItem(itemId as ItemId);
           };

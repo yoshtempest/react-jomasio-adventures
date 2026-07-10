@@ -9,5 +9,10 @@ export function createLibrary(deps: PickupDeps) {
       pickupMessage: "Uma embalagem com surpresinha",
       alreadyPickedMessage: "Nenhuma outra surpresinha por aqui.",
     }),
+    "12,5": createPickupHandler({
+      item: { id: "rare_chest" },
+      pickupMessage: "Um baú! Que sorte",
+      alreadyPickedMessage: "Nada por aqui.",
+    }),
   });
 }

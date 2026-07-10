@@ -1,6 +1,10 @@
 import { asset } from "@/utils/asset";
 
-function sfx(path: string) {
+export function soundEffectPath(path: string) {
+    return (asset(`/assets/songs/soundEffects/${path}`));
+}
+
+export function sfx(path: string) {
     return new Audio(asset(`/assets/songs/soundEffects/${path}`));
 }
 

@@ -13,7 +13,7 @@ import { ListItem } from "./ListItem";
 import { RewardsView } from "./RewardsView";
 import { activateXpBuff, POTION_CONFIG } from "@/utils/buffs/xpBuff";
 import { useAudio } from "@/contexts/AudioContext";
-import { asset } from "@/utils/asset";
+import { sfx } from "@/utils/soundEffects";
 import { FILTER_LABELS } from "@/data/inventory/labels";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { CHARACTERS } from "@/utils/types/player/player";
@@ -129,7 +129,7 @@ export function Inventory() {
 
   const consumeItemRef = useRef<(id: string) => void>(() => {});
   consumeItemRef.current = function consumeItem(id: string) {
-    const audio = new Audio(asset("/assets/songs/soundEffects/player/drinkingPotion.mp3"));
+    const audio = sfx("/player/drinkingPotion.mp3");
     audio.volume = 0.6 * (sfxVolume / 100);
     audio.play().catch(() => {});
     const cfg = POTION_CONFIG[id];
@@ -253,17 +253,21 @@ export function Inventory() {
       />
 
       <ul ref={listRef} className={styles.list}>
-        {listItems.map((item, index) => (
-          <ListItem
-            key={index}
-            item={item}
-            isSelected={index === selectedIndex}
-            isChest={item ? ITEMS[item.id as keyof typeof ITEMS]?.type === "chest" : false}
-            hasKey={hasKey}
-            onOpenChest={openPlayerChest}
-            onUseItem={(id) => consumeItemRef.current(id)}
-          />
-        ))}
+        {listItems.map((item, index) =>
+          item ? (
+            <ListItem
+              key={index}
+              item={item}
+              isSelected={index === selectedIndex}
+              isChest={ITEMS[item.id as keyof typeof ITEMS]?.type === "chest"}
+              hasKey={hasKey}
+              onOpenChest={openPlayerChest}
+              onUseItem={(id) => consumeItemRef.current(id)}
+            />
+          ) : (
+            <li key={index} className={styles.item} />
+          ),
+        )}
       </ul>
     </div>
   );

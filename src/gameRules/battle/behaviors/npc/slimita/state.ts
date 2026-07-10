@@ -1,10 +1,8 @@
-import { asset } from "@/utils/asset";
+import { sfx } from "@/utils/soundEffects";
 
 export const FAR_DISTANCE_X = 260;
 export const MELEE_RANGE = 50;
 
-export const boomAudio = new Audio(
-  asset("/assets/songs/soundEffects/npc/slimita/boom.mp3")
-);
+export const boomAudio = sfx("/npc/slimita/boom.mp3");
 
 boomAudio.volume = 0.7;
