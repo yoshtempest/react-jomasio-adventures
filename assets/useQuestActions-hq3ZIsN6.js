@@ -1,0 +1,1 @@
+import{Lt as e}from"./index-Dv1ZRLdZ.js";function t(){let{addQuest:t,updateProgress:n}=e();return{giveQuest:t,progressQuest:n}}export{t};

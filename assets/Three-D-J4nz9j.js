@@ -1,1 +1,0 @@
-import{A as e,H as t,J as n,n as r}from"./index-JDfQk0FB.js";import{t as i}from"./KickBack-DG23ycWm.js";var a=n(t());function o(){let{setFlag:t}=e();return(0,a.jsx)(r,{npcType:`maurao`,redirectTo:`/hall/pandemony/two`,onVictory:()=>{t(`maurao`)},victoryDescription:`Você salvou Maurão da loucura`,className:`hallCenterBattle`,audioSrc:i})}export{o as default};

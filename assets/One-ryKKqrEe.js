@@ -1,1 +1,0 @@
-import{A as e,H as t,J as n,n as r}from"./index-JDfQk0FB.js";import{t as i}from"./StreetFighter5KenTheme-CZnl9JcQ.js";var a=n(t());function o(){let{setFlag:t}=e();return(0,a.jsx)(r,{npcType:`hungryDeath`,redirectTo:`/pcroom/two`,onVictory:()=>{t(`hungryDeath`)},victoryDescription:`Você derrotou um morto de fome!`,className:`PcRoomBattle`,audioSrc:i})}export{o as default};

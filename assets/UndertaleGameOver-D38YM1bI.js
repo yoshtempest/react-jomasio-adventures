@@ -1,0 +1,1 @@
+var e=`/react-jomasio-adventures/assets/songs/background/UndertaleGameOver.m4a`;export{e as t};

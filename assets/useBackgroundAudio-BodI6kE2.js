@@ -1,0 +1,1 @@
+import{hn as e,mn as t}from"./index-Dv1ZRLdZ.js";import{t as n}from"./useGameAudio-CtEheW34.js";var r=e(t());function i(e,t=.3){let i=(0,r.useMemo)(()=>({src:e,loop:!0,volume:t}),[e,t]),a=n(i),o=(0,r.useRef)(a);return o.current=a,(0,r.useEffect)(()=>{if(!o.current.isPlaying())return o.current.play()?.catch(()=>{}),()=>o.current.stop()},[]),a}export{i as t};
