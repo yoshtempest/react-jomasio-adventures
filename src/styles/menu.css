@@ -57,7 +57,7 @@
   color: var(--text-muted);
   background: #222;
   padding: var(--size-4);
-  width: 1.4vw;
+  width: var(--fs-18);
   border-radius: var(--size-4);
 }
 

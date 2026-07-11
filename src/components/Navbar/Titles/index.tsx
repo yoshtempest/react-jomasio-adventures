@@ -7,7 +7,6 @@ import { STAT_LABEL } from "@/data/titles/statLabel";
 import { asset } from "@/utils/paths";
 
 
-
 export function TitlesScreen() {
   const { titlesData } = useTitles();
   const listRef = useRef<HTMLDivElement | null>(null);

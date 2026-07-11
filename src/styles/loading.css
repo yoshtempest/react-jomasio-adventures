@@ -2,7 +2,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: var(--size-1280);
   height: 100vh;
 
   display: flex;
