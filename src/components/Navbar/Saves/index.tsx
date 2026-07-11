@@ -10,7 +10,7 @@ export function Saves() {
   if (confirmDelete !== "none") {
     const confirmItems = ["Sim, excluir", "Não, voltar"];
     return (
-      <div className={styles.saves}>
+      <div className="containerOfNavbar">
         <h2 className={styles.title}>Excluir Save {confirmDelete.slot + 1}?</h2>
         <div className={styles.actionList}>
           {confirmItems.map((label, i) => (
@@ -27,7 +27,7 @@ export function Saves() {
   }
 
   return (
-    <div className={styles.saves}>
+    <div className="containerOfNavbar">
       <h2 className={styles.title}>Saves</h2>
       <div className={styles.itemList}>
         {items.map((item, i) => {

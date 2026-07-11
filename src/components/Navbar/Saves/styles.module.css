@@ -1,35 +1,3 @@
-.saves {
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  align-items: center;
-  width: 74vw;
-  height: 90vh;
-  top: 10%;
-  right: 0%;
-  background: var(--surface-dark);
-  border: var(--size-2) solid var(--border-medium);
-  border-radius: var(--fs-8);
-  z-index: 999;
-  overflow-y: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.saves::-webkit-scrollbar {
-  display: none;
-}
-
-@media (orientation: portrait) {
-  .saves {
-    width: 99vw;
-    height: 50vh;
-    top: 0;
-    right: 0;
-    border-radius: 0px;
-  }
-}
-
 .title {
   margin-top: var(--small);
   margin-bottom: var(--smaller);
