@@ -40,6 +40,7 @@
   border: var(--size-2) solid var(--border-medium);
   border-radius: var(--fs-8);
   z-index: 999;
+  animation: modalScaleIn 0.5s ease-out;
 }
 
 .section {
