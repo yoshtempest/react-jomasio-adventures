@@ -5,6 +5,7 @@ import { CANTINA_SCENES } from "@/scenes/cantina";
 import { createCantina } from "@/interactions/cantina";
 
 import { useInventory } from "@/contexts/InventoryContext";
+import { useFlags } from "@/contexts/FlagContext";
 
 import { cantinaBrothersDialogue } from "@/data/dialogues/cantina/brothers";
 import { sceneBackgrounds } from "@/data/sceneBackground";
@@ -23,9 +24,10 @@ export function CantinaScene({ sceneId }: Props) {
   const scene = CANTINA_SCENES[sceneId];
   const { addItem } = useInventory();
   const { isReady, giveFood } = useJesoFoodCooldown();
+  const { hasFlag, setFlag } = useFlags();
 
   const [popup, setPopup] = useState<string | null>(null);
-  const [gotKey, setGotKey] = useState(false);
+  const gotKey = hasFlag("picked_orange_juice");
 
   // ✅ interações específicas da cantina
   const interactions = useMemo(
@@ -34,9 +36,9 @@ export function CantinaScene({ sceneId }: Props) {
         addItem,
         setPopup,
         gotKey,
-        setGotKey,
+        setFlag,
       }),
-    [addItem, gotKey],
+    [addItem, gotKey, setFlag],
   );
 
   const sceneWithJeso = useMemo(() => {

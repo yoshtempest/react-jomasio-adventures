@@ -8,6 +8,7 @@ import { createPcsRoom } from "@/interactions/pcsRoom";
 import { useInventory } from "@/contexts/InventoryContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useQuestActions } from "@/hooks/quest/useQuestActions";
+import { useFlags } from "@/contexts/FlagContext";
 
 import { useClassSelection } from "@/hooks/menu/useClassSelection";
 
@@ -28,10 +29,11 @@ export function PcRoomScene({ sceneId }: Props) {
   const { setMode } = usePlayer();
   const { addItem } = useInventory();
   const { giveQuest, progressQuest } = useQuestActions();
+  const { hasFlag, setFlag } = useFlags();
 
   const [showClassModal, setShowClassModal] = useState(false);
   const [popup, setPopup] = useState<string | null>(null);
-  const [gotKey, setGotKey] = useState(false);
+  const gotKey = hasFlag("picked_desired_gear");
 
   // ✅ sistema de seleção de classe
   const { classes, selectedIndex } = useClassSelection(showClassModal, () => {
@@ -59,9 +61,9 @@ export function PcRoomScene({ sceneId }: Props) {
         addItem,
         setPopup,
         gotKey,
-        setGotKey,
+        setFlag,
       }),
-    [addItem, gotKey],
+    [addItem, gotKey, setFlag],
   );
 
   if (!scene) {

@@ -38,7 +38,7 @@ export function createPickupHandler(config: PickupHandlerConfig) {
       if (config.questProgress) {
         deps.progressQuest?.(config.questProgress.id, config.questProgress.step);
       }
-      deps.setGotKey?.(true);
+      deps.setFlag?.(config.flagId);
     } else {
       deps.setPopup(config.alreadyPickedMessage ?? "Nada mais aqui.");
     }

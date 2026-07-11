@@ -33,6 +33,7 @@ export function createDirector(deps: DirectorDeps) {
 
     "15,7": createPickupHandler({
       item: { id: "director_key" },
+      flagId: "picked_director_key",
       pickupMessage: "Uma chave suspeita, deve ser da porta...",
     }),
   });

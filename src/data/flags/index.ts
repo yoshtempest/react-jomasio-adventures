@@ -29,4 +29,11 @@ export const FLAGS = {
   babidiUnlocked: { id: "babidiUnlocked" },
   riquelsonUnlocked: { id: "riquelsonUnlocked" },
   chose_peru: { id: "chose_peru" },
+  picked_desired_gear: { id: "picked_desired_gear" },
+  picked_goat_meat: { id: "picked_goat_meat" },
+  picked_sausage: { id: "picked_sausage" },
+  picked_orange_juice: { id: "picked_orange_juice" },
+  picked_director_key: { id: "picked_director_key" },
+  picked_package_01: { id: "picked_package_01" },
+  picked_rare_chest: { id: "picked_rare_chest" },
 } as const;

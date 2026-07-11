@@ -6,6 +6,7 @@ export function createBrodiClass(deps: PickupDeps) {
   return createInteractionMap(cantinaMessages, deps, {
     "13,4": createPickupHandler({
       item: { id: "goat_meat" },
+      flagId: "picked_goat_meat",
       pickupMessage: "Por que tem carne de bode dentro de um baú?",
       alreadyPickedMessage: "Tá passando a mão na mesa por quê? Não tá vendo que não tem nada aí?",
     }),

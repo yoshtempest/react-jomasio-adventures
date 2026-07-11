@@ -5,6 +5,7 @@ import { LIBRARY_SCENES } from "@/scenes/library";
 import { createLibrary } from "@/interactions/library";
 
 import { useInventory } from "@/contexts/InventoryContext";
+import { useFlags } from "@/contexts/FlagContext";
 
 import { LIBRARY_RETURN_KEY } from "@/data/storageKeys";
 
@@ -19,20 +20,21 @@ type Props = {
 export function LibraryScene({ sceneId }: Props) {
   const scene = LIBRARY_SCENES[sceneId];
   const { addItem } = useInventory();
+  const { hasFlag, setFlag } = useFlags();
 
   const [popup, setPopup] = useState<string | null>(null);
-  const [gotPackage, setGotPackage] = useState(false);
-  const [gotChest, setGotChest] = useState(false);
+  const gotPackage = hasFlag("picked_package_01");
+  const gotChest = hasFlag("picked_rare_chest");
 
   const interactions = useMemo(
     () =>
       createLibrary({
         addItem,
         setPopup,
-        packageDeps: { gotKey: gotPackage, setGotKey: setGotPackage },
-        chestDeps: { gotKey: gotChest, setGotKey: setGotChest },
+        packageDeps: { gotKey: gotPackage, setFlag },
+        chestDeps: { gotKey: gotChest, setFlag },
       }),
-    [addItem, gotPackage, gotChest, setPopup],
+    [addItem, gotPackage, gotChest, setPopup, setFlag],
   );
 
   useRandomEncounter({

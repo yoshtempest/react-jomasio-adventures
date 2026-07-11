@@ -8,6 +8,7 @@ export function createCafeteria(deps: CafeteriaDeps) {
   return createInteractionMap(cafeteriaMessages, deps, {
     "11,10": createPickupHandler({
       item: { id: "sausage" },
+      flagId: "picked_sausage",
       pickupMessage: "Você pegou no linguição.",
       alreadyPickedMessage: "Nada mais aqui.",
       questProgress: { id: "go_cafeteria", step: 1 },

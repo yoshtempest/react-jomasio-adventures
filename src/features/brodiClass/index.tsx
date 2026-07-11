@@ -4,6 +4,7 @@ import { SceneBase } from "@/components/Game/Scenes/Base";
 import { BRODICLASS_SCENES } from "@/scenes/brodiclass";
 
 import { useInventory } from "@/contexts/InventoryContext";
+import { useFlags } from "@/contexts/FlagContext";
 
 import { sceneBackgrounds } from "@/data/sceneBackground";
 
@@ -17,9 +18,10 @@ type Props = {
 export function BrodiClassScene({ sceneId }: Props) {
   const scene = BRODICLASS_SCENES[sceneId];
   const { addItem } = useInventory();
+  const { hasFlag, setFlag } = useFlags();
 
   const [popup, setPopup] = useState<string | null>(null);
-  const [gotKey, setGotKey] = useState(false);
+  const gotKey = hasFlag("picked_goat_meat");
 
   // ✅ interações específicas da brodiClass
   const interactions = useMemo(
@@ -28,9 +30,9 @@ export function BrodiClassScene({ sceneId }: Props) {
         addItem,
         setPopup,
         gotKey,
-        setGotKey,
+        setFlag,
       }),
-    [addItem, gotKey],
+    [addItem, gotKey, setFlag],
   );
 
   if (!scene) {

@@ -7,6 +7,7 @@ import { CAFETERIA_RETURN_KEY } from "@/data/storageKeys";
 
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuestActions } from "@/hooks/quest/useQuestActions";
+import { useFlags } from "@/contexts/FlagContext";
 
 import { useRandomEncounter } from "@/hooks/scene/useRandomEncounter";
 
@@ -21,9 +22,10 @@ export function CafeteriaScene({ sceneId }: Props) {
 
   const { addItem, hasItem, removeItem } = useInventory();
   const { progressQuest } = useQuestActions();
+  const { hasFlag, setFlag } = useFlags();
 
   const [popup, setPopup] = useState<string | null>(null);
-  const [gotKey, setGotKey] = useState(false);
+  const gotKey = hasFlag("picked_sausage");
 
   const interactions = useMemo(
     () =>
@@ -33,10 +35,10 @@ export function CafeteriaScene({ sceneId }: Props) {
         removeItem,
         setPopup,
         gotKey,
-        setGotKey,
+        setFlag,
         progressQuest,
       }),
-    [addItem, gotKey, hasItem, removeItem, setPopup, setGotKey, progressQuest],
+    [addItem, gotKey, hasItem, removeItem, setPopup, setFlag, progressQuest],
   );
 
   useRandomEncounter({

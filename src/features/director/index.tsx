@@ -6,6 +6,7 @@ import { createDirector } from "@/interactions/director";
 
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuestActions } from "@/hooks/quest/useQuestActions";
+import { useFlags } from "@/contexts/FlagContext";
 import { useNavigate, useLocation } from "react-router";
 import { asset } from "@/utils/paths";
 import { useAudio } from "@/contexts/AudioContext";
@@ -25,9 +26,10 @@ export function DirectorScene({ sceneId }: Props) {
 
   const { addItem, hasItem, removeItem } = useInventory();
   const { progressQuest } = useQuestActions();
+  const { hasFlag, setFlag } = useFlags();
 
   const [popup, setPopup] = useState<string | null>(null);
-  const [gotKey, setGotKey] = useState(false);
+  const gotKey = hasFlag("picked_director_key");
 
   const { sfxVolume } = useAudio();
   const sfxVolumeRef = useRef(sfxVolume);
@@ -55,7 +57,7 @@ export function DirectorScene({ sceneId }: Props) {
         navigate: navigateFrom,
         setPopup: (msg) => setPopup(msg),
         gotKey,
-        setGotKey,
+        setFlag,
         progressQuest,
         playSFX,
       }),
@@ -65,6 +67,7 @@ export function DirectorScene({ sceneId }: Props) {
       removeItem,
       navigateFrom,
       gotKey,
+      setFlag,
       progressQuest,
       playSFX,
     ],

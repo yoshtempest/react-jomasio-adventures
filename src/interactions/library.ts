@@ -2,9 +2,9 @@ import { libraryMessages } from "@/data/dialogues/library/messages";
 import { createInteractionMap, createPickupHandler } from "./builder";
 import type { PickupDeps } from "@/utils/types/interaction";
 
-type LibraryDeps = Omit<PickupDeps, "gotKey" | "setGotKey"> & {
-  packageDeps: { gotKey: boolean; setGotKey: React.Dispatch<React.SetStateAction<boolean>> };
-  chestDeps: { gotKey: boolean; setGotKey: React.Dispatch<React.SetStateAction<boolean>> };
+type LibraryDeps = Omit<PickupDeps, "gotKey" | "setFlag"> & {
+  packageDeps: { gotKey: boolean; setFlag: (flag: FlagId) => void };
+  chestDeps: { gotKey: boolean; setFlag: (flag: FlagId) => void };
 };
 
 export function createLibrary(deps: LibraryDeps) {
@@ -12,11 +12,13 @@ export function createLibrary(deps: LibraryDeps) {
 
   const packageHandler = createPickupHandler({
     item: { id: "package_01" },
+    flagId: "picked_package_01",
     pickupMessage: "Uma embalagem com surpresinha",
     alreadyPickedMessage: "Nenhuma outra surpresinha por aqui.",
   });
   const chestHandler = createPickupHandler({
     item: { id: "rare_chest" },
+    flagId: "picked_rare_chest",
     pickupMessage: "Um baú! Que sorte",
     alreadyPickedMessage: "Nada por aqui.",
   });
