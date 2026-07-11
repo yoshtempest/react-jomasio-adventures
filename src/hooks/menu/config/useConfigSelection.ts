@@ -100,10 +100,6 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
         if (selectedRowRef.current === 3) {
           setBgmVolumeRef.current(Math.min(bgmVolume + 10, 100));
         }
-
-        if (selectedRowRef.current === 4) {
-          setShowQuestIndicatorRef.current(true);
-        }
       },
 
       onLeft: () => {
@@ -126,10 +122,6 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
 
         if (selectedRowRef.current === 3) {
           setBgmVolumeRef.current(Math.max(bgmVolume - 10, 0));
-        }
-
-        if (selectedRowRef.current === 4) {
-          setShowQuestIndicatorRef.current(false);
         }
       },
 
@@ -166,7 +158,7 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
         }
 
         if (selectedRowRef.current === 4) {
-          setShowQuestIndicatorRef.current(!setShowQuestIndicator);
+          setShowQuestIndicatorRef.current(!showQuestIndicator);
         }
 
         if (selectedRowRef.current === 5) {
@@ -208,7 +200,7 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
     pushControlsRef.current(controls);
 
     return () => popControlsRef.current();
-  }, [isActive, sfxVolume, bgmVolume, setShowQuestIndicator]);
+  }, [isActive, sfxVolume, bgmVolume, showQuestIndicator, setShowQuestIndicator]);
 
   return {
     difficulty: DIFFICULTY,
