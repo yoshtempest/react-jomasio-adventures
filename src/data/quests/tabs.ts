@@ -1,10 +1,10 @@
 import type { QuestTab } from "@/utils/types/player/quest";
 
-export const TAB_LABELS: Record<QuestTab, string> = {
-  active: "Em andamento",
-  completed: "Concluídas",
-  daily: "Diárias",
-  weekly: "Semanais",
+export const TAB_ICONS: Record<QuestTab, string> = {
+  active: "/assets/quests/inProgress.svg",
+  completed: "/assets/quests/conclued.svg",
+  daily: "/assets/quests/daily.svg",
+  weekly: "/assets/quests/weekly.svg",
 };
 
 export const TAB_KEYS: QuestTab[] = ["active", "completed", "daily", "weekly"];

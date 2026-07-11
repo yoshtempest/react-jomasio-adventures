@@ -4,11 +4,12 @@ import type { QuestTab } from "@/utils/types/player/quest";
 import styles from "./styles.module.css";
 import { QuestCard } from "@/components/Game/Quest/Card";
 import { useEffect, useRef, useState } from "react";
+import { asset } from "@/utils/paths";
 import {
   getTimeUntilMidnight,
   getTimeUntilMonday,
 } from "@/utils/quest/questTimer";
-import { TAB_LABELS, TAB_KEYS, getEmptyMessage } from "@/data/quests/tabs";
+import { TAB_ICONS, TAB_KEYS, getEmptyMessage } from "@/data/quests/tabs";
 import { Timer } from "lucide-react";
 
 export function Mission() {
@@ -54,7 +55,8 @@ export function Mission() {
             className={`${styles.tab} ${activeTab === key ? styles.tabActive : ""} ${selectedIndex === i ? styles.tabSelected : ""}`}
             onClick={() => switchTab(key)}
           >
-            {TAB_LABELS[key]} ({tabCountMap[key]})
+            <img src={asset(TAB_ICONS[key])} alt={key} className={styles.tabIcon} />
+            ({tabCountMap[key]})
           </button>
         ))}
       </div>
@@ -66,7 +68,6 @@ export function Mission() {
               <Timer />
               <span>Reset em: <strong>{dailyTimer}</strong></span>
             </div>
-
           )}
           {activeTab === "weekly" && (
             <div>

@@ -25,12 +25,19 @@
 }
 
 .tab {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   background: var(--surface-card);
-  color: var(--text-secondary);
+  color: var(--text-hint);
   border: var(--size-1) solid var(--border-default);
   padding: var(--fs-8) var(--small);
   border-radius: var(--size-6);
   cursor: pointer;
+  gap: 0.5vw;
+  width: 8vw;
+  height: 4vw;
   font-size: var(--fs-14);
   transition:
     background 0.2s,
@@ -43,14 +50,22 @@
 }
 
 .tabActive {
-  background: #2e7d32;
+  background: rgba(0, 0, 0, 0.3);
   color: var(--text-color);
-  border-color: #2e7d32;
+  border-color: var(--background-color);
+  transform: scale(1.05);
 }
 
 .tabSelected {
-  outline: var(--size-2) solid yellow;
+  outline: var(--size-1) solid var(--accent-color);
   outline-offset: var(--size-1);
+}
+
+.tabIcon {
+  height: 100%;
+  width: auto;
+  vertical-align: middle;
+  margin-right: var(--size-1);
 }
 
 .empty {
