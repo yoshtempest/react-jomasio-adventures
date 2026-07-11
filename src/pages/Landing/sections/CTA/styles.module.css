@@ -64,7 +64,7 @@
   transform: translateY(0) scale(0.97);
 }
 
-@media (max-width: var(--size-768)) {
+@media (max-width: 768px) {
   .ctaButtonBig {
     padding: var(--fs-14) var(--size-32);
     font-size: var(--small);

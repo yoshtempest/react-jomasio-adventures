@@ -92,6 +92,8 @@ export function Inventory() {
   const { playMove, playSelect } = useMenuSFX();
 
   const [rewardOptionIndex, setRewardOptionIndex] = useState(0);
+  const [rejectedIndex, setRejectedIndex] = useState<number | null>(null);
+  const [showNoKeyPopup, setShowNoKeyPopup] = useState(false);
   const rewardOptionIndexRef = useRef(rewardOptionIndex);
   rewardOptionIndexRef.current = rewardOptionIndex;
 
@@ -125,7 +127,6 @@ export function Inventory() {
     ? (selectedItem.id.replace("_chest", "") as NPCClass)
     : null;
   const keyId = tier ? (`${tier}_key` as ItemId) : null;
-  const hasKey = keyId ? items.some((i) => i.id === keyId) : false;
 
   const consumeItemRef = useRef<(id: string) => void>(() => {});
   consumeItemRef.current = function consumeItem(id: string) {
@@ -191,14 +192,25 @@ export function Inventory() {
     const controls = {
       onConfirm: () => {
         if (filterFocusedRef.current) return false;
+        if (!selectedItem) return false;
 
-        if (selectedItem && isConsumableSelected) {
+        if (isConsumableSelected) {
           consumeItemRef.current(selectedItem.id);
           return true;
         }
-        if (!isChestSelected || !selectedItem || !keyId) return false;
-        if (!items.some((i) => i.id === keyId)) return false;
-        openPlayerChest(selectedItem.id as ItemId);
+
+        if (isChestSelected) {
+          if (keyId && items.some((i) => i.id === keyId)) {
+            openPlayerChest(selectedItem.id as ItemId);
+          } else {
+            setShowNoKeyPopup(true);
+            setTimeout(() => setShowNoKeyPopup(false), 2000);
+          }
+          return true;
+        }
+
+        setRejectedIndex(selectedIndex);
+        setTimeout(() => setRejectedIndex(null), 1500);
         return true;
       },
     };
@@ -211,6 +223,7 @@ export function Inventory() {
     selectedItem,
     keyId,
     items,
+    selectedIndex,
     openPlayerChest,
     pushControls,
     popControls,
@@ -259,16 +272,17 @@ export function Inventory() {
               key={index}
               item={item}
               isSelected={index === selectedIndex}
-              isChest={ITEMS[item.id as keyof typeof ITEMS]?.type === "chest"}
-              hasKey={hasKey}
-              onOpenChest={openPlayerChest}
-              onUseItem={(id) => consumeItemRef.current(id)}
+              rejected={index === rejectedIndex}
             />
           ) : (
             <li key={index} className="InventoryItem" />
           ),
         )}
       </ul>
+
+      {showNoKeyPopup && (
+        <div className={styles.noKeyPopup}>Sem chave</div>
+      )}
     </div>
   );
 }

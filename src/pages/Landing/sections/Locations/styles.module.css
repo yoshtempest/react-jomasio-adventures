@@ -37,13 +37,13 @@
   color: var(--text-color);
 }
 
-@media (max-width: var(--size-768)) {
+@media (max-width: 768px) {
   .locationsGrid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: var(--size-480)) {
+@media (max-width: 480px) {
   .locationsGrid {
     grid-template-columns: 1fr;
   }

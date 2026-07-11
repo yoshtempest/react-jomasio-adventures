@@ -5,25 +5,15 @@ import styles from "./styles.module.css";
 type Props = {
   item: InventoryItem;
   isSelected: boolean;
-  isChest: boolean;
-  hasKey: boolean;
-  onOpenChest: (id: ItemId) => void;
-  onUseItem: (id: string) => void;
+  rejected: boolean;
 };
 
-export function ListItem({
-  item,
-  isSelected,
-  isChest,
-  hasKey,
-  onOpenChest,
-  onUseItem,
-}: Props) {
+export function ListItem({ item, isSelected, rejected }: Props) {
   const itemData = ITEMS[item.id as keyof typeof ITEMS];
 
   return (
     <li
-      className={`InventoryItem ${isSelected ? "active" : ""}`}
+      className={`InventoryItem ${isSelected ? "active" : ""} ${rejected ? styles.rejected : ""}`}
     >
       {itemData && (
         <div className={styles.itemRow}>
@@ -51,27 +41,6 @@ export function ListItem({
               </span>
             )}
           </div>
-
-          {isSelected && isChest &&
-            (hasKey ? (
-              <button
-                className="InventoryButton"
-                onClick={() => onOpenChest(item.id as ItemId)}
-              >
-                Abrir
-              </button>
-            ) : (
-              <span className={styles.noKey}>Sem chave</span>
-            ))}
-
-          {isSelected && itemData.type === "consumable" && (
-            <button
-              className="InventoryButton"
-              onClick={() => onUseItem(item.id)}
-            >
-              Usar
-            </button>
-          )}
         </div>
       )}
     </li>

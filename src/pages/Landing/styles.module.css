@@ -43,7 +43,7 @@
   animation: bounce 2s infinite;
 }
 
-@media (max-width: var(--size-768)) {
+@media (max-width: 768px) {
   .section {
     padding: var(--size-48) var(--small);
   }

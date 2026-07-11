@@ -43,7 +43,7 @@
   font-weight: bold;
   color: var(--text-secondary);
   text-transform: uppercase;
-  letter-spacing: var(--size-0var(--size-5));
+  letter-spacing: var(--size-5);
   border-bottom: var(--size-1) solid var(--border-default);
   padding-bottom: var(--size-4);
   margin-bottom: var(--size-6);

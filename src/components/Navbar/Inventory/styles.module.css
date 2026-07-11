@@ -8,3 +8,25 @@
   max-height: 90%;
   overflow-y: hidden;
 }
+
+.noKeyPopup {
+  position: fixed;
+  bottom: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1a1a1a;
+  color: #e74c3c;
+  border: 1px solid #e74c3c;
+  padding: var(--size-4) var(--size-8);
+  border-radius: var(--size-4);
+  font-size: var(--fs-12);
+  pointer-events: none;
+  animation: fadeInOut 2s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
+}

@@ -80,7 +80,7 @@
   color: rgba(255, 255, 255, 0.5);
 }
 
-@media (max-width: var(--size-768)) {
+@media (max-width: 768px) {
   .combatGrid {
     grid-template-columns: 1fr;
   }
@@ -90,7 +90,7 @@
   }
 }
 
-@media (max-width: var(--size-480)) {
+@media (max-width: 480px) {
   .bossesGrid {
     grid-template-columns: repeat(2, 1fr);
   }

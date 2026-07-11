@@ -39,7 +39,7 @@
   color: rgba(255, 255, 255, 0.65);
 }
 
-@media (max-width: var(--size-768)) {
+@media (max-width: 768px) {
   .funnyGrid {
     grid-template-columns: 1fr;
   }

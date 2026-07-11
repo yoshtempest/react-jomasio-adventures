@@ -46,7 +46,7 @@
   color: rgba(255, 255, 255, 0.6);
 }
 
-@media (max-width: var(--size-768)) {
+@media (max-width: 768px) {
   .howtoGrid {
     grid-template-columns: 1fr;
   }
