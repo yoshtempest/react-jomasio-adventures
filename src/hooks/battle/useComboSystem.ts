@@ -90,6 +90,10 @@ export function useComboSystem({ npcMaxHp }: Props) {
 
       timerRef.current = setTimeout(() => {
         setComboCount(0);
+        setComboRank("F");
+        setProgress(0);
+        setNextRank(null);
+        highestDamageRef.current = 0;
       }, COMBO_RESET_MS);
     },
     [clearTimer, updateRank],

@@ -1,4 +1,4 @@
-export const COMBO_RESET_MS = 4000;
+export const COMBO_RESET_MS = 5000;
 
 export const RANK_THRESHOLDS = [
   { rank: "SS", pct: 95 },
