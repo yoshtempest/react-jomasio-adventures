@@ -61,7 +61,7 @@
 }
 
 .description {
-  font-size: var(--fs-12);
+  font-size: var(--smaller);
   color: var(--text-secondary);
   margin-bottom: var(--size-2);
 }

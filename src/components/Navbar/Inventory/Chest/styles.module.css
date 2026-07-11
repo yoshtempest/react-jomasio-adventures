@@ -33,13 +33,13 @@
 }
 
 .dailyChestReady {
-  font-size: var(--fs-12);
+  font-size: var(--smaller);
   color: #4caf50;
   font-weight: bold;
 }
 
 .dailyChestTimer {
-  font-size: var(--fs-12);
+  font-size: var(--smaller);
   color: var(--text-muted);
   font-family: monospace;
 }

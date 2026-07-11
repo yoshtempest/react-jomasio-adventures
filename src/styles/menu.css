@@ -98,7 +98,7 @@
   background: #2c2c2c;
   color: #eee;
   cursor: pointer;
-  font-size: var(--fs-12);
+  font-size: var(--smaller);
   width: var(--size-48);
 }
 

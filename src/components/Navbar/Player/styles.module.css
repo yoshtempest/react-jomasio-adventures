@@ -39,7 +39,7 @@
 }
 
 .sectionTitle {
-  font-size: var(--fs-12);
+  font-size: var(--smaller);
   font-weight: bold;
   color: var(--text-secondary);
   text-transform: uppercase;
@@ -54,7 +54,7 @@
   justify-content: space-between;
   align-items: center;
   padding: var(--size-3) 0;
-  font-size: var(--fs-12);
+  font-size: var(--smaller);
 }
 
 .statLabel {

@@ -83,7 +83,7 @@
 }
 
 .sceneLabel {
-  font-size: var(--fs-12);
+  font-size: var(--smaller);
   color: var(--text-color);
   opacity: 0.7;
 }
