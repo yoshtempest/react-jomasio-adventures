@@ -79,6 +79,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  left: 85%;
+  position: absolute;
   gap: var(--fs-8);
   margin-bottom: var(--smaller);
   padding: var(--fs-8);

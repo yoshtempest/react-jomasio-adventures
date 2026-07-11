@@ -8,6 +8,7 @@
   display: flex;
   flex-direction: row;
   gap: 4%;
+  align-items: center;
 }
 
 .rowTwo {
@@ -16,8 +17,7 @@
   justify-content: space-between;
 }
 
-.rowTwo span,
-p {
+.rowTwo span, p {
   display: flex;
   width: fit-content;
   align-self: center;
@@ -29,10 +29,11 @@ p {
 }
 
 .freqBadge {
-  display: inline-block;
+  display: flex;
   font-size: var(--fs-10);
   font-weight: bold;
-  padding: var(--size-2) var(--size-6);
+  height: fit-content;
+  padding: var(--size-2) var(--size-2);
   border-radius: var(--size-4);
   margin-top: var(--size-4);
 }
@@ -45,4 +46,16 @@ p {
 .freqBadge[data-freq="weekly"] {
   background: #6a1b9a;
   color: var(--text-color);
+}
+
+.reward {
+  display: flex;
+  align-items: center;
+  gap: 0.5vw;
+  align-self: center;
+}
+
+.rewardIcon {
+  width: 2vw;
+  height: 2vw;
 }

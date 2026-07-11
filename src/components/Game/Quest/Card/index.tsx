@@ -2,6 +2,13 @@ import styles from "./styles.module.css";
 import { asset } from "@/utils/paths";
 import { FREQ_LABEL } from "@/data/quests/frequencies";
 
+const REWARD_ICON: Partial<Record<QuestRewardsType, string>> = {
+  xp: "/assets/status/xp.svg",
+  item: "/assets/items/all.svg",
+  coin: "/assets/items/coins/kwanzas.svg",
+  hyperCoin: "/assets/items/coins/hypercoins.svg",
+};
+
 type Props = {
   quest: Quest;
   selected: boolean;
@@ -9,6 +16,7 @@ type Props = {
 
 export function QuestCard({ quest, selected }: Props) {
   const isActive = quest.completed && !quest.claimed;
+  const icon = quest.rewardsType ? REWARD_ICON[quest.rewardsType] : null;
 
   return (
     <div
@@ -25,14 +33,12 @@ export function QuestCard({ quest, selected }: Props) {
           className={styles.image}
           width={50}
         />
-        <div>
-          <h3>{quest.name}</h3>
-          {quest.frequency && (
-            <span className={styles.freqBadge} data-freq={quest.frequency}>
-              {FREQ_LABEL[quest.frequency]}
-            </span>
-          )}
-        </div>
+        <h3>{quest.name}</h3>
+        {quest.frequency && (
+          <span className={styles.freqBadge} data-freq={quest.frequency}>
+            {FREQ_LABEL[quest.frequency]}
+          </span>
+        )}
       </div>
 
       <p>{quest.description}</p>
@@ -40,9 +46,10 @@ export function QuestCard({ quest, selected }: Props) {
         <span>
           {quest.progress} / {quest.counter}{" "}
         </span>
-        <p>
-          {quest.rewards} {quest.rewardsType?.toUpperCase()}
-        </p>
+        <span className={styles.reward}>
+          {quest.rewards}
+          {icon && <img src={asset(icon)} className={styles.rewardIcon} />}
+        </span>
       </div>
     </div>
   );

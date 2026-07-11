@@ -1,6 +1,6 @@
 import { ITEMS } from "@/data/items";
 import type { InventoryItem } from "@/utils/types/player/inventory";
-import styles from "../styles.module.css";
+import styles from "./styles.module.css";
 
 type Props = {
   item: InventoryItem;

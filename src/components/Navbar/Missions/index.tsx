@@ -59,24 +59,25 @@ export function Mission() {
             ({tabCountMap[key]})
           </button>
         ))}
+        {(activeTab === "daily" || activeTab === "weekly") && (
+          <div className={styles.timerBar}>
+            {activeTab === "daily" && (
+              <div>
+                <Timer size={16}/>
+                <strong>{dailyTimer}</strong>
+              </div>
+            )}
+            {activeTab === "weekly" && (
+              <div>
+                <Timer size={16}/>
+                <strong>{weeklyTimer}</strong>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
-      {(activeTab === "daily" || activeTab === "weekly") && (
-        <div className={styles.timerBar}>
-          {activeTab === "daily" && (
-            <div>
-              <Timer />
-              <span>Reset em: <strong>{dailyTimer}</strong></span>
-            </div>
-          )}
-          {activeTab === "weekly" && (
-            <div>
-              <Timer />
-              <span>Reset em: <strong>{weeklyTimer}</strong></span>
-            </div>
-          )}
-        </div>
-      )}
+
 
       {visibleQuests.length === 0 ? (
         <p className={styles.empty}>{getEmptyMessage(activeTab)}</p>
