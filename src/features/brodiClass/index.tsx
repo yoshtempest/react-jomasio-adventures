@@ -41,7 +41,6 @@ export function BrodiClassScene({ sceneId }: Props) {
     <>
       <SceneBase
         scene={scene}
-        className="Master"
         background={sceneBackgrounds.BrodiClass}
         interactions={interactions}
         itemPickupTiles={[{ x: 13, y: 4, visible: !gotKey }]}

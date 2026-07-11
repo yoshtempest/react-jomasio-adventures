@@ -78,7 +78,6 @@ export function DirectorScene({ sceneId }: Props) {
     <>
       <SceneBase
         scene={scene}
-        className="Master"
         background={sceneBackgrounds.Director}
         interactions={interactions}
         itemPickupTiles={[{ x: 15, y: 7, visible: !gotKey }]}

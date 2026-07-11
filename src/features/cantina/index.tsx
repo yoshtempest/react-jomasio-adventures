@@ -72,7 +72,7 @@ export function CantinaScene({ sceneId }: Props) {
     <>
       <SceneBase
         scene={sceneWithJeso}
-        className="Master Cantina"
+        className="Cantina"
         background={sceneBackgrounds.Cantina}
         interactions={interactions}
         itemPickupTiles={[{ x: 13, y: 4, visible: !gotKey }]}

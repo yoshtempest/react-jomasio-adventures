@@ -56,7 +56,6 @@ export function LibraryScene({ sceneId }: Props) {
     <>
       <SceneBase
         scene={scene}
-        className="Master"
         background={scene.background}
         interactions={interactions}
         itemPickupTiles={[

@@ -72,7 +72,6 @@ export function PcRoomScene({ sceneId }: Props) {
     <>
       <SceneBase
         scene={scene}
-        className="Master"
         background={sceneBackgrounds.PcsRoom}
         interactions={interactions}
         itemPickupTiles={[{ x: 7, y: 3, visible: !gotKey }]}

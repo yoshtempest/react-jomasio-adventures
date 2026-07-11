@@ -39,7 +39,6 @@ export function HellScene({ sceneId }: Props) {
     <>
       <SceneBase
         scene={scene}
-        className="Master"
         background={sceneBackgrounds.HellRoom}
         onFinishExtra={() => {
           if (

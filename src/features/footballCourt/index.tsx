@@ -23,7 +23,6 @@ export function FootballCourtScene({ sceneId }: Props) {
   return (
     <SceneBase
       scene={scene}
-      className="Master"
       background={sceneBackgrounds.FootballCourt}
       onFinishExtra={() => ({
         addItem,
