@@ -1,6 +1,7 @@
 .app {
   display: flex;
   flex-direction: row;
+  position: relative;
 
   width: var(--size-1280);
   height: 100vh;
@@ -8,6 +9,22 @@
 
   align-items: center;
   justify-content: center;
+}
+
+.navbarClip {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 74vw;
+  height: 100vh;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 9999999;
+}
+
+.navbarClip > * {
+  pointer-events: auto;
 }
 
 .Cantina {

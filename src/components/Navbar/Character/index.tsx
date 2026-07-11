@@ -12,49 +12,47 @@ export function Character() {
 
   return (
     <div className={`containerOfNavbar ${styles.charactersContainer}`}>
+      {characters.map((char) => {
+        const selectableIndex = selectableCharacters.findIndex(
+          (c) => c.name === char.name,
+        );
+        const charProgress = progress[char.image];
+        const xpNeeded = getXPToNextLevel(charProgress.level);
 
-        {characters.map((char) => {
-          const selectableIndex = selectableCharacters.findIndex(
-            (c) => c.name === char.name,
-          );
-          const charProgress = progress[char.image];
-          const xpNeeded = getXPToNextLevel(charProgress.level);
+        const isSelected = selectableIndex === selectedIndex;
 
-          const isSelected = selectableIndex === selectedIndex;
+        return (
+          <div
+            key={char.name}
+            className={`${styles.character} ${
+              !char.selectable ? styles.characterDisabled : ""
+            } ${isSelected ? styles.selected : ""}`}
+          >
+            {isSelected && <span className={`cursor ${styles.cursor}`}>▼</span>}
 
-          return (
-            <div
-              key={char.name}
-              className={`${styles.character} ${
-                !char.selectable ? styles.characterDisabled : ""
-              } ${isSelected ? styles.selected : ""}`}
-            >
-              {isSelected && <span className={`cursor ${styles.cursor}`}>▼</span>}
+            <img
+              src={playerPath(`/${char.image}/default.svg`)}
+              className={styles.characterImage}
+            />
 
-              <img
-                src={playerPath(`/${char.image}/default.svg`)}
-                className={styles.characterImage}
-              />
-
-              <h2 className={styles.text}>
-                {char.name} - Nv.{charProgress.level}
-              </h2>
-              <p className={styles.rank}>
-                {formatRank(getRank(charProgress.level))}
-              </p>
-              <div className={styles.progressContainer}>
-                
-                <ProgressBar value={charProgress.xp} max={xpNeeded}/>
-              </div>
-
-
-              <p className={styles.text}>
-                {charProgress.xp} / {xpNeeded} XP
-              </p>
+            <h2 className={styles.text}>
+              {char.name} - Nv.{charProgress.level}
+            </h2>
+            <p className={styles.rank}>
+              {formatRank(getRank(charProgress.level))}
+            </p>
+            <div className={styles.progressContainer}>
+              
+              <ProgressBar value={charProgress.xp} max={xpNeeded}/>
             </div>
-          );
-        })}
 
+
+            <p className={styles.text}>
+              {charProgress.xp} / {xpNeeded} XP
+            </p>
+          </div>
+        );
+      })}
     </div>
   );
 }

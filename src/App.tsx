@@ -130,7 +130,11 @@ function App() {
       <Outlet />
       <GameButtons />
       {isOpen && <Inventory />}
-      {isNavOpen && <Navbar />}
+      {isNavOpen && (
+        <div className="navbarClip">
+          <Navbar />
+        </div>
+      )}
     </div>
   );
 }

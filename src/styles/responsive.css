@@ -1,4 +1,10 @@
 @media (orientation: portrait) {
+  .navbarClip {
+    width: 100vw;
+    height: 30vh;
+    left: 0;
+    transform: none;
+  }
   .dpad {
     width: 14vh;
     height: 14vh;
