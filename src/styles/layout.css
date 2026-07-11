@@ -47,8 +47,10 @@
 .containerOfNavbar {
   display: flex;
   position: absolute;
+  top: 5%;
+  right: 0;
   flex-direction: column;
-  width: 74vw;
+  width: calc(74vw - var(--size-6));
   height: 90vh;
   background: linear-gradient(
     170deg,
