@@ -50,3 +50,21 @@
   box-shadow: 0 0 var(--size-6) rgba(var(--accent-color));
   line-height: 1;
 }
+
+@keyframes arrowPulse {
+  0%, 100% { opacity: 1; transform: inherit; }
+  50% { opacity: 0.4; }
+}
+
+.directionArrow {
+  position: absolute;
+  z-index: 15;
+  font-size: 12px;
+  color: var(--accent-color);
+  pointer-events: none;
+  animation: arrowPulse 0.8s ease-in-out infinite;
+  filter: drop-shadow(0 0 4px var(--accent-color));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -72,7 +72,7 @@ export function SceneBase({
 
   const currentRoute = location.pathname;
 
-  const { highlightTiles, questNpcPositions } = useQuestWaypoints(
+  const { highlightTiles, questNpcPositions, questDirection } = useQuestWaypoints(
     scene,
     currentRoute,
   );
@@ -116,6 +116,7 @@ export function SceneBase({
           popup={popup}
           questHighlightTiles={highlightTiles}
           questNpcPositions={questNpcPositions}
+          questDirection={questDirection}
           itemPickupTiles={itemPickupTiles}
           interactionKeys={Object.keys(interactions ?? {})}
           tileDialogues={tileDialogues}

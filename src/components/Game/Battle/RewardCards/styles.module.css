@@ -19,7 +19,7 @@
   font-size: var(--smaller);
   color: #999;
   text-transform: uppercase;
-  letter-spacing: var(--size-5);
+  letter-spacing: var(--size-1);
 }
 
 .rewardValue {

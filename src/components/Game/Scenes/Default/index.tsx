@@ -5,7 +5,7 @@ import { GameMap } from "@/components/Game/Map/Game";
 import { Player } from "@/components/Game/Player";
 import { NPC } from "@/components/Game/Npc";
 import { Plate } from "@/components/Game/Plate";
-import { QuestArrow, QuestNPCBadge } from "@/components/Game/Quest/Indicator";
+import { QuestArrow, QuestNPCBadge, QuestDirectionArrow } from "@/components/Game/Quest/Indicator";
 import Talking from "@/components/Talking";
 import { useDialogue } from "@/hooks/interaction/useDialogue";
 import { useSansTalking } from "@/hooks/interaction/useSansTalking";
@@ -48,6 +48,7 @@ export function ExploreScene({
   popup,
   questHighlightTiles,
   questNpcPositions,
+  questDirection,
   itemPickupTiles,
   interactionKeys,
   tileDialogues,
@@ -58,6 +59,7 @@ export function ExploreScene({
   popup?: string | null;
   questHighlightTiles?: QuestHighlightTile[];
   questNpcPositions?: QuestNpcPosition[];
+  questDirection?: Direction | null;
   itemPickupTiles?: { x: number; y: number; visible: boolean }[];
   interactionKeys?: string[];
   tileDialogues?: Record<string, Dialogue[]>;
@@ -326,6 +328,16 @@ export function ExploreScene({
           hasPeru={player.hasPeru}
           moving={player.moving}
         />
+
+        {questDirection && (
+          <QuestDirectionArrow
+            gridX={player.gridX}
+            gridY={player.gridY}
+            TILE_SIZE={TILE_SIZE}
+            PLAYER_SIZE={PLAYER_SIZE}
+            direction={questDirection}
+          />
+        )}
       </GameMap>
 
       {interactionHint && !dialogueSystem.isOpen && (
