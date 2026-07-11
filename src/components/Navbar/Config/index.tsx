@@ -18,7 +18,7 @@ export function Config() {
   const { difficulty } = usePlayer();
   const { sfxVolume, bgmVolume } = useAudio();
   const { dialogueSpeed } = useSettings();
-  const { difficultyList, selectedIndex, selectedRow, screen, showQuestIndicator } =
+  const { difficultyList, selectedIndex, selectedRow, bottomIndex, screen, showQuestIndicator } =
     useConfigMenu(true);
   const dialogueSystem = useDialogue(configsDialogue);
   const dialogueSystemRef = useRef(dialogueSystem);
@@ -110,37 +110,37 @@ export function Config() {
       <div className={styles.flexRow}>
         <div
           className={`${styles.tutorialButton} ${
-            selectedRow === 4 ? styles.selected : ""
+            selectedRow === 4 && bottomIndex === 0 ? styles.selected : ""
           }`}
         >
-          {selectedRow === 4 && <span className={styles.cursor}>▼</span>}
+          {selectedRow === 4 && bottomIndex === 0 && <span className={styles.cursor}>▼</span>}
 
           <h2>Indicador de Missões: {showQuestIndicator ? "ON" : "OFF"}</h2>
         </div>
         <div
           className={`${styles.tutorialButton} ${
-            selectedRow === 5 ? styles.selected : ""
+            selectedRow === 4 && bottomIndex === 1 ? styles.selected : ""
           }`}
         >
-          {selectedRow === 5 && <span className={styles.cursor}>▼</span>}
+          {selectedRow === 4 && bottomIndex === 1 && <span className={styles.cursor}>▼</span>}
 
           <h2>Ver Tutorial</h2>
         </div>
         <div
           className={`${styles.tutorialButton} ${
-            selectedRow === 6 ? styles.selected : ""
+            selectedRow === 4 && bottomIndex === 2 ? styles.selected : ""
           }`}
         >
-          {selectedRow === 6 && <span className={styles.cursor}>▼</span>}
+          {selectedRow === 4 && bottomIndex === 2 && <span className={styles.cursor}>▼</span>}
 
           <UpdateButton />
         </div>
         <div
           className={`${styles.tutorialButton} ${
-            selectedRow === 7 ? styles.selected : ""
+            selectedRow === 4 && bottomIndex === 3 ? styles.selected : ""
           }`}
         >
-          {selectedRow === 7 && <span className={styles.cursor}>▼</span>}
+          {selectedRow === 4 && bottomIndex === 3 && <span className={styles.cursor}>▼</span>}
 
           <InstallButton />
         </div>

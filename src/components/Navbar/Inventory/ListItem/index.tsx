@@ -23,7 +23,7 @@ export function ListItem({
 
   return (
     <li
-      className={`${styles.item} ${isSelected ? "active" : ""}`}
+      className={`InventoryItem ${isSelected ? "active" : ""}`}
     >
       {itemData && (
         <div className={styles.itemRow}>

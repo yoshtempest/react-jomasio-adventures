@@ -11,7 +11,8 @@ import { usePWA } from "@/contexts/PWAContext";
 import { DIALOGUE_SPEED_LIST } from "@/utils/settings";
 
 const DIFFICULTY: NpcDifficulty[] = ["easy", "medium", "hard"];
-const MAX_ROW = 7;
+const MAX_ROW = 4;
+const BOTTOM_COUNT = 4;
 
 export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   const { pushControls, popControls } = useGameControls();
@@ -26,19 +27,22 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const [selectedRow, setSelectedRow] = useState(0);
+  const [bottomIndex, setBottomIndex] = useState(0);
 
   // menu | tutorial
   const [screen, setScreen] = useState<"menu" | "tutorial">("menu");
 
   const selectedIndexRef = useRef(selectedIndex);
   const selectedRowRef = useRef(selectedRow);
+  const bottomIndexRef = useRef(bottomIndex);
   const screenRef = useRef(screen);
 
   useEffect(() => {
     selectedIndexRef.current = selectedIndex;
     selectedRowRef.current = selectedRow;
+    bottomIndexRef.current = bottomIndex;
     screenRef.current = screen;
-  }, [selectedIndex, selectedRow, screen]);
+  }, [selectedIndex, selectedRow, bottomIndex, screen]);
 
   const playMoveRef = useRef(playMove);
   playMoveRef.current = playMove;
@@ -100,6 +104,10 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
         if (selectedRowRef.current === 3) {
           setBgmVolumeRef.current(Math.min(bgmVolume + 10, 100));
         }
+
+        if (selectedRowRef.current === 4) {
+          setBottomIndex((prev) => (prev + 1) % BOTTOM_COUNT);
+        }
       },
 
       onLeft: () => {
@@ -123,12 +131,22 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
         if (selectedRowRef.current === 3) {
           setBgmVolumeRef.current(Math.max(bgmVolume - 10, 0));
         }
+
+        if (selectedRowRef.current === 4) {
+          setBottomIndex((prev) => (prev - 1 + BOTTOM_COUNT) % BOTTOM_COUNT);
+        }
       },
 
       onDown: () => {
         if (screenRef.current !== "menu") return;
 
         playMoveRef.current();
+
+        if (selectedRowRef.current === 4) {
+          setSelectedRow(0);
+          return;
+        }
+
         setSelectedRow((prev) => Math.min(prev + 1, MAX_ROW));
       },
 
@@ -136,6 +154,17 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
         if (screenRef.current !== "menu") return;
 
         playMoveRef.current();
+
+        if (selectedRowRef.current === 4) {
+          setSelectedRow(3);
+          return;
+        }
+
+        if (selectedRowRef.current === 0) {
+          setSelectedRow(4);
+          return;
+        }
+
         setSelectedRow((prev) => Math.max(prev - 1, 0));
       },
 
@@ -158,24 +187,28 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
         }
 
         if (selectedRowRef.current === 4) {
-          setShowQuestIndicatorRef.current(!showQuestIndicator);
-        }
+          const idx = bottomIndexRef.current;
 
-        if (selectedRowRef.current === 5) {
-          setScreen("tutorial");
-        }
+          if (idx === 0) {
+            setShowQuestIndicatorRef.current(!showQuestIndicator);
+          }
 
-        if (selectedRowRef.current === 6) {
-          checkForUpdateRef.current();
-        }
+          if (idx === 1) {
+            setScreen("tutorial");
+          }
 
-        if (selectedRowRef.current === 7) {
-          if (isInstalledRef.current) {
-            setShowInstalledMessageRef.current(true);
-          } else if (canInstallRef.current) {
-            installRef.current();
-          } else {
-            setShowNotAvailableMessageRef.current(true);
+          if (idx === 2) {
+            checkForUpdateRef.current();
+          }
+
+          if (idx === 3) {
+            if (isInstalledRef.current) {
+              setShowInstalledMessageRef.current(true);
+            } else if (canInstallRef.current) {
+              installRef.current();
+            } else {
+              setShowNotAvailableMessageRef.current(true);
+            }
           }
         }
 
@@ -206,6 +239,7 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
     difficulty: DIFFICULTY,
     selectedIndex,
     selectedRow,
+    bottomIndex,
     screen,
     showQuestIndicator,
   };

@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  gap: var(--size-4);
+  padding: var(--size-4) var(--fs-8);
+  overflow-x: auto;
+  flex-shrink: 0;
+  scrollbar-width: none;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+.button {
+  padding: var(--size-4) var(--fs-8);
+  border: var(--size-1) solid var(--border-default);
+  border-radius: var(--size-4);
+  background: var(--surface-card);
+  color: var(--text-color);
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: var(--fs-11);
+  flex-shrink: 0;
+}
+
+.buttonActive {
+  background: var(--accent-color);
+  color: var(--primary-color);
+  border-color: var(--accent-color);
+  font-weight: bold;
+}
+
+.buttonFocused {
+  outline: var(--size-2) solid var(--accent-color);
+  outline-offset: var(--size-2);
+}

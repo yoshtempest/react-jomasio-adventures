@@ -112,6 +112,14 @@
   font-weight: normal;
 }
 
+.InventoryItem {
+  padding: var(--fs-8) var(--smaller);
+  background-color: var(--surface-card);
+  border-left: var(--size-1) solid var(--background-color);
+  border-bottom: var(--size-1) solid var(--background-color);
+  height: 10vh;
+}
+
 .dailyButton {
   display: flex;
   align-items: center;

@@ -265,7 +265,7 @@ export function Inventory() {
               onUseItem={(id) => consumeItemRef.current(id)}
             />
           ) : (
-            <li key={index} className={styles.item} />
+            <li key={index} className="InventoryItem" />
           ),
         )}
       </ul>

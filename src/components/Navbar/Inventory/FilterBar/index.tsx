@@ -1,5 +1,5 @@
 import { FILTER_LABELS } from "@/data/inventory/labels";
-import styles from "../styles.module.css";
+import styles from "./styles.module.css";
 
 type Props = {
   filterType: string;
@@ -9,13 +9,13 @@ type Props = {
 
 export function FilterBar({ filterType, filterFocused, onFilterChange }: Props) {
   return (
-    <div className={styles.filterBar}>
+    <div className={styles.container}>
       {FILTER_LABELS.map((f) => (
         <button
           key={f.type}
-          className={`${styles.filterButton} ${
-            filterType === f.type ? styles.filterButtonActive : ""
-          } ${filterFocused && filterType === f.type ? styles.filterButtonFocused : ""}`}
+          className={`${styles.button} ${
+            filterType === f.type ? styles.buttonActive : ""
+          } ${filterFocused && filterType === f.type ? styles.buttonFocused : ""}`}
           onClick={() => onFilterChange(f.type)}
         >
           {f.label}
