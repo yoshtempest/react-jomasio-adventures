@@ -1,18 +1,20 @@
-import { cantina } from "@/maps/cantina/one";
+import { brodiClass } from "@/maps/brodiClass";
 import { MUSICS } from "@/scenes/shared/music";
-import { getCantinaOneInitialPosition } from "./position";
+import { getBrodiClassOneInitialPosition } from "./position";
 import { getCantinaOneDialogue } from "./dialogue";
 import { cantinaOneNpcs } from "./npcs";
 import { cantinaOneEvents } from "./events";
-import { cantinaOneTiles } from "./tiles";
+import { brodiclassOneTiles } from "./tiles";
+import { sceneBackgrounds } from "@/data/sceneBackground";
 
 export const oneScene: SceneConfig = {
   id: "one",
-  map: cantina,
+  background: sceneBackgrounds.BrodiClass,
+  map: brodiClass,
   events: cantinaOneEvents,
   npcs: cantinaOneNpcs,
   dialogueData: getCantinaOneDialogue,
-  audio: { src: MUSICS.default },
-  initialPosition: getCantinaOneInitialPosition,
-  tiles: cantinaOneTiles,
+  audio: { src: MUSICS.ToothlessDancing },
+  initialPosition: getBrodiClassOneInitialPosition,
+  tiles: brodiclassOneTiles,
 };

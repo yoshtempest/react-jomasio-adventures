@@ -25,8 +25,8 @@ const LibraryPage = lazyLoad(() => import("@/pages/Library"));
 const FootballCourtPage = lazyLoad(() => import("@/pages/FootballCourt"));
 
 const CafeteriaPage = lazyLoad(() => import("@/pages/Cafeteria"));
-const BrodiClassOne = lazyLoad(() => import("@/pages/BrodiClass"));
 const HellroomPage = lazyLoad(() => import("@/pages/HellRoom"));
+const BrodiClassPage = lazyLoad(() => import ("@/pages/BrodiClass"));
 
 const BattlePage = lazyLoad(() => import("@/pages/BattlePage"));
 
@@ -49,7 +49,7 @@ const nonBattlePages = [
   LibraryPage,
   CafeteriaPage,
   FootballCourtPage,
-  BrodiClassOne,
+  BrodiClassPage,
 ];
 
 export function AppRoutes() {
@@ -120,14 +120,18 @@ export function AppRoutes() {
               <Route path="battle/three" element={<BattlePage />} />
             </Route>
 
+            <Route path="brodiclass">
+              <Route index element={<Navigate to="/brodiclass/one" />} />
+              <Route path=":id" element={<BrodiClassPage />} />
+              <Route path="/brodiclass/battle" element={<BattlePage />} />
+            </Route>
+
             <Route path="battle/hungry" element={<BattlePage />} />
             <Route path="battle/vandinhafragment" element={<BattlePage />} />
             <Route path="battle/jhowsimar" element={<BattlePage />} />
             <Route path="battle/piupiu" element={<BattlePage />} />
             <Route path="battle/rice" element={<BattlePage />} />
             <Route path="battle/goat" element={<BattlePage />} />
-            <Route path="brodiclass/one" element={<BrodiClassOne />} />
-            <Route path="brodiclass/battle" element={<BattlePage />} />
             <Route path="battle/technoblade" element={<BattlePage />} />
           </Route>
         </Routes>

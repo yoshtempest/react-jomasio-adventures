@@ -1,16 +1,16 @@
 import { MUSICS } from "@/scenes/shared/music";
-import { getCantinaTwoInitialPosition } from "./position";
-import { cantinaTwoTiles } from "./tiles";
-import { cantinaTwoPlates } from "./plate";
+import { getBrodiClassNineInitialPosition } from "./position";
+import { brodiclassTwoTiles } from "./tiles";
 import { cantinaTwoNpcs } from "./npcs";
 import { cantina } from "@/maps/cantina/one";
+import { sceneBackgrounds } from "@/data/sceneBackground";
 
 export const nineScene: SceneConfig = {
   id: "two",
+  background: sceneBackgrounds.BrodiClass,
   map: cantina,
   audio: { src: MUSICS.default },
   npcs: cantinaTwoNpcs,
-  initialPosition: getCantinaTwoInitialPosition,
-  tiles: cantinaTwoTiles,
-  plates: cantinaTwoPlates,
+  initialPosition: getBrodiClassNineInitialPosition,
+  tiles: brodiclassTwoTiles,
 };

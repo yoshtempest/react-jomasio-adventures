@@ -19,4 +19,10 @@ export const FOODS = createItems({
         description: "Ovo misterioso de Piupiu. Frito ou cozido? Recupera 25 de fome.",
         type: "food",
     },
+    goat_meat: {
+        image: "/assets/items/goat_meat.svg",
+        name: "Carne de bode",
+        description: "Denovo isso? Todo dia isso mano.",
+        type: "food",
+    },
 } as const);
