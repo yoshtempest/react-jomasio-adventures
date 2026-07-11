@@ -17,9 +17,9 @@ import { asset } from "@/utils/paths";
 export function Navbar() {
   const { screen, selectedIndex, options } = useNavbarMenu();
 
-  return (
-    <nav className={styles.navbar}>
-      {screen === "menu" && (
+  if (screen === "menu") {
+    return (
+      <nav className={styles.navbar}>
         <ul className={styles.list}>
           {options.map((item, index) => (
             <li
@@ -33,8 +33,12 @@ export function Navbar() {
             </li>
           ))}
         </ul>
-      )}
+      </nav>
+    );
+  };
 
+  return (
+    <>
       {screen === "status" && <Status />}
       {screen === "character" && <Character />}
       {screen === "inventory" && <Inventory />}
@@ -46,6 +50,6 @@ export function Navbar() {
       {screen === "player" && <Player />}
       {screen === "saves" && <Saves />}
       {screen === "professions" && <Professions />}
-    </nav>
-  );
+    </>
+  )
 }

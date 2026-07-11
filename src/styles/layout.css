@@ -33,8 +33,6 @@
   flex-direction: column;
   width: 74vw;
   height: 90vh;
-  top: 5%;
-  right: 0%;
   background: linear-gradient(
     170deg,
     var(--surface-dark) 0%,
