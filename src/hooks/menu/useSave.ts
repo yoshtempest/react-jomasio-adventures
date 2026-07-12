@@ -152,7 +152,7 @@ export function useSaveMenu() {
                     if (free === undefined) return;
                     setActiveSlot(free);
                     clearSlot(free);
-                    window.location.href = "/#/tutorial";
+                    window.location.hash = "#/tutorial";
                 }
                 else if (item.key === "back") {
                     closeNavbarRef.current();
