@@ -34,16 +34,6 @@ export function ButtonsMovement({ activeControls, pressed, onPressDir, onRelease
     releaseFn?.();
   }
 
-  function pressOnce(dir: Direction, fn?: () => void) {
-    onPressDir?.(dir);
-    fn?.();
-  }
-
-  function releaseOnce(dir: Direction, releaseFn?: () => void) {
-    onReleaseDir?.(dir);
-    releaseFn?.();
-  }
-
   function btnClass(dir: string) {
     return `${styles[dir as keyof typeof styles]} ${pressed.has(dir) ? styles.pressed : ""}`;
   }
@@ -52,9 +42,9 @@ export function ButtonsMovement({ activeControls, pressed, onPressDir, onRelease
     <div className={styles.movement}>
       <button
         className={btnClass("up")}
-        onPointerDown={() => pressOnce("up", activeControls?.onUp)}
-        onPointerUp={() => releaseOnce("up", activeControls?.onUpRelease)}
-        onPointerLeave={() => releaseOnce("up", activeControls?.onUpRelease)}
+        onPointerDown={() => startHold("up", activeControls?.onUp)}
+        onPointerUp={() => stopHold("up", activeControls?.onUpRelease)}
+        onPointerLeave={() => stopHold("up", activeControls?.onUpRelease)}
       >
         <MoveUp size={22} />
       </button>
@@ -79,9 +69,9 @@ export function ButtonsMovement({ activeControls, pressed, onPressDir, onRelease
 
       <button
         className={btnClass("down")}
-        onPointerDown={() => pressOnce("down", activeControls?.onDown)}
-        onPointerUp={() => releaseOnce("down", activeControls?.onDownRelease)}
-        onPointerLeave={() => releaseOnce("down", activeControls?.onDownRelease)}
+        onPointerDown={() => startHold("down", activeControls?.onDown)}
+        onPointerUp={() => stopHold("down", activeControls?.onDownRelease)}
+        onPointerLeave={() => stopHold("down", activeControls?.onDownRelease)}
       >
         <MoveDown size={22} />
       </button>

@@ -23,6 +23,10 @@ export function useKeyboardMovement() {
     stopMoveLeft,
     startMoveRight,
     stopMoveRight,
+    startMoveUpExplore,
+    stopMoveUpExplore,
+    startMoveDownExplore,
+    stopMoveDownExplore,
     startMoveLeftExplore,
     stopMoveLeftExplore,
     startMoveRightExplore,
@@ -70,6 +74,10 @@ export function useKeyboardMovement() {
   const stopMoveLeftRef = useRef(stopMoveLeft);
   const startMoveRightRef = useRef(startMoveRight);
   const stopMoveRightRef = useRef(stopMoveRight);
+  const startMoveUpExploreRef = useRef(startMoveUpExplore);
+  const stopMoveUpExploreRef = useRef(stopMoveUpExplore);
+  const startMoveDownExploreRef = useRef(startMoveDownExplore);
+  const stopMoveDownExploreRef = useRef(stopMoveDownExplore);
   const startMoveLeftExploreRef = useRef(startMoveLeftExplore);
   const stopMoveLeftExploreRef = useRef(stopMoveLeftExplore);
   const startMoveRightExploreRef = useRef(startMoveRightExplore);
@@ -85,6 +93,8 @@ export function useKeyboardMovement() {
   const lastLeftPressRef = useRef(0);
   const lastRightPressRef = useRef(0);
   const lastDashTimeRef = useRef(0);
+  const isUpHeldRef = useRef(false);
+  const isDownHeldRef = useRef(false);
   const isLeftHeldRef = useRef(false);
   const isRightHeldRef = useRef(false);
 
@@ -104,6 +114,10 @@ export function useKeyboardMovement() {
     stopMoveLeftRef.current = stopMoveLeft;
     startMoveRightRef.current = startMoveRight;
     stopMoveRightRef.current = stopMoveRight;
+    startMoveUpExploreRef.current = startMoveUpExplore;
+    stopMoveUpExploreRef.current = stopMoveUpExplore;
+    startMoveDownExploreRef.current = startMoveDownExplore;
+    stopMoveDownExploreRef.current = stopMoveDownExplore;
     startMoveLeftExploreRef.current = startMoveLeftExplore;
     stopMoveLeftExploreRef.current = stopMoveLeftExplore;
     startMoveRightExploreRef.current = startMoveRightExplore;
@@ -158,18 +172,42 @@ export function useKeyboardMovement() {
       onUp: () => {
         if (isLockedRef.current) return;
         if (isGrabbed()) return;
+        if (isUpHeldRef.current) {
+          if (isBattleRef.current) moveUpBattleRef.current();
+          else moveUpRef.current();
+          return;
+        }
+        isUpHeldRef.current = true;
         if (isBattleRef.current) moveUpBattleRef.current();
-        else moveUpRef.current();
+        else {
+          moveUpRef.current();
+          startMoveUpExploreRef.current();
+        }
       },
-      onUpRelease: () => {},
+      onUpRelease: () => {
+        isUpHeldRef.current = false;
+        if (!isBattleRef.current) stopMoveUpExploreRef.current();
+      },
 
       onDown: () => {
         if (isLockedRef.current) return;
         if (isGrabbed()) return;
+        if (isDownHeldRef.current) {
+          if (isBattleRef.current) toggleCrouchRef.current();
+          else moveDownRef.current();
+          return;
+        }
+        isDownHeldRef.current = true;
         if (isBattleRef.current) toggleCrouchRef.current();
-        else moveDownRef.current();
+        else {
+          moveDownRef.current();
+          startMoveDownExploreRef.current();
+        }
       },
-      onDownRelease: () => {},
+      onDownRelease: () => {
+        isDownHeldRef.current = false;
+        if (!isBattleRef.current) stopMoveDownExploreRef.current();
+      },
 
       onLeft: () => {
         if (isLockedRef.current) return;

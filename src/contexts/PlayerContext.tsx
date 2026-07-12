@@ -44,6 +44,10 @@ type PlayerContextType = {
   stopMoveLeft: () => void;
   startMoveRight: () => void;
   stopMoveRight: () => void;
+  startMoveUpExplore: () => void;
+  stopMoveUpExplore: () => void;
+  startMoveDownExplore: () => void;
+  stopMoveDownExplore: () => void;
   startMoveLeftExplore: () => void;
   stopMoveLeftExplore: () => void;
   startMoveRightExplore: () => void;
@@ -106,6 +110,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
   const {
     moveUp, moveDown, moveLeft, moveRight,
+    startMoveUpExplore, stopMoveUpExplore,
+    startMoveDownExplore, stopMoveDownExplore,
     startMoveLeftExplore, stopMoveLeftExplore,
     startMoveRightExplore, stopMoveRightExplore,
   } = usePlayerMovement(
@@ -197,6 +203,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
         moveUpBattle, startMoveLeft, stopMoveLeft,
         startMoveRight, stopMoveRight,
+        startMoveUpExplore, stopMoveUpExplore,
+        startMoveDownExplore, stopMoveDownExplore,
         startMoveLeftExplore, stopMoveLeftExplore,
         startMoveRightExplore, stopMoveRightExplore,
         blockStart, blockEnd, toggleCrouch,
