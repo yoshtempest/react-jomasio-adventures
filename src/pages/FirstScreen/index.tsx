@@ -1,8 +1,19 @@
 import { firstScreenMap } from "@/maps/firstScreenMap";
 import { sceneBackgrounds } from "@/data/sceneBackground";
 import { ExploreScene } from "@/components/Game/Scenes/Default";
+import { useNavbar } from "@/contexts/NavbarContext";
+import { usePlayer } from "@/contexts/PlayerContext";
+import { useEffect } from "react";
 
 export default function FirstScreen() {
+  const { closeNavbar } = useNavbar();
+  const { setMode } = usePlayer();
+
+  useEffect(() => {
+    closeNavbar();
+    setMode("explore")
+  }, [closeNavbar]);
+
   return (
     <div className="Master" style={{ backgroundImage: `url(${sceneBackgrounds.FirstScreen})` }}>
       <ExploreScene

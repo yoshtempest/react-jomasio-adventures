@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import {
   useLocation,
   type NavigateFunction,
@@ -8,6 +8,7 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { useTransitionCtx } from "@/contexts/TransitionContext";
 import { useFlags } from "@/contexts/FlagContext";
 import { useInventory } from "@/contexts/InventoryContext";
+import { useNavbar } from "@/contexts/NavbarContext";
 import { ExploreScene } from "@/components/Game/Scenes/Default";
 import { runSceneEvents } from "@/engine/runSceneEvents";
 import { useQuestActions } from "@/hooks/quest/useQuestActions";
@@ -59,10 +60,11 @@ export function SceneBase({
 }: SceneBaseProps) {
   const { navigateWithFade } = useTransitionCtx();
   const location = useLocation();
-  const { player } = usePlayer();
+  const { player, setMode } = usePlayer();
   const { quests } = useQuests();
   const { hasFlag } = useFlags();
   const { hasItem } = useInventory();
+  const { closeNavbar } = useNavbar();
   const { giveQuest, progressQuest } = useQuestActions();
 
   const lastPage = location.state?.from;
@@ -92,6 +94,11 @@ export function SceneBase({
     handleExit,
     setPopup,
   });
+
+  useEffect(() => {
+    closeNavbar();
+    setMode("explore")
+  }, [closeNavbar]);
 
   if (!scene) {
     return <div>Scene não encontrada</div>;

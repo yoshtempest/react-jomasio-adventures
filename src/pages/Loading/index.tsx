@@ -25,6 +25,13 @@ export default function Loading() {
   const navigated = useRef(false);
 
   useEffect(() => {
+    const switchTarget = sessionStorage.getItem("saveSwitchTarget");
+    if (switchTarget) {
+      sessionStorage.removeItem("saveSwitchTarget");
+      navigate(switchTarget, { replace: true });
+      return;
+    }
+
     const start = Date.now();
     closeNavbarRef.current();
 

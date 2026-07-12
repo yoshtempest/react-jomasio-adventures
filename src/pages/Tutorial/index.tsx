@@ -14,11 +14,13 @@ import { useNameInput } from "@/hooks/tutorial/useNameInput";
 import { useQuestActions } from "@/hooks/quest/useQuestActions";
 import { QUESTS } from "@/data/quests";
 import { sceneBackgrounds } from "@/data/sceneBackground";
+import { useNavbar } from "@/contexts/NavbarContext";
 
 export default function Tutorial() {
   const navigate = useNavigate();
   const { play: playSansTalking } = useSansTalking(false);
   const { giveQuest } = useQuestActions();
+  const { closeNavbar } = useNavbar();
 
   const flow = useTutorialFlow();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -53,6 +55,10 @@ export default function Tutorial() {
   }, [flow.showNameInput]);
 
   useBackgroundAudio(SOS);
+
+  useEffect(() => {
+    closeNavbar();
+  }, [closeNavbar]);
 
   const cutscene = useCutscene({
     dialogue: tutorialDialogue,
