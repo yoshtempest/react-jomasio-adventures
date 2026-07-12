@@ -28,6 +28,7 @@ export type SoundId =
   | "closeMenu"
   | "swordDeflected"
   | "jhowsimarVemCa"
+  | "getTheLapada"
   | "marshadowSpecial"
   | "drikaSpecial"
   | "slimitaJump"

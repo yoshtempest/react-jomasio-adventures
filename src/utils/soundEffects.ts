@@ -28,6 +28,7 @@ export function createSounds() {
         eating: sfx("player/eating.mp3"),
         drinkingPotion: sfx("player/drinkingPotion.mp3"),
         jhowsimarJooj: sfx("npc/jhowsimar/throw.mp3"),
+        getTheLapada: sfx("npc/jhowsimar/getTheLapada.mp3"),
         boom: sfx("npc/slimita/boom.mp3"),
         gainXp: sfx("player/gainXp.mp3"),
         goatJump: sfx("npc/goat/jump.mp3"),

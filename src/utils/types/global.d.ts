@@ -111,7 +111,8 @@ declare global {
 
   type SceneEvent =
     | { type: "openModal"; modal: "class" }
-    | { type: "navigate"; to: string }
+    | { type: "navigate"; to: string; delay?: number }
+    | { type: "playSound"; src: string; volume?: number }
     | { type: "setFlag"; flagId: FlagId }
     | { type: "log"; message: string }
     | { type: "progressQuest"; id: QuestId; value: number }

@@ -75,11 +75,26 @@ export function runSceneEvents(
         }
         break;
 
-      case "navigate":
-        ctx.navigate(event.to, {
-          state: { from: ctx.location.pathname },
-        });
-        return; // 🔥 IMPORTANTE: para execução após navegar
+      case "playSound": {
+        const audio = new Audio(event.src);
+        audio.volume = event.volume ?? 0.5;
+        audio.play().catch(() => {});
+        break;
+      }
+
+      case "navigate": {
+        const doNav = () =>
+          ctx.navigate(event.to, {
+            state: { from: ctx.location.pathname },
+          });
+
+        if (event.delay) {
+          setTimeout(doNav, event.delay);
+        } else {
+          doNav();
+        }
+        return;
+      }
 
       case "setFlag":
         ctx.setFlag?.(event.flagId);
