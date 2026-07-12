@@ -8,10 +8,12 @@ interface Props {
   name: string;
   message: string;
   src?: string;
+  soundSrc?: string;
+  autoAdvanceOnSound?: boolean;
   onNext?: () => void;
 }
 
-export default function Talking({ name, message, src, onNext }: Props) {
+export default function Talking({ name, message, src, soundSrc, autoAdvanceOnSound, onNext }: Props) {
   const { dialogueSpeedMs } = useSettings();
   const { displayedText, isComplete, skip } = useTypewriter(
     message,
@@ -48,6 +50,25 @@ export default function Talking({ name, message, src, onNext }: Props) {
     pushControls(controls);
     return () => popControls();
   }, [pushControls, popControls]);
+
+  useEffect(() => {
+    if (!soundSrc) return;
+
+    const audio = new Audio(resolveAsset(soundSrc));
+    audio.volume = 1;
+    audio.play().catch(() => {});
+
+    if (autoAdvanceOnSound) {
+      audio.addEventListener("ended", () => {
+        onNextRef.current?.();
+      });
+    }
+
+    return () => {
+      audio.pause();
+      audio.src = "";
+    };
+  }, [soundSrc, autoAdvanceOnSound]);
 
   return (
     <div className="talkingContainer">

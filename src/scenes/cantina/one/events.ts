@@ -6,11 +6,6 @@ export const cantinaOneEvents: SceneEvent[] = [
       notHasQuest: "director_escape",
     },
     then: [
-      {
-        type: "playSound",
-        src: "public/assets/songs/soundEffects/npc/jhowsimar/getTheLapada.mp3",
-        volume: 1,
-      },
       { type: "navigate", to: "/director/one" },
     ],
   },

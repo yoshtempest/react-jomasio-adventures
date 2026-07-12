@@ -61,6 +61,8 @@ declare global {
     name: string;
     message: string;
     isPlayer?: boolean;
+    soundSrc?: string;
+    autoAdvanceOnSound?: boolean;
   };
 
   // ── Scene system ───────────────────────────────────────
