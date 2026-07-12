@@ -90,7 +90,7 @@ export function PcRoomScene({ sceneId }: Props) {
 
       {/* 🧠 MODAL (continua fora do SceneBase) */}
       {showClassModal && (
-        <div className={styles.classModal}>
+        <div className={`overlay ${styles.classModal}`}>
           <h1>Escolha sua classe</h1>
 
           <div className={styles.classList}>

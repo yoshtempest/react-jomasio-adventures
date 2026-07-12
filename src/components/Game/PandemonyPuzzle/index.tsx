@@ -40,7 +40,7 @@ export function PandemonyPuzzle({ isOpen, onSolved, onClose }: Props) {
   if (!isOpen) return null;
 
   return (
-    <div className={styles.overlay}>
+    <div className={`overlay ${styles.overlay}`}>
       <div className={styles.modal}>
         <div className={styles.title}>Porta do Pandemônio</div>
 

@@ -13,7 +13,7 @@ export default function InstallButton() {
     <>
       <span>Instalar app</span>
       {showInstalledMessage && (
-        <div className={styles.overlay} onClick={() => setShowInstalledMessage(false)}>
+        <div className="overlay" onClick={() => setShowInstalledMessage(false)}>
           <div className={styles.popup} onClick={(e) => e.stopPropagation()}>
             <p>Você já tem o app Jomásio Adventures instalado.</p>
             <button

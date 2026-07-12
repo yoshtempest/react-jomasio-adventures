@@ -37,7 +37,7 @@ export function ChoiceBox({ prompt, options, onSelect }: Props) {
   }, [pushControls, popControls, options.length, selected]);
 
   return (
-    <div className={styles.overlay}>
+    <div className={`overlay ${styles.overlay}`}>
       <div className={styles.box}>
         <p className={styles.prompt}>{prompt}</p>
         <ul className={styles.options}>
