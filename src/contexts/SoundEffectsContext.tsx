@@ -47,6 +47,7 @@ export type SoundId =
   | "hulk"
   | "goatJump"
   | "smash"
+  | "chestOpening"
   | "knifeAttack"
   | "knifeCut"
   | "hungryDeath";

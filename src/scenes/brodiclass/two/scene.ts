@@ -3,7 +3,7 @@ import { MUSICS } from "@/scenes/shared/music";
 import { getBrodiClassTwoInitialPosition } from "./position";
 import { getCantinaOneDialogue } from "./dialogue";
 import { cantinaOneNpcs } from "./npcs";
-import { cantinaOneEvents } from "./events";
+import { brodiClassTwoEvents } from "./events";
 import { brodiclassTwoTiles } from "./tiles";
 import { sceneBackgrounds } from "@/data/sceneBackground";
 
@@ -11,7 +11,7 @@ export const twoScene: SceneConfig = {
   id: "one",
   background: sceneBackgrounds.BrodiClass,
   map: cantina,
-  events: cantinaOneEvents,
+  events: brodiClassTwoEvents,
   npcs: cantinaOneNpcs,
   dialogueData: getCantinaOneDialogue,
   audio: { src: MUSICS.ToothlessDancing },

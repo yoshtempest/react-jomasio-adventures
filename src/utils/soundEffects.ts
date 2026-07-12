@@ -31,6 +31,7 @@ export function createSounds() {
         getTheLapada: sfx("npc/jhowsimar/getTheLapada.mp3"),
         boom: sfx("npc/slimita/boom.mp3"),
         gainXp: sfx("player/gainXp.mp3"),
+        chestOpening: sfx("player/chestOpening.mp3"),
         goatJump: sfx("npc/goat/jump.mp3"),
         hungryDeath: sfx("npc/hungryDeath/giveMeAPlate.mp3"),
         bite: sfx("npc/hungryDeath/bite.mp3"),
