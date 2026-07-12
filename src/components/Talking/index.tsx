@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { useTypewriter } from "@/hooks/interaction/useTypewriter";
 import { useSettings } from "@/contexts/SettingsContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
+import { useAudio } from "@/contexts/AudioContext";
 import { resolveAsset } from "@/utils/paths";
 
 interface Props {
@@ -16,11 +17,15 @@ interface Props {
 
 export default function Talking({ name, message, src, soundSrc, autoAdvanceOnSound, onNext, onSoundEnd }: Props) {
   const { dialogueSpeedMs } = useSettings();
+  const { sfxVolume } = useAudio();
   const { displayedText, isComplete, skip } = useTypewriter(
     message,
     dialogueSpeedMs,
   );
   const { pushControls, popControls } = useGameControls();
+
+  const sfxVolumeRef = useRef(sfxVolume);
+  sfxVolumeRef.current = sfxVolume;
 
   const isCompleteRef = useRef(isComplete);
   isCompleteRef.current = isComplete;
@@ -58,7 +63,7 @@ export default function Talking({ name, message, src, soundSrc, autoAdvanceOnSou
     if (!soundSrc) return;
 
     const audio = new Audio(resolveAsset(soundSrc));
-    audio.volume = 1;
+    audio.volume = sfxVolumeRef.current / 100;
     audio.play().catch(() => {});
 
     if (autoAdvanceOnSound) {

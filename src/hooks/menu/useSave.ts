@@ -152,9 +152,7 @@ export function useSaveMenu() {
                     if (free === undefined) return;
                     setActiveSlot(free);
                     clearSlot(free);
-                    closeNavbarRef.current();
-                    setModeRef.current("explore");
-                    window.location.reload();
+                    window.location.href = "/#/tutorial";
                 }
                 else if (item.key === "back") {
                     closeNavbarRef.current();

@@ -1,5 +1,7 @@
 import { useInventory } from "@/contexts/InventoryContext";
 import { useDailyChest } from "@/hooks/useDailyChest";
+import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
+import { CHARACTERS } from "@/utils/types/player/player";
 import styles from "./styles.module.css";
 import { asset } from "@/utils/paths";
 import { formatDurationHms } from "@/utils/formatDuration";
@@ -7,11 +9,17 @@ import { formatDurationHms } from "@/utils/formatDuration";
 export function Chest() {
   const { items, maxSlots } = useInventory();
   const dailyChest = useDailyChest();
+  const { progress } = useCharacterProgress();
+
+  const totalCoins = CHARACTERS.reduce((sum, c) => sum + (progress[c]?.coins ?? 0), 0);
+  const totalHyperCoins = CHARACTERS.reduce((sum, c) => sum + (progress[c]?.hyperCoins ?? 0), 0);
+  const currencyCount = (totalCoins > 0 ? 1 : 0) + (totalHyperCoins > 0 ? 1 : 0);
+  const totalUsed = items.length + currencyCount;
 
   const slotsLabel =
     maxSlots === Infinity
-      ? `${items.length} / ∞`
-      : `${items.length} / ${maxSlots}`;
+      ? `${totalUsed} / ∞`
+      : `${totalUsed} / ${maxSlots}`;
     
   return (
     <div className={styles.flexRow}>

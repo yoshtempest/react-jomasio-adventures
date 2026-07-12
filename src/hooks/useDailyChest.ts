@@ -3,6 +3,7 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { useInventory } from "@/contexts/InventoryContext";
+import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { openChest, type ChestDropResult } from "@/data/items/chests";
 import { DAILY_CHEST_KEY } from "@/data/storageKeys";
 import { slotKey } from "@/utils/save/slotManager";
@@ -32,6 +33,7 @@ export function useDailyChest() {
   const { progress } = useCharacterProgress();
   const { addDrop } = useEquipment();
   const { addItem } = useInventory();
+  const { playSound } = useSoundEffects();
 
   const level = progress[player.character]?.level ?? 1;
 
@@ -68,10 +70,11 @@ export function useDailyChest() {
       localStorage.setItem(slotKey(DAILY_CHEST_KEY), String(now));
     } catch {}
     setLastOpen(now);
+    playSound("chestOpening");
     const openResult: DailyChestResult = { ...result, tier };
     setLastResult(openResult);
     return openResult;
-  }, [isReady, level, player.character, addItem, addDrop]);
+  }, [isReady, level, player.character, addItem, addDrop, playSound]);
 
   return {
     isReady,

@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { useInventory } from "@/contexts/InventoryContext";
+import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { openChest, type ChestDropResult } from "@/data/items/chests";
 
 export type ChestOpenResult = ChestDropResult & {
@@ -12,6 +13,7 @@ export function useChestOpening() {
   const { player } = usePlayer();
   const { addDrop } = useEquipment();
   const { addItem, removeItem, items } = useInventory();
+  const { playSound } = useSoundEffects();
   const [lastResult, setLastResult] = useState<ChestOpenResult | null>(null);
   const [lastOpened, setLastOpened] = useState<{ chestId: ItemId; keyId: ItemId } | null>(null);
 
@@ -38,12 +40,14 @@ export function useChestOpening() {
       removeItem(chestItemId);
       removeItem(keyId);
 
+      playSound("chestOpening");
+
       const openResult: ChestOpenResult = { ...result, tier };
       setLastResult(openResult);
       setLastOpened({ chestId: chestItemId, keyId });
       return openResult;
     },
-    [items, player.character, addDrop, addItem, removeItem],
+    [items, player.character, addDrop, addItem, removeItem, playSound],
   );
 
   const otherChestExists = useCallback(
