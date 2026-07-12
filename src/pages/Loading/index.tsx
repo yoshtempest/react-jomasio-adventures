@@ -36,12 +36,14 @@ export default function Loading() {
       setProgress(pct);
     }, 50);
 
+    let innerTimer: ReturnType<typeof setTimeout> | null = null;
+
     const timer = setTimeout(() => {
       clearInterval(interval);
       navigated.current = true;
       setProgress(100);
       setPhase("done");
-      setTimeout(() => {
+      innerTimer = setTimeout(() => {
         const switchTarget = sessionStorage.getItem("saveSwitchTarget");
         if (switchTarget) {
           sessionStorage.removeItem("saveSwitchTarget");
@@ -56,6 +58,7 @@ export default function Loading() {
     return () => {
       clearInterval(interval);
       clearTimeout(timer);
+      if (innerTimer) clearTimeout(innerTimer);
     };
   }, [navigate, checkForUpdate]);
 

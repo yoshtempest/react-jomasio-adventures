@@ -17,15 +17,6 @@ export function useSansTalking(isDialogueOpen: boolean) {
     audioRef.current.volume = (sfxVolume / 100) * 0.3;
   }, [sfxVolume]);
 
-  useEffect(() => {
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.src = "";
-      }
-    };
-  }, []);
-
   const play = useCallback(() => {
     if (audioRef.current) {
       audioRef.current.pause();

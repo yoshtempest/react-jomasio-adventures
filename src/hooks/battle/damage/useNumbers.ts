@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 
 export type DamageNumber = {
   id: number;
@@ -11,6 +11,15 @@ export type DamageNumber = {
 export function useDamageNumbers() {
   const [damageNumbers, setDamageNumbers] = useState<DamageNumber[]>([]);
   const idRef = useRef(0);
+  const timersRef = useRef<Map<number, ReturnType<typeof setTimeout>>>(new Map());
+
+  useEffect(() => {
+    const timers = timersRef.current;
+    return () => {
+      timers.forEach((t) => clearTimeout(t));
+      timers.clear();
+    };
+  }, []);
 
   const spawnDamageNumber = useCallback(
     (value: number, x: number, y: number, type: DamageType) => {
@@ -18,14 +27,19 @@ export function useDamageNumbers() {
       const entry: DamageNumber = { id, value, x, y, type };
       setDamageNumbers((prev) => [...prev, entry]);
 
-      setTimeout(() => {
+      const timer = setTimeout(() => {
+        timersRef.current.delete(id);
         setDamageNumbers((prev) => prev.filter((n) => n.id !== id));
       }, 1000);
+
+      timersRef.current.set(id, timer);
     },
     [],
   );
 
   const clearDamageNumbers = useCallback(() => {
+    timersRef.current.forEach((t) => clearTimeout(t));
+    timersRef.current.clear();
     setDamageNumbers([]);
   }, []);
 

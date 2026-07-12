@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { MoveUp, MoveDown, MoveLeft, MoveRight } from "lucide-react";
 
 import styles from "./styles.module.css";
@@ -14,6 +14,15 @@ type Props = {
 export function ButtonsMovement({ activeControls, pressed, onPressDir, onReleaseDir }: Props) {
   const holdRef = useRef<NodeJS.Timeout | null>(null);
   const heldDir = useRef<Direction | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (holdRef.current) {
+        clearInterval(holdRef.current);
+        holdRef.current = null;
+      }
+    };
+  }, []);
 
   function startHold(dir: Direction, fn?: () => void) {
     onPressDir?.(dir);

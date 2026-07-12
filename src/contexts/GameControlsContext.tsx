@@ -118,37 +118,42 @@ export function GameControlsProvider({ children }: Props) {
     );
   }, [stack]);
 
+  const activeControlsRef = useRef(activeControls);
+  activeControlsRef.current = activeControls;
+
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
+      const controls = activeControlsRef.current;
+
       switch (e.key) {
         case "ArrowUp":
         case "w":
         case "W":
-          activeControls.onUp?.();
+          controls.onUp?.();
           break;
 
         case "ArrowDown":
         case "s":
         case "S":
-          activeControls.onDown?.();
+          controls.onDown?.();
           break;
 
         case "ArrowLeft":
         case "a":
-          activeControls.onLeft?.();
+          controls.onLeft?.();
           break;
 
         case "ArrowRight":
         case "d":
         case "D":
-          activeControls.onRight?.();
+          controls.onRight?.();
           break;
 
         case "l":
         case "L":
         case "A":
         case "Enter":
-          activeControls.onConfirm?.();
+          controls.onConfirm?.();
           break;
 
         case "b":
@@ -156,28 +161,28 @@ export function GameControlsProvider({ children }: Props) {
         case "x":
         case "X":
         case "Delete":
-          activeControls.onCancel?.();
+          controls.onCancel?.();
           break;
 
         case "Shift":
           if (player.mode === "battle") {
-            activeControls.onDown?.();
+            controls.onDown?.();
           }
           break;
 
         case "g":
         case "G":
-          if (activeControls.onOpen) {
-            activeControls.onOpen();
+          if (controls.onOpen) {
+            controls.onOpen();
             return;
           }
 
-          if (activeControls.blockGlobalOpen && player.mode === "explore") {
+          if (controls.blockGlobalOpen && player.mode === "explore") {
             closeAllMenus();
             return;
           }
 
-          if (!activeControls.blockGlobalOpen && player.mode === "explore") {
+          if (!controls.blockGlobalOpen && player.mode === "explore") {
             openNavbar();
           }
           break;
@@ -185,48 +190,48 @@ export function GameControlsProvider({ children }: Props) {
     }
 
     function handleKeyUp(e: KeyboardEvent) {
-      if (!activeControls) return;
+      const controls = activeControlsRef.current;
 
       switch (e.key) {
         case "ArrowUp":
         case "w":
         case "W":
-          activeControls.onUpRelease?.();
+          controls.onUpRelease?.();
           break;
 
         case "ArrowDown":
         case "s":
         case "S":
-          activeControls.onDownRelease?.();
+          controls.onDownRelease?.();
           break;
 
         case "ArrowLeft":
         case "a":
-          activeControls.onLeftRelease?.();
+          controls.onLeftRelease?.();
           break;
 
         case "ArrowRight":
         case "d":
         case "D":
-          activeControls.onRightRelease?.();
+          controls.onRightRelease?.();
           break;
 
         case "l":
         case "L":
         case "A":
-          activeControls.onConfirmRelease?.();
+          controls.onConfirmRelease?.();
           break;
 
         case "b":
         case "B":
         case "x":
         case "X":
-          activeControls.onCancelRelease?.();
+          controls.onCancelRelease?.();
           break;
 
         case "Shift":
           if (player.mode === "battle") {
-            activeControls.onDownRelease?.();
+            controls.onDownRelease?.();
           }
           break;
       }
@@ -239,7 +244,7 @@ export function GameControlsProvider({ children }: Props) {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
-  }, [activeControls, player.mode, openNavbar, closeAllMenus]);
+  }, [player.mode, openNavbar, closeAllMenus]);
 
   return (
     <GameControlsContext.Provider

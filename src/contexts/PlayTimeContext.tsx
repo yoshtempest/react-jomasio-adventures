@@ -106,6 +106,8 @@ export function PlayTimeProvider({ children }: { children: ReactNode }) {
   }, [player.character]);
 
   useEffect(() => {
+    const tickCountRef = { current: 0 };
+
     const intervalId = setInterval(() => {
       const char = currentCharRef.current;
       setData((prev) => {
@@ -113,7 +115,10 @@ export function PlayTimeProvider({ children }: { children: ReactNode }) {
           ...prev,
           playTime: { ...prev.playTime, [char]: prev.playTime[char] + 1 },
         };
-        saveData(updated);
+        tickCountRef.current++;
+        if (tickCountRef.current % 30 === 0) {
+          saveData(updated);
+        }
         return updated;
       });
     }, 1000);

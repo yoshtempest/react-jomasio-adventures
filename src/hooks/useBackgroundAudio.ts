@@ -11,7 +11,7 @@ export function useBackgroundAudio(src: string, volume = 0.3) {
     if (audioRef.current.isPlaying()) return;
     audioRef.current.play()?.catch(() => {});
     return () => audioRef.current.stop();
-  }, []);
+  }, [src]);
 
   return audio;
 }
