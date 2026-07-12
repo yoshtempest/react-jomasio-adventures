@@ -117,7 +117,7 @@ export function useSaveMenu() {
                         if (!getUsedSlots().length) {
                             closeNavbarRef.current();
                             setModeRef.current("explore");
-                            navigateRef.current("/tutorial", { replace: true });
+                            window.location.hash = "#/tutorial";
                         }
                     }
                     else {
@@ -152,6 +152,7 @@ export function useSaveMenu() {
                     if (free === undefined) return;
                     setActiveSlot(free);
                     clearSlot(free);
+                    closeNavbarRef.current();
                     window.location.hash = "#/tutorial";
                 }
                 else if (item.key === "back") {
