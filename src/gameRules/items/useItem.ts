@@ -4,7 +4,7 @@ import { useCharacterProgress, MAX_HUNGER } from "@/contexts/CharacterProgressCo
 import { useInventory } from "@/contexts/InventoryContext";
 import { activateXpBuff, POTION_CONFIG } from "@/utils/buffs/xpBuff";
 
-const FOOD_RESTORE: Record<string, number> = {
+export const FOOD_RESTORE: Record<string, number> = {
   queijo_cabra: 30,
   porcao_arroz: 20,
   ovo_piupiu: 25,

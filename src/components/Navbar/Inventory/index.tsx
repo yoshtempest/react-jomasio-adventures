@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useInventory } from "@/contexts/InventoryContext";
+import { usePlayer } from "@/contexts/PlayerContext";
 import { useInventoryMenu } from "@/hooks/menu/useInventory";
 import type { FilterConfig } from "@/utils/types/inventory/filterConfig";
 import { useChestOpening } from "@/hooks/useChestOpening";
@@ -12,10 +13,11 @@ import { FilterBar } from "./FilterBar";
 import { ListItem } from "./ListItem";
 import { RewardsView } from "./RewardsView";
 import { activateXpBuff, POTION_CONFIG } from "@/utils/buffs/xpBuff";
+import { FOOD_RESTORE } from "@/gameRules/items/useItem";
 import { useAudio } from "@/contexts/AudioContext";
 import { sfx } from "@/utils/paths";
 import { FILTER_LABELS } from "@/data/inventory/labels";
-import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
+import { useCharacterProgress, MAX_HUNGER } from "@/contexts/CharacterProgressContext";
 import { CHARACTERS } from "@/utils/types/player/player";
 import type { InventoryItem } from "@/utils/types/player/inventory";
 import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
@@ -26,7 +28,8 @@ const CURRENCY_IDS = ["kwanzas", "hypercoin"] as const;
 
 export function Inventory() {
   const { items, maxSlots, removeItem } = useInventory();
-  const { progress } = useCharacterProgress();
+  const { player } = usePlayer();
+  const { progress, restoreHunger } = useCharacterProgress();
   const listRef = useRef<HTMLUListElement>(null);
   const [filterType, setFilterType] = useState<string>("all");
 
@@ -121,7 +124,7 @@ export function Inventory() {
     : null;
 
   const isChestSelected = selectedItemData?.type === "chest";
-  const isConsumableSelected = selectedItemData?.type === "consumable";
+  const isConsumableSelected = selectedItemData?.type === "consumable" || selectedItemData?.type === "food";
 
   const tier = isChestSelected && selectedItem
     ? (selectedItem.id.replace("_chest", "") as NPCClass)
@@ -130,6 +133,13 @@ export function Inventory() {
 
   const consumeItemRef = useRef<(id: string) => void>(() => {});
   consumeItemRef.current = function consumeItem(id: string) {
+    const foodAmount = FOOD_RESTORE[id];
+    if (foodAmount) {
+      const currentHunger = progress[player.character]?.hunger ?? 0;
+      if (currentHunger >= MAX_HUNGER) return;
+      restoreHunger(player.character, foodAmount);
+    }
+
     const audio = sfx("/player/drinkingPotion.mp3");
     audio.volume = 0.6 * (sfxVolume / 100);
     audio.play().catch(() => {});
