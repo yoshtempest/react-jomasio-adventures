@@ -23,6 +23,10 @@ export function useKeyboardMovement() {
     stopMoveLeft,
     startMoveRight,
     stopMoveRight,
+    startMoveLeftExplore,
+    stopMoveLeftExplore,
+    startMoveRightExplore,
+    stopMoveRightExplore,
     dash,
   } = usePlayer();
 
@@ -66,6 +70,10 @@ export function useKeyboardMovement() {
   const stopMoveLeftRef = useRef(stopMoveLeft);
   const startMoveRightRef = useRef(startMoveRight);
   const stopMoveRightRef = useRef(stopMoveRight);
+  const startMoveLeftExploreRef = useRef(startMoveLeftExplore);
+  const stopMoveLeftExploreRef = useRef(stopMoveLeftExplore);
+  const startMoveRightExploreRef = useRef(startMoveRightExplore);
+  const stopMoveRightExploreRef = useRef(stopMoveRightExplore);
 
   const { progress } = useCharacterProgress();
   const progressRef = useRef(progress);
@@ -96,6 +104,10 @@ export function useKeyboardMovement() {
     stopMoveLeftRef.current = stopMoveLeft;
     startMoveRightRef.current = startMoveRight;
     stopMoveRightRef.current = stopMoveRight;
+    startMoveLeftExploreRef.current = startMoveLeftExplore;
+    stopMoveLeftExploreRef.current = stopMoveLeftExplore;
+    startMoveRightExploreRef.current = startMoveRightExplore;
+    stopMoveRightExploreRef.current = stopMoveRightExplore;
 
     dashRef.current = dash;
   });
@@ -193,11 +205,13 @@ export function useKeyboardMovement() {
           }
         } else {
           moveLeftRef.current();
+          startMoveLeftExploreRef.current();
         }
       },
       onLeftRelease: () => {
         isLeftHeldRef.current = false;
         if (isBattleRef.current) stopMoveLeftRef.current();
+        else stopMoveLeftExploreRef.current();
       },
 
       onRight: () => {
@@ -234,11 +248,13 @@ export function useKeyboardMovement() {
           }
         } else {
           moveRightRef.current();
+          startMoveRightExploreRef.current();
         }
       },
       onRightRelease: () => {
         isRightHeldRef.current = false;
         if (isBattleRef.current) stopMoveRightRef.current();
+        else stopMoveRightExploreRef.current();
       },
     };
 
