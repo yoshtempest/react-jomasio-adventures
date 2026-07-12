@@ -11,9 +11,10 @@ interface Props {
   soundSrc?: string;
   autoAdvanceOnSound?: boolean;
   onNext?: () => void;
+  onSoundEnd?: () => void;
 }
 
-export default function Talking({ name, message, src, soundSrc, autoAdvanceOnSound, onNext }: Props) {
+export default function Talking({ name, message, src, soundSrc, autoAdvanceOnSound, onNext, onSoundEnd }: Props) {
   const { dialogueSpeedMs } = useSettings();
   const { displayedText, isComplete, skip } = useTypewriter(
     message,
@@ -27,6 +28,8 @@ export default function Talking({ name, message, src, soundSrc, autoAdvanceOnSou
   skipRef.current = skip;
   const onNextRef = useRef(onNext);
   onNextRef.current = onNext;
+  const onSoundEndRef = useRef(onSoundEnd);
+  onSoundEndRef.current = onSoundEnd;
 
   useEffect(() => {
     const controls = {
@@ -60,7 +63,7 @@ export default function Talking({ name, message, src, soundSrc, autoAdvanceOnSou
 
     if (autoAdvanceOnSound) {
       audio.addEventListener("ended", () => {
-        onNextRef.current?.();
+        onSoundEndRef.current?.();
       });
     }
 

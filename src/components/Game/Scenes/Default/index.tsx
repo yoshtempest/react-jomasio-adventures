@@ -344,7 +344,7 @@ export function ExploreScene({
         <InteractionPrompt text={interactionHint} />
       )}
 
-      {dialogueSystem.isOpen && <Talking {...dialogueSystem.dialogue} />}
+      {dialogueSystem.isOpen && <Talking {...dialogueSystem.dialogue} onSoundEnd={dialogueSystem.next} />}
     </div>
   );
 }
