@@ -7,6 +7,7 @@
   position: fixed;
   align-self: center;
   left: 1%;
+  z-index: 100000;
 
   grid-template-areas:
     ".    up    ."
