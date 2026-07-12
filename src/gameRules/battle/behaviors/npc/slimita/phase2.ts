@@ -1,15 +1,15 @@
 import { chasePlayer } from "@/gameRules/npc/movement";
 import { isNear } from "@/gameRules/npc/behavior";
 
-import { boomAudio } from "./state";
+import { playBoom } from "./state";
 
 import type { BehaviorContext, BehaviorResult } from "@/utils/types/npc/npcBehavior";
 import { getSlimitaState } from "@/gameRules/npc/slimitaState";
 
 export function handlePhase2(
-    ctx: BehaviorContext,
-    state: ReturnType<typeof getSlimitaState>,
-    now: number
+  ctx: BehaviorContext,
+  state: ReturnType<typeof getSlimitaState>,
+  now: number
 ): BehaviorResult {
   const {
     npc,
@@ -55,7 +55,7 @@ export function handlePhase2(
       const newX = npc.x + (state.targetX - npc.x) * 0.05;
 
       if (elapsed >= duration) {
-        boomAudio.currentTime = 0; boomAudio.play().catch(() => {});
+        playBoom();
         state.state = "resting";
         state.startTime = now;
         npc.jumpLandingX = undefined;

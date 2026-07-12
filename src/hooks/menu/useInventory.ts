@@ -24,8 +24,19 @@ export function useInventoryMenu(
   const sfxVolumeRef = useRef(sfxVolume);
   sfxVolumeRef.current = sfxVolume;
 
+  const sfxPoolRef = useRef(new Map<string, HTMLAudioElement>());
+
   const playSFX = (src: string, volume = 1) => {
-    const audio = new Audio(asset(src));
+    const resolved = asset(src);
+    let audio = sfxPoolRef.current.get(resolved);
+
+    if (!audio) {
+      audio = new Audio(resolved);
+      sfxPoolRef.current.set(resolved, audio);
+    }
+
+    audio.pause();
+    audio.currentTime = 0;
     audio.volume = volume * (sfxVolumeRef.current / 100);
     audio.play().catch(() => {});
   };

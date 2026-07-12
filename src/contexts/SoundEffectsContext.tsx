@@ -78,8 +78,7 @@ export function SoundEffectsProvider({ children }: { children: ReactNode }) {
     soundsRef.current = createSounds();
 
     Object.values(soundsRef.current).forEach((audio) => {
-      audio.preload = "auto";
-      audio.load();
+      audio.preload = "none";
     });
 
     return () => {

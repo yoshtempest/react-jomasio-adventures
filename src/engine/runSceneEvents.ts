@@ -1,5 +1,7 @@
 import type { NavigateFunction } from "react-router";
 
+const sfxPool = new Map<string, HTMLAudioElement>();
+
 type EventContext = {
   navigate: NavigateFunction;
   location: { pathname: LastPage };
@@ -76,7 +78,13 @@ export function runSceneEvents(
         break;
 
       case "playSound": {
-        const audio = new Audio(event.src);
+        let audio = sfxPool.get(event.src);
+        if (!audio) {
+          audio = new Audio(event.src);
+          sfxPool.set(event.src, audio);
+        }
+        audio.pause();
+        audio.currentTime = 0;
         audio.volume = event.volume ?? 0.5;
         audio.play().catch(() => {});
         break;

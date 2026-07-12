@@ -1,8 +1,16 @@
-import { sfx } from "@/utils/paths";
+import { soundEffectPath } from "@/utils/paths";
 
 export const FAR_DISTANCE_X = 260;
 export const MELEE_RANGE = 50;
 
-export const boomAudio = sfx("/npc/slimita/boom.mp3");
+let boomAudio: HTMLAudioElement | null = null;
 
-boomAudio.volume = 0.7;
+export function playBoom() {
+  if (!boomAudio) {
+    boomAudio = new Audio(soundEffectPath("/npc/slimita/boom.mp3"));
+    boomAudio.volume = 0.7;
+  }
+
+  boomAudio.currentTime = 0;
+  boomAudio.play().catch(() => {});
+}

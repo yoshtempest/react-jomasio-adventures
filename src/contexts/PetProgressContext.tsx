@@ -1,9 +1,11 @@
 import {
   createContext,
   useContext,
+  useRef,
+  useEffect,
   type ReactNode,
 } from "react";
-import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import { useSoundEffects, type SoundId } from "@/contexts/SoundEffectsContext";
 import { PET_PROGRESS_KEY } from "@/data/storageKeys";
 import type { PetsProgress } from "@/data/characters/petProgress";
 import {
@@ -34,6 +36,13 @@ export function PetProgressProvider({ children }: { children: ReactNode }) {
 
   const { playSound } = useSoundEffects();
 
+  const pendingSoundsRef = useRef<SoundId[]>([]);
+
+  useEffect(() => {
+    const sounds = pendingSoundsRef.current.splice(0);
+    sounds.forEach((s) => playSound(s));
+  }, [petProgress, playSound]);
+
   function getPetProgress(petId: string) {
     return petProgress[petId] ?? PET_DEFAULT_PROGRESS;
   }
@@ -42,6 +51,8 @@ export function PetProgressProvider({ children }: { children: ReactNode }) {
     if (amount <= 0) return;
 
     setPetProgress((prev) => {
+      pendingSoundsRef.current = [];
+
       const current = prev[petId] ?? PET_DEFAULT_PROGRESS;
       const petClass = getPetClass(petId);
 
@@ -53,7 +64,7 @@ export function PetProgressProvider({ children }: { children: ReactNode }) {
         if (newXP < xpNeeded) break;
         newXP -= xpNeeded;
         newLevel++;
-        playSound("levelUp");
+        pendingSoundsRef.current.push("levelUp");
       }
 
       if (newLevel >= 100) newXP = 0;

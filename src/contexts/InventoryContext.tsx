@@ -3,10 +3,11 @@ import {
   useContext,
   useRef,
   useState,
+  useEffect,
   type ReactNode,
 } from "react";
 import type { InventoryItem } from "@/utils/types/player/inventory";
-import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import { useSoundEffects, type SoundId } from "@/contexts/SoundEffectsContext";
 import { INVENTORY_KEY } from "@/data/storageKeys";
 import { useCompressedStorage } from "@/hooks/useCompressedStorage";
 import { useToggle } from "@/hooks/useToggle";
@@ -39,14 +40,23 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
   const maxSlotsRef = useRef(maxSlots);
   maxSlotsRef.current = maxSlots;
 
+  const pendingSoundsRef = useRef<SoundId[]>([]);
+
+  useEffect(() => {
+    const sounds = pendingSoundsRef.current.splice(0);
+    sounds.forEach((s) => playSound(s));
+  }, [items, playSound]);
+
   function addItem(item: InventoryItem): boolean {
     let added = false;
 
     setItems((prev) => {
+      pendingSoundsRef.current = [];
+
       const existing = prev.find((i) => i.id === item.id);
 
       if (existing) {
-        playSound("receivedItem");
+        pendingSoundsRef.current.push("receivedItem");
 
         return prev.map((i) =>
           i.id === item.id
@@ -59,7 +69,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
         return prev;
       }
 
-      playSound("receivedItem");
+      pendingSoundsRef.current.push("receivedItem");
       added = true;
 
       return [...prev, { id: item.id, qty: item.qty ?? 1 }];
@@ -73,15 +83,13 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
     if (!found) return;
 
     setItems((prev) => {
-      const next = prev
+      return prev
         .map((i) => {
           if (i.id !== id) return i;
           const nextQty = (i.qty ?? 1) - 1;
           return nextQty <= 0 ? null : { ...i, qty: nextQty };
         })
         .filter(Boolean) as InventoryItem[];
-
-      return next;
     });
 
     playSound("usedItem");

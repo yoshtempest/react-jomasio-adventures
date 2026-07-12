@@ -1,10 +1,12 @@
 import {
   createContext,
   useContext,
+  useRef,
+  useEffect,
   type ReactNode,
 } from "react";
 import type { Character } from "@/utils/types/player/player";
-import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import { useSoundEffects, type SoundId } from "@/contexts/SoundEffectsContext";
 import { CHARACTER_PROGRESS_KEY } from "@/data/storageKeys";
 import type {
   CharacterStats,
@@ -55,6 +57,13 @@ export function CharacterProgressProvider({
   );
   const { playSound } = useSoundEffects();
 
+  const pendingSoundsRef = useRef<SoundId[]>([]);
+
+  useEffect(() => {
+    const sounds = pendingSoundsRef.current.splice(0);
+    sounds.forEach((s) => playSound(s));
+  }, [progress, playSound]);
+
   // ⭐ XP + LEVEL + POINTS
   function addXP(character: Character, amount: number) {
     const isSunday = new Date().getDay() === 0;
@@ -62,6 +71,8 @@ export function CharacterProgressProvider({
     const finalAmount = Math.floor(amount * (isSunday ? 2 : 1) * xpBuff);
 
     setProgress((prev) => {
+      pendingSoundsRef.current = [];
+
       const char = prev[character];
 
       let newXP = char.xp + finalAmount;
@@ -77,7 +88,7 @@ export function CharacterProgressProvider({
         newLevel++;
         pointsGained++;
         newHunger = MAX_HUNGER; // level up → hunger reset to 100%
-        playSound("levelUp");
+        pendingSoundsRef.current.push("levelUp");
         xpNeeded = getXPToNextLevel(newLevel);
       }
 
