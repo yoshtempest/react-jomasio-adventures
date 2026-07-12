@@ -1,10 +1,11 @@
 import type { NavigateFunction } from "react-router";
+import { SFX_KEY } from "@/data/storageKeys";
 
 const sfxPool = new Map<string, HTMLAudioElement>();
 
 type EventContext = {
   navigate: NavigateFunction;
-  location: { pathname: LastPage };
+  location: { pathname: LastPage; state?: { from?: LastPage } };
 
   setShowClassModal?: (v: boolean) => void;
 
@@ -39,7 +40,11 @@ export function runSceneEvents(
           notHasQuest,
           hasFlag,
           notHasFlag,
+          lastPage,
+          notLastPage,
         } = event.condition;
+
+        const lastPageValue = ctx.location.state?.from;
 
         let conditionMet = true;
 
@@ -67,6 +72,14 @@ export function runSceneEvents(
           conditionMet &&= !ctx.hasFlag?.(notHasFlag);
         }
 
+        if (lastPage) {
+          conditionMet &&= lastPageValue === lastPage;
+        }
+
+        if (notLastPage) {
+          conditionMet &&= lastPageValue !== notLastPage;
+        }
+
         runSceneEvents(conditionMet ? event.then : event.else, ctx);
         break;
       }
@@ -85,7 +98,10 @@ export function runSceneEvents(
         }
         audio.pause();
         audio.currentTime = 0;
-        audio.volume = event.volume ?? 0.5;
+
+        const raw = localStorage.getItem(SFX_KEY);
+        const sfxVol = raw !== null ? Number(raw) : 50;
+        audio.volume = (sfxVol / 100) * (event.volume ?? 1);
         audio.play().catch(() => {});
         break;
       }

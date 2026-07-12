@@ -82,17 +82,23 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
     const found = items.find((i) => i.id === id);
     if (!found) return;
 
+    pendingSoundsRef.current = [];
+
     setItems((prev) => {
-      return prev
+      const next = prev
         .map((i) => {
           if (i.id !== id) return i;
           const nextQty = (i.qty ?? 1) - 1;
           return nextQty <= 0 ? null : { ...i, qty: nextQty };
         })
         .filter(Boolean) as InventoryItem[];
-    });
 
-    playSound("usedItem");
+      if (next.length < prev.length) {
+        pendingSoundsRef.current.push("usedItem");
+      }
+
+      return next;
+    });
   }
 
   function hasItem(id: ItemId) {

@@ -36,5 +36,5 @@ export const FLAGS = {
   picked_director_key: { id: "picked_director_key" },
   picked_package_01: { id: "picked_package_01" },
   picked_rare_chest: { id: "picked_rare_chest" },
-  picked_legendary_chest: { id: "picked_rare_chest" },
+  picked_legendary_chest: { id: "picked_legendary_chest" },
 } as const;

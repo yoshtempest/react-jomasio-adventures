@@ -21,7 +21,6 @@ export function BrodiClassScene({ sceneId }: Props) {
   const { hasFlag, setFlag } = useFlags();
 
   const [popup, setPopup] = useState<string | null>(null);
-  const gotKey = hasFlag("picked_goat_meat");
   const gotGoatMeat = hasFlag("picked_goat_meat");
   const gotChest = hasFlag("picked_legendary_chest");
 
@@ -34,7 +33,7 @@ export function BrodiClassScene({ sceneId }: Props) {
         goatMeatDeps: { gotKey: gotGoatMeat, setFlag },
         chestDeps: { gotKey: gotChest, setFlag },
       }),
-    [addItem, gotKey, setFlag],
+    [addItem, gotGoatMeat, gotChest, setFlag],
   );
 
   if (!scene) {

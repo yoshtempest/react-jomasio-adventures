@@ -154,7 +154,7 @@ export function useSaveMenu() {
                     clearSlot(free);
                     closeNavbarRef.current();
                     setModeRef.current("explore");
-                    navigateRef.current("/tutorial", { replace: true });
+                    window.location.reload();
                 }
                 else if (item.key === "back") {
                     closeNavbarRef.current();

@@ -28,9 +28,7 @@ export type SoundId =
   | "closeMenu"
   | "swordDeflected"
   | "jhowsimarVemCa"
-  | "getTheLapada"
   | "marshadowSpecial"
-  | "drikaSpecial"
   | "slimitaJump"
   | "equip"
   | "unequip"
@@ -60,7 +58,7 @@ type SoundEffectsContextType = {
 const SoundEffectsContext = createContext<SoundEffectsContextType | null>(null);
 
 const SOUND_VOLUMES: Partial<Record<SoundId, number>> = {
-  boom: 3,
+  boom: 1.3,
   slimitaJump: 0.3,
   marshadowSpecial: 0.7,
   win: 0.5,
