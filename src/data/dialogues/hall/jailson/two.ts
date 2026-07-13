@@ -23,6 +23,7 @@ export const hallJailsonTwoDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Como assim caralho?",
+    soundSrc: "/assets/songs/soundEffects/player/howYouSaid.mp3",
   },
   {
     src: "/assets/npcs/slimita/right.svg",

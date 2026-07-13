@@ -8,6 +8,7 @@ export const cantinaJesoDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Tô cagado de fome",
+    soundSrc: "/assets/songs/soundEffects/player/imFuckingStarving.mp3",
   },
   {
     src: "/assets/npcs/jeso/right.svg",
