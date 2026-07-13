@@ -38,7 +38,9 @@ export function useSceneControls({
       onConfirm: () => {
         if (!dialogueSystemRef.current.isOpen) return false;
         dialogueSystemRef.current.next();
-        playSansTalkingRef.current();
+        if (!dialogueSystemRef.current.nextSoundSrc) {
+          playSansTalkingRef.current();
+        }
         return true;
       },
     };

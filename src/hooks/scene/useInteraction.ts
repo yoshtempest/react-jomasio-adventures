@@ -28,7 +28,9 @@ export function useSceneInteraction({
 
       if (dialogueSystem.isOpen) {
         dialogueSystem.next();
-        playSansTalking();
+        if (!dialogueSystem.nextSoundSrc) {
+          playSansTalking();
+        }
         return true;
       }
 
@@ -39,7 +41,9 @@ export function useSceneInteraction({
 
       if (tile === 2) {
         dialogueSystem.start();
-        playSansTalking();
+        if (!dialogueSystem.nextSoundSrc) {
+          playSansTalking();
+        }
         return true;
       }
 

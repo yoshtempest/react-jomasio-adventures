@@ -203,7 +203,9 @@ export function ExploreScene({
     if (autoStartDialogue && !hasStarted.current) {
       hasStarted.current = true;
       dialogueSystem.start();
-      playSansTalking();
+      if (!dialogueSystem.nextSoundSrc) {
+        playSansTalking();
+      }
     }
   }, [autoStartDialogue, dialogueSystem, playSansTalking]);
 

@@ -57,6 +57,13 @@ export function useDialogue(dialogues: Dialogue[], onFinish?: () => void) {
     return processedDialogues[index];
   }, [processedDialogues, index]);
 
+  const nextSoundSrc = useMemo(() => {
+    if (!isOpen) return processedDialogues[0]?.soundSrc;
+    const nextIdx = index + 1;
+    if (nextIdx >= processedDialogues.length) return undefined;
+    return processedDialogues[nextIdx]?.soundSrc;
+  }, [isOpen, index, processedDialogues]);
+
   const isLast = index === processedDialogues.length - 1;
 
   return useMemo(
@@ -68,7 +75,8 @@ export function useDialogue(dialogues: Dialogue[], onFinish?: () => void) {
       isLast,
       index,
       length: processedDialogues.length,
+      nextSoundSrc,
     }),
-    [dialogue, isOpen, start, next, isLast, index, processedDialogues.length],
+    [dialogue, isOpen, start, next, isLast, index, processedDialogues.length, nextSoundSrc],
   );
 }

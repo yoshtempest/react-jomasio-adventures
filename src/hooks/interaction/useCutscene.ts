@@ -38,7 +38,9 @@ export function useCutscene({
     if (playOnce && hasPlayed.current) return;
 
     dialogueSystemRef.current.start();
-    playAudioRef.current?.();
+    if (!dialogueSystemRef.current.nextSoundSrc) {
+      playAudioRef.current?.();
+    }
     hasPlayed.current = true;
   }, [autoStart, playOnce]);
 
@@ -55,7 +57,9 @@ export function useCutscene({
     if (shouldContinue === false) return;
 
     dialogueSystemRef.current.next();
-    playAudioRef.current?.();
+    if (!dialogueSystemRef.current.nextSoundSrc) {
+      playAudioRef.current?.();
+    }
   };
 
   const pushControlsRef = useRef(pushControls);

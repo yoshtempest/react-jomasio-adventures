@@ -10,6 +10,7 @@ export type DialogueSystem = {
   isOpen: boolean;
   next: () => void;
   start: () => void;
+  nextSoundSrc?: string;
 };
 
 export type ScenePosition = {
