@@ -13,6 +13,7 @@ import { BattleIntro } from "@/components/Game/Battle/Modal/Intro";
 import { BattleOutro } from "@/components/Game/Battle/Modal/Outro";
 import { ChargeParticles } from "@/components/Game/Battle/ChargeParticles";
 import { JumpIndicator } from "@/components/Game/Battle/JumpIndicator";
+import { ComboAction } from "@/components/Controls/ComboAction";
 import { useGameAudio } from "@/hooks/game/useGameAudio";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useEffect, useRef } from "react";
@@ -222,6 +223,8 @@ export function BattleScene(props: Props) {
           bestTime={bestTime}
         />
       )}
+
+      <ComboAction />
     </div>
   );
 }
