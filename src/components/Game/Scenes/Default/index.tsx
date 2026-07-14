@@ -23,7 +23,6 @@ import { saveGame } from "@/utils/save/saveGame";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
 import { useFlags } from "@/contexts/FlagContext";
-import { useSceneEvents } from "@/hooks/scene/useEvents";
 import { asset } from "@/utils/paths";
 import { InteractionPrompt } from "@/components/Game/InteractionPrompt";
 
@@ -43,7 +42,6 @@ export function ExploreScene({
   onFinish,
   nextRoute,
   className,
-  events,
   setPopup,
   popup,
   questHighlightTiles,
@@ -73,7 +71,6 @@ export function ExploreScene({
   const { quests } = useQuests();
   const { flags } = useFlags();
   const lastPage = location.state?.from;
-  const { runEvent, checkCondition } = useSceneEvents();
 
   useEffect(() => {
     saveGame({
@@ -87,23 +84,6 @@ export function ExploreScene({
 
   const handleFinish = () => {
     setTimeout(() => {
-      if (events) {
-        for (const event of events) {
-          if (event.type === "conditional") {
-            if (checkCondition(event.condition)) {
-              event.then.forEach(runEvent);
-              break;
-            } else if (event.else) {
-              event.else.forEach(runEvent);
-              break;
-            }
-          } else {
-            runEvent(event);
-            break;
-          }
-        }
-      }
-
       if (onFinish) onFinish();
 
       if (nextRoute) {

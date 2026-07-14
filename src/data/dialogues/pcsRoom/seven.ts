@@ -1,6 +1,6 @@
 export const pcsRoomSevenDialogue = [
   {
-    src: "/assets/npcs/hungryKing/walk.svg",
+    src: "/assets/npcs/hungryKing/default.svg",
     name: "Rei dos Mortos de Fome",
     message:
       "Meu rei, por favor não suje suas mãos batendo em um mísero servo como eu",
@@ -21,7 +21,7 @@ export const pcsRoomSevenDialogue = [
     message: "Bixo seboso",
   },
   {
-    src: "/assets/npcs/hungryKing/walk.svg",
+    src: "/assets/npcs/hungryKing/default.svg",
     name: "Rei dos Mortos de Fome",
     message: "Fico lisonjeado por receber sua atenção, meu rei",
   },
@@ -31,7 +31,7 @@ export const pcsRoomSevenDialogue = [
     message: "Vai embora inferior",
   },
   {
-    src: "/assets/npcs/hungryKing/walk.svg",
+    src: "/assets/npcs/hungryKing/default.svg",
     name: "Rei dos Mortos de Fome",
     message: "Eu gosto de quando você me trata assim. Uga Uga",
   },
@@ -41,7 +41,7 @@ export const pcsRoomSevenDialogue = [
     message: "Que situação nojenta",
   },
   {
-    src: "/assets/npcs/hungryKing/walk.svg",
+    src: "/assets/npcs/hungryKing/default.svg",
     name: "Rei dos Mortos de Fome",
     message:
       "Quem você pensa que é para entrar no alcance de visão do nosso rei?",

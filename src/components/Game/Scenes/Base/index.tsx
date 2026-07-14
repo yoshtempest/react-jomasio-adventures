@@ -15,6 +15,7 @@ import { useQuestActions } from "@/hooks/quest/useQuestActions";
 import { useQuests } from "@/contexts/QuestContext";
 import { MapOverlay } from "@/components/Game/Map/Menu";
 import { QUESTS } from "@/data/quests";
+import { ITEMS } from "@/data/items";
 import { useExitTile } from "@/hooks/scene/useExitTile";
 import { useQuestWaypoints } from "@/hooks/quest/useQuestWaypoints";
 
@@ -63,7 +64,7 @@ export function SceneBase({
   const { player, setMode } = usePlayer();
   const { quests } = useQuests();
   const { hasFlag } = useFlags();
-  const { hasItem } = useInventory();
+  const { hasItem, addItem, removeItem } = useInventory();
   const { closeNavbar } = useNavbar();
   const { giveQuest, progressQuest } = useQuestActions();
 
@@ -135,11 +136,19 @@ export function SceneBase({
             });
 
             runSceneEvents(scene.events, {
+              ...extra,
               navigate: navigateWithFade,
               location,
               hasQuest: (questId) => quests.some((q) => q.id === questId),
               hasFlag,
               hasItem,
+              addItem: (itemId) => {
+                const item = ITEMS[itemId as ItemId];
+                if (item) addItem(item);
+              },
+              removeItem: (itemId) => {
+                removeItem(itemId as ItemId);
+              },
               giveQuest: (questId) => {
                 const quest = QUESTS[questId];
                 if (!quest) return;
@@ -147,7 +156,6 @@ export function SceneBase({
                 giveQuest(quest);
               },
               progressQuest,
-              ...extra,
             });
           }}
           onInteract={(_, x, y) => {

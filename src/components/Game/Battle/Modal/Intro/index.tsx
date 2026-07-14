@@ -76,7 +76,22 @@ export function BattleIntro({ playerCharacter, npcType, onSkip }: Props) {
       <div className={styles.vs}>VS</div>
 
       <div className={styles.right}>
-        <img src={npcPath(`/${npcType}/right.svg`)} alt="" />
+        <img
+          src={npcPath(`/${npcType}/right.svg`)}
+          alt=""
+          onError={(e) => {
+            const img = e.currentTarget;
+
+            if (img.dataset.fallback === "default") {
+              img.dataset.fallback = "walk";
+              img.src = npcPath(`/${npcType}/walk.svg`);
+            } else if (img.dataset.fallback === "walk") {
+              img.dataset.fallback = "right";
+              img.src = npcPath(`/${npcType}/right.svg`);
+            }
+          }}
+          data-fallback="default"
+        />
       </div>
 
       <button className={styles.skip} onClick={handleSkip}>

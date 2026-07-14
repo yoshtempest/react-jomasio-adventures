@@ -3,7 +3,7 @@ import styles from "./styles.module.css";
 import { useBestiaryMenu } from "@/hooks/menu/useBestiary";
 import { useBestiary } from "@/contexts/BestiaryContext";
 import { BESTIARY_DATA } from "@/data/bestiary";
-import { npcPath, asset } from "@/utils/paths";
+import { npcPath } from "@/utils/paths";
 import { CLASS_DATA } from "@/data/npc/class";
 import { getNpcClass, getLinkedTitles, getDropItems } from "@/gameRules/npc/bestiary";
 
@@ -56,10 +56,10 @@ export function DeliciaDex() {
 
                     if (img.dataset.fallback === "default") {
                       img.dataset.fallback = "walk";
-                      img.src = asset(`/assets/npcs/${npcType}/walk.svg`);
+                      img.src = npcPath(`/${npcType}/walk.svg`);
                     } else if (img.dataset.fallback === "walk") {
                       img.dataset.fallback = "right";
-                      img.src = asset(`/assets/npcs/${npcType}/right.svg`);
+                      img.src = npcPath(`/${npcType}/right.svg`);
                     }
                   }}
                   data-fallback="default"

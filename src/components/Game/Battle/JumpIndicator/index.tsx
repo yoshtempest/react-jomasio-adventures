@@ -13,7 +13,7 @@ export function JumpIndicator({ landingX, groundY, scaleX, scaleY }: Props) {
       className={styles.zone}
       style={{
         left: landingX * scaleX - 60,
-        top: groundY * scaleY - 80,
+        top: groundY * scaleY - 120,
       }}
     >
       <span className={styles.icon}>!</span>

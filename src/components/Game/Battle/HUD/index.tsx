@@ -1,7 +1,7 @@
 import { HealthBar } from "@/components/Game/Battle/HUD/HealthBar";
 import { Deliciometro } from "@/components/Game/Battle/HUD/Deliciometro";
 import { BlockGauge } from "@/components/Game/Battle/HUD/BlockGauge";
-import { asset, playerPath, npcPath } from "@/utils/paths";
+import { playerPath, npcPath } from "@/utils/paths";
 import { getNpcDisplayName } from "@/utils/types/npc/npcNames";
 import styles from "./styles.module.css";
 import { usePlayer } from "@/contexts/PlayerContext";
@@ -125,9 +125,20 @@ export function BattleHUD({ battle, npcStats, npcType, npcLevel, summons }: Prop
                 <HealthBar hp={s.hp} maxHp={s.maxHp} reversed />
               </div>
               <img
-                src={asset(`/assets/npcs/${s.npcType}/face.svg`)}
+                src={npcPath(`/${s.npcType}/face.svg`)}
                 alt={`${s.npcType} HUD`}
                 className={styles.image}
+                onError={(e) => {
+                  const img = e.currentTarget;
+
+                  if (img.dataset.fallback === "default") {
+                    img.dataset.fallback = "right";
+                    img.src = npcPath(`/${npcType}/right.svg`);
+                  } else if (img.dataset.fallback === "right") {
+                    img.dataset.fallback = "walk";
+                    img.src = npcPath(`/${npcType}/walk.svg`);
+                  }
+                }}
               />
             </div>
           ))}

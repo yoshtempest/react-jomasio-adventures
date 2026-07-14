@@ -5,7 +5,7 @@
   transform: translateX(-50%);
   display: flex;
   align-items: center;
-  gap: var(--size-8);
+  gap: var(--fs-8);
   z-index: 9999;
   pointer-events: none;
   animation: fadeIn 0.25s ease-out;
@@ -17,7 +17,7 @@
   height: var(--size-18);
   background: rgba(0, 0, 0, 0.7);
   border: var(--size-2) solid rgba(255, 255, 255, 0.15);
-  border-radius: var(--size-8);
+  border-radius: var(--fs-8);
   overflow: hidden;
 }
 
@@ -27,8 +27,8 @@
   left: 0;
   height: 100%;
   background: linear-gradient(90deg, #4caf50, #8bc34a);
-  border-radius: var(--size-8);
-  box-shadow: 0 0 var(--size-8) rgba(76, 175, 80, 0.5);
+  border-radius: var(--fs-8);
+  box-shadow: 0 0 var(--fs-8) rgba(76, 175, 80, 0.5);
 }
 
 .label {
@@ -76,6 +76,6 @@
 @media (orientation: portrait) {
   .bar {
     width: 50vw;
-    height: var(--size-16);
+    height: var(--fs-16);
   }
 }

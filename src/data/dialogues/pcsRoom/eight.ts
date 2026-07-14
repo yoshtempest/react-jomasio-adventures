@@ -1,6 +1,6 @@
 export const pcsRoomEightDialogue = [
   {
-    src: "/assets/npcs/hungryKing/walk.svg",
+    src: "/assets/npcs/hungryKing/default.svg",
     name: "Rei dos Mortos de Fome",
     message:
       "Meu rei, não acredite nele, eu gosto de apanhar apenas de você tá bom?",
@@ -21,7 +21,7 @@ export const pcsRoomEightDialogue = [
     message: "Vamos embora Samurion, não se junte com essa gentalha",
   },
   {
-    src: "/assets/npcs/hungryKing/walk.svg",
+    src: "/assets/npcs/hungryKing/default.svg",
     name: "Rei dos Mortos de Fome",
     message: "Vou embora dessa vez, mas saíba que eu voltarei",
   },
