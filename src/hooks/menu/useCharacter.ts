@@ -74,14 +74,14 @@ export function useCharacterMenu() {
       onDown: () => {
         playMoveRef.current();
         setSelectedIndex((prev) =>
-          gridMove(prev, 6, "down", selectableCharactersRef.current.length),
+          gridMove(prev, 2, "down", selectableCharactersRef.current.length),
         );
       },
 
       onUp: () => {
         playMoveRef.current();
         setSelectedIndex((prev) =>
-          gridMove(prev, 6, "up", selectableCharactersRef.current.length),
+          gridMove(prev, 2, "up", selectableCharactersRef.current.length),
         );
       },
 
