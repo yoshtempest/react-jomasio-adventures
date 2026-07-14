@@ -13,7 +13,7 @@ import { useFlags } from "@/contexts/FlagContext";
 import { usePlayTime } from "@/contexts/PlayTimeContext";
 import { getUnlockDate } from "@/utils/character/unlockDate";
 
-export function useCharacterMenu() {
+export function useCharacterMenu(isOpen: boolean, listRef?: React.RefObject<HTMLDivElement | null>) {
   const { setCharacter } = usePlayer();
   const { pushControls, popControls } = useGameControls();
   const { playMove, playSelect } = useMenuSFX();
@@ -107,6 +107,14 @@ export function useCharacterMenu() {
     pushControlsRef.current(controls);
     return () => popControlsRef.current();
   }, []);
+
+  useEffect(() => {
+    if (!isOpen || !listRef?.current) return;
+    const container = listRef.current;
+    const selectedElement = container.children[selectedIndex] as HTMLElement;
+    if (!selectedElement) return;
+    selectedElement.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }, [isOpen, selectedIndex, listRef]);
 
   return {
     characters,

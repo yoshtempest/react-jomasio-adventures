@@ -18,7 +18,7 @@ import type { SaveItem, ConfirmScreen } from "@/utils/save/SaveItem";
 import { loadGameForSlot } from "@/utils/save/saveGame";
 import { getSceneLabel } from "@/utils/sceneImages";
 
-export function useSaveMenu() {
+export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
     const navigate = useNavigate();
     const { pushControls, popControls } = useGameControls();
     const { closeNavbar } = useNavbar();
@@ -174,6 +174,14 @@ export function useSaveMenu() {
 
         return () => popControls();
     }, [items, confirmDelete, pushControls, popControls]);
+
+    useEffect(() => {
+        if (!listRef?.current) return;
+        const container = listRef.current;
+        const selectedElement = container.children[selectedIndex] as HTMLElement;
+        if (!selectedElement) return;
+        selectedElement.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }, [selectedIndex, listRef]);
 
     return { confirmDelete, selectedIndex, items, activeSlot };
 }

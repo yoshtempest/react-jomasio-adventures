@@ -74,6 +74,10 @@
   -ms-overflow-style: none;
 }
 
+.containerOfNavbar::-webkit-scrollbar {
+  display: none;
+}
+
 .section {
   display: flex;
   flex-direction: column;

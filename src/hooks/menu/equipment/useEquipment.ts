@@ -73,22 +73,15 @@ export function useEquipmentMenu(
   useEffect(() => {
     if (!rightItemsRef?.current) return;
 
-    const container = rightItemsRef.current;
     const relativeIndex = selectedIndex - EQUIPPED_COUNT - FILTER_TAB_COUNT;
     if (relativeIndex < 0) return;
 
-    const selectedElement = container.children[relativeIndex] as
+    const selectedElement = rightItemsRef.current.children[relativeIndex] as
       | HTMLElement
       | undefined;
     if (!selectedElement) return;
 
-    const itemHeight = selectedElement.offsetHeight;
-    const styles = window.getComputedStyle(container);
-    const gap = parseInt(styles.rowGap || "0");
-    const rowHeight = itemHeight + gap;
-    const targetScroll = relativeIndex * rowHeight;
-
-    container.scrollTo({ top: targetScroll, behavior: "smooth" });
+    selectedElement.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, [selectedIndex, rightItemsRef]);
 
   function handleUseItem(index: number) {

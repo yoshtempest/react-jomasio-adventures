@@ -62,21 +62,10 @@ export function useQuestMenu(
     const cardIndex = selectedIndex - TAB_COUNT;
     if (cardIndex < 0) return;
 
-    const container = listRef.current;
-    const selectedElement = container.children[cardIndex] as HTMLElement;
+    const selectedElement = listRef.current.children[cardIndex] as HTMLElement;
     if (!selectedElement) return;
 
-    const rowIndex = Math.floor(cardIndex / COLS);
-    const itemHeight = selectedElement.offsetHeight;
-    const styles = window.getComputedStyle(container);
-    const gap = parseInt(styles.rowGap || "0");
-    const rowHeight = itemHeight + gap;
-    const targetScroll = rowIndex * rowHeight;
-
-    container.scrollTo({
-      top: targetScroll,
-      behavior: "smooth",
-    });
+    selectedElement.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, [selectedIndex, listRef]);
 
   function switchTab(tab: QuestTab) {

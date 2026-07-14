@@ -23,14 +23,10 @@ export function useTitleMenu(
   useEffect(() => {
     if (!listRef?.current) return;
 
-    const container = listRef.current;
-    const selectedElement = container.children[selectedIndex] as HTMLElement;
+    const selectedElement = listRef.current.children[selectedIndex] as HTMLElement;
     if (!selectedElement) return;
 
-    container.scrollTo({
-      top: selectedElement.offsetTop - container.offsetTop,
-      behavior: "smooth",
-    });
+    selectedElement.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, [selectedIndex, listRef]);
 
   const playMoveRef = useRef(playMove);

@@ -1,8 +1,9 @@
 .container {
   max-height: 80vh;
+  width: 80%;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: var(--fs-8);
+  gap: var(--small);
   padding: var(--fs-8);
 }
 
@@ -74,7 +75,7 @@
 }
 
 .progressBar {
-  width: 100%;
+  width: 95%;
   height: var(--size-4);
   border-radius: var(--size-2);
   background: var(--border-default);

@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { useSaveMenu } from "@/hooks/menu/useSave";
 import { isSlotUsed } from "@/utils/save/slotManager";
 import { loadGameForSlot, getPlayTimeForSlot } from "@/utils/save/saveGame";
@@ -6,7 +7,8 @@ import { formatTime } from "@/utils/formatDuration";
 import styles from "./styles.module.css";
 
 export function Saves() {
-  const { confirmDelete, selectedIndex, items, activeSlot } = useSaveMenu();
+  const listRef = useRef<HTMLDivElement>(null);
+  const { confirmDelete, selectedIndex, items, activeSlot } = useSaveMenu(listRef);
   if (confirmDelete !== "none") {
     const confirmItems = ["Sim, excluir", "Não, voltar"];
     return (
@@ -29,7 +31,7 @@ export function Saves() {
   return (
     <div className="containerOfNavbar">
       <h2 className={styles.title}>Saves</h2>
-      <div className={styles.itemList}>
+      <div ref={listRef} className={styles.itemList}>
         {items.map((item, i) => {
           const isSelected = selectedIndex === i;
           const isSlot = item.key.startsWith("slot-");

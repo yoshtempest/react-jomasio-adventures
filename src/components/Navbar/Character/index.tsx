@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import styles from "./styles.module.css";
 import { useCharacterMenu } from "@/hooks/menu/useCharacter";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
@@ -7,11 +8,12 @@ import { getRank, formatRank } from "@/gameRules/rank";
 
 export function Character() {
   const { progress, getXPToNextLevel } = useCharacterProgress();
+  const listRef = useRef<HTMLDivElement>(null);
   const { characters, selectableCharacters, selectedIndex } =
-    useCharacterMenu();
+    useCharacterMenu(true, listRef);
 
   return (
-    <div className={`containerOfNavbar ${styles.charactersContainer}`}>
+    <div ref={listRef} className={`containerOfNavbar ${styles.charactersContainer}`}>
       {characters.map((char) => {
         const selectableIndex = selectableCharacters.findIndex(
           (c) => c.name === char.name,
