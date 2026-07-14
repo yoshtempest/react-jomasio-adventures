@@ -24,16 +24,10 @@ export default function Talking({ name, message, src, soundSrc, autoAdvanceOnSou
   );
   const { pushControls, popControls } = useGameControls();
 
-  const [animate, setAnimate] = useState(false);
+  const [animate, setAnimate] = useState(true);
   const prevNameRef = useRef(name);
-  const mountedRef = useRef(false);
 
   useEffect(() => {
-    if (!mountedRef.current) {
-      mountedRef.current = true;
-      prevNameRef.current = name;
-      return;
-    }
     if (name !== prevNameRef.current) {
       setAnimate(true);
       prevNameRef.current = name;
@@ -97,7 +91,7 @@ export default function Talking({ name, message, src, soundSrc, autoAdvanceOnSou
   }, [soundSrc, autoAdvanceOnSound]);
 
   return (
-    <div className={`talkingContainer${animate ? "talkingContainer--animate" : ""}`} onAnimationEnd={handleAnimationEnd}>
+    <div className={`talkingContainer${animate ? " talkingContainer--animate" : ""}`} onAnimationEnd={handleAnimationEnd}>
       <div className="talking">
         <h1>{name}</h1>
         <h2>{displayedText}</h2>

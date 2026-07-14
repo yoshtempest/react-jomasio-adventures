@@ -1,11 +1,13 @@
 .talkingContainer {
   position: absolute;
   width: 50vw;
+  max-width: 50vw;
   display: flex;
   z-index: 9999;
   justify-content: center;
   left: 50%;
   transform: translateX(-50%) translateY(5%);
+  overflow: hidden;
 }
 
 @keyframes talkingEnter {
@@ -26,6 +28,7 @@
 .talking {
   background-color: var(--primary-color);
   width: 100%;
+  min-width: 0;
   padding: 0% 1%;
   max-height: fit-content;
   text-align: left;
@@ -34,6 +37,7 @@
   z-index: 999;
   border: var(--size-1) solid var(--background-color);
   border-radius: var(--size-2);
+  overflow-wrap: break-word;
 }
 
 .talkingImage {
