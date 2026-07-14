@@ -10,17 +10,6 @@
   overflow: hidden;
 }
 
-@keyframes talkingEnter {
-  from {
-    opacity: 0;
-    transform: translateX(-50%) translateY(5%) scale(0.85);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(-50%) translateY(5%) scale(1);
-  }
-}
-
 .talkingContainer--animate {
   animation: talkingEnter 0.25s ease-out forwards;
 }
