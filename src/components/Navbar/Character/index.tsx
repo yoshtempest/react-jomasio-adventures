@@ -36,7 +36,7 @@ export function Character() {
             />
             <div className={styles.flexColumn}>
               <h2 className={styles.text}>
-              {char.name} - Nv.{charProgress.level}
+              {char.selectable ? `${char.name} - Nv.${charProgress.level}` : "???"}
               </h2>
               <p className={styles.rank}>
                 {formatRank(getRank(charProgress.level))}
