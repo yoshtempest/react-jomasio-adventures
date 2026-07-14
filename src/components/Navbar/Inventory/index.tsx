@@ -259,7 +259,7 @@ export function Inventory() {
 
   const listItems =
     filterType === "all"
-      ? Array.from({ length: maxSlots + CURRENCY_IDS.length }, (_, i) => {
+      ? Array.from({ length: maxSlots }, (_, i) => {
           if (i < CURRENCY_IDS.length) return currencyItems[i];
           return items[i - CURRENCY_IDS.length];
         }) as (typeof items)[number][]

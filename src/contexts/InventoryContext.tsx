@@ -12,6 +12,8 @@ import { INVENTORY_KEY } from "@/data/storageKeys";
 import { useCompressedStorage } from "@/hooks/useCompressedStorage";
 import { useToggle } from "@/hooks/useToggle";
 
+const CURRENCY_SLOT_COUNT = 2;
+
 type InventoryContextType = {
   items: InventoryItem[];
 
@@ -65,7 +67,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
         );
       }
 
-      if (prev.length >= maxSlotsRef.current) {
+      if (prev.length >= maxSlotsRef.current - CURRENCY_SLOT_COUNT) {
         return prev;
       }
 
