@@ -36,6 +36,7 @@ function getEnhanceBonus(itemId: string, enhance: number): EquipmentStats {
     shield: 0,
     vampirism: 0,
     reflect: 0,
+    tenacity: 0,
   };
   if (enhance <= 0) return bonus;
 
@@ -71,7 +72,7 @@ export function getEffectiveStats(
 ): EquipmentStats {
   const item = getEquipmentById(itemId);
   if (!item)
-    return { hp: 0, strength: 0, intelligence: 0, armor: 0, shield: 0, vampirism: 0, reflect: 0 };
+    return { hp: 0, strength: 0, intelligence: 0, armor: 0, shield: 0, vampirism: 0, reflect: 0, tenacity: 0 };
   const enhanceBonus = getEnhanceBonus(itemId, enhance);
   return {
     hp: (item.stats.hp ?? 0) + enhanceBonus.hp,
@@ -81,6 +82,7 @@ export function getEffectiveStats(
     shield: (item.stats.shield ?? 0) + enhanceBonus.shield,
     vampirism: item.stats.vampirism ?? 0,
     reflect: item.stats.reflect ?? 0,
+    tenacity: item.stats.tenacity ?? 0,
   };
 }
 

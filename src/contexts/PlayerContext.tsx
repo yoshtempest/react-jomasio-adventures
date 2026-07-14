@@ -89,6 +89,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       mode: "explore",
     };
   });
+  const battleTenacityRef = useRef(0);
   usePlayerAnimation(player, setPlayer, battleTenacityRef);
 
   const movingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -108,7 +109,6 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const [currentMap, setCurrentMap] = useState<number[][]>([]);
   const { toggleInventory } = useInventory();
   const { toggleNavbar } = useNavbar();
-  const battleTenacityRef = useRef(0);
 
   const {
     moveUp, moveDown, moveLeft, moveRight,
