@@ -29,4 +29,5 @@ export const MONTHLY_PASS_KEY = "monthly_pass";
 export const PET_PROGRESS_KEY = "pet_progress";
 export const JESO_FOOD_KEY = "jeso_food_last_delivery";
 export const CHAR_UNLOCK_DATES_KEY = "char_unlock_dates";
+export const DIFFICULTY_KEY = "difficulty";
 
