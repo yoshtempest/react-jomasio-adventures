@@ -227,6 +227,7 @@ export function useBattleSystem(props: Props) {
     npcHp: npcHP,
     npcMaxHp,
     npcPhase,
+    tenacityReduction: stats.tenacityReduction,
   });
 
   const { isNpcDying } = useBattleLifecycle({
@@ -323,5 +324,6 @@ export function useBattleSystem(props: Props) {
     char, critRate, npcArmor, totalVampirism, totalReflect,
     titleDamageBonus: titleBonus.damage,
     blockGauge, blockLimit,
+    tenacityReduction: stats.tenacityReduction,
   };
 }

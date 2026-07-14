@@ -11,6 +11,7 @@ import {
   getTotalVampirism,
   getTotalReflect,
 } from "@/gameRules/battle/equipment";
+import { getTenacityReduction } from "@/gameRules/battle/tenacity";
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import { getMaxSpecial } from "@/gameRules/battle/special";
 import { getRankMultiplier } from "@/gameRules/rank";
@@ -65,6 +66,14 @@ export function useBattleStats({
   const totalReflect = useMemo(() => {
     return getTotalReflect(player.character);
   }, [player.character]);
+
+  const totalTenacity = useMemo(() => {
+    return baseChar.stats.tenacity + (equipmentBonus.tenacity ?? 0);
+  }, [baseChar.stats.tenacity, equipmentBonus.tenacity]);
+
+  const tenacityReduction = useMemo(() => {
+    return getTenacityReduction(totalTenacity);
+  }, [totalTenacity]);
 
   const rankMultiplier = useMemo(() => {
     return getRankMultiplier(baseChar?.level ?? 1);
@@ -127,6 +136,8 @@ export function useBattleStats({
     totalShield,
     totalVampirism,
     totalReflect,
+    totalTenacity,
+    tenacityReduction,
     titleBonus,
     playerMaxHp,
     npcMaxHp,

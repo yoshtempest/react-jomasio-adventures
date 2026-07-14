@@ -29,6 +29,7 @@ export function normalizeProgress(data: unknown): CharactersProgress {
         strength: savedChar?.stats?.strength ?? 1,
         intelligence: savedChar?.stats?.intelligence ?? 1,
         resistance: savedChar?.stats?.resistance ?? 1,
+        tenacity: savedChar?.stats?.tenacity ?? 1,
         points: savedChar?.stats?.points ?? 0,
       },
     };

@@ -40,6 +40,7 @@ declare global {
     shield: number;
     vampirism: number;
     reflect: number;
+    tenacity: number;
   };
 
   // ── Áudio / Transição ──────────────────────────────────

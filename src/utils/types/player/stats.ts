@@ -1,3 +1,3 @@
-export const STATS = ["hp", "strength", "intelligence", "resistance"] as const;
+export const STATS = ["hp", "strength", "intelligence", "resistance", "tenacity"] as const;
 
 export type StatType = (typeof STATS)[number];

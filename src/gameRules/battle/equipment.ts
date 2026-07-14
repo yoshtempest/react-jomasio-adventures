@@ -193,10 +193,11 @@ export function getEquipmentStatsBonus(character: CharacterId): {
   shield: number;
   vampirism: number;
   reflect: number;
+  tenacity: number;
 } {
   const equipped = loadEquipped(character);
   const setItemIds = getActiveSetItemIds(character);
-  const bonus = { hp: 0, strength: 0, intelligence: 0, shield: 0, vampirism: 0, reflect: 0 };
+  const bonus = { hp: 0, strength: 0, intelligence: 0, shield: 0, vampirism: 0, reflect: 0, tenacity: 0 };
 
   for (const info of eachEquippedItem(equipped)) {
     const stats = getEffectiveStats(info.id, info.enhance);
@@ -207,6 +208,7 @@ export function getEquipmentStatsBonus(character: CharacterId): {
     bonus.shield += Math.round(stats.shield * multiplier);
     bonus.vampirism += Math.round(stats.vampirism * multiplier);
     bonus.reflect += Math.round(stats.reflect * multiplier);
+    bonus.tenacity += Math.round((stats.tenacity ?? 0) * multiplier);
   }
 
   return bonus;
@@ -232,6 +234,7 @@ export function addItemBonus(
     shield: number;
     vampirism: number;
     reflect: number;
+    tenacity: number;
   },
   info: EquippedItemInfo,
   setItemIds: Set<string>,
@@ -244,4 +247,5 @@ export function addItemBonus(
   bonus.shield += Math.round(stats.shield * multiplier);
   bonus.vampirism += Math.round(stats.vampirism * multiplier);
   bonus.reflect += Math.round(stats.reflect * multiplier);
+  bonus.tenacity += Math.round((stats.tenacity ?? 0) * multiplier);
 }

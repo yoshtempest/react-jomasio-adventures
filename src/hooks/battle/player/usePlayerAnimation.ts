@@ -1,22 +1,33 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { animationFlow } from "@/utils/types/battle/animationFlow";
+
+const STUN_BASE_DURATION = 500;
 
 export function usePlayerAnimation(
   player: Player,
   setPlayer: React.Dispatch<React.SetStateAction<Player>>,
+  battleTenacityRef?: React.RefObject<number>,
 ) {
+  const tenacityRef = useRef(battleTenacityRef);
+  tenacityRef.current = battleTenacityRef;
+
   useEffect(() => {
     if (player.state === "jump" || player.state === "falling") return;
     const current = animationFlow[player.state];
 
     if (!current) return;
 
+    let duration = current.duration;
+    if (player.state === "stun" && tenacityRef.current?.current != null) {
+      duration = Math.round(STUN_BASE_DURATION * (1 - tenacityRef.current.current));
+    }
+
     const timer = setTimeout(() => {
       setPlayer((p) => ({
         ...p,
         state: current.next,
       }));
-    }, current.duration);
+    }, duration);
 
     return () => clearTimeout(timer);
   }, [player.state, setPlayer]);

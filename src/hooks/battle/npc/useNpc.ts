@@ -48,6 +48,7 @@ type Props = {
   npcHp: number;
   npcMaxHp: number;
   npcPhase: number;
+  tenacityReduction: number;
 };
 
 export function useNpcBattle({
@@ -85,6 +86,7 @@ export function useNpcBattle({
   npcHp,
   npcMaxHp,
   npcPhase,
+  tenacityReduction,
 }: Props) {
   const { playSound } = useSoundEffects();
 
@@ -92,6 +94,8 @@ export function useNpcBattle({
   npcHpRef.current = npcHp;
   const npcMaxHpRef = useRef(npcMaxHp);
   npcMaxHpRef.current = npcMaxHp;
+  const tenacityReductionRef = useRef(tenacityReduction);
+  tenacityReductionRef.current = tenacityReduction;
 
   const damagePlayerWithReflect = useCallback((damage: number) => {
     damagePlayerHp(damage);
@@ -207,10 +211,12 @@ export function useNpcBattle({
     hitstopRef.current = Date.now() + 50;
 
     if (npcType === "hungryDeath" && !targetIsPet) {
-      setPlayer((p) => ({ ...p, bleedUntil: Date.now() + 5000 }));
+      const bleedMs = Math.round(5000 * (1 - tenacityReductionRef.current));
+      setPlayer((p) => ({ ...p, bleedUntil: Date.now() + bleedMs }));
     }
     if (npcType === "maurao" && !targetIsPet) {
-      setPlayer((p) => ({ ...p, bleedUntil: Date.now() + 5000 }));
+      const bleedMs = Math.round(5000 * (1 - tenacityReductionRef.current));
+      setPlayer((p) => ({ ...p, bleedUntil: Date.now() + bleedMs }));
     }
 
     if (!skipCooldown) {
@@ -276,7 +282,8 @@ export function useNpcBattle({
     hitstopRef.current = Date.now() + 30;
 
     if (npcType === "maurao") {
-      setPlayer((p) => ({ ...p, bleedUntil: Date.now() + 5000 }));
+      const bleedMs = Math.round(5000 * (1 - tenacityReductionRef.current));
+      setPlayer((p) => ({ ...p, bleedUntil: Date.now() + bleedMs }));
     }
 
     npcCooldown.current = false;

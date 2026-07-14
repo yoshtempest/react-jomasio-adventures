@@ -70,6 +70,7 @@ type PlayerContextType = {
 
   toggleHasPeru: () => void;
   lastBlockPressRef: React.RefObject<number>;
+  battleTenacityRef: React.RefObject<number>;
 };
 
 const PlayerContext = createContext<PlayerContextType | null>(null);
@@ -88,7 +89,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       mode: "explore",
     };
   });
-  usePlayerAnimation(player, setPlayer);
+  usePlayerAnimation(player, setPlayer, battleTenacityRef);
 
   const movingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -107,6 +108,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const [currentMap, setCurrentMap] = useState<number[][]>([]);
   const { toggleInventory } = useInventory();
   const { toggleNavbar } = useNavbar();
+  const battleTenacityRef = useRef(0);
 
   const {
     moveUp, moveDown, moveLeft, moveRight,
@@ -217,6 +219,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         playerClass, chooseClass,
         difficulty, setDifficulty,
         toggleHasPeru, lastBlockPressRef,
+        battleTenacityRef,
       }}
     >
       {children}

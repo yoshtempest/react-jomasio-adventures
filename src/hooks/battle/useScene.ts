@@ -75,6 +75,7 @@ export function useBattleScene({
     playerClass,
     setPlayerState,
     lastBlockPressRef,
+    battleTenacityRef,
   } = usePlayer();
 
   const { progress, reduceHunger, getXPToNextLevel } = useCharacterProgress();
@@ -416,6 +417,10 @@ export function useBattleScene({
   } = useComboSystem({ npcMaxHp: battle.npcMaxHp });
   refs.registerHitRef.current = registerHit;
   refs.spawnDamageRef.current = battle.spawnDamageNumber;
+
+  useEffect(() => {
+    battleTenacityRef.current = battle.tenacityReduction;
+  }, [battle.tenacityReduction, battleTenacityRef]);
 
   const defeatProgress: number = useMemo(() => {
     if (showDefeat) {
