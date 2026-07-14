@@ -182,10 +182,10 @@ export function BattleScene(props: Props) {
         />
 
         {npc.jumpLandingX != null && (
-          <JumpIndicator landingX={npc.jumpLandingX} groundY={720} />
+          <JumpIndicator landingX={npc.jumpLandingX} groundY={720} scaleX={scaleX} scaleY={scaleY} />
         )}
 
-        <DamageNumbers numbers={battle.damageNumbers} />
+        <DamageNumbers numbers={battle.damageNumbers} scaleX={scaleX} scaleY={scaleY} />
       </GameMap>
 
       {showOutro && (

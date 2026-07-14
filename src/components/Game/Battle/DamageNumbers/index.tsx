@@ -3,6 +3,8 @@ import type { DamageNumber } from "@/hooks/battle/damage/useNumbers";
 
 type Props = {
   numbers: DamageNumber[];
+  scaleX: number;
+  scaleY: number;
 };
 
 const TYPE_CLASS: Record<string, string> = {
@@ -17,7 +19,7 @@ const TYPE_CLASS: Record<string, string> = {
   miss: styles.miss,
 };
 
-export function DamageNumbers({ numbers }: Props) {
+export function DamageNumbers({ numbers, scaleX, scaleY }: Props) {
   return (
     <>
       {numbers.map((n) => (
@@ -25,8 +27,8 @@ export function DamageNumbers({ numbers }: Props) {
           key={n.id}
           className={`${styles.number} ${TYPE_CLASS[n.type] ?? styles.npc}`}
           style={{
-            left: n.x,
-            top: n.y - 40,
+            left: n.x * scaleX,
+            top: n.y * scaleY - 80,
           }}
         >
           {n.type === "blocked"

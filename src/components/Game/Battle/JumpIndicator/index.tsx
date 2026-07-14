@@ -3,15 +3,17 @@ import styles from "./styles.module.css";
 type Props = {
   landingX: number;
   groundY: number;
+  scaleX: number;
+  scaleY: number;
 };
 
-export function JumpIndicator({ landingX, groundY }: Props) {
+export function JumpIndicator({ landingX, groundY, scaleX, scaleY }: Props) {
   return (
     <div
       className={styles.zone}
       style={{
-        left: landingX - 60,
-        top: groundY - 80,
+        left: landingX * scaleX - 60,
+        top: groundY * scaleY - 80,
       }}
     >
       <span className={styles.icon}>!</span>
