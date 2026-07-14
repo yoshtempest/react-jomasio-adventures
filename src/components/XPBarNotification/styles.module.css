@@ -1,0 +1,81 @@
+.container {
+  position: fixed;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: var(--size-8);
+  z-index: 9999;
+  pointer-events: none;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.bar {
+  position: relative;
+  width: 22vw;
+  height: var(--size-18);
+  background: rgba(0, 0, 0, 0.7);
+  border: var(--size-2) solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--size-8);
+  overflow: hidden;
+}
+
+.fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #4caf50, #8bc34a);
+  border-radius: var(--size-8);
+  box-shadow: 0 0 var(--size-8) rgba(76, 175, 80, 0.5);
+}
+
+.label {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: var(--fs-11);
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  z-index: 1;
+  white-space: nowrap;
+}
+
+.arrow {
+  color: #8bc34a;
+  animation: bounceUp 0.6s ease-in-out infinite;
+  display: flex;
+  align-items: center;
+  filter: drop-shadow(0 0 4px rgba(139, 195, 74, 0.6));
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes bounceUp {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@media (orientation: portrait) {
+  .bar {
+    width: 50vw;
+    height: var(--size-16);
+  }
+}
