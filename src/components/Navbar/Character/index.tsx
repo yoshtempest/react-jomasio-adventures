@@ -52,7 +52,7 @@ export function Character() {
               </p>
             </div>
             <button className={`${styles.button}
-            ${isSelected ? styles.selected : ""}`}>Selecionar</button>
+            ${isSelected ? styles.buttonSelected : ""}`}>Selecionar</button>
           </div>
         );
       })}

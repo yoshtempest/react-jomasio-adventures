@@ -20,6 +20,10 @@
   border: var(--size-2) solid var(--accent-color);
 }
 
+.buttonSelected {
+  border: var(--size-1) solid var(--accent-color);
+}
+
 .button {
   display: flex;
   font-size: var(--fs-14);
