@@ -48,11 +48,11 @@ export function Character() {
                 {charProgress.xp} / {xpNeeded} XP
               </p>
               <p className={styles.text}>
-                Desbloqueado em: 
+                Desbloqueado em: {char.unlockedDate
+                  ? new Date(char.unlockedDate).toLocaleDateString("pt-BR")
+                : "??/??/????"}
               </p>
             </div>
-            <button className={`${styles.button}
-            ${isSelected ? styles.buttonSelected : ""}`}>Selecionar</button>
           </div>
         );
       })}

@@ -20,21 +20,6 @@
   border: var(--size-2) solid var(--accent-color);
 }
 
-.buttonSelected {
-  border: var(--size-1) solid var(--accent-color);
-}
-
-.button {
-  display: flex;
-  font-size: var(--fs-14);
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-  width: 8vw;
-  height: 2vw;
-  border-radius: var(--size-4);
-}
-
 .cursor {
   margin-top: var(--fs-10);
 }
@@ -54,6 +39,7 @@
 
 .text {
   margin-top: 5%;
+  text-wrap: nowrap;
 }
 
 .flexColumn {
@@ -68,5 +54,5 @@
 }
 
 .progressContainer {
-  width: 100%;
+  width: 80%;
 }

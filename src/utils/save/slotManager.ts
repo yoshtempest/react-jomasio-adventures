@@ -80,6 +80,7 @@ const GAME_STATE_KEYS = [
   "cafeteria_return_position",
   "pet_progress",
   "jeso_food_last_delivery",
+  "char_unlock_dates",
 ];
 
 export function clearSlot(slot: SlotIndex) {

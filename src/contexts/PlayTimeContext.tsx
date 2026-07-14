@@ -22,6 +22,7 @@ type StoredData = {
   visited: VisitedData;
   loginDays: number;
   lastLoginDate: string;
+  firstLoginDate: string;
 };
 
 function loadData(): StoredData {
@@ -35,6 +36,7 @@ function loadData(): StoredData {
       visited: parsed.visited ?? {},
       loginDays: parsed.loginDays ?? 0,
       lastLoginDate: parsed.lastLoginDate ?? "",
+      firstLoginDate: parsed.firstLoginDate ?? "",
     };
   } catch {
     return createDefault();
@@ -56,6 +58,7 @@ function createDefault(): StoredData {
     visited: {},
     loginDays: 0,
     lastLoginDate: "",
+    firstLoginDate: "",
   };
 }
 
@@ -87,6 +90,7 @@ type ContextType = {
   battleTime: BattleTimeData;
   visited: VisitedData;
   loginDays: number;
+  firstLoginDate: string;
   addBattleTime: (character: Character, seconds: number) => void;
   recordTile: (route: string, x: number, y: number) => void;
   getTotalPlayTime: () => number;
@@ -131,10 +135,12 @@ export function PlayTimeProvider({ children }: { children: ReactNode }) {
     const stored = loadData();
     if (stored.lastLoginDate !== today) {
       setData((prev) => {
+        const isFirstLogin = prev.loginDays === 0;
         const updated = {
           ...prev,
           loginDays: prev.loginDays + 1,
           lastLoginDate: today,
+          firstLoginDate: isFirstLogin ? today : prev.firstLoginDate,
         };
         saveData(updated);
         return updated;
@@ -201,6 +207,7 @@ export function PlayTimeProvider({ children }: { children: ReactNode }) {
         battleTime: data.battleTime,
         visited: data.visited,
         loginDays: data.loginDays,
+        firstLoginDate: data.firstLoginDate,
         addBattleTime,
         recordTile,
         getTotalPlayTime,

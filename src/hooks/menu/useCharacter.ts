@@ -10,12 +10,15 @@ import {
 import { getSelected } from "@/gameRules/menu/selection";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { useFlags } from "@/contexts/FlagContext";
+import { usePlayTime } from "@/contexts/PlayTimeContext";
+import { getUnlockDate } from "@/utils/character/unlockDate";
 
 export function useCharacterMenu() {
   const { setCharacter } = usePlayer();
   const { pushControls, popControls } = useGameControls();
   const { playMove, playSelect } = useMenuSFX();
   const { hasFlag } = useFlags();
+  const { firstLoginDate } = usePlayTime();
 
   const selectableCharacters = CHARACTERS.filter(
     (c) =>
@@ -32,6 +35,9 @@ export function useCharacterMenu() {
       (c.image === "samuel" && hasFlag("samurionUnlocked")) ||
       (c.image === "lucas" && hasFlag("yvelUnlocked")) ||
       (c.image === "artur" && hasFlag("srGuaxinimUnlocked")),
+    unlockedDate: c.selectable
+      ? (firstLoginDate || null)
+      : getUnlockDate(c.image),
   }));
 
   const [selectedIndex, setSelectedIndex] = useState(0);
