@@ -29,6 +29,7 @@ export function CharacterStats() {
   const userNormalAttackDamage = 6 + totalStrength;
   const userArmor = getTotalArmor(character, stats.resistance);
   const totalShield = bonus.shield + titleBonus.shield;
+  const userTenacity = stats.tenacity + bonus.tenacity;
 
   return (
     <div className={`StatusColumn ${styles.container}`}>
@@ -51,6 +52,10 @@ export function CharacterStats() {
       <div>
         <img src={asset("/assets/status/armor.svg")} />
         <p>Armadura: {userArmor}</p>
+      </div>
+      <div>
+        <img src={asset("/assets/status/shield.svg")} />
+        <p>Tenacidade: {userTenacity}%</p>
       </div>
 
       {totalShield > 0 &&

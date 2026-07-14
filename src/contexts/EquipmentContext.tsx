@@ -48,6 +48,7 @@ type EquipmentContextType = {
     shield: number;
     vampirism: number;
     reflect: number;
+    tenacity: number;
   };
   getCollection: (character: CharacterId) => Record<string, number>;
   getQuantityTotal: (character: CharacterId, id: EquipmentId) => number;
@@ -122,6 +123,7 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
       const bonus = {
         hp: 0, strength: 0, intelligence: 0,
         shield: 0, vampirism: 0, reflect: 0,
+        tenacity: 0,
       };
 
       for (const slot of EQUIPMENT_SLOTS) {
