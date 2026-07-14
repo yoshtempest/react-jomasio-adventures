@@ -6,14 +6,7 @@
   list-style: none;
   padding: 0;
   max-height: 80vh;
-  overflow-y: auto;
   margin: 2%;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.ul::-webkit-scrollbar {
-  display: none;
 }
 
 .tabs {

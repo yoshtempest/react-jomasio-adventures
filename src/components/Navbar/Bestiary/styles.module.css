@@ -1,12 +1,9 @@
 .container {
   height: 80vh;
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: var(--fs-8);
   padding: var(--fs-8);
-  scrollbar-width: none;
-  -ms-overflow-style: none;
 }
 
 .flexRow {

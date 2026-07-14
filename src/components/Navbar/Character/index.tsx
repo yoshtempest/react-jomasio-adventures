@@ -34,22 +34,25 @@ export function Character() {
               src={playerPath(`/${char.image}/default.svg`)}
               className={styles.characterImage}
             />
-
-            <h2 className={styles.text}>
+            <div className={styles.flexColumn}>
+              <h2 className={styles.text}>
               {char.name} - Nv.{charProgress.level}
-            </h2>
-            <p className={styles.rank}>
-              {formatRank(getRank(charProgress.level))}
-            </p>
-            <div className={styles.progressContainer}>
-              
-              <ProgressBar value={charProgress.xp} max={xpNeeded}/>
+              </h2>
+              <p className={styles.rank}>
+                {formatRank(getRank(charProgress.level))}
+              </p>
+              <div className={styles.progressContainer}>
+                <ProgressBar value={charProgress.xp} max={xpNeeded}/>
+              </div>
+              <p className={styles.text}>
+                {charProgress.xp} / {xpNeeded} XP
+              </p>
+              <p className={styles.text}>
+                Desbloqueado em: 
+              </p>
             </div>
-
-
-            <p className={styles.text}>
-              {charProgress.xp} / {xpNeeded} XP
-            </p>
+            <button className={`${styles.button}
+            ${isSelected ? styles.selected : ""}`}>Selecionar</button>
           </div>
         );
       })}

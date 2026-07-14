@@ -18,10 +18,13 @@ export function VictorTutorial() {
     return (
         <div className={styles.tutorialContainer}>
             {dialogueSystem.isOpen && (
-                <Talking
-                {...dialogueSystem.dialogue}
-                onNext={dialogueSystem.next}
-                />
+                <div className={styles.talking}>
+                    <Talking
+                        {...dialogueSystem.dialogue}
+                        onNext={dialogueSystem.next}
+                    />
+                </div>
+
             )}
 
             {!dialogueSystem.isOpen && (

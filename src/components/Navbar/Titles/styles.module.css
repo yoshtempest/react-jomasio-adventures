@@ -1,12 +1,9 @@
 .container {
   max-height: 80vh;
-  overflow-y: auto;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: var(--fs-8);
   padding: var(--fs-8);
-  scrollbar-width: none;
-  -ms-overflow-style: none;
 }
 
 .container::-webkit-scrollbar {
