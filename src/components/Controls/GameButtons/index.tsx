@@ -4,6 +4,7 @@ import styles from "./styles.module.css";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { Settings } from "lucide-react"
 
 export function GameButtons() {
   const { activeControls, closeAllMenus } = useGameControls();
@@ -99,9 +100,11 @@ export function GameButtons() {
     <div className={styles.gameButtons}>
       <div className={styles.row}>
         <button
-          className={`${styles.open} ${gCooldown ? styles.cooldown : ""}`}
+          className={`${styles.configs} ${gCooldown ? styles.cooldown : ""}`}
           onPointerDown={handleOpen}
-        />
+        >
+          <Settings />
+        </button>
         <button
           className={`${styles.open} ${gCooldown ? styles.cooldown : ""}`}
           onPointerDown={handleOpen}

@@ -53,10 +53,17 @@
   transform: scale(0.85);
 }
 
+.configs {
+  display: flex;
+  padding: var(--size-6);
+  border-radius: var(--size-6);
+}
+
 .row {
   display: flex;
   gap: var(--medium);
   flex-direction: row;
+  align-items: center;
 }
 
 @media (orientation: portrait) {
