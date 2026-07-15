@@ -59,6 +59,16 @@
   border-radius: var(--size-6);
 }
 
+.configs:active {
+  background: rgba(255, 255, 255, 0.35);
+  transform: scale(0.9);
+}
+
+.configs.cooldown {
+  opacity: 0.4;
+  transform: scale(0.85);
+}
+
 .row {
   display: flex;
   gap: var(--medium);

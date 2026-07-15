@@ -8,7 +8,7 @@ import { Settings } from "lucide-react"
 
 export function GameButtons() {
   const { activeControls, closeAllMenus } = useGameControls();
-  const { openNavbar } = useNavbar();
+  const { openNavbar, openConfigScreen, isNavOpen, screen, closeNavbar } = useNavbar();
   const { player } = usePlayer();
 
   const [lCooldown, setLCooldown] = useState(false);
@@ -32,6 +32,14 @@ export function GameButtons() {
     if (!activeControls?.blockGlobalOpen && player.mode === "explore") {
       openNavbar();
     }
+  }
+
+  function handleConfig() {
+    if (isNavOpen && screen === "config") {
+      closeNavbar();
+      return;
+    }
+    openConfigScreen();
   }
 
   function handleConfirmDown() {
@@ -101,7 +109,7 @@ export function GameButtons() {
       <div className={styles.row}>
         <button
           className={`${styles.configs} ${gCooldown ? styles.cooldown : ""}`}
-          onPointerDown={handleOpen}
+          onPointerDown={handleConfig}
         >
           <Settings />
         </button>

@@ -1,5 +1,5 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
-import type { NavbarOption } from "@/utils/types/player/navbar";
+import { createContext, useCallback, useContext, useState, type ReactNode } from "react";
+import type { NavbarOption, NavScreen } from "@/utils/types/player/navbar";
 import { useToggle } from "@/hooks/useToggle";
 
 type NavbarContextType = {
@@ -9,13 +9,27 @@ type NavbarContextType = {
   openNavbar: () => void;
   closeNavbar: () => void;
   toggleNavbar: () => void;
+
+  screen: NavScreen;
+  setScreen: (screen: NavScreen) => void;
+  openConfigScreen: () => void;
 };
 
 const NavbarContext = createContext<NavbarContextType | null>(null);
 
 export function NavbarProvider({ children }: { children: ReactNode }) {
   const [items] = useState<NavbarOption[]>([]);
+  const [screen, setScreenState] = useState<NavScreen>("menu");
   const { isOpen: isNavOpen, open: openNavbar, close: closeNavbar, toggle: toggleNavbar } = useToggle();
+
+  const setScreen = useCallback((s: NavScreen) => {
+    setScreenState(s);
+  }, []);
+
+  const openConfigScreen = useCallback(() => {
+    setScreenState("config");
+    openNavbar();
+  }, [openNavbar]);
 
   return (
     <NavbarContext.Provider
@@ -25,6 +39,9 @@ export function NavbarProvider({ children }: { children: ReactNode }) {
         openNavbar,
         closeNavbar,
         toggleNavbar,
+        screen,
+        setScreen,
+        openConfigScreen,
       }}
     >
       {children}

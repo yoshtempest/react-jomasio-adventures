@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { NAVBAR_OPTIONS } from "@/data/options/navbar";
@@ -11,11 +10,10 @@ import { useGameControlsLayer } from "@/hooks/useGameControlsLayer";
 import { useSelectableIndex } from "@/hooks/useSelectableIndex";
 
 export function useNavbarMenu() {
-  const { closeNavbar } = useNavbar();
+  const { closeNavbar, screen, setScreen } = useNavbar();
   const { setMode } = usePlayer();
   const { playMove, playSelect, playClose } = useMenuSFX();
 
-  const [screen, setScreen] = useState("menu");
   const { selectedIndex, setSelectedIndex, selectedIndexRef } = useSelectableIndex();
 
   const onUp = useStableCallback(() => {
