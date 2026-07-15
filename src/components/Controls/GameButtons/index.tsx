@@ -97,10 +97,16 @@ export function GameButtons() {
 
   return (
     <div className={styles.gameButtons}>
-      <button
-        className={`${styles.open} ${gCooldown ? styles.cooldown : ""}`}
-        onPointerDown={handleOpen}
-      />
+      <div className={styles.row}>
+        <button
+          className={`${styles.open} ${gCooldown ? styles.cooldown : ""}`}
+          onPointerDown={handleOpen}
+        />
+        <button
+          className={`${styles.open} ${gCooldown ? styles.cooldown : ""}`}
+          onPointerDown={handleOpen}
+        />
+      </div>
       <div className={styles.row}>
         <button
           className={`${styles.button} ${bCooldown ? styles.cooldown : ""}`}
