@@ -4,6 +4,58 @@
   gap: 3vw;
 }
 
+.tabs {
+  display: flex;
+  gap: var(--fs-8);
+  margin-top: 3vh;
+  justify-content: center;
+  margin-bottom: var(--smaller);
+}
+
+.tab {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-card);
+  color: var(--text-hint);
+  border: var(--size-1) solid var(--border-default);
+  padding: var(--fs-8) var(--small);
+  border-radius: var(--size-6);
+  cursor: pointer;
+  gap: 0.5vw;
+  width: 8vw;
+  height: 4vw;
+  font-size: var(--fs-14);
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+
+.tab:hover {
+  background: #2a2a2a;
+  color: var(--text-color);
+}
+
+.tabActive {
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--text-color);
+  border-color: var(--background-color);
+  transform: scale(1.05);
+}
+
+.tabSelected {
+  outline: var(--size-1) solid var(--accent-color);
+  outline-offset: var(--size-1);
+}
+
+.empty {
+  text-align: center;
+  color: var(--text-hint);
+  padding: var(--medium);
+  font-size: var(--fs-14);
+}
+
 .marginTop {
   margin-top: 3%;
   margin-bottom: 2%;

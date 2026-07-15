@@ -20,8 +20,13 @@
   height: 85vh;
   align-items: center;
   justify-content: center;
-  background-color: var(--primary-color);
+    background: linear-gradient(
+    170deg,
+    var(--primary-color) 70%,
+    var(--surface-dark) 100%
+  );
   border: var(--size-1) solid var(--background-color);
+  border-right: var(--size-3) solid var(--accent-color);
   border-radius: var(--size-2);
   animation: slideFromRight 0.5s;
 }

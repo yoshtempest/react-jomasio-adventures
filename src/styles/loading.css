@@ -8,8 +8,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
-  background-color: #0a0500; /* mesma cor do seu jogo */
+  background: linear-gradient(
+    170deg,
+    var(--surface-dark) 0%,
+    #0f0f12 35%,
+    #0c0c0f 65%,
+    var(--background-color) 100%
+  );
   z-index: 9999;
 }
 

@@ -9,6 +9,8 @@ import { useSettings } from "@/contexts/SettingsContext";
 import { useUpdate } from "@/contexts/UpdateContext";
 import { usePWA } from "@/contexts/PWAContext";
 import { DIALOGUE_SPEED_LIST } from "@/utils/settings";
+import type { ConfigTab } from "@/data/config/tabs";
+import { CONFIG_TABS, CONFIG_TAB_COUNT } from "@/data/config/tabs";
 
 const DIFFICULTY: NpcDifficulty[] = ["easy", "medium", "hard"];
 const MAX_ROW = 4;
@@ -29,6 +31,9 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   const [selectedRow, setSelectedRow] = useState(0);
   const [bottomIndex, setBottomIndex] = useState(0);
 
+  const [activeTab, setActiveTab] = useState<ConfigTab>("geral");
+  const [isOnTab, setIsOnTab] = useState(true);
+
   // menu | tutorial
   const [screen, setScreen] = useState<"menu" | "tutorial">("menu");
 
@@ -36,13 +41,17 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   const selectedRowRef = useRef(selectedRow);
   const bottomIndexRef = useRef(bottomIndex);
   const screenRef = useRef(screen);
+  const isOnTabRef = useRef(isOnTab);
+  const activeTabRef = useRef(activeTab);
 
   useEffect(() => {
     selectedIndexRef.current = selectedIndex;
     selectedRowRef.current = selectedRow;
     bottomIndexRef.current = bottomIndex;
     screenRef.current = screen;
-  }, [selectedIndex, selectedRow, bottomIndex, screen]);
+    isOnTabRef.current = isOnTab;
+    activeTabRef.current = activeTab;
+  }, [selectedIndex, selectedRow, bottomIndex, screen, isOnTab, activeTab]);
 
   const playMoveRef = useRef(playMove);
   playMoveRef.current = playMove;
@@ -87,6 +96,14 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
         if (screenRef.current !== "menu") return;
         playMoveRef.current();
 
+        if (isOnTabRef.current) {
+          setActiveTab((prev) => {
+            const currentIdx = CONFIG_TABS.indexOf(prev);
+            return CONFIG_TABS[(currentIdx + 1) % CONFIG_TAB_COUNT];
+          });
+          return;
+        }
+
         if (selectedRowRef.current === 0) {
           setSelectedIndex((prev) => circularNext(prev, DIFFICULTY.length));
         }
@@ -113,6 +130,14 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
       onLeft: () => {
         if (screenRef.current !== "menu") return;
         playMoveRef.current();
+
+        if (isOnTabRef.current) {
+          setActiveTab((prev) => {
+            const currentIdx = CONFIG_TABS.indexOf(prev);
+            return CONFIG_TABS[(currentIdx - 1 + CONFIG_TAB_COUNT) % CONFIG_TAB_COUNT];
+          });
+          return;
+        }
 
         if (selectedRowRef.current === 0) {
           setSelectedIndex((prev) => circularPrev(prev, DIFFICULTY.length));
@@ -142,6 +167,12 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
 
         playMoveRef.current();
 
+        if (isOnTabRef.current) {
+          setIsOnTab(false);
+          setSelectedRow(0);
+          return;
+        }
+
         if (selectedRowRef.current === 4) {
           setSelectedRow(0);
           return;
@@ -155,13 +186,15 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
 
         playMoveRef.current();
 
+        if (isOnTabRef.current) return;
+
         if (selectedRowRef.current === 4) {
           setSelectedRow(3);
           return;
         }
 
         if (selectedRowRef.current === 0) {
-          setSelectedRow(4);
+          setIsOnTab(true);
           return;
         }
 
@@ -170,6 +203,7 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
 
       onConfirm: () => {
         if (screenRef.current !== "menu") return true;
+        if (isOnTabRef.current) return true;
 
         playSelectRef.current();
 
@@ -242,5 +276,7 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
     bottomIndex,
     screen,
     showQuestIndicator,
+    activeTab,
+    isOnTab,
   };
 }

@@ -1,7 +1,7 @@
 import { useConfigSelection } from "@/hooks/menu/config/useConfigSelection";
 
 export function useConfigMenu(isActive: boolean = true) {
-  const { difficulty, selectedIndex, selectedRow, bottomIndex, screen, showQuestIndicator } =
+  const { difficulty, selectedIndex, selectedRow, bottomIndex, screen, showQuestIndicator, activeTab, isOnTab } =
     useConfigSelection(isActive);
 
   return {
@@ -11,5 +11,7 @@ export function useConfigMenu(isActive: boolean = true) {
     bottomIndex,
     screen,
     showQuestIndicator,
+    activeTab,
+    isOnTab,
   };
 }
