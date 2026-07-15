@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { UI_BUTTON_L_COOLDOWN, UI_BUTTON_B_COOLDOWN, UI_BUTTON_G_COOLDOWN } from "@/data/cooldowns";
+import { UI_BUTTON_L_COOLDOWN, UI_BUTTON_B_COOLDOWN, UI_BUTTON_G_COOLDOWN, UI_BUTTON_ESC_COOLDOWN } from "@/data/cooldowns";
 import styles from "./styles.module.css";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useNavbar } from "@/contexts/NavbarContext";
@@ -14,9 +14,11 @@ export function GameButtons() {
   const [lCooldown, setLCooldown] = useState(false);
   const [bCooldown, setBCooldown] = useState(false);
   const [gCooldown, setGCooldown] = useState(false);
+  const [escCooldown, setEscCooldown] = useState(false);
   const lTimerRef = useRef<NodeJS.Timeout | null>(null);
   const bTimerRef = useRef<NodeJS.Timeout | null>(null);
   const gTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const escTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   function handleOpen() {
     if (activeControls?.onOpen) {
@@ -88,9 +90,17 @@ export function GameButtons() {
 
         case "g":
         case "G":
+        case "Tab":
+          e.preventDefault();
           setGCooldown(true);
           if (gTimerRef.current) clearTimeout(gTimerRef.current);
           gTimerRef.current = setTimeout(() => setGCooldown(false), UI_BUTTON_G_COOLDOWN);
+          break;
+
+        case "Escape":
+          setEscCooldown(true);
+          if (escTimerRef.current) clearTimeout(escTimerRef.current);
+          escTimerRef.current = setTimeout(() => setEscCooldown(false), UI_BUTTON_ESC_COOLDOWN);
           break;
       }
     }
@@ -100,6 +110,7 @@ export function GameButtons() {
       window.removeEventListener("keydown", handleKeyDown);
       if (lTimerRef.current) clearTimeout(lTimerRef.current);
       if (bTimerRef.current) clearTimeout(bTimerRef.current);
+      if (escTimerRef.current) clearTimeout(escTimerRef.current);
       if (gTimerRef.current) clearTimeout(gTimerRef.current);
     };
   }, []);
@@ -108,7 +119,7 @@ export function GameButtons() {
     <div className={styles.gameButtons}>
       <div className={styles.row}>
         <button
-          className={`${styles.configs} ${gCooldown ? styles.cooldown : ""}`}
+          className={`${styles.configs} ${escCooldown ? styles.cooldown : ""}`}
           onPointerDown={handleConfig}
         >
           <Settings />

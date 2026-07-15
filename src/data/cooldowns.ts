@@ -25,5 +25,6 @@ export const DAILY_CHEST_COOLDOWN_MS = 21_600_000;
 export const UI_BUTTON_L_COOLDOWN = 400;
 export const UI_BUTTON_B_COOLDOWN = 600;
 export const UI_BUTTON_G_COOLDOWN = 400;
+export const UI_BUTTON_ESC_COOLDOWN = 500;
 
 export const COMBAT_SYSTEM_COOLDOWN = 500;

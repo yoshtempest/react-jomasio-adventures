@@ -30,9 +30,15 @@ const GameControlsContext = createContext<ControlsContextType | null>(null);
 export function GameControlsProvider({ children }: Props) {
   const [stack, setStack] = useState<GameControlLayer[]>([]);
   const { player, setMode } = usePlayer();
-  const { openNavbar, closeNavbar } = useNavbar();
+  const { openNavbar, closeNavbar, openConfigScreen, isNavOpen, screen } = useNavbar();
   const closeNavbarRef = useRef(closeNavbar);
   closeNavbarRef.current = closeNavbar;
+  const openConfigScreenRef = useRef(openConfigScreen);
+  openConfigScreenRef.current = openConfigScreen;
+  const isNavOpenRef = useRef(isNavOpen);
+  isNavOpenRef.current = isNavOpen;
+  const screenRef = useRef(screen);
+  screenRef.current = screen;
   const setModeRef = useRef(setMode);
   setModeRef.current = setMode;
 
@@ -172,6 +178,7 @@ export function GameControlsProvider({ children }: Props) {
 
         case "g":
         case "G":
+        case "Tab":
           if (controls.onOpen) {
             controls.onOpen();
             return;
@@ -184,6 +191,14 @@ export function GameControlsProvider({ children }: Props) {
 
           if (!controls.blockGlobalOpen && player.mode === "explore") {
             openNavbar();
+          }
+          break;
+
+        case "Escape":
+          if (isNavOpenRef.current && screenRef.current === "config") {
+            closeNavbarRef.current();
+          } else {
+            openConfigScreenRef.current();
           }
           break;
       }
@@ -244,7 +259,7 @@ export function GameControlsProvider({ children }: Props) {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
-  }, [player.mode, openNavbar, closeAllMenus]);
+  }, [player.mode, openNavbar, closeAllMenus, openConfigScreen]);
 
   return (
     <GameControlsContext.Provider
