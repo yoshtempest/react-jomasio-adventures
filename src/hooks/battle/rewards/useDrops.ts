@@ -1,6 +1,6 @@
 import { rollSlotDrop } from "@/data/equipment/drops";
 import { getEquipmentBySlotAndRank, getEquipmentById } from "@/data/equipment";
-import { rollCraftDrops } from "@/data/items/crafting";
+import { rollCraftDrops, CRAFT_MATERIALS } from "@/data/items/crafting";
 import { ITEMS } from "@/data/items";
 import type { InventoryItem } from "@/utils/types/player/inventory";
 
@@ -51,6 +51,13 @@ export function rollMaterialDrops(
   const materialDrops = rollCraftDrops(npcClass, npcType);
 
   for (const [materialId, qty] of Object.entries(materialDrops)) {
+    const craftDef = CRAFT_MATERIALS[materialId];
+    if (craftDef) {
+      addItem({ id: craftDef.id as ItemId });
+      drops.push({ id: craftDef.id, name: craftDef.name, qty });
+      continue;
+    }
+
     const def = ITEMS[materialId as keyof typeof ITEMS];
     if (!def) continue;
 

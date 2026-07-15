@@ -21,6 +21,7 @@ import { useEquipment } from "@/contexts/EquipmentContext";
 import { isCharacter } from "@/utils/types/player/player";
 import { useAuth } from "@/contexts/AuthContext";
 import { useHungerTimer } from "@/hooks/hunger/useHungerTimer";
+import { useExploreLocation } from "@/hooks/scene/useExploreLocation";
 
 function App() {
   const { isOpen } = useInventory();
@@ -36,6 +37,7 @@ function App() {
   const { isAuthenticated } = useAuth();
 
   useHungerTimer();
+  useExploreLocation();
 
   const prevRouteRef = useRef(location.pathname);
   const didSyncRef = useRef(false);

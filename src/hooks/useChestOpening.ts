@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { useInventory } from "@/contexts/InventoryContext";
+import { useQuests } from "@/contexts/QuestContext";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { openChest, type ChestDropResult } from "@/data/items/chests";
 
@@ -13,6 +14,7 @@ export function useChestOpening() {
   const { player } = usePlayer();
   const { addDrop } = useEquipment();
   const { addItem, removeItem, items } = useInventory();
+  const { progressDailyWeekly } = useQuests();
   const { playSound } = useSoundEffects();
   const [lastResult, setLastResult] = useState<ChestOpenResult | null>(null);
   const [lastOpened, setLastOpened] = useState<{ chestId: ItemId; keyId: ItemId } | null>(null);
@@ -32,6 +34,9 @@ export function useChestOpening() {
 
       for (const mat of result.materials) {
         addItem({ id: mat.id as ItemId, qty: mat.qty });
+        progressDailyWeekly("collect_material", mat.qty);
+        if (mat.id === "hungry_essence") progressDailyWeekly("collect_hungry_essence", mat.qty);
+        else if (mat.id === "goat_horn") progressDailyWeekly("collect_goat_horn", mat.qty);
       }
       for (const eq of result.equipment) {
         addDrop(player.character, eq.id, eq.enhance);
@@ -47,7 +52,7 @@ export function useChestOpening() {
       setLastOpened({ chestId: chestItemId, keyId });
       return openResult;
     },
-    [items, player.character, addDrop, addItem, removeItem, playSound],
+    [items, player.character, addDrop, addItem, removeItem, playSound, progressDailyWeekly],
   );
 
   const otherChestExists = useCallback(
