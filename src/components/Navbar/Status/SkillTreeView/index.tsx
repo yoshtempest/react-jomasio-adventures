@@ -19,7 +19,18 @@ export function SkillTreeView() {
   useEffect(() => {
     if (!containerRef.current) return;
     const el = containerRef.current.querySelector(`[data-index="${selectedIndex}"]`) as HTMLElement | null;
-    el?.scrollIntoView({ behavior: "auto", block: "start" });
+    if (!el) return;
+
+    const container = containerRef.current;
+    const elTop = el.offsetTop;
+    const elBottom = elTop + el.offsetHeight;
+    const { scrollTop, clientHeight } = container;
+
+    if (elTop < scrollTop) {
+      container.scrollTop = elTop;
+    } else if (elBottom > scrollTop + clientHeight) {
+      container.scrollTop = elBottom - clientHeight;
+    }
   }, [selectedIndex]);
 
   useGameControlsLayer(

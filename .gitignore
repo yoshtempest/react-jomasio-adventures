@@ -7,7 +7,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 dump
-dev-dist
+dev-dist/
 
 node_modules
 dist
