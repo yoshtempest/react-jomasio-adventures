@@ -20,7 +20,12 @@ const NavbarContext = createContext<NavbarContextType | null>(null);
 export function NavbarProvider({ children }: { children: ReactNode }) {
   const [items] = useState<NavbarOption[]>([]);
   const [screen, setScreenState] = useState<NavScreen>("menu");
-  const { isOpen: isNavOpen, open: openNavbar, close: closeNavbar, toggle: toggleNavbar } = useToggle();
+  const { isOpen: isNavOpen, open: openNavbar, close: closeToggle, toggle: toggleNavbar } = useToggle();
+
+  const closeNavbar = useCallback(() => {
+    setScreenState("menu");
+    closeToggle();
+  }, [closeToggle]);
 
   const setScreen = useCallback((s: NavScreen) => {
     setScreenState(s);
