@@ -25,7 +25,7 @@ import { useExploreLocation } from "@/hooks/scene/useExploreLocation";
 
 function App() {
   const { isOpen } = useInventory();
-  const { isNavOpen } = useNavbar();
+  const { isNavOpen, isClosing } = useNavbar();
   const { items, setItems, setMaxSlots } = useInventory();
   const { setQuests, refreshDailyWeekly, quests } = useQuests();
 
@@ -134,7 +134,7 @@ function App() {
       <GameButtons />
       <XPBarNotification />
       {isOpen && <Inventory />}
-      {isNavOpen && (
+      {(isNavOpen || isClosing) && (
         <div className="navbarClip">
           <Navbar />
         </div>

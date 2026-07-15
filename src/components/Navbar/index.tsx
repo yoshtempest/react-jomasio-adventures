@@ -1,5 +1,6 @@
 import styles from "./styles.module.css";
 import { useNavbarMenu } from "@/hooks/menu/useNavbar";
+import { useNavbar } from "@/contexts/NavbarContext";
 
 import { Status } from "./Status";
 import { Inventory } from "./Inventory";
@@ -16,10 +17,11 @@ import { asset } from "@/utils/paths";
 
 export function Navbar() {
   const { screen, selectedIndex, options } = useNavbarMenu();
+  const { isClosing } = useNavbar();
 
   if (screen === "menu") {
     return (
-      <nav className={styles.navbar}>
+      <nav className={`${styles.navbar} ${isClosing ? styles.closing : ""}`}>
         <ul className={styles.list}>
           {options.map((item, index) => (
             <li
@@ -38,7 +40,7 @@ export function Navbar() {
   };
 
   return (
-    <>
+    <div className={isClosing ? styles.closing : undefined}>
       {screen === "status" && <Status />}
       {screen === "character" && <Character />}
       {screen === "inventory" && <Inventory />}
@@ -50,6 +52,6 @@ export function Navbar() {
       {screen === "player" && <Player />}
       {screen === "saves" && <Saves />}
       {screen === "professions" && <Professions />}
-    </>
+    </div>
   )
 }

@@ -9,6 +9,15 @@
   }
 }
 
+@keyframes slideToRight {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
 .navbar {
   display: flex;
   flex-direction: column;
@@ -29,6 +38,14 @@
   border-right: var(--size-3) solid var(--accent-color);
   border-radius: var(--size-2);
   animation: slideFromRight 0.5s;
+}
+
+.navbar.closing {
+  animation: slideToRight 0.5s forwards;
+}
+
+.closing {
+  animation: slideToRight 0.5s forwards;
 }
 
 .list {

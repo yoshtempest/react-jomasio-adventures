@@ -1,11 +1,14 @@
-import { createContext, useCallback, useContext, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useRef, useState, type ReactNode } from "react";
 import type { NavbarOption, NavScreen } from "@/utils/types/player/navbar";
 import { useToggle } from "@/hooks/useToggle";
+
+const CLOSE_ANIMATION_MS = 500;
 
 type NavbarContextType = {
   items: NavbarOption[];
 
   isNavOpen: boolean;
+  isClosing: boolean;
   openNavbar: () => void;
   closeNavbar: () => void;
   toggleNavbar: () => void;
@@ -20,11 +23,28 @@ const NavbarContext = createContext<NavbarContextType | null>(null);
 export function NavbarProvider({ children }: { children: ReactNode }) {
   const [items] = useState<NavbarOption[]>([]);
   const [screen, setScreenState] = useState<NavScreen>("menu");
-  const { isOpen: isNavOpen, open: openNavbar, close: closeToggle, toggle: toggleNavbar } = useToggle();
+  const { isOpen: isNavOpen, open: openToggle, close: closeToggle, toggle: toggleNavbar } = useToggle();
+  const [isClosing, setIsClosing] = useState(false);
+  const closeTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const openNavbar = useCallback(() => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+      setIsClosing(false);
+    }
+    openToggle();
+  }, [openToggle]);
 
   const closeNavbar = useCallback(() => {
+    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
     setScreenState("menu");
-    closeToggle();
+    setIsClosing(true);
+    closeTimerRef.current = setTimeout(() => {
+      closeToggle();
+      setIsClosing(false);
+      closeTimerRef.current = null;
+    }, CLOSE_ANIMATION_MS);
   }, [closeToggle]);
 
   const setScreen = useCallback((s: NavScreen) => {
@@ -41,6 +61,7 @@ export function NavbarProvider({ children }: { children: ReactNode }) {
       value={{
         items,
         isNavOpen,
+        isClosing,
         openNavbar,
         closeNavbar,
         toggleNavbar,
