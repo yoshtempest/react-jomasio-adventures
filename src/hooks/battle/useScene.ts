@@ -611,6 +611,7 @@ export function useBattleScene({
     handlePlayerHit,
     handleSpecialHit,
     disabled: controlsDisabled,
+    playerState: player.state,
     onChargePress: charge.startCharge,
     onChargeRelease: charge.releaseCharge,
     onChargeCancel: charge.cancelCharge,

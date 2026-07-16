@@ -9,6 +9,7 @@ type Props = {
   handlePlayerHit: () => void;
   handleSpecialHit: () => void;
   disabled: boolean;
+  playerState: PlayerState;
   onChargePress?: () => void;
   onChargeRelease?: () => void;
   onChargeCancel?: () => void;
@@ -24,6 +25,7 @@ export function useBattleControls({
   handlePlayerHit,
   handleSpecialHit,
   disabled,
+  playerState,
   onChargePress,
   onChargeRelease,
   onChargeCancel,
@@ -53,6 +55,9 @@ export function useBattleControls({
   const hasChargeRef = useRef(!!onChargePress);
   hasChargeRef.current = !!onChargePress;
 
+  const playerStateRef = useRef(playerState);
+  playerStateRef.current = playerState;
+
   const pushControlsRef = useRef(pushControls);
   pushControlsRef.current = pushControls;
   const popControlsRef = useRef(popControls);
@@ -67,7 +72,10 @@ export function useBattleControls({
 
     const controls = {
       onConfirm: () => {
-        if (hasCharge) {
+        const comboState =
+          playerStateRef.current === "blocked" ||
+          playerStateRef.current === "falling";
+        if (hasCharge && !comboState) {
           if (holdTimer || isHoldingCharge) return;
           holdTimer = setTimeout(() => {
             chargePressRef.current();
