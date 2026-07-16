@@ -86,7 +86,7 @@ export function useBattleScene({
   const petLevel = petInfo ? getPetProgress(petInfo.id).level : 1;
   const { items: inventoryItems, closeInventory } = useInventory();
   const { quests, progressDailyWeekly } = useQuests();
-  const { closeNavbar } = useNavbar();
+  const { closeNavbar, isNavOpen, screen: navScreen } = useNavbar();
   const {
     handleDefeat,
     incrementBlockCounter,
@@ -205,7 +205,8 @@ export function useBattleScene({
   killCounter.npcTypeRef.current = npcType;
   killCounter.npcDataRef.current = npcData;
 
-  const isPaused = showVictory || showDefeat || showIntro || showOutro != null;
+  const isConfigOpen = isNavOpen && navScreen === "config";
+  const isPaused = showVictory || showDefeat || showIntro || showOutro != null || isConfigOpen;
   const controlsDisabled = isPaused || isPhaseTransitioning || isThrown;
 
   targeting.npcAiHpRef.current = npcStats.hp;

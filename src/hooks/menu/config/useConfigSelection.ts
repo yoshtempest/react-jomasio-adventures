@@ -19,7 +19,7 @@ const BOTTOM_COUNT = 4;
 export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   const { pushControls, popControls } = useGameControls();
 
-  const { setDifficulty } = usePlayer();
+  const { setDifficulty, player } = usePlayer();
   const { sfxVolume, setSfxVolume, bgmVolume, setBgmVolume } = useAudio();
   const { setDialogueSpeed, showQuestIndicator, setShowQuestIndicator } = useSettings();
   const { checkForUpdate } = useUpdate();
@@ -87,6 +87,9 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   setShowNotAvailableMessageRef.current = setShowNotAvailableMessage;
   const onConfirmRef = useRef(onConfirm);
   onConfirmRef.current = onConfirm;
+
+  const modeRef = useRef(player.mode);
+  modeRef.current = player.mode;
 
   useEffect(() => {
     if (!isActive) return;
@@ -252,6 +255,7 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
       },
 
       onCancel: () => {
+        if (modeRef.current === "battle") return true;
         playCloseRef.current();
         if (screenRef.current === "tutorial") {
           setScreen("menu");
