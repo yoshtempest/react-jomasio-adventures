@@ -28,6 +28,8 @@ export function NavbarProvider({ children }: { children: ReactNode }) {
   const closeTimerRef = useRef<NodeJS.Timeout | null>(null);
   const screenRef = useRef(screen);
   screenRef.current = screen;
+  const isNavOpenRef = useRef(isNavOpen);
+  isNavOpenRef.current = isNavOpen;
 
   const openNavbar = useCallback(() => {
     if (closeTimerRef.current) {
@@ -39,6 +41,7 @@ export function NavbarProvider({ children }: { children: ReactNode }) {
   }, [openToggle]);
 
   const closeNavbar = useCallback(() => {
+    if (!isNavOpenRef.current && !closeTimerRef.current) return;
     if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
     const shouldAnimate = screenRef.current === "menu";
     setScreenState("menu");
