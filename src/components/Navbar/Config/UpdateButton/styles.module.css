@@ -1,0 +1,18 @@
+.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.tutorialButton {
+  position: relative;
+  margin-top: 5%;
+  text-wrap: nowrap;
+  padding: var(--fs-8) var(--smaller);
+  border-radius: var(--size-4);
+  text-align: center;
+  border: var(--size-2) solid var(--primary-color);
+}
