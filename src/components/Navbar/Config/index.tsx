@@ -1,5 +1,5 @@
 import styles from "./styles.module.css";
-import { Lock } from "lucide-react";
+import { Lock, Minus, Plus } from "lucide-react";
 import { useConfigMenu } from "@/hooks/menu/config/useConfig";
 import { useAudio } from "@/contexts/AudioContext";
 import { DIALOGUE_SPEED_LIST, SPEED_LABEL } from "@/utils/settings";
@@ -60,7 +60,7 @@ export function Config() {
               return (
                 <div
                   key={diff}
-                  className={`${styles.difficultyItem} ${
+                  className={`${styles.item} ${
                     isSelected ? styles.selected : ""
                   }`}
                 >
@@ -71,7 +71,7 @@ export function Config() {
               );
             })}
 
-            <div className={`${styles.difficultyItem} ${styles.locked}`}>
+            <div className={`${styles.item} ${styles.locked}`}>
               <div className={styles.chainLeft} />
               <Lock size={16} />
               <h2>INSANO</h2>
@@ -79,14 +79,14 @@ export function Config() {
             </div>
           </div>
           <div className={styles.speedContainer}>
-            <h2>Diálogo:</h2>
+            <h2 className={styles.marginTop}>Diálogo:</h2>
             <div className={styles.speedOptions}>
               {DIALOGUE_SPEED_LIST.map((speed, index) => {
                 const isSelected = selectedRow === 1 && index === selectedIndex;
                 return (
                   <div
                     key={speed}
-                    className={`${styles.speedItem} ${
+                    className={`${styles.item} ${
                       isSelected ? styles.selected : ""
                     }`}
                   >
@@ -98,7 +98,8 @@ export function Config() {
             </div>
           </div>
           
-          <div className={styles.flexRow}>
+          <div className={styles.flexColumn}>
+            <h2 className={styles.marginTop}>Ajuda:</h2>
             <div
               className={`${styles.tutorialButton} ${
                 selectedRow === 4 && bottomIndex === 0 ? styles.selected : ""
@@ -136,23 +137,31 @@ export function Config() {
               <InstallButton />
             </div>
           </div>
-          <div className={styles.flexRow}>
+          <div className={styles.flexColumn}>
+            <h2 className={styles.marginTop}>Sons:</h2>
             <div className={styles.volumeContainer}>
               {selectedRow === 2 && <span className={styles.cursor}>▼</span>}
 
-              <h2>Efeitos Sonoros: {sfxVolume}</h2>
+              <h2 className={styles.marginTop}>Efeitos Sonoros: {sfxVolume}</h2>
 
-              <div className={styles.volumeBar}>
-                <div className={styles.volumeFill} style={{ width: `${sfxVolume}%` }} />
+              <div className={styles.flexRow}>
+                <Minus />
+                <div className={styles.volumeBar}>
+                  <div className={styles.volumeFill} style={{ width: `${sfxVolume}%` }} />
+                </div>
+                <Plus />
               </div>
             </div>
             <div className={styles.volumeContainer}>
               {selectedRow === 3 && <span className={styles.cursor}>▼</span>}
 
-              <h2>Música de Fundo: {bgmVolume}</h2>
-
-              <div className={styles.volumeBar}>
-                <div className={styles.volumeFill} style={{ width: `${bgmVolume}%` }} />
+              <h2 className={styles.marginTop}>Música de Fundo: {bgmVolume}</h2>
+              <div className={styles.flexRow}>
+                <Minus />
+                <div className={styles.volumeBar}>
+                  <div className={styles.volumeFill} style={{ width: `${bgmVolume}%` }} />
+                </div>
+                <Plus />
               </div>
             </div>
           </div>
