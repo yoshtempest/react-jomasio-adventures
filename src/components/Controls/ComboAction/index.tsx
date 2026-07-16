@@ -33,6 +33,7 @@ export function ComboAction() {
         onPointerDown={handleDown}
       >
         <img src={src} alt={combo.label} draggable={false} />
+        <h3>L</h3>
       </button>
     </div>
   );

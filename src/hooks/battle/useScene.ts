@@ -29,6 +29,7 @@ import { useBattleIntro } from "@/hooks/battle/useIntro";
 import { useBattleOutro } from "@/hooks/battle/useOutro";
 import { useBattleSync } from "@/hooks/battle/useSync";
 import { useNpcTargeting } from "@/hooks/battle/npc/useNpcTargeting";
+import { useBattleInfo } from "@/contexts/BattleInfoContext";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import { BATTLE_LIMITS } from "@/utils/types/player/movement";
 import { saveGame } from "@/utils/save/saveGame";
@@ -120,6 +121,21 @@ export function useBattleScene({
   const { showIntro, skipIntro } = useBattleIntro();
 
   const { npcData, npcLevel, npcStats } = useNpcSetup(npcType, difficulty, playerLevel);
+
+  const battleInfoCtx = useBattleInfo();
+  useEffect(() => {
+    battleInfoCtx?.setBattleInfo({
+      npcType,
+      npcLevel,
+      npcClass: npcData.class,
+      npcHp: npcStats.hp,
+      npcDamage: npcStats.damage,
+      npcArmor: npcStats.armor,
+    });
+    return () => {
+      battleInfoCtx?.clearBattleInfo();
+    };
+  }, [npcType, npcLevel, npcData.class, npcStats.hp, npcStats.damage, npcStats.armor, battleInfoCtx]);
 
   const { xpReward, giveRewards, giveSummonRewards } = useBattleRewards({
     npcClass: npcData.class,

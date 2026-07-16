@@ -18,6 +18,7 @@ import { PetProgressProvider } from "@/contexts/PetProgressContext";
 import { PlayerProvider } from "@/contexts/PlayerContext";
 import { GameControlsProvider } from "@/contexts/GameControlsContext";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { BattleInfoProvider } from "@/contexts/BattleInfoContext";
 
 export function AppProviders({ children }: { children: ReactNode }) {
   return (
@@ -29,7 +30,8 @@ export function AppProviders({ children }: { children: ReactNode }) {
             <AudioProvider>
               <SoundEffectsProvider>
                 <NavbarProvider>
-                  <FlagProvider>
+                  <BattleInfoProvider>
+                    <FlagProvider>
                     <InventoryProvider>
                       <QuestProvider>
                         <CharacterProgressProvider>
@@ -52,6 +54,7 @@ export function AppProviders({ children }: { children: ReactNode }) {
                       </QuestProvider>
                     </InventoryProvider>
                   </FlagProvider>
+                  </BattleInfoProvider>
                 </NavbarProvider>
               </SoundEffectsProvider>
             </AudioProvider>
