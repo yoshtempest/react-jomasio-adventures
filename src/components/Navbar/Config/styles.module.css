@@ -1,7 +1,21 @@
-.flexRow {
+.container {
   display: flex;
   flex-direction: row;
+  top: 5%;
+  right: 0;
   gap: 3vw;
+  width: calc(74vw - var(--size-6));
+  height: 90vh;
+  align-items: flex-start;
+  justify-content: center;
+  border-radius: 5px;
+}
+
+.flexRow {
+  display: flex;
+  flex-direction: column;
+  gap: 1vw;
+  background-color: red;
 }
 
 .tabs {
@@ -61,14 +75,11 @@
   margin-bottom: 2%;
 }
 
-.column {
-  display: flex;
-  flex-direction: column;
-}
-
 .difficultyContainer {
   display: flex;
   align-items: center;
+  background-color: red;
+  flex-direction: column;
   gap: var(--low-medium);
 }
 
@@ -140,8 +151,10 @@
 }
 
 .volumeContainer {
+  display: flex;
+  background-color: red;
+  flex-direction: column;
   position: relative;
-  margin-top: var(--low-medium);
 }
 
 .volumeBar {
@@ -157,8 +170,7 @@
 }
 
 .speedContainer {
-  position: relative;
-  margin-top: var(--low-medium);
+  background-color: red;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -167,6 +179,7 @@
 
 .speedOptions {
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: var(--smaller);
 }
@@ -178,4 +191,13 @@
   border-radius: var(--size-5);
   border: var(--size-2) solid var(--primary-color);
   min-width: 6vw;
+}
+
+.tutorialButton {
+  position: relative;
+  text-wrap: nowrap;
+  padding: var(--fs-8) var(--smaller);
+  border-radius: var(--size-4);
+  text-align: center;
+  border: var(--size-2) solid var(--primary-color);
 }

@@ -1,9 +1,7 @@
 import styles from "./styles.module.css";
 import { Lock } from "lucide-react";
-import { usePlayer } from "@/contexts/PlayerContext";
 import { useConfigMenu } from "@/hooks/menu/config/useConfig";
 import { useAudio } from "@/contexts/AudioContext";
-import { useSettings } from "@/contexts/SettingsContext";
 import { DIALOGUE_SPEED_LIST, SPEED_LABEL } from "@/utils/settings";
 import { useDialogue } from "@/hooks/interaction/useDialogue";
 import { useEffect, useRef } from "react";
@@ -16,9 +14,7 @@ import { BattleTab } from "./BattleTab";
 import { UpdateButton } from "./UpdateButton";
 
 export function Config() {
-  const { difficulty } = usePlayer();
   const { sfxVolume, bgmVolume } = useAudio();
-  const { dialogueSpeed } = useSettings();
   const { difficultyList, selectedIndex, selectedRow, bottomIndex, screen, showQuestIndicator, activeTab, isOnTab } =
     useConfigMenu(true);
   const dialogueSystem = useDialogue(configsDialogue);
@@ -43,7 +39,7 @@ export function Config() {
   }, [selectedRow]);
 
   return (
-    <div className="containerOfNavbar" ref={configRef}>
+    <div className={`containerOfNavbar ${styles.center}`} ref={configRef}>
       <div className={styles.tabs}>
         {CONFIG_TABS.map((tab) => (
           <button
@@ -54,11 +50,11 @@ export function Config() {
           </button>
         ))}
       </div>
-
+      
       {activeTab === "geral" && (
-        <>
-          <h2 className={styles.marginTop}>Dificuldade: {DIFFICULTY_LABEL[difficulty]}</h2>
+        <div className={styles.container}>
           <div className={styles.difficultyContainer}>
+            <h2 className={styles.marginTop}>Dificuldade:</h2>
             {difficultyList.map((diff, index) => {
               const isSelected = selectedRow === 0 && index === selectedIndex;
               return (
@@ -83,9 +79,8 @@ export function Config() {
             </div>
           </div>
           <div className={styles.speedContainer}>
-            <h2>Diálogo: {SPEED_LABEL[dialogueSpeed]}</h2>
+            <h2>Diálogo:</h2>
             <div className={styles.speedOptions}>
-              {selectedRow === 1 && <span className={styles.cursor}>▼</span>}
               {DIALOGUE_SPEED_LIST.map((speed, index) => {
                 const isSelected = selectedRow === 1 && index === selectedIndex;
                 return (
@@ -95,32 +90,14 @@ export function Config() {
                       isSelected ? styles.selected : ""
                     }`}
                   >
+                    {isSelected && <span className={styles.cursor}>▼</span>}
                     <h2>{SPEED_LABEL[speed].toUpperCase()}</h2>
                   </div>
                 );
               })}
             </div>
           </div>
-          <div className={styles.flexRow}>
-            <div className={styles.volumeContainer}>
-              {selectedRow === 2 && <span className={styles.cursor}>▼</span>}
-
-              <h2>Efeitos Sonoros: {sfxVolume}</h2>
-
-              <div className={styles.volumeBar}>
-                <div className={styles.volumeFill} style={{ width: `${sfxVolume}%` }} />
-              </div>
-            </div>
-            <div className={styles.volumeContainer}>
-              {selectedRow === 3 && <span className={styles.cursor}>▼</span>}
-
-              <h2>Música de Fundo: {bgmVolume}</h2>
-
-              <div className={styles.volumeBar}>
-                <div className={styles.volumeFill} style={{ width: `${bgmVolume}%` }} />
-              </div>
-            </div>
-          </div>
+          
           <div className={styles.flexRow}>
             <div
               className={`${styles.tutorialButton} ${
@@ -159,7 +136,27 @@ export function Config() {
               <InstallButton />
             </div>
           </div>
-        </>
+          <div className={styles.flexRow}>
+            <div className={styles.volumeContainer}>
+              {selectedRow === 2 && <span className={styles.cursor}>▼</span>}
+
+              <h2>Efeitos Sonoros: {sfxVolume}</h2>
+
+              <div className={styles.volumeBar}>
+                <div className={styles.volumeFill} style={{ width: `${sfxVolume}%` }} />
+              </div>
+            </div>
+            <div className={styles.volumeContainer}>
+              {selectedRow === 3 && <span className={styles.cursor}>▼</span>}
+
+              <h2>Música de Fundo: {bgmVolume}</h2>
+
+              <div className={styles.volumeBar}>
+                <div className={styles.volumeFill} style={{ width: `${bgmVolume}%` }} />
+              </div>
+            </div>
+          </div>
+        </div>
       )}
 
       {activeTab === "batalha" && (
