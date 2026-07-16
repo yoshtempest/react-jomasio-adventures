@@ -600,7 +600,7 @@ export function useBattleScene({
     },
     blockStart: () =>
       setPlayer((p) => {
-        if (p.state === "jump") return p;
+        if (p.state === "jump" || p.state === "blockAttack") return p;
         return { ...p, state: "blocked" };
       }),
     blockEnd: () =>
