@@ -15,7 +15,7 @@ import { UpdateButton } from "./UpdateButton";
 
 export function Config() {
   const { sfxVolume, bgmVolume } = useAudio();
-  const { difficultyList, selectedIndex, selectedRow, bottomIndex, screen, showQuestIndicator, activeTab, isOnTab } =
+  const { difficultyList, selectedIndex, selectedColumn, screen, showQuestIndicator, activeTab, isOnTab } =
     useConfigMenu(true);
   const dialogueSystem = useDialogue(configsDialogue);
   const dialogueSystemRef = useRef(dialogueSystem);
@@ -30,13 +30,13 @@ export function Config() {
 
   useEffect(() => {
     if (!configRef.current) return;
-    const selectedEl = configRef.current.children[selectedRow] as HTMLElement | undefined;
+    const selectedEl = configRef.current.children[selectedColumn] as HTMLElement | undefined;
     if (!selectedEl) return;
     configRef.current.scrollTo({
       top: selectedEl.offsetTop - configRef.current.offsetTop,
       behavior: "smooth",
     });
-  }, [selectedRow]);
+  }, [selectedColumn]);
 
   return (
     <div className={`containerOfNavbar ${styles.center}`} ref={configRef}>
@@ -56,7 +56,7 @@ export function Config() {
           <div className={styles.difficultyContainer}>
             <h2 className={styles.marginTop}>Dificuldade:</h2>
             {difficultyList.map((diff, index) => {
-              const isSelected = selectedRow === 0 && index === selectedIndex;
+              const isSelected = selectedColumn === 4 && index === selectedIndex;
               return (
                 <div
                   key={diff}
@@ -82,7 +82,7 @@ export function Config() {
             <h2 className={styles.marginTop}>Diálogo:</h2>
             <div className={styles.speedOptions}>
               {DIALOGUE_SPEED_LIST.map((speed, index) => {
-                const isSelected = selectedRow === 1 && index === selectedIndex;
+                const isSelected = selectedColumn === 3 && index === selectedIndex;
                 return (
                   <div
                     key={speed}
@@ -102,37 +102,37 @@ export function Config() {
             <h2 className={styles.marginTop}>Ajuda:</h2>
             <div
               className={`${styles.tutorialButton} ${
-                selectedRow === 4 && bottomIndex === 0 ? styles.selected : ""
+                selectedColumn === 2 && selectedIndex === 0 ? styles.selected : ""
               }`}
             >
-              {selectedRow === 4 && bottomIndex === 0 && <span className={styles.cursor}>▼</span>}
+              {selectedColumn === 2 && selectedIndex === 0 && <span className={styles.cursor}>▼</span>}
 
               <h2>Indicador de Missões: {showQuestIndicator ? "ON" : "OFF"}</h2>
             </div>
             <div
               className={`${styles.tutorialButton} ${
-                selectedRow === 4 && bottomIndex === 1 ? styles.selected : ""
+                selectedColumn === 2 && selectedIndex === 1 ? styles.selected : ""
               }`}
             >
-              {selectedRow === 4 && bottomIndex === 1 && <span className={styles.cursor}>▼</span>}
+              {selectedColumn === 2 && selectedIndex === 1 && <span className={styles.cursor}>▼</span>}
 
               <h2>Ver Tutorial</h2>
             </div>
             <div
               className={`${styles.tutorialButton} ${
-                selectedRow === 4 && bottomIndex === 2 ? styles.selected : ""
+                selectedColumn === 2 && selectedIndex === 2 ? styles.selected : ""
               }`}
             >
-              {selectedRow === 4 && bottomIndex === 2 && <span className={styles.cursor}>▼</span>}
+              {selectedColumn === 2 && selectedIndex === 2 && <span className={styles.cursor}>▼</span>}
 
               <UpdateButton />
             </div>
             <div
               className={`${styles.tutorialButton} ${
-                selectedRow === 4 && bottomIndex === 3 ? styles.selected : ""
+                selectedColumn === 2 && selectedIndex === 3 ? styles.selected : ""
               }`}
             >
-              {selectedRow === 4 && bottomIndex === 3 && <span className={styles.cursor}>▼</span>}
+              {selectedColumn === 2 && selectedIndex === 3 && <span className={styles.cursor}>▼</span>}
 
               <InstallButton />
             </div>
@@ -140,7 +140,7 @@ export function Config() {
           <div className={styles.flexColumn}>
             <h2 className={styles.marginTop}>Sons:</h2>
             <div className={styles.volumeContainer}>
-              {selectedRow === 2 && <span className={styles.cursor}>▼</span>}
+              {selectedColumn === 0 && <span className={styles.cursor}>▼</span>}
 
               <h2 className={styles.marginTop}>Efeitos Sonoros: {sfxVolume}</h2>
 
@@ -153,7 +153,7 @@ export function Config() {
               </div>
             </div>
             <div className={styles.volumeContainer}>
-              {selectedRow === 3 && <span className={styles.cursor}>▼</span>}
+              {selectedColumn === 1 && <span className={styles.cursor}>▼</span>}
 
               <h2 className={styles.marginTop}>Música de Fundo: {bgmVolume}</h2>
               <div className={styles.flexRow}>

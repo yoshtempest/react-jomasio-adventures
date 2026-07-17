@@ -19,12 +19,14 @@ const AudioContext = createContext<AudioContextType | null>(null);
 export function AudioProvider({ children }: { children: ReactNode }) {
   const [sfxVolume, setSfxVolumeState] = useState(() => {
     const saved = localStorage.getItem(SFX_KEY);
-    return saved ? Number(saved) : 50;
+    const parsed = saved ? Number(saved) : 50;
+    return Number.isFinite(parsed) ? parsed : 50;
   });
 
   const [bgmVolume, setBgmVolumeState] = useState(() => {
     const saved = localStorage.getItem(BGM_KEY);
-    return saved ? Number(saved) : 50;
+    const parsed = saved ? Number(saved) : 50;
+    return Number.isFinite(parsed) ? parsed : 50;
   });
 
   const setSfxVolume = useCallback((value: number) => {

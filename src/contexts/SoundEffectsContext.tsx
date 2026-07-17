@@ -89,8 +89,9 @@ export function SoundEffectsProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
+    const vol = Number.isFinite(sfxVolume) ? sfxVolume / 100 : 0.5;
     Object.values(soundsRef.current).forEach((audio) => {
-      audio.volume = sfxVolume / 100;
+      audio.volume = vol;
     });
   }, [sfxVolume]);
 

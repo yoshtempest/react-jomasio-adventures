@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { usePlayer } from "@/contexts/PlayerContext";
-import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
 import { getSelected } from "@/gameRules/menu/selection";
 import { useAudio } from "@/contexts/AudioContext";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
@@ -13,8 +12,15 @@ import type { ConfigTab } from "@/data/config/tabs";
 import { CONFIG_TABS, CONFIG_TAB_COUNT } from "@/data/config/tabs";
 
 const DIFFICULTY: NpcDifficulty[] = ["easy", "medium", "hard"];
-const MAX_ROW = 4;
+const COLUMN_COUNT = 5;
 const BOTTOM_COUNT = 4;
+
+function getColumnMaxIndex(column: number): number {
+  if (column === 2) return BOTTOM_COUNT;
+  if (column === 3) return DIALOGUE_SPEED_LIST.length;
+  if (column === 4) return DIFFICULTY.length;
+  return 1;
+}
 
 export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   const { pushControls, popControls } = useGameControls();
@@ -27,9 +33,7 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   const { playMove, playSelect, playClose } = useMenuSFX();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
-
-  const [selectedRow, setSelectedRow] = useState(0);
-  const [bottomIndex, setBottomIndex] = useState(0);
+  const [selectedColumn, setSelectedColumn] = useState(0);
 
   const [activeTab, setActiveTab] = useState<ConfigTab>("geral");
   const [isOnTab, setIsOnTab] = useState(true);
@@ -38,20 +42,18 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   const [screen, setScreen] = useState<"menu" | "tutorial">("menu");
 
   const selectedIndexRef = useRef(selectedIndex);
-  const selectedRowRef = useRef(selectedRow);
-  const bottomIndexRef = useRef(bottomIndex);
+  const selectedColumnRef = useRef(selectedColumn);
   const screenRef = useRef(screen);
   const isOnTabRef = useRef(isOnTab);
   const activeTabRef = useRef(activeTab);
 
   useEffect(() => {
     selectedIndexRef.current = selectedIndex;
-    selectedRowRef.current = selectedRow;
-    bottomIndexRef.current = bottomIndex;
+    selectedColumnRef.current = selectedColumn;
     screenRef.current = screen;
     isOnTabRef.current = isOnTab;
     activeTabRef.current = activeTab;
-  }, [selectedIndex, selectedRow, bottomIndex, screen, isOnTab, activeTab]);
+  }, [selectedIndex, selectedColumn, screen, isOnTab, activeTab]);
 
   const playMoveRef = useRef(playMove);
   playMoveRef.current = playMove;
@@ -107,27 +109,8 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
           return;
         }
 
-        if (selectedRowRef.current === 0) {
-          setSelectedIndex((prev) => circularNext(prev, DIFFICULTY.length));
-        }
-
-        if (selectedRowRef.current === 1) {
-          setSelectedIndex((prev) =>
-            circularNext(prev, DIALOGUE_SPEED_LIST.length),
-          );
-        }
-
-        if (selectedRowRef.current === 2) {
-          setSfxVolumeRef.current(Math.min(sfxVolume + 10, 100));
-        }
-
-        if (selectedRowRef.current === 3) {
-          setBgmVolumeRef.current(Math.min(bgmVolume + 10, 100));
-        }
-
-        if (selectedRowRef.current === 4) {
-          setBottomIndex((prev) => (prev + 1) % BOTTOM_COUNT);
-        }
+        setSelectedColumn((prev) => (prev + 1) % COLUMN_COUNT);
+        setSelectedIndex(0);
       },
 
       onLeft: () => {
@@ -142,66 +125,66 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
           return;
         }
 
-        if (selectedRowRef.current === 0) {
-          setSelectedIndex((prev) => circularPrev(prev, DIFFICULTY.length));
-        }
-
-        if (selectedRowRef.current === 1) {
-          setSelectedIndex((prev) =>
-            circularPrev(prev, DIALOGUE_SPEED_LIST.length),
-          );
-        }
-
-        if (selectedRowRef.current === 2) {
-          setSfxVolumeRef.current(Math.max(sfxVolume - 10, 0));
-        }
-
-        if (selectedRowRef.current === 3) {
-          setBgmVolumeRef.current(Math.max(bgmVolume - 10, 0));
-        }
-
-        if (selectedRowRef.current === 4) {
-          setBottomIndex((prev) => (prev - 1 + BOTTOM_COUNT) % BOTTOM_COUNT);
-        }
-      },
-
-      onDown: () => {
-        if (screenRef.current !== "menu") return;
-
-        playMoveRef.current();
-
-        if (isOnTabRef.current) {
-          setIsOnTab(false);
-          setSelectedRow(0);
-          return;
-        }
-
-        if (selectedRowRef.current === 4) {
-          setSelectedRow(0);
-          return;
-        }
-
-        setSelectedRow((prev) => Math.min(prev + 1, MAX_ROW));
-      },
-
-      onUp: () => {
-        if (screenRef.current !== "menu") return;
-
-        playMoveRef.current();
-
-        if (isOnTabRef.current) return;
-
-        if (selectedRowRef.current === 4) {
-          setSelectedRow(3);
-          return;
-        }
-
-        if (selectedRowRef.current === 0) {
+        if (selectedColumnRef.current === 0) {
           setIsOnTab(true);
           return;
         }
 
-        setSelectedRow((prev) => Math.max(prev - 1, 0));
+        setSelectedColumn((prev) => prev - 1);
+        setSelectedIndex(0);
+      },
+
+      onDown: () => {
+        if (screenRef.current !== "menu") return;
+        playMoveRef.current();
+
+        if (isOnTabRef.current) {
+          setIsOnTab(false);
+          setSelectedColumn(0);
+          setSelectedIndex(0);
+          return;
+        }
+
+        const col = selectedColumnRef.current;
+
+        if (col === 0) {
+          setSfxVolumeRef.current(Math.min(sfxVolume + 10, 100));
+          return;
+        }
+
+        if (col === 1) {
+          setBgmVolumeRef.current(Math.min(bgmVolume + 10, 100));
+          return;
+        }
+
+        const maxIndex = getColumnMaxIndex(col);
+        setSelectedIndex((prev) => (prev + 1) % maxIndex);
+      },
+
+      onUp: () => {
+        if (screenRef.current !== "menu") return;
+        playMoveRef.current();
+
+        if (isOnTabRef.current) return;
+
+        const col = selectedColumnRef.current;
+
+        if (col === 0) {
+          setSfxVolumeRef.current(Math.max(sfxVolume - 10, 0));
+          return;
+        }
+
+        if (col === 1) {
+          setBgmVolumeRef.current(Math.max(bgmVolume - 10, 0));
+          return;
+        }
+
+        if (selectedIndexRef.current === 0) {
+          setIsOnTab(true);
+          return;
+        }
+
+        setSelectedIndex((prev) => prev - 1);
       },
 
       onConfirm: () => {
@@ -210,22 +193,10 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
 
         playSelectRef.current();
 
-        if (selectedRowRef.current === 0) {
-          const selected = getSelected(DIFFICULTY, selectedIndexRef.current);
-          setDifficultyRef.current(selected);
-        }
+        const col = selectedColumnRef.current;
+        const idx = selectedIndexRef.current;
 
-        if (selectedRowRef.current === 1) {
-          const selected = getSelected(
-            DIALOGUE_SPEED_LIST,
-            selectedIndexRef.current,
-          );
-          setDialogueSpeedRef.current(selected);
-        }
-
-        if (selectedRowRef.current === 4) {
-          const idx = bottomIndexRef.current;
-
+        if (col === 2) {
           if (idx === 0) {
             setShowQuestIndicatorRef.current(!showQuestIndicator);
           }
@@ -247,6 +218,16 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
               setShowNotAvailableMessageRef.current(true);
             }
           }
+        }
+
+        if (col === 3) {
+          const selected = getSelected(DIALOGUE_SPEED_LIST, idx);
+          setDialogueSpeedRef.current(selected);
+        }
+
+        if (col === 4) {
+          const selected = getSelected(DIFFICULTY, idx);
+          setDifficultyRef.current(selected);
         }
 
         onConfirmRef.current?.();
@@ -276,8 +257,7 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   return {
     difficulty: DIFFICULTY,
     selectedIndex,
-    selectedRow,
-    bottomIndex,
+    selectedColumn,
     screen,
     showQuestIndicator,
     activeTab,
