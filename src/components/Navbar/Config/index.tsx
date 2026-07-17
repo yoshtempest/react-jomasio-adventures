@@ -56,7 +56,7 @@ export function Config() {
           <div className={styles.difficultyContainer}>
             <h2 className={styles.marginTop}>Dificuldade:</h2>
             {difficultyList.map((diff, index) => {
-              const isSelected = selectedColumn === 4 && index === selectedIndex;
+              const isSelected = selectedColumn === 0 && index === selectedIndex;
               return (
                 <div
                   key={diff}
@@ -82,7 +82,7 @@ export function Config() {
             <h2 className={styles.marginTop}>Diálogo:</h2>
             <div className={styles.speedOptions}>
               {DIALOGUE_SPEED_LIST.map((speed, index) => {
-                const isSelected = selectedColumn === 3 && index === selectedIndex;
+                const isSelected = selectedColumn === 1 && index === selectedIndex;
                 return (
                   <div
                     key={speed}
@@ -140,7 +140,7 @@ export function Config() {
           <div className={styles.flexColumn}>
             <h2 className={styles.marginTop}>Sons:</h2>
             <div className={styles.volumeContainer}>
-              {selectedColumn === 0 && <span className={styles.cursor}>▼</span>}
+              {selectedColumn === 3 && <span className={styles.cursor}>▼</span>}
 
               <h2 className={styles.marginTop}>Efeitos Sonoros: {sfxVolume}</h2>
 
@@ -153,7 +153,7 @@ export function Config() {
               </div>
             </div>
             <div className={styles.volumeContainer}>
-              {selectedColumn === 1 && <span className={styles.cursor}>▼</span>}
+              {selectedColumn === 4 && <span className={styles.cursor}>▼</span>}
 
               <h2 className={styles.marginTop}>Música de Fundo: {bgmVolume}</h2>
               <div className={styles.flexRow}>

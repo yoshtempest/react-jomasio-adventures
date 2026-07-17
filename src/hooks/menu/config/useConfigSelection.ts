@@ -16,9 +16,9 @@ const COLUMN_COUNT = 5;
 const BOTTOM_COUNT = 4;
 
 function getColumnMaxIndex(column: number): number {
+  if (column === 0) return DIFFICULTY.length;
+  if (column === 1) return DIALOGUE_SPEED_LIST.length;
   if (column === 2) return BOTTOM_COUNT;
-  if (column === 3) return DIALOGUE_SPEED_LIST.length;
-  if (column === 4) return DIFFICULTY.length;
   return 1;
 }
 
@@ -147,12 +147,12 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
 
         const col = selectedColumnRef.current;
 
-        if (col === 0) {
+        if (col === 3) {
           setSfxVolumeRef.current(Math.min(sfxVolume + 10, 100));
           return;
         }
 
-        if (col === 1) {
+        if (col === 4) {
           setBgmVolumeRef.current(Math.min(bgmVolume + 10, 100));
           return;
         }
@@ -169,12 +169,12 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
 
         const col = selectedColumnRef.current;
 
-        if (col === 0) {
+        if (col === 3) {
           setSfxVolumeRef.current(Math.max(sfxVolume - 10, 0));
           return;
         }
 
-        if (col === 1) {
+        if (col === 4) {
           setBgmVolumeRef.current(Math.max(bgmVolume - 10, 0));
           return;
         }
@@ -195,6 +195,16 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
 
         const col = selectedColumnRef.current;
         const idx = selectedIndexRef.current;
+
+        if (col === 0) {
+          const selected = getSelected(DIFFICULTY, idx);
+          setDifficultyRef.current(selected);
+        }
+
+        if (col === 1) {
+          const selected = getSelected(DIALOGUE_SPEED_LIST, idx);
+          setDialogueSpeedRef.current(selected);
+        }
 
         if (col === 2) {
           if (idx === 0) {
@@ -218,16 +228,6 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
               setShowNotAvailableMessageRef.current(true);
             }
           }
-        }
-
-        if (col === 3) {
-          const selected = getSelected(DIALOGUE_SPEED_LIST, idx);
-          setDialogueSpeedRef.current(selected);
-        }
-
-        if (col === 4) {
-          const selected = getSelected(DIFFICULTY, idx);
-          setDifficultyRef.current(selected);
         }
 
         onConfirmRef.current?.();
