@@ -196,9 +196,7 @@ export function GameControlsProvider({ children }: Props) {
 
         case "Escape":
           if (isNavOpenRef.current && screenRef.current === "config") {
-            if (player.mode !== "battle") {
-              closeNavbarRef.current();
-            }
+            closeNavbarRef.current();
           } else {
             openConfigScreenRef.current();
           }
