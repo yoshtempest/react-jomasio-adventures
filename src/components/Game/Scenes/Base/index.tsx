@@ -177,9 +177,8 @@ export function SceneBase({
 
       {player.mode === "map" && (
         <MapOverlay
-          map={scene.map}
-          playerX={player.gridX}
-          playerY={player.gridY}
+          currentRoute={currentRoute}
+          character={player.character}
         />
       )}
 
