@@ -11,17 +11,20 @@ import {
   getTotalVampirism,
   getTotalReflect,
 } from "@/gameRules/battle/equipment";
-import { getRankMultiplier } from "@/gameRules/rank";
+import { formatRank, getRank, getRankMultiplier } from "@/gameRules/rank";
 import { getHungerMultiplier } from "@/contexts/CharacterProgressContext";
 import { getNpcDisplayName } from "@/utils/types/npc/npcNames";
 import { CLASS_DATA } from "@/data/npc/class";
-import { npcPath } from "@/utils/paths";
+import { npcPath, playerPath } from "@/utils/paths";
 
 export function BattleTab() {
   const battleInfoCtx = useBattleInfo();
   const { player } = usePlayer();
   const { progress } = useCharacterProgress();
   const { getBonus } = useTitles();
+
+  const playerRank = formatRank(getRank(progress[player.character]?.level ?? 1));
+  const playerName = localStorage.getItem("playerName") || "Protagonista";
 
   const battleInfo = battleInfoCtx?.battleInfo;
 
@@ -79,16 +82,14 @@ export function BattleTab() {
         <div className={styles.battleCard}>
           <div className={styles.battleCardHeader}>
             <img
-              src={npcPath(spriteSrc)}
-              alt={getNpcDisplayName(battleInfo.npcType)}
+              src={playerPath(`/${player.character}/default.svg`)}
+              alt={playerName}
               className={styles.npcSprite}
             />
             <div>
-              <h3>{getNpcDisplayName(battleInfo.npcType)}</h3>
-              <span className={styles.npcClassLabel} style={{ color: classData.color }}>
-                {classData.label}
-              </span>
+              <h3>{playerName}</h3>
               <p className={styles.statLine}>Nível: {battleInfo.npcLevel}</p>
+              <span className={styles.playerRank}>{playerRank}</span>
             </div>
           </div>
           <div className={styles.statGrid}>
@@ -144,6 +145,7 @@ export function BattleTab() {
                 Classe: <span style={{ color: classData.color }}>{classData.label}</span>
               </span>
               <p className={styles.statLine}>Nível: {battleInfo.npcLevel}</p>
+              <span className={styles.npcRank}>{playerRank}</span>
             </div>
           </div>
           <div className={styles.statGrid}>

@@ -17,6 +17,18 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, var(--small));
   gap: var(--size-6);
+  animation: mapOpen 0.4s ease-out forwards;
+}
+
+@keyframes mapOpen {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
 }
 
 .cell {

@@ -26,10 +26,17 @@
 }
 
 .npcSprite {
-  width: 4vw;
-  height: 4vw;
+  width: 8vw;
+  height: 8vw;
   object-fit: contain;
   image-rendering: pixelated;
+}
+
+.playerRank,
+.npcRank {
+  font-size: var(--small);
+  color: var(--accent-color);
+  margin: 0;
 }
 
 .npcClassLabel {
