@@ -13,7 +13,7 @@ import { FilterBar } from "./FilterBar";
 import { ListItem } from "./ListItem";
 import { RewardsView } from "./RewardsView";
 import { activateXpBuff, POTION_CONFIG } from "@/utils/buffs/xpBuff";
-import { FOOD_RESTORE } from "@/gameRules/items/useItem";
+import { FOOD_RESTORE, useItemEffect } from "@/gameRules/items/useItem";
 import { useAudio } from "@/contexts/AudioContext";
 import { sfx } from "@/utils/paths";
 import { FILTER_LABELS } from "@/data/inventory/labels";
@@ -94,6 +94,28 @@ export function Inventory() {
   const { sfxVolume } = useAudio();
   const { playMove, playSelect } = useMenuSFX();
 
+  const sfxVolumeRef = useRef(sfxVolume);
+  sfxVolumeRef.current = sfxVolume;
+
+  const sfxPoolRef = useRef(new Map<string, HTMLAudioElement>());
+
+  const playSFX = (src: string, volume = 1) => {
+    const resolved = `${import.meta.env.BASE_URL}${src.replace(/^\//, "")}`;
+    let audio = sfxPoolRef.current.get(resolved);
+
+    if (!audio) {
+      audio = new Audio(resolved);
+      sfxPoolRef.current.set(resolved, audio);
+    }
+
+    audio.pause();
+    audio.currentTime = 0;
+    audio.volume = volume * (sfxVolumeRef.current / 100);
+    audio.play().catch(() => {});
+  };
+
+  const { getEffect } = useItemEffect({ playSFX });
+
   const [rewardOptionIndex, setRewardOptionIndex] = useState(0);
   const [rejectedIndex, setRejectedIndex] = useState<number | null>(null);
   const [showNoKeyPopup, setShowNoKeyPopup] = useState(false);
@@ -125,6 +147,7 @@ export function Inventory() {
 
   const isChestSelected = selectedItemData?.type === "chest";
   const isConsumableSelected = selectedItemData?.type === "consumable" || selectedItemData?.type === "food";
+  const isMapSelected = selectedItemData?.type === "map";
 
   const tier = isChestSelected && selectedItem
     ? (selectedItem.id.replace("_chest", "") as NPCClass)
@@ -219,6 +242,14 @@ export function Inventory() {
           return true;
         }
 
+        if (isMapSelected) {
+          const effect = getEffect(selectedItem.id);
+          if (effect) {
+            effect();
+            return true;
+          }
+        }
+
         setRejectedIndex(selectedIndex);
         setTimeout(() => setRejectedIndex(null), 1500);
         return true;
@@ -230,11 +261,13 @@ export function Inventory() {
   }, [
     isChestSelected,
     isConsumableSelected,
+    isMapSelected,
     selectedItem,
     keyId,
     items,
     selectedIndex,
     openPlayerChest,
+    getEffect,
     pushControls,
     popControls,
   ]);
