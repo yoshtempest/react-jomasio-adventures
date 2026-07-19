@@ -12,7 +12,7 @@ export default function FirstScreen() {
   useEffect(() => {
     closeNavbar();
     setMode("explore")
-  }, [closeNavbar]);
+  }, [closeNavbar, setMode]);
 
   return (
     <div className="Master" style={{ backgroundImage: `url(${sceneBackgrounds.FirstScreen})` }}>

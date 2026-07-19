@@ -99,7 +99,7 @@ export function SceneBase({
   useEffect(() => {
     closeNavbar();
     setMode("explore")
-  }, [closeNavbar]);
+  }, [closeNavbar, setMode]);
 
   if (!scene) {
     return <div>Scene não encontrada</div>;
