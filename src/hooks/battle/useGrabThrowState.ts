@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback } from "react";
+import { BATTLE_LIMITS } from "@/utils/types/player/movement";
 
 export function useGrabThrowState() {
   const [isGrabbed, setIsGrabbed] = useState(false);
@@ -38,7 +39,6 @@ export function useGrabThrowState() {
       setIsThrown(true);
       setPlayer((p) => {
         const dirAway = npcX > p.x ? -1 : 1;
-        const { BATTLE_LIMITS } = require("@/utils/types/player/movement");
         const throwToX = Math.max(
           BATTLE_LIMITS.minX,
           Math.min(BATTLE_LIMITS.maxX, p.x + dirAway * 300),

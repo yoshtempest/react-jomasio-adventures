@@ -272,7 +272,7 @@ export function useKeyboardMovement() {
 
     pushControlsRef.current(controls);
     return () => popControlsRef.current();
-  }, []);
+  }, [tryDash]);
 
   return {
     pressed,
