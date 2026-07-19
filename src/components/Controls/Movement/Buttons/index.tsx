@@ -11,7 +11,12 @@ type Props = {
   onReleaseDir?: (dir: Direction) => void;
 };
 
-export function ButtonsMovement({ activeControls, pressed, onPressDir, onReleaseDir }: Props) {
+export function ButtonsMovement({
+  activeControls,
+  pressed,
+  onPressDir,
+  onReleaseDir,
+}: Props) {
   const holdRef = useRef<NodeJS.Timeout | null>(null);
   const heldDir = useRef<Direction | null>(null);
 

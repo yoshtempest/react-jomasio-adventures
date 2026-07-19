@@ -14,7 +14,8 @@ export function useNavbarMenu() {
   const { setMode } = usePlayer();
   const { playMove, playSelect, playClose } = useMenuSFX();
 
-  const { selectedIndex, setSelectedIndex, selectedIndexRef } = useSelectableIndex();
+  const { selectedIndex, setSelectedIndex, selectedIndexRef } =
+    useSelectableIndex();
 
   const onUp = useStableCallback(() => {
     if (screen !== "menu") return true;

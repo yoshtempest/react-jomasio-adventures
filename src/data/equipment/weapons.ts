@@ -85,7 +85,7 @@ export const WEAPONS: Equipment[] = [
     rank: 7,
     stats: { strength: 2, intelligence: 3, vampirism: 2 },
   },
-    {
+  {
     id: "weapon_cetro_real",
     name: "Cetro Grande",
     slot: "weapon",

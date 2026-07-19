@@ -14,7 +14,6 @@ import {
 } from "./state";
 import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
 
-
 type Phase1Result = { x: number; y: number; state?: NPCBattleState["state"] };
 
 function getJumpState(elapsed: number): NPCBattleState["state"] {
@@ -93,7 +92,9 @@ export function hungryKingPhase1(
   ai.lastSpriteState = "jumpAttack";
   ctx.playSound?.("boom");
 
-  if (Math.hypot(ai.jumpTargetX - targetX, BATTLE_SPAWN.npc.y - targetY) < 150) {
+  if (
+    Math.hypot(ai.jumpTargetX - targetX, BATTLE_SPAWN.npc.y - targetY) < 150
+  ) {
     onMeleeHit();
   }
 

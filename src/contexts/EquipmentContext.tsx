@@ -13,10 +13,7 @@ import type {
 import { EQUIPMENT_SLOTS } from "@/utils/types/player/equipment";
 import { getEquipmentById } from "@/data/equipment";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
-import {
-  buildSetItemIds,
-  addItemBonus,
-} from "@/gameRules/battle/equipment";
+import { buildSetItemIds, addItemBonus } from "@/gameRules/battle/equipment";
 import {
   loadAllData,
   saveAllData,
@@ -121,8 +118,12 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
 
       const setItemIds = buildSetItemIds(data.equipped);
       const bonus = {
-        hp: 0, strength: 0, intelligence: 0,
-        shield: 0, vampirism: 0, reflect: 0,
+        hp: 0,
+        strength: 0,
+        intelligence: 0,
+        shield: 0,
+        vampirism: 0,
+        reflect: 0,
         tenacity: 0,
       };
 
@@ -234,13 +235,14 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
 
   const addDrop = useCallback(
     (character: CharacterId, id: EquipmentId, enhance: number = 0) => {
-      setAllData((prev) =>
-        addDropOp(
-          prev as Record<string, CharacterEquipmentData>,
-          character,
-          id,
-          enhance,
-        ) as Record<CharacterId, CharacterEquipmentData>,
+      setAllData(
+        (prev) =>
+          addDropOp(
+            prev as Record<string, CharacterEquipmentData>,
+            character,
+            id,
+            enhance,
+          ) as Record<CharacterId, CharacterEquipmentData>,
       );
     },
     [],

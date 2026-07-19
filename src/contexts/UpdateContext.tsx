@@ -1,4 +1,12 @@
-import { createContext, useContext, useEffect, useState, useRef, useCallback, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useRef,
+  useCallback,
+  type ReactNode,
+} from "react";
 import { registerSW } from "virtual:pwa-register";
 
 export type UpdateStatus = "idle" | "checking" | "uptodate" | "error";
@@ -18,7 +26,9 @@ const UpdateContext = createContext<UpdateContextType>({
 export function UpdateProvider({ children }: { children: ReactNode }) {
   const [status, setStatus] = useState<UpdateStatus>("idle");
   const [lastChecked, setLastChecked] = useState<number | null>(null);
-  const updateFnRef = useRef<((reloadPage?: boolean) => Promise<void>) | null>(null);
+  const updateFnRef = useRef<((reloadPage?: boolean) => Promise<void>) | null>(
+    null,
+  );
 
   useEffect(() => {
     const updateFn = registerSW({
@@ -41,7 +51,8 @@ export function UpdateProvider({ children }: { children: ReactNode }) {
     setLastChecked(Date.now());
 
     if (updateFnRef.current) {
-      updateFnRef.current()
+      updateFnRef
+        .current()
         .then(() => setStatus("uptodate"))
         .catch(() => setStatus("error"));
     } else {

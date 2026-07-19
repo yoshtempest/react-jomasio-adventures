@@ -10,24 +10,88 @@ type ChestDropTable = {
 
 export const CHEST_DROP_TABLES: Record<NPCClass, ChestDropTable> = {
   common: {
-    materialWeights: { hungry_essence: 70, figurant_totem: 30, xp_potion_common: 15 },
-    equipmentRankWeights: { 1: 50, 2: 30, 3: 13, 4: 5, 5: 2, 6: 0, 7: 0, 8: 0, 9: 0, 0: 0, EX: 0 },
+    materialWeights: {
+      hungry_essence: 70,
+      figurant_totem: 30,
+      xp_potion_common: 15,
+    },
+    equipmentRankWeights: {
+      1: 50,
+      2: 30,
+      3: 13,
+      4: 5,
+      5: 2,
+      6: 0,
+      7: 0,
+      8: 0,
+      9: 0,
+      0: 0,
+      EX: 0,
+    },
   },
   rare: {
     materialWeights: { rare_scale: 60, goat_horn: 40, xp_potion_rare: 12 },
-    equipmentRankWeights: { 1: 15, 2: 30, 3: 25, 4: 15, 5: 10, 6: 4, 7: 1, 8: 0, 9: 0, 0: 0, EX: 0 },
+    equipmentRankWeights: {
+      1: 15,
+      2: 30,
+      3: 25,
+      4: 15,
+      5: 10,
+      6: 4,
+      7: 1,
+      8: 0,
+      9: 0,
+      0: 0,
+      EX: 0,
+    },
   },
   epic: {
     materialWeights: { epic_core: 100, xp_potion_epic: 10 },
-    equipmentRankWeights: { 1: 5, 2: 10, 3: 20, 4: 20, 5: 20, 6: 12, 7: 8, 8: 4, 9: 1, 0: 0, EX: 0 },
+    equipmentRankWeights: {
+      1: 5,
+      2: 10,
+      3: 20,
+      4: 20,
+      5: 20,
+      6: 12,
+      7: 8,
+      8: 4,
+      9: 1,
+      0: 0,
+      EX: 0,
+    },
   },
   boss: {
     materialWeights: { boss_soul: 100, xp_potion_boss: 8 },
-    equipmentRankWeights: { 1: 0, 2: 5, 3: 10, 4: 15, 5: 20, 6: 18, 7: 15, 8: 10, 9: 5, 0: 2, EX: 0 },
+    equipmentRankWeights: {
+      1: 0,
+      2: 5,
+      3: 10,
+      4: 15,
+      5: 20,
+      6: 18,
+      7: 15,
+      8: 10,
+      9: 5,
+      0: 2,
+      EX: 0,
+    },
   },
   legendary: {
     materialWeights: { legendary_fragment: 100, xp_potion_legendary: 5 },
-    equipmentRankWeights: { 1: 0, 2: 0, 3: 2, 4: 5, 5: 10, 6: 15, 7: 20, 8: 18, 9: 15, 0: 10, EX: 5 },
+    equipmentRankWeights: {
+      1: 0,
+      2: 0,
+      3: 2,
+      4: 5,
+      5: 10,
+      6: 15,
+      7: 20,
+      8: 18,
+      9: 15,
+      0: 10,
+      EX: 5,
+    },
   },
 };
 
@@ -83,7 +147,11 @@ export function openChest(chestTier: NPCClass): ChestDropResult {
           const itemDef = ITEMS[matId as keyof typeof ITEMS];
           if (itemDef) {
             const qty = Math.floor(Math.random() * 3) + 1;
-            result.materials.push({ id: matId as string, name: itemDef.name, qty });
+            result.materials.push({
+              id: matId as string,
+              name: itemDef.name,
+              qty,
+            });
           }
         }
       }
@@ -92,7 +160,8 @@ export function openChest(chestTier: NPCClass): ChestDropResult {
       if (!rank) continue;
 
       const rankId = rank as unknown as EquipmentRank;
-      if (chestTier !== "legendary" && (rankId === "EX" || rankId === 0)) continue;
+      if (chestTier !== "legendary" && (rankId === "EX" || rankId === 0))
+        continue;
 
       const slot = SLOTS[Math.floor(Math.random() * SLOTS.length)];
       const candidates = getEquipmentBySlotAndRank(slot, rankId);

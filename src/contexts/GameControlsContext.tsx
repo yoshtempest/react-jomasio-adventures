@@ -30,7 +30,8 @@ const GameControlsContext = createContext<ControlsContextType | null>(null);
 export function GameControlsProvider({ children }: Props) {
   const [stack, setStack] = useState<GameControlLayer[]>([]);
   const { player, setMode } = usePlayer();
-  const { openNavbar, closeNavbar, openConfigScreen, isNavOpen, screen } = useNavbar();
+  const { openNavbar, closeNavbar, openConfigScreen, isNavOpen, screen } =
+    useNavbar();
   const closeNavbarRef = useRef(closeNavbar);
   closeNavbarRef.current = closeNavbar;
   const openConfigScreenRef = useRef(openConfigScreen);

@@ -10,9 +10,7 @@ export const ATTACK_SOUNDS: Partial<
 > = {
   eduarda: {
     volume: 0.2,
-    sounds: [
-      soundEffectPath("/player/eduarda/normalAttack.mp3"),
-    ],
+    sounds: [soundEffectPath("/player/eduarda/normalAttack.mp3")],
   },
 
   marcelo: {

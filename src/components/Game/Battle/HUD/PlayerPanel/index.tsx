@@ -57,10 +57,7 @@ export function PlayerHUDPanel({
                 />
               </div>
             )}
-            <BlockGauge
-              blockGauge={blockGauge}
-              blockLimit={blockLimit}
-            />
+            <BlockGauge blockGauge={blockGauge} blockLimit={blockLimit} />
             {petHP !== undefined && petMaxHp !== undefined && (
               <div className={styles.petTrack}>
                 <span className={styles.petLabel}>Pet</span>
@@ -70,14 +67,13 @@ export function PlayerHUDPanel({
                     width: `${(petHP / petMaxHp) * 100}%`,
                   }}
                 />
-                <span className={styles.petText}>{petHP}/{petMaxHp}</span>
+                <span className={styles.petText}>
+                  {petHP}/{petMaxHp}
+                </span>
               </div>
             )}
           </div>
-          <Deliciometro
-            delicia={delicia}
-            hitsToSpecial={hitsToSpecial}
-          />
+          <Deliciometro delicia={delicia} hitsToSpecial={hitsToSpecial} />
         </div>
       </div>
     </div>

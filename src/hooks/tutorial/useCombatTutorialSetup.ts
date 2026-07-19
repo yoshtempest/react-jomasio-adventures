@@ -9,7 +9,8 @@ interface CombatTutorialSetupLayout {
 }
 
 export function useCombatTutorialSetup(layout: CombatTutorialSetupLayout) {
-  const { setMode, setBattleCollision, attack, special, blockStart, blockEnd } = usePlayer();
+  const { setMode, setBattleCollision, attack, special, blockStart, blockEnd } =
+    usePlayer();
   const { pushControls, popControls } = useGameControls();
   const { TILE_SIZE, scaleX, scaleY } = layout;
 

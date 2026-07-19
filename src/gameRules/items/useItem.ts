@@ -1,6 +1,9 @@
 import { useNavigate } from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";
-import { useCharacterProgress, MAX_HUNGER } from "@/contexts/CharacterProgressContext";
+import {
+  useCharacterProgress,
+  MAX_HUNGER,
+} from "@/contexts/CharacterProgressContext";
 import { useInventory } from "@/contexts/InventoryContext";
 import { activateXpBuff, POTION_CONFIG } from "@/utils/buffs/xpBuff";
 
@@ -63,7 +66,10 @@ export function useItemEffect({ playSFX }: Props) {
       case "xp_potion_boss":
       case "xp_potion_legendary":
         return () => {
-          playSFX?.("/assets/songs/soundEffects/player/drinkingPotion.mp3", 0.8);
+          playSFX?.(
+            "/assets/songs/soundEffects/player/drinkingPotion.mp3",
+            0.8,
+          );
           const cfg = POTION_CONFIG[itemId];
           if (cfg) {
             activateXpBuff(cfg.durationMs, cfg.multiplier, itemId);

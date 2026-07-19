@@ -9,7 +9,9 @@
 
 .fill {
   height: 100%;
-  transition: width 0.2s, background 0.2s;
+  transition:
+    width 0.2s,
+    background 0.2s;
 }
 
 .text {

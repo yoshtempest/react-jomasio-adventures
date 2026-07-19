@@ -6,10 +6,7 @@ type StatItemProps = {
   value: ReactNode;
 };
 
-export function StatItem({
-  label,
-  value,
-}: StatItemProps) {
+export function StatItem({ label, value }: StatItemProps) {
   return (
     <>
       <div className={styles.statItem}>

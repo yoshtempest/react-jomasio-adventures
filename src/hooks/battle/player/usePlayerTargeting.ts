@@ -49,7 +49,13 @@ export function useBuildTargetList(
         target.y,
         player.battleDirection,
       ),
-    [player.x, player.y, player.state, player.character, player.battleDirection],
+    [
+      player.x,
+      player.y,
+      player.state,
+      player.character,
+      player.battleDirection,
+    ],
   );
 
   return { getTargets, isInAttackRange };

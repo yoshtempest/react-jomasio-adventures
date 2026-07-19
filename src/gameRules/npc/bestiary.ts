@@ -2,7 +2,11 @@ import { NPCS } from "@/data/npc/npc";
 import { TITLES } from "@/data/titles";
 import { CRAFT_DROP_TABLES } from "@/data/items/crafting";
 import { DROP_CONFIG } from "@/data/equipment/drops";
-import { COIN_REWARDS, CHEST_DROP_CHANCE, KEY_DROP_CHANCE } from "@/data/battle/drops";
+import {
+  COIN_REWARDS,
+  CHEST_DROP_CHANCE,
+  KEY_DROP_CHANCE,
+} from "@/data/battle/drops";
 import { ITEMS } from "@/data/items";
 
 export function getNpcClass(npcType: string): NPCClass | null {
@@ -14,9 +18,15 @@ export function getLinkedTitles(npcType: string, npcClass: NPCClass): string[] {
   for (const titleId of Object.keys(TITLES)) {
     const def = TITLES[titleId];
     if (!def) continue;
-    if (def.condition.type === "killNpcType" && npcType.startsWith(def.condition.npcTypePrefix)) {
+    if (
+      def.condition.type === "killNpcType" &&
+      npcType.startsWith(def.condition.npcTypePrefix)
+    ) {
       linked.push(def.name);
-    } else if (def.condition.type === "killNpcClass" && npcClass === def.condition.npcClass) {
+    } else if (
+      def.condition.type === "killNpcClass" &&
+      npcClass === def.condition.npcClass
+    ) {
       linked.push(def.name);
     } else if (def.condition.type === "killTotal") {
       linked.push(def.name);
@@ -38,7 +48,10 @@ export function getDropItems(npcClass: NPCClass, npcType: string) {
     for (const entry of craftTable.always) {
       const item = ITEMS[entry.id as keyof typeof ITEMS];
       if (item) {
-        drops.push({ name: item.name, chance: `${(entry.chance * 100).toFixed(0)}%` });
+        drops.push({
+          name: item.name,
+          chance: `${(entry.chance * 100).toFixed(0)}%`,
+        });
       }
     }
     if (craftTable.perNpcType) {
@@ -47,7 +60,10 @@ export function getDropItems(npcClass: NPCClass, npcType: string) {
         for (const entry of typeDrops) {
           const item = ITEMS[entry.id as keyof typeof ITEMS];
           if (item) {
-            drops.push({ name: item.name, chance: `${(entry.chance * 100).toFixed(0)}%` });
+            drops.push({
+              name: item.name,
+              chance: `${(entry.chance * 100).toFixed(0)}%`,
+            });
           }
         }
       }
@@ -56,14 +72,20 @@ export function getDropItems(npcClass: NPCClass, npcType: string) {
 
   const dropConfig = DROP_CONFIG[npcClass as NPCClass];
   if (dropConfig) {
-    drops.push({ name: "Equipamentos", chance: `${(dropConfig.baseChance * 100).toFixed(0)}%` });
+    drops.push({
+      name: "Equipamentos",
+      chance: `${(dropConfig.baseChance * 100).toFixed(0)}%`,
+    });
   }
 
   const chestChance = CHEST_DROP_CHANCE[npcClass as NPCClass];
   if (chestChance) {
     const chestItem = ITEMS[`${npcClass}_chest` as keyof typeof ITEMS];
     if (chestItem) {
-      drops.push({ name: chestItem.name, chance: `${(chestChance * 100).toFixed(0)}%` });
+      drops.push({
+        name: chestItem.name,
+        chance: `${(chestChance * 100).toFixed(0)}%`,
+      });
     }
   }
 
@@ -71,7 +93,10 @@ export function getDropItems(npcClass: NPCClass, npcType: string) {
   if (keyChance) {
     const keyItem = ITEMS[`${npcClass}_key` as keyof typeof ITEMS];
     if (keyItem) {
-      drops.push({ name: keyItem.name, chance: `${(keyChance * 100).toFixed(0)}%` });
+      drops.push({
+        name: keyItem.name,
+        chance: `${(keyChance * 100).toFixed(0)}%`,
+      });
     }
   }
 

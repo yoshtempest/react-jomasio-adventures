@@ -52,7 +52,10 @@ export function useBattleStats({
   }, [getBonus]);
 
   const totalArmor = useMemo(() => {
-    return getTotalArmor(player.character, baseChar.stats.resistance) + titleBonus.armor;
+    return (
+      getTotalArmor(player.character, baseChar.stats.resistance) +
+      titleBonus.armor
+    );
   }, [player.character, baseChar.stats.resistance, titleBonus.armor]);
 
   const totalShield = useMemo(() => {
@@ -87,11 +90,13 @@ export function useBattleStats({
       strength:
         (baseChar.stats.strength +
           equipmentBonus.strength +
-          titleBonus.strength) * allStatsPct,
+          titleBonus.strength) *
+        allStatsPct,
       intelligence:
         (baseChar.stats.intelligence +
           equipmentBonus.intelligence +
-          titleBonus.intelligence) * allStatsPct,
+          titleBonus.intelligence) *
+        allStatsPct,
       resistance: baseChar.stats.resistance * allStatsPct,
       tenacity: baseChar.stats.tenacity + (equipmentBonus.tenacity ?? 0),
       points: baseChar.stats.points,
@@ -102,8 +107,12 @@ export function useBattleStats({
       stats: {
         hp: Math.round(base.hp * rankMultiplier * hungerMultiplier),
         strength: Math.round(base.strength * rankMultiplier * hungerMultiplier),
-        intelligence: Math.round(base.intelligence * rankMultiplier * hungerMultiplier),
-        resistance: Math.round(base.resistance * rankMultiplier * hungerMultiplier),
+        intelligence: Math.round(
+          base.intelligence * rankMultiplier * hungerMultiplier,
+        ),
+        resistance: Math.round(
+          base.resistance * rankMultiplier * hungerMultiplier,
+        ),
         tenacity: base.tenacity,
         points: base.points,
       },

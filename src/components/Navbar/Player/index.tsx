@@ -30,7 +30,11 @@ import { StatRow } from "./StatRow";
 import { PlayerRewards } from "./PlayerRewards";
 import { DailyRewardSection } from "./DailyReward";
 import { MonthlyPassSection } from "./MonthlyPass";
-import { getCharacterStats, getProgressStat, getSummaryStats } from "@/data/player/stats";
+import {
+  getCharacterStats,
+  getProgressStat,
+  getSummaryStats,
+} from "@/data/player/stats";
 
 const TITLE_IDS = Object.keys(TITLES);
 const FLAG_IDS = Object.keys(FLAGS) as FlagId[];
@@ -40,16 +44,18 @@ export function Player() {
   const claimRewardRef = useRef<(index: number) => boolean>(() => false);
   const rewardsCountRef = useRef(0);
   const { progress } = useCharacterProgress();
-  const { playTime, battleTime, getTotalPlayTime, getTotalBattleTime, loginDays } = usePlayTime();
+  const {
+    playTime,
+    battleTime,
+    getTotalPlayTime,
+    getTotalBattleTime,
+    loginDays,
+  } = usePlayTime();
   const { bestiary } = useBestiary();
   const { titlesData } = useTitles();
   const { flags } = useFlags();
-  const {
-    selectedChar,
-    isSummaryView,
-    subView,
-    selectedRewardIndex,
-  } = usePlayerMenu(true, scrollRef, claimRewardRef, rewardsCountRef);
+  const { selectedChar, isSummaryView, subView, selectedRewardIndex } =
+    usePlayerMenu(true, scrollRef, claimRewardRef, rewardsCountRef);
   const { rewards, claim } = useRewards();
   const {
     canClaim: dailyCanClaim,
@@ -72,15 +78,22 @@ export function Player() {
   const playerName = localStorage.getItem("playerName") || "Protagonista";
 
   const totalTitles = TITLE_IDS.length;
-  const acquiredTitles = TITLE_IDS.filter((id) => (titlesData.progress[id]?.level ?? 0) > 0).length;
+  const acquiredTitles = TITLE_IDS.filter(
+    (id) => (titlesData.progress[id]?.level ?? 0) > 0,
+  ).length;
 
   const totalNpcs = BESTIARY_NPC_ORDER.length;
-  const encounteredNpcs = BESTIARY_NPC_ORDER.filter((id) => bestiary[id]?.encountered).length;
+  const encounteredNpcs = BESTIARY_NPC_ORDER.filter(
+    (id) => bestiary[id]?.encountered,
+  ).length;
 
   const totalStoryFlags = FLAG_IDS.length;
   const completedFlags = FLAG_IDS.filter((id) => flags.includes(id)).length;
 
-  const maxLevelReached = Math.min(Math.max(...CHARACTERS.map((char) => progress[char]?.level ?? 0)), 100);
+  const maxLevelReached = Math.min(
+    Math.max(...CHARACTERS.map((char) => progress[char]?.level ?? 0)),
+    100,
+  );
 
   const sideQuestIds = Object.keys(SIDE_QUESTS);
   const completedSideQuests = sideQuestIds.filter((id) => {
@@ -104,8 +117,14 @@ export function Player() {
     return opt?.name ?? char;
   }
 
-  const totalCoins = CHARACTERS.reduce((sum, c) => sum + (progress[c]?.coins ?? 0), 0);
-  const totalHyperCoins = CHARACTERS.reduce((sum, c) => sum + (progress[c]?.hyperCoins ?? 0), 0);
+  const totalCoins = CHARACTERS.reduce(
+    (sum, c) => sum + (progress[c]?.coins ?? 0),
+    0,
+  );
+  const totalHyperCoins = CHARACTERS.reduce(
+    (sum, c) => sum + (progress[c]?.hyperCoins ?? 0),
+    0,
+  );
 
   const summaryStats = getSummaryStats({
     totalPlayTime,
@@ -173,86 +192,88 @@ export function Player() {
           onClaim={claim}
         />
       ) : (
-      <div ref={scrollRef} className={styles.container}>
-        <div className={styles.charSelectRow}>
-          <span
-            className={`${styles.charBtn} ${
-              isSummaryView ? styles.charBtnActive : ""
-            }`}
-          >
-            Resumo
-          </span>
-          {CHARACTERS.map((char) => (
+        <div ref={scrollRef} className={styles.container}>
+          <div className={styles.charSelectRow}>
             <span
-              key={char}
               className={`${styles.charBtn} ${
-                !isSummaryView && char === selectedChar ? styles.charBtnActive : ""
+                isSummaryView ? styles.charBtnActive : ""
               }`}
             >
-              {charLabel(char)}
+              Resumo
             </span>
-          ))}
-        </div>
+            {CHARACTERS.map((char) => (
+              <span
+                key={char}
+                className={`${styles.charBtn} ${
+                  !isSummaryView && char === selectedChar
+                    ? styles.charBtnActive
+                    : ""
+                }`}
+              >
+                {charLabel(char)}
+              </span>
+            ))}
+          </div>
 
-        {isSummaryView ? (
+          {isSummaryView ? (
+            <div className={styles.section}>
+              <div className={styles.sectionTitle}>Resumo</div>
+              {summaryStats.map((stat) => (
+                <StatRow
+                  key={stat.label}
+                  label={stat.label}
+                  value={stat.value}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className={styles.section}>
+              <div className={styles.sectionTitle}>
+                {charLabel(selectedChar)}
+              </div>
+              {characterStats.map((stat) => (
+                <StatRow
+                  key={stat.label}
+                  label={stat.label}
+                  value={stat.value}
+                />
+              ))}
+            </div>
+          )}
+
           <div className={styles.section}>
-            <div className={styles.sectionTitle}>Resumo</div>
-            {summaryStats.map((stat) => (
+            <div className={styles.sectionTitle}>Progresso</div>
+
+            {progressStats.map((stat) => (
               <StatRow
                 key={stat.label}
                 label={stat.label}
                 value={stat.value}
+                progress={stat.progress}
               />
             ))}
           </div>
-        ) : (
-          <div className={styles.section}>
-            <div className={styles.sectionTitle}>{charLabel(selectedChar)}</div>
-            {characterStats.map((stat) => (
-              <StatRow
-                key={stat.label}
-                label={stat.label}
-                value={stat.value}
-              />
-            ))}
-          </div>
-        )}
 
-        <div className={styles.section}>
-          <div className={styles.sectionTitle}>Progresso</div>
+          <button className={styles.rewardsButton}>Recompensas</button>
 
-          {progressStats.map((stat) => (
-            <StatRow
-              key={stat.label}
-              label={stat.label}
-              value={stat.value}
-              progress={stat.progress}
-            />
-          ))}
+          <DailyRewardSection
+            canClaim={dailyCanClaim}
+            timer={dailyTimer}
+            hyperCoins={dailyHyperCoins}
+            coinsMin={dailyCoinsMin}
+            coinsMax={dailyCoinsMax}
+            onClaim={claimDaily}
+          />
+
+          <MonthlyPassSection
+            currentMonth={currentMonth}
+            completedCount={completedCount}
+            passTotal={passTotal}
+            passPct={passPct}
+            missions={passMissions}
+            onClaimMission={claimPass}
+          />
         </div>
-
-        <button className={styles.rewardsButton}>
-          Recompensas
-        </button>
-
-        <DailyRewardSection
-          canClaim={dailyCanClaim}
-          timer={dailyTimer}
-          hyperCoins={dailyHyperCoins}
-          coinsMin={dailyCoinsMin}
-          coinsMax={dailyCoinsMax}
-          onClaim={claimDaily}
-        />
-
-        <MonthlyPassSection
-          currentMonth={currentMonth}
-          completedCount={completedCount}
-          passTotal={passTotal}
-          passPct={passPct}
-          missions={passMissions}
-          onClaimMission={claimPass}
-        />
-      </div>
       )}
     </div>
   );

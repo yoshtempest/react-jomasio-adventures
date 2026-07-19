@@ -19,7 +19,9 @@ export function usePlayerAnimation(
 
     let duration = current.duration;
     if (player.state === "stun" && tenacityRef.current?.current != null) {
-      duration = Math.round(STUN_BASE_DURATION * (1 - tenacityRef.current.current));
+      duration = Math.round(
+        STUN_BASE_DURATION * (1 - tenacityRef.current.current),
+      );
     }
 
     const timer = setTimeout(() => {

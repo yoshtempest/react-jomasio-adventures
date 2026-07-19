@@ -8,7 +8,11 @@ type Props = {
   selectedColumn: number;
 };
 
-export function DifficultySection({ difficultyList, selectedIndex, selectedColumn }: Props) {
+export function DifficultySection({
+  difficultyList,
+  selectedIndex,
+  selectedColumn,
+}: Props) {
   return (
     <div className={styles.difficultyContainer}>
       <h2 className={styles.marginTop}>Dificuldade:</h2>
@@ -17,9 +21,7 @@ export function DifficultySection({ difficultyList, selectedIndex, selectedColum
         return (
           <div
             key={diff}
-            className={`${styles.item} ${
-              isSelected ? styles.selected : ""
-            }`}
+            className={`${styles.item} ${isSelected ? styles.selected : ""}`}
           >
             {isSelected && <span className={styles.cursor}>▼</span>}
 

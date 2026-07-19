@@ -1,7 +1,8 @@
 import type { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = process.env.JWT_SECRET || "jomasio-secret-key-change-in-production";
+const JWT_SECRET =
+  process.env.JWT_SECRET || "jomasio-secret-key-change-in-production";
 
 export type AuthPayload = {
   userId: number;
@@ -12,7 +13,11 @@ export function signToken(payload: AuthPayload): string {
   return jwt.sign(payload, JWT_SECRET, { expiresIn: "30d" });
 }
 
-export function authMiddleware(req: Request, res: Response, next: NextFunction) {
+export function authMiddleware(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
   const header = req.headers.authorization;
 
   if (!header || !header.startsWith("Bearer ")) {

@@ -18,7 +18,10 @@ export function equipItem(
 
   const next = { ...allData };
   const data = {
-    ...getCharacterData(next as Record<string, CharacterEquipmentData>, character),
+    ...getCharacterData(
+      next as Record<string, CharacterEquipmentData>,
+      character,
+    ),
   };
   const collection = { ...data.collection };
 
@@ -68,7 +71,10 @@ export function unequipItem(
 ): Record<string, CharacterEquipmentData> | null {
   const next = { ...allData };
   const data = {
-    ...getCharacterData(next as Record<string, CharacterEquipmentData>, character),
+    ...getCharacterData(
+      next as Record<string, CharacterEquipmentData>,
+      character,
+    ),
   };
 
   if (slot === "accessory") {
@@ -108,7 +114,10 @@ export function unequipAccessoryAt(
 ): Record<string, CharacterEquipmentData> | null {
   const next = { ...allData };
   const data = {
-    ...getCharacterData(next as Record<string, CharacterEquipmentData>, character),
+    ...getCharacterData(
+      next as Record<string, CharacterEquipmentData>,
+      character,
+    ),
   };
 
   const extras = data.equipped.accessories;
@@ -120,7 +129,10 @@ export function unequipAccessoryAt(
   collection[oldKey] = (collection[oldKey] ?? 0) + 1;
 
   next[character] = {
-    equipped: { ...data.equipped, accessories: extras.filter((_, i) => i !== index) },
+    equipped: {
+      ...data.equipped,
+      accessories: extras.filter((_, i) => i !== index),
+    },
     collection,
   } as CharacterEquipmentData;
   return next;
@@ -135,7 +147,10 @@ export function addDrop(
   const key = colKey(id, enhance);
   const next = { ...allData };
   const data = {
-    ...getCharacterData(next as Record<string, CharacterEquipmentData>, character),
+    ...getCharacterData(
+      next as Record<string, CharacterEquipmentData>,
+      character,
+    ),
   };
   const collection = { ...data.collection };
   collection[key] = (collection[key] ?? 0) + 1;

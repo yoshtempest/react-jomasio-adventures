@@ -1,5 +1,6 @@
 @keyframes bounce {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
@@ -22,7 +23,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
@@ -52,8 +54,14 @@
 }
 
 @keyframes arrowPulse {
-  0%, 100% { opacity: 1; transform: inherit; }
-  50% { opacity: 0.4; }
+  0%,
+  100% {
+    opacity: 1;
+    transform: inherit;
+  }
+  50% {
+    opacity: 0.4;
+  }
 }
 
 .directionArrow {

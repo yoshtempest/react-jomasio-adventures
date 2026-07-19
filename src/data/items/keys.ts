@@ -4,7 +4,8 @@ export const KEYS = createItems({
   director_key: {
     image: "/assets/items/keys/director.svg",
     name: "Chave enferrujada",
-    description: "Uma chave velha e enferrujada. Deve abrir alguma porta por aí.",
+    description:
+      "Uma chave velha e enferrujada. Deve abrir alguma porta por aí.",
     type: "key",
   },
   common_key: {

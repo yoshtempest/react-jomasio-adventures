@@ -12,6 +12,6 @@ export function useGameControlsLayer(
     if (!controls) return;
     pushControls(controls);
     return () => popControls();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 }

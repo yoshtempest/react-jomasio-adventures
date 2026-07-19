@@ -7,7 +7,7 @@
 
 .section {
   padding: var(--fs-500) var(--medium);
-  background: #0a0500;
+  background: var(--background-color);
 }
 
 .darkSection {
@@ -35,8 +35,13 @@
 }
 
 @keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(var(--fs-8)); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(var(--fs-8));
+  }
 }
 
 .bounce {

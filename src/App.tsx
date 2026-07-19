@@ -29,8 +29,7 @@ function App() {
   const { items, setItems, setMaxSlots } = useInventory();
   const { setQuests, refreshDailyWeekly, quests } = useQuests();
 
-  const { chooseClass, setCharacter, player, playerClass } =
-    usePlayer();
+  const { chooseClass, setCharacter, player, playerClass } = usePlayer();
 
   const { getEquippedItem } = useEquipment();
   const location = useLocation();

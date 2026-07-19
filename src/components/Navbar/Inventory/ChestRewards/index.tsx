@@ -1,7 +1,11 @@
 import { useMemo } from "react";
 import type { ChestOpenResult } from "@/hooks/useChestOpening";
 import type { DailyChestResult } from "@/hooks/useDailyChest";
-import { RANK_COLORS, RANK_LABELS, SLOT_LABELS } from "@/utils/types/player/equipment";
+import {
+  RANK_COLORS,
+  RANK_LABELS,
+  SLOT_LABELS,
+} from "@/utils/types/player/equipment";
 import type { EquipmentRank } from "@/utils/types/player/equipment";
 import styles from "./styles.module.css";
 
@@ -52,9 +56,7 @@ export function ChestRewards({
           <h4>Equipamentos</h4>
           {result.equipment.map((eq) => (
             <div key={eq.id} className={styles.dropRow}>
-              <span
-                style={{ color: RANK_COLORS[eq.rank as EquipmentRank] }}
-              >
+              <span style={{ color: RANK_COLORS[eq.rank as EquipmentRank] }}>
                 [{RANK_LABELS[eq.rank as EquipmentRank]}]
               </span>
               <span>{eq.name}</span>

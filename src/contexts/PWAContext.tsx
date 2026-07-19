@@ -72,7 +72,17 @@ export function PWAProvider({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <PWAContext.Provider value={{ canInstall, isInstalled, showInstalledMessage, setShowInstalledMessage, showNotAvailableMessage, setShowNotAvailableMessage, install }}>
+    <PWAContext.Provider
+      value={{
+        canInstall,
+        isInstalled,
+        showInstalledMessage,
+        setShowInstalledMessage,
+        showNotAvailableMessage,
+        setShowNotAvailableMessage,
+        install,
+      }}
+    >
       {children}
     </PWAContext.Provider>
   );

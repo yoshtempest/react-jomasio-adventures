@@ -146,7 +146,9 @@ export function XPBarNotification() {
           style={{ width: `${Math.min(100, displayPct)}%` }}
         />
         <span className={styles.label}>
-          Nv.{displayLevel} — {Math.round(xpNeeded > 0 ? (displayPct / 100) * xpNeeded : 0)}/{xpNeeded} XP
+          Nv.{displayLevel} —{" "}
+          {Math.round(xpNeeded > 0 ? (displayPct / 100) * xpNeeded : 0)}/
+          {xpNeeded} XP
         </span>
       </div>
       {showArrow && (

@@ -42,7 +42,10 @@ export default function CombatTutorial() {
 
   if (!showTutorial) {
     return (
-      <div className="Master" style={{ backgroundImage: `url(${sceneBackgrounds.CombatTutorial})` }}>
+      <div
+        className="Master"
+        style={{ backgroundImage: `url(${sceneBackgrounds.CombatTutorial})` }}
+      >
         <Talking
           name={cutscene.dialogue.name}
           message={cutscene.dialogue.message}
@@ -53,7 +56,10 @@ export default function CombatTutorial() {
   }
 
   return (
-    <div className="Master" style={{ backgroundImage: `url(${sceneBackgrounds.CombatTutorial})` }}>
+    <div
+      className="Master"
+      style={{ backgroundImage: `url(${sceneBackgrounds.CombatTutorial})` }}
+    >
       <CombatTutorialInner />
     </div>
   );
@@ -135,7 +141,7 @@ function CombatTutorialInner() {
 
       <div className={styles.overlay}>
         <div className={styles.taskBox}>
-          <img className={styles.image} src={npcPath("/surica/default.svg")}/>
+          <img className={styles.image} src={npcPath("/surica/default.svg")} />
           <p className={styles.taskText}>{instruction.text}</p>
         </div>
 

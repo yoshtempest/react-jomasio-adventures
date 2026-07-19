@@ -4,7 +4,6 @@ import { calculateNpcDamage } from "@/gameRules/battle/damage";
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 
-
 type Props = {
   summons: SummonedNpc[];
   setSummons: React.Dispatch<React.SetStateAction<SummonedNpc[]>>;

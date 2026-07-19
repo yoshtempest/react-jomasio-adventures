@@ -26,7 +26,8 @@ export function PlayerBattle({
   grabbedUntil = 0,
   grabFlipped = false,
 }: Props) {
-  const resolvedState = CROUCH_STATE_MAP[state] ?? (state === "charging" ? "idle" : state);
+  const resolvedState =
+    CROUCH_STATE_MAP[state] ?? (state === "charging" ? "idle" : state);
   const isCrouching = state === "idleCrounched" || state === "walkCrounched";
   const isFallen = state === "fallen";
   const isGrabbed = Date.now() < grabbedUntil && !isFallen && !isCrouching;
@@ -59,25 +60,29 @@ export function PlayerBattle({
     >
       <img
         src={src}
-          style={{
-            position: "absolute",
-            width: "auto",
-            height: "100%",
-            left: "50%",
-            bottom: 0,
-            transform: `
+        style={{
+          position: "absolute",
+          width: "auto",
+          height: "100%",
+          left: "50%",
+          bottom: 0,
+          transform: `
               translateX(-50%) 
               scaleX(${direction === "left" ? -1 : 1})
               ${
-                showFlipped ? "scaleY(-1) translate(-50%, 80%)"
-                : isCrouching ? "scale(0.7)"
-                : isFallen ? "scale(0.7) translate(0, 20%)"
-                : ""
+                showFlipped
+                  ? "scaleY(-1) translate(-50%, 80%)"
+                  : isCrouching
+                    ? "scale(0.7)"
+                    : isFallen
+                      ? "scale(0.7) translate(0, 20%)"
+                      : ""
               }
             `,
-            transformOrigin: isCrouching || showFlipped ? "bottom center" : undefined,
-            pointerEvents: "none",
-          }}
+          transformOrigin:
+            isCrouching || showFlipped ? "bottom center" : undefined,
+          pointerEvents: "none",
+        }}
       />
     </div>
   );

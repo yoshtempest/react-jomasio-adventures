@@ -79,7 +79,13 @@ const PlayerContext = createContext<PlayerContextType | null>(null);
 export function PlayerProvider({ children }: { children: ReactNode }) {
   const [difficulty, setDifficulty] = useState<NpcDifficulty>(() => {
     const saved = localStorage.getItem(slotKey(DIFFICULTY_KEY));
-    if (saved === "easy" || saved === "medium" || saved === "hard" || saved === "insano") return saved;
+    if (
+      saved === "easy" ||
+      saved === "medium" ||
+      saved === "hard" ||
+      saved === "insano"
+    )
+      return saved;
     return "medium";
   });
 
@@ -116,24 +122,30 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const { toggleNavbar } = useNavbar();
 
   const {
-    moveUp, moveDown, moveLeft, moveRight,
-    startMoveUpExplore, stopMoveUpExplore,
-    startMoveDownExplore, stopMoveDownExplore,
-    startMoveLeftExplore, stopMoveLeftExplore,
-    startMoveRightExplore, stopMoveRightExplore,
-  } = usePlayerMovement(
-    currentMap,
-    setPlayer,
-  );
+    moveUp,
+    moveDown,
+    moveLeft,
+    moveRight,
+    startMoveUpExplore,
+    stopMoveUpExplore,
+    startMoveDownExplore,
+    stopMoveDownExplore,
+    startMoveLeftExplore,
+    stopMoveLeftExplore,
+    startMoveRightExplore,
+    stopMoveRightExplore,
+  } = usePlayerMovement(currentMap, setPlayer);
 
   const [playerClass, setPlayerClass] = useState<PlayerClass>(() => {
     const saved = localStorage.getItem(slotKey(PLAYER_CLASS_KEY));
-    if (saved === "fracote" || saved === "idiota" || saved === "amostradinho") return saved;
+    if (saved === "fracote" || saved === "idiota" || saved === "amostradinho")
+      return saved;
     return null;
   });
 
   useEffect(() => {
-    if (playerClass) localStorage.setItem(slotKey(PLAYER_CLASS_KEY), playerClass);
+    if (playerClass)
+      localStorage.setItem(slotKey(PLAYER_CLASS_KEY), playerClass);
   }, [playerClass]);
 
   useEffect(() => {
@@ -158,15 +170,22 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     setPlayerState,
   } = useBattleMovement(setPlayer, battleCollisionRef, lastBlockPressRef);
 
-  const setBattleCollision = useCallback((params: CollisionParams) => {
-    battleCollisionRef.current = params;
-  }, [battleCollisionRef]);
+  const setBattleCollision = useCallback(
+    (params: CollisionParams) => {
+      battleCollisionRef.current = params;
+    },
+    [battleCollisionRef],
+  );
 
   const attack = () => rawAttack();
 
-  function setMap(map: number[][]) { setCurrentMap(map); }
+  function setMap(map: number[][]) {
+    setCurrentMap(map);
+  }
 
-  function chooseClass(cls: PlayerClass) { setPlayerClass(cls); }
+  function chooseClass(cls: PlayerClass) {
+    setPlayerClass(cls);
+  }
 
   function openInventory() {
     if (player.mode !== "explore") return;
@@ -190,7 +209,11 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     setPlayer((p) => ({ ...p, ...BATTLE_DEFAULT_STATE }));
   }
 
-  function setPosition(x: number, y: number, direction: Player["direction"] = "down") {
+  function setPosition(
+    x: number,
+    y: number,
+    direction: Player["direction"] = "down",
+  ) {
     setPlayer((prev) => ({ ...prev, gridX: x, gridY: y, direction }));
   }
 
@@ -206,28 +229,50 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   return (
     <PlayerContext.Provider
       value={{
-        player, setPlayer,
+        player,
+        setPlayer,
         setCharacter,
 
-        moveUp, moveDown, moveLeft, moveRight,
-        openInventory, openNavbar,
+        moveUp,
+        moveDown,
+        moveLeft,
+        moveRight,
+        openInventory,
+        openNavbar,
 
-        moveUpBattle, startMoveLeft, stopMoveLeft,
-        startMoveRight, stopMoveRight,
-        startMoveUpExplore, stopMoveUpExplore,
-        startMoveDownExplore, stopMoveDownExplore,
-        startMoveLeftExplore, stopMoveLeftExplore,
-        startMoveRightExplore, stopMoveRightExplore,
-        blockStart, blockEnd, toggleCrouch,
-        attack, special, dash,
+        moveUpBattle,
+        startMoveLeft,
+        stopMoveLeft,
+        startMoveRight,
+        stopMoveRight,
+        startMoveUpExplore,
+        stopMoveUpExplore,
+        startMoveDownExplore,
+        stopMoveDownExplore,
+        startMoveLeftExplore,
+        stopMoveLeftExplore,
+        startMoveRightExplore,
+        stopMoveRightExplore,
+        blockStart,
+        blockEnd,
+        toggleCrouch,
+        attack,
+        special,
+        dash,
         setPlayerState,
 
         resetBattleState,
-        setMap, setMode, setPosition, setBattleCollision,
+        setMap,
+        setMode,
+        setPosition,
+        setBattleCollision,
 
-        playerClass, chooseClass,
-        difficulty, setDifficulty,
-        toggleHasPeru, lastBlockPressRef,
+        playerClass,
+        chooseClass,
+        difficulty,
+        setDifficulty,
+        toggleHasPeru,
+        lastBlockPressRef,
         battleTenacityRef,
       }}
     >

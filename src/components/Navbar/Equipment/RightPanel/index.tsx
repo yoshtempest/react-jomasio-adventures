@@ -17,8 +17,11 @@ export function RightPanel() {
   const { player } = usePlayer();
   const character = player.character;
   const rightItemsRef = useRef<HTMLDivElement | null>(null);
-  const { selectedIndex, filteredItems, filter } =
-    useEquipmentMenu(true, character, rightItemsRef);
+  const { selectedIndex, filteredItems, filter } = useEquipmentMenu(
+    true,
+    character,
+    rightItemsRef,
+  );
 
   return (
     <div className={styles.rightPanel}>
@@ -33,7 +36,10 @@ export function RightPanel() {
               key={tab}
               className={`${styles.filterTab} ${isActive ? styles.filterTabActive : ""} ${isSelected ? "EquipmentSelected" : ""}`}
             >
-              <img className={styles.equipmentImage} src={asset(FILTER_LABELS[tab])}/>
+              <img
+                className={styles.equipmentImage}
+                src={asset(FILTER_LABELS[tab])}
+              />
             </div>
           );
         })}
@@ -41,9 +47,7 @@ export function RightPanel() {
 
       <div className={styles.itemsContainer} ref={rightItemsRef}>
         {filteredItems.length === 0 && (
-          <div className={styles.emptyText}>
-            Nenhum equipamento encontrado.
-          </div>
+          <div className={styles.emptyText}>Nenhum equipamento encontrado.</div>
         )}
 
         {filteredItems.map((entry: CollectedEntry, index) => {
@@ -56,7 +60,10 @@ export function RightPanel() {
               className={`${styles.collectedCard} ${isSelected ? "EquipmentSelected" : ""}`}
             >
               <div className="EquipmentItemRow">
-                <img className="slotTag" src={asset(FILTER_LABELS[entry.item.slot])} />
+                <img
+                  className="slotTag"
+                  src={asset(FILTER_LABELS[entry.item.slot])}
+                />
                 {entry.arrow === "up" && (
                   <ArrowUp size={14} className={styles.arrowUp} />
                 )}
@@ -87,9 +94,7 @@ export function RightPanel() {
                 {entry.stats.intelligence > 0
                   ? ` | Int: +${entry.stats.intelligence}`
                   : ""}
-                {entry.stats.armor > 0
-                  ? ` | Arm: +${entry.stats.armor}`
-                  : ""}
+                {entry.stats.armor > 0 ? ` | Arm: +${entry.stats.armor}` : ""}
               </span>
               <span className={styles.actionHint}>Confirmar: Equipar</span>
             </div>

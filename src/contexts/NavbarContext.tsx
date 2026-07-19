@@ -1,4 +1,11 @@
-import { createContext, useCallback, useContext, useRef, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import type { NavbarOption, NavScreen } from "@/utils/types/player/navbar";
 import { useToggle } from "@/hooks/useToggle";
 
@@ -23,7 +30,12 @@ const NavbarContext = createContext<NavbarContextType | null>(null);
 export function NavbarProvider({ children }: { children: ReactNode }) {
   const [items] = useState<NavbarOption[]>([]);
   const [screen, setScreenState] = useState<NavScreen>("menu");
-  const { isOpen: isNavOpen, open: openToggle, close: closeToggle, toggle: toggleNavbar } = useToggle();
+  const {
+    isOpen: isNavOpen,
+    open: openToggle,
+    close: closeToggle,
+    toggle: toggleNavbar,
+  } = useToggle();
   const [isClosing, setIsClosing] = useState(false);
   const closeTimerRef = useRef<NodeJS.Timeout | null>(null);
   const screenRef = useRef(screen);

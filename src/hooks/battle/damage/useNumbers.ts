@@ -11,7 +11,9 @@ export type DamageNumber = {
 export function useDamageNumbers() {
   const [damageNumbers, setDamageNumbers] = useState<DamageNumber[]>([]);
   const idRef = useRef(0);
-  const timersRef = useRef<Map<number, ReturnType<typeof setTimeout>>>(new Map());
+  const timersRef = useRef<Map<number, ReturnType<typeof setTimeout>>>(
+    new Map(),
+  );
 
   useEffect(() => {
     const timers = timersRef.current;

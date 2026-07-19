@@ -21,7 +21,11 @@ type AuthContextType = {
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  register: (username: string, email: string, password: string) => Promise<void>;
+  register: (
+    username: string,
+    email: string,
+    password: string,
+  ) => Promise<void>;
   logout: () => void;
 };
 
@@ -35,7 +39,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const saved = getStoredToken();
     if (saved) {
-      api.me()
+      api
+        .me()
         .then((res) => setUser(res.user))
         .catch(() => {
           storeToken(null);

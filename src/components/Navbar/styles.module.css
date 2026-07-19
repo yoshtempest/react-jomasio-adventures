@@ -29,7 +29,7 @@
   height: 85vh;
   align-items: center;
   justify-content: center;
-    background: linear-gradient(
+  background: linear-gradient(
     170deg,
     var(--primary-color) 70%,
     var(--surface-dark) 100%

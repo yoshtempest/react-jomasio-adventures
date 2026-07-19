@@ -1,4 +1,7 @@
-import { createConditionalTile, createDoorTile } from "@/scenes/shared/factories";
+import {
+  createConditionalTile,
+  createDoorTile,
+} from "@/scenes/shared/factories";
 import {
   HALL_ROUTES,
   LIBRARY_ROUTES,
@@ -17,7 +20,8 @@ export const hallThirdClassTiles = [
       return null;
     },
     {
-      blockedMessage: "Uma reunião do conselho está acontecendo no momento, volte mais tarde",
+      blockedMessage:
+        "Uma reunião do conselho está acontecendo no momento, volte mais tarde",
     },
   ),
   createDoorTile(8, 3, LIBRARY_ROUTES.ONE),

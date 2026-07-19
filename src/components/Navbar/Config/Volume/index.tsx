@@ -19,7 +19,10 @@ export function VolumeSection({ sfxVolume, bgmVolume, selectedColumn }: Props) {
         <div className={styles.flexRow}>
           <Minus />
           <div className={styles.volumeBar}>
-            <div className={styles.volumeFill} style={{ width: `${sfxVolume}%` }} />
+            <div
+              className={styles.volumeFill}
+              style={{ width: `${sfxVolume}%` }}
+            />
           </div>
           <Plus />
         </div>
@@ -31,14 +34,23 @@ export function VolumeSection({ sfxVolume, bgmVolume, selectedColumn }: Props) {
         <div className={styles.flexRow}>
           <Minus />
           <div className={styles.volumeBar}>
-            <div className={styles.volumeFill} style={{ width: `${bgmVolume}%` }} />
+            <div
+              className={styles.volumeFill}
+              style={{ width: `${bgmVolume}%` }}
+            />
           </div>
           <Plus />
         </div>
       </div>
       <div className={styles.volumeContainer}>
-        <input placeholder="Insira um código" className={styles.tutorialButton} />
-        <SendHorizonal className={styles.inputIcon} onClick={() => console.log("code sended")}/>
+        <input
+          placeholder="Insira um código"
+          className={styles.tutorialButton}
+        />
+        <SendHorizonal
+          className={styles.inputIcon}
+          onClick={() => console.log("code sended")}
+        />
       </div>
     </div>
   );

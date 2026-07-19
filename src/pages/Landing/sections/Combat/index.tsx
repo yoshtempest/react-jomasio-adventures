@@ -16,32 +16,32 @@ export function Combat() {
             <Zap size={32} className={styles.combatIcon} />
             <h3>Combate em Turnos</h3>
             <p>
-              Batalhe contra NPCs em combates turno-based com ataques,
-              esquivas, bloqueios e habilidades especiais.
+              Batalhe contra NPCs em combates turno-based com ataques, esquivas,
+              bloqueios e habilidades especiais.
             </p>
           </div>
           <div className={styles.combatCard}>
             <Shield size={32} className={styles.combatIcon} />
             <h3>Classes Únicas</h3>
             <p>
-              Cada personagem possui uma classe com habilidades
-              próprias. Escolha a que melhor se adapta ao seu estilo!
+              Cada personagem possui uma classe com habilidades próprias.
+              Escolha a que melhor se adapta ao seu estilo!
             </p>
           </div>
           <div className={styles.combatCard}>
             <Sparkles size={32} className={styles.combatIcon} />
             <h3>Itens e Equipamentos</h3>
             <p>
-              Colete itens espalhados pelo mapa, equipe armamentos e
-              use poções para virar o jogo nas batalhas.
+              Colete itens espalhados pelo mapa, equipe armamentos e use poções
+              para virar o jogo nas batalhas.
             </p>
           </div>
           <div className={styles.combatCard}>
             <ScrollText size={32} className={styles.combatIcon} />
             <h3>Missões e Quests</h3>
             <p>
-              Receba quests dos NPCs, complete objetivos e ganhe
-              recompensas exclusivas.
+              Receba quests dos NPCs, complete objetivos e ganhe recompensas
+              exclusivas.
             </p>
           </div>
         </div>

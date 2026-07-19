@@ -10,7 +10,9 @@ export function useNpcTargeting() {
   const npcAiMaxHpRef = useRef(0);
 
   const npcBlockedRef = useRef(false);
-  const npcBlockTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const npcBlockTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(
+    undefined,
+  );
 
   const onBeforeNpcHitRef = useRef<() => boolean>(() => false);
 

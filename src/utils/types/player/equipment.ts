@@ -20,7 +20,17 @@ export const ARMOR_SLOTS: EquipmentSlot[] = [
 ];
 
 export const EQUIPMENT_RANKS: EquipmentRank[] = [
-  1, 2, 3, 4, 5, 6, 7, 8, 9, 0, "EX",
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  0,
+  "EX",
 ];
 
 export const PET_EQUIPMENT_IDS = ["pet_goat"] as const;

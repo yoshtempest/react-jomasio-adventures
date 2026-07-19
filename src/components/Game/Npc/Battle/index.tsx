@@ -11,7 +11,7 @@ type Props = {
   TILE_SIZE: number;
   npcType: string;
   state:
-    "idle"
+    | "idle"
     | "walk"
     | "default"
     | "hit"

@@ -32,11 +32,19 @@ type Props = {
   summons?: SummonedNpc[];
 };
 
-export function BattleHUD({ battle, npcStats, npcType, npcLevel, summons }: Props) {
+export function BattleHUD({
+  battle,
+  npcStats,
+  npcType,
+  npcLevel,
+  summons,
+}: Props) {
   const { player } = usePlayer();
   const { progress } = useCharacterProgress();
   const playerName = localStorage.getItem("playerName") || "Protagonista";
-  const playerRank = formatRank(getRank(progress[player.character]?.level ?? 1));
+  const playerRank = formatRank(
+    getRank(progress[player.character]?.level ?? 1),
+  );
 
   return (
     <>

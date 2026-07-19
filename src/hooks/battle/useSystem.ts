@@ -119,8 +119,14 @@ export function useBattleSystem(props: Props) {
   const bleedUntilRef = useRef(player.bleedUntil);
   bleedUntilRef.current = player.bleedUntil;
 
-  const { playerHP, setPlayerHP, npcHP, setNpcHP, playerShield, setPlayerShield } =
-    useBattleHP(playerMaxHp, npcMaxHp, totalShield);
+  const {
+    playerHP,
+    setPlayerHP,
+    npcHP,
+    setNpcHP,
+    playerShield,
+    setPlayerShield,
+  } = useBattleHP(playerMaxHp, npcMaxHp, totalShield);
 
   const { damagePlayerHp, damagePlayer } = useExternalDamage({
     playerX,
@@ -255,7 +261,12 @@ export function useBattleSystem(props: Props) {
       if (isEnding.current) return;
       if (bleedUntilRef.current > Date.now()) {
         setPlayerHP((hp) => Math.max(0, hp - 2));
-        spawnDamageRef.current?.(2, bleedXRef.current, bleedYRef.current, "bleed");
+        spawnDamageRef.current?.(
+          2,
+          bleedXRef.current,
+          bleedYRef.current,
+          "bleed",
+        );
       }
     }, 1000);
     return () => clearInterval(interval);
@@ -297,12 +308,22 @@ export function useBattleSystem(props: Props) {
       setDelicia: playerBattle.setDelicia,
     });
     resetPet();
-    setPlayer((p) => ({ ...p, bleedUntil: 0, pullStartTime: 0, grabbedUntil: 0 }));
+    setPlayer((p) => ({
+      ...p,
+      bleedUntil: 0,
+      pullStartTime: 0,
+      grabbedUntil: 0,
+    }));
   };
 
   return {
-    playerHP, setPlayerHP, playerMaxHp, playerShield,
-    npcHP, setNpcHP, npcMaxHp,
+    playerHP,
+    setPlayerHP,
+    playerMaxHp,
+    playerShield,
+    npcHP,
+    setNpcHP,
+    npcMaxHp,
     npcPhase,
     delicia: playerBattle.delicia,
     setDelicia: playerBattle.setDelicia,
@@ -319,11 +340,18 @@ export function useBattleSystem(props: Props) {
     isEnding,
     piercings: effects.piercings,
     isExploding: effects.isExploding,
-    pet, damagePet,
-    damageNumbers, spawnDamageNumber,
-    char, critRate, npcArmor, totalVampirism, totalReflect,
+    pet,
+    damagePet,
+    damageNumbers,
+    spawnDamageNumber,
+    char,
+    critRate,
+    npcArmor,
+    totalVampirism,
+    totalReflect,
     titleDamageBonus: titleBonus.damage,
-    blockGauge, blockLimit,
+    blockGauge,
+    blockLimit,
     tenacityReduction: stats.tenacityReduction,
   };
 }

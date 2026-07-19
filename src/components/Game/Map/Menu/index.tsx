@@ -10,19 +10,55 @@ type MapCell = {
 
 const SCENE_MAP: MapCell[][] = [
   [
-    { routes: ["/cantina"], image: jomasioPath("/cantina.svg"), label: "Refeitório" },
-    { routes: ["/hall/one"], image: jomasioPath("/hall/center.svg"), label: "Corredor" },
-    { routes: ["/library"], image: jomasioPath("/library/default.svg"), label: "Biblioteca" },
-    { routes: ["/brodiclass"], image: jomasioPath("/brodiClass.svg"), label: "Conselho dos Brodi" },
+    {
+      routes: ["/cantina"],
+      image: jomasioPath("/cantina.svg"),
+      label: "Refeitório",
+    },
+    {
+      routes: ["/hall/one"],
+      image: jomasioPath("/hall/center.svg"),
+      label: "Corredor",
+    },
+    {
+      routes: ["/library"],
+      image: jomasioPath("/library/default.svg"),
+      label: "Biblioteca",
+    },
+    {
+      routes: ["/brodiclass"],
+      image: jomasioPath("/brodiClass.svg"),
+      label: "Conselho dos Brodi",
+    },
   ],
   [
-    { routes: ["/cafeteria"], image: jomasioPath("/cafeteria.svg"), label: "Cantina" },
-    { routes: ["/director"], image: jomasioPath("/director.svg"), label: "Diretoria" },
-    { routes: ["/hellroom"], image: jomasioPath("/hellRoom.svg"), label: "Segundo B" },
-    { routes: ["/footballcourt"], image: jomasioPath("/footballCourt.svg"), label: "Quadra" },
+    {
+      routes: ["/cafeteria"],
+      image: jomasioPath("/cafeteria.svg"),
+      label: "Cantina",
+    },
+    {
+      routes: ["/director"],
+      image: jomasioPath("/director.svg"),
+      label: "Diretoria",
+    },
+    {
+      routes: ["/hellroom"],
+      image: jomasioPath("/hellRoom.svg"),
+      label: "Segundo B",
+    },
+    {
+      routes: ["/footballcourt"],
+      image: jomasioPath("/footballCourt.svg"),
+      label: "Quadra",
+    },
   ],
   [
-    { routes: ["/pcroom"], image: jomasioPath("/pcsRoom.svg"), label: "Sala dos PCs" },
+    {
+      routes: ["/pcroom"],
+      image: jomasioPath("/pcsRoom.svg"),
+      label: "Sala dos PCs",
+    },
   ],
 ];
 

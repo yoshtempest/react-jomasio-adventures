@@ -7,7 +7,13 @@ const ICON_MAP: Record<string, LucideIcon> = {
   ArrowUp,
 };
 
-export function PassiveSkills({ characterId, startIndex = 0 }: { characterId: CharacterId; startIndex?: number }) {
+export function PassiveSkills({
+  characterId,
+  startIndex = 0,
+}: {
+  characterId: CharacterId;
+  startIndex?: number;
+}) {
   const { skills, level } = usePassiveSkills(characterId);
 
   return (
@@ -30,7 +36,10 @@ export function PassiveSkills({ characterId, startIndex = 0 }: { characterId: Ch
               <Lock size={16} color="#666" />
             )}
             <Icon size={16} color={unlocked ? "#fbbf24" : "#666"} />
-            <span className={styles.skillName} style={{ color: unlocked ? "#fff" : "#888" }}>
+            <span
+              className={styles.skillName}
+              style={{ color: unlocked ? "#fff" : "#888" }}
+            >
               {skill.name}
             </span>
             <span className={styles.unlocked}>

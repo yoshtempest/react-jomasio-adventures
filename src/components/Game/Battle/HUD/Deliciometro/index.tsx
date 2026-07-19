@@ -28,12 +28,8 @@ export function Deliciometro({ delicia, hitsToSpecial = 6 }: Props) {
   }, [delicia, hitsToSpecial, playSound]);
 
   return (
-    <div
-    className={styles.container}>
-      <img
-        src={asset("/assets/deliciometro.svg")}
-        className={styles.image}
-      />
+    <div className={styles.container}>
+      <img src={asset("/assets/deliciometro.svg")} className={styles.image} />
       <div
         className={styles.needle}
         style={{

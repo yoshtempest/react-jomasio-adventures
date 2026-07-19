@@ -37,7 +37,7 @@ export function Navbar() {
         </ul>
       </nav>
     );
-  };
+  }
 
   return (
     <div className={isClosing ? styles.closing : undefined}>
@@ -53,5 +53,5 @@ export function Navbar() {
       {screen === "saves" && <Saves />}
       {screen === "professions" && <Professions />}
     </div>
-  )
+  );
 }

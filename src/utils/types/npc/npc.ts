@@ -4,7 +4,7 @@ export type NPCBattleState = {
   x: number;
   y: number;
   state:
-    "idle"
+    | "idle"
     | "walk"
     | "default"
     | "hit"

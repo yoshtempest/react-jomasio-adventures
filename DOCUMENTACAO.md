@@ -50,12 +50,12 @@ O escopo atual abrange:
 
 ### Quem são os atores do sistema?
 
-| Ator | Descrição |
-|---|---|
-| **Jogador** | Usuário que controla o personagem principal no mundo do jogo |
-| **NPC** | Personagens não jogáveis que interagem via diálogo, batalha ou entrega de itens |
-| **Sistema** | Motor do jogo que gerencia cenas, eventos, transições, salvamento e lógica de negócio |
-| **Administrador** | Desenvolvedor que mantém o código e dados do jogo |
+| Ator              | Descrição                                                                             |
+| ----------------- | ------------------------------------------------------------------------------------- |
+| **Jogador**       | Usuário que controla o personagem principal no mundo do jogo                          |
+| **NPC**           | Personagens não jogáveis que interagem via diálogo, batalha ou entrega de itens       |
+| **Sistema**       | Motor do jogo que gerencia cenas, eventos, transições, salvamento e lógica de negócio |
+| **Administrador** | Desenvolvedor que mantém o código e dados do jogo                                     |
 
 ### Quais são as premissas?
 
@@ -72,66 +72,66 @@ O escopo atual abrange:
 
 ### 3.1 Requisitos Funcionais
 
-| ID | Requisito | Prioridade |
-|---|---|---|
-| RF01 | O jogador deve se movimentar pelo grid em 4 direções (cima, baixo, esquerda, direita) | Alta |
-| RF02 | O jogador deve interagir com NPCs e objetos ao pressionar o botão de ação | Alta |
-| RF03 | O sistema deve detectar tiles de transição e navegar entre cenas | Alta |
-| RF04 | O sistema deve suportar tiles com rota condicional baseada em estado de missões | Alta |
-| RF05 | O jogador deve poder entrar em batalha contra NPCs | Alta |
-| RF06 | O sistema de batalha deve suportar ataques, habilidades especiais e sistema de cooldown | Alta |
-| RF07 | O sistema deve gerenciar HP do jogador (HP = 90 + stats.hp × 10) | Alta |
-| RF08 | O sistema de missões deve permitir receber, progredir e concluir missões | Alta |
-| RF09 | O sistema deve gerar missões diárias e semanais automaticamente | Alta |
-| RF10 | O jogador deve poder coletar e gerenciar itens no inventário | Alta |
-| RF11 | O sistema de diálogo deve exibir falas com nome e avatar | Alta |
-| RF12 | O sistema de diálogo deve suportar ramificações condicionais baseadas no estado do jogo | Alta |
-| RF13 | O jogador deve poder abrir um menu de configurações durante o jogo | Média |
-| RF14 | O sistema deve permitir ajustar volume de SFX e BGM separadamente | Média |
-| RF15 | O sistema deve permitir ajustar a velocidade do diálogo (rápido, normal, devagar) | Média |
-| RF16 | O sistema deve salvar automaticamente o progresso ao mudar de cena | Alta |
-| RF17 | O sistema deve restaurar a posição do jogador ao retornar a uma cena visitada | Média |
-| RF18 | O sistema de áudio deve tocar BGM de fundo por cena e SFX para ações | Alta |
-| RF19 | O sistema deve exibir um indicador visual (seta + "!") para missões ativas quando habilitado | Baixa |
-| RF20 | O jogador deve poder alternar o indicador de missões nas configurações | Baixa |
-| RF21 | O jogo deve funcionar como PWA (instalável, service worker) | Média |
-| RF22 | O jogador deve poder selecionar e trocar de personagem | Média |
-| RF23 | O sistema deve suportar classes de jogador (fracote, idiota, amostradinho) com stats diferentes | Média |
-| RF24 | O sistema de batalha deve suportar 3 variantes de projéteis NPC: comum, pull (com atração) e rain (chuva de lanças) | Alta |
-| RF25 | O sistema deve suportar um puzzle de Pandemônio (quebra-cabeça) para progressão de história | Baixa |
-| RF26 | O sistema deve exibir um overlay de mapa ao pressionar o modo mapa | Baixa |
+| ID   | Requisito                                                                                                           | Prioridade |
+| ---- | ------------------------------------------------------------------------------------------------------------------- | ---------- |
+| RF01 | O jogador deve se movimentar pelo grid em 4 direções (cima, baixo, esquerda, direita)                               | Alta       |
+| RF02 | O jogador deve interagir com NPCs e objetos ao pressionar o botão de ação                                           | Alta       |
+| RF03 | O sistema deve detectar tiles de transição e navegar entre cenas                                                    | Alta       |
+| RF04 | O sistema deve suportar tiles com rota condicional baseada em estado de missões                                     | Alta       |
+| RF05 | O jogador deve poder entrar em batalha contra NPCs                                                                  | Alta       |
+| RF06 | O sistema de batalha deve suportar ataques, habilidades especiais e sistema de cooldown                             | Alta       |
+| RF07 | O sistema deve gerenciar HP do jogador (HP = 90 + stats.hp × 10)                                                    | Alta       |
+| RF08 | O sistema de missões deve permitir receber, progredir e concluir missões                                            | Alta       |
+| RF09 | O sistema deve gerar missões diárias e semanais automaticamente                                                     | Alta       |
+| RF10 | O jogador deve poder coletar e gerenciar itens no inventário                                                        | Alta       |
+| RF11 | O sistema de diálogo deve exibir falas com nome e avatar                                                            | Alta       |
+| RF12 | O sistema de diálogo deve suportar ramificações condicionais baseadas no estado do jogo                             | Alta       |
+| RF13 | O jogador deve poder abrir um menu de configurações durante o jogo                                                  | Média      |
+| RF14 | O sistema deve permitir ajustar volume de SFX e BGM separadamente                                                   | Média      |
+| RF15 | O sistema deve permitir ajustar a velocidade do diálogo (rápido, normal, devagar)                                   | Média      |
+| RF16 | O sistema deve salvar automaticamente o progresso ao mudar de cena                                                  | Alta       |
+| RF17 | O sistema deve restaurar a posição do jogador ao retornar a uma cena visitada                                       | Média      |
+| RF18 | O sistema de áudio deve tocar BGM de fundo por cena e SFX para ações                                                | Alta       |
+| RF19 | O sistema deve exibir um indicador visual (seta + "!") para missões ativas quando habilitado                        | Baixa      |
+| RF20 | O jogador deve poder alternar o indicador de missões nas configurações                                              | Baixa      |
+| RF21 | O jogo deve funcionar como PWA (instalável, service worker)                                                         | Média      |
+| RF22 | O jogador deve poder selecionar e trocar de personagem                                                              | Média      |
+| RF23 | O sistema deve suportar classes de jogador (fracote, idiota, amostradinho) com stats diferentes                     | Média      |
+| RF24 | O sistema de batalha deve suportar 3 variantes de projéteis NPC: comum, pull (com atração) e rain (chuva de lanças) | Alta       |
+| RF25 | O sistema deve suportar um puzzle de Pandemônio (quebra-cabeça) para progressão de história                         | Baixa      |
+| RF26 | O sistema deve exibir um overlay de mapa ao pressionar o modo mapa                                                  | Baixa      |
 
 ### 3.2 Requisitos Não Funcionais
 
-| ID | Requisito | Descrição |
-|---|---|---|
-| RNF01 | Desempenho | O jogo deve manter 60 FPS em dispositivos móveis modernos |
-| RNF02 | Compatibilidade | Deve funcionar nos navegadores Chrome, Firefox, Edge e Safari (últimas 2 versões) |
-| RNF03 | Responsividade | A interface deve se adaptar a orientações portrait e landscape em mobile |
-| RNF04 | Acessibilidade | Deve suportar navegação por teclado (setas + Enter + L) |
-| RNF05 | Persistência | O progresso do jogador deve persistir entre sessões via localStorage |
-| RNF06 | Tipagem | Todo o código deve ser escrito em TypeScript strict mode |
-| RNF07 | Performance de build | O bundle deve ser otimizado com code-splitting (lazy loading de páginas) |
-| RNF08 | Offline-first | O jogo deve funcionar offline após o primeiro carregamento (PWA) |
+| ID    | Requisito            | Descrição                                                                         |
+| ----- | -------------------- | --------------------------------------------------------------------------------- |
+| RNF01 | Desempenho           | O jogo deve manter 60 FPS em dispositivos móveis modernos                         |
+| RNF02 | Compatibilidade      | Deve funcionar nos navegadores Chrome, Firefox, Edge e Safari (últimas 2 versões) |
+| RNF03 | Responsividade       | A interface deve se adaptar a orientações portrait e landscape em mobile          |
+| RNF04 | Acessibilidade       | Deve suportar navegação por teclado (setas + Enter + L)                           |
+| RNF05 | Persistência         | O progresso do jogador deve persistir entre sessões via localStorage              |
+| RNF06 | Tipagem              | Todo o código deve ser escrito em TypeScript strict mode                          |
+| RNF07 | Performance de build | O bundle deve ser otimizado com code-splitting (lazy loading de páginas)          |
+| RNF08 | Offline-first        | O jogo deve funcionar offline após o primeiro carregamento (PWA)                  |
 
 ### 3.3 Regras de Negócio
 
-| ID | Regra |
-|---|---|
+| ID   | Regra                                                                                                              |
+| ---- | ------------------------------------------------------------------------------------------------------------------ |
 | RN01 | O jogador só pode atravessar tiles de transição se atender às condições da rota (ex: ter determinada missão ativa) |
-| RN02 | Missões diárias resetam diariamente; missões semanais resetam semanalmente |
-| RN03 | O HP máximo do jogador é calculado como `90 + stats.hp × 10` |
-| RN04 | NPCs de batalha possuem dificuldade categorizada: common, rare, epic, boss, legendary |
-| RN05 | A dificuldade do jogo (easy, medium, hard) modifica parâmetros de batalha |
-| RN06 | Uma missão só pode ser concluída quando `progress >= counter` |
-| RN07 | Não é possível ter a mesma missão mais de uma vez na lista |
-| RN08 | Recompensas de missões podem ser XP, itens, moedas ou hyperCoins |
-| RN09 | O personagem do jogador é definido no início da partida e pode ser trocado |
-| RN10 | O sistema de áudio usa AudioContext para sincronização de volume global |
-| RN11 | A posição do jogador em cada cena é salva e restaurada ao retornar |
-| RN12 | Eventos de cena são processados em pipeline via `runSceneEvents()` |
-| RN13 | O projétil do tipo "pull" atrai o jogador em direção ao NPC |
-| RN14 | O projétil do tipo "rain" cria uma chuva de lanças com tempo de aviso |
+| RN02 | Missões diárias resetam diariamente; missões semanais resetam semanalmente                                         |
+| RN03 | O HP máximo do jogador é calculado como `90 + stats.hp × 10`                                                       |
+| RN04 | NPCs de batalha possuem dificuldade categorizada: common, rare, epic, boss, legendary                              |
+| RN05 | A dificuldade do jogo (easy, medium, hard) modifica parâmetros de batalha                                          |
+| RN06 | Uma missão só pode ser concluída quando `progress >= counter`                                                      |
+| RN07 | Não é possível ter a mesma missão mais de uma vez na lista                                                         |
+| RN08 | Recompensas de missões podem ser XP, itens, moedas ou hyperCoins                                                   |
+| RN09 | O personagem do jogador é definido no início da partida e pode ser trocado                                         |
+| RN10 | O sistema de áudio usa AudioContext para sincronização de volume global                                            |
+| RN11 | A posição do jogador em cada cena é salva e restaurada ao retornar                                                 |
+| RN12 | Eventos de cena são processados em pipeline via `runSceneEvents()`                                                 |
+| RN13 | O projétil do tipo "pull" atrai o jogador em direção ao NPC                                                        |
+| RN14 | O projétil do tipo "rain" cria uma chuva de lanças com tempo de aviso                                              |
 
 ### 3.4 Restrições de Hardware
 
@@ -153,21 +153,21 @@ O escopo atual abrange:
 
 ### 3.6 Casos de Uso
 
-| UC | Nome | Ator Principal | Descrição |
-|---|---|---|---|
-| UC01 | Movimentar Jogador | Jogador | Navegar pelo grid usando teclado ou controles touch |
-| UC02 | Interagir com NPC | Jogador | Pressionar botão de ação para iniciar diálogo com NPC |
-| UC03 | Atravessar Porta | Jogador | Pisar em tile de transição para mudar de cena |
-| UC04 | Iniciar Batalha | Jogador / Sistema | Encontrar NPC hostil e entrar em modo de combate |
-| UC05 | Atacar em Batalha | Jogador | Pressionar botão de ataque durante batalha |
-| UC06 | Usar Special | Jogador | Usar habilidade especial quando deliciômetro estiver carregado |
-| UC07 | Receber Missão | Jogador / NPC | Interagir com NPC que concede uma missão |
-| UC08 | Progredir Missão | Sistema | Sistema atualiza progresso da missão ao cumprir objetivo |
-| UC09 | Coletar Item | Jogador | Interagir com tile que contém um item coletável |
-| UC10 | Abrir Menu | Jogador | Abrir menu de configurações durante o jogo |
-| UC11 | Ajustar Volume | Jogador | Modificar volume de SFX e BGM nas configurações |
-| UC12 | Salvar Jogo | Sistema | Save automático ao mudar de cena ou rota |
-| UC13 | Visualizar Mapa | Jogador | Alternar para overlay de mapa da cena atual |
+| UC   | Nome               | Ator Principal    | Descrição                                                      |
+| ---- | ------------------ | ----------------- | -------------------------------------------------------------- |
+| UC01 | Movimentar Jogador | Jogador           | Navegar pelo grid usando teclado ou controles touch            |
+| UC02 | Interagir com NPC  | Jogador           | Pressionar botão de ação para iniciar diálogo com NPC          |
+| UC03 | Atravessar Porta   | Jogador           | Pisar em tile de transição para mudar de cena                  |
+| UC04 | Iniciar Batalha    | Jogador / Sistema | Encontrar NPC hostil e entrar em modo de combate               |
+| UC05 | Atacar em Batalha  | Jogador           | Pressionar botão de ataque durante batalha                     |
+| UC06 | Usar Special       | Jogador           | Usar habilidade especial quando deliciômetro estiver carregado |
+| UC07 | Receber Missão     | Jogador / NPC     | Interagir com NPC que concede uma missão                       |
+| UC08 | Progredir Missão   | Sistema           | Sistema atualiza progresso da missão ao cumprir objetivo       |
+| UC09 | Coletar Item       | Jogador           | Interagir com tile que contém um item coletável                |
+| UC10 | Abrir Menu         | Jogador           | Abrir menu de configurações durante o jogo                     |
+| UC11 | Ajustar Volume     | Jogador           | Modificar volume de SFX e BGM nas configurações                |
+| UC12 | Salvar Jogo        | Sistema           | Save automático ao mudar de cena ou rota                       |
+| UC13 | Visualizar Mapa    | Jogador           | Alternar para overlay de mapa da cena atual                    |
 
 ### 3.7 Diagrama de Classes
 
@@ -230,6 +230,7 @@ O escopo atual abrange:
 O jogo utiliza renderização posicional absoluta sobre um container central. Abaixo estão descritos os principais componentes de interface:
 
 ### Tela de Exploração (ExploreScene)
+
 ```
 ┌─────────────────────────────────────────────┐
 │  ┌───────────────────────────────────────┐  │
@@ -249,6 +250,7 @@ O jogo utiliza renderização posicional absoluta sobre um container central. Ab
 ```
 
 **Elementos:**
+
 - **Grid 17×13** com TILE_SIZE responsivo
 - **NPCs**: sprites 1.7× tile size com z-index 9
 - **Jogador**: sprite central controlado por input
@@ -258,6 +260,7 @@ O jogo utiliza renderização posicional absoluta sobre um container central. Ab
 - **Popups**: notificações temporárias no centro da tela
 
 ### Tela de Batalha (BattleScene)
+
 ```
 ┌─────────────────────────────────────────────┐
 │  [NPC inimigo]   HP: ████████░░             │
@@ -273,6 +276,7 @@ O jogo utiliza renderização posicional absoluta sobre um container central. Ab
 ```
 
 **Elementos:**
+
 - Barra de HP do jogador e do NPC
 - Deliciômetro (para habilidade especial)
 - Projéteis animados (comum, pull com seta de atração, rain com aviso de área)
@@ -280,6 +284,7 @@ O jogo utiliza renderização posicional absoluta sobre um container central. Ab
 - Tela de transição ao entrar/sair de batalha
 
 ### Menu de Configurações (Config)
+
 ```
 ┌─────────────────────────────────────────────┐
 │  Dificuldade: [EASY] [MEDIUM] [HARD] [🔒]  │
@@ -302,6 +307,7 @@ O jogo utiliza renderização posicional absoluta sobre um container central. Ab
 ```
 
 ### HUD do Jogador (Explore)
+
 ```
 ┌─────────────────────────────────────────────┐
 │  [Menu]                    [Mapa] [Config]  │
@@ -313,6 +319,7 @@ O jogo utiliza renderização posicional absoluta sobre um container central. Ab
 ```
 
 ### Overlay de Mapa (MapOverlay)
+
 ```
 ┌─────────────────────────────────────────────┐
 │                                             │
@@ -329,11 +336,11 @@ O jogo utiliza renderização posicional absoluta sobre um container central. Ab
 
 ## 5. MEMBROS
 
-| Nome | Função |
-|---|---|
+| Nome    | Função                                                                           |
+| ------- | -------------------------------------------------------------------------------- |
 | Marcelo | Desenvolvedor full-stack, arquitetura do sistema, implementação do motor do jogo |
-| — | Em busca de novos contribuidores |
+| —       | Em busca de novos contribuidores                                                 |
 
 ---
 
-*Documento gerado em Junho de 2026. O projeto está em desenvolvimento ativo e este documento reflete o estado atual do sistema.*
+_Documento gerado em Junho de 2026. O projeto está em desenvolvimento ativo e este documento reflete o estado atual do sistema._

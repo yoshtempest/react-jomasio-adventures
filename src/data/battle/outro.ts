@@ -42,6 +42,12 @@ export const OUTRO_LINES: Record<string, OutroLines> = {
   },
 };
 
-export function getOutroLine(character: string, type: "victory" | "defeat"): string {
-  return OUTRO_LINES[character]?.[type] ?? (type === "victory" ? "Vitória!" : "Derrota...");
+export function getOutroLine(
+  character: string,
+  type: "victory" | "defeat",
+): string {
+  return (
+    OUTRO_LINES[character]?.[type] ??
+    (type === "victory" ? "Vitória!" : "Derrota...")
+  );
 }

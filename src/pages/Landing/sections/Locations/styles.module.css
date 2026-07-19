@@ -9,7 +9,9 @@
   border-radius: var(--smaller);
   overflow: hidden;
   cursor: default;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s;
 }
 
 .locationCard:hover {

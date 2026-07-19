@@ -16,7 +16,12 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
   const { getTotalBonus } = useEquipment();
 
   const stats = progress[character]?.stats ?? {
-    hp: 1, strength: 1, intelligence: 1, resistance: 1, tenacity: 1, points: 0,
+    hp: 1,
+    strength: 1,
+    intelligence: 1,
+    resistance: 1,
+    tenacity: 1,
+    points: 0,
   };
   const bonus = getTotalBonus(character);
 
@@ -40,14 +45,16 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
 
       <div
         className={selectedIndex === 1 ? "active" : ""}
-        style={selectedIndex === 1 ? { flexWrap: "wrap"} : undefined}
+        style={selectedIndex === 1 ? { flexWrap: "wrap" } : undefined}
       >
         <p>
           <img src={asset("/assets/status/strenght.svg")} />
           Força: {stats.strength}
           {bonus.strength > 0 ? <span> +{bonus.strength}</span> : ""}
         </p>
-        {selectedIndex === 1 && <p className={styles.tip}>{STAT_TIPS.strength}</p>}
+        {selectedIndex === 1 && (
+          <p className={styles.tip}>{STAT_TIPS.strength}</p>
+        )}
       </div>
 
       <div
@@ -57,13 +64,11 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
         <p>
           <img src={asset("/assets/status/intelligence.svg")} />
           Inteligência: {stats.intelligence}
-          {bonus.intelligence > 0 ? (
-            <span> +{bonus.intelligence}</span>
-          ) : (
-            ""
-          )}
+          {bonus.intelligence > 0 ? <span> +{bonus.intelligence}</span> : ""}
         </p>
-        {selectedIndex === 2 && <p className={styles.tip}>{STAT_TIPS.intelligence}</p>}
+        {selectedIndex === 2 && (
+          <p className={styles.tip}>{STAT_TIPS.intelligence}</p>
+        )}
       </div>
 
       <div
@@ -74,7 +79,9 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
           <img src={asset("/assets/status/armor.svg")} />
           Resistência: {stats.resistance ?? 1}
         </p>
-        {selectedIndex === 3 && <p className={styles.tip}>{STAT_TIPS.resistance}</p>}
+        {selectedIndex === 3 && (
+          <p className={styles.tip}>{STAT_TIPS.resistance}</p>
+        )}
       </div>
 
       <div
@@ -86,7 +93,9 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
           Tenacidade: {stats.tenacity ?? 1}
           {bonus.tenacity > 0 ? <span> +{bonus.tenacity}</span> : ""}
         </p>
-        {selectedIndex === 4 && <p className={styles.tip}>{STAT_TIPS.tenacity}</p>}
+        {selectedIndex === 4 && (
+          <p className={styles.tip}>{STAT_TIPS.tenacity}</p>
+        )}
       </div>
 
       <div className={selectedIndex === 5 ? "active" : ""}>

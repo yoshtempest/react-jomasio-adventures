@@ -135,7 +135,11 @@
   top: 0;
   bottom: 0;
   width: var(--smaller);
-  background: radial-gradient(circle at 50% 50%, #555 var(--size-1), transparent var(--size-1));
+  background: radial-gradient(
+    circle at 50% 50%,
+    #555 var(--size-1),
+    transparent var(--size-1)
+  );
   background-size: var(--size-6) var(--smaller);
   opacity: 0.5;
 }

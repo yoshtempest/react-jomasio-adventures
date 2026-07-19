@@ -19,7 +19,7 @@ export function hungryDeathBehavior(ctx: BehaviorContext) {
       grabStartTime: 0,
       attackCount: 0,
       lastMeleeAttack: 0,
-      lastGrabEndTime: 0
+      lastGrabEndTime: 0,
     };
   }
 

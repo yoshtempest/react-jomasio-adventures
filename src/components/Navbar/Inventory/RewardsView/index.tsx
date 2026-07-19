@@ -51,7 +51,9 @@ export function RewardsView({
         onSelect={onSelect}
         onConfirm={() => {
           if (rewardOptionCount > 1 && rewardOptionIndex === 0) {
-            onOpenNextChest(lastOpened?.chestId ?? (chestResult.tier as unknown as ItemId));
+            onOpenNextChest(
+              lastOpened?.chestId ?? (chestResult.tier as unknown as ItemId),
+            );
           } else {
             onCloseChest();
           }

@@ -17,9 +17,7 @@ const AURA_COLORS = {
   particleReady: "#ff8800",
 } as const;
 
-const FLAME_SPIKE_ANGLES = [
-  -70, -50, -35, -20, -10, 0, 10, 20, 35, 50, 70,
-];
+const FLAME_SPIKE_ANGLES = [-70, -50, -35, -20, -10, 0, 10, 20, 35, 50, 70];
 
 export function ChargeParticles({
   particles,
@@ -106,7 +104,9 @@ export function ChargeParticles({
         const alpha = p.opacity * (1 - progress);
         const yOffset = p.offsetY - progress * 80;
         const particleSize = p.size * (chargeReady ? 1.5 : 1);
-        const color = chargeReady ? AURA_COLORS.particleReady : AURA_COLORS.particle;
+        const color = chargeReady
+          ? AURA_COLORS.particleReady
+          : AURA_COLORS.particle;
 
         return (
           <div

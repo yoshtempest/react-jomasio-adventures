@@ -16,7 +16,9 @@ export const UNLOCK_FLAG_TO_CHAR: Record<string, CharacterId> = {
   riquelsonUnlocked: "riquelme",
 };
 
-export function isUnlockFlag(flag: FlagId): flag is FlagId & keyof typeof UNLOCK_FLAG_TO_CHAR {
+export function isUnlockFlag(
+  flag: FlagId,
+): flag is FlagId & keyof typeof UNLOCK_FLAG_TO_CHAR {
   return flag in UNLOCK_FLAG_TO_CHAR;
 }
 

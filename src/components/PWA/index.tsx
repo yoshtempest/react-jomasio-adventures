@@ -27,11 +27,14 @@ export default function InstallButton() {
         </div>
       )}
       {showNotAvailableMessage && (
-        <div className={styles.overlay} onClick={() => setShowNotAvailableMessage(false)}>
+        <div
+          className={styles.overlay}
+          onClick={() => setShowNotAvailableMessage(false)}
+        >
           <div className={styles.popup} onClick={(e) => e.stopPropagation()}>
             <p>
-              Use o menu do navegador (⋮ ou ↗) e selecione &quot;Instalar app&quot; ou
-              &quot;Adicionar à tela inicial&quot;.
+              Use o menu do navegador (⋮ ou ↗) e selecione &quot;Instalar
+              app&quot; ou &quot;Adicionar à tela inicial&quot;.
             </p>
             <button
               type="button"

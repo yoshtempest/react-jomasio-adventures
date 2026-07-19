@@ -17,9 +17,7 @@ export function NPCHUDPanel({ npcType, npcLevel, npcHP, npcMaxHp }: Props) {
       <div className={styles.npcInfo}>
         <h2 className={styles.name}>{getNpcDisplayName(npcType)}</h2>
         {npcLevel !== undefined && (
-          <p className={styles.npcRank}>
-            {formatRank(getRank(npcLevel))}
-          </p>
+          <p className={styles.npcRank}>{formatRank(getRank(npcLevel))}</p>
         )}
 
         <HealthBar hp={npcHP} maxHp={npcMaxHp} reversed />

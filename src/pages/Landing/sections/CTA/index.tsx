@@ -9,9 +9,7 @@ export function CTA() {
     <section className={styles.ctaSection}>
       <div className={styles.ctaOverlay} />
       <div className={styles.ctaContent}>
-        <h2 className={styles.ctaTitle}>
-          Pronto para essa aventura?
-        </h2>
+        <h2 className={styles.ctaTitle}>Pronto para essa aventura?</h2>
         <p className={styles.ctaDesc}>
           Junte-se a nossa turma e descubra todos os segredos da escola!
         </p>

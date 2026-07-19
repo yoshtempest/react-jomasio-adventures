@@ -49,10 +49,14 @@ function saveStats(data: BattleStatsData): void {
 }
 
 // Damage dealt
-export function incrementDamageDealtStats(character: string, amount: number): void {
+export function incrementDamageDealtStats(
+  character: string,
+  amount: number,
+): void {
   const data = loadStats();
   data.damageDealt.total += amount;
-  data.damageDealt.perCharacter[character] = (data.damageDealt.perCharacter[character] ?? 0) + amount;
+  data.damageDealt.perCharacter[character] =
+    (data.damageDealt.perCharacter[character] ?? 0) + amount;
   saveStats(data);
 }
 
@@ -61,10 +65,14 @@ export function getDamageDealtStats(): PerCharacterStats {
 }
 
 // Damage taken
-export function incrementDamageTakenStats(character: string, amount: number): void {
+export function incrementDamageTakenStats(
+  character: string,
+  amount: number,
+): void {
   const data = loadStats();
   data.damageTaken.total += amount;
-  data.damageTaken.perCharacter[character] = (data.damageTaken.perCharacter[character] ?? 0) + amount;
+  data.damageTaken.perCharacter[character] =
+    (data.damageTaken.perCharacter[character] ?? 0) + amount;
   saveStats(data);
 }
 
@@ -76,7 +84,8 @@ export function getDamageTakenStats(): PerCharacterStats {
 export function incrementMissesStats(character: string): void {
   const data = loadStats();
   data.misses.total += 1;
-  data.misses.perCharacter[character] = (data.misses.perCharacter[character] ?? 0) + 1;
+  data.misses.perCharacter[character] =
+    (data.misses.perCharacter[character] ?? 0) + 1;
   saveStats(data);
 }
 
@@ -95,7 +104,8 @@ export function incrementEquipmentDropsStats(count: number): void {
 export function incrementHitsUsedStats(character: string): void {
   const data = loadStats();
   data.hitsUsed.total += 1;
-  data.hitsUsed.perCharacter[character] = (data.hitsUsed.perCharacter[character] ?? 0) + 1;
+  data.hitsUsed.perCharacter[character] =
+    (data.hitsUsed.perCharacter[character] ?? 0) + 1;
   saveStats(data);
 }
 
@@ -107,7 +117,8 @@ export function getHitsUsedStats(): PerCharacterStats {
 export function incrementSpecialsUsedStats(character: string): void {
   const data = loadStats();
   data.specialsUsed.total += 1;
-  data.specialsUsed.perCharacter[character] = (data.specialsUsed.perCharacter[character] ?? 0) + 1;
+  data.specialsUsed.perCharacter[character] =
+    (data.specialsUsed.perCharacter[character] ?? 0) + 1;
   saveStats(data);
 }
 
@@ -119,7 +130,8 @@ export function getSpecialsUsedStats(): PerCharacterStats {
 export function incrementAttacksUsedStats(character: string): void {
   const data = loadStats();
   data.attacksUsed.total += 1;
-  data.attacksUsed.perCharacter[character] = (data.attacksUsed.perCharacter[character] ?? 0) + 1;
+  data.attacksUsed.perCharacter[character] =
+    (data.attacksUsed.perCharacter[character] ?? 0) + 1;
   saveStats(data);
 }
 

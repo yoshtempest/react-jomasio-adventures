@@ -78,8 +78,16 @@ export function QuestDirectionArrow({
     <div
       className={styles.directionArrow}
       style={{
-        left: gridX * TILE_SIZE + PLAYER_SIZE / 2 + offset.x * (PLAYER_SIZE * 0.55) - 6,
-        top: gridY * TILE_SIZE + PLAYER_SIZE / 2 + offset.y * (PLAYER_SIZE * 0.55) - 6,
+        left:
+          gridX * TILE_SIZE +
+          PLAYER_SIZE / 2 +
+          offset.x * (PLAYER_SIZE * 0.55) -
+          6,
+        top:
+          gridY * TILE_SIZE +
+          PLAYER_SIZE / 2 +
+          offset.y * (PLAYER_SIZE * 0.55) -
+          6,
         transform: `rotate(${rotation}deg)`,
       }}
     >

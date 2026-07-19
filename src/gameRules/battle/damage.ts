@@ -51,10 +51,7 @@ export function calculateDamageToNpc(
   return Math.round((damage * 100) / (100 + npcArmor));
 }
 
-export function getBerserkMultiplier(
-  currentHP: number,
-  maxHP: number,
-): number {
+export function getBerserkMultiplier(currentHP: number, maxHP: number): number {
   const ratio = Math.max(currentHP / maxHP, 0.1);
   return 1 + (1 - ratio) / 0.9;
 }

@@ -104,7 +104,11 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     description:
       "Um brutamonte que aterroriza os arredores de Jomasio. Corpo enorme e pouca paciência.",
     location: "Jomasio",
-    attacks: ["Olha a faca", "Pensa rápido", "Roda Roda Vira, Solta a Roda e Vem"],
+    attacks: [
+      "Olha a faca",
+      "Pensa rápido",
+      "Roda Roda Vira, Solta a Roda e Vem",
+    ],
   },
   denis: {
     npcType: "denis",

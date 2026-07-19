@@ -1,9 +1,6 @@
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
-import {
-  EQUIPMENT_SLOTS,
-  RANK_COLORS,
-} from "@/utils/types/player/equipment";
+import { EQUIPMENT_SLOTS, RANK_COLORS } from "@/utils/types/player/equipment";
 import styles from "./styles.module.css";
 import { asset } from "@/utils/paths";
 import { FILTER_LABELS } from "@/utils/equipmentMenu";
@@ -25,9 +22,7 @@ export function EquipmentList() {
           <p key={slot} className={styles.fontSize}>
             <img className="slotTag" src={asset(FILTER_LABELS[slot])} />
             {item ? (
-              <span style={{ color: RANK_COLORS[item.rank] }}>
-                {item.name}
-              </span>
+              <span style={{ color: RANK_COLORS[item.rank] }}>{item.name}</span>
             ) : (
               <span className={styles.italic}>Vazio</span>
             )}

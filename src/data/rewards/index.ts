@@ -60,7 +60,9 @@ function generateCharRewards(): RewardDef[] {
   return result;
 }
 
-export function isCharRewardId(id: string): { charId: string; type: string } | null {
+export function isCharRewardId(
+  id: string,
+): { charId: string; type: string } | null {
   const types = ["level", "damage", "specials", "hits", "attacks"];
   for (const t of types) {
     const prefix = t + "_";

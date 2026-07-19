@@ -2,7 +2,13 @@ import { asset } from "@/utils/paths";
 import { getComboMoves } from "@/data/battle/comboMoves";
 import styles from "./styles.module.css";
 
-export function ComboList({ characterId, startIndex = 0 }: { characterId: CharacterId; startIndex?: number }) {
+export function ComboList({
+  characterId,
+  startIndex = 0,
+}: {
+  characterId: CharacterId;
+  startIndex?: number;
+}) {
   const combos = getComboMoves(characterId);
 
   return (
@@ -10,12 +16,18 @@ export function ComboList({ characterId, startIndex = 0 }: { characterId: Charac
       <p className="StatusTitle">Combos</p>
 
       {combos.map((combo, i) => (
-        <div key={combo.id} className={styles.comboCard} data-index={startIndex + i}>
+        <div
+          key={combo.id}
+          className={styles.comboCard}
+          data-index={startIndex + i}
+        >
           <div className={styles.comboHeader}>
             <span className={styles.comboName}>{combo.name}</span>
             <div className={styles.sequence}>
               {combo.sequence.map((btn, i) => (
-                <span key={i} className={styles.button}>{btn}</span>
+                <span key={i} className={styles.button}>
+                  {btn}
+                </span>
               ))}
             </div>
           </div>

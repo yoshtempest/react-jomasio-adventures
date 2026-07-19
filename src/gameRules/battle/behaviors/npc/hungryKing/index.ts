@@ -4,9 +4,11 @@ import { initHungryKingAi, handlePhaseChange } from "./state";
 import { hungryKingPhase1 } from "./phase1";
 import { hungryKingPhase2 } from "./phase2";
 
-export function hungryKingBehavior(
-  ctx: BehaviorContext,
-): { x: number; y: number; state?: NPCBattleState["state"] } {
+export function hungryKingBehavior(ctx: BehaviorContext): {
+  x: number;
+  y: number;
+  state?: NPCBattleState["state"];
+} {
   const { npc, npcPhase } = ctx;
 
   if (!npc.ai) npc.ai = {};

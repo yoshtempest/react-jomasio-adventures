@@ -13,7 +13,10 @@ import { useFlags } from "@/contexts/FlagContext";
 import { usePlayTime } from "@/contexts/PlayTimeContext";
 import { getUnlockDate } from "@/utils/character/unlockDate";
 
-export function useCharacterMenu(isOpen: boolean, listRef?: React.RefObject<HTMLDivElement | null>) {
+export function useCharacterMenu(
+  isOpen: boolean,
+  listRef?: React.RefObject<HTMLDivElement | null>,
+) {
   const { setCharacter } = usePlayer();
   const { pushControls, popControls } = useGameControls();
   const { playMove, playSelect } = useMenuSFX();
@@ -36,7 +39,7 @@ export function useCharacterMenu(isOpen: boolean, listRef?: React.RefObject<HTML
       (c.image === "lucas" && hasFlag("yvelUnlocked")) ||
       (c.image === "artur" && hasFlag("srGuaxinimUnlocked")),
     unlockedDate: c.selectable
-      ? (firstLoginDate || null)
+      ? firstLoginDate || null
       : getUnlockDate(c.image),
   }));
 

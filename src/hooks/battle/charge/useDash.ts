@@ -121,8 +121,7 @@ export function useChargeDash(props: Props) {
           titleDamageBonus,
         );
         const berserkRaw =
-          dashCharacter === "samuel" &&
-          dashCharRef.current.level >= 20
+          dashCharacter === "samuel" && dashCharRef.current.level >= 20
             ? Math.round(
                 rawDmg *
                   getBerserkMultiplier(
@@ -132,7 +131,10 @@ export function useChargeDash(props: Props) {
               )
             : rawDmg;
         const chargeDmg = Math.round(berserkRaw * 1.5);
-        const { damage: critDmg, type: critType } = rollCrit(chargeDmg, critRate);
+        const { damage: critDmg, type: critType } = rollCrit(
+          chargeDmg,
+          critRate,
+        );
         if (critType === "crit") wasCritRef.current = true;
 
         const targets: { id: string; x: number; y: number }[] = [];
@@ -172,10 +174,10 @@ export function useChargeDash(props: Props) {
               const dmg = calculateDamageToNpc(critDmg, npcArmor);
               setNpcHP((hp) => Math.max(0, hp - dmg));
               if (vampirismRef.current > 0) {
-                const heal = Math.round(dmg * vampirismRef.current / 100);
+                const heal = Math.round((dmg * vampirismRef.current) / 100);
                 if (heal > 0) {
                   setPlayerHPRef.current((hp) =>
-                    Math.min(playerMaxHpRef.current, hp + heal)
+                    Math.min(playerMaxHpRef.current, hp + heal),
                   );
                 }
               }
@@ -188,7 +190,9 @@ export function useChargeDash(props: Props) {
               registerHitRef.current?.(dmg);
               hitstopRef.current = Date.now() + 80;
               playerCooldown.current = false;
-              setTimeout(() => { playerCooldown.current = true; }, PLAYER_CHARGE_DASH_COOLDOWN);
+              setTimeout(() => {
+                playerCooldown.current = true;
+              }, PLAYER_CHARGE_DASH_COOLDOWN);
             } else {
               spawnDamageRef.current?.(
                 critDmg,
@@ -200,10 +204,10 @@ export function useChargeDash(props: Props) {
               hitstopRef.current = Date.now() + 80;
 
               if (vampirismRef.current > 0) {
-                const heal = Math.round(critDmg * vampirismRef.current / 100);
+                const heal = Math.round((critDmg * vampirismRef.current) / 100);
                 if (heal > 0) {
                   setPlayerHPRef.current((hp) =>
-                    Math.min(playerMaxHpRef.current, hp + heal)
+                    Math.min(playerMaxHpRef.current, hp + heal),
                   );
                 }
               }

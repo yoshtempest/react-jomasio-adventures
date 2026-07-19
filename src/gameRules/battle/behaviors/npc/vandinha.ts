@@ -13,9 +13,17 @@ const IDLE_DURATION = 100;
 
 export function vandinhaBehavior(ctx: BehaviorContext) {
   const {
-    npc, targetX, targetY, playerX, playerY,
-    projectile, setProjectile, lastAttackRef,
-    setForceIdle, onMeleeHit, playSound,
+    npc,
+    targetX,
+    targetY,
+    playerX,
+    playerY,
+    projectile,
+    setProjectile,
+    lastAttackRef,
+    setForceIdle,
+    onMeleeHit,
+    playSound,
   } = ctx;
 
   const distanceX = Math.abs(npc.x - targetX);
@@ -28,7 +36,6 @@ export function vandinhaBehavior(ctx: BehaviorContext) {
   const ai = npc.ai.vandinha;
 
   if (distanceX <= SWITCH_DISTANCE) {
-
     const hit = tryMeleeAttack({
       npcX: npc.x,
       npcY: npc.y,

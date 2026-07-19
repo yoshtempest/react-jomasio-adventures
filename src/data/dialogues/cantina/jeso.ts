@@ -13,6 +13,7 @@ export const cantinaJesoDialogue = [
   {
     src: "/assets/npcs/jeso/right.svg",
     name: "Jeso",
-    message: "Não era nesse sentido que eu tava falando, mas beleza, eu posso te dar uma comida.",
+    message:
+      "Não era nesse sentido que eu tava falando, mas beleza, eu posso te dar uma comida.",
   },
 ];

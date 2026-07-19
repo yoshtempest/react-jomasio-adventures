@@ -26,7 +26,7 @@ const FootballCourtPage = lazyLoad(() => import("@/pages/FootballCourt"));
 
 const CafeteriaPage = lazyLoad(() => import("@/pages/Cafeteria"));
 const HellroomPage = lazyLoad(() => import("@/pages/HellRoom"));
-const BrodiClassPage = lazyLoad(() => import ("@/pages/BrodiClass"));
+const BrodiClassPage = lazyLoad(() => import("@/pages/BrodiClass"));
 
 const BattlePage = lazyLoad(() => import("@/pages/BattlePage"));
 

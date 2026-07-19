@@ -42,9 +42,10 @@ export function useBattleGravity(
           if (newY >= landingY) {
             hasDoubleJumped.current = false;
             if (hasUsedFallingAttack) hasUsedFallingAttack.current = false;
-            const wasAirborne = p.state === "jump" ||
-            p.state === "preJump" ||
-            p.state === "falling";
+            const wasAirborne =
+              p.state === "jump" ||
+              p.state === "preJump" ||
+              p.state === "falling";
             return {
               ...p,
               y: landingY,
@@ -57,9 +58,10 @@ export function useBattleGravity(
           if (newY >= p.groundY) {
             hasDoubleJumped.current = false;
             if (hasUsedFallingAttack) hasUsedFallingAttack.current = false;
-            const wasAirborne = p.state === "jump" ||
-            p.state === "preJump" ||
-            p.state === "falling";
+            const wasAirborne =
+              p.state === "jump" ||
+              p.state === "preJump" ||
+              p.state === "falling";
             return {
               ...p,
               y: p.groundY,
@@ -69,8 +71,22 @@ export function useBattleGravity(
           }
         }
 
-        const isAirSpecial = p.state === "preSpecialInAir" || p.state === "specialInAir" || p.state === "specialInAirFinish";
-        return { ...p, y: newY, velY: newVelY, state: isAirSpecial ? p.state : (newVelY > 0 ? "falling" : p.state === "preJump" ? "preJump" : "jump") };
+        const isAirSpecial =
+          p.state === "preSpecialInAir" ||
+          p.state === "specialInAir" ||
+          p.state === "specialInAirFinish";
+        return {
+          ...p,
+          y: newY,
+          velY: newVelY,
+          state: isAirSpecial
+            ? p.state
+            : newVelY > 0
+              ? "falling"
+              : p.state === "preJump"
+                ? "preJump"
+                : "jump",
+        };
       });
     }, 16);
 

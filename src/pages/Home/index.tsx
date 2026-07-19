@@ -45,7 +45,10 @@ export default function Home() {
   }, [pushControls, popControls, handleConfirm]);
 
   return (
-    <div className="Master" style={{ backgroundImage: `url(${sceneBackgrounds.Home})` }}>
+    <div
+      className="Master"
+      style={{ backgroundImage: `url(${sceneBackgrounds.Home})` }}
+    >
       <img src={asset("/assets/logo.svg")} alt="logo" className={styles.logo} />
       <p className={styles.continue}>Faça o L para continuar</p>
     </div>

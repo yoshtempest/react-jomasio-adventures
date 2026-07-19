@@ -1,10 +1,10 @@
 .container div {
-    display: flex;
-    flex-direction: row;
-    gap: 0.5vw;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5vw;
 }
 
 .container img {
-    display: flex;
-    width: 2vw;
+  display: flex;
+  width: 2vw;
 }

@@ -2,8 +2,10 @@ import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { slotKey } from "@/utils/save/slotManager";
-import type { RandomEncounterConfig, EncounterDef } from "@/utils/types/battle/randomEncounter";
-
+import type {
+  RandomEncounterConfig,
+  EncounterDef,
+} from "@/utils/types/battle/randomEncounter";
 
 function pickEncounter(encounters: EncounterDef[]): string {
   const totalWeight = encounters.reduce((sum, e) => sum + e.weight, 0);
@@ -47,7 +49,9 @@ export function useRandomEncounter(config: RandomEncounterConfig) {
     const currentPlayer = playerRef.current;
     const { gridX, gridY } = currentPlayer;
 
-    const moved = gridX !== lastPositionRef.current.x || gridY !== lastPositionRef.current.y;
+    const moved =
+      gridX !== lastPositionRef.current.x ||
+      gridY !== lastPositionRef.current.y;
     if (!moved) return;
 
     lastPositionRef.current = { x: gridX, y: gridY };
@@ -55,7 +59,8 @@ export function useRandomEncounter(config: RandomEncounterConfig) {
     if (currentPlayer.mode !== "explore") return;
 
     const cfg = configRef.current;
-    const isBlocked = cfg.blockedTiles?.some((t) => t.x === gridX && t.y === gridY) ?? false;
+    const isBlocked =
+      cfg.blockedTiles?.some((t) => t.x === gridX && t.y === gridY) ?? false;
     if (isBlocked) return;
 
     if (Math.random() < (cfg.encounterChance ?? 0.1)) {

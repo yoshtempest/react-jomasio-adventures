@@ -12,6 +12,7 @@ export const cantinaJesoTwoDialogue = [
   {
     src: "/assets/npcs/jeso/right.svg",
     name: "Jeso",
-    message: "Só te dou uma comida a cada 10 minutos, dá uma relaxada ai enquanto isso.",
+    message:
+      "Só te dou uma comida a cada 10 minutos, dá uma relaxada ai enquanto isso.",
   },
 ];

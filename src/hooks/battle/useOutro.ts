@@ -15,7 +15,9 @@ export function useBattleOutro({ redirectTo, onVictory }: OutroProps) {
   const [showOutro, setShowOutro] = useState<"victory" | "defeat" | null>(null);
   const [skipVictoryDelay, setSkipVictoryDelay] = useState(false);
   const [lastRewards, setLastRewards] = useState<RewardInfo | null>(null);
-  const outroTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const outroTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
+    undefined,
+  );
 
   const { showVictory, triggerVictory } = useVictory({ redirectTo });
 

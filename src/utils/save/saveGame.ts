@@ -1,6 +1,15 @@
 import type { InventoryItem } from "@/utils/types/player/inventory";
-import { saveCompressed, loadCompressed, removeKey } from "@/utils/save/storage";
-import { slotKey, slotKeyFor, hasAnySave, type SlotIndex } from "@/utils/save/slotManager";
+import {
+  saveCompressed,
+  loadCompressed,
+  removeKey,
+} from "@/utils/save/storage";
+import {
+  slotKey,
+  slotKeyFor,
+  hasAnySave,
+  type SlotIndex,
+} from "@/utils/save/slotManager";
 import type { CharactersProgress } from "@/data/characters/defaultProgress";
 
 export type SaveData = {
@@ -59,7 +68,11 @@ export function getPlayTimeForSlot(slot: SlotIndex): number {
 
 // --- Cloud sync ---
 
-async function request<T>(method: string, path: string, body?: unknown): Promise<T> {
+async function request<T>(
+  method: string,
+  path: string,
+  body?: unknown,
+): Promise<T> {
   const token = getToken();
   if (!token) throw new Error("Não autenticado");
 

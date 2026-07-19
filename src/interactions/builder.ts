@@ -36,7 +36,10 @@ export function createPickupHandler(config: PickupHandlerConfig) {
       deps.setPopup(config.pickupMessage);
       deps.addItem(config.item);
       if (config.questProgress) {
-        deps.progressQuest?.(config.questProgress.id, config.questProgress.step);
+        deps.progressQuest?.(
+          config.questProgress.id,
+          config.questProgress.step,
+        );
       }
       deps.setFlag?.(config.flagId);
     } else {

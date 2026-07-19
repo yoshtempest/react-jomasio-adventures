@@ -5,7 +5,11 @@ import { GameMap } from "@/components/Game/Map/Game";
 import { Player } from "@/components/Game/Player";
 import { NPC } from "@/components/Game/Npc";
 import { Plate } from "@/components/Game/Plate";
-import { QuestArrow, QuestNPCBadge, QuestDirectionArrow } from "@/components/Game/Quest/Indicator";
+import {
+  QuestArrow,
+  QuestNPCBadge,
+  QuestDirectionArrow,
+} from "@/components/Game/Quest/Indicator";
 import Talking from "@/components/Talking";
 import { useDialogue } from "@/hooks/interaction/useDialogue";
 import { useSansTalking } from "@/hooks/interaction/useSansTalking";
@@ -163,7 +167,9 @@ export function ExploreScene({
       }
 
       // 🔥 verifica placa na frente
-      const plate = plates.find((p) => p.gridX === front.x && p.gridY === front.y);
+      const plate = plates.find(
+        (p) => p.gridX === front.x && p.gridY === front.y,
+      );
 
       if (plate?.message) {
         setPopup?.(plate.message);
@@ -310,7 +316,12 @@ export function ExploreScene({
         <InteractionPrompt text={interactionHint} />
       )}
 
-      {dialogueSystem.isOpen && <Talking {...dialogueSystem.dialogue} onSoundEnd={dialogueSystem.next} />}
+      {dialogueSystem.isOpen && (
+        <Talking
+          {...dialogueSystem.dialogue}
+          onSoundEnd={dialogueSystem.next}
+        />
+      )}
     </div>
   );
 }

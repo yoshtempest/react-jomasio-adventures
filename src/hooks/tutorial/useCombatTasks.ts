@@ -50,8 +50,7 @@ export function useCombatTasks() {
 
   useEffect(() => {
     if (currentTask !== "special") return;
-    if (player.state === "special")
-      setCurrentTask("crounch");
+    if (player.state === "special") setCurrentTask("crounch");
   }, [player.state, currentTask]);
 
   useEffect(() => {

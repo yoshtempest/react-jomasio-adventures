@@ -1,4 +1,4 @@
-import styles from "./styles.module.css"
+import styles from "./styles.module.css";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
@@ -14,7 +14,11 @@ export function CharacterStats() {
   const { getBonus } = useTitles();
 
   const stats = progress[character]?.stats ?? {
-    hp: 1, strength: 1, intelligence: 1, resistance: 1, points: 0,
+    hp: 1,
+    strength: 1,
+    intelligence: 1,
+    resistance: 1,
+    points: 0,
   };
   const bonus = getTotalBonus(character);
   const titleBonus = getBonus();
@@ -58,11 +62,12 @@ export function CharacterStats() {
         <p>Tenacidade: {userTenacity}%</p>
       </div>
 
-      {totalShield > 0 &&
-      <div>
-        <img src={asset("/assets/status/shield.svg")} />
-        <p>Escudo: {totalShield}</p>
-      </div>}
+      {totalShield > 0 && (
+        <div>
+          <img src={asset("/assets/status/shield.svg")} />
+          <p>Escudo: {totalShield}</p>
+        </div>
+      )}
     </div>
   );
 }

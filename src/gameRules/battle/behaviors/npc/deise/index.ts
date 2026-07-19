@@ -4,9 +4,11 @@ import { initDeiseAi, handlePhaseChange } from "./state";
 import { deisePhase1 } from "./phase1";
 import { deisePhase2 } from "./phase2";
 
-export function deiseBehavior(
-  ctx: BehaviorContext,
-): { x: number; y: number; state?: NPCBattleState["state"] } {
+export function deiseBehavior(ctx: BehaviorContext): {
+  x: number;
+  y: number;
+  state?: NPCBattleState["state"];
+} {
   const { npc, npcPhase } = ctx;
 
   if (!npc.ai) npc.ai = {};

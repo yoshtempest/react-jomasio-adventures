@@ -95,22 +95,28 @@ export function SoundEffectsProvider({ children }: { children: ReactNode }) {
     });
   }, [sfxVolume]);
 
-  const playSound = useCallback(async (sound: SoundId, loop?: boolean, volumeOverride?: number) => {
-    const audio = soundsRef.current[sound];
+  const playSound = useCallback(
+    async (sound: SoundId, loop?: boolean, volumeOverride?: number) => {
+      const audio = soundsRef.current[sound];
 
-    if (!audio) return;
+      if (!audio) return;
 
-    try {
-      audio.pause();
-      audio.currentTime = 0;
-      audio.loop = loop ?? false;
-      audio.volume = (sfxVolumeRef.current / 100) * (SOUND_VOLUMES[sound] ?? 1) * (volumeOverride ?? 1);
+      try {
+        audio.pause();
+        audio.currentTime = 0;
+        audio.loop = loop ?? false;
+        audio.volume =
+          (sfxVolumeRef.current / 100) *
+          (SOUND_VOLUMES[sound] ?? 1) *
+          (volumeOverride ?? 1);
 
-      await audio.play();
-    } catch {
-      // AbortError é esperado quando play() é interrompido por pause()
-    }
-  }, []);
+        await audio.play();
+      } catch {
+        // AbortError é esperado quando play() é interrompido por pause()
+      }
+    },
+    [],
+  );
 
   const stopSound = useCallback((sound: SoundId) => {
     const audio = soundsRef.current[sound];

@@ -46,18 +46,36 @@ export function moveExplore(
   if (player.hasPeru) {
     const double = tryMove(player, map, direction, 2);
     if (double.moved) {
-      return { ...player, gridX: double.newX, gridY: double.newY, direction, moving: true };
+      return {
+        ...player,
+        gridX: double.newX,
+        gridY: double.newY,
+        direction,
+        moving: true,
+      };
     }
     const single = tryMove(player, map, direction, 1);
     if (single.moved) {
-      return { ...player, gridX: single.newX, gridY: single.newY, direction, moving: true };
+      return {
+        ...player,
+        gridX: single.newX,
+        gridY: single.newY,
+        direction,
+        moving: true,
+      };
     }
     return { ...player, direction, moving: false };
   }
 
   const result = tryMove(player, map, direction, 1);
   if (result.moved) {
-    return { ...player, gridX: result.newX, gridY: result.newY, direction, moving: true };
+    return {
+      ...player,
+      gridX: result.newX,
+      gridY: result.newY,
+      direction,
+      moving: true,
+    };
   }
   return { ...player, direction, moving: false };
 }

@@ -9,7 +9,9 @@
   background: rgba(18, 27, 49, 0.4);
   border: var(--size-1) solid rgba(255, 255, 255, 0.06);
   border-radius: var(--smaller);
-  transition: border-color 0.2s, background 0.2s;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
 }
 
 .funnyCard:hover {

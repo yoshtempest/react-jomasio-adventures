@@ -159,8 +159,7 @@ declare global {
     dialogueData?: Dialogue[] | ((context: DialogueContext) => Dialogue[]);
     nextRoute?: string;
     initialPosition?:
-      | ExplorePosition
-      | ((lastPage?: LastPage) => ExplorePosition);
+      ExplorePosition | ((lastPage?: LastPage) => ExplorePosition);
     npcs?: SceneNPCData[];
     plates?: ScenePlateData[];
     audio?: AudioConfig;
@@ -258,10 +257,10 @@ declare global {
     | "preSpecialInAir"
     | "specialInAir"
     | "specialInAirFinish"
-  | "blockAttack"
-  | "idleCrounched"
-  | "walkCrounched"
-  | "fallen";
+    | "blockAttack"
+    | "idleCrounched"
+    | "walkCrounched"
+    | "fallen";
 
   type PlayerMode = "explore" | "battle" | "select" | "ui" | "map";
 

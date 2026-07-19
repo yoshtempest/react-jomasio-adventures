@@ -1,5 +1,8 @@
 import { usePlayer } from "@/contexts/PlayerContext";
-import { useCharacterProgress, MAX_HUNGER } from "@/contexts/CharacterProgressContext";
+import {
+  useCharacterProgress,
+  MAX_HUNGER,
+} from "@/contexts/CharacterProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { CHARACTERS } from "@/data/options/characters";
 import { npcPath, playerPath } from "@/utils/paths";
@@ -38,9 +41,7 @@ export function CharacterInfo() {
       <h2>
         {characterData?.name} - Nv.{charProgress.level}
       </h2>
-      <h2 className={styles.rank}>
-        {formatRank(getRank(charProgress.level))}
-      </h2>
+      <h2 className={styles.rank}>{formatRank(getRank(charProgress.level))}</h2>
       <h2>Classe: {playerClass}</h2>
       <ProgressBar value={charProgress.xp} max={xpNeeded} />
       <p className={styles.xpText}>
@@ -50,12 +51,20 @@ export function CharacterInfo() {
         <div className={styles.hungerText}>
           <Drumstick />
           <span>Fome</span>
-          <span>{charProgress.hunger}/{MAX_HUNGER}</span>
+          <span>
+            {charProgress.hunger}/{MAX_HUNGER}
+          </span>
         </div>
         <ProgressBar
           value={charProgress.hunger}
           max={MAX_HUNGER}
-          color={charProgress.hunger > 50 ? "var(--success)" : charProgress.hunger > 20 ? "orange" : "red"}
+          color={
+            charProgress.hunger > 50
+              ? "var(--success)"
+              : charProgress.hunger > 20
+                ? "orange"
+                : "red"
+          }
         />
       </div>
     </div>

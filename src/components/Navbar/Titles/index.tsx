@@ -6,7 +6,6 @@ import { TITLES } from "@/data/titles/index";
 import { STAT_LABEL } from "@/data/titles/statLabel";
 import { asset } from "@/utils/paths";
 
-
 export function TitlesScreen() {
   const { titlesData } = useTitles();
   const listRef = useRef<HTMLDivElement | null>(null);
@@ -50,10 +49,7 @@ export function TitlesScreen() {
               }`}
             >
               <div className={styles.iconBox}>
-                <img
-                  src={asset(def.icon)}
-                  alt=""
-                  className={styles.iconImg} />
+                <img src={asset(def.icon)} alt="" className={styles.iconImg} />
               </div>
 
               <div className={styles.info}>

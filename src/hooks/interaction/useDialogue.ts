@@ -77,6 +77,15 @@ export function useDialogue(dialogues: Dialogue[], onFinish?: () => void) {
       length: processedDialogues.length,
       nextSoundSrc,
     }),
-    [dialogue, isOpen, start, next, isLast, index, processedDialogues.length, nextSoundSrc],
+    [
+      dialogue,
+      isOpen,
+      start,
+      next,
+      isLast,
+      index,
+      processedDialogues.length,
+      nextSoundSrc,
+    ],
   );
 }

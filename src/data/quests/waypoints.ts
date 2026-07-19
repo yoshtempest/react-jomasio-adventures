@@ -19,22 +19,15 @@ export const QUEST_ROUTES: Partial<Record<string, string>> = {
   kill_goats: "/hall/one",
 };
 
-export const QUEST_NPC_POSITIONS: Record<string, Array<{ gridX: number; gridY: number }>> = {
-  "/hall/afterpcroom-one": [
-    { gridX: 4, gridY: 7 },
-  ],
-  "/cantina/one": [
-    { gridX: 9, gridY: 4 },
-  ],
-  "/cafeteria/one": [
-    { gridX: 14, gridY: 5 },
-  ],
-  "/pcroom/one": [
-    { gridX: 8, gridY: 8 },
-  ],
-  "/hall/jailson-one": [
-    { gridX: 8, gridY: 3 },
-  ],
+export const QUEST_NPC_POSITIONS: Record<
+  string,
+  Array<{ gridX: number; gridY: number }>
+> = {
+  "/hall/afterpcroom-one": [{ gridX: 4, gridY: 7 }],
+  "/cantina/one": [{ gridX: 9, gridY: 4 }],
+  "/cafeteria/one": [{ gridX: 14, gridY: 5 }],
+  "/pcroom/one": [{ gridX: 8, gridY: 8 }],
+  "/hall/jailson-one": [{ gridX: 8, gridY: 3 }],
   "/hall/jailson-two": [
     { gridX: 8, gridY: 3 },
     { gridX: 8, gridY: 4 },
@@ -43,12 +36,8 @@ export const QUEST_NPC_POSITIONS: Record<string, Array<{ gridX: number; gridY: n
     { gridX: 8, gridY: 3 },
     { gridX: 9, gridY: 3 },
   ],
-  "/hall/hell": [
-    { gridX: 11, gridY: 6 },
-  ],
-  "/hall/pandemony": [
-    { gridX: 8, gridY: 3 },
-  ],
+  "/hall/hell": [{ gridX: 11, gridY: 6 }],
+  "/hall/pandemony": [{ gridX: 8, gridY: 3 }],
   "/footballcourt/one": [
     { gridX: 9, gridY: 4 },
     { gridX: 10, gridY: 4 },

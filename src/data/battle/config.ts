@@ -20,7 +20,9 @@ export const BATTLE_CONFIGS: Record<string, BattleConfig> = {
   cafeteria: {
     npcType: "deise",
     redirectTo: "/cafeteria/one",
-    onVictory: ({ setFlag }) => { setFlag("deise"); },
+    onVictory: ({ setFlag }) => {
+      setFlag("deise");
+    },
     victoryDescription: "Você derrotou Deise, a Lich imortal",
     background: sceneBackgrounds.CafeteriaBattle,
     audioSrc: backgroundAudioPath("/battle/DarkSouls.m4a"),
@@ -28,7 +30,9 @@ export const BATTLE_CONFIGS: Record<string, BattleConfig> = {
   cantina: {
     npcType: "jhowsimar",
     redirectTo: "/cantina/one",
-    onVictory: ({ setFlag }) => { setFlag("jhowsimar"); },
+    onVictory: ({ setFlag }) => {
+      setFlag("jhowsimar");
+    },
     victoryDescription: "Você derrotou 'Jhow Simar, o Vigia'",
     background: sceneBackgrounds.CantinaBattle,
     audioSrc: backgroundAudioPath("/battle/StreetFighter5KenTheme.m4a"),
@@ -36,23 +40,34 @@ export const BATTLE_CONFIGS: Record<string, BattleConfig> = {
   hellroom: {
     npcType: "maugrelo",
     redirectTo: "/hellroom/three",
-    onVictory: ({ setFlag }) => { setFlag("maugrelo"); },
-    victoryDescription: "Você derrotou Maugrelo, mas ele parece ter gostado de apanhar?",
+    onVictory: ({ setFlag }) => {
+      setFlag("maugrelo");
+    },
+    victoryDescription:
+      "Você derrotou Maugrelo, mas ele parece ter gostado de apanhar?",
     background: sceneBackgrounds.HellRoomBattle,
-    audioSrc: backgroundAudioPath("/battle/GuiltyGear/MaysThemeBlueWaterSky.mp3"),
+    audioSrc: backgroundAudioPath(
+      "/battle/GuiltyGear/MaysThemeBlueWaterSky.mp3",
+    ),
   },
   brodiclass: {
     npcType: "srGuaxinim",
     redirectTo: "/brodiclass/one",
-    onVictory: ({ setFlag }) => { setFlag("srGuaxinim"); setFlag("srGuaxinimUnlocked"); },
-    victoryDescription: "Você derrotou Sr.Guaxinim e se livrou momentaneamente da fúria de Baal.",
+    onVictory: ({ setFlag }) => {
+      setFlag("srGuaxinim");
+      setFlag("srGuaxinimUnlocked");
+    },
+    victoryDescription:
+      "Você derrotou Sr.Guaxinim e se livrou momentaneamente da fúria de Baal.",
     background: sceneBackgrounds.BrodiClassBattle,
     audioSrc: backgroundAudioPath("/battle/SpiderDance.m4a"),
   },
   footballCourt: {
     npcType: "neimito",
     redirectTo: "/footballcourt/one",
-    onVictory: ({ setFlag }) => { setFlag("neimito"); },
+    onVictory: ({ setFlag }) => {
+      setFlag("neimito");
+    },
     victoryDescription: "Você derrotou 'Neimito, o mestre do calor'",
     background: sceneBackgrounds.FootballCourtBattle,
     audioSrc: backgroundAudioPath("/battle/StreetFighter5KenTheme.m4a"),
@@ -60,7 +75,9 @@ export const BATTLE_CONFIGS: Record<string, BattleConfig> = {
   hallJailson: {
     npcType: "slimita",
     redirectTo: "/hall/jailson-two",
-    onVictory: ({ setFlag }) => { setFlag("slimita"); },
+    onVictory: ({ setFlag }) => {
+      setFlag("slimita");
+    },
     victoryDescription: "Você derrotou Slimita, a Paquera de Jailson",
     background: sceneBackgrounds.JailsonHallBattle,
     audioSrc: backgroundAudioPath("/battle/SpiderDance.m4a"),
@@ -68,15 +85,20 @@ export const BATTLE_CONFIGS: Record<string, BattleConfig> = {
   hallCenter: {
     npcType: "planetarySisters",
     redirectTo: "/hall/center-two",
-    onVictory: ({ setFlag }) => { setFlag("planetarySisters"); },
-    victoryDescription: "Você derrotou as Irmãs Planetárias e agora pode passar",
+    onVictory: ({ setFlag }) => {
+      setFlag("planetarySisters");
+    },
+    victoryDescription:
+      "Você derrotou as Irmãs Planetárias e agora pode passar",
     background: sceneBackgrounds.HallCenterBattle,
     audioSrc: backgroundAudioPath("/battle/KickBack.mp3"),
   },
   hallPandemony: {
     npcType: "maurao",
     redirectTo: "/hall/pandemony/two",
-    onVictory: ({ setFlag }) => { setFlag("maurao"); },
+    onVictory: ({ setFlag }) => {
+      setFlag("maurao");
+    },
     victoryDescription: "Você salvou Maurão da loucura",
     background: sceneBackgrounds.HallCenterBattle,
     audioSrc: backgroundAudioPath("/battle/KickBack.mp3"),
@@ -84,7 +106,9 @@ export const BATTLE_CONFIGS: Record<string, BattleConfig> = {
   pcroomOne: {
     npcType: "hungryDeath",
     redirectTo: "/pcroom/two",
-    onVictory: ({ setFlag }) => { setFlag("hungryDeath"); },
+    onVictory: ({ setFlag }) => {
+      setFlag("hungryDeath");
+    },
     victoryDescription: "Você derrotou um morto de fome!",
     background: sceneBackgrounds.PcRoomBattle,
     audioSrc: backgroundAudioPath("/battle/StreetFighter5KenTheme.m4a"),
@@ -92,7 +116,9 @@ export const BATTLE_CONFIGS: Record<string, BattleConfig> = {
   pcroomTwo: {
     npcType: "vandinhaFragment",
     redirectTo: "/pcroom/four",
-    onVictory: ({ setFlag }) => { setFlag("vandinhaFragment"); },
+    onVictory: ({ setFlag }) => {
+      setFlag("vandinhaFragment");
+    },
     victoryDescription: "Você derrotou um fragmento de Vandinha",
     background: sceneBackgrounds.PcRoomBattle,
     audioSrc: backgroundAudioPath("/battle/StreetFighter5KenTheme.m4a"),
@@ -100,56 +126,74 @@ export const BATTLE_CONFIGS: Record<string, BattleConfig> = {
   pcroomThree: {
     npcType: "hungryKing",
     redirectTo: "/pcroom/seven",
-    onVictory: ({ setFlag }) => { setFlag("hungryKing"); setFlag("samurionUnlocked"); },
-    victoryDescription: "Você salvou Samurion de seu próprio culto de mortos de fome",
+    onVictory: ({ setFlag }) => {
+      setFlag("hungryKing");
+      setFlag("samurionUnlocked");
+    },
+    victoryDescription:
+      "Você salvou Samurion de seu próprio culto de mortos de fome",
     background: sceneBackgrounds.PcRoomBattle,
     audioSrc: backgroundAudioPath("/battle/StreetFighter5KenTheme.m4a"),
   },
   goat: {
     npcType: "goat",
-    onVictory: ({ navigate }) => { navigate(-1); },
+    onVictory: ({ navigate }) => {
+      navigate(-1);
+    },
     victoryDescription: "Você derrotou um bode!",
     background: sceneBackgrounds.CantinaBattle,
     audioSrc: backgroundAudioPath("/battle/StreetFighter5KenTheme.m4a"),
   },
   hungry: {
     npcType: "hungryDeath",
-    onVictory: ({ navigate }) => { navigate(-1); },
+    onVictory: ({ navigate }) => {
+      navigate(-1);
+    },
     victoryDescription: "Você derrotou 'Jhow Simar, o Vigia'",
     background: sceneBackgrounds.LibraryBattle,
     audioSrc: backgroundAudioPath("/battle/OriginalConcept.mp3"),
   },
   jhowsimar: {
     npcType: "jhowsimar",
-    onVictory: ({ navigate }) => { navigate(-1); },
+    onVictory: ({ navigate }) => {
+      navigate(-1);
+    },
     victoryDescription: "Você derrotou 'Jhow Simar, o Vigia'",
     background: sceneBackgrounds.CantinaBattle,
     audioSrc: backgroundAudioPath("/battle/StreetFighter5KenTheme.m4a"),
   },
   piupiu: {
     npcType: "piupiu",
-    onVictory: ({ navigate }) => { navigate(-1); },
+    onVictory: ({ navigate }) => {
+      navigate(-1);
+    },
     victoryDescription: "Você derrotou um Pinto!",
     background: sceneBackgrounds.CafeteriaBattle,
     audioSrc: backgroundAudioPath("/battle/StreetFighter5KenTheme.m4a"),
   },
   rice: {
     npcType: "rice",
-    onVictory: ({ navigate }) => { navigate(-1); },
+    onVictory: ({ navigate }) => {
+      navigate(-1);
+    },
     victoryDescription: "Você derrotou um Bolinho de arroz!",
     background: sceneBackgrounds.CafeteriaBattle,
     audioSrc: backgroundAudioPath("/battle/StreetFighter5KenTheme.m4a"),
   },
   technoblade: {
     npcType: "technoblade",
-    onVictory: ({ navigate }) => { navigate(-1); },
+    onVictory: ({ navigate }) => {
+      navigate(-1);
+    },
     victoryDescription: "Você derrotou o rei",
     background: sceneBackgrounds.CantinaBattle,
     audioSrc: backgroundAudioPath("/battle/StreetFighter5KenTheme.m4a"),
   },
   vandinha: {
     npcType: "vandinhaFragment",
-    onVictory: ({ navigate }) => { navigate(-1); },
+    onVictory: ({ navigate }) => {
+      navigate(-1);
+    },
     background: sceneBackgrounds.PcRoomBattle,
     victoryDescription: "Você derrotou um fragmento de Vandinha",
     audioSrc: backgroundAudioPath("/battle/Jojo.m4a"),

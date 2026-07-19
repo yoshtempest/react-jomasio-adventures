@@ -86,7 +86,15 @@ export function DefeatModal({
     });
 
     return () => popControls();
-  }, [isOpen, executeSelected, selectPrev, selectNext, pushControls, popControls, playSound]);
+  }, [
+    isOpen,
+    executeSelected,
+    selectPrev,
+    selectNext,
+    pushControls,
+    popControls,
+    playSound,
+  ]);
 
   if (!isOpen) return null;
 

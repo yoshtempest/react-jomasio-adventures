@@ -1,5 +1,8 @@
 import { useState, useCallback } from "react";
-import { MONTHLY_MISSIONS, type MonthlyMissionDef } from "@/data/rewards/monthlyPass";
+import {
+  MONTHLY_MISSIONS,
+  type MonthlyMissionDef,
+} from "@/data/rewards/monthlyPass";
 import { MONTHLY_PASS_KEY } from "@/data/storageKeys";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
@@ -81,7 +84,13 @@ export function useMonthlyPass() {
   const classKills = getClassKills();
 
   const missions = MONTHLY_MISSIONS.map((def) => {
-    const progress = getMissionProgress(def, totalKills, totalPlayTime, loginDays, classKills);
+    const progress = getMissionProgress(
+      def,
+      totalKills,
+      totalPlayTime,
+      loginDays,
+      classKills,
+    );
     const completed = progress >= def.requirement;
     const claimed = stored.claimed.includes(def.id);
 
@@ -99,14 +108,21 @@ export function useMonthlyPass() {
 
   const completedCount = missions.filter((m) => m.claimed).length;
   const totalCount = missions.length;
-  const pct = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+  const pct =
+    totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
 
   const claim = useCallback(
     (missionId: string) => {
       const def = MONTHLY_MISSIONS.find((m) => m.id === missionId);
       if (!def) return;
 
-      const progress = getMissionProgress(def, totalKills, totalPlayTime, loginDays, classKills);
+      const progress = getMissionProgress(
+        def,
+        totalKills,
+        totalPlayTime,
+        loginDays,
+        classKills,
+      );
       if (progress < def.requirement) return;
       if (stored.claimed.includes(def.id)) return;
 
@@ -121,7 +137,15 @@ export function useMonthlyPass() {
         return updated;
       });
     },
-    [stored, totalKills, totalPlayTime, loginDays, classKills, player.character, addHyperCoins],
+    [
+      stored,
+      totalKills,
+      totalPlayTime,
+      loginDays,
+      classKills,
+      player.character,
+      addHyperCoins,
+    ],
   );
 
   return {

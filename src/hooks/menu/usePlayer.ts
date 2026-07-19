@@ -52,9 +52,7 @@ export function usePlayerMenu(
           playMoveRef.current();
           const count = rewardsCountRef?.current ?? 0;
           if (count <= 0) return true;
-          setSelectedRewardIndex((prev) =>
-            prev > 0 ? prev - 1 : count - 1,
-          );
+          setSelectedRewardIndex((prev) => (prev > 0 ? prev - 1 : count - 1));
           return true;
         },
 
@@ -62,14 +60,14 @@ export function usePlayerMenu(
           playMoveRef.current();
           const count = rewardsCountRef?.current ?? 0;
           if (count <= 0) return true;
-          setSelectedRewardIndex((prev) =>
-            prev < count - 1 ? prev + 1 : 0,
-          );
+          setSelectedRewardIndex((prev) => (prev < count - 1 ? prev + 1 : 0));
           return true;
         },
 
         onConfirm: () => {
-          const claimed = claimRewardRef?.current(selectedRewardIndexRef.current);
+          const claimed = claimRewardRef?.current(
+            selectedRewardIndexRef.current,
+          );
           if (claimed) playSelectRef.current();
           return true;
         },
@@ -100,17 +98,13 @@ export function usePlayerMenu(
 
       onLeft: () => {
         playMoveRef.current();
-        setSelectedIndex((prev) =>
-          prev > 0 ? prev - 1 : TOTAL_ITEMS - 1,
-        );
+        setSelectedIndex((prev) => (prev > 0 ? prev - 1 : TOTAL_ITEMS - 1));
         return true;
       },
 
       onRight: () => {
         playMoveRef.current();
-        setSelectedIndex((prev) =>
-          prev < TOTAL_ITEMS - 1 ? prev + 1 : 0,
-        );
+        setSelectedIndex((prev) => (prev < TOTAL_ITEMS - 1 ? prev + 1 : 0));
         return true;
       },
 

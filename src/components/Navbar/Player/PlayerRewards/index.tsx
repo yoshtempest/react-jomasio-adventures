@@ -38,7 +38,9 @@ export function PlayerRewards({
         <div className={styles.sectionTitle}>Recompensas</div>
         {globalRewards.length === 0 && (
           <div className={styles.statRow}>
-            <span className={styles.statLabel}>Nenhuma recompensa disponível</span>
+            <span className={styles.statLabel}>
+              Nenhuma recompensa disponível
+            </span>
           </div>
         )}
         {globalRewards.map((r, idx) => (
@@ -84,15 +86,15 @@ export function PlayerRewards({
 
         return (
           <div key={char} className={styles.charRewardSection}>
-            <div className={styles.charRewardHeader}>
-              {charLabel(char)}
-            </div>
+            <div className={styles.charRewardHeader}>{charLabel(char)}</div>
             {charRewards.map((r, i) => {
               const globalIdx = startIdx + i;
               return (
                 <div
                   key={r.id}
-                  ref={globalIdx === selectedRewardIndex ? selectedRef : undefined}
+                  ref={
+                    globalIdx === selectedRewardIndex ? selectedRef : undefined
+                  }
                   className={`${styles.rewardRow} ${
                     globalIdx === selectedRewardIndex
                       ? styles.rewardRowSelected

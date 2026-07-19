@@ -8,7 +8,9 @@ type LibraryDeps = Omit<PickupDeps, "gotKey" | "setFlag"> & {
 };
 
 export function createLibrary(deps: LibraryDeps) {
-  const messages = createInteractionMap(libraryMessages, { setPopup: deps.setPopup });
+  const messages = createInteractionMap(libraryMessages, {
+    setPopup: deps.setPopup,
+  });
 
   const packageHandler = createPickupHandler({
     item: { id: "package_01" },

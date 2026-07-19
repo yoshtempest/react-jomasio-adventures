@@ -1,12 +1,24 @@
 @keyframes pulse {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 1; }
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 @keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(calc(-1 * var(--size-2))); }
-  75% { transform: translateX(var(--size-2)); }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(calc(-1 * var(--size-2)));
+  }
+  75% {
+    transform: translateX(var(--size-2));
+  }
 }
 
 .zone {

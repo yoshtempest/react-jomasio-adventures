@@ -1,7 +1,10 @@
 import { useRef } from "react";
 import { useInventory } from "@/contexts/InventoryContext";
 import { usePlayer } from "@/contexts/PlayerContext";
-import { useCharacterProgress, MAX_HUNGER } from "@/contexts/CharacterProgressContext";
+import {
+  useCharacterProgress,
+  MAX_HUNGER,
+} from "@/contexts/CharacterProgressContext";
 import { useAudio } from "@/contexts/AudioContext";
 import { sfx } from "@/utils/paths";
 import { activateXpBuff, POTION_CONFIG } from "@/utils/buffs/xpBuff";

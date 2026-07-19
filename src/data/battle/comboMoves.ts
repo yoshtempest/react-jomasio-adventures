@@ -38,7 +38,8 @@ const BASE_COMBOS: ComboMove[] = [
     name: "Contra-Ataque",
     sequence: ["X", "Z"],
     states: ["blocked", "blockAttack"],
-    description: "Ataque rápido saindo da defesa. causa 0.7× de dano e empurra o inimigo.",
+    description:
+      "Ataque rápido saindo da defesa. causa 0.7× de dano e empurra o inimigo.",
     situation: "Use ao bloquear para criar espaço e revidar.",
   },
 ];
@@ -50,8 +51,10 @@ const CHAR_COMBOS: Partial<Record<CharacterId, ComboMove[]>> = {
       name: "Explosão de Stacks",
       sequence: ["Z (5×)", "G"],
       states: ["attack", "special"],
-      description: "Acumule stacks com ataques básicos e consuma tudo com o especial para uma explosão.",
-      situation: "Use contra inimigos lentos para maximizar o dano do especial.",
+      description:
+        "Acumule stacks com ataques básicos e consuma tudo com o especial para uma explosão.",
+      situation:
+        "Use contra inimigos lentos para maximizar o dano do especial.",
     },
   ],
 };

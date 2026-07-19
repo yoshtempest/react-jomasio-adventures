@@ -26,39 +26,39 @@ export function AppProviders({ children }: { children: ReactNode }) {
       <TransitionProvider>
         <PWAProvider>
           <UpdateProvider>
-          <SettingsProvider>
-            <AudioProvider>
-              <SoundEffectsProvider>
-                <NavbarProvider>
-                  <BattleInfoProvider>
-                    <FlagProvider>
-                    <InventoryProvider>
-                      <QuestProvider>
-                        <CharacterProgressProvider>
-                          <PetProgressProvider>
-                          <EquipmentProvider>
-                            <TitleProvider>
-                              <BestiaryProvider>
-                              <PlayerProvider>
-                                <PlayTimeProvider>
-                                <GameControlsProvider>
-                                  {children}
-                                </GameControlsProvider>
-                                </PlayTimeProvider>
-                              </PlayerProvider>
-                              </BestiaryProvider>
-                            </TitleProvider>
-                          </EquipmentProvider>
-                          </PetProgressProvider>
-                        </CharacterProgressProvider>
-                      </QuestProvider>
-                    </InventoryProvider>
-                  </FlagProvider>
-                  </BattleInfoProvider>
-                </NavbarProvider>
-              </SoundEffectsProvider>
-            </AudioProvider>
-          </SettingsProvider>
+            <SettingsProvider>
+              <AudioProvider>
+                <SoundEffectsProvider>
+                  <NavbarProvider>
+                    <BattleInfoProvider>
+                      <FlagProvider>
+                        <InventoryProvider>
+                          <QuestProvider>
+                            <CharacterProgressProvider>
+                              <PetProgressProvider>
+                                <EquipmentProvider>
+                                  <TitleProvider>
+                                    <BestiaryProvider>
+                                      <PlayerProvider>
+                                        <PlayTimeProvider>
+                                          <GameControlsProvider>
+                                            {children}
+                                          </GameControlsProvider>
+                                        </PlayTimeProvider>
+                                      </PlayerProvider>
+                                    </BestiaryProvider>
+                                  </TitleProvider>
+                                </EquipmentProvider>
+                              </PetProgressProvider>
+                            </CharacterProgressProvider>
+                          </QuestProvider>
+                        </InventoryProvider>
+                      </FlagProvider>
+                    </BattleInfoProvider>
+                  </NavbarProvider>
+                </SoundEffectsProvider>
+              </AudioProvider>
+            </SettingsProvider>
           </UpdateProvider>
         </PWAProvider>
       </TransitionProvider>

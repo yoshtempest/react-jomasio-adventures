@@ -19,7 +19,6 @@ import { npcPath, playerPath } from "@/utils/paths";
 import { getCharacterStatus } from "@/data/player/stats";
 import { BattleCard } from "./BattleCard";
 
-
 type Props = {
   showComboAction: boolean;
   isSelected: boolean;
@@ -31,7 +30,9 @@ export function BattleTab({ showComboAction, isSelected }: Props) {
   const { progress } = useCharacterProgress();
   const { getBonus } = useTitles();
 
-  const playerRank = formatRank(getRank(progress[player.character]?.level ?? 1));
+  const playerRank = formatRank(
+    getRank(progress[player.character]?.level ?? 1),
+  );
   const playerName = localStorage.getItem("playerName") || "Protagonista";
 
   const battleInfo = battleInfoCtx?.battleInfo;
@@ -46,39 +47,80 @@ export function BattleTab({ showComboAction, isSelected }: Props) {
     const hungerMultiplier = getHungerMultiplier(baseChar.hunger);
     const allStatsPct = 1 + titleBonus.percentAllStats / 100;
 
-    const hp = Math.round((baseChar.stats.hp + equipmentBonus.hp + titleBonus.hp) * allStatsPct * rankMultiplier * hungerMultiplier);
-    const strength = Math.round((baseChar.stats.strength + equipmentBonus.strength + titleBonus.strength) * allStatsPct * rankMultiplier * hungerMultiplier);
-    const intelligence = Math.round((
-            baseChar.stats.intelligence
-            + equipmentBonus.intelligence
-            + titleBonus.intelligence
-        ) * allStatsPct * rankMultiplier * hungerMultiplier
+    const hp = Math.round(
+      (baseChar.stats.hp + equipmentBonus.hp + titleBonus.hp) *
+        allStatsPct *
+        rankMultiplier *
+        hungerMultiplier,
+    );
+    const strength = Math.round(
+      (baseChar.stats.strength +
+        equipmentBonus.strength +
+        titleBonus.strength) *
+        allStatsPct *
+        rankMultiplier *
+        hungerMultiplier,
+    );
+    const intelligence = Math.round(
+      (baseChar.stats.intelligence +
+        equipmentBonus.intelligence +
+        titleBonus.intelligence) *
+        allStatsPct *
+        rankMultiplier *
+        hungerMultiplier,
     );
     const resistance = Math.round(
-        baseChar.stats.resistance * allStatsPct * rankMultiplier * hungerMultiplier
+      baseChar.stats.resistance *
+        allStatsPct *
+        rankMultiplier *
+        hungerMultiplier,
     );
     const tenacity = baseChar.stats.tenacity + (equipmentBonus.tenacity ?? 0);
-    const armor = getTotalArmor(player.character, baseChar.stats.resistance) + titleBonus.armor;
+    const armor =
+      getTotalArmor(player.character, baseChar.stats.resistance) +
+      titleBonus.armor;
     const shield = getTotalShield(player.character) + titleBonus.shield;
     const vampirism = getTotalVampirism(player.character);
     const reflect = getTotalReflect(player.character);
     const maxHp = 90 + hp * 10;
 
-    return { maxHp, strength, intelligence, resistance, tenacity, armor, shield, vampirism, reflect };
+    return {
+      maxHp,
+      strength,
+      intelligence,
+      resistance,
+      tenacity,
+      armor,
+      shield,
+      vampirism,
+      reflect,
+    };
   }, [player.character, progress, getBonus]);
 
   const winProbability = useMemo(() => {
     if (!battleInfo || !playerStats) return null;
-    const enemyTotal = battleInfo.npcHp + battleInfo.npcDamage + battleInfo.npcArmor;
-    const playerTotal = playerStats.maxHp + playerStats.strength + playerStats.intelligence +
-      playerStats.resistance + playerStats.tenacity + playerStats.armor +
-      playerStats.shield + playerStats.vampirism + playerStats.reflect;
+    const enemyTotal =
+      battleInfo.npcHp + battleInfo.npcDamage + battleInfo.npcArmor;
+    const playerTotal =
+      playerStats.maxHp +
+      playerStats.strength +
+      playerStats.intelligence +
+      playerStats.resistance +
+      playerStats.tenacity +
+      playerStats.armor +
+      playerStats.shield +
+      playerStats.vampirism +
+      playerStats.reflect;
     if (playerTotal + enemyTotal === 0) return 50;
     return Math.round((playerTotal / (playerTotal + enemyTotal)) * 100);
   }, [battleInfo, playerStats]);
 
   if (!battleInfo || !playerStats) {
-    return <p className={styles.empty}>Abra as configurações durante uma batalha para ver as informações.</p>;
+    return (
+      <p className={styles.empty}>
+        Abra as configurações durante uma batalha para ver as informações.
+      </p>
+    );
   }
 
   const classData = CLASS_DATA[battleInfo.npcClass];
@@ -97,7 +139,9 @@ export function BattleTab({ showComboAction, isSelected }: Props) {
 
   return (
     <div className={styles.battleContainer}>
-      <div className={`${styles.toggleItem} ${isSelected ? styles.selected : ""}`}>
+      <div
+        className={`${styles.toggleItem} ${isSelected ? styles.selected : ""}`}
+      >
         {isSelected && <span className={styles.cursor}>▼</span>}
         <h2>Ação Combo: {showComboAction ? "ON" : "OFF"}</h2>
       </div>
@@ -116,7 +160,8 @@ export function BattleTab({ showComboAction, isSelected }: Props) {
           name={getNpcDisplayName(battleInfo.npcType)}
           subtitle={
             <span className={styles.npcClassLabel}>
-              Classe: <span style={{ color: classData.color }}>{classData.label}</span>
+              Classe:{" "}
+              <span style={{ color: classData.color }}>{classData.label}</span>
             </span>
           }
           level={battleInfo.npcLevel}

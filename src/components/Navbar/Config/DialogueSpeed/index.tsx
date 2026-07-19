@@ -16,9 +16,7 @@ export function DialogueSpeedSection({ selectedIndex, selectedColumn }: Props) {
           return (
             <div
               key={speed}
-              className={`${styles.item} ${
-                isSelected ? styles.selected : ""
-              }`}
+              className={`${styles.item} ${isSelected ? styles.selected : ""}`}
             >
               {isSelected && <span className={styles.cursor}>▼</span>}
               <h2>{SPEED_LABEL[speed].toUpperCase()}</h2>

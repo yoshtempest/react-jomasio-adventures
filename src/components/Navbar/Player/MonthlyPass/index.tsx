@@ -31,10 +31,14 @@ export function MonthlyPassSection({
 }: Props) {
   return (
     <div className={styles.section}>
-      <div className={styles.sectionTitle}>Passe Mensal — {formatMonth(currentMonth)}</div>
+      <div className={styles.sectionTitle}>
+        Passe Mensal — {formatMonth(currentMonth)}
+      </div>
       <div className={styles.statRow}>
         <span className={styles.statLabel}>Progresso</span>
-        <span className={styles.statValue}>{completedCount}/{passTotal} ({passPct}%)</span>
+        <span className={styles.statValue}>
+          {completedCount}/{passTotal} ({passPct}%)
+        </span>
       </div>
       <ProgressBar
         value={passPct}
@@ -69,8 +73,18 @@ export function MonthlyPassSection({
 function formatMonth(ym: string): string {
   const [y, m] = ym.split("-").map(Number);
   const months = [
-    "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-    "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro",
+    "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro",
   ];
   return `${months[m - 1]} ${y}`;
 }

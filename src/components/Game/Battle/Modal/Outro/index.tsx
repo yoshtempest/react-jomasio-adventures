@@ -16,7 +16,10 @@ export function BattleOutro({ character, type, onNext }: Props) {
   const message = getOutroLine(character, type);
 
   const { dialogueSpeedMs } = useSettings();
-  const { displayedText, isComplete, skip } = useTypewriter(message, dialogueSpeedMs);
+  const { displayedText, isComplete, skip } = useTypewriter(
+    message,
+    dialogueSpeedMs,
+  );
   const { pushControls, popControls } = useGameControls();
 
   const isCompleteRef = useRef(isComplete);

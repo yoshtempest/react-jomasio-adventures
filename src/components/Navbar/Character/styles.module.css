@@ -33,7 +33,8 @@
   filter: brightness(0%); /* 100% mais escuro */
 }
 
-.character h2, p {
+.character h2,
+p {
   margin-top: 0;
 }
 

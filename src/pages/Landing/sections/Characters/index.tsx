@@ -12,8 +12,8 @@ export function Characters() {
           Personagens Jogáveis
         </h2>
         <p className={shared.sectionDesc}>
-          Escolha entre 12 personagens, cada um com sua própria classe e
-          estilo de luta
+          Escolha entre 12 personagens, cada um com sua própria classe e estilo
+          de luta
         </p>
         <div className={styles.charactersGrid}>
           {characters.map((char) => (

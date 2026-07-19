@@ -2,7 +2,6 @@ import { useEffect, useRef } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import { ProjectileConstants } from "@/data/projectile";
 
-
 export function useProjectile(
   projectile: Projectile | null,
   setProjectile: Dispatch<SetStateAction<Projectile | null>>,
@@ -31,9 +30,22 @@ export function useProjectile(
 
         switch (p.variant) {
           case "common":
-            return handleCommon(p, playerX, playerY, playerState, onHitRef.current);
+            return handleCommon(
+              p,
+              playerX,
+              playerY,
+              playerState,
+              onHitRef.current,
+            );
           case "pull":
-            return handlePull(p, playerX, playerY, playerState, onHitRef.current, onPullPlayerRef.current);
+            return handlePull(
+              p,
+              playerX,
+              playerY,
+              playerState,
+              onHitRef.current,
+              onPullPlayerRef.current,
+            );
           case "rain":
             return handleRain(p, playerX, playerState, onHitRef.current);
         }
@@ -41,14 +53,7 @@ export function useProjectile(
     }, 20);
 
     return () => clearInterval(interval);
-  }, [
-    projectile,
-    playerX,
-    playerY,
-    playerState,
-    setProjectile,
-    hitstopRef,
-  ]);
+  }, [projectile, playerX, playerY, playerState, setProjectile, hitstopRef]);
 }
 
 function handleCommon(
@@ -73,16 +78,19 @@ function handleCommon(
 
   if (
     next.x < -ProjectileConstants.OFFSCREEN_MARGIN ||
-    next.x > ProjectileConstants.MAP_WIDTH + ProjectileConstants.OFFSCREEN_MARGIN ||
+    next.x >
+      ProjectileConstants.MAP_WIDTH + ProjectileConstants.OFFSCREEN_MARGIN ||
     next.y < -ProjectileConstants.OFFSCREEN_MARGIN ||
-    next.y > ProjectileConstants.MAP_HEIGHT + ProjectileConstants.OFFSCREEN_MARGIN
+    next.y >
+      ProjectileConstants.MAP_HEIGHT + ProjectileConstants.OFFSCREEN_MARGIN
   ) {
     return null;
   }
 
   const dx = Math.abs(playerX - next.x);
   const isDashing = playerState === "dash";
-  const isCrouched = playerState === "idleCrounched" || playerState === "walkCrounched";
+  const isCrouched =
+    playerState === "idleCrounched" || playerState === "walkCrounched";
   const dodgeProjectile = isDashing || isCrouched;
 
   const hitY = isCrouched ? playerY - 30 : playerY;
@@ -119,16 +127,19 @@ function handlePull(
 
   if (
     next.x < -ProjectileConstants.OFFSCREEN_MARGIN ||
-    next.x > ProjectileConstants.MAP_WIDTH + ProjectileConstants.OFFSCREEN_MARGIN ||
+    next.x >
+      ProjectileConstants.MAP_WIDTH + ProjectileConstants.OFFSCREEN_MARGIN ||
     next.y < -ProjectileConstants.OFFSCREEN_MARGIN ||
-    next.y > ProjectileConstants.MAP_HEIGHT + ProjectileConstants.OFFSCREEN_MARGIN
+    next.y >
+      ProjectileConstants.MAP_HEIGHT + ProjectileConstants.OFFSCREEN_MARGIN
   ) {
     return null;
   }
 
   const dx = Math.abs(playerX - next.x);
   const isDashing = playerState === "dash";
-  const isCrouched = playerState === "idleCrounched" || playerState === "walkCrounched";
+  const isCrouched =
+    playerState === "idleCrounched" || playerState === "walkCrounched";
   const dodgeProjectile = isDashing || isCrouched;
 
   const hitY = isCrouched ? playerY - 30 : playerY;
@@ -166,8 +177,15 @@ function handleRain(
     const newY = s.y + ProjectileConstants.SPEAR_FALL_SPEED;
     const isDashing = playerState === "dash";
 
-    const isCrouched = playerState === "idleCrounched" || playerState === "walkCrounched";
-    if (!s.hit && newY >= 550 && newY <= ProjectileConstants.OFFSCREEN_BOTTOM && !isDashing && !isCrouched) {
+    const isCrouched =
+      playerState === "idleCrounched" || playerState === "walkCrounched";
+    if (
+      !s.hit &&
+      newY >= 550 &&
+      newY <= ProjectileConstants.OFFSCREEN_BOTTOM &&
+      !isDashing &&
+      !isCrouched
+    ) {
       const dx = Math.abs(playerX - s.x);
       if (dx < 30) {
         onHit();

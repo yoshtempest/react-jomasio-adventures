@@ -9,11 +9,16 @@ import { getRank, formatRank } from "@/gameRules/rank";
 export function Character() {
   const { progress, getXPToNextLevel } = useCharacterProgress();
   const listRef = useRef<HTMLDivElement>(null);
-  const { characters, selectableCharacters, selectedIndex } =
-    useCharacterMenu(true, listRef);
+  const { characters, selectableCharacters, selectedIndex } = useCharacterMenu(
+    true,
+    listRef,
+  );
 
   return (
-    <div ref={listRef} className={`containerOfNavbar ${styles.charactersContainer}`}>
+    <div
+      ref={listRef}
+      className={`containerOfNavbar ${styles.charactersContainer}`}
+    >
       {characters.map((char) => {
         const selectableIndex = selectableCharacters.findIndex(
           (c) => c.name === char.name,
@@ -38,21 +43,24 @@ export function Character() {
             />
             <div className={styles.flexColumn}>
               <h2 className={styles.text}>
-              {char.selectable ? `${char.name} - Nv.${charProgress.level}` : "???"}
+                {char.selectable
+                  ? `${char.name} - Nv.${charProgress.level}`
+                  : "???"}
               </h2>
               <p className={styles.rank}>
                 {formatRank(getRank(charProgress.level))}
               </p>
               <div className={styles.progressContainer}>
-                <ProgressBar value={charProgress.xp} max={xpNeeded}/>
+                <ProgressBar value={charProgress.xp} max={xpNeeded} />
               </div>
               <p className={styles.text}>
                 {charProgress.xp} / {xpNeeded} XP
               </p>
               <p className={styles.text}>
-                Desbloqueado em: {char.unlockedDate
+                Desbloqueado em:{" "}
+                {char.unlockedDate
                   ? new Date(char.unlockedDate).toLocaleDateString("pt-BR")
-                : "??/??/????"}
+                  : "??/??/????"}
               </p>
             </div>
           </div>

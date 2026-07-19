@@ -40,8 +40,13 @@ export function LibraryScene({ sceneId }: Props) {
   useRandomEncounter({
     storageKey: LIBRARY_RETURN_KEY,
     blockedTiles: [
-      { x: 4, y: 4 }, { x: 4, y: 3 }, { x: 12, y: 3 }, { x: 12, y: 4 },
-      { x: 8, y: 10 }, { x: 8, y: 2 }, { x: 8, y: 3 },
+      { x: 4, y: 4 },
+      { x: 4, y: 3 },
+      { x: 12, y: 3 },
+      { x: 12, y: 4 },
+      { x: 8, y: 10 },
+      { x: 8, y: 2 },
+      { x: 8, y: 3 },
     ],
     encounters: [
       { route: "/battle/hungry", weight: 19 },

@@ -1,9 +1,18 @@
 import { type Request, type Response } from "express";
 import express from "express";
 import bcrypt from "bcryptjs";
-import { insertUser, findUserByEmail, findUserByUsername, findUserById } from "../db.js";
+import {
+  insertUser,
+  findUserByEmail,
+  findUserByUsername,
+  findUserById,
+} from "../db.js";
 import type { UserRow } from "../db.js";
-import { signToken, authMiddleware, type AuthPayload } from "../middleware/auth.js";
+import {
+  signToken,
+  authMiddleware,
+  type AuthPayload,
+} from "../middleware/auth.js";
 
 const router = express.Router();
 
@@ -12,7 +21,9 @@ router.post("/register", async (req: Request, res: Response) => {
     const { username, email, password } = req.body;
 
     if (!username || !email || !password) {
-      res.status(400).json({ error: "username, email e password são obrigatórios" });
+      res
+        .status(400)
+        .json({ error: "username, email e password são obrigatórios" });
       return;
     }
 
@@ -36,7 +47,10 @@ router.post("/register", async (req: Request, res: Response) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const result = insertUser.run(username, email, hashedPassword);
 
-    const token = signToken({ userId: result.lastInsertRowid as number, username });
+    const token = signToken({
+      userId: result.lastInsertRowid as number,
+      username,
+    });
 
     res.status(201).json({
       token,
@@ -92,7 +106,14 @@ router.get("/me", authMiddleware, (req: Request, res) => {
     return;
   }
 
-  res.json({ user: { id: user.id, username: user.username, email: user.email, created_at: user.created_at } });
+  res.json({
+    user: {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      created_at: user.created_at,
+    },
+  });
 });
 
 export default router;

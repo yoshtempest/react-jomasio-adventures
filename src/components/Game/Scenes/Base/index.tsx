@@ -75,10 +75,8 @@ export function SceneBase({
 
   const currentRoute = location.pathname;
 
-  const { highlightTiles, questNpcPositions, questDirection } = useQuestWaypoints(
-    scene,
-    currentRoute,
-  );
+  const { highlightTiles, questNpcPositions, questDirection } =
+    useQuestWaypoints(scene, currentRoute);
 
   const spawn = scene
     ? typeof scene.initialPosition === "function"
@@ -98,7 +96,7 @@ export function SceneBase({
 
   useEffect(() => {
     closeNavbar();
-    setMode("explore")
+    setMode("explore");
   }, [closeNavbar, setMode]);
 
   if (!scene) {
@@ -108,11 +106,7 @@ export function SceneBase({
   return (
     <div
       className={`Master ${className ?? ""}`}
-      style={
-        background
-          ? { backgroundImage: `url(${background})` }
-          : undefined
-      }
+      style={background ? { backgroundImage: `url(${background})` } : undefined}
     >
       <div className="SceneMap">
         <ExploreScene
@@ -176,10 +170,7 @@ export function SceneBase({
       </div>
 
       {player.mode === "map" && (
-        <MapOverlay
-          currentRoute={currentRoute}
-          character={player.character}
-        />
+        <MapOverlay currentRoute={currentRoute} character={player.character} />
       )}
 
       {popup && <div className="SceneOverlay">{children}</div>}

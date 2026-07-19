@@ -10,27 +10,95 @@ export const locations = [
 ];
 
 export const bosses = [
-  { name: "Jailson", image: npcPath("/jailson/default.svg"), desc: "O rei da delícia" },
-  { name: "Irmãs Planetárias", image: npcPath("/planetarySisters/mary.svg"), desc: "Guardiãs do centro" },
-  { name: "Maurão", image: npcPath("/maurao/default.svg"), desc: "A fera do pandemônio" },
-  { name: "Vandinha", image: npcPath("/vandinhaFragment/default.svg"), desc: "Fragmento sombrio" },
-  { name: "JhowSimar", image: npcPath("/jhowsimar/default.svg"), desc: "O lendário porteiro" },
-  { name: "Hungry King", image: npcPath("/hungryKing/default.svg"), desc: "Rei da fome" },
-  { name: "Juan Derson", image: npcPath("/janderson/right.svg"), desc: "Professor do café" },
-  { name: "Bode", image: npcPath("/goat/default.svg"), desc: "Cardápio principal" },
+  {
+    name: "Jailson",
+    image: npcPath("/jailson/default.svg"),
+    desc: "O rei da delícia",
+  },
+  {
+    name: "Irmãs Planetárias",
+    image: npcPath("/planetarySisters/mary.svg"),
+    desc: "Guardiãs do centro",
+  },
+  {
+    name: "Maurão",
+    image: npcPath("/maurao/default.svg"),
+    desc: "A fera do pandemônio",
+  },
+  {
+    name: "Vandinha",
+    image: npcPath("/vandinhaFragment/default.svg"),
+    desc: "Fragmento sombrio",
+  },
+  {
+    name: "JhowSimar",
+    image: npcPath("/jhowsimar/default.svg"),
+    desc: "O lendário porteiro",
+  },
+  {
+    name: "Hungry King",
+    image: npcPath("/hungryKing/default.svg"),
+    desc: "Rei da fome",
+  },
+  {
+    name: "Juan Derson",
+    image: npcPath("/janderson/right.svg"),
+    desc: "Professor do café",
+  },
+  {
+    name: "Bode",
+    image: npcPath("/goat/default.svg"),
+    desc: "Cardápio principal",
+  },
 ];
 
 export const characters = [
-  { name: "Marcelo", image: playerPath("/marcelo/default.svg"), class: "Espadachim" },
-  { name: "Artur", image: playerPath("/artur/default.svg"), class: "Explosivo" },
-  { name: "Eduarda", image: playerPath("/eduarda/default.svg"), class: "Inquisidora" },
-  { name: "Riquelme", image: playerPath("/riquelme/default.svg"), class: "Tanque" },
-  { name: "Emanuel", image: playerPath("/emanuel/default.svg"), class: "Atacante" },
+  {
+    name: "Marcelo",
+    image: playerPath("/marcelo/default.svg"),
+    class: "Espadachim",
+  },
+  {
+    name: "Artur",
+    image: playerPath("/artur/default.svg"),
+    class: "Explosivo",
+  },
+  {
+    name: "Eduarda",
+    image: playerPath("/eduarda/default.svg"),
+    class: "Inquisidora",
+  },
+  {
+    name: "Riquelme",
+    image: playerPath("/riquelme/default.svg"),
+    class: "Tanque",
+  },
+  {
+    name: "Emanuel",
+    image: playerPath("/emanuel/default.svg"),
+    class: "Atacante",
+  },
   { name: "Lucas", image: playerPath("/lucas/default.svg"), class: "Boxeador" },
-  { name: "Lucauã", image: playerPath("/lucaua/default.svg"), class: "Versátil" },
-  { name: "Larissa", image: playerPath("/larissa/default.svg"), class: "Atiradora" },
-  { name: "Camilly", image: playerPath("/camilly/default.svg"), class: "Lutadora" },
-  { name: "Samuel", image: playerPath("/samuel/default.svg"), class: "Berserker" },
+  {
+    name: "Lucauã",
+    image: playerPath("/lucaua/default.svg"),
+    class: "Versátil",
+  },
+  {
+    name: "Larissa",
+    image: playerPath("/larissa/default.svg"),
+    class: "Atiradora",
+  },
+  {
+    name: "Camilly",
+    image: playerPath("/camilly/default.svg"),
+    class: "Lutadora",
+  },
+  {
+    name: "Samuel",
+    image: playerPath("/samuel/default.svg"),
+    class: "Berserker",
+  },
   { name: "Mayra", image: playerPath("/mayra/default.svg"), class: "DPS" },
 ];
 

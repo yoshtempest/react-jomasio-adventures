@@ -7,7 +7,11 @@ type Props = {
   onFilterChange: (type: string) => void;
 };
 
-export function FilterBar({ filterType, filterFocused, onFilterChange }: Props) {
+export function FilterBar({
+  filterType,
+  filterFocused,
+  onFilterChange,
+}: Props) {
   return (
     <div className={styles.container}>
       {FILTER_LABELS.map((f) => (

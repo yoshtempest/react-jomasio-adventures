@@ -1,11 +1,12 @@
-import type { BehaviorContext, BehaviorResult } from "@/utils/types/npc/npcBehavior";
+import type {
+  BehaviorContext,
+  BehaviorResult,
+} from "@/utils/types/npc/npcBehavior";
 import { initMauraoAi, handlePhaseChange } from "./state";
 import { mauraoPhase1 } from "./phase1";
 import { mauraoPhase2 } from "./phase2";
 
-export function mauraoBehavior(
-  ctx: BehaviorContext,
-): BehaviorResult {
+export function mauraoBehavior(ctx: BehaviorContext): BehaviorResult {
   const { npc, npcPhase } = ctx;
 
   if (!npc.ai) npc.ai = {};

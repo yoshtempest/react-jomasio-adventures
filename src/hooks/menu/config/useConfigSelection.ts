@@ -27,9 +27,21 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
 
   const { setDifficulty, player } = usePlayer();
   const { sfxVolume, setSfxVolume, bgmVolume, setBgmVolume } = useAudio();
-  const { setDialogueSpeed, showQuestIndicator, setShowQuestIndicator, showComboAction, setShowComboAction } = useSettings();
+  const {
+    setDialogueSpeed,
+    showQuestIndicator,
+    setShowQuestIndicator,
+    showComboAction,
+    setShowComboAction,
+  } = useSettings();
   const { checkForUpdate } = useUpdate();
-  const { install, isInstalled, canInstall, setShowInstalledMessage, setShowNotAvailableMessage } = usePWA();
+  const {
+    install,
+    isInstalled,
+    canInstall,
+    setShowInstalledMessage,
+    setShowNotAvailableMessage,
+  } = usePWA();
   const { playMove, playSelect, playClose } = useMenuSFX();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -122,7 +134,9 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
         if (isOnTabRef.current) {
           setActiveTab((prev) => {
             const currentIdx = CONFIG_TABS.indexOf(prev);
-            return CONFIG_TABS[(currentIdx - 1 + CONFIG_TAB_COUNT) % CONFIG_TAB_COUNT];
+            return CONFIG_TABS[
+              (currentIdx - 1 + CONFIG_TAB_COUNT) % CONFIG_TAB_COUNT
+            ];
           });
           return;
         }
@@ -260,7 +274,15 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
     pushControlsRef.current(controls);
 
     return () => popControlsRef.current();
-  }, [isActive, sfxVolume, bgmVolume, showQuestIndicator, setShowQuestIndicator, showComboAction, setShowComboAction]);
+  }, [
+    isActive,
+    sfxVolume,
+    bgmVolume,
+    showQuestIndicator,
+    setShowQuestIndicator,
+    showComboAction,
+    setShowComboAction,
+  ]);
 
   return {
     difficulty: DIFFICULTY,

@@ -4,9 +4,7 @@ import { useNavbar } from "@/contexts/NavbarContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { isMovementLocked } from "@/gameRules/movement/state";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
-import { getSkillTree } from "@/data/passiveSkills";
-
-import { DASH_THRESHOLD, DASH_COOLDOWN } from "@/data/cooldowns";
+import { useDashDetection } from "./useDashDetection";
 
 type Dir = "up" | "down" | "left" | "right";
 
@@ -136,13 +134,30 @@ export function useKeyboardMovement() {
   const releaseRef = useRef(release);
   releaseRef.current = release;
 
-  // window-level key tracking — updates pressed regardless of control layers
+  const dashRefs = {
+    progressRef,
+    playerRef,
+    dashRef,
+    lastLeftPressRef,
+    lastRightPressRef,
+    lastDashTimeRef,
+  };
+  const { tryDash } = useDashDetection(dashRefs);
+
   useEffect(() => {
     const DIR_KEYS: Record<string, Dir> = {
-      ArrowUp: "up", w: "up", W: "up",
-      ArrowDown: "down", s: "down", S: "down",
-      ArrowLeft: "left", a: "left", A: "left",
-      ArrowRight: "right", d: "right", D: "right",
+      ArrowUp: "up",
+      w: "up",
+      W: "up",
+      ArrowDown: "down",
+      s: "down",
+      S: "down",
+      ArrowLeft: "left",
+      a: "left",
+      A: "left",
+      ArrowRight: "right",
+      d: "right",
+      D: "right",
     };
 
     function onKeyDown(e: KeyboardEvent) {
@@ -164,7 +179,8 @@ export function useKeyboardMovement() {
   }, []);
 
   const isGrabbed = () =>
-    (playerRef.current.grabbedUntil != null && Date.now() < (playerRef.current.grabbedUntil ?? 0)) ||
+    (playerRef.current.grabbedUntil != null &&
+      Date.now() < (playerRef.current.grabbedUntil ?? 0)) ||
     playerRef.current.state === "fallen";
 
   useEffect(() => {
@@ -218,29 +234,8 @@ export function useKeyboardMovement() {
           return;
         }
         isLeftHeldRef.current = true;
-        const now = Date.now();
         if (isBattleRef.current) {
-          if (
-            now - lastLeftPressRef.current < DASH_THRESHOLD &&
-            now - lastDashTimeRef.current > DASH_COOLDOWN
-          ) {
-            const level =
-              progressRef.current[playerRef.current.character]?.level ?? 1;
-            const tree = getSkillTree(playerRef.current.character);
-            const skill = tree.skills.find((s) => s.id === "dash");
-            const canDash = skill ? level >= skill.levelRequired : false;
-            if (canDash) {
-              dashRef.current("left");
-              lastDashTimeRef.current = now;
-              lastLeftPressRef.current = 0;
-            } else {
-              startMoveLeftRef.current();
-              lastLeftPressRef.current = now;
-            }
-          } else {
-            startMoveLeftRef.current();
-            lastLeftPressRef.current = now;
-          }
+          tryDash("left", startMoveLeftRef);
         } else {
           moveLeftRef.current();
           startMoveLeftExploreRef.current();
@@ -261,29 +256,8 @@ export function useKeyboardMovement() {
           return;
         }
         isRightHeldRef.current = true;
-        const now = Date.now();
         if (isBattleRef.current) {
-          if (
-            now - lastRightPressRef.current < DASH_THRESHOLD &&
-            now - lastDashTimeRef.current > DASH_COOLDOWN
-          ) {
-            const level =
-              progressRef.current[playerRef.current.character]?.level ?? 1;
-            const tree = getSkillTree(playerRef.current.character);
-            const skill = tree.skills.find((s) => s.id === "dash");
-            const canDash = skill ? level >= skill.levelRequired : false;
-            if (canDash) {
-              dashRef.current("right");
-              lastDashTimeRef.current = now;
-              lastRightPressRef.current = 0;
-            } else {
-              startMoveRightRef.current();
-              lastRightPressRef.current = now;
-            }
-          } else {
-            startMoveRightRef.current();
-            lastRightPressRef.current = now;
-          }
+          tryDash("right", startMoveRightRef);
         } else {
           moveRightRef.current();
           startMoveRightExploreRef.current();

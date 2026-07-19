@@ -1,4 +1,8 @@
-import { NPC_BLOCK_COOLDOWN, NPC_GUARD_BREAK_COOLDOWN, NPC_RECENT_BLOCK_COOLDOWN } from "@/data/cooldowns";
+import {
+  NPC_BLOCK_COOLDOWN,
+  NPC_GUARD_BREAK_COOLDOWN,
+  NPC_RECENT_BLOCK_COOLDOWN,
+} from "@/data/cooldowns";
 import type { SpawnDamageFn } from "@/utils/types/battle/spawnDamageFn";
 
 export function applyGuardBreak(

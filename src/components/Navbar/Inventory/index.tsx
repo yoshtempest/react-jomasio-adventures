@@ -30,8 +30,14 @@ export function Inventory() {
   const listRef = useRef<HTMLUListElement>(null);
   const [filterType, setFilterType] = useState<string>("all");
 
-  const totalCoins = CHARACTERS.reduce((sum, c) => sum + (progress[c]?.coins ?? 0), 0);
-  const totalHyperCoins = CHARACTERS.reduce((sum, c) => sum + (progress[c]?.hyperCoins ?? 0), 0);
+  const totalCoins = CHARACTERS.reduce(
+    (sum, c) => sum + (progress[c]?.coins ?? 0),
+    0,
+  );
+  const totalHyperCoins = CHARACTERS.reduce(
+    (sum, c) => sum + (progress[c]?.hyperCoins ?? 0),
+    0,
+  );
 
   const currencyItems = useMemo<InventoryItem[]>(
     () => [
@@ -51,9 +57,7 @@ export function Inventory() {
       filterType === "all"
         ? itemsWithCurrency
         : itemsWithCurrency.filter((item) => {
-            const itemData = item
-              ? ITEMS[item.id as keyof typeof ITEMS]
-              : null;
+            const itemData = item ? ITEMS[item.id as keyof typeof ITEMS] : null;
             return itemData?.type === filterType;
           }),
     [filterType, itemsWithCurrency],
@@ -115,12 +119,15 @@ export function Inventory() {
     : null;
 
   const isChestSelected = selectedItemData?.type === "chest";
-  const isConsumableSelected = selectedItemData?.type === "consumable" || selectedItemData?.type === "food";
+  const isConsumableSelected =
+    selectedItemData?.type === "consumable" ||
+    selectedItemData?.type === "food";
   const isMapSelected = selectedItemData?.type === "map";
 
-  const tier = isChestSelected && selectedItem
-    ? (selectedItem.id.replace("_chest", "") as NPCClass)
-    : null;
+  const tier =
+    isChestSelected && selectedItem
+      ? (selectedItem.id.replace("_chest", "") as NPCClass)
+      : null;
   const keyId = tier ? (`${tier}_key` as ItemId) : null;
 
   useRewardsControls({
@@ -169,17 +176,17 @@ export function Inventory() {
         onSelect={setRewardOptionIndex}
         onCloseDaily={() => dailyChest.setLastResult(null)}
         onCloseChest={() => setLastResult(null)}
-            onOpenNextChest={openNextChest}
+        onOpenNextChest={openNextChest}
       />
     );
   }
 
   const listItems =
     filterType === "all"
-      ? Array.from({ length: maxSlots }, (_, i) => {
+      ? (Array.from({ length: maxSlots }, (_, i) => {
           if (i < CURRENCY_IDS.length) return currencyItems[i];
           return items[i - CURRENCY_IDS.length];
-        }) as (typeof items)[number][]
+        }) as (typeof items)[number][])
       : filteredItems;
 
   return (
@@ -207,9 +214,7 @@ export function Inventory() {
         )}
       </ul>
 
-      {showNoKeyPopup && (
-        <div className={styles.noKeyPopup}>Sem chave</div>
-      )}
+      {showNoKeyPopup && <div className={styles.noKeyPopup}>Sem chave</div>}
     </div>
   );
 }

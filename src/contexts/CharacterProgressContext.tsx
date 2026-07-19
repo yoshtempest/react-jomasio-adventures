@@ -13,7 +13,10 @@ import type {
   CharactersProgress,
 } from "@/data/characters/defaultProgress";
 import { defaultProgress } from "@/data/characters/defaultProgress";
-import { normalizeProgress, getXPToNextLevel } from "@/utils/character/progress";
+import {
+  normalizeProgress,
+  getXPToNextLevel,
+} from "@/utils/character/progress";
 import { getXpBuffMultiplier } from "@/utils/buffs/xpBuff";
 import { useCompressedStorage } from "@/hooks/useCompressedStorage";
 
@@ -225,7 +228,19 @@ export function CharacterProgressProvider({
 
   return (
     <CharacterProgressContext.Provider
-      value={{ progress, addXP, addCoins, addHyperCoins, addStat, incrementKills, reduceHunger, restoreHunger, resetHunger, setHunger, getXPToNextLevel }}
+      value={{
+        progress,
+        addXP,
+        addCoins,
+        addHyperCoins,
+        addStat,
+        incrementKills,
+        reduceHunger,
+        restoreHunger,
+        resetHunger,
+        setHunger,
+        getXPToNextLevel,
+      }}
     >
       {children}
     </CharacterProgressContext.Provider>

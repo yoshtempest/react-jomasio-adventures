@@ -7,10 +7,7 @@ import {
   useRef,
   type ReactNode,
 } from "react";
-import type {
-  TitlesData,
-  TitleBonusMap,
-} from "@/utils/types/player/titles";
+import type { TitlesData, TitleBonusMap } from "@/utils/types/player/titles";
 import { TITLES, getTitleById } from "@/data/titles";
 import { loadData, saveData } from "@/utils/titles/storage";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";

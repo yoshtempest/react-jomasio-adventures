@@ -4,7 +4,10 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { useSettings } from "@/contexts/SettingsContext";
 import { QUEST_ROUTES, QUEST_NPC_POSITIONS } from "@/data/quests/waypoints";
 import { bfsNextHop } from "@/scenes/shared/sceneAdjacency";
-import type { HighlightTile, QuestNpcPosition } from "@/utils/types/player/quest";
+import type {
+  HighlightTile,
+  QuestNpcPosition,
+} from "@/utils/types/player/quest";
 
 type WaypointResult = {
   highlightTiles: HighlightTile[];
@@ -54,12 +57,14 @@ export function useQuestWaypoints(
 
   return useMemo(() => {
     if (!showQuestIndicator || !scene || !scene.tiles) {
-      return { highlightTiles: [], questNpcPositions: [], questDirection: null };
+      return {
+        highlightTiles: [],
+        questNpcPositions: [],
+        questDirection: null,
+      };
     }
 
-    const activeQuests = quests.filter(
-      (q) => !q.completed && !q.claimed,
-    );
+    const activeQuests = quests.filter((q) => !q.completed && !q.claimed);
 
     const activeTargetRoutes = new Set<string>();
     for (const quest of activeQuests) {
@@ -96,8 +101,17 @@ export function useQuestWaypoints(
       }
 
       if (highlightTiles.length > 0) {
-        const nearest = findNearestTile(highlightTiles, player.gridX, player.gridY);
-        questDirection = calcDirection(player.gridX, player.gridY, nearest.x, nearest.y);
+        const nearest = findNearestTile(
+          highlightTiles,
+          player.gridX,
+          player.gridY,
+        );
+        questDirection = calcDirection(
+          player.gridX,
+          player.gridY,
+          nearest.x,
+          nearest.y,
+        );
       }
     }
 

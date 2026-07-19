@@ -1,7 +1,10 @@
 import { NPC_MELEE_COOLDOWN } from "@/data/cooldowns";
 import { chasePlayer } from "@/gameRules/npc/movement";
 import { tryMeleeAttack } from "@/gameRules/npc/attack";
-import type { BehaviorContext, BehaviorResult } from "@/utils/types/npc/npcBehavior";
+import type {
+  BehaviorContext,
+  BehaviorResult,
+} from "@/utils/types/npc/npcBehavior";
 import type { NPCBattleState } from "@/utils/types/npc/npc";
 import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
 
@@ -100,7 +103,9 @@ export function goatBehavior(ctx: BehaviorContext): BehaviorResult {
   ai.lastSpriteState = "jumpAttack";
   ctx.playSound?.("boom");
 
-  if (Math.hypot(ai.jumpTargetX - targetX, BATTLE_SPAWN.npc.y - targetY) < 150) {
+  if (
+    Math.hypot(ai.jumpTargetX - targetX, BATTLE_SPAWN.npc.y - targetY) < 150
+  ) {
     onMeleeHit();
   }
 

@@ -63,8 +63,10 @@ export function useDailyChest() {
     for (const mat of result.materials) {
       addItem({ id: mat.id as ItemId, qty: mat.qty });
       progressDailyWeekly("collect_material", mat.qty);
-      if (mat.id === "hungry_essence") progressDailyWeekly("collect_hungry_essence", mat.qty);
-      else if (mat.id === "goat_horn") progressDailyWeekly("collect_goat_horn", mat.qty);
+      if (mat.id === "hungry_essence")
+        progressDailyWeekly("collect_hungry_essence", mat.qty);
+      else if (mat.id === "goat_horn")
+        progressDailyWeekly("collect_goat_horn", mat.qty);
     }
     for (const eq of result.equipment) {
       addDrop(player.character, eq.id as EquipmentId, eq.enhance);
@@ -79,7 +81,15 @@ export function useDailyChest() {
     const openResult: DailyChestResult = { ...result, tier };
     setLastResult(openResult);
     return openResult;
-  }, [isReady, level, player.character, addItem, addDrop, playSound, progressDailyWeekly]);
+  }, [
+    isReady,
+    level,
+    player.character,
+    addItem,
+    addDrop,
+    playSound,
+    progressDailyWeekly,
+  ]);
 
   return {
     isReady,

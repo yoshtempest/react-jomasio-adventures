@@ -2,7 +2,10 @@ import { chasePlayer } from "@/gameRules/npc/movement";
 import { isNear } from "@/gameRules/npc/behavior";
 
 import type { NPCBattleState } from "@/utils/types/npc/npc";
-import type { BehaviorContext, BehaviorResult } from "@/utils/types/npc/npcBehavior";
+import type {
+  BehaviorContext,
+  BehaviorResult,
+} from "@/utils/types/npc/npcBehavior";
 
 import type { MauraoAI } from "./state";
 import {
@@ -16,7 +19,10 @@ import {
   SPIN_CYCLE_END_THRESHOLD,
 } from "./state";
 
-export function mauraoPhase2(ctx: BehaviorContext, ai: MauraoAI): BehaviorResult {
+export function mauraoPhase2(
+  ctx: BehaviorContext,
+  ai: MauraoAI,
+): BehaviorResult {
   const now = Date.now();
   const { npc, playerX, playerY, targetX, onMeleeHit } = ctx;
 
@@ -64,7 +70,8 @@ export function mauraoPhase2(ctx: BehaviorContext, ai: MauraoAI): BehaviorResult
   }
 
   // idle — check if ready to start spinning
-  const canStartSpin = ai.spinStart === 0 ||
+  const canStartSpin =
+    ai.spinStart === 0 ||
     (ai.spinRestStart !== 0 && now - ai.spinRestStart >= SPIN_REST_DURATION);
 
   if (canStartSpin && ai.spinState === "idle") {

@@ -2,7 +2,8 @@ export const hallJailsonFourDialogue = [
   {
     src: "/assets/npcs/jailson/right.svg",
     name: "Jailson",
-    message: "Agora eu tô a fim de relaxar, tu num quer me trazer um suco de laranja não?",
+    message:
+      "Agora eu tô a fim de relaxar, tu num quer me trazer um suco de laranja não?",
     soundSrc: "/assets/songs/soundEffects/npc/iWantToRelax.mp3",
   },
   {

@@ -82,7 +82,10 @@ export default function Tutorial() {
   });
 
   return (
-    <div className="Master" style={{ backgroundImage: `url(${sceneBackgrounds.Tutorial})` }}>
+    <div
+      className="Master"
+      style={{ backgroundImage: `url(${sceneBackgrounds.Tutorial})` }}
+    >
       <Talking
         name={cutscene.dialogue.name}
         message={cutscene.dialogue.message}

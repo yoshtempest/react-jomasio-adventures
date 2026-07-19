@@ -4,5 +4,5 @@ export const ProjectileConstants = {
   OFFSCREEN_MARGIN: 200,
   MAP_WIDTH: 1280,
   MAP_HEIGHT: 600,
-  OFFSCREEN_BOTTOM: 800
+  OFFSCREEN_BOTTOM: 800,
 };

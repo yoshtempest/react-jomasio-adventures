@@ -7,5 +7,5 @@ export const bossScales: Record<string, { base: number; phase2: number }> = {
 
 /** Fração do container que fica abaixo dos pés do personagem (letterboxing). */
 export const npcSpriteYOffset: Record<string, number> = {
-  hungryKing: 0.20,
+  hungryKing: 0.2,
 };

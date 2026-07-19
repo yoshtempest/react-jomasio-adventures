@@ -64,7 +64,11 @@ export function jhowsimarBehavior(ctx: BehaviorContext) {
     return { x: npc.x, y: npc.y, state: "meleeAttack" as const };
   }
 
-  if (!state.grabPhase && inRange && now - lastAttackRef.current < MELEE_VISUAL_DURATION) {
+  if (
+    !state.grabPhase &&
+    inRange &&
+    now - lastAttackRef.current < MELEE_VISUAL_DURATION
+  ) {
     return { x: npc.x, y: npc.y, state: "meleeAttack" as const };
   }
 

@@ -97,19 +97,22 @@ export function useNpcBattle({
   const tenacityReductionRef = useRef(tenacityReduction);
   tenacityReductionRef.current = tenacityReduction;
 
-  const damagePlayerWithReflect = useCallback((damage: number) => {
-    damagePlayerHp(damage);
-    if (damage > 0) {
-      const reflectPct = Math.min(totalReflect, 10);
-      if (reflectPct > 0) {
-        const reflectAmt = Math.round(damage * reflectPct / 100);
-        if (reflectAmt > 0) {
-          setNpcHP((hp) => Math.max(0, hp - reflectAmt));
-          spawnDamageRef.current?.(reflectAmt, npcX, npcY, "reflect");
+  const damagePlayerWithReflect = useCallback(
+    (damage: number) => {
+      damagePlayerHp(damage);
+      if (damage > 0) {
+        const reflectPct = Math.min(totalReflect, 10);
+        if (reflectPct > 0) {
+          const reflectAmt = Math.round((damage * reflectPct) / 100);
+          if (reflectAmt > 0) {
+            setNpcHP((hp) => Math.max(0, hp - reflectAmt));
+            spawnDamageRef.current?.(reflectAmt, npcX, npcY, "reflect");
+          }
         }
       }
-    }
-  }, [damagePlayerHp, totalReflect, setNpcHP, spawnDamageRef, npcX, npcY]);
+    },
+    [damagePlayerHp, totalReflect, setNpcHP, spawnDamageRef, npcX, npcY],
+  );
 
   const onFullBlock = useCallback(() => {
     if (player.character === "marcelo") {
@@ -117,44 +120,67 @@ export function useNpcBattle({
     }
   }, [player.character, playSound]);
 
-  const applyNpcDamage = useCallback((dmg: number, tx: number, ty: number, isPet: boolean, dmgType: DamageType = "npc") => {
-    if (isPet) {
-      damagePet?.(dmg);
-      spawnDamageRef.current?.(dmg, tx, ty, dmgType);
-    } else {
-      const isBlocking =
-        player.state === "blocked" &&
-        isFacingTarget(playerX, playerY, npcX, npcY, player.battleDirection);
+  const applyNpcDamage = useCallback(
+    (
+      dmg: number,
+      tx: number,
+      ty: number,
+      isPet: boolean,
+      dmgType: DamageType = "npc",
+    ) => {
+      if (isPet) {
+        damagePet?.(dmg);
+        spawnDamageRef.current?.(dmg, tx, ty, dmgType);
+      } else {
+        const isBlocking =
+          player.state === "blocked" &&
+          isFacingTarget(playerX, playerY, npcX, npcY, player.battleDirection);
 
-      const blocked = handleNpcBlocking({
-        dmg,
-        isBlocking,
-        blockGauge,
-        setBlockGauge,
-        damagePlayerWithReflect,
-        setPlayer,
-        spawnDamageRef,
-        playerX,
-        playerY,
-        hitstopRef,
-        npcStaggerRef,
-        npcCooldown,
-        lastBlockPressRef,
-        onFullBlock,
-        onBlockRef,
-      });
-      if (blocked) return;
+        const blocked = handleNpcBlocking({
+          dmg,
+          isBlocking,
+          blockGauge,
+          setBlockGauge,
+          damagePlayerWithReflect,
+          setPlayer,
+          spawnDamageRef,
+          playerX,
+          playerY,
+          hitstopRef,
+          npcStaggerRef,
+          npcCooldown,
+          lastBlockPressRef,
+          onFullBlock,
+          onBlockRef,
+        });
+        if (blocked) return;
 
-      damagePlayerWithReflect(dmg);
-      spawnDamageRef.current?.(dmg, tx, ty, dmgType);
-    }
-    navigator.vibrate?.(40);
-  }, [
-    damagePet, damagePlayerWithReflect, setPlayer, spawnDamageRef,
-    playerX, playerY, npcX, npcY, player.state, player.battleDirection,
-    blockGauge, setBlockGauge, hitstopRef, npcStaggerRef, npcCooldown,
-    lastBlockPressRef, onFullBlock, onBlockRef,
-  ]);
+        damagePlayerWithReflect(dmg);
+        spawnDamageRef.current?.(dmg, tx, ty, dmgType);
+      }
+      navigator.vibrate?.(40);
+    },
+    [
+      damagePet,
+      damagePlayerWithReflect,
+      setPlayer,
+      spawnDamageRef,
+      playerX,
+      playerY,
+      npcX,
+      npcY,
+      player.state,
+      player.battleDirection,
+      blockGauge,
+      setBlockGauge,
+      hitstopRef,
+      npcStaggerRef,
+      npcCooldown,
+      lastBlockPressRef,
+      onFullBlock,
+      onBlockRef,
+    ],
+  );
 
   const npcMeleeHit = useCallback(() => {
     if (isEnding.current) return;
@@ -170,7 +196,11 @@ export function useNpcBattle({
         onDodgeRef?.current?.();
         return;
       }
-      if ((player.state === "idleCrounched" || player.state === "walkCrounched") && Math.abs(playerX - npcX) > 80) {
+      if (
+        (player.state === "idleCrounched" ||
+          player.state === "walkCrounched") &&
+        Math.abs(playerX - npcX) > 80
+      ) {
         onDodgeRef?.current?.();
         return;
       }
@@ -196,7 +226,8 @@ export function useNpcBattle({
     const baseDmg = npc.damage;
     const dmg = calculateNpcDamage(baseDmg, playerClass, totalArmor);
 
-    const hpRatio = npcMaxHpRef.current > 0 ? npcHpRef.current / npcMaxHpRef.current : 1;
+    const hpRatio =
+      npcMaxHpRef.current > 0 ? npcHpRef.current / npcMaxHpRef.current : 1;
     const clampedRatio = Math.max(0, Math.min(1, hpRatio));
     let critChance = 1;
     if (npcType === "slimita" && npcPhase >= 2) {
@@ -224,20 +255,41 @@ export function useNpcBattle({
       setTimeout(() => (npcCooldown.current = true), NPC_MELEE_COOLDOWN);
     }
   }, [
-    isEnding, npcCooldown, player.state,
-    npcLevel, npcClass, playerClass, totalArmor,
-    playerX, playerY, npcX, npcY, difficulty,
-    hitstopRef, applyNpcDamage, setPlayer,
-    npcTargetIsPetRef, petXRef, petYRef,
-    titleEnemyMissChance, onDamageTakenRef, onDodgeRef, spawnDamageRef,
-    npcType, npcPhase,
+    isEnding,
+    npcCooldown,
+    player.state,
+    npcLevel,
+    npcClass,
+    playerClass,
+    totalArmor,
+    playerX,
+    playerY,
+    npcX,
+    npcY,
+    difficulty,
+    hitstopRef,
+    applyNpcDamage,
+    setPlayer,
+    npcTargetIsPetRef,
+    petXRef,
+    petYRef,
+    titleEnemyMissChance,
+    onDamageTakenRef,
+    onDodgeRef,
+    spawnDamageRef,
+    npcType,
+    npcPhase,
   ]);
 
   const npcRangedHit = useCallback(() => {
     if (isEnding.current) return;
     if (!npcCooldown.current) return;
     if (player.state === "dash") return;
-    if ((player.state === "idleCrounched" || player.state === "walkCrounched") && Math.abs(playerX - npcX) > 80) return;
+    if (
+      (player.state === "idleCrounched" || player.state === "walkCrounched") &&
+      Math.abs(playerX - npcX) > 80
+    )
+      return;
 
     const npc = getNpcStats(npcLevel, npcClass, difficulty);
     const baseDmg = npc.damage;
@@ -266,7 +318,8 @@ export function useNpcBattle({
     });
     if (blocked) return;
 
-    const hpRatio = npcMaxHpRef.current > 0 ? npcHpRef.current / npcMaxHpRef.current : 1;
+    const hpRatio =
+      npcMaxHpRef.current > 0 ? npcHpRef.current / npcMaxHpRef.current : 1;
     const clampedRatio = Math.max(0, Math.min(1, hpRatio));
     let critChance = 1;
     if (npcType === "slimita" && npcPhase >= 2) {
@@ -289,31 +342,61 @@ export function useNpcBattle({
     npcCooldown.current = false;
     setTimeout(() => (npcCooldown.current = true), NPC_MELEE_COOLDOWN);
   }, [
-    isEnding, npcCooldown, player.state, player.battleDirection,
-    npcLevel, npcClass, playerClass, totalArmor, setPlayer,
-    playerX, playerY, npcX, npcY, difficulty,
-    spawnDamageRef, hitstopRef, npcStaggerRef,
-    blockGauge, setBlockGauge, lastBlockPressRef, damagePlayerWithReflect, onFullBlock,
-    npcType, npcPhase, onBlockRef,
+    isEnding,
+    npcCooldown,
+    player.state,
+    player.battleDirection,
+    npcLevel,
+    npcClass,
+    playerClass,
+    totalArmor,
+    setPlayer,
+    playerX,
+    playerY,
+    npcX,
+    npcY,
+    difficulty,
+    spawnDamageRef,
+    hitstopRef,
+    npcStaggerRef,
+    blockGauge,
+    setBlockGauge,
+    lastBlockPressRef,
+    damagePlayerWithReflect,
+    onFullBlock,
+    npcType,
+    npcPhase,
+    onBlockRef,
   ]);
 
-  const npcThrowHit = useCallback((multiplier: number = 1) => {
-    if (isEnding.current) return;
+  const npcThrowHit = useCallback(
+    (multiplier: number = 1) => {
+      if (isEnding.current) return;
 
-    const npc = getNpcStats(npcLevel, npcClass, difficulty);
-    const baseDmg = npc.damage;
-    const dmg = calculateNpcDamage(baseDmg, playerClass, totalArmor);
-    const finalDmg = Math.round(dmg * multiplier);
+      const npc = getNpcStats(npcLevel, npcClass, difficulty);
+      const baseDmg = npc.damage;
+      const dmg = calculateNpcDamage(baseDmg, playerClass, totalArmor);
+      const finalDmg = Math.round(dmg * multiplier);
 
-    damagePlayerWithReflect(finalDmg);
-    spawnDamageRef.current?.(finalDmg, playerX, playerY, "npc");
-    hitstopRef.current = Date.now() + 80;
-    navigator.vibrate?.(80);
-  }, [
-    isEnding, npcLevel, npcClass, playerClass, totalArmor,
-    difficulty, damagePlayerWithReflect, spawnDamageRef,
-    playerX, playerY, hitstopRef,
-  ]);
+      damagePlayerWithReflect(finalDmg);
+      spawnDamageRef.current?.(finalDmg, playerX, playerY, "npc");
+      hitstopRef.current = Date.now() + 80;
+      navigator.vibrate?.(80);
+    },
+    [
+      isEnding,
+      npcLevel,
+      npcClass,
+      playerClass,
+      totalArmor,
+      difficulty,
+      damagePlayerWithReflect,
+      spawnDamageRef,
+      playerX,
+      playerY,
+      hitstopRef,
+    ],
+  );
 
   return { npcMeleeHit, npcRangedHit, npcThrowHit };
 }

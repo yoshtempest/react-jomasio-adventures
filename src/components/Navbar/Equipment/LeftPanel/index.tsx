@@ -11,8 +11,11 @@ export function LeftPanel() {
   const character = player.character;
   const leftPanelRef = useRef<HTMLDivElement | null>(null);
   const rightItemsRef = useRef<HTMLDivElement | null>(null);
-  const { selectedIndex, equippedItems } =
-    useEquipmentMenu(true, character, rightItemsRef);
+  const { selectedIndex, equippedItems } = useEquipmentMenu(
+    true,
+    character,
+    rightItemsRef,
+  );
 
   return (
     <div className={styles.leftPanel}>
@@ -28,13 +31,15 @@ export function LeftPanel() {
           const info = entry.info;
           const item = entry.item;
 
-          const label = entry.type === "accessory-slot"
-            ? `Acessório ${entry.index + 1}`
-            : SLOT_LABELS[entry.slot];
+          const label =
+            entry.type === "accessory-slot"
+              ? `Acessório ${entry.index + 1}`
+              : SLOT_LABELS[entry.slot];
 
-          const key = entry.type === "accessory-slot"
-            ? `acc-${entry.index}`
-            : `slot-${entry.slot}`;
+          const key =
+            entry.type === "accessory-slot"
+              ? `acc-${entry.index}`
+              : `slot-${entry.slot}`;
 
           if (entry.type === "accessory-slot" && entry.locked) {
             return (
@@ -55,9 +60,7 @@ export function LeftPanel() {
               key={key}
               className={`${styles.equippedCard} ${isSelected ? "EquipmentSelected" : ""}`}
             >
-              <div className={styles.slotLabel}>
-                {label}
-              </div>
+              <div className={styles.slotLabel}>{label}</div>
               {item ? (
                 <>
                   <div className="EquipmentItemRow">
@@ -73,7 +76,6 @@ export function LeftPanel() {
                       ) : null}
                     </span>
                   </div>
-
                 </>
               ) : (
                 <span className={styles.emptySlot}>Vazio</span>

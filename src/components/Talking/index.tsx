@@ -15,7 +15,15 @@ interface Props {
   onSoundEnd?: () => void;
 }
 
-export default function Talking({ name, message, src, soundSrc, autoAdvanceOnSound, onNext, onSoundEnd }: Props) {
+export default function Talking({
+  name,
+  message,
+  src,
+  soundSrc,
+  autoAdvanceOnSound,
+  onNext,
+  onSoundEnd,
+}: Props) {
   const { dialogueSpeedMs } = useSettings();
   const { sfxVolume } = useAudio();
   const { displayedText, isComplete, skip } = useTypewriter(
@@ -91,7 +99,10 @@ export default function Talking({ name, message, src, soundSrc, autoAdvanceOnSou
   }, [soundSrc, autoAdvanceOnSound]);
 
   return (
-    <div className={`talkingContainer${animate ? " talkingContainer--animate" : ""}`} onAnimationEnd={handleAnimationEnd}>
+    <div
+      className={`talkingContainer${animate ? " talkingContainer--animate" : ""}`}
+      onAnimationEnd={handleAnimationEnd}
+    >
       <div className="talking">
         <h1>{name}</h1>
         <h2>{displayedText}</h2>

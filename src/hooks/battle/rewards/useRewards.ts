@@ -4,7 +4,11 @@ import { usePetProgress } from "@/contexts/PetProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
-import { COIN_REWARDS, CHEST_DROP_CHANCE, KEY_DROP_CHANCE } from "@/data/battle/drops";
+import {
+  COIN_REWARDS,
+  CHEST_DROP_CHANCE,
+  KEY_DROP_CHANCE,
+} from "@/data/battle/drops";
 import { calculateXP } from "@/utils/types/battle/calculateXp";
 import { PET_XP_MULTIPLIER } from "@/data/characters/petProgress";
 import {
@@ -58,17 +62,27 @@ export function useBattleRewards({ npcClass, npcLevel, npcType }: Props) {
       if (petXpAmount > 0) addPetXP(petInfo.id, petXpAmount);
     }
 
-    const equipmentDrops = rollEquipmentDrops(npcClass, addDrop, player.character);
+    const equipmentDrops = rollEquipmentDrops(
+      npcClass,
+      addDrop,
+      player.character,
+    );
     const itemDrops = rollMaterialDrops(npcClass, npcType, addItem);
-    const chestDrop = rollChestDrop(npcClass, addItem, CHEST_DROP_CHANCE[npcClass]);
+    const chestDrop = rollChestDrop(
+      npcClass,
+      addItem,
+      CHEST_DROP_CHANCE[npcClass],
+    );
     const keyDrop = rollKeyDrop(npcClass, addItem, KEY_DROP_CHANCE[npcClass]);
     const petGoat = rollPetGoat(npcType, addDrop, player.character);
 
     if (itemDrops.length > 0) {
       progressDailyWeekly("collect_material", itemDrops.length);
       for (const drop of itemDrops) {
-        if (drop.id === "hungry_essence") progressDailyWeekly("collect_hungry_essence", drop.qty);
-        else if (drop.id === "goat_horn") progressDailyWeekly("collect_goat_horn", drop.qty);
+        if (drop.id === "hungry_essence")
+          progressDailyWeekly("collect_hungry_essence", drop.qty);
+        else if (drop.id === "goat_horn")
+          progressDailyWeekly("collect_goat_horn", drop.qty);
       }
     }
 

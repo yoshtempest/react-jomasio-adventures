@@ -14,8 +14,16 @@ import { VolumeSection } from "./Volume";
 
 export function Config() {
   const { sfxVolume, bgmVolume } = useAudio();
-  const { difficultyList, selectedIndex, selectedColumn, screen, showQuestIndicator, showComboAction, activeTab, isOnTab } =
-    useConfigMenu(true);
+  const {
+    difficultyList,
+    selectedIndex,
+    selectedColumn,
+    screen,
+    showQuestIndicator,
+    showComboAction,
+    activeTab,
+    isOnTab,
+  } = useConfigMenu(true);
   const dialogueSystem = useDialogue(configsDialogue);
   const dialogueSystemRef = useRef(dialogueSystem);
   dialogueSystemRef.current = dialogueSystem;
@@ -29,7 +37,8 @@ export function Config() {
 
   useEffect(() => {
     if (!configRef.current) return;
-    const selectedEl = configRef.current.children[selectedColumn] as HTMLElement | undefined;
+    const selectedEl = configRef.current.children[selectedColumn] as
+      HTMLElement | undefined;
     if (!selectedEl) return;
     configRef.current.scrollTo({
       top: selectedEl.offsetTop - configRef.current.offsetTop,
@@ -49,7 +58,7 @@ export function Config() {
           </button>
         ))}
       </div>
-      
+
       {activeTab === "geral" && (
         <div className={styles.container}>
           <DifficultySection
@@ -84,9 +93,7 @@ export function Config() {
         />
       )}
 
-      {screen === "tutorial" && (
-        <VictorTutorial />
-      )}
+      {screen === "tutorial" && <VictorTutorial />}
     </div>
   );
 }

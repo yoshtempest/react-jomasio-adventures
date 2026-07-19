@@ -36,7 +36,9 @@ export function useSceneSetup({
     localStorage.removeItem("scene_return_position");
 
     const currentRoute = window.location.hash.replace(/^#/, "") || "/";
-    const positions = loadCompressed<Record<string, ScenePosition>>(SCENE_POSITIONS_KEY()) ?? {};
+    const positions =
+      loadCompressed<Record<string, ScenePosition>>(SCENE_POSITIONS_KEY()) ??
+      {};
 
     const saved = positions[currentRoute];
 

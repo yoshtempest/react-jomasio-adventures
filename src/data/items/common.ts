@@ -4,7 +4,8 @@ export const COMMON = createItems({
   aura_letter: {
     image: "/assets/items/aura_letter.svg",
     name: "Carta de muita aura",
-    description: "Uma carta com uma aura misteriosa. Melhor não ler em voz alta.",
+    description:
+      "Uma carta com uma aura misteriosa. Melhor não ler em voz alta.",
     type: "none",
   },
   package_01: {
@@ -22,7 +23,8 @@ export const COMMON = createItems({
   orange_juice: {
     image: "/assets/items/orange_juice.svg",
     name: "Suco de laranja",
-    description: "Suco natural, geladinho. Refrescante. Perfeito para relaxar...",
+    description:
+      "Suco natural, geladinho. Refrescante. Perfeito para relaxar...",
     type: "none",
   },
   sausage: {

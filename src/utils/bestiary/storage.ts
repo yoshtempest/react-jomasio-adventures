@@ -1,4 +1,7 @@
-import type { BestiarySaveData, BestiarySaveEntry } from "@/utils/types/player/bestiary";
+import type {
+  BestiarySaveData,
+  BestiarySaveEntry,
+} from "@/utils/types/player/bestiary";
 import { BESTIARY_NPC_ORDER } from "@/data/bestiary";
 import { BESTIARY_KEY } from "@/data/storageKeys";
 import { slotKey } from "@/utils/save/slotManager";
@@ -26,7 +29,10 @@ export function loadBestiary(): BestiarySaveData {
   try {
     const raw = localStorage.getItem(slotKey(BESTIARY_KEY));
     if (!raw) return createDefaultData();
-    const parsed = JSON.parse(raw) as Record<string, Partial<BestiarySaveEntry>>;
+    const parsed = JSON.parse(raw) as Record<
+      string,
+      Partial<BestiarySaveEntry>
+    >;
     const data: BestiarySaveData = {};
     for (const npcType of BESTIARY_NPC_ORDER) {
       const entry = parsed[npcType];

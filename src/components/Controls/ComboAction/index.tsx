@@ -22,7 +22,9 @@ export function ComboAction() {
   const combo = COMBO_STATES[player.state];
   if (!combo || !showComboAction) return null;
 
-  const src = asset(`assets/player/${player.character}/inFight/${combo.sprite}`);
+  const src = asset(
+    `assets/player/${player.character}/inFight/${combo.sprite}`,
+  );
 
   function handleDown() {
     activeControls?.onConfirm?.();
@@ -30,10 +32,7 @@ export function ComboAction() {
 
   return (
     <div className={styles.container}>
-      <button
-        className={styles.button}
-        onPointerDown={handleDown}
-      >
+      <button className={styles.button} onPointerDown={handleDown}>
         <img src={src} alt={combo.label} draggable={false} />
         <h3>L</h3>
       </button>

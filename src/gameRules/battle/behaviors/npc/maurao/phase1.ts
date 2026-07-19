@@ -2,7 +2,10 @@ import { NPC_MELEE_COOLDOWN, NPC_PROJECTILE_COOLDOWN } from "@/data/cooldowns";
 import { chasePlayer } from "@/gameRules/npc/movement";
 import { isNear } from "@/gameRules/npc/behavior";
 import { createCommonProjectile } from "@/gameRules/npc/createDirectionalProjectile";
-import type { BehaviorContext, BehaviorResult } from "@/utils/types/npc/npcBehavior";
+import type {
+  BehaviorContext,
+  BehaviorResult,
+} from "@/utils/types/npc/npcBehavior";
 
 import type { MauraoAI } from "./state";
 import {
@@ -18,9 +21,20 @@ import {
   THROW_FOLLOW_THROUGH,
 } from "./state";
 
-export function mauraoPhase1(ctx: BehaviorContext, ai: MauraoAI): BehaviorResult {
+export function mauraoPhase1(
+  ctx: BehaviorContext,
+  ai: MauraoAI,
+): BehaviorResult {
   const now = Date.now();
-  const { npc, playerX, playerY, targetX, onMeleeHit, projectile, setProjectile } = ctx;
+  const {
+    npc,
+    playerX,
+    playerY,
+    targetX,
+    onMeleeHit,
+    projectile,
+    setProjectile,
+  } = ctx;
 
   const distanceX = Math.abs(npc.x - targetX);
 
@@ -28,14 +42,16 @@ export function mauraoPhase1(ctx: BehaviorContext, ai: MauraoAI): BehaviorResult
 
   if (ai.throwState === "startThrow") {
     if (now - ai.throwStart >= THROW_WIND_UP) {
-      setProjectile(createCommonProjectile({
-        startX: npc.x - 50,
-        startY: npc.y - 100,
-        targetX: playerX - 30,
-        targetY: playerY - 80,
-        sprite: "knife",
-        state: "idle",
-      }));
+      setProjectile(
+        createCommonProjectile({
+          startX: npc.x - 50,
+          startY: npc.y - 100,
+          targetX: playerX - 30,
+          targetY: playerY - 80,
+          sprite: "knife",
+          state: "idle",
+        }),
+      );
 
       ai.throwState = "throwing";
       ai.throwStart = now;
@@ -105,14 +121,21 @@ export function mauraoPhase1(ctx: BehaviorContext, ai: MauraoAI): BehaviorResult
 
   // --- INITIATE ATTACKS ---
 
-  if (distanceX >= THROW_RANGE && !projectile && now - ai.lastRangedAttack >= NPC_PROJECTILE_COOLDOWN) {
+  if (
+    distanceX >= THROW_RANGE &&
+    !projectile &&
+    now - ai.lastRangedAttack >= NPC_PROJECTILE_COOLDOWN
+  ) {
     ai.throwState = "startThrow";
     ai.throwStart = now;
     ai.lastRangedAttack = now;
     return { x: npc.x, y: npc.y, state: "startThrow" as const };
   }
 
-  if (distanceX <= DASH_RANGE && now - ai.lastMeleeAttack >= NPC_MELEE_COOLDOWN) {
+  if (
+    distanceX <= DASH_RANGE &&
+    now - ai.lastMeleeAttack >= NPC_MELEE_COOLDOWN
+  ) {
     ai.dashState = "windUp";
     ai.dashStart = now;
     ai.lastMeleeAttack = now;

@@ -1,7 +1,6 @@
 import { useRef } from "react";
 import type { SpawnDamageFn } from "@/utils/types/battle/spawnDamageFn";
 
-
 export function useBattleRefs() {
   const npcRangedAttackRef = useRef<() => void>(() => {});
   const npcMeleeAttackRef = useRef<() => void>(() => {});

@@ -3,16 +3,21 @@ import styles from "./styles.module.css";
 import { useBestiaryMenu } from "@/hooks/menu/useBestiary";
 import { useBestiary } from "@/contexts/BestiaryContext";
 import { BESTIARY_DATA } from "@/data/bestiary";
-import { getNpcClass, getLinkedTitles, getDropItems } from "@/gameRules/npc/bestiary";
+import {
+  getNpcClass,
+  getLinkedTitles,
+  getDropItems,
+} from "@/gameRules/npc/bestiary";
 import { BestiaryCard } from "./Card";
-
 
 export function DeliciaDex() {
   const { hasEncountered, getKills, bestiary } = useBestiary();
   const listRef = useRef<HTMLDivElement | null>(null);
   const { selectedIndex, npcIds } = useBestiaryMenu(true, listRef);
 
-  const encounteredCount = npcIds.filter((id) => bestiary[id]?.encountered).length;
+  const encounteredCount = npcIds.filter(
+    (id) => bestiary[id]?.encountered,
+  ).length;
 
   return (
     <div className="containerOfNavbar">
@@ -33,8 +38,10 @@ export function DeliciaDex() {
           const kills = getKills(npcType);
           const isSelected = index === selectedIndex;
           const npcClass = getNpcClass(npcType);
-          const linkedTitles = encountered && npcClass ? getLinkedTitles(npcType, npcClass) : [];
-          const dropItems = encountered && npcClass ? getDropItems(npcClass, npcType) : [];
+          const linkedTitles =
+            encountered && npcClass ? getLinkedTitles(npcType, npcClass) : [];
+          const dropItems =
+            encountered && npcClass ? getDropItems(npcClass, npcType) : [];
 
           return (
             <BestiaryCard

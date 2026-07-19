@@ -1,20 +1,20 @@
 .container {
-    position: fixed;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: var(--size-6);
-    bottom: 3vh;
-    right: 15vw;
-    background: rgba(0, 0, 0, 0.6);
-    padding: var(--size-6) var(--smaller);
-    border-radius: var(--fs-8);
-    color: #ff4444;
-    font-weight: bold;
-    font-size: var(--fs-14);
-    z-index: 100;
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--size-6);
+  bottom: 3vh;
+  right: 15vw;
+  background: rgba(0, 0, 0, 0.6);
+  padding: var(--size-6) var(--smaller);
+  border-radius: var(--fs-8);
+  color: #ff4444;
+  font-weight: bold;
+  font-size: var(--fs-14);
+  z-index: 100;
 }
 
 .container span {
-    font-family: italic;
+  font-family: italic;
 }

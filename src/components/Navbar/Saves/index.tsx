@@ -8,7 +8,8 @@ import styles from "./styles.module.css";
 
 export function Saves() {
   const listRef = useRef<HTMLDivElement>(null);
-  const { confirmDelete, selectedIndex, items, activeSlot } = useSaveMenu(listRef);
+  const { confirmDelete, selectedIndex, items, activeSlot } =
+    useSaveMenu(listRef);
   if (confirmDelete !== "none") {
     const confirmItems = ["Sim, excluir", "Não, voltar"];
     return (
@@ -58,12 +59,16 @@ export function Saves() {
                 <div className={styles.slotInfo}>
                   <span className={styles.slotLabel}>
                     Save {slot + 1}
-                    {isActive && <span className={styles.activeBadge}> &gt; Ativo</span>}
+                    {isActive && (
+                      <span className={styles.activeBadge}> &gt; Ativo</span>
+                    )}
                   </span>
                   {used ? (
                     <>
                       <span className={styles.sceneLabel}>{sceneLabel}</span>
-                      <span className={styles.playTime}>{formatTime(playTime)}</span>
+                      <span className={styles.playTime}>
+                        {formatTime(playTime)}
+                      </span>
                     </>
                   ) : (
                     <span className={styles.emptyLabel}>Vazio</span>

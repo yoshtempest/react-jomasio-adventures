@@ -10,7 +10,12 @@ type Props = {
   onReleaseDir?: (dir: Dir) => void;
 };
 
-export function JoystickMovement({ activeControls, pressed, onPressDir, onReleaseDir }: Props) {
+export function JoystickMovement({
+  activeControls,
+  pressed,
+  onPressDir,
+  onReleaseDir,
+}: Props) {
   const activeDir = useRef<Set<Dir>>(new Set());
 
   const isDragging = useRef(false);
@@ -30,17 +35,31 @@ export function JoystickMovement({ activeControls, pressed, onPressDir, onReleas
     if (pressed) {
       onPressRef.current?.(dir);
       switch (dir) {
-        case "up": activeControls?.onUp?.(); break;
-        case "down": activeControls?.onDown?.(); break;
-        case "left": activeControls?.onLeft?.(); break;
-        case "right": activeControls?.onRight?.(); break;
+        case "up":
+          activeControls?.onUp?.();
+          break;
+        case "down":
+          activeControls?.onDown?.();
+          break;
+        case "left":
+          activeControls?.onLeft?.();
+          break;
+        case "right":
+          activeControls?.onRight?.();
+          break;
       }
     } else {
       onReleaseRef.current?.(dir);
       switch (dir) {
-        case "down": activeControls?.onDownRelease?.(); break;
-        case "left": activeControls?.onLeftRelease?.(); break;
-        case "right": activeControls?.onRightRelease?.(); break;
+        case "down":
+          activeControls?.onDownRelease?.();
+          break;
+        case "left":
+          activeControls?.onLeftRelease?.();
+          break;
+        case "right":
+          activeControls?.onRightRelease?.();
+          break;
       }
     }
   }
@@ -165,10 +184,18 @@ export function JoystickMovement({ activeControls, pressed, onPressDir, onReleas
       onPointerCancel={handleEnd}
     >
       <div ref={innerRef} className="inner" />
-      <div className={`dpadArrow dpadArrowUp ${pressed.has("up") ? "dpadArrowActive" : ""}`} />
-      <div className={`dpadArrow dpadArrowDown ${pressed.has("down") ? "dpadArrowActive" : ""}`} />
-      <div className={`dpadArrow dpadArrowLeft ${pressed.has("left") ? "dpadArrowActive" : ""}`} />
-      <div className={`dpadArrow dpadArrowRight ${pressed.has("right") ? "dpadArrowActive" : ""}`} />
+      <div
+        className={`dpadArrow dpadArrowUp ${pressed.has("up") ? "dpadArrowActive" : ""}`}
+      />
+      <div
+        className={`dpadArrow dpadArrowDown ${pressed.has("down") ? "dpadArrowActive" : ""}`}
+      />
+      <div
+        className={`dpadArrow dpadArrowLeft ${pressed.has("left") ? "dpadArrowActive" : ""}`}
+      />
+      <div
+        className={`dpadArrow dpadArrowRight ${pressed.has("right") ? "dpadArrowActive" : ""}`}
+      />
     </div>
   );
 }

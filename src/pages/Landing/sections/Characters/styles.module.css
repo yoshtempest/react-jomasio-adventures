@@ -14,7 +14,10 @@
   border: var(--size-1) solid rgba(255, 255, 255, 0.06);
   border-radius: var(--smaller);
   text-align: center;
-  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    transform 0.2s,
+    box-shadow 0.2s;
 }
 
 .characterCard:hover {

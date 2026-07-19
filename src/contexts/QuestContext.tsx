@@ -1,8 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useCallback,
-} from "react";
+import { createContext, useContext, useCallback } from "react";
 import type { ReactNode } from "react";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { DAILY_QUEST_POOL, WEEKLY_QUEST_POOL } from "@/data/quests";
@@ -11,7 +7,11 @@ import {
   getWeekStart,
   generateQuestsFromPool,
 } from "@/data/quests/generation";
-import { QUESTS_KEY, DAILY_QUEST_DATE_KEY, WEEKLY_QUEST_DATE_KEY } from "@/data/storageKeys";
+import {
+  QUESTS_KEY,
+  DAILY_QUEST_DATE_KEY,
+  WEEKLY_QUEST_DATE_KEY,
+} from "@/data/storageKeys";
 import { slotKey } from "@/utils/save/slotManager";
 import { useCompressedStorage } from "@/hooks/useCompressedStorage";
 
@@ -39,8 +39,12 @@ export function QuestProvider({ children }: Props) {
     setQuests((prev) => {
       const todayDate = getTodayDate();
       const weekStart = getWeekStart();
-      const savedDailyDate = localStorage.getItem(slotKey(DAILY_QUEST_DATE_KEY));
-      const savedWeeklyDate = localStorage.getItem(slotKey(WEEKLY_QUEST_DATE_KEY));
+      const savedDailyDate = localStorage.getItem(
+        slotKey(DAILY_QUEST_DATE_KEY),
+      );
+      const savedWeeklyDate = localStorage.getItem(
+        slotKey(WEEKLY_QUEST_DATE_KEY),
+      );
 
       const hasDaily = prev.some((q) => q.frequency === "daily");
       const hasWeekly = prev.some((q) => q.frequency === "weekly");

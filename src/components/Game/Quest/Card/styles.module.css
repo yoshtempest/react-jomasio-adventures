@@ -17,7 +17,8 @@
   justify-content: space-between;
 }
 
-.rowTwo span, p {
+.rowTwo span,
+p {
   display: flex;
   width: fit-content;
   align-self: center;

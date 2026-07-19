@@ -11,11 +11,14 @@ export default function FirstScreen() {
 
   useEffect(() => {
     closeNavbar();
-    setMode("explore")
+    setMode("explore");
   }, [closeNavbar, setMode]);
 
   return (
-    <div className="Master" style={{ backgroundImage: `url(${sceneBackgrounds.FirstScreen})` }}>
+    <div
+      className="Master"
+      style={{ backgroundImage: `url(${sceneBackgrounds.FirstScreen})` }}
+    >
       <ExploreScene
         map={firstScreenMap}
         initialPosition={{ x: 6, y: 11, direction: "up" }}

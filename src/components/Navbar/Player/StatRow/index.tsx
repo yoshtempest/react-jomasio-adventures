@@ -8,11 +8,7 @@ type StatRowProps = {
   progress?: number;
 };
 
-export function StatRow({
-  label,
-  value,
-  progress,
-}: StatRowProps) {
+export function StatRow({ label, value, progress }: StatRowProps) {
   return (
     <>
       <div className={styles.statRow}>

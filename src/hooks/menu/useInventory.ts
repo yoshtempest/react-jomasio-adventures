@@ -8,7 +8,6 @@ import { useAudio } from "@/contexts/AudioContext";
 import { asset } from "@/utils/paths";
 import type { FilterConfig } from "@/utils/types/inventory/filterConfig";
 
-
 export function useInventoryMenu(
   isOpen: boolean,
   listRef?: React.RefObject<HTMLUListElement | null>,

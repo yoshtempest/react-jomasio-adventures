@@ -25,8 +25,16 @@ export function getXpBuffMultiplier(): number {
   return getValidBuff()?.multiplier ?? 1;
 }
 
-export function activateXpBuff(durationMs: number, multiplier: number, potionId?: string): void {
-  const data: XpBuffData = { expiresAt: Date.now() + durationMs, multiplier, potionId };
+export function activateXpBuff(
+  durationMs: number,
+  multiplier: number,
+  potionId?: string,
+): void {
+  const data: XpBuffData = {
+    expiresAt: Date.now() + durationMs,
+    multiplier,
+    potionId,
+  };
   localStorage.setItem(XP_BUFF_KEY, JSON.stringify(data));
 }
 
@@ -40,10 +48,29 @@ export function getActivePotionId(): string | null {
   return getValidBuff()?.potionId ?? null;
 }
 
-export const POTION_CONFIG: Record<string, { multiplier: number; durationMs: number; label: string }> = {
-  xp_potion_common: { multiplier: 1.5, durationMs: 5 * 60 * 1000, label: "Comum" },
-  xp_potion_rare: { multiplier: 1.75, durationMs: 10 * 60 * 1000, label: "Rara" },
+export const POTION_CONFIG: Record<
+  string,
+  { multiplier: number; durationMs: number; label: string }
+> = {
+  xp_potion_common: {
+    multiplier: 1.5,
+    durationMs: 5 * 60 * 1000,
+    label: "Comum",
+  },
+  xp_potion_rare: {
+    multiplier: 1.75,
+    durationMs: 10 * 60 * 1000,
+    label: "Rara",
+  },
   xp_potion_epic: { multiplier: 2, durationMs: 15 * 60 * 1000, label: "Épica" },
-  xp_potion_boss: { multiplier: 2.5, durationMs: 20 * 60 * 1000, label: "Chefão" },
-  xp_potion_legendary: { multiplier: 3, durationMs: 30 * 60 * 1000, label: "Lendária" },
+  xp_potion_boss: {
+    multiplier: 2.5,
+    durationMs: 20 * 60 * 1000,
+    label: "Chefão",
+  },
+  xp_potion_legendary: {
+    multiplier: 3,
+    durationMs: 30 * 60 * 1000,
+    label: "Lendária",
+  },
 };

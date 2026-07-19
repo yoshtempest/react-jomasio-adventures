@@ -54,8 +54,11 @@ export function useSceneNavigation({ player, transitions }: Props) {
         hasNavigatedRef.current = true;
 
         const currentRoute = window.location.hash.replace(/^#/, "") || "/";
-        const stored = loadCompressed<Record<string, typeof previousPositionRef.current>>(SCENE_POSITIONS_KEY());
-        const map: Record<string, typeof previousPositionRef.current> = stored ?? {};
+        const stored = loadCompressed<
+          Record<string, typeof previousPositionRef.current>
+        >(SCENE_POSITIONS_KEY());
+        const map: Record<string, typeof previousPositionRef.current> =
+          stored ?? {};
         map[currentRoute] = previousPositionRef.current;
         saveCompressed(SCENE_POSITIONS_KEY(), map);
 

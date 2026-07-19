@@ -20,7 +20,8 @@ export function useStatusMenu(isOpen: boolean) {
   const { playMove, playSelect } = useMenuSFX();
 
   const [view, setView] = useState<"stats" | "skillTree" | "ranks">("stats");
-  const { selectedIndex, setSelectedIndex, selectedIndexRef } = useSelectableIndex();
+  const { selectedIndex, setSelectedIndex, selectedIndexRef } =
+    useSelectableIndex();
 
   const onUp = useStableCallback(() => {
     if (view !== "stats") return;

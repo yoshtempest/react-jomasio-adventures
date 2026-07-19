@@ -5,7 +5,6 @@ import { CHARGE_TIME } from "@/utils/types/battle/charge";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 
-
 type Props = {
   player: Player;
   npcX: number;

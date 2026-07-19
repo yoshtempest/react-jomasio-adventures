@@ -21,9 +21,7 @@ export const CRAFT_DROP_TABLES: Record<string, ClassDropTable> = {
   common: {
     always: [{ id: "hungry_essence", chance: 0.6, qty: [1, 3] }],
     perNpcType: {
-      rice: [
-        { id: "porcao_arroz", chance: 0.5, qty: [1, 2] },
-      ],
+      rice: [{ id: "porcao_arroz", chance: 0.5, qty: [1, 2] }],
       figurantOfBaalCult: [{ id: "figurant_totem", chance: 0.4, qty: [1, 2] }],
       figurantOfMobyDickCult: [
         { id: "figurant_totem", chance: 0.4, qty: [1, 2] },
@@ -40,9 +38,7 @@ export const CRAFT_DROP_TABLES: Record<string, ClassDropTable> = {
         { id: "goat_horn", chance: 0.7, qty: [1, 2] },
         { id: "queijo_cabra", chance: 0.6, qty: [1, 2] },
       ],
-      piupiu: [
-        { id: "ovo_piupiu", chance: 0.5, qty: [1, 2] },
-      ],
+      piupiu: [{ id: "ovo_piupiu", chance: 0.5, qty: [1, 2] }],
     },
   },
   epic: {

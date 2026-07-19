@@ -8,7 +8,9 @@ export function useChargeParticles() {
   const [particles, setParticles] = useState<ChargeParticle[]>([]);
 
   const chargeReadyRef = useRef(false);
-  const particleIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const particleIntervalRef = useRef<ReturnType<typeof setInterval> | null>(
+    null,
+  );
   const chargeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const particleIdRef = useRef(0);
 

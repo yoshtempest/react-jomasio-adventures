@@ -67,10 +67,7 @@ export function BattleIntro({ playerCharacter, npcType, onSkip }: Props) {
   return (
     <div className="overlay">
       <div className={styles.left}>
-        <img
-          src={playerPath(`/${playerCharacter}/default.svg`)}
-          alt=""
-        />
+        <img src={playerPath(`/${playerCharacter}/default.svg`)} alt="" />
       </div>
 
       <div className={styles.vs}>VS</div>

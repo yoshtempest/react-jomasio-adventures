@@ -16,7 +16,9 @@
   border: var(--size-2) solid var(--border-medium);
   border-radius: var(--size-6);
   background: rgba(0, 0, 0, 0.2);
-  transition: border-color 0.2s, background 0.2s;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
 }
 
 .slotCard.selected {
@@ -92,7 +94,9 @@
   border-radius: var(--size-4);
   cursor: pointer;
   background: transparent;
-  transition: background 0.2s, border-color 0.2s;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
   min-width: var(--size-140);
   text-align: center;
 }

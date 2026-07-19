@@ -69,7 +69,8 @@ export default function Loading() {
     };
   }, [navigate, checkForUpdate]);
 
-  const statusLabel = status === "checking" ? "Verificando atualização..." : null;
+  const statusLabel =
+    status === "checking" ? "Verificando atualização..." : null;
 
   return (
     <div

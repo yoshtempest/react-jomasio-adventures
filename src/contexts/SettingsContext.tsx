@@ -7,7 +7,11 @@ import {
 } from "react";
 import type { DialogueSpeed } from "@/utils/settings";
 import { SPEED_MAP } from "@/data/settings/dialogueSpeed";
-import { DIALOGUE_SPEED_KEY, SHOW_QUEST_INDICATOR_KEY, SHOW_COMBO_ACTION_KEY } from "@/data/storageKeys";
+import {
+  DIALOGUE_SPEED_KEY,
+  SHOW_QUEST_INDICATOR_KEY,
+  SHOW_COMBO_ACTION_KEY,
+} from "@/data/storageKeys";
 
 type SettingsContextType = {
   dialogueSpeed: DialogueSpeed;
@@ -34,10 +38,12 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(DIALOGUE_SPEED_KEY, speed);
   }, []);
 
-  const [showQuestIndicator, setShowQuestIndicatorState] = useState<boolean>(() => {
-    const saved = localStorage.getItem(SHOW_QUEST_INDICATOR_KEY);
-    return saved === "true";
-  });
+  const [showQuestIndicator, setShowQuestIndicatorState] = useState<boolean>(
+    () => {
+      const saved = localStorage.getItem(SHOW_QUEST_INDICATOR_KEY);
+      return saved === "true";
+    },
+  );
 
   const setShowQuestIndicator = useCallback((show: boolean) => {
     setShowQuestIndicatorState(show);

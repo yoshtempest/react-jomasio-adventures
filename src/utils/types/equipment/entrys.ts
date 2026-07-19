@@ -1,9 +1,6 @@
 import { getEffectiveStats } from "@/gameRules/battle/equipment";
 import { EQUIPMENT_SLOTS } from "@/utils/types/player/equipment";
-import type {
-  Equipment,
-  EquipmentStats,
-} from "@/utils/types/player/equipment";
+import type { Equipment, EquipmentStats } from "@/utils/types/player/equipment";
 
 export type CollectedEntry = {
   item: Equipment;

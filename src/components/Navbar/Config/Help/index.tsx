@@ -8,7 +8,11 @@ type Props = {
   showQuestIndicator: boolean;
 };
 
-export function HelpSection({ selectedColumn, selectedIndex, showQuestIndicator }: Props) {
+export function HelpSection({
+  selectedColumn,
+  selectedIndex,
+  showQuestIndicator,
+}: Props) {
   return (
     <div className={styles.flexColumn}>
       <h2 className={styles.marginTop}>Ajuda:</h2>
@@ -17,7 +21,9 @@ export function HelpSection({ selectedColumn, selectedIndex, showQuestIndicator 
           selectedColumn === 2 && selectedIndex === 0 ? styles.selected : ""
         }`}
       >
-        {selectedColumn === 2 && selectedIndex === 0 && <span className={styles.cursor}>▼</span>}
+        {selectedColumn === 2 && selectedIndex === 0 && (
+          <span className={styles.cursor}>▼</span>
+        )}
 
         <h2>Indicador de Missões: {showQuestIndicator ? "ON" : "OFF"}</h2>
       </div>
@@ -26,7 +32,9 @@ export function HelpSection({ selectedColumn, selectedIndex, showQuestIndicator 
           selectedColumn === 2 && selectedIndex === 1 ? styles.selected : ""
         }`}
       >
-        {selectedColumn === 2 && selectedIndex === 1 && <span className={styles.cursor}>▼</span>}
+        {selectedColumn === 2 && selectedIndex === 1 && (
+          <span className={styles.cursor}>▼</span>
+        )}
 
         <h2>Ver Tutorial</h2>
       </div>
@@ -35,7 +43,9 @@ export function HelpSection({ selectedColumn, selectedIndex, showQuestIndicator 
           selectedColumn === 2 && selectedIndex === 2 ? styles.selected : ""
         }`}
       >
-        {selectedColumn === 2 && selectedIndex === 2 && <span className={styles.cursor}>▼</span>}
+        {selectedColumn === 2 && selectedIndex === 2 && (
+          <span className={styles.cursor}>▼</span>
+        )}
 
         <UpdateButton />
       </div>
@@ -44,7 +54,9 @@ export function HelpSection({ selectedColumn, selectedIndex, showQuestIndicator 
           selectedColumn === 2 && selectedIndex === 3 ? styles.selected : ""
         }`}
       >
-        {selectedColumn === 2 && selectedIndex === 3 && <span className={styles.cursor}>▼</span>}
+        {selectedColumn === 2 && selectedIndex === 3 && (
+          <span className={styles.cursor}>▼</span>
+        )}
 
         <InstallButton />
       </div>

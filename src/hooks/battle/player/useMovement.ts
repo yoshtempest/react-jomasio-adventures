@@ -44,7 +44,12 @@ export function useBattleMovement(
 
   const jumpForce = -16;
 
-  useBattleGravity(setPlayer, collisionRef, hasDoubleJumped, hasUsedFallingAttack);
+  useBattleGravity(
+    setPlayer,
+    collisionRef,
+    hasDoubleJumped,
+    hasUsedFallingAttack,
+  );
 
   const idleTimeout = useMemo(() => idleTimeoutRef.current, []);
   useEffect(() => {
@@ -185,7 +190,8 @@ export function useBattleMovement(
 
   function special() {
     setPlayer((p) => {
-      if (p.state === "falling" || p.state === "jump") return { ...p, state: "preSpecialInAir" };
+      if (p.state === "falling" || p.state === "jump")
+        return { ...p, state: "preSpecialInAir" };
       if (p.state !== "idle") return p;
       return { ...p, state: "preSpecial" };
     });

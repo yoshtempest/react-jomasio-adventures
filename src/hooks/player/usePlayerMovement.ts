@@ -96,10 +96,17 @@ export function usePlayerMovement(
   }
 
   return {
-    moveUp, moveDown, moveLeft, moveRight,
-    startMoveUpExplore, stopMoveUpExplore,
-    startMoveDownExplore, stopMoveDownExplore,
-    startMoveLeftExplore, stopMoveLeftExplore,
-    startMoveRightExplore, stopMoveRightExplore,
+    moveUp,
+    moveDown,
+    moveLeft,
+    moveRight,
+    startMoveUpExplore,
+    stopMoveUpExplore,
+    startMoveDownExplore,
+    stopMoveDownExplore,
+    startMoveLeftExplore,
+    stopMoveLeftExplore,
+    startMoveRightExplore,
+    stopMoveRightExplore,
   };
 }

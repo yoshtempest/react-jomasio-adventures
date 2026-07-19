@@ -12,13 +12,17 @@ export function FunnyMoments() {
           Momentos Inesquecíveis
         </h2>
         <p className={shared.sectionDesc}>
-          O jogo é repleto de referências e situações hilárias que todo
-          aluno do Jomásio vai reconhecer
+          O jogo é repleto de referências e situações hilárias que todo aluno do
+          Jomásio vai reconhecer
         </p>
         <div className={styles.funnyGrid}>
           {funnyMoments.map((moment) => (
             <div key={moment.title} className={styles.funnyCard}>
-              <img src={moment.image} alt={moment.title} className={styles.funnyImage} />
+              <img
+                src={moment.image}
+                alt={moment.title}
+                className={styles.funnyImage}
+              />
               <h3>{moment.title}</h3>
               <p>{moment.desc}</p>
             </div>

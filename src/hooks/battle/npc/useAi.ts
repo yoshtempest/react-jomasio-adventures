@@ -159,7 +159,10 @@ export function useNpcAI({
         }
 
         const petDist = Math.hypot(px - n.x, py - n.y);
-        const playerDist = Math.hypot(playerXRef.current - n.x, playerYRef.current - n.y);
+        const playerDist = Math.hypot(
+          playerXRef.current - n.x,
+          playerYRef.current - n.y,
+        );
 
         if (petDist < playerDist) {
           return { targetX: px, targetY: py, targetIsPet: true };
@@ -232,7 +235,8 @@ export function useNpcAI({
         const distanceX = Math.abs(n.x - playerXRef.current);
 
         if (npcTypeRef.current === "jhowsimar") {
-          const inRange = distanceX <= 50 && Math.abs(playerYRef.current - n.y) <= 150;
+          const inRange =
+            distanceX <= 50 && Math.abs(playerYRef.current - n.y) <= 150;
           if (!inRange && !jhowsimarSoundPlayingRef.current) {
             jhowsimarSoundPlayingRef.current = true;
             playSound("jhowsimarVemCa", true);
@@ -250,10 +254,17 @@ export function useNpcAI({
 
         return {
           ...n,
-          x: Math.max(BATTLE_LIMITS.minX, Math.min(BATTLE_LIMITS.maxX, collision.x)),
+          x: Math.max(
+            BATTLE_LIMITS.minX,
+            Math.min(BATTLE_LIMITS.maxX, collision.x),
+          ),
           y: collision.y,
           direction,
-          state: (result.state ?? getNpcState(distanceX, forceIdleRef.current)) as NPCBattleState["state"],
+          state: (result.state ??
+            getNpcState(
+              distanceX,
+              forceIdleRef.current,
+            )) as NPCBattleState["state"],
         };
       });
     }, 20);
@@ -262,15 +273,32 @@ export function useNpcAI({
       clearInterval(interval);
       stopSound("jhowsimarVemCa");
     };
-  }, [hitstopRef, npcStaggerRef, npcPhaseRef, npcTargetIsPetRef, hasPetRef, petXRef, petYRef, npcBlockedRef, npcHpRef, npcMaxHpRef, playSound, stopSound]);
+  }, [
+    hitstopRef,
+    npcStaggerRef,
+    npcPhaseRef,
+    npcTargetIsPetRef,
+    hasPetRef,
+    petXRef,
+    petYRef,
+    npcBlockedRef,
+    npcHpRef,
+    npcMaxHpRef,
+    playSound,
+    stopSound,
+  ]);
 
   const updateNpc = (partial: Partial<NPCBattleState>) => {
     setNpc((n) => ({
       ...n,
       ...partial,
-      x: partial.x != null
-        ? Math.max(BATTLE_LIMITS.minX, Math.min(BATTLE_LIMITS.maxX, partial.x))
-        : n.x,
+      x:
+        partial.x != null
+          ? Math.max(
+              BATTLE_LIMITS.minX,
+              Math.min(BATTLE_LIMITS.maxX, partial.x),
+            )
+          : n.x,
     }));
   };
 

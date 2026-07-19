@@ -45,7 +45,9 @@ export function useDailyReward() {
     if (!canClaim) return;
     const coinsAmount =
       DAILY_REWARD.coinsMin +
-      Math.floor(Math.random() * (DAILY_REWARD.coinsMax - DAILY_REWARD.coinsMin + 1));
+      Math.floor(
+        Math.random() * (DAILY_REWARD.coinsMax - DAILY_REWARD.coinsMin + 1),
+      );
     addHyperCoins(player.character, DAILY_REWARD.hyperCoins);
     addCoins(player.character, coinsAmount);
     saveLastClaim(today);

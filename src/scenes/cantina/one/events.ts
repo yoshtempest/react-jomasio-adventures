@@ -5,9 +5,7 @@ export const cantinaOneEvents: SceneEvent[] = [
       notHasFlag: "jhowsimar",
       notHasQuest: "director_escape",
     },
-    then: [
-      { type: "navigate", to: "/director/one" },
-    ],
+    then: [{ type: "navigate", to: "/director/one" }],
   },
   {
     type: "conditional",

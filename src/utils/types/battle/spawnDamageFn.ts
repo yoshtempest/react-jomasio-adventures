@@ -1,6 +1,6 @@
 export type SpawnDamageFn = (
-    value: number,
-    x: number,
-    y: number,
-    type: DamageType
+  value: number,
+  x: number,
+  y: number,
+  type: DamageType,
 ) => void;

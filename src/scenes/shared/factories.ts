@@ -28,7 +28,12 @@ export const createNpc = (src: string, gridX: number, gridY: number) => ({
   gridY,
 });
 
-export const createPlate = (src: string, gridX: number, gridY: number, message?: string) => ({
+export const createPlate = (
+  src: string,
+  gridX: number,
+  gridY: number,
+  message?: string,
+) => ({
   src,
   gridX,
   gridY,

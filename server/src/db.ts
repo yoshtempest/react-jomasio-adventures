@@ -31,11 +31,17 @@ const insertUser: Statement = db.prepare(
   "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
 );
 
-const findUserByEmail: Statement = db.prepare("SELECT * FROM users WHERE email = ?");
+const findUserByEmail: Statement = db.prepare(
+  "SELECT * FROM users WHERE email = ?",
+);
 
-const findUserByUsername: Statement = db.prepare("SELECT * FROM users WHERE username = ?");
+const findUserByUsername: Statement = db.prepare(
+  "SELECT * FROM users WHERE username = ?",
+);
 
-const findUserById: Statement = db.prepare("SELECT id, username, email, created_at FROM users WHERE id = ?");
+const findUserById: Statement = db.prepare(
+  "SELECT id, username, email, created_at FROM users WHERE id = ?",
+);
 
 const upsertSave: Statement = db.prepare(`
   INSERT INTO saves (user_id, data, updated_at)
@@ -45,7 +51,9 @@ const upsertSave: Statement = db.prepare(`
     updated_at = excluded.updated_at
 `);
 
-const getSave: Statement = db.prepare("SELECT data, updated_at FROM saves WHERE user_id = ?");
+const getSave: Statement = db.prepare(
+  "SELECT data, updated_at FROM saves WHERE user_id = ?",
+);
 
 export type UserRow = {
   id: number;

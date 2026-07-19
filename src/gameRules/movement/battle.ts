@@ -5,7 +5,10 @@ import {
 } from "@/utils/types/player/movement";
 
 const CROUCHED_STEP = 4;
-const CROUCHED_STATES = new Set<PlayerState>(["idleCrounched", "walkCrounched"]);
+const CROUCHED_STATES = new Set<PlayerState>([
+  "idleCrounched",
+  "walkCrounched",
+]);
 
 export function canAct(player: Player) {
   return (

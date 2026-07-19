@@ -8,7 +8,8 @@ const router = express.Router();
 router.get("/", authMiddleware, (req: Request, res) => {
   try {
     const { userId } = (req as Request & { user: AuthPayload }).user;
-    const row = getSave.get(userId) as { data: string; updated_at: string } | undefined;
+    const row = getSave.get(userId) as
+      { data: string; updated_at: string } | undefined;
 
     if (!row) {
       res.json({ data: null, updatedAt: null });

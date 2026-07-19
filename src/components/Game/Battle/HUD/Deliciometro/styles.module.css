@@ -1,9 +1,9 @@
 .container {
- position: relative;
- width: var(--size-50);
- height: var(--low-medium);
- border: var(--size-2) solid var(--surface-dark);
- background: var(--border-default);
+  position: relative;
+  width: var(--size-50);
+  height: var(--low-medium);
+  border: var(--size-2) solid var(--surface-dark);
+  background: var(--border-default);
 }
 
 .image {

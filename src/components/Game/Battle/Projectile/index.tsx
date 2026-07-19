@@ -19,7 +19,12 @@ function getSpriteKey(projectile: Projectile): string {
   return sprite && spriteMap[sprite] ? sprite : "spoon";
 }
 
-export function ProjectileSprite({ projectile, scaleX, scaleY, groundY = 600 }: Props) {
+export function ProjectileSprite({
+  projectile,
+  scaleX,
+  scaleY,
+  groundY = 600,
+}: Props) {
   const spriteKey = getSpriteKey(projectile);
   const src = spriteMap[spriteKey];
 

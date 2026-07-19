@@ -55,7 +55,11 @@ export function Mission() {
             className={`${styles.tab} ${activeTab === key ? styles.tabActive : ""} ${selectedIndex === i ? styles.tabSelected : ""}`}
             onClick={() => switchTab(key)}
           >
-            <img src={asset(TAB_ICONS[key])} alt={key} className={styles.tabIcon} />
+            <img
+              src={asset(TAB_ICONS[key])}
+              alt={key}
+              className={styles.tabIcon}
+            />
             ({tabCountMap[key]})
           </button>
         ))}
@@ -63,21 +67,19 @@ export function Mission() {
           <div className={styles.timerBar}>
             {activeTab === "daily" && (
               <div>
-                <Timer size={16}/>
+                <Timer size={16} />
                 <strong>{dailyTimer}</strong>
               </div>
             )}
             {activeTab === "weekly" && (
               <div>
-                <Timer size={16}/>
+                <Timer size={16} />
                 <strong>{weeklyTimer}</strong>
               </div>
             )}
           </div>
         )}
       </div>
-
-
 
       {visibleQuests.length === 0 ? (
         <p className={styles.empty}>{getEmptyMessage(activeTab)}</p>

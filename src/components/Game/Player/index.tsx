@@ -22,7 +22,9 @@ export function Player({
   moving,
 }: Props) {
   const spriteDirection = direction === "left" ? "right" : direction;
-  const spriteName = moving ? `moving${spriteDirection.charAt(0).toUpperCase() + spriteDirection.slice(1)}` : spriteDirection;
+  const spriteName = moving
+    ? `moving${spriteDirection.charAt(0).toUpperCase() + spriteDirection.slice(1)}`
+    : spriteDirection;
 
   const spritePath = hasPeru
     ? `assets/player/${character}/movement/withPeru/${spriteName}.svg`

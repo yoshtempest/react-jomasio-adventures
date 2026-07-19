@@ -1,8 +1,11 @@
 import { useEffect, useRef } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
-import { DIFFICULTY_HUNGER_RATE, HUNGER_INTERVAL_MS, HUNGER_TICK_MS } from "@/data/player/hunger";
-
+import {
+  DIFFICULTY_HUNGER_RATE,
+  HUNGER_INTERVAL_MS,
+  HUNGER_TICK_MS,
+} from "@/data/player/hunger";
 
 export function useHungerTimer() {
   const { difficulty, player } = usePlayer();

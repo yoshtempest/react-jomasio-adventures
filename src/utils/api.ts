@@ -42,7 +42,9 @@ async function request<T>(
   }
 
   if (!res.ok) {
-    throw new Error((json as Record<string, string>)?.error || "Erro na requisição");
+    throw new Error(
+      (json as Record<string, string>)?.error || "Erro na requisição",
+    );
   }
 
   return json as T;
@@ -60,12 +62,20 @@ export type SaveResponse = {
 
 export const api = {
   register: (username: string, email: string, password: string) =>
-    request<AuthResponse>("POST", "/auth/register", { username, email, password }),
+    request<AuthResponse>("POST", "/auth/register", {
+      username,
+      email,
+      password,
+    }),
 
   login: (email: string, password: string) =>
     request<AuthResponse>("POST", "/auth/login", { email, password }),
 
-  me: () => request<{ user: { id: number; username: string; email: string } }>("GET", "/auth/me"),
+  me: () =>
+    request<{ user: { id: number; username: string; email: string } }>(
+      "GET",
+      "/auth/me",
+    ),
 
   getSave: () => request<SaveResponse>("GET", "/save"),
 

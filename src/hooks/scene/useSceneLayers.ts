@@ -56,7 +56,14 @@ export function useSceneLayers({
     if (tileDialogues?.[`${x},${y}`]) return "[L] Interagir";
 
     return null;
-  }, [frontTile, npcs, itemPickupTiles, plates, interactionKeys, tileDialogues]);
+  }, [
+    frontTile,
+    npcs,
+    itemPickupTiles,
+    plates,
+    interactionKeys,
+    tileDialogues,
+  ]);
 
   return { frontTile, interactionHint };
 }

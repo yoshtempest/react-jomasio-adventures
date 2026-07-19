@@ -15,7 +15,13 @@ export function rollEquipmentDrops(
 ): EquipmentDropInfo[] {
   const drops: EquipmentDropInfo[] = [];
   const slots: EquipmentSlot[] = [
-    "weapon", "helmet", "chestplate", "pants", "boots", "accessory", "bag",
+    "weapon",
+    "helmet",
+    "chestplate",
+    "pants",
+    "boots",
+    "accessory",
+    "bag",
   ];
 
   for (const slot of slots) {

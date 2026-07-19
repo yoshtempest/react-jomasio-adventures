@@ -120,7 +120,11 @@ export function useBattleScene({
 
   const { showIntro, skipIntro } = useBattleIntro();
 
-  const { npcData, npcLevel, npcStats } = useNpcSetup(npcType, difficulty, playerLevel);
+  const { npcData, npcLevel, npcStats } = useNpcSetup(
+    npcType,
+    difficulty,
+    playerLevel,
+  );
 
   const battleInfoCtx = useBattleInfo();
   useEffect(() => {
@@ -135,7 +139,15 @@ export function useBattleScene({
     return () => {
       battleInfoCtx?.clearBattleInfo();
     };
-  }, [npcType, npcLevel, npcData.class, npcStats.hp, npcStats.damage, npcStats.armor, battleInfoCtx]);
+  }, [
+    npcType,
+    npcLevel,
+    npcData.class,
+    npcStats.hp,
+    npcStats.damage,
+    npcStats.armor,
+    battleInfoCtx,
+  ]);
 
   const { xpReward, giveRewards, giveSummonRewards } = useBattleRewards({
     npcClass: npcData.class,
@@ -151,23 +163,33 @@ export function useBattleScene({
       playerGroundY: player.groundY,
     });
 
-  const { coffins, beginSequence: beginCoffinSequence, clearCoffins } =
-    useCoffinAnimation();
+  const {
+    coffins,
+    beginSequence: beginCoffinSequence,
+    clearCoffins,
+  } = useCoffinAnimation();
 
   const coffinStartedRef = useRef(false);
-  const summonNpcRef = useRef<(npcType: string, overrideX?: number) => void>(() => {});
+  const summonNpcRef = useRef<(npcType: string, overrideX?: number) => void>(
+    () => {},
+  );
   summonNpcRef.current = summonNpc;
 
   const onSummonWrapperRef = useRef<(summonType: string) => void>(() => {});
   onSummonWrapperRef.current = (summonType: string) => {
-    if (npcType === "hungryKing" && npcPhaseRef.current === 2 && summonType === "hungryDeath") {
+    if (
+      npcType === "hungryKing" &&
+      npcPhaseRef.current === 2 &&
+      summonType === "hungryDeath"
+    ) {
       if (!coffinStartedRef.current) {
         coffinStartedRef.current = true;
         playSound("summon");
         beginCoffinSequence(
           [550, 650, 750],
           player.groundY,
-          (_npcType: string, x: number) => summonNpcRef.current("hungryDeath", x),
+          (_npcType: string, x: number) =>
+            summonNpcRef.current("hungryDeath", x),
         );
       }
     } else {
@@ -222,7 +244,8 @@ export function useBattleScene({
   killCounter.npcDataRef.current = npcData;
 
   const isConfigOpen = isNavOpen && navScreen === "config";
-  const isPaused = showVictory || showDefeat || showIntro || showOutro != null || isConfigOpen;
+  const isPaused =
+    showVictory || showDefeat || showIntro || showOutro != null || isConfigOpen;
   const controlsDisabled = isPaused || isPhaseTransitioning || isThrown;
 
   targeting.npcAiHpRef.current = npcStats.hp;
@@ -239,16 +262,20 @@ export function useBattleScene({
     onMeleeHit: () => refs.npcMeleeAttackRef.current(),
     isPaused: isPaused || isPhaseTransitioning,
     onSummon: onSummonWrapperRef.current,
-    onPullPlayer: (npcX: number) => setPlayer((p) => {
-      const direction = npcX > p.x ? 1 : -1;
-      const pullToX = Math.max(BATTLE_LIMITS.minX, Math.min(BATTLE_LIMITS.maxX, p.x + direction * 200));
-      return {
-        ...p,
-        pullFromX: p.x,
-        pullToX,
-        pullStartTime: Date.now(),
-      };
-    }),
+    onPullPlayer: (npcX: number) =>
+      setPlayer((p) => {
+        const direction = npcX > p.x ? 1 : -1;
+        const pullToX = Math.max(
+          BATTLE_LIMITS.minX,
+          Math.min(BATTLE_LIMITS.maxX, p.x + direction * 200),
+        );
+        return {
+          ...p,
+          pullFromX: p.x,
+          pullToX,
+          pullStartTime: Date.now(),
+        };
+      }),
     obstacles: map?.obstacles,
     hitstopRef: refs.hitstopRef,
     npcStaggerRef: refs.npcStaggerRef,
@@ -273,7 +300,10 @@ export function useBattleScene({
       setIsThrown(true);
       setPlayer((p) => {
         const dirAway = npcX > p.x ? -1 : 1;
-        const throwToX = Math.max(BATTLE_LIMITS.minX, Math.min(BATTLE_LIMITS.maxX, p.x + dirAway * 300));
+        const throwToX = Math.max(
+          BATTLE_LIMITS.minX,
+          Math.min(BATTLE_LIMITS.maxX, p.x + dirAway * 300),
+        );
         return {
           ...p,
           throwStartTime: Date.now(),
@@ -444,14 +474,21 @@ export function useBattleScene({
       const totalPhases = npcData.class === "boss" ? 2 : 1;
       const currentPhase = battle.npcPhase ?? 1;
       const completedPhases = Math.max(0, currentPhase - 1);
-      const hpProgress = battle.npcMaxHp > 0
-        ? (battle.npcMaxHp - battle.npcHP) / battle.npcMaxHp
-        : 0;
+      const hpProgress =
+        battle.npcMaxHp > 0
+          ? (battle.npcMaxHp - battle.npcHP) / battle.npcMaxHp
+          : 0;
       const raw = (completedPhases + hpProgress) / totalPhases;
       return Math.min(1, Math.max(0, raw));
     }
     return 0;
-  }, [showDefeat, battle.npcHP, battle.npcMaxHp, battle.npcPhase, npcData.class]);
+  }, [
+    showDefeat,
+    battle.npcHP,
+    battle.npcMaxHp,
+    battle.npcPhase,
+    npcData.class,
+  ]);
 
   const { handlePlayerHit, handleSpecialHit } = usePlayerBattleActions({
     player,
@@ -470,9 +507,10 @@ export function useBattleScene({
     playerHP: battle.playerHP,
     playerMaxHp: battle.playerMaxHp,
     totalVampirism: battle.totalVampirism,
-    onNpcPush: (targetX) => npc.updateNpc({
-      x: Math.max(BATTLE_LIMITS.minX, Math.min(BATTLE_LIMITS.maxX, targetX)),
-    }),
+    onNpcPush: (targetX) =>
+      npc.updateNpc({
+        x: Math.max(BATTLE_LIMITS.minX, Math.min(BATTLE_LIMITS.maxX, targetX)),
+      }),
   });
 
   useSummonAI({
@@ -574,24 +612,44 @@ export function useBattleScene({
 
         if (progress >= 1) {
           timeouts.push(
-            setTimeout(() => setPlayer((p2) => {
-              if (p2.state !== "fallen") return p2;
-              return { ...p2, state: "idleCrounched" };
-            }), 300),
-            setTimeout(() => setPlayer((p2) => {
-              if (p2.state !== "idleCrounched") return p2;
-              return { ...p2, state: "walkCrounched" };
-            }), 900),
+            setTimeout(
+              () =>
+                setPlayer((p2) => {
+                  if (p2.state !== "fallen") return p2;
+                  return { ...p2, state: "idleCrounched" };
+                }),
+              300,
+            ),
+            setTimeout(
+              () =>
+                setPlayer((p2) => {
+                  if (p2.state !== "idleCrounched") return p2;
+                  return { ...p2, state: "walkCrounched" };
+                }),
+              900,
+            ),
             setTimeout(() => {
               setPlayer((p2) => {
                 if (p2.state !== "walkCrounched") return p2;
-                return { ...p2, state: "idle", grabbedUntil: 0, throwStartTime: 0 };
+                return {
+                  ...p2,
+                  state: "idle",
+                  grabbedUntil: 0,
+                  throwStartTime: 0,
+                };
               });
               setIsThrown(false);
             }, 1800),
           );
 
-          return { ...p, x, y: p.groundY, velY: 0, throwStartTime: 0, state: "fallen" };
+          return {
+            ...p,
+            x,
+            y: p.groundY,
+            velY: 0,
+            throwStartTime: 0,
+            state: "fallen",
+          };
         }
 
         return { ...p, x, y, velY: 0, state: "fallen" };

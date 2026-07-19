@@ -43,7 +43,8 @@ export function normalizePetProgress(data: unknown): PetsProgress {
         typeof saved?.level === "number" && !Number.isNaN(saved.level)
           ? Math.min(saved.level, PET_MAX_LEVEL)
           : 1,
-      xp: typeof saved?.xp === "number" && !Number.isNaN(saved.xp) ? saved.xp : 0,
+      xp:
+        typeof saved?.xp === "number" && !Number.isNaN(saved.xp) ? saved.xp : 0,
     };
   }
 

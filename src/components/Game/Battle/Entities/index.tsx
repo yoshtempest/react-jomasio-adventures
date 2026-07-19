@@ -58,7 +58,12 @@ export function BattleEntities({
       />
 
       {npc.projectile && (
-        <ProjectileSprite projectile={npc.projectile} scaleX={scaleX} scaleY={scaleY} groundY={player.y} />
+        <ProjectileSprite
+          projectile={npc.projectile}
+          scaleX={scaleX}
+          scaleY={scaleY}
+          groundY={player.y}
+        />
       )}
 
       {coffins.map((c) => {

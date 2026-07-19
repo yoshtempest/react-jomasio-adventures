@@ -36,9 +36,7 @@ export function ListItem({ item, isSelected, rejected }: Props) {
             </span>
 
             {itemData.description && (
-              <span className={styles.description}>
-                {itemData.description}
-              </span>
+              <span className={styles.description}>{itemData.description}</span>
             )}
           </div>
         </div>

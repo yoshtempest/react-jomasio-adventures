@@ -33,10 +33,18 @@ type InventoryContextType = {
 const InventoryContext = createContext<InventoryContextType | null>(null);
 
 export function InventoryProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useCompressedStorage<InventoryItem[]>(INVENTORY_KEY, []);
+  const [items, setItems] = useCompressedStorage<InventoryItem[]>(
+    INVENTORY_KEY,
+    [],
+  );
   const { playSound } = useSoundEffects();
 
-  const { isOpen, open: openInventory, close: closeInventory, toggle: toggleInventory } = useToggle();
+  const {
+    isOpen,
+    open: openInventory,
+    close: closeInventory,
+    toggle: toggleInventory,
+  } = useToggle();
 
   const [maxSlots, setMaxSlots] = useState(20);
   const maxSlotsRef = useRef(maxSlots);
@@ -61,9 +69,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
         pendingSoundsRef.current.push("receivedItem");
 
         return prev.map((i) =>
-          i.id === item.id
-            ? { ...i, qty: (i.qty ?? 1) + (item.qty ?? 1) }
-            : i
+          i.id === item.id ? { ...i, qty: (i.qty ?? 1) + (item.qty ?? 1) } : i,
         );
       }
 

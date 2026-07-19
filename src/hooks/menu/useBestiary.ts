@@ -20,7 +20,9 @@ export function useBestiaryMenu(
   useEffect(() => {
     if (!listRef?.current) return;
 
-    const selectedElement = listRef.current.children[selectedIndex] as HTMLElement;
+    const selectedElement = listRef.current.children[
+      selectedIndex
+    ] as HTMLElement;
     if (!selectedElement) return;
 
     selectedElement.scrollIntoView({ behavior: "smooth", block: "nearest" });

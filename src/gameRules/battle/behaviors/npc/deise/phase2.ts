@@ -1,7 +1,10 @@
 import { BOSS_MELEE_COOLDOWN } from "@/data/cooldowns";
 import { chasePlayer } from "@/gameRules/npc/movement";
 import { tryMeleeAttack } from "@/gameRules/npc/attack";
-import { createCommonProjectile, createRainProjectile } from "@/gameRules/npc/createDirectionalProjectile";
+import {
+  createCommonProjectile,
+  createRainProjectile,
+} from "@/gameRules/npc/createDirectionalProjectile";
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
 import type { DeiseAI } from "./state";
 import {
@@ -17,14 +20,16 @@ type Phase2Result = {
   state?: "pitch" | "walk" | "attack";
 };
 
-export function deisePhase2(
-  ctx: BehaviorContext,
-  ai: DeiseAI,
-): Phase2Result {
+export function deisePhase2(ctx: BehaviorContext, ai: DeiseAI): Phase2Result {
   const {
-    npc, playerX, targetX, targetY,
-    projectile, setProjectile,
-    lastAttackRef, onMeleeHit,
+    npc,
+    playerX,
+    targetX,
+    targetY,
+    projectile,
+    setProjectile,
+    lastAttackRef,
+    onMeleeHit,
   } = ctx;
 
   const now = Date.now();
@@ -38,14 +43,16 @@ export function deisePhase2(
     }
 
     if (!projectile) {
-      setProjectile(createCommonProjectile({
-        startX: npc.x - 40,
-        startY: npc.y + 100,
-        targetX: npc.x - 40,
-        targetY: 0,
-        sprite: "spear",
-        state: "idle",
-      }));
+      setProjectile(
+        createCommonProjectile({
+          startX: npc.x - 40,
+          startY: npc.y + 100,
+          targetX: npc.x - 40,
+          targetY: 0,
+          sprite: "spear",
+          state: "idle",
+        }),
+      );
 
       ai.lastStaffThrow = now;
       ai.lastAction = now;
@@ -57,10 +64,14 @@ export function deisePhase2(
     // Opening spear in flight — chase during this period
     const { x } = chasePlayer(npc, targetX, targetY);
     const meleeHit = tryMeleeAttack({
-      npcX: npc.x, npcY: npc.y,
-      playerX: targetX, playerY: targetY,
-      range: 200, cooldown: BOSS_MELEE_COOLDOWN,
-      lastAttackRef, onHit: onMeleeHit,
+      npcX: npc.x,
+      npcY: npc.y,
+      playerX: targetX,
+      playerY: targetY,
+      range: 200,
+      cooldown: BOSS_MELEE_COOLDOWN,
+      lastAttackRef,
+      onHit: onMeleeHit,
     });
     if (meleeHit) {
       return { x, y: npc.y, state: "attack" };
@@ -69,16 +80,14 @@ export function deisePhase2(
   }
 
   // ── 2. Spear rain cycle ──
-  if (
-    !projectile &&
-    canAct &&
-    now - ai.lastSpearRain >= SPEAR_RAIN_COOLDOWN
-  ) {
+  if (!projectile && canAct && now - ai.lastSpearRain >= SPEAR_RAIN_COOLDOWN) {
     const positions = generateSpearPositions(playerX);
-    setProjectile(createRainProjectile({
-      warningDuration: SPEAR_RAIN_WARNING_DURATION,
-      spearPositions: positions,
-    }));
+    setProjectile(
+      createRainProjectile({
+        warningDuration: SPEAR_RAIN_WARNING_DURATION,
+        spearPositions: positions,
+      }),
+    );
     ai.lastSpearRain = now;
     ai.lastAction = now;
   }
@@ -87,10 +96,14 @@ export function deisePhase2(
   if (!projectile || projectile.variant !== "rain") {
     const { x } = chasePlayer(npc, targetX, targetY);
     const meleeHit = tryMeleeAttack({
-      npcX: npc.x, npcY: npc.y,
-      playerX: targetX, playerY: targetY,
-      range: 200, cooldown: BOSS_MELEE_COOLDOWN,
-      lastAttackRef, onHit: onMeleeHit,
+      npcX: npc.x,
+      npcY: npc.y,
+      playerX: targetX,
+      playerY: targetY,
+      range: 200,
+      cooldown: BOSS_MELEE_COOLDOWN,
+      lastAttackRef,
+      onHit: onMeleeHit,
     });
     if (meleeHit) {
       return { x, y: npc.y, state: "attack" };

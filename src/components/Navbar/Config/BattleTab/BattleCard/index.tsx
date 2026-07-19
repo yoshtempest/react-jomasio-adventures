@@ -29,11 +29,7 @@ export function BattleCard({
   return (
     <div className={styles.battleCard}>
       <div className={styles.battleCardHeader}>
-        <img
-          src={spriteSrc}
-          alt={alt ?? name}
-          className={styles.npcSprite}
-        />
+        <img src={spriteSrc} alt={alt ?? name} className={styles.npcSprite} />
         <div>
           <h3>{name}</h3>
           {subtitle}
@@ -43,11 +39,7 @@ export function BattleCard({
       </div>
       <div className={styles.statGrid}>
         {stats.map((stat) => (
-          <StatItem
-            key={stat.label}
-            label={stat.label}
-            value={stat.value}
-          />
+          <StatItem key={stat.label} label={stat.label} value={stat.value} />
         ))}
       </div>
     </div>

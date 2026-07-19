@@ -2,7 +2,10 @@ import type {
   EquippedItems,
   EquippedItemInfo,
 } from "@/utils/types/player/equipment";
-import { createEmptyEquipped, EQUIPMENT_SLOTS } from "@/utils/types/player/equipment";
+import {
+  createEmptyEquipped,
+  EQUIPMENT_SLOTS,
+} from "@/utils/types/player/equipment";
 import { saveCompressed, loadCompressed } from "@/utils/save/storage";
 import { slotKey } from "@/utils/save/slotManager";
 
@@ -53,9 +56,9 @@ function migrateAllData(
         equipped[s] = migrateEquipped(rawEquip[s]);
       }
       if (Array.isArray(rawEquip.accessories)) {
-        equipped.accessories = rawEquip.accessories.map(
-          (a: unknown) => migrateEquipped(a) ?? { id: "", enhance: 0 },
-        ).filter((a: EquippedItemInfo) => a.id !== "");
+        equipped.accessories = rawEquip.accessories
+          .map((a: unknown) => migrateEquipped(a) ?? { id: "", enhance: 0 })
+          .filter((a: EquippedItemInfo) => a.id !== "");
       }
     }
     const collection: Record<string, number> = {};

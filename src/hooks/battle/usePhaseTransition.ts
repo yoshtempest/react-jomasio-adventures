@@ -22,7 +22,9 @@ export function usePhaseTransition({
   clearSummons,
   setIsPhaseTransitioning,
 }: Props) {
-  const phaseTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const phaseTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
+    undefined,
+  );
 
   useEffect(() => {
     if (npcPhase !== 2) return;

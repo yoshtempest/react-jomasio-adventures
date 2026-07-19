@@ -3,20 +3,18 @@ import { isNear } from "@/gameRules/npc/behavior";
 
 import { playBoom } from "./state";
 
-import type { BehaviorContext, BehaviorResult } from "@/utils/types/npc/npcBehavior";
+import type {
+  BehaviorContext,
+  BehaviorResult,
+} from "@/utils/types/npc/npcBehavior";
 import { getSlimitaState } from "@/gameRules/npc/slimitaState";
 
 export function handlePhase2(
   ctx: BehaviorContext,
   state: ReturnType<typeof getSlimitaState>,
-  now: number
+  now: number,
 ): BehaviorResult {
-  const {
-    npc,
-    targetX,
-    targetY,
-    onMeleeHit,
-  } = ctx;
+  const { npc, targetX, targetY, onMeleeHit } = ctx;
 
   const hpRatio = ctx.npcMaxHp ? (ctx.npcHp ?? ctx.npcMaxHp) / ctx.npcMaxHp : 1;
   const jumpDuration = 500 + 1500 * hpRatio;

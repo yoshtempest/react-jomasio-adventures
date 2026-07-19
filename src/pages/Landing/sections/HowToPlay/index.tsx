@@ -16,8 +16,7 @@ export function HowToPlay() {
             <div>
               <h3>Crie sua conta</h3>
               <p>
-                Registre-se para salvar seu progresso e competir com
-                amigos.
+                Registre-se para salvar seu progresso e competir com amigos.
               </p>
             </div>
           </div>
@@ -26,8 +25,7 @@ export function HowToPlay() {
             <div>
               <h3>Escolha seu personagem</h3>
               <p>
-                Selecione entre 12 personagens com classes e
-                habilidades únicas.
+                Selecione entre 12 personagens com classes e habilidades únicas.
               </p>
             </div>
           </div>
@@ -35,20 +33,14 @@ export function HowToPlay() {
             <span className={styles.stepNumber}>3</span>
             <div>
               <h3>Explore e complete quests</h3>
-              <p>
-                Ande pelos cenários, converse com NPCs e aceite
-                missões.
-              </p>
+              <p>Ande pelos cenários, converse com NPCs e aceite missões.</p>
             </div>
           </div>
           <div className={styles.howtoStep}>
             <span className={styles.stepNumber}>4</span>
             <div>
               <h3>Derrote os bosses</h3>
-              <p>
-                Encare desafios cada vez mais difíceis e prove seu
-                valor.
-              </p>
+              <p>Encare desafios cada vez mais difíceis e prove seu valor.</p>
             </div>
           </div>
         </div>

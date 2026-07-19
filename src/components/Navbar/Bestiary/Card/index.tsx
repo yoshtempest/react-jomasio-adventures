@@ -45,9 +45,7 @@ export function BestiaryCard({
         <img
           src={npcPath(`/${npcType}/default.svg`)}
           alt={name}
-          className={`${styles.sprite} ${
-            encountered ? "" : styles.silhouette
-          }`}
+          className={`${styles.sprite} ${encountered ? "" : styles.silhouette}`}
           onError={(e) => {
             const img = e.currentTarget;
 
@@ -83,9 +81,7 @@ export function BestiaryCard({
             </div>
 
             <div className={styles.location}>{location}</div>
-            <div className={styles.description}>
-              {description}
-            </div>
+            <div className={styles.description}>{description}</div>
 
             <div className={styles.attacks}>
               {attacks.map((attack) => (
@@ -102,9 +98,7 @@ export function BestiaryCard({
                   {dropItems.map((drop) => (
                     <span key={drop.name} className={styles.dropTag}>
                       {drop.name}
-                      <span className={styles.dropChance}>
-                        {drop.chance}
-                      </span>
+                      <span className={styles.dropChance}>{drop.chance}</span>
                     </span>
                   ))}
                 </div>
@@ -129,14 +123,14 @@ export function BestiaryCard({
         ) : (
           <>
             <div className={styles.unknownName}>???</div>
-              {npcClass && (
-                <span
-                  className={styles.classBadge}
-                  style={{ color: CLASS_DATA[npcClass].color }}
-                >
-                  {CLASS_DATA[npcClass].label}
-                </span>
-              )}
+            {npcClass && (
+              <span
+                className={styles.classBadge}
+                style={{ color: CLASS_DATA[npcClass].color }}
+              >
+                {CLASS_DATA[npcClass].label}
+              </span>
+            )}
             <div className={styles.unknownHint}>
               Derrote este inimigo para descobrir mais
             </div>

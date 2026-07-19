@@ -4,17 +4,28 @@ import { getEffectiveStats } from "@/gameRules/battle/equipment";
 import {
   EQUIPMENT_SLOTS,
   MAX_ACCESSORIES,
-  ACCESSORY_UNLOCKED_COUNT
+  ACCESSORY_UNLOCKED_COUNT,
 } from "@/utils/types/player/equipment";
 import type {
   EquipmentStats,
-  EquippedItemInfo
+  EquippedItemInfo,
 } from "@/utils/types/player/equipment";
 import type { EquipmentFilter } from "@/utils/equipmentMenu";
-import type { CollectedEntry, EquippedEntry } from "@/utils/types/equipment/entrys";
+import type {
+  CollectedEntry,
+  EquippedEntry,
+} from "@/utils/types/equipment/entrys";
 
 function totalStats(stats: EquipmentStats): number {
-  return stats.hp + stats.strength + stats.intelligence + stats.armor + stats.shield + stats.vampirism + stats.reflect;
+  return (
+    stats.hp +
+    stats.strength +
+    stats.intelligence +
+    stats.armor +
+    stats.shield +
+    stats.vampirism +
+    stats.reflect
+  );
 }
 
 function parseColKey(key: string): { id: string; enhance: number } {
@@ -30,21 +41,26 @@ export function useEquipmentItems(
   character: CharacterId,
   filter: EquipmentFilter,
 ) {
-  const { getEquippedItem, getEquippedInfo, getEquippedAccessories, getCollection } = useEquipment();
+  const {
+    getEquippedItem,
+    getEquippedInfo,
+    getEquippedAccessories,
+    getCollection,
+  } = useEquipment();
 
-  const equippedItems: EquippedEntry[] = EQUIPMENT_SLOTS
-    .filter((slot) => slot !== "accessory")
-    .map((slot) => {
-      const item = getEquippedItem(character, slot);
-      const info = getEquippedInfo(character, slot);
-      return {
-        type: "slot" as const,
-        slot,
-        item,
-        info,
-        stats: item && info ? getEffectiveStats(info.id, info.enhance) : null,
-      };
-    });
+  const equippedItems: EquippedEntry[] = EQUIPMENT_SLOTS.filter(
+    (slot) => slot !== "accessory",
+  ).map((slot) => {
+    const item = getEquippedItem(character, slot);
+    const info = getEquippedInfo(character, slot);
+    return {
+      type: "slot" as const,
+      slot,
+      item,
+      info,
+      stats: item && info ? getEffectiveStats(info.id, info.enhance) : null,
+    };
+  });
 
   const baseAccInfo = getEquippedInfo(character, "accessory");
   const accessories = getEquippedAccessories(character);
@@ -56,7 +72,7 @@ export function useEquipmentItems(
   }
   for (let i = 0; i < MAX_ACCESSORIES; i++) {
     const info = fills[i];
-    const item = info ? getEquipmentById(info.id) ?? null : null;
+    const item = info ? (getEquipmentById(info.id) ?? null) : null;
     equippedItems.push({
       type: "accessory-slot",
       index: i,
@@ -71,7 +87,10 @@ export function useEquipmentItems(
   for (const slot of EQUIPMENT_SLOTS) {
     const info = getEquippedInfo(character, slot);
     if (info) {
-      equippedTotals.set(slot, totalStats(getEffectiveStats(info.id, info.enhance)));
+      equippedTotals.set(
+        slot,
+        totalStats(getEffectiveStats(info.id, info.enhance)),
+      );
     }
   }
 
@@ -93,7 +112,13 @@ export function useEquipmentItems(
       } else if (itemTotal >= 0) {
         arrow = "up";
       }
-      return { item, qty: qty as number, enhance, stats, arrow } as CollectedEntry;
+      return {
+        item,
+        qty: qty as number,
+        enhance,
+        stats,
+        arrow,
+      } as CollectedEntry;
     })
     .filter((e): e is CollectedEntry => e !== null)
     .sort((a, b) => totalStats(b.stats) - totalStats(a.stats));

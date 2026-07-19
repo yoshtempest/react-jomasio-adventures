@@ -117,11 +117,7 @@ export function BattleScene(props: Props) {
   return (
     <div
       className={`Master ${className ?? ""}`}
-      style={
-        background
-          ? { backgroundImage: `url(${background})` }
-          : undefined
-      }
+      style={background ? { backgroundImage: `url(${background})` } : undefined}
     >
       <BattleHUD
         battle={{
@@ -182,10 +178,19 @@ export function BattleScene(props: Props) {
         />
 
         {npc.jumpLandingX != null && (
-          <JumpIndicator landingX={npc.jumpLandingX} groundY={720} scaleX={scaleX} scaleY={scaleY} />
+          <JumpIndicator
+            landingX={npc.jumpLandingX}
+            groundY={720}
+            scaleX={scaleX}
+            scaleY={scaleY}
+          />
         )}
 
-        <DamageNumbers numbers={battle.damageNumbers} scaleX={scaleX} scaleY={scaleY} />
+        <DamageNumbers
+          numbers={battle.damageNumbers}
+          scaleX={scaleX}
+          scaleY={scaleY}
+        />
       </GameMap>
 
       {showOutro && (

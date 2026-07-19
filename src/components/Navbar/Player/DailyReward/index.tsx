@@ -28,9 +28,7 @@ export function DailyRewardSection({
           <span className={styles.dailyRewards}>
             +{hyperCoins} HyperCoins · {coinsMin}–{coinsMax} Kwanzas
           </span>
-          {!canClaim && (
-            <span className={styles.dailyTimer}>{timer}</span>
-          )}
+          {!canClaim && <span className={styles.dailyTimer}>{timer}</span>}
         </div>
         <button
           className={canClaim ? styles.claimBtn : styles.claimBtnDone}
