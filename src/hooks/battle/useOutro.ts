@@ -43,12 +43,12 @@ export function useBattleOutro({ redirectTo, onVictory }: OutroProps) {
     setSkipVictoryDelay(true);
   }, []);
 
-  function handleContinue() {
+  const handleContinue = useCallback(() => {
     if (onVictory) onVictory();
     if (redirectTo) {
-      navigate(redirectTo, { state: { from: location.pathname } });
+      navigate(redirectTo, { replace: true, state: { from: location.pathname } });
     }
-  }
+  }, [onVictory, redirectTo, navigate, location.pathname]);
 
   return {
     showVictory,

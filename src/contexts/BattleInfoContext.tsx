@@ -2,7 +2,7 @@ import {
   createContext,
   useCallback,
   useContext,
-  useRef,
+  useMemo,
   useState,
   type ReactNode,
 } from "react";
@@ -35,11 +35,13 @@ export function BattleInfoProvider({ children }: { children: ReactNode }) {
     setBattleInfoState(null);
   }, []);
 
-  const valueRef = useRef({ battleInfo, setBattleInfo, clearBattleInfo });
-  valueRef.current = { battleInfo, setBattleInfo, clearBattleInfo };
+  const value = useMemo(
+    () => ({ battleInfo, setBattleInfo, clearBattleInfo }),
+    [battleInfo, setBattleInfo, clearBattleInfo],
+  );
 
   return (
-    <BattleInfoContext.Provider value={valueRef.current}>
+    <BattleInfoContext.Provider value={value}>
       {children}
     </BattleInfoContext.Provider>
   );

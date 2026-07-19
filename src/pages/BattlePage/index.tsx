@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router";
 import { BattleScene } from "@/components/Game/Scenes/Battle";
@@ -11,13 +12,13 @@ export default function BattlePage() {
   const { setFlag } = useFlags();
   const navigate = useNavigate();
 
+  const handleVictory = useCallback(() => {
+    config?.onVictory?.({ setFlag, navigate });
+  }, [config, setFlag, navigate]);
+
   if (!config) {
     return <div>Batalha não encontrada</div>;
   }
-
-  const handleVictory = config.onVictory
-    ? () => config.onVictory!({ setFlag, navigate })
-    : undefined;
 
   return (
     <BattleScene

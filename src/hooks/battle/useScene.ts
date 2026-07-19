@@ -127,8 +127,11 @@ export function useBattleScene({
   );
 
   const battleInfoCtx = useBattleInfo();
+  const battleInfoCtxRef = useRef(battleInfoCtx);
+  battleInfoCtxRef.current = battleInfoCtx;
+
   useEffect(() => {
-    battleInfoCtx?.setBattleInfo({
+    battleInfoCtxRef.current?.setBattleInfo({
       npcType,
       npcLevel,
       npcClass: npcData.class,
@@ -137,7 +140,7 @@ export function useBattleScene({
       npcArmor: npcStats.armor,
     });
     return () => {
-      battleInfoCtx?.clearBattleInfo();
+      battleInfoCtxRef.current?.clearBattleInfo();
     };
   }, [
     npcType,
@@ -146,7 +149,6 @@ export function useBattleScene({
     npcStats.hp,
     npcStats.damage,
     npcStats.armor,
-    battleInfoCtx,
   ]);
 
   const { xpReward, giveRewards, giveSummonRewards } = useBattleRewards({

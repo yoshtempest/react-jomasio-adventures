@@ -1,10 +1,20 @@
+import { useRef } from "react";
 import { useGameControlsLayer } from "@/hooks/useGameControlsLayer";
 
 export function useVictoryKeyboard(isVisible: boolean, onContinue: () => void) {
+  const onContinueRef = useRef(onContinue);
+  onContinueRef.current = onContinue;
+
   useGameControlsLayer(
     isVisible
-      ? { onConfirm: onContinue, blockGlobalOpen: true }
+      ? {
+          onConfirm: () => {
+            onContinueRef.current();
+            return true;
+          },
+          blockGlobalOpen: true,
+        }
       : null,
-    [isVisible, onContinue],
+    [isVisible],
   );
 }

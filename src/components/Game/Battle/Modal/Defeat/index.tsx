@@ -71,13 +71,19 @@ export function DefeatModal({
     }
   }, [isOpen, playSound]);
 
+  const onConfirmRef = useRef(executeSelected);
+  onConfirmRef.current = executeSelected;
+
   useEffect(() => {
     if (!isOpen) return;
 
     pushControls({
       onLeft: selectPrev,
       onRight: selectNext,
-      onConfirm: executeSelected,
+      onConfirm: () => {
+        onConfirmRef.current();
+        return true;
+      },
       onCancel: () => {
         playSound("run");
         onBackRef.current();
@@ -86,15 +92,7 @@ export function DefeatModal({
     });
 
     return () => popControls();
-  }, [
-    isOpen,
-    executeSelected,
-    selectPrev,
-    selectNext,
-    pushControls,
-    popControls,
-    playSound,
-  ]);
+  }, [isOpen, selectPrev, selectNext, pushControls, popControls, playSound]);
 
   if (!isOpen) return null;
 
