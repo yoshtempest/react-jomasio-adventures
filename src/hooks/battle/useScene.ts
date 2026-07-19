@@ -1,4 +1,6 @@
 import { useRef, useState, useMemo, useEffect } from "react";
+import { useGrabThrow } from "@/hooks/battle/useGrabThrow";
+import { useThrowAnimation } from "@/hooks/battle/useThrowAnimation";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useGameAudio } from "@/hooks/game/useGameAudio";
 import { useNpcAI } from "@/hooks/battle/npc/useAi";
@@ -104,14 +106,6 @@ export function useBattleScene({
   const npcPhaseRef = useRef(npcPhase);
   npcPhaseRef.current = npcPhase;
   const [isPhaseTransitioning, setIsPhaseTransitioning] = useState(false);
-  const [isGrabbed, setIsGrabbed] = useState(false);
-  const isGrabbedRef = useRef(false);
-  isGrabbedRef.current = isGrabbed;
-  const [grabFlipped, setGrabFlipped] = useState(false);
-  const grabFlippedRef = useRef(false);
-  grabFlippedRef.current = grabFlipped;
-  const grabbedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [isThrown, setIsThrown] = useState(false);
 
   const battleStartRef = useRef(Date.now());
   const [defeatElapsed, setDefeatElapsed] = useState(0);
@@ -219,6 +213,23 @@ export function useBattleScene({
   useGameAudio({ src: audioSrc, loop: true, volume: 0.5 });
 
   const refs = useBattleRefs();
+
+  const {
+    isGrabbedRef,
+    grabFlipped,
+    grabFlippedRef,
+    isThrown,
+    setIsThrown,
+    grabbedTimerRef,
+    setIsGrabbed,
+    onGrabPlayer,
+    onThrowStart,
+    onThrowPlayer,
+  } = useGrabThrow({
+    setPlayer,
+    npcThrowAttackRef: refs.npcThrowAttackRef,
+  });
+
   const targeting = useNpcTargeting();
 
   const setModeRef = useRef(setMode);
@@ -288,38 +299,9 @@ export function useBattleScene({
     npcHpRef: targeting.npcAiHpRef,
     npcMaxHpRef: targeting.npcAiMaxHpRef,
     npcBlockedRef: targeting.npcBlockedRef,
-    onGrabPlayer: (flipped) => {
-      setGrabFlipped(flipped);
-      setIsGrabbed(true);
-      setPlayer((p) => ({ ...p, grabbedUntil: Date.now() + 4000 }));
-      if (grabbedTimerRef.current) clearTimeout(grabbedTimerRef.current);
-      grabbedTimerRef.current = setTimeout(() => {
-        setIsGrabbed(false);
-        setGrabFlipped(false);
-      }, 4000);
-    },
-    onThrowStart: (npcX: number, npcDirection: "left" | "right") => {
-      setIsThrown(true);
-      setPlayer((p) => {
-        const dirAway = npcX > p.x ? -1 : 1;
-        const throwToX = Math.max(
-          BATTLE_LIMITS.minX,
-          Math.min(BATTLE_LIMITS.maxX, p.x + dirAway * 300),
-        );
-        return {
-          ...p,
-          throwStartTime: Date.now(),
-          throwFromX: p.x,
-          throwToX,
-          battleDirection: npcDirection,
-          state: "fallen",
-        };
-      });
-    },
-    onThrowPlayer: () => {
-      setIsGrabbed(false);
-      refs.npcThrowAttackRef.current();
-    },
+    onGrabPlayer,
+    onThrowStart,
+    onThrowPlayer,
   });
 
   targeting.onBeforeNpcHitRef.current = () => {
@@ -596,73 +578,7 @@ export function useBattleScene({
     battleNpcThrowHit: battle.npcThrowHit,
   });
 
-  useEffect(() => {
-    const timeouts: ReturnType<typeof setTimeout>[] = [];
-    const interval = setInterval(() => {
-      setPlayer((p) => {
-        if (p.throwStartTime === 0) return p;
-
-        const elapsed = Date.now() - p.throwStartTime;
-        const duration = 2000;
-        const progress = Math.min(elapsed / duration, 1);
-
-        const x = p.throwFromX + (p.throwToX - p.throwFromX) * progress;
-
-        const arcHeight = 100;
-        const yOffset = -arcHeight * 4 * progress * (1 - progress);
-        const y = p.groundY + yOffset;
-
-        if (progress >= 1) {
-          timeouts.push(
-            setTimeout(
-              () =>
-                setPlayer((p2) => {
-                  if (p2.state !== "fallen") return p2;
-                  return { ...p2, state: "idleCrounched" };
-                }),
-              300,
-            ),
-            setTimeout(
-              () =>
-                setPlayer((p2) => {
-                  if (p2.state !== "idleCrounched") return p2;
-                  return { ...p2, state: "walkCrounched" };
-                }),
-              900,
-            ),
-            setTimeout(() => {
-              setPlayer((p2) => {
-                if (p2.state !== "walkCrounched") return p2;
-                return {
-                  ...p2,
-                  state: "idle",
-                  grabbedUntil: 0,
-                  throwStartTime: 0,
-                };
-              });
-              setIsThrown(false);
-            }, 1800),
-          );
-
-          return {
-            ...p,
-            x,
-            y: p.groundY,
-            velY: 0,
-            throwStartTime: 0,
-            state: "fallen",
-          };
-        }
-
-        return { ...p, x, y, velY: 0, state: "fallen" };
-      });
-    }, 16);
-
-    return () => {
-      clearInterval(interval);
-      timeouts.forEach(clearTimeout);
-    };
-  }, [setPlayer, setIsThrown]);
+  useThrowAnimation({ setPlayer, setIsThrown });
 
   useBattleControls({
     attack: () => {
@@ -692,12 +608,6 @@ export function useBattleScene({
     onChargeRelease: charge.releaseCharge,
     onChargeCancel: charge.cancelCharge,
   });
-
-  useEffect(() => {
-    return () => {
-      if (grabbedTimerRef.current) clearTimeout(grabbedTimerRef.current);
-    };
-  }, []);
 
   function handleRetry() {
     charge.cancelCharge();

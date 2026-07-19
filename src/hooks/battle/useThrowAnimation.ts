@@ -1,9 +1,11 @@
 import { useEffect } from "react";
 
-export function useThrowAnimation(
-  setPlayer: React.Dispatch<React.SetStateAction<Player>>,
-  setIsThrown: React.Dispatch<React.SetStateAction<boolean>>,
-) {
+type Props = {
+  setPlayer: React.Dispatch<React.SetStateAction<Player>>;
+  setIsThrown: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export function useThrowAnimation({ setPlayer, setIsThrown }: Props) {
   useEffect(() => {
     const timeouts: ReturnType<typeof setTimeout>[] = [];
     const interval = setInterval(() => {
