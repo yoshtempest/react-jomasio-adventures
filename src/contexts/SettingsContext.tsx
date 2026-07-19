@@ -7,7 +7,7 @@ import {
 } from "react";
 import type { DialogueSpeed } from "@/utils/settings";
 import { SPEED_MAP } from "@/data/settings/dialogueSpeed";
-import { DIALOGUE_SPEED_KEY, SHOW_QUEST_INDICATOR_KEY } from "@/data/storageKeys";
+import { DIALOGUE_SPEED_KEY, SHOW_QUEST_INDICATOR_KEY, SHOW_COMBO_ACTION_KEY } from "@/data/storageKeys";
 
 type SettingsContextType = {
   dialogueSpeed: DialogueSpeed;
@@ -15,6 +15,8 @@ type SettingsContextType = {
   dialogueSpeedMs: number;
   showQuestIndicator: boolean;
   setShowQuestIndicator: (show: boolean) => void;
+  showComboAction: boolean;
+  setShowComboAction: (show: boolean) => void;
 };
 
 const SettingsContext = createContext<SettingsContextType | null>(null);
@@ -42,6 +44,16 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(SHOW_QUEST_INDICATOR_KEY, String(show));
   }, []);
 
+  const [showComboAction, setShowComboActionState] = useState<boolean>(() => {
+    const saved = localStorage.getItem(SHOW_COMBO_ACTION_KEY);
+    return saved !== "false";
+  });
+
+  const setShowComboAction = useCallback((show: boolean) => {
+    setShowComboActionState(show);
+    localStorage.setItem(SHOW_COMBO_ACTION_KEY, String(show));
+  }, []);
+
   const dialogueSpeedMs = SPEED_MAP[dialogueSpeed];
 
   return (
@@ -52,6 +64,8 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
         dialogueSpeedMs,
         showQuestIndicator,
         setShowQuestIndicator,
+        showComboAction,
+        setShowComboAction,
       }}
     >
       {children}

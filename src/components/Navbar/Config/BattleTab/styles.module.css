@@ -4,6 +4,27 @@
   gap: var(--fs-8);
 }
 
+.toggleItem {
+  position: relative;
+  padding: var(--fs-8) var(--smaller);
+  border-radius: var(--size-4);
+  text-align: center;
+  border: var(--size-2) solid var(--primary-color);
+  text-wrap: nowrap;
+}
+
+.toggleItem.selected {
+  outline: var(--size-2) solid var(--text-color);
+  background-color: var(--primary-color);
+}
+
+.toggleItem .cursor {
+  position: absolute;
+  top: calc(-1 * var(--size-5));
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 .battleEntities {
   display: flex;
   flex-direction: row;

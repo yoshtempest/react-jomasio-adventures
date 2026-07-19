@@ -27,7 +27,7 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
 
   const { setDifficulty, player } = usePlayer();
   const { sfxVolume, setSfxVolume, bgmVolume, setBgmVolume } = useAudio();
-  const { setDialogueSpeed, showQuestIndicator, setShowQuestIndicator } = useSettings();
+  const { setDialogueSpeed, showQuestIndicator, setShowQuestIndicator, showComboAction, setShowComboAction } = useSettings();
   const { checkForUpdate } = useUpdate();
   const { install, isInstalled, canInstall, setShowInstalledMessage, setShowNotAvailableMessage } = usePWA();
   const { playMove, playSelect, playClose } = useMenuSFX();
@@ -75,6 +75,8 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   setDialogueSpeedRef.current = setDialogueSpeed;
   const setShowQuestIndicatorRef = useRef(setShowQuestIndicator);
   setShowQuestIndicatorRef.current = setShowQuestIndicator;
+  const setShowComboActionRef = useRef(setShowComboAction);
+  setShowComboActionRef.current = setShowComboAction;
   const checkForUpdateRef = useRef(checkForUpdate);
   checkForUpdateRef.current = checkForUpdate;
   const installRef = useRef(install);
@@ -230,6 +232,12 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
           }
         }
 
+        if (activeTabRef.current === "batalha") {
+          if (idx === 0) {
+            setShowComboActionRef.current(!showComboAction);
+          }
+        }
+
         onConfirmRef.current?.();
 
         return true;
@@ -252,7 +260,7 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
     pushControlsRef.current(controls);
 
     return () => popControlsRef.current();
-  }, [isActive, sfxVolume, bgmVolume, showQuestIndicator, setShowQuestIndicator]);
+  }, [isActive, sfxVolume, bgmVolume, showQuestIndicator, setShowQuestIndicator, showComboAction, setShowComboAction]);
 
   return {
     difficulty: DIFFICULTY,
@@ -260,6 +268,7 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
     selectedColumn,
     screen,
     showQuestIndicator,
+    showComboAction,
     activeTab,
     isOnTab,
   };

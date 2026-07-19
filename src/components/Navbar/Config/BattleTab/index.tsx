@@ -16,8 +16,16 @@ import { getHungerMultiplier } from "@/contexts/CharacterProgressContext";
 import { getNpcDisplayName } from "@/utils/types/npc/npcNames";
 import { CLASS_DATA } from "@/data/npc/class";
 import { npcPath, playerPath } from "@/utils/paths";
+// import { StatItem } from "./StatItem";
+// import { getCharacterStatus } from "@/data/player/stats";
 
-export function BattleTab() {
+
+type Props = {
+  showComboAction: boolean;
+  isSelected: boolean;
+};
+
+export function BattleTab({ showComboAction, isSelected }: Props) {
   const battleInfoCtx = useBattleInfo();
   const { player } = usePlayer();
   const { progress } = useCharacterProgress();
@@ -76,8 +84,26 @@ export function BattleTab() {
   const classData = CLASS_DATA[battleInfo.npcClass];
   const spriteSrc = `/${battleInfo.npcType}/right.svg`;
 
+  // const playerSummary = getCharacterStatus({
+  //   hp: {playerStats.maxHp}
+  //   strenght: {playerStats.strenght},
+  //   intelligence: {playerStats.intelligence},
+  //   resistance: {playerStats.resistance},
+  //   tenacity: {playerStats.tenacity},
+  //   shield: {playerStats.shield},
+  //   vampirism: {playerStats.vampirism},
+  //   reflect: {playerStats.reflect},
+  // });
+
   return (
     <div className={styles.battleContainer}>
+      <div
+        className={`${styles.toggleItem} ${isSelected ? styles.selected : ""}`}
+      >
+        {isSelected && <span className={styles.cursor}>▼</span>}
+        <h2>Ação Combo: {showComboAction ? "ON" : "OFF"}</h2>
+      </div>
+
       <div className={styles.battleEntities}>
         <div className={styles.battleCard}>
           <div className={styles.battleCardHeader}>
@@ -93,6 +119,13 @@ export function BattleTab() {
             </div>
           </div>
           <div className={styles.statGrid}>
+            {/* {playerSummary.map((stat) => (
+              <StatItem
+                key={stat.label}
+                label={stat.label}
+                value={stat.value}
+              />
+            ))} */}
             <div className={styles.statItem}>
               <span className={styles.statLabel}>HP</span>
               <span className={styles.statValue}>{playerStats.maxHp}</span>

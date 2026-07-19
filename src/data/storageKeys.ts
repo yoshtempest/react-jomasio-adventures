@@ -31,3 +31,4 @@ export const JESO_FOOD_KEY = "jeso_food_last_delivery";
 export const CHAR_UNLOCK_DATES_KEY = "char_unlock_dates";
 export const DIFFICULTY_KEY = "difficulty";
 export const VISITED_LOCATIONS_KEY = "visitedLocations";
+export const SHOW_COMBO_ACTION_KEY = "showComboAction";

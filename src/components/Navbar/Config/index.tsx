@@ -15,7 +15,7 @@ import { UpdateButton } from "./UpdateButton";
 
 export function Config() {
   const { sfxVolume, bgmVolume } = useAudio();
-  const { difficultyList, selectedIndex, selectedColumn, screen, showQuestIndicator, activeTab, isOnTab } =
+  const { difficultyList, selectedIndex, selectedColumn, screen, showQuestIndicator, showComboAction, activeTab, isOnTab } =
     useConfigMenu(true);
   const dialogueSystem = useDialogue(configsDialogue);
   const dialogueSystemRef = useRef(dialogueSystem);
@@ -169,7 +169,10 @@ export function Config() {
       )}
 
       {activeTab === "batalha" && (
-        <BattleTab />
+        <BattleTab
+          showComboAction={showComboAction}
+          isSelected={selectedColumn === 0 && selectedIndex === 0}
+        />
       )}
 
       {screen === "tutorial" && (

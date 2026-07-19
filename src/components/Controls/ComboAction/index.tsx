@@ -1,5 +1,6 @@
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
+import { useSettings } from "@/contexts/SettingsContext";
 import { asset } from "@/utils/paths";
 import styles from "./styles.module.css";
 
@@ -16,9 +17,10 @@ const COMBO_STATES: Partial<Record<PlayerState, ComboConfig>> = {
 export function ComboAction() {
   const { player } = usePlayer();
   const { activeControls } = useGameControls();
+  const { showComboAction } = useSettings();
 
   const combo = COMBO_STATES[player.state];
-  if (!combo) return null;
+  if (!combo || !showComboAction) return null;
 
   const src = asset(`assets/player/${player.character}/inFight/${combo.sprite}`);
 

@@ -46,6 +46,18 @@ type ProgressStatsProps = {
     totalSideQuests: number;
 };
 
+type CharacterStatusProps = {
+    hp: number;
+    strenght: number;
+    intelligence: number;
+    resistance: number;
+    tenacity: number;
+    armor: number;
+    shield: number;
+    vampirism: number;
+    reflect: number;
+}
+
 export function getSummaryStats(data: SummaryStatsProps) {
     return [
         stat("Tempo total", formatTime(data.totalPlayTime)),
@@ -90,5 +102,19 @@ export function getProgressStat(data: ProgressStatsProps) {
         progressStat("História", data.completedFlags, data.totalStoryFlags),
         progressStat("Nível 100", data.maxLevelReached, 100),
         progressStat("Sidequests", data.completedSideQuests, data.totalSideQuests),
+    ]
+}
+
+export function getCharacterStatus(data: CharacterStatusProps) {
+    return [
+        stat("HP", data.hp),
+        stat("Força", data.strenght),
+        stat("Inteligência", data.intelligence),
+        stat("Resistência", data.resistance),
+        stat("Tenacidade", data.tenacity),
+        stat("Armadura", data.armor),
+        stat("Escudo", data.shield),
+        stat("Vampirismo", data.vampirism),
+        stat("Reflexão de dano", data.reflect),
     ]
 }
