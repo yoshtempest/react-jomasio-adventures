@@ -1,9 +1,8 @@
-import type { BestiaryEntryData } from "@/utils/types/player/bestiary";
+import { createBestiary } from "@/utils/bestiary/createBestiary";
 
-export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
+export const BESTIARY_DATA = createBestiary({
   /* ── Jomasio ── */
   jhowsimar: {
-    npcType: "jhowsimar",
     name: "Jhowsimar",
     description:
       "Um lutador de rua enigmático que protege os becos de Jomasio. Ninguém sabe sua verdadeira origem.",
@@ -11,7 +10,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Agarro", "E te Jooj"],
   },
   hungryDeath: {
-    npcType: "hungryDeath",
     name: "Morto de Fome",
     description:
       "Um zumbi faminto que vagueia pelas ruas de Jomasio em busca de carne fresca. Dizem que era um estudante que passou tempo demais sem comer.",
@@ -19,7 +17,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Agarrão Faminto", "Mordida Cheia de Fome"],
   },
   vandinhaFragment: {
-    npcType: "vandinhaFragment",
     name: "Fragmento de Vandinha",
     description:
       "Uma versão fragmentada de Vandinha, espalhada por Jomasio. Cada fragmento guarda um pedaço de seu poder.",
@@ -27,7 +24,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Soco", "Olha o prato"],
   },
   goat: {
-    npcType: "goat",
     name: "Bode",
     description:
       "Um bode demoníaco que aparece nos arredores de Jomasio. Seus olhos brilham vermelho sob a lua cheia.",
@@ -35,7 +31,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Chifrada Infernal", "Cabeçada"],
   },
   piupiu: {
-    npcType: "piupiu",
     name: "Piupiu",
     description:
       "Um pombo enorme e agressivo que domina os telhados de Jomasio. Não se deixe enganar pelo tamanho — ele é mais perigoso do que parece.",
@@ -43,7 +38,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Bicada Certeira", "Revoada de Penas"],
   },
   rice: {
-    npcType: "rice",
     name: "Arroz",
     description:
       "Um saco de arroz ambulante que ganhou vida após um experimento culinário dar errado. Gruda mais do que parece.",
@@ -51,7 +45,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Grudada", "Chuva de Grãos"],
   },
   deise: {
-    npcType: "deise",
     name: "Deise",
     description:
       "Uma guerreira implacável devota ao culto do rei dragão. Empunha lâminas gêmeas e jura lealdade ao dragão.",
@@ -59,7 +52,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Lançamento de colher", "Invocação do Mal", "Empurrão Frenético"],
   },
   slimita: {
-    npcType: "slimita",
     name: "Slimita",
     description:
       "Uma criatura pegajosa e elástica que habita os esgotos de Jomasio. Ela pode se esticar e achatar para esmagar suas vítimas.",
@@ -67,7 +59,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Salto Pegajoso", "Cospe arma", "Esmagamento"],
   },
   maugrelo: {
-    npcType: "maugrelo",
     name: "Maugrelo",
     description:
       "O irmão mais novo de Maurão. Magro mas traiçoeiro, ataca com golpes rápidos e venenosos.",
@@ -75,7 +66,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Um tapa na... Careca", "Cegar"],
   },
   hungryKing: {
-    npcType: "hungryKing",
     name: "Rei Faminto",
     description:
       "O governante dos mortos de fome, um ser colossal que consome tudo em seu caminho. Líder do culto ao rei dragão.",
@@ -83,7 +73,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Hulk Smash", "Explosão energética", "Hora de acordar!"],
   },
   srGuaxinim: {
-    npcType: "srGuaxinim",
     name: "Sr. Guaxinim",
     description:
       "Um guaxinim inteligente que comanda uma gangue de animais nas ruas de Jomasio. Não subestime sua astúcia.",
@@ -91,7 +80,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Garras Afiadas", "Investida Sorrateira"],
   },
   neimito: {
-    npcType: "neimito",
     name: "Neimito",
     description:
       "Um jovem prodígio das artes marciais que busca provar seu valor. Seus movimentos são rápidos e imprevisíveis.",
@@ -99,7 +87,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Chute Voador", "Sequência Rápida"],
   },
   maurao: {
-    npcType: "maurao",
     name: "Maurão",
     description:
       "Um brutamonte que aterroriza os arredores de Jomasio. Corpo enorme e pouca paciência.",
@@ -111,7 +98,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     ],
   },
   denis: {
-    npcType: "denis",
     name: "Denis",
     description:
       "Um ex-guarda-costas que enlouqueceu após um incidente trágico. Sua força bestial é lendária.",
@@ -119,7 +105,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Soco Brutal", "Agarrão"],
   },
   planetarySisters: {
-    npcType: "planetarySisters",
     name: "Irmãs Planetárias",
     description:
       "Três irmãs que controlam forças celestiais. Juntas, são um dos maiores desafios de Jomasio.",
@@ -127,7 +112,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Fúria Solar", "Maré Lunar", "Tempestade Estelar"],
   },
   manim: {
-    npcType: "manim",
     name: "Manim",
     description:
       "Um ser misterioso que fala por enigmas. Sua forma física é tão enganosa quanto suas palavras.",
@@ -135,7 +119,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Ilusão", "Toque Dimensional"],
   },
   trueVandinha: {
-    npcType: "trueVandinha",
     name: "Verdadeira Vandinha",
     description:
       "A forma completa de Vandinha. Dizem que ela é a guardiã de um segredo ancestral escondido em Jomasio.",
@@ -145,7 +128,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
 
   /* ── Bocaina ── */
   hungryDog: {
-    npcType: "hungryDog",
     name: "Cachorro Faminto",
     description:
       "Cães abandonados que se uniram em matilhas famintas. Atacam qualquer um que entre em seu território.",
@@ -153,7 +135,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Mordida Canina", "Ataque em Matilha"],
   },
   lupita: {
-    npcType: "lupita",
     name: "Lupita",
     description:
       "A líder da matilha de Bocaina. Uma loba gigante com cicatrizes de inúmeras batalhas.",
@@ -161,7 +142,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Uivo Aterrorizante", "Mordida Sanguinária", "Garra Cortante"],
   },
   riquelsonDog: {
-    npcType: "riquelsonDog",
     name: "Cachorro de Riquelson",
     description:
       "O cão de guarda de Riquelson, um dos moradores mais excêntricos de Bocaina. Fiel e mortal.",
@@ -169,7 +149,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Latido Intimidador", "Investida Protetora"],
   },
   baiano: {
-    npcType: "baiano",
     name: "Baiano",
     description:
       "Um capoeirista habilidoso que defende Bocaina com seus movimentos acrobáticos.",
@@ -177,7 +156,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Rasteira", "Chute de Capoeira", "Ginga"],
   },
   spiritMotocycler: {
-    npcType: "spiritMotocycler",
     name: "Motoqueiro Fantasma",
     description:
       "A lenda de Bocaina — um motoqueiro que morreu em um acidente e agora assombra as estradas.",
@@ -185,7 +163,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Atropelamento Fantasma", "Escapamento Flamejante"],
   },
   tim: {
-    npcType: "tim",
     name: "Tim",
     description:
       "Um assassino ágil que pula e faz acrobacias com duas facas de sashimi. Cultista de Baal.",
@@ -193,7 +170,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Facada Acrobática", "Salto Mortal", "Chuva de Lâminas"],
   },
   muyMacho: {
-    npcType: "muyMacho",
     name: "Muy Macho",
     description:
       "Um lutador de luta livre mexicano que perdeu o rumo. Agora vagueia por Bocaina em busca de oponentes.",
@@ -203,7 +179,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
 
   /* ── Lagoa Grande ── */
   hungryFish: {
-    npcType: "hungryFish",
     name: "Peixe Faminto",
     description:
       "Peixes mutantes que cresceram demais após se alimentarem de rejeitos químicos na Lagoa Grande.",
@@ -211,7 +186,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Mordida Aquática", "Caudada"],
   },
   hungryCow: {
-    npcType: "hungryCow",
     name: "Vaca Faminta",
     description:
       "Gado enlouquecido que pasta nas margens da Lagoa Grande. Seus olhos vermelhos não enganam.",
@@ -219,7 +193,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Coice", "Investida"],
   },
   fischer: {
-    npcType: "fischer",
     name: "Fischer",
     description:
       "Um pescador solitário que passou tempo demais no sol. Sua sanidade já foi embora há muito tempo.",
@@ -227,7 +200,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Rede Enroscante", "Anzol Envenenado"],
   },
   monsterOfNessRiver: {
-    npcType: "monsterOfNessRiver",
     name: "Monstro do Rio Ness",
     description:
       "A criatura lendária que habita as profundezas do Rio Ness em Lagoa Grande. Poucos viram e sobreviveram.",
@@ -237,7 +209,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
 
   /* ── Cachoeiras ── */
   figurantOfBaalCult: {
-    npcType: "figurantOfBaalCult",
     name: "Figurante do Culto de Baal",
     description:
       "Membros rasos do culto a Baal. Vestem mantos negros e repetem mantras sem entender o significado.",
@@ -245,7 +216,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Golpe de Adaga", "Maldição Menor"],
   },
   baal: {
-    npcType: "baal",
     name: "Baal",
     description:
       "O líder do culto das Cachoeiras. Dizem que ele fez um pacto com um demônio ancestral.",
@@ -253,7 +223,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Chama Negra", "Invocar Seguidores", "Olhar do Abismo"],
   },
   madame: {
-    npcType: "madame",
     name: "Madame",
     description:
       "Uma aranha gigante do tamanho de um cão de caça. Ela tece teias nas árvores das Cachoeiras.",
@@ -263,7 +232,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
 
   /* ── Barragem ── */
   figurantOfMobyDickCult: {
-    npcType: "figurantOfMobyDickCult",
     name: "Figurante do Culto de Moby Dick",
     description:
       "Seguidores fanáticos que cultuam a baleia branca. Usam arpões e cantos hipnóticos.",
@@ -271,7 +239,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Arpoada", "Canto Hipnótico"],
   },
   crocodile: {
-    npcType: "crocodile",
     name: "Crocodilo",
     description:
       "Crocodilos da Barragem — predadores de emboscada que atacam rápido e arrastam para a água.",
@@ -279,7 +246,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Boca de Aço", "Caudaço", "Rolagem Mortal"],
   },
   elitCrocodile: {
-    npcType: "elitCrocodile",
     name: "Crocodilo de Elite",
     description:
       "Crocodilos maiores e mais espertos que guardam os acessos mais profundos da Barragem.",
@@ -287,7 +253,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Boca de Aço", "Caudaço", "Rolagem Mortal", "Escudo de Escamas"],
   },
   mobyDick: {
-    npcType: "mobyDick",
     name: "Moby Dick",
     description:
       "A lendária baleia branca que aterroriza a Barragem. Dizem que é imortal.",
@@ -295,7 +260,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Jato Colossal", "Cauda do Juízo", "Mergulho Profundo"],
   },
   yangKai: {
-    npcType: "yangKai",
     name: "Yang Kai",
     description:
       "Um cultivador misterioso que apareceu na Barragem. Seu poder é de outro mundo.",
@@ -305,7 +269,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
 
   /* ── Tanque dos Crávos ── */
   figurantOfDragonKingCult: {
-    npcType: "figurantOfDragonKingCult",
     name: "Figurante do Culto do Rei Dragão",
     description:
       "Devotos do Rei Dragão. Usam escamas de dragão como armadura e cospem fogo fraco.",
@@ -313,7 +276,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Sopro Rasteiro", "Lança de Escama"],
   },
   necromancer: {
-    npcType: "necromancer",
     name: "Necromante",
     description:
       "Um feiticeiro sombrio que comanda mortos-vivos. Ele espreita nas catacumbas sob Jomasio.",
@@ -321,7 +283,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Invocar Mortos", "Bola de Fogo Negra", "Maldição Arcana"],
   },
   ains: {
-    npcType: "ains",
     name: "Ains",
     description:
       "Um ser de poder incomparável. Dizem que veio de outro mundo — um verdadeiro OVERLORD.",
@@ -329,7 +290,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Magia Negra", "Toque da Morte", "Dominação"],
   },
   dragonKing: {
-    npcType: "dragonKing",
     name: "Rei Dragão",
     description:
       "O lendário Rei Dragão que governa o Tanque dos Crávos. A criatura mais poderosa já vista.",
@@ -339,7 +299,6 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
 
   /* ── Lagoa do Canto ── */
   hungryPig: {
-    npcType: "hungryPig",
     name: "Porco Faminto",
     description:
       "Porcos selvagens que reviram a terra em busca de comida. Agressivos quando provocados.",
@@ -347,13 +306,12 @@ export const BESTIARY_DATA: Record<string, BestiaryEntryData> = {
     attacks: ["Chifrada", "Pisoteio"],
   },
   technoblade: {
-    npcType: "technoblade",
     name: "Technoblade",
     description:
       "Uma lenda viva. O guerreiro mais temido de todos os tempos. Ele nunca morre.",
     location: "Lagoa do Canto",
     attacks: ["Lâmina da Lenda", "Grito de Guerra", "Golpe do Herói"],
   },
-};
+});
 
 export const BESTIARY_NPC_ORDER: string[] = Object.keys(BESTIARY_DATA);
