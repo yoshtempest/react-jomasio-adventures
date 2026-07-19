@@ -1,8 +1,8 @@
+import { createTitles } from "@/utils/titles/createTitles";
 import type { TitleDef } from "@/utils/types/player/titles";
 
-export const TITLES: Record<string, TitleDef> = {
+export const TITLES = createTitles({
   matadorDeMortos: {
-    id: "matadorDeMortos",
     name: "Matador de Mortos",
     description: "Elimine NPCs do tipo hungry",
     icon: "/assets/titlesBadges/killHungrys.svg",
@@ -16,7 +16,6 @@ export const TITLES: Record<string, TitleDef> = {
     ],
   },
   invicto: {
-    id: "invicto",
     name: "Invicto",
     description: "Vença batalhas consecutivamente sem perder",
     icon: "/assets/titlesBadges/invict.svg",
@@ -30,7 +29,6 @@ export const TITLES: Record<string, TitleDef> = {
     ],
   },
   defensor: {
-    id: "defensor",
     name: "Defensor",
     description: "Bloqueie ataques",
     icon: "/assets/titlesBadges/blockAttacks.svg",
@@ -52,7 +50,6 @@ export const TITLES: Record<string, TitleDef> = {
     ],
   },
   acertadorDeCabras: {
-    id: "acertadorDeCabras",
     name: "Caçador de bodes",
     description: "Elimine bodes",
     icon: "/assets/titlesBadges/goat.svg",
@@ -66,7 +63,6 @@ export const TITLES: Record<string, TitleDef> = {
     ],
   },
   exterminadorDeFigurantes: {
-    id: "exterminadorDeFigurantes",
     name: "Exterminador de Figurantes",
     description: "Elimine figurantes de cultos",
     icon: "/assets/titlesBadges/slainFigurants.svg",
@@ -80,7 +76,6 @@ export const TITLES: Record<string, TitleDef> = {
     ],
   },
   cacadorDeRaros: {
-    id: "cacadorDeRaros",
     name: "Caçador de Raros",
     description: "Elimine NPCs raros",
     icon: "/assets/titlesBadges/huntRaresNpcs.svg",
@@ -94,7 +89,6 @@ export const TITLES: Record<string, TitleDef> = {
     ],
   },
   matadorDeChefes: {
-    id: "matadorDeChefes",
     name: "Matador de Chefões",
     description: "Elimine chefes",
     icon: "/assets/titlesBadges/huntBosses.svg",
@@ -108,7 +102,6 @@ export const TITLES: Record<string, TitleDef> = {
     ],
   },
   lendario: {
-    id: "lendario",
     name: "Lendário",
     description: "Elimine NPCs lendários",
     icon: "/assets/titlesBadges/huntLegendaryNpcs.svg",
@@ -157,7 +150,6 @@ export const TITLES: Record<string, TitleDef> = {
     ],
   },
   batalhador: {
-    id: "batalhador",
     name: "Batalhador",
     description: "Elimine NPCs no total",
     icon: "/assets/titlesBadges/defeatNpcs.svg",
@@ -195,7 +187,6 @@ export const TITLES: Record<string, TitleDef> = {
     ],
   },
   masoquista: {
-    id: "masoquista",
     name: "Masoquista",
     description: "Receba dano em batalhas",
     icon: "/assets/titlesBadges/masoquist.svg",
@@ -218,7 +209,6 @@ export const TITLES: Record<string, TitleDef> = {
     ],
   },
   atacante: {
-    id: "atacante",
     name: "Atacante",
     description: "Cause dano em batalhas",
     icon: "/assets/titlesBadges/causesDamage.svg",
@@ -241,7 +231,6 @@ export const TITLES: Record<string, TitleDef> = {
     ],
   },
   dragonSlayer: {
-    id: "dragonSlayer",
     name: "Dragon Slayer",
     description: "Derrote o Rei Dragão",
     icon: "/assets/titlesBadges/dragonSlayer.svg",
@@ -260,7 +249,6 @@ export const TITLES: Record<string, TitleDef> = {
     ],
   },
   ghostPlayer: {
-    id: "ghostPlayer",
     name: "Ghost Player",
     description: "Evite ataques em batalhas",
     icon: "/assets/titlesBadges/enemyMissAttacks.svg",
@@ -276,7 +264,7 @@ export const TITLES: Record<string, TitleDef> = {
       { count: 10000, bonus: [{ stat: "enemyMissChance", value: 50 }] },
     ],
   },
-};
+});
 
 export const TITLE_IDS = Object.keys(TITLES);
 
