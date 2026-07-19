@@ -16,8 +16,8 @@ import { getHungerMultiplier } from "@/contexts/CharacterProgressContext";
 import { getNpcDisplayName } from "@/utils/types/npc/npcNames";
 import { CLASS_DATA } from "@/data/npc/class";
 import { npcPath, playerPath } from "@/utils/paths";
-// import { StatItem } from "./StatItem";
-// import { getCharacterStatus } from "@/data/player/stats";
+import { StatItem } from "./StatItem";
+import { getCharacterStatus } from "@/data/player/stats";
 
 
 type Props = {
@@ -84,22 +84,21 @@ export function BattleTab({ showComboAction, isSelected }: Props) {
   const classData = CLASS_DATA[battleInfo.npcClass];
   const spriteSrc = `/${battleInfo.npcType}/right.svg`;
 
-  // const playerSummary = getCharacterStatus({
-  //   hp: {playerStats.maxHp}
-  //   strenght: {playerStats.strenght},
-  //   intelligence: {playerStats.intelligence},
-  //   resistance: {playerStats.resistance},
-  //   tenacity: {playerStats.tenacity},
-  //   shield: {playerStats.shield},
-  //   vampirism: {playerStats.vampirism},
-  //   reflect: {playerStats.reflect},
-  // });
+  const playerSummary = getCharacterStatus({
+    hp: playerStats.maxHp,
+    strenght: playerStats.strength,
+    intelligence: playerStats.intelligence,
+    resistance: playerStats.resistance,
+    tenacity: playerStats.tenacity,
+    armor: playerStats.armor,
+    shield: playerStats.shield,
+    vampirism: playerStats.vampirism,
+    reflect: playerStats.reflect,
+  });
 
   return (
     <div className={styles.battleContainer}>
-      <div
-        className={`${styles.toggleItem} ${isSelected ? styles.selected : ""}`}
-      >
+      <div className={`${styles.toggleItem} ${isSelected ? styles.selected : ""}`}>
         {isSelected && <span className={styles.cursor}>▼</span>}
         <h2>Ação Combo: {showComboAction ? "ON" : "OFF"}</h2>
       </div>
@@ -119,49 +118,13 @@ export function BattleTab({ showComboAction, isSelected }: Props) {
             </div>
           </div>
           <div className={styles.statGrid}>
-            {/* {playerSummary.map((stat) => (
+            {playerSummary.map((stat) => (
               <StatItem
                 key={stat.label}
                 label={stat.label}
                 value={stat.value}
               />
-            ))} */}
-            <div className={styles.statItem}>
-              <span className={styles.statLabel}>HP</span>
-              <span className={styles.statValue}>{playerStats.maxHp}</span>
-            </div>
-            <div className={styles.statItem}>
-              <span className={styles.statLabel}>Força</span>
-              <span className={styles.statValue}>{playerStats.strength}</span>
-            </div>
-            <div className={styles.statItem}>
-              <span className={styles.statLabel}>Inteligência</span>
-              <span className={styles.statValue}>{playerStats.intelligence}</span>
-            </div>
-            <div className={styles.statItem}>
-              <span className={styles.statLabel}>Resistência</span>
-              <span className={styles.statValue}>{playerStats.resistance}</span>
-            </div>
-            <div className={styles.statItem}>
-              <span className={styles.statLabel}>Tenacidade</span>
-              <span className={styles.statValue}>{playerStats.tenacity}</span>
-            </div>
-            <div className={styles.statItem}>
-              <span className={styles.statLabel}>Armadura</span>
-              <span className={styles.statValue}>{playerStats.armor}</span>
-            </div>
-            <div className={styles.statItem}>
-              <span className={styles.statLabel}>Escudo</span>
-              <span className={styles.statValue}>{playerStats.shield}</span>
-            </div>
-            <div className={styles.statItem}>
-              <span className={styles.statLabel}>Vampirismo</span>
-              <span className={styles.statValue}>{playerStats.vampirism}</span>
-            </div>
-            <div className={styles.statItem}>
-              <span className={styles.statLabel}>Reflexo</span>
-              <span className={styles.statValue}>{playerStats.reflect}</span>
-            </div>
+            ))}
           </div>
         </div>
         <h2>VS</h2>
@@ -182,18 +145,9 @@ export function BattleTab({ showComboAction, isSelected }: Props) {
             </div>
           </div>
           <div className={styles.statGrid}>
-            <div className={styles.statItem}>
-              <span className={styles.statLabel}>HP</span>
-              <span className={styles.statValue}>{Math.round(battleInfo.npcHp)}</span>
-            </div>
-            <div className={styles.statItem}>
-              <span className={styles.statLabel}>Dano</span>
-              <span className={styles.statValue}>{Math.round(battleInfo.npcDamage)}</span>
-            </div>
-            <div className={styles.statItem}>
-              <span className={styles.statLabel}>Armadura</span>
-              <span className={styles.statValue}>{Math.round(battleInfo.npcArmor)}</span>
-            </div>
+            <StatItem label="HP" value={Math.round(battleInfo.npcHp)} />
+            <StatItem label="Dano" value={Math.round(battleInfo.npcDamage)} />
+            <StatItem label="Armadura" value={Math.round(battleInfo.npcArmor)} />
           </div>
         </div>
       </div>

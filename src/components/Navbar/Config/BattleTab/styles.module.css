@@ -76,22 +76,6 @@
   gap: var(--fs-8);
 }
 
-.statItem {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.statLabel {
-  font-size: var(--fs-14);
-  color: var(--text-hint);
-}
-
-.statValue {
-  font-size: var(--fs-16);
-  font-weight: bold;
-}
-
 .probabilityBar {
   position: relative;
   width: 100%;
