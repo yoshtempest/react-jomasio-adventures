@@ -142,7 +142,7 @@ export function useKeyboardMovement() {
     lastRightPressRef,
     lastDashTimeRef,
   };
-  const { tryDash } = useDashDetection(dashRefs);
+  const { tryDashRef } = useDashDetection(dashRefs);
 
   useEffect(() => {
     const DIR_KEYS: Record<string, Dir> = {
@@ -235,7 +235,7 @@ export function useKeyboardMovement() {
         }
         isLeftHeldRef.current = true;
         if (isBattleRef.current) {
-          tryDash("left", startMoveLeftRef);
+          tryDashRef.current("left", startMoveLeftRef);
         } else {
           moveLeftRef.current();
           startMoveLeftExploreRef.current();
@@ -257,7 +257,7 @@ export function useKeyboardMovement() {
         }
         isRightHeldRef.current = true;
         if (isBattleRef.current) {
-          tryDash("right", startMoveRightRef);
+          tryDashRef.current("right", startMoveRightRef);
         } else {
           moveRightRef.current();
           startMoveRightExploreRef.current();
@@ -272,7 +272,8 @@ export function useKeyboardMovement() {
 
     pushControlsRef.current(controls);
     return () => popControlsRef.current();
-  }, [tryDash]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return {
     pressed,
