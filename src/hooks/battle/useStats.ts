@@ -93,6 +93,7 @@ export function useBattleStats({
           equipmentBonus.intelligence +
           titleBonus.intelligence) * allStatsPct,
       resistance: baseChar.stats.resistance * allStatsPct,
+      tenacity: baseChar.stats.tenacity + (equipmentBonus.tenacity ?? 0),
       points: baseChar.stats.points,
     };
     const hungerMultiplier = getHungerMultiplier(baseChar.hunger);
@@ -103,6 +104,7 @@ export function useBattleStats({
         strength: Math.round(base.strength * rankMultiplier * hungerMultiplier),
         intelligence: Math.round(base.intelligence * rankMultiplier * hungerMultiplier),
         resistance: Math.round(base.resistance * rankMultiplier * hungerMultiplier),
+        tenacity: base.tenacity,
         points: base.points,
       },
     };
