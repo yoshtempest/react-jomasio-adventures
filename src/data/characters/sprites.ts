@@ -1,16 +1,16 @@
-import { asset } from "@/utils/paths";
+import { playerPath } from "@/utils/paths";
 
 export const characterSprites = {
-  marcelo: asset("assets/player/marcelo/default.svg"),
-  eduarda: asset("assets/player/eduarda/default.svg"),
-  lucas: asset("assets/player/lucas/default.svg"),
-  artur: asset("assets/player/artur/default.svg"),
-  camilly: asset("assets/player/camilly/default.svg"),
-  emanuel: asset("assets/player/emanuel/default.svg"),
-  mayra: asset("assets/player/mayra/default.svg"),
-  riquelme: asset("assets/player/riquelme/default.svg"),
-  samuel: asset("assets/player/samuel/default.svg"),
-  larissa: asset("assets/player/larissa/default.svg"),
-  lucaua: asset("assets/player/lucaua/default.svg"),
-  hiago: asset("assets/player/hiago/default.svg"),
+  marcelo: playerPath("/marcelo/default.svg"),
+  eduarda: playerPath("/eduarda/default.svg"),
+  lucas: playerPath("/lucas/default.svg"),
+  artur: playerPath("/artur/default.svg"),
+  camilly: playerPath("/camilly/default.svg"),
+  emanuel: playerPath("/emanuel/default.svg"),
+  mayra: playerPath("/mayra/default.svg"),
+  riquelme: playerPath("/riquelme/default.svg"),
+  samuel: playerPath("/samuel/default.svg"),
+  larissa: playerPath("/larissa/default.svg"),
+  lucaua: playerPath("/lucaua/default.svg"),
+  hiago: playerPath("/hiago/default.svg"),
 };
