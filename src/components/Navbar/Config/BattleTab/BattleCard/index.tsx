@@ -1,10 +1,10 @@
-import styles from "./styles.module.css";
-import { StatItem } from "./StatItem";
+import styles from "../styles.module.css";
+import { StatItem } from "../StatItem";
 import type { ReactNode } from "react";
 
 type Stat = {
   label: string;
-  value: string | number;
+  value: React.ReactNode;
 };
 
 type Props = {

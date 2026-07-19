@@ -7,7 +7,7 @@ type Player = {
   direction: Direction;
 };
 
-type MapData = unknown[][];
+type MapData = number[][];
 
 type Params = {
   player: Player;

@@ -169,7 +169,7 @@ export function Inventory() {
         onSelect={setRewardOptionIndex}
         onCloseDaily={() => dailyChest.setLastResult(null)}
         onCloseChest={() => setLastResult(null)}
-        onOpenNextChest={openNextChest}
+            onOpenNextChest={openNextChest}
       />
     );
   }

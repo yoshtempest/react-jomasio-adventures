@@ -1,6 +1,7 @@
 import styles from "../styles.module.css";
 import { npcPath } from "@/utils/paths";
 import { CLASS_DATA } from "@/data/npc/class";
+import type { NPCClass } from "@/data/npc/class";
 
 type DropItem = {
   name: string;
@@ -12,7 +13,7 @@ type Props = {
   name: string;
   encountered: boolean;
   kills: number;
-  npcClass: string | null;
+  npcClass: NPCClass | null;
   location: string;
   description: string;
   attacks: string[];

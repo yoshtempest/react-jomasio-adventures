@@ -10,8 +10,8 @@ type Params = {
   playMove: () => void;
   playSelect: () => void;
   closeRewards: () => void;
-  openNextChest: (id: string) => void;
-  onRewardOptionChange: (index: number) => void;
+  openNextChest: (id: ItemId) => unknown;
+  onRewardOptionChange: (indexOrUpdater: number | ((prev: number) => number)) => void;
 };
 
 export function useRewardsControls({
@@ -60,7 +60,7 @@ export function useRewardsControls({
       onConfirm: () => {
         playSelect();
         if (rewardOptionCount > 1 && rewardOptionIndexRef.current === 0) {
-          openNextChestRef.current(lastOpened?.chestId ?? (chestLastResult?.tier as unknown as ItemId));
+          openNextChestRef.current((lastOpened?.chestId ?? chestLastResult?.tier) as ItemId);
         } else {
           closeRewards();
         }
