@@ -1,5 +1,5 @@
 import styles from "./styles.module.css";
-import { Lock, Minus, Plus } from "lucide-react";
+import { Lock, Minus, Plus, SendHorizonal } from "lucide-react";
 import { useConfigMenu } from "@/hooks/menu/config/useConfig";
 import { useAudio } from "@/contexts/AudioContext";
 import { DIALOGUE_SPEED_LIST, SPEED_LABEL } from "@/utils/settings";
@@ -163,6 +163,10 @@ export function Config() {
                 </div>
                 <Plus />
               </div>
+            </div>
+            <div className={styles.volumeContainer}>
+              <input placeholder="Insira um código" className={styles.tutorialButton} />
+              <SendHorizonal className={styles.inputIcon} onClick={() => console.log("code sended")}/>
             </div>
           </div>
         </div>

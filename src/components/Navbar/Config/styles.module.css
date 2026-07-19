@@ -195,3 +195,9 @@
   text-align: center;
   border: var(--size-2) solid var(--primary-color);
 }
+
+.inputIcon {
+  position: absolute;
+  right: 0;
+  transform: translateY(50%) translateX(-50%);
+}
