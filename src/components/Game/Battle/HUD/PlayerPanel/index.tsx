@@ -2,7 +2,7 @@ import { HealthBar } from "@/components/Game/Battle/HUD/HealthBar";
 import { Deliciometro } from "@/components/Game/Battle/HUD/Deliciometro";
 import { BlockGauge } from "@/components/Game/Battle/HUD/BlockGauge";
 import { playerPath } from "@/utils/paths";
-import styles from "./styles.module.css";
+import styles from "../styles.module.css";
 
 type Props = {
   character: string;

@@ -2,9 +2,9 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import { getRank, formatRank } from "@/gameRules/rank";
-import { PlayerHUDPanel } from "./PlayerHUDPanel";
-import { NPCHUDPanel } from "./NPCHUDPanel";
-import { SummonHUDList } from "./SummonHUDList";
+import { PlayerHUDPanel } from "./PlayerPanel";
+import { NPCHUDPanel } from "./NpcPanel";
+import { SummonHUDList } from "./SummonList";
 
 type BattleHUDState = {
   playerHP: number;
