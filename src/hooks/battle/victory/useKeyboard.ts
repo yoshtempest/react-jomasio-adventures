@@ -1,17 +1,10 @@
-import { useEffect } from "react";
+import { useGameControlsLayer } from "@/hooks/useGameControlsLayer";
 
 export function useVictoryKeyboard(isVisible: boolean, onContinue: () => void) {
-  useEffect(() => {
-    if (!isVisible) return;
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      const key = e.key.toLowerCase();
-      if (key === "enter" || key === "l" || key === "a") {
-        onContinue();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isVisible, onContinue]);
+  useGameControlsLayer(
+    isVisible
+      ? { onConfirm: onContinue, blockGlobalOpen: true }
+      : null,
+    [isVisible, onContinue],
+  );
 }

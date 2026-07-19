@@ -42,6 +42,8 @@ export function GameControlsProvider({ children }: Props) {
   screenRef.current = screen;
   const setModeRef = useRef(setMode);
   setModeRef.current = setMode;
+  const playerModeRef = useRef(player.mode);
+  playerModeRef.current = player.mode;
 
   const pushControls = useCallback((controls: GameControlLayer) => {
     setStack((prev) => [...prev, controls]);
@@ -172,7 +174,7 @@ export function GameControlsProvider({ children }: Props) {
           break;
 
         case "Shift":
-          if (player.mode === "battle") {
+          if (playerModeRef.current === "battle") {
             controls.onDown?.();
           }
           break;
@@ -185,12 +187,12 @@ export function GameControlsProvider({ children }: Props) {
             return;
           }
 
-          if (controls.blockGlobalOpen && player.mode === "explore") {
+          if (controls.blockGlobalOpen && playerModeRef.current === "explore") {
             closeAllMenus();
             return;
           }
 
-          if (!controls.blockGlobalOpen && player.mode === "explore") {
+          if (!controls.blockGlobalOpen && playerModeRef.current === "explore") {
             openNavbar();
           }
           break;
@@ -246,7 +248,7 @@ export function GameControlsProvider({ children }: Props) {
           break;
 
         case "Shift":
-          if (player.mode === "battle") {
+          if (playerModeRef.current === "battle") {
             controls.onDownRelease?.();
           }
           break;
@@ -260,7 +262,7 @@ export function GameControlsProvider({ children }: Props) {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
-  }, [player.mode, openNavbar, closeAllMenus, openConfigScreen]);
+  }, [openNavbar, closeAllMenus, openConfigScreen]);
 
   return (
     <GameControlsContext.Provider
