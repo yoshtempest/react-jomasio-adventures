@@ -16,8 +16,8 @@ import { getHungerMultiplier } from "@/contexts/CharacterProgressContext";
 import { getNpcDisplayName } from "@/utils/types/npc/npcNames";
 import { CLASS_DATA } from "@/data/npc/class";
 import { npcPath, playerPath } from "@/utils/paths";
-import { StatItem } from "./StatItem";
 import { getCharacterStatus } from "@/data/player/stats";
+import { BattleCard } from "./BattleCard";
 
 
 type Props = {
@@ -82,7 +82,6 @@ export function BattleTab({ showComboAction, isSelected }: Props) {
   }
 
   const classData = CLASS_DATA[battleInfo.npcClass];
-  const spriteSrc = `/${battleInfo.npcType}/right.svg`;
 
   const playerSummary = getCharacterStatus({
     hp: playerStats.maxHp,
@@ -104,52 +103,30 @@ export function BattleTab({ showComboAction, isSelected }: Props) {
       </div>
 
       <div className={styles.battleEntities}>
-        <div className={styles.battleCard}>
-          <div className={styles.battleCardHeader}>
-            <img
-              src={playerPath(`/${player.character}/default.svg`)}
-              alt={playerName}
-              className={styles.npcSprite}
-            />
-            <div>
-              <h3>{playerName}</h3>
-              <p className={styles.statLine}>Nível: {battleInfo.npcLevel}</p>
-              <span className={styles.playerRank}>{playerRank}</span>
-            </div>
-          </div>
-          <div className={styles.statGrid}>
-            {playerSummary.map((stat) => (
-              <StatItem
-                key={stat.label}
-                label={stat.label}
-                value={stat.value}
-              />
-            ))}
-          </div>
-        </div>
+        <BattleCard
+          spriteSrc={playerPath(`/${player.character}/default.svg`)}
+          name={playerName}
+          level={battleInfo.npcLevel}
+          rank={playerRank}
+          stats={playerSummary}
+        />
         <h2>VS</h2>
-        <div className={styles.battleCard}>
-          <div className={styles.battleCardHeader}>
-            <img
-              src={npcPath(spriteSrc)}
-              alt={getNpcDisplayName(battleInfo.npcType)}
-              className={styles.npcSprite}
-            />
-            <div>
-              <h3>{getNpcDisplayName(battleInfo.npcType)}</h3>
-              <span className={styles.npcClassLabel}>
-                Classe: <span style={{ color: classData.color }}>{classData.label}</span>
-              </span>
-              <p className={styles.statLine}>Nível: {battleInfo.npcLevel}</p>
-              <span className={styles.npcRank}>{playerRank}</span>
-            </div>
-          </div>
-          <div className={styles.statGrid}>
-            <StatItem label="HP" value={Math.round(battleInfo.npcHp)} />
-            <StatItem label="Dano" value={Math.round(battleInfo.npcDamage)} />
-            <StatItem label="Armadura" value={Math.round(battleInfo.npcArmor)} />
-          </div>
-        </div>
+        <BattleCard
+          spriteSrc={npcPath(`/${battleInfo.npcType}/right.svg`)}
+          name={getNpcDisplayName(battleInfo.npcType)}
+          subtitle={
+            <span className={styles.npcClassLabel}>
+              Classe: <span style={{ color: classData.color }}>{classData.label}</span>
+            </span>
+          }
+          level={battleInfo.npcLevel}
+          rank={playerRank}
+          stats={[
+            { label: "HP", value: Math.round(battleInfo.npcHp) },
+            { label: "Dano", value: Math.round(battleInfo.npcDamage) },
+            { label: "Armadura", value: Math.round(battleInfo.npcArmor) },
+          ]}
+        />
       </div>
 
       <h2 className={styles.marginTop}>Chance de Vitória</h2>

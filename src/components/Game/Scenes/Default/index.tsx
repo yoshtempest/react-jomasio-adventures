@@ -9,13 +9,14 @@ import { QuestArrow, QuestNPCBadge, QuestDirectionArrow } from "@/components/Gam
 import Talking from "@/components/Talking";
 import { useDialogue } from "@/hooks/interaction/useDialogue";
 import { useSansTalking } from "@/hooks/interaction/useSansTalking";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import { useSceneNavigation } from "@/hooks/scene/useNavigation";
 import { useSceneSetup } from "@/hooks/scene/useSetup";
 import { useSceneControls } from "@/hooks/scene/useControls";
 import { useSceneInteraction } from "@/hooks/scene/useInteraction";
 import { useSceneAudio } from "@/hooks/scene/useAudio";
+import { useSceneLayers } from "@/hooks/scene/useSceneLayers";
 import { useLocation } from "react-router";
 import { useTransitionCtx } from "@/contexts/TransitionContext";
 import { getTileInFront } from "@/utils/getTileInFront";
@@ -189,33 +190,16 @@ export function ExploreScene({
     }
   }, [autoStartDialogue, dialogueSystem, playSansTalking]);
 
-  const frontTile = useMemo(() => {
-    if (!isReady) return null;
-    return getTileInFront(player, map);
-  }, [player, map, isReady]);
-
-  const interactionHint = useMemo(() => {
-    if (!frontTile) return null;
-
-    const { x, y } = frontTile;
-
-    const npc = npcs.find((n) => n.gridX === x && n.gridY === y);
-    if (npc) return "[L] Conversar";
-
-    const pickup = itemPickupTiles?.find(
-      (t) => t.x === x && t.y === y && t.visible,
-    );
-    if (pickup) return "[L] Pegar";
-
-    const plate = plates.find((p) => p.gridX === x && p.gridY === y);
-    if (plate) return "[L] Interagir";
-
-    if (interactionKeys?.includes(`${x},${y}`)) return "[L] Interagir";
-
-    if (tileDialogues?.[`${x},${y}`]) return "[L] Interagir";
-
-    return null;
-  }, [frontTile, npcs, itemPickupTiles, plates, interactionKeys, tileDialogues]);
+  const { interactionHint } = useSceneLayers({
+    player,
+    map,
+    isReady,
+    npcs,
+    itemPickupTiles,
+    plates,
+    interactionKeys,
+    tileDialogues,
+  });
 
   const { TILE_SIZE, offsetX, offsetY, PLAYER_SIZE, MAP_COLS, MAP_ROWS } =
     useGameLayout();

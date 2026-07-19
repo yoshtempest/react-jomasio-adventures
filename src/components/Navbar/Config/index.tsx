@@ -1,17 +1,16 @@
 import styles from "./styles.module.css";
-import { Lock, Minus, Plus, SendHorizonal } from "lucide-react";
 import { useConfigMenu } from "@/hooks/menu/config/useConfig";
 import { useAudio } from "@/contexts/AudioContext";
-import { DIALOGUE_SPEED_LIST, SPEED_LABEL } from "@/utils/settings";
 import { useDialogue } from "@/hooks/interaction/useDialogue";
 import { useEffect, useRef } from "react";
 import { configsDialogue } from "@/data/dialogues/configs";
-import { DIFFICULTY_LABEL } from "@/data/npc/difficultyLabels";
 import { VictorTutorial } from "@/components/Navbar/Config/VictorTutorial";
-import InstallButton from "@/components/PWA";
 import { CONFIG_TABS, CONFIG_TAB_LABELS } from "@/data/config/tabs";
 import { BattleTab } from "./BattleTab";
-import { UpdateButton } from "./UpdateButton";
+import { DifficultySection } from "./Difficulty";
+import { DialogueSpeedSection } from "./DialogueSpeed";
+import { HelpSection } from "./Help";
+import { VolumeSection } from "./Volume";
 
 export function Config() {
   const { sfxVolume, bgmVolume } = useAudio();
@@ -53,122 +52,28 @@ export function Config() {
       
       {activeTab === "geral" && (
         <div className={styles.container}>
-          <div className={styles.difficultyContainer}>
-            <h2 className={styles.marginTop}>Dificuldade:</h2>
-            {difficultyList.map((diff, index) => {
-              const isSelected = selectedColumn === 0 && index === selectedIndex;
-              return (
-                <div
-                  key={diff}
-                  className={`${styles.item} ${
-                    isSelected ? styles.selected : ""
-                  }`}
-                >
-                  {isSelected && <span className={styles.cursor}>▼</span>}
+          <DifficultySection
+            difficultyList={difficultyList}
+            selectedIndex={selectedIndex}
+            selectedColumn={selectedColumn}
+          />
 
-                  <h2>{DIFFICULTY_LABEL[diff].toUpperCase()}</h2>
-                </div>
-              );
-            })}
+          <DialogueSpeedSection
+            selectedIndex={selectedIndex}
+            selectedColumn={selectedColumn}
+          />
 
-            <div className={`${styles.item} ${styles.locked}`}>
-              <div className={styles.chainLeft} />
-              <Lock size={16} />
-              <h2>INSANO</h2>
-              <div className={styles.chainRight} />
-            </div>
-          </div>
-          <div className={styles.speedContainer}>
-            <h2 className={styles.marginTop}>Diálogo:</h2>
-            <div className={styles.speedOptions}>
-              {DIALOGUE_SPEED_LIST.map((speed, index) => {
-                const isSelected = selectedColumn === 1 && index === selectedIndex;
-                return (
-                  <div
-                    key={speed}
-                    className={`${styles.item} ${
-                      isSelected ? styles.selected : ""
-                    }`}
-                  >
-                    {isSelected && <span className={styles.cursor}>▼</span>}
-                    <h2>{SPEED_LABEL[speed].toUpperCase()}</h2>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-          
-          <div className={styles.flexColumn}>
-            <h2 className={styles.marginTop}>Ajuda:</h2>
-            <div
-              className={`${styles.tutorialButton} ${
-                selectedColumn === 2 && selectedIndex === 0 ? styles.selected : ""
-              }`}
-            >
-              {selectedColumn === 2 && selectedIndex === 0 && <span className={styles.cursor}>▼</span>}
+          <HelpSection
+            selectedColumn={selectedColumn}
+            selectedIndex={selectedIndex}
+            showQuestIndicator={showQuestIndicator}
+          />
 
-              <h2>Indicador de Missões: {showQuestIndicator ? "ON" : "OFF"}</h2>
-            </div>
-            <div
-              className={`${styles.tutorialButton} ${
-                selectedColumn === 2 && selectedIndex === 1 ? styles.selected : ""
-              }`}
-            >
-              {selectedColumn === 2 && selectedIndex === 1 && <span className={styles.cursor}>▼</span>}
-
-              <h2>Ver Tutorial</h2>
-            </div>
-            <div
-              className={`${styles.tutorialButton} ${
-                selectedColumn === 2 && selectedIndex === 2 ? styles.selected : ""
-              }`}
-            >
-              {selectedColumn === 2 && selectedIndex === 2 && <span className={styles.cursor}>▼</span>}
-
-              <UpdateButton />
-            </div>
-            <div
-              className={`${styles.tutorialButton} ${
-                selectedColumn === 2 && selectedIndex === 3 ? styles.selected : ""
-              }`}
-            >
-              {selectedColumn === 2 && selectedIndex === 3 && <span className={styles.cursor}>▼</span>}
-
-              <InstallButton />
-            </div>
-          </div>
-          <div className={styles.flexColumn}>
-            <h2 className={styles.marginTop}>Sons:</h2>
-            <div className={styles.volumeContainer}>
-              {selectedColumn === 3 && <span className={styles.cursor}>▼</span>}
-
-              <h2 className={styles.marginTop}>Efeitos Sonoros: {sfxVolume}</h2>
-
-              <div className={styles.flexRow}>
-                <Minus />
-                <div className={styles.volumeBar}>
-                  <div className={styles.volumeFill} style={{ width: `${sfxVolume}%` }} />
-                </div>
-                <Plus />
-              </div>
-            </div>
-            <div className={styles.volumeContainer}>
-              {selectedColumn === 4 && <span className={styles.cursor}>▼</span>}
-
-              <h2 className={styles.marginTop}>Música de Fundo: {bgmVolume}</h2>
-              <div className={styles.flexRow}>
-                <Minus />
-                <div className={styles.volumeBar}>
-                  <div className={styles.volumeFill} style={{ width: `${bgmVolume}%` }} />
-                </div>
-                <Plus />
-              </div>
-            </div>
-            <div className={styles.volumeContainer}>
-              <input placeholder="Insira um código" className={styles.tutorialButton} />
-              <SendHorizonal className={styles.inputIcon} onClick={() => console.log("code sended")}/>
-            </div>
-          </div>
+          <VolumeSection
+            sfxVolume={sfxVolume}
+            bgmVolume={bgmVolume}
+            selectedColumn={selectedColumn}
+          />
         </div>
       )}
 

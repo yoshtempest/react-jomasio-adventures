@@ -1,5 +1,4 @@
 import { useRef } from "react";
-import { ProgressBar } from "@/components/ProgressBar";
 import styles from "./styles.module.css";
 import { usePlayerMenu } from "@/hooks/menu/usePlayer";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
@@ -29,7 +28,12 @@ import {
 } from "@/utils/rewards/battleStats";
 import { StatRow } from "./StatRow";
 import { PlayerRewards } from "./PlayerRewards";
+import { DailyRewardSection } from "./DailyReward";
+import { MonthlyPassSection } from "./MonthlyPass";
 import { getCharacterStats, getProgressStat, getSummaryStats } from "@/data/player/stats";
+
+const TITLE_IDS = Object.keys(TITLES);
+const FLAG_IDS = Object.keys(FLAGS) as FlagId[];
 
 export function Player() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -231,77 +235,25 @@ export function Player() {
           Recompensas
         </button>
 
-        <div className={styles.section}>
-          <div className={styles.sectionTitle}>Recompensa Diária</div>
-          <div className={styles.dailyCard}>
-            <div className={styles.dailyInfo}>
-              <span className={styles.dailyLabel}>
-                {dailyCanClaim ? "Disponível!" : "Já recebida hoje"}
-              </span>
-              <span className={styles.dailyRewards}>
-                +{dailyHyperCoins} HyperCoins · {dailyCoinsMin}–{dailyCoinsMax} Kwanzas
-              </span>
-              {!dailyCanClaim && (
-                <span className={styles.dailyTimer}>{dailyTimer}</span>
-              )}
-            </div>
-            <button
-              className={dailyCanClaim ? styles.claimBtn : styles.claimBtnDone}
-              disabled={!dailyCanClaim}
-              onClick={claimDaily}
-            >
-              {dailyCanClaim ? "Receber" : "Amanhã"}
-            </button>
-          </div>
-        </div>
+        <DailyRewardSection
+          canClaim={dailyCanClaim}
+          timer={dailyTimer}
+          hyperCoins={dailyHyperCoins}
+          coinsMin={dailyCoinsMin}
+          coinsMax={dailyCoinsMax}
+          onClaim={claimDaily}
+        />
 
-        <div className={styles.section}>
-          <div className={styles.sectionTitle}>Passe Mensal — {formatMonth(currentMonth)}</div>
-          <div className={styles.statRow}>
-            <span className={styles.statLabel}>Progresso</span>
-            <span className={styles.statValue}>{completedCount}/{passTotal} ({passPct}%)</span>
-          </div>
-          <ProgressBar
-            value={passPct}
-            max={100}
-            className={styles.barOuter}
-            color="var(--accent-color)"
-          />
-          {passMissions.map((m) => (
-            <div key={m.id} className={styles.missionRow}>
-              <div className={styles.missionInfo}>
-                <span className={styles.missionLabel}>{m.label}</span>
-                <span className={styles.missionProgress}>
-                  {m.completed ? "Completa" : `${m.progress}/${m.requirement}`}
-                </span>
-              </div>
-              <div className={styles.missionAction}>
-                <span className={styles.missionReward}>+{m.reward}</span>
-                <button
-                  className={m.canClaim ? styles.claimBtn : styles.claimBtnDone}
-                  disabled={!m.canClaim}
-                  onClick={() => claimPass(m.id)}
-                >
-                  {m.claimed ? "OK" : m.completed ? "Receber" : "—"}
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
+        <MonthlyPassSection
+          currentMonth={currentMonth}
+          completedCount={completedCount}
+          passTotal={passTotal}
+          passPct={passPct}
+          missions={passMissions}
+          onClaimMission={claimPass}
+        />
       </div>
       )}
     </div>
   );
 }
-
-function formatMonth(ym: string): string {
-  const [y, m] = ym.split("-").map(Number);
-  const months = [
-    "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-    "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro",
-  ];
-  return `${months[m - 1]} ${y}`;
-}
-
-const TITLE_IDS = Object.keys(TITLES);
-const FLAG_IDS = Object.keys(FLAGS) as FlagId[];

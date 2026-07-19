@@ -30,6 +30,36 @@ type ContextType = {
 
 const TitleContext = createContext({} as ContextType);
 
+function incrementTitles(
+  prev: TitlesData,
+  conditionType: string,
+  amount: number,
+  matchFn?: (def: (typeof TITLES)[string]) => boolean,
+): TitlesData {
+  const nextProgress = { ...prev.progress };
+  let changed = false;
+
+  for (const titleId of Object.keys(TITLES)) {
+    const def = TITLES[titleId];
+    if (def.condition.type !== conditionType) continue;
+    if (matchFn && !matchFn(def)) continue;
+
+    const prog = { ...nextProgress[titleId] };
+    if (prog.level >= def.levels.length) continue;
+
+    const nextCurrent = prog.current + amount;
+    const nextLevelTarget = def.levels[prog.level].count;
+    const nextLevel =
+      nextCurrent >= nextLevelTarget ? prog.level + 1 : prog.level;
+
+    nextProgress[titleId] = { current: nextCurrent, level: nextLevel };
+    changed = true;
+  }
+
+  if (!changed) return prev;
+  return { ...prev, progress: nextProgress };
+}
+
 export function TitleProvider({ children }: { children: ReactNode }) {
   const [titlesData, setTitlesData] = useState<TitlesData>(loadData);
 
@@ -167,110 +197,19 @@ export function TitleProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const incrementBlockCounter = useCallback(() => {
-    setTitlesData((prev) => {
-      const nextProgress = { ...prev.progress };
-      let changed = false;
-
-      for (const titleId of Object.keys(TITLES)) {
-        const def = TITLES[titleId];
-        if (def.condition.type !== "blockCount") continue;
-
-        const prog = { ...nextProgress[titleId] };
-        if (prog.level >= def.levels.length) continue;
-
-        const nextCurrent = prog.current + 1;
-        const nextLevelTarget = def.levels[prog.level].count;
-        const nextLevel =
-          nextCurrent >= nextLevelTarget ? prog.level + 1 : prog.level;
-
-        nextProgress[titleId] = {
-          current: nextCurrent,
-          level: nextLevel,
-        };
-        changed = true;
-      }
-
-      if (!changed) return prev;
-      return { ...prev, progress: nextProgress };
-    });
+    setTitlesData((prev) => incrementTitles(prev, "blockCount", 1));
   }, []);
 
   const incrementDamageTaken = useCallback((amount: number) => {
-    setTitlesData((prev) => {
-      const nextProgress = { ...prev.progress };
-      let changed = false;
-
-      for (const titleId of Object.keys(TITLES)) {
-        const def = TITLES[titleId];
-        if (def.condition.type !== "damageTaken") continue;
-
-        const prog = { ...nextProgress[titleId] };
-        if (prog.level >= def.levels.length) continue;
-
-        const nextCurrent = prog.current + amount;
-        const nextLevelTarget = def.levels[prog.level].count;
-        const nextLevel =
-          nextCurrent >= nextLevelTarget ? prog.level + 1 : prog.level;
-
-        nextProgress[titleId] = { current: nextCurrent, level: nextLevel };
-        changed = true;
-      }
-
-      if (!changed) return prev;
-      return { ...prev, progress: nextProgress };
-    });
+    setTitlesData((prev) => incrementTitles(prev, "damageTaken", amount));
   }, []);
 
   const incrementDamageDealt = useCallback((amount: number) => {
-    setTitlesData((prev) => {
-      const nextProgress = { ...prev.progress };
-      let changed = false;
-
-      for (const titleId of Object.keys(TITLES)) {
-        const def = TITLES[titleId];
-        if (def.condition.type !== "damageDealt") continue;
-
-        const prog = { ...nextProgress[titleId] };
-        if (prog.level >= def.levels.length) continue;
-
-        const nextCurrent = prog.current + amount;
-        const nextLevelTarget = def.levels[prog.level].count;
-        const nextLevel =
-          nextCurrent >= nextLevelTarget ? prog.level + 1 : prog.level;
-
-        nextProgress[titleId] = { current: nextCurrent, level: nextLevel };
-        changed = true;
-      }
-
-      if (!changed) return prev;
-      return { ...prev, progress: nextProgress };
-    });
+    setTitlesData((prev) => incrementTitles(prev, "damageDealt", amount));
   }, []);
 
   const incrementDodgeCounter = useCallback(() => {
-    setTitlesData((prev) => {
-      const nextProgress = { ...prev.progress };
-      let changed = false;
-
-      for (const titleId of Object.keys(TITLES)) {
-        const def = TITLES[titleId];
-        if (def.condition.type !== "dodgeCount") continue;
-
-        const prog = { ...nextProgress[titleId] };
-        if (prog.level >= def.levels.length) continue;
-
-        const nextCurrent = prog.current + 1;
-        const nextLevelTarget = def.levels[prog.level].count;
-        const nextLevel =
-          nextCurrent >= nextLevelTarget ? prog.level + 1 : prog.level;
-
-        nextProgress[titleId] = { current: nextCurrent, level: nextLevel };
-        changed = true;
-      }
-
-      if (!changed) return prev;
-      return { ...prev, progress: nextProgress };
-    });
+    setTitlesData((prev) => incrementTitles(prev, "dodgeCount", 1));
   }, []);
 
   const equipTitle = useCallback((id: string) => {

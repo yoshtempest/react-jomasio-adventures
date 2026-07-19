@@ -3,9 +3,8 @@ import styles from "./styles.module.css";
 import { useBestiaryMenu } from "@/hooks/menu/useBestiary";
 import { useBestiary } from "@/contexts/BestiaryContext";
 import { BESTIARY_DATA } from "@/data/bestiary";
-import { npcPath } from "@/utils/paths";
-import { CLASS_DATA } from "@/data/npc/class";
 import { getNpcClass, getLinkedTitles, getDropItems } from "@/gameRules/npc/bestiary";
+import { BestiaryCard } from "./Card";
 
 
 export function DeliciaDex() {
@@ -38,115 +37,20 @@ export function DeliciaDex() {
           const dropItems = encountered && npcClass ? getDropItems(npcClass, npcType) : [];
 
           return (
-            <div
+            <BestiaryCard
               key={npcType}
-              className={`${styles.card} ${
-                isSelected ? styles.selected : ""
-              } ${encountered ? styles.cardEncountered : styles.cardUnknown}`}
-            >
-              <div className={styles.spriteBox}>
-                <img
-                  src={npcPath(`/${npcType}/default.svg`)}
-                  alt={entry.name}
-                  className={`${styles.sprite} ${
-                    encountered ? "" : styles.silhouette
-                  }`}
-                  onError={(e) => {
-                    const img = e.currentTarget;
-
-                    if (img.dataset.fallback === "default") {
-                      img.dataset.fallback = "walk";
-                      img.src = npcPath(`/${npcType}/walk.svg`);
-                    } else if (img.dataset.fallback === "walk") {
-                      img.dataset.fallback = "right";
-                      img.src = npcPath(`/${npcType}/right.svg`);
-                    }
-                  }}
-                  data-fallback="default"
-                />
-              </div>
-
-              <div className={styles.info}>
-                {encountered ? (
-                  <>
-                    <div className={styles.name}>{entry.name}</div>
-
-                    <div className={styles.metaRow}>
-                      {npcClass && (
-                        <span
-                          className={styles.classBadge}
-                          style={{ color: CLASS_DATA[npcClass].color }}
-                        >
-                          {CLASS_DATA[npcClass].label}
-                        </span>
-                      )}
-                      <span className={styles.killCount}>
-                        {kills} {kills === 1 ? "vez" : "vezes"} derrotado
-                      </span>
-                    </div>
-
-                    <div className={styles.location}>{entry.location}</div>
-                    <div className={styles.description}>
-                      {entry.description}
-                    </div>
-
-                    <div className={styles.attacks}>
-                      {entry.attacks.map((attack) => (
-                        <span key={attack} className={styles.attackTag}>
-                          {attack}
-                        </span>
-                      ))}
-                    </div>
-
-                    {dropItems.length > 0 && (
-                      <div className={styles.section}>
-                        <div className={styles.sectionTitle}>Drops</div>
-                        <div className={styles.dropGrid}>
-                          {dropItems.map((drop) => (
-                            <span key={drop.name} className={styles.dropTag}>
-                              {drop.name}
-                              <span className={styles.dropChance}>
-                                {drop.chance}
-                              </span>
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {linkedTitles.length > 0 && (
-                      <div className={styles.section}>
-                        <div className={styles.sectionTitle}>Títulos</div>
-                        <div className={styles.titleList}>
-                          {linkedTitles.map((titleName) => {
-                            return (
-                              <span key={titleName} className={styles.titleTag}>
-                                {titleName}
-                              </span>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <>
-                    <div className={styles.unknownName}>???</div>
-                      {npcClass && (
-                        <span
-                          className={styles.classBadge}
-                          style={{ color: CLASS_DATA[npcClass].color }}
-                        >
-                          {CLASS_DATA[npcClass].label}
-                        </span>
-                      )}
-                    <div className={styles.unknownHint}>
-                      Derrote este inimigo para descobrir mais
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
+              npcType={npcType}
+              name={entry.name}
+              encountered={encountered}
+              kills={kills}
+              npcClass={npcClass}
+              location={entry.location}
+              description={entry.description}
+              attacks={entry.attacks}
+              dropItems={dropItems}
+              linkedTitles={linkedTitles}
+              isSelected={isSelected}
+            />
           );
         })}
       </div>

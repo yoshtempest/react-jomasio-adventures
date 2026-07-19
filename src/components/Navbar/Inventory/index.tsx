@@ -1,35 +1,32 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useInventory } from "@/contexts/InventoryContext";
-import { usePlayer } from "@/contexts/PlayerContext";
 import { useInventoryMenu } from "@/hooks/menu/useInventory";
 import type { FilterConfig } from "@/utils/types/inventory/filterConfig";
 import { useChestOpening } from "@/hooks/useChestOpening";
 import { useDailyChest } from "@/hooks/useDailyChest";
-import { useGameControls } from "@/contexts/GameControlsContext";
 import styles from "./styles.module.css";
 import { ITEMS } from "@/data/items";
 import { Chest } from "./Chest";
 import { FilterBar } from "./FilterBar";
 import { ListItem } from "./ListItem";
 import { RewardsView } from "./RewardsView";
-import { activateXpBuff, POTION_CONFIG } from "@/utils/buffs/xpBuff";
-import { FOOD_RESTORE, useItemEffect } from "@/gameRules/items/useItem";
-import { useAudio } from "@/contexts/AudioContext";
-import { sfx } from "@/utils/paths";
+import { useItemEffect } from "@/gameRules/items/useItem";
 import { FILTER_LABELS } from "@/data/inventory/labels";
-import { useCharacterProgress, MAX_HUNGER } from "@/contexts/CharacterProgressContext";
+import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { CHARACTERS } from "@/utils/types/player/player";
 import type { InventoryItem } from "@/utils/types/player/inventory";
-import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { useStableCallback } from "@/hooks/useStableCallback";
+import { useSFXPool } from "@/hooks/menu/useSFXPool";
+import { useConsumeItem } from "@/hooks/menu/useConsumeItem";
+import { useItemControls } from "@/hooks/menu/useItemControls";
+import { useRewardsControls } from "@/hooks/menu/useRewardsControls";
 
 const CURRENCY_IDS = ["kwanzas", "hypercoin"] as const;
 
 export function Inventory() {
-  const { items, maxSlots, removeItem } = useInventory();
-  const { player } = usePlayer();
-  const { progress, restoreHunger } = useCharacterProgress();
+  const { items, maxSlots } = useInventory();
+  const { progress } = useCharacterProgress();
   const listRef = useRef<HTMLUListElement>(null);
   const [filterType, setFilterType] = useState<string>("all");
 
@@ -78,9 +75,6 @@ export function Inventory() {
     filterConfig,
   );
 
-  const filterFocusedRef = useRef(filterFocused);
-  filterFocusedRef.current = filterFocused;
-
   const {
     openPlayerChest,
     lastResult: chestLastResult,
@@ -90,37 +84,15 @@ export function Inventory() {
     openNextChest,
   } = useChestOpening();
   const dailyChest = useDailyChest();
-  const { pushControls, popControls } = useGameControls();
-  const { sfxVolume } = useAudio();
   const { playMove, playSelect } = useMenuSFX();
 
-  const sfxVolumeRef = useRef(sfxVolume);
-  sfxVolumeRef.current = sfxVolume;
-
-  const sfxPoolRef = useRef(new Map<string, HTMLAudioElement>());
-
-  const playSFX = (src: string, volume = 1) => {
-    const resolved = `${import.meta.env.BASE_URL}${src.replace(/^\//, "")}`;
-    let audio = sfxPoolRef.current.get(resolved);
-
-    if (!audio) {
-      audio = new Audio(resolved);
-      sfxPoolRef.current.set(resolved, audio);
-    }
-
-    audio.pause();
-    audio.currentTime = 0;
-    audio.volume = volume * (sfxVolumeRef.current / 100);
-    audio.play().catch(() => {});
-  };
-
+  const { playSFX } = useSFXPool();
   const { getEffect } = useItemEffect({ playSFX });
+  const { consumeItemRef } = useConsumeItem();
 
   const [rewardOptionIndex, setRewardOptionIndex] = useState(0);
   const [rejectedIndex, setRejectedIndex] = useState<number | null>(null);
   const [showNoKeyPopup, setShowNoKeyPopup] = useState(false);
-  const rewardOptionIndexRef = useRef(rewardOptionIndex);
-  rewardOptionIndexRef.current = rewardOptionIndex;
 
   const hasOtherChest = !!(
     chestLastResult &&
@@ -128,9 +100,6 @@ export function Inventory() {
   );
   const chestRewardsVisible = !!(dailyChest.lastResult || chestLastResult);
   const rewardOptionCount = chestRewardsVisible ? (hasOtherChest ? 2 : 1) : 0;
-
-  const openNextChestRef = useRef(openNextChest);
-  openNextChestRef.current = openNextChest;
 
   const closeRewards = useStableCallback(() => {
     if (dailyChest.lastResult) {
@@ -154,62 +123,7 @@ export function Inventory() {
     : null;
   const keyId = tier ? (`${tier}_key` as ItemId) : null;
 
-  const consumeItemRef = useRef<(id: string) => void>(() => {});
-  consumeItemRef.current = function consumeItem(id: string) {
-    const foodAmount = FOOD_RESTORE[id];
-    if (foodAmount) {
-      const currentHunger = progress[player.character]?.hunger ?? 0;
-      if (currentHunger >= MAX_HUNGER) return;
-      restoreHunger(player.character, foodAmount);
-    }
-
-    const audio = sfx("/player/drinkingPotion.mp3");
-    audio.volume = 0.6 * (sfxVolume / 100);
-    audio.play().catch(() => {});
-    const cfg = POTION_CONFIG[id];
-    if (cfg) {
-      activateXpBuff(cfg.durationMs, cfg.multiplier, id);
-    }
-    removeItem(id as ItemId);
-  };
-
-  useEffect(() => {
-    if (!chestRewardsVisible) return;
-
-    setRewardOptionIndex(0);
-
-    const controls = {
-      onLeft: () => {
-        if (rewardOptionCount <= 1) return true;
-        playMove();
-        setRewardOptionIndex((prev) => circularPrev(prev, rewardOptionCount));
-        return true;
-      },
-      onRight: () => {
-        if (rewardOptionCount <= 1) return true;
-        playMove();
-        setRewardOptionIndex((prev) => circularNext(prev, rewardOptionCount));
-        return true;
-      },
-      onConfirm: () => {
-        playSelect();
-        if (rewardOptionCount > 1 && rewardOptionIndexRef.current === 0) {
-          openNextChestRef.current(lastOpened?.chestId ?? (chestLastResult?.tier as unknown as ItemId));
-        } else {
-          closeRewards();
-        }
-        return true;
-      },
-      onCancel: () => {
-        playSelect();
-        closeRewards();
-        return true;
-      },
-    };
-
-    pushControls(controls);
-    return () => popControls();
-  }, [
+  useRewardsControls({
     chestRewardsVisible,
     rewardOptionCount,
     lastOpened,
@@ -217,60 +131,30 @@ export function Inventory() {
     playMove,
     playSelect,
     closeRewards,
-    pushControls,
-    popControls,
-  ]);
+    openNextChest,
+    onRewardOptionChange: setRewardOptionIndex,
+  });
 
-  useEffect(() => {
-    const controls = {
-      onConfirm: () => {
-        if (filterFocusedRef.current) return false;
-        if (!selectedItem) return false;
-
-        if (isConsumableSelected) {
-          consumeItemRef.current(selectedItem.id);
-          return true;
-        }
-
-        if (isChestSelected) {
-          if (keyId && items.some((i) => i.id === keyId)) {
-            openPlayerChest(selectedItem.id as ItemId);
-          } else {
-            setShowNoKeyPopup(true);
-            setTimeout(() => setShowNoKeyPopup(false), 2000);
-          }
-          return true;
-        }
-
-        if (isMapSelected) {
-          const effect = getEffect(selectedItem.id);
-          if (effect) {
-            effect();
-            return true;
-          }
-        }
-
-        setRejectedIndex(selectedIndex);
-        setTimeout(() => setRejectedIndex(null), 1500);
-        return true;
-      },
-    };
-
-    pushControls(controls);
-    return () => popControls();
-  }, [
-    isChestSelected,
-    isConsumableSelected,
-    isMapSelected,
+  useItemControls({
+    filterFocused,
     selectedItem,
+    isConsumableSelected,
+    isChestSelected,
+    isMapSelected,
     keyId,
     items,
-    selectedIndex,
     openPlayerChest,
     getEffect,
-    pushControls,
-    popControls,
-  ]);
+    consumeItem: consumeItemRef.current,
+    onReject: () => {
+      setRejectedIndex(selectedIndex);
+      setTimeout(() => setRejectedIndex(null), 1500);
+    },
+    onNoKey: () => {
+      setShowNoKeyPopup(true);
+      setTimeout(() => setShowNoKeyPopup(false), 2000);
+    },
+  });
 
   const rewardsVisible = !!(dailyChest.lastResult || chestLastResult);
   if (rewardsVisible) {
