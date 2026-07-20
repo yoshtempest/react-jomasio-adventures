@@ -463,43 +463,90 @@ export function useBattleScene({
     x: player.x,
     y: player.y,
     state: player.state,
-    direction: player.battleDirection,
+    battleDirection: player.battleDirection,
     character: player.character,
+    direction: player.direction,
+    grabbedUntil: player.grabbedUntil ?? 0,
   });
   playerSnapshotRef.current = {
     x: player.x,
     y: player.y,
     state: player.state,
-    direction: player.battleDirection,
+    battleDirection: player.battleDirection,
     character: player.character,
+    direction: player.direction,
+    grabbedUntil: player.grabbedUntil ?? 0,
   };
 
   const npcSnapshotRef = useRef({
     x: npc.x,
     y: npc.y,
     state: npc.state,
+    direction: npc.direction,
+    jumpLandingX: npc.jumpLandingX,
   });
-  npcSnapshotRef.current = { x: npc.x, y: npc.y, state: npc.state };
+  npcSnapshotRef.current = {
+    x: npc.x,
+    y: npc.y,
+    state: npc.state,
+    direction: npc.direction,
+    jumpLandingX: npc.jumpLandingX,
+  };
 
   const battleSnapshotRef = useRef({
     playerHP: battle.playerHP,
     playerMaxHp: battle.playerMaxHp,
+    playerShield: battle.playerShield,
     npcHP: battle.npcHP,
     npcMaxHp: battle.npcMaxHp,
+    npcPhase: battle.npcPhase ?? 1,
     delicia: battle.delicia,
     hitsToSpecial: battle.hitsToSpecial,
-    comboCount,
-    comboRank,
+    blockGauge: battle.blockGauge,
+    blockLimit: battle.blockLimit,
   });
   battleSnapshotRef.current = {
     playerHP: battle.playerHP,
     playerMaxHp: battle.playerMaxHp,
+    playerShield: battle.playerShield,
     npcHP: battle.npcHP,
     npcMaxHp: battle.npcMaxHp,
+    npcPhase: battle.npcPhase ?? 1,
     delicia: battle.delicia,
     hitsToSpecial: battle.hitsToSpecial,
-    comboCount,
-    comboRank,
+    blockGauge: battle.blockGauge,
+    blockLimit: battle.blockLimit,
+  };
+
+  const petData = battle.pet;
+  const petSnapshotRef = useRef(petData);
+  petSnapshotRef.current = petData;
+
+  const COMBO_ACTION_STATES: Partial<Record<PlayerState, string>> = {
+    blocked: "blockAttack.svg",
+    falling: "fallingAttack.svg",
+  };
+  const comboActionVisible =
+    battle.delicia >= battle.hitsToSpecial &&
+    comboCount >= 10 &&
+    !controlsDisabled;
+  const comboActionSprite = comboActionVisible
+    ? (COMBO_ACTION_STATES[player.state] ?? null)
+    : null;
+  const comboActionRef = useRef(comboActionSprite);
+  comboActionRef.current = comboActionSprite;
+
+  const comboSnapshotRef = useRef({
+    count: comboCount,
+    rank: comboRank,
+    progress: comboProgressValue,
+    nextRank,
+  });
+  comboSnapshotRef.current = {
+    count: comboCount,
+    rank: comboRank,
+    progress: comboProgressValue,
+    nextRank,
   };
 
   const { isRecording, startRecording, stopRecording, getReplayData } =
@@ -508,7 +555,10 @@ export function useBattleScene({
       npcRef: npcSnapshotRef,
       battleRef: battleSnapshotRef,
       damageNumbersRef: { current: battle.damageNumbers } as React.RefObject<{ value: number; x: number; y: number; type: string }[]>,
-      summonsRef: { current: summons.map((s) => ({ x: s.x, y: s.y, npcType: s.npcType, hp: s.hp })) } as React.RefObject<{ x: number; y: number; npcType: string; hp: number }[]>,
+      summonsRef: { current: summons } as React.RefObject<{ id: string; x: number; y: number; npcType: string; state: string; direction: string; hp: number }[]>,
+      petRef: petSnapshotRef as React.RefObject<{ x: number; y: number; direction: string; state: string; npcType: string; hp: number; maxHp: number } | null>,
+      comboRef: comboSnapshotRef as React.RefObject<{ count: number; rank: string; progress: number; nextRank: string | null }>,
+      comboActionRef,
       npcType,
       npcLevel,
       npcClass: npcData.class,

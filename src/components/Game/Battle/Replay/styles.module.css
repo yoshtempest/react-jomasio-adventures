@@ -5,16 +5,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(0, 0, 0, 0.92);
 }
 
-.container {
+.outer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  width: 90vw;
-  max-width: 900px;
+  gap: 6px;
+  width: 95vw;
+  max-width: 960px;
 }
 
 .header {
@@ -22,39 +22,47 @@
   justify-content: space-between;
   width: 100%;
   color: var(--gold);
-  font-size: var(--fs-18);
+  font-size: var(--fs-14);
   font-weight: 700;
 }
 
 .time {
-  color: var(--text-muted, #888);
-  font-size: var(--fs-14);
+  color: #888;
+  font-size: var(--fs-12);
 }
 
-.viewport {
+/* ── Viewport ── */
+.vp {
   position: relative;
   width: 100%;
-  height: 100%;
-  aspect-ratio: 16 / 11;
+  aspect-ratio: 16 / 7;
   background: #111;
   border: 2px solid #333;
   border-radius: 8px;
   overflow: visible;
 }
 
-.entity {
-  position: absolute;
-  pointer-events: none;
-}
-
-.dmgLayer {
+.vpBg {
   position: absolute;
   inset: 0;
-  pointer-events: none;
-  z-index: 10;
+  background-size: cover;
+  background-position: center;
+  border-radius: 6px;
 }
 
-.dmgNumber {
+.gameLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.sprite {
+  position: absolute;
+  pointer-events: none;
+}
+
+/* ── Damage Numbers ── */
+.dmgNum {
   position: absolute;
   font-weight: bold;
   font-size: var(--low-medium);
@@ -62,53 +70,66 @@
   text-shadow:
     var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8),
     calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8);
-  z-index: 100;
   pointer-events: none;
+  white-space: nowrap;
 }
 
 .dmgCrit {
   color: #ff0044;
-  font-size: var(--size-32);
-  text-shadow:
-    0 0 var(--fs-10) #ff0044,
-    0 0 var(--low-medium) #ff0044,
-    var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8),
-    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8);
+  font-size: var(--size-22);
+  font-weight: 900;
 }
 
-.bars {
-  display: flex;
-  gap: 16px;
-  width: 100%;
+.dmgMiss {
+  color: #aaa;
+  font-size: var(--fs-11);
+  font-style: italic;
 }
 
-.bars > div {
-  flex: 1;
+.dmgBlocked {
+  color: #00ffff;
+  font-size: var(--fs-11);
+}
+
+/* ── HUD: Player Panel ── */
+.hudPlayer {
+  position: absolute;
+  bottom: 420px;
+  left: 40px;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
+  z-index: 50;
 }
 
-.barLabel {
-  font-size: var(--fs-12);
-  color: var(--text-muted, #888);
+.hudRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-.healthBarOuter {
+.hudLabel {
+  font-size: var(--fs-11);
+  color: #ccc;
+  font-weight: bold;
+  min-width: 48px;
+}
+
+.hudBarOuter {
   position: relative;
-  width: 100%;
-  height: 18px;
-  background: #222;
-  border-radius: 4px;
+  width: 200px;
+  height: 16px;
+  background: #333;
+  border: 2px solid #222;
   overflow: hidden;
 }
 
-.healthBarInner {
+.hudBarFill {
   height: 100%;
-  transition: width 0.1s linear;
+  transition: width 0.15s linear;
 }
 
-.healthText {
+.hudBarText {
   position: absolute;
   inset: 0;
   display: flex;
@@ -116,19 +137,148 @@
   justify-content: center;
   font-size: var(--fs-11);
   color: #fff;
-  text-shadow: 0 0 2px #000;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px #000;
 }
 
-.comboBadge {
-  align-self: flex-start;
-  background: var(--gold);
-  color: #000;
-  padding: 2px 10px;
-  border-radius: 10px;
+.shieldTrack {
+  width: 200px;
+  height: 5px;
+  background: #444;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.shieldFill {
+  height: 100%;
+  background: #e0e0e0;
+}
+
+.delTrack {
+  width: 160px;
+  height: 12px;
+  background: #222;
+  border: 1px solid #444;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.delFill {
+  height: 100%;
+  transition: width 0.15s linear;
+}
+
+.delText {
+  font-size: var(--fs-10);
+  color: #aaa;
+  font-family: monospace;
+}
+
+/* ── HUD: NPC Panel ── */
+.hudNpc {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  z-index: 50;
+}
+
+.npcName {
   font-size: var(--fs-13);
-  font-weight: 700;
+  color: #ccc;
+  font-weight: bold;
+  text-align: right;
+  text-shadow: 1px 1px 2px #000;
 }
 
+/* ── Combo Display ── */
+.comboBox {
+  position: absolute;
+  bottom: 200px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 50;
+  pointer-events: none;
+}
+
+.comboHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.comboRank {
+  font-size: 36px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.comboCount {
+  font-size: var(--low-medium);
+  font-weight: bold;
+  color: #fff;
+  margin-top: 2px;
+}
+
+.comboProgOuter {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.comboProgFill {
+  flex: 1;
+  height: 5px;
+  background: #ff6b35;
+}
+
+.comboNextLabel {
+  font-size: var(--fs-11);
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* ── Combo Action Button ── */
+.comboActionBox {
+  position: absolute;
+  bottom: 420px;
+  left: 40px;
+  z-index: 50;
+}
+
+.comboActionBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid var(--gold);
+}
+
+.comboActionBtn img {
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
+}
+
+.comboActionBtn h3 {
+  margin: 0;
+  font-size: 12px;
+  color: #fff;
+}
+
+/* ── Controls ── */
 .controls {
   display: flex;
   align-items: center;
@@ -142,7 +292,7 @@
   color: #ccc;
   border: 1px solid #444;
   border-radius: 6px;
-  padding: 6px 12px;
+  padding: 5px 10px;
   cursor: pointer;
   font-size: var(--fs-14);
 }
@@ -174,7 +324,7 @@
   border-color: var(--gold);
 }
 
-.progressOuter {
+.progOuter {
   position: relative;
   width: 100%;
   height: 6px;
@@ -183,7 +333,7 @@
   overflow: visible;
 }
 
-.progressInner {
+.progFill {
   position: absolute;
   top: 0;
   left: 0;
