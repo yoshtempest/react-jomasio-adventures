@@ -1,5 +1,5 @@
 import { firstScreenMap } from "@/maps/firstScreenMap";
-import { sceneBackgrounds } from "@/data/sceneBackground";
+import { sceneBackgrounds } from "@/data/scene/background";
 import { ExploreScene } from "@/components/Game/Scenes/Default";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { usePlayer } from "@/contexts/PlayerContext";

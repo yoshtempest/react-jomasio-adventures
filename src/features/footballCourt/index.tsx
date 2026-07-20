@@ -2,7 +2,7 @@ import { SceneBase } from "@/components/Game/Scenes/Base";
 import { FOOTBALLCOURT_SCENES } from "@/scenes/footballCourt";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
-import { sceneBackgrounds } from "@/data/sceneBackground";
+import { sceneBackgrounds } from "@/data/scene/background";
 
 type Props = {
   sceneId: SceneId;

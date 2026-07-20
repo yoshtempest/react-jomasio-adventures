@@ -6,7 +6,7 @@ import { BRODICLASS_SCENES } from "@/scenes/brodiclass";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useFlags } from "@/contexts/FlagContext";
 
-import { sceneBackgrounds } from "@/data/sceneBackground";
+import { sceneBackgrounds } from "@/data/scene/background";
 
 import Talking from "@/components/Talking";
 import { createBrodiClass } from "@/interactions/brodiClass";

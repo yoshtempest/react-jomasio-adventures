@@ -13,7 +13,7 @@ import { useTutorialFlow } from "@/hooks/tutorial/useTutorialFlow";
 import { useNameInput } from "@/hooks/tutorial/useNameInput";
 import { useQuestActions } from "@/hooks/quest/useQuestActions";
 import { QUESTS } from "@/data/quests";
-import { sceneBackgrounds } from "@/data/sceneBackground";
+import { sceneBackgrounds } from "@/data/scene/background";
 import { useNavbar } from "@/contexts/NavbarContext";
 
 export default function Tutorial() {

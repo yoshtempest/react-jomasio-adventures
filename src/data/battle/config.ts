@@ -1,5 +1,5 @@
 import type { NavigateFunction } from "react-router";
-import { sceneBackgrounds } from "@/data/sceneBackground";
+import { sceneBackgrounds } from "@/data/scene/background";
 import { backgroundAudioPath } from "@/utils/paths";
 
 export type BattleCtx = {

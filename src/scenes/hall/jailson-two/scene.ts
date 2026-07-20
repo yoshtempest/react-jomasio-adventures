@@ -5,7 +5,7 @@ import { jailsonTwoEvents } from "./events";
 import { jailsonTwoNpcs } from "./npcs";
 import { MUSICS } from "@/scenes/shared/music";
 import { jailsonTwoTiles } from "./tiles";
-import { sceneBackgrounds } from "@/data/sceneBackground";
+import { sceneBackgrounds } from "@/data/scene/background";
 
 export const jailsonTwoScene: SceneConfig = {
   id: "jailson-two",

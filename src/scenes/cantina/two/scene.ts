@@ -3,11 +3,11 @@ import { getCantinaTwoInitialPosition } from "./position";
 import { cantinaTwoTiles } from "./tiles";
 import { cantinaTwoPlates } from "./plate";
 import { cantinaTwoNpcs } from "./npcs";
-import { cantina } from "@/maps/cantina/one";
+import { cantinaTwo } from "@/maps/cantina/two";
 
 export const twoScene: SceneConfig = {
   id: "two",
-  map: cantina,
+  map: cantinaTwo,
   audio: { src: MUSICS.default },
   npcs: cantinaTwoNpcs,
   initialPosition: getCantinaTwoInitialPosition,

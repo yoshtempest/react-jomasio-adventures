@@ -8,7 +8,7 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { useFlags } from "@/contexts/FlagContext";
 
 import { cantinaBrothersDialogue } from "@/data/dialogues/cantina/brothers";
-import { sceneBackgrounds } from "@/data/sceneBackground";
+import { sceneBackgrounds } from "@/data/scene/background";
 
 import Talking from "@/components/Talking";
 import { JesoFoodBadge } from "@/components/Game/JesoFoodBadge";

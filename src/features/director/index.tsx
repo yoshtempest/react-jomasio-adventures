@@ -11,7 +11,7 @@ import { useNavigate, useLocation } from "react-router";
 import { asset } from "@/utils/paths";
 import { useAudio } from "@/contexts/AudioContext";
 
-import { sceneBackgrounds } from "@/data/sceneBackground";
+import { sceneBackgrounds } from "@/data/scene/background";
 
 import Talking from "@/components/Talking";
 

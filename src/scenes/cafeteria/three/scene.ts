@@ -4,7 +4,7 @@ import { getCafeteriaThreeInitialPosition } from "./position";
 import { cafeteriaThreeNpcs } from "./npcs";
 import { cafeteriaThreeEvents } from "./events";
 import { getCafeteriaThreeDialogue } from "./dialogue";
-import { sceneBackgrounds } from "@/data/sceneBackground";
+import { sceneBackgrounds } from "@/data/scene/background";
 
 export const threeScene: SceneConfig = {
   id: "three",

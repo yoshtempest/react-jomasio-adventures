@@ -5,7 +5,7 @@ import { getHellInitialPosition } from "./position";
 import { hellNpcs } from "./npcs";
 import { getHellDialogue } from "./dialogue";
 import { hellEvents } from "./events";
-import { sceneBackgrounds } from "@/data/sceneBackground";
+import { sceneBackgrounds } from "@/data/scene/background";
 
 export const hellScene: SceneConfig = {
   id: "hell",

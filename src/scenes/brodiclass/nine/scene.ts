@@ -3,7 +3,7 @@ import { getBrodiClassNineInitialPosition } from "./position";
 import { brodiclassTwoTiles } from "./tiles";
 import { cantinaTwoNpcs } from "./npcs";
 import { cantina } from "@/maps/cantina/one";
-import { sceneBackgrounds } from "@/data/sceneBackground";
+import { sceneBackgrounds } from "@/data/scene/background";
 
 export const nineScene: SceneConfig = {
   id: "two",

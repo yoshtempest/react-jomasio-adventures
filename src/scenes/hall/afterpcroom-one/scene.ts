@@ -5,7 +5,7 @@ import { afterPcRoomOneEvents } from "./events";
 import { afterPcRoomOneNpcs } from "./npcs";
 import { getAfterPcRoomOneInitialPosition } from "./position";
 import { MUSICS } from "@/scenes/shared/music";
-import { sceneBackgrounds } from "@/data/sceneBackground";
+import { sceneBackgrounds } from "@/data/scene/background";
 
 export const afterPcRoomScene: SceneConfig = {
   id: "afterpcroom-one",

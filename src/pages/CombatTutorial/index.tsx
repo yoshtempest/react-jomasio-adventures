@@ -17,7 +17,7 @@ import { Deliciometro } from "@/components/Game/Battle/HUD/Deliciometro";
 import { TASKS } from "@/gameRules/tutorial/combatTasks";
 import { gainSpecial } from "@/gameRules/battle/special";
 import KickBack from "/assets/songs/background/battle/KickBack.mp3";
-import { sceneBackgrounds } from "@/data/sceneBackground";
+import { sceneBackgrounds } from "@/data/scene/background";
 import styles from "./styles.module.css";
 import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
 

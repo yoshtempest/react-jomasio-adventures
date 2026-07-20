@@ -5,7 +5,7 @@ import { jailsonOneTiles } from "./tiles";
 import { getJailsonOneInitialPosition } from "./position";
 import { jailsonOneEvents } from "./events";
 import { jailsonOneNpcs } from "./npcs";
-import { sceneBackgrounds } from "@/data/sceneBackground";
+import { sceneBackgrounds } from "@/data/scene/background";
 
 export const jailsonOneScene: SceneConfig = {
   id: "jailson-one",

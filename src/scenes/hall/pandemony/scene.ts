@@ -5,7 +5,7 @@ import { hallPandemony } from "@/maps/hall/pandemony";
 import { pandemonyNpcs } from "./npcs";
 import { getPandemonyDialogue } from "./dialogue";
 import { pandemonyEvents } from "./events";
-import { sceneBackgrounds } from "@/data/sceneBackground";
+import { sceneBackgrounds } from "@/data/scene/background";
 
 export const pandemonyScene: SceneConfig = {
   id: "pandemony",

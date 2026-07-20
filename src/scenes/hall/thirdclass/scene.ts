@@ -2,7 +2,7 @@ import { hallThirdClass } from "@/maps/hall/thirdClass";
 import { MUSICS } from "@/scenes/shared/music";
 import { getThirdClassInitialPosition } from "./position";
 import { hallThirdClassTiles } from "./tiles";
-import { sceneBackgrounds } from "@/data/sceneBackground";
+import { sceneBackgrounds } from "@/data/scene/background";
 
 export const thirdClassScene: SceneConfig = {
   id: "thirdclass",

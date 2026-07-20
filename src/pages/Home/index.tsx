@@ -7,7 +7,7 @@ import { useBackgroundAudio } from "@/hooks/useBackgroundAudio";
 import { asset } from "@/utils/paths";
 import { loadGame } from "@/utils/save/saveGame";
 import { hasAnySave } from "@/utils/save/slotManager";
-import { sceneBackgrounds } from "@/data/sceneBackground";
+import { sceneBackgrounds } from "@/data/scene/background";
 
 export default function Home() {
   const navigate = useNavigate();

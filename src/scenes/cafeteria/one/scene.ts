@@ -5,7 +5,7 @@ import { cafeteriaOneTiles } from "./tiles";
 import { getCafeteriaOneDialogue } from "./dialogue";
 import { cafeteriaOneNpcs } from "./npcs";
 import { cafeteriaOneEvents } from "./events";
-import { sceneBackgrounds } from "@/data/sceneBackground";
+import { sceneBackgrounds } from "@/data/scene/background";
 
 export const oneScene: SceneConfig = {
   id: "one",

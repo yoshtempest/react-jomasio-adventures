@@ -5,7 +5,7 @@ import { getCantinaOneDialogue } from "./dialogue";
 import { cantinaOneNpcs } from "./npcs";
 import { brodiClassOneEvents } from "./events";
 import { brodiclassOneTiles } from "./tiles";
-import { sceneBackgrounds } from "@/data/sceneBackground";
+import { sceneBackgrounds } from "@/data/scene/background";
 
 export const oneScene: SceneConfig = {
   id: "one",

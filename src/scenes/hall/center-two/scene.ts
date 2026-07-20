@@ -6,7 +6,7 @@ import { centerTwoNpcs } from "./npcs";
 import { getHallCenterDialogue } from "./dialogue";
 import { hallCenterTwoEvents } from "./events";
 import { centerTwoPlates } from "./plate";
-import { sceneBackgrounds } from "@/data/sceneBackground";
+import { sceneBackgrounds } from "@/data/scene/background";
 
 export const centerTwoScene: SceneConfig = {
   id: "center-two",

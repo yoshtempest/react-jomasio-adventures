@@ -1,6 +1,6 @@
 import { library } from "@/maps/library/one";
 import { MUSICS } from "@/scenes/shared/music";
-import { sceneBackgrounds } from "@/data/sceneBackground";
+import { sceneBackgrounds } from "@/data/scene/background";
 import { getLibraryOneInitialPosition } from "./position";
 import { libraryOneTiles } from "./tiles";
 

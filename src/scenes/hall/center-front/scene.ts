@@ -4,7 +4,7 @@ import { getCenterFrontInitialPosition } from "./position";
 import { MUSICS } from "@/scenes/shared/music";
 import { centerFrontNpcs } from "./npcs";
 import { getCenterFrontDialogue } from "./dialogue";
-import { sceneBackgrounds } from "@/data/sceneBackground";
+import { sceneBackgrounds } from "@/data/scene/background";
 
 export const centerFrontScene: SceneConfig = {
   id: "center-front",

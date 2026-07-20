@@ -13,7 +13,7 @@ import { useFlags } from "@/contexts/FlagContext";
 import { useClassSelection } from "@/hooks/menu/useClassSelection";
 
 import Talking from "@/components/Talking";
-import { sceneBackgrounds } from "@/data/sceneBackground";
+import { sceneBackgrounds } from "@/data/scene/background";
 
 import styles from "./styles.module.css";
 
