@@ -549,13 +549,19 @@ export function useBattleScene({
     nextRank,
   };
 
+  const damageNumbersSnapshotRef = useRef(battle.damageNumbers);
+  damageNumbersSnapshotRef.current = battle.damageNumbers;
+
+  const summonsSnapshotRef = useRef(summons);
+  summonsSnapshotRef.current = summons;
+
   const { isRecording, startRecording, stopRecording, getReplayData } =
     useBattleRecording({
       playerRef: playerSnapshotRef,
       npcRef: npcSnapshotRef,
       battleRef: battleSnapshotRef,
-      damageNumbersRef: { current: battle.damageNumbers } as React.RefObject<{ value: number; x: number; y: number; type: string }[]>,
-      summonsRef: { current: summons } as React.RefObject<{ id: string; x: number; y: number; npcType: string; state: string; direction: string; hp: number }[]>,
+      damageNumbersRef: damageNumbersSnapshotRef as React.RefObject<{ value: number; x: number; y: number; type: string }[]>,
+      summonsRef: summonsSnapshotRef as React.RefObject<{ id: string; x: number; y: number; npcType: string; state: string; direction: string; hp: number }[]>,
       petRef: petSnapshotRef as React.RefObject<{ x: number; y: number; direction: string; state: string; npcType: string; hp: number; maxHp: number } | null>,
       comboRef: comboSnapshotRef as React.RefObject<{ count: number; rank: string; progress: number; nextRank: string | null }>,
       comboActionRef,
