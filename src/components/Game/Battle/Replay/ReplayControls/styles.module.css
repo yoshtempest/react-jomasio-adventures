@@ -1,0 +1,44 @@
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  justify-content: center;
+}
+
+.ctrlBtn {
+  background: #222;
+  color: #ccc;
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: var(--fs-14);
+}
+
+.ctrlBtn:hover {
+  background: #333;
+  color: #fff;
+}
+
+.speedGroup {
+  display: flex;
+  gap: 4px;
+  margin: 0 8px;
+}
+
+.speedBtn {
+  background: transparent;
+  color: #888;
+  border: 1px solid #444;
+  border-radius: 4px;
+  padding: 2px 8px;
+  cursor: pointer;
+  font-size: var(--fs-12);
+}
+
+.speedActive {
+  background: var(--gold);
+  color: #000;
+  border-color: var(--gold);
+}

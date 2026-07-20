@@ -1,0 +1,44 @@
+.hudNpc {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  z-index: 50;
+}
+
+.npcName {
+  font-size: var(--fs-13);
+  color: #ccc;
+  font-weight: bold;
+  text-align: right;
+  text-shadow: 1px 1px 2px #000;
+}
+
+.hudBarOuter {
+  position: relative;
+  width: 200px;
+  height: 16px;
+  background: #333;
+  border: 2px solid #222;
+  overflow: hidden;
+}
+
+.hudBarFill {
+  height: 100%;
+  transition: width 0.15s linear;
+}
+
+.hudBarText {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--fs-11);
+  color: #fff;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px #000;
+}

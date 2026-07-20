@@ -1,0 +1,13 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  color: var(--gold);
+  font-size: var(--fs-14);
+  font-weight: 700;
+}
+
+.time {
+  color: #888;
+  font-size: var(--fs-12);
+}

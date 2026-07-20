@@ -1,0 +1,49 @@
+.comboBox {
+  position: absolute;
+  bottom: 200px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 50;
+  pointer-events: none;
+}
+
+.comboHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.comboRank {
+  font-size: 36px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.comboCount {
+  font-size: var(--low-medium);
+  font-weight: bold;
+  color: #fff;
+  margin-top: 2px;
+}
+
+.comboProgOuter {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.comboProgFill {
+  flex: 1;
+  height: 5px;
+  background: #ff6b35;
+}
+
+.comboNextLabel {
+  font-size: var(--fs-11);
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.6);
+}
