@@ -82,13 +82,10 @@ export function CharacterStats() {
         <img src={asset("/assets/titlesBadges/enemyMissAttacks.svg")} />
         <p>Esquiva: {missChance.toFixed(1)}%</p>
       </div>
-
-      {totalShield > 0 && (
-        <div>
-          <img src={asset("/assets/status/shield.svg")} />
-          <p>Escudo: {totalShield}</p>
-        </div>
-      )}
+      <div>
+        <img src={asset("/assets/status/shield.svg")} />
+        <p>Escudo: {totalShield}</p>
+      </div>
     </div>
   );
 }
