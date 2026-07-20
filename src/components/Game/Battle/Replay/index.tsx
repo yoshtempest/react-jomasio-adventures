@@ -164,7 +164,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
     `assets/player/${replay.playerCharacter}/inFight/${resolvePlayerState(frame.ps)}.svg`,
   );
   const npcSrc = asset(getSpritePath(replay.npcType, frame.ns, 1));
-  const bgUrl = replay.background ? asset(replay.background) : "";
+  const bgUrl = replay.background ?? "";
 
   return (
     <div className={styles.overlay}>

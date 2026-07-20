@@ -34,11 +34,12 @@
 .viewport {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 7;
+  height: 100%;
+  aspect-ratio: 16 / 11;
   background: #111;
   border: 2px solid #333;
   border-radius: 8px;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .entity {
