@@ -17,6 +17,9 @@
   gap: var(--size-4);
   padding: var(--size-6);
   width: 70vw;
+
+  justify-items: center;
+  height: 90vh;
   animation: mapOpen 0.4s ease-out forwards;
 }
 
@@ -38,6 +41,7 @@
   align-items: center;
   border: 3px solid #5c4a2a;
   border-radius: 8px;
+  height: 100%;
   overflow: hidden;
   background: #1a1208;
   aspect-ratio: 16 / 10;
