@@ -41,6 +41,7 @@ declare global {
     vampirism: number;
     reflect: number;
     tenacity: number;
+    luck: number;
   };
 
   // ── Áudio / Transição ──────────────────────────────────

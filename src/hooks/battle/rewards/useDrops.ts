@@ -12,6 +12,7 @@ export function rollEquipmentDrops(
   npcClass: NPCClass,
   addDrop: (character: CharacterId, id: EquipmentId, enhance?: number) => void,
   character: CharacterId,
+  luckBonus: number,
 ): EquipmentDropInfo[] {
   const drops: EquipmentDropInfo[] = [];
   const slots: EquipmentSlot[] = [
@@ -25,7 +26,7 @@ export function rollEquipmentDrops(
   ];
 
   for (const slot of slots) {
-    const rank = rollSlotDrop(npcClass);
+    const rank = rollSlotDrop(npcClass, luckBonus);
     if (!rank) continue;
     if (rank === "EX") continue;
     if (rank >= 9) continue;

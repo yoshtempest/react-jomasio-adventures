@@ -21,6 +21,7 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
     intelligence: 1,
     resistance: 1,
     tenacity: 1,
+    luck: 1,
     points: 0,
   };
   const bonus = getTotalBonus(character);
@@ -98,14 +99,28 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
         )}
       </div>
 
-      <div className={selectedIndex === 5 ? "active" : ""}>
+      <div
+        className={selectedIndex === 5 ? "active" : ""}
+        style={selectedIndex === 5 ? { flexWrap: "wrap" } : undefined}
+      >
+        <p>
+          <img src={asset("/assets/status/luck.svg")} />
+          Sorte: {stats.luck ?? 1}
+          {bonus.luck > 0 ? <span> +{bonus.luck}</span> : ""}
+        </p>
+        {selectedIndex === 5 && (
+          <p className={styles.tip}>{STAT_TIPS.luck}</p>
+        )}
+      </div>
+
+      <div className={selectedIndex === 6 ? "active" : ""}>
         <p className={styles.subBtn}>
           <img src={asset("/assets/status/skills.svg")} />
           Habilidades
         </p>
       </div>
 
-      <div className={selectedIndex === 6 ? "active" : ""}>
+      <div className={selectedIndex === 7 ? "active" : ""}>
         <p className={styles.subBtn}>
           <img src={asset("/assets/status/ranks.svg")} />
           Ranques

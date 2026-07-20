@@ -14,6 +14,7 @@ export function getEnhanceBonus(
     vampirism: 0,
     reflect: 0,
     tenacity: 0,
+    luck: 0,
   };
   if (enhance <= 0) return bonus;
 
@@ -58,6 +59,7 @@ export function getEffectiveStats(
       vampirism: 0,
       reflect: 0,
       tenacity: 0,
+      luck: 0,
     };
   const enhanceBonus = getEnhanceBonus(itemId, enhance);
   return {
@@ -69,5 +71,6 @@ export function getEffectiveStats(
     vampirism: item.stats.vampirism ?? 0,
     reflect: item.stats.reflect ?? 0,
     tenacity: item.stats.tenacity ?? 0,
+    luck: item.stats.luck ?? 0,
   };
 }

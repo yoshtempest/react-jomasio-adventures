@@ -12,6 +12,7 @@ import {
   getTotalReflect,
 } from "@/gameRules/battle/equipment";
 import { getTenacityReduction } from "@/gameRules/battle/tenacity";
+import { getLuckBonus } from "@/gameRules/battle/luck";
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import { getMaxSpecial } from "@/gameRules/battle/special";
 import { getRankMultiplier } from "@/gameRules/rank";
@@ -45,8 +46,6 @@ export function useBattleStats({
     return getWeaponCritRate(player.character);
   }, [player.character]);
 
-  const critRate = 1 + weaponCritRate;
-
   const titleBonus = useMemo(() => {
     return getBonus();
   }, [getBonus]);
@@ -78,6 +77,16 @@ export function useBattleStats({
     return getTenacityReduction(totalTenacity);
   }, [totalTenacity]);
 
+  const totalLuck = useMemo(() => {
+    return baseChar.stats.luck + (equipmentBonus.luck ?? 0);
+  }, [baseChar.stats.luck, equipmentBonus.luck]);
+
+  const luckBonus = useMemo(() => {
+    return getLuckBonus(totalLuck);
+  }, [totalLuck]);
+
+  const critRate = 1 + weaponCritRate + luckBonus * 100;
+
   const rankMultiplier = useMemo(() => {
     return getRankMultiplier(baseChar?.level ?? 1);
   }, [baseChar]);
@@ -99,6 +108,7 @@ export function useBattleStats({
         allStatsPct,
       resistance: baseChar.stats.resistance * allStatsPct,
       tenacity: baseChar.stats.tenacity + (equipmentBonus.tenacity ?? 0),
+      luck: baseChar.stats.luck + (equipmentBonus.luck ?? 0),
       points: baseChar.stats.points,
     };
     const hungerMultiplier = getHungerMultiplier(baseChar.hunger);
@@ -114,6 +124,7 @@ export function useBattleStats({
           base.resistance * rankMultiplier * hungerMultiplier,
         ),
         tenacity: base.tenacity,
+        luck: base.luck,
         points: base.points,
       },
     };
@@ -149,6 +160,8 @@ export function useBattleStats({
     totalReflect,
     totalTenacity,
     tenacityReduction,
+    totalLuck,
+    luckBonus,
     titleBonus,
     playerMaxHp,
     npcMaxHp,

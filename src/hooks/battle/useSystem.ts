@@ -234,6 +234,7 @@ export function useBattleSystem(props: Props) {
     npcMaxHp,
     npcPhase,
     tenacityReduction: stats.tenacityReduction,
+    luckBonus: stats.luckBonus,
   });
 
   const { isNpcDying } = useBattleLifecycle({

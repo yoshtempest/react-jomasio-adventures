@@ -4,6 +4,7 @@ export const STATS = [
   "intelligence",
   "resistance",
   "tenacity",
+  "luck",
 ] as const;
 
 export type StatType = (typeof STATS)[number];

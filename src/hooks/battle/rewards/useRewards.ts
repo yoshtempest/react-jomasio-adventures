@@ -25,9 +25,10 @@ type Props = {
   npcClass: NPCClass;
   npcLevel: number;
   npcType: string;
+  luckBonus: number;
 };
 
-export function useBattleRewards({ npcClass, npcLevel, npcType }: Props) {
+export function useBattleRewards({ npcClass, npcLevel, npcType, luckBonus }: Props) {
   const { player } = usePlayer();
   const { addXP, addCoins } = useCharacterProgress();
   const { addPetXP } = usePetProgress();
@@ -66,7 +67,19 @@ export function useBattleRewards({ npcClass, npcLevel, npcType }: Props) {
       npcClass,
       addDrop,
       player.character,
+      luckBonus,
     );
+
+    const isLucky = Math.random() < luckBonus;
+    if (isLucky) {
+      const extraDrops = rollEquipmentDrops(
+        npcClass,
+        addDrop,
+        player.character,
+        0,
+      );
+      equipmentDrops.push(...extraDrops);
+    }
     const itemDrops = rollMaterialDrops(npcClass, npcType, addItem);
     const chestDrop = rollChestDrop(
       npcClass,

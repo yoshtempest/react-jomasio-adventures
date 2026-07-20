@@ -131,11 +131,14 @@ export function rollDrop(npcClass: NPCClass): EquipmentRank | null {
   return pickWeighted(config.rankWeights);
 }
 
-export function rollSlotDrop(npcClass: NPCClass): EquipmentRank | null {
+export function rollSlotDrop(
+  npcClass: NPCClass,
+  luckBonus: number,
+): EquipmentRank | null {
   const config = DROP_CONFIG[npcClass];
   if (!config) return null;
 
-  if (Math.random() > SLOT_CHANCE[npcClass]) return null;
+  if (Math.random() > SLOT_CHANCE[npcClass] + luckBonus) return null;
 
   return pickWeighted(config.rankWeights);
 }

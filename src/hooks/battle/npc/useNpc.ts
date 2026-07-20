@@ -49,6 +49,7 @@ type Props = {
   npcMaxHp: number;
   npcPhase: number;
   tenacityReduction: number;
+  luckBonus: number;
 };
 
 export function useNpcBattle({
@@ -87,6 +88,7 @@ export function useNpcBattle({
   npcMaxHp,
   npcPhase,
   tenacityReduction,
+  luckBonus,
 }: Props) {
   const { playSound } = useSoundEffects();
 
@@ -212,7 +214,7 @@ export function useNpcBattle({
     const tx = targetIsPet ? (petXRef?.current ?? playerX) : playerX;
     const ty = targetIsPet ? (petYRef?.current ?? playerY) : playerY;
 
-    const missChance = 0.005 + titleEnemyMissChance / 100;
+    const missChance = 0.005 + titleEnemyMissChance / 100 + luckBonus;
     if (Math.random() < missChance) {
       spawnDamageRef.current?.(0, tx, ty, "miss");
       if (!skipCooldown) {

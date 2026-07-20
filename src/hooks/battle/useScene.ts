@@ -34,6 +34,8 @@ import { useNpcTargeting } from "@/hooks/battle/npc/useNpcTargeting";
 import { useBattleInfo } from "@/contexts/BattleInfoContext";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import { BATTLE_LIMITS } from "@/utils/types/player/movement";
+import { getEquipmentStatsBonus } from "@/gameRules/battle/equipment";
+import { getLuckBonus } from "@/gameRules/battle/luck";
 import { saveGame } from "@/utils/save/saveGame";
 import { loadBestTime, saveBestTime } from "@/utils/bestTime";
 import { incrementDeath } from "@/utils/rewards/deathCounter";
@@ -145,10 +147,15 @@ export function useBattleScene({
     npcStats.armor,
   ]);
 
+  const equipmentBonus = getEquipmentStatsBonus(player.character);
+  const totalLuck = progress[player.character].stats.luck + (equipmentBonus.luck ?? 0);
+  const luckBonus = getLuckBonus(totalLuck);
+
   const { xpReward, giveRewards, giveSummonRewards } = useBattleRewards({
     npcClass: npcData.class,
     npcLevel,
     npcType,
+    luckBonus,
   });
 
   const { summons, setSummons, summonNpc, clearSummons, updateNpcPosition } =

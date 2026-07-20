@@ -11,6 +11,7 @@ import {
   getTotalVampirism,
   getTotalReflect,
 } from "@/gameRules/battle/equipment";
+import { getLuckBonus } from "@/gameRules/battle/luck";
 import { formatRank, getRank, getRankMultiplier } from "@/gameRules/rank";
 import { getHungerMultiplier } from "@/contexts/CharacterProgressContext";
 import { getNpcDisplayName } from "@/utils/types/npc/npcNames";
@@ -76,6 +77,8 @@ export function BattleTab({ showComboAction, isSelected }: Props) {
         hungerMultiplier,
     );
     const tenacity = baseChar.stats.tenacity + (equipmentBonus.tenacity ?? 0);
+    const luck = baseChar.stats.luck + (equipmentBonus.luck ?? 0);
+    const luckBonus = getLuckBonus(luck);
     const armor =
       getTotalArmor(player.character, baseChar.stats.resistance) +
       titleBonus.armor;
@@ -94,6 +97,7 @@ export function BattleTab({ showComboAction, isSelected }: Props) {
       shield,
       vampirism,
       reflect,
+      luckBonus,
     };
   }, [player.character, progress, getBonus]);
 

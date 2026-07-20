@@ -7,6 +7,7 @@ export type CharacterStats = {
   intelligence: number;
   resistance: number;
   tenacity: number;
+  luck: number;
   points: number;
 };
 
@@ -36,6 +37,7 @@ function createDefaultProgress(): CharacterProgress {
       intelligence: 1,
       resistance: 1,
       tenacity: 1,
+      luck: 1,
       points: 0,
     },
   };

@@ -4,4 +4,5 @@ export const STAT_TIPS: Record<string, string> = {
   intelligence: "+2 em dano de ataques especiais.",
   resistance: "+2 em armadura.",
   tenacity: "Reduz duração de stun.",
+  luck: "+0.5% esquiva, crítico e drops.",
 };

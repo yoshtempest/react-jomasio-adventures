@@ -88,6 +88,7 @@ export function getEquipmentStatsBonus(character: CharacterId): {
   vampirism: number;
   reflect: number;
   tenacity: number;
+  luck: number;
 } {
   const equipped = loadEquipped(character);
   const setItemIds = getActiveSetItemIds(character);
@@ -99,6 +100,7 @@ export function getEquipmentStatsBonus(character: CharacterId): {
     vampirism: 0,
     reflect: 0,
     tenacity: 0,
+    luck: 0,
   };
 
   for (const info of eachEquippedItem(equipped)) {
@@ -111,6 +113,7 @@ export function getEquipmentStatsBonus(character: CharacterId): {
     bonus.vampirism += Math.round(stats.vampirism * multiplier);
     bonus.reflect += Math.round(stats.reflect * multiplier);
     bonus.tenacity += Math.round((stats.tenacity ?? 0) * multiplier);
+    bonus.luck += Math.round((stats.luck ?? 0) * multiplier);
   }
 
   return bonus;
@@ -137,6 +140,7 @@ export function addItemBonus(
     vampirism: number;
     reflect: number;
     tenacity: number;
+    luck: number;
   },
   info: EquippedItemInfo,
   setItemIds: Set<string>,
@@ -150,4 +154,5 @@ export function addItemBonus(
   bonus.vampirism += Math.round(stats.vampirism * multiplier);
   bonus.reflect += Math.round(stats.reflect * multiplier);
   bonus.tenacity += Math.round((stats.tenacity ?? 0) * multiplier);
+  bonus.luck += Math.round((stats.luck ?? 0) * multiplier);
 }
