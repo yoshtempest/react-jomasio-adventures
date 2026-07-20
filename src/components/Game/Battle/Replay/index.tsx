@@ -12,7 +12,6 @@ type Props = {
 
 const BASE_WIDTH = 1280;
 const BASE_HEIGHT = 600;
-const FIXED_TILE_SIZE = 64;
 
 const CROUCH_STATES: Record<string, string> = {
   idleCrounched: "idleCrounched",
@@ -53,12 +52,12 @@ function HealthBar({
 
 function DamageNumberDisplay({
   dmg,
-  scaleX,
-  scaleY,
+  sx,
+  sy,
 }: {
   dmg: ReplayFrame["dmg"];
-  scaleX: number;
-  scaleY: number;
+  sx: number;
+  sy: number;
 }) {
   return (
     <>
@@ -67,8 +66,8 @@ function DamageNumberDisplay({
           key={i}
           className={`${styles.dmgNumber} ${d.c ? styles.dmgCrit : ""}`}
           style={{
-            left: d.x * scaleX,
-            top: d.y * scaleY - 80,
+            left: d.x * sx,
+            top: d.y * sy - 80,
           }}
         >
           {d.c ? "CRIT " : ""}
@@ -84,14 +83,34 @@ export function ReplayPlayer({ replay, onClose }: Props) {
   const [isPlaying, setIsPlaying] = useState(true);
   const [speed, setSpeed] = useState(1);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const [viewportSize, setViewportSize] = useState({ w: 0, h: 0 });
 
-  const scaleX = window.innerWidth / BASE_WIDTH;
-  const scaleY = window.innerHeight / BASE_HEIGHT;
+  useEffect(() => {
+    if (!viewportRef.current) return;
+    const el = viewportRef.current;
+    const obs = new ResizeObserver((entries) => {
+      const entry = entries[0];
+      if (entry) {
+        setViewportSize({
+          w: entry.contentRect.width,
+          h: entry.contentRect.height,
+        });
+      }
+    });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  const sx = viewportSize.w > 0 ? viewportSize.w / BASE_WIDTH : 0;
+  const sy = viewportSize.h > 0 ? viewportSize.h / BASE_HEIGHT : 0;
 
   const PLAYER_SIZE = 600 * 0.35;
   const SCALE = PLAYER_SIZE / BASE_HEIGHT;
   const WIDTH = BASE_WIDTH * SCALE;
   const HEIGHT = BASE_HEIGHT * SCALE;
+
+  const TILE_SIZE = 64 * Math.min(sx, sy, 1);
 
   const frame = replay.frames[frameIndex];
   const totalFrames = replay.frames.length;
@@ -145,6 +164,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
     `assets/player/${replay.playerCharacter}/inFight/${resolvePlayerState(frame.ps)}.svg`,
   );
   const npcSrc = asset(getSpritePath(replay.npcType, frame.ns, 1));
+  const bgUrl = replay.background ? asset(replay.background) : "";
 
   return (
     <div className={styles.overlay}>
@@ -158,57 +178,69 @@ export function ReplayPlayer({ replay, onClose }: Props) {
           </span>
         </div>
 
-        <div className={styles.viewport}>
-          <div className={styles.dmgLayer}>
-            <DamageNumberDisplay dmg={frame.dmg} scaleX={scaleX} scaleY={scaleY} />
-          </div>
+        <div
+          ref={viewportRef}
+          className={styles.viewport}
+          style={
+            bgUrl
+              ? { backgroundImage: `url(${bgUrl})`, backgroundSize: "cover" }
+              : undefined
+          }
+        >
+          {sx > 0 && (
+            <>
+              <div className={styles.dmgLayer}>
+                <DamageNumberDisplay dmg={frame.dmg} sx={sx} sy={sy} />
+              </div>
 
-          <img
-            src={playerSrc}
-            className={styles.entity}
-            style={{
-              width: WIDTH,
-              height: HEIGHT,
-              left: frame.px * scaleX,
-              top: frame.py * scaleY,
-              transform: `
-                translate(-50%, -100%)
-                scaleX(${frame.pd === "left" ? -1 : 1})
-                ${isCrouching ? "scale(0.7)" : isFallen ? "scale(0.7) translate(0, 20%)" : ""}
-              `,
-            }}
-          />
-
-          <img
-            src={npcSrc}
-            className={styles.entity}
-            style={{
-              width: FIXED_TILE_SIZE,
-              height: FIXED_TILE_SIZE,
-              left: frame.nx * scaleX,
-              top: frame.ny * scaleY,
-              transform: "translate(-50%, -100%)",
-            }}
-          />
-
-          {frame.sm.map((s, i) => {
-            const summonSrc = asset(getSpritePath(s.t, "idle", 1));
-            return (
               <img
-                key={i}
-                src={summonSrc}
+                src={playerSrc}
                 className={styles.entity}
                 style={{
-                  width: FIXED_TILE_SIZE * 0.8,
-                  height: FIXED_TILE_SIZE * 0.8,
-                  left: s.x * scaleX,
-                  top: s.y * scaleY,
-                  transform: "translate(-50%, -100%)",
-                  opacity: 0.8,
+                  width: WIDTH,
+                  height: HEIGHT,
+                  left: frame.px * sx,
+                  top: frame.py * sy,
+                  transform: `
+                    translate(-50%, -100%)
+                    scaleX(${frame.pd === "left" ? -1 : 1})
+                    ${isCrouching ? "scale(0.7)" : isFallen ? "scale(0.7) translate(0, 20%)" : ""}
+                  `,
                 }}
               />
-            );
-          })}
+
+              <img
+                src={npcSrc}
+                className={styles.entity}
+                style={{
+                  width: TILE_SIZE,
+                  height: TILE_SIZE,
+                  left: frame.nx * sx,
+                  top: frame.ny * sy,
+                  transform: "translate(-50%, -100%)",
+                }}
+              />
+
+              {frame.sm.map((s, i) => {
+                const summonSrc = asset(getSpritePath(s.t, "idle", 1));
+                return (
+                  <img
+                    key={i}
+                    src={summonSrc}
+                    className={styles.entity}
+                    style={{
+                      width: TILE_SIZE * 0.8,
+                      height: TILE_SIZE * 0.8,
+                      left: s.x * sx,
+                      top: s.y * sy,
+                      transform: "translate(-50%, -100%)",
+                      opacity: 0.8,
+                    }}
+                  />
+                );
+              })}
+            </>
+          )}
         </div>
 
         <div className={styles.bars}>
@@ -238,10 +270,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
           >
             ⟳
           </button>
-          <button
-            className={styles.ctrlBtn}
-            onClick={() => step(-5)}
-          >
+          <button className={styles.ctrlBtn} onClick={() => step(-5)}>
             ◀◀
           </button>
           <button
@@ -250,10 +279,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
           >
             {isPlaying ? "⏸" : "▶"}
           </button>
-          <button
-            className={styles.ctrlBtn}
-            onClick={() => step(5)}
-          >
+          <button className={styles.ctrlBtn} onClick={() => step(5)}>
             ▶▶
           </button>
           <div className={styles.speedGroup}>
@@ -273,7 +299,10 @@ export function ReplayPlayer({ replay, onClose }: Props) {
         </div>
 
         <div className={styles.progressOuter}>
-          <div className={styles.progressInner} style={{ width: `${progress}%` }} />
+          <div
+            className={styles.progressInner}
+            style={{ width: `${progress}%` }}
+          />
           <input
             type="range"
             min={0}

@@ -25,6 +25,7 @@ export type ReplayData = {
   npcLevel: number;
   npcClass: "common" | "rare" | "epic" | "boss" | "legendary";
   playerCharacter: string;
+  background: string;
   date: string;
   duration: number;
   frames: ReplayFrame[];

@@ -40,6 +40,7 @@ type Props = {
   npcLevel: number;
   npcClass: string;
   playerCharacter: string;
+  background: string;
 };
 
 export function useBattleRecording({
@@ -52,6 +53,7 @@ export function useBattleRecording({
   npcLevel,
   npcClass,
   playerCharacter,
+  background,
 }: Props) {
   const [isRecording, setIsRecording] = useState(false);
   const framesRef = useRef<ReplayFrame[]>([]);
@@ -76,6 +78,7 @@ export function useBattleRecording({
       npcLevel,
       npcClass: npcClass as ReplayData["npcClass"],
       playerCharacter,
+      background,
       date: new Date().toISOString(),
       duration: 0,
     };
@@ -129,6 +132,7 @@ export function useBattleRecording({
     npcLevel,
     npcClass,
     playerCharacter,
+    background,
     playerRef,
     npcRef,
     battleRef,

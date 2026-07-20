@@ -58,6 +58,7 @@ type Props = {
   audioSrc: string;
   onVictory?: () => void;
   map?: BattleMapConfig;
+  background?: string;
 };
 
 export function useBattleScene({
@@ -66,6 +67,7 @@ export function useBattleScene({
   audioSrc,
   onVictory,
   map,
+  background,
 }: Props) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -511,6 +513,7 @@ export function useBattleScene({
       npcLevel,
       npcClass: npcData.class,
       playerCharacter: player.character,
+      background: background ?? "",
     });
 
   const wasIntroActiveRef = useRef(showIntro);
