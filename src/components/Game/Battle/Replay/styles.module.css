@@ -35,7 +35,7 @@
 .vp {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 7;
+  aspect-ratio: 16 / 10;
   background: #111;
   border: 2px solid #333;
   border-radius: 8px;

@@ -105,7 +105,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
     return () => window.removeEventListener("keydown", onKey);
   }, [onClose, step]);
 
-  if (!f || sx === 0) return null;
+  if (!f) return null;
 
   const isCrouching = f.ps === "idleCrounched" || f.ps === "walkCrounched";
   const isFallen = f.ps === "fallen";
