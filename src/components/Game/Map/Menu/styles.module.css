@@ -39,8 +39,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 3px solid #5c4a2a;
-  border-radius: 8px;
+  border: var(--size-3) solid #5c4a2a;
+  border-radius: var(--fs-8);
   height: 100%;
   overflow: hidden;
   background: #1a1208;
@@ -54,7 +54,7 @@
 
 .cell.current {
   border-color: #f5c542;
-  box-shadow: 0 0 12px rgba(245, 197, 66, 0.6);
+  box-shadow: 0 0 var(--smaller) rgba(245, 197, 66, 0.6);
 }
 
 .sceneImage {
@@ -72,13 +72,13 @@
 
 .label {
   position: absolute;
-  bottom: 4px;
+  bottom: var(--size-4);
   left: 0;
   right: 0;
   text-align: center;
   font-size: clamp(10px, 1.2vw, 16px);
   color: #d9d9d9;
-  text-shadow: 1px 1px 2px #000;
+  text-shadow: var(--size-1) var(--size-1) var(--size-2) #000;
   font-weight: 600;
 }
 
@@ -88,11 +88,11 @@
 
 .face {
   position: absolute;
-  top: 4px;
-  right: 4px;
+  top: var(--size-4);
+  right: var(--size-4);
   width: clamp(28px, 3vw, 48px);
   height: clamp(28px, 3vw, 48px);
-  border: 2px solid #f5c542;
+  border: var(--size-2) solid #f5c542;
   border-radius: 50%;
   background: #1a1208;
 }

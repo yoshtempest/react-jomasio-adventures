@@ -103,5 +103,5 @@
   font-size: var(--fs-14);
   font-weight: bold;
   color: var(--text-color);
-  text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+  text-shadow: 0 0 var(--size-4) rgba(0, 0, 0, 0.8);
 }

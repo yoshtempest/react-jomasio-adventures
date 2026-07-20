@@ -5,7 +5,7 @@
 .list {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--size-6);
   max-height: 50vh;
   overflow-y: auto;
 }
@@ -14,10 +14,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 12px;
+  padding: var(--fs-8) var(--smaller);
   background: #1a1a1a;
-  border: 1px solid #333;
-  border-radius: 6px;
+  border: var(--size-1) solid #333;
+  border-radius: var(--size-6);
   cursor: pointer;
   transition: background 0.15s;
 }
@@ -34,7 +34,7 @@
 .cardInfo {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--size-2);
 }
 
 .cardTitle {
@@ -55,15 +55,15 @@
 
 .cardActions {
   display: flex;
-  gap: 6px;
+  gap: var(--size-6);
 }
 
 .actionBtn {
   background: #333;
   color: #ccc;
-  border: 1px solid #555;
-  border-radius: 4px;
-  padding: 4px 10px;
+  border: var(--size-1) solid #555;
+  border-radius: var(--size-4);
+  padding: var(--size-4) var(--fs-10);
   cursor: pointer;
   font-size: var(--fs-12);
 }
@@ -91,7 +91,7 @@
 .hint {
   font-size: var(--fs-12);
   color: #555;
-  margin-top: 4px;
+  margin-top: var(--size-4);
 }
 
 .confirmBox {
@@ -103,16 +103,16 @@
 .confirmActions {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin-top: 12px;
+  gap: var(--fs-10);
+  margin-top: var(--smaller);
 }
 
 .confirmBtn {
   background: #333;
   color: #ccc;
-  border: 1px solid #555;
-  border-radius: 4px;
-  padding: 6px 14px;
+  border: var(--size-1) solid #555;
+  border-radius: var(--size-4);
+  padding: var(--size-6) var(--fs-14);
   cursor: pointer;
 }
 

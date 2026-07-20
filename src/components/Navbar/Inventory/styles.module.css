@@ -15,7 +15,7 @@
   transform: translateX(-50%);
   background: #1a1a1a;
   color: #e74c3c;
-  border: 1px solid #e74c3c;
+  border: var(--size-1) solid #e74c3c;
   padding: var(--size-4) var(--fs-8);
   border-radius: var(--size-4);
   font-size: var(--fs-12);

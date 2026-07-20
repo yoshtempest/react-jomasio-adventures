@@ -67,11 +67,11 @@
 .directionArrow {
   position: absolute;
   z-index: 15;
-  font-size: 12px;
+  font-size: var(--smaller);
   color: var(--accent-color);
   pointer-events: none;
   animation: arrowPulse 0.8s ease-in-out infinite;
-  filter: drop-shadow(0 0 4px var(--accent-color));
+  filter: drop-shadow(0 0 var(--size-4) var(--accent-color));
   display: flex;
   align-items: center;
   justify-content: center;

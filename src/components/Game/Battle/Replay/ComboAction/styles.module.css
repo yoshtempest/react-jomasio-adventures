@@ -15,7 +15,7 @@
   border-radius: 50%;
   overflow: hidden;
   background: rgba(0, 0, 0, 0.6);
-  border: 2px solid var(--gold);
+  border: var(--size-2) solid var(--gold);
 }
 
 .comboActionBtn img {
@@ -26,6 +26,6 @@
 
 .comboActionBtn h3 {
   margin: 0;
-  font-size: 12px;
+  font-size: var(--smaller);
   color: #fff;
 }

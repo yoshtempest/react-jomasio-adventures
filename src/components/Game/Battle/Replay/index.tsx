@@ -180,22 +180,36 @@ export function ReplayPlayer({ replay, onClose }: Props) {
               />
             )}
 
-            <img
-              src={playerSrc}
+            <div
               className={styles.sprite}
               style={{
-                width: PLAYER,
+                position: "absolute",
+                width: PLAYER * (BASE_W / BASE_H),
                 height: PLAYER,
                 left: f.px,
                 top: f.py,
-                transform: `
-                  translate(-50%, -100%)
-                  scaleX(${f.pd === "left" ? -1 : 1})
-                  ${isCrouching ? "scale(0.7)" : isFallen ? "scale(0.7) translate(0, 20%)" : ""}
-                `,
+                transform: "translate(-50%, -100%)",
                 zIndex: 10,
+                overflow: "visible",
               }}
-            />
+            >
+              <img
+                src={playerSrc}
+                style={{
+                  position: "absolute",
+                  width: "auto",
+                  height: "100%",
+                  left: "50%",
+                  bottom: 0,
+                  transform: `
+                    translateX(-50%)
+                    scaleX(${f.pd === "left" ? -1 : 1})
+                    ${isCrouching ? "scale(0.7)" : isFallen ? "scale(0.7) translate(0, 20%)" : ""}
+                  `,
+                  pointerEvents: "none",
+                }}
+              />
+            </div>
 
             {f.dmg.map((d, i) => (
               <div

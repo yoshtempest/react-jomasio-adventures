@@ -1,7 +1,7 @@
 .controls {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--size-6);
   width: 100%;
   justify-content: center;
 }
@@ -9,9 +9,9 @@
 .ctrlBtn {
   background: #222;
   color: #ccc;
-  border: 1px solid #444;
-  border-radius: 6px;
-  padding: 5px 10px;
+  border: var(--size-1) solid #444;
+  border-radius: var(--size-6);
+  padding: var(--size-5) var(--fs-10);
   cursor: pointer;
   font-size: var(--fs-14);
 }
@@ -23,16 +23,16 @@
 
 .speedGroup {
   display: flex;
-  gap: 4px;
-  margin: 0 8px;
+  gap: var(--size-4);
+  margin: 0 var(--fs-8);
 }
 
 .speedBtn {
   background: transparent;
   color: #888;
-  border: 1px solid #444;
-  border-radius: 4px;
-  padding: 2px 8px;
+  border: var(--size-1) solid #444;
+  border-radius: var(--size-4);
+  padding: var(--size-2) var(--fs-8);
   cursor: pointer;
   font-size: var(--fs-12);
 }

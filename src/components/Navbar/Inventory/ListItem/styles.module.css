@@ -37,7 +37,7 @@
 }
 
 .rejected {
-  border: 2px solid #e74c3c;
+  border: var(--size-2) solid #e74c3c;
   animation: shake 0.4s ease-in-out;
 }
 
