@@ -90,7 +90,7 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
         style={selectedIndex === 4 ? { flexWrap: "wrap" } : undefined}
       >
         <p>
-          <img src={asset("/assets/status/shield.svg")} />
+          <img src={asset("/assets/status/tenacity.svg")} />
           Tenacidade: {stats.tenacity ?? 1}
           {bonus.tenacity > 0 ? <span> +{bonus.tenacity}</span> : ""}
         </p>

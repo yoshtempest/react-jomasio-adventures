@@ -67,7 +67,7 @@ export function CharacterStats() {
         <p>Armadura: {userArmor}</p>
       </div>
       <div>
-        <img src={asset("/assets/status/shield.svg")} />
+        <img src={asset("/assets/status/tenacity.svg")} />
         <p>Tenacidade: {userTenacity}%</p>
       </div>
       <div>
