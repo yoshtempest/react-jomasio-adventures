@@ -9,6 +9,8 @@
   padding: var(--fs-8) var(--smaller);
   border-radius: var(--size-4);
   text-align: center;
+  width: 25vw;
+  align-self: center;
   border: var(--size-2) solid var(--primary-color);
   text-wrap: nowrap;
 }
@@ -37,6 +39,8 @@
   border: var(--size-1) solid var(--border-default);
   border-radius: var(--size-5);
   padding: var(--fs-8);
+  height: 53vh;
+  width: 25vw;
 }
 
 .battleCardHeader {

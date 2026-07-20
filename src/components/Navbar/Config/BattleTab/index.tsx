@@ -18,6 +18,7 @@ import { getNpcDisplayName } from "@/utils/types/npc/npcNames";
 import { CLASS_DATA } from "@/data/npc/class";
 import { npcPath, playerPath } from "@/utils/paths";
 import { getCharacterStatus } from "@/data/player/stats";
+import { ComboList } from "@/components/Navbar/Status/ComboList";
 import { BattleCard } from "./BattleCard";
 
 type Props = {
@@ -119,73 +120,81 @@ export function BattleTab({ showComboAction, isSelected }: Props) {
     return Math.round((playerTotal / (playerTotal + enemyTotal)) * 100);
   }, [battleInfo, playerStats]);
 
-  if (!battleInfo || !playerStats) {
-    return (
-      <p className={styles.empty}>
-        Abra as configurações durante uma batalha para ver as informações.
-      </p>
-    );
-  }
+  const classData = battleInfo ? CLASS_DATA[battleInfo.npcClass] : null;
 
-  const classData = CLASS_DATA[battleInfo.npcClass];
-
-  const playerSummary = getCharacterStatus({
-    hp: playerStats.maxHp,
-    strenght: playerStats.strength,
-    intelligence: playerStats.intelligence,
-    resistance: playerStats.resistance,
-    tenacity: playerStats.tenacity,
-    armor: playerStats.armor,
-    shield: playerStats.shield,
-    vampirism: playerStats.vampirism,
-    reflect: playerStats.reflect,
-  });
+  const playerSummary = playerStats
+    ? getCharacterStatus({
+        hp: playerStats.maxHp,
+        strenght: playerStats.strength,
+        intelligence: playerStats.intelligence,
+        resistance: playerStats.resistance,
+        tenacity: playerStats.tenacity,
+        armor: playerStats.armor,
+        shield: playerStats.shield,
+        vampirism: playerStats.vampirism,
+        reflect: playerStats.reflect,
+      })
+    : null;
 
   return (
     <div className={styles.battleContainer}>
-      <div
-        className={`${styles.toggleItem} ${isSelected ? styles.selected : ""}`}
-      >
-        {isSelected && <span className={styles.cursor}>▼</span>}
-        <h2>Ação Combo: {showComboAction ? "ON" : "OFF"}</h2>
-      </div>
+      {battleInfo && playerStats && classData && playerSummary && (
+        <>
+          <div className={styles.battleEntities}>
+            <BattleCard
+              spriteSrc={playerPath(`/${player.character}/default.svg`)}
+              name={playerName}
+              level={battleInfo.npcLevel}
+              rank={playerRank}
+              stats={playerSummary}
+            />
+            <h2>VS</h2>
+            <BattleCard
+              spriteSrc={npcPath(`/${battleInfo.npcType}/right.svg`)}
+              name={getNpcDisplayName(battleInfo.npcType)}
+              subtitle={
+                <span className={styles.npcClassLabel}>
+                  Classe:{" "}
+                  <span style={{ color: classData.color }}>
+                    {classData.label}
+                  </span>
+                </span>
+              }
+              level={battleInfo.npcLevel}
+              rank={playerRank}
+              stats={[
+                { label: "HP", value: Math.round(battleInfo.npcHp) },
+                { label: "Dano", value: Math.round(battleInfo.npcDamage) },
+                { label: "Armadura", value: Math.round(battleInfo.npcArmor) },
+              ]}
+            />
+          </div>
 
-      <div className={styles.battleEntities}>
-        <BattleCard
-          spriteSrc={playerPath(`/${player.character}/default.svg`)}
-          name={playerName}
-          level={battleInfo.npcLevel}
-          rank={playerRank}
-          stats={playerSummary}
-        />
-        <h2>VS</h2>
-        <BattleCard
-          spriteSrc={npcPath(`/${battleInfo.npcType}/right.svg`)}
-          name={getNpcDisplayName(battleInfo.npcType)}
-          subtitle={
-            <span className={styles.npcClassLabel}>
-              Classe:{" "}
-              <span style={{ color: classData.color }}>{classData.label}</span>
+          <h2 className={styles.marginTop}>Chance de Vitória</h2>
+          <div className={styles.probabilityBar}>
+            <div
+              className={styles.probabilityFill}
+              style={{ width: `${winProbability ?? 0}%` }}
+            />
+            <span className={styles.probabilityText}>
+              {winProbability ?? 0}%
             </span>
-          }
-          level={battleInfo.npcLevel}
-          rank={playerRank}
-          stats={[
-            { label: "HP", value: Math.round(battleInfo.npcHp) },
-            { label: "Dano", value: Math.round(battleInfo.npcDamage) },
-            { label: "Armadura", value: Math.round(battleInfo.npcArmor) },
-          ]}
-        />
-      </div>
+          </div>
+          <ComboList characterId={player.character} />
+          <div
+            className={`${styles.toggleItem} ${isSelected ? styles.selected : ""}`}
+          >
+            {isSelected && <span className={styles.cursor}>▼</span>}
+            <h2>Exibir botão de combo: {showComboAction ? "ON" : "OFF"}</h2>
+          </div>
+        </>
+      )}
 
-      <h2 className={styles.marginTop}>Chance de Vitória</h2>
-      <div className={styles.probabilityBar}>
-        <div
-          className={styles.probabilityFill}
-          style={{ width: `${winProbability ?? 0}%` }}
-        />
-        <span className={styles.probabilityText}>{winProbability ?? 0}%</span>
-      </div>
+      {!battleInfo && (
+        <p className={styles.empty}>
+          Abra as configurações durante uma batalha para ver as informações.
+        </p>
+      )}
     </div>
   );
 }

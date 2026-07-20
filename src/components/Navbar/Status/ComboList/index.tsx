@@ -13,7 +13,13 @@ export function ComboList({
 
   return (
     <div className={styles.section}>
-      <p className="StatusTitle">Combos</p>
+      <div className={styles.flexRow}>
+        <img
+          src={asset(`assets/player/${characterId}/face.svg`)}
+          className={styles.faceImage}
+        />
+        <p className="StatusTitle">Combos</p>
+      </div>
 
       {combos.map((combo, i) => (
         <div

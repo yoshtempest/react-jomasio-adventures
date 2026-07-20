@@ -1,6 +1,6 @@
 .section {
   margin: var(--small) 0;
-  width: 90%;
+  width: 100%;
   align-self: center;
 }
 
@@ -70,4 +70,18 @@
   font-size: var(--fs-11);
   color: var(--text-hint);
   font-style: italic;
+}
+
+.faceImage {
+  width: 10%;
+}
+
+.flexRow {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5vw;
+}
+
+.flexRow p {
+  align-self: flex-end;
 }

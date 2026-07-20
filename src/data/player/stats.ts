@@ -115,6 +115,6 @@ export function getCharacterStatus(data: CharacterStatusProps) {
     stat("Armadura", data.armor),
     stat("Escudo", data.shield),
     stat("Vampirismo", data.vampirism),
-    stat("Reflexão de dano", data.reflect),
+    stat("Reflexão", data.reflect),
   ];
 }
