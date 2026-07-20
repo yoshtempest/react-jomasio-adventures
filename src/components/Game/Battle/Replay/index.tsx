@@ -229,24 +229,6 @@ export function ReplayPlayer({ replay, onClose }: Props) {
               </div>
             ))}
 
-            <HudPlayer
-              php={f.php}
-              pmaxhp={f.pmaxhp}
-              pshield={f.pshield}
-              del={f.del}
-              hits={f.hits}
-              pettype={f.pettype}
-              petphp={f.petphp}
-              petpmaxhp={f.petpmaxhp}
-            />
-
-            <HudNpc
-              npcType={replay.npcType}
-              npcLevel={replay.npcLevel}
-              nhp={f.nhp}
-              nmaxhp={f.nmaxhp}
-            />
-
             <ComboDisplay
               count={f.cc}
               rank={f.cr}
@@ -258,6 +240,27 @@ export function ReplayPlayer({ replay, onClose }: Props) {
               <ComboAction action={f.comboAction} charId={f.pchar} />
             )}
           </div>
+
+          <HudPlayer
+            pchar={f.pchar}
+            php={f.php}
+            pmaxhp={f.pmaxhp}
+            pshield={f.pshield}
+            del={f.del}
+            hits={f.hits}
+            blockGauge={f.blockGauge}
+            blockLimit={f.blockLimit}
+            pettype={f.pettype}
+            petphp={f.petphp}
+            petpmaxhp={f.petpmaxhp}
+          />
+
+          <HudNpc
+            npcType={replay.npcType}
+            npcLevel={replay.npcLevel}
+            nhp={f.nhp}
+            nmaxhp={f.nmaxhp}
+          />
         </div>
 
         <ReplayControls

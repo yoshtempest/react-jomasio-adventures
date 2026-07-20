@@ -4,7 +4,7 @@ import { ProjectileSprite } from "@/components/Game/Battle/Projectile";
 import { PlayerBattle } from "@/components/Game/Player/Battle";
 import type { SummonedNpc, NPCBattleState } from "@/utils/types/npc/npc";
 import type { PetState } from "@/hooks/battle/player/usePet";
-import type { CoffinState } from "@/hooks/battle/useCoffinAnimation";
+import type { CoffinState } from "@/hooks/battle/summon/useCoffinAnimation";
 
 type BattleEntitiesBattle = {
   piercings: { id: number; x: number; y: number }[];

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router";
-import { useVictory } from "@/hooks/useVictory";
+import { useVictory } from "@/hooks/battle/victory/useVictory";
 
 type OutroProps = {
   redirectTo?: string;

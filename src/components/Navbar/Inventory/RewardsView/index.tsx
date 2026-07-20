@@ -1,5 +1,5 @@
-import type { ChestOpenResult } from "@/hooks/useChestOpening";
-import type { DailyChestResult } from "@/hooks/useDailyChest";
+import type { ChestOpenResult } from "@/hooks/chest/useChestOpening";
+import type { DailyChestResult } from "@/hooks/chest/useDailyChest";
 import type { Dispatch, SetStateAction } from "react";
 import { ChestRewards } from "../ChestRewards";
 

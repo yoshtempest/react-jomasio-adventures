@@ -1,5 +1,5 @@
 import { useInventory } from "@/contexts/InventoryContext";
-import { useDailyChest } from "@/hooks/useDailyChest";
+import { useDailyChest } from "@/hooks/chest/useDailyChest";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { CHARACTERS } from "@/utils/types/player/player";
 import styles from "./styles.module.css";

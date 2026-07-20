@@ -1,3 +1,7 @@
+import { HealthBar } from "@/components/Game/Battle/HUD/HealthBar";
+import { npcPath } from "@/utils/paths";
+import { getNpcDisplayName } from "@/utils/types/npc/npcNames";
+import { formatRank, getRank } from "@/gameRules/rank";
 import styles from "./styles.module.css";
 
 type Props = {
@@ -8,27 +12,18 @@ type Props = {
 };
 
 export function HudNpc({ npcType, npcLevel, nhp, nmaxhp }: Props) {
-  const hpPct = nmaxhp > 0 ? Math.max(0, Math.min(100, (nhp / nmaxhp) * 100)) : 0;
-  const hpColor = hpPct > 70 ? "limegreen" : hpPct > 30 ? "orange" : "red";
-
   return (
-    <div className={styles.hudNpc}>
-      <span className={styles.npcName}>
-        {npcType} — nv.{npcLevel}
-      </span>
-      <div className={styles.hudBarOuter}>
-        <div
-          className={styles.hudBarFill}
-          style={{
-            width: `${hpPct}%`,
-            background: hpColor,
-            marginLeft: `${100 - hpPct}%`,
-          }}
-        />
-        <span className={styles.hudBarText}>
-          {Math.round(nhp)} / {nmaxhp}
-        </span>
+    <div className={styles.container}>
+      <div className={styles.info}>
+        <h2 className={styles.name}>{getNpcDisplayName(npcType)}</h2>
+        <p className={styles.rank}>{formatRank(getRank(npcLevel))}</p>
+        <HealthBar hp={nhp} maxHp={nmaxhp} reversed />
       </div>
+      <img
+        src={npcPath(`/${npcType}/face.svg`)}
+        alt="Npc HUD"
+        className={styles.image}
+      />
     </div>
   );
 }

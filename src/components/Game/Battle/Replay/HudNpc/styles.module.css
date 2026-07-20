@@ -1,44 +1,37 @@
-.hudNpc {
+.container {
   position: absolute;
-  top: var(--fs-10);
-  right: var(--low-medium);
+  top: 10px;
+  right: 10px;
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: var(--size-4);
+  flex-direction: row;
   z-index: 50;
 }
 
-.npcName {
-  font-size: var(--fs-13);
-  color: #ccc;
-  font-weight: bold;
-  text-align: right;
-  text-shadow: var(--size-1) var(--size-1) var(--size-2) #000;
-}
-
-.hudBarOuter {
-  position: relative;
-  width: var(--size-200);
-  height: var(--small);
-  background: #333;
-  border: var(--size-2) solid #222;
-  overflow: hidden;
-}
-
-.hudBarFill {
-  height: 100%;
-  transition: width 0.15s linear;
-}
-
-.hudBarText {
+.info {
   position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--fs-11);
-  color: #fff;
+  top: 0;
+  right: var(--fs-500);
+}
+
+.name {
+  font-size: var(--small);
   font-weight: bold;
-  text-shadow: var(--size-1) var(--size-1) var(--size-2) #000;
+  margin-bottom: 1vh;
+  text-align: right;
+}
+
+.rank {
+  font-size: var(--fs-11);
+  color: var(--accent-color);
+  margin: 0;
+  text-align: right;
+}
+
+.image {
+  background-color: var(--background-color);
+  border: var(--size-1) solid var(--text-color);
+  border-radius: var(--size-2);
+  width: 12vh;
+  height: 12vh;
+  object-fit: contain;
 }

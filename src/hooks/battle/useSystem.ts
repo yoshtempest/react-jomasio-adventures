@@ -4,12 +4,12 @@ import { battleBehaviors } from "@/gameRules/battle/behaviors/player";
 import { getPetBaseDamage } from "@/data/characters/petProgress";
 
 import { useBattleStats } from "@/hooks/battle/useStats";
-import { useBattleHP } from "@/hooks/battle/useHP";
+import { useBattleHP } from "@/hooks/battle/death/useHP";
 import { useBattleCooldowns } from "@/hooks/battle/useCooldowns";
 import { useBattleEffects } from "@/hooks/battle/useEffects";
 import { usePlayerBattle } from "@/hooks/battle/player/usePlayer";
 import { useNpcBattle } from "@/hooks/battle/npc/useNpc";
-import { useBattleLifecycle } from "@/hooks/battle/useLifecycle";
+import { useBattleLifecycle } from "@/hooks/battle/death/useLifecycle";
 import { usePetBattle } from "@/hooks/battle/player/usePet";
 import { useDamageNumbers } from "@/hooks/battle/damage/useNumbers";
 import { useExternalDamage } from "@/hooks/battle/damage/useExternal";
