@@ -1,7 +1,7 @@
 .hudPlayer {
   position: absolute;
-  bottom: 420px;
-  left: 40px;
+  top: 10px;
+  left: 20px;
   display: flex;
   flex-direction: column;
   gap: 4px;
