@@ -8,22 +8,18 @@ type MapCell = {
   label: string;
 };
 
-const SCENE_MAP: MapCell[][] = [
+const SCENE_MAP: (MapCell | null)[][] = [
   [
-    {
-      routes: ["/cantina"],
-      image: jomasioPath("/cantina.svg"),
-      label: "Refeitório",
-    },
-    {
-      routes: ["/hall/one"],
-      image: jomasioPath("/hall/center.svg"),
-      label: "Corredor",
-    },
+    null,
     {
       routes: ["/library"],
       image: jomasioPath("/library/default.svg"),
       label: "Biblioteca",
+    },
+    {
+      routes: ["/hall/thirdclass"],
+      image: jomasioPath("/hall/thirdClass.svg"),
+      label: "Third Class",
     },
     {
       routes: ["/brodiclass"],
@@ -32,10 +28,56 @@ const SCENE_MAP: MapCell[][] = [
     },
   ],
   [
+    null,
+    {
+      routes: ["/hall/center-front"],
+      image: jomasioPath("/hall/centerFront.svg"),
+      label: "Corredor Norte",
+    },
+    {
+      routes: ["/hall/jailson-one", "/hall/jailson-two"],
+      image: jomasioPath("/hall/two.svg"),
+      label: "Corredor Direita",
+    },
+    null,
+  ],
+  [
+    {
+      routes: ["/cantina"],
+      image: jomasioPath("/cantina.svg"),
+      label: "Refeitorio",
+    },
+    {
+      routes: ["/hall/center-one", "/hall/center-two"],
+      image: jomasioPath("/hall/center.svg"),
+      label: "Corredor Central",
+    },
+    {
+      routes: ["/hall/hell"],
+      image: jomasioPath("/hall/hell.svg"),
+      label: "Hell",
+    },
+    {
+      routes: ["/footballcourt"],
+      image: jomasioPath("/footballCourt.svg"),
+      label: "Quadra",
+    },
+  ],
+  [
     {
       routes: ["/cafeteria"],
       image: jomasioPath("/cafeteria.svg"),
       label: "Cantina",
+    },
+    {
+      routes: ["/hall/left-one"],
+      image: jomasioPath("/hall/left.svg"),
+      label: "Corredor Esquerda",
+    },
+      {
+      routes: ["/hall/one", "/hall/afterpcroom-one"],
+      image: jomasioPath("/hall/one.svg"),
+      label: "Corredor Um",
     },
     {
       routes: ["/director"],
@@ -47,11 +89,6 @@ const SCENE_MAP: MapCell[][] = [
       image: jomasioPath("/hellRoom.svg"),
       label: "Segundo B",
     },
-    {
-      routes: ["/footballcourt"],
-      image: jomasioPath("/footballCourt.svg"),
-      label: "Quadra",
-    },
   ],
   [
     {
@@ -59,6 +96,13 @@ const SCENE_MAP: MapCell[][] = [
       image: jomasioPath("/pcsRoom.svg"),
       label: "Sala dos PCs",
     },
+    null,
+    {
+      routes: ["/hall/pandemony"],
+      image: jomasioPath("/hall/pandemony.svg"),
+      label: "Pandemonio",
+    },
+    null,
   ],
 ];
 
@@ -79,6 +123,11 @@ export function MapOverlay({ currentRoute, character }: Props) {
       <div className={styles.mapGrid}>
         {SCENE_MAP.map((row, y) =>
           row.map((cell, x) => {
+            if (!cell) {
+              return (
+                <div key={`${x}-${y}`} className={`${styles.cell} ${styles.empty}`} />
+              );
+            }
             const isCurrent = matchCell(cell, currentRoute);
             return (
               <div

@@ -43,6 +43,11 @@
   aspect-ratio: 16 / 10;
 }
 
+.cell.empty {
+  border: none;
+  background: transparent;
+}
+
 .cell.current {
   border-color: #f5c542;
   box-shadow: 0 0 12px rgba(245, 197, 66, 0.6);
