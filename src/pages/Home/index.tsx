@@ -28,6 +28,7 @@ export default function Home() {
       save?.lastRoute &&
       save.lastRoute !== "/home" &&
       save.lastRoute !== "/combatTutorial" &&
+      save.lastRoute !== "/replay" &&
       !save.lastRoute.includes("battle")
     ) {
       navigate(save.lastRoute);

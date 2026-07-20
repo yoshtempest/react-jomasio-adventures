@@ -1,14 +1,14 @@
 import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router";
 import { loadReplays, deleteReplay } from "@/data/replays";
 import { getNpcDisplayName } from "@/utils/types/npc/npcNames";
 import { formatDuration } from "@/utils/formatDuration";
-import { ReplayPlayer } from "@/components/Game/Battle/Replay";
 import type { ReplayData } from "@/utils/types/replay";
 import styles from "./styles.module.css";
 
 export function ReplayList() {
+  const navigate = useNavigate();
   const [replays, setReplays] = useState<ReplayData[]>(() => loadReplays());
-  const [selectedReplay, setSelectedReplay] = useState<ReplayData | null>(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
   const listRef = useRef<HTMLDivElement>(null);
@@ -22,15 +22,6 @@ export function ReplayList() {
     const el = listRef.current.children[selectedIndex] as HTMLElement;
     if (el) el.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, [selectedIndex]);
-
-  if (selectedReplay) {
-    return (
-      <ReplayPlayer
-        replay={selectedReplay}
-        onClose={() => setSelectedReplay(null)}
-      />
-    );
-  }
 
   if (replays.length === 0) {
     return (
@@ -104,7 +95,10 @@ export function ReplayList() {
                 <div className={styles.cardActions}>
                   <button
                     className={styles.actionBtn}
-                    onClick={() => setSelectedReplay(r)}
+                    onClick={() => {
+                      sessionStorage.setItem("replayTarget", r.id);
+                      navigate("/");
+                    }}
                   >
                     Assistir
                   </button>

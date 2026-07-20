@@ -56,8 +56,14 @@ export default function Loading() {
           sessionStorage.removeItem("saveSwitchTarget");
           navigate(switchTarget, { replace: true });
         } else {
-          const target = hasSave() ? "/home" : "/tutorial";
-          navigate(target, { replace: true });
+          const replayTarget = sessionStorage.getItem("replayTarget");
+          if (replayTarget) {
+            sessionStorage.removeItem("replayTarget");
+            navigate(`/replay/${replayTarget}`, { replace: true });
+          } else {
+            const target = hasSave() ? "/home" : "/tutorial";
+            navigate(target, { replace: true });
+          }
         }
       }, 600);
     }, MIN_LOADING_MS);

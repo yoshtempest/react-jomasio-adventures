@@ -29,6 +29,7 @@ const HellroomPage = lazyLoad(() => import("@/pages/HellRoom"));
 const BrodiClassPage = lazyLoad(() => import("@/pages/BrodiClass"));
 
 const BattlePage = lazyLoad(() => import("@/pages/BattlePage"));
+const ReplayPage = lazyLoad(() => import("@/pages/Replay"));
 
 const Landing = lazyLoad(() => import("@/pages/Landing"));
 const Login = lazyLoad(() => import("@/pages/Login"));
@@ -133,6 +134,8 @@ export function AppRoutes() {
             <Route path="battle/rice" element={<BattlePage />} />
             <Route path="battle/goat" element={<BattlePage />} />
             <Route path="battle/technoblade" element={<BattlePage />} />
+
+            <Route path="replay/:id" element={<ReplayPage />} />
           </Route>
         </Routes>
       </Suspense>
