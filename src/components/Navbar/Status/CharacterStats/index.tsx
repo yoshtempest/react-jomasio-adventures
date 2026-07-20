@@ -3,7 +3,8 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { useTitles } from "@/contexts/TitleContext";
-import { getTotalArmor } from "@/gameRules/battle/equipment";
+import { getTotalArmor, getWeaponCritRate } from "@/gameRules/battle/equipment";
+import { getLuckBonus } from "@/gameRules/battle/luck";
 import { asset } from "@/utils/paths";
 
 export function CharacterStats() {
@@ -37,6 +38,11 @@ export function CharacterStats() {
   const totalShield = bonus.shield + titleBonus.shield;
   const userTenacity = stats.tenacity + bonus.tenacity;
   const userLuck = (stats.luck ?? 1) + (bonus.luck ?? 0);
+  const luckBonus = getLuckBonus(userLuck);
+  const weaponCritRate = getWeaponCritRate(character);
+  const critRate = 1 + weaponCritRate + luckBonus * 100;
+  const missChance =
+    (0.005 + (titleBonus.enemyMissChance ?? 0) / 100 + luckBonus) * 100;
 
   return (
     <div className={`StatusColumn ${styles.container}`}>
@@ -67,6 +73,14 @@ export function CharacterStats() {
       <div>
         <img src={asset("/assets/status/luck.svg")} />
         <p>Sorte: {userLuck}%</p>
+      </div>
+      <div>
+        <img src={asset("/assets/status/crit.svg")} />
+        <p>Crítico: {critRate.toFixed(1)}%</p>
+      </div>
+      <div>
+        <img src={asset("/assets/titlesBadges/enemyMissAttacks.svg")} />
+        <p>Esquiva: {missChance.toFixed(1)}%</p>
       </div>
 
       {totalShield > 0 && (
