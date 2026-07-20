@@ -1,54 +1,79 @@
+import { HealthBar } from "@/components/Game/Battle/HUD/HealthBar";
 import { Deliciometro } from "@/components/Game/Battle/HUD/Deliciometro";
+import { BlockGauge } from "@/components/Game/Battle/HUD/BlockGauge";
+import { playerPath } from "@/utils/paths";
 import styles from "./styles.module.css";
 
 type Props = {
+  pchar: string;
   php: number;
   pmaxhp: number;
   pshield: number;
   del: number;
   hits: number;
+  blockGauge: number;
+  blockLimit: number;
   pettype: string | null;
   petphp: number | null;
   petpmaxhp: number | null;
 };
 
-export function HudPlayer({ php, pmaxhp, pshield, del, hits, pettype, petphp, petpmaxhp }: Props) {
-  const hpPct = pmaxhp > 0 ? Math.max(0, Math.min(100, (php / pmaxhp) * 100)) : 0;
-  const hpColor = hpPct > 70 ? "limegreen" : hpPct > 30 ? "orange" : "red";
+export function HudPlayer({
+  pchar,
+  php,
+  pmaxhp,
+  pshield,
+  del,
+  hits,
+  blockGauge,
+  blockLimit,
+  pettype,
+  petphp,
+  petpmaxhp,
+}: Props) {
   const playerName = localStorage.getItem("playerName") || "Protagonista";
 
   return (
-    <div className={styles.hudPlayer}>
-      <span className={styles.playerName}>{playerName}</span>
-      <div className={styles.hudRow}>
-        <div className={styles.hudBarOuter}>
-          <div className={styles.hudBarFill} style={{ width: `${hpPct}%`, background: hpColor }} />
-          <span className={styles.hudBarText}>{Math.round(php)} / {pmaxhp}</span>
+    <div className={styles.container}>
+      <img
+        src={playerPath(`/${pchar}/face.svg`)}
+        alt="Player HUD"
+        className={styles.image}
+      />
+      <div className={styles.info}>
+        <h2 className={styles.name}>{playerName}</h2>
+        <div className={styles.flexRow}>
+          <div>
+            <HealthBar hp={php} maxHp={pmaxhp} />
+            {pshield > 0 && (
+              <div className={styles.shieldTrack}>
+                <div
+                  className={styles.shieldFill}
+                  style={{
+                    width: `${Math.min(100, (pshield / pmaxhp) * 100)}%`,
+                  }}
+                />
+              </div>
+            )}
+            <BlockGauge blockGauge={blockGauge} blockLimit={blockLimit} />
+            {pettype && petphp != null && petpmaxhp != null && (
+              <div className={styles.petTrack}>
+                <span className={styles.petLabel}>Pet</span>
+                <div
+                  className={styles.petFill}
+                  style={{
+                    width: `${petpmaxhp > 0 ? (petphp / petpmaxhp) * 100 : 0}%`,
+                  }}
+                />
+                <span className={styles.petText}>
+                  {Math.round(petphp)}/{petpmaxhp}
+                </span>
+              </div>
+            )}
+          </div>
+          <Deliciometro delicia={del} hitsToSpecial={hits} />
         </div>
       </div>
-      {pshield > 0 && (
-        <div className={styles.shieldTrack}>
-          <div className={styles.shieldFill} style={{ width: `${Math.min(100, (pshield / 100) * 100)}%` }} />
-        </div>
-      )}
-      <Deliciometro delicia={del} hitsToSpecial={hits} />
-      {pettype && petphp != null && petpmaxhp != null && (
-        <div className={styles.hudRow}>
-          <span className={styles.hudLabel}>Pet</span>
-          <div className={styles.hudBarOuter}>
-            <div
-              className={styles.hudBarFill}
-              style={{
-                width: `${petpmaxhp > 0 ? (petphp / petpmaxhp) * 100 : 0}%`,
-                background: "#44ff44",
-              }}
-            />
-            <span className={styles.hudBarText}>
-              {Math.round(petphp)} / {petpmaxhp}
-            </span>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

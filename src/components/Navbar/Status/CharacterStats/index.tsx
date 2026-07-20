@@ -71,11 +71,11 @@ export function CharacterStats() {
         <p>Tenacidade: {userTenacity}%</p>
       </div>
       <div>
-        <img src={asset("/assets/status/luck.svg")} />
+        <img src={asset("/assets/status/luckChance.svg")} />
         <p>Sorte: {userLuck}%</p>
       </div>
       <div>
-        <img src={asset("/assets/status/crit.svg")} />
+        <img src={asset("/assets/status/critical.svg")} />
         <p>Crítico: {critRate.toFixed(1)}%</p>
       </div>
       <div>

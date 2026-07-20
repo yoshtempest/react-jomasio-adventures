@@ -104,7 +104,7 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
         style={selectedIndex === 5 ? { flexWrap: "wrap" } : undefined}
       >
         <p>
-          <img src={asset("/assets/status/luck.svg")} />
+          <img src={asset("/assets/status/luckChance.svg")} />
           Sorte: {stats.luck ?? 1}
           {bonus.luck > 0 ? <span> +{bonus.luck}</span> : ""}
         </p>
