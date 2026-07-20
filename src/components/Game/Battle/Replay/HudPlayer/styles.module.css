@@ -1,32 +1,32 @@
 .hudPlayer {
   position: absolute;
-  top: 10px;
-  left: 20px;
+  top: var(--fs-10);
+  left: var(--low-medium);
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--size-4);
   z-index: 50;
 }
 
 .hudRow {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--size-6);
 }
 
 .hudLabel {
   font-size: var(--fs-11);
   color: #ccc;
   font-weight: bold;
-  min-width: 48px;
+  min-width: var(--size-48);
 }
 
 .hudBarOuter {
   position: relative;
-  width: 200px;
-  height: 16px;
+  width: var(--size-200);
+  height: var(--small);
   background: #333;
-  border: 2px solid #222;
+  border: var(--size-2) solid #222;
   overflow: hidden;
 }
 
@@ -44,14 +44,14 @@
   font-size: var(--fs-11);
   color: #fff;
   font-weight: bold;
-  text-shadow: 1px 1px 2px #000;
+  text-shadow: var(--size-1) var(--size-1) var(--size-2) #000;
 }
 
 .shieldTrack {
-  width: 200px;
-  height: 5px;
+  width: var(--size-200);
+  height: var(--size-5);
   background: #444;
-  border-radius: 2px;
+  border-radius: var(--size-2);
   overflow: hidden;
 }
 
@@ -60,22 +60,4 @@
   background: #e0e0e0;
 }
 
-.delTrack {
-  width: 160px;
-  height: 12px;
-  background: #222;
-  border: 1px solid #444;
-  border-radius: 2px;
-  overflow: hidden;
-}
 
-.delFill {
-  height: 100%;
-  transition: width 0.15s linear;
-}
-
-.delText {
-  font-size: var(--fs-10);
-  color: #aaa;
-  font-family: monospace;
-}

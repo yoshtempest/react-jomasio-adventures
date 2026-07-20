@@ -106,7 +106,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 
   const playerSrc = asset(`assets/player/${f.pchar}/inFight/${resolvePlayerState(f.ps)}.svg`);
   const npcSize = TILE * getBossSizeMultiplier(replay.npcType, f.npcPhase);
-  const npcSrc = asset(getSpritePath(replay.npcType, f.ns, f.npcPhase));
+  const npcSrc = getSpritePath(replay.npcType, f.ns, f.npcPhase);
   const bgUrl = replay.background ?? "";
 
   return (
@@ -152,7 +152,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
             {f.sm.map((s) => (
               <img
                 key={s.id}
-                src={asset(getSpritePath(s.t, s.st, 1))}
+                src={getSpritePath(s.t, s.st, 1)}
                 className={styles.sprite}
                 style={{
                   width: TILE,
@@ -167,7 +167,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 
             {f.pettype && f.petx != null && f.pety != null && (
               <img
-                src={asset(getSpritePath(f.pettype, f.petst ?? "idle", 1))}
+                src={getSpritePath(f.pettype, f.petst ?? "idle", 1)}
                 className={styles.sprite}
                 style={{
                   width: TILE * 0.8,

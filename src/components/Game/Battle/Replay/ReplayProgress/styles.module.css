@@ -3,7 +3,7 @@
   width: 100%;
   height: 6px;
   background: #222;
-  border-radius: 3px;
+  border-radius: var(--size-3);
   overflow: visible;
 }
 
@@ -13,7 +13,7 @@
   left: 0;
   height: 100%;
   background: var(--gold);
-  border-radius: 3px;
+  border-radius: var(--size-3);
   pointer-events: none;
 }
 
@@ -22,7 +22,7 @@
   top: -6px;
   left: 0;
   width: 100%;
-  height: 18px;
+  height: var(--fs-18);
   opacity: 0;
   cursor: pointer;
   margin: 0;

@@ -1,3 +1,4 @@
+import { Deliciometro } from "@/components/Game/Battle/HUD/Deliciometro";
 import styles from "./styles.module.css";
 
 type Props = {
@@ -14,8 +15,6 @@ type Props = {
 export function HudPlayer({ php, pmaxhp, pshield, del, hits, pettype, petphp, petpmaxhp }: Props) {
   const hpPct = pmaxhp > 0 ? Math.max(0, Math.min(100, (php / pmaxhp) * 100)) : 0;
   const hpColor = hpPct > 70 ? "limegreen" : hpPct > 30 ? "orange" : "red";
-  const delPct = hits > 0 ? Math.min(100, (del / hits) * 100) : 0;
-  const delFull = del >= hits;
   const playerName = localStorage.getItem("playerName") || "Protagonista";
 
   return (
@@ -32,21 +31,7 @@ export function HudPlayer({ php, pmaxhp, pshield, del, hits, pettype, petphp, pe
           <div className={styles.shieldFill} style={{ width: `${Math.min(100, (pshield / 100) * 100)}%` }} />
         </div>
       )}
-      <div className={styles.hudRow}>
-        <span className={styles.hudLabel}>Delícia</span>
-        <div className={styles.delTrack}>
-          <div
-            className={styles.delFill}
-            style={{
-              width: `${delPct}%`,
-              background: delFull ? "var(--gold)" : "#ff6b35",
-            }}
-          />
-        </div>
-        <span className={styles.delText}>
-          {Math.round(del)} / {hits}
-        </span>
-      </div>
+      <Deliciometro delicia={del} hitsToSpecial={hits} />
       {pettype && petphp != null && petpmaxhp != null && (
         <div className={styles.hudRow}>
           <span className={styles.hudLabel}>Pet</span>
