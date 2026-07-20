@@ -70,6 +70,15 @@
   opacity: 0.85;
 }
 
+.buttonSaved {
+  background: #2d6b2d;
+  cursor: default;
+}
+
+.buttonSaved:hover {
+  opacity: 1;
+}
+
 .levelSection {
   display: flex;
   flex-direction: row;

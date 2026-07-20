@@ -47,8 +47,12 @@ export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
 
   const refreshRef = useRef(() => setRefreshKey((k) => k + 1));
 
+  const [activeTab, setActiveTab] = useState<"saves" | "replays">("saves");
+
   const items = useMemo((): SaveItem[] => {
     const list: SaveItem[] = [];
+
+    list.push({ key: "tab-saves", label: "— Saves —" });
 
     for (const slot of [0, 1] as SlotIndex[]) {
       if (isSlotUsed(slot)) {
@@ -80,6 +84,8 @@ export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
     if (availableSlots.length > 0) {
       list.push({ key: "newGame", label: "Novo Jogo" });
     }
+
+    list.push({ key: "tab-replays", label: "— Replays —" });
 
     return list;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -151,6 +157,12 @@ export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
           clearSlot(free);
           sessionStorage.setItem("saveSwitchTarget", "/tutorial");
           window.location.replace(import.meta.env.BASE_URL);
+        } else if (item.key === "tab-saves") {
+          setActiveTab("saves");
+          setSelectedIndex(0);
+        } else if (item.key === "tab-replays") {
+          setActiveTab("replays");
+          setSelectedIndex(0);
         } else if (item.key === "back") {
           closeNavbarRef.current();
           setModeRef.current("explore");
@@ -178,5 +190,5 @@ export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
     selectedElement.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, [selectedIndex, listRef]);
 
-  return { confirmDelete, selectedIndex, items, activeSlot };
+  return { confirmDelete, selectedIndex, items, activeSlot, activeTab };
 }

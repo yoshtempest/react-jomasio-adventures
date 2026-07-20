@@ -50,6 +50,7 @@ import {
   incrementSpecialsUsedStats,
   incrementAttacksUsedStats,
 } from "@/utils/rewards/battleStats";
+import { useBattleRecording } from "@/hooks/battle/recording/useBattleRecording";
 
 type Props = {
   npcType: string;
@@ -456,6 +457,77 @@ export function useBattleScene({
   refs.registerHitRef.current = registerHit;
   refs.spawnDamageRef.current = battle.spawnDamageNumber;
 
+  const playerSnapshotRef = useRef({
+    x: player.x,
+    y: player.y,
+    state: player.state,
+    direction: player.battleDirection,
+    character: player.character,
+  });
+  playerSnapshotRef.current = {
+    x: player.x,
+    y: player.y,
+    state: player.state,
+    direction: player.battleDirection,
+    character: player.character,
+  };
+
+  const npcSnapshotRef = useRef({
+    x: npc.x,
+    y: npc.y,
+    state: npc.state,
+  });
+  npcSnapshotRef.current = { x: npc.x, y: npc.y, state: npc.state };
+
+  const battleSnapshotRef = useRef({
+    playerHP: battle.playerHP,
+    playerMaxHp: battle.playerMaxHp,
+    npcHP: battle.npcHP,
+    npcMaxHp: battle.npcMaxHp,
+    delicia: battle.delicia,
+    hitsToSpecial: battle.hitsToSpecial,
+    comboCount,
+    comboRank,
+  });
+  battleSnapshotRef.current = {
+    playerHP: battle.playerHP,
+    playerMaxHp: battle.playerMaxHp,
+    npcHP: battle.npcHP,
+    npcMaxHp: battle.npcMaxHp,
+    delicia: battle.delicia,
+    hitsToSpecial: battle.hitsToSpecial,
+    comboCount,
+    comboRank,
+  };
+
+  const { isRecording, startRecording, stopRecording, getReplayData } =
+    useBattleRecording({
+      playerRef: playerSnapshotRef,
+      npcRef: npcSnapshotRef,
+      battleRef: battleSnapshotRef,
+      damageNumbersRef: { current: battle.damageNumbers } as React.RefObject<{ value: number; x: number; y: number; type: string }[]>,
+      summonsRef: { current: summons.map((s) => ({ x: s.x, y: s.y, npcType: s.npcType, hp: s.hp })) } as React.RefObject<{ x: number; y: number; npcType: string; hp: number }[]>,
+      npcType,
+      npcLevel,
+      npcClass: npcData.class,
+      playerCharacter: player.character,
+    });
+
+  const wasIntroActiveRef = useRef(showIntro);
+
+  useEffect(() => {
+    if (wasIntroActiveRef.current && !showIntro) {
+      startRecording();
+    }
+    wasIntroActiveRef.current = showIntro;
+  }, [showIntro, startRecording]);
+
+  useEffect(() => {
+    if ((showVictory || showDefeat) && isRecording) {
+      stopRecording();
+    }
+  }, [showVictory, showDefeat, isRecording, stopRecording]);
+
   useEffect(() => {
     battleTenacityRef.current = battle.tenacityReduction;
   }, [battle.tenacityReduction, battleTenacityRef]);
@@ -665,5 +737,7 @@ export function useBattleScene({
     bestTime,
     defeatProgress,
     grabFlipped,
+    getReplayData,
+    isRecording,
   };
 }

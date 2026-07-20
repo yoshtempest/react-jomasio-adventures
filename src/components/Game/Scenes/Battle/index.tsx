@@ -66,6 +66,7 @@ export function BattleScene(props: Props) {
     bestTime,
     defeatProgress,
     grabFlipped,
+    getReplayData,
   } = useBattleScene(props);
 
   const {
@@ -215,6 +216,7 @@ export function BattleScene(props: Props) {
           skipDelay={skipVictoryDelay}
           elapsed={victoryElapsed}
           bestTime={bestTime}
+          getReplayData={getReplayData}
         />
       )}
 

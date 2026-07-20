@@ -11,6 +11,9 @@ import { TitleProgresses } from "@/components/Game/Battle/TitleProgresses";
 import { getRank, formatRank } from "@/gameRules/rank";
 import { formatDuration } from "@/utils/formatDuration";
 import { ActivePotionDisplay } from "@/components/ActivePotionDisplay";
+import { saveReplay } from "@/data/replays";
+import type { ReplayData } from "@/utils/types/replay";
+import { useState } from "react";
 
 type Props = {
   isOpen: boolean;
@@ -25,6 +28,7 @@ type Props = {
   skipDelay?: boolean;
   elapsed: number;
   bestTime: number;
+  getReplayData?: () => ReplayData | null;
 };
 
 export function VictoryModal({
@@ -40,9 +44,19 @@ export function VictoryModal({
   skipDelay = false,
   elapsed,
   bestTime,
+  getReplayData,
 }: Props) {
   const isVisible = useVictoryVisibility(isOpen, skipDelay);
   useVictoryKeyboard(isVisible, onContinue);
+  const [replaySaved, setReplaySaved] = useState(false);
+
+  const handleSaveReplay = () => {
+    if (!getReplayData) return;
+    const data = getReplayData();
+    if (data && saveReplay(data)) {
+      setReplaySaved(true);
+    }
+  };
 
   if (!isVisible) return null;
 
@@ -93,6 +107,15 @@ export function VictoryModal({
               keyDrop={rewards?.keyDrop ?? null}
             />
             <TitleProgresses />
+            {getReplayData && (
+              <button
+                className={`${styles.button} ${replaySaved ? styles.buttonSaved : ""}`}
+                onClick={handleSaveReplay}
+                disabled={replaySaved}
+              >
+                {replaySaved ? "Replay Salvo!" : "Salvar Replay"}
+              </button>
+            )}
             <button className={styles.button} onClick={onContinue}>
               Continuar
             </button>

@@ -1,0 +1,131 @@
+.container {
+  width: 100%;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.card:hover {
+  background: #252525;
+}
+
+.selected {
+  border-color: var(--gold);
+  background: #1f1f10;
+}
+
+.cardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cardTitle {
+  font-weight: 700;
+  font-size: var(--fs-14);
+  color: var(--gold);
+}
+
+.cardMeta {
+  font-size: var(--fs-12);
+  color: #aaa;
+}
+
+.cardDate {
+  font-size: var(--fs-11);
+  color: #666;
+}
+
+.cardActions {
+  display: flex;
+  gap: 6px;
+}
+
+.actionBtn {
+  background: #333;
+  color: #ccc;
+  border: 1px solid #555;
+  border-radius: 4px;
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: var(--fs-12);
+}
+
+.actionBtn:hover {
+  background: #444;
+  color: #fff;
+}
+
+.actionDanger {
+  border-color: #a33;
+  color: #f66;
+}
+
+.actionDanger:hover {
+  background: #422;
+}
+
+.empty {
+  text-align: center;
+  padding: 24px;
+  color: #888;
+}
+
+.hint {
+  font-size: var(--fs-12);
+  color: #555;
+  margin-top: 4px;
+}
+
+.confirmBox {
+  text-align: center;
+  padding: 16px;
+  color: #ccc;
+}
+
+.confirmActions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.confirmBtn {
+  background: #333;
+  color: #ccc;
+  border: 1px solid #555;
+  border-radius: 4px;
+  padding: 6px 14px;
+  cursor: pointer;
+}
+
+.confirmBtn:hover {
+  background: #444;
+  color: #fff;
+}
+
+.confirmDanger {
+  border-color: #a33;
+  color: #f66;
+}
+
+.confirmDanger:hover {
+  background: #422;
+}

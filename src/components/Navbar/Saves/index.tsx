@@ -4,11 +4,12 @@ import { isSlotUsed } from "@/utils/save/slotManager";
 import { loadGameForSlot, getPlayTimeForSlot } from "@/utils/save/saveGame";
 import { getSceneImage, getSceneLabel } from "@/utils/sceneImages";
 import { formatTime } from "@/utils/formatDuration";
+import { ReplayList } from "@/components/Navbar/Saves/ReplayList";
 import styles from "./styles.module.css";
 
 export function Saves() {
   const listRef = useRef<HTMLDivElement>(null);
-  const { confirmDelete, selectedIndex, items, activeSlot } =
+  const { confirmDelete, selectedIndex, items, activeSlot, activeTab } =
     useSaveMenu(listRef);
   if (confirmDelete !== "none") {
     const confirmItems = ["Sim, excluir", "Não, voltar"];
@@ -29,64 +30,80 @@ export function Saves() {
     );
   }
 
+  if (activeTab === "replays") {
+    return (
+      <div className="containerOfNavbar">
+        <h2 className={styles.title}>Replays</h2>
+        <ReplayList />
+      </div>
+    );
+  }
+
   return (
     <div className="containerOfNavbar">
       <h2 className={styles.title}>Saves</h2>
       <div ref={listRef} className={styles.itemList}>
-        {items.map((item, i) => {
-          const isSelected = selectedIndex === i;
-          const isSlot = item.key.startsWith("slot-");
+        {items
+          .filter((item) => {
+            if (activeTab === "saves") {
+              return !item.key.startsWith("tab-");
+            }
+            return false;
+          })
+          .map((item, i) => {
+            const isSelected = selectedIndex === i;
+            const isSlot = item.key.startsWith("slot-");
 
-          if (isSlot && item.slot !== undefined) {
-            const slot = item.slot;
-            const used = isSlotUsed(slot);
-            const isActive = slot === activeSlot;
-            const save = used ? loadGameForSlot(slot) : null;
-            const sceneImage = save?.lastRoute
-              ? getSceneImage(save.lastRoute)
-              : "/assets/logo.svg";
-            const sceneLabel = save?.lastRoute
-              ? getSceneLabel(save.lastRoute)
-              : "Sem progresso";
-            const playTime = used ? getPlayTimeForSlot(slot) : 0;
+            if (isSlot && item.slot !== undefined) {
+              const slot = item.slot;
+              const used = isSlotUsed(slot);
+              const isActive = slot === activeSlot;
+              const save = used ? loadGameForSlot(slot) : null;
+              const sceneImage = save?.lastRoute
+                ? getSceneImage(save.lastRoute)
+                : "/assets/logo.svg";
+              const sceneLabel = save?.lastRoute
+                ? getSceneLabel(save.lastRoute)
+                : "Sem progresso";
+              const playTime = used ? getPlayTimeForSlot(slot) : 0;
+
+              return (
+                <div
+                  key={item.key}
+                  className={`${styles.slotCard} ${isSelected ? styles.selected : ""} ${isActive ? styles.active : ""}`}
+                >
+                  <img src={sceneImage} alt="" className={styles.sceneImage} />
+                  <div className={styles.slotInfo}>
+                    <span className={styles.slotLabel}>
+                      Save {slot + 1}
+                      {isActive && (
+                        <span className={styles.activeBadge}> &gt; Ativo</span>
+                      )}
+                    </span>
+                    {used ? (
+                      <>
+                        <span className={styles.sceneLabel}>{sceneLabel}</span>
+                        <span className={styles.playTime}>
+                          {formatTime(playTime)}
+                        </span>
+                      </>
+                    ) : (
+                      <span className={styles.emptyLabel}>Vazio</span>
+                    )}
+                  </div>
+                </div>
+              );
+            }
 
             return (
               <div
                 key={item.key}
-                className={`${styles.slotCard} ${isSelected ? styles.selected : ""} ${isActive ? styles.active : ""}`}
+                className={`${styles.action} ${isSelected ? styles.selected : ""} ${item.danger ? styles.actionDanger : ""} ${item.key === "back" ? styles.backAction : ""}`}
               >
-                <img src={sceneImage} alt="" className={styles.sceneImage} />
-                <div className={styles.slotInfo}>
-                  <span className={styles.slotLabel}>
-                    Save {slot + 1}
-                    {isActive && (
-                      <span className={styles.activeBadge}> &gt; Ativo</span>
-                    )}
-                  </span>
-                  {used ? (
-                    <>
-                      <span className={styles.sceneLabel}>{sceneLabel}</span>
-                      <span className={styles.playTime}>
-                        {formatTime(playTime)}
-                      </span>
-                    </>
-                  ) : (
-                    <span className={styles.emptyLabel}>Vazio</span>
-                  )}
-                </div>
+                {item.label}
               </div>
             );
-          }
-
-          return (
-            <div
-              key={item.key}
-              className={`${styles.action} ${isSelected ? styles.selected : ""} ${item.danger ? styles.actionDanger : ""} ${item.key === "back" ? styles.backAction : ""}`}
-            >
-              {item.label}
-            </div>
-          );
-        })}
+          })}
       </div>
     </div>
   );

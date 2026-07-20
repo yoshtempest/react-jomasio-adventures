@@ -82,6 +82,7 @@ const GAME_STATE_KEYS = [
   "jeso_food_last_delivery",
   "char_unlock_dates",
   "difficulty",
+  "replays",
 ];
 
 export function clearSlot(slot: SlotIndex) {
