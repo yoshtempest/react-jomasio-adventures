@@ -5,11 +5,12 @@ import { loadGameForSlot, getPlayTimeForSlot } from "@/utils/save/saveGame";
 import { getSceneImage, getSceneLabel } from "@/utils/sceneImages";
 import { formatTime } from "@/utils/formatDuration";
 import { ReplayList } from "@/components/Navbar/Saves/ReplayList";
+import { SAVE_TABS, SAVE_TAB_LABELS } from "@/data/saves/tabs";
 import styles from "./styles.module.css";
 
 export function Saves() {
   const listRef = useRef<HTMLDivElement>(null);
-  const { confirmDelete, selectedIndex, items, activeSlot, activeTab } =
+  const { confirmDelete, selectedIndex, items, activeSlot, activeTab, isOnTab } =
     useSaveMenu(listRef);
   if (confirmDelete !== "none") {
     const confirmItems = ["Sim, excluir", "Não, voltar"];
@@ -30,27 +31,22 @@ export function Saves() {
     );
   }
 
-  if (activeTab === "replays") {
-    return (
-      <div className="containerOfNavbar">
-        <h2 className={styles.title}>Replays</h2>
-        <ReplayList />
-      </div>
-    );
-  }
-
   return (
-    <div className="containerOfNavbar">
-      <h2 className={styles.title}>Saves</h2>
-      <div ref={listRef} className={styles.itemList}>
-        {items
-          .filter((item) => {
-            if (activeTab === "saves") {
-              return !item.key.startsWith("tab-");
-            }
-            return false;
-          })
-          .map((item, i) => {
+    <div className={`containerOfNavbar ${styles.center}`}>
+      <div className={styles.tabs}>
+        {SAVE_TABS.map((tab) => (
+          <button
+            key={tab}
+            className={`${styles.tab} ${activeTab === tab ? styles.tabActive : ""} ${isOnTab && activeTab === tab ? styles.tabSelected : ""}`}
+          >
+            {SAVE_TAB_LABELS[tab]}
+          </button>
+        ))}
+      </div>
+
+      {activeTab === "saves" && (
+        <div ref={listRef} className={styles.itemList}>
+          {items.map((item, i) => {
             const isSelected = selectedIndex === i;
             const isSlot = item.key.startsWith("slot-");
 
@@ -104,7 +100,10 @@ export function Saves() {
               </div>
             );
           })}
-      </div>
+        </div>
+      )}
+
+      {activeTab === "replays" && <ReplayList />}
     </div>
   );
 }

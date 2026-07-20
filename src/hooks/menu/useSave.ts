@@ -4,7 +4,6 @@ import { useGameControls } from "@/contexts/GameControlsContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
-import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
 import {
   getActiveSlot,
   setActiveSlot,
@@ -17,6 +16,8 @@ import {
 import type { SaveItem, ConfirmScreen } from "@/utils/save/SaveItem";
 import { loadGameForSlot } from "@/utils/save/saveGame";
 import { getSceneLabel } from "@/utils/sceneImages";
+import type { SaveTab } from "@/data/saves/tabs";
+import { SAVE_TABS, SAVE_TAB_COUNT } from "@/data/saves/tabs";
 
 export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
   const navigate = useNavigate();
@@ -30,6 +31,8 @@ export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
   selectedIndexRef.current = selectedIndex;
   const [confirmDelete, setConfirmDelete] = useState<ConfirmScreen>("none");
   const [refreshKey, setRefreshKey] = useState(0);
+  const [activeTab, setActiveTab] = useState<SaveTab>("saves");
+  const [isOnTab, setIsOnTab] = useState(true);
 
   const activeSlot = getActiveSlot();
   const availableSlots = getAvailableSlots();
@@ -47,12 +50,10 @@ export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
 
   const refreshRef = useRef(() => setRefreshKey((k) => k + 1));
 
-  const [activeTab, setActiveTab] = useState<"saves" | "replays">("saves");
-
   const items = useMemo((): SaveItem[] => {
-    const list: SaveItem[] = [];
+    if (activeTab !== "saves") return [];
 
-    list.push({ key: "tab-saves", label: "— Saves —" });
+    const list: SaveItem[] = [];
 
     for (const slot of [0, 1] as SlotIndex[]) {
       if (isSlotUsed(slot)) {
@@ -85,11 +86,18 @@ export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
       list.push({ key: "newGame", label: "Novo Jogo" });
     }
 
-    list.push({ key: "tab-replays", label: "— Replays —" });
-
     return list;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refreshKey, activeSlot]);
+  }, [refreshKey, activeSlot, activeTab]);
+
+  const isOnTabRef = useRef(isOnTab);
+  isOnTabRef.current = isOnTab;
+  const activeTabRef = useRef(activeTab);
+  activeTabRef.current = activeTab;
+  const confirmDeleteRef = useRef(confirmDelete);
+  confirmDeleteRef.current = confirmDelete;
+  const itemsRef = useRef(items);
+  itemsRef.current = items;
 
   useEffect(() => {
     if (selectedIndex >= items.length) setSelectedIndex(0);
@@ -99,21 +107,59 @@ export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
     pushControls({
       onUp: () => {
         playMoveRef.current();
-        const count = confirmDelete !== "none" ? 2 : items.length;
-        setSelectedIndex((prev) => circularPrev(prev, count));
+
+        if (isOnTabRef.current) return;
+
+        if (confirmDeleteRef.current !== "none") return;
+
+        if (selectedIndexRef.current === 0) {
+          setIsOnTab(true);
+          return;
+        }
+
+        setSelectedIndex((prev) => prev - 1);
       },
       onDown: () => {
         playMoveRef.current();
-        const count = confirmDelete !== "none" ? 2 : items.length;
-        setSelectedIndex((prev) => circularNext(prev, count));
+
+        if (isOnTabRef.current) {
+          setIsOnTab(false);
+          setSelectedIndex(0);
+          return;
+        }
+
+        if (confirmDeleteRef.current !== "none") return;
+
+        const count = itemsRef.current.length;
+        setSelectedIndex((prev) => (prev + 1) % count);
+      },
+      onLeft: () => {
+        if (!isOnTabRef.current) return;
+        playMoveRef.current();
+        setActiveTab((prev) => {
+          const currentIdx = SAVE_TABS.indexOf(prev);
+          return SAVE_TABS[(currentIdx - 1 + SAVE_TAB_COUNT) % SAVE_TAB_COUNT];
+        });
+        setSelectedIndex(0);
+      },
+      onRight: () => {
+        if (!isOnTabRef.current) return;
+        playMoveRef.current();
+        setActiveTab((prev) => {
+          const currentIdx = SAVE_TABS.indexOf(prev);
+          return SAVE_TABS[(currentIdx + 1) % SAVE_TAB_COUNT];
+        });
+        setSelectedIndex(0);
       },
       onConfirm: () => {
+        if (isOnTabRef.current) return true;
+
         const idx = selectedIndexRef.current;
-        if (confirmDelete !== "none") {
+        if (confirmDeleteRef.current !== "none") {
           if (idx === 0) {
             playSelectRef.current();
-            clearSlot(confirmDelete.slot);
-            if (confirmDelete.slot === getActiveSlot()) {
+            clearSlot(confirmDeleteRef.current.slot);
+            if (confirmDeleteRef.current.slot === getActiveSlot()) {
               const remaining = getUsedSlots();
               if (remaining.length > 0) setActiveSlot(remaining[0]);
             }
@@ -133,10 +179,12 @@ export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
           return;
         }
 
-        const item = items[idx];
+        const item = itemsRef.current[idx];
         if (!item) return;
 
         playSelectRef.current();
+
+        if (activeTabRef.current === "replays") return true;
 
         if (item.key.startsWith("slot-") && item.slot !== undefined) {
           const slot = item.slot;
@@ -157,19 +205,13 @@ export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
           clearSlot(free);
           sessionStorage.setItem("saveSwitchTarget", "/tutorial");
           window.location.replace(import.meta.env.BASE_URL);
-        } else if (item.key === "tab-saves") {
-          setActiveTab("saves");
-          setSelectedIndex(0);
-        } else if (item.key === "tab-replays") {
-          setActiveTab("replays");
-          setSelectedIndex(0);
         } else if (item.key === "back") {
           closeNavbarRef.current();
           setModeRef.current("explore");
         }
       },
       onCancel: () => {
-        if (confirmDelete !== "none") {
+        if (confirmDeleteRef.current !== "none") {
           setConfirmDelete("none");
           setSelectedIndex(0);
           return true;
@@ -180,7 +222,7 @@ export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
     });
 
     return () => popControls();
-  }, [items, confirmDelete, pushControls, popControls]);
+  }, [pushControls, popControls]);
 
   useEffect(() => {
     if (!listRef?.current) return;
@@ -190,5 +232,5 @@ export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
     selectedElement.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, [selectedIndex, listRef]);
 
-  return { confirmDelete, selectedIndex, items, activeSlot, activeTab };
+  return { confirmDelete, selectedIndex, items, activeSlot, activeTab, isOnTab };
 }
