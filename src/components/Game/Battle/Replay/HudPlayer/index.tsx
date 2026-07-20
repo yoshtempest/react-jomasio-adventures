@@ -16,9 +16,11 @@ export function HudPlayer({ php, pmaxhp, pshield, del, hits, pettype, petphp, pe
   const hpColor = hpPct > 70 ? "limegreen" : hpPct > 30 ? "orange" : "red";
   const delPct = hits > 0 ? Math.min(100, (del / hits) * 100) : 0;
   const delFull = del >= hits;
+  const playerName = localStorage.getItem("playerName") || "Protagonista";
 
   return (
     <div className={styles.hudPlayer}>
+      <span className={styles.playerName}>{playerName}</span>
       <div className={styles.hudRow}>
         <div className={styles.hudBarOuter}>
           <div className={styles.hudBarFill} style={{ width: `${hpPct}%`, background: hpColor }} />
