@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { asset, sfx } from "@/utils/paths";
+import { asset, resolveAsset } from "@/utils/paths";
 import {
   getSpritePath,
   getBossSizeMultiplier,
 } from "@/utils/npc/getSpritePath";
 import type { ReplayData } from "@/utils/types/replay";
-import { useGameAudio } from "@/hooks/game/useGameAudio";
 import { useAudio } from "@/contexts/AudioContext";
+import { createSounds } from "@/utils/soundEffects";
 import { ReplayHeader } from "./ReplayHeader";
 import { HudPlayer } from "./HudPlayer";
 import { HudNpc } from "./HudNpc";
@@ -66,28 +66,77 @@ export function ReplayPlayer({ replay, onClose }: Props) {
   const bgmVolumeRef = useRef(bgmVolume);
   bgmVolumeRef.current = bgmVolume;
 
-  const battleAudio = useGameAudio({
-    src: replay.audioSrc,
-    loop: true,
-    volume: 0.5,
-  });
+  const bgmRef = useRef<HTMLAudioElement | null>(null);
+  const bgmReadyRef = useRef(false);
+  const playingRef = useRef(playing);
+  playingRef.current = playing;
 
   useEffect(() => {
-    if (playing) {
-      battleAudio.play();
-    } else {
-      battleAudio.pause();
-    }
-  }, [playing, battleAudio]);
+    const audio = new Audio(resolveAsset(replay.audioSrc));
+    audio.loop = true;
+    audio.preload = "auto";
+    audio.volume = 0.5 * (bgmVolumeRef.current / 100);
 
-  const audioElementsRef = useRef<Map<string, HTMLAudioElement>>(new Map());
+    const onCanPlay = () => {
+      bgmReadyRef.current = true;
+      if (playingRef.current) {
+        audio.play().catch(() => {});
+      }
+    };
+
+    audio.addEventListener("canplaythrough", onCanPlay);
+    audio.load();
+    bgmRef.current = audio;
+
+    return () => {
+      audio.removeEventListener("canplaythrough", onCanPlay);
+      audio.pause();
+      audio.src = "";
+      bgmRef.current = null;
+      bgmReadyRef.current = false;
+    };
+  }, [replay.audioSrc]);
+
+  useEffect(() => {
+    const audio = bgmRef.current;
+    if (!audio) return;
+    audio.volume = 0.5 * (bgmVolume / 100);
+  }, [bgmVolume]);
+
+  useEffect(() => {
+    const audio = bgmRef.current;
+    if (!audio || !bgmReadyRef.current) return;
+    if (playing) {
+      audio.play().catch(() => {});
+    } else {
+      audio.pause();
+    }
+  }, [playing]);
+
+  const soundsMapRef = useRef<Record<string, HTMLAudioElement>>(
+    {} as Record<string, HTMLAudioElement>,
+  );
+
+  useEffect(() => {
+    const map = createSounds() as Record<string, HTMLAudioElement>;
+    soundsMapRef.current = map;
+    return () => {
+      Object.values(map).forEach((audio) => {
+        audio.pause();
+        audio.src = "";
+      });
+    };
+  }, []);
+
   const lastEventIndexRef = useRef(0);
 
   const stopAllSfx = useCallback(() => {
-    audioElementsRef.current.forEach((audio) => {
-      audio.pause();
-      audio.currentTime = 0;
-    });
+    if (soundsMapRef.current) {
+      Object.values(soundsMapRef.current).forEach((audio) => {
+        audio.pause();
+        audio.currentTime = 0;
+      });
+    }
   }, []);
 
   const processAudioEvents = useCallback(
@@ -107,14 +156,12 @@ export function ReplayPlayer({ replay, onClose }: Props) {
           continue;
         }
 
-        let audio = audioElementsRef.current.get(ev.sound);
+        const audio = soundsMapRef.current[ev.sound] as
+          | HTMLAudioElement
+          | undefined;
         if (!audio) {
-          try {
-            audio = sfx(`/${ev.sound}.mp3`);
-            audioElementsRef.current.set(ev.sound, audio);
-          } catch {
-            continue;
-          }
+          lastEventIndexRef.current = i + 1;
+          continue;
         }
 
         if (ev.op === "play") {
@@ -216,7 +263,6 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
       if (e.key === " ") {
         e.preventDefault();
         setPlaying((p) => !p);
@@ -229,17 +275,15 @@ export function ReplayPlayer({ replay, onClose }: Props) {
   }, [onClose, step]);
 
   useEffect(() => {
-    const audio = battleAudio;
-    const elements = audioElementsRef.current;
     return () => {
-      audio.stop();
-      elements.forEach((a) => {
+      bgmRef.current?.pause();
+      bgmRef.current = null;
+      Object.values(soundsMapRef.current).forEach((a) => {
         a.pause();
         a.currentTime = 0;
       });
-      elements.clear();
     };
-  }, [battleAudio]);
+  }, []);
 
   if (!f) return null;
 
