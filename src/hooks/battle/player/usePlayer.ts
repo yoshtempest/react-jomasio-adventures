@@ -8,6 +8,7 @@ import { applyBasicHit, applySpecialHit } from "@/gameRules/battle/applyHit";
 import type { BattleBehavior } from "@/utils/types/player/behavior";
 import type { CharacterProgress } from "@/data/characters/defaultProgress";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import { logPlay } from "@/hooks/battle/recording/audioEventLog";
 
 type Props = {
   player: Player;
@@ -211,6 +212,7 @@ export function usePlayerBattle({
 
       if (player.character === "marcelo") {
         playSound("marshadowSpecial");
+        logPlay("marshadowSpecial");
       }
 
       applySpecialHit({

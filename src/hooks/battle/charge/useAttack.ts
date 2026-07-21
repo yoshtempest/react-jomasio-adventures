@@ -4,6 +4,7 @@ import { useChargeDash } from "@/hooks/battle/charge/useDash";
 import { CHARGE_TIME } from "@/utils/types/battle/charge";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import { logPlay, logStop } from "@/hooks/battle/recording/audioEventLog";
 
 type Props = {
   player: Player;
@@ -103,6 +104,7 @@ export function useChargeAttack(props: Props) {
     chargeStartRef.current = Date.now();
     particlesHook.start();
     playSound("chargingAttack", true);
+    logPlay("chargingAttack", true);
     setPlayerState("charging");
   }
 
@@ -110,6 +112,7 @@ export function useChargeAttack(props: Props) {
     if (!isHoldingRef.current) return;
     particlesHook.stop();
     stopSound("chargingAttack");
+    logStop("chargingAttack");
     isHoldingRef.current = false;
     setPlayerState("idle");
   }
@@ -122,7 +125,9 @@ export function useChargeAttack(props: Props) {
     if (elapsed >= CHARGE_TIME) {
       particlesHook.stop();
       stopSound("chargingAttack");
+      logStop("chargingAttack");
       playSound("chargeAttack");
+      logPlay("chargeAttack");
       dashHook.execute(player);
       isHoldingRef.current = false;
     } else {

@@ -6,6 +6,7 @@ import { isNpcInRange } from "@/gameRules/battle/range";
 import { isFacingTarget } from "@/gameRules/battle/direction";
 import { handleNpcBlocking } from "./useBlocking";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import { logPlay } from "@/hooks/battle/recording/audioEventLog";
 
 type Props = {
   npcLevel: number;
@@ -119,6 +120,7 @@ export function useNpcBattle({
   const onFullBlock = useCallback(() => {
     if (player.character === "marcelo") {
       playSound("swordDeflected");
+      logPlay("swordDeflected");
     }
   }, [player.character, playSound]);
 

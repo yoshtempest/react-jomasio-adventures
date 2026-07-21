@@ -51,6 +51,13 @@ export type ReplayFrame = {
   comboAction: string | null;
 };
 
+export type AudioLogEvent = {
+  t: number;
+  sound: string;
+  op: "play" | "stop";
+  loop: boolean;
+};
+
 export type ReplayData = {
   id: string;
   npcType: string;
@@ -59,9 +66,11 @@ export type ReplayData = {
   playerCharacter: string;
   playerLevel: number;
   background: string;
+  audioSrc: string;
   date: string;
   duration: number;
   frames: ReplayFrame[];
+  audioEvents: AudioLogEvent[];
 };
 
 export type PlayerSnap = {

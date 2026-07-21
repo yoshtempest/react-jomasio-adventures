@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { asset } from "@/utils/paths";
+import { asset, sfx } from "@/utils/paths";
 import {
   getSpritePath,
   getBossSizeMultiplier,
 } from "@/utils/npc/getSpritePath";
 import type { ReplayData } from "@/utils/types/replay";
+import { useGameAudio } from "@/hooks/game/useGameAudio";
+import { useAudio } from "@/contexts/AudioContext";
 import { ReplayHeader } from "./ReplayHeader";
 import { HudPlayer } from "./HudPlayer";
 import { HudNpc } from "./HudNpc";
@@ -45,6 +47,13 @@ function resolvePlayerState(s: string): string {
   return CROUCH[s] ?? (s === "charging" ? "idle" : s);
 }
 
+const SFX_VOLUME: Record<string, number> = {
+  boom: 1.3,
+  slimitaJump: 0.3,
+  marshadowSpecial: 0.7,
+  win: 0.5,
+};
+
 export function ReplayPlayer({ replay, onClose }: Props) {
   const [fi, setFi] = useState(0);
   const [playing, setPlaying] = useState(true);
@@ -52,6 +61,97 @@ export function ReplayPlayer({ replay, onClose }: Props) {
   const ivRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const vpRef = useRef<HTMLDivElement>(null);
   const [vpSize, setVpSize] = useState({ w: 0, h: 0 });
+
+  const { bgmVolume } = useAudio();
+  const bgmVolumeRef = useRef(bgmVolume);
+  bgmVolumeRef.current = bgmVolume;
+
+  const battleAudio = useGameAudio({
+    src: replay.audioSrc,
+    loop: true,
+    volume: 0.5,
+  });
+
+  useEffect(() => {
+    if (playing) {
+      battleAudio.play();
+    } else {
+      battleAudio.pause();
+    }
+  }, [playing, battleAudio]);
+
+  const audioElementsRef = useRef<Map<string, HTMLAudioElement>>(new Map());
+  const lastEventIndexRef = useRef(0);
+
+  const stopAllSfx = useCallback(() => {
+    audioElementsRef.current.forEach((audio) => {
+      audio.pause();
+      audio.currentTime = 0;
+    });
+  }, []);
+
+  const processAudioEvents = useCallback(
+    (fromTime: number, toTime: number) => {
+      const events = replay.audioEvents;
+      if (!events || events.length === 0) return;
+
+      for (
+        let i = lastEventIndexRef.current;
+        i < events.length;
+        i++
+      ) {
+        const ev = events[i];
+        if (ev.t > toTime) break;
+        if (ev.t < fromTime) {
+          lastEventIndexRef.current = i + 1;
+          continue;
+        }
+
+        let audio = audioElementsRef.current.get(ev.sound);
+        if (!audio) {
+          try {
+            audio = sfx(`/${ev.sound}.mp3`);
+            audioElementsRef.current.set(ev.sound, audio);
+          } catch {
+            continue;
+          }
+        }
+
+        if (ev.op === "play") {
+          try {
+            audio.pause();
+            audio.currentTime = 0;
+            audio.loop = ev.loop;
+            audio.volume =
+              (bgmVolumeRef.current / 100) *
+              (SFX_VOLUME[ev.sound] ?? 1);
+            audio.play().catch(() => {});
+          } catch {
+            // AbortError
+          }
+        } else if (ev.op === "stop") {
+          audio.pause();
+          audio.currentTime = 0;
+        }
+
+        lastEventIndexRef.current = i + 1;
+      }
+    },
+    [replay.audioEvents],
+  );
+
+  const prevFiRef = useRef(0);
+
+  useEffect(() => {
+    if (fi === 0 && prevFiRef.current === 0) return;
+
+    const prevFrame = replay.frames[prevFiRef.current];
+    const curFrame = replay.frames[fi];
+    if (prevFrame && curFrame) {
+      processAudioEvents(prevFrame.t, curFrame.t);
+    }
+    prevFiRef.current = fi;
+  }, [fi, replay.frames, processAudioEvents]);
 
   useEffect(() => {
     if (!vpRef.current) return;
@@ -95,6 +195,25 @@ export function ReplayPlayer({ replay, onClose }: Props) {
     };
   }, [playing, speed, fi, total, step]);
 
+  const handleRestart = useCallback(() => {
+    stopAllSfx();
+    lastEventIndexRef.current = 0;
+    prevFiRef.current = 0;
+    setFi(0);
+    setPlaying(true);
+  }, [stopAllSfx]);
+
+  const handleSeek = useCallback(
+    (frame: number) => {
+      stopAllSfx();
+      lastEventIndexRef.current = 0;
+      prevFiRef.current = frame;
+      setFi(frame);
+      setPlaying(false);
+    },
+    [stopAllSfx],
+  );
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -108,6 +227,19 @@ export function ReplayPlayer({ replay, onClose }: Props) {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [onClose, step]);
+
+  useEffect(() => {
+    const audio = battleAudio;
+    const elements = audioElementsRef.current;
+    return () => {
+      audio.stop();
+      elements.forEach((a) => {
+        a.pause();
+        a.currentTime = 0;
+      });
+      elements.clear();
+    };
+  }, [battleAudio]);
 
   if (!f) return null;
 
@@ -177,9 +309,9 @@ export function ReplayPlayer({ replay, onClose }: Props) {
               />
             ))}
 
-            {f.pettype && f.petx != null && f.pety != null && (
+            {f.petType && f.petx != null && f.pety != null && (
               <img
-                src={getSpritePath(f.pettype, f.petst ?? "idle", 1)}
+                src={getSpritePath(f.petType, f.petst ?? "idle", 1)}
                 className={styles.sprite}
                 style={{
                   width: TILE * 0.8,
@@ -265,7 +397,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
             hits={f.hits}
             blockGauge={f.blockGauge}
             blockLimit={f.blockLimit}
-            pettype={f.pettype}
+            pettype={f.petType}
             petphp={f.petphp}
             petpmaxhp={f.petpmaxhp}
           />
@@ -281,10 +413,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
         <ReplayControls
           isPlaying={playing}
           speed={speed}
-          onRestart={() => {
-            setFi(0);
-            setPlaying(true);
-          }}
+          onRestart={handleRestart}
           onStepBack={() => step(-5)}
           onTogglePlay={() => setPlaying((p) => !p)}
           onStepForward={() => step(5)}
@@ -296,10 +425,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
           currentFrame={fi}
           totalFrames={total}
           pct={pct}
-          onSeek={(frame) => {
-            setFi(frame);
-            setPlaying(false);
-          }}
+          onSeek={handleSeek}
         />
       </div>
     </div>

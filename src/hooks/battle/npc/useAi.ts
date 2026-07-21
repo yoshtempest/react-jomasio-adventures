@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { npcBehaviors } from "@/gameRules/battle/behaviors/npc/index";
 import { CROUCHED_STATES } from "@/gameRules/movement/battle";
 import { useProjectile } from "./useProjectile";
@@ -10,6 +10,7 @@ import {
 import type { NPCBattleState } from "@/utils/types/npc/npc";
 import type { BattleObstacle } from "@/utils/types/maps/battle";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import { logPlay, logStop } from "@/hooks/battle/recording/audioEventLog";
 import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
 import { BATTLE_LIMITS } from "@/utils/types/player/movement";
 
@@ -104,6 +105,13 @@ export function useNpcAI({
   obstaclesRef.current = obstacles ?? [];
 
   const { playSound, stopSound } = useSoundEffects();
+  const loggedPlaySound = useCallback(
+    (sound: Parameters<typeof playSound>[0], loop?: boolean) => {
+      logPlay(sound, loop);
+      playSound(sound, loop);
+    },
+    [playSound],
+  );
   const jhowsimarSoundPlayingRef = useRef(false);
   const onGrabPlayerRef = useRef(onGrabPlayer);
   onGrabPlayerRef.current = onGrabPlayer;
@@ -124,9 +132,11 @@ export function useNpcAI({
     () => {
       if (npcTypeRef.current === "vandinhaFragment") {
         playSound("breakDish");
+        logPlay("breakDish");
       }
       if (npcTypeRef.current === "maurao") {
         playSound("knifeCut");
+        logPlay("knifeCut");
       }
       onProjectileHit();
     },
@@ -221,7 +231,7 @@ export function useNpcAI({
           onSummon: onSummonRef.current,
           onPullPlayer: onPullPlayerRef.current,
           summonTimerRef,
-          playSound,
+          playSound: loggedPlaySound,
           npcHp: npcHpRef?.current ?? 0,
           npcMaxHp: npcMaxHpRef?.current ?? 1,
           onGrabPlayer: (flipped) => onGrabPlayerRef.current?.(flipped),
@@ -240,9 +250,11 @@ export function useNpcAI({
           if (!inRange && !jhowsimarSoundPlayingRef.current) {
             jhowsimarSoundPlayingRef.current = true;
             playSound("jhowsimarVemCa", true);
+            logPlay("jhowsimarVemCa", true);
           } else if (inRange && jhowsimarSoundPlayingRef.current) {
             jhowsimarSoundPlayingRef.current = false;
             stopSound("jhowsimarVemCa");
+            logStop("jhowsimarVemCa");
           }
         }
 
@@ -272,6 +284,7 @@ export function useNpcAI({
     return () => {
       clearInterval(interval);
       stopSound("jhowsimarVemCa");
+      logStop("jhowsimarVemCa");
     };
   }, [
     hitstopRef,
@@ -285,6 +298,7 @@ export function useNpcAI({
     npcHpRef,
     npcMaxHpRef,
     playSound,
+    loggedPlaySound,
     stopSound,
   ]);
 

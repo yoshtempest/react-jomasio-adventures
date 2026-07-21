@@ -9,6 +9,10 @@ import type {
   SummonSnap,
   PetSnap,
 } from "@/utils/types/replay";
+import {
+  initAudioLog,
+  getAudioEvents,
+} from "@/hooks/battle/recording/audioEventLog";
 
 type Props = {
   playerRef: React.RefObject<PlayerSnap>;
@@ -30,6 +34,7 @@ type Props = {
   playerCharacter: string;
   playerLevel: number;
   background: string;
+  audioSrc: string;
 };
 
 export function useBattleRecording({
@@ -47,12 +52,13 @@ export function useBattleRecording({
   playerCharacter,
   playerLevel,
   background,
+  audioSrc,
 }: Props) {
   const [isRecording, setIsRecording] = useState(false);
   const framesRef = useRef<ReplayFrame[]>([]);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startTimestampRef = useRef(0);
-  const metadataRef = useRef<Omit<ReplayData, "id" | "frames"> | null>(null);
+  const metadataRef = useRef<Omit<ReplayData, "id" | "frames" | "audioEvents"> | null>(null);
 
   const stopRecording = useCallback(() => {
     if (intervalRef.current) {
@@ -73,9 +79,11 @@ export function useBattleRecording({
       playerCharacter,
       playerLevel,
       background,
+      audioSrc,
       date: new Date().toISOString(),
       duration: 0,
     };
+    initAudioLog(startTimestampRef.current);
     setIsRecording(true);
 
     intervalRef.current = setInterval(() => {
@@ -159,6 +167,7 @@ export function useBattleRecording({
     playerCharacter,
     playerLevel,
     background,
+    audioSrc,
     playerRef,
     npcRef,
     battleRef,
@@ -177,6 +186,7 @@ export function useBattleRecording({
       ...metadataRef.current!,
       duration,
       frames: framesRef.current,
+      audioEvents: getAudioEvents(),
     };
   }, []);
 
