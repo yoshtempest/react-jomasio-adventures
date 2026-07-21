@@ -1,4 +1,4 @@
-import { Minus, Plus, SendHorizonal } from "lucide-react";
+import { Minus, Plus } from "lucide-react";
 import styles from "../styles.module.css";
 
 type Props = {
@@ -41,16 +41,6 @@ export function VolumeSection({ sfxVolume, bgmVolume, selectedColumn }: Props) {
           </div>
           <Plus />
         </div>
-      </div>
-      <div className={styles.volumeContainer}>
-        <input
-          placeholder="Insira um código"
-          className={styles.tutorialButton}
-        />
-        <SendHorizonal
-          className={styles.inputIcon}
-          onClick={() => console.log("code sended")}
-        />
       </div>
     </div>
   );
