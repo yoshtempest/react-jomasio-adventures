@@ -9,13 +9,43 @@ function cardImage(npcType: string): string {
 
 function cardDescription(card: (typeof NPC_CARDS)[string]): string {
   const classLabel = CLASS_DATA[card.npcClass].label;
-  return [
+  const lines = [
     card.description,
     "",
     `Classe: ${classLabel}`,
     `ATK: ${card.attack}  DEF: ${card.defense}`,
     `Cod: ${card.code}`,
-  ].join("\n");
+  ];
+
+  const reward = card.reward;
+  const rewardLines: string[] = [];
+
+  if (reward.coins) rewardLines.push(`Kwanzas: +${reward.coins}`);
+  if (reward.hyperCoins) rewardLines.push(`HyperCoins: +${reward.hyperCoins}`);
+
+  if (reward.stats) {
+    const statNames: Record<string, string> = {
+      hp: "HP",
+      strength: "Força",
+      intelligence: "Inteligência",
+      resistance: "Resistência",
+      tenacity: "Tenacidade",
+      luck: "Sorte",
+    };
+    for (const [key, val] of Object.entries(reward.stats)) {
+      if (val) rewardLines.push(`${statNames[key] ?? key}: +${val}`);
+    }
+  }
+
+  if (reward.characterUnlock) {
+    rewardLines.push(`Desbloqueio: ${reward.characterUnlock}`);
+  }
+
+  if (rewardLines.length > 0) {
+    lines.push("", "Recompensas:", ...rewardLines);
+  }
+
+  return lines.join("\n");
 }
 
 const CARD_ITEMS = Object.fromEntries(

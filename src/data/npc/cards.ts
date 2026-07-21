@@ -7,6 +7,16 @@ export type NpcCard = {
   attack: number;
   defense: number;
   code: string;
+  reward: CardReward;
+};
+
+export type CardReward = {
+  stats?: Partial<Omit<StatBlock, "shield" | "vampirism" | "reflect">>;
+  coins?: number;
+  hyperCoins?: number;
+  items?: { id: string; qty?: number }[];
+  equipment?: EquipmentDropInfo[];
+  characterUnlock?: string;
 };
 
 function hashCode(str: string): number {
@@ -27,11 +37,6 @@ function statInRange(
   return min + (h % (max - min + 1));
 }
 
-function generateCode(npcType: string): string {
-  const h = hashCode(npcType + "_code_v1");
-  return String(h).padStart(10, "0").slice(0, 10);
-}
-
 const CLASS_RANGES: Record<NPCClass, { atk: [number, number]; def: [number, number] }> = {
   common:    { atk: [80, 299],   def: [40, 199] },
   rare:      { atk: [200, 499],  def: [150, 399] },
@@ -45,6 +50,8 @@ function makeCard(
   name: string,
   npcClass: NPCClass,
   description: string,
+  code: string,
+  reward: CardReward,
 ): NpcCard {
   const r = CLASS_RANGES[npcClass];
   return {
@@ -55,7 +62,8 @@ function makeCard(
     description,
     attack: statInRange(npcType, r.atk[0], r.atk[1], 1),
     defense: statInRange(npcType, r.def[0], r.def[1], 2),
-    code: generateCode(npcType),
+    code,
+    reward,
   };
 }
 
@@ -65,234 +73,312 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     "Carta de Morto de Fome",
     "common",
     "Ele não quer seu sangue. Ele quer seu lanche.",
+    "1000000001",
+    { coins: 50, stats: { hp: 1, strength: 1 } },
   ),
   rice: makeCard(
     "rice",
     "Carta de Bolinho de Arroz",
     "common",
     "Não é food. É um estilo de vida.",
+    "1000000002",
+    { coins: 50, stats: { hp: 1, intelligence: 1 } },
   ),
   hungryDog: makeCard(
     "hungryDog",
     "Carta de Cachorro Faminto",
     "common",
     "Só queria um osso. Recebeu um soco.",
+    "1000000003",
+    { coins: 50, stats: { strength: 2 } },
   ),
   hungryFish: makeCard(
     "hungryFish",
     "Carta de Peixe Faminto",
     "common",
     "Tão fraco que morre afogado.",
+    "1000000004",
+    { coins: 50, stats: { hp: 2 } },
   ),
   hungryCow: makeCard(
     "hungryCow",
     "Carta de Vaca Faminta",
     "common",
     "Moo? Mais como... morreu.",
+    "1000000005",
+    { coins: 75, stats: { hp: 2, strength: 1 } },
   ),
   hungryPig: makeCard(
     "hungryPig",
     "Carta de Porco Faminto",
     "common",
     "Não era da china. Era do bairro.",
+    "1000000006",
+    { coins: 75, stats: { strength: 1, armor: 1 } },
   ),
   figurantOfBaalCult: makeCard(
     "figurantOfBaalCult",
     "Carta de Figurante do Culto de Baal",
     "common",
     "Nem sabia que era culto. Achava que era clube de leitura.",
+    "1000000007",
+    { coins: 75, stats: { intelligence: 2 } },
   ),
   figurantOfMobyDickCult: makeCard(
     "figurantOfMobyDickCult",
     "Carta de Figurante do Culto de Moby Dick",
     "common",
     "Estava aqui só pelo churrasco.",
+    "1000000008",
+    { coins: 75, stats: { hp: 1, strength: 1, armor: 1 } },
   ),
   figurantOfDragonKingCult: makeCard(
     "figurantOfDragonKingCult",
     "Carta de Figurante do Culto do Rei Dragão",
     "common",
     "Acreditou que era cosplay. Foi tarde demais.",
+    "1000000009",
+    { coins: 100, stats: { hp: 2, strength: 1, intelligence: 1 } },
   ),
   piupiu: makeCard(
     "piupiu",
     "Carta de Pinto",
     "rare",
     "Piu piu? Mais como... au au.",
+    "2000000001",
+    { coins: 200, hyperCoins: 1, stats: { strength: 3, luck: 2 } },
   ),
   jhowsimar: makeCard(
     "jhowsimar",
     "Carta de Jhowsimar",
     "rare",
     "O vigia mais assustador que já existiu. Menos que o porteiro da federal.",
+    "2000000002",
+    { coins: 200, hyperCoins: 1, stats: { hp: 4, armor: 2 } },
   ),
   goat: makeCard(
     "goat",
     "Carta de Bode",
     "rare",
     "GOAT significa Greatest Of All Time. Mas ele era o pior.",
+    "2000000003",
+    { coins: 200, hyperCoins: 1, stats: { strength: 4, tenacity: 2 } },
   ),
   fischer: makeCard(
     "fischer",
     "Carta de Fischer",
     "rare",
     "Fischer Price? Não. Fischer Dor.",
+    "2000000004",
+    { coins: 200, hyperCoins: 1, stats: { intelligence: 4, luck: 2 } },
   ),
   crocodile: makeCard(
     "crocodile",
     "Carta de Crocodilo",
     "rare",
     "Crocodilo de bote? Não. Crocodilo de bote quente.",
+    "2000000005",
+    { coins: 250, hyperCoins: 2, stats: { strength: 3, hp: 3, armor: 2 } },
   ),
   vandinhaFragment: makeCard(
     "vandinhaFragment",
     "Carta de Fragmento de Vandinha",
     "epic",
     "Só um pedaço e já é mais forte que você.",
+    "3000000001",
+    { coins: 500, hyperCoins: 5, stats: { hp: 5, strength: 5, intelligence: 5 } },
   ),
   srGuaxinim: makeCard(
     "srGuaxinim",
     "Carta de Sr. Guaxinim",
     "epic",
     "Guaxinim com coroa. Elegante. Mortal. Com fome de lixo.",
+    "3000000002",
+    { coins: 500, hyperCoins: 5, stats: { luck: 8, tenacity: 4 } },
   ),
   riquelsonDog: makeCard(
     "riquelsonDog",
     "Carta de Cachorro de Riquelson",
     "epic",
     "O cachorro do Riquelson. Ele morde. Muito.",
+    "3000000003",
+    { coins: 500, hyperCoins: 5, stats: { strength: 8, hp: 4 } },
   ),
   baiano: makeCard(
     "baiano",
     "Carta de Baiano",
     "epic",
     "Não é baiano de praia. É baiano de porrada.",
+    "3000000004",
+    { coins: 500, hyperCoins: 5, stats: { hp: 6, strength: 6, armor: 4 } },
   ),
   elitCrocodile: makeCard(
     "elitCrocodile",
     "Carta de Crocodilo de Elite",
     "epic",
     "Crocodilo com diploma. Mais perigoso que um sem.",
+    "3000000005",
+    { coins: 600, hyperCoins: 6, stats: { strength: 7, armor: 6, tenacity: 3 } },
   ),
   deise: makeCard(
     "deise",
     "Carta de Deise",
     "boss",
     "Lich imortal. Imortal de verdade. Pelo menos até você chegar.",
+    "4000000001",
+    { coins: 1000, hyperCoins: 10, stats: { hp: 10, intelligence: 10 }, characterUnlock: "deise" },
   ),
   slimita: makeCard(
     "slimita",
     "Carta de Slimita",
     "boss",
     "A paquera mais perigosa do Jomasio. Cuidado com o olhar.",
+    "4000000002",
+    { coins: 1000, hyperCoins: 10, stats: { luck: 15, tenacity: 8 } },
   ),
   hungryKing: makeCard(
     "hungryKing",
     "Carta de Rei Faminto",
     "boss",
     "Rei de quê? De passar fome.",
+    "4000000003",
+    { coins: 1200, hyperCoins: 12, stats: { hp: 15, strength: 8 } },
   ),
   neimito: makeCard(
     "neimito",
     "Carta de Neimito",
     "boss",
     "Mestre do calor. E de te derreter.",
+    "4000000004",
+    { coins: 1200, hyperCoins: 12, stats: { strength: 12, intelligence: 8 } },
   ),
   planetarySisters: makeCard(
     "planetarySisters",
     "Carta de Irmãs Planetárias",
     "boss",
     "Irmãs que se entendem. Que assustador.",
+    "4000000005",
+    { coins: 1200, hyperCoins: 12, stats: { hp: 10, strength: 10, intelligence: 10 } },
   ),
   maugrelo: makeCard(
     "maugrelo",
     "Carta de Maugrelo",
     "boss",
     "Parece que gosta de apanhar. Estranho.",
+    "4000000006",
+    { coins: 1000, hyperCoins: 10, stats: { hp: 20, armor: 10 } },
   ),
   maurao: makeCard(
     "maurao",
     "Carta de Maurão",
     "boss",
     "Salvou ele da loucura. Mas a loucura não salvou a gente.",
+    "4000000007",
+    { coins: 1200, hyperCoins: 12, stats: { strength: 15, tenacity: 8 } },
   ),
   spiritMotocycler: makeCard(
     "spiritMotocycler",
     "Carta de Motoqueiro Fantasma",
     "boss",
     "Juan Derson. O fantasma mais motorizado do cemitério.",
+    "4000000008",
+    { coins: 1200, hyperCoins: 12, stats: { strength: 12, luck: 10 } },
   ),
   tim: makeCard(
     "tim",
     "Carta de Tim",
     "boss",
     "Duas facas de sashimi e muita raiva. Não é um bom combo.",
+    "4000000009",
+    { coins: 1000, hyperCoins: 10, stats: { strength: 18 } },
   ),
   muyMacho: makeCard(
     "muyMacho",
     "Carta de Muy Macho",
     "boss",
     "O nome diz tudo. Macho demais pra morrer.",
+    "4000000010",
+    { coins: 1200, hyperCoins: 12, stats: { hp: 15, strength: 12, armor: 5 } },
   ),
   lupita: makeCard(
     "lupita",
     "Carta de Lupita",
     "boss",
     "Lupita. Não confunda com a da novela.",
+    "4000000011",
+    { coins: 1000, hyperCoins: 10, stats: { intelligence: 18, luck: 8 } },
   ),
   monsterOfNessRiver: makeCard(
     "monsterOfNessRiver",
     "Carta de Monstro do Rio Ness",
     "boss",
     "Nem é do Ness. É do rio da esquina.",
+    "4000000012",
+    { coins: 1200, hyperCoins: 12, stats: { hp: 20, armor: 8, tenacity: 6 } },
   ),
   mobyDick: makeCard(
     "mobyDick",
     "Carta de Moby Dick",
     "boss",
     "A baleia mais famosa da literatura. E da porrada.",
+    "4000000013",
+    { coins: 1500, hyperCoins: 15, stats: { hp: 25, strength: 10 } },
   ),
   ains: makeCard(
     "ains",
     "Carta de Ains",
     "boss",
     "OVERLORD. Mas caiu que nem um saco de batata.",
+    "4000000014",
+    { coins: 1500, hyperCoins: 15, stats: { intelligence: 20, strength: 10 } },
   ),
   baal: makeCard(
     "baal",
     "Carta de Baal",
     "legendary",
     "Deus do culto. Agora é carta no seu inventário. Humilhante.",
+    "5000000001",
+    { coins: 3000, hyperCoins: 30, stats: { hp: 20, strength: 20, intelligence: 20 }, characterUnlock: "baal" },
   ),
   madame: makeCard(
     "madame",
     "Carta de Madame",
     "legendary",
     "Aranha de caça. Caça você.",
+    "5000000002",
+    { coins: 3000, hyperCoins: 30, stats: { strength: 25, luck: 15 }, characterUnlock: "madame" },
   ),
   yangKai: makeCard(
     "yangKai",
     "Carta de Yang Kai",
     "legendary",
     "Yang? Yin? Não. Só porrada.",
+    "5000000003",
+    { coins: 3000, hyperCoins: 30, stats: { hp: 30, strength: 20 }, characterUnlock: "yangKai" },
   ),
   dragonKing: makeCard(
     "dragonKing",
     "Carta de Rei Dragão",
     "legendary",
     "Rei dos dragões. E da sua coleção agora.",
+    "5000000004",
+    { coins: 3500, hyperCoins: 35, stats: { hp: 25, strength: 25, armor: 10 }, characterUnlock: "dragonKing" },
   ),
   technoblade: makeCard(
     "technoblade",
     "Carta de Technoblade",
     "legendary",
     "Technoblade never dies. Mas virou carta.",
+    "5000000005",
+    { coins: 3500, hyperCoins: 35, stats: { strength: 30, tenacity: 15 }, characterUnlock: "technoblade" },
   ),
   trueVandinha: makeCard(
     "trueVandinha",
     "Carta de Verdadeira Vandinha",
     "legendary",
     "A real. A original. A que dói mais.",
+    "5000000006",
+    { coins: 4000, hyperCoins: 40, stats: { hp: 30, strength: 25, intelligence: 25 }, characterUnlock: "trueVandinha" },
   ),
 };
 
