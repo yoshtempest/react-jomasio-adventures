@@ -2,6 +2,7 @@ import { rollSlotDrop } from "@/data/equipment/drops";
 import { getEquipmentBySlotAndRank, getEquipmentById } from "@/data/equipment";
 import { rollCraftDrops, CRAFT_MATERIALS } from "@/data/items/crafting";
 import { ITEMS } from "@/data/items";
+import { rollCardDrop, NPC_CARDS } from "@/data/npc/cards";
 import type { InventoryItem } from "@/utils/types/player/inventory";
 
 export function rollEnhance(): number {
@@ -126,4 +127,21 @@ export function rollPetGoat(
     rank: pet.rank,
     enhance,
   };
+}
+
+export function rollNpcCardDrop(
+  npcType: string,
+  addItem: (item: InventoryItem) => boolean,
+): ItemDropInfo | null {
+  const card = rollCardDrop(npcType);
+  if (!card) return null;
+
+  const def = NPC_CARDS[card.npcType];
+  if (!def) return null;
+
+  const itemDef = ITEMS[card.id as keyof typeof ITEMS];
+  const image = itemDef && "image" in itemDef ? itemDef.image : undefined;
+
+  addItem({ id: card.id as ItemId });
+  return { id: card.id, name: card.name, qty: 1, image };
 }

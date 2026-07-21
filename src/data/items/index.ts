@@ -7,6 +7,7 @@ import { MOUNT } from "./mount";
 import { POTIONS } from "./potions";
 import { FOODS } from "./food";
 import { COINS } from "./coins";
+import { CARDS } from "./cards";
 
 export const ITEMS = {
   ...CHESTS,
@@ -18,4 +19,5 @@ export const ITEMS = {
   ...POTIONS,
   ...FOODS,
   ...COINS,
+  ...CARDS,
 } as const;

@@ -17,6 +17,7 @@ import {
   rollChestDrop,
   rollKeyDrop,
   rollPetGoat,
+  rollNpcCardDrop,
 } from "./useDrops";
 
 export type { EquipmentDropInfo };
@@ -100,6 +101,9 @@ export function useBattleRewards({ npcClass, npcLevel, npcType, luckBonus }: Pro
     }
 
     if (petGoat) equipmentDrops.push(petGoat);
+
+    const cardDrop = rollNpcCardDrop(npcType, addItem);
+    if (cardDrop) itemDrops.push(cardDrop);
 
     return {
       coinReward,
