@@ -5,6 +5,7 @@
   flex-direction: column;
   position: fixed;
   right: 2%;
+  z-index: 9999999999999;
 }
 
 .button {
