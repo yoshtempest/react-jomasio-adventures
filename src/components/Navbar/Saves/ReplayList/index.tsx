@@ -81,11 +81,10 @@ export function ReplayList() {
             >
               <div className={styles.cardInfo}>
                 <span className={styles.cardTitle}>
-                  {getNpcDisplayName(r.npcType)} — nv.{r.npcLevel}
+                  {r.playerCharacter} - nv.{r.npcLevel} VS {getNpcDisplayName(r.npcType)} - nv.{r.npcLevel}
                 </span>
                 <span className={styles.cardMeta}>
-                  {r.playerCharacter} • {formatDuration(r.duration)} •{" "}
-                  {r.frames.length} frames
+                  {formatDuration(r.duration)}
                 </span>
                 <span className={styles.cardDate}>
                   {dateStr} {timeStr}
