@@ -1,0 +1,61 @@
+.cardRedeemSection {
+  margin-top: var(--fs-8);
+  padding: var(--fs-8);
+  border: var(--size-2) solid var(--border-default);
+  border-radius: var(--size-4);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.cardRedeemSection h3 {
+  margin: 0 0 var(--fs-8) 0;
+  font-size: var(--fs-14);
+  text-align: center;
+}
+
+.cardRedeemRow {
+  display: flex;
+  gap: var(--fs-8);
+}
+
+.cardInput {
+  flex: 1;
+  padding: var(--fs-8);
+  background: var(--bg-color);
+  border: var(--size-2) solid var(--border-default);
+  border-radius: var(--size-4);
+  color: var(--text-color);
+  font-size: var(--fs-14);
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+.cardInput::placeholder {
+  color: var(--text-hint);
+}
+
+.redeemButton {
+  padding: var(--fs-8) var(--medium);
+  background: var(--primary-color);
+  color: var(--text-color);
+  border: var(--size-2) solid var(--border-default);
+  border-radius: var(--size-4);
+  font-size: var(--fs-14);
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.redeemButton:hover {
+  opacity: 0.85;
+}
+
+.redeemMessage {
+  margin: var(--fs-8) 0 0 0;
+  font-size: var(--fs-14);
+  text-align: center;
+  color: var(--text-hint);
+}
+
+.redeemMessage.success {
+  color: var(--success);
+}
