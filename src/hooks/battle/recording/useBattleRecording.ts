@@ -12,7 +12,7 @@ import type {
 import {
   initAudioLog,
   getAudioEvents,
-} from "@/hooks/battle/recording/audioEventLog";
+} from "@/utils/replay/audioEventLog";
 
 type Props = {
   playerRef: React.RefObject<PlayerSnap>;

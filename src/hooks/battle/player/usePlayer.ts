@@ -8,7 +8,7 @@ import { applyBasicHit, applySpecialHit } from "@/gameRules/battle/applyHit";
 import type { BattleBehavior } from "@/utils/types/player/behavior";
 import type { CharacterProgress } from "@/data/characters/defaultProgress";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
-import { logPlay } from "@/hooks/battle/recording/audioEventLog";
+import { logPlay } from "@/utils/replay/audioEventLog";
 
 type Props = {
   player: Player;

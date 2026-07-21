@@ -16,27 +16,12 @@ import { ReplayControls } from "./ReplayControls";
 import { ReplayProgress } from "./ReplayProgress";
 import styles from "./styles.module.css";
 import { ProjectileConstants } from "@/data/projectile";
+import { getReplayLayout } from "@/utils/replay/replayLayout";
 
 type Props = {
   replay: ReplayData;
   onClose: () => void;
 };
-
-const MAP_COLS = 17;
-const MAP_ROWS = 13;
-const SCALE_FIX = 1.4;
-
-function getLayout(w: number, h: number) {
-  const cw = w * 0.74;
-  const ch = h;
-  const TILE = Math.min(cw / MAP_COLS, ch / MAP_ROWS) * SCALE_FIX;
-  const ox = (cw - MAP_COLS * TILE) / 2;
-  const oy = (ch - MAP_ROWS * TILE) / 2;
-  const PLAYER = TILE * 1.4;
-  const sx = w / ProjectileConstants.MAP_WIDTH;
-  const sy = h / ProjectileConstants.MAP_HEIGHT;
-  return { TILE, ox, oy, PLAYER, sx, sy };
-}
 
 const CROUCH: Record<string, string> = {
   idleCrounched: "idleCrounched",
@@ -211,7 +196,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
     return () => obs.disconnect();
   }, []);
 
-  const { TILE, PLAYER, sx, sy } = getLayout(vpSize.w, vpSize.h);
+  const { TILE, PLAYER, sx, sy } = getReplayLayout(vpSize.w, vpSize.h);
 
   const f = replay.frames[fi];
   const total = replay.frames.length;

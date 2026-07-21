@@ -10,7 +10,7 @@ import { usePetProgress } from "@/contexts/PetProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { useNavigate, useLocation } from "react-router";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
-import { logPlay } from "@/hooks/battle/recording/audioEventLog";
+import { logPlay } from "@/utils/replay/audioEventLog";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
 import { useNavbar } from "@/contexts/NavbarContext";

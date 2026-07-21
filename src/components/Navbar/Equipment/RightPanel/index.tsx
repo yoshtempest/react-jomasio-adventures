@@ -8,7 +8,7 @@ import {
   FILTER_TAB_COUNT,
   FILTER_TABS,
   FILTER_LABELS,
-} from "@/utils/equipmentMenu";
+} from "@/utils/equipment/equipmentMenu";
 import { RANK_COLORS, RANK_LABELS } from "@/utils/types/player/equipment";
 import styles from "./styles.module.css";
 import { asset } from "@/utils/paths";

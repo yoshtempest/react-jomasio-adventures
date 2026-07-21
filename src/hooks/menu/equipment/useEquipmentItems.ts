@@ -10,7 +10,7 @@ import type {
   EquipmentStats,
   EquippedItemInfo,
 } from "@/utils/types/player/equipment";
-import type { EquipmentFilter } from "@/utils/equipmentMenu";
+import type { EquipmentFilter } from "@/utils/equipment/equipmentMenu";
 import type {
   CollectedEntry,
   EquippedEntry,

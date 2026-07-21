@@ -6,8 +6,8 @@ import {
   EQUIPPED_COUNT,
   FILTER_TAB_COUNT,
   FILTER_TABS,
-} from "@/utils/equipmentMenu";
-import type { EquipmentFilter } from "@/utils/equipmentMenu";
+} from "@/utils/equipment/equipmentMenu";
+import type { EquipmentFilter } from "@/utils/equipment/equipmentMenu";
 import { useEquipmentItems } from "./useEquipmentItems";
 
 export function useEquipmentMenu(

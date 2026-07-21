@@ -4,7 +4,7 @@ import { useChargeDash } from "@/hooks/battle/charge/useDash";
 import { CHARGE_TIME } from "@/utils/types/battle/charge";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
-import { logPlay, logStop } from "@/hooks/battle/recording/audioEventLog";
+import { logPlay, logStop } from "@/utils/replay/audioEventLog";
 
 type Props = {
   player: Player;

@@ -6,7 +6,7 @@ import { isNpcInRange } from "@/gameRules/battle/range";
 import { isFacingTarget } from "@/gameRules/battle/direction";
 import { handleNpcBlocking } from "./useBlocking";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
-import { logPlay } from "@/hooks/battle/recording/audioEventLog";
+import { logPlay } from "@/utils/replay/audioEventLog";
 
 type Props = {
   npcLevel: number;

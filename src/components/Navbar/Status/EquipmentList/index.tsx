@@ -3,7 +3,7 @@ import { useEquipment } from "@/contexts/EquipmentContext";
 import { EQUIPMENT_SLOTS, RANK_COLORS } from "@/utils/types/player/equipment";
 import styles from "./styles.module.css";
 import { asset } from "@/utils/paths";
-import { FILTER_LABELS } from "@/utils/equipmentMenu";
+import { FILTER_LABELS } from "@/utils/equipment/equipmentMenu";
 
 export function EquipmentList() {
   const { player } = usePlayer();

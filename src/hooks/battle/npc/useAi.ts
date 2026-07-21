@@ -10,7 +10,7 @@ import {
 import type { NPCBattleState } from "@/utils/types/npc/npc";
 import type { BattleObstacle } from "@/utils/types/maps/battle";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
-import { logPlay, logStop } from "@/hooks/battle/recording/audioEventLog";
+import { logPlay, logStop } from "@/utils/replay/audioEventLog";
 import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
 import { BATTLE_LIMITS } from "@/utils/types/player/movement";
 
