@@ -7,7 +7,11 @@ import { REDEEMED_CARDS_KEY } from "@/data/storageKeys";
 import { useInventory } from "@/contexts/InventoryContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 
-export function CardRedeem() {
+type Props = {
+    isSelected: boolean;
+};
+
+export function CardRedeem({ isSelected }: Props) {
     const { addCoins, addHyperCoins} = useCharacterProgress();
 
     const { addItem } = useInventory();
@@ -61,7 +65,8 @@ export function CardRedeem() {
 
     return (
         <>
-            <div className={styles.cardRedeemSection}>
+            <div className={`${styles.cardRedeemSection} ${isSelected ? styles.selected : ""}`}>
+                {isSelected && <span className={styles.cursor}>▼</span>}
                 <h3>Resgatar Carta</h3>
                 <div className={styles.cardRedeemRow}>
                     <input

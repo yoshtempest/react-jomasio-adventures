@@ -58,6 +58,14 @@ type CharacterStatusProps = {
   reflect: number;
 };
 
+type BattleRewardsProps = {
+  myLevel: number;
+  rank: string;
+  xpReward: number;
+  nextLevelXp: number;
+  coinReward: number;
+};
+
 export function getSummaryStats(data: SummaryStatsProps) {
   return [
     stat("Tempo total", formatTime(data.totalPlayTime)),
@@ -116,5 +124,15 @@ export function getCharacterStatus(data: CharacterStatusProps) {
     stat("Escudo", data.shield),
     stat("Vampirismo", data.vampirism),
     stat("Reflexão", data.reflect),
+  ];
+}
+
+export function getBattleRewards(data: BattleRewardsProps) {
+  return [
+    stat("Seu nível", data.myLevel),
+    stat("Ranque", data.rank),
+    stat("Xp Ganho", data.xpReward),
+    stat("XP para o próximo nível", data.nextLevelXp),
+    stat("Moedas", data.coinReward),
   ];
 }

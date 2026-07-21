@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { getSelected } from "@/gameRules/menu/selection";
@@ -23,6 +24,7 @@ function getColumnMaxIndex(column: number): number {
 }
 
 export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
+  const navigate = useNavigate();
   const { pushControls, popControls } = useGameControls();
 
   const { setDifficulty, player } = usePlayer();
@@ -103,6 +105,9 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   setShowNotAvailableMessageRef.current = setShowNotAvailableMessage;
   const onConfirmRef = useRef(onConfirm);
   onConfirmRef.current = onConfirm;
+
+  const navigateRef = useRef(navigate);
+  navigateRef.current = navigate;
 
   const modeRef = useRef(player.mode);
   modeRef.current = player.mode;
@@ -249,6 +254,10 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
         if (activeTabRef.current === "batalha") {
           if (idx === 0) {
             setShowComboActionRef.current(!showComboAction);
+          }
+
+          if (idx === 1) {
+            navigateRef.current("/training");
           }
         }
 

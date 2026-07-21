@@ -1,0 +1,20 @@
+.rewardCard {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: var(--fs-8);
+  padding: var(--smaller);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: var(--size-4);
+}
+
+.rewardLabel {
+  font-size: var(--small);
+  color: #999;
+}
+
+.rewardValue {
+  font-size: var(--small);
+  color: var(--text-color);
+}

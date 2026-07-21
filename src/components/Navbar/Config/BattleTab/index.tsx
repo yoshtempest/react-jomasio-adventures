@@ -25,10 +25,10 @@ import { CardRedeem } from "./CardRedeem";
 
 type Props = {
   showComboAction: boolean;
-  isSelected: boolean;
+  selectedIndex: number;
 };
 
-export function BattleTab({ showComboAction, isSelected }: Props) {
+export function BattleTab({ showComboAction, selectedIndex }: Props) {
   const battleInfoCtx = useBattleInfo();
   const { player } = usePlayer();
   const { progress } = useCharacterProgress();
@@ -187,9 +187,9 @@ export function BattleTab({ showComboAction, isSelected }: Props) {
           </div>
           <ComboList characterId={player.character} />
           <div
-            className={`${styles.toggleItem} ${isSelected ? styles.selected : ""}`}
+            className={`${styles.toggleItem} ${selectedIndex === 0 ? styles.selected : ""}`}
           >
-            {isSelected && <span className={styles.cursor}>▼</span>}
+            {selectedIndex === 0 && <span className={styles.cursor}>▼</span>}
             <h2>Exibir botão de combo: {showComboAction ? "ON" : "OFF"}</h2>
           </div>
         </>
@@ -200,14 +200,19 @@ export function BattleTab({ showComboAction, isSelected }: Props) {
           <p className={styles.empty}>
             Abra as configurações durante uma batalha para ver as informações.
           </p>
-          <button
-            className={styles.trainingButton}
-            onClick={() => navigate("/training")}
-            type="button"
+          <div
+            className={`${styles.toggleItem} ${selectedIndex === 1 ? styles.selected : ""}`}
           >
-            Modo Treino
-          </button>
-          <CardRedeem />
+            {selectedIndex === 1 && <span className={styles.cursor}>▼</span>}
+            <button
+              className={styles.trainingButton}
+              onClick={() => navigate("/training")}
+              type="button"
+            >
+              Modo Treino
+            </button>
+          </div>
+          <CardRedeem isSelected={selectedIndex === 2} />
         </>
       )}
     </div>

@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import styles from "./styles.module.css";
 import { getRank, formatRank } from "@/gameRules/rank";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import { getBattleRewards } from "@/data/player/stats";
+import { RewardCard } from "./RewardCard";
 
 type Props = {
   myLevel: number;
@@ -52,28 +54,19 @@ export function RewardCards({
     return () => cancelAnimationFrame(rafId);
   }, [xpReward, playSound]);
 
+    const rewardCard = getBattleRewards({
+      myLevel: myLevel,
+      rank: formatRank(rank),
+      xpReward: displayXp,
+      nextLevelXp: nextLevelXp,
+      coinReward: coinReward,
+    })
+
   return (
     <div className={styles.rewardsGrid}>
-      <div className={styles.rewardCard}>
-        <span className={styles.rewardLabel}>Seu nível</span>
-        <span className={styles.rewardValue}>{myLevel}</span>
-      </div>
-      <div className={styles.rewardCard}>
-        <span className={styles.rewardLabel}>Ranque</span>
-        <span className={styles.rankValue}>{formatRank(rank)}</span>
-      </div>
-      <div className={styles.rewardCard}>
-        <span className={styles.rewardLabel}>XP ganho</span>
-        <span className={styles.rewardValue}>+{displayXp}</span>
-      </div>
-      <div className={styles.rewardCard}>
-        <span className={styles.rewardLabel}>Próx Nível - XP</span>
-        <span className={styles.rewardValue}>{nextLevelXp}</span>
-      </div>
-      <div className={styles.rewardCard}>
-        <span className={styles.rewardLabel}>Moedas</span>
-        <span className={styles.rewardValue}>+{coinReward}</span>
-      </div>
+      {rewardCard.map((stat) => (
+        <RewardCard key={stat.label} label={stat.label} value={stat.value} />
+      ))}
     </div>
   );
 }

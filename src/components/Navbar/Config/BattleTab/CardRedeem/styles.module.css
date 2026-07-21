@@ -4,6 +4,19 @@
   border: var(--size-2) solid var(--border-default);
   border-radius: var(--size-4);
   background: rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.cardRedeemSection.selected {
+  outline: var(--size-2) solid var(--text-color);
+  background-color: var(--primary-color);
+}
+
+.cursor {
+  position: absolute;
+  top: calc(-1 * var(--size-5));
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .cardRedeemSection h3 {

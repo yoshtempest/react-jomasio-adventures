@@ -89,7 +89,7 @@ export function Config() {
       {activeTab === "batalha" && (
         <BattleTab
           showComboAction={showComboAction}
-          isSelected={selectedColumn === 0 && selectedIndex === 0}
+          selectedIndex={selectedIndex}
         />
       )}
 

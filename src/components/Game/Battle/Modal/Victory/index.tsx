@@ -3,7 +3,7 @@ import { playerPath } from "@/utils/paths";
 import { getNpcDisplayName } from "@/utils/types/npc/npcNames";
 import { useVictoryVisibility } from "@/hooks/battle/victory/useVisibility";
 import { useVictoryKeyboard } from "@/hooks/battle/victory/useKeyboard";
-import { RewardCards } from "@/components/Game/Battle/RewardCards";
+import { RewardCards } from "@/components/Game/Battle/RewardList";
 import { EquipmentDrops } from "@/components/Game/Battle/Drops/Equipment";
 import { ItemDrops } from "@/components/Game/Battle/Drops/Item";
 import { ChestDrops } from "@/components/Game/Battle/Drops/Chest";
@@ -107,18 +107,21 @@ export function VictoryModal({
               keyDrop={rewards?.keyDrop ?? null}
             />
             <TitleProgresses />
-            {getReplayData && (
-              <button
-                className={`${styles.button} ${replaySaved ? styles.buttonSaved : ""}`}
-                onClick={handleSaveReplay}
-                disabled={replaySaved}
-              >
-                {replaySaved ? "Replay Salvo!" : "Salvar Replay"}
+              <div className={styles.flexRow}>
+                {getReplayData && (
+                <button
+                  className={`${styles.button} ${replaySaved ? styles.buttonSaved : ""}`}
+                  onClick={handleSaveReplay}
+                  disabled={replaySaved}
+                >
+                  {replaySaved ? "Replay Salvo!" : "Salvar Replay"}
+                </button>
+              )}
+              <button className={styles.button} onClick={onContinue}>
+                Continuar
               </button>
-            )}
-            <button className={styles.button} onClick={onContinue}>
-              Continuar
-            </button>
+            </div>
+            
           </div>
         </div>
       </div>
