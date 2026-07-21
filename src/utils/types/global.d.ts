@@ -30,6 +30,10 @@ declare global {
     gridY: number;
     direction: Direction;
   };
+  type ReplayViewportSize = {
+    width: number;
+    height: number;
+  };
 
   // ── Stats (repetido em equipment, character, titles) ──
   type StatBlock = {

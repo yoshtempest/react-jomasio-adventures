@@ -13,7 +13,7 @@ import { ReplayPet } from "../Pet";
 type Props = {
   replay: ReplayData;
   frame: ReplayFrame;
-  viewport: ReplayViewportSize;
+  layout: { TILE: number; PLAYER: number; sx: number; sy: number };
 };
 
 export function ReplayGameLayer({

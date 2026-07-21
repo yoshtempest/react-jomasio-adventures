@@ -1,18 +1,21 @@
-import {
-  useCallback,
-  useEffect,
-  useRef,
-  useState
-} from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { resolveAsset } from "@/utils/paths";
 import { useAudio } from "@/contexts/AudioContext";
 import { createSounds } from "@/utils/soundEffects";
-
 import type { ReplayData } from "@/utils/types/replay";
 
-export function useReplayAudio(replay: ReplayData) {
-  const [playing, setPlaying] = useState(true);
-  const [fi, setFi] = useState(0);
+const SFX_VOLUME: Record<string, number> = {
+  boom: 1.3,
+  slimitaJump: 0.3,
+  marshadowSpecial: 0.7,
+  win: 0.5,
+};
+
+export function useReplayAudio(
+  replay: ReplayData,
+  playing: boolean,
+  currentFrame: number,
+) {
   const { bgmVolume } = useAudio();
   const bgmVolumeRef = useRef(bgmVolume);
   bgmVolumeRef.current = bgmVolume;
@@ -23,18 +26,10 @@ export function useReplayAudio(replay: ReplayData) {
     {} as Record<string, HTMLAudioElement>,
   );
   const lastEventIndexRef = useRef(0);
-  const prevFrameRef = useRef(0);
   const prevFiRef = useRef(0);
 
   const playingRef = useRef(playing);
   playingRef.current = playing;
-
-  const SFX_VOLUME: Record<string, number> = {
-    boom: 1.3,
-    slimitaJump: 0.3,
-    marshadowSpecial: 0.7,
-    win: 0.5,
-  };
 
   useEffect(() => {
     const audio = new Audio(resolveAsset(replay.audioSrc));
@@ -147,22 +142,20 @@ export function useReplayAudio(replay: ReplayData) {
   }, []);
 
   useEffect(() => {
-    if (fi === 0 && prevFiRef.current === 0) return;
+    if (currentFrame === 0 && prevFiRef.current === 0) return;
 
     const prevFrame = replay.frames[prevFiRef.current];
-    const curFrame = replay.frames[fi];
+    const curFrame = replay.frames[currentFrame];
     if (prevFrame && curFrame) {
       processAudioEvents(prevFrame.t, curFrame.t);
     }
-    prevFiRef.current = fi;
-  }, [fi, replay.frames, processAudioEvents]);
+    prevFiRef.current = currentFrame;
+  }, [currentFrame, replay.frames, processAudioEvents]);
 
   const handleRestart = useCallback(() => {
     stopAllSfx();
     lastEventIndexRef.current = 0;
     prevFiRef.current = 0;
-    setFi(0);
-    setPlaying(true);
   }, [stopAllSfx]);
 
   const handleSeek = useCallback(
@@ -170,9 +163,9 @@ export function useReplayAudio(replay: ReplayData) {
       stopAllSfx();
       lastEventIndexRef.current = 0;
       prevFiRef.current = frame;
-      setFi(frame);
-      setPlaying(false);
     },
     [stopAllSfx],
   );
+
+  return { handleRestart, handleSeek };
 }
