@@ -8,7 +8,12 @@ type Props = {
   duration: number;
 };
 
-export function ReplayHeader({ npcType, npcLevel, currentTime, duration }: Props) {
+export function ReplayHeader({
+  npcType,
+  npcLevel,
+  currentTime,
+  duration,
+}: Props) {
   return (
     <div className={styles.header}>
       <span className={styles.title}>

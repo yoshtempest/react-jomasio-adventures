@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./styles.module.css";
 
-
 const TRAINING_MAX_SECONDS = 10 * 60;
 
 export function TrainingOverlay({ onLeave }: { onLeave: () => void }) {
@@ -33,11 +32,7 @@ export function TrainingOverlay({ onLeave }: { onLeave: () => void }) {
   }, []);
 
   return (
-    <button
-      className={styles.leaveButton}
-      onClick={handleLeave}
-      type="button"
-    >
+    <button className={styles.leaveButton} onClick={handleLeave} type="button">
       Sair {timeStr}
     </button>
   );

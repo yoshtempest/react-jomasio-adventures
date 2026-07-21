@@ -107,8 +107,8 @@ export function VictoryModal({
               keyDrop={rewards?.keyDrop ?? null}
             />
             <TitleProgresses />
-              <div className={styles.flexRow}>
-                {getReplayData && (
+            <div className={styles.flexRow}>
+              {getReplayData && (
                 <button
                   className={`${styles.button} ${replaySaved ? styles.buttonSaved : ""}`}
                   onClick={handleSaveReplay}
@@ -121,7 +121,6 @@ export function VictoryModal({
                 Continuar
               </button>
             </div>
-            
           </div>
         </div>
       </div>

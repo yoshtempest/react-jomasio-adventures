@@ -17,7 +17,5 @@ export default function Replay() {
 
   if (!replay) return null;
 
-  return (
-    <ReplayPlayer replay={replay} onClose={() => navigate(-1)} />
-  );
+  return <ReplayPlayer replay={replay} onClose={() => navigate(-1)} />;
 }

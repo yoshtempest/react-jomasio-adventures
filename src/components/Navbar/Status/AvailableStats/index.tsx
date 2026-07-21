@@ -108,9 +108,7 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
           Sorte: {stats.luck ?? 1}
           {bonus.luck > 0 ? <span> +{bonus.luck}</span> : ""}
         </p>
-        {selectedIndex === 5 && (
-          <p className={styles.tip}>{STAT_TIPS.luck}</p>
-        )}
+        {selectedIndex === 5 && <p className={styles.tip}>{STAT_TIPS.luck}</p>}
       </div>
 
       <div className={selectedIndex === 6 ? "active" : ""}>

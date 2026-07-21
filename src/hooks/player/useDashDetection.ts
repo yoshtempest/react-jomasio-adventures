@@ -12,7 +12,12 @@ type DashRefs = {
 };
 
 export function useDashDetection(refs: DashRefs) {
-  const tryDashRef = useRef<(dir: "left" | "right", startMoveRef: React.RefObject<() => void>) => boolean>(() => false);
+  const tryDashRef = useRef<
+    (
+      dir: "left" | "right",
+      startMoveRef: React.RefObject<() => void>,
+    ) => boolean
+  >(() => false);
   tryDashRef.current = (dir, startMoveRef) => {
     const now = Date.now();
     const lastPressRef =

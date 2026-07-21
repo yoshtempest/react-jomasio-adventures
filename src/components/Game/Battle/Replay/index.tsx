@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { asset } from "@/utils/paths";
-import { getSpritePath, getBossSizeMultiplier } from "@/utils/npc/getSpritePath";
+import {
+  getSpritePath,
+  getBossSizeMultiplier,
+} from "@/utils/npc/getSpritePath";
 import type { ReplayData } from "@/utils/types/replay";
 import { ReplayHeader } from "./ReplayHeader";
 import { HudPlayer } from "./HudPlayer";
@@ -71,7 +74,10 @@ export function ReplayPlayer({ replay, onClose }: Props) {
     (d: number) => {
       setFi((p) => {
         const n = p + d;
-        if (n >= total) { setPlaying(false); return total - 1; }
+        if (n >= total) {
+          setPlaying(false);
+          return total - 1;
+        }
         if (n < 0) return 0;
         return n;
       });
@@ -84,13 +90,18 @@ export function ReplayPlayer({ replay, onClose }: Props) {
     if (playing && fi < total - 1) {
       ivRef.current = setInterval(() => step(1), 100 / speed);
     }
-    return () => { if (ivRef.current) clearInterval(ivRef.current); };
+    return () => {
+      if (ivRef.current) clearInterval(ivRef.current);
+    };
   }, [playing, speed, fi, total, step]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
-      if (e.key === " ") { e.preventDefault(); setPlaying((p) => !p); }
+      if (e.key === " ") {
+        e.preventDefault();
+        setPlaying((p) => !p);
+      }
       if (e.key === "ArrowRight") step(5);
       if (e.key === "ArrowLeft") step(-5);
     };
@@ -103,7 +114,9 @@ export function ReplayPlayer({ replay, onClose }: Props) {
   const isCrouching = f.ps === "idleCrounched" || f.ps === "walkCrounched";
   const isFallen = f.ps === "fallen";
 
-  const playerSrc = asset(`assets/player/${f.pchar}/inFight/${resolvePlayerState(f.ps)}.svg`);
+  const playerSrc = asset(
+    `assets/player/${f.pchar}/inFight/${resolvePlayerState(f.ps)}.svg`,
+  );
   const npcSize = TILE * getBossSizeMultiplier(replay.npcType, f.npcPhase);
   const npcSrc = getSpritePath(replay.npcType, f.ns, f.npcPhase);
   const bgUrl = replay.background ?? "";
@@ -183,7 +196,10 @@ export function ReplayPlayer({ replay, onClose }: Props) {
               className={styles.sprite}
               style={{
                 position: "absolute",
-                width: PLAYER * (ProjectileConstants.MAP_WIDTH / ProjectileConstants.MAP_HEIGHT),
+                width:
+                  PLAYER *
+                  (ProjectileConstants.MAP_WIDTH /
+                    ProjectileConstants.MAP_HEIGHT),
                 height: PLAYER,
                 left: f.px,
                 top: f.py,
@@ -265,7 +281,10 @@ export function ReplayPlayer({ replay, onClose }: Props) {
         <ReplayControls
           isPlaying={playing}
           speed={speed}
-          onRestart={() => { setFi(0); setPlaying(true); }}
+          onRestart={() => {
+            setFi(0);
+            setPlaying(true);
+          }}
           onStepBack={() => step(-5)}
           onTogglePlay={() => setPlaying((p) => !p)}
           onStepForward={() => step(5)}
@@ -277,7 +296,10 @@ export function ReplayPlayer({ replay, onClose }: Props) {
           currentFrame={fi}
           totalFrames={total}
           pct={pct}
-          onSeek={(frame) => { setFi(frame); setPlaying(false); }}
+          onSeek={(frame) => {
+            setFi(frame);
+            setPlaying(false);
+          }}
         />
       </div>
     </div>

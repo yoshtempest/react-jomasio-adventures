@@ -54,13 +54,13 @@ export function RewardCards({
     return () => cancelAnimationFrame(rafId);
   }, [xpReward, playSound]);
 
-    const rewardCard = getBattleRewards({
-      myLevel: myLevel,
-      rank: formatRank(rank),
-      xpReward: displayXp,
-      nextLevelXp: nextLevelXp,
-      coinReward: coinReward,
-    })
+  const rewardCard = getBattleRewards({
+    myLevel: myLevel,
+    rank: formatRank(rank),
+    xpReward: displayXp,
+    nextLevelXp: nextLevelXp,
+    coinReward: coinReward,
+  });
 
   return (
     <div className={styles.rewardsGrid}>

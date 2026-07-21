@@ -153,7 +153,8 @@ export function useBattleScene({
   ]);
 
   const equipmentBonus = getEquipmentStatsBonus(player.character);
-  const totalLuck = progress[player.character].stats.luck + (equipmentBonus.luck ?? 0);
+  const totalLuck =
+    progress[player.character].stats.luck + (equipmentBonus.luck ?? 0);
   const luckBonus = getLuckBonus(totalLuck);
 
   const { xpReward, giveRewards, giveSummonRewards } = useBattleRewards({
@@ -572,10 +573,35 @@ export function useBattleScene({
       playerRef: playerSnapshotRef,
       npcRef: npcSnapshotRef,
       battleRef: battleSnapshotRef,
-      damageNumbersRef: damageNumbersSnapshotRef as React.RefObject<{ value: number; x: number; y: number; type: string }[]>,
-      summonsRef: summonsSnapshotRef as React.RefObject<{ id: string; x: number; y: number; npcType: string; state: string; direction: string; hp: number }[]>,
-      petRef: petSnapshotRef as React.RefObject<{ x: number; y: number; direction: string; state: string; npcType: string; hp: number; maxHp: number } | null>,
-      comboRef: comboSnapshotRef as React.RefObject<{ count: number; rank: string; progress: number; nextRank: string | null }>,
+      damageNumbersRef: damageNumbersSnapshotRef as React.RefObject<
+        { value: number; x: number; y: number; type: string }[]
+      >,
+      summonsRef: summonsSnapshotRef as React.RefObject<
+        {
+          id: string;
+          x: number;
+          y: number;
+          npcType: string;
+          state: string;
+          direction: string;
+          hp: number;
+        }[]
+      >,
+      petRef: petSnapshotRef as React.RefObject<{
+        x: number;
+        y: number;
+        direction: string;
+        state: string;
+        npcType: string;
+        hp: number;
+        maxHp: number;
+      } | null>,
+      comboRef: comboSnapshotRef as React.RefObject<{
+        count: number;
+        rank: string;
+        progress: number;
+        nextRank: string | null;
+      }>,
       comboActionRef,
       npcType: training ? "__training" : npcType,
       npcLevel,

@@ -7,7 +7,12 @@ type Props = {
   onSeek: (frame: number) => void;
 };
 
-export function ReplayProgress({ currentFrame, totalFrames, pct, onSeek }: Props) {
+export function ReplayProgress({
+  currentFrame,
+  totalFrames,
+  pct,
+  onSeek,
+}: Props) {
   return (
     <div className={styles.progOuter}>
       <div className={styles.progFill} style={{ width: `${pct}%` }} />

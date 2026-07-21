@@ -37,12 +37,15 @@ function statInRange(
   return min + (h % (max - min + 1));
 }
 
-const CLASS_RANGES: Record<NPCClass, { atk: [number, number]; def: [number, number] }> = {
-  common:    { atk: [80, 299],   def: [40, 199] },
-  rare:      { atk: [200, 499],  def: [150, 399] },
-  epic:      { atk: [400, 699],  def: [300, 599] },
-  boss:      { atk: [600, 899],  def: [500, 799] },
-  legendary: { atk: [800, 999],  def: [700, 999] },
+const CLASS_RANGES: Record<
+  NPCClass,
+  { atk: [number, number]; def: [number, number] }
+> = {
+  common: { atk: [80, 299], def: [40, 199] },
+  rare: { atk: [200, 499], def: [150, 399] },
+  epic: { atk: [400, 699], def: [300, 599] },
+  boss: { atk: [600, 899], def: [500, 799] },
+  legendary: { atk: [800, 999], def: [700, 999] },
 };
 
 function makeCard(
@@ -186,7 +189,11 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     "epic",
     "Só um pedaço e já é mais forte que você.",
     "3000000001",
-    { coins: 500, hyperCoins: 5, stats: { hp: 5, strength: 5, intelligence: 5 } },
+    {
+      coins: 500,
+      hyperCoins: 5,
+      stats: { hp: 5, strength: 5, intelligence: 5 },
+    },
   ),
   srGuaxinim: makeCard(
     "srGuaxinim",
@@ -218,7 +225,11 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     "epic",
     "Crocodilo com diploma. Mais perigoso que um sem.",
     "3000000005",
-    { coins: 600, hyperCoins: 6, stats: { strength: 7, armor: 6, tenacity: 3 } },
+    {
+      coins: 600,
+      hyperCoins: 6,
+      stats: { strength: 7, armor: 6, tenacity: 3 },
+    },
   ),
   deise: makeCard(
     "deise",
@@ -226,7 +237,12 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     "boss",
     "Lich imortal. Imortal de verdade. Pelo menos até você chegar.",
     "4000000001",
-    { coins: 1000, hyperCoins: 10, stats: { hp: 10, intelligence: 10 }, characterUnlock: "deise" },
+    {
+      coins: 1000,
+      hyperCoins: 10,
+      stats: { hp: 10, intelligence: 10 },
+      characterUnlock: "deise",
+    },
   ),
   slimita: makeCard(
     "slimita",
@@ -258,7 +274,11 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     "boss",
     "Irmãs que se entendem. Que assustador.",
     "4000000005",
-    { coins: 1200, hyperCoins: 12, stats: { hp: 10, strength: 10, intelligence: 10 } },
+    {
+      coins: 1200,
+      hyperCoins: 12,
+      stats: { hp: 10, strength: 10, intelligence: 10 },
+    },
   ),
   maugrelo: makeCard(
     "maugrelo",
@@ -338,7 +358,12 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     "legendary",
     "Deus do culto. Agora é carta no seu inventário. Humilhante.",
     "5000000001",
-    { coins: 3000, hyperCoins: 30, stats: { hp: 20, strength: 20, intelligence: 20 }, characterUnlock: "baal" },
+    {
+      coins: 3000,
+      hyperCoins: 30,
+      stats: { hp: 20, strength: 20, intelligence: 20 },
+      characterUnlock: "baal",
+    },
   ),
   madame: makeCard(
     "madame",
@@ -346,7 +371,12 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     "legendary",
     "Aranha de caça. Caça você.",
     "5000000002",
-    { coins: 3000, hyperCoins: 30, stats: { strength: 25, luck: 15 }, characterUnlock: "madame" },
+    {
+      coins: 3000,
+      hyperCoins: 30,
+      stats: { strength: 25, luck: 15 },
+      characterUnlock: "madame",
+    },
   ),
   yangKai: makeCard(
     "yangKai",
@@ -354,7 +384,12 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     "legendary",
     "Yang? Yin? Não. Só porrada.",
     "5000000003",
-    { coins: 3000, hyperCoins: 30, stats: { hp: 30, strength: 20 }, characterUnlock: "yangKai" },
+    {
+      coins: 3000,
+      hyperCoins: 30,
+      stats: { hp: 30, strength: 20 },
+      characterUnlock: "yangKai",
+    },
   ),
   dragonKing: makeCard(
     "dragonKing",
@@ -362,7 +397,12 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     "legendary",
     "Rei dos dragões. E da sua coleção agora.",
     "5000000004",
-    { coins: 3500, hyperCoins: 35, stats: { hp: 25, strength: 25, armor: 10 }, characterUnlock: "dragonKing" },
+    {
+      coins: 3500,
+      hyperCoins: 35,
+      stats: { hp: 25, strength: 25, armor: 10 },
+      characterUnlock: "dragonKing",
+    },
   ),
   technoblade: makeCard(
     "technoblade",
@@ -370,7 +410,12 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     "legendary",
     "Technoblade never dies. Mas virou carta.",
     "5000000005",
-    { coins: 3500, hyperCoins: 35, stats: { strength: 30, tenacity: 15 }, characterUnlock: "technoblade" },
+    {
+      coins: 3500,
+      hyperCoins: 35,
+      stats: { strength: 30, tenacity: 15 },
+      characterUnlock: "technoblade",
+    },
   ),
   trueVandinha: makeCard(
     "trueVandinha",
@@ -378,7 +423,12 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     "legendary",
     "A real. A original. A que dói mais.",
     "5000000006",
-    { coins: 4000, hyperCoins: 40, stats: { hp: 30, strength: 25, intelligence: 25 }, characterUnlock: "trueVandinha" },
+    {
+      coins: 4000,
+      hyperCoins: 40,
+      stats: { hp: 30, strength: 25, intelligence: 25 },
+      characterUnlock: "trueVandinha",
+    },
   ),
 };
 

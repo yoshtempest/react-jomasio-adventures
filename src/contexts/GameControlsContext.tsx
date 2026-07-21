@@ -192,7 +192,10 @@ export function GameControlsProvider({ children }: Props) {
             return;
           }
 
-          if (!controls.blockGlobalOpen && playerModeRef.current === "explore") {
+          if (
+            !controls.blockGlobalOpen &&
+            playerModeRef.current === "explore"
+          ) {
             openNavbar();
           }
           break;

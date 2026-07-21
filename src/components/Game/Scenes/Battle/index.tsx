@@ -236,9 +236,7 @@ export function BattleScene(props: Props) {
 
       <ComboAction />
 
-      {isTraining && (
-        <TrainingOverlay onLeave={() => navigate(-1)} />
-      )}
+      {isTraining && <TrainingOverlay onLeave={() => navigate(-1)} />}
     </div>
   );
 }

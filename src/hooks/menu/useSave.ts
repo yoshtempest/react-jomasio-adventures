@@ -239,5 +239,12 @@ export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
     selectedElement.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, [selectedIndex, listRef]);
 
-  return { confirmDelete, selectedIndex, items, activeSlot, activeTab, isOnTab };
+  return {
+    confirmDelete,
+    selectedIndex,
+    items,
+    activeSlot,
+    activeTab,
+    isOnTab,
+  };
 }

@@ -29,7 +29,12 @@ type Props = {
   luckBonus: number;
 };
 
-export function useBattleRewards({ npcClass, npcLevel, npcType, luckBonus }: Props) {
+export function useBattleRewards({
+  npcClass,
+  npcLevel,
+  npcType,
+  luckBonus,
+}: Props) {
   const { player } = usePlayer();
   const { addXP, addCoins } = useCharacterProgress();
   const { addPetXP } = usePetProgress();

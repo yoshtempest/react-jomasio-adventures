@@ -34,7 +34,9 @@
   width: 8vw;
   height: 4vw;
   font-size: var(--fs-14);
-  transition: background 0.2s, color 0.2s;
+  transition:
+    background 0.2s,
+    color 0.2s;
 }
 
 .tab:hover {

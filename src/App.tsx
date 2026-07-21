@@ -70,9 +70,10 @@ function App() {
 
     const skipRoutes = new Set(["/", "/home", "/tutorial"]);
     const lastRoute =
-      skipRoutes.has(location.pathname) || location.pathname.startsWith("/replay")
-      ? (loadGame()?.lastRoute ?? "/firstscreen")
-      : location.pathname;
+      skipRoutes.has(location.pathname) ||
+      location.pathname.startsWith("/replay")
+        ? (loadGame()?.lastRoute ?? "/firstscreen")
+        : location.pathname;
 
     const data = {
       lastRoute,

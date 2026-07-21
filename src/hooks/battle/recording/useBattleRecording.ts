@@ -7,7 +7,7 @@ import type {
   BattleSnap,
   DamageNum,
   SummonSnap,
-  PetSnap
+  PetSnap,
 } from "@/utils/types/replay";
 
 type Props = {

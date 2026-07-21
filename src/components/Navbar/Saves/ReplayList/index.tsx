@@ -55,13 +55,10 @@ export function ReplayList({ isOnTab }: Props) {
   const navigateRef = useRef(navigate);
   navigateRef.current = navigate;
 
-  const watchReplay = useCallback(
-    (id: string) => {
-      sessionStorage.setItem("replayTarget", id);
-      navigateRef.current("/");
-    },
-    [],
-  );
+  const watchReplay = useCallback((id: string) => {
+    sessionStorage.setItem("replayTarget", id);
+    navigateRef.current("/");
+  }, []);
 
   useGameControlsLayer(
     {
@@ -107,9 +104,7 @@ export function ReplayList({ isOnTab }: Props) {
     return (
       <div className={styles.empty}>
         <p>Nenhum replay salvo.</p>
-        <p className={styles.hint}>
-          Salve um replay após vencer uma batalha!
-        </p>
+        <p className={styles.hint}>Salve um replay após vencer uma batalha!</p>
       </div>
     );
   }
@@ -174,7 +169,9 @@ export function ReplayList({ isOnTab }: Props) {
               </div>
               <div className={styles.cardInfo}>
                 <span className={styles.cardTitle}>
-                  {getPlayerDisplayName(r.playerCharacter)} - nv.{r.playerLevel ?? r.npcLevel} VS {getNpcDisplayName(r.npcType)} - nv.{r.npcLevel}
+                  {getPlayerDisplayName(r.playerCharacter)} - nv.
+                  {r.playerLevel ?? r.npcLevel} VS{" "}
+                  {getNpcDisplayName(r.npcType)} - nv.{r.npcLevel}
                 </span>
                 <span className={styles.cardMeta}>
                   {formatDuration(r.duration)}

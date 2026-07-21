@@ -69,7 +69,7 @@ export const SCENE_MAP: (MapCell | null)[][] = [
       image: sceneBackgrounds.HallLeft,
       label: "Corredor Esquerda",
     },
-      {
+    {
       routes: ["/hall/one", "/hall/afterpcroom-one"],
       image: sceneBackgrounds.HallOne,
       label: "Corredor Um",

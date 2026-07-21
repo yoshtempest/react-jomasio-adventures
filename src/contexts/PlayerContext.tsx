@@ -197,13 +197,16 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     toggleNavbar();
   }
 
-  const setMode = useCallback((mode: PlayerMode) => {
-    setPlayer((p) => ({
-      ...p,
-      mode,
-      ...(mode === "battle" ? BATTLE_DEFAULT_STATE : {}),
-    }));
-  }, [setPlayer]);
+  const setMode = useCallback(
+    (mode: PlayerMode) => {
+      setPlayer((p) => ({
+        ...p,
+        mode,
+        ...(mode === "battle" ? BATTLE_DEFAULT_STATE : {}),
+      }));
+    },
+    [setPlayer],
+  );
 
   function resetBattleState() {
     setPlayer((p) => ({ ...p, ...BATTLE_DEFAULT_STATE }));

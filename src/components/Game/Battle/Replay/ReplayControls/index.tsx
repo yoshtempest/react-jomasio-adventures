@@ -25,12 +25,18 @@ export function ReplayControls({
 }: Props) {
   return (
     <div className={styles.controls}>
-      <button className={styles.ctrlBtn} onClick={onRestart}>⟳</button>
-      <button className={styles.ctrlBtn} onClick={onStepBack}>◀◀</button>
+      <button className={styles.ctrlBtn} onClick={onRestart}>
+        ⟳
+      </button>
+      <button className={styles.ctrlBtn} onClick={onStepBack}>
+        ◀◀
+      </button>
       <button className={styles.ctrlBtn} onClick={onTogglePlay}>
         {isPlaying ? "⏸" : "▶"}
       </button>
-      <button className={styles.ctrlBtn} onClick={onStepForward}>▶▶</button>
+      <button className={styles.ctrlBtn} onClick={onStepForward}>
+        ▶▶
+      </button>
       <div className={styles.speedGroup}>
         {SPEEDS.map((s) => (
           <button
@@ -42,7 +48,9 @@ export function ReplayControls({
           </button>
         ))}
       </div>
-      <button className={styles.ctrlBtn} onClick={onClose}>✕</button>
+      <button className={styles.ctrlBtn} onClick={onClose}>
+        ✕
+      </button>
     </div>
   );
 }

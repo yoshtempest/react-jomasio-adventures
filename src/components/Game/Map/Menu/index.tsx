@@ -3,7 +3,6 @@ import { useMapMenu } from "@/hooks/menu/useMap";
 import { playerPath } from "@/utils/paths";
 import { SCENE_MAP, type MapCell } from "@/data/scene/map";
 
-
 type Props = {
   currentRoute: string;
   character: string;
@@ -23,7 +22,10 @@ export function MapOverlay({ currentRoute, character }: Props) {
           row.map((cell, x) => {
             if (!cell) {
               return (
-                <div key={`${x}-${y}`} className={`${styles.cell} ${styles.empty}`} />
+                <div
+                  key={`${x}-${y}`}
+                  className={`${styles.cell} ${styles.empty}`}
+                />
               );
             }
             const isCurrent = matchCell(cell, currentRoute);

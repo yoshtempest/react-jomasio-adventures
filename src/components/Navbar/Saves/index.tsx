@@ -10,8 +10,14 @@ import styles from "./styles.module.css";
 
 export function Saves() {
   const listRef = useRef<HTMLDivElement>(null);
-  const { confirmDelete, selectedIndex, items, activeSlot, activeTab, isOnTab } =
-    useSaveMenu(listRef);
+  const {
+    confirmDelete,
+    selectedIndex,
+    items,
+    activeSlot,
+    activeTab,
+    isOnTab,
+  } = useSaveMenu(listRef);
   if (confirmDelete !== "none") {
     const confirmItems = ["Sim, excluir", "Não, voltar"];
     return (
