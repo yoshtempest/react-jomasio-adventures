@@ -16,8 +16,9 @@ import { JumpIndicator } from "@/components/Game/Battle/JumpIndicator";
 import { ComboAction } from "@/components/Controls/ComboAction";
 import { useGameAudio } from "@/hooks/game/useGameAudio";
 import { usePlayer } from "@/contexts/PlayerContext";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
+import styles from "./styles.module.css";
 
 type Props = {
   npcType: string;
@@ -28,6 +29,7 @@ type Props = {
   audioSrc: string;
   onVictory?: () => void;
   map?: BattleMapConfig;
+  training?: boolean;
 };
 
 export function BattleScene(props: Props) {
@@ -67,6 +69,7 @@ export function BattleScene(props: Props) {
     defeatProgress,
     grabFlipped,
     getReplayData,
+    training: isTraining,
   } = useBattleScene(props);
 
   const {
@@ -138,7 +141,7 @@ export function BattleScene(props: Props) {
         nextRank={nextRank}
       />
       <Bleeding />
-      {showIntro && (
+      {showIntro && !isTraining && (
         <BattleIntro
           playerCharacter={player.character}
           npcType={npcType}
@@ -194,7 +197,7 @@ export function BattleScene(props: Props) {
         />
       </GameMap>
 
-      {showOutro && (
+      {showOutro && !isTraining && (
         <BattleOutro
           character={player.character}
           type={showOutro}
@@ -202,7 +205,7 @@ export function BattleScene(props: Props) {
         />
       )}
 
-      {!showOutro && showVictory && (
+      {!showOutro && showVictory && !isTraining && (
         <VictoryModal
           isOpen={showVictory}
           character={player.character}
@@ -220,7 +223,7 @@ export function BattleScene(props: Props) {
         />
       )}
 
-      {!showOutro && showDefeat && (
+      {!showOutro && showDefeat && !isTraining && (
         <DefeatModal
           isOpen={showDefeat}
           onContinue={handleRetry}
@@ -232,6 +235,57 @@ export function BattleScene(props: Props) {
       )}
 
       <ComboAction />
+
+      {isTraining && (
+        <TrainingOverlay onLeave={() => navigate(-1)} />
+      )}
     </div>
+  );
+}
+
+const TRAINING_MAX_SECONDS = 10 * 60;
+
+function TrainingOverlay({ onLeave }: { onLeave: () => void }) {
+  const [elapsed, setElapsed] = useState(0);
+  const onLeaveRef = useRef(onLeave);
+  onLeaveRef.current = onLeave;
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setElapsed((prev) => {
+        if (prev + 1 >= TRAINING_MAX_SECONDS) {
+          clearInterval(id);
+          onLeaveRef.current();
+          return prev;
+        }
+        return prev + 1;
+      });
+    }, 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  const remaining = TRAINING_MAX_SECONDS - elapsed;
+  const min = Math.floor(remaining / 60);
+  const sec = remaining % 60;
+  const timeStr = `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+
+  const handleLeave = useCallback(() => {
+    onLeaveRef.current();
+  }, []);
+
+  return (
+    <>
+      <div className={styles.trainingOverlay}>
+        <span className={styles.label}>Modo Treino</span>
+        <span className={styles.timer}>{timeStr}</span>
+      </div>
+      <button
+        className={styles.leaveButton}
+        onClick={handleLeave}
+        type="button"
+      >
+        Sair
+      </button>
+    </>
   );
 }

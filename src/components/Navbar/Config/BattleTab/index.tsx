@@ -1,6 +1,7 @@
 import styles from "./styles.module.css";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useMemo } from "react";
+import { useNavigate } from "react-router";
 import { useBattleInfo } from "@/contexts/BattleInfoContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useTitles } from "@/contexts/TitleContext";
@@ -31,6 +32,9 @@ export function BattleTab({ showComboAction, isSelected }: Props) {
   const { player } = usePlayer();
   const { progress } = useCharacterProgress();
   const { getBonus } = useTitles();
+  const navigate = useNavigate();
+
+  const isInBattle = player.mode === "battle";
 
   const playerRank = formatRank(
     getRank(progress[player.character]?.level ?? 1),
@@ -190,7 +194,22 @@ export function BattleTab({ showComboAction, isSelected }: Props) {
         </>
       )}
 
-      {!battleInfo && (
+      {!battleInfo && !isInBattle && (
+        <>
+          <p className={styles.empty}>
+            Abra as configurações durante uma batalha para ver as informações.
+          </p>
+          <button
+            className={styles.trainingButton}
+            onClick={() => navigate("/training")}
+            type="button"
+          >
+            Modo Treino
+          </button>
+        </>
+      )}
+
+      {!battleInfo && isInBattle && (
         <p className={styles.empty}>
           Abra as configurações durante uma batalha para ver as informações.
         </p>

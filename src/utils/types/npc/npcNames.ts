@@ -38,6 +38,7 @@ const NPC_DISPLAY_NAMES: Record<string, string> = {
   ains: "Ains",
   dragonKing: "Rei Dragão",
   technoblade: "Technoblade",
+  dummy: "Boneco de Treino",
 };
 
 export function getNpcDisplayName(npcType: string): string {

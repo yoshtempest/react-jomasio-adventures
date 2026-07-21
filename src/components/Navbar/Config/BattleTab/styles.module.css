@@ -105,3 +105,27 @@
   color: var(--text-color);
   text-shadow: 0 0 var(--size-4) rgba(0, 0, 0, 0.8);
 }
+
+.empty {
+  text-align: center;
+  color: var(--text-hint);
+  padding: var(--fs-8);
+}
+
+.trainingButton {
+  display: block;
+  margin: var(--fs-8) auto 0;
+  padding: var(--fs-8) var(--medium);
+  background: var(--primary-color);
+  color: var(--text-color);
+  border: var(--size-2) solid var(--border-default);
+  border-radius: var(--size-4);
+  font-size: var(--fs-14);
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.trainingButton:hover {
+  opacity: 0.85;
+}

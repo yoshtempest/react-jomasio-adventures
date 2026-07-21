@@ -64,6 +64,9 @@ export const NPCS: Record<string, NPCData> = {
   /* Lagoa do Canto */
   hungryPig: { type: "hungryPig", class: "common" },
   technoblade: { type: "technoblade", class: "legendary" },
+
+  /* Training */
+  dummy: { type: "dummy", class: "common" },
 };
 
 /*

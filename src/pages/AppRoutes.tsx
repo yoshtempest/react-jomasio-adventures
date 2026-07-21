@@ -135,6 +135,8 @@ export function AppRoutes() {
             <Route path="battle/goat" element={<BattlePage />} />
             <Route path="battle/technoblade" element={<BattlePage />} />
 
+            <Route path="training" element={<BattlePage />} />
+
             <Route path="replay/:id" element={<ReplayPage />} />
           </Route>
         </Routes>

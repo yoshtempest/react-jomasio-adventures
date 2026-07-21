@@ -59,6 +59,7 @@ type Props = {
   onVictory?: () => void;
   map?: BattleMapConfig;
   background?: string;
+  training?: boolean;
 };
 
 export function useBattleScene({
@@ -68,6 +69,7 @@ export function useBattleScene({
   onVictory,
   map,
   background,
+  training,
 }: Props) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -263,8 +265,10 @@ export function useBattleScene({
   };
 
   const killCounter = useBattleKillCounter();
-  killCounter.npcTypeRef.current = npcType;
-  killCounter.npcDataRef.current = npcData;
+  if (!training) {
+    killCounter.npcTypeRef.current = npcType;
+    killCounter.npcDataRef.current = npcData;
+  }
 
   const isConfigOpen = isNavOpen && navScreen === "config";
   const isPaused =
@@ -333,6 +337,10 @@ export function useBattleScene({
 
   const onPlayerDeathRef = useRef(() => {});
   onPlayerDeathRef.current = () => {
+    if (training) {
+      battle.resetBattle();
+      return;
+    }
     incrementDeath(player.character);
     handleDefeat();
     recordDefeat();
@@ -344,6 +352,10 @@ export function useBattleScene({
 
   const onNpcDeathRef = useRef(() => {});
   onNpcDeathRef.current = () => {
+    if (training) {
+      battle.setNpcHP(battle.npcMaxHp);
+      return;
+    }
     const rewards = giveRewards();
     setLastRewards(rewards);
     reduceHunger(player.character, 5);
@@ -565,7 +577,7 @@ export function useBattleScene({
       petRef: petSnapshotRef as React.RefObject<{ x: number; y: number; direction: string; state: string; npcType: string; hp: number; maxHp: number } | null>,
       comboRef: comboSnapshotRef as React.RefObject<{ count: number; rank: string; progress: number; nextRank: string | null }>,
       comboActionRef,
-      npcType,
+      npcType: training ? "__training" : npcType,
       npcLevel,
       npcClass: npcData.class,
       playerCharacter: player.character,
@@ -798,5 +810,6 @@ export function useBattleScene({
     grabFlipped,
     getReplayData,
     isRecording,
+    training,
   };
 }

@@ -198,6 +198,15 @@ export const BATTLE_CONFIGS: Record<string, BattleConfig> = {
     victoryDescription: "Você derrotou um fragmento de Vandinha",
     audioSrc: backgroundAudioPath("/battle/Jojo.m4a"),
   },
+  training: {
+    npcType: "dummy",
+    onVictory: ({ navigate }) => {
+      navigate(-1);
+    },
+    victoryDescription: "Modo Treino",
+    background: sceneBackgrounds.CombatTutorial,
+    audioSrc: backgroundAudioPath("/battle/StreetFighter5KenTheme.m4a"),
+  },
 };
 
 export const ROUTE_TO_BATTLE_KEY: Record<string, string> = {
@@ -219,4 +228,5 @@ export const ROUTE_TO_BATTLE_KEY: Record<string, string> = {
   "/battle/rice": "rice",
   "/battle/technoblade": "technoblade",
   "/battle/vandinhafragment": "vandinha",
+  "/training": "training",
 };

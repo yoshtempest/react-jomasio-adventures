@@ -11,6 +11,7 @@ export default function BattlePage() {
   const config = key ? BATTLE_CONFIGS[key] : undefined;
   const { setFlag } = useFlags();
   const navigate = useNavigate();
+  const training = key === "training";
 
   const handleVictory = useCallback(() => {
     config?.onVictory?.({ setFlag, navigate });
@@ -28,6 +29,7 @@ export default function BattlePage() {
       victoryDescription={config.victoryDescription}
       background={config.background}
       audioSrc={config.audioSrc}
+      training={training}
     />
   );
 }
