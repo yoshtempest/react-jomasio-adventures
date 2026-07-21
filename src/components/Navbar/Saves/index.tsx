@@ -103,7 +103,7 @@ export function Saves() {
         </div>
       )}
 
-      {activeTab === "replays" && <ReplayList />}
+      {activeTab === "replays" && <ReplayList isOnTab={isOnTab} />}
     </div>
   );
 }

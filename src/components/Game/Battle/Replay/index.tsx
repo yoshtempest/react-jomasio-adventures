@@ -10,14 +10,13 @@ import { ComboAction } from "./ComboAction";
 import { ReplayControls } from "./ReplayControls";
 import { ReplayProgress } from "./ReplayProgress";
 import styles from "./styles.module.css";
+import { ProjectileConstants } from "@/data/projectile";
 
 type Props = {
   replay: ReplayData;
   onClose: () => void;
 };
 
-const BASE_W = 1280;
-const BASE_H = 600;
 const MAP_COLS = 17;
 const MAP_ROWS = 13;
 const SCALE_FIX = 1.4;
@@ -29,8 +28,8 @@ function getLayout(w: number, h: number) {
   const ox = (cw - MAP_COLS * TILE) / 2;
   const oy = (ch - MAP_ROWS * TILE) / 2;
   const PLAYER = TILE * 1.4;
-  const sx = w / BASE_W;
-  const sy = h / BASE_H;
+  const sx = w / ProjectileConstants.MAP_WIDTH;
+  const sy = h / ProjectileConstants.MAP_HEIGHT;
   return { TILE, ox, oy, PLAYER, sx, sy };
 }
 
@@ -130,8 +129,8 @@ export function ReplayPlayer({ replay, onClose }: Props) {
           <div
             className={styles.gameLayer}
             style={{
-              width: BASE_W,
-              height: BASE_H,
+              width: ProjectileConstants.MAP_WIDTH,
+              height: ProjectileConstants.MAP_HEIGHT,
               transform: `scale(${Math.min(sx, sy)})`,
               transformOrigin: "top left",
             }}
@@ -184,7 +183,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
               className={styles.sprite}
               style={{
                 position: "absolute",
-                width: PLAYER * (BASE_W / BASE_H),
+                width: PLAYER * (ProjectileConstants.MAP_WIDTH / ProjectileConstants.MAP_HEIGHT),
                 height: PLAYER,
                 left: f.px,
                 top: f.py,

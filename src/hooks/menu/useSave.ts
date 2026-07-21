@@ -112,6 +112,11 @@ export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
 
         if (confirmDeleteRef.current !== "none") return;
 
+        if (activeTabRef.current === "replays") {
+          setIsOnTab(true);
+          return;
+        }
+
         if (selectedIndexRef.current === 0) {
           setIsOnTab(true);
           return;
@@ -129,6 +134,8 @@ export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
         }
 
         if (confirmDeleteRef.current !== "none") return;
+
+        if (activeTabRef.current === "replays") return;
 
         const count = itemsRef.current.length;
         setSelectedIndex((prev) => (prev + 1) % count);

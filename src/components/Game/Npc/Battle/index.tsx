@@ -4,6 +4,7 @@ import {
   getBossSizeMultiplier,
   getNpcSpriteYOffset,
 } from "@/utils/npc/getSpritePath";
+import { ProjectileConstants } from "@/data/projectile";
 
 type Props = {
   x: number;
@@ -57,10 +58,8 @@ export function NPCBattle({
   npcPhase = 1,
   isDying = false,
 }: Props) {
-  const BASE_WIDTH = 1280;
-  const BASE_HEIGHT = 600;
-  const scaleX = window.innerWidth / BASE_WIDTH;
-  const scaleY = window.innerHeight / BASE_HEIGHT;
+  const scaleX = window.innerWidth / ProjectileConstants.MAP_WIDTH;
+  const scaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;
 
   const sizeMultiplier = getBossSizeMultiplier(npcType, npcPhase);
   const yOffset = getNpcSpriteYOffset(npcType);

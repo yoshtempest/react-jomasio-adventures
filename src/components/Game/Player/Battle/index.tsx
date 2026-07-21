@@ -1,4 +1,5 @@
 import { asset } from "@/utils/paths";
+import { ProjectileConstants } from "@/data/projectile";
 
 type Props = {
   x: number;
@@ -34,16 +35,14 @@ export function PlayerBattle({
   const showFlipped = isGrabbed && grabFlipped;
   const src = asset(`assets/player/${character}/inFight/${resolvedState}.svg`);
 
-  const BASE_WIDTH = 1280;
-  const BASE_HEIGHT = 600;
-  const scaleX = window.innerWidth / BASE_WIDTH;
-  const scaleY = window.innerHeight / BASE_HEIGHT;
+  const scaleX = window.innerWidth / ProjectileConstants.MAP_WIDTH;
+  const scaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;
 
   // PLAYER_SIZE vira escala relativa
-  const SCALE = PLAYER_SIZE / BASE_HEIGHT;
+  const SCALE = PLAYER_SIZE / ProjectileConstants.MAP_HEIGHT;
 
-  const WIDTH = BASE_WIDTH * SCALE;
-  const HEIGHT = BASE_HEIGHT * SCALE;
+  const WIDTH = ProjectileConstants.MAP_WIDTH * SCALE;
+  const HEIGHT = ProjectileConstants.MAP_HEIGHT * SCALE;
 
   return (
     <div

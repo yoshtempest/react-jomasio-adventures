@@ -1,5 +1,6 @@
 import type { ChargeParticle } from "@/utils/types/battle/charge";
 import styles from "./styles.module.css";
+import { ProjectileConstants } from "@/data/projectile";
 
 type Props = {
   particles: ChargeParticle[];
@@ -28,10 +29,8 @@ export function ChargeParticles({
 }: Props) {
   if (!isCharging || particles.length === 0) return null;
 
-  const BASE_WIDTH = 1280;
-  const BASE_HEIGHT = 600;
-  const scaleX = window.innerWidth / BASE_WIDTH;
-  const scaleY = window.innerHeight / BASE_HEIGHT;
+  const scaleX = window.innerWidth / ProjectileConstants.MAP_WIDTH;
+  const scaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;
   const DANTIAN_OFFSET = 40;
 
   const glowColor = chargeReady ? AURA_COLORS.glowReady : AURA_COLORS.glow;

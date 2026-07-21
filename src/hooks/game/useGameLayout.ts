@@ -1,3 +1,4 @@
+import { ProjectileConstants } from "@/data/projectile";
 import { useState, useEffect } from "react";
 
 export function useGameLayout() {
@@ -29,8 +30,8 @@ export function useGameLayout() {
 
   const PLAYER_SIZE = TILE_SIZE * 1.4;
 
-  const scaleX = dimensions.width / 1280;
-  const scaleY = dimensions.height / 600;
+  const scaleX = dimensions.width / ProjectileConstants.MAP_WIDTH;
+  const scaleY = dimensions.height / ProjectileConstants.MAP_HEIGHT;
 
   return {
     TILE_SIZE,

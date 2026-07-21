@@ -1,17 +1,24 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router";
 import { loadReplays, deleteReplay } from "@/data/replays";
 import { getNpcDisplayName } from "@/utils/types/npc/npcNames";
 import { formatDuration } from "@/utils/formatDuration";
 import type { ReplayData } from "@/utils/types/replay";
+import { useGameControlsLayer } from "@/hooks/useGameControlsLayer";
+import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import styles from "./styles.module.css";
 
-export function ReplayList() {
+type Props = {
+  isOnTab: boolean;
+};
+
+export function ReplayList({ isOnTab }: Props) {
   const navigate = useNavigate();
   const [replays, setReplays] = useState<ReplayData[]>(() => loadReplays());
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
   const listRef = useRef<HTMLDivElement>(null);
+  const { playMove, playSelect } = useMenuSFX();
 
   useEffect(() => {
     setReplays(loadReplays());
@@ -22,6 +29,69 @@ export function ReplayList() {
     const el = listRef.current.children[selectedIndex] as HTMLElement;
     if (el) el.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, [selectedIndex]);
+
+  const selectedIndexRef = useRef(selectedIndex);
+  selectedIndexRef.current = selectedIndex;
+  const replaysRef = useRef(replays);
+  replaysRef.current = replays;
+  const confirmDeleteRef = useRef(confirmDelete);
+  confirmDeleteRef.current = confirmDelete;
+  const isOnTabRef = useRef(isOnTab);
+  isOnTabRef.current = isOnTab;
+  const playMoveRef = useRef(playMove);
+  playMoveRef.current = playMove;
+  const playSelectRef = useRef(playSelect);
+  playSelectRef.current = playSelect;
+  const navigateRef = useRef(navigate);
+  navigateRef.current = navigate;
+
+  const watchReplay = useCallback(
+    (id: string) => {
+      sessionStorage.setItem("replayTarget", id);
+      navigateRef.current("/");
+    },
+    [],
+  );
+
+  useGameControlsLayer(
+    {
+      onUp: () => {
+        if (isOnTabRef.current || confirmDeleteRef.current) return;
+        if (replaysRef.current.length === 0) return;
+
+        if (selectedIndexRef.current === 0) {
+          return;
+        }
+
+        playMoveRef.current();
+        setSelectedIndex((prev) => prev - 1);
+      },
+      onDown: () => {
+        if (isOnTabRef.current || confirmDeleteRef.current) return;
+        if (replaysRef.current.length === 0) return;
+
+        playMoveRef.current();
+        setSelectedIndex((prev) => (prev + 1) % replaysRef.current.length);
+      },
+      onConfirm: () => {
+        if (isOnTabRef.current || confirmDeleteRef.current) return;
+
+        const r = replaysRef.current[selectedIndexRef.current];
+        if (!r) return;
+
+        playSelectRef.current();
+        watchReplay(r.id);
+      },
+      onCancel: () => {
+        if (confirmDeleteRef.current) {
+          setConfirmDelete(null);
+          return true;
+        }
+      },
+      blockGlobalOpen: true,
+    },
+    [isOnTab, watchReplay],
+  );
 
   if (replays.length === 0) {
     return (
