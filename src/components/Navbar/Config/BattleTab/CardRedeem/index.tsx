@@ -70,31 +70,29 @@ export function CardRedeem({ isSelected }: Props) {
                 <h3>Resgatar Carta</h3>
                 <div className={styles.cardRedeemRow}>
                     <input
-                    type="text"
-                    className={styles.cardInput}
-                    placeholder="Digite o código"
-                    value={cardCode}
-                    onChange={(e) => {
-                        setCardCode(e.target.value);
-                        setRedeemMessage(null);
-                    }}
-                    maxLength={10}
+                        type="number"
+                        className={styles.cardInput}
+                        placeholder="Digite o código"
+                        value={cardCode}
+                        onChange={(e) => {
+                            setCardCode(e.target.value);
+                            setRedeemMessage(null);
+                        }}
+                        maxLength={10}
                     />
                     <button
-                    className={styles.redeemButton}
-                    onClick={handleRedeemCard}
-                    type="button"
-                    >
-                    Resgatar
+                        className={styles.redeemButton}
+                        onClick={handleRedeemCard}
+                        type="button"
+                        >
+                        Resgatar
                     </button>
                 </div>
-                {redeemMessage && (
-                    <p
-                    className={`${styles.redeemMessage} ${redeemSuccess ? styles.success : ""}`}
-                    >
-                    {redeemMessage}
-                    </p>
-                )}
+                    {redeemMessage && (
+                        <p className={`${styles.redeemMessage} ${redeemSuccess ? styles.success : ""}`}>
+                            {redeemMessage}
+                        </p>
+                    )}
             </div>
         </>
     );
