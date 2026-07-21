@@ -759,6 +759,19 @@ export function useBattleScene({
     onChargeCancel: charge.cancelCharge,
   });
 
+  const npcMaxHpForRegen = battle.npcMaxHp;
+  const setNpcHpForRegen = battle.setNpcHP;
+  useEffect(() => {
+    if (!training) return;
+    const id = setInterval(() => {
+      setNpcHpForRegen((hp) => {
+        const next = hp + npcMaxHpForRegen * 0.5;
+        return next > npcMaxHpForRegen ? npcMaxHpForRegen : next;
+      });
+    }, 1000);
+    return () => clearInterval(id);
+  }, [training, npcMaxHpForRegen, setNpcHpForRegen]);
+
   function handleRetry() {
     charge.cancelCharge();
     setShowDefeat(false);
