@@ -1,38 +1,10 @@
-.trainingOverlay {
-  position: absolute;
-  top: var(--size-12);
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: var(--fs-14);
-  z-index: 25;
-  pointer-events: none;
-}
-
-.label {
-  color: var(--text-color);
-  font-size: var(--fs-16);
-  font-weight: 700;
-  text-shadow: 0 0 var(--size-4) rgba(0, 0, 0, 0.8);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  background: rgba(0, 0, 0, 0.5);
-  padding: var(--small) var(--medium);
-  border-radius: var(--smaller);
-  border: var(--size-1) solid rgba(255, 255, 255, 0.15);
-}
-
-.timer {
-  composes: label;
-  font-variant-numeric: tabular-nums;
-}
-
 .leaveButton {
   position: absolute;
   bottom: var(--size-16);
   right: var(--size-16);
   z-index: 25;
+  top: 0;
+  margin-top: 5vh;
   background: rgba(0, 0, 0, 0.6);
   color: var(--text-color);
   border: var(--size-2) solid rgba(255, 255, 255, 0.2);

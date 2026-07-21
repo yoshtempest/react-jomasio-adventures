@@ -274,18 +274,12 @@ function TrainingOverlay({ onLeave }: { onLeave: () => void }) {
   }, []);
 
   return (
-    <>
-      <div className={styles.trainingOverlay}>
-        <span className={styles.label}>Modo Treino</span>
-        <span className={styles.timer}>{timeStr}</span>
-      </div>
-      <button
-        className={styles.leaveButton}
-        onClick={handleLeave}
-        type="button"
-      >
-        Sair
-      </button>
-    </>
+    <button
+      className={styles.leaveButton}
+      onClick={handleLeave}
+      type="button"
+    >
+      Sair {timeStr}
+    </button>
   );
 }
