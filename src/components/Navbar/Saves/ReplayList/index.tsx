@@ -6,7 +6,17 @@ import { formatDuration } from "@/utils/formatDuration";
 import type { ReplayData } from "@/utils/types/replay";
 import { useGameControlsLayer } from "@/hooks/useGameControlsLayer";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
+import { CHARACTERS } from "@/data/options/characters";
+import { playerPath, npcPath } from "@/utils/paths";
 import styles from "./styles.module.css";
+
+const CHARACTER_NAME_MAP = Object.fromEntries(
+  CHARACTERS.map((c) => [c.image, c.name]),
+);
+
+function getPlayerDisplayName(characterId: string): string {
+  return CHARACTER_NAME_MAP[characterId] ?? characterId;
+}
 
 type Props = {
   isOnTab: boolean;
@@ -149,9 +159,22 @@ export function ReplayList({ isOnTab }: Props) {
               key={r.id}
               className={`${styles.card} ${isSelected ? styles.selected : ""}`}
             >
+              <div className={styles.cardSprites}>
+                <img
+                  src={playerPath(`/${r.playerCharacter}/default.svg`)}
+                  alt=""
+                  className={styles.sprite}
+                />
+                <span className={styles.vsText}>VS</span>
+                <img
+                  src={npcPath(`/${r.npcType}/right.svg`)}
+                  alt=""
+                  className={styles.sprite}
+                />
+              </div>
               <div className={styles.cardInfo}>
                 <span className={styles.cardTitle}>
-                  {r.playerCharacter} - nv.{r.npcLevel} VS {getNpcDisplayName(r.npcType)} - nv.{r.npcLevel}
+                  {getPlayerDisplayName(r.playerCharacter)} - nv.{r.playerLevel ?? r.npcLevel} VS {getNpcDisplayName(r.npcType)} - nv.{r.npcLevel}
                 </span>
                 <span className={styles.cardMeta}>
                   {formatDuration(r.duration)}

@@ -1,63 +1,14 @@
 import { useRef, useCallback, useState, useEffect } from "react";
-import type { ReplayFrame, ReplayData } from "@/utils/types/replay";
-
-type PlayerSnap = {
-  x: number;
-  y: number;
-  state: string;
-  battleDirection: string;
-  character: string;
-  direction: string;
-  grabbedUntil: number;
-};
-
-type NpcSnap = {
-  x: number;
-  y: number;
-  state: string;
-  direction: string;
-  jumpLandingX?: number;
-};
-
-type BattleSnap = {
-  playerHP: number;
-  playerMaxHp: number;
-  playerShield: number;
-  npcHP: number;
-  npcMaxHp: number;
-  npcPhase: number;
-  delicia: number;
-  hitsToSpecial: number;
-  blockGauge: number;
-  blockLimit: number;
-};
-
-type DamageNum = {
-  value: number;
-  x: number;
-  y: number;
-  type: string;
-};
-
-type SummonSnap = {
-  id: string;
-  x: number;
-  y: number;
-  npcType: string;
-  state: string;
-  direction: string;
-  hp: number;
-};
-
-type PetSnap = {
-  x: number;
-  y: number;
-  direction: string;
-  state: string;
-  npcType: string;
-  hp: number;
-  maxHp: number;
-} | null;
+import type {
+  ReplayFrame,
+  ReplayData,
+  PlayerSnap,
+  NpcSnap,
+  BattleSnap,
+  DamageNum,
+  SummonSnap,
+  PetSnap
+} from "@/utils/types/replay";
 
 type Props = {
   playerRef: React.RefObject<PlayerSnap>;
@@ -77,6 +28,7 @@ type Props = {
   npcLevel: number;
   npcClass: string;
   playerCharacter: string;
+  playerLevel: number;
   background: string;
 };
 
@@ -93,6 +45,7 @@ export function useBattleRecording({
   npcLevel,
   npcClass,
   playerCharacter,
+  playerLevel,
   background,
 }: Props) {
   const [isRecording, setIsRecording] = useState(false);
@@ -118,6 +71,7 @@ export function useBattleRecording({
       npcLevel,
       npcClass: npcClass as ReplayData["npcClass"],
       playerCharacter,
+      playerLevel,
       background,
       date: new Date().toISOString(),
       duration: 0,
@@ -188,7 +142,7 @@ export function useBattleRecording({
         pety: pet ? Math.round(pet.y) : null,
         petst: pet?.state ?? null,
         petdir: pet?.direction ?? null,
-        pettype: pet?.npcType ?? null,
+        petType: pet?.npcType ?? null,
         petphp: pet ? Math.round(pet.hp) : null,
         petpmaxhp: pet ? Math.round(pet.maxHp) : null,
 
@@ -203,6 +157,7 @@ export function useBattleRecording({
     npcLevel,
     npcClass,
     playerCharacter,
+    playerLevel,
     background,
     playerRef,
     npcRef,

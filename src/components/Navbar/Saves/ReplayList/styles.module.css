@@ -12,7 +12,7 @@
 
 .card {
   display: flex;
-  justify-content: space-between;
+  gap: var(--fs-8);
   align-items: center;
   padding: var(--fs-8) var(--smaller);
   background: #1a1a1a;
@@ -31,10 +31,31 @@
   background: #1f1f10;
 }
 
+.cardSprites {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4);
+  flex-shrink: 0;
+}
+
+.sprite {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.vsText {
+  font-size: var(--fs-12);
+  font-weight: 700;
+  color: #888;
+}
+
 .cardInfo {
   display: flex;
   flex-direction: column;
   gap: var(--size-2);
+  min-width: 0;
 }
 
 .cardTitle {

@@ -44,7 +44,7 @@ export type ReplayFrame = {
   pety: number | null;
   petst: string | null;
   petdir: string | null;
-  pettype: string | null;
+  petType: string | null;
   petphp: number | null;
   petpmaxhp: number | null;
 
@@ -57,8 +57,67 @@ export type ReplayData = {
   npcLevel: number;
   npcClass: "common" | "rare" | "epic" | "boss" | "legendary";
   playerCharacter: string;
+  playerLevel: number;
   background: string;
   date: string;
   duration: number;
   frames: ReplayFrame[];
 };
+
+export type PlayerSnap = {
+  x: number;
+  y: number;
+  state: string;
+  battleDirection: string;
+  character: string;
+  direction: string;
+  grabbedUntil: number;
+};
+
+export type NpcSnap = {
+  x: number;
+  y: number;
+  state: string;
+  direction: string;
+  jumpLandingX?: number;
+};
+
+export type BattleSnap = {
+  playerHP: number;
+  playerMaxHp: number;
+  playerShield: number;
+  npcHP: number;
+  npcMaxHp: number;
+  npcPhase: number;
+  delicia: number;
+  hitsToSpecial: number;
+  blockGauge: number;
+  blockLimit: number;
+};
+
+export type DamageNum = {
+  value: number;
+  x: number;
+  y: number;
+  type: string;
+};
+
+export type SummonSnap = {
+  id: string;
+  x: number;
+  y: number;
+  npcType: string;
+  state: string;
+  direction: string;
+  hp: number;
+};
+
+export type PetSnap = {
+  x: number;
+  y: number;
+  direction: string;
+  state: string;
+  npcType: string;
+  hp: number;
+  maxHp: number;
+} | null;

@@ -581,6 +581,7 @@ export function useBattleScene({
       npcLevel,
       npcClass: npcData.class,
       playerCharacter: player.character,
+      playerLevel,
       background: background ?? "",
     });
 
