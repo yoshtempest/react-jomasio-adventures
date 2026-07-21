@@ -68,8 +68,9 @@ function App() {
     if (prevRouteRef.current === location.pathname) return;
     prevRouteRef.current = location.pathname;
 
-    const skipRoutes = new Set(["/", "/home", "/tutorial", "/replay"]);
-    const lastRoute = skipRoutes.has(location.pathname)
+    const skipRoutes = new Set(["/", "/home", "/tutorial"]);
+    const lastRoute =
+      skipRoutes.has(location.pathname) || location.pathname.startsWith("/replay")
       ? (loadGame()?.lastRoute ?? "/firstscreen")
       : location.pathname;
 
