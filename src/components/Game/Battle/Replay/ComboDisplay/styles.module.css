@@ -1,7 +1,8 @@
 .comboBox {
   position: absolute;
-  bottom: 200px;
-  right: 20px;
+  bottom: 0;
+  right: 0;
+  margin: 0 10vw 20vh 0;
   display: flex;
   flex-direction: column;
   align-items: center;

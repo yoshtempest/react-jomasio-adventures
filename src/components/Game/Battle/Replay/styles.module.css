@@ -18,6 +18,7 @@
 
 /* ── Viewport ── */
 .vp {
+  display: flex;
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 10;
@@ -25,14 +26,6 @@
   border: var(--size-2) solid #333;
   border-radius: var(--fs-8);
   overflow: visible;
-}
-
-.vpBg {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  border-radius: var(--size-6);
 }
 
 .sprite {

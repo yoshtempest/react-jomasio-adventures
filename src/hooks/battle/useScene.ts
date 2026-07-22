@@ -541,13 +541,10 @@ export function useBattleScene({
     blocked: "blockAttack",
     falling: "fallingAttack",
   };
-  const comboActionVisible =
-    battle.delicia >= battle.hitsToSpecial &&
-    comboCount >= 10 &&
-    !controlsDisabled;
-  const comboActionSprite = comboActionVisible
-    ? (COMBO_ACTION_STATES[player.state] ?? null)
-    : null;
+  const comboActionSprite =
+    !controlsDisabled && player.state in COMBO_ACTION_STATES
+      ? COMBO_ACTION_STATES[player.state]
+      : null;
   const comboActionRef = useRef(comboActionSprite);
   comboActionRef.current = comboActionSprite;
 
