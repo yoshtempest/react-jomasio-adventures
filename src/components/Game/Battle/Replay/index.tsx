@@ -1,8 +1,9 @@
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useState, useRef } from "react";
 import type { ReplayData } from "@/utils/types/replay";
 import { useReplayPlayback } from "@/hooks/battle/recording/useReplayPlayback";
 import { useReplayAudio } from "@/hooks/battle/recording/useReplayAudio";
 import { useReplayViewport } from "@/hooks/battle/recording/useReplayViewport";
+import { useGameControlsLayer } from "@/hooks/useGameControlsLayer";
 import { ReplayHeader } from "./Header";
 import { ReplayViewport } from "./Viewport";
 import { ReplayControls } from "./Controls";
@@ -14,6 +15,8 @@ type Props = {
   onClose: () => void;
 };
 
+const TOTAL = 9;
+
 export function ReplayPlayer({ replay, onClose }: Props) {
   const playback = useReplayPlayback(replay);
   const { handleRestart, handleSeek } = useReplayAudio(
@@ -22,6 +25,10 @@ export function ReplayPlayer({ replay, onClose }: Props) {
     playback.currentFrame,
   );
   const viewport = useReplayViewport();
+
+  const [selectedIndex, setSelectedIndex] = useState(2);
+  const selectedIndexRef = useRef(selectedIndex);
+  selectedIndexRef.current = selectedIndex;
 
   const onRestart = useCallback(() => {
     handleRestart();
@@ -36,19 +43,73 @@ export function ReplayPlayer({ replay, onClose }: Props) {
     [handleSeek, playback],
   );
 
+  const triggerAction = useCallback(
+    (index: number) => {
+      switch (index) {
+        case 0:
+          onRestart();
+          break;
+        case 1:
+          playback.step(-5);
+          break;
+        case 2:
+          playback.togglePlay();
+          break;
+        case 3:
+          playback.step(5);
+          break;
+        case 4:
+          playback.setSpeed(0.5);
+          break;
+        case 5:
+          playback.setSpeed(1);
+          break;
+        case 6:
+          playback.setSpeed(2);
+          break;
+        case 7:
+          playback.setSpeed(4);
+          break;
+        case 8:
+          onClose();
+          break;
+      }
+    },
+    [onRestart, playback, onClose],
+  );
+
+  const triggerActionRef = useRef(triggerAction);
+  triggerActionRef.current = triggerAction;
+
+  useGameControlsLayer(
+    {
+      onLeft: () => {
+        setSelectedIndex((i) => (i - 1 + TOTAL) % TOTAL);
+        return true;
+      },
+      onRight: () => {
+        setSelectedIndex((i) => (i + 1) % TOTAL);
+        return true;
+      },
+      onConfirm: () => {
+        triggerActionRef.current(selectedIndexRef.current);
+        return true;
+      },
+      onCancel: () => {
+        onClose();
+        return true;
+      },
+    },
+    [onClose],
+  );
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
-      if (e.key === " ") {
-        e.preventDefault();
-        playback.togglePlay();
-      }
-      if (e.key === "ArrowRight") playback.step(5);
-      if (e.key === "ArrowLeft") playback.step(-5);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [onClose, playback]);
+  }, [onClose]);
 
   if (!playback.frame) return null;
 
@@ -78,6 +139,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
         <ReplayControls
           isPlaying={playback.playing}
           speed={playback.speed}
+          selectedIndex={selectedIndex}
           onRestart={onRestart}
           onStepBack={() => playback.step(-5)}
           onTogglePlay={playback.togglePlay}

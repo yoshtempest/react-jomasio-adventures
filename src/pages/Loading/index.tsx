@@ -8,7 +8,7 @@ import { useBackgroundAudio } from "@/hooks/useBackgroundAudio";
 import { useUpdate } from "@/contexts/UpdateContext";
 import loading from "/assets/songs/transitions/loading.mp3";
 
-const MIN_LOADING_MS = 6000;
+const MIN_LOADING_MS = 2000;
 
 export default function Loading() {
   const navigate = useNavigate();

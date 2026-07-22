@@ -16,9 +16,22 @@
   font-size: var(--fs-14);
 }
 
-.ctrlBtn:hover {
+.ctrlBtn:hover,
+.speedBtn:hover {
   background: #333;
   color: #fff;
+}
+
+.ctrlBtnSelected {
+  background: var(--gold);
+  color: #000;
+  border-color: var(--gold);
+}
+
+.speedBtnSelected {
+  background: var(--gold);
+  color: #000;
+  border-color: var(--gold);
 }
 
 .speedGroup {
