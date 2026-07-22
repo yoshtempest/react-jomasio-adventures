@@ -1,7 +1,7 @@
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useSettings } from "@/contexts/SettingsContext";
-import { asset } from "@/utils/paths";
+import { resolveBattleSprite } from "@/utils/paths";
 import styles from "./styles.module.css";
 
 type ComboConfig = {
@@ -10,8 +10,8 @@ type ComboConfig = {
 };
 
 const COMBO_STATES: Partial<Record<PlayerState, ComboConfig>> = {
-  blocked: { sprite: "blockAttack.svg", label: "Atacar" },
-  falling: { sprite: "fallingAttack.svg", label: "Atacar" },
+  blocked: { sprite: "blockAttack", label: "Atacar" },
+  falling: { sprite: "fallingAttack", label: "Atacar" },
 };
 
 export function ComboAction() {
@@ -22,9 +22,7 @@ export function ComboAction() {
   const combo = COMBO_STATES[player.state];
   if (!combo || !showComboAction) return null;
 
-  const src = asset(
-    `assets/player/${player.character}/inFight/${combo.sprite}`,
-  );
+  const src = resolveBattleSprite(player.character, combo.sprite);
 
   function handleDown() {
     activeControls?.onConfirm?.();

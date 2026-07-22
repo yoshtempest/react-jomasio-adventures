@@ -1,4 +1,4 @@
-import { asset } from "@/utils/paths";
+import { resolveBattleSprite } from "@/utils/paths";
 import styles from "./styles.module.css";
 
 type Props = {
@@ -7,11 +7,12 @@ type Props = {
 };
 
 export function ComboAction({ action, charId }: Props) {
+  const stateName = action.replace(".svg", "");
   return (
     <div className={styles.comboActionBox}>
       <div className={styles.comboActionBtn}>
         <img
-          src={asset(`assets/player/${charId}/inFight/${action}`)}
+          src={resolveBattleSprite(charId, stateName)}
           alt="Combo"
           draggable={false}
         />

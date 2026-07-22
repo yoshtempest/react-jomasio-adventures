@@ -1,4 +1,4 @@
-import { asset } from "@/utils/paths";
+import { resolveBattleSprite, playerPath } from "@/utils/paths";
 import { getComboMoves } from "@/data/battle/comboMoves";
 import styles from "./styles.module.css";
 
@@ -15,7 +15,7 @@ export function ComboList({
     <div className={styles.section}>
       <div className={styles.flexRow}>
         <img
-          src={asset(`assets/player/${characterId}/face.svg`)}
+          src={playerPath(`/${characterId}/face.svg`)}
           className={styles.faceImage}
         />
         <p className="StatusTitle">Combos</p>
@@ -42,7 +42,7 @@ export function ComboList({
             {combo.states.map((state) => (
               <img
                 key={state}
-                src={asset(`assets/player/${characterId}/inFight/${state}.svg`)}
+                src={resolveBattleSprite(characterId, state)}
                 alt={state}
                 className={styles.sprite}
               />

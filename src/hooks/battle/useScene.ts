@@ -538,8 +538,8 @@ export function useBattleScene({
   petSnapshotRef.current = petData;
 
   const COMBO_ACTION_STATES: Partial<Record<PlayerState, string>> = {
-    blocked: "blockAttack.svg",
-    falling: "fallingAttack.svg",
+    blocked: "blockAttack",
+    falling: "fallingAttack",
   };
   const comboActionVisible =
     battle.delicia >= battle.hitsToSpecial &&

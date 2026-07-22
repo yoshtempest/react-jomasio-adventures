@@ -47,3 +47,45 @@ export function backgroundAudioPath(path: string) {
 export function sfx(path: string) {
   return new Audio(soundEffectPath(`/${path}`));
 }
+
+const STATE_FOLDER: Record<string, string | null> = {
+  idle: "idle",
+  idleCrounched: "idle",
+  attack: "attack",
+  crit: "attack",
+  preAttack: "attack",
+  blockAttack: "attack",
+  fallingAttack: "attack",
+  jump: "jump",
+  preJump: "jump",
+  falling: "jump",
+  walk: "movement",
+  preWalk: "movement",
+  run: "movement",
+  preRun: "movement",
+  dash: "movement",
+  walkCrounched: "movement",
+  special: "special",
+  preSpecial: "special",
+  preSpecialInAir: "special",
+  specialInAir: "special",
+  specialInAirFinish: "special",
+  blocked: null,
+  stun: null,
+  charging: null,
+  fallen: null,
+};
+
+export function resolveBattleSprite(
+  character: string,
+  state: string,
+): string {
+  const folder = STATE_FOLDER[state];
+  if (folder === undefined) {
+    return playerPath(`/${character}/inFight/${state}.svg`);
+  }
+  if (folder === null) {
+    return playerPath(`/${character}/inFight/${state}.svg`);
+  }
+  return playerPath(`/${character}/inFight/${folder}/${state}.svg`);
+}

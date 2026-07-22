@@ -1,4 +1,4 @@
-import { asset } from "@/utils/paths";
+import { resolveBattleSprite } from "@/utils/paths";
 import { ProjectileConstants } from "@/data/projectile";
 
 type Props = {
@@ -33,7 +33,7 @@ export function PlayerBattle({
   const isFallen = state === "fallen";
   const isGrabbed = Date.now() < grabbedUntil && !isFallen && !isCrouching;
   const showFlipped = isGrabbed && grabFlipped;
-  const src = asset(`assets/player/${character}/inFight/${resolvedState}.svg`);
+  const src = resolveBattleSprite(character, resolvedState);
 
   const scaleX = window.innerWidth / ProjectileConstants.MAP_WIDTH;
   const scaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;

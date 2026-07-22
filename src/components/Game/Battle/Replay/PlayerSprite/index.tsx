@@ -1,6 +1,6 @@
 
 import styles from "../styles.module.css";
-import { playerPath } from "@/utils/paths";
+import { resolveBattleSprite } from "@/utils/paths";
 import type { ReplayFrame } from "@/utils/types/replay";
 
 type Props = {
@@ -28,10 +28,9 @@ export function ReplayPlayerSprite({
 
   const isFallen = frame.ps === "fallen";
 
-  const playerSrc = playerPath(
-    `/${frame.pchar}/inFight/${resolvePlayerState(
-      frame.ps,
-    )}.svg`,
+  const playerSrc = resolveBattleSprite(
+    frame.pchar,
+    resolvePlayerState(frame.ps),
   );
 
   return (
