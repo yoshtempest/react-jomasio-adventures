@@ -1,6 +1,6 @@
 import { ComboDisplay } from "../ComboDisplay";
 import { ComboAction } from "../ComboAction";
-import styles from "../styles.module.css";
+import styles from "./styles.module.css";
 import { ProjectileConstants } from "@/data/projectile";
 import { ReplayNpcSprite } from "../NpcSprite";
 import { ReplayPlayerSprite } from "../PlayerSprite";

@@ -35,43 +35,7 @@
   border-radius: var(--size-6);
 }
 
-.gameLayer {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
 .sprite {
   position: absolute;
   pointer-events: none;
-}
-
-/* ── Damage Numbers ── */
-.dmgNum {
-  position: absolute;
-  font-weight: bold;
-  font-size: var(--low-medium);
-  color: var(--danger);
-  text-shadow:
-    var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8),
-    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8);
-  pointer-events: none;
-  white-space: nowrap;
-}
-
-.dmgCrit {
-  color: #ff0044;
-  font-size: var(--size-22);
-  font-weight: 900;
-}
-
-.dmgMiss {
-  color: #aaa;
-  font-size: var(--fs-11);
-  font-style: italic;
-}
-
-.dmgBlocked {
-  color: #00ffff;
-  font-size: var(--fs-11);
 }
