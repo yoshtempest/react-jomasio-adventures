@@ -1,7 +1,7 @@
 .container {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: var(--fs-10);
+  left: var(--fs-10);
   display: flex;
   flex-direction: row;
   z-index: 50;

@@ -10,6 +10,7 @@ import { CHARACTERS } from "@/data/options/characters";
 import { playerPath, npcPath } from "@/utils/paths";
 import styles from "./styles.module.css";
 
+
 const CHARACTER_NAME_MAP = Object.fromEntries(
   CHARACTERS.map((c) => [c.image, c.name]),
 );
@@ -156,13 +157,13 @@ export function ReplayList({ isOnTab }: Props) {
             >
               <div className={styles.cardSprites}>
                 <img
-                  src={playerPath(`/${r.playerCharacter}/default.svg`)}
+                  src={playerPath(`/${r.playerCharacter}/face.svg`)}
                   alt=""
                   className={styles.sprite}
                 />
                 <span className={styles.vsText}>VS</span>
                 <img
-                  src={npcPath(`/${r.npcType}/right.svg`)}
+                  src={npcPath(`/${r.npcType}/face.svg`)}
                   alt=""
                   className={styles.sprite}
                 />

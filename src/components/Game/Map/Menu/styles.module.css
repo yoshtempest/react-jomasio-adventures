@@ -76,7 +76,7 @@
   left: 0;
   right: 0;
   text-align: center;
-  font-size: clamp(10px, 1.2vw, 16px);
+  font-size: clamp(var(--fs-10), 1.2vw, var(--small));
   color: #d9d9d9;
   text-shadow: var(--size-1) var(--size-1) var(--size-2) #000;
   font-weight: 600;
@@ -90,8 +90,8 @@
   position: absolute;
   top: var(--size-4);
   right: var(--size-4);
-  width: clamp(28px, 3vw, 48px);
-  height: clamp(28px, 3vw, 48px);
+  width: clamp(var(--fs-28), 3vw, var(--size-48));
+  height: clamp(var(--fs-28), 3vw, var(--size-48));
   border: var(--size-2) solid #f5c542;
   border-radius: 50%;
   background: #1a1208;

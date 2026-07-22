@@ -12,7 +12,7 @@
 
 .card {
   display: flex;
-  gap: var(--fs-8);
+  gap: var(--low-medium);
   align-items: center;
   padding: var(--fs-8) var(--smaller);
   background: #1a1a1a;
@@ -39,8 +39,8 @@
 }
 
 .sprite {
-  width: 48px;
-  height: 48px;
+  width: var(--size-40);
+  height: var(--size-40);
   object-fit: contain;
   image-rendering: pixelated;
 }
@@ -105,7 +105,7 @@
 
 .empty {
   text-align: center;
-  padding: 24px;
+  padding: var(--medium);
   color: #888;
 }
 
@@ -117,7 +117,7 @@
 
 .confirmBox {
   text-align: center;
-  padding: 16px;
+  padding: var(--small);
   color: #ccc;
 }
 
