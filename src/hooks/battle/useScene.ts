@@ -543,7 +543,7 @@ export function useBattleScene({
   };
   const comboActionSprite =
     !controlsDisabled && player.state in COMBO_ACTION_STATES
-      ? COMBO_ACTION_STATES[player.state]
+      ? (COMBO_ACTION_STATES[player.state] ?? null)
       : null;
   const comboActionRef = useRef(comboActionSprite);
   comboActionRef.current = comboActionSprite;
