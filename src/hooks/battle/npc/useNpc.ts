@@ -259,6 +259,7 @@ export function useNpcBattle({
       setTimeout(() => (npcCooldown.current = true), NPC_MELEE_COOLDOWN);
     }
   }, [
+    luckBonus,
     isEnding,
     npcCooldown,
     player.state,
