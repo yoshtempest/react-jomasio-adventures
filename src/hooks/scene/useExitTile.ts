@@ -2,6 +2,13 @@ import { useEffect, useRef } from "react";
 import type { NavigateFunction } from "react-router";
 import type { ExitTileOptions } from "@/utils/types/maps/exitTiles";
 
+const OPPOSITE: Record<string, Player["direction"]> = {
+  up: "down",
+  down: "up",
+  left: "right",
+  right: "left",
+};
+
 export function useExitTile({
   scene,
   player,
@@ -10,6 +17,8 @@ export function useExitTile({
   location,
   handleExit,
   setPopup,
+  popup,
+  setPosition,
 }: ExitTileOptions) {
   const sceneInitRef = useRef(true);
 
@@ -21,8 +30,18 @@ export function useExitTile({
   handleExitRef.current = handleExit;
   const setPopupRef = useRef(setPopup);
   setPopupRef.current = setPopup;
+  const setPositionRef = useRef(setPosition);
+  setPositionRef.current = setPosition;
   const playerRef = useRef(player);
   playerRef.current = player;
+
+  const prevPositionRef = useRef({
+    x: player.gridX,
+    y: player.gridY,
+    direction: player.direction,
+  });
+  const wasBlockedRef = useRef(false);
+  const prevPopupRef = useRef(popup);
 
   useEffect(() => {
     if (!scene) return;
@@ -62,6 +81,7 @@ export function useExitTile({
         });
       } else {
         setPopupRef.current?.(tile.blockedMessage || "Você não pode ir agora.");
+        wasBlockedRef.current = true;
       }
 
       return;
@@ -72,6 +92,7 @@ export function useExitTile({
 
       if (!hasQuest) {
         setPopupRef.current?.(tile.blockedMessage || "Você não pode ir agora.");
+        wasBlockedRef.current = true;
         return;
       }
     }
@@ -82,4 +103,37 @@ export function useExitTile({
       });
     }
   }, [player.gridX, player.gridY, scene, quests, navigateWithFade, location]);
+
+  useEffect(() => {
+    const prev = prevPositionRef.current;
+    const moved =
+      player.gridX !== prev.x ||
+      player.gridY !== prev.y ||
+      player.direction !== prev.direction;
+
+    if (moved) {
+      prevPositionRef.current = {
+        x: player.gridX,
+        y: player.gridY,
+        direction: player.direction,
+      };
+    }
+  }, [player.gridX, player.gridY, player.direction]);
+
+  useEffect(() => {
+    prevPopupRef.current = popup;
+  }, [popup]);
+
+  useEffect(() => {
+    if (popup !== null) return;
+    if (!wasBlockedRef.current) return;
+    wasBlockedRef.current = false;
+
+    const prev = prevPositionRef.current;
+    setPositionRef.current?.(
+      prev.x,
+      prev.y,
+      OPPOSITE[player.direction] ?? player.direction,
+    );
+  }, [popup, player.direction]);
 }

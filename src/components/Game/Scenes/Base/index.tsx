@@ -61,7 +61,7 @@ export function SceneBase({
 }: SceneBaseProps) {
   const { navigateWithFade } = useTransitionCtx();
   const location = useLocation();
-  const { player, setMode } = usePlayer();
+  const { player, setMode, setPosition } = usePlayer();
   const { quests } = useQuests();
   const { hasFlag } = useFlags();
   const { hasItem, addItem, removeItem } = useInventory();
@@ -92,6 +92,8 @@ export function SceneBase({
     location,
     handleExit,
     setPopup,
+    popup,
+    setPosition,
   });
 
   useEffect(() => {

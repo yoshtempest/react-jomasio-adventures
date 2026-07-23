@@ -17,7 +17,6 @@ export const cafeteriaMessages: Record<string, string> = {
   "8,4": "Umano com U",
   "9,4": "Últimas memórias",
   "10,4": "Dentuço",
-  "11,4": "Riquelson",
   "12,4": "YRA",
   "13,4": "Kamy Kaze",
   "14,4": "Atu... by Peru tentando dizer Artur",

@@ -14,4 +14,10 @@ export type ExitTileOptions = {
     quests: Quest[];
   }) => boolean;
   setPopup?: (msg: string | null) => void;
+  popup?: string | null;
+  setPosition?: (
+    x: number,
+    y: number,
+    direction?: Player["direction"],
+  ) => void;
 };
