@@ -5,6 +5,7 @@ import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
 import { shouldCloseToExplore } from "@/gameRules/menu/flow";
 import { getSelected } from "@/gameRules/menu/selection";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
+import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { useStableCallback } from "@/hooks/useStableCallback";
 import { useGameControlsLayer } from "@/hooks/useGameControlsLayer";
 import { useSelectableIndex } from "@/hooks/useSelectableIndex";
@@ -13,6 +14,7 @@ export function useNavbarMenu() {
   const { closeNavbar, screen, setScreen } = useNavbar();
   const { setMode } = usePlayer();
   const { playMove, playSelect, playClose } = useMenuSFX();
+  const { playSound } = useSoundEffects();
 
   const { selectedIndex, setSelectedIndex, selectedIndexRef } =
     useSelectableIndex();
@@ -36,6 +38,7 @@ export function useNavbarMenu() {
     playSelect();
     const selected = getSelected(NAVBAR_OPTIONS, selectedIndexRef.current);
     setScreen(selected.screen);
+    if (selected.screen === "character") playSound("chooseYourCharacter");
     return true;
   });
 
