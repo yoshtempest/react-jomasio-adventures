@@ -1,6 +1,8 @@
 import styles from "./styles.module.css";
 import { useConfigMenu } from "@/hooks/menu/config/useConfig";
 import { useAudio } from "@/contexts/AudioContext";
+import { usePlayer } from "@/contexts/PlayerContext";
+import { useSettings } from "@/contexts/SettingsContext";
 import { useDialogue } from "@/hooks/interaction/useDialogue";
 import { useEffect, useRef } from "react";
 import { configsDialogue } from "@/data/dialogues/configs";
@@ -14,6 +16,8 @@ import { VolumeSection } from "./Volume";
 
 export function Config() {
   const { sfxVolume, bgmVolume } = useAudio();
+  const { difficulty } = usePlayer();
+  const { dialogueSpeed } = useSettings();
   const {
     difficultyList,
     selectedIndex,
@@ -65,11 +69,13 @@ export function Config() {
             difficultyList={difficultyList}
             selectedIndex={selectedIndex}
             selectedColumn={selectedColumn}
+            activeDifficulty={difficulty}
           />
 
           <DialogueSpeedSection
             selectedIndex={selectedIndex}
             selectedColumn={selectedColumn}
+            activeSpeed={dialogueSpeed}
           />
 
           <HelpSection

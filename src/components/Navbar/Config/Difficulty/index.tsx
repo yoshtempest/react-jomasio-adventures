@@ -6,22 +6,25 @@ type Props = {
   difficultyList: string[];
   selectedIndex: number;
   selectedColumn: number;
+  activeDifficulty: NpcDifficulty;
 };
 
 export function DifficultySection({
   difficultyList,
   selectedIndex,
   selectedColumn,
+  activeDifficulty,
 }: Props) {
   return (
     <div className={styles.difficultyContainer}>
       <h2 className={styles.marginTop}>Dificuldade:</h2>
       {difficultyList.map((diff, index) => {
         const isSelected = selectedColumn === 0 && index === selectedIndex;
+        const isActive = diff === activeDifficulty;
         return (
           <div
             key={diff}
-            className={`${styles.item} ${isSelected ? styles.selected : ""}`}
+            className={`${styles.item} ${isSelected ? styles.selected : ""} ${isActive ? styles.active : ""}`}
           >
             {isSelected && <span className={styles.cursor}>▼</span>}
 

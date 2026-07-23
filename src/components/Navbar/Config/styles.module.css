@@ -102,6 +102,10 @@
   background-color: var(--primary-color);
 }
 
+.active {
+  border-color: var(--accent-color);
+}
+
 .cursor {
   position: absolute;
   top: calc(-1 * var(--size-5));
