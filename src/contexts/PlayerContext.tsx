@@ -134,6 +134,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     stopMoveLeftExplore,
     startMoveRightExplore,
     stopMoveRightExplore,
+    clearAllIntervals,
   } = usePlayerMovement(currentMap, setPlayer);
 
   const [playerClass, setPlayerClass] = useState<PlayerClass>(() => {
@@ -178,6 +179,10 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   );
 
   const attack = () => rawAttack();
+
+  useEffect(() => {
+    if (player.mode !== "explore") clearAllIntervals();
+  }, [player.mode, clearAllIntervals]);
 
   function setMap(map: number[][]) {
     setCurrentMap(map);

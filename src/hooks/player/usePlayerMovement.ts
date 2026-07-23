@@ -95,6 +95,13 @@ export function usePlayerMovement(
     }
   }
 
+  function clearAllIntervals() {
+    if (upIntervalRef.current) { clearInterval(upIntervalRef.current); upIntervalRef.current = null; }
+    if (downIntervalRef.current) { clearInterval(downIntervalRef.current); downIntervalRef.current = null; }
+    if (leftIntervalRef.current) { clearInterval(leftIntervalRef.current); leftIntervalRef.current = null; }
+    if (rightIntervalRef.current) { clearInterval(rightIntervalRef.current); rightIntervalRef.current = null; }
+  }
+
   return {
     moveUp,
     moveDown,
@@ -108,5 +115,6 @@ export function usePlayerMovement(
     stopMoveLeftExplore,
     startMoveRightExplore,
     stopMoveRightExplore,
+    clearAllIntervals,
   };
 }

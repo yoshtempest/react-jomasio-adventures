@@ -202,7 +202,7 @@ export function useKeyboardMovement() {
       },
       onUpRelease: () => {
         isUpHeldRef.current = false;
-        if (!isBattleRef.current) stopMoveUpExploreRef.current();
+        stopMoveUpExploreRef.current();
       },
 
       onDown: () => {
@@ -222,7 +222,7 @@ export function useKeyboardMovement() {
       },
       onDownRelease: () => {
         isDownHeldRef.current = false;
-        if (!isBattleRef.current) stopMoveDownExploreRef.current();
+        stopMoveDownExploreRef.current();
       },
 
       onLeft: () => {
@@ -243,8 +243,8 @@ export function useKeyboardMovement() {
       },
       onLeftRelease: () => {
         isLeftHeldRef.current = false;
-        if (isBattleRef.current) stopMoveLeftRef.current();
-        else stopMoveLeftExploreRef.current();
+        stopMoveLeftRef.current();
+        stopMoveLeftExploreRef.current();
       },
 
       onRight: () => {
@@ -265,8 +265,8 @@ export function useKeyboardMovement() {
       },
       onRightRelease: () => {
         isRightHeldRef.current = false;
-        if (isBattleRef.current) stopMoveRightRef.current();
-        else stopMoveRightExploreRef.current();
+        stopMoveRightRef.current();
+        stopMoveRightExploreRef.current();
       },
     };
 
