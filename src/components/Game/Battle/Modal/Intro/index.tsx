@@ -3,20 +3,26 @@ import styles from "./styles.module.css";
 import { useEffect, useRef } from "react";
 import { useAudio } from "@/contexts/AudioContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
+import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import { usePlayer } from "@/contexts/PlayerContext";
+import { FleeButton } from "@/components/Game/Battle/FleeButton";
 import { sfx } from "@/utils/paths";
 
 type Props = {
   playerCharacter: string;
   npcType: string;
   onSkip: () => void;
+  onFlee: () => void;
 };
 
-export function BattleIntro({ playerCharacter, npcType, onSkip }: Props) {
+export function BattleIntro({ playerCharacter, npcType, onSkip, onFlee }: Props) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const { sfxVolume } = useAudio();
   const sfxVolumeRef = useRef(sfxVolume);
   sfxVolumeRef.current = sfxVolume;
   const { pushControls, popControls } = useGameControls();
+  const { playSound } = useSoundEffects();
+  const { setMode } = usePlayer();
 
   useEffect(() => {
     const audio = sfx("/battle/onePiece.mp3");
@@ -46,8 +52,21 @@ export function BattleIntro({ playerCharacter, npcType, onSkip }: Props) {
     onSkip();
   };
 
+  const handleFlee = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+
+    playSound("run");
+    setMode("explore");
+    onFlee();
+  };
+
   const handleSkipRef = useRef(handleSkip);
   handleSkipRef.current = handleSkip;
+  const handleFleeRef = useRef(handleFlee);
+  handleFleeRef.current = handleFlee;
 
   useEffect(() => {
     const controls = {
@@ -57,6 +76,10 @@ export function BattleIntro({ playerCharacter, npcType, onSkip }: Props) {
       onRight: () => true,
       onConfirm: () => {
         handleSkipRef.current();
+        return true;
+      },
+      onCancel: () => {
+        handleFleeRef.current();
         return true;
       },
     };
@@ -94,6 +117,10 @@ export function BattleIntro({ playerCharacter, npcType, onSkip }: Props) {
       <button className={styles.skip} onClick={handleSkip}>
         Pular
       </button>
+
+      <div className={styles.fleeContainer}>
+        <FleeButton onClick={handleFlee} />
+      </div>
     </div>
   );
 }

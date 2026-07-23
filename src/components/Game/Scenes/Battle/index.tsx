@@ -146,6 +146,7 @@ export function BattleScene(props: Props) {
           playerCharacter={player.character}
           npcType={npcType}
           onSkip={skipIntro}
+          onFlee={() => navigate(-1)}
         />
       )}
 

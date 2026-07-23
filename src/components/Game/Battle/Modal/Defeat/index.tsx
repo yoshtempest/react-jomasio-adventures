@@ -5,6 +5,7 @@ import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { formatDuration } from "@/utils/formatDuration";
 import { ActivePotionDisplay } from "@/components/ActivePotionDisplay";
+import { FleeButton } from "@/components/Game/Battle/FleeButton";
 
 type Option = "retry" | "flee";
 
@@ -128,12 +129,13 @@ export function DefeatModal({
           >
             Tentar novamente
           </button>
-          <button
-            className={`${styles.button} ${selected === "flee" ? styles.active : ""}`}
-            onClick={executeSelected}
-          >
-            Fugir
-          </button>
+          <div>
+            <FleeButton
+              onClick={executeSelected}
+              isSelected={selected === "flee"}
+            />
+          </div>
+
         </div>
       </div>
     </div>

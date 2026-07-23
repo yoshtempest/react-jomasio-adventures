@@ -53,6 +53,14 @@
   backdrop-filter: blur(var(--size-5));
 }
 
+.fleeContainer {
+  position: fixed;
+  left: 2vw;
+  bottom: 2vh;
+
+  width: 10vw;
+}
+
 @keyframes pulse {
   0% {
     transform: scale(1);
