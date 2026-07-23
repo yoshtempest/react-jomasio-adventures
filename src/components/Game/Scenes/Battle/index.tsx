@@ -16,6 +16,7 @@ import { JumpIndicator } from "@/components/Game/Battle/JumpIndicator";
 import { ComboAction } from "@/components/Controls/ComboAction";
 import { useGameAudio } from "@/hooks/game/useGameAudio";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { useEffect, useRef } from "react";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import { TrainingOverlay } from "@/components/Game/Battle/TrainingOverlay";
@@ -34,6 +35,7 @@ type Props = {
 
 export function BattleScene(props: Props) {
   const { npcType, className, background, map } = props;
+  const { stopAll } = useSoundEffects();
 
   const {
     player,
@@ -116,7 +118,11 @@ export function BattleScene(props: Props) {
     } else if (!shouldPlay && battleAudioRef.current.isPlaying()) {
       battleAudioRef.current.pause();
     }
-  }, [showIntro, showVictory, showDefeat]);
+
+    if (showVictory || showDefeat) {
+      stopAll();
+    }
+  }, [showIntro, showVictory, showDefeat, stopAll]);
 
   return (
     <div

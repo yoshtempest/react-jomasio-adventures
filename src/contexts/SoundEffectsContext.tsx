@@ -53,6 +53,7 @@ export type SoundId =
 type SoundEffectsContextType = {
   playSound: (sound: SoundId, loop?: boolean, volumeOverride?: number) => void;
   stopSound: (sound: SoundId) => void;
+  stopAll: () => void;
 };
 
 const SoundEffectsContext = createContext<SoundEffectsContextType | null>(null);
@@ -127,9 +128,16 @@ export function SoundEffectsProvider({ children }: { children: ReactNode }) {
     audio.currentTime = 0;
   }, []);
 
+  const stopAll = useCallback(() => {
+    Object.values(soundsRef.current).forEach((audio) => {
+      audio.pause();
+      audio.currentTime = 0;
+    });
+  }, []);
+
   const value = useMemo(
-    () => ({ playSound, stopSound }),
-    [playSound, stopSound],
+    () => ({ playSound, stopSound, stopAll }),
+    [playSound, stopSound, stopAll],
   );
 
   return (
