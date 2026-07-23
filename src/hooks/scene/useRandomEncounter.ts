@@ -27,18 +27,22 @@ export function useRandomEncounter(config: RandomEncounterConfig) {
   const lastPositionRef = useRef({ x: player.gridX, y: player.gridY });
   const setPositionRef = useRef(setPosition);
   setPositionRef.current = setPosition;
+  const restoringRef = useRef(false);
 
   useEffect(() => {
     const { storageKey } = configRef.current;
     const saved = localStorage.getItem(slotKey(storageKey));
     if (!saved) return;
 
+    restoringRef.current = true;
     const { x, y, direction } = JSON.parse(saved);
+    lastPositionRef.current = { x, y };
     setPositionRef.current(x, y, direction);
 
     requestAnimationFrame(() => {
       setPositionRef.current(x, y, direction);
       localStorage.removeItem(slotKey(storageKey));
+      restoringRef.current = false;
     });
   }, []);
 
@@ -53,6 +57,11 @@ export function useRandomEncounter(config: RandomEncounterConfig) {
       gridX !== lastPositionRef.current.x ||
       gridY !== lastPositionRef.current.y;
     if (!moved) return;
+
+    if (restoringRef.current) {
+      lastPositionRef.current = { x: gridX, y: gridY };
+      return;
+    }
 
     lastPositionRef.current = { x: gridX, y: gridY };
 
