@@ -13,6 +13,7 @@ export function createSounds() {
     levelUp: sfx("player/levelUp.mp3"),
     loading: new Audio(asset("/assets/songs/transitions/blink.mp3")),
     moveMenu: sfx("menu/move.mp3"),
+    chooseYourCharacter: sfx("menu/chooseYourCharacter.mp3"),
     selectMenu: sfx("menu/select.mp3"),
     closeMenu: sfx("menu/close.mp3"),
     chargingAttack: sfx("player/chargingAttack.mp3"),

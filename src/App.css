@@ -1,7 +1,10 @@
 #root {
   max-width: var(--size-1280);
+  width: 100%;
+  height: 100%;
   margin: 0 auto;
   padding: var(--size-32);
+  overflow: hidden;
   text-align: center;
 }
 

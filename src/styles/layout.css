@@ -4,8 +4,9 @@
   position: relative;
 
   width: var(--size-1280);
-  height: 100vh;
+  height: 100dvh;
   overflow: hidden;
+  touch-action: none;
 
   align-items: center;
   justify-content: center;
@@ -17,7 +18,7 @@
   left: 50%;
   transform: translateX(-50%);
   width: 74vw;
-  height: 100vh;
+  height: 100dvh;
   overflow: hidden;
   pointer-events: none;
   z-index: 9999999;
@@ -39,7 +40,7 @@
   align-items: center;
   justify-content: center;
   width: 74vw;
-  height: 100vh;
+  height: 100dvh;
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -51,7 +52,7 @@
   right: 0;
   flex-direction: column;
   width: calc(74vw - var(--size-6));
-  height: 90vh;
+  height: 90dvh;
   background: linear-gradient(
     170deg,
     var(--surface-dark) 0%,

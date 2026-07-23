@@ -48,6 +48,7 @@ export type SoundId =
   | "chestOpening"
   | "knifeAttack"
   | "knifeCut"
+  | "chooseYourCharacter"
   | "hungryDeath";
 
 type SoundEffectsContextType = {
