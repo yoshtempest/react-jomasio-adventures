@@ -40,7 +40,11 @@ export function useExitTile({
     y: player.gridY,
     direction: player.direction,
   });
-  const wasBlockedRef = useRef(false);
+  const blockedPositionRef = useRef<{
+    x: number;
+    y: number;
+    direction: Player["direction"];
+  } | null>(null);
   const prevPopupRef = useRef(popup);
 
   useEffect(() => {
@@ -80,8 +84,8 @@ export function useExitTile({
           state: { from: location.pathname },
         });
       } else {
+        blockedPositionRef.current = { ...prevPositionRef.current };
         setPopupRef.current?.(tile.blockedMessage || "Você não pode ir agora.");
-        wasBlockedRef.current = true;
       }
 
       return;
@@ -91,8 +95,8 @@ export function useExitTile({
       const hasQuest = quests.some((q) => q.id === tile.requiredQuest);
 
       if (!hasQuest) {
+        blockedPositionRef.current = { ...prevPositionRef.current };
         setPopupRef.current?.(tile.blockedMessage || "Você não pode ir agora.");
-        wasBlockedRef.current = true;
         return;
       }
     }
@@ -121,19 +125,20 @@ export function useExitTile({
   }, [player.gridX, player.gridY, player.direction]);
 
   useEffect(() => {
+    const wasOpen = prevPopupRef.current !== null;
+    const isNowClosed = popup === null;
     prevPopupRef.current = popup;
-  }, [popup]);
 
-  useEffect(() => {
-    if (popup !== null) return;
-    if (!wasBlockedRef.current) return;
-    wasBlockedRef.current = false;
+    if (!wasOpen || !isNowClosed) return;
 
-    const prev = prevPositionRef.current;
+    const blocked = blockedPositionRef.current;
+    if (!blocked) return;
+    blockedPositionRef.current = null;
+
     setPositionRef.current?.(
-      prev.x,
-      prev.y,
-      OPPOSITE[player.direction] ?? player.direction,
+      blocked.x,
+      blocked.y,
+      OPPOSITE[blocked.direction] ?? blocked.direction,
     );
   }, [popup, player.direction]);
 }
