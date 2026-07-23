@@ -1,4 +1,3 @@
-import { asset } from "@/utils/paths";
 import { spriteMap } from "@/data/battle/projectileSprites";
 
 type Props = {
@@ -61,7 +60,7 @@ export function ProjectileSprite({
         {projectile.spears.map((spear, i) => (
           <img
             key={i}
-            src={asset(src)}
+            src={src}
             style={{
               position: "absolute",
               left: spear.x * scaleX,
@@ -79,7 +78,7 @@ export function ProjectileSprite({
 
   return (
     <img
-      src={asset(src)}
+      src={src}
       style={{
         position: "absolute",
         left: projectile.x * scaleX,
