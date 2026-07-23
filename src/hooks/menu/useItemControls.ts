@@ -7,6 +7,7 @@ type Params = {
   isConsumableSelected: boolean;
   isChestSelected: boolean;
   isMapSelected: boolean;
+  isMountSelected: boolean;
   keyId: string | null;
   items: { id: string }[];
   openPlayerChest: (id: ItemId) => void;
@@ -22,6 +23,7 @@ export function useItemControls({
   isConsumableSelected,
   isChestSelected,
   isMapSelected,
+  isMountSelected,
   keyId,
   items,
   openPlayerChest,
@@ -56,7 +58,7 @@ export function useItemControls({
           return true;
         }
 
-        if (isMapSelected) {
+        if (isMapSelected || isMountSelected) {
           const effect = getEffect(selectedItem.id);
           if (effect) {
             effect();
@@ -75,6 +77,7 @@ export function useItemControls({
     isChestSelected,
     isConsumableSelected,
     isMapSelected,
+    isMountSelected,
     selectedItem,
     keyId,
     items,
