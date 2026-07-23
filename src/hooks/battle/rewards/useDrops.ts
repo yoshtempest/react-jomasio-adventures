@@ -61,7 +61,7 @@ export function rollMaterialDrops(
   for (const [materialId, qty] of Object.entries(materialDrops)) {
     const craftDef = CRAFT_MATERIALS[materialId];
     if (craftDef) {
-      addItem({ id: craftDef.id as ItemId });
+      addItem({ id: craftDef.id as ItemId, qty });
       drops.push({ id: craftDef.id, name: craftDef.name, qty });
       continue;
     }
@@ -70,7 +70,7 @@ export function rollMaterialDrops(
     if (!def) continue;
 
     const image = "image" in def ? def.image : undefined;
-    addItem({ id: def.id });
+    addItem({ id: def.id, qty });
     drops.push({ id: def.id, name: def.name, qty, image });
   }
 
