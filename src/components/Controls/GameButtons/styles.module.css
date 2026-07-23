@@ -89,12 +89,22 @@
     font-size: var(--small);
   }
   .gameButtons {
-    display: flex;
-    gap: var(--size-32);
-    align-items: flex-end;
-    flex-direction: column;
-    position: fixed;
     margin-top: 40vh;
     right: 7%;
+  }
+}
+
+@media (max-width: 1000px) and (max-height: 512px) {
+  .gameButtons {
+    align-items: center;
+    justify-content: center;
+    right: 4vw;
+  }
+  .row {
+    flex-direction: column;
+  }
+  .button {
+    width: 5vw;
+    height: 5vw;
   }
 }
