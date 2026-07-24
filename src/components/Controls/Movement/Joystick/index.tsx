@@ -51,6 +51,9 @@ export function JoystickMovement({
     } else {
       onReleaseRef.current?.(dir);
       switch (dir) {
+        case "up":
+          activeControls?.onUpRelease?.();
+          break;
         case "down":
           activeControls?.onDownRelease?.();
           break;

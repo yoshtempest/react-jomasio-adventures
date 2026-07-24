@@ -271,7 +271,17 @@ export function useKeyboardMovement() {
     };
 
     pushControlsRef.current(controls);
-    return () => popControlsRef.current();
+    return () => {
+      isUpHeldRef.current = false;
+      isDownHeldRef.current = false;
+      isLeftHeldRef.current = false;
+      isRightHeldRef.current = false;
+      stopMoveUpExploreRef.current();
+      stopMoveDownExploreRef.current();
+      stopMoveLeftExploreRef.current();
+      stopMoveRightExploreRef.current();
+      popControlsRef.current();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
