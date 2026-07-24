@@ -11,7 +11,7 @@ export function HowToPlay() {
           Como Jogar
         </h2>
         <div className={styles.howtoGrid}>
-          <div className={styles.howtoStep}>
+          <div className={`${"landingCard"} ${styles.howtoStep}`}>
             <span className={styles.stepNumber}>1</span>
             <div>
               <h3>Crie sua conta</h3>
@@ -20,7 +20,7 @@ export function HowToPlay() {
               </p>
             </div>
           </div>
-          <div className={styles.howtoStep}>
+          <div className={`${"landingCard"} ${styles.howtoStep}`}>
             <span className={styles.stepNumber}>2</span>
             <div>
               <h3>Escolha seu personagem</h3>
@@ -29,14 +29,14 @@ export function HowToPlay() {
               </p>
             </div>
           </div>
-          <div className={styles.howtoStep}>
+          <div className={`${"landingCard"} ${styles.howtoStep}`}>
             <span className={styles.stepNumber}>3</span>
             <div>
               <h3>Explore e complete quests</h3>
               <p>Ande pelos cenários, converse com NPCs e aceite missões.</p>
             </div>
           </div>
-          <div className={styles.howtoStep}>
+          <div className={`${"landingCard"} ${styles.howtoStep}`}>
             <span className={styles.stepNumber}>4</span>
             <div>
               <h3>Derrote os bosses</h3>

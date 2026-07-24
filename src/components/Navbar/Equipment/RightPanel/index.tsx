@@ -45,7 +45,7 @@ export function RightPanel() {
         })}
       </div>
 
-      <div className={styles.itemsContainer} ref={rightItemsRef}>
+      <div className={`${styles.itemsContainer} hideScrollbar`} ref={rightItemsRef}>
         {filteredItems.length === 0 && (
           <div className={styles.emptyText}>Nenhum equipamento encontrado.</div>
         )}

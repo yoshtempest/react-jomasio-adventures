@@ -11,7 +11,7 @@ export function About() {
           Sobre o Jogo
         </h2>
         <div className={styles.aboutGrid}>
-          <div className={styles.aboutCard}>
+          <div className={`${"landingCard"} ${styles.aboutCard}`}>
             <h3>O que é Jomásio Adventures?</h3>
             <p>
               Jomásio Adventures é um RPG 2D em tile-based grid que se passa nos
@@ -20,7 +20,7 @@ export function About() {
               escola.
             </p>
           </div>
-          <div className={styles.aboutCard}>
+          <div className={`${"landingCard"} ${styles.aboutCard}`}>
             <h3>Inspiração e Estilo</h3>
             <p>
               Inspirado em clássicos RPGs e na cultura da internet brasileira, o
@@ -29,7 +29,7 @@ export function About() {
               mais.
             </p>
           </div>
-          <div className={styles.aboutCard}>
+          <div className={`${"landingCard"} ${styles.aboutCard}`}>
             <h3>Multiplayer</h3>
             <p>
               Crie sua conta, salve seu progresso na nuvem e dispute com seus

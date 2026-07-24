@@ -39,11 +39,11 @@ export function Saves() {
 
   return (
     <div className={`containerOfNavbar ${styles.center}`}>
-      <div className={styles.tabs}>
+      <div className="tabs">
         {SAVE_TABS.map((tab) => (
           <button
             key={tab}
-            className={`${styles.tab} ${activeTab === tab ? styles.tabActive : ""} ${isOnTab && activeTab === tab ? styles.tabSelected : ""}`}
+            className={`${"tab"} ${activeTab === tab ? "tabActive" : ""} ${isOnTab && activeTab === tab ? "tabSelected" : ""}`}
           >
             {SAVE_TAB_LABELS[tab]}
           </button>

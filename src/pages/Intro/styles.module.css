@@ -3,11 +3,6 @@
   background-size: cover;
 }
 
-.logo {
-  width: 20vw;
-  height: 33vh;
-}
-
 .selected {
   background-color: var(--primary-color);
   border: var(--size-2) solid var(--background-color);

@@ -1,7 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { useNavigate, Link } from "react-router";
 import { useAuth } from "@/contexts/AuthContext";
-import styles from "./styles.module.css";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -27,16 +26,16 @@ export default function Login() {
   }
 
   return (
-    <div className={styles.container}>
-      <form className={styles.form} onSubmit={handleSubmit}>
-        <h1 className={styles.title}>Entrar</h1>
+    <div className="authContainer">
+      <form className="authForm" onSubmit={handleSubmit}>
+        <h1 className="authTitle">Entrar</h1>
 
-        {error && <p className={styles.error}>{error}</p>}
+        {error && <p className="authError">{error}</p>}
 
-        <label className={styles.label}>
+        <label className="authLabel">
           Email
           <input
-            className={styles.input}
+            className="authInput"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -45,10 +44,10 @@ export default function Login() {
           />
         </label>
 
-        <label className={styles.label}>
+        <label className="authLabel">
           Senha
           <input
-            className={styles.input}
+            className="authInput"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -58,11 +57,11 @@ export default function Login() {
           />
         </label>
 
-        <button className={styles.button} type="submit" disabled={loading}>
+        <button className="authButton" type="submit" disabled={loading}>
           {loading ? "Entrando..." : "Entrar"}
         </button>
 
-        <p className={styles.link}>
+        <p className="authLink">
           Não tem conta? <Link to="/register">Cadastre-se</Link>
         </p>
       </form>

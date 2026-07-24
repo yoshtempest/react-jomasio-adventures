@@ -38,19 +38,19 @@ export function PlayerHUDPanel({
       <img
         src={playerPath(`/${character}/face.svg`)}
         alt="Player HUD"
-        className={styles.image}
+        className="hudImage"
       />
       <div className={styles.playerInfo}>
-        <h2 className={styles.playerName}>{playerName}</h2>
-        <p className={styles.playerRank}>{playerRank}</p>
+        <h2 className={`${"hudName"} ${styles.playerName}`}>{playerName}</h2>
+        <p className={`${"hudRank"} ${styles.playerRank}`}>{playerRank}</p>
 
-        <div className={styles.flexRow}>
+        <div className="hudFlexRow">
           <div>
             <HealthBar hp={hp} maxHp={maxHp} />
             {shield > 0 && (
-              <div className={styles.shieldTrack}>
+              <div className="shieldTrack">
                 <div
-                  className={styles.shieldFill}
+                  className="shieldFill"
                   style={{
                     width: `${Math.min(100, (shield / maxHp) * 100)}%`,
                   }}
@@ -59,15 +59,15 @@ export function PlayerHUDPanel({
             )}
             <BlockGauge blockGauge={blockGauge} blockLimit={blockLimit} />
             {petHP !== undefined && petMaxHp !== undefined && (
-              <div className={styles.petTrack}>
-                <span className={styles.petLabel}>Pet</span>
+              <div className="petTrack">
+                <span className="petLabel">Pet</span>
                 <div
-                  className={styles.petFill}
+                  className="petFill"
                   style={{
                     width: `${(petHP / petMaxHp) * 100}%`,
                   }}
                 />
-                <span className={styles.petText}>
+                <span className="petText">
                   {petHP}/{petMaxHp}
                 </span>
               </div>

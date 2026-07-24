@@ -17,6 +17,7 @@
   }
   .containerOfNavbar {
     width: var(--size-1280);
+    max-width: var(--size-1280);
     height: 30vh;
     top: 0;
     right: 0;

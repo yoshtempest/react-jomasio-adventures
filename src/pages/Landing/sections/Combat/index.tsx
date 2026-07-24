@@ -12,7 +12,7 @@ export function Combat() {
           Sistema de Combate
         </h2>
         <div className={styles.combatGrid}>
-          <div className={styles.combatCard}>
+          <div className={`${"landingCard"} ${styles.combatCard}`}>
             <Zap size={32} className={styles.combatIcon} />
             <h3>Combate em Turnos</h3>
             <p>
@@ -20,7 +20,7 @@ export function Combat() {
               bloqueios e habilidades especiais.
             </p>
           </div>
-          <div className={styles.combatCard}>
+          <div className={`${"landingCard"} ${styles.combatCard}`}>
             <Shield size={32} className={styles.combatIcon} />
             <h3>Classes Únicas</h3>
             <p>
@@ -28,7 +28,7 @@ export function Combat() {
               Escolha a que melhor se adapta ao seu estilo!
             </p>
           </div>
-          <div className={styles.combatCard}>
+          <div className={`${"landingCard"} ${styles.combatCard}`}>
             <Sparkles size={32} className={styles.combatIcon} />
             <h3>Itens e Equipamentos</h3>
             <p>
@@ -36,7 +36,7 @@ export function Combat() {
               para virar o jogo nas batalhas.
             </p>
           </div>
-          <div className={styles.combatCard}>
+          <div className={`${"landingCard"} ${styles.combatCard}`}>
             <ScrollText size={32} className={styles.combatIcon} />
             <h3>Missões e Quests</h3>
             <p>

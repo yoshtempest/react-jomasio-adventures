@@ -13,7 +13,7 @@ export function FilterBar({
   onFilterChange,
 }: Props) {
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} hideScrollbar`}>
       {FILTER_LABELS.map((f) => (
         <button
           key={f.type}

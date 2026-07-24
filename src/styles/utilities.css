@@ -34,3 +34,115 @@
   background: var(--success);
   transition: width 0.3s;
 }
+
+.hideScrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.hideScrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.empty {
+  text-align: center;
+  color: var(--text-hint);
+  padding: var(--medium);
+  font-size: var(--fs-14);
+}
+
+.flexRow {
+  display: flex;
+  flex-direction: row;
+}
+
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.selected {
+  outline: var(--size-2) solid var(--text-color);
+  outline-offset: var(--size-2);
+}
+
+.pixelated {
+  image-rendering: pixelated;
+}
+
+.logo {
+  width: 20vw;
+  height: 33vh;
+}
+
+.statRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--size-3) 0;
+  font-size: var(--smaller);
+}
+
+.statLabel {
+  color: var(--text-secondary);
+}
+
+.statValue {
+  color: var(--text-color);
+  font-weight: bold;
+}
+
+.barOuter {
+  width: 100%;
+  height: var(--size-6);
+  border-radius: var(--size-3);
+  background: var(--border-default);
+  overflow: hidden;
+  margin-top: var(--size-2);
+}
+
+.barInner {
+  height: 100%;
+  border-radius: var(--size-3);
+  background: var(--accent-color);
+  transition: width 0.3s;
+}
+
+.landingCard {
+  background: rgba(18, 27, 49, 0.4);
+  border: var(--size-1) solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--smaller);
+}
+
+.landingCard:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(18, 27, 49, 0.6);
+}
+
+.ctaButton {
+  display: flex;
+  align-items: center;
+  gap: var(--smaller);
+  padding: var(--fs-18) var(--size-56);
+  font-size: var(--fs-120);
+  font-weight: 700;
+  color: var(--text-color);
+  background: linear-gradient(135deg, #121b31, #1e2d4f);
+  border: var(--size-2) solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--smaller);
+  cursor: pointer;
+  transition: all 0.25s;
+  text-transform: uppercase;
+  letter-spacing: var(--size-2);
+}
+
+.ctaButton:hover {
+  background: linear-gradient(135deg, #1e2d4f, #2a3d6b);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(calc(-1 * var(--size-2)));
+  box-shadow: 0 var(--fs-8) var(--size-30) rgba(18, 27, 49, 0.6);
+}
+
+.ctaButton:active {
+  transform: translateY(0) scale(0.97);
+}

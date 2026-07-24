@@ -50,7 +50,7 @@ export default function Home() {
       className="Master"
       style={{ backgroundImage: `url(${sceneBackgrounds.Home})` }}
     >
-      <img src={asset("/assets/logo.svg")} alt="logo" className={styles.logo} />
+      <img src={asset("/assets/logo.svg")} alt="logo" className="logo" />
       <p className={styles.continue}>Faça o L para continuar</p>
     </div>
   );

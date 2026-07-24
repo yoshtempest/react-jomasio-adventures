@@ -1,16 +1,3 @@
-.logo {
-  width: 20vw;
-  height: 33vh;
-}
-
-.continue {
-  color: var(--text-color);
-  font-size: var(--low-medium);
-  margin-top: var(--size-32);
-  text-shadow: 0 0 var(--smaller) rgba(255, 255, 255, 0.4);
-  animation: pulse 2s ease-in-out infinite;
-}
-
 @keyframes pulse {
   0%,
   100% {
@@ -19,4 +6,12 @@
   50% {
     opacity: 1;
   }
+}
+
+.continue {
+  color: var(--text-color);
+  font-size: var(--low-medium);
+  margin-top: var(--size-32);
+  text-shadow: 0 0 var(--smaller) rgba(255, 255, 255, 0.4);
+  animation: pulse 2s ease-in-out infinite;
 }

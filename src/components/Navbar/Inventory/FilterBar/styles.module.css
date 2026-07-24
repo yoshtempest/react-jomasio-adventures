@@ -4,11 +4,6 @@
   padding: var(--size-4) var(--fs-8);
   overflow-x: auto;
   flex-shrink: 0;
-  scrollbar-width: none;
-}
-
-.container::-webkit-scrollbar {
-  display: none;
 }
 
 .button {

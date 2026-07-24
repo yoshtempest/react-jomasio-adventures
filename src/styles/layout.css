@@ -4,6 +4,7 @@
   position: relative;
 
   width: var(--size-1280);
+  max-width: var(--size-1280);
   height: 100dvh;
   overflow: hidden;
   touch-action: none;

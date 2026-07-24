@@ -192,7 +192,7 @@ export function Player() {
           onClaim={claim}
         />
       ) : (
-        <div ref={scrollRef} className={styles.container}>
+        <div ref={scrollRef} className={`${styles.container} hideScrollbar`}>
           <div className={styles.charSelectRow}>
             <span
               className={`${styles.charBtn} ${

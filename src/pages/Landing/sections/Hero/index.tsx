@@ -20,7 +20,7 @@ export function Hero() {
           Um RPG de aventura pelos corredores do Jomásio, cheio de bosses,
           amigos e momentos inesquecíveis
         </p>
-        <button className={styles.ctaButton} onClick={() => navigate("/")}>
+        <button className="ctaButton" onClick={() => navigate("/")}>
           <Gamepad2 size={24} />
           Começar Aventura
         </button>

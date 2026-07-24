@@ -2,12 +2,6 @@
   max-height: 80vh;
   overflow-y: auto;
   padding: var(--fs-8);
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.container::-webkit-scrollbar {
-  display: none;
 }
 
 .charSelectRow {
@@ -49,23 +43,6 @@
   margin-bottom: var(--size-6);
 }
 
-.statRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: var(--size-3) 0;
-  font-size: var(--smaller);
-}
-
-.statLabel {
-  color: var(--text-secondary);
-}
-
-.statValue {
-  color: var(--text-color);
-  font-weight: bold;
-}
-
 .statPct {
   font-size: var(--fs-11);
   color: var(--accent-color);
@@ -97,7 +74,7 @@
   background: #2a1a0e;
 }
 
-.rewardRow {
+.questRow {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -109,7 +86,7 @@
   gap: var(--size-6);
 }
 
-.rewardInfo {
+.questInfo {
   display: flex;
   flex-direction: column;
   gap: var(--size-1);
@@ -117,26 +94,26 @@
   min-width: 0;
 }
 
-.rewardLabel {
+.questLabel {
   color: var(--text-color);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.rewardProgress {
+.questProgress {
   font-size: var(--fs-10);
   color: var(--text-muted);
 }
 
-.rewardAction {
+.questAction {
   display: flex;
   align-items: center;
   gap: var(--size-6);
   flex-shrink: 0;
 }
 
-.rewardValue {
+.questValue {
   font-size: var(--fs-11);
   font-weight: bold;
   color: #f0d080;
@@ -216,49 +193,4 @@
   font-size: var(--fs-11);
   color: var(--text-muted);
   font-variant-numeric: tabular-nums;
-}
-
-.missionRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--size-5) var(--size-6);
-  margin-bottom: var(--size-4);
-  font-size: var(--fs-11);
-  background: var(--surface-card);
-  border-radius: var(--size-4);
-  gap: var(--size-6);
-}
-
-.missionInfo {
-  display: flex;
-  flex-direction: column;
-  gap: var(--size-1);
-  flex: 1;
-  min-width: 0;
-}
-
-.missionLabel {
-  color: var(--text-color);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.missionProgress {
-  font-size: var(--fs-10);
-  color: var(--text-muted);
-}
-
-.missionAction {
-  display: flex;
-  align-items: center;
-  gap: var(--size-6);
-  flex-shrink: 0;
-}
-
-.missionReward {
-  font-size: var(--fs-11);
-  font-weight: bold;
-  color: #f0d080;
 }

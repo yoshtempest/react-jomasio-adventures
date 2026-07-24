@@ -38,17 +38,17 @@ export function HudPlayer({
       <img
         src={playerPath(`/${pchar}/face.svg`)}
         alt="Player HUD"
-        className={styles.image}
+        className="hudImage"
       />
       <div className={styles.info}>
-        <h2 className={styles.name}>{playerName}</h2>
-        <div className={styles.flexRow}>
+        <h2 className={`${"hudName"} ${styles.name}`}>{playerName}</h2>
+        <div className="hudFlexRow">
           <div>
             <HealthBar hp={php} maxHp={pmaxhp} />
             {pshield > 0 && (
-              <div className={styles.shieldTrack}>
+              <div className="shieldTrack">
                 <div
-                  className={styles.shieldFill}
+                  className="shieldFill"
                   style={{
                     width: `${Math.min(100, (pshield / pmaxhp) * 100)}%`,
                   }}
@@ -57,15 +57,15 @@ export function HudPlayer({
             )}
             <BlockGauge blockGauge={blockGauge} blockLimit={blockLimit} />
             {pettype && petphp != null && petpmaxhp != null && (
-              <div className={styles.petTrack}>
-                <span className={styles.petLabel}>Pet</span>
+              <div className="petTrack">
+                <span className="petLabel">Pet</span>
                 <div
-                  className={styles.petFill}
+                  className="petFill"
                   style={{
                     width: `${petpmaxhp > 0 ? (petphp / petpmaxhp) * 100 : 0}%`,
                   }}
                 />
-                <span className={styles.petText}>
+                <span className="petText">
                   {Math.round(petphp)}/{petpmaxhp}
                 </span>
               </div>

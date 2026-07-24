@@ -52,11 +52,11 @@ export function Config() {
 
   return (
     <div className={`containerOfNavbar ${styles.center}`} ref={configRef}>
-      <div className={styles.tabs}>
+      <div className="tabs">
         {CONFIG_TABS.map((tab) => (
           <button
             key={tab}
-            className={`${styles.tab} ${activeTab === tab ? styles.tabActive : ""} ${isOnTab && activeTab === tab ? styles.tabSelected : ""}`}
+            className={`${"tab"} ${activeTab === tab ? "tabActive" : ""} ${isOnTab && activeTab === tab ? "tabSelected" : ""}`}
           >
             {CONFIG_TAB_LABELS[tab]}
           </button>

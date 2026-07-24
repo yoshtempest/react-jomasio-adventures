@@ -1,13 +1,3 @@
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 0.6;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
 @keyframes shake {
   0%,
   100% {
@@ -18,6 +8,16 @@
   }
   75% {
     transform: translateX(var(--size-2));
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
   }
 }
 

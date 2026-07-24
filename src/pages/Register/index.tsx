@@ -1,7 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { useNavigate, Link } from "react-router";
 import { useAuth } from "@/contexts/AuthContext";
-import styles from "./styles.module.css";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -28,16 +27,16 @@ export default function Register() {
   }
 
   return (
-    <div className={styles.container}>
-      <form className={styles.form} onSubmit={handleSubmit}>
-        <h1 className={styles.title}>Criar Conta</h1>
+    <div className="authContainer">
+      <form className="authForm" onSubmit={handleSubmit}>
+        <h1 className="authTitle">Criar Conta</h1>
 
-        {error && <p className={styles.error}>{error}</p>}
+        {error && <p className="authError">{error}</p>}
 
-        <label className={styles.label}>
+        <label className="authLabel">
           Nome de usuário
           <input
-            className={styles.input}
+            className="authInput"
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
@@ -47,10 +46,10 @@ export default function Register() {
           />
         </label>
 
-        <label className={styles.label}>
+        <label className="authLabel">
           Email
           <input
-            className={styles.input}
+            className="authInput"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -59,10 +58,10 @@ export default function Register() {
           />
         </label>
 
-        <label className={styles.label}>
+        <label className="authLabel">
           Senha
           <input
-            className={styles.input}
+            className="authInput"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -72,11 +71,11 @@ export default function Register() {
           />
         </label>
 
-        <button className={styles.button} type="submit" disabled={loading}>
+        <button className="authButton" type="submit" disabled={loading}>
           {loading ? "Cadastrando..." : "Cadastrar"}
         </button>
 
-        <p className={styles.link}>
+        <p className="authLink">
           Já tem conta? <Link to="/login">Entre</Link>
         </p>
       </form>

@@ -48,11 +48,11 @@ export function Mission() {
 
   return (
     <div className="containerOfNavbar">
-      <div className={styles.tabs}>
+      <div className="tabs">
         {TAB_KEYS.map((key, i) => (
           <button
             key={key}
-            className={`${styles.tab} ${activeTab === key ? styles.tabActive : ""} ${selectedIndex === i ? styles.tabSelected : ""}`}
+            className={`${"tab"} ${activeTab === key ? "tabActive" : ""} ${selectedIndex === i ? "tabSelected" : ""}`}
             onClick={() => switchTab(key)}
           >
             <img

@@ -8,4 +8,7 @@
 @import "./dpad.css";
 @import "./animations.css";
 @import "./utilities.css";
+@import "./auth.css";
+@import "./tabs.css";
+@import "./hud.css";
 @import "./responsive.css";

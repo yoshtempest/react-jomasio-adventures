@@ -37,8 +37,8 @@ export function PlayerRewards({
       <div className={styles.section}>
         <div className={styles.sectionTitle}>Recompensas</div>
         {globalRewards.length === 0 && (
-          <div className={styles.statRow}>
-            <span className={styles.statLabel}>
+          <div className="statRow">
+            <span className="statLabel">
               Nenhuma recompensa disponível
             </span>
           </div>
@@ -47,18 +47,18 @@ export function PlayerRewards({
           <div
             key={r.id}
             ref={idx === selectedRewardIndex ? selectedRef : undefined}
-            className={`${styles.rewardRow} ${
+            className={`${styles.questRow} ${
               idx === selectedRewardIndex ? styles.rewardRowSelected : ""
             }`}
           >
-            <div className={styles.rewardInfo}>
-              <span className={styles.rewardLabel}>{r.label}</span>
-              <span className={styles.rewardProgress}>
+            <div className={styles.questInfo}>
+              <span className={styles.questLabel}>{r.label}</span>
+              <span className={styles.questProgress}>
                 {r.current}/{r.requirement}
               </span>
             </div>
-            <div className={styles.rewardAction}>
-              <span className={styles.rewardValue}>+{r.reward} HyperCoins</span>
+            <div className={styles.questAction}>
+              <span className={styles.questValue}>+{r.reward} HyperCoins</span>
               <button
                 className={r.canClaim ? styles.claimBtn : styles.claimBtnDone}
                 disabled={!r.canClaim}
@@ -95,20 +95,20 @@ export function PlayerRewards({
                   ref={
                     globalIdx === selectedRewardIndex ? selectedRef : undefined
                   }
-                  className={`${styles.rewardRow} ${
+                  className={`${styles.questRow} ${
                     globalIdx === selectedRewardIndex
                       ? styles.rewardRowSelected
                       : ""
                   }`}
                 >
-                  <div className={styles.rewardInfo}>
-                    <span className={styles.rewardLabel}>{r.label}</span>
-                    <span className={styles.rewardProgress}>
+                  <div className={styles.questInfo}>
+                    <span className={styles.questLabel}>{r.label}</span>
+                    <span className={styles.questProgress}>
                       {r.current}/{r.requirement}
                     </span>
                   </div>
-                  <div className={styles.rewardAction}>
-                    <span className={styles.rewardValue}>
+                  <div className={styles.questAction}>
+                    <span className={styles.questValue}>
                       +{r.reward} HyperCoins
                     </span>
                     <button

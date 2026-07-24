@@ -14,24 +14,9 @@
 }
 
 .name {
-  font-size: var(--small);
-  font-weight: bold;
-  margin-bottom: 1vh;
   text-align: right;
 }
 
 .rank {
-  font-size: var(--fs-11);
-  color: var(--accent-color);
-  margin: 0;
   text-align: right;
-}
-
-.image {
-  background-color: var(--background-color);
-  border: var(--size-1) solid var(--text-color);
-  border-radius: var(--size-2);
-  width: 12vh;
-  height: 12vh;
-  object-fit: contain;
 }

@@ -34,28 +34,28 @@ export function MonthlyPassSection({
       <div className={styles.sectionTitle}>
         Passe Mensal — {formatMonth(currentMonth)}
       </div>
-      <div className={styles.statRow}>
-        <span className={styles.statLabel}>Progresso</span>
-        <span className={styles.statValue}>
+      <div className="statRow">
+        <span className="statLabel">Progresso</span>
+        <span className="statValue">
           {completedCount}/{passTotal} ({passPct}%)
         </span>
       </div>
       <ProgressBar
         value={passPct}
         max={100}
-        className={styles.barOuter}
+        className="barOuter"
         color="var(--accent-color)"
       />
       {missions.map((m) => (
-        <div key={m.id} className={styles.missionRow}>
-          <div className={styles.missionInfo}>
-            <span className={styles.missionLabel}>{m.label}</span>
-            <span className={styles.missionProgress}>
+        <div key={m.id} className={styles.questRow}>
+          <div className={styles.questInfo}>
+            <span className={styles.questLabel}>{m.label}</span>
+            <span className={styles.questProgress}>
               {m.completed ? "Completa" : `${m.progress}/${m.requirement}`}
             </span>
           </div>
-          <div className={styles.missionAction}>
-            <span className={styles.missionReward}>+{m.reward}</span>
+          <div className={styles.questAction}>
+            <span className={styles.questValue}>+{m.reward}</span>
             <button
               className={m.canClaim ? styles.claimBtn : styles.claimBtnDone}
               disabled={!m.canClaim}

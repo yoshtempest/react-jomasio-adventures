@@ -7,18 +7,10 @@
 
 .combatCard {
   padding: var(--fs-28);
-  background: rgba(18, 27, 49, 0.4);
-  border: var(--size-1) solid rgba(255, 255, 255, 0.06);
-  border-radius: var(--smaller);
   text-align: center;
   transition:
     border-color 0.2s,
     background 0.2s;
-}
-
-.combatCard:hover {
-  border-color: rgba(255, 255, 255, 0.15);
-  background: rgba(18, 27, 49, 0.6);
 }
 
 .combatIcon {

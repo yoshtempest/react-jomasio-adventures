@@ -1,4 +1,4 @@
-.container {
+.authContainer {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -6,7 +6,7 @@
   background: #0a0a0a;
 }
 
-.form {
+.authForm {
   display: flex;
   flex-direction: column;
   gap: var(--small);
@@ -18,14 +18,14 @@
   border-radius: var(--fs-8);
 }
 
-.title {
+.authTitle {
   margin: 0;
   font-size: var(--medium);
   color: #e0e0e0;
   text-align: center;
 }
 
-.label {
+.authLabel {
   display: flex;
   flex-direction: column;
   gap: var(--size-4);
@@ -33,7 +33,7 @@
   color: var(--text-secondary);
 }
 
-.input {
+.authInput {
   padding: var(--fs-10) var(--smaller);
   font-size: var(--small);
   color: #e0e0e0;
@@ -44,11 +44,11 @@
   transition: border-color 0.2s;
 }
 
-.input:focus {
+.authInput:focus {
   border-color: var(--text-hint);
 }
 
-.button {
+.authButton {
   padding: var(--smaller);
   font-size: var(--small);
   font-weight: 600;
@@ -60,16 +60,16 @@
   transition: background 0.2s;
 }
 
-.button:hover:not(:disabled) {
+.authButton:hover:not(:disabled) {
   background: #4a4a7c;
 }
 
-.button:disabled {
+.authButton:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
-.error {
+.authError {
   margin: 0;
   padding: var(--fs-8) var(--smaller);
   font-size: var(--fs-14);
@@ -79,18 +79,18 @@
   border-radius: var(--size-4);
 }
 
-.link {
+.authLink {
   margin: 0;
   font-size: var(--fs-14);
   color: var(--text-muted);
   text-align: center;
 }
 
-.link a {
+.authLink a {
   color: #7b9fff;
   text-decoration: none;
 }
 
-.link a:hover {
+.authLink a:hover {
   text-decoration: underline;
 }
