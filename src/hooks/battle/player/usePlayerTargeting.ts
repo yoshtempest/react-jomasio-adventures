@@ -10,6 +10,7 @@ export function useBuildTargetList(
   npc: { x: number; y: number },
   npcHP: number,
   summons: SummonedNpc[],
+  npcClass: NPCClass,
 ) {
   const getTargets = useCallback((): Target[] => {
     const targets: Target[] = [];
@@ -41,6 +42,8 @@ export function useBuildTargetList(
         player.state,
         player.character,
         false,
+        false,
+        npcClass,
       ) &&
       isFacingTarget(
         player.x,
@@ -55,6 +58,7 @@ export function useBuildTargetList(
       player.state,
       player.character,
       player.battleDirection,
+      npcClass,
     ],
   );
 

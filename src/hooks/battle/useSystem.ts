@@ -153,6 +153,7 @@ export function useBattleSystem(props: Props) {
     npcX,
     npcY,
     playerState,
+    npcClass,
     HITS_TO_SPECIAL,
     setNpcHP,
     setPlayerHP,

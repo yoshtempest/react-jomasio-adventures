@@ -78,3 +78,11 @@ export const CHARACTER_RANGE_X: Record<
     specialHitRange: 300,
   },
 };
+
+export const NPC_CLASS_HITBOX_BONUS: Record<NPCClass, number> = {
+  common: 0,
+  rare: 30,
+  epic: 50,
+  boss: 80,
+  legendary: 120,
+};

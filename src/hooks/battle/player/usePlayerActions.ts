@@ -6,6 +6,7 @@ import {
 } from "@/data/cooldowns";
 import { playAttackSound } from "@/utils/types/battle/playAttackSound";
 import { isPlayerInRange } from "@/gameRules/battle/range";
+import { NPC_CLASS_HITBOX_BONUS } from "@/gameRules/battle/rangeConfig";
 import { isFacingTarget } from "@/gameRules/battle/direction";
 import { damageSummon } from "@/gameRules/battle/damageSummon";
 import { useBuildTargetList } from "./usePlayerTargeting";
@@ -21,6 +22,7 @@ type Props = {
   };
   summons: SummonedNpc[];
   npcHP: number;
+  npcClass: NPCClass;
   playerClass: PlayerClass;
   progress: CharactersProgress;
   npcLevel: number;
@@ -54,6 +56,7 @@ export function usePlayerBattleActions({
   npc,
   summons,
   npcHP,
+  npcClass,
   playerClass,
   progress,
   battle,
@@ -80,6 +83,7 @@ export function usePlayerBattleActions({
     npc,
     npcHP,
     summons,
+    npcClass,
   );
 
   const hitSummon = useCallback(
@@ -145,6 +149,7 @@ export function usePlayerBattleActions({
             player.character,
             false,
             true,
+            target.id === "main" ? npcClass : "common",
           ) &&
           isFacingTarget(
             player.x,
@@ -220,6 +225,7 @@ export function usePlayerBattleActions({
     npc.x,
     onNpcPush,
     hitSummon,
+    npcClass,
   ]);
 
   const handleSpecialHit = useCallback(() => {
@@ -238,7 +244,9 @@ export function usePlayerBattleActions({
 
     if (isAirSpecial) {
       const inRangeTargets = targets.filter(
-        (target) => Math.abs(player.x - target.x) < 150,
+        (target) =>
+          Math.abs(player.x - target.x) <
+          150 + (target.id === "main" ? NPC_CLASS_HITBOX_BONUS[npcClass] : 0),
       );
 
       if (inRangeTargets.length === 0) {
@@ -288,6 +296,7 @@ export function usePlayerBattleActions({
     player.character,
     summons,
     hitSummon,
+    npcClass,
   ]);
 
   return {

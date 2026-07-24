@@ -20,6 +20,7 @@ type Props = {
   npcX: number;
   npcY: number;
   npcArmor: number;
+  npcClass: NPCClass;
   char: { level: number; stats: { strength: number } };
   playerClass: PlayerClass;
   critRate: number;
@@ -50,6 +51,7 @@ export function useChargeDash(props: Props) {
     critRate,
     titleDamageBonus,
     npcArmor,
+    npcClass,
     playerCooldown,
     hitstopRef,
     spawnDamageRef,
@@ -165,6 +167,8 @@ export function useChargeDash(props: Props) {
               "idle",
               dashCharacter,
               false,
+              false,
+              target.id === "main" ? npcClass : "common",
             )
           ) {
             hitTargetsRef.current.add(target.id);

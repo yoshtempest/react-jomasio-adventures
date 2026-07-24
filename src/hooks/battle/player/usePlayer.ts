@@ -21,6 +21,7 @@ type Props = {
   npcX: number;
   npcY: number;
   playerState: playerState;
+  npcClass: NPCClass;
 
   HITS_TO_SPECIAL: number;
 
@@ -67,6 +68,7 @@ export function usePlayerBattle({
   npcX,
   npcY,
   playerState,
+  npcClass,
   spawnPiercing,
   triggerExplosion,
   titleDamageBonus,
@@ -102,6 +104,7 @@ export function usePlayerBattle({
           character: player.character,
           direction: player.battleDirection,
           isSpecial: false,
+          npcClass,
         })
       ) {
         return;
@@ -177,6 +180,7 @@ export function usePlayerBattle({
       onBeforeNpcHitRef,
       setPlayer,
       onAttackRef,
+      npcClass,
     ],
   );
 
@@ -197,6 +201,7 @@ export function usePlayerBattle({
           character: player.character,
           direction: player.battleDirection,
           isSpecial: true,
+          npcClass,
         })
       ) {
         return;
@@ -281,6 +286,7 @@ export function usePlayerBattle({
       onSpecialRef,
       playSound,
       titleDamageBonus,
+      npcClass,
     ],
   );
 
