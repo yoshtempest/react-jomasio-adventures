@@ -13,7 +13,10 @@ export function CTA() {
         <p className={styles.ctaDesc}>
           Junte-se a nossa turma e descubra todos os segredos da escola!
         </p>
-        <button className={`ctaButton ${styles.ctaButtonBig}`} onClick={() => navigate("/")}>
+        <button
+          className={`ctaButton ${styles.ctaButtonBig}`}
+          onClick={() => navigate("/")}
+        >
           <Gamepad2 size={28} />
           Jogar Agora
         </button>

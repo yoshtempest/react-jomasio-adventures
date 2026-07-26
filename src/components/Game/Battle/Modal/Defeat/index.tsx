@@ -135,7 +135,6 @@ export function DefeatModal({
               isSelected={selected === "flee"}
             />
           </div>
-
         </div>
       </div>
     </div>

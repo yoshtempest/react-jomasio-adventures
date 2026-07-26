@@ -4,9 +4,7 @@ type Props = {
   background?: string;
 };
 
-export function ReplayBackground({
-  background,
-}: Props) {
+export function ReplayBackground({ background }: Props) {
   if (!background) return null;
 
   return (

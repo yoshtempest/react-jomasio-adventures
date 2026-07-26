@@ -19,7 +19,7 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router": "^7.9.5",
-    "tempest-react-sdk": "^0.14.0",
+    "tempest-react-sdk": "^0.25.0",
     "workbox-core": "^7.4.1",
     "workbox-precaching": "^7.4.1",
     "workbox-routing": "^7.4.1",

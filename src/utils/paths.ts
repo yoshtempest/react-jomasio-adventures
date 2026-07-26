@@ -78,10 +78,7 @@ const STATE_FOLDER: Record<string, string | null> = {
 
 const ATTACK_FOLDER_ALT = new Set(["marcelo", "eduarda"]);
 
-export function resolveBattleSprite(
-  character: string,
-  state: string,
-): string {
+export function resolveBattleSprite(character: string, state: string): string {
   const folder = STATE_FOLDER[state];
   if (folder === undefined || folder === null) {
     return playerPath(`/${character}/inFight/${state}.svg`);

@@ -13,27 +13,14 @@ type Props = {
   viewport: ReplayViewportSize;
 };
 
-export function ReplayViewport({
-  replay,
-  frame,
-  viewport,
-}: Props) {
-  const layout = getReplayLayout(
-    viewport.width,
-    viewport.height,
-  );
+export function ReplayViewport({ replay, frame, viewport }: Props) {
+  const layout = getReplayLayout(viewport.width, viewport.height);
 
   return (
     <div className={styles.vp}>
-      <ReplayBackground
-        background={replay.background}
-      />
+      <ReplayBackground background={replay.background} />
 
-      <ReplayGameLayer
-        replay={replay}
-        frame={frame}
-        layout={layout}
-      />
+      <ReplayGameLayer replay={replay} frame={frame} layout={layout} />
 
       <HudPlayer
         pchar={frame.pchar}

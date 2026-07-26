@@ -8,8 +8,7 @@ export function getReplayLayout(w: number, h: number) {
   const cw = w * 0.74;
   const ch = h;
 
-  const TILE =
-    Math.min(cw / MAP_COLS, ch / MAP_ROWS) * SCALE_FIX;
+  const TILE = Math.min(cw / MAP_COLS, ch / MAP_ROWS) * SCALE_FIX;
 
   const PLAYER = TILE * 1.4;
 

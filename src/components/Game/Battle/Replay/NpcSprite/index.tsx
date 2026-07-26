@@ -9,23 +9,10 @@ type Props = {
   tileSize: number;
 };
 
-export function ReplayNpcSprite({
-  npcType,
-  frame,
-  tileSize,
-}: Props) {
-  const npcSize =
-    tileSize *
-    getBossSizeMultiplier(
-      npcType,
-      frame.npcPhase,
-    );
+export function ReplayNpcSprite({ npcType, frame, tileSize }: Props) {
+  const npcSize = tileSize * getBossSizeMultiplier(npcType, frame.npcPhase);
 
-  const npcSrc = getSpritePath(
-    npcType,
-    frame.ns,
-    frame.npcPhase,
-  );
+  const npcSrc = getSpritePath(npcType, frame.ns, frame.npcPhase);
 
   return (
     <img

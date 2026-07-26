@@ -1,4 +1,3 @@
-
 import styles from "../styles.module.css";
 import { resolveBattleSprite } from "@/utils/paths";
 import type { ReplayFrame } from "@/utils/types/replay";
@@ -17,14 +16,9 @@ function resolvePlayerState(s: string): string {
   return CROUCH[s] ?? (s === "charging" ? "idle" : s);
 }
 
-export function ReplayPlayerSprite({
-  frame,
-  playerSize,
-}: Props) {
-
+export function ReplayPlayerSprite({ frame, playerSize }: Props) {
   const isCrouching =
-    frame.ps === "idleCrounched" ||
-    frame.ps === "walkCrounched";
+    frame.ps === "idleCrounched" || frame.ps === "walkCrounched";
 
   const isFallen = frame.ps === "fallen";
 

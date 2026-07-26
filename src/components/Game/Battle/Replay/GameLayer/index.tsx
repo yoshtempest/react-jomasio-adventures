@@ -16,21 +16,14 @@ type Props = {
   layout: { TILE: number; PLAYER: number; sx: number; sy: number };
 };
 
-export function ReplayGameLayer({
-  replay,
-  frame,
-  layout,
-}: Props) {
+export function ReplayGameLayer({ replay, frame, layout }: Props) {
   return (
     <div
       className={styles.gameLayer}
       style={{
         width: ProjectileConstants.MAP_WIDTH,
         height: ProjectileConstants.MAP_HEIGHT,
-        transform: `scale(${Math.min(
-          layout.sx,
-          layout.sy,
-        )})`,
+        transform: `scale(${Math.min(layout.sx, layout.sy)})`,
       }}
     >
       <ReplayNpcSprite
@@ -39,24 +32,13 @@ export function ReplayGameLayer({
         tileSize={layout.TILE}
       />
 
-      <ReplaySummons
-        summons={frame.sm}
-        tileSize={layout.TILE}
-      />
+      <ReplaySummons summons={frame.sm} tileSize={layout.TILE} />
 
-        <ReplayPet
-        frame={frame}
-        tileSize={layout.TILE}
-        />
+      <ReplayPet frame={frame} tileSize={layout.TILE} />
 
-      <ReplayPlayerSprite
-        frame={frame}
-        playerSize={layout.PLAYER}
-      />
+      <ReplayPlayerSprite frame={frame} playerSize={layout.PLAYER} />
 
-      <ReplayDamageNumbers
-        damage={frame.dmg}
-      />
+      <ReplayDamageNumbers damage={frame.dmg} />
 
       <ComboDisplay
         count={frame.cc}
@@ -66,10 +48,7 @@ export function ReplayGameLayer({
       />
 
       {frame.comboAction && (
-        <ComboAction
-          action={frame.comboAction}
-          charId={frame.pchar}
-        />
+        <ComboAction action={frame.comboAction} charId={frame.pchar} />
       )}
     </div>
   );

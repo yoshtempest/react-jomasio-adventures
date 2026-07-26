@@ -1,9 +1,4 @@
-import {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import type { ReplayData } from "@/utils/types/replay";
 
@@ -12,8 +7,7 @@ export function useReplayPlayback(replay: ReplayData) {
   const [playing, setPlaying] = useState(true);
   const [speed, setSpeed] = useState(1);
 
-  const intervalRef =
-    useRef<ReturnType<typeof setInterval> | null>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const totalFrames = replay.frames.length;
   const frame = replay.frames[currentFrame];
@@ -40,10 +34,7 @@ export function useReplayPlayback(replay: ReplayData) {
     }
 
     if (playing && currentFrame < totalFrames - 1) {
-      intervalRef.current = setInterval(
-        () => step(1),
-        100 / speed,
-      );
+      intervalRef.current = setInterval(() => step(1), 100 / speed);
     }
 
     return () => {
@@ -51,13 +42,7 @@ export function useReplayPlayback(replay: ReplayData) {
         clearInterval(intervalRef.current);
       }
     };
-  }, [
-    playing,
-    speed,
-    currentFrame,
-    totalFrames,
-    step,
-  ]);
+  }, [playing, speed, currentFrame, totalFrames, step]);
 
   const restart = useCallback(() => {
     setCurrentFrame(0);
@@ -79,10 +64,7 @@ export function useReplayPlayback(replay: ReplayData) {
     totalFrames,
     playing,
     speed,
-    progress:
-      totalFrames > 1
-        ? (currentFrame / (totalFrames - 1)) * 100
-        : 0,
+    progress: totalFrames > 1 ? (currentFrame / (totalFrames - 1)) * 100 : 0,
 
     step,
     restart,

@@ -15,9 +15,13 @@ export function NPCHUDPanel({ npcType, npcLevel, npcHP, npcMaxHp }: Props) {
   return (
     <div className={styles.container} style={{ right: 10, top: 10 }}>
       <div className={styles.npcInfo}>
-        <h2 className={`${"hudName"} ${styles.name}`}>{getNpcDisplayName(npcType)}</h2>
+        <h2 className={`${"hudName"} ${styles.name}`}>
+          {getNpcDisplayName(npcType)}
+        </h2>
         {npcLevel !== undefined && (
-          <p className={`${"hudRank"} ${styles.npcRank}`}>{formatRank(getRank(npcLevel))}</p>
+          <p className={`${"hudRank"} ${styles.npcRank}`}>
+            {formatRank(getRank(npcLevel))}
+          </p>
         )}
 
         <HealthBar hp={npcHP} maxHp={npcMaxHp} reversed />

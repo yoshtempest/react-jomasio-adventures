@@ -1,15 +1,11 @@
-
-
 import type { ReplayFrame } from "@/utils/types/replay";
-import styles from "./styles.module.css"
+import styles from "./styles.module.css";
 
 type Props = {
   damage: ReplayFrame["dmg"];
 };
 
-export function ReplayDamageNumbers({
-  damage,
-}: Props) {
+export function ReplayDamageNumbers({ damage }: Props) {
   return (
     <>
       {damage.map((d, index) => (
@@ -22,15 +18,15 @@ export function ReplayDamageNumbers({
             zIndex: 100,
           }}
         >
-        {d.ty === "blocked"
+          {d.ty === "blocked"
             ? "BLOCKED!"
             : d.ty === "miss"
-            ? "MISS!"
-            : d.c
+              ? "MISS!"
+              : d.c
                 ? `CRIT -${d.v}`
                 : d.v > 0
-                ? `-${d.v}`
-                : "0"}
+                  ? `-${d.v}`
+                  : "0"}
         </div>
       ))}
     </>

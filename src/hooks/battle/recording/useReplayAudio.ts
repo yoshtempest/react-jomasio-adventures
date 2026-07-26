@@ -87,11 +87,7 @@ export function useReplayAudio(
       const events = replay.audioEvents;
       if (!events || events.length === 0) return;
 
-      for (
-        let i = lastEventIndexRef.current;
-        i < events.length;
-        i++
-      ) {
+      for (let i = lastEventIndexRef.current; i < events.length; i++) {
         const ev = events[i];
         if (ev.t > toTime) break;
         if (ev.t < fromTime) {
@@ -100,8 +96,7 @@ export function useReplayAudio(
         }
 
         const audio = soundsMapRef.current[ev.sound] as
-          | HTMLAudioElement
-          | undefined;
+          HTMLAudioElement | undefined;
         if (!audio) {
           lastEventIndexRef.current = i + 1;
           continue;
@@ -113,8 +108,7 @@ export function useReplayAudio(
             audio.currentTime = 0;
             audio.loop = ev.loop;
             audio.volume =
-              (bgmVolumeRef.current / 100) *
-              (SFX_VOLUME[ev.sound] ?? 1);
+              (bgmVolumeRef.current / 100) * (SFX_VOLUME[ev.sound] ?? 1);
             audio.play().catch(() => {});
           } catch {
             // AbortError

@@ -10,7 +10,6 @@ import { CHARACTERS } from "@/data/options/characters";
 import { playerPath, npcPath } from "@/utils/paths";
 import styles from "./styles.module.css";
 
-
 const CHARACTER_NAME_MAP = Object.fromEntries(
   CHARACTERS.map((c) => [c.image, c.name]),
 );

@@ -7,23 +7,12 @@ type Props = {
   tileSize: number;
 };
 
-export function ReplayPet({
-  frame,
-  tileSize,
-}: Props) {
-  if (
-    !frame.petType ||
-    frame.petx == null ||
-    frame.pety == null
-  ) {
+export function ReplayPet({ frame, tileSize }: Props) {
+  if (!frame.petType || frame.petx == null || frame.pety == null) {
     return null;
   }
 
-  const petSrc = getSpritePath(
-    frame.petType,
-    frame.petst ?? "idle",
-    1,
-  );
+  const petSrc = getSpritePath(frame.petType, frame.petst ?? "idle", 1);
 
   return (
     <img

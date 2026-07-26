@@ -15,9 +15,5 @@ export type ExitTileOptions = {
   }) => boolean;
   setPopup?: (msg: string | null) => void;
   popup?: string | null;
-  setPosition?: (
-    x: number,
-    y: number,
-    direction?: Player["direction"],
-  ) => void;
+  setPosition?: (x: number, y: number, direction?: Player["direction"]) => void;
 };

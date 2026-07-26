@@ -1,7 +1,4 @@
-import {
-  CHARACTER_RANGE_X,
-  NPC_CLASS_HITBOX_BONUS,
-} from "./rangeConfig";
+import { CHARACTER_RANGE_X, NPC_CLASS_HITBOX_BONUS } from "./rangeConfig";
 
 export function isPlayerInRange(
   playerX: number,

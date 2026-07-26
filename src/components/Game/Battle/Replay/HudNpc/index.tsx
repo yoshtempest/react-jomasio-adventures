@@ -15,8 +15,12 @@ export function HudNpc({ npcType, npcLevel, nhp, nmaxhp }: Props) {
   return (
     <div className={styles.container}>
       <div className={styles.info}>
-        <h2 className={`${"hudName"} ${styles.name}`}>{getNpcDisplayName(npcType)}</h2>
-        <p className={`${"hudRank"} ${styles.rank}`}>{formatRank(getRank(npcLevel))}</p>
+        <h2 className={`${"hudName"} ${styles.name}`}>
+          {getNpcDisplayName(npcType)}
+        </h2>
+        <p className={`${"hudRank"} ${styles.rank}`}>
+          {formatRank(getRank(npcLevel))}
+        </p>
         <HealthBar hp={nhp} maxHp={nmaxhp} reversed />
       </div>
       <img

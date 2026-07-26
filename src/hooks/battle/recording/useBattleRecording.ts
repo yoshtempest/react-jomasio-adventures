@@ -9,10 +9,7 @@ import type {
   SummonSnap,
   PetSnap,
 } from "@/utils/types/replay";
-import {
-  initAudioLog,
-  getAudioEvents,
-} from "@/utils/replay/audioEventLog";
+import { initAudioLog, getAudioEvents } from "@/utils/replay/audioEventLog";
 
 type Props = {
   playerRef: React.RefObject<PlayerSnap>;
@@ -58,7 +55,10 @@ export function useBattleRecording({
   const framesRef = useRef<ReplayFrame[]>([]);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startTimestampRef = useRef(0);
-  const metadataRef = useRef<Omit<ReplayData, "id" | "frames" | "audioEvents"> | null>(null);
+  const metadataRef = useRef<Omit<
+    ReplayData,
+    "id" | "frames" | "audioEvents"
+  > | null>(null);
 
   const stopRecording = useCallback(() => {
     if (intervalRef.current) {

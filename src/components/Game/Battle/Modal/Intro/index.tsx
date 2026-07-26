@@ -15,7 +15,12 @@ type Props = {
   onFlee: () => void;
 };
 
-export function BattleIntro({ playerCharacter, npcType, onSkip, onFlee }: Props) {
+export function BattleIntro({
+  playerCharacter,
+  npcType,
+  onSkip,
+  onFlee,
+}: Props) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const { sfxVolume } = useAudio();
   const sfxVolumeRef = useRef(sfxVolume);

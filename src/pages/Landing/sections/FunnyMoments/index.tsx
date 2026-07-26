@@ -17,7 +17,10 @@ export function FunnyMoments() {
         </p>
         <div className={styles.funnyGrid}>
           {funnyMoments.map((moment) => (
-            <div key={moment.title} className={`${"landingCard"} ${styles.funnyCard}`}>
+            <div
+              key={moment.title}
+              className={`${"landingCard"} ${styles.funnyCard}`}
+            >
               <img
                 src={moment.image}
                 alt={moment.title}

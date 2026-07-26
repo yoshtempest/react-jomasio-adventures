@@ -38,9 +38,7 @@ export function PlayerRewards({
         <div className={styles.sectionTitle}>Recompensas</div>
         {globalRewards.length === 0 && (
           <div className="statRow">
-            <span className="statLabel">
-              Nenhuma recompensa disponível
-            </span>
+            <span className="statLabel">Nenhuma recompensa disponível</span>
           </div>
         )}
         {globalRewards.map((r, idx) => (

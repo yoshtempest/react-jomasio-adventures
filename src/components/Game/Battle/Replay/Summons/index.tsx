@@ -9,20 +9,13 @@ type Props = {
   tileSize: number;
 };
 
-export function ReplaySummons({
-  summons,
-  tileSize,
-}: Props) {
+export function ReplaySummons({ summons, tileSize }: Props) {
   return (
     <>
       {summons.map((summon) => (
         <img
           key={summon.id}
-          src={getSpritePath(
-            summon.t,
-            summon.st,
-            1,
-          )}
+          src={getSpritePath(summon.t, summon.st, 1)}
           className={styles.sprite}
           style={{
             width: tileSize,
