@@ -4,6 +4,7 @@ import {
   useContext,
   useRef,
   useState,
+  type RefObject,
   type ReactNode,
 } from "react";
 import type { NavbarOption, NavScreen } from "@/utils/types/player/navbar";
@@ -23,6 +24,8 @@ type NavbarContextType = {
   screen: NavScreen;
   setScreen: (screen: NavScreen) => void;
   openConfigScreen: () => void;
+
+  restoreModeRef: RefObject<() => void>;
 };
 
 const NavbarContext = createContext<NavbarContextType | null>(null);
@@ -42,6 +45,7 @@ export function NavbarProvider({ children }: { children: ReactNode }) {
   screenRef.current = screen;
   const isNavOpenRef = useRef(isNavOpen);
   isNavOpenRef.current = isNavOpen;
+  const restoreModeRef = useRef<() => void>(() => {});
 
   const openNavbar = useCallback(() => {
     if (closeTimerRef.current) {
@@ -63,9 +67,11 @@ export function NavbarProvider({ children }: { children: ReactNode }) {
         closeToggle();
         setIsClosing(false);
         closeTimerRef.current = null;
+        restoreModeRef.current();
       }, CLOSE_ANIMATION_MS);
     } else {
       closeToggle();
+      restoreModeRef.current();
     }
   }, [closeToggle]);
 
@@ -90,6 +96,7 @@ export function NavbarProvider({ children }: { children: ReactNode }) {
         screen,
         setScreen,
         openConfigScreen,
+        restoreModeRef,
       }}
     >
       {children}

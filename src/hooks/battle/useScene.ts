@@ -123,6 +123,19 @@ export function useBattleScene({
   const [victoryElapsed, setVictoryElapsed] = useState(0);
   const [bestTime, setBestTime] = useState(loadBestTime(npcType));
 
+  const prevModeRef = useRef(player.mode);
+  const pauseStartRef = useRef(0);
+  const pauseDurationRef = useRef(0);
+
+  useEffect(() => {
+    if (prevModeRef.current !== "menu" && player.mode === "menu") {
+      pauseStartRef.current = Date.now();
+    } else if (prevModeRef.current === "menu" && player.mode !== "menu") {
+      pauseDurationRef.current += Date.now() - pauseStartRef.current;
+    }
+    prevModeRef.current = player.mode;
+  }, [player.mode]);
+
   const { showIntro, skipIntro } = useBattleIntro();
 
   const { npcData, npcLevel, npcStats } = useNpcSetup(
@@ -361,7 +374,11 @@ export function useBattleScene({
     handleDefeat();
     recordDefeat();
     setShowDefeat(true);
-    const elapsed = Date.now() - battleStartRef.current;
+    let elapsed = Date.now() - battleStartRef.current;
+    if (prevModeRef.current === "menu") {
+      elapsed += Date.now() - pauseStartRef.current;
+    }
+    elapsed -= pauseDurationRef.current;
     setDefeatElapsed(elapsed);
     addBattleTime(player.character, Math.floor(elapsed / 1000));
   };
@@ -397,7 +414,11 @@ export function useBattleScene({
       playerClass: d.playerClass,
       character: d.character,
     });
-    const elapsed = Date.now() - battleStartRef.current;
+    let elapsed = Date.now() - battleStartRef.current;
+    if (prevModeRef.current === "menu") {
+      elapsed += Date.now() - pauseStartRef.current;
+    }
+    elapsed -= pauseDurationRef.current;
     setVictoryElapsed(elapsed);
     addBattleTime(player.character, Math.floor(elapsed / 1000));
     saveBestTime(npcType, elapsed);
@@ -827,6 +848,7 @@ export function useBattleScene({
     resetBattleState();
     resetCombo();
     battleStartRef.current = Date.now();
+    pauseDurationRef.current = 0;
     if (grabbedTimerRef.current) clearTimeout(grabbedTimerRef.current);
     grabbedTimerRef.current = null;
     setIsGrabbed(false);

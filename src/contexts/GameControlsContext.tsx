@@ -29,7 +29,7 @@ const GameControlsContext = createContext<ControlsContextType | null>(null);
 
 export function GameControlsProvider({ children }: Props) {
   const [stack, setStack] = useState<GameControlLayer[]>([]);
-  const { player, setMode } = usePlayer();
+  const { player, restoreMode } = usePlayer();
   const { openNavbar, closeNavbar, openConfigScreen, isNavOpen, screen } =
     useNavbar();
   const closeNavbarRef = useRef(closeNavbar);
@@ -40,8 +40,8 @@ export function GameControlsProvider({ children }: Props) {
   isNavOpenRef.current = isNavOpen;
   const screenRef = useRef(screen);
   screenRef.current = screen;
-  const setModeRef = useRef(setMode);
-  setModeRef.current = setMode;
+  const restoreModeRef = useRef(restoreMode);
+  restoreModeRef.current = restoreMode;
   const playerModeRef = useRef(player.mode);
   playerModeRef.current = player.mode;
 
@@ -59,7 +59,7 @@ export function GameControlsProvider({ children }: Props) {
 
   const closeAllMenus = useCallback(() => {
     closeNavbarRef.current();
-    setModeRef.current("explore");
+    restoreModeRef.current();
   }, []);
 
   // 🔥 merge inteligente

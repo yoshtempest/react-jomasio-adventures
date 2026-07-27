@@ -63,6 +63,7 @@ type PlayerContextType = {
 
   setMap: (map: number[][]) => void;
   setMode: (mode: PlayerMode) => void;
+  restoreMode: () => void;
   resetBattleState: () => void;
   setBattleCollision: (params: CollisionParams) => void;
 
@@ -100,6 +101,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       mode: "explore",
     };
   });
+
+  const previousModeRef = useRef<PlayerMode>("explore");
   const battleTenacityRef = useRef(0);
   usePlayerAnimation(player, setPlayer, battleTenacityRef);
 
@@ -119,7 +122,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
   const [currentMap, setCurrentMap] = useState<number[][]>([]);
   const { toggleInventory } = useInventory();
-  const { toggleNavbar } = useNavbar();
+  const { toggleNavbar, restoreModeRef } = useNavbar();
 
   const {
     moveUp,
@@ -198,7 +201,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   }
 
   function openNavbar() {
-    if (player.mode !== "explore") return;
+    if (player.mode !== "explore" && player.mode !== "menu") return;
     toggleNavbar();
   }
 
@@ -207,11 +210,24 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       setPlayer((p) => ({
         ...p,
         mode,
-        ...(mode === "battle" ? BATTLE_DEFAULT_STATE : {}),
+        ...(mode === "battle" && p.mode !== "battle"
+          ? BATTLE_DEFAULT_STATE
+          : {}),
       }));
+      if (mode === "menu") {
+        previousModeRef.current = player.mode;
+      }
     },
-    [setPlayer],
+    [setPlayer, player.mode],
   );
+
+  const restoreMode = useCallback(() => {
+    setPlayer((p) => ({ ...p, mode: previousModeRef.current }));
+  }, [setPlayer]);
+
+  useEffect(() => {
+    restoreModeRef.current = restoreMode;
+  }, [restoreMode, restoreModeRef]);
 
   function resetBattleState() {
     setPlayer((p) => ({ ...p, ...BATTLE_DEFAULT_STATE }));
@@ -272,6 +288,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         resetBattleState,
         setMap,
         setMode,
+        restoreMode,
         setPosition,
         setBattleCollision,
 
