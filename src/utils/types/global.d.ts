@@ -269,7 +269,7 @@ declare global {
     | "walkCrounched"
     | "fallen";
 
-  type PlayerMode = "explore" | "battle" | "select" | "ui" | "map";
+  type PlayerMode = "explore" | "battle" | "select" | "ui" | "map" | "menu";
 
   type PlayerClass = "fracote" | "idiota" | "amostradinho" | null;
 

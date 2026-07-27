@@ -1,13 +1,16 @@
 import styles from "./styles.module.css";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { formatDuration } from "@/utils/formatDuration";
+import { playerPath } from "@/utils/paths";
 import { ActivePotionDisplay } from "@/components/ActivePotionDisplay";
 import { FleeButton } from "@/components/Game/Battle/FleeButton";
-
-type Option = "retry" | "flee";
+import {
+  useDefeatCharacterSelect,
+  type DefeatMenuSelection,
+} from "@/hooks/battle/useDefeatCharacterSelect";
 
 type Props = {
   isOpen: boolean;
@@ -28,11 +31,19 @@ export function DefeatModal({
   elapsed,
   bestTime,
 }: Props) {
-  const [selected, setSelected] = useState<Option>("retry");
   const { setMode } = usePlayer();
   const { playSound } = useSoundEffects();
   const { pushControls, popControls } = useGameControls();
   const hasPlayedRef = useRef(false);
+
+  const {
+    unlockedCharacters,
+    menuSelection,
+    charIndex,
+    view,
+    openCharacterSelect,
+    selectCharacter,
+  } = useDefeatCharacterSelect(isOpen);
 
   const onContinueRef = useRef(onContinue);
   onContinueRef.current = onContinue;
@@ -40,9 +51,11 @@ export function DefeatModal({
   onBackRef.current = onBack;
   const setModeRef = useRef(setMode);
   setModeRef.current = setMode;
+  const viewRef = useRef(view);
+  viewRef.current = view;
 
   const executeSelected = useCallback(() => {
-    if (selected === "retry") {
+    if (menuSelection === "retry") {
       playSound("tryAgain");
       onContinueRef.current();
     } else {
@@ -50,15 +63,10 @@ export function DefeatModal({
       onBackRef.current();
       setModeRef.current("explore");
     }
-  }, [selected, playSound]);
+  }, [menuSelection, playSound]);
 
-  const selectNext = useCallback(() => {
-    setSelected((prev) => (prev === "retry" ? "flee" : "retry"));
-  }, []);
-
-  const selectPrev = useCallback(() => {
-    setSelected((prev) => (prev === "flee" ? "retry" : "flee"));
-  }, []);
+  const executeSelectedRef = useRef(executeSelected);
+  executeSelectedRef.current = executeSelected;
 
   useEffect(() => {
     if (isOpen && !hasPlayedRef.current) {
@@ -68,21 +76,16 @@ export function DefeatModal({
 
     if (!isOpen) {
       hasPlayedRef.current = false;
-      setSelected("retry");
     }
   }, [isOpen, playSound]);
-
-  const onConfirmRef = useRef(executeSelected);
-  onConfirmRef.current = executeSelected;
 
   useEffect(() => {
     if (!isOpen) return;
 
     pushControls({
-      onLeft: selectPrev,
-      onRight: selectNext,
       onConfirm: () => {
-        onConfirmRef.current();
+        if (viewRef.current !== "menu") return;
+        executeSelectedRef.current();
         return true;
       },
       onCancel: () => {
@@ -93,9 +96,12 @@ export function DefeatModal({
     });
 
     return () => popControls();
-  }, [isOpen, selectPrev, selectNext, pushControls, popControls, playSound]);
+  }, [isOpen, pushControls, popControls, playSound]);
 
   if (!isOpen) return null;
+
+  const menuBtnClass = (sel: DefeatMenuSelection) =>
+    `${styles.button} ${menuSelection === sel ? styles.active : ""}`;
 
   return (
     <div className="overlay">
@@ -124,18 +130,48 @@ export function DefeatModal({
         <ActivePotionDisplay />
         <div className={styles.buttonContainer}>
           <button
-            className={`${styles.button} ${selected === "retry" ? styles.active : ""}`}
+            className={menuBtnClass("retry")}
             onClick={executeSelected}
           >
             Tentar novamente
           </button>
+          <button
+            className={menuBtnClass("characterSelect")}
+            onClick={openCharacterSelect}
+          >
+            Trocar personagem
+          </button>
           <div>
             <FleeButton
               onClick={executeSelected}
-              isSelected={selected === "flee"}
+              isSelected={menuSelection === "flee"}
             />
           </div>
         </div>
+        {view === "characterSelect" && (
+          <div className={styles.characterSelectContainer}>
+            <p className={styles.characterSelectLabel}>
+              Selecione um personagem
+            </p>
+            <div className={styles.characterGrid}>
+              {unlockedCharacters.map((char, i) => (
+                <button
+                  key={char.image}
+                  className={`${styles.characterCard} ${
+                    i === charIndex ? styles.characterCardActive : ""
+                  }`}
+                  onClick={() => selectCharacter(i)}
+                >
+                  <img
+                    src={playerPath(`/${char.image}/default.svg`)}
+                    className={styles.characterImage}
+                  />
+                  <p className={styles.characterName}>{char.name}</p>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

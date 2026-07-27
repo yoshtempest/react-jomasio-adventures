@@ -68,14 +68,68 @@
 .buttonContainer {
   display: flex;
   flex-direction: row;
-  gap: 10%;
+  gap: 5%;
+  width: 100%;
+  justify-content: center;
 }
 
 .button {
-  width: 100%;
+  flex: 1;
 }
 
 .active {
   outline: var(--size-2) solid var(--text-color);
   outline-offset: var(--size-2);
+}
+
+.characterSelectContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--size-040r);
+  margin-top: var(--size-040r);
+}
+
+.characterSelectLabel {
+  margin: 0;
+  font-size: var(--fs-090);
+  opacity: 0.8;
+}
+
+.characterGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--size-040r);
+  width: 100%;
+}
+
+.characterCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--size-030r);
+  padding: var(--size-040r);
+  background: rgba(255, 255, 255, 0.1);
+  border: var(--size-1) solid transparent;
+  border-radius: var(--smaller);
+  cursor: pointer;
+  color: var(--text-color);
+}
+
+.characterCardActive {
+  border-color: var(--accent-color);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.characterImage {
+  width: 48px;
+  height: 48px;
+}
+
+.characterName {
+  margin: 0;
+  font-size: var(--fs-080);
+  text-align: center;
+  white-space: nowrap;
 }
