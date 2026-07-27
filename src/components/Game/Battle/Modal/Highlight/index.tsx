@@ -48,7 +48,10 @@ export function BattleHighlight({ replay, onClose }: Props) {
 
   useEffect(() => {
     if (!playback.playing) {
-      onCloseRef.current();
+      const timeout = setTimeout(() => {
+        onCloseRef.current();
+      }, 1000);
+      return () => clearTimeout(timeout);
     }
   }, [playback.playing]);
 
