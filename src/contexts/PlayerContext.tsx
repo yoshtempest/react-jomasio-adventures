@@ -122,7 +122,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
   const [currentMap, setCurrentMap] = useState<number[][]>([]);
   const { toggleInventory } = useInventory();
-  const { toggleNavbar, restoreModeRef } = useNavbar();
+  const { toggleNavbar, restoreModeRef, setModeRef } = useNavbar();
 
   const {
     moveUp,
@@ -227,7 +227,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     restoreModeRef.current = restoreMode;
-  }, [restoreMode, restoreModeRef]);
+    setModeRef.current = setMode;
+  }, [restoreMode, setMode, restoreModeRef, setModeRef]);
 
   function resetBattleState() {
     setPlayer((p) => ({ ...p, ...BATTLE_DEFAULT_STATE }));

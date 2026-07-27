@@ -26,6 +26,7 @@ type NavbarContextType = {
   openConfigScreen: () => void;
 
   restoreModeRef: RefObject<() => void>;
+  setModeRef: RefObject<(mode: PlayerMode) => void>;
 };
 
 const NavbarContext = createContext<NavbarContextType | null>(null);
@@ -79,8 +80,11 @@ export function NavbarProvider({ children }: { children: ReactNode }) {
     setScreenState(s);
   }, []);
 
+  const setModeRef = useRef<(mode: PlayerMode) => void>(() => {});
+
   const openConfigScreen = useCallback(() => {
     setScreenState("config");
+    setModeRef.current("menu");
     openNavbar();
   }, [openNavbar]);
 
@@ -97,6 +101,7 @@ export function NavbarProvider({ children }: { children: ReactNode }) {
         setScreen,
         openConfigScreen,
         restoreModeRef,
+        setModeRef,
       }}
     >
       {children}
