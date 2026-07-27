@@ -35,6 +35,8 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
     setShowQuestIndicator,
     showComboAction,
     setShowComboAction,
+    showHighlight,
+    setShowHighlight,
   } = useSettings();
   const { checkForUpdate } = useUpdate();
   const {
@@ -91,6 +93,8 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   setShowQuestIndicatorRef.current = setShowQuestIndicator;
   const setShowComboActionRef = useRef(setShowComboAction);
   setShowComboActionRef.current = setShowComboAction;
+  const setShowHighlightRef = useRef(setShowHighlight);
+  setShowHighlightRef.current = setShowHighlight;
   const checkForUpdateRef = useRef(checkForUpdate);
   checkForUpdateRef.current = checkForUpdate;
   const installRef = useRef(install);
@@ -257,6 +261,10 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
           }
 
           if (idx === 1) {
+            setShowHighlightRef.current(!showHighlight);
+          }
+
+          if (idx === 2) {
             navigateRef.current("/training");
           }
         }
@@ -291,6 +299,8 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
     setShowQuestIndicator,
     showComboAction,
     setShowComboAction,
+    showHighlight,
+    setShowHighlight,
   ]);
 
   return {
@@ -300,6 +310,7 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
     screen,
     showQuestIndicator,
     showComboAction,
+    showHighlight,
     activeTab,
     isOnTab,
   };

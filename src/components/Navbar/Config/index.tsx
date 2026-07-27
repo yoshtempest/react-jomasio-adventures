@@ -25,6 +25,7 @@ export function Config() {
     screen,
     showQuestIndicator,
     showComboAction,
+    showHighlight,
     activeTab,
     isOnTab,
   } = useConfigMenu(true);
@@ -95,6 +96,7 @@ export function Config() {
       {activeTab === "batalha" && (
         <BattleTab
           showComboAction={showComboAction}
+          showHighlight={showHighlight}
           selectedIndex={selectedIndex}
         />
       )}

@@ -11,6 +11,7 @@ import {
   DIALOGUE_SPEED_KEY,
   SHOW_QUEST_INDICATOR_KEY,
   SHOW_COMBO_ACTION_KEY,
+  SHOW_HIGHLIGHT_KEY,
 } from "@/data/storageKeys";
 
 type SettingsContextType = {
@@ -21,6 +22,8 @@ type SettingsContextType = {
   setShowQuestIndicator: (show: boolean) => void;
   showComboAction: boolean;
   setShowComboAction: (show: boolean) => void;
+  showHighlight: boolean;
+  setShowHighlight: (show: boolean) => void;
 };
 
 const SettingsContext = createContext<SettingsContextType | null>(null);
@@ -60,6 +63,16 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(SHOW_COMBO_ACTION_KEY, String(show));
   }, []);
 
+  const [showHighlight, setShowHighlightState] = useState<boolean>(() => {
+    const saved = localStorage.getItem(SHOW_HIGHLIGHT_KEY);
+    return saved !== "false";
+  });
+
+  const setShowHighlight = useCallback((show: boolean) => {
+    setShowHighlightState(show);
+    localStorage.setItem(SHOW_HIGHLIGHT_KEY, String(show));
+  }, []);
+
   const dialogueSpeedMs = SPEED_MAP[dialogueSpeed];
 
   return (
@@ -72,6 +85,8 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
         setShowQuestIndicator,
         showComboAction,
         setShowComboAction,
+        showHighlight,
+        setShowHighlight,
       }}
     >
       {children}

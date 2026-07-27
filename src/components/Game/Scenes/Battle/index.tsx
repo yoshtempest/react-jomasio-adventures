@@ -11,6 +11,7 @@ import { VictoryModal } from "@/components/Game/Battle/Modal/Victory";
 import { DefeatModal } from "@/components/Game/Battle/Modal/Defeat";
 import { BattleIntro } from "@/components/Game/Battle/Modal/Intro";
 import { BattleOutro } from "@/components/Game/Battle/Modal/Outro";
+import { BattleHighlight } from "@/components/Game/Battle/Modal/Highlight";
 import { ChargeParticles } from "@/components/Game/Battle/ChargeParticles";
 import { JumpIndicator } from "@/components/Game/Battle/JumpIndicator";
 import { ComboAction } from "@/components/Controls/ComboAction";
@@ -53,6 +54,9 @@ export function BattleScene(props: Props) {
     showVictory,
     showDefeat,
     showOutro,
+    showHighlight,
+    highlightData,
+    handleCloseHighlight,
     handleCloseOutro,
     handleRetry,
     handleContinue,
@@ -111,7 +115,8 @@ export function BattleScene(props: Props) {
   battleAudioRef.current = battleAudio;
 
   useEffect(() => {
-    const shouldPlay = !showIntro && !showVictory && !showDefeat;
+    const shouldPlay =
+      !showIntro && !showVictory && !showDefeat && !showHighlight;
 
     if (shouldPlay && !battleAudioRef.current.isPlaying()) {
       battleAudioRef.current.play();
@@ -122,7 +127,7 @@ export function BattleScene(props: Props) {
     if (showVictory || showDefeat) {
       stopAll();
     }
-  }, [showIntro, showVictory, showDefeat, stopAll]);
+  }, [showIntro, showVictory, showDefeat, showHighlight, stopAll]);
 
   return (
     <div
@@ -212,7 +217,11 @@ export function BattleScene(props: Props) {
         />
       )}
 
-      {!showOutro && showVictory && !isTraining && (
+      {!showOutro && showHighlight && highlightData && !isTraining && (
+        <BattleHighlight replay={highlightData} onClose={handleCloseHighlight} />
+      )}
+
+      {!showOutro && !showHighlight && showVictory && !isTraining && (
         <VictoryModal
           isOpen={showVictory}
           character={player.character}
@@ -230,7 +239,7 @@ export function BattleScene(props: Props) {
         />
       )}
 
-      {!showOutro && showDefeat && !isTraining && (
+      {!showOutro && !showHighlight && showDefeat && !isTraining && (
         <DefeatModal
           isOpen={showDefeat}
           onContinue={handleRetry}

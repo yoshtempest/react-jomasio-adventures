@@ -16,6 +16,7 @@ import { useQuests } from "@/contexts/QuestContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { useTitles } from "@/contexts/TitleContext";
 import { usePlayTime } from "@/contexts/PlayTimeContext";
+import { useSettings } from "@/contexts/SettingsContext";
 import { useNpcSetup } from "@/hooks/battle/npc/useSetup";
 import { useBattleRewards } from "@/hooks/battle/rewards/useRewards";
 import { useSummons } from "@/hooks/battle/summon/useSummons";
@@ -52,6 +53,7 @@ import {
   incrementAttacksUsedStats,
 } from "@/utils/rewards/battleStats";
 import { useBattleRecording } from "@/hooks/battle/recording/useBattleRecording";
+import type { ReplayData } from "@/utils/types/replay";
 
 type Props = {
   npcType: string;
@@ -93,6 +95,7 @@ export function useBattleScene({
   const playerLevel = progress[player.character]?.level ?? 1;
   const { getPetProgress } = usePetProgress();
   const { getEquippedInfo } = useEquipment();
+  const { showHighlight: showHighlightEnabled } = useSettings();
   const petInfo = getEquippedInfo(player.character, "pet");
   const petLevel = petInfo ? getPetProgress(petInfo.id).level : 1;
   const { items: inventoryItems, closeInventory } = useInventory();
@@ -212,18 +215,28 @@ export function useBattleScene({
   const xpNeeded = getXPToNextLevel(charProgress.level);
   const missingXp = xpNeeded - charProgress.xp;
 
+  const getReplayDataRef = useRef<() => ReplayData | null>(() => null);
+
   const {
     showVictory,
     triggerVictory,
     showDefeat,
     setShowDefeat,
     showOutro,
+    showHighlight,
+    highlightData,
+    handleCloseHighlight,
     skipVictoryDelay,
     lastRewards,
     setLastRewards,
     handleCloseOutro,
     handleContinue,
-  } = useBattleOutro({ redirectTo, onVictory });
+  } = useBattleOutro({
+    redirectTo,
+    onVictory,
+    getReplayData: () => getReplayDataRef.current(),
+    showHighlightEnabled,
+  });
 
   useGameAudio({ src: audioSrc, loop: true, volume: 0.5 });
 
@@ -275,7 +288,7 @@ export function useBattleScene({
 
   const isConfigOpen = isNavOpen && navScreen === "config";
   const isPaused =
-    showVictory || showDefeat || showIntro || showOutro != null || isConfigOpen;
+    showVictory || showDefeat || showIntro || showOutro != null || showHighlight || isConfigOpen;
   const controlsDisabled = isPaused || isPhaseTransitioning || isThrown;
 
   targeting.npcAiHpRef.current = npcStats.hp;
@@ -611,6 +624,8 @@ export function useBattleScene({
       audioSrc,
     });
 
+  getReplayDataRef.current = getReplayData;
+
   const wasIntroActiveRef = useRef(showIntro);
 
   useEffect(() => {
@@ -833,6 +848,9 @@ export function useBattleScene({
     showVictory,
     showDefeat,
     showOutro,
+    showHighlight,
+    highlightData,
+    handleCloseHighlight,
     handleCloseOutro,
     handleRetry,
     handleContinue,

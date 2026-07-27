@@ -1,13 +1,22 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { useVictory } from "@/hooks/battle/victory/useVictory";
+import { useHighlight } from "@/hooks/battle/useHighlight";
+import type { ReplayData } from "@/utils/types/replay";
 
 type OutroProps = {
   redirectTo?: string;
   onVictory?: () => void;
+  getReplayData: () => ReplayData | null;
+  showHighlightEnabled: boolean;
 };
 
-export function useBattleOutro({ redirectTo, onVictory }: OutroProps) {
+export function useBattleOutro({
+  redirectTo,
+  onVictory,
+  getReplayData,
+  showHighlightEnabled,
+}: OutroProps) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -18,6 +27,14 @@ export function useBattleOutro({ redirectTo, onVictory }: OutroProps) {
   const outroTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
     undefined,
   );
+
+  const { highlightData, prepareHighlight, clearHighlight } = useHighlight();
+  const [showHighlight, setShowHighlight] = useState(false);
+
+  const showHighlightEnabledRef = useRef(showHighlightEnabled);
+  showHighlightEnabledRef.current = showHighlightEnabled;
+  const getReplayDataRef = useRef(getReplayData);
+  getReplayDataRef.current = getReplayData;
 
   const { showVictory, triggerVictory } = useVictory({ redirectTo });
 
@@ -41,7 +58,19 @@ export function useBattleOutro({ redirectTo, onVictory }: OutroProps) {
     clearTimeout(outroTimeoutRef.current);
     setShowOutro(null);
     setSkipVictoryDelay(true);
-  }, []);
+
+    if (showHighlightEnabledRef.current) {
+      const has = prepareHighlight(getReplayDataRef.current);
+      if (has) {
+        setShowHighlight(true);
+      }
+    }
+  }, [prepareHighlight]);
+
+  const handleCloseHighlight = useCallback(() => {
+    setShowHighlight(false);
+    clearHighlight();
+  }, [clearHighlight]);
 
   const handleContinue = useCallback(() => {
     if (onVictory) onVictory();
@@ -60,6 +89,9 @@ export function useBattleOutro({ redirectTo, onVictory }: OutroProps) {
     setShowDefeat,
     showOutro,
     setShowOutro,
+    showHighlight,
+    highlightData,
+    handleCloseHighlight,
     skipVictoryDelay,
     setSkipVictoryDelay,
     lastRewards,
