@@ -197,6 +197,14 @@ export function BattleTab({ showComboAction, showHighlight, selectedIndex }: Pro
             </span>
           </div>
           <ComboList characterId={player.character} />
+        </>
+      )}
+
+      {!battleInfo && !isInBattle && (
+        <>
+          <p className={styles.empty}>
+            Abra as configurações durante uma batalha para ver as informações.
+          </p>
           <div
             className={`${styles.toggleItem} ${selectedIndex === 0 ? styles.selected : ""}`}
           >
@@ -209,14 +217,6 @@ export function BattleTab({ showComboAction, showHighlight, selectedIndex }: Pro
             {selectedIndex === 1 && <span className={styles.cursor}>▼</span>}
             <h2>Exibir destaque da batalha: {showHighlight ? "ON" : "OFF"}</h2>
           </div>
-        </>
-      )}
-
-      {!battleInfo && !isInBattle && (
-        <>
-          <p className={styles.empty}>
-            Abra as configurações durante uma batalha para ver as informações.
-          </p>
           <div
             className={`${styles.toggleItem} ${selectedIndex === 2 ? styles.selected : ""}`}
           >

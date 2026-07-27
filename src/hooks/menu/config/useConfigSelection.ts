@@ -132,6 +132,8 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
           return;
         }
 
+        if (activeTabRef.current === "batalha") return;
+
         setSelectedColumn((prev) => (prev + 1) % COLUMN_COUNT);
         setSelectedIndex(0);
       },
@@ -147,6 +149,11 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
               (currentIdx - 1 + CONFIG_TAB_COUNT) % CONFIG_TAB_COUNT
             ];
           });
+          return;
+        }
+
+        if (activeTabRef.current === "batalha") {
+          setIsOnTab(true);
           return;
         }
 
@@ -172,6 +179,12 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
 
         const col = selectedColumnRef.current;
 
+        if (activeTabRef.current === "batalha") {
+          const maxIndex = BOTTOM_COUNT;
+          setSelectedIndex((prev) => (prev + 1) % maxIndex);
+          return;
+        }
+
         if (col === 3) {
           setSfxVolumeRef.current(Math.min(sfxVolume + 10, 100));
           return;
@@ -191,6 +204,15 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
         playMoveRef.current();
 
         if (isOnTabRef.current) return;
+
+        if (activeTabRef.current === "batalha") {
+          if (selectedIndexRef.current === 0) {
+            setIsOnTab(true);
+            return;
+          }
+          setSelectedIndex((prev) => prev - 1);
+          return;
+        }
 
         const col = selectedColumnRef.current;
 
@@ -221,36 +243,38 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
         const col = selectedColumnRef.current;
         const idx = selectedIndexRef.current;
 
-        if (col === 0) {
-          const selected = getSelected(DIFFICULTY, idx);
-          setDifficultyRef.current(selected);
-        }
-
-        if (col === 1) {
-          const selected = getSelected(DIALOGUE_SPEED_LIST, idx);
-          setDialogueSpeedRef.current(selected);
-        }
-
-        if (col === 2) {
-          if (idx === 0) {
-            setShowQuestIndicatorRef.current(!showQuestIndicator);
+        if (activeTabRef.current === "geral") {
+          if (col === 0) {
+            const selected = getSelected(DIFFICULTY, idx);
+            setDifficultyRef.current(selected);
           }
 
-          if (idx === 1) {
-            setScreen("tutorial");
+          if (col === 1) {
+            const selected = getSelected(DIALOGUE_SPEED_LIST, idx);
+            setDialogueSpeedRef.current(selected);
           }
 
-          if (idx === 2) {
-            checkForUpdateRef.current();
-          }
+          if (col === 2) {
+            if (idx === 0) {
+              setShowQuestIndicatorRef.current(!showQuestIndicator);
+            }
 
-          if (idx === 3) {
-            if (isInstalledRef.current) {
-              setShowInstalledMessageRef.current(true);
-            } else if (canInstallRef.current) {
-              installRef.current();
-            } else {
-              setShowNotAvailableMessageRef.current(true);
+            if (idx === 1) {
+              setScreen("tutorial");
+            }
+
+            if (idx === 2) {
+              checkForUpdateRef.current();
+            }
+
+            if (idx === 3) {
+              if (isInstalledRef.current) {
+                setShowInstalledMessageRef.current(true);
+              } else if (canInstallRef.current) {
+                installRef.current();
+              } else {
+                setShowNotAvailableMessageRef.current(true);
+              }
             }
           }
         }
