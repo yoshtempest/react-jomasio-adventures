@@ -13,6 +13,7 @@ import {
   getTotalReflect,
 } from "@/gameRules/battle/equipment";
 import { getLuckBonus } from "@/gameRules/battle/luck";
+import { calculateMaxHpBonus } from "@/gameRules/battle/damage";
 import { formatRank, getRank, getRankMultiplier } from "@/gameRules/rank";
 import { getHungerMultiplier } from "@/contexts/CharacterProgressContext";
 import { getNpcDisplayName } from "@/utils/types/npc/npcNames";
@@ -92,6 +93,9 @@ export function BattleTab({ showComboAction, selectedIndex }: Props) {
     const vampirism = getTotalVampirism(player.character);
     const reflect = getTotalReflect(player.character);
     const maxHp = 90 + hp * 10;
+    const maxHpDamage = equipmentBonus.maxHpDamage ?? 0;
+    const trueDamage = equipmentBonus.trueDamage ?? 0;
+    const maxHpDamageBonus = calculateMaxHpBonus(maxHp, maxHpDamage);
 
     return {
       maxHp,
@@ -104,6 +108,8 @@ export function BattleTab({ showComboAction, selectedIndex }: Props) {
       vampirism,
       reflect,
       luckBonus,
+      maxHpDamageBonus,
+      trueDamage,
     };
   }, [player.character, progress, getBonus]);
 
@@ -120,7 +126,9 @@ export function BattleTab({ showComboAction, selectedIndex }: Props) {
       playerStats.armor +
       playerStats.shield +
       playerStats.vampirism +
-      playerStats.reflect;
+      playerStats.reflect +
+      playerStats.maxHpDamageBonus +
+      playerStats.trueDamage;
     if (playerTotal + enemyTotal === 0) return 50;
     return Math.round((playerTotal / (playerTotal + enemyTotal)) * 100);
   }, [battleInfo, playerStats]);
@@ -138,6 +146,8 @@ export function BattleTab({ showComboAction, selectedIndex }: Props) {
         shield: playerStats.shield,
         vampirism: playerStats.vampirism,
         reflect: playerStats.reflect,
+        maxHpDamageBonus: playerStats.maxHpDamageBonus,
+        trueDamage: playerStats.trueDamage,
       })
     : null;
 

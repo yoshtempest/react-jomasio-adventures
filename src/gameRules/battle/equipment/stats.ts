@@ -89,6 +89,8 @@ export function getEquipmentStatsBonus(character: CharacterId): {
   reflect: number;
   tenacity: number;
   luck: number;
+  maxHpDamage: number;
+  trueDamage: number;
 } {
   const equipped = loadEquipped(character);
   const setItemIds = getActiveSetItemIds(character);
@@ -101,6 +103,8 @@ export function getEquipmentStatsBonus(character: CharacterId): {
     reflect: 0,
     tenacity: 0,
     luck: 0,
+    maxHpDamage: 0,
+    trueDamage: 0,
   };
 
   for (const info of eachEquippedItem(equipped)) {
@@ -114,6 +118,8 @@ export function getEquipmentStatsBonus(character: CharacterId): {
     bonus.reflect += Math.round(stats.reflect * multiplier);
     bonus.tenacity += Math.round((stats.tenacity ?? 0) * multiplier);
     bonus.luck += Math.round((stats.luck ?? 0) * multiplier);
+    bonus.maxHpDamage += Math.round((stats.maxHpDamage ?? 0) * multiplier);
+    bonus.trueDamage += Math.round((stats.trueDamage ?? 0) * multiplier);
   }
 
   return bonus;
@@ -141,6 +147,8 @@ export function addItemBonus(
     reflect: number;
     tenacity: number;
     luck: number;
+    maxHpDamage: number;
+    trueDamage: number;
   },
   info: EquippedItemInfo,
   setItemIds: Set<string>,
@@ -155,4 +163,6 @@ export function addItemBonus(
   bonus.reflect += Math.round(stats.reflect * multiplier);
   bonus.tenacity += Math.round((stats.tenacity ?? 0) * multiplier);
   bonus.luck += Math.round((stats.luck ?? 0) * multiplier);
+  bonus.maxHpDamage += Math.round((stats.maxHpDamage ?? 0) * multiplier);
+  bonus.trueDamage += Math.round((stats.trueDamage ?? 0) * multiplier);
 }

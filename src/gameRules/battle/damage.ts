@@ -55,3 +55,11 @@ export function getBerserkMultiplier(currentHP: number, maxHP: number): number {
   const ratio = Math.max(currentHP / maxHP, 0.1);
   return 1 + (1 - ratio) / 0.9;
 }
+
+export function calculateMaxHpBonus(
+  maxHp: number,
+  maxHpDamage: number,
+): number {
+  if (maxHpDamage <= 0) return 0;
+  return Math.round((maxHp * maxHpDamage) / 100);
+}

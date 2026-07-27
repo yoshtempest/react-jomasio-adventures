@@ -56,6 +56,8 @@ type CharacterStatusProps = {
   shield: number;
   vampirism: number;
   reflect: number;
+  maxHpDamageBonus?: number;
+  trueDamage?: number;
 };
 
 type BattleRewardsProps = {
@@ -114,7 +116,7 @@ export function getProgressStat(data: ProgressStatsProps) {
 }
 
 export function getCharacterStatus(data: CharacterStatusProps) {
-  return [
+  const stats = [
     stat("HP", data.hp),
     stat("Força", data.strenght),
     stat("Inteligência", data.intelligence),
@@ -125,6 +127,13 @@ export function getCharacterStatus(data: CharacterStatusProps) {
     stat("Vampirismo", data.vampirism),
     stat("Reflexão", data.reflect),
   ];
+  if (data.maxHpDamageBonus && data.maxHpDamageBonus > 0) {
+    stats.push(stat("Dano HP", data.maxHpDamageBonus));
+  }
+  if (data.trueDamage && data.trueDamage > 0) {
+    stats.push(stat("Dano Verdadeiro", data.trueDamage));
+  }
+  return stats;
 }
 
 export function getBattleRewards(data: BattleRewardsProps) {

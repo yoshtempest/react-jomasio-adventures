@@ -69,6 +69,14 @@ export function useBattleStats({
     return getTotalReflect(player.character);
   }, [player.character]);
 
+  const totalMaxHpDamage = useMemo(() => {
+    return equipmentBonus.maxHpDamage ?? 0;
+  }, [equipmentBonus.maxHpDamage]);
+
+  const totalTrueDamage = useMemo(() => {
+    return equipmentBonus.trueDamage ?? 0;
+  }, [equipmentBonus.trueDamage]);
+
   const totalTenacity = useMemo(() => {
     return baseChar.stats.tenacity + (equipmentBonus.tenacity ?? 0);
   }, [baseChar.stats.tenacity, equipmentBonus.tenacity]);
@@ -158,6 +166,8 @@ export function useBattleStats({
     totalShield,
     totalVampirism,
     totalReflect,
+    totalMaxHpDamage,
+    totalTrueDamage,
     totalTenacity,
     tenacityReduction,
     totalLuck,

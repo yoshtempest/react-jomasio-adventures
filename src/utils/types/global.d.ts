@@ -46,6 +46,8 @@ declare global {
     reflect: number;
     tenacity: number;
     luck: number;
+    maxHpDamage: number;
+    trueDamage: number;
   };
 
   // ── Áudio / Transição ──────────────────────────────────

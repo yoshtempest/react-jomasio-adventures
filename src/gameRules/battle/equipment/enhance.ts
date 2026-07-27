@@ -15,6 +15,8 @@ export function getEnhanceBonus(
     reflect: 0,
     tenacity: 0,
     luck: 0,
+    maxHpDamage: 0,
+    trueDamage: 0,
   };
   if (enhance <= 0) return bonus;
 
@@ -27,6 +29,7 @@ export function getEnhanceBonus(
   if ((item.stats.intelligence ?? 0) > 0) avail.push("intelligence");
   if ((item.stats.armor ?? 0) > 0) avail.push("armor");
   if ((item.stats.shield ?? 0) > 0) avail.push("shield");
+  if ((item.stats.maxHpDamage ?? 0) > 0) avail.push("maxHpDamage");
 
   if (avail.length === 0) return bonus;
 
@@ -60,6 +63,8 @@ export function getEffectiveStats(
       reflect: 0,
       tenacity: 0,
       luck: 0,
+      maxHpDamage: 0,
+      trueDamage: 0,
     };
   const enhanceBonus = getEnhanceBonus(itemId, enhance);
   return {
@@ -72,5 +77,7 @@ export function getEffectiveStats(
     reflect: item.stats.reflect ?? 0,
     tenacity: item.stats.tenacity ?? 0,
     luck: item.stats.luck ?? 0,
+    maxHpDamage: (item.stats.maxHpDamage ?? 0) + enhanceBonus.maxHpDamage,
+    trueDamage: item.stats.trueDamage ?? 0,
   };
 }

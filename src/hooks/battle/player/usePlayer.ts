@@ -30,6 +30,8 @@ type Props = {
   playerHP: number;
   playerMaxHp: number;
   totalVampirism: number;
+  totalMaxHpDamage: number;
+  totalTrueDamage: number;
   playerCooldown: React.RefObject<boolean>;
   isEnding: React.RefObject<boolean>;
 
@@ -61,6 +63,8 @@ export function usePlayerBattle({
   playerHP,
   playerMaxHp,
   totalVampirism,
+  totalMaxHpDamage,
+  totalTrueDamage,
   playerCooldown,
   isEnding,
   playerX,
@@ -129,6 +133,8 @@ export function usePlayerBattle({
         playerHP,
         playerMaxHp,
         totalVampirism,
+        totalMaxHpDamage,
+        totalTrueDamage,
         setNpcHP,
         setPlayerHP,
         setPlayer,
@@ -177,6 +183,8 @@ export function usePlayerBattle({
       setPlayerHP,
       playerMaxHp,
       totalVampirism,
+      totalMaxHpDamage,
+      totalTrueDamage,
       onBeforeNpcHitRef,
       setPlayer,
       onAttackRef,
@@ -231,6 +239,8 @@ export function usePlayerBattle({
         playerHP,
         playerMaxHp,
         totalVampirism,
+        totalMaxHpDamage,
+        totalTrueDamage,
         setNpcHP,
         setPlayerHP,
         setPlayer,
@@ -272,6 +282,8 @@ export function usePlayerBattle({
       setPlayerHP,
       playerMaxHp,
       totalVampirism,
+      totalMaxHpDamage,
+      totalTrueDamage,
       stacks,
       triggerExplosion,
       spawnDamageRef,

@@ -3,6 +3,7 @@ import {
   calculateDamageToNpc,
   getBerserkMultiplier,
   calculateSpecialDamage,
+  calculateMaxHpBonus,
 } from "@/gameRules/battle/damage";
 import { rollCrit } from "@/gameRules/battle/damageUtils";
 import { playAttackSound } from "@/utils/types/battle/playAttackSound";
@@ -20,6 +21,8 @@ type BaseHitParams = {
   playerHP: number;
   playerMaxHp: number;
   totalVampirism: number;
+  totalMaxHpDamage: number;
+  totalTrueDamage: number;
   setNpcHP: React.Dispatch<React.SetStateAction<number>>;
   setPlayerHP: React.Dispatch<React.SetStateAction<number>>;
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;
@@ -54,6 +57,8 @@ export function applyBasicHit({
   playerHP,
   playerMaxHp,
   totalVampirism,
+  totalMaxHpDamage,
+  totalTrueDamage,
   setNpcHP,
   setPlayerHP,
   setPlayer,
@@ -77,18 +82,19 @@ export function applyBasicHit({
   const rawDmg = isLarissa
     ? 2
     : calculatePlayerDamage(char.stats.strength, playerClass, titleDamageBonus);
+  const maxHpBonus = calculateMaxHpBonus(playerMaxHp, totalMaxHpDamage);
+  const dmgWithHpBonus = rawDmg + maxHpBonus;
   const berserkDmg =
     player.character === "samuel" && char.level >= 20
-      ? Math.round(rawDmg * getBerserkMultiplier(playerHP, playerMaxHp))
-      : rawDmg;
+      ? Math.round(dmgWithHpBonus * getBerserkMultiplier(playerHP, playerMaxHp))
+      : dmgWithHpBonus;
   const { damage: critDmg, type: dmgType } = rollCrit(berserkDmg, critRate);
   if (dmgType === "crit") setPlayer((p) => ({ ...p, state: "crit" }));
-  const dmg = Math.round(
-    calculateDamageToNpc(critDmg, npcArmor) * damageMultiplier,
-  );
+  const armorReduced = calculateDamageToNpc(critDmg, npcArmor);
+  const trueDmg = Math.round(armorReduced * damageMultiplier) + totalTrueDamage;
 
   behavior.onBasicHit({
-    damage: dmg,
+    damage: trueDmg,
     setNpcHP,
     char,
     playerClass,
@@ -99,18 +105,18 @@ export function applyBasicHit({
     titleDamageBonus,
   });
 
-  spawnDamageRef.current?.(dmg, npcX, npcY, dmgType);
-  registerHitRef.current?.(dmg);
-  onDamageDealtRef?.current?.(dmg);
+  spawnDamageRef.current?.(trueDmg, npcX, npcY, dmgType);
+  registerHitRef.current?.(trueDmg);
+  onDamageDealtRef?.current?.(trueDmg);
   onAttackRef?.current?.();
   hitstopRef.current = Date.now() + 60;
 
   if (totalVampirism > 0) {
-    const heal = Math.round((dmg * totalVampirism) / 100);
+    const heal = Math.round((trueDmg * totalVampirism) / 100);
     if (heal > 0) setPlayerHP((hp) => Math.min(playerMaxHp, hp + heal));
   }
 
-  return dmg;
+  return trueDmg;
 }
 
 type SpecialHitParams = BaseHitParams & {
@@ -134,6 +140,8 @@ export function applySpecialHit({
   playerHP,
   playerMaxHp,
   totalVampirism,
+  totalMaxHpDamage,
+  totalTrueDamage,
   setNpcHP,
   setPlayerHP,
   setPlayer,
@@ -157,18 +165,19 @@ export function applySpecialHit({
   const rawDmg = isLarissa
     ? stacks * 5
     : calculateSpecialDamage(char.stats.intelligence, playerClass);
+  const maxHpBonus = calculateMaxHpBonus(playerMaxHp, totalMaxHpDamage);
+  const dmgWithHpBonus = rawDmg + maxHpBonus;
   const berserkDmg =
     player.character === "samuel" && char.level >= 20
-      ? Math.round(rawDmg * getBerserkMultiplier(playerHP, playerMaxHp))
-      : rawDmg;
+      ? Math.round(dmgWithHpBonus * getBerserkMultiplier(playerHP, playerMaxHp))
+      : dmgWithHpBonus;
   const { damage: critDmg, type: dmgType } = rollCrit(berserkDmg, critRate);
   if (dmgType === "crit") setPlayer((p) => ({ ...p, state: "crit" }));
-  const dmg = Math.round(
-    calculateDamageToNpc(critDmg, npcArmor) * damageMultiplier,
-  );
+  const armorReduced = calculateDamageToNpc(critDmg, npcArmor);
+  const trueDmg = Math.round(armorReduced * damageMultiplier) + totalTrueDamage;
 
   behavior.onSpecialHit({
-    damage: dmg,
+    damage: trueDmg,
     setNpcHP,
     char,
     playerClass,
@@ -179,16 +188,16 @@ export function applySpecialHit({
     triggerExplosion,
   });
 
-  spawnDamageRef.current?.(dmg, npcX, npcY, dmgType);
-  registerHitRef.current?.(dmg);
-  onDamageDealtRef?.current?.(dmg);
+  spawnDamageRef.current?.(trueDmg, npcX, npcY, dmgType);
+  registerHitRef.current?.(trueDmg);
+  onDamageDealtRef?.current?.(trueDmg);
   onSpecialRef?.current?.();
   hitstopRef.current = Date.now() + 100;
 
   if (totalVampirism > 0) {
-    const heal = Math.round((dmg * totalVampirism) / 100);
+    const heal = Math.round((trueDmg * totalVampirism) / 100);
     if (heal > 0) setPlayerHP((hp) => Math.min(playerMaxHp, hp + heal));
   }
 
-  return dmg;
+  return trueDmg;
 }

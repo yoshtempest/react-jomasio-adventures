@@ -5,4 +5,6 @@ export const STAT_TIPS: Record<string, string> = {
   resistance: "+2 em armadura.",
   tenacity: "Reduz duração de stun.",
   luck: "+0.5% esquiva, crítico e drops.",
+  maxHpDamage: "+1% do HP máximo como dano por ataque. Só por equipamentos.",
+  trueDamage: "Dano que ignora armadura. Só por equipamentos.",
 };

@@ -98,6 +98,12 @@ export function RightPanel() {
                   ? ` | Int: +${entry.stats.intelligence}`
                   : ""}
                 {entry.stats.armor > 0 ? ` | Arm: +${entry.stats.armor}` : ""}
+                {entry.stats.maxHpDamage > 0
+                  ? ` | DanoHP: +${entry.stats.maxHpDamage}%`
+                  : ""}
+                {entry.stats.trueDamage > 0
+                  ? ` | DanoV: +${entry.stats.trueDamage}`
+                  : ""}
               </span>
               <span className={styles.actionHint}>Confirmar: Equipar</span>
             </div>

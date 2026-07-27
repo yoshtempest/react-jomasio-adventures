@@ -5,6 +5,7 @@ import { useEquipment } from "@/contexts/EquipmentContext";
 import { useTitles } from "@/contexts/TitleContext";
 import { getTotalArmor, getWeaponCritRate } from "@/gameRules/battle/equipment";
 import { getLuckBonus } from "@/gameRules/battle/luck";
+import { calculateMaxHpBonus } from "@/gameRules/battle/damage";
 import { asset } from "@/utils/paths";
 
 export function CharacterStats() {
@@ -43,6 +44,9 @@ export function CharacterStats() {
   const critRate = 1 + weaponCritRate + luckBonus * 100;
   const missChance =
     (0.005 + (titleBonus.enemyMissChance ?? 0) / 100 + luckBonus) * 100;
+  const totalMaxHpDamage = bonus.maxHpDamage ?? 0;
+  const totalTrueDamage = bonus.trueDamage ?? 0;
+  const maxHpDamageBonus = calculateMaxHpBonus(userHp, totalMaxHpDamage);
 
   return (
     <div className={`StatusColumn ${styles.container}`}>
@@ -86,6 +90,18 @@ export function CharacterStats() {
         <img src={asset("/assets/status/shield.svg")} />
         <p>Escudo: {totalShield}</p>
       </div>
+      {totalMaxHpDamage > 0 && (
+        <div>
+          <img src={asset("/assets/status/hp.svg")} />
+          <p>Dano HP: +{maxHpDamageBonus}</p>
+        </div>
+      )}
+      {totalTrueDamage > 0 && (
+        <div>
+          <img src={asset("/assets/status/basicDamage.svg")} />
+          <p>Dano Verdadeiro: {totalTrueDamage}</p>
+        </div>
+      )}
     </div>
   );
 }
