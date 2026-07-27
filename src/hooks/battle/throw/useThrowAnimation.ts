@@ -1,14 +1,20 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import type { RefObject } from "react";
 
 type Props = {
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;
   setIsThrown: React.Dispatch<React.SetStateAction<boolean>>;
+  isMenuRef?: RefObject<boolean>;
 };
 
-export function useThrowAnimation({ setPlayer, setIsThrown }: Props) {
+export function useThrowAnimation({ setPlayer, setIsThrown, isMenuRef }: Props) {
+  const isMenuInternalRef = useRef(isMenuRef?.current ?? false);
+  if (isMenuRef) isMenuInternalRef.current = isMenuRef.current;
+
   useEffect(() => {
     const timeouts: ReturnType<typeof setTimeout>[] = [];
     const interval = setInterval(() => {
+      if (isMenuInternalRef.current) return;
       setPlayer((p) => {
         if (p.throwStartTime === 0) return p;
 
@@ -72,5 +78,5 @@ export function useThrowAnimation({ setPlayer, setIsThrown }: Props) {
       clearInterval(interval);
       timeouts.forEach(clearTimeout);
     };
-  }, [setPlayer, setIsThrown]);
+  }, [setPlayer, setIsThrown, isMenuRef]);
 }

@@ -1,4 +1,4 @@
-import { useEffect, type RefObject } from "react";
+import { useEffect, useRef, type RefObject } from "react";
 import { getLandingY, getGroundAtX } from "@/utils/types/maps/battle";
 import type { CollisionParams } from "@/utils/types/battle/collision";
 
@@ -11,9 +11,15 @@ export function useBattleGravity(
   collisionRef: RefObject<CollisionParams>,
   hasDoubleJumped: RefObject<boolean>,
   hasUsedFallingAttack?: RefObject<boolean>,
+  playerModeRef?: RefObject<PlayerMode>,
 ) {
+  const playerModeInternalRef = useRef(playerModeRef?.current ?? "explore");
+  if (playerModeRef) playerModeInternalRef.current = playerModeRef.current;
+
   useEffect(() => {
     const interval = setInterval(() => {
+      if (playerModeInternalRef.current === "menu") return;
+
       setPlayer((p) => {
         if (p.throwStartTime > 0) {
           return { ...p, velY: 0, state: "fallen" };
@@ -91,5 +97,5 @@ export function useBattleGravity(
     }, 16);
 
     return () => clearInterval(interval);
-  }, [setPlayer, collisionRef, hasDoubleJumped, hasUsedFallingAttack]);
+  }, [setPlayer, collisionRef, hasDoubleJumped, hasUsedFallingAttack, playerModeRef]);
 }

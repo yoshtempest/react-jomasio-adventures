@@ -1,4 +1,5 @@
 import { useRef, useEffect, useMemo } from "react";
+import type { RefObject } from "react";
 import {
   moveLeftBattle,
   moveRightBattle,
@@ -27,6 +28,7 @@ export function useBattleMovement(
   setPlayer: React.Dispatch<React.SetStateAction<Player>>,
   collisionRef: React.RefObject<CollisionParams>,
   lastBlockPressRef: React.RefObject<number>,
+  playerModeRef?: RefObject<PlayerMode>,
 ) {
   const leftIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const rightIntervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -49,6 +51,7 @@ export function useBattleMovement(
     collisionRef,
     hasDoubleJumped,
     hasUsedFallingAttack,
+    playerModeRef,
   );
 
   const idleTimeout = useMemo(() => idleTimeoutRef.current, []);

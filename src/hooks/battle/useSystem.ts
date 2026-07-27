@@ -44,6 +44,7 @@ type Props = {
   onAttackRef?: React.RefObject<() => void>;
   onSpecialRef?: React.RefObject<() => void>;
   petLevel: number;
+  isMenuRef?: React.RefObject<boolean>;
 };
 
 export function useBattleSystem(props: Props) {
@@ -76,6 +77,7 @@ export function useBattleSystem(props: Props) {
     onAttackRef,
     onSpecialRef,
     petLevel,
+    isMenuRef,
   } = props;
 
   const [npcPhase, setNpcPhase] = useState(1);
@@ -280,6 +282,7 @@ export function useBattleSystem(props: Props) {
 
   useEffect(() => {
     const interval = setInterval(() => {
+      if (isMenuRef?.current) return;
       setPlayer((p) => {
         if (p.pullStartTime === 0) return p;
         const elapsed = Date.now() - p.pullStartTime;
@@ -294,7 +297,7 @@ export function useBattleSystem(props: Props) {
       });
     }, 16);
     return () => clearInterval(interval);
-  }, [setPlayer]);
+  }, [setPlayer, isMenuRef]);
 
   const resetBattle = () => {
     setPlayerHP(playerMaxHp);

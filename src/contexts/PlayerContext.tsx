@@ -158,6 +158,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
   const battleCollisionRef = useBattleCollisionRef();
   const lastBlockPressRef = useRef(0);
+  const playerModeRef = useRef<PlayerMode>(player.mode);
+  playerModeRef.current = player.mode;
 
   const {
     moveUpBattle,
@@ -172,7 +174,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     special,
     dash,
     setPlayerState,
-  } = useBattleMovement(setPlayer, battleCollisionRef, lastBlockPressRef);
+  } = useBattleMovement(setPlayer, battleCollisionRef, lastBlockPressRef, playerModeRef);
 
   const setBattleCollision = useCallback(
     (params: CollisionParams) => {

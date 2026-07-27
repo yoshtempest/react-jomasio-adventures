@@ -300,6 +300,9 @@ export function useBattleScene({
   }
 
   const isConfigOpen = isNavOpen && navScreen === "config";
+  const isMenuOpen = isNavOpen;
+  const isMenuOpenRef = useRef(isMenuOpen);
+  isMenuOpenRef.current = isMenuOpen;
   const isPaused =
     showVictory || showDefeat || showIntro || showOutro != null || showHighlight || isConfigOpen;
   const controlsDisabled = isPaused || isPhaseTransitioning || isThrown;
@@ -495,6 +498,7 @@ export function useBattleScene({
     onAttackRef,
     onSpecialRef,
     petLevel,
+    isMenuRef: isMenuOpenRef,
   });
 
   const {
@@ -793,7 +797,7 @@ export function useBattleScene({
     battleNpcThrowHit: battle.npcThrowHit,
   });
 
-  useThrowAnimation({ setPlayer, setIsThrown });
+  useThrowAnimation({ setPlayer, setIsThrown, isMenuRef: isMenuOpenRef });
 
   useBattleControls({
     attack: () => {
