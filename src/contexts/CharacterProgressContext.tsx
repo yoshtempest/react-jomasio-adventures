@@ -103,6 +103,7 @@ export function CharacterProgressProvider({
           level: newLevel,
           xp: newXP,
           hunger: newHunger,
+          battleHP: pointsGained > 0 ? null : char.battleHP,
           stats: {
             ...char.stats,
             points: char.stats.points + pointsGained,
