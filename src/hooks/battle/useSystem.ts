@@ -14,6 +14,10 @@ import { usePetBattle } from "@/hooks/battle/player/usePet";
 import { useDamageNumbers } from "@/hooks/battle/damage/useNumbers";
 import { useExternalDamage } from "@/hooks/battle/damage/useExternal";
 import { useBlockGauge } from "@/hooks/battle/useBlockGauge";
+import {
+  getCortaCuraReduction,
+  CORATACURA_DURATION_MS,
+} from "@/gameRules/battle/equipment";
 
 type Props = {
   playerX: number;
@@ -109,6 +113,16 @@ export function useBattleSystem(props: Props) {
 
   const behavior = battleBehaviors[player.character] || battleBehaviors.default;
 
+  const cortaCuraReduction = getCortaCuraReduction(player.character);
+  const onCortaCura = cortaCuraReduction > 0
+    ? () => {
+        setPlayer((p) => ({
+          ...p,
+          cortaCuraUntil: Date.now() + CORATACURA_DURATION_MS,
+        }));
+      }
+    : undefined;
+
   const { playerCooldown, npcCooldown, isEnding } = useBattleCooldowns();
 
   const effects = useBattleEffects({ character: player.character });
@@ -183,6 +197,7 @@ export function useBattleSystem(props: Props) {
     onDamageDealtRef,
     onAttackRef,
     onSpecialRef,
+    onCortaCura,
   });
 
   const petDamageRef = useRef(() => {});
@@ -238,6 +253,7 @@ export function useBattleSystem(props: Props) {
     titleEnemyMissChance: titleBonus.enemyMissChance,
     onDamageTakenRef,
     onDodgeRef,
+    onCortaCura,
     npcType,
     npcHp: npcHP,
     npcMaxHp,
@@ -322,6 +338,7 @@ export function useBattleSystem(props: Props) {
     setPlayer((p) => ({
       ...p,
       bleedUntil: 0,
+      cortaCuraUntil: 0,
       pullStartTime: 0,
       grabbedUntil: 0,
     }));
@@ -364,5 +381,6 @@ export function useBattleSystem(props: Props) {
     blockGauge,
     blockLimit,
     tenacityReduction: stats.tenacityReduction,
+    cortaCuraReduction,
   };
 }

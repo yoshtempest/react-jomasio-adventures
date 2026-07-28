@@ -18,4 +18,6 @@ export {
   getTotalVampirism,
   getTotalReflect,
   addItemBonus,
+  getCortaCuraReduction,
+  CORATACURA_DURATION_MS,
 } from "./stats";

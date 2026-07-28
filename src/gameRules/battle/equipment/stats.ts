@@ -2,6 +2,7 @@ import type {
   EquippedItems,
   EquippedItemInfo,
   EquipmentStats,
+  EquipmentRank,
 } from "@/utils/types/player/equipment";
 import { EQUIPMENT_SLOTS } from "@/utils/types/player/equipment";
 import { getEquipmentById } from "@/data/equipment";
@@ -165,4 +166,30 @@ export function addItemBonus(
   bonus.luck += Math.round((stats.luck ?? 0) * multiplier);
   bonus.maxHpDamage += Math.round((stats.maxHpDamage ?? 0) * multiplier);
   bonus.trueDamage += Math.round((stats.trueDamage ?? 0) * multiplier);
+}
+
+const RANK_INDEX: Record<EquipmentRank, number> = {
+  1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 7: 6, 8: 7, 9: 8, 0: 9, EX: 10,
+};
+
+function cortaCuraReductionForRank(rank: EquipmentRank): number {
+  const idx = RANK_INDEX[rank];
+  if (idx < 4) return 0;
+  return Math.round(((idx - 4) / 6) * 40);
+}
+
+export const CORATACURA_DURATION_MS = 5000;
+
+export function getCortaCuraReduction(character: CharacterId): number {
+  const equipped = loadEquipped(character);
+  let best = 0;
+  if (equipped.weapon) {
+    const item = getEquipmentById(equipped.weapon.id);
+    if (item) best = Math.max(best, cortaCuraReductionForRank(item.rank));
+  }
+  if (equipped.chestplate) {
+    const item = getEquipmentById(equipped.chestplate.id);
+    if (item) best = Math.max(best, cortaCuraReductionForRank(item.rank));
+  }
+  return best;
 }

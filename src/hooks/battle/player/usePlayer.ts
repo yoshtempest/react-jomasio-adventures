@@ -50,6 +50,7 @@ type Props = {
   onDamageDealtRef?: React.RefObject<(amount: number) => void>;
   onAttackRef?: React.RefObject<() => void>;
   onSpecialRef?: React.RefObject<() => void>;
+  onCortaCura?: () => void;
 };
 
 export function usePlayerBattle({
@@ -86,6 +87,7 @@ export function usePlayerBattle({
   onDamageDealtRef,
   onAttackRef,
   onSpecialRef,
+  onCortaCura,
 }: Props) {
   const { playSound } = useSoundEffects();
 
@@ -152,6 +154,8 @@ export function usePlayerBattle({
         HITS_TO_SPECIAL,
       });
 
+      onCortaCura?.();
+
       playerCooldown.current = false;
       setTimeout(() => {
         playerCooldown.current = true;
@@ -188,6 +192,7 @@ export function usePlayerBattle({
       onBeforeNpcHitRef,
       setPlayer,
       onAttackRef,
+      onCortaCura,
       npcClass,
     ],
   );
@@ -259,6 +264,8 @@ export function usePlayerBattle({
         hitsToSpecial: HITS_TO_SPECIAL,
       });
 
+      onCortaCura?.();
+
       playerCooldown.current = false;
       setTimeout(() => {
         playerCooldown.current = true;
@@ -296,6 +303,7 @@ export function usePlayerBattle({
       onBeforeNpcHitRef,
       setPlayer,
       onSpecialRef,
+      onCortaCura,
       playSound,
       titleDamageBonus,
       npcClass,

@@ -797,6 +797,7 @@ export function useBattleScene({
     refs,
     charge,
     player,
+    cortaCuraReduction: battle.cortaCuraReduction,
     battleNpcRangedHit: battle.npcRangedHit,
     battleNpcMeleeHit: battle.npcMeleeHit,
     battleNpcThrowHit: battle.npcThrowHit,

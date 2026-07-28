@@ -1,4 +1,4 @@
-import { useEffect, type RefObject } from "react";
+import { useEffect, useRef, type RefObject } from "react";
 
 type SyncProps = {
   battle: {
@@ -29,7 +29,8 @@ type SyncProps = {
     npcThrowAttackRef: RefObject<() => void>;
   };
   charge: { cancelCharge: () => void };
-  player: { state: string };
+  player: { state: string; cortaCuraUntil: number };
+  cortaCuraReduction: number;
   battleNpcRangedHit: () => void;
   battleNpcMeleeHit: () => void;
   battleNpcThrowHit: (multiplier: number) => void;
@@ -54,6 +55,7 @@ export function useBattleSync({
   refs,
   charge,
   player,
+  cortaCuraReduction,
   battleNpcRangedHit,
   battleNpcMeleeHit,
   battleNpcThrowHit,
@@ -85,19 +87,27 @@ export function useBattleSync({
   }, [battle.npcPhase, setNpcPhase]);
 
   // Boss regen: hungryKing heals 1 HP/s in phase 2
+  const cortaCuraUntilRef = useRef(player.cortaCuraUntil);
+  cortaCuraUntilRef.current = player.cortaCuraUntil;
+
   useEffect(() => {
     if (npcType !== "hungryKing") return;
     if (battle.npcPhase !== 2) return;
 
     const interval = setInterval(() => {
       if (isEndingRef.current.current) return;
+      const cortaCuraActive = cortaCuraUntilRef.current > Date.now();
+      const heal = cortaCuraActive
+        ? Math.max(0, Math.round(1 * (1 - cortaCuraReduction / 100)))
+        : 1;
+      if (heal <= 0) return;
       setNpcHPRef.current((hp: number) =>
-        Math.min(npcMaxHpRef.current, hp + 1),
+        Math.min(npcMaxHpRef.current, hp + heal),
       );
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [npcType, battle.npcPhase, isEndingRef, setNpcHPRef, npcMaxHpRef]);
+  }, [npcType, battle.npcPhase, isEndingRef, setNpcHPRef, npcMaxHpRef, cortaCuraReduction]);
 
   // Wire ref callbacks so battle system can trigger NPC ranged/melee hit
   refs.npcRangedAttackRef.current = () => {

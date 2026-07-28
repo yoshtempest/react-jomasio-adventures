@@ -289,6 +289,7 @@ declare global {
     moving?: boolean;
     grabbedUntil?: number;
     bleedUntil: number;
+    cortaCuraUntil: number;
     pullFromX: number;
     pullToX: number;
     pullStartTime: number;
