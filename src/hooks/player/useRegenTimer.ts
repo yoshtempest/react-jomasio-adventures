@@ -3,6 +3,7 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import {
   useCharacterProgress,
   getHungerMultiplier,
+  MAX_HUNGER,
 } from "@/contexts/CharacterProgressContext";
 import { useTitles } from "@/contexts/TitleContext";
 import { getEquipmentStatsBonus } from "@/gameRules/battle/equipment";
@@ -59,8 +60,9 @@ export function useRegenTimer() {
 
     const currentHP = charProgress.battleHP;
     if (currentHP == null || currentHP >= maxHp) return;
+    if (charProgress.hunger <= 0) return;
 
-    const healPerTick = maxHp / 60;
+    const healPerTick = (maxHp / 60) * (charProgress.hunger / MAX_HUNGER);
 
     const interval = setInterval(() => {
       const latest = progressRef.current[characterRef.current];
