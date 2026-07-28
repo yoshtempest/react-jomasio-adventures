@@ -36,6 +36,7 @@ import { useNpcTargeting } from "@/hooks/battle/npc/useNpcTargeting";
 import { useBattleInfo } from "@/contexts/BattleInfoContext";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import { BATTLE_LIMITS } from "@/utils/types/player/movement";
+import { CHARACTERS } from "@/utils/types/player/player";
 import { getEquipmentStatsBonus } from "@/gameRules/battle/equipment";
 import { getLuckBonus } from "@/gameRules/battle/luck";
 import { saveGame } from "@/utils/save/saveGame";
@@ -375,6 +376,20 @@ export function useBattleScene({
       battle.resetBattle();
       return;
     }
+
+    const isHardMode = difficulty === "hard" || difficulty === "insano";
+    const allOthersDefeated = CHARACTERS.filter((c) => c !== player.character)
+      .every((c) => progress[c]?.battleHP === 0);
+
+    if (isHardMode && allOthersDefeated) {
+      for (const c of CHARACTERS) {
+        setBattleHP(c, 1);
+      }
+      setMode("explore");
+      navigate(-1);
+      return;
+    }
+
     setBattleHP(player.character, null);
     incrementDeath(player.character);
     handleDefeat();
@@ -903,5 +918,6 @@ export function useBattleScene({
     getReplayData,
     isRecording,
     training,
+    showRetry: difficulty !== "hard" && difficulty !== "insano",
   };
 }

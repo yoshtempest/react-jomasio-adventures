@@ -76,6 +76,7 @@ export function BattleScene(props: Props) {
     grabFlipped,
     getReplayData,
     training: isTraining,
+    showRetry,
   } = useBattleScene(props);
 
   const {
@@ -247,6 +248,7 @@ export function BattleScene(props: Props) {
           progress={defeatProgress}
           elapsed={defeatElapsed}
           bestTime={bestTime}
+          showRetry={showRetry}
         />
       )}
 

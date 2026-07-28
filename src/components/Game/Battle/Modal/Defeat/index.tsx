@@ -20,6 +20,7 @@ type Props = {
   progress: number;
   elapsed: number;
   bestTime: number;
+  showRetry?: boolean;
 };
 
 export function DefeatModal({
@@ -30,6 +31,7 @@ export function DefeatModal({
   progress,
   elapsed,
   bestTime,
+  showRetry = true,
 }: Props) {
   const { setMode } = usePlayer();
   const { playSound } = useSoundEffects();
@@ -55,7 +57,7 @@ export function DefeatModal({
   viewRef.current = view;
 
   const executeSelected = useCallback(() => {
-    if (menuSelection === "retry") {
+    if (menuSelection === "retry" && showRetry) {
       playSound("tryAgain");
       onContinueRef.current();
     } else if (menuSelection === "characterSelect") {
@@ -65,7 +67,7 @@ export function DefeatModal({
       onBackRef.current();
       setModeRef.current("explore");
     }
-  }, [menuSelection, playSound, openCharacterSelect]);
+  }, [menuSelection, playSound, openCharacterSelect, showRetry]);
 
   const executeSelectedRef = useRef(executeSelected);
   executeSelectedRef.current = executeSelected;
@@ -131,12 +133,14 @@ export function DefeatModal({
         </div>
         <ActivePotionDisplay />
         <div className={styles.buttonContainer}>
-          <button
-            className={menuBtnClass("retry")}
-            onClick={executeSelected}
-          >
-            Tentar novamente
-          </button>
+          {showRetry && (
+            <button
+              className={menuBtnClass("retry")}
+              onClick={executeSelected}
+            >
+              Tentar novamente
+            </button>
+          )}
           <button
             className={menuBtnClass("characterSelect")}
             onClick={openCharacterSelect}
