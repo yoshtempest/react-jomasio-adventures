@@ -58,12 +58,14 @@ export function DefeatModal({
     if (menuSelection === "retry") {
       playSound("tryAgain");
       onContinueRef.current();
+    } else if (menuSelection === "characterSelect") {
+      openCharacterSelect();
     } else {
       playSound("run");
       onBackRef.current();
       setModeRef.current("explore");
     }
-  }, [menuSelection, playSound]);
+  }, [menuSelection, playSound, openCharacterSelect]);
 
   const executeSelectedRef = useRef(executeSelected);
   executeSelectedRef.current = executeSelected;

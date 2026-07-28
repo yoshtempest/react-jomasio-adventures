@@ -155,6 +155,7 @@ export function useDefeatCharacterSelect(isOpen: boolean) {
         const sel = menuSelectionRef.current;
         if (sel === "characterSelect") {
           openCharacterSelectRef.current();
+          return true;
         }
       },
     });
