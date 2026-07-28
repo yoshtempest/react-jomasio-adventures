@@ -89,11 +89,10 @@ export function useBattleScene({
     setPlayerState,
     lastBlockPressRef,
     battleTenacityRef,
-    consumeSavedBattleHP,
-    saveBattleHP,
   } = usePlayer();
 
-  const { progress, reduceHunger, getXPToNextLevel } = useCharacterProgress();
+  const { progress, reduceHunger, getXPToNextLevel, setBattleHP } =
+    useCharacterProgress();
   const playerLevel = progress[player.character]?.level ?? 1;
   const { getPetProgress } = usePetProgress();
   const { getEquippedInfo } = useEquipment();
@@ -121,7 +120,7 @@ export function useBattleScene({
   const [isPhaseTransitioning, setIsPhaseTransitioning] = useState(false);
 
   const battleStartRef = useRef(Date.now());
-  const savedPlayerHPRef = useRef(consumeSavedBattleHP());
+  const savedPlayerHPRef = useRef(progress[player.character]?.battleHP ?? null);
   const [defeatElapsed, setDefeatElapsed] = useState(0);
   const [victoryElapsed, setVictoryElapsed] = useState(0);
   const [bestTime, setBestTime] = useState(loadBestTime(npcType));
@@ -376,7 +375,7 @@ export function useBattleScene({
       battle.resetBattle();
       return;
     }
-    saveBattleHP(null);
+    setBattleHP(player.character, null);
     incrementDeath(player.character);
     handleDefeat();
     recordDefeat();
@@ -396,7 +395,7 @@ export function useBattleScene({
       battle.setNpcHP(battle.npcMaxHp);
       return;
     }
-    saveBattleHP(battle.playerHP);
+    setBattleHP(player.character, battle.playerHP);
     const rewards = giveRewards();
     setLastRewards(rewards);
     reduceHunger(player.character, 5);

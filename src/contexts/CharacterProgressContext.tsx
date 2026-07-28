@@ -42,6 +42,7 @@ type ContextType = {
   restoreHunger: (character: Character, amount: number) => void;
   resetHunger: (character: Character) => void;
   setHunger: (character: Character, value: number) => void;
+  setBattleHP: (character: Character, hp: number | null) => void;
   getXPToNextLevel: (level: number) => number;
 };
 
@@ -202,6 +203,16 @@ export function CharacterProgressProvider({
     });
   }
 
+  function setBattleHP(character: Character, hp: number | null) {
+    setProgress((prev) => {
+      const char = prev[character];
+      return {
+        ...prev,
+        [character]: { ...char, battleHP: hp },
+      };
+    });
+  }
+
   // ➕ DISTRIBUIR PONTOS
   function addStat(
     character: Character,
@@ -239,6 +250,7 @@ export function CharacterProgressProvider({
         restoreHunger,
         resetHunger,
         setHunger,
+        setBattleHP,
         getXPToNextLevel,
       }}
     >

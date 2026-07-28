@@ -19,6 +19,7 @@ export type CharacterProgress = {
   coins: number;
   hyperCoins: number;
   stats: CharacterStats;
+  battleHP?: number | null;
 };
 
 export type CharactersProgress = Record<Character, CharacterProgress>;

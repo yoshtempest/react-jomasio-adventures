@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export function useBattleHP(
   playerMaxHp: number,
@@ -6,6 +6,7 @@ export function useBattleHP(
   initialShield: number = 0,
   savedPlayerHP?: number | null,
 ) {
+  const prevMaxHpRef = useRef(playerMaxHp);
   const [playerHP, setPlayerHP] = useState(() => {
     if (savedPlayerHP != null && savedPlayerHP > 0) {
       return Math.min(savedPlayerHP, playerMaxHp);
@@ -16,7 +17,11 @@ export function useBattleHP(
   const [playerShield, setPlayerShield] = useState(initialShield);
 
   useEffect(() => {
-    setPlayerHP(playerMaxHp);
+    if (playerMaxHp > prevMaxHpRef.current) {
+      const diff = playerMaxHp - prevMaxHpRef.current;
+      setPlayerHP((hp) => Math.min(playerMaxHp, hp + diff));
+    }
+    prevMaxHpRef.current = playerMaxHp;
   }, [playerMaxHp]);
 
   useEffect(() => {

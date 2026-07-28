@@ -33,6 +33,8 @@ export function normalizeProgress(data: unknown): CharactersProgress {
         luck: savedChar?.stats?.luck ?? 1,
         points: savedChar?.stats?.points ?? 0,
       },
+      battleHP:
+        typeof savedChar?.battleHP === "number" ? savedChar.battleHP : null,
     };
   }
   return safe;
