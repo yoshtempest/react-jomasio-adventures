@@ -1,21 +1,25 @@
 import { usePlayer } from "@/contexts/PlayerContext";
 import {
   useCharacterProgress,
+  getHungerMultiplier,
   MAX_HUNGER,
 } from "@/contexts/CharacterProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
+import { useTitles } from "@/contexts/TitleContext";
 import { CHARACTERS } from "@/data/options/characters";
 import { npcPath, playerPath } from "@/utils/paths";
-import { getRank, formatRank } from "@/gameRules/rank";
+import { getRank, formatRank, getRankMultiplier } from "@/gameRules/rank";
+import { getEquipmentStatsBonus } from "@/gameRules/battle/equipment";
 import { ProgressBar } from "@/components/ProgressBar";
 import styles from "./styles.module.css";
-import { Drumstick } from "lucide-react";
+import { Drumstick, Heart } from "lucide-react";
 
 export function CharacterInfo() {
   const { player, playerClass } = usePlayer();
   const character = player.character;
   const { progress, getXPToNextLevel } = useCharacterProgress();
   const { getEquippedItem } = useEquipment();
+  const { getBonus } = useTitles();
 
   const charProgress = progress[player.character];
   const xpNeeded = getXPToNextLevel(charProgress.level);
@@ -23,6 +27,16 @@ export function CharacterInfo() {
 
   const petItem = getEquippedItem(character, "pet");
   const petNpcType = petItem?.id.replace("pet_", "");
+
+  const equipmentBonus = getEquipmentStatsBonus(character);
+  const titleBonus = getBonus();
+  const rankMultiplier = getRankMultiplier(charProgress.level);
+  const hungerMultiplier = getHungerMultiplier(charProgress.hunger);
+  const allStatsPct = 1 + titleBonus.percentAllStats / 100;
+  const effectiveHp =
+    (charProgress.stats.hp + equipmentBonus.hp + titleBonus.hp) * allStatsPct;
+  const playerMaxHp = 90 + Math.round(effectiveHp * rankMultiplier * hungerMultiplier) * 10;
+  const currentHP = charProgress.battleHP ?? playerMaxHp;
 
   return (
     <div className="StatusColumn">
@@ -47,6 +61,26 @@ export function CharacterInfo() {
       <p className={styles.xpText}>
         XP: {charProgress.xp}/{xpNeeded} — Nv.{charProgress.level + 1}
       </p>
+      <div className={styles.hungerContainer}>
+        <div className={styles.hungerText}>
+          <Heart />
+          <span>HP</span>
+          <span>
+            {currentHP}/{playerMaxHp}
+          </span>
+        </div>
+        <ProgressBar
+          value={currentHP}
+          max={playerMaxHp}
+          color={
+            currentHP > playerMaxHp * 0.5
+              ? "var(--success)"
+              : currentHP > playerMaxHp * 0.2
+                ? "orange"
+                : "red"
+          }
+        />
+      </div>
       <div className={styles.hungerContainer}>
         <div className={styles.hungerText}>
           <Drumstick />
