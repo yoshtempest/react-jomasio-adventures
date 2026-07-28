@@ -21,6 +21,7 @@ import { useEquipment } from "@/contexts/EquipmentContext";
 import { isCharacter } from "@/utils/types/player/player";
 import { useAuth } from "@/contexts/AuthContext";
 import { useHungerTimer } from "@/hooks/hunger/useHungerTimer";
+import { useRegenTimer } from "@/hooks/player/useRegenTimer";
 import { useExploreLocation } from "@/hooks/scene/useExploreLocation";
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
   const { isAuthenticated } = useAuth();
 
   useHungerTimer();
+  useRegenTimer();
   useExploreLocation();
 
   const prevRouteRef = useRef(location.pathname);
