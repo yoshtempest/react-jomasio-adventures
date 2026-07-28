@@ -45,6 +45,7 @@ type Props = {
   onSpecialRef?: React.RefObject<() => void>;
   petLevel: number;
   isMenuRef?: React.RefObject<boolean>;
+  savedPlayerHP?: number | null;
 };
 
 export function useBattleSystem(props: Props) {
@@ -78,6 +79,7 @@ export function useBattleSystem(props: Props) {
     onSpecialRef,
     petLevel,
     isMenuRef,
+    savedPlayerHP,
   } = props;
 
   const [npcPhase, setNpcPhase] = useState(1);
@@ -130,7 +132,7 @@ export function useBattleSystem(props: Props) {
     setNpcHP,
     playerShield,
     setPlayerShield,
-  } = useBattleHP(playerMaxHp, npcMaxHp, totalShield);
+  } = useBattleHP(playerMaxHp, npcMaxHp, totalShield, savedPlayerHP);
 
   const { damagePlayerHp, damagePlayer } = useExternalDamage({
     playerX,

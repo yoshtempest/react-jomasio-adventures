@@ -33,6 +33,10 @@ type PlayerContextType = {
   setPosition: (x: number, y: number, direction?: Player["direction"]) => void;
   setCharacter: (character: Player["character"]) => void;
 
+  savedBattleHP: number | null;
+  consumeSavedBattleHP: () => number | null;
+  saveBattleHP: (hp: number | null) => void;
+
   moveUp: () => void;
   moveDown: () => void;
   moveLeft: () => void;
@@ -101,6 +105,21 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       mode: "explore",
     };
   });
+
+  const savedBattleHPRef = useRef<number | null>(null);
+  const [savedBattleHP, setSavedBattleHPState] = useState<number | null>(null);
+
+  const consumeSavedBattleHP = useCallback(() => {
+    const value = savedBattleHPRef.current;
+    savedBattleHPRef.current = null;
+    setSavedBattleHPState(null);
+    return value;
+  }, []);
+
+  const saveBattleHP = useCallback((hp: number | null) => {
+    savedBattleHPRef.current = hp;
+    setSavedBattleHPState(hp);
+  }, []);
 
   const previousModeRef = useRef<PlayerMode>("explore");
   const battleTenacityRef = useRef(0);
@@ -294,6 +313,9 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         restoreMode,
         setPosition,
         setBattleCollision,
+        savedBattleHP,
+        consumeSavedBattleHP,
+        saveBattleHP,
 
         playerClass,
         chooseClass,
