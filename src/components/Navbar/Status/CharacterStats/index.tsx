@@ -54,14 +54,29 @@ export function CharacterStats({ selectedIndex }: CharacterStatsProps) {
 
   const inc =
     selectedIndex !== undefined
-      ? ({
-          0: { hp: 10 },
-          1: { normalDmg: 1 },
-          2: { specialDmg: 2 },
-          3: { armor: 2, tenacity: 1 },
-          4: { luck: 1 },
-        }[selectedIndex] as Record<string, number | undefined>)
+      ? getStatIncreases(selectedIndex)
       : undefined;
+
+  function getStatIncreases(index: number): Record<string, number> {
+    switch (index) {
+      case 0: return { hp: 10 };
+      case 1: return { normalDmg: 1 };
+      case 2: return { specialDmg: 2 };
+      case 3: return { armor: 2, tenacity: 1 };
+      case 4: {
+        const currentLuck = (stats.luck ?? 1) + (bonus.luck ?? 0);
+        const currentLuckBonus = getLuckBonus(currentLuck);
+        const nextLuckBonus = getLuckBonus(currentLuck + 1);
+        const diff = nextLuckBonus - currentLuckBonus;
+        return {
+          luck: 1,
+          crit: Math.round(diff * 100 * 10) / 10,
+          evade: Math.round(diff * 100 * 10) / 10,
+        };
+      }
+      default: return {};
+    }
+  }
 
   return (
     <div className={`StatusColumn ${styles.container}`}>
@@ -119,25 +134,23 @@ export function CharacterStats({ selectedIndex }: CharacterStatsProps) {
       </div>
       <div>
         <img src={asset("/assets/titlesBadges/enemyMissAttacks.svg")} />
-        <p>Esquiva: {missChance.toFixed(1)}%</p>
-        {inc?.miss ? <span className={styles.increase}> +{inc.miss}</span> : ""}
+        <p>
+          Esquiva: {missChance.toFixed(1)}%
+          {inc?.evade ? <span className={styles.increase}> +{inc.evade}</span> : ""}
+        </p>
       </div>
       <div>
         <img src={asset("/assets/status/shield.svg")} />
         <p>Escudo: {totalShield}</p>
       </div>
-      {totalMaxHpDamage > 0 && (
-        <div>
-          <img src={asset("/assets/status/hp.svg")} />
-          <p>Dano HP: +{maxHpDamageBonus}</p>
-        </div>
-      )}
-      {totalTrueDamage > 0 && (
-        <div>
-          <img src={asset("/assets/status/basicDamage.svg")} />
-          <p>Dano Verdadeiro: {totalTrueDamage}</p>
-        </div>
-      )}
+      <div>
+        <img src={asset("/assets/status/hp.svg")} />
+        <p>Dano com base no HP: +{maxHpDamageBonus}</p>
+      </div>
+      <div>
+        <img src={asset("/assets/status/basicDamage.svg")} />
+        <p>Dano Verdadeiro: {totalTrueDamage}</p>
+      </div>
     </div>
   );
 }
