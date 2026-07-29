@@ -24,7 +24,7 @@ export function Status() {
 
       <div className={styles.flexRow}>
         <CharacterInfo />
-        <CharacterStats />
+        <CharacterStats selectedIndex={selectedIndex} />
         <AvailableStats selectedIndex={selectedIndex} />
         <EquipmentList />
       </div>

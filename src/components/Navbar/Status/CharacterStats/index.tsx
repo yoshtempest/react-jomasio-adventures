@@ -8,7 +8,11 @@ import { getLuckBonus } from "@/gameRules/battle/luck";
 import { calculateMaxHpBonus } from "@/gameRules/battle/damage";
 import { asset } from "@/utils/paths";
 
-export function CharacterStats() {
+type CharacterStatsProps = {
+  selectedIndex?: number;
+};
+
+export function CharacterStats({ selectedIndex }: CharacterStatsProps) {
   const { player } = usePlayer();
   const character = player.character;
   const { progress } = useCharacterProgress();
@@ -48,6 +52,17 @@ export function CharacterStats() {
   const totalTrueDamage = bonus.trueDamage ?? 0;
   const maxHpDamageBonus = calculateMaxHpBonus(userHp, totalMaxHpDamage);
 
+  const inc =
+    selectedIndex !== undefined
+      ? ({
+          0: { hp: 10 },
+          1: { normalDmg: 1 },
+          2: { specialDmg: 2 },
+          3: { armor: 2, tenacity: 1 },
+          4: { luck: 1 },
+        }[selectedIndex] as Record<string, number | undefined>)
+      : undefined;
+
   return (
     <div className={`StatusColumn ${styles.container}`}>
       <div className="statusMainContainer">
@@ -56,35 +71,56 @@ export function CharacterStats() {
       </div>
       <div>
         <img src={asset("/assets/status/hp.svg")} />
-        <p>HP total: {userHp}</p>
+        <p>
+          HP total: {userHp}
+          {inc?.hp ? <span className={styles.increase}> +{inc.hp}</span> : ""}
+        </p>
       </div>
       <div>
         <img src={asset("/assets/status/basicDamage.svg")} />
-        <p>Dano normal: {userNormalAttackDamage}</p>
+        <p>
+          Dano normal: {userNormalAttackDamage}
+          {inc?.normalDmg ? <span className={styles.increase}> +{inc.normalDmg}</span> : ""}
+        </p>
       </div>
       <div>
         <img src={asset("/assets/status/specialDamage.svg")} />
-        <p>Dano especial: {userSpecialDamage}</p>
+        <p>
+          Dano especial: {userSpecialDamage}
+          {inc?.specialDmg ? <span className={styles.increase}> +{inc.specialDmg}</span> : ""}
+        </p>
       </div>
       <div>
         <img src={asset("/assets/status/armor.svg")} />
-        <p>Armadura: {userArmor}</p>
+        <p>
+          Armadura: {userArmor}
+          {inc?.armor ? <span className={styles.increase}> +{inc.armor}</span> : ""}
+        </p>
       </div>
       <div>
         <img src={asset("/assets/status/tenacity.svg")} />
-        <p>Tenacidade: {userTenacity}%</p>
+        <p>
+          Tenacidade: {userTenacity}%
+          {inc?.tenacity ? <span className={styles.increase}> +{inc.tenacity}</span> : ""}
+        </p>
       </div>
       <div>
         <img src={asset("/assets/status/luckChance.svg")} />
-        <p>Sorte: {userLuck}%</p>
+        <p>
+          Sorte: {userLuck}%
+          {inc?.luck ? <span className={styles.increase}> +{inc.luck}</span> : ""}
+        </p>
       </div>
       <div>
         <img src={asset("/assets/status/critical.svg")} />
-        <p>Crítico: {critRate.toFixed(1)}%</p>
+        <p>Crítico: {critRate.toFixed(1)}%
+        {inc?.crit ? <span className={styles.increase}> +{inc.crit}</span> : ""}
+        </p>
       </div>
       <div>
         <img src={asset("/assets/titlesBadges/enemyMissAttacks.svg")} />
         <p>Esquiva: {missChance.toFixed(1)}%</p>
+        {inc?.miss ? <span className={styles.increase}> +{inc.miss}</span> : ""}
       </div>
       <div>
         <img src={asset("/assets/status/shield.svg")} />

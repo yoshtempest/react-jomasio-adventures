@@ -1,7 +1,6 @@
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
-import { STAT_TIPS } from "@/data/stats/tips";
 import styles from "./styles.module.css";
 import { asset } from "@/utils/paths";
 
@@ -41,7 +40,6 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
           Vida: {stats.hp}
           {bonus.hp > 0 ? <span> +{bonus.hp}</span> : ""}
         </p>
-        {selectedIndex === 0 && <p className={styles.tip}>{STAT_TIPS.hp}</p>}
       </div>
 
       <div
@@ -53,9 +51,6 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
           Força: {stats.strength}
           {bonus.strength > 0 ? <span> +{bonus.strength}</span> : ""}
         </p>
-        {selectedIndex === 1 && (
-          <p className={styles.tip}>{STAT_TIPS.strength}</p>
-        )}
       </div>
 
       <div
@@ -67,9 +62,6 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
           Inteligência: {stats.intelligence}
           {bonus.intelligence > 0 ? <span> +{bonus.intelligence}</span> : ""}
         </p>
-        {selectedIndex === 2 && (
-          <p className={styles.tip}>{STAT_TIPS.intelligence}</p>
-        )}
       </div>
 
       <div
@@ -80,9 +72,6 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
           <img src={asset("/assets/status/armor.svg")} />
           Resistência: {stats.resistance ?? 1}
         </p>
-        {selectedIndex === 3 && (
-          <p className={styles.tip}>{STAT_TIPS.resistance}</p>
-        )}
       </div>
 
       <div
@@ -94,7 +83,6 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
           Sorte: {stats.luck ?? 1}
           {bonus.luck > 0 ? <span> +{bonus.luck}</span> : ""}
         </p>
-        {selectedIndex === 4 && <p className={styles.tip}>{STAT_TIPS.luck}</p>}
       </div>
 
       <div className={selectedIndex === 5 ? "active" : ""}>
