@@ -108,12 +108,12 @@ export function SceneBase({
   return (
     <div
       className={`Master ${className ?? ""}`}
-      style={background ? { backgroundImage: `url(${background})` } : undefined}
     >
       <div className="SceneMap">
         <ExploreScene
           key={scene.id}
           {...scene}
+          background={background}
           initialPosition={spawn}
           lastPage={lastPage}
           setPopup={setPopup}

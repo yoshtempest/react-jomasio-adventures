@@ -56,7 +56,9 @@ export function ExploreScene({
   interactionKeys,
   tileDialogues,
   npcOverlays,
+  background,
 }: ExploreSceneProps & {
+  background?: string;
   events?: SceneEvent[];
   setPopup?: (msg: string | null) => void;
   popup?: string | null;
@@ -207,7 +209,7 @@ export function ExploreScene({
     tileDialogues,
   });
 
-  const { TILE_SIZE, offsetX, offsetY, PLAYER_SIZE, MAP_COLS, MAP_ROWS } =
+  const { TILE_SIZE, cameraX, cameraY, PLAYER_SIZE, MAP_COLS, MAP_ROWS } =
     useGameLayout();
 
   if (!isReady) return null;
@@ -216,10 +218,11 @@ export function ExploreScene({
     <div className={className}>
       <GameMap
         TILE_SIZE={TILE_SIZE}
-        offsetX={offsetX}
-        offsetY={offsetY}
         cols={MAP_COLS}
         rows={MAP_ROWS}
+        cameraX={cameraX}
+        cameraY={cameraY}
+        backgroundUrl={background}
       >
         {npcs.map((npc) => (
           <NPC
