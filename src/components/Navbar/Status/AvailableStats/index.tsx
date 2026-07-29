@@ -90,35 +90,21 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
         style={selectedIndex === 4 ? { flexWrap: "wrap" } : undefined}
       >
         <p>
-          <img src={asset("/assets/status/tenacity.svg")} />
-          Tenacidade: {stats.tenacity ?? 1}
-          {bonus.tenacity > 0 ? <span> +{bonus.tenacity}</span> : ""}
-        </p>
-        {selectedIndex === 4 && (
-          <p className={styles.tip}>{STAT_TIPS.tenacity}</p>
-        )}
-      </div>
-
-      <div
-        className={selectedIndex === 5 ? "active" : ""}
-        style={selectedIndex === 5 ? { flexWrap: "wrap" } : undefined}
-      >
-        <p>
           <img src={asset("/assets/status/luckChance.svg")} />
           Sorte: {stats.luck ?? 1}
           {bonus.luck > 0 ? <span> +{bonus.luck}</span> : ""}
         </p>
-        {selectedIndex === 5 && <p className={styles.tip}>{STAT_TIPS.luck}</p>}
+        {selectedIndex === 4 && <p className={styles.tip}>{STAT_TIPS.luck}</p>}
       </div>
 
-      <div className={selectedIndex === 6 ? "active" : ""}>
+      <div className={selectedIndex === 5 ? "active" : ""}>
         <p className={styles.subBtn}>
           <img src={asset("/assets/status/skills.svg")} />
           Habilidades
         </p>
       </div>
 
-      <div className={selectedIndex === 7 ? "active" : ""}>
+      <div className={selectedIndex === 6 ? "active" : ""}>
         <p className={styles.subBtn}>
           <img src={asset("/assets/status/ranks.svg")} />
           Ranques

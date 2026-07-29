@@ -224,15 +224,21 @@ export function CharacterProgressProvider({
 
       if (char.stats.points <= 0) return prev;
 
+      const updatedStats = {
+        ...char.stats,
+        [stat]: (char.stats[stat] || 0) + 1,
+        points: char.stats.points - 1,
+      };
+
+      if (stat === "resistance") {
+        updatedStats.tenacity = (char.stats.tenacity || 1) + 1;
+      }
+
       return {
         ...prev,
         [character]: {
           ...char,
-          stats: {
-            ...char.stats,
-            [stat]: (char.stats[stat] || 0) + 1,
-            points: char.stats.points - 1,
-          },
+          stats: updatedStats,
         },
       };
     });

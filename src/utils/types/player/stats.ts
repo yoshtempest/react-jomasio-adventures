@@ -3,7 +3,6 @@ export const STATS = [
   "strength",
   "intelligence",
   "resistance",
-  "tenacity",
   "luck",
 ] as const;
 
