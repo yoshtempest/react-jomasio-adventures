@@ -18,9 +18,10 @@ import { ComboAction } from "@/components/Controls/ComboAction";
 import { useGameAudio } from "@/hooks/game/useGameAudio";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import { TrainingOverlay } from "@/components/Game/Battle/TrainingOverlay";
+import { ProjectileConstants } from "@/data/projectile";
 
 type Props = {
   npcType: string;
@@ -81,8 +82,6 @@ export function BattleScene(props: Props) {
 
   const {
     TILE_SIZE,
-    offsetX,
-    offsetY,
     PLAYER_SIZE,
     MAP_COLS,
     MAP_ROWS,
@@ -91,6 +90,49 @@ export function BattleScene(props: Props) {
   } = useGameLayout();
 
   const { setBattleCollision } = usePlayer();
+
+  const targetBgX = Math.max(
+    0,
+    Math.min((player.x / ProjectileConstants.MAP_WIDTH) * 100, 100),
+  );
+  const targetBgY = Math.max(
+    0,
+    Math.min((player.y / ProjectileConstants.MAP_HEIGHT) * 100, 100),
+  );
+
+  const [bgPosX, setBgPosX] = useState(targetBgX);
+  const [bgPosY, setBgPosY] = useState(targetBgY);
+
+  const bgTargetRef = useRef({ x: targetBgX, y: targetBgY });
+  bgTargetRef.current.x = targetBgX;
+  bgTargetRef.current.y = targetBgY;
+
+  useEffect(() => {
+    const dx = Math.abs(bgPosX - bgTargetRef.current.x);
+    const dy = Math.abs(bgPosY - bgTargetRef.current.y);
+    if (dx < 0.5 && dy < 0.5) {
+      if (bgPosX !== bgTargetRef.current.x || bgPosY !== bgTargetRef.current.y) {
+        setBgPosX(bgTargetRef.current.x);
+        setBgPosY(bgTargetRef.current.y);
+      }
+      return;
+    }
+
+    const id = requestAnimationFrame(() => {
+      setBgPosX((prev) => {
+        const t = bgTargetRef.current.x;
+        const next = prev + (t - prev) * 0.1;
+        return Math.abs(next - t) < 0.5 ? t : next;
+      });
+      setBgPosY((prev) => {
+        const t = bgTargetRef.current.y;
+        const next = prev + (t - prev) * 0.1;
+        return Math.abs(next - t) < 0.5 ? t : next;
+      });
+    });
+
+    return () => cancelAnimationFrame(id);
+  }, [bgPosX, bgPosY, targetBgX, targetBgY]);
 
   useEffect(() => {
     setBattleCollision({
@@ -133,7 +175,15 @@ export function BattleScene(props: Props) {
   return (
     <div
       className={`Master ${className ?? ""}`}
-      style={background ? { backgroundImage: `url(${background})` } : undefined}
+      style={
+        background
+          ? {
+              backgroundImage: `url(${background})`,
+              backgroundSize: "300% 300%",
+              backgroundPosition: `${bgPosX}% ${bgPosY}%`,
+            }
+          : undefined
+      }
     >
       <BattleHUD
         battle={{
@@ -164,8 +214,6 @@ export function BattleScene(props: Props) {
 
       <GameMap
         TILE_SIZE={TILE_SIZE}
-        offsetX={offsetX}
-        offsetY={offsetY}
         cols={MAP_COLS}
         rows={MAP_ROWS}
       >

@@ -71,8 +71,6 @@ function CombatTutorialInner() {
   const {
     TILE_SIZE,
     PLAYER_SIZE,
-    offsetX,
-    offsetY,
     MAP_COLS,
     MAP_ROWS,
     scaleX,
@@ -114,8 +112,6 @@ function CombatTutorialInner() {
 
       <GameMap
         TILE_SIZE={TILE_SIZE}
-        offsetX={offsetX}
-        offsetY={offsetY}
         cols={MAP_COLS}
         rows={MAP_ROWS}
       >
