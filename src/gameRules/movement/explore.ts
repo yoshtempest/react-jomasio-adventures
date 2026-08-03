@@ -1,5 +1,7 @@
 import { canMoveTo } from "@/gameRules/movement/collision";
 
+export const EXPLORE_MOVE_INTERVAL = 300;
+
 function tryMove(
   player: Player,
   map: number[][],

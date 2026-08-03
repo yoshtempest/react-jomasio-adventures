@@ -1,7 +1,5 @@
 import { useRef, useEffect } from "react";
-import { moveExplore } from "@/gameRules/movement/explore";
-
-const EXPLORE_MOVE_INTERVAL = 200;
+import { moveExplore, EXPLORE_MOVE_INTERVAL } from "@/gameRules/movement/explore";
 
 export function usePlayerMovement(
   currentMap: number[][],

@@ -5,6 +5,7 @@ export function useGameLayout() {
   const MAP_COLS = 17;
   const MAP_ROWS = 13;
   const SCALE_FIX = 3;
+  const CAMERA_SMOOTHING = 0.3;
 
   const { player } = usePlayer();
 
@@ -63,12 +64,12 @@ export function useGameLayout() {
     const id = requestAnimationFrame(() => {
       setCameraX((prev) => {
         const t = targetRef.current.x;
-        const next = prev + (t - prev) * 0.1;
+        const next = prev + (t - prev) * CAMERA_SMOOTHING;
         return Math.abs(next - t) < 0.5 ? t : next;
       });
       setCameraY((prev) => {
         const t = targetRef.current.y;
-        const next = prev + (t - prev) * 0.1;
+        const next = prev + (t - prev) * CAMERA_SMOOTHING;
         return Math.abs(next - t) < 0.5 ? t : next;
       });
     });

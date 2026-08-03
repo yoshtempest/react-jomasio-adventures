@@ -1,4 +1,5 @@
 import { asset } from "@/utils/paths";
+import { EXPLORE_MOVE_INTERVAL } from "@/gameRules/movement/explore";
 
 type Props = {
   character: CharacterId;
@@ -44,7 +45,7 @@ export function Player({
         top: gridY * TILE_SIZE,
         transform: `translate(-10%, -20%) scaleX(${direction === "left" ? -1 : 1})`,
         zIndex: 10,
-        transition: "left 0.08s, top 0.08s",
+        transition: `left ${EXPLORE_MOVE_INTERVAL}ms, top ${EXPLORE_MOVE_INTERVAL}ms`,
       }}
     />
   );

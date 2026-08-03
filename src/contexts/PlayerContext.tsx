@@ -9,6 +9,7 @@ import {
 } from "react";
 import { usePlayerMovement } from "@/hooks/player/usePlayerMovement";
 import { useBattleMovement } from "@/hooks/battle/player/useMovement";
+import { EXPLORE_MOVE_INTERVAL } from "@/gameRules/movement/explore";
 import type { CollisionParams } from "@/utils/types/battle/collision";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
@@ -113,7 +114,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       if (movingTimerRef.current) clearTimeout(movingTimerRef.current);
       movingTimerRef.current = setTimeout(() => {
         setPlayer((p) => (p.moving ? { ...p, moving: false } : p));
-      }, 150);
+      }, EXPLORE_MOVE_INTERVAL);
     }
     return () => {
       if (movingTimerRef.current) clearTimeout(movingTimerRef.current);
