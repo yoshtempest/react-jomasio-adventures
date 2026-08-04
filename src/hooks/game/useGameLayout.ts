@@ -30,16 +30,37 @@ export function useGameLayout(map?: number[][], scaleFix = 3) {
   const MAP_WIDTH = MAP_COLS * TILE_SIZE;
   const MAP_HEIGHT = MAP_ROWS * TILE_SIZE;
 
+  const CAMERA_LOOKAHEAD = 0.1;
+
   const playerPixelX = player.gridX * TILE_SIZE;
   const playerPixelY = player.gridY * TILE_SIZE;
 
+  const directionOffsetX =
+    player.direction === "right"
+      ? containerWidth * CAMERA_LOOKAHEAD
+      : player.direction === "left"
+        ? -containerWidth * CAMERA_LOOKAHEAD
+        : 0;
+  const directionOffsetY =
+    player.direction === "down"
+      ? containerHeight * CAMERA_LOOKAHEAD
+      : player.direction === "up"
+        ? -containerHeight * CAMERA_LOOKAHEAD
+        : 0;
+
   const targetX = Math.max(
     0,
-    Math.min(playerPixelX - containerWidth / 2, MAP_WIDTH - containerWidth),
+    Math.min(
+      playerPixelX - containerWidth / 2 + directionOffsetX,
+      MAP_WIDTH - containerWidth,
+    ),
   );
   const targetY = Math.max(
     0,
-    Math.min(playerPixelY - containerHeight / 2, MAP_HEIGHT - containerHeight),
+    Math.min(
+      playerPixelY - containerHeight / 2 + directionOffsetY,
+      MAP_HEIGHT - containerHeight,
+    ),
   );
 
   const [cameraX, setCameraX] = useState(targetX);
