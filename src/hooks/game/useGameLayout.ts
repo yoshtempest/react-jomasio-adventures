@@ -1,10 +1,9 @@
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useState, useEffect, useRef } from "react";
 
-export function useGameLayout() {
+export function useGameLayout(scaleFix = 3) {
   const MAP_COLS = 17;
   const MAP_ROWS = 13;
-  const SCALE_FIX = 3;
   const CAMERA_SMOOTHING = 0.3;
 
   const { player } = usePlayer();
@@ -26,7 +25,7 @@ export function useGameLayout() {
   const containerHeight = dimensions.height;
 
   const TILE_SIZE =
-    Math.min(containerWidth / MAP_COLS, containerHeight / MAP_ROWS) * SCALE_FIX;
+    Math.min(containerWidth / MAP_COLS, containerHeight / MAP_ROWS) * scaleFix;
 
   const MAP_WIDTH = MAP_COLS * TILE_SIZE;
   const MAP_HEIGHT = MAP_ROWS * TILE_SIZE;

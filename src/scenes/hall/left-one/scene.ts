@@ -10,6 +10,7 @@ export const leftOneScene: SceneConfig = {
   id: "left-one",
   background: sceneBackgrounds.HallLeft,
   backgroundSize: "100% 100%",
+  scaleFix: 1.4,
   dialogueData: getHallLeftDialogue,
   map: hallLeft,
   audio: { src: MUSICS.default },

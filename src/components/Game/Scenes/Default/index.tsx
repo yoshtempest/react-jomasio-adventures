@@ -58,9 +58,11 @@ export function ExploreScene({
   npcOverlays,
   background,
   backgroundSize,
+  scaleFix,
 }: ExploreSceneProps & {
   background?: string;
   backgroundSize?: string;
+  scaleFix?: number;
   events?: SceneEvent[];
   setPopup?: (msg: string | null) => void;
   popup?: string | null;
@@ -212,7 +214,7 @@ export function ExploreScene({
   });
 
   const { TILE_SIZE, cameraX, cameraY, PLAYER_SIZE, MAP_COLS, MAP_ROWS } =
-    useGameLayout();
+    useGameLayout(scaleFix);
 
   if (!isReady) return null;
 

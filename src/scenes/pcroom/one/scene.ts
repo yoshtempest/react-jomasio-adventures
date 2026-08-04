@@ -10,6 +10,7 @@ export const oneScene: SceneConfig = {
   id: "one",
   dialogueData: getPcRoomOneDialogue,
   map: pcsRoom,
+  scaleFix: 2.5,
   events: pcRoomOneEvents,
   audio: { src: MUSICS.monkeyCircle },
   npcs: pcRoomOneNpcs,

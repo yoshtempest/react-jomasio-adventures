@@ -8,6 +8,7 @@ export const oneScene: SceneConfig = {
   id: "one",
   background: sceneBackgrounds.HallOne,
   backgroundSize: "100% 100%",
+  scaleFix: 1.4,
   initialPosition: getHallOneInitialPosition,
   map: hallOne,
   audio: { src: MUSICS.default },

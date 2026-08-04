@@ -178,6 +178,7 @@ declare global {
     className?: string;
     lastPage?: LastPage;
     backgroundSize?: string;
+    scaleFix?: number;
   };
 
   type SceneConfig = Omit<ExploreSceneProps, "onInteract" | "className"> & {

@@ -11,6 +11,7 @@ export const pandemonyScene: SceneConfig = {
   id: "pandemony",
   background: sceneBackgrounds.HallPandemony,
   backgroundSize: "100% 100%",
+  scaleFix: 1.4,
   tiles: pandemonyTiles,
   initialPosition: getPandemonyInitialPosition,
   map: hallPandemony,

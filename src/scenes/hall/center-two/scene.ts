@@ -12,6 +12,7 @@ export const centerTwoScene: SceneConfig = {
   id: "center-two",
   background: sceneBackgrounds.HallCenter,
   backgroundSize: "100% 100%",
+  scaleFix: 1.4,
   events: hallCenterTwoEvents,
   dialogueData: getHallCenterDialogue,
   tiles: centerTwoTiles,

@@ -11,6 +11,7 @@ export const jailsonOneScene: SceneConfig = {
   id: "jailson-one",
   background: sceneBackgrounds.HallJailson,
   backgroundSize: "100% 100%",
+  scaleFix: 1.4,
   map: hallJailsonOne,
   tiles: jailsonOneTiles,
   events: jailsonOneEvents,

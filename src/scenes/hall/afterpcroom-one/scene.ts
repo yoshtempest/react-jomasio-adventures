@@ -11,6 +11,7 @@ export const afterPcRoomScene: SceneConfig = {
   id: "afterpcroom-one",
   background: sceneBackgrounds.HallOne,
   backgroundSize: "100% 100%",
+  scaleFix: 1.4,
   dialogueData: getAfterPcRoomOneDialogue,
   map: afterPcRoom,
   audio: { src: MUSICS.default },

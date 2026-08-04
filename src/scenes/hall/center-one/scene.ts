@@ -9,6 +9,7 @@ export const centerOneScene: SceneConfig = {
   id: "center-one",
   background: sceneBackgrounds.HallCenter,
   backgroundSize: "100% 100%",
+  scaleFix: 1.4,
   tiles: centerOneTiles,
   initialPosition: getCenterOneInitialPosition,
   map: hallCenter,
