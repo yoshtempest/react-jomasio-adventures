@@ -224,54 +224,55 @@ export function BattleScene(props: Props) {
         />
       )}
 
-      <GameMap
-        TILE_SIZE={TILE_SIZE}
-        cols={MAP_COLS}
-        rows={MAP_ROWS}
-        cameraX={worldOffsetX}
-        cameraY={worldOffsetY}
-      >
-        {map && <BattleMap map={map} scaleX={scaleX} scaleY={scaleY} />}
-
-        <BattleEntities
-          npc={npc}
-          player={player}
-          battle={battle}
-          npcType={npcType}
-          summons={summons}
-          coffins={coffins}
-          pet={pet}
+      <div className="SceneMap">
+        <GameMap
           TILE_SIZE={TILE_SIZE}
-          PLAYER_SIZE={PLAYER_SIZE}
-          scaleX={scaleX}
-          scaleY={scaleY}
-          grabFlipped={grabFlipped}
-        />
+          cols={MAP_COLS}
+          rows={MAP_ROWS}
+          cameraX={worldOffsetX}
+          cameraY={worldOffsetY}
+        >
+          {map && <BattleMap map={map} scaleX={scaleX} scaleY={scaleY} />}
 
-        <ChargeParticles
-          particles={charge.particles}
-          playerX={player.x}
-          playerY={player.y}
-          chargeReady={charge.chargeReady}
-          isCharging={charge.isCharging}
-        />
+          <BattleEntities
+            npc={npc}
+            player={player}
+            battle={battle}
+            npcType={npcType}
+            summons={summons}
+            coffins={coffins}
+            pet={pet}
+            TILE_SIZE={TILE_SIZE}
+            PLAYER_SIZE={PLAYER_SIZE}
+            scaleX={scaleX}
+            scaleY={scaleY}
+            grabFlipped={grabFlipped}
+          />
 
-        {npc.jumpLandingX != null && (
-          <JumpIndicator
-            landingX={npc.jumpLandingX}
-            groundY={720}
+          <ChargeParticles
+            particles={charge.particles}
+            playerX={player.x}
+            playerY={player.y}
+            chargeReady={charge.chargeReady}
+            isCharging={charge.isCharging}
+          />
+
+          {npc.jumpLandingX != null && (
+            <JumpIndicator
+              landingX={npc.jumpLandingX}
+              groundY={720}
+              scaleX={scaleX}
+              scaleY={scaleY}
+            />
+          )}
+
+          <DamageNumbers
+            numbers={battle.damageNumbers}
             scaleX={scaleX}
             scaleY={scaleY}
           />
-        )}
-
-        <DamageNumbers
-          numbers={battle.damageNumbers}
-          scaleX={scaleX}
-          scaleY={scaleY}
-        />
-      </GameMap>
-
+        </GameMap>
+      </div>
       {showOutro && !isTraining && (
         <BattleOutro
           character={player.character}
