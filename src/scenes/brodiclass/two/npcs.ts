@@ -2,5 +2,5 @@ import { createNpc } from "@/scenes/shared/factories";
 
 export const cantinaOneNpcs = [
   createNpc("/assets/npcs/jhowsimar/default.svg", 9, 4),
-  createNpc("/assets/npcs/brothers/default.svg", 15, 3),
+  createNpc("/assets/npcs/brothers/default.svg", 18, 3),
 ];

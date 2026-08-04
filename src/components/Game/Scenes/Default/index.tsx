@@ -214,7 +214,7 @@ export function ExploreScene({
   });
 
   const { TILE_SIZE, cameraX, cameraY, PLAYER_SIZE, MAP_COLS, MAP_ROWS } =
-    useGameLayout(scaleFix);
+    useGameLayout(map, scaleFix);
 
   if (!isReady) return null;
 

@@ -81,7 +81,7 @@ export function CantinaScene({ sceneId }: Props) {
         popup={popup}
         setPopup={setPopup}
         tileDialogues={{
-          "15,3": cantinaBrothersDialogue,
+          "19,3": cantinaBrothersDialogue,
         }}
         npcOverlays={
           sceneId === "two"

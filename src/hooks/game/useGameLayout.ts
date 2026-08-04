@@ -1,9 +1,9 @@
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useState, useEffect, useRef } from "react";
 
-export function useGameLayout(scaleFix = 3) {
-  const MAP_COLS = 17;
-  const MAP_ROWS = 13;
+export function useGameLayout(map?: number[][], scaleFix = 3) {
+  const MAP_COLS = map?.[0]?.length ?? 17;
+  const MAP_ROWS = map?.length ?? 13;
   const CAMERA_SMOOTHING = 0.3;
 
   const { player } = usePlayer();
