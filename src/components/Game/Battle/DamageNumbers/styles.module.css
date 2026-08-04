@@ -1,5 +1,6 @@
 .number {
   position: absolute;
+  translate: 0%;
   font-weight: bold;
   font-size: var(--low-medium);
   pointer-events: none;

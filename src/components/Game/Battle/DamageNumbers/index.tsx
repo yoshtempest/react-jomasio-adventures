@@ -1,10 +1,15 @@
 import styles from "./styles.module.css";
 import type { DamageNumber } from "@/hooks/battle/damage/useNumbers";
+import type { DamageTarget } from "@/utils/battle/findDamageTarget";
+import { findDamageTarget } from "@/utils/battle/findDamageTarget";
+
+export type { DamageTarget } from "@/utils/battle/findDamageTarget";
 
 type Props = {
   numbers: DamageNumber[];
   scaleX: number;
   scaleY: number;
+  targets: DamageTarget[];
 };
 
 const TYPE_CLASS: Record<string, string> = {
@@ -19,27 +24,33 @@ const TYPE_CLASS: Record<string, string> = {
   miss: styles.miss,
 };
 
-export function DamageNumbers({ numbers, scaleX, scaleY }: Props) {
+const HEAD_GAP = 8;
+
+export function DamageNumbers({ numbers, scaleX, scaleY, targets }: Props) {
   return (
     <>
-      {numbers.map((n) => (
-        <div
-          key={n.id}
-          className={`${styles.number} ${TYPE_CLASS[n.type] ?? styles.npc}`}
-          style={{
-            left: n.x * scaleX,
-            top: n.y * scaleY - 80,
-          }}
-        >
-          {n.type === "blocked"
-            ? "BLOCKED!"
-            : n.type === "miss"
-              ? "MISS!"
-              : n.value > 0
-                ? `-${n.value}`
-                : "0"}
-        </div>
-      ))}
+      {numbers.map((n) => {
+        const target = findDamageTarget(n.x, n.y, targets);
+        const headOffset = target ? target.h + HEAD_GAP : 80;
+        return (
+          <div
+            key={n.id}
+            className={`${styles.number} ${TYPE_CLASS[n.type] ?? styles.npc}`}
+            style={{
+              left: n.x * scaleX,
+              top: n.y * scaleY - headOffset,
+            }}
+          >
+            {n.type === "blocked"
+              ? "BLOCKED!"
+              : n.type === "miss"
+                ? "MISS!"
+                : n.value > 0
+                  ? `-${n.value}`
+                  : "0"}
+          </div>
+        );
+      })}
     </>
   );
 }

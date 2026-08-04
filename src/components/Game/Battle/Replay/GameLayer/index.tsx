@@ -38,7 +38,12 @@ export function ReplayGameLayer({ replay, frame, layout }: Props) {
 
       <ReplayPlayerSprite frame={frame} playerSize={layout.PLAYER} />
 
-      <ReplayDamageNumbers damage={frame.dmg} />
+      <ReplayDamageNumbers
+        damage={frame.dmg}
+        frame={frame}
+        npcType={replay.npcType}
+        layout={layout}
+      />
 
       <ComboDisplay
         count={frame.cc}

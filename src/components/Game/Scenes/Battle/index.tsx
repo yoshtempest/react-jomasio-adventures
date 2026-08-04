@@ -23,6 +23,7 @@ import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import { TrainingOverlay } from "@/components/Game/Battle/TrainingOverlay";
 import { ProjectileConstants } from "@/data/projectile";
 import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
+import { getBossSizeMultiplier } from "@/utils/npc/getSpritePath";
 
 type Props = {
   npcType: string;
@@ -118,6 +119,25 @@ export function BattleScene(props: Props) {
 
   const worldOffsetX = (containerWidth * 0.5 * (bgPosX - initialBgPosRef.current.x)) / 100;
   const worldOffsetY = (containerHeight * 0.5 * (bgPosY - initialBgPosRef.current.y)) / 100;
+
+  const battleScaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;
+
+  const damageTargets = [
+    { x: player.x, y: player.y, h: PLAYER_SIZE / 1.5 },
+    {
+      x: npc.x,
+      y: npc.y,
+      h: TILE_SIZE * getBossSizeMultiplier(npcType, battle.npcPhase),
+    },
+    ...(pet
+      ? [{ x: pet.x, y: pet.y, h: TILE_SIZE * getBossSizeMultiplier(pet.npcType) }]
+      : []),
+    ...summons.map((s) => ({
+      x: s.x,
+      y: s.y,
+      h: TILE_SIZE * getBossSizeMultiplier(s.npcType),
+    })),
+  ];
 
   useEffect(() => {
     const dx = Math.abs(bgPosX - bgTargetRef.current.x);
@@ -269,7 +289,8 @@ export function BattleScene(props: Props) {
           <DamageNumbers
             numbers={battle.damageNumbers}
             scaleX={scaleX}
-            scaleY={scaleY}
+            scaleY={battleScaleY}
+            targets={damageTargets}
           />
         </GameMap>
       </div>
