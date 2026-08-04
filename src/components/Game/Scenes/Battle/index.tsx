@@ -120,6 +120,7 @@ export function BattleScene(props: Props) {
   const worldOffsetX = (containerWidth * 0.5 * (bgPosX - initialBgPosRef.current.x)) / 100;
   const worldOffsetY = (containerHeight * 0.5 * (bgPosY - initialBgPosRef.current.y)) / 100;
 
+  const battleScaleX = window.innerWidth / ProjectileConstants.MAP_WIDTH;
   const battleScaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;
 
   const damageTargets = [
@@ -288,7 +289,7 @@ export function BattleScene(props: Props) {
 
           <DamageNumbers
             numbers={battle.damageNumbers}
-            scaleX={scaleX}
+            scaleX={battleScaleX}
             scaleY={battleScaleY}
             targets={damageTargets}
           />

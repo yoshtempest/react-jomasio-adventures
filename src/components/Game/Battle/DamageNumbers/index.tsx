@@ -39,6 +39,7 @@ export function DamageNumbers({ numbers, scaleX, scaleY, targets }: Props) {
             style={{
               left: n.x * scaleX,
               top: n.y * scaleY - headOffset,
+              translate: "-50% 0",
             }}
           >
             {n.type === "blocked"
