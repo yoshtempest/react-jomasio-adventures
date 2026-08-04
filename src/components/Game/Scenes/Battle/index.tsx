@@ -22,6 +22,7 @@ import { useEffect, useRef, useState } from "react";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import { TrainingOverlay } from "@/components/Game/Battle/TrainingOverlay";
 import { ProjectileConstants } from "@/data/projectile";
+import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
 
 type Props = {
   npcType: string;
@@ -106,6 +107,17 @@ export function BattleScene(props: Props) {
   const bgTargetRef = useRef({ x: targetBgX, y: targetBgY });
   bgTargetRef.current.x = targetBgX;
   bgTargetRef.current.y = targetBgY;
+
+  const initialBgPosRef = useRef({
+    x: (BATTLE_SPAWN.player.x / ProjectileConstants.MAP_WIDTH) * 100,
+    y: (BATTLE_SPAWN.player.y / ProjectileConstants.MAP_HEIGHT) * 100,
+  });
+
+  const containerWidth = window.innerWidth * 0.74;
+  const containerHeight = window.innerHeight;
+
+  const worldOffsetX = (containerWidth * 0.5 * (bgPosX - initialBgPosRef.current.x)) / 100;
+  const worldOffsetY = (containerHeight * 0.5 * (bgPosY - initialBgPosRef.current.y)) / 100;
 
   useEffect(() => {
     const dx = Math.abs(bgPosX - bgTargetRef.current.x);
@@ -216,6 +228,8 @@ export function BattleScene(props: Props) {
         TILE_SIZE={TILE_SIZE}
         cols={MAP_COLS}
         rows={MAP_ROWS}
+        cameraX={worldOffsetX}
+        cameraY={worldOffsetY}
       >
         {map && <BattleMap map={map} scaleX={scaleX} scaleY={scaleY} />}
 
