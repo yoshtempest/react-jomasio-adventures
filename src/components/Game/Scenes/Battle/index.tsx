@@ -93,9 +93,21 @@ export function BattleScene(props: Props) {
 
   const { setBattleCollision } = usePlayer();
 
+  const containerWidth = window.innerWidth * 0.74;
+  const containerHeight = window.innerHeight;
+
+  const initialBgPosRef = useRef({
+    x: (BATTLE_SPAWN.player.x / ProjectileConstants.MAP_WIDTH) * 100,
+    y: (BATTLE_SPAWN.player.y / ProjectileConstants.MAP_HEIGHT) * 100,
+  });
+
+  const maxOffsetX = window.innerWidth - containerWidth;
+  const bgXMin = initialBgPosRef.current.x;
+  const bgXMax = initialBgPosRef.current.x + (maxOffsetX * 200) / containerWidth;
+
   const targetBgX = Math.max(
-    0,
-    Math.min((player.x / ProjectileConstants.MAP_WIDTH) * 100, 100),
+    bgXMin,
+    Math.min((player.x / ProjectileConstants.MAP_WIDTH) * 100, bgXMax),
   );
   const targetBgY = Math.max(
     0,
@@ -108,14 +120,6 @@ export function BattleScene(props: Props) {
   const bgTargetRef = useRef({ x: targetBgX, y: targetBgY });
   bgTargetRef.current.x = targetBgX;
   bgTargetRef.current.y = targetBgY;
-
-  const initialBgPosRef = useRef({
-    x: (BATTLE_SPAWN.player.x / ProjectileConstants.MAP_WIDTH) * 100,
-    y: (BATTLE_SPAWN.player.y / ProjectileConstants.MAP_HEIGHT) * 100,
-  });
-
-  const containerWidth = window.innerWidth * 0.74;
-  const containerHeight = window.innerHeight;
 
   const worldOffsetX = (containerWidth * 0.5 * (bgPosX - initialBgPosRef.current.x)) / 100;
   const worldOffsetY = (containerHeight * 0.5 * (bgPosY - initialBgPosRef.current.y)) / 100;
