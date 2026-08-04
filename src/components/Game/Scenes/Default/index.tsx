@@ -57,8 +57,10 @@ export function ExploreScene({
   tileDialogues,
   npcOverlays,
   background,
+  backgroundSize,
 }: ExploreSceneProps & {
   background?: string;
+  backgroundSize?: string;
   events?: SceneEvent[];
   setPopup?: (msg: string | null) => void;
   popup?: string | null;
@@ -223,6 +225,7 @@ export function ExploreScene({
         cameraX={cameraX}
         cameraY={cameraY}
         backgroundUrl={background}
+        backgroundSize={backgroundSize}
       >
         {npcs.map((npc) => (
           <NPC

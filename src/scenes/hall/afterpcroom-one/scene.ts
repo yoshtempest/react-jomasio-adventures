@@ -10,6 +10,7 @@ import { sceneBackgrounds } from "@/data/scene/background";
 export const afterPcRoomScene: SceneConfig = {
   id: "afterpcroom-one",
   background: sceneBackgrounds.HallOne,
+  backgroundSize: "100% 100%",
   dialogueData: getAfterPcRoomOneDialogue,
   map: afterPcRoom,
   audio: { src: MUSICS.default },

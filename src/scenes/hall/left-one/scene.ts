@@ -9,6 +9,7 @@ import { sceneBackgrounds } from "@/data/scene/background";
 export const leftOneScene: SceneConfig = {
   id: "left-one",
   background: sceneBackgrounds.HallLeft,
+  backgroundSize: "100% 100%",
   dialogueData: getHallLeftDialogue,
   map: hallLeft,
   audio: { src: MUSICS.default },

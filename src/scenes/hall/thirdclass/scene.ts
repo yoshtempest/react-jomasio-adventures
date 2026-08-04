@@ -7,6 +7,7 @@ import { sceneBackgrounds } from "@/data/scene/background";
 export const thirdClassScene: SceneConfig = {
   id: "thirdclass",
   background: sceneBackgrounds.HallThirdClass,
+  backgroundSize: "100% 100%",
   initialPosition: getThirdClassInitialPosition,
   map: hallThirdClass,
   audio: { src: MUSICS.default },

@@ -9,6 +9,7 @@ import { sceneBackgrounds } from "@/data/scene/background";
 export const centerFrontScene: SceneConfig = {
   id: "center-front",
   background: sceneBackgrounds.HallCenterFront,
+  backgroundSize: "100% 100%",
   dialogueData: getCenterFrontDialogue,
   map: hallCenterFront,
   npcs: centerFrontNpcs,

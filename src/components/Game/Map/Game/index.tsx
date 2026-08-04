@@ -6,6 +6,7 @@ type Props = {
   cameraX?: number;
   cameraY?: number;
   backgroundUrl?: string;
+  backgroundSize?: string;
 };
 
 export function GameMap({
@@ -16,6 +17,7 @@ export function GameMap({
   cameraX = 0,
   cameraY = 0,
   backgroundUrl,
+  backgroundSize = "cover",
 }: Props) {
   return (
     <div
@@ -27,7 +29,7 @@ export function GameMap({
         height: rows * TILE_SIZE,
         transform: `translate(${-cameraX}px, ${-cameraY}px)`,
         backgroundImage: backgroundUrl ? `url(${backgroundUrl})` : undefined,
-        backgroundSize: "cover",
+        backgroundSize,
         backgroundRepeat: "no-repeat",
       }}
     >

@@ -10,6 +10,7 @@ import { sceneBackgrounds } from "@/data/scene/background";
 export const pandemonyScene: SceneConfig = {
   id: "pandemony",
   background: sceneBackgrounds.HallPandemony,
+  backgroundSize: "100% 100%",
   tiles: pandemonyTiles,
   initialPosition: getPandemonyInitialPosition,
   map: hallPandemony,

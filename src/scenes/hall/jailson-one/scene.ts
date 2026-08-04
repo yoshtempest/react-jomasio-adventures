@@ -10,6 +10,7 @@ import { sceneBackgrounds } from "@/data/scene/background";
 export const jailsonOneScene: SceneConfig = {
   id: "jailson-one",
   background: sceneBackgrounds.HallJailson,
+  backgroundSize: "100% 100%",
   map: hallJailsonOne,
   tiles: jailsonOneTiles,
   events: jailsonOneEvents,

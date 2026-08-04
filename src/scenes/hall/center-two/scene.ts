@@ -11,6 +11,7 @@ import { sceneBackgrounds } from "@/data/scene/background";
 export const centerTwoScene: SceneConfig = {
   id: "center-two",
   background: sceneBackgrounds.HallCenter,
+  backgroundSize: "100% 100%",
   events: hallCenterTwoEvents,
   dialogueData: getHallCenterDialogue,
   tiles: centerTwoTiles,
