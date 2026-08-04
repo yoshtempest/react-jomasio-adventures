@@ -179,7 +179,7 @@ export function BattleScene(props: Props) {
         background
           ? {
               backgroundImage: `url(${background})`,
-              backgroundSize: "300% 300%",
+              backgroundSize: "150% 150%",
               backgroundPosition: `${bgPosX}% ${bgPosY}%`,
             }
           : undefined
