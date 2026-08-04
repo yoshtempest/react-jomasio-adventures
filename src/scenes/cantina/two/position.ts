@@ -6,7 +6,7 @@ export function getCantinaTwoInitialPosition(
   }
 
   if (lastPage === "/hall/center-one") {
-    return { x: 2, y: 4, direction: "down" };
+    return { x: 2, y: 3, direction: "down" };
   }
   if (lastPage?.startsWith("/cafeteria")) {
     return { x: 6, y: 3, direction: "down" };

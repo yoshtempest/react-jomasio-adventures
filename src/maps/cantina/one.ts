@@ -1,5 +1,5 @@
 /* 
-layout = 17x14
+layout = 17x13
 floor = 0
 wall = 1
 npc = 2

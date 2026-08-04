@@ -77,7 +77,7 @@ export function CantinaScene({ sceneId }: Props) {
         className="Cantina"
         background={sceneBackgrounds.Cantina}
         interactions={interactions}
-        itemPickupTiles={[{ x: 13, y: 4, visible: !gotKey }]}
+        itemPickupTiles={[{ x: 15, y: 5, visible: !gotKey }]}
         popup={popup}
         setPopup={setPopup}
         tileDialogues={{
@@ -85,7 +85,7 @@ export function CantinaScene({ sceneId }: Props) {
         }}
         npcOverlays={
           sceneId === "two"
-            ? [{ gridX: 9, gridY: 4, element: <JesoFoodBadge /> }]
+            ? [{ gridX: 10, gridY: 3, element: <JesoFoodBadge /> }]
             : undefined
         }
       />

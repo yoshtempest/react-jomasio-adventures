@@ -10,7 +10,7 @@ import {
 import { hasAnyQuest, hasQuest } from "@/scenes/shared/helpers";
 
 export const cantinaTwoTiles = [
-  createDoorTile(2, 3, HALL_ROUTES.CENTER_ONE),
+  createDoorTile(2, 2, HALL_ROUTES.CENTER_ONE),
   createConditionalTile(
     10,
     3,
@@ -25,8 +25,8 @@ export const cantinaTwoTiles = [
     },
   ),
   createConditionalTile(
-    6,
-    2,
+    7,
+    3,
     (_player, quests) => {
       if (hasQuest(quests, "denis_sausage")) {
         return CAFETERIA_ROUTES.FOUR;
@@ -39,7 +39,7 @@ export const cantinaTwoTiles = [
       blockedMessage: "Porta trancada",
     },
   ),
-  createConditionalTile(15, 11, (_player, quests) => {
+  createConditionalTile(17, 12, (_player, quests) => {
     if (
       hasAnyQuest(quests, [
         "encounter_deise",
