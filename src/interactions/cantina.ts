@@ -4,7 +4,7 @@ import type { PickupDeps } from "@/utils/types/interaction";
 
 export function createCantina(deps: PickupDeps) {
   return createInteractionMap(cantinaMessages, deps, {
-    "13,4": createPickupHandler({
+    "16,3": createPickupHandler({
       item: { id: "orange_juice" },
       flagId: "picked_orange_juice",
       pickupMessage: "Que delícia! um suco de laranja",

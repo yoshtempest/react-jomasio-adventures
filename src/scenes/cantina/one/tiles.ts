@@ -9,7 +9,7 @@ import { hasQuest } from "@/scenes/shared/helpers";
 export const cantinaOneTiles = [
   createConditionalTile(
     2,
-    4,
+    3,
     (_player, quests) => {
       if (hasQuest(quests, "explore_jorjao")) {
         return HALL_ROUTES.CENTER_ONE;
@@ -21,8 +21,21 @@ export const cantinaOneTiles = [
     },
   ),
   createConditionalTile(
-    10,
+    1,
     3,
+    (_player, quests) => {
+      if (hasQuest(quests, "explore_jorjao")) {
+        return HALL_ROUTES.CENTER_ONE;
+      }
+      return null;
+    },
+    {
+      blockedMessage: "Passagem bloqueada",
+    },
+  ),
+  createConditionalTile(
+    11,
+    2,
     (_player, quests) => {
       if (hasQuest(quests, "director_escape")) {
         return DIRECTOR_ROUTES.TWO;
@@ -34,7 +47,7 @@ export const cantinaOneTiles = [
     },
   ),
   createConditionalTile(
-    6,
+    7,
     3,
     (_player, quests) => {
       if (hasQuest(quests, "denis_sausage")) {
