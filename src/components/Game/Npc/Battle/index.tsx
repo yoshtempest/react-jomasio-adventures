@@ -1,4 +1,4 @@
-import { asset } from "@/utils/paths";
+import { npcPath } from "@/utils/paths";
 import {
   getSpritePath,
   getBossSizeMultiplier,
@@ -66,7 +66,7 @@ export function NPCBattle({
 
   const basePath = getSpritePath(npcType, state, npcPhase);
 
-  const src = isExploding ? asset("assets/npcs/explosion.svg") : `${basePath}`;
+  const src = isExploding ? npcPath("/explosion.svg") : `${basePath}`;
 
   return (
     <div
@@ -98,7 +98,7 @@ export function NPCBattle({
       {piercings.map((p) => (
         <img
           key={p.id}
-          src={asset("assets/npcs/piercing.svg")}
+          src={npcPath("/piercing.svg")}
           style={{
             position: "absolute",
             width: TILE_SIZE * 0.4,

@@ -1,4 +1,4 @@
-import { asset } from "@/utils/paths";
+import { playerPath } from "@/utils/paths";
 import { EXPLORE_MOVE_INTERVAL } from "@/gameRules/movement/explore";
 
 type Props = {
@@ -28,10 +28,10 @@ export function Player({
     : spriteDirection;
 
   const spritePath = hasPeru
-    ? `assets/player/${character}/movement/withPeru/${spriteName}.svg`
-    : `assets/player/${character}/movement/${spriteName}.svg`;
+    ? `/${character}/movement/withPeru/${spriteName}.svg`
+    : `/${character}/movement/${spriteName}.svg`;
 
-  const src = asset(spritePath);
+  const src = playerPath(spritePath);
 
   return (
     <img

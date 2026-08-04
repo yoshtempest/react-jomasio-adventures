@@ -1,4 +1,4 @@
-import { asset } from "@/utils/paths";
+import { npcPath } from "@/utils/paths";
 import { NPCBattle } from "@/components/Game/Npc/Battle";
 import { ProjectileSprite } from "@/components/Game/Battle/Projectile";
 import { PlayerBattle } from "@/components/Game/Player/Battle";
@@ -69,8 +69,8 @@ export function BattleEntities({
       {coffins.map((c) => {
         const coffinSrc =
           c.phase === "closed"
-            ? asset("assets/npcs/hungryKing/coffin.svg")
-            : asset("assets/npcs/hungryKing/coffinOpen.svg");
+            ? npcPath("/hungryKing/coffin.svg")
+            : npcPath("/hungryKing/coffinOpen.svg");
 
         return (
           <div
