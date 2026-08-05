@@ -6,12 +6,18 @@ import { usePetProgress } from "@/contexts/PetProgressContext";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { PETS } from "@/data/equipment/pets";
+import { PET_DROPS } from "@/data/characters/petDrops";
 import type { EquipmentRank } from "@/utils/types/player/equipment";
 import {
   PET_STAR_MAX,
   getPetBaseDamage,
   getPetMaxHp,
 } from "@/data/characters/petProgress";
+import {
+  circularNext,
+  circularPrev,
+  gridMove,
+} from "@/gameRules/menu/navigation";
 
 export type PetEntry = {
   id: string;
@@ -19,6 +25,9 @@ export type PetEntry = {
   rank: EquipmentRank;
   owned: boolean;
   qtyByStar: number[];
+  dropNpc: string | null;
+  dropLabel: string | null;
+  dropChance: number | null;
 };
 
 function parseCollectionKey(key: string): { id: string; enhance: number } {
@@ -46,6 +55,7 @@ export function usePetsMenu(
   const equippedInfo = getEquippedInfo(character, "pet");
 
   const pets: PetEntry[] = PETS.map((pet) => {
+    const dropInfo = PET_DROPS[pet.id];
     const qtyByStar: number[] = Array(PET_STAR_MAX).fill(0);
     for (const [key, qty] of Object.entries(collection)) {
       const { id, enhance } = parseCollectionKey(key);
@@ -55,14 +65,22 @@ export function usePetsMenu(
     }
     const owned =
       qtyByStar.some((qty) => qty > 0) || equippedInfo?.id === pet.id;
-    return { id: pet.id, name: pet.name, rank: pet.rank, owned, qtyByStar };
+    return {
+      id: pet.id,
+      name: pet.name,
+      rank: pet.rank,
+      owned,
+      qtyByStar,
+      dropNpc: dropInfo?.npcType ?? null,
+      dropLabel: dropInfo?.npcLabel ?? null,
+      dropChance: dropInfo?.chance ?? null,
+    };
   });
 
   const ownedPets = pets.filter((pet) => pet.owned);
 
   const [selectedIndex, setSelectedIndex] = useState(0);
   const selectedIndexRef = useRef(selectedIndex);
-  const [activeStars, setActiveStars] = useState<Record<string, number>>({});
   const [pendingStar, setPendingStar] = useState(0);
 
   useEffect(() => {
@@ -81,20 +99,23 @@ export function usePetsMenu(
   }, [ownedPets.length]);
 
   useEffect(() => {
-    if (!listRef?.current) return;
-    const selectedElement = listRef.current.children[
-      selectedIndex
-    ] as HTMLElement | undefined;
+    if (!isOpen || !listRef?.current) return;
+    const container = listRef.current;
+    const selectedOwned = ownedPets[selectedIndex];
+    if (!selectedOwned) return;
+    const petsIndex = pets.findIndex((pet) => pet.id === selectedOwned.id);
+    const selectedElement = container.children[petsIndex] as
+      | HTMLElement
+      | undefined;
     if (!selectedElement) return;
     selectedElement.scrollIntoView({ behavior: "smooth", block: "nearest" });
-  }, [selectedIndex, listRef]);
+  }, [isOpen, selectedIndex, ownedPets, pets, listRef]);
 
-  function ownedStars(entry: PetEntry): number[] {
-    const stars: number[] = [];
-    for (let s = 1; s <= PET_STAR_MAX; s++) {
-      if (entry.qtyByStar[s - 1] > 0) stars.push(s);
+  function maxOwnedStar(entry: PetEntry): number {
+    for (let s = PET_STAR_MAX; s >= 1; s--) {
+      if (entry.qtyByStar[s - 1] > 0) return s;
     }
-    return stars;
+    return 0;
   }
 
   function highestEligibleStar(entry: PetEntry): number {
@@ -102,27 +123,6 @@ export function usePetsMenu(
       if (entry.qtyByStar[s - 1] >= 2) return s;
     }
     return 0;
-  }
-
-  function activeStar(entry: PetEntry): number {
-    const saved = activeStars[entry.id];
-    const owned = ownedStars(entry);
-    if (saved && owned.includes(saved)) return saved;
-    const eligible = highestEligibleStar(entry);
-    if (eligible > 0) return eligible;
-    return owned.length > 0 ? owned[owned.length - 1] : 1;
-  }
-
-  function cycleStar(direction: 1 | -1) {
-    const entry = ownedPets[selectedIndexRef.current];
-    if (!entry) return;
-    const owned = ownedStars(entry);
-    if (owned.length <= 1) return;
-    const current = activeStar(entry);
-    const index = owned.indexOf(current);
-    const next = (index + direction + owned.length) % owned.length;
-    playMove();
-    setActiveStars((prev) => ({ ...prev, [entry.id]: owned[next] }));
   }
 
   const playMoveRef = useRef(playMove);
@@ -147,8 +147,8 @@ export function usePetsMenu(
   ownedPetsRef.current = ownedPets;
   const pendingStarRef = useRef(pendingStar);
   pendingStarRef.current = pendingStar;
-  const activeStarRef = useRef(activeStar);
-  activeStarRef.current = activeStar;
+  const highestEligibleStarRef = useRef(highestEligibleStar);
+  highestEligibleStarRef.current = highestEligibleStar;
 
   function executeFuse(entry: PetEntry, stars: number) {
     const ok = fusePetsRef.current(characterRef.current, entry.id, stars);
@@ -165,8 +165,8 @@ export function usePetsMenu(
   confirmRef.current = () => {
     const entry = ownedPetsRef.current[selectedIndexRef.current];
     if (!entry) return true;
-    const stars = activeStarRef.current(entry);
-    if (stars < 1 || stars >= PET_STAR_MAX) return true;
+    const stars = highestEligibleStarRef.current(entry);
+    if (stars < 1) return true;
 
     if (pendingStarRef.current !== 0) {
       executeFuse(entry, stars);
@@ -189,27 +189,36 @@ export function usePetsMenu(
     return false;
   };
 
-  const cycleStarRef = useRef(cycleStar);
-  cycleStarRef.current = cycleStar;
-
   useEffect(() => {
     if (!isOpen) return;
 
     const controls = {
-      onUp: () => {
+      onRight: () => {
+        if (ownedPetsRef.current.length === 0) return;
         playMoveRef.current();
         setSelectedIndex((prev) =>
-          prev > 0 ? prev - 1 : ownedPetsRef.current.length - 1,
+          circularNext(prev, ownedPetsRef.current.length),
+        );
+      },
+      onLeft: () => {
+        if (ownedPetsRef.current.length === 0) return;
+        playMoveRef.current();
+        setSelectedIndex((prev) =>
+          circularPrev(prev, ownedPetsRef.current.length),
         );
       },
       onDown: () => {
         playMoveRef.current();
         setSelectedIndex((prev) =>
-          prev < ownedPetsRef.current.length - 1 ? prev + 1 : 0,
+          gridMove(prev, 2, "down", ownedPetsRef.current.length),
         );
       },
-      onLeft: () => cycleStarRef.current(-1),
-      onRight: () => cycleStarRef.current(1),
+      onUp: () => {
+        playMoveRef.current();
+        setSelectedIndex((prev) =>
+          gridMove(prev, 2, "up", ownedPetsRef.current.length),
+        );
+      },
       onConfirm: () => confirmRef.current(),
       onCancel: () => cancelRef.current(),
       blockGlobalOpen: true,
@@ -225,12 +234,11 @@ export function usePetsMenu(
     equippedId: equippedInfo?.id ?? null,
     selectedIndex,
     pendingStar,
-    getProgress: getPetProgress,
-    activeStar,
-    ownedStars,
+    maxOwnedStar,
     highestEligibleStar,
     statsFor: (entry: PetEntry) => {
-      const stars = activeStar(entry);
+      const stars = maxOwnedStar(entry);
+      if (stars < 1) return null;
       const progress = getPetProgress(entry.id, stars);
       return {
         stars,

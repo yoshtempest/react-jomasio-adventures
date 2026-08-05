@@ -1,25 +1,26 @@
-.container {
-  max-height: 80vh;
-  width: 80%;
-  display: flex;
-  flex-direction: column;
-  gap: var(--fs-8);
-  padding: var(--fs-8);
+.petsContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  overflow-y: auto;
 }
 
-.emptyText {
-  font-size: var(--fs-12);
-  color: var(--text-muted);
-}
-
-.petCard {
+.pet {
   display: flex;
-  flex-direction: column;
-  gap: var(--fs-8);
-  padding: var(--fs-8);
-  border-radius: var(--size-4);
-  border: var(--size-1) solid var(--border-default);
+  flex-direction: row;
+  gap: 2vw;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  width: 99.2%;
+  height: 30vh;
+  border: var(--size-2) solid var(--primary-color);
+  border-radius: var(--fs-16);
   background: var(--surface-primary);
+}
+
+.pet h2,
+.pet p {
+  margin-top: 0;
 }
 
 .equipped {
@@ -28,19 +29,16 @@
 }
 
 .selected {
-  outline: var(--size-2) solid var(--text-color);
-  outline-offset: var(--size-2);
+  border: var(--size-2) solid var(--accent-color);
 }
 
-.cardTop {
-  display: flex;
-  align-items: center;
-  gap: var(--fs-8);
+.cursor {
+  margin-top: var(--fs-10);
 }
 
 .imageBox {
-  width: var(--fs-32);
-  height: var(--fs-32);
+  height: 80%;
+  width: 30%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -48,36 +46,47 @@
 }
 
 .petImage {
-  width: 100%;
-  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
 }
 
-.info {
-  flex: 1;
+.petLocked {
+  border-color: var(--border-default);
+  opacity: 0.6;
+}
+
+.petLocked .petImage {
+  filter: brightness(0.15);
+}
+
+.flexColumn {
+  margin-top: 8%;
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--size-4);
-}
-
-.nameRow {
-  display: flex;
-  align-items: center;
-  gap: var(--size-6);
+  gap: var(--fs-6);
 }
 
 .name {
   font-weight: bold;
   font-size: var(--fs-14);
+  text-wrap: nowrap;
 }
 
 .rankLabel {
   font-size: var(--fs-10);
+  font-weight: bold;
+}
+
+.dropLine {
+  font-size: var(--fs-11);
+  color: var(--text-secondary);
 }
 
 .starsRow {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--size-4);
 }
 
@@ -89,15 +98,6 @@
   border-radius: var(--size-3);
   border: var(--size-1) solid var(--border-default);
   background: var(--surface-secondary);
-}
-
-.starChipActive {
-  border-color: var(--accent-color);
-}
-
-.starChipEligible {
-  border-color: var(--success);
-  background: rgba(34, 197, 94, 0.15);
 }
 
 .starFilled {
@@ -120,14 +120,8 @@
   color: var(--text-secondary);
 }
 
-.cardBottom {
-  display: flex;
-  align-items: center;
-  gap: var(--fs-8);
-  min-height: var(--fs-14);
-}
-
 .fuseBadge {
+  align-self: flex-start;
   font-size: var(--fs-10);
   padding: var(--size-2) var(--size-6);
   border-radius: var(--size-3);
@@ -141,6 +135,7 @@
 }
 
 .equippedBadge {
+  align-self: flex-start;
   font-size: var(--fs-10);
   padding: var(--size-2) var(--size-6);
   border-radius: var(--size-3);
@@ -149,7 +144,15 @@
   font-weight: bold;
 }
 
-.hint {
-  font-size: var(--fs-10);
-  color: var(--text-hint);
+@media (orientation: portrait) {
+  .name {
+    font-weight: 400;
+    font-size: var(--fs-8);
+  }
+
+  .rankLabel,
+  .dropLine,
+  .statsLine {
+    font-size: var(--fs-8);
+  }
 }

@@ -1,5 +1,6 @@
 import { rollSlotDrop } from "@/data/equipment/drops";
 import { getEquipmentBySlotAndRank, getEquipmentById } from "@/data/equipment";
+import { PET_DROPS } from "@/data/characters/petDrops";
 import { rollCraftDrops, CRAFT_MATERIALS } from "@/data/items/crafting";
 import { ITEMS } from "@/data/items";
 import { rollCardDrop, NPC_CARDS } from "@/data/npc/cards";
@@ -107,26 +108,30 @@ export function rollKeyDrop(
   return { id: def.id, name: def.name };
 }
 
-export function rollPetGoat(
+export function rollPetDrop(
   npcType: string,
   addDrop: (character: CharacterId, id: EquipmentId, enhance?: number) => void,
   character: CharacterId,
 ): EquipmentDropInfo | null {
-  if (!npcType.startsWith("goat")) return null;
-  if (Math.random() >= 0.01) return null;
+  for (const [petId, info] of Object.entries(PET_DROPS)) {
+    if (!npcType.startsWith(info.npcType)) continue;
+    if (Math.random() >= info.chance) continue;
 
-  const enhance = 0;
-  addDrop(character, "pet_goat", enhance);
-  const pet = getEquipmentById("pet_goat");
-  if (!pet) return null;
+    const enhance = 0;
+    addDrop(character, petId as EquipmentId, enhance);
+    const pet = getEquipmentById(petId as EquipmentId);
+    if (!pet) return null;
 
-  return {
-    id: pet.id,
-    name: pet.name,
-    slot: pet.slot,
-    rank: pet.rank,
-    enhance,
-  };
+    return {
+      id: pet.id,
+      name: pet.name,
+      slot: pet.slot,
+      rank: pet.rank,
+      enhance,
+    };
+  }
+
+  return null;
 }
 
 export function rollNpcCardDrop(

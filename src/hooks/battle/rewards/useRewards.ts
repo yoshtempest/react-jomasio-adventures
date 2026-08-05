@@ -19,7 +19,7 @@ import {
   rollMaterialDrops,
   rollChestDrop,
   rollKeyDrop,
-  rollPetGoat,
+  rollPetDrop,
   rollNpcCardDrop,
 } from "./useDrops";
 
@@ -98,7 +98,7 @@ export function useBattleRewards({
       CHEST_DROP_CHANCE[npcClass],
     );
     const keyDrop = rollKeyDrop(npcClass, addItem, KEY_DROP_CHANCE[npcClass]);
-    const petGoat = rollPetGoat(npcType, addDrop, player.character);
+    const petDrop = rollPetDrop(npcType, addDrop, player.character);
 
     if (itemDrops.length > 0) {
       progressDailyWeekly("collect_material", itemDrops.length);
@@ -110,7 +110,7 @@ export function useBattleRewards({
       }
     }
 
-    if (petGoat) equipmentDrops.push(petGoat);
+    if (petDrop) equipmentDrops.push(petDrop);
 
     const cardDrop = rollNpcCardDrop(npcType, addItem);
     if (cardDrop) itemDrops.push(cardDrop);
