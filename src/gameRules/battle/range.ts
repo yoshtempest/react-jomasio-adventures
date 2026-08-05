@@ -1,4 +1,8 @@
-import { CHARACTER_RANGE_X, NPC_CLASS_HITBOX_BONUS } from "./rangeConfig";
+import {
+  CHARACTER_RANGE_X,
+  NPC_CLASS_HITBOX_BONUS,
+  NPC_CLASS_VERTICAL_BONUS,
+} from "./rangeConfig";
 
 export function isPlayerInRange(
   playerX: number,
@@ -32,7 +36,9 @@ export function isPlayerInRange(
   const dx = Math.abs(playerX - npcX);
   const dy = Math.abs(playerY - npcY);
 
-  return dx <= rangeX && dy <= 150;
+  const verticalRange = 150 + (NPC_CLASS_VERTICAL_BONUS[npcClass] ?? 0);
+
+  return dx <= rangeX && dy <= verticalRange;
 }
 
 export function isNpcInRange(

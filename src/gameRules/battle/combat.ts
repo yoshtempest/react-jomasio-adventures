@@ -34,6 +34,7 @@ export function canPlayerHit(params: {
       params.npcX,
       params.npcY,
       params.direction,
+      params.npcClass ?? "common",
     )
   );
 }

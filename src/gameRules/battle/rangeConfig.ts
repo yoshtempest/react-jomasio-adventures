@@ -86,3 +86,12 @@ export const NPC_CLASS_HITBOX_BONUS: Record<NPCClass, number> = {
   boss: 80,
   legendary: 120,
 };
+
+/** Bônus vertical (altura) da hitbox por classe — cobre o topo do pulo do jogador. */
+export const NPC_CLASS_VERTICAL_BONUS: Record<NPCClass, number> = {
+  common: 0,
+  rare: 30,
+  epic: 60,
+  boss: 150,
+  legendary: 200,
+};

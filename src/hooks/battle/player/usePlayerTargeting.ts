@@ -51,6 +51,7 @@ export function useBuildTargetList(
         target.x,
         target.y,
         player.battleDirection,
+        npcClass,
       ),
     [
       player.x,
