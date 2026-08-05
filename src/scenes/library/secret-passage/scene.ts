@@ -8,6 +8,7 @@ export const secretPassageScene: SceneConfig = {
   id: "one",
   background: sceneBackgrounds.LibrarySecretPassage,
   initialPosition: getSecretPassageInitialPosition,
+  scaleFix: 1.4,
   map: librarySecretPassage,
   audio: { src: MUSICS.default },
   tiles: secretPassageTiles,

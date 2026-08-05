@@ -10,7 +10,6 @@ import { sceneBackgrounds } from "@/data/scene/background";
 export const hellScene: SceneConfig = {
   id: "hell",
   background: sceneBackgrounds.HallHell,
-  backgroundSize: "100% 100%",
   scaleFix: 1.4,
   dialogueData: getHellDialogue,
   tiles: hellTiles,

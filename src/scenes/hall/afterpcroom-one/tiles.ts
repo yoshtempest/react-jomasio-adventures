@@ -12,8 +12,8 @@ import { hasQuest } from "@/scenes/shared/helpers";
 
 export const afterPcRoomOneTiles = [
   createConditionalTile(
-    8,
-    2,
+    9,
+    0,
 
     (_player, quests) => {
       if (hasQuest(quests, "help_jailson")) {
@@ -24,7 +24,7 @@ export const afterPcRoomOneTiles = [
     },
   ),
 
-  createDoorTile(12, 7, PCROOM_ROUTES.SIX),
+  createDoorTile(14, 7, PCROOM_ROUTES.SIX),
   createDoorTile(8, 11, CANTINA_ROUTES.TWO),
   createDoorTile(2, 8, HALL_ROUTES.LEFT_ONE),
 ];

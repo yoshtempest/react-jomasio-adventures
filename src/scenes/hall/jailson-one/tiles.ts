@@ -6,7 +6,7 @@ import { hasAnyQuest } from "@/scenes/shared/helpers";
 export const jailsonOneTiles = [
   createConditionalTile(
     9,
-    11,
+    12,
 
     (_player, quests) => {
       if (
@@ -21,7 +21,7 @@ export const jailsonOneTiles = [
 
   createConditionalTile(
     8,
-    11,
+    12,
 
     (_player, quests) => {
       if (

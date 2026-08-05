@@ -7,7 +7,7 @@ import { HALL_ROUTES } from "@/scenes/shared/routes";
 import { hasAnyQuest } from "@/scenes/shared/helpers";
 
 export const hallLeftOneTiles = [
-  createConditionalTile(9, 11, (_player, quests) => {
+  createConditionalTile(10, 12, (_player, quests) => {
     if (
       hasAnyQuest(quests, ["letter_delivery", "help_jailson", "x1_slimita"])
     ) {
@@ -16,7 +16,7 @@ export const hallLeftOneTiles = [
     return HALL_ROUTES.ONE;
   }),
 
-  createConditionalTile(8, 11, (_player, quests) => {
+  createConditionalTile(9, 12, (_player, quests) => {
     if (
       hasAnyQuest(quests, ["letter_delivery", "help_jailson", "x1_slimita"])
     ) {
@@ -25,6 +25,6 @@ export const hallLeftOneTiles = [
 
     return HALL_ROUTES.ONE;
   }),
-  createDoorTile(9, 2, HALL_ROUTES.CENTER_ONE),
-  createDoorTile(8, 2, HALL_ROUTES.CENTER_ONE),
+  createDoorTile(9, 0, HALL_ROUTES.CENTER_ONE),
+  createDoorTile(10, 0, HALL_ROUTES.CENTER_ONE),
 ];

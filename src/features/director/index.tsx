@@ -1,5 +1,4 @@
 import { useMemo, useState, useCallback, useRef } from "react";
-import styles from "./styles.module.css"
 
 import { SceneBase } from "@/components/Game/Scenes/Base";
 import { DIRECTOR_SCENES } from "@/scenes/director";
@@ -79,7 +78,7 @@ export function DirectorScene({ sceneId }: Props) {
   }
 
   return (
-    <div className={styles.Container}>
+    <>
       <SceneBase
         scene={scene}
         background={sceneBackgrounds.Director}
@@ -91,6 +90,6 @@ export function DirectorScene({ sceneId }: Props) {
 
       {/* ✅ popup continua fora */}
       {popup && <Talking name="Sistema" message={popup} />}
-    </div>
+    </>
   );
 }

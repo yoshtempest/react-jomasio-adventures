@@ -5,5 +5,5 @@ export function getJailsonOneInitialPosition(
     return { x: 9, y: 4, direction: "left" };
   }
 
-  return { x: 8, y: 10, direction: "up" };
+  return { x: 8, y: 11, direction: "up" };
 }

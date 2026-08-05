@@ -8,6 +8,7 @@ export const twoScene: SceneConfig = {
   id: "two",
   map: libraryTwo,
   background: sceneBackgrounds.LibraryPassageOpened,
+  scaleFix: 1.4,
   audio: { src: MUSICS.default },
   initialPosition: getCantinaTwoInitialPosition,
   tiles: cantinaTwoTiles,
