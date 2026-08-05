@@ -7,6 +7,7 @@ import { libraryOneTiles } from "./tiles";
 export const oneScene: SceneConfig = {
   id: "one",
   map: library,
+  scaleFix: 1.4,
   background: sceneBackgrounds.Library,
   audio: { src: MUSICS.default },
   initialPosition: getLibraryOneInitialPosition,

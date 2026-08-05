@@ -47,8 +47,8 @@ export function BrodiClassScene({ sceneId }: Props) {
         background={sceneBackgrounds.BrodiClass}
         interactions={interactions}
         itemPickupTiles={[
-          { x: 7, y: 6, visible: !gotGoatMeat },
-          { x: 15, y: 11, visible: !gotChest },
+          { x: 10, y: 8, visible: !gotGoatMeat },
+          { x: 20, y: 11, visible: !gotChest },
         ]}
         popup={popup}
         setPopup={setPopup}

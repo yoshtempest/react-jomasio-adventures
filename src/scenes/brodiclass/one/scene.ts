@@ -13,6 +13,7 @@ export const oneScene: SceneConfig = {
   map: brodiClass,
   events: brodiClassOneEvents,
   npcs: cantinaOneNpcs,
+  scaleFix: 2,
   dialogueData: getCantinaOneDialogue,
   audio: { src: MUSICS.ToothlessDancing },
   initialPosition: getBrodiClassOneInitialPosition,

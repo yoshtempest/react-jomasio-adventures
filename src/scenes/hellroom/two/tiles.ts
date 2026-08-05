@@ -6,8 +6,8 @@ import { hasQuest } from "@/scenes/shared/helpers";
   
 export const hellRoomTwoTiles = [
     createConditionalTile(
-        10,
-        6,
+        9,
+        4,
         (_player, quests) => {
         if (hasQuest(quests, "x1_maugrelo")) {
             return HALL_ROUTES.HELL;
