@@ -9,6 +9,7 @@ export const oneScene: SceneConfig = {
   id: "one",
   dialogueData: getHellroomDialogue,
   initialPosition: getHellroomOneInitialPosition,
+  scaleFix: 2,
   map: blocked,
   events: hellroomEvents,
   audio: { src: MUSICS.hell },

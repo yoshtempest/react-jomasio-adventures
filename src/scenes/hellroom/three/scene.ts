@@ -9,6 +9,7 @@ export const threeScene: SceneConfig = {
   id: "three",
   initialPosition: getHellroomThreeInitialPosition,
   dialogueData: getHellroomThreeDialogue,
+  scaleFix: 2,
   map: hellRoomThree,
   events: hellroomThreeEvents,
   audio: { src: MUSICS.hell },
