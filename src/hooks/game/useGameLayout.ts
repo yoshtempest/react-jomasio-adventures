@@ -30,7 +30,7 @@ export function useGameLayout(map?: number[][], scaleFix = 3) {
   const MAP_WIDTH = MAP_COLS * TILE_SIZE;
   const MAP_HEIGHT = MAP_ROWS * TILE_SIZE;
 
-  const CAMERA_LOOKAHEAD = 0.1;
+  const CAMERA_LOOKAHEAD = 0.02;
 
   const playerPixelX = player.gridX * TILE_SIZE;
   const playerPixelY = player.gridY * TILE_SIZE;
