@@ -58,7 +58,7 @@ export function useDailyChest() {
     if (!isReady) return null;
 
     const tier = pickTierForLevel(level);
-    const result = openChest(tier);
+    const result = openChest(tier, 0.05);
 
     for (const mat of result.materials) {
       addItem({ id: mat.id as ItemId, qty: mat.qty });
@@ -70,6 +70,9 @@ export function useDailyChest() {
     }
     for (const eq of result.equipment) {
       addDrop(player.character, eq.id as EquipmentId, eq.enhance);
+    }
+    for (const pet of result.pets) {
+      addDrop(player.character, pet.id as EquipmentId, pet.enhance);
     }
 
     const now = Date.now();

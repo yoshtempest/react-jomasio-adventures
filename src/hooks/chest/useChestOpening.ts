@@ -46,6 +46,9 @@ export function useChestOpening() {
       for (const eq of result.equipment) {
         addDrop(player.character, eq.id, eq.enhance);
       }
+      for (const pet of result.pets) {
+        addDrop(player.character, pet.id as EquipmentId, pet.enhance);
+      }
 
       removeItem(chestItemId);
       removeItem(keyId);

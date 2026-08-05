@@ -1,11 +1,13 @@
 import { CRAFT_MATERIALS } from "@/data/items/crafting";
 import { ITEMS } from "@/data/items";
 import { getEquipmentBySlotAndRank } from "@/data/equipment";
+import { PETS } from "@/data/equipment/pets";
 import type { EquipmentRank } from "@/utils/types/player/equipment";
 
 type ChestDropTable = {
   materialWeights: Record<string, number>;
   equipmentRankWeights: Record<EquipmentRank, number>;
+  petDropChance: number;
 };
 
 export const CHEST_DROP_TABLES: Record<NPCClass, ChestDropTable> = {
@@ -28,6 +30,7 @@ export const CHEST_DROP_TABLES: Record<NPCClass, ChestDropTable> = {
       0: 0,
       EX: 0,
     },
+    petDropChance: 0.01,
   },
   rare: {
     materialWeights: { rare_scale: 60, goat_horn: 40, xp_potion_rare: 12 },
@@ -44,6 +47,7 @@ export const CHEST_DROP_TABLES: Record<NPCClass, ChestDropTable> = {
       0: 0,
       EX: 0,
     },
+    petDropChance: 0.03,
   },
   epic: {
     materialWeights: { epic_core: 100, xp_potion_epic: 10 },
@@ -60,6 +64,7 @@ export const CHEST_DROP_TABLES: Record<NPCClass, ChestDropTable> = {
       0: 0,
       EX: 0,
     },
+    petDropChance: 0.07,
   },
   boss: {
     materialWeights: { boss_soul: 100, xp_potion_boss: 8 },
@@ -76,6 +81,7 @@ export const CHEST_DROP_TABLES: Record<NPCClass, ChestDropTable> = {
       0: 2,
       EX: 0,
     },
+    petDropChance: 0.12,
   },
   legendary: {
     materialWeights: { legendary_fragment: 100, xp_potion_legendary: 5 },
@@ -92,12 +98,20 @@ export const CHEST_DROP_TABLES: Record<NPCClass, ChestDropTable> = {
       0: 10,
       EX: 5,
     },
+    petDropChance: 0.2,
   },
 };
 
 export type ChestDropResult = {
   materials: Array<{ id: string; name: string; qty: number }>;
   equipment: Array<{
+    id: string;
+    name: string;
+    slot: EquipmentSlot;
+    rank: EquipmentRank;
+    enhance: number;
+  }>;
+  pets: Array<{
     id: string;
     name: string;
     slot: EquipmentSlot;
@@ -128,10 +142,13 @@ function pickWeighted(weights: Record<string, number>): string | null {
   return entries[entries.length - 1][0];
 }
 
-export function openChest(chestTier: NPCClass): ChestDropResult {
+export function openChest(
+  chestTier: NPCClass,
+  petChance?: number,
+): ChestDropResult {
   const table = CHEST_DROP_TABLES[chestTier];
   const dropCount = Math.floor(Math.random() * 7) + 5;
-  const result: ChestDropResult = { materials: [], equipment: [] };
+  const result: ChestDropResult = { materials: [], equipment: [], pets: [] };
 
   for (let i = 0; i < dropCount; i++) {
     const isMaterial = Math.random() < 0.7;
@@ -177,6 +194,18 @@ export function openChest(chestTier: NPCClass): ChestDropResult {
         enhance,
       });
     }
+  }
+
+  const chance = petChance ?? table.petDropChance;
+  if (chance > 0 && Math.random() < chance) {
+    const pet = PETS[Math.floor(Math.random() * PETS.length)];
+    result.pets.push({
+      id: pet.id,
+      name: pet.name,
+      slot: pet.slot,
+      rank: pet.rank,
+      enhance: 0,
+    });
   }
 
   return result;

@@ -71,6 +71,23 @@ export function ChestRewards({
         </div>
       )}
 
+      {result.pets.length > 0 && (
+        <div className={styles.section}>
+          <h4>Pets</h4>
+          {result.pets.map((pet) => (
+            <div key={pet.id} className={styles.dropRow}>
+              <span style={{ color: RANK_COLORS[pet.rank as EquipmentRank] }}>
+                [{RANK_LABELS[pet.rank as EquipmentRank]}]
+              </span>
+              <span>{pet.name}</span>
+              <span className={styles.slot}>
+                ({SLOT_LABELS[pet.slot as EquipmentSlot]})
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+
       {options.length === 1 ? (
         <button
           className={isDaily ? "dailyButton" : "InventoryButton"}
