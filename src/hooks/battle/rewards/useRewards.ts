@@ -10,7 +10,10 @@ import {
   KEY_DROP_CHANCE,
 } from "@/data/battle/drops";
 import { calculateXP } from "@/utils/types/battle/calculateXp";
-import { PET_XP_MULTIPLIER } from "@/data/characters/petProgress";
+import {
+  PET_XP_MULTIPLIER,
+  petStarsFromEnhance,
+} from "@/data/characters/petProgress";
 import {
   rollEquipmentDrops,
   rollMaterialDrops,
@@ -55,7 +58,8 @@ export function useBattleRewards({
     const petInfo = getEquippedInfo(player.character, "pet");
     if (petInfo) {
       const petXpAmount = Math.floor(xp * PET_XP_MULTIPLIER);
-      if (petXpAmount > 0) addPetXP(petInfo.id, petXpAmount);
+      if (petXpAmount > 0)
+        addPetXP(petInfo.id, petStarsFromEnhance(petInfo.enhance), petXpAmount);
     }
   }
 
@@ -66,7 +70,8 @@ export function useBattleRewards({
     const petInfo = getEquippedInfo(player.character, "pet");
     if (petInfo) {
       const petXpAmount = Math.floor(xpReward * PET_XP_MULTIPLIER);
-      if (petXpAmount > 0) addPetXP(petInfo.id, petXpAmount);
+      if (petXpAmount > 0)
+        addPetXP(petInfo.id, petStarsFromEnhance(petInfo.enhance), petXpAmount);
     }
 
     const equipmentDrops = rollEquipmentDrops(

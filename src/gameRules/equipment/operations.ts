@@ -5,6 +5,10 @@ import {
   getCharacterData,
   type CharacterEquipmentData,
 } from "@/data/equipment/storage";
+import {
+  PET_STAR_MAX,
+  enhanceFromPetStars,
+} from "@/data/characters/petProgress";
 
 export function equipItem(
   allData: Record<string, CharacterEquipmentData>,
@@ -155,5 +159,52 @@ export function addDrop(
   const collection = { ...data.collection };
   collection[key] = (collection[key] ?? 0) + 1;
   next[character] = { ...data, collection } as CharacterEquipmentData;
+  return next;
+}
+
+export function fusePets(
+  allData: Record<string, CharacterEquipmentData>,
+  character: CharacterId,
+  petId: EquipmentId,
+  stars: number,
+): Record<string, CharacterEquipmentData> | null {
+  const item = getEquipmentById(petId);
+  if (!item || item.slot !== "pet") return null;
+  if (stars < 1 || stars >= PET_STAR_MAX) return null;
+
+  const sourceEnhance = enhanceFromPetStars(stars);
+  const targetEnhance = sourceEnhance + 1;
+
+  const next = { ...allData };
+  const data = {
+    ...getCharacterData(
+      next as Record<string, CharacterEquipmentData>,
+      character,
+    ),
+  };
+  const collection = { ...data.collection };
+
+  const sourceKey = colKey(petId, sourceEnhance);
+  if ((collection[sourceKey] ?? 0) < 2) return null;
+
+  const equippedPet = data.equipped.pet;
+  if (
+    equippedPet &&
+    equippedPet.id === petId &&
+    equippedPet.enhance === sourceEnhance
+  ) {
+    return null;
+  }
+
+  collection[sourceKey] -= 2;
+  if (collection[sourceKey] <= 0) delete collection[sourceKey];
+
+  const targetKey = colKey(petId, targetEnhance);
+  collection[targetKey] = (collection[targetKey] ?? 0) + 1;
+
+  next[character] = {
+    equipped: data.equipped,
+    collection,
+  } as CharacterEquipmentData;
   return next;
 }

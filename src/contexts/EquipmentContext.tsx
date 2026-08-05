@@ -26,6 +26,7 @@ import {
   unequipItem,
   unequipAccessoryAt,
   addDrop as addDropOp,
+  fusePets as fusePetsOp,
 } from "@/gameRules/equipment/operations";
 
 type EquipmentContextType = {
@@ -62,6 +63,11 @@ type EquipmentContextType = {
   unequip: (character: CharacterId, slot: EquipmentSlot) => void;
   unequipAccessoryAtIndex: (character: CharacterId, index: number) => void;
   addDrop: (character: CharacterId, id: EquipmentId, enhance?: number) => void;
+  fusePets: (
+    character: CharacterId,
+    petId: EquipmentId,
+    stars: number,
+  ) => boolean;
 };
 
 /* eslint-disable react-refresh/only-export-components */
@@ -254,6 +260,21 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
     [],
   );
 
+  const fusePets = useCallback(
+    (character: CharacterId, petId: EquipmentId, stars: number): boolean => {
+      const next = fusePetsOp(
+        allData as Record<string, CharacterEquipmentData>,
+        character,
+        petId,
+        stars,
+      );
+      if (!next) return false;
+      setAllData(next as Record<CharacterId, CharacterEquipmentData>);
+      return true;
+    },
+    [allData],
+  );
+
   return (
     <EquipmentContext.Provider
       value={{
@@ -269,6 +290,7 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
         unequip,
         unequipAccessoryAtIndex,
         addDrop,
+        fusePets,
       }}
     >
       {children}

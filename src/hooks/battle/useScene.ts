@@ -7,6 +7,7 @@ import { useNpcAI } from "@/hooks/battle/npc/useAi";
 import { useBattleSystem } from "@/hooks/battle/useSystem";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { usePetProgress } from "@/contexts/PetProgressContext";
+import { petStarsFromEnhance } from "@/data/characters/petProgress";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { useNavigate, useLocation } from "react-router";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
@@ -99,7 +100,10 @@ export function useBattleScene({
   const { getEquippedInfo } = useEquipment();
   const { showHighlight: showHighlightEnabled } = useSettings();
   const petInfo = getEquippedInfo(player.character, "pet");
-  const petLevel = petInfo ? getPetProgress(petInfo.id).level : 1;
+  const petStars = petInfo ? petStarsFromEnhance(petInfo.enhance) : 1;
+  const petLevel = petInfo
+    ? getPetProgress(petInfo.id, petStars).level
+    : 1;
   const { items: inventoryItems, closeInventory } = useInventory();
   const { quests, progressDailyWeekly } = useQuests();
   const { closeNavbar, isNavOpen, screen: navScreen } = useNavbar();
@@ -517,6 +521,7 @@ export function useBattleScene({
     onAttackRef,
     onSpecialRef,
     petLevel,
+    petStars,
     isMenuRef: isMenuOpenRef,
     savedPlayerHP: savedPlayerHPRef.current,
   });

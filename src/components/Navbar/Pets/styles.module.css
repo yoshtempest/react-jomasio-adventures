@@ -1,0 +1,155 @@
+.container {
+  max-height: 80vh;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--fs-8);
+  padding: var(--fs-8);
+}
+
+.emptyText {
+  font-size: var(--fs-12);
+  color: var(--text-muted);
+}
+
+.petCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fs-8);
+  padding: var(--fs-8);
+  border-radius: var(--size-4);
+  border: var(--size-1) solid var(--border-default);
+  background: var(--surface-primary);
+}
+
+.equipped {
+  border-color: var(--accent-color);
+  background: #2a1a0e;
+}
+
+.selected {
+  outline: var(--size-2) solid var(--text-color);
+  outline-offset: var(--size-2);
+}
+
+.cardTop {
+  display: flex;
+  align-items: center;
+  gap: var(--fs-8);
+}
+
+.imageBox {
+  width: var(--fs-32);
+  height: var(--fs-32);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.petImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-4);
+}
+
+.nameRow {
+  display: flex;
+  align-items: center;
+  gap: var(--size-6);
+}
+
+.name {
+  font-weight: bold;
+  font-size: var(--fs-14);
+}
+
+.rankLabel {
+  font-size: var(--fs-10);
+}
+
+.starsRow {
+  display: flex;
+  gap: var(--size-4);
+}
+
+.starChip {
+  display: flex;
+  align-items: center;
+  gap: var(--size-2);
+  padding: var(--size-2) var(--size-4);
+  border-radius: var(--size-3);
+  border: var(--size-1) solid var(--border-default);
+  background: var(--surface-secondary);
+}
+
+.starChipActive {
+  border-color: var(--accent-color);
+}
+
+.starChipEligible {
+  border-color: var(--success);
+  background: rgba(34, 197, 94, 0.15);
+}
+
+.starFilled {
+  color: var(--accent-color);
+}
+
+.starEmpty {
+  color: var(--text-muted);
+  opacity: 0.4;
+}
+
+.starQty {
+  font-size: var(--fs-10);
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+.statsLine {
+  font-size: var(--fs-11);
+  color: var(--text-secondary);
+}
+
+.cardBottom {
+  display: flex;
+  align-items: center;
+  gap: var(--fs-8);
+  min-height: var(--fs-14);
+}
+
+.fuseBadge {
+  font-size: var(--fs-10);
+  padding: var(--size-2) var(--size-6);
+  border-radius: var(--size-3);
+  background: var(--success);
+  color: #000;
+  font-weight: bold;
+}
+
+.fuseConfirm {
+  background: #fbbf24;
+}
+
+.equippedBadge {
+  font-size: var(--fs-10);
+  padding: var(--size-2) var(--size-6);
+  border-radius: var(--size-3);
+  background: #fbbf24;
+  color: #000;
+  font-weight: bold;
+}
+
+.hint {
+  font-size: var(--fs-10);
+  color: var(--text-hint);
+}

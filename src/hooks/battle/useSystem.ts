@@ -48,6 +48,7 @@ type Props = {
   onAttackRef?: React.RefObject<() => void>;
   onSpecialRef?: React.RefObject<() => void>;
   petLevel: number;
+  petStars: number;
   isMenuRef?: React.RefObject<boolean>;
   savedPlayerHP?: number | null;
 };
@@ -82,6 +83,7 @@ export function useBattleSystem(props: Props) {
     onAttackRef,
     onSpecialRef,
     petLevel,
+    petStars,
     isMenuRef,
     savedPlayerHP,
   } = props;
@@ -203,7 +205,7 @@ export function useBattleSystem(props: Props) {
   const petDamageRef = useRef(() => {});
   petDamageRef.current = () => {
     if (isEnding.current) return;
-    const baseDamage = getPetBaseDamage(petLevel);
+    const baseDamage = getPetBaseDamage(petLevel, petStars);
     const dmg = calculateDamageToNpc(baseDamage, npcArmor);
     setNpcHP((hp) => Math.max(0, hp - dmg));
     spawnDamageRef.current?.(dmg, npcX, npcY, "pet");
@@ -220,6 +222,7 @@ export function useBattleSystem(props: Props) {
     onPetDamage: () => petDamageRef.current(),
     hitstopRef,
     petLevel,
+    petStars,
   });
 
   const npcBattle = useNpcBattle({

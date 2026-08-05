@@ -8,6 +8,7 @@ import {
 } from "@/utils/types/player/equipment";
 import { saveCompressed, loadCompressed } from "@/utils/save/storage";
 import { slotKey } from "@/utils/save/slotManager";
+import { PET_CLASS } from "@/data/characters/petProgress";
 
 export type CharacterEquipmentData = {
   equipped: EquippedItems;
@@ -18,6 +19,27 @@ const EQUIP_KEY = "jomasio_equipment";
 
 export function colKey(id: EquipmentId, enhance: number): string {
   return `${id}+${enhance}`;
+}
+
+function normalizePets(data: CharacterEquipmentData): CharacterEquipmentData {
+  const collection: Record<string, number> = {};
+  for (const [key, qty] of Object.entries(data.collection)) {
+    const i = key.lastIndexOf("+");
+    const id = i > 0 ? key.slice(0, i) : key;
+    if (PET_CLASS[id]) {
+      const baseKey = colKey(id as EquipmentId, 0);
+      collection[baseKey] = (collection[baseKey] ?? 0) + qty;
+    } else {
+      collection[key] = qty;
+    }
+  }
+
+  const equipped = { ...data.equipped };
+  if (equipped.pet && PET_CLASS[equipped.pet.id]) {
+    equipped.pet = { id: equipped.pet.id, enhance: 0 };
+  }
+
+  return { equipped, collection };
 }
 
 function migrateEquipped(slot: unknown): EquippedItemInfo | null {
@@ -74,7 +96,7 @@ function migrateAllData(
         }
       }
     }
-    result[key] = { equipped, collection };
+    result[key] = normalizePets({ equipped, collection });
   }
   return result as Record<string, CharacterEquipmentData>;
 }
@@ -107,6 +129,9 @@ export function loadAllData(): Record<string, CharacterEquipmentData> {
       if (charData?.equipped && !Array.isArray(charData.equipped.accessories)) {
         (charData.equipped as EquippedItems).accessories = [];
       }
+    }
+    for (const key of Object.keys(data)) {
+      data[key] = normalizePets(data[key]);
     }
     return data;
   } catch {

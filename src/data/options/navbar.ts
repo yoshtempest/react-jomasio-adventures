@@ -30,6 +30,7 @@ export const NAVBAR_OPTIONS: NavbarOption[] = [
     screen: "professions",
   },
   { icon: "/assets/navbar/titles.svg", label: "Títulos", screen: "titles" },
+  { icon: "/assets/equipments/pets.svg", label: "Pets", screen: "pets" },
   { icon: "/assets/navbar/saves.svg", label: "Saves", screen: "saves" },
   {
     icon: "/assets/navbar/configs.svg",

@@ -69,7 +69,11 @@ export function LeftPanel() {
                       style={{ color: RANK_COLORS[item.rank] }}
                     >
                       {item.name}
-                      {info && info.enhance > 0 ? (
+                      {item.slot === "pet" ? (
+                        <span className="EquipmentEnhanceBadge">
+                          ★{(info ? info.enhance : 0) + 1}
+                        </span>
+                      ) : info && info.enhance > 0 ? (
                         <span className="EquipmentEnhanceBadge">
                           +{info.enhance}
                         </span>

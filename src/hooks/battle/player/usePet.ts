@@ -11,6 +11,7 @@ type Props = {
   onPetDamage: () => void;
   hitstopRef: React.RefObject<number>;
   petLevel: number;
+  petStars: number;
 };
 
 export type PetState = {
@@ -33,6 +34,7 @@ export function usePetBattle({
   onPetDamage,
   hitstopRef,
   petLevel,
+  petStars,
 }: Props) {
   const [pet, setPet] = useState<PetState>(null);
 
@@ -59,7 +61,7 @@ export function usePetBattle({
 
     setPet((prev) => {
       if (prev && prev.hp > 0) return prev;
-      const maxHp = getPetMaxHp(petLevel);
+      const maxHp = getPetMaxHp(petLevel, petStars);
       return {
         x: playerX - 60,
         y: playerY,
@@ -70,7 +72,7 @@ export function usePetBattle({
         maxHp,
       };
     });
-  }, [enabled, playerX, playerY, petLevel]);
+  }, [enabled, playerX, playerY, petLevel, petStars]);
 
   function damagePet(dmg: number) {
     setPet((prev) => {
@@ -124,7 +126,7 @@ export function usePetBattle({
 
   function resetPet() {
     if (!enabled) return;
-    const maxHp = getPetMaxHp(petLevel);
+    const maxHp = getPetMaxHp(petLevel, petStars);
     setPet({
       x: playerX - 60,
       y: playerY,

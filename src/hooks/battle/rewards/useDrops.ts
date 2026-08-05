@@ -115,7 +115,7 @@ export function rollPetGoat(
   if (!npcType.startsWith("goat")) return null;
   if (Math.random() >= 0.01) return null;
 
-  const enhance = rollEnhance();
+  const enhance = 0;
   addDrop(character, "pet_goat", enhance);
   const pet = getEquipmentById("pet_goat");
   if (!pet) return null;

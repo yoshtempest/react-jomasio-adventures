@@ -13,6 +13,7 @@ import { DeliciaDex } from "./Bestiary";
 import { Player } from "./Player";
 import { Saves } from "./Saves";
 import { Professions } from "./Professions";
+import { Pets } from "./Pets";
 import { asset } from "@/utils/paths";
 
 export function Navbar() {
@@ -52,6 +53,7 @@ export function Navbar() {
       {screen === "player" && <Player />}
       {screen === "saves" && <Saves />}
       {screen === "professions" && <Professions />}
+      {screen === "pets" && <Pets />}
     </div>
   );
 }

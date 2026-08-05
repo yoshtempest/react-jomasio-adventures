@@ -10,7 +10,8 @@ export type NavScreen =
   | "bestiary"
   | "player"
   | "saves"
-  | "professions";
+  | "professions"
+  | "pets";
 
 export type NavbarOption = {
   icon: string;

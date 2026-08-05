@@ -78,7 +78,11 @@ export function RightPanel() {
                   style={{ color: RANK_COLORS[entry.item.rank] }}
                 >
                   {entry.item.name}
-                  {entry.enhance > 0 ? (
+                  {entry.item.slot === "pet" ? (
+                    <span className="EquipmentEnhanceBadge">
+                      ★{entry.enhance + 1}
+                    </span>
+                  ) : entry.enhance > 0 ? (
                     <span className="EquipmentEnhanceBadge">
                       +{entry.enhance}
                     </span>
