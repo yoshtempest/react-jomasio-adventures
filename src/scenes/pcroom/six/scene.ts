@@ -6,6 +6,7 @@ import { getPcRoomSixInitialPosition } from "./position";
 export const sixScene: SceneConfig = {
   id: "six",
   map: pcsRoomSix,
+  scaleFix: 2,
   audio: { src: MUSICS.monkeyCircle },
   tiles: pcRoomSixTiles,
   initialPosition: getPcRoomSixInitialPosition,

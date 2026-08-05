@@ -41,7 +41,7 @@ export function ProjectileSprite({
               style={{
                 position: "absolute",
                 left: (spear.x - 30) * scaleX,
-                top: groundY * scaleY - 4,
+                top: groundY * scaleY,
                 width: 60 * scaleX,
                 height: 10 * scaleY,
                 backgroundColor: "rgba(255, 0, 0, 0.5)",

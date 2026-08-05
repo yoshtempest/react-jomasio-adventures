@@ -10,6 +10,7 @@ export const sevenScene: SceneConfig = {
   id: "seven",
   dialogueData: getPcRoomSevenDialogue,
   map: pcsRoomSeven,
+  scaleFix: 2,
   events: pcRoomSevenEvents,
   audio: { src: MUSICS.monkeyCircle },
   npcs: pcRoomSevenNpcs,

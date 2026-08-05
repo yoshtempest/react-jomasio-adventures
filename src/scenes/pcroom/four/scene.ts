@@ -8,6 +8,7 @@ export const fourScene: SceneConfig = {
   id: "four",
   dialogueData: getPcRoomFourDialogue,
   map: pcsRoomThree,
+  scaleFix: 2,
   events: pcRoomFourEvents,
   audio: { src: MUSICS.monkeyCircle },
   npcs: pcRoomFourNpcs,

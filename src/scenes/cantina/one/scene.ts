@@ -10,6 +10,7 @@ export const oneScene: SceneConfig = {
   id: "one",
   map: cantina,
   events: cantinaOneEvents,
+  scaleFix: 2,
   npcs: cantinaOneNpcs,
   dialogueData: getCantinaOneDialogue,
   audio: { src: MUSICS.default },

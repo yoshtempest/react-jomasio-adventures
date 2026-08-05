@@ -8,6 +8,7 @@ import { cantinaTwo } from "@/maps/cantina/two";
 export const twoScene: SceneConfig = {
   id: "two",
   map: cantinaTwo,
+  scaleFix: 2,
   audio: { src: MUSICS.default },
   npcs: cantinaTwoNpcs,
   initialPosition: getCantinaTwoInitialPosition,

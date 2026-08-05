@@ -9,6 +9,7 @@ export const threeScene: SceneConfig = {
   id: "three",
   dialogueData: getPcRoomThreeDialogue,
   map: pcsRoomThree,
+  scaleFix: 2,
   events: pcRoomThreeEvents,
   audio: { src: MUSICS.monkeyCircle },
   npcs: pcRoomThreeNpcs,

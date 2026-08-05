@@ -81,10 +81,10 @@ export function vandinhaBehavior(ctx: BehaviorContext) {
     lastAttackRef,
     setProjectile,
     projectileData: createCommonProjectile({
-      startX: npc.x - 100,
-      startY: npc.y - 120,
+      startX: npc.x + 50,
+      startY: npc.y - 70,
       targetX: playerX,
-      targetY: playerY - 120,
+      targetY: playerY - 70,
       sprite: "dish",
       state: "walk",
     }),
