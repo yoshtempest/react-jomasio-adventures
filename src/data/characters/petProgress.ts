@@ -15,6 +15,9 @@ export const PET_CLASS: Record<string, NPCClass> = {
   pet_cat: "rare",
   pet_dog: "epic",
   pet_fishKing: "legendary",
+  pet_hungryDeath: "common",
+  pet_piupiu: "rare",
+  pet_hungryKing: "epic",
 };
 
 export const PET_BASE_HP = 30;
