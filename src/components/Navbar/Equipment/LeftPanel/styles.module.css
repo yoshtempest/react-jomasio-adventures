@@ -103,3 +103,20 @@
   color: var(--text-hint);
   font-style: italic;
 }
+
+.resistanceBadges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--size-1);
+}
+
+.resistanceBadge {
+  font-size: var(--fs-10);
+  font-weight: 700;
+  color: var(--gold);
+  background: rgba(255, 215, 0, 0.12);
+  border: var(--size-1) solid rgba(255, 215, 0, 0.4);
+  border-radius: var(--size-4);
+  padding: 0 var(--size-4);
+  white-space: nowrap;
+}

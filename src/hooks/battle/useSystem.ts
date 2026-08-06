@@ -17,10 +17,14 @@ import { useBlockGauge } from "@/hooks/battle/useBlockGauge";
 import {
   getCortaCuraReduction,
   CORATACURA_DURATION_MS,
+  getEquippedResistances,
+  reduceDurationByResistance,
+  reduceTickDamage,
 } from "@/gameRules/battle/equipment";
 import {
   applyPlayerStatus,
   clearPlayerStatuses,
+  STATUS_DURATIONS_MS,
   BURN_TICK_DAMAGE,
   POISON_TICK_DAMAGE,
   DOT_TICK_INTERVAL_MS,
@@ -124,6 +128,11 @@ export function useBattleSystem(props: Props) {
   const behavior = battleBehaviors[player.character] || battleBehaviors.default;
 
   const cortaCuraReduction = getCortaCuraReduction(player.character);
+  const equippedResistances = getEquippedResistances(player.character);
+  const burnTickDamage = reduceTickDamage(
+    BURN_TICK_DAMAGE,
+    equippedResistances.heat,
+  );
   const onCortaCura = cortaCuraReduction > 0
     ? () => {
         setPlayer((p) => ({
@@ -310,9 +319,9 @@ export function useBattleSystem(props: Props) {
         );
       }
       if (burnUntilRef.current > Date.now()) {
-        setPlayerHP((hp) => Math.max(0, hp - BURN_TICK_DAMAGE));
+        setPlayerHP((hp) => Math.max(0, hp - burnTickDamage));
         spawnDamageRef.current?.(
-          BURN_TICK_DAMAGE,
+          burnTickDamage,
           bleedXRef.current,
           bleedYRef.current,
           "burn",
@@ -329,7 +338,7 @@ export function useBattleSystem(props: Props) {
       }
     }, DOT_TICK_INTERVAL_MS);
     return () => clearInterval(interval);
-  }, [setPlayerHP, isEnding]);
+  }, [setPlayerHP, isEnding, burnTickDamage]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -380,9 +389,20 @@ export function useBattleSystem(props: Props) {
 
   const applyStatus = useCallback(
     (status: NewPlayerStatus, durationMs?: number) => {
-      setPlayer((p) => applyPlayerStatus(p, status, durationMs));
+      setPlayer((p) => {
+        const base = durationMs ?? STATUS_DURATIONS_MS[status];
+        const resistance =
+          status === "burn"
+            ? equippedResistances.heat
+            : status === "freeze"
+              ? equippedResistances.cold
+              : 0;
+        const reduced = reduceDurationByResistance(base, resistance);
+        if (reduced <= 0) return p;
+        return applyPlayerStatus(p, status, reduced);
+      });
     },
-    [setPlayer],
+    [setPlayer, equippedResistances.heat, equippedResistances.cold],
   );
 
   return {

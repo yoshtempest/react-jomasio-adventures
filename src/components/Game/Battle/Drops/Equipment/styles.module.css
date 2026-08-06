@@ -17,3 +17,20 @@
   margin-left: var(--size-4);
   font-weight: bold;
 }
+
+.resistanceBadges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--size-2);
+}
+
+.resistanceBadge {
+  font-size: var(--smaller);
+  font-weight: 700;
+  color: var(--gold);
+  background: rgba(255, 215, 0, 0.12);
+  border: var(--size-1) solid rgba(255, 215, 0, 0.4);
+  border-radius: var(--size-4);
+  padding: 0 var(--size-4);
+  white-space: nowrap;
+}

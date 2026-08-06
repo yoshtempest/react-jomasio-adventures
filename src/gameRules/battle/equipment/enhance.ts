@@ -1,6 +1,14 @@
 import type { EquipmentStats } from "@/utils/types/player/equipment";
 import { getEquipmentById } from "@/data/equipment";
 
+export function equipmentSeed(itemId: string): number {
+  let seed = 0;
+  for (let i = 0; i < itemId.length; i++) {
+    seed = ((seed << 5) - seed + itemId.charCodeAt(i)) | 0;
+  }
+  return seed;
+}
+
 export function getEnhanceBonus(
   itemId: string,
   enhance: number,
@@ -33,10 +41,7 @@ export function getEnhanceBonus(
 
   if (avail.length === 0) return bonus;
 
-  let seed = 0;
-  for (let i = 0; i < itemId.length; i++) {
-    seed = ((seed << 5) - seed + itemId.charCodeAt(i)) | 0;
-  }
+  let seed = equipmentSeed(itemId);
 
   for (let i = 0; i < enhance; i++) {
     seed = (seed * 1103515245 + 12345) & 0x7fffffff;

@@ -4,6 +4,12 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { useEquipmentMenu } from "@/hooks/menu/equipment/useEquipment";
 import type { CollectedEntry } from "@/utils/types/equipment/entrys";
 import {
+  getItemResistances,
+  HEAT_RESISTANCE_LABEL,
+  COLD_RESISTANCE_LABEL,
+  RESISTANCE_REDUCTION_PER_PIECE_PCT,
+} from "@/gameRules/battle/equipment";
+import {
   EQUIPPED_COUNT,
   FILTER_TAB_COUNT,
   FILTER_TABS,
@@ -109,6 +115,28 @@ export function RightPanel() {
                   ? ` | DanoV: +${entry.stats.trueDamage}`
                   : ""}
               </span>
+              {(() => {
+                const res = getItemResistances(entry.item.id, entry.enhance);
+                const badges: string[] = [];
+                if (res.heat)
+                  badges.push(
+                    `${HEAT_RESISTANCE_LABEL} ${RESISTANCE_REDUCTION_PER_PIECE_PCT}%`,
+                  );
+                if (res.cold)
+                  badges.push(
+                    `${COLD_RESISTANCE_LABEL} ${RESISTANCE_REDUCTION_PER_PIECE_PCT}%`,
+                  );
+                if (badges.length === 0) return null;
+                return (
+                  <span className={styles.resistanceBadges}>
+                    {badges.map((b) => (
+                      <span key={b} className={styles.resistanceBadge}>
+                        {b}
+                      </span>
+                    ))}
+                  </span>
+                );
+              })()}
               <span className={styles.actionHint}>Confirmar: Equipar</span>
             </div>
           );

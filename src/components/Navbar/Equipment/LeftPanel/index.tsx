@@ -3,6 +3,12 @@ import { Lock } from "lucide-react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { playerPath } from "@/utils/paths";
 import { SLOT_LABELS, RANK_COLORS } from "@/utils/types/player/equipment";
+import {
+  getItemResistances,
+  HEAT_RESISTANCE_LABEL,
+  COLD_RESISTANCE_LABEL,
+  RESISTANCE_REDUCTION_PER_PIECE_PCT,
+} from "@/gameRules/battle/equipment";
 import styles from "./styles.module.css";
 import { useEquipmentMenu } from "@/hooks/menu/equipment/useEquipment";
 
@@ -80,6 +86,32 @@ export function LeftPanel() {
                       ) : null}
                     </span>
                   </div>
+                  {info &&
+                    (() => {
+                      const res = getItemResistances(info.id, info.enhance);
+                      const labels: string[] = [];
+                      if (res.heat)
+                        labels.push(
+                          `${HEAT_RESISTANCE_LABEL} ${RESISTANCE_REDUCTION_PER_PIECE_PCT}%`,
+                        );
+                      if (res.cold)
+                        labels.push(
+                          `${COLD_RESISTANCE_LABEL} ${RESISTANCE_REDUCTION_PER_PIECE_PCT}%`,
+                        );
+                      if (labels.length === 0) return null;
+                      return (
+                        <div className={styles.resistanceBadges}>
+                          {labels.map((l) => (
+                            <span
+                              key={l}
+                              className={styles.resistanceBadge}
+                            >
+                              {l}
+                            </span>
+                          ))}
+                        </div>
+                      );
+                    })()}
                 </>
               ) : (
                 <span className={styles.emptySlot}>Vazio</span>
