@@ -2,7 +2,7 @@ export function getCenterOneInitialPosition(
   lastPage?: LastPage,
 ): ExplorePosition {
   if (lastPage === "/hall/center-front") {
-    return { x: 8, y: 4, direction: "down" };
+    return { x: 9, y: 2, direction: "down" };
   }
 
   if (lastPage === "/cantina/two") {
@@ -10,7 +10,7 @@ export function getCenterOneInitialPosition(
   }
 
   if (lastPage === "/hall/hell") {
-    return { x: 12, y: 7, direction: "left" };
+    return { x: 15, y: 6, direction: "left" };
   }
 
   return { x: 8, y: 10, direction: "up" };

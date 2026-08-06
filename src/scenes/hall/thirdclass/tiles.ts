@@ -24,6 +24,9 @@ export const hallThirdClassTiles = [
         "Uma reunião do conselho está acontecendo no momento, volte mais tarde",
     },
   ),
-  createDoorTile(8, 3, LIBRARY_ROUTES.ONE),
-  createDoorTile(8, 11, HALL_ROUTES.CENTER_FRONT),
+  createDoorTile(9, 2, LIBRARY_ROUTES.ONE),
+  createDoorTile(10, 2, LIBRARY_ROUTES.ONE),
+  createDoorTile(8, 12, HALL_ROUTES.CENTER_FRONT),
+  createDoorTile(9, 12, HALL_ROUTES.CENTER_FRONT),
+  createDoorTile(10, 12, HALL_ROUTES.CENTER_FRONT),
 ];
