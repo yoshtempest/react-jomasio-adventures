@@ -85,7 +85,7 @@ export function CantinaScene({ sceneId }: Props) {
         }}
         npcOverlays={
           sceneId === "two"
-            ? [{ gridX: 10, gridY: 3, element: <JesoFoodBadge /> }]
+            ? [{ gridX: 11, gridY: 3, element: <JesoFoodBadge /> }]
             : undefined
         }
       />

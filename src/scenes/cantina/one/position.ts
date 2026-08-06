@@ -8,5 +8,5 @@ export function getCantinaOneInitialPosition(
     return { x: 9, y: 5, direction: "up" };
   }
 
-  return { x: 8, y: 11, direction: "up" };
+  return { x: 10, y: 13, direction: "up" };
 }

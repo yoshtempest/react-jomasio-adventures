@@ -17,8 +17,8 @@ export function getCantinaTwoInitialPosition(
   }
 
   if (lastPage === "/cantina/battle") {
-    return { x: 9, y: 5, direction: "up" };
+    return { x: 11, y: 4, direction: "up" };
   }
 
-  return { x: 9, y: 5, direction: "up" };
+  return { x: 11, y: 4, direction: "up" };
 }
