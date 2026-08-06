@@ -12,10 +12,12 @@ import { RANK_INDEX } from "./stats";
 export type EquipmentResistances = {
   heat: boolean;
   cold: boolean;
+  blind: boolean;
 };
 
 export const HEAT_RESISTANCE_LABEL = "Resistência a Calor";
 export const COLD_RESISTANCE_LABEL = "Resistência a Frio";
+export const BLIND_RESISTANCE_LABEL = "Redução de Cegueira";
 
 export const RESISTANCE_DROP_CHANCE = 0.2;
 export const RESISTANCE_REDUCTION_PER_PIECE_PCT = 10;
@@ -38,17 +40,19 @@ export function getItemResistances(
   enhance: number,
 ): EquipmentResistances {
   const item = getEquipmentById(itemId);
-  if (!item) return { heat: false, cold: false };
-  if (!ARMOR_SLOTS.includes(item.slot)) return { heat: false, cold: false };
-  if (!isEpicOrHigher(item.rank)) return { heat: false, cold: false };
+  if (!item) return { heat: false, cold: false, blind: false };
+  if (!ARMOR_SLOTS.includes(item.slot)) return { heat: false, cold: false, blind: false };
+  if (!isEpicOrHigher(item.rank)) return { heat: false, cold: false, blind: false };
 
   let seed = advanceSeed(equipmentSeed(itemId), enhance);
 
   const heat = seed % 100 < RESISTANCE_DROP_CHANCE * 100;
   seed = advanceSeed(seed, 1);
   const cold = seed % 100 < RESISTANCE_DROP_CHANCE * 100;
+  seed = advanceSeed(seed, 1);
+  const blind = item.slot === "helmet" && seed % 100 < RESISTANCE_DROP_CHANCE * 100;
 
-  return { heat, cold };
+  return { heat, cold, blind };
 }
 
 function* eachArmorItem(
@@ -64,20 +68,24 @@ function* eachArmorItem(
 export function getEquippedResistances(character: CharacterId): {
   heat: number;
   cold: number;
+  blind: number;
 } {
   const equipped = loadEquipped(character);
   let heat = 0;
   let cold = 0;
+  let blind = 0;
 
   for (const info of eachArmorItem(equipped)) {
     const res = getItemResistances(info.id, info.enhance);
     if (res.heat) heat += RESISTANCE_REDUCTION_PER_PIECE_PCT;
     if (res.cold) cold += RESISTANCE_REDUCTION_PER_PIECE_PCT;
+    if (res.blind) blind += RESISTANCE_REDUCTION_PER_PIECE_PCT;
   }
 
   return {
     heat: Math.min(100, heat),
     cold: Math.min(100, cold),
+    blind: Math.min(100, blind),
   };
 }
 

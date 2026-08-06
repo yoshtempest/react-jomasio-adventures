@@ -8,6 +8,7 @@ import {
   getItemResistances,
   HEAT_RESISTANCE_LABEL,
   COLD_RESISTANCE_LABEL,
+  BLIND_RESISTANCE_LABEL,
   RESISTANCE_REDUCTION_PER_PIECE_PCT,
 } from "@/gameRules/battle/equipment";
 import type { EquipmentDropInfo } from "@/hooks/battle/rewards/useRewards";
@@ -33,6 +34,10 @@ export function EquipmentDrops({ equipmentDrops }: Props) {
           if (res.cold)
             labels.push(
               `${COLD_RESISTANCE_LABEL} ${RESISTANCE_REDUCTION_PER_PIECE_PCT}%`,
+            );
+          if (res.blind)
+            labels.push(
+              `${BLIND_RESISTANCE_LABEL} ${RESISTANCE_REDUCTION_PER_PIECE_PCT}%`,
             );
 
           return (

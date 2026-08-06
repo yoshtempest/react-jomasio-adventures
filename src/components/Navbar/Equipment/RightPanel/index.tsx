@@ -7,6 +7,7 @@ import {
   getItemResistances,
   HEAT_RESISTANCE_LABEL,
   COLD_RESISTANCE_LABEL,
+  BLIND_RESISTANCE_LABEL,
   RESISTANCE_REDUCTION_PER_PIECE_PCT,
 } from "@/gameRules/battle/equipment";
 import {
@@ -125,6 +126,10 @@ export function RightPanel() {
                 if (res.cold)
                   badges.push(
                     `${COLD_RESISTANCE_LABEL} ${RESISTANCE_REDUCTION_PER_PIECE_PCT}%`,
+                  );
+                if (res.blind)
+                  badges.push(
+                    `${BLIND_RESISTANCE_LABEL} ${RESISTANCE_REDUCTION_PER_PIECE_PCT}%`,
                   );
                 if (badges.length === 0) return null;
                 return (

@@ -396,13 +396,15 @@ export function useBattleSystem(props: Props) {
             ? equippedResistances.heat
             : status === "freeze"
               ? equippedResistances.cold
-              : 0;
+              : status === "blind"
+                ? equippedResistances.blind
+                : 0;
         const reduced = reduceDurationByResistance(base, resistance);
         if (reduced <= 0) return p;
         return applyPlayerStatus(p, status, reduced);
       });
     },
-    [setPlayer, equippedResistances.heat, equippedResistances.cold],
+    [setPlayer, equippedResistances.heat, equippedResistances.cold, equippedResistances.blind],
   );
 
   return {
