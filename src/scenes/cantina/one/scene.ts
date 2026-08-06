@@ -5,6 +5,7 @@ import { getCantinaOneDialogue } from "./dialogue";
 import { cantinaOneNpcs } from "./npcs";
 import { cantinaOneEvents } from "./events";
 import { cantinaOneTiles } from "./tiles";
+import { cantinaTwoPlates } from "../two/plate"
 
 export const oneScene: SceneConfig = {
   id: "one",
@@ -16,4 +17,5 @@ export const oneScene: SceneConfig = {
   audio: { src: MUSICS.default },
   initialPosition: getCantinaOneInitialPosition,
   tiles: cantinaOneTiles,
+  plates: cantinaTwoPlates,
 };

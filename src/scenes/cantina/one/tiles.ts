@@ -34,7 +34,7 @@ export const cantinaOneTiles = [
     },
   ),
   createConditionalTile(
-    11,
+    12,
     2,
     (_player, quests) => {
       if (hasQuest(quests, "director_escape")) {
@@ -48,7 +48,7 @@ export const cantinaOneTiles = [
   ),
   createConditionalTile(
     7,
-    3,
+    2,
     (_player, quests) => {
       if (hasQuest(quests, "denis_sausage")) {
         return CAFETERIA_ROUTES.FOUR;
