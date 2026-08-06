@@ -6,7 +6,7 @@ import { BattleEntities } from "@/components/Game/Battle/Entities";
 import { BattleMap } from "@/components/Game/Map/Battle";
 import { DamageNumbers } from "@/components/Game/Battle/DamageNumbers";
 import { ComboDisplay } from "@/components/Game/Battle/ComboDisplay";
-import { Bleeding } from "@/components/Game/Battle/Bleeding";
+import { StatusEffects } from "@/components/Game/Battle/StatusEffects";
 import { VictoryModal } from "@/components/Game/Battle/Modal/Victory";
 import { DefeatModal } from "@/components/Game/Battle/Modal/Defeat";
 import { BattleIntro } from "@/components/Game/Battle/Modal/Intro";
@@ -239,7 +239,7 @@ export function BattleScene(props: Props) {
         progress={comboProgress}
         nextRank={nextRank}
       />
-      <Bleeding />
+      <StatusEffects />
       {showIntro && !isTraining && (
         <BattleIntro
           playerCharacter={player.character}

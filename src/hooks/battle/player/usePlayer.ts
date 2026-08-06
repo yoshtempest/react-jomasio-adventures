@@ -4,7 +4,18 @@ import {
   PLAYER_SPECIAL_COOLDOWN,
 } from "@/data/cooldowns";
 import { canPlayerHit } from "@/gameRules/battle/combat";
-import { applyBasicHit, applySpecialHit } from "@/gameRules/battle/applyHit";
+import {
+  applyBasicHit,
+  applySpecialHit,
+  calculateBasicHitDamage,
+  calculateSpecialHitDamage,
+} from "@/gameRules/battle/applyHit";
+import {
+  isPlayerBlind,
+  isPlayerConfused,
+  isPlayerFrozen,
+  isPlayerParalyzed,
+} from "@/gameRules/battle/status/statusEffects";
 import type { BattleBehavior } from "@/utils/types/player/behavior";
 import type { CharacterProgress } from "@/data/characters/defaultProgress";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
@@ -99,6 +110,8 @@ export function usePlayerBattle({
       if (isEnding.current) return;
       if (!playerCooldown.current) return;
 
+      if (isPlayerFrozen(player) || isPlayerParalyzed(player)) return;
+
       if (
         !bypassCanPlayerHit &&
         !canPlayerHit({
@@ -116,7 +129,41 @@ export function usePlayerBattle({
         return;
       }
 
+      if (isPlayerBlind(player)) {
+        spawnDamageRef.current?.(0, npcX, npcY, "miss");
+        playerCooldown.current = false;
+        setTimeout(() => {
+          playerCooldown.current = true;
+        }, PLAYER_BASIC_COOLDOWN);
+        return;
+      }
+
       if (onBeforeNpcHitRef?.current?.()) {
+        playerCooldown.current = false;
+        setTimeout(() => {
+          playerCooldown.current = true;
+        }, PLAYER_BASIC_COOLDOWN);
+        return;
+      }
+
+      if (isPlayerConfused(player) && Math.random() < 0.5) {
+        const { damage: selfDmg } = calculateBasicHitDamage({
+          player,
+          playerClass,
+          char,
+          titleDamageBonus,
+          critRate,
+          npcArmor,
+          playerHP,
+          playerMaxHp,
+          totalMaxHpDamage,
+          totalTrueDamage,
+          damageMultiplier,
+        });
+        if (selfDmg > 0) {
+          setPlayerHP((hp) => Math.max(0, hp - selfDmg));
+          spawnDamageRef.current?.(selfDmg, playerX, playerY, "confuse");
+        }
         playerCooldown.current = false;
         setTimeout(() => {
           playerCooldown.current = true;
@@ -203,6 +250,8 @@ export function usePlayerBattle({
       if (!playerCooldown.current) return;
       if (delicia < HITS_TO_SPECIAL) return;
 
+      if (isPlayerFrozen(player) || isPlayerParalyzed(player)) return;
+
       if (
         !bypassRangeCheck &&
         !canPlayerHit({
@@ -220,7 +269,43 @@ export function usePlayerBattle({
         return;
       }
 
+      if (isPlayerBlind(player)) {
+        spawnDamageRef.current?.(0, npcX, npcY, "miss");
+        setDelicia(0);
+        playerCooldown.current = false;
+        setTimeout(() => {
+          playerCooldown.current = true;
+        }, PLAYER_SPECIAL_COOLDOWN);
+        return;
+      }
+
       if (onBeforeNpcHitRef?.current?.()) {
+        playerCooldown.current = false;
+        setTimeout(() => {
+          playerCooldown.current = true;
+        }, PLAYER_SPECIAL_COOLDOWN);
+        return;
+      }
+
+      if (isPlayerConfused(player) && Math.random() < 0.5) {
+        const { damage: selfDmg } = calculateSpecialHitDamage({
+          player,
+          playerClass,
+          char,
+          critRate,
+          npcArmor,
+          playerHP,
+          playerMaxHp,
+          totalMaxHpDamage,
+          totalTrueDamage,
+          damageMultiplier,
+          stacks,
+        });
+        if (selfDmg > 0) {
+          setPlayerHP((hp) => Math.max(0, hp - selfDmg));
+          spawnDamageRef.current?.(selfDmg, playerX, playerY, "confuse");
+        }
+        setDelicia(0);
         playerCooldown.current = false;
         setTimeout(() => {
           playerCooldown.current = true;

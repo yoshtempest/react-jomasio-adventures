@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { calculateDamageToNpc } from "@/gameRules/battle/damage";
 import { battleBehaviors } from "@/gameRules/battle/behaviors/player";
 import { getPetBaseDamage } from "@/data/characters/petProgress";
@@ -18,6 +18,13 @@ import {
   getCortaCuraReduction,
   CORATACURA_DURATION_MS,
 } from "@/gameRules/battle/equipment";
+import {
+  applyPlayerStatus,
+  clearPlayerStatuses,
+  BURN_TICK_DAMAGE,
+  BURN_TICK_INTERVAL_MS,
+  type NewPlayerStatus,
+} from "@/gameRules/battle/status/statusEffects";
 
 type Props = {
   playerX: number;
@@ -140,6 +147,8 @@ export function useBattleSystem(props: Props) {
   bleedYRef.current = playerY;
   const bleedUntilRef = useRef(player.bleedUntil);
   bleedUntilRef.current = player.bleedUntil;
+  const burnUntilRef = useRef(player.burnUntil);
+  burnUntilRef.current = player.burnUntil;
 
   const {
     playerHP,
@@ -297,7 +306,16 @@ export function useBattleSystem(props: Props) {
           "bleed",
         );
       }
-    }, 1000);
+      if (burnUntilRef.current > Date.now()) {
+        setPlayerHP((hp) => Math.max(0, hp - BURN_TICK_DAMAGE));
+        spawnDamageRef.current?.(
+          BURN_TICK_DAMAGE,
+          bleedXRef.current,
+          bleedYRef.current,
+          "burn",
+        );
+      }
+    }, BURN_TICK_INTERVAL_MS);
     return () => clearInterval(interval);
   }, [setPlayerHP, isEnding]);
 
@@ -339,13 +357,21 @@ export function useBattleSystem(props: Props) {
     });
     resetPet();
     setPlayer((p) => ({
-      ...p,
-      bleedUntil: 0,
+      ...clearPlayerStatuses(p),
       cortaCuraUntil: 0,
+      pullFromX: 0,
+      pullToX: 0,
       pullStartTime: 0,
       grabbedUntil: 0,
     }));
   };
+
+  const applyStatus = useCallback(
+    (status: NewPlayerStatus, durationMs?: number) => {
+      setPlayer((p) => applyPlayerStatus(p, status, durationMs));
+    },
+    [setPlayer],
+  );
 
   return {
     playerHP,
@@ -385,5 +411,6 @@ export function useBattleSystem(props: Props) {
     blockLimit,
     tenacityReduction: stats.tenacityReduction,
     cortaCuraReduction,
+    applyStatus,
   };
 }

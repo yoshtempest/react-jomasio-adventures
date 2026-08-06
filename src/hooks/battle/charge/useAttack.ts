@@ -5,6 +5,10 @@ import { CHARGE_TIME } from "@/utils/types/battle/charge";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { logPlay, logStop } from "@/utils/replay/audioEventLog";
+import {
+  isPlayerFrozen,
+  isPlayerParalyzed,
+} from "@/gameRules/battle/status/statusEffects";
 
 type Props = {
   player: Player;
@@ -102,6 +106,7 @@ export function useChargeAttack(props: Props) {
     if (isEnding.current) return;
     if (!playerCooldown.current) return;
     if (isHoldingRef.current) return;
+    if (isPlayerFrozen(player) || isPlayerParalyzed(player)) return;
 
     isHoldingRef.current = true;
     chargeStartRef.current = Date.now();

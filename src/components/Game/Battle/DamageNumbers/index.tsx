@@ -22,6 +22,7 @@ const TYPE_CLASS: Record<string, string> = {
   crit: styles.crit,
   charge: styles.charge,
   miss: styles.miss,
+  confuse: styles.confuse,
 };
 
 const HEAD_GAP = 8;

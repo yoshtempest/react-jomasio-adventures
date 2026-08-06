@@ -36,6 +36,82 @@ type BaseHitParams = {
   onSpecialRef?: React.RefObject<() => void>;
 };
 
+type DamageCalcParams = {
+  player: Player;
+  playerClass: PlayerClass;
+  char: CharacterProgress;
+  titleDamageBonus: number;
+  critRate: number;
+  npcArmor: number;
+  playerHP: number;
+  playerMaxHp: number;
+  totalMaxHpDamage: number;
+  totalTrueDamage: number;
+  damageMultiplier: number;
+};
+
+export function calculateBasicHitDamage({
+  player,
+  playerClass,
+  char,
+  titleDamageBonus,
+  critRate,
+  npcArmor,
+  playerHP,
+  playerMaxHp,
+  totalMaxHpDamage,
+  totalTrueDamage,
+  damageMultiplier,
+}: DamageCalcParams): { damage: number; isCrit: boolean; type: DamageType } {
+  const isLarissa = player.character === "larissa";
+  const rawDmg = isLarissa
+    ? 2
+    : calculatePlayerDamage(char.stats.strength, playerClass, titleDamageBonus);
+  const maxHpBonus = calculateMaxHpBonus(playerMaxHp, totalMaxHpDamage);
+  const dmgWithHpBonus = rawDmg + maxHpBonus;
+  const berserkDmg =
+    player.character === "samuel" && char.level >= 20
+      ? Math.round(dmgWithHpBonus * getBerserkMultiplier(playerHP, playerMaxHp))
+      : dmgWithHpBonus;
+  const { damage: critDmg, type: dmgType } = rollCrit(berserkDmg, critRate);
+  const armorReduced = calculateDamageToNpc(critDmg, npcArmor);
+  const trueDmg = Math.round(armorReduced * damageMultiplier) + totalTrueDamage;
+
+  return { damage: trueDmg, isCrit: dmgType === "crit", type: dmgType };
+}
+
+export function calculateSpecialHitDamage({
+  player,
+  playerClass,
+  char,
+  critRate,
+  npcArmor,
+  playerHP,
+  playerMaxHp,
+  totalMaxHpDamage,
+  totalTrueDamage,
+  damageMultiplier,
+  stacks,
+}: Omit<DamageCalcParams, "titleDamageBonus"> & {
+  stacks: number;
+}): { damage: number; isCrit: boolean; type: DamageType } {
+  const isLarissa = player.character === "larissa";
+  const rawDmg = isLarissa
+    ? stacks * 5
+    : calculateSpecialDamage(char.stats.intelligence, playerClass);
+  const maxHpBonus = calculateMaxHpBonus(playerMaxHp, totalMaxHpDamage);
+  const dmgWithHpBonus = rawDmg + maxHpBonus;
+  const berserkDmg =
+    player.character === "samuel" && char.level >= 20
+      ? Math.round(dmgWithHpBonus * getBerserkMultiplier(playerHP, playerMaxHp))
+      : dmgWithHpBonus;
+  const { damage: critDmg, type: dmgType } = rollCrit(berserkDmg, critRate);
+  const armorReduced = calculateDamageToNpc(critDmg, npcArmor);
+  const trueDmg = Math.round(armorReduced * damageMultiplier) + totalTrueDamage;
+
+  return { damage: trueDmg, isCrit: dmgType === "crit", type: dmgType };
+}
+
 type BasicHitParams = BaseHitParams & {
   damageMultiplier: number;
   npcX: number;
@@ -78,20 +154,20 @@ export function applyBasicHit({
   playAttackSound(player.character);
   navigator.vibrate?.(20);
 
-  const isLarissa = player.character === "larissa";
-  const rawDmg = isLarissa
-    ? 2
-    : calculatePlayerDamage(char.stats.strength, playerClass, titleDamageBonus);
-  const maxHpBonus = calculateMaxHpBonus(playerMaxHp, totalMaxHpDamage);
-  const dmgWithHpBonus = rawDmg + maxHpBonus;
-  const berserkDmg =
-    player.character === "samuel" && char.level >= 20
-      ? Math.round(dmgWithHpBonus * getBerserkMultiplier(playerHP, playerMaxHp))
-      : dmgWithHpBonus;
-  const { damage: critDmg, type: dmgType } = rollCrit(berserkDmg, critRate);
-  if (dmgType === "crit") setPlayer((p) => ({ ...p, state: "crit" }));
-  const armorReduced = calculateDamageToNpc(critDmg, npcArmor);
-  const trueDmg = Math.round(armorReduced * damageMultiplier) + totalTrueDamage;
+  const { damage: trueDmg, isCrit, type: dmgType } = calculateBasicHitDamage({
+    player,
+    playerClass,
+    char,
+    titleDamageBonus,
+    critRate,
+    npcArmor,
+    playerHP,
+    playerMaxHp,
+    totalMaxHpDamage,
+    totalTrueDamage,
+    damageMultiplier,
+  });
+  if (isCrit) setPlayer((p) => ({ ...p, state: "crit" }));
 
   behavior.onBasicHit({
     damage: trueDmg,
@@ -161,20 +237,21 @@ export function applySpecialHit({
 }: SpecialHitParams) {
   navigator.vibrate?.(30);
 
-  const isLarissa = player.character === "larissa";
-  const rawDmg = isLarissa
-    ? stacks * 5
-    : calculateSpecialDamage(char.stats.intelligence, playerClass);
-  const maxHpBonus = calculateMaxHpBonus(playerMaxHp, totalMaxHpDamage);
-  const dmgWithHpBonus = rawDmg + maxHpBonus;
-  const berserkDmg =
-    player.character === "samuel" && char.level >= 20
-      ? Math.round(dmgWithHpBonus * getBerserkMultiplier(playerHP, playerMaxHp))
-      : dmgWithHpBonus;
-  const { damage: critDmg, type: dmgType } = rollCrit(berserkDmg, critRate);
-  if (dmgType === "crit") setPlayer((p) => ({ ...p, state: "crit" }));
-  const armorReduced = calculateDamageToNpc(critDmg, npcArmor);
-  const trueDmg = Math.round(armorReduced * damageMultiplier) + totalTrueDamage;
+  const { damage: trueDmg, isCrit, type: dmgType } =
+    calculateSpecialHitDamage({
+      player,
+      playerClass,
+      char,
+      critRate,
+      npcArmor,
+      playerHP,
+      playerMaxHp,
+      totalMaxHpDamage,
+      totalTrueDamage,
+      damageMultiplier,
+      stacks,
+    });
+  if (isCrit) setPlayer((p) => ({ ...p, state: "crit" }));
 
   behavior.onSpecialHit({
     damage: trueDmg,

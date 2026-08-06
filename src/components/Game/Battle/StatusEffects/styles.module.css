@@ -15,6 +15,12 @@
   z-index: 100;
 }
 
-.container span {
-  font-family: italic;
+.status {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4);
+}
+
+.status span {
+  font-style: italic;
 }

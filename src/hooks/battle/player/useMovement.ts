@@ -20,6 +20,10 @@ import {
 } from "@/hooks/battle/useGravity";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { getSkillTree } from "@/data/passiveSkills";
+import {
+  isPlayerFrozen,
+  isPlayerParalyzed,
+} from "@/gameRules/battle/status/statusEffects";
 
 const PLAYER_COLLISION_W = 30;
 const PLAYER_COLLISION_H = 50;
@@ -138,6 +142,8 @@ export function useBattleMovement(
     if (!canJump(isJumping.current)) return;
 
     setPlayer((p) => {
+      if (isPlayerFrozen(p)) return p;
+
       const tree = getSkillTree(p.character);
       const skill = tree.skills.find((s) => s.id === "doubleJump");
       const level = progressRef.current[p.character]?.level ?? 1;
@@ -166,7 +172,10 @@ export function useBattleMovement(
     if (downLockRef.current) return;
     downLockRef.current = true;
     lastBlockPressRef.current = Date.now();
-    setPlayer((p) => blockStart(p));
+    setPlayer((p) => {
+      if (isPlayerFrozen(p)) return p;
+      return blockStart(p);
+    });
   }
 
   function blockEndAction() {
@@ -176,11 +185,15 @@ export function useBattleMovement(
   }
 
   function toggleCrouch() {
-    setPlayer((p) => crouchToggle(p));
+    setPlayer((p) => {
+      if (isPlayerFrozen(p)) return p;
+      return crouchToggle(p);
+    });
   }
 
   function attack() {
     setPlayer((p) => {
+      if (isPlayerFrozen(p) || isPlayerParalyzed(p)) return p;
       if (p.state === "falling" && !hasUsedFallingAttack.current) {
         hasUsedFallingAttack.current = true;
         return { ...p, state: "fallingAttack" };
@@ -193,6 +206,7 @@ export function useBattleMovement(
 
   function special() {
     setPlayer((p) => {
+      if (isPlayerFrozen(p) || isPlayerParalyzed(p)) return p;
       if (p.state === "falling" || p.state === "jump")
         return { ...p, state: "preSpecialInAir" };
       if (p.state !== "idle") return p;

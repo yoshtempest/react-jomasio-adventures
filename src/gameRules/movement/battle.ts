@@ -3,6 +3,7 @@ import {
   DASH_STEP,
   BATTLE_LIMITS,
 } from "@/utils/types/player/movement";
+import { isPlayerFrozen, isPlayerParalyzed } from "@/gameRules/battle/status/statusEffects";
 
 const CROUCHED_STEP = 4;
 const CROUCHED_STATES = new Set<PlayerState>([
@@ -11,6 +12,7 @@ const CROUCHED_STATES = new Set<PlayerState>([
 ]);
 
 export function canAct(player: Player) {
+  if (isPlayerFrozen(player)) return false;
   return (
     player.mode === "battle" &&
     player.state !== "blocked" &&
@@ -38,8 +40,9 @@ function resolveMovementState(state: PlayerState): PlayerState {
   return "walk";
 }
 
-function getStep(state: PlayerState): number {
-  return CROUCHED_STATES.has(state) ? CROUCHED_STEP : BATTLE_STEP;
+function getStep(player: Player): number {
+  const base = CROUCHED_STATES.has(player.state) ? CROUCHED_STEP : BATTLE_STEP;
+  return isPlayerParalyzed(player) ? Math.round(base / 2) : base;
 }
 
 export function moveLeftBattle(player: Player): Player {
@@ -47,7 +50,7 @@ export function moveLeftBattle(player: Player): Player {
 
   return {
     ...player,
-    x: Math.max(BATTLE_LIMITS.minX, player.x - getStep(player.state)),
+    x: Math.max(BATTLE_LIMITS.minX, player.x - getStep(player)),
     battleDirection: "left",
     state: resolveMovementState(player.state),
   };
@@ -58,7 +61,7 @@ export function moveRightBattle(player: Player): Player {
 
   return {
     ...player,
-    x: Math.min(BATTLE_LIMITS.maxX, player.x + getStep(player.state)),
+    x: Math.min(BATTLE_LIMITS.maxX, player.x + getStep(player)),
     battleDirection: "right",
     state: resolveMovementState(player.state),
   };
@@ -104,6 +107,7 @@ export function specialBattle(p: Player): Player {
 
 export function dashLeftBattle(p: Player): Player {
   if (p.mode !== "battle") return p;
+  if (isPlayerFrozen(p)) return p;
   if (CROUCHED_STATES.has(p.state)) return p;
   return {
     ...p,
@@ -115,6 +119,7 @@ export function dashLeftBattle(p: Player): Player {
 
 export function dashRightBattle(p: Player): Player {
   if (p.mode !== "battle") return p;
+  if (isPlayerFrozen(p)) return p;
   if (CROUCHED_STATES.has(p.state)) return p;
   return {
     ...p,

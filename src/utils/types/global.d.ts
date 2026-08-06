@@ -291,6 +291,11 @@ declare global {
     moving?: boolean;
     grabbedUntil?: number;
     bleedUntil: number;
+    burnUntil: number;
+    paralyzedUntil: number;
+    blindUntil: number;
+    confusedUntil: number;
+    frozenUntil: number;
     cortaCuraUntil: number;
     pullFromX: number;
     pullToX: number;
@@ -377,5 +382,7 @@ declare global {
     | "charge"
     | "reflect"
     | "miss"
-    | "bleed";
+    | "bleed"
+    | "burn"
+    | "confuse";
 }
