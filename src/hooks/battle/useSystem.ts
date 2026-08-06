@@ -22,7 +22,8 @@ import {
   applyPlayerStatus,
   clearPlayerStatuses,
   BURN_TICK_DAMAGE,
-  BURN_TICK_INTERVAL_MS,
+  POISON_TICK_DAMAGE,
+  DOT_TICK_INTERVAL_MS,
   type NewPlayerStatus,
 } from "@/gameRules/battle/status/statusEffects";
 
@@ -149,6 +150,8 @@ export function useBattleSystem(props: Props) {
   bleedUntilRef.current = player.bleedUntil;
   const burnUntilRef = useRef(player.burnUntil);
   burnUntilRef.current = player.burnUntil;
+  const poisonUntilRef = useRef(player.poisonUntil);
+  poisonUntilRef.current = player.poisonUntil;
 
   const {
     playerHP,
@@ -315,7 +318,16 @@ export function useBattleSystem(props: Props) {
           "burn",
         );
       }
-    }, BURN_TICK_INTERVAL_MS);
+      if (poisonUntilRef.current > Date.now()) {
+        setPlayerHP((hp) => Math.max(0, hp - POISON_TICK_DAMAGE));
+        spawnDamageRef.current?.(
+          POISON_TICK_DAMAGE,
+          bleedXRef.current,
+          bleedYRef.current,
+          "poison",
+        );
+      }
+    }, DOT_TICK_INTERVAL_MS);
     return () => clearInterval(interval);
   }, [setPlayerHP, isEnding]);
 

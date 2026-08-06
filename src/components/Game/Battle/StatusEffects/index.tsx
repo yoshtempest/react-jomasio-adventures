@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./styles.module.css";
-import { Droplets, Flame, Zap, EyeOff, Brain, Snowflake } from "lucide-react";
+import { Droplets, Flame, Skull, Zap, EyeOff, Brain, Snowflake } from "lucide-react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import {
   getActivePlayerStatuses,
@@ -16,6 +16,7 @@ type StatusMeta = {
 const STATUS_META: Record<PlayerStatus, StatusMeta> = {
   bleed: { Icon: Droplets, color: "#ff4444", filled: true },
   burn: { Icon: Flame, color: "#ff8800", filled: true },
+  poison: { Icon: Skull, color: "#44ff44", filled: true },
   paralyze: { Icon: Zap, color: "#ffdd00" },
   blind: { Icon: EyeOff, color: "#aaaaaa" },
   confuse: { Icon: Brain, color: "#c084fc" },

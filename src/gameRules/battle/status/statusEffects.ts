@@ -1,6 +1,7 @@
 type StatusUntilKey =
   | "bleedUntil"
   | "burnUntil"
+  | "poisonUntil"
   | "paralyzedUntil"
   | "blindUntil"
   | "confusedUntil"
@@ -9,6 +10,7 @@ type StatusUntilKey =
 export type PlayerStatus =
   | "bleed"
   | "burn"
+  | "poison"
   | "paralyze"
   | "blind"
   | "confuse"
@@ -19,6 +21,7 @@ export type NewPlayerStatus = Exclude<PlayerStatus, "bleed">;
 export const STATUS_UNTIL_FIELD: Record<PlayerStatus, StatusUntilKey> = {
   bleed: "bleedUntil",
   burn: "burnUntil",
+  poison: "poisonUntil",
   paralyze: "paralyzedUntil",
   blind: "blindUntil",
   confuse: "confusedUntil",
@@ -27,6 +30,7 @@ export const STATUS_UNTIL_FIELD: Record<PlayerStatus, StatusUntilKey> = {
 
 export const STATUS_DURATIONS_MS: Record<NewPlayerStatus, number> = {
   burn: 5000,
+  poison: 5000,
   paralyze: 2000,
   blind: 2000,
   confuse: 5000,
@@ -36,6 +40,7 @@ export const STATUS_DURATIONS_MS: Record<NewPlayerStatus, number> = {
 export const STATUS_LIST: PlayerStatus[] = [
   "bleed",
   "burn",
+  "poison",
   "paralyze",
   "blind",
   "confuse",
@@ -43,7 +48,8 @@ export const STATUS_LIST: PlayerStatus[] = [
 ];
 
 export const BURN_TICK_DAMAGE = 2;
-export const BURN_TICK_INTERVAL_MS = 1000;
+export const POISON_TICK_DAMAGE = 2;
+export const DOT_TICK_INTERVAL_MS = 1000;
 
 export function isPlayerFrozen(player: Player): boolean {
   return player.frozenUntil > Date.now();
@@ -63,6 +69,10 @@ export function isPlayerConfused(player: Player): boolean {
 
 export function isPlayerBurning(player: Player): boolean {
   return player.burnUntil > Date.now();
+}
+
+export function isPlayerPoisoned(player: Player): boolean {
+  return player.poisonUntil > Date.now();
 }
 
 export function applyPlayerStatus(
@@ -98,6 +108,7 @@ export function clearPlayerStatuses(player: Player): Player {
     ...player,
     bleedUntil: 0,
     burnUntil: 0,
+    poisonUntil: 0,
     paralyzedUntil: 0,
     blindUntil: 0,
     confusedUntil: 0,

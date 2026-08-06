@@ -80,6 +80,22 @@
     calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8);
 }
 
+.burn {
+  color: #ff8800;
+  text-shadow:
+    0 0 var(--size-6) rgba(255, 136, 0, 0.8),
+    var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8),
+    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8);
+}
+
+.poison {
+  color: #44ff44;
+  text-shadow:
+    0 0 var(--size-6) rgba(68, 255, 68, 0.8),
+    var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8),
+    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8);
+}
+
 .blocked {
   color: #00ffff;
   font-size: var(--small);

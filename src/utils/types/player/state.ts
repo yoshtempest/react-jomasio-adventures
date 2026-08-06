@@ -11,6 +11,7 @@ export const BATTLE_DEFAULT_STATE = {
   battleDirection: "right" as const,
   bleedUntil: 0,
   burnUntil: 0,
+  poisonUntil: 0,
   paralyzedUntil: 0,
   blindUntil: 0,
   confusedUntil: 0,

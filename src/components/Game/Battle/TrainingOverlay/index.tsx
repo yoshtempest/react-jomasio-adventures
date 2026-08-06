@@ -10,6 +10,7 @@ const TRAINING_MAX_SECONDS = 10 * 60;
 
 const STATUS_LABELS: Record<NewPlayerStatus, string> = {
   burn: "Queimação",
+  poison: "Envenenamento",
   paralyze: "Paralisia",
   blind: "Cegueira",
   confuse: "Confusão",

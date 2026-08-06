@@ -292,6 +292,7 @@ declare global {
     grabbedUntil?: number;
     bleedUntil: number;
     burnUntil: number;
+    poisonUntil: number;
     paralyzedUntil: number;
     blindUntil: number;
     confusedUntil: number;
@@ -384,5 +385,6 @@ declare global {
     | "miss"
     | "bleed"
     | "burn"
+    | "poison"
     | "confuse";
 }
