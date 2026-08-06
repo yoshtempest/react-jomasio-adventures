@@ -3,5 +3,5 @@ export function getHellInitialPosition(lastPage?: LastPage): ExplorePosition {
     return { x: 8, y: 4, direction: "down" };
   }
 
-  return { x: 8, y: 10, direction: "up" };
+  return { x: 9, y: 11, direction: "up" };
 }

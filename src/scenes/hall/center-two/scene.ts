@@ -1,7 +1,7 @@
 import { hallTwoCenter } from "@/maps/hall/centerTwo";
 import { MUSICS } from "@/scenes/shared/music";
-import { centerTwoTiles } from "./tiles";
-import { getCenterTwoInitialPosition } from "./position";
+import { centerOneTiles } from "../center-one/tiles";
+import { getCenterOneInitialPosition } from "../center-one/position";
 import { centerTwoNpcs } from "./npcs";
 import { getHallCenterDialogue } from "./dialogue";
 import { hallCenterTwoEvents } from "./events";
@@ -14,8 +14,8 @@ export const centerTwoScene: SceneConfig = {
   scaleFix: 1.4,
   events: hallCenterTwoEvents,
   dialogueData: getHallCenterDialogue,
-  tiles: centerTwoTiles,
-  initialPosition: getCenterTwoInitialPosition,
+  tiles: centerOneTiles,
+  initialPosition: getCenterOneInitialPosition,
   map: hallTwoCenter,
   npcs: centerTwoNpcs,
   plates: centerTwoPlates,

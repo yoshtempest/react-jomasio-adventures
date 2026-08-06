@@ -6,9 +6,11 @@ import { HALL_ROUTES, HELLROOM_ROUTES } from "@/scenes/shared/routes";
 import { hasQuest } from "@/scenes/shared/helpers";
 
 export const hellTiles = [
-  createDoorTile(8, 11, HALL_ROUTES.CENTER_ONE),
+  createDoorTile(8, 12, HALL_ROUTES.CENTER_ONE),
+  createDoorTile(9, 12, HALL_ROUTES.CENTER_ONE),
+  createDoorTile(10, 12, HALL_ROUTES.CENTER_ONE),
   createConditionalTile(
-    12,
+    15,
     7,
     (_player, quests) => {
       if (hasQuest(quests, "go_to_hell")) {

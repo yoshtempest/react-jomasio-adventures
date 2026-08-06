@@ -9,5 +9,5 @@ export function getThirdClassInitialPosition(
     return { x: 4, y: 7, direction: "right" };
   }
 
-  return { x: 8, y: 11, direction: "up" };
+  return { x: 9, y: 11, direction: "up" };
 }
