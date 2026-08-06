@@ -28,7 +28,7 @@ export function SummonHUDList({ summons, npcType }: Props) {
           <img
             src={npcPath(`/${s.npcType}/face.svg`)}
             alt={`${s.npcType} HUD`}
-            className={styles.image}
+            className="hudImage"
             onError={(e) => {
               const img = e.currentTarget;
 
