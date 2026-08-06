@@ -6,5 +6,6 @@ export const twoScene: SceneConfig = {
   id: "two",
   initialPosition: getDirectorTwoInitialPosition,
   map: director,
+  scaleFix: 1.6,
   audio: { src: MUSICS.default },
 };

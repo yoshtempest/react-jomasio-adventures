@@ -1,5 +1,5 @@
 ajustar o mapa de todas as salas
-a director também deve ter uma visão melhor da tela
+na diretoria o jogador precisa subir no vaso de flores, para subir na estante e então alcançar a chave.
 adicionar baú na hellroom
 ajustar exibição das entidades no replay
 colocar bau no hallJailson

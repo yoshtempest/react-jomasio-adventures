@@ -11,7 +11,7 @@ export function getHallOneInitialPosition(
     return { x: 9, y: 1, direction: "down" };
   }
   if (lastPage?.startsWith("/cantina")) {
-    return { x: 8, y: 10, direction: "up" };
+    return { x: 9, y: 11, direction: "up" };
   }
 
   return { x: 2, y: 9, direction: "down" };

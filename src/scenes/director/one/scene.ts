@@ -10,6 +10,7 @@ export const oneScene: SceneConfig = {
   dialogueData: getDirectorDialogue,
   initialPosition: getDirectorOneInitialPosition,
   map: blocked,
+  scaleFix: 1.6,
   events: directorEvents,
   audio: { src: MUSICS.default },
   npcs: directorNpcs,

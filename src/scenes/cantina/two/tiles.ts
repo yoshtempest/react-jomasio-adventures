@@ -12,8 +12,8 @@ import { hasAnyQuest, hasQuest } from "@/scenes/shared/helpers";
 export const cantinaTwoTiles = [
   createDoorTile(2, 2, HALL_ROUTES.CENTER_ONE),
   createConditionalTile(
-    10,
-    3,
+    12,
+    2,
     (_player, quests) => {
       if (hasQuest(quests, "director_escape")) {
         return DIRECTOR_ROUTES.TWO;

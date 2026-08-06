@@ -2,7 +2,7 @@ export function getCantinaTwoInitialPosition(
   lastPage?: LastPage,
 ): ExplorePosition {
   if (lastPage === "/hall/one" || lastPage === "/hall/afterpcroom-one") {
-    return { x: 14, y: 11, direction: "left" };
+    return { x: 16, y: 12, direction: "left" };
   }
 
   if (lastPage === "/hall/center-one") {
