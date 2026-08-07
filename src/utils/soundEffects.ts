@@ -5,6 +5,7 @@ export function createSounds() {
     win: sfx("player/win.mp3"),
     defeat: sfx("player/defeat.mp3"),
     run: sfx("player/run.mp3"),
+    cantMove: sfx("player/cantMove.mp3"),
     tryAgain: sfx("player/tryAgain.mp3"),
     receivedItem: sfx("player/receivedAnItem.mp3"),
     usedItem: sfx("player/usedAnItem.mp3"),

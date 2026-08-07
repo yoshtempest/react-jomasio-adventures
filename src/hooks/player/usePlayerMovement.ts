@@ -1,15 +1,23 @@
 import { useRef, useEffect } from "react";
 import { moveExplore, EXPLORE_MOVE_INTERVAL } from "@/gameRules/movement/explore";
+import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 
 export function usePlayerMovement(
   currentMap: number[][],
   currentHeightMap: number[][],
+  player: Player,
   setPlayer: React.Dispatch<React.SetStateAction<Player>>,
 ) {
+  const { playSound } = useSoundEffects();
+  const playSoundRef = useRef(playSound);
+  playSoundRef.current = playSound;
+
   const upIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const downIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const leftIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const rightIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const playerRef = useRef(player);
+  playerRef.current = player;
   const currentMapRef = useRef(currentMap);
   currentMapRef.current = currentMap;
   const currentHeightMapRef = useRef(currentHeightMap);
@@ -24,26 +32,39 @@ export function usePlayerMovement(
     };
   }, []);
 
+  function attemptMove(direction: Direction) {
+    const result = moveExplore(
+      playerRef.current,
+      currentMapRef.current,
+      direction,
+      currentHeightMapRef.current,
+    );
+    if (result.blocked) {
+      playSoundRef.current("cantMove");
+    }
+    setPlayer(result.player);
+  }
+
   function moveUp() {
-    setPlayer((p) => moveExplore(p, currentMapRef.current, "up", currentHeightMapRef.current));
+    attemptMove("up");
   }
 
   function moveDown() {
-    setPlayer((p) => moveExplore(p, currentMapRef.current, "down", currentHeightMapRef.current));
+    attemptMove("down");
   }
 
   function moveLeft() {
-    setPlayer((p) => moveExplore(p, currentMapRef.current, "left", currentHeightMapRef.current));
+    attemptMove("left");
   }
 
   function moveRight() {
-    setPlayer((p) => moveExplore(p, currentMapRef.current, "right", currentHeightMapRef.current));
+    attemptMove("right");
   }
 
   function startMoveUpExplore() {
     if (upIntervalRef.current) return;
     upIntervalRef.current = setInterval(() => {
-      setPlayer((p) => moveExplore(p, currentMapRef.current, "up", currentHeightMapRef.current));
+      attemptMove("up");
     }, EXPLORE_MOVE_INTERVAL);
   }
 
@@ -57,7 +78,7 @@ export function usePlayerMovement(
   function startMoveDownExplore() {
     if (downIntervalRef.current) return;
     downIntervalRef.current = setInterval(() => {
-      setPlayer((p) => moveExplore(p, currentMapRef.current, "down", currentHeightMapRef.current));
+      attemptMove("down");
     }, EXPLORE_MOVE_INTERVAL);
   }
 
@@ -71,7 +92,7 @@ export function usePlayerMovement(
   function startMoveLeftExplore() {
     if (leftIntervalRef.current) return;
     leftIntervalRef.current = setInterval(() => {
-      setPlayer((p) => moveExplore(p, currentMapRef.current, "left", currentHeightMapRef.current));
+      attemptMove("left");
     }, EXPLORE_MOVE_INTERVAL);
   }
 
@@ -85,7 +106,7 @@ export function usePlayerMovement(
   function startMoveRightExplore() {
     if (rightIntervalRef.current) return;
     rightIntervalRef.current = setInterval(() => {
-      setPlayer((p) => moveExplore(p, currentMapRef.current, "right", currentHeightMapRef.current));
+      attemptMove("right");
     }, EXPLORE_MOVE_INTERVAL);
   }
 

@@ -3,6 +3,11 @@ import { canStepTo, getTileHeight } from "@/gameRules/movement/levels";
 
 export const EXPLORE_MOVE_INTERVAL = 300;
 
+export type ExploreMoveResult = {
+  player: Player;
+  blocked: boolean;
+};
+
 function tryMove(
   player: Player,
   map: number[][],
@@ -45,45 +50,54 @@ export function moveExplore(
   map: number[][],
   direction: Direction,
   heightMap?: number[][],
-): Player {
-  if (player.mode !== "explore") return player;
+): ExploreMoveResult {
+  if (player.mode !== "explore") return { player, blocked: false };
 
   if (player.hasPeru) {
     const double = tryMove(player, map, heightMap, direction, 2);
     if (double.moved) {
       return {
-        ...player,
-        gridX: double.newX,
-        gridY: double.newY,
-        height: getTileHeight(heightMap, double.newX, double.newY),
-        direction,
-        moving: true,
+        player: {
+          ...player,
+          gridX: double.newX,
+          gridY: double.newY,
+          height: getTileHeight(heightMap, double.newX, double.newY),
+          direction,
+          moving: true,
+        },
+        blocked: false,
       };
     }
     const single = tryMove(player, map, heightMap, direction, 1);
     if (single.moved) {
       return {
-        ...player,
-        gridX: single.newX,
-        gridY: single.newY,
-        height: getTileHeight(heightMap, single.newX, single.newY),
-        direction,
-        moving: true,
+        player: {
+          ...player,
+          gridX: single.newX,
+          gridY: single.newY,
+          height: getTileHeight(heightMap, single.newX, single.newY),
+          direction,
+          moving: true,
+        },
+        blocked: false,
       };
     }
-    return { ...player, direction, moving: false };
+    return { player: { ...player, direction, moving: false }, blocked: true };
   }
 
   const result = tryMove(player, map, heightMap, direction, 1);
   if (result.moved) {
     return {
-      ...player,
-      gridX: result.newX,
-      gridY: result.newY,
-      height: getTileHeight(heightMap, result.newX, result.newY),
-      direction,
-      moving: true,
+      player: {
+        ...player,
+        gridX: result.newX,
+        gridY: result.newY,
+        height: getTileHeight(heightMap, result.newX, result.newY),
+        direction,
+        moving: true,
+      },
+      blocked: false,
     };
   }
-  return { ...player, direction, moving: false };
+  return { player: { ...player, direction, moving: false }, blocked: true };
 }

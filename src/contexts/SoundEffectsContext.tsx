@@ -14,6 +14,7 @@ export type SoundId =
   | "win"
   | "defeat"
   | "run"
+  | "cantMove"
   | "tryAgain"
   | "receivedItem"
   | "usedItem"

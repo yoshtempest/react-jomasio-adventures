@@ -147,7 +147,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     startMoveRightExplore,
     stopMoveRightExplore,
     clearAllIntervals,
-  } = usePlayerMovement(currentMap, currentHeightMap, setPlayer);
+  } = usePlayerMovement(currentMap, currentHeightMap, player, setPlayer);
 
   const [playerClass, setPlayerClass] = useState<PlayerClass>(() => {
     const saved = localStorage.getItem(slotKey(PLAYER_CLASS_KEY));
