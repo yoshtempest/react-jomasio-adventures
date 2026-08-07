@@ -3,15 +3,26 @@ import { useLocation } from "react-router";
 import { useNavigate } from "react-router";
 import { BattleScene } from "@/components/Game/Scenes/Battle";
 import { useFlags } from "@/contexts/FlagContext";
-import { BATTLE_CONFIGS, ROUTE_TO_BATTLE_KEY } from "@/data/battle/config";
+import {
+  BATTLE_CONFIGS,
+  ROUTE_TO_BATTLE_KEY,
+  getBattleBackgroundFromRoute,
+} from "@/data/battle/config";
 
 export default function BattlePage() {
-  const { pathname } = useLocation();
+  const location = useLocation();
+  const { pathname } = location;
   const key = ROUTE_TO_BATTLE_KEY[pathname];
   const config = key ? BATTLE_CONFIGS[key] : undefined;
   const { setFlag } = useFlags();
   const navigate = useNavigate();
   const training = key === "training";
+
+  const originRoute = (location.state as { battleOrigin?: string } | null)
+    ?.battleOrigin;
+  const background =
+    (originRoute ? getBattleBackgroundFromRoute(originRoute) : "") ||
+    config?.background;
 
   const handleVictory = useCallback(() => {
     config?.onVictory?.({ setFlag, navigate });
@@ -27,7 +38,7 @@ export default function BattlePage() {
       redirectTo={config.redirectTo}
       onVictory={handleVictory}
       victoryDescription={config.victoryDescription}
-      background={config.background}
+      background={background}
       audioSrc={config.audioSrc}
       training={training}
     />

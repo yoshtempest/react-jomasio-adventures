@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";
 import {
   useCharacterProgress,
@@ -28,6 +28,7 @@ function rollEncounter() {
 
 export function useItemEffect({ playSFX }: Props) {
   const navigate = useNavigate();
+  const location = useLocation();
   const { setMode, player, toggleHasPeru } = usePlayer();
   const { progress, restoreHunger } = useCharacterProgress();
   const { removeItem } = useInventory();
@@ -38,7 +39,7 @@ export function useItemEffect({ playSFX }: Props) {
         return () => {
           playSFX?.("/assets/songs/transitions/undertaleToBattle.mp3", 0.6);
           const route = rollEncounter();
-          navigate(route);
+          navigate(route, { state: { battleOrigin: location.pathname } });
         };
 
       case "jorjao_map":

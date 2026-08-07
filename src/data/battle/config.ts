@@ -16,6 +16,26 @@ export type BattleConfig = {
   audioSrc: string;
 };
 
+export function getBattleBackgroundFromRoute(route: string): string {
+  if (route.startsWith("/hall/hell")) return sceneBackgrounds.HellRoomBattle;
+  if (route.startsWith("/hall/jailson")) {
+    return sceneBackgrounds.JailsonHallBattle;
+  }
+  if (route.startsWith("/hall")) return sceneBackgrounds.HallCenterBattle;
+  if (route.startsWith("/cantina")) return sceneBackgrounds.CantinaBattle;
+  if (route.startsWith("/cafeteria")) return sceneBackgrounds.CafeteriaBattle;
+  if (route.startsWith("/library")) return sceneBackgrounds.LibraryBattle;
+  if (route.startsWith("/pcroom")) return sceneBackgrounds.PcRoomBattle;
+  if (route.startsWith("/hellroom")) return sceneBackgrounds.HellRoomBattle;
+  if (route.startsWith("/footballcourt")) {
+    return sceneBackgrounds.FootballCourtBattle;
+  }
+  if (route.startsWith("/brodiclass")) {
+    return sceneBackgrounds.BrodiClassBattle;
+  }
+  return "";
+}
+
 export const BATTLE_CONFIGS: Record<string, BattleConfig> = {
   cafeteria: {
     npcType: "deise",
