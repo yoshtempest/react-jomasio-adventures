@@ -328,8 +328,8 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     "4000000011",
     { coins: 1000, hyperCoins: 10, stats: { intelligence: 18, luck: 8 } },
   ),
-  monsterOfNessRiver: makeCard(
-    "monsterOfNessRiver",
+  leviathan: makeCard(
+    "leviathan",
     "Carta de Monstro do Rio Ness",
     "boss",
     "Nem é do Ness. É do rio da esquina.",

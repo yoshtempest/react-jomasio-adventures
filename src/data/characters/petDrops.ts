@@ -17,6 +17,16 @@ export const PET_DROPS: Record<string, PetDropInfo> = {
     npcLabel: "Rei dos Mortos de Fome",
     chance: 0.01,
   },
+  pet_msSpider: {
+    npcType: "msSpider",
+    npcLabel: "Dona Aranha",
+    chance: 0.01,
+  },
+  pet_mosquito: {
+    npcType: "mosquito",
+    npcLabel: "Muriçoca Soca Soca",
+    chance: 0.01,
+  },
   pet_dog: { npcType: "lupita", npcLabel: "Lupita", chance: 0.01 },
   pet_fishKing: { npcType: "mobyDick", npcLabel: "Moby Dick", chance: 0.005 },
 };

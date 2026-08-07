@@ -40,7 +40,7 @@ export const NPCS: Record<string, NPCData> = {
   hungryFish: { type: "hungryFish", class: "common" },
   hungryCow: { type: "hungryCow", class: "common" },
   fischer: { type: "fischer", class: "rare" },
-  monsterOfNessRiver: { type: "monsterOfNessRiver", class: "boss" },
+  leviathan: { type: "leviathan", class: "boss" },
   /* Cachoeiras */
   figurantOfBaalCult: { type: "figurantOfBaalCult", class: "common" },
   baal: { type: "baal", class: "legendary" },

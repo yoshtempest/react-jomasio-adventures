@@ -199,8 +199,8 @@ export const BESTIARY_DATA = createBestiary({
     location: "Lagoa Grande",
     attacks: ["Rede Enroscante", "Anzol Envenenado"],
   },
-  monsterOfNessRiver: {
-    name: "Monstro do Rio Ness",
+  leviathan: {
+    name: "Leviathan",
     description:
       "A criatura lendária que habita as profundezas do Rio Ness em Lagoa Grande. Poucos viram e sobreviveram.",
     location: "Lagoa Grande",

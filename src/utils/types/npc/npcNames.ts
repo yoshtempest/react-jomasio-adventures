@@ -25,7 +25,7 @@ const NPC_DISPLAY_NAMES: Record<string, string> = {
   tim: "Tim",
   muyMacho: "Muy Macho",
   fischer: "Fischer",
-  monsterOfNessRiver: "Monstro do Rio Ness",
+  leviathan: "Monstro do Rio Ness",
   figurantOfBaalCult: "Figurante do Culto de Baal",
   baal: "Baal",
   madame: "Madame",

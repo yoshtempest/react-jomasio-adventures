@@ -282,7 +282,7 @@ export const BATTLE_QUESTS = createQuests({
   },
   x1_monster_of_ness_river: {
     name: "Estou de boa na lagoa",
-    image: "/assets/npcs/monsterOfNessRiver/walk.svg",
+    image: "/assets/npcs/leviathan/walk.svg",
     description: "Saí daqui mano",
     type: "history",
     rewardsType: "coin",
