@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { useFlags } from "@/contexts/FlagContext";
 import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
 import { getSelected } from "@/gameRules/menu/selection";
 import { asset } from "@/utils/paths";
@@ -11,6 +12,7 @@ const CLASSES: PlayerClass[] = ["fracote", "idiota", "amostradinho"];
 export function useClassSelection(isActive: boolean, onConfirm?: () => void) {
   const { pushControls, popControls } = useGameControls();
   const { chooseClass } = usePlayer();
+  const { setFlag } = useFlags();
   const { playMove, playSelect } = useMenuSFX();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -30,6 +32,8 @@ export function useClassSelection(isActive: boolean, onConfirm?: () => void) {
   popControlsRef.current = popControls;
   const chooseClassRef = useRef(chooseClass);
   chooseClassRef.current = chooseClass;
+  const setFlagRef = useRef(setFlag);
+  setFlagRef.current = setFlag;
   const onConfirmRef = useRef(onConfirm);
   onConfirmRef.current = onConfirm;
 
@@ -59,6 +63,7 @@ export function useClassSelection(isActive: boolean, onConfirm?: () => void) {
           audio.play().catch(() => {});
         }
         chooseClassRef.current(selected);
+        setFlagRef.current("chose_class");
         onConfirmRef.current?.(); // 👈 aqui está a mágica
         return true;
       },
