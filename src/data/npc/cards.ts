@@ -330,9 +330,9 @@ export const NPC_CARDS: Record<string, NpcCard> = {
   ),
   leviathan: makeCard(
     "leviathan",
-    "Carta de Monstro do Rio Ness",
+    "Carta do Leviathan",
     "boss",
-    "Nem é do Ness. É do rio da esquina.",
+    "Leviathan. A criatura lendária que habita as profundezas da Lagoa Grande.",
     "4000000012",
     { coins: 1200, hyperCoins: 12, stats: { hp: 20, armor: 8, tenacity: 6 } },
   ),

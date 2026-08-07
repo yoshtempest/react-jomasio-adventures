@@ -6,7 +6,6 @@ import { Preloader } from "@/components/Preloader";
 
 import App from "@/App";
 
-
 const Loading = lazyLoad(() => import("@/pages/Loading"));
 const Intro = lazyLoad(() => import("@/pages/Intro"));
 const Tutorial = lazyLoad(() => import("@/pages/Tutorial"));
@@ -31,6 +30,7 @@ const HellroomPage = lazyLoad(() => import("@/pages/HellRoom"));
 const BrodiClassPage = lazyLoad(() => import("@/pages/BrodiClass"));
 
 const BattlePage = lazyLoad(() => import("@/pages/BattlePage"));
+const BattleTesterPage = lazyLoad(() => import("@/pages/BattleTester"));
 const ReplayPage = lazyLoad(() => import("@/pages/Replay"));
 
 const Landing = lazyLoad(() => import("@/pages/Landing"));
@@ -133,15 +133,19 @@ export function AppRoutes() {
               <Route path="/brodiclass/battle" element={<BattlePage />} />
             </Route>
 
+            <Route path="training" element={<BattlePage />} />
+
             <Route path="battle/hungry" element={<BattlePage />} />
             <Route path="battle/vandinhafragment" element={<BattlePage />} />
             <Route path="battle/jhowsimar" element={<BattlePage />} />
             <Route path="battle/piupiu" element={<BattlePage />} />
             <Route path="battle/rice" element={<BattlePage />} />
             <Route path="battle/goat" element={<BattlePage />} />
-            <Route path="battle/technoblade" element={<BattlePage />} />
 
-            <Route path="training" element={<BattlePage />} />
+            <Route
+              path="/battle/tester/:npcId"
+              element={<BattleTesterPage />}
+            />
 
             <Route path="replay/:id" element={<ReplayPage />} />
           </Route>
