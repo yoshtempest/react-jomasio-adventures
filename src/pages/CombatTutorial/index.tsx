@@ -116,7 +116,7 @@ function CombatTutorialInner() {
         rows={MAP_ROWS}
       >
         <NPCBattle
-          x={BATTLE_SPAWN.npc.x}
+          x={BATTLE_SPAWN.npc.x - 300}
           y={BATTLE_SPAWN.npc.y}
           TILE_SIZE={TILE_SIZE}
           npcType="dummy"

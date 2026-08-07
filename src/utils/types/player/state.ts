@@ -16,7 +16,7 @@ export const BATTLE_DEFAULT_STATE = {
   blindUntil: 0,
   confusedUntil: 0,
   frozenUntil: 0,
-  cortaCuraUntil: 0,
+  halfHealUntil: 0,
   pullFromX: 0,
   pullToX: 0,
   pullStartTime: 0,

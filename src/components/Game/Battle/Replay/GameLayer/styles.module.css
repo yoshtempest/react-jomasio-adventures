@@ -1,3 +1,4 @@
 .gameLayer {
   position: absolute;
+  align-self: center;
 }

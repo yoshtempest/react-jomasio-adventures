@@ -21,7 +21,7 @@ export function ReplayGameLayer({ replay, frame, layout }: Props) {
     <div
       className={styles.gameLayer}
       style={{
-        width: ProjectileConstants.MAP_WIDTH,
+        width: ProjectileConstants.MAP_WIDTH * 0.9,
         height: ProjectileConstants.MAP_HEIGHT,
         transform: `scale(${Math.min(layout.sx, layout.sy)})`,
       }}

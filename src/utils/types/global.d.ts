@@ -297,7 +297,7 @@ declare global {
     blindUntil: number;
     confusedUntil: number;
     frozenUntil: number;
-    cortaCuraUntil: number;
+    halfHealUntil: number;
     pullFromX: number;
     pullToX: number;
     pullStartTime: number;

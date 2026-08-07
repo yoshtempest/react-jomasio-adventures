@@ -18,8 +18,8 @@ export {
   getTotalVampirism,
   getTotalReflect,
   addItemBonus,
-  getCortaCuraReduction,
-  CORATACURA_DURATION_MS,
+  getHalfHealReduction,
+  HALFHEAL_DURATION_MS,
   RANK_INDEX,
 } from "./stats";
 

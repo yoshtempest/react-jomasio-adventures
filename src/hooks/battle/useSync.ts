@@ -29,8 +29,8 @@ type SyncProps = {
     npcThrowAttackRef: RefObject<() => void>;
   };
   charge: { cancelCharge: () => void };
-  player: { state: string; cortaCuraUntil: number };
-  cortaCuraReduction: number;
+  player: { state: string; halfHealUntil: number };
+  halfHealReduction: number;
   battleNpcRangedHit: () => void;
   battleNpcMeleeHit: () => void;
   battleNpcThrowHit: (multiplier: number) => void;
@@ -55,7 +55,7 @@ export function useBattleSync({
   refs,
   charge,
   player,
-  cortaCuraReduction,
+  halfHealReduction,
   battleNpcRangedHit,
   battleNpcMeleeHit,
   battleNpcThrowHit,
@@ -87,8 +87,8 @@ export function useBattleSync({
   }, [battle.npcPhase, setNpcPhase]);
 
   // Boss regen: hungryKing heals 1 HP/s in phase 2
-  const cortaCuraUntilRef = useRef(player.cortaCuraUntil);
-  cortaCuraUntilRef.current = player.cortaCuraUntil;
+  const halfHealUntilRef = useRef(player.halfHealUntil);
+  halfHealUntilRef.current = player.halfHealUntil;
 
   useEffect(() => {
     if (npcType !== "hungryKing") return;
@@ -96,9 +96,9 @@ export function useBattleSync({
 
     const interval = setInterval(() => {
       if (isEndingRef.current.current) return;
-      const cortaCuraActive = cortaCuraUntilRef.current > Date.now();
-      const heal = cortaCuraActive
-        ? Math.max(0, Math.round(1 * (1 - cortaCuraReduction / 100)))
+      const halfHealActive = halfHealUntilRef.current > Date.now();
+      const heal = halfHealActive
+        ? Math.max(0, Math.round(1 * (1 - halfHealReduction / 100)))
         : 1;
       if (heal <= 0) return;
       setNpcHPRef.current((hp: number) =>
@@ -107,7 +107,7 @@ export function useBattleSync({
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [npcType, battle.npcPhase, isEndingRef, setNpcHPRef, npcMaxHpRef, cortaCuraReduction]);
+  }, [npcType, battle.npcPhase, isEndingRef, setNpcHPRef, npcMaxHpRef, halfHealReduction]);
 
   // Wire ref callbacks so battle system can trigger NPC ranged/melee hit
   refs.npcRangedAttackRef.current = () => {

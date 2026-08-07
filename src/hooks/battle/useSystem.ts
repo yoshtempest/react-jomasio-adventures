@@ -15,8 +15,8 @@ import { useDamageNumbers } from "@/hooks/battle/damage/useNumbers";
 import { useExternalDamage } from "@/hooks/battle/damage/useExternal";
 import { useBlockGauge } from "@/hooks/battle/useBlockGauge";
 import {
-  getCortaCuraReduction,
-  CORATACURA_DURATION_MS,
+  getHalfHealReduction,
+  HALFHEAL_DURATION_MS,
   getEquippedResistances,
   reduceDurationByResistance,
   reduceTickDamage,
@@ -127,17 +127,17 @@ export function useBattleSystem(props: Props) {
 
   const behavior = battleBehaviors[player.character] || battleBehaviors.default;
 
-  const cortaCuraReduction = getCortaCuraReduction(player.character);
+  const halfHealReduction = getHalfHealReduction(player.character);
   const equippedResistances = getEquippedResistances(player.character);
   const burnTickDamage = reduceTickDamage(
     BURN_TICK_DAMAGE,
     equippedResistances.heat,
   );
-  const onCortaCura = cortaCuraReduction > 0
+  const onHalfHeal = halfHealReduction > 0
     ? () => {
         setPlayer((p) => ({
           ...p,
-          cortaCuraUntil: Date.now() + CORATACURA_DURATION_MS,
+          halfHealUntil: Date.now() + HALFHEAL_DURATION_MS,
         }));
       }
     : undefined;
@@ -220,7 +220,7 @@ export function useBattleSystem(props: Props) {
     onDamageDealtRef,
     onAttackRef,
     onSpecialRef,
-    onCortaCura,
+    onHalfHeal,
   });
 
   const petDamageRef = useRef(() => {});
@@ -277,7 +277,7 @@ export function useBattleSystem(props: Props) {
     titleEnemyMissChance: titleBonus.enemyMissChance,
     onDamageTakenRef,
     onDodgeRef,
-    onCortaCura,
+    onHalfHeal,
     npcType,
     npcHp: npcHP,
     npcMaxHp,
@@ -379,7 +379,7 @@ export function useBattleSystem(props: Props) {
     resetPet();
     setPlayer((p) => ({
       ...clearPlayerStatuses(p),
-      cortaCuraUntil: 0,
+      halfHealUntil: 0,
       pullFromX: 0,
       pullToX: 0,
       pullStartTime: 0,
@@ -444,7 +444,7 @@ export function useBattleSystem(props: Props) {
     blockGauge,
     blockLimit,
     tenacityReduction: stats.tenacityReduction,
-    cortaCuraReduction,
+    halfHealReduction,
     applyStatus,
   };
 }

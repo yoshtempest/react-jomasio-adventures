@@ -44,7 +44,7 @@ type Props = {
   titleEnemyMissChance?: number;
   onDamageTakenRef?: React.RefObject<(amount: number) => void>;
   onDodgeRef?: React.RefObject<() => void>;
-  onCortaCura?: () => void;
+  onHalfHeal?: () => void;
 
   npcType: string;
   npcHp: number;
@@ -85,7 +85,7 @@ export function useNpcBattle({
   titleEnemyMissChance = 0,
   onDamageTakenRef,
   onDodgeRef,
-  onCortaCura,
+  onHalfHeal,
   npcType,
   npcHp,
   npcMaxHp,
@@ -245,7 +245,7 @@ export function useNpcBattle({
 
     applyNpcDamage(finalDmg, tx, ty, targetIsPet, dmgType);
     onDamageTakenRef?.current?.(finalDmg);
-    if (!targetIsPet) onCortaCura?.();
+    if (!targetIsPet) onHalfHeal?.();
     hitstopRef.current = Date.now() + 50;
 
     if (npcType === "hungryDeath" && !targetIsPet) {
@@ -284,7 +284,7 @@ export function useNpcBattle({
     titleEnemyMissChance,
     onDamageTakenRef,
     onDodgeRef,
-    onCortaCura,
+    onHalfHeal,
     spawnDamageRef,
     npcType,
     npcPhase,
@@ -341,7 +341,7 @@ export function useNpcBattle({
     damagePlayerWithReflect(finalDmg);
     navigator.vibrate?.(40);
     spawnDamageRef.current?.(finalDmg, playerX, playerY, dmgType);
-    onCortaCura?.();
+    onHalfHeal?.();
     hitstopRef.current = Date.now() + 30;
 
     if (npcType === "maurao") {
@@ -374,7 +374,7 @@ export function useNpcBattle({
     lastBlockPressRef,
     damagePlayerWithReflect,
     onFullBlock,
-    onCortaCura,
+    onHalfHeal,
     npcType,
     npcPhase,
     onBlockRef,
