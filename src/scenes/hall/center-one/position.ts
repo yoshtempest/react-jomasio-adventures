@@ -5,7 +5,7 @@ export function getCenterOneInitialPosition(
     return { x: 9, y: 2, direction: "down" };
   }
 
-  if (lastPage === "/cantina/two") {
+  if (lastPage?.startsWith("/cantina")) {
     return { x: 4, y: 6, direction: "right" };
   }
 

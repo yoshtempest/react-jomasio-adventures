@@ -44,9 +44,9 @@ export function handlePhase2(
       const duration = jumpDuration;
 
       const progress = Math.min(elapsed / duration, 1);
-      const GROUND_Y = 720;
+      const GROUND_Y = 680;
 
-      const height = Math.sin(progress * Math.PI) * 200;
+      const height = Math.sin(progress * Math.PI) * 400;
 
       const newY = GROUND_Y - height;
 

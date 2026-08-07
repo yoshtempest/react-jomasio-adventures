@@ -28,7 +28,7 @@ export const hallJailsonTwoDialogue = [
   {
     src: "/assets/npcs/slimita/right.svg",
     name: "Slimita",
-    message: "Ui, tá com medo é? O Jailson é meu e eu vou pegar ele pra mim!",
+    message: "Ui, tá com medo é? Eu vou devorar o Jailson e fazer dele a minha força!",
   },
   {
     isPlayer: true,

@@ -15,3 +15,5 @@ continuar a história na brodiclass
 
 os questWayPoints (badge de quest) estão sendo exibidas no local errado, visto a posição atual do npc
 na scene, basta ir em data/quests/waypoints.
+
+arrumar o mapa e a visão da cafeteriaScene
