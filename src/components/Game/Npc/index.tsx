@@ -17,7 +17,7 @@ export function NPC({ gridX, gridY, TILE_SIZE, src }: Props) {
         height: TILE_SIZE * 1.7,
         left: gridX * TILE_SIZE - 40,
         top: gridY * TILE_SIZE - 20,
-        zIndex: 9,
+        zIndex: 11,
       }}
     />
   );

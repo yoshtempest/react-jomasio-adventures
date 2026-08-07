@@ -26,6 +26,7 @@ import { useSceneLayers } from "@/hooks/scene/useSceneLayers";
 import { useLocation } from "react-router";
 import { useTransitionCtx } from "@/contexts/TransitionContext";
 import { getTileInFront } from "@/utils/getTileInFront";
+import { isNpcInFront } from "@/utils/isNpcInFront";
 import { saveGame } from "@/utils/save/saveGame";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
@@ -163,8 +164,8 @@ export function ExploreScene({
         return true;
       }
 
-      // 🔥 verifica NPC na frente
-      const npc = npcs.find((n) => n.gridX === front.x && n.gridY === front.y);
+      // 🔥 verifica NPC na frente (posições fracionadas X.5/Y.5 inclusas)
+      const npc = npcs.find((n) => isNpcInFront(player, n));
 
       if (npc?.interaction) {
         npc.interaction(dialogueSystem.start);

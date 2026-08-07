@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { getTileInFront } from "@/utils/getTileInFront";
+import { isNpcInFront } from "@/utils/isNpcInFront";
 import { canStepTo } from "@/gameRules/movement/levels";
 
 type Player = {
@@ -46,7 +47,7 @@ export function useSceneLayers({
 
     if (!canStepTo(player.height, heightMap, x, y)) return null;
 
-    const npc = npcs.find((n) => n.gridX === x && n.gridY === y);
+    const npc = npcs.find((n) => isNpcInFront(player, n));
     if (npc) return "[L] Conversar";
 
     const pickup = itemPickupTiles?.find(
@@ -64,7 +65,7 @@ export function useSceneLayers({
     return null;
   }, [
     frontTile,
-    player.height,
+    player,
     heightMap,
     npcs,
     itemPickupTiles,
