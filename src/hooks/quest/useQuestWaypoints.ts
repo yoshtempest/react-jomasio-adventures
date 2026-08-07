@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { useQuests } from "@/contexts/QuestContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useSettings } from "@/contexts/SettingsContext";
+import { useFlags } from "@/contexts/FlagContext";
 import { QUEST_ROUTES, QUEST_NPC_POSITIONS } from "@/data/quests/waypoints";
 import { bfsNextHop } from "@/scenes/shared/sceneAdjacency";
 import type {
@@ -54,6 +55,7 @@ export function useQuestWaypoints(
   const { showQuestIndicator } = useSettings();
   const { quests } = useQuests();
   const { player } = usePlayer();
+  const { flags } = useFlags();
 
   return useMemo(() => {
     if (!showQuestIndicator || !scene || !scene.tiles) {
@@ -92,7 +94,7 @@ export function useQuestWaypoints(
 
       for (const tile of scene.tiles) {
         const effectiveRoute = tile.getRoute
-          ? tile.getRoute(player, quests)
+          ? tile.getRoute(player, quests, flags)
           : tile.route;
 
         if (effectiveRoute === routeToFind) {
@@ -120,5 +122,5 @@ export function useQuestWaypoints(
       questNpcPositions: QUEST_NPC_POSITIONS[currentRoute] ?? [],
       questDirection,
     };
-  }, [showQuestIndicator, scene, quests, player, currentRoute]);
+  }, [showQuestIndicator, scene, quests, player, currentRoute, flags]);
 }

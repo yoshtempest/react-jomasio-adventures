@@ -4,6 +4,7 @@ import { getPcRoomTwoDialogue } from "./dialogue";
 import { pcRoomTwoNpcs } from "./npcs";
 import { pcRoomTwoEvents } from "./events";
 import { pcRoomOneTiles } from "../one/tiles";
+import { getPcRoomTwoInitialPosition }  from "./position";
 
 export const twoScene: SceneConfig = {
   id: "two",
@@ -14,4 +15,5 @@ export const twoScene: SceneConfig = {
   audio: { src: MUSICS.monkeyCircle },
   npcs: pcRoomTwoNpcs,
   tiles: pcRoomOneTiles,
+  initialPosition: getPcRoomTwoInitialPosition,
 };

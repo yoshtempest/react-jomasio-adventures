@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import type { NavigateFunction } from "react-router";
 import type { ExitTileOptions } from "@/utils/types/maps/exitTiles";
+import { useFlags } from "@/contexts/FlagContext";
 
 const OPPOSITE: Record<string, Player["direction"]> = {
   up: "down",
@@ -34,6 +35,9 @@ export function useExitTile({
   setPositionRef.current = setPosition;
   const playerRef = useRef(player);
   playerRef.current = player;
+  const { flags } = useFlags();
+  const flagsRef = useRef(flags);
+  flagsRef.current = flags;
 
   const prevPositionRef = useRef({
     x: player.gridX,
@@ -77,7 +81,7 @@ export function useExitTile({
     if (!tile) return;
 
     if (tile.getRoute) {
-      const route = tile.getRoute(currentPlayer, quests);
+      const route = tile.getRoute(currentPlayer, quests, flagsRef.current);
 
       if (route !== null) {
         navigateWithFade(route, {

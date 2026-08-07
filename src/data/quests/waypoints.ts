@@ -24,7 +24,7 @@ export const QUEST_NPC_POSITIONS: Record<
   Array<{ gridX: number; gridY: number }>
 > = {
   "/hall/afterpcroom-one": [{ gridX: 4, gridY: 7 }],
-  "/cantina/one": [{ gridX: 9, gridY: 4 }],
+  "/cantina/one": [{ gridX: 11, gridY: 3 }],
   "/cafeteria/one": [{ gridX: 14, gridY: 5 }],
   "/pcroom/one": [{ gridX: 8, gridY: 8 }],
   "/hall/jailson-one": [{ gridX: 8, gridY: 3 }],
