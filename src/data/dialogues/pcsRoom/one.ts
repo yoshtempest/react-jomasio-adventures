@@ -17,7 +17,7 @@ export const pcsRoomDialogue = [
   {
     isPlayer: true,
     name: "Protagonista",
-    message: "Cara, eu não tô entendendo nada.",
+    message: "Cala boca cara, eu não tô entendendo nada.",
   },
   {
     src: "/assets/npcs/janderson/right.svg",
