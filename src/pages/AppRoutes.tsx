@@ -6,12 +6,14 @@ import { Preloader } from "@/components/Preloader";
 
 import App from "@/App";
 
+
 const Loading = lazyLoad(() => import("@/pages/Loading"));
 const Intro = lazyLoad(() => import("@/pages/Intro"));
 const Tutorial = lazyLoad(() => import("@/pages/Tutorial"));
 const Home = lazyLoad(() => import("@/pages/Home"));
-const FirstScreen = lazyLoad(() => import("@/pages/FirstScreen"));
 const CombatTutorial = lazyLoad(() => import("@/pages/CombatTutorial"));
+
+const FirstScreenPage = lazyLoad(() => import("@/pages/FirstScreen"));
 
 const CantinaPage = lazyLoad(() => import("@/pages/Cantina"));
 
@@ -43,7 +45,7 @@ const nonBattlePages = [
   Tutorial,
   CombatTutorial,
   Home,
-  FirstScreen,
+  FirstScreenPage,
   CantinaPage,
   HallPage,
   PcRoomPage,
@@ -69,7 +71,6 @@ export function AppRoutes() {
             <Route path="combatTutorial" element={<CombatTutorial />} />
             <Route path="intro" element={<Intro />} />
             <Route path="home" element={<Home />} />
-            <Route path="firstscreen" element={<FirstScreen />} />
 
             <Route path="hall">
               <Route index element={<Navigate to="/hall/one" />} />
@@ -77,6 +78,11 @@ export function AppRoutes() {
               <Route path="jailson/battle" element={<BattlePage />} />
               <Route path="center/battle" element={<BattlePage />} />
               <Route path="pandemony/battle" element={<BattlePage />} />
+            </Route>
+
+            <Route path="firstscreen">
+              <Route index element={<Navigate to="/firstscreen/one" />} />
+              <Route path=":id" element={<FirstScreenPage />} />
             </Route>
 
             <Route path="director">

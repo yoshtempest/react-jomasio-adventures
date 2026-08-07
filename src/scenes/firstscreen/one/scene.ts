@@ -7,7 +7,7 @@ import { firstScreenPlates } from "./plate"
 export const oneScene: SceneConfig = {
   id: "one",
   map: firstScreen,
-  scaleFix: 2,
+  scaleFix: 1.4,
   audio: { src: MUSICS.default },
   initialPosition: getFirstScreenInitialPosition,
   tiles: firstScreenTiles,

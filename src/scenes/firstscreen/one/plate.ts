@@ -4,7 +4,7 @@ export const firstScreenPlates = [
   createPlate(
     "/assets/plates/boss.svg",
     8,
-    3,
-    "Expansão de domínio logo alí, tome cuidado!",
+    7,
+    "Presíd- Escola Saudável Jorjão",
   ),
 ];
