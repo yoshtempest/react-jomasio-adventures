@@ -15,7 +15,7 @@ import { HelpSection } from "./Help";
 import { VolumeSection } from "./Volume";
 
 export function Config() {
-  const { sfxVolume, bgmVolume } = useAudio();
+  const { sfxVolume, bgmVolume, setSfxVolume, setBgmVolume } = useAudio();
   const { difficulty } = usePlayer();
   const { dialogueSpeed } = useSettings();
   const {
@@ -89,6 +89,10 @@ export function Config() {
             sfxVolume={sfxVolume}
             bgmVolume={bgmVolume}
             selectedColumn={selectedColumn}
+            onSfxDown={() => setSfxVolume(Math.max(sfxVolume - 10, 0))}
+            onSfxUp={() => setSfxVolume(Math.min(sfxVolume + 10, 100))}
+            onBgmDown={() => setBgmVolume(Math.max(bgmVolume - 10, 0))}
+            onBgmUp={() => setBgmVolume(Math.min(bgmVolume + 10, 100))}
           />
         </div>
       )}
