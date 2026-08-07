@@ -2,8 +2,7 @@ adicionar baú na hellroom
 ajustar exibição das entidades no replay
 colocar bau no hallJailson
 
-o jogador deve conseguir interagir com npcs que estão em posições "quebradas" em x e y, ✅ implementado (isNpcInFront)
-Exemplo: npc em X8.5, jogador deve conseguir interagir com ele caso o jogador esteja em X9 ou em X8
+Ao selecionar uma classe o jogador recebe uma flag, com essa flag irei ajustar a pcroom para que o jogador possa sair para o hall e quando voltar, entrar na pcroom/two sem bug de ficar voltando na pcroom/one e selecionando classes diferentes.
 
 Diálogo com Jeso não está funcionando em cantinaTwo
 

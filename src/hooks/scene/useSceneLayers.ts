@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { getTileInFront } from "@/utils/getTileInFront";
 import { isNpcInFront } from "@/utils/isNpcInFront";
+import { isPositionInFront, parseGridKey } from "@/utils/isPositionInFront";
 import { canStepTo } from "@/gameRules/movement/levels";
 
 type Player = {
@@ -51,14 +52,18 @@ export function useSceneLayers({
     if (npc) return "[L] Conversar";
 
     const pickup = itemPickupTiles?.find(
-      (t) => t.x === x && t.y === y && t.visible,
+      (t) => t.visible && isPositionInFront(player, t.x, t.y),
     );
     if (pickup) return "[L] Pegar";
 
     const plate = plates.find((p) => p.gridX === x && p.gridY === y);
     if (plate) return "[L] Interagir";
 
-    if (interactionKeys?.includes(`${x},${y}`)) return "[L] Interagir";
+    const hasInteractionKey = interactionKeys?.some((key) => {
+      const pos = parseGridKey(key);
+      return pos ? isPositionInFront(player, pos.x, pos.y) : false;
+    });
+    if (hasInteractionKey) return "[L] Interagir";
 
     if (tileDialogues?.[`${x},${y}`]) return "[L] Interagir";
 

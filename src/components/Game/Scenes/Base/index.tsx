@@ -19,6 +19,28 @@ import { ITEMS } from "@/data/items";
 import { useExitTile } from "@/hooks/scene/useExitTile";
 import { useQuestWaypoints } from "@/hooks/quest/useQuestWaypoints";
 import { canStepTo } from "@/gameRules/movement/levels";
+import { isPositionInFront, parseGridKey } from "@/utils/isPositionInFront";
+
+function findInteraction(
+  interactions: Record<string, () => void> | undefined,
+  player: Player,
+  frontX: number,
+  frontY: number,
+) {
+  if (!interactions) return undefined;
+
+  const exact = interactions[`${frontX},${frontY}`];
+  if (exact) return exact;
+
+  let best: { key: string; dist: number } | null = null;
+  for (const key in interactions) {
+    const pos = parseGridKey(key);
+    if (!pos || !isPositionInFront(player, pos.x, pos.y)) continue;
+    const dist = (pos.x - frontX) ** 2 + (pos.y - frontY) ** 2;
+    if (!best || dist < best.dist) best = { key, dist };
+  }
+  return best ? interactions[best.key] : undefined;
+}
 
 type SceneBaseProps = {
   scene: SceneConfig;
@@ -165,7 +187,7 @@ export function SceneBase({
               return false;
             }
 
-            const interaction = interactions?.[`${x},${y}`];
+            const interaction = findInteraction(interactions, player, x, y);
             if (interaction) {
               interaction();
               return true;

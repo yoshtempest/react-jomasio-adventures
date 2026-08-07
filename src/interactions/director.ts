@@ -16,7 +16,7 @@ export function createDirector(deps: DirectorDeps) {
   const { progressQuest } = deps;
 
   return createInteractionMap(directorMessages, deps, {
-    "4,3": ({ hasItem, setPopup, navigate, playSFX }) => {
+    "4,2": ({ hasItem, setPopup, navigate, playSFX }) => {
       if (hasItem("director_key")) {
         setPopup("Você usou a chave.");
         progressQuest("director_escape", 1);
@@ -31,7 +31,7 @@ export function createDirector(deps: DirectorDeps) {
       }
     },
 
-    "15,7": createPickupHandler({
+    "18.4, 5": createPickupHandler({
       item: { id: "director_key" },
       flagId: "picked_director_key",
       pickupMessage: "Uma chave suspeita, deve ser da porta...",
