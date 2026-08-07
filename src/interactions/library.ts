@@ -25,8 +25,8 @@ export function createLibrary(deps: LibraryDeps) {
     alreadyPickedMessage: "Nada por aqui.",
   });
 
-  messages["12,9"] = () => packageHandler({ ...deps, ...deps.packageDeps });
-  messages["3,7"] = () => chestHandler({ ...deps, ...deps.chestDeps });
+  messages["14,8"] = () => packageHandler({ ...deps, ...deps.packageDeps });
+  messages["3,5"] = () => chestHandler({ ...deps, ...deps.chestDeps });
 
   return messages;
 }

@@ -46,7 +46,7 @@ export function CantinaScene({ sceneId }: Props) {
     return {
       ...scene,
       npcs: (scene.npcs ?? []).map((npc) =>
-        npc.gridX === 9 && npc.gridY === 4 && sceneId === "two"
+        npc.src === "/assets/npcs/jeso/default.svg" && sceneId === "two"
           ? {
               ...npc,
               interaction: (startDialogue: (d: Dialogue[]) => void) => {
