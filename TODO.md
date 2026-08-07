@@ -1,12 +1,9 @@
 adicionar baú na hellroom
-ajustar exibição das entidades no replay
 colocar bau no hallJailson
 
 Ao selecionar uma classe o jogador recebe uma flag, com essa flag irei ajustar a pcroom para que o jogador possa sair para o hall e quando voltar, entrar na pcroom/two sem bug de ficar voltando na pcroom/one e selecionando classes diferentes.
 
 O jogador não está conseguindo interagir com algumas placas e baús
-
-Diálogo com Jeso não está funcionando em cantinaTwo
 
 ajustar combatTutorial (o mapa do combatTutorial deve ser do tamanho de 100% da tela)
 

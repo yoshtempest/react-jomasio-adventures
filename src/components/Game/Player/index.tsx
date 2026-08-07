@@ -1,6 +1,7 @@
 import { playerPath } from "@/utils/paths";
 import { EXPLORE_MOVE_INTERVAL } from "@/gameRules/movement/explore";
 import { HEIGHT_STEP_OFFSET } from "@/gameRules/movement/levels";
+import { getEntityZIndex } from "@/utils/entityDepth";
 
 type Props = {
   character: CharacterId;
@@ -47,7 +48,7 @@ export function Player({
         left: gridX * TILE_SIZE - 11,
         top: gridY * TILE_SIZE - height * TILE_SIZE * HEIGHT_STEP_OFFSET,
         transform: `translate(-10%, -20%) scaleX(${direction === "left" ? -1 : 1})`,
-        zIndex: 10,
+        zIndex: getEntityZIndex(gridY),
         transition: `left ${EXPLORE_MOVE_INTERVAL}ms, top ${EXPLORE_MOVE_INTERVAL}ms`,
       }}
     />
