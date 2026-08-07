@@ -6,7 +6,7 @@ import { slotKey } from "@/utils/save/slotManager";
 const SCENE_POSITIONS_KEY = () => slotKey("scene_return_positions");
 
 type Props = {
-  player: PlayerPosition;
+  player: PlayerPosition & { height?: number };
   transitions?: Transition[];
 };
 
@@ -17,6 +17,7 @@ export function useSceneNavigation({ player, transitions }: Props) {
     x: player.gridX,
     y: player.gridY,
     direction: player.direction,
+    height: player.height,
   });
   const lastPositionRef = useRef({
     x: player.gridX,
@@ -34,6 +35,7 @@ export function useSceneNavigation({ player, transitions }: Props) {
       x: lastPositionRef.current.x,
       y: lastPositionRef.current.y,
       direction: player.direction,
+      height: player.height,
     };
 
     lastPositionRef.current = {

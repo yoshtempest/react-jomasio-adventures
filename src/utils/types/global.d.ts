@@ -163,6 +163,7 @@ declare global {
   type ExploreSceneProps = {
     name?: string;
     map: number[][];
+    heightMap?: number[][];
     dialogueData?: Dialogue[] | ((context: DialogueContext) => Dialogue[]);
     nextRoute?: string;
     initialPosition?:
@@ -278,6 +279,7 @@ declare global {
   type Player = {
     gridX: number;
     gridY: number;
+    height: number;
     direction: Direction;
     character: CharacterId;
     x: number;

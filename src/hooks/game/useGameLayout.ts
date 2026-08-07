@@ -1,5 +1,6 @@
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useState, useEffect, useRef } from "react";
+import { HEIGHT_STEP_OFFSET } from "@/gameRules/movement/levels";
 
 export function useGameLayout(map?: number[][], scaleFix = 3) {
   const MAP_COLS = map?.[0]?.length ?? 17;
@@ -33,7 +34,8 @@ export function useGameLayout(map?: number[][], scaleFix = 3) {
   const CAMERA_LOOKAHEAD = 0.02;
 
   const playerPixelX = player.gridX * TILE_SIZE;
-  const playerPixelY = player.gridY * TILE_SIZE;
+  const playerPixelY =
+    player.gridY * TILE_SIZE - player.height * TILE_SIZE * HEIGHT_STEP_OFFSET;
 
   const directionOffsetX =
     player.direction === "right"

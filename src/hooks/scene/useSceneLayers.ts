@@ -1,9 +1,11 @@
 import { useMemo } from "react";
 import { getTileInFront } from "@/utils/getTileInFront";
+import { canStepTo } from "@/gameRules/movement/levels";
 
 type Player = {
   gridX: number;
   gridY: number;
+  height: number;
   direction: Direction;
 };
 
@@ -12,9 +14,10 @@ type MapData = number[][];
 type Params = {
   player: Player;
   map: MapData;
+  heightMap?: MapData;
   isReady: boolean;
   npcs: { gridX: number; gridY: number }[];
-  itemPickupTiles?: { x: number; y: number; visible: boolean }[];
+  itemPickupTiles?: { x: number; y: number; visible: boolean; height?: number }[];
   plates: { gridX: number; gridY: number; message?: string }[];
   interactionKeys?: string[];
   tileDialogues?: Record<string, unknown>;
@@ -23,6 +26,7 @@ type Params = {
 export function useSceneLayers({
   player,
   map,
+  heightMap,
   isReady,
   npcs,
   itemPickupTiles,
@@ -39,6 +43,8 @@ export function useSceneLayers({
     if (!frontTile) return null;
 
     const { x, y } = frontTile;
+
+    if (!canStepTo(player.height, heightMap, x, y)) return null;
 
     const npc = npcs.find((n) => n.gridX === x && n.gridY === y);
     if (npc) return "[L] Conversar";
@@ -58,6 +64,8 @@ export function useSceneLayers({
     return null;
   }, [
     frontTile,
+    player.height,
+    heightMap,
     npcs,
     itemPickupTiles,
     plates,

@@ -1,11 +1,13 @@
 import { playerPath } from "@/utils/paths";
 import { EXPLORE_MOVE_INTERVAL } from "@/gameRules/movement/explore";
+import { HEIGHT_STEP_OFFSET } from "@/gameRules/movement/levels";
 
 type Props = {
   character: CharacterId;
   direction: Direction;
   gridX: number;
   gridY: number;
+  height?: number;
   TILE_SIZE: number;
   PLAYER_SIZE: number;
   hasPeru?: boolean;
@@ -17,6 +19,7 @@ export function Player({
   direction,
   gridX,
   gridY,
+  height = 0,
   TILE_SIZE,
   PLAYER_SIZE,
   hasPeru,
@@ -42,7 +45,7 @@ export function Player({
         height: PLAYER_SIZE,
         objectFit: "contain",
         left: gridX * TILE_SIZE - 11,
-        top: gridY * TILE_SIZE,
+        top: gridY * TILE_SIZE - height * TILE_SIZE * HEIGHT_STEP_OFFSET,
         transform: `translate(-10%, -20%) scaleX(${direction === "left" ? -1 : 1})`,
         zIndex: 10,
         transition: `left ${EXPLORE_MOVE_INTERVAL}ms, top ${EXPLORE_MOVE_INTERVAL}ms`,

@@ -18,6 +18,7 @@ import { QUESTS } from "@/data/quests";
 import { ITEMS } from "@/data/items";
 import { useExitTile } from "@/hooks/scene/useExitTile";
 import { useQuestWaypoints } from "@/hooks/quest/useQuestWaypoints";
+import { canStepTo } from "@/gameRules/movement/levels";
 
 type SceneBaseProps = {
   scene: SceneConfig;
@@ -25,7 +26,7 @@ type SceneBaseProps = {
   background?: string;
 
   interactions?: Record<string, () => void>;
-  itemPickupTiles?: { x: number; y: number; visible: boolean }[];
+  itemPickupTiles?: { x: number; y: number; visible: boolean; height?: number }[];
   popup?: string | null;
   setPopup?: (msg: string | null) => void;
 
@@ -158,6 +159,10 @@ export function SceneBase({
             if (popup) {
               setPopup?.(null);
               return true;
+            }
+
+            if (!canStepTo(player.height, scene.heightMap, x, y)) {
+              return false;
             }
 
             const interaction = interactions?.[`${x},${y}`];

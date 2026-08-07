@@ -83,7 +83,9 @@ export function DirectorScene({ sceneId }: Props) {
         scene={scene}
         background={sceneBackgrounds.Director}
         interactions={interactions}
-        itemPickupTiles={[{ x: 18, y: 2, visible: !gotKey }]}
+        itemPickupTiles={[
+          { x: 18, y: 4, height: 2, visible: !gotKey },
+        ]}
         popup={popup}
         setPopup={setPopup}
       />

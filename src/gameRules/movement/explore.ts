@@ -1,10 +1,12 @@
 import { canMoveTo } from "@/gameRules/movement/collision";
+import { canStepTo, getTileHeight } from "@/gameRules/movement/levels";
 
 export const EXPLORE_MOVE_INTERVAL = 300;
 
 function tryMove(
   player: Player,
   map: number[][],
+  heightMap: number[][] | undefined,
   direction: Direction,
   step: number,
 ): { moved: boolean; newX: number; newY: number } {
@@ -16,7 +18,7 @@ function tryMove(
   if (direction === "left") newX -= step;
   if (direction === "right") newX += step;
 
-  if (!canMoveTo(map, newX, newY)) {
+  if (!canMoveTo(map, newX, newY) || !canStepTo(player.height, heightMap, newX, newY)) {
     return { moved: false, newX: player.gridX, newY: player.gridY };
   }
 
@@ -29,7 +31,7 @@ function tryMove(
       if (direction === "down") iy += s;
       if (direction === "left") ix -= s;
       if (direction === "right") ix += s;
-      if (!canMoveTo(map, ix, iy)) {
+      if (!canMoveTo(map, ix, iy) || !canStepTo(player.height, heightMap, ix, iy)) {
         return { moved: false, newX: player.gridX, newY: player.gridY };
       }
     }
@@ -42,26 +44,29 @@ export function moveExplore(
   player: Player,
   map: number[][],
   direction: Direction,
+  heightMap?: number[][],
 ): Player {
   if (player.mode !== "explore") return player;
 
   if (player.hasPeru) {
-    const double = tryMove(player, map, direction, 2);
+    const double = tryMove(player, map, heightMap, direction, 2);
     if (double.moved) {
       return {
         ...player,
         gridX: double.newX,
         gridY: double.newY,
+        height: getTileHeight(heightMap, double.newX, double.newY),
         direction,
         moving: true,
       };
     }
-    const single = tryMove(player, map, direction, 1);
+    const single = tryMove(player, map, heightMap, direction, 1);
     if (single.moved) {
       return {
         ...player,
         gridX: single.newX,
         gridY: single.newY,
+        height: getTileHeight(heightMap, single.newX, single.newY),
         direction,
         moving: true,
       };
@@ -69,12 +74,13 @@ export function moveExplore(
     return { ...player, direction, moving: false };
   }
 
-  const result = tryMove(player, map, direction, 1);
+  const result = tryMove(player, map, heightMap, direction, 1);
   if (result.moved) {
     return {
       ...player,
       gridX: result.newX,
       gridY: result.newY,
+      height: getTileHeight(heightMap, result.newX, result.newY),
       direction,
       moving: true,
     };

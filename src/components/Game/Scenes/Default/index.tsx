@@ -5,6 +5,8 @@ import { GameMap } from "@/components/Game/Map/Game";
 import { Player } from "@/components/Game/Player";
 import { NPC } from "@/components/Game/Npc";
 import { Plate } from "@/components/Game/Plate";
+// import { LevelSteps } from "@/components/Game/LevelSteps";
+import { HEIGHT_STEP_OFFSET } from "@/gameRules/movement/levels";
 import {
   QuestArrow,
   QuestNPCBadge,
@@ -36,6 +38,7 @@ type QuestNpcPosition = { gridX: number; gridY: number };
 
 export function ExploreScene({
   map,
+  heightMap,
   dialogueData = [],
   initialPosition,
   npcs = [],
@@ -69,12 +72,13 @@ export function ExploreScene({
   questHighlightTiles?: QuestHighlightTile[];
   questNpcPositions?: QuestNpcPosition[];
   questDirection?: Direction | null;
-  itemPickupTiles?: { x: number; y: number; visible: boolean }[];
+  itemPickupTiles?: { x: number; y: number; visible: boolean; height?: number }[];
   interactionKeys?: string[];
   tileDialogues?: Record<string, Dialogue[]>;
   npcOverlays?: { gridX: number; gridY: number; element: React.ReactNode }[];
 }) {
-  const { player, playerClass, setMap, setPosition, setMode } = usePlayer();
+  const { player, playerClass, setMap, setHeightMap, setPosition, setMode } =
+    usePlayer();
   const { pushControls, popControls } = useGameControls();
   const { navigateWithFade } = useTransitionCtx();
   const location = useLocation();
@@ -125,8 +129,10 @@ export function ExploreScene({
 
   const { isReady } = useSceneSetup({
     map,
+    heightMap,
     initialPosition: resolvedInitialPosition,
     setMap,
+    setHeightMap,
     setPosition,
   });
 
@@ -205,6 +211,7 @@ export function ExploreScene({
   const { interactionHint } = useSceneLayers({
     player,
     map,
+    heightMap,
     isReady,
     npcs,
     itemPickupTiles,
@@ -290,7 +297,9 @@ export function ExploreScene({
                   width: TILE_SIZE * 0.7,
                   height: TILE_SIZE * 0.7,
                   left: tile.x * TILE_SIZE,
-                  top: tile.y * TILE_SIZE * 1.1,
+                  top:
+                    tile.y * TILE_SIZE * 1.1 -
+                    (tile.height ?? 0) * TILE_SIZE * HEIGHT_STEP_OFFSET,
                   zIndex: 5,
                   pointerEvents: "none",
                 }}
@@ -298,11 +307,14 @@ export function ExploreScene({
             ),
         )}
 
+        {/* <LevelSteps heightMap={heightMap} TILE_SIZE={TILE_SIZE} /> */}
+
         <Player
           character={player.character}
           direction={player.direction}
           gridX={player.gridX}
           gridY={player.gridY}
+          height={player.height}
           TILE_SIZE={TILE_SIZE}
           PLAYER_SIZE={PLAYER_SIZE}
           hasPeru={player.hasPeru}

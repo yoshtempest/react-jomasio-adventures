@@ -31,7 +31,12 @@ type PlayerContextType = {
   difficulty: NpcDifficulty;
   setDifficulty: (difficulty: NpcDifficulty) => void;
 
-  setPosition: (x: number, y: number, direction?: Player["direction"]) => void;
+  setPosition: (
+    x: number,
+    y: number,
+    direction?: Player["direction"],
+    height?: number,
+  ) => void;
   setCharacter: (character: Player["character"]) => void;
 
   moveUp: () => void;
@@ -63,6 +68,7 @@ type PlayerContextType = {
   setPlayerState: (state: PlayerState) => void;
 
   setMap: (map: number[][]) => void;
+  setHeightMap: (heightMap: number[][]) => void;
   setMode: (mode: PlayerMode) => void;
   restoreMode: () => void;
   resetBattleState: () => void;
@@ -96,6 +102,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     return {
       gridX: 6,
       gridY: 11,
+      height: 0,
       direction: "up",
       character: (savedCharacter as Player["character"]) || "marcelo",
       ...BATTLE_DEFAULT_STATE,
@@ -122,6 +129,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   }, [player.moving, player.gridX, player.gridY, setPlayer]);
 
   const [currentMap, setCurrentMap] = useState<number[][]>([]);
+  const [currentHeightMap, setCurrentHeightMap] = useState<number[][]>([]);
   const { toggleInventory } = useInventory();
   const { toggleNavbar, restoreModeRef, setModeRef } = useNavbar();
 
@@ -139,7 +147,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     startMoveRightExplore,
     stopMoveRightExplore,
     clearAllIntervals,
-  } = usePlayerMovement(currentMap, setPlayer);
+  } = usePlayerMovement(currentMap, currentHeightMap, setPlayer);
 
   const [playerClass, setPlayerClass] = useState<PlayerClass>(() => {
     const saved = localStorage.getItem(slotKey(PLAYER_CLASS_KEY));
@@ -194,6 +202,10 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     setCurrentMap(map);
   }
 
+  function setHeightMap(heightMap: number[][]) {
+    setCurrentHeightMap(heightMap);
+  }
+
   function chooseClass(cls: PlayerClass) {
     setPlayerClass(cls);
   }
@@ -241,8 +253,15 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     x: number,
     y: number,
     direction: Player["direction"] = "down",
+    height?: number,
   ) {
-    setPlayer((prev) => ({ ...prev, gridX: x, gridY: y, direction }));
+    setPlayer((prev) => ({
+      ...prev,
+      gridX: x,
+      gridY: y,
+      direction,
+      ...(height !== undefined ? { height } : {}),
+    }));
   }
 
   function setCharacter(character: Player["character"]) {
@@ -291,6 +310,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
         resetBattleState,
         setMap,
+        setHeightMap,
         setMode,
         restoreMode,
         setPosition,

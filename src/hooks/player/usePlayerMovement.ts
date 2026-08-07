@@ -3,6 +3,7 @@ import { moveExplore, EXPLORE_MOVE_INTERVAL } from "@/gameRules/movement/explore
 
 export function usePlayerMovement(
   currentMap: number[][],
+  currentHeightMap: number[][],
   setPlayer: React.Dispatch<React.SetStateAction<Player>>,
 ) {
   const upIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -11,6 +12,8 @@ export function usePlayerMovement(
   const rightIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const currentMapRef = useRef(currentMap);
   currentMapRef.current = currentMap;
+  const currentHeightMapRef = useRef(currentHeightMap);
+  currentHeightMapRef.current = currentHeightMap;
 
   useEffect(() => {
     return () => {
@@ -22,25 +25,25 @@ export function usePlayerMovement(
   }, []);
 
   function moveUp() {
-    setPlayer((p) => moveExplore(p, currentMapRef.current, "up"));
+    setPlayer((p) => moveExplore(p, currentMapRef.current, "up", currentHeightMapRef.current));
   }
 
   function moveDown() {
-    setPlayer((p) => moveExplore(p, currentMapRef.current, "down"));
+    setPlayer((p) => moveExplore(p, currentMapRef.current, "down", currentHeightMapRef.current));
   }
 
   function moveLeft() {
-    setPlayer((p) => moveExplore(p, currentMapRef.current, "left"));
+    setPlayer((p) => moveExplore(p, currentMapRef.current, "left", currentHeightMapRef.current));
   }
 
   function moveRight() {
-    setPlayer((p) => moveExplore(p, currentMapRef.current, "right"));
+    setPlayer((p) => moveExplore(p, currentMapRef.current, "right", currentHeightMapRef.current));
   }
 
   function startMoveUpExplore() {
     if (upIntervalRef.current) return;
     upIntervalRef.current = setInterval(() => {
-      setPlayer((p) => moveExplore(p, currentMapRef.current, "up"));
+      setPlayer((p) => moveExplore(p, currentMapRef.current, "up", currentHeightMapRef.current));
     }, EXPLORE_MOVE_INTERVAL);
   }
 
@@ -54,7 +57,7 @@ export function usePlayerMovement(
   function startMoveDownExplore() {
     if (downIntervalRef.current) return;
     downIntervalRef.current = setInterval(() => {
-      setPlayer((p) => moveExplore(p, currentMapRef.current, "down"));
+      setPlayer((p) => moveExplore(p, currentMapRef.current, "down", currentHeightMapRef.current));
     }, EXPLORE_MOVE_INTERVAL);
   }
 
@@ -68,7 +71,7 @@ export function usePlayerMovement(
   function startMoveLeftExplore() {
     if (leftIntervalRef.current) return;
     leftIntervalRef.current = setInterval(() => {
-      setPlayer((p) => moveExplore(p, currentMapRef.current, "left"));
+      setPlayer((p) => moveExplore(p, currentMapRef.current, "left", currentHeightMapRef.current));
     }, EXPLORE_MOVE_INTERVAL);
   }
 
@@ -82,7 +85,7 @@ export function usePlayerMovement(
   function startMoveRightExplore() {
     if (rightIntervalRef.current) return;
     rightIntervalRef.current = setInterval(() => {
-      setPlayer((p) => moveExplore(p, currentMapRef.current, "right"));
+      setPlayer((p) => moveExplore(p, currentMapRef.current, "right", currentHeightMapRef.current));
     }, EXPLORE_MOVE_INTERVAL);
   }
 

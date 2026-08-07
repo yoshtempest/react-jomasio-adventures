@@ -17,6 +17,7 @@ export type ScenePosition = {
   x: number;
   y: number;
   direction: Direction;
+  height?: number;
 };
 
 export type Controls = {

@@ -2,15 +2,19 @@ import { useLayoutEffect, useRef, useState } from "react";
 import type { ScenePosition } from "@/utils/types/sceneHooks";
 import { saveCompressed, loadCompressed } from "@/utils/save/storage";
 import { slotKey } from "@/utils/save/slotManager";
+import { getTileHeight } from "@/gameRules/movement/levels";
 
 type Props = {
   map: number[][];
+  heightMap?: number[][];
   initialPosition?: ScenePosition;
   setMap: (map: number[][]) => void;
+  setHeightMap: (heightMap: number[][]) => void;
   setPosition: (
     x: number,
     y: number,
     direction: ScenePosition["direction"],
+    height?: number,
   ) => void;
 };
 
@@ -18,20 +22,27 @@ const SCENE_POSITIONS_KEY = () => slotKey("scene_return_positions");
 
 export function useSceneSetup({
   map,
+  heightMap,
   initialPosition,
   setMap,
+  setHeightMap,
   setPosition,
 }: Props) {
   const [isReady, setIsReady] = useState(false);
   const setMapRef = useRef(setMap);
   setMapRef.current = setMap;
+  const setHeightMapRef = useRef(setHeightMap);
+  setHeightMapRef.current = setHeightMap;
   const setPositionRef = useRef(setPosition);
   setPositionRef.current = setPosition;
   const initialPositionRef = useRef(initialPosition);
   initialPositionRef.current = initialPosition;
+  const heightMapRef = useRef(heightMap);
+  heightMapRef.current = heightMap;
 
   useLayoutEffect(() => {
     setMapRef.current(map);
+    if (heightMapRef.current) setHeightMapRef.current(heightMapRef.current);
 
     localStorage.removeItem("scene_return_position");
 
@@ -43,7 +54,12 @@ export function useSceneSetup({
     const saved = positions[currentRoute];
 
     if (saved) {
-      setPositionRef.current(saved.x, saved.y, saved.direction);
+      setPositionRef.current(
+        saved.x,
+        saved.y,
+        saved.direction,
+        getTileHeight(heightMapRef.current, saved.x, saved.y),
+      );
       delete positions[currentRoute];
       saveCompressed(SCENE_POSITIONS_KEY(), positions);
       setIsReady(true);
@@ -53,7 +69,12 @@ export function useSceneSetup({
     const pos = initialPositionRef.current;
 
     if (pos) {
-      setPositionRef.current(pos.x, pos.y, pos.direction);
+      setPositionRef.current(
+        pos.x,
+        pos.y,
+        pos.direction,
+        pos.height ?? getTileHeight(heightMapRef.current, pos.x, pos.y),
+      );
     }
 
     setIsReady(true);
