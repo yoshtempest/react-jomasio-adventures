@@ -29,12 +29,23 @@ const GameControlsContext = createContext<ControlsContextType | null>(null);
 export function GameControlsProvider({ children }: Props) {
   const [stack, setStack] = useState<GameControlLayer[]>([]);
   const { player, restoreMode } = usePlayer();
-  const { openNavbar, closeNavbar, openConfigScreen, isNavOpen, screen } =
+  const { openNavbar, closeNavbar, openConfigScreen, openInventoryScreen, openQuestsScreen,
+    openProfressionsScreen, openTitlesScreen, openEquipmentScreen, isNavOpen, screen } =
     useNavbar();
   const closeNavbarRef = useRef(closeNavbar);
   closeNavbarRef.current = closeNavbar;
   const openConfigScreenRef = useRef(openConfigScreen);
   openConfigScreenRef.current = openConfigScreen;
+  const openInventoryScreenRef = useRef(openInventoryScreen);
+  openInventoryScreenRef.current = openInventoryScreen;
+  const openQuestsScreenRef = useRef(openQuestsScreen);
+  openQuestsScreenRef.current = openQuestsScreen;
+  const openProfressionsScreenRef = useRef(openProfressionsScreen);
+  openProfressionsScreenRef.current = openProfressionsScreen;
+  const openTitlesScreenRef = useRef(openTitlesScreen);
+  openTitlesScreenRef.current = openTitlesScreen;
+  const openEquipmentScreenRef = useRef(openEquipmentScreen);
+  openEquipmentScreenRef.current = openEquipmentScreen;
   const isNavOpenRef = useRef(isNavOpen);
   isNavOpenRef.current = isNavOpen;
   const screenRef = useRef(screen);
@@ -204,6 +215,51 @@ export function GameControlsProvider({ children }: Props) {
             closeNavbarRef.current();
           } else {
             openConfigScreenRef.current();
+          }
+          break;
+
+        case "i":
+        case "I":
+          if (isNavOpenRef.current && screenRef.current === "inventory") {
+            closeNavbarRef.current();
+          } else {
+            openInventoryScreenRef.current();
+          }
+          break;
+
+        case "q":
+        case "Q":
+          if (isNavOpenRef.current && screenRef.current === "missions") {
+            closeNavbarRef.current();
+          } else {
+            openQuestsScreenRef.current();
+          }
+          break;
+
+        case "p":
+        case "P":
+          if (isNavOpenRef.current && screenRef.current === "professions") {
+            closeNavbarRef.current();
+          } else {
+            openProfressionsScreenRef.current();
+          }
+          break;
+
+        case "t":
+        case "T":
+          if (isNavOpenRef.current && screenRef.current === "titles") {
+            closeNavbarRef.current();
+          } else {
+            openTitlesScreenRef.current();
+          }
+          break;
+
+        case "e":
+        case "E":
+          if (isNavOpenRef.current && screenRef.current === "equipment") {
+            closeNavbarRef.current();
+          } else {
+            openEquipmentScreenRef.current();
           }
           break;
       }

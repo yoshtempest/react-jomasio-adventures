@@ -24,7 +24,11 @@ type NavbarContextType = {
   screen: NavScreen;
   setScreen: (screen: NavScreen) => void;
   openConfigScreen: () => void;
-
+  openInventoryScreen: () => void;
+  openQuestsScreen: () => void;
+  openProfressionsScreen: () => void;
+  openTitlesScreen: () => void;
+  openEquipmentScreen: () => void;
   restoreModeRef: RefObject<() => void>;
   setModeRef: RefObject<(mode: PlayerMode) => void>;
 };
@@ -88,6 +92,36 @@ export function NavbarProvider({ children }: { children: ReactNode }) {
     openNavbar();
   }, [openNavbar]);
 
+  const openInventoryScreen = useCallback(() => {
+    setScreenState("inventory");
+    setModeRef.current("menu");
+    openNavbar();
+  }, [openNavbar]);
+
+  const openQuestsScreen = useCallback(() => {
+    setScreenState("missions");
+    setModeRef.current("menu");
+    openNavbar();
+  }, [openNavbar]);
+
+  const openProfressionsScreen = useCallback(() => {
+    setScreenState("professions");
+    setModeRef.current("menu");
+    openNavbar();
+  }, [openNavbar]);
+
+  const openTitlesScreen = useCallback(() => {
+    setScreenState("titles");
+    setModeRef.current("menu");
+    openNavbar();
+  }, [openNavbar]);
+
+  const openEquipmentScreen = useCallback(() => {
+    setScreenState("equipment");
+    setModeRef.current("menu");
+    openNavbar();
+  }, [openNavbar]);
+
   return (
     <NavbarContext.Provider
       value={{
@@ -100,6 +134,11 @@ export function NavbarProvider({ children }: { children: ReactNode }) {
         screen,
         setScreen,
         openConfigScreen,
+        openInventoryScreen,
+        openQuestsScreen,
+        openProfressionsScreen,
+        openTitlesScreen,
+        openEquipmentScreen,
         restoreModeRef,
         setModeRef,
       }}
