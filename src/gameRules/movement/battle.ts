@@ -11,8 +11,18 @@ const CROUCHED_STATES = new Set<PlayerState>([
   "walkCrounched",
 ]);
 
+export function isPlayerRestrained(player: Player) {
+  if (player.grabbedUntil != null && Date.now() < player.grabbedUntil) {
+    return true;
+  }
+  if (player.throwStartTime > 0) return true;
+  if (player.state === "fallen") return true;
+  return false;
+}
+
 export function canAct(player: Player) {
   if (isPlayerFrozen(player)) return false;
+  if (isPlayerRestrained(player)) return false;
   return (
     player.mode === "battle" &&
     player.state !== "blocked" &&
@@ -133,6 +143,7 @@ export { CROUCHED_STATES };
 
 export function idleBattle(p: Player): Player {
   if (p.state === "blocked" || p.state === "stun") return p;
+  if (p.state === "fallen") return p;
 
   if (CROUCHED_STATES.has(p.state)) {
     return { ...p, state: "idleCrounched" };
