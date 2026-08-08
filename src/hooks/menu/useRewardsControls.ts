@@ -27,7 +27,7 @@ export function useRewardsControls({
   openNextChest,
   onRewardOptionChange,
 }: Params) {
-  const { pushControls, popControls } = useGameControls();
+  const { pushControls } = useGameControls();
   const rewardOptionIndexRef = useRef(0);
   const rewardOptionCountRef = useRef(rewardOptionCount);
   rewardOptionCountRef.current = rewardOptionCount;
@@ -93,12 +93,11 @@ export function useRewardsControls({
       },
     };
 
-    pushControls(controls);
-    return () => popControls();
+    const remove = pushControls(controls);
+    return remove;
   }, [
     chestRewardsVisible,
     pushControls,
-    popControls,
     onRewardOptionChange,
   ]);
 }

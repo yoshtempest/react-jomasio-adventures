@@ -10,7 +10,7 @@ interface Props {
 
 export function ChoiceBox({ prompt, options, onSelect }: Props) {
   const [selected, setSelected] = useState(0);
-  const { pushControls, popControls } = useGameControls();
+  const { pushControls } = useGameControls();
   const onSelectRef = useRef(onSelect);
   onSelectRef.current = onSelect;
 
@@ -32,9 +32,9 @@ export function ChoiceBox({ prompt, options, onSelect }: Props) {
       },
     };
 
-    pushControls(controls);
-    return () => popControls();
-  }, [pushControls, popControls, options.length, selected]);
+    const remove = pushControls(controls);
+    return remove;
+  }, [pushControls, options.length, selected]);
 
   return (
     <div className={`overlay ${styles.overlay}`}>

@@ -6,12 +6,12 @@ export function useGameControlsLayer(
   controls: GameControlLayer | null,
   deps: React.DependencyList,
 ) {
-  const { pushControls, popControls } = useGameControls();
+  const { pushControls } = useGameControls();
 
   useEffect(() => {
     if (!controls) return;
-    pushControls(controls);
-    return () => popControls();
+    const remove = pushControls(controls);
+    return remove;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 }

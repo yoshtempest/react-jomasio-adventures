@@ -12,7 +12,7 @@ const GAME_MODE_OPTIONS = [
 
 export function useGameModeMenu() {
   const navigate = useNavigate();
-  const { pushControls, popControls } = useGameControls();
+  const { pushControls } = useGameControls();
   const { playMove, playSelect } = useMenuSFX();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -29,8 +29,6 @@ export function useGameModeMenu() {
   playSelectRef.current = playSelect;
   const pushControlsRef = useRef(pushControls);
   pushControlsRef.current = pushControls;
-  const popControlsRef = useRef(popControls);
-  popControlsRef.current = popControls;
 
   useEffect(() => {
     const controls = {
@@ -62,8 +60,8 @@ export function useGameModeMenu() {
       blockGlobalOpen: true,
     };
 
-    pushControlsRef.current(controls);
-    return () => popControlsRef.current();
+    const remove = pushControlsRef.current(controls);
+    return () => remove();
   }, [navigate]);
 
   return {

@@ -280,7 +280,7 @@ export const BATTLE_QUESTS = createQuests({
     progress: 0,
     completed: false,
   },
-  x1_monster_of_ness_river: {
+  x1_leviathan: {
     name: "Estou de boa na lagoa",
     image: "/assets/npcs/leviathan/walk.svg",
     description: "Saí daqui mano",

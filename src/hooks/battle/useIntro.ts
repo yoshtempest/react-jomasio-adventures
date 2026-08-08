@@ -3,7 +3,7 @@ import { useGameControls } from "@/contexts/GameControlsContext";
 
 export function useBattleIntro() {
   const [showIntro, setShowIntro] = useState(true);
-  const { pushControls, popControls } = useGameControls();
+  const { pushControls } = useGameControls();
 
   useEffect(() => {
     const timeout = setTimeout(() => setShowIntro(false), 5000);
@@ -12,14 +12,14 @@ export function useBattleIntro() {
 
   useEffect(() => {
     if (!showIntro) return;
-    pushControls({
+    const remove = pushControls({
       onConfirm: () => {
         setShowIntro(false);
         return true;
       },
     });
-    return () => popControls();
-  }, [showIntro, pushControls, popControls]);
+    return remove;
+  }, [showIntro, pushControls]);
 
   function skipIntro() {
     setShowIntro(false);

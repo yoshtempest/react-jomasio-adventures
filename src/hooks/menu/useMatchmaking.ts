@@ -8,7 +8,7 @@ const OPTIONS = ["Criar Sala", "Entrar na Sala"];
 
 export function useMatchmakingMenu() {
   const navigate = useNavigate();
-  const { pushControls, popControls } = useGameControls();
+  const { pushControls } = useGameControls();
   const { playMove, playSelect, playClose } = useMenuSFX();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -31,8 +31,6 @@ export function useMatchmakingMenu() {
   playCloseRef.current = playClose;
   const pushControlsRef = useRef(pushControls);
   pushControlsRef.current = pushControls;
-  const popControlsRef = useRef(popControls);
-  popControlsRef.current = popControls;
 
   useEffect(() => {
     const controls = {
@@ -85,8 +83,8 @@ export function useMatchmakingMenu() {
       blockGlobalOpen: true,
     };
 
-    pushControlsRef.current(controls);
-    return () => popControlsRef.current();
+    const remove = pushControlsRef.current(controls);
+    return () => remove();
   }, [roomCode, navigate]);
 
   return {

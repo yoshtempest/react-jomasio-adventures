@@ -45,7 +45,7 @@ export function usePetsMenu(
 ) {
   const { player } = usePlayer();
   const character = player.character;
-  const { pushControls, popControls } = useGameControls();
+  const { pushControls } = useGameControls();
   const { getCollection, getEquippedInfo, fusePets } = useEquipment();
   const { getPetProgress, resetPetProgress } = usePetProgress();
   const { playMove, playSelect, playClose } = useMenuSFX();
@@ -135,8 +135,6 @@ export function usePetsMenu(
   playSoundRef.current = playSound;
   const pushControlsRef = useRef(pushControls);
   pushControlsRef.current = pushControls;
-  const popControlsRef = useRef(popControls);
-  popControlsRef.current = popControls;
   const fusePetsRef = useRef(fusePets);
   fusePetsRef.current = fusePets;
   const resetPetProgressRef = useRef(resetPetProgress);
@@ -224,8 +222,8 @@ export function usePetsMenu(
       blockGlobalOpen: true,
     };
 
-    pushControlsRef.current(controls);
-    return () => popControlsRef.current();
+    const remove = pushControlsRef.current(controls);
+    return () => remove();
   }, [isOpen]);
 
   return {

@@ -18,8 +18,7 @@ type Props = {
 };
 
 type ControlsContextType = {
-  pushControls: (controls: GameControlLayer) => void;
-  popControls: () => void;
+  pushControls: (controls: GameControlLayer) => () => void;
   clearControls: () => void;
   closeAllMenus: () => void;
   activeControls: GameControlLayer;
@@ -47,10 +46,9 @@ export function GameControlsProvider({ children }: Props) {
 
   const pushControls = useCallback((controls: GameControlLayer) => {
     setStack((prev) => [...prev, controls]);
-  }, []);
-
-  const popControls = useCallback(() => {
-    setStack((prev) => prev.slice(0, -1));
+    return () => {
+      setStack((prev) => prev.filter((layer) => layer !== controls));
+    };
   }, []);
 
   const clearControls = useCallback(() => {
@@ -271,7 +269,6 @@ export function GameControlsProvider({ children }: Props) {
     <GameControlsContext.Provider
       value={{
         pushControls,
-        popControls,
         clearControls,
         closeAllMenus,
         activeControls,

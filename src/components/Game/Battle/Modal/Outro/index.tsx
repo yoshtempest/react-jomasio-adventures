@@ -20,7 +20,7 @@ export function BattleOutro({ character, type, onNext }: Props) {
     message,
     dialogueSpeedMs,
   );
-  const { pushControls, popControls } = useGameControls();
+  const { pushControls } = useGameControls();
 
   const isCompleteRef = useRef(isComplete);
   isCompleteRef.current = isComplete;
@@ -30,7 +30,7 @@ export function BattleOutro({ character, type, onNext }: Props) {
   onNextRef.current = onNext;
 
   useEffect(() => {
-    pushControls({
+    const remove = pushControls({
       onUp: () => true,
       onDown: () => true,
       onLeft: () => true,
@@ -47,8 +47,8 @@ export function BattleOutro({ character, type, onNext }: Props) {
         return;
       },
     });
-    return () => popControls();
-  }, [pushControls, popControls]);
+    return remove;
+  }, [pushControls]);
 
   return (
     <div className="overlay">

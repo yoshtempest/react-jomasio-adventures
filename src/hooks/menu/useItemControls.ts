@@ -36,7 +36,7 @@ export function useItemControls({
   onReject,
   onNoKey,
 }: Params) {
-  const { pushControls, popControls } = useGameControls();
+  const { pushControls } = useGameControls();
   const stateRef = useRef({
     filterFocused,
     chestFocused,
@@ -118,7 +118,7 @@ export function useItemControls({
       },
     };
 
-    pushControls(controls);
-    return () => popControls();
-  }, [pushControls, popControls]);
+    const remove = pushControls(controls);
+    return remove;
+  }, [pushControls]);
 }

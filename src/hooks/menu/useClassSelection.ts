@@ -10,7 +10,7 @@ import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 const CLASSES: PlayerClass[] = ["fracote", "idiota", "amostradinho"];
 
 export function useClassSelection(isActive: boolean, onConfirm?: () => void) {
-  const { pushControls, popControls } = useGameControls();
+  const { pushControls } = useGameControls();
   const { chooseClass } = usePlayer();
   const { setFlag } = useFlags();
   const { playMove, playSelect } = useMenuSFX();
@@ -28,8 +28,6 @@ export function useClassSelection(isActive: boolean, onConfirm?: () => void) {
   playSelectRef.current = playSelect;
   const pushControlsRef = useRef(pushControls);
   pushControlsRef.current = pushControls;
-  const popControlsRef = useRef(popControls);
-  popControlsRef.current = popControls;
   const chooseClassRef = useRef(chooseClass);
   chooseClassRef.current = chooseClass;
   const setFlagRef = useRef(setFlag);
@@ -71,8 +69,8 @@ export function useClassSelection(isActive: boolean, onConfirm?: () => void) {
       blockGlobalOpen: true,
     };
 
-    pushControlsRef.current(controls);
-    return () => popControlsRef.current();
+    const remove = pushControlsRef.current(controls);
+    return () => remove();
   }, [isActive]);
 
   return {

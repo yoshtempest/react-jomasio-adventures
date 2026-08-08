@@ -80,7 +80,7 @@ export function ExploreScene({
 }) {
   const { player, playerClass, setMap, setHeightMap, setPosition, setMode } =
     usePlayer();
-  const { pushControls, popControls } = useGameControls();
+  const { pushControls } = useGameControls();
   const { navigateWithFade } = useTransitionCtx();
   const location = useLocation();
   const { items } = useInventory();
@@ -144,7 +144,6 @@ export function ExploreScene({
 
   useSceneControls({
     pushControls,
-    popControls,
     dialogueSystem,
     playSansTalking,
     setMode,

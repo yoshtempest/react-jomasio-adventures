@@ -30,7 +30,7 @@ export default function Talking({
     message,
     dialogueSpeedMs,
   );
-  const { pushControls, popControls } = useGameControls();
+  const { pushControls } = useGameControls();
 
   const [animate, setAnimate] = useState(true);
   const prevNameRef = useRef(name);
@@ -75,9 +75,9 @@ export default function Talking({
       },
     };
 
-    pushControls(controls);
-    return () => popControls();
-  }, [pushControls, popControls]);
+    const remove = pushControls(controls);
+    return remove;
+  }, [pushControls]);
 
   useEffect(() => {
     if (!soundSrc) return;

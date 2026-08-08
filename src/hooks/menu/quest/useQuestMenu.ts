@@ -18,7 +18,7 @@ export function useQuestMenu(
   allQuests: Quest[],
   listRef?: React.RefObject<HTMLUListElement | null>,
 ) {
-  const { pushControls, popControls } = useGameControls();
+  const { pushControls } = useGameControls();
 
   const { quests, claimQuest } = useQuests();
   const { addXP, addCoins, addHyperCoins } = useCharacterProgress();
@@ -118,8 +118,6 @@ export function useQuestMenu(
   playSelectRef.current = playSelect;
   const pushControlsRef = useRef(pushControls);
   pushControlsRef.current = pushControls;
-  const popControlsRef = useRef(popControls);
-  popControlsRef.current = popControls;
   const handleUseItemRef = useRef<(index: number) => boolean>(() => false);
   handleUseItemRef.current = handleUseItem;
 
@@ -177,8 +175,8 @@ export function useQuestMenu(
       blockGlobalOpen: true,
     };
 
-    pushControlsRef.current(controls);
-    return () => popControlsRef.current();
+    const remove = pushControlsRef.current(controls);
+    return () => remove();
   }, [isOpen, totalItems, totalCards, activeTab]);
 
   // Sync activeTab when selectedIndex moves across tabs

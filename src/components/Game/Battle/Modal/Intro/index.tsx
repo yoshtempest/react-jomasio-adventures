@@ -25,7 +25,7 @@ export function BattleIntro({
   const { sfxVolume } = useAudio();
   const sfxVolumeRef = useRef(sfxVolume);
   sfxVolumeRef.current = sfxVolume;
-  const { pushControls, popControls } = useGameControls();
+  const { pushControls } = useGameControls();
   const { playSound } = useSoundEffects();
   const { setMode } = usePlayer();
 
@@ -89,9 +89,9 @@ export function BattleIntro({
       },
     };
 
-    pushControls(controls);
-    return () => popControls();
-  }, [pushControls, popControls]);
+    const remove = pushControls(controls);
+    return remove;
+  }, [pushControls]);
   return (
     <div className="overlay">
       <div className={styles.left}>

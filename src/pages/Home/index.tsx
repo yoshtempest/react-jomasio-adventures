@@ -11,7 +11,7 @@ import { sceneBackgrounds } from "@/data/scene/background";
 
 export default function Home() {
   const navigate = useNavigate();
-  const { pushControls, popControls } = useGameControls();
+  const { pushControls } = useGameControls();
 
   useBackgroundAudio(undertale);
 
@@ -38,12 +38,12 @@ export default function Home() {
   }, [navigate]);
 
   useEffect(() => {
-    pushControls({
+    const remove = pushControls({
       onConfirm: handleConfirm,
     });
 
-    return () => popControls();
-  }, [pushControls, popControls, handleConfirm]);
+    return remove;
+  }, [pushControls, handleConfirm]);
 
   return (
     <div

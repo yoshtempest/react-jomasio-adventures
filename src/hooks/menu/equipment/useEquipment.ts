@@ -15,7 +15,7 @@ export function useEquipmentMenu(
   character: CharacterId,
   rightItemsRef?: React.RefObject<HTMLDivElement | null>,
 ) {
-  const { pushControls, popControls } = useGameControls();
+  const { pushControls } = useGameControls();
   const { equip, unequip, unequipAccessoryAtIndex } = useEquipment();
   const { playMove } = useMenuSFX();
 
@@ -197,8 +197,6 @@ export function useEquipmentMenu(
   playMoveRef.current = playMove;
   const pushControlsRef = useRef(pushControls);
   pushControlsRef.current = pushControls;
-  const popControlsRef = useRef(popControls);
-  popControlsRef.current = popControls;
   const handleUseItemRef = useRef<(index: number) => boolean>(() => false);
   handleUseItemRef.current = handleUseItem;
   const navigateRef = useRef(navigate);
@@ -235,8 +233,8 @@ export function useEquipmentMenu(
       blockGlobalOpen: true,
     };
 
-    pushControlsRef.current(controls);
-    return () => popControlsRef.current();
+    const remove = pushControlsRef.current(controls);
+    return () => remove();
   }, [isOpen, totalItems]);
 
   return {

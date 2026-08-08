@@ -22,7 +22,7 @@ export function useCutscene({
 }: Props) {
   const { player } = usePlayer();
   const dialogueSystem = useDialogue(dialogue, onFinish);
-  const { pushControls, popControls } = useGameControls();
+  const { pushControls } = useGameControls();
 
   const hasPlayed = useRef(false);
 
@@ -64,8 +64,6 @@ export function useCutscene({
 
   const pushControlsRef = useRef(pushControls);
   pushControlsRef.current = pushControls;
-  const popControlsRef = useRef(popControls);
-  popControlsRef.current = popControls;
 
   // 🔥 CORREÇÃO AQUI
   useEffect(() => {
@@ -73,11 +71,11 @@ export function useCutscene({
 
     if (player.mode === "ui") return;
 
-    pushControlsRef.current({
+    const remove = pushControlsRef.current({
       onConfirm: () => handleConfirmRef.current(),
     });
 
-    return () => popControlsRef.current();
+    return () => remove();
   }, [dialogueSystem.isOpen, player.mode]);
 
   return {

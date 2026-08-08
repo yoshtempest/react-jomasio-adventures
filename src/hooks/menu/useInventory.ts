@@ -15,7 +15,7 @@ export function useInventoryMenu(
   chestReady = false,
   onOpenChest: () => void = () => {},
 ) {
-  const { pushControls, popControls } = useGameControls();
+  const { pushControls } = useGameControls();
   const { items: rawItems } = useInventory();
   const { sfxVolume } = useAudio();
 
@@ -110,8 +110,6 @@ export function useInventoryMenu(
   playSelectRef.current = playSelect;
   const pushControlsRef = useRef(pushControls);
   pushControlsRef.current = pushControls;
-  const popControlsRef = useRef(popControls);
-  popControlsRef.current = popControls;
   const filterConfigRef = useRef(filterConfig);
   filterConfigRef.current = filterConfig;
   const chestReadyRef = useRef(chestReady);
@@ -230,8 +228,8 @@ export function useInventoryMenu(
       blockGlobalOpen: true,
     };
 
-    pushControlsRef.current(controls);
-    return () => popControlsRef.current();
+    const remove = pushControlsRef.current(controls);
+    return () => remove();
   }, [isOpen, navLength]);
 
   return {

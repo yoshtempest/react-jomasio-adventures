@@ -12,7 +12,7 @@ export function usePlayerMenu(
   claimRewardRef?: React.RefObject<(index: number) => boolean>,
   rewardsCountRef?: React.RefObject<number>,
 ) {
-  const { pushControls, popControls } = useGameControls();
+  const { pushControls } = useGameControls();
   const { playMove, playSelect } = useMenuSFX();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -36,8 +36,6 @@ export function usePlayerMenu(
   playSelectRef.current = playSelect;
   const pushControlsRef = useRef(pushControls);
   pushControlsRef.current = pushControls;
-  const popControlsRef = useRef(popControls);
-  popControlsRef.current = popControls;
 
   const doScroll = useRef((dy: number) => {
     scrollRef?.current?.scrollBy({ top: dy, behavior: "smooth" });
@@ -81,8 +79,8 @@ export function usePlayerMenu(
         blockGlobalOpen: true,
       };
 
-      pushControlsRef.current(controls);
-      return () => popControlsRef.current();
+      const remove = pushControlsRef.current(controls);
+      return () => remove();
     }
 
     const controls = {
@@ -118,8 +116,8 @@ export function usePlayerMenu(
       blockGlobalOpen: true,
     };
 
-    pushControlsRef.current(controls);
-    return () => popControlsRef.current();
+    const remove = pushControlsRef.current(controls);
+    return () => remove();
   }, [isOpen, subView, claimRewardRef, rewardsCountRef]);
 
   const isSummaryView = selectedIndex === 0;

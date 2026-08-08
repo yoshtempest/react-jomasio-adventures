@@ -6,8 +6,7 @@ import type {
 } from "@/utils/types/sceneHooks";
 
 type Props = {
-  pushControls: (controls: Controls) => void;
-  popControls: () => void;
+  pushControls: (controls: Controls) => () => void;
   dialogueSystem: DialogueSystem;
   playSansTalking: () => void;
   setMode: SetPlayerMode;
@@ -15,15 +14,12 @@ type Props = {
 
 export function useSceneControls({
   pushControls,
-  popControls,
   dialogueSystem,
   playSansTalking,
   setMode,
 }: Props) {
   const pushControlsRef = useRef(pushControls);
   pushControlsRef.current = pushControls;
-  const popControlsRef = useRef(popControls);
-  popControlsRef.current = popControls;
   const dialogueSystemRef = useRef(dialogueSystem);
   dialogueSystemRef.current = dialogueSystem;
   const playSansTalkingRef = useRef(playSansTalking);
@@ -45,8 +41,8 @@ export function useSceneControls({
       },
     };
 
-    pushControlsRef.current(controls);
+    const remove = pushControlsRef.current(controls);
 
-    return () => popControlsRef.current();
+    return () => remove();
   }, []);
 }

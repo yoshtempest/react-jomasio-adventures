@@ -25,7 +25,7 @@ export function useDefeatCharacterSelect(isOpen: boolean) {
   const { player, setCharacter } = usePlayer();
   const { hasFlag } = useFlags();
   const { playMove, playSelect } = useMenuSFX();
-  const { pushControls, popControls } = useGameControls();
+  const { pushControls } = useGameControls();
 
   const unlockedCharacters = CHARACTERS.filter(
     (c) =>
@@ -113,7 +113,7 @@ export function useDefeatCharacterSelect(isOpen: boolean) {
   useEffect(() => {
     if (!isOpen) return;
 
-    pushControls({
+    const remove = pushControls({
       onLeft: () => {
         if (viewRef.current !== "menu") return;
         playMoveRef.current();
@@ -160,8 +160,8 @@ export function useDefeatCharacterSelect(isOpen: boolean) {
       },
     });
 
-    return () => popControls();
-  }, [isOpen, pushControls, popControls]);
+    return remove;
+  }, [isOpen, pushControls]);
 
   useEffect(() => {
     if (!isOpen) {

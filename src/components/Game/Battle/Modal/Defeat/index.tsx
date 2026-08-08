@@ -35,7 +35,7 @@ export function DefeatModal({
 }: Props) {
   const { setMode } = usePlayer();
   const { playSound } = useSoundEffects();
-  const { pushControls, popControls } = useGameControls();
+  const { pushControls } = useGameControls();
   const hasPlayedRef = useRef(false);
 
   const {
@@ -86,7 +86,7 @@ export function DefeatModal({
   useEffect(() => {
     if (!isOpen) return;
 
-    pushControls({
+    const remove = pushControls({
       onConfirm: () => {
         if (viewRef.current !== "menu") return;
         executeSelectedRef.current();
@@ -99,8 +99,8 @@ export function DefeatModal({
       },
     });
 
-    return () => popControls();
-  }, [isOpen, pushControls, popControls, playSound]);
+    return remove;
+  }, [isOpen, pushControls, playSound]);
 
   if (!isOpen) return null;
 

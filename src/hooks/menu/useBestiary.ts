@@ -7,7 +7,7 @@ export function useBestiaryMenu(
   isOpen: boolean,
   listRef?: React.RefObject<HTMLDivElement | null>,
 ) {
-  const { pushControls, popControls } = useGameControls();
+  const { pushControls } = useGameControls();
   const { playMove } = useMenuSFX();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -32,8 +32,6 @@ export function useBestiaryMenu(
   playMoveRef.current = playMove;
   const pushControlsRef = useRef(pushControls);
   pushControlsRef.current = pushControls;
-  const popControlsRef = useRef(popControls);
-  popControlsRef.current = popControls;
 
   useEffect(() => {
     if (!isOpen) return;
@@ -58,8 +56,8 @@ export function useBestiaryMenu(
       blockGlobalOpen: true,
     };
 
-    pushControlsRef.current(controls);
-    return () => popControlsRef.current();
+    const remove = pushControlsRef.current(controls);
+    return () => remove();
   }, [isOpen]);
 
   return {

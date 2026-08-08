@@ -18,7 +18,7 @@ export function useCharacterMenu(
   listRef?: React.RefObject<HTMLDivElement | null>,
 ) {
   const { setCharacter } = usePlayer();
-  const { pushControls, popControls } = useGameControls();
+  const { pushControls } = useGameControls();
   const { playMove, playSelect } = useMenuSFX();
   const { hasFlag } = useFlags();
   const { firstLoginDate } = usePlayTime();
@@ -58,8 +58,6 @@ export function useCharacterMenu(
   playSelectRef.current = playSelect;
   const pushControlsRef = useRef(pushControls);
   pushControlsRef.current = pushControls;
-  const popControlsRef = useRef(popControls);
-  popControlsRef.current = popControls;
   const selectableCharactersRef = useRef(selectableCharacters);
   selectableCharactersRef.current = selectableCharacters;
 
@@ -107,8 +105,8 @@ export function useCharacterMenu(
       blockGlobalOpen: true,
     };
 
-    pushControlsRef.current(controls);
-    return () => popControlsRef.current();
+    const remove = pushControlsRef.current(controls);
+    return () => remove();
   }, []);
 
   useEffect(() => {

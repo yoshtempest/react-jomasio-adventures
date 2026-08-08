@@ -16,7 +16,7 @@ export function usePandemonyPuzzle(
   const [state, setState] = useState<PuzzleState>(DEFAULT_STATE);
   const [selectedSlot, setSelectedSlot] = useState(0);
   const [solved, setSolved] = useState(false);
-  const { pushControls, popControls } = useGameControls();
+  const { pushControls } = useGameControls();
   const { playMove, playSelect } = useMenuSFX();
 
   const selectedSlotRef = useRef(selectedSlot);
@@ -95,9 +95,9 @@ export function usePandemonyPuzzle(
       blockGlobalOpen: true,
     };
 
-    pushControls(controls);
-    return () => popControls();
-  }, [isOpen, pushControls, popControls]);
+    const remove = pushControls(controls);
+    return remove;
+  }, [isOpen, pushControls]);
 
   return {
     state,

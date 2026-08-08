@@ -25,7 +25,7 @@ function getColumnMaxIndex(column: number): number {
 
 export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   const navigate = useNavigate();
-  const { pushControls, popControls } = useGameControls();
+  const { pushControls } = useGameControls();
 
   const { setDifficulty, player } = usePlayer();
   const { sfxVolume, setSfxVolume, bgmVolume, setBgmVolume } = useAudio();
@@ -79,8 +79,6 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   playCloseRef.current = playClose;
   const pushControlsRef = useRef(pushControls);
   pushControlsRef.current = pushControls;
-  const popControlsRef = useRef(popControls);
-  popControlsRef.current = popControls;
   const setDifficultyRef = useRef(setDifficulty);
   setDifficultyRef.current = setDifficulty;
   const setSfxVolumeRef = useRef(setSfxVolume);
@@ -312,9 +310,9 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
       blockGlobalOpen: true,
     };
 
-    pushControlsRef.current(controls);
+    const remove = pushControlsRef.current(controls);
 
-    return () => popControlsRef.current();
+    return () => remove();
   }, [
     isActive,
     sfxVolume,

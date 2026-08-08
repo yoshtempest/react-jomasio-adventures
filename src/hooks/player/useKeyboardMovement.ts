@@ -33,7 +33,7 @@ export function useKeyboardMovement() {
   } = usePlayer();
 
   const { isNavOpen } = useNavbar();
-  const { activeControls, pushControls, popControls } = useGameControls();
+  const { activeControls, pushControls } = useGameControls();
 
   const isLocked = isMovementLocked(player.mode, isNavOpen);
   const isBattle = player.mode === "battle";
@@ -126,8 +126,6 @@ export function useKeyboardMovement() {
 
   const pushControlsRef = useRef(pushControls);
   pushControlsRef.current = pushControls;
-  const popControlsRef = useRef(popControls);
-  popControlsRef.current = popControls;
 
   const pressRef = useRef(press);
   pressRef.current = press;
@@ -270,7 +268,7 @@ export function useKeyboardMovement() {
       },
     };
 
-    pushControlsRef.current(controls);
+    const remove = pushControlsRef.current(controls);
     return () => {
       isUpHeldRef.current = false;
       isDownHeldRef.current = false;
@@ -280,7 +278,7 @@ export function useKeyboardMovement() {
       stopMoveDownExploreRef.current();
       stopMoveLeftExploreRef.current();
       stopMoveRightExploreRef.current();
-      popControlsRef.current();
+      remove();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

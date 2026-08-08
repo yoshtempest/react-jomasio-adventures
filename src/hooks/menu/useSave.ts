@@ -21,7 +21,7 @@ import { SAVE_TABS, SAVE_TAB_COUNT } from "@/data/saves/tabs";
 
 export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
   const navigate = useNavigate();
-  const { pushControls, popControls } = useGameControls();
+  const { pushControls } = useGameControls();
   const { closeNavbar } = useNavbar();
   const { setMode } = usePlayer();
   const { playMove, playSelect } = useMenuSFX();
@@ -104,7 +104,7 @@ export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
   }, [items, selectedIndex]);
 
   useEffect(() => {
-    pushControls({
+    const remove = pushControls({
       onUp: () => {
         playMoveRef.current();
 
@@ -228,8 +228,8 @@ export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
       blockGlobalOpen: true,
     });
 
-    return () => popControls();
-  }, [pushControls, popControls]);
+    return remove;
+  }, [pushControls]);
 
   useEffect(() => {
     if (!listRef?.current) return;

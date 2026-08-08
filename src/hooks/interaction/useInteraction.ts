@@ -15,7 +15,7 @@ export function useInteraction({
   const playerRef = useRef(player);
   const mapRef = useRef(map);
   const onInteractRef = useRef(onInteract);
-  const { pushControls, popControls } = useGameControls();
+  const { pushControls } = useGameControls();
 
   // mantém sempre atualizado sem re-render
   useEffect(() => {
@@ -26,7 +26,7 @@ export function useInteraction({
 
   // registra o handler UMA VEZ
   useEffect(() => {
-    pushControls({
+    const remove = pushControls({
       onConfirm: () => {
         const { x, y, tile } = getTileInFront(
           playerRef.current,
@@ -37,6 +37,6 @@ export function useInteraction({
       },
     });
 
-    return () => popControls();
-  }, [pushControls, popControls]);
+    return remove;
+  }, [pushControls]);
 }

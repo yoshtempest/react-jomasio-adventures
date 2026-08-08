@@ -8,7 +8,7 @@ export function useTitleMenu(
   isOpen: boolean,
   listRef?: React.RefObject<HTMLDivElement | null>,
 ) {
-  const { pushControls, popControls } = useGameControls();
+  const { pushControls } = useGameControls();
   const { titlesData, equipTitle } = useTitles();
   const { playMove, playSelect } = useMenuSFX();
 
@@ -37,8 +37,6 @@ export function useTitleMenu(
   playSelectRef.current = playSelect;
   const pushControlsRef = useRef(pushControls);
   pushControlsRef.current = pushControls;
-  const popControlsRef = useRef(popControls);
-  popControlsRef.current = popControls;
   const equipTitleRef = useRef(equipTitle);
   equipTitleRef.current = equipTitle;
 
@@ -84,8 +82,8 @@ export function useTitleMenu(
       blockGlobalOpen: true,
     };
 
-    pushControlsRef.current(controls);
-    return () => popControlsRef.current();
+    const remove = pushControlsRef.current(controls);
+    return () => remove();
   }, [isOpen, titlesData.progress]);
 
   return {

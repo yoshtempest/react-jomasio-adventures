@@ -30,7 +30,7 @@ export function useBattleControls({
   onChargeRelease,
   onChargeCancel,
 }: Props) {
-  const { pushControls, popControls } = useGameControls();
+  const { pushControls } = useGameControls();
 
   const attackRef = useRef(attack);
   const specialRef = useRef(special);
@@ -60,8 +60,6 @@ export function useBattleControls({
 
   const pushControlsRef = useRef(pushControls);
   pushControlsRef.current = pushControls;
-  const popControlsRef = useRef(popControls);
-  popControlsRef.current = popControls;
 
   useEffect(() => {
     if (disabled) return;
@@ -140,11 +138,11 @@ export function useBattleControls({
         : undefined,
     };
 
-    pushControlsRef.current(controls);
+    const remove = pushControlsRef.current(controls);
 
     return () => {
       if (holdTimer) clearTimeout(holdTimer);
-      popControlsRef.current();
+      remove();
     };
   }, [disabled]);
 }
