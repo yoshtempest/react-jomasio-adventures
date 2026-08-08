@@ -18,6 +18,11 @@
   width: 25%;
 }
 
+.dailyChestFocused {
+  border-color: #ffd700;
+  box-shadow: 0 0 var(--fs-10) rgba(255, 215, 0, 0.6);
+}
+
 .dailyChestInfo {
   display: flex;
   flex-direction: row;

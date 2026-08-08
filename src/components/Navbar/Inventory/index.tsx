@@ -73,10 +73,14 @@ export function Inventory() {
     [filterType, filteredItems],
   );
 
-  const { selectedIndex, filterFocused } = useInventoryMenu(
+  const dailyChest = useDailyChest();
+
+  const { selectedIndex, filterFocused, chestFocused } = useInventoryMenu(
     true,
     listRef,
     filterConfig,
+    dailyChest.isReady,
+    dailyChest.open,
   );
 
   const {
@@ -87,7 +91,6 @@ export function Inventory() {
     otherChestExists,
     openNextChest,
   } = useChestOpening();
-  const dailyChest = useDailyChest();
   const { playMove, playSelect } = useMenuSFX();
 
   const { playSFX } = useSFXPool();
@@ -146,6 +149,7 @@ export function Inventory() {
 
   useItemControls({
     filterFocused,
+    chestFocused,
     selectedItem,
     isConsumableSelected,
     isChestSelected,
@@ -195,7 +199,12 @@ export function Inventory() {
 
   return (
     <div className="containerOfNavbar">
-      <Chest />
+      <Chest
+        isFocused={chestFocused}
+        isReady={dailyChest.isReady}
+        timeLeft={dailyChest.timeLeft}
+        onOpen={dailyChest.open}
+      />
 
       <FilterBar
         filterType={filterType}

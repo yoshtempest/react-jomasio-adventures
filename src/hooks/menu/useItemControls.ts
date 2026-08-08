@@ -3,6 +3,7 @@ import { useGameControls } from "@/contexts/GameControlsContext";
 
 type Params = {
   filterFocused: boolean;
+  chestFocused: boolean;
   selectedItem: { id: string } | undefined;
   isConsumableSelected: boolean;
   isChestSelected: boolean;
@@ -20,6 +21,7 @@ type Params = {
 
 export function useItemControls({
   filterFocused,
+  chestFocused,
   selectedItem,
   isConsumableSelected,
   isChestSelected,
@@ -37,6 +39,7 @@ export function useItemControls({
   const { pushControls, popControls } = useGameControls();
   const stateRef = useRef({
     filterFocused,
+    chestFocused,
     selectedItem,
     isConsumableSelected,
     isChestSelected,
@@ -48,6 +51,7 @@ export function useItemControls({
   });
   stateRef.current = {
     filterFocused,
+    chestFocused,
     selectedItem,
     isConsumableSelected,
     isChestSelected,
@@ -73,6 +77,7 @@ export function useItemControls({
       onConfirm: () => {
         const {
           filterFocused,
+          chestFocused,
           selectedItem,
           isConsumableSelected,
           isChestSelected,
@@ -83,6 +88,7 @@ export function useItemControls({
           items,
         } = stateRef.current;
         if (filterFocused) return false;
+        if (chestFocused) return false;
         if (!selectedItem) return false;
 
         if (isConsumableSelected) {
