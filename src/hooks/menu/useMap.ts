@@ -14,6 +14,11 @@ export function useMapMenu() {
 
   useEffect(() => {
     const controls = {
+      onConfirm: () => true,
+      onUp: () => true,
+      onDown: () => true,
+      onLeft: () => true,
+      onRight: () => true,
       onCancel: () => {
         setModeRef.current("explore");
         return true;

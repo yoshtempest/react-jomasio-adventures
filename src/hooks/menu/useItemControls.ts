@@ -35,15 +35,54 @@ export function useItemControls({
   onNoKey,
 }: Params) {
   const { pushControls, popControls } = useGameControls();
-  const filterFocusedRef = useRef(filterFocused);
-  filterFocusedRef.current = filterFocused;
+  const stateRef = useRef({
+    filterFocused,
+    selectedItem,
+    isConsumableSelected,
+    isChestSelected,
+    isMapSelected,
+    isMountSelected,
+    isTeleportSelected,
+    keyId,
+    items,
+  });
+  stateRef.current = {
+    filterFocused,
+    selectedItem,
+    isConsumableSelected,
+    isChestSelected,
+    isMapSelected,
+    isMountSelected,
+    isTeleportSelected,
+    keyId,
+    items,
+  };
+  const openPlayerChestRef = useRef(openPlayerChest);
+  openPlayerChestRef.current = openPlayerChest;
+  const getEffectRef = useRef(getEffect);
+  getEffectRef.current = getEffect;
   const consumeItemRef = useRef(consumeItem);
   consumeItemRef.current = consumeItem;
+  const onRejectRef = useRef(onReject);
+  onRejectRef.current = onReject;
+  const onNoKeyRef = useRef(onNoKey);
+  onNoKeyRef.current = onNoKey;
 
   useEffect(() => {
     const controls = {
       onConfirm: () => {
-        if (filterFocusedRef.current) return false;
+        const {
+          filterFocused,
+          selectedItem,
+          isConsumableSelected,
+          isChestSelected,
+          isMapSelected,
+          isMountSelected,
+          isTeleportSelected,
+          keyId,
+          items,
+        } = stateRef.current;
+        if (filterFocused) return false;
         if (!selectedItem) return false;
 
         if (isConsumableSelected) {
@@ -53,42 +92,27 @@ export function useItemControls({
 
         if (isChestSelected) {
           if (keyId && items.some((i) => i.id === keyId)) {
-            openPlayerChest(selectedItem.id as ItemId);
+            openPlayerChestRef.current(selectedItem.id as ItemId);
           } else {
-            onNoKey();
+            onNoKeyRef.current();
           }
           return true;
         }
 
         if (isMapSelected || isMountSelected || isTeleportSelected) {
-          const effect = getEffect(selectedItem.id);
+          const effect = getEffectRef.current(selectedItem.id);
           if (effect) {
             effect();
             return true;
           }
         }
 
-        onReject(selectedItem ? -1 : 0);
+        onRejectRef.current(selectedItem ? -1 : 0);
         return true;
       },
     };
 
     pushControls(controls);
     return () => popControls();
-  }, [
-    isChestSelected,
-    isConsumableSelected,
-    isMapSelected,
-    isMountSelected,
-    isTeleportSelected,
-    selectedItem,
-    keyId,
-    items,
-    openPlayerChest,
-    getEffect,
-    pushControls,
-    popControls,
-    onReject,
-    onNoKey,
-  ]);
+  }, [pushControls, popControls]);
 }

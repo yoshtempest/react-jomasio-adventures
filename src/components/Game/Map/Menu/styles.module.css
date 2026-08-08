@@ -96,3 +96,42 @@
   border-radius: 50%;
   background: #1a1208;
 }
+
+.faceShifted {
+  right: calc(
+    var(--size-4) + clamp(var(--fs-13), 1.4vw, var(--fs-18)) + var(--size-4)
+  );
+}
+
+@keyframes questPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.15);
+  }
+}
+
+.questBadge {
+  position: absolute;
+  top: var(--size-4);
+  right: var(--size-4);
+  width: clamp(var(--fs-13), 1.4vw, var(--fs-18));
+  height: clamp(var(--fs-13), 1.4vw, var(--fs-18));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(var(--fs-10), 1vw, var(--fs-13));
+  font-weight: bold;
+  line-height: 1;
+  color: var(--text-color);
+  background: var(--accent-color);
+  border-radius: 50%;
+  box-shadow: 0 0 var(--size-6) rgba(251, 191, 36, 0.6);
+  animation: questPulse 1s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 5;
+}

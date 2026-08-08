@@ -230,10 +230,10 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
           : {}),
       }));
       if (mode === "menu") {
-        previousModeRef.current = player.mode;
+        previousModeRef.current = playerModeRef.current;
       }
     },
-    [setPlayer, player.mode],
+    [setPlayer],
   );
 
   const restoreMode = useCallback(() => {

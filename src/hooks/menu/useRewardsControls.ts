@@ -29,8 +29,20 @@ export function useRewardsControls({
 }: Params) {
   const { pushControls, popControls } = useGameControls();
   const rewardOptionIndexRef = useRef(0);
+  const rewardOptionCountRef = useRef(rewardOptionCount);
+  rewardOptionCountRef.current = rewardOptionCount;
+  const lastOpenedRef = useRef(lastOpened);
+  lastOpenedRef.current = lastOpened;
+  const chestLastResultRef = useRef(chestLastResult);
+  chestLastResultRef.current = chestLastResult;
   const openNextChestRef = useRef(openNextChest);
   openNextChestRef.current = openNextChest;
+  const playMoveRef = useRef(playMove);
+  playMoveRef.current = playMove;
+  const playSelectRef = useRef(playSelect);
+  playSelectRef.current = playSelect;
+  const closeRewardsRef = useRef(closeRewards);
+  closeRewardsRef.current = closeRewards;
 
   useEffect(() => {
     if (!chestRewardsVisible) return;
@@ -40,39 +52,43 @@ export function useRewardsControls({
 
     const controls = {
       onLeft: () => {
-        if (rewardOptionCount <= 1) return true;
-        playMove();
+        if (rewardOptionCountRef.current <= 1) return true;
+        playMoveRef.current();
         onRewardOptionChange((prev) => {
-          const next = circularPrev(prev, rewardOptionCount);
+          const next = circularPrev(prev, rewardOptionCountRef.current);
           rewardOptionIndexRef.current = next;
           return next;
         });
         return true;
       },
       onRight: () => {
-        if (rewardOptionCount <= 1) return true;
-        playMove();
+        if (rewardOptionCountRef.current <= 1) return true;
+        playMoveRef.current();
         onRewardOptionChange((prev) => {
-          const next = circularNext(prev, rewardOptionCount);
+          const next = circularNext(prev, rewardOptionCountRef.current);
           rewardOptionIndexRef.current = next;
           return next;
         });
         return true;
       },
       onConfirm: () => {
-        playSelect();
-        if (rewardOptionCount > 1 && rewardOptionIndexRef.current === 0) {
+        playSelectRef.current();
+        if (
+          rewardOptionCountRef.current > 1 &&
+          rewardOptionIndexRef.current === 0
+        ) {
           openNextChestRef.current(
-            (lastOpened?.chestId ?? chestLastResult?.tier) as ItemId,
+            (lastOpenedRef.current?.chestId ??
+              chestLastResultRef.current?.tier) as ItemId,
           );
         } else {
-          closeRewards();
+          closeRewardsRef.current();
         }
         return true;
       },
       onCancel: () => {
-        playSelect();
-        closeRewards();
+        playSelectRef.current();
+        closeRewardsRef.current();
         return true;
       },
     };
@@ -81,12 +97,6 @@ export function useRewardsControls({
     return () => popControls();
   }, [
     chestRewardsVisible,
-    rewardOptionCount,
-    lastOpened,
-    chestLastResult,
-    playMove,
-    playSelect,
-    closeRewards,
     pushControls,
     popControls,
     onRewardOptionChange,
