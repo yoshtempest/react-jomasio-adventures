@@ -1,7 +1,12 @@
-import { SceneBase } from "@/components/Game/Scenes/Base";
-import { FIRSTSCREEN_SCENES } from "@/scenes/firstscreen";
+import { useState } from "react";
+
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
+
+import { SceneBase } from "@/components/Game/Scenes/Base";
+import Talking from "@/components/Talking";
+
+import { FIRSTSCREEN_SCENES } from "@/scenes/firstscreen";
 import { sceneBackgrounds } from "@/data/scene/background";
 
 type Props = {
@@ -14,6 +19,8 @@ export function FirstScreenScene({ sceneId }: Props) {
   const { addItem, removeItem, hasItem } = useInventory();
   const { quests } = useQuests();
 
+  const [popup, setPopup] = useState<string | null>(null);
+
   const hasQuest = (id: string) => quests.some((q) => q.id === id);
 
   if (!scene) {
@@ -21,15 +28,21 @@ export function FirstScreenScene({ sceneId }: Props) {
   }
 
   return (
-    <SceneBase
-      scene={scene}
-      background={sceneBackgrounds.FirstScreen}
-      onFinishExtra={() => ({
-        addItem,
-        removeItem,
-        hasItem,
-        hasQuest,
-      })}
-    />
+    <>
+      <SceneBase
+        scene={scene}
+        background={sceneBackgrounds.FirstScreen}
+        popup={popup}
+        setPopup={setPopup}
+        onFinishExtra={() => ({
+          addItem,
+          removeItem,
+          hasItem,
+          hasQuest,
+        })}
+      />
+
+      {popup && <Talking name="Sistema" message={popup} />}
+    </>
   );
 }
