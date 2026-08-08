@@ -284,6 +284,7 @@ export function GameControlsProvider({ children }: Props) {
 
         case "ArrowLeft":
         case "a":
+        case "A":
           controls.onLeftRelease?.();
           break;
 
@@ -295,7 +296,6 @@ export function GameControlsProvider({ children }: Props) {
 
         case "l":
         case "L":
-        case "A":
           controls.onConfirmRelease?.();
           break;
 

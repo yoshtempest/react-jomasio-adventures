@@ -6,7 +6,7 @@ import { STATS } from "@/utils/types/player/stats";
 import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { useStableCallback } from "@/hooks/useStableCallback";
-import { useGameControlsLayer } from "@/hooks/useGameControlsLayer";
+import { useGameControlsLayer } from "@/hooks/game/useGameControlsLayer";
 import { useSelectableIndex } from "@/hooks/useSelectableIndex";
 
 const OPTIONS = STATS;

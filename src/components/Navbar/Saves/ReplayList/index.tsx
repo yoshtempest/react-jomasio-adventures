@@ -4,7 +4,7 @@ import { loadReplays, deleteReplay } from "@/data/replays";
 import { getNpcDisplayName } from "@/utils/types/npc/npcNames";
 import { formatDuration } from "@/utils/formatDuration";
 import type { ReplayData } from "@/utils/types/replay";
-import { useGameControlsLayer } from "@/hooks/useGameControlsLayer";
+import { useGameControlsLayer } from "@/hooks/game/useGameControlsLayer";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { CHARACTERS } from "@/data/options/characters";
 import { playerPath, npcPath } from "@/utils/paths";

@@ -2,7 +2,7 @@ import { useEffect, useRef, useCallback } from "react";
 import type { ReplayData } from "@/utils/types/replay";
 import { useReplayPlayback } from "@/hooks/battle/recording/useReplayPlayback";
 import { useReplayViewport } from "@/hooks/battle/recording/useReplayViewport";
-import { useGameControlsLayer } from "@/hooks/useGameControlsLayer";
+import { useGameControlsLayer } from "@/hooks/game/useGameControlsLayer";
 import { ReplayViewport } from "@/components/Game/Battle/Replay/Viewport";
 import styles from "./styles.module.css";
 

@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { usePassiveSkills } from "@/hooks/usePassiveSkills";
-import { useGameControlsLayer } from "@/hooks/useGameControlsLayer";
+import { useGameControlsLayer } from "@/hooks/game/useGameControlsLayer";
 import { PassiveSkills } from "@/components/PassiveSkills";
 import styles from "./styles.module.css";
 

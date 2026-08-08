@@ -3,7 +3,7 @@ import type { ReplayData } from "@/utils/types/replay";
 import { useReplayPlayback } from "@/hooks/battle/recording/useReplayPlayback";
 import { useReplayAudio } from "@/hooks/battle/recording/useReplayAudio";
 import { useReplayViewport } from "@/hooks/battle/recording/useReplayViewport";
-import { useGameControlsLayer } from "@/hooks/useGameControlsLayer";
+import { useGameControlsLayer } from "@/hooks/game/useGameControlsLayer";
 import { ReplayHeader } from "./Header";
 import { ReplayViewport } from "./Viewport";
 import { ReplayControls } from "./Controls";

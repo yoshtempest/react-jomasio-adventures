@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { useGameControlsLayer } from "@/hooks/useGameControlsLayer";
+import { useGameControlsLayer } from "@/hooks/game/useGameControlsLayer";
 
 export function useVictoryKeyboard(isVisible: boolean, onContinue: () => void) {
   const onContinueRef = useRef(onContinue);

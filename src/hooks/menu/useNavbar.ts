@@ -7,7 +7,7 @@ import { getSelected } from "@/gameRules/menu/selection";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { useStableCallback } from "@/hooks/useStableCallback";
-import { useGameControlsLayer } from "@/hooks/useGameControlsLayer";
+import { useGameControlsLayer } from "@/hooks/game/useGameControlsLayer";
 import { useSelectableIndex } from "@/hooks/useSelectableIndex";
 
 export function useNavbarMenu() {
