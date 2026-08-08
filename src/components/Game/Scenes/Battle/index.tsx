@@ -18,7 +18,7 @@ import { ComboAction } from "@/components/Controls/ComboAction";
 import { useGameAudio } from "@/hooks/game/useGameAudio";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import { TrainingOverlay } from "@/components/Game/Battle/TrainingOverlay";
 import { ProjectileConstants } from "@/data/projectile";
@@ -35,6 +35,7 @@ type Props = {
   onVictory?: () => void;
   map?: BattleMapConfig;
   training?: boolean;
+  children?: ReactNode;
 };
 
 export function BattleScene(props: Props) {
@@ -344,6 +345,8 @@ export function BattleScene(props: Props) {
       <ComboAction />
 
       {isTraining && <TrainingOverlay onLeave={() => navigate(-1)} />}
+
+      {props.children}
     </div>
   );
 }

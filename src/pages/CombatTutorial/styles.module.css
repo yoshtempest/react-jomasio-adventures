@@ -1,37 +1,3 @@
-.hudTop {
-  position: absolute;
-  top: var(--fs-10);
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 var(--low-medium);
-  z-index: 15;
-  pointer-events: none;
-}
-
-.playerHud,
-.dummyHud {
-  display: flex;
-  flex-direction: column;
-  gap: var(--size-4);
-}
-
-.playerHud {
-  align-items: flex-start;
-}
-
-.dummyHud {
-  align-items: flex-end;
-}
-
-.hudLabel {
-  color: var(--text-color);
-  font-size: var(--fs-14);
-  font-weight: 600;
-  text-shadow: var(--size-1) var(--size-1) var(--size-2) rgba(0, 0, 0, 0.8);
-}
-
 .overlay {
   position: absolute;
   bottom: var(--size-40);

@@ -1,39 +1,17 @@
-import { useEffect, useRef, useState } from "react";
-import { usePlayer } from "@/contexts/PlayerContext";
-import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
-import { useGameLayout } from "@/hooks/game/useGameLayout";
-import { useGameAudio } from "@/hooks/game/useGameAudio";
+import { useState } from "react";
 import { useCombatTasks } from "@/hooks/tutorial/useCombatTasks";
-import { useCombatTutorialSetup } from "@/hooks/tutorial/useCombatTutorialSetup";
 import { useCutscene } from "@/hooks/interaction/useCutscene";
 import { npcPath } from "@/utils/paths";
 import Talking from "@/components/Talking";
+import { BattleScene } from "@/components/Game/Scenes/Battle";
 import { combatTutorialDialogue } from "@/data/dialogues/combatTutorial/one";
-import { GameMap } from "@/components/Game/Map/Game";
-import { PlayerBattle } from "@/components/Game/Player/Battle";
-import { NPCBattle } from "@/components/Game/Npc/Battle";
-import { HealthBar } from "@/components/Game/Battle/HUD/HealthBar";
-import { Deliciometro } from "@/components/Game/Battle/HUD/Deliciometro";
 import { TASKS } from "@/gameRules/tutorial/combatTasks";
-import { gainSpecial } from "@/gameRules/battle/special";
 import KickBack from "/assets/songs/background/battle/KickBack.mp3";
 import { sceneBackgrounds } from "@/data/scene/background";
 import styles from "./styles.module.css";
-import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
-
-const DUMMY_MAX_HP = 10000;
-const HITS_TO_SPECIAL = 6;
 
 export default function CombatTutorial() {
   const [showTutorial, setShowTutorial] = useState(false);
-  const battleAudio = useGameAudio({ src: KickBack, loop: true, volume: 0.5 });
-  const battleAudioRef = useRef(battleAudio);
-  battleAudioRef.current = battleAudio;
-
-  useEffect(() => {
-    battleAudioRef.current.play();
-    return () => battleAudioRef.current.stop();
-  }, []);
 
   const cutscene = useCutscene({
     dialogue: combatTutorialDialogue,
@@ -56,103 +34,39 @@ export default function CombatTutorial() {
   }
 
   return (
-    <div
-      className="Master"
-      style={{ backgroundImage: `url(${sceneBackgrounds.CombatTutorial})` }}
+    <BattleScene
+      npcType="dummy"
+      redirectTo="/home"
+      victoryDescription="Você derrotou o boneco de treino!"
+      background={sceneBackgrounds.CombatTutorial}
+      audioSrc={KickBack}
     >
-      <CombatTutorialInner />
-    </div>
+      <CombatTutorialTasks />
+    </BattleScene>
   );
 }
 
-function CombatTutorialInner() {
-  const { player } = usePlayer();
-  const { progress } = useCharacterProgress();
-  const {
-    TILE_SIZE,
-    PLAYER_SIZE,
-    MAP_COLS,
-    MAP_ROWS,
-    scaleX,
-    scaleY,
-  } = useGameLayout();
-  const playerName = localStorage.getItem("playerName") || "Protagonista";
-
-  useCombatTutorialSetup({ TILE_SIZE, scaleX, scaleY });
-
+function CombatTutorialTasks() {
   const { instruction, getTaskStatus } = useCombatTasks();
 
-  const playerMaxHp = 90 + progress[player.character].stats.hp * 10;
-  const [dummyHP, setDummyHP] = useState(DUMMY_MAX_HP);
-  const [delicia, setDelicia] = useState(0);
-  const prevStateRef = useRef(player.state);
-
-  useEffect(() => {
-    const prev = prevStateRef.current;
-    if (prev === "preAttack" && player.state === "attack") {
-      setDummyHP((h) => Math.max(0, h - 1));
-      setDelicia((d) => gainSpecial(d, HITS_TO_SPECIAL));
-    }
-    prevStateRef.current = player.state;
-  }, [player.state]);
-
   return (
-    <>
-      <div className={styles.hudTop}>
-        <div className={styles.playerHud}>
-          <span className={styles.hudLabel}>{playerName}</span>
-          <HealthBar hp={playerMaxHp} maxHp={playerMaxHp} />
-          <Deliciometro delicia={delicia} hitsToSpecial={HITS_TO_SPECIAL} />
-        </div>
-        <div className={styles.dummyHud}>
-          <span className={styles.hudLabel}>Boneco de Treino</span>
-          <HealthBar hp={dummyHP} maxHp={DUMMY_MAX_HP} reversed />
-        </div>
+    <div className={styles.overlay}>
+      <div className={styles.taskBox}>
+        <img className={styles.image} src={npcPath("/surica/default.svg")} />
+        <p className={styles.taskText}>{instruction.text}</p>
       </div>
 
-      <GameMap
-        TILE_SIZE={TILE_SIZE}
-        cols={MAP_COLS}
-        rows={MAP_ROWS}
-      >
-        <NPCBattle
-          x={BATTLE_SPAWN.npc.x - 300}
-          y={BATTLE_SPAWN.npc.y}
-          TILE_SIZE={TILE_SIZE}
-          npcType="dummy"
-          state="idle"
-          direction="left"
-        />
-
-        <PlayerBattle
-          character={player.character}
-          x={player.x}
-          y={player.y}
-          PLAYER_SIZE={PLAYER_SIZE}
-          state={player.state}
-          direction={player.battleDirection}
-          grabFlipped={false}
-        />
-      </GameMap>
-
-      <div className={styles.overlay}>
-        <div className={styles.taskBox}>
-          <img className={styles.image} src={npcPath("/surica/default.svg")} />
-          <p className={styles.taskText}>{instruction.text}</p>
-        </div>
-
-        <div className={styles.steps}>
-          {TASKS.map((t) => {
-            const status = getTaskStatus(t);
-            return (
-              <div
-                key={t}
-                className={`${styles.dot} ${status === "done" ? styles.dotDone : ""} ${status === "active" ? styles.dotActive : ""}`}
-              />
-            );
-          })}
-        </div>
+      <div className={styles.steps}>
+        {TASKS.map((t) => {
+          const status = getTaskStatus(t);
+          return (
+            <div
+              key={t}
+              className={`${styles.dot} ${status === "done" ? styles.dotDone : ""} ${status === "active" ? styles.dotActive : ""}`}
+            />
+          );
+        })}
       </div>
-    </>
+    </div>
   );
 }
