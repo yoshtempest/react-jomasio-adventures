@@ -136,6 +136,7 @@ export function GameControlsProvider({ children }: Props) {
         case "ArrowUp":
         case "w":
         case "W":
+        case " ":
           controls.onUp?.();
           break;
 
@@ -215,6 +216,7 @@ export function GameControlsProvider({ children }: Props) {
         case "ArrowUp":
         case "w":
         case "W":
+        case " ":
           controls.onUpRelease?.();
           break;
 
