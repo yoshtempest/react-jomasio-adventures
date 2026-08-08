@@ -26,7 +26,7 @@ type NavbarContextType = {
   openConfigScreen: () => void;
   openInventoryScreen: () => void;
   openQuestsScreen: () => void;
-  openProfressionsScreen: () => void;
+  openProfessionsScreen: () => void;
   openTitlesScreen: () => void;
   openEquipmentScreen: () => void;
   restoreModeRef: RefObject<() => void>;
@@ -104,7 +104,7 @@ export function NavbarProvider({ children }: { children: ReactNode }) {
     openNavbar();
   }, [openNavbar]);
 
-  const openProfressionsScreen = useCallback(() => {
+  const openProfessionsScreen = useCallback(() => {
     setScreenState("professions");
     setModeRef.current("menu");
     openNavbar();
@@ -136,7 +136,7 @@ export function NavbarProvider({ children }: { children: ReactNode }) {
         openConfigScreen,
         openInventoryScreen,
         openQuestsScreen,
-        openProfressionsScreen,
+        openProfessionsScreen,
         openTitlesScreen,
         openEquipmentScreen,
         restoreModeRef,

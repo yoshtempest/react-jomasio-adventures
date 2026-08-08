@@ -1,17 +1,20 @@
 import {
   createContext,
   useContext,
-  useEffect,
   useState,
   useCallback,
   useMemo,
   useRef,
 } from "react";
-import type { GameControlLayer } from "@/utils/types/player/controls";
 import type { ReactNode } from "react";
+
+import type { GameControlLayer } from "@/utils/types/player/controls";
+
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useNavbar } from "@/contexts/NavbarContext";
+
 import { shouldConsumeInput } from "@/gameRules/movement/input";
+import { useGameKeyboard } from "@/hooks/game/useGameKeyboard";
 
 type Props = {
   children: ReactNode;
@@ -28,39 +31,53 @@ const GameControlsContext = createContext<ControlsContextType | null>(null);
 
 export function GameControlsProvider({ children }: Props) {
   const [stack, setStack] = useState<GameControlLayer[]>([]);
+
   const { player, restoreMode } = usePlayer();
-  const { openNavbar, closeNavbar, openConfigScreen, openInventoryScreen, openQuestsScreen,
-    openProfressionsScreen, openTitlesScreen, openEquipmentScreen, isNavOpen, screen } =
-    useNavbar();
-  const closeNavbarRef = useRef(closeNavbar);
-  closeNavbarRef.current = closeNavbar;
-  const openConfigScreenRef = useRef(openConfigScreen);
-  openConfigScreenRef.current = openConfigScreen;
-  const openInventoryScreenRef = useRef(openInventoryScreen);
-  openInventoryScreenRef.current = openInventoryScreen;
-  const openQuestsScreenRef = useRef(openQuestsScreen);
-  openQuestsScreenRef.current = openQuestsScreen;
-  const openProfressionsScreenRef = useRef(openProfressionsScreen);
-  openProfressionsScreenRef.current = openProfressionsScreen;
-  const openTitlesScreenRef = useRef(openTitlesScreen);
-  openTitlesScreenRef.current = openTitlesScreen;
-  const openEquipmentScreenRef = useRef(openEquipmentScreen);
-  openEquipmentScreenRef.current = openEquipmentScreen;
-  const isNavOpenRef = useRef(isNavOpen);
-  isNavOpenRef.current = isNavOpen;
-  const screenRef = useRef(screen);
-  screenRef.current = screen;
+
+  const {
+    openNavbar,
+    closeNavbar,
+    openConfigScreen,
+    openInventoryScreen,
+    openQuestsScreen,
+    openProfessionsScreen,
+    openTitlesScreen,
+    openEquipmentScreen,
+    isNavOpen,
+    screen,
+  } = useNavbar();
+
+  // REFS
+
   const restoreModeRef = useRef(restoreMode);
   restoreModeRef.current = restoreMode;
+
   const playerModeRef = useRef(player.mode);
   playerModeRef.current = player.mode;
 
-  const pushControls = useCallback((controls: GameControlLayer) => {
-    setStack((prev) => [...prev, controls]);
-    return () => {
-      setStack((prev) => prev.filter((layer) => layer !== controls));
-    };
-  }, []);
+  const closeNavbarRef = useRef(closeNavbar);
+  closeNavbarRef.current = closeNavbar;
+
+  const isNavOpenRef = useRef(isNavOpen);
+  isNavOpenRef.current = isNavOpen;
+
+  const screenRef = useRef(screen);
+  screenRef.current = screen;
+
+  // CONTROLS STACK
+
+  const pushControls = useCallback(
+    (controls: GameControlLayer) => {
+      setStack((prev) => [...prev, controls]);
+
+      return () => {
+        setStack((prev) =>
+          prev.filter((layer) => layer !== controls),
+        );
+      };
+    },
+    [],
+  );
 
   const clearControls = useCallback(() => {
     setStack([]);
@@ -71,257 +88,121 @@ export function GameControlsProvider({ children }: Props) {
     restoreModeRef.current();
   }, []);
 
-  // 🔥 merge inteligente
+  // ACTIVE CONTROLS
+
   const activeControls = useMemo((): GameControlLayer => {
     const top = stack[stack.length - 1];
 
-    return stack.reduce(
-      (acc, layer) => ({
-        // 🎮 movimento pode mesclar
-        onUp: () => {
-          for (let i = stack.length - 1; i >= 0; i--) {
-            const handled = stack[i].onUp?.();
-            if (shouldConsumeInput(handled)) break;
+    return {
+      onUp: () => {
+        for (let i = stack.length - 1; i >= 0; i--) {
+          const handled = stack[i].onUp?.();
+
+          if (shouldConsumeInput(handled)) {
+            break;
           }
-        },
+        }
+      },
 
-        onDown: () => {
-          for (let i = stack.length - 1; i >= 0; i--) {
-            const handled = stack[i].onDown?.();
-            if (shouldConsumeInput(handled)) break;
+      onDown: () => {
+        for (let i = stack.length - 1; i >= 0; i--) {
+          const handled = stack[i].onDown?.();
+
+          if (shouldConsumeInput(handled)) {
+            break;
           }
-        },
+        }
+      },
 
-        onLeft: () => {
-          for (let i = stack.length - 1; i >= 0; i--) {
-            const handled = stack[i].onLeft?.();
-            if (shouldConsumeInput(handled)) break;
+      onLeft: () => {
+        for (let i = stack.length - 1; i >= 0; i--) {
+          const handled = stack[i].onLeft?.();
+
+          if (shouldConsumeInput(handled)) {
+            break;
           }
-        },
+        }
+      },
 
-        onRight: () => {
-          for (let i = stack.length - 1; i >= 0; i--) {
-            const handled = stack[i].onRight?.();
-            if (shouldConsumeInput(handled)) break;
+      onRight: () => {
+        for (let i = stack.length - 1; i >= 0; i--) {
+          const handled = stack[i].onRight?.();
+
+          if (shouldConsumeInput(handled)) {
+            break;
           }
-        },
+        }
+      },
 
-        onConfirmRelease: layer.onConfirmRelease ?? acc.onConfirmRelease,
-        onCancelRelease: layer.onCancelRelease ?? acc.onCancelRelease,
+      onConfirm: () => {
+        for (let i = stack.length - 1; i >= 0; i--) {
+          const handled = stack[i].onConfirm?.();
 
-        onUpRelease: layer.onUpRelease ?? acc.onUpRelease,
-        onDownRelease: layer.onDownRelease ?? acc.onDownRelease,
-        onLeftRelease: layer.onLeftRelease ?? acc.onLeftRelease,
-        onRightRelease: layer.onRightRelease ?? acc.onRightRelease,
-
-        // 🚨 AQUI É A CORREÇÃO
-        onConfirm: () => {
-          for (let i = stack.length - 1; i >= 0; i--) {
-            const handled = stack[i].onConfirm?.();
-            if (shouldConsumeInput(handled)) break;
+          if (shouldConsumeInput(handled)) {
+            break;
           }
-        },
+        }
+      },
 
-        onCancel: () => {
-          for (let i = stack.length - 1; i >= 0; i--) {
-            const handled = stack[i].onCancel?.();
-            if (shouldConsumeInput(handled)) break;
+      onCancel: () => {
+        for (let i = stack.length - 1; i >= 0; i--) {
+          const handled = stack[i].onCancel?.();
+
+          if (shouldConsumeInput(handled)) {
+            break;
           }
-        },
-        onOpen: top?.onOpen,
+        }
+      },
 
-        blockGlobalOpen: top?.blockGlobalOpen ?? false,
-      }),
-      {} as GameControlLayer,
-    );
+      onConfirmRelease:
+        top?.onConfirmRelease,
+
+      onCancelRelease:
+        top?.onCancelRelease,
+
+      onUpRelease:
+        top?.onUpRelease,
+
+      onDownRelease:
+        top?.onDownRelease,
+
+      onLeftRelease:
+        top?.onLeftRelease,
+
+      onRightRelease:
+        top?.onRightRelease,
+
+      onOpen: top?.onOpen,
+
+      blockGlobalOpen:
+        top?.blockGlobalOpen ?? false,
+    };
   }, [stack]);
+
+  // KEYBOARD
 
   const activeControlsRef = useRef(activeControls);
   activeControlsRef.current = activeControls;
 
-  useEffect(() => {
-    function handleKeyDown(e: KeyboardEvent) {
-      const controls = activeControlsRef.current;
+  useGameKeyboard({
+    controlsRef: activeControlsRef,
+    playerModeRef,
+    isNavOpenRef,
+    screenRef,
 
-      switch (e.key) {
-        case "ArrowUp":
-        case "w":
-        case "W":
-        case " ":
-          controls.onUp?.();
-          break;
+    openNavbar,
+    closeAllMenus,
 
-        case "ArrowDown":
-        case "s":
-        case "S":
-          controls.onDown?.();
-          break;
+    closeNavbar,
+    openConfigScreen,
+    openInventoryScreen,
+    openQuestsScreen,
+    openProfessionsScreen,
+    openTitlesScreen,
+    openEquipmentScreen,
+  });
 
-        case "ArrowLeft":
-        case "a":
-          controls.onLeft?.();
-          break;
-
-        case "ArrowRight":
-        case "d":
-        case "D":
-          controls.onRight?.();
-          break;
-
-        case "l":
-        case "L":
-        case "A":
-        case "Enter":
-          controls.onConfirm?.();
-          break;
-
-        case "b":
-        case "B":
-        case "x":
-        case "X":
-        case "Delete":
-          controls.onCancel?.();
-          break;
-
-        case "Shift":
-          if (playerModeRef.current === "battle") {
-            controls.onDown?.();
-          }
-          break;
-
-        case "g":
-        case "G":
-        case "Tab":
-          if (controls.onOpen) {
-            controls.onOpen();
-            return;
-          }
-
-          if (controls.blockGlobalOpen && playerModeRef.current === "explore") {
-            closeAllMenus();
-            return;
-          }
-
-          if (
-            !controls.blockGlobalOpen &&
-            playerModeRef.current === "explore"
-          ) {
-            openNavbar();
-          }
-          break;
-
-        case "Escape":
-          if (isNavOpenRef.current && screenRef.current === "config") {
-            closeNavbarRef.current();
-          } else {
-            openConfigScreenRef.current();
-          }
-          break;
-
-        case "i":
-        case "I":
-          if (isNavOpenRef.current && screenRef.current === "inventory") {
-            closeNavbarRef.current();
-          } else {
-            openInventoryScreenRef.current();
-          }
-          break;
-
-        case "q":
-        case "Q":
-          if (isNavOpenRef.current && screenRef.current === "missions") {
-            closeNavbarRef.current();
-          } else {
-            openQuestsScreenRef.current();
-          }
-          break;
-
-        case "p":
-        case "P":
-          if (isNavOpenRef.current && screenRef.current === "professions") {
-            closeNavbarRef.current();
-          } else {
-            openProfressionsScreenRef.current();
-          }
-          break;
-
-        case "t":
-        case "T":
-          if (isNavOpenRef.current && screenRef.current === "titles") {
-            closeNavbarRef.current();
-          } else {
-            openTitlesScreenRef.current();
-          }
-          break;
-
-        case "e":
-        case "E":
-          if (isNavOpenRef.current && screenRef.current === "equipment") {
-            closeNavbarRef.current();
-          } else {
-            openEquipmentScreenRef.current();
-          }
-          break;
-      }
-    }
-
-    function handleKeyUp(e: KeyboardEvent) {
-      const controls = activeControlsRef.current;
-
-      switch (e.key) {
-        case "ArrowUp":
-        case "w":
-        case "W":
-        case " ":
-          controls.onUpRelease?.();
-          break;
-
-        case "ArrowDown":
-        case "s":
-        case "S":
-          controls.onDownRelease?.();
-          break;
-
-        case "ArrowLeft":
-        case "a":
-        case "A":
-          controls.onLeftRelease?.();
-          break;
-
-        case "ArrowRight":
-        case "d":
-        case "D":
-          controls.onRightRelease?.();
-          break;
-
-        case "l":
-        case "L":
-          controls.onConfirmRelease?.();
-          break;
-
-        case "b":
-        case "B":
-        case "x":
-        case "X":
-          controls.onCancelRelease?.();
-          break;
-
-        case "Shift":
-          if (playerModeRef.current === "battle") {
-            controls.onDownRelease?.();
-          }
-          break;
-      }
-    }
-
-    window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("keyup", handleKeyUp);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("keyup", handleKeyUp);
-    };
-  }, [openNavbar, closeAllMenus, openConfigScreen]);
+  // PROVIDER
 
   return (
     <GameControlsContext.Provider
@@ -340,6 +221,12 @@ export function GameControlsProvider({ children }: Props) {
 // eslint-disable-next-line react-refresh/only-export-components
 export function useGameControls() {
   const ctx = useContext(GameControlsContext);
-  if (!ctx) throw new Error("useGameControls precisa do provider");
+
+  if (!ctx) {
+    throw new Error(
+      "useGameControls need provider",
+    );
+  }
+
   return ctx;
 }
