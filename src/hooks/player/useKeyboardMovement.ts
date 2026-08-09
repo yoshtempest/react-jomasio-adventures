@@ -124,6 +124,22 @@ export function useKeyboardMovement() {
     dashRef.current = dash;
   });
 
+  useEffect(() => {
+    if (!isLocked) return;
+
+    isUpHeldRef.current = false;
+    isDownHeldRef.current = false;
+    isLeftHeldRef.current = false;
+    isRightHeldRef.current = false;
+
+    stopMoveUpExploreRef.current();
+    stopMoveDownExploreRef.current();
+    stopMoveLeftExploreRef.current();
+    stopMoveRightExploreRef.current();
+
+    setPressed(new Set());
+  }, [isLocked]);
+
   const pushControlsRef = useRef(pushControls);
   pushControlsRef.current = pushControls;
 

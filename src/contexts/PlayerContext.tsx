@@ -229,7 +229,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
           ? BATTLE_DEFAULT_STATE
           : {}),
       }));
-      if (mode === "menu") {
+      if (mode === "menu" && playerModeRef.current !== "menu") {
         previousModeRef.current = playerModeRef.current;
       }
     },

@@ -115,6 +115,7 @@ export function rollPetDrop(
 ): EquipmentDropInfo | null {
   for (const [petId, info] of Object.entries(PET_DROPS)) {
     if (!npcType.startsWith(info.npcType)) continue;
+    if (!info.chance) continue;
     if (Math.random() >= info.chance) continue;
 
     const enhance = 0;
