@@ -1,9 +1,11 @@
+import { npcPath } from "@/utils/paths";
+
 import type { QuestTemplate } from "@/utils/types/player/quest";
 
 export const WEEKLY_QUEST_POOL: QuestTemplate[] = [
   {
     name: "Exterminador",
-    image: "/assets/npcs/system/default.svg",
+    image: npcPath("/system/default.svg"),
     description: "Derrote 20 inimigos em batalha",
     type: "sidequest",
     counter: 20,
@@ -14,7 +16,7 @@ export const WEEKLY_QUEST_POOL: QuestTemplate[] = [
   },
   {
     name: "Caça aos Raros",
-    image: "/assets/npcs/system/default.svg",
+    image: npcPath("/system/default.svg"),
     description: "Derrote 5 inimigos raros",
     type: "sidequest",
     counter: 5,
@@ -25,7 +27,7 @@ export const WEEKLY_QUEST_POOL: QuestTemplate[] = [
   },
   {
     name: "Desafiante Épico",
-    image: "/assets/npcs/system/default.svg",
+    image: npcPath("/system/default.svg"),
     description: "Derrote 1 inimigo épico",
     type: "sidequest",
     counter: 1,
@@ -36,7 +38,7 @@ export const WEEKLY_QUEST_POOL: QuestTemplate[] = [
   },
   {
     name: "Guerreiro Incansável",
-    image: "/assets/npcs/system/default.svg",
+    image: npcPath("/system/default.svg"),
     description: "Vença 10 batalhas",
     type: "sidequest",
     counter: 10,
@@ -47,7 +49,7 @@ export const WEEKLY_QUEST_POOL: QuestTemplate[] = [
   },
   {
     name: "Fábrica de Itens",
-    image: "/assets/npcs/system/default.svg",
+    image: npcPath("/system/default.svg"),
     description: "Colete 10 materiais de crafting",
     type: "sidequest",
     counter: 10,
@@ -58,7 +60,7 @@ export const WEEKLY_QUEST_POOL: QuestTemplate[] = [
   },
   {
     name: "Matador de Chefões",
-    image: "/assets/npcs/system/default.svg",
+    image: npcPath("/system/default.svg"),
     description: "Derrote 1 chefão (boss)",
     type: "sidequest",
     counter: 1,
@@ -69,7 +71,7 @@ export const WEEKLY_QUEST_POOL: QuestTemplate[] = [
   },
   {
     name: "Coleta de Essência",
-    image: "/assets/npcs/system/default.svg",
+    image: npcPath("/system/default.svg"),
     description: "Colete 5 essências de morto",
     type: "sidequest",
     counter: 5,
@@ -81,7 +83,7 @@ export const WEEKLY_QUEST_POOL: QuestTemplate[] = [
   },
   {
     name: "Caça aos Chifres",
-    image: "/assets/npcs/system/default.svg",
+    image: npcPath("/system/default.svg"),
     description: "Colete 5 chifres de cabra",
     type: "sidequest",
     counter: 5,

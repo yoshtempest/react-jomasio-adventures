@@ -1,6 +1,8 @@
+import { npcPath } from "@/utils/paths";
+
 export const cafeteriaThreeDialogue = [
   {
-    src: "/assets/npcs/denis/tranks.svg",
+    src: npcPath("/denis/tranks.svg"),
     name: "Denis",
     message: "Eu vim em busca do linguição, tu sabe onde tá?",
   },
@@ -10,27 +12,27 @@ export const cafeteriaThreeDialogue = [
     message: "Sei não moço, posso ir embora?",
   },
   {
-    src: "/assets/npcs/deise/right.svg",
+    src: npcPath("/deise/right.svg"),
     name: "Deise",
     message: "Ele acabou de me dar uma pisa, mata ele Denis!!!",
   },
   {
-    src: "/assets/npcs/denis/angry.svg",
+    src: npcPath("/denis/angry.svg"),
     name: "Denis",
     message: "Cala a boca que eu estou com fome.",
   },
   {
-    src: "/assets/npcs/deise/right.svg",
+    src: npcPath("/deise/right.svg"),
     name: "Deise",
     message: "Mas, mas...",
   },
   {
-    src: "/assets/npcs/denis/angry.svg",
+    src: npcPath("/denis/angry.svg"),
     name: "Denis",
     message: "SEM MAS! QUER APANHAR TAMBÉM?",
   },
   {
-    src: "/assets/npcs/deise/right.svg",
+    src: npcPath("/deise/right.svg"),
     name: "Deise",
     message: "...",
   },
@@ -40,7 +42,7 @@ export const cafeteriaThreeDialogue = [
     message: "Posso ir embora?",
   },
   {
-    src: "/assets/npcs/denis/angry.svg",
+    src: npcPath("/denis/angry.svg"),
     name: "Denis",
     message: "NÃO! VOCÊ VAI ME DAR O LINGUIÇÃO!",
   },
@@ -50,7 +52,7 @@ export const cafeteriaThreeDialogue = [
     message: "QUE LINGUIÇÃO??",
   },
   {
-    src: "/assets/npcs/denis/angry.svg",
+    src: npcPath("/denis/angry.svg"),
     name: "Denis",
     message: "E O QUE É ISSO NO MEIO DE SUAS PERNAS?",
   },
@@ -60,7 +62,7 @@ export const cafeteriaThreeDialogue = [
     message: "EU VOU EMBORA!",
   },
   {
-    src: "/assets/npcs/denis/angry.svg",
+    src: npcPath("/denis/angry.svg"),
     name: "Denis",
     message: "EU TRANQUEI A PORTA, SÓ VAI SAIR QUANDO ME DER O LINGUIÇÃO!",
   },
@@ -70,18 +72,18 @@ export const cafeteriaThreeDialogue = [
     message: "SEU MANÍACO!",
   },
   {
-    src: "/assets/npcs/denis/angry.svg",
+    src: npcPath("/denis/angry.svg"),
     name: "Denis",
     message:
       "E TU DEISE, SEJA DESINTEGRADA, PERDEU NA LUTA CONTRA O PROTAGONISTA",
   },
   {
-    src: "/assets/npcs/deise/right.svg",
+    src: npcPath("/deise/right.svg"),
     name: "Deise",
     message: "MAS NÃO TEM COMO VENCER O PROTAGONISTA",
   },
   {
-    src: "/assets/npcs/denis/angry.svg",
+    src: npcPath("/denis/angry.svg"),
     name: "Denis",
     message: "EXPANSÃO DE DOMÍNIO, FUUGA.",
   },

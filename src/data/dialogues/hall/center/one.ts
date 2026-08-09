@@ -1,11 +1,13 @@
+import { npcPath } from "@/utils/paths";
+
 export const centerDialogue = [
   {
-    src: "/assets/npcs/planetarySisters/mary.svg",
+    src: npcPath("/planetarySisters/mary.svg"),
     name: "Maria",
     message: "Eita irmã, essa porta é...",
   },
   {
-    src: "/assets/npcs/planetarySisters/nelit.svg",
+    src: npcPath("/planetarySisters/nelit.svg"),
     name: "Maria 2",
     message: "Pequena em",
   },
@@ -15,12 +17,12 @@ export const centerDialogue = [
     message: "E agora? Como que eu passo?",
   },
   {
-    src: "/assets/npcs/planetarySisters/mary.svg",
+    src: npcPath("/planetarySisters/mary.svg"),
     name: "Maria",
     message: "Dá teu...",
   },
   {
-    src: "/assets/npcs/planetarySisters/nelit.svg",
+    src: npcPath("/planetarySisters/nelit.svg"),
     name: "Maria 2",
     message: "Jeito",
   },
@@ -30,12 +32,12 @@ export const centerDialogue = [
     message: "Então eu vou acabar com vcs e passar",
   },
   {
-    src: "/assets/npcs/planetarySisters/mary.svg",
+    src: npcPath("/planetarySisters/mary.svg"),
     name: "Maria",
     message: "Calma ai",
   },
   {
-    src: "/assets/npcs/planetarySisters/nelit.svg",
+    src: npcPath("/planetarySisters/nelit.svg"),
     name: "Maria 2",
     message: "Não precisa dessa violência",
   },
@@ -45,7 +47,7 @@ export const centerDialogue = [
     message: "E como que eu passo?",
   },
   {
-    src: "/assets/npcs/planetarySisters/mary.svg",
+    src: npcPath("/planetarySisters/mary.svg"),
     name: "Maria",
     message: "Não passa",
   },
@@ -55,12 +57,12 @@ export const centerDialogue = [
     message: "Então vou espancar vocês",
   },
   {
-    src: "/assets/npcs/planetarySisters/mary.svg",
+    src: npcPath("/planetarySisters/mary.svg"),
     name: "Maria",
     message: "Vamo ver...",
   },
   {
-    src: "/assets/npcs/planetarySisters/nelit.svg",
+    src: npcPath("/planetarySisters/nelit.svg"),
     name: "Maria 2",
     message: "Quem vai levar a melhor",
   },

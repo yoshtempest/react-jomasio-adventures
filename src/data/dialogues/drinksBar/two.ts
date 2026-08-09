@@ -1,11 +1,13 @@
+import { npcPath } from "@/utils/paths";
+
 export const drinksBarTwoDialogue = [
   {
-    src: "/assets/npcs/zeOfBraga/right.svg",
+    src: npcPath("/zeOfBraga/right.svg"),
     name: "Zé do Braga",
     message: "Geladinha do jeito que eu gosto hahaha!",
   },
   {
-    src: "/assets/npcs/zeOfBraga/right.svg",
+    src: npcPath("/zeOfBraga/right.svg"),
     name: "Zé do Braga",
     message: "Valeu ai moleque!",
   },
@@ -15,7 +17,7 @@ export const drinksBarTwoDialogue = [
     message: "E minha recompensa?",
   },
   {
-    src: "/assets/npcs/zeOfBraga/right.svg",
+    src: npcPath("/zeOfBraga/right.svg"),
     name: "Zé do Braga",
     message: "A vida não é um morango, GO DRINKING! HAHAHAHA",
   },

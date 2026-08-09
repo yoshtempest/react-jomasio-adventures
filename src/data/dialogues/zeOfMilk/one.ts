@@ -1,6 +1,8 @@
+import { npcPath } from "@/utils/paths";
+
 export const zeOfMilkDialogue = [
   {
-    src: "/assets/npcs/zeOfMilk/right.svg",
+    src: npcPath("/zeOfMilk/right.svg"),
     name: "zeOfMilk",
     message: "TU NÃO VAI ACREDITAR, VAZOU UM VÍDEO MEU E TODO MUNDO TÁ SABENDO",
   },
@@ -10,7 +12,7 @@ export const zeOfMilkDialogue = [
     message: "Eu não sei de nada",
   },
   {
-    src: "/assets/npcs/zeOfMilk/right.svg",
+    src: npcPath("/zeOfMilk/right.svg"),
     name: "zeOfMilk",
     message:
       "ESQUECE O QUE EU DISSE E VAI LÁ EM TIM PEGAR O LEITE QUE EU DEIXEI LÁ",

@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { SceneBase } from "@/components/Game/Scenes/Base";
 import { CANTINA_SCENES } from "@/scenes/cantina";
 import { createCantina } from "@/interactions/cantina";
+import { npcPath } from "@/utils/paths";
 
 import { useInventory } from "@/contexts/InventoryContext";
 import { useFlags } from "@/contexts/FlagContext";
@@ -46,7 +47,7 @@ export function CantinaScene({ sceneId }: Props) {
     return {
       ...scene,
       npcs: (scene.npcs ?? []).map((npc) =>
-        npc.src === "/assets/npcs/jeso/default.svg" && sceneId === "two"
+        npc.src === npcPath("/jeso/default.svg") && sceneId === "two"
           ? {
               ...npc,
               interaction: (startDialogue: (d: Dialogue[]) => void) => {

@@ -1,6 +1,8 @@
+import { playerPath } from "@/utils/paths";
+
 export const brodiclassYRADialogue = [
   {
-    src: "/assets/player/mayra/default.svg",
+    src: playerPath("/mayra/default.svg"),
     name: "Y.R.A",
     message: "Isso é o que você pensa!",
   },

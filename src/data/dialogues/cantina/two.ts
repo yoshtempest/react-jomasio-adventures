@@ -1,6 +1,8 @@
+import { npcPath } from "@/utils/paths";
+
 export const cantinaTwoDialogue = [
   {
-    src: "/assets/npcs/jhowsimar/right.svg",
+    src: npcPath("/jhowsimar/right.svg"),
     name: "Jhow Simar",
     message: "Como que cê saiu?",
   },
@@ -10,7 +12,7 @@ export const cantinaTwoDialogue = [
     message: "Eu usei a chave uaí",
   },
   {
-    src: "/assets/npcs/jhowsimar/right.svg",
+    src: npcPath("/jhowsimar/right.svg"),
     name: "Jhow Simar",
     message: "Ah, eu esqueci de levar a chave comigo",
   },
@@ -20,7 +22,7 @@ export const cantinaTwoDialogue = [
     message: "Relaxa, tem nada não",
   },
   {
-    src: "/assets/npcs/jhowsimar/right.svg",
+    src: npcPath("/jhowsimar/right.svg"),
     name: "Jhow Simar",
     message: "A gente não era para estar brigando?",
   },
@@ -30,7 +32,7 @@ export const cantinaTwoDialogue = [
     message: "Eu não tenho inimigos",
   },
   {
-    src: "/assets/npcs/jhowsimar/right.svg",
+    src: npcPath("/jhowsimar/right.svg"),
     name: "Jhow Simar",
     message: "Mas eu tenho, vem cá vem",
   },

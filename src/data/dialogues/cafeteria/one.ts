@@ -1,6 +1,8 @@
+import { npcPath } from "@/utils/paths";
+
 export const cafeteriaDialogue = [
   {
-    src: "/assets/npcs/deise/right.svg",
+    src: npcPath("/deise/right.svg"),
     name: "Deise",
     message: "Tá achando que é quem para entrar em minha expansão de domínio?",
   },
@@ -10,7 +12,7 @@ export const cafeteriaDialogue = [
     message: "Quê? Eu sou o protagonista ué",
   },
   {
-    src: "/assets/npcs/deise/right.svg",
+    src: npcPath("/deise/right.svg"),
     name: "Deise",
     message: "Isso é o que você pensa!",
   },

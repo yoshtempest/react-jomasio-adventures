@@ -1,6 +1,8 @@
+import { npcPath } from "@/utils/paths";
+
 export const cafeteriaFiveDialogue = [
   {
-    src: "/assets/npcs/denis/tranks.svg",
+    src: npcPath("/denis/tranks.svg"),
     name: "Denis",
     message: "Pronto, obrigado",
   },
@@ -10,7 +12,7 @@ export const cafeteriaFiveDialogue = [
     message: "Posso ir embora agora?",
   },
   {
-    src: "/assets/npcs/denis/tranks.svg",
+    src: npcPath("/denis/tranks.svg"),
     name: "Denis",
     message: "Faz o que quiser, a porta nem tava trancada",
   },
@@ -20,7 +22,7 @@ export const cafeteriaFiveDialogue = [
     message: "AAAA MALDITO!",
   },
   {
-    src: "/assets/npcs/denis/tranks.svg",
+    src: npcPath("/denis/tranks.svg"),
     name: "Denis",
     message: "Tchau",
   },

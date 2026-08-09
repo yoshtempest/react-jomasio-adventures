@@ -1,6 +1,8 @@
+import { npcPath } from "@/utils/paths";
+
 export const HellRoomTwoDialogue = [
   {
-    src: "/assets/npcs/peruFather/right.svg",
+    src: npcPath("/peruFather/right.svg"),
     name: "Homem desconhecido",
     message:
       "Ele pode ser um pouco duro às vezes, mas cuide bem dele por favor",

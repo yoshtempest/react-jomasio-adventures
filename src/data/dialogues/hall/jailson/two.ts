@@ -1,11 +1,13 @@
+import { npcPath } from "@/utils/paths";
+
 export const hallJailsonTwoDialogue = [
   {
-    src: "/assets/npcs/slimita/right.svg",
+    src: npcPath("/slimita/right.svg"),
     name: "Slimita",
     message: "A mas você vai me dar isso sim, Jailson!",
   },
   {
-    src: "/assets/npcs/jailson/right.svg",
+    src: npcPath("/jailson/right.svg"),
     name: "Jailson",
     message: "Não, não vou, Slimita! Você não faz o meu tipo",
   },
@@ -15,7 +17,7 @@ export const hallJailsonTwoDialogue = [
     message: "Slimita, eu não vou deixar você fazer isso com o Jailson!",
   },
   {
-    src: "/assets/npcs/slimita/right.svg",
+    src: npcPath("/slimita/right.svg"),
     name: "Slimita",
     message: "Então vem pra cima garoto, vem!",
   },
@@ -26,7 +28,7 @@ export const hallJailsonTwoDialogue = [
     soundSrc: "/assets/songs/soundEffects/player/howYouSaid.mp3",
   },
   {
-    src: "/assets/npcs/slimita/right.svg",
+    src: npcPath("/slimita/right.svg"),
     name: "Slimita",
     message: "Ui, tá com medo é? Eu vou devorar o Jailson e fazer dele a minha força!",
   },

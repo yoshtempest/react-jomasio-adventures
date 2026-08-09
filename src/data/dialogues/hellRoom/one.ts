@@ -1,6 +1,8 @@
+import { npcPath } from "@/utils/paths";
+
 export const HellRoomDialogue = [
   {
-    src: "/assets/npcs/peruFather/right.svg",
+    src: npcPath("/peruFather/right.svg"),
     name: "Homem desconhecido",
     message: "Ei você ai",
   },
@@ -10,7 +12,7 @@ export const HellRoomDialogue = [
     message: "Que? Eu estava prestes a descer a mão naquele cara...",
   },
   {
-    src: "/assets/npcs/peruFather/right.svg",
+    src: npcPath("/peruFather/right.svg"),
     name: "Homem desconhecido",
     message: "Cara, eu tô falando com você, desgraçado!",
   },
@@ -20,7 +22,7 @@ export const HellRoomDialogue = [
     message: "Quer brigar?",
   },
   {
-    src: "/assets/npcs/peruFather/right.svg",
+    src: npcPath("/peruFather/right.svg"),
     name: "Homem desconhecido",
     message: "Não cara, eu não sei brigar, calma ai",
   },
@@ -30,7 +32,7 @@ export const HellRoomDialogue = [
     message: "Então me diz, onde estamos?",
   },
   {
-    src: "/assets/npcs/peruFather/right.svg",
+    src: npcPath("/peruFather/right.svg"),
     name: "Homem desconhecido",
     message:
       "Não há tempo para perguntas, por favor me responda uma coisa RÁPIDO!",
@@ -41,7 +43,7 @@ export const HellRoomDialogue = [
     message: "O que?",
   },
   {
-    src: "/assets/npcs/peruFather/right.svg",
+    src: npcPath("/peruFather/right.svg"),
     name: "Homem desconhecido",
     message: "Você gosta de cavalgar no Peru?",
   },

@@ -1,11 +1,13 @@
+import { npcPath } from "@/utils/paths";
+
 export const AfterPcRoomFourDialogue = [
   {
-    src: "/assets/npcs/remedinha/right.svg",
+    src: npcPath("/remedinha/right.svg"),
     name: "Remedinha",
     message: "Fique com isso",
   },
   {
-    src: "/assets/npcs/remedinha/right.svg",
+    src: npcPath("/remedinha/right.svg"),
     name: "Remedinha",
     message: "Utilize para batalhar infinitamente com aqueles rapazes famintos",
   },
@@ -19,7 +21,7 @@ export const AfterPcRoomFourDialogue = [
     message: "O que é isso?",
   },
   {
-    src: "/assets/npcs/remedinha/right.svg",
+    src: npcPath("/remedinha/right.svg"),
     name: "Remedinha",
     message: "Não faça perguntas",
   },

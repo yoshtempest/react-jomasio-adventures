@@ -1,3 +1,5 @@
+import { npcPath } from "@/utils/paths";
+
 export const AfterPcRoomEightDialogue = [
   {
     isPlayer: true,
@@ -5,7 +7,7 @@ export const AfterPcRoomEightDialogue = [
     message: "Eu vi coisas que gostaria de desver...",
   },
   {
-    src: "/assets/npcs/remedinha/right.svg",
+    src: npcPath("/remedinha/right.svg"),
     name: "Remedinha",
     message: "Quem?",
   },
@@ -15,7 +17,7 @@ export const AfterPcRoomEightDialogue = [
     message: "Eu ué",
   },
   {
-    src: "/assets/npcs/remedinha/right.svg",
+    src: npcPath("/remedinha/right.svg"),
     name: "Remedinha",
     message: "Te perguntou? Otário kkkkkkkk",
   },
@@ -25,7 +27,7 @@ export const AfterPcRoomEightDialogue = [
     message: "Tá chato já",
   },
   {
-    src: "/assets/npcs/remedinha/right.svg",
+    src: npcPath("/remedinha/right.svg"),
     name: "Remedinha",
     message: "Nunca fica chato",
   },
@@ -35,7 +37,7 @@ export const AfterPcRoomEightDialogue = [
     message: "...",
   },
   {
-    src: "/assets/npcs/remedinha/right.svg",
+    src: npcPath("/remedinha/right.svg"),
     name: "Remedinha",
     message:
       "Vou passar uma missão aqui, se quiser prosseguir na história tem que fazer",
@@ -46,7 +48,7 @@ export const AfterPcRoomEightDialogue = [
     message: "Diga",
   },
   {
-    src: "/assets/npcs/remedinha/right.svg",
+    src: npcPath("/remedinha/right.svg"),
     name: "Remedinha",
     message:
       "Eu quero que você se infiltre no conselho dos brodi para obter informações, lá você vai encontrar outras pessoas como você",

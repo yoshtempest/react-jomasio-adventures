@@ -1,3 +1,5 @@
+import { npcPath } from "@/utils/paths";
+
 export const HallLeftTwoDialogue = [
   {
     isPlayer: true,
@@ -5,7 +7,7 @@ export const HallLeftTwoDialogue = [
     message: "Vocês tem aura essa semana?",
   },
   {
-    src: "/assets/npcs/mariMarques/right.svg",
+    src: npcPath("/mariMarques/right.svg"),
     name: "Irmãs Planetárias",
     message: "Têmos muita aura",
   },
@@ -15,7 +17,7 @@ export const HallLeftTwoDialogue = [
     message: "Posso passar? tenho que falar com os manos alí",
   },
   {
-    src: "/assets/npcs/mariMarques/right.svg",
+    src: npcPath("/mariMarques/right.svg"),
     name: "Irmãs Planetárias",
     message: "Estamos presas aqui, se você conseguir passar, meus parabéns",
   },
@@ -26,7 +28,7 @@ export const HallLeftTwoDialogue = [
       "Era para vocês estarem dando aura e ficaram presas na porta kkkkkkkkk",
   },
   {
-    src: "/assets/npcs/mariMarques/right.svg",
+    src: npcPath("/mariMarques/right.svg"),
     name: "Irmãs Planetárias",
     message: "Era zueira, vamos ver quem tem mais aura em uma luta agora!",
   },

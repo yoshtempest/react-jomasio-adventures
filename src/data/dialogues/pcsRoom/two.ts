@@ -1,3 +1,5 @@
+import { npcPath } from "@/utils/paths";
+
 export const pcsRoomTwoDialogue = [
   {
     isPlayer: true,
@@ -10,7 +12,7 @@ export const pcsRoomTwoDialogue = [
     message: "Calma ai, ele tá comendo um mouse?",
   },
   {
-    src: "/assets/npcs/hungryDeath/right.svg",
+    src: npcPath("/hungryDeath/right.svg"),
     name: "Morto de fome",
     message: "Huhuhu, achei um almoço aqui, carne de rato!",
   },
@@ -20,7 +22,7 @@ export const pcsRoomTwoDialogue = [
     message: "Cara isso num é comida não, macho!",
   },
   {
-    src: "/assets/npcs/hungryDeath/default.svg",
+    src: npcPath("/hungryDeath/default.svg"),
     name: "Morto de fome",
     message: "Sai daqui, eu não vou dividir meu almoço com você!",
   },
@@ -30,7 +32,7 @@ export const pcsRoomTwoDialogue = [
     message: "Eu não quero brigar cara, eu não tenho inimigos.",
   },
   {
-    src: "/assets/npcs/hungryDeath/right.svg",
+    src: npcPath("/hungryDeath/right.svg"),
     name: "Morto de fome",
     message: "Eu vou te comer então seu bosta! Vem aqui!",
   },

@@ -1,11 +1,13 @@
+import { npcPath, playerPath } from "@/utils/paths";
+
 export const footballCourtTwoDialogue = [
   {
-    src: "/assets/npcs/neimito/right.svg",
+    src: npcPath("/neimito/right.svg"),
     name: "Neimito",
     message: "Nada haver o que você fez comigo, eu queria algo diferente",
   },
   {
-    src: "/assets/player/emanuel/default.svg",
+    src: playerPath("/emanuel/default.svg"),
     name: "Ematron",
     message: "Eu me lembro de tudo",
   },

@@ -1,6 +1,8 @@
+import { npcPath } from "@/utils/paths";
+
 export const cafeteriaTwoDialogue = [
   {
-    src: "/assets/npcs/deise/right.svg",
+    src: npcPath("/deise/right.svg"),
     name: "Deise",
     message:
       "Oxe, tu venceu? Tinha que ser o protanista né, tem tentativa infinita",
@@ -11,13 +13,13 @@ export const cafeteriaTwoDialogue = [
     message: "Quem pode, pode",
   },
   {
-    src: "/assets/npcs/deise/right.svg",
+    src: npcPath("/deise/right.svg"),
     name: "Deise",
     message:
       "Eu voltarei mais forte lá no End-Game viu, nunca vá ao tanque dos crávos...",
   },
   {
-    src: "/assets/npcs/deise/right.svg",
+    src: npcPath("/deise/right.svg"),
     name: "Deise",
     message: "Oxe!? Senhor Denis, tá fazendo o que aqui?",
   },

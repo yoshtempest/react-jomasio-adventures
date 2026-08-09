@@ -1,11 +1,13 @@
+import { npcPath } from "@/utils/paths";
+
 export const jujuHouseDialogue = [
   {
-    src: "/assets/npcs/juju/right.svg",
+    src: npcPath("/juju/right.svg"),
     name: "Juju",
     message: "Fala pros meninos pararem com essas brincadeiras gostosas",
   },
   {
-    src: "/assets/npcs/juju/right.svg",
+    src: npcPath("/juju/right.svg"),
     name: "Juju",
     message: "Eles passam a noite toda batendo palma na frente daqui de casa",
   },
@@ -15,7 +17,7 @@ export const jujuHouseDialogue = [
     message: "Vish...",
   },
   {
-    src: "/assets/npcs/juju/right.svg",
+    src: npcPath("/juju/right.svg"),
     name: "Juju",
     message: "Preciso de um leite de boi para o bolo de hoje",
   },
@@ -25,13 +27,13 @@ export const jujuHouseDialogue = [
     message: "Vish...",
   },
   {
-    src: "/assets/npcs/juju/right.svg",
+    src: npcPath("/juju/right.svg"),
     name: "Juju",
     message:
       "Vai lá no açougue de Tim que ele conhece um tal de Zé do Milk e pede um leite de boi que dá certo",
   },
   {
-    src: "/assets/npcs/juju/right.svg",
+    src: npcPath("/juju/right.svg"),
     name: "Juju",
     message: "Primeiro fala com Zé do Milk que dá tudo certo",
   },

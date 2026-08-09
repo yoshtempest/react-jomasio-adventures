@@ -1,6 +1,8 @@
+import { npcPath } from "@/utils/paths";
+
 export const HellRoomFourDialogue = [
   {
-    src: "/assets/npcs/kidBengala/terror.svg",
+    src: npcPath("/kidBengala/terror.svg"),
     name: "Kid Bengala",
     message:
       "Aaah, Maugrelooo, por que foges? A noite é apenas uma criança hahaahaha",
@@ -11,12 +13,12 @@ export const HellRoomFourDialogue = [
     message: "MEU JESUS AMADO, OLHA O TAMANHO...",
   },
   {
-    src: "/assets/npcs/maugrelo/right.svg",
+    src: npcPath("/maugrelo/right.svg"),
     name: "Maugrelo",
     message: "Não Kid, SAI DE PERTO, NÃO ME TOCA",
   },
   {
-    src: "/assets/npcs/reincardion/right.svg",
+    src: npcPath("/reincardion/right.svg"),
     name: "Reincardion",
     message: "Vamos embora daqui tesouro, não fique com essa gentalha",
   },
@@ -26,7 +28,7 @@ export const HellRoomFourDialogue = [
     message: "Ué, quem é você mesmo?",
   },
   {
-    src: "/assets/npcs/reincardion/right.svg",
+    src: npcPath("/reincardion/right.svg"),
     name: "Reincardion",
     message: "Não há tempo para perguntas, vamos embora daqui!",
   },

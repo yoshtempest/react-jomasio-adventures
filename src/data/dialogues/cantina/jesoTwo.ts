@@ -1,6 +1,8 @@
+import { npcPath } from "@/utils/paths";
+
 export const cantinaJesoTwoDialogue = [
   {
-    src: "/assets/npcs/jeso/default.svg",
+    src: npcPath("/jeso/default.svg"),
     name: "Jeso",
     message: "Não aguento esse rojão, não",
   },
@@ -10,7 +12,7 @@ export const cantinaJesoTwoDialogue = [
     message: "Como assim?",
   },
   {
-    src: "/assets/npcs/jeso/default.svg",
+    src: npcPath("/jeso/default.svg"),
     name: "Jeso",
     message:
       "Só te dou uma comida a cada 10 minutos, dá uma relaxada ai enquanto isso.",

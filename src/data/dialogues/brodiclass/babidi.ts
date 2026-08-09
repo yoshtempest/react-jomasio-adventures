@@ -1,6 +1,8 @@
+import { playerPath } from "@/utils/paths";
+
 export const brodiclassBabidiDialogue = [
   {
-    src: "/assets/player/lucaua/default.svg",
+    src: playerPath("/lucaua/default.svg"),
     name: "Babidi",
     message: "Isso é o que você pensa!",
   },

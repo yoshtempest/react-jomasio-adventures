@@ -1,9 +1,11 @@
+import { playerPath, npcPath } from "@/utils/paths";
+
 import { createQuests } from "@/utils/quest/createQuest";
 
 export const BATTLE_QUESTS = createQuests({
   x1_jhowsimar: {
     name: "Vem pro fight",
-    image: "/assets/npcs/jhowsimar/right.svg",
+    image: npcPath("/jhowsimar/right.svg"),
     description: "Tire o X1 com Jhow Simar para ganhar seu bolsa delicia",
     type: "history",
     rewardsType: "coin",
@@ -14,7 +16,7 @@ export const BATTLE_QUESTS = createQuests({
   },
   x1_crocodile: {
     name: "Você não é peixe para mim",
-    image: "/assets/npcs/crocodile/right.svg",
+    image: npcPath("/crocodile/right.svg"),
     description: "Tu não é peixe",
     type: "history",
     rewardsType: "coin",
@@ -25,7 +27,7 @@ export const BATTLE_QUESTS = createQuests({
   },
   x1_elit_crocodile: {
     name: "Você não é peixe para mim",
-    image: "/assets/npcs/elitCrocodile/right.svg",
+    image: npcPath("/elitCrocodile/right.svg"),
     description: "Tu não é peixe",
     type: "history",
     rewardsType: "coin",
@@ -36,7 +38,7 @@ export const BATTLE_QUESTS = createQuests({
   },
   x1_muy_macho: {
     name: "Eu era valente, macho",
-    image: "/assets/npcs/muyMacho/right.svg",
+    image: npcPath("/muyMacho/right.svg"),
     description: "E muito macho",
     type: "history",
     rewardsType: "coin",
@@ -47,7 +49,7 @@ export const BATTLE_QUESTS = createQuests({
   },
   x1_fischer: {
     name: "Esses peixes são meus",
-    image: "/assets/npcs/fischer/right.svg",
+    image: npcPath("/fischer/right.svg"),
     description: "Essa zona aqui é minha, suma",
     type: "history",
     rewardsType: "coin",
@@ -58,7 +60,7 @@ export const BATTLE_QUESTS = createQuests({
   },
   x1_hungry: {
     name: "Larga meu almoço!",
-    image: "/assets/npcs/hungryDeath/right.svg",
+    image: npcPath("/hungryDeath/right.svg"),
     description: "Não deixe o morto de fome comer o mouse",
     type: "history",
     rewardsType: "coin",
@@ -69,7 +71,7 @@ export const BATTLE_QUESTS = createQuests({
   },
   x1_hungry_dog: {
     name: "Hmmm, canela deliciosa",
-    image: "/assets/npcs/hungryDog/walk.svg",
+    image: npcPath("/hungryDog/walk.svg"),
     description: "Que canela saborosa",
     type: "history",
     rewardsType: "coin",
@@ -80,7 +82,7 @@ export const BATTLE_QUESTS = createQuests({
   },
   x1_hungry_fish: {
     name: "Poluição tá no ponto",
-    image: "/assets/npcs/hungryFish/walk.svg",
+    image: npcPath("/hungryFish/walk.svg"),
     description: "Rapaz, essa poluição tá me matando",
     type: "history",
     rewardsType: "coin",
@@ -91,7 +93,7 @@ export const BATTLE_QUESTS = createQuests({
   },
   x1_hungry_pig: {
     name: "Era para me engordarem antes de matar...",
-    image: "/assets/npcs/hungryPig/walk.svg",
+    image: npcPath("/hungryPig/walk.svg"),
     description: "Hoje eu tô só o osso",
     type: "history",
     rewardsType: "coin",
@@ -102,7 +104,7 @@ export const BATTLE_QUESTS = createQuests({
   },
   x1_deise: {
     name: "Tá achando que é quem? o Protagonista?",
-    image: "/assets/npcs/deise/right.svg",
+    image: npcPath("/deise/right.svg"),
     description: "Quebre a expansão de domínio incompleta de Deise",
     type: "history",
     rewardsType: "coin",
@@ -113,7 +115,7 @@ export const BATTLE_QUESTS = createQuests({
   },
   x1_lupita: {
     name: "Hoof, Ruf",
-    image: "/assets/npcs/lupita/right.svg",
+    image: npcPath("/lupita/right.svg"),
     description: "Você não faz parte da minha alcateia!",
     type: "history",
     rewardsType: "coin",
@@ -124,7 +126,7 @@ export const BATTLE_QUESTS = createQuests({
   },
   x1_vandinha: {
     name: "Você bateu nos meus meninos!",
-    image: "/assets/npcs/vandinhaFragment/right.svg",
+    image: npcPath("/vandinhaFragment/right.svg"),
     description:
       "Sobreviva a luta com um fragmento contendo 1% do poder de Vandinha",
     type: "history",
@@ -136,7 +138,7 @@ export const BATTLE_QUESTS = createQuests({
   },
   x1_riquelson_dog: {
     name: "Eu vi tudo mas não fiz nada",
-    image: "/assets/npcs/riquelsonDog/right.svg",
+    image: npcPath("/riquelsonDog/right.svg"),
     description:
       "Estive observando a luta esse tempo todo, esperando minha vez",
     type: "history",
@@ -148,7 +150,7 @@ export const BATTLE_QUESTS = createQuests({
   },
   x1_tim: {
     name: "Carne nova no pedaço",
-    image: "/assets/npcs/tim/right.svg",
+    image: npcPath("/tim/right.svg"),
     description: "Todo dia entra humano e sai picanha",
     type: "history",
     rewardsType: "coin",
@@ -159,7 +161,7 @@ export const BATTLE_QUESTS = createQuests({
   },
   x1_baiano: {
     name: "Sinta o meu suor másculo",
-    image: "/assets/npcs/baiano/right.svg",
+    image: npcPath("/baiano/right.svg"),
     description: "Absorva os esteróides",
     type: "history",
     rewardsType: "coin",
@@ -170,7 +172,7 @@ export const BATTLE_QUESTS = createQuests({
   },
   x1_spirit_motocycler: {
     name: "JUAN DERSON, O CAMINHÃO",
-    image: "/assets/npcs/spiritMotocycler/walk.svg",
+    image: npcPath("/spiritMotocycler/walk.svg"),
     description: "Uma vez eu dormi enquanto dirigia e...",
     type: "history",
     rewardsType: "coin",
@@ -181,7 +183,7 @@ export const BATTLE_QUESTS = createQuests({
   },
   x1_slimita: {
     name: "O Jailson é só meu!",
-    image: "/assets/npcs/slimita/right.svg",
+    image: npcPath("/slimita/right.svg"),
     description:
       "O jailson é só meu, se quer ele terá que passar por mim primeiro!",
     type: "history",
@@ -193,7 +195,7 @@ export const BATTLE_QUESTS = createQuests({
   },
   x1_hungry_king: {
     name: "Não tire nosso lorde de nós",
-    image: "/assets/npcs/hungryKing/default.svg",
+    image: npcPath("/hungryKing/default.svg"),
     description:
       "Nosso lorde Samurion nos adora, você não pode levar ele embora!",
     type: "history",
@@ -205,7 +207,7 @@ export const BATTLE_QUESTS = createQuests({
   },
   x1_maugrelo: {
     name: "O Peru é meu",
-    image: "/assets/npcs/maugrelo/right.svg",
+    image: npcPath("/maugrelo/right.svg"),
     description: "Você não vai tirar o Peru de mim, vamos lutar pelo Peru!",
     type: "history",
     rewardsType: "coin",
@@ -216,7 +218,7 @@ export const BATTLE_QUESTS = createQuests({
   },
   x1_neimito: {
     name: "Você não vai tirar ele do meu Genjutsu, certo?",
-    image: "/assets/npcs/neimito/right.svg",
+    image: npcPath("/neimito/right.svg"),
     description: "Ematron, não acredite nele! Eu sou de fato o menino Ney",
     type: "history",
     rewardsType: "coin",
@@ -227,7 +229,7 @@ export const BATTLE_QUESTS = createQuests({
   },
   x1_planetary_sisters: {
     name: "Num da para passar!",
-    image: "/assets/npcs/system/default.svg",
+    image: npcPath("/system/default.svg"),
     description: "Tire esses planetas da frente",
     type: "history",
     rewardsType: "coin",
@@ -238,7 +240,7 @@ export const BATTLE_QUESTS = createQuests({
   },
   x1_maura: {
     name: "Quem é essa doida?",
-    image: "/assets/npcs/system/default.svg",
+    image: npcPath("/system/default.svg"),
     description: "Ela é muito perigosa, dá para sentir a insanidade daqui",
     type: "history",
     rewardsType: "coin",
@@ -249,7 +251,7 @@ export const BATTLE_QUESTS = createQuests({
   },
   x1_artur: {
     name: "Que a ira de Baal caia sobre você!",
-    image: "/assets/player/artur/default.svg",
+    image: playerPath("/artur/default.svg"),
     description: "Baal está furioso!",
     type: "history",
     rewardsType: "coin",
@@ -260,7 +262,7 @@ export const BATTLE_QUESTS = createQuests({
   },
   x1_manim: {
     name: "Isso é problema minha gente",
-    image: "/assets/npcs/manim/default.svg",
+    image: npcPath("/manim/default.svg"),
     description: "Você não vai fugir, tá bom?",
     type: "history",
     rewardsType: "coin",
@@ -271,7 +273,7 @@ export const BATTLE_QUESTS = createQuests({
   },
   x1_denis: {
     name: "Tu é um mané mesmo",
-    image: "/assets/npcs/manim/default.svg",
+    image: npcPath("/manim/default.svg"),
     description: "Malandro é malandro, Denis é mané",
     type: "history",
     rewardsType: "coin",
@@ -282,7 +284,7 @@ export const BATTLE_QUESTS = createQuests({
   },
   x1_leviathan: {
     name: "Estou de boa na lagoa",
-    image: "/assets/npcs/leviathan/walk.svg",
+    image: npcPath("/leviathan/walk.svg"),
     description: "Saí daqui mano",
     type: "history",
     rewardsType: "coin",
@@ -293,7 +295,7 @@ export const BATTLE_QUESTS = createQuests({
   },
   x1_true_vandinha: {
     name: "Fugir? Nos seus sonhos!",
-    image: "/assets/npcs/trueVandinha/right.svg",
+    image: npcPath("/trueVandinha/right.svg"),
     description: "Sinta o poder de minha forma final!",
     type: "history",
     rewardsType: "coin",
@@ -304,7 +306,7 @@ export const BATTLE_QUESTS = createQuests({
   },
   x1_mobydick: {
     name: "Derrote a Moby Dick ancestral",
-    image: "/assets/npcs/mobyDick/walk.svg",
+    image: npcPath("/mobyDick/walk.svg"),
     description: "Humano, desapareça de minha frente",
     type: "history",
     rewardsType: "coin",
@@ -315,7 +317,7 @@ export const BATTLE_QUESTS = createQuests({
   },
   x1_technoblade: {
     name: "Technoblade nunca perde",
-    image: "/assets/npcs/technoblade/default.svg",
+    image: npcPath("/technoblade/default.svg"),
     description: "Senti saudades desse sentimento de lutar",
     type: "history",
     rewardsType: "coin",
@@ -326,7 +328,7 @@ export const BATTLE_QUESTS = createQuests({
   },
   x1_madame: {
     name: "Certamente estou invisível",
-    image: "/assets/npcs/madame/right.svg",
+    image: npcPath("/madame/right.svg"),
     description: "Sinto... uma vontade de comer desgraçada",
     type: "history",
     rewardsType: "coin",
@@ -337,7 +339,7 @@ export const BATTLE_QUESTS = createQuests({
   },
   x1_baal: {
     name: "Estou furioso",
-    image: "/assets/npcs/baal/right.svg",
+    image: npcPath("/baal/right.svg"),
     description: "VOU ACABAR COM A TUA RAÇA, HUMANO MISERÁVEL!",
     type: "history",
     rewardsType: "coin",

@@ -1,6 +1,8 @@
+import { playerPath } from "@/utils/paths";
+
 export const brodiclassEmatronDialogue = [
   {
-    src: "/assets/player/ematron/default.svg",
+    src: playerPath("/ematron/default.svg"),
     name: "Ematron",
     message: "Isso é o que você pensa!",
   },

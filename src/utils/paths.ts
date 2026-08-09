@@ -32,8 +32,91 @@ export function playerPath(path: string) {
   return asset(`/assets/player/${path}`);
 }
 
+type NpcCategory = "ally" | "enemies" | "pets";
+
+const NPC_CATEGORY: Record<string, NpcCategory> = {
+  blackao: "ally",
+  brothers: "ally",
+  brothers1: "ally",
+  brothers2: "ally",
+  bruninho: "ally",
+  duqueC: "ally",
+  jailson: "ally",
+  janderson: "ally",
+  jeso: "ally",
+  juju: "ally",
+  kidBengala: "ally",
+  leo: "ally",
+  mariMarques: "ally",
+  peruFather: "ally",
+  reincardion: "ally",
+  remedinha: "ally",
+  solange: "ally",
+  surica: "ally",
+  system: "ally",
+  tiadorim: "ally",
+  tim: "ally",
+  victor: "ally",
+  zeOfBraga: "ally",
+  zeOfMilk: "ally",
+  ains: "enemies",
+  baal: "enemies",
+  baiano: "enemies",
+  brodiclass: "enemies",
+  brodis: "enemies",
+  deise: "enemies",
+  denis: "enemies",
+  dragonKing: "enemies",
+  dummy: "enemies",
+  elitCrocodile: "enemies",
+  figurantOfBaalCult: "enemies",
+  figurantOfDragonKingCult: "enemies",
+  figurantOfMobyDickCult: "enemies",
+  fischer: "enemies",
+  hungryCow: "enemies",
+  hungryDog: "enemies",
+  hungryFish: "enemies",
+  hungryKing: "enemies",
+  hungryPig: "enemies",
+  jhowsimar: "enemies",
+  madame: "enemies",
+  manim: "enemies",
+  maugrelo: "enemies",
+  maurao: "enemies",
+  mobyDick: "enemies",
+  muyMacho: "enemies",
+  necromancer: "enemies",
+  neimito: "enemies",
+  piupiu: "enemies",
+  planetarySisters: "enemies",
+  rice: "enemies",
+  slimita: "enemies",
+  spiritMotocycler: "enemies",
+  srGuaxinim: "enemies",
+  technoblade: "enemies",
+  trueVandinha: "enemies",
+  vandinhaFragment: "enemies",
+  yangKai: "enemies",
+  crocodile: "pets",
+  goat: "pets",
+  hungryDeath: "pets",
+  leviathan: "pets",
+  lupita: "pets",
+  mosquito: "pets",
+  msSpider: "pets",
+  rapariga: "pets",
+  riquelsonDog: "pets",
+  zecaUrubu: "pets",
+};
+
 export function npcPath(path: string) {
-  return asset(`/assets/npcs/${path}`);
+  const cleanPath = path.replace(/^\/+/, "");
+  const npcType = cleanPath.split("/")[0];
+  const category = NPC_CATEGORY[npcType];
+  if (category) {
+    return asset(`/assets/npcs/${category}/${cleanPath}`);
+  }
+  return asset(`/assets/npcs/${cleanPath}`);
 }
 
 export function npcPathAlly(path: string) {
@@ -41,11 +124,11 @@ export function npcPathAlly(path: string) {
 }
 
 export function npcPathPets(path: string) {
-  return asset(`/assets/npcs/ally/${path}`);
+  return asset(`/assets/npcs/pets/${path}`);
 }
 
 export function npcPathEnemie(path: string) {
-  return asset(`/assets/npcs/enemie/${path}`);
+  return asset(`/assets/npcs/enemies/${path}`);
 }
 
 export function npcPathProjectile(path: string) {

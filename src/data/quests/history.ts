@@ -1,9 +1,11 @@
+import { playerPath, npcPath } from "@/utils/paths";
+
 import { createQuests } from "@/utils/quest/createQuest";
 
 export const HISTORY_QUESTS = createQuests({
   jomasio_investigate: {
     name: "Investigação do SETH Jorjão",
-    image: "/assets/npcs/duqueC/default.svg",
+    image: npcPath("/duqueC/default.svg"),
     description: "Investigue a falta de comida no SETH Jorjão",
     rewardsType: "xp",
     rewards: 1000,
@@ -14,7 +16,7 @@ export const HISTORY_QUESTS = createQuests({
   },
   director_escape: {
     name: "Fuja da diretoria",
-    image: "/assets/npcs/system/default.svg",
+    image: npcPath("/system/default.svg"),
     description: "Procure uma forma de sair da diretoria",
     type: "history",
     rewardsType: "xp",
@@ -25,7 +27,7 @@ export const HISTORY_QUESTS = createQuests({
   },
   explore_jorjao: {
     name: "Foi uma delicia",
-    image: "/assets/npcs/jhowsimar/default.svg",
+    image: npcPath("/jhowsimar/default.svg"),
     description: "Vá na sala dos pcs para superar o 'dúvido' de Jhow Simar",
     type: "history",
     rewardsType: "xp",
@@ -37,7 +39,7 @@ export const HISTORY_QUESTS = createQuests({
 
   kill_goats: {
     name: "Elimine 10 bodes",
-    image: "/assets/npcs/goat/walk.svg",
+    image: npcPath("/goat/walk.svg"),
     description: "Mate os bodes e purifique um pouco o ambiente",
     type: "history",
     rewardsType: "xp",
@@ -48,7 +50,7 @@ export const HISTORY_QUESTS = createQuests({
   },
   save_ematron: {
     name: "Salve Ematron",
-    image: "/assets/npcs/brodis/default.svg",
+    image: npcPath("/brodis/default.svg"),
     description:
       "Lute com Neimito para salvar Ematron de seu Genjutsu Infinito",
     type: "history",
@@ -60,7 +62,7 @@ export const HISTORY_QUESTS = createQuests({
   },
   like_peru: {
     name: "Você gosta do Peru",
-    image: "/assets/npcs/peruFather/default.svg",
+    image: npcPath("/peruFather/default.svg"),
     description: "Meu filho é um peruzao, cuide bem dele",
     type: "history",
     rewardsType: "xp",
@@ -71,7 +73,7 @@ export const HISTORY_QUESTS = createQuests({
   },
   search_packaging: {
     name: "Entrega suspeita",
-    image: "/assets/npcs/remedinha/default.svg",
+    image: npcPath("/remedinha/default.svg"),
     description:
       "Vá na biblioteca e traga a embalagem suspeita para Remedinha.",
     rewardsType: "xp",
@@ -83,7 +85,7 @@ export const HISTORY_QUESTS = createQuests({
   },
   letter_delivery: {
     name: "Entrega de aura",
-    image: "/assets/npcs/reincardion/right.svg",
+    image: npcPath("/reincardion/right.svg"),
     description: "Entregue a carta de muita aura para Remedinha",
     rewardsType: "xp",
     rewards: 10,
@@ -94,7 +96,7 @@ export const HISTORY_QUESTS = createQuests({
   },
   go_cafeteria: {
     name: "Ir em busca do linguição",
-    image: "/assets/npcs/remedinha/default.svg",
+    image: npcPath("/remedinha/default.svg"),
     description: "Vá ao no refeitório e adquira sua recompensa (linguição)",
     type: "history",
     rewardsType: "xp",
@@ -105,7 +107,7 @@ export const HISTORY_QUESTS = createQuests({
   },
   return_to_remedinha: {
     name: "Conte a fofoca do dia",
-    image: "/assets/npcs/remedinha/default.svg",
+    image: npcPath("/remedinha/default.svg"),
     description: "Volte e reporte a Remedinha sobre o ocorrido no refeitório",
     rewardsType: "xp",
     rewards: 10,
@@ -116,7 +118,7 @@ export const HISTORY_QUESTS = createQuests({
   },
   encounter_secret_passages: {
     name: "Procure as passagens",
-    image: "/assets/npcs/remedinha/default.svg",
+    image: npcPath("/remedinha/default.svg"),
     description:
       "Vague pelos locais que podem ter documentos e procure por passagens secretas",
     rewardsType: "xp",
@@ -128,7 +130,7 @@ export const HISTORY_QUESTS = createQuests({
   },
   denis_sausage: {
     name: "Me dê o linguição",
-    image: "/assets/npcs/denis/default.svg",
+    image: npcPath("/denis/default.svg"),
     description: "Entregue seu linguição para Denis",
     rewardsType: "xp",
     rewards: 10,
@@ -139,7 +141,7 @@ export const HISTORY_QUESTS = createQuests({
   },
   encounter_deise: {
     name: "Nunca me encontre",
-    image: "/assets/npcs/deise/right.svg",
+    image: npcPath("/deise/right.svg"),
     description: "Vá ao Tanque dos Cravos",
     rewardsType: "xp",
     rewards: 1000,
@@ -150,7 +152,7 @@ export const HISTORY_QUESTS = createQuests({
   },
   help_jailson: {
     name: "Ajude Jailson, ele está em perigo!",
-    image: "/assets/npcs/remedinha/default.svg",
+    image: npcPath("/remedinha/default.svg"),
     description:
       "Tem uma feiosa dando em cima dele, vá lá e ajude ele a se livrar dela",
     rewardsType: "xp",
@@ -162,7 +164,7 @@ export const HISTORY_QUESTS = createQuests({
   },
   go_to_hell: {
     name: "Encontre Negão do Ferro Velho",
-    image: "/assets/npcs/remedinha/default.svg",
+    image: npcPath("/remedinha/default.svg"),
     description: "Vá aos corredores escuros em busca de falar com o Negão",
     rewardsType: "xp",
     rewards: 40,
@@ -173,7 +175,7 @@ export const HISTORY_QUESTS = createQuests({
   },
   go_to_brodiclass: {
     name: "Vá a sala dos brodi",
-    image: "/assets/npcs/remedinha/default.svg",
+    image: npcPath("/remedinha/default.svg"),
     description:
       "Junte-se ao conselho dos manos como espião e obtenha informações",
     rewardsType: "xp",
@@ -185,7 +187,7 @@ export const HISTORY_QUESTS = createQuests({
   },
   save_samurion: {
     name: "Ajude Samurion",
-    image: "/assets/npcs/brodis/default.svg",
+    image: npcPath("/brodis/default.svg"),
     description: "Estão enchendo o saco dele, ajuda o homi lá",
     type: "history",
     rewardsType: "xp",
@@ -196,7 +198,7 @@ export const HISTORY_QUESTS = createQuests({
   },
   go_to_pandemony: {
     name: "Salve Maura da Loucura",
-    image: "/assets/player/larissa/default.svg",
+    image: playerPath("/larissa/default.svg"),
     description: "Encontre Maura no Corredor do Pandemônio",
     rewardsType: "xp",
     rewards: 40,
@@ -207,7 +209,7 @@ export const HISTORY_QUESTS = createQuests({
   },
   cancel_mobydick_ressurrection: {
     name: "Impeça o culto",
-    image: "/assets/npcs/brodiclass/default.svg",
+    image: npcPath("/brodiclass/default.svg"),
     description: "Pare a ressurreição da baleia ancestral",
     rewardsType: "xp",
     rewards: 1000,
@@ -218,7 +220,7 @@ export const HISTORY_QUESTS = createQuests({
   },
   cancel_dragonking_ressurrection: {
     name: "Impeça o culto",
-    image: "/assets/npcs/brodiclass/default.svg",
+    image: npcPath("/brodiclass/default.svg"),
     description: "Pare a ressurreição do dragão fundador",
     rewardsType: "xp",
     rewards: 1000,
@@ -229,7 +231,7 @@ export const HISTORY_QUESTS = createQuests({
   },
   cancel_baal_invocation: {
     name: "Impeça a invocação de Baal",
-    image: "/assets/npcs/brodiclass/default.svg",
+    image: npcPath("/brodiclass/default.svg"),
     description: "Salve o mundo",
     rewardsType: "xp",
     rewards: 1000,

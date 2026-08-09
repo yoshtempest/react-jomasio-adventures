@@ -1,6 +1,8 @@
+import { npcPath } from "@/utils/paths";
+
 export const hallJailsonFourDialogue = [
   {
-    src: "/assets/npcs/jailson/right.svg",
+    src: npcPath("/jailson/right.svg"),
     name: "Jailson",
     message:
       "Agora eu tô a fim de relaxar, tu num quer me trazer um suco de laranja não?",
@@ -13,7 +15,7 @@ export const hallJailsonFourDialogue = [
     soundSrc: "/assets/songs/soundEffects/player/inWhatSense.mp3",
   },
   {
-    src: "/assets/npcs/jailson/right.svg",
+    src: npcPath("/jailson/right.svg"),
     name: "Jailson",
     message: "Relaxar ué",
   },
@@ -23,7 +25,7 @@ export const hallJailsonFourDialogue = [
     message: "Onde tá o suco de laranja?",
   },
   {
-    src: "/assets/npcs/jailson/right.svg",
+    src: npcPath("/jailson/right.svg"),
     name: "Jailson",
     message: "Deve estar lá no lugar que você lutou com o Jhow Simar sabe?",
   },
@@ -33,7 +35,7 @@ export const hallJailsonFourDialogue = [
     message: "Como você sabe que eu lutei com ele?",
   },
   {
-    src: "/assets/npcs/jailson/right.svg",
+    src: npcPath("/jailson/right.svg"),
     name: "Jailson",
     message:
       "A curiosidade mata o gato, chega de perguntas, vai lá e me traz o suco de laranja!",

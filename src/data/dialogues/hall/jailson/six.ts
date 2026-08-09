@@ -1,6 +1,8 @@
+import { npcPath } from "@/utils/paths";
+
 export const hallJailsonSixDialogue = [
   {
-    src: "/assets/npcs/jailson/right.svg",
+    src: npcPath("/jailson/right.svg"),
     name: "Jailson",
     message: "Ai que delicia cara!",
   },

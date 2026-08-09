@@ -1,6 +1,8 @@
+import { playerPath } from "@/utils/paths";
+
 export const brodiclassKamyKazeDialogue = [
   {
-    src: "/assets/player/camilly/default.svg",
+    src: playerPath("/camilly/default.svg"),
     name: "Kamy Kaze",
     message: "Isso é o que você pensa!",
   },

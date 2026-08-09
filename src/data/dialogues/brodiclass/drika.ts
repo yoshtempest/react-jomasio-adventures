@@ -1,6 +1,8 @@
+import { playerPath } from "@/utils/paths";
+
 export const brodiclassDrikaDialogue = [
   {
-    src: "/assets/player/eduarda/default.svg",
+    src: playerPath("/eduarda/default.svg"),
     name: "Drika",
     message: "Isso é o que você pensa!",
   },

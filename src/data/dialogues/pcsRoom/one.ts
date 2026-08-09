@@ -1,6 +1,8 @@
+import { npcPath } from "@/utils/paths";
+
 export const pcsRoomDialogue = [
   {
-    src: "/assets/npcs/janderson/right.svg",
+    src: npcPath("/janderson/right.svg"),
     name: "Juan Derson",
     message: "Tipo assim... eu moro em canabruava",
   },
@@ -10,7 +12,7 @@ export const pcsRoomDialogue = [
     message: "Achei que você morava em Nova York.",
   },
   {
-    src: "/assets/npcs/janderson/right.svg",
+    src: npcPath("/janderson/right.svg"),
     name: "Juan Derson",
     message: "Ééé... O Denis, ele... A Vandinha, ela...",
   },
@@ -20,7 +22,7 @@ export const pcsRoomDialogue = [
     message: "Cala boca cara, eu não tô entendendo nada.",
   },
   {
-    src: "/assets/npcs/janderson/right.svg",
+    src: npcPath("/janderson/right.svg"),
     name: "Juan Derson",
     message: "Não, tipo assim, Você tem que escolher uma classe",
   },

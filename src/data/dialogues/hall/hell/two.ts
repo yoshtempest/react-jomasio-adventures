@@ -1,6 +1,8 @@
+import { npcPath } from "@/utils/paths";
+
 export const hallHellTwoDialogue = [
   {
-    src: "/assets/npcs/blackao/right.svg",
+    src: npcPath("/blackao/right.svg"),
     name: "Negão do Ferro Velho",
     message: "Vá pro inferno!",
     soundSrc: "/assets/songs/soundEffects/npc/goToHell.mp3",
@@ -11,7 +13,7 @@ export const hallHellTwoDialogue = [
     message: "Eu num vou não",
   },
   {
-    src: "/assets/npcs/blackao/right.svg",
+    src: npcPath("/blackao/right.svg"),
     name: "Negão do Ferro Velho",
     message: "Vá pro inferno!",
     soundSrc: "/assets/songs/soundEffects/npc/goToHell.mp3",
@@ -22,7 +24,7 @@ export const hallHellTwoDialogue = [
     message: "Quer brigar?",
   },
   {
-    src: "/assets/npcs/blackao/right.svg",
+    src: npcPath("/blackao/right.svg"),
     name: "Negão do Ferro Velho",
     message: "Vá pro inferno!",
     soundSrc: "/assets/songs/soundEffects/npc/goToHell.mp3",
@@ -33,7 +35,7 @@ export const hallHellTwoDialogue = [
     message: "Então vem pro fight vem",
   },
   {
-    src: "/assets/npcs/blackao/right.svg",
+    src: npcPath("/blackao/right.svg"),
     name: "Negão do Ferro Velho",
     message: "Eu mesmo vou te levar então!",
   },

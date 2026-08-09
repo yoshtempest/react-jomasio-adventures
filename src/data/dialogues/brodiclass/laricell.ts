@@ -1,6 +1,8 @@
+import { playerPath } from "@/utils/paths";
+
 export const brodiclassLaricellDialogue = [
   {
-    src: "/assets/player/larissa/default.svg",
+    src: playerPath("/larissa/default.svg"),
     name: "Laricell",
     message: "Isso é o que você pensa!",
   },

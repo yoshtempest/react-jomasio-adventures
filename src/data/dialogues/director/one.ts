@@ -1,3 +1,5 @@
+import { npcPath } from "@/utils/paths";
+
 export const directorDialogue = [
   {
     isPlayer: true,
@@ -5,7 +7,7 @@ export const directorDialogue = [
     message: "Que lugar é esse? Parece uma cela de prisão...",
   },
   {
-    src: "/assets/npcs/system/right.svg",
+    src: npcPath("/system/right.svg"),
     name: "Janela de Sistema",
     message: "Janela de sistema desbloqueada!",
   },
@@ -15,7 +17,7 @@ export const directorDialogue = [
     message: "Mas que poha é essa?",
   },
   {
-    src: "/assets/npcs/system/right.svg",
+    src: npcPath("/system/right.svg"),
     name: "Janela de Sistema",
     message: "Se vira ai. Não sou pago pra isso",
   },

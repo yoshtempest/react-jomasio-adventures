@@ -1,3 +1,5 @@
+import { npcPath } from "@/utils/paths";
+
 export const AfterPcRoomSevenDialogue = [
   {
     isPlayer: true,
@@ -5,7 +7,7 @@ export const AfterPcRoomSevenDialogue = [
     message: "Salvei o Jailson",
   },
   {
-    src: "/assets/npcs/remedinha/right.svg",
+    src: npcPath("/remedinha/right.svg"),
     name: "Remedinha",
     message: "Muito bem",
   },
@@ -15,7 +17,7 @@ export const AfterPcRoomSevenDialogue = [
     message: "?",
   },
   {
-    src: "/assets/npcs/remedinha/right.svg",
+    src: npcPath("/remedinha/right.svg"),
     name: "Remedinha",
     message: "Tá olhando o que?",
   },
@@ -25,7 +27,7 @@ export const AfterPcRoomSevenDialogue = [
     message: "Você não vai me dar outra missão e algum item como recompensa?",
   },
   {
-    src: "/assets/npcs/remedinha/right.svg",
+    src: npcPath("/remedinha/right.svg"),
     name: "Remedinha",
     message: "Tá achando que eu sou uma guia é?",
   },
@@ -35,7 +37,7 @@ export const AfterPcRoomSevenDialogue = [
     message: "É, me diga o próximo passo",
   },
   {
-    src: "/assets/npcs/remedinha/right.svg",
+    src: npcPath("/remedinha/right.svg"),
     name: "Remedinha",
     message:
       "Vai lá nos corredores e procura por um tal de Negão do Ferro Velho",
@@ -46,7 +48,7 @@ export const AfterPcRoomSevenDialogue = [
     message: "Tá achando que sou doido?",
   },
   {
-    src: "/assets/npcs/remedinha/right.svg",
+    src: npcPath("/remedinha/right.svg"),
     name: "Remedinha",
     message: "Sim",
   },

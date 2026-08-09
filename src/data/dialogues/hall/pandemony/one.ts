@@ -1,6 +1,8 @@
+import { npcPath } from "@/utils/paths";
+
 export const HallPandemonyDialogue = [
   {
-    src: "/assets/npcs/maurao/good.svg",
+    src: npcPath("/maurao/good.svg"),
     name: "Maurão",
     message: "Estou ficando louca, hahahaha",
   },
@@ -10,7 +12,7 @@ export const HallPandemonyDialogue = [
     message: "Posso te ajudar?",
   },
   {
-    src: "/assets/npcs/maurao/right.svg",
+    src: npcPath("/maurao/right.svg"),
     name: "Maurão",
     message: "Bebi o fim de semana INTEIRO, HAHAHAHAH",
   },
@@ -20,7 +22,7 @@ export const HallPandemonyDialogue = [
     message: "Credo, então o problema é a ressaca?",
   },
   {
-    src: "/assets/npcs/maurao/crazying.svg",
+    src: npcPath("/maurao/crazying.svg"),
     name: "Maurão",
     message: "Os remédios não funcionam kkkkkkkkkkk",
   },
@@ -30,7 +32,7 @@ export const HallPandemonyDialogue = [
     message: "O que você quer então?",
   },
   {
-    src: "/assets/npcs/maurao/default.svg",
+    src: npcPath("/maurao/default.svg"),
     name: "Maurão",
     message: "VAMOS LUTAR!",
   },
@@ -40,7 +42,7 @@ export const HallPandemonyDialogue = [
     message: "Por que?",
   },
   {
-    src: "/assets/npcs/maurao/default.svg",
+    src: npcPath("/maurao/default.svg"),
     name: "Maurão",
     message: "NÃO PRECISA DE MOTIVO HAHAHAHA!",
   },

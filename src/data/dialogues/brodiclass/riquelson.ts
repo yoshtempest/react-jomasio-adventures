@@ -1,6 +1,8 @@
+import { playerPath } from "@/utils/paths";
+
 export const brodiclassRiquelsonDialogue = [
   {
-    src: "/assets/player/riquelme/default.svg",
+    src: playerPath("/riquelme/default.svg"),
     name: "Riquelson",
     message: "Isso é o que você pensa!",
   },

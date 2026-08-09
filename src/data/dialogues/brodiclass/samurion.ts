@@ -1,6 +1,8 @@
+import { playerPath } from "@/utils/paths";
+
 export const brodiclassSamurionDialogue = [
   {
-    src: "/assets/player/samuel/default.svg",
+    src: playerPath("/samuel/default.svg"),
     name: "Samurion",
     message: "Isso é o que você pensa!",
   },

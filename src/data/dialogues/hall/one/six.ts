@@ -1,3 +1,5 @@
+import { npcPath } from "@/utils/paths";
+
 export const AfterPcRoomSixDialogue = [
   {
     isPlayer: true,
@@ -6,7 +8,7 @@ export const AfterPcRoomSixDialogue = [
       "Você num vai acreditar, eu tava lá no lugar lá, ai tinha o caba, ele lutou com eu, nós lutamos e ai apareceu um tal de Denis e nós...",
   },
   {
-    src: "/assets/npcs/remedinha/right.svg",
+    src: npcPath("/remedinha/right.svg"),
     name: "Remedinha",
     message: "Quem",
   },
@@ -16,7 +18,7 @@ export const AfterPcRoomSixDialogue = [
     message: "Quem o que?",
   },
   {
-    src: "/assets/npcs/remedinha/right.svg",
+    src: npcPath("/remedinha/right.svg"),
     name: "Remedinha",
     message: "Te perguntou kkkkkkk",
   },
@@ -26,12 +28,12 @@ export const AfterPcRoomSixDialogue = [
     message: "...",
   },
   {
-    src: "/assets/npcs/remedinha/right.svg",
+    src: npcPath("/remedinha/right.svg"),
     name: "Remedinha",
     message: "Tá, chega de brincadeirinhas",
   },
   {
-    src: "/assets/npcs/remedinha/right.svg",
+    src: npcPath("/remedinha/right.svg"),
     name: "Remedinha",
     message:
       "O Jailson está em perigo, tem uma tal de slimita dando em cima dele e preciso que você ajude ele",
@@ -42,7 +44,7 @@ export const AfterPcRoomSixDialogue = [
     message: "Porque eu iria te ajudar? Você vive me zoando...",
   },
   {
-    src: "/assets/npcs/remedinha/right.svg",
+    src: npcPath("/remedinha/right.svg"),
     name: "Remedinha",
     message:
       "Porque o Jailson é um cara que já aguentou muita coisa por trás, você tem que salvar ele!",
@@ -53,7 +55,7 @@ export const AfterPcRoomSixDialogue = [
     message: "Eu não quero!",
   },
   {
-    src: "/assets/npcs/remedinha/right.svg",
+    src: npcPath("/remedinha/right.svg"),
     name: "Remedinha",
     message:
       "Então vai ficar preso aqui para sempre, seu trouxão, se não prosseguir na história, não tem como zerar o jogo.",

@@ -1,6 +1,8 @@
+import { playerPath } from "@/utils/paths";
+
 export const brodiclassSrGuaxinimDialogue = [
   {
-    src: "/assets/player/artur/default.svg",
+    src: playerPath("/artur/default.svg"),
     name: "Sr.Guaxinim",
     message: "Isso é o que você pensa!",
   },

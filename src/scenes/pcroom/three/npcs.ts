@@ -1,5 +1,7 @@
+import { npcPath } from "@/utils/paths";
+
 import { createNpc } from "@/scenes/shared/factories";
 
 export const pcRoomThreeNpcs = [
-  createNpc("/assets/npcs/vandinhaFragment/default.svg", 15, 2.55),
+  createNpc(npcPath("/vandinhaFragment/default.svg"), 15, 2.55),
 ];

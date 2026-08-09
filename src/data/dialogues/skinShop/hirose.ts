@@ -1,6 +1,8 @@
+import { npcPath } from "@/utils/paths";
+
 export const skinShopHiroseDialogue = [
   {
-    src: "/assets/npcs/bruninho/right.svg",
+    src: npcPath("/bruninho/right.svg"),
     name: "Bruno",
     message: "Aah Nakamura...",
   },

@@ -1,6 +1,8 @@
+import { npcPath } from "@/utils/paths";
+
 export const centerFrontThreeDialogue = [
   {
-    src: "/assets/npcs/leo/right.svg",
+    src: npcPath("/leo/right.svg"),
     name: "Léo",
     message: "Você gosta do Nei ou do Mar?",
   },
@@ -10,7 +12,7 @@ export const centerFrontThreeDialogue = [
     message: "O que que vc está falando cara?",
   },
   {
-    src: "/assets/npcs/leo/point.svg",
+    src: npcPath("/leo/point.svg"),
     name: "Léo",
     message: "Nei, kkkkkkkkkkkk",
   },

@@ -1,9 +1,11 @@
+import { npcPath } from "@/utils/paths";
+
 import type { QuestTemplate } from "@/utils/types/player/quest";
 
 export const DAILY_QUEST_POOL: QuestTemplate[] = [
   {
     name: "Caçador de Encrenca",
-    image: "/assets/npcs/system/default.svg",
+    image: npcPath("/system/default.svg"),
     description: "Derrote 5 inimigos em batalha",
     type: "sidequest",
     counter: 5,
@@ -14,7 +16,7 @@ export const DAILY_QUEST_POOL: QuestTemplate[] = [
   },
   {
     name: "Limpeza Geral",
-    image: "/assets/npcs/system/default.svg",
+    image: npcPath("/system/default.svg"),
     description: "Derrote 3 inimigos comuns",
     type: "sidequest",
     counter: 3,
@@ -25,7 +27,7 @@ export const DAILY_QUEST_POOL: QuestTemplate[] = [
   },
   {
     name: "Sobrevivente",
-    image: "/assets/npcs/system/default.svg",
+    image: npcPath("/system/default.svg"),
     description: "Vença 2 batalhas",
     type: "sidequest",
     counter: 2,
@@ -36,7 +38,7 @@ export const DAILY_QUEST_POOL: QuestTemplate[] = [
   },
   {
     name: "Colecionador Matinal",
-    image: "/assets/npcs/system/default.svg",
+    image: npcPath("/system/default.svg"),
     description: "Colete 2 materiais de crafting",
     type: "sidequest",
     counter: 2,
@@ -47,7 +49,7 @@ export const DAILY_QUEST_POOL: QuestTemplate[] = [
   },
   {
     name: "Desafio Raro",
-    image: "/assets/npcs/system/default.svg",
+    image: npcPath("/system/default.svg"),
     description: "Derrote 1 inimigo raro",
     type: "sidequest",
     counter: 1,
@@ -58,7 +60,7 @@ export const DAILY_QUEST_POOL: QuestTemplate[] = [
   },
   {
     name: "Explorador",
-    image: "/assets/npcs/system/default.svg",
+    image: npcPath("/system/default.svg"),
     description: "Visite um local diferente",
     type: "sidequest",
     counter: 1,

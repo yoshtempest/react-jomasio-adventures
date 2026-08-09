@@ -1,6 +1,8 @@
+import { npcPath } from "@/utils/paths";
+
 export const jujuHouseDialogue = [
   {
-    src: "/assets/npcs/juju/right.svg",
+    src: npcPath("/juju/right.svg"),
     name: "Juju",
     message:
       "Agora vai matar os mortos de fome por que eles ficam batendo palma a noite toda aqui",
@@ -11,7 +13,7 @@ export const jujuHouseDialogue = [
     message: "Matar os mortos?",
   },
   {
-    src: "/assets/npcs/juju/right.svg",
+    src: npcPath("/juju/right.svg"),
     name: "Juju",
     message: "Você consegue, eu sei que você é o protagonista",
   },
