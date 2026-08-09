@@ -1,11 +1,11 @@
-import { npcPath } from "@/utils/paths";
+import { npcPathProjectile } from "@/utils/paths";
 
 export const spriteMap: Record<string, string> = {
-  dish: npcPath("/dish.svg"),
-  "goat-idle": npcPath("/goat/idle.svg"),
-  "goat-walk": npcPath("/goat/walk.svg"),
-  staff: npcPath("/staff.svg"),
-  spear: npcPath("/spear.svg"),
-  spoon: npcPath("/spoon.svg"),
-  knife: npcPath("/knife.svg"),
+  dish: npcPathProjectile("/dish.svg"),
+  "goat-idle": npcPathProjectile("/goat/idle.svg"),
+  "goat-walk": npcPathProjectile("/goat/walk.svg"),
+  staff: npcPathProjectile("/staff.svg"),
+  spear: npcPathProjectile("/spear.svg"),
+  spoon: npcPathProjectile("/spoon.svg"),
+  knife: npcPathProjectile("/knife.svg"),
 };

@@ -36,6 +36,22 @@ export function npcPath(path: string) {
   return asset(`/assets/npcs/${path}`);
 }
 
+export function npcPathAlly(path: string) {
+  return asset(`/assets/npcs/ally/${path}`);
+}
+
+export function npcPathPets(path: string) {
+  return asset(`/assets/npcs/ally/${path}`);
+}
+
+export function npcPathEnemie(path: string) {
+  return asset(`/assets/npcs/enemie/${path}`);
+}
+
+export function npcPathProjectile(path: string) {
+  return asset(`/assets/npcs/projectiles/${path}`);
+}
+
 export function soundEffectPath(path: string) {
   return asset(`/assets/songs/soundEffects/${path}`);
 }
