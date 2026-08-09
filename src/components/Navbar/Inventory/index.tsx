@@ -6,10 +6,16 @@ import { useChestOpening } from "@/hooks/chest/useChestOpening";
 import { useDailyChest } from "@/hooks/chest/useDailyChest";
 import styles from "./styles.module.css";
 import { ITEMS } from "@/data/items";
+import {
+  CHEST_OPENED_SPRITES,
+  DAILY_CHEST_CLOSED_SPRITE,
+  DAILY_CHEST_OPENED_SPRITE,
+} from "@/data/items/chestItems";
 import { Chest } from "./Chest";
 import { FilterBar } from "./FilterBar";
 import { ListItem } from "./ListItem";
 import { RewardsView } from "./RewardsView";
+import { ChestOpeningAnimation } from "./ChestOpeningAnimation";
 import { useItemEffect } from "@/gameRules/items/useItem";
 import { FILTER_LABELS } from "@/data/inventory/labels";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
@@ -75,12 +81,22 @@ export function Inventory() {
 
   const dailyChest = useDailyChest();
 
+  const [openingChest, setOpeningChest] = useState<{
+    tier: NPCClass;
+    isDaily: boolean;
+  } | null>(null);
+
+  const handleOpenDailyChest = () => {
+    const result = dailyChest.open();
+    if (result) setOpeningChest({ tier: result.tier, isDaily: true });
+  };
+
   const { selectedIndex, filterFocused, chestFocused } = useInventoryMenu(
     true,
     listRef,
     filterConfig,
     dailyChest.isReady,
-    dailyChest.open,
+    handleOpenDailyChest,
   );
 
   const {
@@ -91,6 +107,7 @@ export function Inventory() {
     otherChestExists,
     openNextChest,
   } = useChestOpening();
+
   const { playMove, playSelect } = useMenuSFX();
 
   const { playSFX } = useSFXPool();
@@ -101,11 +118,21 @@ export function Inventory() {
   const [rejectedIndex, setRejectedIndex] = useState<number | null>(null);
   const [showNoKeyPopup, setShowNoKeyPopup] = useState(false);
 
+  const handleOpenPlayerChest = (id: ItemId) => {
+    const result = openPlayerChest(id);
+    if (result) setOpeningChest({ tier: result.tier, isDaily: false });
+  };
+
+  const handleOpenNextChest = (id: ItemId) => {
+    const result = openNextChest(id);
+    if (result) setOpeningChest({ tier: result.tier, isDaily: false });
+  };
+
   const hasOtherChest = !!(
     chestLastResult &&
     otherChestExists(chestLastResult.tier as unknown as ItemId)
   );
-  const chestRewardsVisible = !!(dailyChest.lastResult || chestLastResult);
+  const chestRewardsVisible = !!(dailyChest.lastResult || chestLastResult) && !openingChest;
   const rewardOptionCount = chestRewardsVisible ? (hasOtherChest ? 2 : 1) : 0;
 
   const closeRewards = useStableCallback(() => {
@@ -143,7 +170,7 @@ export function Inventory() {
     playMove,
     playSelect,
     closeRewards,
-    openNextChest,
+    openNextChest: handleOpenNextChest,
     onRewardOptionChange: setRewardOptionIndex,
   });
 
@@ -158,7 +185,7 @@ export function Inventory() {
     isTeleportSelected,
     keyId,
     items,
-    openPlayerChest,
+    openPlayerChest: handleOpenPlayerChest,
     getEffect,
     consumeItem: consumeItemRef.current,
     onReject: () => {
@@ -170,6 +197,22 @@ export function Inventory() {
       setTimeout(() => setShowNoKeyPopup(false), 2000);
     },
   });
+
+  if (openingChest) {
+    const closedSrc = openingChest.isDaily
+      ? DAILY_CHEST_CLOSED_SPRITE
+      : `/assets/items/chests/${openingChest.tier}.svg`;
+    const openedSrc = openingChest.isDaily
+      ? DAILY_CHEST_OPENED_SPRITE
+      : CHEST_OPENED_SPRITES[openingChest.tier];
+    return (
+      <ChestOpeningAnimation
+        closedSrc={closedSrc}
+        openedSrc={openedSrc}
+        onComplete={() => setOpeningChest(null)}
+      />
+    );
+  }
 
   const rewardsVisible = !!(dailyChest.lastResult || chestLastResult);
   if (rewardsVisible) {
@@ -184,7 +227,7 @@ export function Inventory() {
         onSelect={setRewardOptionIndex}
         onCloseDaily={() => dailyChest.setLastResult(null)}
         onCloseChest={() => setLastResult(null)}
-        onOpenNextChest={openNextChest}
+        onOpenNextChest={handleOpenNextChest}
       />
     );
   }
@@ -203,7 +246,7 @@ export function Inventory() {
         isFocused={chestFocused}
         isReady={dailyChest.isReady}
         timeLeft={dailyChest.timeLeft}
-        onOpen={dailyChest.open}
+        onOpen={handleOpenDailyChest}
       />
 
       <FilterBar

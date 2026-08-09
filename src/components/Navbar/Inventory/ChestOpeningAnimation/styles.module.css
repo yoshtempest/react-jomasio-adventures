@@ -1,0 +1,63 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chest {
+  width: min(45vh, 300px);
+  height: auto;
+}
+
+.closed {
+  animation: chestShake 0.9s ease-in-out;
+}
+
+.opened {
+  animation: chestPop 0.7s ease-out both;
+}
+
+@keyframes chestShake {
+  0% {
+    transform: scale(0) rotate(-10deg);
+    opacity: 0;
+  }
+  30% {
+    transform: scale(1.15) rotate(4deg);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1) rotate(-3deg);
+  }
+  70% {
+    transform: scale(1.08) rotate(2deg);
+  }
+  100% {
+    transform: scale(1) rotate(0);
+  }
+}
+
+@keyframes chestPop {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

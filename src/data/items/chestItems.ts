@@ -32,3 +32,14 @@ export const CHESTS = createItems({
     type: "chest",
   },
 } as const);
+
+export const CHEST_OPENED_SPRITES: Record<NPCClass, string> = {
+  common: "/assets/items/chests/commomOpened.svg",
+  rare: "/assets/items/chests/rareOpened.svg",
+  epic: "/assets/items/chests/epicOpened.svg",
+  boss: "/assets/items/chests/bossOpened.svg",
+  legendary: "/assets/items/chests/legendaryOpened.svg",
+};
+
+export const DAILY_CHEST_CLOSED_SPRITE = "/assets/items/chests/default.svg";
+export const DAILY_CHEST_OPENED_SPRITE = "/assets/items/chests/defaultOpened.svg";
