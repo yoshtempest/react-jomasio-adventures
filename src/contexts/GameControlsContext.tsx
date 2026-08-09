@@ -93,6 +93,16 @@ export function GameControlsProvider({ children }: Props) {
   const activeControls = useMemo((): GameControlLayer => {
     const top = stack[stack.length - 1];
 
+    const findRelease = (
+      getter: (layer: GameControlLayer) => (() => void) | undefined,
+    ) => {
+      for (let i = stack.length - 1; i >= 0; i--) {
+        const fn = getter(stack[i]);
+        if (fn) return fn;
+      }
+      return undefined;
+    };
+
     return {
       onUp: () => {
         for (let i = stack.length - 1; i >= 0; i--) {
@@ -154,23 +164,29 @@ export function GameControlsProvider({ children }: Props) {
         }
       },
 
-      onConfirmRelease:
-        top?.onConfirmRelease,
+      onConfirmRelease: findRelease(
+        (layer) => layer.onConfirmRelease,
+      ),
 
-      onCancelRelease:
-        top?.onCancelRelease,
+      onCancelRelease: findRelease(
+        (layer) => layer.onCancelRelease,
+      ),
 
-      onUpRelease:
-        top?.onUpRelease,
+      onUpRelease: findRelease(
+        (layer) => layer.onUpRelease,
+      ),
 
-      onDownRelease:
-        top?.onDownRelease,
+      onDownRelease: findRelease(
+        (layer) => layer.onDownRelease,
+      ),
 
-      onLeftRelease:
-        top?.onLeftRelease,
+      onLeftRelease: findRelease(
+        (layer) => layer.onLeftRelease,
+      ),
 
-      onRightRelease:
-        top?.onRightRelease,
+      onRightRelease: findRelease(
+        (layer) => layer.onRightRelease,
+      ),
 
       onOpen: top?.onOpen,
 
