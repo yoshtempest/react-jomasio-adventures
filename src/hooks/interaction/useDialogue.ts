@@ -12,6 +12,7 @@ export function useDialogue(dialogues: Dialogue[], onFinish?: () => void) {
   );
   const customDialoguesRef = useRef(customDialogues);
   customDialoguesRef.current = customDialogues;
+  const customOnFinishRef = useRef<(() => void) | null>(null);
 
   const activeDialogues = customDialogues ?? dialogues;
 
@@ -32,20 +33,28 @@ export function useDialogue(dialogues: Dialogue[], onFinish?: () => void) {
     });
   }, [activeDialogues, player.character]);
 
-  const start = useCallback((newDialogues?: Dialogue[]) => {
-    if (newDialogues) {
-      setCustomDialogues(newDialogues);
-    }
-    setIndex(0);
-    setIsOpen(true);
-  }, []);
+  const start = useCallback(
+    (newDialogues?: Dialogue[], newOnFinish?: () => void) => {
+      if (newDialogues) {
+        setCustomDialogues(newDialogues);
+        customOnFinishRef.current = newOnFinish ?? null;
+      }
+      setIndex(0);
+      setIsOpen(true);
+    },
+    [],
+  );
 
   const next = useCallback(() => {
     if (index >= processedDialogues.length - 1) {
       setIsOpen(false);
       const wasSubDialogue = customDialoguesRef.current !== null;
+      const customOnFinish = customOnFinishRef.current;
       setCustomDialogues(null);
-      if (!wasSubDialogue) {
+      customOnFinishRef.current = null;
+      if (wasSubDialogue) {
+        customOnFinish?.();
+      } else {
         onFinish?.();
       }
       return;

@@ -1,5 +1,6 @@
 import { useNavigate, useLocation } from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { useNavbar } from "@/contexts/NavbarContext";
 import {
   useCharacterProgress,
   MAX_HUNGER,
@@ -17,19 +18,27 @@ type Props = {
   playSFX?: (src: string, volume?: number) => void;
 };
 
+const GOOD_POWDER_ENCOUNTERS = [
+  { npcType: "vandinhaFragment", route: "/battle/vandinhafragment" },
+  { npcType: "hungryDeath", route: "/battle/hungry" },
+  { npcType: "jhowsimar", route: "/battle/jhowsimar" },
+  { npcType: "goat", route: "/battle/goat" },
+] as const;
+
 function rollEncounter() {
   const roll = Math.random() * 100;
 
-  if (roll < 1) return "/battle/vandinhafragment";
-  if (roll < 90) return "/battle/hungry";
-  if (roll < 95) return "/battle/jhowsimar";
-  return "/battle/goat";
+  if (roll < 1) return GOOD_POWDER_ENCOUNTERS[0];
+  if (roll < 90) return GOOD_POWDER_ENCOUNTERS[1];
+  if (roll < 95) return GOOD_POWDER_ENCOUNTERS[2];
+  return GOOD_POWDER_ENCOUNTERS[3];
 }
 
 export function useItemEffect({ playSFX }: Props) {
   const navigate = useNavigate();
   const location = useLocation();
   const { setMode, player, toggleHasPeru } = usePlayer();
+  const { closeNavbar } = useNavbar();
   const { progress, restoreHunger } = useCharacterProgress();
   const { removeItem } = useInventory();
 
@@ -38,8 +47,15 @@ export function useItemEffect({ playSFX }: Props) {
       case "good_powder": // 🔥 Pó do bom
         return () => {
           playSFX?.("/assets/songs/transitions/undertaleToBattle.mp3", 0.6);
-          const route = rollEncounter();
-          navigate(route, { state: { battleOrigin: location.pathname } });
+          const encounter = rollEncounter();
+          closeNavbar();
+          setMode("select");
+          navigate(location.pathname, {
+            state: {
+              ...(location.state ?? {}),
+              goodPowderEncounter: encounter,
+            },
+          });
         };
 
       case "jorjao_map":

@@ -20,21 +20,21 @@ export function useNavbarMenu() {
     useSelectableIndex();
 
   const onUp = useStableCallback(() => {
-    if (screen !== "menu") return true;
+    if (screen !== "menu") return false;
     playMove();
     setSelectedIndex((prev) => circularPrev(prev, NAVBAR_OPTIONS.length));
     return true;
   });
 
   const onDown = useStableCallback(() => {
-    if (screen !== "menu") return true;
+    if (screen !== "menu") return false;
     playMove();
     setSelectedIndex((prev) => circularNext(prev, NAVBAR_OPTIONS.length));
     return true;
   });
 
   const onConfirm = useStableCallback(() => {
-    if (screen !== "menu") return true;
+    if (screen !== "menu") return false;
     playSelect();
     const selected = getSelected(NAVBAR_OPTIONS, selectedIndexRef.current);
     setScreen(selected.screen);

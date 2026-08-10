@@ -9,7 +9,7 @@ export type SetPlayerMode = (mode: PlayerMode) => void;
 export type DialogueSystem = {
   isOpen: boolean;
   next: () => void;
-  start: () => void;
+  start: (dialogues?: Dialogue[], onFinish?: () => void) => void;
   nextSoundSrc?: string;
 };
 

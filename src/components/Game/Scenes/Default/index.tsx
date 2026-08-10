@@ -14,6 +14,7 @@ import {
 } from "@/components/Game/Quest/Indicator";
 import Talking from "@/components/Talking";
 import { useDialogue } from "@/hooks/interaction/useDialogue";
+import { useGoodPowderEncounter } from "@/hooks/interaction/useGoodPowderEncounter";
 import { useSansTalking } from "@/hooks/interaction/useSansTalking";
 import { useEffect, useRef } from "react";
 
@@ -137,6 +138,13 @@ export function ExploreScene({
     setPosition,
   });
 
+  const { encounterNpc } = useGoodPowderEncounter({
+    map,
+    isReady,
+    dialogueSystem,
+    navigateWithFade,
+  });
+
   useSceneNavigation({
     player,
     transitions,
@@ -243,6 +251,14 @@ export function ExploreScene({
             TILE_SIZE={TILE_SIZE}
           />
         ))}
+
+        {encounterNpc && (
+          <NPC
+            key={`encounter-${encounterNpc.gridX}-${encounterNpc.gridY}`}
+            {...encounterNpc}
+            TILE_SIZE={TILE_SIZE}
+          />
+        )}
 
         {npcOverlays?.map((overlay, i) => (
           <div
