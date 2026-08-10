@@ -1,4 +1,4 @@
-import { asset } from "@/utils/paths";
+import { resolveAsset } from "@/utils/paths";
 import { getEntityZIndex } from "@/utils/entityDepth";
 
 type Props = {
@@ -11,7 +11,7 @@ type Props = {
 export function NPC({ gridX, gridY, TILE_SIZE, src }: Props) {
   return (
     <img
-      src={asset(src)}
+      src={resolveAsset(src)}
       style={{
         position: "absolute",
         width: TILE_SIZE * 1.7,
