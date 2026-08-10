@@ -37,7 +37,7 @@ function rollEncounter() {
 export function useItemEffect({ playSFX }: Props) {
   const navigate = useNavigate();
   const location = useLocation();
-  const { setMode, player, toggleHasPeru } = usePlayer();
+  const { setMode, player } = usePlayer();
   const { closeNavbar } = useNavbar();
   const { progress, restoreHunger } = useCharacterProgress();
   const { removeItem } = useInventory();
@@ -62,19 +62,6 @@ export function useItemEffect({ playSFX }: Props) {
         return () => {
           playSFX?.("/assets/songs/transitions/openMap.mp3", 0.6);
           setMode("map"); // 🔥 entra no modo mapa
-        };
-
-      case "turkey":
-        return () => {
-          if (player.mode !== "explore") return;
-          const isEquipping = !player.hasPeru;
-          playSFX?.(
-            isEquipping
-              ? "/assets/songs/transitions/equip.mp3"
-              : "/assets/songs/transitions/unequip.mp3",
-            0.5,
-          );
-          toggleHasPeru();
         };
 
       case "xp_potion_common":

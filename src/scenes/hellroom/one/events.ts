@@ -1,7 +1,7 @@
 export const hellroomEvents: SceneEvent[] = [
   {
     type: "conditional",
-    condition: { hasItem: "turkey" },
+    condition: { hasFlag: "chose_peru" },
     then: [{ type: "navigate", to: "/hellroom/two" }],
   },
 ];

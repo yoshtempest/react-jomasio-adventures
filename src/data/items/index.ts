@@ -3,7 +3,6 @@ import { KEYS } from "./keys";
 import { TELEPORTS } from "./teleports";
 import { COMMON } from "./common";
 import { MAPS } from "./maps";
-import { MOUNT } from "./mount";
 import { POTIONS } from "./potions";
 import { FOODS } from "./food";
 import { COINS } from "./coins";
@@ -15,7 +14,6 @@ export const ITEMS = {
   ...TELEPORTS,
   ...COMMON,
   ...MAPS,
-  ...MOUNT,
   ...POTIONS,
   ...FOODS,
   ...COINS,

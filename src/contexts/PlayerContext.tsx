@@ -13,6 +13,7 @@ import { EXPLORE_MOVE_INTERVAL } from "@/gameRules/movement/explore";
 import type { CollisionParams } from "@/utils/types/battle/collision";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
+import { useEquipment } from "@/contexts/EquipmentContext";
 import { usePlayerAnimation } from "@/hooks/battle/player/usePlayerAnimation";
 import {
   BATTLE_DEFAULT_STATE,
@@ -77,7 +78,6 @@ type PlayerContextType = {
   playerClass: PlayerClass;
   chooseClass: (cls: PlayerClass) => void;
 
-  toggleHasPeru: () => void;
   lastBlockPressRef: React.RefObject<number>;
   battleTenacityRef: React.RefObject<number>;
 };
@@ -269,9 +269,15 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     setPlayer((prev) => ({ ...prev, character }));
   }
 
-  function toggleHasPeru() {
-    setPlayer((prev) => ({ ...prev, hasPeru: !prev.hasPeru }));
-  }
+  const { getEquippedInfo } = useEquipment();
+
+  useEffect(() => {
+    const equippedPet = getEquippedInfo(player.character, "pet");
+    const hasTurkeyPet = equippedPet?.id === "pet_turkey";
+    setPlayer((prev) =>
+      prev.hasPeru === hasTurkeyPet ? prev : { ...prev, hasPeru: hasTurkeyPet },
+    );
+  }, [getEquippedInfo, player.character, setPlayer]);
 
   return (
     <PlayerContext.Provider
@@ -320,7 +326,6 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         chooseClass,
         difficulty,
         setDifficulty,
-        toggleHasPeru,
         lastBlockPressRef,
         battleTenacityRef,
       }}

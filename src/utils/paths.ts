@@ -76,7 +76,6 @@ const NPC_CATEGORY: Record<string, NpcCategory> = {
   hungryCow: "enemies",
   hungryDog: "enemies",
   hungryFish: "enemies",
-  hungryKing: "enemies",
   hungryPig: "enemies",
   jhowsimar: "enemies",
   madame: "enemies",
@@ -87,7 +86,6 @@ const NPC_CATEGORY: Record<string, NpcCategory> = {
   muyMacho: "enemies",
   necromancer: "enemies",
   neimito: "enemies",
-  piupiu: "enemies",
   planetarySisters: "enemies",
   rice: "enemies",
   slimita: "enemies",
@@ -97,6 +95,8 @@ const NPC_CATEGORY: Record<string, NpcCategory> = {
   trueVandinha: "enemies",
   vandinhaFragment: "enemies",
   yangKai: "enemies",
+  piupiu: "pets",
+  hungryKing: "pets",
   crocodile: "pets",
   goat: "pets",
   hungryDeath: "pets",
@@ -106,6 +106,7 @@ const NPC_CATEGORY: Record<string, NpcCategory> = {
   msSpider: "pets",
   rapariga: "pets",
   riquelsonDog: "pets",
+  turkey: "pets",
   zecaUrubu: "pets",
 };
 

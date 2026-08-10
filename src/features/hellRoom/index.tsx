@@ -2,10 +2,9 @@ import { useState } from "react";
 import { SceneBase } from "@/components/Game/Scenes/Base";
 import { ChoiceBox } from "@/components/ChoiceBox";
 import { HELLROOM_SCENES } from "@/scenes/hellroom";
-import { useInventory } from "@/contexts/InventoryContext";
-import { useQuests } from "@/contexts/QuestContext";
 import { useFlags } from "@/contexts/FlagContext";
-import { ITEMS } from "@/data/items";
+import { useEquipment } from "@/contexts/EquipmentContext";
+import { usePlayer } from "@/contexts/PlayerContext";
 import { sceneBackgrounds } from "@/data/scene/background";
 
 type Props = {
@@ -15,20 +14,18 @@ type Props = {
 export function HellScene({ sceneId }: Props) {
   const scene = HELLROOM_SCENES[sceneId];
 
-  const { addItem, removeItem, hasItem } = useInventory();
-  const { quests } = useQuests();
   const { setFlag, hasFlag } = useFlags();
+  const { addDrop, isOwned } = useEquipment();
+  const { player } = usePlayer();
 
   const [showChoice, setShowChoice] = useState(false);
 
-  const hasQuest = (id: string) => quests.some((q) => q.id === id);
+  const hasTurkeyPet = isOwned(player.character, "pet_turkey");
 
-  function handleChoice(chose: boolean) {
+  function handleChoice() {
     setShowChoice(false);
-    if (chose) {
-      setFlag("chose_peru");
-    }
-    addItem(ITEMS.turkey);
+    setFlag("chose_peru");
+    addDrop(player.character, "pet_turkey");
   }
 
   if (!scene) {
@@ -41,26 +38,23 @@ export function HellScene({ sceneId }: Props) {
         scene={scene}
         background={sceneBackgrounds.HellRoom}
         onFinishExtra={() => {
-          if (
-            sceneId === "one" &&
-            !hasFlag("chose_peru") &&
-            !hasItem("turkey")
-          ) {
-            setShowChoice(true);
+          if (sceneId !== "one") return;
+          if (hasFlag("chose_peru")) {
+            if (!hasTurkeyPet) addDrop(player.character, "pet_turkey");
+            return;
           }
-          return {
-            addItem,
-            removeItem,
-            hasItem,
-            hasQuest,
-          };
+          if (!hasTurkeyPet) {
+            setShowChoice(true);
+          } else {
+            setFlag("chose_peru");
+          }
         }}
       />
       {showChoice && (
         <ChoiceBox
           prompt="Você gosta de cavalgar no Peru?"
           options={["Talvez", "La Ele"]}
-          onSelect={(i) => handleChoice(i === 0)}
+          onSelect={handleChoice}
         />
       )}
     </>
