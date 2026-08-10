@@ -64,4 +64,11 @@ export const PETS: Equipment[] = [
     rank: 7,
     stats: {},
   },
+  {
+    id: "pet_crocodile",
+    name: "Crocodilo da lacoste",
+    slot: "pet",
+    rank: 5,
+    stats: {},
+  },
 ];
