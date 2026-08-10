@@ -1,3 +1,3 @@
 export function getCafeteriaThreeInitialPosition(): ExplorePosition {
-  return { x: 13, y: 5, direction: "left" };
+  return { x: 17, y: 5, direction: "left" };
 }

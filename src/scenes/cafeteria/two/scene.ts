@@ -9,6 +9,7 @@ import { sceneBackgrounds } from "@/data/scene/background";
 export const twoScene: SceneConfig = {
   id: "two",
   background: sceneBackgrounds.Cafeteria,
+  scaleFix: 1.7,
   map: cafeteriaTwo,
   dialogueData: getCafeteriaTwoDialogue,
   events: cafeteriaTwoEvents,
