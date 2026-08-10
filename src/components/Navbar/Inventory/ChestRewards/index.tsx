@@ -7,6 +7,10 @@ import {
   SLOT_LABELS,
 } from "@/utils/types/player/equipment";
 import type { EquipmentRank } from "@/utils/types/player/equipment";
+import { asset } from "@/utils/paths";
+import { MATERIALS } from "@/data/items/materials";
+import { ITEMS } from "@/data/items";
+import { FILTER_LABELS } from "@/utils/equipment/equipmentMenu";
 import styles from "./styles.module.css";
 
 type Props = {
@@ -35,6 +39,11 @@ export function ChestRewards({
     return list;
   }, [isDaily, otherChestAvailable]);
 
+  const materialImage = (id: string) =>
+    MATERIALS[id as keyof typeof MATERIALS]?.image ??
+    ITEMS[id as keyof typeof ITEMS]?.image ??
+    `/assets/items/${id}.svg`;
+
   return (
     <div className="containerOfNavbar">
       <h3>{isDaily ? "Baú Diário — Aberto!" : "Baú Aberto!"}</h3>
@@ -44,6 +53,11 @@ export function ChestRewards({
           <h4>Materiais</h4>
           {result.materials.map((m) => (
             <div key={m.id} className={styles.dropRow}>
+              <img
+                className="dropIcon"
+                src={asset(materialImage(m.id))}
+                alt={m.name}
+              />
               <span>{m.name}</span>
               <span className="InventoryQty">x{m.qty}</span>
             </div>
@@ -56,6 +70,11 @@ export function ChestRewards({
           <h4>Equipamentos</h4>
           {result.equipment.map((eq) => (
             <div key={eq.id} className={styles.dropRow}>
+              <img
+                className="dropIcon"
+                src={asset(FILTER_LABELS[eq.slot])}
+                alt={eq.name}
+              />
               <span style={{ color: RANK_COLORS[eq.rank as EquipmentRank] }}>
                 [{RANK_LABELS[eq.rank as EquipmentRank]}]
               </span>
@@ -76,6 +95,11 @@ export function ChestRewards({
           <h4>Pets</h4>
           {result.pets.map((pet) => (
             <div key={pet.id} className={styles.dropRow}>
+              <img
+                className="dropIcon"
+                src={asset(FILTER_LABELS.pet)}
+                alt={pet.name}
+              />
               <span style={{ color: RANK_COLORS[pet.rank as EquipmentRank] }}>
                 [{RANK_LABELS[pet.rank as EquipmentRank]}]
               </span>
