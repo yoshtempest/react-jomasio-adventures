@@ -1,7 +1,7 @@
 import { createConditionalTile } from "@/scenes/shared/factories";
 
-import { HALL_ROUTES } from "@/scenes/shared/routes";
-import { hasAnyQuest } from "@/scenes/shared/helpers";
+import { HALL_ROUTES, PROFESSOR_ROOM_ROUTES } from "@/scenes/shared/routes";
+import { hasAnyQuest, hasQuest } from "@/scenes/shared/helpers";
 
 export const jailsonOneTiles = [
   createConditionalTile(
@@ -31,6 +31,19 @@ export const jailsonOneTiles = [
       }
 
       return HALL_ROUTES.ONE;
+    },
+  ),
+  createConditionalTile(
+    15,
+    8,
+    (_player, quests) => {
+      if (hasQuest(quests, "x1_manim")) {
+        return PROFESSOR_ROOM_ROUTES.ONE;
+      }
+      return null;
+    },
+    {
+      blockedMessage: "Sala dos professores, entrada bloqueada a alunos sem autorização.",
     },
   ),
 ];

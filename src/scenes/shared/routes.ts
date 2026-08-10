@@ -26,6 +26,11 @@ export const CANTINA_ROUTES = {
   TWO: "/cantina/two",
 };
 
+export const PROFESSOR_ROOM_ROUTES = {
+  ONE: "/professorRoom/one",
+  TWO: "/professorRoom/two",
+};
+
 export const BRODICLASS_ROUTES = {
   ONE: "/brodiclass/one",
 };

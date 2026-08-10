@@ -13,5 +13,5 @@ export function getCenterOneInitialPosition(
     return { x: 15, y: 6, direction: "left" };
   }
 
-  return { x: 8, y: 10, direction: "up" };
+  return { x: 9, y: 11, direction: "up" };
 }

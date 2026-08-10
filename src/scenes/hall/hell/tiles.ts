@@ -23,8 +23,8 @@ export const hellTiles = [
     },
   ),
   createConditionalTile(
-    8,
-    3,
+    10,
+    2,
     (_player, quests) => {
       if (hasQuest(quests, "go_to_pandemony")) {
         return HALL_ROUTES.PANDEMONY;
@@ -32,7 +32,20 @@ export const hellTiles = [
       return null;
     },
     {
-      blockedMessage: "Porta trancada",
+      blockedMessage: "Portão trancado, perigo extremo, há um monstro aprisionado mais a dentro.",
+    },
+  ),
+  createConditionalTile(
+    9,
+    2,
+    (_player, quests) => {
+      if (hasQuest(quests, "go_to_pandemony")) {
+        return HALL_ROUTES.PANDEMONY;
+      }
+      return null;
+    },
+    {
+      blockedMessage: "Portão trancado, perigo extremo, há um monstro aprisionado mais a dentro.",
     },
   ),
 ];
