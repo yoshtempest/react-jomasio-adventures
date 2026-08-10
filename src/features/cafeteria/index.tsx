@@ -69,7 +69,7 @@ export function CafeteriaScene({ sceneId }: Props) {
         scene={scene}
         background={scene.background}
         interactions={interactions}
-        itemPickupTiles={[{ x: 11, y: 10, visible: !gotKey }]}
+        itemPickupTiles={[{ x: 15, y: 9, visible: !gotKey }]}
         popup={popup}
         setPopup={setPopup}
       />

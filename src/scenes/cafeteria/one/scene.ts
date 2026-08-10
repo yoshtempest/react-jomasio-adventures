@@ -10,6 +10,7 @@ import { sceneBackgrounds } from "@/data/scene/background";
 export const oneScene: SceneConfig = {
   id: "one",
   background: sceneBackgrounds.Cafeteria,
+  scaleFix: 1.7,
   map: cafeteria,
   events: cafeteriaOneEvents,
   npcs: cafeteriaOneNpcs,
