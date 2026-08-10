@@ -6,9 +6,9 @@ type SceneInfo = {
 };
 
 const routeSceneMap: Record<string, SceneInfo> = {
-  "/firstscreen": {
-    label: "Primeira Tela",
-    image: "/assets/cenarios/jomasio/firstScreen.svg",
+  "/jomasioEntrance": {
+    label: "Entrada do Jomásio",
+    image: "/assets/cenarios/jomasio/jomasioEntrance.svg",
   },
   "/tutorial": {
     label: "Tutorial",

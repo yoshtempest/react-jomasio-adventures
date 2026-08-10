@@ -33,7 +33,7 @@ export default function Home() {
     ) {
       navigate(save.lastRoute);
     } else {
-      navigate("/firstscreen");
+      navigate("/jomasioEntrance");
     }
   }, [navigate]);
 

@@ -6,15 +6,15 @@ import { useQuests } from "@/contexts/QuestContext";
 import { SceneBase } from "@/components/Game/Scenes/Base";
 import Talking from "@/components/Talking";
 
-import { FIRSTSCREEN_SCENES } from "@/scenes/firstscreen";
+import { JOMASIO_ENTRANCE_SCENES } from "@/scenes/jomasioEntrance";
 import { sceneBackgrounds } from "@/data/scene/background";
 
 type Props = {
   sceneId: SceneId;
 };
 
-export function FirstScreenScene({ sceneId }: Props) {
-  const scene = FIRSTSCREEN_SCENES[sceneId];
+export function JomasioEntranceScene({ sceneId }: Props) {
+  const scene = JOMASIO_ENTRANCE_SCENES[sceneId];
 
   const { addItem, removeItem, hasItem } = useInventory();
   const { quests } = useQuests();
@@ -31,7 +31,7 @@ export function FirstScreenScene({ sceneId }: Props) {
     <>
       <SceneBase
         scene={scene}
-        background={sceneBackgrounds.FirstScreen}
+        background={sceneBackgrounds.JomasioEntrance}
         popup={popup}
         setPopup={setPopup}
         onFinishExtra={() => ({

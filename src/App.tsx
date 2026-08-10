@@ -74,7 +74,7 @@ function App() {
     const lastRoute =
       skipRoutes.has(location.pathname) ||
       location.pathname.startsWith("/replay")
-        ? (loadGame()?.lastRoute ?? "/firstscreen")
+        ? (loadGame()?.lastRoute ?? "/jomasioEntrance")
         : location.pathname;
 
     const data = {

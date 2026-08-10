@@ -9,7 +9,7 @@ export const sceneBackgrounds = {
   CafeteriaBattle: jomasioPath("/battle/cafeteria.svg"),
   CombatTutorial: jomasioPath("/battle/tutorial.svg"),
   Director: jomasioPath("/director.svg"),
-  FirstScreen: cenariosPath("/firstScreen.svg"),
+  JomasioEntrance: cenariosPath("/jomasioEntrance.svg"),
   FootballCourt: jomasioPath("/footballCourt.svg"),
   FootballCourtBattle: jomasioPath("/battle/footballCourt.svg"),
   Home: asset("/assets/mainGame.svg"),
