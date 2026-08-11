@@ -14,7 +14,7 @@ export const hallThirdClassTiles = [
     3,
     7,
     (_player, quests) => {
-      if (hasQuest(quests, "x1_maugrelo")) {
+      if (hasQuest(quests, "go_to_brodiclass")) {
         return BRODICLASS_ROUTES.ONE;
       }
       return null;
