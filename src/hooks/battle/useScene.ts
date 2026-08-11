@@ -362,10 +362,11 @@ export function useBattleScene({
     const distanceX = Math.abs(npc.x - player.x);
     const distanceY = Math.abs(npc.y - player.y);
     if (distanceX > 50 || distanceY > 150) return false;
-    if (Math.random() < 0.8) {
-      targeting.npcBlockedRef.current = true;
-      npc.updateNpc({ state: "block" });
-      clearTimeout(targeting.npcBlockTimerRef.current);
+  if (Math.random() < 0.8) {
+    targeting.npcBlockedRef.current = true;
+    npc.updateNpc({ state: "block" });
+    refs.spawnDamageRef.current?.(0, npc.x, npc.y, "blocked");
+    clearTimeout(targeting.npcBlockTimerRef.current);
       targeting.npcBlockTimerRef.current = setTimeout(() => {
         targeting.npcBlockedRef.current = false;
       }, 300);
