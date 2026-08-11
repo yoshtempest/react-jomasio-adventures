@@ -29,7 +29,7 @@ export function QuestCard({ quest, selected }: Props) {
     >
       <div className={styles.row}>
         <img
-          src={quest.image ? asset(quest.image) : ""}
+          src={quest.image ?? ""}
           className={styles.image}
           width={50}
         />

@@ -62,4 +62,5 @@ export const HELLROOM_ROUTES = {
   ONE: "/hellroom/one",
   TWO: "/hellroom/two",
   THREE: "/hellroom/three",
+  FOUR: "/hellroom/four",
 };

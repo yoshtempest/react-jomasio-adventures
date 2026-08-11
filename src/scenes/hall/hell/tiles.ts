@@ -13,8 +13,11 @@ export const hellTiles = [
     15,
     7,
     (_player, quests) => {
-      if (hasQuest(quests, "go_to_hell")) {
+      if (hasQuest(quests, "go_to_hell") && !hasQuest(quests, "x1_maugrelo")) {
         return HELLROOM_ROUTES.ONE;
+      }
+      if (hasQuest(quests, "go_to_hell") && hasQuest(quests, "x1_maugrelo")) {
+        return HELLROOM_ROUTES.FOUR;
       }
       return null;
     },

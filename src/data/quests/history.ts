@@ -50,7 +50,7 @@ export const HISTORY_QUESTS = createQuests({
   },
   save_ematron: {
     name: "Salve Ematron",
-    image: npcPath("/brodis/default.svg"),
+    image: npcPath("/brothers/default.svg"),
     description:
       "Lute com Neimito para salvar Ematron de seu Genjutsu Infinito",
     type: "history",
@@ -62,7 +62,7 @@ export const HISTORY_QUESTS = createQuests({
   },
   like_peru: {
     name: "Você gosta do Peru",
-    image: npcPath("/peruFather/default.svg"),
+    image: npcPath("/peruFather/right.svg"),
     description: "Meu filho é um peruzao, cuide bem dele",
     type: "history",
     rewardsType: "xp",
@@ -187,7 +187,7 @@ export const HISTORY_QUESTS = createQuests({
   },
   save_samurion: {
     name: "Ajude Samurion",
-    image: npcPath("/brodis/default.svg"),
+    image: npcPath("/brothers/default.svg"),
     description: "Estão enchendo o saco dele, ajuda o homi lá",
     type: "history",
     rewardsType: "xp",
@@ -209,7 +209,7 @@ export const HISTORY_QUESTS = createQuests({
   },
   cancel_mobydick_ressurrection: {
     name: "Impeça o culto",
-    image: npcPath("/brodiclass/default.svg"),
+    image: npcPath("/brothers/default.svg"),
     description: "Pare a ressurreição da baleia ancestral",
     rewardsType: "xp",
     rewards: 1000,
@@ -220,7 +220,7 @@ export const HISTORY_QUESTS = createQuests({
   },
   cancel_dragonking_ressurrection: {
     name: "Impeça o culto",
-    image: npcPath("/brodiclass/default.svg"),
+    image: npcPath("/brothers/default.svg"),
     description: "Pare a ressurreição do dragão fundador",
     rewardsType: "xp",
     rewards: 1000,
@@ -231,7 +231,7 @@ export const HISTORY_QUESTS = createQuests({
   },
   cancel_baal_invocation: {
     name: "Impeça a invocação de Baal",
-    image: npcPath("/brodiclass/default.svg"),
+    image: npcPath("/brothers/default.svg"),
     description: "Salve o mundo",
     rewardsType: "xp",
     rewards: 1000,

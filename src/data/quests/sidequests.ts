@@ -28,7 +28,7 @@ export const SIDE_QUESTS = createQuests({
   },
   get_suspect_milk: {
     name: "Pegue o leite suspeito",
-    image: npcPath("/juju/right.svg"),
+    image: npcPath("/remedinha/default.svg"),
     description: "Quero fazer um bolo com aquele leite bovino",
     rewardsType: "xp",
     rewards: 40,
