@@ -10,7 +10,7 @@ type CafeteriaDeps = PickupDeps & InventoryDeps & QuestDeps;
 
 export function createCafeteria(deps: CafeteriaDeps) {
   return createInteractionMap(cafeteriaMessages, deps, {
-    "15,9": createPickupHandler({
+    "15,4": createPickupHandler({
       item: { id: "sausage" },
       flagId: "picked_sausage",
       pickupMessage: "Você pegou no linguição.",

@@ -18,6 +18,4 @@ adicionar animação de burn em deise antes de redirecionar para cafeteria/three
 adicionar animação de abrir a geladeira e aparecer os slots para que o jogador veja o linguição como
 item que está dentro da geladeira, a geladeira pode ter até 10 slots em que o jogador pode guardar seus itens e pegar depois.
 
-imagens dos npcs nas quests não estão aparecendo, como se o caminho da imagem estivesse errado, analise e resolva
-
 adicionar hellroomFour e colocar apenas maugrelo numa cadeira de rodas dizendo "ele acabou comigo..."
