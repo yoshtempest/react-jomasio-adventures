@@ -51,7 +51,7 @@ export const PETS: Equipment[] = [
     stats: {},
   },
   {
-    id: "pet_msSpider",
+    id: "pet_madame",
     name: "Dona Aranha",
     slot: "pet",
     rank: 7,

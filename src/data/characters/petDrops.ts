@@ -17,8 +17,8 @@ export const PET_DROPS: Record<string, PetDropInfo> = {
     npcLabel: "Rei dos Mortos de Fome",
     chance: 0.01,
   },
-  pet_msSpider: {
-    npcType: "msSpider",
+  pet_madame: {
+    npcType: "madame",
     npcLabel: "Dona Aranha",
     chance: 0.01,
   },
