@@ -24,7 +24,7 @@ export const afterPcRoomOneTiles = [
     },
   ),
 
-  createDoorTile(14, 7, PCROOM_ROUTES.SIX),
+  createDoorTile(14, 6, PCROOM_ROUTES.SIX),
   createDoorTile(8, 12, CANTINA_ROUTES.TWO),
   createDoorTile(9, 12, CANTINA_ROUTES.TWO),
   createDoorTile(10, 12, CANTINA_ROUTES.TWO),

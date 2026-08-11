@@ -11,7 +11,7 @@ export const hallOneTiles = [
   createDoorTile(2, 8, HALL_ROUTES.LEFT_ONE),
   createConditionalTile(
     14,
-    7,
+    6,
     (_player, _quests, flags) => {
       if (hasFlag(flags, "chose_class")) {
         return PCROOM_ROUTES.TWO;

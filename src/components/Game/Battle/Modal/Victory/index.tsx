@@ -13,7 +13,7 @@ import { formatDuration } from "@/utils/formatDuration";
 import { ActivePotionDisplay } from "@/components/ActivePotionDisplay";
 import { saveReplay } from "@/data/replays";
 import type { ReplayData } from "@/utils/types/replay";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 type Props = {
   isOpen: boolean;
@@ -47,7 +47,8 @@ export function VictoryModal({
   getReplayData,
 }: Props) {
   const isVisible = useVictoryVisibility(isOpen, skipDelay);
-  useVictoryKeyboard(isVisible, onContinue);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  useVictoryKeyboard(isVisible, onContinue, scrollRef);
   const [replaySaved, setReplaySaved] = useState(false);
 
   const handleSaveReplay = () => {
@@ -80,46 +81,48 @@ export function VictoryModal({
           </div>
         </div>
 
-        <div className={styles.flexRow}>
-          <RewardCards
-            myLevel={myLevel}
-            xpReward={xpReward}
-            nextLevelXp={nextLevelXp}
-            coinReward={rewards?.coinReward ?? 0}
-          />
-
-          <div className={styles.flexColumn}>
-            <div className={styles.timeSection}>
-              <p className={styles.timeRow}>
-                <span className={styles.timeLabel}>Tempo:</span>
-                <span>{formatDuration(elapsed)}</span>
-              </p>
-              <p className={styles.timeRow}>
-                <span className={styles.timeLabel}>Melhor tempo:</span>
-                <span>{bestTime > 0 ? formatDuration(bestTime) : "0:00"}</span>
-              </p>
-            </div>
-            <ActivePotionDisplay />
-            <EquipmentDrops equipmentDrops={rewards?.equipmentDrops ?? []} />
-            <ItemDrops itemDrops={rewards?.itemDrops ?? []} />
-            <ChestDrops
-              chestDrop={rewards?.chestDrop ?? null}
-              keyDrop={rewards?.keyDrop ?? null}
+        <div ref={scrollRef} className={styles.scrollArea}>
+          <div className={styles.flexRow}>
+            <RewardCards
+              myLevel={myLevel}
+              xpReward={xpReward}
+              nextLevelXp={nextLevelXp}
+              coinReward={rewards?.coinReward ?? 0}
             />
-            <TitleProgresses />
-            <div className={styles.flexRow}>
-              {getReplayData && (
-                <button
-                  className={`${styles.button} ${replaySaved ? styles.buttonSaved : ""}`}
-                  onClick={handleSaveReplay}
-                  disabled={replaySaved}
-                >
-                  {replaySaved ? "Replay Salvo!" : "Salvar Replay"}
+
+            <div className={styles.flexColumn}>
+              <div className={styles.timeSection}>
+                <p className={styles.timeRow}>
+                  <span className={styles.timeLabel}>Tempo:</span>
+                  <span>{formatDuration(elapsed)}</span>
+                </p>
+                <p className={styles.timeRow}>
+                  <span className={styles.timeLabel}>Melhor tempo:</span>
+                  <span>{bestTime > 0 ? formatDuration(bestTime) : "0:00"}</span>
+                </p>
+              </div>
+              <ActivePotionDisplay />
+              <EquipmentDrops equipmentDrops={rewards?.equipmentDrops ?? []} />
+              <ItemDrops itemDrops={rewards?.itemDrops ?? []} />
+              <ChestDrops
+                chestDrop={rewards?.chestDrop ?? null}
+                keyDrop={rewards?.keyDrop ?? null}
+              />
+              <TitleProgresses />
+              <div className={styles.flexRow}>
+                {getReplayData && (
+                  <button
+                    className={`${styles.button} ${replaySaved ? styles.buttonSaved : ""}`}
+                    onClick={handleSaveReplay}
+                    disabled={replaySaved}
+                  >
+                    {replaySaved ? "Replay Salvo!" : "Salvar Replay"}
+                  </button>
+                )}
+                <button className={styles.button} onClick={onContinue}>
+                  Continuar
                 </button>
-              )}
-              <button className={styles.button} onClick={onContinue}>
-                Continuar
-              </button>
+              </div>
             </div>
           </div>
         </div>

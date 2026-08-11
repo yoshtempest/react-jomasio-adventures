@@ -9,6 +9,18 @@
   animation: modalScaleIn 0.5s ease-out;
 }
 
+.scrollArea {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollArea::-webkit-scrollbar {
+  display: none;
+}
+
 .header {
   display: flex;
   align-items: center;

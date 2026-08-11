@@ -13,4 +13,4 @@ sempre que precisar resolver um problema de carregamento, use contro shift R
 
 flexibilizar a imagem do item de pickupTile para que eu possa trocar a imagem dos baus por suco de laranja, peça desejada e etc.
 
-adicionar scrool no victoryModal, as vezes fica cheio de drops e o jogador não consegue ver os buttons.
+pcroomTwo sempre está retornando x3 e y3 na initialPosition mesmo quando a tela anterior do jogador é a pcroomOne, esse problema de initialPosition não ocorre quando a tela anterior é pcroom/battle/one (redireciona corretamente para x16 e y3)

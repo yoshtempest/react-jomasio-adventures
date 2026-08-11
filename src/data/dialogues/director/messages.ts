@@ -1,7 +1,7 @@
 export const directorMessages: Record<string, string> = {
   "7,3":
     "Uma carta amassada: 'Reincardion, o que aconteceu com a ovelha afogada?'",
-  "9,3": "Uma carta escrito: 'tu matou a ovelha afogada, rapaz?'",
+  "12,5": "Uma carta escrito: 'tu matou a ovelha afogada, rapaz?'",
   "6,3":
     "Diário de Reincardion cap 2... Encontrei a chave, mas fui pego por Jhow Simar e jogado aqui novamente...",
   "10,3": "Maiiira se escreve com y, não com i..",
