@@ -2,10 +2,24 @@ import type { Equipment } from "@/utils/types/player/equipment";
 
 export const PETS: Equipment[] = [
   {
-    id: "pet_goat",
-    name: "Bodão",
+    id: "pet_turkey",
+    name: "Peru",
     slot: "pet",
     rank: 5,
+    stats: {},
+  },
+  {
+    id: "pet_crocodile",
+    name: "Crocodilo da lacoste",
+    slot: "pet",
+    rank: 5,
+    stats: {},
+  },
+  {
+    id: "pet_dog",
+    name: "Lupita",
+    slot: "pet",
+    rank: 7,
     stats: {},
   },
   {
@@ -16,8 +30,15 @@ export const PETS: Equipment[] = [
     stats: {},
   },
   {
-    id: "pet_dog",
-    name: "Lupita",
+    id: "pet_goat",
+    name: "Bodão",
+    slot: "pet",
+    rank: 5,
+    stats: {},
+  },
+  {
+    id: "pet_riquelsonDog",
+    name: "Eu vi tudo mas não fiz nada",
     slot: "pet",
     rank: 7,
     stats: {},
@@ -44,6 +65,13 @@ export const PETS: Equipment[] = [
     stats: {},
   },
   {
+    id: "pet_vulture",
+    name: "Zeca Urubu",
+    slot: "pet",
+    rank: 4,
+    stats: {},
+  },
+  {
     id: "pet_hungryKing",
     name: "Rei dos Mortos de Fome",
     slot: "pet",
@@ -62,20 +90,6 @@ export const PETS: Equipment[] = [
     name: "Muriçoca Soca Soca",
     slot: "pet",
     rank: 7,
-    stats: {},
-  },
-  {
-    id: "pet_crocodile",
-    name: "Crocodilo da lacoste",
-    slot: "pet",
-    rank: 5,
-    stats: {},
-  },
-  {
-    id: "pet_turkey",
-    name: "Peru",
-    slot: "pet",
-    rank: 5,
     stats: {},
   },
 ];

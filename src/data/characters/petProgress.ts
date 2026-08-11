@@ -25,6 +25,8 @@ export const PET_CLASS: Record<string, NPCClass> = {
   pet_mosquito: "epic",
   pet_turkey: "rare",
   pet_crocodile: "rare",
+  pet_zecaUrubu: "rare",
+  pet_riquelsonDog: "rare",
 };
 
 export const PET_BASE_HP = 30;

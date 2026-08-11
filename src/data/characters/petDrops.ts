@@ -37,10 +37,20 @@ export const PET_DROPS: Record<string, PetDropInfo> = {
     npcLabel: "Crocodilo da lacoste",
     chance: 0.01,
   },
+  pet_riquelsonDog: {
+    npcType: "riquelsonDog",
+    npcLabel: "Eu vi tudo mas não fiz nada",
+    chance: 0.01,
+  },
   pet_dog: {
     npcType: "lupita",
     npcLabel: "Lupita",
     chance: 0
+  },
+  pet_vulture: {
+    npcType: "zecaUrubu",
+    npcLabel: "zecaUrubu",
+    chance: 0.01,
   },
   pet_cat: { npcType: "rapariga", npcLabel: "Rapariga", chance: 0.01 },
   pet_leviathan: {
