@@ -140,12 +140,12 @@ export function XPBarNotification() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.bar}>
+      <div className="barNotification">
         <div
           className={styles.fill}
           style={{ width: `${Math.min(100, displayPct)}%` }}
         />
-        <span className={styles.label}>
+        <span className="labelNotification">
           Nv.{displayLevel} —{" "}
           {Math.round(xpNeeded > 0 ? (displayPct / 100) * xpNeeded : 0)}/
           {xpNeeded} XP

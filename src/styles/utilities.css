@@ -21,6 +21,30 @@
   content: "▶ ";
 }
 
+.barNotification {
+  position: relative;
+  width: 22vw;
+  height: var(--size-22);
+  background: rgba(0, 0, 0, 0.7);
+  border: var(--size-2) solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--fs-8);
+  overflow: hidden;
+}
+
+.labelNotification {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: var(--fs-11);
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 0 var(--size-1) var(--size-2) rgba(0, 0, 0, 0.8);
+  z-index: 1;
+  white-space: nowrap;
+}
+
 .xpBar {
   width: 90%;
   height: var(--size-6);

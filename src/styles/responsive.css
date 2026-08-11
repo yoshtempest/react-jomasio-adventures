@@ -64,4 +64,9 @@
   .StatusColumn p {
     font-size: var(--smaller);
   }
+  
+  .barNotification {
+    width: 50vw;
+    height: var(--size-22);
+  }
 }

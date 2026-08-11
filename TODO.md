@@ -15,3 +15,5 @@ sempre que precisar resolver um problema de carregamento, use contro shift R
 
 quando o jogador come algo, deve aparecer uma animação da barra de fome enchendo, assim como foi feito
 com a xpBarNotification
+
+flexibilizar a imagem do item de pickupTile para que eu possa trocar a imagem dos baus por suco de laranja, peça desejada e etc.

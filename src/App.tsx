@@ -2,6 +2,7 @@ import { Movement } from "@/components/Controls/Movement";
 import { Outlet, useLocation } from "react-router";
 import { GameButtons } from "@/components/Controls/GameButtons";
 import { XPBarNotification } from "@/components/XPBarNotification";
+import { HungerBarNotification } from "@/components/HungerBarNotification";
 import { useInventory } from "@/contexts/InventoryContext";
 import { Inventory } from "@/components/Navbar/Inventory";
 import { useNavbar } from "@/contexts/NavbarContext";
@@ -136,6 +137,7 @@ function App() {
       <Outlet />
       <GameButtons />
       <XPBarNotification />
+      <HungerBarNotification />
       {isOpen && <Inventory />}
       {(isNavOpen || isClosing) && (
         <div className="navbarClip">
