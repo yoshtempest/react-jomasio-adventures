@@ -2,7 +2,7 @@ export function getPcRoomTwoInitialPosition(
   lastPage?: LastPage,
 ): ExplorePosition {
   if (lastPage ==="/pcroom/one") {
-    return { x: 9, y: 8, direction: "down" };
+    return { x: 9, y: 6, direction: "down" };
   }
 
   if (lastPage ==="/pcroom/battle/one") {

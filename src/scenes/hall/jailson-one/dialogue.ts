@@ -15,7 +15,7 @@ export const getJailsonOneDialogue = ({
   quests: { id: string }[];
   items: { id: ItemId }[];
 }) => {
-  if (!hasQuest(quests, "give_orange_juice")) {
+  if (!hasQuest(quests, "give_orange_juice") && hasQuest(quests, "x1_slimita")) {
     return hallJailsonFourDialogue;
   }
 

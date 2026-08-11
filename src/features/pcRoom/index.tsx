@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, useRef } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 import { SceneBase } from "@/components/Game/Scenes/Base";
 import { PCROOM_SCENES } from "@/scenes/pcroom";
@@ -25,6 +25,7 @@ export function PcRoomScene({ sceneId }: Props) {
   const scene = PCROOM_SCENES[sceneId];
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { setMode } = usePlayer();
   const { addItem } = useInventory();
@@ -39,7 +40,9 @@ export function PcRoomScene({ sceneId }: Props) {
   const { classes, selectedIndex } = useClassSelection(showClassModal, () => {
     setShowClassModal(false);
     setMode("explore");
-    navigate("/pcroom/two");
+    navigate("/pcroom/two", {
+      state: { from: location.pathname },
+    });
   });
 
   const setModeRef = useRef(setMode);

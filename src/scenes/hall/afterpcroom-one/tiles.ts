@@ -16,7 +16,7 @@ export const afterPcRoomOneTiles = [
     0,
 
     (_player, quests) => {
-      if (hasQuest(quests, "help_jailson")) {
+      if (hasQuest(quests, "help_jailson") && !hasQuest(quests, "x1_slimita")) {
         return HALL_ROUTES.JAILSON_TWO;
       }
 
