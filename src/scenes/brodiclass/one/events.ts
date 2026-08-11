@@ -1,3 +1,3 @@
 export const brodiClassOneEvents: SceneEvent[] = [
-  { type: "giveQuest", questId: "explore_jorjao" },
+  { type: "giveQuest", questId: "save_ematron" },
 ];

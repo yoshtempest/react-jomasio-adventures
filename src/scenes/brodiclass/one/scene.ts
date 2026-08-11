@@ -1,7 +1,7 @@
 import { brodiClass } from "@/maps/brodiClass";
 import { MUSICS } from "@/scenes/shared/music";
 import { getBrodiClassOneInitialPosition } from "./position";
-import { getCantinaOneDialogue } from "./dialogue";
+import { getBrodiclassOneDialogue } from "./dialogue";
 import { cantinaOneNpcs } from "./npcs";
 import { brodiClassOneEvents } from "./events";
 import { brodiclassOneTiles } from "./tiles";
@@ -14,7 +14,7 @@ export const oneScene: SceneConfig = {
   events: brodiClassOneEvents,
   npcs: cantinaOneNpcs,
   scaleFix: 2,
-  dialogueData: getCantinaOneDialogue,
+  dialogueData: getBrodiclassOneDialogue,
   audio: { src: MUSICS.ToothlessDancing },
   initialPosition: getBrodiClassOneInitialPosition,
   tiles: brodiclassOneTiles,
