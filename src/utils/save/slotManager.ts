@@ -89,6 +89,21 @@ export function clearSlot(slot: SlotIndex) {
   GAME_STATE_KEYS.forEach((key) => {
     localStorage.removeItem(slotKeyFor(slot, key));
   });
+
+  const containerPrefix = "container_";
+  const containerSuffix = `_${slot}`;
+  const keysToRemove: string[] = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (
+      key &&
+      key.startsWith(containerPrefix) &&
+      key.endsWith(containerSuffix)
+    ) {
+      keysToRemove.push(key);
+    }
+  }
+  keysToRemove.forEach((key) => localStorage.removeItem(key));
 }
 
 export function clearActiveSlot() {

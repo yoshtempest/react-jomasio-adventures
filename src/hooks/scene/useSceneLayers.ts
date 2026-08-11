@@ -22,6 +22,7 @@ type Params = {
   itemPickupTiles?: { x: number; y: number; visible: boolean; height?: number }[];
   plates: { gridX: number; gridY: number; message?: string }[];
   interactionKeys?: string[];
+  interactionLabels?: Record<string, string>;
   tileDialogues?: Record<string, unknown>;
 };
 
@@ -34,6 +35,7 @@ export function useSceneLayers({
   itemPickupTiles,
   plates,
   interactionKeys,
+  interactionLabels,
   tileDialogues,
 }: Params) {
   const frontTile = useMemo(() => {
@@ -63,7 +65,9 @@ export function useSceneLayers({
       const pos = parseGridKey(key);
       return pos ? isPositionInFront(player, pos.x, pos.y) : false;
     });
-    if (hasInteractionKey) return "[L] Interagir";
+    if (hasInteractionKey) {
+      return interactionLabels?.[`${x},${y}`] ?? "[L] Interagir";
+    }
 
     if (tileDialogues?.[`${x},${y}`]) return "[L] Interagir";
 
@@ -76,6 +80,7 @@ export function useSceneLayers({
     itemPickupTiles,
     plates,
     interactionKeys,
+    interactionLabels,
     tileDialogues,
   ]);
 

@@ -5,6 +5,7 @@ import type {
   QuestDeps,
   PickupHandlerConfig,
   ExchangeHandlerConfig,
+  ContainerDeps,
 } from "@/utils/types/interaction";
 
 export function createInteractionMap<TDeps extends BaseDeps>(
@@ -57,5 +58,11 @@ export function createExchangeHandler(config: ExchangeHandlerConfig) {
       deps.removeItem(config.requiredItem);
       deps.addItem(config.item);
     }
+  };
+}
+
+export function createContainerHandler() {
+  return (deps: ContainerDeps) => {
+    deps.openContainer();
   };
 }

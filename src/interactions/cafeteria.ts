@@ -1,21 +1,18 @@
 import { cafeteriaMessages } from "@/data/dialogues/cafeteria/messages";
-import { createInteractionMap, createPickupHandler } from "./builder";
+import {
+  createContainerHandler,
+  createInteractionMap,
+} from "./builder";
 import type {
-  PickupDeps,
+  ContainerDeps,
   InventoryDeps,
   QuestDeps,
 } from "@/utils/types/interaction";
 
-type CafeteriaDeps = PickupDeps & InventoryDeps & QuestDeps;
+type CafeteriaDeps = ContainerDeps & InventoryDeps & QuestDeps;
 
 export function createCafeteria(deps: CafeteriaDeps) {
   return createInteractionMap(cafeteriaMessages, deps, {
-    "15,4": createPickupHandler({
-      item: { id: "sausage" },
-      flagId: "picked_sausage",
-      pickupMessage: "Você pegou no linguição.",
-      alreadyPickedMessage: "Nada mais aqui.",
-      questProgress: { id: "go_cafeteria", step: 1 },
-    }),
+    "15,4": createContainerHandler(),
   });
 }

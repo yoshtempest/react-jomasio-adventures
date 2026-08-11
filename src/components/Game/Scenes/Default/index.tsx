@@ -59,6 +59,7 @@ export function ExploreScene({
   questDirection,
   itemPickupTiles,
   interactionKeys,
+  interactionLabels,
   tileDialogues,
   npcOverlays,
   background,
@@ -76,6 +77,7 @@ export function ExploreScene({
   questDirection?: Direction | null;
   itemPickupTiles?: { x: number; y: number; visible: boolean; height?: number }[];
   interactionKeys?: string[];
+  interactionLabels?: Record<string, string>;
   tileDialogues?: Record<string, Dialogue[]>;
   npcOverlays?: { gridX: number; gridY: number; element: React.ReactNode }[];
 }) {
@@ -225,6 +227,7 @@ export function ExploreScene({
     itemPickupTiles,
     plates,
     interactionKeys,
+    interactionLabels,
     tileDialogues,
   });
 

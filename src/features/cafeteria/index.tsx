@@ -4,13 +4,16 @@ import { SceneBase } from "@/components/Game/Scenes/Base";
 import { CAFETERIA_SCENES } from "@/scenes/cafeteria";
 import { createCafeteria } from "@/interactions/cafeteria";
 import { CAFETERIA_RETURN_KEY } from "@/data/storageKeys";
+import { CAFETERIA_FRIDGE } from "@/data/containers";
 
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuestActions } from "@/hooks/quest/useQuestActions";
 import { useFlags } from "@/contexts/FlagContext";
 
 import { useRandomEncounter } from "@/hooks/scene/useRandomEncounter";
+import { useContainer } from "@/hooks/container/useContainer";
 
+import { Container } from "@/components/Game/Container";
 import Talking from "@/components/Talking";
 
 type Props = {
@@ -22,10 +25,22 @@ export function CafeteriaScene({ sceneId }: Props) {
 
   const { addItem, hasItem, removeItem } = useInventory();
   const { progressQuest } = useQuestActions();
-  const { hasFlag, setFlag } = useFlags();
+  const { setFlag } = useFlags();
 
   const [popup, setPopup] = useState<string | null>(null);
-  const gotKey = hasFlag("picked_sausage");
+
+  const fridge = useContainer({
+    storageKey: CAFETERIA_FRIDGE.storageKey,
+    defaultSlots: CAFETERIA_FRIDGE.defaultSlots,
+    size: CAFETERIA_FRIDGE.size,
+    cols: CAFETERIA_FRIDGE.cols,
+    onPickup: (_index, slot) => {
+      addItem(slot);
+      setFlag("picked_sausage");
+      progressQuest("go_cafeteria", 1);
+      return true;
+    },
+  });
 
   const interactions = useMemo(
     () =>
@@ -34,11 +49,17 @@ export function CafeteriaScene({ sceneId }: Props) {
         addItem,
         removeItem,
         setPopup,
-        gotKey,
-        setFlag,
         progressQuest,
+        openContainer: fridge.open,
       }),
-    [addItem, gotKey, hasItem, removeItem, setPopup, setFlag, progressQuest],
+    [
+      addItem,
+      hasItem,
+      removeItem,
+      setPopup,
+      progressQuest,
+      fridge.open,
+    ],
   );
 
   useRandomEncounter({
@@ -69,12 +90,21 @@ export function CafeteriaScene({ sceneId }: Props) {
         scene={scene}
         background={scene.background}
         interactions={interactions}
-        itemPickupTiles={[{ x: 15, y: 4, visible: !gotKey }]}
+        interactionLabels={{ "15,4": "[L] Abrir" }}
         popup={popup}
         setPopup={setPopup}
       />
 
       {popup && <Talking name="Sistema" message={popup} />}
+
+      <Container
+        isOpen={fridge.isOpen}
+        label={CAFETERIA_FRIDGE.label}
+        cols={CAFETERIA_FRIDGE.cols}
+        size={CAFETERIA_FRIDGE.size}
+        slots={fridge.slots}
+        selectedIndex={fridge.selectedIndex}
+      />
     </>
   );
 }

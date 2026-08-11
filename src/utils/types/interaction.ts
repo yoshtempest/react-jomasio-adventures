@@ -21,6 +21,10 @@ export type QuestDeps = {
   progressQuest: (id: QuestId, step: number) => void;
 };
 
+export type ContainerDeps = BaseDeps & {
+  openContainer: () => void;
+};
+
 export type PickupHandlerConfig = {
   item: InventoryItem;
   flagId: FlagId;

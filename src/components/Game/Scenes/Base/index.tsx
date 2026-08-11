@@ -49,6 +49,7 @@ type SceneBaseProps = {
 
   interactions?: Record<string, () => void>;
   itemPickupTiles?: { x: number; y: number; visible: boolean; height?: number }[];
+  interactionLabels?: Record<string, string>;
   popup?: string | null;
   setPopup?: (msg: string | null) => void;
 
@@ -74,6 +75,7 @@ export function SceneBase({
   background,
   interactions,
   itemPickupTiles,
+  interactionLabels,
   popup,
   setPopup,
   handleExit,
@@ -146,6 +148,7 @@ export function SceneBase({
           questDirection={questDirection}
           itemPickupTiles={itemPickupTiles}
           interactionKeys={Object.keys(interactions ?? {})}
+          interactionLabels={interactionLabels}
           tileDialogues={tileDialogues}
           npcOverlays={npcOverlays}
           onFinish={() => {
