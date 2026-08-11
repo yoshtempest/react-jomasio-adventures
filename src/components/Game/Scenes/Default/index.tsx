@@ -34,6 +34,7 @@ import { useQuests } from "@/contexts/QuestContext";
 import { useFlags } from "@/contexts/FlagContext";
 import { asset } from "@/utils/paths";
 import { InteractionPrompt } from "@/components/Game/InteractionPrompt";
+import type { ItemPickupTile } from "@/utils/types/maps/exploreScene";
 
 type QuestHighlightTile = { x: number; y: number };
 type QuestNpcPosition = { gridX: number; gridY: number };
@@ -75,7 +76,7 @@ export function ExploreScene({
   questHighlightTiles?: QuestHighlightTile[];
   questNpcPositions?: QuestNpcPosition[];
   questDirection?: Direction | null;
-  itemPickupTiles?: { x: number; y: number; visible: boolean; height?: number }[];
+  itemPickupTiles?: ItemPickupTile[];
   interactionKeys?: string[];
   interactionLabels?: Record<string, string>;
   tileDialogues?: Record<string, Dialogue[]>;
@@ -309,7 +310,11 @@ export function ExploreScene({
             tile.visible && (
               <img
                 key={`item-${tile.x}-${tile.y}`}
-                src={asset("/assets/items/chests/default.svg")}
+                src={
+                  tile.image
+                    ? asset(tile.image)
+                    : asset("/assets/items/chests/default.svg")
+                }
                 alt=""
                 style={{
                   position: "absolute",

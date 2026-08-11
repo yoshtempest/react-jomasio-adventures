@@ -79,7 +79,9 @@ export function PcRoomScene({ sceneId }: Props) {
         scene={scene}
         background={sceneBackgrounds.PcsRoom}
         interactions={interactions}
-        itemPickupTiles={[{ x: 10, y: 7, visible: !gotKey }]}
+        itemPickupTiles={[
+          { x: 10, y: 7, visible: !gotKey, image: "/assets/items/desired_gear.svg" },
+        ]}
         popup={popup}
         setPopup={setPopup}
         // 🔥 equivalente ao onFinish antigo

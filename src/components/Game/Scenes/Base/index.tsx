@@ -20,6 +20,7 @@ import { useExitTile } from "@/hooks/scene/useExitTile";
 import { useQuestWaypoints } from "@/hooks/quest/useQuestWaypoints";
 import { canStepTo } from "@/gameRules/movement/levels";
 import { isPositionInFront, parseGridKey } from "@/utils/isPositionInFront";
+import type { ItemPickupTile } from "@/utils/types/maps/exploreScene";
 
 function findInteraction(
   interactions: Record<string, () => void> | undefined,
@@ -48,7 +49,7 @@ type SceneBaseProps = {
   background?: string;
 
   interactions?: Record<string, () => void>;
-  itemPickupTiles?: { x: number; y: number; visible: boolean; height?: number }[];
+  itemPickupTiles?: ItemPickupTile[];
   interactionLabels?: Record<string, string>;
   popup?: string | null;
   setPopup?: (msg: string | null) => void;

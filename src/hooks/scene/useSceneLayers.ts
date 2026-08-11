@@ -3,6 +3,7 @@ import { getTileInFront } from "@/utils/getTileInFront";
 import { isNpcInFront } from "@/utils/isNpcInFront";
 import { isPositionInFront, parseGridKey } from "@/utils/isPositionInFront";
 import { canStepTo } from "@/gameRules/movement/levels";
+import type { ItemPickupTile } from "@/utils/types/maps/exploreScene";
 
 type Player = {
   gridX: number;
@@ -19,7 +20,7 @@ type Params = {
   heightMap?: MapData;
   isReady: boolean;
   npcs: { gridX: number; gridY: number }[];
-  itemPickupTiles?: { x: number; y: number; visible: boolean; height?: number }[];
+  itemPickupTiles?: ItemPickupTile[];
   plates: { gridX: number; gridY: number; message?: string }[];
   interactionKeys?: string[];
   interactionLabels?: Record<string, string>;

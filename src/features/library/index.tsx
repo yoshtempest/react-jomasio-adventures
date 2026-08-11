@@ -66,8 +66,8 @@ export function LibraryScene({ sceneId }: Props) {
         background={scene.background}
         interactions={interactions}
         itemPickupTiles={[
-          { x: 15, y: 9, visible: !gotPackage },
-          { x: 3, y: 5, visible: !gotChest },
+          { x: 15, y: 9, visible: !gotPackage, image: "/assets/items/package_01.svg" },
+          { x: 3, y: 5, visible: !gotChest, image: "/assets/items/chests/rare.svg" },
         ]}
         popup={popup}
         setPopup={setPopup}

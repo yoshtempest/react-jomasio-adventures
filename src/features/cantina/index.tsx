@@ -78,7 +78,9 @@ export function CantinaScene({ sceneId }: Props) {
         className="Cantina"
         background={sceneBackgrounds.Cantina}
         interactions={interactions}
-        itemPickupTiles={[{ x: 16.8, y: 3.5, visible: !gotKey }]}
+        itemPickupTiles={[
+          { x: 16.8, y: 3.5, visible: !gotKey, image: "/assets/items/orange_juice.svg" },
+        ]}
         popup={popup}
         setPopup={setPopup}
         tileDialogues={{
