@@ -5,7 +5,6 @@ import { useEquipment } from "@/contexts/EquipmentContext";
 import { useTitles } from "@/contexts/TitleContext";
 import { getTotalArmor, getWeaponCritRate } from "@/gameRules/battle/equipment";
 import { getLuckBonus } from "@/gameRules/battle/luck";
-import { calculateMaxHpBonus } from "@/gameRules/battle/damage";
 import { asset } from "@/utils/paths";
 
 type CharacterStatsProps = {
@@ -40,7 +39,6 @@ export function CharacterStats({ selectedIndex }: CharacterStatsProps) {
   const userSpecialDamage = 15 + totalIntelligence * 2;
   const userNormalAttackDamage = 6 + totalStrength;
   const userArmor = getTotalArmor(character, stats.resistance);
-  const totalShield = bonus.shield + titleBonus.shield;
   const userTenacity = stats.tenacity + bonus.tenacity;
   const userLuck = (stats.luck ?? 1) + (bonus.luck ?? 0);
   const luckBonus = getLuckBonus(userLuck);
@@ -48,9 +46,6 @@ export function CharacterStats({ selectedIndex }: CharacterStatsProps) {
   const critRate = 1 + weaponCritRate + luckBonus * 100;
   const missChance =
     (0.005 + (titleBonus.enemyMissChance ?? 0) / 100 + luckBonus) * 100;
-  const totalMaxHpDamage = bonus.maxHpDamage ?? 0;
-  const totalTrueDamage = bonus.trueDamage ?? 0;
-  const maxHpDamageBonus = calculateMaxHpBonus(userHp, totalMaxHpDamage);
 
   const inc =
     selectedIndex !== undefined
@@ -138,18 +133,6 @@ export function CharacterStats({ selectedIndex }: CharacterStatsProps) {
           Esquiva: {missChance.toFixed(1)}%
           {inc?.evade ? <span className={styles.increase}> +{inc.evade}</span> : ""}
         </p>
-      </div>
-      <div>
-        <img src={asset("/assets/status/shield.svg")} />
-        <p>Escudo: {totalShield}</p>
-      </div>
-      <div>
-        <img src={asset("/assets/status/hp.svg")} />
-        <p>Dano com base no HP: +{maxHpDamageBonus}</p>
-      </div>
-      <div>
-        <img src={asset("/assets/status/basicDamage.svg")} />
-        <p>Dano Verdadeiro: {totalTrueDamage}</p>
       </div>
     </div>
   );

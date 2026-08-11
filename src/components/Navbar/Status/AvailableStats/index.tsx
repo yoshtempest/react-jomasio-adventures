@@ -98,6 +98,13 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
           Ranques
         </p>
       </div>
+
+      <div className={selectedIndex === 7 ? "active" : ""}>
+        <p className={styles.subBtn}>
+          <img src={asset("/assets/status/skills.svg")} />
+          Todos os Status
+        </p>
+      </div>
     </div>
   );
 }

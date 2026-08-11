@@ -12,3 +12,6 @@ criar imagens das salas que estão faltando: ProfessorRoom, second-A class, thir
 Quando o jogador equipa um pet, assim como no jogo pokemon gold, o pet equipado deve aparecer no modo explore e ficar seguindo o jogador.
 
 sempre que precisar resolver um problema de carregamento, use contro shift R
+
+quando o jogador come algo, deve aparecer uma animação da barra de fome enchendo, assim como foi feito
+com a xpBarNotification

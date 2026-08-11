@@ -5,6 +5,7 @@ import { AvailableStats } from "./AvailableStats";
 import { EquipmentList } from "./EquipmentList";
 import { RankList } from "./RankList";
 import { SkillTreeView } from "./SkillTreeView";
+import { AllStatsView } from "./AllStats";
 import styles from "./styles.module.css";
 
 export function Status() {
@@ -16,6 +17,10 @@ export function Status() {
 
   if (view === "ranks") {
     return <RankList />;
+  }
+
+  if (view === "allStats") {
+    return <AllStatsView />;
   }
 
   return (
