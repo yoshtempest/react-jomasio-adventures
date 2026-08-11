@@ -1,4 +1,4 @@
-import { asset } from "@/utils/paths";
+import { jomasioPath, resolveAsset } from "@/utils/paths";
 
 type SceneInfo = {
   label: string;
@@ -8,27 +8,27 @@ type SceneInfo = {
 const routeSceneMap: Record<string, SceneInfo> = {
   "/jomasioEntrance": {
     label: "Entrada do Jomásio",
-    image: "/assets/cenarios/jomasio/jomasioEntrance.svg",
+    image: jomasioPath("/jomasioEntrance.svg"),
   },
   "/tutorial": {
     label: "Tutorial",
-    image: "/assets/cenarios/jomasio/tutorial.svg",
+    image: jomasioPath("/tutorial.svg"),
   },
   "/combatTutorial": {
     label: "Tutorial de Combate",
-    image: "/assets/cenarios/jomasio/tutorial.svg",
+    image: jomasioPath("/tutorial.svg"),
   },
   "/hall": {
     label: "Hall Jomasio",
-    image: "/assets/cenarios/jomasio/hall/center.svg",
+    image: jomasioPath("/hall/center.svg"),
   },
   "/cantina": {
     label: "Cantina",
-    image: "/assets/cenarios/jomasio/cantina.svg",
+    image: jomasioPath("/cantina.svg"),
   },
   "/library": {
     label: "Biblioteca",
-    image: "/assets/cenarios/jomasio/library/default.svg",
+    image: jomasioPath("/library/default.svg"),
   },
   "/home": { label: "Tela Inicial", image: "/assets/logo.svg" },
   "/battle": { label: "Batalha", image: "/assets/mainGame.svg" },
@@ -38,39 +38,39 @@ const routeSceneMap: Record<string, SceneInfo> = {
   },
   "/director": {
     label: "Sala do Diretor",
-    image: "/assets/cenarios/jomasio/director.svg",
+    image: jomasioPath("/director.svg"),
   },
   "/hell": {
     label: "Sala do Inferno",
-    image: "/assets/cenarios/jomasio/hellRoom.svg",
+    image: jomasioPath("/hellRoom.svg"),
   },
   "/pcsRoom": {
     label: "Sala dos PCS",
-    image: "/assets/cenarios/jomasio/pcsRoom.svg",
+    image: jomasioPath("/pcsRoom.svg"),
   },
   "/footballCourt": {
     label: "Quadra",
-    image: "/assets/cenarios/jomasio/footballCourt.svg",
+    image: jomasioPath("/footballCourt.svg"),
   },
   "/brodiClass": {
     label: "Sala Brodi",
-    image: "/assets/cenarios/jomasio/brodiClass.svg",
+    image: jomasioPath("/brodiClass.svg"),
   },
   "/pandemony": {
     label: "Pandemônio",
-    image: "/assets/cenarios/jomasio/pandemonyRoom.svg",
+    image: jomasioPath("/pandemonyRoom.svg"),
   },
   "/cafeteria": {
     label: "Cafeteria",
-    image: "/assets/cenarios/jomasio/cafeteria.svg",
+    image: jomasioPath("/cafeteria.svg"),
   },
   "/professorsRoom": {
     label: "Sala dos Professores",
-    image: "/assets/cenarios/jomasio/professorsRoom.svg",
+    image: jomasioPath("/professorsRoom.svg"),
   },
   "/timButscher": {
     label: "Tim Butscher",
-    image: "/assets/cenarios/jomasio/timButscher.svg",
+    image: jomasioPath("/timButscher.svg"),
   },
 };
 
@@ -83,7 +83,7 @@ export function getSceneInfo(route: string): SceneInfo {
 }
 
 export function getSceneImage(route: string): string {
-  return asset(getSceneInfo(route).image);
+  return resolveAsset(getSceneInfo(route).image);
 }
 
 export function getSceneLabel(route: string): string {
