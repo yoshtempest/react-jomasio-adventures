@@ -12,6 +12,7 @@ import {
   SHOW_QUEST_INDICATOR_KEY,
   SHOW_COMBO_ACTION_KEY,
   SHOW_HIGHLIGHT_KEY,
+  SHARED_XP_KEY,
 } from "@/data/storageKeys";
 
 type SettingsContextType = {
@@ -24,6 +25,8 @@ type SettingsContextType = {
   setShowComboAction: (show: boolean) => void;
   showHighlight: boolean;
   setShowHighlight: (show: boolean) => void;
+  sharedXp: boolean;
+  setSharedXp: (shared: boolean) => void;
 };
 
 const SettingsContext = createContext<SettingsContextType | null>(null);
@@ -73,6 +76,16 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(SHOW_HIGHLIGHT_KEY, String(show));
   }, []);
 
+  const [sharedXp, setSharedXpState] = useState<boolean>(() => {
+    const saved = localStorage.getItem(SHARED_XP_KEY);
+    return saved === "true";
+  });
+
+  const setSharedXp = useCallback((shared: boolean) => {
+    setSharedXpState(shared);
+    localStorage.setItem(SHARED_XP_KEY, String(shared));
+  }, []);
+
   const dialogueSpeedMs = SPEED_MAP[dialogueSpeed];
 
   return (
@@ -87,6 +100,8 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
         setShowComboAction,
         showHighlight,
         setShowHighlight,
+        sharedXp,
+        setSharedXp,
       }}
     >
       {children}

@@ -4,6 +4,8 @@ import { usePetProgress } from "@/contexts/PetProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
+import { useSettings } from "@/contexts/SettingsContext";
+import { useFlags } from "@/contexts/FlagContext";
 import {
   COIN_REWARDS,
   CHEST_DROP_CHANCE,
@@ -14,6 +16,10 @@ import {
   PET_XP_MULTIPLIER,
   petStarsFromEnhance,
 } from "@/data/characters/petProgress";
+import {
+  getUnlockedCharacters,
+  distributeSharedXp,
+} from "@/gameRules/rewards/sharedXp";
 import {
   rollEquipmentDrops,
   rollMaterialDrops,
@@ -44,6 +50,8 @@ export function useBattleRewards({
   const { getEquippedInfo, addDrop } = useEquipment();
   const { addItem } = useInventory();
   const { progressDailyWeekly } = useQuests();
+  const { sharedXp } = useSettings();
+  const { hasFlag } = useFlags();
 
   const xpReward = calculateXP(npcLevel, npcClass) ?? 0;
   const coinReward = (COIN_REWARDS[npcClass] ?? 0) * npcLevel;
@@ -63,8 +71,21 @@ export function useBattleRewards({
     }
   }
 
+  function giveXp(amount: number) {
+    if (sharedXp) {
+      const unlocked = getUnlockedCharacters(hasFlag);
+      const distribution = distributeSharedXp(amount, player.character, unlocked);
+      for (const [character, xp] of Object.entries(distribution)) {
+        if (xp > 0) addXP(character as CharacterId, xp);
+      }
+      return;
+    }
+
+    addXP(player.character, amount);
+  }
+
   function giveRewards(): RewardInfo {
-    addXP(player.character, xpReward);
+    giveXp(xpReward);
     addCoins(player.character, coinReward);
 
     const petInfo = getEquippedInfo(player.character, "pet");

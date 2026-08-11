@@ -6,12 +6,14 @@ type Props = {
   selectedColumn: number;
   selectedIndex: number;
   showQuestIndicator: boolean;
+  sharedXp: boolean;
 };
 
 export function HelpSection({
   selectedColumn,
   selectedIndex,
   showQuestIndicator,
+  sharedXp,
 }: Props) {
   return (
     <div className={styles.flexColumn}>
@@ -36,7 +38,7 @@ export function HelpSection({
           <span className={styles.cursor}>▼</span>
         )}
 
-        <h2>Ver Tutorial</h2>
+        <h2>Xp Compartilhado: {sharedXp ? "ON" : "OFF"}</h2>
       </div>
       <div
         className={`${styles.tutorialButton} ${
@@ -47,7 +49,7 @@ export function HelpSection({
           <span className={styles.cursor}>▼</span>
         )}
 
-        <UpdateButton />
+        <h2>Ver Tutorial</h2>
       </div>
       <div
         className={`${styles.tutorialButton} ${
@@ -55,6 +57,17 @@ export function HelpSection({
         }`}
       >
         {selectedColumn === 2 && selectedIndex === 3 && (
+          <span className={styles.cursor}>▼</span>
+        )}
+
+        <UpdateButton />
+      </div>
+      <div
+        className={`${styles.tutorialButton} ${
+          selectedColumn === 2 && selectedIndex === 4 ? styles.selected : ""
+        }`}
+      >
+        {selectedColumn === 2 && selectedIndex === 4 && (
           <span className={styles.cursor}>▼</span>
         )}
 

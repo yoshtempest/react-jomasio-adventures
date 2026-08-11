@@ -14,7 +14,8 @@ import { CONFIG_TABS, CONFIG_TAB_COUNT } from "@/data/config/tabs";
 
 const DIFFICULTY: NpcDifficulty[] = ["easy", "medium", "hard"];
 const COLUMN_COUNT = 5;
-const BOTTOM_COUNT = 4;
+const BOTTOM_COUNT = 5;
+const BATTLE_COUNT = 4;
 
 function getColumnMaxIndex(column: number): number {
   if (column === 0) return DIFFICULTY.length;
@@ -37,6 +38,8 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
     setShowComboAction,
     showHighlight,
     setShowHighlight,
+    sharedXp,
+    setSharedXp,
   } = useSettings();
   const { checkForUpdate } = useUpdate();
   const {
@@ -93,6 +96,8 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   setShowComboActionRef.current = setShowComboAction;
   const setShowHighlightRef = useRef(setShowHighlight);
   setShowHighlightRef.current = setShowHighlight;
+  const setSharedXpRef = useRef(setSharedXp);
+  setSharedXpRef.current = setSharedXp;
   const checkForUpdateRef = useRef(checkForUpdate);
   checkForUpdateRef.current = checkForUpdate;
   const installRef = useRef(install);
@@ -178,7 +183,7 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
         const col = selectedColumnRef.current;
 
         if (activeTabRef.current === "batalha") {
-          const maxIndex = BOTTOM_COUNT;
+          const maxIndex = BATTLE_COUNT;
           setSelectedIndex((prev) => (prev + 1) % maxIndex);
           return;
         }
@@ -258,14 +263,18 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
             }
 
             if (idx === 1) {
-              setScreen("tutorial");
+              setSharedXpRef.current(!sharedXp);
             }
 
             if (idx === 2) {
-              checkForUpdateRef.current();
+              setScreen("tutorial");
             }
 
             if (idx === 3) {
+              checkForUpdateRef.current();
+            }
+
+            if (idx === 4) {
               if (isInstalledRef.current) {
                 setShowInstalledMessageRef.current(true);
               } else if (canInstallRef.current) {
@@ -323,6 +332,8 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
     setShowComboAction,
     showHighlight,
     setShowHighlight,
+    sharedXp,
+    setSharedXp,
   ]);
 
   return {
@@ -333,6 +344,7 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
     showQuestIndicator,
     showComboAction,
     showHighlight,
+    sharedXp,
     activeTab,
     isOnTab,
   };

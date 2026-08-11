@@ -26,6 +26,7 @@ export function Config() {
     showQuestIndicator,
     showComboAction,
     showHighlight,
+    sharedXp,
     activeTab,
     isOnTab,
   } = useConfigMenu(true);
@@ -83,6 +84,7 @@ export function Config() {
             selectedColumn={selectedColumn}
             selectedIndex={selectedIndex}
             showQuestIndicator={showQuestIndicator}
+            sharedXp={sharedXp}
           />
 
           <VolumeSection

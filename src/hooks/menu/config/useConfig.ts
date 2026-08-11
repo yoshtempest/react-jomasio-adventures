@@ -9,6 +9,7 @@ export function useConfigMenu(isActive: boolean = true) {
     showQuestIndicator,
     showHighlight,
     showComboAction,
+    sharedXp,
     activeTab,
     isOnTab,
   } = useConfigSelection(isActive);
@@ -21,6 +22,7 @@ export function useConfigMenu(isActive: boolean = true) {
     showQuestIndicator,
     showHighlight,
     showComboAction,
+    sharedXp,
     activeTab,
     isOnTab,
   };

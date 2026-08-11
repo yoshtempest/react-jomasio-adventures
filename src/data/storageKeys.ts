@@ -33,4 +33,5 @@ export const DIFFICULTY_KEY = "difficulty";
 export const VISITED_LOCATIONS_KEY = "visitedLocations";
 export const SHOW_COMBO_ACTION_KEY = "showComboAction";
 export const SHOW_HIGHLIGHT_KEY = "showHighlight";
+export const SHARED_XP_KEY = "sharedXp";
 export const REDEEMED_CARDS_KEY = "redeemed_cards";

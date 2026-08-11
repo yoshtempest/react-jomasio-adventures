@@ -1,0 +1,45 @@
+import { CHARACTERS } from "@/data/options/characters";
+
+const CHAR_UNLOCK_FLAGS: Record<string, FlagId> = {
+  samuel: "samurionUnlocked",
+  artur: "srGuaxinimUnlocked",
+  emanuel: "ematronUnlocked",
+  larissa: "laricellUnlocked",
+  mayra: "yraUnlocked",
+  camilly: "kamykazeUnlocked",
+  lucas: "yvelUnlocked",
+  lucaua: "babidiUnlocked",
+  riquelme: "riquelsonUnlocked",
+};
+
+export function getUnlockedCharacters(hasFlag: (flag: FlagId) => boolean) {
+  return CHARACTERS.filter(
+    (c) =>
+      c.selectable ||
+      (c.image in CHAR_UNLOCK_FLAGS && hasFlag(CHAR_UNLOCK_FLAGS[c.image])),
+  );
+}
+
+export function distributeSharedXp(
+  totalXp: number,
+  winner: CharacterId,
+  unlocked: { image: CharacterId }[],
+): Record<CharacterId, number> {
+  const n = unlocked.length;
+  if (n <= 1) return { [winner]: totalXp };
+
+  const winnerShare = Math.round(totalXp * (1 / n + 0.1));
+  const restPool = Math.max(totalXp - winnerShare, 0);
+  const others = unlocked.filter((c) => c.image !== winner);
+  const baseRest = Math.floor(restPool / others.length);
+  let remainder = restPool - baseRest * others.length;
+
+  const result: Record<CharacterId, number> = { [winner]: winnerShare };
+  for (const other of others) {
+    const extra = remainder > 0 ? 1 : 0;
+    result[other.image] = baseRest + extra;
+    remainder -= extra;
+  }
+
+  return result;
+}
