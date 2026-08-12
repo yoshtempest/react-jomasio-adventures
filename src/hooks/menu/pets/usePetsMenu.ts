@@ -7,6 +7,11 @@ import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { PETS } from "@/data/equipment/pets";
 import { PET_DROPS } from "@/data/characters/petDrops";
+import {
+  getPetSkillDefinition,
+  getPetRole,
+  type PetRole,
+} from "@/data/characters/petSkills";
 import type { EquipmentRank } from "@/utils/types/player/equipment";
 import {
   PET_STAR_MAX,
@@ -23,6 +28,9 @@ export type PetEntry = {
   id: string;
   name: string;
   rank: EquipmentRank;
+  role: PetRole;
+  skillName: string;
+  passiveName: string;
   owned: boolean;
   qtyByStar: number[];
   dropNpc: string | null;
@@ -56,6 +64,7 @@ export function usePetsMenu(
 
   const pets: PetEntry[] = PETS.map((pet) => {
     const dropInfo = PET_DROPS[pet.id];
+    const skillDef = getPetSkillDefinition(pet.id);
     const qtyByStar: number[] = Array(PET_STAR_MAX).fill(0);
     for (const [key, qty] of Object.entries(collection)) {
       const { id, enhance } = parseCollectionKey(key);
@@ -69,6 +78,9 @@ export function usePetsMenu(
       id: pet.id,
       name: pet.name,
       rank: pet.rank,
+      role: getPetRole(pet.id),
+      skillName: skillDef?.skill.name ?? "—",
+      passiveName: skillDef?.passive.name ?? "—",
       owned,
       qtyByStar,
       dropNpc: dropInfo?.npcType ?? null,

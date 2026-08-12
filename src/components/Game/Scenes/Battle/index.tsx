@@ -1,4 +1,5 @@
 import { BattleHUD } from "@/components/Game/Battle/HUD";
+import { PetSkillButton } from "@/components/Game/Battle/PetSkillButton";
 import { GameMap } from "@/components/Game/Map/Game";
 import { useGameLayout } from "@/hooks/game/useGameLayout";
 import { useBattleScene } from "@/hooks/battle/useScene";
@@ -52,6 +53,7 @@ export function BattleScene(props: Props) {
     summons,
     coffins,
     pet,
+    petSkill,
     charProgress,
     missingXp,
     xpReward,
@@ -81,6 +83,7 @@ export function BattleScene(props: Props) {
     grabFlipped,
     getReplayData,
     training: isTraining,
+    controlsDisabled,
     showRetry,
   } = useBattleScene({ ...props, isAlfa });
 
@@ -348,6 +351,19 @@ export function BattleScene(props: Props) {
       )}
 
       <ComboAction />
+
+      {petSkill && pet && (
+        <PetSkillButton
+          petName={petSkill.definition.name}
+          role={petSkill.definition.role}
+          skillName={petSkill.definition.skill.name}
+          ready={petSkill.ready}
+          remaining={petSkill.remaining}
+          cooldownMs={petSkill.definition.skill.cooldownMs}
+          disabled={controlsDisabled}
+          onClick={petSkill.trigger}
+        />
+      )}
 
       {isTraining && <TrainingOverlay onLeave={() => navigate(-1)} />}
 

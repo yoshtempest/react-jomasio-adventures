@@ -3,6 +3,7 @@ import { Star } from "lucide-react";
 import { npcPath } from "@/utils/paths";
 import { RANK_COLORS, RANK_LABELS } from "@/utils/types/player/equipment";
 import { PET_STAR_MAX } from "@/data/characters/petProgress";
+import { PET_ROLE_LABELS } from "@/data/characters/petSkills";
 import { usePetsMenu } from "@/hooks/menu/pets/usePetsMenu";
 import type { PetEntry } from "@/hooks/menu/pets/usePetsMenu";
 import styles from "./styles.module.css";
@@ -73,6 +74,12 @@ export function Pets() {
                 {RANK_LABELS[entry.rank]}
               </p>
               <p className={styles.dropLine}>Drop: {formatDrop(entry)}</p>
+
+              <span className={styles.roleBadge}>
+                {PET_ROLE_LABELS[entry.role]}
+              </span>
+              <p className={styles.skillLine}>Skill: {entry.skillName}</p>
+              <p className={styles.skillLine}>Passiva: {entry.passiveName}</p>
 
               {entry.owned && stats && (
                 <>

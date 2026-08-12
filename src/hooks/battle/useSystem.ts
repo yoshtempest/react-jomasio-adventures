@@ -2,6 +2,11 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { calculateDamageToNpc } from "@/gameRules/battle/damage";
 import { battleBehaviors } from "@/gameRules/battle/behaviors/player";
 import { getPetBaseDamage } from "@/data/characters/petProgress";
+import {
+  getPetSkillDefinition,
+  PET_SKILL_COOLDOWN_MS,
+} from "@/data/characters/petSkills";
+import { usePetSkillCooldown } from "@/hooks/battle/player/usePetSkill";
 
 import { useBattleStats } from "@/hooks/battle/useStats";
 import { useBattleHP } from "@/hooks/battle/death/useHP";
@@ -61,6 +66,8 @@ type Props = {
   onSpecialRef?: React.RefObject<() => void>;
   petLevel: number;
   petStars: number;
+  petId?: string | null;
+  onPetSkillRef?: React.RefObject<() => void>;
   isMenuRef?: React.RefObject<boolean>;
   savedPlayerHP?: number | null;
   npcStatMultiplier?: number;
@@ -97,6 +104,8 @@ export function useBattleSystem(props: Props) {
     onSpecialRef,
     petLevel,
     petStars,
+    petId = null,
+    onPetSkillRef,
     isMenuRef,
     savedPlayerHP,
     npcStatMultiplier = 1,
@@ -241,8 +250,12 @@ export function useBattleSystem(props: Props) {
     hitstopRef.current = Date.now() + 40;
   };
 
+  const petSkillDef = petId ? getPetSkillDefinition(petId) : null;
+  const petIsBattle =
+    hasPet && petSkillDef !== null && petSkillDef.role !== "montaria";
+
   const { pet, damagePet, resetPet } = usePetBattle({
-    enabled: hasPet,
+    enabled: petIsBattle,
     playerX,
     playerY,
     npcX,
@@ -252,6 +265,20 @@ export function useBattleSystem(props: Props) {
     hitstopRef,
     petLevel,
     petStars,
+    spriteNpcType: petSkillDef?.battleSprite ?? "goat",
+    passiveCooldownMs: petSkillDef?.passive.cooldownMs,
+  });
+
+  const {
+    remaining: petSkillRemaining,
+    ready: petSkillReady,
+    trigger: triggerPetSkill,
+    reset: resetPetSkill,
+  } = usePetSkillCooldown({
+    enabled: petIsBattle,
+    cooldownMs: petSkillDef?.skill.cooldownMs ?? PET_SKILL_COOLDOWN_MS,
+    isPaused: isEnding.current,
+    onTrigger: () => onPetSkillRef?.current?.(),
   });
 
   const npcBattle = useNpcBattle({
@@ -386,6 +413,7 @@ export function useBattleSystem(props: Props) {
       setDelicia: playerBattle.setDelicia,
     });
     resetPet();
+    resetPetSkill();
     setPlayer((p) => ({
       ...clearPlayerStatuses(p),
       halfHealUntil: 0,
@@ -421,6 +449,7 @@ export function useBattleSystem(props: Props) {
     setPlayerHP,
     playerMaxHp,
     playerShield,
+    setPlayerShield,
     npcHP,
     setNpcHP,
     npcMaxHp,
@@ -442,6 +471,14 @@ export function useBattleSystem(props: Props) {
     isExploding: effects.isExploding,
     pet,
     damagePet,
+    petSkill: petSkillDef
+      ? {
+          definition: petSkillDef,
+          remaining: petSkillRemaining,
+          ready: petSkillReady,
+          trigger: triggerPetSkill,
+        }
+      : null,
     damageNumbers,
     spawnDamageNumber,
     char,

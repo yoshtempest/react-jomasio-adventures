@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { getPetMaxHp } from "@/data/characters/petProgress";
+import { PET_SKILL_COOLDOWN_MS } from "@/data/characters/petSkills";
 
 type Props = {
   enabled: boolean;
@@ -12,6 +13,8 @@ type Props = {
   hitstopRef: React.RefObject<number>;
   petLevel: number;
   petStars: number;
+  spriteNpcType?: string;
+  passiveCooldownMs?: number;
 };
 
 export type PetState = {
@@ -35,6 +38,8 @@ export function usePetBattle({
   hitstopRef,
   petLevel,
   petStars,
+  spriteNpcType = "goat",
+  passiveCooldownMs = PET_SKILL_COOLDOWN_MS,
 }: Props) {
   const [pet, setPet] = useState<PetState>(null);
 
@@ -67,12 +72,12 @@ export function usePetBattle({
         y: playerY,
         direction: "right",
         state: "idle",
-        npcType: "goat",
+        npcType: spriteNpcType,
         hp: maxHp,
         maxHp,
       };
     });
-  }, [enabled, playerX, playerY, petLevel, petStars]);
+  }, [enabled, playerX, playerY, petLevel, petStars, spriteNpcType]);
 
   function damagePet(dmg: number) {
     setPet((prev) => {
@@ -111,7 +116,7 @@ export function usePetBattle({
         }
 
         const now = Date.now();
-        if (dist <= 80 && now - lastAttackRef.current >= 1200) {
+        if (dist <= 80 && now - lastAttackRef.current >= passiveCooldownMs) {
           lastAttackRef.current = now;
           onPetDamageRef.current();
           return { ...prev, direction, state: "attack" };
@@ -122,7 +127,7 @@ export function usePetBattle({
     }, 20);
 
     return () => clearInterval(interval);
-  }, [enabled, pet, hitstopRef]);
+  }, [enabled, pet, hitstopRef, passiveCooldownMs]);
 
   function resetPet() {
     if (!enabled) return;
@@ -132,7 +137,7 @@ export function usePetBattle({
       y: playerY,
       direction: "right",
       state: "idle",
-      npcType: "goat",
+      npcType: spriteNpcType,
       hp: maxHp,
       maxHp,
     });

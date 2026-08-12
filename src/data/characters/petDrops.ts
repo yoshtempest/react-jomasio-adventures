@@ -39,7 +39,7 @@ export const PET_DROPS: Record<string, PetDropInfo> = {
   },
   pet_riquelsonDog: {
     npcType: "riquelsonDog",
-    npcLabel: "Eu vi tudo mas não fiz nada",
+    npcLabel: "Eu Vi Tudo Mas Não Fiz Nada",
     chance: 0.01,
   },
   pet_dog: {

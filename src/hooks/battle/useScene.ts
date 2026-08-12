@@ -35,6 +35,9 @@ import { useBattleOutro } from "@/hooks/battle/useOutro";
 import { useBattleSync } from "@/hooks/battle/useSync";
 import { useNpcTargeting } from "@/hooks/battle/npc/useNpcTargeting";
 import { useBattleInfo } from "@/contexts/BattleInfoContext";
+import { getPetSkillDefinition } from "@/data/characters/petSkills";
+import { getPetBaseDamage } from "@/data/characters/petProgress";
+import { calculateDamageToNpc } from "@/gameRules/battle/damage";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import { BATTLE_LIMITS } from "@/utils/types/player/movement";
 import { CHARACTERS } from "@/utils/types/player/player";
@@ -106,6 +109,8 @@ export function useBattleScene({
   const petLevel = petInfo
     ? getPetProgress(petInfo.id, petStars).level
     : 1;
+  const petId = petInfo?.id ?? null;
+  const petSkillDef = petId ? getPetSkillDefinition(petId) : null;
   const { items: inventoryItems, closeInventory } = useInventory();
   const { quests, progressDailyWeekly } = useQuests();
   const { closeNavbar, isNavOpen, screen: navScreen } = useNavbar();
@@ -505,6 +510,8 @@ export function useBattleScene({
     incrementHitsUsedStats(player.character);
   };
 
+  const executePetSkillRef = useRef<() => void>(() => {});
+
   const battle = useBattleSystem({
     playerX: player.x,
     playerY: player.y,
@@ -535,10 +542,42 @@ export function useBattleScene({
     onSpecialRef,
     petLevel,
     petStars,
+    petId,
+    onPetSkillRef: executePetSkillRef,
     isMenuRef: isMenuOpenRef,
     savedPlayerHP: savedPlayerHPRef.current,
     npcStatMultiplier: isAlfa ? 2 : 1,
   });
+
+  executePetSkillRef.current = () => {
+    const def = petSkillDef;
+    if (!def || battle.isEnding.current) return;
+    const effect = def.skillEffect;
+    switch (effect.kind) {
+      case "damage": {
+        const baseDamage = getPetBaseDamage(petLevel, petStars);
+        const dmg = calculateDamageToNpc(
+          baseDamage * effect.multiplier,
+          battle.npcArmor,
+        );
+        battle.setNpcHP((hp) => Math.max(0, hp - dmg));
+        refs.spawnDamageRef.current?.(dmg, npc.x, npc.y, "pet");
+        break;
+      }
+      case "summon":
+        summonNpc(effect.npcType);
+        break;
+      case "shield":
+        battle.setPlayerShield((shield) => shield + effect.amount);
+        break;
+      case "heal":
+        battle.setPlayerHP((hp) =>
+          Math.min(battle.playerMaxHp, hp + effect.amount),
+        );
+        break;
+    }
+    playSound("summon");
+  };
 
   const {
     comboCount,
@@ -911,6 +950,7 @@ export function useBattleScene({
     summons,
     coffins,
     pet: battle.pet,
+    petSkill: battle.petSkill,
     charProgress,
     missingXp,
     xpReward,
@@ -941,6 +981,7 @@ export function useBattleScene({
     getReplayData,
     isRecording,
     training,
+    controlsDisabled,
     showRetry: difficulty !== "hard" && difficulty !== "insano",
   };
 }
