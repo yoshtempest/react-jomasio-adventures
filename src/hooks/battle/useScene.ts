@@ -189,6 +189,7 @@ export function useBattleScene({
     npcLevel,
     npcType,
     luckBonus,
+    isAlfa,
   });
 
   const { summons, setSummons, summonNpc, clearSummons, updateNpcPosition } =

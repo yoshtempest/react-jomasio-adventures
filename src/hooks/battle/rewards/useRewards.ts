@@ -36,6 +36,7 @@ type Props = {
   npcLevel: number;
   npcType: string;
   luckBonus: number;
+  isAlfa?: boolean;
 };
 
 export function useBattleRewards({
@@ -43,6 +44,7 @@ export function useBattleRewards({
   npcLevel,
   npcType,
   luckBonus,
+  isAlfa = false,
 }: Props) {
   const { player } = usePlayer();
   const { addXP, addCoins } = useCharacterProgress();
@@ -53,8 +55,10 @@ export function useBattleRewards({
   const { sharedXp } = useSettings();
   const { hasFlag } = useFlags();
 
-  const xpReward = calculateXP(npcLevel, npcClass) ?? 0;
+  const xpReward =
+    (calculateXP(npcLevel, npcClass) ?? 0) * (isAlfa ? 3 : 1);
   const coinReward = (COIN_REWARDS[npcClass] ?? 0) * npcLevel;
+  const dropRolls = isAlfa ? 2 : 1;
 
   function giveSummonRewards(npcClass: NPCClass) {
     const xp = calculateXP(npcLevel, npcClass) ?? 0;
@@ -95,12 +99,12 @@ export function useBattleRewards({
         addPetXP(petInfo.id, petStarsFromEnhance(petInfo.enhance), petXpAmount);
     }
 
-    const equipmentDrops = rollEquipmentDrops(
-      npcClass,
-      addDrop,
-      player.character,
-      luckBonus,
-    );
+    const equipmentDrops: EquipmentDropInfo[] = [];
+    for (let i = 0; i < dropRolls; i++) {
+      equipmentDrops.push(
+        ...rollEquipmentDrops(npcClass, addDrop, player.character, luckBonus),
+      );
+    }
 
     const isLucky = Math.random() < luckBonus;
     if (isLucky) {
@@ -112,14 +116,33 @@ export function useBattleRewards({
       );
       equipmentDrops.push(...extraDrops);
     }
-    const itemDrops = rollMaterialDrops(npcClass, npcType, addItem);
-    const chestDrop = rollChestDrop(
-      npcClass,
-      addItem,
-      CHEST_DROP_CHANCE[npcClass],
-    );
-    const keyDrop = rollKeyDrop(npcClass, addItem, KEY_DROP_CHANCE[npcClass]);
-    const petDrop = rollPetDrop(npcType, addDrop, player.character);
+
+    const itemDrops: ItemDropInfo[] = [];
+    for (let i = 0; i < dropRolls; i++) {
+      for (const drop of rollMaterialDrops(npcClass, npcType, addItem)) {
+        const existing = itemDrops.find((d) => d.id === drop.id);
+        if (existing) {
+          existing.qty += drop.qty;
+        } else {
+          itemDrops.push({ ...drop });
+        }
+      }
+    }
+
+    let chestDrop: { id: string; name: string } | null = null;
+    let keyDrop: { id: string; name: string } | null = null;
+    for (let i = 0; i < dropRolls; i++) {
+      if (!chestDrop) {
+        chestDrop = rollChestDrop(
+          npcClass,
+          addItem,
+          CHEST_DROP_CHANCE[npcClass],
+        );
+      }
+      if (!keyDrop) {
+        keyDrop = rollKeyDrop(npcClass, addItem, KEY_DROP_CHANCE[npcClass]);
+      }
+    }
 
     if (itemDrops.length > 0) {
       progressDailyWeekly("collect_material", itemDrops.length);
@@ -131,9 +154,16 @@ export function useBattleRewards({
       }
     }
 
+    let petDrop: EquipmentDropInfo | null = null;
+    for (let i = 0; i < dropRolls; i++) {
+      if (!petDrop) petDrop = rollPetDrop(npcType, addDrop, player.character);
+    }
     if (petDrop) equipmentDrops.push(petDrop);
 
-    const cardDrop = rollNpcCardDrop(npcType, addItem);
+    let cardDrop: ItemDropInfo | null = null;
+    for (let i = 0; i < dropRolls; i++) {
+      if (!cardDrop) cardDrop = rollNpcCardDrop(npcType, addItem);
+    }
     if (cardDrop) itemDrops.push(cardDrop);
 
     return {
