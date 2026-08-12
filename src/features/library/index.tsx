@@ -53,6 +53,7 @@ export function LibraryScene({ sceneId }: Props) {
       { route: "/battle/vandinhafragment", weight: 1 },
     ],
     encounterChance: 0.1,
+    alfaChance: 0.005,
   });
 
   if (!scene) {

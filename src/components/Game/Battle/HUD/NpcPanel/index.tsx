@@ -9,13 +9,21 @@ type Props = {
   npcLevel?: number;
   npcHP: number;
   npcMaxHp: number;
+  isAlfa?: boolean;
 };
 
-export function NPCHUDPanel({ npcType, npcLevel, npcHP, npcMaxHp }: Props) {
+export function NPCHUDPanel({
+  npcType,
+  npcLevel,
+  npcHP,
+  npcMaxHp,
+  isAlfa = false,
+}: Props) {
   return (
     <div className={styles.container} style={{ right: 10, top: 10 }}>
       <div className={styles.npcInfo}>
         <h2 className={`${"hudName"} ${styles.name}`}>
+          {isAlfa ? "ALFA " : ""}
           {getNpcDisplayName(npcType)}
         </h2>
         {npcLevel !== undefined && (

@@ -65,6 +65,7 @@ type Props = {
   map?: BattleMapConfig;
   background?: string;
   training?: boolean;
+  isAlfa?: boolean;
 };
 
 export function useBattleScene({
@@ -75,6 +76,7 @@ export function useBattleScene({
   map,
   background,
   training,
+  isAlfa = false,
 }: Props) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -149,6 +151,7 @@ export function useBattleScene({
     npcType,
     difficulty,
     playerLevel,
+    isAlfa ? 2 : 1,
   );
 
   const battleInfoCtx = useBattleInfo();
@@ -207,6 +210,14 @@ export function useBattleScene({
     () => {},
   );
   summonNpcRef.current = summonNpc;
+
+  const alfaSummonsSpawnedRef = useRef(false);
+  useEffect(() => {
+    if (!isAlfa || alfaSummonsSpawnedRef.current) return;
+    alfaSummonsSpawnedRef.current = true;
+    summonNpc(npcType);
+    summonNpc(npcType);
+  }, [isAlfa, npcType, summonNpc]);
 
   const onSummonWrapperRef = useRef<(summonType: string) => void>(() => {});
   onSummonWrapperRef.current = (summonType: string) => {
@@ -525,6 +536,7 @@ export function useBattleScene({
     petStars,
     isMenuRef: isMenuOpenRef,
     savedPlayerHP: savedPlayerHPRef.current,
+    npcStatMultiplier: isAlfa ? 2 : 1,
   });
 
   const {
@@ -874,6 +886,10 @@ export function useBattleScene({
     clearSummons();
     clearCoffins();
     coffinStartedRef.current = false;
+    if (isAlfa) {
+      summonNpc(npcType);
+      summonNpc(npcType);
+    }
     battle.resetBattle();
     npc.resetNpc();
     resetBattleState();

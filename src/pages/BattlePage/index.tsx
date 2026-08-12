@@ -20,6 +20,7 @@ export default function BattlePage() {
 
   const originRoute = (location.state as { battleOrigin?: string } | null)
     ?.battleOrigin;
+  const isAlfa = (location.state as { alfa?: boolean } | null)?.alfa === true;
   const background =
     (originRoute ? getBattleBackgroundFromRoute(originRoute) : "") ||
     config?.background;
@@ -41,6 +42,7 @@ export default function BattlePage() {
       background={background}
       audioSrc={config.audioSrc}
       training={training}
+      isAlfa={isAlfa}
     />
   );
 }

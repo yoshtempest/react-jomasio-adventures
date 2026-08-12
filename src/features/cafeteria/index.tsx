@@ -78,6 +78,7 @@ export function CafeteriaScene({ sceneId }: Props) {
       { route: "/battle/piupiu", weight: 1 },
       { route: "/battle/goat", weight: 1 },
     ],
+    alfaChance: 0.005,
   });
 
   if (!scene) {

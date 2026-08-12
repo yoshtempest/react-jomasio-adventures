@@ -23,6 +23,7 @@ type Props = {
   npcClass: "common" | "rare" | "epic" | "boss" | "legendary";
   difficulty: NpcDifficulty;
   npcPhase: number;
+  npcStatMultiplier?: number;
 };
 
 export function useBattleStats({
@@ -30,6 +31,7 @@ export function useBattleStats({
   npcClass,
   difficulty,
   npcPhase,
+  npcStatMultiplier = 1,
 }: Props) {
   const { player, playerClass } = usePlayer();
   const { progress } = useCharacterProgress();
@@ -143,13 +145,18 @@ export function useBattleStats({
   }, [char.stats.hp]);
 
   const npcMaxHp = useMemo(() => {
-    return getNpcStats(npcLevel, npcClass, difficulty).hp;
-  }, [npcLevel, npcClass, difficulty]);
+    return getNpcStats(npcLevel, npcClass, difficulty, npcStatMultiplier).hp;
+  }, [npcLevel, npcClass, difficulty, npcStatMultiplier]);
 
   const npcArmor = useMemo(() => {
-    const stats = getNpcStats(npcLevel, npcClass, difficulty);
+    const stats = getNpcStats(
+      npcLevel,
+      npcClass,
+      difficulty,
+      npcStatMultiplier,
+    );
     return npcPhase === 2 ? Math.round(stats.armor * 1.5) : stats.armor;
-  }, [npcLevel, npcClass, difficulty, npcPhase]);
+  }, [npcLevel, npcClass, difficulty, npcPhase, npcStatMultiplier]);
 
   const HITS_TO_SPECIAL = getMaxSpecial(playerClass);
 

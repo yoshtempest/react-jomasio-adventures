@@ -8,4 +8,5 @@ export type RandomEncounterConfig = {
   blockedTiles?: { x: number; y: number }[];
   encounters: EncounterDef[];
   encounterChance?: number;
+  alfaChance?: number;
 };

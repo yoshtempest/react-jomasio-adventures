@@ -6,6 +6,10 @@
   align-items: center;
 }
 
+.right {
+  position: relative;
+}
+
 .left img,
 .right img {
   width: 40%;
@@ -32,6 +36,27 @@
   animation:
     pulse 800ms infinite,
     zoom 500ms ease;
+}
+
+.alfaBadge {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  padding: var(--smaller) var(--small);
+
+  border: 2px solid var(--text-color);
+  border-radius: var(--smaller);
+
+  background: rgba(255, 0, 0, 0.7);
+  color: var(--text-color);
+
+  font-size: var(--fs-500);
+  font-weight: bold;
+  letter-spacing: 0.1em;
+
+  z-index: 1;
 }
 
 .skip {

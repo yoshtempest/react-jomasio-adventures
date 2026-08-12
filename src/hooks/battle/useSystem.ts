@@ -63,6 +63,7 @@ type Props = {
   petStars: number;
   isMenuRef?: React.RefObject<boolean>;
   savedPlayerHP?: number | null;
+  npcStatMultiplier?: number;
 };
 
 export function useBattleSystem(props: Props) {
@@ -98,11 +99,18 @@ export function useBattleSystem(props: Props) {
     petStars,
     isMenuRef,
     savedPlayerHP,
+    npcStatMultiplier = 1,
   } = props;
 
   const [npcPhase, setNpcPhase] = useState(1);
 
-  const stats = useBattleStats({ npcLevel, npcClass, difficulty, npcPhase });
+  const stats = useBattleStats({
+    npcLevel,
+    npcClass,
+    difficulty,
+    npcPhase,
+    npcStatMultiplier,
+  });
   const {
     player,
     playerClass,
@@ -284,6 +292,7 @@ export function useBattleSystem(props: Props) {
     npcPhase,
     tenacityReduction: stats.tenacityReduction,
     luckBonus: stats.luckBonus,
+    statMultiplier: npcStatMultiplier,
   });
 
   const { isNpcDying } = useBattleLifecycle({

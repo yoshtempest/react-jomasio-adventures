@@ -26,6 +26,7 @@ type Props = {
   scaleX: number;
   scaleY: number;
   grabFlipped?: boolean;
+  isAlfa?: boolean;
 };
 
 export function BattleEntities({
@@ -41,6 +42,7 @@ export function BattleEntities({
   scaleX,
   scaleY,
   grabFlipped = false,
+  isAlfa = false,
 }: Props) {
   return (
     <>
@@ -55,6 +57,7 @@ export function BattleEntities({
         isExploding={battle.isExploding}
         npcPhase={battle.npcPhase}
         isDying={battle.isNpcDying}
+        isAlfa={isAlfa}
       />
 
       {npc.projectile && (

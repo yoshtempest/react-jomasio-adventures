@@ -40,12 +40,12 @@ export function getSpritePath(
 export function getBossSizeMultiplier(
   npcType: string,
   npcPhase: number = 1,
+  isAlfa: boolean = false,
 ): number {
   const config = bossScales[npcType];
-  if (config) {
-    return npcPhase === 2 ? config.phase2 : config.base;
-  }
-  return 1.4 / 1.5;
+  let base = config ? (npcPhase === 2 ? config.phase2 : config.base) : 1.4 / 1.5;
+  if (isAlfa) base *= 1.5;
+  return base;
 }
 
 export function getNpcSpriteYOffset(npcType: string): number {

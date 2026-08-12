@@ -72,7 +72,7 @@ export function useRandomEncounter(config: RandomEncounterConfig) {
       cfg.blockedTiles?.some((t) => t.x === gridX && t.y === gridY) ?? false;
     if (isBlocked) return;
 
-    if (Math.random() < (cfg.encounterChance ?? 0.1)) {
+    const savePosition = () => {
       localStorage.setItem(
         slotKey(cfg.storageKey),
         JSON.stringify({
@@ -81,7 +81,17 @@ export function useRandomEncounter(config: RandomEncounterConfig) {
           direction: currentPlayer.direction,
         }),
       );
+    };
 
+    if (Math.random() < (cfg.alfaChance ?? 0)) {
+      const route = pickEncounter(cfg.encounters);
+      savePosition();
+      navigate(route, { state: { alfa: true } });
+      return;
+    }
+
+    if (Math.random() < (cfg.encounterChance ?? 0.1)) {
+      savePosition();
       const route = pickEncounter(cfg.encounters);
       navigate(route);
     }

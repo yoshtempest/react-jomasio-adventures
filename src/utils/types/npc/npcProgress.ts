@@ -2,6 +2,7 @@ export function getNpcStats(
   level: number,
   npcClass: NPCClass,
   difficulty: NpcDifficulty,
+  multiplier: number = 1,
 ) {
   const baseHp = 90;
   const baseDamage = 5;
@@ -43,9 +44,9 @@ export function getNpcStats(
   const multipliers = difficultyMultipliers[difficulty][npcClass];
 
   return {
-    hp: baseHp + level * multipliers.hp,
-    damage: baseDamage + level * multipliers.dmg,
-    armor: level * multipliers.armor,
+    hp: Math.round((baseHp + level * multipliers.hp) * multiplier),
+    damage: Math.round((baseDamage + level * multipliers.dmg) * multiplier),
+    armor: Math.round(level * multipliers.armor * multiplier),
   };
 }
 

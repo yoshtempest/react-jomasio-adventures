@@ -13,6 +13,7 @@ type Props = {
   npcType: string;
   onSkip: () => void;
   onFlee: () => void;
+  isAlfa?: boolean;
 };
 
 export function BattleIntro({
@@ -20,6 +21,7 @@ export function BattleIntro({
   npcType,
   onSkip,
   onFlee,
+  isAlfa = false,
 }: Props) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const { sfxVolume } = useAudio();
@@ -101,6 +103,7 @@ export function BattleIntro({
       <div className={styles.vs}>VS</div>
 
       <div className={styles.right}>
+        {isAlfa && <div className={styles.alfaBadge}>ALFA</div>}
         <img
           src={npcPath(`/${npcType}/right.svg`)}
           alt=""

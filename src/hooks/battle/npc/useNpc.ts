@@ -52,6 +52,7 @@ type Props = {
   npcPhase: number;
   tenacityReduction: number;
   luckBonus: number;
+  statMultiplier?: number;
 };
 
 export function useNpcBattle({
@@ -92,6 +93,7 @@ export function useNpcBattle({
   npcPhase,
   tenacityReduction,
   luckBonus,
+  statMultiplier = 1,
 }: Props) {
   const { playSound } = useSoundEffects();
 
@@ -228,7 +230,12 @@ export function useNpcBattle({
       return;
     }
 
-    const npc = getNpcStats(npcLevel, npcClass, difficulty);
+    const npc = getNpcStats(
+      npcLevel,
+      npcClass,
+      difficulty,
+      statMultiplier,
+    );
     const baseDmg = npc.damage;
     const dmg = calculateNpcDamage(baseDmg, playerClass, totalArmor);
 
@@ -288,6 +295,7 @@ export function useNpcBattle({
     spawnDamageRef,
     npcType,
     npcPhase,
+    statMultiplier,
   ]);
 
   const npcRangedHit = useCallback(() => {
@@ -300,7 +308,12 @@ export function useNpcBattle({
     )
       return;
 
-    const npc = getNpcStats(npcLevel, npcClass, difficulty);
+    const npc = getNpcStats(
+      npcLevel,
+      npcClass,
+      difficulty,
+      statMultiplier,
+    );
     const baseDmg = npc.damage;
     const dmg = calculateNpcDamage(baseDmg, playerClass, totalArmor);
 
@@ -378,13 +391,19 @@ export function useNpcBattle({
     npcType,
     npcPhase,
     onBlockRef,
+    statMultiplier,
   ]);
 
   const npcThrowHit = useCallback(
     (multiplier: number = 1) => {
       if (isEnding.current) return;
 
-      const npc = getNpcStats(npcLevel, npcClass, difficulty);
+      const npc = getNpcStats(
+        npcLevel,
+        npcClass,
+        difficulty,
+        statMultiplier,
+      );
       const baseDmg = npc.damage;
       const dmg = calculateNpcDamage(baseDmg, playerClass, totalArmor);
       const finalDmg = Math.round(dmg * multiplier);
@@ -406,6 +425,7 @@ export function useNpcBattle({
       playerX,
       playerY,
       hitstopRef,
+      statMultiplier,
     ],
   );
 

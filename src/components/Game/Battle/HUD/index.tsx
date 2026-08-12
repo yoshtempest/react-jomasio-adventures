@@ -30,6 +30,7 @@ type Props = {
   npcType?: string;
   npcLevel?: number;
   summons?: SummonedNpc[];
+  isAlfa?: boolean;
 };
 
 export function BattleHUD({
@@ -38,6 +39,7 @@ export function BattleHUD({
   npcType,
   npcLevel,
   summons,
+  isAlfa = false,
 }: Props) {
   const { player } = usePlayer();
   const { progress } = useCharacterProgress();
@@ -69,6 +71,7 @@ export function BattleHUD({
           npcLevel={npcLevel}
           npcHP={battle.npcHP}
           npcMaxHp={npcStats.hp}
+          isAlfa={isAlfa}
         />
       )}
 

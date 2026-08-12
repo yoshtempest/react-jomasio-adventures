@@ -44,6 +44,7 @@ type Props = {
   isExploding?: boolean;
   npcPhase?: number;
   isDying?: boolean;
+  isAlfa?: boolean;
 };
 
 export function NPCBattle({
@@ -57,11 +58,12 @@ export function NPCBattle({
   isExploding = false,
   npcPhase = 1,
   isDying = false,
+  isAlfa = false,
 }: Props) {
   const scaleX = window.innerWidth / ProjectileConstants.MAP_WIDTH;
   const scaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;
 
-  const sizeMultiplier = getBossSizeMultiplier(npcType, npcPhase);
+  const sizeMultiplier = getBossSizeMultiplier(npcType, npcPhase, isAlfa);
   const yOffset = getNpcSpriteYOffset(npcType);
 
   const basePath = getSpritePath(npcType, state, npcPhase);

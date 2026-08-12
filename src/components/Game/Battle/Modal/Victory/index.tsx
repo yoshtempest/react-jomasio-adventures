@@ -29,6 +29,7 @@ type Props = {
   elapsed: number;
   bestTime: number;
   getReplayData?: () => ReplayData | null;
+  isAlfa?: boolean;
 };
 
 export function VictoryModal({
@@ -45,6 +46,7 @@ export function VictoryModal({
   elapsed,
   bestTime,
   getReplayData,
+  isAlfa = false,
 }: Props) {
   const isVisible = useVictoryVisibility(isOpen, skipDelay);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -73,7 +75,8 @@ export function VictoryModal({
           <div>
             <h1>Vitória!</h1>
             <p>
-              Você derrotou um {getNpcDisplayName(enemyType)} - nv.{enemyLevel}
+              Você derrotou um {isAlfa ? "ALFA " : ""}
+              {getNpcDisplayName(enemyType)} - nv.{enemyLevel}
             </p>
             <p className={styles.rankText}>
               NPC: {formatRank(getRank(enemyLevel))}

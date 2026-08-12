@@ -35,11 +35,12 @@ type Props = {
   onVictory?: () => void;
   map?: BattleMapConfig;
   training?: boolean;
+  isAlfa?: boolean;
   children?: ReactNode;
 };
 
 export function BattleScene(props: Props) {
-  const { npcType, className, background, map } = props;
+  const { npcType, className, background, map, isAlfa = false } = props;
   const { stopAll } = useSoundEffects();
 
   const {
@@ -81,7 +82,7 @@ export function BattleScene(props: Props) {
     getReplayData,
     training: isTraining,
     showRetry,
-  } = useBattleScene(props);
+  } = useBattleScene({ ...props, isAlfa });
 
   const {
     TILE_SIZE,
@@ -133,7 +134,7 @@ export function BattleScene(props: Props) {
     {
       x: npc.x,
       y: npc.y,
-      h: TILE_SIZE * getBossSizeMultiplier(npcType, battle.npcPhase),
+      h: TILE_SIZE * getBossSizeMultiplier(npcType, battle.npcPhase, isAlfa),
     },
     ...(pet
       ? [{ x: pet.x, y: pet.y, h: TILE_SIZE * getBossSizeMultiplier(pet.npcType) }]
@@ -233,6 +234,7 @@ export function BattleScene(props: Props) {
         npcType={npcType}
         npcLevel={npcLevel}
         summons={summons}
+        isAlfa={isAlfa}
       />
       <ComboDisplay
         count={comboCount}
@@ -247,6 +249,7 @@ export function BattleScene(props: Props) {
           npcType={npcType}
           onSkip={skipIntro}
           onFlee={() => navigate(-1)}
+          isAlfa={isAlfa}
         />
       )}
 
@@ -273,6 +276,7 @@ export function BattleScene(props: Props) {
             scaleX={scaleX}
             scaleY={scaleY}
             grabFlipped={grabFlipped}
+            isAlfa={isAlfa}
           />
 
           <ChargeParticles
@@ -327,6 +331,7 @@ export function BattleScene(props: Props) {
           elapsed={victoryElapsed}
           bestTime={bestTime}
           getReplayData={getReplayData}
+          isAlfa={isAlfa}
         />
       )}
 
