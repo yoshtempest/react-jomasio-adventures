@@ -31,9 +31,6 @@ export function ReplayViewport({ replay, frame, viewport }: Props) {
         hits={frame.hits}
         blockGauge={frame.blockGauge}
         blockLimit={frame.blockLimit}
-        pettype={frame.petType}
-        petphp={frame.petphp}
-        petpmaxhp={frame.petpmaxhp}
       />
 
       <HudNpc

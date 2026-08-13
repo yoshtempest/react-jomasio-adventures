@@ -15,4 +15,4 @@ adicionar animação de burn em deise antes de redirecionar para cafeteria/three
 
 adicionar informação de xp do pet no menu de pets
 
-Desafio para eu mesmo (fácil): Cada pet tem um nv e uma barra de xp para subir de nível, exiba visualmente a informação de xp do pet no menu de pets da navbar
+Desafio para eu mesmo (fácil): Cada pet tem um nv e uma barra de xp para subir de nível, exiba visualmente a informação de xpBar e xpFill do pet no menu de pets da navbar

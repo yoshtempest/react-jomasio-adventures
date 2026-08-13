@@ -140,9 +140,6 @@ export function BattleScene(props: Props) {
       y: npc.y,
       h: TILE_SIZE * getBossSizeMultiplier(npcType, battle.npcPhase, isAlfa),
     },
-    ...(pet
-      ? [{ x: pet.x, y: pet.y, h: TILE_SIZE * getBossSizeMultiplier(pet.npcType) }]
-      : []),
     ...summons.map((s) => ({
       x: s.x,
       y: s.y,
@@ -229,11 +226,7 @@ export function BattleScene(props: Props) {
       }
     >
       <BattleHUD
-        battle={{
-          ...battle,
-          petHP: pet?.hp,
-          petMaxHp: pet?.maxHp,
-        }}
+        battle={battle}
         npcStats={npcStats}
         npcType={npcType}
         npcLevel={npcLevel}

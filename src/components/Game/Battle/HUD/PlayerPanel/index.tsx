@@ -15,8 +15,6 @@ type Props = {
   hitsToSpecial: number;
   blockGauge: number;
   blockLimit: number;
-  petHP?: number;
-  petMaxHp?: number;
 };
 
 export function PlayerHUDPanel({
@@ -30,8 +28,6 @@ export function PlayerHUDPanel({
   hitsToSpecial,
   blockGauge,
   blockLimit,
-  petHP,
-  petMaxHp,
 }: Props) {
   return (
     <div className={styles.container} style={{ left: 10, top: 10 }}>
@@ -58,20 +54,6 @@ export function PlayerHUDPanel({
               </div>
             )}
             <BlockGauge blockGauge={blockGauge} blockLimit={blockLimit} />
-            {petHP !== undefined && petMaxHp !== undefined && (
-              <div className="petTrack">
-                <span className="petLabel">Pet</span>
-                <div
-                  className="petFill"
-                  style={{
-                    width: `${(petHP / petMaxHp) * 100}%`,
-                  }}
-                />
-                <span className="petText">
-                  {petHP}/{petMaxHp}
-                </span>
-              </div>
-            )}
           </div>
           <Deliciometro delicia={delicia} hitsToSpecial={hitsToSpecial} />
         </div>

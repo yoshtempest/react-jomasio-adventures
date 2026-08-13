@@ -2,16 +2,12 @@ import { useEffect, useRef, type RefObject } from "react";
 
 type SyncProps = {
   battle: {
-    pet: { x: number; y: number } | null;
     npcHP: number;
     npcMaxHp: number;
     setNpcHP: (fn: (prev: number) => number) => void;
     isEnding: { readonly current: boolean };
     npcPhase: number;
   };
-  petXRef: RefObject<number>;
-  petYRef: RefObject<number>;
-  hasPetRef: RefObject<boolean>;
   npcAiHpRef: RefObject<number>;
   npc: { x: number };
   updateNpcPosition: (x: number) => void;
@@ -38,9 +34,6 @@ type SyncProps = {
 
 export function useBattleSync({
   battle,
-  petXRef,
-  petYRef,
-  hasPetRef,
   npcAiHpRef,
   npc,
   updateNpcPosition,
@@ -60,17 +53,6 @@ export function useBattleSync({
   battleNpcMeleeHit,
   battleNpcThrowHit,
 }: SyncProps) {
-  // Pet position sync — bridges AI (needs pet pos) and battle system (produces pet)
-  useEffect(() => {
-    if (battle.pet) {
-      petXRef.current = battle.pet.x;
-      petYRef.current = battle.pet.y;
-      hasPetRef.current = true;
-    } else {
-      hasPetRef.current = false;
-    }
-  }, [battle.pet?.x, battle.pet?.y, battle.pet, petXRef, petYRef, hasPetRef]);
-
   // NPC HP sync — lets AI behaviors read current NPC HP
   useEffect(() => {
     npcAiHpRef.current = battle.npcHP;

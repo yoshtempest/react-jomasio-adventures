@@ -1,20 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { getPetMaxHp } from "@/data/characters/petProgress";
-import { PET_SKILL_COOLDOWN_MS } from "@/data/characters/petSkills";
 
 type Props = {
   enabled: boolean;
   playerX: number;
   playerY: number;
   npcX: number;
-  npcY: number;
   isPaused: boolean;
-  onPetDamage: () => void;
-  hitstopRef: React.RefObject<number>;
-  petLevel: number;
-  petStars: number;
   spriteNpcType?: string;
-  passiveCooldownMs?: number;
 };
 
 export type PetState = {
@@ -23,23 +15,17 @@ export type PetState = {
   direction: "left" | "right";
   state: "idle" | "walk" | "attack";
   npcType: string;
-  hp: number;
-  maxHp: number;
 } | null;
+
+const OFFSET_X = 60;
 
 export function usePetBattle({
   enabled,
   playerX,
   playerY,
   npcX,
-  npcY,
   isPaused,
-  onPetDamage,
-  hitstopRef,
-  petLevel,
-  petStars,
   spriteNpcType = "goat",
-  passiveCooldownMs = PET_SKILL_COOLDOWN_MS,
 }: Props) {
   const [pet, setPet] = useState<PetState>(null);
 
@@ -49,14 +35,8 @@ export function usePetBattle({
   playerYRef.current = playerY;
   const npcXRef = useRef(npcX);
   npcXRef.current = npcX;
-  const npcYRef = useRef(npcY);
-  npcYRef.current = npcY;
   const isPausedRef = useRef(isPaused);
   isPausedRef.current = isPaused;
-  const onPetDamageRef = useRef(onPetDamage);
-  onPetDamageRef.current = onPetDamage;
-
-  const lastAttackRef = useRef(0);
 
   useEffect(() => {
     if (!enabled) {
@@ -65,83 +45,56 @@ export function usePetBattle({
     }
 
     setPet((prev) => {
-      if (prev && prev.hp > 0) return prev;
-      const maxHp = getPetMaxHp(petLevel, petStars);
+      if (prev) return prev;
       return {
-        x: playerX - 60,
+        x: playerX - OFFSET_X,
         y: playerY,
         direction: "right",
         state: "idle",
         npcType: spriteNpcType,
-        hp: maxHp,
-        maxHp,
       };
     });
-  }, [enabled, playerX, playerY, petLevel, petStars, spriteNpcType]);
-
-  function damagePet(dmg: number) {
-    setPet((prev) => {
-      if (!prev) return prev;
-      const newHp = Math.max(0, prev.hp - dmg);
-      if (newHp <= 0) return null;
-      return { ...prev, hp: newHp };
-    });
-  }
+  }, [enabled, playerX, playerY, spriteNpcType]);
 
   useEffect(() => {
-    if (!enabled || !pet) return;
+    if (!enabled) return;
 
     const interval = setInterval(() => {
       if (isPausedRef.current) return;
-      if (hitstopRef.current > Date.now()) return;
 
-      const nx = npcXRef.current;
+      const targetX = playerXRef.current - OFFSET_X;
+      const direction: "left" | "right" =
+        npcXRef.current - playerXRef.current > 0 ? "right" : "left";
 
       setPet((prev) => {
         if (!prev) return prev;
-
-        const diff = nx - prev.x;
-        const dist = Math.abs(diff);
-        const direction: "left" | "right" = diff > 0 ? "right" : "left";
-
-        if (dist > 80) {
-          const speed = dist > 300 ? 5 : 3;
-          const move = diff > 0 ? speed : -speed;
-          return {
-            ...prev,
-            x: prev.x + move,
-            direction,
-            state: "walk",
-          };
-        }
-
-        const now = Date.now();
-        if (dist <= 80 && now - lastAttackRef.current >= passiveCooldownMs) {
-          lastAttackRef.current = now;
-          onPetDamageRef.current();
-          return { ...prev, direction, state: "attack" };
-        }
-
-        return { ...prev, direction, state: "idle" };
+        const nearTarget = Math.abs(prev.x - targetX) < 1;
+        const sameY = prev.y === playerYRef.current;
+        if (nearTarget && sameY && prev.direction === direction) return prev;
+        const nextX = nearTarget ? targetX : prev.x + (targetX - prev.x) * 0.25;
+        return {
+          ...prev,
+          x: nextX,
+          y: playerYRef.current,
+          direction,
+          state: "idle",
+        };
       });
     }, 20);
 
     return () => clearInterval(interval);
-  }, [enabled, pet, hitstopRef, passiveCooldownMs]);
+  }, [enabled]);
 
   function resetPet() {
     if (!enabled) return;
-    const maxHp = getPetMaxHp(petLevel, petStars);
     setPet({
-      x: playerX - 60,
+      x: playerX - OFFSET_X,
       y: playerY,
       direction: "right",
       state: "idle",
       npcType: spriteNpcType,
-      hp: maxHp,
-      maxHp,
     });
   }
 
-  return { pet, damagePet, resetPet };
+  return { pet, resetPet };
 }

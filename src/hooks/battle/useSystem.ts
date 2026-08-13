@@ -1,7 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { calculateDamageToNpc } from "@/gameRules/battle/damage";
 import { battleBehaviors } from "@/gameRules/battle/behaviors/player";
-import { getPetBaseDamage } from "@/data/characters/petProgress";
 import {
   getPetSkillDefinition,
   PET_SKILL_COOLDOWN_MS,
@@ -54,9 +52,6 @@ type Props = {
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;
   lastBlockPressRef: React.RefObject<number>;
   npcPhaseRef: React.RefObject<number>;
-  npcTargetIsPetRef: React.RefObject<boolean>;
-  petXRef: React.RefObject<number>;
-  petYRef: React.RefObject<number>;
   onBeforeNpcHitRef?: React.RefObject<() => boolean>;
   onBlockRef?: React.RefObject<() => void>;
   onDamageTakenRef?: React.RefObject<(amount: number) => void>;
@@ -64,8 +59,6 @@ type Props = {
   onDamageDealtRef?: React.RefObject<(amount: number) => void>;
   onAttackRef?: React.RefObject<() => void>;
   onSpecialRef?: React.RefObject<() => void>;
-  petLevel: number;
-  petStars: number;
   petId?: string | null;
   onPetSkillRef?: React.RefObject<() => void>;
   isMenuRef?: React.RefObject<boolean>;
@@ -92,9 +85,6 @@ export function useBattleSystem(props: Props) {
     setPlayer,
     lastBlockPressRef,
     npcPhaseRef,
-    npcTargetIsPetRef,
-    petXRef,
-    petYRef,
     onBeforeNpcHitRef,
     onBlockRef,
     onDamageTakenRef,
@@ -102,8 +92,6 @@ export function useBattleSystem(props: Props) {
     onDamageDealtRef,
     onAttackRef,
     onSpecialRef,
-    petLevel,
-    petStars,
     petId = null,
     onPetSkillRef,
     isMenuRef,
@@ -240,33 +228,17 @@ export function useBattleSystem(props: Props) {
     onHalfHeal,
   });
 
-  const petDamageRef = useRef(() => {});
-  petDamageRef.current = () => {
-    if (isEnding.current) return;
-    const baseDamage = getPetBaseDamage(petLevel, petStars);
-    const dmg = calculateDamageToNpc(baseDamage, npcArmor);
-    setNpcHP((hp) => Math.max(0, hp - dmg));
-    spawnDamageRef.current?.(dmg, npcX, npcY, "pet");
-    hitstopRef.current = Date.now() + 40;
-  };
-
   const petSkillDef = petId ? getPetSkillDefinition(petId) : null;
   const petIsBattle =
     hasPet && petSkillDef !== null && petSkillDef.role !== "montaria";
 
-  const { pet, damagePet, resetPet } = usePetBattle({
+  const { pet, resetPet } = usePetBattle({
     enabled: petIsBattle,
     playerX,
     playerY,
     npcX,
-    npcY,
     isPaused: isEnding.current,
-    onPetDamage: () => petDamageRef.current(),
-    hitstopRef,
-    petLevel,
-    petStars,
     spriteNpcType: petSkillDef?.battleSprite ?? "goat",
-    passiveCooldownMs: petSkillDef?.passive.cooldownMs,
   });
 
   const {
@@ -292,7 +264,6 @@ export function useBattleSystem(props: Props) {
     player,
     totalArmor,
     damagePlayerHp,
-    damagePet,
     setPlayer,
     setNpcHP,
     totalReflect,
@@ -305,9 +276,6 @@ export function useBattleSystem(props: Props) {
     blockGauge,
     setBlockGauge,
     lastBlockPressRef,
-    npcTargetIsPetRef,
-    petXRef,
-    petYRef,
     onBlockRef,
     titleEnemyMissChance: titleBonus.enemyMissChance,
     onDamageTakenRef,
@@ -334,13 +302,6 @@ export function useBattleSystem(props: Props) {
     onNpcDeath,
     isEnding,
   });
-
-  useEffect(() => {
-    if (pet) {
-      petXRef.current = pet.x;
-      petYRef.current = pet.y;
-    }
-  }, [pet?.x, pet?.y, pet, petXRef, petYRef]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -470,7 +431,6 @@ export function useBattleSystem(props: Props) {
     piercings: effects.piercings,
     isExploding: effects.isExploding,
     pet,
-    damagePet,
     petSkill: petSkillDef
       ? {
           definition: petSkillDef,

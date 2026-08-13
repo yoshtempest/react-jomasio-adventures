@@ -45,8 +45,6 @@ export type ReplayFrame = {
   petst: string | null;
   petdir: string | null;
   petType: string | null;
-  petphp: number | null;
-  petpmaxhp: number | null;
 
   comboAction: string | null;
 };
@@ -127,6 +125,4 @@ export type PetSnap = {
   direction: string;
   state: string;
   npcType: string;
-  hp: number;
-  maxHp: number;
 } | null;

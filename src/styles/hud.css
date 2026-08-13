@@ -39,39 +39,3 @@
   background: #e0e0e0;
   transition: width 0.2s;
 }
-
-.petTrack {
-  position: relative;
-  width: var(--size-200);
-  height: var(--fs-14);
-  background: var(--border-default);
-  border-radius: var(--size-2);
-  overflow: hidden;
-  margin-top: var(--size-4);
-  border: var(--size-1) solid var(--text-muted);
-}
-
-.petFill {
-  height: 100%;
-  background: var(--success);
-  transition: width 0.2s;
-}
-
-.petLabel {
-  position: absolute;
-  left: var(--size-4);
-  top: 0;
-  font-size: var(--fs-10);
-  line-height: var(--fs-14);
-  color: var(--text-color);
-  font-weight: bold;
-}
-
-.petText {
-  position: absolute;
-  right: var(--size-4);
-  top: 0;
-  font-size: var(--fs-10);
-  line-height: var(--fs-14);
-  color: var(--text-color);
-}

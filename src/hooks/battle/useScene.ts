@@ -362,10 +362,6 @@ export function useBattleScene({
     obstacles: map?.obstacles,
     hitstopRef: refs.hitstopRef,
     npcStaggerRef: refs.npcStaggerRef,
-    petXRef: targeting.petXRef,
-    petYRef: targeting.petYRef,
-    hasPetRef: targeting.hasPetRef,
-    npcTargetIsPetRef: targeting.npcTargetIsPetRef,
     npcHpRef: targeting.npcAiHpRef,
     npcMaxHpRef: targeting.npcAiMaxHpRef,
     npcBlockedRef: targeting.npcBlockedRef,
@@ -530,9 +526,6 @@ export function useBattleScene({
     setPlayer,
     lastBlockPressRef,
     npcPhaseRef,
-    npcTargetIsPetRef: targeting.npcTargetIsPetRef,
-    petXRef: targeting.petXRef,
-    petYRef: targeting.petYRef,
     onBeforeNpcHitRef: targeting.onBeforeNpcHitRef,
     onBlockRef,
     onDamageTakenRef,
@@ -540,8 +533,6 @@ export function useBattleScene({
     onDamageDealtRef,
     onAttackRef,
     onSpecialRef,
-    petLevel,
-    petStars,
     petId,
     onPetSkillRef: executePetSkillRef,
     isMenuRef: isMenuOpenRef,
@@ -708,8 +699,6 @@ export function useBattleScene({
         direction: string;
         state: string;
         npcType: string;
-        hp: number;
-        maxHp: number;
       } | null>,
       comboRef: comboSnapshotRef as React.RefObject<{
         count: number;
@@ -853,9 +842,6 @@ export function useBattleScene({
 
   useBattleSync({
     battle,
-    petXRef: targeting.petXRef,
-    petYRef: targeting.petYRef,
-    hasPetRef: targeting.hasPetRef,
     npcAiHpRef: targeting.npcAiHpRef,
     npc,
     updateNpcPosition,

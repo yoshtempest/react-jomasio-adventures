@@ -2,7 +2,6 @@ import { useCallback, useRef } from "react";
 import { NPC_MELEE_COOLDOWN } from "@/data/cooldowns";
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import { calculateNpcDamage } from "@/gameRules/battle/damage";
-import { isNpcInRange } from "@/gameRules/battle/range";
 import { isFacingTarget } from "@/gameRules/battle/direction";
 import { handleNpcBlocking } from "./useBlocking";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
@@ -22,7 +21,6 @@ type Props = {
   totalArmor: number;
 
   damagePlayerHp: (damage: number) => void;
-  damagePet?: (damage: number) => void;
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;
   setNpcHP: React.Dispatch<React.SetStateAction<number>>;
   totalReflect: number;
@@ -37,9 +35,6 @@ type Props = {
   blockGauge: number;
   setBlockGauge: React.Dispatch<React.SetStateAction<number>>;
   lastBlockPressRef: React.RefObject<number>;
-  npcTargetIsPetRef?: React.RefObject<boolean>;
-  petXRef?: React.RefObject<number>;
-  petYRef?: React.RefObject<number>;
   onBlockRef?: React.RefObject<() => void>;
   titleEnemyMissChance?: number;
   onDamageTakenRef?: React.RefObject<(amount: number) => void>;
@@ -61,7 +56,6 @@ export function useNpcBattle({
   playerClass,
   totalArmor,
   damagePlayerHp,
-  damagePet,
   setPlayer,
   setNpcHP,
   totalReflect,
@@ -79,9 +73,6 @@ export function useNpcBattle({
   blockGauge,
   setBlockGauge,
   lastBlockPressRef,
-  npcTargetIsPetRef,
-  petXRef,
-  petYRef,
   onBlockRef,
   titleEnemyMissChance = 0,
   onDamageTakenRef,
@@ -133,43 +124,36 @@ export function useNpcBattle({
       dmg: number,
       tx: number,
       ty: number,
-      isPet: boolean,
       dmgType: DamageType = "npc",
     ) => {
-      if (isPet) {
-        damagePet?.(dmg);
-        spawnDamageRef.current?.(dmg, tx, ty, dmgType);
-      } else {
-        const isBlocking =
-          player.state === "blocked" &&
-          isFacingTarget(playerX, playerY, npcX, npcY, player.battleDirection);
+      const isBlocking =
+        player.state === "blocked" &&
+        isFacingTarget(playerX, playerY, npcX, npcY, player.battleDirection);
 
-        const blocked = handleNpcBlocking({
-          dmg,
-          isBlocking,
-          blockGauge,
-          setBlockGauge,
-          damagePlayerWithReflect,
-          setPlayer,
-          spawnDamageRef,
-          playerX,
-          playerY,
-          hitstopRef,
-          npcStaggerRef,
-          npcCooldown,
-          lastBlockPressRef,
-          onFullBlock,
-          onBlockRef,
-        });
-        if (blocked) return;
+      const blocked = handleNpcBlocking({
+        dmg,
+        isBlocking,
+        blockGauge,
+        setBlockGauge,
+        damagePlayerWithReflect,
+        setPlayer,
+        spawnDamageRef,
+        playerX,
+        playerY,
+        hitstopRef,
+        npcStaggerRef,
+        npcCooldown,
+        lastBlockPressRef,
+        onFullBlock,
+        onBlockRef,
+      });
+      if (blocked) return;
 
-        damagePlayerWithReflect(dmg);
-        spawnDamageRef.current?.(dmg, tx, ty, dmgType);
-      }
+      damagePlayerWithReflect(dmg);
+      spawnDamageRef.current?.(dmg, tx, ty, dmgType);
       navigator.vibrate?.(40);
     },
     [
-      damagePet,
       damagePlayerWithReflect,
       setPlayer,
       spawnDamageRef,
@@ -197,28 +181,20 @@ export function useNpcBattle({
 
     if (!skipCooldown && !npcCooldown.current) return;
 
-    const targetIsPet = npcTargetIsPetRef?.current === true;
-
-    if (!targetIsPet) {
-      if (player.state === "dash") {
-        onDodgeRef?.current?.();
-        return;
-      }
-      if (
-        (player.state === "idleCrounched" ||
-          player.state === "walkCrounched") &&
-        Math.abs(playerX - npcX) > 80
-      ) {
-        onDodgeRef?.current?.();
-        return;
-      }
-    } else {
-      if (!petXRef?.current || !petYRef?.current) return;
-      if (!isNpcInRange(petXRef.current, petYRef.current, npcX, npcY)) return;
+    if (player.state === "dash") {
+      onDodgeRef?.current?.();
+      return;
+    }
+    if (
+      (player.state === "idleCrounched" || player.state === "walkCrounched") &&
+      Math.abs(playerX - npcX) > 80
+    ) {
+      onDodgeRef?.current?.();
+      return;
     }
 
-    const tx = targetIsPet ? (petXRef?.current ?? playerX) : playerX;
-    const ty = targetIsPet ? (petYRef?.current ?? playerY) : playerY;
+    const tx = playerX;
+    const ty = playerY;
 
     const missChance = 0.005 + titleEnemyMissChance / 100 + luckBonus;
     if (Math.random() < missChance) {
@@ -250,16 +226,16 @@ export function useNpcBattle({
     const finalDmg = isCrit ? dmg * 2 : dmg;
     const dmgType: DamageType = isCrit ? "crit" : "npc";
 
-    applyNpcDamage(finalDmg, tx, ty, targetIsPet, dmgType);
+    applyNpcDamage(finalDmg, tx, ty, dmgType);
     onDamageTakenRef?.current?.(finalDmg);
-    if (!targetIsPet) onHalfHeal?.();
+    onHalfHeal?.();
     hitstopRef.current = Date.now() + 50;
 
-    if (npcType === "hungryDeath" && !targetIsPet) {
+    if (npcType === "hungryDeath") {
       const bleedMs = Math.round(5000 * (1 - tenacityReductionRef.current));
       setPlayer((p) => ({ ...p, bleedUntil: Date.now() + bleedMs }));
     }
-    if (npcType === "maurao" && !targetIsPet) {
+    if (npcType === "maurao") {
       const bleedMs = Math.round(5000 * (1 - tenacityReductionRef.current));
       setPlayer((p) => ({ ...p, bleedUntil: Date.now() + bleedMs }));
     }
@@ -280,14 +256,10 @@ export function useNpcBattle({
     playerX,
     playerY,
     npcX,
-    npcY,
     difficulty,
     hitstopRef,
     applyNpcDamage,
     setPlayer,
-    npcTargetIsPetRef,
-    petXRef,
-    petYRef,
     titleEnemyMissChance,
     onDamageTakenRef,
     onDodgeRef,

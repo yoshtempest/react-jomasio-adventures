@@ -151,8 +151,6 @@ export function useBattleRecording({
         petst: pet?.state ?? null,
         petdir: pet?.direction ?? null,
         petType: pet?.npcType ?? null,
-        petphp: pet ? Math.round(pet.hp) : null,
-        petpmaxhp: pet ? Math.round(pet.maxHp) : null,
 
         comboAction: comboAction,
       };
