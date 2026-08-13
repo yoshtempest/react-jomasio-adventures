@@ -8,6 +8,7 @@ type Props = {
   ready: boolean;
   remaining: number;
   cooldownMs: number;
+  imageUrl?: string;
   disabled?: boolean;
   onClick: () => void;
 };
@@ -19,6 +20,7 @@ export function PetSkillButton({
   ready,
   remaining,
   cooldownMs,
+  imageUrl,
   disabled = false,
   onClick,
 }: Props) {
@@ -30,6 +32,7 @@ export function PetSkillButton({
       className={`${styles.button} ${ready ? styles.ready : ""} ${
         disabled ? styles.disabled : ""
       }`}
+      style={{ backgroundImage: imageUrl ? `url("${imageUrl}")` : undefined }}
       onClick={onClick}
       disabled={locked}
     >

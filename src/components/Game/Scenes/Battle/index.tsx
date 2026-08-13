@@ -25,6 +25,7 @@ import { TrainingOverlay } from "@/components/Game/Battle/TrainingOverlay";
 import { ProjectileConstants } from "@/data/projectile";
 import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
 import { getBossSizeMultiplier } from "@/utils/npc/getSpritePath";
+import { npcPath } from "@/utils/paths";
 
 type Props = {
   npcType: string;
@@ -354,6 +355,7 @@ export function BattleScene(props: Props) {
 
       {petSkill && pet && (
         <PetSkillButton
+          imageUrl={npcPath(`/${petSkill.definition.npcType}/face.svg)}`)}
           petName={petSkill.definition.name}
           role={petSkill.definition.role}
           skillName={petSkill.definition.skill.name}
