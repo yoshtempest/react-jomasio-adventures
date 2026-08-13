@@ -14,11 +14,7 @@ import {
 } from "@/data/characters/petSkills";
 import type { EquipmentRank } from "@/utils/types/player/equipment";
 import { PET_STAR_MAX } from "@/data/characters/petProgress";
-import {
-  circularNext,
-  circularPrev,
-  gridMove,
-} from "@/gameRules/menu/navigation";
+import { gridMove } from "@/gameRules/menu/navigation";
 
 export type PetEntry = {
   id: string;
@@ -97,14 +93,14 @@ export function usePetsMenu(
 
   useEffect(() => {
     setPendingStar(0);
-  }, [selectedIndex, ownedPets.length]);
+  }, [selectedIndex]);
 
   useEffect(() => {
     setSelectedIndex((prev) => {
-      if (ownedPets.length === 0) return 0;
-      return Math.min(prev, ownedPets.length - 1);
+      if (pets.length === 0) return 0;
+      return Math.min(prev, pets.length - 1);
     });
-  }, [ownedPets.length]);
+  }, [pets.length]);
 
   const prevSelectedIndexRef = useRef(selectedIndex);
   useEffect(() => {
@@ -113,15 +109,12 @@ export function usePetsMenu(
     prevSelectedIndexRef.current = selectedIndex;
     if (selectedIndex === prev) return;
     const container = listRef.current;
-    const selectedOwned = ownedPets[selectedIndex];
-    if (!selectedOwned) return;
-    const petsIndex = pets.findIndex((pet) => pet.id === selectedOwned.id);
-    const selectedElement = container.children[petsIndex] as
+    const selectedElement = container.children[selectedIndex] as
       | HTMLElement
       | undefined;
     if (!selectedElement) return;
     selectedElement.scrollIntoView({ behavior: "smooth", block: "nearest" });
-  }, [isOpen, selectedIndex, ownedPets, pets, listRef]);
+  }, [isOpen, selectedIndex, pets, listRef]);
 
   function maxOwnedStar(entry: PetEntry): number {
     for (let s = PET_STAR_MAX; s >= 1; s--) {
@@ -153,8 +146,8 @@ export function usePetsMenu(
   resetPetProgressRef.current = resetPetProgress;
   const characterRef = useRef(character);
   characterRef.current = character;
-  const ownedPetsRef = useRef(ownedPets);
-  ownedPetsRef.current = ownedPets;
+  const petsRef = useRef(pets);
+  petsRef.current = pets;
   const pendingStarRef = useRef(pendingStar);
   pendingStarRef.current = pendingStar;
   const highestEligibleStarRef = useRef(highestEligibleStar);
@@ -173,8 +166,8 @@ export function usePetsMenu(
 
   const confirmRef = useRef<() => boolean>(() => false);
   confirmRef.current = () => {
-    const entry = ownedPetsRef.current[selectedIndexRef.current];
-    if (!entry) return true;
+    const entry = petsRef.current[selectedIndexRef.current];
+    if (!entry || !entry.owned) return true;
     const stars = highestEligibleStarRef.current(entry);
     if (stars < 1) return true;
 
@@ -204,29 +197,27 @@ export function usePetsMenu(
 
     const controls = {
       onRight: () => {
-        if (ownedPetsRef.current.length === 0) return;
         playMoveRef.current();
         setSelectedIndex((prev) =>
-          circularNext(prev, ownedPetsRef.current.length),
+          gridMove(prev, 2, "right", petsRef.current.length),
         );
       },
       onLeft: () => {
-        if (ownedPetsRef.current.length === 0) return;
         playMoveRef.current();
         setSelectedIndex((prev) =>
-          circularPrev(prev, ownedPetsRef.current.length),
+          gridMove(prev, 2, "left", petsRef.current.length),
         );
       },
       onDown: () => {
         playMoveRef.current();
         setSelectedIndex((prev) =>
-          gridMove(prev, 2, "down", ownedPetsRef.current.length),
+          gridMove(prev, 2, "down", petsRef.current.length),
         );
       },
       onUp: () => {
         playMoveRef.current();
         setSelectedIndex((prev) =>
-          gridMove(prev, 2, "up", ownedPetsRef.current.length),
+          gridMove(prev, 2, "up", petsRef.current.length),
         );
       },
       onConfirm: () => confirmRef.current(),

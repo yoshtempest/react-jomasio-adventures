@@ -20,7 +20,6 @@ export function Pets() {
   const listRef = useRef<HTMLDivElement | null>(null);
   const {
     pets,
-    ownedPets,
     equippedId,
     selectedIndex,
     pendingStar,
@@ -30,9 +29,8 @@ export function Pets() {
 
   return (
     <div ref={listRef} className={`containerOfNavbar ${styles.petsContainer}`}>
-      {pets.map((entry) => {
-        const ownedIndex = ownedPets.findIndex((pet) => pet.id === entry.id);
-        const isSelected = ownedIndex === selectedIndex;
+      {pets.map((entry, index) => {
+        const isSelected = index === selectedIndex;
         const isEquipped = equippedId === entry.id;
         const stats = statsFor(entry);
         const eligible = highestEligibleStar(entry);
