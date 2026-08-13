@@ -29,10 +29,6 @@ export const PET_CLASS: Record<string, NPCClass> = {
   pet_riquelsonDog: "rare",
 };
 
-export const PET_BASE_HP = 30;
-export const PET_HP_PER_LEVEL = 5;
-export const PET_BASE_DAMAGE = 8;
-export const PET_DAMAGE_PER_LEVEL = 1;
 export const PET_XP_MULTIPLIER = 0.7;
 export const PET_MAX_LEVEL = 100;
 
@@ -44,16 +40,6 @@ export function petStarsFromEnhance(enhance: number): number {
 export function enhanceFromPetStars(stars: number): number {
   const clamped = Math.min(Math.max(Math.floor(stars), 1), PET_STAR_MAX);
   return clamped - 1;
-}
-
-export function getPetMaxHp(level: number, stars: number = 1): number {
-  const base = PET_BASE_HP + (level - 1) * PET_HP_PER_LEVEL;
-  return Math.round(base * PET_STAR_MULTIPLIER ** (stars - 1));
-}
-
-export function getPetBaseDamage(level: number, stars: number = 1): number {
-  const base = PET_BASE_DAMAGE + (level - 1) * PET_DAMAGE_PER_LEVEL;
-  return Math.round(base * PET_STAR_MULTIPLIER ** (stars - 1));
 }
 
 function clampProgress(raw: unknown): PetProgress | null {

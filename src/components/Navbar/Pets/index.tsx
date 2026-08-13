@@ -68,6 +68,13 @@ export function Pets() {
                 >
                   {entry.name}
                 </h2>
+                {entry.owned && stats && (
+                  <>
+                    <p className={styles.statsLine}>
+                      Nv.{stats.level}
+                    </p>
+                  </>
+                )}
                 <span className={styles.roleBadge}>
                   {PET_ROLE_LABELS[entry.role]}
                 </span>
@@ -82,7 +89,7 @@ export function Pets() {
                 </p>
                 <p className={styles.dropLine}>Drop: {formatDrop(entry)}</p>
               </div>
-              
+
               <p className={styles.skillLine}>Passiva: {entry.passiveName}</p>
               <p className={styles.skillLine}>Skill: {entry.skillName}</p>
 
@@ -107,9 +114,6 @@ export function Pets() {
                       );
                     })}
                   </div>
-                  <p className={styles.statsLine}>
-                    Nv.{stats.level} — HP: {stats.maxHp} | Dano: {stats.damage}
-                  </p>
                 </>
               )}
 

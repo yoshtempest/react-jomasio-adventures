@@ -13,11 +13,7 @@ import {
   type PetRole,
 } from "@/data/characters/petSkills";
 import type { EquipmentRank } from "@/utils/types/player/equipment";
-import {
-  PET_STAR_MAX,
-  getPetBaseDamage,
-  getPetMaxHp,
-} from "@/data/characters/petProgress";
+import { PET_STAR_MAX } from "@/data/characters/petProgress";
 import {
   circularNext,
   circularPrev,
@@ -253,8 +249,6 @@ export function usePetsMenu(
       return {
         stars,
         level: progress.level,
-        maxHp: getPetMaxHp(progress.level, stars),
-        damage: getPetBaseDamage(progress.level, stars),
       };
     },
   };
