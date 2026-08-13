@@ -106,8 +106,12 @@ export function usePetsMenu(
     });
   }, [ownedPets.length]);
 
+  const prevSelectedIndexRef = useRef(selectedIndex);
   useEffect(() => {
     if (!isOpen || !listRef?.current) return;
+    const prev = prevSelectedIndexRef.current;
+    prevSelectedIndexRef.current = selectedIndex;
+    if (selectedIndex === prev) return;
     const container = listRef.current;
     const selectedOwned = ownedPets[selectedIndex];
     if (!selectedOwned) return;
