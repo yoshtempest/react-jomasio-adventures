@@ -9,11 +9,10 @@
   justify-content: center;
   gap: var(--size-2);
 
-  min-width: var(--size-160);
   padding: var(--size-6) var(--size-22);
 
   border: var(--size-2) solid rgba(255, 255, 255, 0.25);
-  border-radius: var(--size-5);
+  border-radius: 50%;
 
   background: rgba(255, 255, 255, 0.1);
   color: var(--text-color);
@@ -24,6 +23,8 @@
   z-index: 20;
   background-size: cover;
   background-position: center;
+  width: 6vw;
+  height: 6vw;
 }
 
 .button:hover:not(:disabled) {
@@ -44,22 +45,9 @@
   border-color: var(--border-medium);
 }
 
-.role {
-  font-size: var(--fs-10);
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: var(--size-1);
-  color: var(--text-secondary);
-}
-
 .skillName {
   font-size: var(--fs-13);
   font-weight: bold;
-}
-
-.petName {
-  font-size: var(--fs-10);
-  color: var(--text-secondary);
 }
 
 .cooldown {

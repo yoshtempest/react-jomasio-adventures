@@ -1,9 +1,6 @@
-import { PET_ROLE_LABELS, type PetRole } from "@/data/characters/petSkills";
 import styles from "./styles.module.css";
 
 type Props = {
-  petName: string;
-  role: PetRole;
   skillName: string;
   ready: boolean;
   remaining: number;
@@ -14,8 +11,6 @@ type Props = {
 };
 
 export function PetSkillButton({
-  petName,
-  role,
   skillName,
   ready,
   remaining,
@@ -32,16 +27,18 @@ export function PetSkillButton({
       className={`${styles.button} ${ready ? styles.ready : ""} ${
         disabled ? styles.disabled : ""
       }`}
-      style={{ backgroundImage: imageUrl ? `url("${imageUrl}")` : undefined }}
+      style={{
+        backgroundImage: imageUrl ? `url("${imageUrl}")` : undefined,
+        backgroundSize: imageUrl ? "cover" : undefined,
+        backgroundPosition: imageUrl ? "center" : undefined,
+      }}
       onClick={onClick}
       disabled={locked}
     >
-      <span className={styles.role}>{PET_ROLE_LABELS[role]}</span>
       <span className={styles.skillName}>{skillName}</span>
-      <span className={styles.petName}>{petName}</span>
       <span className={styles.cooldown}>
         {ready
-          ? "Pronta para usar"
+          ? ""
           : remaining > 0
             ? `${remaining}s`
             : `${seconds}s`}

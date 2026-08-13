@@ -355,9 +355,7 @@ export function BattleScene(props: Props) {
 
       {petSkill && pet && (
         <PetSkillButton
-          imageUrl={npcPath(`/${petSkill.definition.npcType}/face.svg)}`)}
-          petName={petSkill.definition.name}
-          role={petSkill.definition.role}
+          imageUrl={npcPath(`/${petSkill.definition.npcType}/face.svg`)}
           skillName={petSkill.definition.skill.name}
           ready={petSkill.ready}
           remaining={petSkill.remaining}
