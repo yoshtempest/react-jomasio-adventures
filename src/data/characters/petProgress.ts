@@ -42,6 +42,14 @@ export function enhanceFromPetStars(stars: number): number {
   return clamped - 1;
 }
 
+export const PET_BASE_DAMAGE = 8;
+export const PET_DAMAGE_PER_LEVEL = 1;
+
+export function getPetBaseDamage(level: number, stars: number = 1): number {
+  const base = PET_BASE_DAMAGE + (level - 1) * PET_DAMAGE_PER_LEVEL;
+  return Math.round(base * PET_STAR_MULTIPLIER ** (stars - 1));
+}
+
 function clampProgress(raw: unknown): PetProgress | null {
   if (!raw || typeof raw !== "object") return null;
   const saved = raw as Record<string, unknown>;
