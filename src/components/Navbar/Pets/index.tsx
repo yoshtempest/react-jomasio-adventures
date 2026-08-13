@@ -13,7 +13,7 @@ function formatDrop(entry: PetEntry): string {
   const pct = (entry.dropChance * 100).toLocaleString("pt-BR", {
     maximumFractionDigits: 1,
   });
-  return `${entry.dropLabel} · ${pct}%`;
+  return `${pct}%`;
 }
 
 export function Pets() {
@@ -61,25 +61,30 @@ export function Pets() {
             </div>
 
             <div className={styles.flexColumn}>
-              <h2
-                className={styles.name}
-                style={{ color: RANK_COLORS[entry.rank] }}
-              >
-                {entry.name}
-              </h2>
-              <p
-                className={styles.rankLabel}
-                style={{ color: RANK_COLORS[entry.rank] }}
-              >
-                {RANK_LABELS[entry.rank]}
-              </p>
-              <p className={styles.dropLine}>Drop: {formatDrop(entry)}</p>
+              <div className={styles.flexRow}>
+                <h2
+                  className={styles.name}
+                  style={{ color: RANK_COLORS[entry.rank] }}
+                >
+                  {entry.name}
+                </h2>
+                <span className={styles.roleBadge}>
+                  {PET_ROLE_LABELS[entry.role]}
+                </span>
+              </div>
 
-              <span className={styles.roleBadge}>
-                {PET_ROLE_LABELS[entry.role]}
-              </span>
-              <p className={styles.skillLine}>Skill: {entry.skillName}</p>
+              <div className={styles.flexRow}>
+                <p
+                  className={styles.rankLabel}
+                  style={{ color: RANK_COLORS[entry.rank] }}
+                >
+                  {RANK_LABELS[entry.rank]}
+                </p>
+                <p className={styles.dropLine}>Drop: {formatDrop(entry)}</p>
+              </div>
+              
               <p className={styles.skillLine}>Passiva: {entry.passiveName}</p>
+              <p className={styles.skillLine}>Skill: {entry.skillName}</p>
 
               {entry.owned && stats && (
                 <>

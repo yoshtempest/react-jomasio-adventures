@@ -13,6 +13,6 @@ sempre que precisar resolver um problema de carregamento, use contro shift R
 
 adicionar animação de burn em deise antes de redirecionar para cafeteria/three, quando termina o diálogo em que denis diz "expansão de domínio, fuuga" o npc deise deve ser queimado e desaparecer, somente então acontece a transição de cena.
 
-adicionar hellroomFour e colocar apenas maugrelo numa cadeira de rodas dizendo "ele acabou comigo..."
-
 adicionar informação de xp do pet no menu de pets
+
+Desafio para eu mesmo (fácil): Cada pet tem um nv e uma barra de xp para subir de nível, exiba visualmente a informação de xp do pet no menu de pets da navbar

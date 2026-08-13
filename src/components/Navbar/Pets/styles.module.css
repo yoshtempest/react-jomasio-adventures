@@ -1,6 +1,6 @@
 .petsContainer {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   overflow-y: auto;
 }
 
@@ -12,7 +12,7 @@
   align-items: center;
   justify-content: center;
   width: 99.2%;
-  height: 30vh;
+  height: 34vh;
   border: var(--size-2) solid var(--primary-color);
   border-radius: var(--fs-16);
   background: var(--surface-primary);
@@ -61,11 +61,16 @@
 }
 
 .flexColumn {
-  margin-top: 8%;
-  min-width: 0;
+  margin-top: 2%;
   display: flex;
   flex-direction: column;
   gap: var(--fs-6);
+}
+
+.flexRow {
+  display: flex;
+  flex-direction: row;
+  gap: var(--small);
 }
 
 .name {
@@ -102,8 +107,9 @@
   color: var(--text-secondary);
   text-wrap: nowrap;
   overflow: hidden;
+  text-align: flex-start;
   text-overflow: ellipsis;
-  max-width: 100%;
+  width: 100%;
 }
 
 .starsRow {
@@ -140,6 +146,8 @@
 .statsLine {
   font-size: var(--fs-11);
   color: var(--text-secondary);
+  width: 100%;
+  text-align: flex-start;
 }
 
 .fuseBadge {

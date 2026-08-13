@@ -143,7 +143,7 @@ export const PET_SKILLS: Record<string, PetSkillDefinition> = {
   ),
   pet_riquelsonDog: def(
     "pet_riquelsonDog",
-    "Eu Vi Tudo Mas Não Fiz Nada",
+    "Riquelson Dog",
     "riquelsonDog",
     "dano",
     {
