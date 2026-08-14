@@ -13,7 +13,9 @@ import {
   SHOW_COMBO_ACTION_KEY,
   SHOW_HIGHLIGHT_KEY,
   SHARED_XP_KEY,
+  DIFFICULTY_KEY,
 } from "@/data/storageKeys";
+import { slotKey } from "@/utils/save/slotManager";
 
 type SettingsContextType = {
   dialogueSpeed: DialogueSpeed;
@@ -27,6 +29,8 @@ type SettingsContextType = {
   setShowHighlight: (show: boolean) => void;
   sharedXp: boolean;
   setSharedXp: (shared: boolean) => void;
+  difficulty: NpcDifficulty;
+  setDifficulty: (difficulty: NpcDifficulty) => void;
 };
 
 const SettingsContext = createContext<SettingsContextType | null>(null);
@@ -86,6 +90,23 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(SHARED_XP_KEY, String(shared));
   }, []);
 
+  const [difficulty, setDifficultyState] = useState<NpcDifficulty>(() => {
+    const saved = localStorage.getItem(slotKey(DIFFICULTY_KEY));
+    if (
+      saved === "easy" ||
+      saved === "medium" ||
+      saved === "hard" ||
+      saved === "insano"
+    )
+      return saved;
+    return "medium";
+  });
+
+  const setDifficulty = useCallback((newDifficulty: NpcDifficulty) => {
+    setDifficultyState(newDifficulty);
+    localStorage.setItem(slotKey(DIFFICULTY_KEY), newDifficulty);
+  }, []);
+
   const dialogueSpeedMs = SPEED_MAP[dialogueSpeed];
 
   return (
@@ -102,6 +123,8 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
         setShowHighlight,
         sharedXp,
         setSharedXp,
+        difficulty,
+        setDifficulty,
       }}
     >
       {children}

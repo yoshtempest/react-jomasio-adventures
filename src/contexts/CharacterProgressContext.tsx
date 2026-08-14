@@ -18,7 +18,9 @@ import {
   getXPToNextLevel,
 } from "@/utils/character/progress";
 import { getXpBuffMultiplier } from "@/utils/buffs/xpBuff";
+import { DIFFICULTY_XP_MULTIPLIER } from "@/data/player/xp";
 import { useCompressedStorage } from "@/hooks/useCompressedStorage";
+import { useSettings } from "@/contexts/SettingsContext";
 
 export const MAX_HUNGER = 100;
 
@@ -59,6 +61,7 @@ export function CharacterProgressProvider({
     defaultProgress,
     normalizeProgress,
   );
+  const { difficulty } = useSettings();
   const { playSound } = useSoundEffects();
 
   const pendingSoundsRef = useRef<SoundId[]>([]);
@@ -72,7 +75,11 @@ export function CharacterProgressProvider({
   function addXP(character: Character, amount: number) {
     const isSunday = new Date().getDay() === 0;
     const xpBuff = getXpBuffMultiplier();
-    const finalAmount = Math.floor(amount * (isSunday ? 2 : 1) * xpBuff);
+    const difficultyMultiplier =
+      DIFFICULTY_XP_MULTIPLIER[difficulty] ?? DIFFICULTY_XP_MULTIPLIER.medium;
+    const finalAmount = Math.floor(
+      amount * (isSunday ? 2 : 1) * xpBuff * difficultyMultiplier,
+    );
 
     setProgress((prev) => {
       pendingSoundsRef.current = [];

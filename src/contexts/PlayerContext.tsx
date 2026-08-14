@@ -22,9 +22,9 @@ import {
 import {
   CHARACTER_KEY,
   PLAYER_CLASS_KEY,
-  DIFFICULTY_KEY,
 } from "@/data/storageKeys";
 import { slotKey } from "@/utils/save/slotManager";
+import { useSettings } from "@/contexts/SettingsContext";
 
 type PlayerContextType = {
   player: Player;
@@ -85,17 +85,7 @@ type PlayerContextType = {
 const PlayerContext = createContext<PlayerContextType | null>(null);
 
 export function PlayerProvider({ children }: { children: ReactNode }) {
-  const [difficulty, setDifficulty] = useState<NpcDifficulty>(() => {
-    const saved = localStorage.getItem(slotKey(DIFFICULTY_KEY));
-    if (
-      saved === "easy" ||
-      saved === "medium" ||
-      saved === "hard" ||
-      saved === "insano"
-    )
-      return saved;
-    return "medium";
-  });
+  const { difficulty, setDifficulty } = useSettings();
 
   const [player, setPlayer] = useState<Player>(() => {
     const savedCharacter = localStorage.getItem(slotKey(CHARACTER_KEY));
@@ -160,10 +150,6 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     if (playerClass)
       localStorage.setItem(slotKey(PLAYER_CLASS_KEY), playerClass);
   }, [playerClass]);
-
-  useEffect(() => {
-    localStorage.setItem(slotKey(DIFFICULTY_KEY), difficulty);
-  }, [difficulty]);
 
   const battleCollisionRef = useBattleCollisionRef();
   const lastBlockPressRef = useRef(0);
