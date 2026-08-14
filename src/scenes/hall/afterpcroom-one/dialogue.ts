@@ -8,14 +8,16 @@ import { AfterPcRoomSevenDialogue } from "@/data/dialogues/hall/one/seven";
 import { AfterPcRoomEightDialogue } from "@/data/dialogues/hall/one/eight";
 import { AfterPcRoomGenericDialogue } from "@/data/dialogues/hall/one/generic";
 
-import { hasQuest, hasItem } from "@/scenes//shared/helpers";
+import { hasQuest, hasItem, hasFlag } from "@/scenes//shared/helpers";
 
 export const getAfterPcRoomOneDialogue = ({
   quests,
   items,
+  flags,
 }: {
   quests: { id: string }[];
   items: { id: ItemId }[];
+  flags: FlagId[];
 }) => {
   if (hasItem(items, "aura_letter") && !hasQuest(quests, "search_packaging")) {
     return AfterPcRoomOneDialogue;
@@ -51,17 +53,17 @@ export const getAfterPcRoomOneDialogue = ({
   if (
     hasQuest(quests, "return_to_remedinha") &&
     hasQuest(quests, "encounter_deise") &&
-    !hasQuest(quests, "x1_slimita")
+    !hasFlag(flags, "slimita")
   ) {
     return AfterPcRoomSixDialogue;
   }
 
-  if (hasQuest(quests, "x1_slimita") && !hasQuest(quests, "go_to_hell")) {
+  if (hasFlag(flags, "slimita") && !hasQuest(quests, "go_to_hell")) {
     return AfterPcRoomSevenDialogue;
   }
 
   if (
-    hasQuest(quests, "x1_maugrelo") &&
+    hasFlag(flags, "maugrelo") &&
     !hasQuest(quests, "go_to_brodiclass")
   ) {
     return AfterPcRoomEightDialogue;
