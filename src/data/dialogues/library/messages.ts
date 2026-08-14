@@ -1,9 +1,9 @@
 export const libraryMessages: Record<string, string> = {
-  "11,3": "11 livros enfileirados",
-  "12,3": "Cardápio do dia seguinte: Lupita",
-  "13,3":
+  "12,2": "11 livros enfileirados",
+  "13,2": "Cardápio do dia seguinte: Lupita",
+  "15,2":
     "10/03: um homem chamado Samurion acendeu a luz para nós, meros mortais, apartir de hoje, nós o cultuamos.",
-  "14,3":
+  "16,2":
     "11/03: nosso lorde Samurion nos espancou e chamou de lixo, quanta benevolência, gastar seu precioso tempo conosco, meros famintos.",
   "3,6":
     "Reza a lenda que um dia irá aparecer um herói e purificar todos os monstros que aqui, um dia foram pessoas...",

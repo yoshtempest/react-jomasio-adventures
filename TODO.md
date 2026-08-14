@@ -27,6 +27,8 @@ o jogador poderá voar no zecaUrubu sobrevoando a cidade após fazer alguma miss
 
 Após o diálogo da brodiClassOne adicionar cutscene na livraria de neimito falando algo "abra kadabra" e as estantes abrindo, neimito e ematron entrando na passagem secreta.
 
+Caso o jogador tenha a missão save_ematron e interaja com a posição x? e y? da libraryOne, ele é redirecionado para a libraryTwo
+
 apartir desse momento, quando o jogador entrar na livraria, ele vai poder interagir com um livro e abrir a passagem secreta também em libraryTwo.
 
 criar imagem de todas as ferramentas
