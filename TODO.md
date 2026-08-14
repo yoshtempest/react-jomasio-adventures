@@ -24,3 +24,7 @@ para poder lutar em locais quentes e pets voadores para lutar no ar.
 lupita e riquelsonDog também podem ser montarias de terreno.
 
 o jogador poderá voar no zecaUrubu sobrevoando a cidade após fazer alguma missão relacionada ao ato de voar.
+
+Após o diálogo da brodiClassOne adicionar cutscene na livraria de neimito falando algo "abra kadabra" e as estantes abrindo, neimito e ematron entrando na passagem secreta.
+
+apartir desse momento, quando o jogador entrar na livraria, ele vai poder interagir com um livro e abrir a passagem secreta também em libraryTwo.

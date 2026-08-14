@@ -107,8 +107,13 @@ export const brodiClassDialogue = [
         message: "Eu sou o protagonista então por que me tratam tão mal?",
     },
     {
+        src: playerPath("/marcelo/default.svg"),
+        name: "Marshadow",
+        message: "Como dizia meu avô, tem que apanhar para aprender, sem surra, sem aprendizado.",
+    },
+    {
         isPlayer: true,
         name: "Protagonista",
-        message: "Mas tá bom, tô indo",
+        message: "Tá bom, tô indo",
     },
 ];
