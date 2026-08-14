@@ -33,10 +33,7 @@ export function usePetSkillCooldown({
     if (!isActive || isPaused) return;
 
     const id = setInterval(() => {
-      const left = Math.max(
-        0,
-        Math.ceil((readyAtRef.current - Date.now()) / 1000),
-      );
+      const left = Math.max(0, (readyAtRef.current - Date.now()) / 1000);
       setRemaining(left);
       if (left <= 0) setIsActive(false);
     }, 200);
@@ -47,7 +44,7 @@ export function usePetSkillCooldown({
   const trigger = useCallback(() => {
     if (!enabled || Date.now() < readyAtRef.current) return;
     readyAtRef.current = Date.now() + cooldownMsRef.current;
-    setRemaining(Math.ceil(cooldownMsRef.current / 1000));
+    setRemaining(cooldownMsRef.current / 1000);
     setIsActive(true);
     onTriggerRef.current();
   }, [enabled]);

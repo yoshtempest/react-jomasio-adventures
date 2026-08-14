@@ -40,7 +40,7 @@ export function PetSkillButton({
         {ready
           ? ""
           : remaining > 0
-            ? `${remaining}s`
+            ? `${remaining.toFixed(1)}s`
             : `${seconds}s`}
       </span>
     </button>
