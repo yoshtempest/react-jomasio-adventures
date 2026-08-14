@@ -1,19 +1,15 @@
-.overlay {
-  inset: 0;
-}
-
 .modal {
   background: var(--surface-primary);
   border: var(--size-2) solid #b8860b;
   border-radius: var(--smaller);
   padding: var(--size-32);
-  min-width: var(--size-360);
-  max-width: var(--size-420);
   display: flex;
   flex-direction: column;
   align-items: center;
+  align-self: center;
   gap: var(--low-medium);
-  max-height: 90vh;
+
+  max-height: 80vh;
   overflow-y: auto;
 }
 
