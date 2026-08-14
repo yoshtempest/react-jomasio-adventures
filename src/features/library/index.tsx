@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import { SceneBase } from "@/components/Game/Scenes/Base";
 import { LIBRARY_SCENES } from "@/scenes/library";
@@ -6,6 +6,9 @@ import { createLibrary } from "@/interactions/library";
 
 import { useInventory } from "@/contexts/InventoryContext";
 import { useFlags } from "@/contexts/FlagContext";
+import { useQuests } from "@/contexts/QuestContext";
+
+import { useNavigate, useLocation } from "react-router";
 
 import { LIBRARY_RETURN_KEY } from "@/data/storageKeys";
 
@@ -19,22 +22,34 @@ type Props = {
 
 export function LibraryScene({ sceneId }: Props) {
   const scene = LIBRARY_SCENES[sceneId];
+  const navigate = useNavigate();
+  const location = useLocation();
   const { addItem } = useInventory();
   const { hasFlag, setFlag } = useFlags();
+  const { quests } = useQuests();
 
   const [popup, setPopup] = useState<string | null>(null);
   const gotPackage = hasFlag("picked_package_01");
   const gotChest = hasFlag("picked_rare_chest");
+
+  const navigateFrom = useCallback(
+    (to: string) => {
+      navigate(to, { state: { from: location.pathname } });
+    },
+    [navigate, location.pathname],
+  );
 
   const interactions = useMemo(
     () =>
       createLibrary({
         addItem,
         setPopup,
+        quests,
+        navigate: navigateFrom,
         packageDeps: { gotKey: gotPackage, setFlag },
         chestDeps: { gotKey: gotChest, setFlag },
       }),
-    [addItem, gotPackage, gotChest, setPopup, setFlag],
+    [addItem, gotPackage, gotChest, quests, navigateFrom, setPopup, setFlag],
   );
 
   useRandomEncounter({
