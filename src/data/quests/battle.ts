@@ -137,7 +137,7 @@ export const BATTLE_QUESTS = createQuests({
     completed: false,
   },
   x1_riquelson_dog: {
-    name: "Riquelson Dog",
+    name: "Duque",
     image: npcPath("/riquelsonDog/default.svg"),
     description:
       "Estive observando a luta esse tempo todo, esperando minha vez",
