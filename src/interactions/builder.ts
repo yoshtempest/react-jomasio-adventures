@@ -6,6 +6,7 @@ import type {
   PickupHandlerConfig,
   ExchangeHandlerConfig,
   ContainerDeps,
+  ToolDeps,
 } from "@/utils/types/interaction";
 
 export function createInteractionMap<TDeps extends BaseDeps>(
@@ -64,5 +65,19 @@ export function createExchangeHandler(config: ExchangeHandlerConfig) {
 export function createContainerHandler() {
   return (deps: ContainerDeps) => {
     deps.openContainer();
+  };
+}
+
+export function createToolInteraction<TDeps extends ToolDeps>(
+  toolId: EquipmentId,
+  blockedMessage: string,
+  onUse: (deps: TDeps) => void,
+) {
+  return (deps: TDeps) => {
+    if (!deps.hasToolEquipped(toolId)) {
+      deps.setPopup(blockedMessage);
+      return;
+    }
+    onUse(deps);
   };
 }

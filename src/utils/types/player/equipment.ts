@@ -47,6 +47,7 @@ export type Equipment = {
   stats: Partial<EquipmentStats>;
   bonusSlots?: number;
   set?: string;
+  craftOnly?: boolean;
 };
 
 export type EquippedItemInfo = {

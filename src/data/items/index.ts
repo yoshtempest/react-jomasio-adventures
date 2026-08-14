@@ -7,6 +7,7 @@ import { POTIONS } from "./potions";
 import { FOODS } from "./food";
 import { COINS } from "./coins";
 import { CARDS } from "./cards";
+import { MATERIALS } from "./materials";
 
 export const ITEMS = {
   ...CHESTS,
@@ -18,4 +19,5 @@ export const ITEMS = {
   ...FOODS,
   ...COINS,
   ...CARDS,
+  ...MATERIALS,
 } as const;

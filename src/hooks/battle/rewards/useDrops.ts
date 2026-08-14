@@ -33,7 +33,9 @@ export function rollEquipmentDrops(
     if (rank === "EX") continue;
     if (rank >= 9) continue;
 
-    const candidates = getEquipmentBySlotAndRank(slot, rank);
+    const candidates = getEquipmentBySlotAndRank(slot, rank).filter(
+      (e) => !e.craftOnly,
+    );
     if (candidates.length === 0) continue;
 
     const equipment = candidates[Math.floor(Math.random() * candidates.length)];

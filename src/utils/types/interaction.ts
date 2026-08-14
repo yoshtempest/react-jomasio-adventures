@@ -25,6 +25,10 @@ export type ContainerDeps = BaseDeps & {
   openContainer: () => void;
 };
 
+export type ToolDeps = BaseDeps & {
+  hasToolEquipped: (toolId: EquipmentId) => boolean;
+};
+
 export type PickupHandlerConfig = {
   item: InventoryItem;
   flagId: FlagId;

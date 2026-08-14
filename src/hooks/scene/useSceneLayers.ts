@@ -54,14 +54,6 @@ export function useSceneLayers({
     const npc = npcs.find((n) => isNpcInFront(player, n));
     if (npc) return "[L] Conversar";
 
-    const pickup = itemPickupTiles?.find(
-      (t) => t.visible && isPositionInFront(player, t.x, t.y),
-    );
-    if (pickup) return "[L] Pegar";
-
-    const plate = plates.find((p) => p.gridX === x && p.gridY === y);
-    if (plate) return "[L] Interagir";
-
     const hasInteractionKey = interactionKeys?.some((key) => {
       const pos = parseGridKey(key);
       return pos ? isPositionInFront(player, pos.x, pos.y) : false;
@@ -69,6 +61,14 @@ export function useSceneLayers({
     if (hasInteractionKey) {
       return interactionLabels?.[`${x},${y}`] ?? "[L] Interagir";
     }
+
+    const pickup = itemPickupTiles?.find(
+      (t) => t.visible && isPositionInFront(player, t.x, t.y),
+    );
+    if (pickup) return "[L] Pegar";
+
+    const plate = plates.find((p) => p.gridX === x && p.gridY === y);
+    if (plate) return "[L] Interagir";
 
     if (tileDialogues?.[`${x},${y}`]) return "[L] Interagir";
 

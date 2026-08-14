@@ -28,3 +28,11 @@ o jogador poderá voar no zecaUrubu sobrevoando a cidade após fazer alguma miss
 Após o diálogo da brodiClassOne adicionar cutscene na livraria de neimito falando algo "abra kadabra" e as estantes abrindo, neimito e ematron entrando na passagem secreta.
 
 apartir desse momento, quando o jogador entrar na livraria, ele vai poder interagir com um livro e abrir a passagem secreta também em libraryTwo.
+
+criar imagem de todas as ferramentas
+
+criar animação de craft de ferramentas
+
+adicionar imagem dos profissionais de cada profissão (O jogador têrá que dialogar com eles para evoluir suas ferramentas de ranque)
+
+fazer imagem dos brothers na cantina

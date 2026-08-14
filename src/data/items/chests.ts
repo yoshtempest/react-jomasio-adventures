@@ -181,7 +181,9 @@ export function openChest(
         continue;
 
       const slot = SLOTS[Math.floor(Math.random() * SLOTS.length)];
-      const candidates = getEquipmentBySlotAndRank(slot, rankId);
+      const candidates = getEquipmentBySlotAndRank(slot, rankId).filter(
+        (e) => !e.craftOnly,
+      );
       if (candidates.length === 0) continue;
 
       const equip = candidates[Math.floor(Math.random() * candidates.length)];
