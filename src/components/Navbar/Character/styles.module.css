@@ -43,6 +43,19 @@ p {
   text-wrap: nowrap;
 }
 
+.levelRow {
+  display: flex;
+  align-items: center;
+  gap: var(--size-6);
+}
+
+.elementBadge {
+  width: var(--fs-18);
+  height: var(--fs-18);
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
 .flexColumn {
   margin-top: 8%;
 }

@@ -3,8 +3,9 @@ import styles from "./styles.module.css";
 import { useCharacterMenu } from "@/hooks/menu/useCharacter";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { ProgressBar } from "@/components/ProgressBar";
-import { playerPath } from "@/utils/paths";
+import { playerPath, asset } from "@/utils/paths";
 import { getRank, formatRank } from "@/gameRules/rank";
+import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
 
 export function Character() {
   const { progress, getXPToNextLevel } = useCharacterProgress();
@@ -43,9 +44,23 @@ export function Character() {
             />
             <div className={styles.flexColumn}>
               <h2 className={styles.text}>
-                {char.selectable
-                  ? `${char.name} - Nv.${charProgress.level}`
-                  : "???"}
+                <span className={styles.levelRow}>
+                  {char.selectable
+                    ? `${char.name} - Nv.${charProgress.level}`
+                    : "???"}
+                  {char.selectable &&
+                    CHARACTER_ELEMENT_TYPES[char.image].map((element) => (
+                      <img
+                        key={element}
+                        src={asset(
+                          `/assets/elementsBadges/${element.toLowerCase()}.svg`,
+                        )}
+                        alt={element}
+                        title={element}
+                        className={styles.elementBadge}
+                      />
+                    ))}
+                </span>
               </h2>
               <p className={styles.rank}>
                 {formatRank(getRank(charProgress.level))}

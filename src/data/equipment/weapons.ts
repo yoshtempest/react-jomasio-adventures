@@ -132,8 +132,8 @@ export const WEAPONS: Equipment[] = [
     craftOnly: true,
   },
   {
-    id: "weapon_frasco_alquimico",
-    name: "Frasco Alquímico",
+    id: "weapon_cauldron",
+    name: "Caldeirão",
     slot: "weapon",
     rank: 1,
     stats: { intelligence: 1 },
