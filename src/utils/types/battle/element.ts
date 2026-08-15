@@ -1,0 +1,15 @@
+export type ElementType =
+  | "Aquos"
+  | "Pyrus"
+  | "Subterra"
+  | "Ventus"
+  | "Darkus"
+  | "Electricus"
+  | "Haos"
+  | "Metallum"
+  | "Natura"
+  | "Psychicus"
+  | "Nympha"
+  | "Draco"
+  | "Umbra"
+  | "Normalis";

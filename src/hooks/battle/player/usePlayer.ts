@@ -18,6 +18,7 @@ import {
 } from "@/gameRules/battle/status/statusEffects";
 import type { BattleBehavior } from "@/utils/types/player/behavior";
 import type { CharacterProgress } from "@/data/characters/defaultProgress";
+import type { ElementType } from "@/utils/types/battle/element";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { logPlay } from "@/utils/replay/audioEventLog";
 
@@ -33,6 +34,7 @@ type Props = {
   npcY: number;
   playerState: playerState;
   npcClass: NPCClass;
+  npcElementTypes: readonly ElementType[];
 
   HITS_TO_SPECIAL: number;
 
@@ -85,6 +87,7 @@ export function usePlayerBattle({
   npcY,
   playerState,
   npcClass,
+  npcElementTypes,
   spawnPiercing,
   triggerExplosion,
   titleDamageBonus,
@@ -154,6 +157,7 @@ export function usePlayerBattle({
           titleDamageBonus,
           critRate,
           npcArmor,
+          npcElementTypes: [],
           playerHP,
           playerMaxHp,
           totalMaxHpDamage,
@@ -179,6 +183,7 @@ export function usePlayerBattle({
         titleDamageBonus,
         critRate,
         npcArmor,
+        npcElementTypes,
         playerHP,
         playerMaxHp,
         totalVampirism,
@@ -241,6 +246,7 @@ export function usePlayerBattle({
       onAttackRef,
       onHalfHeal,
       npcClass,
+      npcElementTypes,
     ],
   );
 
@@ -294,6 +300,7 @@ export function usePlayerBattle({
           char,
           critRate,
           npcArmor,
+          npcElementTypes: [],
           playerHP,
           playerMaxHp,
           totalMaxHpDamage,
@@ -326,6 +333,7 @@ export function usePlayerBattle({
         titleDamageBonus,
         critRate,
         npcArmor,
+        npcElementTypes,
         playerHP,
         playerMaxHp,
         totalVampirism,
@@ -392,6 +400,7 @@ export function usePlayerBattle({
       playSound,
       titleDamageBonus,
       npcClass,
+      npcElementTypes,
     ],
   );
 

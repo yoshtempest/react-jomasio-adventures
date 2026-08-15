@@ -41,8 +41,10 @@ Adicionar tipagens a todos os npcs e personagens que participam da batalha. Uma 
 
 Cada npc e personagem tem pelo menos um e no máximo 2 tipagens
 por exemplo:
-marshadow é normalis e ventus
-leviathan é aquos e draco
+O personagem Marshadow é normalis e ventus
+O npc leviathan é aquos e draco
+
+adicionar conquistar por drop de pet e kill em alfas
 
 as tipagens são:
 
@@ -104,6 +106,11 @@ Forte contra: Metallum, Natura
 Fraco contra: Aquos, Subterra
 
 O fogo derrete metal e destrói vegetação. Ventus pode alimentar o fogo, mas também pode espalhá-lo; aqui optei por uma relação de vantagem para Ventus.
+
+🌎 Aquos
+
+Forte contra: Pyrus, Subterra
+Fraco contra: Electricus, Natura
 
 🌎 Subterra
 

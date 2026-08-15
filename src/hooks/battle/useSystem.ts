@@ -24,6 +24,7 @@ import {
   reduceDurationByResistance,
   reduceTickDamage,
 } from "@/gameRules/battle/equipment";
+import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import {
   applyPlayerStatus,
   clearPlayerStatuses,
@@ -132,6 +133,8 @@ export function useBattleSystem(props: Props) {
 
   const behavior = battleBehaviors[player.character] || battleBehaviors.default;
 
+  const npcElementTypes = getNpcElementTypes(npcType);
+
   const halfHealReduction = getHalfHealReduction(player.character);
   const equippedResistances = getEquippedResistances(player.character);
   const burnTickDamage = reduceTickDamage(
@@ -202,6 +205,7 @@ export function useBattleSystem(props: Props) {
     npcY,
     playerState,
     npcClass,
+    npcElementTypes,
     HITS_TO_SPECIAL,
     setNpcHP,
     setPlayerHP,

@@ -14,6 +14,7 @@ type Props = {
   player: Player;
   npcX: number;
   npcY: number;
+  npcType: string;
   npcArmor: number;
   npcClass: NPCClass;
   char: { level: number; stats: { strength: number } };
@@ -45,6 +46,7 @@ export function useChargeAttack(props: Props) {
     player,
     npcX,
     npcY,
+    npcType,
     npcArmor,
     npcClass,
     char,
@@ -76,6 +78,7 @@ export function useChargeAttack(props: Props) {
     player,
     npcX,
     npcY,
+    npcType,
     npcArmor,
     npcClass,
     char,

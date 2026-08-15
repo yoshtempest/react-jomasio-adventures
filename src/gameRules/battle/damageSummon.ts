@@ -2,6 +2,7 @@ import {
   calculatePlayerDamage,
   getBerserkMultiplier,
 } from "@/gameRules/battle/damage";
+import { getElementMultiplier } from "@/gameRules/battle/element";
 import {
   incrementAttacksUsedStats,
   incrementHitsUsedStats,
@@ -9,6 +10,8 @@ import {
 import { BATTLE_LIMITS } from "@/utils/types/player/movement";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { CharactersProgress } from "@/data/characters/defaultProgress";
+import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
+import { NPC_ELEMENT_TYPES } from "@/data/types/npcElementTypes";
 
 type Params = {
   target: { id: string; x: number; y: number };
@@ -53,10 +56,17 @@ export function damageSummon({
 }: Params) {
   const char = progress[player.character];
   const raw = calculatePlayerDamage(char.stats.strength, playerClass);
+  const targetSummon = summons.find((s) => s.id === target.id);
+  const elementMultiplier = getElementMultiplier(
+    CHARACTER_ELEMENT_TYPES[player.character],
+    targetSummon ? NPC_ELEMENT_TYPES[targetSummon.npcType] ?? [] : [],
+  );
   const dmg = Math.round(
     (player.character === "samuel" && char.level >= 20
       ? raw * getBerserkMultiplier(playerHP, playerMaxHp)
-      : raw) * multiplier,
+      : raw) *
+      multiplier *
+      elementMultiplier,
   );
 
   spawnDamageRef.current?.(

@@ -4,6 +4,7 @@ import {
   calculateDamageToNpc,
   getBerserkMultiplier,
 } from "@/gameRules/battle/damage";
+import { getElementMultiplier } from "@/gameRules/battle/element";
 import { rollCrit } from "@/gameRules/battle/damageUtils";
 import { PLAYER_CHARGE_DASH_COOLDOWN } from "@/data/cooldowns";
 import { isPlayerInRange } from "@/gameRules/battle/range";
@@ -14,11 +15,14 @@ import {
   BATTLE_LIMITS,
 } from "@/utils/types/player/movement";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
+import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
+import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 
 type Props = {
   player: Player;
   npcX: number;
   npcY: number;
+  npcType: string;
   npcArmor: number;
   npcClass: NPCClass;
   char: { level: number; stats: { strength: number } };
@@ -70,6 +74,8 @@ export function useChargeDash(props: Props) {
   npcXRef.current = props.npcX;
   const npcYRef = useRef(props.npcY);
   npcYRef.current = props.npcY;
+  const npcElementTypesRef = useRef(getNpcElementTypes(props.npcType));
+  npcElementTypesRef.current = getNpcElementTypes(props.npcType);
   const summonsRef = useRef(props.summons);
   summonsRef.current = props.summons;
   const setDeliciaRef = useRef(props.setDelicia);
@@ -175,7 +181,13 @@ export function useChargeDash(props: Props) {
             setDeliciaRef.current((d) => Math.min(d + 1, hitsToSpecial));
 
             if (target.id === "main") {
-              const dmg = calculateDamageToNpc(critDmg, npcArmor);
+              const elementMultiplier = getElementMultiplier(
+                CHARACTER_ELEMENT_TYPES[dashCharacter],
+                npcElementTypesRef.current,
+              );
+              const dmg = Math.round(
+                calculateDamageToNpc(critDmg, npcArmor) * elementMultiplier,
+              );
               setNpcHP((hp) => Math.max(0, hp - dmg));
               if (vampirismRef.current > 0) {
                 const heal = Math.round((dmg * vampirismRef.current) / 100);
@@ -198,17 +210,27 @@ export function useChargeDash(props: Props) {
                 playerCooldown.current = true;
               }, PLAYER_CHARGE_DASH_COOLDOWN);
             } else {
+              const summon = summonsRef.current.find(
+                (s) => s.id === target.id,
+              );
+              const elementMultiplier = getElementMultiplier(
+                CHARACTER_ELEMENT_TYPES[dashCharacter],
+                summon ? getNpcElementTypes(summon.npcType) : [],
+              );
+              const summonDmg = Math.round(critDmg * elementMultiplier);
               spawnDamageRef.current?.(
-                critDmg,
+                summonDmg,
                 target.x,
                 target.y,
                 critType === "crit" ? "crit" : "charge",
               );
-              registerHitRef.current?.(critDmg);
+              registerHitRef.current?.(summonDmg);
               hitstopRef.current = Date.now() + 80;
 
               if (vampirismRef.current > 0) {
-                const heal = Math.round((critDmg * vampirismRef.current) / 100);
+                const heal = Math.round(
+                  (summonDmg * vampirismRef.current) / 100,
+                );
                 if (heal > 0) {
                   setPlayerHPRef.current((hp) =>
                     Math.min(playerMaxHpRef.current, hp + heal),
@@ -219,7 +241,7 @@ export function useChargeDash(props: Props) {
               setSummons((prev) =>
                 prev.map((s) =>
                   s.id === target.id
-                    ? { ...s, hp: Math.max(0, Math.round(s.hp) - critDmg) }
+                    ? { ...s, hp: Math.max(0, Math.round(s.hp) - summonDmg) }
                     : s,
                 ),
               );

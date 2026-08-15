@@ -38,6 +38,8 @@ import { useBattleInfo } from "@/contexts/BattleInfoContext";
 import { getPetSkillDefinition } from "@/data/characters/petSkills";
 import { getPetBaseDamage } from "@/data/characters/petProgress";
 import { calculateDamageToNpc } from "@/gameRules/battle/damage";
+import { getElementMultiplier } from "@/gameRules/battle/element";
+import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import { BATTLE_LIMITS } from "@/utils/types/player/movement";
 import { CHARACTERS } from "@/utils/types/player/player";
@@ -547,9 +549,15 @@ export function useBattleScene({
     switch (effect.kind) {
       case "damage": {
         const baseDamage = getPetBaseDamage(petLevel, petStars);
-        const dmg = calculateDamageToNpc(
-          baseDamage * effect.multiplier,
-          battle.npcArmor,
+        const elementMultiplier = getElementMultiplier(
+          getNpcElementTypes(def.npcType),
+          getNpcElementTypes(npcType),
+        );
+        const dmg = Math.round(
+          calculateDamageToNpc(
+            baseDamage * effect.multiplier,
+            battle.npcArmor,
+          ) * elementMultiplier,
         );
         battle.setNpcHP((hp) => Math.max(0, hp - dmg));
         refs.spawnDamageRef.current?.(dmg, npc.x, npc.y, "pet");
@@ -789,6 +797,7 @@ export function useBattleScene({
     playerX: player.x,
     playerY: player.y,
     playerClass,
+    playerCharacter: player.character,
     npcLevel,
     difficulty,
     damagePlayer: battle.damagePlayer,
@@ -817,6 +826,7 @@ export function useBattleScene({
     setPlayer,
     npcX: npc.x,
     npcY: npc.y,
+    npcType,
     npcArmor: battle.npcArmor,
     npcClass: npcData.class,
     char: battle.char,

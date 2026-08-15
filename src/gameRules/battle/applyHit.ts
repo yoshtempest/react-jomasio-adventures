@@ -6,9 +6,12 @@ import {
   calculateMaxHpBonus,
 } from "@/gameRules/battle/damage";
 import { rollCrit } from "@/gameRules/battle/damageUtils";
+import { getElementMultiplier } from "@/gameRules/battle/element";
 import { playAttackSound } from "@/utils/types/battle/playAttackSound";
 import type { BattleBehavior } from "@/utils/types/player/behavior";
 import type { CharacterProgress } from "@/data/characters/defaultProgress";
+import type { ElementType } from "@/utils/types/battle/element";
+import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
 
 type BaseHitParams = {
   player: Player;
@@ -18,6 +21,7 @@ type BaseHitParams = {
   titleDamageBonus: number;
   critRate: number;
   npcArmor: number;
+  npcElementTypes: readonly ElementType[];
   playerHP: number;
   playerMaxHp: number;
   totalVampirism: number;
@@ -43,6 +47,7 @@ type DamageCalcParams = {
   titleDamageBonus: number;
   critRate: number;
   npcArmor: number;
+  npcElementTypes: readonly ElementType[];
   playerHP: number;
   playerMaxHp: number;
   totalMaxHpDamage: number;
@@ -57,6 +62,7 @@ export function calculateBasicHitDamage({
   titleDamageBonus,
   critRate,
   npcArmor,
+  npcElementTypes,
   playerHP,
   playerMaxHp,
   totalMaxHpDamage,
@@ -75,7 +81,13 @@ export function calculateBasicHitDamage({
       : dmgWithHpBonus;
   const { damage: critDmg, type: dmgType } = rollCrit(berserkDmg, critRate);
   const armorReduced = calculateDamageToNpc(critDmg, npcArmor);
-  const trueDmg = Math.round(armorReduced * damageMultiplier) + totalTrueDamage;
+  const elementMultiplier = getElementMultiplier(
+    CHARACTER_ELEMENT_TYPES[player.character],
+    npcElementTypes,
+  );
+  const trueDmg =
+    Math.round(armorReduced * damageMultiplier * elementMultiplier) +
+    totalTrueDamage;
 
   return { damage: trueDmg, isCrit: dmgType === "crit", type: dmgType };
 }
@@ -86,6 +98,7 @@ export function calculateSpecialHitDamage({
   char,
   critRate,
   npcArmor,
+  npcElementTypes,
   playerHP,
   playerMaxHp,
   totalMaxHpDamage,
@@ -107,7 +120,13 @@ export function calculateSpecialHitDamage({
       : dmgWithHpBonus;
   const { damage: critDmg, type: dmgType } = rollCrit(berserkDmg, critRate);
   const armorReduced = calculateDamageToNpc(critDmg, npcArmor);
-  const trueDmg = Math.round(armorReduced * damageMultiplier) + totalTrueDamage;
+  const elementMultiplier = getElementMultiplier(
+    CHARACTER_ELEMENT_TYPES[player.character],
+    npcElementTypes,
+  );
+  const trueDmg =
+    Math.round(armorReduced * damageMultiplier * elementMultiplier) +
+    totalTrueDamage;
 
   return { damage: trueDmg, isCrit: dmgType === "crit", type: dmgType };
 }
@@ -130,6 +149,7 @@ export function applyBasicHit({
   titleDamageBonus,
   critRate,
   npcArmor,
+  npcElementTypes,
   playerHP,
   playerMaxHp,
   totalVampirism,
@@ -161,6 +181,7 @@ export function applyBasicHit({
     titleDamageBonus,
     critRate,
     npcArmor,
+    npcElementTypes,
     playerHP,
     playerMaxHp,
     totalMaxHpDamage,
@@ -213,6 +234,7 @@ export function applySpecialHit({
   behavior,
   critRate,
   npcArmor,
+  npcElementTypes,
   playerHP,
   playerMaxHp,
   totalVampirism,
@@ -244,6 +266,7 @@ export function applySpecialHit({
       char,
       critRate,
       npcArmor,
+      npcElementTypes,
       playerHP,
       playerMaxHp,
       totalMaxHpDamage,

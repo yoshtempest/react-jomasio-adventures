@@ -1,8 +1,11 @@
 import { useEffect, useRef } from "react";
 import { NPCS } from "@/data/npc/npc";
 import { calculateNpcDamage } from "@/gameRules/battle/damage";
+import { getElementMultiplier } from "@/gameRules/battle/element";
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
+import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
+import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 
 type Props = {
   summons: SummonedNpc[];
@@ -11,6 +14,7 @@ type Props = {
   playerX: number;
   playerY: number;
   playerClass: PlayerClass;
+  playerCharacter: CharacterId;
   npcLevel: number;
   difficulty: NpcDifficulty;
   damagePlayer: (damage: number) => void;
@@ -27,6 +31,7 @@ export function useSummonAI({
   playerX,
   playerY,
   playerClass,
+  playerCharacter,
   npcLevel,
   difficulty,
   damagePlayer,
@@ -39,6 +44,8 @@ export function useSummonAI({
   playerXRef.current = playerX;
   const playerYRef = useRef(playerY);
   playerYRef.current = playerY;
+  const playerCharacterRef = useRef(playerCharacter);
+  playerCharacterRef.current = playerCharacter;
 
   const isPausedRef = useRef(isPaused);
   isPausedRef.current = isPaused;
@@ -96,9 +103,15 @@ export function useSummonAI({
                   difficultyRef.current,
                 );
 
-                const damage = calculateNpcDamage(
-                  stats.damage,
-                  playerClassRef.current,
+                const elementMultiplier = getElementMultiplier(
+                  getNpcElementTypes(s.npcType),
+                  CHARACTER_ELEMENT_TYPES[playerCharacterRef.current],
+                );
+                const damage = Math.round(
+                  calculateNpcDamage(
+                    stats.damage,
+                    playerClassRef.current,
+                  ) * elementMultiplier,
                 );
 
                 damagePlayerRef.current(damage);

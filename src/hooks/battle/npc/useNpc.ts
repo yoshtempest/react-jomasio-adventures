@@ -2,10 +2,13 @@ import { useCallback, useRef } from "react";
 import { NPC_MELEE_COOLDOWN } from "@/data/cooldowns";
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import { calculateNpcDamage } from "@/gameRules/battle/damage";
+import { getElementMultiplier } from "@/gameRules/battle/element";
 import { isFacingTarget } from "@/gameRules/battle/direction";
 import { handleNpcBlocking } from "./useBlocking";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { logPlay } from "@/utils/replay/audioEventLog";
+import { getNpcElementTypes } from "@/data/types/npcElementTypes";
+import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
 
 type Props = {
   npcLevel: number;
@@ -223,7 +226,11 @@ export function useNpcBattle({
       critChance = 1 + (1 - clampedRatio) * 9;
     }
     const isCrit = Math.random() * 100 < critChance;
-    const finalDmg = isCrit ? dmg * 2 : dmg;
+    const elementMultiplier = getElementMultiplier(
+      getNpcElementTypes(npcType),
+      CHARACTER_ELEMENT_TYPES[player.character],
+    );
+    const finalDmg = Math.round((isCrit ? dmg * 2 : dmg) * elementMultiplier);
     const dmgType: DamageType = isCrit ? "crit" : "npc";
 
     applyNpcDamage(finalDmg, tx, ty, dmgType);
@@ -249,6 +256,7 @@ export function useNpcBattle({
     isEnding,
     npcCooldown,
     player.state,
+    player.character,
     npcLevel,
     npcClass,
     playerClass,
@@ -320,7 +328,11 @@ export function useNpcBattle({
       critChance = 1 + (1 - clampedRatio) * 9;
     }
     const isCrit = Math.random() * 100 < critChance;
-    const finalDmg = isCrit ? dmg * 2 : dmg;
+    const elementMultiplier = getElementMultiplier(
+      getNpcElementTypes(npcType),
+      CHARACTER_ELEMENT_TYPES[player.character],
+    );
+    const finalDmg = Math.round((isCrit ? dmg * 2 : dmg) * elementMultiplier);
     const dmgType: DamageType = isCrit ? "crit" : "npc";
 
     damagePlayerWithReflect(finalDmg);
@@ -341,6 +353,7 @@ export function useNpcBattle({
     npcCooldown,
     player.state,
     player.battleDirection,
+    player.character,
     npcLevel,
     npcClass,
     playerClass,
@@ -378,7 +391,11 @@ export function useNpcBattle({
       );
       const baseDmg = npc.damage;
       const dmg = calculateNpcDamage(baseDmg, playerClass, totalArmor);
-      const finalDmg = Math.round(dmg * multiplier);
+      const elementMultiplier = getElementMultiplier(
+        getNpcElementTypes(npcType),
+        CHARACTER_ELEMENT_TYPES[player.character],
+      );
+      const finalDmg = Math.round(dmg * multiplier * elementMultiplier);
 
       damagePlayerWithReflect(finalDmg);
       spawnDamageRef.current?.(finalDmg, playerX, playerY, "npc");
@@ -398,6 +415,8 @@ export function useNpcBattle({
       playerY,
       hitstopRef,
       statMultiplier,
+      player.character,
+      npcType,
     ],
   );
 
