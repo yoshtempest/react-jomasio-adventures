@@ -13,6 +13,7 @@ import {
   getTotalReflect,
 } from "@/gameRules/battle/equipment";
 import { getLuckBonus } from "@/gameRules/battle/luck";
+import { getElementMultiplier } from "@/gameRules/battle/element";
 import { calculateMaxHpBonus } from "@/gameRules/battle/damage";
 import { formatRank, getRank, getRankMultiplier } from "@/gameRules/rank";
 import { getHungerMultiplier } from "@/contexts/CharacterProgressContext";
@@ -121,23 +122,31 @@ export function BattleTab({ showComboAction, showHighlight, selectedIndex }: Pro
 
   const winProbability = useMemo(() => {
     if (!battleInfo || !playerStats) return null;
+
+    const playerTypes = CHARACTER_ELEMENT_TYPES[player.character] ?? [];
+    const npcTypes = getNpcElementTypes(battleInfo.npcType);
+    const playerElementMultiplier = getElementMultiplier(playerTypes, npcTypes);
+    const npcElementMultiplier = getElementMultiplier(npcTypes, playerTypes);
+
     const enemyTotal =
-      battleInfo.npcHp + battleInfo.npcDamage + battleInfo.npcArmor;
+      (battleInfo.npcHp + battleInfo.npcDamage + battleInfo.npcArmor) *
+      npcElementMultiplier;
     const playerTotal =
-      playerStats.maxHp +
-      playerStats.strength +
-      playerStats.intelligence +
-      playerStats.resistance +
-      playerStats.tenacity +
-      playerStats.armor +
-      playerStats.shield +
-      playerStats.vampirism +
-      playerStats.reflect +
-      playerStats.maxHpDamageBonus +
-      playerStats.trueDamage;
+      (playerStats.maxHp +
+        playerStats.strength +
+        playerStats.intelligence +
+        playerStats.resistance +
+        playerStats.tenacity +
+        playerStats.armor +
+        playerStats.shield +
+        playerStats.vampirism +
+        playerStats.reflect +
+        playerStats.maxHpDamageBonus +
+        playerStats.trueDamage) *
+      playerElementMultiplier;
     if (playerTotal + enemyTotal === 0) return 50;
     return Math.round((playerTotal / (playerTotal + enemyTotal)) * 100);
-  }, [battleInfo, playerStats]);
+  }, [battleInfo, playerStats, player.character]);
 
   const [displayedWin, setDisplayedWin] = useState(0);
   const displayedWinRef = useRef(0);
