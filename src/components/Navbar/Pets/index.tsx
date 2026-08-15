@@ -1,9 +1,10 @@
 import { useRef } from "react";
 import { Star } from "lucide-react";
-import { npcPath } from "@/utils/paths";
+import { npcPath, asset } from "@/utils/paths";
 import { RANK_COLORS, RANK_LABELS } from "@/utils/types/player/equipment";
 import { PET_STAR_MAX } from "@/data/characters/petProgress";
 import { PET_ROLE_LABELS } from "@/data/characters/petSkills";
+import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import { usePetsMenu } from "@/hooks/menu/pets/usePetsMenu";
 import type { PetEntry } from "@/hooks/menu/pets/usePetsMenu";
 import styles from "./styles.module.css";
@@ -73,10 +74,22 @@ export function Pets() {
                     </p>
                   </>
                 )}
-                <span className={styles.roleBadge}>
-                  {PET_ROLE_LABELS[entry.role]}
-                </span>
+                {getNpcElementTypes(petNpcType).map((element) => (
+                  <img
+                    key={element}
+                    src={asset(
+                      `/assets/elementsBadges/${element.toLowerCase()}.svg`,
+                    )}
+                    alt={element}
+                    title={element}
+                    className={styles.elementBadge}
+                  />
+                ))}
               </div>
+              
+              <span className={styles.roleBadge}>
+                {PET_ROLE_LABELS[entry.role]}
+              </span>
 
               <div className={styles.flexRow}>
                 <p

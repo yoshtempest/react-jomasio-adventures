@@ -9,11 +9,14 @@
 
 .image {
   height: 40vh;
+  z-index: 100;
 }
 
 .petImage {
   height: 30%;
+  position: absolute;
   object-fit: contain;
+  transform: scaleX(-1);
   image-rendering: pixelated;
 }
 

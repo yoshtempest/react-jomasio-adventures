@@ -33,7 +33,7 @@ export const PETS: Equipment[] = [
     id: "pet_goat",
     name: "Bodão",
     slot: "pet",
-    rank: 5,
+    rank: 3,
     stats: {},
   },
   {
@@ -47,7 +47,7 @@ export const PETS: Equipment[] = [
     id: "pet_leviathan",
     name: "Leviathan",
     slot: "pet",
-    rank: 7,
+    rank: 9,
     stats: {},
   },
   {
@@ -75,7 +75,7 @@ export const PETS: Equipment[] = [
     id: "pet_hungryKing",
     name: "Rei dos Mortos de Fome",
     slot: "pet",
-    rank: 6,
+    rank: 5,
     stats: {},
   },
   {
