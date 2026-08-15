@@ -27,10 +27,6 @@ o jogador poderá voar no zecaUrubu sobrevoando a cidade após fazer alguma miss
 
 Após o diálogo da brodiClassOne adicionar cutscene na livraria de neimito falando algo "abra kadabra" e as estantes abrindo, neimito e ematron entrando na passagem secreta.
 
-Caso o jogador tenha a missão save_ematron e interaja com a posição x14 e y2 da libraryOne, ele deve ser redirecionado para a libraryTwo.
-
-apartir desse momento, quando o jogador entrar na livraria, ele vai poder interagir com um livro e abrir a passagem secreta também em libraryTwo.
-
 criar imagem de todas as ferramentas
 
 criar animação de craft de ferramentas
@@ -38,3 +34,59 @@ criar animação de craft de ferramentas
 adicionar imagem dos profissionais de cada profissão (O jogador têrá que dialogar com eles para evoluir suas ferramentas de ranque)
 
 fazer imagem dos brothers na cantina
+
+exibir icone da tipagem sobrepondo a imagem de rosto do personagem, estando no canto inferior direito para o player e inferior esquerdo para o npc (visto que o npc é flipado)
+
+Adicionar tipagens a todos os npcs e personagens que participam da batalha. Uma tipagem pode causar/sofrer super efetivo(1.5x do dano normal que seria causado) de outra tipagem, causar/sofrer não efetivo(0.5x do dano normal que seria causado) ou simplesmente causar o dano normal.
+
+as tipagens são:
+
+Aquos(água)
+Pyrus(fogo)
+Subterra(terra)
+Ventus(vento)
+Darkus(trevas)
+Electricus(elétrico)
+Haos(luz)
+Metallum(metal)
+Natura(natureza)
+Psychicus(psíquico)
+Nympha(fada)
+Draco(dragão)
+Umbra(fantasma)
+Normalis(normal)
+
+provavelmente irei fazer uma organização em 
+
+type ElementType =
+  | "Aquos"
+  | "Pyrus"
+  | "Subterra"
+  | "Ventus"
+  | "Darkus"
+  | "Electricus"
+  | "Haos"
+  | "Metallum"
+  | "Natura"
+  | "Psychicus"
+  | "Nympha"
+  | "Draco"
+  | "Umbra"
+  | "Normalis"
+  | "Pugnator";
+
+type WeaponType =
+  | "None"
+  | "Sword"
+  | "Whip"
+  | "Pistol"
+  | "Bow"
+  | "Spear"
+  | "Staff"
+  | "Claws";
+
+type CombatStyle =
+  | "Pugnator"
+  | "Shooter"
+  | "Swordsman"
+  | "Mage";
