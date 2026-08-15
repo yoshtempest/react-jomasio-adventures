@@ -92,7 +92,6 @@
 .probabilityFill {
   height: 100%;
   background: var(--success);
-  transition: width 0.3s;
 }
 
 .probabilityText {

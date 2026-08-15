@@ -1,6 +1,6 @@
 import styles from "./styles.module.css";
 import { usePlayer } from "@/contexts/PlayerContext";
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { useBattleInfo } from "@/contexts/BattleInfoContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
@@ -139,6 +139,36 @@ export function BattleTab({ showComboAction, showHighlight, selectedIndex }: Pro
     return Math.round((playerTotal / (playerTotal + enemyTotal)) * 100);
   }, [battleInfo, playerStats]);
 
+  const [displayedWin, setDisplayedWin] = useState(0);
+  const displayedWinRef = useRef(0);
+
+  useEffect(() => {
+    if (winProbability === null) return;
+
+    const from = displayedWinRef.current;
+    const to = winProbability;
+    const duration = 2000;
+    let segStart = 0;
+    let rafId = 0;
+
+    function tick(ts: number) {
+      if (segStart === 0) segStart = ts;
+      const elapsed = ts - segStart;
+      const t = Math.min(elapsed / duration, 1);
+      const eased = 1 - (1 - t) * (1 - t) * (1 - t);
+      const value = from + (to - from) * eased;
+      displayedWinRef.current = value;
+      setDisplayedWin(value);
+
+      if (t < 1) {
+        rafId = requestAnimationFrame(tick);
+      }
+    }
+
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
+  }, [winProbability, playerStats]);
+
   const classData = battleInfo ? CLASS_DATA[battleInfo.npcClass] : null;
 
   const playerSummary = playerStats
@@ -195,10 +225,10 @@ export function BattleTab({ showComboAction, showHighlight, selectedIndex }: Pro
           <div className={styles.probabilityBar}>
             <div
               className={styles.probabilityFill}
-              style={{ width: `${winProbability ?? 0}%` }}
+              style={{ width: `${displayedWin}%` }}
             />
             <span className={styles.probabilityText}>
-              {winProbability ?? 0}%
+              {Math.round(displayedWin)}%
             </span>
           </div>
           <ComboList characterId={player.character} />

@@ -11,9 +11,8 @@ Quando o jogador equipa um pet, assim como no jogo pokemon gold, o pet equipado 
 
 criar imageFace dos personagens do jogo
 
-adicionar animação no menu de configurações da batalha, da chance de vitória aumentando (animação de preenchimento da barra de 0 até o fill correto)
-
 adicionar pequeno diálogo entre o personagem e o sistema para que o sistema calcule as chances de vitória
+o sistema deve dizer "E ai? Você perderia?" e o jogador "Nah, eu venceria"
 
 ajustar informações que servem para calcular as chances de vitória e incluir os elementos de cada um
 
