@@ -9,6 +9,8 @@ criar imagens das salas que estão faltando: ProfessorRoom, second-A class, thir
 
 Quando o jogador equipa um pet, assim como no jogo pokemon gold, o pet equipado deve aparecer no modo explore e ficar seguindo o jogador.
 
+criar imageFace dos personagens do jogo
+
 sempre que precisar resolver um problema de carregamento, use contro shift R
 
 adicionar animação de burn em deise antes de redirecionar para cafeteria/three, quando termina o diálogo em que denis diz "expansão de domínio, fuuga" o npc deise deve ser queimado e desaparecer, somente então acontece a transição de cena.

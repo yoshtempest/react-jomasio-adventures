@@ -13,13 +13,22 @@
 }
 
 .charBtn {
+  display: flex;
+  align-items: center;
   font-size: var(--fs-11);
-  padding: var(--size-4) var(--fs-8);
   border-radius: var(--size-4);
   border: var(--size-1) solid var(--border-default);
-  background: var(--surface-primary);
+  background: var(--background-color);
   color: var(--text-secondary);
   cursor: pointer;
+}
+
+.charFace {
+  display: block;
+  width: var(--size-48);
+  height: var(--size-48);
+  object-fit: contain;
+  image-rendering: pixelated;
 }
 
 .charBtnActive {
