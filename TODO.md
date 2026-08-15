@@ -193,3 +193,6 @@ Umbra seria mais associado a fantasmas, espíritos e existência sobrenatural, d
 
 Dano normal: Em todo o resto
 Fraco contra: Psychicus
+
+
+Crie uma tabela de que tipagens causam/sofrem dano super efetivo em que outras tipagens. Essa tabela deve estar no menu de configurações na Tab de batalha e o jogador deve estar em batalha.

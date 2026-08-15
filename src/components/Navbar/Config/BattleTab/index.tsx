@@ -21,8 +21,11 @@ import { CLASS_DATA } from "@/data/npc/class";
 import { npcPath, playerPath } from "@/utils/paths";
 import { getCharacterStatus } from "@/data/player/stats";
 import { ComboList } from "@/components/Navbar/Status/ComboList";
+import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
+import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import { BattleCard } from "./BattleCard";
 import { CardRedeem } from "./CardRedeem";
+import { ElementTable } from "./ElementTable";
 
 type Props = {
   showComboAction: boolean;
@@ -45,6 +48,8 @@ export function BattleTab({ showComboAction, showHighlight, selectedIndex }: Pro
   const playerName = localStorage.getItem("playerName") || "Protagonista";
 
   const battleInfo = battleInfoCtx?.battleInfo;
+
+  const showElementTable = !!battleInfo || isInBattle;
 
   const playerStats = useMemo(() => {
     const baseChar = progress[player.character];
@@ -198,6 +203,17 @@ export function BattleTab({ showComboAction, showHighlight, selectedIndex }: Pro
           </div>
           <ComboList characterId={player.character} />
         </>
+      )}
+
+      {showElementTable && (
+        <ElementTable
+          playerElementTypes={
+            CHARACTER_ELEMENT_TYPES[player.character] ?? []
+          }
+          npcElementTypes={
+            battleInfo ? getNpcElementTypes(battleInfo.npcType) : []
+          }
+        />
       )}
 
       {!battleInfo && !isInBattle && (
