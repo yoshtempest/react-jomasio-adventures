@@ -55,11 +55,16 @@ type DamageCalcParams = {
   damageMultiplier: number;
 };
 
-export function calculateBasicHitDamage({
+type ComputeHitDamageParams = Omit<
+  DamageCalcParams,
+  "titleDamageBonus" | "playerClass"
+> & {
+  rawDmg: number;
+};
+
+function computeHitDamage({
   player,
-  playerClass,
   char,
-  titleDamageBonus,
   critRate,
   npcArmor,
   npcElementTypes,
@@ -68,11 +73,12 @@ export function calculateBasicHitDamage({
   totalMaxHpDamage,
   totalTrueDamage,
   damageMultiplier,
-}: DamageCalcParams): { damage: number; isCrit: boolean; type: DamageType } {
-  const isLarissa = player.character === "larissa";
-  const rawDmg = isLarissa
-    ? 2
-    : calculatePlayerDamage(char.stats.strength, playerClass, titleDamageBonus);
+  rawDmg,
+}: ComputeHitDamageParams): {
+  damage: number;
+  isCrit: boolean;
+  type: DamageType;
+} {
   const maxHpBonus = calculateMaxHpBonus(playerMaxHp, totalMaxHpDamage);
   const dmgWithHpBonus = rawDmg + maxHpBonus;
   const berserkDmg =
@@ -92,43 +98,26 @@ export function calculateBasicHitDamage({
   return { damage: trueDmg, isCrit: dmgType === "crit", type: dmgType };
 }
 
-export function calculateSpecialHitDamage({
-  player,
-  playerClass,
-  char,
-  critRate,
-  npcArmor,
-  npcElementTypes,
-  playerHP,
-  playerMaxHp,
-  totalMaxHpDamage,
-  totalTrueDamage,
-  damageMultiplier,
-  stacks,
-}: Omit<DamageCalcParams, "titleDamageBonus"> & {
-  stacks: number;
-}): { damage: number; isCrit: boolean; type: DamageType } {
-  const isLarissa = player.character === "larissa";
-  const rawDmg = isLarissa
-    ? stacks * 5
-    : calculateSpecialDamage(char.stats.intelligence, playerClass);
-  const maxHpBonus = calculateMaxHpBonus(playerMaxHp, totalMaxHpDamage);
-  const dmgWithHpBonus = rawDmg + maxHpBonus;
-  const berserkDmg =
-    player.character === "samuel" && char.level >= 20
-      ? Math.round(dmgWithHpBonus * getBerserkMultiplier(playerHP, playerMaxHp))
-      : dmgWithHpBonus;
-  const { damage: critDmg, type: dmgType } = rollCrit(berserkDmg, critRate);
-  const armorReduced = calculateDamageToNpc(critDmg, npcArmor);
-  const elementMultiplier = getElementMultiplier(
-    CHARACTER_ELEMENT_TYPES[player.character],
-    npcElementTypes,
-  );
-  const trueDmg =
-    Math.round(armorReduced * damageMultiplier * elementMultiplier) +
-    totalTrueDamage;
+export function calculateBasicHitDamage(
+  params: DamageCalcParams,
+): { damage: number; isCrit: boolean; type: DamageType } {
+  const rawDmg =
+    params.player.character === "larissa"
+      ? 2
+      : calculatePlayerDamage(params.char.stats.strength, params.playerClass, params.titleDamageBonus);
 
-  return { damage: trueDmg, isCrit: dmgType === "crit", type: dmgType };
+  return computeHitDamage({ ...params, rawDmg });
+}
+
+export function calculateSpecialHitDamage(
+  params: Omit<DamageCalcParams, "titleDamageBonus"> & { stacks: number },
+): { damage: number; isCrit: boolean; type: DamageType } {
+  const rawDmg =
+    params.player.character === "larissa"
+      ? params.stacks * 5
+      : calculateSpecialDamage(params.char.stats.intelligence, params.playerClass);
+
+  return computeHitDamage({ ...params, rawDmg });
 }
 
 type BasicHitParams = BaseHitParams & {
@@ -141,77 +130,48 @@ type BasicHitParams = BaseHitParams & {
   HITS_TO_SPECIAL: number;
 };
 
-export function applyBasicHit({
-  player,
-  playerClass,
-  char,
-  behavior,
-  titleDamageBonus,
-  critRate,
-  npcArmor,
-  npcElementTypes,
-  playerHP,
-  playerMaxHp,
-  totalVampirism,
-  totalMaxHpDamage,
-  totalTrueDamage,
-  setNpcHP,
-  setPlayerHP,
-  setPlayer,
-  spawnDamageRef,
-  registerHitRef,
-  hitstopRef,
-  onDamageDealtRef,
-  onAttackRef,
-  damageMultiplier,
-  npcX,
-  npcY,
-  spawnPiercing,
-  setDelicia,
-  setStacks,
-  HITS_TO_SPECIAL,
-}: BasicHitParams) {
-  playAttackSound(player.character);
+function finishHit(
+  params: BaseHitParams & { npcX: number; npcY: number },
+  damage: number,
+  dmgType: DamageType,
+  hitstop: number,
+  onActionRef?: React.RefObject<() => void>,
+) {
+  params.spawnDamageRef.current?.(damage, params.npcX, params.npcY, dmgType);
+  params.registerHitRef.current?.(damage);
+  params.onDamageDealtRef?.current?.(damage);
+  onActionRef?.current?.();
+  params.hitstopRef.current = Date.now() + hitstop;
+
+  if (params.totalVampirism > 0) {
+    const heal = Math.round((damage * params.totalVampirism) / 100);
+    if (heal > 0)
+      params.setPlayerHP((hp) => Math.min(params.playerMaxHp, hp + heal));
+  }
+}
+
+export function applyBasicHit(params: BasicHitParams) {
+  playAttackSound(params.player.character);
   navigator.vibrate?.(20);
 
-  const { damage: trueDmg, isCrit, type: dmgType } = calculateBasicHitDamage({
-    player,
-    playerClass,
-    char,
-    titleDamageBonus,
-    critRate,
-    npcArmor,
-    npcElementTypes,
-    playerHP,
-    playerMaxHp,
-    totalMaxHpDamage,
-    totalTrueDamage,
-    damageMultiplier,
-  });
-  if (isCrit) setPlayer((p) => ({ ...p, state: "crit" }));
+  const { damage: trueDmg, isCrit, type: dmgType } =
+    calculateBasicHitDamage(params);
 
-  behavior.onBasicHit({
+  if (isCrit) params.setPlayer((p) => ({ ...p, state: "crit" }));
+
+  params.behavior.onBasicHit({
     damage: trueDmg,
-    setNpcHP,
-    char,
-    playerClass,
-    setDelicia,
-    HITS_TO_SPECIAL,
-    setStacks,
-    spawnPiercing,
-    titleDamageBonus,
+    setNpcHP: params.setNpcHP,
+    char: params.char,
+    playerClass: params.playerClass,
+    setDelicia: params.setDelicia,
+    HITS_TO_SPECIAL: params.HITS_TO_SPECIAL,
+    setStacks: params.setStacks,
+    spawnPiercing: params.spawnPiercing,
+    titleDamageBonus: params.titleDamageBonus,
   });
 
-  spawnDamageRef.current?.(trueDmg, npcX, npcY, dmgType);
-  registerHitRef.current?.(trueDmg);
-  onDamageDealtRef?.current?.(trueDmg);
-  onAttackRef?.current?.();
-  hitstopRef.current = Date.now() + 60;
-
-  if (totalVampirism > 0) {
-    const heal = Math.round((trueDmg * totalVampirism) / 100);
-    if (heal > 0) setPlayerHP((hp) => Math.min(playerMaxHp, hp + heal));
-  }
+  finishHit(params, trueDmg, dmgType, 60, params.onAttackRef);
 
   return trueDmg;
 }
@@ -227,77 +187,27 @@ type SpecialHitParams = BaseHitParams & {
   hitsToSpecial: number;
 };
 
-export function applySpecialHit({
-  player,
-  playerClass,
-  char,
-  behavior,
-  critRate,
-  npcArmor,
-  npcElementTypes,
-  playerHP,
-  playerMaxHp,
-  totalVampirism,
-  totalMaxHpDamage,
-  totalTrueDamage,
-  setNpcHP,
-  setPlayerHP,
-  setPlayer,
-  spawnDamageRef,
-  registerHitRef,
-  hitstopRef,
-  onDamageDealtRef,
-  onSpecialRef,
-  damageMultiplier,
-  npcX,
-  npcY,
-  stacks,
-  setStacks,
-  triggerExplosion,
-  setDelicia,
-  hitsToSpecial,
-}: SpecialHitParams) {
+export function applySpecialHit(params: SpecialHitParams) {
   navigator.vibrate?.(30);
 
   const { damage: trueDmg, isCrit, type: dmgType } =
-    calculateSpecialHitDamage({
-      player,
-      playerClass,
-      char,
-      critRate,
-      npcArmor,
-      npcElementTypes,
-      playerHP,
-      playerMaxHp,
-      totalMaxHpDamage,
-      totalTrueDamage,
-      damageMultiplier,
-      stacks,
-    });
-  if (isCrit) setPlayer((p) => ({ ...p, state: "crit" }));
+    calculateSpecialHitDamage(params);
 
-  behavior.onSpecialHit({
+  if (isCrit) params.setPlayer((p) => ({ ...p, state: "crit" }));
+
+  params.behavior.onSpecialHit({
     damage: trueDmg,
-    setNpcHP,
-    char,
-    playerClass,
-    setDelicia,
-    hitsToSpecial,
-    stacks,
-    setStacks,
-    triggerExplosion,
+    stacks: params.stacks,
+    setNpcHP: params.setNpcHP,
+    setStacks: params.setStacks,
+    setDelicia: params.setDelicia,
+    hitsToSpecial: params.hitsToSpecial,
+    char: params.char,
+    playerClass: params.playerClass,
+    triggerExplosion: params.triggerExplosion,
   });
 
-  spawnDamageRef.current?.(trueDmg, npcX, npcY, dmgType);
-  registerHitRef.current?.(trueDmg);
-  onDamageDealtRef?.current?.(trueDmg);
-  onSpecialRef?.current?.();
-  hitstopRef.current = Date.now() + 100;
-
-  if (totalVampirism > 0) {
-    const heal = Math.round((trueDmg * totalVampirism) / 100);
-    if (heal > 0) setPlayerHP((hp) => Math.min(playerMaxHp, hp + heal));
-  }
+  finishHit(params, trueDmg, dmgType, 100, params.onSpecialRef);
 
   return trueDmg;
 }

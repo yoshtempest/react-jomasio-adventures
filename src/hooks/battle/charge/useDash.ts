@@ -111,6 +111,98 @@ export function useChargeDash(props: Props) {
     const dashY = player.y;
     const dashCharacter = player.character;
 
+    const buildDashTargets = () => {
+      const targets: { id: string; x: number; y: number }[] = [];
+
+      if (npcXRef.current && npcYRef.current) {
+        targets.push({
+          id: "main",
+          x: npcXRef.current,
+          y: npcYRef.current,
+        });
+      }
+
+      for (const summon of summonsRef.current) {
+        if (summon.hp > 0 && !summon.isDying) {
+          targets.push({ id: summon.id, x: summon.x, y: summon.y });
+        }
+      }
+
+      return targets;
+    };
+
+    const applyDashHit = (
+      target: { id: string; x: number; y: number },
+      critDmg: number,
+      critType: DamageType,
+    ) => {
+      hitTargetsRef.current.add(target.id);
+      setDeliciaRef.current((d) => Math.min(d + 1, hitsToSpecial));
+
+      if (target.id === "main") {
+        const elementMultiplier = getElementMultiplier(
+          CHARACTER_ELEMENT_TYPES[dashCharacter],
+          npcElementTypesRef.current,
+        );
+        const dmg = Math.round(
+          calculateDamageToNpc(critDmg, npcArmor) * elementMultiplier,
+        );
+        setNpcHP((hp) => Math.max(0, hp - dmg));
+        if (vampirismRef.current > 0) {
+          const heal = Math.round((dmg * vampirismRef.current) / 100);
+          if (heal > 0) {
+            setPlayerHPRef.current((hp) =>
+              Math.min(playerMaxHpRef.current, hp + heal),
+            );
+          }
+        }
+        spawnDamageRef.current?.(
+          dmg,
+          target.x,
+          target.y,
+          critType === "crit" ? "crit" : "charge",
+        );
+        registerHitRef.current?.(dmg);
+        hitstopRef.current = Date.now() + 80;
+        playerCooldown.current = false;
+        setTimeout(() => {
+          playerCooldown.current = true;
+        }, PLAYER_CHARGE_DASH_COOLDOWN);
+      } else {
+        const summon = summonsRef.current.find((s) => s.id === target.id);
+        const elementMultiplier = getElementMultiplier(
+          CHARACTER_ELEMENT_TYPES[dashCharacter],
+          summon ? getNpcElementTypes(summon.npcType) : [],
+        );
+        const summonDmg = Math.round(critDmg * elementMultiplier);
+        spawnDamageRef.current?.(
+          summonDmg,
+          target.x,
+          target.y,
+          critType === "crit" ? "crit" : "charge",
+        );
+        registerHitRef.current?.(summonDmg);
+        hitstopRef.current = Date.now() + 80;
+
+        if (vampirismRef.current > 0) {
+          const heal = Math.round((summonDmg * vampirismRef.current) / 100);
+          if (heal > 0) {
+            setPlayerHPRef.current((hp) =>
+              Math.min(playerMaxHpRef.current, hp + heal),
+            );
+          }
+        }
+
+        setSummons((prev) =>
+          prev.map((s) =>
+            s.id === target.id
+              ? { ...s, hp: Math.max(0, Math.round(s.hp) - summonDmg) }
+              : s,
+          ),
+        );
+      }
+    };
+
     setPlayerState("dash");
 
     dashIntervalRef.current = setInterval(() => {
@@ -145,21 +237,7 @@ export function useChargeDash(props: Props) {
         );
         if (critType === "crit") wasCritRef.current = true;
 
-        const targets: { id: string; x: number; y: number }[] = [];
-
-        if (npcXRef.current && npcYRef.current) {
-          targets.push({
-            id: "main",
-            x: npcXRef.current,
-            y: npcYRef.current,
-          });
-        }
-
-        for (const summon of summonsRef.current) {
-          if (summon.hp > 0 && !summon.isDying) {
-            targets.push({ id: summon.id, x: summon.x, y: summon.y });
-          }
-        }
+        const targets = buildDashTargets();
 
         for (const target of targets) {
           if (hitTargetsRef.current.has(target.id)) continue;
@@ -177,75 +255,7 @@ export function useChargeDash(props: Props) {
               target.id === "main" ? npcClass : "common",
             )
           ) {
-            hitTargetsRef.current.add(target.id);
-            setDeliciaRef.current((d) => Math.min(d + 1, hitsToSpecial));
-
-            if (target.id === "main") {
-              const elementMultiplier = getElementMultiplier(
-                CHARACTER_ELEMENT_TYPES[dashCharacter],
-                npcElementTypesRef.current,
-              );
-              const dmg = Math.round(
-                calculateDamageToNpc(critDmg, npcArmor) * elementMultiplier,
-              );
-              setNpcHP((hp) => Math.max(0, hp - dmg));
-              if (vampirismRef.current > 0) {
-                const heal = Math.round((dmg * vampirismRef.current) / 100);
-                if (heal > 0) {
-                  setPlayerHPRef.current((hp) =>
-                    Math.min(playerMaxHpRef.current, hp + heal),
-                  );
-                }
-              }
-              spawnDamageRef.current?.(
-                dmg,
-                target.x,
-                target.y,
-                critType === "crit" ? "crit" : "charge",
-              );
-              registerHitRef.current?.(dmg);
-              hitstopRef.current = Date.now() + 80;
-              playerCooldown.current = false;
-              setTimeout(() => {
-                playerCooldown.current = true;
-              }, PLAYER_CHARGE_DASH_COOLDOWN);
-            } else {
-              const summon = summonsRef.current.find(
-                (s) => s.id === target.id,
-              );
-              const elementMultiplier = getElementMultiplier(
-                CHARACTER_ELEMENT_TYPES[dashCharacter],
-                summon ? getNpcElementTypes(summon.npcType) : [],
-              );
-              const summonDmg = Math.round(critDmg * elementMultiplier);
-              spawnDamageRef.current?.(
-                summonDmg,
-                target.x,
-                target.y,
-                critType === "crit" ? "crit" : "charge",
-              );
-              registerHitRef.current?.(summonDmg);
-              hitstopRef.current = Date.now() + 80;
-
-              if (vampirismRef.current > 0) {
-                const heal = Math.round(
-                  (summonDmg * vampirismRef.current) / 100,
-                );
-                if (heal > 0) {
-                  setPlayerHPRef.current((hp) =>
-                    Math.min(playerMaxHpRef.current, hp + heal),
-                  );
-                }
-              }
-
-              setSummons((prev) =>
-                prev.map((s) =>
-                  s.id === target.id
-                    ? { ...s, hp: Math.max(0, Math.round(s.hp) - summonDmg) }
-                    : s,
-                ),
-              );
-            }
+            applyDashHit(target, critDmg, critType);
           }
         }
 

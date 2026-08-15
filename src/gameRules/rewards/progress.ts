@@ -57,6 +57,52 @@ export function getMaxNpcKills(
   return max;
 }
 
+type CharProgress = { level: number };
+
+type ProgressContext = {
+  totalKills: number;
+  totalPlayTime: number;
+  unlockedCount: number;
+  maxNpcKills: number;
+  classKills: Record<string, number>;
+};
+
+const CURRENT_BY_ID: Record<string, (ctx: ProgressContext) => number> = {
+  kill_enemies: (ctx) => ctx.totalKills,
+  play_time: (ctx) => Math.floor(ctx.totalPlayTime / 3600),
+  unlock_chars: (ctx) => ctx.unlockedCount,
+  kill_same_npc: (ctx) => ctx.maxNpcKills,
+  kill_legendary: (ctx) => ctx.classKills.legendary ?? 0,
+  kill_boss: (ctx) => ctx.classKills.boss ?? 0,
+  kill_rare: (ctx) => ctx.classKills.rare ?? 0,
+  damage_dealt: () => getDamageDealtStats().total,
+  damage_taken: () => getDamageTakenStats().total,
+  blocks: () => getBlockCount().total,
+  misses: () => getMissesStats().total,
+  hits_used: () => getHitsUsedStats().total,
+  specials_used: () => getSpecialsUsedStats().total,
+  attacks_used: () => getAttacksUsedStats().total,
+};
+
+const CURRENT_BY_CHAR_TYPE: Record<
+  string,
+  (charId: string, charsProgress: Record<string, CharProgress>) => number
+> = {
+  level: (charId, charsProgress) => charsProgress[charId]?.level ?? 0,
+  damage: (charId) => getDamageDealtStats().perCharacter[charId] ?? 0,
+  specials: (charId) => getSpecialsUsedStats().perCharacter[charId] ?? 0,
+  hits: (charId) => getHitsUsedStats().perCharacter[charId] ?? 0,
+  attacks: (charId) => getAttacksUsedStats().perCharacter[charId] ?? 0,
+};
+
+function progress(
+  current: number,
+  def: RewardDef,
+  stage: number,
+): { current: number; requirement: number } {
+  return { current, requirement: def.getRequirement(stage) };
+}
+
 export function getProgress(
   def: RewardDef,
   stage: number,
@@ -67,99 +113,26 @@ export function getProgress(
   classKills: Record<string, number>,
   charsProgress: Record<string, { level: number }>,
 ): { current: number; requirement: number } {
-  switch (def.id) {
-    case "kill_enemies":
-      return { current: totalKills, requirement: def.getRequirement(stage) };
-    case "play_time":
-      return {
-        current: Math.floor(totalPlayTime / 3600),
-        requirement: def.getRequirement(stage),
-      };
-    case "unlock_chars":
-      return { current: unlockedCount, requirement: def.getRequirement(stage) };
-    case "kill_same_npc":
-      return { current: maxNpcKills, requirement: def.getRequirement(stage) };
-    case "kill_legendary":
-      return {
-        current: classKills.legendary ?? 0,
-        requirement: def.getRequirement(stage),
-      };
-    case "kill_boss":
-      return {
-        current: classKills.boss ?? 0,
-        requirement: def.getRequirement(stage),
-      };
-    case "kill_rare":
-      return {
-        current: classKills.rare ?? 0,
-        requirement: def.getRequirement(stage),
-      };
-    case "damage_dealt":
-      return {
-        current: getDamageDealtStats().total,
-        requirement: def.getRequirement(stage),
-      };
-    case "damage_taken":
-      return {
-        current: getDamageTakenStats().total,
-        requirement: def.getRequirement(stage),
-      };
-    case "blocks":
-      return {
-        current: getBlockCount().total,
-        requirement: def.getRequirement(stage),
-      };
-    case "misses":
-      return {
-        current: getMissesStats().total,
-        requirement: def.getRequirement(stage),
-      };
-    case "hits_used":
-      return {
-        current: getHitsUsedStats().total,
-        requirement: def.getRequirement(stage),
-      };
-    case "specials_used":
-      return {
-        current: getSpecialsUsedStats().total,
-        requirement: def.getRequirement(stage),
-      };
-    case "attacks_used":
-      return {
-        current: getAttacksUsedStats().total,
-        requirement: def.getRequirement(stage),
-      };
-    default: {
-      const parsed = isCharRewardId(def.id);
-      if (!parsed) return { current: 0, requirement: 0 };
-
-      const level = charsProgress[parsed.charId]?.level ?? 0;
-      switch (parsed.type) {
-        case "level":
-          return { current: level, requirement: def.getRequirement(stage) };
-        case "damage":
-          return {
-            current: getDamageDealtStats().perCharacter[parsed.charId] ?? 0,
-            requirement: def.getRequirement(stage),
-          };
-        case "specials":
-          return {
-            current: getSpecialsUsedStats().perCharacter[parsed.charId] ?? 0,
-            requirement: def.getRequirement(stage),
-          };
-        case "hits":
-          return {
-            current: getHitsUsedStats().perCharacter[parsed.charId] ?? 0,
-            requirement: def.getRequirement(stage),
-          };
-        case "attacks":
-          return {
-            current: getAttacksUsedStats().perCharacter[parsed.charId] ?? 0,
-            requirement: def.getRequirement(stage),
-          };
-        default:
-          return { current: 0, requirement: 0 };
-      }
-    }
+  const fixedGetter = CURRENT_BY_ID[def.id];
+  if (fixedGetter) {
+    return progress(
+      fixedGetter({
+        totalKills,
+        totalPlayTime,
+        unlockedCount,
+        maxNpcKills,
+        classKills,
+      }),
+      def,
+      stage,
+    );
   }
+
+  const parsed = isCharRewardId(def.id);
+  if (!parsed) return { current: 0, requirement: 0 };
+
+  const charGetter = CURRENT_BY_CHAR_TYPE[parsed.type];
+  if (!charGetter) return { current: 0, requirement: 0 };
+
+  return progress(charGetter(parsed.charId, charsProgress), def, stage);
 }

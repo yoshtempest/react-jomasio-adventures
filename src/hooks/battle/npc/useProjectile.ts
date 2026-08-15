@@ -30,22 +30,20 @@ export function useProjectile(
 
         switch (p.variant) {
           case "common":
-            return handleCommon(
-              p,
+            return handleLinearProjectile(p, {
               playerX,
               playerY,
               playerState,
-              onHitRef.current,
-            );
+              onHit: onHitRef.current,
+            });
           case "pull":
-            return handlePull(
-              p,
+            return handleLinearProjectile(p, {
               playerX,
               playerY,
               playerState,
-              onHitRef.current,
-              onPullPlayerRef.current,
-            );
+              onHit: onHitRef.current,
+              onPullPlayer: onPullPlayerRef.current,
+            });
           case "rain":
             return handleRain(p, playerX, playerState, onHitRef.current);
         }
@@ -56,13 +54,16 @@ export function useProjectile(
   }, [projectile, playerX, playerY, playerState, setProjectile, hitstopRef]);
 }
 
-function handleCommon(
-  p: ProjectileCommon,
-  playerX: number,
-  playerY: number,
-  playerState: playerState,
-  onHit: () => void,
-): ProjectileCommon | null {
+function handleLinearProjectile(
+  p: ProjectileCommon | ProjectilePull,
+  opts: {
+    playerX: number;
+    playerY: number;
+    playerState: playerState;
+    onHit: () => void;
+    onPullPlayer?: (x: number) => void;
+  },
+): ProjectileCommon | ProjectilePull | null {
   if (p.state === "walk") {
     if (Date.now() - p.createdAt >= 500) {
       return { ...p, state: "idle" };
@@ -87,67 +88,20 @@ function handleCommon(
     return null;
   }
 
-  const dx = Math.abs(playerX - next.x);
-  const isDashing = playerState === "dash";
+  const dx = Math.abs(opts.playerX - next.x);
+  const isDashing = opts.playerState === "dash";
   const isCrouched =
-    playerState === "idleCrounched" || playerState === "walkCrounched";
+    opts.playerState === "idleCrounched" || opts.playerState === "walkCrounched";
   const dodgeProjectile = isDashing || isCrouched;
 
-  const hitY = isCrouched ? playerY - 30 : playerY;
+  const hitY = isCrouched ? opts.playerY - 30 : opts.playerY;
   const hitDy = Math.abs(hitY - next.y);
 
   if (dx < 40 && hitDy <= 120 && !dodgeProjectile) {
-    onHit();
-    return null;
-  }
-
-  return next;
-}
-
-function handlePull(
-  p: ProjectilePull,
-  playerX: number,
-  playerY: number,
-  playerState: playerState,
-  onHit: () => void,
-  onPullPlayer?: (x: number) => void,
-): ProjectilePull | null {
-  if (p.state === "walk") {
-    if (Date.now() - p.createdAt >= 500) {
-      return { ...p, state: "idle" };
+    if (p.variant === "pull") {
+      opts.onPullPlayer?.(p.pullTargetX);
     }
-    return p;
-  }
-
-  const next = {
-    ...p,
-    x: p.x + p.dirX * ProjectileConstants.SPEED,
-    y: p.y + p.dirY * ProjectileConstants.SPEED,
-  };
-
-  if (
-    next.x < -ProjectileConstants.OFFSCREEN_MARGIN ||
-    next.x >
-      ProjectileConstants.MAP_WIDTH + ProjectileConstants.OFFSCREEN_MARGIN ||
-    next.y < -ProjectileConstants.OFFSCREEN_MARGIN ||
-    next.y >
-      ProjectileConstants.MAP_HEIGHT + ProjectileConstants.OFFSCREEN_MARGIN
-  ) {
-    return null;
-  }
-
-  const dx = Math.abs(playerX - next.x);
-  const isDashing = playerState === "dash";
-  const isCrouched =
-    playerState === "idleCrounched" || playerState === "walkCrounched";
-  const dodgeProjectile = isDashing || isCrouched;
-
-  const hitY = isCrouched ? playerY - 30 : playerY;
-  const hitDy = Math.abs(hitY - next.y);
-
-  if (dx < 40 && hitDy <= 120 && !dodgeProjectile) {
-    onPullPlayer?.(p.pullTargetX);
-    onHit();
+    opts.onHit();
     return null;
   }
 

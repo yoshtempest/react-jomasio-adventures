@@ -307,58 +307,19 @@ export function useBattleSystem(props: Props) {
     isEnding,
   });
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (isEnding.current) return;
-      if (bleedUntilRef.current > Date.now()) {
-        setPlayerHP((hp) => Math.max(0, hp - 2));
-        spawnDamageRef.current?.(
-          2,
-          bleedXRef.current,
-          bleedYRef.current,
-          "bleed",
-        );
-      }
-      if (burnUntilRef.current > Date.now()) {
-        setPlayerHP((hp) => Math.max(0, hp - burnTickDamage));
-        spawnDamageRef.current?.(
-          burnTickDamage,
-          bleedXRef.current,
-          bleedYRef.current,
-          "burn",
-        );
-      }
-      if (poisonUntilRef.current > Date.now()) {
-        setPlayerHP((hp) => Math.max(0, hp - POISON_TICK_DAMAGE));
-        spawnDamageRef.current?.(
-          POISON_TICK_DAMAGE,
-          bleedXRef.current,
-          bleedYRef.current,
-          "poison",
-        );
-      }
-    }, DOT_TICK_INTERVAL_MS);
-    return () => clearInterval(interval);
-  }, [setPlayerHP, isEnding, burnTickDamage]);
+  useStatusDotTicks({
+    isEnding,
+    setPlayerHP,
+    spawnDamageRef,
+    burnTickDamage,
+    bleedXRef,
+    bleedYRef,
+    bleedUntilRef,
+    burnUntilRef,
+    poisonUntilRef,
+  });
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (isMenuRef?.current) return;
-      setPlayer((p) => {
-        if (p.pullStartTime === 0) return p;
-        const elapsed = Date.now() - p.pullStartTime;
-        const duration = 300;
-        const progress = Math.min(elapsed / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        const currentX = p.pullFromX + (p.pullToX - p.pullFromX) * eased;
-        if (progress >= 1) {
-          return { ...p, x: p.pullToX, pullStartTime: 0 };
-        }
-        return { ...p, x: currentX };
-      });
-    }, 16);
-    return () => clearInterval(interval);
-  }, [setPlayer, isMenuRef]);
+  usePlayerPullAnimation(setPlayer, isMenuRef);
 
   const resetBattle = () => {
     setPlayerHP(playerMaxHp);
@@ -457,4 +418,98 @@ export function useBattleSystem(props: Props) {
     halfHealReduction,
     applyStatus,
   };
+}
+
+function useStatusDotTicks(params: {
+  isEnding: React.RefObject<boolean>;
+  setPlayerHP: React.Dispatch<React.SetStateAction<number>>;
+  spawnDamageRef: React.RefObject<
+    (value: number, x: number, y: number, type: DamageType) => void
+  >;
+  burnTickDamage: number;
+  bleedXRef: React.RefObject<number>;
+  bleedYRef: React.RefObject<number>;
+  bleedUntilRef: React.RefObject<number>;
+  burnUntilRef: React.RefObject<number>;
+  poisonUntilRef: React.RefObject<number>;
+}) {
+  const {
+    isEnding,
+    setPlayerHP,
+    spawnDamageRef,
+    burnTickDamage,
+    bleedXRef,
+    bleedYRef,
+    bleedUntilRef,
+    burnUntilRef,
+    poisonUntilRef,
+  } = params;
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (isEnding.current) return;
+      if (bleedUntilRef.current > Date.now()) {
+        setPlayerHP((hp) => Math.max(0, hp - 2));
+        spawnDamageRef.current?.(
+          2,
+          bleedXRef.current,
+          bleedYRef.current,
+          "bleed",
+        );
+      }
+      if (burnUntilRef.current > Date.now()) {
+        setPlayerHP((hp) => Math.max(0, hp - burnTickDamage));
+        spawnDamageRef.current?.(
+          burnTickDamage,
+          bleedXRef.current,
+          bleedYRef.current,
+          "burn",
+        );
+      }
+      if (poisonUntilRef.current > Date.now()) {
+        setPlayerHP((hp) => Math.max(0, hp - POISON_TICK_DAMAGE));
+        spawnDamageRef.current?.(
+          POISON_TICK_DAMAGE,
+          bleedXRef.current,
+          bleedYRef.current,
+          "poison",
+        );
+      }
+    }, DOT_TICK_INTERVAL_MS);
+    return () => clearInterval(interval);
+  }, [
+    setPlayerHP,
+    isEnding,
+    burnTickDamage,
+    bleedXRef,
+    bleedYRef,
+    bleedUntilRef,
+    burnUntilRef,
+    poisonUntilRef,
+    spawnDamageRef,
+  ]);
+}
+
+function usePlayerPullAnimation(
+  setPlayer: React.Dispatch<React.SetStateAction<Player>>,
+  isMenuRef?: React.RefObject<boolean>,
+) {
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (isMenuRef?.current) return;
+      setPlayer((p) => {
+        if (p.pullStartTime === 0) return p;
+        const elapsed = Date.now() - p.pullStartTime;
+        const duration = 300;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const currentX = p.pullFromX + (p.pullToX - p.pullFromX) * eased;
+        if (progress >= 1) {
+          return { ...p, x: p.pullToX, pullStartTime: 0 };
+        }
+        return { ...p, x: currentX };
+      });
+    }, 16);
+    return () => clearInterval(interval);
+  }, [setPlayer, isMenuRef]);
 }

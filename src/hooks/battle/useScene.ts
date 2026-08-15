@@ -1,4 +1,4 @@
-import { useRef, useState, useMemo, useEffect } from "react";
+import { useRef, useState, useMemo, useEffect, type RefObject } from "react";
 import { useGrabThrow } from "@/hooks/battle/throw/useGrabThrow";
 import { useThrowAnimation } from "@/hooks/battle/throw/useThrowAnimation";
 import { usePlayer } from "@/contexts/PlayerContext";
@@ -10,7 +10,10 @@ import { usePetProgress } from "@/contexts/PetProgressContext";
 import { petStarsFromEnhance } from "@/data/characters/petProgress";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { useNavigate, useLocation } from "react-router";
-import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import {
+  useSoundEffects,
+  type SoundId,
+} from "@/contexts/SoundEffectsContext";
 import { logPlay } from "@/utils/replay/audioEventLog";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
@@ -35,7 +38,10 @@ import { useBattleOutro } from "@/hooks/battle/useOutro";
 import { useBattleSync } from "@/hooks/battle/useSync";
 import { useNpcTargeting } from "@/hooks/battle/npc/useNpcTargeting";
 import { useBattleInfo } from "@/contexts/BattleInfoContext";
-import { getPetSkillDefinition } from "@/data/characters/petSkills";
+import {
+  getPetSkillDefinition,
+  type PetSkillDefinition,
+} from "@/data/characters/petSkills";
 import { getPetBaseDamage } from "@/data/characters/petProgress";
 import { calculateDamageToNpc } from "@/gameRules/battle/damage";
 import { getElementMultiplier } from "@/gameRules/battle/element";
@@ -61,6 +67,129 @@ import {
 } from "@/utils/rewards/battleStats";
 import { useBattleRecording } from "@/hooks/battle/recording/useBattleRecording";
 import type { ReplayData } from "@/utils/types/replay";
+import type { SpawnDamageFn } from "@/utils/types/battle/spawnDamageFn";
+
+function useLatestRef<T>(value: T) {
+  const ref = useRef(value);
+  ref.current = value;
+  return ref;
+}
+
+function useSnapshot<T>(value: T) {
+  const ref = useRef(value);
+  ref.current = value;
+  return ref;
+}
+
+function computeElapsedBattleTime(
+  battleStartRef: RefObject<number>,
+  prevModeRef: RefObject<PlayerMode>,
+  pauseStartRef: RefObject<number>,
+  pauseDurationRef: RefObject<number>,
+): number {
+  let elapsed = Date.now() - battleStartRef.current;
+  if (prevModeRef.current === "menu") {
+    elapsed += Date.now() - pauseStartRef.current;
+  }
+  elapsed -= pauseDurationRef.current;
+  return elapsed;
+}
+
+function buildSummonWrapper(params: {
+  npcType: string;
+  npcPhaseRef: RefObject<number>;
+  coffinStartedRef: RefObject<boolean>;
+  playSound: (sound: SoundId, loop?: boolean, volumeOverride?: number) => void;
+  beginCoffinSequence: (
+    spawnPositions: number[],
+    groundY: number,
+    onSpawn: (npcType: string, x: number) => void,
+  ) => void;
+  player: Player;
+  summonNpcRef: RefObject<(npcType: string, overrideX?: number) => void>;
+}): (summonType: string) => void {
+  return (summonType: string) => {
+    if (
+      params.npcType === "hungryKing" &&
+      params.npcPhaseRef.current === 2 &&
+      summonType === "hungryDeath"
+    ) {
+      if (!params.coffinStartedRef.current) {
+        params.coffinStartedRef.current = true;
+        params.playSound("summon");
+        logPlay("summon");
+        params.beginCoffinSequence(
+          [550, 650, 750],
+          params.player.groundY,
+          (_npcType: string, x: number) =>
+            params.summonNpcRef.current("hungryDeath", x),
+        );
+      }
+    } else {
+      params.summonNpcRef.current(summonType);
+    }
+  };
+}
+
+function runPetSkill(
+  def: PetSkillDefinition,
+  deps: {
+    petLevel: number;
+    petStars: number;
+    npcType: string;
+    battle: ReturnType<typeof useBattleSystem>;
+    spawnDamageRef: RefObject<SpawnDamageFn>;
+    npc: ReturnType<typeof useNpcAI>;
+    summonNpc: (npcType: string, overrideX?: number) => void;
+    playSound: (
+      sound: SoundId,
+      loop?: boolean,
+      volumeOverride?: number,
+    ) => void;
+  },
+): void {
+  const {
+    petLevel,
+    petStars,
+    npcType,
+    battle,
+    spawnDamageRef,
+    npc,
+    summonNpc,
+    playSound,
+  } = deps;
+  const effect = def.skillEffect;
+  switch (effect.kind) {
+    case "damage": {
+      const baseDamage = getPetBaseDamage(petLevel, petStars);
+      const elementMultiplier = getElementMultiplier(
+        getNpcElementTypes(def.npcType),
+        getNpcElementTypes(npcType),
+      );
+      const dmg = Math.round(
+        calculateDamageToNpc(
+          baseDamage * effect.multiplier,
+          battle.npcArmor,
+        ) * elementMultiplier,
+      );
+      battle.setNpcHP((hp) => Math.max(0, hp - dmg));
+      spawnDamageRef.current?.(dmg, npc.x, npc.y, "pet");
+      break;
+    }
+    case "summon":
+      summonNpc(effect.npcType);
+      break;
+    case "shield":
+      battle.setPlayerShield((shield) => shield + effect.amount);
+      break;
+    case "heal":
+      battle.setPlayerHP((hp) =>
+        Math.min(battle.playerMaxHp, hp + effect.amount),
+      );
+      break;
+  }
+  playSound("summon");
+}
 
 type Props = {
   npcType: string;
@@ -129,8 +258,7 @@ export function useBattleScene({
   const { playSound } = useSoundEffects();
 
   const [npcPhase, setNpcPhase] = useState(1);
-  const npcPhaseRef = useRef(npcPhase);
-  npcPhaseRef.current = npcPhase;
+  const npcPhaseRef = useLatestRef(npcPhase);
   const [isPhaseTransitioning, setIsPhaseTransitioning] = useState(false);
 
   const battleStartRef = useRef(Date.now());
@@ -162,11 +290,11 @@ export function useBattleScene({
   );
 
   const battleInfoCtx = useBattleInfo();
-  const battleInfoCtxRef = useRef(battleInfoCtx);
-  battleInfoCtxRef.current = battleInfoCtx;
+  const battleInfoCtxRef = useLatestRef(battleInfoCtx);
 
   useEffect(() => {
-    battleInfoCtxRef.current?.setBattleInfo({
+    const battleInfo = battleInfoCtxRef.current;
+    battleInfo?.setBattleInfo({
       npcType,
       npcLevel,
       npcClass: npcData.class,
@@ -175,7 +303,7 @@ export function useBattleScene({
       npcArmor: npcStats.armor,
     });
     return () => {
-      battleInfoCtxRef.current?.clearBattleInfo();
+      battleInfo?.clearBattleInfo();
     };
   }, [
     npcType,
@@ -184,6 +312,7 @@ export function useBattleScene({
     npcStats.hp,
     npcStats.damage,
     npcStats.armor,
+    battleInfoCtxRef,
   ]);
 
   const equipmentBonus = getEquipmentStatsBonus(player.character);
@@ -214,10 +343,9 @@ export function useBattleScene({
   } = useCoffinAnimation();
 
   const coffinStartedRef = useRef(false);
-  const summonNpcRef = useRef<(npcType: string, overrideX?: number) => void>(
+  const summonNpcRef = useLatestRef<(npcType: string, overrideX?: number) => void>(
     () => {},
   );
-  summonNpcRef.current = summonNpc;
 
   const alfaSummonsSpawnedRef = useRef(false);
   useEffect(() => {
@@ -227,28 +355,17 @@ export function useBattleScene({
     summonNpc(npcType);
   }, [isAlfa, npcType, summonNpc]);
 
-  const onSummonWrapperRef = useRef<(summonType: string) => void>(() => {});
-  onSummonWrapperRef.current = (summonType: string) => {
-    if (
-      npcType === "hungryKing" &&
-      npcPhaseRef.current === 2 &&
-      summonType === "hungryDeath"
-    ) {
-      if (!coffinStartedRef.current) {
-        coffinStartedRef.current = true;
-        playSound("summon");
-        logPlay("summon");
-        beginCoffinSequence(
-          [550, 650, 750],
-          player.groundY,
-          (_npcType: string, x: number) =>
-            summonNpcRef.current("hungryDeath", x),
-        );
-      }
-    } else {
-      summonNpcRef.current(summonType);
-    }
-  };
+  const onSummonWrapperRef = useLatestRef(
+    buildSummonWrapper({
+      npcType,
+      npcPhaseRef,
+      coffinStartedRef,
+      playSound,
+      beginCoffinSequence,
+      player,
+      summonNpcRef,
+    }),
+  );
 
   const charProgress = progress[player.character];
   const xpNeeded = getXPToNextLevel(charProgress.level);
@@ -299,25 +416,16 @@ export function useBattleScene({
 
   const targeting = useNpcTargeting();
 
-  const setModeRef = useRef(setMode);
-  setModeRef.current = setMode;
-  const closeInventoryRef = useRef(closeInventory);
-  closeInventoryRef.current = closeInventory;
-  const closeNavbarRef = useRef(closeNavbar);
-  closeNavbarRef.current = closeNavbar;
+  const setModeRef = useLatestRef(setMode);
+  const closeInventoryRef = useLatestRef(closeInventory);
+  const closeNavbarRef = useLatestRef(closeNavbar);
 
-  const saveDataRef = useRef({
+  const saveDataRef = useSnapshot({
     items: inventoryItems,
     quests,
     character: player.character,
     playerClass,
   });
-  saveDataRef.current = {
-    items: inventoryItems,
-    quests,
-    character: player.character,
-    playerClass,
-  };
 
   const killCounter = useBattleKillCounter();
   if (!training) {
@@ -327,8 +435,7 @@ export function useBattleScene({
 
   const isConfigOpen = isNavOpen && navScreen === "config";
   const isMenuOpen = isNavOpen;
-  const isMenuOpenRef = useRef(isMenuOpen);
-  isMenuOpenRef.current = isMenuOpen;
+  const isMenuOpenRef = useLatestRef(isMenuOpen);
   const isPaused =
     showVictory || showDefeat || showIntro || showOutro != null || showHighlight || isConfigOpen;
   const controlsDisabled = isPaused || isPhaseTransitioning || isThrown;
@@ -390,8 +497,7 @@ export function useBattleScene({
     return false;
   };
 
-  const onPlayerDeathRef = useRef(() => {});
-  onPlayerDeathRef.current = () => {
+  const onPlayerDeathRef = useLatestRef(() => {
     if (training) {
       battle.resetBattle();
       return;
@@ -415,17 +521,17 @@ export function useBattleScene({
     handleDefeat();
     recordDefeat();
     setShowDefeat(true);
-    let elapsed = Date.now() - battleStartRef.current;
-    if (prevModeRef.current === "menu") {
-      elapsed += Date.now() - pauseStartRef.current;
-    }
-    elapsed -= pauseDurationRef.current;
+    const elapsed = computeElapsedBattleTime(
+      battleStartRef,
+      prevModeRef,
+      pauseStartRef,
+      pauseDurationRef,
+    );
     setDefeatElapsed(elapsed);
     addBattleTime(player.character, Math.floor(elapsed / 1000));
-  };
+  });
 
-  const onNpcDeathRef = useRef(() => {});
-  onNpcDeathRef.current = () => {
+  const onNpcDeathRef = useLatestRef(() => {
     if (training) {
       battle.setNpcHP(battle.npcMaxHp);
       return;
@@ -456,11 +562,12 @@ export function useBattleScene({
       playerClass: d.playerClass,
       character: d.character,
     });
-    let elapsed = Date.now() - battleStartRef.current;
-    if (prevModeRef.current === "menu") {
-      elapsed += Date.now() - pauseStartRef.current;
-    }
-    elapsed -= pauseDurationRef.current;
+    const elapsed = computeElapsedBattleTime(
+      battleStartRef,
+      prevModeRef,
+      pauseStartRef,
+      pauseDurationRef,
+    );
     setVictoryElapsed(elapsed);
     addBattleTime(player.character, Math.floor(elapsed / 1000));
     saveBestTime(npcType, elapsed);
@@ -470,43 +577,37 @@ export function useBattleScene({
       killCounter.npcTypeRef.current,
       killCounter.npcDataRef.current.class,
     );
-  };
+  });
 
-  const onBlockRef = useRef(() => {});
-  onBlockRef.current = () => {
+  const onBlockRef = useLatestRef(() => {
     incrementBlockCount(player.character);
     incrementBlockCounter();
-  };
+  });
 
-  const onDamageTakenRef = useRef<(amount: number) => void>(() => {});
-  onDamageTakenRef.current = (amount: number) => {
+  const onDamageTakenRef = useLatestRef((amount: number) => {
     incrementDamageTaken(amount);
     incrementDamageTakenStats(player.character, amount);
-  };
+  });
 
-  const onDodgeRef = useRef(() => {});
-  onDodgeRef.current = () => {
+  const onDodgeRef = useLatestRef(() => {
     incrementDodgeCounter();
     incrementMissesStats(player.character);
-  };
+  });
 
-  const onDamageDealtRef = useRef<(amount: number) => void>(() => {});
-  onDamageDealtRef.current = (amount: number) => {
+  const onDamageDealtRef = useLatestRef((amount: number) => {
     incrementDamageDealt(amount);
     incrementDamageDealtStats(player.character, amount);
-  };
+  });
 
-  const onAttackRef = useRef(() => {});
-  onAttackRef.current = () => {
+  const onAttackRef = useLatestRef(() => {
     incrementAttacksUsedStats(player.character);
     incrementHitsUsedStats(player.character);
-  };
+  });
 
-  const onSpecialRef = useRef(() => {});
-  onSpecialRef.current = () => {
+  const onSpecialRef = useLatestRef(() => {
     incrementSpecialsUsedStats(player.character);
     incrementHitsUsedStats(player.character);
-  };
+  });
 
   const executePetSkillRef = useRef<() => void>(() => {});
 
@@ -543,39 +644,17 @@ export function useBattleScene({
   });
 
   executePetSkillRef.current = () => {
-    const def = petSkillDef;
-    if (!def || battle.isEnding.current) return;
-    const effect = def.skillEffect;
-    switch (effect.kind) {
-      case "damage": {
-        const baseDamage = getPetBaseDamage(petLevel, petStars);
-        const elementMultiplier = getElementMultiplier(
-          getNpcElementTypes(def.npcType),
-          getNpcElementTypes(npcType),
-        );
-        const dmg = Math.round(
-          calculateDamageToNpc(
-            baseDamage * effect.multiplier,
-            battle.npcArmor,
-          ) * elementMultiplier,
-        );
-        battle.setNpcHP((hp) => Math.max(0, hp - dmg));
-        refs.spawnDamageRef.current?.(dmg, npc.x, npc.y, "pet");
-        break;
-      }
-      case "summon":
-        summonNpc(effect.npcType);
-        break;
-      case "shield":
-        battle.setPlayerShield((shield) => shield + effect.amount);
-        break;
-      case "heal":
-        battle.setPlayerHP((hp) =>
-          Math.min(battle.playerMaxHp, hp + effect.amount),
-        );
-        break;
-    }
-    playSound("summon");
+    if (!petSkillDef || battle.isEnding.current) return;
+    runPetSkill(petSkillDef, {
+      petLevel,
+      petStars,
+      npcType,
+      battle,
+      spawnDamageRef: refs.spawnDamageRef,
+      npc,
+      summonNpc,
+      playSound,
+    });
   };
 
   const {
@@ -589,7 +668,7 @@ export function useBattleScene({
   refs.registerHitRef.current = registerHit;
   refs.spawnDamageRef.current = battle.spawnDamageNumber;
 
-  const playerSnapshotRef = useRef({
+  const playerSnapshotRef = useSnapshot({
     x: player.x,
     y: player.y,
     state: player.state,
@@ -598,32 +677,16 @@ export function useBattleScene({
     direction: player.direction,
     grabbedUntil: player.grabbedUntil ?? 0,
   });
-  playerSnapshotRef.current = {
-    x: player.x,
-    y: player.y,
-    state: player.state,
-    battleDirection: player.battleDirection,
-    character: player.character,
-    direction: player.direction,
-    grabbedUntil: player.grabbedUntil ?? 0,
-  };
 
-  const npcSnapshotRef = useRef({
+  const npcSnapshotRef = useSnapshot({
     x: npc.x,
     y: npc.y,
     state: npc.state,
     direction: npc.direction,
     jumpLandingX: npc.jumpLandingX,
   });
-  npcSnapshotRef.current = {
-    x: npc.x,
-    y: npc.y,
-    state: npc.state,
-    direction: npc.direction,
-    jumpLandingX: npc.jumpLandingX,
-  };
 
-  const battleSnapshotRef = useRef({
+  const battleSnapshotRef = useSnapshot({
     playerHP: battle.playerHP,
     playerMaxHp: battle.playerMaxHp,
     playerShield: battle.playerShield,
@@ -635,22 +698,9 @@ export function useBattleScene({
     blockGauge: battle.blockGauge,
     blockLimit: battle.blockLimit,
   });
-  battleSnapshotRef.current = {
-    playerHP: battle.playerHP,
-    playerMaxHp: battle.playerMaxHp,
-    playerShield: battle.playerShield,
-    npcHP: battle.npcHP,
-    npcMaxHp: battle.npcMaxHp,
-    npcPhase: battle.npcPhase ?? 1,
-    delicia: battle.delicia,
-    hitsToSpecial: battle.hitsToSpecial,
-    blockGauge: battle.blockGauge,
-    blockLimit: battle.blockLimit,
-  };
 
   const petData = battle.pet;
-  const petSnapshotRef = useRef(petData);
-  petSnapshotRef.current = petData;
+  const petSnapshotRef = useSnapshot(petData);
 
   const COMBO_ACTION_STATES: Partial<Record<PlayerState, string>> = {
     blocked: "blockAttack",
@@ -660,27 +710,18 @@ export function useBattleScene({
     !controlsDisabled && player.state in COMBO_ACTION_STATES
       ? (COMBO_ACTION_STATES[player.state] ?? null)
       : null;
-  const comboActionRef = useRef(comboActionSprite);
-  comboActionRef.current = comboActionSprite;
+  const comboActionRef = useLatestRef(comboActionSprite);
 
-  const comboSnapshotRef = useRef({
+  const comboSnapshotRef = useSnapshot({
     count: comboCount,
     rank: comboRank,
     progress: comboProgressValue,
     nextRank,
   });
-  comboSnapshotRef.current = {
-    count: comboCount,
-    rank: comboRank,
-    progress: comboProgressValue,
-    nextRank,
-  };
 
-  const damageNumbersSnapshotRef = useRef(battle.damageNumbers);
-  damageNumbersSnapshotRef.current = battle.damageNumbers;
+  const damageNumbersSnapshotRef = useSnapshot(battle.damageNumbers);
 
-  const summonsSnapshotRef = useRef(summons);
-  summonsSnapshotRef.current = summons;
+  const summonsSnapshotRef = useSnapshot(summons);
 
   const { isRecording, startRecording, stopRecording, getReplayData } =
     useBattleRecording({
@@ -805,12 +846,9 @@ export function useBattleScene({
     hitstopRef: refs.hitstopRef,
   });
 
-  const npcMaxHpRef = useRef(battle.npcMaxHp);
-  npcMaxHpRef.current = battle.npcMaxHp;
-  const setNpcHPRef = useRef(battle.setNpcHP);
-  setNpcHPRef.current = battle.setNpcHP;
-  const isEndingRef = useRef(battle.isEnding);
-  isEndingRef.current = battle.isEnding;
+  const npcMaxHpRef = useLatestRef(battle.npcMaxHp);
+  const setNpcHPRef = useLatestRef(battle.setNpcHP);
+  const isEndingRef = useLatestRef(battle.isEnding);
 
   usePhaseTransition({
     npcPhase: battle.npcPhase,

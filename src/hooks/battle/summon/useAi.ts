@@ -24,6 +24,28 @@ type Props = {
   hitstopRef: React.RefObject<number>;
 };
 
+function computeSummonDamage(
+  s: SummonedNpc,
+  npcLevel: number,
+  difficulty: NpcDifficulty,
+  playerClass: PlayerClass,
+  playerCharacter: CharacterId,
+): number | null {
+  const data = NPCS[s.npcType];
+  if (!data) return null;
+
+  const stats = getNpcStats(npcLevel, data.class, difficulty);
+
+  const elementMultiplier = getElementMultiplier(
+    getNpcElementTypes(s.npcType),
+    CHARACTER_ELEMENT_TYPES[playerCharacter],
+  );
+
+  return Math.round(
+    calculateNpcDamage(stats.damage, playerClass) * elementMultiplier,
+  );
+}
+
 export function useSummonAI({
   summons,
   setSummons,
@@ -94,26 +116,15 @@ export function useSummonAI({
             if (now - lastAttack >= 800) {
               summonLastAttacksRef.current[s.id] = now;
 
-              const data = NPCS[s.npcType];
+              const damage = computeSummonDamage(
+                s,
+                npcLevelRef.current,
+                difficultyRef.current,
+                playerClassRef.current,
+                playerCharacterRef.current,
+              );
 
-              if (data) {
-                const stats = getNpcStats(
-                  npcLevelRef.current,
-                  data.class,
-                  difficultyRef.current,
-                );
-
-                const elementMultiplier = getElementMultiplier(
-                  getNpcElementTypes(s.npcType),
-                  CHARACTER_ELEMENT_TYPES[playerCharacterRef.current],
-                );
-                const damage = Math.round(
-                  calculateNpcDamage(
-                    stats.damage,
-                    playerClassRef.current,
-                  ) * elementMultiplier,
-                );
-
+              if (damage !== null) {
                 damagePlayerRef.current(damage);
                 spawnDamageRef.current?.(
                   damage,

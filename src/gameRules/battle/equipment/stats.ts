@@ -24,6 +24,8 @@ const WEAPON_CRIT_RATE: Record<EquipmentRank, number> = {
   EX: 30,
 };
 
+type EquipmentBonus = Omit<StatBlock, "armor">;
+
 function* eachEquippedItem(
   equipped: EquippedItems,
 ): Generator<EquippedItemInfo> {
@@ -48,6 +50,15 @@ function sumEquippedStat(
   return total;
 }
 
+function getTotalStat(
+  character: CharacterId,
+  stat: keyof EquipmentStats,
+): number {
+  const equipped = loadEquipped(character);
+  const setItemIds = getActiveSetItemIds(character);
+  return sumEquippedStat(equipped, stat, setItemIds);
+}
+
 export function getWeaponCritRate(character: CharacterId): number {
   const equipped = loadEquipped(character);
   const info = equipped.weapon;
@@ -65,10 +76,8 @@ export function getTotalArmor(
   character: CharacterId,
   resistance?: number,
 ): number {
-  const equipped = loadEquipped(character);
-  const setItemIds = getActiveSetItemIds(character);
   const base = resistance !== undefined ? getResistanceArmor(resistance) : 0;
-  return base + sumEquippedStat(equipped, "armor", setItemIds);
+  return base + getTotalStat(character, "armor");
 }
 
 export function getBlockLimit(level: number, totalArmor: number): number {
@@ -76,26 +85,13 @@ export function getBlockLimit(level: number, totalArmor: number): number {
 }
 
 export function getTotalShield(character: CharacterId): number {
-  const equipped = loadEquipped(character);
-  const setItemIds = getActiveSetItemIds(character);
-  return sumEquippedStat(equipped, "shield", setItemIds);
+  return getTotalStat(character, "shield");
 }
 
-export function getEquipmentStatsBonus(character: CharacterId): {
-  hp: number;
-  strength: number;
-  intelligence: number;
-  shield: number;
-  vampirism: number;
-  reflect: number;
-  tenacity: number;
-  luck: number;
-  maxHpDamage: number;
-  trueDamage: number;
-} {
+export function getEquipmentStatsBonus(character: CharacterId): EquipmentBonus {
   const equipped = loadEquipped(character);
   const setItemIds = getActiveSetItemIds(character);
-  const bonus = {
+  const bonus: EquipmentBonus = {
     hp: 0,
     strength: 0,
     intelligence: 0,
@@ -109,48 +105,22 @@ export function getEquipmentStatsBonus(character: CharacterId): {
   };
 
   for (const info of eachEquippedItem(equipped)) {
-    const stats = getEffectiveStats(info.id, info.enhance);
-    const multiplier = setItemIds.has(info.id) ? SET_MULTIPLIER : 1;
-    bonus.hp += Math.round(stats.hp * multiplier);
-    bonus.strength += Math.round(stats.strength * multiplier);
-    bonus.intelligence += Math.round(stats.intelligence * multiplier);
-    bonus.shield += Math.round(stats.shield * multiplier);
-    bonus.vampirism += Math.round(stats.vampirism * multiplier);
-    bonus.reflect += Math.round(stats.reflect * multiplier);
-    bonus.tenacity += Math.round((stats.tenacity ?? 0) * multiplier);
-    bonus.luck += Math.round((stats.luck ?? 0) * multiplier);
-    bonus.maxHpDamage += Math.round((stats.maxHpDamage ?? 0) * multiplier);
-    bonus.trueDamage += Math.round((stats.trueDamage ?? 0) * multiplier);
+    addItemBonus(bonus, info, setItemIds);
   }
 
   return bonus;
 }
 
 export function getTotalVampirism(character: CharacterId): number {
-  const equipped = loadEquipped(character);
-  const setItemIds = getActiveSetItemIds(character);
-  return sumEquippedStat(equipped, "vampirism", setItemIds);
+  return getTotalStat(character, "vampirism");
 }
 
 export function getTotalReflect(character: CharacterId): number {
-  const equipped = loadEquipped(character);
-  const setItemIds = getActiveSetItemIds(character);
-  return sumEquippedStat(equipped, "reflect", setItemIds);
+  return getTotalStat(character, "reflect");
 }
 
 export function addItemBonus(
-  bonus: {
-    hp: number;
-    strength: number;
-    intelligence: number;
-    shield: number;
-    vampirism: number;
-    reflect: number;
-    tenacity: number;
-    luck: number;
-    maxHpDamage: number;
-    trueDamage: number;
-  },
+  bonus: EquipmentBonus,
   info: EquippedItemInfo,
   setItemIds: Set<string>,
 ) {

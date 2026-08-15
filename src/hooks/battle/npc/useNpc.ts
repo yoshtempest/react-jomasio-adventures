@@ -129,20 +129,19 @@ export function useNpcBattle({
       ty: number,
       dmgType: DamageType = "npc",
     ) => {
-      const isBlocking =
-        player.state === "blocked" &&
-        isFacingTarget(playerX, playerY, npcX, npcY, player.battleDirection);
-
-      const blocked = handleNpcBlocking({
+      const blocked = checkBlocked({
         dmg,
-        isBlocking,
+        playerState: player.state,
+        playerBattleDirection: player.battleDirection,
+        playerX,
+        playerY,
+        npcX,
+        npcY,
         blockGauge,
         setBlockGauge,
         damagePlayerWithReflect,
         setPlayer,
         spawnDamageRef,
-        playerX,
-        playerY,
         hitstopRef,
         npcStaggerRef,
         npcCooldown,
@@ -220,32 +219,20 @@ export function useNpcBattle({
 
     const hpRatio =
       npcMaxHpRef.current > 0 ? npcHpRef.current / npcMaxHpRef.current : 1;
-    const clampedRatio = Math.max(0, Math.min(1, hpRatio));
-    let critChance = 1;
-    if (npcType === "slimita" && npcPhase >= 2) {
-      critChance = 1 + (1 - clampedRatio) * 9;
-    }
-    const isCrit = Math.random() * 100 < critChance;
-    const elementMultiplier = getElementMultiplier(
-      getNpcElementTypes(npcType),
-      CHARACTER_ELEMENT_TYPES[player.character],
+    const { finalDmg, dmgType } = rollNpcDamage(
+      dmg,
+      hpRatio,
+      npcType,
+      npcPhase,
+      player.character,
     );
-    const finalDmg = Math.round((isCrit ? dmg * 2 : dmg) * elementMultiplier);
-    const dmgType: DamageType = isCrit ? "crit" : "npc";
 
     applyNpcDamage(finalDmg, tx, ty, dmgType);
     onDamageTakenRef?.current?.(finalDmg);
     onHalfHeal?.();
     hitstopRef.current = Date.now() + 50;
 
-    if (npcType === "hungryDeath") {
-      const bleedMs = Math.round(5000 * (1 - tenacityReductionRef.current));
-      setPlayer((p) => ({ ...p, bleedUntil: Date.now() + bleedMs }));
-    }
-    if (npcType === "maurao") {
-      const bleedMs = Math.round(5000 * (1 - tenacityReductionRef.current));
-      setPlayer((p) => ({ ...p, bleedUntil: Date.now() + bleedMs }));
-    }
+    applyBleed(npcType, tenacityReductionRef.current, setPlayer);
 
     if (!skipCooldown) {
       npcCooldown.current = false;
@@ -297,20 +284,19 @@ export function useNpcBattle({
     const baseDmg = npc.damage;
     const dmg = calculateNpcDamage(baseDmg, playerClass, totalArmor);
 
-    const isBlocking =
-      player.state === "blocked" &&
-      isFacingTarget(playerX, playerY, npcX, npcY, player.battleDirection);
-
-    const blocked = handleNpcBlocking({
+    const blocked = checkBlocked({
       dmg,
-      isBlocking,
+      playerState: player.state,
+      playerBattleDirection: player.battleDirection,
+      playerX,
+      playerY,
+      npcX,
+      npcY,
       blockGauge,
       setBlockGauge,
       damagePlayerWithReflect,
       setPlayer,
       spawnDamageRef,
-      playerX,
-      playerY,
       hitstopRef,
       npcStaggerRef,
       npcCooldown,
@@ -322,18 +308,13 @@ export function useNpcBattle({
 
     const hpRatio =
       npcMaxHpRef.current > 0 ? npcHpRef.current / npcMaxHpRef.current : 1;
-    const clampedRatio = Math.max(0, Math.min(1, hpRatio));
-    let critChance = 1;
-    if (npcType === "slimita" && npcPhase >= 2) {
-      critChance = 1 + (1 - clampedRatio) * 9;
-    }
-    const isCrit = Math.random() * 100 < critChance;
-    const elementMultiplier = getElementMultiplier(
-      getNpcElementTypes(npcType),
-      CHARACTER_ELEMENT_TYPES[player.character],
+    const { finalDmg, dmgType } = rollNpcDamage(
+      dmg,
+      hpRatio,
+      npcType,
+      npcPhase,
+      player.character,
     );
-    const finalDmg = Math.round((isCrit ? dmg * 2 : dmg) * elementMultiplier);
-    const dmgType: DamageType = isCrit ? "crit" : "npc";
 
     damagePlayerWithReflect(finalDmg);
     navigator.vibrate?.(40);
@@ -342,8 +323,7 @@ export function useNpcBattle({
     hitstopRef.current = Date.now() + 30;
 
     if (npcType === "maurao") {
-      const bleedMs = Math.round(5000 * (1 - tenacityReductionRef.current));
-      setPlayer((p) => ({ ...p, bleedUntil: Date.now() + bleedMs }));
+      applyBleed(npcType, tenacityReductionRef.current, setPlayer);
     }
 
     npcCooldown.current = false;
@@ -421,4 +401,110 @@ export function useNpcBattle({
   );
 
   return { npcMeleeHit, npcRangedHit, npcThrowHit };
+}
+
+function rollNpcDamage(
+  dmg: number,
+  hpRatio: number,
+  npcType: string,
+  npcPhase: number,
+  playerCharacter: CharacterId,
+): { finalDmg: number; dmgType: DamageType } {
+  const clampedRatio = Math.max(0, Math.min(1, hpRatio));
+  let critChance = 1;
+  if (npcType === "slimita" && npcPhase >= 2) {
+    critChance = 1 + (1 - clampedRatio) * 9;
+  }
+  const isCrit = Math.random() * 100 < critChance;
+  const elementMultiplier = getElementMultiplier(
+    getNpcElementTypes(npcType),
+    CHARACTER_ELEMENT_TYPES[playerCharacter],
+  );
+  const finalDmg = Math.round((isCrit ? dmg * 2 : dmg) * elementMultiplier);
+  const dmgType: DamageType = isCrit ? "crit" : "npc";
+  return { finalDmg, dmgType };
+}
+
+function applyBleed(
+  npcType: string,
+  tenacityReduction: number,
+  setPlayer: React.Dispatch<React.SetStateAction<Player>>,
+) {
+  if (npcType === "hungryDeath" || npcType === "maurao") {
+    const bleedMs = Math.round(5000 * (1 - tenacityReduction));
+    setPlayer((p) => ({ ...p, bleedUntil: Date.now() + bleedMs }));
+  }
+}
+
+function checkBlocked(params: {
+  dmg: number;
+  playerState: PlayerState;
+  playerBattleDirection: Direction;
+  playerX: number;
+  playerY: number;
+  npcX: number;
+  npcY: number;
+  blockGauge: number;
+  setBlockGauge: React.Dispatch<React.SetStateAction<number>>;
+  damagePlayerWithReflect: (damage: number) => void;
+  setPlayer: React.Dispatch<React.SetStateAction<Player>>;
+  spawnDamageRef: React.RefObject<
+    (value: number, x: number, y: number, type: DamageType) => void
+  >;
+  hitstopRef: React.RefObject<number>;
+  npcStaggerRef: React.RefObject<number>;
+  npcCooldown: React.RefObject<boolean>;
+  lastBlockPressRef: React.RefObject<number>;
+  onFullBlock?: () => void;
+  onBlockRef?: React.RefObject<() => void>;
+}): boolean {
+  const {
+    dmg,
+    playerState,
+    playerBattleDirection,
+    playerX,
+    playerY,
+    npcX,
+    npcY,
+    blockGauge,
+    setBlockGauge,
+    damagePlayerWithReflect,
+    setPlayer,
+    spawnDamageRef,
+    hitstopRef,
+    npcStaggerRef,
+    npcCooldown,
+    lastBlockPressRef,
+    onFullBlock,
+    onBlockRef,
+  } = params;
+
+  const isBlocking =
+    playerState === "blocked" &&
+    isFacingTarget(
+      playerX,
+      playerY,
+      npcX,
+      npcY,
+      playerBattleDirection,
+    );
+
+  const blocked = handleNpcBlocking({
+    dmg,
+    isBlocking,
+    blockGauge,
+    setBlockGauge,
+    damagePlayerWithReflect,
+    setPlayer,
+    spawnDamageRef,
+    playerX,
+    playerY,
+    hitstopRef,
+    npcStaggerRef,
+    npcCooldown,
+    lastBlockPressRef,
+    onFullBlock,
+    onBlockRef,
+  });
+  return blocked;
 }

@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from "react";
+import type { RefObject, Dispatch, SetStateAction } from "react";
+
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
@@ -20,6 +22,33 @@ const CHAR_UNLOCK_FLAGS: Record<string, FlagId> = {
 
 export type DefeatMenuSelection = "retry" | "flee" | "characterSelect";
 type View = "menu" | "characterSelect";
+
+const DEFEAT_MENU_NEXT: Record<DefeatMenuSelection, DefeatMenuSelection> = {
+  retry: "flee",
+  flee: "characterSelect",
+  characterSelect: "retry",
+};
+
+const DEFEAT_MENU_PREV: Record<DefeatMenuSelection, DefeatMenuSelection> = {
+  retry: "characterSelect",
+  characterSelect: "flee",
+  flee: "retry",
+};
+
+function menuCycleHandler(
+  viewRef: RefObject<View>,
+  playMoveRef: RefObject<() => void>,
+  setMenuSelectionRef: RefObject<
+    Dispatch<SetStateAction<DefeatMenuSelection>>
+  >,
+  table: Record<DefeatMenuSelection, DefeatMenuSelection>,
+) {
+  return () => {
+    if (viewRef.current !== "menu") return;
+    playMoveRef.current();
+    setMenuSelectionRef.current((prev) => table[prev]);
+  };
+}
 
 export function useDefeatCharacterSelect(isOpen: boolean) {
   const { player, setCharacter } = usePlayer();
@@ -114,42 +143,30 @@ export function useDefeatCharacterSelect(isOpen: boolean) {
     if (!isOpen) return;
 
     const remove = pushControls({
-      onLeft: () => {
-        if (viewRef.current !== "menu") return;
-        playMoveRef.current();
-        setMenuSelectionRef.current((prev) => {
-          if (prev === "retry") return "flee";
-          if (prev === "flee") return "characterSelect";
-          return "retry";
-        });
-      },
-      onRight: () => {
-        if (viewRef.current !== "menu") return;
-        playMoveRef.current();
-        setMenuSelectionRef.current((prev) => {
-          if (prev === "retry") return "characterSelect";
-          if (prev === "characterSelect") return "flee";
-          return "retry";
-        });
-      },
-      onUp: () => {
-        if (viewRef.current !== "menu") return;
-        playMoveRef.current();
-        setMenuSelectionRef.current((prev) => {
-          if (prev === "retry") return "characterSelect";
-          if (prev === "flee") return "retry";
-          return "flee";
-        });
-      },
-      onDown: () => {
-        if (viewRef.current !== "menu") return;
-        playMoveRef.current();
-        setMenuSelectionRef.current((prev) => {
-          if (prev === "retry") return "flee";
-          if (prev === "flee") return "characterSelect";
-          return "retry";
-        });
-      },
+      onLeft: menuCycleHandler(
+        viewRef,
+        playMoveRef,
+        setMenuSelectionRef,
+        DEFEAT_MENU_NEXT,
+      ),
+      onRight: menuCycleHandler(
+        viewRef,
+        playMoveRef,
+        setMenuSelectionRef,
+        DEFEAT_MENU_PREV,
+      ),
+      onUp: menuCycleHandler(
+        viewRef,
+        playMoveRef,
+        setMenuSelectionRef,
+        DEFEAT_MENU_PREV,
+      ),
+      onDown: menuCycleHandler(
+        viewRef,
+        playMoveRef,
+        setMenuSelectionRef,
+        DEFEAT_MENU_NEXT,
+      ),
       onConfirm: () => {
         if (viewRef.current !== "menu") return;
         const sel = menuSelectionRef.current;

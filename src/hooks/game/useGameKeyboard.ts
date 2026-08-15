@@ -7,6 +7,11 @@ import {
   KEY_RELEASE_ACTIONS,
 } from "@/data/keyActions";
 
+type ScreenShortcut = {
+  screen: string;
+  open: () => void;
+};
+
 type GameKeyboardOptions = {
   controlsRef: RefObject<GameControlLayer>;
   playerModeRef: RefObject<string>;
@@ -43,6 +48,20 @@ export function useGameKeyboard({
   openEquipmentScreen,
 }: GameKeyboardOptions) {
   useEffect(() => {
+    const screenShortcuts: Record<string, ScreenShortcut> = {
+      Escape: { screen: "config", open: openConfigScreen },
+      i: { screen: "inventory", open: openInventoryScreen },
+      I: { screen: "inventory", open: openInventoryScreen },
+      q: { screen: "missions", open: openQuestsScreen },
+      Q: { screen: "missions", open: openQuestsScreen },
+      p: { screen: "professions", open: openProfessionsScreen },
+      P: { screen: "professions", open: openProfessionsScreen },
+      t: { screen: "titles", open: openTitlesScreen },
+      T: { screen: "titles", open: openTitlesScreen },
+      e: { screen: "equipment", open: openEquipmentScreen },
+      E: { screen: "equipment", open: openEquipmentScreen },
+    };
+
     function handleKeyDown(e: KeyboardEvent) {
       const controls = controlsRef.current;
 
@@ -53,114 +72,48 @@ export function useGameKeyboard({
         return;
       }
 
-      switch (e.key) {
-        case "Shift":
-          if (playerModeRef.current === "battle") {
-            controls.onDown?.();
-          }
-          break;
+      if (e.key === "Shift") {
+        if (playerModeRef.current === "battle") {
+          controls.onDown?.();
+        }
+        return;
+      }
 
-        case "g":
-        case "G":
-        case "Tab":
-          if (controls.onOpen) {
-            controls.onOpen();
-            return;
-          }
+      if (e.key === "g" || e.key === "G" || e.key === "Tab") {
+        if (controls.onOpen) {
+          controls.onOpen();
+          return;
+        }
 
-          if (
-            controls.blockGlobalOpen &&
-            playerModeRef.current === "explore"
-          ) {
-            closeAllMenus();
-            return;
-          }
+        if (
+          controls.blockGlobalOpen &&
+          playerModeRef.current === "explore"
+        ) {
+          closeAllMenus();
+          return;
+        }
 
-          if (
-            !controls.blockGlobalOpen &&
-            playerModeRef.current === "explore"
-          ) {
-            openNavbar();
-          }
+        if (
+          !controls.blockGlobalOpen &&
+          playerModeRef.current === "explore"
+        ) {
+          openNavbar();
+        }
 
-          break;
+        return;
+      }
 
-        case "Escape":
-          if (
-            isNavOpenRef.current &&
-            screenRef.current === "config"
-          ) {
-            closeNavbar();
-          } else {
-            openConfigScreen();
-          }
+      const shortcut = screenShortcuts[e.key];
 
-          break;
-
-        case "i":
-        case "I":
-          if (
-            isNavOpenRef.current &&
-            screenRef.current === "inventory"
-          ) {
-            closeNavbar();
-          } else {
-            openInventoryScreen();
-          }
-
-          break;
-
-        case "q":
-        case "Q":
-          if (
-            isNavOpenRef.current &&
-            screenRef.current === "missions"
-          ) {
-            closeNavbar();
-          } else {
-            openQuestsScreen();
-          }
-
-          break;
-
-        case "p":
-        case "P":
-          if (
-            isNavOpenRef.current &&
-            screenRef.current === "professions"
-          ) {
-            closeNavbar();
-          } else {
-            openProfessionsScreen();
-          }
-
-          break;
-
-        case "t":
-        case "T":
-          if (
-            isNavOpenRef.current &&
-            screenRef.current === "titles"
-          ) {
-            closeNavbar();
-          } else {
-            openTitlesScreen();
-          }
-
-          break;
-
-        case "e":
-        case "E":
-          if (
-            isNavOpenRef.current &&
-            screenRef.current === "equipment"
-          ) {
-            closeNavbar();
-          } else {
-            openEquipmentScreen();
-          }
-
-          break;
+      if (shortcut) {
+        if (
+          isNavOpenRef.current &&
+          screenRef.current === shortcut.screen
+        ) {
+          closeNavbar();
+        } else {
+          shortcut.open();
+        }
       }
     }
 

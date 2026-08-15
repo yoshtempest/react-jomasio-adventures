@@ -11,6 +11,92 @@ import type {
 } from "@/utils/types/replay";
 import { initAudioLog, getAudioEvents } from "@/utils/replay/audioEventLog";
 
+type FrameSnapshots = {
+  player: PlayerSnap;
+  npc: NpcSnap;
+  battle: BattleSnap;
+  damageNumbers: DamageNum[];
+  summons: SummonSnap[];
+  pet: PetSnap;
+  combo: {
+    count: number;
+    rank: string;
+    progress: number;
+    nextRank: string | null;
+  } | null;
+  comboAction: string | null;
+};
+
+function buildFrame(snaps: FrameSnapshots, t: number): ReplayFrame {
+  const {
+    player: p,
+    npc: n,
+    battle: b,
+    damageNumbers: dmgNums,
+    summons,
+    pet,
+    combo,
+    comboAction,
+  } = snaps;
+
+  return {
+    t,
+
+    px: Math.round(p.x),
+    py: Math.round(p.y),
+    ps: p.state,
+    pd: p.battleDirection,
+    pchar: p.character,
+    pdir: p.direction,
+    php: Math.round(b.playerHP),
+    pmaxhp: Math.round(b.playerMaxHp),
+    pshield: Math.round(b.playerShield),
+
+    nx: Math.round(n.x),
+    ny: Math.round(n.y),
+    ns: n.state,
+    ndir: n.direction,
+    nhp: Math.round(b.npcHP),
+    nmaxhp: Math.round(b.npcMaxHp),
+    npcPhase: b.npcPhase,
+
+    del: Math.round(b.delicia),
+    hits: Math.round(b.hitsToSpecial),
+    blockGauge: Math.round(b.blockGauge),
+    blockLimit: Math.round(b.blockLimit),
+
+    cc: combo?.count ?? 0,
+    cr: combo?.rank ?? "F",
+    cprog: combo?.progress ?? 0,
+    cnext: combo?.nextRank ?? null,
+
+    dmg: dmgNums.map((d) => ({
+      v: d.value,
+      x: Math.round(d.x),
+      y: Math.round(d.y),
+      c: d.type === "crit",
+      ty: d.type,
+    })),
+    sm: summons.map((s) => ({
+      id: s.id,
+      x: Math.round(s.x),
+      y: Math.round(s.y),
+      t: s.npcType,
+      st: s.state,
+      dir: s.direction,
+      hp: Math.round(s.hp),
+    })),
+
+    petx: pet ? Math.round(pet.x) : null,
+    pety: pet ? Math.round(pet.y) : null,
+    petst: pet?.state ?? null,
+    petdir: pet?.direction ?? null,
+    petType: pet?.npcType ?? null,
+
+    comboAction: comboAction,
+  };
+}
+
 type Props = {
   playerRef: React.RefObject<PlayerSnap>;
   npcRef: React.RefObject<NpcSnap>;
@@ -92,68 +178,19 @@ export function useBattleRecording({
       const b = battleRef.current;
       if (!p || !n || !b) return;
 
-      const dmgNums = damageNumbersRef.current ?? [];
-      const summons = summonsRef.current ?? [];
-      const pet = petRef.current;
-      const combo = comboRef.current;
-      const comboAction = comboActionRef.current;
-
-      const frame: ReplayFrame = {
-        t: Date.now() - startTimestampRef.current,
-
-        px: Math.round(p.x),
-        py: Math.round(p.y),
-        ps: p.state,
-        pd: p.battleDirection,
-        pchar: p.character,
-        pdir: p.direction,
-        php: Math.round(b.playerHP),
-        pmaxhp: Math.round(b.playerMaxHp),
-        pshield: Math.round(b.playerShield),
-
-        nx: Math.round(n.x),
-        ny: Math.round(n.y),
-        ns: n.state,
-        ndir: n.direction,
-        nhp: Math.round(b.npcHP),
-        nmaxhp: Math.round(b.npcMaxHp),
-        npcPhase: b.npcPhase,
-
-        del: Math.round(b.delicia),
-        hits: Math.round(b.hitsToSpecial),
-        blockGauge: Math.round(b.blockGauge),
-        blockLimit: Math.round(b.blockLimit),
-
-        cc: combo?.count ?? 0,
-        cr: combo?.rank ?? "F",
-        cprog: combo?.progress ?? 0,
-        cnext: combo?.nextRank ?? null,
-
-        dmg: dmgNums.map((d) => ({
-          v: d.value,
-          x: Math.round(d.x),
-          y: Math.round(d.y),
-          c: d.type === "crit",
-          ty: d.type,
-        })),
-        sm: summons.map((s) => ({
-          id: s.id,
-          x: Math.round(s.x),
-          y: Math.round(s.y),
-          t: s.npcType,
-          st: s.state,
-          dir: s.direction,
-          hp: Math.round(s.hp),
-        })),
-
-        petx: pet ? Math.round(pet.x) : null,
-        pety: pet ? Math.round(pet.y) : null,
-        petst: pet?.state ?? null,
-        petdir: pet?.direction ?? null,
-        petType: pet?.npcType ?? null,
-
-        comboAction: comboAction,
-      };
+      const frame = buildFrame(
+        {
+          player: p,
+          npc: n,
+          battle: b,
+          damageNumbers: damageNumbersRef.current ?? [],
+          summons: summonsRef.current ?? [],
+          pet: petRef.current,
+          combo: comboRef.current,
+          comboAction: comboActionRef.current,
+        },
+        Date.now() - startTimestampRef.current,
+      );
 
       framesRef.current.push(frame);
     }, 100);

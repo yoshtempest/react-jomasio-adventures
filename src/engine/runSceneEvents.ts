@@ -24,6 +24,68 @@ type EventContext = {
   hasItem?: (itemId: ItemId) => boolean;
 };
 
+type SceneCondition = Extract<SceneEvent, { type: "conditional" }>["condition"];
+
+function evaluateCondition(
+  ctx: EventContext,
+  condition: SceneCondition,
+): boolean {
+  const {
+    hasItem,
+    notHasItem,
+    hasQuest,
+    notHasQuest,
+    hasFlag,
+    notHasFlag,
+    lastPage,
+    notLastPage,
+  } = condition;
+
+  const lastPageValue = ctx.location.state?.from;
+
+  return (
+    (!hasItem || !!ctx.hasItem?.(hasItem)) &&
+    (!notHasItem || !ctx.hasItem?.(notHasItem)) &&
+    (!hasQuest || !!ctx.hasQuest?.(hasQuest)) &&
+    (!notHasQuest || !ctx.hasQuest?.(notHasQuest)) &&
+    (!hasFlag || !!ctx.hasFlag?.(hasFlag)) &&
+    (!notHasFlag || !ctx.hasFlag?.(notHasFlag)) &&
+    (!lastPage || lastPageValue === lastPage) &&
+    (!notLastPage || lastPageValue !== notLastPage)
+  );
+}
+
+function playSfx(src: string, volume?: number): void {
+  let audio = sfxPool.get(src);
+  if (!audio) {
+    audio = new Audio(src);
+    sfxPool.set(src, audio);
+  }
+  audio.pause();
+  audio.currentTime = 0;
+
+  const raw = localStorage.getItem(SFX_KEY);
+  const sfxVol = raw !== null ? Number(raw) : 50;
+  audio.volume = (sfxVol / 100) * (volume ?? 1);
+  audio.play().catch(() => {});
+}
+
+function handleNavigate(
+  ctx: EventContext,
+  event: Extract<SceneEvent, { type: "navigate" }>,
+): void {
+  const doNav = () =>
+    ctx.navigate(event.to, {
+      state: { from: ctx.location.pathname },
+    });
+
+  if (event.delay) {
+    setTimeout(doNav, event.delay);
+  } else {
+    doNav();
+  }
+}
+
 export function runSceneEvents(
   events: SceneEvent[] | undefined,
   ctx: EventContext,
@@ -32,57 +94,12 @@ export function runSceneEvents(
 
   for (const event of events) {
     switch (event.type) {
-      case "conditional": {
-        const {
-          hasItem,
-          notHasItem,
-          hasQuest,
-          notHasQuest,
-          hasFlag,
-          notHasFlag,
-          lastPage,
-          notLastPage,
-        } = event.condition;
-
-        const lastPageValue = ctx.location.state?.from;
-
-        let conditionMet = true;
-
-        if (hasItem) {
-          conditionMet &&= !!ctx.hasItem?.(hasItem);
-        }
-
-        if (notHasItem) {
-          conditionMet &&= !ctx.hasItem?.(notHasItem);
-        }
-
-        if (hasQuest) {
-          conditionMet &&= !!ctx.hasQuest?.(hasQuest);
-        }
-
-        if (notHasQuest) {
-          conditionMet &&= !ctx.hasQuest?.(notHasQuest);
-        }
-
-        if (hasFlag) {
-          conditionMet &&= !!ctx.hasFlag?.(hasFlag);
-        }
-
-        if (notHasFlag) {
-          conditionMet &&= !ctx.hasFlag?.(notHasFlag);
-        }
-
-        if (lastPage) {
-          conditionMet &&= lastPageValue === lastPage;
-        }
-
-        if (notLastPage) {
-          conditionMet &&= lastPageValue !== notLastPage;
-        }
-
-        runSceneEvents(conditionMet ? event.then : event.else, ctx);
+      case "conditional":
+        runSceneEvents(
+          evaluateCondition(ctx, event.condition) ? event.then : event.else,
+          ctx,
+        );
         break;
-      }
 
       case "openModal":
         if (event.modal === "class") {
@@ -90,35 +107,13 @@ export function runSceneEvents(
         }
         break;
 
-      case "playSound": {
-        let audio = sfxPool.get(event.src);
-        if (!audio) {
-          audio = new Audio(event.src);
-          sfxPool.set(event.src, audio);
-        }
-        audio.pause();
-        audio.currentTime = 0;
-
-        const raw = localStorage.getItem(SFX_KEY);
-        const sfxVol = raw !== null ? Number(raw) : 50;
-        audio.volume = (sfxVol / 100) * (event.volume ?? 1);
-        audio.play().catch(() => {});
+      case "playSound":
+        playSfx(event.src, event.volume);
         break;
-      }
 
-      case "navigate": {
-        const doNav = () =>
-          ctx.navigate(event.to, {
-            state: { from: ctx.location.pathname },
-          });
-
-        if (event.delay) {
-          setTimeout(doNav, event.delay);
-        } else {
-          doNav();
-        }
+      case "navigate":
+        handleNavigate(ctx, event);
         return;
-      }
 
       case "setFlag":
         ctx.setFlag?.(event.flagId);
@@ -128,15 +123,13 @@ export function runSceneEvents(
         ctx.progressQuest?.(event.id, event.value);
         break;
 
-      case "giveQuest": {
+      case "giveQuest":
         ctx.giveQuest?.(event.questId);
         break;
-      }
 
-      case "addItem": {
+      case "addItem":
         ctx.addItem?.(event.itemId);
         break;
-      }
 
       case "removeItem":
         ctx.removeItem?.(event.itemId);

@@ -8,10 +8,41 @@ import {
 } from "@/gameRules/battle/npc/npcPosition";
 import type { NPCBattleState } from "@/utils/types/npc/npc";
 import type { BattleObstacle } from "@/utils/types/maps/battle";
-import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import { useSoundEffects, type SoundId } from "@/contexts/SoundEffectsContext";
 import { logPlay, logStop } from "@/utils/replay/audioEventLog";
 import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
 import { BATTLE_LIMITS } from "@/utils/types/player/movement";
+
+function useProximityLoopSound(
+  npcTypeRef: React.RefObject<string>,
+  playerXRef: React.RefObject<number>,
+  playerYRef: React.RefObject<number>,
+  playSound: (sound: SoundId, loop?: boolean, volumeOverride?: number) => void,
+  stopSound: (sound: SoundId) => void,
+) {
+  const playingRef = useRef(false);
+
+  const update = useCallback(
+    (npcX: number, npcY: number) => {
+      if (npcTypeRef.current !== "jhowsimar") return;
+      const inRange =
+        Math.abs(npcX - playerXRef.current) <= 50 &&
+        Math.abs(playerYRef.current - npcY) <= 150;
+      if (!inRange && !playingRef.current) {
+        playingRef.current = true;
+        playSound("jhowsimarVemCa", true);
+        logPlay("jhowsimarVemCa", true);
+      } else if (inRange && playingRef.current) {
+        playingRef.current = false;
+        stopSound("jhowsimarVemCa");
+        logStop("jhowsimarVemCa");
+      }
+    },
+    [npcTypeRef, playerXRef, playerYRef, playSound, stopSound],
+  );
+
+  return { update };
+}
 
 type Props = {
   playerX: number;
@@ -101,13 +132,20 @@ export function useNpcAI({
     },
     [playSound],
   );
-  const jhowsimarSoundPlayingRef = useRef(false);
   const onGrabPlayerRef = useRef(onGrabPlayer);
   onGrabPlayerRef.current = onGrabPlayer;
   const onThrowStartRef = useRef(onThrowStart);
   onThrowStartRef.current = onThrowStart;
   const onThrowPlayerRef = useRef(onThrowPlayer);
   onThrowPlayerRef.current = onThrowPlayer;
+
+  const { update: updateProximitySound } = useProximityLoopSound(
+    npcTypeRef,
+    playerXRef,
+    playerYRef,
+    playSound,
+    stopSound,
+  );
 
   useProjectile(
     projectile,
@@ -200,19 +238,7 @@ export function useNpcAI({
         const direction = getNpcDirection(nextX, playerXRef.current);
         const distanceX = Math.abs(n.x - playerXRef.current);
 
-        if (npcTypeRef.current === "jhowsimar") {
-          const inRange =
-            distanceX <= 50 && Math.abs(playerYRef.current - n.y) <= 150;
-          if (!inRange && !jhowsimarSoundPlayingRef.current) {
-            jhowsimarSoundPlayingRef.current = true;
-            playSound("jhowsimarVemCa", true);
-            logPlay("jhowsimarVemCa", true);
-          } else if (inRange && jhowsimarSoundPlayingRef.current) {
-            jhowsimarSoundPlayingRef.current = false;
-            stopSound("jhowsimarVemCa");
-            logStop("jhowsimarVemCa");
-          }
-        }
+        updateProximitySound(n.x, n.y);
 
         const collision = applyObstacleCollision(
           nextX,
@@ -252,6 +278,7 @@ export function useNpcAI({
     playSound,
     loggedPlaySound,
     stopSound,
+    updateProximitySound,
   ]);
 
   const updateNpc = (partial: Partial<NPCBattleState>) => {

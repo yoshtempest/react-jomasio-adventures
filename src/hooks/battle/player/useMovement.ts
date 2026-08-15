@@ -92,44 +92,45 @@ export function useBattleMovement(
     );
   }
 
-  function startMoveLeft() {
-    if (leftIntervalRef.current) return;
+  function startMoveInterval(
+    intervalRef: React.RefObject<NodeJS.Timeout | null>,
+    stepFn: (p: Player) => Player,
+  ) {
+    if (intervalRef.current) return;
 
-    leftIntervalRef.current = setInterval(() => {
+    intervalRef.current = setInterval(() => {
       setPlayer((p) => {
-        const moved = moveLeftBattle(p);
+        const moved = stepFn(p);
         if (checkHorizontalBlock(moved)) return p;
         return moved;
       });
     }, 30);
+  }
+
+  function stopMoveInterval(
+    intervalRef: React.RefObject<NodeJS.Timeout | null>,
+  ) {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+    setIdleIfNotMoving();
+  }
+
+  function startMoveLeft() {
+    startMoveInterval(leftIntervalRef, moveLeftBattle);
   }
 
   function stopMoveLeft() {
-    if (leftIntervalRef.current) {
-      clearInterval(leftIntervalRef.current);
-      leftIntervalRef.current = null;
-    }
-    setIdleIfNotMoving();
+    stopMoveInterval(leftIntervalRef);
   }
 
   function startMoveRight() {
-    if (rightIntervalRef.current) return;
-
-    rightIntervalRef.current = setInterval(() => {
-      setPlayer((p) => {
-        const moved = moveRightBattle(p);
-        if (checkHorizontalBlock(moved)) return p;
-        return moved;
-      });
-    }, 30);
+    startMoveInterval(rightIntervalRef, moveRightBattle);
   }
 
   function stopMoveRight() {
-    if (rightIntervalRef.current) {
-      clearInterval(rightIntervalRef.current);
-      rightIntervalRef.current = null;
-    }
-    setIdleIfNotMoving();
+    stopMoveInterval(rightIntervalRef);
   }
 
   function setIdleIfNotMoving() {

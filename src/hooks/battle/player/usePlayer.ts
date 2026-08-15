@@ -113,7 +113,8 @@ export function usePlayerBattle({
       if (isEnding.current) return;
       if (!playerCooldown.current) return;
 
-      if (isPlayerFrozen(player) || isPlayerParalyzed(player)) return;
+      const guard = evaluateStatusGuards(player);
+      if (guard === "frozen") return;
 
       if (
         !bypassCanPlayerHit &&
@@ -132,24 +133,18 @@ export function usePlayerBattle({
         return;
       }
 
-      if (isPlayerBlind(player)) {
+      if (guard === "blind") {
         spawnDamageRef.current?.(0, npcX, npcY, "miss");
-        playerCooldown.current = false;
-        setTimeout(() => {
-          playerCooldown.current = true;
-        }, PLAYER_BASIC_COOLDOWN);
+        resetCooldown(PLAYER_BASIC_COOLDOWN, playerCooldown);
         return;
       }
 
       if (onBeforeNpcHitRef?.current?.()) {
-        playerCooldown.current = false;
-        setTimeout(() => {
-          playerCooldown.current = true;
-        }, PLAYER_BASIC_COOLDOWN);
+        resetCooldown(PLAYER_BASIC_COOLDOWN, playerCooldown);
         return;
       }
 
-      if (isPlayerConfused(player) && Math.random() < 0.5) {
+      if (guard === "confused") {
         const { damage: selfDmg } = calculateBasicHitDamage({
           player,
           playerClass,
@@ -168,10 +163,7 @@ export function usePlayerBattle({
           setPlayerHP((hp) => Math.max(0, hp - selfDmg));
           spawnDamageRef.current?.(selfDmg, playerX, playerY, "confuse");
         }
-        playerCooldown.current = false;
-        setTimeout(() => {
-          playerCooldown.current = true;
-        }, PLAYER_BASIC_COOLDOWN);
+        resetCooldown(PLAYER_BASIC_COOLDOWN, playerCooldown);
         return;
       }
 
@@ -208,10 +200,7 @@ export function usePlayerBattle({
 
       onHalfHeal?.();
 
-      playerCooldown.current = false;
-      setTimeout(() => {
-        playerCooldown.current = true;
-      }, PLAYER_BASIC_COOLDOWN);
+      resetCooldown(PLAYER_BASIC_COOLDOWN, playerCooldown);
     },
     [
       isEnding,
@@ -256,7 +245,8 @@ export function usePlayerBattle({
       if (!playerCooldown.current) return;
       if (delicia < HITS_TO_SPECIAL) return;
 
-      if (isPlayerFrozen(player) || isPlayerParalyzed(player)) return;
+      const guard = evaluateStatusGuards(player);
+      if (guard === "frozen") return;
 
       if (
         !bypassRangeCheck &&
@@ -275,25 +265,19 @@ export function usePlayerBattle({
         return;
       }
 
-      if (isPlayerBlind(player)) {
+      if (guard === "blind") {
         spawnDamageRef.current?.(0, npcX, npcY, "miss");
         setDelicia(0);
-        playerCooldown.current = false;
-        setTimeout(() => {
-          playerCooldown.current = true;
-        }, PLAYER_SPECIAL_COOLDOWN);
+        resetCooldown(PLAYER_SPECIAL_COOLDOWN, playerCooldown);
         return;
       }
 
       if (onBeforeNpcHitRef?.current?.()) {
-        playerCooldown.current = false;
-        setTimeout(() => {
-          playerCooldown.current = true;
-        }, PLAYER_SPECIAL_COOLDOWN);
+        resetCooldown(PLAYER_SPECIAL_COOLDOWN, playerCooldown);
         return;
       }
 
-      if (isPlayerConfused(player) && Math.random() < 0.5) {
+      if (guard === "confused") {
         const { damage: selfDmg } = calculateSpecialHitDamage({
           player,
           playerClass,
@@ -313,10 +297,7 @@ export function usePlayerBattle({
           spawnDamageRef.current?.(selfDmg, playerX, playerY, "confuse");
         }
         setDelicia(0);
-        playerCooldown.current = false;
-        setTimeout(() => {
-          playerCooldown.current = true;
-        }, PLAYER_SPECIAL_COOLDOWN);
+        resetCooldown(PLAYER_SPECIAL_COOLDOWN, playerCooldown);
         return;
       }
 
@@ -359,10 +340,7 @@ export function usePlayerBattle({
 
       onHalfHeal?.();
 
-      playerCooldown.current = false;
-      setTimeout(() => {
-        playerCooldown.current = true;
-      }, PLAYER_SPECIAL_COOLDOWN);
+      resetCooldown(PLAYER_SPECIAL_COOLDOWN, playerCooldown);
     },
     [
       isEnding,
@@ -412,4 +390,23 @@ export function usePlayerBattle({
     playerHit,
     specialHit,
   };
+}
+
+function evaluateStatusGuards(
+  player: Player,
+): "frozen" | "blind" | "confused" | "ok" {
+  if (isPlayerFrozen(player) || isPlayerParalyzed(player)) return "frozen";
+  if (isPlayerBlind(player)) return "blind";
+  if (isPlayerConfused(player) && Math.random() < 0.5) return "confused";
+  return "ok";
+}
+
+function resetCooldown(
+  cooldownMs: number,
+  playerCooldown: React.RefObject<boolean>,
+) {
+  playerCooldown.current = false;
+  setTimeout(() => {
+    playerCooldown.current = true;
+  }, cooldownMs);
 }

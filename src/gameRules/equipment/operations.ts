@@ -10,6 +10,33 @@ import {
   enhanceFromPetStars,
 } from "@/data/characters/petProgress";
 
+function getMutableState(
+  allData: Record<string, CharacterEquipmentData>,
+  character: CharacterId,
+): {
+  next: Record<string, CharacterEquipmentData>;
+  data: CharacterEquipmentData;
+  collection: Record<string, number>;
+} {
+  const next = { ...allData };
+  const data = {
+    ...getCharacterData(
+      next as Record<string, CharacterEquipmentData>,
+      character,
+    ),
+  };
+  return { next, data, collection: { ...data.collection } };
+}
+
+function addToCollection(
+  collection: Record<string, number>,
+  id: EquipmentId,
+  enhance: number,
+): void {
+  const key = colKey(id, enhance);
+  collection[key] = (collection[key] ?? 0) + 1;
+}
+
 export function equipItem(
   allData: Record<string, CharacterEquipmentData>,
   character: CharacterId,
@@ -20,14 +47,7 @@ export function equipItem(
   if (!item) return null;
   const key = colKey(id, enhance);
 
-  const next = { ...allData };
-  const data = {
-    ...getCharacterData(
-      next as Record<string, CharacterEquipmentData>,
-      character,
-    ),
-  };
-  const collection = { ...data.collection };
+  const { next, data, collection } = getMutableState(allData, character);
 
   if (!collection[key] || collection[key] <= 0) return null;
 
@@ -60,8 +80,7 @@ export function equipItem(
   const equipped = { ...data.equipped, [item.slot]: { id, enhance } };
 
   if (oldInfo) {
-    const oldKey = colKey(oldInfo.id, oldInfo.enhance);
-    collection[oldKey] = (collection[oldKey] ?? 0) + 1;
+    addToCollection(collection, oldInfo.id, oldInfo.enhance);
   }
 
   next[character] = { equipped, collection } as CharacterEquipmentData;
@@ -73,21 +92,13 @@ export function unequipItem(
   character: CharacterId,
   slot: EquipmentSlot,
 ): Record<string, CharacterEquipmentData> | null {
-  const next = { ...allData };
-  const data = {
-    ...getCharacterData(
-      next as Record<string, CharacterEquipmentData>,
-      character,
-    ),
-  };
+  const { next, data, collection } = getMutableState(allData, character);
 
   if (slot === "accessory") {
     const extras = data.equipped.accessories;
     if (extras.length > 0) {
       const lastInfo = extras[extras.length - 1];
-      const collection = { ...data.collection };
-      const oldKey = colKey(lastInfo.id, lastInfo.enhance);
-      collection[oldKey] = (collection[oldKey] ?? 0) + 1;
+      addToCollection(collection, lastInfo.id, lastInfo.enhance);
 
       next[character] = {
         equipped: { ...data.equipped, accessories: extras.slice(0, -1) },
@@ -100,9 +111,7 @@ export function unequipItem(
   const oldInfo = data.equipped[slot];
   if (!oldInfo) return null;
 
-  const collection = { ...data.collection };
-  const oldKey = colKey(oldInfo.id, oldInfo.enhance);
-  collection[oldKey] = (collection[oldKey] ?? 0) + 1;
+  addToCollection(collection, oldInfo.id, oldInfo.enhance);
 
   next[character] = {
     equipped: { ...data.equipped, [slot]: null },
@@ -116,21 +125,13 @@ export function unequipAccessoryAt(
   character: CharacterId,
   index: number,
 ): Record<string, CharacterEquipmentData> | null {
-  const next = { ...allData };
-  const data = {
-    ...getCharacterData(
-      next as Record<string, CharacterEquipmentData>,
-      character,
-    ),
-  };
+  const { next, data, collection } = getMutableState(allData, character);
 
   const extras = data.equipped.accessories;
   if (index < 0 || index >= extras.length) return null;
 
   const info = extras[index];
-  const collection = { ...data.collection };
-  const oldKey = colKey(info.id, info.enhance);
-  collection[oldKey] = (collection[oldKey] ?? 0) + 1;
+  addToCollection(collection, info.id, info.enhance);
 
   next[character] = {
     equipped: {
@@ -148,16 +149,8 @@ export function addDrop(
   id: EquipmentId,
   enhance: number = 0,
 ): Record<string, CharacterEquipmentData> {
-  const key = colKey(id, enhance);
-  const next = { ...allData };
-  const data = {
-    ...getCharacterData(
-      next as Record<string, CharacterEquipmentData>,
-      character,
-    ),
-  };
-  const collection = { ...data.collection };
-  collection[key] = (collection[key] ?? 0) + 1;
+  const { next, data, collection } = getMutableState(allData, character);
+  addToCollection(collection, id, enhance);
   next[character] = { ...data, collection } as CharacterEquipmentData;
   return next;
 }
@@ -175,14 +168,7 @@ export function fusePets(
   const sourceEnhance = enhanceFromPetStars(stars);
   const targetEnhance = sourceEnhance + 1;
 
-  const next = { ...allData };
-  const data = {
-    ...getCharacterData(
-      next as Record<string, CharacterEquipmentData>,
-      character,
-    ),
-  };
-  const collection = { ...data.collection };
+  const { next, data, collection } = getMutableState(allData, character);
 
   const sourceKey = colKey(petId, sourceEnhance);
   if ((collection[sourceKey] ?? 0) < 2) return null;
@@ -199,8 +185,7 @@ export function fusePets(
   collection[sourceKey] -= 2;
   if (collection[sourceKey] <= 0) delete collection[sourceKey];
 
-  const targetKey = colKey(petId, targetEnhance);
-  collection[targetKey] = (collection[targetKey] ?? 0) + 1;
+  addToCollection(collection, petId, targetEnhance);
 
   next[character] = {
     equipped: data.equipped,

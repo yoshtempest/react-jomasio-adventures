@@ -129,6 +129,44 @@ export function usePlayerBattleActions({
     ],
   );
 
+  const hitTargetList = useCallback(
+    (
+      targets: { id: string; x: number; y: number }[],
+      multiplier: number,
+      isSpecial: boolean,
+    ) => {
+      let hitMain = false;
+      const pushDir = player.battleDirection === "right" ? 1 : -1;
+
+      for (const target of targets) {
+        if (target.id === "main") {
+          hitMain = true;
+          if (isSpecial) {
+            battle.specialHit(multiplier, true);
+          } else {
+            onNpcPush?.(npc.x + pushDir * 20);
+            battle.playerHit(multiplier, true);
+          }
+          continue;
+        }
+
+        const targetSummon = summons.find((summon) => summon.id === target.id);
+        if (!targetSummon) continue;
+
+        hitSummon(target, multiplier, isSpecial ? undefined : pushDir);
+      }
+
+      if (!hitMain) {
+        playAttackSound(player.character);
+        battle.playerCooldown.current = false;
+        setTimeout(() => {
+          battle.playerCooldown.current = true;
+        }, isSpecial ? PLAYER_SPECIAL_COOLDOWN : PLAYER_BASIC_COOLDOWN);
+      }
+    },
+    [player, npc.x, battle, onNpcPush, summons, hitSummon],
+  );
+
   const handlePlayerHit = useCallback(() => {
     if (!battle.playerCooldown.current || battle.isEnding.current) {
       return;
@@ -162,28 +200,7 @@ export function usePlayerBattleActions({
 
       if (areaTargets.length === 0) return;
 
-      let hitMain = false;
-      const pushDir = player.battleDirection === "right" ? 1 : -1;
-
-      for (const target of areaTargets) {
-        if (target.id === "main") {
-          hitMain = true;
-          onNpcPush?.(npc.x + pushDir * 20);
-          battle.playerHit(0.7, true);
-          continue;
-        }
-
-        hitSummon(target, 0.7, pushDir);
-      }
-
-      if (!hitMain) {
-        playAttackSound(player.character);
-        battle.playerCooldown.current = false;
-        setTimeout(() => {
-          battle.playerCooldown.current = true;
-        }, PLAYER_BASIC_COOLDOWN);
-      }
-
+      hitTargetList(areaTargets, 0.7, false);
       return;
     }
 
@@ -222,9 +239,8 @@ export function usePlayerBattleActions({
     battle,
     getTargets,
     isInAttackRange,
-    npc.x,
-    onNpcPush,
     hitSummon,
+    hitTargetList,
     npcClass,
   ]);
 
@@ -254,29 +270,7 @@ export function usePlayerBattleActions({
         return;
       }
 
-      let hitMain = false;
-
-      for (const target of inRangeTargets) {
-        if (target.id === "main") {
-          hitMain = true;
-          battle.specialHit(1.2, true);
-          continue;
-        }
-
-        const targetSummon = summons.find((summon) => summon.id === target.id);
-        if (!targetSummon) continue;
-
-        hitSummon(target, 1.2);
-      }
-
-      if (!hitMain) {
-        playAttackSound(player.character);
-        battle.playerCooldown.current = false;
-        setTimeout(() => {
-          battle.playerCooldown.current = true;
-        }, PLAYER_SPECIAL_COOLDOWN);
-      }
-
+      hitTargetList(inRangeTargets, 1.2, true);
       return;
     }
 
@@ -293,9 +287,7 @@ export function usePlayerBattleActions({
     getTargets,
     player.state,
     player.x,
-    player.character,
-    summons,
-    hitSummon,
+    hitTargetList,
     npcClass,
   ]);
 

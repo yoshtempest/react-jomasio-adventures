@@ -1,3 +1,5 @@
+import { NPC_CATEGORY, STATE_FOLDER } from "@/data/sprites/sprites";
+
 export function asset(path: string) {
   if (path.startsWith("/")) {
     path = path.slice(1);
@@ -31,83 +33,6 @@ export function jomasioPath(path: string) {
 export function playerPath(path: string) {
   return asset(`/assets/player/${path}`);
 }
-
-type NpcCategory = "ally" | "enemies" | "pets";
-
-const NPC_CATEGORY: Record<string, NpcCategory> = {
-  blackao: "ally",
-  brothers: "ally",
-  brothers1: "ally",
-  brothers2: "ally",
-  bruninho: "ally",
-  duqueC: "ally",
-  jailson: "ally",
-  janderson: "ally",
-  jeso: "ally",
-  juju: "ally",
-  kidBengala: "ally",
-  leo: "ally",
-  mariMarques: "ally",
-  peruFather: "ally",
-  reincardion: "ally",
-  remedinha: "ally",
-  solange: "ally",
-  surica: "ally",
-  system: "ally",
-  tiadorim: "ally",
-  tim: "ally",
-  victor: "ally",
-  zeOfBraga: "ally",
-  zeOfMilk: "ally",
-  ains: "enemies",
-  baal: "enemies",
-  baiano: "enemies",
-  brodiclass: "enemies",
-  brodis: "enemies",
-  deise: "enemies",
-  denis: "enemies",
-  dragonKing: "enemies",
-  dummy: "enemies",
-  elitCrocodile: "enemies",
-  figurantOfBaalCult: "enemies",
-  figurantOfDragonKingCult: "enemies",
-  figurantOfMobyDickCult: "enemies",
-  fischer: "enemies",
-  hungryCow: "enemies",
-  hungryDog: "enemies",
-  hungryFish: "enemies",
-  hungryPig: "enemies",
-  jhowsimar: "enemies",
-  manim: "enemies",
-  maugrelo: "enemies",
-  maurao: "enemies",
-  mobyDick: "enemies",
-  muyMacho: "enemies",
-  necromancer: "enemies",
-  neimito: "enemies",
-  planetarySisters: "enemies",
-  rice: "enemies",
-  slimita: "enemies",
-  spiritMotocycler: "enemies",
-  srGuaxinim: "enemies",
-  technoblade: "enemies",
-  trueVandinha: "enemies",
-  vandinhaFragment: "enemies",
-  yangKai: "enemies",
-  piupiu: "pets",
-  madame: "pets",
-  hungryKing: "pets",
-  crocodile: "pets",
-  goat: "pets",
-  hungryDeath: "pets",
-  leviathan: "pets",
-  lupita: "pets",
-  mosquito: "pets",
-  rapariga: "pets",
-  riquelsonDog: "pets",
-  turkey: "pets",
-  zecaUrubu: "pets",
-};
 
 export function npcPath(path: string) {
   const cleanPath = path.replace(/^\/+/, "");
@@ -146,34 +71,6 @@ export function backgroundAudioPath(path: string) {
 export function sfx(path: string) {
   return new Audio(soundEffectPath(`/${path}`));
 }
-
-const STATE_FOLDER: Record<string, string | null> = {
-  idle: "idle",
-  idleCrounched: "idle",
-  attack: "attack",
-  crit: "attack",
-  preAttack: "attack",
-  blockAttack: "attack",
-  fallingAttack: "attack",
-  jump: "jump",
-  preJump: "jump",
-  falling: "jump",
-  walk: "movement",
-  preWalk: "movement",
-  run: "movement",
-  preRun: "movement",
-  dash: "movement",
-  walkCrounched: "movement",
-  special: "special",
-  preSpecial: "special",
-  preSpecialInAir: "special",
-  specialInAir: "special",
-  specialInAirFinish: "special",
-  blocked: null,
-  stun: null,
-  charging: null,
-  fallen: null,
-};
 
 const ATTACK_FOLDER_ALT = new Set(["marcelo", "eduarda"]);
 

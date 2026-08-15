@@ -55,26 +55,27 @@ function getStep(player: Player): number {
   return isPlayerParalyzed(player) ? Math.round(base / 2) : base;
 }
 
+function moveAxis(
+  player: Player,
+  direction: Direction,
+  step: number,
+  limit: number,
+  state: PlayerState = resolveMovementState(player.state),
+): Player {
+  const x = direction === "left"
+    ? Math.max(limit, player.x - step)
+    : Math.min(limit, player.x + step);
+  return { ...player, x, battleDirection: direction, state };
+}
+
 export function moveLeftBattle(player: Player): Player {
   if (!canAct(player)) return player;
-
-  return {
-    ...player,
-    x: Math.max(BATTLE_LIMITS.minX, player.x - getStep(player)),
-    battleDirection: "left",
-    state: resolveMovementState(player.state),
-  };
+  return moveAxis(player, "left", getStep(player), BATTLE_LIMITS.minX);
 }
 
 export function moveRightBattle(player: Player): Player {
   if (!canAct(player)) return player;
-
-  return {
-    ...player,
-    x: Math.min(BATTLE_LIMITS.maxX, player.x + getStep(player)),
-    battleDirection: "right",
-    state: resolveMovementState(player.state),
-  };
+  return moveAxis(player, "right", getStep(player), BATTLE_LIMITS.maxX);
 }
 
 export function blockStart(p: Player): Player {
@@ -116,27 +117,17 @@ export function specialBattle(p: Player): Player {
 }
 
 export function dashLeftBattle(p: Player): Player {
-  if (p.mode !== "battle") return p;
-  if (isPlayerFrozen(p)) return p;
-  if (CROUCHED_STATES.has(p.state)) return p;
-  return {
-    ...p,
-    x: Math.max(BATTLE_LIMITS.minX, p.x - DASH_STEP),
-    battleDirection: "left",
-    state: "dash",
-  };
+  if (p.mode !== "battle" || isPlayerFrozen(p) || CROUCHED_STATES.has(p.state)) {
+    return p;
+  }
+  return moveAxis(p, "left", DASH_STEP, BATTLE_LIMITS.minX, "dash");
 }
 
 export function dashRightBattle(p: Player): Player {
-  if (p.mode !== "battle") return p;
-  if (isPlayerFrozen(p)) return p;
-  if (CROUCHED_STATES.has(p.state)) return p;
-  return {
-    ...p,
-    x: Math.min(BATTLE_LIMITS.maxX, p.x + DASH_STEP),
-    battleDirection: "right",
-    state: "dash",
-  };
+  if (p.mode !== "battle" || isPlayerFrozen(p) || CROUCHED_STATES.has(p.state)) {
+    return p;
+  }
+  return moveAxis(p, "right", DASH_STEP, BATTLE_LIMITS.maxX, "dash");
 }
 
 export { CROUCHED_STATES };
