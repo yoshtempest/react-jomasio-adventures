@@ -37,14 +37,12 @@ fazer imagem dos brothers na cantina
 
 exibir icone da tipagem sobrepondo a imagem de rosto do personagem, estando no canto inferior direito para o player e inferior esquerdo para o npc (visto que o npc é flipado)
 
-Adicionar tipagens a todos os npcs e personagens que participam da batalha. Uma tipagem pode causar/sofrer super efetivo(1.5x do dano normal que seria causado) de outra tipagem, causar/sofrer não efetivo(0.5x do dano normal que seria causado) ou simplesmente causar o dano normal.
-
 Cada npc e personagem tem pelo menos um e no máximo 2 tipagens
 por exemplo:
 O personagem Marshadow é normalis e ventus
 O npc leviathan é aquos e draco
 
-adicionar conquistar por drop de pet e kill em alfas
+adicionar conquistar por drop de pet, kill em alfas, kill de todas as tipagens
 
 as tipagens são:
 

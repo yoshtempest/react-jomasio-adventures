@@ -1,6 +1,7 @@
 import styles from "../styles.module.css";
-import { npcPath } from "@/utils/paths";
+import { npcPath, asset } from "@/utils/paths";
 import { CLASS_DATA } from "@/data/npc/class";
+import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import type { NPCClass } from "@/data/npc/class";
 
 type DropItem = {
@@ -64,7 +65,20 @@ export function BestiaryCard({
       <div className={styles.info}>
         {encountered ? (
           <>
-            <div className={styles.name}>{name}</div>
+            <div className={styles.nameRow}>
+              <div className={styles.name}>{name}</div>
+              {getNpcElementTypes(npcType).map((element) => (
+                <img
+                  key={element}
+                  src={asset(
+                    `/assets/elementsBadges/${element.toLowerCase()}.svg`,
+                  )}
+                  alt={element}
+                  title={element}
+                  className={styles.elementBadge}
+                />
+              ))}
+            </div>
 
             <div className={styles.metaRow}>
               {npcClass && (
