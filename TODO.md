@@ -22,7 +22,9 @@ o sistema deve dizer "E ai? Você perderia?" e o jogador "Nah, eu venceria"
 
 sempre que precisar resolver um problema de carregamento, use contro shift R
 
-adicionar animação de burn em deise antes de redirecionar para cafeteria/three, quando termina o diálogo em que denis diz "expansão de domínio, fuuga" o npc deise deve ser queimado e desaparecer, somente então acontece a transição de cena.
+o diálogo em cafeteria/two deve ser começado imediatamente sem que o jogador precise interajir com os npcs.
+
+adicionar animação de burn em deise antes de redirecionar para cafeteria/three, quando termina o diálogo em que denis diz "expansão de domínio, fuuga" deve ser disparado o video denisburn.webm sobre o npc deise, enquanto o video ocorre sobre o npc, deve ocorrer um fade-out do npc desaparecendo e somente então acontece a transição de cena para a cafeteria/three
 
 adicionar informação de xp do pet no menu de pets
 
