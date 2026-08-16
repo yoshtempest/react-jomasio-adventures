@@ -1,61 +1,70 @@
 /// <reference lib="webworker" />
 
-import { precacheAndRoute, cleanupOutdatedCaches } from "workbox-precaching";
+import {
+  installNotificationClickHandler,
+  installPrecache,
+  installPushHandler,
+  installRuntimeCache,
+  installSkipWaitingListener,
+} from "tempest-react-sdk/sw";
 
-declare const self: ServiceWorkerGlobalScope & {
-  __WB_MANIFEST: unknown;
-};
+/**
+ * Service worker, bundled to `dist/sw.js` by `vite.sw.config.ts` and registered
+ * from `UpdateContext`.
+ *
+ * Layers, in order:
+ *
+ * 1. Push notifications, notification clicks and the `SKIP_WAITING` listener
+ *    the update flow posts to.
+ * 2. Runtime caching for images, media and the API.
+ * 3. Precache of the app shell, read from the `precache-manifest.json` that
+ *    `tempestPwaManifest()` emits at build time.
+ *
+ * `installRuntimeCache` is registered BEFORE `installPrecache` on purpose: the
+ * precache installs a catch-all fetch handler, so the specific routes have to
+ * claim their requests first.
+ *
+ * Media uses `rangeRequests` so seeking inside a cached BGM or cutscene video
+ * works offline — a partial-content request against a plain cached response
+ * fails, which is why the previous Workbox `CacheFirst` rule broke scrubbing.
+ */
+const BASE = "/react-jomasio-adventures/";
 
-precacheAndRoute(self.__WB_MANIFEST as Parameters<typeof precacheAndRoute>[0]);
-cleanupOutdatedCaches();
-
-self.addEventListener("message", (event) => {
-  if ((event as ExtendableMessageEvent).data?.type === "SKIP_WAITING") {
-    self.skipWaiting();
-  }
+installPushHandler({
+  defaultTitle: "Nova notificação",
+  defaultIcon: `${BASE}pwa-192x192.png`,
+  defaultBadge: `${BASE}pwa-192x192.png`,
 });
 
-self.addEventListener("activate", (event) => {
-  event.waitUntil(self.clients.claim());
-});
+installNotificationClickHandler();
+installSkipWaitingListener();
 
-interface PushPayload {
-  title?: string;
-  body?: string;
-  icon?: string;
-  badge?: string;
-  image?: string;
-  vibrate?: number[];
-  tag?: string;
-  requireInteraction?: boolean;
-  data?: { url?: string };
-}
+installRuntimeCache([
+  {
+    match: /\.(png|svg|gif|ico|webp|jpe?g)$/i,
+    strategy: "cache-first",
+    cacheName: "images",
+    maxEntries: 400,
+  },
+  {
+    match: /\.(mp3|m4a|wav|ogg|mp4|webm)$/i,
+    strategy: "cache-first",
+    cacheName: "media",
+    maxEntries: 120,
+    rangeRequests: true,
+  },
+  {
+    match: (url) => url.pathname.startsWith("/api/"),
+    strategy: "network-first",
+    cacheName: "api",
+    networkTimeoutSeconds: 5,
+    maxEntries: 50,
+    maxAgeSeconds: 300,
+  },
+]);
 
-self.addEventListener("push", (event) => {
-  if (!event.data) return;
-
-  let data: PushPayload;
-  try {
-    data = event.data.json() as PushPayload;
-  } catch {
-    data = { title: "Notificação", body: event.data.text() };
-  }
-
-  event.waitUntil(
-    self.registration.showNotification(data.title ?? "Nova notificação", {
-      body: data.body ?? "",
-      icon: data.icon ?? "/pwa-192x192.png",
-      badge: data.badge ?? "/pwa-192x192.png",
-      tag: data.tag ?? "default",
-      requireInteraction: data.requireInteraction ?? false,
-      data: data.data ?? { url: "/" },
-    } as NotificationOptions),
-  );
-});
-
-self.addEventListener("notificationclick", (event) => {
-  event.notification.close();
-  const url =
-    (event.notification.data as { url?: string } | undefined)?.url ?? "/";
-  event.waitUntil(self.clients.openWindow(url));
+installPrecache({
+  manifestUrl: `${BASE}precache-manifest.json`,
+  navigateFallback: `${BASE}index.html`,
+  navigateFallbackDenylist: [/^\/api\//],
 });

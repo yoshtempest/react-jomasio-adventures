@@ -1,86 +1,88 @@
-import { createContext, useContext, useEffect, useState, useRef } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from "react";
+import {
+  requestPersistentStorage,
+  useInstallPrompt,
+  type InstallMethod,
+} from "tempest-react-sdk";
 
-interface PWAContextType {
+type PWAContextType = {
   canInstall: boolean;
   isInstalled: boolean;
+  method: InstallMethod;
+  isIOS: boolean;
+  isManualAndroid: boolean;
+  openInChromeIntent: string | null;
+  install: () => Promise<boolean>;
+  recordDecline: () => void;
   showInstalledMessage: boolean;
   setShowInstalledMessage: (show: boolean) => void;
-  showNotAvailableMessage: boolean;
-  setShowNotAvailableMessage: (show: boolean) => void;
-  install: () => Promise<void>;
-}
+  showInstructions: boolean;
+  setShowInstructions: (show: boolean) => void;
+};
 
-function detectInstalled(): boolean {
-  return (
-    window.matchMedia("(display-mode: standalone)").matches ||
-    (navigator as unknown as Record<string, unknown>).standalone === true
-  );
-}
+const PWAContext = createContext({} as PWAContextType);
 
-const PWAContext = createContext<PWAContextType>({
-  canInstall: false,
-  isInstalled: false,
-  showInstalledMessage: false,
-  setShowInstalledMessage: () => {},
-  showNotAvailableMessage: false,
-  setShowNotAvailableMessage: () => {},
-  install: async () => {},
-});
+const PERSIST_REQUESTED_KEY = "jomasio_storage_persist_requested";
 
-// Capture beforeinstallprompt at module level (fires before React mounts)
-let _deferredPrompt: BeforeInstallPromptEvent | null = null;
-
-if (typeof window !== "undefined") {
-  window.addEventListener("beforeinstallprompt", (e: Event) => {
-    e.preventDefault();
-    _deferredPrompt = e as BeforeInstallPromptEvent;
+/**
+ * Exposes the PWA install flow and asks the browser to make this origin's
+ * storage durable.
+ *
+ * Install resolution comes from `useInstallPrompt`, which reports a `method`
+ * instead of a single boolean. That distinction matters here: the previous
+ * implementation only understood Chromium's `beforeinstallprompt`, so every
+ * iOS visitor fell through to a popup describing the Android browser menu.
+ *
+ * The whole save lives in `localStorage` plus the Cache Storage, both of which
+ * a browser may evict under disk pressure with no warning and no recovery.
+ * `requestPersistentStorage()` opts the origin out of that. It is fired once
+ * and the attempt is recorded, because the browser decides by engagement
+ * heuristics and re-asking on every mount neither helps nor is free.
+ */
+export function PWAProvider({ children }: { children: ReactNode }) {
+  const {
+    canInstall,
+    isStandalone,
+    method,
+    isIOS,
+    isManualAndroid,
+    openInChromeIntent,
+    install,
+    recordDecline,
+  } = useInstallPrompt({
+    declineStorageKey: "jomasio_install_declined_at",
   });
-}
 
-export function PWAProvider({ children }: { children: React.ReactNode }) {
-  const [canInstall, setCanInstall] = useState(() => _deferredPrompt !== null);
-  const [isInstalled, setIsInstalled] = useState(detectInstalled);
   const [showInstalledMessage, setShowInstalledMessage] = useState(false);
-  const [showNotAvailableMessage, setShowNotAvailableMessage] = useState(false);
-  const deferredPromptRef = useRef(_deferredPrompt);
+  const [showInstructions, setShowInstructions] = useState(false);
 
   useEffect(() => {
-    if (deferredPromptRef.current) return;
-
-    const handler = (e: BeforeInstallPromptEvent) => {
-      e.preventDefault();
-      deferredPromptRef.current = e;
-      setCanInstall(true);
-    };
-    window.addEventListener("beforeinstallprompt", handler);
-    return () => window.removeEventListener("beforeinstallprompt", handler);
+    if (localStorage.getItem(PERSIST_REQUESTED_KEY)) return;
+    localStorage.setItem(PERSIST_REQUESTED_KEY, "1");
+    void requestPersistentStorage();
   }, []);
-
-  useEffect(() => {
-    const onInstalled = () => setIsInstalled(true);
-    window.addEventListener("appinstalled", onInstalled);
-    return () => window.removeEventListener("appinstalled", onInstalled);
-  }, []);
-
-  async function install(): Promise<void> {
-    const prompt = deferredPromptRef.current;
-    if (!prompt) return;
-    await prompt.prompt();
-    await prompt.userChoice;
-    deferredPromptRef.current = null;
-    setCanInstall(false);
-  }
 
   return (
     <PWAContext.Provider
       value={{
         canInstall,
-        isInstalled,
+        isInstalled: isStandalone,
+        method,
+        isIOS,
+        isManualAndroid,
+        openInChromeIntent,
+        install,
+        recordDecline,
         showInstalledMessage,
         setShowInstalledMessage,
-        showNotAvailableMessage,
-        setShowNotAvailableMessage,
-        install,
+        showInstructions,
+        setShowInstructions,
       }}
     >
       {children}

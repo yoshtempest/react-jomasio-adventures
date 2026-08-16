@@ -45,9 +45,9 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   const {
     install,
     isInstalled,
-    canInstall,
+    method,
     setShowInstalledMessage,
-    setShowNotAvailableMessage,
+    setShowInstructions,
   } = usePWA();
   const { playMove, playSelect, playClose } = useMenuSFX();
 
@@ -104,12 +104,12 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   installRef.current = install;
   const isInstalledRef = useRef(isInstalled);
   isInstalledRef.current = isInstalled;
-  const canInstallRef = useRef(canInstall);
-  canInstallRef.current = canInstall;
+  const methodRef = useRef(method);
+  methodRef.current = method;
   const setShowInstalledMessageRef = useRef(setShowInstalledMessage);
   setShowInstalledMessageRef.current = setShowInstalledMessage;
-  const setShowNotAvailableMessageRef = useRef(setShowNotAvailableMessage);
-  setShowNotAvailableMessageRef.current = setShowNotAvailableMessage;
+  const setShowInstructionsRef = useRef(setShowInstructions);
+  setShowInstructionsRef.current = setShowInstructions;
   const onConfirmRef = useRef(onConfirm);
   onConfirmRef.current = onConfirm;
 
@@ -277,10 +277,10 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
             if (idx === 4) {
               if (isInstalledRef.current) {
                 setShowInstalledMessageRef.current(true);
-              } else if (canInstallRef.current) {
-                installRef.current();
+              } else if (methodRef.current === "native") {
+                void installRef.current();
               } else {
-                setShowNotAvailableMessageRef.current(true);
+                setShowInstructionsRef.current(true);
               }
             }
           }
