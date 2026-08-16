@@ -16,7 +16,7 @@ export const twoScene: SceneConfig = {
   cutscene: {
     videoSrc: "/assets/videos/denisburn.webm",
     npcGridX: 18,
-    npcGridY: 5,
+    npcGridY: 4.6,
   },
   audio: { src: MUSICS.default },
   initialPosition: getCafeteriaTwoInitialPosition,

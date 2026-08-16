@@ -24,7 +24,7 @@ sempre que precisar resolver um problema de carregamento, use contro shift R
 
 o diálogo em cafeteria/two deve ser começado imediatamente sem que o jogador precise interajir com os npcs.
 
-adicionar animação em deise antes de redirecionar para cafeteria/three, quando termina o diálogo em que denis diz "expansão de domínio, fuuga" deve ser disparado o video denisburn.webm sobre o npc deise, enquanto o video ocorre sobre o npc, deve ocorrer um fade-out do npc desaparecendo e somente então acontece a transição de cena para a cafeteria/three
+video de denisburn.webm queimando deise fica no primeiro momento e não dá play (ou só está exibindo o primeiro frame visualmente), resolva para que o video todo seja exibido visualmente.
 
 adicionar informação de xp do pet no menu de pets
 
