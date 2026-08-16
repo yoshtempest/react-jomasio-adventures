@@ -50,6 +50,15 @@ export function hasAnySave(): boolean {
   return isSlotUsed(0) || isSlotUsed(1);
 }
 
+/**
+ * Every slot-scoped storage key, i.e. every key ever passed through
+ * `slotKey()`. `clearSlot` erases exactly this list, so a key that is written
+ * per slot but missing here survives a deletion and leaks into the next save
+ * started on that slot. Container keys are not listed: they share the
+ * `container_` prefix and are swept separately.
+ *
+ * When you add a `slotKey(...)` call site, add its key here too.
+ */
 const GAME_STATE_KEYS = [
   "game_save",
   "jomasio_inventory",
@@ -83,6 +92,7 @@ const GAME_STATE_KEYS = [
   "char_unlock_dates",
   "difficulty",
   "replays",
+  "visitedLocations",
 ];
 
 export function clearSlot(slot: SlotIndex) {

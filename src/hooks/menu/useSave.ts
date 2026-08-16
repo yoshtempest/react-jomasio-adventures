@@ -19,6 +19,17 @@ import { getSceneLabel } from "@/utils/sceneImages";
 import type { SaveTab } from "@/data/saves/tabs";
 import { SAVE_TABS, SAVE_TAB_COUNT } from "@/data/saves/tabs";
 
+/**
+ * Controls for the save menu: slot list, slot switching, deletion and replays.
+ *
+ * Every action that changes the active slot must be followed by a full page
+ * load. The game state lives in React contexts backed by `useCompressedStorage`,
+ * which resolves `slotKey()` at write time — so a running app whose active slot
+ * changed underneath it keeps the previous slot's data in memory and writes it
+ * into the new slot on the next state change, silently overwriting the save the
+ * player just switched to. Deleting the active slot has the same failure mode,
+ * which is why it reloads instead of only refreshing the list.
+ */
 export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
   const { pushControls } = useGameControls();
   const { closeNavbar } = useNavbar();
@@ -153,19 +164,29 @@ export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
         if (confirmDeleteRef.current !== "none") {
           if (idx === 0) {
             playSelectRef.current();
-            clearSlot(confirmDeleteRef.current.slot);
-            if (confirmDeleteRef.current.slot === getActiveSlot()) {
-              const remaining = getUsedSlots();
-              if (remaining.length > 0) setActiveSlot(remaining[0]);
-            }
-            setConfirmDelete("none");
-            refreshRef.current();
-            if (!getUsedSlots().length) {
+            const deletedSlot = confirmDeleteRef.current.slot;
+            const deletedWasActive = deletedSlot === getActiveSlot();
+            clearSlot(deletedSlot);
+            const remaining = getUsedSlots();
+
+            if (remaining.length === 0) {
               closeNavbarRef.current();
               setModeRef.current("explore");
               sessionStorage.setItem("saveSwitchTarget", "/tutorial");
               window.location.replace(import.meta.env.BASE_URL);
+              return;
             }
+
+            if (deletedWasActive) {
+              setActiveSlot(remaining[0]);
+              closeNavbarRef.current();
+              setModeRef.current("explore");
+              window.location.reload();
+              return;
+            }
+
+            setConfirmDelete("none");
+            refreshRef.current();
           } else {
             playMoveRef.current();
             setConfirmDelete("none");
