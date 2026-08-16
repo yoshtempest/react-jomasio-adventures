@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useTitles } from "@/contexts/TitleContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { TITLE_IDS } from "@/data/titles";
 
@@ -31,14 +32,10 @@ export function useTitleMenu(
     selectedElement.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, [selectedIndex, listRef]);
 
-  const playMoveRef = useRef(playMove);
-  playMoveRef.current = playMove;
-  const playSelectRef = useRef(playSelect);
-  playSelectRef.current = playSelect;
-  const pushControlsRef = useRef(pushControls);
-  pushControlsRef.current = pushControls;
-  const equipTitleRef = useRef(equipTitle);
-  equipTitleRef.current = equipTitle;
+  const playMoveRef = useLatestRef(playMove);
+  const playSelectRef = useLatestRef(playSelect);
+  const pushControlsRef = useLatestRef(pushControls);
+  const equipTitleRef = useLatestRef(equipTitle);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -84,7 +81,7 @@ export function useTitleMenu(
 
     const remove = pushControlsRef.current(controls);
     return () => remove();
-  }, [isOpen, titlesData.progress]);
+  }, [isOpen, titlesData.progress, equipTitleRef, playMoveRef, playSelectRef, pushControlsRef]);
 
   return {
     selectedIndex,

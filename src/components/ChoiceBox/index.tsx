@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import styles from "./styles.module.css";
 
 interface Props {
@@ -11,8 +12,7 @@ interface Props {
 export function ChoiceBox({ prompt, options, onSelect }: Props) {
   const [selected, setSelected] = useState(0);
   const { pushControls } = useGameControls();
-  const onSelectRef = useRef(onSelect);
-  onSelectRef.current = onSelect;
+  const onSelectRef = useLatestRef(onSelect);
 
   useEffect(() => {
     const controls = {
@@ -34,7 +34,7 @@ export function ChoiceBox({ prompt, options, onSelect }: Props) {
 
     const remove = pushControls(controls);
     return remove;
-  }, [pushControls, options.length, selected]);
+  }, [pushControls, options.length, selected, onSelectRef]);
 
   return (
     <div className={`overlay ${styles.overlay}`}>

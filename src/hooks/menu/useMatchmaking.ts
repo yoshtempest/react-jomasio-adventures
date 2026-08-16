@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 
 const OPTIONS = ["Criar Sala", "Entrar na Sala"];
@@ -23,14 +24,10 @@ export function useMatchmakingMenu() {
     typingRef.current = typing;
   }, [selectedIndex, typing]);
 
-  const playMoveRef = useRef(playMove);
-  playMoveRef.current = playMove;
-  const playSelectRef = useRef(playSelect);
-  playSelectRef.current = playSelect;
-  const playCloseRef = useRef(playClose);
-  playCloseRef.current = playClose;
-  const pushControlsRef = useRef(pushControls);
-  pushControlsRef.current = pushControls;
+  const playMoveRef = useLatestRef(playMove);
+  const playSelectRef = useLatestRef(playSelect);
+  const playCloseRef = useLatestRef(playClose);
+  const pushControlsRef = useLatestRef(pushControls);
 
   useEffect(() => {
     const controls = {
@@ -85,7 +82,7 @@ export function useMatchmakingMenu() {
 
     const remove = pushControlsRef.current(controls);
     return () => remove();
-  }, [roomCode, navigate]);
+  }, [roomCode, navigate, playCloseRef, playMoveRef, playSelectRef, pushControlsRef]);
 
   return {
     selectedIndex,

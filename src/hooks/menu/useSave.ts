@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useNavigate } from "react-router";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import {
   getActiveSlot,
@@ -20,15 +20,13 @@ import type { SaveTab } from "@/data/saves/tabs";
 import { SAVE_TABS, SAVE_TAB_COUNT } from "@/data/saves/tabs";
 
 export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
-  const navigate = useNavigate();
   const { pushControls } = useGameControls();
   const { closeNavbar } = useNavbar();
   const { setMode } = usePlayer();
   const { playMove, playSelect } = useMenuSFX();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const selectedIndexRef = useRef(selectedIndex);
-  selectedIndexRef.current = selectedIndex;
+  const selectedIndexRef = useLatestRef(selectedIndex);
   const [confirmDelete, setConfirmDelete] = useState<ConfirmScreen>("none");
   const [refreshKey, setRefreshKey] = useState(0);
   const [activeTab, setActiveTab] = useState<SaveTab>("saves");
@@ -37,16 +35,10 @@ export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
   const activeSlot = getActiveSlot();
   const availableSlots = getAvailableSlots();
 
-  const playMoveRef = useRef(playMove);
-  playMoveRef.current = playMove;
-  const playSelectRef = useRef(playSelect);
-  playSelectRef.current = playSelect;
-  const closeNavbarRef = useRef(closeNavbar);
-  closeNavbarRef.current = closeNavbar;
-  const setModeRef = useRef(setMode);
-  setModeRef.current = setMode;
-  const navigateRef = useRef(navigate);
-  navigateRef.current = navigate;
+  const playMoveRef = useLatestRef(playMove);
+  const playSelectRef = useLatestRef(playSelect);
+  const closeNavbarRef = useLatestRef(closeNavbar);
+  const setModeRef = useLatestRef(setMode);
 
   const refreshRef = useRef(() => setRefreshKey((k) => k + 1));
 
@@ -90,14 +82,10 @@ export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshKey, activeSlot, activeTab]);
 
-  const isOnTabRef = useRef(isOnTab);
-  isOnTabRef.current = isOnTab;
-  const activeTabRef = useRef(activeTab);
-  activeTabRef.current = activeTab;
-  const confirmDeleteRef = useRef(confirmDelete);
-  confirmDeleteRef.current = confirmDelete;
-  const itemsRef = useRef(items);
-  itemsRef.current = items;
+  const isOnTabRef = useLatestRef(isOnTab);
+  const activeTabRef = useLatestRef(activeTab);
+  const confirmDeleteRef = useLatestRef(confirmDelete);
+  const itemsRef = useLatestRef(items);
 
   useEffect(() => {
     if (selectedIndex >= items.length) setSelectedIndex(0);
@@ -229,7 +217,7 @@ export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
     });
 
     return remove;
-  }, [pushControls]);
+  }, [pushControls, activeTabRef, closeNavbarRef, confirmDeleteRef, isOnTabRef, itemsRef, playMoveRef, playSelectRef, selectedIndexRef, setModeRef]);
 
   useEffect(() => {
     if (!listRef?.current) return;

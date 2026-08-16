@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 
 type Props = {
   attack: () => void;
@@ -52,14 +53,11 @@ export function useBattleControls({
   chargeReleaseRef.current = onChargeRelease ?? (() => {});
   chargeCancelRef.current = onChargeCancel ?? (() => {});
 
-  const hasChargeRef = useRef(!!onChargePress);
-  hasChargeRef.current = !!onChargePress;
+  const hasChargeRef = useLatestRef(!!onChargePress);
 
-  const playerStateRef = useRef(playerState);
-  playerStateRef.current = playerState;
+  const playerStateRef = useLatestRef(playerState);
 
-  const pushControlsRef = useRef(pushControls);
-  pushControlsRef.current = pushControls;
+  const pushControlsRef = useLatestRef(pushControls);
 
   useEffect(() => {
     if (disabled) return;
@@ -144,5 +142,5 @@ export function useBattleControls({
       if (holdTimer) clearTimeout(holdTimer);
       remove();
     };
-  }, [disabled]);
+  }, [disabled, hasChargeRef, playerStateRef, pushControlsRef]);
 }

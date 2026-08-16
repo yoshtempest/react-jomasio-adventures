@@ -4,7 +4,6 @@ import {
   useState,
   useCallback,
   useMemo,
-  useRef,
 } from "react";
 import type { ReactNode } from "react";
 
@@ -14,6 +13,7 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 
 import { shouldConsumeInput } from "@/gameRules/movement/input";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useGameKeyboard } from "@/hooks/game/useGameKeyboard";
 
 type Props = {
@@ -49,20 +49,15 @@ export function GameControlsProvider({ children }: Props) {
 
   // REFS
 
-  const restoreModeRef = useRef(restoreMode);
-  restoreModeRef.current = restoreMode;
+  const restoreModeRef = useLatestRef(restoreMode);
 
-  const playerModeRef = useRef(player.mode);
-  playerModeRef.current = player.mode;
+  const playerModeRef = useLatestRef(player.mode);
 
-  const closeNavbarRef = useRef(closeNavbar);
-  closeNavbarRef.current = closeNavbar;
+  const closeNavbarRef = useLatestRef(closeNavbar);
 
-  const isNavOpenRef = useRef(isNavOpen);
-  isNavOpenRef.current = isNavOpen;
+  const isNavOpenRef = useLatestRef(isNavOpen);
 
-  const screenRef = useRef(screen);
-  screenRef.current = screen;
+  const screenRef = useLatestRef(screen);
 
   // CONTROLS STACK
 
@@ -86,7 +81,7 @@ export function GameControlsProvider({ children }: Props) {
   const closeAllMenus = useCallback(() => {
     closeNavbarRef.current();
     restoreModeRef.current();
-  }, []);
+  }, [closeNavbarRef, restoreModeRef]);
 
   // ACTIVE CONTROLS
 
@@ -197,8 +192,7 @@ export function GameControlsProvider({ children }: Props) {
 
   // KEYBOARD
 
-  const activeControlsRef = useRef(activeControls);
-  activeControlsRef.current = activeControls;
+  const activeControlsRef = useLatestRef(activeControls);
 
   useGameKeyboard({
     controlsRef: activeControlsRef,

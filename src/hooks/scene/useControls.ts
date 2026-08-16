@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import type {
   Controls,
   DialogueSystem,
@@ -18,14 +19,10 @@ export function useSceneControls({
   playSansTalking,
   setMode,
 }: Props) {
-  const pushControlsRef = useRef(pushControls);
-  pushControlsRef.current = pushControls;
-  const dialogueSystemRef = useRef(dialogueSystem);
-  dialogueSystemRef.current = dialogueSystem;
-  const playSansTalkingRef = useRef(playSansTalking);
-  playSansTalkingRef.current = playSansTalking;
-  const setModeRef = useRef(setMode);
-  setModeRef.current = setMode;
+  const pushControlsRef = useLatestRef(pushControls);
+  const dialogueSystemRef = useLatestRef(dialogueSystem);
+  const playSansTalkingRef = useLatestRef(playSansTalking);
+  const setModeRef = useLatestRef(setMode);
 
   useEffect(() => {
     setModeRef.current("explore");
@@ -44,5 +41,5 @@ export function useSceneControls({
     const remove = pushControlsRef.current(controls);
 
     return () => remove();
-  }, []);
+  }, [dialogueSystemRef, playSansTalkingRef, pushControlsRef, setModeRef]);
 }

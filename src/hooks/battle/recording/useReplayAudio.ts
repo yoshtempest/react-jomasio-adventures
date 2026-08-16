@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef } from "react";
 import { resolveAsset } from "@/utils/paths";
 import { useAudio } from "@/contexts/AudioContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { createSounds } from "@/utils/soundEffects";
 import type { ReplayData } from "@/utils/types/replay";
 
@@ -17,8 +18,7 @@ export function useReplayAudio(
   currentFrame: number,
 ) {
   const { bgmVolume } = useAudio();
-  const bgmVolumeRef = useRef(bgmVolume);
-  bgmVolumeRef.current = bgmVolume;
+  const bgmVolumeRef = useLatestRef(bgmVolume);
 
   const bgmRef = useRef<HTMLAudioElement | null>(null);
   const bgmReadyRef = useRef(false);
@@ -28,8 +28,7 @@ export function useReplayAudio(
   const lastEventIndexRef = useRef(0);
   const prevFiRef = useRef(0);
 
-  const playingRef = useRef(playing);
-  playingRef.current = playing;
+  const playingRef = useLatestRef(playing);
 
   useEffect(() => {
     const audio = new Audio(resolveAsset(replay.audioSrc));
@@ -55,7 +54,7 @@ export function useReplayAudio(
       bgmRef.current = null;
       bgmReadyRef.current = false;
     };
-  }, [replay.audioSrc]);
+  }, [replay.audioSrc, bgmVolumeRef, playingRef]);
 
   useEffect(() => {
     const audio = bgmRef.current;
@@ -121,7 +120,7 @@ export function useReplayAudio(
         lastEventIndexRef.current = i + 1;
       }
     },
-    [replay.audioEvents],
+    [replay.audioEvents, bgmVolumeRef],
   );
 
   useEffect(() => {

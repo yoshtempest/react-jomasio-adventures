@@ -4,6 +4,7 @@ import { useNavbar } from "@/contexts/NavbarContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { isMovementLocked } from "@/gameRules/movement/state";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useDashDetection } from "./useDashDetection";
 
 type Dir = "up" | "down" | "left" | "right";
@@ -82,10 +83,8 @@ export function useKeyboardMovement() {
   const stopMoveRightExploreRef = useRef(stopMoveRightExplore);
 
   const { progress } = useCharacterProgress();
-  const progressRef = useRef(progress);
-  progressRef.current = progress;
-  const playerRef = useRef(player);
-  playerRef.current = player;
+  const progressRef = useLatestRef(progress);
+  const playerRef = useLatestRef(player);
 
   const dashRef = useRef(dash);
   const lastLeftPressRef = useRef(0);
@@ -140,13 +139,10 @@ export function useKeyboardMovement() {
     setPressed(new Set());
   }, [isLocked]);
 
-  const pushControlsRef = useRef(pushControls);
-  pushControlsRef.current = pushControls;
+  const pushControlsRef = useLatestRef(pushControls);
 
-  const pressRef = useRef(press);
-  pressRef.current = press;
-  const releaseRef = useRef(release);
-  releaseRef.current = release;
+  const pressRef = useLatestRef(press);
+  const releaseRef = useLatestRef(release);
 
   const dashRefs = {
     progressRef,
@@ -190,7 +186,7 @@ export function useKeyboardMovement() {
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("keyup", onKeyUp);
     };
-  }, []);
+  }, [pressRef, releaseRef]);
 
   const isGrabbed = () =>
     (playerRef.current.grabbedUntil != null &&

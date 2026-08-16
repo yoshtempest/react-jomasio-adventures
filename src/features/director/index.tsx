@@ -1,10 +1,11 @@
-import { useMemo, useState, useCallback, useRef } from "react";
+import { useMemo, useState, useCallback } from "react";
 
 import { SceneBase } from "@/components/Game/Scenes/Base";
 import { DIRECTOR_SCENES } from "@/scenes/director";
 import { createDirector } from "@/interactions/director";
 
 import { useInventory } from "@/contexts/InventoryContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useQuestActions } from "@/hooks/quest/useQuestActions";
 import { useFlags } from "@/contexts/FlagContext";
 import { useNavigate, useLocation } from "react-router";
@@ -32,14 +33,13 @@ export function DirectorScene({ sceneId }: Props) {
   const gotKey = hasFlag("picked_director_key");
 
   const { sfxVolume } = useAudio();
-  const sfxVolumeRef = useRef(sfxVolume);
-  sfxVolumeRef.current = sfxVolume;
+  const sfxVolumeRef = useLatestRef(sfxVolume);
 
   const playSFX = useCallback((src: string, volume = 1) => {
     const audio = new Audio(asset(src));
     audio.volume = volume * (sfxVolumeRef.current / 100);
     audio.play().catch(() => {});
-  }, []);
+  }, [sfxVolumeRef]);
 
   const navigateFrom = useCallback(
     (to: string) => {

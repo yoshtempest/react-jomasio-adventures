@@ -1,5 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 
 type Params = {
   filterFocused: boolean;
@@ -37,7 +38,7 @@ export function useItemControls({
   onNoKey,
 }: Params) {
   const { pushControls } = useGameControls();
-  const stateRef = useRef({
+  const stateRef = useLatestRef({
     filterFocused,
     chestFocused,
     selectedItem,
@@ -49,28 +50,11 @@ export function useItemControls({
     keyId,
     items,
   });
-  stateRef.current = {
-    filterFocused,
-    chestFocused,
-    selectedItem,
-    isConsumableSelected,
-    isChestSelected,
-    isMapSelected,
-    isMountSelected,
-    isTeleportSelected,
-    keyId,
-    items,
-  };
-  const openPlayerChestRef = useRef(openPlayerChest);
-  openPlayerChestRef.current = openPlayerChest;
-  const getEffectRef = useRef(getEffect);
-  getEffectRef.current = getEffect;
-  const consumeItemRef = useRef(consumeItem);
-  consumeItemRef.current = consumeItem;
-  const onRejectRef = useRef(onReject);
-  onRejectRef.current = onReject;
-  const onNoKeyRef = useRef(onNoKey);
-  onNoKeyRef.current = onNoKey;
+  const openPlayerChestRef = useLatestRef(openPlayerChest);
+  const getEffectRef = useLatestRef(getEffect);
+  const consumeItemRef = useLatestRef(consumeItem);
+  const onRejectRef = useLatestRef(onReject);
+  const onNoKeyRef = useLatestRef(onNoKey);
 
   useEffect(() => {
     const controls = {
@@ -120,5 +104,5 @@ export function useItemControls({
 
     const remove = pushControls(controls);
     return remove;
-  }, [pushControls]);
+  }, [pushControls, consumeItemRef, getEffectRef, onNoKeyRef, onRejectRef, openPlayerChestRef, stateRef]);
 }

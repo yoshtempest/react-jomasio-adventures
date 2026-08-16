@@ -13,10 +13,10 @@ Quando o jogador equipa um pet, assim como no jogo pokemon gold, o pet equipado 
 
 criar imageFace dos personagens do jogo
 
+criar imagens para expressões de todos os personagens
+
 adicionar pequeno diálogo entre o personagem e o sistema para que o sistema calcule as chances de vitória
 o sistema deve dizer "E ai? Você perderia?" e o jogador "Nah, eu venceria"
-
-ajustar informações que servem para calcular as chances de vitória e incluir os elementos de cada um
 
 sempre que precisar resolver um problema de carregamento, use contro shift R
 

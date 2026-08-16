@@ -1,4 +1,5 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useState } from "react";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import type { ScenePosition } from "@/utils/types/sceneHooks";
 import { saveCompressed, loadCompressed } from "@/utils/save/storage";
 import { slotKey } from "@/utils/save/slotManager";
@@ -29,16 +30,11 @@ export function useSceneSetup({
   setPosition,
 }: Props) {
   const [isReady, setIsReady] = useState(false);
-  const setMapRef = useRef(setMap);
-  setMapRef.current = setMap;
-  const setHeightMapRef = useRef(setHeightMap);
-  setHeightMapRef.current = setHeightMap;
-  const setPositionRef = useRef(setPosition);
-  setPositionRef.current = setPosition;
-  const initialPositionRef = useRef(initialPosition);
-  initialPositionRef.current = initialPosition;
-  const heightMapRef = useRef(heightMap);
-  heightMapRef.current = heightMap;
+  const setMapRef = useLatestRef(setMap);
+  const setHeightMapRef = useLatestRef(setHeightMap);
+  const setPositionRef = useLatestRef(setPosition);
+  const initialPositionRef = useLatestRef(initialPosition);
+  const heightMapRef = useLatestRef(heightMap);
 
   useLayoutEffect(() => {
     setMapRef.current(map);
@@ -78,7 +74,7 @@ export function useSceneSetup({
     }
 
     setIsReady(true);
-  }, [map]);
+  }, [map, heightMapRef, initialPositionRef, setHeightMapRef, setMapRef, setPositionRef]);
 
   return { isReady };
 }

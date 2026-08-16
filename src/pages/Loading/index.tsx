@@ -4,6 +4,7 @@ import { asset } from "@/utils/paths";
 import { hasSave } from "@/utils/save/saveGame";
 import styles from "./styles.module.css";
 import { useNavbar } from "@/contexts/NavbarContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useBackgroundAudio } from "@/hooks/useBackgroundAudio";
 import { useUpdate } from "@/contexts/UpdateContext";
 import loading from "/assets/songs/transitions/loading.mp3";
@@ -13,8 +14,7 @@ const MIN_LOADING_MS = 2000;
 export default function Loading() {
   const navigate = useNavigate();
   const { closeNavbar } = useNavbar();
-  const closeNavbarRef = useRef(closeNavbar);
-  closeNavbarRef.current = closeNavbar;
+  const closeNavbarRef = useLatestRef(closeNavbar);
 
   const { status, checkForUpdate } = useUpdate();
 
@@ -73,7 +73,7 @@ export default function Loading() {
       clearTimeout(timer);
       if (innerTimer) clearTimeout(innerTimer);
     };
-  }, [navigate, checkForUpdate]);
+  }, [navigate, checkForUpdate, closeNavbarRef]);
 
   const statusLabel =
     status === "checking" ? "Verificando atualização..." : null;

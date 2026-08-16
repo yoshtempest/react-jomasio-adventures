@@ -5,6 +5,7 @@ import { gridMove } from "@/gameRules/menu/navigation";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useInventory } from "@/contexts/InventoryContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { ITEMS } from "@/data/items";
 import { useQuestItems } from "./useQuestItems";
@@ -112,12 +113,8 @@ export function useQuestMenu(
     return true;
   }
 
-  const playMoveRef = useRef(playMove);
-  playMoveRef.current = playMove;
-  const playSelectRef = useRef(playSelect);
-  playSelectRef.current = playSelect;
-  const pushControlsRef = useRef(pushControls);
-  pushControlsRef.current = pushControls;
+  const playMoveRef = useLatestRef(playMove);
+  const pushControlsRef = useLatestRef(pushControls);
   const handleUseItemRef = useRef<(index: number) => boolean>(() => false);
   handleUseItemRef.current = handleUseItem;
 
@@ -177,7 +174,7 @@ export function useQuestMenu(
 
     const remove = pushControlsRef.current(controls);
     return () => remove();
-  }, [isOpen, totalItems, totalCards, activeTab]);
+  }, [isOpen, totalItems, totalCards, activeTab, playMoveRef, pushControlsRef]);
 
   // Sync activeTab when selectedIndex moves across tabs
   useEffect(() => {

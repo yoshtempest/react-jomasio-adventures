@@ -1,10 +1,10 @@
 import { useRef, useCallback } from "react";
 import { useAudio } from "@/contexts/AudioContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 
 export function useSFXPool() {
   const { sfxVolume } = useAudio();
-  const sfxVolumeRef = useRef(sfxVolume);
-  sfxVolumeRef.current = sfxVolume;
+  const sfxVolumeRef = useLatestRef(sfxVolume);
 
   const poolRef = useRef(new Map<string, HTMLAudioElement>());
 
@@ -21,7 +21,7 @@ export function useSFXPool() {
     audio.currentTime = 0;
     audio.volume = volume * (sfxVolumeRef.current / 100);
     audio.play().catch(() => {});
-  }, []);
+  }, [sfxVolumeRef]);
 
   return { playSFX };
 }

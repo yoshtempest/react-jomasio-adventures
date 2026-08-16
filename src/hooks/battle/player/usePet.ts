@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { useLatestRef } from "@/hooks/useLatestRef";
 
 type Props = {
   enabled: boolean;
@@ -29,14 +30,10 @@ export function usePetBattle({
 }: Props) {
   const [pet, setPet] = useState<PetState>(null);
 
-  const playerXRef = useRef(playerX);
-  playerXRef.current = playerX;
-  const playerYRef = useRef(playerY);
-  playerYRef.current = playerY;
-  const npcXRef = useRef(npcX);
-  npcXRef.current = npcX;
-  const isPausedRef = useRef(isPaused);
-  isPausedRef.current = isPaused;
+  const playerXRef = useLatestRef(playerX);
+  const playerYRef = useLatestRef(playerY);
+  const npcXRef = useLatestRef(npcX);
+  const isPausedRef = useLatestRef(isPaused);
 
   useEffect(() => {
     if (!enabled) {
@@ -83,7 +80,7 @@ export function usePetBattle({
     }, 20);
 
     return () => clearInterval(interval);
-  }, [enabled]);
+  }, [enabled, isPausedRef, npcXRef, playerXRef, playerYRef]);
 
   function resetPet() {
     if (!enabled) return;

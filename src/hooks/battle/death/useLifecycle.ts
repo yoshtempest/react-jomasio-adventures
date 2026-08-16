@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { isDead } from "@/gameRules/battle/death";
 
 type Props = {
@@ -33,14 +34,10 @@ export function useBattleLifecycle({
 }: Props) {
   const [isNpcDying, setNpcDying] = useState(false);
 
-  const onPlayerDeathRef = useRef(onPlayerDeath);
-  onPlayerDeathRef.current = onPlayerDeath;
-  const onNpcDeathRef = useRef(onNpcDeath);
-  onNpcDeathRef.current = onNpcDeath;
-  const npcClassRef = useRef(npcClass);
-  npcClassRef.current = npcClass;
-  const npcMaxHpRef = useRef(npcMaxHp);
-  npcMaxHpRef.current = npcMaxHp;
+  const onPlayerDeathRef = useLatestRef(onPlayerDeath);
+  const onNpcDeathRef = useLatestRef(onNpcDeath);
+  const npcClassRef = useLatestRef(npcClass);
+  const npcMaxHpRef = useLatestRef(npcMaxHp);
 
   useEffect(() => {
     if (isEnding.current) return;
@@ -53,7 +50,7 @@ export function useBattleLifecycle({
     }, 500);
 
     return () => clearTimeout(timeout);
-  }, [playerHP, isEnding]);
+  }, [playerHP, isEnding, onPlayerDeathRef]);
 
   useEffect(() => {
     if (isEnding.current) return;
@@ -73,7 +70,7 @@ export function useBattleLifecycle({
     }, 300);
 
     return () => clearTimeout(timeout);
-  }, [npcHP, setNpcPhase, setNpcHP, isEnding, npcPhaseRef]);
+  }, [npcHP, setNpcPhase, setNpcHP, isEnding, npcPhaseRef, npcClassRef, npcMaxHpRef, onNpcDeathRef]);
 
   return { isNpcDying };
 }

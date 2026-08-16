@@ -1,5 +1,6 @@
 import { useState, useCallback, useMemo, useRef } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { characterSprites } from "@/data/characters/sprites";
 
 export function useDialogue(dialogues: Dialogue[], onFinish?: () => void) {
@@ -10,8 +11,7 @@ export function useDialogue(dialogues: Dialogue[], onFinish?: () => void) {
   const [customDialogues, setCustomDialogues] = useState<Dialogue[] | null>(
     null,
   );
-  const customDialoguesRef = useRef(customDialogues);
-  customDialoguesRef.current = customDialogues;
+  const customDialoguesRef = useLatestRef(customDialogues);
   const customOnFinishRef = useRef<(() => void) | null>(null);
 
   const activeDialogues = customDialogues ?? dialogues;
@@ -60,7 +60,7 @@ export function useDialogue(dialogues: Dialogue[], onFinish?: () => void) {
       return;
     }
     setIndex((prev) => prev + 1);
-  }, [index, processedDialogues.length, onFinish]);
+  }, [index, processedDialogues.length, onFinish, customDialoguesRef]);
 
   const dialogue = useMemo(() => {
     return processedDialogues[index];

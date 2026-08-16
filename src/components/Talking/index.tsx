@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useTypewriter } from "@/hooks/interaction/useTypewriter";
 import { useSettings } from "@/contexts/SettingsContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
@@ -44,17 +45,12 @@ export default function Talking({
 
   const handleAnimationEnd = () => setAnimate(false);
 
-  const sfxVolumeRef = useRef(sfxVolume);
-  sfxVolumeRef.current = sfxVolume;
+  const sfxVolumeRef = useLatestRef(sfxVolume);
 
-  const isCompleteRef = useRef(isComplete);
-  isCompleteRef.current = isComplete;
-  const skipRef = useRef(skip);
-  skipRef.current = skip;
-  const onNextRef = useRef(onNext);
-  onNextRef.current = onNext;
-  const onSoundEndRef = useRef(onSoundEnd);
-  onSoundEndRef.current = onSoundEnd;
+  const isCompleteRef = useLatestRef(isComplete);
+  const skipRef = useLatestRef(skip);
+  const onNextRef = useLatestRef(onNext);
+  const onSoundEndRef = useLatestRef(onSoundEnd);
 
   useEffect(() => {
     const controls = {
@@ -77,7 +73,7 @@ export default function Talking({
 
     const remove = pushControls(controls);
     return remove;
-  }, [pushControls]);
+  }, [pushControls, isCompleteRef, onNextRef, skipRef]);
 
   useEffect(() => {
     if (!soundSrc) return;
@@ -96,7 +92,7 @@ export default function Talking({
       audio.pause();
       audio.src = "";
     };
-  }, [soundSrc, autoAdvanceOnSound]);
+  }, [soundSrc, autoAdvanceOnSound, onSoundEndRef, sfxVolumeRef]);
 
   return (
     <div

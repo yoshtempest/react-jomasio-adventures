@@ -1,6 +1,7 @@
 import { BattleHUD } from "@/components/Game/Battle/HUD";
 import { PetSkillButton } from "@/components/Game/Battle/PetSkillButton";
 import { GameMap } from "@/components/Game/Map/Game";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useGameLayout } from "@/hooks/game/useGameLayout";
 import { useBattleScene } from "@/hooks/battle/useScene";
 import { BattleEntities } from "@/components/Game/Battle/Entities";
@@ -194,8 +195,7 @@ export function BattleScene(props: Props) {
     loop: true,
     volume: 0.5,
   });
-  const battleAudioRef = useRef(battleAudio);
-  battleAudioRef.current = battleAudio;
+  const battleAudioRef = useLatestRef(battleAudio);
 
   useEffect(() => {
     const shouldPlay =
@@ -210,7 +210,7 @@ export function BattleScene(props: Props) {
     if (showVictory || showDefeat) {
       stopAll();
     }
-  }, [showIntro, showVictory, showDefeat, showHighlight, stopAll]);
+  }, [showIntro, showVictory, showDefeat, showHighlight, stopAll, battleAudioRef]);
 
   return (
     <div

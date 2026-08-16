@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
 
 type Params = {
@@ -29,20 +30,13 @@ export function useRewardsControls({
 }: Params) {
   const { pushControls } = useGameControls();
   const rewardOptionIndexRef = useRef(0);
-  const rewardOptionCountRef = useRef(rewardOptionCount);
-  rewardOptionCountRef.current = rewardOptionCount;
-  const lastOpenedRef = useRef(lastOpened);
-  lastOpenedRef.current = lastOpened;
-  const chestLastResultRef = useRef(chestLastResult);
-  chestLastResultRef.current = chestLastResult;
-  const openNextChestRef = useRef(openNextChest);
-  openNextChestRef.current = openNextChest;
-  const playMoveRef = useRef(playMove);
-  playMoveRef.current = playMove;
-  const playSelectRef = useRef(playSelect);
-  playSelectRef.current = playSelect;
-  const closeRewardsRef = useRef(closeRewards);
-  closeRewardsRef.current = closeRewards;
+  const rewardOptionCountRef = useLatestRef(rewardOptionCount);
+  const lastOpenedRef = useLatestRef(lastOpened);
+  const chestLastResultRef = useLatestRef(chestLastResult);
+  const openNextChestRef = useLatestRef(openNextChest);
+  const playMoveRef = useLatestRef(playMove);
+  const playSelectRef = useLatestRef(playSelect);
+  const closeRewardsRef = useLatestRef(closeRewards);
 
   useEffect(() => {
     if (!chestRewardsVisible) return;
@@ -99,5 +93,12 @@ export function useRewardsControls({
     chestRewardsVisible,
     pushControls,
     onRewardOptionChange,
+    chestLastResultRef,
+    closeRewardsRef,
+    lastOpenedRef,
+    openNextChestRef,
+    playMoveRef,
+    playSelectRef,
+    rewardOptionCountRef,
   ]);
 }

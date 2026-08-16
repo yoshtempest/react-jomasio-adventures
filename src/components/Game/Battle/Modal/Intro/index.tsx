@@ -5,6 +5,7 @@ import { useAudio } from "@/contexts/AudioContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { FleeButton } from "@/components/Game/Battle/FleeButton";
 import { sfx } from "@/utils/paths";
 
@@ -25,8 +26,7 @@ export function BattleIntro({
 }: Props) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const { sfxVolume } = useAudio();
-  const sfxVolumeRef = useRef(sfxVolume);
-  sfxVolumeRef.current = sfxVolume;
+  const sfxVolumeRef = useLatestRef(sfxVolume);
   const { pushControls } = useGameControls();
   const { playSound } = useSoundEffects();
   const { setMode } = usePlayer();
@@ -47,7 +47,7 @@ export function BattleIntro({
       audio.pause();
       audio.currentTime = 0;
     };
-  }, []);
+  }, [sfxVolumeRef]);
 
   const handleSkip = () => {
     // para o áudio antes de sair
@@ -70,10 +70,8 @@ export function BattleIntro({
     onFlee();
   };
 
-  const handleSkipRef = useRef(handleSkip);
-  handleSkipRef.current = handleSkip;
-  const handleFleeRef = useRef(handleFlee);
-  handleFleeRef.current = handleFlee;
+  const handleSkipRef = useLatestRef(handleSkip);
+  const handleFleeRef = useLatestRef(handleFlee);
 
   useEffect(() => {
     const controls = {
@@ -93,7 +91,7 @@ export function BattleIntro({
 
     const remove = pushControls(controls);
     return remove;
-  }, [pushControls]);
+  }, [pushControls, handleFleeRef, handleSkipRef]);
   return (
     <div className="overlay">
       <div className={styles.left}>

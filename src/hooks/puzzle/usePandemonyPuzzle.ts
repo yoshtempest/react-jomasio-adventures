@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 
 export const SYMBOLS = ["Bodão", "Lupita", "Dragão", "Juju"] as const;
@@ -19,18 +20,12 @@ export function usePandemonyPuzzle(
   const { pushControls } = useGameControls();
   const { playMove, playSelect } = useMenuSFX();
 
-  const selectedSlotRef = useRef(selectedSlot);
-  selectedSlotRef.current = selectedSlot;
-  const solvedRef = useRef(solved);
-  solvedRef.current = solved;
-  const onSolvedRef = useRef(onSolved);
-  onSolvedRef.current = onSolved;
-  const onCloseRef = useRef(onClose);
-  onCloseRef.current = onClose;
-  const playMoveRef = useRef(playMove);
-  playMoveRef.current = playMove;
-  const playSelectRef = useRef(playSelect);
-  playSelectRef.current = playSelect;
+  const selectedSlotRef = useLatestRef(selectedSlot);
+  const solvedRef = useLatestRef(solved);
+  const onSolvedRef = useLatestRef(onSolved);
+  const onCloseRef = useLatestRef(onClose);
+  const playMoveRef = useLatestRef(playMove);
+  const playSelectRef = useLatestRef(playSelect);
 
   useEffect(() => {
     if (state.every((s) => s === 0)) {
@@ -46,8 +41,7 @@ export function usePandemonyPuzzle(
     });
   }
 
-  const cycleSlotRef = useRef(cycleSlot);
-  cycleSlotRef.current = cycleSlot;
+  const cycleSlotRef = useLatestRef(cycleSlot);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -97,7 +91,7 @@ export function usePandemonyPuzzle(
 
     const remove = pushControls(controls);
     return remove;
-  }, [isOpen, pushControls]);
+  }, [isOpen, pushControls, cycleSlotRef, onCloseRef, onSolvedRef, playMoveRef, playSelectRef, selectedSlotRef, solvedRef]);
 
   return {
     state,

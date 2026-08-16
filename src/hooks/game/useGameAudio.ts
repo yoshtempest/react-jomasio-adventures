@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useAudio } from "@/contexts/AudioContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { resolveAsset } from "@/utils/paths";
 
 type Props = {
@@ -11,12 +12,9 @@ type Props = {
 export function useGameAudio({ src, loop = true, volume = 0.5 }: Props) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const { bgmVolume } = useAudio();
-  const loopRef = useRef(loop);
-  loopRef.current = loop;
-  const volumeRef = useRef(volume);
-  volumeRef.current = volume;
-  const bgmVolumeRef = useRef(bgmVolume);
-  bgmVolumeRef.current = bgmVolume;
+  const loopRef = useLatestRef(loop);
+  const volumeRef = useLatestRef(volume);
+  const bgmVolumeRef = useLatestRef(bgmVolume);
 
   const isPlaying = () => {
     return !!audioRef.current && !audioRef.current.paused;
@@ -38,7 +36,7 @@ export function useGameAudio({ src, loop = true, volume = 0.5 }: Props) {
       audio.pause();
       audio.src = "";
     };
-  }, [src]);
+  }, [src, bgmVolumeRef, loopRef, volumeRef]);
 
   useEffect(() => {
     if (!audioRef.current) return;

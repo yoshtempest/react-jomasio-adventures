@@ -1,4 +1,5 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { ITEMS } from "@/data/items";
 import { getActivePotionId, getXpBuffTimeLeft } from "@/utils/buffs/xpBuff";
 
@@ -10,8 +11,7 @@ type ActivePotionInfo = {
 
 export function useActivePotion(): ActivePotionInfo | null {
   const [info, setInfo] = useState<ActivePotionInfo | null>(null);
-  const infoRef = useRef(info);
-  infoRef.current = info;
+  const infoRef = useLatestRef(info);
 
   useEffect(() => {
     function tick() {
@@ -34,7 +34,7 @@ export function useActivePotion(): ActivePotionInfo | null {
     tick();
     const id = setInterval(tick, 1000);
     return () => clearInterval(id);
-  }, []);
+  }, [infoRef]);
 
   return info;
 }

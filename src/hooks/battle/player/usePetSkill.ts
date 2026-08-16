@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useLatestRef } from "@/hooks/useLatestRef";
 
 type Props = {
   enabled: boolean;
@@ -16,10 +17,8 @@ export function usePetSkillCooldown({
   const [remaining, setRemaining] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const readyAtRef = useRef(0);
-  const cooldownMsRef = useRef(cooldownMs);
-  cooldownMsRef.current = cooldownMs;
-  const onTriggerRef = useRef(onTrigger);
-  onTriggerRef.current = onTrigger;
+  const cooldownMsRef = useLatestRef(cooldownMs);
+  const onTriggerRef = useLatestRef(onTrigger);
 
   useEffect(() => {
     if (!enabled) {
@@ -47,7 +46,7 @@ export function usePetSkillCooldown({
     setRemaining(cooldownMsRef.current / 1000);
     setIsActive(true);
     onTriggerRef.current();
-  }, [enabled]);
+  }, [enabled, cooldownMsRef, onTriggerRef]);
 
   const reset = useCallback(() => {
     readyAtRef.current = 0;

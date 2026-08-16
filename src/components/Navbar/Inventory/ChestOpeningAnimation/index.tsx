@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { asset } from "@/utils/paths";
 import styles from "./styles.module.css";
 
@@ -19,8 +20,7 @@ export function ChestOpeningAnimation({
 }: Props) {
   const [phase, setPhase] = useState<"closed" | "opened">("closed");
   const { pushControls } = useGameControls();
-  const onCompleteRef = useRef(onComplete);
-  onCompleteRef.current = onComplete;
+  const onCompleteRef = useLatestRef(onComplete);
 
   useEffect(() => {
     const remove = pushControls({
@@ -46,7 +46,7 @@ export function ChestOpeningAnimation({
       clearTimeout(closedTimer);
       clearTimeout(completeTimer);
     };
-  }, []);
+  }, [onCompleteRef]);
 
   const src = phase === "closed" ? closedSrc : openedSrc;
 

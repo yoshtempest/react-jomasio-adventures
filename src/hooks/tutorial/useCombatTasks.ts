@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useNavigate } from "react-router";
 import type { Task, TaskInstruction } from "@/gameRules/tutorial/combatTasks";
 import {
@@ -13,10 +14,8 @@ export function useCombatTasks() {
   const { player, setMode } = usePlayer();
   const [currentTask, setCurrentTask] = useState<Task>("moveLeft");
   const initialX = useRef<number | null>(null);
-  const setModeRef = useRef(setMode);
-  setModeRef.current = setMode;
-  const navigateRef = useRef(navigate);
-  navigateRef.current = navigate;
+  const setModeRef = useLatestRef(setMode);
+  const navigateRef = useLatestRef(navigate);
 
   useEffect(() => {
     if (initialX.current === null) {
@@ -70,7 +69,7 @@ export function useCombatTasks() {
       navigateRef.current("/home");
     }, 2000);
     return () => clearTimeout(t);
-  }, [currentTask]);
+  }, [currentTask, navigateRef, setModeRef]);
 
   const instruction: TaskInstruction = TASK_INSTRUCTIONS[currentTask];
 

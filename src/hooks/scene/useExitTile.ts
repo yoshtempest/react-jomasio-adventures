@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import type { NavigateFunction } from "react-router";
 import type { ExitTileOptions } from "@/utils/types/maps/exitTiles";
 import { useFlags } from "@/contexts/FlagContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 
 const OPPOSITE: Record<string, Player["direction"]> = {
   up: "down",
@@ -27,17 +28,12 @@ export function useExitTile({
     sceneInitRef.current = false;
   }, [scene]);
 
-  const handleExitRef = useRef(handleExit);
-  handleExitRef.current = handleExit;
-  const setPopupRef = useRef(setPopup);
-  setPopupRef.current = setPopup;
-  const setPositionRef = useRef(setPosition);
-  setPositionRef.current = setPosition;
-  const playerRef = useRef(player);
-  playerRef.current = player;
+  const handleExitRef = useLatestRef(handleExit);
+  const setPopupRef = useLatestRef(setPopup);
+  const setPositionRef = useLatestRef(setPosition);
+  const playerRef = useLatestRef(player);
   const { flags } = useFlags();
-  const flagsRef = useRef(flags);
-  flagsRef.current = flags;
+  const flagsRef = useLatestRef(flags);
 
   const prevPositionRef = useRef({
     x: player.gridX,
@@ -110,7 +106,7 @@ export function useExitTile({
         state: { from: location.pathname },
       });
     }
-  }, [player.gridX, player.gridY, scene, quests, navigateWithFade, location]);
+  }, [player.gridX, player.gridY, scene, quests, navigateWithFade, location, flagsRef, handleExitRef, playerRef, setPopupRef]);
 
   useEffect(() => {
     const prev = prevPositionRef.current;
@@ -144,5 +140,5 @@ export function useExitTile({
       blocked.y,
       OPPOSITE[blocked.direction] ?? blocked.direction,
     );
-  }, [popup, player.direction]);
+  }, [popup, player.direction, setPositionRef]);
 }

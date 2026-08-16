@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import {
   EQUIPPED_COUNT,
@@ -193,14 +194,11 @@ export function useEquipmentMenu(
     return prev;
   }
 
-  const playMoveRef = useRef(playMove);
-  playMoveRef.current = playMove;
-  const pushControlsRef = useRef(pushControls);
-  pushControlsRef.current = pushControls;
+  const playMoveRef = useLatestRef(playMove);
+  const pushControlsRef = useLatestRef(pushControls);
   const handleUseItemRef = useRef<(index: number) => boolean>(() => false);
   handleUseItemRef.current = handleUseItem;
-  const navigateRef = useRef(navigate);
-  navigateRef.current = navigate;
+  const navigateRef = useLatestRef(navigate);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -235,7 +233,7 @@ export function useEquipmentMenu(
 
     const remove = pushControlsRef.current(controls);
     return () => remove();
-  }, [isOpen, totalItems]);
+  }, [isOpen, totalItems, navigateRef, playMoveRef, pushControlsRef]);
 
   return {
     selectedIndex,

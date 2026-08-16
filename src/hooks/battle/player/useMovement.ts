@@ -19,6 +19,7 @@ import {
   type CollisionParams,
 } from "@/hooks/battle/useGravity";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { getSkillTree } from "@/data/passiveSkills";
 import {
   isPlayerFrozen,
@@ -45,8 +46,7 @@ export function useBattleMovement(
   const hasUsedFallingAttack = useRef(false);
 
   const { progress } = useCharacterProgress();
-  const progressRef = useRef(progress);
-  progressRef.current = progress;
+  const progressRef = useLatestRef(progress);
 
   const jumpForce = -16;
 

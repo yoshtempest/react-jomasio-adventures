@@ -1,4 +1,5 @@
 import { useRef, useCallback, useEffect } from "react";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import {
   calculatePlayerDamage,
   calculateDamageToNpc,
@@ -70,26 +71,16 @@ export function useChargeDash(props: Props) {
   const dashIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const hitTargetsRef = useRef(new Set<string>());
 
-  const npcXRef = useRef(props.npcX);
-  npcXRef.current = props.npcX;
-  const npcYRef = useRef(props.npcY);
-  npcYRef.current = props.npcY;
-  const npcElementTypesRef = useRef(getNpcElementTypes(props.npcType));
-  npcElementTypesRef.current = getNpcElementTypes(props.npcType);
-  const summonsRef = useRef(props.summons);
-  summonsRef.current = props.summons;
-  const setDeliciaRef = useRef(props.setDelicia);
-  setDeliciaRef.current = props.setDelicia;
-  const setPlayerHPRef = useRef(props.setPlayerHP);
-  setPlayerHPRef.current = props.setPlayerHP;
-  const playerMaxHpRef = useRef(props.playerMaxHp);
-  playerMaxHpRef.current = props.playerMaxHp;
-  const playerHpRef = useRef(props.playerHP);
-  playerHpRef.current = props.playerHP;
-  const dashCharRef = useRef(props.char);
-  dashCharRef.current = props.char;
-  const vampirismRef = useRef(props.totalVampirism);
-  vampirismRef.current = props.totalVampirism;
+  const npcXRef = useLatestRef(props.npcX);
+  const npcYRef = useLatestRef(props.npcY);
+  const npcElementTypesRef = useLatestRef(getNpcElementTypes(props.npcType));
+  const summonsRef = useLatestRef(props.summons);
+  const setDeliciaRef = useLatestRef(props.setDelicia);
+  const setPlayerHPRef = useLatestRef(props.setPlayerHP);
+  const playerMaxHpRef = useLatestRef(props.playerMaxHp);
+  const playerHpRef = useLatestRef(props.playerHP);
+  const dashCharRef = useLatestRef(props.char);
+  const vampirismRef = useLatestRef(props.totalVampirism);
   const wasCritRef = useRef(false);
 
   const cleanup = useCallback(() => {

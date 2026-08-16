@@ -1,4 +1,5 @@
-import { useEffect, useRef, type RefObject } from "react";
+import { useEffect, type RefObject } from "react";
+import { useLatestRef } from "@/hooks/useLatestRef";
 
 type SyncProps = {
   battle: {
@@ -69,8 +70,7 @@ export function useBattleSync({
   }, [battle.npcPhase, setNpcPhase]);
 
   // Boss regen: hungryKing heals 1 HP/s in phase 2
-  const halfHealUntilRef = useRef(player.halfHealUntil);
-  halfHealUntilRef.current = player.halfHealUntil;
+  const halfHealUntilRef = useLatestRef(player.halfHealUntil);
 
   useEffect(() => {
     if (npcType !== "hungryKing") return;
@@ -89,7 +89,7 @@ export function useBattleSync({
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [npcType, battle.npcPhase, isEndingRef, setNpcHPRef, npcMaxHpRef, halfHealReduction]);
+  }, [npcType, battle.npcPhase, isEndingRef, setNpcHPRef, npcMaxHpRef, halfHealReduction, halfHealUntilRef]);
 
   // Wire ref callbacks so battle system can trigger NPC ranged/melee hit
   refs.npcRangedAttackRef.current = () => {

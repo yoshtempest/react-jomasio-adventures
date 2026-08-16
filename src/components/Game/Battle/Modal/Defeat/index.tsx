@@ -3,6 +3,7 @@ import { useEffect, useRef, useCallback } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { formatDuration } from "@/utils/formatDuration";
 import { playerPath } from "@/utils/paths";
 import { ActivePotionDisplay } from "@/components/ActivePotionDisplay";
@@ -47,14 +48,10 @@ export function DefeatModal({
     selectCharacter,
   } = useDefeatCharacterSelect(isOpen);
 
-  const onContinueRef = useRef(onContinue);
-  onContinueRef.current = onContinue;
-  const onBackRef = useRef(onBack);
-  onBackRef.current = onBack;
-  const setModeRef = useRef(setMode);
-  setModeRef.current = setMode;
-  const viewRef = useRef(view);
-  viewRef.current = view;
+  const onContinueRef = useLatestRef(onContinue);
+  const onBackRef = useLatestRef(onBack);
+  const setModeRef = useLatestRef(setMode);
+  const viewRef = useLatestRef(view);
 
   const executeSelected = useCallback(() => {
     if (menuSelection === "retry" && showRetry) {
@@ -67,10 +64,9 @@ export function DefeatModal({
       onBackRef.current();
       setModeRef.current("explore");
     }
-  }, [menuSelection, playSound, openCharacterSelect, showRetry]);
+  }, [menuSelection, playSound, openCharacterSelect, showRetry, onBackRef, onContinueRef, setModeRef]);
 
-  const executeSelectedRef = useRef(executeSelected);
-  executeSelectedRef.current = executeSelected;
+  const executeSelectedRef = useLatestRef(executeSelected);
 
   useEffect(() => {
     if (isOpen && !hasPlayedRef.current) {
@@ -100,7 +96,7 @@ export function DefeatModal({
     });
 
     return remove;
-  }, [isOpen, pushControls, playSound]);
+  }, [isOpen, pushControls, playSound, executeSelectedRef, onBackRef, setModeRef, viewRef]);
 
   if (!isOpen) return null;
 

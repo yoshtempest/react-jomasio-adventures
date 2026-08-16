@@ -1,4 +1,4 @@
-import { useCallback, useRef } from "react";
+import { useCallback } from "react";
 import { NPC_MELEE_COOLDOWN } from "@/data/cooldowns";
 import { getNpcStats } from "@/utils/types/npc/npcProgress";
 import { calculateNpcDamage } from "@/gameRules/battle/damage";
@@ -6,6 +6,7 @@ import { getElementMultiplier } from "@/gameRules/battle/element";
 import { isFacingTarget } from "@/gameRules/battle/direction";
 import { handleNpcBlocking } from "./useBlocking";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { logPlay } from "@/utils/replay/audioEventLog";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
@@ -91,12 +92,9 @@ export function useNpcBattle({
 }: Props) {
   const { playSound } = useSoundEffects();
 
-  const npcHpRef = useRef(npcHp);
-  npcHpRef.current = npcHp;
-  const npcMaxHpRef = useRef(npcMaxHp);
-  npcMaxHpRef.current = npcMaxHp;
-  const tenacityReductionRef = useRef(tenacityReduction);
-  tenacityReductionRef.current = tenacityReduction;
+  const npcHpRef = useLatestRef(npcHp);
+  const npcMaxHpRef = useLatestRef(npcMaxHp);
+  const tenacityReductionRef = useLatestRef(tenacityReduction);
 
   const damagePlayerWithReflect = useCallback(
     (damage: number) => {
@@ -263,6 +261,9 @@ export function useNpcBattle({
     npcType,
     npcPhase,
     statMultiplier,
+    npcHpRef,
+    npcMaxHpRef,
+    tenacityReductionRef,
   ]);
 
   const npcRangedHit = useCallback(() => {
@@ -357,6 +358,9 @@ export function useNpcBattle({
     npcPhase,
     onBlockRef,
     statMultiplier,
+    npcHpRef,
+    npcMaxHpRef,
+    tenacityReductionRef,
   ]);
 
   const npcThrowHit = useCallback(

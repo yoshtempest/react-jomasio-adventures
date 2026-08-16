@@ -1,4 +1,5 @@
-import { useRef, useCallback } from "react";
+import { useCallback } from "react";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import type { SpawnDamageFn } from "@/utils/types/battle/spawnDamageFn";
 
 type Props = {
@@ -30,8 +31,7 @@ export function useExternalDamage({
   spawnDamageRef,
   onBlockRef,
 }: Props) {
-  const playerShieldRef = useRef(playerShield);
-  playerShieldRef.current = playerShield;
+  const playerShieldRef = useLatestRef(playerShield);
 
   const damagePlayerHp = useCallback(
     (damage: number) => {
@@ -44,7 +44,7 @@ export function useExternalDamage({
       const remaining = damage - shield;
       setPlayerHP((hp) => Math.max(0, hp - remaining));
     },
-    [setPlayerHP, setPlayerShield],
+    [setPlayerHP, setPlayerShield, playerShieldRef],
   );
 
   const damagePlayer = useCallback(

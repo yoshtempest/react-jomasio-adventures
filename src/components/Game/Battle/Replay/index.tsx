@@ -1,5 +1,6 @@
-import { useEffect, useCallback, useState, useRef } from "react";
+import { useEffect, useCallback, useState } from "react";
 import type { ReplayData } from "@/utils/types/replay";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useReplayPlayback } from "@/hooks/battle/recording/useReplayPlayback";
 import { useReplayAudio } from "@/hooks/battle/recording/useReplayAudio";
 import { useReplayViewport } from "@/hooks/battle/recording/useReplayViewport";
@@ -27,8 +28,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
   const viewport = useReplayViewport();
 
   const [selectedIndex, setSelectedIndex] = useState(2);
-  const selectedIndexRef = useRef(selectedIndex);
-  selectedIndexRef.current = selectedIndex;
+  const selectedIndexRef = useLatestRef(selectedIndex);
 
   const onRestart = useCallback(() => {
     handleRestart();
@@ -78,8 +78,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
     [onRestart, playback, onClose],
   );
 
-  const triggerActionRef = useRef(triggerAction);
-  triggerActionRef.current = triggerAction;
+  const triggerActionRef = useLatestRef(triggerAction);
 
   useGameControlsLayer(
     {

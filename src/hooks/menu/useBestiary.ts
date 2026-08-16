@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { BESTIARY_NPC_ORDER } from "@/data/bestiary";
 
@@ -28,10 +29,8 @@ export function useBestiaryMenu(
     selectedElement.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, [selectedIndex, listRef]);
 
-  const playMoveRef = useRef(playMove);
-  playMoveRef.current = playMove;
-  const pushControlsRef = useRef(pushControls);
-  pushControlsRef.current = pushControls;
+  const playMoveRef = useLatestRef(playMove);
+  const pushControlsRef = useLatestRef(pushControls);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -58,7 +57,7 @@ export function useBestiaryMenu(
 
     const remove = pushControlsRef.current(controls);
     return () => remove();
-  }, [isOpen]);
+  }, [isOpen, playMoveRef, pushControlsRef]);
 
   return {
     selectedIndex,

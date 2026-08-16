@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 
 const GAME_MODE_OPTIONS = [
@@ -23,12 +24,9 @@ export function useGameModeMenu() {
     selectedIndexRef.current = selectedIndex;
   }, [selectedIndex]);
 
-  const playMoveRef = useRef(playMove);
-  playMoveRef.current = playMove;
-  const playSelectRef = useRef(playSelect);
-  playSelectRef.current = playSelect;
-  const pushControlsRef = useRef(pushControls);
-  pushControlsRef.current = pushControls;
+  const playMoveRef = useLatestRef(playMove);
+  const playSelectRef = useLatestRef(playSelect);
+  const pushControlsRef = useLatestRef(pushControls);
 
   useEffect(() => {
     const controls = {
@@ -62,7 +60,7 @@ export function useGameModeMenu() {
 
     const remove = pushControlsRef.current(controls);
     return () => remove();
-  }, [navigate]);
+  }, [navigate, playMoveRef, playSelectRef, pushControlsRef]);
 
   return {
     selectedIndex,

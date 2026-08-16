@@ -1,9 +1,10 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { battleBehaviors } from "@/gameRules/battle/behaviors/player";
 import {
   getPetSkillDefinition,
   PET_SKILL_COOLDOWN_MS,
 } from "@/data/characters/petSkills";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { usePetSkillCooldown } from "@/hooks/battle/player/usePetSkill";
 
 import { useBattleStats } from "@/hooks/battle/useStats";
@@ -156,19 +157,13 @@ export function useBattleSystem(props: Props) {
 
   const { damageNumbers, spawnDamageNumber, clearDamageNumbers } =
     useDamageNumbers();
-  const spawnDamageRef = useRef(spawnDamageNumber);
-  spawnDamageRef.current = spawnDamageNumber;
+  const spawnDamageRef = useLatestRef(spawnDamageNumber);
 
-  const bleedXRef = useRef(playerX);
-  bleedXRef.current = playerX;
-  const bleedYRef = useRef(playerY);
-  bleedYRef.current = playerY;
-  const bleedUntilRef = useRef(player.bleedUntil);
-  bleedUntilRef.current = player.bleedUntil;
-  const burnUntilRef = useRef(player.burnUntil);
-  burnUntilRef.current = player.burnUntil;
-  const poisonUntilRef = useRef(player.poisonUntil);
-  poisonUntilRef.current = player.poisonUntil;
+  const bleedXRef = useLatestRef(playerX);
+  const bleedYRef = useLatestRef(playerY);
+  const bleedUntilRef = useLatestRef(player.bleedUntil);
+  const burnUntilRef = useLatestRef(player.burnUntil);
+  const poisonUntilRef = useLatestRef(player.poisonUntil);
 
   const {
     playerHP,

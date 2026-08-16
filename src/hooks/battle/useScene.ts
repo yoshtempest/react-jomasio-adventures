@@ -1,6 +1,7 @@
 import { useRef, useState, useMemo, useEffect, type RefObject } from "react";
 import { useGrabThrow } from "@/hooks/battle/throw/useGrabThrow";
 import { useThrowAnimation } from "@/hooks/battle/throw/useThrowAnimation";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useGameAudio } from "@/hooks/game/useGameAudio";
 import { useNpcAI } from "@/hooks/battle/npc/useAi";
@@ -68,18 +69,6 @@ import {
 import { useBattleRecording } from "@/hooks/battle/recording/useBattleRecording";
 import type { ReplayData } from "@/utils/types/replay";
 import type { SpawnDamageFn } from "@/utils/types/battle/spawnDamageFn";
-
-function useLatestRef<T>(value: T) {
-  const ref = useRef(value);
-  ref.current = value;
-  return ref;
-}
-
-function useSnapshot<T>(value: T) {
-  const ref = useRef(value);
-  ref.current = value;
-  return ref;
-}
 
 function computeElapsedBattleTime(
   battleStartRef: RefObject<number>,
@@ -420,7 +409,7 @@ export function useBattleScene({
   const closeInventoryRef = useLatestRef(closeInventory);
   const closeNavbarRef = useLatestRef(closeNavbar);
 
-  const saveDataRef = useSnapshot({
+  const saveDataRef = useLatestRef({
     items: inventoryItems,
     quests,
     character: player.character,
@@ -668,7 +657,7 @@ export function useBattleScene({
   refs.registerHitRef.current = registerHit;
   refs.spawnDamageRef.current = battle.spawnDamageNumber;
 
-  const playerSnapshotRef = useSnapshot({
+  const playerSnapshotRef = useLatestRef({
     x: player.x,
     y: player.y,
     state: player.state,
@@ -678,7 +667,7 @@ export function useBattleScene({
     grabbedUntil: player.grabbedUntil ?? 0,
   });
 
-  const npcSnapshotRef = useSnapshot({
+  const npcSnapshotRef = useLatestRef({
     x: npc.x,
     y: npc.y,
     state: npc.state,
@@ -686,7 +675,7 @@ export function useBattleScene({
     jumpLandingX: npc.jumpLandingX,
   });
 
-  const battleSnapshotRef = useSnapshot({
+  const battleSnapshotRef = useLatestRef({
     playerHP: battle.playerHP,
     playerMaxHp: battle.playerMaxHp,
     playerShield: battle.playerShield,
@@ -700,7 +689,7 @@ export function useBattleScene({
   });
 
   const petData = battle.pet;
-  const petSnapshotRef = useSnapshot(petData);
+  const petSnapshotRef = useLatestRef(petData);
 
   const COMBO_ACTION_STATES: Partial<Record<PlayerState, string>> = {
     blocked: "blockAttack",
@@ -712,16 +701,16 @@ export function useBattleScene({
       : null;
   const comboActionRef = useLatestRef(comboActionSprite);
 
-  const comboSnapshotRef = useSnapshot({
+  const comboSnapshotRef = useLatestRef({
     count: comboCount,
     rank: comboRank,
     progress: comboProgressValue,
     nextRank,
   });
 
-  const damageNumbersSnapshotRef = useSnapshot(battle.damageNumbers);
+  const damageNumbersSnapshotRef = useLatestRef(battle.damageNumbers);
 
-  const summonsSnapshotRef = useSnapshot(summons);
+  const summonsSnapshotRef = useLatestRef(summons);
 
   const { isRecording, startRecording, stopRecording, getReplayData } =
     useBattleRecording({

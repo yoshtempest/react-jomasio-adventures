@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { slotKey } from "@/utils/save/slotManager";
 import type {
   RandomEncounterConfig,
@@ -18,15 +19,13 @@ function pickEncounter(encounters: EncounterDef[]): string {
 }
 
 export function useRandomEncounter(config: RandomEncounterConfig) {
-  const configRef = useRef(config);
-  configRef.current = config;
+  const configRef = useLatestRef(config);
 
   const { player, setPosition } = usePlayer();
   const navigate = useNavigate();
 
   const lastPositionRef = useRef({ x: player.gridX, y: player.gridY });
-  const setPositionRef = useRef(setPosition);
-  setPositionRef.current = setPosition;
+  const setPositionRef = useLatestRef(setPosition);
   const restoringRef = useRef(false);
 
   useEffect(() => {
@@ -44,10 +43,9 @@ export function useRandomEncounter(config: RandomEncounterConfig) {
       localStorage.removeItem(slotKey(storageKey));
       restoringRef.current = false;
     });
-  }, []);
+  }, [configRef, setPositionRef]);
 
-  const playerRef = useRef(player);
-  playerRef.current = player;
+  const playerRef = useLatestRef(player);
 
   useEffect(() => {
     const currentPlayer = playerRef.current;
@@ -95,5 +93,5 @@ export function useRandomEncounter(config: RandomEncounterConfig) {
       const route = pickEncounter(cfg.encounters);
       navigate(route);
     }
-  }, [player.gridX, player.gridY, navigate]);
+  }, [player.gridX, player.gridY, navigate, configRef, playerRef]);
 }

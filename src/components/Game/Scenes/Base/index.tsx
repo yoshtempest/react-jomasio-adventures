@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import {
   useLocation,
   type NavigateFunction,
@@ -95,9 +95,6 @@ export function SceneBase({
   const { giveQuest, progressQuest } = useQuestActions();
 
   const lastPage = location.state?.from;
-
-  const setPopupRef = useRef(setPopup);
-  setPopupRef.current = setPopup;
 
   const currentRoute = location.pathname;
 
