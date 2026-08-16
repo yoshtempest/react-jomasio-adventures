@@ -46,13 +46,13 @@ export function useInventoryMenu(
   const { playMove, playSelect } = useMenuSFX();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const selectedIndexRef = useRef(selectedIndex);
+  const selectedIndexRef = useLatestRef(selectedIndex);
 
   const [filterFocused, setFilterFocused] = useState(false);
-  const filterFocusedRef = useRef(filterFocused);
+  const filterFocusedRef = useLatestRef(filterFocused);
 
   const [chestFocused, setChestFocused] = useState(false);
-  const chestFocusedRef = useRef(chestFocused);
+  const chestFocusedRef = useLatestRef(chestFocused);
 
   useEffect(() => {
     if (!listRef?.current) return;
@@ -69,22 +69,10 @@ export function useInventoryMenu(
   }, [selectedIndex, listRef]);
 
   useEffect(() => {
-    selectedIndexRef.current = selectedIndex;
-  }, [selectedIndex]);
-
-  useEffect(() => {
-    filterFocusedRef.current = filterFocused;
-  }, [filterFocused]);
-
-  useEffect(() => {
-    chestFocusedRef.current = chestFocused;
-  }, [chestFocused]);
-
-  useEffect(() => {
     if (!chestReady && chestFocusedRef.current) {
       setChestFocused(false);
     }
-  }, [chestReady]);
+  }, [chestReady, chestFocusedRef]);
 
   useEffect(() => {
     setSelectedIndex((prev) =>
@@ -92,8 +80,7 @@ export function useInventoryMenu(
     );
   }, [navLength]);
 
-  const handleUseItemRef = useRef<(index: number) => boolean>(() => false);
-  handleUseItemRef.current = function handleUseItem(index: number) {
+  const handleUseItemRef = useLatestRef((index: number): boolean => {
     const item = items[index];
     if (!item) return false;
 
@@ -102,7 +89,7 @@ export function useInventoryMenu(
 
     effect();
     return true;
-  };
+  });
 
   const playMoveRef = useLatestRef(playMove);
   const playSelectRef = useLatestRef(playSelect);
@@ -224,7 +211,7 @@ export function useInventoryMenu(
 
     const remove = pushControlsRef.current(controls);
     return () => remove();
-  }, [isOpen, navLength, chestReadyRef, filterConfigRef, onOpenChestRef, playMoveRef, playSelectRef, pushControlsRef]);
+  }, [isOpen, navLength, chestReadyRef, filterConfigRef, onOpenChestRef, playMoveRef, playSelectRef, pushControlsRef, chestFocusedRef, filterFocusedRef, handleUseItemRef, selectedIndexRef]);
 
   return {
     selectedIndex,

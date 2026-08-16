@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 
@@ -33,25 +33,15 @@ export function useBattleControls({
 }: Props) {
   const { pushControls } = useGameControls();
 
-  const attackRef = useRef(attack);
-  const specialRef = useRef(special);
-  const blockStartRef = useRef(blockStart);
-  const blockEndRef = useRef(blockEnd);
-  const playerHitRef = useRef(handlePlayerHit);
-  const specialHitRef = useRef(handleSpecialHit);
-  const chargePressRef = useRef(onChargePress ?? (() => {}));
-  const chargeReleaseRef = useRef(onChargeRelease ?? (() => {}));
-  const chargeCancelRef = useRef(onChargeCancel ?? (() => {}));
-
-  attackRef.current = attack;
-  specialRef.current = special;
-  blockStartRef.current = blockStart;
-  blockEndRef.current = blockEnd;
-  playerHitRef.current = handlePlayerHit;
-  specialHitRef.current = handleSpecialHit;
-  chargePressRef.current = onChargePress ?? (() => {});
-  chargeReleaseRef.current = onChargeRelease ?? (() => {});
-  chargeCancelRef.current = onChargeCancel ?? (() => {});
+  const attackRef = useLatestRef(attack);
+  const specialRef = useLatestRef(special);
+  const blockStartRef = useLatestRef(blockStart);
+  const blockEndRef = useLatestRef(blockEnd);
+  const playerHitRef = useLatestRef(handlePlayerHit);
+  const specialHitRef = useLatestRef(handleSpecialHit);
+  const chargePressRef = useLatestRef(onChargePress ?? (() => {}));
+  const chargeReleaseRef = useLatestRef(onChargeRelease ?? (() => {}));
+  const chargeCancelRef = useLatestRef(onChargeCancel ?? (() => {}));
 
   const hasChargeRef = useLatestRef(!!onChargePress);
 
@@ -142,5 +132,5 @@ export function useBattleControls({
       if (holdTimer) clearTimeout(holdTimer);
       remove();
     };
-  }, [disabled, hasChargeRef, playerStateRef, pushControlsRef]);
+  }, [disabled, hasChargeRef, playerStateRef, pushControlsRef, attackRef, blockEndRef, blockStartRef, chargeCancelRef, chargePressRef, chargeReleaseRef, playerHitRef, specialHitRef, specialRef]);
 }

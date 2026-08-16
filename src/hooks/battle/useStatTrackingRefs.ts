@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { incrementBlockCount } from "@/utils/rewards/blockCounter";
 import {
   incrementDamageDealtStats,
@@ -24,41 +24,35 @@ export function useBattleStatRefs({
   incrementDamageDealt,
   incrementDodgeCounter,
 }: Params) {
-  const onBlockRef = useRef(() => {});
-  onBlockRef.current = () => {
+  const onBlockRef = useLatestRef(() => {
     incrementBlockCount(playerCharacter);
     incrementBlockCounter();
-  };
+  });
 
-  const onDamageTakenRef = useRef<(amount: number) => void>(() => {});
-  onDamageTakenRef.current = (amount: number) => {
+  const onDamageTakenRef = useLatestRef((amount: number) => {
     incrementDamageTaken(amount);
     incrementDamageTakenStats(playerCharacter, amount);
-  };
+  });
 
-  const onDodgeRef = useRef(() => {});
-  onDodgeRef.current = () => {
+  const onDodgeRef = useLatestRef(() => {
     incrementDodgeCounter();
     incrementMissesStats(playerCharacter);
-  };
+  });
 
-  const onDamageDealtRef = useRef<(amount: number) => void>(() => {});
-  onDamageDealtRef.current = (amount: number) => {
+  const onDamageDealtRef = useLatestRef((amount: number) => {
     incrementDamageDealt(amount);
     incrementDamageDealtStats(playerCharacter, amount);
-  };
+  });
 
-  const onAttackRef = useRef(() => {});
-  onAttackRef.current = () => {
+  const onAttackRef = useLatestRef(() => {
     incrementAttacksUsedStats(playerCharacter);
     incrementHitsUsedStats(playerCharacter);
-  };
+  });
 
-  const onSpecialRef = useRef(() => {});
-  onSpecialRef.current = () => {
+  const onSpecialRef = useLatestRef(() => {
     incrementSpecialsUsedStats(playerCharacter);
     incrementHitsUsedStats(playerCharacter);
-  };
+  });
 
   return {
     onBlockRef,

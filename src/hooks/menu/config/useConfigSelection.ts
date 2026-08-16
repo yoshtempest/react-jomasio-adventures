@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { usePlayer } from "@/contexts/PlayerContext";
@@ -61,19 +61,11 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   // menu | tutorial
   const [screen, setScreen] = useState<"menu" | "tutorial">("menu");
 
-  const selectedIndexRef = useRef(selectedIndex);
-  const selectedColumnRef = useRef(selectedColumn);
-  const screenRef = useRef(screen);
-  const isOnTabRef = useRef(isOnTab);
-  const activeTabRef = useRef(activeTab);
-
-  useEffect(() => {
-    selectedIndexRef.current = selectedIndex;
-    selectedColumnRef.current = selectedColumn;
-    screenRef.current = screen;
-    isOnTabRef.current = isOnTab;
-    activeTabRef.current = activeTab;
-  }, [selectedIndex, selectedColumn, screen, isOnTab, activeTab]);
+  const selectedIndexRef = useLatestRef(selectedIndex);
+  const selectedColumnRef = useLatestRef(selectedColumn);
+  const screenRef = useLatestRef(screen);
+  const isOnTabRef = useLatestRef(isOnTab);
+  const activeTabRef = useLatestRef(activeTab);
 
   const playMoveRef = useLatestRef(playMove);
   const playSelectRef = useLatestRef(playSelect);
@@ -335,6 +327,11 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
     setShowInstalledMessageRef,
     setShowNotAvailableMessageRef,
     setShowQuestIndicatorRef,
+    activeTabRef,
+    isOnTabRef,
+    screenRef,
+    selectedColumnRef,
+    selectedIndexRef,
   ]);
 
   return {

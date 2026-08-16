@@ -3,6 +3,8 @@ colocar bau no hallJailson
 
 analise a aplicação e procure por ocorrências em que uma função como useLatestRef poderia evitar repetições desnecessárias e centralizar as informações
 
+exibir tipagem do jogador e do npc ao lado dos nomes
+
 fazer as imagens de maugrelo
 
 continuar a história na brodiclass

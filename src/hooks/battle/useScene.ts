@@ -360,7 +360,7 @@ export function useBattleScene({
   const xpNeeded = getXPToNextLevel(charProgress.level);
   const missingXp = xpNeeded - charProgress.xp;
 
-  const getReplayDataRef = useRef<() => ReplayData | null>(() => null);
+  const getReplayDataRef = useLatestRef<() => ReplayData | null>(() => null);
 
   const {
     showVictory,
@@ -753,8 +753,6 @@ export function useBattleScene({
       background: background ?? "",
       audioSrc,
     });
-
-  getReplayDataRef.current = getReplayData;
 
   const wasIntroActiveRef = useRef(showIntro);
 
