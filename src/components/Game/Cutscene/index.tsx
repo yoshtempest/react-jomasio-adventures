@@ -54,9 +54,19 @@ export function CutsceneVideo({ src, width, height, onEnded }: Props) {
       rafId = requestAnimationFrame(draw);
     };
 
-    draw();
+    const play = () => video.play().catch(() => {});
 
-    return () => cancelAnimationFrame(rafId);
+    draw();
+    play();
+
+    if (video.readyState < 2) {
+      video.addEventListener("loadeddata", play, { once: true });
+    }
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      video.pause();
+    };
   }, []);
 
   return (
@@ -64,12 +74,18 @@ export function CutsceneVideo({ src, width, height, onEnded }: Props) {
       <video
         ref={videoRef}
         src={src}
-        autoPlay
         muted
         playsInline
         preload="auto"
         onEnded={() => onEndedRef.current?.()}
-        style={{ display: "none" }}
+        style={{
+          position: "absolute",
+          width: 1,
+          height: 1,
+          zIndex: 10000,
+          opacity: 0,
+          pointerEvents: "none",
+        }}
       />
       <canvas
         ref={canvasRef}

@@ -24,8 +24,6 @@ sempre que precisar resolver um problema de carregamento, use contro shift R
 
 o diálogo em cafeteria/two deve ser começado imediatamente sem que o jogador precise interajir com os npcs.
 
-video de denisburn.webm queimando deise fica no primeiro momento e não dá play (ou só está exibindo o primeiro frame visualmente), resolva para que o video todo seja exibido visualmente.
-
 adicionar informação de xp do pet no menu de pets
 
 Desafio para eu mesmo (fácil): Cada pet tem um nv e uma barra de xp para subir de nível, exiba visualmente a informação de xpBar e xpFill do pet no menu de pets da navbar
