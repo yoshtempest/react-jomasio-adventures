@@ -12,6 +12,7 @@ export const twoScene: SceneConfig = {
   scaleFix: 1.7,
   map: cafeteriaTwo,
   dialogueData: getCafeteriaTwoDialogue,
+  autoStartDialogue: true,
   events: cafeteriaTwoEvents,
   cutscene: {
     videoSrc: "/assets/videos/denisburn.webm",
