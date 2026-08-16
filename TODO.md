@@ -1,7 +1,7 @@
 adicionar baú na hellroom
 colocar bau no hallJailson
 
-a função useLatestRef que está em hooks/battle/useScene.ts parece extremamente útil para utilizar em mais lugares, analise se realmente é tão útil assim e caso seja, exporte ela para que seja usada em mais lugares.
+analise a aplicação e procure por ocorrências em que uma função como useLatestRef poderia evitar repetições desnecessárias e centralizar as informações
 
 fazer as imagens de maugrelo
 

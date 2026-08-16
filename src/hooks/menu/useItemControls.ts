@@ -9,7 +9,6 @@ type Params = {
   isConsumableSelected: boolean;
   isChestSelected: boolean;
   isMapSelected: boolean;
-  isMountSelected: boolean;
   isTeleportSelected: boolean;
   keyId: string | null;
   items: { id: string }[];
@@ -27,7 +26,6 @@ export function useItemControls({
   isConsumableSelected,
   isChestSelected,
   isMapSelected,
-  isMountSelected,
   isTeleportSelected,
   keyId,
   items,
@@ -45,7 +43,6 @@ export function useItemControls({
     isConsumableSelected,
     isChestSelected,
     isMapSelected,
-    isMountSelected,
     isTeleportSelected,
     keyId,
     items,
@@ -66,7 +63,6 @@ export function useItemControls({
           isConsumableSelected,
           isChestSelected,
           isMapSelected,
-          isMountSelected,
           isTeleportSelected,
           keyId,
           items,
@@ -89,7 +85,7 @@ export function useItemControls({
           return true;
         }
 
-        if (isMapSelected || isMountSelected || isTeleportSelected) {
+        if (isMapSelected || isTeleportSelected) {
           const effect = getEffectRef.current(selectedItem.id);
           if (effect) {
             effect();

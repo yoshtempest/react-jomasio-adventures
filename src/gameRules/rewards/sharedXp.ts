@@ -24,9 +24,10 @@ export function distributeSharedXp(
   totalXp: number,
   winner: CharacterId,
   unlocked: { image: CharacterId }[],
-): Record<CharacterId, number> {
+): Partial<Record<CharacterId, number>> {
   const n = unlocked.length;
-  if (n <= 1) return { [winner]: totalXp };
+  const result: Partial<Record<CharacterId, number>> = { [winner]: totalXp };
+  if (n <= 1) return result;
 
   const winnerShare = Math.round(totalXp * (1 / n + 0.1));
   const restPool = Math.max(totalXp - winnerShare, 0);
@@ -34,7 +35,7 @@ export function distributeSharedXp(
   const baseRest = Math.floor(restPool / others.length);
   let remainder = restPool - baseRest * others.length;
 
-  const result: Record<CharacterId, number> = { [winner]: winnerShare };
+  result[winner] = winnerShare;
   for (const other of others) {
     const extra = remainder > 0 ? 1 : 0;
     result[other.image] = baseRest + extra;
