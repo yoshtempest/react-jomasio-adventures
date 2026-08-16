@@ -1,5 +1,6 @@
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useGameLayout } from "@/hooks/game/useGameLayout";
 import { GameMap } from "@/components/Game/Map/Game";
 import { Player } from "@/components/Game/Player";
@@ -16,7 +17,7 @@ import Talking from "@/components/Talking";
 import { useDialogue } from "@/hooks/interaction/useDialogue";
 import { useGoodPowderEncounter } from "@/hooks/interaction/useGoodPowderEncounter";
 import { useSansTalking } from "@/hooks/interaction/useSansTalking";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useSceneNavigation } from "@/hooks/scene/useNavigation";
 import { useSceneSetup } from "@/hooks/scene/useSetup";
@@ -34,6 +35,7 @@ import { useQuests } from "@/contexts/QuestContext";
 import { useFlags } from "@/contexts/FlagContext";
 import { asset } from "@/utils/paths";
 import { InteractionPrompt } from "@/components/Game/InteractionPrompt";
+import { CutsceneVideo } from "@/components/Game/Cutscene";
 import type { ItemPickupTile } from "@/utils/types/maps/exploreScene";
 
 type QuestHighlightTile = { x: number; y: number };
@@ -63,6 +65,7 @@ export function ExploreScene({
   interactionLabels,
   tileDialogues,
   npcOverlays,
+  cutscene,
   background,
   backgroundSize,
   scaleFix,
@@ -81,6 +84,7 @@ export function ExploreScene({
   interactionLabels?: Record<string, string>;
   tileDialogues?: Record<string, Dialogue[]>;
   npcOverlays?: { gridX: number; gridY: number; element: React.ReactNode }[];
+  cutscene?: SceneCutscene;
 }) {
   const { player, playerClass, setMap, setHeightMap, setPosition, setMode } =
     usePlayer();
@@ -102,7 +106,10 @@ export function ExploreScene({
     });
   }, [location.pathname, items, quests, playerClass, player.character]);
 
-  const handleFinish = () => {
+  const [cutsceneActive, setCutsceneActive] = useState(false);
+  const cutsceneDoneRef = useRef(false);
+
+  const finishScene = () => {
     setTimeout(() => {
       if (onFinish) onFinish();
 
@@ -111,6 +118,46 @@ export function ExploreScene({
       }
     }, 0);
   };
+
+  const handleFinish = () => {
+    if (cutscene) {
+      cutsceneDoneRef.current = false;
+      setCutsceneActive(true);
+      return;
+    }
+    finishScene();
+  };
+
+  const handleCutsceneEnd = () => {
+    if (cutsceneDoneRef.current) return;
+    cutsceneDoneRef.current = true;
+    setCutsceneActive(false);
+    finishScene();
+  };
+
+  const handleCutsceneEndRef = useLatestRef(handleCutsceneEnd);
+
+  useEffect(() => {
+    if (!cutsceneActive) return;
+
+    const timeout = setTimeout(() => handleCutsceneEndRef.current(), 4000);
+    return () => clearTimeout(timeout);
+  }, [cutsceneActive, handleCutsceneEndRef]);
+
+  useEffect(() => {
+    if (!cutsceneActive) return;
+
+    const remove = pushControls({
+      onUp: () => true,
+      onDown: () => true,
+      onLeft: () => true,
+      onRight: () => true,
+      onConfirm: () => true,
+      onCancel: () => true,
+    });
+
+    return remove;
+  }, [cutsceneActive, pushControls]);
 
   const resolvedDialogueData =
     typeof dialogueData === "function"
@@ -253,6 +300,12 @@ export function ExploreScene({
             key={`${npc.gridX},${npc.gridY}`}
             {...npc}
             TILE_SIZE={TILE_SIZE}
+            fading={
+              cutsceneActive &&
+              cutscene !== undefined &&
+              npc.gridX === cutscene.npcGridX &&
+              npc.gridY === cutscene.npcGridY
+            }
           />
         ))}
 
@@ -278,6 +331,36 @@ export function ExploreScene({
             {overlay.element}
           </div>
         ))}
+
+        {cutsceneActive &&
+          cutscene !== undefined &&
+          (() => {
+            const videoWidth = TILE_SIZE * 2.2;
+            const videoHeight = (videoWidth * 9) / 16;
+            const npcCenterX =
+              cutscene.npcGridX * TILE_SIZE - 40 + (TILE_SIZE * 1.7) / 2;
+            const npcCenterY =
+              cutscene.npcGridY * TILE_SIZE - 20 + (TILE_SIZE * 1.7) / 2;
+
+            return (
+              <div
+                style={{
+                  position: "absolute",
+                  left: npcCenterX - videoWidth / 2,
+                  top: npcCenterY - videoHeight / 2,
+                  zIndex: 30,
+                  pointerEvents: "none",
+                }}
+              >
+                <CutsceneVideo
+                  src={asset(cutscene.videoSrc)}
+                  width={videoWidth}
+                  height={videoHeight}
+                  onEnded={handleCutsceneEnd}
+                />
+              </div>
+            );
+          })()}
 
         {questNpcPositions?.map((pos) => (
           <QuestNPCBadge

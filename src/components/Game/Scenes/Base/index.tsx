@@ -149,6 +149,7 @@ export function SceneBase({
           interactionLabels={interactionLabels}
           tileDialogues={tileDialogues}
           npcOverlays={npcOverlays}
+          cutscene={scene.cutscene}
           onFinish={() => {
             const extra = onFinishExtra?.({
               navigate: navigateWithFade,

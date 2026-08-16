@@ -119,6 +119,12 @@ declare global {
     message?: string;
   };
 
+  type SceneCutscene = {
+    videoSrc: string;
+    npcGridX: number;
+    npcGridY: number;
+  };
+
   type SceneEvent =
     | { type: "openModal"; modal: "class" }
     | { type: "navigate"; to: string; delay?: number }
@@ -175,6 +181,7 @@ declare global {
     signs?: SceneSign[];
     onInteract?: (tile: number, x: number, y: number) => boolean;
     autoStartDialogue?: boolean;
+    cutscene?: SceneCutscene;
     onFinish?: () => void;
     className?: string;
     lastPage?: LastPage;
