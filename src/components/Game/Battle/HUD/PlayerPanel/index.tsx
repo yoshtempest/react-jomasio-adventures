@@ -1,13 +1,16 @@
 import { HealthBar } from "@/components/Game/Battle/HUD/HealthBar";
 import { Deliciometro } from "@/components/Game/Battle/HUD/Deliciometro";
 import { BlockGauge } from "@/components/Game/Battle/HUD/BlockGauge";
+import { ElementBadges } from "@/components/Game/Battle/HUD/ElementBadges";
 import { playerPath } from "@/utils/paths";
+import type { ElementType } from "@/utils/types/battle/element";
 import styles from "../styles.module.css";
 
 type Props = {
   character: string;
   playerName: string;
   playerRank: string;
+  playerElementTypes?: readonly ElementType[];
   hp: number;
   maxHp: number;
   shield: number;
@@ -21,6 +24,7 @@ export function PlayerHUDPanel({
   character,
   playerName,
   playerRank,
+  playerElementTypes,
   hp,
   maxHp,
   shield,
@@ -37,7 +41,10 @@ export function PlayerHUDPanel({
         className="hudImage"
       />
       <div className={styles.playerInfo}>
-        <h2 className={`${"hudName"} ${styles.playerName}`}>{playerName}</h2>
+        <div className={styles.nameRow}>
+          <h2 className={`${"hudName"} ${styles.playerName}`}>{playerName}</h2>
+          {playerElementTypes && <ElementBadges types={playerElementTypes} />}
+        </div>
         <p className={`${"hudRank"} ${styles.playerRank}`}>{playerRank}</p>
 
         <div className="hudFlexRow">
