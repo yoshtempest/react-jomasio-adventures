@@ -2,6 +2,7 @@ import { useState, useCallback, useMemo, useRef } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { characterSprites } from "@/data/characters/sprites";
+import { playerPath } from "@/utils/paths";
 
 export function useDialogue(dialogues: Dialogue[], onFinish?: () => void) {
   const { player } = usePlayer();
@@ -22,10 +23,13 @@ export function useDialogue(dialogues: Dialogue[], onFinish?: () => void) {
 
     return activeDialogues.map((line) => {
       if (line.isPlayer) {
+        const src = line.expression
+          ? playerPath(`/${player.character}/expressions/${line.expression}.svg`)
+          : characterSprites[player.character];
         return {
           ...line,
-          name: storedName, // 🔥 substitui o nome
-          src: characterSprites[player.character],
+          name: storedName,
+          src,
         };
       }
 

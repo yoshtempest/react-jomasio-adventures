@@ -11,6 +11,7 @@ export const combatTutorialDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Linha temporal?",
+    expression: "crossArms"
   },
   {
     src: npcPath("/surica/default.svg"),
@@ -21,6 +22,7 @@ export const combatTutorialDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Eu tava no tutorial ou algo assim agora pouco, não foi?",
+    expression: "why"
   },
   {
     src: npcPath("/surica/default.svg"),
@@ -37,6 +39,7 @@ export const combatTutorialDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Bem, o que eu devo fazer?",
+    expression: "crossArms"
   },
   {
     src: npcPath("/surica/default.svg"),

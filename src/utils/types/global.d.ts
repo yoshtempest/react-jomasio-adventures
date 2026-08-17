@@ -69,6 +69,7 @@ declare global {
     name: string;
     message: string;
     isPlayer?: boolean;
+    expression?: string;
     soundSrc?: string;
     autoAdvanceOnSound?: boolean;
   };

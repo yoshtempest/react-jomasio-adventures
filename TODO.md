@@ -5,8 +5,6 @@ fazer as imagens de maugrelo
 
 criar imagens para o brodiClass dialogue
 
-flexibilizar imagem do personagem do jogador em talkingComponent para que a imagem possa variar entre default, talking, entre outras.
-
 colocar um "Ready? Fight!" no começo da batalha
 
 ajustar para que as músicas de battleIntro alterem conforme as batalhas (flexibilizar), quando o personagem morre ou vence, adicionar animação e somente então aparecer a fala do personagem.
