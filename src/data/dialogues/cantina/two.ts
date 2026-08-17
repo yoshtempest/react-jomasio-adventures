@@ -10,6 +10,7 @@ export const cantinaTwoDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Eu já sai da diretoria, bora brigar?",
+    expression: "x1"
   },
   {
     src: npcPath("/jhowsimar/wakingUp.svg"),
@@ -25,6 +26,7 @@ export const cantinaTwoDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Eu usei a chave uaí",
+    expression: "talking"
   },
   {
     src: npcPath("/jhowsimar/right.svg"),
@@ -35,6 +37,7 @@ export const cantinaTwoDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Relaxa, tem nada não",
+    expression: "good"
   },
   {
     src: npcPath("/jhowsimar/right.svg"),
@@ -45,6 +48,7 @@ export const cantinaTwoDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Eu não tenho inimigos",
+    expression: "ok"
   },
   {
     src: npcPath("/jhowsimar/right.svg"),
