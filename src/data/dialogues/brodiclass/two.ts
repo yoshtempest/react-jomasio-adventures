@@ -12,7 +12,7 @@ export const brodiClassTwoDialogue = [
         message: "Mas onde ele está?",
     },
     {
-        src: playerPath("/marcelo/talking.svg"),
+        src: playerPath("/marcelo/crossArms.svg"),
         name: "Marshadow",
         message: "Lá na quadra",
     },

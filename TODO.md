@@ -1,11 +1,13 @@
 adicionar baú na hellroom
 colocar bau no hallJailson
 
-exibir tipagem do jogador e do npc ao lado dos nomes
-
 fazer as imagens de maugrelo
 
 criar imagens para o brodiClass dialogue
+
+flexibilizar imagem do personagem do jogador em talkingComponent para que a imagem possa variar entre default, talking, entre outras.
+
+quando o jogador estiver cansado ou com fome, a imagem do personagem nas interfaces deve mudar para corresponder com o estado do personagem
 
 continuar a história na brodiclass
 
