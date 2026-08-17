@@ -5,6 +5,12 @@
   width: var(--size-768);
 }
 
+.icon {
+  display: flex;
+  width: 3vw;
+  height: 3vw;
+}
+
 .title {
   text-align: center;
   margin: 0;
@@ -70,11 +76,6 @@
   gap: var(--size-6);
 }
 
-.typeName {
-  font-size: var(--fs-14);
-  font-weight: 600;
-}
-
 .badge {
   font-size: var(--small);
   font-weight: 700;
@@ -101,23 +102,6 @@
 .relationLabel {
   color: var(--text-hint);
   font-size: var(--fs-14);
-}
-
-.chip {
-  font-size: var(--fs-14);
-  padding: 0 var(--size-5);
-  border-radius: var(--size-3);
-  border: var(--size-1) solid var(--border-medium);
-}
-
-.strongChip {
-  color: var(--success);
-  border-color: var(--success);
-}
-
-.receiveChip {
-  color: var(--danger);
-  border-color: var(--danger);
 }
 
 .none {

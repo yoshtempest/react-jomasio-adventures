@@ -1,8 +1,6 @@
 adicionar baú na hellroom
 colocar bau no hallJailson
 
-analise a aplicação e procure por ocorrências em que uma função como useLatestRef poderia evitar repetições desnecessárias e centralizar as informações
-
 exibir tipagem do jogador e do npc ao lado dos nomes
 
 fazer as imagens de maugrelo
@@ -20,7 +18,7 @@ criar imageFace dos personagens do jogo
 criar imagens para expressões de todos os personagens
 
 adicionar pequeno diálogo entre o personagem e o sistema para que o sistema calcule as chances de vitória
-o sistema deve dizer "E ai? Você perderia?" e o jogador "Nah, eu venceria"
+o sistema deve dizer "E ai? Você perderia?" e o jogador "Não viaja"
 
 sempre que precisar resolver um problema de carregamento, use contro shift R
 
