@@ -12,7 +12,7 @@ export const cantinaTwoDialogue = [
     message: "Eu já sai da diretoria, bora brigar?",
   },
   {
-    src: npcPath("/jhowsimar/waking.svg"),
+    src: npcPath("/jhowsimar/wakingUp.svg"),
     name: "Jhow Simar",
     message: "Hm?",
   },

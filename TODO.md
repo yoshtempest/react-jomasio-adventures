@@ -3,6 +3,10 @@ colocar bau no hallJailson
 
 exibir tipagem do jogador e do npc ao lado dos nomes
 
+criar cantinaThree, ajustar cantinaTwo
+
+adicionar animação de jhowsimar acordando
+
 fazer as imagens de maugrelo
 
 criar imagens para o brodiClass dialogue
