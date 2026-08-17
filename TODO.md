@@ -13,6 +13,8 @@ ajustar para que as músicas de battleIntro alterem conforme as batalhas (flexib
 
 criar imagens para deixar as conversas mais animadas ao invés de apenas uma imagem de cada personagem no diálogo.
 
+adicionar pergunta de gênero para que o jogador responda ao Duque Cê e então o jogador jogue o combatTutorial com Marshadow ou Drika (não somente com marshadow)
+
 quando o jogador estiver cansado ou com fome, a imagem do personagem nas interfaces deve mudar para corresponder com o estado do personagem
 
 continuar a história na brodiclass
