@@ -51,6 +51,7 @@ type Props = {
   spawnPiercing: () => void;
   triggerExplosion: () => void;
   titleDamageBonus: number;
+  elementDamageBonus: number;
   critRate: number;
   npcArmor: number;
   spawnDamageRef: React.RefObject<
@@ -91,6 +92,7 @@ export function usePlayerBattle({
   spawnPiercing,
   triggerExplosion,
   titleDamageBonus,
+  elementDamageBonus,
   critRate,
   npcArmor,
   spawnDamageRef,
@@ -150,6 +152,7 @@ export function usePlayerBattle({
           playerClass,
           char,
           titleDamageBonus,
+          elementDamageBonus,
           critRate,
           npcArmor,
           npcElementTypes: [],
@@ -173,6 +176,7 @@ export function usePlayerBattle({
         char,
         behavior,
         titleDamageBonus,
+        elementDamageBonus,
         critRate,
         npcArmor,
         npcElementTypes,
@@ -218,6 +222,7 @@ export function usePlayerBattle({
       HITS_TO_SPECIAL,
       spawnPiercing,
       titleDamageBonus,
+      elementDamageBonus,
       spawnDamageRef,
       hitstopRef,
       registerHitRef,
@@ -282,6 +287,7 @@ export function usePlayerBattle({
           player,
           playerClass,
           char,
+          elementDamageBonus,
           critRate,
           npcArmor,
           npcElementTypes: [],
@@ -312,6 +318,7 @@ export function usePlayerBattle({
         char,
         behavior,
         titleDamageBonus,
+        elementDamageBonus,
         critRate,
         npcArmor,
         npcElementTypes,
@@ -377,6 +384,7 @@ export function usePlayerBattle({
       onHalfHeal,
       playSound,
       titleDamageBonus,
+      elementDamageBonus,
       npcClass,
       npcElementTypes,
     ],

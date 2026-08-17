@@ -862,6 +862,7 @@ export function useBattleScene({
     playerClass,
     critRate: battle.critRate,
     titleDamageBonus: battle.titleDamageBonus,
+    elementDamageBonus: battle.elementDamageBonus,
     setNpcHP: battle.setNpcHP,
     playerCooldown: battle.playerCooldown,
     isEnding: battle.isEnding,

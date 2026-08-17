@@ -121,6 +121,7 @@ export function useBattleSystem(props: Props) {
     totalMaxHpDamage,
     totalTrueDamage,
     titleBonus,
+    getElementDamageBonus,
     playerMaxHp,
     npcMaxHp,
     npcArmor,
@@ -135,6 +136,8 @@ export function useBattleSystem(props: Props) {
   const behavior = battleBehaviors[player.character] || battleBehaviors.default;
 
   const npcElementTypes = getNpcElementTypes(npcType);
+
+  const elementDamageBonus = getElementDamageBonus(npcElementTypes);
 
   const halfHealReduction = getHalfHealReduction(player.character);
   const equippedResistances = getEquippedResistances(player.character);
@@ -214,6 +217,7 @@ export function useBattleSystem(props: Props) {
     spawnPiercing: effects.spawnPiercing,
     triggerExplosion: effects.triggerExplosion,
     titleDamageBonus: titleBonus.damage,
+    elementDamageBonus,
     critRate: stats.critRate,
     npcArmor,
     spawnDamageRef,
@@ -407,6 +411,7 @@ export function useBattleSystem(props: Props) {
     totalVampirism,
     totalReflect,
     titleDamageBonus: titleBonus.damage,
+    elementDamageBonus,
     blockGauge,
     blockLimit,
     tenacityReduction: stats.tenacityReduction,

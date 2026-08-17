@@ -12,10 +12,12 @@ import { TITLES, getTitleById } from "@/data/titles";
 import { loadData, saveData } from "@/utils/titles/storage";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
+import type { ElementType } from "@/utils/types/battle/element";
 
 type ContextType = {
   titlesData: TitlesData;
   getBonus: () => TitleBonusMap;
+  getElementDamageBonus: (npcElementTypes: readonly ElementType[]) => number;
   incrementKillCounter: (npcType: string, npcClass: string) => void;
   incrementBlockCounter: () => void;
   incrementDamageTaken: (amount: number) => void;
@@ -115,6 +117,22 @@ export function TitleProvider({ children }: { children: ReactNode }) {
 
     return bonus;
   }, [titlesData.equippedId, titlesData.progress]);
+
+  const getElementDamageBonus = useCallback(
+    (npcElementTypes: readonly ElementType[]): number => {
+      let totalBonus = 0;
+      for (const titleId of Object.keys(TITLES)) {
+        const def = TITLES[titleId];
+        if (def.condition.type !== "killElement") continue;
+        if (!npcElementTypes.includes(def.condition.element)) continue;
+        const prog = titlesData.progress[titleId];
+        if (!prog || prog.level === 0) continue;
+        totalBonus += prog.level;
+      }
+      return 1 + totalBonus / 100;
+    },
+    [titlesData.progress],
+  );
 
   const incrementKillCounter = useCallback(
     (npcType: string, npcClass: string) => {
@@ -264,6 +282,7 @@ export function TitleProvider({ children }: { children: ReactNode }) {
       value={{
         titlesData,
         getBonus,
+        getElementDamageBonus,
         incrementKillCounter,
         incrementBlockCounter,
         incrementDamageTaken,

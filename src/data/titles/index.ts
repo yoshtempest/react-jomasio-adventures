@@ -2,42 +2,24 @@ import { createTitles } from "@/utils/titles/createTitles";
 import type { TitleDef } from "@/utils/types/player/titles";
 import type { ElementType } from "@/utils/types/battle/element";
 
-const ELEMENT_BONUS: Record<ElementType, { stat: "hp" | "damage" | "strength" | "intelligence" | "armor" | "shield"; value: number }[]> = {
-  Aquos: [{ stat: "hp", value: 3 }],
-  Pyrus: [{ stat: "damage", value: 3 }],
-  Subterra: [{ stat: "armor", value: 3 }],
-  Ventus: [{ stat: "intelligence", value: 3 }],
-  Darkus: [{ stat: "strength", value: 3 }],
-  Electricus: [{ stat: "shield", value: 3 }],
-  Haos: [{ stat: "hp", value: 2 }, { stat: "damage", value: 1 }],
-  Metallum: [{ stat: "armor", value: 2 }, { stat: "shield", value: 1 }],
-  Natura: [{ stat: "hp", value: 2 }, { stat: "strength", value: 1 }],
-  Psychicus: [{ stat: "intelligence", value: 2 }, { stat: "damage", value: 1 }],
-  Nympha: [{ stat: "hp", value: 1 }, { stat: "armor", value: 1 }, { stat: "shield", value: 1 }],
-  Draco: [{ stat: "strength", value: 2 }, { stat: "intelligence", value: 1 }],
-  Umbra: [{ stat: "damage", value: 2 }, { stat: "strength", value: 1 }],
-  Normalis: [{ stat: "hp", value: 1 }, { stat: "strength", value: 1 }],
-};
-
 function createElementTitle(element: ElementType) {
-  const bonus = ELEMENT_BONUS[element];
   return {
     name: `${element} Killer`,
-    description: `Elimine NPCs do elemento ${element}`,
+    description: `Aumenta dano em 1% por nível contra NPCs do elemento ${element}`,
     icon: `/assets/elementsBadges/${element.toLowerCase()}.svg`,
     condition: { type: "killElement" as const, element },
     levels: [
-      { count: 10, bonus },
-      { count: 25, bonus },
-      { count: 50, bonus: bonus.map((b) => ({ ...b, value: b.value * 2 })) },
-      { count: 100, bonus: bonus.map((b) => ({ ...b, value: b.value * 3 })) },
-      { count: 200, bonus: bonus.map((b) => ({ ...b, value: b.value * 5 })) },
+      { count: 10, bonus: [] },
+      { count: 25, bonus: [] },
+      { count: 50, bonus: [] },
+      { count: 100, bonus: [] },
+      { count: 200, bonus: [] },
     ],
   };
 }
 
 const ELEMENT_TITLES = Object.fromEntries(
-  (Object.keys(ELEMENT_BONUS) as ElementType[]).map((el) => [`domadorDe${el}`, createElementTitle(el)]),
+  (Object.keys({ Aquos: true, Pyrus: true, Subterra: true, Ventus: true, Darkus: true, Electricus: true, Haos: true, Metallum: true, Natura: true, Psychicus: true, Nympha: true, Draco: true, Umbra: true, Normalis: true }) as ElementType[]).map((el) => [`kill${el}`, createElementTitle(el)]),
 ) as Record<string, Omit<TitleDef, "id">>;
 
 export const TITLES = createTitles({

@@ -79,7 +79,7 @@ export function useBattleStats({
 }: Props) {
   const { player, playerClass } = usePlayer();
   const { progress } = useCharacterProgress();
-  const { getBonus } = useTitles();
+  const { getBonus, getElementDamageBonus } = useTitles();
   const { getEquippedItem } = useEquipment();
 
   const baseChar = progress[player.character];
@@ -196,6 +196,7 @@ export function useBattleStats({
     totalLuck,
     luckBonus,
     titleBonus,
+    getElementDamageBonus,
     playerMaxHp,
     npcMaxHp,
     npcArmor,
