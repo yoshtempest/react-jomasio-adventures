@@ -1,6 +1,6 @@
 export type TitleCondition =
   | { type: "killNpcType"; npcTypePrefix: string }
-  | { type: "killNpcClass"; npcClass: string }
+  | { type: "killNpcClass"; npcClass: NPCClass }
   | { type: "killTotal" }
   | { type: "consecutiveWins" }
   | { type: "blockCount" }

@@ -46,11 +46,4 @@ fazer imagem dos brothers na cantina
 
 fazer imagem das medalhas de todos os ranques
 
-exibir icone da tipagem sobrepondo a imagem de rosto do personagem, estando no canto inferior direito para o player e inferior esquerdo para o npc (visto que o npc é flipado)
-
-Cada npc e personagem tem pelo menos um e no máximo 2 tipagens
-por exemplo:
-O personagem Marshadow é normalis e ventus
-O npc leviathan é aquos e draco
-
 adicionar conquistar por drop de pet, kill em alfas, kill de todas as tipagens
