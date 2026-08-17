@@ -22,7 +22,11 @@ export const createConditionalTile = (
   blockedMessage: options?.blockedMessage,
 });
 
-export const createNpc = (src: string, gridX: number, gridY: number) => ({
+export const createNpc = (
+  src: string | NpcSrcResolver,
+  gridX: number,
+  gridY: number,
+) => ({
   src,
   gridX,
   gridY,

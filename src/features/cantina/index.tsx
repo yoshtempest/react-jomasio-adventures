@@ -46,8 +46,10 @@ export function CantinaScene({ sceneId }: Props) {
     if (!scene) return null;
     return {
       ...scene,
-      npcs: (scene.npcs ?? []).map((npc) =>
-        npc.src === npcPath("/jeso/default.svg") && sceneId === "two"
+        npcs: (scene.npcs ?? []).map((npc) =>
+          typeof npc.src === "string" &&
+          npc.src === npcPath("/jeso/default.svg") &&
+          sceneId === "two"
           ? {
               ...npc,
               interaction: (startDialogue: (d: Dialogue[]) => void) => {

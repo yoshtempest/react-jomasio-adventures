@@ -1,5 +1,5 @@
 export type SceneNPCData = {
-  src: string;
+  src: string | NpcSrcResolver;
   gridX: number;
   gridY: number;
   interaction?: (startDialogue: (d: Dialogue[]) => void) => void;

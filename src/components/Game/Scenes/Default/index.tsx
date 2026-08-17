@@ -17,7 +17,7 @@ import Talking from "@/components/Talking";
 import { useDialogue } from "@/hooks/interaction/useDialogue";
 import { useGoodPowderEncounter } from "@/hooks/interaction/useGoodPowderEncounter";
 import { useSansTalking } from "@/hooks/interaction/useSansTalking";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { useSceneNavigation } from "@/hooks/scene/useNavigation";
 import { useSceneSetup } from "@/hooks/scene/useSetup";
@@ -159,16 +159,23 @@ export function ExploreScene({
     return remove;
   }, [cutsceneActive, pushControls]);
 
+  const npcContext = { quests, items, flags, character: player.character, lastPage };
+
   const resolvedDialogueData =
     typeof dialogueData === "function"
-      ? dialogueData({
-          quests,
-          items,
-          flags,
-          character: player.character,
-          lastPage,
-        })
+      ? dialogueData(npcContext)
       : dialogueData;
+
+  const resolvedNpcs = useMemo(
+    () =>
+      npcs.map((npc) => ({
+        ...npc,
+        src: typeof npc.src === "function" ? npc.src(npcContext) : npc.src,
+      })),
+    // npcContext é derivado dos valores listados abaixo
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [npcs, flags, quests, items, player.character, lastPage],
+  );
 
   const dialogueSystem = useDialogue(resolvedDialogueData, handleFinish);
   const { play: playSansTalking } = useSansTalking(dialogueSystem.isOpen);
@@ -222,7 +229,7 @@ export function ExploreScene({
       }
 
       // 🔥 verifica NPC na frente (posições fracionadas X.5/Y.5 inclusas)
-      const npc = npcs.find((n) => isNpcInFront(player, n));
+      const npc = resolvedNpcs.find((n) => isNpcInFront(player, n));
 
       if (npc?.interaction) {
         npc.interaction(dialogueSystem.start);
@@ -271,7 +278,7 @@ export function ExploreScene({
     map,
     heightMap,
     isReady,
-    npcs,
+    npcs: resolvedNpcs,
     itemPickupTiles,
     plates,
     interactionKeys,
@@ -295,7 +302,7 @@ export function ExploreScene({
         backgroundUrl={background}
         backgroundSize={backgroundSize}
       >
-        {npcs.map((npc) => (
+        {resolvedNpcs.map((npc) => (
           <NPC
             key={`${npc.gridX},${npc.gridY}`}
             {...npc}

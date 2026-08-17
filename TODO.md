@@ -3,7 +3,7 @@ colocar bau no hallJailson
 
 exibir tipagem do jogador e do npc ao lado dos nomes
 
-criar cantinaThree, ajustar cantinaTwo
+flexibilizar função de createNpc para que a imagem possa mudar com base na missão/flag que o jogador tem e/ou não tem.
 
 adicionar animação de jhowsimar acordando
 

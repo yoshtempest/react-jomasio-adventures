@@ -159,8 +159,10 @@ declare global {
     lastPage?: LastPage;
   };
 
+  type NpcSrcResolver = (context: DialogueContext) => string;
+
   type SceneNPCData = {
-    src: string;
+    src: string | NpcSrcResolver;
     gridX: number;
     gridY: number;
     interaction?: (startDialogue: (d: Dialogue[]) => void) => void;
