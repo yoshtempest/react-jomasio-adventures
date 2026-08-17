@@ -7,7 +7,7 @@ flexibilizar função de createNpc para que a imagem possa mudar com base na mis
 
 Em cantinaOneScene, caso o jogador tenha a missão de director_escape mas não tenha x1_jhowsimar, deve retornar sleeping.svg, caso tenha ambas, deve retornar right.svg e caso não tenha nenhuma deve retornar default.svg.
 
-em cantinaOne, caso o jogador cumpra as condições, o diálogo de cantinaTwoDialogue e cantinaThree devem ser começados imediatamente (não os 2 ao mesmo tempo mas aquele que tiver as condições cumpridas)
+Quando o jogador sai da director pela primeira vez, deve ter uma animação de jhowsimar sleeping - wakingUp - right.svg conforme o jogar avança nos diálogos, a imagem de createNpc deve corresponder a imagem do npc na parte do diálogo que o jogador está em cantinaTwoDialogue.
 
 adicionar animação de jhowsimar acordando
 

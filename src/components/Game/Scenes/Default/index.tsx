@@ -166,20 +166,21 @@ export function ExploreScene({
       ? dialogueData(npcContext)
       : dialogueData;
 
+  const dialogueSystem = useDialogue(resolvedDialogueData, handleFinish);
+  const { play: playSansTalking } = useSansTalking(dialogueSystem.isOpen);
+  const hasStarted = useRef(false);
+
   const resolvedNpcs = useMemo(
     () =>
       npcs.map((npc) => ({
         ...npc,
-        src: typeof npc.src === "function" ? npc.src(npcContext) : npc.src,
+        src: typeof npc.src === "function"
+          ? npc.src({ ...npcContext, dialogueIndex: dialogueSystem.index })
+          : npc.src,
       })),
-    // npcContext é derivado dos valores listados abaixo
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [npcs, flags, quests, items, player.character, lastPage],
+    [npcs, flags, quests, items, player.character, lastPage, dialogueSystem.index],
   );
-
-  const dialogueSystem = useDialogue(resolvedDialogueData, handleFinish);
-  const { play: playSansTalking } = useSansTalking(dialogueSystem.isOpen);
-  const hasStarted = useRef(false);
 
   const resolvedInitialPosition =
     typeof initialPosition === "function"

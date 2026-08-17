@@ -157,6 +157,7 @@ declare global {
     flags: FlagId[];
     character: CharacterId;
     lastPage?: LastPage;
+    dialogueIndex?: number;
   };
 
   type NpcSrcResolver = (context: DialogueContext) => string;
