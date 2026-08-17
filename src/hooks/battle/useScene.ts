@@ -240,6 +240,7 @@ export function useBattleScene({
     incrementDamageTaken,
     incrementDamageDealt,
     incrementDodgeCounter,
+    incrementPetDropCounter,
   } = useTitles();
 
   const { addBattleTime } = usePlayTime();
@@ -532,6 +533,8 @@ export function useBattleScene({
     if (rewards.equipmentDrops.length > 0) {
       incrementEquipmentDropsStats(rewards.equipmentDrops.length);
     }
+    const hasPetDrop = rewards.equipmentDrops.some((d) => d.id.startsWith("pet_"));
+    if (hasPetDrop) incrementPetDropCounter();
     recordWin(player.character);
 
     progressDailyWeekly("win_battle", 1);
@@ -565,6 +568,7 @@ export function useBattleScene({
     killCounter.handleNpcDeath(
       killCounter.npcTypeRef.current,
       killCounter.npcDataRef.current.class,
+      isAlfa,
     );
   });
 

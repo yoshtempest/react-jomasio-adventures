@@ -1,7 +1,87 @@
 import { createTitles } from "@/utils/titles/createTitles";
 import type { TitleDef } from "@/utils/types/player/titles";
+import type { ElementType } from "@/utils/types/battle/element";
+
+const ELEMENT_BONUS: Record<ElementType, { stat: "hp" | "damage" | "strength" | "intelligence" | "armor" | "shield"; value: number }[]> = {
+  Aquos: [{ stat: "hp", value: 3 }],
+  Pyrus: [{ stat: "damage", value: 3 }],
+  Subterra: [{ stat: "armor", value: 3 }],
+  Ventus: [{ stat: "intelligence", value: 3 }],
+  Darkus: [{ stat: "strength", value: 3 }],
+  Electricus: [{ stat: "shield", value: 3 }],
+  Haos: [{ stat: "hp", value: 2 }, { stat: "damage", value: 1 }],
+  Metallum: [{ stat: "armor", value: 2 }, { stat: "shield", value: 1 }],
+  Natura: [{ stat: "hp", value: 2 }, { stat: "strength", value: 1 }],
+  Psychicus: [{ stat: "intelligence", value: 2 }, { stat: "damage", value: 1 }],
+  Nympha: [{ stat: "hp", value: 1 }, { stat: "armor", value: 1 }, { stat: "shield", value: 1 }],
+  Draco: [{ stat: "strength", value: 2 }, { stat: "intelligence", value: 1 }],
+  Umbra: [{ stat: "damage", value: 2 }, { stat: "strength", value: 1 }],
+  Normalis: [{ stat: "hp", value: 1 }, { stat: "strength", value: 1 }],
+};
+
+function createElementTitle(element: ElementType) {
+  const bonus = ELEMENT_BONUS[element];
+  return {
+    name: `${element} Killer`,
+    description: `Elimine NPCs do elemento ${element}`,
+    icon: `/assets/elementsBadges/${element.toLowerCase()}.svg`,
+    condition: { type: "killElement" as const, element },
+    levels: [
+      { count: 10, bonus },
+      { count: 25, bonus },
+      { count: 50, bonus: bonus.map((b) => ({ ...b, value: b.value * 2 })) },
+      { count: 100, bonus: bonus.map((b) => ({ ...b, value: b.value * 3 })) },
+      { count: 200, bonus: bonus.map((b) => ({ ...b, value: b.value * 5 })) },
+    ],
+  };
+}
+
+const ELEMENT_TITLES = Object.fromEntries(
+  (Object.keys(ELEMENT_BONUS) as ElementType[]).map((el) => [`domadorDe${el}`, createElementTitle(el)]),
+) as Record<string, Omit<TitleDef, "id">>;
 
 export const TITLES = createTitles({
+  ...ELEMENT_TITLES,
+  colecaoDePets: {
+    name: "Coleccionador de Pets",
+    description: "Obtenha pets por drop",
+    icon: "/assets/titlesBadges/defeatNpcs.svg",
+    condition: { type: "petDrop" },
+    levels: [
+      { count: 1, bonus: [{ stat: "hp", value: 3 }] },
+      { count: 2, bonus: [{ stat: "hp", value: 5 }] },
+      { count: 3, bonus: [{ stat: "hp", value: 8 }] },
+      { count: 5, bonus: [{ stat: "hp", value: 12 }] },
+      { count: 8, bonus: [{ stat: "hp", value: 20 }] },
+    ],
+  },
+  cacadorDeAlfas: {
+    name: "Caçador de Alfas",
+    description: "Elimine NPCs alfa",
+    icon: "/assets/titlesBadges/huntBosses.svg",
+    condition: { type: "killAlfa" },
+    levels: [
+      { count: 1, bonus: [{ stat: "percentAllStats", value: 1 }] },
+      { count: 3, bonus: [{ stat: "percentAllStats", value: 2 }] },
+      { count: 5, bonus: [{ stat: "percentAllStats", value: 3 }] },
+      { count: 10, bonus: [{ stat: "percentAllStats", value: 5 }] },
+      { count: 20, bonus: [{ stat: "percentAllStats", value: 8 }] },
+      { count: 40, bonus: [{ stat: "percentAllStats", value: 12 }] },
+    ],
+  },
+  mestreDosElementos: {
+    name: "Mestre dos Elementos",
+    description: "Elimine NPCs de todos os elementos",
+    icon: "/assets/titlesBadges/dragonSlayer.svg",
+    condition: { type: "killAllElements" },
+    levels: [
+      { count: 5, bonus: [{ stat: "percentAllStats", value: 1 }] },
+      { count: 8, bonus: [{ stat: "percentAllStats", value: 2 }] },
+      { count: 10, bonus: [{ stat: "percentAllStats", value: 3 }] },
+      { count: 12, bonus: [{ stat: "percentAllStats", value: 4 }] },
+      { count: 14, bonus: [{ stat: "percentAllStats", value: 5 }] },
+    ],
+  },
   matadorDeMortos: {
     name: "Matador de Mortos",
     description: "Elimine NPCs do tipo hungry",

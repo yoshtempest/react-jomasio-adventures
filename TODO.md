@@ -3,14 +3,6 @@ colocar bau no hallJailson
 
 exibir tipagem do jogador e do npc ao lado dos nomes
 
-flexibilizar função de createNpc para que a imagem possa mudar com base na missão/flag que o jogador tem e/ou não tem.
-
-Em cantinaOneScene, caso o jogador tenha a missão de director_escape mas não tenha x1_jhowsimar, deve retornar sleeping.svg, caso tenha ambas, deve retornar right.svg e caso não tenha nenhuma deve retornar default.svg.
-
-Quando o jogador sai da director pela primeira vez, deve ter uma animação de jhowsimar sleeping - wakingUp - right.svg conforme o jogar avança nos diálogos, a imagem de createNpc deve corresponder a imagem do npc na parte do diálogo que o jogador está em cantinaTwoDialogue.
-
-adicionar animação de jhowsimar acordando
-
 fazer as imagens de maugrelo
 
 criar imagens para o brodiClass dialogue
@@ -54,4 +46,6 @@ fazer imagem dos brothers na cantina
 
 fazer imagem das medalhas de todos os ranques
 
-adicionar conquistar por drop de pet, kill em alfas, kill de todas as tipagens
+títulos de matar elementos aumentam o dano do jogador contra npcs daquele elemento
+
+título de dropar pets aumenta a chance de drop dos pets quando equipado

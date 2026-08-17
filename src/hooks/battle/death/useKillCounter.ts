@@ -6,15 +6,16 @@ import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { incrementClassKill } from "@/utils/rewards/classKills";
 
 export function useBattleKillCounter() {
-  const { incrementKillCounter } = useTitles();
+  const { incrementKillCounter, incrementAlfaKillCounter } = useTitles();
   const { registerDefeat } = useBestiary();
   const { player } = usePlayer();
   const { incrementKills } = useCharacterProgress();
   const npcTypeRef = useRef("");
   const npcDataRef = useRef<{ class: NPCClass }>({ class: "common" });
 
-  function handleNpcDeath(npcType: string, npcClass: NPCClass) {
+  function handleNpcDeath(npcType: string, npcClass: NPCClass, isAlfa?: boolean) {
     incrementKillCounter(npcType, npcClass);
+    if (isAlfa) incrementAlfaKillCounter();
     registerDefeat(npcType);
     incrementKills(player.character);
     incrementClassKill(npcClass);

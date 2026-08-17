@@ -6,7 +6,11 @@ export type TitleCondition =
   | { type: "blockCount" }
   | { type: "damageTaken" }
   | { type: "damageDealt" }
-  | { type: "dodgeCount" };
+  | { type: "dodgeCount" }
+  | { type: "petDrop" }
+  | { type: "killAlfa" }
+  | { type: "killElement"; element: ElementType }
+  | { type: "killAllElements" };
 
 export type TitleBonusStat = {
   stat:

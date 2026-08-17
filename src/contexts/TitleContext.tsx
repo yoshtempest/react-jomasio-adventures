@@ -11,6 +11,7 @@ import type { TitlesData, TitleBonusMap } from "@/utils/types/player/titles";
 import { TITLES, getTitleById } from "@/data/titles";
 import { loadData, saveData } from "@/utils/titles/storage";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 
 type ContextType = {
   titlesData: TitlesData;
@@ -20,6 +21,8 @@ type ContextType = {
   incrementDamageTaken: (amount: number) => void;
   incrementDamageDealt: (amount: number) => void;
   incrementDodgeCounter: () => void;
+  incrementPetDropCounter: () => void;
+  incrementAlfaKillCounter: () => void;
   handleDefeat: () => void;
   equipTitle: (id: string) => void;
   unequipTitle: () => void;
@@ -119,6 +122,8 @@ export function TitleProvider({ children }: { children: ReactNode }) {
         const nextProgress = { ...prev.progress };
         let changed = false;
 
+        const elements = getNpcElementTypes(npcType);
+
         for (const titleId of Object.keys(TITLES)) {
           const def = TITLES[titleId];
           const prog = { ...nextProgress[titleId] };
@@ -136,6 +141,10 @@ export function TitleProvider({ children }: { children: ReactNode }) {
             shouldIncrement = true;
           } else if (def.condition.type === "consecutiveWins") {
             shouldIncrement = true;
+          } else if (def.condition.type === "killElement") {
+            if (elements.includes(def.condition.element)) {
+              shouldIncrement = true;
+            }
           }
 
           if (shouldIncrement && prog.level < def.levels.length) {
@@ -147,6 +156,28 @@ export function TitleProvider({ children }: { children: ReactNode }) {
               current: nextCurrent,
               level: nextLevel,
             };
+            changed = true;
+          }
+        }
+
+        const allElementsCount = new Set<string>();
+        for (const titleId of Object.keys(TITLES)) {
+          const def = TITLES[titleId];
+          if (def.condition.type === "killElement" && nextProgress[titleId]?.current > 0) {
+            allElementsCount.add(def.condition.element);
+          }
+        }
+        for (const titleId of Object.keys(TITLES)) {
+          const def = TITLES[titleId];
+          if (def.condition.type !== "killAllElements") continue;
+          const prog = { ...nextProgress[titleId] };
+          if (prog.level >= def.levels.length) continue;
+          const nextCurrent = allElementsCount.size;
+          const nextLevelTarget = def.levels[prog.level].count;
+          const nextLevel =
+            nextCurrent >= nextLevelTarget ? prog.level + 1 : prog.level;
+          if (nextCurrent !== prog.current || nextLevel !== prog.level) {
+            nextProgress[titleId] = { current: nextCurrent, level: nextLevel };
             changed = true;
           }
         }
@@ -209,6 +240,14 @@ export function TitleProvider({ children }: { children: ReactNode }) {
     setTitlesData((prev) => incrementTitles(prev, "dodgeCount", 1));
   }, []);
 
+  const incrementPetDropCounter = useCallback(() => {
+    setTitlesData((prev) => incrementTitles(prev, "petDrop", 1));
+  }, []);
+
+  const incrementAlfaKillCounter = useCallback(() => {
+    setTitlesData((prev) => incrementTitles(prev, "killAlfa", 1));
+  }, []);
+
   const equipTitle = useCallback((id: string) => {
     setTitlesData((prev) => {
       if (!prev.progress[id] || prev.progress[id].level === 0) return prev;
@@ -230,6 +269,8 @@ export function TitleProvider({ children }: { children: ReactNode }) {
         incrementDamageTaken,
         incrementDamageDealt,
         incrementDodgeCounter,
+        incrementPetDropCounter,
+        incrementAlfaKillCounter,
         handleDefeat,
         equipTitle,
         unequipTitle,
