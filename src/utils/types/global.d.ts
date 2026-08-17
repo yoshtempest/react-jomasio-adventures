@@ -182,7 +182,7 @@ declare global {
     transitions?: Transition[];
     signs?: SceneSign[];
     onInteract?: (tile: number, x: number, y: number) => boolean;
-    autoStartDialogue?: boolean;
+    autoStartDialogue?: boolean | ((context: DialogueContext) => boolean);
     cutscene?: SceneCutscene;
     onFinish?: () => void;
     className?: string;

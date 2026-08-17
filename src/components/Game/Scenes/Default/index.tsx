@@ -186,6 +186,11 @@ export function ExploreScene({
       ? initialPosition(lastPage) // ⚠️ aqui falta o lastPage ainda
       : initialPosition;
 
+  const resolvedAutoStartDialogue =
+    typeof autoStartDialogue === "function"
+      ? autoStartDialogue(npcContext)
+      : autoStartDialogue;
+
   const { isReady } = useSceneSetup({
     map,
     heightMap,
@@ -264,14 +269,14 @@ export function ExploreScene({
   });
 
   useEffect(() => {
-    if (autoStartDialogue && !hasStarted.current) {
+    if (resolvedAutoStartDialogue && !hasStarted.current) {
       hasStarted.current = true;
       dialogueSystem.start();
       if (!dialogueSystem.nextSoundSrc) {
         playSansTalking();
       }
     }
-  }, [autoStartDialogue, dialogueSystem, playSansTalking]);
+  }, [resolvedAutoStartDialogue, dialogueSystem, playSansTalking]);
 
   const { interactionHint } = useSceneLayers({
     player,

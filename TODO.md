@@ -5,6 +5,10 @@ exibir tipagem do jogador e do npc ao lado dos nomes
 
 flexibilizar função de createNpc para que a imagem possa mudar com base na missão/flag que o jogador tem e/ou não tem.
 
+Em cantinaOneScene, caso o jogador tenha a missão de director_escape mas não tenha x1_jhowsimar, deve retornar sleeping.svg, caso tenha ambas, deve retornar right.svg e caso não tenha nenhuma deve retornar default.svg.
+
+em cantinaOne, caso o jogador cumpra as condições, o diálogo de cantinaTwoDialogue e cantinaThree devem ser começados imediatamente (não os 2 ao mesmo tempo mas aquele que tiver as condições cumpridas)
+
 adicionar animação de jhowsimar acordando
 
 fazer as imagens de maugrelo

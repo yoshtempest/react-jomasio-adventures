@@ -4,9 +4,14 @@ import { createNpc } from "@/scenes/shared/factories";
 
 export const cantinaOneNpcs = [
   createNpc(
-    (ctx) => ctx.quests.some(q => q.id === "director_escape" && q.completed)
-      ? npcPath("/jhowsimar/sleeping.svg")
-      : npcPath("/jhowsimar/default.svg"),
+    (ctx) => {
+      const hasDirectorEscape = ctx.quests.some(q => q.id === "director_escape");
+      const hasX1Jhowsimar = ctx.quests.some(q => q.id === "x1_jhowsimar");
+
+      if (hasDirectorEscape && !hasX1Jhowsimar) return npcPath("/jhowsimar/sleeping.svg");
+      if (hasDirectorEscape && hasX1Jhowsimar) return npcPath("/jhowsimar/right.svg");
+      return npcPath("/jhowsimar/default.svg");
+    },
     11,
     3
   ),
