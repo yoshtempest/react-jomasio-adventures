@@ -7,6 +7,12 @@ criar imagens para o brodiClass dialogue
 
 flexibilizar imagem do personagem do jogador em talkingComponent para que a imagem possa variar entre default, talking, entre outras.
 
+colocar um "Ready? Fight!" no começo da batalha
+
+ajustar para que as músicas de battleIntro alterem conforme as batalhas (flexibilizar), quando o personagem morre ou vence, adicionar animação e somente então aparecer a fala do personagem.
+
+criar imagens para deixar as conversas mais animadas ao invés de apenas uma imagem de cada personagem no diálogo.
+
 quando o jogador estiver cansado ou com fome, a imagem do personagem nas interfaces deve mudar para corresponder com o estado do personagem
 
 continuar a história na brodiclass
