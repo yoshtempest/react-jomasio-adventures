@@ -2,6 +2,21 @@ import { npcPath } from "@/utils/paths";
 
 export const cantinaTwoDialogue = [
   {
+    src: npcPath("/jhowsimar/sleeping.svg"),
+    name: "Jhow Simar",
+    message: "Zzzz...",
+  },
+  {
+    isPlayer: true,
+    name: "Protagonista",
+    message: "Eu já sai da diretoria, bora brigar?",
+  },
+  {
+    src: npcPath("/jhowsimar/waking.svg"),
+    name: "Jhow Simar",
+    message: "Hm?",
+  },
+  {
     src: npcPath("/jhowsimar/right.svg"),
     name: "Jhow Simar",
     message: "Como que cê saiu?",

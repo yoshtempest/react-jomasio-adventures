@@ -7,6 +7,8 @@ exibir tipagem do jogador e do npc ao lado dos nomes
 
 fazer as imagens de maugrelo
 
+criar imagens para o brodiClass dialogue
+
 continuar a história na brodiclass
 
 criar imagens das salas que estão faltando: ProfessorRoom, second-A class, thirdBClass
