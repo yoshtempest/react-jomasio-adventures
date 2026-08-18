@@ -1,3 +1,5 @@
+import type { ElementType } from "../battle/element";
+
 export type TitleCondition =
   | { type: "killNpcType"; npcTypePrefix: string }
   | { type: "killNpcClass"; npcClass: NPCClass }
