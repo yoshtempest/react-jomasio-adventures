@@ -120,6 +120,7 @@ export function TitleProvider({ children }: { children: ReactNode }) {
 
   const getElementDamageBonus = useCallback(
     (npcElementTypes: readonly ElementType[]): number => {
+      const ELEMENT_LEVEL_BONUS = [0, 1, 2, 3, 5, 10] as const;
       let totalBonus = 0;
       for (const titleId of Object.keys(TITLES)) {
         const def = TITLES[titleId];
@@ -127,7 +128,7 @@ export function TitleProvider({ children }: { children: ReactNode }) {
         if (!npcElementTypes.includes(def.condition.element)) continue;
         const prog = titlesData.progress[titleId];
         if (!prog || prog.level === 0) continue;
-        totalBonus += prog.level;
+        totalBonus += ELEMENT_LEVEL_BONUS[prog.level] ?? 0;
       }
       return 1 + totalBonus / 100;
     },

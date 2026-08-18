@@ -58,7 +58,11 @@ export function TitlesScreen() {
                   {isUnlocked && ` Nv.${level}`}
                 </div>
 
-                <div className={styles.titleDesc}>{def.description}</div>
+                <div className={styles.titleDesc}>
+                  {typeof def.description === "function"
+                    ? def.description(level)
+                    : def.description}
+                </div>
 
                 {currentLevelDef && (
                   <div className={styles.bonusText}>

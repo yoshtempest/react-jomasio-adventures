@@ -32,10 +32,6 @@ o sistema deve dizer "E ai? Você perderia?" e o jogador "Não viaja"
 
 sempre que precisar resolver um problema de carregamento, use contro shift R
 
-adicionar informação de xp do pet no menu de pets
-
-Desafio para eu mesmo (fácil): Cada pet tem um nv e uma barra de xp para subir de nível, exiba visualmente a informação de xpBar e xpFill do pet no menu de pets da navbar
-
 existirão batalhas aquáticas (como no tanque dos cravos) em que o jogador vai ser forçado a
 utilizar pets aquáticos na batalha, também podem haver pets de fogo em que o jogador irá utilizar
 para poder lutar em locais quentes e pets voadores para lutar no ar.

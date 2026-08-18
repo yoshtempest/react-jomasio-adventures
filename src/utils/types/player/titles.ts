@@ -33,7 +33,7 @@ export type TitleLevel = {
 export type TitleDef = {
   id: string;
   name: string;
-  description: string;
+  description: string | ((level: number) => string);
   icon: string;
   condition: TitleCondition;
   levels: TitleLevel[];

@@ -5,7 +5,10 @@ import type { ElementType } from "@/utils/types/battle/element";
 function createElementTitle(element: ElementType) {
   return {
     name: `${element} Killer`,
-    description: `Aumenta dano em 1% por nível contra NPCs do elemento ${element}`,
+    description: (level: number) => {
+      const bonus = [0, 1, 2, 3, 5, 10][level] ?? 0;
+      return `Aumenta dano em ${bonus}% contra NPCs do elemento ${element}`;
+    },
     icon: `/assets/elementsBadges/${element.toLowerCase()}.svg`,
     condition: { type: "killElement" as const, element },
     levels: [
