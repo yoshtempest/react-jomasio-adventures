@@ -10,5 +10,6 @@ export const hallJailsonOneDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Mas eu nem disse nada...",
+    expression: "talking"
   },
 ];

@@ -10,5 +10,6 @@ export const hallJailsonSixDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Que bom que gostou",
+    expression: "good"
   },
 ];

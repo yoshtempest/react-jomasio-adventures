@@ -5,6 +5,7 @@ export const HallLeftTwoDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Vocês tem aura essa semana?",
+    expression: "crossArms"
   },
   {
     src: npcPath("/mariMarques/right.svg"),
@@ -15,6 +16,7 @@ export const HallLeftTwoDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Posso passar? tenho que falar com os manos alí",
+    expression: "talking"
   },
   {
     src: npcPath("/mariMarques/right.svg"),
@@ -26,6 +28,7 @@ export const HallLeftTwoDialogue = [
     name: "Protagonista",
     message:
       "Era para vocês estarem dando aura e ficaram presas na porta kkkkkkkkk",
+    expression: "happy"
   },
   {
     src: npcPath("/mariMarques/right.svg"),

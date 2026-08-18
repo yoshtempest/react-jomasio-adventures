@@ -10,6 +10,7 @@ export const pcsRoomFourDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Aquele de agora a pouco?",
+    expression: "crossArms"
   },
   {
     src: npcPath("/vandinhaFragment/default.svg"),

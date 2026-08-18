@@ -33,6 +33,7 @@ export const hallJailsonFourDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Como você sabe que eu lutei com ele?",
+    expression: "crossArms"
   },
   {
     src: npcPath("/jailson/right.svg"),

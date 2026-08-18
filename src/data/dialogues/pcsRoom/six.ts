@@ -27,6 +27,7 @@ export const pcsRoomSixDialogue = [
     name: "Protagonista",
     message:
       "Valeu, inclusive, qual é seu nome? Eu não consigo ler a janela de diálogo sabe?",
+    expressions: "good"
   },
   {
     src: npcPath("/reincardion/gest.svg"),

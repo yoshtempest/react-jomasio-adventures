@@ -10,6 +10,7 @@ export const pcsRoomDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Achei que você morava em Nova York.",
+    expression: "crossArms"
   },
   {
     src: npcPath("/janderson/right.svg"),
@@ -20,6 +21,7 @@ export const pcsRoomDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Cala boca cara, eu não tô entendendo nada.",
+    expression: "talking"
   },
   {
     src: npcPath("/janderson/right.svg"),
