@@ -47,3 +47,5 @@ criar animação de craft de ferramentas
 adicionar imagem dos profissionais de cada profissão (O jogador têrá que dialogar com eles para evoluir suas ferramentas de ranque)
 
 fazer imagem das medalhas de todos os ranques
+
+O título Caçador de Alfas deve aumentar em porcentagem a chance de encontrar um alfa, a chance aumentada deve escalar de 1 a 10% assim como o título de colecionador de pets

@@ -19,6 +19,7 @@ type ContextType = {
   getBonus: () => TitleBonusMap;
   getElementDamageBonus: (npcElementTypes: readonly ElementType[]) => number;
   getPetDropBonus: () => number;
+  getAlfaSpawnBonus: () => number;
   incrementKillCounter: (npcType: string, npcClass: string) => void;
   incrementBlockCounter: () => void;
   incrementDamageTaken: (amount: number) => void;
@@ -145,6 +146,19 @@ export function TitleProvider({ children }: { children: ReactNode }) {
       const prog = titlesData.progress[titleId];
       if (!prog || prog.level === 0) continue;
       totalBonus += PET_DROP_LEVEL_BONUS[prog.level] ?? 0;
+    }
+    return 1 + totalBonus / 100;
+  }, [titlesData.progress]);
+
+  const getAlfaSpawnBonus = useCallback((): number => {
+    const ALFA_SPAWN_LEVEL_BONUS = [0, 1, 2, 3, 5, 10] as const;
+    let totalBonus = 0;
+    for (const titleId of Object.keys(TITLES)) {
+      const def = TITLES[titleId];
+      if (def.condition.type !== "killAlfa") continue;
+      const prog = titlesData.progress[titleId];
+      if (!prog || prog.level === 0) continue;
+      totalBonus += ALFA_SPAWN_LEVEL_BONUS[prog.level] ?? 0;
     }
     return 1 + totalBonus / 100;
   }, [titlesData.progress]);
@@ -299,6 +313,7 @@ export function TitleProvider({ children }: { children: ReactNode }) {
         getBonus,
         getElementDamageBonus,
         getPetDropBonus,
+        getAlfaSpawnBonus,
         incrementKillCounter,
         incrementBlockCounter,
         incrementDamageTaken,

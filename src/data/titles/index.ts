@@ -45,16 +45,19 @@ export const TITLES = createTitles({
   },
   cacadorDeAlfas: {
     name: "Caçador de Alfas",
-    description: "Elimine NPCs alfa",
+    description: (level: number) => {
+      const bonus = [0, 1, 2, 3, 5, 10][level] ?? 0;
+      return `Aumenta chance de encontrar um alfa em ${bonus}%`;
+    },
     icon: "/assets/titlesBadges/huntBosses.svg",
     condition: { type: "killAlfa" },
     levels: [
-      { count: 1, bonus: [{ stat: "percentAllStats", value: 1 }] },
-      { count: 3, bonus: [{ stat: "percentAllStats", value: 2 }] },
-      { count: 5, bonus: [{ stat: "percentAllStats", value: 3 }] },
-      { count: 10, bonus: [{ stat: "percentAllStats", value: 5 }] },
-      { count: 20, bonus: [{ stat: "percentAllStats", value: 8 }] },
-      { count: 40, bonus: [{ stat: "percentAllStats", value: 12 }] },
+      { count: 1, bonus: [] },
+      { count: 5, bonus: [] },
+      { count: 10, bonus: [] },
+      { count: 20, bonus: [] },
+      { count: 40, bonus: [] },
+      { count: 80, bonus: [] },
     ],
   },
   mestreDosElementos: {

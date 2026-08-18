@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { useTitles } from "@/contexts/TitleContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { slotKey } from "@/utils/save/slotManager";
 import type {
@@ -22,6 +23,7 @@ export function useRandomEncounter(config: RandomEncounterConfig) {
   const configRef = useLatestRef(config);
 
   const { player, setPosition } = usePlayer();
+  const { getAlfaSpawnBonus } = useTitles();
   const navigate = useNavigate();
 
   const lastPositionRef = useRef({ x: player.gridX, y: player.gridY });
@@ -81,7 +83,7 @@ export function useRandomEncounter(config: RandomEncounterConfig) {
       );
     };
 
-    if (Math.random() < (cfg.alfaChance ?? 0)) {
+    if (Math.random() < (cfg.alfaChance ?? 0) * getAlfaSpawnBonus()) {
       const route = pickEncounter(cfg.encounters);
       savePosition();
       navigate(route, { state: { alfa: true } });
@@ -93,5 +95,5 @@ export function useRandomEncounter(config: RandomEncounterConfig) {
       const route = pickEncounter(cfg.encounters);
       navigate(route);
     }
-  }, [player.gridX, player.gridY, navigate, configRef, playerRef]);
+  }, [player.gridX, player.gridY, navigate, configRef, playerRef, getAlfaSpawnBonus]);
 }
