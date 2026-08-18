@@ -48,7 +48,7 @@ export const cantinaTwoDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Eu não tenho inimigos",
-    expression: "ok"
+    expression: "good"
   },
   {
     src: npcPath("/jhowsimar/right.svg"),

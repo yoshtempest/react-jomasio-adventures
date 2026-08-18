@@ -20,5 +20,6 @@ export const cantinaBrothersDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Que delícia em",
+    expression: "happy"
   },
 ];

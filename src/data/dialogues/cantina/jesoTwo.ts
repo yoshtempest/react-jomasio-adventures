@@ -10,6 +10,7 @@ export const cantinaJesoTwoDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Como assim?",
+    expression: "why"
   },
   {
     src: npcPath("/jeso/default.svg"),

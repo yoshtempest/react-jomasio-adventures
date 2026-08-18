@@ -11,6 +11,7 @@ export const cantinaJesoDialogue = [
     name: "Protagonista",
     message: "Tô cagado de fome",
     soundSrc: "/assets/songs/soundEffects/player/imFuckingStarving.mp3",
+    expression: "hungry"
   },
   {
     src: npcPath("/jeso/default.svg"),
