@@ -5,6 +5,7 @@ export const directorDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Que lugar é esse? Parece uma cela de prisão...",
+    expression: "crossArms"
   },
   {
     src: npcPath("/system/right.svg"),
@@ -15,6 +16,7 @@ export const directorDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Mas que poha é essa?",
+    expression: "why"
   },
   {
     src: npcPath("/system/right.svg"),
@@ -25,5 +27,6 @@ export const directorDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Então vai se fu- não vou me estressar com isso.",
+    expression: "angry"
   },
 ];

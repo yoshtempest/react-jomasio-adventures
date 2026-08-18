@@ -10,6 +10,7 @@ export const AfterPcRoomThreeDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Diga",
+    expression: "crossArms"
   },
   {
     src: npcPath("/remedinha/right.svg"),

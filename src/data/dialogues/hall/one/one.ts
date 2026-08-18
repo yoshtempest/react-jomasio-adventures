@@ -5,6 +5,7 @@ export const AfterPcRoomOneDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Você é-",
+    expression: "talking"
   },
   {
     src: npcPath("/remedinha/right.svg"),

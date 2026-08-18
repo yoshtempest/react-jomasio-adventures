@@ -6,6 +6,7 @@ export const AfterPcRoomSixDialogue = [
     name: "Protagonista",
     message:
       "Você num vai acreditar, eu tava lá no lugar lá, ai tinha o caba, ele lutou com eu, nós lutamos e ai apareceu um tal de Denis e nós...",
+    expression: "talking"
   },
   {
     src: npcPath("/remedinha/right.svg"),
@@ -16,6 +17,7 @@ export const AfterPcRoomSixDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Quem o que?",
+    expression: "why"
   },
   {
     src: npcPath("/remedinha/right.svg"),
@@ -26,6 +28,7 @@ export const AfterPcRoomSixDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "...",
+    expression: "crossArms"
   },
   {
     src: npcPath("/remedinha/right.svg"),
@@ -42,6 +45,7 @@ export const AfterPcRoomSixDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Porque eu iria te ajudar? Você vive me zoando...",
+    expression: "crossArms"
   },
   {
     src: npcPath("/remedinha/right.svg"),
@@ -53,6 +57,7 @@ export const AfterPcRoomSixDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Eu não quero!",
+    expression: "angry"
   },
   {
     src: npcPath("/remedinha/right.svg"),
@@ -64,5 +69,6 @@ export const AfterPcRoomSixDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Tá, tá, estou indo...",
+    expression: "hungry"
   },
 ];
