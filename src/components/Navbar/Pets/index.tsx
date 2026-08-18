@@ -8,6 +8,8 @@ import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import { usePetsMenu } from "@/hooks/menu/pets/usePetsMenu";
 import type { PetEntry } from "@/hooks/menu/pets/usePetsMenu";
 import styles from "./styles.module.css";
+import { ProgressBar } from "@/components/ProgressBar";
+import { getPetXPToNextLevel, getPetClass } from "@/utils/character/petProgress";
 
 function formatDrop(entry: PetEntry): string {
   if (entry.dropChance === null) return "Baú";
@@ -124,6 +126,15 @@ export function Pets() {
                         </div>
                       );
                     })}
+                  </div>
+                  <div className={styles.flexRow}>
+                    <ProgressBar
+                      value={stats.xp}
+                      max={getPetXPToNextLevel(stats.level, getPetClass(entry.id))}
+                    />
+                    <p className={styles.statsLine}>
+                      {stats.xp} / {getPetXPToNextLevel(stats.level, getPetClass(entry.id))}
+                    </p>
                   </div>
                 </>
               )}

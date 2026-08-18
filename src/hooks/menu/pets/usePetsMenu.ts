@@ -234,6 +234,7 @@ export function usePetsMenu(
       return {
         stars,
         level: progress.level,
+        xp: progress.xp,
       };
     },
   };
