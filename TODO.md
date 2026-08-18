@@ -3,6 +3,8 @@ colocar bau no hallJailson
 
 criar imagens para o brodiClass dialogue
 
+pensar e criar as habilidades de todos os pets
+
 colocar um "Ready? Fight!" no começo da batalha
 
 ajustar para que as músicas de battleIntro alterem conforme as batalhas (flexibilizar), quando o personagem morre ou vence, adicionar animação e somente então aparecer a fala do personagem.
@@ -12,8 +14,6 @@ flexibilizar o tamanho em que os itens aparecem na tela como pickupTiles, visual
 criar imagens para deixar as conversas mais animadas ao invés de apenas uma imagem de cada personagem no diálogo.
 
 adicionar pergunta de gênero para que o jogador responda ao Duque Cê e então o jogador jogue o combatTutorial com Marshadow ou Drika (não somente com marshadow)
-
-quando o jogador estiver cansado ou com fome, a imagem do personagem nas interfaces deve mudar para corresponder com o estado do personagem
 
 continuar a história na brodiclass
 
@@ -47,5 +47,3 @@ criar animação de craft de ferramentas
 adicionar imagem dos profissionais de cada profissão (O jogador têrá que dialogar com eles para evoluir suas ferramentas de ranque)
 
 fazer imagem das medalhas de todos os ranques
-
-título de dropar pets aumenta a chance de drop dos pets quando equipado

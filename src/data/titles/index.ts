@@ -28,16 +28,19 @@ const ELEMENT_TITLES = Object.fromEntries(
 export const TITLES = createTitles({
   ...ELEMENT_TITLES,
   colecaoDePets: {
-    name: "Coleccionador de Pets",
-    description: "Obtenha pets por drop",
+    name: "Colecionador de Pets",
+    description: (level: number) => {
+      const bonus = [0, 1, 2, 3, 5, 10][level] ?? 0;
+      return `Aumenta chance de drop de pets em ${bonus}%`;
+    },
     icon: "/assets/titlesBadges/defeatNpcs.svg",
     condition: { type: "petDrop" },
     levels: [
-      { count: 1, bonus: [{ stat: "hp", value: 3 }] },
-      { count: 2, bonus: [{ stat: "hp", value: 5 }] },
-      { count: 3, bonus: [{ stat: "hp", value: 8 }] },
-      { count: 5, bonus: [{ stat: "hp", value: 12 }] },
-      { count: 8, bonus: [{ stat: "hp", value: 20 }] },
+      { count: 1, bonus: [] },
+      { count: 2, bonus: [] },
+      { count: 4, bonus: [] },
+      { count: 8, bonus: [] },
+      { count: 16, bonus: [] },
     ],
   },
   cacadorDeAlfas: {
