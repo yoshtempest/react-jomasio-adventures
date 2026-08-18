@@ -59,6 +59,41 @@ export function Pets() {
                   e.currentTarget.src = npcPath("/goat/default.svg");
                 }}
               />
+              {entry.owned && stats && (
+                <>
+                  <div className={styles.starsRow}>
+                    {Array.from({ length: PET_STAR_MAX }, (_, i) => {
+                      const star = i + 1;
+                      const qty = entry.qtyByStar[i];
+                      return (
+                        <div key={star} className={styles.starChip}>
+                          <Star
+                            size={12}
+                            className={
+                              qty > 0 ? styles.starFilled : styles.starEmpty
+                            }
+                          />
+                          {qty > 0 && (
+                            <span className={styles.starQty}>x{qty}</span>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </>
+              )}
+
+              {isSelected && canFuse && (
+                <span
+                  className={`${styles.fuseBadge} ${
+                    isFusing ? styles.fuseConfirm : ""
+                  }`}
+                >
+                  {isFusing
+                    ? "CONFIRMAR FUSÃO?"
+                    : `FUNDIR (2x ★${eligible})`}
+                </span>
+              )}
             </div>
 
             <div className={styles.flexColumn}>
@@ -99,39 +134,9 @@ export function Pets() {
                       {stats.xp} / {getPetXPToNextLevel(stats.level, getPetClass(entry.id))}
                     </p>
                   </div>
-                  <div className={styles.starsRow}>
-                    {Array.from({ length: PET_STAR_MAX }, (_, i) => {
-                      const star = i + 1;
-                      const qty = entry.qtyByStar[i];
-                      return (
-                        <div key={star} className={styles.starChip}>
-                          <Star
-                            size={12}
-                            className={
-                              qty > 0 ? styles.starFilled : styles.starEmpty
-                            }
-                          />
-                          {qty > 0 && (
-                            <span className={styles.starQty}>x{qty}</span>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
                 </>
               )}
 
-              {isSelected && canFuse && (
-                <span
-                  className={`${styles.fuseBadge} ${
-                    isFusing ? styles.fuseConfirm : ""
-                  }`}
-                >
-                  {isFusing
-                    ? "CONFIRMAR FUSÃO?"
-                    : `FUNDIR (2x ★${eligible})`}
-                </span>
-              )}
               {isEquipped && (
                 <span className={styles.equippedBadge}>Equipado</span>
               )}
