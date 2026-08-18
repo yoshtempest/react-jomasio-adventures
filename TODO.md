@@ -40,7 +40,7 @@ existirão batalhas aquáticas (como no tanque dos cravos) em que o jogador vai 
 utilizar pets aquáticos na batalha, também podem haver pets de fogo em que o jogador irá utilizar
 para poder lutar em locais quentes e pets voadores para lutar no ar.
 
-lupita e riquelsonDog também podem ser montarias de terreno.
+lupita e duque também podem ser montarias de terreno.
 
 o jogador poderá voar no zecaUrubu sobrevoando a cidade após fazer alguma missão relacionada ao ato de voar.
 

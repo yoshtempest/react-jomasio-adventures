@@ -19,7 +19,7 @@ const NPC_DISPLAY_NAMES: Record<string, string> = {
   maurao: "Maurão",
   maugrelo: "Maugrelo",
   lupita: "Lupita",
-  riquelsonDog: "Cachorro de Riquelson",
+  duque: "Cachorro de Riquelson",
   baiano: "Baiano",
   spiritMotocycler: "Motoqueiro Fantasma",
   tim: "Tim",

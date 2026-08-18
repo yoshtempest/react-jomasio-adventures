@@ -141,10 +141,10 @@ export const PET_SKILLS: Record<string, PetSkillDefinition> = {
     },
     { kind: "damage", multiplier: 3 },
   ),
-  pet_riquelsonDog: def(
-    "pet_riquelsonDog",
+  pet_duque: def(
+    "pet_duque",
     "Duque",
-    "riquelsonDog",
+    "duque",
     "dano",
     {
       name: "Olhar Julgador",

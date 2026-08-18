@@ -24,7 +24,7 @@ export const NPCS: Record<string, NPCData> = {
   /* Bocaina */
   hungryDog: { type: "hungryDog", class: "common" },
   lupita: { type: "lupita", class: "boss" },
-  riquelsonDog: { type: "riquelsonDog", class: "epic" },
+  duque: { type: "duque", class: "epic" },
   baiano: { type: "baiano", class: "epic" },
   spiritMotocycler: {
     type: "spiritMotocycler",
