@@ -228,7 +228,10 @@ export function usePetsMenu(
     maxOwnedStar,
     highestEligibleStar,
     statsFor: (entry: PetEntry) => {
-      const stars = maxOwnedStar(entry);
+      let stars = maxOwnedStar(entry);
+      if (stars < 1 && equippedInfo?.id === entry.id) {
+        stars = equippedInfo.enhance + 1;
+      }
       if (stars < 1) return null;
       const progress = getPetProgress(entry.id, stars);
       return {
