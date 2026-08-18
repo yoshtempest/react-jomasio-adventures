@@ -7,6 +7,8 @@ colocar um "Ready? Fight!" no começo da batalha
 
 ajustar para que as músicas de battleIntro alterem conforme as batalhas (flexibilizar), quando o personagem morre ou vence, adicionar animação e somente então aparecer a fala do personagem.
 
+flexibilizar o tamanho em que os itens aparecem na tela como pickupTiles, visualmente (o suco de laranja está gigante por exemplo)
+
 criar imagens para deixar as conversas mais animadas ao invés de apenas uma imagem de cada personagem no diálogo.
 
 adicionar pergunta de gênero para que o jogador responda ao Duque Cê e então o jogador jogue o combatTutorial com Marshadow ou Drika (não somente com marshadow)
@@ -44,10 +46,6 @@ criar animação de craft de ferramentas
 
 adicionar imagem dos profissionais de cada profissão (O jogador têrá que dialogar com eles para evoluir suas ferramentas de ranque)
 
-fazer imagem dos brothers na cantina
-
 fazer imagem das medalhas de todos os ranques
-
-títulos de matar elementos aumentam o dano do jogador contra npcs daquele elemento
 
 título de dropar pets aumenta a chance de drop dos pets quando equipado
