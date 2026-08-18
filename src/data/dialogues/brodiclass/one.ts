@@ -5,6 +5,7 @@ export const brodiClassDialogue = [
         isPlayer: true,
         name: "Protagonista",
         message: "Eae gente, posso me juntar ao grupo de vocês?",
+        expression: "happy"
     },
     {
         src: playerPath("/larissa/talking.svg"),
@@ -25,6 +26,7 @@ export const brodiClassDialogue = [
         isPlayer: true,
         name: "Protagonista",
         message: "Gente, e eu aqui? Vão me ignorar mesmo?",
+        expression: "talking"
     },
     {
         src: playerPath("/larissa/talking.svg"),
@@ -50,9 +52,10 @@ export const brodiClassDialogue = [
         isPlayer: true,
         name: "Protagonista",
         message: "Eu derrotei ela, hehe",
+        expression: "happy"
     },
     {
-        src: playerPath("/marcelo/angry.svg"),
+        src: playerPath("/marcelo/angryFront.svg"),
         name: "Marshadow",
         message: "Fraco assim? Deve ter derrotado um fragmento, some daqui que a conversa é de alto nível.",
     },
@@ -60,6 +63,7 @@ export const brodiClassDialogue = [
         isPlayer: true,
         name: "Protagonista",
         message: "Então tá..",
+        expression: "crossArms"
     },
     {
         src: playerPath("/eduarda/dontBad.svg"),
@@ -70,6 +74,7 @@ export const brodiClassDialogue = [
         isPlayer: true,
         name: "Protagonista",
         message: "Posso me juntar ao conselho então?",
+        expression: "crossArms"
     },
     {
         src: playerPath("/larissa/interrogation.svg"),
@@ -80,6 +85,7 @@ export const brodiClassDialogue = [
         isPlayer: true,
         name: "Protagonista",
         message: "Protagonista!",
+        expression: "happy"
     },
     {
         src: playerPath("/marcelo/talking.svg"),
@@ -95,6 +101,7 @@ export const brodiClassDialogue = [
         isPlayer: true,
         name: "Protagonista",
         message: "E o que eu ganho ao salvar ele? Sabem que eu não vou trabalhar de graça né?",
+        expression: "crossArms"
     },
     {
         src: playerPath("/larissa/crossArms.svg"),
@@ -105,6 +112,7 @@ export const brodiClassDialogue = [
         isPlayer: true,
         name: "Protagonista",
         message: "Eu sou o protagonista então por que me tratam tão mal?",
+        expression: "hungry"
     },
     {
         src: playerPath("/marcelo/talking.svg"),
@@ -115,5 +123,6 @@ export const brodiClassDialogue = [
         isPlayer: true,
         name: "Protagonista",
         message: "Tá bom, tô indo",
+        expression: "crossArms"
     },
 ];
