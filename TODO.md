@@ -1,15 +1,11 @@
 adicionar baú na hellroom
 colocar bau no hallJailson
 
-fazer as imagens de maugrelo
-
 criar imagens para o brodiClass dialogue
 
 colocar um "Ready? Fight!" no começo da batalha
 
 ajustar para que as músicas de battleIntro alterem conforme as batalhas (flexibilizar), quando o personagem morre ou vence, adicionar animação e somente então aparecer a fala do personagem.
-
-adicionar expressão "sus" e "nojo" nos personagens
 
 criar imagens para deixar as conversas mais animadas ao invés de apenas uma imagem de cada personagem no diálogo.
 

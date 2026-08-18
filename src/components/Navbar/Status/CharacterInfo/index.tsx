@@ -1,3 +1,4 @@
+import { useCallback, useEffect, useState } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import {
   useCharacterProgress,
@@ -14,6 +15,8 @@ import { ProgressBar } from "@/components/ProgressBar";
 import styles from "./styles.module.css";
 import { Drumstick, Heart } from "lucide-react";
 
+const HUNGRY_THRESHOLD = 20;
+
 export function CharacterInfo() {
   const { player, playerClass } = usePlayer();
   const character = player.character;
@@ -24,6 +27,19 @@ export function CharacterInfo() {
   const charProgress = progress[player.character];
   const xpNeeded = getXPToNextLevel(charProgress.level);
   const characterData = CHARACTERS.find((c) => c.image === player.character);
+
+  const isHungry = charProgress.hunger <= HUNGRY_THRESHOLD;
+  const [showImage, setShowImage] = useState(true);
+
+  useEffect(() => {
+    setShowImage(true);
+  }, [isHungry]);
+
+  const handleImageError = useCallback(() => {
+    if (isHungry) {
+      setShowImage(false);
+    }
+  }, [isHungry]);
 
   const petItem = getEquippedItem(character, "pet");
   const petNpcType = petItem?.id.replace("pet_", "");
@@ -41,10 +57,17 @@ export function CharacterInfo() {
   return (
     <div className="StatusColumn">
       <div className={styles.imagesRow}>
-        <img
-          src={playerPath(`/${player.character}/default.svg`)}
-          className={styles.image}
-        />
+        {showImage && (
+          <img
+            src={playerPath(
+              isHungry
+                ? `/${player.character}/expressions/hungry.svg`
+                : `/${player.character}/default.svg`,
+            )}
+            className={styles.image}
+            onError={handleImageError}
+          />
+        )}
         {petItem && petNpcType && (
           <img
             src={npcPath(`/${petNpcType}/default.svg`)}
