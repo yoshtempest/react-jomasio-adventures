@@ -180,6 +180,9 @@
   background: #fbbf24;
   color: #000;
   font-weight: bold;
+  bottom: 0;
+  right: 0;
+  position: absolute;
 }
 
 @media (orientation: portrait) {

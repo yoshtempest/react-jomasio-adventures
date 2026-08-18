@@ -88,26 +88,17 @@ export function Pets() {
                   />
                 ))}
               </div>
-              
-              <span className={styles.roleBadge}>
-                {PET_ROLE_LABELS[entry.role]}
-              </span>
-
-              <div className={styles.flexRow}>
-                <p
-                  className={styles.rankLabel}
-                  style={{ color: RANK_COLORS[entry.rank] }}
-                >
-                  {RANK_LABELS[entry.rank]}
-                </p>
-                <p className={styles.dropLine}>Drop: {formatDrop(entry)}</p>
-              </div>
-
-              <p className={styles.skillLine}>Passiva: {entry.passiveName}</p>
-              <p className={styles.skillLine}>Skill: {entry.skillName}</p>
-
               {entry.owned && stats && (
                 <>
+                  <div className={styles.flexRow}>
+                    <ProgressBar
+                      value={stats.xp}
+                      max={getPetXPToNextLevel(stats.level, getPetClass(entry.id))}
+                    />
+                    <p className={styles.statsLine}>
+                      {stats.xp} / {getPetXPToNextLevel(stats.level, getPetClass(entry.id))}
+                    </p>
+                  </div>
                   <div className={styles.starsRow}>
                     {Array.from({ length: PET_STAR_MAX }, (_, i) => {
                       const star = i + 1;
@@ -127,15 +118,6 @@ export function Pets() {
                       );
                     })}
                   </div>
-                  <div className={styles.flexRow}>
-                    <ProgressBar
-                      value={stats.xp}
-                      max={getPetXPToNextLevel(stats.level, getPetClass(entry.id))}
-                    />
-                    <p className={styles.statsLine}>
-                      {stats.xp} / {getPetXPToNextLevel(stats.level, getPetClass(entry.id))}
-                    </p>
-                  </div>
                 </>
               )}
 
@@ -153,6 +135,25 @@ export function Pets() {
               {isEquipped && (
                 <span className={styles.equippedBadge}>Equipado</span>
               )}
+              
+              <span className={styles.roleBadge}>
+                {PET_ROLE_LABELS[entry.role]}
+              </span>
+
+              <div className={styles.flexRow}>
+                <p
+                  className={styles.rankLabel}
+                  style={{ color: RANK_COLORS[entry.rank] }}
+                >
+                  {RANK_LABELS[entry.rank]}
+                </p>
+                <p className={styles.dropLine}>Drop: {formatDrop(entry)}</p>
+              </div>
+
+              <p className={styles.skillLine}>Passiva: {entry.passiveName}</p>
+              <p className={styles.skillLine}>Skill: {entry.skillName}</p>
+
+              
             </div>
           </div>
         );
