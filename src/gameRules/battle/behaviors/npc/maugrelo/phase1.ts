@@ -17,6 +17,10 @@ import {
   PAPER_GRAVITY,
   PAPER_INITIAL_VEL_Y,
   PAPER_GROUND_Y,
+  PAPER_GROUND_Y_SPREAD,
+  PAPER_X_SPREAD,
+  PAPER_VEL_X_SPREAD,
+  PAPER_MIN_DISTANCE,
   PAPER_EXPLOSION_DURATION,
   PAPER_STEP_RADIUS,
 } from "./state";
@@ -132,11 +136,13 @@ function spawnFlyingPaper(
   ai: MaugreloAI,
 ) {
   const dirX = playerX > npcX ? 1 : -1;
+  const xOffset = (Math.random() - 0.5) * PAPER_X_SPREAD;
+  const velXOffset = (Math.random() - 0.5) * PAPER_VEL_X_SPREAD;
 
   ai.flyingPaper = {
-    x: npcX,
+    x: npcX + xOffset,
     y: npcY - 80,
-    velX: dirX * 2.5,
+    velX: dirX * (2.5 + velXOffset),
     velY: PAPER_INITIAL_VEL_Y,
   };
 }
@@ -150,10 +156,27 @@ function updateFlyingPaper(ai: MaugreloAI) {
   p.y += p.velY;
 
   if (p.y >= PAPER_GROUND_Y) {
+    let landX = p.x;
+    const baseGroundY = PAPER_GROUND_Y;
+    const groundYSpread = (Math.random() - 0.5) * PAPER_GROUND_Y_SPREAD;
+    let landY = baseGroundY + groundYSpread;
+
+    for (const gp of ai.groundPapers) {
+      const dx = Math.abs(landX - gp.x);
+      const dy = Math.abs(landY - gp.y);
+      const dist = Math.hypot(dx, dy);
+
+      if (dist < PAPER_MIN_DISTANCE) {
+        const angle = Math.atan2(landY - gp.y, landX - gp.x) || Math.random() * Math.PI * 2;
+        landX = gp.x + Math.cos(angle) * PAPER_MIN_DISTANCE;
+        landY = gp.y + Math.sin(angle) * PAPER_MIN_DISTANCE;
+      }
+    }
+
     ai.groundPapers.push({
       id: ai.paperIdCounter++,
-      x: p.x,
-      y: PAPER_GROUND_Y,
+      x: landX,
+      y: landY,
       sprite: "paper",
       createdAt: Date.now(),
     });
