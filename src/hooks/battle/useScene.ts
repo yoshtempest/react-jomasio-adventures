@@ -474,7 +474,10 @@ export function useBattleScene({
         };
       }),
     onGroundPaperHit: () => battle.npcThrowHit(2),
-    onArmorBuff: () => setNpcArmorBonus((b) => b + 1),
+    onArmorBuff: (x: number, y: number) => {
+      setNpcArmorBonus((b) => b + 1);
+      refs.spawnDamageRef.current?.(1, x, y, "armor");
+    },
     obstacles: map?.obstacles,
     hitstopRef: refs.hitstopRef,
     npcStaggerRef: refs.npcStaggerRef,

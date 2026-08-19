@@ -25,7 +25,7 @@ export type BehaviorContext = {
   onThrowPlayer?: (damageMultiplier: number) => void;
   onPushPlayer?: (npcX: number) => void;
   onGroundPaperHit?: () => void;
-  onArmorBuff?: () => void;
+  onArmorBuff?: (x: number, y: number) => void;
 };
 
 export type BehaviorResult = {

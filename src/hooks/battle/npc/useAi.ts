@@ -68,7 +68,7 @@ type Props = {
   onThrowPlayer?: (damageMultiplier: number) => void;
   onPushPlayer?: (npcX: number) => void;
   onGroundPaperHit?: () => void;
-  onArmorBuff?: () => void;
+  onArmorBuff?: (x: number, y: number) => void;
 };
 
 export function useNpcAI({

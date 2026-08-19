@@ -99,7 +99,7 @@ export function maugreloPhase1(
     if (now - ai.lastArmorBuff >= MEDITATION_ARMOR_INTERVAL) {
       ai.meditationArmorBonus += 1;
       ai.lastArmorBuff = now;
-      onArmorBuff?.();
+      onArmorBuff?.(npc.x, npc.y);
     }
 
     return { x: npc.x, y: npc.y, state: "meditating" as const };
