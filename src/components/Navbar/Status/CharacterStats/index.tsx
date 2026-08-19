@@ -128,7 +128,7 @@ export function CharacterStats({ selectedIndex }: CharacterStatsProps) {
         </p>
       </div>
       <div>
-        <img src={asset("/assets/titlesBadges/enemyMissAttacks.svg")} />
+        <img src={asset("/assets/badges/titles/enemyMissAttacks.svg")} />
         <p>
           Esquiva: {missChance.toFixed(1)}%
           {inc?.evade ? <span className={styles.increase}> +{inc.evade}</span> : ""}

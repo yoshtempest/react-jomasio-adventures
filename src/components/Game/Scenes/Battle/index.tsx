@@ -95,8 +95,6 @@ export function BattleScene(props: Props) {
     PLAYER_SIZE,
     MAP_COLS,
     MAP_ROWS,
-    scaleX,
-    scaleY,
   } = useGameLayout();
 
   const { setBattleCollision } = usePlayer();
@@ -180,14 +178,12 @@ export function BattleScene(props: Props) {
     setBattleCollision({
       map: map ?? null,
       TILE_SIZE,
-      scaleX,
-      scaleY,
     });
-  }, [map, TILE_SIZE, scaleX, scaleY, setBattleCollision]);
+  }, [map, TILE_SIZE, setBattleCollision]);
 
   useEffect(() => {
     return () => {
-      setBattleCollision({ map: null, TILE_SIZE: 0, scaleX: 1, scaleY: 1 });
+      setBattleCollision({ map: null, TILE_SIZE: 0 });
     };
   }, [setBattleCollision]);
 
@@ -260,7 +256,7 @@ export function BattleScene(props: Props) {
           cameraX={worldOffsetX}
           cameraY={worldOffsetY}
         >
-          {map && <BattleMap map={map} scaleX={scaleX} scaleY={scaleY} />}
+          {map && <BattleMap map={map} />}
 
           <BattleEntities
             npc={npc}
@@ -272,8 +268,6 @@ export function BattleScene(props: Props) {
             pet={pet}
             TILE_SIZE={TILE_SIZE}
             PLAYER_SIZE={PLAYER_SIZE}
-            scaleX={scaleX}
-            scaleY={scaleY}
             grabFlipped={grabFlipped}
             isAlfa={isAlfa}
           />
@@ -289,9 +283,6 @@ export function BattleScene(props: Props) {
           {npc.jumpLandingX != null && (
             <JumpIndicator
               landingX={npc.jumpLandingX}
-              groundY={720}
-              scaleX={scaleX}
-              scaleY={scaleY}
             />
           )}
 

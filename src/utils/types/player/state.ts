@@ -30,7 +30,5 @@ export function useBattleCollisionRef() {
   return useRef<CollisionParams>({
     map: null,
     TILE_SIZE: 0,
-    scaleX: 1,
-    scaleY: 1,
   });
 }

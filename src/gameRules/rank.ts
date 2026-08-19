@@ -6,15 +6,15 @@ export type RankInfo = {
 };
 
 export const RANKS: RankInfo[] = [
-  { id: 1, label: "Ferro" },
-  { id: 2, label: "Bronze" },
-  { id: 3, label: "Prata" },
-  { id: 4, label: "Ouro" },
-  { id: 5, label: "Platina" },
-  { id: 6, label: "Esmeralda" },
-  { id: 7, label: "Rubi" },
-  { id: 8, label: "Safira" },
-  { id: 9, label: "Diamante" },
+  { id: 1, label: "Errante" },
+  { id: 2, label: "Iniciado" },
+  { id: 3, label: "Adepto" },
+  { id: 4, label: "Ascendente" },
+  { id: 5, label: "Veterano" },
+  { id: 6, label: "Elite" },
+  { id: 7, label: "Lendário" },
+  { id: 8, label: "Mítico" },
+  { id: 9, label: "Celestial" },
   { id: 0, label: "Transcendente" },
   { id: "EX", label: "Divino" },
 ];

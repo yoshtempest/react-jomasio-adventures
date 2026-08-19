@@ -12,7 +12,7 @@ export function ElementBadges({ types }: Props) {
       {types.map((type) => (
         <img
           key={type}
-          src={asset(`/assets/elementsBadges/${type.toLowerCase()}.svg`)}
+          src={asset(`/assets/badges/elements/${type.toLowerCase()}.svg`)}
           alt={type}
           title={type}
           className={styles.badge}

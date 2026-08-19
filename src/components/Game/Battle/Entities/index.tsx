@@ -2,6 +2,7 @@ import { npcPath, npcPathProjectile } from "@/utils/paths";
 import { NPCBattle } from "@/components/Game/Npc/Battle";
 import { ProjectileSprite } from "@/components/Game/Battle/Projectile";
 import { PlayerBattle } from "@/components/Game/Player/Battle";
+import { ProjectileConstants } from "@/data/projectile";
 import type { SummonedNpc, NPCBattleState } from "@/utils/types/npc/npc";
 import type { PetState } from "@/hooks/battle/player/usePet";
 import type { CoffinState } from "@/hooks/battle/summon/useCoffinAnimation";
@@ -24,8 +25,6 @@ type Props = {
   pet: PetState;
   TILE_SIZE: number;
   PLAYER_SIZE: number;
-  scaleX: number;
-  scaleY: number;
   grabFlipped?: boolean;
   isAlfa?: boolean;
 };
@@ -40,11 +39,12 @@ export function BattleEntities({
   pet,
   TILE_SIZE,
   PLAYER_SIZE,
-  scaleX,
-  scaleY,
   grabFlipped = false,
   isAlfa = false,
 }: Props) {
+  const battleScaleX = window.innerWidth / ProjectileConstants.MAP_WIDTH;
+  const battleScaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;
+
   return (
     <>
       <NPCBattle
@@ -64,8 +64,6 @@ export function BattleEntities({
       {npc.projectile && (
         <ProjectileSprite
           projectile={npc.projectile}
-          scaleX={scaleX}
-          scaleY={scaleY}
           groundY={player.y}
         />
       )}
@@ -80,8 +78,8 @@ export function BattleEntities({
           }
           style={{
             position: "absolute",
-            left: gp.x * scaleX,
-            top: gp.y * scaleY,
+            left: gp.x * battleScaleX,
+            top: gp.y * battleScaleY,
             width: 60,
             zIndex: 5,
             pointerEvents: "none",
@@ -102,8 +100,8 @@ export function BattleEntities({
               position: "absolute",
               width: TILE_SIZE * 2,
               height: TILE_SIZE * 2,
-              left: c.x * scaleX,
-              top: c.y * scaleY,
+            left: c.x * battleScaleX,
+            top: c.y * battleScaleY,
               transform: "translate(-50%, -100%)",
               opacity: c.phase === "fading" ? 0 : 1,
               transition: "opacity 500ms linear",

@@ -9,7 +9,7 @@ function createElementTitle(element: ElementType) {
       const bonus = [0, 1, 2, 3, 5, 10][level] ?? 0;
       return `Aumenta dano em ${bonus}% contra NPCs do elemento ${element}`;
     },
-    icon: `/assets/elementsBadges/${element.toLowerCase()}.svg`,
+    icon: `/assets/badges/elements/${element.toLowerCase()}.svg`,
     condition: { type: "killElement" as const, element },
     levels: [
       { count: 10, bonus: [] },
@@ -33,7 +33,7 @@ export const TITLES = createTitles({
       const bonus = [0, 1, 2, 3, 5, 10][level] ?? 0;
       return `Aumenta chance de drop de pets em ${bonus}%`;
     },
-    icon: "/assets/titlesBadges/defeatNpcs.svg",
+    icon: "/assets/badges/titles/defeatNpcs.svg",
     condition: { type: "petDrop" },
     levels: [
       { count: 1, bonus: [] },
@@ -49,7 +49,7 @@ export const TITLES = createTitles({
       const bonus = [0, 1, 2, 3, 5, 10][level] ?? 0;
       return `Aumenta chance de encontrar um alfa em ${bonus}%`;
     },
-    icon: "/assets/titlesBadges/huntBosses.svg",
+    icon: "/assets/badges/titles/huntBosses.svg",
     condition: { type: "killAlfa" },
     levels: [
       { count: 1, bonus: [] },
@@ -63,7 +63,7 @@ export const TITLES = createTitles({
   mestreDosElementos: {
     name: "Mestre dos Elementos",
     description: "Elimine NPCs de todos os elementos",
-    icon: "/assets/titlesBadges/dragonSlayer.svg",
+    icon: "/assets/badges/titles/dragonSlayer.svg",
     condition: { type: "killAllElements" },
     levels: [
       { count: 5, bonus: [{ stat: "percentAllStats", value: 1 }] },
@@ -76,7 +76,7 @@ export const TITLES = createTitles({
   matadorDeMortos: {
     name: "Matador de Mortos",
     description: "Elimine NPCs do tipo hungry",
-    icon: "/assets/titlesBadges/killHungrys.svg",
+    icon: "/assets/badges/titles/killHungrys.svg",
     condition: { type: "killNpcType", npcTypePrefix: "hungry" },
     levels: [
       { count: 20, bonus: [{ stat: "damage", value: 2 }] },
@@ -89,7 +89,7 @@ export const TITLES = createTitles({
   invicto: {
     name: "Invicto",
     description: "Vença batalhas consecutivamente sem perder",
-    icon: "/assets/titlesBadges/invict.svg",
+    icon: "/assets/badges/titles/invict.svg",
     condition: { type: "consecutiveWins" },
     levels: [
       { count: 20, bonus: [{ stat: "damage", value: 4 }] },
@@ -102,7 +102,7 @@ export const TITLES = createTitles({
   defensor: {
     name: "Defensor",
     description: "Bloqueie ataques",
-    icon: "/assets/titlesBadges/blockAttacks.svg",
+    icon: "/assets/badges/titles/blockAttacks.svg",
     condition: { type: "blockCount" },
     levels: [
       { count: 25, bonus: [{ stat: "shield", value: 5 }] },
@@ -123,7 +123,7 @@ export const TITLES = createTitles({
   acertadorDeCabras: {
     name: "Caçador de bodes",
     description: "Elimine bodes",
-    icon: "/assets/titlesBadges/goat.svg",
+    icon: "/assets/badges/titles/goat.svg",
     condition: { type: "killNpcType", npcTypePrefix: "goat" },
     levels: [
       { count: 10, bonus: [{ stat: "damage", value: 2 }] },
@@ -136,7 +136,7 @@ export const TITLES = createTitles({
   exterminadorDeFigurantes: {
     name: "Exterminador de Figurantes",
     description: "Elimine figurantes de cultos",
-    icon: "/assets/titlesBadges/slainFigurants.svg",
+    icon: "/assets/badges/titles/slainFigurants.svg",
     condition: { type: "killNpcType", npcTypePrefix: "figurant" },
     levels: [
       { count: 10, bonus: [{ stat: "strength", value: 1 }] },
@@ -149,7 +149,7 @@ export const TITLES = createTitles({
   cacadorDeRaros: {
     name: "Caçador de Raros",
     description: "Elimine NPCs raros",
-    icon: "/assets/titlesBadges/huntRaresNpcs.svg",
+    icon: "/assets/badges/titles/huntRaresNpcs.svg",
     condition: { type: "killNpcClass", npcClass: "rare" },
     levels: [
       { count: 5, bonus: [{ stat: "intelligence", value: 1 }] },
@@ -162,7 +162,7 @@ export const TITLES = createTitles({
   matadorDeChefes: {
     name: "Matador de Chefões",
     description: "Elimine chefes",
-    icon: "/assets/titlesBadges/huntBosses.svg",
+    icon: "/assets/badges/titles/huntBosses.svg",
     condition: { type: "killNpcClass", npcClass: "boss" },
     levels: [
       { count: 2, bonus: [{ stat: "hp", value: 5 }] },
@@ -175,7 +175,7 @@ export const TITLES = createTitles({
   lendario: {
     name: "Lendário",
     description: "Elimine NPCs lendários",
-    icon: "/assets/titlesBadges/huntLegendaryNpcs.svg",
+    icon: "/assets/badges/titles/huntLegendaryNpcs.svg",
     condition: { type: "killNpcClass", npcClass: "legendary" },
     levels: [
       {
@@ -223,7 +223,7 @@ export const TITLES = createTitles({
   batalhador: {
     name: "Batalhador",
     description: "Elimine NPCs no total",
-    icon: "/assets/titlesBadges/defeatNpcs.svg",
+    icon: "/assets/badges/titles/defeatNpcs.svg",
     condition: { type: "killTotal" },
     levels: [
       { count: 50, bonus: [{ stat: "strength", value: 1 }] },
@@ -260,7 +260,7 @@ export const TITLES = createTitles({
   masoquista: {
     name: "Masoquista",
     description: "Receba dano em batalhas",
-    icon: "/assets/titlesBadges/masoquist.svg",
+    icon: "/assets/badges/titles/masoquist.svg",
     condition: { type: "damageTaken" },
     levels: [
       { count: 500, bonus: [{ stat: "armor", value: 2 }] },
@@ -282,7 +282,7 @@ export const TITLES = createTitles({
   atacante: {
     name: "Atacante",
     description: "Cause dano em batalhas",
-    icon: "/assets/titlesBadges/causesDamage.svg",
+    icon: "/assets/badges/titles/causesDamage.svg",
     condition: { type: "damageDealt" },
     levels: [
       { count: 500, bonus: [{ stat: "damage", value: 2 }] },
@@ -304,7 +304,7 @@ export const TITLES = createTitles({
   dragonSlayer: {
     name: "Dragon Slayer",
     description: "Derrote o Rei Dragão",
-    icon: "/assets/titlesBadges/dragonSlayer.svg",
+    icon: "/assets/badges/titles/dragonSlayer.svg",
     condition: { type: "killNpcType", npcTypePrefix: "dragon" },
     levels: [
       { count: 1, bonus: [{ stat: "percentAllStats", value: 1 }] },
@@ -322,7 +322,7 @@ export const TITLES = createTitles({
   ghostPlayer: {
     name: "Ghost Player",
     description: "Evite ataques em batalhas",
-    icon: "/assets/titlesBadges/enemyMissAttacks.svg",
+    icon: "/assets/badges/titles/enemyMissAttacks.svg",
     condition: { type: "dodgeCount" },
     levels: [
       { count: 50, bonus: [{ stat: "enemyMissChance", value: 1 }] },

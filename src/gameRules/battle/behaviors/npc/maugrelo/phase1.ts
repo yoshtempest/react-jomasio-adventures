@@ -37,8 +37,7 @@ export function maugreloPhase1(
   }
 
   if (ai.actionState === "action") {
-    const result = handleAction(ai, now, npc.x, npc.y, onMeleeHit, onPushPlayer, ctx.playSound);
-    if (result) return result;
+    return handleAction(ai, now, npc.x, npc.y, onMeleeHit, onPushPlayer, ctx.playSound) ?? { x: npc.x, y: npc.y };
   }
 
   if (ai.actionState === "postAction") {

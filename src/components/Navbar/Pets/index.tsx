@@ -115,7 +115,7 @@ export function Pets() {
                   <img
                     key={element}
                     src={asset(
-                      `/assets/elementsBadges/${element.toLowerCase()}.svg`,
+                      `/assets/badges/elements/${element.toLowerCase()}.svg`,
                     )}
                     alt={element}
                     title={element}
