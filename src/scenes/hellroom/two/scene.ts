@@ -10,6 +10,7 @@ export const twoScene: SceneConfig = {
   id: "two",
   initialPosition: getHellroomTwoInitialPosition,
   dialogueData: getHellroomTwoDialogue,
+  autoStartDialogue: true,
   scaleFix: 2,
   tiles: hellRoomTwoTiles,
   map: hellRoomTwo,

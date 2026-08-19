@@ -45,9 +45,9 @@ export function mauraoPhase1(
       setProjectile(
         createCommonProjectile({
           startX: npc.x - 50,
-          startY: npc.y - 100,
+          startY: npc.y - 170,
           targetX: playerX - 30,
-          targetY: playerY - 80,
+          targetY: playerY - 120,
           sprite: "knife",
           state: "idle",
         }),

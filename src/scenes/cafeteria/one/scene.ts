@@ -6,6 +6,7 @@ import { getCafeteriaOneDialogue } from "./dialogue";
 import { cafeteriaOneNpcs } from "./npcs";
 import { cafeteriaOneEvents } from "./events";
 import { sceneBackgrounds } from "@/data/scene/background";
+import { hasFlag } from "@/scenes/shared/helpers";
 
 export const oneScene: SceneConfig = {
   id: "one",
@@ -14,6 +15,7 @@ export const oneScene: SceneConfig = {
   map: cafeteria,
   events: cafeteriaOneEvents,
   npcs: cafeteriaOneNpcs,
+  autoStartDialogue: ({ flags }) => (hasFlag(flags, "deise")),
   dialogueData: getCafeteriaOneDialogue,
   audio: { src: MUSICS.default },
   initialPosition: getCafeteriaOneInitialPosition,
