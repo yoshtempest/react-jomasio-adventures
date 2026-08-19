@@ -66,6 +66,8 @@ type Props = {
   onGrabPlayer?: (flipped: boolean) => void;
   onThrowStart?: (npcX: number, npcDirection: "left" | "right") => void;
   onThrowPlayer?: (damageMultiplier: number) => void;
+  onPushPlayer?: (npcX: number) => void;
+  onGroundPaperHit?: () => void;
 };
 
 export function useNpcAI({
@@ -89,6 +91,8 @@ export function useNpcAI({
   onGrabPlayer,
   onThrowStart,
   onThrowPlayer,
+  onPushPlayer,
+  onGroundPaperHit,
 }: Props) {
   const [npc, setNpc] = useState<NPCBattleState>({
     x: BATTLE_SPAWN.npc.x,
@@ -125,6 +129,8 @@ export function useNpcAI({
   const onGrabPlayerRef = useLatestRef(onGrabPlayer);
   const onThrowStartRef = useLatestRef(onThrowStart);
   const onThrowPlayerRef = useLatestRef(onThrowPlayer);
+  const onPushPlayerRef = useLatestRef(onPushPlayer);
+  const onGroundPaperHitRef = useLatestRef(onGroundPaperHit);
 
   const { update: updateProximitySound } = useProximityLoopSound(
     npcTypeRef,
@@ -218,6 +224,8 @@ export function useNpcAI({
           onGrabPlayer: (flipped) => onGrabPlayerRef.current?.(flipped),
           onThrowStart: (x, d) => onThrowStartRef.current?.(x, d),
           onThrowPlayer: (mult) => onThrowPlayerRef.current?.(mult),
+          onPushPlayer: (x) => onPushPlayerRef.current?.(x),
+          onGroundPaperHit: onGroundPaperHitRef.current,
         });
 
         const nextX = result.x;
@@ -277,6 +285,8 @@ export function useNpcAI({
     onSummonRef,
     onThrowPlayerRef,
     onThrowStartRef,
+    onPushPlayerRef,
+    onGroundPaperHitRef,
     playerXRef,
     playerYRef,
     projectileRef,
@@ -296,9 +306,12 @@ export function useNpcAI({
     }));
   };
 
+  const groundPapers = npc.ai?.maugrelo?.groundPapers ?? [];
+
   return {
     ...npc,
     projectile,
+    groundPapers,
     resetNpc,
     updateNpc,
   };

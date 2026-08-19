@@ -23,6 +23,8 @@ export type BehaviorContext = {
   onGrabPlayer?: (flipped: boolean) => void;
   onThrowStart?: (npcX: number, npcDirection: "left" | "right") => void;
   onThrowPlayer?: (damageMultiplier: number) => void;
+  onPushPlayer?: (npcX: number) => void;
+  onGroundPaperHit?: () => void;
 };
 
 export type BehaviorResult = {

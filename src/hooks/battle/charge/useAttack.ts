@@ -21,6 +21,7 @@ type Props = {
   playerClass: PlayerClass;
   critRate: number;
   titleDamageBonus: number;
+  elementDamageBonus: number;
   setNpcHP: React.Dispatch<React.SetStateAction<number>>;
   playerCooldown: React.RefObject<boolean>;
   isEnding: React.RefObject<boolean>;
@@ -53,6 +54,7 @@ export function useChargeAttack(props: Props) {
     playerClass,
     critRate,
     titleDamageBonus,
+    elementDamageBonus,
     setNpcHP,
     playerCooldown,
     isEnding,
@@ -85,6 +87,7 @@ export function useChargeAttack(props: Props) {
     playerClass,
     critRate,
     titleDamageBonus,
+    elementDamageBonus,
     setNpcHP,
     playerCooldown,
     hitstopRef,

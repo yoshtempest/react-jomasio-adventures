@@ -458,6 +458,21 @@ export function useBattleScene({
           pullStartTime: Date.now(),
         };
       }),
+    onPushPlayer: (npcX: number) =>
+      setPlayer((p) => {
+        const direction = npcX > p.x ? -1 : 1;
+        const pushToX = Math.max(
+          BATTLE_LIMITS.minX,
+          Math.min(BATTLE_LIMITS.maxX, p.x + direction * 200),
+        );
+        return {
+          ...p,
+          pullFromX: p.x,
+          pullToX: pushToX,
+          pullStartTime: Date.now(),
+        };
+      }),
+    onGroundPaperHit: () => battle.npcThrowHit(2),
     obstacles: map?.obstacles,
     hitstopRef: refs.hitstopRef,
     npcStaggerRef: refs.npcStaggerRef,

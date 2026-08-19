@@ -1,10 +1,11 @@
-import { npcPath } from "@/utils/paths";
+import { npcPath, npcPathProjectile } from "@/utils/paths";
 import { NPCBattle } from "@/components/Game/Npc/Battle";
 import { ProjectileSprite } from "@/components/Game/Battle/Projectile";
 import { PlayerBattle } from "@/components/Game/Player/Battle";
 import type { SummonedNpc, NPCBattleState } from "@/utils/types/npc/npc";
 import type { PetState } from "@/hooks/battle/player/usePet";
 import type { CoffinState } from "@/hooks/battle/summon/useCoffinAnimation";
+import type { GroundPaper } from "@/gameRules/battle/behaviors/npc/maugrelo/state";
 
 type BattleEntitiesBattle = {
   piercings: { id: number; x: number; y: number }[];
@@ -14,7 +15,7 @@ type BattleEntitiesBattle = {
 };
 
 type Props = {
-  npc: NPCBattleState & { projectile: Projectile | null };
+  npc: NPCBattleState & { projectile: Projectile | null; groundPapers: GroundPaper[] };
   player: Player;
   battle: BattleEntitiesBattle;
   npcType: string;
@@ -68,6 +69,25 @@ export function BattleEntities({
           groundY={player.y}
         />
       )}
+
+      {npc.groundPapers.map((gp) => (
+        <img
+          key={gp.id}
+          src={
+            gp.sprite === "explosion"
+              ? npcPathProjectile("/explosion.svg")
+              : npcPathProjectile("/paper.svg")
+          }
+          style={{
+            position: "absolute",
+            left: gp.x * scaleX,
+            top: gp.y * scaleY,
+            width: 60,
+            zIndex: 5,
+            pointerEvents: "none",
+          }}
+        />
+      ))}
 
       {coffins.map((c) => {
         const coffinSrc =

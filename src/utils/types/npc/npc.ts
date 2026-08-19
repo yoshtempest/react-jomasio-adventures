@@ -30,7 +30,10 @@ export type NPCBattleState = {
     | "throwed"
     | "startSpin"
     | "inSpin"
-    | "finishSpin";
+    | "finishSpin"
+    | "preMove"
+    | "slap"
+    | "push";
   direction: NPCDirection;
   jumpLandingX?: number;
 
@@ -115,6 +118,7 @@ export type NPCBattleState = {
       lastSpinHit: number;
       spinHitCount: number;
     };
+    maugrelo?: import("@/gameRules/battle/behaviors/npc/maugrelo/state").MaugreloAI;
   };
 };
 
