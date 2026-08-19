@@ -10,7 +10,17 @@ export const tutorialDialogue = [
   },
   {
     name: "Duque Sê",
+    message: "Certo... e você é macho ou fêmea?",
+  },
+  {
+    isPlayer: true,
+    name: "Protagonista",
+    message: "Tá me vendo não?",
+    expression: "crossArms",
+  },
+  {
+    name: "Duque Sê",
     message:
-      "Entendo... bem eu não ligo sobre quem é você, apenas faça seu trabalho com perfeição, Adeus.",
+      "Entendo... bem eu não ligo, só tinha que preencher o formulário aqui, cuide de fazer seu trabalho com perfeição, Adeus.",
   },
 ];
