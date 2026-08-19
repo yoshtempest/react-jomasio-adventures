@@ -68,6 +68,7 @@ type Props = {
   onThrowPlayer?: (damageMultiplier: number) => void;
   onPushPlayer?: (npcX: number) => void;
   onGroundPaperHit?: () => void;
+  onPaperExplode?: () => void;
   onArmorBuff?: (x: number, y: number) => void;
 };
 
@@ -94,6 +95,7 @@ export function useNpcAI({
   onThrowPlayer,
   onPushPlayer,
   onGroundPaperHit,
+  onPaperExplode,
   onArmorBuff,
 }: Props) {
   const [npc, setNpc] = useState<NPCBattleState>({
@@ -109,6 +111,8 @@ export function useNpcAI({
   const projectileRef = useLatestRef(projectile);
   const playerXRef = useLatestRef(playerX);
   const playerYRef = useLatestRef(playerY);
+  const playerStateRef = useLatestRef(playerState);
+  const playerDirectionRef = useLatestRef(playerDirection);
   const forceIdleRef = useLatestRef(forceIdle);
   const isPausedRef = useLatestRef(isPaused);
   const npcTypeRef = useLatestRef(npcType);
@@ -133,6 +137,7 @@ export function useNpcAI({
   const onThrowPlayerRef = useLatestRef(onThrowPlayer);
   const onPushPlayerRef = useLatestRef(onPushPlayer);
   const onGroundPaperHitRef = useLatestRef(onGroundPaperHit);
+  const onPaperExplodeRef = useLatestRef(onPaperExplode);
   const onArmorBuffRef = useLatestRef(onArmorBuff);
 
   const { update: updateProximitySound } = useProximityLoopSound(
@@ -209,6 +214,8 @@ export function useNpcAI({
           npc: n,
           playerX: playerXRef.current,
           playerY: playerYRef.current,
+          playerState: playerStateRef.current,
+          playerDirection: playerDirectionRef.current,
           targetX,
           targetY,
           npcPhase: npcPhaseRef.current,
@@ -229,6 +236,7 @@ export function useNpcAI({
           onThrowPlayer: (mult) => onThrowPlayerRef.current?.(mult),
           onPushPlayer: (x) => onPushPlayerRef.current?.(x),
           onGroundPaperHit: onGroundPaperHitRef.current,
+          onPaperExplode: onPaperExplodeRef.current,
           onArmorBuff: onArmorBuffRef.current,
         });
 
@@ -291,9 +299,12 @@ export function useNpcAI({
     onThrowStartRef,
     onPushPlayerRef,
     onGroundPaperHitRef,
+    onPaperExplodeRef,
     onArmorBuffRef,
     playerXRef,
     playerYRef,
+    playerStateRef,
+    playerDirectionRef,
     projectileRef,
   ]);
 

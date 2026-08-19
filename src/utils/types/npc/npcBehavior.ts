@@ -5,6 +5,8 @@ export type BehaviorContext = {
   npc: NPCBattleState;
   playerX: number;
   playerY: number;
+  playerState: playerState;
+  playerDirection: Direction;
   targetX: number;
   targetY: number;
   projectile: Projectile | null;
@@ -25,6 +27,7 @@ export type BehaviorContext = {
   onThrowPlayer?: (damageMultiplier: number) => void;
   onPushPlayer?: (npcX: number) => void;
   onGroundPaperHit?: () => void;
+  onPaperExplode?: () => void;
   onArmorBuff?: (x: number, y: number) => void;
 };
 

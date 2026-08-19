@@ -55,6 +55,7 @@ export const PAPER_VEL_X_SPREAD = 1.5;
 export const PAPER_MIN_DISTANCE = 50;
 export const PAPER_EXPLOSION_DURATION = 500;
 export const PAPER_STEP_RADIUS = 30;
+export const PAPER_ATTACK_RANGE = 200;
 
 export function initMaugreloAi(): MaugreloAI {
   return {

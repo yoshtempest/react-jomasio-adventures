@@ -28,6 +28,7 @@ import {
   PAPER_MIN_DISTANCE,
   PAPER_EXPLOSION_DURATION,
   PAPER_STEP_RADIUS,
+  PAPER_ATTACK_RANGE,
 } from "./state";
 
 export function maugreloPhase1(
@@ -35,7 +36,7 @@ export function maugreloPhase1(
   ai: MaugreloAI,
 ): BehaviorResult {
   const now = Date.now();
-  const { npc, playerX, playerY, onMeleeHit, onPushPlayer, onGroundPaperHit, onArmorBuff } =
+  const { npc, playerX, playerY, playerState, playerDirection, onMeleeHit, onPushPlayer, onGroundPaperHit, onPaperExplode, onArmorBuff } =
     ctx;
 
   const distanceX = Math.abs(npc.x - playerX);
@@ -43,6 +44,7 @@ export function maugreloPhase1(
   updateFlyingPaper(ai);
   cleanupExplosions(ai, now);
   checkGroundPaperHits(ai, playerX, playerY, onGroundPaperHit, now);
+  checkPaperAttackHits(ai, playerX, playerState, playerDirection, onPaperExplode, now);
 
   if (ai.actionState === "preMove") {
     ai.walkingStartTime = 0;
@@ -263,6 +265,33 @@ function checkGroundPaperHits(
       gp.createdAt = now;
       ai.lastPaperHitId = gp.id;
       onGroundPaperHit();
+      break;
+    }
+  }
+}
+
+function checkPaperAttackHits(
+  ai: MaugreloAI,
+  playerX: number,
+  playerState: playerState,
+  playerDirection: Direction,
+  onPaperExplode: (() => void) | undefined,
+  now: number,
+) {
+  if (playerState !== "attack") return;
+
+  for (const gp of ai.groundPapers) {
+    if (gp.sprite !== "paper") continue;
+    if (gp.id === ai.lastPaperHitId) continue;
+
+    const inRange = Math.abs(playerX - gp.x) < PAPER_ATTACK_RANGE;
+    const facing = playerDirection === "right" ? gp.x > playerX : gp.x < playerX;
+
+    if (inRange && facing) {
+      gp.sprite = "explosion";
+      gp.createdAt = now;
+      ai.lastPaperHitId = gp.id;
+      onPaperExplode?.();
       break;
     }
   }
