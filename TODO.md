@@ -49,3 +49,5 @@ criar animação de craft de ferramentas
 adicionar imagem dos profissionais de cada profissão (O jogador têrá que dialogar com eles para evoluir suas ferramentas de ranque)
 
 fazer imagem das medalhas de todos os ranques
+
+maugrelo deve riscar o quadro que nem death note risca o caderno
