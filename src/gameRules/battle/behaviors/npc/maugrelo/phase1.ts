@@ -1,5 +1,6 @@
 import { isNear } from "@/gameRules/npc/behavior";
 import { chasePlayer } from "@/gameRules/npc/movement";
+import { NPC_RUNNING_SPEED, NPC_BASE_SPEED } from "@/utils/types/player/movement";
 import type {
   BehaviorContext,
   BehaviorResult,
@@ -17,6 +18,7 @@ import {
   THROW_COOLDOWN,
   MAX_GROUND_PAPERS,
   MEDITATION_ARMOR_INTERVAL,
+  RUN_TRANSITION_DELAY,
   PAPER_GRAVITY,
   PAPER_INITIAL_VEL_Y,
   PAPER_GROUND_Y,
@@ -43,6 +45,8 @@ export function maugreloPhase1(
   checkGroundPaperHits(ai, playerX, playerY, onGroundPaperHit, now);
 
   if (ai.actionState === "preMove") {
+    ai.walkingStartTime = 0;
+
     if (now - ai.actionStart >= PRE_MOVE_DURATION) {
       ai.actionState = "action";
       ai.actionStart = now;
@@ -152,8 +156,16 @@ export function maugreloPhase1(
       return { x, y: npc.y };
     }
 
-    const { x } = chasePlayer(npc, playerX, playerY);
-    return { x, y: npc.y };
+    if (ai.walkingStartTime === 0) {
+      ai.walkingStartTime = now;
+    }
+
+    const isRunning = now - ai.walkingStartTime >= RUN_TRANSITION_DELAY;
+    const speedMultiplier = isRunning ? NPC_RUNNING_SPEED / NPC_BASE_SPEED : 1;
+    const chaseState = isRunning ? ("run" as const) : ("walk" as const);
+
+    const { x } = chasePlayer(npc, playerX, playerY, speedMultiplier);
+    return { x, y: npc.y, state: chaseState };
   }
 
   return { x: npc.x, y: npc.y };

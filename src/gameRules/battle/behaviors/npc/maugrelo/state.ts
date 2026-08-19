@@ -26,6 +26,7 @@ export type MaugreloAI = {
   lastPaperHitId: number;
   meditationArmorBonus: number;
   lastArmorBuff: number;
+  walkingStartTime: number;
 };
 
 export const PRE_MOVE_DURATION = 300;
@@ -42,6 +43,7 @@ export const THROW_COOLDOWN = 5000;
 
 export const MAX_GROUND_PAPERS = 3;
 export const MEDITATION_ARMOR_INTERVAL = 3000;
+export const RUN_TRANSITION_DELAY = 1500;
 
 export const PAPER_GRAVITY = 0.35;
 export const PAPER_INITIAL_VEL_X = -2.5;
@@ -68,5 +70,6 @@ export function initMaugreloAi(): MaugreloAI {
     lastPaperHitId: 0,
     meditationArmorBonus: 0,
     lastArmorBuff: 0,
+    walkingStartTime: 0,
   };
 }

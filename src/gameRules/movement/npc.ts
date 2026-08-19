@@ -3,6 +3,7 @@ export function getChaseMovement(
   npcY: number,
   playerX: number,
   playerY: number,
+  speedMultiplier: number = 1,
 ) {
   const dx = playerX - npcX;
   const dy = playerY - npcY;
@@ -19,6 +20,8 @@ export function getChaseMovement(
   if (distance > 200) speed = 2;
   else if (distance > 10) speed = 1;
   else speed = 0;
+
+  speed *= speedMultiplier;
 
   // normaliza direção (movimento suave em qualquer ângulo)
   const dirX = dx / distance;

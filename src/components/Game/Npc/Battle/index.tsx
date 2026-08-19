@@ -40,6 +40,7 @@ type Props = {
     | "inSpin"
     | "finishSpin"
     | "preMove"
+    | "run"
     | "slap"
     | "push"
     | "meditating";
