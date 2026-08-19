@@ -41,6 +41,7 @@ export default function BattlePage() {
       victoryDescription={config.victoryDescription}
       background={background}
       audioSrc={config.audioSrc}
+      introAudioSrc={config.introAudioSrc}
       training={training}
       isAlfa={isAlfa}
     />

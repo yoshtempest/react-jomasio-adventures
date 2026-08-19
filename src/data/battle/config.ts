@@ -14,6 +14,7 @@ export type BattleConfig = {
   victoryDescription: string;
   background: string;
   audioSrc: string;
+  introAudioSrc?: string;
 };
 
 export function getBattleBackgroundFromRoute(route: string): string {

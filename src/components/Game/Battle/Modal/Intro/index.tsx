@@ -12,6 +12,7 @@ import { sfx } from "@/utils/paths";
 type Props = {
   playerCharacter: string;
   npcType: string;
+  introAudioSrc?: string;
   onSkip: () => void;
   onFlee: () => void;
   isAlfa?: boolean;
@@ -20,6 +21,7 @@ type Props = {
 export function BattleIntro({
   playerCharacter,
   npcType,
+  introAudioSrc = "/battle/onePiece.mp3",
   onSkip,
   onFlee,
   isAlfa = false,
@@ -32,7 +34,7 @@ export function BattleIntro({
   const { setMode } = usePlayer();
 
   useEffect(() => {
-    const audio = sfx("/battle/onePiece.mp3");
+    const audio = sfx(introAudioSrc);
 
     audio.volume = 0.5 * (sfxVolumeRef.current / 100);
     audio.currentTime = 0;
@@ -47,7 +49,7 @@ export function BattleIntro({
       audio.pause();
       audio.currentTime = 0;
     };
-  }, [sfxVolumeRef]);
+  }, [sfxVolumeRef, introAudioSrc]);
 
   const handleSkip = () => {
     // para o áudio antes de sair

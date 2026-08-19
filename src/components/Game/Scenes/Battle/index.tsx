@@ -35,6 +35,7 @@ type Props = {
   className?: string;
   background?: string;
   audioSrc: string;
+  introAudioSrc?: string;
   onVictory?: () => void;
   map?: BattleMapConfig;
   training?: boolean;
@@ -244,6 +245,7 @@ export function BattleScene(props: Props) {
         <BattleIntro
           playerCharacter={player.character}
           npcType={npcType}
+          introAudioSrc={props.introAudioSrc}
           onSkip={skipIntro}
           onFlee={() => navigate(-1)}
           isAlfa={isAlfa}

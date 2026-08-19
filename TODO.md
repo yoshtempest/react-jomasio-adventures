@@ -7,7 +7,7 @@ pensar e criar as habilidades de todos os pets
 
 colocar um "Ready? Fight!" no começo da batalha
 
-ajustar para que as músicas de battleIntro alterem conforme as batalhas (flexibilizar), quando o personagem morre ou vence, adicionar animação e somente então aparecer a fala do personagem.
+Quando o personagem morre ou vence, adicionar animação e somente então aparecer a fala do personagem.
 
 flexibilizar o tamanho em que os itens aparecem na tela como pickupTiles, visualmente (o suco de laranja está gigante por exemplo)
 
@@ -49,5 +49,3 @@ criar animação de craft de ferramentas
 adicionar imagem dos profissionais de cada profissão (O jogador têrá que dialogar com eles para evoluir suas ferramentas de ranque)
 
 fazer imagem das medalhas de todos os ranques
-
-O título Caçador de Alfas deve aumentar em porcentagem a chance de encontrar um alfa, a chance aumentada deve escalar de 1 a 10% assim como o título de colecionador de pets
