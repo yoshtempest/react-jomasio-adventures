@@ -11,6 +11,7 @@ export const hallHellTwoDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Eu num vou não",
+    expression: "crossArms",
   },
   {
     src: npcPath("/blackao/right.svg"),
@@ -22,6 +23,7 @@ export const hallHellTwoDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Quer brigar?",
+    expression: "x1",
   },
   {
     src: npcPath("/blackao/right.svg"),
@@ -33,6 +35,7 @@ export const hallHellTwoDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Então vem pro fight vem",
+    expression: "x1",
   },
   {
     src: npcPath("/blackao/right.svg"),

@@ -10,5 +10,6 @@ export const HellRoomFiveDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Oh Lee...",
+    expression: "disgust",
   },
 ];

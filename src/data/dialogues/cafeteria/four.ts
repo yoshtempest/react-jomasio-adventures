@@ -10,5 +10,6 @@ export const cafeteriaFourDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "tá",
+    expression: "hungry",
   },
 ];

@@ -10,6 +10,7 @@ export const HallPandemonyDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Posso te ajudar?",
+    expression: "crossArms",
   },
   {
     src: npcPath("/maurao/right.svg"),
@@ -20,6 +21,7 @@ export const HallPandemonyDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Credo, então o problema é a ressaca?",
+    expression: "crossArms",
   },
   {
     src: npcPath("/maurao/crazying.svg"),
@@ -30,6 +32,7 @@ export const HallPandemonyDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "O que você quer então?",
+    expression: "why",
   },
   {
     src: npcPath("/maurao/default.svg"),
@@ -40,6 +43,7 @@ export const HallPandemonyDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Por que?",
+    expression: "why",
   },
   {
     src: npcPath("/maurao/default.svg"),

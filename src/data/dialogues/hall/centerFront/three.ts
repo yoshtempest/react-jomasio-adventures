@@ -10,6 +10,7 @@ export const centerFrontThreeDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "O que que vc está falando cara?",
+    expression: "crossArms",
   },
   {
     src: npcPath("/leo/point.svg"),

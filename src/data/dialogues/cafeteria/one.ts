@@ -10,6 +10,7 @@ export const cafeteriaDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Quê? Eu sou o protagonista ué",
+    expression: "crossArms"
   },
   {
     src: npcPath("/deise/right.svg"),

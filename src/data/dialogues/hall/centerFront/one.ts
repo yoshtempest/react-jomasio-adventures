@@ -10,6 +10,7 @@ export const centerFrontDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Eita, isso deve ser contagioso",
+    expression: "crossArms",
   },
   {
     src: npcPath("/leo/right.svg"),

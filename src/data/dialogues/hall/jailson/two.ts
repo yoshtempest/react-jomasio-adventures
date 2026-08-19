@@ -27,6 +27,7 @@ export const hallJailsonTwoDialogue = [
     name: "Protagonista",
     message: "Como assim caralho?",
     soundSrc: "/assets/songs/soundEffects/player/howYouSaid.mp3",
+    expression: "rascal",
   },
   {
     src: npcPath("/slimita/right.svg"),

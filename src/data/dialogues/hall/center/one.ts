@@ -15,6 +15,7 @@ export const centerDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "E agora? Como que eu passo?",
+    expression: "crossArms",
   },
   {
     src: npcPath("/planetarySisters/mary.svg"),
@@ -30,6 +31,7 @@ export const centerDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Então eu vou acabar com vcs e passar",
+    expression: "x1",
   },
   {
     src: npcPath("/planetarySisters/mary.svg"),
@@ -45,6 +47,7 @@ export const centerDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "E como que eu passo?",
+    expression: "crossArms",
   },
   {
     src: npcPath("/planetarySisters/mary.svg"),
@@ -55,6 +58,7 @@ export const centerDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Então vou espancar vocês",
+    expression: "x1",
   },
   {
     src: npcPath("/planetarySisters/mary.svg"),

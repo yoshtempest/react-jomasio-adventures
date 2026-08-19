@@ -10,6 +10,7 @@ export const cafeteriaFiveDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Posso ir embora agora?",
+    expression: "crossArms",
   },
   {
     src: npcPath("/denis/tranks.svg"),
@@ -20,6 +21,7 @@ export const cafeteriaFiveDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "AAAA MALDITO!",
+    expression: "desperate",
   },
   {
     src: npcPath("/denis/tranks.svg"),
