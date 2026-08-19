@@ -14,7 +14,7 @@ export type FlyingPaper = {
 };
 
 export type MaugreloAI = {
-  actionState: "idle" | "preMove" | "action" | "postAction";
+  actionState: "idle" | "preMove" | "action" | "postAction" | "meditating";
   actionStart: number;
   currentAction: "throw" | "slap" | "push" | null;
   lastThrow: number;
@@ -24,6 +24,8 @@ export type MaugreloAI = {
   groundPapers: GroundPaper[];
   paperIdCounter: number;
   lastPaperHitId: number;
+  meditationArmorBonus: number;
+  lastArmorBuff: number;
 };
 
 export const PRE_MOVE_DURATION = 300;
@@ -36,7 +38,10 @@ export const MELEE_SWITCH_DISTANCE = 100;
 
 export const SLAP_COOLDOWN = 1200;
 export const PUSH_COOLDOWN = 1500;
-export const THROW_COOLDOWN = 1500;
+export const THROW_COOLDOWN = 5000;
+
+export const MAX_GROUND_PAPERS = 3;
+export const MEDITATION_ARMOR_INTERVAL = 3000;
 
 export const PAPER_GRAVITY = 0.35;
 export const PAPER_INITIAL_VEL_X = -2.5;
@@ -61,5 +66,7 @@ export function initMaugreloAi(): MaugreloAI {
     groundPapers: [],
     paperIdCounter: 0,
     lastPaperHitId: 0,
+    meditationArmorBonus: 0,
+    lastArmorBuff: 0,
   };
 }

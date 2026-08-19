@@ -68,6 +68,7 @@ type Props = {
   onThrowPlayer?: (damageMultiplier: number) => void;
   onPushPlayer?: (npcX: number) => void;
   onGroundPaperHit?: () => void;
+  onArmorBuff?: () => void;
 };
 
 export function useNpcAI({
@@ -93,6 +94,7 @@ export function useNpcAI({
   onThrowPlayer,
   onPushPlayer,
   onGroundPaperHit,
+  onArmorBuff,
 }: Props) {
   const [npc, setNpc] = useState<NPCBattleState>({
     x: BATTLE_SPAWN.npc.x,
@@ -131,6 +133,7 @@ export function useNpcAI({
   const onThrowPlayerRef = useLatestRef(onThrowPlayer);
   const onPushPlayerRef = useLatestRef(onPushPlayer);
   const onGroundPaperHitRef = useLatestRef(onGroundPaperHit);
+  const onArmorBuffRef = useLatestRef(onArmorBuff);
 
   const { update: updateProximitySound } = useProximityLoopSound(
     npcTypeRef,
@@ -226,6 +229,7 @@ export function useNpcAI({
           onThrowPlayer: (mult) => onThrowPlayerRef.current?.(mult),
           onPushPlayer: (x) => onPushPlayerRef.current?.(x),
           onGroundPaperHit: onGroundPaperHitRef.current,
+          onArmorBuff: onArmorBuffRef.current,
         });
 
         const nextX = result.x;
@@ -287,6 +291,7 @@ export function useNpcAI({
     onThrowStartRef,
     onPushPlayerRef,
     onGroundPaperHitRef,
+    onArmorBuffRef,
     playerXRef,
     playerYRef,
     projectileRef,

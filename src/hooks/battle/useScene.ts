@@ -248,6 +248,7 @@ export function useBattleScene({
   const { playSound } = useSoundEffects();
 
   const [npcPhase, setNpcPhase] = useState(1);
+  const [npcArmorBonus, setNpcArmorBonus] = useState(0);
   const npcPhaseRef = useLatestRef(npcPhase);
   const [isPhaseTransitioning, setIsPhaseTransitioning] = useState(false);
 
@@ -473,6 +474,7 @@ export function useBattleScene({
         };
       }),
     onGroundPaperHit: () => battle.npcThrowHit(2),
+    onArmorBuff: () => setNpcArmorBonus((b) => b + 1),
     obstacles: map?.obstacles,
     hitstopRef: refs.hitstopRef,
     npcStaggerRef: refs.npcStaggerRef,
@@ -649,6 +651,7 @@ export function useBattleScene({
     isMenuRef: isMenuOpenRef,
     savedPlayerHP: savedPlayerHPRef.current,
     npcStatMultiplier: isAlfa ? 2 : 1,
+    npcArmorBonus,
   });
 
   executePetSkillRef.current = () => {

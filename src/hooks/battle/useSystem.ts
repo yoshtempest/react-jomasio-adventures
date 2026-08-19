@@ -66,6 +66,7 @@ type Props = {
   isMenuRef?: React.RefObject<boolean>;
   savedPlayerHP?: number | null;
   npcStatMultiplier?: number;
+  npcArmorBonus?: number;
 };
 
 export function useBattleSystem(props: Props) {
@@ -99,6 +100,7 @@ export function useBattleSystem(props: Props) {
     isMenuRef,
     savedPlayerHP,
     npcStatMultiplier = 1,
+    npcArmorBonus = 0,
   } = props;
 
   const [npcPhase, setNpcPhase] = useState(1);
@@ -109,6 +111,7 @@ export function useBattleSystem(props: Props) {
     difficulty,
     npcPhase,
     npcStatMultiplier,
+    npcArmorBonus,
   });
   const {
     player,

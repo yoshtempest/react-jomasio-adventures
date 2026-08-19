@@ -1,4 +1,5 @@
 import { isNear } from "@/gameRules/npc/behavior";
+import { chasePlayer } from "@/gameRules/npc/movement";
 import type {
   BehaviorContext,
   BehaviorResult,
@@ -14,6 +15,8 @@ import {
   SLAP_COOLDOWN,
   PUSH_COOLDOWN,
   THROW_COOLDOWN,
+  MAX_GROUND_PAPERS,
+  MEDITATION_ARMOR_INTERVAL,
   PAPER_GRAVITY,
   PAPER_INITIAL_VEL_Y,
   PAPER_GROUND_Y,
@@ -30,7 +33,7 @@ export function maugreloPhase1(
   ai: MaugreloAI,
 ): BehaviorResult {
   const now = Date.now();
-  const { npc, playerX, playerY, onMeleeHit, onPushPlayer, onGroundPaperHit } =
+  const { npc, playerX, playerY, onMeleeHit, onPushPlayer, onGroundPaperHit, onArmorBuff } =
     ctx;
 
   const distanceX = Math.abs(npc.x - playerX);
@@ -87,12 +90,33 @@ export function maugreloPhase1(
     return { x: npc.x, y: npc.y, state: "idle" as const };
   }
 
+  if (ai.actionState === "meditating") {
+    if (distanceX <= MELEE_SWITCH_DISTANCE) {
+      enterInterruptSlap(ai, now);
+      return { x: npc.x, y: npc.y, state: "preMove" as const };
+    }
+
+    if (now - ai.lastArmorBuff >= MEDITATION_ARMOR_INTERVAL) {
+      ai.meditationArmorBonus += 1;
+      ai.lastArmorBuff = now;
+      onArmorBuff?.();
+    }
+
+    return { x: npc.x, y: npc.y, state: "meditating" as const };
+  }
+
   if (ai.actionState === "idle") {
+    const hasMaxPapers = ai.groundPapers.length >= MAX_GROUND_PAPERS;
+    const noFlying = !ai.flyingPaper;
+
+    if (hasMaxPapers && noFlying) {
+      ai.actionState = "meditating";
+      ai.lastArmorBuff = now;
+      return { x: npc.x, y: npc.y, state: "meditating" as const };
+    }
+
     if (distanceX > MELEE_SWITCH_DISTANCE) {
-      if (
-        !ai.flyingPaper &&
-        now - ai.lastThrow >= THROW_COOLDOWN
-      ) {
+      if (noFlying && now - ai.lastThrow >= THROW_COOLDOWN) {
         ai.actionState = "preMove";
         ai.actionStart = now;
         ai.currentAction = "throw";
@@ -123,10 +147,23 @@ export function maugreloPhase1(
           }
         }
       }
+
+      const { x } = chasePlayer(npc, playerX, playerY);
+      return { x, y: npc.y };
     }
+
+    const { x } = chasePlayer(npc, playerX, playerY);
+    return { x, y: npc.y };
   }
 
   return { x: npc.x, y: npc.y };
+}
+
+function enterInterruptSlap(ai: MaugreloAI, now: number) {
+  ai.actionState = "preMove";
+  ai.actionStart = now;
+  ai.currentAction = "slap";
+  ai.lastSlap = now;
 }
 
 function spawnFlyingPaper(
