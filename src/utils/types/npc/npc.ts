@@ -32,6 +32,7 @@ export type NPCBattleState = {
     | "inSpin"
     | "finishSpin"
     | "preMove"
+    | "run"
     | "slap"
     | "push"
     | "meditating";

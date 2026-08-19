@@ -4,6 +4,9 @@ export const DASH_STEP = 25;
 export const DASH_DURATION = 300;
 export const DASH_INTERVAL = 30;
 
+export const NPC_BASE_SPEED = 2;
+export const NPC_RUNNING_SPEED = 4;
+
 export const BATTLE_LIMITS = {
   minX: 80,
   maxX: 950,

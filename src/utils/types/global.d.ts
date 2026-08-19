@@ -300,6 +300,7 @@ declare global {
     battleDirection: Direction;
     state: PlayerState;
     mode: PlayerMode;
+    movementSpeed: number;
     hasPeru?: boolean;
     moving?: boolean;
     grabbedUntil?: number;
