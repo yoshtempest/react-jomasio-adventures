@@ -2,30 +2,22 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { usePlayer } from "@/contexts/PlayerContext";
-import { getSelected } from "@/gameRules/menu/selection";
 import { useAudio } from "@/contexts/AudioContext";
 
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { useSettings } from "@/contexts/SettingsContext";
 import { useUpdate } from "@/contexts/UpdateContext";
 import { usePWA } from "@/contexts/PWAContext";
-import { DIALOGUE_SPEED_LIST } from "@/utils/settings";
 import type { ConfigTab } from "@/data/config/tabs";
 import { CONFIG_TABS, CONFIG_TAB_COUNT } from "@/data/config/tabs";
 import { useLatestRef } from "@/hooks/useLatestRef";
-
-
-const DIFFICULTY: NpcDifficulty[] = ["easy", "medium", "hard"];
-const COLUMN_COUNT = 5;
-const BOTTOM_COUNT = 5;
-const BATTLE_COUNT = 4;
-
-function getColumnMaxIndex(column: number): number {
-  if (column === 0) return DIFFICULTY.length;
-  if (column === 1) return DIALOGUE_SPEED_LIST.length;
-  if (column === 2) return BOTTOM_COUNT;
-  return 1;
-}
+import {
+  DIFFICULTY,
+  COLUMN_COUNT,
+  BATTLE_COUNT,
+  getColumnMaxIndex,
+} from "./configConstants";
+import { useConfigActions } from "./useConfigActions";
 
 export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   const navigate = useNavigate();
@@ -75,52 +67,71 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
     screenRef.current = screen;
     isOnTabRef.current = isOnTab;
     activeTabRef.current = activeTab;
-  }, [selectedIndex, selectedColumn, screen, isOnTab, activeTab]);
+  }, [
+    selectedIndex,
+    selectedColumn,
+    screen,
+    isOnTab,
+    activeTab,
+    selectedIndexRef,
+    selectedColumnRef,
+    screenRef,
+    isOnTabRef,
+    activeTabRef,
+  ]);
 
   const playMoveRef = useLatestRef(playMove);
-  playMoveRef.current = playMove;
   const playSelectRef = useLatestRef(playSelect);
-  playSelectRef.current = playSelect;
   const playCloseRef = useLatestRef(playClose);
-  playCloseRef.current = playClose;
   const pushControlsRef = useLatestRef(pushControls);
-  pushControlsRef.current = pushControls;
   const setDifficultyRef = useLatestRef(setDifficulty);
-  setDifficultyRef.current = setDifficulty;
   const setSfxVolumeRef = useLatestRef(setSfxVolume);
-  setSfxVolumeRef.current = setSfxVolume;
   const setBgmVolumeRef = useLatestRef(setBgmVolume);
-  setBgmVolumeRef.current = setBgmVolume;
   const setDialogueSpeedRef = useLatestRef(setDialogueSpeed);
-  setDialogueSpeedRef.current = setDialogueSpeed;
   const setShowQuestIndicatorRef = useLatestRef(setShowQuestIndicator);
-  setShowQuestIndicatorRef.current = setShowQuestIndicator;
   const setShowComboActionRef = useLatestRef(setShowComboAction);
-  setShowComboActionRef.current = setShowComboAction;
   const setShowHighlightRef = useLatestRef(setShowHighlight);
-  setShowHighlightRef.current = setShowHighlight;
   const setSharedXpRef = useLatestRef(setSharedXp);
-  setSharedXpRef.current = setSharedXp;
   const checkForUpdateRef = useLatestRef(checkForUpdate);
-  checkForUpdateRef.current = checkForUpdate;
   const installRef = useLatestRef(install);
-  installRef.current = install;
   const isInstalledRef = useLatestRef(isInstalled);
-  isInstalledRef.current = isInstalled;
   const methodRef = useLatestRef(method);
-  methodRef.current = method;
   const setShowInstalledMessageRef = useLatestRef(setShowInstalledMessage);
-  setShowInstalledMessageRef.current = setShowInstalledMessage;
   const setShowInstructionsRef = useLatestRef(setShowInstructions);
-  setShowInstructionsRef.current = setShowInstructions;
   const onConfirmRef = useLatestRef(onConfirm);
-  onConfirmRef.current = onConfirm;
-
   const navigateRef = useLatestRef(navigate);
-  navigateRef.current = navigate;
 
   const modeRef = useLatestRef(player.mode);
-  modeRef.current = player.mode;
+
+  const { handleConfirm, handleCancel } = useConfigActions({
+    showQuestIndicator,
+    sharedXp,
+    showComboAction,
+    showHighlight,
+    screenRef,
+    isOnTabRef,
+    activeTabRef,
+    selectedColumnRef,
+    selectedIndexRef,
+    modeRef,
+    playSelectRef,
+    playCloseRef,
+    setDifficultyRef,
+    setDialogueSpeedRef,
+    setShowQuestIndicatorRef,
+    setSharedXpRef,
+    checkForUpdateRef,
+    isInstalledRef,
+    methodRef,
+    installRef,
+    setShowInstalledMessageRef,
+    setShowInstructionsRef,
+    setShowComboActionRef,
+    setShowHighlightRef,
+    navigateRef,
+    onConfirmRef,
+    setScreen,
+  });
 
   useEffect(() => {
     if (!isActive) return;
@@ -240,84 +251,9 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
         setSelectedIndex((prev) => prev - 1);
       },
 
-      onConfirm: () => {
-        if (screenRef.current !== "menu") return true;
-        if (isOnTabRef.current) return true;
+      onConfirm: handleConfirm,
 
-        playSelectRef.current();
-
-        const col = selectedColumnRef.current;
-        const idx = selectedIndexRef.current;
-
-        if (activeTabRef.current === "geral") {
-          if (col === 0) {
-            const selected = getSelected(DIFFICULTY, idx);
-            setDifficultyRef.current(selected);
-          }
-
-          if (col === 1) {
-            const selected = getSelected(DIALOGUE_SPEED_LIST, idx);
-            setDialogueSpeedRef.current(selected);
-          }
-
-          if (col === 2) {
-            if (idx === 0) {
-              setShowQuestIndicatorRef.current(!showQuestIndicator);
-            }
-
-            if (idx === 1) {
-              setSharedXpRef.current(!sharedXp);
-            }
-
-            if (idx === 2) {
-              setScreen("tutorial");
-            }
-
-            if (idx === 3) {
-              checkForUpdateRef.current();
-            }
-
-            if (idx === 4) {
-              if (isInstalledRef.current) {
-                setShowInstalledMessageRef.current(true);
-              } else if (methodRef.current === "native") {
-                void installRef.current();
-              } else {
-                setShowInstructionsRef.current(true);
-              }
-            }
-          }
-        }
-
-        if (activeTabRef.current === "batalha") {
-          if (idx === 0) {
-            setShowComboActionRef.current(!showComboAction);
-          }
-
-          if (idx === 1) {
-            setShowHighlightRef.current(!showHighlight);
-          }
-
-          if (idx === 2) {
-            navigateRef.current("/training");
-          }
-        }
-
-        onConfirmRef.current?.();
-
-        return true;
-      },
-
-      onCancel: () => {
-        if (modeRef.current === "battle") return true;
-        playCloseRef.current();
-        if (screenRef.current === "tutorial") {
-          setScreen("menu");
-          return true;
-        }
-
-        return false;
-      },
+      onCancel: handleCancel,
 
       blockGlobalOpen: true,
     };
@@ -329,13 +265,11 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
     isActive,
     sfxVolume,
     bgmVolume,
-    showQuestIndicator,
+    handleConfirm,
+    handleCancel,
     setShowQuestIndicator,
-    showComboAction,
     setShowComboAction,
-    showHighlight,
     setShowHighlight,
-    sharedXp,
     setSharedXp,
     checkForUpdateRef,
     installRef,
