@@ -13,6 +13,7 @@ function getPeakDamageFrameIndex(frames: ReplayFrame[]): number {
 
   for (let i = 0; i < frames.length; i++) {
     const frame = frames[i];
+    if (!frame) continue;
     for (const d of frame.dmg) {
       if (PLAYER_DAMAGE_TYPES.has(d.ty) && d.v > bestDmg) {
         bestDmg = d.v;
@@ -43,7 +44,8 @@ function extractHighlightFrames(
     id: `highlight_${Date.now()}`,
     frames: highlightFrames,
     duration:
-      highlightFrames[highlightFrames.length - 1].t - highlightFrames[0].t,
+      (highlightFrames[highlightFrames.length - 1]?.t ?? 0) -
+      (highlightFrames[0]?.t ?? 0),
   };
 }
 

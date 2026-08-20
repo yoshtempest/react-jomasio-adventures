@@ -126,7 +126,7 @@ export type NPCBattleState = {
 
 export type SummonedNpc = {
   id: string;
-  npcType: string;
+  npcType: NpcType;
   x: number;
   y: number;
   direction: NPCDirection;

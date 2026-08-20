@@ -1,5 +1,5 @@
 import { useEffect, useRef, type RefObject } from "react";
-import { getLandingY, getGroundAtX } from "@/utils/types/maps/battle";
+import { getLandingY, getGroundAtX } from "@/gameRules/battle/obstacles";
 import type { CollisionParams } from "@/utils/types/battle/collision";
 
 export type { CollisionParams };

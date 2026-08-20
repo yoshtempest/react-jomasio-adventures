@@ -26,7 +26,7 @@ type PWAContextType = {
   setShowInstructions: (show: boolean) => void;
 };
 
-const PWAContext = createContext({} as PWAContextType);
+const PWAContext = createContext<PWAContextType | null>(null);
 
 const PERSIST_REQUESTED_KEY = "jomasio_storage_persist_requested";
 
@@ -92,5 +92,7 @@ export function PWAProvider({ children }: { children: ReactNode }) {
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function usePWA() {
-  return useContext(PWAContext);
+  const ctx = useContext(PWAContext);
+  if (!ctx) throw new Error("usePWA precisa do PWAProvider");
+  return ctx;
 }

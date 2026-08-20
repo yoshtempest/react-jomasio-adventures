@@ -49,8 +49,3 @@ export function getNpcStats(
     armor: Math.round(level * multipliers.armor * multiplier),
   };
 }
-
-export type NPCData = {
-  type: string;
-  class: NPCClass;
-};

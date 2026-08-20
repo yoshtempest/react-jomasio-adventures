@@ -456,7 +456,7 @@ export function ExploreScene({
         <InteractionPrompt text={interactionHint} />
       )}
 
-      {dialogueSystem.isOpen && (
+      {dialogueSystem.isOpen && dialogueSystem.dialogue && (
         <Talking
           {...dialogueSystem.dialogue}
           onSoundEnd={dialogueSystem.next}

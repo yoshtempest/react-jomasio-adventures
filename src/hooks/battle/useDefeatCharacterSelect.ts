@@ -57,11 +57,10 @@ export function useDefeatCharacterSelect(isOpen: boolean) {
   const { playMove, playSelect } = useMenuSFX();
   const { pushControls } = useGameControls();
 
-  const unlockedCharacters = CHARACTERS.filter(
-    (c) =>
-      c.selectable ||
-      (c.image in CHAR_UNLOCK_FLAGS && hasFlag(CHAR_UNLOCK_FLAGS[c.image])),
-  );
+  const unlockedCharacters = CHARACTERS.filter((c) => {
+    const unlockFlag = CHAR_UNLOCK_FLAGS[c.image];
+    return c.selectable || (unlockFlag !== undefined && hasFlag(unlockFlag));
+  });
 
   const [menuSelection, setMenuSelection] =
     useState<DefeatMenuSelection>("retry");
@@ -117,6 +116,7 @@ export function useDefeatCharacterSelect(isOpen: boolean) {
       onConfirm: () => {
         playSelectRef.current();
         const selected = unlockedRef.current[charIndexRef.current];
+        if (!selected) return;
         setCharacterRef.current(selected.image as CharacterId);
         setViewRef.current("menu");
       },
@@ -158,12 +158,12 @@ export function useDefeatCharacterSelect(isOpen: boolean) {
         DEFEAT_MENU_NEXT,
       ),
       onConfirm: () => {
-        if (viewRef.current !== "menu") return;
-        const sel = menuSelectionRef.current;
-        if (sel === "characterSelect") {
+        if (viewRef.current !== "menu") return false;
+        if (menuSelectionRef.current === "characterSelect") {
           openCharacterSelectRef.current();
           return true;
         }
+        return false;
       },
     });
 
@@ -181,6 +181,7 @@ export function useDefeatCharacterSelect(isOpen: boolean) {
     (index: number) => {
       playSelectRef.current();
       const selected = unlockedRef.current[index];
+      if (!selected) return;
       setCharacterRef.current(selected.image as CharacterId);
       setViewRef.current("menu");
     },

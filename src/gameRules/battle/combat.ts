@@ -8,7 +8,7 @@ export function canPlayerHit(params: {
   playerY: number;
   npcX: number;
   npcY: number;
-  playerState: playerState;
+  playerState: PlayerState;
   character: string;
   direction: Direction;
   isSpecial: boolean;

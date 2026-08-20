@@ -129,8 +129,7 @@ export function Inventory() {
   };
 
   const hasOtherChest = !!(
-    chestLastResult &&
-    otherChestExists(chestLastResult.tier as unknown as ItemId)
+    chestLastResult && otherChestExists(chestLastResult.tier)
   );
   const chestRewardsVisible = !!(dailyChest.lastResult || chestLastResult) && !openingChest;
   const rewardOptionCount = chestRewardsVisible ? (hasOtherChest ? 2 : 1) : 0;
@@ -165,7 +164,6 @@ export function Inventory() {
     chestRewardsVisible,
     rewardOptionCount,
     lastOpened,
-    chestLastResult,
     playMove,
     playSelect,
     closeRewards,

@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router";
 import { BattleScene } from "@/components/Game/Scenes/Battle";
-import { NPCS } from "@/data/npc/npc";
+import { NPCS, isNpcType } from "@/data/npc/npc";
 import { sceneBackgrounds } from "@/data/scene/background";
 import { backgroundAudioPath } from "@/utils/paths";
 
@@ -8,7 +8,7 @@ export default function BattleTester() {
   const { npcId } = useParams<{ npcId: string }>();
   const navigate = useNavigate();
 
-  if (!npcId || !NPCS[npcId]) {
+  if (!npcId || !isNpcType(npcId) || !NPCS[npcId]) {
     return <div>NPC não encontrado</div>;
   }
 

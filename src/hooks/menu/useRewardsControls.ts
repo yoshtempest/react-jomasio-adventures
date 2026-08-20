@@ -7,11 +7,10 @@ type Params = {
   chestRewardsVisible: boolean;
   rewardOptionCount: number;
   lastOpened: { chestId: string } | null | undefined;
-  chestLastResult: { tier: string } | null;
   playMove: () => void;
   playSelect: () => void;
   closeRewards: () => void;
-  openNextChest: (id: ItemId) => unknown;
+  openNextChest: (id?: ItemId) => unknown;
   onRewardOptionChange: (
     indexOrUpdater: number | ((prev: number) => number),
   ) => void;
@@ -21,7 +20,6 @@ export function useRewardsControls({
   chestRewardsVisible,
   rewardOptionCount,
   lastOpened,
-  chestLastResult,
   playMove,
   playSelect,
   closeRewards,
@@ -32,7 +30,6 @@ export function useRewardsControls({
   const rewardOptionIndexRef = useRef(0);
   const rewardOptionCountRef = useLatestRef(rewardOptionCount);
   const lastOpenedRef = useLatestRef(lastOpened);
-  const chestLastResultRef = useLatestRef(chestLastResult);
   const openNextChestRef = useLatestRef(openNextChest);
   const playMoveRef = useLatestRef(playMove);
   const playSelectRef = useLatestRef(playSelect);
@@ -71,10 +68,7 @@ export function useRewardsControls({
           rewardOptionCountRef.current > 1 &&
           rewardOptionIndexRef.current === 0
         ) {
-          openNextChestRef.current(
-            (lastOpenedRef.current?.chestId ??
-              chestLastResultRef.current?.tier) as ItemId,
-          );
+          openNextChestRef.current(lastOpenedRef.current?.chestId);
         } else {
           closeRewardsRef.current();
         }
@@ -93,7 +87,6 @@ export function useRewardsControls({
     chestRewardsVisible,
     pushControls,
     onRewardOptionChange,
-    chestLastResultRef,
     closeRewardsRef,
     lastOpenedRef,
     openNextChestRef,

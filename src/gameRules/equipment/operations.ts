@@ -97,7 +97,7 @@ export function unequipItem(
   if (slot === "accessory") {
     const extras = data.equipped.accessories;
     if (extras.length > 0) {
-      const lastInfo = extras[extras.length - 1];
+      const lastInfo = extras[extras.length - 1]!;
       addToCollection(collection, lastInfo.id, lastInfo.enhance);
 
       next[character] = {
@@ -130,7 +130,7 @@ export function unequipAccessoryAt(
   const extras = data.equipped.accessories;
   if (index < 0 || index >= extras.length) return null;
 
-  const info = extras[index];
+  const info = extras[index]!;
   addToCollection(collection, info.id, info.enhance);
 
   next[character] = {
@@ -196,8 +196,8 @@ export function fusePets(
       equipped.pet = null;
     }
   } else {
-    collection[sourceKey] -= 2;
-    if (collection[sourceKey] <= 0) delete collection[sourceKey];
+    collection[sourceKey] = (collection[sourceKey] ?? 0) - 2;
+    if ((collection[sourceKey] ?? 0) <= 0) delete collection[sourceKey];
   }
 
   addToCollection(collection, petId, targetEnhance);

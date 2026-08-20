@@ -29,7 +29,7 @@ type AuthContextType = {
   logout: () => void;
 };
 
-const AuthContext = createContext({} as AuthContextType);
+const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -94,5 +94,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function useAuth() {
-  return useContext(AuthContext);
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error("useAuth precisa do AuthProvider");
+  return ctx;
 }

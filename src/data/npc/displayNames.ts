@@ -1,4 +1,4 @@
-const NPC_DISPLAY_NAMES: Record<string, string> = {
+const NPC_DISPLAY_NAMES: Record<NpcType, string> = {
   vandinhaFragment: "Fragmento de Vandinha",
   trueVandinha: "Verdadeira Vandinha",
   slimita: "Slimita",
@@ -39,8 +39,11 @@ const NPC_DISPLAY_NAMES: Record<string, string> = {
   dragonKing: "Rei Dragão",
   technoblade: "Technoblade",
   dummy: "Boneco de Treino",
+  piupiu: "Piupiu",
+  rice: "Rice",
+  necromancer: "Necromante",
 };
 
 export function getNpcDisplayName(npcType: string): string {
-  return NPC_DISPLAY_NAMES[npcType] ?? npcType;
+  return NPC_DISPLAY_NAMES[npcType as NpcType] ?? npcType;
 }

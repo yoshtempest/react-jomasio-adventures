@@ -1,4 +1,5 @@
 import type { ElementType } from "../battle/element";
+import type { TitleId } from "@/data/titles";
 
 export type TitleCondition =
   | { type: "killNpcType"; npcTypePrefix: string }
@@ -47,9 +48,9 @@ export type TitleProgress = {
 };
 
 export type TitlesData = {
-  equippedId: string | null;
+  equippedId: TitleId | null;
   totalKills: number;
-  progress: Record<string, TitleProgress>;
+  progress: Partial<Record<TitleId, TitleProgress>>;
 };
 
 export type TitleBonusMap = {

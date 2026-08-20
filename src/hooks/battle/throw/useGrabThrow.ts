@@ -1,6 +1,6 @@
 import { useRef, useState, useCallback, useEffect } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
-import { BATTLE_LIMITS } from "@/utils/types/player/movement";
+import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
 
 type Props = {
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;

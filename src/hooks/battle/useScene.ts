@@ -48,7 +48,7 @@ import { calculateDamageToNpc } from "@/gameRules/battle/damage";
 import { getElementMultiplier } from "@/gameRules/battle/element";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
-import { BATTLE_LIMITS } from "@/utils/types/player/movement";
+import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
 import { CHARACTERS } from "@/utils/types/player/player";
 import { getEquipmentStatsBonus } from "@/gameRules/battle/equipment";
 import { getLuckBonus } from "@/gameRules/battle/luck";
@@ -202,7 +202,8 @@ function runPetSkill(
       spawnDamageRef.current?.(effect.amount, playerX, playerY - 40, "heal");
       break;
     case "healPercent": {
-      const pct = effect.perStar[petStars - 1] ?? effect.perStar[0];
+      const pct =
+        effect.perStar[petStars - 1] ?? effect.perStar[0] ?? 0;
       const heal = Math.round((battle.playerMaxHp * pct) / 100);
       battle.setPlayerHP((hp) =>
         Math.min(battle.playerMaxHp, hp + heal),
@@ -780,33 +781,10 @@ export function useBattleScene({
       playerRef: playerSnapshotRef,
       npcRef: npcSnapshotRef,
       battleRef: battleSnapshotRef,
-      damageNumbersRef: damageNumbersSnapshotRef as React.RefObject<
-        { value: number; x: number; y: number; type: string }[]
-      >,
-      summonsRef: summonsSnapshotRef as React.RefObject<
-        {
-          id: string;
-          x: number;
-          y: number;
-          npcType: string;
-          state: string;
-          direction: string;
-          hp: number;
-        }[]
-      >,
-      petRef: petSnapshotRef as React.RefObject<{
-        x: number;
-        y: number;
-        direction: string;
-        state: string;
-        npcType: string;
-      } | null>,
-      comboRef: comboSnapshotRef as React.RefObject<{
-        count: number;
-        rank: string;
-        progress: number;
-        nextRank: string | null;
-      }>,
+      damageNumbersRef: damageNumbersSnapshotRef,
+      summonsRef: summonsSnapshotRef,
+      petRef: petSnapshotRef,
+      comboRef: comboSnapshotRef,
       comboActionRef,
       npcType: training ? "__training" : npcType,
       npcLevel,

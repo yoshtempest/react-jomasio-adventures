@@ -21,9 +21,27 @@ function createElementTitle(element: ElementType) {
   };
 }
 
-const ELEMENT_TITLES = Object.fromEntries(
-  (Object.keys({ Aquos: true, Pyrus: true, Subterra: true, Ventus: true, Darkus: true, Electricus: true, Haos: true, Metallum: true, Natura: true, Psychicus: true, Nympha: true, Draco: true, Umbra: true, Normalis: true }) as ElementType[]).map((el) => [`kill${el}`, createElementTitle(el)]),
-) as Record<string, Omit<TitleDef, "id">>;
+const ELEMENT_LIST = Object.keys({
+  Aquos: true,
+  Pyrus: true,
+  Subterra: true,
+  Ventus: true,
+  Darkus: true,
+  Electricus: true,
+  Haos: true,
+  Metallum: true,
+  Natura: true,
+  Psychicus: true,
+  Nympha: true,
+  Draco: true,
+  Umbra: true,
+  Normalis: true,
+}) as ElementType[];
+
+const ELEMENT_TITLES = {} as Record<`kill${ElementType}`, Omit<TitleDef, "id">>;
+for (const el of ELEMENT_LIST) {
+  ELEMENT_TITLES[`kill${el}`] = createElementTitle(el);
+}
 
 export const TITLES = createTitles({
   ...ELEMENT_TITLES,
@@ -337,8 +355,14 @@ export const TITLES = createTitles({
   },
 });
 
-export const TITLE_IDS = Object.keys(TITLES);
+export type TitleId = keyof typeof TITLES & string;
+
+export const TITLE_IDS = Object.keys(TITLES) as TitleId[];
+
+export function isTitleId(value: unknown): value is TitleId {
+  return typeof value === "string" && value in TITLES;
+}
 
 export function getTitleById(id: string): TitleDef | undefined {
-  return TITLES[id];
+  return isTitleId(id) ? TITLES[id] : undefined;
 }

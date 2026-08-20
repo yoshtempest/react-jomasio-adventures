@@ -1,12 +1,16 @@
-import { TITLES } from "@/data/titles";
+import {
+  TITLE_IDS,
+  isTitleId,
+  type TitleId,
+} from "@/data/titles";
 import type { TitleProgress, TitlesData } from "@/utils/types/player/titles";
 import { TITLES_KEY } from "@/data/storageKeys";
 import { saveCompressed, loadCompressed } from "@/utils/save/storage";
 import { slotKey } from "@/utils/save/slotManager";
 
-export function getDefaultProgress(): Record<string, TitleProgress> {
-  const progress: Record<string, TitleProgress> = {};
-  for (const id of Object.keys(TITLES)) {
+export function getDefaultProgress(): Partial<Record<TitleId, TitleProgress>> {
+  const progress: Partial<Record<TitleId, TitleProgress>> = {};
+  for (const id of TITLE_IDS) {
     progress[id] = { current: 0, level: 0 };
   }
   return progress;
@@ -27,7 +31,7 @@ export function loadData(): TitlesData {
 
     const progress = getDefaultProgress();
     if (parsed.progress) {
-      for (const id of Object.keys(progress)) {
+      for (const id of TITLE_IDS) {
         const saved = parsed.progress[id];
         if (saved) {
           progress[id] = {
@@ -39,10 +43,7 @@ export function loadData(): TitlesData {
     }
 
     return {
-      equippedId:
-        parsed.equippedId && parsed.equippedId in TITLES
-          ? parsed.equippedId
-          : null,
+      equippedId: isTitleId(parsed.equippedId) ? parsed.equippedId : null,
       totalKills: parsed.totalKills ?? 0,
       progress,
     };

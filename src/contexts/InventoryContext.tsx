@@ -99,7 +99,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
           const nextQty = (i.qty ?? 1) - 1;
           return nextQty <= 0 ? null : { ...i, qty: nextQty };
         })
-        .filter(Boolean) as InventoryItem[];
+        .filter((item): item is InventoryItem => item !== null);
 
       if (next.length < prev.length) {
         pendingSoundsRef.current.push("usedItem");

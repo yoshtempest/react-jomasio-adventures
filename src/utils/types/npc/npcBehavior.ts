@@ -5,7 +5,7 @@ export type BehaviorContext = {
   npc: NPCBattleState;
   playerX: number;
   playerY: number;
-  playerState: playerState;
+  playerState: PlayerState;
   playerDirection: Direction;
   targetX: number;
   targetY: number;

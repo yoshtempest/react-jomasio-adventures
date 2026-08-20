@@ -1,6 +1,11 @@
 import type { ElementType } from "@/utils/types/battle/element";
 
-export const NPC_ELEMENT_TYPES: Record<string, readonly ElementType[]> = {
+/** Pets têm elementos mas não são NPCs de batalha. */
+type PetElementKey = "turkey" | "rapariga" | "zecaUrubu" | "mosquito";
+
+// `satisfies` garante que toda chave de NPC é um NpcType válido —
+// typo aqui quebra a compilação.
+export const NPC_ELEMENT_TYPES = {
   /* Jomasio */
   hungryDeath: ["Normalis", "Darkus"],
   piupiu: ["Ventus", "Normalis"],
@@ -65,8 +70,12 @@ export const NPC_ELEMENT_TYPES: Record<string, readonly ElementType[]> = {
   rapariga: ["Normalis", "Haos"],
   zecaUrubu: ["Normalis", "Ventus"],
   mosquito: ["Ventus", "Natura"],
-};
+} as const satisfies Partial<
+  Record<NpcType | PetElementKey, readonly ElementType[]>
+>;
 
 export function getNpcElementTypes(npcType: string): readonly ElementType[] {
-  return NPC_ELEMENT_TYPES[npcType] ?? ["Normalis"];
+  return (
+    NPC_ELEMENT_TYPES[npcType as keyof typeof NPC_ELEMENT_TYPES] ?? ["Normalis"]
+  );
 }

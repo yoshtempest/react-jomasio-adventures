@@ -5,6 +5,11 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { openChest, type ChestDropResult } from "@/data/items/chests";
+import {
+  CHEST_TIER_BY_ITEM,
+  getKeyIdForChest,
+  isChestItem,
+} from "@/data/items/chestItems";
 
 export type ChestOpenResult = ChestDropResult & {
   tier: NPCClass;
@@ -24,11 +29,12 @@ export function useChestOpening() {
 
   const openPlayerChest = useCallback(
     (chestItemId: ItemId): ChestOpenResult | null => {
+      if (!isChestItem(chestItemId)) return null;
       const chestItem = items.find((i) => i.id === chestItemId);
       if (!chestItem) return null;
 
-      const tier = chestItemId.replace("_chest", "") as NPCClass;
-      const keyId = `${tier}_key` as ItemId;
+      const tier = CHEST_TIER_BY_ITEM[chestItemId];
+      const keyId = getKeyIdForChest(chestItemId);
 
       const keyItem = items.find((i) => i.id === keyId);
       if (!keyItem) return null;
@@ -72,26 +78,25 @@ export function useChestOpening() {
   );
 
   const otherChestExists = useCallback(
-    (currentChestId?: ItemId) =>
-      items.some(
-        (i) =>
-          i.id.endsWith("_chest") &&
-          i.id !== currentChestId &&
-          items.some((k) => k.id === `${i.id.replace("_chest", "")}_key`),
-      ),
+    (excludeTier?: NPCClass) =>
+      items.some((i) => {
+        if (!isChestItem(i.id)) return false;
+        if (CHEST_TIER_BY_ITEM[i.id] === excludeTier) return false;
+        const keyId = getKeyIdForChest(i.id);
+        return items.some((k) => k.id === keyId);
+      }),
     [items],
   );
 
   const openNextChest = useCallback(
-    (excludeChestId: ItemId) => {
-      const chest = items.find(
-        (i) =>
-          i.id.endsWith("_chest") &&
-          i.id !== excludeChestId &&
-          items.some((k) => k.id === `${i.id.replace("_chest", "")}_key`),
-      );
+    (excludeChestId?: ItemId) => {
+      const chest = items.find((i) => {
+        if (!isChestItem(i.id) || i.id === excludeChestId) return false;
+        const keyId = getKeyIdForChest(i.id);
+        return items.some((k) => k.id === keyId);
+      });
       if (!chest) return null;
-      return openPlayerChest(chest.id as ItemId);
+      return openPlayerChest(chest.id);
     },
     [items, openPlayerChest],
   );

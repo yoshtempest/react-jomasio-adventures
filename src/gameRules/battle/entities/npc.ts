@@ -1,4 +1,4 @@
-import { getNpcStats } from "@/utils/types/npc/npcProgress";
+import { getNpcStats } from "@/gameRules/npc/npcStats";
 
 type NPCClass = Parameters<typeof getNpcStats>[1];
 

@@ -19,16 +19,15 @@ export default function CombatTutorial() {
   });
 
   if (!showTutorial) {
+    const dialogue = cutscene.dialogue;
     return (
       <div
         className="Master"
         style={{ backgroundImage: `url(${sceneBackgrounds.CombatTutorial})` }}
       >
-        <Talking
-          name={cutscene.dialogue.name}
-          message={cutscene.dialogue.message}
-          src={cutscene.dialogue.src}
-        />
+        {dialogue && (
+          <Talking name={dialogue.name} message={dialogue.message} src={dialogue.src} />
+        )}
       </div>
     );
   }

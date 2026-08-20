@@ -89,15 +89,16 @@ export default function Tutorial() {
     },
   });
 
+  const dialogue = cutscene.dialogue;
+
   return (
     <div
       className="Master"
       style={{ backgroundImage: `url(${sceneBackgrounds.Tutorial})` }}
     >
-      <Talking
-        name={cutscene.dialogue.name}
-        message={cutscene.dialogue.message}
-      />
+      {dialogue && (
+        <Talking name={dialogue.name} message={dialogue.message} />
+      )}
 
       {flow.showGenderChoice && (
         <ChoiceBox

@@ -120,7 +120,7 @@ export type ChestDropResult = {
   }>;
 };
 
-const SLOTS: EquipmentSlot[] = [
+const SLOTS = [
   "weapon",
   "helmet",
   "chestplate",
@@ -128,18 +128,21 @@ const SLOTS: EquipmentSlot[] = [
   "boots",
   "accessory",
   "bag",
-];
+] as const;
 
-function pickWeighted(weights: Record<string, number>): string | null {
-  const entries = Object.entries(weights).filter(([, w]) => w > 0);
-  if (entries.length === 0) return null;
-  const total = entries.reduce((sum, [, w]) => sum + w, 0);
+function pickWeighted<K extends string | number>(
+  weights: Record<K, number>,
+): K | null {
+  const entries = Object.entries(weights) as [K, number][];
+  const positive = entries.filter(([, w]) => w > 0);
+  if (positive.length === 0) return null;
+  const total = positive.reduce((sum, [, w]) => sum + w, 0);
   let roll = Math.random() * total;
-  for (const [key, weight] of entries) {
+  for (const [key, weight] of positive) {
     roll -= weight;
     if (roll <= 0) return key;
   }
-  return entries[entries.length - 1][0];
+  return positive[positive.length - 1]![0];
 }
 
 export function openChest(
@@ -165,7 +168,7 @@ export function openChest(
           if (itemDef) {
             const qty = Math.floor(Math.random() * 3) + 1;
             result.materials.push({
-              id: matId as string,
+              id: matId,
               name: itemDef.name,
               qty,
             });
@@ -176,17 +179,16 @@ export function openChest(
       const rank = pickWeighted(table.equipmentRankWeights);
       if (!rank) continue;
 
-      const rankId = rank as unknown as EquipmentRank;
-      if (chestTier !== "legendary" && (rankId === "EX" || rankId === 0))
+      if (chestTier !== "legendary" && (rank === "EX" || rank === 0))
         continue;
 
-      const slot = SLOTS[Math.floor(Math.random() * SLOTS.length)];
-      const candidates = getEquipmentBySlotAndRank(slot, rankId).filter(
+      const slot = SLOTS[Math.floor(Math.random() * SLOTS.length)]!;
+      const candidates = getEquipmentBySlotAndRank(slot, rank).filter(
         (e) => !e.craftOnly,
       );
       if (candidates.length === 0) continue;
 
-      const equip = candidates[Math.floor(Math.random() * candidates.length)];
+      const equip = candidates[Math.floor(Math.random() * candidates.length)]!;
       const enhance = Math.floor(Math.random() * 6);
       result.equipment.push({
         id: equip.id,
@@ -200,7 +202,7 @@ export function openChest(
 
   const chance = petChance ?? table.petDropChance;
   if (chance > 0 && Math.random() < chance) {
-    const pet = PETS[Math.floor(Math.random() * PETS.length)];
+    const pet = PETS[Math.floor(Math.random() * PETS.length)]!;
     result.pets.push({
       id: pet.id,
       name: pet.name,

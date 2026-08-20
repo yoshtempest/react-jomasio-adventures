@@ -9,7 +9,7 @@ import { useTitles } from "@/contexts/TitleContext";
 import { useFlags } from "@/contexts/FlagContext";
 import { CHARACTERS } from "@/utils/types/player/player";
 import { CHARACTERS as CHARACTER_OPTIONS } from "@/data/options/characters";
-import { TITLES } from "@/data/titles";
+import { TITLE_IDS } from "@/data/titles";
 import { FLAGS } from "@/data/flags";
 import { BESTIARY_NPC_ORDER } from "@/data/bestiary";
 import { useRewards } from "@/hooks/rewards/useRewards";
@@ -37,7 +37,6 @@ import {
   getSummaryStats,
 } from "@/data/player/stats";
 
-const TITLE_IDS = Object.keys(TITLES);
 const FLAG_IDS = Object.keys(FLAGS) as FlagId[];
 
 export function Player() {

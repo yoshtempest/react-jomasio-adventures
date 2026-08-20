@@ -14,6 +14,8 @@ export const CHARACTERS = [
 ] as const;
 export type Character = (typeof CHARACTERS)[number];
 
+export const DEFAULT_CHARACTER: Character = "marcelo";
+
 export function isCharacter(value: unknown): value is Character {
   return (
     typeof value === "string" &&

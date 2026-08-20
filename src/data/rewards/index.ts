@@ -1,8 +1,28 @@
-import { CHARACTERS } from "@/utils/types/player/player";
+import { CHARACTERS, type Character } from "@/utils/types/player/player";
 import { CHARACTERS as CHAR_OPTIONS } from "@/data/options/characters";
 
+type CharRewardType = "level" | "damage" | "specials" | "hits" | "attacks";
+
+type StaticRewardId =
+  | "kill_enemies"
+  | "play_time"
+  | "unlock_chars"
+  | "kill_same_npc"
+  | "kill_legendary"
+  | "kill_boss"
+  | "kill_rare"
+  | "damage_dealt"
+  | "damage_taken"
+  | "blocks"
+  | "misses"
+  | "hits_used"
+  | "specials_used"
+  | "attacks_used";
+
+export type RewardId = StaticRewardId | `${CharRewardType}_${Character}`;
+
 export type RewardDef = {
-  id: string;
+  id: RewardId;
   label: string;
   getRequirement: (stage: number) => number;
   getReward: (stage: number) => number;
@@ -39,7 +59,12 @@ const CHAR_REWARD_TEMPLATES = [
     getRequirement: (stage: number) => 100 * (stage + 1),
     getReward: (stage: number) => 3 * (stage + 1),
   },
-];
+] as const satisfies readonly {
+  type: CharRewardType;
+  label: string;
+  getRequirement: (stage: number) => number;
+  getReward: (stage: number) => number;
+}[];
 
 function charDisplayName(charId: string): string {
   return CHAR_OPTIONS.find((c) => c.image === charId)?.name ?? charId;
@@ -62,14 +87,20 @@ function generateCharRewards(): RewardDef[] {
 
 export function isCharRewardId(
   id: string,
-): { charId: string; type: string } | null {
-  const types = ["level", "damage", "specials", "hits", "attacks"];
+): { charId: Character; type: CharRewardType } | null {
+  const types: CharRewardType[] = [
+    "level",
+    "damage",
+    "specials",
+    "hits",
+    "attacks",
+  ];
   for (const t of types) {
     const prefix = t + "_";
     if (id.startsWith(prefix)) {
       const char = id.slice(prefix.length);
       if ((CHARACTERS as readonly string[]).includes(char)) {
-        return { charId: char, type: t };
+        return { charId: char as Character, type: t };
       }
     }
   }

@@ -9,6 +9,7 @@ import type {
   SummonSnap,
   PetSnap,
 } from "@/utils/types/replay";
+import type { ComboRank } from "@/utils/types/battle/combo";
 import { initAudioLog, getAudioEvents } from "@/utils/replay/audioEventLog";
 
 type FrameSnapshots = {
@@ -20,9 +21,9 @@ type FrameSnapshots = {
   pet: PetSnap;
   combo: {
     count: number;
-    rank: string;
+    rank: ComboRank;
     progress: number;
-    nextRank: string | null;
+    nextRank: ComboRank | null;
   } | null;
   comboAction: string | null;
 };
@@ -106,15 +107,15 @@ type Props = {
   petRef: React.RefObject<PetSnap>;
   comboRef: React.RefObject<{
     count: number;
-    rank: string;
+    rank: ComboRank;
     progress: number;
-    nextRank: string | null;
+    nextRank: ComboRank | null;
   }>;
   comboActionRef: React.RefObject<string | null>;
   npcType: string;
   npcLevel: number;
-  npcClass: string;
-  playerCharacter: string;
+  npcClass: NPCClass;
+  playerCharacter: CharacterId;
   playerLevel: number;
   background: string;
   audioSrc: string;
@@ -161,7 +162,7 @@ export function useBattleRecording({
     metadataRef.current = {
       npcType,
       npcLevel,
-      npcClass: npcClass as ReplayData["npcClass"],
+      npcClass,
       playerCharacter,
       playerLevel,
       background,

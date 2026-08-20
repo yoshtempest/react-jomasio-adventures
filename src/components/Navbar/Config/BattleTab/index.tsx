@@ -17,7 +17,7 @@ import { getElementMultiplier } from "@/gameRules/battle/element";
 import { calculateMaxHpBonus } from "@/gameRules/battle/damage";
 import { formatRank, getRank, getRankMultiplier } from "@/gameRules/rank";
 import { getHungerMultiplier } from "@/contexts/CharacterProgressContext";
-import { getNpcDisplayName } from "@/utils/types/npc/npcNames";
+import { getNpcDisplayName } from "@/data/npc/displayNames";
 import { CLASS_DATA } from "@/data/npc/class";
 import { npcPath, playerPath } from "@/utils/paths";
 import { getCharacterStatus } from "@/data/player/stats";

@@ -1,7 +1,17 @@
 import { QUESTS } from "@/data/quests";
 import { ITEMS } from "@/data/items";
 import { FLAGS } from "@/data/flags";
-import { CHARACTERS } from "@/utils/types/player/player";
+import { NPCS } from "@/data/npc/npc";
+import type {
+  Quest as QuestDef,
+  QuestType as QuestTypeDef,
+  QuestRewardsType as QuestRewardsTypeDef,
+  QuestFrequency as QuestFrequencyDef,
+} from "@/utils/types/player/quest";
+import type { SceneNPCData as SceneNpcDataDef } from "@/utils/types/maps/exploreScene";
+import type { EquipmentRank as EquipmentRankDef } from "@/utils/types/player/equipment";
+import type { Condition } from "@/utils/types/maps/conditions";
+import type { Character as CharacterDef } from "@/utils/types/player/player";
 
 export {};
 
@@ -9,14 +19,14 @@ declare global {
   // ── Primitives ──────────────────────────────────────────
   type LastPage = string | undefined;
   type Direction = "up" | "down" | "left" | "right";
-  type playerState = string;
-  type EquipmentId = string;
 
   // ── IDs (derivados de dados estáticos) ──────────────────
   type QuestId = Extract<keyof typeof QUESTS, string>;
   type ItemId = Extract<keyof typeof ITEMS, string>;
   type FlagId = Extract<keyof typeof FLAGS, string>;
-  type CharacterId = (typeof CHARACTERS)[number];
+  type NpcType = keyof typeof NPCS & string;
+  type CharacterId = CharacterDef;
+  type EquipmentId = string;
 
   // ── Geometria ───────────────────────────────────────────
   type Position = { x: number; y: number };
@@ -138,16 +148,7 @@ declare global {
     | { type: "removeItem"; itemId: ItemId }
     | {
         type: "conditional";
-        condition: {
-          hasItem?: ItemId;
-          notHasItem?: ItemId;
-          hasQuest?: QuestId;
-          notHasQuest?: QuestId;
-          hasFlag?: FlagId;
-          notHasFlag?: FlagId;
-          lastPage?: LastPage;
-          notLastPage?: LastPage;
-        };
+        condition: Condition;
         then: SceneEvent[];
         else?: SceneEvent[];
       };
@@ -163,12 +164,7 @@ declare global {
 
   type NpcSrcResolver = (context: DialogueContext) => string;
 
-  type SceneNPCData = {
-    src: string | NpcSrcResolver;
-    gridX: number;
-    gridY: number;
-    interaction?: (startDialogue: (d: Dialogue[]) => void) => void;
-  };
+  type SceneNPCData = SceneNpcDataDef;
 
   type ExploreSceneProps = {
     name?: string;
@@ -205,7 +201,7 @@ declare global {
   // ── NPC ─────────────────────────────────────────────────
   type NPCClass = "common" | "rare" | "epic" | "boss" | "legendary";
   type NpcDifficulty = "easy" | "medium" | "hard" | "insano";
-  type EquipmentRank = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0 | "EX";
+  type EquipmentRank = EquipmentRankDef;
 
   type ProjectileCommon = {
     variant: "common";
@@ -321,26 +317,12 @@ declare global {
   };
 
   // ── Quest ───────────────────────────────────────────────
-  type QuestType = "history" | "sidequest";
-  type QuestRewardsType = "xp" | "item" | "coin" | "hyperCoin";
-  type QuestFrequency = "daily" | "weekly";
+  // Fonte única: src/utils/types/player/quest.ts
+  type QuestType = QuestTypeDef;
+  type QuestRewardsType = QuestRewardsTypeDef;
+  type QuestFrequency = QuestFrequencyDef;
 
-  type Quest = {
-    id: string;
-    name: string;
-    image: string;
-    description: string;
-    type: QuestType;
-    counter: number;
-    progress: number;
-    completed: boolean;
-    rewardsType?: QuestRewardsType;
-    rewards?: number;
-    claimed?: boolean;
-    frequency?: QuestFrequency;
-    rewardItemId?: string;
-    progressType?: string;
-  };
+  type Quest = QuestDef;
 
   type RewardProgress = {
     id: string;
@@ -349,7 +331,7 @@ declare global {
     requirement: number;
     reward: number;
     canClaim: boolean;
-    charId?: string;
+    charId?: CharacterId;
   };
 
   export type EquipmentSlot =

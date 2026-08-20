@@ -14,20 +14,20 @@ type Props = {
 };
 
 const TYPE_CLASS: Record<string, string> = {
-  player: styles.player,
-  npc: styles.npc,
-  special: styles.special,
-  pet: styles.pet,
-  summon: styles.summon,
-  blocked: styles.blocked,
-  crit: styles.crit,
-  charge: styles.charge,
-  miss: styles.miss,
-  burn: styles.burn,
-  poison: styles.poison,
-  confuse: styles.confuse,
-  armor: styles.armor,
-  heal: styles.heal,
+  player: styles.player!,
+  npc: styles.npc!,
+  special: styles.special!,
+  pet: styles.pet!,
+  summon: styles.summon!,
+  blocked: styles.blocked!,
+  crit: styles.crit!,
+  charge: styles.charge!,
+  miss: styles.miss!,
+  burn: styles.burn!,
+  poison: styles.poison!,
+  confuse: styles.confuse!,
+  armor: styles.armor!,
+  heal: styles.heal!,
 };
 
 const HEAD_GAP = 8;

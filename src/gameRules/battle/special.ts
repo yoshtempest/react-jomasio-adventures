@@ -1,4 +1,4 @@
-import { SPECIAL_HITS_BY_CLASS } from "@/utils/types/player/classes";
+import { SPECIAL_HITS_BY_CLASS } from "@/gameRules/battle/classes";
 
 export function getMaxSpecial(playerClass: PlayerClass | null) {
   if (playerClass === "fracote") {

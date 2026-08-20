@@ -15,15 +15,14 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { usePlayerAnimation } from "@/hooks/battle/player/usePlayerAnimation";
-import {
-  BATTLE_DEFAULT_STATE,
-  useBattleCollisionRef,
-} from "@/utils/types/player/state";
+import { BATTLE_DEFAULT_STATE } from "@/gameRules/battle/defaultState";
+import { useBattleCollisionRef } from "@/hooks/battle/useBattleCollisionRef";
 import {
   CHARACTER_KEY,
   PLAYER_CLASS_KEY,
 } from "@/data/storageKeys";
 import { slotKey } from "@/utils/save/slotManager";
+import { isCharacter } from "@/utils/types/player/player";
 import { useSettings } from "@/contexts/SettingsContext";
 
 type PlayerContextType = {
@@ -94,7 +93,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       gridY: 11,
       height: 0,
       direction: "up",
-      character: (savedCharacter as Player["character"]) || "marcelo",
+      character: isCharacter(savedCharacter) ? savedCharacter : "marcelo",
       ...BATTLE_DEFAULT_STATE,
       mode: "explore",
     };

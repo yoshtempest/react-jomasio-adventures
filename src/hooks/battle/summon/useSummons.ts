@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from "react";
 
-import { NPCS } from "@/data/npc/npc";
-import { getNpcStats } from "@/utils/types/npc/npcProgress";
+import { NPCS, isNpcType } from "@/data/npc/npc";
+import { getNpcStats } from "@/gameRules/npc/npcStats";
 
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 
@@ -31,15 +31,11 @@ export function useSummons({
 
   const summonNpc = useCallback(
     (npcType: string, overrideX?: number) => {
+      if (!isNpcType(npcType)) return;
+
       const data = NPCS[npcType];
 
-      if (!data) return;
-
-      const maxHp = getNpcStats(
-        npcLevel,
-        data.class as NPCClass,
-        difficulty,
-      ).hp;
+      const maxHp = getNpcStats(npcLevel, data.class, difficulty).hp;
 
       const spawnX =
         overrideX ??

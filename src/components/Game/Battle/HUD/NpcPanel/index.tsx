@@ -1,7 +1,7 @@
 import { HealthBar } from "@/components/Game/Battle/HUD/HealthBar";
 import { ElementBadges } from "@/components/Game/Battle/HUD/ElementBadges";
 import { npcPath } from "@/utils/paths";
-import { getNpcDisplayName } from "@/utils/types/npc/npcNames";
+import { getNpcDisplayName } from "@/data/npc/displayNames";
 import type { ElementType } from "@/utils/types/battle/element";
 import styles from "../styles.module.css";
 import { formatRank, getRank } from "@/gameRules/rank";

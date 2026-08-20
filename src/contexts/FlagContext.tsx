@@ -18,7 +18,7 @@ type Props = {
   children: ReactNode;
 };
 
-const FlagContext = createContext({} as FlagContextType);
+const FlagContext = createContext<FlagContextType | null>(null);
 
 export function FlagProvider({ children }: Props) {
   const [flags, setFlags] = useState<FlagId[]>(loadFlags);
@@ -47,4 +47,8 @@ export function FlagProvider({ children }: Props) {
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const useFlags = () => useContext(FlagContext);
+export function useFlags() {
+  const ctx = useContext(FlagContext);
+  if (!ctx) throw new Error("useFlags precisa do FlagProvider");
+  return ctx;
+}

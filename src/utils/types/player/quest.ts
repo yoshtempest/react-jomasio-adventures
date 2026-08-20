@@ -23,7 +23,7 @@ export type QuestTemplate = {
   rewards?: number;
   frequency: QuestFrequency;
   progressType: string;
-  rewardItemId?: string;
+  rewardItemId?: ItemId;
 };
 
 export type Quest = {
@@ -39,7 +39,7 @@ export type Quest = {
   rewards?: number;
   claimed?: boolean;
   frequency?: QuestFrequency;
-  rewardItemId?: string;
+  rewardItemId?: ItemId;
   progressType?: string;
 };
 

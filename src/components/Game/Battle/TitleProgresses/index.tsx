@@ -1,14 +1,17 @@
 import styles from "./styles.module.css";
 import { useTitles } from "@/contexts/TitleContext";
-import { TITLES } from "@/data/titles";
+import { TITLES, type TitleId } from "@/data/titles";
+import type { TitleDef } from "@/utils/types/player/titles";
 
 export function TitleProgresses() {
   const { titlesData } = useTitles();
 
-  const activeTitles = Object.entries(TITLES).filter(([id]) => {
-    const p = titlesData.progress[id];
-    return p && p.current > 0;
-  });
+  const activeTitles = (Object.entries(TITLES) as [TitleId, TitleDef][]).filter(
+    ([id]) => {
+      const p = titlesData.progress[id];
+      return p && p.current > 0;
+    },
+  );
 
   return (
     <div className="section">
@@ -26,6 +29,7 @@ export function TitleProgresses() {
         )}
         {activeTitles.slice(0, 4).map(([id, def]) => {
           const prog = titlesData.progress[id];
+          if (!prog) return null;
           const levelDef = def.levels[prog.level];
           if (!levelDef) return null;
           return (

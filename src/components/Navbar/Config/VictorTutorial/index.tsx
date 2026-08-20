@@ -17,7 +17,7 @@ export function VictorTutorial() {
 
   return (
     <div className={styles.tutorialContainer}>
-      {dialogueSystem.isOpen && (
+      {dialogueSystem.isOpen && dialogueSystem.dialogue && (
         <div className={styles.talking}>
           <Talking {...dialogueSystem.dialogue} onNext={dialogueSystem.next} />
         </div>

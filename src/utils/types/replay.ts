@@ -1,20 +1,27 @@
+import type { ComboRank } from "@/utils/types/battle/combo";
+import type {
+  NPCBattleState,
+  NPCDirection,
+  SummonedNpc,
+} from "@/utils/types/npc/npc";
+
 export type ReplayFrame = {
   t: number;
 
   px: number;
   py: number;
-  ps: string;
-  pd: string;
-  pchar: string;
-  pdir: string;
+  ps: PlayerState;
+  pd: Direction;
+  pchar: CharacterId;
+  pdir: Direction;
   php: number;
   pmaxhp: number;
   pshield: number;
 
   nx: number;
   ny: number;
-  ns: string;
-  ndir: string;
+  ns: NPCBattleState["state"];
+  ndir: NPCDirection;
   nhp: number;
   nmaxhp: number;
   npcPhase: number;
@@ -25,25 +32,25 @@ export type ReplayFrame = {
   blockLimit: number;
 
   cc: number;
-  cr: string;
+  cr: ComboRank;
   cprog: number;
-  cnext: string | null;
+  cnext: ComboRank | null;
 
-  dmg: { v: number; x: number; y: number; c: boolean; ty: string }[];
+  dmg: { v: number; x: number; y: number; c: boolean; ty: DamageType }[];
   sm: {
     id: string;
     x: number;
     y: number;
-    t: string;
-    st: string;
-    dir: string;
+    t: NpcType;
+    st: SummonedNpc["state"];
+    dir: NPCDirection;
     hp: number;
   }[];
 
   petx: number | null;
   pety: number | null;
   petst: string | null;
-  petdir: string | null;
+  petdir: "left" | "right" | null;
   petType: string | null;
 
   comboAction: string | null;
@@ -58,10 +65,11 @@ export type AudioLogEvent = {
 
 export type ReplayData = {
   id: string;
+  /** Pode ser um NpcType ou o identificador sintético "__training". */
   npcType: string;
   npcLevel: number;
-  npcClass: "common" | "rare" | "epic" | "boss" | "legendary";
-  playerCharacter: string;
+  npcClass: NPCClass;
+  playerCharacter: CharacterId;
   playerLevel: number;
   background: string;
   audioSrc: string;
@@ -74,18 +82,18 @@ export type ReplayData = {
 export type PlayerSnap = {
   x: number;
   y: number;
-  state: string;
-  battleDirection: string;
-  character: string;
-  direction: string;
+  state: PlayerState;
+  battleDirection: Direction;
+  character: CharacterId;
+  direction: Direction;
   grabbedUntil: number;
 };
 
 export type NpcSnap = {
   x: number;
   y: number;
-  state: string;
-  direction: string;
+  state: NPCBattleState["state"];
+  direction: NPCDirection;
   jumpLandingX?: number;
 };
 
@@ -106,23 +114,23 @@ export type DamageNum = {
   value: number;
   x: number;
   y: number;
-  type: string;
+  type: DamageType;
 };
 
 export type SummonSnap = {
   id: string;
   x: number;
   y: number;
-  npcType: string;
-  state: string;
-  direction: string;
+  npcType: NpcType;
+  state: SummonedNpc["state"];
+  direction: NPCDirection;
   hp: number;
 };
 
 export type PetSnap = {
   x: number;
   y: number;
-  direction: string;
+  direction: "left" | "right";
   state: string;
   npcType: string;
 } | null;

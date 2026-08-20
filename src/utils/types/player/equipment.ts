@@ -1,6 +1,6 @@
 export type EquipmentRank = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0 | "EX";
 
-export const EQUIPMENT_SLOTS: EquipmentSlot[] = [
+export const EQUIPMENT_SLOTS = [
   "weapon",
   "helmet",
   "chestplate",
@@ -9,17 +9,17 @@ export const EQUIPMENT_SLOTS: EquipmentSlot[] = [
   "accessory",
   "bag",
   "pet",
-];
+] as const;
 
-export const ARMOR_SLOTS: EquipmentSlot[] = [
+export const ARMOR_SLOTS = [
   "helmet",
   "chestplate",
   "pants",
   "boots",
   "accessory",
-];
+] as const;
 
-export const EQUIPMENT_RANKS: EquipmentRank[] = [
+export const EQUIPMENT_RANKS = [
   1,
   2,
   3,
@@ -31,7 +31,7 @@ export const EQUIPMENT_RANKS: EquipmentRank[] = [
   9,
   0,
   "EX",
-];
+] as const;
 
 export const PET_EQUIPMENT_IDS = ["pet_goat"] as const;
 

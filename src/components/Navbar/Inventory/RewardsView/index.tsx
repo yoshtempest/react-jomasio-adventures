@@ -13,7 +13,7 @@ type Props = {
   onSelect: Dispatch<SetStateAction<number>>;
   onCloseDaily: () => void;
   onCloseChest: () => void;
-  onOpenNextChest: (excludeId: ItemId) => void;
+  onOpenNextChest: (excludeId?: ItemId) => void;
 };
 
 export function RewardsView({
@@ -51,9 +51,7 @@ export function RewardsView({
         onSelect={onSelect}
         onConfirm={() => {
           if (rewardOptionCount > 1 && rewardOptionIndex === 0) {
-            onOpenNextChest(
-              lastOpened?.chestId ?? (chestResult.tier as unknown as ItemId),
-            );
+            onOpenNextChest(lastOpened?.chestId);
           } else {
             onCloseChest();
           }

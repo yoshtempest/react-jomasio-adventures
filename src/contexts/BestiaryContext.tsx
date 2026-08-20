@@ -16,7 +16,7 @@ type ContextType = {
   getKills: (npcType: string) => number;
 };
 
-const BestiaryContext = createContext({} as ContextType);
+const BestiaryContext = createContext<ContextType | null>(null);
 
 export function BestiaryProvider({ children }: { children: ReactNode }) {
   const [bestiary, setBestiary] = useState<BestiarySaveData>(loadBestiary);
@@ -64,5 +64,7 @@ export function BestiaryProvider({ children }: { children: ReactNode }) {
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function useBestiary() {
-  return useContext(BestiaryContext);
+  const ctx = useContext(BestiaryContext);
+  if (!ctx) throw new Error("useBestiary precisa do BestiaryProvider");
+  return ctx;
 }

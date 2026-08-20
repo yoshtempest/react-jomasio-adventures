@@ -7,7 +7,7 @@ import {
 } from "@/gameRules/battle/damage";
 import { rollCrit } from "@/gameRules/battle/damageUtils";
 import { getElementMultiplier } from "@/gameRules/battle/element";
-import { playAttackSound } from "@/utils/types/battle/playAttackSound";
+import { playAttackSound } from "@/utils/audio/playAttackSound";
 import type { BattleBehavior } from "@/utils/types/player/behavior";
 import type { CharacterProgress } from "@/data/characters/defaultProgress";
 import type { ElementType } from "@/utils/types/battle/element";

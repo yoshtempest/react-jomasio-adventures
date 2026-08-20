@@ -14,7 +14,7 @@ import {
   DASH_INTERVAL,
   DASH_STEP,
   BATTLE_LIMITS,
-} from "@/utils/types/player/movement";
+} from "@/gameRules/movement/constants";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";

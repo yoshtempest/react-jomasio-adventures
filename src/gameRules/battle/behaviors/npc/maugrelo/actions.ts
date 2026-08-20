@@ -1,6 +1,6 @@
 import { isNear } from "@/gameRules/npc/behavior";
 import { getChaseMovement } from "@/gameRules/movement/npc";
-import { NPC_RUNNING_SPEED, NPC_BASE_SPEED } from "@/utils/types/player/movement";
+import { NPC_RUNNING_SPEED, NPC_BASE_SPEED } from "@/gameRules/movement/constants";
 import type { BehaviorContext, BehaviorResult } from "@/utils/types/npc/npcBehavior";
 import type { MaugreloAI } from "./state";
 import {

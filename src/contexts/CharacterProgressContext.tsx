@@ -48,7 +48,7 @@ type ContextType = {
   getXPToNextLevel: (level: number) => number;
 };
 
-const CharacterProgressContext = createContext({} as ContextType);
+const CharacterProgressContext = createContext<ContextType | null>(null);
 const STORAGE_KEY = CHARACTER_PROGRESS_KEY;
 
 export function CharacterProgressProvider({
@@ -275,5 +275,7 @@ export function CharacterProgressProvider({
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function useCharacterProgress() {
-  return useContext(CharacterProgressContext);
+  const ctx = useContext(CharacterProgressContext);
+  if (!ctx) throw new Error("useCharacterProgress precisa do CharacterProgressProvider");
+  return ctx;
 }

@@ -1,6 +1,6 @@
 import type { NPCDirection } from "@/utils/types/npc/npc";
 import type { BattleObstacle } from "@/utils/types/maps/battle";
-import { isHorizontallyBlocked } from "@/utils/types/maps/battle";
+import { isHorizontallyBlocked } from "@/gameRules/battle/obstacles";
 
 export function getNpcDirection(npcX: number, playerX: number): NPCDirection {
   return playerX < npcX ? "left" : "right";

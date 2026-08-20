@@ -8,7 +8,7 @@ export function useProjectile(
   setProjectile: Dispatch<SetStateAction<Projectile | null>>,
   playerX: number,
   playerY: number,
-  playerState: playerState,
+  playerState: PlayerState,
   _playerDirection: Direction,
   _npcX: number,
   _npcY: number,
@@ -58,7 +58,7 @@ function handleLinearProjectile(
   opts: {
     playerX: number;
     playerY: number;
-    playerState: playerState;
+    playerState: PlayerState;
     onHit: () => void;
     onPullPlayer?: (x: number) => void;
   },
@@ -110,7 +110,7 @@ function handleLinearProjectile(
 function handleRain(
   p: ProjectileRain,
   playerX: number,
-  playerState: playerState,
+  playerState: PlayerState,
   onHit: () => void,
 ): ProjectileRain | null {
   const now = Date.now();

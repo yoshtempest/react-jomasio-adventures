@@ -13,7 +13,7 @@ import {
 } from "@/gameRules/battle/equipment";
 import { getTenacityReduction } from "@/gameRules/battle/tenacity";
 import { getLuckBonus } from "@/gameRules/battle/luck";
-import { getNpcStats } from "@/utils/types/npc/npcProgress";
+import { getNpcStats } from "@/gameRules/npc/npcStats";
 import { getMaxSpecial } from "@/gameRules/battle/special";
 import { getRankMultiplier } from "@/gameRules/rank";
 import { getHungerMultiplier } from "@/contexts/CharacterProgressContext";

@@ -144,7 +144,7 @@ export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
         playMoveRef.current();
         setActiveTab((prev) => {
           const currentIdx = SAVE_TABS.indexOf(prev);
-          return SAVE_TABS[(currentIdx - 1 + SAVE_TAB_COUNT) % SAVE_TAB_COUNT];
+          return SAVE_TABS[(currentIdx - 1 + SAVE_TAB_COUNT) % SAVE_TAB_COUNT]!;
         });
         setSelectedIndex(0);
       },
@@ -153,11 +153,11 @@ export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
         playMoveRef.current();
         setActiveTab((prev) => {
           const currentIdx = SAVE_TABS.indexOf(prev);
-          return SAVE_TABS[(currentIdx + 1) % SAVE_TAB_COUNT];
+          return SAVE_TABS[(currentIdx + 1) % SAVE_TAB_COUNT]!;
         });
         setSelectedIndex(0);
       },
-      onConfirm: () => {
+      onConfirm: (): boolean => {
         if (isOnTabRef.current) return true;
 
         const idx = selectedIndexRef.current;
@@ -174,15 +174,15 @@ export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
               setModeRef.current("explore");
               sessionStorage.setItem("saveSwitchTarget", "/tutorial");
               window.location.replace(import.meta.env.BASE_URL);
-              return;
+              return false;
             }
 
             if (deletedWasActive) {
-              setActiveSlot(remaining[0]);
+              setActiveSlot(remaining[0]!);
               closeNavbarRef.current();
               setModeRef.current("explore");
               window.location.reload();
-              return;
+              return false;
             }
 
             setConfirmDelete("none");
@@ -192,11 +192,11 @@ export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
             setConfirmDelete("none");
             setSelectedIndex(0);
           }
-          return;
+          return false;
         }
 
         const item = itemsRef.current[idx];
-        if (!item) return;
+        if (!item) return false;
 
         playSelectRef.current();
 
@@ -204,19 +204,19 @@ export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
 
         if (item.key.startsWith("slot-") && item.slot !== undefined) {
           const slot = item.slot;
-          if (!isSlotUsed(slot)) return;
-          if (slot === getActiveSlot()) return;
+          if (!isSlotUsed(slot)) return false;
+          if (slot === getActiveSlot()) return false;
           setActiveSlot(slot);
           closeNavbarRef.current();
           setModeRef.current("explore");
           window.location.reload();
         } else if (item.key.startsWith("delete-") && item.slot !== undefined) {
-          if (!isSlotUsed(item.slot)) return;
+          if (!isSlotUsed(item.slot)) return false;
           setConfirmDelete({ slot: item.slot });
           setSelectedIndex(0);
         } else if (item.key === "newGame") {
           const free = getAvailableSlots()[0];
-          if (free === undefined) return;
+          if (free === undefined) return false;
           setActiveSlot(free);
           clearSlot(free);
           sessionStorage.setItem("saveSwitchTarget", "/tutorial");
@@ -225,14 +225,16 @@ export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
           closeNavbarRef.current();
           setModeRef.current("explore");
         }
+        return false;
       },
-      onCancel: () => {
+      onCancel: (): boolean => {
         if (confirmDeleteRef.current !== "none") {
           setConfirmDelete("none");
           setSelectedIndex(0);
           return true;
         }
         // Let navbar layer handle — returns to menu, not closes everything
+        return false;
       },
       blockGlobalOpen: true,
     });

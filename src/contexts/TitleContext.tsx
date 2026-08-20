@@ -7,8 +7,13 @@ import {
   useRef,
   type ReactNode,
 } from "react";
-import type { TitlesData, TitleBonusMap } from "@/utils/types/player/titles";
-import { TITLES, getTitleById } from "@/data/titles";
+import type {
+  TitlesData,
+  TitleBonusMap,
+  TitleDef,
+  TitleProgress,
+} from "@/utils/types/player/titles";
+import { TITLES, TITLE_IDS, getTitleById, type TitleId } from "@/data/titles";
 import { loadData, saveData } from "@/utils/titles/storage";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
@@ -28,31 +33,33 @@ type ContextType = {
   incrementPetDropCounter: () => void;
   incrementAlfaKillCounter: () => void;
   handleDefeat: () => void;
-  equipTitle: (id: string) => void;
+  equipTitle: (id: TitleId) => void;
   unequipTitle: () => void;
 };
 
-const TitleContext = createContext({} as ContextType);
+const TitleContext = createContext<ContextType | null>(null);
+
+const DEFAULT_TITLE_PROGRESS: TitleProgress = { current: 0, level: 0 };
 
 function incrementTitles(
   prev: TitlesData,
   conditionType: string,
   amount: number,
-  matchFn?: (def: (typeof TITLES)[string]) => boolean,
+  matchFn?: (def: TitleDef) => boolean,
 ): TitlesData {
   const nextProgress = { ...prev.progress };
   let changed = false;
 
-  for (const titleId of Object.keys(TITLES)) {
+  for (const titleId of TITLE_IDS) {
     const def = TITLES[titleId];
     if (def.condition.type !== conditionType) continue;
     if (matchFn && !matchFn(def)) continue;
 
-    const prog = { ...nextProgress[titleId] };
+    const prog = nextProgress[titleId] ?? DEFAULT_TITLE_PROGRESS;
     if (prog.level >= def.levels.length) continue;
 
     const nextCurrent = prog.current + amount;
-    const nextLevelTarget = def.levels[prog.level].count;
+    const nextLevelTarget = def.levels[prog.level]?.count ?? Infinity;
     const nextLevel =
       nextCurrent >= nextLevelTarget ? prog.level + 1 : prog.level;
 
@@ -77,7 +84,7 @@ export function TitleProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const prev = prevProgressRef.current;
     const curr = titlesData.progress;
-    for (const id of Object.keys(curr)) {
+    for (const id of TITLE_IDS) {
       const prevLevel = prev[id]?.level ?? 0;
       const currLevel = curr[id]?.level ?? 0;
       if (currLevel > prevLevel) {
@@ -113,7 +120,7 @@ export function TitleProvider({ children }: { children: ReactNode }) {
 
     for (const b of levelDef.bonus) {
       if (b.stat in bonus) {
-        (bonus as Record<string, number>)[b.stat] += b.value;
+        bonus[b.stat] += b.value;
       }
     }
 
@@ -124,7 +131,7 @@ export function TitleProvider({ children }: { children: ReactNode }) {
     (npcElementTypes: readonly ElementType[]): number => {
       const ELEMENT_LEVEL_BONUS = [0, 1, 2, 3, 5, 10] as const;
       let totalBonus = 0;
-      for (const titleId of Object.keys(TITLES)) {
+      for (const titleId of TITLE_IDS) {
         const def = TITLES[titleId];
         if (def.condition.type !== "killElement") continue;
         if (!npcElementTypes.includes(def.condition.element)) continue;
@@ -140,7 +147,7 @@ export function TitleProvider({ children }: { children: ReactNode }) {
   const getPetDropBonus = useCallback((): number => {
     const PET_DROP_LEVEL_BONUS = [0, 1, 2, 3, 5, 10] as const;
     let totalBonus = 0;
-    for (const titleId of Object.keys(TITLES)) {
+    for (const titleId of TITLE_IDS) {
       const def = TITLES[titleId];
       if (def.condition.type !== "petDrop") continue;
       const prog = titlesData.progress[titleId];
@@ -153,7 +160,7 @@ export function TitleProvider({ children }: { children: ReactNode }) {
   const getAlfaSpawnBonus = useCallback((): number => {
     const ALFA_SPAWN_LEVEL_BONUS = [0, 1, 2, 3, 5, 10] as const;
     let totalBonus = 0;
-    for (const titleId of Object.keys(TITLES)) {
+    for (const titleId of TITLE_IDS) {
       const def = TITLES[titleId];
       if (def.condition.type !== "killAlfa") continue;
       const prog = titlesData.progress[titleId];
@@ -171,9 +178,9 @@ export function TitleProvider({ children }: { children: ReactNode }) {
 
         const elements = getNpcElementTypes(npcType);
 
-        for (const titleId of Object.keys(TITLES)) {
+        for (const titleId of TITLE_IDS) {
           const def = TITLES[titleId];
-          const prog = { ...nextProgress[titleId] };
+          const prog = nextProgress[titleId] ?? DEFAULT_TITLE_PROGRESS;
           let shouldIncrement = false;
 
           if (def.condition.type === "killNpcType") {
@@ -196,7 +203,7 @@ export function TitleProvider({ children }: { children: ReactNode }) {
 
           if (shouldIncrement && prog.level < def.levels.length) {
             const nextCurrent = prog.current + 1;
-            const nextLevelTarget = def.levels[prog.level].count;
+            const nextLevelTarget = def.levels[prog.level]?.count ?? Infinity;
             const nextLevel =
               nextCurrent >= nextLevelTarget ? prog.level + 1 : prog.level;
             nextProgress[titleId] = {
@@ -207,20 +214,23 @@ export function TitleProvider({ children }: { children: ReactNode }) {
           }
         }
 
-        const allElementsCount = new Set<string>();
-        for (const titleId of Object.keys(TITLES)) {
+        const allElementsCount = new Set<ElementType>();
+        for (const titleId of TITLE_IDS) {
           const def = TITLES[titleId];
-          if (def.condition.type === "killElement" && nextProgress[titleId]?.current > 0) {
+          if (
+            def.condition.type === "killElement" &&
+            (nextProgress[titleId]?.current ?? 0) > 0
+          ) {
             allElementsCount.add(def.condition.element);
           }
         }
-        for (const titleId of Object.keys(TITLES)) {
+        for (const titleId of TITLE_IDS) {
           const def = TITLES[titleId];
           if (def.condition.type !== "killAllElements") continue;
-          const prog = { ...nextProgress[titleId] };
+          const prog = nextProgress[titleId] ?? DEFAULT_TITLE_PROGRESS;
           if (prog.level >= def.levels.length) continue;
           const nextCurrent = allElementsCount.size;
-          const nextLevelTarget = def.levels[prog.level].count;
+          const nextLevelTarget = def.levels[prog.level]?.count ?? Infinity;
           const nextLevel =
             nextCurrent >= nextLevelTarget ? prog.level + 1 : prog.level;
           if (nextCurrent !== prog.current || nextLevel !== prog.level) {
@@ -246,11 +256,11 @@ export function TitleProvider({ children }: { children: ReactNode }) {
       const nextProgress = { ...prev.progress };
       let changed = false;
 
-      for (const titleId of Object.keys(TITLES)) {
+      for (const titleId of TITLE_IDS) {
         const def = TITLES[titleId];
         if (def.condition.type !== "consecutiveWins") continue;
 
-        const prog = { ...nextProgress[titleId] };
+        const prog = nextProgress[titleId] ?? DEFAULT_TITLE_PROGRESS;
         const nextCurrent = Math.max(0, prog.current - 10);
 
         if (nextCurrent === prog.current) continue;
@@ -295,9 +305,9 @@ export function TitleProvider({ children }: { children: ReactNode }) {
     setTitlesData((prev) => incrementTitles(prev, "killAlfa", 1));
   }, []);
 
-  const equipTitle = useCallback((id: string) => {
+  const equipTitle = useCallback((id: TitleId) => {
     setTitlesData((prev) => {
-      if (!prev.progress[id] || prev.progress[id].level === 0) return prev;
+      if ((prev.progress[id]?.level ?? 0) === 0) return prev;
       return { ...prev, equippedId: prev.equippedId === id ? null : id };
     });
   }, []);
@@ -333,5 +343,7 @@ export function TitleProvider({ children }: { children: ReactNode }) {
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function useTitles() {
-  return useContext(TitleContext);
+  const ctx = useContext(TitleContext);
+  if (!ctx) throw new Error("useTitles precisa do TitleProvider");
+  return ctx;
 }

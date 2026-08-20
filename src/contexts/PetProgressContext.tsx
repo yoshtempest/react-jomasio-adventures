@@ -29,7 +29,7 @@ type ContextType = {
   resetPetProgress: (petId: string, stars: number) => void;
 };
 
-const PetProgressContext = createContext({} as ContextType);
+const PetProgressContext = createContext<ContextType | null>(null);
 const STORAGE_KEY = PET_PROGRESS_KEY;
 
 export function PetProgressProvider({ children }: { children: ReactNode }) {
@@ -108,5 +108,7 @@ export function PetProgressProvider({ children }: { children: ReactNode }) {
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function usePetProgress() {
-  return useContext(PetProgressContext);
+  const ctx = useContext(PetProgressContext);
+  if (!ctx) throw new Error("usePetProgress precisa do PetProgressProvider");
+  return ctx;
 }

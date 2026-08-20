@@ -9,7 +9,7 @@ export function isPlayerInRange(
   playerY: number,
   npcX: number,
   npcY: number,
-  playerState: playerState,
+  playerState: PlayerState,
   character: string,
   isSpecial: boolean,
   isBlock = false,

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
-import { CHARACTERS } from "@/utils/types/player/player";
+import { CHARACTERS, DEFAULT_CHARACTER } from "@/utils/types/player/player";
 
 const SCROLL_AMOUNT = 60;
 const TOTAL_ITEMS = CHARACTERS.length + 1; // Resumo + 12 characters
@@ -123,7 +123,9 @@ export function usePlayerMenu(
   return {
     selectedIndex,
     isSummaryView,
-    selectedChar: isSummaryView ? CHARACTERS[0] : CHARACTERS[selectedIndex - 1],
+    selectedChar: isSummaryView
+      ? DEFAULT_CHARACTER
+      : (CHARACTERS[selectedIndex - 1] ?? DEFAULT_CHARACTER),
     charIds: CHARACTERS,
     subView,
     setSubView,

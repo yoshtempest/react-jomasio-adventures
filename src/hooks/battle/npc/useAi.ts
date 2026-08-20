@@ -12,7 +12,7 @@ import { useSoundEffects, type SoundId } from "@/contexts/SoundEffectsContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { logPlay, logStop } from "@/utils/replay/audioEventLog";
 import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
-import { BATTLE_LIMITS } from "@/utils/types/player/movement";
+import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
 
 function useProximityLoopSound(
   npcTypeRef: React.RefObject<string>,
@@ -48,7 +48,7 @@ function useProximityLoopSound(
 type Props = {
   playerX: number;
   playerY: number;
-  playerState: playerState;
+  playerState: PlayerState;
   playerDirection: Direction;
   onProjectileHit: () => void;
   onMeleeHit: () => void;

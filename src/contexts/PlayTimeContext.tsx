@@ -98,7 +98,7 @@ type ContextType = {
   getVisitedCount: (character: Character) => number;
 };
 
-const PlayTimeContext = createContext({} as ContextType);
+const PlayTimeContext = createContext<ContextType | null>(null);
 
 export function PlayTimeProvider({ children }: { children: ReactNode }) {
   const [data, setData] = useState<StoredData>(loadData);
@@ -222,5 +222,7 @@ export function PlayTimeProvider({ children }: { children: ReactNode }) {
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function usePlayTime() {
-  return useContext(PlayTimeContext);
+  const ctx = useContext(PlayTimeContext);
+  if (!ctx) throw new Error("usePlayTime precisa do PlayTimeProvider");
+  return ctx;
 }

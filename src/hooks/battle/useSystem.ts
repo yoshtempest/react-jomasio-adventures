@@ -47,7 +47,7 @@ type Props = {
   npcType: string;
   onPlayerDeath: () => void;
   onNpcDeath: () => void;
-  playerState: playerState;
+  playerState: PlayerState;
   difficulty: NpcDifficulty;
   hitstopRef: React.RefObject<number>;
   npcStaggerRef: React.RefObject<number>;

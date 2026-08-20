@@ -2,7 +2,7 @@ import {
   BATTLE_STEP,
   DASH_STEP,
   BATTLE_LIMITS,
-} from "@/utils/types/player/movement";
+} from "@/gameRules/movement/constants";
 import { isPlayerFrozen, isPlayerParalyzed } from "@/gameRules/battle/status/statusEffects";
 
 const CROUCHED_STEP = 4;

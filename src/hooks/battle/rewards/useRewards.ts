@@ -12,7 +12,7 @@ import {
   CHEST_DROP_CHANCE,
   KEY_DROP_CHANCE,
 } from "@/data/battle/drops";
-import { calculateXP } from "@/utils/types/battle/calculateXp";
+import { calculateXP } from "@/gameRules/battle/calculateXp";
 import {
   PET_XP_MULTIPLIER,
   petStarsFromEnhance,

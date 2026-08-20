@@ -92,7 +92,9 @@ export function GameControlsProvider({ children }: Props) {
       getter: (layer: GameControlLayer) => (() => void) | undefined,
     ) => {
       for (let i = stack.length - 1; i >= 0; i--) {
-        const fn = getter(stack[i]);
+        const layer = stack[i];
+        if (!layer) continue;
+        const fn = getter(layer);
         if (fn) return fn;
       }
       return undefined;
@@ -101,7 +103,7 @@ export function GameControlsProvider({ children }: Props) {
     return {
       onUp: () => {
         for (let i = stack.length - 1; i >= 0; i--) {
-          const handled = stack[i].onUp?.();
+          const handled = stack[i]?.onUp?.();
 
           if (shouldConsumeInput(handled)) {
             break;
@@ -111,7 +113,7 @@ export function GameControlsProvider({ children }: Props) {
 
       onDown: () => {
         for (let i = stack.length - 1; i >= 0; i--) {
-          const handled = stack[i].onDown?.();
+          const handled = stack[i]?.onDown?.();
 
           if (shouldConsumeInput(handled)) {
             break;
@@ -121,7 +123,7 @@ export function GameControlsProvider({ children }: Props) {
 
       onLeft: () => {
         for (let i = stack.length - 1; i >= 0; i--) {
-          const handled = stack[i].onLeft?.();
+          const handled = stack[i]?.onLeft?.();
 
           if (shouldConsumeInput(handled)) {
             break;
@@ -131,7 +133,7 @@ export function GameControlsProvider({ children }: Props) {
 
       onRight: () => {
         for (let i = stack.length - 1; i >= 0; i--) {
-          const handled = stack[i].onRight?.();
+          const handled = stack[i]?.onRight?.();
 
           if (shouldConsumeInput(handled)) {
             break;
@@ -141,7 +143,7 @@ export function GameControlsProvider({ children }: Props) {
 
       onConfirm: () => {
         for (let i = stack.length - 1; i >= 0; i--) {
-          const handled = stack[i].onConfirm?.();
+          const handled = stack[i]?.onConfirm?.();
 
           if (shouldConsumeInput(handled)) {
             break;
@@ -151,7 +153,7 @@ export function GameControlsProvider({ children }: Props) {
 
       onCancel: () => {
         for (let i = stack.length - 1; i >= 0; i--) {
-          const handled = stack[i].onCancel?.();
+          const handled = stack[i]?.onCancel?.();
 
           if (shouldConsumeInput(handled)) {
             break;

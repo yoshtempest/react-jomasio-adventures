@@ -63,12 +63,13 @@ export function usePetsMenu(
       const { id, enhance } = parseCollectionKey(key);
       if (id !== pet.id) continue;
       const star = enhance + 1;
-      if (star >= 1 && star <= PET_STAR_MAX) qtyByStar[star - 1] += qty;
+      if (star >= 1 && star <= PET_STAR_MAX)
+        qtyByStar[star - 1] = (qtyByStar[star - 1] ?? 0) + qty;
     }
     if (equippedInfo?.id === pet.id) {
       const equippedStar = equippedInfo.enhance + 1;
       if (equippedStar >= 1 && equippedStar <= PET_STAR_MAX) {
-        qtyByStar[equippedStar - 1] += 1;
+        qtyByStar[equippedStar - 1] = (qtyByStar[equippedStar - 1] ?? 0) + 1;
       }
     }
     const owned =
@@ -125,14 +126,14 @@ export function usePetsMenu(
 
   function maxOwnedStar(entry: PetEntry): number {
     for (let s = PET_STAR_MAX; s >= 1; s--) {
-      if (entry.qtyByStar[s - 1] > 0) return s;
+      if ((entry.qtyByStar[s - 1] ?? 0) > 0) return s;
     }
     return 0;
   }
 
   function highestEligibleStar(entry: PetEntry): number {
     for (let s = PET_STAR_MAX - 1; s >= 1; s--) {
-      if (entry.qtyByStar[s - 1] >= 2) return s;
+      if ((entry.qtyByStar[s - 1] ?? 0) >= 2) return s;
     }
     return 0;
   }

@@ -1,4 +1,5 @@
 import { ATTACK_SOUNDS } from "@/data/player/attackSounds";
+import { SFX_KEY } from "@/data/storageKeys";
 
 const pool = new Map<string, HTMLAudioElement>();
 
@@ -16,7 +17,7 @@ export function playAttackSound(character: Player["character"]) {
     pool.set(pick, audio);
   }
 
-  const saved = localStorage.getItem("game_sfx_volume");
+  const saved = localStorage.getItem(SFX_KEY);
   const sfxVolume = saved !== null ? Number(saved) : 50;
 
   audio.pause();

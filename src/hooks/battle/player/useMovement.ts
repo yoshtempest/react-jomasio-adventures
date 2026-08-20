@@ -12,8 +12,8 @@ import {
 } from "@/gameRules/movement/battle";
 
 import { canJump } from "@/gameRules/movement/state";
-import { isHorizontallyBlocked } from "@/utils/types/maps/battle";
-import { DASH_DURATION, DASH_INTERVAL } from "@/utils/types/player/movement";
+import { isHorizontallyBlocked } from "@/gameRules/battle/obstacles";
+import { DASH_DURATION, DASH_INTERVAL } from "@/gameRules/movement/constants";
 import {
   useBattleGravity,
   type CollisionParams,

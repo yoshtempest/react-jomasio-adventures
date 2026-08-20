@@ -42,7 +42,7 @@ export function useItemEffect({ playSFX }: Props) {
   const { progress, restoreHunger } = useCharacterProgress();
   const { removeItem } = useInventory();
 
-  function getEffect(itemId: string) {
+  function getEffect(itemId: ItemId) {
     switch (itemId) {
       case "good_powder": // 🔥 Pó do bom
         return () => {
@@ -77,7 +77,7 @@ export function useItemEffect({ playSFX }: Props) {
           const cfg = POTION_CONFIG[itemId];
           if (cfg) {
             activateXpBuff(cfg.durationMs, cfg.multiplier, itemId);
-            removeItem(itemId as ItemId);
+            removeItem(itemId);
           }
         };
 
@@ -88,7 +88,7 @@ export function useItemEffect({ playSFX }: Props) {
             if (progress[player.character].hunger >= MAX_HUNGER) return;
             playSFX?.("/assets/songs/soundEffects/player/eating.mp3", 0.8);
             restoreHunger(player.character, restoreAmount);
-            removeItem(itemId as ItemId);
+            removeItem(itemId);
           };
         }
         return null;

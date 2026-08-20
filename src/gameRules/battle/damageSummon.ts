@@ -7,7 +7,7 @@ import {
   incrementAttacksUsedStats,
   incrementHitsUsedStats,
 } from "@/utils/rewards/battleStats";
-import { BATTLE_LIMITS } from "@/utils/types/player/movement";
+import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { CharactersProgress } from "@/data/characters/defaultProgress";
 import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";

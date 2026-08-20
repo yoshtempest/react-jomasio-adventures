@@ -29,7 +29,7 @@ type QuestContextType = {
   refreshDailyWeekly: () => void;
 };
 
-const QuestContext = createContext({} as QuestContextType);
+const QuestContext = createContext<QuestContextType | null>(null);
 
 export function QuestProvider({ children }: Props) {
   const [quests, setQuests] = useCompressedStorage<Quest[]>(QUESTS_KEY, []);
@@ -152,4 +152,8 @@ export function QuestProvider({ children }: Props) {
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const useQuests = () => useContext(QuestContext);
+export function useQuests() {
+  const ctx = useContext(QuestContext);
+  if (!ctx) throw new Error("useQuests precisa do QuestProvider");
+  return ctx;
+}

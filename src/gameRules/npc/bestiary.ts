@@ -1,5 +1,5 @@
-import { NPCS } from "@/data/npc/npc";
-import { TITLES } from "@/data/titles";
+import { NPCS, isNpcType } from "@/data/npc/npc";
+import { TITLES, TITLE_IDS } from "@/data/titles";
 import { CRAFT_DROP_TABLES } from "@/data/items/crafting";
 import { DROP_CONFIG } from "@/data/equipment/drops";
 import {
@@ -10,12 +10,12 @@ import {
 import { ITEMS } from "@/data/items";
 
 export function getNpcClass(npcType: string): NPCClass | null {
-  return NPCS[npcType]?.class ?? null;
+  return isNpcType(npcType) ? NPCS[npcType].class : null;
 }
 
 export function getLinkedTitles(npcType: string, npcClass: NPCClass): string[] {
   const linked: string[] = [];
-  for (const titleId of Object.keys(TITLES)) {
+  for (const titleId of TITLE_IDS) {
     const def = TITLES[titleId];
     if (!def) continue;
     if (

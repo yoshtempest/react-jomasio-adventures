@@ -1,30 +1,4 @@
-type PlayerState =
-  | "idle"
-  | "walk"
-  | "attack"
-  | "jump"
-  | "dash"
-  | "blocked"
-  | "stun"
-  | "special"
-  | "charging"
-  | "preAttack"
-  | "preWalk"
-  | "preJump"
-  | "preSpecial"
-  | "preRun"
-  | "run"
-  | "crit"
-  | "falling"
-  | "fallingAttack"
-  | "preSpecialInAir"
-  | "specialInAir"
-  | "specialInAirFinish"
-  | "blockAttack"
-  | "idleCrounched"
-  | "walkCrounched"
-  | "fallen";
-
+// PlayerState vem do escopo global (src/utils/types/global.d.ts) — fonte única.
 type AnimationStep = {
   next: PlayerState;
   duration: number; // ms

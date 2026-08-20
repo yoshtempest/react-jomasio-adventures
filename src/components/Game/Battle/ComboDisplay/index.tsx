@@ -9,15 +9,15 @@ type Props = {
 };
 
 const RANK_CLASS: Record<ComboRank, string> = {
-  F: styles.rankF,
-  E: styles.rankE,
-  D: styles.rankD,
-  C: styles.rankC,
-  B: styles.rankB,
-  A: styles.rankA,
-  S: styles.rankS,
-  "S+": styles.rankSplus,
-  SS: styles.rankSS,
+  F: styles.rankF!,
+  E: styles.rankE!,
+  D: styles.rankD!,
+  C: styles.rankC!,
+  B: styles.rankB!,
+  A: styles.rankA!,
+  S: styles.rankS!,
+  "S+": styles.rankSplus!,
+  SS: styles.rankSS!,
 };
 
 export function ComboDisplay({ count, rank, progress, nextRank }: Props) {

@@ -17,10 +17,10 @@ function calcProgress(damagePct: number): {
   let next: ComboRank | null = null;
 
   for (let i = 0; i < RANK_THRESHOLDS.length; i++) {
-    const entry = RANK_THRESHOLDS[i];
+    const entry = RANK_THRESHOLDS[i]!;
     if (damagePct >= entry.pct) {
       currentRank = entry.rank;
-      next = i > 0 ? RANK_THRESHOLDS[i - 1].rank : null;
+      next = i > 0 ? (RANK_THRESHOLDS[i - 1]?.rank ?? null) : null;
       break;
     }
   }

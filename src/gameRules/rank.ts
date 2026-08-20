@@ -21,9 +21,9 @@ export const RANKS: RankInfo[] = [
 ];
 
 export function getRank(level: number): RankInfo {
-  if (level >= 100) return RANKS[10];
-  if (level >= 90) return RANKS[9];
-  return RANKS[Math.floor(level / 10)];
+  if (level >= 100) return RANKS[10]!;
+  if (level >= 90) return RANKS[9]!;
+  return RANKS[Math.floor(level / 10)]!;
 }
 
 export function formatRank(rank: RankInfo): string {

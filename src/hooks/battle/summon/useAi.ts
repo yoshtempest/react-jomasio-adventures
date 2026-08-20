@@ -3,7 +3,7 @@ import { useLatestRef } from "@/hooks/useLatestRef";
 import { NPCS } from "@/data/npc/npc";
 import { calculateNpcDamage } from "@/gameRules/battle/damage";
 import { getElementMultiplier } from "@/gameRules/battle/element";
-import { getNpcStats } from "@/utils/types/npc/npcProgress";
+import { getNpcStats } from "@/gameRules/npc/npcStats";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";

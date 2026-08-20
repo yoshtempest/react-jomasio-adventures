@@ -4,7 +4,7 @@ import {
   PLAYER_BASIC_COOLDOWN,
   PLAYER_SPECIAL_COOLDOWN,
 } from "@/data/cooldowns";
-import { playAttackSound } from "@/utils/types/battle/playAttackSound";
+import { playAttackSound } from "@/utils/audio/playAttackSound";
 import { isPlayerInRange } from "@/gameRules/battle/range";
 import { NPC_CLASS_HITBOX_BONUS } from "@/gameRules/battle/rangeConfig";
 import { isFacingTarget } from "@/gameRules/battle/direction";

@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router";
 import { loadReplays, deleteReplay } from "@/data/replays";
-import { getNpcDisplayName } from "@/utils/types/npc/npcNames";
+import { getNpcDisplayName } from "@/data/npc/displayNames";
 import { formatDuration } from "@/utils/formatDuration";
 import type { ReplayData } from "@/utils/types/replay";
 import { useLatestRef } from "@/hooks/useLatestRef";

@@ -1,4 +1,4 @@
-import { getNpcStats } from "@/utils/types/npc/npcProgress";
+import { getNpcStats } from "@/gameRules/npc/npcStats";
 import { calculateNpcDamage } from "@/gameRules/battle/damage";
 import { getElementMultiplier } from "@/gameRules/battle/element";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";

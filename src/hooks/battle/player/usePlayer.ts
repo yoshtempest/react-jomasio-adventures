@@ -32,7 +32,7 @@ type Props = {
   playerY: number;
   npcX: number;
   npcY: number;
-  playerState: playerState;
+  playerState: PlayerState;
   npcClass: NPCClass;
   npcElementTypes: readonly ElementType[];
 

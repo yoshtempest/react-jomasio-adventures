@@ -16,13 +16,13 @@ const TIER_ORDER: NPCClass[] = ["common", "rare", "epic", "boss", "legendary"];
 function pickTierForLevel(level: number): NPCClass {
   if (level <= 20) {
     const available = TIER_ORDER.slice(0, 2);
-    return available[Math.floor(Math.random() * available.length)];
+    return available[Math.floor(Math.random() * available.length)]!;
   }
   if (level <= 40) {
     const available = TIER_ORDER.slice(0, 4);
-    return available[Math.floor(Math.random() * available.length)];
+    return available[Math.floor(Math.random() * available.length)]!;
   }
-  return TIER_ORDER[Math.floor(Math.random() * TIER_ORDER.length)];
+  return TIER_ORDER[Math.floor(Math.random() * TIER_ORDER.length)]!;
 }
 
 export type DailyChestResult = ChestDropResult & {

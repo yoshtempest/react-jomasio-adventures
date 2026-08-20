@@ -1,73 +1,80 @@
-import type { NPCData } from "@/utils/types/npc/npcProgress";
-
-export const NPCS: Record<string, NPCData> = {
+// Tabela chave → classe. A union NpcType é derivada daqui, então adicionar um
+// NPC aqui automaticamente o torna válido em todo o app (e typos de classe
+// quebram a compilação via `satisfies`).
+const NPC_CLASSES = {
   /* Jomasio */
-  hungryDeath: { type: "hungryDeath", class: "common" },
-  piupiu: { type: "piupiu", class: "rare" },
-  rice: { type: "rice", class: "common" },
-  jhowsimar: { type: "jhowsimar", class: "rare" },
-  goat: { type: "goat", class: "rare" },
-  vandinhaFragment: { type: "vandinhaFragment", class: "epic" },
-  trueVandinha: { type: "trueVanidnha", class: "legendary" },
-  deise: { type: "deise", class: "boss" },
-  necromancer: { type: "necromancer", class: "boss" },
-  slimita: { type: "slimita", class: "boss" },
-  hungryKing: { type: "hungryKing", class: "boss" } /* culto de Samurion */,
-  denis: { type: "denis", class: "boss" },
-  srGuaxinim: { type: "srGuaxinim", class: "epic" },
-  neimito: { type: "neimito", class: "boss" },
-  planetarySisters: { type: "planetarySisters", class: "boss" },
-  manim: { type: "manim", class: "boss" },
-  maurao: { type: "maurao", class: "boss" },
-  maugrelo: { type: "maugrelo", class: "boss" },
+  hungryDeath: "common",
+  piupiu: "rare",
+  rice: "common",
+  jhowsimar: "rare",
+  goat: "rare",
+  vandinhaFragment: "epic",
+  trueVandinha: "legendary",
+  deise: "boss",
+  necromancer: "boss",
+  slimita: "boss",
+  hungryKing: "boss" /* culto de Samurion */,
+  denis: "boss",
+  srGuaxinim: "epic",
+  neimito: "boss",
+  planetarySisters: "boss",
+  manim: "boss",
+  maurao: "boss",
+  maugrelo: "boss",
 
   /* Bocaina */
-  hungryDog: { type: "hungryDog", class: "common" },
-  lupita: { type: "lupita", class: "boss" },
-  duque: { type: "duque", class: "epic" },
-  baiano: { type: "baiano", class: "epic" },
-  spiritMotocycler: {
-    type: "spiritMotocycler",
-    class: "boss",
-  } /* Juan Derson */,
-  tim: {
-    type: "tim",
-    class: "boss",
-  } /* Assassino que pula e faz acrobacias com as 2 facas de sashimi*/,
-  muyMacho: { type: "muyMacho", class: "boss" },
+  hungryDog: "common",
+  lupita: "boss",
+  duque: "epic",
+  baiano: "epic",
+  spiritMotocycler: "boss" /* Juan Derson */,
+  tim: "boss" /* Assassino que pula e faz acrobacias com as 2 facas de sashimi*/,
+  muyMacho: "boss",
 
   /* Lagoa grande */
-  hungryFish: { type: "hungryFish", class: "common" },
-  hungryCow: { type: "hungryCow", class: "common" },
-  fischer: { type: "fischer", class: "rare" },
-  leviathan: { type: "leviathan", class: "boss" },
+  hungryFish: "common",
+  hungryCow: "common",
+  fischer: "rare",
+  leviathan: "boss",
   /* Cachoeiras */
-  figurantOfBaalCult: { type: "figurantOfBaalCult", class: "common" },
-  baal: { type: "baal", class: "legendary" },
-  madame: {
-    type: "madame",
-    class: "legendary",
-  } /* aranha de cão de caça dos baskerville */,
+  figurantOfBaalCult: "common",
+  baal: "legendary",
+  madame: "legendary" /* aranha de cão de caça dos baskerville */,
   /* Barragem */
-  figurantOfMobyDickCult: { type: "figurantOfMobyDickCult", class: "common" },
-  crocodile: { type: "crocodile", class: "rare" },
-  elitCrocodile: { type: "elitCrocodile", class: "epic" },
-  mobyDick: { type: "mobyDick", class: "boss" } /* baleia */,
-  yangKai: { type: "yangKai", class: "legendary" },
+  figurantOfMobyDickCult: "common",
+  crocodile: "rare",
+  elitCrocodile: "epic",
+  mobyDick: "boss" /* baleia */,
+  yangKai: "legendary",
   /* Tanque dos crávos */
-  figurantOfDragonKingCult: {
-    type: "figurantOfDragonKingCult",
-    class: "common",
-  },
-  ains: { type: "ains", class: "boss" } /* OVERLORD */,
-  dragonKing: { type: "dragonKing", class: "legendary" },
+  figurantOfDragonKingCult: "common",
+  ains: "boss" /* OVERLORD */,
+  dragonKing: "legendary",
   /* Lagoa do Canto */
-  hungryPig: { type: "hungryPig", class: "common" },
-  technoblade: { type: "technoblade", class: "legendary" },
+  hungryPig: "common",
+  technoblade: "legendary",
 
   /* Training */
-  dummy: { type: "dummy", class: "common" },
+  dummy: "common",
+} as const satisfies Record<string, NPCClass>;
+
+export type NpcType = keyof typeof NPC_CLASSES & string;
+
+export type NPCData = {
+  type: NpcType;
+  class: NPCClass;
 };
+
+export const NPCS = Object.fromEntries(
+  Object.entries(NPC_CLASSES).map(([type, npcClass]) => [
+    type,
+    { type, class: npcClass },
+  ]),
+) as Record<NpcType, NPCData>;
+
+export function isNpcType(value: unknown): value is NpcType {
+  return typeof value === "string" && value in NPC_CLASSES;
+}
 
 /*
 Personagens que fazem parte do culto de Baal 

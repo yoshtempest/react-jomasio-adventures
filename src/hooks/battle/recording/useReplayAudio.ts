@@ -88,6 +88,7 @@ export function useReplayAudio(
 
       for (let i = lastEventIndexRef.current; i < events.length; i++) {
         const ev = events[i];
+        if (!ev) continue;
         if (ev.t > toTime) break;
         if (ev.t < fromTime) {
           lastEventIndexRef.current = i + 1;

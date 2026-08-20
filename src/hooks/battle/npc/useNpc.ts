@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { NPC_MELEE_COOLDOWN } from "@/data/cooldowns";
-import { getNpcStats } from "@/utils/types/npc/npcProgress";
+import { getNpcStats } from "@/gameRules/npc/npcStats";
 import { calculateNpcDamage } from "@/gameRules/battle/damage";
 import { getElementMultiplier } from "@/gameRules/battle/element";
 import { isFacingTarget } from "@/gameRules/battle/direction";

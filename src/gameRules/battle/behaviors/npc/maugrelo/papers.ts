@@ -105,7 +105,7 @@ export function checkGroundPaperHits(
 export function checkPaperAttackHits(
   ai: MaugreloAI,
   playerX: number,
-  playerState: playerState,
+  playerState: PlayerState,
   playerDirection: Direction,
   onPaperExplode: (() => void) | undefined,
   now: number,
