@@ -21,7 +21,7 @@ export function RankList() {
             <div key={String(rank.id)} className={styles.rankRow}>
               <div className={styles.rankInfo}>
                 <div className={styles.flexRow}>
-                  <img 
+                  <img
                     src={asset(`/assets/badges/ranks/${rank.src}`)}
                     className={styles.image}
                   />

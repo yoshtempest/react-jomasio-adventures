@@ -368,9 +368,7 @@ export function useBattleScene({
   } = useCoffinAnimation();
 
   const coffinStartedRef = useRef(false);
-  const summonNpcRef = useLatestRef<(npcType: string, overrideX?: number) => void>(
-    () => {},
-  );
+  const summonNpcRef = useLatestRef(summonNpc);
 
   const alfaSummonsSpawnedRef = useRef(false);
   useEffect(() => {
