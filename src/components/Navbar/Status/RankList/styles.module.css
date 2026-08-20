@@ -9,15 +9,21 @@
   padding: var(--fs-8);
 }
 
+.image {
+  display: flex;
+  width: 3vw;
+}
+
 .rankRow {
   display: flex;
   align-items: center;
+  flex-direction: row;
   justify-content: space-between;
-  height: 10vh;
+  height: 20vh;
   background: var(--surface-primary);
   border: var(--size-1) solid var(--border-default);
   border-radius: var(--size-6);
-  padding: var(--fs-8) var(--smaller);
+  padding: var(--smaller);
 }
 
 .rankInfo {
@@ -44,8 +50,9 @@
 }
 
 .rankChars {
-  display: flex;
+  display: grid;
   gap: var(--size-4);
+  grid-template-columns: repeat(1, 2fr);
 }
 
 .rankCharFace {
@@ -53,4 +60,9 @@
   height: var(--fs-28);
   object-fit: contain;
   image-rendering: pixelated;
+}
+
+.flexRow {
+  display: flex;
+  flex-direction: row;
 }

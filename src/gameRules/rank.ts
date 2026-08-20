@@ -3,20 +3,21 @@ export type RankId = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0 | "EX";
 export type RankInfo = {
   id: RankId;
   label: string;
+  src?: string;
 };
 
 export const RANKS: RankInfo[] = [
-  { id: 1, label: "Errante" },
-  { id: 2, label: "Iniciado" },
-  { id: 3, label: "Adepto" },
-  { id: 4, label: "Ascendente" },
-  { id: 5, label: "Veterano" },
-  { id: 6, label: "Elite" },
-  { id: 7, label: "Lendário" },
-  { id: 8, label: "Mítico" },
-  { id: 9, label: "Celestial" },
-  { id: 0, label: "Transcendente" },
-  { id: "EX", label: "Divino" },
+  { id: 1, label: "Errante", src: "/wandering.svg" },
+  { id: 2, label: "Iniciado", src: "/initiate.svg" },
+  { id: 3, label: "Adepto", src: "/fan.svg" },
+  { id: 4, label: "Ascendente", src: "/ascendant.svg" },
+  { id: 5, label: "Veterano", src: "/senior.svg" },
+  { id: 6, label: "Elite", src: "/elit.svg" },
+  { id: 7, label: "Lendário", src: "/legendary.svg" },
+  { id: 8, label: "Mítico", src: "/mythical.svg" },
+  { id: 9, label: "Celestial", src: "/celestial.svg" },
+  { id: 0, label: "Transcendente", src: "/transcendent.svg" },
+  { id: "EX", label: "Divino", src: "/divine.svg" },
 ];
 
 export function getRank(level: number): RankInfo {
