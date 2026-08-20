@@ -14,7 +14,13 @@ export type PetState = {
   x: number;
   y: number;
   direction: "left" | "right";
-  state: "idle" | "walk" | "attack";
+  state:
+    | "idle"
+    | "walk"
+    | "attack"
+    | "jumping"
+    | "jumpAttack"
+    | "meleeAttack";
   npcType: string;
 } | null;
 
@@ -106,7 +112,7 @@ export function usePetBattle({
                 x: jumpToRef.current.x,
                 y: jumpToRef.current.y,
                 direction: dir,
-                state: "attack",
+                state: "jumpAttack",
               };
             }
             return {
@@ -114,7 +120,7 @@ export function usePetBattle({
               x,
               y: baseY + arcHeight,
               direction: dir,
-              state: "attack",
+              state: "jumping",
             };
           }
 
@@ -124,7 +130,7 @@ export function usePetBattle({
               jumpPhaseRef.current = "returning";
               return { ...prev, state: "walk" };
             }
-            return prev;
+            return { ...prev, state: "jumpAttack" };
           }
 
           if (jp === "returning") {
