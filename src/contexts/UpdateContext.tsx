@@ -1,71 +1,89 @@
 import {
   createContext,
-  useContext,
-  useEffect,
-  useState,
-  useRef,
   useCallback,
+  useContext,
+  useState,
   type ReactNode,
 } from "react";
-import { registerSW } from "virtual:pwa-register";
+import { useServiceWorkerUpdate } from "tempest-react-sdk";
 
-export type UpdateStatus = "idle" | "checking" | "uptodate" | "error";
+export type UpdateStatus =
+  | "idle"
+  | "checking"
+  | "uptodate"
+  | "available"
+  | "error";
 
 type UpdateContextType = {
   status: UpdateStatus;
   checkForUpdate: () => void;
+  applyUpdate: () => void;
   lastChecked: number | null;
 };
 
 const UpdateContext = createContext<UpdateContextType>({
   status: "idle",
   checkForUpdate: () => {},
+  applyUpdate: () => {},
   lastChecked: null,
 });
 
+/**
+ * Registers the service worker and exposes a user-driven update flow.
+ *
+ * `useServiceWorkerUpdate` keeps `autoUpdate` off, so a freshly installed
+ * worker never reloads the page on its own. That is deliberate: the previous
+ * `registerType: "autoUpdate"` setup could reload mid-battle and drop the
+ * player's run. `status` reaches `"available"` instead, and the UI decides when
+ * to call `applyUpdate`.
+ *
+ * The status is derived rather than stored because the registration itself is
+ * the source of truth — the old implementation had to guess with a five second
+ * timeout since `registerSW` never reported when a check finished.
+ */
 export function UpdateProvider({ children }: { children: ReactNode }) {
-  const [status, setStatus] = useState<UpdateStatus>("idle");
   const [lastChecked, setLastChecked] = useState<number | null>(null);
-  const updateFnRef = useRef<((reloadPage?: boolean) => Promise<void>) | null>(
-    null,
+  const [checking, setChecking] = useState(false);
+  const [failed, setFailed] = useState(false);
+
+  const { updateAvailable, applyUpdate, registration } = useServiceWorkerUpdate(
+    {
+      url: `${import.meta.env.BASE_URL}sw.js`,
+      scope: import.meta.env.BASE_URL,
+      onError: () => setFailed(true),
+    },
   );
 
-  useEffect(() => {
-    const updateFn = registerSW({
-      immediate: true,
-      onOfflineReady() {
-        setStatus("uptodate");
-      },
-      onRegistered() {
-        setStatus("uptodate");
-      },
-      onRegisterError() {
-        setStatus("error");
-      },
-    });
-    updateFnRef.current = updateFn;
-  }, []);
-
   const checkForUpdate = useCallback(() => {
-    setStatus("checking");
-    setLastChecked(Date.now());
-
-    if (updateFnRef.current) {
-      updateFnRef
-        .current()
-        .then(() => setStatus("uptodate"))
-        .catch(() => setStatus("error"));
-    } else {
-      setStatus("error");
+    if (!registration) {
+      setFailed(true);
+      return;
     }
 
-    setTimeout(() => {
-      setStatus((prev) => (prev === "checking" ? "uptodate" : prev));
-    }, 5000);
-  }, []);
+    setFailed(false);
+    setChecking(true);
+    setLastChecked(Date.now());
+
+    registration
+      .update()
+      .catch(() => setFailed(true))
+      .finally(() => setChecking(false));
+  }, [registration]);
+
+  const status: UpdateStatus = failed
+    ? "error"
+    : checking
+      ? "checking"
+      : updateAvailable
+        ? "available"
+        : registration
+          ? "uptodate"
+          : "idle";
 
   return (
-    <UpdateContext.Provider value={{ status, checkForUpdate, lastChecked }}>
+    <UpdateContext.Provider
+      value={{ status, checkForUpdate, applyUpdate, lastChecked }}
+    >
       {children}
     </UpdateContext.Provider>
   );

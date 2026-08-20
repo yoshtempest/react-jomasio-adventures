@@ -1,13 +1,38 @@
 import { usePWA } from "@/contexts/PWAContext";
 import styles from "./styles.module.css";
 
+/**
+ * Returns the install instructions that match the platform the player is on.
+ *
+ * iOS Safari never fires `beforeinstallprompt` and Android Chromium forks strip
+ * it, so both need prose instead of a button — and the prose differs. Sending
+ * an iPhone user to the "⋮" menu, as the single generic message used to, points
+ * at a control that does not exist on their browser.
+ */
+function useInstructions(): string {
+  const { isIOS, isManualAndroid } = usePWA();
+
+  if (isIOS) {
+    return 'Toque em Compartilhar (↗) na barra do Safari e escolha "Adicionar à Tela de Início".';
+  }
+
+  if (isManualAndroid) {
+    return 'Abra o menu do navegador (⋮) e escolha "Instalar app" ou "Adicionar à tela inicial".';
+  }
+
+  return 'Use o menu do navegador (⋮ ou ↗) e selecione "Instalar app" ou "Adicionar à tela inicial".';
+}
+
 export default function InstallButton() {
   const {
     showInstalledMessage,
     setShowInstalledMessage,
-    showNotAvailableMessage,
-    setShowNotAvailableMessage,
+    showInstructions,
+    setShowInstructions,
+    openInChromeIntent,
   } = usePWA();
+
+  const instructions = useInstructions();
 
   return (
     <>
@@ -26,20 +51,22 @@ export default function InstallButton() {
           </div>
         </div>
       )}
-      {showNotAvailableMessage && (
+      {showInstructions && (
         <div
           className={styles.overlay}
-          onClick={() => setShowNotAvailableMessage(false)}
+          onClick={() => setShowInstructions(false)}
         >
           <div className={styles.popup} onClick={(e) => e.stopPropagation()}>
-            <p>
-              Use o menu do navegador (⋮ ou ↗) e selecione &quot;Instalar
-              app&quot; ou &quot;Adicionar à tela inicial&quot;.
-            </p>
+            <p>{instructions}</p>
+            {openInChromeIntent && (
+              <a className={styles.popupButton} href={openInChromeIntent}>
+                Abrir no Chrome
+              </a>
+            )}
             <button
               type="button"
               className={styles.popupButton}
-              onClick={() => setShowNotAvailableMessage(false)}
+              onClick={() => setShowInstructions(false)}
             >
               OK
             </button>

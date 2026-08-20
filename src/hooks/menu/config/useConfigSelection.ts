@@ -46,9 +46,9 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   const {
     install,
     isInstalled,
-    canInstall,
+    method,
     setShowInstalledMessage,
-    setShowNotAvailableMessage,
+    setShowInstructions,
   } = usePWA();
   const { playMove, playSelect, playClose } = useMenuSFX();
 
@@ -61,35 +61,64 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   // menu | tutorial
   const [screen, setScreen] = useState<"menu" | "tutorial">("menu");
 
-  const selectedIndexRef = useLatestRef(selectedIndex);
-  const selectedColumnRef = useLatestRef(selectedColumn);
-  const screenRef = useLatestRef(screen);
-  const isOnTabRef = useLatestRef(isOnTab);
-  const activeTabRef = useLatestRef(activeTab);
+  const selectedIndexRef = useRef(selectedIndex);
+  const selectedColumnRef = useRef(selectedColumn);
+  const screenRef = useRef(screen);
+  const isOnTabRef = useRef(isOnTab);
+  const activeTabRef = useRef(activeTab);
 
-  const playMoveRef = useLatestRef(playMove);
-  const playSelectRef = useLatestRef(playSelect);
-  const playCloseRef = useLatestRef(playClose);
-  const pushControlsRef = useLatestRef(pushControls);
-  const setDifficultyRef = useLatestRef(setDifficulty);
-  const setSfxVolumeRef = useLatestRef(setSfxVolume);
-  const setBgmVolumeRef = useLatestRef(setBgmVolume);
-  const setDialogueSpeedRef = useLatestRef(setDialogueSpeed);
-  const setShowQuestIndicatorRef = useLatestRef(setShowQuestIndicator);
-  const setShowComboActionRef = useLatestRef(setShowComboAction);
-  const setShowHighlightRef = useLatestRef(setShowHighlight);
-  const setSharedXpRef = useLatestRef(setSharedXp);
-  const checkForUpdateRef = useLatestRef(checkForUpdate);
-  const installRef = useLatestRef(install);
-  const isInstalledRef = useLatestRef(isInstalled);
-  const canInstallRef = useLatestRef(canInstall);
-  const setShowInstalledMessageRef = useLatestRef(setShowInstalledMessage);
-  const setShowNotAvailableMessageRef = useLatestRef(setShowNotAvailableMessage);
-  const onConfirmRef = useLatestRef(onConfirm);
+  useEffect(() => {
+    selectedIndexRef.current = selectedIndex;
+    selectedColumnRef.current = selectedColumn;
+    screenRef.current = screen;
+    isOnTabRef.current = isOnTab;
+    activeTabRef.current = activeTab;
+  }, [selectedIndex, selectedColumn, screen, isOnTab, activeTab]);
 
-  const navigateRef = useLatestRef(navigate);
+  const playMoveRef = useRef(playMove);
+  playMoveRef.current = playMove;
+  const playSelectRef = useRef(playSelect);
+  playSelectRef.current = playSelect;
+  const playCloseRef = useRef(playClose);
+  playCloseRef.current = playClose;
+  const pushControlsRef = useRef(pushControls);
+  pushControlsRef.current = pushControls;
+  const setDifficultyRef = useRef(setDifficulty);
+  setDifficultyRef.current = setDifficulty;
+  const setSfxVolumeRef = useRef(setSfxVolume);
+  setSfxVolumeRef.current = setSfxVolume;
+  const setBgmVolumeRef = useRef(setBgmVolume);
+  setBgmVolumeRef.current = setBgmVolume;
+  const setDialogueSpeedRef = useRef(setDialogueSpeed);
+  setDialogueSpeedRef.current = setDialogueSpeed;
+  const setShowQuestIndicatorRef = useRef(setShowQuestIndicator);
+  setShowQuestIndicatorRef.current = setShowQuestIndicator;
+  const setShowComboActionRef = useRef(setShowComboAction);
+  setShowComboActionRef.current = setShowComboAction;
+  const setShowHighlightRef = useRef(setShowHighlight);
+  setShowHighlightRef.current = setShowHighlight;
+  const setSharedXpRef = useRef(setSharedXp);
+  setSharedXpRef.current = setSharedXp;
+  const checkForUpdateRef = useRef(checkForUpdate);
+  checkForUpdateRef.current = checkForUpdate;
+  const installRef = useRef(install);
+  installRef.current = install;
+  const isInstalledRef = useRef(isInstalled);
+  isInstalledRef.current = isInstalled;
+  const methodRef = useRef(method);
+  methodRef.current = method;
+  const setShowInstalledMessageRef = useRef(setShowInstalledMessage);
+  setShowInstalledMessageRef.current = setShowInstalledMessage;
+  const setShowInstructionsRef = useRef(setShowInstructions);
+  setShowInstructionsRef.current = setShowInstructions;
+  const onConfirmRef = useRef(onConfirm);
+  onConfirmRef.current = onConfirm;
 
-  const modeRef = useLatestRef(player.mode);
+  const navigateRef = useRef(navigate);
+  navigateRef.current = navigate;
+
+  const modeRef = useRef(player.mode);
+  modeRef.current = player.mode;
 
   useEffect(() => {
     if (!isActive) return;
@@ -249,10 +278,10 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
             if (idx === 4) {
               if (isInstalledRef.current) {
                 setShowInstalledMessageRef.current(true);
-              } else if (canInstallRef.current) {
-                installRef.current();
+              } else if (methodRef.current === "native") {
+                void installRef.current();
               } else {
-                setShowNotAvailableMessageRef.current(true);
+                setShowInstructionsRef.current(true);
               }
             }
           }
