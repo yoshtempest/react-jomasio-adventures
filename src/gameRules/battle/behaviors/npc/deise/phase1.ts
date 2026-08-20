@@ -48,7 +48,7 @@ export function deisePhase1(ctx: BehaviorContext, ai: DeiseAI): Phase1Result {
           startX: npc.x - 150,
           startY: npc.y - 180,
           targetX: playerX - 100,
-          targetY: playerY - 110,
+          targetY: playerY - 60,
           sprite: "spoon",
           state: "idle",
         }),

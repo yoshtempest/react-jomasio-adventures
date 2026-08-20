@@ -65,6 +65,12 @@ export function usePetsMenu(
       const star = enhance + 1;
       if (star >= 1 && star <= PET_STAR_MAX) qtyByStar[star - 1] += qty;
     }
+    if (equippedInfo?.id === pet.id) {
+      const equippedStar = equippedInfo.enhance + 1;
+      if (equippedStar >= 1 && equippedStar <= PET_STAR_MAX) {
+        qtyByStar[equippedStar - 1] += 1;
+      }
+    }
     const owned =
       qtyByStar.some((qty) => qty > 0) || equippedInfo?.id === pet.id;
     return {
