@@ -401,5 +401,6 @@ declare global {
     | "burn"
     | "poison"
     | "confuse"
-    | "armor";
+    | "armor"
+    | "heal";
 }

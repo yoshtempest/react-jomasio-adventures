@@ -120,6 +120,16 @@
   animation: floatCrit 1s ease-out forwards;
 }
 
+.heal {
+  color: #44ff44;
+  font-size: var(--fs-20);
+  text-shadow:
+    0 0 var(--size-6) rgba(68, 255, 68, 0.8),
+    var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8),
+    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8);
+  animation: floatCrit 1s ease-out forwards;
+}
+
 @keyframes floatCrit {
   0% {
     opacity: 1;

@@ -126,6 +126,8 @@ function runPetSkill(
     petLevel: number;
     petStars: number;
     npcType: string;
+    playerX: number;
+    playerY: number;
     battle: ReturnType<typeof useBattleSystem>;
     spawnDamageRef: RefObject<SpawnDamageFn>;
     npc: ReturnType<typeof useNpcAI>;
@@ -141,6 +143,8 @@ function runPetSkill(
     petLevel,
     petStars,
     npcType,
+    playerX,
+    playerY,
     battle,
     spawnDamageRef,
     npc,
@@ -175,6 +179,7 @@ function runPetSkill(
       battle.setPlayerHP((hp) =>
         Math.min(battle.playerMaxHp, hp + effect.amount),
       );
+      spawnDamageRef.current?.(effect.amount, playerX, playerY - 40, "heal");
       break;
     case "healPercent": {
       const pct = effect.perStar[petStars - 1] ?? effect.perStar[0];
@@ -182,6 +187,7 @@ function runPetSkill(
       battle.setPlayerHP((hp) =>
         Math.min(battle.playerMaxHp, hp + heal),
       );
+      spawnDamageRef.current?.(heal, playerX, playerY - 40, "heal");
       break;
     }
   }
@@ -674,6 +680,8 @@ export function useBattleScene({
       petLevel,
       petStars,
       npcType,
+      playerX: player.x,
+      playerY: player.y,
       battle,
       spawnDamageRef: refs.spawnDamageRef,
       npc,

@@ -2,6 +2,7 @@ import styles from "./styles.module.css";
 import type { DamageNumber } from "@/hooks/battle/damage/useNumbers";
 import type { DamageTarget } from "@/utils/battle/findDamageTarget";
 import { findDamageTarget } from "@/utils/battle/findDamageTarget";
+import { asset } from "@/utils/paths";
 
 export type { DamageTarget } from "@/utils/battle/findDamageTarget";
 
@@ -26,25 +27,10 @@ const TYPE_CLASS: Record<string, string> = {
   poison: styles.poison,
   confuse: styles.confuse,
   armor: styles.armor,
+  heal: styles.heal,
 };
 
 const HEAD_GAP = 8;
-
-const SHIELD_SVG = (
-  <svg
-    width="14"
-    height="14"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2.5"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    style={{ verticalAlign: "middle", marginRight: 2 }}
-  >
-    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-  </svg>
-);
 
 export function DamageNumbers({ numbers, scaleX, scaleY, targets }: Props) {
   return (
@@ -66,11 +52,16 @@ export function DamageNumbers({ numbers, scaleX, scaleY, targets }: Props) {
               ? "BLOCKED!"
               : n.type === "miss"
                 ? "MISS!"
-                : n.type === "armor"
-                  ? <>{SHIELD_SVG}+1</>
-                  : n.value > 0
-                    ? `-${n.value}`
-                    : "0"}
+                : n.type === "heal"
+                  ? `+${n.value}`
+                  : n.type === "armor"
+                    ? <>
+                      <img src={asset("/assets/badges/titles/blockAttacks.svg")}/>
+                      +1
+                    </>
+                    : n.value > 0
+                      ? `-${n.value}`
+                      : "0"}
           </div>
         );
       })}
