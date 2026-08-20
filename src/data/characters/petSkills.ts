@@ -11,6 +11,7 @@ export const PET_SKILL_COOLDOWN_MS = 5000;
 
 export type PetSkillEffect =
   | { kind: "damage"; multiplier: number }
+  | { kind: "jumpAttack"; multiplier: number }
   | { kind: "summon"; npcType: string }
   | { kind: "shield"; amount: number }
   | { kind: "heal"; amount: number }
@@ -143,10 +144,10 @@ export const PET_SKILLS: Record<string, PetSkillDefinition> = {
     },
     {
       name: "Investida Bruta",
-      description: "Causa dano triplo ao inimigo.",
+      description: "Pula em direção ao inimigo causando dano triplo.",
       cooldownMs: PET_SKILL_COOLDOWN_MS,
     },
-    { kind: "damage", multiplier: 3 },
+    { kind: "jumpAttack", multiplier: 3 },
   ),
   pet_duque: def(
     "pet_duque",

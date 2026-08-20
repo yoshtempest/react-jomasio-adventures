@@ -246,7 +246,7 @@ export function useBattleSystem(props: Props) {
     onHalfHeal,
   });
 
-  const { pet, resetPet } = usePetBattle({
+  const { pet, resetPet, triggerJumpAttack } = usePetBattle({
     enabled: petIsBattle,
     playerX,
     playerY,
@@ -407,6 +407,7 @@ export function useBattleSystem(props: Props) {
     piercings: effects.piercings,
     isExploding: effects.isExploding,
     pet,
+    triggerJumpAttack,
     petSkill: petSkillDef
       ? {
           definition: petSkillDef,

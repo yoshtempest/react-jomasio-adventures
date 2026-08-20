@@ -132,6 +132,7 @@ function runPetSkill(
     spawnDamageRef: RefObject<SpawnDamageFn>;
     npc: ReturnType<typeof useNpcAI>;
     summonNpc: (npcType: string, overrideX?: number) => void;
+    triggerJumpAttack: (npcY: number, cb: (damage: number) => void) => void;
     playSound: (
       sound: SoundId,
       loop?: boolean,
@@ -149,6 +150,7 @@ function runPetSkill(
     spawnDamageRef,
     npc,
     summonNpc,
+    triggerJumpAttack,
     playSound,
   } = deps;
   const effect = def.skillEffect;
@@ -167,6 +169,24 @@ function runPetSkill(
       );
       battle.setNpcHP((hp) => Math.max(0, hp - dmg));
       spawnDamageRef.current?.(dmg, npc.x, npc.y, "pet");
+      break;
+    }
+    case "jumpAttack": {
+      const baseDamage = getPetBaseDamage(petLevel, petStars);
+      const elementMultiplier = getElementMultiplier(
+        getNpcElementTypes(def.npcType),
+        getNpcElementTypes(npcType),
+      );
+      const dmg = Math.round(
+        calculateDamageToNpc(
+          baseDamage * effect.multiplier,
+          battle.npcArmor,
+        ) * elementMultiplier,
+      );
+      triggerJumpAttack(npc.y, () => {
+        battle.setNpcHP((hp) => Math.max(0, hp - dmg));
+        spawnDamageRef.current?.(dmg, npc.x, npc.y, "pet");
+      });
       break;
     }
     case "summon":
@@ -686,6 +706,7 @@ export function useBattleScene({
       spawnDamageRef: refs.spawnDamageRef,
       npc,
       summonNpc,
+      triggerJumpAttack: battle.triggerJumpAttack,
       playSound,
     });
   };
