@@ -2,7 +2,7 @@ import { playerPath } from "@/utils/paths";
 
 export const brodiClassTwoDialogue = [
     {
-        src: playerPath("/eduarda/default.svg"),
+        src: playerPath("/eduarda/talking.svg"),
         name: "Drika",
         message: "Boa sorte em salvar Ematron",
     },
@@ -12,7 +12,7 @@ export const brodiClassTwoDialogue = [
         message: "Mas onde ele está?",
     },
     {
-        src: playerPath("/marcelo/default.svg"),
+        src: playerPath("/marcelo/crossArms.svg"),
         name: "Marshadow",
         message: "Lá na quadra",
     },
@@ -22,7 +22,7 @@ export const brodiClassTwoDialogue = [
         message: "E como que eu vou chegar lá?",
     },
     {
-        src: playerPath("/marcelo/default.svg"),
+        src: playerPath("/marcelo/angry.svg"),
         name: "Marshadow",
         message: "Se vira",
     },

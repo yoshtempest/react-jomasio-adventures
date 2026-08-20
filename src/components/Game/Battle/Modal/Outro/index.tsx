@@ -1,6 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { playerPath } from "@/utils/paths";
 import { getOutroLine } from "@/data/battle/outro";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useTypewriter } from "@/hooks/interaction/useTypewriter";
 import { useSettings } from "@/contexts/SettingsContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
@@ -22,12 +23,9 @@ export function BattleOutro({ character, type, onNext }: Props) {
   );
   const { pushControls } = useGameControls();
 
-  const isCompleteRef = useRef(isComplete);
-  isCompleteRef.current = isComplete;
-  const skipRef = useRef(skip);
-  skipRef.current = skip;
-  const onNextRef = useRef(onNext);
-  onNextRef.current = onNext;
+  const isCompleteRef = useLatestRef(isComplete);
+  const skipRef = useLatestRef(skip);
+  const onNextRef = useLatestRef(onNext);
 
   useEffect(() => {
     const remove = pushControls({
@@ -48,7 +46,7 @@ export function BattleOutro({ character, type, onNext }: Props) {
       },
     });
     return remove;
-  }, [pushControls]);
+  }, [pushControls, isCompleteRef, onNextRef, skipRef]);
 
   return (
     <div className="overlay">

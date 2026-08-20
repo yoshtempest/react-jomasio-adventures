@@ -21,6 +21,7 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { isCharacter } from "@/utils/types/player/player";
 import { useAuth } from "@/contexts/AuthContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useHungerTimer } from "@/hooks/hunger/useHungerTimer";
 import { useRegenTimer } from "@/hooks/player/useRegenTimer";
 import { useExploreLocation } from "@/hooks/scene/useExploreLocation";
@@ -99,16 +100,11 @@ function App() {
     isAuthenticated,
   ]);
 
-  const chooseClassRef = useRef(chooseClass);
-  chooseClassRef.current = chooseClass;
-  const setCharacterRef = useRef(setCharacter);
-  setCharacterRef.current = setCharacter;
-  const setItemsRef = useRef(setItems);
-  setItemsRef.current = setItems;
-  const setQuestsRef = useRef(setQuests);
-  setQuestsRef.current = setQuests;
-  const refreshDailyWeeklyRef = useRef(refreshDailyWeekly);
-  refreshDailyWeeklyRef.current = refreshDailyWeekly;
+  const chooseClassRef = useLatestRef(chooseClass);
+  const setCharacterRef = useLatestRef(setCharacter);
+  const setItemsRef = useLatestRef(setItems);
+  const setQuestsRef = useLatestRef(setQuests);
+  const refreshDailyWeeklyRef = useLatestRef(refreshDailyWeekly);
 
   useEffect(() => {
     const save = loadGame();
@@ -129,7 +125,7 @@ function App() {
     if (save.character && isCharacter(save.character)) {
       setCharacterRef.current(save.character);
     }
-  }, []);
+  }, [chooseClassRef, refreshDailyWeeklyRef, setCharacterRef, setItemsRef, setQuestsRef]);
 
   return (
     <div className="app">

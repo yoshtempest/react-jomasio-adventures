@@ -10,5 +10,6 @@ export const hallJailsonNineDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Tá",
+    expression: "crossArms"
   },
 ];

@@ -13,6 +13,7 @@ type Params = {
   items: InventoryItem[];
   quests: Quest[];
   npcType: string;
+  isAlfa?: boolean;
   handleDefeat: () => void;
   addBattleTime: (character: CharacterId, seconds: number) => void;
   reduceHunger: (character: CharacterId, amount: number) => void;
@@ -24,9 +25,10 @@ type Params = {
   setLastRewards: (rewards: Record<string, unknown>) => void;
   giveRewards: () => { equipmentDrops: InventoryItem[] };
   progressDailyWeekly: (id: string, amount: number) => void;
+  incrementPetDropCounter: () => void;
   killCounter: {
     npcDataRef: { current: { class: NPCClass } };
-    handleNpcDeath: (type: string, cls: NPCClass) => void;
+    handleNpcDeath: (type: string, cls: NPCClass, isAlfa?: boolean) => void;
   };
   battleStartRef: React.RefObject<number>;
 };
@@ -38,6 +40,7 @@ export function useDeathCallbacks({
   items,
   quests,
   npcType,
+  isAlfa,
   handleDefeat,
   addBattleTime,
   reduceHunger,
@@ -49,6 +52,7 @@ export function useDeathCallbacks({
   setLastRewards,
   giveRewards,
   progressDailyWeekly,
+  incrementPetDropCounter,
   killCounter,
   battleStartRef,
 }: Params) {
@@ -71,6 +75,8 @@ export function useDeathCallbacks({
     if (rewards.equipmentDrops.length > 0) {
       incrementEquipmentDropsStats(rewards.equipmentDrops.length);
     }
+    const hasPetDrop = rewards.equipmentDrops.some((d) => d.id.startsWith("pet_"));
+    if (hasPetDrop) incrementPetDropCounter();
     recordWin(playerCharacter);
 
     progressDailyWeekly("win_battle", 1);
@@ -95,7 +101,7 @@ export function useDeathCallbacks({
     saveBestTime(npcType, elapsed);
     setBestTime(loadBestTime(npcType));
     triggerVictory();
-    killCounter.handleNpcDeath(npcType, killCounter.npcDataRef.current.class);
+    killCounter.handleNpcDeath(npcType, killCounter.npcDataRef.current.class, isAlfa);
   };
 
   return { onPlayerDeathRef, onNpcDeathRef };

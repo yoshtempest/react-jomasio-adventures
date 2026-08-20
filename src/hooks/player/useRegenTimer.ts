@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import {
   useCharacterProgress,
@@ -6,6 +6,7 @@ import {
   MAX_HUNGER,
 } from "@/contexts/CharacterProgressContext";
 import { useTitles } from "@/contexts/TitleContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { getEquipmentStatsBonus } from "@/gameRules/battle/equipment";
 import { getRankMultiplier } from "@/gameRules/rank";
 
@@ -30,14 +31,9 @@ export function useRegenTimer() {
   const { progress, setBattleHP } = useCharacterProgress();
   const { getBonus } = useTitles();
 
-  const progressRef = useRef(progress);
-  progressRef.current = progress;
-  const characterRef = useRef(player.character);
-  characterRef.current = player.character;
-  const setBattleHPRef = useRef(setBattleHP);
-  setBattleHPRef.current = setBattleHP;
-  const getBonusRef = useRef(getBonus);
-  getBonusRef.current = getBonus;
+  const progressRef = useLatestRef(progress);
+  const characterRef = useLatestRef(player.character);
+  const setBattleHPRef = useLatestRef(setBattleHP);
 
   useEffect(() => {
     if (player.mode === "battle") return;
@@ -82,5 +78,5 @@ export function useRegenTimer() {
     }, REGEN_TICK_MS);
 
     return () => clearInterval(interval);
-  }, [player.mode, player.character, progress, setBattleHP, getBonus]);
+  }, [player.mode, player.character, progress, setBattleHP, getBonus, characterRef, progressRef, setBattleHPRef]);
 }

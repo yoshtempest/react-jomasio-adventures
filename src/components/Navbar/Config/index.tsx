@@ -1,4 +1,5 @@
 import styles from "./styles.module.css";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useConfigMenu } from "@/hooks/menu/config/useConfig";
 import { useAudio } from "@/contexts/AudioContext";
 import { usePlayer } from "@/contexts/PlayerContext";
@@ -31,15 +32,14 @@ export function Config() {
     isOnTab,
   } = useConfigMenu(true);
   const dialogueSystem = useDialogue(configsDialogue);
-  const dialogueSystemRef = useRef(dialogueSystem);
-  dialogueSystemRef.current = dialogueSystem;
+  const dialogueSystemRef = useLatestRef(dialogueSystem);
   const configRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (screen === "tutorial") {
       dialogueSystemRef.current.start();
     }
-  }, [screen]);
+  }, [screen, dialogueSystemRef]);
 
   useEffect(() => {
     if (!configRef.current) return;

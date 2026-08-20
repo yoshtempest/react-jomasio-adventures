@@ -10,6 +10,7 @@ export const hallJailsonSevenDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "E lá vamos nós de novo, o que você quer dessa vez?",
+    expression: "crossArms"
   },
   {
     src: npcPath("/jailson/right.svg"),
@@ -21,17 +22,19 @@ export const hallJailsonSevenDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "E onde está essa tal peça?",
+    expression: "crossArms"
   },
   {
     src: npcPath("/jailson/right.svg"),
     name: "Jailson",
     message:
-      "Deve estar lá no lugar que você lutou com Vandinha e falou com o Juan Derson, sabe?",
+      "Lá na sala dos pcs",
   },
   {
     isPlayer: true,
     name: "Protagonista",
-    message: "Como você sabe tanto sobre mim, caralho?",
+    message: "Se você sabe de tudo, por que você mesmo não pega?",
+    expression: "why"
   },
   {
     src: npcPath("/jailson/right.svg"),

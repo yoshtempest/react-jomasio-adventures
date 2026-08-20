@@ -12,6 +12,7 @@ export const threeScene: SceneConfig = {
   scaleFix: 1.7,
   map: cafeteriaThree,
   dialogueData: getCafeteriaThreeDialogue,
+  autoStartDialogue: true,
   events: cafeteriaThreeEvents,
   audio: { src: MUSICS.default },
   initialPosition: getCafeteriaThreeInitialPosition,

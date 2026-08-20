@@ -203,8 +203,8 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     "3000000002",
     { coins: 500, hyperCoins: 5, stats: { luck: 8, tenacity: 4 } },
   ),
-  riquelsonDog: makeCard(
-    "riquelsonDog",
+  duque: makeCard(
+    "duque",
     "Carta de Cachorro de Riquelson",
     "epic",
     "O cachorro do Riquelson. Ele morde. Muito.",

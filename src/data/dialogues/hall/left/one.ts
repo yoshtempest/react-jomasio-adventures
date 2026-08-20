@@ -10,6 +10,7 @@ export const HallLeftDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "???",
+    expression: "crossArms"
   },
   {
     src: npcPath("/solange/right.svg"),
@@ -21,6 +22,7 @@ export const HallLeftDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "???",
+    expression: "crossArms"
   },
   {
     src: npcPath("/solange/right.svg"),
@@ -31,6 +33,7 @@ export const HallLeftDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "???",
+    expression: "crossArms"
   },
   {
     src: npcPath("/solange/right.svg"),
@@ -42,6 +45,7 @@ export const HallLeftDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Posso ir embora, tia?",
+    expression: "crossArms"
   },
   {
     src: npcPath("/solange/right.svg"),
@@ -52,6 +56,7 @@ export const HallLeftDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Posso ir embora, Sol Sol?",
+    expression: "crossArms"
   },
   {
     src: npcPath("/solange/right.svg"),

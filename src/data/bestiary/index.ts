@@ -141,7 +141,7 @@ export const BESTIARY_DATA = createBestiary({
     location: "Bocaina",
     attacks: ["Uivo Aterrorizante", "Mordida Sanguinária", "Garra Cortante"],
   },
-  riquelsonDog: {
+  duque: {
     name: "Cachorro de Riquelson",
     description:
       "O cão de guarda de Riquelson, um dos moradores mais excêntricos de Bocaina. Fiel e mortal.",

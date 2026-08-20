@@ -26,6 +26,7 @@ export const configsDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "NUNCA MAIS FAÇA ISSO!",
+    expression: "angry",
   },
   {
     src: npcPath("/victor/sitting.svg"),

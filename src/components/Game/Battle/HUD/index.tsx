@@ -2,6 +2,8 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import { getRank, formatRank } from "@/gameRules/rank";
+import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
+import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import { PlayerHUDPanel } from "./PlayerPanel";
 import { NPCHUDPanel } from "./NpcPanel";
 import { SummonHUDList } from "./SummonList";
@@ -52,6 +54,7 @@ export function BattleHUD({
         character={player.character}
         playerName={playerName}
         playerRank={playerRank}
+        playerElementTypes={CHARACTER_ELEMENT_TYPES[player.character]}
         hp={battle.playerHP}
         maxHp={battle.playerMaxHp}
         shield={battle.playerShield}
@@ -68,6 +71,7 @@ export function BattleHUD({
           npcHP={battle.npcHP}
           npcMaxHp={npcStats.hp}
           isAlfa={isAlfa}
+          npcElementTypes={getNpcElementTypes(npcType)}
         />
       )}
 

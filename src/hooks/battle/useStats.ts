@@ -68,6 +68,7 @@ type Props = {
   difficulty: NpcDifficulty;
   npcPhase: number;
   npcStatMultiplier?: number;
+  npcArmorBonus?: number;
 };
 
 export function useBattleStats({
@@ -76,10 +77,11 @@ export function useBattleStats({
   difficulty,
   npcPhase,
   npcStatMultiplier = 1,
+  npcArmorBonus = 0,
 }: Props) {
   const { player, playerClass } = usePlayer();
   const { progress } = useCharacterProgress();
-  const { getBonus } = useTitles();
+  const { getBonus, getElementDamageBonus } = useTitles();
   const { getEquippedItem } = useEquipment();
 
   const baseChar = progress[player.character];
@@ -171,8 +173,9 @@ export function useBattleStats({
       difficulty,
       npcStatMultiplier,
     );
-    return npcPhase === 2 ? Math.round(stats.armor * 1.5) : stats.armor;
-  }, [npcLevel, npcClass, difficulty, npcPhase, npcStatMultiplier]);
+    const base = npcPhase === 2 ? Math.round(stats.armor * 1.5) : stats.armor;
+    return base + npcArmorBonus;
+  }, [npcLevel, npcClass, difficulty, npcPhase, npcStatMultiplier, npcArmorBonus]);
 
   const HITS_TO_SPECIAL = getMaxSpecial(playerClass);
 
@@ -196,6 +199,7 @@ export function useBattleStats({
     totalLuck,
     luckBonus,
     titleBonus,
+    getElementDamageBonus,
     playerMaxHp,
     npcMaxHp,
     npcArmor,

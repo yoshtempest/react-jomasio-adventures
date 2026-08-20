@@ -38,7 +38,12 @@ type Props = {
     | "throwed"
     | "startSpin"
     | "inSpin"
-    | "finishSpin";
+    | "finishSpin"
+    | "preMove"
+    | "run"
+    | "slap"
+    | "push"
+    | "meditating";
   direction: "left" | "right";
   piercings?: { id: number; x: number; y: number }[];
   isExploding?: boolean;

@@ -41,6 +41,7 @@ export const pcsRoomSevenDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Que situação nojenta",
+    expression: "crossArms",
   },
   {
     src: npcPath("/hungryKing/default.svg"),

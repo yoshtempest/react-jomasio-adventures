@@ -3,6 +3,7 @@ import { useGameControls } from "@/contexts/GameControlsContext";
 import { gridMove } from "@/gameRules/menu/navigation";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useItemEffect } from "@/gameRules/items/useItem";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { useAudio } from "@/contexts/AudioContext";
 import { asset } from "@/utils/paths";
@@ -22,8 +23,7 @@ export function useInventoryMenu(
   const items = filterConfig ? filterConfig.filteredItems : rawItems;
   const navLength = items.length;
 
-  const sfxVolumeRef = useRef(sfxVolume);
-  sfxVolumeRef.current = sfxVolume;
+  const sfxVolumeRef = useLatestRef(sfxVolume);
 
   const sfxPoolRef = useRef(new Map<string, HTMLAudioElement>());
 
@@ -46,13 +46,13 @@ export function useInventoryMenu(
   const { playMove, playSelect } = useMenuSFX();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const selectedIndexRef = useRef(selectedIndex);
+  const selectedIndexRef = useLatestRef(selectedIndex);
 
   const [filterFocused, setFilterFocused] = useState(false);
-  const filterFocusedRef = useRef(filterFocused);
+  const filterFocusedRef = useLatestRef(filterFocused);
 
   const [chestFocused, setChestFocused] = useState(false);
-  const chestFocusedRef = useRef(chestFocused);
+  const chestFocusedRef = useLatestRef(chestFocused);
 
   useEffect(() => {
     if (!listRef?.current) return;
@@ -69,22 +69,10 @@ export function useInventoryMenu(
   }, [selectedIndex, listRef]);
 
   useEffect(() => {
-    selectedIndexRef.current = selectedIndex;
-  }, [selectedIndex]);
-
-  useEffect(() => {
-    filterFocusedRef.current = filterFocused;
-  }, [filterFocused]);
-
-  useEffect(() => {
-    chestFocusedRef.current = chestFocused;
-  }, [chestFocused]);
-
-  useEffect(() => {
     if (!chestReady && chestFocusedRef.current) {
       setChestFocused(false);
     }
-  }, [chestReady]);
+  }, [chestReady, chestFocusedRef]);
 
   useEffect(() => {
     setSelectedIndex((prev) =>
@@ -92,8 +80,7 @@ export function useInventoryMenu(
     );
   }, [navLength]);
 
-  const handleUseItemRef = useRef<(index: number) => boolean>(() => false);
-  handleUseItemRef.current = function handleUseItem(index: number) {
+  const handleUseItemRef = useLatestRef((index: number): boolean => {
     const item = items[index];
     if (!item) return false;
 
@@ -102,20 +89,14 @@ export function useInventoryMenu(
 
     effect();
     return true;
-  };
+  });
 
-  const playMoveRef = useRef(playMove);
-  playMoveRef.current = playMove;
-  const playSelectRef = useRef(playSelect);
-  playSelectRef.current = playSelect;
-  const pushControlsRef = useRef(pushControls);
-  pushControlsRef.current = pushControls;
-  const filterConfigRef = useRef(filterConfig);
-  filterConfigRef.current = filterConfig;
-  const chestReadyRef = useRef(chestReady);
-  chestReadyRef.current = chestReady;
-  const onOpenChestRef = useRef(onOpenChest);
-  onOpenChestRef.current = onOpenChest;
+  const playMoveRef = useLatestRef(playMove);
+  const playSelectRef = useLatestRef(playSelect);
+  const pushControlsRef = useLatestRef(pushControls);
+  const filterConfigRef = useLatestRef(filterConfig);
+  const chestReadyRef = useLatestRef(chestReady);
+  const onOpenChestRef = useLatestRef(onOpenChest);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -230,7 +211,7 @@ export function useInventoryMenu(
 
     const remove = pushControlsRef.current(controls);
     return () => remove();
-  }, [isOpen, navLength]);
+  }, [isOpen, navLength, chestReadyRef, filterConfigRef, onOpenChestRef, playMoveRef, playSelectRef, pushControlsRef, chestFocusedRef, filterFocusedRef, handleUseItemRef, selectedIndexRef]);
 
   return {
     selectedIndex,

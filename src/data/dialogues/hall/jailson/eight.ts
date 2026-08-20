@@ -10,6 +10,7 @@ export const hallJailsonEightDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "E ai? Você vai me dar o mapa agora?",
+    expression: "crossArms"
   },
   {
     src: npcPath("/jailson/right.svg"),

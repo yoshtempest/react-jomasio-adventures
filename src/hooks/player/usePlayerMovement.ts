@@ -1,6 +1,7 @@
 import { useRef, useEffect } from "react";
 import { moveExplore, EXPLORE_MOVE_INTERVAL } from "@/gameRules/movement/explore";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 
 function useMovementInterval(step: () => void) {
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -33,15 +34,11 @@ export function usePlayerMovement(
   setPlayer: React.Dispatch<React.SetStateAction<Player>>,
 ) {
   const { playSound } = useSoundEffects();
-  const playSoundRef = useRef(playSound);
-  playSoundRef.current = playSound;
+  const playSoundRef = useLatestRef(playSound);
 
-  const playerRef = useRef(player);
-  playerRef.current = player;
-  const currentMapRef = useRef(currentMap);
-  currentMapRef.current = currentMap;
-  const currentHeightMapRef = useRef(currentHeightMap);
-  currentHeightMapRef.current = currentHeightMap;
+  const playerRef = useLatestRef(player);
+  const currentMapRef = useLatestRef(currentMap);
+  const currentHeightMapRef = useLatestRef(currentHeightMap);
 
   function attemptMove(direction: Direction) {
     const result = moveExplore(

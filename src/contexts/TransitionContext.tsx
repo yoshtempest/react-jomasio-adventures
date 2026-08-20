@@ -1,3 +1,4 @@
+import { useLatestRef } from "@/hooks/useLatestRef";
 import {
   createContext,
   useCallback,
@@ -26,8 +27,7 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
   const location = useLocation();
   const [isFading, setIsFading] = useState(false);
   const pendingRef = useRef<{ to: To; options?: NavigateOptions } | null>(null);
-  const isFadingRef = useRef(isFading);
-  isFadingRef.current = isFading;
+  const isFadingRef = useLatestRef(isFading);
   const prevPathRef = useRef(location.pathname + location.search);
 
   const navigateWithFade = useCallback(
@@ -40,7 +40,7 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
       pendingRef.current = { to, options };
       setIsFading(true);
     },
-    [navigate],
+    [navigate, isFadingRef],
   );
 
   // After fade-out completes, execute the pending navigation

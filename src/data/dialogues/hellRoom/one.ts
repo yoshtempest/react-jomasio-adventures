@@ -10,6 +10,7 @@ export const HellRoomDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Que? Eu estava prestes a descer a mão naquele cara...",
+    expression: "crossArms",
   },
   {
     src: npcPath("/peruFather/right.svg"),
@@ -20,6 +21,7 @@ export const HellRoomDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Quer brigar?",
+    expression: "x1",
   },
   {
     src: npcPath("/peruFather/right.svg"),
@@ -30,6 +32,7 @@ export const HellRoomDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Então me diz, onde estamos?",
+    expression: "why",
   },
   {
     src: npcPath("/peruFather/right.svg"),
@@ -41,6 +44,7 @@ export const HellRoomDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "O que?",
+    expression: "crossArms",
   },
   {
     src: npcPath("/peruFather/right.svg"),

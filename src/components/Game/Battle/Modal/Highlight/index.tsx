@@ -1,5 +1,6 @@
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useCallback } from "react";
 import type { ReplayData } from "@/utils/types/replay";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useReplayPlayback } from "@/hooks/battle/recording/useReplayPlayback";
 import { useReplayViewport } from "@/hooks/battle/recording/useReplayViewport";
 import { useGameControlsLayer } from "@/hooks/game/useGameControlsLayer";
@@ -15,8 +16,7 @@ export function BattleHighlight({ replay, onClose }: Props) {
   const playback = useReplayPlayback(replay);
   const viewport = useReplayViewport();
 
-  const onCloseRef = useRef(onClose);
-  onCloseRef.current = onClose;
+  const onCloseRef = useLatestRef(onClose);
 
   useGameControlsLayer(
     {
@@ -38,7 +38,7 @@ export function BattleHighlight({ replay, onClose }: Props) {
         onCloseRef.current();
       }
     },
-    [],
+    [onCloseRef],
   );
 
   useEffect(() => {
@@ -53,7 +53,7 @@ export function BattleHighlight({ replay, onClose }: Props) {
       }, 1000);
       return () => clearTimeout(timeout);
     }
-  }, [playback.playing]);
+  }, [playback.playing, onCloseRef]);
 
   if (!playback.frame) return null;
 

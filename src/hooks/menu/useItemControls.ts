@@ -1,5 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 
 type Params = {
   filterFocused: boolean;
@@ -8,13 +9,12 @@ type Params = {
   isConsumableSelected: boolean;
   isChestSelected: boolean;
   isMapSelected: boolean;
-  isMountSelected: boolean;
   isTeleportSelected: boolean;
   keyId: string | null;
   items: { id: string }[];
   openPlayerChest: (id: ItemId) => void;
   getEffect: (id: string) => (() => void) | null;
-  consumeItem: (id: string) => void;
+  consumeItem: (id: string) => boolean;
   onReject: (index: number) => void;
   onNoKey: () => void;
 };
@@ -26,7 +26,6 @@ export function useItemControls({
   isConsumableSelected,
   isChestSelected,
   isMapSelected,
-  isMountSelected,
   isTeleportSelected,
   keyId,
   items,
@@ -37,40 +36,22 @@ export function useItemControls({
   onNoKey,
 }: Params) {
   const { pushControls } = useGameControls();
-  const stateRef = useRef({
+  const stateRef = useLatestRef({
     filterFocused,
     chestFocused,
     selectedItem,
     isConsumableSelected,
     isChestSelected,
     isMapSelected,
-    isMountSelected,
     isTeleportSelected,
     keyId,
     items,
   });
-  stateRef.current = {
-    filterFocused,
-    chestFocused,
-    selectedItem,
-    isConsumableSelected,
-    isChestSelected,
-    isMapSelected,
-    isMountSelected,
-    isTeleportSelected,
-    keyId,
-    items,
-  };
-  const openPlayerChestRef = useRef(openPlayerChest);
-  openPlayerChestRef.current = openPlayerChest;
-  const getEffectRef = useRef(getEffect);
-  getEffectRef.current = getEffect;
-  const consumeItemRef = useRef(consumeItem);
-  consumeItemRef.current = consumeItem;
-  const onRejectRef = useRef(onReject);
-  onRejectRef.current = onReject;
-  const onNoKeyRef = useRef(onNoKey);
-  onNoKeyRef.current = onNoKey;
+  const openPlayerChestRef = useLatestRef(openPlayerChest);
+  const getEffectRef = useLatestRef(getEffect);
+  const consumeItemRef = useLatestRef(consumeItem);
+  const onRejectRef = useLatestRef(onReject);
+  const onNoKeyRef = useLatestRef(onNoKey);
 
   useEffect(() => {
     const controls = {
@@ -82,7 +63,6 @@ export function useItemControls({
           isConsumableSelected,
           isChestSelected,
           isMapSelected,
-          isMountSelected,
           isTeleportSelected,
           keyId,
           items,
@@ -92,7 +72,9 @@ export function useItemControls({
         if (!selectedItem) return false;
 
         if (isConsumableSelected) {
-          consumeItemRef.current(selectedItem.id);
+          if (!consumeItemRef.current(selectedItem.id)) {
+            onRejectRef.current(-1);
+          }
           return true;
         }
 
@@ -105,7 +87,7 @@ export function useItemControls({
           return true;
         }
 
-        if (isMapSelected || isMountSelected || isTeleportSelected) {
+        if (isMapSelected || isTeleportSelected) {
           const effect = getEffectRef.current(selectedItem.id);
           if (effect) {
             effect();
@@ -120,5 +102,5 @@ export function useItemControls({
 
     const remove = pushControls(controls);
     return remove;
-  }, [pushControls]);
+  }, [pushControls, consumeItemRef, getEffectRef, onNoKeyRef, onRejectRef, openPlayerChestRef, stateRef]);
 }

@@ -52,7 +52,8 @@ function resolveMovementState(state: PlayerState): PlayerState {
 
 function getStep(player: Player): number {
   const base = CROUCHED_STATES.has(player.state) ? CROUCHED_STEP : BATTLE_STEP;
-  return isPlayerParalyzed(player) ? Math.round(base / 2) : base;
+  const speed = isPlayerParalyzed(player) ? Math.round(base / 2) : base;
+  return Math.round(speed * player.movementSpeed);
 }
 
 function moveAxis(

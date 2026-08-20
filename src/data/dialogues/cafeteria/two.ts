@@ -11,6 +11,7 @@ export const cafeteriaTwoDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Quem pode, pode",
+    expression: "special",
   },
   {
     src: npcPath("/deise/right.svg"),

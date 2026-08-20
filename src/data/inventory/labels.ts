@@ -9,5 +9,4 @@ export const FILTER_LABELS = [
   { type: "teleport", label: "Teletransportes" },
   { type: "card", label: "Cartas" },
   { type: "map", label: "Mapas" },
-  { type: "mount", label: "Montarias" },
 ];

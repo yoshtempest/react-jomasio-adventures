@@ -1,6 +1,7 @@
 import { BattleHUD } from "@/components/Game/Battle/HUD";
 import { PetSkillButton } from "@/components/Game/Battle/PetSkillButton";
 import { GameMap } from "@/components/Game/Map/Game";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useGameLayout } from "@/hooks/game/useGameLayout";
 import { useBattleScene } from "@/hooks/battle/useScene";
 import { BattleEntities } from "@/components/Game/Battle/Entities";
@@ -34,6 +35,7 @@ type Props = {
   className?: string;
   background?: string;
   audioSrc: string;
+  introAudioSrc?: string;
   onVictory?: () => void;
   map?: BattleMapConfig;
   training?: boolean;
@@ -93,8 +95,6 @@ export function BattleScene(props: Props) {
     PLAYER_SIZE,
     MAP_COLS,
     MAP_ROWS,
-    scaleX,
-    scaleY,
   } = useGameLayout();
 
   const { setBattleCollision } = usePlayer();
@@ -178,14 +178,12 @@ export function BattleScene(props: Props) {
     setBattleCollision({
       map: map ?? null,
       TILE_SIZE,
-      scaleX,
-      scaleY,
     });
-  }, [map, TILE_SIZE, scaleX, scaleY, setBattleCollision]);
+  }, [map, TILE_SIZE, setBattleCollision]);
 
   useEffect(() => {
     return () => {
-      setBattleCollision({ map: null, TILE_SIZE: 0, scaleX: 1, scaleY: 1 });
+      setBattleCollision({ map: null, TILE_SIZE: 0 });
     };
   }, [setBattleCollision]);
 
@@ -194,8 +192,7 @@ export function BattleScene(props: Props) {
     loop: true,
     volume: 0.5,
   });
-  const battleAudioRef = useRef(battleAudio);
-  battleAudioRef.current = battleAudio;
+  const battleAudioRef = useLatestRef(battleAudio);
 
   useEffect(() => {
     const shouldPlay =
@@ -210,7 +207,7 @@ export function BattleScene(props: Props) {
     if (showVictory || showDefeat) {
       stopAll();
     }
-  }, [showIntro, showVictory, showDefeat, showHighlight, stopAll]);
+  }, [showIntro, showVictory, showDefeat, showHighlight, stopAll, battleAudioRef]);
 
   return (
     <div
@@ -244,6 +241,7 @@ export function BattleScene(props: Props) {
         <BattleIntro
           playerCharacter={player.character}
           npcType={npcType}
+          introAudioSrc={props.introAudioSrc}
           onSkip={skipIntro}
           onFlee={() => navigate(-1)}
           isAlfa={isAlfa}
@@ -258,7 +256,7 @@ export function BattleScene(props: Props) {
           cameraX={worldOffsetX}
           cameraY={worldOffsetY}
         >
-          {map && <BattleMap map={map} scaleX={scaleX} scaleY={scaleY} />}
+          {map && <BattleMap map={map} />}
 
           <BattleEntities
             npc={npc}
@@ -270,8 +268,6 @@ export function BattleScene(props: Props) {
             pet={pet}
             TILE_SIZE={TILE_SIZE}
             PLAYER_SIZE={PLAYER_SIZE}
-            scaleX={scaleX}
-            scaleY={scaleY}
             grabFlipped={grabFlipped}
             isAlfa={isAlfa}
           />
@@ -287,9 +283,6 @@ export function BattleScene(props: Props) {
           {npc.jumpLandingX != null && (
             <JumpIndicator
               landingX={npc.jumpLandingX}
-              groundY={720}
-              scaleX={scaleX}
-              scaleY={scaleY}
             />
           )}
 

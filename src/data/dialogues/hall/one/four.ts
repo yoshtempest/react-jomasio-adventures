@@ -19,6 +19,7 @@ export const AfterPcRoomFourDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "O que é isso?",
+    expression: "why"
   },
   {
     src: npcPath("/remedinha/right.svg"),

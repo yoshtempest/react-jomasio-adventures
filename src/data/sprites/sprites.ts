@@ -70,7 +70,7 @@ export const NPC_CATEGORY: Record<string, NpcCategory> = {
   lupita: "pets",
   mosquito: "pets",
   rapariga: "pets",
-  riquelsonDog: "pets",
+  duque: "pets",
   turkey: "pets",
   zecaUrubu: "pets",
 };

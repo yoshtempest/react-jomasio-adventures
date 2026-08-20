@@ -25,7 +25,7 @@ export const QUEST_NPC_POSITIONS: Record<
 > = {
   "/hall/afterpcroom-one": [{ gridX: 4, gridY: 7 }],
   "/cantina/one": [{ gridX: 11, gridY: 3 }],
-  "/cafeteria/one": [{ gridX: 18, gridY: 5 }],
+  "/cafeteria/one": [{ gridX: 18, gridY: 4.6 }],
   "/pcroom/one": [{ gridX: 9.1, gridY: 7.5 }],
   "/pcroom/two": [{ gridX: 17, gridY: 3 }],
   "/hall/jailson-one": [{ gridX: 8.9, gridY: 0.9 }],

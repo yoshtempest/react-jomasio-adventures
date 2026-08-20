@@ -8,6 +8,7 @@ import { jhowsimarBehavior } from "./jhowsimar";
 import { hungryDeathBehavior } from "./hungryDeath";
 import { goatBehavior } from "./goat/index";
 import { mauraoBehavior } from "./maurao/index";
+import { maugreloBehavior } from "./maugrelo/index";
 import { dummyBehavior } from "./dummy";
 import type {
   BehaviorContext,
@@ -26,6 +27,7 @@ export const npcBehaviors: Record<string, NpcBehaviorFn> = {
   hungryDeath: hungryDeathBehavior,
   goat: goatBehavior,
   maurao: mauraoBehavior,
+  maugrelo: maugreloBehavior,
   dummy: dummyBehavior,
   default: normalBehavior,
 };

@@ -1,4 +1,5 @@
-import { useRef, useCallback } from "react";
+import { useCallback } from "react";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import type { SpawnDamageFn } from "@/utils/types/battle/spawnDamageFn";
 
 type Props = {
@@ -14,6 +15,7 @@ type Props = {
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;
   spawnDamageRef: React.RefObject<SpawnDamageFn>;
   onBlockRef?: React.RefObject<() => void>;
+  oneHitShieldRef?: React.RefObject<boolean>;
 };
 
 export function useExternalDamage({
@@ -29,12 +31,17 @@ export function useExternalDamage({
   setPlayer,
   spawnDamageRef,
   onBlockRef,
+  oneHitShieldRef,
 }: Props) {
-  const playerShieldRef = useRef(playerShield);
-  playerShieldRef.current = playerShield;
+  const playerShieldRef = useLatestRef(playerShield);
 
   const damagePlayerHp = useCallback(
     (damage: number) => {
+      if (oneHitShieldRef?.current) {
+        oneHitShieldRef.current = false;
+        spawnDamageRef.current?.(0, playerX, playerY - 40, "blocked");
+        return;
+      }
       const shield = playerShieldRef.current;
       if (shield >= damage) {
         setPlayerShield((s) => s - damage);
@@ -44,7 +51,7 @@ export function useExternalDamage({
       const remaining = damage - shield;
       setPlayerHP((hp) => Math.max(0, hp - remaining));
     },
-    [setPlayerHP, setPlayerShield],
+    [setPlayerHP, setPlayerShield, playerShieldRef, oneHitShieldRef, spawnDamageRef, playerX, playerY],
   );
 
   const damagePlayer = useCallback(

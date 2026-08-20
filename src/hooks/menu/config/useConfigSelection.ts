@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { getSelected } from "@/gameRules/menu/selection";
 import { useAudio } from "@/contexts/AudioContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { useSettings } from "@/contexts/SettingsContext";
 import { useUpdate } from "@/contexts/UpdateContext";
@@ -334,6 +335,32 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
     setShowHighlight,
     sharedXp,
     setSharedXp,
+    canInstallRef,
+    checkForUpdateRef,
+    installRef,
+    isInstalledRef,
+    modeRef,
+    navigateRef,
+    onConfirmRef,
+    playCloseRef,
+    playMoveRef,
+    playSelectRef,
+    pushControlsRef,
+    setBgmVolumeRef,
+    setDialogueSpeedRef,
+    setDifficultyRef,
+    setSfxVolumeRef,
+    setSharedXpRef,
+    setShowComboActionRef,
+    setShowHighlightRef,
+    setShowInstalledMessageRef,
+    setShowNotAvailableMessageRef,
+    setShowQuestIndicatorRef,
+    activeTabRef,
+    isOnTabRef,
+    screenRef,
+    selectedColumnRef,
+    selectedIndexRef,
   ]);
 
   return {

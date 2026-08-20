@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import type { RefObject, Dispatch, SetStateAction } from "react";
 
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { useFlags } from "@/contexts/FlagContext";
 import { CHARACTERS } from "@/data/options/characters";
@@ -67,40 +68,30 @@ export function useDefeatCharacterSelect(isOpen: boolean) {
   const [charIndex, setCharIndex] = useState(0);
   const [view, setView] = useState<View>("menu");
 
-  const menuSelectionRef = useRef(menuSelection);
-  menuSelectionRef.current = menuSelection;
-  const charIndexRef = useRef(charIndex);
-  charIndexRef.current = charIndex;
-  const viewRef = useRef(view);
-  viewRef.current = view;
-  const unlockedRef = useRef(unlockedCharacters);
-  unlockedRef.current = unlockedCharacters;
-  const setCharacterRef = useRef(setCharacter);
-  setCharacterRef.current = setCharacter;
-  const playMoveRef = useRef(playMove);
-  playMoveRef.current = playMove;
-  const playSelectRef = useRef(playSelect);
-  playSelectRef.current = playSelect;
-  const setMenuSelectionRef = useRef(setMenuSelection);
-  setMenuSelectionRef.current = setMenuSelection;
-  const setCharIndexRef = useRef(setCharIndex);
-  setCharIndexRef.current = setCharIndex;
-  const setViewRef = useRef(setView);
-  setViewRef.current = setView;
+  const menuSelectionRef = useLatestRef(menuSelection);
+  const charIndexRef = useLatestRef(charIndex);
+  const viewRef = useLatestRef(view);
+  const unlockedRef = useLatestRef(unlockedCharacters);
+  const setCharacterRef = useLatestRef(setCharacter);
+  const playMoveRef = useLatestRef(playMove);
+  const playSelectRef = useLatestRef(playSelect);
+  const setMenuSelectionRef = useLatestRef(setMenuSelection);
+  const setCharIndexRef = useLatestRef(setCharIndex);
+  const setViewRef = useLatestRef(setView);
 
   const selectCharNext = useCallback(() => {
     playMoveRef.current();
     setCharIndexRef.current((prev) =>
       circularNext(prev, unlockedRef.current.length),
     );
-  }, []);
+  }, [playMoveRef, setCharIndexRef, unlockedRef]);
 
   const selectCharPrev = useCallback(() => {
     playMoveRef.current();
     setCharIndexRef.current((prev) =>
       circularPrev(prev, unlockedRef.current.length),
     );
-  }, []);
+  }, [playMoveRef, setCharIndexRef, unlockedRef]);
 
   const openCharacterSelect = useCallback(() => {
     const idx = unlockedRef.current.findIndex(
@@ -134,10 +125,9 @@ export function useDefeatCharacterSelect(isOpen: boolean) {
         return true;
       },
     });
-  }, [player.character, selectCharNext, selectCharPrev, pushControls]);
+  }, [player.character, selectCharNext, selectCharPrev, pushControls, charIndexRef, playMoveRef, playSelectRef, setCharIndexRef, setCharacterRef, setViewRef, unlockedRef]);
 
-  const openCharacterSelectRef = useRef(openCharacterSelect);
-  openCharacterSelectRef.current = openCharacterSelect;
+  const openCharacterSelectRef = useLatestRef(openCharacterSelect);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -178,7 +168,7 @@ export function useDefeatCharacterSelect(isOpen: boolean) {
     });
 
     return remove;
-  }, [isOpen, pushControls]);
+  }, [isOpen, pushControls, menuSelectionRef, openCharacterSelectRef, playMoveRef, setMenuSelectionRef, viewRef]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -194,11 +184,10 @@ export function useDefeatCharacterSelect(isOpen: boolean) {
       setCharacterRef.current(selected.image as CharacterId);
       setViewRef.current("menu");
     },
-    [],
+    [playSelectRef, setCharacterRef, setViewRef, unlockedRef],
   );
 
-  const selectCharacterRef = useRef(selectCharacter);
-  selectCharacterRef.current = selectCharacter;
+  const selectCharacterRef = useLatestRef(selectCharacter);
 
   return {
     unlockedCharacters,

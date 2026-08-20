@@ -11,6 +11,7 @@ export const hallJailsonThreeDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Porque todo personagem que perde para mim sobrevive e foge?",
+    expression: "why"
   },
   {
     src: npcPath("/jailson/right.svg"),

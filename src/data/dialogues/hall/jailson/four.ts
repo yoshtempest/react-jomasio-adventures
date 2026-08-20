@@ -13,6 +13,7 @@ export const hallJailsonFourDialogue = [
     name: "Protagonista",
     message: "Como assim caralho?",
     soundSrc: "/assets/songs/soundEffects/player/inWhatSense.mp3",
+    expression: "rascal",
   },
   {
     src: npcPath("/jailson/right.svg"),
@@ -23,6 +24,7 @@ export const hallJailsonFourDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Onde tá o suco de laranja?",
+    expression: "crossArms",
   },
   {
     src: npcPath("/jailson/right.svg"),
@@ -33,6 +35,7 @@ export const hallJailsonFourDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Como você sabe que eu lutei com ele?",
+    expression: "why"
   },
   {
     src: npcPath("/jailson/right.svg"),

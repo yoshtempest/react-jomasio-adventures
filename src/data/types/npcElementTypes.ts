@@ -23,8 +23,8 @@ export const NPC_ELEMENT_TYPES: Record<string, readonly ElementType[]> = {
 
   /* Bocaina */
   hungryDog: ["Normalis"],
-  lupita: ["Normalis", "Darkus"],
-  riquelsonDog: ["Normalis", "Metallum"],
+  lupita: ["Pyrus", "Darkus"],
+  duque: ["Pyrus", "Haos"],
   baiano: ["Normalis"],
   spiritMotocycler: ["Umbra", "Pyrus"],
   tim: ["Darkus", "Ventus"],

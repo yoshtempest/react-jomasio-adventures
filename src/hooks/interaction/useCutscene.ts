@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useDialogue } from "@/hooks/interaction/useDialogue";
 import { usePlayer } from "@/contexts/PlayerContext";
 
@@ -26,10 +27,8 @@ export function useCutscene({
 
   const hasPlayed = useRef(false);
 
-  const dialogueSystemRef = useRef(dialogueSystem);
-  dialogueSystemRef.current = dialogueSystem;
-  const playAudioRef = useRef(playAudio);
-  playAudioRef.current = playAudio;
+  const dialogueSystemRef = useLatestRef(dialogueSystem);
+  const playAudioRef = useLatestRef(playAudio);
 
   // ▶ iniciar automaticamente
   useEffect(() => {
@@ -42,7 +41,7 @@ export function useCutscene({
       playAudioRef.current?.();
     }
     hasPlayed.current = true;
-  }, [autoStart, playOnce]);
+  }, [autoStart, playOnce, dialogueSystemRef, playAudioRef]);
 
   // ▶ handler estável
   const handleConfirmRef = useRef<() => void>(() => {});
@@ -62,8 +61,7 @@ export function useCutscene({
     }
   };
 
-  const pushControlsRef = useRef(pushControls);
-  pushControlsRef.current = pushControls;
+  const pushControlsRef = useLatestRef(pushControls);
 
   // 🔥 CORREÇÃO AQUI
   useEffect(() => {
@@ -76,7 +74,7 @@ export function useCutscene({
     });
 
     return () => remove();
-  }, [dialogueSystem.isOpen, player.mode]);
+  }, [dialogueSystem.isOpen, player.mode, pushControlsRef]);
 
   return {
     ...dialogueSystem,

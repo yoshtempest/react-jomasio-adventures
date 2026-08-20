@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import {
   useLocation,
   type NavigateFunction,
@@ -96,9 +96,6 @@ export function SceneBase({
 
   const lastPage = location.state?.from;
 
-  const setPopupRef = useRef(setPopup);
-  setPopupRef.current = setPopup;
-
   const currentRoute = location.pathname;
 
   const { highlightTiles, questNpcPositions, questDirection } =
@@ -152,6 +149,7 @@ export function SceneBase({
           interactionLabels={interactionLabels}
           tileDialogues={tileDialogues}
           npcOverlays={npcOverlays}
+          cutscene={scene.cutscene}
           onFinish={() => {
             const extra = onFinishExtra?.({
               navigate: navigateWithFade,

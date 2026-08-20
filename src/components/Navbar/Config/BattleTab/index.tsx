@@ -43,12 +43,14 @@ export function BattleTab({ showComboAction, showHighlight, selectedIndex }: Pro
 
   const isInBattle = player.mode === "battle";
 
-  const playerRank = formatRank(
-    getRank(progress[player.character]?.level ?? 1),
-  );
+  const playerLevel = progress[player.character]?.level ?? 1;
+  const playerRank = formatRank(getRank(playerLevel));
   const playerName = localStorage.getItem("playerName") || "Protagonista";
 
   const battleInfo = battleInfoCtx?.battleInfo;
+  const npcRank = battleInfo
+    ? formatRank(getRank(battleInfo.npcLevel))
+    : playerRank;
 
   const showElementTable = !!battleInfo || isInBattle;
 
@@ -204,7 +206,7 @@ export function BattleTab({ showComboAction, showHighlight, selectedIndex }: Pro
             <BattleCard
               spriteSrc={playerPath(`/${player.character}/default.svg`)}
               name={playerName}
-              level={battleInfo.npcLevel}
+              level={playerLevel}
               rank={playerRank}
               stats={playerSummary}
             />
@@ -221,7 +223,7 @@ export function BattleTab({ showComboAction, showHighlight, selectedIndex }: Pro
                 </span>
               }
               level={battleInfo.npcLevel}
-              rank={playerRank}
+              rank={npcRank}
               stats={[
                 { label: "HP", value: Math.round(battleInfo.npcHp) },
                 { label: "Dano", value: Math.round(battleInfo.npcDamage) },

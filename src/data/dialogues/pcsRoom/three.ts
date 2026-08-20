@@ -11,5 +11,6 @@ export const pcsRoomThreeDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Delícia? Bem, descanse em paz.",
+    expression: "special"
   },
 ];

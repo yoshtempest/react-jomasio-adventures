@@ -10,6 +10,7 @@ export const centerFrontFourDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "M-N Léo",
+    expression: "crossArms",
   },
   {
     src: npcPath("/leo/point.svg"),

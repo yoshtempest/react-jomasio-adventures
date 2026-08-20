@@ -153,7 +153,6 @@ export function Inventory() {
     selectedItemData?.type === "consumable" ||
     selectedItemData?.type === "food";
   const isMapSelected = selectedItemData?.type === "map";
-  const isMountSelected = selectedItemData?.type === "mount";
   const isTeleportSelected = selectedItemData?.type === "teleport";
 
   const tier =
@@ -181,7 +180,6 @@ export function Inventory() {
     isConsumableSelected,
     isChestSelected,
     isMapSelected,
-    isMountSelected,
     isTeleportSelected,
     keyId,
     items,

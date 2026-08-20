@@ -23,13 +23,12 @@ export const BATTLE_DEFAULT_STATE = {
   throwStartTime: 0,
   throwFromX: 0,
   throwToX: 0,
+  movementSpeed: 1,
 };
 
 export function useBattleCollisionRef() {
   return useRef<CollisionParams>({
     map: null,
     TILE_SIZE: 0,
-    scaleX: 1,
-    scaleY: 1,
   });
 }

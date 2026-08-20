@@ -9,6 +9,7 @@ import {
 import type { InventoryItem } from "@/utils/types/player/inventory";
 import { useSoundEffects, type SoundId } from "@/contexts/SoundEffectsContext";
 import { INVENTORY_KEY } from "@/data/storageKeys";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useCompressedStorage } from "@/hooks/useCompressedStorage";
 import { useToggle } from "@/hooks/useToggle";
 
@@ -47,8 +48,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
   } = useToggle();
 
   const [maxSlots, setMaxSlots] = useState(20);
-  const maxSlotsRef = useRef(maxSlots);
-  maxSlotsRef.current = maxSlots;
+  const maxSlotsRef = useLatestRef(maxSlots);
 
   const pendingSoundsRef = useRef<SoundId[]>([]);
 

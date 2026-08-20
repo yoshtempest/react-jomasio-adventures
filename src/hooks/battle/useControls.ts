@@ -1,5 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 
 type Props = {
   attack: () => void;
@@ -32,34 +33,21 @@ export function useBattleControls({
 }: Props) {
   const { pushControls } = useGameControls();
 
-  const attackRef = useRef(attack);
-  const specialRef = useRef(special);
-  const blockStartRef = useRef(blockStart);
-  const blockEndRef = useRef(blockEnd);
-  const playerHitRef = useRef(handlePlayerHit);
-  const specialHitRef = useRef(handleSpecialHit);
-  const chargePressRef = useRef(onChargePress ?? (() => {}));
-  const chargeReleaseRef = useRef(onChargeRelease ?? (() => {}));
-  const chargeCancelRef = useRef(onChargeCancel ?? (() => {}));
+  const attackRef = useLatestRef(attack);
+  const specialRef = useLatestRef(special);
+  const blockStartRef = useLatestRef(blockStart);
+  const blockEndRef = useLatestRef(blockEnd);
+  const playerHitRef = useLatestRef(handlePlayerHit);
+  const specialHitRef = useLatestRef(handleSpecialHit);
+  const chargePressRef = useLatestRef(onChargePress ?? (() => {}));
+  const chargeReleaseRef = useLatestRef(onChargeRelease ?? (() => {}));
+  const chargeCancelRef = useLatestRef(onChargeCancel ?? (() => {}));
 
-  attackRef.current = attack;
-  specialRef.current = special;
-  blockStartRef.current = blockStart;
-  blockEndRef.current = blockEnd;
-  playerHitRef.current = handlePlayerHit;
-  specialHitRef.current = handleSpecialHit;
-  chargePressRef.current = onChargePress ?? (() => {});
-  chargeReleaseRef.current = onChargeRelease ?? (() => {});
-  chargeCancelRef.current = onChargeCancel ?? (() => {});
+  const hasChargeRef = useLatestRef(!!onChargePress);
 
-  const hasChargeRef = useRef(!!onChargePress);
-  hasChargeRef.current = !!onChargePress;
+  const playerStateRef = useLatestRef(playerState);
 
-  const playerStateRef = useRef(playerState);
-  playerStateRef.current = playerState;
-
-  const pushControlsRef = useRef(pushControls);
-  pushControlsRef.current = pushControls;
+  const pushControlsRef = useLatestRef(pushControls);
 
   useEffect(() => {
     if (disabled) return;
@@ -144,5 +132,5 @@ export function useBattleControls({
       if (holdTimer) clearTimeout(holdTimer);
       remove();
     };
-  }, [disabled]);
+  }, [disabled, hasChargeRef, playerStateRef, pushControlsRef, attackRef, blockEndRef, blockStartRef, chargeCancelRef, chargePressRef, chargeReleaseRef, playerHitRef, specialHitRef, specialRef]);
 }

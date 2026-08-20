@@ -148,3 +148,8 @@ Fraco contra: Psychicus
 
 
 Crie uma tabela de que tipagens causam/sofrem dano super efetivo em que outras tipagens. Essa tabela deve estar no menu de configurações na Tab de batalha e o jogador deve estar em batalha.
+
+Cada npc e personagem tem pelo menos um e no máximo 2 tipagens
+por exemplo:
+O personagem Marshadow é normalis e ventus
+O npc leviathan é aquos e draco

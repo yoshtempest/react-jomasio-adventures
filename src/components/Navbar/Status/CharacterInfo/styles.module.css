@@ -3,7 +3,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: var(--fs-8);
+  gap: 0;
   width: 100%;
 }
 
@@ -13,8 +13,7 @@
 }
 
 .petImage {
-  height: 30%;
-  position: absolute;
+  height: 30vh;
   object-fit: contain;
   transform: scaleX(-1);
   image-rendering: pixelated;

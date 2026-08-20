@@ -5,6 +5,7 @@ export const cantinaThreeDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Tu é fraco Jhow Simar, tu é fraco.",
+    expression: "x1"
   },
   {
     src: npcPath("/jhowsimar/right.svg"),
@@ -15,6 +16,7 @@ export const cantinaThreeDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Chora mais",
+    expression: "crossArms"
   },
   {
     src: npcPath("/jhowsimar/right.svg"),

@@ -1,6 +1,7 @@
 import { useRef, useEffect } from "react";
 import { SendHorizontal } from "lucide-react";
 import Talking from "@/components/Talking";
+import { ChoiceBox } from "@/components/ChoiceBox";
 import styles from "./styles.module.css";
 import SOS from "/assets/songs/background/battle/SOSFromEarth.m4a";
 import { useBackgroundAudio } from "@/hooks/useBackgroundAudio";
@@ -75,7 +76,14 @@ export default function Tutorial() {
         }
       }
 
-      if (flow.showNameInput) return false;
+      if (dialogue.message.includes("Marshadow ou Drika")) {
+        if (!flow.showGenderChoice) {
+          flow.openGenderChoice();
+          return false;
+        }
+      }
+
+      if (flow.showNameInput || flow.showGenderChoice) return false;
 
       return true;
     },
@@ -90,6 +98,18 @@ export default function Tutorial() {
         name={cutscene.dialogue.name}
         message={cutscene.dialogue.message}
       />
+
+      {flow.showGenderChoice && (
+        <ChoiceBox
+          prompt="Você é macho ou fêmea?"
+          options={["Macho", "Fêmea"]}
+          onSelect={(index) => {
+            const characterId = index === 0 ? "marcelo" : "eduarda";
+            flow.chooseGender(characterId);
+            cutscene.next();
+          }}
+        />
+      )}
 
       {flow.showNameInput && (
         <div className={`overlay ${styles.overlay}`}>

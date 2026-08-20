@@ -8,6 +8,8 @@ import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import { usePetsMenu } from "@/hooks/menu/pets/usePetsMenu";
 import type { PetEntry } from "@/hooks/menu/pets/usePetsMenu";
 import styles from "./styles.module.css";
+import { ProgressBar } from "@/components/ProgressBar";
+import { getPetXPToNextLevel, getPetClass } from "@/utils/character/petProgress";
 
 function formatDrop(entry: PetEntry): string {
   if (entry.dropChance === null) return "Baú";
@@ -57,53 +59,6 @@ export function Pets() {
                   e.currentTarget.src = npcPath("/goat/default.svg");
                 }}
               />
-            </div>
-
-            <div className={styles.flexColumn}>
-              <div className={styles.flexRow}>
-                <h2
-                  className={styles.name}
-                  style={{ color: RANK_COLORS[entry.rank] }}
-                >
-                  {entry.name}
-                </h2>
-                {entry.owned && stats && (
-                  <>
-                    <p className={styles.statsLine}>
-                      Nv.{stats.level}
-                    </p>
-                  </>
-                )}
-                {getNpcElementTypes(petNpcType).map((element) => (
-                  <img
-                    key={element}
-                    src={asset(
-                      `/assets/elementsBadges/${element.toLowerCase()}.svg`,
-                    )}
-                    alt={element}
-                    title={element}
-                    className={styles.elementBadge}
-                  />
-                ))}
-              </div>
-              
-              <span className={styles.roleBadge}>
-                {PET_ROLE_LABELS[entry.role]}
-              </span>
-
-              <div className={styles.flexRow}>
-                <p
-                  className={styles.rankLabel}
-                  style={{ color: RANK_COLORS[entry.rank] }}
-                >
-                  {RANK_LABELS[entry.rank]}
-                </p>
-                <p className={styles.dropLine}>Drop: {formatDrop(entry)}</p>
-              </div>
-
-              <p className={styles.skillLine}>Passiva: {entry.passiveName}</p>
-              <p className={styles.skillLine}>Skill: {entry.skillName}</p>
-
               {entry.owned && stats && (
                 <>
                   <div className={styles.starsRow}>
@@ -139,9 +94,71 @@ export function Pets() {
                     : `FUNDIR (2x ★${eligible})`}
                 </span>
               )}
+            </div>
+
+            <div className={styles.flexColumn}>
+              <div className={styles.flexRow}>
+                <h2
+                  className={styles.name}
+                  style={{ color: RANK_COLORS[entry.rank] }}
+                >
+                  {entry.name}
+                </h2>
+                {entry.owned && stats && (
+                  <>
+                    <p className={styles.statsLine}>
+                      Nv.{stats.level}
+                    </p>
+                  </>
+                )}
+                {getNpcElementTypes(petNpcType).map((element) => (
+                  <img
+                    key={element}
+                    src={asset(
+                      `/assets/badges/elements/${element.toLowerCase()}.svg`,
+                    )}
+                    alt={element}
+                    title={element}
+                    className={styles.elementBadge}
+                  />
+                ))}
+              </div>
+              {entry.owned && stats && (
+                <>
+                  <div className={styles.flexRow}>
+                    <ProgressBar
+                      value={stats.xp}
+                      max={getPetXPToNextLevel(stats.level, getPetClass(entry.id))}
+                    />
+                    <p className={styles.statsLine}>
+                      {stats.xp} / {getPetXPToNextLevel(stats.level, getPetClass(entry.id))}
+                    </p>
+                  </div>
+                </>
+              )}
+
               {isEquipped && (
                 <span className={styles.equippedBadge}>Equipado</span>
               )}
+              
+              <span className={styles.roleBadge}>
+                {PET_ROLE_LABELS[entry.role]}
+              </span>
+
+              <div className={styles.flexRow}>
+                <p
+                  className={styles.rankLabel}
+                  style={{ color: RANK_COLORS[entry.rank] }}
+                >
+                  {RANK_LABELS[entry.rank]}
+                </p>
+                <p className={styles.dropLine}>Drop: {formatDrop(entry)}</p>
+              </div>
+
+              <p className={styles.skillLine}>Passiva: {entry.passiveName}</p>
+              <p className={styles.skillLine}>Skill: {entry.skillName}</p>
+
+              
             </div>
           </div>
         );

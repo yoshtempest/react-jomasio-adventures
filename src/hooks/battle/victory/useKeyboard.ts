@@ -1,5 +1,5 @@
-import { useRef } from "react";
 import type { RefObject } from "react";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useGameControlsLayer } from "@/hooks/game/useGameControlsLayer";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 
@@ -10,12 +10,10 @@ export function useVictoryKeyboard(
   onContinue: () => void,
   scrollRef: RefObject<HTMLDivElement | null>,
 ) {
-  const onContinueRef = useRef(onContinue);
-  onContinueRef.current = onContinue;
+  const onContinueRef = useLatestRef(onContinue);
 
   const { playMove } = useMenuSFX();
-  const playMoveRef = useRef(playMove);
-  playMoveRef.current = playMove;
+  const playMoveRef = useLatestRef(playMove);
 
   useGameControlsLayer(
     isVisible

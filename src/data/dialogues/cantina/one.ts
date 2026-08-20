@@ -10,6 +10,7 @@ export const cantinaDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Como assim? O que vo-",
+    expression: "ops"
   },
   {
     src: npcPath("/jhowsimar/right.svg"),

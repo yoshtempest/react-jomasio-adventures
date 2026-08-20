@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { gridMove } from "@/gameRules/menu/navigation";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { useCompressedStorage } from "@/hooks/useCompressedStorage";
 
@@ -35,25 +36,16 @@ export function useContainer({
   const [isOpen, setIsOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const slotsRef = useRef(slots);
-  slotsRef.current = slots;
-  const selectedIndexRef = useRef(selectedIndex);
-  selectedIndexRef.current = selectedIndex;
-  const colsRef = useRef(cols);
-  colsRef.current = cols;
-  const sizeRef = useRef(size);
-  sizeRef.current = size;
+  const slotsRef = useLatestRef(slots);
+  const selectedIndexRef = useLatestRef(selectedIndex);
+  const colsRef = useLatestRef(cols);
+  const sizeRef = useLatestRef(size);
 
-  const playMoveRef = useRef(playMove);
-  playMoveRef.current = playMove;
-  const playSelectRef = useRef(playSelect);
-  playSelectRef.current = playSelect;
-  const playCloseRef = useRef(playClose);
-  playCloseRef.current = playClose;
-  const onPickupRef = useRef(onPickup);
-  onPickupRef.current = onPickup;
-  const onCloseRef = useRef(onClose);
-  onCloseRef.current = onClose;
+  const playMoveRef = useLatestRef(playMove);
+  const playSelectRef = useLatestRef(playSelect);
+  const playCloseRef = useLatestRef(playClose);
+  const onPickupRef = useLatestRef(onPickup);
+  const onCloseRef = useLatestRef(onClose);
 
   const open = useCallback(() => {
     setSelectedIndex(0);
@@ -63,7 +55,7 @@ export function useContainer({
   const close = useCallback(() => {
     setIsOpen(false);
     onCloseRef.current?.();
-  }, []);
+  }, [onCloseRef]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -127,7 +119,7 @@ export function useContainer({
 
     const remove = pushControls(controls);
     return remove;
-  }, [isOpen, pushControls, close, setSlots]);
+  }, [isOpen, pushControls, close, setSlots, colsRef, onPickupRef, playCloseRef, playMoveRef, playSelectRef, selectedIndexRef, sizeRef, slotsRef]);
 
   return {
     isOpen,

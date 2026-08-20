@@ -4,6 +4,7 @@ import { useNavbar } from "@/contexts/NavbarContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { isMovementLocked } from "@/gameRules/movement/state";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useDashDetection } from "./useDashDetection";
 
 type Dir = "up" | "down" | "left" | "right";
@@ -57,37 +58,35 @@ export function useKeyboardMovement() {
     });
   }, []);
 
-  const isLockedRef = useRef(isLocked);
-  const isBattleRef = useRef(isBattle);
+  const isLockedRef = useLatestRef(isLocked);
+  const isBattleRef = useLatestRef(isBattle);
 
-  const moveUpRef = useRef(moveUp);
-  const moveDownRef = useRef(moveDown);
-  const moveLeftRef = useRef(moveLeft);
-  const moveRightRef = useRef(moveRight);
+  const moveUpRef = useLatestRef(moveUp);
+  const moveDownRef = useLatestRef(moveDown);
+  const moveLeftRef = useLatestRef(moveLeft);
+  const moveRightRef = useLatestRef(moveRight);
 
-  const moveUpBattleRef = useRef(moveUpBattle);
-  const toggleCrouchRef = useRef(toggleCrouch);
+  const moveUpBattleRef = useLatestRef(moveUpBattle);
+  const toggleCrouchRef = useLatestRef(toggleCrouch);
 
-  const startMoveLeftRef = useRef(startMoveLeft);
-  const stopMoveLeftRef = useRef(stopMoveLeft);
-  const startMoveRightRef = useRef(startMoveRight);
-  const stopMoveRightRef = useRef(stopMoveRight);
-  const startMoveUpExploreRef = useRef(startMoveUpExplore);
-  const stopMoveUpExploreRef = useRef(stopMoveUpExplore);
-  const startMoveDownExploreRef = useRef(startMoveDownExplore);
-  const stopMoveDownExploreRef = useRef(stopMoveDownExplore);
-  const startMoveLeftExploreRef = useRef(startMoveLeftExplore);
-  const stopMoveLeftExploreRef = useRef(stopMoveLeftExplore);
-  const startMoveRightExploreRef = useRef(startMoveRightExplore);
-  const stopMoveRightExploreRef = useRef(stopMoveRightExplore);
+  const startMoveLeftRef = useLatestRef(startMoveLeft);
+  const stopMoveLeftRef = useLatestRef(stopMoveLeft);
+  const startMoveRightRef = useLatestRef(startMoveRight);
+  const stopMoveRightRef = useLatestRef(stopMoveRight);
+  const startMoveUpExploreRef = useLatestRef(startMoveUpExplore);
+  const stopMoveUpExploreRef = useLatestRef(stopMoveUpExplore);
+  const startMoveDownExploreRef = useLatestRef(startMoveDownExplore);
+  const stopMoveDownExploreRef = useLatestRef(stopMoveDownExplore);
+  const startMoveLeftExploreRef = useLatestRef(startMoveLeftExplore);
+  const stopMoveLeftExploreRef = useLatestRef(stopMoveLeftExplore);
+  const startMoveRightExploreRef = useLatestRef(startMoveRightExplore);
+  const stopMoveRightExploreRef = useLatestRef(stopMoveRightExplore);
 
   const { progress } = useCharacterProgress();
-  const progressRef = useRef(progress);
-  progressRef.current = progress;
-  const playerRef = useRef(player);
-  playerRef.current = player;
+  const progressRef = useLatestRef(progress);
+  const playerRef = useLatestRef(player);
 
-  const dashRef = useRef(dash);
+  const dashRef = useLatestRef(dash);
   const lastLeftPressRef = useRef(0);
   const lastRightPressRef = useRef(0);
   const lastDashTimeRef = useRef(0);
@@ -95,34 +94,6 @@ export function useKeyboardMovement() {
   const isDownHeldRef = useRef(false);
   const isLeftHeldRef = useRef(false);
   const isRightHeldRef = useRef(false);
-
-  useEffect(() => {
-    isLockedRef.current = isLocked;
-    isBattleRef.current = isBattle;
-
-    moveUpRef.current = moveUp;
-    moveDownRef.current = moveDown;
-    moveLeftRef.current = moveLeft;
-    moveRightRef.current = moveRight;
-
-    moveUpBattleRef.current = moveUpBattle;
-    toggleCrouchRef.current = toggleCrouch;
-
-    startMoveLeftRef.current = startMoveLeft;
-    stopMoveLeftRef.current = stopMoveLeft;
-    startMoveRightRef.current = startMoveRight;
-    stopMoveRightRef.current = stopMoveRight;
-    startMoveUpExploreRef.current = startMoveUpExplore;
-    stopMoveUpExploreRef.current = stopMoveUpExplore;
-    startMoveDownExploreRef.current = startMoveDownExplore;
-    stopMoveDownExploreRef.current = stopMoveDownExplore;
-    startMoveLeftExploreRef.current = startMoveLeftExplore;
-    stopMoveLeftExploreRef.current = stopMoveLeftExplore;
-    startMoveRightExploreRef.current = startMoveRightExplore;
-    stopMoveRightExploreRef.current = stopMoveRightExplore;
-
-    dashRef.current = dash;
-  });
 
   useEffect(() => {
     if (!isLocked) return;
@@ -138,15 +109,12 @@ export function useKeyboardMovement() {
     stopMoveRightExploreRef.current();
 
     setPressed(new Set());
-  }, [isLocked]);
+  }, [isLocked, stopMoveDownExploreRef, stopMoveLeftExploreRef, stopMoveRightExploreRef, stopMoveUpExploreRef]);
 
-  const pushControlsRef = useRef(pushControls);
-  pushControlsRef.current = pushControls;
+  const pushControlsRef = useLatestRef(pushControls);
 
-  const pressRef = useRef(press);
-  pressRef.current = press;
-  const releaseRef = useRef(release);
-  releaseRef.current = release;
+  const pressRef = useLatestRef(press);
+  const releaseRef = useLatestRef(release);
 
   const dashRefs = {
     progressRef,
@@ -190,7 +158,7 @@ export function useKeyboardMovement() {
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("keyup", onKeyUp);
     };
-  }, []);
+  }, [pressRef, releaseRef]);
 
   const isGrabbed = () =>
     (playerRef.current.grabbedUntil != null &&
@@ -285,15 +253,19 @@ export function useKeyboardMovement() {
     };
 
     const remove = pushControlsRef.current(controls);
+    const stopMoveUpExplore = stopMoveUpExploreRef.current;
+    const stopMoveDownExplore = stopMoveDownExploreRef.current;
+    const stopMoveLeftExplore = stopMoveLeftExploreRef.current;
+    const stopMoveRightExplore = stopMoveRightExploreRef.current;
     return () => {
       isUpHeldRef.current = false;
       isDownHeldRef.current = false;
       isLeftHeldRef.current = false;
       isRightHeldRef.current = false;
-      stopMoveUpExploreRef.current();
-      stopMoveDownExploreRef.current();
-      stopMoveLeftExploreRef.current();
-      stopMoveRightExploreRef.current();
+      stopMoveUpExplore();
+      stopMoveDownExplore();
+      stopMoveLeftExplore();
+      stopMoveRightExplore();
       remove();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps

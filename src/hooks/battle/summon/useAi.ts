@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { NPCS } from "@/data/npc/npc";
 import { calculateNpcDamage } from "@/gameRules/battle/damage";
 import { getElementMultiplier } from "@/gameRules/battle/element";
@@ -62,26 +63,17 @@ export function useSummonAI({
 }: Props) {
   const summonLastAttacksRef = useRef<Record<string, number>>({});
 
-  const playerXRef = useRef(playerX);
-  playerXRef.current = playerX;
-  const playerYRef = useRef(playerY);
-  playerYRef.current = playerY;
-  const playerCharacterRef = useRef(playerCharacter);
-  playerCharacterRef.current = playerCharacter;
+  const playerXRef = useLatestRef(playerX);
+  const playerYRef = useLatestRef(playerY);
+  const playerCharacterRef = useLatestRef(playerCharacter);
 
-  const isPausedRef = useRef(isPaused);
-  isPausedRef.current = isPaused;
+  const isPausedRef = useLatestRef(isPaused);
 
-  const npcLevelRef = useRef(npcLevel);
-  npcLevelRef.current = npcLevel;
-  const difficultyRef = useRef(difficulty);
-  difficultyRef.current = difficulty;
-  const playerClassRef = useRef(playerClass);
-  playerClassRef.current = playerClass;
-  const damagePlayerRef = useRef(damagePlayer);
-  damagePlayerRef.current = damagePlayer;
-  const setSummonsRef = useRef(setSummons);
-  setSummonsRef.current = setSummons;
+  const npcLevelRef = useLatestRef(npcLevel);
+  const difficultyRef = useLatestRef(difficulty);
+  const playerClassRef = useLatestRef(playerClass);
+  const damagePlayerRef = useLatestRef(damagePlayer);
+  const setSummonsRef = useLatestRef(setSummons);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -148,7 +140,7 @@ export function useSummonAI({
     }, 20);
 
     return () => clearInterval(interval);
-  }, [hitstopRef, spawnDamageRef]);
+  }, [hitstopRef, spawnDamageRef, damagePlayerRef, difficultyRef, isPausedRef, npcLevelRef, playerCharacterRef, playerClassRef, playerXRef, playerYRef, setSummonsRef]);
 
   useEffect(() => {
     const dying = summons.filter((summon) => summon.hp <= 0 && !summon.isDying);

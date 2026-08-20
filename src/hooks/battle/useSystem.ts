@@ -1,10 +1,12 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { battleBehaviors } from "@/gameRules/battle/behaviors/player";
 import {
   getPetSkillDefinition,
   PET_SKILL_COOLDOWN_MS,
 } from "@/data/characters/petSkills";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { usePetSkillCooldown } from "@/hooks/battle/player/usePetSkill";
+import { usePetPassive } from "@/hooks/battle/player/usePetPassive";
 
 import { useBattleStats } from "@/hooks/battle/useStats";
 import { useBattleHP } from "@/hooks/battle/death/useHP";
@@ -65,6 +67,7 @@ type Props = {
   isMenuRef?: React.RefObject<boolean>;
   savedPlayerHP?: number | null;
   npcStatMultiplier?: number;
+  npcArmorBonus?: number;
 };
 
 export function useBattleSystem(props: Props) {
@@ -98,6 +101,7 @@ export function useBattleSystem(props: Props) {
     isMenuRef,
     savedPlayerHP,
     npcStatMultiplier = 1,
+    npcArmorBonus = 0,
   } = props;
 
   const [npcPhase, setNpcPhase] = useState(1);
@@ -108,6 +112,7 @@ export function useBattleSystem(props: Props) {
     difficulty,
     npcPhase,
     npcStatMultiplier,
+    npcArmorBonus,
   });
   const {
     player,
@@ -120,6 +125,7 @@ export function useBattleSystem(props: Props) {
     totalMaxHpDamage,
     totalTrueDamage,
     titleBonus,
+    getElementDamageBonus,
     playerMaxHp,
     npcMaxHp,
     npcArmor,
@@ -134,6 +140,8 @@ export function useBattleSystem(props: Props) {
   const behavior = battleBehaviors[player.character] || battleBehaviors.default;
 
   const npcElementTypes = getNpcElementTypes(npcType);
+
+  const elementDamageBonus = getElementDamageBonus(npcElementTypes);
 
   const halfHealReduction = getHalfHealReduction(player.character);
   const equippedResistances = getEquippedResistances(player.character);
@@ -156,19 +164,13 @@ export function useBattleSystem(props: Props) {
 
   const { damageNumbers, spawnDamageNumber, clearDamageNumbers } =
     useDamageNumbers();
-  const spawnDamageRef = useRef(spawnDamageNumber);
-  spawnDamageRef.current = spawnDamageNumber;
+  const spawnDamageRef = useLatestRef(spawnDamageNumber);
 
-  const bleedXRef = useRef(playerX);
-  bleedXRef.current = playerX;
-  const bleedYRef = useRef(playerY);
-  bleedYRef.current = playerY;
-  const bleedUntilRef = useRef(player.bleedUntil);
-  bleedUntilRef.current = player.bleedUntil;
-  const burnUntilRef = useRef(player.burnUntil);
-  burnUntilRef.current = player.burnUntil;
-  const poisonUntilRef = useRef(player.poisonUntil);
-  poisonUntilRef.current = player.poisonUntil;
+  const bleedXRef = useLatestRef(playerX);
+  const bleedYRef = useLatestRef(playerY);
+  const bleedUntilRef = useLatestRef(player.bleedUntil);
+  const burnUntilRef = useLatestRef(player.burnUntil);
+  const poisonUntilRef = useLatestRef(player.poisonUntil);
 
   const {
     playerHP,
@@ -178,6 +180,16 @@ export function useBattleSystem(props: Props) {
     playerShield,
     setPlayerShield,
   } = useBattleHP(playerMaxHp, npcMaxHp, totalShield, savedPlayerHP);
+
+  const petSkillDef = petId ? getPetSkillDefinition(petId) : null;
+  const petIsBattle =
+    hasPet && petSkillDef !== null && petSkillDef.role !== "montaria";
+
+  const { oneHitShieldRef, reset: resetPetPassive } = usePetPassive({
+    passiveEffect: petSkillDef?.passiveEffect ?? null,
+    enabled: petIsBattle,
+    isPaused: isEnding.current,
+  });
 
   const { damagePlayerHp, damagePlayer } = useExternalDamage({
     playerX,
@@ -192,6 +204,7 @@ export function useBattleSystem(props: Props) {
     setPlayer,
     spawnDamageRef,
     onBlockRef,
+    oneHitShieldRef,
   });
 
   const playerBattle = usePlayerBattle({
@@ -219,6 +232,7 @@ export function useBattleSystem(props: Props) {
     spawnPiercing: effects.spawnPiercing,
     triggerExplosion: effects.triggerExplosion,
     titleDamageBonus: titleBonus.damage,
+    elementDamageBonus,
     critRate: stats.critRate,
     npcArmor,
     spawnDamageRef,
@@ -232,11 +246,7 @@ export function useBattleSystem(props: Props) {
     onHalfHeal,
   });
 
-  const petSkillDef = petId ? getPetSkillDefinition(petId) : null;
-  const petIsBattle =
-    hasPet && petSkillDef !== null && petSkillDef.role !== "montaria";
-
-  const { pet, resetPet } = usePetBattle({
+  const { pet, resetPet, triggerJumpAttack } = usePetBattle({
     enabled: petIsBattle,
     playerX,
     playerY,
@@ -340,6 +350,7 @@ export function useBattleSystem(props: Props) {
     });
     resetPet();
     resetPetSkill();
+    resetPetPassive();
     setPlayer((p) => ({
       ...clearPlayerStatuses(p),
       halfHealUntil: 0,
@@ -396,6 +407,7 @@ export function useBattleSystem(props: Props) {
     piercings: effects.piercings,
     isExploding: effects.isExploding,
     pet,
+    triggerJumpAttack,
     petSkill: petSkillDef
       ? {
           definition: petSkillDef,
@@ -412,6 +424,7 @@ export function useBattleSystem(props: Props) {
     totalVampirism,
     totalReflect,
     titleDamageBonus: titleBonus.damage,
+    elementDamageBonus,
     blockGauge,
     blockLimit,
     tenacityReduction: stats.tenacityReduction,

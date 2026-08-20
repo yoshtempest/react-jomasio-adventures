@@ -8,6 +8,7 @@ import {
   type ReactNode,
 } from "react";
 import { useAudio } from "@/contexts/AudioContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { createSounds } from "@/utils/soundEffects";
 
 export type SoundId =
@@ -69,8 +70,7 @@ const SOUND_VOLUMES: Partial<Record<SoundId, number>> = {
 
 export function SoundEffectsProvider({ children }: { children: ReactNode }) {
   const { sfxVolume } = useAudio();
-  const sfxVolumeRef = useRef(sfxVolume);
-  sfxVolumeRef.current = sfxVolume;
+  const sfxVolumeRef = useLatestRef(sfxVolume);
 
   const soundsRef = useRef<Record<SoundId, HTMLAudioElement>>(
     {} as Record<SoundId, HTMLAudioElement>,
@@ -118,7 +118,7 @@ export function SoundEffectsProvider({ children }: { children: ReactNode }) {
         // AbortError é esperado quando play() é interrompido por pause()
       }
     },
-    [],
+    [sfxVolumeRef],
   );
 
   const stopSound = useCallback((sound: SoundId) => {

@@ -5,6 +5,7 @@ import { useFlags } from "@/contexts/FlagContext";
 import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
 import { getSelected } from "@/gameRules/menu/selection";
 import { asset } from "@/utils/paths";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 
 const CLASSES: PlayerClass[] = ["fracote", "idiota", "amostradinho"];
@@ -22,18 +23,12 @@ export function useClassSelection(isActive: boolean, onConfirm?: () => void) {
     selectedIndexRef.current = selectedIndex;
   }, [selectedIndex]);
 
-  const playMoveRef = useRef(playMove);
-  playMoveRef.current = playMove;
-  const playSelectRef = useRef(playSelect);
-  playSelectRef.current = playSelect;
-  const pushControlsRef = useRef(pushControls);
-  pushControlsRef.current = pushControls;
-  const chooseClassRef = useRef(chooseClass);
-  chooseClassRef.current = chooseClass;
-  const setFlagRef = useRef(setFlag);
-  setFlagRef.current = setFlag;
-  const onConfirmRef = useRef(onConfirm);
-  onConfirmRef.current = onConfirm;
+  const playMoveRef = useLatestRef(playMove);
+  const playSelectRef = useLatestRef(playSelect);
+  const pushControlsRef = useLatestRef(pushControls);
+  const chooseClassRef = useLatestRef(chooseClass);
+  const setFlagRef = useLatestRef(setFlag);
+  const onConfirmRef = useLatestRef(onConfirm);
 
   useEffect(() => {
     if (!isActive) return;
@@ -71,7 +66,7 @@ export function useClassSelection(isActive: boolean, onConfirm?: () => void) {
 
     const remove = pushControlsRef.current(controls);
     return () => remove();
-  }, [isActive]);
+  }, [isActive, chooseClassRef, onConfirmRef, playMoveRef, playSelectRef, pushControlsRef, setFlagRef]);
 
   return {
     classes: CLASSES,

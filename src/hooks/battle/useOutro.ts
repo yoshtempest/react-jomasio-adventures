@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useVictory } from "@/hooks/battle/victory/useVictory";
 import { useHighlight } from "@/hooks/battle/useHighlight";
 import type { ReplayData } from "@/utils/types/replay";
@@ -31,10 +32,8 @@ export function useBattleOutro({
   const { highlightData, prepareHighlight, clearHighlight } = useHighlight();
   const [showHighlight, setShowHighlight] = useState(false);
 
-  const showHighlightEnabledRef = useRef(showHighlightEnabled);
-  showHighlightEnabledRef.current = showHighlightEnabled;
-  const getReplayDataRef = useRef(getReplayData);
-  getReplayDataRef.current = getReplayData;
+  const showHighlightEnabledRef = useLatestRef(showHighlightEnabled);
+  const getReplayDataRef = useLatestRef(getReplayData);
 
   const { showVictory, triggerVictory } = useVictory({ redirectTo });
 
@@ -45,7 +44,7 @@ export function useBattleOutro({
         setShowHighlight(true);
       }
     }
-  }, [prepareHighlight]);
+  }, [prepareHighlight, getReplayDataRef, showHighlightEnabledRef]);
 
   useEffect(() => {
     if (showVictory) {

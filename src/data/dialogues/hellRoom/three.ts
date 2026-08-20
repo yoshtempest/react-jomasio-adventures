@@ -10,6 +10,7 @@ export const HellRoomThreeDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "hm? cadê aquele homem?",
+    expression: "crossArms",
   },
   {
     src: npcPath("/maugrelo/right.svg"),

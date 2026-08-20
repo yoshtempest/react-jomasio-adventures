@@ -4,6 +4,7 @@ import { loadReplays, deleteReplay } from "@/data/replays";
 import { getNpcDisplayName } from "@/utils/types/npc/npcNames";
 import { formatDuration } from "@/utils/formatDuration";
 import type { ReplayData } from "@/utils/types/replay";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useGameControlsLayer } from "@/hooks/game/useGameControlsLayer";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { CHARACTERS } from "@/data/options/characters";
@@ -40,25 +41,18 @@ export function ReplayList({ isOnTab }: Props) {
     if (el) el.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, [selectedIndex]);
 
-  const selectedIndexRef = useRef(selectedIndex);
-  selectedIndexRef.current = selectedIndex;
-  const replaysRef = useRef(replays);
-  replaysRef.current = replays;
-  const confirmDeleteRef = useRef(confirmDelete);
-  confirmDeleteRef.current = confirmDelete;
-  const isOnTabRef = useRef(isOnTab);
-  isOnTabRef.current = isOnTab;
-  const playMoveRef = useRef(playMove);
-  playMoveRef.current = playMove;
-  const playSelectRef = useRef(playSelect);
-  playSelectRef.current = playSelect;
-  const navigateRef = useRef(navigate);
-  navigateRef.current = navigate;
+  const selectedIndexRef = useLatestRef(selectedIndex);
+  const replaysRef = useLatestRef(replays);
+  const confirmDeleteRef = useLatestRef(confirmDelete);
+  const isOnTabRef = useLatestRef(isOnTab);
+  const playMoveRef = useLatestRef(playMove);
+  const playSelectRef = useLatestRef(playSelect);
+  const navigateRef = useLatestRef(navigate);
 
   const watchReplay = useCallback((id: string) => {
     sessionStorage.setItem("replayTarget", id);
     navigateRef.current("/");
-  }, []);
+  }, [navigateRef]);
 
   useGameControlsLayer(
     {

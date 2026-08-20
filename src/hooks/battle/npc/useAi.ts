@@ -9,6 +9,7 @@ import {
 import type { NPCBattleState } from "@/utils/types/npc/npc";
 import type { BattleObstacle } from "@/utils/types/maps/battle";
 import { useSoundEffects, type SoundId } from "@/contexts/SoundEffectsContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { logPlay, logStop } from "@/utils/replay/audioEventLog";
 import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
 import { BATTLE_LIMITS } from "@/utils/types/player/movement";
@@ -65,6 +66,10 @@ type Props = {
   onGrabPlayer?: (flipped: boolean) => void;
   onThrowStart?: (npcX: number, npcDirection: "left" | "right") => void;
   onThrowPlayer?: (damageMultiplier: number) => void;
+  onPushPlayer?: (npcX: number) => void;
+  onGroundPaperHit?: () => void;
+  onPaperExplode?: () => void;
+  onArmorBuff?: (x: number, y: number) => void;
 };
 
 export function useNpcAI({
@@ -88,6 +93,10 @@ export function useNpcAI({
   onGrabPlayer,
   onThrowStart,
   onThrowPlayer,
+  onPushPlayer,
+  onGroundPaperHit,
+  onPaperExplode,
+  onArmorBuff,
 }: Props) {
   const [npc, setNpc] = useState<NPCBattleState>({
     x: BATTLE_SPAWN.npc.x,
@@ -99,30 +108,21 @@ export function useNpcAI({
   const [projectile, setProjectile] = useState<Projectile | null>(null);
   const [forceIdle, setForceIdle] = useState(false);
 
-  const projectileRef = useRef(projectile);
-  projectileRef.current = projectile;
-  const playerXRef = useRef(playerX);
-  playerXRef.current = playerX;
-  const playerYRef = useRef(playerY);
-  playerYRef.current = playerY;
-  const forceIdleRef = useRef(forceIdle);
-  forceIdleRef.current = forceIdle;
-  const isPausedRef = useRef(isPaused);
-  isPausedRef.current = isPaused;
-  const npcTypeRef = useRef(npcType);
-  npcTypeRef.current = npcType;
-  const onProjectileHitRef = useRef(onProjectileHit);
-  onProjectileHitRef.current = onProjectileHit;
-  const onMeleeHitRef = useRef(onMeleeHit);
-  onMeleeHitRef.current = onMeleeHit;
-  const onSummonRef = useRef(onSummon);
-  onSummonRef.current = onSummon;
-  const onPullPlayerRef = useRef(onPullPlayer);
-  onPullPlayerRef.current = onPullPlayer;
+  const projectileRef = useLatestRef(projectile);
+  const playerXRef = useLatestRef(playerX);
+  const playerYRef = useLatestRef(playerY);
+  const playerStateRef = useLatestRef(playerState);
+  const playerDirectionRef = useLatestRef(playerDirection);
+  const forceIdleRef = useLatestRef(forceIdle);
+  const isPausedRef = useLatestRef(isPaused);
+  const npcTypeRef = useLatestRef(npcType);
+  const onProjectileHitRef = useLatestRef(onProjectileHit);
+  const onMeleeHitRef = useLatestRef(onMeleeHit);
+  const onSummonRef = useLatestRef(onSummon);
+  const onPullPlayerRef = useLatestRef(onPullPlayer);
   const lastAttackRef = useRef(0);
   const summonTimerRef = useRef(0);
-  const obstaclesRef = useRef(obstacles ?? []);
-  obstaclesRef.current = obstacles ?? [];
+  const obstaclesRef = useLatestRef(obstacles ?? []);
 
   const { playSound, stopSound } = useSoundEffects();
   const loggedPlaySound = useCallback(
@@ -132,12 +132,13 @@ export function useNpcAI({
     },
     [playSound],
   );
-  const onGrabPlayerRef = useRef(onGrabPlayer);
-  onGrabPlayerRef.current = onGrabPlayer;
-  const onThrowStartRef = useRef(onThrowStart);
-  onThrowStartRef.current = onThrowStart;
-  const onThrowPlayerRef = useRef(onThrowPlayer);
-  onThrowPlayerRef.current = onThrowPlayer;
+  const onGrabPlayerRef = useLatestRef(onGrabPlayer);
+  const onThrowStartRef = useLatestRef(onThrowStart);
+  const onThrowPlayerRef = useLatestRef(onThrowPlayer);
+  const onPushPlayerRef = useLatestRef(onPushPlayer);
+  const onGroundPaperHitRef = useLatestRef(onGroundPaperHit);
+  const onPaperExplodeRef = useLatestRef(onPaperExplode);
+  const onArmorBuffRef = useLatestRef(onArmorBuff);
 
   const { update: updateProximitySound } = useProximityLoopSound(
     npcTypeRef,
@@ -213,6 +214,8 @@ export function useNpcAI({
           npc: n,
           playerX: playerXRef.current,
           playerY: playerYRef.current,
+          playerState: playerStateRef.current,
+          playerDirection: playerDirectionRef.current,
           targetX,
           targetY,
           npcPhase: npcPhaseRef.current,
@@ -231,6 +234,10 @@ export function useNpcAI({
           onGrabPlayer: (flipped) => onGrabPlayerRef.current?.(flipped),
           onThrowStart: (x, d) => onThrowStartRef.current?.(x, d),
           onThrowPlayer: (mult) => onThrowPlayerRef.current?.(mult),
+          onPushPlayer: (x) => onPushPlayerRef.current?.(x),
+          onGroundPaperHit: onGroundPaperHitRef.current,
+          onPaperExplode: onPaperExplodeRef.current,
+          onArmorBuff: onArmorBuffRef.current,
         });
 
         const nextX = result.x;
@@ -279,6 +286,26 @@ export function useNpcAI({
     loggedPlaySound,
     stopSound,
     updateProximitySound,
+    forceIdleRef,
+    isPausedRef,
+    npcTypeRef,
+    obstaclesRef,
+    onGrabPlayerRef,
+    onMeleeHitRef,
+    onProjectileHitRef,
+    onPullPlayerRef,
+    onSummonRef,
+    onThrowPlayerRef,
+    onThrowStartRef,
+    onPushPlayerRef,
+    onGroundPaperHitRef,
+    onPaperExplodeRef,
+    onArmorBuffRef,
+    playerXRef,
+    playerYRef,
+    playerStateRef,
+    playerDirectionRef,
+    projectileRef,
   ]);
 
   const updateNpc = (partial: Partial<NPCBattleState>) => {
@@ -295,9 +322,12 @@ export function useNpcAI({
     }));
   };
 
+  const groundPapers = npc.ai?.maugrelo?.groundPapers ?? [];
+
   return {
     ...npc,
     projectile,
+    groundPapers,
     resetNpc,
     updateNpc,
   };

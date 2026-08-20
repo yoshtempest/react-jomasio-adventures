@@ -19,6 +19,7 @@ type BaseHitParams = {
   char: CharacterProgress;
   behavior: BattleBehavior;
   titleDamageBonus: number;
+  elementDamageBonus: number;
   critRate: number;
   npcArmor: number;
   npcElementTypes: readonly ElementType[];
@@ -45,6 +46,7 @@ type DamageCalcParams = {
   playerClass: PlayerClass;
   char: CharacterProgress;
   titleDamageBonus: number;
+  elementDamageBonus: number;
   critRate: number;
   npcArmor: number;
   npcElementTypes: readonly ElementType[];
@@ -73,6 +75,7 @@ function computeHitDamage({
   totalMaxHpDamage,
   totalTrueDamage,
   damageMultiplier,
+  elementDamageBonus,
   rawDmg,
 }: ComputeHitDamageParams): {
   damage: number;
@@ -92,7 +95,7 @@ function computeHitDamage({
     npcElementTypes,
   );
   const trueDmg =
-    Math.round(armorReduced * damageMultiplier * elementMultiplier) +
+    Math.round(armorReduced * damageMultiplier * elementMultiplier * elementDamageBonus) +
     totalTrueDamage;
 
   return { damage: trueDmg, isCrit: dmgType === "crit", type: dmgType };

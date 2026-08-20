@@ -13,6 +13,7 @@ export const threeScene: SceneConfig = {
   scaleFix: 2,
   map: hellRoomThree,
   events: hellroomThreeEvents,
+  autoStartDialogue: true,
   audio: { src: MUSICS.hell },
   npcs: hellroomThreeNpcs,
   tiles: hellRoomTwoTiles,

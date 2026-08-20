@@ -1,6 +1,7 @@
 import styles from "./styles.module.css";
 import { ELEMENT_STRONG_AGAINST } from "@/data/types/elementChart";
 import type { ElementType } from "@/utils/types/battle/element";
+import { asset } from "@/utils/paths";
 
 const ELEMENT_TYPES = Object.keys(ELEMENT_STRONG_AGAINST) as ElementType[];
 
@@ -63,7 +64,11 @@ export function ElementTable({ playerElementTypes, npcElementTypes }: Props) {
           return (
             <div key={type} className={rowClass}>
               <div className={styles.typeCell}>
-                <span className={styles.typeName}>{type}</span>
+                <img 
+                  src={asset(`/assets/badges/elements/${type.toLowerCase()}.svg`)}
+                  className={styles.icon}
+                />
+
                 {isPlayer && (
                   <span className={`${styles.badge} ${styles.playerBadge}`}>
                     VOCÊ
@@ -80,12 +85,10 @@ export function ElementTable({ playerElementTypes, npcElementTypes }: Props) {
                   <span className={styles.none}>—</span>
                 ) : (
                   causes.map((t) => (
-                    <span
-                      key={t}
-                      className={`${styles.chip} ${styles.strongChip}`}
-                    >
-                      {t}
-                    </span>
+                    <img 
+                      src={asset(`/assets/badges/elements/${t.toLowerCase()}.svg`)}
+                      className={styles.icon}
+                    />
                   ))
                 )}
               </div>
@@ -94,12 +97,10 @@ export function ElementTable({ playerElementTypes, npcElementTypes }: Props) {
                   <span className={styles.none}>—</span>
                 ) : (
                   receives.map((t) => (
-                    <span
-                      key={t}
-                      className={`${styles.chip} ${styles.receiveChip}`}
-                    >
-                      {t}
-                    </span>
+                    <img 
+                      src={asset(`/assets/badges/elements/${t.toLowerCase()}.svg`)}
+                      className={styles.icon}
+                    />
                   ))
                 )}
               </div>

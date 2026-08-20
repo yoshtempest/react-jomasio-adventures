@@ -45,10 +45,10 @@ export function deisePhase1(ctx: BehaviorContext, ai: DeiseAI): Phase1Result {
     if (staffReady) {
       setProjectile(
         createCommonProjectile({
-          startX: npc.x - 100,
-          startY: npc.y - 80,
+          startX: npc.x - 150,
+          startY: npc.y - 180,
           targetX: playerX - 100,
-          targetY: playerY - 80,
+          targetY: playerY - 60,
           sprite: "spoon",
           state: "idle",
         }),

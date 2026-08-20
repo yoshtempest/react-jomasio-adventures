@@ -10,11 +10,12 @@ export const cafeteriaThreeDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Sei não moço, posso ir embora?",
+    expression: "ops",
   },
   {
     src: npcPath("/deise/right.svg"),
     name: "Deise",
-    message: "Ele acabou de me dar uma pisa, mata ele Denis!!!",
+    message: "Ele acabou de me dar uma surra, mata ele Denis!!!",
   },
   {
     src: npcPath("/denis/angry.svg"),
@@ -40,6 +41,7 @@ export const cafeteriaThreeDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Posso ir embora?",
+    expression: "ops",
   },
   {
     src: npcPath("/denis/angry.svg"),
@@ -50,6 +52,7 @@ export const cafeteriaThreeDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "QUE LINGUIÇÃO??",
+    expression: "desperate",
   },
   {
     src: npcPath("/denis/angry.svg"),
@@ -60,6 +63,7 @@ export const cafeteriaThreeDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "EU VOU EMBORA!",
+    expression: "desperate",
   },
   {
     src: npcPath("/denis/angry.svg"),
@@ -70,6 +74,7 @@ export const cafeteriaThreeDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "SEU MANÍACO!",
+    expression: "desperate",
   },
   {
     src: npcPath("/denis/angry.svg"),

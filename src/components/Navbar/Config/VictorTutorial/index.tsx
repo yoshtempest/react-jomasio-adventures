@@ -2,18 +2,18 @@ import styles from "./styles.module.css";
 import { MoveUp, MoveDown, MoveLeft, MoveRight } from "lucide-react";
 import { configsDialogue } from "@/data/dialogues/configs";
 import Talking from "@/components/Talking";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useDialogue } from "@/hooks/interaction/useDialogue";
 
 export function VictorTutorial() {
   const dialogueSystem = useDialogue(configsDialogue);
 
-  const dialogueSystemRef = useRef(dialogueSystem);
-  dialogueSystemRef.current = dialogueSystem;
+  const dialogueSystemRef = useLatestRef(dialogueSystem);
 
   useEffect(() => {
     dialogueSystemRef.current.start();
-  }, []);
+  }, [dialogueSystemRef]);
 
   return (
     <div className={styles.tutorialContainer}>

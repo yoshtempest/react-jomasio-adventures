@@ -4,6 +4,7 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { PROFESSIONS } from "@/data/professions";
 import { ITEMS } from "@/data/items";
@@ -70,10 +71,8 @@ export function Professions() {
     setMessage(`Ferramenta craftada: ${profession.toolName}`);
   };
 
-  const playMoveRef = useRef(playMove);
-  playMoveRef.current = playMove;
-  const pushControlsRef = useRef(pushControls);
-  pushControlsRef.current = pushControls;
+  const playMoveRef = useLatestRef(playMove);
+  const pushControlsRef = useLatestRef(pushControls);
 
   useEffect(() => {
     const remove = pushControlsRef.current({
@@ -96,7 +95,7 @@ export function Professions() {
       blockGlobalOpen: true,
     });
     return remove;
-  }, []);
+  }, [playMoveRef, pushControlsRef]);
 
   useEffect(() => {
     if (!listRef.current) return;

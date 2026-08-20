@@ -1,13 +1,15 @@
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import { TILE_COLORS } from "@/data/battle/tileColors";
+import { ProjectileConstants } from "@/data/projectile";
 
 type Props = {
   map: BattleMapConfig;
-  scaleX: number;
-  scaleY: number;
 };
 
-export function BattleMap({ map, scaleX, scaleY }: Props) {
+export function BattleMap({ map }: Props) {
+  const scaleX = window.innerWidth / ProjectileConstants.MAP_WIDTH;
+  const scaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;
+
   return (
     <>
       {map.obstacles.map((ob, i) => (

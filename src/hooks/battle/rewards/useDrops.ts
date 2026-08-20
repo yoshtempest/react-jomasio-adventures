@@ -114,11 +114,12 @@ export function rollPetDrop(
   npcType: string,
   addDrop: (character: CharacterId, id: EquipmentId, enhance?: number) => void,
   character: CharacterId,
+  petDropBonus: number = 1,
 ): EquipmentDropInfo | null {
   for (const [petId, info] of Object.entries(PET_DROPS)) {
     if (!npcType.startsWith(info.npcType)) continue;
     if (!info.chance) continue;
-    if (Math.random() >= info.chance) continue;
+    if (Math.random() >= info.chance * petDropBonus) continue;
 
     const enhance = 0;
     addDrop(character, petId as EquipmentId, enhance);

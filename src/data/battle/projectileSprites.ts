@@ -8,4 +8,5 @@ export const spriteMap: Record<string, string> = {
   spear: npcPathProjectile("/spear.svg"),
   spoon: npcPathProjectile("/spoon.svg"),
   knife: npcPathProjectile("/knife.svg"),
+  paper: npcPathProjectile("/paper.svg")
 };

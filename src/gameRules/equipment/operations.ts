@@ -171,24 +171,39 @@ export function fusePets(
   const { next, data, collection } = getMutableState(allData, character);
 
   const sourceKey = colKey(petId, sourceEnhance);
-  if ((collection[sourceKey] ?? 0) < 2) return null;
-
+  const collectionCount = collection[sourceKey] ?? 0;
   const equippedPet = data.equipped.pet;
-  if (
+  const equippedMatches =
     equippedPet &&
     equippedPet.id === petId &&
-    equippedPet.enhance === sourceEnhance
-  ) {
-    return null;
-  }
+    equippedPet.enhance === sourceEnhance;
+  const totalCount = collectionCount + (equippedMatches ? 1 : 0);
 
-  collection[sourceKey] -= 2;
-  if (collection[sourceKey] <= 0) delete collection[sourceKey];
+  if (totalCount < 2) return null;
+
+  const equipped = { ...data.equipped };
+
+  if (equippedMatches) {
+    const fromCollection = Math.min(collectionCount, 2);
+    const fromEquipped = 2 - fromCollection;
+    const remaining = collectionCount - fromCollection;
+    if (remaining > 0) {
+      collection[sourceKey] = remaining;
+    } else {
+      delete collection[sourceKey];
+    }
+    if (fromEquipped > 0) {
+      equipped.pet = null;
+    }
+  } else {
+    collection[sourceKey] -= 2;
+    if (collection[sourceKey] <= 0) delete collection[sourceKey];
+  }
 
   addToCollection(collection, petId, targetEnhance);
 
   next[character] = {
-    equipped: data.equipped,
+    equipped,
     collection,
   } as CharacterEquipmentData;
   return next;

@@ -3,8 +3,9 @@ import { usePlayer } from "@/contexts/PlayerContext";
 
 export function useTutorialFlow() {
   const [showNameInput, setShowNameInput] = useState(false);
+  const [showGenderChoice, setShowGenderChoice] = useState(false);
 
-  const { setMode } = usePlayer();
+  const { setMode, setCharacter } = usePlayer();
 
   function openNameInput() {
     setShowNameInput(true);
@@ -16,9 +17,23 @@ export function useTutorialFlow() {
     setMode("explore");
   }
 
+  function openGenderChoice() {
+    setShowGenderChoice(true);
+    setMode("ui");
+  }
+
+  function chooseGender(characterId: "marcelo" | "eduarda") {
+    setCharacter(characterId);
+    setShowGenderChoice(false);
+    setMode("explore");
+  }
+
   return {
     showNameInput,
     openNameInput,
     closeNameInput,
+    showGenderChoice,
+    openGenderChoice,
+    chooseGender,
   };
 }

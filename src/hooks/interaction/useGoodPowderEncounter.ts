@@ -6,6 +6,7 @@ import {
   type NavigateOptions,
 } from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { goodPowderDialogue } from "@/data/dialogues/goodPowder";
 import { getNpcDisplayName } from "@/utils/types/npc/npcNames";
 import { npcPath } from "@/utils/paths";
@@ -40,10 +41,8 @@ export function useGoodPowderEncounter({
     | undefined;
 
   const handledRef = useRef(false);
-  const navigateRef = useRef(navigate);
-  navigateRef.current = navigate;
-  const navigateWithFadeRef = useRef(navigateWithFade);
-  navigateWithFadeRef.current = navigateWithFade;
+  const navigateRef = useLatestRef(navigate);
+  const navigateWithFadeRef = useLatestRef(navigateWithFade);
 
   useEffect(() => {
     if (!encounterFromLocation) return;
@@ -87,6 +86,8 @@ export function useGoodPowderEncounter({
     encounterDialogue,
     location.pathname,
     location.state,
+    navigateRef,
+    navigateWithFadeRef,
   ]);
 
   const encounterNpc = useMemo(() => {

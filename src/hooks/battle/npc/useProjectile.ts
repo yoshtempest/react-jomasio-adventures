@@ -1,5 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import type { Dispatch, SetStateAction } from "react";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { ProjectileConstants } from "@/data/projectile";
 
 export function useProjectile(
@@ -15,10 +16,8 @@ export function useProjectile(
   hitstopRef: React.RefObject<number>,
   onPullPlayer?: (x: number) => void,
 ) {
-  const onHitRef = useRef(onHit);
-  onHitRef.current = onHit;
-  const onPullPlayerRef = useRef(onPullPlayer);
-  onPullPlayerRef.current = onPullPlayer;
+  const onHitRef = useLatestRef(onHit);
+  const onPullPlayerRef = useLatestRef(onPullPlayer);
 
   useEffect(() => {
     if (!projectile) return;
@@ -51,7 +50,7 @@ export function useProjectile(
     }, 20);
 
     return () => clearInterval(interval);
-  }, [projectile, playerX, playerY, playerState, setProjectile, hitstopRef]);
+  }, [projectile, playerX, playerY, playerState, setProjectile, hitstopRef, onHitRef, onPullPlayerRef]);
 }
 
 function handleLinearProjectile(

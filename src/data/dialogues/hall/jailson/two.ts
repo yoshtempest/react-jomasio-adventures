@@ -15,6 +15,7 @@ export const hallJailsonTwoDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Slimita, eu não vou deixar você fazer isso com o Jailson!",
+    expression: "x1"
   },
   {
     src: npcPath("/slimita/right.svg"),
@@ -26,6 +27,7 @@ export const hallJailsonTwoDialogue = [
     name: "Protagonista",
     message: "Como assim caralho?",
     soundSrc: "/assets/songs/soundEffects/player/howYouSaid.mp3",
+    expression: "rascal",
   },
   {
     src: npcPath("/slimita/right.svg"),
@@ -37,5 +39,6 @@ export const hallJailsonTwoDialogue = [
     name: "Protagonista",
     message:
       "Ah tá, achei que era outra coisa, mas se é isso que você quer, então vamos lutar!",
+    expression: "x1"
   },
 ];

@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import styles from "./styles.module.css";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import {
   applyPlayerStatus,
   type NewPlayerStatus,
@@ -19,8 +20,7 @@ const STATUS_LABELS: Record<NewPlayerStatus, string> = {
 
 export function TrainingOverlay({ onLeave }: { onLeave: () => void }) {
   const [elapsed, setElapsed] = useState(0);
-  const onLeaveRef = useRef(onLeave);
-  onLeaveRef.current = onLeave;
+  const onLeaveRef = useLatestRef(onLeave);
 
   const { setPlayer } = usePlayer();
 
@@ -36,7 +36,7 @@ export function TrainingOverlay({ onLeave }: { onLeave: () => void }) {
       });
     }, 1000);
     return () => clearInterval(id);
-  }, []);
+  }, [onLeaveRef]);
 
   const remaining = TRAINING_MAX_SECONDS - elapsed;
   const min = Math.floor(remaining / 60);
@@ -45,7 +45,7 @@ export function TrainingOverlay({ onLeave }: { onLeave: () => void }) {
 
   const handleLeave = useCallback(() => {
     onLeaveRef.current();
-  }, []);
+  }, [onLeaveRef]);
 
   const applyStatus = useCallback(
     (status: NewPlayerStatus) => {

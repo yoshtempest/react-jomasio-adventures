@@ -2,6 +2,7 @@ import styles from "./styles.module.css";
 import type { DamageNumber } from "@/hooks/battle/damage/useNumbers";
 import type { DamageTarget } from "@/utils/battle/findDamageTarget";
 import { findDamageTarget } from "@/utils/battle/findDamageTarget";
+import { asset } from "@/utils/paths";
 
 export type { DamageTarget } from "@/utils/battle/findDamageTarget";
 
@@ -25,6 +26,8 @@ const TYPE_CLASS: Record<string, string> = {
   burn: styles.burn,
   poison: styles.poison,
   confuse: styles.confuse,
+  armor: styles.armor,
+  heal: styles.heal,
 };
 
 const HEAD_GAP = 8;
@@ -49,9 +52,16 @@ export function DamageNumbers({ numbers, scaleX, scaleY, targets }: Props) {
               ? "BLOCKED!"
               : n.type === "miss"
                 ? "MISS!"
-                : n.value > 0
-                  ? `-${n.value}`
-                  : "0"}
+                : n.type === "heal"
+                  ? `+${n.value}`
+                  : n.type === "armor"
+                    ? <>
+                      <img src={asset("/assets/badges/titles/blockAttacks.svg")}/>
+                      +1
+                    </>
+                    : n.value > 0
+                      ? `-${n.value}`
+                      : "0"}
           </div>
         );
       })}

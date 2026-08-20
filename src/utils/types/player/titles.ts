@@ -1,12 +1,18 @@
+import type { ElementType } from "../battle/element";
+
 export type TitleCondition =
   | { type: "killNpcType"; npcTypePrefix: string }
-  | { type: "killNpcClass"; npcClass: string }
+  | { type: "killNpcClass"; npcClass: NPCClass }
   | { type: "killTotal" }
   | { type: "consecutiveWins" }
   | { type: "blockCount" }
   | { type: "damageTaken" }
   | { type: "damageDealt" }
-  | { type: "dodgeCount" };
+  | { type: "dodgeCount" }
+  | { type: "petDrop" }
+  | { type: "killAlfa" }
+  | { type: "killElement"; element: ElementType }
+  | { type: "killAllElements" };
 
 export type TitleBonusStat = {
   stat:
@@ -29,7 +35,7 @@ export type TitleLevel = {
 export type TitleDef = {
   id: string;
   name: string;
-  description: string;
+  description: string | ((level: number) => string);
   icon: string;
   condition: TitleCondition;
   levels: TitleLevel[];

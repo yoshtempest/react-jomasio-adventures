@@ -1,4 +1,5 @@
 import { useRef, useState, useCallback, useEffect } from "react";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { BATTLE_LIMITS } from "@/utils/types/player/movement";
 
 type Props = {
@@ -8,12 +9,10 @@ type Props = {
 
 export function useGrabThrow({ setPlayer, npcThrowAttackRef }: Props) {
   const [isGrabbed, setIsGrabbed] = useState(false);
-  const isGrabbedRef = useRef(false);
-  isGrabbedRef.current = isGrabbed;
+  const isGrabbedRef = useLatestRef(isGrabbed);
 
   const [grabFlipped, setGrabFlipped] = useState(false);
-  const grabFlippedRef = useRef(false);
-  grabFlippedRef.current = grabFlipped;
+  const grabFlippedRef = useLatestRef(grabFlipped);
 
   const grabbedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [isThrown, setIsThrown] = useState(false);

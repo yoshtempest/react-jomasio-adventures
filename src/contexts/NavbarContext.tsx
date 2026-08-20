@@ -8,6 +8,7 @@ import {
   type ReactNode,
 } from "react";
 import type { NavbarOption, NavScreen } from "@/utils/types/player/navbar";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useToggle } from "@/hooks/useToggle";
 
 const CLOSE_ANIMATION_MS = 500;
@@ -46,10 +47,8 @@ export function NavbarProvider({ children }: { children: ReactNode }) {
   } = useToggle();
   const [isClosing, setIsClosing] = useState(false);
   const closeTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const screenRef = useRef(screen);
-  screenRef.current = screen;
-  const isNavOpenRef = useRef(isNavOpen);
-  isNavOpenRef.current = isNavOpen;
+  const screenRef = useLatestRef(screen);
+  const isNavOpenRef = useLatestRef(isNavOpen);
   const restoreModeRef = useRef<() => void>(() => {});
 
   const openNavbar = useCallback(() => {
@@ -78,7 +77,7 @@ export function NavbarProvider({ children }: { children: ReactNode }) {
       closeToggle();
       restoreModeRef.current();
     }
-  }, [closeToggle]);
+  }, [closeToggle, isNavOpenRef, screenRef]);
 
   const setScreen = useCallback((s: NavScreen) => {
     setScreenState(s);

@@ -67,6 +67,7 @@ export const footballCourtDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Eu já sei de tudo Neimito, você não é o verdadeiro Ney",
+    expression: "angry",
   },
   {
     src: npcPath("/neimito/right.svg"),

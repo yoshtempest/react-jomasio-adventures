@@ -12,7 +12,13 @@ export const twoScene: SceneConfig = {
   scaleFix: 1.7,
   map: cafeteriaTwo,
   dialogueData: getCafeteriaTwoDialogue,
+  autoStartDialogue: true,
   events: cafeteriaTwoEvents,
+  cutscene: {
+    videoSrc: "/assets/videos/denisburn.webm",
+    npcGridX: 18,
+    npcGridY: 4.6,
+  },
   audio: { src: MUSICS.default },
   initialPosition: getCafeteriaTwoInitialPosition,
   npcs: cafeteriaTwoNpcs,

@@ -5,12 +5,14 @@ import { useAudio } from "@/contexts/AudioContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { FleeButton } from "@/components/Game/Battle/FleeButton";
 import { sfx } from "@/utils/paths";
 
 type Props = {
   playerCharacter: string;
   npcType: string;
+  introAudioSrc?: string;
   onSkip: () => void;
   onFlee: () => void;
   isAlfa?: boolean;
@@ -19,20 +21,20 @@ type Props = {
 export function BattleIntro({
   playerCharacter,
   npcType,
+  introAudioSrc = "/battle/onePiece.mp3",
   onSkip,
   onFlee,
   isAlfa = false,
 }: Props) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const { sfxVolume } = useAudio();
-  const sfxVolumeRef = useRef(sfxVolume);
-  sfxVolumeRef.current = sfxVolume;
+  const sfxVolumeRef = useLatestRef(sfxVolume);
   const { pushControls } = useGameControls();
   const { playSound } = useSoundEffects();
   const { setMode } = usePlayer();
 
   useEffect(() => {
-    const audio = sfx("/battle/onePiece.mp3");
+    const audio = sfx(introAudioSrc);
 
     audio.volume = 0.5 * (sfxVolumeRef.current / 100);
     audio.currentTime = 0;
@@ -47,7 +49,7 @@ export function BattleIntro({
       audio.pause();
       audio.currentTime = 0;
     };
-  }, []);
+  }, [sfxVolumeRef, introAudioSrc]);
 
   const handleSkip = () => {
     // para o áudio antes de sair
@@ -70,10 +72,8 @@ export function BattleIntro({
     onFlee();
   };
 
-  const handleSkipRef = useRef(handleSkip);
-  handleSkipRef.current = handleSkip;
-  const handleFleeRef = useRef(handleFlee);
-  handleFleeRef.current = handleFlee;
+  const handleSkipRef = useLatestRef(handleSkip);
+  const handleFleeRef = useLatestRef(handleFlee);
 
   useEffect(() => {
     const controls = {
@@ -93,7 +93,7 @@ export function BattleIntro({
 
     const remove = pushControls(controls);
     return remove;
-  }, [pushControls]);
+  }, [pushControls, handleFleeRef, handleSkipRef]);
   return (
     <div className="overlay">
       <div className={styles.left}>

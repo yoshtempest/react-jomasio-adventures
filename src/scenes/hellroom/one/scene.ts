@@ -9,6 +9,7 @@ export const oneScene: SceneConfig = {
   id: "one",
   dialogueData: getHellroomDialogue,
   initialPosition: getHellroomOneInitialPosition,
+  autoStartDialogue: true,
   scaleFix: 2,
   map: blocked,
   events: hellroomEvents,

@@ -11,5 +11,6 @@ export const HellRoomTwoDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Mas que baita piruzão em",
+    expression: "rascal",
   },
 ];

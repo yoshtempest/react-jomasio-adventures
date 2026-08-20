@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { animationFlow } from "@/utils/types/battle/animationFlow";
 
 const STUN_BASE_DURATION = 500;
@@ -8,8 +9,7 @@ export function usePlayerAnimation(
   setPlayer: React.Dispatch<React.SetStateAction<Player>>,
   battleTenacityRef?: React.RefObject<number>,
 ) {
-  const tenacityRef = useRef(battleTenacityRef);
-  tenacityRef.current = battleTenacityRef;
+  const tenacityRef = useLatestRef(battleTenacityRef);
 
   useEffect(() => {
     if (player.state === "jump" || player.state === "falling") return;
@@ -32,5 +32,5 @@ export function usePlayerAnimation(
     }, duration);
 
     return () => clearTimeout(timer);
-  }, [player.state, setPlayer]);
+  }, [player.state, setPlayer, tenacityRef]);
 }

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useRef } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 
 import { SceneBase } from "@/components/Game/Scenes/Base";
@@ -7,6 +7,7 @@ import { createPcsRoom } from "@/interactions/pcsRoom";
 
 import { useInventory } from "@/contexts/InventoryContext";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useQuestActions } from "@/hooks/quest/useQuestActions";
 import { useFlags } from "@/contexts/FlagContext";
 
@@ -45,8 +46,7 @@ export function PcRoomScene({ sceneId }: Props) {
     });
   });
 
-  const setModeRef = useRef(setMode);
-  setModeRef.current = setMode;
+  const setModeRef = useLatestRef(setMode);
 
   // ✅ controla modo do player
   useEffect(() => {
@@ -55,7 +55,7 @@ export function PcRoomScene({ sceneId }: Props) {
     } else {
       setModeRef.current("explore");
     }
-  }, [showClassModal]);
+  }, [showClassModal, setModeRef]);
 
   // ✅ interações da sala
   const interactions = useMemo(

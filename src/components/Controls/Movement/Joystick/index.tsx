@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import type { GameControlLayer } from "@/utils/types/player/controls";
 
 type Dir = Direction;
@@ -24,12 +25,9 @@ export function JoystickMovement({
 
   const innerRef = useRef<HTMLDivElement | null>(null);
 
-  const pressedRef = useRef(pressed);
-  pressedRef.current = pressed;
-  const onPressRef = useRef(onPressDir);
-  onPressRef.current = onPressDir;
-  const onReleaseRef = useRef(onReleaseDir);
-  onReleaseRef.current = onReleaseDir;
+  const pressedRef = useLatestRef(pressed);
+  const onPressRef = useLatestRef(onPressDir);
+  const onReleaseRef = useLatestRef(onReleaseDir);
 
   function execute(dir: Dir, pressed: boolean) {
     if (pressed) {
@@ -67,7 +65,7 @@ export function JoystickMovement({
     }
   }
 
-  function syncInnerToKeyboard() {
+  const syncInnerToKeyboard = useCallback(() => {
     if (isDragging.current) return;
     const inner = innerRef.current;
     const el = centerRef.current;
@@ -91,11 +89,11 @@ export function JoystickMovement({
     const len = Math.sqrt(dx * dx + dy * dy);
     const ratio = maxRadius / len;
     inner.style.transform = `translate(${dx * ratio}px, ${dy * ratio}px)`;
-  }
+  }, [pressedRef]);
 
   useEffect(() => {
     syncInnerToKeyboard();
-  }, [pressed]);
+  }, [pressed, syncInnerToKeyboard]);
 
   function updateDirection(clientX: number, clientY: number) {
     const el = centerRef.current;

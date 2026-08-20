@@ -6,6 +6,7 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
 import { useSettings } from "@/contexts/SettingsContext";
 import { useFlags } from "@/contexts/FlagContext";
+import { useTitles } from "@/contexts/TitleContext";
 import {
   COIN_REWARDS,
   CHEST_DROP_CHANCE,
@@ -62,6 +63,7 @@ export function useBattleRewards({
   const { progressDailyWeekly } = useQuests();
   const { sharedXp } = useSettings();
   const { hasFlag } = useFlags();
+  const { getPetDropBonus } = useTitles();
 
   const xpReward =
     (calculateXP(npcLevel, npcClass) ?? 0) * (isAlfa ? 3 : 1);
@@ -125,9 +127,11 @@ export function useBattleRewards({
 
   function collectPetDrop() {
     let petDrop: EquipmentDropInfo | null = null;
+    const petDropBonus = getPetDropBonus();
 
     rollMultiple(() => {
-      if (!petDrop) petDrop = rollPetDrop(npcType, addDrop, player.character);
+      if (!petDrop)
+        petDrop = rollPetDrop(npcType, addDrop, player.character, petDropBonus);
       return petDrop;
     }, dropRolls);
 

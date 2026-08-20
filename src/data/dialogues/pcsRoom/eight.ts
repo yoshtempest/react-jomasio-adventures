@@ -21,6 +21,7 @@ export const pcsRoomEightDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Vamos embora Samurion, não se junte com essa gentalha",
+    expression: "crossArms",
   },
   {
     src: npcPath("/hungryKing/default.svg"),

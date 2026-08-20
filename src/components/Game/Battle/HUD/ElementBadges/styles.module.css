@@ -1,0 +1,14 @@
+.badges {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--size-2);
+  align-items: center;
+  margin: 4% 3% 0% 3%;
+}
+
+.badge {
+  width: var(--fs-120);
+  height: var(--fs-120);
+  object-fit: contain;
+  filter: drop-shadow(0 0 var(--size-2) rgba(0, 0, 0, 0.4));
+}

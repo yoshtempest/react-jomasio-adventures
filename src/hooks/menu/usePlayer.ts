@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { CHARACTERS } from "@/utils/types/player/player";
 
@@ -30,12 +31,9 @@ export function usePlayerMenu(
     selectedRewardIndexRef.current = selectedRewardIndex;
   }, [selectedRewardIndex]);
 
-  const playMoveRef = useRef(playMove);
-  playMoveRef.current = playMove;
-  const playSelectRef = useRef(playSelect);
-  playSelectRef.current = playSelect;
-  const pushControlsRef = useRef(pushControls);
-  pushControlsRef.current = pushControls;
+  const playMoveRef = useLatestRef(playMove);
+  const playSelectRef = useLatestRef(playSelect);
+  const pushControlsRef = useLatestRef(pushControls);
 
   const doScroll = useRef((dy: number) => {
     scrollRef?.current?.scrollBy({ top: dy, behavior: "smooth" });
@@ -118,7 +116,7 @@ export function usePlayerMenu(
 
     const remove = pushControlsRef.current(controls);
     return () => remove();
-  }, [isOpen, subView, claimRewardRef, rewardsCountRef]);
+  }, [isOpen, subView, claimRewardRef, rewardsCountRef, playMoveRef, playSelectRef, pushControlsRef]);
 
   const isSummaryView = selectedIndex === 0;
 

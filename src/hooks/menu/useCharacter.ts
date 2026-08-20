@@ -8,6 +8,7 @@ import {
   gridMove,
 } from "@/gameRules/menu/navigation";
 import { getSelected } from "@/gameRules/menu/selection";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { useFlags } from "@/contexts/FlagContext";
 import { usePlayTime } from "@/contexts/PlayTimeContext";
@@ -52,14 +53,10 @@ export function useCharacterMenu(
 
   const handleChooseCharacterRef = useRef<(id: CharacterId) => void>(() => {});
   handleChooseCharacterRef.current = (id: CharacterId) => setCharacter(id);
-  const playMoveRef = useRef(playMove);
-  playMoveRef.current = playMove;
-  const playSelectRef = useRef(playSelect);
-  playSelectRef.current = playSelect;
-  const pushControlsRef = useRef(pushControls);
-  pushControlsRef.current = pushControls;
-  const selectableCharactersRef = useRef(selectableCharacters);
-  selectableCharactersRef.current = selectableCharacters;
+  const playMoveRef = useLatestRef(playMove);
+  const playSelectRef = useLatestRef(playSelect);
+  const pushControlsRef = useLatestRef(pushControls);
+  const selectableCharactersRef = useLatestRef(selectableCharacters);
 
   // 🎮 CONTROLES
   useEffect(() => {
@@ -107,7 +104,7 @@ export function useCharacterMenu(
 
     const remove = pushControlsRef.current(controls);
     return () => remove();
-  }, []);
+  }, [playMoveRef, playSelectRef, pushControlsRef, selectableCharactersRef]);
 
   useEffect(() => {
     if (!isOpen || !listRef?.current) return;

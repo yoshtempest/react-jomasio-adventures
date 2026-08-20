@@ -11,6 +11,7 @@ export const HellRoomFourDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "MEU JESUS AMADO, OLHA O TAMANHO...",
+    expression: "disgust",
   },
   {
     src: npcPath("/maugrelo/right.svg"),
@@ -26,6 +27,7 @@ export const HellRoomFourDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Ué, quem é você mesmo?",
+    expression: "crossArms",
   },
   {
     src: npcPath("/reincardion/right.svg"),

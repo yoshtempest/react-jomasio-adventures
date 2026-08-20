@@ -69,6 +69,7 @@ declare global {
     name: string;
     message: string;
     isPlayer?: boolean;
+    expression?: string;
     soundSrc?: string;
     autoAdvanceOnSound?: boolean;
   };
@@ -119,6 +120,12 @@ declare global {
     message?: string;
   };
 
+  type SceneCutscene = {
+    videoSrc: string;
+    npcGridX: number;
+    npcGridY: number;
+  };
+
   type SceneEvent =
     | { type: "openModal"; modal: "class" }
     | { type: "navigate"; to: string; delay?: number }
@@ -151,10 +158,13 @@ declare global {
     flags: FlagId[];
     character: CharacterId;
     lastPage?: LastPage;
+    dialogueIndex?: number;
   };
 
+  type NpcSrcResolver = (context: DialogueContext) => string;
+
   type SceneNPCData = {
-    src: string;
+    src: string | NpcSrcResolver;
     gridX: number;
     gridY: number;
     interaction?: (startDialogue: (d: Dialogue[]) => void) => void;
@@ -174,7 +184,8 @@ declare global {
     transitions?: Transition[];
     signs?: SceneSign[];
     onInteract?: (tile: number, x: number, y: number) => boolean;
-    autoStartDialogue?: boolean;
+    autoStartDialogue?: boolean | ((context: DialogueContext) => boolean);
+    cutscene?: SceneCutscene;
     onFinish?: () => void;
     className?: string;
     lastPage?: LastPage;
@@ -289,6 +300,7 @@ declare global {
     battleDirection: Direction;
     state: PlayerState;
     mode: PlayerMode;
+    movementSpeed: number;
     hasPeru?: boolean;
     moving?: boolean;
     grabbedUntil?: number;
@@ -388,5 +400,7 @@ declare global {
     | "bleed"
     | "burn"
     | "poison"
-    | "confuse";
+    | "confuse"
+    | "armor"
+    | "heal";
 }

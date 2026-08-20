@@ -15,5 +15,6 @@ export const footballCourtTwoDialogue = [
     isPlayer: true,
     name: "Protagonista",
     message: "Vamos embora Ematron, não se junte com essa gentalha",
+    expression: "crossArms",
   },
 ];
