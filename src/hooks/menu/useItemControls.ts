@@ -14,7 +14,7 @@ type Params = {
   items: { id: string }[];
   openPlayerChest: (id: ItemId) => void;
   getEffect: (id: string) => (() => void) | null;
-  consumeItem: (id: string) => void;
+  consumeItem: (id: string) => boolean;
   onReject: (index: number) => void;
   onNoKey: () => void;
 };
@@ -72,7 +72,9 @@ export function useItemControls({
         if (!selectedItem) return false;
 
         if (isConsumableSelected) {
-          consumeItemRef.current(selectedItem.id);
+          if (!consumeItemRef.current(selectedItem.id)) {
+            onRejectRef.current(-1);
+          }
           return true;
         }
 
