@@ -4,7 +4,7 @@ import { useGameControls } from "@/contexts/GameControlsContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { getSelected } from "@/gameRules/menu/selection";
 import { useAudio } from "@/contexts/AudioContext";
-import { useLatestRef } from "@/hooks/useLatestRef";
+
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { useSettings } from "@/contexts/SettingsContext";
 import { useUpdate } from "@/contexts/UpdateContext";
@@ -12,6 +12,8 @@ import { usePWA } from "@/contexts/PWAContext";
 import { DIALOGUE_SPEED_LIST } from "@/utils/settings";
 import type { ConfigTab } from "@/data/config/tabs";
 import { CONFIG_TABS, CONFIG_TAB_COUNT } from "@/data/config/tabs";
+import { useLatestRef } from "@/hooks/useLatestRef";
+
 
 const DIFFICULTY: NpcDifficulty[] = ["easy", "medium", "hard"];
 const COLUMN_COUNT = 5;
@@ -61,11 +63,11 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   // menu | tutorial
   const [screen, setScreen] = useState<"menu" | "tutorial">("menu");
 
-  const selectedIndexRef = useRef(selectedIndex);
-  const selectedColumnRef = useRef(selectedColumn);
-  const screenRef = useRef(screen);
-  const isOnTabRef = useRef(isOnTab);
-  const activeTabRef = useRef(activeTab);
+  const selectedIndexRef = useLatestRef(selectedIndex);
+  const selectedColumnRef = useLatestRef(selectedColumn);
+  const screenRef = useLatestRef(screen);
+  const isOnTabRef = useLatestRef(isOnTab);
+  const activeTabRef = useLatestRef(activeTab);
 
   useEffect(() => {
     selectedIndexRef.current = selectedIndex;
@@ -75,49 +77,49 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
     activeTabRef.current = activeTab;
   }, [selectedIndex, selectedColumn, screen, isOnTab, activeTab]);
 
-  const playMoveRef = useRef(playMove);
+  const playMoveRef = useLatestRef(playMove);
   playMoveRef.current = playMove;
-  const playSelectRef = useRef(playSelect);
+  const playSelectRef = useLatestRef(playSelect);
   playSelectRef.current = playSelect;
-  const playCloseRef = useRef(playClose);
+  const playCloseRef = useLatestRef(playClose);
   playCloseRef.current = playClose;
-  const pushControlsRef = useRef(pushControls);
+  const pushControlsRef = useLatestRef(pushControls);
   pushControlsRef.current = pushControls;
-  const setDifficultyRef = useRef(setDifficulty);
+  const setDifficultyRef = useLatestRef(setDifficulty);
   setDifficultyRef.current = setDifficulty;
-  const setSfxVolumeRef = useRef(setSfxVolume);
+  const setSfxVolumeRef = useLatestRef(setSfxVolume);
   setSfxVolumeRef.current = setSfxVolume;
-  const setBgmVolumeRef = useRef(setBgmVolume);
+  const setBgmVolumeRef = useLatestRef(setBgmVolume);
   setBgmVolumeRef.current = setBgmVolume;
-  const setDialogueSpeedRef = useRef(setDialogueSpeed);
+  const setDialogueSpeedRef = useLatestRef(setDialogueSpeed);
   setDialogueSpeedRef.current = setDialogueSpeed;
-  const setShowQuestIndicatorRef = useRef(setShowQuestIndicator);
+  const setShowQuestIndicatorRef = useLatestRef(setShowQuestIndicator);
   setShowQuestIndicatorRef.current = setShowQuestIndicator;
-  const setShowComboActionRef = useRef(setShowComboAction);
+  const setShowComboActionRef = useLatestRef(setShowComboAction);
   setShowComboActionRef.current = setShowComboAction;
-  const setShowHighlightRef = useRef(setShowHighlight);
+  const setShowHighlightRef = useLatestRef(setShowHighlight);
   setShowHighlightRef.current = setShowHighlight;
-  const setSharedXpRef = useRef(setSharedXp);
+  const setSharedXpRef = useLatestRef(setSharedXp);
   setSharedXpRef.current = setSharedXp;
-  const checkForUpdateRef = useRef(checkForUpdate);
+  const checkForUpdateRef = useLatestRef(checkForUpdate);
   checkForUpdateRef.current = checkForUpdate;
-  const installRef = useRef(install);
+  const installRef = useLatestRef(install);
   installRef.current = install;
-  const isInstalledRef = useRef(isInstalled);
+  const isInstalledRef = useLatestRef(isInstalled);
   isInstalledRef.current = isInstalled;
-  const methodRef = useRef(method);
+  const methodRef = useLatestRef(method);
   methodRef.current = method;
-  const setShowInstalledMessageRef = useRef(setShowInstalledMessage);
+  const setShowInstalledMessageRef = useLatestRef(setShowInstalledMessage);
   setShowInstalledMessageRef.current = setShowInstalledMessage;
-  const setShowInstructionsRef = useRef(setShowInstructions);
+  const setShowInstructionsRef = useLatestRef(setShowInstructions);
   setShowInstructionsRef.current = setShowInstructions;
-  const onConfirmRef = useRef(onConfirm);
+  const onConfirmRef = useLatestRef(onConfirm);
   onConfirmRef.current = onConfirm;
 
-  const navigateRef = useRef(navigate);
+  const navigateRef = useLatestRef(navigate);
   navigateRef.current = navigate;
 
-  const modeRef = useRef(player.mode);
+  const modeRef = useLatestRef(player.mode);
   modeRef.current = player.mode;
 
   useEffect(() => {
@@ -335,7 +337,6 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
     setShowHighlight,
     sharedXp,
     setSharedXp,
-    canInstallRef,
     checkForUpdateRef,
     installRef,
     isInstalledRef,
@@ -354,7 +355,6 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
     setShowComboActionRef,
     setShowHighlightRef,
     setShowInstalledMessageRef,
-    setShowNotAvailableMessageRef,
     setShowQuestIndicatorRef,
     activeTabRef,
     isOnTabRef,
