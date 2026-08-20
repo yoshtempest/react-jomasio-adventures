@@ -176,6 +176,14 @@ function runPetSkill(
         Math.min(battle.playerMaxHp, hp + effect.amount),
       );
       break;
+    case "healPercent": {
+      const pct = effect.perStar[petStars - 1] ?? effect.perStar[0];
+      const heal = Math.round((battle.playerMaxHp * pct) / 100);
+      battle.setPlayerHP((hp) =>
+        Math.min(battle.playerMaxHp, hp + heal),
+      );
+      break;
+    }
   }
   playSound("summon");
 }

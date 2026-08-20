@@ -13,7 +13,11 @@ export type PetSkillEffect =
   | { kind: "damage"; multiplier: number }
   | { kind: "summon"; npcType: string }
   | { kind: "shield"; amount: number }
-  | { kind: "heal"; amount: number };
+  | { kind: "heal"; amount: number }
+  | { kind: "healPercent"; perStar: number[] };
+
+export type PetPassiveEffect =
+  | { kind: "oneHitShield"; cooldownMs: number };
 
 export type PetAbilityInfo = {
   name: string;
@@ -28,6 +32,7 @@ export type PetSkillDefinition = {
   npcType: string;
   battleSprite: string;
   passive: PetAbilityInfo;
+  passiveEffect?: PetPassiveEffect;
   skill: PetAbilityInfo;
   skillEffect: PetSkillEffect;
 };
@@ -42,6 +47,7 @@ function def(
   passive: PetAbilityInfo,
   skill: PetAbilityInfo,
   skillEffect: PetSkillEffect,
+  passiveEffect?: PetPassiveEffect,
 ): PetSkillDefinition {
   return {
     petId,
@@ -50,6 +56,7 @@ function def(
     npcType,
     battleSprite: BATTLE_SPRITES.has(npcType) ? npcType : "goat",
     passive,
+    passiveEffect,
     skill,
     skillEffect,
   };
@@ -196,18 +203,19 @@ export const PET_SKILLS: Record<string, PetSkillDefinition> = {
     "pet_piupiu",
     "Piupiu",
     "piupiu",
-    "tanker",
+    "suporte",
     {
-      name: "Bico de Aço",
-      description: "Ataca com bicadas afiadas.",
-      cooldownMs: PET_SKILL_COOLDOWN_MS,
+      name: "Escudo Piu",
+      description: "Coloca um escudo a cada 10s que bloqueia 1 ataque.",
+      cooldownMs: 10000,
     },
     {
-      name: "Postura de Bloqueio",
-      description: "Concede um escudo ao jogador.",
-      cooldownMs: PET_SKILL_COOLDOWN_MS,
+      name: "Cura de Piu",
+      description: "Cura o jogador com porcentagem da vida máxima.",
+      cooldownMs: 8000,
     },
-    { kind: "shield", amount: 20 },
+    { kind: "healPercent", perStar: [10, 25, 45, 70, 100] },
+    { kind: "oneHitShield", cooldownMs: 10000 },
   ),
   pet_vulture: def(
     "pet_vulture",

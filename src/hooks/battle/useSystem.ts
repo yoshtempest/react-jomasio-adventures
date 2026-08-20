@@ -6,6 +6,7 @@ import {
 } from "@/data/characters/petSkills";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { usePetSkillCooldown } from "@/hooks/battle/player/usePetSkill";
+import { usePetPassive } from "@/hooks/battle/player/usePetPassive";
 
 import { useBattleStats } from "@/hooks/battle/useStats";
 import { useBattleHP } from "@/hooks/battle/death/useHP";
@@ -180,6 +181,16 @@ export function useBattleSystem(props: Props) {
     setPlayerShield,
   } = useBattleHP(playerMaxHp, npcMaxHp, totalShield, savedPlayerHP);
 
+  const petSkillDef = petId ? getPetSkillDefinition(petId) : null;
+  const petIsBattle =
+    hasPet && petSkillDef !== null && petSkillDef.role !== "montaria";
+
+  const { oneHitShieldRef, reset: resetPetPassive } = usePetPassive({
+    passiveEffect: petSkillDef?.passiveEffect ?? null,
+    enabled: petIsBattle,
+    isPaused: isEnding.current,
+  });
+
   const { damagePlayerHp, damagePlayer } = useExternalDamage({
     playerX,
     playerY,
@@ -193,6 +204,7 @@ export function useBattleSystem(props: Props) {
     setPlayer,
     spawnDamageRef,
     onBlockRef,
+    oneHitShieldRef,
   });
 
   const playerBattle = usePlayerBattle({
@@ -233,10 +245,6 @@ export function useBattleSystem(props: Props) {
     onSpecialRef,
     onHalfHeal,
   });
-
-  const petSkillDef = petId ? getPetSkillDefinition(petId) : null;
-  const petIsBattle =
-    hasPet && petSkillDef !== null && petSkillDef.role !== "montaria";
 
   const { pet, resetPet } = usePetBattle({
     enabled: petIsBattle,
@@ -342,6 +350,7 @@ export function useBattleSystem(props: Props) {
     });
     resetPet();
     resetPetSkill();
+    resetPetPassive();
     setPlayer((p) => ({
       ...clearPlayerStatuses(p),
       halfHealUntil: 0,
