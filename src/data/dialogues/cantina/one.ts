@@ -19,4 +19,4 @@ export const cantinaDialogue = [
     soundSrc: "/assets/songs/soundEffects/npc/jhowsimar/getTheLapada.mp3",
     autoAdvanceOnSound: true,
   },
-];
+] satisfies Dialogue[];

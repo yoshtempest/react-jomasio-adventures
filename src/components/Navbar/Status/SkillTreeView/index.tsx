@@ -15,9 +15,9 @@ export function SkillTreeView() {
 
   useEffect(() => {
     if (!containerRef.current) return;
-    const el = containerRef.current.querySelector(
+    const el = containerRef.current.querySelector<HTMLElement>(
       `[data-index="${selectedIndex}"]`,
-    ) as HTMLElement | null;
+    );
     if (!el) return;
 
     const container = containerRef.current;

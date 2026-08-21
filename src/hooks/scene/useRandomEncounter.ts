@@ -36,7 +36,12 @@ export function useRandomEncounter(config: RandomEncounterConfig) {
     if (!saved) return;
 
     restoringRef.current = true;
-    const { x, y, direction } = JSON.parse(saved);
+    const parsed = JSON.parse(saved) as {
+      x: number;
+      y: number;
+      direction: Direction;
+    };
+    const { x, y, direction } = parsed;
     lastPositionRef.current = { x, y };
     setPositionRef.current(x, y, direction);
 
@@ -86,14 +91,14 @@ export function useRandomEncounter(config: RandomEncounterConfig) {
     if (Math.random() < (cfg.alfaChance ?? 0) * getAlfaSpawnBonus()) {
       const route = pickEncounter(cfg.encounters);
       savePosition();
-      navigate(route, { state: { alfa: true } });
+      void navigate(route, { state: { alfa: true } });
       return;
     }
 
     if (Math.random() < (cfg.encounterChance ?? 0.1)) {
       savePosition();
       const route = pickEncounter(cfg.encounters);
-      navigate(route);
+      void navigate(route);
     }
   }, [player.gridX, player.gridY, navigate, configRef, playerRef, getAlfaSpawnBonus]);
 }

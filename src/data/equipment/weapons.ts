@@ -1,6 +1,6 @@
-import type { Equipment } from "@/utils/types/player/equipment";
+import type { EquipmentDef } from "@/utils/types/player/equipment";
 
-export const WEAPONS: Equipment[] = [
+export const WEAPONS = [
   {
     id: "weapon_espada_ferro",
     name: "Espada de Ferro",
@@ -171,4 +171,4 @@ export const WEAPONS: Equipment[] = [
     stats: { intelligence: 1 },
     craftOnly: true,
   },
-];
+] as const satisfies readonly EquipmentDef[];

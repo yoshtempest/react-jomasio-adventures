@@ -1,6 +1,6 @@
 import { useInventory } from "@/contexts/InventoryContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
-import { CHARACTERS } from "@/utils/types/player/player";
+import { CHARACTERS } from "@/data/characters/list";
 import styles from "./styles.module.css";
 import { asset } from "@/utils/paths";
 import { formatDurationHms } from "@/utils/formatDuration";

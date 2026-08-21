@@ -29,4 +29,4 @@ export const cantinaThreeDialogue = [
     message:
       "Ah é, minhas últimas palavras... Dúvido você ir lá na sala dos pcs...",
   },
-];
+] satisfies Dialogue[];

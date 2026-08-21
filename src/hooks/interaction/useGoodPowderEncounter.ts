@@ -36,9 +36,10 @@ export function useGoodPowderEncounter({
   const navigate = useNavigate();
 
   const [encounter, setEncounter] = useState<GoodPowderEncounter | null>(null);
-  const encounterFromLocation = location.state?.goodPowderEncounter as
-    | GoodPowderEncounter
-    | undefined;
+  const encounterFromLocation =
+    (
+      location.state as { goodPowderEncounter?: GoodPowderEncounter } | null
+    )?.goodPowderEncounter;
 
   const handledRef = useRef(false);
   const navigateRef = useLatestRef(navigate);
@@ -75,9 +76,12 @@ export function useGoodPowderEncounter({
     });
 
     // limpa o estado da rota para o retorno da batalha não reagendar o cutscene
-    navigateRef.current(location.pathname, {
+    void navigateRef.current(location.pathname, {
       replace: true,
-      state: { ...(location.state ?? {}), goodPowderEncounter: null },
+      state: {
+        ...((location.state as Record<string, unknown> | null) ?? {}),
+        goodPowderEncounter: null,
+      },
     });
   }, [
     encounter,

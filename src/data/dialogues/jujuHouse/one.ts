@@ -42,4 +42,4 @@ export const jujuHouseDialogue = [
     name: "Protagonista",
     message: "Tá",
   },
-];
+] satisfies Dialogue[];

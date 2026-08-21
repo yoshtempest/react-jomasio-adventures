@@ -6,4 +6,4 @@ export const centerFrontTwoDialogue = [
     name: "Léo",
     message: "M-N Sam",
   },
-];
+] satisfies Dialogue[];

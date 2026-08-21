@@ -28,4 +28,4 @@ export const pcsRoomDialogue = [
     name: "Juan Derson",
     message: "Não, tipo assim, Você tem que escolher uma classe",
   },
-];
+] satisfies Dialogue[];

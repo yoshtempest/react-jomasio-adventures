@@ -1,6 +1,6 @@
-import type { Equipment } from "@/utils/types/player/equipment";
+import type { EquipmentDef } from "@/utils/types/player/equipment";
 
-export const PETS: Equipment[] = [
+export const PETS = [
   {
     id: "pet_turkey",
     name: "Peru",
@@ -92,4 +92,4 @@ export const PETS: Equipment[] = [
     rank: 7,
     stats: {},
   },
-];
+] as const satisfies readonly EquipmentDef[];

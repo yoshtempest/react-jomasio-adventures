@@ -68,4 +68,4 @@ export const brodiclassMarshadowDialogue = [
     message:
       "Então algumas coisas podem não fazer sentido. Bem é isso, não sei me expressar muito bem ainda, tchau.",
   },
-];
+] satisfies Dialogue[];

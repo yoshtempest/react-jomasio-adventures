@@ -66,7 +66,7 @@ export function useCombatTasks() {
     if (currentTask !== "done") return;
     const t = setTimeout(() => {
       setModeRef.current("explore");
-      navigateRef.current("/home");
+      void navigateRef.current("/home");
     }, 2000);
     return () => clearTimeout(t);
   }, [currentTask, navigateRef, setModeRef]);

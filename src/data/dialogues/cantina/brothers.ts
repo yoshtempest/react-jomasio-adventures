@@ -22,4 +22,4 @@ export const cantinaBrothersDialogue = [
     message: "Que delícia em",
     expression: "rascal"
   },
-];
+] satisfies Dialogue[];

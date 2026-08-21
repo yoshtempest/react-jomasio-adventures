@@ -51,7 +51,7 @@ export function ReplayList({ isOnTab }: Props) {
 
   const watchReplay = useCallback((id: string) => {
     sessionStorage.setItem("replayTarget", id);
-    navigateRef.current("/");
+    void navigateRef.current("/");
   }, [navigateRef]);
 
   useGameControlsLayer(
@@ -181,7 +181,7 @@ export function ReplayList({ isOnTab }: Props) {
                     className={styles.actionBtn}
                     onClick={() => {
                       sessionStorage.setItem("replayTarget", r.id);
-                      navigate("/");
+                      void navigate("/");
                     }}
                   >
                     Assistir

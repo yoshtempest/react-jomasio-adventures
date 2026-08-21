@@ -1,12 +1,15 @@
-export const CRAFT_MATERIALS: Record<string, { id: string; name: string }> = {
+export const CRAFT_MATERIALS = {
   hungry_essence: { id: "hungry_essence", name: "Essência de Morto" },
   goat_horn: { id: "goat_horn", name: "Chifre de Cabra" },
   figurant_totem: { id: "figurant_totem", name: "Totem de Figurante" },
   rare_scale: { id: "rare_scale", name: "Escama Rara" },
   epic_core: { id: "epic_core", name: "Núcleo Épico" },
   boss_soul: { id: "boss_soul", name: "Alma de Chefão" },
-  legendary_fragment: { id: "legendary_fragment", name: "Fragmento Lendário" },
-};
+  legendary_fragment: {
+    id: "legendary_fragment",
+    name: "Fragmento Lendário",
+  },
+} as const satisfies Record<string, { id: ItemId; name: string }>;
 
 export type MaterialId = keyof typeof CRAFT_MATERIALS;
 

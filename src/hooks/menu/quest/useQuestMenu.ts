@@ -103,7 +103,7 @@ export function useQuestMenu(
     }
 
     if (quest.rewardsType === "item" && quest.rewardItemId) {
-      const itemDef = ITEMS[quest.rewardItemId as keyof typeof ITEMS];
+      const itemDef = ITEMS[quest.rewardItemId];
       if (itemDef) {
         addItem({ id: itemDef.id });
       }

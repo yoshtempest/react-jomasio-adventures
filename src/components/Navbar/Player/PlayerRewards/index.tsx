@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 import styles from "../styles.module.css";
-import { CHARACTERS } from "@/utils/types/player/player";
+import { CHARACTERS } from "@/data/characters/list";
 import { CHARACTERS as CHARACTER_OPTIONS } from "@/data/options/characters";
 
 type PlayerRewardsProps = {
@@ -78,7 +78,7 @@ export function PlayerRewards({
           rewards.filter(
             (r) =>
               r.charId &&
-              CHARACTERS.indexOf(r.charId as (typeof CHARACTERS)[number]) <
+              CHARACTERS.indexOf(r.charId) <
                 CHARACTERS.indexOf(char),
           ).length;
 

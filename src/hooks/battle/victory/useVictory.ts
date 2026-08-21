@@ -15,7 +15,7 @@ export function useVictory({ redirectTo }: VictoryOptions = {}) {
 
   const handleContinue = useCallback(() => {
     if (redirectTo) {
-      navigate(redirectTo);
+      void navigate(redirectTo);
     }
   }, [redirectTo, navigate]);
 

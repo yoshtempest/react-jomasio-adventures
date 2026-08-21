@@ -1,5 +1,20 @@
-import { stat, progressStat } from "@/utils/types/stats";
 import { formatTime } from "@/utils/formatDuration";
+
+export type Stat = {
+  label: string;
+  value: React.ReactNode;
+  progress?: number;
+};
+
+function stat(label: string, value: React.ReactNode, progress?: number): Stat {
+  return { label, value, progress };
+}
+
+function progressStat(label: string, current: number, total: number): Stat {
+  const percentage = total > 0 ? Math.round((current / total) * 100) : 0;
+
+  return stat(label, `${current}/${total} (${percentage}%)`, percentage);
+}
 
 type SummaryStatsProps = {
   totalPlayTime: number;
@@ -48,7 +63,7 @@ type ProgressStatsProps = {
 
 type CharacterStatusProps = {
   hp: number;
-  strenght: number;
+  strength: number;
   intelligence: number;
   resistance: number;
   tenacity: number;
@@ -118,7 +133,7 @@ export function getProgressStat(data: ProgressStatsProps) {
 export function getCharacterStatus(data: CharacterStatusProps) {
   const stats = [
     stat("HP", data.hp),
-    stat("Força", data.strenght),
+    stat("Força", data.strength),
     stat("Inteligência", data.intelligence),
     stat("Resistência", data.resistance),
     stat("Tenacidade", data.tenacity),

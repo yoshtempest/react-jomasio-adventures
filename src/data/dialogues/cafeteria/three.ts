@@ -92,4 +92,4 @@ export const cafeteriaThreeDialogue = [
     name: "Denis",
     message: "EXPANSÃO DE DOMÍNIO, FUUGA.",
   },
-];
+] satisfies Dialogue[];

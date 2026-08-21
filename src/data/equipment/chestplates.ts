@@ -1,6 +1,6 @@
-import type { Equipment } from "@/utils/types/player/equipment";
+import type { EquipmentDef } from "@/utils/types/player/equipment";
 
-export const CHESTPLATES: Equipment[] = [
+export const CHESTPLATES = [
   {
     id: "chestplate_regata_baiano",
     name: "Regata do Baiano",
@@ -45,4 +45,4 @@ export const CHESTPLATES: Equipment[] = [
     stats: { hp: 4, armor: 35, reflect: 3 },
     set: "lendario",
   },
-];
+] as const satisfies readonly EquipmentDef[];

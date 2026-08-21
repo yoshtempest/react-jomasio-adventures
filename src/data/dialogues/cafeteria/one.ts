@@ -17,4 +17,4 @@ export const cafeteriaDialogue = [
     name: "Deise",
     message: "Isso é o que você pensa!",
   },
-];
+] satisfies Dialogue[];

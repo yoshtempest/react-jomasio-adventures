@@ -13,4 +13,4 @@ export const pcsRoomThreeDialogue = [
     message: "Delícia? Bem, descanse em paz.",
     expression: "special"
   },
-];
+] satisfies Dialogue[];

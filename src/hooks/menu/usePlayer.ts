@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
-import { CHARACTERS, DEFAULT_CHARACTER } from "@/utils/types/player/player";
+import { CHARACTERS, DEFAULT_CHARACTER } from "@/data/characters/list";
 
 const SCROLL_AMOUNT = 60;
 const TOTAL_ITEMS = CHARACTERS.length + 1; // Resumo + 12 characters

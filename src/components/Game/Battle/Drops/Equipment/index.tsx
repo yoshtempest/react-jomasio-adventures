@@ -3,7 +3,7 @@ import {
   RANK_COLORS,
   RANK_LABELS,
   SLOT_LABELS,
-} from "@/utils/types/player/equipment";
+} from "@/data/equipment/definitions";
 import {
   getItemResistances,
   HEAT_RESISTANCE_LABEL,

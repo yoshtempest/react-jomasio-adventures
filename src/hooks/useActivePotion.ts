@@ -25,8 +25,8 @@ export function useActivePotion(): ActivePotionInfo | null {
       const item = ITEMS[potionId as ItemId];
       if (!item) return;
       setInfo({
-        image: item.image as string,
-        name: item.name as string,
+        image: item.image,
+        name: item.name,
         remainingMs: getXpBuffTimeLeft(),
       });
     }

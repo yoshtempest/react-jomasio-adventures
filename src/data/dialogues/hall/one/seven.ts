@@ -63,4 +63,4 @@ export const AfterPcRoomSevenDialogue = [
     message: "Tá, vou jogar esse seu joguinho",
     expression: "crossArms"
   },
-];
+] satisfies Dialogue[];

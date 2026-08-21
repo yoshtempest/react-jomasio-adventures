@@ -24,4 +24,4 @@ export const cafeteriaTwoDialogue = [
     name: "Deise",
     message: "Oxe!? Senhor Denis, tá fazendo o que aqui?",
   },
-];
+] satisfies Dialogue[];

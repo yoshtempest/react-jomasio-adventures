@@ -55,4 +55,4 @@ export const cantinaTwoDialogue = [
     name: "Jhow Simar",
     message: "Mas eu tenho, vem cá vem",
   },
-];
+] satisfies Dialogue[];

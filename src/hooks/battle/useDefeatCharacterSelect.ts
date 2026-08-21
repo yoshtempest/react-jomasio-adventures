@@ -117,7 +117,7 @@ export function useDefeatCharacterSelect(isOpen: boolean) {
         playSelectRef.current();
         const selected = unlockedRef.current[charIndexRef.current];
         if (!selected) return;
-        setCharacterRef.current(selected.image as CharacterId);
+        setCharacterRef.current(selected.image);
         setViewRef.current("menu");
       },
       onCancel: () => {
@@ -182,7 +182,7 @@ export function useDefeatCharacterSelect(isOpen: boolean) {
       playSelectRef.current();
       const selected = unlockedRef.current[index];
       if (!selected) return;
-      setCharacterRef.current(selected.image as CharacterId);
+      setCharacterRef.current(selected.image);
       setViewRef.current("menu");
     },
     [playSelectRef, setCharacterRef, setViewRef, unlockedRef],

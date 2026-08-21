@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from "react";
-import { CHARGE_TIME } from "@/utils/types/battle/charge";
-import type { ChargeParticle } from "@/utils/types/battle/charge";
+import { CHARGE_TIME } from "@/data/battle/charge";
+import type { ChargeParticle } from "@/data/battle/charge";
 
 export function useChargeParticles() {
   const [isCharging, setIsCharging] = useState(false);

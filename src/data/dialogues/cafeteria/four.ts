@@ -12,4 +12,4 @@ export const cafeteriaFourDialogue = [
     message: "tá",
     expression: "hungry",
   },
-];
+] satisfies Dialogue[];

@@ -80,9 +80,9 @@ function handleNavigate(
     });
 
   if (event.delay) {
-    setTimeout(doNav, event.delay);
+    setTimeout(() => void doNav(), event.delay);
   } else {
-    doNav();
+    void doNav();
   }
 }
 

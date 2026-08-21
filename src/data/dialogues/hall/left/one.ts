@@ -63,4 +63,4 @@ export const HallLeftDialogue = [
     name: "Sol Sol",
     message: "Não, vai lá vai",
   },
-];
+] satisfies Dialogue[];

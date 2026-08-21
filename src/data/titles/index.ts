@@ -355,7 +355,7 @@ export const TITLES = createTitles({
   },
 });
 
-export type TitleId = keyof typeof TITLES & string;
+export type TitleId = keyof typeof TITLES;
 
 export const TITLE_IDS = Object.keys(TITLES) as TitleId[];
 

@@ -12,4 +12,4 @@ export const pcsRoomFiveDialogue = [
     name: "Fragmento de Vandinha",
     message: "Vou embora que eu não sou de aço também né",
   },
-];
+] satisfies Dialogue[];

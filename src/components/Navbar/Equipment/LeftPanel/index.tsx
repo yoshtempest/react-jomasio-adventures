@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { Lock } from "lucide-react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { playerPath } from "@/utils/paths";
-import { SLOT_LABELS, RANK_COLORS } from "@/utils/types/player/equipment";
+import { SLOT_LABELS, RANK_COLORS } from "@/data/equipment/definitions";
 import {
   getItemResistances,
   HEAT_RESISTANCE_LABEL,

@@ -21,4 +21,4 @@ export const skinShopDialogue = [
     name: "Tiadorim",
     message: "Certeza absoluta?",
   },
-];
+] satisfies Dialogue[];

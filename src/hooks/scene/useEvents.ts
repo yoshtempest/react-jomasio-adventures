@@ -16,7 +16,7 @@ export function useSceneEvents() {
   const { quests, addQuest, updateProgress } = useQuests();
   const { setFlag, hasFlag } = useFlags();
 
-  const lastPage = location.state?.from;
+  const lastPage = (location.state as { from?: string } | null)?.from;
 
   const checkCondition = (condition: Condition) => {
     if (

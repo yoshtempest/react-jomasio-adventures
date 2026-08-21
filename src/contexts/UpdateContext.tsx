@@ -21,12 +21,7 @@ type UpdateContextType = {
   lastChecked: number | null;
 };
 
-const UpdateContext = createContext<UpdateContextType>({
-  status: "idle",
-  checkForUpdate: () => {},
-  applyUpdate: () => {},
-  lastChecked: null,
-});
+const UpdateContext = createContext<UpdateContextType | null>(null);
 
 /**
  * Registers the service worker and exposes a user-driven update flow.
@@ -91,5 +86,7 @@ export function UpdateProvider({ children }: { children: ReactNode }) {
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function useUpdate() {
-  return useContext(UpdateContext);
+  const ctx = useContext(UpdateContext);
+  if (!ctx) throw new Error("useUpdate precisa do UpdateProvider");
+  return ctx;
 }

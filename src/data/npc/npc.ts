@@ -1,7 +1,7 @@
 // Tabela chave → classe. A union NpcType é derivada daqui, então adicionar um
 // NPC aqui automaticamente o torna válido em todo o app (e typos de classe
 // quebram a compilação via `satisfies`).
-const NPC_CLASSES = {
+export const NPC_CLASSES = {
   /* Jomasio */
   hungryDeath: "common",
   piupiu: "rare",
@@ -58,7 +58,7 @@ const NPC_CLASSES = {
   dummy: "common",
 } as const satisfies Record<string, NPCClass>;
 
-export type NpcType = keyof typeof NPC_CLASSES & string;
+export type NpcType = keyof typeof NPC_CLASSES;
 
 export type NPCData = {
   type: NpcType;

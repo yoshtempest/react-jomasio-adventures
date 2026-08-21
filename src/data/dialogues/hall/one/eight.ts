@@ -58,4 +58,4 @@ export const AfterPcRoomEightDialogue = [
     name: "Protagonista",
     message: "Vambora então",
   },
-];
+] satisfies Dialogue[];

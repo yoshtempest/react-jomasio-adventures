@@ -70,4 +70,4 @@ export const centerDialogue = [
     name: "Maria 2",
     message: "Quem vai levar a melhor",
   },
-];
+] satisfies Dialogue[];

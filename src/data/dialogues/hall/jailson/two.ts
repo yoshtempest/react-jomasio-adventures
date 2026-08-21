@@ -41,4 +41,4 @@ export const hallJailsonTwoDialogue = [
       "Ah tá, achei que era outra coisa, mas se é isso que você quer, então vamos lutar!",
     expression: "x1"
   },
-];
+] satisfies Dialogue[];

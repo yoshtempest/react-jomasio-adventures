@@ -27,7 +27,7 @@ export function useSceneAudio({ audio }: Props) {
   // 🔥 toca automaticamente ao entrar na cena
   useEffect(() => {
     const controls = audioControlsRef.current;
-    controls.play();
+    void controls.play();
 
     return () => {
       // 🔥 para quando sair da cena (ESSENCIAL)

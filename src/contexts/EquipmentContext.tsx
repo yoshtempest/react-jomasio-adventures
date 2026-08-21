@@ -10,7 +10,7 @@ import type {
   Equipment,
   EquippedItemInfo,
 } from "@/utils/types/player/equipment";
-import { EQUIPMENT_SLOTS } from "@/utils/types/player/equipment";
+import { EQUIPMENT_SLOTS } from "@/data/equipment/definitions";
 import { getEquipmentById } from "@/data/equipment";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { buildSetItemIds, addItemBonus } from "@/gameRules/battle/equipment";
@@ -77,10 +77,10 @@ const EquipmentContext = createContext<EquipmentContextType | null>(null);
 export function EquipmentProvider({ children }: { children: ReactNode }) {
   const [allData, setAllData] = useState<
     Record<CharacterId, CharacterEquipmentData>
-  >(() => loadAllData() as Record<CharacterId, CharacterEquipmentData>);
+  >(() => loadAllData());
 
   useEffect(() => {
-    saveAllData(allData as Record<string, CharacterEquipmentData>);
+    saveAllData(allData);
   }, [allData]);
 
   const { playSound } = useSoundEffects();
@@ -88,7 +88,7 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
   const getEquippedItem = useCallback(
     (character: CharacterId, slot: EquipmentSlot): Equipment | null => {
       const data = getCharacterData(
-        allData as Record<string, CharacterEquipmentData>,
+        allData,
         character,
       );
       const info = data.equipped[slot];
@@ -101,7 +101,7 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
   const getEquippedInfo = useCallback(
     (character: CharacterId, slot: EquipmentSlot): EquippedItemInfo | null => {
       return getCharacterData(
-        allData as Record<string, CharacterEquipmentData>,
+        allData,
         character,
       ).equipped[slot];
     },
@@ -111,7 +111,7 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
   const getEquippedAccessories = useCallback(
     (character: CharacterId): EquippedItemInfo[] => {
       return getCharacterData(
-        allData as Record<string, CharacterEquipmentData>,
+        allData,
         character,
       ).equipped.accessories;
     },
@@ -121,7 +121,7 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
   const getTotalBonus = useCallback(
     (character: CharacterId) => {
       const data = getCharacterData(
-        allData as Record<string, CharacterEquipmentData>,
+        allData,
         character,
       );
 
@@ -156,7 +156,7 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
   const getCollection = useCallback(
     (character: CharacterId): Record<string, number> => {
       return getCharacterData(
-        allData as Record<string, CharacterEquipmentData>,
+        allData,
         character,
       ).collection;
     },
@@ -166,7 +166,7 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
   const getQuantityTotal = useCallback(
     (character: CharacterId, id: EquipmentId): number => {
       const collection = getCharacterData(
-        allData as Record<string, CharacterEquipmentData>,
+        allData,
         character,
       ).collection;
       let total = 0;
@@ -184,7 +184,7 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
     (character: CharacterId, id: EquipmentId, enhance: number): number => {
       return (
         getCharacterData(
-          allData as Record<string, CharacterEquipmentData>,
+          allData,
           character,
         ).collection[colKey(id, enhance)] ?? 0
       );
@@ -204,12 +204,12 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
       playSound("equip");
       setAllData((prev) => {
         const next = equipItem(
-          prev as Record<string, CharacterEquipmentData>,
+          prev,
           character,
           id,
           enhance,
         );
-        return (next ?? prev) as Record<CharacterId, CharacterEquipmentData>;
+        return (next ?? prev);
       });
     },
     [playSound],
@@ -220,11 +220,11 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
       playSound("unequip");
       setAllData((prev) => {
         const next = unequipItem(
-          prev as Record<string, CharacterEquipmentData>,
+          prev,
           character,
           slot,
         );
-        return (next ?? prev) as Record<CharacterId, CharacterEquipmentData>;
+        return (next ?? prev);
       });
     },
     [playSound],
@@ -235,11 +235,11 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
       playSound("unequip");
       setAllData((prev) => {
         const next = unequipAccessoryAt(
-          prev as Record<string, CharacterEquipmentData>,
+          prev,
           character,
           index,
         );
-        return (next ?? prev) as Record<CharacterId, CharacterEquipmentData>;
+        return (next ?? prev);
       });
     },
     [playSound],
@@ -250,11 +250,11 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
       setAllData(
         (prev) =>
           addDropOp(
-            prev as Record<string, CharacterEquipmentData>,
+            prev,
             character,
             id,
             enhance,
-          ) as Record<CharacterId, CharacterEquipmentData>,
+          ),
       );
     },
     [],
@@ -263,13 +263,13 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
   const fusePets = useCallback(
     (character: CharacterId, petId: EquipmentId, stars: number): boolean => {
       const next = fusePetsOp(
-        allData as Record<string, CharacterEquipmentData>,
+        allData,
         character,
         petId,
         stars,
       );
       if (!next) return false;
-      setAllData(next as Record<CharacterId, CharacterEquipmentData>);
+      setAllData(next);
       return true;
     },
     [allData],

@@ -95,8 +95,7 @@ export function useReplayAudio(
           continue;
         }
 
-        const audio = soundsMapRef.current[ev.sound] as
-          HTMLAudioElement | undefined;
+        const audio = soundsMapRef.current[ev.sound];
         if (!audio) {
           lastEventIndexRef.current = i + 1;
           continue;

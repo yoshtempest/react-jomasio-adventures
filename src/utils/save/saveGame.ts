@@ -87,13 +87,14 @@ async function request<T>(
     body: body !== undefined ? JSON.stringify(body) : undefined,
   });
 
-  const json = await res.json();
+  const json = (await res.json()) as T;
 
   if (!res.ok) {
-    throw new Error(json.error || "Erro na requisição");
+    const err = json as { error?: string };
+    throw new Error(err.error || "Erro na requisição");
   }
 
-  return json as T;
+  return json;
 }
 
 export async function saveGameToCloud(data: SaveData): Promise<void> {

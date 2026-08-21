@@ -57,10 +57,10 @@ export function CutsceneVideo({ src, width, height, onEnded }: Props) {
     const play = () => video.play().catch(() => {});
 
     draw();
-    play();
+    void play();
 
     if (video.readyState < 2) {
-      video.addEventListener("loadeddata", play, { once: true });
+      video.addEventListener("loadeddata", () => void play(), { once: true });
     }
 
     return () => {

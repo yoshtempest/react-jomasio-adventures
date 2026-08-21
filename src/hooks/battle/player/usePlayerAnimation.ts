@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
-import { animationFlow } from "@/utils/types/battle/animationFlow";
+import { animationFlow } from "@/data/battle/animationFlow";
 
 const STUN_BASE_DURATION = 500;
 

@@ -54,4 +54,4 @@ export const pcsRoomSevenDialogue = [
     name: "Morto de Fome",
     message: "Acaba com ele, chefe!",
   },
-];
+] satisfies Dialogue[];

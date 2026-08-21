@@ -56,4 +56,4 @@ export const skinShopIfNakamuraDialogue = [
     name: "Marcelinho",
     message: "Entre o céu e a Terra, eu sou o mais honrado.",
   },
-];
+] satisfies Dialogue[];

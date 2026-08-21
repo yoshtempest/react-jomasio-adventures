@@ -16,7 +16,7 @@ import {
   FILTER_TABS,
   FILTER_LABELS,
 } from "@/utils/equipment/equipmentMenu";
-import { RANK_COLORS, RANK_LABELS } from "@/utils/types/player/equipment";
+import { RANK_COLORS, RANK_LABELS } from "@/data/equipment/definitions";
 import styles from "./styles.module.css";
 import { asset } from "@/utils/paths";
 

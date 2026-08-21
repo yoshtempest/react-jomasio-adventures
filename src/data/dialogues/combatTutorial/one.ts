@@ -46,4 +46,4 @@ export const combatTutorialDialogue = [
     name: "Surica",
     message: "Faça o que eu falo mas não faça o que eu faço.",
   },
-];
+] satisfies Dialogue[];

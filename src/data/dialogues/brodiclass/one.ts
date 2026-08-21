@@ -125,4 +125,4 @@ export const brodiClassDialogue = [
         message: "Tá bom, tô indo",
         expression: "crossArms"
     },
-];
+] satisfies Dialogue[];

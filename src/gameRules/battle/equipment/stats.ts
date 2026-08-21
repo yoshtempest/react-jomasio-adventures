@@ -4,7 +4,7 @@ import type {
   EquipmentStats,
   EquipmentRank,
 } from "@/utils/types/player/equipment";
-import { EQUIPMENT_SLOTS } from "@/utils/types/player/equipment";
+import { EQUIPMENT_SLOTS } from "@/data/equipment/definitions";
 import { getEquipmentById } from "@/data/equipment";
 import { loadEquipped } from "@/data/equipment/storage";
 import { getEffectiveStats } from "./enhance";

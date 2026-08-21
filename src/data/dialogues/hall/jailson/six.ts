@@ -12,4 +12,4 @@ export const hallJailsonSixDialogue = [
     message: "Que bom que gostou",
     expression: "good"
   },
-];
+] satisfies Dialogue[];

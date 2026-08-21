@@ -94,7 +94,7 @@ export function SceneBase({
   const { closeNavbar } = useNavbar();
   const { giveQuest, progressQuest } = useQuestActions();
 
-  const lastPage = location.state?.from;
+  const lastPage = (location.state as { from?: string } | null)?.from;
 
   const currentRoute = location.pathname;
 
@@ -164,11 +164,11 @@ export function SceneBase({
               hasFlag,
               hasItem,
               addItem: (itemId) => {
-                const item = ITEMS[itemId as ItemId];
+                const item = ITEMS[itemId];
                 if (item) addItem(item);
               },
               removeItem: (itemId) => {
-                removeItem(itemId as ItemId);
+                removeItem(itemId);
               },
               giveQuest: (questId) => {
                 const quest = QUESTS[questId];

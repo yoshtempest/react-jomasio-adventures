@@ -22,4 +22,4 @@ export const zeOfMilkDialogue = [
     name: "Protagonista",
     message: "Tá",
   },
-];
+] satisfies Dialogue[];

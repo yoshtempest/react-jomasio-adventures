@@ -3,7 +3,7 @@ import type {
   EquippedItems,
   EquipmentRank,
 } from "@/utils/types/player/equipment";
-import { ARMOR_SLOTS } from "@/utils/types/player/equipment";
+import { ARMOR_SLOTS } from "@/data/equipment/definitions";
 import { getEquipmentById } from "@/data/equipment";
 import { loadEquipped } from "@/data/equipment/storage";
 import { equipmentSeed } from "./enhance";

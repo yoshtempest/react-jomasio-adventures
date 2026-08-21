@@ -199,7 +199,7 @@ export function BattleScene(props: Props) {
       !showIntro && !showVictory && !showDefeat && !showHighlight;
 
     if (shouldPlay && !battleAudioRef.current.isPlaying()) {
-      battleAudioRef.current.play();
+      void battleAudioRef.current.play();
     } else if (!shouldPlay && battleAudioRef.current.isPlaying()) {
       battleAudioRef.current.pause();
     }

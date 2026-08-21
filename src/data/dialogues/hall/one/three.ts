@@ -18,4 +18,4 @@ export const AfterPcRoomThreeDialogue = [
     message:
       "Vai ficar curioso, até o fim do jogo você não vai descobrir o que é",
   },
-];
+] satisfies Dialogue[];

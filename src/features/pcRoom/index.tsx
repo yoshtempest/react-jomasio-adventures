@@ -41,7 +41,7 @@ export function PcRoomScene({ sceneId }: Props) {
   const { classes, selectedIndex } = useClassSelection(showClassModal, () => {
     setShowClassModal(false);
     setMode("explore");
-    navigate("/pcroom/two", {
+    void navigate("/pcroom/two", {
       state: { from: location.pathname },
     });
   });

@@ -7,7 +7,7 @@ import { usePlayTime } from "@/contexts/PlayTimeContext";
 import { useBestiary } from "@/contexts/BestiaryContext";
 import { useTitles } from "@/contexts/TitleContext";
 import { useFlags } from "@/contexts/FlagContext";
-import { CHARACTERS } from "@/utils/types/player/player";
+import { CHARACTERS } from "@/data/characters/list";
 import { CHARACTERS as CHARACTER_OPTIONS } from "@/data/options/characters";
 import { TITLE_IDS } from "@/data/titles";
 import { FLAGS } from "@/data/flags";

@@ -1,24 +1,3 @@
-export const CHARACTERS = [
-  "marcelo",
-  "eduarda",
-  "lucas",
-  "samuel",
-  "artur",
-  "mayra",
-  "lucaua",
-  "riquelme",
-  "larissa",
-  "camilly",
-  "emanuel",
-  "hiago",
-] as const;
+import type { CHARACTERS } from "@/data/characters/list";
+
 export type Character = (typeof CHARACTERS)[number];
-
-export const DEFAULT_CHARACTER: Character = "marcelo";
-
-export function isCharacter(value: unknown): value is Character {
-  return (
-    typeof value === "string" &&
-    (CHARACTERS as readonly string[]).includes(value)
-  );
-}

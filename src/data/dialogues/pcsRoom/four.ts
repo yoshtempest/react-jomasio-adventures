@@ -17,4 +17,4 @@ export const pcsRoomFourDialogue = [
     name: "Fragmento de Vandinha",
     message: "EU SABIA! ESTOU DE OLHO EM VOCÊ A MUITO TEMPO!",
   },
-];
+] satisfies Dialogue[];

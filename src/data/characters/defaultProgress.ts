@@ -1,5 +1,5 @@
 import type { Character } from "@/utils/types/player/player";
-import { CHARACTERS } from "@/utils/types/player/player";
+import { CHARACTERS } from "@/data/characters/list";
 
 export type CharacterStats = {
   hp: number;

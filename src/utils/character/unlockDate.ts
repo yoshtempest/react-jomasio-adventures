@@ -4,7 +4,7 @@ import { slotKey } from "@/utils/save/slotManager";
 
 type UnlockDates = Record<string, string>;
 
-export const UNLOCK_FLAG_TO_CHAR: Record<string, CharacterId> = {
+export const UNLOCK_FLAG_TO_CHAR = {
   samurionUnlocked: "samuel",
   srGuaxinimUnlocked: "artur",
   ematronUnlocked: "emanuel",
@@ -14,11 +14,11 @@ export const UNLOCK_FLAG_TO_CHAR: Record<string, CharacterId> = {
   yvelUnlocked: "lucas",
   babidiUnlocked: "lucaua",
   riquelsonUnlocked: "riquelme",
-};
+} as const satisfies Record<string, CharacterId>;
 
-export function isUnlockFlag(
-  flag: FlagId,
-): flag is FlagId & keyof typeof UNLOCK_FLAG_TO_CHAR {
+export type UnlockFlagId = keyof typeof UNLOCK_FLAG_TO_CHAR;
+
+export function isUnlockFlag(flag: FlagId): flag is UnlockFlagId {
   return flag in UNLOCK_FLAG_TO_CHAR;
 }
 
@@ -31,8 +31,8 @@ function loadUnlockDates(): UnlockDates {
 }
 
 export function saveUnlockDate(flag: FlagId): void {
+  if (!isUnlockFlag(flag)) return;
   const charId = UNLOCK_FLAG_TO_CHAR[flag];
-  if (!charId) return;
 
   const dates = loadUnlockDates();
   if (dates[charId]) return;

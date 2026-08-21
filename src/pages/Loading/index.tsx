@@ -28,7 +28,7 @@ export default function Loading() {
     const switchTarget = sessionStorage.getItem("saveSwitchTarget");
     if (switchTarget) {
       sessionStorage.removeItem("saveSwitchTarget");
-      navigate(switchTarget, { replace: true });
+      void navigate(switchTarget, { replace: true });
       return;
     }
 
@@ -54,15 +54,15 @@ export default function Loading() {
         const switchTarget = sessionStorage.getItem("saveSwitchTarget");
         if (switchTarget) {
           sessionStorage.removeItem("saveSwitchTarget");
-          navigate(switchTarget, { replace: true });
+          void navigate(switchTarget, { replace: true });
         } else {
           const replayTarget = sessionStorage.getItem("replayTarget");
           if (replayTarget) {
             sessionStorage.removeItem("replayTarget");
-            navigate(`/replay/${replayTarget}`, { replace: true });
+            void navigate(`/replay/${replayTarget}`, { replace: true });
           } else {
             const target = hasSave() ? "/home" : "/tutorial";
-            navigate(target, { replace: true });
+            void navigate(target, { replace: true });
           }
         }
       }, 600);

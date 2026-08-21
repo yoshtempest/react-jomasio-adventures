@@ -43,7 +43,7 @@ export function DirectorScene({ sceneId }: Props) {
 
   const navigateFrom = useCallback(
     (to: string) => {
-      navigate(to, { state: { from: location.pathname } });
+      void navigate(to, { state: { from: location.pathname } });
     },
     [navigate, location.pathname],
   );

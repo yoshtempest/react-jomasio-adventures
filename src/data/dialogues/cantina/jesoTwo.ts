@@ -18,4 +18,4 @@ export const cantinaJesoTwoDialogue = [
     message:
       "Só te dou uma comida a cada 10 minutos, dá uma relaxada ai enquanto isso.",
   },
-];
+] satisfies Dialogue[];

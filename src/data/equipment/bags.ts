@@ -1,6 +1,6 @@
-import type { Equipment } from "@/utils/types/player/equipment";
+import type { EquipmentDef } from "@/utils/types/player/equipment";
 
-export const BAGS: Equipment[] = [
+export const BAGS = [
   {
     id: "bag_bolsa_pano",
     name: "Bolsa de Pano",
@@ -41,4 +41,4 @@ export const BAGS: Equipment[] = [
     stats: {},
     bonusSlots: Infinity,
   },
-];
+] as const satisfies readonly EquipmentDef[];

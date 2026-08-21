@@ -5,7 +5,8 @@ import type {
 import {
   createEmptyEquipped,
   EQUIPMENT_SLOTS,
-} from "@/utils/types/player/equipment";
+} from "@/data/equipment/definitions";
+import { isEquipmentId } from "@/data/equipment";
 import { saveCompressed, loadCompressed } from "@/utils/save/storage";
 import { slotKey } from "@/utils/save/slotManager";
 import { PET_CLASS } from "@/data/characters/petProgress";
@@ -17,7 +18,7 @@ export type CharacterEquipmentData = {
 
 const EQUIP_KEY = "jomasio_equipment";
 
-export function colKey(id: EquipmentId, enhance: number): string {
+export function colKey(id: string, enhance: number): string {
   return `${id}+${enhance}`;
 }
 
@@ -27,7 +28,7 @@ function normalizePets(data: CharacterEquipmentData): CharacterEquipmentData {
     const i = key.lastIndexOf("+");
     const id = i > 0 ? key.slice(0, i) : key;
     if (PET_CLASS[id]) {
-      const baseKey = colKey(id as EquipmentId, 0);
+      const baseKey = colKey(id, 0);
       collection[baseKey] = (collection[baseKey] ?? 0) + qty;
     } else {
       collection[key] = qty;
@@ -43,13 +44,19 @@ function normalizePets(data: CharacterEquipmentData): CharacterEquipmentData {
 }
 
 function migrateEquipped(slot: unknown): EquippedItemInfo | null {
-  if (!slot) return null;
-  if (typeof slot === "string") return { id: slot, enhance: 0 };
-  if (typeof slot === "object" && slot !== null) {
+  let rawId = "";
+  let enhance = 0;
+  if (typeof slot === "string") {
+    rawId = slot;
+  } else if (typeof slot === "object" && slot !== null) {
     const s = slot as Record<string, unknown>;
-    return { id: String(s.id ?? ""), enhance: Number(s.enhance ?? 0) };
+    const raw = s.id;
+    rawId = typeof raw === "string" ? raw : "";
+    enhance = typeof s.enhance === "number" ? s.enhance : 0;
   }
-  return null;
+  // Fronteira localStorage: descarta ids que não existem mais no banco.
+  if (!isEquipmentId(rawId)) return null;
+  return { id: rawId, enhance };
 }
 
 function createEmptyCharacterData(character?: string): CharacterEquipmentData {
@@ -79,8 +86,8 @@ function migrateAllData(
       }
       if (Array.isArray(rawEquip.accessories)) {
         equipped.accessories = rawEquip.accessories
-          .map((a: unknown) => migrateEquipped(a) ?? { id: "", enhance: 0 })
-          .filter((a: EquippedItemInfo) => a.id !== "");
+          .map((a: unknown) => migrateEquipped(a))
+          .filter((a): a is EquippedItemInfo => a !== null);
       }
     }
     const collection: Record<string, number> = {};
@@ -98,11 +105,11 @@ function migrateAllData(
     }
     result[key] = normalizePets({ equipped, collection });
   }
-  return result as Record<string, CharacterEquipmentData>;
+  return result;
 }
 
 function createEmptyAllData(): Record<string, CharacterEquipmentData> {
-  return {} as Record<string, CharacterEquipmentData>;
+  return {};
 }
 
 export function loadAllData(): Record<string, CharacterEquipmentData> {
@@ -114,20 +121,20 @@ export function loadAllData(): Record<string, CharacterEquipmentData> {
     if (
       firstVal &&
       typeof firstVal === "object" &&
-      "equipped" in (firstVal as object)
+      "equipped" in (firstVal)
     ) {
       const equipped = (firstVal as Record<string, unknown>).equipped;
       if (equipped && typeof equipped === "object") {
         const sample = Object.values(equipped as Record<string, unknown>)[0];
         if (typeof sample === "string" || sample === null) {
-          return migrateAllData(parsed as Record<string, unknown>);
+          return migrateAllData(parsed);
         }
       }
     }
     const data = parsed as Record<string, CharacterEquipmentData>;
     for (const charData of Object.values(data)) {
       if (charData?.equipped && !Array.isArray(charData.equipped.accessories)) {
-        (charData.equipped as EquippedItems).accessories = [];
+        (charData.equipped).accessories = [];
       }
     }
     for (const key of Object.keys(data)) {

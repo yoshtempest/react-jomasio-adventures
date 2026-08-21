@@ -28,4 +28,4 @@ export const pcsRoomEightDialogue = [
     name: "Rei dos Mortos de Fome",
     message: "Vou embora dessa vez, mas saíba que eu voltarei",
   },
-];
+] satisfies Dialogue[];

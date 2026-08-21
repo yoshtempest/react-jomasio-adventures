@@ -40,7 +40,7 @@ export function JomasioEntranceScene({ sceneId }: Props) {
       "weapon_picareta",
       "Você precisa equipar uma picareta para minerar.",
       (deps) => {
-        deps.addItem({ id: "hungry_essence" as ItemId, qty: 5 });
+        deps.addItem({ id: "hungry_essence", qty: 5 });
         deps.setPopup("Você minerou a rocha e encontrou essências!");
         deps.setFlag("mined_entrance_rock");
       },

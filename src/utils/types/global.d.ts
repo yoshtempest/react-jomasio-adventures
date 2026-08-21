@@ -1,7 +1,9 @@
 import { QUESTS } from "@/data/quests";
 import { ITEMS } from "@/data/items";
 import { FLAGS } from "@/data/flags";
-import { NPCS } from "@/data/npc/npc";
+import { NPC_CLASSES } from "@/data/npc/npc";
+import type { RewardId as RewardIdDef } from "@/data/rewards";
+import type { EquipmentId as EquipmentIdDef } from "@/data/equipment";
 import type {
   Quest as QuestDef,
   QuestType as QuestTypeDef,
@@ -9,7 +11,10 @@ import type {
   QuestFrequency as QuestFrequencyDef,
 } from "@/utils/types/player/quest";
 import type { SceneNPCData as SceneNpcDataDef } from "@/utils/types/maps/exploreScene";
-import type { EquipmentRank as EquipmentRankDef } from "@/utils/types/player/equipment";
+import type {
+  EquipmentRank as EquipmentRankDef,
+  EquipmentSlot as EquipmentSlotDef,
+} from "@/utils/types/player/equipment";
 import type { Condition } from "@/utils/types/maps/conditions";
 import type { Character as CharacterDef } from "@/utils/types/player/player";
 
@@ -24,9 +29,10 @@ declare global {
   type QuestId = Extract<keyof typeof QUESTS, string>;
   type ItemId = Extract<keyof typeof ITEMS, string>;
   type FlagId = Extract<keyof typeof FLAGS, string>;
-  type NpcType = keyof typeof NPCS & string;
+  type NpcType = keyof typeof NPC_CLASSES;
   type CharacterId = CharacterDef;
-  type EquipmentId = string;
+  type EquipmentId = EquipmentIdDef;
+  type RewardId = RewardIdDef;
 
   // ── Geometria ───────────────────────────────────────────
   type Position = { x: number; y: number };
@@ -70,16 +76,33 @@ declare global {
   type Transition = {
     positions: Position[];
     to: string;
-    state?: string;
   };
 
   // ── Diálogo ────────────────────────────────────────────
+  // Valores existentes em public/assets/player/<char>/expressions/.
+  type DialogueExpression =
+    | "angry"
+    | "angryFront"
+    | "crossArms"
+    | "default"
+    | "desperate"
+    | "disgust"
+    | "good"
+    | "happy"
+    | "hungry"
+    | "ops"
+    | "rascal"
+    | "special"
+    | "talking"
+    | "why"
+    | "x1";
+
   type Dialogue = {
     src?: string;
     name: string;
     message: string;
     isPlayer?: boolean;
-    expression?: string;
+    expression?: DialogueExpression;
     soundSrc?: string;
     autoAdvanceOnSound?: boolean;
   };
@@ -325,7 +348,7 @@ declare global {
   type Quest = QuestDef;
 
   type RewardProgress = {
-    id: string;
+    id: RewardId;
     label: string;
     current: number;
     requirement: number;
@@ -334,18 +357,10 @@ declare global {
     charId?: CharacterId;
   };
 
-  export type EquipmentSlot =
-    | "weapon"
-    | "helmet"
-    | "chestplate"
-    | "pants"
-    | "boots"
-    | "accessory"
-    | "bag"
-    | "pet";
+  export type EquipmentSlot = EquipmentSlotDef;
 
   type EquipmentDropInfo = {
-    id: string;
+    id: EquipmentId;
     name: string;
     slot: EquipmentSlot;
     rank: EquipmentRank;
@@ -353,7 +368,7 @@ declare global {
   };
 
   type ItemDropInfo = {
-    id: string;
+    id: ItemId;
     name: string;
     image?: string;
     qty: number;
@@ -364,8 +379,8 @@ declare global {
     xpReward: number;
     equipmentDrops: EquipmentDropInfo[];
     itemDrops: ItemDropInfo[];
-    chestDrop: { id: string; name: string } | null;
-    keyDrop: { id: string; name: string } | null;
+    chestDrop: { id: ItemId; name: string } | null;
+    keyDrop: { id: ItemId; name: string } | null;
   };
 
   type DamageType =

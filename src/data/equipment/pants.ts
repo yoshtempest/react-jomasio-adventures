@@ -1,6 +1,6 @@
-import type { Equipment } from "@/utils/types/player/equipment";
+import type { EquipmentDef } from "@/utils/types/player/equipment";
 
-export const PANTS: Equipment[] = [
+export const PANTS = [
   {
     id: "pants_calcas_remendadas",
     name: "Calças Remendadas",
@@ -39,4 +39,4 @@ export const PANTS: Equipment[] = [
     stats: { hp: 4, armor: 22, reflect: 3 },
     set: "lendario",
   },
-];
+] as const satisfies readonly EquipmentDef[];

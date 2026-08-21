@@ -17,4 +17,4 @@ export const footballCourtTwoDialogue = [
     message: "Vamos embora Ematron, não se junte com essa gentalha",
     expression: "crossArms",
   },
-];
+] satisfies Dialogue[];

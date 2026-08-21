@@ -11,4 +11,4 @@ export const skinShopHiroseDialogue = [
     name: "Protagonista",
     message: "?",
   },
-];
+] satisfies Dialogue[];

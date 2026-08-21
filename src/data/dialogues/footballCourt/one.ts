@@ -79,4 +79,4 @@ export const footballCourtDialogue = [
     name: "Neimito",
     message: "Vamos aquecer o clima então!",
   },
-];
+] satisfies Dialogue[];

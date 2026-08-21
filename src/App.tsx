@@ -19,7 +19,7 @@ import {
 import { useQuests } from "@/contexts/QuestContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
-import { isCharacter } from "@/utils/types/player/player";
+import { isCharacter } from "@/data/characters/list";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useHungerTimer } from "@/hooks/hunger/useHungerTimer";
@@ -56,7 +56,7 @@ function App() {
     if (!isAuthenticated || didSyncRef.current) return;
     didSyncRef.current = true;
 
-    loadGameFromCloud().then((cloud) => {
+    void loadGameFromCloud().then((cloud) => {
       if (!cloud) return;
       setItems(cloud.inventory);
       setQuests(cloud.quests);
@@ -89,7 +89,7 @@ function App() {
 
     saveGame(data);
     if (isAuthenticated) {
-      saveGameToCloud(data);
+      void saveGameToCloud(data);
     }
   }, [
     location.pathname,

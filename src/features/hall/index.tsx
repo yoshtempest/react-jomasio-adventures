@@ -40,7 +40,7 @@ export function HallScene({ sceneId }: Props) {
 
   function handlePuzzleSolved() {
     setShowPuzzle(false);
-    navigate("/hall/pandemony");
+    void navigate("/hall/pandemony");
   }
 
   function handlePuzzleClose() {

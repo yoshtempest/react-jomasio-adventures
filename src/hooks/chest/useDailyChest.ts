@@ -69,10 +69,10 @@ export function useDailyChest() {
         progressDailyWeekly("collect_goat_horn", mat.qty);
     }
     for (const eq of result.equipment) {
-      addDrop(player.character, eq.id as EquipmentId, eq.enhance);
+      addDrop(player.character, eq.id, eq.enhance);
     }
     for (const pet of result.pets) {
-      addDrop(player.character, pet.id as EquipmentId, pet.enhance);
+      addDrop(player.character, pet.id, pet.enhance);
     }
 
     const now = Date.now();

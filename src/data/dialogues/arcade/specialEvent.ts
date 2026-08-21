@@ -58,4 +58,4 @@ export const arcadeSpecialEventDialogue = [
     name: "Yvel",
     message: "Saíba que o 11 está em todos os lugares...",
   },
-];
+] satisfies Dialogue[];

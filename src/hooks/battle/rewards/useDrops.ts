@@ -2,6 +2,7 @@ import { rollSlotDrop } from "@/data/equipment/drops";
 import { getEquipmentBySlotAndRank, getEquipmentById } from "@/data/equipment";
 import { PET_DROPS } from "@/data/characters/petDrops";
 import { rollCraftDrops, CRAFT_MATERIALS } from "@/data/items/crafting";
+import type { MaterialId } from "@/data/items/crafting";
 import { ITEMS } from "@/data/items";
 import { rollCardDrop, NPC_CARDS } from "@/data/npc/cards";
 import type { InventoryItem } from "@/utils/types/player/inventory";
@@ -64,9 +65,9 @@ export function rollMaterialDrops(
   const materialDrops = rollCraftDrops(npcClass, npcType);
 
   for (const [materialId, qty] of Object.entries(materialDrops)) {
-    const craftDef = CRAFT_MATERIALS[materialId];
+    const craftDef = CRAFT_MATERIALS[materialId as MaterialId];
     if (craftDef) {
-      addItem({ id: craftDef.id as ItemId, qty });
+      addItem({ id: craftDef.id, qty });
       drops.push({ id: craftDef.id, name: craftDef.name, qty });
       continue;
     }
@@ -125,7 +126,7 @@ export function rollPetDrop(
 
     const enhance = 0;
     addDrop(character, petId as EquipmentId, enhance);
-    const pet = getEquipmentById(petId as EquipmentId);
+    const pet = getEquipmentById(petId);
     if (!pet) return null;
 
     return {
@@ -151,8 +152,9 @@ export function rollNpcCardDrop(
   if (!def) return null;
 
   const itemDef = ITEMS[card.id as keyof typeof ITEMS];
-  const image = itemDef && "image" in itemDef ? itemDef.image : undefined;
+  if (!itemDef) return null;
+  const image = "image" in itemDef ? itemDef.image : undefined;
 
-  addItem({ id: card.id as ItemId });
-  return { id: card.id, name: card.name, qty: 1, image };
+  addItem({ id: itemDef.id });
+  return { id: itemDef.id, name: card.name, qty: 1, image };
 }

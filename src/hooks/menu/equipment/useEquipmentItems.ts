@@ -5,7 +5,7 @@ import {
   EQUIPMENT_SLOTS,
   MAX_ACCESSORIES,
   ACCESSORY_UNLOCKED_COUNT,
-} from "@/utils/types/player/equipment";
+} from "@/data/equipment/definitions";
 import type {
   EquipmentStats,
   EquippedItemInfo,
@@ -97,7 +97,7 @@ export function useEquipmentItems(
   const allCollected: CollectedEntry[] = Object.entries(
     getCollection(character),
   )
-    .filter(([, qty]) => (qty as number) > 0)
+    .filter(([, qty]) => (qty) > 0)
     .map(([key, qty]) => {
       const { id, enhance } = parseColKey(key);
       const item = getEquipmentById(id);
@@ -114,11 +114,11 @@ export function useEquipmentItems(
       }
       return {
         item,
-        qty: qty as number,
+        qty: qty,
         enhance,
         stats,
         arrow,
-      } as CollectedEntry;
+      };
     })
     .filter((e): e is CollectedEntry => e !== null)
     .sort((a, b) => totalStats(b.stats) - totalStats(a.stats));

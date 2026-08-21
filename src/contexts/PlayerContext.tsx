@@ -22,7 +22,7 @@ import {
   PLAYER_CLASS_KEY,
 } from "@/data/storageKeys";
 import { slotKey } from "@/utils/save/slotManager";
-import { isCharacter } from "@/utils/types/player/player";
+import { isCharacter } from "@/data/characters/list";
 import { useSettings } from "@/contexts/SettingsContext";
 
 type PlayerContextType = {

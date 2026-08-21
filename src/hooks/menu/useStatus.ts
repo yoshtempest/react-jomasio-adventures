@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { canSpendPoints } from "@/gameRules/menu/validation";
-import { STATS } from "@/utils/types/player/stats";
+import { STATS } from "@/data/player/statList";
 import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { useStableCallback } from "@/hooks/useStableCallback";

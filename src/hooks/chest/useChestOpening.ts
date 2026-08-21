@@ -53,7 +53,7 @@ export function useChestOpening() {
         addDrop(player.character, eq.id, eq.enhance);
       }
       for (const pet of result.pets) {
-        addDrop(player.character, pet.id as EquipmentId, pet.enhance);
+        addDrop(player.character, pet.id, pet.enhance);
       }
 
       removeItem(chestItemId);

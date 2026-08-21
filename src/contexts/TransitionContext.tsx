@@ -33,7 +33,7 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
   const navigateWithFade = useCallback(
     (to: To | number, options?: NavigateOptions) => {
       if (typeof to === "number") {
-        navigate(to);
+        void navigate(to);
         return;
       }
       if (isFadingRef.current) return;
@@ -49,7 +49,7 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
     const id = setTimeout(() => {
       const p = pendingRef.current;
       pendingRef.current = null;
-      navigate(p!.to, p!.options);
+      void navigate(p!.to, p!.options);
     }, 350);
     return () => clearTimeout(id);
   }, [isFading, navigate]);

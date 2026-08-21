@@ -1,3 +1,4 @@
+import { isNpcType } from "@/data/npc/npc";
 const NPC_DISPLAY_NAMES: Record<NpcType, string> = {
   vandinhaFragment: "Fragmento de Vandinha",
   trueVandinha: "Verdadeira Vandinha",
@@ -45,5 +46,6 @@ const NPC_DISPLAY_NAMES: Record<NpcType, string> = {
 };
 
 export function getNpcDisplayName(npcType: string): string {
-  return NPC_DISPLAY_NAMES[npcType as NpcType] ?? npcType;
+  if (!isNpcType(npcType)) return npcType;
+  return NPC_DISPLAY_NAMES[npcType] ?? npcType;
 }

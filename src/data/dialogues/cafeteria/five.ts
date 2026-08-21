@@ -28,4 +28,4 @@ export const cafeteriaFiveDialogue = [
     name: "Denis",
     message: "Tchau",
   },
-];
+] satisfies Dialogue[];

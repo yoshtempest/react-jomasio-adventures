@@ -7,4 +7,4 @@ export const hallHellOneDialogue = [
     message: "Vá pro inferno!",
     soundSrc: "/assets/songs/soundEffects/npc/goToHell.mp3",
   },
-];
+] satisfies Dialogue[];

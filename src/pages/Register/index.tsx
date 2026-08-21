@@ -18,7 +18,7 @@ export default function Register() {
 
     try {
       await register(username, email, password);
-      navigate("/");
+      void navigate("/");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Erro ao cadastrar");
     } finally {

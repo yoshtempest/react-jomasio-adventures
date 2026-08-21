@@ -49,7 +49,7 @@ import { getElementMultiplier } from "@/gameRules/battle/element";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
-import { CHARACTERS } from "@/utils/types/player/player";
+import { CHARACTERS } from "@/data/characters/list";
 import { getEquipmentStatsBonus } from "@/gameRules/battle/equipment";
 import { getLuckBonus } from "@/gameRules/battle/luck";
 import { saveGame } from "@/utils/save/saveGame";
@@ -558,7 +558,7 @@ export function useBattleScene({
         setBattleHP(c, 1);
       }
       setMode("explore");
-      navigate(-1);
+      void navigate(-1);
       return;
     }
 

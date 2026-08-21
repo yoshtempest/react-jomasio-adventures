@@ -1,4 +1,4 @@
-import type { ChargeParticle } from "@/utils/types/battle/charge";
+import type { ChargeParticle } from "@/data/battle/charge";
 import styles from "./styles.module.css";
 import { ProjectileConstants } from "@/data/projectile";
 

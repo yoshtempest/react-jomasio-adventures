@@ -1,6 +1,6 @@
-import type { Equipment } from "@/utils/types/player/equipment";
+import type { EquipmentDef } from "@/utils/types/player/equipment";
 
-export const HELMETS: Equipment[] = [
+export const HELMETS = [
   {
     id: "helmet_chapeu_cendeiro",
     name: "Chapéu de Cendeiro",
@@ -66,4 +66,4 @@ export const HELMETS: Equipment[] = [
     rank: 9,
     stats: { hp: 4, armor: 22, reflect: 3 },
   },
-];
+] as const satisfies readonly EquipmentDef[];

@@ -15,7 +15,7 @@ export type RewardsProgress = Record<string, number>;
 export function loadProgress(): RewardsProgress {
   try {
     const raw = localStorage.getItem(REWARDS_KEY);
-    return raw ? JSON.parse(raw) : {};
+    return raw ? (JSON.parse(raw) as RewardsProgress) : {};
   } catch {
     return {};
   }

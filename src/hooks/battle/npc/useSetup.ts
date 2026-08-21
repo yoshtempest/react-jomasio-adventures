@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NPCS, isNpcType, type NPCData } from "@/data/npc/npc";
-import { generateNpcLevel } from "@/utils/types/battle/generateNpcLevel";
+import { generateNpcLevel } from "@/gameRules/battle/generateNpcLevel";
 import { getNpcStats } from "@/gameRules/npc/npcStats";
 
 type NpcSetupResult = {

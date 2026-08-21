@@ -45,4 +45,4 @@ export const configsDialogue = [
     message:
       "Não se preocupe, que você vai sair daqui um Doutor! Vou ir ver My World, tchau.",
   },
-];
+] satisfies Dialogue[];

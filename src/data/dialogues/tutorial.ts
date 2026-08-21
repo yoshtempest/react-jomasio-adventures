@@ -23,4 +23,4 @@ export const tutorialDialogue = [
     message:
       "Entendo... bem eu não ligo, só tinha que preencher o formulário aqui, cuide de fazer seu trabalho com perfeição, Adeus.",
   },
-];
+] satisfies Dialogue[];

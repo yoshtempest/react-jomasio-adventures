@@ -7,7 +7,6 @@ import { usePlayTime } from "@/contexts/PlayTimeContext";
 import { useFlags } from "@/contexts/FlagContext";
 import { useBestiary } from "@/contexts/BestiaryContext";
 import { getClassKills } from "@/utils/rewards/classKills";
-import type { Character } from "@/utils/types/player/player";
 import {
   getProgress,
   getUnlockedCount,
@@ -31,7 +30,7 @@ export function useRewards() {
   const totalPlayTime = getTotalPlayTime();
   const unlockedCount = getUnlockedCount(flags);
   const maxNpcKills = getMaxNpcKills(
-    bestiary as unknown as Record<string, { kills: number }>,
+    bestiary,
   );
   const classKills = getClassKills();
 
@@ -56,9 +55,7 @@ export function useRewards() {
 
       const reward = def.getReward(stage);
       const parsed = isCharRewardId(rewardId);
-      const recipient = parsed
-        ? (parsed.charId as Character)
-        : player.character;
+      const recipient = parsed ? parsed.charId : player.character;
       addHyperCoins(recipient, reward);
 
       setProgress((prev) => {

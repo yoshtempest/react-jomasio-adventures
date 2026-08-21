@@ -42,4 +42,4 @@ export const hallHellTwoDialogue = [
     name: "Negão do Ferro Velho",
     message: "Eu mesmo vou te levar então!",
   },
-];
+] satisfies Dialogue[];

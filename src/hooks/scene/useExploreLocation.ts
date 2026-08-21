@@ -37,7 +37,7 @@ export function useExploreLocation() {
     let visited: Record<string, string> = {};
     try {
       const raw = localStorage.getItem(storageKey);
-      if (raw) visited = JSON.parse(raw);
+      if (raw) visited = JSON.parse(raw) as Record<string, string>;
     } catch {}
 
     if (visited[baseRoute] === today) return;

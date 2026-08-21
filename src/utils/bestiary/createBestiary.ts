@@ -10,5 +10,5 @@ export function createBestiary(
       key,
       { ...value, npcType: key },
     ]),
-  ) as Record<string, BestiaryEntryData>;
+  );
 }

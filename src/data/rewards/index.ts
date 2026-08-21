@@ -1,4 +1,5 @@
-import { CHARACTERS, type Character } from "@/utils/types/player/player";
+import { CHARACTERS } from "@/data/characters/list";
+import type { Character } from "@/utils/types/player/player";
 import { CHARACTERS as CHAR_OPTIONS } from "@/data/options/characters";
 
 type CharRewardType = "level" | "damage" | "specials" | "hits" | "attacks";

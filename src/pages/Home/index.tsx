@@ -17,7 +17,7 @@ export default function Home() {
 
   useEffect(() => {
     if (!hasAnySave()) {
-      navigate("/tutorial", { replace: true });
+      void navigate("/tutorial", { replace: true });
       return;
     }
   }, [navigate]);
@@ -31,9 +31,9 @@ export default function Home() {
       !save.lastRoute.startsWith("/replay") &&
       !save.lastRoute.includes("battle")
     ) {
-      navigate(save.lastRoute);
+      void navigate(save.lastRoute);
     } else {
-      navigate("/jomasioEntrance");
+      void navigate("/jomasioEntrance");
     }
   }, [navigate]);
 

@@ -12,4 +12,4 @@ export const HellRoomFiveDialogue = [
     message: "Oh Lee...",
     expression: "disgust",
   },
-];
+] satisfies Dialogue[];

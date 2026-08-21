@@ -193,7 +193,7 @@ export function useNpcAI({
         if (npcBlockedRef?.current) {
           return {
             ...n,
-            state: "block" as NPCBattleState["state"],
+            state: "block",
           };
         }
 
@@ -265,7 +265,7 @@ export function useNpcAI({
             getNpcState(
               distanceX,
               forceIdleRef.current,
-            )) as NPCBattleState["state"],
+            )),
         };
       });
     }, 20);

@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useChargeParticles } from "@/hooks/battle/charge/useParticles";
 import { useChargeDash } from "@/hooks/battle/charge/useDash";
-import { CHARGE_TIME } from "@/utils/types/battle/charge";
+import { CHARGE_TIME } from "@/data/battle/charge";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { logPlay, logStop } from "@/utils/replay/audioEventLog";

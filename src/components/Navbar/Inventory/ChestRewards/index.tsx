@@ -5,8 +5,7 @@ import {
   RANK_COLORS,
   RANK_LABELS,
   SLOT_LABELS,
-} from "@/utils/types/player/equipment";
-import type { EquipmentRank } from "@/utils/types/player/equipment";
+} from "@/data/equipment/definitions";
 import { asset } from "@/utils/paths";
 import { MATERIALS } from "@/data/items/materials";
 import { ITEMS } from "@/data/items";
@@ -75,12 +74,12 @@ export function ChestRewards({
                 src={asset(FILTER_LABELS[eq.slot])}
                 alt={eq.name}
               />
-              <span style={{ color: RANK_COLORS[eq.rank as EquipmentRank] }}>
-                [{RANK_LABELS[eq.rank as EquipmentRank]}]
+              <span style={{ color: RANK_COLORS[eq.rank] }}>
+                [{RANK_LABELS[eq.rank]}]
               </span>
               <span>{eq.name}</span>
               <span className={styles.slot}>
-                ({SLOT_LABELS[eq.slot as EquipmentSlot]})
+                ({SLOT_LABELS[eq.slot]})
               </span>
               {eq.enhance > 0 && (
                 <span className={styles.enhance}>+{eq.enhance}</span>
@@ -100,12 +99,12 @@ export function ChestRewards({
                 src={asset(FILTER_LABELS.pet)}
                 alt={pet.name}
               />
-              <span style={{ color: RANK_COLORS[pet.rank as EquipmentRank] }}>
-                [{RANK_LABELS[pet.rank as EquipmentRank]}]
+              <span style={{ color: RANK_COLORS[pet.rank] }}>
+                [{RANK_LABELS[pet.rank]}]
               </span>
               <span>{pet.name}</span>
               <span className={styles.slot}>
-                ({SLOT_LABELS[pet.slot as EquipmentSlot]})
+                ({SLOT_LABELS[pet.slot]})
               </span>
             </div>
           ))}

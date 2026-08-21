@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { Star } from "lucide-react";
 import { npcPath, asset } from "@/utils/paths";
-import { RANK_COLORS, RANK_LABELS } from "@/utils/types/player/equipment";
+import { RANK_COLORS, RANK_LABELS } from "@/data/equipment/definitions";
 import { PET_STAR_MAX } from "@/data/characters/petProgress";
 import { PET_ROLE_LABELS } from "@/data/characters/petSkills";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";

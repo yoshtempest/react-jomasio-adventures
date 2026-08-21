@@ -12,4 +12,4 @@ export const hallJailsonOneDialogue = [
     message: "Mas eu nem disse nada...",
     expression: "talking"
   },
-];
+] satisfies Dialogue[];

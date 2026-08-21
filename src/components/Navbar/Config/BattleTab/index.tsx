@@ -185,7 +185,7 @@ export function BattleTab({ showComboAction, showHighlight, selectedIndex }: Pro
   const playerSummary = playerStats
     ? getCharacterStatus({
         hp: playerStats.maxHp,
-        strenght: playerStats.strength,
+        strength: playerStats.strength,
         intelligence: playerStats.intelligence,
         resistance: playerStats.resistance,
         tenacity: playerStats.tenacity,

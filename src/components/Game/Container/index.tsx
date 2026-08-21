@@ -18,7 +18,7 @@ type Props = {
 function SlotContent({ slot }: { slot: ContainerSlot }) {
   if (!slot) return null;
 
-  const itemData = ITEMS[slot.id as keyof typeof ITEMS];
+  const itemData = ITEMS[slot.id];
   if (!itemData) return null;
 
   return (

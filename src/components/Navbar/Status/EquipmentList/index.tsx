@@ -1,6 +1,6 @@
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
-import { EQUIPMENT_SLOTS, RANK_COLORS } from "@/utils/types/player/equipment";
+import { EQUIPMENT_SLOTS, RANK_COLORS } from "@/data/equipment/definitions";
 import styles from "./styles.module.css";
 import { asset } from "@/utils/paths";
 import { FILTER_LABELS } from "@/utils/equipment/equipmentMenu";

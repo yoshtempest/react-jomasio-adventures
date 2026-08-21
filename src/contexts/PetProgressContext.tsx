@@ -35,7 +35,7 @@ const STORAGE_KEY = PET_PROGRESS_KEY;
 export function PetProgressProvider({ children }: { children: ReactNode }) {
   const [petProgress, setPetProgress] = useCompressedStorage(
     STORAGE_KEY,
-    {} as PetsProgress,
+    {},
     normalizePetProgress,
   );
 

@@ -7,7 +7,8 @@ import {
   type ReactNode,
 } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
-import { CHARACTERS, type Character } from "@/utils/types/player/player";
+import { CHARACTERS } from "@/data/characters/list";
+import type { Character } from "@/utils/types/player/player";
 import { slotKey } from "@/utils/save/slotManager";
 
 const PLAY_TIME_KEY = () => slotKey("play_time");

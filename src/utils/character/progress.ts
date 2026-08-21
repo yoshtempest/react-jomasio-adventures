@@ -1,6 +1,6 @@
 import type { CharactersProgress } from "@/data/characters/defaultProgress";
 import { defaultProgress } from "@/data/characters/defaultProgress";
-import type { Character } from "@/utils/types/player/player";
+import { CHARACTERS } from "@/data/characters/list";
 
 export function getXPToNextLevel(level: number) {
   if (level <= 10) return level * 10;
@@ -11,13 +11,13 @@ export function normalizeProgress(data: unknown): CharactersProgress {
   const safe = { ...defaultProgress };
   const raw = data as Partial<CharactersProgress> | undefined;
 
-  for (const key in safe) {
-    const savedChar = raw?.[key as Character];
+  for (const char of CHARACTERS) {
+    const savedChar = raw?.[char];
 
     const normalizeNum = (v: unknown, fallback: number): number =>
       typeof v === "number" && !Number.isNaN(v) ? v : fallback;
 
-    safe[key as Character] = {
+    safe[char] = {
       level: normalizeNum(savedChar?.level, 1),
       xp: normalizeNum(savedChar?.xp, 0),
       kills: normalizeNum(savedChar?.kills, 0),

@@ -17,4 +17,4 @@ export const centerFrontThreeDialogue = [
     name: "Léo",
     message: "Nei, kkkkkkkkkkkk",
   },
-];
+] satisfies Dialogue[];

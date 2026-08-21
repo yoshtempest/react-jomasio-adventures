@@ -50,9 +50,9 @@ export function useItemEffect({ playSFX }: Props) {
           const encounter = rollEncounter();
           closeNavbar();
           setMode("select");
-          navigate(location.pathname, {
+          void navigate(location.pathname, {
             state: {
-              ...(location.state ?? {}),
+              ...((location.state as Record<string, unknown> | null) ?? {}),
               goodPowderEncounter: encounter,
             },
           });

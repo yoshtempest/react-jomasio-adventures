@@ -12,5 +12,3 @@ export const STATS = [
   "resistance",
   "luck",
 ] as const satisfies readonly (keyof Omit<CharacterStats, "points">)[];
-
-export type StatType = (typeof STATS)[number];

@@ -17,4 +17,4 @@ export const HellRoomThreeDialogue = [
     name: "Maugrelo",
     message: "Eu vou pegar meu Peru de volta!",
   },
-];
+] satisfies Dialogue[];

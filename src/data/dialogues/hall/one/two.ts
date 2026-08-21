@@ -7,4 +7,4 @@ export const AfterPcRoomTwoDialogue = [
     message:
       "Vai lá na livraria pegar a surpresinha pra mim, tá em cima do negócio que fica perto daquele outro negócio lá atrás.",
   },
-];
+] satisfies Dialogue[];

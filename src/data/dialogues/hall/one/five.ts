@@ -7,4 +7,4 @@ export const AfterPcRoomFiveDialogue = [
     message:
       "Agora vai lá na cantina que tem um linguição lhe esperando para que você fique cheio",
   },
-];
+] satisfies Dialogue[];

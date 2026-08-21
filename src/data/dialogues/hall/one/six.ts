@@ -71,4 +71,4 @@ export const AfterPcRoomSixDialogue = [
     message: "Tá, tá, estou indo...",
     expression: "hungry"
   },
-];
+] satisfies Dialogue[];

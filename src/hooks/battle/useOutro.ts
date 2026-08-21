@@ -81,7 +81,7 @@ export function useBattleOutro({
   const handleContinue = useCallback(() => {
     if (onVictory) onVictory();
     if (redirectTo) {
-      navigate(redirectTo, {
+      void navigate(redirectTo, {
         replace: true,
         state: { from: location.pathname },
       });

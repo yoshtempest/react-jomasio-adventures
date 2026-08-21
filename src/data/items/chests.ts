@@ -105,14 +105,14 @@ export const CHEST_DROP_TABLES: Record<NPCClass, ChestDropTable> = {
 export type ChestDropResult = {
   materials: Array<{ id: string; name: string; qty: number }>;
   equipment: Array<{
-    id: string;
+    id: EquipmentId;
     name: string;
     slot: EquipmentSlot;
     rank: EquipmentRank;
     enhance: number;
   }>;
   pets: Array<{
-    id: string;
+    id: EquipmentId;
     name: string;
     slot: EquipmentSlot;
     rank: EquipmentRank;

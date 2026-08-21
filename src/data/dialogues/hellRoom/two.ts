@@ -13,4 +13,4 @@ export const HellRoomTwoDialogue = [
     message: "Mas que baita piruzão em",
     expression: "rascal",
   },
-];
+] satisfies Dialogue[];

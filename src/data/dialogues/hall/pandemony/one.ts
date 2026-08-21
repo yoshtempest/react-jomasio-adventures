@@ -50,4 +50,4 @@ export const HallPandemonyDialogue = [
     name: "Maurão",
     message: "NÃO PRECISA DE MOTIVO HAHAHAHA!",
   },
-];
+] satisfies Dialogue[];

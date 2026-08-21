@@ -12,4 +12,4 @@ export const hallJailsonFiveDialogue = [
     message: "tá bom",
     expression: "crossArms"
   },
-];
+] satisfies Dialogue[];

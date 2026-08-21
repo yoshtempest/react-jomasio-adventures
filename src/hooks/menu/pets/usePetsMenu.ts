@@ -18,7 +18,7 @@ import { PET_STAR_MAX } from "@/data/characters/petProgress";
 import { gridMove } from "@/gameRules/menu/navigation";
 
 export type PetEntry = {
-  id: string;
+  id: EquipmentId;
   name: string;
   rank: EquipmentRank;
   role: PetRole;
@@ -58,7 +58,7 @@ export function usePetsMenu(
   const pets: PetEntry[] = PETS.map((pet) => {
     const dropInfo = PET_DROPS[pet.id];
     const skillDef = getPetSkillDefinition(pet.id);
-    const qtyByStar: number[] = Array(PET_STAR_MAX).fill(0);
+    const qtyByStar: number[] = Array.from({ length: PET_STAR_MAX }, () => 0);
     for (const [key, qty] of Object.entries(collection)) {
       const { id, enhance } = parseCollectionKey(key);
       if (id !== pet.id) continue;

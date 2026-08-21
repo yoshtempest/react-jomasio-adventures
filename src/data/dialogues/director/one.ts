@@ -29,4 +29,4 @@ export const directorDialogue = [
     message: "Então vai se fu- não vou me estressar com isso.",
     expression: "angry"
   },
-];
+] satisfies Dialogue[];

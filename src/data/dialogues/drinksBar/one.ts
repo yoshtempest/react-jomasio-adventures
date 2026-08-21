@@ -16,4 +16,4 @@ export const drinksBarDialogue = [
     name: "Protagonista",
     message: "Tá",
   },
-];
+] satisfies Dialogue[];

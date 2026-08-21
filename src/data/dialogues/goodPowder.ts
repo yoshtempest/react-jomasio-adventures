@@ -16,4 +16,4 @@ export const goodPowderDialogue = [
         message: "isso funciona mesmo em, Vem pro fight!",
         expression: "x1",
     },
-];
+] satisfies Dialogue[];

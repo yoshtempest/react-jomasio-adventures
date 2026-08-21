@@ -29,4 +29,4 @@ export const AfterPcRoomOneDialogue = [
     message:
       "O negócio que fica lá na parte de trás, perto daquele outro negócio, sabe?",
   },
-];
+] satisfies Dialogue[];

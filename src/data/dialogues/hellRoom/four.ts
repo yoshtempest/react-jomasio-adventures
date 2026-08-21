@@ -34,4 +34,4 @@ export const HellRoomFourDialogue = [
     name: "Reincardion",
     message: "Não há tempo para perguntas, vamos embora daqui!",
   },
-];
+] satisfies Dialogue[];

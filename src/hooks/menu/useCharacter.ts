@@ -95,7 +95,7 @@ export function useCharacterMenu(
           selectableCharactersRef.current,
           selectedIndexRef.current,
         );
-        handleChooseCharacterRef.current(selected.image as CharacterId);
+        handleChooseCharacterRef.current(selected.image);
         return true;
       },
 

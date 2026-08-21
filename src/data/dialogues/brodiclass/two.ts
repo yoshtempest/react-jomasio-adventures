@@ -26,4 +26,4 @@ export const brodiClassTwoDialogue = [
         name: "Marshadow",
         message: "Se vira",
     },
-];
+] satisfies Dialogue[];

@@ -53,14 +53,14 @@ export function useMatchmakingMenu() {
         // 👉 Criar sala
         if (index === 0) {
           const code = generateRoomCode();
-          navigate(`/room/${code}`);
+          void navigate(`/room/${code}`);
         }
 
         // 👉 Entrar na sala
         if (index === 1) {
           if (!roomCode) return;
 
-          navigate(`/room/${roomCode}`);
+          void navigate(`/room/${roomCode}`);
         }
 
         return true;
@@ -74,7 +74,7 @@ export function useMatchmakingMenu() {
         }
 
         playCloseRef.current();
-        navigate("/");
+        void navigate("/");
       },
 
       blockGlobalOpen: true,

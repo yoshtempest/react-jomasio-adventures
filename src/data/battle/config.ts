@@ -159,7 +159,7 @@ export const BATTLE_CONFIGS: Record<string, BattleConfig> = {
   goat: {
     npcType: "goat",
     onVictory: ({ navigate }) => {
-      navigate(-1);
+      void navigate(-1);
     },
     victoryDescription: "Você derrotou um bode!",
     background: sceneBackgrounds.CantinaBattle,
@@ -168,7 +168,7 @@ export const BATTLE_CONFIGS: Record<string, BattleConfig> = {
   hungry: {
     npcType: "hungryDeath",
     onVictory: ({ navigate }) => {
-      navigate(-1);
+      void navigate(-1);
     },
     victoryDescription: "Você derrotou 'Jhow Simar, o Vigia'",
     background: sceneBackgrounds.LibraryBattle,
@@ -177,7 +177,7 @@ export const BATTLE_CONFIGS: Record<string, BattleConfig> = {
   jhowsimar: {
     npcType: "jhowsimar",
     onVictory: ({ navigate }) => {
-      navigate(-1);
+      void navigate(-1);
     },
     victoryDescription: "Você derrotou 'Jhow Simar, o Vigia'",
     background: sceneBackgrounds.CantinaBattle,
@@ -186,7 +186,7 @@ export const BATTLE_CONFIGS: Record<string, BattleConfig> = {
   piupiu: {
     npcType: "piupiu",
     onVictory: ({ navigate }) => {
-      navigate(-1);
+      void navigate(-1);
     },
     victoryDescription: "Você derrotou um Pinto!",
     background: sceneBackgrounds.CafeteriaBattle,
@@ -195,7 +195,7 @@ export const BATTLE_CONFIGS: Record<string, BattleConfig> = {
   rice: {
     npcType: "rice",
     onVictory: ({ navigate }) => {
-      navigate(-1);
+      void navigate(-1);
     },
     victoryDescription: "Você derrotou um Bolinho de arroz!",
     background: sceneBackgrounds.CafeteriaBattle,
@@ -204,7 +204,7 @@ export const BATTLE_CONFIGS: Record<string, BattleConfig> = {
   technoblade: {
     npcType: "technoblade",
     onVictory: ({ navigate }) => {
-      navigate(-1);
+      void navigate(-1);
     },
     victoryDescription: "Você derrotou o rei",
     background: sceneBackgrounds.CantinaBattle,
@@ -213,7 +213,7 @@ export const BATTLE_CONFIGS: Record<string, BattleConfig> = {
   vandinha: {
     npcType: "vandinhaFragment",
     onVictory: ({ navigate }) => {
-      navigate(-1);
+      void navigate(-1);
     },
     background: sceneBackgrounds.PcRoomBattle,
     victoryDescription: "Você derrotou um fragmento de Vandinha",
@@ -222,7 +222,7 @@ export const BATTLE_CONFIGS: Record<string, BattleConfig> = {
   training: {
     npcType: "dummy",
     onVictory: ({ navigate }) => {
-      navigate(-1);
+      void navigate(-1);
     },
     victoryDescription: "Modo Treino",
     background: sceneBackgrounds.CombatTutorial,

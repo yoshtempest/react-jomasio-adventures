@@ -11,7 +11,7 @@ export default function Replay() {
 
   useEffect(() => {
     if (!replay) {
-      navigate("/home", { replace: true });
+      void navigate("/home", { replace: true });
     }
   }, [replay, navigate]);
 

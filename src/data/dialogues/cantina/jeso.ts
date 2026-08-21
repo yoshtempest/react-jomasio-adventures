@@ -19,4 +19,4 @@ export const cantinaJesoDialogue = [
     message:
       "Não era nesse sentido que eu tava falando, mas beleza, eu posso te dar uma comida.",
   },
-];
+] satisfies Dialogue[];

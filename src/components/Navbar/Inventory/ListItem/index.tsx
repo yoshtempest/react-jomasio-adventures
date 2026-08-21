@@ -9,7 +9,7 @@ type Props = {
 };
 
 export function ListItem({ item, isSelected, rejected }: Props) {
-  const itemData = ITEMS[item.id as keyof typeof ITEMS];
+  const itemData = ITEMS[item.id];
 
   return (
     <li

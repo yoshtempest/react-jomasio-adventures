@@ -1,4 +1,5 @@
 import type { Equipment, EquipmentRank } from "@/utils/types/player/equipment";
+import type { EquipmentSlot } from "@/utils/types/player/equipment";
 
 import { ACCESSORIES } from "./accessories";
 import { BAGS } from "./bags";
@@ -9,7 +10,7 @@ import { PANTS } from "./pants";
 import { PETS } from "./pets";
 import { WEAPONS } from "./weapons";
 
-const EQUIPMENT_DB: Equipment[] = [
+const EQUIPMENT_DB = [
   ...WEAPONS,
   ...HELMETS,
   ...CHESTPLATES,
@@ -18,11 +19,19 @@ const EQUIPMENT_DB: Equipment[] = [
   ...ACCESSORIES,
   ...BAGS,
   ...PETS,
-];
+] as const;
 
-export const EQUIPMENT_LIST: Equipment[] = EQUIPMENT_DB;
+/** Union fechada de todos os ids de equipamento — derivada dos dados. */
+export type EquipmentId = (typeof EQUIPMENT_DB)[number]["id"];
 
-export function getEquipmentById(id: EquipmentId): Equipment | undefined {
+export const EQUIPMENT_LIST = EQUIPMENT_DB;
+
+export function isEquipmentId(value: string): value is EquipmentId {
+  return EQUIPMENT_DB.some((e) => e.id === value);
+}
+
+export function getEquipmentById(id: string): Equipment | undefined {
+  if (!isEquipmentId(id)) return undefined;
   return EQUIPMENT_DB.find((e) => e.id === id);
 }
 

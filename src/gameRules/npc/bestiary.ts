@@ -70,7 +70,7 @@ export function getDropItems(npcClass: NPCClass, npcType: string) {
     }
   }
 
-  const dropConfig = DROP_CONFIG[npcClass as NPCClass];
+  const dropConfig = DROP_CONFIG[npcClass];
   if (dropConfig) {
     drops.push({
       name: "Equipamentos",
@@ -78,7 +78,7 @@ export function getDropItems(npcClass: NPCClass, npcType: string) {
     });
   }
 
-  const chestChance = CHEST_DROP_CHANCE[npcClass as NPCClass];
+  const chestChance = CHEST_DROP_CHANCE[npcClass];
   if (chestChance) {
     const chestItem = ITEMS[`${npcClass}_chest` as keyof typeof ITEMS];
     if (chestItem) {
@@ -89,7 +89,7 @@ export function getDropItems(npcClass: NPCClass, npcType: string) {
     }
   }
 
-  const keyChance = KEY_DROP_CHANCE[npcClass as NPCClass];
+  const keyChance = KEY_DROP_CHANCE[npcClass];
   if (keyChance) {
     const keyItem = ITEMS[`${npcClass}_key` as keyof typeof ITEMS];
     if (keyItem) {

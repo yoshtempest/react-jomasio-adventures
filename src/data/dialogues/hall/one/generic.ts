@@ -6,4 +6,4 @@ export const AfterPcRoomGenericDialogue = [
     name: "Remedinha",
     message: "Vai lá vai",
   },
-];
+] satisfies Dialogue[];

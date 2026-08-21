@@ -48,7 +48,7 @@ export function useGameModeMenu() {
         playSelectRef.current();
         const selected = GAME_MODE_OPTIONS[selectedIndexRef.current]!;
 
-        navigate(selected.route);
+        void navigate(selected.route);
         return true;
       },
 

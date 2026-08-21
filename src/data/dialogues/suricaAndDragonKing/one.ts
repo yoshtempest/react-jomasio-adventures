@@ -54,4 +54,4 @@ export const SuricaAndDragonKingDialogue = [
     name: "Surica, o Incrível",
     message: "Hahaha, senti saudades, agora vamos batalhar!",
   },
-];
+] satisfies Dialogue[];

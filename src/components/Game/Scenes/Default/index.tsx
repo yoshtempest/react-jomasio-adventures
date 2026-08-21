@@ -94,7 +94,7 @@ export function ExploreScene({
   const { items } = useInventory();
   const { quests } = useQuests();
   const { flags } = useFlags();
-  const lastPage = location.state?.from;
+  const lastPage = (location.state as { from?: string } | null)?.from;
 
   useEffect(() => {
     saveGame({

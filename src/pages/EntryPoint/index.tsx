@@ -7,9 +7,9 @@ export default function EntryPoint() {
 
   useEffect(() => {
     if (hasSave()) {
-      navigate("/home", { replace: true });
+      void navigate("/home", { replace: true });
     } else {
-      navigate("/tutorial", { replace: true });
+      void navigate("/tutorial", { replace: true });
     }
   }, [navigate]);
 

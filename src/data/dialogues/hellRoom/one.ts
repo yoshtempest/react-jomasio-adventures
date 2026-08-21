@@ -51,4 +51,4 @@ export const HellRoomDialogue = [
     name: "Homem desconhecido",
     message: "Você gosta de cavalgar no Peru?",
   },
-];
+] satisfies Dialogue[];

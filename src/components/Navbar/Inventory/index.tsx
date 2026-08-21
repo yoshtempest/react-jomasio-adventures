@@ -19,7 +19,7 @@ import { ChestOpeningAnimation } from "./ChestOpeningAnimation";
 import { useItemEffect } from "@/gameRules/items/useItem";
 import { FILTER_LABELS } from "@/data/inventory/labels";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
-import { CHARACTERS } from "@/utils/types/player/player";
+import { CHARACTERS } from "@/data/characters/list";
 import type { InventoryItem } from "@/utils/types/player/inventory";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { useStableCallback } from "@/hooks/useStableCallback";
@@ -47,8 +47,8 @@ export function Inventory() {
 
   const currencyItems = useMemo<InventoryItem[]>(
     () => [
-      { id: "kwanzas" as ItemId, qty: totalCoins },
-      { id: "hypercoin" as ItemId, qty: totalHyperCoins },
+      { id: "kwanzas", qty: totalCoins },
+      { id: "hypercoin", qty: totalHyperCoins },
     ],
     [totalCoins, totalHyperCoins],
   );
@@ -63,7 +63,7 @@ export function Inventory() {
       filterType === "all"
         ? itemsWithCurrency
         : itemsWithCurrency.filter((item) => {
-            const itemData = item ? ITEMS[item.id as keyof typeof ITEMS] : null;
+            const itemData = item ? ITEMS[item.id] : null;
             return itemData?.type === filterType;
           }),
     [filterType, itemsWithCurrency],
@@ -144,7 +144,7 @@ export function Inventory() {
 
   const selectedItem = filteredItems[selectedIndex];
   const selectedItemData = selectedItem
-    ? ITEMS[selectedItem.id as keyof typeof ITEMS]
+    ? ITEMS[selectedItem.id]
     : null;
 
   const isChestSelected = selectedItemData?.type === "chest";

@@ -43,4 +43,4 @@ export const hallJailsonFourDialogue = [
     message:
       "A curiosidade mata o gato, chega de perguntas, vai lá e me traz o suco de laranja!",
   },
-];
+] satisfies Dialogue[];

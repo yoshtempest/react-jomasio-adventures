@@ -1,4 +1,4 @@
-import { MAX_ACCESSORIES } from "@/utils/types/player/equipment";
+import { MAX_ACCESSORIES } from "@/data/equipment/definitions";
 import { getEquipmentById } from "@/data/equipment";
 import {
   colKey,
@@ -21,7 +21,7 @@ function getMutableState(
   const next = { ...allData };
   const data = {
     ...getCharacterData(
-      next as Record<string, CharacterEquipmentData>,
+      next,
       character,
     ),
   };
@@ -61,7 +61,7 @@ export function equipItem(
       next[character] = {
         equipped: { ...data.equipped, accessory: { id, enhance } },
         collection,
-      } as CharacterEquipmentData;
+      };
       return next;
     }
 
@@ -72,7 +72,7 @@ export function equipItem(
     next[character] = {
       equipped: { ...data.equipped, accessories: [...extras, { id, enhance }] },
       collection,
-    } as CharacterEquipmentData;
+    };
     return next;
   }
 
@@ -83,7 +83,7 @@ export function equipItem(
     addToCollection(collection, oldInfo.id, oldInfo.enhance);
   }
 
-  next[character] = { equipped, collection } as CharacterEquipmentData;
+  next[character] = { equipped, collection };
   return next;
 }
 
@@ -103,7 +103,7 @@ export function unequipItem(
       next[character] = {
         equipped: { ...data.equipped, accessories: extras.slice(0, -1) },
         collection,
-      } as CharacterEquipmentData;
+      };
       return next;
     }
   }
@@ -116,7 +116,7 @@ export function unequipItem(
   next[character] = {
     equipped: { ...data.equipped, [slot]: null },
     collection,
-  } as CharacterEquipmentData;
+  };
   return next;
 }
 
@@ -139,7 +139,7 @@ export function unequipAccessoryAt(
       accessories: extras.filter((_, i) => i !== index),
     },
     collection,
-  } as CharacterEquipmentData;
+  };
   return next;
 }
 
@@ -151,7 +151,7 @@ export function addDrop(
 ): Record<string, CharacterEquipmentData> {
   const { next, data, collection } = getMutableState(allData, character);
   addToCollection(collection, id, enhance);
-  next[character] = { ...data, collection } as CharacterEquipmentData;
+  next[character] = { ...data, collection };
   return next;
 }
 
@@ -205,6 +205,6 @@ export function fusePets(
   next[character] = {
     equipped,
     collection,
-  } as CharacterEquipmentData;
+  };
   return next;
 }

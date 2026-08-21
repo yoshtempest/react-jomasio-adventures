@@ -72,7 +72,7 @@ export function normalizePetProgress(data: unknown): PetsProgress {
     const byStar: Record<number, PetProgress> = {};
 
     if (saved && typeof saved === "object") {
-      if ("level" in (saved as object)) {
+      if ("level" in (saved)) {
         const progress = clampProgress(saved);
         if (progress) byStar[1] = progress;
       } else {

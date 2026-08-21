@@ -17,4 +17,4 @@ export const hallJailsonEightDialogue = [
     name: "Jailson",
     message: "Chato, né? Mas tudo bem, aqui está o mapa",
   },
-];
+] satisfies Dialogue[];

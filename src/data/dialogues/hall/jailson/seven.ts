@@ -41,4 +41,4 @@ export const hallJailsonSevenDialogue = [
     name: "Jailson",
     message: "Quem sabe, sabe, agora vai lá",
   },
-];
+] satisfies Dialogue[];

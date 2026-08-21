@@ -35,4 +35,4 @@ export const HallLeftTwoDialogue = [
     name: "Irmãs Planetárias",
     message: "Era zueira, vamos ver quem tem mais aura em uma luta agora!",
   },
-];
+] satisfies Dialogue[];

@@ -21,4 +21,4 @@ export const drinksBarTwoDialogue = [
     name: "Zé do Braga",
     message: "A vida não é um morango, GO DRINKING! HAHAHAHA",
   },
-];
+] satisfies Dialogue[];

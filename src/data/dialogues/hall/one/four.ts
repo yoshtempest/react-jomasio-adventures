@@ -26,4 +26,4 @@ export const AfterPcRoomFourDialogue = [
     name: "Remedinha",
     message: "Não faça perguntas",
   },
-];
+] satisfies Dialogue[];

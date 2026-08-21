@@ -35,7 +35,9 @@ export function CardRedeem({ isSelected }: Props) {
     }
 
     const redeemedStr = localStorage.getItem(REDEEMED_CARDS_KEY);
-    const redeemed: string[] = redeemedStr ? JSON.parse(redeemedStr) : [];
+    const redeemed: string[] = redeemedStr
+      ? (JSON.parse(redeemedStr) as string[])
+      : [];
     if (redeemed.includes(code)) {
       setRedeemMessage("Código já utilizado.");
       setRedeemSuccess(false);

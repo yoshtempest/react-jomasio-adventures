@@ -18,4 +18,4 @@ export const hallJailsonThreeDialogue = [
     name: "Jailson",
     message: "Estranho né...",
   },
-];
+] satisfies Dialogue[];
