@@ -20,6 +20,25 @@ import type { SaveTab } from "@/data/saves/tabs";
 import { SAVE_TABS, SAVE_TAB_COUNT } from "@/data/saves/tabs";
 
 /**
+ * Route to resume after activating `slot`, mirroring the guards from
+ * Home's continue flow. Returns null when the slot has no valid scene to
+ * resume into (the boot flow falls back to /home).
+ */
+function resumeRouteForSlot(slot: SlotIndex): string | null {
+  const lastRoute = loadGameForSlot(slot)?.lastRoute;
+  if (
+    !lastRoute ||
+    lastRoute === "/home" ||
+    lastRoute === "/combatTutorial" ||
+    lastRoute.startsWith("/replay") ||
+    lastRoute.includes("battle")
+  ) {
+    return null;
+  }
+  return lastRoute;
+}
+
+/**
  * Controls for the save menu: slot list, slot switching, deletion and replays.
  *
  * Every action that changes the active slot must be followed by a full page
@@ -179,9 +198,11 @@ export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
 
             if (deletedWasActive) {
               setActiveSlot(remaining[0]!);
+              const target = resumeRouteForSlot(remaining[0]!);
+              if (target) sessionStorage.setItem("saveSwitchTarget", target);
               closeNavbarRef.current();
               setModeRef.current("explore");
-              window.location.reload();
+              window.location.replace(import.meta.env.BASE_URL);
               return false;
             }
 
@@ -207,9 +228,11 @@ export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
           if (!isSlotUsed(slot)) return false;
           if (slot === getActiveSlot()) return false;
           setActiveSlot(slot);
+          const target = resumeRouteForSlot(slot);
+          if (target) sessionStorage.setItem("saveSwitchTarget", target);
           closeNavbarRef.current();
           setModeRef.current("explore");
-          window.location.reload();
+          window.location.replace(import.meta.env.BASE_URL);
         } else if (item.key.startsWith("delete-") && item.slot !== undefined) {
           if (!isSlotUsed(item.slot)) return false;
           setConfirmDelete({ slot: item.slot });
