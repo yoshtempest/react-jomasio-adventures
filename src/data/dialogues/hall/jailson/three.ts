@@ -1,21 +1,7 @@
-import { npcPath } from "@/utils/paths";
+import { defineDialogue } from "@/data/dialogues/defineDialogue";
 
-export const hallJailsonThreeDialogue = [
-  {
-    src: npcPath("/slimita/right.svg"),
-    name: "Slimita",
-    message:
-      "Não pense que vai ficar por isso, eu vou pegar o Jailson pra mim, custe o que custar!",
-  },
-  {
-    isPlayer: true,
-    name: "Protagonista",
-    message: "Porque todo personagem que perde para mim sobrevive e foge?",
-    expression: "why"
-  },
-  {
-    src: npcPath("/jailson/right.svg"),
-    name: "Jailson",
-    message: "Estranho né...",
-  },
-] satisfies Dialogue[];
+export const hallJailsonThreeDialogue = defineDialogue([
+  ["slimita", "Não pense que vai ficar por isso, eu vou pegar o Jailson pra mim, custe o que custar!"],
+  ["protagonista", "Porque todo personagem que perde para mim sobrevive e foge?", "why"],
+  ["jailson", "Estranho né..."],
+]);

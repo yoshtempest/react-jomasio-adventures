@@ -1,66 +1,15 @@
-import { npcPath } from "@/utils/paths";
+import { defineDialogue } from "@/data/dialogues/defineDialogue";
 
-export const HallLeftDialogue = [
-  {
-    src: npcPath("/solange/right.svg"),
-    name: "Sol Sol",
-    message: "Teve uma aluna minha que ela me agradeceu",
-  },
-  {
-    isPlayer: true,
-    name: "Protagonista",
-    message: "???",
-    expression: "crossArms"
-  },
-  {
-    src: npcPath("/solange/right.svg"),
-    name: "Sol Sol",
-    message:
-      "Ai tem um parente meu que vive deixando boi solto na pista e quando o boi morre ele não assume que é dele",
-  },
-  {
-    isPlayer: true,
-    name: "Protagonista",
-    message: "???",
-    expression: "crossArms"
-  },
-  {
-    src: npcPath("/solange/right.svg"),
-    name: "Sol Sol",
-    message: "PRESTE ATENÇÃO NA AULA!",
-  },
-  {
-    isPlayer: true,
-    name: "Protagonista",
-    message: "???",
-    expression: "crossArms"
-  },
-  {
-    src: npcPath("/solange/right.svg"),
-    name: "Sol Sol",
-    message:
-      "Na minha época, as crianças iam para escola na chuva e voltavam na chuva, era um seca de matar aqui no calorzão",
-  },
-  {
-    isPlayer: true,
-    name: "Protagonista",
-    message: "Posso ir embora, tia?",
-    expression: "crossArms"
-  },
-  {
-    src: npcPath("/solange/right.svg"),
-    name: "Sol Sol",
-    message: "Tia não, Sol Sol",
-  },
-  {
-    isPlayer: true,
-    name: "Protagonista",
-    message: "Posso ir embora, Sol Sol?",
-    expression: "crossArms"
-  },
-  {
-    src: npcPath("/solange/right.svg"),
-    name: "Sol Sol",
-    message: "Não, vai lá vai",
-  },
-] satisfies Dialogue[];
+export const HallLeftDialogue = defineDialogue([
+  ["solSol", "Teve uma aluna minha que ela me agradeceu"],
+  ["protagonista", "???", "crossArms"],
+  ["solSol", "Ai tem um parente meu que vive deixando boi solto na pista e quando o boi morre ele não assume que é dele"],
+  ["protagonista", "???", "crossArms"],
+  ["solSol", "PRESTE ATENÇÃO NA AULA!"],
+  ["protagonista", "???", "crossArms"],
+  ["solSol", "Na minha época, as crianças iam para escola na chuva e voltavam na chuva, era um seca de matar aqui no calorzão"],
+  ["protagonista", "Posso ir embora, tia?", "crossArms"],
+  ["solSol", "Tia não, Sol Sol"],
+  ["protagonista", "Posso ir embora, Sol Sol?", "crossArms"],
+  ["solSol", "Não, vai lá vai"],
+]);

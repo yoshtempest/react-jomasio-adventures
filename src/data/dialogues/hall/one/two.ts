@@ -1,10 +1,5 @@
-import { npcPath } from "@/utils/paths";
+import { defineDialogue } from "@/data/dialogues/defineDialogue";
 
-export const AfterPcRoomTwoDialogue = [
-  {
-    src: npcPath("/remedinha/right.svg"),
-    name: "Remedinha",
-    message:
-      "Vai lá na livraria pegar a surpresinha pra mim, tá em cima do negócio que fica perto daquele outro negócio lá atrás.",
-  },
-] satisfies Dialogue[];
+export const AfterPcRoomTwoDialogue = defineDialogue([
+  ["remedinha", "Vai lá na livraria pegar a surpresinha pra mim, tá em cima do negócio que fica perto daquele outro negócio lá atrás."],
+]);

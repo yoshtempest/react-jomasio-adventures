@@ -1,29 +1,9 @@
-import { playerPath } from "@/utils/paths";
+import { defineDialogue } from "@/data/dialogues/defineDialogue";
 
-export const brodiClassTwoDialogue = [
-    {
-        src: playerPath("/eduarda/talking.svg"),
-        name: "Drika",
-        message: "Boa sorte em salvar Ematron",
-    },
-    {
-        isPlayer: true,
-        name: "Protagonista",
-        message: "Mas onde ele está?",
-    },
-    {
-        src: playerPath("/marcelo/crossArms.svg"),
-        name: "Marshadow",
-        message: "Lá na quadra",
-    },
-    {
-        isPlayer: true,
-        name: "Protagonista",
-        message: "E como que eu vou chegar lá?",
-    },
-    {
-        src: playerPath("/marcelo/angry.svg"),
-        name: "Marshadow",
-        message: "Se vira",
-    },
-] satisfies Dialogue[];
+export const brodiClassTwoDialogue = defineDialogue([
+  ["drika", "Boa sorte em salvar Ematron"],
+  ["protagonista", "Mas onde ele está?"],
+  { who: "marshadow", message: "Lá na quadra", pose: "crossArms" },
+  ["protagonista", "E como que eu vou chegar lá?"],
+  { who: "marshadow", message: "Se vira", pose: "angry" },
+]);

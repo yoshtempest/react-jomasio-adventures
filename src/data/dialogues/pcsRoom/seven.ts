@@ -1,57 +1,14 @@
-import { npcPath, playerPath } from "@/utils/paths";
+import { defineDialogue } from "@/data/dialogues/defineDialogue";
 
-export const pcsRoomSevenDialogue = [
-  {
-    src: npcPath("/hungryKing/default.svg"),
-    name: "Rei dos Mortos de Fome",
-    message:
-      "Meu rei, por favor não suje suas mãos batendo em um mísero servo como eu",
-  },
-  {
-    src: playerPath("/samuel/default.svg"),
-    name: "Samurion",
-    message: "Suma daqui seu verme nojento",
-  },
-  {
-    src: npcPath("/hungryDog/walk.svg"),
-    name: "Cão Faminto",
-    message: "Ruf Ruf",
-  },
-  {
-    src: playerPath("/samuel/default.svg"),
-    name: "Samurion",
-    message: "Bixo seboso",
-  },
-  {
-    src: npcPath("/hungryKing/default.svg"),
-    name: "Rei dos Mortos de Fome",
-    message: "Fico lisonjeado por receber sua atenção, meu rei",
-  },
-  {
-    src: playerPath("/samuel/default.svg"),
-    name: "Samurion",
-    message: "Vai embora inferior",
-  },
-  {
-    src: npcPath("/hungryKing/default.svg"),
-    name: "Rei dos Mortos de Fome",
-    message: "Eu gosto de quando você me trata assim. Uga Uga",
-  },
-  {
-    isPlayer: true,
-    name: "Protagonista",
-    message: "Que situação nojenta",
-    expression: "crossArms",
-  },
-  {
-    src: npcPath("/hungryKing/default.svg"),
-    name: "Rei dos Mortos de Fome",
-    message:
-      "Quem você pensa que é para entrar no alcance de visão do nosso rei?",
-  },
-  {
-    src: npcPath("/hungryDeath/right.svg"),
-    name: "Morto de Fome",
-    message: "Acaba com ele, chefe!",
-  },
-] satisfies Dialogue[];
+export const pcsRoomSevenDialogue = defineDialogue([
+  ["reiMortosFome", "Meu rei, por favor não suje suas mãos batendo em um mísero servo como eu"],
+  ["samurion", "Suma daqui seu verme nojento"],
+  ["caoFaminto", "Ruf Ruf"],
+  ["samurion", "Bixo seboso"],
+  ["reiMortosFome", "Fico lisonjeado por receber sua atenção, meu rei"],
+  ["samurion", "Vai embora inferior"],
+  ["reiMortosFome", "Eu gosto de quando você me trata assim. Uga Uga"],
+  ["protagonista", "Que situação nojenta", "crossArms"],
+  ["reiMortosFome", "Quem você pensa que é para entrar no alcance de visão do nosso rei?"],
+  { who: "mortoDeFome", message: "Acaba com ele, chefe!", name: "Morto de Fome" },
+]);

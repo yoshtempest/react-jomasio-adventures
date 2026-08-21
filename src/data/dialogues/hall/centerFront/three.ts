@@ -1,20 +1,7 @@
-import { npcPath } from "@/utils/paths";
+import { defineDialogue } from "@/data/dialogues/defineDialogue";
 
-export const centerFrontThreeDialogue = [
-  {
-    src: npcPath("/leo/right.svg"),
-    name: "Léo",
-    message: "Você gosta do Nei ou do Mar?",
-  },
-  {
-    isPlayer: true,
-    name: "Protagonista",
-    message: "O que que vc está falando cara?",
-    expression: "crossArms",
-  },
-  {
-    src: npcPath("/leo/point.svg"),
-    name: "Léo",
-    message: "Nei, kkkkkkkkkkkk",
-  },
-] satisfies Dialogue[];
+export const centerFrontThreeDialogue = defineDialogue([
+  ["leo", "Você gosta do Nei ou do Mar?"],
+  ["protagonista", "O que que vc está falando cara?", "crossArms"],
+  { who: "leo", message: "Nei, kkkkkkkkkkkk", pose: "point" },
+]);

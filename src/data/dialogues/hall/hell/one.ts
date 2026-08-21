@@ -1,10 +1,5 @@
-import { npcPath } from "@/utils/paths";
+import { defineDialogue } from "@/data/dialogues/defineDialogue";
 
-export const hallHellOneDialogue = [
-  {
-    src: npcPath("/blackao/right.svg"),
-    name: "Negão do Ferro Velho",
-    message: "Vá pro inferno!",
-    soundSrc: "/assets/songs/soundEffects/npc/goToHell.mp3",
-  },
-] satisfies Dialogue[];
+export const hallHellOneDialogue = defineDialogue([
+  { who: "blackao", message: "Vá pro inferno!", soundSrc: "/assets/songs/soundEffects/npc/goToHell.mp3" },
+]);

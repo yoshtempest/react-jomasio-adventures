@@ -1,20 +1,7 @@
-import { npcPath, playerPath } from "@/utils/paths";
+import { defineDialogue } from "@/data/dialogues/defineDialogue";
 
-export const footballCourtTwoDialogue = [
-  {
-    src: npcPath("/neimito/right.svg"),
-    name: "Neimito",
-    message: "Nada haver o que você fez comigo, eu queria algo diferente",
-  },
-  {
-    src: playerPath("/emanuel/default.svg"),
-    name: "Ematron",
-    message: "Eu me lembro de tudo",
-  },
-  {
-    isPlayer: true,
-    name: "Protagonista",
-    message: "Vamos embora Ematron, não se junte com essa gentalha",
-    expression: "crossArms",
-  },
-] satisfies Dialogue[];
+export const footballCourtTwoDialogue = defineDialogue([
+  ["neimito", "Nada haver o que você fez comigo, eu queria algo diferente"],
+  ["ematron", "Eu me lembro de tudo"],
+  ["protagonista", "Vamos embora Ematron, não se junte com essa gentalha", "crossArms"],
+]);

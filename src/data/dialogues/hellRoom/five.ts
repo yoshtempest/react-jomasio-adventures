@@ -1,15 +1,6 @@
-import { npcPath } from "@/utils/paths";
+import { defineDialogue } from "@/data/dialogues/defineDialogue";
 
-export const HellRoomFiveDialogue = [
-  {
-    src: npcPath("/maugrelo/wheelchairUser.svg"),
-    name: "Maugrelo",
-    message: "Ele acabou comigo...",
-  },
-  {
-    isPlayer: true,
-    name: "Protagonista",
-    message: "Oh Lee...",
-    expression: "disgust",
-  },
-] satisfies Dialogue[];
+export const HellRoomFiveDialogue = defineDialogue([
+  { who: "maugrelo", message: "Ele acabou comigo...", pose: "wheelchairUser" },
+  ["protagonista", "Oh Lee...", "disgust"],
+]);

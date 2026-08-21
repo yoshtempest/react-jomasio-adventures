@@ -1,24 +1,8 @@
-import { npcPath } from "@/utils/paths";
+import { defineDialogue } from "@/data/dialogues/defineDialogue";
 
-export const skinShopDialogue = [
-  {
-    src: npcPath("/tiadorim/right.svg"),
-    name: "Tiadorim",
-    message: "Têmos dos mais diversos tipos de roupas",
-  },
-  {
-    src: npcPath("/tiadorim/right.svg"),
-    name: "Tiadorim",
-    message: "Tem certeza disso?",
-  },
-  {
-    src: npcPath("/tiadorim/right.svg"),
-    name: "Tiadorim",
-    message: "Certeza mesmo?",
-  },
-  {
-    src: npcPath("/tiadorim/right.svg"),
-    name: "Tiadorim",
-    message: "Certeza absoluta?",
-  },
-] satisfies Dialogue[];
+export const skinShopDialogue = defineDialogue([
+  ["tiadorim", "Têmos dos mais diversos tipos de roupas"],
+  ["tiadorim", "Tem certeza disso?"],
+  ["tiadorim", "Certeza mesmo?"],
+  ["tiadorim", "Certeza absoluta?"],
+]);

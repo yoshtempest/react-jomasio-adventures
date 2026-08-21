@@ -1,9 +1,5 @@
-import { npcPath } from "@/utils/paths";
+import { defineDialogue } from "@/data/dialogues/defineDialogue";
 
-export const centerFrontTwoDialogue = [
-  {
-    src: npcPath("/leo/right.svg"),
-    name: "Léo",
-    message: "M-N Sam",
-  },
-] satisfies Dialogue[];
+export const centerFrontTwoDialogue = defineDialogue([
+  ["leo", "M-N Sam"],
+]);

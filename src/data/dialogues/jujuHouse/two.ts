@@ -1,25 +1,8 @@
-import { npcPath } from "@/utils/paths";
+import { defineDialogue } from "@/data/dialogues/defineDialogue";
 
-export const jujuHouseDialogue = [
-  {
-    src: npcPath("/juju/right.svg"),
-    name: "Juju",
-    message:
-      "Agora vai matar os mortos de fome por que eles ficam batendo palma a noite toda aqui",
-  },
-  {
-    isPlayer: true,
-    name: "Protagonista",
-    message: "Matar os mortos?",
-  },
-  {
-    src: npcPath("/juju/right.svg"),
-    name: "Juju",
-    message: "Você consegue, eu sei que você é o protagonista",
-  },
-  {
-    isPlayer: true,
-    name: "Protagonista",
-    message: "Se você tá dizendo...",
-  },
-] satisfies Dialogue[];
+export const jujuHouseDialogue = defineDialogue([
+  ["juju", "Agora vai matar os mortos de fome por que eles ficam batendo palma a noite toda aqui"],
+  ["protagonista", "Matar os mortos?"],
+  ["juju", "Você consegue, eu sei que você é o protagonista"],
+  ["protagonista", "Se você tá dizendo..."],
+]);

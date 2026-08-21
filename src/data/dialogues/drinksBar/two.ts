@@ -1,24 +1,8 @@
-import { npcPath } from "@/utils/paths";
+import { defineDialogue } from "@/data/dialogues/defineDialogue";
 
-export const drinksBarTwoDialogue = [
-  {
-    src: npcPath("/zeOfBraga/right.svg"),
-    name: "Zé do Braga",
-    message: "Geladinha do jeito que eu gosto hahaha!",
-  },
-  {
-    src: npcPath("/zeOfBraga/right.svg"),
-    name: "Zé do Braga",
-    message: "Valeu ai moleque!",
-  },
-  {
-    isPlayer: true,
-    name: "Protagonista",
-    message: "E minha recompensa?",
-  },
-  {
-    src: npcPath("/zeOfBraga/right.svg"),
-    name: "Zé do Braga",
-    message: "A vida não é um morango, GO DRINKING! HAHAHAHA",
-  },
-] satisfies Dialogue[];
+export const drinksBarTwoDialogue = defineDialogue([
+  ["zeOfBraga", "Geladinha do jeito que eu gosto hahaha!"],
+  ["zeOfBraga", "Valeu ai moleque!"],
+  ["protagonista", "E minha recompensa?"],
+  ["zeOfBraga", "A vida não é um morango, GO DRINKING! HAHAHAHA"],
+]);

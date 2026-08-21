@@ -56,6 +56,16 @@ export const NPC_CLASSES = {
 
   /* Training */
   dummy: "common",
+
+  /* Indefinido */
+
+  theDevourerOfWorlds: "legendary",
+  theStrongestManUnderTheHeavens: "legendary",
+  theBlackKnight: "legendary",
+  untrackedMonster: "legendary",
+  theMasterPiece: "legendary",
+  theChaosCreator: "legendary",
+  theFirstNightmare: "legendary",
 } as const satisfies Record<string, NPCClass>;
 
 export type NpcType = keyof typeof NPC_CLASSES;

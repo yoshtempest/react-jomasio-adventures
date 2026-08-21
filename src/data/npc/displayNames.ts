@@ -43,6 +43,13 @@ const NPC_DISPLAY_NAMES: Record<NpcType, string> = {
   piupiu: "Piupiu",
   rice: "Rice",
   necromancer: "Necromante",
+  theStrongestManUnderTheHeavens: "O homem mais forte abaixo dos céus",
+  theBlackKnight: "O cavaleiro negro",
+  untrackedMonster: "monstro não encontrado",
+  theMasterPiece: "A obra-prima",
+  theChaosCreator: "O criador do caos",
+  theFirstNightmare: "O primeiro pesadelo",
+  theDevourerOfWorlds: "O devorador de mundos",
 };
 
 export function getNpcDisplayName(npcType: string): string {

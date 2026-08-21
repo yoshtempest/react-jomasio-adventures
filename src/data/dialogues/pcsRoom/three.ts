@@ -1,16 +1,6 @@
-import { npcPath } from "@/utils/paths";
+import { defineDialogue } from "@/data/dialogues/defineDialogue";
 
-export const pcsRoomThreeDialogue = [
-  {
-    src: npcPath("/hungryDeath/right.svg"),
-    name: "Morto de fome",
-    message:
-      "Obrigado por me libertar da fome... com tamanha delicia, posso descansar em paz.",
-  },
-  {
-    isPlayer: true,
-    name: "Protagonista",
-    message: "Delícia? Bem, descanse em paz.",
-    expression: "special"
-  },
-] satisfies Dialogue[];
+export const pcsRoomThreeDialogue = defineDialogue([
+  ["mortoDeFome", "Obrigado por me libertar da fome... com tamanha delicia, posso descansar em paz."],
+  ["protagonista", "Delícia? Bem, descanse em paz.", "special"],
+]);

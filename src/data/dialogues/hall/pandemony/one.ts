@@ -1,53 +1,13 @@
-import { npcPath } from "@/utils/paths";
+import { defineDialogue } from "@/data/dialogues/defineDialogue";
 
-export const HallPandemonyDialogue = [
-  {
-    src: npcPath("/maurao/good.svg"),
-    name: "Maurão",
-    message: "Estou ficando louca, hahahaha",
-  },
-  {
-    isPlayer: true,
-    name: "Protagonista",
-    message: "Posso te ajudar?",
-    expression: "crossArms",
-  },
-  {
-    src: npcPath("/maurao/right.svg"),
-    name: "Maurão",
-    message: "Bebi o fim de semana INTEIRO, HAHAHAHAH",
-  },
-  {
-    isPlayer: true,
-    name: "Protagonista",
-    message: "Credo, então o problema é a ressaca?",
-    expression: "crossArms",
-  },
-  {
-    src: npcPath("/maurao/crazying.svg"),
-    name: "Maurão",
-    message: "Os remédios não funcionam kkkkkkkkkkk",
-  },
-  {
-    isPlayer: true,
-    name: "Protagonista",
-    message: "O que você quer então?",
-    expression: "why",
-  },
-  {
-    src: npcPath("/maurao/default.svg"),
-    name: "Maurão",
-    message: "VAMOS LUTAR!",
-  },
-  {
-    isPlayer: true,
-    name: "Protagonista",
-    message: "Por que?",
-    expression: "why",
-  },
-  {
-    src: npcPath("/maurao/default.svg"),
-    name: "Maurão",
-    message: "NÃO PRECISA DE MOTIVO HAHAHAHA!",
-  },
-] satisfies Dialogue[];
+export const HallPandemonyDialogue = defineDialogue([
+  { who: "maurao", message: "Estou ficando louca, hahahaha", pose: "good" },
+  ["protagonista", "Posso te ajudar?", "crossArms"],
+  { who: "maurao", message: "Bebi o fim de semana INTEIRO, HAHAHAHAH", pose: "right" },
+  ["protagonista", "Credo, então o problema é a ressaca?", "crossArms"],
+  { who: "maurao", message: "Os remédios não funcionam kkkkkkkkkkk", pose: "crazying" },
+  ["protagonista", "O que você quer então?", "why"],
+  ["maurao", "VAMOS LUTAR!"],
+  ["protagonista", "Por que?", "why"],
+  ["maurao", "NÃO PRECISA DE MOTIVO HAHAHAHA!"],
+]);

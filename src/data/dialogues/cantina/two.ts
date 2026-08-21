@@ -1,58 +1,14 @@
-import { npcPath } from "@/utils/paths";
+import { defineDialogue } from "@/data/dialogues/defineDialogue";
 
-export const cantinaTwoDialogue = [
-  {
-    src: npcPath("/jhowsimar/sleeping.svg"),
-    name: "Jhow Simar",
-    message: "Zzzz...",
-  },
-  {
-    isPlayer: true,
-    name: "Protagonista",
-    message: "Eu já sai da diretoria, bora brigar?",
-    expression: "x1"
-  },
-  {
-    src: npcPath("/jhowsimar/wakingUp.svg"),
-    name: "Jhow Simar",
-    message: "Hm?",
-  },
-  {
-    src: npcPath("/jhowsimar/right.svg"),
-    name: "Jhow Simar",
-    message: "Como que cê saiu?",
-  },
-  {
-    isPlayer: true,
-    name: "Protagonista",
-    message: "Eu usei a chave uaí",
-    expression: "talking"
-  },
-  {
-    src: npcPath("/jhowsimar/right.svg"),
-    name: "Jhow Simar",
-    message: "Ah, eu esqueci de levar a chave comigo",
-  },
-  {
-    isPlayer: true,
-    name: "Protagonista",
-    message: "Relaxa, tem nada não",
-    expression: "good"
-  },
-  {
-    src: npcPath("/jhowsimar/right.svg"),
-    name: "Jhow Simar",
-    message: "A gente não era para estar brigando?",
-  },
-  {
-    isPlayer: true,
-    name: "Protagonista",
-    message: "Eu não tenho inimigos",
-    expression: "good"
-  },
-  {
-    src: npcPath("/jhowsimar/right.svg"),
-    name: "Jhow Simar",
-    message: "Mas eu tenho, vem cá vem",
-  },
-] satisfies Dialogue[];
+export const cantinaTwoDialogue = defineDialogue([
+  { who: "jhowSimar", message: "Zzzz...", pose: "sleeping" },
+  ["protagonista", "Eu já sai da diretoria, bora brigar?", "x1"],
+  { who: "jhowSimar", message: "Hm?", pose: "wakingUp" },
+  ["jhowSimar", "Como que cê saiu?"],
+  ["protagonista", "Eu usei a chave uaí", "talking"],
+  ["jhowSimar", "Ah, eu esqueci de levar a chave comigo"],
+  ["protagonista", "Relaxa, tem nada não", "good"],
+  ["jhowSimar", "A gente não era para estar brigando?"],
+  ["protagonista", "Eu não tenho inimigos", "good"],
+  ["jhowSimar", "Mas eu tenho, vem cá vem"],
+]);

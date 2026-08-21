@@ -1,9 +1,5 @@
-import { npcPath } from "@/utils/paths";
+import { defineDialogue } from "@/data/dialogues/defineDialogue";
 
-export const AfterPcRoomGenericDialogue = [
-  {
-    src: npcPath("/remedinha/right.svg"),
-    name: "Remedinha",
-    message: "Vai lá vai",
-  },
-] satisfies Dialogue[];
+export const AfterPcRoomGenericDialogue = defineDialogue([
+  ["remedinha", "Vai lá vai"],
+]);

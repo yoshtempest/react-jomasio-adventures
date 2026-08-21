@@ -1,31 +1,9 @@
-import { npcPath } from "@/utils/paths";
+import { defineDialogue } from "@/data/dialogues/defineDialogue";
 
-export const pcsRoomDialogue = [
-  {
-    src: npcPath("/janderson/right.svg"),
-    name: "Juan Derson",
-    message: "Tipo assim... eu moro em canabruava",
-  },
-  {
-    isPlayer: true,
-    name: "Protagonista",
-    message: "Achei que você morava em Nova York.",
-    expression: "crossArms"
-  },
-  {
-    src: npcPath("/janderson/right.svg"),
-    name: "Juan Derson",
-    message: "Ééé... O Denis, ele... A Vandinha, ela...",
-  },
-  {
-    isPlayer: true,
-    name: "Protagonista",
-    message: "Cala boca cara, eu não tô entendendo nada.",
-    expression: "talking"
-  },
-  {
-    src: npcPath("/janderson/right.svg"),
-    name: "Juan Derson",
-    message: "Não, tipo assim, Você tem que escolher uma classe",
-  },
-] satisfies Dialogue[];
+export const pcsRoomDialogue = defineDialogue([
+  ["juanDerson", "Tipo assim... eu moro em canabruava"],
+  ["protagonista", "Achei que você morava em Nova York.", "crossArms"],
+  ["juanDerson", "Ééé... O Denis, ele... A Vandinha, ela..."],
+  ["protagonista", "Cala boca cara, eu não tô entendendo nada.", "talking"],
+  ["juanDerson", "Não, tipo assim, Você tem que escolher uma classe"],
+]);

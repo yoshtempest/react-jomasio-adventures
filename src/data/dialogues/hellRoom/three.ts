@@ -1,20 +1,7 @@
-import { npcPath } from "@/utils/paths";
+import { defineDialogue } from "@/data/dialogues/defineDialogue";
 
-export const HellRoomThreeDialogue = [
-  {
-    src: npcPath("/maugrelo/right.svg"),
-    name: "Maugrelo",
-    message: "Largue o meu peru!!!",
-  },
-  {
-    isPlayer: true,
-    name: "Protagonista",
-    message: "hm? cadê aquele homem?",
-    expression: "crossArms",
-  },
-  {
-    src: npcPath("/maugrelo/right.svg"),
-    name: "Maugrelo",
-    message: "Eu vou pegar meu Peru de volta!",
-  },
-] satisfies Dialogue[];
+export const HellRoomThreeDialogue = defineDialogue([
+  ["maugrelo", "Largue o meu peru!!!"],
+  ["protagonista", "hm? cadê aquele homem?", "crossArms"],
+  ["maugrelo", "Eu vou pegar meu Peru de volta!"],
+]);

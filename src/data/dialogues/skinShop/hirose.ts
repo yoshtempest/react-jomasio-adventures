@@ -1,14 +1,6 @@
-import { npcPath } from "@/utils/paths";
+import { defineDialogue } from "@/data/dialogues/defineDialogue";
 
-export const skinShopHiroseDialogue = [
-  {
-    src: npcPath("/bruninho/right.svg"),
-    name: "Bruno",
-    message: "Aah Nakamura...",
-  },
-  {
-    isPlayer: true,
-    name: "Protagonista",
-    message: "?",
-  },
-] satisfies Dialogue[];
+export const skinShopHiroseDialogue = defineDialogue([
+  { who: "bruninho", message: "Aah Nakamura...", name: "Bruno" },
+  ["protagonista", "?"],
+]);

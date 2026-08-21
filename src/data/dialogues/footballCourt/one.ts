@@ -1,82 +1,19 @@
-import { npcPath, playerPath } from "@/utils/paths";
+import { defineDialogue } from "@/data/dialogues/defineDialogue";
 
-export const footballCourtDialogue = [
-  {
-    src: npcPath("/neimito/right.svg"),
-    name: "Neimito",
-    message: "Bom dia pessoal, vamo ver onde foi que paramos",
-  },
-  {
-    src: npcPath("/neimito/right.svg"),
-    name: "Neimito",
-    message: "Ematron, observe o seguinte",
-  },
-  {
-    src: npcPath("/neimito/right.svg"),
-    name: "Neimito",
-    message: "Certo, nada haver né? Certo?",
-  },
-  {
-    src: playerPath("/emanuel/default.svg"),
-    name: "Ematron",
-    message: "Sim...",
-  },
-  {
-    src: npcPath("/neimito/right.svg"),
-    name: "Neimito",
-    message: "O quê que motosserra tem haver com a aula?",
-  },
-  {
-    src: npcPath("/neimito/right.svg"),
-    name: "Neimito",
-    message: "Certo Ematron, eu sou o menino Ney, certo?",
-  },
-  {
-    src: playerPath("/emanuel/default.svg"),
-    name: "Ematron",
-    message: "Certo...",
-  },
-  {
-    src: npcPath("/neimito/right.svg"),
-    name: "Neimito",
-    message: "Que sono é esse? Você nem trabalha.",
-  },
-  {
-    src: npcPath("/neimito/right.svg"),
-    name: "Neimito",
-    message:
-      "Certo, iremos estudar termometria, e para isso precisamos do calor entre os corpos, certo?",
-  },
-  {
-    src: npcPath("/neimito/right.svg"),
-    name: "Neimito",
-    message:
-      "Certo, já que o Denis não está aqui, você irá me ajudar a gerar um calor.",
-  },
-  {
-    src: playerPath("/emanuel/default.svg"),
-    name: "Ematron",
-    message: "Mas você vai me soltar né Ney?",
-  },
-  {
-    src: npcPath("/neimito/right.svg"),
-    name: "Neimito",
-    message: "Chupa",
-  },
-  {
-    isPlayer: true,
-    name: "Protagonista",
-    message: "Eu já sei de tudo Neimito, você não é o verdadeiro Ney",
-    expression: "angry",
-  },
-  {
-    src: npcPath("/neimito/right.svg"),
-    name: "Neimito",
-    message: "Droga, justo na melhor parte!",
-  },
-  {
-    src: npcPath("/neimito/right.svg"),
-    name: "Neimito",
-    message: "Vamos aquecer o clima então!",
-  },
-] satisfies Dialogue[];
+export const footballCourtDialogue = defineDialogue([
+  ["neimito", "Bom dia pessoal, vamo ver onde foi que paramos"],
+  ["neimito", "Ematron, observe o seguinte"],
+  ["neimito", "Certo, nada haver né? Certo?"],
+  ["ematron", "Sim..."],
+  ["neimito", "O quê que motosserra tem haver com a aula?"],
+  ["neimito", "Certo Ematron, eu sou o menino Ney, certo?"],
+  ["ematron", "Certo..."],
+  ["neimito", "Que sono é esse? Você nem trabalha."],
+  ["neimito", "Certo, iremos estudar termometria, e para isso precisamos do calor entre os corpos, certo?"],
+  ["neimito", "Certo, já que o Denis não está aqui, você irá me ajudar a gerar um calor."],
+  ["ematron", "Mas você vai me soltar né Ney?"],
+  ["neimito", "Chupa"],
+  ["protagonista", "Eu já sei de tudo Neimito, você não é o verdadeiro Ney", "angry"],
+  ["neimito", "Droga, justo na melhor parte!"],
+  ["neimito", "Vamos aquecer o clima então!"],
+]);

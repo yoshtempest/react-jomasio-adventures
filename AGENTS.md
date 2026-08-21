@@ -71,6 +71,22 @@ Usar cleanup function sempre que houver: event listeners, timeouts, intervals, a
 
 ## Arquitetura do Jogo
 
+### Diálogos
+
+Definir com `defineDialogue()` (`src/data/dialogues/defineDialogue.ts`) + registro de falantes em `src/data/speakers.ts`. Nunca repetir `name`/`src`/`isPlayer` por fala:
+
+```ts
+export const meuDialogue = defineDialogue([
+  ["jailson", "Olá"],                          // tupla: [who, message]
+  ["protagonista", "Oi", "talking"],           // 3º item: expression
+  { who: "victor", pose: "sitting", message: "...", soundSrc: "..." }, // objeto p/ pose/sound/name override
+]);
+```
+
+- Falantes novos vão no registro `SPEAKERS` (id, name, base, pose padrão)
+- `useDialogue` resolve nome do player e sprite a partir de `expression` + character
+- Formato raw (objeto sem `who`) é escape hatch — só para templates dinâmicos (ex: `goodPowder.ts`)
+
 ### Tile-based grid
 
 17 colunas × 13 linhas. `TILE_SIZE` calculado dinamicamente. Posição: `{ gridX, gridY, direction }`.

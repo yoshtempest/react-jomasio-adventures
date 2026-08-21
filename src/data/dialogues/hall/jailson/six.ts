@@ -1,15 +1,6 @@
-import { npcPath } from "@/utils/paths";
+import { defineDialogue } from "@/data/dialogues/defineDialogue";
 
-export const hallJailsonSixDialogue = [
-  {
-    src: npcPath("/jailson/right.svg"),
-    name: "Jailson",
-    message: "Ai que delicia cara!",
-  },
-  {
-    isPlayer: true,
-    name: "Protagonista",
-    message: "Que bom que gostou",
-    expression: "good"
-  },
-] satisfies Dialogue[];
+export const hallJailsonSixDialogue = defineDialogue([
+  ["jailson", "Ai que delicia cara!"],
+  ["protagonista", "Que bom que gostou", "good"],
+]);

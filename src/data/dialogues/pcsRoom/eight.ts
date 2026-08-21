@@ -1,31 +1,9 @@
-import { npcPath, playerPath } from "@/utils/paths";
+import { defineDialogue } from "@/data/dialogues/defineDialogue";
 
-export const pcsRoomEightDialogue = [
-  {
-    src: npcPath("/hungryKing/default.svg"),
-    name: "Rei dos Mortos de Fome",
-    message:
-      "Meu rei, não acredite nele, eu gosto de apanhar apenas de você tá bom?",
-  },
-  {
-    src: playerPath("/samuel/default.svg"),
-    name: "Samurion",
-    message: "Some daqui",
-  },
-  {
-    src: npcPath("/hungryDog/walk.svg"),
-    name: "Cão Faminto",
-    message: "Ruf Ruf",
-  },
-  {
-    isPlayer: true,
-    name: "Protagonista",
-    message: "Vamos embora Samurion, não se junte com essa gentalha",
-    expression: "crossArms",
-  },
-  {
-    src: npcPath("/hungryKing/default.svg"),
-    name: "Rei dos Mortos de Fome",
-    message: "Vou embora dessa vez, mas saíba que eu voltarei",
-  },
-] satisfies Dialogue[];
+export const pcsRoomEightDialogue = defineDialogue([
+  ["reiMortosFome", "Meu rei, não acredite nele, eu gosto de apanhar apenas de você tá bom?"],
+  ["samurion", "Some daqui"],
+  ["caoFaminto", "Ruf Ruf"],
+  ["protagonista", "Vamos embora Samurion, não se junte com essa gentalha", "crossArms"],
+  ["reiMortosFome", "Vou embora dessa vez, mas saíba que eu voltarei"],
+]);

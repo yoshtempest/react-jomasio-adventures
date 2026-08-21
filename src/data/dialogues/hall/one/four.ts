@@ -1,29 +1,9 @@
-import { npcPath } from "@/utils/paths";
+import { defineDialogue } from "@/data/dialogues/defineDialogue";
 
-export const AfterPcRoomFourDialogue = [
-  {
-    src: npcPath("/remedinha/right.svg"),
-    name: "Remedinha",
-    message: "Fique com isso",
-  },
-  {
-    src: npcPath("/remedinha/right.svg"),
-    name: "Remedinha",
-    message: "Utilize para batalhar infinitamente com aqueles rapazes famintos",
-  },
-  {
-    name: "Sistema",
-    message: "Você obteve um pó misterioso",
-  },
-  {
-    isPlayer: true,
-    name: "Protagonista",
-    message: "O que é isso?",
-    expression: "why"
-  },
-  {
-    src: npcPath("/remedinha/right.svg"),
-    name: "Remedinha",
-    message: "Não faça perguntas",
-  },
-] satisfies Dialogue[];
+export const AfterPcRoomFourDialogue = defineDialogue([
+  ["remedinha", "Fique com isso"],
+  ["remedinha", "Utilize para batalhar infinitamente com aqueles rapazes famintos"],
+  ["sistema", "Você obteve um pó misterioso"],
+  ["protagonista", "O que é isso?", "why"],
+  ["remedinha", "Não faça perguntas"],
+]);

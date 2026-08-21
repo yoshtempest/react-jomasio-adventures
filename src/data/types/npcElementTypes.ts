@@ -65,6 +65,15 @@ export const NPC_ELEMENT_TYPES = {
   /* Training */
   dummy: ["Normalis"],
 
+  /* Indefinido */
+  theStrongestManUnderTheHeavens: ["Normalis"],
+  theBlackKnight: ["Darkus"],
+  untrackedMonster: ["Darkus", "Haos"],
+  theMasterPiece: ["Metallum"],
+  theChaosCreator: ["Darkus"],
+  theFirstNightmare: ["Draco", "Umbra"],
+  theDevourerOfWorlds: ["Draco", "Darkus"],
+
   /* Pets (sem NPC de batalha próprio) */
   turkey: ["Normalis", "Subterra"],
   rapariga: ["Normalis", "Haos"],
