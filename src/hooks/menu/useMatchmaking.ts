@@ -82,7 +82,14 @@ export function useMatchmakingMenu() {
 
     const remove = pushControlsRef.current(controls);
     return () => remove();
-  }, [roomCode, navigate, playCloseRef, playMoveRef, playSelectRef, pushControlsRef]);
+  }, [
+    roomCode,
+    navigate,
+    playCloseRef,
+    playMoveRef,
+    playSelectRef,
+    pushControlsRef,
+  ]);
 
   return {
     selectedIndex,

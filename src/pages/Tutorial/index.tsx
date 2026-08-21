@@ -96,9 +96,7 @@ export default function Tutorial() {
       className="Master"
       style={{ backgroundImage: `url(${sceneBackgrounds.Tutorial})` }}
     >
-      {dialogue && (
-        <Talking name={dialogue.name} message={dialogue.message} />
-      )}
+      {dialogue && <Talking name={dialogue.name} message={dialogue.message} />}
 
       {flow.showGenderChoice && (
         <ChoiceBox

@@ -1,8 +1,4 @@
-import {
-  TITLE_IDS,
-  isTitleId,
-  type TitleId,
-} from "@/data/titles";
+import { TITLE_IDS, isTitleId, type TitleId } from "@/data/titles";
 import type { TitleProgress, TitlesData } from "@/utils/types/player/titles";
 import { TITLES_KEY } from "@/data/storageKeys";
 import { saveCompressed, loadCompressed } from "@/utils/save/storage";

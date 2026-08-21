@@ -129,9 +129,7 @@ export function SceneBase({
   }
 
   return (
-    <div
-      className={`Master ${className ?? ""}`}
-    >
+    <div className={`Master ${className ?? ""}`}>
       <div className="SceneMap">
         <ExploreScene
           key={scene.id}

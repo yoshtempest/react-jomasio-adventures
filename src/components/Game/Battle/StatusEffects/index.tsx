@@ -1,6 +1,14 @@
 import { useEffect, useState } from "react";
 import styles from "./styles.module.css";
-import { Droplets, Flame, Skull, Zap, EyeOff, Brain, Snowflake } from "lucide-react";
+import {
+  Droplets,
+  Flame,
+  Skull,
+  Zap,
+  EyeOff,
+  Brain,
+  Snowflake,
+} from "lucide-react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import {
   getActivePlayerStatuses,

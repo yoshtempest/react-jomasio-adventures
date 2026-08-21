@@ -87,10 +87,7 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
 
   const getEquippedItem = useCallback(
     (character: CharacterId, slot: EquipmentSlot): Equipment | null => {
-      const data = getCharacterData(
-        allData,
-        character,
-      );
+      const data = getCharacterData(allData, character);
       const info = data.equipped[slot];
       if (!info) return null;
       return getEquipmentById(info.id) ?? null;
@@ -100,30 +97,21 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
 
   const getEquippedInfo = useCallback(
     (character: CharacterId, slot: EquipmentSlot): EquippedItemInfo | null => {
-      return getCharacterData(
-        allData,
-        character,
-      ).equipped[slot];
+      return getCharacterData(allData, character).equipped[slot];
     },
     [allData],
   );
 
   const getEquippedAccessories = useCallback(
     (character: CharacterId): EquippedItemInfo[] => {
-      return getCharacterData(
-        allData,
-        character,
-      ).equipped.accessories;
+      return getCharacterData(allData, character).equipped.accessories;
     },
     [allData],
   );
 
   const getTotalBonus = useCallback(
     (character: CharacterId) => {
-      const data = getCharacterData(
-        allData,
-        character,
-      );
+      const data = getCharacterData(allData, character);
 
       const setItemIds = buildSetItemIds(data.equipped);
       const bonus = {
@@ -155,20 +143,14 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
 
   const getCollection = useCallback(
     (character: CharacterId): Record<string, number> => {
-      return getCharacterData(
-        allData,
-        character,
-      ).collection;
+      return getCharacterData(allData, character).collection;
     },
     [allData],
   );
 
   const getQuantityTotal = useCallback(
     (character: CharacterId, id: EquipmentId): number => {
-      const collection = getCharacterData(
-        allData,
-        character,
-      ).collection;
+      const collection = getCharacterData(allData, character).collection;
       let total = 0;
       for (const [key, qty] of Object.entries(collection)) {
         if (key.startsWith(id + "+") || key === id) {
@@ -183,10 +165,8 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
   const getQuantity = useCallback(
     (character: CharacterId, id: EquipmentId, enhance: number): number => {
       return (
-        getCharacterData(
-          allData,
-          character,
-        ).collection[colKey(id, enhance)] ?? 0
+        getCharacterData(allData, character).collection[colKey(id, enhance)] ??
+        0
       );
     },
     [allData],
@@ -203,13 +183,8 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
     (character: CharacterId, id: EquipmentId, enhance: number = 0) => {
       playSound("equip");
       setAllData((prev) => {
-        const next = equipItem(
-          prev,
-          character,
-          id,
-          enhance,
-        );
-        return (next ?? prev);
+        const next = equipItem(prev, character, id, enhance);
+        return next ?? prev;
       });
     },
     [playSound],
@@ -219,12 +194,8 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
     (character: CharacterId, slot: EquipmentSlot) => {
       playSound("unequip");
       setAllData((prev) => {
-        const next = unequipItem(
-          prev,
-          character,
-          slot,
-        );
-        return (next ?? prev);
+        const next = unequipItem(prev, character, slot);
+        return next ?? prev;
       });
     },
     [playSound],
@@ -234,12 +205,8 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
     (character: CharacterId, index: number) => {
       playSound("unequip");
       setAllData((prev) => {
-        const next = unequipAccessoryAt(
-          prev,
-          character,
-          index,
-        );
-        return (next ?? prev);
+        const next = unequipAccessoryAt(prev, character, index);
+        return next ?? prev;
       });
     },
     [playSound],
@@ -247,27 +214,14 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
 
   const addDrop = useCallback(
     (character: CharacterId, id: EquipmentId, enhance: number = 0) => {
-      setAllData(
-        (prev) =>
-          addDropOp(
-            prev,
-            character,
-            id,
-            enhance,
-          ),
-      );
+      setAllData((prev) => addDropOp(prev, character, id, enhance));
     },
     [],
   );
 
   const fusePets = useCallback(
     (character: CharacterId, petId: EquipmentId, stars: number): boolean => {
-      const next = fusePetsOp(
-        allData,
-        character,
-        petId,
-        stars,
-      );
+      const next = fusePetsOp(allData, character, petId, stars);
       if (!next) return false;
       setAllData(next);
       return true;

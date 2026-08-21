@@ -61,4 +61,5 @@ export function getKeyIdForChest(chestId: ChestItemId): ItemId {
 }
 
 export const DAILY_CHEST_CLOSED_SPRITE = "/assets/items/chests/default.svg";
-export const DAILY_CHEST_OPENED_SPRITE = "/assets/items/chests/defaultOpened.svg";
+export const DAILY_CHEST_OPENED_SPRITE =
+  "/assets/items/chests/defaultOpened.svg";

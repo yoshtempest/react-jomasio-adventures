@@ -100,5 +100,12 @@ export function useRandomEncounter(config: RandomEncounterConfig) {
       const route = pickEncounter(cfg.encounters);
       void navigate(route);
     }
-  }, [player.gridX, player.gridY, navigate, configRef, playerRef, getAlfaSpawnBonus]);
+  }, [
+    player.gridX,
+    player.gridY,
+    navigate,
+    configRef,
+    playerRef,
+    getAlfaSpawnBonus,
+  ]);
 }

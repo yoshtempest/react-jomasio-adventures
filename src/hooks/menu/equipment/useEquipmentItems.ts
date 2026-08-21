@@ -97,7 +97,7 @@ export function useEquipmentItems(
   const allCollected: CollectedEntry[] = Object.entries(
     getCollection(character),
   )
-    .filter(([, qty]) => (qty) > 0)
+    .filter(([, qty]) => qty > 0)
     .map(([key, qty]) => {
       const { id, enhance } = parseColKey(key);
       const item = getEquipmentById(id);

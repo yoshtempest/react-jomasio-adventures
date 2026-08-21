@@ -11,11 +11,7 @@ export function usePetPassive({ passiveEffect, enabled, isPaused }: Props) {
   const oneHitShieldRef = useRef(false);
 
   useEffect(() => {
-    if (
-      !enabled ||
-      !passiveEffect ||
-      passiveEffect.kind !== "oneHitShield"
-    ) {
+    if (!enabled || !passiveEffect || passiveEffect.kind !== "oneHitShield") {
       oneHitShieldRef.current = false;
       return;
     }

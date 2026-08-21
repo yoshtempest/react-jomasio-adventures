@@ -16,13 +16,38 @@ export const SPEAKERS = {
   brotherOne: { name: "???", base: "/brothers", pose: "one" },
   brotherTwo: { name: "???", base: "/brothers", pose: "two" },
 
-  laricell: { name: "Laricell", kind: "player", base: "/larissa", pose: "talking" },
+  laricell: {
+    name: "Laricell",
+    kind: "player",
+    base: "/larissa",
+    pose: "talking",
+  },
   drika: { name: "Drika", kind: "player", base: "/eduarda", pose: "talking" },
-  marshadow: { name: "Marshadow", kind: "player", base: "/marcelo", pose: "default" },
-  marcelinho: { name: "Marcelinho", kind: "player", base: "/marcelo", pose: "nakamura" },
+  marshadow: {
+    name: "Marshadow",
+    kind: "player",
+    base: "/marcelo",
+    pose: "default",
+  },
+  marcelinho: {
+    name: "Marcelinho",
+    kind: "player",
+    base: "/marcelo",
+    pose: "nakamura",
+  },
   yvel: { name: "Yvel", kind: "player", base: "/lucas", pose: "default" },
-  samurion: { name: "Samurion", kind: "player", base: "/samuel", pose: "default" },
-  ematron: { name: "Ematron", kind: "player", base: "/emanuel", pose: "default" },
+  samurion: {
+    name: "Samurion",
+    kind: "player",
+    base: "/samuel",
+    pose: "default",
+  },
+  ematron: {
+    name: "Ematron",
+    kind: "player",
+    base: "/emanuel",
+    pose: "default",
+  },
 
   solSol: { name: "Sol Sol", base: "/solange", pose: "right" },
   maria: { name: "Maria", base: "/planetarySisters", pose: "mary" },

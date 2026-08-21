@@ -62,10 +62,7 @@ export const getAfterPcRoomOneDialogue = ({
     return AfterPcRoomSevenDialogue;
   }
 
-  if (
-    hasFlag(flags, "maugrelo") &&
-    !hasQuest(quests, "go_to_brodiclass")
-  ) {
+  if (hasFlag(flags, "maugrelo") && !hasQuest(quests, "go_to_brodiclass")) {
     return AfterPcRoomEightDialogue;
   }
 

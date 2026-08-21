@@ -99,7 +99,8 @@ export function Professions() {
 
   useEffect(() => {
     if (!listRef.current) return;
-    const el = listRef.current.children[selectedIndex] as HTMLElement | undefined;
+    const el = listRef.current.children[selectedIndex] as
+      HTMLElement | undefined;
     el?.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, [selectedIndex]);
 

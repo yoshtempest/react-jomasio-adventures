@@ -101,7 +101,9 @@ export function VictoryModal({
                 </p>
                 <p className={styles.timeRow}>
                   <span className={styles.timeLabel}>Melhor tempo:</span>
-                  <span>{bestTime > 0 ? formatDuration(bestTime) : "0:00"}</span>
+                  <span>
+                    {bestTime > 0 ? formatDuration(bestTime) : "0:00"}
+                  </span>
                 </p>
               </div>
               <ActivePotionDisplay />

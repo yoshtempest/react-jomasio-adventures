@@ -91,7 +91,17 @@ export function usePandemonyPuzzle(
 
     const remove = pushControls(controls);
     return remove;
-  }, [isOpen, pushControls, cycleSlotRef, onCloseRef, onSolvedRef, playMoveRef, playSelectRef, selectedSlotRef, solvedRef]);
+  }, [
+    isOpen,
+    pushControls,
+    cycleSlotRef,
+    onCloseRef,
+    onSolvedRef,
+    playMoveRef,
+    playSelectRef,
+    selectedSlotRef,
+    solvedRef,
+  ]);
 
   return {
     state,

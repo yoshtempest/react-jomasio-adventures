@@ -6,7 +6,10 @@ export const jujuHouseDialogue = defineDialogue([
   ["protagonista", "Vish..."],
   ["juju", "Preciso de um leite de boi para o bolo de hoje"],
   ["protagonista", "Vish..."],
-  ["juju", "Vai lá no açougue de Tim que ele conhece um tal de Zé do Milk e pede um leite de boi que dá certo"],
+  [
+    "juju",
+    "Vai lá no açougue de Tim que ele conhece um tal de Zé do Milk e pede um leite de boi que dá certo",
+  ],
   ["juju", "Primeiro fala com Zé do Milk que dá tudo certo"],
   ["protagonista", "Tá"],
 ]);

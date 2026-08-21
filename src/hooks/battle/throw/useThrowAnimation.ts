@@ -7,7 +7,11 @@ type Props = {
   isMenuRef?: RefObject<boolean>;
 };
 
-export function useThrowAnimation({ setPlayer, setIsThrown, isMenuRef }: Props) {
+export function useThrowAnimation({
+  setPlayer,
+  setIsThrown,
+  isMenuRef,
+}: Props) {
   const isMenuInternalRef = useRef(isMenuRef?.current ?? false);
   if (isMenuRef) isMenuInternalRef.current = isMenuRef.current;
 

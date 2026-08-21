@@ -2,10 +2,7 @@ import { useEffect } from "react";
 import type { RefObject } from "react";
 
 import type { GameControlLayer } from "@/utils/types/player/controls";
-import {
-  KEY_ACTIONS,
-  KEY_RELEASE_ACTIONS,
-} from "@/data/keyActions";
+import { KEY_ACTIONS, KEY_RELEASE_ACTIONS } from "@/data/keyActions";
 
 type ScreenShortcut = {
   screen: string;
@@ -85,18 +82,12 @@ export function useGameKeyboard({
           return;
         }
 
-        if (
-          controls.blockGlobalOpen &&
-          playerModeRef.current === "explore"
-        ) {
+        if (controls.blockGlobalOpen && playerModeRef.current === "explore") {
           closeAllMenus();
           return;
         }
 
-        if (
-          !controls.blockGlobalOpen &&
-          playerModeRef.current === "explore"
-        ) {
+        if (!controls.blockGlobalOpen && playerModeRef.current === "explore") {
           openNavbar();
         }
 
@@ -106,10 +97,7 @@ export function useGameKeyboard({
       const shortcut = screenShortcuts[e.key];
 
       if (shortcut) {
-        if (
-          isNavOpenRef.current &&
-          screenRef.current === shortcut.screen
-        ) {
+        if (isNavOpenRef.current && screenRef.current === shortcut.screen) {
           closeNavbar();
         } else {
           shortcut.open();
@@ -127,10 +115,7 @@ export function useGameKeyboard({
         return;
       }
 
-      if (
-        e.key === "Shift" &&
-        playerModeRef.current === "battle"
-      ) {
+      if (e.key === "Shift" && playerModeRef.current === "battle") {
         controls.onDownRelease?.();
       }
     }

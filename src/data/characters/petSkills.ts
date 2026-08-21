@@ -17,8 +17,7 @@ export type PetSkillEffect =
   | { kind: "heal"; amount: number }
   | { kind: "healPercent"; perStar: number[] };
 
-export type PetPassiveEffect =
-  | { kind: "oneHitShield"; cooldownMs: number };
+export type PetPassiveEffect = { kind: "oneHitShield"; cooldownMs: number };
 
 export type PetAbilityInfo = {
   name: string;

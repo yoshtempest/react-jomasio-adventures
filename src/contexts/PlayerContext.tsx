@@ -17,10 +17,7 @@ import { useEquipment } from "@/contexts/EquipmentContext";
 import { usePlayerAnimation } from "@/hooks/battle/player/usePlayerAnimation";
 import { BATTLE_DEFAULT_STATE } from "@/gameRules/battle/defaultState";
 import { useBattleCollisionRef } from "@/hooks/battle/useBattleCollisionRef";
-import {
-  CHARACTER_KEY,
-  PLAYER_CLASS_KEY,
-} from "@/data/storageKeys";
+import { CHARACTER_KEY, PLAYER_CLASS_KEY } from "@/data/storageKeys";
 import { slotKey } from "@/utils/save/slotManager";
 import { isCharacter } from "@/data/characters/list";
 import { useSettings } from "@/contexts/SettingsContext";
@@ -168,7 +165,12 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     special,
     dash,
     setPlayerState,
-  } = useBattleMovement(setPlayer, battleCollisionRef, lastBlockPressRef, playerModeRef);
+  } = useBattleMovement(
+    setPlayer,
+    battleCollisionRef,
+    lastBlockPressRef,
+    playerModeRef,
+  );
 
   const setBattleCollision = useCallback(
     (params: CollisionParams) => {

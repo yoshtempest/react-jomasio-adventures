@@ -81,7 +81,14 @@ export function useTitleMenu(
 
     const remove = pushControlsRef.current(controls);
     return () => remove();
-  }, [isOpen, titlesData.progress, equipTitleRef, playMoveRef, playSelectRef, pushControlsRef]);
+  }, [
+    isOpen,
+    titlesData.progress,
+    equipTitleRef,
+    playMoveRef,
+    playSelectRef,
+    pushControlsRef,
+  ]);
 
   return {
     selectedIndex,

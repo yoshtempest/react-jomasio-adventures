@@ -97,5 +97,11 @@ export function useBattleGravity(
     }, 16);
 
     return () => clearInterval(interval);
-  }, [setPlayer, collisionRef, hasDoubleJumped, hasUsedFallingAttack, playerModeRef]);
+  }, [
+    setPlayer,
+    collisionRef,
+    hasDoubleJumped,
+    hasUsedFallingAttack,
+    playerModeRef,
+  ]);
 }

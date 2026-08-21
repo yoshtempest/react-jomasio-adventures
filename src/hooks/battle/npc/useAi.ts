@@ -204,8 +204,8 @@ export function useNpcAI({
           };
         }
 
-        const behavior =
-          (npcBehaviors[npcTypeRef.current] || npcBehaviors.default)!;
+        const behavior = (npcBehaviors[npcTypeRef.current] ||
+          npcBehaviors.default)!;
 
         const targetX = playerXRef.current;
         const targetY = playerYRef.current;
@@ -261,11 +261,7 @@ export function useNpcAI({
           ),
           y: collision.y,
           direction,
-          state: (result.state ??
-            getNpcState(
-              distanceX,
-              forceIdleRef.current,
-            )),
+          state: result.state ?? getNpcState(distanceX, forceIdleRef.current),
         };
       });
     }, 20);

@@ -29,9 +29,7 @@ export function useRewards() {
   const totalKills = titlesData.totalKills;
   const totalPlayTime = getTotalPlayTime();
   const unlockedCount = getUnlockedCount(flags);
-  const maxNpcKills = getMaxNpcKills(
-    bestiary,
-  );
+  const maxNpcKills = getMaxNpcKills(bestiary);
   const classKills = getClassKills();
 
   const claim = useCallback(

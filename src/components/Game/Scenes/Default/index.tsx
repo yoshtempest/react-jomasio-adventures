@@ -159,7 +159,13 @@ export function ExploreScene({
     return remove;
   }, [cutsceneActive, pushControls]);
 
-  const npcContext = { quests, items, flags, character: player.character, lastPage };
+  const npcContext = {
+    quests,
+    items,
+    flags,
+    character: player.character,
+    lastPage,
+  };
 
   const resolvedDialogueData =
     typeof dialogueData === "function"
@@ -174,12 +180,21 @@ export function ExploreScene({
     () =>
       npcs.map((npc) => ({
         ...npc,
-        src: typeof npc.src === "function"
-          ? npc.src({ ...npcContext, dialogueIndex: dialogueSystem.index })
-          : npc.src,
+        src:
+          typeof npc.src === "function"
+            ? npc.src({ ...npcContext, dialogueIndex: dialogueSystem.index })
+            : npc.src,
       })),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [npcs, flags, quests, items, player.character, lastPage, dialogueSystem.index],
+    [
+      npcs,
+      flags,
+      quests,
+      items,
+      player.character,
+      lastPage,
+      dialogueSystem.index,
+    ],
   );
 
   const resolvedInitialPosition =

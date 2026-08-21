@@ -80,7 +80,12 @@ export function PcRoomScene({ sceneId }: Props) {
         background={sceneBackgrounds.PcsRoom}
         interactions={interactions}
         itemPickupTiles={[
-          { x: 10, y: 7, visible: !gotKey, image: "/assets/items/desired_gear.svg" },
+          {
+            x: 10,
+            y: 7,
+            visible: !gotKey,
+            image: "/assets/items/desired_gear.svg",
+          },
         ]}
         popup={popup}
         setPopup={setPopup}

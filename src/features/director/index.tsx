@@ -35,11 +35,14 @@ export function DirectorScene({ sceneId }: Props) {
   const { sfxVolume } = useAudio();
   const sfxVolumeRef = useLatestRef(sfxVolume);
 
-  const playSFX = useCallback((src: string, volume = 1) => {
-    const audio = new Audio(asset(src));
-    audio.volume = volume * (sfxVolumeRef.current / 100);
-    audio.play().catch(() => {});
-  }, [sfxVolumeRef]);
+  const playSFX = useCallback(
+    (src: string, volume = 1) => {
+      const audio = new Audio(asset(src));
+      audio.volume = volume * (sfxVolumeRef.current / 100);
+      audio.play().catch(() => {});
+    },
+    [sfxVolumeRef],
+  );
 
   const navigateFrom = useCallback(
     (to: string) => {
@@ -84,7 +87,13 @@ export function DirectorScene({ sceneId }: Props) {
         background={sceneBackgrounds.Director}
         interactions={interactions}
         itemPickupTiles={[
-          { x: 18.4, y: 5, height: 2, visible: !gotKey, image: "/assets/items/keys/director.svg" },
+          {
+            x: 18.4,
+            y: 5,
+            height: 2,
+            visible: !gotKey,
+            image: "/assets/items/keys/director.svg",
+          },
         ]}
         popup={popup}
         setPopup={setPopup}

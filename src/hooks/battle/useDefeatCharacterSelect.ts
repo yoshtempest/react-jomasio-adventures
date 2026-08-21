@@ -7,7 +7,11 @@ import { useLatestRef } from "@/hooks/useLatestRef";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { useFlags } from "@/contexts/FlagContext";
 import { CHARACTERS } from "@/data/options/characters";
-import { gridMove, circularNext, circularPrev } from "@/gameRules/menu/navigation";
+import {
+  gridMove,
+  circularNext,
+  circularPrev,
+} from "@/gameRules/menu/navigation";
 
 const CHAR_UNLOCK_FLAGS: Record<string, FlagId> = {
   samuel: "samurionUnlocked",
@@ -39,9 +43,7 @@ const DEFEAT_MENU_PREV: Record<DefeatMenuSelection, DefeatMenuSelection> = {
 function menuCycleHandler(
   viewRef: RefObject<View>,
   playMoveRef: RefObject<() => void>,
-  setMenuSelectionRef: RefObject<
-    Dispatch<SetStateAction<DefeatMenuSelection>>
-  >,
+  setMenuSelectionRef: RefObject<Dispatch<SetStateAction<DefeatMenuSelection>>>,
   table: Record<DefeatMenuSelection, DefeatMenuSelection>,
 ) {
   return () => {
@@ -125,7 +127,19 @@ export function useDefeatCharacterSelect(isOpen: boolean) {
         return true;
       },
     });
-  }, [player.character, selectCharNext, selectCharPrev, pushControls, charIndexRef, playMoveRef, playSelectRef, setCharIndexRef, setCharacterRef, setViewRef, unlockedRef]);
+  }, [
+    player.character,
+    selectCharNext,
+    selectCharPrev,
+    pushControls,
+    charIndexRef,
+    playMoveRef,
+    playSelectRef,
+    setCharIndexRef,
+    setCharacterRef,
+    setViewRef,
+    unlockedRef,
+  ]);
 
   const openCharacterSelectRef = useLatestRef(openCharacterSelect);
 
@@ -168,7 +182,15 @@ export function useDefeatCharacterSelect(isOpen: boolean) {
     });
 
     return remove;
-  }, [isOpen, pushControls, menuSelectionRef, openCharacterSelectRef, playMoveRef, setMenuSelectionRef, viewRef]);
+  }, [
+    isOpen,
+    pushControls,
+    menuSelectionRef,
+    openCharacterSelectRef,
+    playMoveRef,
+    setMenuSelectionRef,
+    viewRef,
+  ]);
 
   useEffect(() => {
     if (!isOpen) {

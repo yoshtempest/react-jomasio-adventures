@@ -11,13 +11,13 @@ Documento de planejamento. **Nada foi instalado nem publicado.** Escopo decidido
 
 ## Estado atual verificado
 
-| Fato | Valor |
-| --- | --- |
-| Pin no `package.json` | `tempest-react-sdk: ^0.25.0` |
-| Uso real no código | zero — só `// import "tempest-react-sdk/styles.css";` em `src/main.tsx:1` |
-| Instalado em `node_modules` | **não** (install fora de sync) |
-| Última versão no npm | `0.42.1` |
-| Repo local do SDK | `~/projects/my/packages/tempest-react-sdk`, branch `release/v0.43.0`, tree limpo, tag `v0.43.0` local, **4 commits à frente de `origin/main`** |
+| Fato                        | Valor                                                                                                                                          |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| Pin no `package.json`       | `tempest-react-sdk: ^0.25.0`                                                                                                                   |
+| Uso real no código          | zero — só `// import "tempest-react-sdk/styles.css";` em `src/main.tsx:1`                                                                      |
+| Instalado em `node_modules` | **não** (install fora de sync)                                                                                                                 |
+| Última versão no npm        | `0.42.1`                                                                                                                                       |
+| Repo local do SDK           | `~/projects/my/packages/tempest-react-sdk`, branch `release/v0.43.0`, tree limpo, tag `v0.43.0` local, **4 commits à frente de `origin/main`** |
 
 O motivo de exigir 0.43 continua válido: até 0.42.1 inclusive, `react-router` é **dependency** fixada em `^8.3.0`. O jogo usa `react-router@^7.9.5` → npm instala uma cópia aninhada em `tempest-react-sdk/node_modules/react-router`. Duas instâncias de router = `useNavigate() may be used only in the context of a <Router> component`. Em 0.43.0 virou peer `^7 || ^8`, satisfeita pelo 7.9.5 já instalado.
 
@@ -67,28 +67,48 @@ Nada a adicionar: `react-router@7.9.5` já satisfaz o peer, e `vite` + `@vitejs/
 
 ### 1.2 Web app manifest passa a ser um arquivo versionado
 
-Hoje o `manifest.webmanifest` é **gerado** pelo `VitePWA({ manifest: {...} })` (`vite.config.ts:42-72`). O SDK não gera web app manifest — `tempestPwaManifest()` emite o *precache* manifest, que é outra coisa. Então o manifest vira arquivo de verdade.
+Hoje o `manifest.webmanifest` é **gerado** pelo `VitePWA({ manifest: {...} })` (`vite.config.ts:42-72`). O SDK não gera web app manifest — `tempestPwaManifest()` emite o _precache_ manifest, que é outra coisa. Então o manifest vira arquivo de verdade.
 
 Criar `public/manifest.webmanifest` com o conteúdo que hoje está inline no `vite.config.ts`:
 
 ```json
 {
-    "name": "Jomásio Adventures",
-    "short_name": "Jomásio Adventures",
-    "description": "RPG estilo retrô com batalhas, exploração e missões.",
-    "id": "/react-jomasio-adventures/",
-    "start_url": "/react-jomasio-adventures/",
-    "scope": "/react-jomasio-adventures/",
-    "display": "standalone",
-    "lang": "pt-BR",
-    "theme_color": "#121B31",
-    "background_color": "#0A0500",
-    "icons": [
-        { "src": "pwa-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-        { "src": "pwa-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-        { "src": "pwa-maskable-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
-        { "src": "pwa-maskable-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
-    ]
+  "name": "Jomásio Adventures",
+  "short_name": "Jomásio Adventures",
+  "description": "RPG estilo retrô com batalhas, exploração e missões.",
+  "id": "/react-jomasio-adventures/",
+  "start_url": "/react-jomasio-adventures/",
+  "scope": "/react-jomasio-adventures/",
+  "display": "standalone",
+  "lang": "pt-BR",
+  "theme_color": "#121B31",
+  "background_color": "#0A0500",
+  "icons": [
+    {
+      "src": "pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "pwa-maskable-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "pwa-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
 }
 ```
 
@@ -133,7 +153,13 @@ export default defineConfig({
   server: {
     host: true,
     port: 5173,
-    proxy: { "/api": { target: "http://localhost:3001", changeOrigin: true, secure: false } },
+    proxy: {
+      "/api": {
+        target: "http://localhost:3001",
+        changeOrigin: true,
+        secure: false,
+      },
+    },
   },
 });
 ```
@@ -160,7 +186,9 @@ export default defineConfig({
       name: "sw",
       fileName: () => "sw.js",
     },
-    rollupOptions: { output: { entryFileNames: "sw.js", inlineDynamicImports: true } },
+    rollupOptions: {
+      output: { entryFileNames: "sw.js", inlineDynamicImports: true },
+    },
   },
 });
 ```
@@ -247,12 +275,19 @@ O contexto atual registra via `virtual:pwa-register` e precisa de um `setTimeout
 Manter o contexto (4 consumidores dependem dele), trocando só o miolo:
 
 ```tsx
-import { createContext, useCallback, useContext, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useState,
+  type ReactNode,
+} from "react";
 import { useServiceWorkerUpdate } from "tempest-react-sdk";
 
 const BASE = import.meta.env.BASE_URL;
 
-export type UpdateStatus = "idle" | "checking" | "uptodate" | "available" | "error";
+export type UpdateStatus =
+  "idle" | "checking" | "uptodate" | "available" | "error";
 
 type UpdateContextType = {
   status: UpdateStatus;
@@ -272,11 +307,13 @@ export function UpdateProvider({ children }: { children: ReactNode }) {
   const [lastChecked, setLastChecked] = useState<number | null>(null);
   const [checking, setChecking] = useState(false);
 
-  const { updateAvailable, applyUpdate, registration } = useServiceWorkerUpdate({
-    url: `${BASE}sw.js`,
-    scope: BASE,
-    onError: () => setChecking(false),
-  });
+  const { updateAvailable, applyUpdate, registration } = useServiceWorkerUpdate(
+    {
+      url: `${BASE}sw.js`,
+      scope: BASE,
+      onError: () => setChecking(false),
+    },
+  );
 
   const checkForUpdate = useCallback(() => {
     if (!registration) return;
@@ -294,7 +331,9 @@ export function UpdateProvider({ children }: { children: ReactNode }) {
         : "idle";
 
   return (
-    <UpdateContext.Provider value={{ status, checkForUpdate, applyUpdate, lastChecked }}>
+    <UpdateContext.Provider
+      value={{ status, checkForUpdate, applyUpdate, lastChecked }}
+    >
       {children}
     </UpdateContext.Provider>
   );
@@ -332,7 +371,9 @@ export function PWAProvider({ children }: { children: ReactNode }) {
   const [showInstalledMessage, setShowInstalledMessage] = useState(false);
 
   return (
-    <PWAContext.Provider value={{ ...prompt, showInstalledMessage, setShowInstalledMessage }}>
+    <PWAContext.Provider
+      value={{ ...prompt, showInstalledMessage, setShowInstalledMessage }}
+    >
       {children}
     </PWAContext.Provider>
   );
@@ -345,7 +386,7 @@ export function usePWA() {
 
 Em `components/PWA/index.tsx`, `showNotAvailableMessage` deixa de existir e o texto do popup passa a ser escolhido por `method`:
 
-- `"ios"` → "Toque em Compartilhar (↗) e escolha *Adicionar à Tela de Início*."
+- `"ios"` → "Toque em Compartilhar (↗) e escolha _Adicionar à Tela de Início_."
 - `"manual"` → texto atual do menu do navegador, + botão usando `openInChromeIntent` quando não for `null`.
 - `"native"` → botão que chama `install()`.
 - `"none"` → `isStandalone` decide entre "já instalado" e nada.
@@ -361,7 +402,10 @@ Todo o save vive em `localStorage` (37 arquivos usam) + Cache Storage, **sem nun
 Adicionar no `PWAProvider` (ou num `useEffect` do `App`):
 
 ```ts
-import { requestPersistentStorage, useStorageEstimate } from "tempest-react-sdk";
+import {
+  requestPersistentStorage,
+  useStorageEstimate,
+} from "tempest-react-sdk";
 ```
 
 - `requestPersistentStorage()` uma vez, após o primeiro save bem-sucedido (o browser decide por heurística de engajamento; pedir cedo demais é negado).
@@ -420,7 +464,7 @@ Depois disso o jogo apaga `src/utils/save/storage.ts` e remove `lz-string` + `@t
 Não existe no SDK (só `useStableCallback`, que é para funções). Está privado em `src/hooks/battle/useScene.ts:72` e o `TODO.md` do jogo já pede para exportar.
 
 ```ts
-export function useLatestRef<T>(value: T): { readonly current: T }
+export function useLatestRef<T>(value: T): { readonly current: T };
 ```
 
 Cinco linhas, mas é o primitivo que resolve stale closure — o jogo repete o padrão `const xRef = useRef(x); xRef.current = x;` dezenas de vezes (`App.tsx:98-108`, `GameControlsContext.tsx:50-64`, `useConfigSelection.ts:64-82`). Documentar a diferença para `useStableCallback` na doc, senão viram dois jeitos de fazer a mesma coisa.
@@ -474,17 +518,17 @@ Com isso, a Fase 1.3 fica mais limpa — `appShell` e `additionalUrls` voltam a 
 
 Só depois de 2.1–2.5 saírem numa release (0.44.0). Deletar no jogo:
 
-| Arquivo | Substituto |
-| --- | --- |
-| `src/utils/save/storage.ts` | `storage.getCompressed/setCompressed` |
-| `src/hooks/useCompressedStorage.ts` | `useCompressedStorage` do SDK + `slotKey()` na chave |
-| `src/utils/lazyLoad.ts` | `lazyWithRetry` |
-| `src/utils/preloadPages.ts` | `.preload()` direto |
-| `src/hooks/useTypewriter.ts` | `useTypewriter` |
-| `src/hooks/useCountdown.ts` | `useCountdown` |
-| `src/hooks/useSFXPool.ts` | `useSfxPool` |
-| `useLatestRef` privado em `hooks/battle/useScene.ts:72` | `useLatestRef` |
-| `src/utils/types/pwa.d.ts` | `BeforeInstallPromptEvent` do SDK |
+| Arquivo                                                 | Substituto                                           |
+| ------------------------------------------------------- | ---------------------------------------------------- |
+| `src/utils/save/storage.ts`                             | `storage.getCompressed/setCompressed`                |
+| `src/hooks/useCompressedStorage.ts`                     | `useCompressedStorage` do SDK + `slotKey()` na chave |
+| `src/utils/lazyLoad.ts`                                 | `lazyWithRetry`                                      |
+| `src/utils/preloadPages.ts`                             | `.preload()` direto                                  |
+| `src/hooks/useTypewriter.ts`                            | `useTypewriter`                                      |
+| `src/hooks/useCountdown.ts`                             | `useCountdown`                                       |
+| `src/hooks/useSFXPool.ts`                               | `useSfxPool`                                         |
+| `useLatestRef` privado em `hooks/battle/useScene.ts:72` | `useLatestRef`                                       |
+| `src/utils/types/pwa.d.ts`                              | `BeforeInstallPromptEvent` do SDK                    |
 
 Deps removidas do jogo ao fim das Fases 1 + 3: `vite-plugin-pwa`, `workbox-core`, `workbox-precaching`, `workbox-routing`, `workbox-strategies`, `lz-string`, `@types/lz-string` — **7 dependências**.
 
@@ -499,10 +543,10 @@ Deps removidas do jogo ao fim das Fases 1 + 3: `vite-plugin-pwa`, `workbox-core`
 
 ## Riscos
 
-| Risco | Mitigação |
-| --- | --- |
-| 0.43.0 não publicado bloqueia tudo | Fase 0 é pré-requisito explícito; `file:` local como ponte temporária |
-| `base` gh-pages quebra o precache | Fase 1.3 repete `BASE` em cada URL; Fase 2.5 conserta na raiz |
-| Auto-reload some (mudança de comportamento) | Decisão explícita na Fase 1.6 — recomendado dar o controle ao jogador |
-| Saves antigos ilegíveis após trocar lz-string por fflate | Fallback de leitura obrigatório na Fase 2.1, com teste sobre payload legado |
+| Risco                                                                       | Mitigação                                                                                                    |
+| --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| 0.43.0 não publicado bloqueia tudo                                          | Fase 0 é pré-requisito explícito; `file:` local como ponte temporária                                        |
+| `base` gh-pages quebra o precache                                           | Fase 1.3 repete `BASE` em cada URL; Fase 2.5 conserta na raiz                                                |
+| Auto-reload some (mudança de comportamento)                                 | Decisão explícita na Fase 1.6 — recomendado dar o controle ao jogador                                        |
+| Saves antigos ilegíveis após trocar lz-string por fflate                    | Fallback de leitura obrigatório na Fase 2.1, com teste sobre payload legado                                  |
 | Zero teste automatizado no jogo (`@playwright/test` instalado, nenhum spec) | Checklist manual/Playwright da Fase 1.9 é a única rede — considerar um smoke E2E de boot offline junto do PR |

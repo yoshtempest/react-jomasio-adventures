@@ -20,7 +20,9 @@ export function useStatusMenu(isOpen: boolean) {
   const { player } = usePlayer();
   const { playMove, playSelect } = useMenuSFX();
 
-  const [view, setView] = useState<"stats" | "skillTree" | "ranks" | "allStats">("stats");
+  const [view, setView] = useState<
+    "stats" | "skillTree" | "ranks" | "allStats"
+  >("stats");
   const { selectedIndex, setSelectedIndex, selectedIndexRef } =
     useSelectableIndex();
 

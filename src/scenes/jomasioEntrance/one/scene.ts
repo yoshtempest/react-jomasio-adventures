@@ -2,7 +2,7 @@ import { jomasioEntrance } from "@/maps/jomasioEntrance";
 import { MUSICS } from "@/scenes/shared/music";
 import { getJomasioEntranceInitialPosition } from "./position";
 import { jomasioEntranceTiles } from "./tiles";
-import { jomasioEntrancePlates } from "./plate"
+import { jomasioEntrancePlates } from "./plate";
 
 export const oneScene: SceneConfig = {
   id: "one",

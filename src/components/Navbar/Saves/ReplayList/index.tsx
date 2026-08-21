@@ -49,10 +49,13 @@ export function ReplayList({ isOnTab }: Props) {
   const playSelectRef = useLatestRef(playSelect);
   const navigateRef = useLatestRef(navigate);
 
-  const watchReplay = useCallback((id: string) => {
-    sessionStorage.setItem("replayTarget", id);
-    void navigateRef.current("/");
-  }, [navigateRef]);
+  const watchReplay = useCallback(
+    (id: string) => {
+      sessionStorage.setItem("replayTarget", id);
+      void navigateRef.current("/");
+    },
+    [navigateRef],
+  );
 
   useGameControlsLayer(
     {

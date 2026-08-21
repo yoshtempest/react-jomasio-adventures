@@ -107,10 +107,7 @@ export function LeftPanel() {
                       return (
                         <div className={styles.resistanceBadges}>
                           {labels.map((l) => (
-                            <span
-                              key={l}
-                              className={styles.resistanceBadge}
-                            >
+                            <span key={l} className={styles.resistanceBadge}>
                               {l}
                             </span>
                           ))}

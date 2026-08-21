@@ -100,9 +100,7 @@ export function useContainer({
 
         const handled = onPickupRef.current?.(index, slot) ?? true;
         if (handled) {
-          setSlots((prev) =>
-            prev.map((s, i) => (i === index ? null : s)),
-          );
+          setSlots((prev) => prev.map((s, i) => (i === index ? null : s)));
           playSelectRef.current();
         }
         return true;
@@ -119,7 +117,20 @@ export function useContainer({
 
     const remove = pushControls(controls);
     return remove;
-  }, [isOpen, pushControls, close, setSlots, colsRef, onPickupRef, playCloseRef, playMoveRef, playSelectRef, selectedIndexRef, sizeRef, slotsRef]);
+  }, [
+    isOpen,
+    pushControls,
+    close,
+    setSlots,
+    colsRef,
+    onPickupRef,
+    playCloseRef,
+    playMoveRef,
+    playSelectRef,
+    selectedIndexRef,
+    sizeRef,
+    slotsRef,
+  ]);
 
   return {
     isOpen,

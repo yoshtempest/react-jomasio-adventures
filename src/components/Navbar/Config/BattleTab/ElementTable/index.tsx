@@ -64,8 +64,10 @@ export function ElementTable({ playerElementTypes, npcElementTypes }: Props) {
           return (
             <div key={type} className={rowClass}>
               <div className={styles.typeCell}>
-                <img 
-                  src={asset(`/assets/badges/elements/${type.toLowerCase()}.svg`)}
+                <img
+                  src={asset(
+                    `/assets/badges/elements/${type.toLowerCase()}.svg`,
+                  )}
                   className={styles.icon}
                 />
 
@@ -85,8 +87,10 @@ export function ElementTable({ playerElementTypes, npcElementTypes }: Props) {
                   <span className={styles.none}>—</span>
                 ) : (
                   causes.map((t) => (
-                    <img 
-                      src={asset(`/assets/badges/elements/${t.toLowerCase()}.svg`)}
+                    <img
+                      src={asset(
+                        `/assets/badges/elements/${t.toLowerCase()}.svg`,
+                      )}
                       className={styles.icon}
                     />
                   ))
@@ -97,8 +101,10 @@ export function ElementTable({ playerElementTypes, npcElementTypes }: Props) {
                   <span className={styles.none}>—</span>
                 ) : (
                   receives.map((t) => (
-                    <img 
-                      src={asset(`/assets/badges/elements/${t.toLowerCase()}.svg`)}
+                    <img
+                      src={asset(
+                        `/assets/badges/elements/${t.toLowerCase()}.svg`,
+                      )}
                       className={styles.icon}
                     />
                   ))

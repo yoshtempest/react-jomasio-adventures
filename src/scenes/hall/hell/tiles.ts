@@ -35,7 +35,8 @@ export const hellTiles = [
       return null;
     },
     {
-      blockedMessage: "Portão trancado, perigo extremo, há um monstro aprisionado mais a dentro.",
+      blockedMessage:
+        "Portão trancado, perigo extremo, há um monstro aprisionado mais a dentro.",
     },
   ),
   createConditionalTile(
@@ -48,7 +49,8 @@ export const hellTiles = [
       return null;
     },
     {
-      blockedMessage: "Portão trancado, perigo extremo, há um monstro aprisionado mais a dentro.",
+      blockedMessage:
+        "Portão trancado, perigo extremo, há um monstro aprisionado mais a dentro.",
     },
   ),
 ];

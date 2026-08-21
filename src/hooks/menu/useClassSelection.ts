@@ -66,7 +66,15 @@ export function useClassSelection(isActive: boolean, onConfirm?: () => void) {
 
     const remove = pushControlsRef.current(controls);
     return () => remove();
-  }, [isActive, chooseClassRef, onConfirmRef, playMoveRef, playSelectRef, pushControlsRef, setFlagRef]);
+  }, [
+    isActive,
+    chooseClassRef,
+    onConfirmRef,
+    playMoveRef,
+    playSelectRef,
+    pushControlsRef,
+    setFlagRef,
+  ]);
 
   return {
     classes: CLASSES,

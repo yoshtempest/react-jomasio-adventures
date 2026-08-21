@@ -65,15 +65,13 @@ export function useBattleRewards({
   const { hasFlag } = useFlags();
   const { getPetDropBonus } = useTitles();
 
-  const xpReward =
-    (calculateXP(npcLevel, npcClass) ?? 0) * (isAlfa ? 3 : 1);
+  const xpReward = (calculateXP(npcLevel, npcClass) ?? 0) * (isAlfa ? 3 : 1);
   const coinReward = (COIN_REWARDS[npcClass] ?? 0) * npcLevel;
   const dropRolls = isAlfa ? 2 : 1;
 
   function collectEquipmentDrops() {
     const equipmentDrops: EquipmentDropInfo[] = rollMultiple(
-      () =>
-        rollEquipmentDrops(npcClass, addDrop, player.character, luckBonus),
+      () => rollEquipmentDrops(npcClass, addDrop, player.character, luckBonus),
       dropRolls,
     ).flat();
 
@@ -208,7 +206,11 @@ export function useBattleRewards({
   function giveXp(amount: number) {
     if (sharedXp) {
       const unlocked = getUnlockedCharacters(hasFlag);
-      const distribution = distributeSharedXp(amount, player.character, unlocked);
+      const distribution = distributeSharedXp(
+        amount,
+        player.character,
+        unlocked,
+      );
       for (const [character, xp] of Object.entries(distribution)) {
         if (xp > 0) addXP(character as CharacterId, xp);
       }

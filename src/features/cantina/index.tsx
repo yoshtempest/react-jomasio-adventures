@@ -46,10 +46,10 @@ export function CantinaScene({ sceneId }: Props) {
     if (!scene) return null;
     return {
       ...scene,
-        npcs: (scene.npcs ?? []).map((npc) =>
-          typeof npc.src === "string" &&
-          npc.src === npcPath("/jeso/default.svg") &&
-          sceneId === "two"
+      npcs: (scene.npcs ?? []).map((npc) =>
+        typeof npc.src === "string" &&
+        npc.src === npcPath("/jeso/default.svg") &&
+        sceneId === "two"
           ? {
               ...npc,
               interaction: (startDialogue: (d: Dialogue[]) => void) => {
@@ -81,7 +81,12 @@ export function CantinaScene({ sceneId }: Props) {
         background={sceneBackgrounds.Cantina}
         interactions={interactions}
         itemPickupTiles={[
-          { x: 16.8, y: 3.5, visible: !gotKey, image: "/assets/items/orange_juice.svg" },
+          {
+            x: 16.8,
+            y: 3.5,
+            visible: !gotKey,
+            image: "/assets/items/orange_juice.svg",
+          },
         ]}
         popup={popup}
         setPopup={setPopup}

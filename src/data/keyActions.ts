@@ -42,34 +42,31 @@ export const KEY_ACTIONS: Record<string, GameControlAction> = {
   Delete: "onCancel",
 };
 
-export const KEY_RELEASE_ACTIONS: Record<
-  string,
-  GameControlAction
-> = {
-    ArrowUp: "onUpRelease",
-    w: "onUpRelease",
-    W: "onUpRelease",
-    " ": "onUpRelease",
+export const KEY_RELEASE_ACTIONS: Record<string, GameControlAction> = {
+  ArrowUp: "onUpRelease",
+  w: "onUpRelease",
+  W: "onUpRelease",
+  " ": "onUpRelease",
 
-    ArrowDown: "onDownRelease",
-    s: "onDownRelease",
-    S: "onDownRelease",
+  ArrowDown: "onDownRelease",
+  s: "onDownRelease",
+  S: "onDownRelease",
 
-    ArrowLeft: "onLeftRelease",
-    a: "onLeftRelease",
-    A: "onLeftRelease",
+  ArrowLeft: "onLeftRelease",
+  a: "onLeftRelease",
+  A: "onLeftRelease",
 
-    ArrowRight: "onRightRelease",
-    d: "onRightRelease",
-    D: "onRightRelease",
+  ArrowRight: "onRightRelease",
+  d: "onRightRelease",
+  D: "onRightRelease",
 
-    l: "onConfirmRelease",
-    L: "onConfirmRelease",
-    Enter: "onConfirmRelease",
+  l: "onConfirmRelease",
+  L: "onConfirmRelease",
+  Enter: "onConfirmRelease",
 
-    b: "onCancelRelease",
-    B: "onCancelRelease",
-    x: "onCancelRelease",
-    X: "onCancelRelease",
-    Delete: "onCancelRelease",
+  b: "onCancelRelease",
+  B: "onCancelRelease",
+  x: "onCancelRelease",
+  X: "onCancelRelease",
+  Delete: "onCancelRelease",
 };

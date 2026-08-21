@@ -78,9 +78,7 @@ export function ChestRewards({
                 [{RANK_LABELS[eq.rank]}]
               </span>
               <span>{eq.name}</span>
-              <span className={styles.slot}>
-                ({SLOT_LABELS[eq.slot]})
-              </span>
+              <span className={styles.slot}>({SLOT_LABELS[eq.slot]})</span>
               {eq.enhance > 0 && (
                 <span className={styles.enhance}>+{eq.enhance}</span>
               )}
@@ -103,9 +101,7 @@ export function ChestRewards({
                 [{RANK_LABELS[pet.rank]}]
               </span>
               <span>{pet.name}</span>
-              <span className={styles.slot}>
-                ({SLOT_LABELS[pet.slot]})
-              </span>
+              <span className={styles.slot}>({SLOT_LABELS[pet.slot]})</span>
             </div>
           ))}
         </div>

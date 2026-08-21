@@ -118,11 +118,7 @@ export function loadAllData(): Record<string, CharacterEquipmentData> {
     if (!parsed) return createEmptyAllData();
     if (typeof parsed !== "object") return createEmptyAllData();
     const firstVal = Object.values(parsed)[0];
-    if (
-      firstVal &&
-      typeof firstVal === "object" &&
-      "equipped" in (firstVal)
-    ) {
+    if (firstVal && typeof firstVal === "object" && "equipped" in firstVal) {
       const equipped = (firstVal as Record<string, unknown>).equipped;
       if (equipped && typeof equipped === "object") {
         const sample = Object.values(equipped as Record<string, unknown>)[0];
@@ -134,7 +130,7 @@ export function loadAllData(): Record<string, CharacterEquipmentData> {
     const data = parsed as Record<string, CharacterEquipmentData>;
     for (const charData of Object.values(data)) {
       if (charData?.equipped && !Array.isArray(charData.equipped.accessories)) {
-        (charData.equipped).accessories = [];
+        charData.equipped.accessories = [];
       }
     }
     for (const key of Object.keys(data)) {

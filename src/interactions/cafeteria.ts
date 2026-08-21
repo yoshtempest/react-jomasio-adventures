@@ -1,8 +1,5 @@
 import { cafeteriaMessages } from "@/data/dialogues/cafeteria/messages";
-import {
-  createContainerHandler,
-  createInteractionMap,
-} from "./builder";
+import { createContainerHandler, createInteractionMap } from "./builder";
 import type {
   ContainerDeps,
   InventoryDeps,

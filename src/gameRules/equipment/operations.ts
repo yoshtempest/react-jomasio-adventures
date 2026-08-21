@@ -20,10 +20,7 @@ function getMutableState(
 } {
   const next = { ...allData };
   const data = {
-    ...getCharacterData(
-      next,
-      character,
-    ),
+    ...getCharacterData(next, character),
   };
   return { next, data, collection: { ...data.collection } };
 }

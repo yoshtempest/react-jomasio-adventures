@@ -16,7 +16,8 @@ export const cafeteriaMessages: Record<string, string> = {
   "7,4": "Sinto... Uma fome desgraçada... - by Sr. Guaxinim",
   "8,4": "Quantos pães você comeu pela manhã? 12!",
   "9,4": "B com O, BO, D com E, DE, BODE!",
-  "10,4": "Segunda a segunda, bode todo dia, somente aqui no Jorjão, ofertas imperdíveis!",
+  "10,4":
+    "Segunda a segunda, bode todo dia, somente aqui no Jorjão, ofertas imperdíveis!",
   "12,4": "Oxe, carne de urubu e não de bode?",
   "14,4": "Atu... by Peru tentando dizer Artur",
   "4,7":

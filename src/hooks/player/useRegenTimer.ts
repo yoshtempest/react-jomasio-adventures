@@ -22,7 +22,10 @@ function computeMaxHp(
 ): number {
   const allStatsPct = 1 + titleAllStatsPct / 100;
   const effectiveHp =
-    (statsHp + equipmentHp + titleHp) * allStatsPct * rankMultiplier * hungerMultiplier;
+    (statsHp + equipmentHp + titleHp) *
+    allStatsPct *
+    rankMultiplier *
+    hungerMultiplier;
   return 90 + Math.round(effectiveHp) * 10;
 }
 
@@ -78,5 +81,14 @@ export function useRegenTimer() {
     }, REGEN_TICK_MS);
 
     return () => clearInterval(interval);
-  }, [player.mode, player.character, progress, setBattleHP, getBonus, characterRef, progressRef, setBattleHPRef]);
+  }, [
+    player.mode,
+    player.character,
+    progress,
+    setBattleHP,
+    getBonus,
+    characterRef,
+    progressRef,
+    setBattleHPRef,
+  ]);
 }

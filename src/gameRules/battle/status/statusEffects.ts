@@ -8,13 +8,7 @@ type StatusUntilKey =
   | "frozenUntil";
 
 export type PlayerStatus =
-  | "bleed"
-  | "burn"
-  | "poison"
-  | "paralyze"
-  | "blind"
-  | "confuse"
-  | "freeze";
+  "bleed" | "burn" | "poison" | "paralyze" | "blind" | "confuse" | "freeze";
 
 export type NewPlayerStatus = Exclude<PlayerStatus, "bleed">;
 

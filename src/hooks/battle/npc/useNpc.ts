@@ -121,12 +121,7 @@ export function useNpcBattle({
   }, [player.character, playSound]);
 
   const applyNpcDamage = useCallback(
-    (
-      dmg: number,
-      tx: number,
-      ty: number,
-      dmgType: DamageType = "npc",
-    ) => {
+    (dmg: number, tx: number, ty: number, dmgType: DamageType = "npc") => {
       const blocked = checkBlocked({
         dmg,
         playerState: player.state,
@@ -206,12 +201,7 @@ export function useNpcBattle({
       return;
     }
 
-    const npc = getNpcStats(
-      npcLevel,
-      npcClass,
-      difficulty,
-      statMultiplier,
-    );
+    const npc = getNpcStats(npcLevel, npcClass, difficulty, statMultiplier);
     const baseDmg = npc.damage;
     const dmg = calculateNpcDamage(baseDmg, playerClass, totalArmor);
 
@@ -276,12 +266,7 @@ export function useNpcBattle({
     )
       return;
 
-    const npc = getNpcStats(
-      npcLevel,
-      npcClass,
-      difficulty,
-      statMultiplier,
-    );
+    const npc = getNpcStats(npcLevel, npcClass, difficulty, statMultiplier);
     const baseDmg = npc.damage;
     const dmg = calculateNpcDamage(baseDmg, playerClass, totalArmor);
 
@@ -367,12 +352,7 @@ export function useNpcBattle({
     (multiplier: number = 1) => {
       if (isEnding.current) return;
 
-      const npc = getNpcStats(
-        npcLevel,
-        npcClass,
-        difficulty,
-        statMultiplier,
-      );
+      const npc = getNpcStats(npcLevel, npcClass, difficulty, statMultiplier);
       const baseDmg = npc.damage;
       const dmg = calculateNpcDamage(baseDmg, playerClass, totalArmor);
       const elementMultiplier = getElementMultiplier(
@@ -485,13 +465,7 @@ function checkBlocked(params: {
 
   const isBlocking =
     playerState === "blocked" &&
-    isFacingTarget(
-      playerX,
-      playerY,
-      npcX,
-      npcY,
-      playerBattleDirection,
-    );
+    isFacingTarget(playerX, playerY, npcX, npcY, playerBattleDirection);
 
   const blocked = handleNpcBlocking({
     dmg,

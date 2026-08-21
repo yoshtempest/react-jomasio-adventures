@@ -69,9 +69,7 @@ export function MapOverlay({ currentRoute, character }: Props) {
                     alt="Jogador"
                   />
                 )}
-                {cellHasQuest && (
-                  <div className={styles.questBadge}>!</div>
-                )}
+                {cellHasQuest && <div className={styles.questBadge}>!</div>}
               </div>
             );
           }),

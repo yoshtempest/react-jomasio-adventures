@@ -26,7 +26,11 @@ export default function CombatTutorial() {
         style={{ backgroundImage: `url(${sceneBackgrounds.CombatTutorial})` }}
       >
         {dialogue && (
-          <Talking name={dialogue.name} message={dialogue.message} src={dialogue.src} />
+          <Talking
+            name={dialogue.name}
+            message={dialogue.message}
+            src={dialogue.src}
+          />
         )}
       </div>
     );

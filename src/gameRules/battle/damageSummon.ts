@@ -59,9 +59,7 @@ export function damageSummon({
   const targetSummon = summons.find((s) => s.id === target.id);
   const elementMultiplier = getElementMultiplier(
     CHARACTER_ELEMENT_TYPES[player.character],
-    targetSummon
-      ? NPC_ELEMENT_TYPES[targetSummon.npcType] ?? []
-      : [],
+    targetSummon ? (NPC_ELEMENT_TYPES[targetSummon.npcType] ?? []) : [],
   );
   const dmg = Math.round(
     (player.character === "samuel" && char.level >= 20

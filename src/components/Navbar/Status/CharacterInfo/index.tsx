@@ -51,7 +51,8 @@ export function CharacterInfo() {
   const allStatsPct = 1 + titleBonus.percentAllStats / 100;
   const effectiveHp =
     (charProgress.stats.hp + equipmentBonus.hp + titleBonus.hp) * allStatsPct;
-  const playerMaxHp = 90 + Math.round(effectiveHp * rankMultiplier * hungerMultiplier) * 10;
+  const playerMaxHp =
+    90 + Math.round(effectiveHp * rankMultiplier * hungerMultiplier) * 10;
   const currentHP = charProgress.battleHP ?? playerMaxHp;
 
   return (

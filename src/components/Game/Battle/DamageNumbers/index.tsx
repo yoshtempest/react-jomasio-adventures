@@ -48,20 +48,22 @@ export function DamageNumbers({ numbers, scaleX, scaleY, targets }: Props) {
               translate: "-50% 0",
             }}
           >
-            {n.type === "blocked"
-              ? "BLOCKED!"
-              : n.type === "miss"
-                ? "MISS!"
-                : n.type === "heal"
-                  ? `+${n.value}`
-                  : n.type === "armor"
-                    ? <>
-                      <img src={asset("/assets/badges/titles/blockAttacks.svg")}/>
-                      +1
-                    </>
-                    : n.value > 0
-                      ? `-${n.value}`
-                      : "0"}
+            {n.type === "blocked" ? (
+              "BLOCKED!"
+            ) : n.type === "miss" ? (
+              "MISS!"
+            ) : n.type === "heal" ? (
+              `+${n.value}`
+            ) : n.type === "armor" ? (
+              <>
+                <img src={asset("/assets/badges/titles/blockAttacks.svg")} />
+                +1
+              </>
+            ) : n.value > 0 ? (
+              `-${n.value}`
+            ) : (
+              "0"
+            )}
           </div>
         );
       })}

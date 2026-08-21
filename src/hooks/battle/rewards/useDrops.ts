@@ -39,9 +39,8 @@ export function rollEquipmentDrops(
     );
     if (candidates.length === 0) continue;
 
-    const equipment = candidates[
-      Math.floor(Math.random() * candidates.length)
-    ]!;
+    const equipment =
+      candidates[Math.floor(Math.random() * candidates.length)]!;
     const enhance = rollEnhance();
     addDrop(character, equipment.id, enhance);
     drops.push({

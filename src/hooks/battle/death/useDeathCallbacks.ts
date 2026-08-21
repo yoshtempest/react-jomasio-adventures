@@ -75,7 +75,9 @@ export function useDeathCallbacks({
     if (rewards.equipmentDrops.length > 0) {
       incrementEquipmentDropsStats(rewards.equipmentDrops.length);
     }
-    const hasPetDrop = rewards.equipmentDrops.some((d) => d.id.startsWith("pet_"));
+    const hasPetDrop = rewards.equipmentDrops.some((d) =>
+      d.id.startsWith("pet_"),
+    );
     if (hasPetDrop) incrementPetDropCounter();
     recordWin(playerCharacter);
 
@@ -101,7 +103,11 @@ export function useDeathCallbacks({
     saveBestTime(npcType, elapsed);
     setBestTime(loadBestTime(npcType));
     triggerVictory();
-    killCounter.handleNpcDeath(npcType, killCounter.npcDataRef.current.class, isAlfa);
+    killCounter.handleNpcDeath(
+      npcType,
+      killCounter.npcDataRef.current.class,
+      isAlfa,
+    );
   };
 
   return { onPlayerDeathRef, onNpcDeathRef };

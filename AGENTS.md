@@ -77,8 +77,8 @@ Definir com `defineDialogue()` (`src/data/dialogues/defineDialogue.ts`) + regist
 
 ```ts
 export const meuDialogue = defineDialogue([
-  ["jailson", "Olá"],                          // tupla: [who, message]
-  ["protagonista", "Oi", "talking"],           // 3º item: expression
+  ["jailson", "Olá"], // tupla: [who, message]
+  ["protagonista", "Oi", "talking"], // 3º item: expression
   { who: "victor", pose: "sitting", message: "...", soundSrc: "..." }, // objeto p/ pose/sound/name override
 ]);
 ```

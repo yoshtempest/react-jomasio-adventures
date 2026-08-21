@@ -43,7 +43,11 @@ export function getBossSizeMultiplier(
   isAlfa: boolean = false,
 ): number {
   const config = bossScales[npcType];
-  let base = config ? (npcPhase === 2 ? config.phase2 : config.base) : 1.4 / 1.5;
+  let base = config
+    ? npcPhase === 2
+      ? config.phase2
+      : config.base
+    : 1.4 / 1.5;
   if (isAlfa) base *= 1.5;
   return base;
 }

@@ -3,7 +3,10 @@ import {
   DASH_STEP,
   BATTLE_LIMITS,
 } from "@/gameRules/movement/constants";
-import { isPlayerFrozen, isPlayerParalyzed } from "@/gameRules/battle/status/statusEffects";
+import {
+  isPlayerFrozen,
+  isPlayerParalyzed,
+} from "@/gameRules/battle/status/statusEffects";
 
 const CROUCHED_STEP = 4;
 const CROUCHED_STATES = new Set<PlayerState>([
@@ -63,9 +66,10 @@ function moveAxis(
   limit: number,
   state: PlayerState = resolveMovementState(player.state),
 ): Player {
-  const x = direction === "left"
-    ? Math.max(limit, player.x - step)
-    : Math.min(limit, player.x + step);
+  const x =
+    direction === "left"
+      ? Math.max(limit, player.x - step)
+      : Math.min(limit, player.x + step);
   return { ...player, x, battleDirection: direction, state };
 }
 
@@ -118,14 +122,22 @@ export function specialBattle(p: Player): Player {
 }
 
 export function dashLeftBattle(p: Player): Player {
-  if (p.mode !== "battle" || isPlayerFrozen(p) || CROUCHED_STATES.has(p.state)) {
+  if (
+    p.mode !== "battle" ||
+    isPlayerFrozen(p) ||
+    CROUCHED_STATES.has(p.state)
+  ) {
     return p;
   }
   return moveAxis(p, "left", DASH_STEP, BATTLE_LIMITS.minX, "dash");
 }
 
 export function dashRightBattle(p: Player): Player {
-  if (p.mode !== "battle" || isPlayerFrozen(p) || CROUCHED_STATES.has(p.state)) {
+  if (
+    p.mode !== "battle" ||
+    isPlayerFrozen(p) ||
+    CROUCHED_STATES.has(p.state)
+  ) {
     return p;
   }
   return moveAxis(p, "right", DASH_STEP, BATTLE_LIMITS.maxX, "dash");

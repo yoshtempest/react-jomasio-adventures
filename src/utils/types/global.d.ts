@@ -135,7 +135,11 @@ declare global {
     x: number;
     y: number;
     route?: string;
-    getRoute?: (player: ExplorePosition, quests: Quest[], flags: FlagId[]) => string | null;
+    getRoute?: (
+      player: ExplorePosition,
+      quests: Quest[],
+      flags: FlagId[],
+    ) => string | null;
     requiredQuest?: QuestId;
     blockedMessage?: string;
   };

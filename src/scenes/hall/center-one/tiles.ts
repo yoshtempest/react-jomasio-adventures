@@ -1,4 +1,7 @@
-import { createDoorTile, createConditionalTile } from "@/scenes/shared/factories";
+import {
+  createDoorTile,
+  createConditionalTile,
+} from "@/scenes/shared/factories";
 import { hasQuest } from "@/scenes/shared/helpers";
 import { HALL_ROUTES, CANTINA_ROUTES } from "@/scenes/shared/routes";
 

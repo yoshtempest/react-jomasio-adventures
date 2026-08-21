@@ -125,7 +125,13 @@ function App() {
     if (save.character && isCharacter(save.character)) {
       setCharacterRef.current(save.character);
     }
-  }, [chooseClassRef, refreshDailyWeeklyRef, setCharacterRef, setItemsRef, setQuestsRef]);
+  }, [
+    chooseClassRef,
+    refreshDailyWeeklyRef,
+    setCharacterRef,
+    setItemsRef,
+    setQuestsRef,
+  ]);
 
   return (
     <div className="app">

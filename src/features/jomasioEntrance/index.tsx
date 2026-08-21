@@ -47,8 +47,7 @@ export function JomasioEntranceScene({ sceneId }: Props) {
     );
 
     return {
-      "13,10": () =>
-        mineRock({ setPopup, addItem, hasToolEquipped, setFlag }),
+      "13,10": () => mineRock({ setPopup, addItem, hasToolEquipped, setFlag }),
     };
   }, [setPopup, addItem, hasToolEquipped, setFlag]);
 

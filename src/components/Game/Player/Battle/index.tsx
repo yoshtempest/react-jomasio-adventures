@@ -41,8 +41,8 @@ export function PlayerBattle({
   // PLAYER_SIZE vira escala relativa
   const SCALE = PLAYER_SIZE / ProjectileConstants.MAP_HEIGHT;
 
-  const WIDTH = ProjectileConstants.MAP_WIDTH * SCALE / 1.5;
-  const HEIGHT = ProjectileConstants.MAP_HEIGHT * SCALE / 1.5;
+  const WIDTH = (ProjectileConstants.MAP_WIDTH * SCALE) / 1.5;
+  const HEIGHT = (ProjectileConstants.MAP_HEIGHT * SCALE) / 1.5;
 
   return (
     <div

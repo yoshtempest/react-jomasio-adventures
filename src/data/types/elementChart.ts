@@ -20,22 +20,20 @@ export const ELEMENT_STRONG_AGAINST: Record<
   Normalis: [],
 };
 
-export const ELEMENT_WEAK_AGAINST: Record<
-  ElementType,
-  readonly ElementType[]
-> = {
-  Pyrus: ["Aquos", "Subterra"],
-  Aquos: ["Electricus", "Natura"],
-  Subterra: ["Ventus", "Natura", "Aquos"],
-  Ventus: ["Electricus", "Metallum"],
-  Darkus: ["Haos", "Nympha", "Umbra"],
-  Electricus: ["Subterra", "Metallum"],
-  Haos: ["Darkus", "Umbra"],
-  Metallum: ["Pyrus", "Subterra"],
-  Natura: ["Pyrus", "Ventus", "Metallum"],
-  Psychicus: ["Darkus", "Haos"],
-  Nympha: ["Ventus", "Metallum", "Umbra"],
-  Draco: ["Haos", "Natura", "Nympha", "Draco"],
-  Umbra: ["Ventus", "Umbra"],
-  Normalis: ["Psychicus"],
-};
+export const ELEMENT_WEAK_AGAINST: Record<ElementType, readonly ElementType[]> =
+  {
+    Pyrus: ["Aquos", "Subterra"],
+    Aquos: ["Electricus", "Natura"],
+    Subterra: ["Ventus", "Natura", "Aquos"],
+    Ventus: ["Electricus", "Metallum"],
+    Darkus: ["Haos", "Nympha", "Umbra"],
+    Electricus: ["Subterra", "Metallum"],
+    Haos: ["Darkus", "Umbra"],
+    Metallum: ["Pyrus", "Subterra"],
+    Natura: ["Pyrus", "Ventus", "Metallum"],
+    Psychicus: ["Darkus", "Haos"],
+    Nympha: ["Ventus", "Metallum", "Umbra"],
+    Draco: ["Haos", "Natura", "Nympha", "Draco"],
+    Umbra: ["Ventus", "Umbra"],
+    Normalis: ["Psychicus"],
+  };

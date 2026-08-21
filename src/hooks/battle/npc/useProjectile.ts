@@ -50,7 +50,16 @@ export function useProjectile(
     }, 20);
 
     return () => clearInterval(interval);
-  }, [projectile, playerX, playerY, playerState, setProjectile, hitstopRef, onHitRef, onPullPlayerRef]);
+  }, [
+    projectile,
+    playerX,
+    playerY,
+    playerState,
+    setProjectile,
+    hitstopRef,
+    onHitRef,
+    onPullPlayerRef,
+  ]);
 }
 
 function handleLinearProjectile(
@@ -90,7 +99,8 @@ function handleLinearProjectile(
   const dx = Math.abs(opts.playerX - next.x);
   const isDashing = opts.playerState === "dash";
   const isCrouched =
-    opts.playerState === "idleCrounched" || opts.playerState === "walkCrounched";
+    opts.playerState === "idleCrounched" ||
+    opts.playerState === "walkCrounched";
   const dodgeProjectile = isDashing || isCrouched;
 
   const hitY = isCrouched ? opts.playerY - 30 : opts.playerY;

@@ -116,7 +116,15 @@ export function usePlayerMenu(
 
     const remove = pushControlsRef.current(controls);
     return () => remove();
-  }, [isOpen, subView, claimRewardRef, rewardsCountRef, playMoveRef, playSelectRef, pushControlsRef]);
+  }, [
+    isOpen,
+    subView,
+    claimRewardRef,
+    rewardsCountRef,
+    playMoveRef,
+    playSelectRef,
+    pushControlsRef,
+  ]);
 
   const isSummaryView = selectedIndex === 0;
 

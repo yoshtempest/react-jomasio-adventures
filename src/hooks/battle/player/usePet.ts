@@ -14,13 +14,7 @@ export type PetState = {
   x: number;
   y: number;
   direction: "left" | "right";
-  state:
-    | "idle"
-    | "walk"
-    | "attack"
-    | "jumping"
-    | "jumpAttack"
-    | "meleeAttack";
+  state: "idle" | "walk" | "attack" | "jumping" | "jumpAttack" | "meleeAttack";
   npcType: string;
 } | null;
 

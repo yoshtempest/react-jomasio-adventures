@@ -64,7 +64,15 @@ export function DefeatModal({
       onBackRef.current();
       setModeRef.current("explore");
     }
-  }, [menuSelection, playSound, openCharacterSelect, showRetry, onBackRef, onContinueRef, setModeRef]);
+  }, [
+    menuSelection,
+    playSound,
+    openCharacterSelect,
+    showRetry,
+    onBackRef,
+    onContinueRef,
+    setModeRef,
+  ]);
 
   const executeSelectedRef = useLatestRef(executeSelected);
 
@@ -96,7 +104,15 @@ export function DefeatModal({
     });
 
     return remove;
-  }, [isOpen, pushControls, playSound, executeSelectedRef, onBackRef, setModeRef, viewRef]);
+  }, [
+    isOpen,
+    pushControls,
+    playSound,
+    executeSelectedRef,
+    onBackRef,
+    setModeRef,
+    viewRef,
+  ]);
 
   if (!isOpen) return null;
 
@@ -130,10 +146,7 @@ export function DefeatModal({
         <ActivePotionDisplay />
         <div className={styles.buttonContainer}>
           {showRetry && (
-            <button
-              className={menuBtnClass("retry")}
-              onClick={executeSelected}
-            >
+            <button className={menuBtnClass("retry")} onClick={executeSelected}>
               Tentar novamente
             </button>
           )}

@@ -131,7 +131,8 @@ export function Inventory() {
   const hasOtherChest = !!(
     chestLastResult && otherChestExists(chestLastResult.tier)
   );
-  const chestRewardsVisible = !!(dailyChest.lastResult || chestLastResult) && !openingChest;
+  const chestRewardsVisible =
+    !!(dailyChest.lastResult || chestLastResult) && !openingChest;
   const rewardOptionCount = chestRewardsVisible ? (hasOtherChest ? 2 : 1) : 0;
 
   const closeRewards = useStableCallback(() => {
@@ -143,9 +144,7 @@ export function Inventory() {
   });
 
   const selectedItem = filteredItems[selectedIndex];
-  const selectedItemData = selectedItem
-    ? ITEMS[selectedItem.id]
-    : null;
+  const selectedItemData = selectedItem ? ITEMS[selectedItem.id] : null;
 
   const isChestSelected = selectedItemData?.type === "chest";
   const isConsumableSelected =

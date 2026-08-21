@@ -90,14 +90,26 @@ export const WEAPONS = [
     name: "Cetro Grande",
     slot: "weapon",
     rank: 8,
-    stats: { strength: 2, intelligence: 3, vampirism: 2, maxHpDamage: 1, trueDamage: 3 },
+    stats: {
+      strength: 2,
+      intelligence: 3,
+      vampirism: 2,
+      maxHpDamage: 1,
+      trueDamage: 3,
+    },
   },
   {
     id: "weapon_espadao_artur",
     name: "Espadão do Rei Artur",
     slot: "weapon",
     rank: 9,
-    stats: { strength: 5, intelligence: 4, vampirism: 3, maxHpDamage: 2, trueDamage: 4 },
+    stats: {
+      strength: 5,
+      intelligence: 4,
+      vampirism: 3,
+      maxHpDamage: 2,
+      trueDamage: 4,
+    },
   },
   {
     id: "weapon_picareta",

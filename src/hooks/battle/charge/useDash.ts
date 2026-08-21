@@ -138,7 +138,9 @@ export function useChargeDash(props: Props) {
           npcElementTypesRef.current,
         );
         const dmg = Math.round(
-          calculateDamageToNpc(critDmg, npcArmor) * elementMultiplier * elementDamageBonus,
+          calculateDamageToNpc(critDmg, npcArmor) *
+            elementMultiplier *
+            elementDamageBonus,
         );
         setNpcHP((hp) => Math.max(0, hp - dmg));
         if (vampirismRef.current > 0) {
@@ -167,7 +169,9 @@ export function useChargeDash(props: Props) {
           CHARACTER_ELEMENT_TYPES[dashCharacter],
           summon ? getNpcElementTypes(summon.npcType) : [],
         );
-        const summonDmg = Math.round(critDmg * elementMultiplier * elementDamageBonus);
+        const summonDmg = Math.round(
+          critDmg * elementMultiplier * elementDamageBonus,
+        );
         spawnDamageRef.current?.(
           summonDmg,
           target.x,

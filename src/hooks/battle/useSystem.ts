@@ -137,8 +137,8 @@ export function useBattleSystem(props: Props) {
   const { blockGauge, setBlockGauge, blockLimit, resetBlockGauge } =
     useBlockGauge(char.level, totalArmor);
 
-  const behavior =
-    (battleBehaviors[player.character] || battleBehaviors.default)!;
+  const behavior = (battleBehaviors[player.character] ||
+    battleBehaviors.default)!;
 
   const npcElementTypes = getNpcElementTypes(npcType);
 
@@ -150,14 +150,15 @@ export function useBattleSystem(props: Props) {
     BURN_TICK_DAMAGE,
     equippedResistances.heat,
   );
-  const onHalfHeal = halfHealReduction > 0
-    ? () => {
-        setPlayer((p) => ({
-          ...p,
-          halfHealUntil: Date.now() + HALFHEAL_DURATION_MS,
-        }));
-      }
-    : undefined;
+  const onHalfHeal =
+    halfHealReduction > 0
+      ? () => {
+          setPlayer((p) => ({
+            ...p,
+            halfHealUntil: Date.now() + HALFHEAL_DURATION_MS,
+          }));
+        }
+      : undefined;
 
   const { playerCooldown, npcCooldown, isEnding } = useBattleCooldowns();
 
@@ -379,7 +380,12 @@ export function useBattleSystem(props: Props) {
         return applyPlayerStatus(p, status, reduced);
       });
     },
-    [setPlayer, equippedResistances.heat, equippedResistances.cold, equippedResistances.blind],
+    [
+      setPlayer,
+      equippedResistances.heat,
+      equippedResistances.cold,
+      equippedResistances.blind,
+    ],
   );
 
   return {

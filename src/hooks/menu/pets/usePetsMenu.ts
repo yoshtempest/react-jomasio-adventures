@@ -118,8 +118,7 @@ export function usePetsMenu(
     if (selectedIndex === prev) return;
     const container = listRef.current;
     const selectedElement = container.children[selectedIndex] as
-      | HTMLElement
-      | undefined;
+      HTMLElement | undefined;
     if (!selectedElement) return;
     selectedElement.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, [isOpen, selectedIndex, pets, listRef]);

@@ -43,7 +43,8 @@ export function getItemResistances(
   if (!item) return { heat: false, cold: false, blind: false };
   if (!(ARMOR_SLOTS as readonly string[]).includes(item.slot))
     return { heat: false, cold: false, blind: false };
-  if (!isEpicOrHigher(item.rank)) return { heat: false, cold: false, blind: false };
+  if (!isEpicOrHigher(item.rank))
+    return { heat: false, cold: false, blind: false };
 
   let seed = advanceSeed(equipmentSeed(itemId), enhance);
 
@@ -51,14 +52,13 @@ export function getItemResistances(
   seed = advanceSeed(seed, 1);
   const cold = seed % 100 < RESISTANCE_DROP_CHANCE * 100;
   seed = advanceSeed(seed, 1);
-  const blind = item.slot === "helmet" && seed % 100 < RESISTANCE_DROP_CHANCE * 100;
+  const blind =
+    item.slot === "helmet" && seed % 100 < RESISTANCE_DROP_CHANCE * 100;
 
   return { heat, cold, blind };
 }
 
-function* eachArmorItem(
-  equipped: EquippedItems,
-): Generator<EquippedItemInfo> {
+function* eachArmorItem(equipped: EquippedItems): Generator<EquippedItemInfo> {
   for (const slot of ARMOR_SLOTS) {
     const info = equipped[slot];
     if (info) yield info;
@@ -97,9 +97,6 @@ export function reduceDurationByResistance(
   return Math.round(baseMs * (1 - resistancePct / 100));
 }
 
-export function reduceTickDamage(
-  base: number,
-  resistancePct: number,
-): number {
+export function reduceTickDamage(base: number, resistancePct: number): number {
   return Math.max(1, Math.round(base * (1 - resistancePct / 100)));
 }

@@ -1,5 +1,5 @@
 export function getJailsonTwoInitialPosition(
-  lastPage?: LastPage
+  lastPage?: LastPage,
 ): ExplorePosition {
   if (lastPage === "/hall/jailson/battle") {
     return { x: 10, y: 2, direction: "down" };

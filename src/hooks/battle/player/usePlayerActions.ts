@@ -159,9 +159,12 @@ export function usePlayerBattleActions({
       if (!hitMain) {
         playAttackSound(player.character);
         battle.playerCooldown.current = false;
-        setTimeout(() => {
-          battle.playerCooldown.current = true;
-        }, isSpecial ? PLAYER_SPECIAL_COOLDOWN : PLAYER_BASIC_COOLDOWN);
+        setTimeout(
+          () => {
+            battle.playerCooldown.current = true;
+          },
+          isSpecial ? PLAYER_SPECIAL_COOLDOWN : PLAYER_BASIC_COOLDOWN,
+        );
       }
     },
     [player, npc.x, battle, onNpcPush, summons, hitSummon],
@@ -282,14 +285,7 @@ export function usePlayerBattleActions({
     }
 
     battle.setDelicia(0);
-  }, [
-    battle,
-    getTargets,
-    player.state,
-    player.x,
-    hitTargetList,
-    npcClass,
-  ]);
+  }, [battle, getTargets, player.state, player.x, hitTargetList, npcClass]);
 
   return {
     handlePlayerHit,

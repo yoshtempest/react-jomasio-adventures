@@ -16,7 +16,10 @@ type BattleEntitiesBattle = {
 };
 
 type Props = {
-  npc: NPCBattleState & { projectile: Projectile | null; groundPapers: GroundPaper[] };
+  npc: NPCBattleState & {
+    projectile: Projectile | null;
+    groundPapers: GroundPaper[];
+  };
   player: Player;
   battle: BattleEntitiesBattle;
   npcType: string;
@@ -62,10 +65,7 @@ export function BattleEntities({
       />
 
       {npc.projectile && (
-        <ProjectileSprite
-          projectile={npc.projectile}
-          groundY={player.y}
-        />
+        <ProjectileSprite projectile={npc.projectile} groundY={player.y} />
       )}
 
       {npc.groundPapers.map((gp) => (
@@ -100,8 +100,8 @@ export function BattleEntities({
               position: "absolute",
               width: TILE_SIZE * 2,
               height: TILE_SIZE * 2,
-            left: c.x * battleScaleX,
-            top: c.y * battleScaleY,
+              left: c.x * battleScaleX,
+              top: c.y * battleScaleY,
               transform: "translate(-50%, -100%)",
               opacity: c.phase === "fading" ? 0 : 1,
               transition: "opacity 500ms linear",

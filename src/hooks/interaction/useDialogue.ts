@@ -24,7 +24,9 @@ export function useDialogue(dialogues: Dialogue[], onFinish?: () => void) {
     return activeDialogues.map((line) => {
       if (line.isPlayer) {
         const src = line.expression
-          ? playerPath(`/${player.character}/expressions/${line.expression}.svg`)
+          ? playerPath(
+              `/${player.character}/expressions/${line.expression}.svg`,
+            )
           : characterSprites[player.character];
         return {
           ...line,

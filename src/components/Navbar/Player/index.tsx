@@ -197,7 +197,7 @@ export function Player() {
             <img
               src={asset(`/assets/items/all.svg`)}
               alt="Todos"
-              className={` ${styles.charFace} ${isSummaryView ? styles.charBtnActive: ""}`}
+              className={` ${styles.charFace} ${isSummaryView ? styles.charBtnActive : ""}`}
             />
             {CHARACTERS.map((char) => (
               <span

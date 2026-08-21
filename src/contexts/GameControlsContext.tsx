@@ -61,18 +61,13 @@ export function GameControlsProvider({ children }: Props) {
 
   // CONTROLS STACK
 
-  const pushControls = useCallback(
-    (controls: GameControlLayer) => {
-      setStack((prev) => [...prev, controls]);
+  const pushControls = useCallback((controls: GameControlLayer) => {
+    setStack((prev) => [...prev, controls]);
 
-      return () => {
-        setStack((prev) =>
-          prev.filter((layer) => layer !== controls),
-        );
-      };
-    },
-    [],
-  );
+    return () => {
+      setStack((prev) => prev.filter((layer) => layer !== controls));
+    };
+  }, []);
 
   const clearControls = useCallback(() => {
     setStack([]);
@@ -161,34 +156,21 @@ export function GameControlsProvider({ children }: Props) {
         }
       },
 
-      onConfirmRelease: findRelease(
-        (layer) => layer.onConfirmRelease,
-      ),
+      onConfirmRelease: findRelease((layer) => layer.onConfirmRelease),
 
-      onCancelRelease: findRelease(
-        (layer) => layer.onCancelRelease,
-      ),
+      onCancelRelease: findRelease((layer) => layer.onCancelRelease),
 
-      onUpRelease: findRelease(
-        (layer) => layer.onUpRelease,
-      ),
+      onUpRelease: findRelease((layer) => layer.onUpRelease),
 
-      onDownRelease: findRelease(
-        (layer) => layer.onDownRelease,
-      ),
+      onDownRelease: findRelease((layer) => layer.onDownRelease),
 
-      onLeftRelease: findRelease(
-        (layer) => layer.onLeftRelease,
-      ),
+      onLeftRelease: findRelease((layer) => layer.onLeftRelease),
 
-      onRightRelease: findRelease(
-        (layer) => layer.onRightRelease,
-      ),
+      onRightRelease: findRelease((layer) => layer.onRightRelease),
 
       onOpen: top?.onOpen,
 
-      blockGlobalOpen:
-        top?.blockGlobalOpen ?? false,
+      blockGlobalOpen: top?.blockGlobalOpen ?? false,
     };
   }, [stack]);
 
@@ -235,9 +217,7 @@ export function useGameControls() {
   const ctx = useContext(GameControlsContext);
 
   if (!ctx) {
-    throw new Error(
-      "useGameControls need provider",
-    );
+    throw new Error("useGameControls need provider");
   }
 
   return ctx;

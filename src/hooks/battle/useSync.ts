@@ -89,7 +89,15 @@ export function useBattleSync({
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [npcType, battle.npcPhase, isEndingRef, setNpcHPRef, npcMaxHpRef, halfHealReduction, halfHealUntilRef]);
+  }, [
+    npcType,
+    battle.npcPhase,
+    isEndingRef,
+    setNpcHPRef,
+    npcMaxHpRef,
+    halfHealReduction,
+    halfHealUntilRef,
+  ]);
 
   // Wire ref callbacks so battle system can trigger NPC ranged/melee hit
   refs.npcRangedAttackRef.current = () => {

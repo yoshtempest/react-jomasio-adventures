@@ -75,8 +75,7 @@ export function CharacterProgressProvider({
   function addXP(character: Character, amount: number) {
     const isSunday = new Date().getDay() === 0;
     const xpBuff = getXpBuffMultiplier();
-    const difficultyMultiplier =
-      DIFFICULTY_XP_MULTIPLIER[difficulty] ?? 1;
+    const difficultyMultiplier = DIFFICULTY_XP_MULTIPLIER[difficulty] ?? 1;
     const finalAmount = Math.floor(
       amount * (isSunday ? 2 : 1) * xpBuff * difficultyMultiplier,
     );
@@ -276,6 +275,9 @@ export function CharacterProgressProvider({
 // eslint-disable-next-line react-refresh/only-export-components
 export function useCharacterProgress() {
   const ctx = useContext(CharacterProgressContext);
-  if (!ctx) throw new Error("useCharacterProgress precisa do CharacterProgressProvider");
+  if (!ctx)
+    throw new Error(
+      "useCharacterProgress precisa do CharacterProgressProvider",
+    );
   return ctx;
 }

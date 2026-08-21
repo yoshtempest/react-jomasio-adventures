@@ -52,14 +52,7 @@ export function CafeteriaScene({ sceneId }: Props) {
         progressQuest,
         openContainer: fridge.open,
       }),
-    [
-      addItem,
-      hasItem,
-      removeItem,
-      setPopup,
-      progressQuest,
-      fridge.open,
-    ],
+    [addItem, hasItem, removeItem, setPopup, progressQuest, fridge.open],
   );
 
   useRandomEncounter({

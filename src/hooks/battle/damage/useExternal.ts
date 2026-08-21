@@ -51,7 +51,15 @@ export function useExternalDamage({
       const remaining = damage - shield;
       setPlayerHP((hp) => Math.max(0, hp - remaining));
     },
-    [setPlayerHP, setPlayerShield, playerShieldRef, oneHitShieldRef, spawnDamageRef, playerX, playerY],
+    [
+      setPlayerHP,
+      setPlayerShield,
+      playerShieldRef,
+      oneHitShieldRef,
+      spawnDamageRef,
+      playerX,
+      playerY,
+    ],
   );
 
   const damagePlayer = useCallback(

@@ -1,7 +1,13 @@
 import { isNear } from "@/gameRules/npc/behavior";
 import { getChaseMovement } from "@/gameRules/movement/npc";
-import { NPC_RUNNING_SPEED, NPC_BASE_SPEED } from "@/gameRules/movement/constants";
-import type { BehaviorContext, BehaviorResult } from "@/utils/types/npc/npcBehavior";
+import {
+  NPC_RUNNING_SPEED,
+  NPC_BASE_SPEED,
+} from "@/gameRules/movement/constants";
+import type {
+  BehaviorContext,
+  BehaviorResult,
+} from "@/utils/types/npc/npcBehavior";
 import type { MaugreloAI } from "./state";
 import {
   PRE_MOVE_DURATION,
@@ -143,11 +149,17 @@ export function handleIdle(
       return { x: npcX, y: npcY, state: "preMove" as const };
     }
   } else {
-    if (now - ai.lastSlap >= SLAP_COOLDOWN && now - ai.lastPush >= PUSH_COOLDOWN) {
+    if (
+      now - ai.lastSlap >= SLAP_COOLDOWN &&
+      now - ai.lastPush >= PUSH_COOLDOWN
+    ) {
       const preferSlap = now - ai.lastSlap <= now - ai.lastPush;
 
       if (preferSlap || now - ai.lastPush < PUSH_COOLDOWN) {
-        if (now - ai.lastSlap >= SLAP_COOLDOWN && isNear(npcX, npcY, playerX, playerY, SLAP_RANGE)) {
+        if (
+          now - ai.lastSlap >= SLAP_COOLDOWN &&
+          isNear(npcX, npcY, playerX, playerY, SLAP_RANGE)
+        ) {
           ai.actionState = "preMove";
           ai.actionStart = now;
           ai.currentAction = "slap";
@@ -157,7 +169,10 @@ export function handleIdle(
       }
 
       if (!preferSlap || now - ai.lastSlap < SLAP_COOLDOWN) {
-        if (now - ai.lastPush >= PUSH_COOLDOWN && isNear(npcX, npcY, playerX, playerY, PUSH_RANGE)) {
+        if (
+          now - ai.lastPush >= PUSH_COOLDOWN &&
+          isNear(npcX, npcY, playerX, playerY, PUSH_RANGE)
+        ) {
           ai.actionState = "preMove";
           ai.actionStart = now;
           ai.currentAction = "push";

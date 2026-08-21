@@ -149,12 +149,7 @@ export function useBattleStats({
 
   const char = useMemo(
     () =>
-      buildCharacterStats(
-        baseChar,
-        equipmentBonus,
-        titleBonus,
-        rankMultiplier,
-      ),
+      buildCharacterStats(baseChar, equipmentBonus, titleBonus, rankMultiplier),
     [baseChar, equipmentBonus, titleBonus, rankMultiplier],
   );
 
@@ -175,7 +170,14 @@ export function useBattleStats({
     );
     const base = npcPhase === 2 ? Math.round(stats.armor * 1.5) : stats.armor;
     return base + npcArmorBonus;
-  }, [npcLevel, npcClass, difficulty, npcPhase, npcStatMultiplier, npcArmorBonus]);
+  }, [
+    npcLevel,
+    npcClass,
+    difficulty,
+    npcPhase,
+    npcStatMultiplier,
+    npcArmorBonus,
+  ]);
 
   const HITS_TO_SPECIAL = getMaxSpecial(playerClass);
 

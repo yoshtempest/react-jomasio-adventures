@@ -70,7 +70,16 @@ export function useBattleLifecycle({
     }, 300);
 
     return () => clearTimeout(timeout);
-  }, [npcHP, setNpcPhase, setNpcHP, isEnding, npcPhaseRef, npcClassRef, npcMaxHpRef, onNpcDeathRef]);
+  }, [
+    npcHP,
+    setNpcPhase,
+    setNpcHP,
+    isEnding,
+    npcPhaseRef,
+    npcClassRef,
+    npcMaxHpRef,
+    onNpcDeathRef,
+  ]);
 
   return { isNpcDying };
 }

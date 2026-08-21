@@ -13,7 +13,11 @@ export function useBattleKillCounter() {
   const npcTypeRef = useRef("");
   const npcDataRef = useRef<{ class: NPCClass }>({ class: "common" });
 
-  function handleNpcDeath(npcType: string, npcClass: NPCClass, isAlfa?: boolean) {
+  function handleNpcDeath(
+    npcType: string,
+    npcClass: NPCClass,
+    isAlfa?: boolean,
+  ) {
     incrementKillCounter(npcType, npcClass);
     if (isAlfa) incrementAlfaKillCounter();
     registerDefeat(npcType);

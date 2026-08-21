@@ -28,11 +28,7 @@ export function QuestCard({ quest, selected }: Props) {
       className={styles.container}
     >
       <div className={styles.row}>
-        <img
-          src={quest.image ?? ""}
-          className={styles.image}
-          width={50}
-        />
+        <img src={quest.image ?? ""} className={styles.image} width={50} />
         <h3>{quest.name}</h3>
         {quest.frequency && (
           <span className={styles.freqBadge} data-freq={quest.frequency}>

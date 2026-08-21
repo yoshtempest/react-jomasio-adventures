@@ -56,7 +56,11 @@ export function TrainingOverlay({ onLeave }: { onLeave: () => void }) {
 
   return (
     <>
-      <button className={styles.leaveButton} onClick={handleLeave} type="button">
+      <button
+        className={styles.leaveButton}
+        onClick={handleLeave}
+        type="button"
+      >
         Sair {timeStr}
       </button>
       <div className={styles.statusPanel}>

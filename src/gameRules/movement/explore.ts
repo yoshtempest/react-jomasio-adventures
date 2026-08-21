@@ -23,7 +23,10 @@ function tryMove(
   if (direction === "left") newX -= step;
   if (direction === "right") newX += step;
 
-  if (!canMoveTo(map, newX, newY) || !canStepTo(player.height, heightMap, newX, newY)) {
+  if (
+    !canMoveTo(map, newX, newY) ||
+    !canStepTo(player.height, heightMap, newX, newY)
+  ) {
     return { moved: false, newX: player.gridX, newY: player.gridY };
   }
 
@@ -36,7 +39,10 @@ function tryMove(
       if (direction === "down") iy += s;
       if (direction === "left") ix -= s;
       if (direction === "right") ix += s;
-      if (!canMoveTo(map, ix, iy) || !canStepTo(player.height, heightMap, ix, iy)) {
+      if (
+        !canMoveTo(map, ix, iy) ||
+        !canStepTo(player.height, heightMap, ix, iy)
+      ) {
         return { moved: false, newX: player.gridX, newY: player.gridY };
       }
     }

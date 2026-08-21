@@ -78,8 +78,7 @@ export function PlayerRewards({
           rewards.filter(
             (r) =>
               r.charId &&
-              CHARACTERS.indexOf(r.charId) <
-                CHARACTERS.indexOf(char),
+              CHARACTERS.indexOf(r.charId) < CHARACTERS.indexOf(char),
           ).length;
 
         return (

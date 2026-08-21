@@ -106,7 +106,18 @@ export function useExitTile({
         state: { from: location.pathname },
       });
     }
-  }, [player.gridX, player.gridY, scene, quests, navigateWithFade, location, flagsRef, handleExitRef, playerRef, setPopupRef]);
+  }, [
+    player.gridX,
+    player.gridY,
+    scene,
+    quests,
+    navigateWithFade,
+    location,
+    flagsRef,
+    handleExitRef,
+    playerRef,
+    setPopupRef,
+  ]);
 
   useEffect(() => {
     const prev = prevPositionRef.current;

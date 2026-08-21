@@ -25,9 +25,7 @@ function getPeakDamageFrameIndex(frames: ReplayFrame[]): number {
   return bestIdx;
 }
 
-function extractHighlightFrames(
-  replayData: ReplayData,
-): ReplayData | null {
+function extractHighlightFrames(replayData: ReplayData): ReplayData | null {
   const { frames } = replayData;
   if (frames.length === 0) return null;
 

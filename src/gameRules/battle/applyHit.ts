@@ -95,19 +95,26 @@ function computeHitDamage({
     npcElementTypes,
   );
   const trueDmg =
-    Math.round(armorReduced * damageMultiplier * elementMultiplier * elementDamageBonus) +
-    totalTrueDamage;
+    Math.round(
+      armorReduced * damageMultiplier * elementMultiplier * elementDamageBonus,
+    ) + totalTrueDamage;
 
   return { damage: trueDmg, isCrit: dmgType === "crit", type: dmgType };
 }
 
-export function calculateBasicHitDamage(
-  params: DamageCalcParams,
-): { damage: number; isCrit: boolean; type: DamageType } {
+export function calculateBasicHitDamage(params: DamageCalcParams): {
+  damage: number;
+  isCrit: boolean;
+  type: DamageType;
+} {
   const rawDmg =
     params.player.character === "larissa"
       ? 2
-      : calculatePlayerDamage(params.char.stats.strength, params.playerClass, params.titleDamageBonus);
+      : calculatePlayerDamage(
+          params.char.stats.strength,
+          params.playerClass,
+          params.titleDamageBonus,
+        );
 
   return computeHitDamage({ ...params, rawDmg });
 }
@@ -118,7 +125,10 @@ export function calculateSpecialHitDamage(
   const rawDmg =
     params.player.character === "larissa"
       ? params.stacks * 5
-      : calculateSpecialDamage(params.char.stats.intelligence, params.playerClass);
+      : calculateSpecialDamage(
+          params.char.stats.intelligence,
+          params.playerClass,
+        );
 
   return computeHitDamage({ ...params, rawDmg });
 }
@@ -157,8 +167,11 @@ export function applyBasicHit(params: BasicHitParams) {
   playAttackSound(params.player.character);
   navigator.vibrate?.(20);
 
-  const { damage: trueDmg, isCrit, type: dmgType } =
-    calculateBasicHitDamage(params);
+  const {
+    damage: trueDmg,
+    isCrit,
+    type: dmgType,
+  } = calculateBasicHitDamage(params);
 
   if (isCrit) params.setPlayer((p) => ({ ...p, state: "crit" }));
 
@@ -193,8 +206,11 @@ type SpecialHitParams = BaseHitParams & {
 export function applySpecialHit(params: SpecialHitParams) {
   navigator.vibrate?.(30);
 
-  const { damage: trueDmg, isCrit, type: dmgType } =
-    calculateSpecialHitDamage(params);
+  const {
+    damage: trueDmg,
+    isCrit,
+    type: dmgType,
+  } = calculateSpecialHitDamage(params);
 
   if (isCrit) params.setPlayer((p) => ({ ...p, state: "crit" }));
 

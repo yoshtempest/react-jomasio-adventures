@@ -5,5 +5,8 @@ export const cantinaThreeDialogue = defineDialogue([
   ["jhowSimar", "Cara, eu sou o primeiro NPC, tu queria o que?"],
   ["protagonista", "Chora mais", "crossArms"],
   ["jhowSimar", "Vou desaparecer, mas obrigado, foi uma delícia te enfrentar."],
-  ["jhowSimar", "Ah é, minhas últimas palavras... Dúvido você ir lá na sala dos pcs..."],
+  [
+    "jhowSimar",
+    "Ah é, minhas últimas palavras... Dúvido você ir lá na sala dos pcs...",
+  ],
 ]);

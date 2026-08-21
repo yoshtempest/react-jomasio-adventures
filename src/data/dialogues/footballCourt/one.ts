@@ -9,11 +9,21 @@ export const footballCourtDialogue = defineDialogue([
   ["neimito", "Certo Ematron, eu sou o menino Ney, certo?"],
   ["ematron", "Certo..."],
   ["neimito", "Que sono é esse? Você nem trabalha."],
-  ["neimito", "Certo, iremos estudar termometria, e para isso precisamos do calor entre os corpos, certo?"],
-  ["neimito", "Certo, já que o Denis não está aqui, você irá me ajudar a gerar um calor."],
+  [
+    "neimito",
+    "Certo, iremos estudar termometria, e para isso precisamos do calor entre os corpos, certo?",
+  ],
+  [
+    "neimito",
+    "Certo, já que o Denis não está aqui, você irá me ajudar a gerar um calor.",
+  ],
   ["ematron", "Mas você vai me soltar né Ney?"],
   ["neimito", "Chupa"],
-  ["protagonista", "Eu já sei de tudo Neimito, você não é o verdadeiro Ney", "angry"],
+  [
+    "protagonista",
+    "Eu já sei de tudo Neimito, você não é o verdadeiro Ney",
+    "angry",
+  ],
   ["neimito", "Droga, justo na melhor parte!"],
   ["neimito", "Vamos aquecer o clima então!"],
 ]);

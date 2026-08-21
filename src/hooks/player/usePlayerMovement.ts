@@ -1,5 +1,8 @@
 import { useRef, useEffect } from "react";
-import { moveExplore, EXPLORE_MOVE_INTERVAL } from "@/gameRules/movement/explore";
+import {
+  moveExplore,
+  EXPLORE_MOVE_INTERVAL,
+} from "@/gameRules/movement/explore";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 

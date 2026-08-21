@@ -8,11 +8,7 @@ import {
 import { useServiceWorkerUpdate } from "tempest-react-sdk";
 
 export type UpdateStatus =
-  | "idle"
-  | "checking"
-  | "uptodate"
-  | "available"
-  | "error";
+  "idle" | "checking" | "uptodate" | "available" | "error";
 
 type UpdateContextType = {
   status: UpdateStatus;

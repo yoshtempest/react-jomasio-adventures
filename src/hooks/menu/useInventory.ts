@@ -211,7 +211,20 @@ export function useInventoryMenu(
 
     const remove = pushControlsRef.current(controls);
     return () => remove();
-  }, [isOpen, navLength, chestReadyRef, filterConfigRef, onOpenChestRef, playMoveRef, playSelectRef, pushControlsRef, chestFocusedRef, filterFocusedRef, handleUseItemRef, selectedIndexRef]);
+  }, [
+    isOpen,
+    navLength,
+    chestReadyRef,
+    filterConfigRef,
+    onOpenChestRef,
+    playMoveRef,
+    playSelectRef,
+    pushControlsRef,
+    chestFocusedRef,
+    filterFocusedRef,
+    handleUseItemRef,
+    selectedIndexRef,
+  ]);
 
   return {
     selectedIndex,

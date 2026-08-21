@@ -15,42 +15,41 @@ Draco(dragão)
 Umbra(fantasma)
 Normalis(normal)
 
-provavelmente irei fazer uma organização em 
+provavelmente irei fazer uma organização em
 
 type ElementType =
-  | "Aquos"
-  | "Pyrus"
-  | "Subterra"
-  | "Ventus"
-  | "Darkus"
-  | "Electricus"
-  | "Haos"
-  | "Metallum"
-  | "Natura"
-  | "Psychicus"
-  | "Nympha"
-  | "Draco"
-  | "Umbra"
-  | "Normalis"
+| "Aquos"
+| "Pyrus"
+| "Subterra"
+| "Ventus"
+| "Darkus"
+| "Electricus"
+| "Haos"
+| "Metallum"
+| "Natura"
+| "Psychicus"
+| "Nympha"
+| "Draco"
+| "Umbra"
+| "Normalis"
 
 type WeaponType =
-  | "None"
-  | "Sword"
-  | "Whip"
-  | "Pistol"
-  | "Bow"
-  | "Spear"
-  | "Staff"
-  | "Claws";
+| "None"
+| "Sword"
+| "Whip"
+| "Pistol"
+| "Bow"
+| "Spear"
+| "Staff"
+| "Claws";
 
 type CombatStyle =
-  | "Pugnator"
-  | "Shooter"
-  | "Swordsman"
-  | "Mage";
+| "Pugnator"
+| "Shooter"
+| "Swordsman"
+| "Mage";
 
 Laricell pode mudar a tipagem dela com base na arma em que está equipada ou no cartucho de balas (tenho que pensar ainda)
-
 
 🔥 Pyrus
 
@@ -145,7 +144,6 @@ Umbra seria mais associado a fantasmas, espíritos e existência sobrenatural, d
 
 Dano normal: Em todo o resto
 Fraco contra: Psychicus
-
 
 Crie uma tabela de que tipagens causam/sofrem dano super efetivo em que outras tipagens. Essa tabela deve estar no menu de configurações na Tab de batalha e o jogador deve estar em batalha.
 

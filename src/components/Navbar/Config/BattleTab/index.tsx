@@ -34,7 +34,11 @@ type Props = {
   selectedIndex: number;
 };
 
-export function BattleTab({ showComboAction, showHighlight, selectedIndex }: Props) {
+export function BattleTab({
+  showComboAction,
+  showHighlight,
+  selectedIndex,
+}: Props) {
   const battleInfoCtx = useBattleInfo();
   const { player } = usePlayer();
   const { progress } = useCharacterProgress();
@@ -248,9 +252,7 @@ export function BattleTab({ showComboAction, showHighlight, selectedIndex }: Pro
 
       {showElementTable && (
         <ElementTable
-          playerElementTypes={
-            CHARACTER_ELEMENT_TYPES[player.character] ?? []
-          }
+          playerElementTypes={CHARACTER_ELEMENT_TYPES[player.character] ?? []}
           npcElementTypes={
             battleInfo ? getNpcElementTypes(battleInfo.npcType) : []
           }

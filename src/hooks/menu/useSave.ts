@@ -263,7 +263,18 @@ export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
     });
 
     return remove;
-  }, [pushControls, activeTabRef, closeNavbarRef, confirmDeleteRef, isOnTabRef, itemsRef, playMoveRef, playSelectRef, selectedIndexRef, setModeRef]);
+  }, [
+    pushControls,
+    activeTabRef,
+    closeNavbarRef,
+    confirmDeleteRef,
+    isOnTabRef,
+    itemsRef,
+    playMoveRef,
+    playSelectRef,
+    selectedIndexRef,
+    setModeRef,
+  ]);
 
   useEffect(() => {
     if (!listRef?.current) return;

@@ -4,7 +4,7 @@ import { getPcRoomTwoDialogue } from "./dialogue";
 import { pcRoomTwoNpcs } from "./npcs";
 import { pcRoomTwoEvents } from "./events";
 import { pcRoomOneTiles } from "../one/tiles";
-import { getPcRoomTwoInitialPosition }  from "./position";
+import { getPcRoomTwoInitialPosition } from "./position";
 
 export const twoScene: SceneConfig = {
   id: "two",

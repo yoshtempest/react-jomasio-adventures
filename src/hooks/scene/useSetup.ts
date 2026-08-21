@@ -74,7 +74,14 @@ export function useSceneSetup({
     }
 
     setIsReady(true);
-  }, [map, heightMapRef, initialPositionRef, setHeightMapRef, setMapRef, setPositionRef]);
+  }, [
+    map,
+    heightMapRef,
+    initialPositionRef,
+    setHeightMapRef,
+    setMapRef,
+    setPositionRef,
+  ]);
 
   return { isReady };
 }

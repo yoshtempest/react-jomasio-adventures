@@ -140,7 +140,19 @@ export function useSummonAI({
     }, 20);
 
     return () => clearInterval(interval);
-  }, [hitstopRef, spawnDamageRef, damagePlayerRef, difficultyRef, isPausedRef, npcLevelRef, playerCharacterRef, playerClassRef, playerXRef, playerYRef, setSummonsRef]);
+  }, [
+    hitstopRef,
+    spawnDamageRef,
+    damagePlayerRef,
+    difficultyRef,
+    isPausedRef,
+    npcLevelRef,
+    playerCharacterRef,
+    playerClassRef,
+    playerXRef,
+    playerYRef,
+    setSummonsRef,
+  ]);
 
   useEffect(() => {
     const dying = summons.filter((summon) => summon.hp <= 0 && !summon.isDying);

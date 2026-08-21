@@ -90,12 +90,7 @@ export function BattleScene(props: Props) {
     showRetry,
   } = useBattleScene({ ...props, isAlfa });
 
-  const {
-    TILE_SIZE,
-    PLAYER_SIZE,
-    MAP_COLS,
-    MAP_ROWS,
-  } = useGameLayout();
+  const { TILE_SIZE, PLAYER_SIZE, MAP_COLS, MAP_ROWS } = useGameLayout();
 
   const { setBattleCollision } = usePlayer();
 
@@ -109,7 +104,8 @@ export function BattleScene(props: Props) {
 
   const maxOffsetX = window.innerWidth - containerWidth;
   const bgXMin = initialBgPosRef.current.x;
-  const bgXMax = initialBgPosRef.current.x + (maxOffsetX * 200) / containerWidth;
+  const bgXMax =
+    initialBgPosRef.current.x + (maxOffsetX * 200) / containerWidth;
 
   const targetBgX = Math.max(
     bgXMin,
@@ -127,8 +123,10 @@ export function BattleScene(props: Props) {
   bgTargetRef.current.x = targetBgX;
   bgTargetRef.current.y = targetBgY;
 
-  const worldOffsetX = (containerWidth * 0.5 * (bgPosX - initialBgPosRef.current.x)) / 100;
-  const worldOffsetY = (containerHeight * 0.5 * (bgPosY - initialBgPosRef.current.y)) / 100;
+  const worldOffsetX =
+    (containerWidth * 0.5 * (bgPosX - initialBgPosRef.current.x)) / 100;
+  const worldOffsetY =
+    (containerHeight * 0.5 * (bgPosY - initialBgPosRef.current.y)) / 100;
 
   const battleScaleX = window.innerWidth / ProjectileConstants.MAP_WIDTH;
   const battleScaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;
@@ -151,7 +149,10 @@ export function BattleScene(props: Props) {
     const dx = Math.abs(bgPosX - bgTargetRef.current.x);
     const dy = Math.abs(bgPosY - bgTargetRef.current.y);
     if (dx < 0.5 && dy < 0.5) {
-      if (bgPosX !== bgTargetRef.current.x || bgPosY !== bgTargetRef.current.y) {
+      if (
+        bgPosX !== bgTargetRef.current.x ||
+        bgPosY !== bgTargetRef.current.y
+      ) {
         setBgPosX(bgTargetRef.current.x);
         setBgPosY(bgTargetRef.current.y);
       }
@@ -207,7 +208,14 @@ export function BattleScene(props: Props) {
     if (showVictory || showDefeat) {
       stopAll();
     }
-  }, [showIntro, showVictory, showDefeat, showHighlight, stopAll, battleAudioRef]);
+  }, [
+    showIntro,
+    showVictory,
+    showDefeat,
+    showHighlight,
+    stopAll,
+    battleAudioRef,
+  ]);
 
   return (
     <div
@@ -281,9 +289,7 @@ export function BattleScene(props: Props) {
           />
 
           {npc.jumpLandingX != null && (
-            <JumpIndicator
-              landingX={npc.jumpLandingX}
-            />
+            <JumpIndicator landingX={npc.jumpLandingX} />
           )}
 
           <DamageNumbers
@@ -303,7 +309,10 @@ export function BattleScene(props: Props) {
       )}
 
       {!showOutro && showHighlight && highlightData && !isTraining && (
-        <BattleHighlight replay={highlightData} onClose={handleCloseHighlight} />
+        <BattleHighlight
+          replay={highlightData}
+          onClose={handleCloseHighlight}
+        />
       )}
 
       {!showOutro && !showHighlight && showVictory && !isTraining && (

@@ -102,5 +102,13 @@ export function useItemControls({
 
     const remove = pushControls(controls);
     return remove;
-  }, [pushControls, consumeItemRef, getEffectRef, onNoKeyRef, onRejectRef, openPlayerChestRef, stateRef]);
+  }, [
+    pushControls,
+    consumeItemRef,
+    getEffectRef,
+    onNoKeyRef,
+    onRejectRef,
+    openPlayerChestRef,
+    stateRef,
+  ]);
 }

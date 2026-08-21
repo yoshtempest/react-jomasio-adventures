@@ -11,10 +11,7 @@ import { usePetProgress } from "@/contexts/PetProgressContext";
 import { petStarsFromEnhance } from "@/data/characters/petProgress";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { useNavigate, useLocation } from "react-router";
-import {
-  useSoundEffects,
-  type SoundId,
-} from "@/contexts/SoundEffectsContext";
+import { useSoundEffects, type SoundId } from "@/contexts/SoundEffectsContext";
 import { logPlay } from "@/utils/replay/audioEventLog";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
@@ -162,10 +159,8 @@ function runPetSkill(
         getNpcElementTypes(npcType),
       );
       const dmg = Math.round(
-        calculateDamageToNpc(
-          baseDamage * effect.multiplier,
-          battle.npcArmor,
-        ) * elementMultiplier,
+        calculateDamageToNpc(baseDamage * effect.multiplier, battle.npcArmor) *
+          elementMultiplier,
       );
       battle.setNpcHP((hp) => Math.max(0, hp - dmg));
       spawnDamageRef.current?.(dmg, npc.x, npc.y, "pet");
@@ -178,10 +173,8 @@ function runPetSkill(
         getNpcElementTypes(npcType),
       );
       const dmg = Math.round(
-        calculateDamageToNpc(
-          baseDamage * effect.multiplier,
-          battle.npcArmor,
-        ) * elementMultiplier,
+        calculateDamageToNpc(baseDamage * effect.multiplier, battle.npcArmor) *
+          elementMultiplier,
       );
       triggerJumpAttack(npc.y, () => {
         battle.setNpcHP((hp) => Math.max(0, hp - dmg));
@@ -202,12 +195,9 @@ function runPetSkill(
       spawnDamageRef.current?.(effect.amount, playerX, playerY - 40, "heal");
       break;
     case "healPercent": {
-      const pct =
-        effect.perStar[petStars - 1] ?? effect.perStar[0] ?? 0;
+      const pct = effect.perStar[petStars - 1] ?? effect.perStar[0] ?? 0;
       const heal = Math.round((battle.playerMaxHp * pct) / 100);
-      battle.setPlayerHP((hp) =>
-        Math.min(battle.playerMaxHp, hp + heal),
-      );
+      battle.setPlayerHP((hp) => Math.min(battle.playerMaxHp, hp + heal));
       spawnDamageRef.current?.(heal, playerX, playerY - 40, "heal");
       break;
     }
@@ -261,9 +251,7 @@ export function useBattleScene({
   const { showHighlight: showHighlightEnabled } = useSettings();
   const petInfo = getEquippedInfo(player.character, "pet");
   const petStars = petInfo ? petStarsFromEnhance(petInfo.enhance) : 1;
-  const petLevel = petInfo
-    ? getPetProgress(petInfo.id, petStars).level
-    : 1;
+  const petLevel = petInfo ? getPetProgress(petInfo.id, petStars).level : 1;
   const petId = petInfo?.id ?? null;
   const petSkillDef = petId ? getPetSkillDefinition(petId) : null;
   const { items: inventoryItems, closeInventory } = useInventory();
@@ -461,7 +449,12 @@ export function useBattleScene({
   const isMenuOpen = isNavOpen;
   const isMenuOpenRef = useLatestRef(isMenuOpen);
   const isPaused =
-    showVictory || showDefeat || showIntro || showOutro != null || showHighlight || isConfigOpen;
+    showVictory ||
+    showDefeat ||
+    showIntro ||
+    showOutro != null ||
+    showHighlight ||
+    isConfigOpen;
   const controlsDisabled = isPaused || isPhaseTransitioning || isThrown;
 
   targeting.npcAiHpRef.current = npcStats.hp;
@@ -530,11 +523,11 @@ export function useBattleScene({
     const distanceX = Math.abs(npc.x - player.x);
     const distanceY = Math.abs(npc.y - player.y);
     if (distanceX > 50 || distanceY > 150) return false;
-  if (Math.random() < 0.8) {
-    targeting.npcBlockedRef.current = true;
-    npc.updateNpc({ state: "block" });
-    refs.spawnDamageRef.current?.(0, npc.x, npc.y, "blocked");
-    clearTimeout(targeting.npcBlockTimerRef.current);
+    if (Math.random() < 0.8) {
+      targeting.npcBlockedRef.current = true;
+      npc.updateNpc({ state: "block" });
+      refs.spawnDamageRef.current?.(0, npc.x, npc.y, "blocked");
+      clearTimeout(targeting.npcBlockTimerRef.current);
       targeting.npcBlockTimerRef.current = setTimeout(() => {
         targeting.npcBlockedRef.current = false;
       }, 300);
@@ -550,8 +543,9 @@ export function useBattleScene({
     }
 
     const isHardMode = difficulty === "hard" || difficulty === "insano";
-    const allOthersDefeated = CHARACTERS.filter((c) => c !== player.character)
-      .every((c) => progress[c]?.battleHP === 0);
+    const allOthersDefeated = CHARACTERS.filter(
+      (c) => c !== player.character,
+    ).every((c) => progress[c]?.battleHP === 0);
 
     if (isHardMode && allOthersDefeated) {
       for (const c of CHARACTERS) {
@@ -589,7 +583,9 @@ export function useBattleScene({
     if (rewards.equipmentDrops.length > 0) {
       incrementEquipmentDropsStats(rewards.equipmentDrops.length);
     }
-    const hasPetDrop = rewards.equipmentDrops.some((d) => d.id.startsWith("pet_"));
+    const hasPetDrop = rewards.equipmentDrops.some((d) =>
+      d.id.startsWith("pet_"),
+    );
     if (hasPetDrop) incrementPetDropCounter();
     recordWin(player.character);
 

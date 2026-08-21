@@ -36,10 +36,9 @@ export function useGoodPowderEncounter({
   const navigate = useNavigate();
 
   const [encounter, setEncounter] = useState<GoodPowderEncounter | null>(null);
-  const encounterFromLocation =
-    (
-      location.state as { goodPowderEncounter?: GoodPowderEncounter } | null
-    )?.goodPowderEncounter;
+  const encounterFromLocation = (
+    location.state as { goodPowderEncounter?: GoodPowderEncounter } | null
+  )?.goodPowderEncounter;
 
   const handledRef = useRef(false);
   const navigateRef = useLatestRef(navigate);

@@ -9,7 +9,10 @@ import { usePetsMenu } from "@/hooks/menu/pets/usePetsMenu";
 import type { PetEntry } from "@/hooks/menu/pets/usePetsMenu";
 import styles from "./styles.module.css";
 import { ProgressBar } from "@/components/ProgressBar";
-import { getPetXPToNextLevel, getPetClass } from "@/utils/character/petProgress";
+import {
+  getPetXPToNextLevel,
+  getPetClass,
+} from "@/utils/character/petProgress";
 
 function formatDrop(entry: PetEntry): string {
   if (entry.dropChance === null) return "Baú";
@@ -89,9 +92,7 @@ export function Pets() {
                     isFusing ? styles.fuseConfirm : ""
                   }`}
                 >
-                  {isFusing
-                    ? "CONFIRMAR FUSÃO?"
-                    : `FUNDIR (2x ★${eligible})`}
+                  {isFusing ? "CONFIRMAR FUSÃO?" : `FUNDIR (2x ★${eligible})`}
                 </span>
               )}
             </div>
@@ -106,9 +107,7 @@ export function Pets() {
                 </h2>
                 {entry.owned && stats && (
                   <>
-                    <p className={styles.statsLine}>
-                      Nv.{stats.level}
-                    </p>
+                    <p className={styles.statsLine}>Nv.{stats.level}</p>
                   </>
                 )}
                 {getNpcElementTypes(petNpcType).map((element) => (
@@ -128,10 +127,14 @@ export function Pets() {
                   <div className={styles.flexRow}>
                     <ProgressBar
                       value={stats.xp}
-                      max={getPetXPToNextLevel(stats.level, getPetClass(entry.id))}
+                      max={getPetXPToNextLevel(
+                        stats.level,
+                        getPetClass(entry.id),
+                      )}
                     />
                     <p className={styles.statsLine}>
-                      {stats.xp} / {getPetXPToNextLevel(stats.level, getPetClass(entry.id))}
+                      {stats.xp} /{" "}
+                      {getPetXPToNextLevel(stats.level, getPetClass(entry.id))}
                     </p>
                   </div>
                 </>
@@ -140,7 +143,7 @@ export function Pets() {
               {isEquipped && (
                 <span className={styles.equippedBadge}>Equipado</span>
               )}
-              
+
               <span className={styles.roleBadge}>
                 {PET_ROLE_LABELS[entry.role]}
               </span>
@@ -157,8 +160,6 @@ export function Pets() {
 
               <p className={styles.skillLine}>Passiva: {entry.passiveName}</p>
               <p className={styles.skillLine}>Skill: {entry.skillName}</p>
-
-              
             </div>
           </div>
         );

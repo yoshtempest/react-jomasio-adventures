@@ -26,8 +26,7 @@ export const pcsRoomMessages: Record<string, string> = {
   "13,4": "Musquito orquestra.",
   "14,4":
     "O desenvolvedor perdeu... Perdeu horas e horas de sua vida criando esse jogo, tenha compreensão com qualquer bug",
-  "15,4":
-    "Foram 40 horas de trabalho em 4 dias, ",
+  "15,4": "Foram 40 horas de trabalho em 4 dias, ",
   "16,4":
     "O jogo só é salvo no refeitório, então você precisa jogar pelo menos até chegar lá antes de fechar o jogo",
   "17,4":

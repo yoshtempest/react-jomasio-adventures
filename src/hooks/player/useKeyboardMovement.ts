@@ -109,7 +109,13 @@ export function useKeyboardMovement() {
     stopMoveRightExploreRef.current();
 
     setPressed(new Set());
-  }, [isLocked, stopMoveDownExploreRef, stopMoveLeftExploreRef, stopMoveRightExploreRef, stopMoveUpExploreRef]);
+  }, [
+    isLocked,
+    stopMoveDownExploreRef,
+    stopMoveLeftExploreRef,
+    stopMoveRightExploreRef,
+    stopMoveUpExploreRef,
+  ]);
 
   const pushControlsRef = useLatestRef(pushControls);
 

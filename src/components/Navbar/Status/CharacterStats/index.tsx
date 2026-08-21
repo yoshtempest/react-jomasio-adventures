@@ -48,16 +48,18 @@ export function CharacterStats({ selectedIndex }: CharacterStatsProps) {
     (0.005 + (titleBonus.enemyMissChance ?? 0) / 100 + luckBonus) * 100;
 
   const inc =
-    selectedIndex !== undefined
-      ? getStatIncreases(selectedIndex)
-      : undefined;
+    selectedIndex !== undefined ? getStatIncreases(selectedIndex) : undefined;
 
   function getStatIncreases(index: number): Record<string, number> {
     switch (index) {
-      case 0: return { hp: 10 };
-      case 1: return { normalDmg: 1 };
-      case 2: return { specialDmg: 2 };
-      case 3: return { armor: 2, tenacity: 1 };
+      case 0:
+        return { hp: 10 };
+      case 1:
+        return { normalDmg: 1 };
+      case 2:
+        return { specialDmg: 2 };
+      case 3:
+        return { armor: 2, tenacity: 1 };
       case 4: {
         const currentLuck = (stats.luck ?? 1) + (bonus.luck ?? 0);
         const currentLuckBonus = getLuckBonus(currentLuck);
@@ -69,7 +71,8 @@ export function CharacterStats({ selectedIndex }: CharacterStatsProps) {
           evade: Math.round(diff * 100 * 10) / 10,
         };
       }
-      default: return {};
+      default:
+        return {};
     }
   }
 
@@ -90,48 +93,77 @@ export function CharacterStats({ selectedIndex }: CharacterStatsProps) {
         <img src={asset("/assets/status/basicDamage.svg")} />
         <p>
           Dano normal: {userNormalAttackDamage}
-          {inc?.normalDmg ? <span className={styles.increase}> +{inc.normalDmg}</span> : ""}
+          {inc?.normalDmg ? (
+            <span className={styles.increase}> +{inc.normalDmg}</span>
+          ) : (
+            ""
+          )}
         </p>
       </div>
       <div>
         <img src={asset("/assets/status/specialDamage.svg")} />
         <p>
           Dano especial: {userSpecialDamage}
-          {inc?.specialDmg ? <span className={styles.increase}> +{inc.specialDmg}</span> : ""}
+          {inc?.specialDmg ? (
+            <span className={styles.increase}> +{inc.specialDmg}</span>
+          ) : (
+            ""
+          )}
         </p>
       </div>
       <div>
         <img src={asset("/assets/status/armor.svg")} />
         <p>
           Armadura: {userArmor}
-          {inc?.armor ? <span className={styles.increase}> +{inc.armor}</span> : ""}
+          {inc?.armor ? (
+            <span className={styles.increase}> +{inc.armor}</span>
+          ) : (
+            ""
+          )}
         </p>
       </div>
       <div>
         <img src={asset("/assets/status/tenacity.svg")} />
         <p>
           Tenacidade: {userTenacity}%
-          {inc?.tenacity ? <span className={styles.increase}> +{inc.tenacity}</span> : ""}
+          {inc?.tenacity ? (
+            <span className={styles.increase}> +{inc.tenacity}</span>
+          ) : (
+            ""
+          )}
         </p>
       </div>
       <div>
         <img src={asset("/assets/status/luckChance.svg")} />
         <p>
           Sorte: {userLuck}%
-          {inc?.luck ? <span className={styles.increase}> +{inc.luck}</span> : ""}
+          {inc?.luck ? (
+            <span className={styles.increase}> +{inc.luck}</span>
+          ) : (
+            ""
+          )}
         </p>
       </div>
       <div>
         <img src={asset("/assets/status/critical.svg")} />
-        <p>Crítico: {critRate.toFixed(1)}%
-        {inc?.crit ? <span className={styles.increase}> +{inc.crit}</span> : ""}
+        <p>
+          Crítico: {critRate.toFixed(1)}%
+          {inc?.crit ? (
+            <span className={styles.increase}> +{inc.crit}</span>
+          ) : (
+            ""
+          )}
         </p>
       </div>
       <div>
         <img src={asset("/assets/badges/titles/enemyMissAttacks.svg")} />
         <p>
           Esquiva: {missChance.toFixed(1)}%
-          {inc?.evade ? <span className={styles.increase}> +{inc.evade}</span> : ""}
+          {inc?.evade ? (
+            <span className={styles.increase}> +{inc.evade}</span>
+          ) : (
+            ""
+          )}
         </p>
       </div>
     </div>

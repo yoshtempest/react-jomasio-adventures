@@ -43,7 +43,8 @@ export const jailsonOneTiles = [
       return null;
     },
     {
-      blockedMessage: "Sala dos professores, entrada bloqueada a alunos sem autorização.",
+      blockedMessage:
+        "Sala dos professores, entrada bloqueada a alunos sem autorização.",
     },
   ),
 ];

@@ -15,7 +15,7 @@ export const oneScene: SceneConfig = {
   map: cafeteria,
   events: cafeteriaOneEvents,
   npcs: cafeteriaOneNpcs,
-  autoStartDialogue: ({ flags }) => (hasFlag(flags, "deise")),
+  autoStartDialogue: ({ flags }) => hasFlag(flags, "deise"),
   dialogueData: getCafeteriaOneDialogue,
   audio: { src: MUSICS.default },
   initialPosition: getCafeteriaOneInitialPosition,

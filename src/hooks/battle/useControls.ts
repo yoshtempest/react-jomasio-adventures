@@ -132,5 +132,19 @@ export function useBattleControls({
       if (holdTimer) clearTimeout(holdTimer);
       remove();
     };
-  }, [disabled, hasChargeRef, playerStateRef, pushControlsRef, attackRef, blockEndRef, blockStartRef, chargeCancelRef, chargePressRef, chargeReleaseRef, playerHitRef, specialHitRef, specialRef]);
+  }, [
+    disabled,
+    hasChargeRef,
+    playerStateRef,
+    pushControlsRef,
+    attackRef,
+    blockEndRef,
+    blockStartRef,
+    chargeCancelRef,
+    chargePressRef,
+    chargeReleaseRef,
+    playerHitRef,
+    specialHitRef,
+    specialRef,
+  ]);
 }

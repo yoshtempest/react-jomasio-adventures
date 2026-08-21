@@ -50,7 +50,8 @@ export function updateFlyingPaper(ai: MaugreloAI) {
       const dist = Math.hypot(dx, dy);
 
       if (dist < PAPER_MIN_DISTANCE) {
-        const angle = Math.atan2(landY - gp.y, landX - gp.x) || Math.random() * Math.PI * 2;
+        const angle =
+          Math.atan2(landY - gp.y, landX - gp.x) || Math.random() * Math.PI * 2;
         landX = gp.x + Math.cos(angle) * PAPER_MIN_DISTANCE;
         landY = gp.y + Math.sin(angle) * PAPER_MIN_DISTANCE;
       }
@@ -69,7 +70,10 @@ export function updateFlyingPaper(ai: MaugreloAI) {
 
 export function cleanupExplosions(ai: MaugreloAI, now: number) {
   ai.groundPapers = ai.groundPapers.filter((gp) => {
-    if (gp.sprite === "explosion" && now - gp.createdAt >= PAPER_EXPLOSION_DURATION) {
+    if (
+      gp.sprite === "explosion" &&
+      now - gp.createdAt >= PAPER_EXPLOSION_DURATION
+    ) {
       return false;
     }
     return true;
@@ -117,7 +121,8 @@ export function checkPaperAttackHits(
     if (gp.id === ai.lastPaperHitId) continue;
 
     const inRange = Math.abs(playerX - gp.x) < PAPER_ATTACK_RANGE;
-    const facing = playerDirection === "right" ? gp.x > playerX : gp.x < playerX;
+    const facing =
+      playerDirection === "right" ? gp.x > playerX : gp.x < playerX;
 
     if (inRange && facing) {
       gp.sprite = "explosion";
