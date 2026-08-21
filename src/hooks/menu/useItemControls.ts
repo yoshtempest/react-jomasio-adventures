@@ -13,7 +13,7 @@ type Params = {
   keyId: string | null;
   items: { id: string }[];
   openPlayerChest: (id: ItemId) => void;
-  getEffect: (id: string) => (() => void) | null;
+  getEffect: (id: ItemId) => (() => void) | null;
   consumeItem: (id: string) => boolean;
   onReject: (index: number) => void;
   onNoKey: () => void;
@@ -88,7 +88,7 @@ export function useItemControls({
         }
 
         if (isMapSelected || isTeleportSelected) {
-          const effect = getEffectRef.current(selectedItem.id);
+          const effect = getEffectRef.current(selectedItem.id as ItemId);
           if (effect) {
             effect();
             return true;

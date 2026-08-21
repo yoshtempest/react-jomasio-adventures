@@ -66,7 +66,7 @@ export function useEquipmentMenu(
     if (selectedIndex < EQUIPPED_COUNT) return;
     const tabIndex = selectedIndex - EQUIPPED_COUNT;
     if (tabIndex < FILTER_TAB_COUNT) {
-      const newFilter = FILTER_TABS[tabIndex];
+      const newFilter = FILTER_TABS[tabIndex]!;
       if (newFilter !== filter) {
         setFilter(newFilter);
       }
@@ -105,7 +105,7 @@ export function useEquipmentMenu(
     const rightIndex = index - EQUIPPED_COUNT;
 
     if (rightIndex < FILTER_TAB_COUNT) {
-      const newFilter = FILTER_TABS[rightIndex];
+      const newFilter = FILTER_TABS[rightIndex]!;
       if (newFilter !== filter) {
         setFilter(newFilter);
       }

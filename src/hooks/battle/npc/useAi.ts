@@ -205,7 +205,7 @@ export function useNpcAI({
         }
 
         const behavior =
-          npcBehaviors[npcTypeRef.current] || npcBehaviors.default;
+          (npcBehaviors[npcTypeRef.current] || npcBehaviors.default)!;
 
         const targetX = playerXRef.current;
         const targetY = playerYRef.current;

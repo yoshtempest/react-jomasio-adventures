@@ -6,7 +6,7 @@ import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
 type Params = {
   chestRewardsVisible: boolean;
   rewardOptionCount: number;
-  lastOpened: { chestId: string } | null | undefined;
+  lastOpened: { chestId: ItemId } | null | undefined;
   playMove: () => void;
   playSelect: () => void;
   closeRewards: () => void;

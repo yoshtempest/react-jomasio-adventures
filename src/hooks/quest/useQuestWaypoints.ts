@@ -37,7 +37,7 @@ function findNearestTile(
   py: number,
 ): HighlightTile {
   let bestDist = Infinity;
-  let best = tiles[0];
+  let best = tiles[0]!;
   for (const t of tiles) {
     const dist = Math.abs(t.x - px) + Math.abs(t.y - py);
     if (dist < bestDist) {

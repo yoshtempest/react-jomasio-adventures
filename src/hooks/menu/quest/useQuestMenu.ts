@@ -76,7 +76,7 @@ export function useQuestMenu(
 
   function handleUseItem(index: number) {
     if (index < TAB_COUNT) {
-      const tab = QUEST_TABS[index];
+      const tab = QUEST_TABS[index]!;
       playSelect();
       switchTab(tab);
       return true;
@@ -179,7 +179,7 @@ export function useQuestMenu(
   // Sync activeTab when selectedIndex moves across tabs
   useEffect(() => {
     if (selectedIndex < TAB_COUNT) {
-      const tab = QUEST_TABS[selectedIndex];
+      const tab = QUEST_TABS[selectedIndex]!;
       if (tab !== activeTab) {
         setActiveTab(tab);
       }

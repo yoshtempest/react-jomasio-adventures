@@ -216,7 +216,7 @@ export function useBattleRecording({
 
   const getReplayData = useCallback((): ReplayData | null => {
     if (framesRef.current.length === 0) return null;
-    const duration = framesRef.current[framesRef.current.length - 1].t;
+    const duration = framesRef.current[framesRef.current.length - 1]!.t;
     return {
       id: `replay_${Date.now()}`,
       ...metadataRef.current!,

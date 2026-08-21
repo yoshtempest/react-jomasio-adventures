@@ -21,15 +21,15 @@ export function buildSetItemIds(equipped: EquippedItems): Set<string> {
     if (!info) continue;
     const item = getEquipmentById(info.id);
     if (!item?.set) continue;
-    if (!setPieces[item.set]) setPieces[item.set] = [];
-    setPieces[item.set].push(info.id);
+    const pieces = (setPieces[item.set] ??= []);
+    pieces.push(info.id);
   }
 
   for (const info of equipped.accessories) {
     const item = getEquipmentById(info.id);
     if (!item?.set) continue;
-    if (!setPieces[item.set]) setPieces[item.set] = [];
-    setPieces[item.set].push(info.id);
+    const pieces = (setPieces[item.set] ??= []);
+    pieces.push(info.id);
   }
 
   const setItemIds = new Set<string>();

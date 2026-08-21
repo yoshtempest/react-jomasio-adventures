@@ -23,7 +23,8 @@ export function createInteractionMap<TDeps extends BaseDeps>(
 
   if (custom) {
     for (const key in custom) {
-      interactions[key] = () => custom[key](deps);
+      const handler = custom[key]!;
+      interactions[key] = () => handler(deps);
     }
   }
 

@@ -57,13 +57,11 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
   // When location changes (navigation happened), fade back in
   useEffect(() => {
     const path = location.pathname + location.search;
-    if (prevPathRef.current !== path) {
-      prevPathRef.current = path;
-      if (isFading) {
-        const id = setTimeout(() => setIsFading(false), 80);
-        return () => clearTimeout(id);
-      }
-    }
+    if (prevPathRef.current === path) return undefined;
+    prevPathRef.current = path;
+    if (!isFading) return undefined;
+    const id = setTimeout(() => setIsFading(false), 80);
+    return () => clearTimeout(id);
   }, [location, isFading]);
 
   return (

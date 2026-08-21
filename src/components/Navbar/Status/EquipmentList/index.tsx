@@ -16,7 +16,7 @@ export function EquipmentList() {
         <img src={asset("/assets/equipments/all.svg")} />
         <h2 className="StatusTitle">Equipamentos</h2>
       </div>
-      {(EQUIPMENT_SLOTS as EquipmentSlot[]).map((slot) => {
+      {EQUIPMENT_SLOTS.map((slot) => {
         const item = getEquippedItem(character, slot);
         return (
           <p key={slot} className={styles.fontSize}>

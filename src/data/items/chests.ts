@@ -179,7 +179,8 @@ export function openChest(
       const rank = pickWeighted(table.equipmentRankWeights);
       if (!rank) continue;
 
-      if (chestTier !== "legendary" && (rank === "EX" || rank === 0))
+      const rankNum = rank as number;
+      if (chestTier !== "legendary" && (rank === "EX" || rankNum === 0))
         continue;
 
       const slot = SLOTS[Math.floor(Math.random() * SLOTS.length)]!;

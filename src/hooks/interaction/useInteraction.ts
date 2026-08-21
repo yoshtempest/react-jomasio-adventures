@@ -33,6 +33,8 @@ export function useInteraction({
           mapRef.current,
         );
 
+        if (tile === undefined) return false;
+
         return onInteractRef.current(tile, x, y);
       },
     });

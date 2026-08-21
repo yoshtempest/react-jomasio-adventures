@@ -47,12 +47,11 @@ export function BattleHighlight({ replay, onClose }: Props) {
   }, [handleKeyDown]);
 
   useEffect(() => {
-    if (!playback.playing) {
-      const timeout = setTimeout(() => {
-        onCloseRef.current();
-      }, 1000);
-      return () => clearTimeout(timeout);
-    }
+    if (playback.playing) return undefined;
+    const timeout = setTimeout(() => {
+      onCloseRef.current();
+    }, 1000);
+    return () => clearTimeout(timeout);
   }, [playback.playing, onCloseRef]);
 
   if (!playback.frame) return null;

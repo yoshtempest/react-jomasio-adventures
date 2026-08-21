@@ -47,25 +47,23 @@ export function useBattleOutro({
   }, [prepareHighlight, getReplayDataRef, showHighlightEnabledRef]);
 
   useEffect(() => {
-    if (showVictory) {
-      setShowOutro("victory");
-      outroTimeoutRef.current = setTimeout(() => {
-        setShowOutro(null);
-        prepareAndShowHighlight();
-      }, 2500);
-      return () => clearTimeout(outroTimeoutRef.current);
-    }
+    if (!showVictory) return undefined;
+    setShowOutro("victory");
+    outroTimeoutRef.current = setTimeout(() => {
+      setShowOutro(null);
+      prepareAndShowHighlight();
+    }, 2500);
+    return () => clearTimeout(outroTimeoutRef.current);
   }, [showVictory, prepareAndShowHighlight]);
 
   useEffect(() => {
-    if (showDefeat) {
-      setShowOutro("defeat");
-      outroTimeoutRef.current = setTimeout(() => {
-        setShowOutro(null);
-        prepareAndShowHighlight();
-      }, 2500);
-      return () => clearTimeout(outroTimeoutRef.current);
-    }
+    if (!showDefeat) return undefined;
+    setShowOutro("defeat");
+    outroTimeoutRef.current = setTimeout(() => {
+      setShowOutro(null);
+      prepareAndShowHighlight();
+    }, 2500);
+    return () => clearTimeout(outroTimeoutRef.current);
   }, [showDefeat, prepareAndShowHighlight]);
 
   const handleCloseOutro = useCallback(() => {

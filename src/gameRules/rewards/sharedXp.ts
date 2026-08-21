@@ -16,7 +16,8 @@ export function getUnlockedCharacters(hasFlag: (flag: FlagId) => boolean) {
   return CHARACTERS.filter(
     (c) =>
       c.selectable ||
-      (c.image in CHAR_UNLOCK_FLAGS && hasFlag(CHAR_UNLOCK_FLAGS[c.image])),
+      (c.image in CHAR_UNLOCK_FLAGS &&
+        hasFlag(CHAR_UNLOCK_FLAGS[c.image]!)),
   );
 }
 

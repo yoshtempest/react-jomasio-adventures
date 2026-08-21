@@ -10,7 +10,7 @@ function getRandomFoodIds(count: number): string[] {
   const result: string[] = [];
   for (let i = 0; i < count; i++) {
     const randomIndex = Math.floor(Math.random() * foodIds.length);
-    result.push(foodIds[randomIndex]);
+    result.push(foodIds[randomIndex]!);
   }
   return result;
 }

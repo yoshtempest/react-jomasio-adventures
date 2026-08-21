@@ -88,6 +88,7 @@ export function ReplayList({ isOnTab }: Props) {
           setConfirmDelete(null);
           return true;
         }
+        return false;
       },
       blockGlobalOpen: true,
     },

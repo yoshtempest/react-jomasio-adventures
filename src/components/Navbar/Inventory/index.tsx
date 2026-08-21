@@ -123,7 +123,7 @@ export function Inventory() {
     if (result) setOpeningChest({ tier: result.tier, isDaily: false });
   };
 
-  const handleOpenNextChest = (id: ItemId) => {
+  const handleOpenNextChest = (id?: ItemId) => {
     const result = openNextChest(id);
     if (result) setOpeningChest({ tier: result.tier, isDaily: false });
   };

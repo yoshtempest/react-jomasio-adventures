@@ -76,7 +76,7 @@ export function CharacterProgressProvider({
     const isSunday = new Date().getDay() === 0;
     const xpBuff = getXpBuffMultiplier();
     const difficultyMultiplier =
-      DIFFICULTY_XP_MULTIPLIER[difficulty] ?? DIFFICULTY_XP_MULTIPLIER.medium;
+      DIFFICULTY_XP_MULTIPLIER[difficulty] ?? 1;
     const finalAmount = Math.floor(
       amount * (isSunday ? 2 : 1) * xpBuff * difficultyMultiplier,
     );

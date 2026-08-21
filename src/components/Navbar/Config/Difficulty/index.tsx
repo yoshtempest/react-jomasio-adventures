@@ -28,7 +28,7 @@ export function DifficultySection({
           >
             {isSelected && <span className={styles.cursor}>▼</span>}
 
-            <h2>{DIFFICULTY_LABEL[diff].toUpperCase()}</h2>
+            <h2>{(DIFFICULTY_LABEL[diff] ?? diff).toUpperCase()}</h2>
           </div>
         );
       })}

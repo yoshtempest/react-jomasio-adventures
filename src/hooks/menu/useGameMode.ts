@@ -46,7 +46,7 @@ export function useGameModeMenu() {
 
       onConfirm: () => {
         playSelectRef.current();
-        const selected = GAME_MODE_OPTIONS[selectedIndexRef.current];
+        const selected = GAME_MODE_OPTIONS[selectedIndexRef.current]!;
 
         navigate(selected.route);
         return true;

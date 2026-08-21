@@ -16,7 +16,7 @@ function pickEncounter(encounters: EncounterDef[]): string {
     roll -= e.weight;
     if (roll <= 0) return e.route;
   }
-  return encounters[encounters.length - 1].route;
+  return encounters[encounters.length - 1]!.route;
 }
 
 export function useRandomEncounter(config: RandomEncounterConfig) {

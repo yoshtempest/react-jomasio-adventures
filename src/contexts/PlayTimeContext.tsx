@@ -131,7 +131,7 @@ export function PlayTimeProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    const today = new Date().toISOString().split("T")[0];
+    const today = new Date().toISOString().slice(0, 10);
     const stored = loadData();
     if (stored.lastLoginDate !== today) {
       setData((prev) => {

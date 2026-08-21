@@ -67,7 +67,7 @@ export function useTitleMenu(
       },
 
       onConfirm: () => {
-        const id = TITLE_IDS[selectedIndexRef.current];
+        const id = TITLE_IDS[selectedIndexRef.current]!;
         const prog = titlesData.progress[id];
         if (!prog || prog.level === 0) return true;
 

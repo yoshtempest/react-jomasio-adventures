@@ -36,7 +36,7 @@ export function playerPath(path: string) {
 
 export function npcPath(path: string) {
   const cleanPath = path.replace(/^\/+/, "");
-  const npcType = cleanPath.split("/")[0];
+  const npcType = cleanPath.split("/")[0]!;
   const category = NPC_CATEGORY[npcType];
   if (category) {
     return asset(`/assets/npcs/${category}/${cleanPath}`);

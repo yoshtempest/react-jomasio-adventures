@@ -86,5 +86,5 @@ function formatMonth(ym: string): string {
     "Novembro",
     "Dezembro",
   ];
-  return `${months[m - 1] ?? ""} ${y}`;
+  return `${months[(m ?? 1) - 1] ?? ""} ${y}`;
 }

@@ -164,7 +164,7 @@ export function useInventoryMenu(
           const cfg = filterConfigRef.current;
           const idx = cfg.labels.findIndex((l) => l.type === cfg.active);
           const prevIdx = idx <= 0 ? cfg.labels.length - 1 : idx - 1;
-          cfg.onChange(cfg.labels[prevIdx].type);
+          cfg.onChange(cfg.labels[prevIdx]!.type);
           return;
         }
 
@@ -181,7 +181,7 @@ export function useInventoryMenu(
           const cfg = filterConfigRef.current;
           const idx = cfg.labels.findIndex((l) => l.type === cfg.active);
           const nextIdx = idx >= cfg.labels.length - 1 ? 0 : idx + 1;
-          cfg.onChange(cfg.labels[nextIdx].type);
+          cfg.onChange(cfg.labels[nextIdx]!.type);
           return;
         }
 

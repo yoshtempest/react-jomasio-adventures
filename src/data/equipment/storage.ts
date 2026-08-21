@@ -131,7 +131,8 @@ export function loadAllData(): Record<string, CharacterEquipmentData> {
       }
     }
     for (const key of Object.keys(data)) {
-      data[key] = normalizePets(data[key]);
+      const charData = data[key];
+      if (charData) data[key] = normalizePets(charData);
     }
     return data;
   } catch {

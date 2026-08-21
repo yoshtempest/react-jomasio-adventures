@@ -64,7 +64,7 @@ export function Pets() {
                   <div className={styles.starsRow}>
                     {Array.from({ length: PET_STAR_MAX }, (_, i) => {
                       const star = i + 1;
-                      const qty = entry.qtyByStar[i];
+                      const qty = entry.qtyByStar[i] ?? 0;
                       return (
                         <div key={star} className={styles.starChip}>
                           <Star

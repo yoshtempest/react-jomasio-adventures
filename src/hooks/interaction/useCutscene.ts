@@ -51,7 +51,7 @@ export function useCutscene({
 
     if (player.mode === "ui") return;
 
-    const shouldContinue = onBeforeNext?.(dialogueSystem.dialogue);
+    const shouldContinue = onBeforeNext?.(dialogueSystem.dialogue!);
 
     if (shouldContinue === false) return;
 

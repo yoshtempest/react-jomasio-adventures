@@ -46,7 +46,7 @@ export function getEnhanceBonus(
   for (let i = 0; i < enhance; i++) {
     seed = (seed * 1103515245 + 12345) & 0x7fffffff;
     const idx = seed % avail.length;
-    bonus[avail[idx]] += 1;
+    bonus[avail[idx]!] += 1;
   }
 
   return bonus;

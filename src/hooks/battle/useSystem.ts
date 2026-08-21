@@ -137,7 +137,8 @@ export function useBattleSystem(props: Props) {
   const { blockGauge, setBlockGauge, blockLimit, resetBlockGauge } =
     useBlockGauge(char.level, totalArmor);
 
-  const behavior = battleBehaviors[player.character] || battleBehaviors.default;
+  const behavior =
+    (battleBehaviors[player.character] || battleBehaviors.default)!;
 
   const npcElementTypes = getNpcElementTypes(npcType);
 

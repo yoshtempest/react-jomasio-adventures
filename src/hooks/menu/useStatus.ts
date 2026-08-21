@@ -54,7 +54,7 @@ export function useStatusMenu(isOpen: boolean) {
       setView("allStats");
       return true;
     }
-    const stat = STATS[index];
+    const stat = STATS[index]!;
     const char = progress[player.character];
     if (!canSpendPoints(char.stats.points)) return true;
     addStat(player.character, stat);
@@ -66,6 +66,7 @@ export function useStatusMenu(isOpen: boolean) {
       setView("stats");
       return true;
     }
+    return false;
   });
 
   useGameControlsLayer(

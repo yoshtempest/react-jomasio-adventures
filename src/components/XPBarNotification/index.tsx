@@ -94,8 +94,8 @@ export function XPBarNotification() {
 
     setVisible(true);
     setShowArrow(levelsGained > 0);
-    setDisplayLevel(segments[0].level);
-    setDisplayPct(segments[0].from);
+    setDisplayLevel(segments[0]!.level);
+    setDisplayPct(segments[0]!.from);
 
     function tick(ts: number) {
       if (segStart === 0) segStart = ts;

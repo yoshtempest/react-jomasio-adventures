@@ -144,7 +144,7 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
         if (isOnTabRef.current) {
           setActiveTab((prev) => {
             const currentIdx = CONFIG_TABS.indexOf(prev);
-            return CONFIG_TABS[(currentIdx + 1) % CONFIG_TAB_COUNT];
+            return CONFIG_TABS[(currentIdx + 1) % CONFIG_TAB_COUNT]!;
           });
           return;
         }
@@ -164,7 +164,7 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
             const currentIdx = CONFIG_TABS.indexOf(prev);
             return CONFIG_TABS[
               (currentIdx - 1 + CONFIG_TAB_COUNT) % CONFIG_TAB_COUNT
-            ];
+            ]!;
           });
           return;
         }

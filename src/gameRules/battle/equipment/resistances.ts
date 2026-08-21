@@ -41,7 +41,8 @@ export function getItemResistances(
 ): EquipmentResistances {
   const item = getEquipmentById(itemId);
   if (!item) return { heat: false, cold: false, blind: false };
-  if (!ARMOR_SLOTS.includes(item.slot)) return { heat: false, cold: false, blind: false };
+  if (!(ARMOR_SLOTS as readonly string[]).includes(item.slot))
+    return { heat: false, cold: false, blind: false };
   if (!isEpicOrHigher(item.rank)) return { heat: false, cold: false, blind: false };
 
   let seed = advanceSeed(equipmentSeed(itemId), enhance);
