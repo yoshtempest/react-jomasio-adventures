@@ -2,6 +2,7 @@
   display: flex;
   gap: var(--size-4);
   padding: var(--size-4) var(--fs-8);
+  flex-direction: column;
   overflow-x: auto;
   flex-shrink: 0;
 }

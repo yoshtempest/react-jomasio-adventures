@@ -1,9 +1,8 @@
-.flexRow {
+.flexColumn {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2vw;
   margin: 2vh;
 }
 
@@ -15,7 +14,7 @@
   background: linear-gradient(135deg, #1a1a3e, #2a1a2e);
   border: var(--size-1) solid #5a3a5e;
   border-radius: var(--fs-8);
-  width: 25%;
+  width: 80%;
 }
 
 .dailyChestFocused {

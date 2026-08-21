@@ -236,19 +236,21 @@ export function Inventory() {
       : filteredItems;
 
   return (
-    <div className="containerOfNavbar">
-      <Chest
-        isFocused={chestFocused}
-        isReady={dailyChest.isReady}
-        timeLeft={dailyChest.timeLeft}
-        onOpen={handleOpenDailyChest}
-      />
+    <div className={`containerOfNavbar ${styles.container}`}>
+      <div className={styles.leftPanel}>
+        <Chest
+          isFocused={chestFocused}
+          isReady={dailyChest.isReady}
+          timeLeft={dailyChest.timeLeft}
+          onOpen={handleOpenDailyChest}
+        />
 
-      <FilterBar
-        filterType={filterType}
-        filterFocused={filterFocused}
-        onFilterChange={setFilterType}
-      />
+        <FilterBar
+          filterType={filterType}
+          filterFocused={filterFocused}
+          onFilterChange={setFilterType}
+        />
+      </div>
 
       <ul ref={listRef} className={styles.list}>
         {listItems.map((item, index) =>

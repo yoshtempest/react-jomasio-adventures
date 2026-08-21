@@ -32,7 +32,7 @@ export function Chest({ isFocused, isReady, timeLeft, onOpen }: Props) {
     maxSlots === Infinity ? `${totalUsed} / ∞` : `${totalUsed} / ${maxSlots}`;
 
   return (
-    <div className={styles.flexRow}>
+    <div className={styles.flexColumn}>
       <h3>Inventário {slotsLabel}</h3>
       <div
         className={`${styles.dailyChest} ${

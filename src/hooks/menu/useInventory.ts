@@ -116,7 +116,7 @@ export function useInventoryMenu(
 
         if (navLength === 0) return;
 
-        const row = Math.floor(selectedIndexRef.current / 4);
+        const row = Math.floor(selectedIndexRef.current / 3);
         if (row === 0 && filterConfigRef.current) {
           if (chestReadyRef.current) {
             playMoveRef.current();
@@ -129,7 +129,7 @@ export function useInventoryMenu(
         }
 
         playMoveRef.current();
-        setSelectedIndex((prev) => gridMove(prev, 4, "up", navLength));
+        setSelectedIndex((prev) => gridMove(prev, 3, "up", navLength));
       },
 
       onDown: () => {
@@ -153,7 +153,7 @@ export function useInventoryMenu(
 
         if (navLength === 0) return;
         playMoveRef.current();
-        setSelectedIndex((prev) => gridMove(prev, 4, "down", navLength));
+        setSelectedIndex((prev) => gridMove(prev, 3, "down", navLength));
       },
 
       onLeft: () => {
@@ -170,7 +170,7 @@ export function useInventoryMenu(
 
         if (navLength === 0) return;
         playMoveRef.current();
-        setSelectedIndex((prev) => gridMove(prev, 4, "left", navLength));
+        setSelectedIndex((prev) => gridMove(prev, 3, "left", navLength));
       },
 
       onRight: () => {
@@ -187,7 +187,7 @@ export function useInventoryMenu(
 
         if (navLength === 0) return;
         playMoveRef.current();
-        setSelectedIndex((prev) => gridMove(prev, 4, "right", navLength));
+        setSelectedIndex((prev) => gridMove(prev, 3, "right", navLength));
       },
 
       onConfirm: () => {
