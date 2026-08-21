@@ -12,7 +12,7 @@ export type BehaviorContext = {
   projectile: Projectile | null;
   setProjectile: (p: Projectile | null) => void;
   lastAttackRef: { current: number };
-  onMeleeHit: () => void;
+  onMeleeHit: (multiplier?: number) => void;
   onProjectileHit: () => void;
   setForceIdle: (v: boolean) => void;
   npcPhase: number;

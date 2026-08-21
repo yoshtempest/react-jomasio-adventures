@@ -169,56 +169,59 @@ export function useNpcBattle({
     ],
   );
 
-  const npcMeleeHit = useCallback(() => {
-    if (isEnding.current) return;
+  const npcMeleeHit = useCallback(
+    (multiplier = 1) => {
+      if (isEnding.current) return;
 
-    const skipCooldown = npcType === "maurao" && npcPhase >= 2;
+      const skipCooldown = npcType === "maurao" && npcPhase >= 2;
 
-    if (!skipCooldown && !npcCooldown.current) return;
+      if (!skipCooldown && !npcCooldown.current) return;
 
-    if (player.state === "dash") {
-      onDodgeRef?.current?.();
-      return;
-    }
-    if (
-      (player.state === "idleCrounched" || player.state === "walkCrounched") &&
-      Math.abs(playerX - npcX) > 80
-    ) {
-      onDodgeRef?.current?.();
-      return;
-    }
-
-    const tx = playerX;
-    const ty = playerY;
-
-    const missChance = 0.005 + titleEnemyMissChance / 100 + luckBonus;
-    if (Math.random() < missChance) {
-      spawnDamageRef.current?.(0, tx, ty, "miss");
-      if (!skipCooldown) {
-        npcCooldown.current = false;
-        setTimeout(() => (npcCooldown.current = true), NPC_MELEE_COOLDOWN);
+      if (player.state === "dash") {
+        onDodgeRef?.current?.();
+        return;
       }
-      return;
-    }
+      if (
+        (player.state === "idleCrounched" || player.state === "walkCrounched") &&
+        Math.abs(playerX - npcX) > 80
+      ) {
+        onDodgeRef?.current?.();
+        return;
+      }
 
-    const npc = getNpcStats(npcLevel, npcClass, difficulty, statMultiplier);
-    const baseDmg = npc.damage;
-    const dmg = calculateNpcDamage(baseDmg, playerClass, totalArmor);
+      const tx = playerX;
+      const ty = playerY;
 
-    const hpRatio =
-      npcMaxHpRef.current > 0 ? npcHpRef.current / npcMaxHpRef.current : 1;
-    const { finalDmg, dmgType } = rollNpcDamage(
-      dmg,
-      hpRatio,
-      npcType,
-      npcPhase,
-      player.character,
-    );
+      const missChance = 0.005 + titleEnemyMissChance / 100 + luckBonus;
+      if (Math.random() < missChance) {
+        spawnDamageRef.current?.(0, tx, ty, "miss");
+        if (!skipCooldown) {
+          npcCooldown.current = false;
+          setTimeout(() => (npcCooldown.current = true), NPC_MELEE_COOLDOWN);
+        }
+        return;
+      }
 
-    applyNpcDamage(finalDmg, tx, ty, dmgType);
-    onDamageTakenRef?.current?.(finalDmg);
-    onHalfHeal?.();
-    hitstopRef.current = Date.now() + 50;
+      const npc = getNpcStats(npcLevel, npcClass, difficulty, statMultiplier);
+      const baseDmg = npc.damage;
+      const dmg = calculateNpcDamage(baseDmg, playerClass, totalArmor);
+
+      const hpRatio =
+        npcMaxHpRef.current > 0 ? npcHpRef.current / npcMaxHpRef.current : 1;
+      const { finalDmg, dmgType } = rollNpcDamage(
+        dmg,
+        hpRatio,
+        npcType,
+        npcPhase,
+        player.character,
+      );
+
+      const scaledDmg = Math.round(finalDmg * multiplier);
+
+      applyNpcDamage(scaledDmg, tx, ty, dmgType);
+      onDamageTakenRef?.current?.(scaledDmg);
+      onHalfHeal?.();
+      hitstopRef.current = Date.now() + 50;
 
     applyBleed(npcType, tenacityReductionRef.current, setPlayer);
 

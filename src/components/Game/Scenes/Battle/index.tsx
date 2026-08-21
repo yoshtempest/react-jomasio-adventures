@@ -16,6 +16,7 @@ import { BattleOutro } from "@/components/Game/Battle/Modal/Outro";
 import { BattleHighlight } from "@/components/Game/Battle/Modal/Highlight";
 import { ChargeParticles } from "@/components/Game/Battle/ChargeParticles";
 import { JumpIndicator } from "@/components/Game/Battle/JumpIndicator";
+import { JumpDangerZone } from "@/components/Game/Battle/JumpDangerZone";
 import { ComboAction } from "@/components/Controls/ComboAction";
 import { useGameAudio } from "@/hooks/game/useGameAudio";
 import { usePlayer } from "@/contexts/PlayerContext";
@@ -266,6 +267,12 @@ export function BattleScene(props: Props) {
         >
           {map && <BattleMap map={map} />}
 
+          {npcType === "slimita" &&
+            (battle.npcPhase ?? 1) >= 2 &&
+            npc.jumpLandingX != null && (
+              <JumpDangerZone landingX={npc.jumpLandingX} />
+            )}
+
           <BattleEntities
             npc={npc}
             player={player}
@@ -288,9 +295,10 @@ export function BattleScene(props: Props) {
             isCharging={charge.isCharging}
           />
 
-          {npc.jumpLandingX != null && (
-            <JumpIndicator landingX={npc.jumpLandingX} />
-          )}
+          {npc.jumpLandingX != null &&
+            !(npcType === "slimita" && (battle.npcPhase ?? 1) >= 2) && (
+              <JumpIndicator landingX={npc.jumpLandingX} />
+            )}
 
           <DamageNumbers
             numbers={battle.damageNumbers}

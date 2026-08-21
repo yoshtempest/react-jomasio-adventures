@@ -1,7 +1,13 @@
 import { chasePlayer } from "@/gameRules/npc/movement";
-import { isNear } from "@/gameRules/npc/behavior";
+import { getDistance } from "@/gameRules/npc/behavior";
 
-import { playBoom } from "./state";
+import {
+  JUMP_CENTER_RADIUS,
+  JUMP_EDGE_RADIUS,
+  JUMP_EDGE_DAMAGE_MULTIPLIER,
+  JUMP_GROUND_Y,
+  playBoom,
+} from "./state";
 
 import type {
   BehaviorContext,
@@ -14,7 +20,7 @@ export function handlePhase2(
   state: ReturnType<typeof getSlimitaState>,
   now: number,
 ): BehaviorResult {
-  const { npc, targetX, targetY, onMeleeHit } = ctx;
+  const { npc, playerX, playerY, targetX, targetY, onMeleeHit } = ctx;
 
   const hpRatio = ctx.npcMaxHp ? (ctx.npcHp ?? ctx.npcMaxHp) / ctx.npcMaxHp : 1;
   const jumpDuration = 500 + 1500 * hpRatio;
@@ -44,11 +50,10 @@ export function handlePhase2(
       const duration = jumpDuration;
 
       const progress = Math.min(elapsed / duration, 1);
-      const GROUND_Y = 680;
 
       const height = Math.sin(progress * Math.PI) * 400;
 
-      const newY = GROUND_Y - height;
+      const newY = JUMP_GROUND_Y - height;
 
       const newX = npc.x + (state.targetX - npc.x) * 0.05;
 
@@ -58,13 +63,16 @@ export function handlePhase2(
         state.startTime = now;
         npc.jumpLandingX = undefined;
 
-        if (isNear(npc.x, npc.y, targetX, targetY, 140)) {
+        const dist = getDistance(state.targetX, JUMP_GROUND_Y, playerX, playerY);
+        if (dist <= JUMP_CENTER_RADIUS) {
           onMeleeHit();
+        } else if (dist <= JUMP_EDGE_RADIUS) {
+          onMeleeHit(JUMP_EDGE_DAMAGE_MULTIPLIER);
         }
 
         return {
           x: state.targetX,
-          y: GROUND_Y,
+          y: JUMP_GROUND_Y,
         };
       }
 
