@@ -130,6 +130,10 @@
   animation: floatCrit 1s ease-out forwards;
 }
 
+.image {
+  width: 2vw;
+}
+
 @keyframes floatCrit {
   0% {
     opacity: 1;

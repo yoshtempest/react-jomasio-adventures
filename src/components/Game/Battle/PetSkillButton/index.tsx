@@ -35,7 +35,14 @@ export function PetSkillButton({
       onClick={onClick}
       disabled={locked}
     >
-      <span className={styles.skillName}>{skillName}</span>
+
+      <span className={styles.skillName}>
+        {ready
+          ? skillName
+          : remaining > 0
+            ? ""
+            : ""}
+      </span>
       <span className={styles.cooldown}>
         {ready
           ? ""

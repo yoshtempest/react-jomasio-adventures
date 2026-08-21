@@ -56,7 +56,10 @@ export function DamageNumbers({ numbers, scaleX, scaleY, targets }: Props) {
               `+${n.value}`
             ) : n.type === "armor" ? (
               <>
-                <img src={asset("/assets/badges/titles/blockAttacks.svg")} />
+                <img
+                  src={asset("/assets/badges/titles/blockAttacks.svg")}
+                  className={styles.image}
+                />
                 +1
               </>
             ) : n.value > 0 ? (
