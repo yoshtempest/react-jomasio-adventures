@@ -4,11 +4,16 @@ import { GameButtons } from "@/components/Controls/GameButtons";
 import { XPBarNotification } from "@/components/XPBarNotification";
 import { HungerBarNotification } from "@/components/HungerBarNotification";
 import { useInventory } from "@/contexts/InventoryContext";
-import { Inventory } from "@/components/Navbar/Inventory";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { Navbar } from "@/components/Navbar";
 
-import { useEffect, useRef } from "react";
+import { lazy, Suspense, useEffect, useRef } from "react";
+
+const Inventory = lazy(() =>
+  import("@/components/Navbar/Inventory").then((m) => ({
+    default: m.Inventory,
+  })),
+);
 import {
   loadGame,
   saveGame,
@@ -140,7 +145,11 @@ function App() {
       <GameButtons />
       <XPBarNotification />
       <HungerBarNotification />
-      {isOpen && <Inventory />}
+      {isOpen && (
+        <Suspense fallback={null}>
+          <Inventory />
+        </Suspense>
+      )}
       {(isNavOpen || isClosing) && (
         <div className="navbarClip">
           <Navbar />

@@ -37,12 +37,7 @@ export function GameControlsProvider({ children }: Props) {
   const {
     openNavbar,
     closeNavbar,
-    openConfigScreen,
-    openInventoryScreen,
-    openQuestsScreen,
-    openProfessionsScreen,
-    openTitlesScreen,
-    openEquipmentScreen,
+    openScreen,
     isNavOpen,
     screen,
   } = useNavbar();
@@ -188,12 +183,7 @@ export function GameControlsProvider({ children }: Props) {
     closeAllMenus,
 
     closeNavbar,
-    openConfigScreen,
-    openInventoryScreen,
-    openQuestsScreen,
-    openProfessionsScreen,
-    openTitlesScreen,
-    openEquipmentScreen,
+    openScreen,
   });
 
   // PROVIDER

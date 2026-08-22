@@ -1,30 +1,63 @@
-import { useState, useRef, useEffect } from "react";
-import {
-  UI_BUTTON_L_COOLDOWN,
-  UI_BUTTON_B_COOLDOWN,
-  UI_BUTTON_G_COOLDOWN,
-  UI_BUTTON_ESC_COOLDOWN,
-} from "@/data/cooldowns";
+import { useState, useCallback, useEffect, useRef } from "react";
+
+import type { UIButtonType } from "@/data/uiButtonKeys";
+import { UI_BUTTON_COOLDOWNS, UI_BUTTON_KEYS } from "@/data/uiButtonKeys";
 import styles from "./styles.module.css";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { Settings } from "lucide-react";
 
+function useUiButtonCooldowns() {
+  const [cooldowns, setCooldowns] = useState<Record<UIButtonType, boolean>>({
+    confirm: false,
+    cancel: false,
+    open: false,
+    config: false,
+  });
+  const timersRef = useRef<
+    Partial<Record<UIButtonType, ReturnType<typeof setTimeout>>>
+  >({});
+
+  const trigger = useCallback((id: UIButtonType) => {
+    setCooldowns((prev) => (prev[id] ? prev : { ...prev, [id]: true }));
+    if (timersRef.current[id]) clearTimeout(timersRef.current[id]);
+    timersRef.current[id] = setTimeout(() => {
+      setCooldowns((prev) => ({ ...prev, [id]: false }));
+      timersRef.current[id] = undefined;
+    }, UI_BUTTON_COOLDOWNS[id]);
+  }, []);
+
+  useEffect(() => {
+    const timers = timersRef.current;
+    return () => {
+      Object.values(timers).forEach((timer) => {
+        if (timer) clearTimeout(timer);
+      });
+    };
+  }, []);
+
+  return { cooldowns, trigger };
+}
+
 export function GameButtons() {
   const { activeControls, closeAllMenus } = useGameControls();
-  const { openNavbar, openConfigScreen, isNavOpen, screen, closeNavbar } =
+  const { openNavbar, openScreen, isNavOpen, screen, closeNavbar } =
     useNavbar();
   const { player } = usePlayer();
+  const { cooldowns, trigger } = useUiButtonCooldowns();
 
-  const [lCooldown, setLCooldown] = useState(false);
-  const [bCooldown, setBCooldown] = useState(false);
-  const [gCooldown, setGCooldown] = useState(false);
-  const [escCooldown, setEscCooldown] = useState(false);
-  const lTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const bTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const gTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const escTimerRef = useRef<NodeJS.Timeout | null>(null);
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      const binding = UI_BUTTON_KEYS.find((b) => b.key === e.key);
+      if (!binding) return;
+      if (binding.preventDefault) e.preventDefault();
+      trigger(binding.id);
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [trigger]);
 
   function handleOpen() {
     if (activeControls?.onOpen) {
@@ -47,17 +80,12 @@ export function GameButtons() {
       closeNavbar();
       return;
     }
-    openConfigScreen();
+    openScreen("config");
   }
 
   function handleConfirmDown() {
     activeControls?.onConfirm?.();
-    setLCooldown(true);
-    if (lTimerRef.current) clearTimeout(lTimerRef.current);
-    lTimerRef.current = setTimeout(
-      () => setLCooldown(false),
-      UI_BUTTON_L_COOLDOWN,
-    );
+    trigger("confirm");
   }
 
   function handleConfirmUp() {
@@ -66,96 +94,30 @@ export function GameButtons() {
 
   function handleCancelDown() {
     activeControls?.onCancel?.();
-    setBCooldown(true);
-    if (bTimerRef.current) clearTimeout(bTimerRef.current);
-    bTimerRef.current = setTimeout(
-      () => setBCooldown(false),
-      UI_BUTTON_B_COOLDOWN,
-    );
+    trigger("cancel");
   }
 
   function handleCancelUp() {
     activeControls?.onCancelRelease?.();
   }
 
-  useEffect(() => {
-    function handleKeyDown(e: KeyboardEvent) {
-      switch (e.key) {
-        case "l":
-        case "L":
-        case "A":
-        case "Enter":
-          setLCooldown(true);
-          if (lTimerRef.current) clearTimeout(lTimerRef.current);
-          lTimerRef.current = setTimeout(
-            () => setLCooldown(false),
-            UI_BUTTON_L_COOLDOWN,
-          );
-          break;
-
-        case "b":
-        case "B":
-        case "x":
-        case "X":
-        case "Delete":
-          setBCooldown(true);
-          if (bTimerRef.current) clearTimeout(bTimerRef.current);
-          bTimerRef.current = setTimeout(
-            () => setBCooldown(false),
-            UI_BUTTON_B_COOLDOWN,
-          );
-          break;
-
-        case "g":
-        case "G":
-        case "Tab":
-          e.preventDefault();
-          setGCooldown(true);
-          if (gTimerRef.current) clearTimeout(gTimerRef.current);
-          gTimerRef.current = setTimeout(
-            () => setGCooldown(false),
-            UI_BUTTON_G_COOLDOWN,
-          );
-          break;
-
-        case "Escape":
-          setEscCooldown(true);
-          if (escTimerRef.current) clearTimeout(escTimerRef.current);
-          escTimerRef.current = setTimeout(
-            () => setEscCooldown(false),
-            UI_BUTTON_ESC_COOLDOWN,
-          );
-          break;
-      }
-    }
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      if (lTimerRef.current) clearTimeout(lTimerRef.current);
-      if (bTimerRef.current) clearTimeout(bTimerRef.current);
-      if (escTimerRef.current) clearTimeout(escTimerRef.current);
-      if (gTimerRef.current) clearTimeout(gTimerRef.current);
-    };
-  }, []);
-
   return (
     <div className={styles.gameButtons}>
       <div className={styles.row}>
         <button
-          className={`${styles.configs} ${escCooldown ? styles.cooldown : ""}`}
+          className={`${styles.configs} ${cooldowns.config ? styles.cooldown : ""}`}
           onPointerDown={handleConfig}
         >
           <Settings />
         </button>
         <button
-          className={`${styles.open} ${gCooldown ? styles.cooldown : ""}`}
+          className={`${styles.open} ${cooldowns.open ? styles.cooldown : ""}`}
           onPointerDown={handleOpen}
         />
       </div>
       <div className={styles.row}>
         <button
-          className={`${styles.button} ${bCooldown ? styles.cooldown : ""}`}
+          className={`${styles.button} ${cooldowns.cancel ? styles.cooldown : ""}`}
           onPointerDown={handleCancelDown}
           onPointerUp={handleCancelUp}
           onPointerLeave={handleCancelUp}
@@ -164,7 +126,7 @@ export function GameButtons() {
         </button>
 
         <button
-          className={`${styles.button} ${lCooldown ? styles.cooldown : ""}`}
+          className={`${styles.button} ${cooldowns.confirm ? styles.cooldown : ""}`}
           onPointerDown={handleConfirmDown}
           onPointerUp={handleConfirmUp}
           onPointerLeave={handleConfirmUp}

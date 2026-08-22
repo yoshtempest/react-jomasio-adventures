@@ -1,6 +1,6 @@
 import styles from "./styles.module.css";
 import { useLatestRef } from "@/hooks/useLatestRef";
-import { useConfigMenu } from "@/hooks/menu/config/useConfig";
+import { useConfigSelection } from "@/hooks/menu/config/useConfigSelection";
 import { useAudio } from "@/contexts/AudioContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useSettings } from "@/contexts/SettingsContext";
@@ -20,7 +20,7 @@ export function Config() {
   const { difficulty } = usePlayer();
   const { dialogueSpeed } = useSettings();
   const {
-    difficultyList,
+    difficulty: difficultyList,
     selectedIndex,
     selectedColumn,
     screen,
@@ -30,7 +30,7 @@ export function Config() {
     sharedXp,
     activeTab,
     isOnTab,
-  } = useConfigMenu(true);
+  } = useConfigSelection(true);
   const dialogueSystem = useDialogue(configsDialogue);
   const dialogueSystemRef = useLatestRef(dialogueSystem);
   const configRef = useRef<HTMLDivElement | null>(null);

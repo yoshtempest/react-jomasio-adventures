@@ -1,45 +1,52 @@
+import { useCallback } from "react";
 import { useNavbar } from "@/contexts/NavbarContext";
+import type { NavbarOption } from "@/utils/types/player/navbar";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { NAVBAR_OPTIONS } from "@/data/options/navbar";
-import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
 import { shouldCloseToExplore } from "@/gameRules/menu/flow";
 import { getSelected } from "@/gameRules/menu/selection";
+import { useCircularSelection } from "@/hooks/menu/useCircularSelection";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { useStableCallback } from "@/hooks/useStableCallback";
 import { useGameControlsLayer } from "@/hooks/game/useGameControlsLayer";
-import { useSelectableIndex } from "@/hooks/useSelectableIndex";
 
 export function useNavbarMenu() {
   const { closeNavbar, screen, setScreen } = useNavbar();
   const { setMode } = usePlayer();
-  const { playMove, playSelect, playClose } = useMenuSFX();
+  const { playSelect, playClose } = useMenuSFX();
   const { playSound } = useSoundEffects();
 
-  const { selectedIndex, setSelectedIndex, selectedIndexRef } =
-    useSelectableIndex();
+  const isActive = screen === "menu";
+  const { selectedIndex, setSelectedIndex, selectedIndexRef, selectPrev, selectNext } =
+    useCircularSelection({ length: NAVBAR_OPTIONS.length, enabled: isActive });
 
-  const onUp = useStableCallback(() => {
-    if (screen !== "menu") return false;
-    playMove();
-    setSelectedIndex((prev) => circularPrev(prev, NAVBAR_OPTIONS.length));
-    return true;
-  });
+  const openIndex = useCallback(
+    (index: number) => {
+      playSelect();
+      const selected: NavbarOption = getSelected(
+        NAVBAR_OPTIONS,
+        index,
+      );
+      setScreen(selected.screen);
+      if (selected.confirmSfx) playSound(selected.confirmSfx);
+    },
+    [playSelect, playSound, setScreen],
+  );
 
-  const onDown = useStableCallback(() => {
-    if (screen !== "menu") return false;
-    playMove();
-    setSelectedIndex((prev) => circularNext(prev, NAVBAR_OPTIONS.length));
-    return true;
-  });
+  const onUp = useStableCallback(selectPrev);
+  const onDown = useStableCallback(selectNext);
 
   const onConfirm = useStableCallback(() => {
-    if (screen !== "menu") return false;
-    playSelect();
-    const selected = getSelected(NAVBAR_OPTIONS, selectedIndexRef.current);
-    setScreen(selected.screen);
-    if (selected.screen === "character") playSound("chooseYourCharacter");
+    if (!isActive) return false;
+    openIndex(selectedIndexRef.current);
     return true;
+  });
+
+  const onSelect = useStableCallback((index: number) => {
+    if (!isActive) return;
+    setSelectedIndex(index);
+    openIndex(index);
   });
 
   const onCancel = useStableCallback(() => {
@@ -68,5 +75,6 @@ export function useNavbarMenu() {
     screen,
     selectedIndex,
     options: NAVBAR_OPTIONS,
+    onSelect,
   };
 }

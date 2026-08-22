@@ -1,11 +1,10 @@
-import type { NavbarOption } from "@/utils/types/player/navbar";
-
-export const NAVBAR_OPTIONS: NavbarOption[] = [
+export const NAVBAR_OPTIONS = [
   { icon: "/assets/navbar/player.svg", label: "Jogador", screen: "player" },
   {
     icon: "/assets/navbar/character.svg",
     label: "Personagem",
     screen: "character",
+    confirmSfx: "chooseYourCharacter",
   },
   { icon: "/assets/navbar/status.svg", label: "Status", screen: "status" },
   {
@@ -37,4 +36,6 @@ export const NAVBAR_OPTIONS: NavbarOption[] = [
     label: "Configurações",
     screen: "config",
   },
-];
+] as const;
+
+export type MenuScreen = (typeof NAVBAR_OPTIONS)[number]["screen"];

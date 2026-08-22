@@ -1,3 +1,5 @@
+import type { MenuScreen } from "@/utils/types/player/navbar";
+
 type GameControlAction =
   | "onConfirm"
   | "onCancel"
@@ -69,4 +71,18 @@ export const KEY_RELEASE_ACTIONS: Record<string, GameControlAction> = {
   x: "onCancelRelease",
   X: "onCancelRelease",
   Delete: "onCancelRelease",
+};
+
+export const SCREEN_SHORTCUT_KEYS: Partial<Record<string, MenuScreen>> = {
+  Escape: "config",
+  i: "inventory",
+  I: "inventory",
+  q: "missions",
+  Q: "missions",
+  p: "professions",
+  P: "professions",
+  t: "titles",
+  T: "titles",
+  e: "equipment",
+  E: "equipment",
 };

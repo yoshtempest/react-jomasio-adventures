@@ -1,20 +1,13 @@
-export type NavScreen =
-  | "menu"
-  | "character"
-  | "status"
-  | "inventory"
-  | "config"
-  | "missions"
-  | "equipment"
-  | "titles"
-  | "bestiary"
-  | "player"
-  | "saves"
-  | "professions"
-  | "pets";
+import type { NAVBAR_OPTIONS } from "@/data/options/navbar";
+import type { SoundId } from "@/contexts/SoundEffectsContext";
+
+export type MenuScreen = (typeof NAVBAR_OPTIONS)[number]["screen"];
+
+export type NavScreen = "menu" | MenuScreen;
 
 export type NavbarOption = {
   icon: string;
   label: string;
-  screen: NavScreen;
+  screen: MenuScreen;
+  confirmSfx?: SoundId;
 };

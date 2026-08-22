@@ -4,40 +4,36 @@ import {
   useContext,
   useRef,
   useState,
-  type RefObject,
   type ReactNode,
 } from "react";
-import type { NavbarOption, NavScreen } from "@/utils/types/player/navbar";
+import type { NavScreen } from "@/utils/types/player/navbar";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useToggle } from "@/hooks/useToggle";
 
-const CLOSE_ANIMATION_MS = 500;
+type NavbarModeHandlers = {
+  restoreMode: () => void;
+  setMode: (mode: PlayerMode) => void;
+};
 
 type NavbarContextType = {
-  items: NavbarOption[];
-
   isNavOpen: boolean;
   isClosing: boolean;
+
   openNavbar: () => void;
   closeNavbar: () => void;
   toggleNavbar: () => void;
+  finishClose: () => void;
 
   screen: NavScreen;
   setScreen: (screen: NavScreen) => void;
-  openConfigScreen: () => void;
-  openInventoryScreen: () => void;
-  openQuestsScreen: () => void;
-  openProfessionsScreen: () => void;
-  openTitlesScreen: () => void;
-  openEquipmentScreen: () => void;
-  restoreModeRef: RefObject<() => void>;
-  setModeRef: RefObject<(mode: PlayerMode) => void>;
+  openScreen: (screen: Exclude<NavScreen, "menu">) => void;
+
+  registerModeHandlers: (handlers: NavbarModeHandlers) => void;
 };
 
 const NavbarContext = createContext<NavbarContextType | null>(null);
 
 export function NavbarProvider({ children }: { children: ReactNode }) {
-  const [items] = useState<NavbarOption[]>([]);
   const [screen, setScreenState] = useState<NavScreen>("menu");
   const {
     isOpen: isNavOpen,
@@ -46,100 +42,69 @@ export function NavbarProvider({ children }: { children: ReactNode }) {
     toggle: toggleNavbar,
   } = useToggle();
   const [isClosing, setIsClosing] = useState(false);
-  const closeTimerRef = useRef<NodeJS.Timeout | null>(null);
+
   const screenRef = useLatestRef(screen);
   const isNavOpenRef = useLatestRef(isNavOpen);
-  const restoreModeRef = useRef<() => void>(() => {});
+  const isClosingRef = useLatestRef(isClosing);
+  const modeHandlersRef = useRef<NavbarModeHandlers>({
+    restoreMode: () => {},
+    setMode: () => {},
+  });
 
   const openNavbar = useCallback(() => {
-    if (closeTimerRef.current) {
-      clearTimeout(closeTimerRef.current);
-      closeTimerRef.current = null;
-      setIsClosing(false);
-    }
+    setIsClosing(false);
     openToggle();
   }, [openToggle]);
 
   const closeNavbar = useCallback(() => {
-    if (!isNavOpenRef.current && !closeTimerRef.current) return;
-    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    if (!isNavOpenRef.current && !isClosingRef.current) return;
     const shouldAnimate = screenRef.current === "menu";
     setScreenState("menu");
     if (shouldAnimate) {
-      setIsClosing(true);
-      closeTimerRef.current = setTimeout(() => {
-        closeToggle();
-        setIsClosing(false);
-        closeTimerRef.current = null;
-        restoreModeRef.current();
-      }, CLOSE_ANIMATION_MS);
-    } else {
-      closeToggle();
-      restoreModeRef.current();
+      if (!isClosingRef.current) setIsClosing(true);
+      return;
     }
-  }, [closeToggle, isNavOpenRef, screenRef]);
+    closeToggle();
+    modeHandlersRef.current.restoreMode();
+  }, [closeToggle, isClosingRef, isNavOpenRef, screenRef]);
+
+  const finishClose = useCallback(() => {
+    if (!isClosingRef.current) return;
+    setIsClosing(false);
+    closeToggle();
+    modeHandlersRef.current.restoreMode();
+  }, [closeToggle, isClosingRef]);
 
   const setScreen = useCallback((s: NavScreen) => {
     setScreenState(s);
   }, []);
 
-  const setModeRef = useRef<(mode: PlayerMode) => void>(() => {});
+  const openScreen = useCallback(
+    (s: Exclude<NavScreen, "menu">) => {
+      setScreenState(s);
+      modeHandlersRef.current.setMode("menu");
+      openNavbar();
+    },
+    [openNavbar],
+  );
 
-  const openConfigScreen = useCallback(() => {
-    setScreenState("config");
-    setModeRef.current("menu");
-    openNavbar();
-  }, [openNavbar]);
-
-  const openInventoryScreen = useCallback(() => {
-    setScreenState("inventory");
-    setModeRef.current("menu");
-    openNavbar();
-  }, [openNavbar]);
-
-  const openQuestsScreen = useCallback(() => {
-    setScreenState("missions");
-    setModeRef.current("menu");
-    openNavbar();
-  }, [openNavbar]);
-
-  const openProfessionsScreen = useCallback(() => {
-    setScreenState("professions");
-    setModeRef.current("menu");
-    openNavbar();
-  }, [openNavbar]);
-
-  const openTitlesScreen = useCallback(() => {
-    setScreenState("titles");
-    setModeRef.current("menu");
-    openNavbar();
-  }, [openNavbar]);
-
-  const openEquipmentScreen = useCallback(() => {
-    setScreenState("equipment");
-    setModeRef.current("menu");
-    openNavbar();
-  }, [openNavbar]);
+  const registerModeHandlers = useCallback((handlers: NavbarModeHandlers) => {
+    modeHandlersRef.current = handlers;
+  }, []);
 
   return (
     <NavbarContext.Provider
       value={{
-        items,
         isNavOpen,
         isClosing,
         openNavbar,
         closeNavbar,
         toggleNavbar,
+        finishClose,
         screen,
         setScreen,
-        openConfigScreen,
-        openInventoryScreen,
-        openQuestsScreen,
-        openProfessionsScreen,
-        openTitlesScreen,
-        openEquipmentScreen,
-        restoreModeRef,
-        setModeRef,
+        openScreen,
+        registerModeHandlers,
       }}
     >
       {children}

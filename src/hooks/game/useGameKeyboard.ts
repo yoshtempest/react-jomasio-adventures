@@ -2,12 +2,12 @@ import { useEffect } from "react";
 import type { RefObject } from "react";
 
 import type { GameControlLayer } from "@/utils/types/player/controls";
-import { KEY_ACTIONS, KEY_RELEASE_ACTIONS } from "@/data/keyActions";
-
-type ScreenShortcut = {
-  screen: string;
-  open: () => void;
-};
+import type { NavScreen } from "@/utils/types/player/navbar";
+import {
+  KEY_ACTIONS,
+  KEY_RELEASE_ACTIONS,
+  SCREEN_SHORTCUT_KEYS,
+} from "@/data/keyActions";
 
 type GameKeyboardOptions = {
   controlsRef: RefObject<GameControlLayer>;
@@ -19,12 +19,7 @@ type GameKeyboardOptions = {
   closeAllMenus: () => void;
 
   closeNavbar: () => void;
-  openConfigScreen: () => void;
-  openInventoryScreen: () => void;
-  openQuestsScreen: () => void;
-  openProfessionsScreen: () => void;
-  openTitlesScreen: () => void;
-  openEquipmentScreen: () => void;
+  openScreen: (screen: Exclude<NavScreen, "menu">) => void;
 };
 
 export function useGameKeyboard({
@@ -37,28 +32,9 @@ export function useGameKeyboard({
   closeAllMenus,
 
   closeNavbar,
-  openConfigScreen,
-  openInventoryScreen,
-  openQuestsScreen,
-  openProfessionsScreen,
-  openTitlesScreen,
-  openEquipmentScreen,
+  openScreen,
 }: GameKeyboardOptions) {
   useEffect(() => {
-    const screenShortcuts: Record<string, ScreenShortcut> = {
-      Escape: { screen: "config", open: openConfigScreen },
-      i: { screen: "inventory", open: openInventoryScreen },
-      I: { screen: "inventory", open: openInventoryScreen },
-      q: { screen: "missions", open: openQuestsScreen },
-      Q: { screen: "missions", open: openQuestsScreen },
-      p: { screen: "professions", open: openProfessionsScreen },
-      P: { screen: "professions", open: openProfessionsScreen },
-      t: { screen: "titles", open: openTitlesScreen },
-      T: { screen: "titles", open: openTitlesScreen },
-      e: { screen: "equipment", open: openEquipmentScreen },
-      E: { screen: "equipment", open: openEquipmentScreen },
-    };
-
     function handleKeyDown(e: KeyboardEvent) {
       const controls = controlsRef.current;
 
@@ -94,13 +70,13 @@ export function useGameKeyboard({
         return;
       }
 
-      const shortcut = screenShortcuts[e.key];
+      const shortcutScreen = SCREEN_SHORTCUT_KEYS[e.key];
 
-      if (shortcut) {
-        if (isNavOpenRef.current && screenRef.current === shortcut.screen) {
+      if (shortcutScreen) {
+        if (isNavOpenRef.current && screenRef.current === shortcutScreen) {
           closeNavbar();
         } else {
-          shortcut.open();
+          openScreen(shortcutScreen);
         }
       }
     }
@@ -136,11 +112,6 @@ export function useGameKeyboard({
     openNavbar,
     closeAllMenus,
     closeNavbar,
-    openConfigScreen,
-    openInventoryScreen,
-    openQuestsScreen,
-    openProfessionsScreen,
-    openTitlesScreen,
-    openEquipmentScreen,
+    openScreen,
   ]);
 }

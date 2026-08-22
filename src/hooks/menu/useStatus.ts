@@ -3,11 +3,10 @@ import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { canSpendPoints } from "@/gameRules/menu/validation";
 import { STATS } from "@/data/player/statList";
-import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
+import { useCircularSelection } from "@/hooks/menu/useCircularSelection";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { useStableCallback } from "@/hooks/useStableCallback";
 import { useGameControlsLayer } from "@/hooks/game/useGameControlsLayer";
-import { useSelectableIndex } from "@/hooks/useSelectableIndex";
 
 const OPTIONS = STATS;
 const TOTAL_OPTIONS = STATS.length + 3;
@@ -18,30 +17,21 @@ const ALL_STATS_INDEX = STATS.length + 2;
 export function useStatusMenu(isOpen: boolean) {
   const { addStat, progress } = useCharacterProgress();
   const { player } = usePlayer();
-  const { playMove, playSelect } = useMenuSFX();
+  const { playSelect } = useMenuSFX();
 
   const [view, setView] = useState<
     "stats" | "skillTree" | "ranks" | "allStats"
   >("stats");
-  const { selectedIndex, setSelectedIndex, selectedIndexRef } =
-    useSelectableIndex();
 
-  const onUp = useStableCallback(() => {
-    if (view !== "stats") return;
-    playMove();
-    setSelectedIndex((prev) => circularPrev(prev, TOTAL_OPTIONS));
-  });
+  const { selectedIndex, selectedIndexRef, selectPrev, selectNext } =
+    useCircularSelection({ length: TOTAL_OPTIONS, enabled: view === "stats" });
 
-  const onDown = useStableCallback(() => {
-    if (view !== "stats") return;
-    playMove();
-    setSelectedIndex((prev) => circularNext(prev, TOTAL_OPTIONS));
-  });
+  // retorno descartado: setas não consomem input nesta tela
+  const onUp = useStableCallback(() => selectPrev());
+  const onDown = useStableCallback(() => selectNext());
 
   const onConfirm = useStableCallback(() => {
-    if (view === "skillTree") return true;
-    if (view === "ranks") return true;
-    if (view === "allStats") return true;
+    if (view !== "stats") return true;
     playSelect();
     const index = selectedIndexRef.current;
     if (index === SKILL_TREE_INDEX) {
@@ -56,7 +46,7 @@ export function useStatusMenu(isOpen: boolean) {
       setView("allStats");
       return true;
     }
-    const stat = STATS[index]!;
+    const stat = OPTIONS[index]!;
     const char = progress[player.character];
     if (!canSpendPoints(char.stats.points)) return true;
     addStat(player.character, stat);

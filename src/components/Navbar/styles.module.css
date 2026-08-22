@@ -44,10 +44,6 @@
   animation: slideToRight 0.5s forwards;
 }
 
-.closing {
-  animation: slideToRight 0.5s forwards;
-}
-
 .list {
   display: flex;
   flex-direction: column;
@@ -62,6 +58,7 @@
   color: var(--text-color);
   padding: var(--fs-8);
   gap: 0.8vw;
+  cursor: pointer;
 }
 
 .icon {

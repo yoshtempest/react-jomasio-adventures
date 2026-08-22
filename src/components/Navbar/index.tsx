@@ -1,28 +1,48 @@
+import { lazy, Suspense } from "react";
+import type { AnimationEvent, ComponentType, LazyExoticComponent } from "react";
+
 import styles from "./styles.module.css";
 import { useNavbarMenu } from "@/hooks/menu/useNavbar";
 import { useNavbar } from "@/contexts/NavbarContext";
-
-import { Status } from "./Status";
-import { Inventory } from "./Inventory";
-import { Character } from "./Character";
-import { Config } from "./Config";
-import { Mission } from "./Missions";
-import { Equipment } from "./Equipment";
-import { TitlesScreen } from "./Titles";
-import { DeliciaDex } from "./Bestiary";
-import { Player } from "./Player";
-import { Saves } from "./Saves";
-import { Professions } from "./Professions";
-import { Pets } from "./Pets";
+import type { MenuScreen } from "@/utils/types/player/navbar";
 import { asset } from "@/utils/paths";
 
+function lazyNamed<K extends string>(
+  load: () => Promise<Record<K, ComponentType>>,
+  name: K,
+) {
+  return lazy(() => load().then((m) => ({ default: m[name] })));
+}
+
+const SCREENS: Record<MenuScreen, LazyExoticComponent<ComponentType>> = {
+  player: lazyNamed(() => import("./Player"), "Player"),
+  character: lazyNamed(() => import("./Character"), "Character"),
+  status: lazyNamed(() => import("./Status"), "Status"),
+  equipment: lazyNamed(() => import("./Equipment"), "Equipment"),
+  inventory: lazyNamed(() => import("./Inventory"), "Inventory"),
+  missions: lazyNamed(() => import("./Missions"), "Mission"),
+  bestiary: lazyNamed(() => import("./Bestiary"), "DeliciaDex"),
+  professions: lazyNamed(() => import("./Professions"), "Professions"),
+  titles: lazyNamed(() => import("./Titles"), "TitlesScreen"),
+  pets: lazyNamed(() => import("./Pets"), "Pets"),
+  saves: lazyNamed(() => import("./Saves"), "Saves"),
+  config: lazyNamed(() => import("./Config"), "Config"),
+};
+
 export function Navbar() {
-  const { screen, selectedIndex, options } = useNavbarMenu();
-  const { isClosing } = useNavbar();
+  const { screen, selectedIndex, options, onSelect } = useNavbarMenu();
+  const { isClosing, finishClose } = useNavbar();
+
+  function handleCloseAnimationEnd(e: AnimationEvent<HTMLElement>) {
+    if (isClosing && e.animationName === styles.slideToRight) finishClose();
+  }
 
   if (screen === "menu") {
     return (
-      <nav className={`${styles.navbar} ${isClosing ? styles.closing : ""}`}>
+      <nav
+        className={`${styles.navbar} ${isClosing ? styles.closing : ""}`}
+        onAnimationEnd={handleCloseAnimationEnd}
+      >
         <ul className={styles.list}>
           {options.map((item, index) => (
             <li
@@ -30,8 +50,9 @@ export function Navbar() {
               className={`${styles.item} ${
                 selectedIndex === index ? "active" : ""
               }`}
+              onClick={() => onSelect(index)}
             >
-              <img className={styles.icon} src={asset(item.icon)} />
+              <img className={styles.icon} src={asset(item.icon)} alt="" />
               {item.label}
             </li>
           ))}
@@ -40,20 +61,11 @@ export function Navbar() {
     );
   }
 
+  const Screen = SCREENS[screen];
+
   return (
-    <div className={isClosing ? styles.closing : undefined}>
-      {screen === "status" && <Status />}
-      {screen === "character" && <Character />}
-      {screen === "inventory" && <Inventory />}
-      {screen === "config" && <Config />}
-      {screen === "missions" && <Mission />}
-      {screen === "equipment" && <Equipment />}
-      {screen === "titles" && <TitlesScreen />}
-      {screen === "bestiary" && <DeliciaDex />}
-      {screen === "player" && <Player />}
-      {screen === "saves" && <Saves />}
-      {screen === "professions" && <Professions />}
-      {screen === "pets" && <Pets />}
-    </div>
+    <Suspense fallback={null}>
+      <Screen />
+    </Suspense>
   );
 }
