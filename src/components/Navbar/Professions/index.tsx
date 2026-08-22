@@ -4,6 +4,7 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
+import { useProfessionProgress } from "@/contexts/ProfessionProgressContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { PROFESSIONS } from "@/data/professions";
@@ -15,11 +16,14 @@ import {
 } from "@/gameRules/professions/craft";
 import { asset } from "@/utils/paths";
 import styles from "./styles.module.css";
+import { ProgressBar } from "@/components/ProgressBar";
 
 export function Professions() {
   const { player } = usePlayer();
   const { addDrop, isOwned, getEquippedItem } = useEquipment();
   const { items, removeItem } = useInventory();
+  const { getProficiency, getXPToNextProfessionLevel } =
+    useProfessionProgress();
   const { playMove, playSelect, playClose } = useMenuSFX();
   const { pushControls } = useGameControls();
 
@@ -114,6 +118,10 @@ export function Professions() {
           const count = (id: string) => getMaterialCount(items, id);
           const can = canCraft(profession.recipe, count);
           const isSelected = index === selectedIndex;
+          const proficiencyEntry = getProficiency(character, profession.id);
+          const xpToNext = getXPToNextProfessionLevel(
+            proficiencyEntry.level,
+          );
 
           return (
             <li
@@ -124,6 +132,18 @@ export function Professions() {
               <div className={styles.info}>
                 <span className={styles.name}>{profession.name}</span>
                 <span className={styles.npc}>{profession.npcName}</span>
+                <div className={styles.proficiency}>
+                  <span className={styles.levelBadge}>
+                    Nv {proficiencyEntry.level}
+                  </span>
+                  <ProgressBar  
+                    value={proficiencyEntry.xp}
+                    max={xpToNext}
+                  />
+                  <span className={styles.xpText}>
+                    {proficiencyEntry.xp}/{xpToNext}
+                  </span>
+                </div>
               </div>
 
               <div className={styles.tool}>

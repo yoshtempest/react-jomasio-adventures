@@ -46,6 +46,26 @@
   font-size: var(--fs-085);
 }
 
+.proficiency {
+  display: flex;
+  align-items: center;
+  gap: var(--fs-8);
+  margin-top: var(--fs-8);
+}
+
+.levelBadge {
+  color: var(--accent-color);
+  font-size: var(--fs-085);
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.xpText {
+  color: var(--text-muted);
+  font-size: var(--fs-8);
+  white-space: nowrap;
+}
+
 .tool {
   display: flex;
   align-items: center;

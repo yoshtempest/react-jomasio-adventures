@@ -1,4 +1,5 @@
 import type { MaterialId } from "@/data/items/crafting";
+import type { Character } from "@/utils/types/player/player";
 
 export type ProfessionId =
   | "alquimista"
@@ -21,3 +22,14 @@ export type ProfessionInfo = {
   toolName: string;
   recipe: CraftRecipe;
 };
+
+export type ProfessionProficiency = {
+  level: number;
+  xp: number;
+};
+
+export type CharacterProficiencies = Partial<
+  Record<ProfessionId, ProfessionProficiency>
+>;
+
+export type CharactersProficiencies = Record<Character, CharacterProficiencies>;

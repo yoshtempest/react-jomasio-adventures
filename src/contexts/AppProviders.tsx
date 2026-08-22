@@ -15,6 +15,7 @@ import { EquipmentProvider } from "@/contexts/EquipmentContext";
 import { TitleProvider } from "@/contexts/TitleContext";
 import { BestiaryProvider } from "@/contexts/BestiaryContext";
 import { PetProgressProvider } from "@/contexts/PetProgressContext";
+import { ProfessionProgressProvider } from "@/contexts/ProfessionProgressContext";
 import { PlayerProvider } from "@/contexts/PlayerContext";
 import { GameControlsProvider } from "@/contexts/GameControlsContext";
 import { AuthProvider } from "@/contexts/AuthContext";
@@ -36,19 +37,21 @@ export function AppProviders({ children }: { children: ReactNode }) {
                           <QuestProvider>
                             <CharacterProgressProvider>
                               <PetProgressProvider>
-                                <EquipmentProvider>
-                                  <TitleProvider>
-                                    <BestiaryProvider>
-                                      <PlayerProvider>
-                                        <PlayTimeProvider>
-                                          <GameControlsProvider>
-                                            {children}
-                                          </GameControlsProvider>
-                                        </PlayTimeProvider>
-                                      </PlayerProvider>
-                                    </BestiaryProvider>
-                                  </TitleProvider>
-                                </EquipmentProvider>
+                                <ProfessionProgressProvider>
+                                  <EquipmentProvider>
+                                    <TitleProvider>
+                                      <BestiaryProvider>
+                                        <PlayerProvider>
+                                          <PlayTimeProvider>
+                                            <GameControlsProvider>
+                                              {children}
+                                            </GameControlsProvider>
+                                          </PlayTimeProvider>
+                                        </PlayerProvider>
+                                      </BestiaryProvider>
+                                    </TitleProvider>
+                                  </EquipmentProvider>
+                                </ProfessionProgressProvider>
                               </PetProgressProvider>
                             </CharacterProgressProvider>
                           </QuestProvider>

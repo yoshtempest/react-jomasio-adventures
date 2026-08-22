@@ -33,6 +33,9 @@
   border: var(--size-2) solid var(--border-default);
   padding: var(--fs-8);
   transition: border-color 0.15s;
+  width: 5.5vw;
+  height: 5.5vw;
+  margin-left: 5%;
 }
 
 .chainLeft,
