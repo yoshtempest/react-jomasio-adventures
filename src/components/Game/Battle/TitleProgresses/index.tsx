@@ -1,15 +1,22 @@
 import styles from "./styles.module.css";
 import { useTitles } from "@/contexts/TitleContext";
 import { TITLES, type TitleId } from "@/data/titles";
-import type { TitleDef } from "@/utils/types/player/titles";
+import type { TitleDef, TitlesData } from "@/utils/types/player/titles";
 
-export function TitleProgresses() {
+type Props = {
+  /** Progresso capturado no início da batalha: exibe só o que subiu desde então. */
+  titleProgressSnapshot?: TitlesData["progress"];
+};
+
+export function TitleProgresses({ titleProgressSnapshot }: Props) {
   const { titlesData } = useTitles();
 
   const activeTitles = (Object.entries(TITLES) as [TitleId, TitleDef][]).filter(
     ([id]) => {
       const p = titlesData.progress[id];
-      return p && p.current > 0;
+      if (!p || p.current <= 0) return false;
+      if (!titleProgressSnapshot) return true;
+      return p.current > (titleProgressSnapshot[id]?.current ?? 0);
     },
   );
 
@@ -24,7 +31,9 @@ export function TitleProgresses() {
       <div className={styles.list}>
         {activeTitles.length === 0 && (
           <span className={styles.noProgress}>
-            Nenhum título em progresso ainda
+            {titleProgressSnapshot
+              ? "Nenhum título progrediu nesta batalha"
+              : "Nenhum título em progresso ainda"}
           </span>
         )}
         {activeTitles.slice(0, 4).map(([id, def]) => {

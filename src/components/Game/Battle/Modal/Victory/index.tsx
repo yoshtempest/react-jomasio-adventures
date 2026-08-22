@@ -13,6 +13,7 @@ import { formatDuration } from "@/utils/formatDuration";
 import { ActivePotionDisplay } from "@/components/ActivePotionDisplay";
 import { saveReplay } from "@/data/replays";
 import type { ReplayData } from "@/utils/types/replay";
+import type { TitlesData } from "@/utils/types/player/titles";
 import { useRef, useState } from "react";
 
 type Props = {
@@ -30,6 +31,7 @@ type Props = {
   bestTime: number;
   getReplayData?: () => ReplayData | null;
   isAlfa?: boolean;
+  titleProgressSnapshot?: TitlesData["progress"];
 };
 
 export function VictoryModal({
@@ -47,6 +49,7 @@ export function VictoryModal({
   bestTime,
   getReplayData,
   isAlfa = false,
+  titleProgressSnapshot,
 }: Props) {
   const isVisible = useVictoryVisibility(isOpen, skipDelay);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -113,7 +116,7 @@ export function VictoryModal({
                 chestDrop={rewards?.chestDrop ?? null}
                 keyDrop={rewards?.keyDrop ?? null}
               />
-              <TitleProgresses />
+              <TitleProgresses titleProgressSnapshot={titleProgressSnapshot} />
               <div className={styles.flexRow}>
                 {getReplayData && (
                   <button

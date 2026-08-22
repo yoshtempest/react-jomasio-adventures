@@ -20,6 +20,7 @@ import { JumpDangerZone } from "@/components/Game/Battle/JumpDangerZone";
 import { ComboAction } from "@/components/Controls/ComboAction";
 import { useGameAudio } from "@/hooks/game/useGameAudio";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { useTitles } from "@/contexts/TitleContext";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
@@ -47,6 +48,10 @@ type Props = {
 export function BattleScene(props: Props) {
   const { npcType, className, background, map, isAlfa = false } = props;
   const { stopAll } = useSoundEffects();
+  const { titlesData } = useTitles();
+
+  // progresso de títulos no início da batalha (capturado uma única vez)
+  const titleProgressSnapshotRef = useRef(titlesData.progress);
 
   const {
     player,
@@ -339,6 +344,7 @@ export function BattleScene(props: Props) {
           bestTime={bestTime}
           getReplayData={getReplayData}
           isAlfa={isAlfa}
+          titleProgressSnapshot={titleProgressSnapshotRef.current}
         />
       )}
 
