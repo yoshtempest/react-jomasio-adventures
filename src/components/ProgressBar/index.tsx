@@ -17,7 +17,7 @@ type Segment = {
   duration: number;
 };
 
-const VIEW_ANIMATION_MS = 2000;
+const VIEW_ANIMATION_MS = 1200;
 const LEVEL_UP_FILL_MS = 800;
 const LEVEL_UP_LOOP_MS = 400;
 
@@ -71,13 +71,15 @@ export function ProgressBar({
   const levelRef = useRef(level);
   levelRef.current = level;
 
+  // Snapshot capturado uma única vez na montagem: o StrictMode roda o
+  // cleanup (que grava o lastSeen com o valor atual) antes do segundo
+  // effect, então a leitura precisa sobreviver ao re-run.
+  const [seenAtMount] = useState<SeenState | null>(() =>
+    animationId ? (lastSeenByBar.get(animationId) ?? null) : null,
+  );
+
   useEffect(() => {
     if (!animationId) return;
-
-    const seen = lastSeenByBar.get(animationId);
-    const currentLevel = levelRef.current;
-    const currentValue = valueRef.current;
-    const currentMax = maxRef.current;
 
     const saveLastSeen = () => {
       lastSeenByBar.set(animationId, {
@@ -86,15 +88,22 @@ export function ProgressBar({
       });
     };
 
+    const seen = seenAtMount;
     if (!seen) return saveLastSeen;
 
-    const levelsGained = Math.max(0, currentLevel - seen.level);
+    const levelsGained = Math.max(0, levelRef.current - seen.level);
     const fromPct =
-      currentMax > 0 ? clampPct((seen.value / currentMax) * 100) : 0;
+      maxRef.current > 0 ? clampPct((seen.value / maxRef.current) * 100) : 0;
     const toPct =
-      currentMax > 0 ? clampPct((currentValue / currentMax) * 100) : 0;
+      maxRef.current > 0
+        ? clampPct((valueRef.current / maxRef.current) * 100)
+        : 0;
 
-    if (levelsGained === 0 && fromPct === toPct) return saveLastSeen;
+    if (levelsGained === 0 && fromPct === toPct) {
+      setAnimPct(null);
+      setShowArrow(false);
+      return saveLastSeen;
+    }
 
     const segments: Segment[] = [];
 
@@ -149,7 +158,7 @@ export function ProgressBar({
       if (animRef.current) cancelAnimationFrame(animRef.current);
       saveLastSeen();
     };
-  }, [animationId]);
+  }, [animationId, seenAtMount]);
 
   useEffect(() => {
     return () => {
