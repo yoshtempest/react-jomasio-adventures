@@ -136,9 +136,11 @@ export function Professions() {
                   <span className={styles.levelBadge}>
                     Nv {proficiencyEntry.level}
                   </span>
-                  <ProgressBar  
+                  <ProgressBar
                     value={proficiencyEntry.xp}
                     max={xpToNext}
+                    animationId={`prof-xp-${character}-${profession.id}`}
+                    level={proficiencyEntry.level}
                   />
                   <span className={styles.xpText}>
                     {proficiencyEntry.xp}/{xpToNext}

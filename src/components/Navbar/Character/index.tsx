@@ -66,7 +66,12 @@ export function Character() {
                 {formatRank(getRank(charProgress.level))}
               </p>
               <div className={styles.progressContainer}>
-                <ProgressBar value={charProgress.xp} max={xpNeeded} />
+                <ProgressBar
+                  value={charProgress.xp}
+                  max={xpNeeded}
+                  animationId={`char-xp-${char.image}`}
+                  level={charProgress.level}
+                />
               </div>
               <p className={styles.text}>
                 {charProgress.xp} / {xpNeeded} XP

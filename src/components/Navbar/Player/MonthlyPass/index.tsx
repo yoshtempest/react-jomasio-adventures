@@ -45,6 +45,7 @@ export function MonthlyPassSection({
         max={100}
         className="barOuter"
         color="var(--accent-color)"
+        animationId="monthly-pass-progress"
       />
       {missions.map((m) => (
         <div key={m.id} className={styles.questRow}>

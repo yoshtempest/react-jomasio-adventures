@@ -3,7 +3,6 @@
   width: 100%;
   background: var(--border-default, #333);
   border-radius: var(--size-4);
-  overflow: hidden;
 }
 
 .fill {
@@ -14,6 +13,32 @@
   background: var(--success, #4caf50);
   transition: width 0.3s ease;
   border-radius: var(--size-4);
+}
+
+.animating {
+  transition: none;
+}
+
+.arrow {
+  position: absolute;
+  right: var(--size-2);
+  bottom: calc(100% + var(--size-4));
+  display: flex;
+  color: #8bc34a;
+  filter: drop-shadow(0 0 var(--size-4) rgba(139, 195, 74, 2));
+  animation: bounceUp 0.8s ease-in-out infinite;
+  z-index: 1;
+  pointer-events: none;
+}
+
+@keyframes bounceUp {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
 }
 
 .label {

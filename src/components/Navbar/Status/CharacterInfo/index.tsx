@@ -81,7 +81,12 @@ export function CharacterInfo() {
       </h2>
       <h2 className={styles.rank}>{formatRank(getRank(charProgress.level))}</h2>
       <h2>Classe: {playerClass}</h2>
-      <ProgressBar value={charProgress.xp} max={xpNeeded} />
+      <ProgressBar
+        value={charProgress.xp}
+        max={xpNeeded}
+        animationId={`char-xp-${player.character}`}
+        level={charProgress.level}
+      />
       <p className={styles.xpText}>
         XP: {charProgress.xp}/{xpNeeded} — Nv.{charProgress.level + 1}
       </p>
@@ -96,6 +101,7 @@ export function CharacterInfo() {
         <ProgressBar
           value={currentHP}
           max={playerMaxHp}
+          animationId={`char-hp-${player.character}`}
           color={
             currentHP > playerMaxHp * 0.5
               ? "var(--success)"
@@ -116,6 +122,7 @@ export function CharacterInfo() {
         <ProgressBar
           value={charProgress.hunger}
           max={MAX_HUNGER}
+          animationId={`char-hunger-${player.character}`}
           color={
             charProgress.hunger > 50
               ? "var(--success)"

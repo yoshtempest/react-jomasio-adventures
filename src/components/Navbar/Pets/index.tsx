@@ -131,6 +131,8 @@ export function Pets() {
                         stats.level,
                         getPetClass(entry.id),
                       )}
+                      animationId={`pet-xp-${entry.id}`}
+                      level={stats.level}
                     />
                     <p className={styles.statsLine}>
                       {stats.xp} /{" "}
