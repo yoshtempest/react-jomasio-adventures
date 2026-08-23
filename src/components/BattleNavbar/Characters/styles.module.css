@@ -1,0 +1,69 @@
+.charactersContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.character {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5vw;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  width: 99.2%;
+  height: 40vh;
+  border: var(--size-2) solid var(--primary-color);
+  border-radius: var(--fs-16);
+}
+
+.selected {
+  border: var(--size-2) solid var(--accent-color);
+}
+
+.cursor {
+  margin-top: var(--fs-10);
+}
+
+.characterImage {
+  height: 80%;
+  width: 30%;
+}
+
+.character h2,
+p {
+  margin-top: 0;
+}
+
+.text {
+  margin-top: 5%;
+  text-wrap: nowrap;
+}
+
+.levelRow {
+  display: flex;
+  align-items: center;
+  gap: var(--size-6);
+}
+
+.elementBadge {
+  width: var(--fs-18);
+  height: var(--fs-18);
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.flexColumn {
+  margin-top: 8%;
+}
+
+.inUse {
+  font-size: var(--small);
+  color: var(--accent-color);
+}
+
+@media (orientation: portrait) {
+  .text {
+    font-weight: 400;
+    font-size: var(--fs-8);
+  }
+}

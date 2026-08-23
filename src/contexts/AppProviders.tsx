@@ -18,6 +18,7 @@ import { PetProgressProvider } from "@/contexts/PetProgressContext";
 import { ProfessionProgressProvider } from "@/contexts/ProfessionProgressContext";
 import { PlayerProvider } from "@/contexts/PlayerContext";
 import { GameControlsProvider } from "@/contexts/GameControlsContext";
+import { BattleNavbarProvider } from "@/contexts/BattleNavbarContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { BattleInfoProvider } from "@/contexts/BattleInfoContext";
 
@@ -43,9 +44,11 @@ export function AppProviders({ children }: { children: ReactNode }) {
                                       <BestiaryProvider>
                                         <PlayerProvider>
                                           <PlayTimeProvider>
-                                            <GameControlsProvider>
-                                              {children}
-                                            </GameControlsProvider>
+                                            <BattleNavbarProvider>
+                                              <GameControlsProvider>
+                                                {children}
+                                              </GameControlsProvider>
+                                            </BattleNavbarProvider>
                                           </PlayTimeProvider>
                                         </PlayerProvider>
                                       </BestiaryProvider>

@@ -5,6 +5,7 @@ import { UI_BUTTON_COOLDOWNS, UI_BUTTON_KEYS } from "@/data/uiButtonKeys";
 import styles from "./styles.module.css";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useNavbar } from "@/contexts/NavbarContext";
+import { useBattleNavbar } from "@/contexts/BattleNavbarContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { Settings } from "lucide-react";
 
@@ -44,6 +45,7 @@ export function GameButtons() {
   const { activeControls, closeAllMenus } = useGameControls();
   const { openNavbar, openScreen, isNavOpen, screen, closeNavbar } =
     useNavbar();
+  const { isBattleNavOpen, toggleBattleNavbar } = useBattleNavbar();
   const { player } = usePlayer();
   const { cooldowns, trigger } = useUiButtonCooldowns();
 
@@ -76,6 +78,10 @@ export function GameButtons() {
   }
 
   function handleConfig() {
+    if (player.mode === "battle" || isBattleNavOpen) {
+      toggleBattleNavbar();
+      return;
+    }
     if (isNavOpen && screen === "config") {
       closeNavbar();
       return;

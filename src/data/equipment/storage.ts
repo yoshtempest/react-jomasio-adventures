@@ -7,8 +7,8 @@ import {
   EQUIPMENT_SLOTS,
 } from "@/data/equipment/definitions";
 import { isEquipmentId } from "@/data/equipment";
-import { saveCompressed, loadCompressed } from "@/utils/save/storage";
-import { slotKey } from "@/utils/save/slotManager";
+import { saveCompressed, loadCompressed } from "@/services/save/storageService";
+import { slotKey } from "@/services/save/slotManager";
 import { PET_CLASS } from "@/data/characters/petProgress";
 
 export type CharacterEquipmentData = {

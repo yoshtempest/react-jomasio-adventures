@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { JESO_FOOD_KEY } from "@/data/storageKeys";
-import { slotKey } from "@/utils/save/slotManager";
+import { slotKey } from "@/services/save/slotManager";
 import { FOODS } from "@/data/items/food";
 import { JESO_FOOD_COOLDOWN_MS } from "@/data/cooldowns";
 import { useCountdown } from "@/hooks/useCountdown";

@@ -7,9 +7,8 @@ import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { useTitles } from "@/contexts/TitleContext";
 import { getTotalArmor, getWeaponCritRate } from "@/gameRules/battle/equipment";
-import { getLuckBonus } from "@/gameRules/battle/luck";
-import { calculateMaxHpBonus } from "@/gameRules/battle/damage";
 import { asset } from "@/utils/paths";
+import { combatService } from "@/services/combat";
 
 export function AllStatsView() {
   const { player } = usePlayer();
@@ -74,14 +73,14 @@ export function AllStatsView() {
   const totalShield = bonus.shield + titleBonus.shield;
   const userTenacity = stats.tenacity + bonus.tenacity;
   const userLuck = (stats.luck ?? 1) + (bonus.luck ?? 0);
-  const luckBonus = getLuckBonus(userLuck);
+  const luckBonus = combatService.getLuckBonus(userLuck);
   const weaponCritRate = getWeaponCritRate(character);
   const critRate = 1 + weaponCritRate + luckBonus * 100;
   const missChance =
     (0.005 + (titleBonus.enemyMissChance ?? 0) / 100 + luckBonus) * 100;
   const totalMaxHpDamage = bonus.maxHpDamage ?? 0;
   const totalTrueDamage = bonus.trueDamage ?? 0;
-  const maxHpDamageBonus = calculateMaxHpBonus(userHp, totalMaxHpDamage);
+  const maxHpDamageBonus = combatService.calculateMaxHpBonus(userHp, totalMaxHpDamage);
 
   const inc =
     selectedIndex !== undefined ? getStatIncreases(selectedIndex) : undefined;
@@ -98,8 +97,8 @@ export function AllStatsView() {
         return { armor: 2, tenacity: 1 };
       case 4: {
         const currentLuck = (stats.luck ?? 1) + (bonus.luck ?? 0);
-        const currentLuckBonus = getLuckBonus(currentLuck);
-        const nextLuckBonus = getLuckBonus(currentLuck + 1);
+        const currentLuckBonus = combatService.getLuckBonus(currentLuck);
+        const nextLuckBonus = combatService.getLuckBonus(currentLuck + 1);
         const diff = nextLuckBonus - currentLuckBonus;
         return {
           luck: 1,

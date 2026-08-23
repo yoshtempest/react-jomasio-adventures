@@ -1,5 +1,5 @@
 import { BATTLE_STATS_KEY } from "@/data/storageKeys";
-import { slotKey } from "@/utils/save/slotManager";
+import { slotKey } from "@/services/save/slotManager";
 
 type PerCharacterStats = {
   total: number;

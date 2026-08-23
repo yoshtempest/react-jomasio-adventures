@@ -1,6 +1,7 @@
 import {
   createContext,
   useContext,
+  useMemo,
   useRef,
   useState,
   useEffect,
@@ -12,8 +13,7 @@ import { INVENTORY_KEY } from "@/data/storageKeys";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useCompressedStorage } from "@/hooks/useCompressedStorage";
 import { useToggle } from "@/hooks/useToggle";
-
-const CURRENCY_SLOT_COUNT = 2;
+import { InventoryService } from "@/services/inventory";
 
 type InventoryContextType = {
   items: InventoryItem[];
@@ -50,6 +50,13 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
   const [maxSlots, setMaxSlots] = useState(20);
   const maxSlotsRef = useLatestRef(maxSlots);
 
+  const inventoryService = useMemo(
+    () => new InventoryService(maxSlots),
+    [maxSlots],
+  );
+  // serviço com capacidade fresca para uso dentro de updaters
+  const freshService = () => new InventoryService(maxSlotsRef.current);
+
   const pendingSoundsRef = useRef<SoundId[]>([]);
 
   useEffect(() => {
@@ -58,54 +65,23 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
   }, [items, playSound]);
 
   function addItem(item: InventoryItem): boolean {
-    let added = false;
+    // retorno baseado no estado atual do render (semântica legada)
+    const { added } = inventoryService.addItem(items, item);
 
     setItems((prev) => {
-      pendingSoundsRef.current = [];
-
-      const existing = prev.find((i) => i.id === item.id);
-
-      if (existing) {
-        pendingSoundsRef.current.push("receivedItem");
-
-        return prev.map((i) =>
-          i.id === item.id ? { ...i, qty: (i.qty ?? 1) + (item.qty ?? 1) } : i,
-        );
-      }
-
-      if (prev.length >= maxSlotsRef.current - CURRENCY_SLOT_COUNT) {
-        return prev;
-      }
-
-      pendingSoundsRef.current.push("receivedItem");
-      added = true;
-
-      return [...prev, { id: item.id, qty: item.qty ?? 1 }];
+      const result = freshService().addItem(prev, item);
+      pendingSoundsRef.current = result.sound ? [result.sound] : [];
+      return result.items;
     });
 
     return added;
   }
 
   function removeItem(id: ItemId) {
-    const found = items.find((i) => i.id === id);
-    if (!found) return;
-
-    pendingSoundsRef.current = [];
-
     setItems((prev) => {
-      const next = prev
-        .map((i) => {
-          if (i.id !== id) return i;
-          const nextQty = (i.qty ?? 1) - 1;
-          return nextQty <= 0 ? null : { ...i, qty: nextQty };
-        })
-        .filter((item): item is InventoryItem => item !== null);
-
-      if (next.length < prev.length) {
-        pendingSoundsRef.current.push("usedItem");
-      }
-
-      return next;
+      const result = freshService().removeItem(prev, id);
+      pendingSoundsRef.current = result.sound ? [result.sound] : [];
+      return result.items;
     });
   }
 

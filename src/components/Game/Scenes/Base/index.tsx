@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import {
   useLocation,
   type NavigateFunction,
@@ -10,7 +10,7 @@ import { useFlags } from "@/contexts/FlagContext";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { ExploreScene } from "@/components/Game/Scenes/Default";
-import { runSceneEvents } from "@/engine/runSceneEvents";
+import { SceneEventService } from "@/services/engine/sceneEventService";
 import { useQuestActions } from "@/hooks/quest/useQuestActions";
 import { useQuests } from "@/contexts/QuestContext";
 import { MapOverlay } from "@/components/Game/Map/Menu";
@@ -124,6 +124,15 @@ export function SceneBase({
     setMode("explore");
   }, [closeNavbar, setMode]);
 
+  const sceneEventServiceRef = useRef<SceneEventService | null>(null);
+
+  useEffect(() => {
+    return () => {
+      sceneEventServiceRef.current?.dispose();
+      sceneEventServiceRef.current = null;
+    };
+  }, []);
+
   if (!scene) {
     return <div>Scene não encontrada</div>;
   }
@@ -154,7 +163,8 @@ export function SceneBase({
               location,
             });
 
-            runSceneEvents(scene.events, {
+            sceneEventServiceRef.current?.dispose();
+            sceneEventServiceRef.current = new SceneEventService({
               ...extra,
               navigate: navigateWithFade,
               location,
@@ -176,6 +186,7 @@ export function SceneBase({
               },
               progressQuest,
             });
+            sceneEventServiceRef.current.run(scene.events);
           }}
           onInteract={(_, x, y) => {
             if (popup) {

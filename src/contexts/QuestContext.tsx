@@ -12,7 +12,7 @@ import {
   DAILY_QUEST_DATE_KEY,
   WEEKLY_QUEST_DATE_KEY,
 } from "@/data/storageKeys";
-import { slotKey } from "@/utils/save/slotManager";
+import { slotKey } from "@/services/save/slotManager";
 import { useCompressedStorage } from "@/hooks/useCompressedStorage";
 
 type Props = {

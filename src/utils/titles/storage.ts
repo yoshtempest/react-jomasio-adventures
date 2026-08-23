@@ -1,8 +1,8 @@
 import { TITLE_IDS, isTitleId, type TitleId } from "@/data/titles";
 import type { TitleProgress, TitlesData } from "@/utils/types/player/titles";
 import { TITLES_KEY } from "@/data/storageKeys";
-import { saveCompressed, loadCompressed } from "@/utils/save/storage";
-import { slotKey } from "@/utils/save/slotManager";
+import { saveCompressed, loadCompressed } from "@/services/save/storageService";
+import { slotKey } from "@/services/save/slotManager";
 
 export function getDefaultProgress(): Partial<Record<TitleId, TitleProgress>> {
   const progress: Partial<Record<TitleId, TitleProgress>> = {};

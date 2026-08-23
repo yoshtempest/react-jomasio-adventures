@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { incrementDeath } from "@/utils/rewards/deathCounter";
 import { recordWin, recordDefeat } from "@/utils/rewards/streakStats";
 import { incrementEquipmentDropsStats } from "@/utils/rewards/battleStats";
-import { saveGame } from "@/utils/save/saveGame";
+import { saveGame } from "@/services/save/saveService";
 import { saveBestTime, loadBestTime } from "@/utils/bestTime";
 import type { InventoryItem } from "@/utils/types/player/inventory";
 

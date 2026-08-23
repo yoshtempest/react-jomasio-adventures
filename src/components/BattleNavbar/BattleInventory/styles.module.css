@@ -1,0 +1,75 @@
+.battleInventory {
+  justify-content: center;
+  gap: var(--size-6);
+  padding: var(--size-6);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 90%;
+}
+
+.itemRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--size-6);
+  padding: var(--fs-8);
+  border: var(--size-1) solid transparent;
+  border-radius: var(--size-4);
+  cursor: pointer;
+}
+
+.itemRow.selected {
+  border-color: var(--accent-color);
+  background: rgba(255, 215, 0, 0.06);
+}
+
+.icon {
+  width: 2.5vw;
+  min-width: 2.5vw;
+  image-rendering: pixelated;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.name {
+  font-size: var(--small);
+  color: var(--text-color);
+}
+
+.description {
+  font-size: var(--fs-8);
+  color: #999;
+}
+
+.empty {
+  font-size: var(--small);
+  color: var(--text-color);
+  text-align: center;
+}
+
+@keyframes battleItemRejected {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-0.5vw);
+  }
+  75% {
+    transform: translateX(0.5vw);
+  }
+}
+
+.rejected {
+  animation: battleItemRejected 0.15s 5;
+}

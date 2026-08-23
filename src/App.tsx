@@ -3,9 +3,12 @@ import { Outlet, useLocation } from "react-router";
 import { GameButtons } from "@/components/Controls/GameButtons";
 import { XPBarNotification } from "@/components/XPBarNotification";
 import { HungerBarNotification } from "@/components/HungerBarNotification";
+import { XpProfessionNotification } from "@/components/XpProfessionNotification";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
+import { useBattleNavbar } from "@/contexts/BattleNavbarContext";
 import { Navbar } from "@/components/Navbar";
+import { BattleNavbar } from "@/components/BattleNavbar";
 
 import { lazy, Suspense, useEffect, useRef } from "react";
 
@@ -19,7 +22,7 @@ import {
   saveGame,
   saveGameToCloud,
   loadGameFromCloud,
-} from "@/utils/save/saveGame";
+} from "@/services/save/saveService";
 
 import { useQuests } from "@/contexts/QuestContext";
 import { usePlayer } from "@/contexts/PlayerContext";
@@ -34,6 +37,8 @@ import { useExploreLocation } from "@/hooks/scene/useExploreLocation";
 function App() {
   const { isOpen } = useInventory();
   const { isNavOpen, isClosing } = useNavbar();
+  const { isBattleNavOpen, isClosing: isBattleNavClosing } =
+    useBattleNavbar();
   const { items, setItems, setMaxSlots } = useInventory();
   const { setQuests, refreshDailyWeekly, quests } = useQuests();
 
@@ -145,6 +150,7 @@ function App() {
       <GameButtons />
       <XPBarNotification />
       <HungerBarNotification />
+      <XpProfessionNotification />
       {isOpen && (
         <Suspense fallback={null}>
           <Inventory />
@@ -153,6 +159,11 @@ function App() {
       {(isNavOpen || isClosing) && (
         <div className="navbarClip">
           <Navbar />
+        </div>
+      )}
+      {(isBattleNavOpen || isBattleNavClosing) && (
+        <div className="navbarClip">
+          <BattleNavbar />
         </div>
       )}
     </div>

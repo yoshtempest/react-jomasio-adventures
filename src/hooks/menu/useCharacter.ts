@@ -8,6 +8,7 @@ import {
   gridMove,
 } from "@/gameRules/menu/navigation";
 import { getSelected } from "@/gameRules/menu/selection";
+import { getSelectableCharacters } from "@/gameRules/menu/selectableCharacters";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { useFlags } from "@/contexts/FlagContext";
@@ -24,21 +25,21 @@ export function useCharacterMenu(
   const { hasFlag } = useFlags();
   const { firstLoginDate } = usePlayTime();
 
-  const selectableCharacters = CHARACTERS.filter(
-    (c) =>
-      c.selectable ||
-      (c.image === "samuel" && hasFlag("samurionUnlocked")) ||
-      (c.image === "lucas" && hasFlag("yvelUnlocked")) ||
-      (c.image === "artur" && hasFlag("srGuaxinimUnlocked")),
-  );
+  const flags = {
+    samurionUnlocked: hasFlag("samurionUnlocked"),
+    yvelUnlocked: hasFlag("yvelUnlocked"),
+    srGuaxinimUnlocked: hasFlag("srGuaxinimUnlocked"),
+  };
+
+  const selectableCharacters = getSelectableCharacters(flags);
 
   const characters = CHARACTERS.map((c) => ({
     ...c,
     selectable:
       c.selectable ||
-      (c.image === "samuel" && hasFlag("samurionUnlocked")) ||
-      (c.image === "lucas" && hasFlag("yvelUnlocked")) ||
-      (c.image === "artur" && hasFlag("srGuaxinimUnlocked")),
+      (c.image === "samuel" && flags.samurionUnlocked) ||
+      (c.image === "lucas" && flags.yvelUnlocked) ||
+      (c.image === "artur" && flags.srGuaxinimUnlocked),
     unlockedDate: c.selectable
       ? firstLoginDate || null
       : getUnlockDate(c.image),

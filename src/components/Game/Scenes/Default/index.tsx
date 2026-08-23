@@ -29,7 +29,7 @@ import { useLocation } from "react-router";
 import { useTransitionCtx } from "@/contexts/TransitionContext";
 import { getTileInFront } from "@/utils/getTileInFront";
 import { isNpcInFront } from "@/utils/isNpcInFront";
-import { saveGame } from "@/utils/save/saveGame";
+import { saveGame } from "@/services/save/saveService";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
 import { useFlags } from "@/contexts/FlagContext";

@@ -1,12 +1,5 @@
 import { useRef, useCallback, useEffect } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
-import {
-  calculatePlayerDamage,
-  calculateDamageToNpc,
-  getBerserkMultiplier,
-} from "@/gameRules/battle/damage";
-import { getElementMultiplier } from "@/gameRules/battle/element";
-import { rollCrit } from "@/gameRules/battle/damageUtils";
 import { PLAYER_CHARGE_DASH_COOLDOWN } from "@/data/cooldowns";
 import { isPlayerInRange } from "@/gameRules/battle/range";
 import {
@@ -18,6 +11,7 @@ import {
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
+import { combatService } from "@/services/combat";
 
 type Props = {
   player: Player;
@@ -133,12 +127,12 @@ export function useChargeDash(props: Props) {
       setDeliciaRef.current((d) => Math.min(d + 1, hitsToSpecial));
 
       if (target.id === "main") {
-        const elementMultiplier = getElementMultiplier(
+        const elementMultiplier = combatService.getElementMultiplier(
           CHARACTER_ELEMENT_TYPES[dashCharacter],
           npcElementTypesRef.current,
         );
         const dmg = Math.round(
-          calculateDamageToNpc(critDmg, npcArmor) *
+          combatService.calculateDamageToNpc(critDmg, npcArmor) *
             elementMultiplier *
             elementDamageBonus,
         );
@@ -165,7 +159,7 @@ export function useChargeDash(props: Props) {
         }, PLAYER_CHARGE_DASH_COOLDOWN);
       } else {
         const summon = summonsRef.current.find((s) => s.id === target.id);
-        const elementMultiplier = getElementMultiplier(
+        const elementMultiplier = combatService.getElementMultiplier(
           CHARACTER_ELEMENT_TYPES[dashCharacter],
           summon ? getNpcElementTypes(summon.npcType) : [],
         );
@@ -212,7 +206,7 @@ export function useChargeDash(props: Props) {
           Math.min(BATTLE_LIMITS.maxX, p.x + step),
         );
 
-        const rawDmg = calculatePlayerDamage(
+        const rawDmg = combatService.calculatePlayerDamage(
           char.stats.strength,
           playerClass,
           titleDamageBonus,
@@ -221,14 +215,14 @@ export function useChargeDash(props: Props) {
           dashCharacter === "samuel" && dashCharRef.current.level >= 20
             ? Math.round(
                 rawDmg *
-                  getBerserkMultiplier(
+                  combatService.getBerserkMultiplier(
                     playerHpRef.current,
                     playerMaxHpRef.current,
                   ),
               )
             : rawDmg;
         const chargeDmg = Math.round(berserkRaw * 1.5);
-        const { damage: critDmg, type: critType } = rollCrit(
+        const { damage: critDmg, type: critType } = combatService.rollCrit(
           chargeDmg,
           critRate,
         );

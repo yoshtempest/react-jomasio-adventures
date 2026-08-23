@@ -321,6 +321,7 @@ export function useBattleSystem(props: Props) {
 
   useStatusDotTicks({
     isEnding,
+    isMenuRef,
     setPlayerHP,
     spawnDamageRef,
     burnTickDamage,
@@ -442,6 +443,7 @@ export function useBattleSystem(props: Props) {
 
 function useStatusDotTicks(params: {
   isEnding: React.RefObject<boolean>;
+  isMenuRef?: React.RefObject<boolean>;
   setPlayerHP: React.Dispatch<React.SetStateAction<number>>;
   spawnDamageRef: React.RefObject<
     (value: number, x: number, y: number, type: DamageType) => void
@@ -455,6 +457,7 @@ function useStatusDotTicks(params: {
 }) {
   const {
     isEnding,
+    isMenuRef,
     setPlayerHP,
     spawnDamageRef,
     burnTickDamage,
@@ -467,7 +470,7 @@ function useStatusDotTicks(params: {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (isEnding.current) return;
+      if (isEnding.current || isMenuRef?.current) return;
       if (bleedUntilRef.current > Date.now()) {
         setPlayerHP((hp) => Math.max(0, hp - 2));
         spawnDamageRef.current?.(
@@ -500,6 +503,7 @@ function useStatusDotTicks(params: {
   }, [
     setPlayerHP,
     isEnding,
+    isMenuRef,
     burnTickDamage,
     bleedXRef,
     bleedYRef,

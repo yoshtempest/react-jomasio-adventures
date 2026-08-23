@@ -97,7 +97,17 @@ export const meuDialogue = defineDialogue([
 
 ### Event system
 
-Discriminated union `SceneEvent` com engine imperativo `runSceneEvents()`.
+Discriminated union `SceneEvent` interpretada por `SceneEventService` (`services/engine/`). Chamar `dispose()` ao desmontar a cena (limpa timers e áudio).
+
+### Services
+
+Classes com constructors para as regras principais, em `src/services/`. Sem parameter properties (`erasableSyntaxOnly`) — declarar fields e atribuir no constructor. Depois de instanciados via ports/DI, não conhecem React.
+
+- **NpcAttack** (`services/npc/`): todo NPC ataca e dita COMO no próprio arquivo `attacks/<npcType>.ts` (estende `NpcAttack` ou `DefaultNpcAttack`) + entrada no registry `attacks/index.ts`. Registry é `satisfies Record<NpcType, NpcAttack>` — NPC sem ataque quebra a compilação; `getNpcAttack()` lança erro na batalha em runtime.
+- **CombatService** (`services/combat/`): regras de dano/crítico/elemento/sorte/cooldown centralizadas. Fundação de entidades em `character.ts`.
+- **ItemService** (`services/items/`): efeitos de item declarativos em `ITEM_ACTIONS`; consumo do item acontece dentro do service.
+- **SaveService / SlotManager / StorageService** (`services/save/`): persistência com backend injetado (`StorageLike`).
+- **InventoryService** (`services/inventory/`): regras puras de empilhamento/capacidade; métodos recebem e devolvem o array de items.
 
 ### Audio
 
@@ -125,8 +135,8 @@ Composição de hooks: `useBattleSystem` → cooldowns, effects, player/NPC batt
 | `src/contexts/`     | Providers + hooks de contexto (flat, sem subpastas)                           |
 | `src/hooks/`        | Hooks custom (battle/, player/, scene/, interaction/, menu/, npc/, tutorial/) |
 | `src/utils/types/`  | Definições TS (player/, npc/, maps/)                                          |
-| `src/gameRules/`    | Lógica pura do jogo (battle/, movement/, items/, menu/, npc/)                 |
-| `src/engine/`       | Motor de eventos (`runSceneEvents.ts`)                                        |
+| `src/gameRules/`    | Lógica pura do jogo (battle/, movement/, menu/, npc/)                         |
+| `src/services/`     | Classes de regras de negócio (npc/, combat/, items/, save/, engine/, inventory/) |
 | `src/data/`         | Dados estáticos (items/, flags/, quests/, maps/, options/)                    |
 | `src/maps/`         | Matrizes de tile map por local                                                |
 | `src/scenes/`       | Configurações de cena + factories compartilhadas                              |

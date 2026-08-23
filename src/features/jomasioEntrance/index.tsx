@@ -62,7 +62,7 @@ export function JomasioEntranceScene({ sceneId }: Props) {
 
   const interactions = useMemo(() => {
     const mineRock = createToolInteraction<MineRockDeps>(
-      "weapon_picareta",
+      "weapon_pickaxe",
       "Você precisa equipar uma picareta para minerar.",
       (deps) => {
         if (Date.now() - lastMineTimeRef.current < MINE_COOLDOWN_MS) {
@@ -71,9 +71,9 @@ export function JomasioEntranceScene({ sceneId }: Props) {
         }
         lastMineTimeRef.current = Date.now();
 
-        const { level } = deps.getProficiency(deps.character, "mineiro");
+        const { level } = deps.getProficiency(deps.character, "miner");
         const { items: rolled } = rollGatherLoot(
-          GATHER_LOOT_TABLES.mineiro,
+          GATHER_LOOT_TABLES.miner,
           level,
         );
 
@@ -86,13 +86,11 @@ export function JomasioEntranceScene({ sceneId }: Props) {
           )
           .join(", ");
 
-        deps.setPopup(
-          `Você minerou a rocha! Obteve: ${summary} (+${PROFESSION_XP_PER_GATHER} XP de Mineiro)`,
-        );
+        deps.setPopup(`Você minerou a rocha! Obteve: ${summary}`);
 
         deps.addProficiencyXP(
           deps.character,
-          "mineiro",
+          "miner",
           PROFESSION_XP_PER_GATHER,
         );
       },

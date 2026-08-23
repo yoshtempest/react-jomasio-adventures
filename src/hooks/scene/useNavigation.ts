@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useTransitionCtx } from "@/contexts/TransitionContext";
-import { saveCompressed, loadCompressed } from "@/utils/save/storage";
-import { slotKey } from "@/utils/save/slotManager";
+import { saveCompressed, loadCompressed } from "@/services/save/storageService";
+import { slotKey } from "@/services/save/slotManager";
 
 const SCENE_POSITIONS_KEY = () => slotKey("scene_return_positions");
 

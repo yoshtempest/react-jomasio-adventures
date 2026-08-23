@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useTitles } from "@/contexts/TitleContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
-import { slotKey } from "@/utils/save/slotManager";
+import { slotKey } from "@/services/save/slotManager";
 import type {
   RandomEncounterConfig,
   EncounterDef,

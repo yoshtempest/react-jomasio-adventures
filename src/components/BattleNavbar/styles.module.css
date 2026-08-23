@@ -1,0 +1,55 @@
+.battleNavbar {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  z-index: 9999999;
+  top: 27vh;
+  right: 0;
+  width: 15vw;
+  height: 46vh;
+  align-items: center;
+  justify-content: center;
+  gap: var(--size-6);
+  background: linear-gradient(
+    170deg,
+    var(--primary-color) 70%,
+    var(--surface-dark) 100%
+  );
+  border: var(--size-1) solid var(--background-color);
+  border-right: var(--size-3) solid var(--accent-color);
+  border-radius: var(--size-2);
+  animation: battleSlideFromRight 0.5s;
+}
+
+.battleNavbar.closing {
+  animation: battleSlideToRight 0.5s forwards;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  padding: 0;
+  width: 90%;
+}
+
+.item {
+  display: flex;
+  font-size: var(--small);
+  color: var(--text-color);
+  padding: var(--fs-8);
+  gap: 0.8vw;
+  cursor: pointer;
+}
+
+.icon {
+  width: 2vw;
+}
+
+@media (orientation: portrait) {
+  .battleNavbar {
+    top: 35vh;
+    height: 30vh;
+    width: 30vw;
+  }
+}

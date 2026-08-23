@@ -12,13 +12,13 @@ import {
   getTotalReflect,
 } from "@/gameRules/battle/equipment";
 import { getTenacityReduction } from "@/gameRules/battle/tenacity";
-import { getLuckBonus } from "@/gameRules/battle/luck";
 import { getNpcStats } from "@/gameRules/npc/npcStats";
 import { getMaxSpecial } from "@/gameRules/battle/special";
 import { getRankMultiplier } from "@/gameRules/rank";
 import { getHungerMultiplier } from "@/contexts/CharacterProgressContext";
 import type { CharacterProgress } from "@/data/characters/defaultProgress";
 import type { TitleBonusMap } from "@/utils/types/player/titles";
+import { combatService } from "@/services/combat";
 
 function buildCharacterStats(
   baseChar: CharacterProgress,
@@ -138,7 +138,7 @@ export function useBattleStats({
   }, [baseChar.stats.luck, equipmentBonus.luck]);
 
   const luckBonus = useMemo(() => {
-    return getLuckBonus(totalLuck);
+    return combatService.getLuckBonus(totalLuck);
   }, [totalLuck]);
 
   const critRate = 1 + weaponCritRate + luckBonus * 100;

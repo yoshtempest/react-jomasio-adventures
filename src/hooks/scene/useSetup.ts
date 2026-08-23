@@ -1,8 +1,8 @@
 import { useLayoutEffect, useState } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import type { ScenePosition } from "@/utils/types/sceneHooks";
-import { saveCompressed, loadCompressed } from "@/utils/save/storage";
-import { slotKey } from "@/utils/save/slotManager";
+import { saveCompressed, loadCompressed } from "@/services/save/storageService";
+import { slotKey } from "@/services/save/slotManager";
 import { getTileHeight } from "@/gameRules/movement/levels";
 
 type Props = {

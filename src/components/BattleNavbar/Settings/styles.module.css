@@ -1,0 +1,9 @@
+.container {
+  justify-content: center;
+  gap: var(--size-6);
+  padding: var(--size-6);
+}
+
+.title {
+  margin-top: 0;
+}

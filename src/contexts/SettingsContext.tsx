@@ -15,7 +15,7 @@ import {
   SHARED_XP_KEY,
   DIFFICULTY_KEY,
 } from "@/data/storageKeys";
-import { slotKey } from "@/utils/save/slotManager";
+import { slotKey } from "@/services/save/slotManager";
 
 type SettingsContextType = {
   dialogueSpeed: DialogueSpeed;

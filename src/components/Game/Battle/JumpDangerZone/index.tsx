@@ -4,7 +4,7 @@ import {
   JUMP_CENTER_RADIUS,
   JUMP_EDGE_RADIUS,
   JUMP_GROUND_Y,
-} from "@/gameRules/battle/behaviors/npc/slimita/state";
+} from "@/services/npc/attacks/slimita/state";
 
 type Props = {
   landingX: number;

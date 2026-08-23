@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from "react";
-import { npcBehaviors } from "@/gameRules/battle/behaviors/npc/index";
+import { getNpcAttack } from "@/services/npc";
 import { useProjectile } from "./useProjectile";
 import {
   getNpcDirection,
@@ -204,13 +204,12 @@ export function useNpcAI({
           };
         }
 
-        const behavior = (npcBehaviors[npcTypeRef.current] ||
-          npcBehaviors.default)!;
+        const attack = getNpcAttack(npcTypeRef.current);
 
         const targetX = playerXRef.current;
         const targetY = playerYRef.current;
 
-        const result = behavior({
+        const result = attack.execute({
           npc: n,
           playerX: playerXRef.current,
           playerY: playerYRef.current,

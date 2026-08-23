@@ -16,6 +16,7 @@ import { logPlay } from "@/utils/replay/audioEventLog";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
 import { useNavbar } from "@/contexts/NavbarContext";
+import { useBattleNavbar } from "@/contexts/BattleNavbarContext";
 import { useTitles } from "@/contexts/TitleContext";
 import { usePlayTime } from "@/contexts/PlayTimeContext";
 import { useSettings } from "@/contexts/SettingsContext";
@@ -41,15 +42,12 @@ import {
   type PetSkillDefinition,
 } from "@/data/characters/petSkills";
 import { getPetBaseDamage } from "@/data/characters/petProgress";
-import { calculateDamageToNpc } from "@/gameRules/battle/damage";
-import { getElementMultiplier } from "@/gameRules/battle/element";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
 import { CHARACTERS } from "@/data/characters/list";
 import { getEquipmentStatsBonus } from "@/gameRules/battle/equipment";
-import { getLuckBonus } from "@/gameRules/battle/luck";
-import { saveGame } from "@/utils/save/saveGame";
+import { saveGame } from "@/services/save/saveService";
 import { loadBestTime, saveBestTime } from "@/utils/bestTime";
 import { incrementDeath } from "@/utils/rewards/deathCounter";
 import { incrementBlockCount } from "@/utils/rewards/blockCounter";
@@ -66,6 +64,7 @@ import {
 import { useBattleRecording } from "@/hooks/battle/recording/useBattleRecording";
 import type { ReplayData } from "@/utils/types/replay";
 import type { SpawnDamageFn } from "@/utils/types/battle/spawnDamageFn";
+import { combatService } from "@/services/combat";
 
 function computeElapsedBattleTime(
   battleStartRef: RefObject<number>,
@@ -154,12 +153,12 @@ function runPetSkill(
   switch (effect.kind) {
     case "damage": {
       const baseDamage = getPetBaseDamage(petLevel, petStars);
-      const elementMultiplier = getElementMultiplier(
+      const elementMultiplier = combatService.getElementMultiplier(
         getNpcElementTypes(def.npcType),
         getNpcElementTypes(npcType),
       );
       const dmg = Math.round(
-        calculateDamageToNpc(baseDamage * effect.multiplier, battle.npcArmor) *
+        combatService.calculateDamageToNpc(baseDamage * effect.multiplier, battle.npcArmor) *
           elementMultiplier,
       );
       battle.setNpcHP((hp) => Math.max(0, hp - dmg));
@@ -168,12 +167,12 @@ function runPetSkill(
     }
     case "jumpAttack": {
       const baseDamage = getPetBaseDamage(petLevel, petStars);
-      const elementMultiplier = getElementMultiplier(
+      const elementMultiplier = combatService.getElementMultiplier(
         getNpcElementTypes(def.npcType),
         getNpcElementTypes(npcType),
       );
       const dmg = Math.round(
-        calculateDamageToNpc(baseDamage * effect.multiplier, battle.npcArmor) *
+        combatService.calculateDamageToNpc(baseDamage * effect.multiplier, battle.npcArmor) *
           elementMultiplier,
       );
       triggerJumpAttack(npc.y, () => {
@@ -257,6 +256,7 @@ export function useBattleScene({
   const { items: inventoryItems, closeInventory } = useInventory();
   const { quests, progressDailyWeekly } = useQuests();
   const { closeNavbar, isNavOpen, screen: navScreen } = useNavbar();
+  const { isBattleNavOpen } = useBattleNavbar();
   const {
     handleDefeat,
     incrementBlockCounter,
@@ -332,7 +332,7 @@ export function useBattleScene({
   const equipmentBonus = getEquipmentStatsBonus(player.character);
   const totalLuck =
     progress[player.character].stats.luck + (equipmentBonus.luck ?? 0);
-  const luckBonus = getLuckBonus(totalLuck);
+  const luckBonus = combatService.getLuckBonus(totalLuck);
 
   const { xpReward, giveRewards, giveSummonRewards } = useBattleRewards({
     npcClass: npcData.class,
@@ -431,6 +431,8 @@ export function useBattleScene({
   const setModeRef = useLatestRef(setMode);
   const closeInventoryRef = useLatestRef(closeInventory);
   const closeNavbarRef = useLatestRef(closeNavbar);
+  const { resetBattleNavbar } = useBattleNavbar();
+  const resetBattleNavbarRef = useLatestRef(resetBattleNavbar);
 
   const saveDataRef = useLatestRef({
     items: inventoryItems,
@@ -446,7 +448,7 @@ export function useBattleScene({
   }
 
   const isConfigOpen = isNavOpen && navScreen === "config";
-  const isMenuOpen = isNavOpen;
+  const isMenuOpen = isNavOpen || isBattleNavOpen;
   const isMenuOpenRef = useLatestRef(isMenuOpen);
   const isPaused =
     showVictory ||
@@ -454,7 +456,9 @@ export function useBattleScene({
     showIntro ||
     showOutro != null ||
     showHighlight ||
-    isConfigOpen;
+    isConfigOpen ||
+    isBattleNavOpen;
+  const isPausedRef = useLatestRef(isPaused);
   const controlsDisabled = isPaused || isPhaseTransitioning || isThrown;
 
   targeting.npcAiHpRef.current = npcStats.hp;
@@ -922,6 +926,8 @@ export function useBattleScene({
     npcMaxHpRef,
     setNpcHPRef,
     isEndingRef,
+    isPausedRef,
+    resetBattleNavbarRef,
     setNpcPhase,
     setModeRef,
     closeInventoryRef,
@@ -971,13 +977,14 @@ export function useBattleScene({
   useEffect(() => {
     if (!training) return;
     const id = setInterval(() => {
+      if (isPausedRef.current) return;
       setNpcHpForRegen((hp) => {
         const next = hp + npcMaxHpForRegen * 0.5;
         return next > npcMaxHpForRegen ? npcMaxHpForRegen : next;
       });
     }, 1000);
     return () => clearInterval(id);
-  }, [training, npcMaxHpForRegen, setNpcHpForRegen]);
+  }, [training, npcMaxHpForRegen, setNpcHpForRegen, isPausedRef]);
 
   function handleRetry() {
     charge.cancelCharge();

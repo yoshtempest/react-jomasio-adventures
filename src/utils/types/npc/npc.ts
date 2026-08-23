@@ -120,7 +120,7 @@ export type NPCBattleState = {
       lastSpinHit: number;
       spinHitCount: number;
     };
-    maugrelo?: import("@/gameRules/battle/behaviors/npc/maugrelo/state").MaugreloAI;
+    maugrelo?: import("@/services/npc/attacks/maugrelo/state").MaugreloAI;
   };
 };
 

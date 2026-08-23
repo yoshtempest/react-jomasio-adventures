@@ -1,5 +1,5 @@
 import { CLASS_KILLS_KEY } from "@/data/storageKeys";
-import { slotKey } from "@/utils/save/slotManager";
+import { slotKey } from "@/services/save/slotManager";
 
 export type ClassKills = Record<NPCClass, number>;
 

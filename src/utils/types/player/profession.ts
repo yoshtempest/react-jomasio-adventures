@@ -2,15 +2,15 @@ import type { MaterialId } from "@/data/items/crafting";
 import type { Character } from "@/utils/types/player/player";
 
 export type ProfessionId =
-  | "alquimista"
-  | "agricultor"
-  | "pescador"
-  | "confeiteiro"
-  | "acougueiro"
+  | "alchemist"
+  | "farmer"
+  | "fisher"
+  | "pastryChef"
+  | "butcher"
   | "bodyBuilder"
-  | "mecanico"
-  | "mineiro"
-  | "pintor";
+  | "mechanic"
+  | "miner"
+  | "painter";
 
 export type CraftRecipe = Partial<Record<MaterialId, number>>;
 

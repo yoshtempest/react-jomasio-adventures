@@ -4,7 +4,7 @@ import type {
 } from "@/utils/types/player/bestiary";
 import { BESTIARY_NPC_ORDER } from "@/data/bestiary";
 import { BESTIARY_KEY } from "@/data/storageKeys";
-import { slotKey } from "@/utils/save/slotManager";
+import { slotKey } from "@/services/save/slotManager";
 
 function createDefaultEntry(): BestiarySaveEntry {
   return { encountered: false, kills: 0 };

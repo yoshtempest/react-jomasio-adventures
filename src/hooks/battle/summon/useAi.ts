@@ -1,12 +1,11 @@
 import { useEffect, useRef } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { NPCS } from "@/data/npc/npc";
-import { calculateNpcDamage } from "@/gameRules/battle/damage";
-import { getElementMultiplier } from "@/gameRules/battle/element";
 import { getNpcStats } from "@/gameRules/npc/npcStats";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
+import { combatService } from "@/services/combat";
 
 type Props = {
   summons: SummonedNpc[];
@@ -37,13 +36,13 @@ function computeSummonDamage(
 
   const stats = getNpcStats(npcLevel, data.class, difficulty);
 
-  const elementMultiplier = getElementMultiplier(
+  const elementMultiplier = combatService.getElementMultiplier(
     getNpcElementTypes(s.npcType),
     CHARACTER_ELEMENT_TYPES[playerCharacter],
   );
 
   return Math.round(
-    calculateNpcDamage(stats.damage, playerClass) * elementMultiplier,
+    combatService.calculateNpcDamage(stats.damage, playerClass) * elementMultiplier,
   );
 }
 

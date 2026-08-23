@@ -1,6 +1,6 @@
 import { CHAR_UNLOCK_DATES_KEY } from "@/data/storageKeys";
-import { saveCompressed, loadCompressed } from "@/utils/save/storage";
-import { slotKey } from "@/utils/save/slotManager";
+import { saveCompressed, loadCompressed } from "@/services/save/storageService";
+import { slotKey } from "@/services/save/slotManager";
 
 type UnlockDates = Record<string, string>;
 

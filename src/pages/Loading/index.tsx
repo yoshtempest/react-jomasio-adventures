@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router";
 import { asset } from "@/utils/paths";
-import { hasSave } from "@/utils/save/saveGame";
+import { hasSave } from "@/services/save/saveService";
 import styles from "./styles.module.css";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { useLatestRef } from "@/hooks/useLatestRef";

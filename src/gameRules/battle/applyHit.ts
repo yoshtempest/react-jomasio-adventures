@@ -1,17 +1,9 @@
-import {
-  calculatePlayerDamage,
-  calculateDamageToNpc,
-  getBerserkMultiplier,
-  calculateSpecialDamage,
-  calculateMaxHpBonus,
-} from "@/gameRules/battle/damage";
-import { rollCrit } from "@/gameRules/battle/damageUtils";
-import { getElementMultiplier } from "@/gameRules/battle/element";
 import { playAttackSound } from "@/utils/audio/playAttackSound";
 import type { BattleBehavior } from "@/utils/types/player/behavior";
 import type { CharacterProgress } from "@/data/characters/defaultProgress";
 import type { ElementType } from "@/utils/types/battle/element";
 import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
+import { combatService } from "@/services/combat";
 
 type BaseHitParams = {
   player: Player;
@@ -82,15 +74,15 @@ function computeHitDamage({
   isCrit: boolean;
   type: DamageType;
 } {
-  const maxHpBonus = calculateMaxHpBonus(playerMaxHp, totalMaxHpDamage);
+  const maxHpBonus = combatService.calculateMaxHpBonus(playerMaxHp, totalMaxHpDamage);
   const dmgWithHpBonus = rawDmg + maxHpBonus;
   const berserkDmg =
     player.character === "samuel" && char.level >= 20
-      ? Math.round(dmgWithHpBonus * getBerserkMultiplier(playerHP, playerMaxHp))
+      ? Math.round(dmgWithHpBonus * combatService.getBerserkMultiplier(playerHP, playerMaxHp))
       : dmgWithHpBonus;
-  const { damage: critDmg, type: dmgType } = rollCrit(berserkDmg, critRate);
-  const armorReduced = calculateDamageToNpc(critDmg, npcArmor);
-  const elementMultiplier = getElementMultiplier(
+  const { damage: critDmg, type: dmgType } = combatService.rollCrit(berserkDmg, critRate);
+  const armorReduced = combatService.calculateDamageToNpc(critDmg, npcArmor);
+  const elementMultiplier = combatService.getElementMultiplier(
     CHARACTER_ELEMENT_TYPES[player.character],
     npcElementTypes,
   );
@@ -110,7 +102,7 @@ export function calculateBasicHitDamage(params: DamageCalcParams): {
   const rawDmg =
     params.player.character === "larissa"
       ? 2
-      : calculatePlayerDamage(
+      : combatService.calculatePlayerDamage(
           params.char.stats.strength,
           params.playerClass,
           params.titleDamageBonus,
@@ -125,7 +117,7 @@ export function calculateSpecialHitDamage(
   const rawDmg =
     params.player.character === "larissa"
       ? params.stacks * 5
-      : calculateSpecialDamage(
+      : combatService.calculateSpecialDamage(
           params.char.stats.intelligence,
           params.playerClass,
         );

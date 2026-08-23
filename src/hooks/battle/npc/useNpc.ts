@@ -1,8 +1,6 @@
 import { useCallback } from "react";
 import { NPC_MELEE_COOLDOWN } from "@/data/cooldowns";
 import { getNpcStats } from "@/gameRules/npc/npcStats";
-import { calculateNpcDamage } from "@/gameRules/battle/damage";
-import { getElementMultiplier } from "@/gameRules/battle/element";
 import { isFacingTarget } from "@/gameRules/battle/direction";
 import { handleNpcBlocking } from "./useBlocking";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
@@ -10,6 +8,7 @@ import { useLatestRef } from "@/hooks/useLatestRef";
 import { logPlay } from "@/utils/replay/audioEventLog";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
+import { combatService } from "@/services/combat";
 
 type Props = {
   npcLevel: number;
@@ -204,7 +203,7 @@ export function useNpcBattle({
 
       const npc = getNpcStats(npcLevel, npcClass, difficulty, statMultiplier);
       const baseDmg = npc.damage;
-      const dmg = calculateNpcDamage(baseDmg, playerClass, totalArmor);
+      const dmg = combatService.calculateNpcDamage(baseDmg, playerClass, totalArmor);
 
       const hpRatio =
         npcMaxHpRef.current > 0 ? npcHpRef.current / npcMaxHpRef.current : 1;
@@ -271,7 +270,7 @@ export function useNpcBattle({
 
     const npc = getNpcStats(npcLevel, npcClass, difficulty, statMultiplier);
     const baseDmg = npc.damage;
-    const dmg = calculateNpcDamage(baseDmg, playerClass, totalArmor);
+    const dmg = combatService.calculateNpcDamage(baseDmg, playerClass, totalArmor);
 
     const blocked = checkBlocked({
       dmg,
@@ -357,8 +356,8 @@ export function useNpcBattle({
 
       const npc = getNpcStats(npcLevel, npcClass, difficulty, statMultiplier);
       const baseDmg = npc.damage;
-      const dmg = calculateNpcDamage(baseDmg, playerClass, totalArmor);
-      const elementMultiplier = getElementMultiplier(
+      const dmg = combatService.calculateNpcDamage(baseDmg, playerClass, totalArmor);
+      const elementMultiplier = combatService.getElementMultiplier(
         getNpcElementTypes(npcType),
         CHARACTER_ELEMENT_TYPES[player.character],
       );
@@ -403,7 +402,7 @@ function rollNpcDamage(
     critChance = 1 + (1 - clampedRatio) * 9;
   }
   const isCrit = Math.random() * 100 < critChance;
-  const elementMultiplier = getElementMultiplier(
+  const elementMultiplier = combatService.getElementMultiplier(
     getNpcElementTypes(npcType),
     CHARACTER_ELEMENT_TYPES[playerCharacter],
   );

@@ -11,6 +11,7 @@ import type { GameControlLayer } from "@/utils/types/player/controls";
 
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useNavbar } from "@/contexts/NavbarContext";
+import { useBattleNavbar } from "@/contexts/BattleNavbarContext";
 
 import { shouldConsumeInput } from "@/gameRules/movement/input";
 import { useLatestRef } from "@/hooks/useLatestRef";
@@ -42,6 +43,8 @@ export function GameControlsProvider({ children }: Props) {
     screen,
   } = useNavbar();
 
+  const { isBattleNavOpen, toggleBattleNavbar } = useBattleNavbar();
+
   // REFS
 
   const restoreModeRef = useLatestRef(restoreMode);
@@ -53,6 +56,8 @@ export function GameControlsProvider({ children }: Props) {
   const isNavOpenRef = useLatestRef(isNavOpen);
 
   const screenRef = useLatestRef(screen);
+
+  const isBattleNavOpenRef = useLatestRef(isBattleNavOpen);
 
   // CONTROLS STACK
 
@@ -178,12 +183,14 @@ export function GameControlsProvider({ children }: Props) {
     playerModeRef,
     isNavOpenRef,
     screenRef,
+    isBattleNavOpenRef,
 
     openNavbar,
     closeAllMenus,
 
     closeNavbar,
     openScreen,
+    toggleBattleNavbar,
   });
 
   // PROVIDER

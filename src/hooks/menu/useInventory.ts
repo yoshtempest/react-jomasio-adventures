@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { gridMove } from "@/gameRules/menu/navigation";
 import { useInventory } from "@/contexts/InventoryContext";
-import { useItemEffect } from "@/gameRules/items/useItem";
+import { useItemEffect } from "@/hooks/items/useItemEffect";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { useAudio } from "@/contexts/AudioContext";

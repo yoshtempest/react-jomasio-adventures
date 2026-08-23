@@ -16,6 +16,8 @@ type SyncProps = {
   npcMaxHpRef: RefObject<number>;
   setNpcHPRef: RefObject<(fn: (prev: number) => number) => void>;
   isEndingRef: RefObject<{ readonly current: boolean }>;
+  isPausedRef: RefObject<boolean>;
+  resetBattleNavbarRef: RefObject<() => void>;
   setNpcPhase: (phase: number) => void;
   setModeRef: RefObject<(mode: PlayerMode) => void>;
   closeInventoryRef: RefObject<() => void>;
@@ -42,6 +44,8 @@ export function useBattleSync({
   npcMaxHpRef,
   setNpcHPRef,
   isEndingRef,
+  isPausedRef,
+  resetBattleNavbarRef,
   setNpcPhase,
   setModeRef,
   closeInventoryRef,
@@ -78,6 +82,7 @@ export function useBattleSync({
 
     const interval = setInterval(() => {
       if (isEndingRef.current.current) return;
+      if (isPausedRef.current) return;
       const halfHealActive = halfHealUntilRef.current > Date.now();
       const heal = halfHealActive
         ? Math.max(0, Math.round(1 * (1 - halfHealReduction / 100)))
@@ -93,6 +98,7 @@ export function useBattleSync({
     npcType,
     battle.npcPhase,
     isEndingRef,
+    isPausedRef,
     setNpcHPRef,
     npcMaxHpRef,
     halfHealReduction,
@@ -117,5 +123,11 @@ export function useBattleSync({
     setModeRef.current("battle");
     closeInventoryRef.current();
     closeNavbarRef.current();
-  }, [setModeRef, closeInventoryRef, closeNavbarRef]);
+    resetBattleNavbarRef.current();
+  }, [setModeRef, closeInventoryRef, closeNavbarRef, resetBattleNavbarRef]);
+
+  // Safety: fecha a BattleNavbar ao desmontar (sem restaurar modo).
+  useEffect(() => {
+    return () => resetBattleNavbarRef.current();
+  }, [resetBattleNavbarRef]);
 }

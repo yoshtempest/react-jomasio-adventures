@@ -14,12 +14,14 @@ type GameKeyboardOptions = {
   playerModeRef: RefObject<string>;
   isNavOpenRef: RefObject<boolean>;
   screenRef: RefObject<string | undefined>;
+  isBattleNavOpenRef: RefObject<boolean>;
 
   openNavbar: () => void;
   closeAllMenus: () => void;
 
   closeNavbar: () => void;
   openScreen: (screen: Exclude<NavScreen, "menu">) => void;
+  toggleBattleNavbar: () => void;
 };
 
 export function useGameKeyboard({
@@ -27,12 +29,14 @@ export function useGameKeyboard({
   playerModeRef,
   isNavOpenRef,
   screenRef,
+  isBattleNavOpenRef,
 
   openNavbar,
   closeAllMenus,
 
   closeNavbar,
   openScreen,
+  toggleBattleNavbar,
 }: GameKeyboardOptions) {
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
@@ -73,6 +77,18 @@ export function useGameKeyboard({
       const shortcutScreen = SCREEN_SHORTCUT_KEYS[e.key];
 
       if (shortcutScreen) {
+        // Em batalha, configurações abrem a BattleNavbar (que pausa a luta).
+        if (
+          shortcutScreen === "config" &&
+          (playerModeRef.current === "battle" || isBattleNavOpenRef.current)
+        ) {
+          toggleBattleNavbar();
+          return;
+        }
+
+        // BattleNavbar aberta: ignora os demais atalhos de tela.
+        if (isBattleNavOpenRef.current) return;
+
         if (isNavOpenRef.current && screenRef.current === shortcutScreen) {
           closeNavbar();
         } else {
@@ -108,10 +124,12 @@ export function useGameKeyboard({
     playerModeRef,
     isNavOpenRef,
     screenRef,
+    isBattleNavOpenRef,
 
     openNavbar,
     closeAllMenus,
     closeNavbar,
     openScreen,
+    toggleBattleNavbar,
   ]);
 }

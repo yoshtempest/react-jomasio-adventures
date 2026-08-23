@@ -22,6 +22,7 @@ import { useGameAudio } from "@/hooks/game/useGameAudio";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useTitles } from "@/contexts/TitleContext";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import { useBattleNavbar } from "@/contexts/BattleNavbarContext";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import { TrainingOverlay } from "@/components/Game/Battle/TrainingOverlay";
@@ -200,10 +201,15 @@ export function BattleScene(props: Props) {
     volume: 0.5,
   });
   const battleAudioRef = useLatestRef(battleAudio);
+  const { isBattleNavOpen } = useBattleNavbar();
 
   useEffect(() => {
     const shouldPlay =
-      !showIntro && !showVictory && !showDefeat && !showHighlight;
+      !showIntro &&
+      !showVictory &&
+      !showDefeat &&
+      !showHighlight &&
+      !isBattleNavOpen;
 
     if (shouldPlay && !battleAudioRef.current.isPlaying()) {
       void battleAudioRef.current.play();
@@ -219,6 +225,7 @@ export function BattleScene(props: Props) {
     showVictory,
     showDefeat,
     showHighlight,
+    isBattleNavOpen,
     stopAll,
     battleAudioRef,
   ]);

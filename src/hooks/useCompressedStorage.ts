@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { saveCompressed, loadCompressed } from "@/utils/save/storage";
-import { slotKey } from "@/utils/save/slotManager";
+import { saveCompressed, loadCompressed } from "@/services/save/storageService";
+import { slotKey } from "@/services/save/slotManager";
 
 export function useCompressedStorage<T>(
   key: string,

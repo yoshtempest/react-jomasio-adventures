@@ -6,7 +6,7 @@ import { ProjectileConstants } from "@/data/projectile";
 import type { SummonedNpc, NPCBattleState } from "@/utils/types/npc/npc";
 import type { PetState } from "@/hooks/battle/player/usePet";
 import type { CoffinState } from "@/hooks/battle/summon/useCoffinAnimation";
-import type { GroundPaper } from "@/gameRules/battle/behaviors/npc/maugrelo/state";
+import type { GroundPaper } from "@/services/npc/attacks/maugrelo/state";
 
 type BattleEntitiesBattle = {
   piercings: { id: number; x: number; y: number }[];

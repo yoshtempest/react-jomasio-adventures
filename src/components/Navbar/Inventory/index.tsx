@@ -16,7 +16,7 @@ import { FilterBar } from "./FilterBar";
 import { ListItem } from "./ListItem";
 import { RewardsView } from "./RewardsView";
 import { ChestOpeningAnimation } from "./ChestOpeningAnimation";
-import { useItemEffect } from "@/gameRules/items/useItem";
+import { useItemEffect } from "@/hooks/items/useItemEffect";
 import { FILTER_LABELS } from "@/data/inventory/labels";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { CHARACTERS } from "@/data/characters/list";

@@ -4,8 +4,8 @@ import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { useTitles } from "@/contexts/TitleContext";
 import { getTotalArmor, getWeaponCritRate } from "@/gameRules/battle/equipment";
-import { getLuckBonus } from "@/gameRules/battle/luck";
 import { asset } from "@/utils/paths";
+import { combatService } from "@/services/combat";
 
 type CharacterStatsProps = {
   selectedIndex?: number;
@@ -41,7 +41,7 @@ export function CharacterStats({ selectedIndex }: CharacterStatsProps) {
   const userArmor = getTotalArmor(character, stats.resistance);
   const userTenacity = stats.tenacity + bonus.tenacity;
   const userLuck = (stats.luck ?? 1) + (bonus.luck ?? 0);
-  const luckBonus = getLuckBonus(userLuck);
+  const luckBonus = combatService.getLuckBonus(userLuck);
   const weaponCritRate = getWeaponCritRate(character);
   const critRate = 1 + weaponCritRate + luckBonus * 100;
   const missChance =
@@ -62,8 +62,8 @@ export function CharacterStats({ selectedIndex }: CharacterStatsProps) {
         return { armor: 2, tenacity: 1 };
       case 4: {
         const currentLuck = (stats.luck ?? 1) + (bonus.luck ?? 0);
-        const currentLuckBonus = getLuckBonus(currentLuck);
-        const nextLuckBonus = getLuckBonus(currentLuck + 1);
+        const currentLuckBonus = combatService.getLuckBonus(currentLuck);
+        const nextLuckBonus = combatService.getLuckBonus(currentLuck + 1);
         const diff = nextLuckBonus - currentLuckBonus;
         return {
           luck: 1,

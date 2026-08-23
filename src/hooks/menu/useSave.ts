@@ -12,9 +12,9 @@ import {
   getUsedSlots,
   getAvailableSlots,
   type SlotIndex,
-} from "@/utils/save/slotManager";
-import type { SaveItem, ConfirmScreen } from "@/utils/save/SaveItem";
-import { loadGameForSlot } from "@/utils/save/saveGame";
+} from "@/services/save/slotManager";
+import type { SaveItem, ConfirmScreen } from "@/services/save/saveItem";
+import { loadGameForSlot } from "@/services/save/saveService";
 import { getSceneLabel } from "@/utils/sceneImages";
 import type { SaveTab } from "@/data/saves/tabs";
 import { SAVE_TABS, SAVE_TAB_COUNT } from "@/data/saves/tabs";

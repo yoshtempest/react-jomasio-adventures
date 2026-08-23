@@ -12,9 +12,6 @@ import {
   getTotalVampirism,
   getTotalReflect,
 } from "@/gameRules/battle/equipment";
-import { getLuckBonus } from "@/gameRules/battle/luck";
-import { getElementMultiplier } from "@/gameRules/battle/element";
-import { calculateMaxHpBonus } from "@/gameRules/battle/damage";
 import { formatRank, getRank, getRankMultiplier } from "@/gameRules/rank";
 import { getHungerMultiplier } from "@/contexts/CharacterProgressContext";
 import { getNpcDisplayName } from "@/data/npc/displayNames";
@@ -27,6 +24,7 @@ import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import { BattleCard } from "./BattleCard";
 import { CardRedeem } from "./CardRedeem";
 import { ElementTable } from "./ElementTable";
+import { combatService } from "@/services/combat";
 
 type Props = {
   showComboAction: boolean;
@@ -98,7 +96,7 @@ export function BattleTab({
     );
     const tenacity = baseChar.stats.tenacity + (equipmentBonus.tenacity ?? 0);
     const luck = baseChar.stats.luck + (equipmentBonus.luck ?? 0);
-    const luckBonus = getLuckBonus(luck);
+    const luckBonus = combatService.getLuckBonus(luck);
     const armor =
       getTotalArmor(player.character, baseChar.stats.resistance) +
       titleBonus.armor;
@@ -108,7 +106,7 @@ export function BattleTab({
     const maxHp = 90 + hp * 10;
     const maxHpDamage = equipmentBonus.maxHpDamage ?? 0;
     const trueDamage = equipmentBonus.trueDamage ?? 0;
-    const maxHpDamageBonus = calculateMaxHpBonus(maxHp, maxHpDamage);
+    const maxHpDamageBonus = combatService.calculateMaxHpBonus(maxHp, maxHpDamage);
 
     return {
       maxHp,
@@ -131,8 +129,8 @@ export function BattleTab({
 
     const playerTypes = CHARACTER_ELEMENT_TYPES[player.character] ?? [];
     const npcTypes = getNpcElementTypes(battleInfo.npcType);
-    const playerElementMultiplier = getElementMultiplier(playerTypes, npcTypes);
-    const npcElementMultiplier = getElementMultiplier(npcTypes, playerTypes);
+    const playerElementMultiplier = combatService.getElementMultiplier(playerTypes, npcTypes);
+    const npcElementMultiplier = combatService.getElementMultiplier(npcTypes, playerTypes);
 
     const enemyTotal =
       (battleInfo.npcHp + battleInfo.npcDamage + battleInfo.npcArmor) *

@@ -7,7 +7,7 @@ import { useQuests } from "@/contexts/QuestContext";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { openChest, type ChestDropResult } from "@/data/items/chests";
 import { DAILY_CHEST_KEY } from "@/data/storageKeys";
-import { slotKey } from "@/utils/save/slotManager";
+import { slotKey } from "@/services/save/slotManager";
 import { DAILY_CHEST_COOLDOWN_MS } from "@/data/cooldowns";
 import { useCountdown } from "@/hooks/useCountdown";
 

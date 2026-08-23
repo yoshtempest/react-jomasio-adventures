@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { useSaveMenu } from "@/hooks/menu/useSave";
-import { isSlotUsed } from "@/utils/save/slotManager";
-import { loadGameForSlot, getPlayTimeForSlot } from "@/utils/save/saveGame";
+import { isSlotUsed } from "@/services/save/slotManager";
+import { loadGameForSlot, getPlayTimeForSlot } from "@/services/save/saveService";
 import { getSceneImage, getSceneLabel } from "@/utils/sceneImages";
 import { formatTime } from "@/utils/formatDuration";
 import { ReplayList } from "@/components/Navbar/Saves/ReplayList";

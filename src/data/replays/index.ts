@@ -1,6 +1,6 @@
 import type { ReplayData } from "@/utils/types/replay";
-import { saveCompressed, loadCompressed } from "@/utils/save/storage";
-import { slotKey } from "@/utils/save/slotManager";
+import { saveCompressed, loadCompressed } from "@/services/save/storageService";
+import { slotKey } from "@/services/save/slotManager";
 
 const MAX_REPLAYS = 10;
 const REPLAYS_KEY = "replays";

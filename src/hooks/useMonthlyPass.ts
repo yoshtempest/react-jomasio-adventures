@@ -8,7 +8,7 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useTitles } from "@/contexts/TitleContext";
 import { usePlayTime } from "@/contexts/PlayTimeContext";
-import { slotKey } from "@/utils/save/slotManager";
+import { slotKey } from "@/services/save/slotManager";
 import { getClassKills } from "@/utils/rewards/classKills";
 import { getBlockCount } from "@/utils/rewards/blockCounter";
 import { getDamageDealtStats } from "@/utils/rewards/battleStats";

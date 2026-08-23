@@ -3,7 +3,7 @@ import { useLocation } from "react-router";
 import { useQuests } from "@/contexts/QuestContext";
 import { VISITED_LOCATIONS_KEY } from "@/data/storageKeys";
 import { getTodayDate } from "@/data/quests/generation";
-import { slotKey } from "@/utils/save/slotManager";
+import { slotKey } from "@/services/save/slotManager";
 
 const EXPLORE_ROUTES = new Set([
   "hall",
