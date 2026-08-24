@@ -23,6 +23,7 @@ import { useCompressedStorage } from "@/hooks/useCompressedStorage";
 import { useSettings } from "@/contexts/SettingsContext";
 
 export const MAX_HUNGER = 100;
+export const MAX_SLEEP = 100;
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function getHungerMultiplier(hunger: number): number {
@@ -44,6 +45,10 @@ type ContextType = {
   restoreHunger: (character: Character, amount: number) => void;
   resetHunger: (character: Character) => void;
   setHunger: (character: Character, value: number) => void;
+  reduceSleep: (character: Character, amount: number) => void;
+  restoreSleep: (character: Character, amount: number) => void;
+  resetSleep: (character: Character) => void;
+  setSleep: (character: Character, value: number) => void;
   setBattleHP: (character: Character, hp: number | null) => void;
   getXPToNextLevel: (level: number) => number;
 };
@@ -92,12 +97,14 @@ export function CharacterProgressProvider({
       let xpNeeded = getXPToNextLevel(newLevel);
 
       let newHunger = char.hunger;
+      let newSleep = char.sleep;
 
       while (newXP >= xpNeeded) {
         newXP -= xpNeeded;
         newLevel++;
         pointsGained++;
         newHunger = MAX_HUNGER; // level up → hunger reset to 100%
+        newSleep = MAX_SLEEP; // level up → sleep reset to 100%
         pendingSoundsRef.current.push("levelUp");
         xpNeeded = getXPToNextLevel(newLevel);
       }
@@ -109,6 +116,7 @@ export function CharacterProgressProvider({
           level: newLevel,
           xp: newXP,
           hunger: newHunger,
+          sleep: newSleep,
           battleHP: pointsGained > 0 ? null : char.battleHP,
           stats: {
             ...char.stats,
@@ -210,6 +218,56 @@ export function CharacterProgressProvider({
     });
   }
 
+  // 😴 SONO
+  function reduceSleep(character: Character, amount: number) {
+    setProgress((prev) => {
+      const char = prev[character];
+      return {
+        ...prev,
+        [character]: {
+          ...char,
+          sleep: Math.max(0, char.sleep - amount),
+        },
+      };
+    });
+  }
+
+  function restoreSleep(character: Character, amount: number) {
+    setProgress((prev) => {
+      const char = prev[character];
+      return {
+        ...prev,
+        [character]: {
+          ...char,
+          sleep: Math.min(MAX_SLEEP, char.sleep + amount),
+        },
+      };
+    });
+  }
+
+  function resetSleep(character: Character) {
+    setProgress((prev) => {
+      const char = prev[character];
+      return {
+        ...prev,
+        [character]: { ...char, sleep: MAX_SLEEP },
+      };
+    });
+  }
+
+  function setSleep(character: Character, value: number) {
+    setProgress((prev) => {
+      const char = prev[character];
+      return {
+        ...prev,
+        [character]: {
+          ...char,
+          sleep: Math.max(0, Math.min(MAX_SLEEP, value)),
+        },
+      };
+    });
+  }
+
   function setBattleHP(character: Character, hp: number | null) {
     setProgress((prev) => {
       const char = prev[character];
@@ -263,6 +321,10 @@ export function CharacterProgressProvider({
         restoreHunger,
         resetHunger,
         setHunger,
+        reduceSleep,
+        restoreSleep,
+        resetSleep,
+        setSleep,
         setBattleHP,
         getXPToNextLevel,
       }}

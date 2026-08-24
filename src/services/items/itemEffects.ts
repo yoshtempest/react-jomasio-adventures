@@ -7,6 +7,15 @@ export const FOOD_RESTORE: Record<string, number> = {
   ovo_piupiu: 25,
 };
 
+/** Bebidas energéticas: foco em recuperar sono, enchendo pouco a fome. */
+export const ENERGETIC_RESTORE: Record<string, { hunger: number; sleep: number }> = {
+  cafe: { hunger: 5, sleep: 35 },
+  energetico: { hunger: 6, sleep: 50 },
+  whey_protein: { hunger: 20, sleep: 15 },
+  creatina: { hunger: 12, sleep: 10 },
+  coca_cola: { hunger: 10, sleep: 25 },
+};
+
 export const GOOD_POWDER_ENCOUNTERS = [
   { npcType: "vandinhaFragment", route: "/battle/vandinhafragment" },
   { npcType: "hungryDeath", route: "/battle/hungry" },
@@ -27,7 +36,8 @@ export type ItemAction =
   | { kind: "encounter"; sfxSrc: string }
   | { kind: "openMap"; sfxSrc: string }
   | { kind: "xpPotion"; sfxSrc: string }
-  | { kind: "food"; restore: number; sfxSrc: string };
+  | { kind: "food"; restore: number; sfxSrc: string }
+  | { kind: "energetic"; hunger: number; sleep: number; sfxSrc: string };
 
 const SFX = {
   encounter: "/assets/songs/transitions/undertaleToBattle.mp3",
@@ -56,6 +66,17 @@ export const ITEM_ACTIONS: Partial<Record<ItemId, ItemAction>> = {
     Object.entries(FOOD_RESTORE).map(([id, restore]) => [
       id,
       { kind: "food", restore, sfxSrc: SFX.eating } satisfies ItemAction,
+    ]),
+  ),
+
+  ...Object.fromEntries(
+    Object.entries(ENERGETIC_RESTORE).map(([id, restore]) => [
+      id,
+      {
+        kind: "energetic",
+        ...restore,
+        sfxSrc: SFX.potion,
+      } satisfies ItemAction,
     ]),
   ),
 };

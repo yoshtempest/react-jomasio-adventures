@@ -118,7 +118,9 @@ export function useBattleMovement(
   }
 
   function startMoveLeft() {
-    startMoveInterval(leftIntervalRef, moveLeftBattle);
+    startMoveInterval(leftIntervalRef, (p) =>
+      moveLeftBattle(p, (progressRef.current[p.character]?.sleep ?? 0) > 0),
+    );
   }
 
   function stopMoveLeft() {
@@ -126,7 +128,9 @@ export function useBattleMovement(
   }
 
   function startMoveRight() {
-    startMoveInterval(rightIntervalRef, moveRightBattle);
+    startMoveInterval(rightIntervalRef, (p) =>
+      moveRightBattle(p, (progressRef.current[p.character]?.sleep ?? 0) > 0),
+    );
   }
 
   function stopMoveRight() {

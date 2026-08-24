@@ -4,12 +4,16 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import {
   useCharacterProgress,
   MAX_HUNGER,
+  MAX_SLEEP,
 } from "@/contexts/CharacterProgressContext";
 import { useAudio } from "@/contexts/AudioContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { sfx } from "@/utils/paths";
 import { activateXpBuff, POTION_CONFIG } from "@/utils/buffs/xpBuff";
-import { FOOD_RESTORE } from "@/services/items/itemEffects";
+import {
+  FOOD_RESTORE,
+  ENERGETIC_RESTORE,
+} from "@/services/items/itemEffects";
 
 /**
  * Consuming an item from the inventory.
@@ -24,7 +28,7 @@ import { FOOD_RESTORE } from "@/services/items/itemEffects";
 export function useConsumeItem() {
   const { removeItem } = useInventory();
   const { player } = usePlayer();
-  const { progress, restoreHunger } = useCharacterProgress();
+  const { progress, restoreHunger, restoreSleep } = useCharacterProgress();
   const { sfxVolume } = useAudio();
 
   const sfxVolumeRef = useLatestRef(sfxVolume);
@@ -33,12 +37,23 @@ export function useConsumeItem() {
   consumeItemRef.current = function consumeItem(id: string) {
     const foodAmount = FOOD_RESTORE[id];
     const potion = POTION_CONFIG[id];
-    if (!foodAmount && !potion) return false;
+    const energetic = ENERGETIC_RESTORE[id];
+    if (!foodAmount && !potion && !energetic) return false;
 
     if (foodAmount) {
       const currentHunger = progress[player.character]?.hunger ?? 0;
       if (currentHunger >= MAX_HUNGER) return false;
       restoreHunger(player.character, foodAmount);
+    }
+
+    if (energetic) {
+      const charProgress = progress[player.character];
+      const currentSleep = charProgress?.sleep ?? 0;
+      const currentHunger = charProgress?.hunger ?? 0;
+      if (currentSleep >= MAX_SLEEP && currentHunger >= MAX_HUNGER)
+        return false;
+      restoreSleep(player.character, energetic.sleep);
+      restoreHunger(player.character, energetic.hunger);
     }
 
     const audio = sfx(

@@ -8,8 +8,10 @@ export function usePlayerAnimation(
   player: Player,
   setPlayer: React.Dispatch<React.SetStateAction<Player>>,
   battleTenacityRef?: React.RefObject<number>,
+  canRun?: boolean,
 ) {
   const tenacityRef = useLatestRef(battleTenacityRef);
+  const canRunRef = useLatestRef(canRun);
 
   useEffect(() => {
     if (player.state === "jump" || player.state === "falling") return;
@@ -25,6 +27,11 @@ export function usePlayerAnimation(
     }
 
     const timer = setTimeout(() => {
+      // Sono zerado: nunca chega em preRun/run (momento do run.svg).
+      const wantsToRun =
+        current.next === "preRun" || current.next === "run";
+      if (wantsToRun && canRunRef != null && !canRunRef.current) return;
+
       setPlayer((p) => ({
         ...p,
         state: current.next,
@@ -32,5 +39,5 @@ export function usePlayerAnimation(
     }, duration);
 
     return () => clearTimeout(timer);
-  }, [player.state, setPlayer, tenacityRef]);
+  }, [player.state, setPlayer, tenacityRef, canRun, canRunRef]);
 }

@@ -16,6 +16,7 @@ export type CharacterProgress = {
   xp: number;
   kills: number;
   hunger: number;
+  sleep: number;
   coins: number;
   hyperCoins: number;
   stats: CharacterStats;
@@ -30,6 +31,7 @@ function createDefaultProgress(): CharacterProgress {
     xp: 0,
     kills: 0,
     hunger: 100,
+    sleep: 100,
     coins: 0,
     hyperCoins: 0,
     stats: {

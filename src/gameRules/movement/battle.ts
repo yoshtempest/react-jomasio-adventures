@@ -45,7 +45,14 @@ export function canExitState(player: Player) {
 
 const MOVEMENT_STATES = new Set(["walk", "preRun", "run"]);
 
-function resolveMovementState(state: PlayerState): PlayerState {
+type MoveOptions = { canRun?: boolean; state?: PlayerState };
+
+function resolveMovementState(
+  state: PlayerState,
+  canRun: boolean,
+): PlayerState {
+  // Sono zerado: só andar — nunca evolui para preRun/run (run.svg).
+  if (!canRun && MOVEMENT_STATES.has(state)) return "walk";
   if (state === "jump") return "jump";
   if (MOVEMENT_STATES.has(state)) return state;
   if (CROUCHED_STATES.has(state)) return "walkCrounched";
@@ -64,8 +71,10 @@ function moveAxis(
   direction: Direction,
   step: number,
   limit: number,
-  state: PlayerState = resolveMovementState(player.state),
+  options: MoveOptions = {},
 ): Player {
+  const state =
+    options.state ?? resolveMovementState(player.state, options.canRun ?? true);
   const x =
     direction === "left"
       ? Math.max(limit, player.x - step)
@@ -73,14 +82,18 @@ function moveAxis(
   return { ...player, x, battleDirection: direction, state };
 }
 
-export function moveLeftBattle(player: Player): Player {
+export function moveLeftBattle(player: Player, canRun = true): Player {
   if (!canAct(player)) return player;
-  return moveAxis(player, "left", getStep(player), BATTLE_LIMITS.minX);
+  return moveAxis(player, "left", getStep(player), BATTLE_LIMITS.minX, {
+    canRun,
+  });
 }
 
-export function moveRightBattle(player: Player): Player {
+export function moveRightBattle(player: Player, canRun = true): Player {
   if (!canAct(player)) return player;
-  return moveAxis(player, "right", getStep(player), BATTLE_LIMITS.maxX);
+  return moveAxis(player, "right", getStep(player), BATTLE_LIMITS.maxX, {
+    canRun,
+  });
 }
 
 export function blockStart(p: Player): Player {
@@ -129,7 +142,7 @@ export function dashLeftBattle(p: Player): Player {
   ) {
     return p;
   }
-  return moveAxis(p, "left", DASH_STEP, BATTLE_LIMITS.minX, "dash");
+  return moveAxis(p, "left", DASH_STEP, BATTLE_LIMITS.minX, { state: "dash" });
 }
 
 export function dashRightBattle(p: Player): Player {
@@ -140,7 +153,7 @@ export function dashRightBattle(p: Player): Player {
   ) {
     return p;
   }
-  return moveAxis(p, "right", DASH_STEP, BATTLE_LIMITS.maxX, "dash");
+  return moveAxis(p, "right", DASH_STEP, BATTLE_LIMITS.maxX, { state: "dash" });
 }
 
 export { CROUCHED_STATES };

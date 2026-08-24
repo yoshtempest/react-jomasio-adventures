@@ -18,7 +18,7 @@ export function useItemEffect({ playSFX }: Props) {
   const location = useLocation();
   const { setMode, player } = usePlayer();
   const { closeNavbar } = useNavbar();
-  const { progress, restoreHunger } = useCharacterProgress();
+  const { progress, restoreHunger, restoreSleep } = useCharacterProgress();
   const { removeItem } = useInventory();
 
   function getEffect(itemId: ItemId) {
@@ -30,6 +30,8 @@ export function useItemEffect({ playSFX }: Props) {
       getActiveCharacter: () => player.character,
       getHunger: (character) => progress[character].hunger,
       restoreHunger,
+      getSleep: (character) => progress[character].sleep,
+      restoreSleep,
       removeItem,
       playSFX,
     });

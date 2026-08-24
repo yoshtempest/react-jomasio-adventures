@@ -3,6 +3,7 @@ import { Outlet, useLocation } from "react-router";
 import { GameButtons } from "@/components/Game/Controls/GameButtons";
 import { XPBarNotification } from "@/components/Game/Notification/XPBar";
 import { HungerBarNotification } from "@/components/Game/Notification/HungerBar";
+import { SleepBarNotification } from "@/components/Game/Notification/SleepBar";
 import { XpProfessionNotification } from "@/components/Game/Notification/XpProfession";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
@@ -31,6 +32,7 @@ import { isCharacter } from "@/data/characters/list";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useHungerTimer } from "@/hooks/hunger/useHungerTimer";
+import { useSleepTimer } from "@/hooks/sleep/useSleepTimer";
 import { useRegenTimer } from "@/hooks/player/useRegenTimer";
 import { useExploreLocation } from "@/hooks/scene/useExploreLocation";
 
@@ -49,6 +51,7 @@ function App() {
   const { isAuthenticated } = useAuth();
 
   useHungerTimer();
+  useSleepTimer();
   useRegenTimer();
   useExploreLocation();
 
@@ -150,6 +153,7 @@ function App() {
       <GameButtons />
       <XPBarNotification />
       <HungerBarNotification />
+      <SleepBarNotification />
       <XpProfessionNotification />
       {isOpen && (
         <Suspense fallback={null}>

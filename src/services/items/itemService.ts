@@ -2,7 +2,7 @@ import {
   getItemAction,
   rollEncounter,
 } from "./itemEffects";
-import { MAX_HUNGER } from "@/contexts/CharacterProgressContext";
+import { MAX_HUNGER, MAX_SLEEP } from "@/contexts/CharacterProgressContext";
 import { POTION_CONFIG, activateXpBuff } from "@/utils/buffs/xpBuff";
 
 /**
@@ -17,6 +17,8 @@ export type ItemServicePorts = {
   getActiveCharacter: () => CharacterId | null;
   getHunger: (character: CharacterId) => number;
   restoreHunger: (character: CharacterId, amount: number) => void;
+  getSleep: (character: CharacterId) => number;
+  restoreSleep: (character: CharacterId, amount: number) => void;
   removeItem: (id: ItemId) => void;
   playSFX?: (src: string, volume?: number) => void;
 };
@@ -73,6 +75,19 @@ export class ItemService {
           if (this.ports.getHunger(character) >= MAX_HUNGER) return;
           this.ports.playSFX?.(action.sfxSrc, 0.8);
           this.ports.restoreHunger(character, action.restore);
+          this.ports.removeItem(itemId);
+        };
+
+      case "energetic":
+        return () => {
+          const character = this.ports.getActiveCharacter();
+          if (!character) return;
+          const sleepFull = this.ports.getSleep(character) >= MAX_SLEEP;
+          const hungerFull = this.ports.getHunger(character) >= MAX_HUNGER;
+          if (sleepFull && hungerFull) return;
+          this.ports.playSFX?.(action.sfxSrc, 0.8);
+          this.ports.restoreSleep(character, action.sleep);
+          this.ports.restoreHunger(character, action.hunger);
           this.ports.removeItem(itemId);
         };
     }

@@ -4,6 +4,7 @@ import {
   useCharacterProgress,
   getHungerMultiplier,
   MAX_HUNGER,
+  MAX_SLEEP,
 } from "@/contexts/CharacterProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { useTitles } from "@/contexts/TitleContext";
@@ -13,7 +14,7 @@ import { getRank, formatRank, getRankMultiplier } from "@/gameRules/rank";
 import { getEquipmentStatsBonus } from "@/gameRules/battle/equipment";
 import { ProgressBar } from "@/components/Game/ProgressBar";
 import styles from "./styles.module.css";
-import { Drumstick, Heart } from "lucide-react";
+import { Drumstick, Heart, Moon } from "lucide-react";
 
 const HUNGRY_THRESHOLD = 20;
 
@@ -127,6 +128,27 @@ export function CharacterInfo() {
             charProgress.hunger > 50
               ? "var(--success)"
               : charProgress.hunger > 20
+                ? "orange"
+                : "red"
+          }
+        />
+      </div>
+      <div className={styles.hungerContainer}>
+        <div className={styles.hungerText}>
+          <Moon />
+          <span>Sono</span>
+          <span>
+            {charProgress.sleep}/{MAX_SLEEP}
+          </span>
+        </div>
+        <ProgressBar
+          value={charProgress.sleep}
+          max={MAX_SLEEP}
+          animationId={`char-sleep-${player.character}`}
+          color={
+            charProgress.sleep > 50
+              ? "var(--success)"
+              : charProgress.sleep > 20
                 ? "orange"
                 : "red"
           }

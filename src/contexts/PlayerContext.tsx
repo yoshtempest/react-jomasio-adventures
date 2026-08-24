@@ -14,6 +14,7 @@ import type { CollisionParams } from "@/utils/types/battle/collision";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
+import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { usePlayerAnimation } from "@/hooks/battle/player/usePlayerAnimation";
 import { BATTLE_DEFAULT_STATE } from "@/gameRules/battle/defaultState";
 import { useBattleCollisionRef } from "@/hooks/battle/useBattleCollisionRef";
@@ -98,7 +99,13 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
   const previousModeRef = useRef<PlayerMode>("explore");
   const battleTenacityRef = useRef(0);
-  usePlayerAnimation(player, setPlayer, battleTenacityRef);
+  const { progress } = useCharacterProgress();
+  usePlayerAnimation(
+    player,
+    setPlayer,
+    battleTenacityRef,
+    (progress[player.character]?.sleep ?? 0) > 0,
+  );
 
   const movingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
