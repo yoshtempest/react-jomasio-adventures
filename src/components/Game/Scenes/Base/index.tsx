@@ -9,7 +9,7 @@ import { useTransitionCtx } from "@/contexts/TransitionContext";
 import { useFlags } from "@/contexts/FlagContext";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
-import { ExploreScene } from "@/components/Game/Scenes/Default";
+import { ExploreScene } from "@/components/Game/Scenes/Explore";
 import { SceneEventService } from "@/services/engine/sceneEventService";
 import { useQuestActions } from "@/hooks/quest/useQuestActions";
 import { useQuests } from "@/contexts/QuestContext";

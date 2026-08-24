@@ -1,7 +1,7 @@
 import { npcPath, npcPathProjectile } from "@/utils/paths";
-import { NPCBattle } from "@/components/Game/Npc/Battle";
+import { NPCBattle } from "@/components/Game/Entities/Npc/Battle";
 import { ProjectileSprite } from "@/components/Game/Battle/Projectile";
-import { PlayerBattle } from "@/components/Game/Player/Battle";
+import { PlayerBattle } from "@/components/Game/Entities/Player/Battle";
 import { ProjectileConstants } from "@/data/projectile";
 import type { SummonedNpc, NPCBattleState } from "@/utils/types/npc/npc";
 import type { PetState } from "@/hooks/battle/player/usePet";

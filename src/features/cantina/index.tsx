@@ -11,8 +11,8 @@ import { useFlags } from "@/contexts/FlagContext";
 import { cantinaBrothersDialogue } from "@/data/dialogues/cantina/brothers";
 import { sceneBackgrounds } from "@/data/scene/background";
 
-import Talking from "@/components/Talking";
-import { JesoFoodBadge } from "@/components/Game/JesoFoodBadge";
+import Talking from "@/components/Game/Interactions/Talking";
+import { JesoFoodBadge } from "@/components/Game/Map/JesoFoodBadge";
 import { cantinaJesoDialogue } from "@/data/dialogues/cantina/jeso";
 import { cantinaJesoTwoDialogue } from "@/data/dialogues/cantina/jesoTwo";
 import { useJesoFoodCooldown } from "@/hooks/useJesoFoodCooldown";

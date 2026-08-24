@@ -8,7 +8,7 @@ import { ItemDrops } from "@/components/Game/Battle/Drops/Item";
 import { ChestDrops } from "@/components/Game/Battle/Drops/Chest";
 import { TitleProgresses } from "@/components/Game/Battle/TitleProgresses";
 import { formatDuration } from "@/utils/formatDuration";
-import { ActivePotionDisplay } from "@/components/ActivePotionDisplay";
+import { ActivePotionDisplay } from "@/components/Game/Battle/ActivePotionDisplay";
 import { saveReplay } from "@/data/replays";
 import type { ReplayData } from "@/utils/types/replay";
 import type { TitlesData } from "@/utils/types/player/titles";

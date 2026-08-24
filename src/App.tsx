@@ -1,19 +1,19 @@
-import { Movement } from "@/components/Controls/Movement";
+import { Movement } from "@/components/Game/Controls/Movement";
 import { Outlet, useLocation } from "react-router";
-import { GameButtons } from "@/components/Controls/GameButtons";
-import { XPBarNotification } from "@/components/XPBarNotification";
-import { HungerBarNotification } from "@/components/HungerBarNotification";
-import { XpProfessionNotification } from "@/components/XpProfessionNotification";
+import { GameButtons } from "@/components/Game/Controls/GameButtons";
+import { XPBarNotification } from "@/components/Game/Notification/XPBar";
+import { HungerBarNotification } from "@/components/Game/Notification/HungerBar";
+import { XpProfessionNotification } from "@/components/Game/Notification/XpProfession";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { useBattleNavbar } from "@/contexts/BattleNavbarContext";
-import { Navbar } from "@/components/Navbar";
-import { BattleNavbar } from "@/components/BattleNavbar";
+import { Navbar } from "@/components/Game/Navbar/ExploreNavbar";
+import { BattleNavbar } from "@/components/Game/Navbar/BattleNavbar";
 
 import { lazy, Suspense, useEffect, useRef } from "react";
 
 const Inventory = lazy(() =>
-  import("@/components/Navbar/Inventory").then((m) => ({
+  import("@/components/Game/Navbar/ExploreNavbar/Inventory").then((m) => ({
     default: m.Inventory,
   })),
 );

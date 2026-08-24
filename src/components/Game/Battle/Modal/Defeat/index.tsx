@@ -6,8 +6,8 @@ import { useGameControls } from "@/contexts/GameControlsContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { formatDuration } from "@/utils/formatDuration";
 import { playerPath } from "@/utils/paths";
-import { ActivePotionDisplay } from "@/components/ActivePotionDisplay";
-import { FleeButton } from "@/components/Game/Battle/FleeButton";
+import { ActivePotionDisplay } from "@/components/Game/Battle/ActivePotionDisplay";
+import { FleeButton } from "@/components/Game/Battle/Buttons/Run";
 import {
   useDefeatCharacterSelect,
   type DefeatMenuSelection,

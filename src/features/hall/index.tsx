@@ -2,10 +2,10 @@ import { useCallback, useState } from "react";
 import { useNavigate } from "react-router";
 import { SceneBase } from "@/components/Game/Scenes/Base";
 import { HALL_SCENES } from "@/scenes/hall";
-import { PandemonyPuzzle } from "@/components/Game/PandemonyPuzzle";
+import { PandemonyPuzzle } from "@/components/Game/Map/PandemonyPuzzle";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
-import Talking from "@/components/Talking";
+import Talking from "@/components/Game/Interactions/Talking";
 
 type Props = {
   sceneId: SceneId;

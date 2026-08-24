@@ -14,7 +14,7 @@ import { useAudio } from "@/contexts/AudioContext";
 
 import { sceneBackgrounds } from "@/data/scene/background";
 
-import Talking from "@/components/Talking";
+import Talking from "@/components/Game/Interactions/Talking";
 
 type Props = {
   sceneId: SceneId;

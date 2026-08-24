@@ -1,8 +1,8 @@
 import { Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router";
 import { lazyLoad } from "@/utils/lazyLoad";
-import { LoadingScreen } from "@/components/LoadingScreen";
-import { Preloader } from "@/components/Preloader";
+import { LoadingScreen } from "@/components/Loading/Screen";
+import { Preloader } from "@/components/Loading/Preloader";
 
 import App from "@/App";
 

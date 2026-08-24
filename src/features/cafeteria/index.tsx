@@ -13,8 +13,8 @@ import { useFlags } from "@/contexts/FlagContext";
 import { useRandomEncounter } from "@/hooks/scene/useRandomEncounter";
 import { useContainer } from "@/hooks/container/useContainer";
 
-import { Container } from "@/components/Game/Container";
-import Talking from "@/components/Talking";
+import { Container } from "@/components/Game/Map/Container";
+import Talking from "@/components/Game/Interactions/Talking";
 
 type Props = {
   sceneId: SceneId;

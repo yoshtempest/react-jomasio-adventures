@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react";
 import { SendHorizontal } from "lucide-react";
-import Talking from "@/components/Talking";
-import { ChoiceBox } from "@/components/ChoiceBox";
+import Talking from "@/components/Game/Interactions/Talking";
+import { ChoiceBox } from "@/components/Game/Interactions/ChoiceBox";
 import styles from "./styles.module.css";
 import SOS from "/assets/songs/background/battle/SOSFromEarth.m4a";
 import { useBackgroundAudio } from "@/hooks/useBackgroundAudio";

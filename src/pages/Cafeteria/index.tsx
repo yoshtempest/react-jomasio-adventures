@@ -1,4 +1,4 @@
-import ScenePage from "@/components/ScenePage";
+import ScenePage from "@/components/Game/Scenes/ScenePage";
 import { CafeteriaScene } from "@/features/cafeteria";
 
 export default function CafeteriaPage() {

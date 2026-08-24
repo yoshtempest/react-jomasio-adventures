@@ -6,7 +6,7 @@ import { useGameControls } from "@/contexts/GameControlsContext";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
-import { FleeButton } from "@/components/Game/Battle/FleeButton";
+import { FleeButton } from "@/components/Game/Battle/Buttons/Run";
 import { sfx } from "@/utils/paths";
 
 type Props = {

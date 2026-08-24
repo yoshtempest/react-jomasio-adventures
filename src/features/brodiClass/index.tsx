@@ -8,7 +8,7 @@ import { useFlags } from "@/contexts/FlagContext";
 
 import { sceneBackgrounds } from "@/data/scene/background";
 
-import Talking from "@/components/Talking";
+import Talking from "@/components/Game/Interactions/Talking";
 import { createBrodiClass } from "@/interactions/brodiClass";
 
 type Props = {

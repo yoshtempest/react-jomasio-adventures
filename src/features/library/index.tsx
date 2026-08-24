@@ -14,7 +14,7 @@ import { LIBRARY_RETURN_KEY } from "@/data/storageKeys";
 
 import { useRandomEncounter } from "@/hooks/scene/useRandomEncounter";
 
-import Talking from "@/components/Talking";
+import Talking from "@/components/Game/Interactions/Talking";
 
 type Props = {
   sceneId: SceneId;

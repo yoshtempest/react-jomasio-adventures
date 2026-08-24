@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { SceneBase } from "@/components/Game/Scenes/Base";
-import { ChoiceBox } from "@/components/ChoiceBox";
+import { ChoiceBox } from "@/components/Game/Interactions/ChoiceBox";
 import { HELLROOM_SCENES } from "@/scenes/hellroom";
 import { useFlags } from "@/contexts/FlagContext";
 import { useEquipment } from "@/contexts/EquipmentContext";

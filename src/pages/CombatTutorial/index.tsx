@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useCombatTasks } from "@/hooks/tutorial/useCombatTasks";
 import { useCutscene } from "@/hooks/interaction/useCutscene";
 import { npcPath } from "@/utils/paths";
-import Talking from "@/components/Talking";
+import Talking from "@/components/Game/Interactions/Talking";
 import { BattleScene } from "@/components/Game/Scenes/Battle";
 import { combatTutorialDialogue } from "@/data/dialogues/combatTutorial/one";
 import { TASKS } from "@/gameRules/tutorial/combatTasks";

@@ -15,7 +15,7 @@ import type {
 } from "@/utils/types/player/profession";
 
 import { SceneBase } from "@/components/Game/Scenes/Base";
-import Talking from "@/components/Talking";
+import Talking from "@/components/Game/Interactions/Talking";
 
 import { JOMASIO_ENTRANCE_SCENES } from "@/scenes/jomasioEntrance";
 import { sceneBackgrounds } from "@/data/scene/background";

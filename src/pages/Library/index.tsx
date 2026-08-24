@@ -1,4 +1,4 @@
-import ScenePage from "@/components/ScenePage";
+import ScenePage from "@/components/Game/Scenes/ScenePage";
 import { LibraryScene } from "@/features/library/index";
 
 export default function LibraryPage() {

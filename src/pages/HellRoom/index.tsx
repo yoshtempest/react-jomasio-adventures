@@ -1,4 +1,4 @@
-import ScenePage from "@/components/ScenePage";
+import ScenePage from "@/components/Game/Scenes/ScenePage";
 import { HellScene } from "@/features/hellRoom";
 
 export default function HellRoomPage() {
