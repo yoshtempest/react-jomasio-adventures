@@ -9,7 +9,10 @@ import {
 } from "react";
 import { usePlayerMovement } from "@/hooks/player/usePlayerMovement";
 import { useBattleMovement } from "@/hooks/battle/player/useMovement";
-import { EXPLORE_MOVE_INTERVAL } from "@/gameRules/movement/explore";
+import {
+  EXPLORE_MOVE_INTERVAL,
+  type BlockedTile,
+} from "@/gameRules/movement/explore";
 import type { CollisionParams } from "@/utils/types/battle/collision";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
@@ -71,6 +74,7 @@ type PlayerContextType = {
   restoreMode: () => void;
   resetBattleState: () => void;
   setBattleCollision: (params: CollisionParams) => void;
+  setBlockedTiles: (tiles: BlockedTile[]) => void;
 
   playerClass: PlayerClass;
   chooseClass: (cls: PlayerClass) => void;
@@ -123,6 +127,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
   const [currentMap, setCurrentMap] = useState<number[][]>([]);
   const [currentHeightMap, setCurrentHeightMap] = useState<number[][]>([]);
+  const blockedTilesRef = useRef<BlockedTile[]>([]);
   const { toggleInventory } = useInventory();
   const { toggleNavbar, registerModeHandlers } = useNavbar();
 
@@ -140,7 +145,13 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     startMoveRightExplore,
     stopMoveRightExplore,
     clearAllIntervals,
-  } = usePlayerMovement(currentMap, currentHeightMap, player, setPlayer);
+  } = usePlayerMovement(
+    currentMap,
+    currentHeightMap,
+    player,
+    setPlayer,
+    blockedTilesRef,
+  );
 
   const [playerClass, setPlayerClass] = useState<PlayerClass>(() => {
     const saved = localStorage.getItem(slotKey(PLAYER_CLASS_KEY));
@@ -185,6 +196,10 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     },
     [battleCollisionRef],
   );
+
+  const setBlockedTiles = useCallback((tiles: BlockedTile[]) => {
+    blockedTilesRef.current = tiles;
+  }, []);
 
   const attack = () => rawAttack();
 
@@ -314,6 +329,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         restoreMode,
         setPosition,
         setBattleCollision,
+        setBlockedTiles,
 
         playerClass,
         chooseClass,

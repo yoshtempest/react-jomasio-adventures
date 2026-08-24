@@ -5,6 +5,7 @@ import { useGameLayout } from "@/hooks/game/useGameLayout";
 import { GameMap } from "@/components/Game/Map/Game";
 import { Player } from "@/components/Game/Entities/Player";
 import { NPC } from "@/components/Game/Entities/Npc";
+import { Tombstone } from "@/components/Game/Entities/Tombstone";
 import { Plate } from "@/components/Game/Map/Plate";
 // import { LevelSteps } from "@/components/Game/LevelSteps";
 import { HEIGHT_STEP_OFFSET } from "@/gameRules/movement/levels";
@@ -25,6 +26,7 @@ import { useSceneControls } from "@/hooks/scene/useControls";
 import { useSceneInteraction } from "@/hooks/scene/useInteraction";
 import { useSceneAudio } from "@/hooks/scene/useAudio";
 import { useSceneLayers } from "@/hooks/scene/useSceneLayers";
+import { useSceneTombstones } from "@/hooks/tombstone/useSceneTombstones";
 import { useLocation } from "react-router";
 import { useTransitionCtx } from "@/contexts/TransitionContext";
 import { getTileInFront } from "@/utils/getTileInFront";
@@ -69,6 +71,7 @@ export function ExploreScene({
   background,
   backgroundSize,
   scaleFix,
+  tombstoneLocationId,
 }: ExploreSceneProps & {
   background?: string;
   backgroundSize?: string;
@@ -85,6 +88,7 @@ export function ExploreScene({
   tileDialogues?: Record<string, Dialogue[]>;
   npcOverlays?: { gridX: number; gridY: number; element: React.ReactNode }[];
   cutscene?: SceneCutscene;
+  tombstoneLocationId?: string;
 }) {
   const { player, playerClass, setMap, setHeightMap, setPosition, setMode } =
     usePlayer();
@@ -223,6 +227,11 @@ export function ExploreScene({
     navigateWithFade,
   });
 
+  const { tombstones, fadingIds, collectAt } = useSceneTombstones({
+    locationId: tombstoneLocationId,
+    onMessage: setPopup,
+  });
+
   useSceneNavigation({
     player,
     transitions,
@@ -261,6 +270,11 @@ export function ExploreScene({
       const tileDialogue = tileDialogues?.[`${front.x},${front.y}`];
       if (tileDialogue) {
         dialogueSystem.start(tileDialogue);
+        return true;
+      }
+
+      // 🔥 verifica lápide na frente (coleta de drops do npc derrotado)
+      if (collectAt(front.x, front.y)) {
         return true;
       }
 
@@ -305,6 +319,7 @@ export function ExploreScene({
     interactionKeys,
     interactionLabels,
     tileDialogues,
+    tombstones,
   });
 
   const { TILE_SIZE, cameraX, cameraY, PLAYER_SIZE, MAP_COLS, MAP_ROWS } =
@@ -344,6 +359,17 @@ export function ExploreScene({
             TILE_SIZE={TILE_SIZE}
           />
         )}
+
+        {tombstones.map((tombstone) => (
+          <Tombstone
+            key={tombstone.id}
+            gridX={tombstone.x}
+            gridY={tombstone.y}
+            variant={tombstone.variant}
+            TILE_SIZE={TILE_SIZE}
+            fading={fadingIds.includes(tombstone.id)}
+          />
+        ))}
 
         {npcOverlays?.map((overlay, i) => (
           <div

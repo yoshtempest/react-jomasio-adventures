@@ -25,6 +25,7 @@ type Params = {
   interactionKeys?: string[];
   interactionLabels?: Record<string, string>;
   tileDialogues?: Record<string, unknown>;
+  tombstones?: { x: number; y: number }[];
 };
 
 export function useSceneLayers({
@@ -38,6 +39,7 @@ export function useSceneLayers({
   interactionKeys,
   interactionLabels,
   tileDialogues,
+  tombstones,
 }: Params) {
   const frontTile = useMemo(() => {
     if (!isReady) return null;

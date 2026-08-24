@@ -8,12 +8,23 @@ export type ExploreMoveResult = {
   blocked: boolean;
 };
 
+export type BlockedTile = { x: number; y: number };
+
+export function isBlockedTile(
+  blockedTiles: BlockedTile[] | undefined,
+  x: number,
+  y: number,
+) {
+  return blockedTiles?.some((tile) => tile.x === x && tile.y === y) ?? false;
+}
+
 function tryMove(
   player: Player,
   map: number[][],
   heightMap: number[][] | undefined,
   direction: Direction,
   step: number,
+  blockedTiles?: BlockedTile[],
 ): { moved: boolean; newX: number; newY: number } {
   let newX = player.gridX;
   let newY = player.gridY;
@@ -25,7 +36,8 @@ function tryMove(
 
   if (
     !canMoveTo(map, newX, newY) ||
-    !canStepTo(player.height, heightMap, newX, newY)
+    !canStepTo(player.height, heightMap, newX, newY) ||
+    isBlockedTile(blockedTiles, newX, newY)
   ) {
     return { moved: false, newX: player.gridX, newY: player.gridY };
   }
@@ -41,7 +53,8 @@ function tryMove(
       if (direction === "right") ix += s;
       if (
         !canMoveTo(map, ix, iy) ||
-        !canStepTo(player.height, heightMap, ix, iy)
+        !canStepTo(player.height, heightMap, ix, iy) ||
+        isBlockedTile(blockedTiles, ix, iy)
       ) {
         return { moved: false, newX: player.gridX, newY: player.gridY };
       }
@@ -56,11 +69,12 @@ export function moveExplore(
   map: number[][],
   direction: Direction,
   heightMap?: number[][],
+  blockedTiles?: BlockedTile[],
 ): ExploreMoveResult {
   if (player.mode !== "explore") return { player, blocked: false };
 
   if (player.hasPeru) {
-    const double = tryMove(player, map, heightMap, direction, 2);
+    const double = tryMove(player, map, heightMap, direction, 2, blockedTiles);
     if (double.moved) {
       return {
         player: {
@@ -74,7 +88,7 @@ export function moveExplore(
         blocked: false,
       };
     }
-    const single = tryMove(player, map, heightMap, direction, 1);
+    const single = tryMove(player, map, heightMap, direction, 1, blockedTiles);
     if (single.moved) {
       return {
         player: {
@@ -91,7 +105,7 @@ export function moveExplore(
     return { player: { ...player, direction, moving: false }, blocked: true };
   }
 
-  const result = tryMove(player, map, heightMap, direction, 1);
+  const result = tryMove(player, map, heightMap, direction, 1, blockedTiles);
   if (result.moved) {
     return {
       player: {

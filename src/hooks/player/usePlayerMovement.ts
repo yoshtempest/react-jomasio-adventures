@@ -2,6 +2,7 @@ import { useRef, useEffect } from "react";
 import {
   moveExplore,
   EXPLORE_MOVE_INTERVAL,
+  type BlockedTile,
 } from "@/gameRules/movement/explore";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
@@ -35,6 +36,7 @@ export function usePlayerMovement(
   currentHeightMap: number[][],
   player: Player,
   setPlayer: React.Dispatch<React.SetStateAction<Player>>,
+  blockedTilesRef?: React.RefObject<BlockedTile[]>,
 ) {
   const { playSound } = useSoundEffects();
   const playSoundRef = useLatestRef(playSound);
@@ -49,6 +51,7 @@ export function usePlayerMovement(
       currentMapRef.current,
       direction,
       currentHeightMapRef.current,
+      blockedTilesRef?.current,
     );
     if (result.blocked) {
       playSoundRef.current("cantMove");
