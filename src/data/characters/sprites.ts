@@ -12,5 +12,5 @@ export const characterSprites = {
   samuel: playerPath("/samuel/default.svg"),
   larissa: playerPath("/larissa/default.svg"),
   lucaua: playerPath("/lucaua/default.svg"),
-  hiago: playerPath("/hiago/default.svg"),
+  levi: playerPath("/levi/default.svg"),
 };

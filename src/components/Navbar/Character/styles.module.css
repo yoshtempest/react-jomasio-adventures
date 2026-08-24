@@ -56,6 +56,17 @@ p {
   image-rendering: pixelated;
 }
 
+.rankBadge {
+  display: flex;
+  width: 2vw;
+}
+
+.rankRow {
+  display: flex;
+  flex-direction: row;
+  gap: 1vw;
+}
+
 .flexColumn {
   margin-top: 8%;
 }
@@ -68,5 +79,6 @@ p {
 }
 
 .progressContainer {
+  margin-top: 5%;
   width: 80%;
 }

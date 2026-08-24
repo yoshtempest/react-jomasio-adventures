@@ -72,7 +72,7 @@ export const CHARACTER_RANGE_X: Record<
     specialHitRange: 3000,
   },
 
-  hiago: {
+  levi: {
     normalHitRange: 80,
     blockHitRange: 80,
     specialHitRange: 300,

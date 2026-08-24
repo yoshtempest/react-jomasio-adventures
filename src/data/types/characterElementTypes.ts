@@ -11,9 +11,9 @@ export const CHARACTER_ELEMENT_TYPES: Record<
   artur: ["Pyrus", "Psychicus"],
   mayra: ["Darkus", "Umbra"],
   lucaua: ["Metallum", "Normalis"],
-  riquelme: ["Aquos", "Subterra"],
+  riquelme: ["Aquos", "Umbra"],
   larissa: ["Metallum", "Electricus"],
   camilly: ["Normalis", "Subterra"],
   emanuel: ["Ventus", "Electricus"],
-  hiago: ["Nympha", "Natura"],
+  levi: ["Draco", "Haos", "Darkus"],
 };

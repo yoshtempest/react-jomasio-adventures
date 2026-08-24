@@ -1,7 +1,7 @@
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
-import { getRank, formatRank } from "@/gameRules/rank";
+import { getRank, srcRank } from "@/gameRules/rank";
 import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import { PlayerHUDPanel } from "./PlayerPanel";
@@ -44,9 +44,9 @@ export function BattleHUD({
   const { player } = usePlayer();
   const { progress } = useCharacterProgress();
   const playerName = localStorage.getItem("playerName") || "Protagonista";
-  const playerRank = formatRank(
-    getRank(progress[player.character]?.level ?? 1),
-  );
+  
+  const playerRank = 
+    `${srcRank(getRank(progress[player.character]?.level ?? 1))}`
 
   return (
     <>

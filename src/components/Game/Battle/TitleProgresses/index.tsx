@@ -25,7 +25,7 @@ export function TitleProgresses({ titleProgressSnapshot }: Props) {
       <h2 className="sectionTitle">
         Progresso de Títulos
         <span className={styles.totalKills}>
-          Total de mortes: {titlesData.totalKills}
+          Total de inimigos mortos: {titlesData.totalKills}
         </span>
       </h2>
       <div className={styles.list}>

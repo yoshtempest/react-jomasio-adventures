@@ -5,6 +5,7 @@ import { ElementBadges } from "@/components/Game/Battle/HUD/ElementBadges";
 import { playerPath } from "@/utils/paths";
 import type { ElementType } from "@/utils/types/battle/element";
 import styles from "../styles.module.css";
+import { asset } from "@/utils/paths";
 
 type Props = {
   character: string;
@@ -35,17 +36,24 @@ export function PlayerHUDPanel({
 }: Props) {
   return (
     <div className={styles.container} style={{ left: 10, top: 10 }}>
-      <img
-        src={playerPath(`/${character}/face.svg`)}
-        alt="Player HUD"
-        className="hudImage"
-      />
+      <div>
+        <img
+          src={playerPath(`/${character}/face.svg`)}
+          alt="Player HUD"
+          className="hudImage"
+          
+        />
+        <img
+          src={asset(`/assets/badges/ranks/${playerRank}`)}
+          className={`${styles.rankBadge} ${styles.playerRankBadge}`}
+        />
+      </div>
       <div className={styles.playerInfo}>
         <div className={styles.nameRow}>
           <h2 className={`${"hudName"} ${styles.playerName}`}>{playerName}</h2>
           {playerElementTypes && <ElementBadges types={playerElementTypes} />}
         </div>
-        <p className={`${"hudRank"} ${styles.playerRank}`}>{playerRank}</p>
+
 
         <div className="hudFlexRow">
           <div>

@@ -30,6 +30,10 @@ export function formatRank(rank: RankInfo): string {
   return `Ranque ${rank.id} — ${rank.label}`;
 }
 
+export function srcRank(rank: RankInfo): string {
+  return `${rank.src}`;
+}
+
 export function getRankIndex(rank: RankInfo): number {
   return RANKS.findIndex((r) => r.id === rank.id && r.label === rank.label);
 }

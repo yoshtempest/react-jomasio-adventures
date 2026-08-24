@@ -1,6 +1,0 @@
-.rewardsGrid {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  height: 10vh;
-  gap: var(--smaller);
-}

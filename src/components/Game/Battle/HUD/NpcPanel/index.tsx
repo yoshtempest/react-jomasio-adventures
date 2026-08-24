@@ -4,7 +4,8 @@ import { npcPath } from "@/utils/paths";
 import { getNpcDisplayName } from "@/data/npc/displayNames";
 import type { ElementType } from "@/utils/types/battle/element";
 import styles from "../styles.module.css";
-import { formatRank, getRank } from "@/gameRules/rank";
+import { asset } from "@/utils/paths";
+import { getRank, srcRank } from "@/gameRules/rank";
 
 type Props = {
   npcType: string;
@@ -23,6 +24,8 @@ export function NPCHUDPanel({
   isAlfa = false,
   npcElementTypes,
 }: Props) {
+
+  const playerRank = `${srcRank(getRank(npcLevel ?? 1))}`
   return (
     <div className={styles.container} style={{ right: 10, top: 10 }}>
       <div className={styles.npcInfo}>
@@ -33,19 +36,22 @@ export function NPCHUDPanel({
             {getNpcDisplayName(npcType)}
           </h2>
         </div>
-        {npcLevel !== undefined && (
-          <p className={`${"hudRank"} ${styles.npcRank}`}>
-            {formatRank(getRank(npcLevel))}
-          </p>
-        )}
 
         <HealthBar hp={npcHP} maxHp={npcMaxHp} reversed />
       </div>
-      <img
-        src={npcPath(`/${npcType}/face.svg`)}
-        alt="Npc HUD"
-        className="hudImage"
-      />
+      <div>
+        {npcLevel !== undefined && (
+          <img
+            src={asset(`/assets/badges/ranks/${playerRank}`)}
+            className={`${styles.rankBadge} ${styles.npcRankBadge}`}
+          />
+        )}
+        <img
+          src={npcPath(`/${npcType}/face.svg`)}
+          alt="Npc HUD"
+          className="hudImage"
+        />
+      </div>
     </div>
   );
 }

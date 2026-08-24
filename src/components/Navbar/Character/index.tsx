@@ -4,7 +4,7 @@ import { useCharacterMenu } from "@/hooks/menu/useCharacter";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { ProgressBar } from "@/components/ProgressBar";
 import { playerPath, asset } from "@/utils/paths";
-import { getRank, formatRank } from "@/gameRules/rank";
+import { getRank, formatRank, srcRank } from "@/gameRules/rank";
 import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
 
 export function Character() {
@@ -62,9 +62,21 @@ export function Character() {
                     ))}
                 </span>
               </h2>
-              <p className={styles.rank}>
-                {formatRank(getRank(charProgress.level))}
-              </p>
+              {char.selectable ?
+                <div className={styles.rankRow}>
+                  <img
+                    src={asset(`/assets/badges/ranks/${srcRank(getRank(charProgress?.level ?? 1))}`)}
+                    className={styles.rankBadge}
+                  />
+
+                  <p className={styles.rank}>
+                    {formatRank(getRank(charProgress.level))}
+                  </p>
+                </div>
+
+                : ""
+              }
+
               <div className={styles.progressContainer}>
                 <ProgressBar
                   value={charProgress.xp}

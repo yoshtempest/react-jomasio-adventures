@@ -10,7 +10,7 @@ export const CHARACTERS = [
   "larissa",
   "camilly",
   "emanuel",
-  "hiago",
+  "levi",
 ] as const;
 
 export type CharacterId = (typeof CHARACTERS)[number];

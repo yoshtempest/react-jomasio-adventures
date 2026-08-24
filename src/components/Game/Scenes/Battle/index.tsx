@@ -64,8 +64,6 @@ export function BattleScene(props: Props) {
     coffins,
     pet,
     petSkill,
-    charProgress,
-    missingXp,
     xpReward,
     lastRewards,
     showVictory,
@@ -341,9 +339,7 @@ export function BattleScene(props: Props) {
           character={player.character}
           enemyType={npcType}
           enemyLevel={npcLevel}
-          myLevel={charProgress.level}
           xpReward={xpReward}
-          nextLevelXp={missingXp}
           rewards={lastRewards}
           onContinue={handleContinue}
           skipDelay={skipVictoryDelay}
