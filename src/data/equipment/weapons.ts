@@ -112,7 +112,7 @@ export const WEAPONS = [
     },
   },
   {
-    id: "weapon_picareta",
+    id: "weapon_pickaxe",
     name: "Picareta",
     slot: "weapon",
     rank: 1,
@@ -120,7 +120,7 @@ export const WEAPONS = [
     craftOnly: true,
   },
   {
-    id: "weapon_cutelo",
+    id: "weapon_cleaver",
     name: "Cutelo",
     slot: "weapon",
     rank: 1,
@@ -128,7 +128,7 @@ export const WEAPONS = [
     craftOnly: true,
   },
   {
-    id: "weapon_vara_pesca",
+    id: "weapon_fishing_rod",
     name: "Vara de Pesca",
     slot: "weapon",
     rank: 1,
@@ -136,7 +136,7 @@ export const WEAPONS = [
     craftOnly: true,
   },
   {
-    id: "weapon_enxada",
+    id: "weapon_hoe",
     name: "Enxada",
     slot: "weapon",
     rank: 1,
@@ -152,7 +152,7 @@ export const WEAPONS = [
     craftOnly: true,
   },
   {
-    id: "weapon_rolo_massa",
+    id: "weapon_rolling_pin",
     name: "Rolo de Massa",
     slot: "weapon",
     rank: 1,
@@ -160,15 +160,31 @@ export const WEAPONS = [
     craftOnly: true,
   },
   {
-    id: "weapon_halter",
+    id: "weapon_dumbbell",
     name: "Halter",
     slot: "weapon",
     rank: 1,
     stats: { strength: 2 },
     craftOnly: true,
   },
+    {
+    id: "weapon_axe",
+    name: "Machado",
+    slot: "weapon",
+    rank: 1,
+    stats: { strength: 2 },
+    craftOnly: true,
+  },
   {
-    id: "weapon_chave_inglesa",
+    id: "weapon_pan",
+    name: "Panela",
+    slot: "weapon",
+    rank: 1,
+    stats: { strength: 2 },
+    craftOnly: true,
+  },
+  {
+    id: "weapon_adjustable_wrench",
     name: "Chave Inglesa",
     slot: "weapon",
     rank: 1,
@@ -176,7 +192,7 @@ export const WEAPONS = [
     craftOnly: true,
   },
   {
-    id: "weapon_pincel",
+    id: "weapon_paint",
     name: "Pincel",
     slot: "weapon",
     rank: 1,

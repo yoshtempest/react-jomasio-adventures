@@ -18,6 +18,8 @@ export const GATHER_LOOT_TABLES: Record<ProfessionId, GatherLootEntry[]> = {
   fisher: [],
   pastryChef: [],
   butcher: [],
+  chef: [],
+  lumberjack: [],
   bodyBuilder: [],
   mechanic: [],
   painter: [],

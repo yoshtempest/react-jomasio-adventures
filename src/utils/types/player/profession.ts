@@ -7,6 +7,8 @@ export type ProfessionId =
   | "fisher"
   | "pastryChef"
   | "butcher"
+  | "lumberjack"
+  | "chef"
   | "bodyBuilder"
   | "mechanic"
   | "miner"
