@@ -1,6 +1,9 @@
 import { useEffect } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
-import { animationFlow } from "@/data/battle/animationFlow";
+import {
+  animationFlow,
+  getSpecialFlowOverride,
+} from "@/data/battle/animationFlow";
 
 const STUN_BASE_DURATION = 500;
 
@@ -15,11 +18,22 @@ export function usePlayerAnimation(
 
   useEffect(() => {
     if (player.state === "jump" || player.state === "falling") return;
-    const current = animationFlow[player.state];
 
-    if (!current) return;
+    const defaultStep = animationFlow[player.state];
+    if (!defaultStep) return;
 
-    let duration = current.duration;
+    const override = getSpecialFlowOverride(player.character);
+    let step = defaultStep;
+
+    if (override) {
+      if (player.state === "preSpecial") {
+        step = { ...defaultStep, ...override.preSpecial };
+      } else if (player.state === "preSpecial2") {
+        step = { ...defaultStep, ...override.preSpecial2 };
+      }
+    }
+
+    let duration = step.duration;
     if (player.state === "stun" && tenacityRef.current?.current != null) {
       duration = Math.round(
         STUN_BASE_DURATION * (1 - tenacityRef.current.current),
@@ -27,17 +41,16 @@ export function usePlayerAnimation(
     }
 
     const timer = setTimeout(() => {
-      // Sono zerado: nunca chega em preRun/run (momento do run.svg).
       const wantsToRun =
-        current.next === "preRun" || current.next === "run";
+        step.next === "preRun" || step.next === "run";
       if (wantsToRun && canRunRef != null && !canRunRef.current) return;
 
       setPlayer((p) => ({
         ...p,
-        state: current.next,
+        state: step.next,
       }));
     }, duration);
 
     return () => clearTimeout(timer);
-  }, [player.state, setPlayer, tenacityRef, canRun, canRunRef]);
+  }, [player.state, player.character, setPlayer, tenacityRef, canRun, canRunRef]);
 }

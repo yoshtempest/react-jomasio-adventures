@@ -186,14 +186,14 @@ export function BattleEntities({
         </>
       )}
 
-      {playerProjectile && (
+      {playerProjectile?.phase !== "merge" && playerProjectile && (
         <img
           src={spriteMap.purpleSphere}
           style={{
             position: "absolute",
             left: playerProjectile.x * battleScaleX,
             top: playerProjectile.y * battleScaleY,
-            width: 50,
+            width: playerProjectile.phase === "hold" ? 50 : 60,
             transform: "translate(-50%, -50%)",
             zIndex: 16,
             pointerEvents: "none",
