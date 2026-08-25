@@ -13,6 +13,7 @@ export type AddItemResult = {
 
 export type RemoveItemResult = {
   items: InventoryItem[];
+  /** true sempre que uma unidade foi consumida, mesmo sobrando pilha. */
   removed: boolean;
   sound: SoundId | null;
 };
@@ -59,6 +60,14 @@ export class InventoryService {
     };
   }
 
+  /**
+   * Consome uma unidade de `id`.
+   *
+   * `removed` reflete o consumo da unidade, não o desaparecimento do
+   * slot: tirar 1 de uma pilha de 3 conta como remoção. Comparar o
+   * tamanho do array antes e depois só enxergava o último item de cada
+   * pilha, então gastar item empilhado não emitia som nenhum.
+   */
   removeItem(items: InventoryItem[], id: ItemId): RemoveItemResult {
     const found = items.find((i) => i.id === id);
     if (!found) {
@@ -73,12 +82,10 @@ export class InventoryService {
       })
       .filter((i): i is InventoryItem => i !== null);
 
-    const removed = next.length < items.length;
-
     return {
       items: next,
-      removed,
-      sound: removed ? "usedItem" : null,
+      removed: true,
+      sound: "usedItem",
     };
   }
 }
