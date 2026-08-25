@@ -67,8 +67,8 @@ export function ChestRewards({
       {result.equipment.length > 0 && (
         <div className={styles.section}>
           <h4>Equipamentos</h4>
-          {result.equipment.map((eq) => (
-            <div key={eq.id} className={styles.dropRow}>
+          {result.equipment.map((eq, index) => (
+            <div key={`${eq.id}-${index}`} className={styles.dropRow}>
               <img
                 className="dropIcon"
                 src={asset(FILTER_LABELS[eq.slot])}

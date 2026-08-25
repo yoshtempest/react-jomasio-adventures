@@ -145,6 +145,16 @@ function pickWeighted<K extends string | number>(
   return positive[positive.length - 1]![0];
 }
 
+/**
+ * Sorteia o conteúdo de um baú.
+ *
+ * Materiais são acumulados por id em vez de virar uma entrada por
+ * sorteio. Como o baú faz de 5 a 11 sorteios sobre uma tabela de 2 ou 3
+ * materiais, repetir é o caso normal — em amostragem de 10 mil baús,
+ * 96% a 99% deles repetem pelo menos um id. Uma entrada por sorteio
+ * fazia a tela de recompensa listar o mesmo material várias vezes com
+ * quantidades parciais, e colidia a key do React, que usa o id.
+ */
 export function openChest(
   chestTier: NPCClass,
   petChance?: number,
@@ -152,6 +162,18 @@ export function openChest(
   const table = CHEST_DROP_TABLES[chestTier];
   const dropCount = Math.floor(Math.random() * 7) + 5;
   const result: ChestDropResult = { materials: [], equipment: [], pets: [] };
+  const materialsById = new Map<string, ChestDropResult["materials"][number]>();
+
+  const addMaterial = (id: string, name: string, qty: number) => {
+    const existing = materialsById.get(id);
+    if (existing) {
+      existing.qty += qty;
+      return;
+    }
+    const entry = { id, name, qty };
+    materialsById.set(id, entry);
+    result.materials.push(entry);
+  };
 
   for (let i = 0; i < dropCount; i++) {
     const isMaterial = Math.random() < 0.7;
@@ -160,18 +182,13 @@ export function openChest(
       const matId = pickWeighted(table.materialWeights);
       if (matId) {
         const craftDef = CRAFT_MATERIALS[matId as keyof typeof CRAFT_MATERIALS];
+        const qty = Math.floor(Math.random() * 3) + 1;
         if (craftDef) {
-          const qty = Math.floor(Math.random() * 3) + 1;
-          result.materials.push({ id: craftDef.id, name: craftDef.name, qty });
+          addMaterial(craftDef.id, craftDef.name, qty);
         } else {
           const itemDef = ITEMS[matId as keyof typeof ITEMS];
           if (itemDef) {
-            const qty = Math.floor(Math.random() * 3) + 1;
-            result.materials.push({
-              id: matId,
-              name: itemDef.name,
-              qty,
-            });
+            addMaterial(matId, itemDef.name, qty);
           }
         }
       }
