@@ -3,6 +3,25 @@ import { useState, useCallback } from "react";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { NPC_CARDS } from "@/data/npc/cards";
 import { REDEEMED_CARDS_KEY } from "@/data/storageKeys";
+
+/**
+ * Códigos já resgatados.
+ *
+ * Um valor corrompido no storage derrubava o handler inteiro com
+ * SyntaxError: o resgate parava de funcionar até o jogador limpar o
+ * navegador. Tratar como lista vazia degrada bem — o pior caso é
+ * reaproveitar um código.
+ */
+function loadRedeemedCards(): string[] {
+  try {
+    const raw = localStorage.getItem(REDEEMED_CARDS_KEY);
+    if (!raw) return [];
+    const parsed: unknown = JSON.parse(raw);
+    return Array.isArray(parsed) ? (parsed as string[]) : [];
+  } catch {
+    return [];
+  }
+}
 import { useInventory } from "@/contexts/InventoryContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 
@@ -34,10 +53,7 @@ export function CardRedeem({ isSelected }: Props) {
       return;
     }
 
-    const redeemedStr = localStorage.getItem(REDEEMED_CARDS_KEY);
-    const redeemed: string[] = redeemedStr
-      ? (JSON.parse(redeemedStr) as string[])
-      : [];
+    const redeemed = loadRedeemedCards();
     if (redeemed.includes(code)) {
       setRedeemMessage("Código já utilizado.");
       setRedeemSuccess(false);

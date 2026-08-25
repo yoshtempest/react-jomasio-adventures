@@ -147,6 +147,13 @@ export class SceneEventService {
     );
   }
 
+  /**
+   * Toca um SFX do pool da cena.
+   *
+   * O volume é clampado em [0, 1]: `HTMLMediaElement.volume` lança
+   * `IndexSizeError` fora dessa faixa, e nada valida o `volume` que vem
+   * do evento nem o valor de SFX lido do storage.
+   */
   private playSfx(src: string, volume?: number): void {
     let audio = this.sfxPool.get(src);
     if (!audio) {
@@ -157,7 +164,10 @@ export class SceneEventService {
     audio.currentTime = 0;
 
     const sfxVol = this.getSfxVolume();
-    audio.volume = (sfxVol / 100) * (volume ?? 1);
+    const requested = (sfxVol / 100) * (volume ?? 1);
+    audio.volume = Number.isFinite(requested)
+      ? Math.min(1, Math.max(0, requested))
+      : 0;
     audio.play().catch(() => {});
   }
 
