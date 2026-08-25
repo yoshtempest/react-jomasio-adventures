@@ -30,13 +30,30 @@ export class StorageService {
     this.backend = backend;
   }
 
+  /**
+   * Grava `data` comprimido em `key`.
+   *
+   * As duas falhas possíveis são tratadas separadas porque nenhuma delas
+   * tem retentativa útil. Serialização quebrada (referência cíclica,
+   * `BigInt`) quebra igual na segunda tentativa. E quando o storage
+   * recusa por quota, regravar o JSON cru — maior que o comprimido —
+   * estoura de novo, agora sem proteção: era esse `setItem` de fallback
+   * que subia `QuotaExceededError` até o React.
+   */
   saveCompressed(key: string, data: unknown): void {
+    let payload: string;
+
     try {
-      const json = JSON.stringify(data);
-      const compressed = LZString.compressToUTF16(json);
-      this.backend.setItem(key, COMPRESSED_PREFIX + compressed);
-    } catch {
-      this.backend.setItem(key, JSON.stringify(data));
+      payload = LZString.compressToUTF16(JSON.stringify(data));
+    } catch (error) {
+      console.warn(`Não foi possível serializar "${key}" para o save:`, error);
+      return;
+    }
+
+    try {
+      this.backend.setItem(key, payload);
+    } catch (error) {
+      console.warn(`Não foi possível gravar "${key}" no storage:`, error);
     }
   }
 
