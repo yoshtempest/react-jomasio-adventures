@@ -54,6 +54,8 @@ export function BattleScene(props: Props) {
   // progresso de títulos no início da batalha (capturado uma única vez)
   const titleProgressSnapshotRef = useRef(titlesData.progress);
 
+  const { TILE_SIZE, PLAYER_SIZE, MAP_COLS, MAP_ROWS } = useGameLayout();
+
   const {
     player,
     npc,
@@ -94,9 +96,7 @@ export function BattleScene(props: Props) {
     controlsDisabled,
     showRetry,
     playerProjectile,
-  } = useBattleScene({ ...props, isAlfa });
-
-  const { TILE_SIZE, PLAYER_SIZE, MAP_COLS, MAP_ROWS } = useGameLayout();
+  } = useBattleScene({ ...props, isAlfa, PLAYER_SIZE });
 
   const { setBattleCollision } = usePlayer();
 

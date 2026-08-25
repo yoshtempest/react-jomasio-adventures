@@ -33,6 +33,7 @@ import { useChargeAttack } from "@/hooks/battle/charge/useAttack";
 import { usePhaseTransition } from "@/hooks/battle/death/usePhaseTransition";
 import { useCoffinAnimation } from "@/hooks/battle/summon/useCoffinAnimation";
 import { usePlayerSpecialProjectile } from "@/hooks/battle/player/usePlayerSpecialProjectile";
+import { getSpecialFlowOverride } from "@/data/battle/animationFlow";
 import { useBattleIntro } from "@/hooks/battle/useIntro";
 import { useBattleOutro } from "@/hooks/battle/useOutro";
 import { useBattleSync } from "@/hooks/battle/useSync";
@@ -214,6 +215,7 @@ type Props = {
   background?: string;
   training?: boolean;
   isAlfa?: boolean;
+  PLAYER_SIZE: number;
 };
 
 export function useBattleScene({
@@ -225,6 +227,7 @@ export function useBattleScene({
   background,
   training,
   isAlfa = false,
+  PLAYER_SIZE,
 }: Props) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -944,7 +947,14 @@ export function useBattleScene({
 
   useThrowAnimation({ setPlayer, setIsThrown, isMenuRef: isMenuOpenRef });
 
-  const { playerProjectile } = usePlayerSpecialProjectile({ player });
+  const { playerProjectile } = usePlayerSpecialProjectile({
+    player,
+    PLAYER_SIZE,
+    onFire: handleSpecialHit,
+  });
+
+  const skipSpecialHitOnPress =
+    getSpecialFlowOverride(player.character) !== null;
 
   useBattleControls({
     attack: () => {
@@ -970,6 +980,7 @@ export function useBattleScene({
     handleSpecialHit,
     disabled: controlsDisabled,
     playerState: player.state,
+    skipSpecialHitOnPress,
     onChargePress: charge.startCharge,
     onChargeRelease: charge.releaseCharge,
     onChargeCancel: charge.cancelCharge,

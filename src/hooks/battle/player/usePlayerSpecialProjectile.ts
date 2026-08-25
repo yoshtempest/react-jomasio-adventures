@@ -9,9 +9,15 @@ const HOLD_OFFSET_X = 60;
 
 type Props = {
   player: Player;
+  PLAYER_SIZE: number;
+  onFire?: () => void;
 };
 
-export function usePlayerSpecialProjectile({ player }: Props) {
+export function usePlayerSpecialProjectile({
+  player,
+  PLAYER_SIZE,
+  onFire,
+}: Props) {
   const [, setRenderTick] = useState(0);
 
   const projectileRef = useRef<PlayerSpecialProjectile | null>(null);
@@ -19,6 +25,9 @@ export function usePlayerSpecialProjectile({ player }: Props) {
   const mergeDurationRef = useRef(200);
   const rafRef = useRef<number>(0);
   const animatingRef = useRef(false);
+  const firedRef = useRef(false);
+  const onFireRef = useRef(onFire);
+  onFireRef.current = onFire;
 
   const isSpecialAnimating =
     player.state === "preSpecial" ||
@@ -27,16 +36,15 @@ export function usePlayerSpecialProjectile({ player }: Props) {
 
   const hasCustomFlow = getSpecialFlowOverride(player.character) !== null;
 
-  const headY =
-    player.y -
-    (ProjectileConstants.MAP_WIDTH *
-      (player.height / ProjectileConstants.MAP_HEIGHT)) /
-      1.5;
+  const SCALE = PLAYER_SIZE / ProjectileConstants.MAP_HEIGHT;
+  const HEIGHT = (ProjectileConstants.MAP_WIDTH * SCALE) / 1.5;
+  const headY = player.y - HEIGHT;
 
   useEffect(() => {
     const { state, x, battleDirection } = player;
 
     if (state === "preSpecial") {
+      firedRef.current = false;
       const centerY = headY;
       const override = getSpecialFlowOverride(player.character);
       mergeDurationRef.current = override?.preSpecial.duration ?? 200;
@@ -144,6 +152,11 @@ export function usePlayerSpecialProjectile({ player }: Props) {
           ...p,
           x: p.x + dir * FIRE_DISTANCE * t,
         };
+
+        if (!firedRef.current) {
+          firedRef.current = true;
+          onFireRef.current?.();
+        }
       }
 
       setRenderTick((tick) => tick + 1);

@@ -11,6 +11,7 @@ type Props = {
   handleSpecialHit: () => void;
   disabled: boolean;
   playerState: PlayerState;
+  skipSpecialHitOnPress?: boolean;
   onChargePress?: () => void;
   onChargeRelease?: () => void;
   onChargeCancel?: () => void;
@@ -27,6 +28,7 @@ export function useBattleControls({
   handleSpecialHit,
   disabled,
   playerState,
+  skipSpecialHitOnPress = false,
   onChargePress,
   onChargeRelease,
   onChargeCancel,
@@ -44,6 +46,7 @@ export function useBattleControls({
   const chargeCancelRef = useLatestRef(onChargeCancel ?? (() => {}));
 
   const hasChargeRef = useLatestRef(!!onChargePress);
+  const skipSpecialHitRef = useLatestRef(skipSpecialHitOnPress);
 
   const playerStateRef = useLatestRef(playerState);
 
@@ -98,7 +101,9 @@ export function useBattleControls({
 
       onOpen: () => {
         specialRef.current();
-        specialHitRef.current();
+        if (!skipSpecialHitRef.current) {
+          specialHitRef.current();
+        }
       },
 
       onUp: hasCharge
@@ -135,6 +140,7 @@ export function useBattleControls({
   }, [
     disabled,
     hasChargeRef,
+    skipSpecialHitRef,
     playerStateRef,
     pushControlsRef,
     attackRef,
