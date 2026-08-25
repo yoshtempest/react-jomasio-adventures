@@ -3,7 +3,7 @@ import styles from "../styles.module.css";
 import { DIFFICULTY_LABEL } from "@/data/npc/difficultyLabels";
 
 type Props = {
-  difficultyList: string[];
+  difficultyList: NpcDifficulty[];
   selectedIndex: number;
   selectedColumn: number;
   activeDifficulty: NpcDifficulty;
