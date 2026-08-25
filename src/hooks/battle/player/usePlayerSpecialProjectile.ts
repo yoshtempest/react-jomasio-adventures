@@ -52,7 +52,7 @@ export function usePlayerSpecialProjectile({
   useEffect(() => {
     const { state, x, battleDirection } = player;
 
-    if (state === "preSpecial") {
+    if (state === "preSpecial" && (player.character === "riquelme")) {
       firedRef.current = false;
       const override = getSpecialFlowOverride(player.character);
       mergeDurationRef.current = override?.preSpecial.duration ?? 200;
