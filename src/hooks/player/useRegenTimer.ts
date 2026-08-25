@@ -29,6 +29,16 @@ function computeMaxHp(
   return 90 + Math.round(effectiveHp) * 10;
 }
 
+/**
+ * Regenera o HP fora de batalha, um tick por segundo.
+ *
+ * O intervalo depende só de modo e personagem. `progress` ficou de fora
+ * das dependências porque cada tick escreve `battleHP` — tê-lo ali fazia
+ * o effect destruir e recriar o próprio intervalo a cada segundo. HP
+ * atual, fome e teto de vida são relidos por ref dentro do tick, então o
+ * cálculo continua acompanhando mudança de equipamento, título e fome
+ * sem precisar reinstalar nada.
+ */
 export function useRegenTimer() {
   const { player } = usePlayer();
   const { progress, setBattleHP } = useCharacterProgress();
@@ -37,58 +47,44 @@ export function useRegenTimer() {
   const progressRef = useLatestRef(progress);
   const characterRef = useLatestRef(player.character);
   const setBattleHPRef = useLatestRef(setBattleHP);
+  const getBonusRef = useLatestRef(getBonus);
 
   useEffect(() => {
     if (player.mode === "battle") return;
 
-    const charProgress = progress[player.character];
-    if (!charProgress) return;
-
-    const equipmentBonus = getEquipmentStatsBonus(player.character);
-    const titleBonus = getBonus();
-    const rankMultiplier = getRankMultiplier(charProgress.level);
-    const hungerMultiplier = getHungerMultiplier(charProgress.hunger);
-    const maxHp = computeMaxHp(
-      charProgress.stats.hp,
-      equipmentBonus.hp,
-      titleBonus.hp,
-      titleBonus.percentAllStats,
-      rankMultiplier,
-      hungerMultiplier,
-    );
-
-    const currentHP = charProgress.battleHP;
-    if (currentHP == null || currentHP >= maxHp) return;
-    if (charProgress.hunger <= 0) return;
-
-    const healPerTick = (maxHp / 60) * (charProgress.hunger / MAX_HUNGER);
-
     const interval = setInterval(() => {
-      const latest = progressRef.current[characterRef.current];
-      if (!latest) return;
+      const character = characterRef.current;
+      const charProgress = progressRef.current[character];
+      if (!charProgress) return;
 
-      const hp = latest.battleHP;
-      if (hp == null || hp >= maxHp) {
-        clearInterval(interval);
-        return;
-      }
+      const hp = charProgress.battleHP;
+      if (hp == null) return;
+      if (charProgress.hunger <= 0) return;
 
-      const next = Math.min(maxHp, hp + healPerTick);
-      setBattleHPRef.current(
-        characterRef.current,
-        next >= maxHp ? null : Math.round(next),
+      const titleBonus = getBonusRef.current();
+      const maxHp = computeMaxHp(
+        charProgress.stats.hp,
+        getEquipmentStatsBonus(character).hp,
+        titleBonus.hp,
+        titleBonus.percentAllStats,
+        getRankMultiplier(charProgress.level),
+        getHungerMultiplier(charProgress.hunger),
       );
+
+      if (hp >= maxHp) return;
+
+      const healPerTick = (maxHp / 60) * (charProgress.hunger / MAX_HUNGER);
+      const next = Math.min(maxHp, hp + healPerTick);
+
+      setBattleHPRef.current(character, next >= maxHp ? null : Math.round(next));
     }, REGEN_TICK_MS);
 
     return () => clearInterval(interval);
   }, [
     player.mode,
-    player.character,
-    progress,
-    setBattleHP,
-    getBonus,
     characterRef,
     progressRef,
     setBattleHPRef,
+    getBonusRef,
   ]);
 }

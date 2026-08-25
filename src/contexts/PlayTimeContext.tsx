@@ -110,74 +110,90 @@ export function PlayTimeProvider({ children }: { children: ReactNode }) {
     currentCharRef.current = player.character;
   }, [player.character]);
 
+  /**
+   * Estado mais recente, para as escritas rodarem fora do updater.
+   *
+   * `saveData` e o contador de ticks moravam dentro do `setData`, contra
+   * a regra de updater puro: o StrictMode reexecuta o updater em dev, o
+   * que dobrava o contador e fazia salvar a cada 15s em vez de 30s.
+   */
+  const dataRef = useRef(data);
+  dataRef.current = data;
+
   useEffect(() => {
-    const tickCountRef = { current: 0 };
+    let ticks = 0;
 
     const intervalId = setInterval(() => {
       const char = currentCharRef.current;
-      setData((prev) => {
-        const updated = {
-          ...prev,
-          playTime: { ...prev.playTime, [char]: prev.playTime[char] + 1 },
-        };
-        tickCountRef.current++;
-        if (tickCountRef.current % 30 === 0) {
-          saveData(updated);
-        }
-        return updated;
-      });
+      ticks += 1;
+
+      const updated = {
+        ...dataRef.current,
+        playTime: {
+          ...dataRef.current.playTime,
+          [char]: dataRef.current.playTime[char] + 1,
+        },
+      };
+
+      dataRef.current = updated;
+      setData(updated);
+
+      if (ticks % 30 === 0) saveData(updated);
     }, 1000);
 
-    return () => clearInterval(intervalId);
+    return () => {
+      clearInterval(intervalId);
+      saveData(dataRef.current);
+    };
   }, []);
 
   useEffect(() => {
     const today = new Date().toISOString().slice(0, 10);
     const stored = loadData();
-    if (stored.lastLoginDate !== today) {
-      setData((prev) => {
-        const isFirstLogin = prev.loginDays === 0;
-        const updated = {
-          ...prev,
-          loginDays: prev.loginDays + 1,
-          lastLoginDate: today,
-          firstLoginDate: isFirstLogin ? today : prev.firstLoginDate,
-        };
-        saveData(updated);
-        return updated;
-      });
-    }
+    if (stored.lastLoginDate === today) return;
+
+    const current = dataRef.current;
+    const isFirstLogin = current.loginDays === 0;
+    const updated = {
+      ...current,
+      loginDays: current.loginDays + 1,
+      lastLoginDate: today,
+      firstLoginDate: isFirstLogin ? today : current.firstLoginDate,
+    };
+    dataRef.current = updated;
+    setData(updated);
+    saveData(updated);
   }, []);
 
+  function commit(updated: StoredData) {
+    dataRef.current = updated;
+    setData(updated);
+    saveData(updated);
+  }
+
   function addBattleTime(character: Character, seconds: number) {
-    setData((prev) => {
-      const updated = {
-        ...prev,
-        battleTime: {
-          ...prev.battleTime,
-          [character]: prev.battleTime[character] + seconds,
-        },
-      };
-      saveData(updated);
-      return updated;
-    });
+    const updated = {
+      ...dataRef.current,
+      battleTime: {
+        ...dataRef.current.battleTime,
+        [character]: dataRef.current.battleTime[character] + seconds,
+      },
+    };
+    commit(updated);
   }
 
   function recordTile(route: string, x: number, y: number) {
     const char = player.character;
     const key = `${route}:${x},${y}`;
-    setData((prev) => {
-      const charVisited = prev.visited[char] ?? [];
-      if (charVisited.includes(key)) return prev;
-      const updated = {
-        ...prev,
-        visited: {
-          ...prev.visited,
-          [char]: [...charVisited, key],
-        },
-      };
-      saveData(updated);
-      return updated;
+    const charVisited = dataRef.current.visited[char] ?? [];
+    if (charVisited.includes(key)) return;
+
+    commit({
+      ...dataRef.current,
+      visited: {
+        ...dataRef.current.visited,
+        [char]: [...charVisited, key],
+      },
     });
   }
 
