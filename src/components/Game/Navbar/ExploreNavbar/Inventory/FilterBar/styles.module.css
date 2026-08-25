@@ -8,6 +8,11 @@
 }
 
 .button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2vw;
+
   padding: var(--size-4) var(--fs-8);
   border: var(--size-1) solid var(--border-default);
   border-radius: var(--size-4);
@@ -29,4 +34,9 @@
 .buttonFocused {
   outline: var(--size-2) solid var(--accent-color);
   outline-offset: var(--size-2);
+}
+
+button img {
+  display: flex;
+  width: 3vw;
 }

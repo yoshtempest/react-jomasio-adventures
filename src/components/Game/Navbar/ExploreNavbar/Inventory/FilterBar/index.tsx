@@ -1,5 +1,6 @@
 import { FILTER_LABELS } from "@/data/inventory/labels";
 import styles from "./styles.module.css";
+import { asset } from "@/utils/paths";
 
 type Props = {
   filterType: string;
@@ -22,6 +23,7 @@ export function FilterBar({
           } ${filterFocused && filterType === f.type ? styles.buttonFocused : ""}`}
           onClick={() => onFilterChange(f.type)}
         >
+          <img src={asset(`${f.src}`)} className={styles.image}/>
           {f.label}
         </button>
       ))}
