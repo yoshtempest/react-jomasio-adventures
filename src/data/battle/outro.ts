@@ -33,8 +33,8 @@ export const OUTRO_LINES: Record<string, OutroLines> = {
     defeat: "Killer Queen, bites the dust!",
   },
   riquelme: {
-    victory: "Finalmente a ovelha fez o mínimo.",
-    defeat: "Que ovelha lixo!",
+    victory: "Eu sou o mais honrado!",
+    defeat: "Gomen Yamanai...",
   },
   eduarda: {
     victory: "Ebaa!",
