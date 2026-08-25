@@ -20,20 +20,51 @@ export const ELEMENT_STRONG_AGAINST: Record<
   Normalis: [],
 };
 
+/**
+ * Inverte a tabela de vantagem: `A` forte contra `D` significa `D` fraco
+ * contra `A`.
+ *
+ * Args:
+ *     strong (Record<ElementType, readonly ElementType[]>): tabela de
+ *         vantagem, atacante para defensores.
+ *
+ * Returns:
+ *     A tabela de desvantagem correspondente, com entrada para todo
+ *     elemento (lista vazia quando ninguém tem vantagem sobre ele).
+ */
+function buildWeakAgainst(
+  strong: Record<ElementType, readonly ElementType[]>,
+): Record<ElementType, readonly ElementType[]> {
+  const weak = {} as Record<ElementType, ElementType[]>;
+
+  for (const element of Object.keys(strong) as ElementType[]) {
+    weak[element] = [];
+  }
+
+  for (const element of Object.keys(strong) as ElementType[]) {
+    for (const defender of strong[element]) {
+      weak[defender].push(element);
+    }
+  }
+
+  return weak;
+}
+
+/**
+ * Desvantagem elemental, derivada de `ELEMENT_STRONG_AGAINST`.
+ *
+ * As duas tabelas eram escritas à mão e divergiam: em sete elementos a
+ * lista de desvantagem não batia com o inverso da lista de vantagem, e
+ * em seis pares o mesmo defensor aparecia nas duas listas do mesmo
+ * atacante sem que nada no dado dissesse qual valia.
+ *
+ * Derivar acaba com a divergência arbitrária, não com todo par que cai
+ * nos dois lados. Vantagem mútua continua existindo — Darkus e Haos são
+ * fortes um contra o outro por design, e `getElementMultiplier` testa
+ * vantagem antes de desvantagem, então esses pares resolvem 1.5x nas
+ * duas direções. A diferença é que agora isso é consequência declarada
+ * do `ELEMENT_STRONG_AGAINST`, e não de duas tabelas que se
+ * desencontraram.
+ */
 export const ELEMENT_WEAK_AGAINST: Record<ElementType, readonly ElementType[]> =
-  {
-    Pyrus: ["Aquos", "Subterra"],
-    Aquos: ["Electricus", "Natura"],
-    Subterra: ["Ventus", "Natura", "Aquos"],
-    Ventus: ["Electricus", "Metallum"],
-    Darkus: ["Haos", "Nympha", "Umbra"],
-    Electricus: ["Subterra", "Metallum"],
-    Haos: ["Darkus", "Umbra"],
-    Metallum: ["Pyrus", "Subterra"],
-    Natura: ["Pyrus", "Ventus", "Metallum"],
-    Psychicus: ["Darkus", "Haos"],
-    Nympha: ["Ventus", "Metallum", "Umbra"],
-    Draco: ["Haos", "Natura", "Nympha", "Draco"],
-    Umbra: ["Ventus", "Umbra"],
-    Normalis: ["Psychicus"],
-  };
+  buildWeakAgainst(ELEMENT_STRONG_AGAINST);
