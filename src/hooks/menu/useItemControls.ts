@@ -10,6 +10,7 @@ type Params = {
   isChestSelected: boolean;
   isMapSelected: boolean;
   isTeleportSelected: boolean;
+  isDroppableSelected: boolean;
   keyId: string | null;
   items: { id: string }[];
   openPlayerChest: (id: ItemId) => void;
@@ -17,6 +18,7 @@ type Params = {
   consumeItem: (id: string) => boolean;
   onReject: (index: number) => void;
   onNoKey: () => void;
+  onDropItem: () => void;
 };
 
 export function useItemControls({
@@ -27,6 +29,7 @@ export function useItemControls({
   isChestSelected,
   isMapSelected,
   isTeleportSelected,
+  isDroppableSelected,
   keyId,
   items,
   openPlayerChest,
@@ -34,6 +37,7 @@ export function useItemControls({
   consumeItem,
   onReject,
   onNoKey,
+  onDropItem,
 }: Params) {
   const { pushControls } = useGameControls();
   const stateRef = useLatestRef({
@@ -44,6 +48,7 @@ export function useItemControls({
     isChestSelected,
     isMapSelected,
     isTeleportSelected,
+    isDroppableSelected,
     keyId,
     items,
   });
@@ -52,6 +57,7 @@ export function useItemControls({
   const consumeItemRef = useLatestRef(consumeItem);
   const onRejectRef = useLatestRef(onReject);
   const onNoKeyRef = useLatestRef(onNoKey);
+  const onDropItemRef = useLatestRef(onDropItem);
 
   useEffect(() => {
     const controls = {
@@ -64,6 +70,7 @@ export function useItemControls({
           isChestSelected,
           isMapSelected,
           isTeleportSelected,
+          isDroppableSelected,
           keyId,
           items,
         } = stateRef.current;
@@ -95,6 +102,11 @@ export function useItemControls({
           }
         }
 
+        if (isDroppableSelected) {
+          onDropItemRef.current();
+          return true;
+        }
+
         onRejectRef.current(selectedItem ? -1 : 0);
         return true;
       },
@@ -108,6 +120,7 @@ export function useItemControls({
     getEffectRef,
     onNoKeyRef,
     onRejectRef,
+    onDropItemRef,
     openPlayerChestRef,
     stateRef,
   ]);

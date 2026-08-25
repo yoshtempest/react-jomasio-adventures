@@ -17,6 +17,7 @@ import { BestiaryProvider } from "@/contexts/BestiaryContext";
 import { PetProgressProvider } from "@/contexts/PetProgressContext";
 import { ProfessionProgressProvider } from "@/contexts/ProfessionProgressContext";
 import { TombstoneProvider } from "@/contexts/TombstoneContext";
+import { GroundItemProvider } from "@/contexts/GroundItemContext";
 import { PlayerProvider } from "@/contexts/PlayerContext";
 import { GameControlsProvider } from "@/contexts/GameControlsContext";
 import { BattleNavbarProvider } from "@/contexts/BattleNavbarContext";
@@ -41,7 +42,8 @@ export function AppProviders({ children }: { children: ReactNode }) {
                               <PetProgressProvider>
                                 <ProfessionProgressProvider>
                                   <TombstoneProvider>
-                                    <EquipmentProvider>
+                                    <GroundItemProvider>
+                                      <EquipmentProvider>
                                       <TitleProvider>
                                         <BestiaryProvider>
                                           <PlayerProvider>
@@ -56,6 +58,7 @@ export function AppProviders({ children }: { children: ReactNode }) {
                                         </BestiaryProvider>
                                       </TitleProvider>
                                     </EquipmentProvider>
+                                    </GroundItemProvider>
                                   </TombstoneProvider>
                                 </ProfessionProgressProvider>
                               </PetProgressProvider>

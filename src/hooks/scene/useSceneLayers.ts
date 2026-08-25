@@ -26,6 +26,7 @@ type Params = {
   interactionLabels?: Record<string, string>;
   tileDialogues?: Record<string, unknown>;
   tombstones?: { x: number; y: number }[];
+  groundLoots?: { x: number; y: number }[];
 };
 
 /**
@@ -50,6 +51,7 @@ export function useSceneLayers({
   interactionLabels,
   tileDialogues,
   tombstones,
+  groundLoots,
 }: Params) {
   const frontTile = useMemo(() => {
     if (!isReady) return null;
@@ -84,6 +86,9 @@ export function useSceneLayers({
     const tombstone = tombstones?.find((t) => t.x === x && t.y === y);
     if (tombstone) return "[L] Recolher";
 
+    const groundLoot = groundLoots?.find((l) => l.x === x && l.y === y);
+    if (groundLoot) return "[L] Pegar";
+
     const plate = plates.find((p) => p.gridX === x && p.gridY === y);
     if (plate) return "[L] Interagir";
 
@@ -99,6 +104,7 @@ export function useSceneLayers({
     interactionLabels,
     tileDialogues,
     tombstones,
+    groundLoots,
   ]);
 
   return { frontTile, interactionHint };

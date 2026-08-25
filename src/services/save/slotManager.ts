@@ -155,6 +155,7 @@ export const GAME_STATE_KEYS = [
   "replays",
   "visitedLocations",
   "tombstones",
+  "ground_items",
 ] as const;
 
 export const slotManager = new SlotManager(

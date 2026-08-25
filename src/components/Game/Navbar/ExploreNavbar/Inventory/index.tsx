@@ -30,12 +30,18 @@ import { useSFXPool } from "@/hooks/menu/useSFXPool";
 import { useConsumeItem } from "@/hooks/menu/useConsumeItem";
 import { useItemControls } from "@/hooks/menu/useItemControls";
 import { useRewardsControls } from "@/hooks/menu/useRewardsControls";
+import { DropItem } from "./DropItem";
+import { isDroppable } from "@/data/items/droppable";
+import { useGroundItems } from "@/contexts/GroundItemContext";
+import { usePlayer } from "@/contexts/PlayerContext";
 
 const CURRENCY_IDS = ["kwanzas", "hypercoin"] as const;
 
 export function Inventory() {
-  const { items, maxSlots } = useInventory();
+  const { items, maxSlots, removeItem } = useInventory();
   const { progress } = useCharacterProgress();
+  const { addLoot, currentLocationId } = useGroundItems();
+  const { player } = usePlayer();
   const listRef = useRef<HTMLUListElement>(null);
   const [filterType, setFilterType] = useState<string>("all");
 
@@ -138,6 +144,7 @@ export function Inventory() {
 
   const [rewardOptionIndex, setRewardOptionIndex] = useState(0);
   const [rejectedIndex, setRejectedIndex] = useState<number | null>(null);
+  const [dropItem, setDropItem] = useState<InventoryItem | null>(null);
 
   const handleChestOutcome = (outcome: ChestOpenOutcome) => {
     if (outcome.status === "opened") {
@@ -154,6 +161,24 @@ export function Inventory() {
   const handleOpenNextChest = (id?: ItemId) => {
     handleChestOutcome(openNextChest(id));
   };
+
+
+
+  const handleConfirmDrop = useCallback(
+    (qty: number) => {
+      if (!dropItem || !player || !currentLocationId) return;
+      removeItem(dropItem.id);
+      addLoot(currentLocationId, player.gridX, player.gridY, [
+        { id: dropItem.id, qty },
+      ]);
+      setDropItem(null);
+    },
+    [dropItem, player, currentLocationId, removeItem, addLoot],
+  );
+
+  const handleCloseDrop = useCallback(() => {
+    setDropItem(null);
+  }, []);
 
   const hasOtherChest = !!(
     chestLastResult && otherChestExists(chestLastResult.tier)
@@ -173,12 +198,21 @@ export function Inventory() {
   const selectedItem = filteredItems[selectedIndex];
   const selectedItemData = selectedItem ? ITEMS[selectedItem.id] : null;
 
+  const handleDropItem = useCallback(() => {
+    if (!selectedItem) return;
+    setDropItem(selectedItem);
+  }, [selectedItem]);
+
   const isChestSelected = selectedItemData?.type === "chest";
   const isConsumableSelected =
     selectedItemData?.type === "consumable" ||
     selectedItemData?.type === "food";
   const isMapSelected = selectedItemData?.type === "map";
   const isTeleportSelected = selectedItemData?.type === "teleport";
+  const isDroppableItem =
+    !!selectedItem &&
+    isDroppable(selectedItem.id) &&
+    !(CURRENCY_IDS as readonly string[]).includes(selectedItem.id);
 
   const tier =
     isChestSelected && selectedItem
@@ -205,6 +239,7 @@ export function Inventory() {
     isChestSelected,
     isMapSelected,
     isTeleportSelected,
+    isDroppableSelected: isDroppableItem,
     keyId,
     items,
     openPlayerChest: handleOpenPlayerChest,
@@ -215,6 +250,7 @@ export function Inventory() {
       setTimeout(() => setRejectedIndex(null), 1500);
     },
     onNoKey: () => flashPopup("Sem chave"),
+    onDropItem: handleDropItem,
   });
 
   if (openingChest) {
@@ -293,6 +329,15 @@ export function Inventory() {
 
       {popupMessage && (
         <div className={styles.noKeyPopup}>{popupMessage}</div>
+      )}
+
+      {dropItem && (
+        <DropItem
+          isOpen={!!dropItem}
+          item={dropItem}
+          onDrop={handleConfirmDrop}
+          onClose={handleCloseDrop}
+        />
       )}
     </div>
   );

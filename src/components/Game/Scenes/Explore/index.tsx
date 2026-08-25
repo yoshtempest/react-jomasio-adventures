@@ -7,6 +7,8 @@ import { Player } from "@/components/Game/Entities/Player";
 import { NPC } from "@/components/Game/Entities/Npc";
 import { Tombstone } from "@/components/Game/Entities/Tombstone";
 import { Plate } from "@/components/Game/Map/Plate";
+import { LootBag } from "@/components/Game/Map/LootBag";
+import { LootBagModal } from "@/components/Game/Map/LootBag/LootBagModal";
 // import { LevelSteps } from "@/components/Game/LevelSteps";
 import { HEIGHT_STEP_OFFSET } from "@/gameRules/movement/levels";
 import {
@@ -35,6 +37,7 @@ import { saveGame } from "@/services/save/saveService";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
 import { useFlags } from "@/contexts/FlagContext";
+import { useGroundItems } from "@/contexts/GroundItemContext";
 import { asset } from "@/utils/paths";
 import { InteractionPrompt } from "@/components/Game/Interactions/InteractionPrompt";
 import { CutsceneVideo } from "@/components/Game/Map/Cutscene";
@@ -95,9 +98,10 @@ export function ExploreScene({
   const { pushControls } = useGameControls();
   const { navigateWithFade } = useTransitionCtx();
   const location = useLocation();
-  const { items } = useInventory();
+  const { items, addItem } = useInventory();
   const { quests } = useQuests();
   const { flags } = useFlags();
+  const { setCurrentLocationId } = useGroundItems();
   const lastPage = (location.state as { from?: string } | null)?.from;
 
   useEffect(() => {
@@ -109,6 +113,11 @@ export function ExploreScene({
       character: player.character,
     });
   }, [location.pathname, items, quests, playerClass, player.character]);
+
+  useEffect(() => {
+    setCurrentLocationId(location.pathname);
+    return () => setCurrentLocationId(null);
+  }, [location.pathname, setCurrentLocationId]);
 
   const [cutsceneActive, setCutsceneActive] = useState(false);
   const cutsceneDoneRef = useRef(false);
@@ -234,6 +243,15 @@ export function ExploreScene({
       onMessage: setPopup,
     });
 
+  const {
+    getLootAt,
+    collectAll,
+    removeItem: removeGroundItem,
+    currentLocationId,
+  } = useGroundItems();
+
+  const [activeLootBag, setActiveLootBag] = useState<GroundLoot | null>(null);
+
   useSceneNavigation({
     player,
     transitions,
@@ -278,6 +296,17 @@ export function ExploreScene({
       // 🔥 verifica lápide na frente (coleta de drops do npc derrotado)
       if (collectAt(front.x, front.y)) {
         return true;
+      }
+
+      // 🔥 verifica lootbag no chão na frente
+      if (currentLocationId) {
+        const lootAtFront = getLootAt(currentLocationId).find(
+          (l) => l.x === front.x && l.y === front.y,
+        );
+        if (lootAtFront) {
+          setActiveLootBag(lootAtFront);
+          return true;
+        }
       }
 
       // 🔥 verifica placa na frente
@@ -470,6 +499,16 @@ export function ExploreScene({
             ),
         )}
 
+        {currentLocationId &&
+          getLootAt(currentLocationId).map((loot) => (
+            <LootBag
+              key={`lootbag-${loot.x}-${loot.y}`}
+              gridX={loot.x}
+              gridY={loot.y}
+              tileSize={TILE_SIZE}
+            />
+          ))}
+
         {/* <LevelSteps heightMap={heightMap} TILE_SIZE={TILE_SIZE} /> */}
 
         <Player
@@ -503,6 +542,48 @@ export function ExploreScene({
         <Talking
           {...dialogueSystem.dialogue}
           onSoundEnd={dialogueSystem.next}
+        />
+      )}
+
+      {activeLootBag && currentLocationId && (
+        <LootBagModal
+          isOpen={!!activeLootBag}
+          items={activeLootBag.items}
+          onCollectAll={() => {
+            if (!activeLootBag || !currentLocationId) return;
+            const collected = collectAll(
+              currentLocationId,
+              activeLootBag.x,
+              activeLootBag.y,
+            );
+            for (const item of collected) {
+              addItem({ id: item.id, qty: item.qty });
+            }
+            setActiveLootBag(null);
+          }}
+          onCollectOne={() => {
+            if (!activeLootBag || !currentLocationId) return;
+            const first = activeLootBag.items[0];
+            if (!first) return;
+            addItem({ id: first.id, qty: 1 });
+            removeGroundItem(
+              currentLocationId,
+              activeLootBag.x,
+              activeLootBag.y,
+              first.id,
+            );
+            setActiveLootBag((prev) => {
+              if (!prev) return null;
+              const next = prev.items
+                .map((i) =>
+                  i.id === first.id ? { ...i, qty: i.qty - 1 } : i,
+                )
+                .filter((i) => i.qty > 0);
+              if (next.length === 0) return null;
+              return { ...prev, items: next };
+            });
+          }}
+          onClose={() => setActiveLootBag(null)}
         />
       )}
     </div>

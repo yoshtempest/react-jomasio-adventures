@@ -422,4 +422,19 @@ declare global {
     | "confuse"
     | "armor"
     | "heal";
+
+  // ── Ground items (lootbags) ──────────────────────────────
+  type GroundItem = {
+    id: ItemId;
+    qty: number;
+  };
+
+  type GroundLoot = {
+    locationId: string;
+    x: number;
+    y: number;
+    items: GroundItem[];
+  };
+
+  type GroundItemsSaveData = Record<string, GroundLoot>;
 }

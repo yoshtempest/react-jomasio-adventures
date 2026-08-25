@@ -1,0 +1,6 @@
+.lootBag {
+  position: absolute;
+  pointer-events: none;
+  z-index: 2;
+  image-rendering: pixelated;
+}
