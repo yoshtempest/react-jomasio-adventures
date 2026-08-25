@@ -227,10 +227,11 @@ export function ExploreScene({
     navigateWithFade,
   });
 
-  const { tombstones, fadingIds, collectAt } = useSceneTombstones({
-    locationId: tombstoneLocationId,
-    onMessage: setPopup,
-  });
+  const { tombstones, collectableTombstones, fadingIds, collectAt } =
+    useSceneTombstones({
+      locationId: tombstoneLocationId,
+      onMessage: setPopup,
+    });
 
   useSceneNavigation({
     player,
@@ -319,7 +320,7 @@ export function ExploreScene({
     interactionKeys,
     interactionLabels,
     tileDialogues,
-    tombstones,
+    tombstones: collectableTombstones,
   });
 
   const { TILE_SIZE, cameraX, cameraY, PLAYER_SIZE, MAP_COLS, MAP_ROWS } =

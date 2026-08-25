@@ -28,6 +28,16 @@ type Params = {
   tombstones?: { x: number; y: number }[];
 };
 
+/**
+ * Deriva o tile em frente ao jogador e o hint de interação daquele tile.
+ *
+ * A ordem dos testes espelha a cadeia de `onInteract` do ExploreScene
+ * (npc → tileDialogue → lápide → placa): hint e ação precisam concordar,
+ * senão o jogador lê um rótulo e recebe outra interação.
+ *
+ * `tombstones` deve conter só as lápides coletáveis — as que estão em
+ * fade-out ainda bloqueiam o tile, mas não aceitam mais interação.
+ */
 export function useSceneLayers({
   player,
   map,
@@ -69,10 +79,13 @@ export function useSceneLayers({
     );
     if (pickup) return "[L] Pegar";
 
+    if (tileDialogues?.[`${x},${y}`]) return "[L] Interagir";
+
+    const tombstone = tombstones?.find((t) => t.x === x && t.y === y);
+    if (tombstone) return "[L] Recolher";
+
     const plate = plates.find((p) => p.gridX === x && p.gridY === y);
     if (plate) return "[L] Interagir";
-
-    if (tileDialogues?.[`${x},${y}`]) return "[L] Interagir";
 
     return null;
   }, [
@@ -85,6 +98,7 @@ export function useSceneLayers({
     interactionKeys,
     interactionLabels,
     tileDialogues,
+    tombstones,
   ]);
 
   return { frontTile, interactionHint };

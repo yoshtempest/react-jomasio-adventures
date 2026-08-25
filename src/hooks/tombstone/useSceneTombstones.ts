@@ -107,6 +107,7 @@ export function useSceneTombstones({ locationId, onMessage }: Params) {
 
   return {
     tombstones: [...active, ...fading],
+    collectableTombstones: active,
     fadingIds: fading.map((t) => t.id),
     collectAt,
   };
