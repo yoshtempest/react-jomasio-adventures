@@ -293,6 +293,7 @@ declare global {
     | "preWalk"
     | "preJump"
     | "preSpecial"
+    | "preSpecial2"
     | "preRun"
     | "run"
     | "crit"
@@ -341,6 +342,17 @@ declare global {
     throwStartTime: number;
     throwFromX: number;
     throwToX: number;
+  };
+
+  type PlayerSpecialProjectile = {
+    phase: "merge" | "travel";
+    x: number;
+    y: number;
+    blueX: number;
+    blueY: number;
+    redX: number;
+    redY: number;
+    direction: Direction;
   };
 
   // ── Quest ───────────────────────────────────────────────

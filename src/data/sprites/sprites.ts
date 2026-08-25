@@ -101,6 +101,7 @@ export const STATE_FOLDER: Record<string, string | null> = {
   walkCrounched: "movement",
   special: "special",
   preSpecial: "special",
+  preSpecial2: "special",
   preSpecialInAir: "special",
   specialInAir: "special",
   specialInAirFinish: "special",

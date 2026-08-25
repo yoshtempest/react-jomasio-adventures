@@ -26,7 +26,8 @@ export const animationFlow: Record<PlayerState, AnimationStep | null> = {
   specialInAir: { next: "specialInAirFinish", duration: 200 },
   specialInAirFinish: { next: "idle", duration: 150 },
 
-  preSpecial: { next: "special", duration: 200 },
+  preSpecial: { next: "preSpecial2", duration: 200 },
+  preSpecial2: { next: "special", duration: 500 },
   special: { next: "idle", duration: 500 },
 
   dash: { next: "idle", duration: 300 },

@@ -93,6 +93,7 @@ export function BattleScene(props: Props) {
     training: isTraining,
     controlsDisabled,
     showRetry,
+    playerProjectile,
   } = useBattleScene({ ...props, isAlfa });
 
   const { TILE_SIZE, PLAYER_SIZE, MAP_COLS, MAP_ROWS } = useGameLayout();
@@ -295,6 +296,7 @@ export function BattleScene(props: Props) {
             PLAYER_SIZE={PLAYER_SIZE}
             grabFlipped={grabFlipped}
             isAlfa={isAlfa}
+            playerProjectile={playerProjectile}
           />
 
           <ChargeParticles

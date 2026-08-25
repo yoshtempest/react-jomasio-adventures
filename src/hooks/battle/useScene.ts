@@ -32,6 +32,7 @@ import { useBattleKillCounter } from "@/hooks/battle/death/useKillCounter";
 import { useChargeAttack } from "@/hooks/battle/charge/useAttack";
 import { usePhaseTransition } from "@/hooks/battle/death/usePhaseTransition";
 import { useCoffinAnimation } from "@/hooks/battle/summon/useCoffinAnimation";
+import { usePlayerSpecialProjectile } from "@/hooks/battle/player/usePlayerSpecialProjectile";
 import { useBattleIntro } from "@/hooks/battle/useIntro";
 import { useBattleOutro } from "@/hooks/battle/useOutro";
 import { useBattleSync } from "@/hooks/battle/useSync";
@@ -943,6 +944,8 @@ export function useBattleScene({
 
   useThrowAnimation({ setPlayer, setIsThrown, isMenuRef: isMenuOpenRef });
 
+  const { playerProjectile } = usePlayerSpecialProjectile({ player });
+
   useBattleControls({
     attack: () => {
       if (isGrabbedRef.current && grabFlippedRef.current) return;
@@ -1049,5 +1052,6 @@ export function useBattleScene({
     training,
     controlsDisabled,
     showRetry: difficulty !== "hard" && difficulty !== "insano",
+    playerProjectile,
   };
 }
