@@ -6,6 +6,7 @@ import {
   type NavigateOptions,
 } from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { useTombstones } from "@/contexts/TombstoneContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { goodPowderDialogue } from "@/data/dialogues/goodPowder";
 import { getNpcDisplayName } from "@/data/npc/displayNames";
@@ -23,6 +24,7 @@ type Props = {
   isReady: boolean;
   dialogueSystem: DialogueSystem;
   navigateWithFade: (to: To | number, options?: NavigateOptions) => void;
+  locationId?: string;
 };
 
 export function useGoodPowderEncounter({
@@ -30,8 +32,10 @@ export function useGoodPowderEncounter({
   isReady,
   dialogueSystem,
   navigateWithFade,
+  locationId,
 }: Props) {
   const { player } = usePlayer();
+  const { prepareTombstoneSpawn } = useTombstones();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -71,6 +75,14 @@ export function useGoodPowderEncounter({
     const origin = location.pathname;
 
     dialogueSystem.start(encounterDialogue ?? [], () => {
+      if (locationId) {
+        prepareTombstoneSpawn({
+          gridX: player.gridX,
+          gridY: player.gridY,
+          direction: player.direction,
+          locationId,
+        });
+      }
       navigateWithFadeRef.current(route, { state: { battleOrigin: origin } });
     });
 
@@ -91,6 +103,9 @@ export function useGoodPowderEncounter({
     location.state,
     navigateRef,
     navigateWithFadeRef,
+    locationId,
+    prepareTombstoneSpawn,
+    player,
   ]);
 
   const encounterNpc = useMemo(() => {

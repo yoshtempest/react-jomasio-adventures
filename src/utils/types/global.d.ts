@@ -173,6 +173,7 @@ declare global {
     | { type: "giveQuest"; questId: QuestId }
     | { type: "addItem"; itemId: ItemId }
     | { type: "removeItem"; itemId: ItemId }
+    | { type: "prepareTombstone"; locationId: string }
     | {
         type: "conditional";
         condition: Condition;
@@ -214,6 +215,7 @@ declare global {
     lastPage?: LastPage;
     backgroundSize?: string;
     scaleFix?: number;
+    tombstoneLocationId?: string;
   };
 
   type SceneConfig = Omit<ExploreSceneProps, "onInteract" | "className"> & {

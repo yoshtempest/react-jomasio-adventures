@@ -4,6 +4,7 @@ export const cafeteriaOneEvents: SceneEvent[] = [
     condition: { notHasFlag: "deise" },
     then: [
       { type: "giveQuest", questId: "x1_deise" },
+      { type: "prepareTombstone", locationId: "cafeteria" },
       { type: "navigate", to: "/cafeteria/battle" },
     ],
   },

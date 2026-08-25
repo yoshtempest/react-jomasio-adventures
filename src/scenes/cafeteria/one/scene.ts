@@ -20,4 +20,5 @@ export const oneScene: SceneConfig = {
   audio: { src: MUSICS.default },
   initialPosition: getCafeteriaOneInitialPosition,
   tiles: cafeteriaOneTiles,
+  tombstoneLocationId: "cafeteria",
 };

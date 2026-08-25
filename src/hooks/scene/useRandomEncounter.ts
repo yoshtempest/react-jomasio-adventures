@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useTitles } from "@/contexts/TitleContext";
+import { useTombstones } from "@/contexts/TombstoneContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { slotKey } from "@/services/save/slotManager";
 import type {
@@ -24,6 +25,7 @@ export function useRandomEncounter(config: RandomEncounterConfig) {
 
   const { player, setPosition } = usePlayer();
   const { getAlfaSpawnBonus } = useTitles();
+  const { prepareTombstoneSpawn } = useTombstones();
   const navigate = useNavigate();
 
   const lastPositionRef = useRef({ x: player.gridX, y: player.gridY });
@@ -91,12 +93,28 @@ export function useRandomEncounter(config: RandomEncounterConfig) {
     if (Math.random() < (cfg.alfaChance ?? 0) * getAlfaSpawnBonus()) {
       const route = pickEncounter(cfg.encounters);
       savePosition();
+      if (cfg.locationId) {
+        prepareTombstoneSpawn({
+          gridX: currentPlayer.gridX,
+          gridY: currentPlayer.gridY,
+          direction: currentPlayer.direction,
+          locationId: cfg.locationId,
+        });
+      }
       void navigate(route, { state: { alfa: true } });
       return;
     }
 
     if (Math.random() < (cfg.encounterChance ?? 0.1)) {
       savePosition();
+      if (cfg.locationId) {
+        prepareTombstoneSpawn({
+          gridX: currentPlayer.gridX,
+          gridY: currentPlayer.gridY,
+          direction: currentPlayer.direction,
+          locationId: cfg.locationId,
+        });
+      }
       const route = pickEncounter(cfg.encounters);
       void navigate(route);
     }
@@ -107,5 +125,6 @@ export function useRandomEncounter(config: RandomEncounterConfig) {
     configRef,
     playerRef,
     getAlfaSpawnBonus,
+    prepareTombstoneSpawn,
   ]);
 }

@@ -18,4 +18,5 @@ export const pandemonyScene: SceneConfig = {
   npcs: pandemonyNpcs,
   dialogueData: getPandemonyDialogue,
   events: pandemonyEvents,
+  tombstoneLocationId: "hall",
 };

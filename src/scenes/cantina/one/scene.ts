@@ -22,4 +22,5 @@ export const oneScene: SceneConfig = {
   initialPosition: getCantinaOneInitialPosition,
   tiles: cantinaOneTiles,
   plates: cantinaTwoPlates,
+  tombstoneLocationId: "cantina",
 };

@@ -18,4 +18,5 @@ export const jailsonTwoScene: SceneConfig = {
   initialPosition: getJailsonTwoInitialPosition,
   audio: { src: MUSICS.jailson },
   npcs: jailsonTwoNpcs,
+  tombstoneLocationId: "hall",
 };

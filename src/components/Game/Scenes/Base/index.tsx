@@ -20,6 +20,7 @@ import { useExitTile } from "@/hooks/scene/useExitTile";
 import { useQuestWaypoints } from "@/hooks/quest/useQuestWaypoints";
 import { canStepTo } from "@/gameRules/movement/levels";
 import { isPositionInFront, parseGridKey } from "@/utils/isPositionInFront";
+import { useTombstones } from "@/contexts/TombstoneContext";
 import type { ItemPickupTile } from "@/utils/types/maps/exploreScene";
 
 function findInteraction(
@@ -93,6 +94,7 @@ export function SceneBase({
   const { hasItem, addItem, removeItem } = useInventory();
   const { closeNavbar } = useNavbar();
   const { giveQuest, progressQuest } = useQuestActions();
+  const { prepareTombstoneSpawn } = useTombstones();
 
   const lastPage = (location.state as { from?: string } | null)?.from;
 
@@ -185,6 +187,14 @@ export function SceneBase({
                 giveQuest(quest);
               },
               progressQuest,
+              prepareTombstoneSpawn: (locationId: string) => {
+                prepareTombstoneSpawn({
+                  gridX: player.gridX,
+                  gridY: player.gridY,
+                  direction: player.direction,
+                  locationId,
+                });
+              },
             });
             sceneEventServiceRef.current.run(scene.events);
           }}

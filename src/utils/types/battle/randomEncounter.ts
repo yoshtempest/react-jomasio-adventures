@@ -11,4 +11,5 @@ export type RandomEncounterConfig = {
   encounters: EncounterDef[];
   encounterChance?: number;
   alfaChance?: number;
+  locationId?: string;
 };

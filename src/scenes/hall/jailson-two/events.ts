@@ -4,6 +4,7 @@ export const jailsonTwoEvents: SceneEvent[] = [
     condition: { notHasFlag: "slimita" },
     then: [
       { type: "giveQuest", questId: "x1_slimita" },
+      { type: "prepareTombstone", locationId: "hall" },
       { type: "navigate", to: "/hall/jailson/battle" },
     ],
   },

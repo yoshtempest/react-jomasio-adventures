@@ -3,6 +3,8 @@ import { useTransitionCtx } from "@/contexts/TransitionContext";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
 import { useFlags } from "@/contexts/FlagContext";
+import { usePlayer } from "@/contexts/PlayerContext";
+import { useTombstones } from "@/contexts/TombstoneContext";
 
 import { QUESTS } from "@/data/quests";
 import { ITEMS } from "@/data/items";
@@ -15,6 +17,8 @@ export function useSceneEvents() {
   const { items, addItem, removeItem } = useInventory();
   const { quests, addQuest, updateProgress } = useQuests();
   const { setFlag, hasFlag } = useFlags();
+  const { player } = usePlayer();
+  const { prepareTombstoneSpawn } = useTombstones();
 
   const lastPage = (location.state as { from?: string } | null)?.from;
 
@@ -115,6 +119,15 @@ export function useSceneEvents() {
         } else {
           event.else?.forEach(runEvent);
         }
+        return;
+
+      case "prepareTombstone":
+        prepareTombstoneSpawn({
+          gridX: player.gridX,
+          gridY: player.gridY,
+          direction: player.direction,
+          locationId: event.locationId,
+        });
         return;
     }
   };

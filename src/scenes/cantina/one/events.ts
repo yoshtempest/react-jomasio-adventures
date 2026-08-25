@@ -15,6 +15,7 @@ export const cantinaOneEvents: SceneEvent[] = [
     },
     then: [
       { type: "giveQuest", questId: "x1_jhowsimar" },
+      { type: "prepareTombstone", locationId: "cantina" },
       { type: "navigate", to: "/cantina/battle" },
     ],
   },

@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useVictory } from "@/hooks/battle/victory/useVictory";
 import { useHighlight } from "@/hooks/battle/useHighlight";
+import { useTombstones } from "@/contexts/TombstoneContext";
 import type { ReplayData } from "@/utils/types/replay";
 
 type OutroProps = {
@@ -20,6 +21,7 @@ export function useBattleOutro({
 }: OutroProps) {
   const navigate = useNavigate();
   const location = useLocation();
+  const { clearPendingTombstoneSpawn } = useTombstones();
 
   const [showDefeat, setShowDefeat] = useState(false);
   const [showOutro, setShowOutro] = useState<"victory" | "defeat" | null>(null);
@@ -79,14 +81,18 @@ export function useBattleOutro({
   }, [clearHighlight]);
 
   const handleContinue = useCallback(() => {
+    const wasVictory = !!onVictory;
     if (onVictory) onVictory();
+    if (!wasVictory) {
+      clearPendingTombstoneSpawn();
+    }
     if (redirectTo) {
       void navigate(redirectTo, {
         replace: true,
         state: { from: location.pathname },
       });
     }
-  }, [onVictory, redirectTo, navigate, location.pathname]);
+  }, [onVictory, redirectTo, navigate, location.pathname, clearPendingTombstoneSpawn]);
 
   return {
     showVictory,

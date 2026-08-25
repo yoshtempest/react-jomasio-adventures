@@ -69,6 +69,7 @@ export function LibraryScene({ sceneId }: Props) {
     ],
     encounterChance: 0.1,
     alfaChance: 0.005,
+    locationId: "library",
   });
 
   if (!scene) {

@@ -12,4 +12,5 @@ export const oneScene: SceneConfig = {
   audio: { src: MUSICS.default },
   initialPosition: getLibraryOneInitialPosition,
   tiles: libraryOneTiles,
+  tombstoneLocationId: "library",
 };

@@ -20,6 +20,7 @@ import { useBattleNavbar } from "@/contexts/BattleNavbarContext";
 import { useTitles } from "@/contexts/TitleContext";
 import { usePlayTime } from "@/contexts/PlayTimeContext";
 import { useSettings } from "@/contexts/SettingsContext";
+import { useTombstones } from "@/contexts/TombstoneContext";
 import { useNpcSetup } from "@/hooks/battle/npc/useSetup";
 import { useBattleRewards } from "@/hooks/battle/rewards/useRewards";
 import { useSummons } from "@/hooks/battle/summon/useSummons";
@@ -275,6 +276,8 @@ export function useBattleScene({
   const { addBattleTime } = usePlayTime();
 
   const { playSound } = useSoundEffects();
+  const { spawnVictoryTombstone, clearPendingTombstoneSpawn } =
+    useTombstones();
 
   const [npcPhase, setNpcPhase] = useState(1);
   const [npcArmorBonus, setNpcArmorBonus] = useState(0);
@@ -570,6 +573,7 @@ export function useBattleScene({
     incrementDeath(player.character);
     handleDefeat();
     recordDefeat();
+    clearPendingTombstoneSpawn();
     setShowDefeat(true);
     const elapsed = computeElapsedBattleTime(
       battleStartRef,
@@ -627,6 +631,7 @@ export function useBattleScene({
     saveBestTime(npcType, elapsed);
     setBestTime(loadBestTime(npcType));
     triggerVictory();
+    spawnVictoryTombstone(npcType);
     killCounter.handleNpcDeath(
       killCounter.npcTypeRef.current,
       killCounter.npcDataRef.current.class,

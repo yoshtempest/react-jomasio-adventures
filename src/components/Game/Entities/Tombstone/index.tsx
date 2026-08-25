@@ -17,10 +17,10 @@ export function Tombstone({ gridX, gridY, TILE_SIZE, variant, fading }: Props) {
       alt=""
       style={{
         position: "absolute",
-        width: TILE_SIZE * 1.7,
-        height: TILE_SIZE * 1.7,
+        width: TILE_SIZE * 1,
+        height: TILE_SIZE * 1,
         left: gridX * TILE_SIZE - 40,
-        top: gridY * TILE_SIZE - 20,
+        top: gridY * TILE_SIZE ,
         zIndex: getEntityZIndex(gridY),
         opacity: fading ? 0 : 1,
         transition: "opacity 1s ease-in",

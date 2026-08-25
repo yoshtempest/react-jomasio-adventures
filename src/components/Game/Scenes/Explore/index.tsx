@@ -225,6 +225,7 @@ export function ExploreScene({
     isReady,
     dialogueSystem,
     navigateWithFade,
+    locationId: tombstoneLocationId,
   });
 
   const { tombstones, collectableTombstones, fadingIds, collectAt } =

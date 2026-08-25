@@ -21,6 +21,9 @@ export type SceneEventContext = {
   addItem?: (item: ItemId) => void;
   removeItem?: (itemId: ItemId) => void;
   hasItem?: (itemId: ItemId) => boolean;
+
+  // tombstone
+  prepareTombstoneSpawn?: (locationId: string) => void;
 };
 
 type SceneCondition = Extract<SceneEvent, { type: "conditional" }>["condition"];
@@ -102,6 +105,10 @@ export class SceneEventService {
 
         case "removeItem":
           this.ctx.removeItem?.(event.itemId);
+          break;
+
+        case "prepareTombstone":
+          this.ctx.prepareTombstoneSpawn?.(event.locationId);
           break;
 
         case "log":

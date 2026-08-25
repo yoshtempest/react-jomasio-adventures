@@ -20,4 +20,5 @@ export const centerTwoScene: SceneConfig = {
   npcs: centerTwoNpcs,
   plates: centerOnePlates,
   audio: { src: MUSICS.default },
+  tombstoneLocationId: "hall",
 };
