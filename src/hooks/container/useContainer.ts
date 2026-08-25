@@ -6,11 +6,12 @@ import { useLatestRef } from "@/hooks/useLatestRef";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { useCompressedStorage } from "@/hooks/useCompressedStorage";
 
+import type { SlotScopedKey } from "@/services/save/slotManager";
 import type { ContainerSlots } from "@/utils/types/container";
 import type { InventoryItem } from "@/utils/types/player/inventory";
 
 type Params = {
-  storageKey: string;
+  storageKey: SlotScopedKey;
   defaultSlots: ContainerSlots;
   size: number;
   cols?: number;

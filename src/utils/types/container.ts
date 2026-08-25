@@ -1,3 +1,4 @@
+import type { SlotScopedKey } from "@/services/save/slotManager";
 import type { InventoryItem } from "@/utils/types/player/inventory";
 
 export type ContainerSlot = InventoryItem | null;
@@ -10,5 +11,5 @@ export type ContainerDef = {
   size: number;
   cols: number;
   defaultSlots: ContainerSlots;
-  storageKey: string;
+  storageKey: SlotScopedKey;
 };

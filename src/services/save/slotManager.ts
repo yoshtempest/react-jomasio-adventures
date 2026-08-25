@@ -2,7 +2,23 @@ import type { StorageLike } from "./storageService";
 
 const ACTIVE_SLOT_KEY = "active_save_slot";
 
+export const CONTAINER_KEY_PREFIX = "container_";
+
 export type SlotIndex = 0 | 1;
+
+/**
+ * Chave que `slotKey()` aceita.
+ *
+ * Fechar o tipo em `GAME_STATE_KEYS` é o que mantém o invariante do
+ * `clearSlot` verificável: uma chave nova só passa a existir depois de
+ * entrar na lista, então o compilador recusa um `slotKey("nova")` que o
+ * delete de slot não saberia apagar. Chaves de container são dinâmicas
+ * (`container_<id>`) e varridas pelo prefixo, por isso entram como
+ * template literal em vez de item da lista.
+ */
+export type SlotScopedKey =
+  | (typeof GAME_STATE_KEYS)[number]
+  | `${typeof CONTAINER_KEY_PREFIX}${string}`;
 
 /**
  * Gerencia os slots de save. O backend é injetado no constructor.
@@ -27,11 +43,11 @@ export class SlotManager {
     this.storage.setItem(ACTIVE_SLOT_KEY, String(slot));
   }
 
-  slotKey(key: string): string {
+  slotKey(key: SlotScopedKey): string {
     return this.slotKeyFor(this.getActiveSlot(), key);
   }
 
-  slotKeyFor(slot: SlotIndex, key: string): string {
+  slotKeyFor(slot: SlotIndex, key: SlotScopedKey): string {
     return `${key}_${slot}`;
   }
 
@@ -70,14 +86,15 @@ export class SlotManager {
    * the next save started on that slot. Container keys are not listed:
    * they share the `container_` prefix and are swept separately.
    *
-   * When you add a `slotKey(...)` call site, add its key here too.
+   * `SlotScopedKey` fecha `slotKey()` em cima desta lista, então uma
+   * chave nova não compila antes de entrar aqui.
    */
   clearSlot(slot: SlotIndex) {
     GAME_STATE_KEYS.forEach((key) => {
       this.storage.removeItem(this.slotKeyFor(slot, key));
     });
 
-    const containerPrefix = "container_";
+    const containerPrefix = CONTAINER_KEY_PREFIX;
     const containerSuffix = `_${slot}`;
     const keysToRemove: string[] = [];
     for (let i = 0; i < this.storage.length; i++) {
@@ -131,6 +148,7 @@ export const GAME_STATE_KEYS = [
   "library_return_position",
   "cafeteria_return_position",
   "pet_progress",
+  "profession_progress",
   "jeso_food_last_delivery",
   "char_unlock_dates",
   "difficulty",
@@ -149,8 +167,8 @@ function lazilyResolvedDefaultStorage(): StorageLike {
 
 export const getActiveSlot = () => slotManager.getActiveSlot();
 export const setActiveSlot = (slot: SlotIndex) => slotManager.setActiveSlot(slot);
-export const slotKey = (key: string) => slotManager.slotKey(key);
-export const slotKeyFor = (slot: SlotIndex, key: string) =>
+export const slotKey = (key: SlotScopedKey) => slotManager.slotKey(key);
+export const slotKeyFor = (slot: SlotIndex, key: SlotScopedKey) =>
   slotManager.slotKeyFor(slot, key);
 export const getSlotCount = () => slotManager.getSlotCount();
 export const isSlotUsed = (slot: SlotIndex) => slotManager.isSlotUsed(slot);

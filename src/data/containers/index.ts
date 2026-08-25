@@ -1,8 +1,12 @@
+import {
+  CONTAINER_KEY_PREFIX,
+  type SlotScopedKey,
+} from "@/services/save/slotManager";
 import type { ContainerDef } from "@/utils/types/container";
 
-export const CONTAINER_STORAGE_PREFIX = "container_";
+export const CONTAINER_STORAGE_PREFIX = CONTAINER_KEY_PREFIX;
 
-export function containerStorageKey(id: string) {
+export function containerStorageKey(id: string): SlotScopedKey {
   return `${CONTAINER_STORAGE_PREFIX}${id}`;
 }
 

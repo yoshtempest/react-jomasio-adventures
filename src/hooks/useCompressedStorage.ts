@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { saveCompressed, loadCompressed } from "@/services/save/storageService";
-import { slotKey } from "@/services/save/slotManager";
+import { slotKey, type SlotScopedKey } from "@/services/save/slotManager";
 
 const WRITE_DELAY_MS = 1000;
 
@@ -24,7 +24,7 @@ const WRITE_DELAY_MS = 1000;
  * slot de origem por cima do slot de destino.
  */
 export function useCompressedStorage<T>(
-  key: string,
+  key: SlotScopedKey,
   defaultValue: T,
   normalize?: (data: T) => T,
 ) {
