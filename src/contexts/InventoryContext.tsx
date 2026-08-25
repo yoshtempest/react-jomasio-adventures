@@ -10,7 +10,6 @@ import {
 import type { InventoryItem } from "@/utils/types/player/inventory";
 import { useSoundEffects, type SoundId } from "@/contexts/SoundEffectsContext";
 import { INVENTORY_KEY } from "@/data/storageKeys";
-import { useLatestRef } from "@/hooks/useLatestRef";
 import { useCompressedStorage } from "@/hooks/useCompressedStorage";
 import { useToggle } from "@/hooks/useToggle";
 import { InventoryService } from "@/services/inventory";
@@ -48,14 +47,25 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
   } = useToggle();
 
   const [maxSlots, setMaxSlots] = useState(20);
-  const maxSlotsRef = useLatestRef(maxSlots);
 
   const inventoryService = useMemo(
     () => new InventoryService(maxSlots),
     [maxSlots],
   );
-  // serviço com capacidade fresca para uso dentro de updaters
-  const freshService = () => new InventoryService(maxSlotsRef.current);
+
+  /**
+   * Array mais recente da mochila, incluindo mutações desta mesma tick
+   * que o `items` do render ainda não enxerga.
+   *
+   * Ele existe para que a regra rode fora do updater do `setItems`. Um
+   * updater precisa ser puro: o React pode reexecutá-lo (StrictMode em
+   * dev reexecuta sempre), então enfileirar som lá dentro duplica ou
+   * perde evento. Com o ref carregando o resultado adiante, chamadas
+   * encadeadas no mesmo tick — vários `addItem` de um baú, por exemplo —
+   * continuam enxergando umas às outras.
+   */
+  const latestItemsRef = useRef(items);
+  latestItemsRef.current = items;
 
   const pendingSoundsRef = useRef<SoundId[]>([]);
 
@@ -64,25 +74,21 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
     sounds.forEach((s) => playSound(s));
   }, [items, playSound]);
 
+  function commit(next: InventoryItem[], sound: SoundId | null) {
+    latestItemsRef.current = next;
+    if (sound) pendingSoundsRef.current.push(sound);
+    setItems(next);
+  }
+
   function addItem(item: InventoryItem): boolean {
-    // retorno baseado no estado atual do render (semântica legada)
-    const { added } = inventoryService.addItem(items, item);
-
-    setItems((prev) => {
-      const result = freshService().addItem(prev, item);
-      pendingSoundsRef.current = result.sound ? [result.sound] : [];
-      return result.items;
-    });
-
-    return added;
+    const result = inventoryService.addItem(latestItemsRef.current, item);
+    commit(result.items, result.sound);
+    return result.added;
   }
 
   function removeItem(id: ItemId) {
-    setItems((prev) => {
-      const result = freshService().removeItem(prev, id);
-      pendingSoundsRef.current = result.sound ? [result.sound] : [];
-      return result.items;
-    });
+    const result = inventoryService.removeItem(latestItemsRef.current, id);
+    commit(result.items, result.sound);
   }
 
   function hasItem(id: ItemId) {
