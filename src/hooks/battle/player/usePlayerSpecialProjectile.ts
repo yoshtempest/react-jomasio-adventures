@@ -66,7 +66,7 @@ export function usePlayerSpecialProjectile({ player }: Props) {
       return;
     }
 
-    if (state !== "preSpecial" && state !== "preSpecial2" && state !== "special") {
+    if (state !== "special") {
       if (projectileRef.current) {
         projectileRef.current = null;
         setRenderTick((t) => t + 1);
