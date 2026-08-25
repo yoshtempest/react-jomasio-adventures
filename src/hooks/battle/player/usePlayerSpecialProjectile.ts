@@ -5,7 +5,6 @@ import { ProjectileConstants } from "@/data/projectile";
 const SPHERE_OFFSET_X = 30;
 const FIRE_DURATION = 400;
 const FIRE_DISTANCE = 500;
-const HOLD_OFFSET_X = 60;
 
 type Props = {
   player: Player;
@@ -23,6 +22,7 @@ export function usePlayerSpecialProjectile({
   const projectileRef = useRef<PlayerSpecialProjectile | null>(null);
   const phaseStartRef = useRef(0);
   const mergeDurationRef = useRef(200);
+  const moveDurationRef = useRef(500);
   const rafRef = useRef<number>(0);
   const animatingRef = useRef(false);
   const firedRef = useRef(false);
@@ -39,30 +39,34 @@ export function usePlayerSpecialProjectile({
   const SCALE = PLAYER_SIZE / ProjectileConstants.MAP_HEIGHT;
   const HEIGHT = (ProjectileConstants.MAP_WIDTH * SCALE) / 1.5;
   const headY = player.y - HEIGHT;
+  const centerY = player.y - HEIGHT / 2;
 
   useEffect(() => {
     const { state, x, battleDirection } = player;
 
     if (state === "preSpecial") {
       firedRef.current = false;
-      const centerY = headY;
       const override = getSpecialFlowOverride(player.character);
       mergeDurationRef.current = override?.preSpecial.duration ?? 200;
 
       projectileRef.current = {
         phase: "merge",
         x,
-        y: centerY,
+        y: headY,
+        startX: x,
+        startY: headY,
+        targetX: x,
+        targetY: headY,
         blueX:
           battleDirection === "right"
             ? x - SPHERE_OFFSET_X
             : x + SPHERE_OFFSET_X,
-        blueY: centerY,
+        blueY: headY,
         redX:
           battleDirection === "right"
             ? x + SPHERE_OFFSET_X
             : x - SPHERE_OFFSET_X,
-        redY: centerY,
+        redY: headY,
         direction: battleDirection,
       };
       phaseStartRef.current = Date.now();
@@ -72,24 +76,39 @@ export function usePlayerSpecialProjectile({
 
     if (state === "preSpecial2" && hasCustomFlow && projectileRef.current) {
       const prev = projectileRef.current;
+      const dir = battleDirection === "right" ? 1 : -1;
+      const targetX = prev.x + dir * (SPHERE_OFFSET_X + 20);
+      const targetY = centerY;
+
+      const override = getSpecialFlowOverride(player.character);
+      moveDurationRef.current = override?.preSpecial2.duration ?? 500;
+
       projectileRef.current = {
         ...prev,
-        phase: "hold",
-        x: prev.x + HOLD_OFFSET_X,
-        y: prev.y,
+        phase: "move",
+        startX: prev.x,
+        startY: prev.y,
+        targetX,
+        targetY,
         blueX: prev.x,
         blueY: prev.y,
         redX: prev.x,
         redY: prev.y,
       };
+      phaseStartRef.current = Date.now();
       setRenderTick((t) => t + 1);
       return;
     }
 
     if (state === "special" && hasCustomFlow && projectileRef.current) {
+      const prev = projectileRef.current;
       projectileRef.current = {
-        ...projectileRef.current,
+        ...prev,
         phase: "fire",
+        startX: prev.x,
+        startY: prev.y,
+        targetX: prev.x,
+        targetY: prev.y,
       };
       phaseStartRef.current = Date.now();
       setRenderTick((t) => t + 1);
@@ -109,6 +128,7 @@ export function usePlayerSpecialProjectile({
     player.battleDirection,
     player.character,
     headY,
+    centerY,
     hasCustomFlow,
     isSpecialAnimating,
   ]);
@@ -143,6 +163,16 @@ export function usePlayerSpecialProjectile({
           redX: p.redX + (p.x - p.redX) * ease,
           redY: p.redY + (p.y - p.redY) * ease,
         };
+      } else if (p.phase === "move") {
+        const elapsed = now - phaseStartRef.current;
+        const t = Math.min(1, elapsed / moveDurationRef.current);
+        const ease = t * t * (3 - 2 * t);
+
+        projectileRef.current = {
+          ...p,
+          x: p.startX + (p.targetX - p.startX) * ease,
+          y: p.startY + (p.targetY - p.startY) * ease,
+        };
       } else if (p.phase === "fire") {
         const elapsed = now - phaseStartRef.current;
         const t = Math.min(1, elapsed / FIRE_DURATION);
@@ -150,7 +180,7 @@ export function usePlayerSpecialProjectile({
 
         projectileRef.current = {
           ...p,
-          x: p.x + dir * FIRE_DISTANCE * t,
+          x: p.startX + dir * FIRE_DISTANCE * t,
         };
 
         if (!firedRef.current) {

@@ -193,7 +193,7 @@ export function BattleEntities({
             position: "absolute",
             left: playerProjectile.x * battleScaleX,
             top: playerProjectile.y * battleScaleY,
-            width: playerProjectile.phase === "hold" ? 50 : 60,
+            width: playerProjectile.phase === "move" ? 50 : 60,
             transform: "translate(-50%, -50%)",
             zIndex: 16,
             pointerEvents: "none",

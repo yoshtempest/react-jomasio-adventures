@@ -345,9 +345,13 @@ declare global {
   };
 
   type PlayerSpecialProjectile = {
-    phase: "merge" | "hold" | "fire";
+    phase: "merge" | "move" | "fire";
     x: number;
     y: number;
+    startX: number;
+    startY: number;
+    targetX: number;
+    targetY: number;
     blueX: number;
     blueY: number;
     redX: number;
