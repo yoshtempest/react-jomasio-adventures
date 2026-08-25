@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { saveCompressed, loadCompressed } from "@/services/save/storageService";
-import { slotKey } from "@/services/save/slotManager";
+import { slotKey, type SlotScopedKey } from "@/services/save/slotManager";
 
 export function useCompressedStorage<T>(
-  key: string,
+  key: SlotScopedKey,
   defaultValue: T,
   normalize?: (data: T) => T,
 ) {

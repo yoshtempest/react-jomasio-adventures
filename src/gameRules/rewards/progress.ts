@@ -1,5 +1,6 @@
 import { isCharRewardId, type RewardDef } from "@/data/rewards";
 import { REWARDS_KEY } from "@/data/storageKeys";
+import { slotKey } from "@/services/save/slotManager";
 import { getBlockCount } from "@/utils/rewards/blockCounter";
 import {
   getDamageDealtStats,
@@ -12,10 +13,26 @@ import {
 
 export type RewardsProgress = Record<string, number>;
 
+/**
+ * Lê o progresso de recompensas do slot ativo.
+ *
+ * `rewards` sempre constou de `GAME_STATE_KEYS`, mas era gravado sem
+ * `slotKey()` — a chave global sobrevivia ao `clearSlot` e era
+ * compartilhada pelos dois slots. A leitura adota a chave antiga uma
+ * única vez, migrando o progresso para o slot ativo em vez de zerá-lo.
+ */
 export function loadProgress(): RewardsProgress {
   try {
-    const raw = localStorage.getItem(REWARDS_KEY);
-    return raw ? (JSON.parse(raw) as RewardsProgress) : {};
+    const raw = localStorage.getItem(slotKey(REWARDS_KEY));
+    if (raw) return JSON.parse(raw) as RewardsProgress;
+
+    const legacy = localStorage.getItem(REWARDS_KEY);
+    if (!legacy) return {};
+
+    const migrated = JSON.parse(legacy) as RewardsProgress;
+    saveProgress(migrated);
+    localStorage.removeItem(REWARDS_KEY);
+    return migrated;
   } catch {
     return {};
   }
@@ -23,7 +40,7 @@ export function loadProgress(): RewardsProgress {
 
 export function saveProgress(data: RewardsProgress): void {
   try {
-    localStorage.setItem(REWARDS_KEY, JSON.stringify(data));
+    localStorage.setItem(slotKey(REWARDS_KEY), JSON.stringify(data));
   } catch {}
 }
 
