@@ -29,11 +29,23 @@ export type DailyChestResult = ChestDropResult & {
   tier: NPCClass;
 };
 
+/**
+ * Desfecho de uma tentativa de abrir o baú diário.
+ *
+ * `inventoryFull` bloqueia a abertura antes de gravar o cooldown: sem
+ * isso o jogador queimaria o baú do dia e perderia os materiais que não
+ * couberam na mochila.
+ */
+export type DailyChestOutcome =
+  | { status: "opened"; result: DailyChestResult }
+  | { status: "notReady" }
+  | { status: "inventoryFull" };
+
 export function useDailyChest() {
   const { player } = usePlayer();
   const { progress } = useCharacterProgress();
   const { addDrop } = useEquipment();
-  const { addItem } = useInventory();
+  const { addItem, hasSpaceFor } = useInventory();
   const { progressDailyWeekly } = useQuests();
   const { playSound } = useSoundEffects();
 
@@ -54,11 +66,18 @@ export function useDailyChest() {
 
   const isReady = timeLeft <= 0;
 
-  const open = useCallback(() => {
-    if (!isReady) return null;
+  const open = useCallback((): DailyChestOutcome => {
+    if (!isReady) return { status: "notReady" };
 
     const tier = pickTierForLevel(level);
     const result = openChest(tier, 0.05);
+
+    const materials = result.materials.map((mat) => ({
+      id: mat.id as ItemId,
+      qty: mat.qty,
+    }));
+
+    if (!hasSpaceFor(materials)) return { status: "inventoryFull" };
 
     for (const mat of result.materials) {
       addItem({ id: mat.id as ItemId, qty: mat.qty });
@@ -83,10 +102,11 @@ export function useDailyChest() {
     playSound("chestOpening");
     const openResult: DailyChestResult = { ...result, tier };
     setLastResult(openResult);
-    return openResult;
+    return { status: "opened", result: openResult };
   }, [
     isReady,
     level,
+    hasSpaceFor,
     player.character,
     addItem,
     addDrop,

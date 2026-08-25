@@ -28,7 +28,7 @@ type Params = {
 export function useSceneTombstones({ locationId, onMessage }: Params) {
   const { getTombstones, collectTombstone } = useTombstones();
   const { setBlockedTiles, player } = usePlayer();
-  const { addItem } = useInventory();
+  const { addItem, hasSpaceFor } = useInventory();
   const { addProficiencyXP } = useProfessionProgress();
   const { playSound } = useSoundEffects();
   const hasToolEquipped = useHasToolEquipped();
@@ -64,18 +64,23 @@ export function useSceneTombstones({ locationId, onMessage }: Params) {
       // "um pouco dos drops do npc": re-rolo da tabela de drops do próprio npc
       const rolled = rollCraftDrops(NPCS[npcType].class, npcType);
       const drops = Object.entries(rolled).map(([itemId, qty]) => ({
-        id: itemId,
+        id: itemId as ItemId,
         qty: doubled ? qty * 2 : qty,
       }));
 
-      drops.forEach(({ id, qty }) => addItem({ id: id as ItemId, qty }));
+      if (!hasSpaceFor(drops)) {
+        onMessage?.("Mochila cheia — libere espaço antes de recolher.");
+        return false;
+      }
+
+      drops.forEach(({ id, qty }) => addItem({ id, qty }));
 
       const summary =
         drops
           .map(({ id, qty }) => {
             const name =
               CRAFT_MATERIALS[id as MaterialId]?.name ??
-              ITEMS[id as keyof typeof ITEMS]?.name ??
+              ITEMS[id]?.name ??
               id;
             return `${name} x${qty}`;
           })
@@ -98,6 +103,7 @@ export function useSceneTombstones({ locationId, onMessage }: Params) {
       active,
       hasToolEquipped,
       addItem,
+      hasSpaceFor,
       player.character,
       addProficiencyXP,
       playSound,

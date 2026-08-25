@@ -35,6 +35,27 @@ export class InventoryService {
     return this.maxSlots - this.currencySlots;
   }
 
+  /**
+   * Diz se `incoming` cabe inteiro na mochila.
+   *
+   * Só id que ainda não existe consome slot novo — o resto empilha. Sem
+   * essa checagem prévia, quem entrega vários itens de uma vez (baú,
+   * lápide) descobre o estouro item a item, depois de já ter consumido o
+   * que deu origem ao drop.
+   */
+  hasSpaceFor(items: InventoryItem[], incoming: InventoryItem[]): boolean {
+    const owned = new Set(items.map((i) => i.id));
+    let newSlots = 0;
+
+    for (const item of incoming) {
+      if (owned.has(item.id)) continue;
+      owned.add(item.id);
+      newSlots += 1;
+    }
+
+    return items.length + newSlots <= this.usableSlots;
+  }
+
   addItem(items: InventoryItem[], item: InventoryItem): AddItemResult {
     const existing = items.find((i) => i.id === item.id);
 
