@@ -7,6 +7,36 @@ export const MATERIALS = createItems({
     description: "A essência de um morto-vivo comum. Fraca, mas serve.",
     type: "material",
   },
+  oak_wood: {
+    image: "/assets/items/woods/oak.svg",
+    name: "Madeira de Carvalho",
+    description: "Madeira de carvalho, boa para fazer casas facilmente incendiáveis",
+    type: "material",
+  },
+  eucalyptus_wood: {
+    image: "/assets/items/woods/eucalyptus.svg",
+    name: "Madeira de Eucalipto",
+    description: "Ótima para uma casa na árvore",
+    type: "material",
+  },
+  birch_wood: {
+    image: "/assets/items/woods/birch.svg",
+    name: "Madeira de Bétula",
+    description: "Quem é essa mesmo?",
+    type: "material",
+  },
+  jungle_wood: {
+    image: "/assets/items/woods/jungle.svg",
+    name: "Madeira Selvagem",
+    description: "Madeira selvagem diretamente da floresta amazônica",
+    type: "material",
+  },
+  cherry_wood: {
+    image: "/assets/items/woods/cherry.svg",
+    name: "Madeira de Cerejeira",
+    description: "Oxe, estamos entrando em um anime de romance?",
+    type: "material",
+  },
   goat_horn: {
     image: "/assets/items/goat_horn.svg",
     name: "Chifre de Cabra",

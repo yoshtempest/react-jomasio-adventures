@@ -96,9 +96,47 @@ export function JomasioEntranceScene({ sceneId }: Props) {
       },
     );
 
+    const chopWood = createToolInteraction<MineRockDeps>(
+      "weapon_axe",
+      "Você precisa equipar um machado para lenhar.",
+      (deps) => {
+        const { level } = deps.getProficiency(deps.character, "lumberjack");
+        const { items: rolled } = rollGatherLoot(
+          GATHER_LOOT_TABLES.lumberjack,
+          level,
+        );
+
+        rolled.forEach(({ itemId, qty }) => deps.addItem({ id: itemId, qty }));
+
+        const summary = rolled
+          .map(
+            ({ itemId, qty }) =>
+              `${ITEMS[itemId as keyof typeof ITEMS]?.name ?? itemId} x${qty}`,
+          )
+          .join(", ");
+
+        deps.setPopup(`Você lenhou a árvore! Obteve: ${summary}`);
+
+        deps.addProficiencyXP(
+          deps.character,
+          "lumberjack",
+          PROFESSION_XP_PER_GATHER,
+        );
+      },
+    );
+
     return {
       "13,10": () =>
         mineRock({
+          setPopup,
+          addItem,
+          hasToolEquipped,
+          character: player.character,
+          getProficiency,
+          addProficiencyXP,
+        }),
+      "5,7": () =>
+        chopWood({
           setPopup,
           addItem,
           hasToolEquipped,
@@ -126,7 +164,10 @@ export function JomasioEntranceScene({ sceneId }: Props) {
         scene={scene}
         background={sceneBackgrounds.JomasioEntrance}
         interactions={interactions}
-        interactionLabels={{ "13,10": "[L] Minerar" }}
+        interactionLabels={{
+          "13,10": "[L] Minerar",
+          "5,7": "[L] Lenhar"
+        }}
         itemPickupTiles={[
           {
             x: 13,

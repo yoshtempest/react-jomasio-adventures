@@ -9,6 +9,11 @@ export const CRAFT_MATERIALS = {
     id: "legendary_fragment",
     name: "Fragmento Lendário",
   },
+  oak_wood: { id: "oak_wood", name: "Madeira de Carvalho" },
+  eucalyptus_wood: { id: "oak_wood", name: "Madeira de Eucalipto" },
+  birch_wood: { id: "oak_wood", name: "Madeira de Bétula" },
+  jungle_wood: { id: "oak_wood", name: "Madeira Selvagem" },
+  cherry_wood: { id: "oak_wood", name: "Madeira de Cerejeira" },
 } as const satisfies Record<string, { id: ItemId; name: string }>;
 
 export type MaterialId = keyof typeof CRAFT_MATERIALS;

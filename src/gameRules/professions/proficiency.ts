@@ -5,8 +5,6 @@ import type {
 import type { MaterialId } from "@/data/items/crafting";
 import { PROFESSIONS } from "@/data/professions";
 
-export const MAX_PROFESSION_LEVEL = 20;
-
 export const PROFESSION_XP_PER_GATHER = 10;
 
 export const DEFAULT_PROFESSION_PROFICIENCY: ProfessionProficiency = {
@@ -19,8 +17,8 @@ export function getProfessionXPToNextLevel(level: number) {
   return level * 25;
 }
 
-export function isMaxProfessionLevel(level: number) {
-  return level >= MAX_PROFESSION_LEVEL;
+export function isMaxProfessionLevel(_level: number) {
+  return false;
 }
 
 /**
@@ -42,10 +40,6 @@ export function applyProficiencyXP(
     levelsGained++;
   }
 
-  if (isMaxProfessionLevel(level)) {
-    xp = Math.min(xp, getProfessionXPToNextLevel(MAX_PROFESSION_LEVEL) - 1);
-  }
-
   return {
     proficiency: { level, xp },
     leveledUp: levelsGained > 0,
@@ -60,10 +54,14 @@ export function getGatherDropMultiplier(level: number) {
 
 /** Chance de coletar material raro: 5% no nv1, +1.5% por nível, teto de 50%. */
 export function getRareDropChance(level: number) {
-  return Math.min(0.05 + (level - 1) * 0.015, 0.5);
+  return Math.min(0.05 + (level - 1) * 0.015);
 }
 
-export type GatherLootTier = "common" | "rare";
+export function getEpicDropChance(level: number) {
+  return Math.min(0.01 + (level - 1) * 0.05);
+}
+
+export type GatherLootTier = "common" | "rare" | "epic";
 
 export type GatherLootEntry = {
   itemId: MaterialId;
@@ -87,10 +85,12 @@ export function rollGatherLoot(
 ): GatherRollResult {
   const multiplier = getGatherDropMultiplier(level);
   const rareChance = getRareDropChance(level);
+  const epicChance = getEpicDropChance(level);
 
   const items = lootTable
     .map((entry) => {
       if (entry.tier === "rare" && Math.random() >= rareChance) return null;
+      if (entry.tier === "epic" && Math.random() >= epicChance) return null;
       const qty = Math.max(1, Math.round(entry.baseQty * multiplier));
       return { itemId: entry.itemId, qty };
     })
