@@ -5,17 +5,23 @@ import { ProjectileConstants } from "@/data/projectile";
 const SPHERE_OFFSET_X = 30;
 const FIRE_DURATION = 400;
 const FIRE_DISTANCE = 500;
+const MERGE_TIME_SCALE = 0.7;
+const MOVE_TIME_SCALE = 0.9;
 
 type Props = {
   player: Player;
   PLAYER_SIZE: number;
   onFire?: () => void;
+  timeScaleRef: React.RefObject<number>;
+  setTimeScale: (scale: number) => void;
 };
 
 export function usePlayerSpecialProjectile({
   player,
   PLAYER_SIZE,
   onFire,
+  timeScaleRef,
+  setTimeScale,
 }: Props) {
   const [, setRenderTick] = useState(0);
 
@@ -28,6 +34,8 @@ export function usePlayerSpecialProjectile({
   const firedRef = useRef(false);
   const onFireRef = useRef(onFire);
   onFireRef.current = onFire;
+  const setTimeScaleRef = useRef(setTimeScale);
+  setTimeScaleRef.current = setTimeScale;
 
   const isSpecialAnimating =
     player.state === "preSpecial" ||
@@ -48,6 +56,10 @@ export function usePlayerSpecialProjectile({
       firedRef.current = false;
       const override = getSpecialFlowOverride(player.character);
       mergeDurationRef.current = override?.preSpecial.duration ?? 200;
+
+      if (hasCustomFlow) {
+        setTimeScaleRef.current(MERGE_TIME_SCALE);
+      }
 
       projectileRef.current = {
         phase: "merge",
@@ -75,6 +87,8 @@ export function usePlayerSpecialProjectile({
     }
 
     if (state === "preSpecial2" && hasCustomFlow && projectileRef.current) {
+      setTimeScaleRef.current(MOVE_TIME_SCALE);
+
       const prev = projectileRef.current;
       const dir = battleDirection === "right" ? 1 : -1;
       const targetX = prev.x + dir * (SPHERE_OFFSET_X + 20);
@@ -101,6 +115,8 @@ export function usePlayerSpecialProjectile({
     }
 
     if (state === "special" && hasCustomFlow && projectileRef.current) {
+      setTimeScaleRef.current(1);
+
       const prev = projectileRef.current;
       projectileRef.current = {
         ...prev,
@@ -116,6 +132,7 @@ export function usePlayerSpecialProjectile({
     }
 
     if (!isSpecialAnimating && projectileRef.current) {
+      setTimeScaleRef.current(1);
       projectileRef.current = null;
       setRenderTick((t) => t + 1);
     }
@@ -150,10 +167,12 @@ export function usePlayerSpecialProjectile({
       }
 
       const now = Date.now();
+      const scale = timeScaleRef.current ?? 1;
 
       if (p.phase === "merge") {
-        const elapsed = now - phaseStartRef.current;
-        const t = Math.min(1, elapsed / mergeDurationRef.current);
+        const realElapsed = now - phaseStartRef.current;
+        const gameElapsed = realElapsed * scale;
+        const t = Math.min(1, gameElapsed / mergeDurationRef.current);
         const ease = t * t * (3 - 2 * t);
 
         projectileRef.current = {
@@ -164,8 +183,9 @@ export function usePlayerSpecialProjectile({
           redY: p.redY + (p.y - p.redY) * ease,
         };
       } else if (p.phase === "move") {
-        const elapsed = now - phaseStartRef.current;
-        const t = Math.min(1, elapsed / moveDurationRef.current);
+        const realElapsed = now - phaseStartRef.current;
+        const gameElapsed = realElapsed * scale;
+        const t = Math.min(1, gameElapsed / moveDurationRef.current);
         const ease = t * t * (3 - 2 * t);
 
         projectileRef.current = {
@@ -199,7 +219,7 @@ export function usePlayerSpecialProjectile({
       cancelAnimationFrame(rafRef.current);
       animatingRef.current = false;
     };
-  }, [isSpecialAnimating]);
+  }, [isSpecialAnimating, timeScaleRef]);
 
   return { playerProjectile: projectileRef.current };
 }

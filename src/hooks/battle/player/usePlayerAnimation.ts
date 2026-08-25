@@ -12,9 +12,11 @@ export function usePlayerAnimation(
   setPlayer: React.Dispatch<React.SetStateAction<Player>>,
   battleTenacityRef?: React.RefObject<number>,
   canRun?: boolean,
+  timeScaleRef?: React.RefObject<number>,
 ) {
   const tenacityRef = useLatestRef(battleTenacityRef);
   const canRunRef = useLatestRef(canRun);
+  const timeScaleInternalRef = useLatestRef(timeScaleRef);
 
   useEffect(() => {
     if (player.state === "jump" || player.state === "falling") return;
@@ -33,12 +35,15 @@ export function usePlayerAnimation(
       }
     }
 
-    let duration = step.duration;
+    let gameDuration = step.duration;
     if (player.state === "stun" && tenacityRef.current?.current != null) {
-      duration = Math.round(
+      gameDuration = Math.round(
         STUN_BASE_DURATION * (1 - tenacityRef.current.current),
       );
     }
+
+    const scale = timeScaleInternalRef.current?.current ?? 1;
+    const realDuration = Math.round(gameDuration / scale);
 
     const timer = setTimeout(() => {
       const wantsToRun =
@@ -49,8 +54,8 @@ export function usePlayerAnimation(
         ...p,
         state: step.next,
       }));
-    }, duration);
+    }, realDuration);
 
     return () => clearTimeout(timer);
-  }, [player.state, player.character, setPlayer, tenacityRef, canRun, canRunRef]);
+  }, [player.state, player.character, setPlayer, tenacityRef, canRun, canRunRef, timeScaleInternalRef]);
 }

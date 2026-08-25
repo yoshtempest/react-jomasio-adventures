@@ -244,6 +244,8 @@ export function useBattleScene({
     setPlayerState,
     lastBlockPressRef,
     battleTenacityRef,
+    setTimeScale,
+    timeScaleRef,
   } = usePlayer();
 
   const { progress, reduceHunger, getXPToNextLevel, setBattleHP } =
@@ -951,6 +953,8 @@ export function useBattleScene({
     player,
     PLAYER_SIZE,
     onFire: handleSpecialHit,
+    timeScaleRef,
+    setTimeScale,
   });
 
   const skipSpecialHitOnPress =
