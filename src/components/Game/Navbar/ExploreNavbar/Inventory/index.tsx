@@ -1,8 +1,11 @@
-import { useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useInventoryMenu } from "@/hooks/menu/useInventory";
 import type { FilterConfig } from "@/utils/types/inventory/filterConfig";
-import { useChestOpening } from "@/hooks/chest/useChestOpening";
+import {
+  useChestOpening,
+  type ChestOpenOutcome,
+} from "@/hooks/chest/useChestOpening";
 import { useDailyChest } from "@/hooks/chest/useDailyChest";
 import styles from "./styles.module.css";
 import { ITEMS } from "@/data/items";
@@ -86,9 +89,28 @@ export function Inventory() {
     isDaily: boolean;
   } | null>(null);
 
+  const [popupMessage, setPopupMessage] = useState<string | null>(null);
+  const popupTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (popupTimerRef.current) clearTimeout(popupTimerRef.current);
+    };
+  }, []);
+
+  const flashPopup = useCallback((message: string) => {
+    if (popupTimerRef.current) clearTimeout(popupTimerRef.current);
+    setPopupMessage(message);
+    popupTimerRef.current = setTimeout(() => setPopupMessage(null), 2000);
+  }, []);
+
   const handleOpenDailyChest = () => {
-    const result = dailyChest.open();
-    if (result) setOpeningChest({ tier: result.tier, isDaily: true });
+    const outcome = dailyChest.open();
+    if (outcome.status === "opened") {
+      setOpeningChest({ tier: outcome.result.tier, isDaily: true });
+    } else if (outcome.status === "inventoryFull") {
+      flashPopup("Mochila cheia");
+    }
   };
 
   const { selectedIndex, filterFocused, chestFocused } = useInventoryMenu(
@@ -116,16 +138,21 @@ export function Inventory() {
 
   const [rewardOptionIndex, setRewardOptionIndex] = useState(0);
   const [rejectedIndex, setRejectedIndex] = useState<number | null>(null);
-  const [showNoKeyPopup, setShowNoKeyPopup] = useState(false);
+
+  const handleChestOutcome = (outcome: ChestOpenOutcome) => {
+    if (outcome.status === "opened") {
+      setOpeningChest({ tier: outcome.result.tier, isDaily: false });
+    } else if (outcome.status === "inventoryFull") {
+      flashPopup("Mochila cheia");
+    }
+  };
 
   const handleOpenPlayerChest = (id: ItemId) => {
-    const result = openPlayerChest(id);
-    if (result) setOpeningChest({ tier: result.tier, isDaily: false });
+    handleChestOutcome(openPlayerChest(id));
   };
 
   const handleOpenNextChest = (id?: ItemId) => {
-    const result = openNextChest(id);
-    if (result) setOpeningChest({ tier: result.tier, isDaily: false });
+    handleChestOutcome(openNextChest(id));
   };
 
   const hasOtherChest = !!(
@@ -187,10 +214,7 @@ export function Inventory() {
       setRejectedIndex(selectedIndex);
       setTimeout(() => setRejectedIndex(null), 1500);
     },
-    onNoKey: () => {
-      setShowNoKeyPopup(true);
-      setTimeout(() => setShowNoKeyPopup(false), 2000);
-    },
+    onNoKey: () => flashPopup("Sem chave"),
   });
 
   if (openingChest) {
@@ -267,7 +291,9 @@ export function Inventory() {
         )}
       </ul>
 
-      {showNoKeyPopup && <div className={styles.noKeyPopup}>Sem chave</div>}
+      {popupMessage && (
+        <div className={styles.noKeyPopup}>{popupMessage}</div>
+      )}
     </div>
   );
 }

@@ -20,6 +20,7 @@ type InventoryContextType = {
   addItem: (item: InventoryItem) => boolean;
   removeItem: (id: ItemId) => void;
   hasItem: (id: ItemId) => boolean;
+  hasSpaceFor: (incoming: InventoryItem[]) => boolean;
 
   isOpen: boolean;
   openInventory: () => void;
@@ -95,6 +96,10 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
     return items.some((item) => item.id === id);
   }
 
+  function hasSpaceFor(incoming: InventoryItem[]) {
+    return inventoryService.hasSpaceFor(items, incoming);
+  }
+
   return (
     <InventoryContext.Provider
       value={{
@@ -103,6 +108,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
         addItem,
         removeItem,
         hasItem,
+        hasSpaceFor,
         isOpen,
         openInventory,
         closeInventory,
