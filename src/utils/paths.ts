@@ -60,6 +60,10 @@ export function npcPathProjectile(path: string) {
   return asset(`/assets/npcs/projectiles/${path}`);
 }
 
+export function playerProjectilePath(path: string) {
+  return asset(`/assets/player/projectiles/${path}`);
+}
+
 export function soundEffectPath(path: string) {
   return asset(`/assets/songs/soundEffects/${path}`);
 }

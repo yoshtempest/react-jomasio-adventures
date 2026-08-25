@@ -1,4 +1,5 @@
 import { npcPath, npcPathProjectile } from "@/utils/paths";
+import { spriteMap } from "@/data/battle/projectileSprites";
 import { NPCBattle } from "@/components/Game/Entities/Npc/Battle";
 import { ProjectileSprite } from "@/components/Game/Battle/Projectile";
 import { PlayerBattle } from "@/components/Game/Entities/Player/Battle";
@@ -30,6 +31,7 @@ type Props = {
   PLAYER_SIZE: number;
   grabFlipped?: boolean;
   isAlfa?: boolean;
+  playerProjectile?: PlayerSpecialProjectile | null;
 };
 
 export function BattleEntities({
@@ -44,6 +46,7 @@ export function BattleEntities({
   PLAYER_SIZE,
   grabFlipped = false,
   isAlfa = false,
+  playerProjectile = null,
 }: Props) {
   const battleScaleX = window.innerWidth / ProjectileConstants.MAP_WIDTH;
   const battleScaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;
@@ -153,6 +156,50 @@ export function BattleEntities({
         grabbedUntil={player.grabbedUntil}
         grabFlipped={grabFlipped}
       />
+
+      {playerProjectile?.phase === "merge" && (
+        <>
+          <img
+            src={spriteMap.blueSphere}
+            style={{
+              position: "absolute",
+              left: playerProjectile.blueX * battleScaleX,
+              top: playerProjectile.blueY * battleScaleY,
+              width: 40,
+              transform: "translate(-50%, -50%)",
+              zIndex: 15,
+              pointerEvents: "none",
+            }}
+          />
+          <img
+            src={spriteMap.redSphere}
+            style={{
+              position: "absolute",
+              left: playerProjectile.redX * battleScaleX,
+              top: playerProjectile.redY * battleScaleY,
+              width: 40,
+              transform: "translate(-50%, -50%)",
+              zIndex: 15,
+              pointerEvents: "none",
+            }}
+          />
+        </>
+      )}
+
+      {playerProjectile?.phase !== "merge" && playerProjectile && (
+        <img
+          src={spriteMap.purpleSphere}
+          style={{
+            position: "absolute",
+            left: playerProjectile.x * battleScaleX,
+            top: playerProjectile.y * battleScaleY,
+            width: playerProjectile.phase === "move" ? 50 : 60,
+            transform: "translate(-50%, -50%)",
+            zIndex: 16,
+            pointerEvents: "none",
+          }}
+        />
+      )}
     </>
   );
 }

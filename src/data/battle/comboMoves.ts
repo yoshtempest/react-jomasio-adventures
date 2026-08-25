@@ -13,7 +13,7 @@ const BASE_COMBOS: ComboMove[] = [
     id: "specialAttack",
     name: "Ataque Especial",
     sequence: ["G"],
-    states: ["preSpecial", "special"],
+    states: ["preSpecial", "preSpecial2", "special"],
     description: "Ataque poderoso que consome toda a delícia acumulada.",
     situation: "Use com o deliciômetro cheio para causar dano massivo.",
   },

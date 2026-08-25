@@ -27,6 +27,7 @@ export const animationFlow: Record<PlayerState, AnimationStep | null> = {
   specialInAirFinish: { next: "idle", duration: 150 },
 
   preSpecial: { next: "special", duration: 200 },
+  preSpecial2: { next: "idle", duration: 0 },
   special: { next: "idle", duration: 500 },
 
   dash: { next: "idle", duration: 300 },
@@ -43,3 +44,23 @@ export const animationFlow: Record<PlayerState, AnimationStep | null> = {
 
   fallen: null,
 };
+
+type SpecialFlowOverride = {
+  preSpecial: { next: PlayerState; duration: number };
+  preSpecial2: { next: PlayerState; duration: number };
+};
+
+export const CHARACTER_SPECIAL_FLOWS: Partial<
+  Record<CharacterId, SpecialFlowOverride>
+> = {
+  riquelme: {
+    preSpecial: { next: "preSpecial2", duration: 400 },
+    preSpecial2: { next: "special", duration: 800 },
+  },
+};
+
+export function getSpecialFlowOverride(
+  characterId: CharacterId,
+): SpecialFlowOverride | null {
+  return CHARACTER_SPECIAL_FLOWS[characterId] ?? null;
+}

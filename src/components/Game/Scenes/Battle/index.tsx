@@ -54,6 +54,8 @@ export function BattleScene(props: Props) {
   // progresso de títulos no início da batalha (capturado uma única vez)
   const titleProgressSnapshotRef = useRef(titlesData.progress);
 
+  const { TILE_SIZE, PLAYER_SIZE, MAP_COLS, MAP_ROWS } = useGameLayout();
+
   const {
     player,
     npc,
@@ -93,9 +95,8 @@ export function BattleScene(props: Props) {
     training: isTraining,
     controlsDisabled,
     showRetry,
-  } = useBattleScene({ ...props, isAlfa });
-
-  const { TILE_SIZE, PLAYER_SIZE, MAP_COLS, MAP_ROWS } = useGameLayout();
+    playerProjectile,
+  } = useBattleScene({ ...props, isAlfa, PLAYER_SIZE });
 
   const { setBattleCollision } = usePlayer();
 
@@ -295,6 +296,7 @@ export function BattleScene(props: Props) {
             PLAYER_SIZE={PLAYER_SIZE}
             grabFlipped={grabFlipped}
             isAlfa={isAlfa}
+            playerProjectile={playerProjectile}
           />
 
           <ChargeParticles

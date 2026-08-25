@@ -19,6 +19,7 @@ import { useNavbar } from "@/contexts/NavbarContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { usePlayerAnimation } from "@/hooks/battle/player/usePlayerAnimation";
+import { useTimeScale } from "@/hooks/battle/useTimeScale";
 import { BATTLE_DEFAULT_STATE } from "@/gameRules/battle/defaultState";
 import { useBattleCollisionRef } from "@/hooks/battle/useBattleCollisionRef";
 import { CHARACTER_KEY, PLAYER_CLASS_KEY } from "@/data/storageKeys";
@@ -81,6 +82,10 @@ type PlayerContextType = {
 
   lastBlockPressRef: React.RefObject<number>;
   battleTenacityRef: React.RefObject<number>;
+
+  setTimeScale: (scale: number) => void;
+  resetTimeScale: () => void;
+  timeScaleRef: React.RefObject<number>;
 };
 
 const PlayerContext = createContext<PlayerContextType | null>(null);
@@ -104,11 +109,13 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const previousModeRef = useRef<PlayerMode>("explore");
   const battleTenacityRef = useRef(0);
   const { progress } = useCharacterProgress();
+  const { timeScaleRef, setTimeScale, resetTimeScale } = useTimeScale();
   usePlayerAnimation(
     player,
     setPlayer,
     battleTenacityRef,
     (progress[player.character]?.sleep ?? 0) > 0,
+    timeScaleRef,
   );
 
   const movingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -337,6 +344,10 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         setDifficulty,
         lastBlockPressRef,
         battleTenacityRef,
+
+        setTimeScale,
+        resetTimeScale,
+        timeScaleRef,
       }}
     >
       {children}

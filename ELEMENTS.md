@@ -151,3 +151,51 @@ Cada npc e personagem tem pelo menos um e no máximo 2 tipagens
 por exemplo:
 O personagem Marshadow é normalis e ventus
 O npc leviathan é aquos e draco
+
+---
+
+## Como o código resolve a tabela
+
+As duas listas acima ("Forte contra" / "Fraco contra") não se encaixavam:
+em sete elementos, a lista de "fraco" não era o inverso da lista de
+"forte", e em seis pares o mesmo elemento aparecia nos dois lados sem que
+nada dissesse qual valia.
+
+Para não ter mais como divergir, `src/data/types/elementChart.ts` mantém
+**só a tabela de vantagem escrita à mão**. A desvantagem é gerada como o
+inverso exato dela: se `A` é forte contra `D`, então `D` é fraco contra
+`A`.
+
+Isso muda a leitura de "Fraco contra" de sete elementos em relação ao texto
+acima. A tabela que vale é esta:
+
+| Elemento | Forte contra | Fraco contra (derivado) |
+| --- | --- | --- |
+| Pyrus | Metallum, Natura | Aquos, Subterra |
+| Aquos | Pyrus, Subterra | Electricus, Natura |
+| Subterra | Pyrus, Electricus, Metallum | Aquos, Ventus, Natura |
+| Ventus | Subterra, Natura | Electricus, Metallum |
+| Darkus | Haos, Nympha, Umbra, Psychicus | Haos, Nympha, Umbra |
+| Electricus | Aquos, Ventus, Natura | Subterra, Metallum |
+| Haos | Darkus, Umbra | Darkus, Metallum, Nympha, Umbra |
+| Metallum | Ventus, Haos, Electricus | Pyrus, Subterra |
+| Natura | Aquos, Subterra | Pyrus, Ventus, Electricus |
+| Psychicus | Umbra, Normalis | Darkus, Umbra |
+| Nympha | Darkus, Haos, Draco | Darkus, Umbra |
+| Draco | Draco, Normalis | Nympha, Draco |
+| Umbra | Darkus, Haos, Psychicus, Nympha | Darkus, Haos, Psychicus |
+| Normalis | — | Psychicus, Draco |
+
+Para mudar qualquer relação, edite **só** `ELEMENT_STRONG_AGAINST`. A coluna
+da direita se ajusta sozinha.
+
+Derivar não faz sumir todo par que cai nos dois lados: **vantagem mútua
+continua existindo**. Darkus é forte contra Haos e Haos é forte contra
+Darkus, então cada um aparece na lista de "fraco" do outro. Hoje há 11
+pares assim, e `getElementMultiplier` testa vantagem antes de
+desvantagem — todos resolvem **1.5x nas duas direções**.
+
+A diferença é que isso virou consequência declarada da tabela de
+vantagem, em vez de acidente de duas listas desencontradas. Se a intenção
+for que opostos se anulem (1x), a mudança é em `CombatService`, não
+aqui.
