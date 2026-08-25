@@ -4,6 +4,8 @@ import {
   animationFlow,
   getSpecialFlowOverride,
 } from "@/data/battle/animationFlow";
+import { logPlay } from "@/utils/replay/audioEventLog";
+import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 
 const STUN_BASE_DURATION = 500;
 
@@ -17,6 +19,7 @@ export function usePlayerAnimation(
   const tenacityRef = useLatestRef(battleTenacityRef);
   const canRunRef = useLatestRef(canRun);
   const timeScaleInternalRef = useLatestRef(timeScaleRef);
+  const { playSound } = useSoundEffects();
 
   useEffect(() => {
     if (player.state === "jump" || player.state === "falling") return;
@@ -29,6 +32,15 @@ export function usePlayerAnimation(
 
     if (override) {
       if (player.state === "preSpecial") {
+        if (player.character === "marcelo") {
+          playSound("marshadowSpecial");
+          logPlay("marshadowSpecial");
+        }
+  
+        if (player.character === "riquelme") {
+          playSound("riquelsonSpecial");
+          logPlay("riquelsonSpecial");
+        }
         step = { ...defaultStep, ...override.preSpecial };
       } else if (player.state === "preSpecial2") {
         step = { ...defaultStep, ...override.preSpecial2 };

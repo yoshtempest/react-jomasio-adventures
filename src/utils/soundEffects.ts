@@ -22,6 +22,8 @@ export function createSounds() {
     swordDeflected: sfx("player/marcelo/sword-deflected.mp3"),
     jhowsimarVemCa: sfx("npc/jhowsimar/goHere.mp3"),
     marshadowSpecial: sfx("player/marcelo/special.mp3"),
+    riquelsonSpecial: sfx("player/riquelme/special.mp3"),
+    impact: sfx("impact.mp3"),
     slimitaJump: sfx("npc/slimita/jump.mp3"),
     equip: new Audio(asset("/assets/songs/transitions/equip.mp3")),
     unequip: new Audio(asset("/assets/songs/transitions/unequip.mp3")),

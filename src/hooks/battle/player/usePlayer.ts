@@ -307,9 +307,9 @@ export function usePlayerBattle({
         return;
       }
 
-      if (player.character === "marcelo") {
-        playSound("marshadowSpecial");
-        logPlay("marshadowSpecial");
+      if (player.character === "riquelme") {
+        playSound("impact");
+        logPlay("impact");
       }
 
       applySpecialHit({
