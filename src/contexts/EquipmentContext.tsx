@@ -30,6 +30,15 @@ import {
 } from "@/gameRules/equipment/operations";
 
 type EquipmentContextType = {
+  /**
+   * Token opaco que troca de identidade a cada mutação de equipamento.
+   *
+   * Existe para quem lê equipamento por função que vai ao storage em vez
+   * de pelo estado do contexto (`gameRules/battle/equipment`): sem uma
+   * dependência que mude, o `useMemo` desses consumidores nunca invalida
+   * e o resultado congela até o personagem trocar.
+   */
+  equipmentRevision: object;
   getEquippedItem: (
     character: CharacterId,
     slot: EquipmentSlot,
@@ -232,6 +241,7 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
   return (
     <EquipmentContext.Provider
       value={{
+        equipmentRevision: allData,
         getEquippedItem,
         getEquippedInfo,
         getEquippedAccessories,

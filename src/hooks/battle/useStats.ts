@@ -7,9 +7,6 @@ import {
   getEquipmentStatsBonus,
   getWeaponCritRate,
   getTotalArmor,
-  getTotalShield,
-  getTotalVampirism,
-  getTotalReflect,
 } from "@/gameRules/battle/equipment";
 import { getTenacityReduction } from "@/gameRules/battle/tenacity";
 import { getNpcStats } from "@/gameRules/npc/npcStats";
@@ -71,6 +68,20 @@ type Props = {
   npcArmorBonus?: number;
 };
 
+/**
+ * Consolida os stats usados na batalha: personagem, equipamento, título,
+ * ranque e os stats do NPC.
+ *
+ * A leitura de equipamento é um memo só, dependente de
+ * `equipmentRevision`. `getEquipmentStatsBonus` e companhia vão ao
+ * storage por dentro em vez de ler o estado do contexto, então o
+ * exhaustive-deps não enxerga essa dependência — daí o token explícito e
+ * o disable. Sem ele nada invalidava, e equipar ou desequipar sem trocar
+ * de personagem deixava a batalha rodando com os stats antigos.
+ *
+ * Escudo, vampirismo e reflexo saem do mesmo `bonus`: `getTotalShield` e
+ * companhia recarregavam o storage para recalcular número idêntico.
+ */
 export function useBattleStats({
   npcLevel,
   npcClass,
@@ -82,40 +93,31 @@ export function useBattleStats({
   const { player, playerClass } = usePlayer();
   const { progress } = useCharacterProgress();
   const { getBonus, getElementDamageBonus } = useTitles();
-  const { getEquippedItem } = useEquipment();
+  const { getEquippedItem, equipmentRevision } = useEquipment();
 
   const baseChar = progress[player.character];
 
-  const equipmentBonus = useMemo(() => {
-    return getEquipmentStatsBonus(player.character);
-  }, [player.character]);
+  const equipment = useMemo(
+    () => ({
+      bonus: getEquipmentStatsBonus(player.character),
+      weaponCritRate: getWeaponCritRate(player.character),
+      armor: getTotalArmor(player.character, baseChar.stats.resistance),
+    }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [player.character, baseChar.stats.resistance, equipmentRevision],
+  );
 
-  const weaponCritRate = useMemo(() => {
-    return getWeaponCritRate(player.character);
-  }, [player.character]);
+  const equipmentBonus = equipment.bonus;
+  const weaponCritRate = equipment.weaponCritRate;
 
   const titleBonus = useMemo(() => {
     return getBonus();
   }, [getBonus]);
 
-  const totalArmor = useMemo(() => {
-    return (
-      getTotalArmor(player.character, baseChar.stats.resistance) +
-      titleBonus.armor
-    );
-  }, [player.character, baseChar.stats.resistance, titleBonus.armor]);
-
-  const totalShield = useMemo(() => {
-    return getTotalShield(player.character) + titleBonus.shield;
-  }, [player.character, titleBonus.shield]);
-
-  const totalVampirism = useMemo(() => {
-    return getTotalVampirism(player.character);
-  }, [player.character]);
-
-  const totalReflect = useMemo(() => {
-    return getTotalReflect(player.character);
-  }, [player.character]);
+  const totalArmor = equipment.armor + titleBonus.armor;
+  const totalShield = equipmentBonus.shield + titleBonus.shield;
+  const totalVampirism = equipmentBonus.vampirism;
+  const totalReflect = equipmentBonus.reflect;
 
   const totalMaxHpDamage = useMemo(() => {
     return equipmentBonus.maxHpDamage ?? 0;
