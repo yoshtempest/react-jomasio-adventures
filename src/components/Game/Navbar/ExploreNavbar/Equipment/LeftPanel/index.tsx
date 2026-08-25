@@ -68,6 +68,7 @@ export function LeftPanel() {
               className={`${styles.equippedCard} ${isSelected ? "EquipmentSelected" : ""}`}
             >
               <div className={styles.slotLabel}>{label}</div>
+              {/* <img className={styles.slotLabel} src={asset(`${item?.slot}`)} alt={`${label}`}/> */}
               {item ? (
                 <>
                   <div className="EquipmentItemRow">
