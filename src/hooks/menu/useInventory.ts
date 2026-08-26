@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
-import { gridMove } from "@/gameRules/menu/navigation";
+import { circularNext, circularPrev, gridMove } from "@/gameRules/menu/navigation";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useItemEffect } from "@/hooks/items/useItemEffect";
 import { useLatestRef } from "@/hooks/useLatestRef";
@@ -105,12 +105,12 @@ export function useInventoryMenu(
       onUp: () => {
         if (chestFocusedRef.current) return;
 
-        if (filterFocusedRef.current) {
-          if (chestReadyRef.current) {
-            playMoveRef.current();
-            setFilterFocused(false);
-            setChestFocused(true);
-          }
+        if (filterFocusedRef.current && filterConfigRef.current) {
+          playMoveRef.current();
+          const cfg = filterConfigRef.current;
+          const idx = cfg.labels.findIndex((l) => l.type === cfg.active);
+          const prevIdx = circularPrev(idx, cfg.labels.length);
+          cfg.onChange(cfg.labels[prevIdx]!.type);
           return;
         }
 
@@ -144,10 +144,12 @@ export function useInventoryMenu(
           return;
         }
 
-        if (filterFocusedRef.current) {
+        if (filterFocusedRef.current && filterConfigRef.current) {
           playMoveRef.current();
-          setFilterFocused(false);
-          setSelectedIndex(0);
+          const cfg = filterConfigRef.current;
+          const idx = cfg.labels.findIndex((l) => l.type === cfg.active);
+          const nextIdx = circularNext(idx, cfg.labels.length);
+          cfg.onChange(cfg.labels[nextIdx]!.type);
           return;
         }
 
@@ -159,14 +161,7 @@ export function useInventoryMenu(
       onLeft: () => {
         if (chestFocusedRef.current) return;
 
-        if (filterFocusedRef.current && filterConfigRef.current) {
-          playMoveRef.current();
-          const cfg = filterConfigRef.current;
-          const idx = cfg.labels.findIndex((l) => l.type === cfg.active);
-          const prevIdx = idx <= 0 ? cfg.labels.length - 1 : idx - 1;
-          cfg.onChange(cfg.labels[prevIdx]!.type);
-          return;
-        }
+        if (filterFocusedRef.current) return;
 
         if (navLength === 0) return;
         playMoveRef.current();
@@ -176,12 +171,10 @@ export function useInventoryMenu(
       onRight: () => {
         if (chestFocusedRef.current) return;
 
-        if (filterFocusedRef.current && filterConfigRef.current) {
+        if (filterFocusedRef.current) {
           playMoveRef.current();
-          const cfg = filterConfigRef.current;
-          const idx = cfg.labels.findIndex((l) => l.type === cfg.active);
-          const nextIdx = idx >= cfg.labels.length - 1 ? 0 : idx + 1;
-          cfg.onChange(cfg.labels[nextIdx]!.type);
+          setFilterFocused(false);
+          setSelectedIndex(0);
           return;
         }
 
