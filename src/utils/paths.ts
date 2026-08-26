@@ -76,7 +76,20 @@ export function sfx(path: string) {
   return new Audio(soundEffectPath(`/${path}`));
 }
 
-const ATTACK_FOLDER_ALT = new Set(["marcelo", "eduarda"]);
+const ATTACK_FOLDER_ALT = new Set([
+  "marcelo",
+  "eduarda",
+  "riquelme",
+  "lucaua",
+  "levi",
+  "lucas",
+  "larissa",
+  "camilly",
+  "mayra",
+  "artur",
+  "samuel",
+  "emanuel",
+]);
 
 export function resolveBattleSprite(character: string, state: string): string {
   const folder = STATE_FOLDER[state];

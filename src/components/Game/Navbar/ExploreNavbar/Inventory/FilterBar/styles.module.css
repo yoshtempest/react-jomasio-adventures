@@ -10,8 +10,8 @@
 .button {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 2vw;
+  justify-content: flex-start;
+  gap: 0.5vw;
 
   padding: var(--size-4) var(--fs-8);
   border: var(--size-1) solid var(--border-default);
