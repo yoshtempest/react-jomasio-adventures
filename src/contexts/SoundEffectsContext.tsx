@@ -155,14 +155,14 @@ export function SoundEffectsProvider({ children }: { children: ReactNode }) {
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
-export function useSoundEffects() {
+export function useSoundEffects(): SoundEffectsContextType {
   const context = useContext(SoundEffectsContext);
 
-  if (!context) {
-    throw new Error(
-      "useSoundEffects deve ser usado dentro de SoundEffectsProvider",
-    );
-  }
-
-  return context;
+  return (
+    context ?? {
+      playSound: () => {},
+      stopSound: () => {},
+      stopAll: () => {},
+    }
+  );
 }

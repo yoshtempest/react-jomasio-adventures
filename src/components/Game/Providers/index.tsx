@@ -14,6 +14,7 @@ import { ProfessionProgressProvider } from "@/contexts/ProfessionProgressContext
 import { TombstoneProvider } from "@/contexts/TombstoneContext";
 import { GroundItemProvider } from "@/contexts/GroundItemContext";
 import { PlayerProvider } from "@/contexts/PlayerContext";
+import { BattleNavbarProvider } from "@/contexts/BattleNavbarContext";
 import { GameControlsProvider } from "@/contexts/GameControlsContext";
 
 export function GameProviders({ children }: { children: ReactNode }) {
@@ -33,9 +34,11 @@ export function GameProviders({ children }: { children: ReactNode }) {
                             <BestiaryProvider>
                               <PlayerProvider>
                                 <PlayTimeProvider>
-                                  <GameControlsProvider>
-                                    {children}
-                                  </GameControlsProvider>
+                                  <BattleNavbarProvider>
+                                    <GameControlsProvider>
+                                      {children}
+                                    </GameControlsProvider>
+                                  </BattleNavbarProvider>
                                 </PlayTimeProvider>
                               </PlayerProvider>
                             </BestiaryProvider>
