@@ -307,7 +307,9 @@ declare global {
     | "blockAttack"
     | "idleCrounched"
     | "walkCrounched"
-    | "fallen";
+    | "fallen"
+    | "kick"
+    | "preKick";
 
   type PlayerMode = "explore" | "battle" | "select" | "ui" | "map" | "menu";
 

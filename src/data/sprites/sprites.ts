@@ -90,6 +90,8 @@ export const STATE_FOLDER: Record<string, string | null> = {
   preAttack: "attack",
   blockAttack: "attack",
   fallingAttack: "attack",
+  kick: "attack",
+  preKick: "attack",
   jump: "jump",
   preJump: "jump",
   falling: "jump",

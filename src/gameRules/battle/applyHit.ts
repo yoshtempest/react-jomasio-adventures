@@ -165,7 +165,8 @@ export function applyBasicHit(params: BasicHitParams) {
     type: dmgType,
   } = calculateBasicHitDamage(params);
 
-  if (isCrit) params.setPlayer((p) => ({ ...p, state: "crit" }));
+  if (isCrit && params.player.character !== "riquelme")
+    params.setPlayer((p) => ({ ...p, state: "crit" }));
 
   params.behavior.onBasicHit({
     damage: trueDmg,
@@ -204,7 +205,8 @@ export function applySpecialHit(params: SpecialHitParams) {
     type: dmgType,
   } = calculateSpecialHitDamage(params);
 
-  if (isCrit) params.setPlayer((p) => ({ ...p, state: "crit" }));
+  if (isCrit && params.player.character !== "riquelme")
+    params.setPlayer((p) => ({ ...p, state: "crit" }));
 
   params.behavior.onSpecialHit({
     damage: trueDmg,

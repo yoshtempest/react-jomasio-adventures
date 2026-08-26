@@ -11,6 +11,8 @@ export const animationFlow: Record<PlayerState, AnimationStep | null> = {
 
   preAttack: { next: "attack", duration: 150 },
   attack: { next: "idle", duration: 300 },
+  preKick: { next: "kick", duration: 100 },
+  kick: { next: "idle", duration: 300 },
 
   preWalk: { next: "walk", duration: 100 },
   walk: { next: "preRun", duration: 200 },

@@ -205,6 +205,12 @@ export function useBattleMovement(
       }
       if (p.state === "blocked") return { ...p, state: "blockAttack" };
       if (p.state !== "idle") return p;
+      if (p.character === "riquelme") {
+        return {
+          ...p,
+          state: Math.random() > 0.5 ? "preKick" : "preAttack",
+        };
+      }
       return { ...p, state: "preAttack" };
     });
   }
