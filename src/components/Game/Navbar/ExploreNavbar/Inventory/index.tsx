@@ -167,7 +167,7 @@ export function Inventory() {
   const handleConfirmDrop = useCallback(
     (qty: number) => {
       if (!dropItem || !player || !currentLocationId) return;
-      removeItem(dropItem.id);
+      removeItem(dropItem.id, qty);
       addLoot(currentLocationId, player.gridX, player.gridY, [
         { id: dropItem.id, qty },
       ]);

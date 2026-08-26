@@ -18,7 +18,7 @@ type InventoryContextType = {
   items: InventoryItem[];
 
   addItem: (item: InventoryItem) => boolean;
-  removeItem: (id: ItemId) => void;
+  removeItem: (id: ItemId, qty?: number) => void;
   hasItem: (id: ItemId) => boolean;
   hasSpaceFor: (incoming: InventoryItem[]) => boolean;
 
@@ -87,8 +87,8 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
     return result.added;
   }
 
-  function removeItem(id: ItemId) {
-    const result = inventoryService.removeItem(latestItemsRef.current, id);
+  function removeItem(id: ItemId, qty = 1) {
+    const result = inventoryService.removeItem(latestItemsRef.current, id, qty);
     commit(result.items, result.sound);
   }
 

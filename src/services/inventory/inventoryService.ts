@@ -89,7 +89,7 @@ export class InventoryService {
    * tamanho do array antes e depois só enxergava o último item de cada
    * pilha, então gastar item empilhado não emitia som nenhum.
    */
-  removeItem(items: InventoryItem[], id: ItemId): RemoveItemResult {
+  removeItem(items: InventoryItem[], id: ItemId, qty = 1): RemoveItemResult {
     const found = items.find((i) => i.id === id);
     if (!found) {
       return { items, removed: false, sound: null };
@@ -98,7 +98,7 @@ export class InventoryService {
     const next = items
       .map((i): InventoryItem | null => {
         if (i.id !== id) return i;
-        const nextQty = (i.qty ?? 1) - 1;
+        const nextQty = (i.qty ?? 1) - qty;
         return nextQty <= 0 ? null : { ...i, qty: nextQty };
       })
       .filter((i): i is InventoryItem => i !== null);
