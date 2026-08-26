@@ -69,5 +69,5 @@ export function usePlayerAnimation(
     }, realDuration);
 
     return () => clearTimeout(timer);
-  }, [player.state, player.character, setPlayer, tenacityRef, canRun, canRunRef, timeScaleInternalRef]);
+  }, [player.state, player.character, setPlayer, playSound, tenacityRef, canRun, canRunRef, timeScaleInternalRef]);
 }

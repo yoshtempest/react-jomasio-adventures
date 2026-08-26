@@ -65,6 +65,7 @@ type Props = {
   onAttackRef?: React.RefObject<() => void>;
   onSpecialRef?: React.RefObject<() => void>;
   onKokusenRef?: React.RefObject<() => void>;
+  onHalfHeal?: () => void;
 };
 
 export function usePlayerBattle({
@@ -204,7 +205,7 @@ export function usePlayerBattle({
         HITS_TO_SPECIAL,
       });
 
-      onHalfHeal?.();
+      if (onHalfHeal) onHalfHeal();
 
       resetCooldown(PLAYER_BASIC_COOLDOWN, playerCooldown);
     },
@@ -240,6 +241,7 @@ export function usePlayerBattle({
       onBeforeNpcHitRef,
       setPlayer,
       onAttackRef,
+      onKokusenRef,
       onHalfHeal,
       npcClass,
       npcElementTypes,
@@ -348,7 +350,7 @@ export function usePlayerBattle({
         hitsToSpecial: HITS_TO_SPECIAL,
       });
 
-      onHalfHeal?.();
+      if (onHalfHeal) onHalfHeal();
 
       resetCooldown(PLAYER_SPECIAL_COOLDOWN, playerCooldown);
     },
@@ -384,6 +386,7 @@ export function usePlayerBattle({
       onBeforeNpcHitRef,
       setPlayer,
       onSpecialRef,
+      onKokusenRef,
       onHalfHeal,
       playSound,
       titleDamageBonus,

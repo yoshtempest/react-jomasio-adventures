@@ -65,14 +65,14 @@ export function BattleNavbarProvider({ children }: { children: ReactNode }) {
     }
     closeToggle();
     restoreMode();
-  }, [closeToggle, isBattleNavOpenRef, locationRef, restoreMode]);
+  }, [closeToggle, isBattleNavOpenRef, locationRef, isClosingRef, restoreMode]);
 
   const finishClose = useCallback(() => {
     if (!isClosingRef.current) return;
     setIsClosing(false);
     closeToggle();
     restoreMode();
-  }, [closeToggle, isClosingRef]);
+  }, [closeToggle, isClosingRef, restoreMode]);
 
   const toggleBattleNavbar = useCallback(() => {
     if (isBattleNavOpenRef.current || isClosingRef.current) {

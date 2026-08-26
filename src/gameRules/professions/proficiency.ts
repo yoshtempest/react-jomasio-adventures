@@ -17,7 +17,8 @@ export function getProfessionXPToNextLevel(level: number) {
   return level * 25;
 }
 
-export function isMaxProfessionLevel(_level: number) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function isMaxProfessionLevel(_level: number): boolean {
   return false;
 }
 

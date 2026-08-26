@@ -128,6 +128,7 @@ export function useBattleSync({
 
   // Safety: fecha a BattleNavbar ao desmontar (sem restaurar modo).
   useEffect(() => {
-    return () => resetBattleNavbarRef.current();
+    const cleanup = resetBattleNavbarRef.current;
+    return () => cleanup();
   }, [resetBattleNavbarRef]);
 }

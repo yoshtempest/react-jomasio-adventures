@@ -86,7 +86,8 @@ export function GroundItemProvider({ children }: { children: ReactNode }) {
           )
           .filter((item) => item.qty > 0);
         if (next.length === 0) {
-          const { [key]: _, ...rest } = prev;
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { [key]: _removed, ...rest } = prev;
           return rest;
         }
         return { ...prev, [key]: { ...loot, items: next } };
@@ -101,7 +102,8 @@ export function GroundItemProvider({ children }: { children: ReactNode }) {
       const loot = dataRef.current[key];
       if (!loot) return [];
       setData((prev) => {
-        const { [key]: _, ...rest } = prev;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { [key]: _removed, ...rest } = prev;
         return rest;
       });
       return loot.items;
