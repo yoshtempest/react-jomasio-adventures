@@ -45,6 +45,18 @@ p {
   gap: var(--size-6);
 }
 
+
+.inUse {
+  font-size: var(--small);
+  color: var(--accent-color);
+}
+
+.levelRow {
+  display: flex;
+  align-items: center;
+  gap: var(--size-6);
+}
+
 .elementBadge {
   width: var(--fs-18);
   height: var(--fs-18);
@@ -52,13 +64,24 @@ p {
   image-rendering: pixelated;
 }
 
+.rankBadge {
+  display: flex;
+  width: 2vw;
+}
+
+.rankRow {
+  display: flex;
+  flex-direction: row;
+  gap: 1vw;
+}
+
 .flexColumn {
   margin-top: 8%;
 }
 
-.inUse {
-  font-size: var(--small);
-  color: var(--accent-color);
+.progressContainer {
+  margin-top: 5%;
+  width: 80%;
 }
 
 @media (orientation: portrait) {

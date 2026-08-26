@@ -16,6 +16,10 @@ import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { playerPath, asset } from "@/utils/paths";
 import { formatRank, getRank } from "@/gameRules/rank";
 import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
+import { ProgressBar } from "@/components/Game/ProgressBar";
+import { srcRank } from "@/gameRules/rank";
+import { getXPToNextLevel } from "@/utils/character/progress";
+
 
 export function Characters() {
   const { player, setCharacter } = usePlayer();
@@ -103,6 +107,7 @@ export function Characters() {
       {selectableCharacters.map((char, index) => {
         const charProgress = progress[char.image];
         const isSelected = index === selectedIndex;
+        const xpNeeded = getXPToNextLevel(charProgress.level);
         const inUse = char.image === player.character;
 
         return (
@@ -134,8 +139,27 @@ export function Characters() {
                   ))}
                 </span>
               </h2>
+              <div className={styles.rankRow}>
+                  <img
+                    src={asset(`/assets/badges/ranks/${srcRank(getRank(charProgress?.level ?? 1))}`)}
+                    className={styles.rankBadge}
+                  />
+
+                  <p className={styles.rank}>
+                    {formatRank(getRank(charProgress.level))}
+                  </p>
+                </div>
+
+              <div className={styles.progressContainer}>
+                <ProgressBar
+                  value={charProgress.xp}
+                  max={xpNeeded}
+                  animationId={`char-xp-${char.image}`}
+                  level={charProgress.level}
+                />
+              </div>
               <p className={styles.text}>
-                {formatRank(getRank(charProgress?.level ?? 1))}
+                {charProgress.xp} / {xpNeeded} XP
               </p>
               {inUse && <p className={styles.inUse}>Em uso</p>}
             </div>
