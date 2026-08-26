@@ -1,4 +1,4 @@
-import styles from "../styles.module.css";
+import styles from "./styles.module.css";
 import { StatItem } from "../StatItem";
 import type { ReactNode } from "react";
 
@@ -29,12 +29,12 @@ export function BattleCard({
   return (
     <div className={styles.battleCard}>
       <div className={styles.battleCardHeader}>
-        <img src={spriteSrc} alt={alt ?? name} className={styles.npcSprite} />
+        <img src={spriteSrc} alt={alt ?? name} className={styles.sprite} />
         <div>
           <h3>{name}</h3>
           {subtitle}
           <p className={styles.statLine}>Nível: {level}</p>
-          <span className={styles.playerRank}>{rank}</span>
+          <span className={styles.rank}>{rank}</span>
         </div>
       </div>
       <div className={styles.statGrid}>

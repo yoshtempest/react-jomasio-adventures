@@ -87,7 +87,7 @@ export function BattleInventory() {
   }
 
   return (
-    <div className={`containerOfNavbar ${styles.battleInventory}`}>
+    <div className="containerOfNavbar">
       <h2>Inventário de Batalha</h2>
       {battleItems.length === 0 ? (
         <p className={styles.empty}>Nenhum item utilizável em batalha.</p>

@@ -1,9 +1,3 @@
-.battleInventory {
-  justify-content: center;
-  gap: var(--size-6);
-  padding: var(--size-6);
-}
-
 .list {
   display: flex;
   flex-direction: column;

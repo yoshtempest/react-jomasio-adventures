@@ -1,9 +1,54 @@
-.container {
-  justify-content: center;
-  gap: var(--size-6);
-  padding: var(--size-6);
+.battleContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fs-8);
 }
 
-.title {
-  margin-top: 0;
+.center {
+  display: flex;
+  align-self: center;
+}
+
+.battleEntities {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 3vw;
+}
+
+.sprite {
+  width: 8vw;
+  height: 8vw;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.npcClassLabel {
+  font-size: var(--fs-14);
+  font-weight: bold;
+}
+
+.probabilityBar {
+  position: relative;
+  width: 100%;
+  height: var(--low-medium);
+  border: var(--size-2) solid var(--primary-color);
+  border-radius: var(--size-4);
+  overflow: hidden;
+}
+
+.probabilityFill {
+  height: 100%;
+  background: var(--success);
+}
+
+.probabilityText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: var(--fs-14);
+  font-weight: bold;
+  color: var(--text-color);
+  text-shadow: 0 0 var(--size-4) rgba(0, 0, 0, 0.8);
 }

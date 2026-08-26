@@ -1,0 +1,32 @@
+.statLine {
+  font-size: var(--fs-14);
+  color: var(--text-hint);
+}
+
+.statGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--fs-8);
+}
+
+.rank {
+  font-size: var(--small);
+  color: var(--accent-color);
+  margin: 0;
+}
+
+.battleCard {
+  background: rgba(0, 0, 0, 0.2);
+  border: var(--size-1) solid var(--border-default);
+  border-radius: var(--size-5);
+  padding: var(--fs-8);
+  height: 65vh;
+  width: 25vw;
+}
+
+.battleCardHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--low-medium);
+  margin-bottom: var(--fs-8);
+}
