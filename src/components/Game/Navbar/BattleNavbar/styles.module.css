@@ -1,3 +1,21 @@
+@keyframes battleSlideFromRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes battleSlideToRight {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
 .battleNavbar {
   display: flex;
   flex-direction: column;

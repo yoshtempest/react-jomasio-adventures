@@ -1,5 +1,5 @@
-import { lazy, Suspense } from "react";
-import type { AnimationEvent, ComponentType, LazyExoticComponent } from "react";
+import { lazy, Suspense, useEffect, useRef } from "react";
+import type { ComponentType, LazyExoticComponent } from "react";
 
 import styles from "./styles.module.css";
 import { useBattleNavbarMenu } from "@/hooks/battle/useBattleNavbarMenu";
@@ -23,10 +23,17 @@ const SCREENS: Record<BattleNavScreen, LazyExoticComponent<ComponentType>> = {
 export function BattleNavbar() {
   const { location, selectedIndex, options, onSelect } = useBattleNavbarMenu();
   const { isClosing, finishClose } = useBattleNavbar();
+  const finishCloseRef = useRef(finishClose);
+  finishCloseRef.current = finishClose;
 
-  function handleCloseAnimationEnd(e: AnimationEvent<HTMLElement>) {
-    if (isClosing && e.animationName === styles.battleSlideToRight)
-      finishClose();
+  useEffect(() => {
+    if (!isClosing) return;
+    const id = setTimeout(() => finishCloseRef.current(), 600);
+    return () => clearTimeout(id);
+  }, [isClosing]);
+
+  function handleCloseAnimationEnd() {
+    if (isClosing) finishClose();
   }
 
   if (location === "menu") {
