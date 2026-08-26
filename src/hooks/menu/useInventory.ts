@@ -5,7 +5,7 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { useItemEffect } from "@/hooks/items/useItemEffect";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
-import { useAudio } from "@/contexts/AudioContext";
+import { useAudio } from "@/hooks/useAudio";
 import { asset } from "@/utils/paths";
 import type { FilterConfig } from "@/utils/types/inventory/filterConfig";
 

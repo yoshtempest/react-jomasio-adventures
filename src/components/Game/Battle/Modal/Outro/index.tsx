@@ -3,7 +3,7 @@ import { playerPath } from "@/utils/paths";
 import { getOutroLine } from "@/data/battle/outro";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useTypewriter } from "@/hooks/interaction/useTypewriter";
-import { useSettings } from "@/contexts/SettingsContext";
+import { useSettings } from "@/hooks/useSetting";
 import { useGameControls } from "@/contexts/GameControlsContext";
 
 type Props = {

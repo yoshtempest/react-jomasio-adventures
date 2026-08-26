@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useQuests } from "@/contexts/QuestContext";
 import { usePlayer } from "@/contexts/PlayerContext";
-import { useSettings } from "@/contexts/SettingsContext";
+import { useSettings } from "@/hooks/useSetting";
 import { useFlags } from "@/contexts/FlagContext";
 import { QUEST_ROUTES, QUEST_NPC_POSITIONS } from "@/data/quests/waypoints";
 import { bfsNextHop } from "@/scenes/shared/sceneAdjacency";

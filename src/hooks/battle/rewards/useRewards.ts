@@ -4,7 +4,7 @@ import { usePetProgress } from "@/contexts/PetProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
-import { useSettings } from "@/contexts/SettingsContext";
+import { useSettings } from "@/hooks/useSetting";
 import { useFlags } from "@/contexts/FlagContext";
 import { useTitles } from "@/contexts/TitleContext";
 import {

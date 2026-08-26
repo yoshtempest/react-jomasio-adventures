@@ -1,5 +1,5 @@
 import { useRef, useCallback } from "react";
-import { useAudio } from "@/contexts/AudioContext";
+import { useAudio } from "@/hooks/useAudio";
 import { useLatestRef } from "@/hooks/useLatestRef";
 
 export function useSFXPool() {

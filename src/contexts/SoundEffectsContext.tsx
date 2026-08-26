@@ -7,7 +7,7 @@ import {
   useRef,
   type ReactNode,
 } from "react";
-import { useAudio } from "@/contexts/AudioContext";
+import { useAudio } from "@/hooks/useAudio";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { createSounds } from "@/utils/soundEffects";
 

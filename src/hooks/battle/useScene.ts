@@ -19,7 +19,7 @@ import { useNavbar } from "@/contexts/NavbarContext";
 import { useBattleNavbar } from "@/contexts/BattleNavbarContext";
 import { useTitles } from "@/contexts/TitleContext";
 import { usePlayTime } from "@/contexts/PlayTimeContext";
-import { useSettings } from "@/contexts/SettingsContext";
+import { useSettings } from "@/hooks/useSetting";
 import { useTombstones } from "@/contexts/TombstoneContext";
 import { useNpcSetup } from "@/hooks/battle/npc/useSetup";
 import { useBattleRewards } from "@/hooks/battle/rewards/useRewards";

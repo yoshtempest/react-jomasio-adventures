@@ -10,7 +10,7 @@ import { useQuestActions } from "@/hooks/quest/useQuestActions";
 import { useFlags } from "@/contexts/FlagContext";
 import { useNavigate, useLocation } from "react-router";
 import { asset } from "@/utils/paths";
-import { useAudio } from "@/contexts/AudioContext";
+import { useAudio } from "@/hooks/useAudio";
 
 import { sceneBackgrounds } from "@/data/scene/background";
 

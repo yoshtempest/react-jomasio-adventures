@@ -7,9 +7,7 @@ import { SleepBarNotification } from "@/components/Game/Notification/SleepBar";
 import { XpProfessionNotification } from "@/components/Game/Notification/XpProfession";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
-import { useBattleNavbar } from "@/contexts/BattleNavbarContext";
 import { Navbar } from "@/components/Game/Navbar/ExploreNavbar";
-import { BattleNavbar } from "@/components/Game/Navbar/BattleNavbar";
 
 import { lazy, Suspense, useEffect, useRef } from "react";
 
@@ -36,11 +34,9 @@ import { useSleepTimer } from "@/hooks/sleep/useSleepTimer";
 import { useRegenTimer } from "@/hooks/player/useRegenTimer";
 import { useExploreLocation } from "@/hooks/scene/useExploreLocation";
 
-function App() {
+export function GameApp() {
   const { isOpen } = useInventory();
   const { isNavOpen, isClosing } = useNavbar();
-  const { isBattleNavOpen, isClosing: isBattleNavClosing } =
-    useBattleNavbar();
   const { items, setItems, setMaxSlots } = useInventory();
   const { setQuests, refreshDailyWeekly, quests } = useQuests();
 
@@ -165,13 +161,6 @@ function App() {
           <Navbar />
         </div>
       )}
-      {(isBattleNavOpen || isBattleNavClosing) && (
-        <div className="navbarClip">
-          <BattleNavbar />
-        </div>
-      )}
     </div>
   );
 }
-
-export default App;

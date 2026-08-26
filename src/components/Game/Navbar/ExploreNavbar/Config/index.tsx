@@ -1,9 +1,9 @@
 import styles from "./styles.module.css";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useConfigSelection } from "@/hooks/menu/config/useConfigSelection";
-import { useAudio } from "@/contexts/AudioContext";
+import { useAudio } from "@/hooks/useAudio";
 import { usePlayer } from "@/contexts/PlayerContext";
-import { useSettings } from "@/contexts/SettingsContext";
+import { useSettings } from "@/hooks/useSetting";
 import { useDialogue } from "@/hooks/interaction/useDialogue";
 import { useEffect, useRef } from "react";
 import { configsDialogue } from "@/data/dialogues/configs";

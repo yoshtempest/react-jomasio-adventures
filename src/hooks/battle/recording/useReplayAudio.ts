@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from "react";
 import { resolveAsset } from "@/utils/paths";
-import { useAudio } from "@/contexts/AudioContext";
+import { useAudio } from "@/hooks/useAudio";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { createSounds } from "@/utils/soundEffects";
 import type { ReplayData } from "@/utils/types/replay";

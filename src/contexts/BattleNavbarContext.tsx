@@ -113,10 +113,20 @@ export function BattleNavbarProvider({ children }: { children: ReactNode }) {
   );
 }
 
+const DEFAULT_BATTLE_NAVBAR: BattleNavbarContextType = {
+  isBattleNavOpen: false,
+  isClosing: false,
+  location: "menu",
+  setLocation: () => {},
+  openBattleNavbar: () => {},
+  closeBattleNavbar: () => {},
+  toggleBattleNavbar: () => {},
+  finishClose: () => {},
+  resetBattleNavbar: () => {},
+};
+
 // eslint-disable-next-line react-refresh/only-export-components
-export function useBattleNavbar() {
+export function useBattleNavbar(): BattleNavbarContextType {
   const context = useContext(BattleNavbarContext);
-  if (!context)
-    throw new Error("useBattleNavbar deve ser usado dentro do Provider");
-  return context;
+  return context ?? DEFAULT_BATTLE_NAVBAR;
 }

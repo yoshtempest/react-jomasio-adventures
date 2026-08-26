@@ -2,12 +2,27 @@ import { useCallback } from "react";
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router";
 import { BattleScene } from "@/components/Game/Scenes/Battle";
+import { BattleProviders } from "@/components/Game/Battle/BattleProviders";
+import { BattleNavbar } from "@/components/Game/Navbar/BattleNavbar";
+import { useBattleNavbar } from "@/contexts/BattleNavbarContext";
 import { useFlags } from "@/contexts/FlagContext";
 import {
   BATTLE_CONFIGS,
   ROUTE_TO_BATTLE_KEY,
   getBattleBackgroundFromRoute,
 } from "@/data/battle/config";
+
+function BattleNavbarOverlay() {
+  const { isBattleNavOpen, isClosing } = useBattleNavbar();
+
+  if (!isBattleNavOpen && !isClosing) return null;
+
+  return (
+    <div className="navbarClip">
+      <BattleNavbar />
+    </div>
+  );
+}
 
 export default function BattlePage() {
   const location = useLocation();
@@ -34,16 +49,19 @@ export default function BattlePage() {
   }
 
   return (
-    <BattleScene
-      npcType={config.npcType}
-      redirectTo={config.redirectTo}
-      onVictory={handleVictory}
-      victoryDescription={config.victoryDescription}
-      background={background}
-      audioSrc={config.audioSrc}
-      introAudioSrc={config.introAudioSrc}
-      training={training}
-      isAlfa={isAlfa}
-    />
+    <BattleProviders>
+      <BattleScene
+        npcType={config.npcType}
+        redirectTo={config.redirectTo}
+        onVictory={handleVictory}
+        victoryDescription={config.victoryDescription}
+        background={background}
+        audioSrc={config.audioSrc}
+        introAudioSrc={config.introAudioSrc}
+        training={training}
+        isAlfa={isAlfa}
+      />
+      <BattleNavbarOverlay />
+    </BattleProviders>
   );
 }

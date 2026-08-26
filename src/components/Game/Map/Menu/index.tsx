@@ -3,7 +3,7 @@ import { useMapMenu } from "@/hooks/menu/useMap";
 import { playerPath } from "@/utils/paths";
 import { SCENE_MAP, type MapCell } from "@/data/scene/map";
 import { useQuests } from "@/contexts/QuestContext";
-import { useSettings } from "@/contexts/SettingsContext";
+import { useSettings } from "@/hooks/useSetting";
 import { QUEST_ROUTES } from "@/data/quests/waypoints";
 
 type Props = {

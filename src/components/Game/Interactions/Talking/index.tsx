@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useTypewriter } from "@/hooks/interaction/useTypewriter";
-import { useSettings } from "@/contexts/SettingsContext";
+import { useSettings } from "@/hooks/useSetting";
 import { useGameControls } from "@/contexts/GameControlsContext";
-import { useAudio } from "@/contexts/AudioContext";
+import { useAudio } from "@/hooks/useAudio";
 import { resolveAsset } from "@/utils/paths";
 
 interface Props {

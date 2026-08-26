@@ -6,7 +6,7 @@ import {
   MAX_HUNGER,
   MAX_SLEEP,
 } from "@/contexts/CharacterProgressContext";
-import { useAudio } from "@/contexts/AudioContext";
+import { useAudio } from "@/hooks/useAudio";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { sfx } from "@/utils/paths";
 import { activateXpBuff, POTION_CONFIG } from "@/utils/buffs/xpBuff";

@@ -3,8 +3,8 @@ import { Routes, Route, Navigate } from "react-router";
 import { lazyLoad } from "@/utils/lazyLoad";
 import { LoadingScreen } from "@/components/Loading/Screen";
 import { Preloader } from "@/components/Loading/Preloader";
-
-import App from "@/App";
+import { GameProviders } from "@/components/Game/Providers";
+import { GameApp } from "@/components/Game/GameApp";
 
 const Loading = lazyLoad(() => import("@/pages/Loading"));
 const Intro = lazyLoad(() => import("@/pages/Intro"));
@@ -65,7 +65,14 @@ export function AppRoutes() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
-          <Route path="/" element={<App />}>
+          <Route
+            path="/"
+            element={
+              <GameProviders>
+                <GameApp />
+              </GameProviders>
+            }
+          >
             <Route index element={<Loading />} />
             <Route path="tutorial" element={<Tutorial />} />
             <Route path="combatTutorial" element={<CombatTutorial />} />

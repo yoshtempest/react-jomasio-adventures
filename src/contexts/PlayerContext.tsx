@@ -25,7 +25,7 @@ import { useBattleCollisionRef } from "@/hooks/battle/useBattleCollisionRef";
 import { CHARACTER_KEY, PLAYER_CLASS_KEY } from "@/data/storageKeys";
 import { slotKey } from "@/services/save/slotManager";
 import { isCharacter } from "@/data/characters/list";
-import { useSettings } from "@/contexts/SettingsContext";
+import { useSettings } from "@/hooks/useSetting";
 
 type PlayerContextType = {
   player: Player;

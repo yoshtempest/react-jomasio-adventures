@@ -1,6 +1,6 @@
 import styles from "./styles.module.css";
 import { BattleTab } from "@/components/Game/Navbar/ExploreNavbar/Config/BattleTab";
-import { useSettings } from "@/contexts/SettingsContext";
+import { useSettings } from "@/hooks/useSetting";
 
 export function Settings() {
   const { showComboAction, showHighlight } = useSettings();
