@@ -9,6 +9,7 @@ const SFX_VOLUME: Record<string, number> = {
   boom: 1.3,
   slimitaJump: 0.3,
   marshadowSpecial: 0.7,
+  riquelsonSpecial: 1.3,
   win: 0.5,
 };
 

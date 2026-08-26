@@ -68,6 +68,7 @@ import { useBattleRecording } from "@/hooks/battle/recording/useBattleRecording"
 import type { ReplayData } from "@/utils/types/replay";
 import type { SpawnDamageFn } from "@/utils/types/battle/spawnDamageFn";
 import { combatService } from "@/services/combat";
+import { useKokusenAnimation } from "@/hooks/battle/player/useKokusenAnimation";
 
 function computeElapsedBattleTime(
   battleStartRef: RefObject<number>,
@@ -419,6 +420,10 @@ export function useBattleScene({
 
   const refs = useBattleRefs();
 
+  const { kokusenActive, kokusenFrame, triggerKokusen } =
+    useKokusenAnimation();
+  const onKokusenRef = useLatestRef(triggerKokusen);
+
   const {
     isGrabbedRef,
     grabFlipped,
@@ -696,6 +701,7 @@ export function useBattleScene({
     onDamageDealtRef,
     onAttackRef,
     onSpecialRef,
+    onKokusenRef,
     petId,
     onPetSkillRef: executePetSkillRef,
     isMenuRef: isMenuOpenRef,
@@ -1073,5 +1079,7 @@ export function useBattleScene({
     controlsDisabled,
     showRetry: difficulty !== "hard" && difficulty !== "insano",
     playerProjectile,
+    kokusenActive,
+    kokusenFrame,
   };
 }

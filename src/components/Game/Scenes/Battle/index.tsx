@@ -15,6 +15,7 @@ import { BattleIntro } from "@/components/Game/Battle/Modal/Intro";
 import { BattleOutro } from "@/components/Game/Battle/Modal/Outro";
 import { BattleHighlight } from "@/components/Game/Battle/Modal/Highlight";
 import { ChargeParticles } from "@/components/Game/Battle/Effects/ChargeParticles";
+import { KokusenAnimation } from "@/components/Game/Battle/Effects/KokusenAnimation";
 import { JumpIndicator } from "@/components/Game/Battle/Jump/indicator";
 import { JumpDangerZone } from "@/components/Game/Battle/Jump/dangerZone";
 import { ComboAction } from "@/components/Game/Battle/Buttons/ComboAction";
@@ -96,6 +97,8 @@ export function BattleScene(props: Props) {
     controlsDisabled,
     showRetry,
     playerProjectile,
+    kokusenActive,
+    kokusenFrame,
   } = useBattleScene({ ...props, isAlfa, PLAYER_SIZE });
 
   const { setBattleCollision } = usePlayer();
@@ -317,6 +320,16 @@ export function BattleScene(props: Props) {
             scaleX={battleScaleX}
             scaleY={battleScaleY}
             targets={damageTargets}
+          />
+
+          <KokusenAnimation
+            active={kokusenActive}
+            frame={kokusenFrame}
+            npcX={npc.x}
+            npcY={npc.y}
+            npcHeight={
+              TILE_SIZE * getBossSizeMultiplier(npcType, battle.npcPhase, isAlfa)
+            }
           />
         </GameMap>
       </div>

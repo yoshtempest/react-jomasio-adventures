@@ -62,6 +62,7 @@ type Props = {
   onDamageDealtRef?: React.RefObject<(amount: number) => void>;
   onAttackRef?: React.RefObject<() => void>;
   onSpecialRef?: React.RefObject<() => void>;
+  onKokusenRef?: React.RefObject<() => void>;
   petId?: string | null;
   onPetSkillRef?: React.RefObject<() => void>;
   isMenuRef?: React.RefObject<boolean>;
@@ -96,6 +97,7 @@ export function useBattleSystem(props: Props) {
     onDamageDealtRef,
     onAttackRef,
     onSpecialRef,
+    onKokusenRef,
     petId = null,
     onPetSkillRef,
     isMenuRef,
@@ -245,6 +247,7 @@ export function useBattleSystem(props: Props) {
     onDamageDealtRef,
     onAttackRef,
     onSpecialRef,
+    onKokusenRef,
     onHalfHeal,
   });
 

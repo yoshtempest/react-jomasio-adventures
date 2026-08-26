@@ -64,7 +64,7 @@ type Props = {
   onDamageDealtRef?: React.RefObject<(amount: number) => void>;
   onAttackRef?: React.RefObject<() => void>;
   onSpecialRef?: React.RefObject<() => void>;
-  onHalfHeal?: () => void;
+  onKokusenRef?: React.RefObject<() => void>;
 };
 
 export function usePlayerBattle({
@@ -103,6 +103,7 @@ export function usePlayerBattle({
   onDamageDealtRef,
   onAttackRef,
   onSpecialRef,
+  onKokusenRef,
   onHalfHeal,
 }: Props) {
   const { playSound } = useSoundEffects();
@@ -193,6 +194,7 @@ export function usePlayerBattle({
         hitstopRef,
         onDamageDealtRef,
         onAttackRef,
+        onKokusenRef,
         damageMultiplier,
         npcX,
         npcY,
@@ -335,6 +337,7 @@ export function usePlayerBattle({
         hitstopRef,
         onDamageDealtRef,
         onSpecialRef,
+        onKokusenRef,
         damageMultiplier,
         npcX,
         npcY,

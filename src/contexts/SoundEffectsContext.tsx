@@ -32,6 +32,7 @@ export type SoundId =
   | "jhowsimarVemCa"
   | "marshadowSpecial"
   | "riquelsonSpecial"
+  | "kokusen"
   | "impact"
   | "slimitaJump"
   | "equip"
