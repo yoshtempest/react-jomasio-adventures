@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { Star } from "lucide-react";
-import { npcPath, asset } from "@/utils/paths";
+import { asset } from "@/utils/paths";
 import { RANK_COLORS, RANK_LABELS } from "@/data/equipment/definitions";
 import { PET_STAR_MAX } from "@/data/characters/petProgress";
 import { PET_ROLE_LABELS } from "@/data/characters/petSkills";
@@ -8,11 +8,17 @@ import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import { usePetsMenu } from "@/hooks/menu/pets/usePetsMenu";
 import type { PetEntry } from "@/hooks/menu/pets/usePetsMenu";
 import styles from "./styles.module.css";
+import { FusionOverlay } from "./FusionOverlay";
 import { ProgressBar } from "@/components/Game/ProgressBar";
 import {
   getPetXPToNextLevel,
   getPetClass,
 } from "@/utils/character/petProgress";
+import {
+  petImagePath,
+  petFallbackImagePath,
+  petStarStyle,
+} from "@/utils/character/petVisuals";
 
 function formatDrop(entry: PetEntry): string {
   if (entry.dropChance === null) return "Baú";
@@ -31,18 +37,32 @@ export function Pets() {
     pendingStar,
     highestEligibleStar,
     statsFor,
+    fusing,
+    finishFusion,
+    newlyUnlockedPetIds,
   } = usePetsMenu(true, listRef);
 
+  const fusingEntry = fusing
+    ? (pets.find((p) => p.id === fusing.petId) ?? null)
+    : null;
+
   return (
-    <div ref={listRef} className={`containerOfNavbar ${styles.petsContainer}`}>
-      {pets.map((entry, index) => {
+    <>
+      <div
+        ref={listRef}
+        className={`containerOfNavbar ${styles.petsContainer}`}
+      >
+        {pets.map((entry, index) => {
         const isSelected = index === selectedIndex;
         const isEquipped = equippedId === entry.id;
         const stats = statsFor(entry);
         const eligible = highestEligibleStar(entry);
         const canFuse = eligible > 0;
         const isFusing = isSelected && pendingStar !== 0;
-        const petNpcType = entry.dropNpc ?? entry.id.replace("pet_", "");
+        const petNpc = entry.dropNpc ?? entry.id.replace("pet_", "");
+        const imageStars = stats?.stars ?? 1;
+        const isNewUnlocked =
+          entry.owned && newlyUnlockedPetIds.includes(entry.id);
 
         return (
           <div
@@ -55,13 +75,24 @@ export function Pets() {
 
             <div className={styles.imageBox}>
               <img
-                src={npcPath(`/${petNpcType}/default.svg`)}
+                src={petImagePath(petNpc, imageStars)}
                 alt={entry.name}
                 className={styles.petImage}
+                style={entry.owned ? petStarStyle(imageStars) : undefined}
+                data-fallback={petFallbackImagePath(petNpc)}
                 onError={(e) => {
-                  e.currentTarget.src = npcPath("/goat/default.svg");
+                  const img = e.currentTarget;
+                  if (img.dataset.fallbackUsed) {
+                    img.src = petFallbackImagePath("goat");
+                  } else {
+                    img.dataset.fallbackUsed = "1";
+                    img.src = img.dataset.fallback || petFallbackImagePath("goat");
+                  }
                 }}
               />
+              {isNewUnlocked && (
+                <span className={styles.unlockBadge}>Novo!</span>
+              )}
               {entry.owned && stats && (
                 <>
                   <div className={styles.starsRow}>
@@ -110,7 +141,7 @@ export function Pets() {
                     <p className={styles.statsLine}>Nv.{stats.level}</p>
                   </>
                 )}
-                {getNpcElementTypes(petNpcType).map((element) => (
+                {getNpcElementTypes(petNpc).map((element) => (
                   <img
                     key={element}
                     src={asset(
@@ -166,6 +197,15 @@ export function Pets() {
           </div>
         );
       })}
-    </div>
+      </div>
+
+      {fusing && fusingEntry && (
+        <FusionOverlay
+          entry={fusingEntry}
+          stars={fusing.stars}
+          onComplete={finishFusion}
+        />
+      )}
+    </>
   );
 }

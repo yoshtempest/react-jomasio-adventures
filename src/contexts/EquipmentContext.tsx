@@ -77,6 +77,8 @@ type EquipmentContextType = {
     petId: EquipmentId,
     stars: number,
   ) => boolean;
+  newlyUnlockedPetIds: string[];
+  acknowledgePets: (ids: string[]) => void;
 };
 
 /* eslint-disable react-refresh/only-export-components */
@@ -93,6 +95,14 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
   }, [allData]);
 
   const { playSound } = useSoundEffects();
+
+  const [newlyUnlockedPetIds, setNewlyUnlockedPetIds] = useState<string[]>([]);
+
+  const acknowledgePets = useCallback((ids: string[]) => {
+    setNewlyUnlockedPetIds((prev) =>
+      prev.filter((id) => !ids.includes(id)),
+    );
+  }, []);
 
   const getEquippedItem = useCallback(
     (character: CharacterId, slot: EquipmentSlot): Equipment | null => {
@@ -221,11 +231,27 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
     [playSound],
   );
 
+  const isPetOwned = useCallback(
+    (character: CharacterId, id: EquipmentId): boolean => {
+      const data = getCharacterData(allData, character);
+      if (getQuantityTotal(character, id) > 0) return true;
+      return data.equipped.pet?.id === id;
+    },
+    [allData, getQuantityTotal],
+  );
+
   const addDrop = useCallback(
     (character: CharacterId, id: EquipmentId, enhance: number = 0) => {
+      const item = getEquipmentById(id);
+      const wasOwnedAlready = isPetOwned(character, id);
       setAllData((prev) => addDropOp(prev, character, id, enhance));
+      if (item?.slot === "pet" && !wasOwnedAlready) {
+        setNewlyUnlockedPetIds((prev) =>
+          prev.includes(id) ? prev : [...prev, id],
+        );
+      }
     },
-    [],
+    [isPetOwned],
   );
 
   const fusePets = useCallback(
@@ -255,6 +281,8 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
         unequipAccessoryAtIndex,
         addDrop,
         fusePets,
+        newlyUnlockedPetIds,
+        acknowledgePets,
       }}
     >
       {children}
