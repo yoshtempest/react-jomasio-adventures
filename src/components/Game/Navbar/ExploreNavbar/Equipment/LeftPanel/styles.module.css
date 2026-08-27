@@ -47,12 +47,11 @@
   color: var(--text-muted);
 }
 
-.slotLabel {
-  font-weight: bold;
-  font-size: var(--fs-11);
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: var(--size-1);
+.slotIcon {
+  width: var(--medium);
+  object-fit: contain;
+  image-rendering: pixelated;
+  margin-bottom: var(--size-1);
 }
 
 .lockedCard {

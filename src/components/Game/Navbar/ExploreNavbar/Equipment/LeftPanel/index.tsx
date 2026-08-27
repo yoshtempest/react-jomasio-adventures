@@ -1,8 +1,9 @@
 import { useRef } from "react";
 import { Lock } from "lucide-react";
 import { usePlayer } from "@/contexts/PlayerContext";
-import { playerPath } from "@/utils/paths";
+import { playerPath, asset } from "@/utils/paths";
 import { SLOT_LABELS, RANK_COLORS } from "@/data/equipment/definitions";
+import { FILTER_LABELS } from "@/utils/equipment/equipmentMenu";
 import {
   getItemResistances,
   HEAT_RESISTANCE_LABEL,
@@ -43,6 +44,12 @@ export function LeftPanel() {
               ? `Acessório ${entry.index + 1}`
               : SLOT_LABELS[entry.slot];
 
+          const slotIcon = asset(
+            entry.type === "accessory-slot"
+              ? FILTER_LABELS.accessory
+              : FILTER_LABELS[entry.slot],
+          );
+
           const key =
             entry.type === "accessory-slot"
               ? `acc-${entry.index}`
@@ -56,7 +63,7 @@ export function LeftPanel() {
               >
                 <div className={styles.chainLeft} />
                 <Lock size={14} className={styles.lockIcon} />
-                <div className={styles.slotLabel}>{label}</div>
+                <img className={styles.slotIcon} src={slotIcon} alt={label} />
                 <div className={styles.chainRight} />
               </div>
             );
@@ -67,8 +74,7 @@ export function LeftPanel() {
               key={key}
               className={`${styles.equippedCard} ${isSelected ? "EquipmentSelected" : ""}`}
             >
-              <div className={styles.slotLabel}>{label}</div>
-              {/* <img className={styles.slotLabel} src={asset(`${item?.slot}`)} alt={`${label}`}/> */}
+              <img className={styles.slotIcon} src={slotIcon} alt={label} />
               {item ? (
                 <>
                   <div className="EquipmentItemRow">
