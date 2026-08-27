@@ -9,6 +9,7 @@ import {
   PAPER_MIN_DISTANCE,
   PAPER_EXPLOSION_DURATION,
   PAPER_STEP_RADIUS,
+  PAPER_STEP_VERTICAL_RANGE,
   PAPER_ATTACK_RANGE,
 } from "./state";
 
@@ -96,7 +97,7 @@ export function checkGroundPaperHits(
     const dx = Math.abs(playerX - gp.x);
     const dy = Math.abs(playerY - gp.y);
 
-    if (dx < PAPER_STEP_RADIUS && dy <= 120) {
+    if (dx < PAPER_STEP_RADIUS && dy <= PAPER_STEP_VERTICAL_RANGE) {
       gp.sprite = "explosion";
       gp.createdAt = now;
       ai.lastPaperHitId = gp.id;

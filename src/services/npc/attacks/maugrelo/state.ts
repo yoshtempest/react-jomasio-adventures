@@ -55,6 +55,13 @@ export const PAPER_VEL_X_SPREAD = 1.5;
 export const PAPER_MIN_DISTANCE = 50;
 export const PAPER_EXPLOSION_DURATION = 500;
 export const PAPER_STEP_RADIUS = 30;
+/**
+ * Tolerância vertical (eixo Y) para o papel explodir quando o jogador pisa.
+ * O jogador fica com os pés na mesma altura dos papéis no chão (dy baixo).
+ * Ao pular por cima, os pés ficam bem acima dos papéis (dy alto), então
+ * ficam acima deste limite e os papéis não explodem, continuando no chão.
+ */
+export const PAPER_STEP_VERTICAL_RANGE = 60;
 export const PAPER_ATTACK_RANGE = 200;
 
 export function initMaugreloAi(): MaugreloAI {
