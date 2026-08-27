@@ -28,7 +28,10 @@ type Props = {
   enemies: EnemyTarget[];
   freezeMainUntilRef: React.RefObject<number>;
   freezeSummonsUntilRef: React.RefObject<number>;
-  onAreaDamage: (targets: EnemyTarget[]) => void;
+  onAreaDamage: (
+    explosions: { x: number; y: number }[],
+    allEnemies: EnemyTarget[],
+  ) => void;
 };
 
 const SPAWN_X_OFFSET = 55;
@@ -150,9 +153,16 @@ export function useArturKillerQueen({
         setBombTargets((prev) =>
           prev.map((b) => ({ ...b, phase: "explosion" })),
         );
-        onAreaDamageRef.current(enemies);
+        onAreaDamageRef.current(
+          bombed.map((b) => ({ x: b.x, y: b.y })),
+          enemies,
+        );
 
         await delay(450);
+
+        freezeMainUntilRefRef.current.current = Date.now();
+        freezeSummonsUntilRefRef.current.current = Date.now();
+
         setKillerQueen((q) => ({ ...q, opacity: 0 }));
         await delay(250);
         setBombTargets([]);
