@@ -124,7 +124,7 @@ export function rollPetDrop(
     if (Math.random() >= info.chance * petDropBonus) continue;
 
     const enhance = 0;
-    addDrop(character, petId as EquipmentId, enhance);
+    addDrop(character, petId, enhance);
     const pet = getEquipmentById(petId);
     if (!pet) return null;
 

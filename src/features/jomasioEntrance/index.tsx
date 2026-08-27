@@ -4,7 +4,10 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useProfessionProgress } from "@/contexts/ProfessionProgressContext";
-import { useHasToolEquipped } from "@/hooks/interaction/useHasToolEquipped";
+import {
+  useHasToolEquipped,
+  useEquippedWeaponId,
+} from "@/hooks/interaction/useHasToolEquipped";
 import { createToolInteraction } from "@/interactions/builder";
 import type { ToolDeps } from "@/utils/types/interaction";
 import type { InventoryItem } from "@/utils/types/player/inventory";
@@ -25,6 +28,7 @@ import {
   rollGatherLoot,
   PROFESSION_XP_PER_GATHER,
 } from "@/gameRules/professions/proficiency";
+import { rollProfessionMaterial } from "@/gameRules/professions/weapon";
 
 type Props = {
   sceneId: SceneId;
@@ -44,6 +48,7 @@ type MineRockDeps = ToolDeps & {
     professionId: ProfessionId,
     amount: number,
   ) => void;
+  equippedWeaponId: string | null;
 };
 
 export function JomasioEntranceScene({ sceneId }: Props) {
@@ -54,6 +59,7 @@ export function JomasioEntranceScene({ sceneId }: Props) {
   const { player } = usePlayer();
   const { getProficiency, addProficiencyXP } = useProfessionProgress();
   const hasToolEquipped = useHasToolEquipped();
+  const equippedWeaponId = useEquippedWeaponId();
 
   const [popup, setPopup] = useState<string | null>(null);
   const lastMineTimeRef = useRef(0);
@@ -76,6 +82,11 @@ export function JomasioEntranceScene({ sceneId }: Props) {
           GATHER_LOOT_TABLES.miner,
           level,
         );
+
+        const material = deps.equippedWeaponId
+          ? rollProfessionMaterial(deps.equippedWeaponId)
+          : null;
+        if (material) rolled.push(material);
 
         rolled.forEach(({ itemId, qty }) => deps.addItem({ id: itemId, qty }));
 
@@ -106,6 +117,11 @@ export function JomasioEntranceScene({ sceneId }: Props) {
           level,
         );
 
+        const material = deps.equippedWeaponId
+          ? rollProfessionMaterial(deps.equippedWeaponId)
+          : null;
+        if (material) rolled.push(material);
+
         rolled.forEach(({ itemId, qty }) => deps.addItem({ id: itemId, qty }));
 
         const summary = rolled
@@ -134,6 +150,7 @@ export function JomasioEntranceScene({ sceneId }: Props) {
           character: player.character,
           getProficiency,
           addProficiencyXP,
+          equippedWeaponId,
         }),
       "5,7": () =>
         chopWood({
@@ -143,6 +160,7 @@ export function JomasioEntranceScene({ sceneId }: Props) {
           character: player.character,
           getProficiency,
           addProficiencyXP,
+          equippedWeaponId,
         }),
     };
   }, [
@@ -152,6 +170,7 @@ export function JomasioEntranceScene({ sceneId }: Props) {
     player.character,
     getProficiency,
     addProficiencyXP,
+    equippedWeaponId,
   ]);
 
   if (!scene) {

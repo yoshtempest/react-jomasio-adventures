@@ -27,6 +27,7 @@ import {
   reduceTickDamage,
 } from "@/gameRules/battle/equipment";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
+import { getProfessionWeaponDamageMultiplier } from "@/gameRules/professions/weapon";
 import {
   applyPlayerStatus,
   clearPlayerStatuses,
@@ -134,6 +135,7 @@ export function useBattleSystem(props: Props) {
     critRate,
     HITS_TO_SPECIAL,
     hasPet,
+    equippedWeaponId,
   } = stats;
 
   const { blockGauge, setBlockGauge, blockLimit, resetBlockGauge } =
@@ -145,6 +147,13 @@ export function useBattleSystem(props: Props) {
   const npcElementTypes = getNpcElementTypes(npcType);
 
   const elementDamageBonus = getElementDamageBonus(npcElementTypes);
+
+  const professionWeaponMultiplier = equippedWeaponId
+    ? getProfessionWeaponDamageMultiplier(equippedWeaponId, npcElementTypes)
+    : 1;
+
+  const professionElementDamageBonus =
+    elementDamageBonus * professionWeaponMultiplier;
 
   const halfHealReduction = getHalfHealReduction(player.character);
   const equippedResistances = getEquippedResistances(player.character);
@@ -236,7 +245,7 @@ export function useBattleSystem(props: Props) {
     spawnPiercing: effects.spawnPiercing,
     triggerExplosion: effects.triggerExplosion,
     titleDamageBonus: titleBonus.damage,
-    elementDamageBonus,
+    elementDamageBonus: professionElementDamageBonus,
     critRate: stats.critRate,
     npcArmor,
     spawnDamageRef,
@@ -435,7 +444,7 @@ export function useBattleSystem(props: Props) {
     totalVampirism,
     totalReflect,
     titleDamageBonus: titleBonus.damage,
-    elementDamageBonus,
+    elementDamageBonus: professionElementDamageBonus,
     blockGauge,
     blockLimit,
     tenacityReduction: stats.tenacityReduction,

@@ -147,3 +147,40 @@
   background: rgba(255, 255, 255, 0.05);
   border-radius: var(--fs-8);
 }
+
+.ladder {
+  display: flex;
+  align-items: center;
+  gap: var(--fs-6);
+  margin-top: var(--fs-8);
+  flex-wrap: wrap;
+}
+
+.ladderStep {
+  width: var(--fs-8);
+  height: var(--fs-8);
+  border-radius: 50%;
+  border: var(--size-1) solid var(--text-secondary);
+  background: transparent;
+}
+
+.ladderReached {
+  background: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+.ladderCurrent {
+  outline: var(--size-1) solid var(--text-primary);
+  outline-offset: var(--size-1);
+}
+
+.ladderNext {
+  font-size: var(--fs-075);
+  color: var(--text-secondary);
+  margin-left: var(--fs-6);
+}
+
+.element {
+  font-size: var(--fs-075);
+  color: var(--accent-color);
+}

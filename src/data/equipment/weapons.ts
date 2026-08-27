@@ -1,4 +1,72 @@
-import type { EquipmentDef } from "@/utils/types/player/equipment";
+import type {
+  EquipmentDef,
+  EquipmentStats,
+} from "@/utils/types/player/equipment";
+import {
+  PROFESSION_WEAPONS,
+  PROFESSION_WEAPON_TIERS,
+  getProfessionWeaponId,
+  type ProfessionWeaponConfig,
+  type ProfessionWeaponTier,
+} from "@/data/professions/weapons";
+
+function scaleStats(base: Partial<EquipmentStats>, index: number): Partial<EquipmentStats> {
+  const factor = 1 + index * 0.6;
+  const result: Partial<EquipmentStats> = {};
+  for (const key of Object.keys(base) as (keyof EquipmentStats)[]) {
+    const value = base[key];
+    if (typeof value === "number") {
+      result[key] = Math.round(value * factor);
+    }
+  }
+  return result;
+}
+
+function buildRankedWeapon(
+  config: ProfessionWeaponConfig,
+  tier: ProfessionWeaponTier,
+  index: number,
+  baseStats: Partial<EquipmentStats>,
+): EquipmentDef {
+    return {
+      id: getProfessionWeaponId(config, tier.id),
+      name: `${config.baseName} ${tier.label}`,
+      slot: "weapon",
+      rank: tier.rank,
+      stats: scaleStats(baseStats, index),
+      craftOnly: true,
+    };
+  }
+
+const BASE_TOOL_STATS: Record<string, Partial<EquipmentStats>> = {
+  weapon_pickaxe: { strength: 2 },
+  weapon_cleaver: { strength: 2 },
+  weapon_fishing_rod: { intelligence: 1 },
+  weapon_hoe: { strength: 1 },
+  weapon_cauldron: { intelligence: 1 },
+  weapon_rolling_pin: { strength: 1 },
+  weapon_dumbbell: { strength: 2 },
+  weapon_axe: { strength: 2 },
+  weapon_pan: { strength: 2 },
+  weapon_adjustable_wrench: { strength: 1 },
+  weapon_paint: { intelligence: 1 },
+} as const satisfies Record<string, Partial<EquipmentStats>>;
+
+const PROFESSION_RANKED_WEAPONS: readonly EquipmentDef[] = Object.values(
+  PROFESSION_WEAPONS,
+).flatMap((config) =>
+  PROFESSION_WEAPON_TIERS.flatMap((tier, index) => {
+    if (tier.id === "comum") return [];
+    return [
+      buildRankedWeapon(
+        config,
+        tier,
+        index,
+        BASE_TOOL_STATS[config.baseToolId] ?? { strength: 1 },
+      ),
+    ];
+  }),
+);
 
 export const WEAPONS = [
   {
@@ -199,4 +267,5 @@ export const WEAPONS = [
     stats: { intelligence: 1 },
     craftOnly: true,
   },
+  ...PROFESSION_RANKED_WEAPONS,
 ] as const satisfies readonly EquipmentDef[];

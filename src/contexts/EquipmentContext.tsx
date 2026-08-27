@@ -27,7 +27,12 @@ import {
   unequipAccessoryAt,
   addDrop as addDropOp,
   fusePets as fusePetsOp,
+  upgradeProfessionWeapon as upgradeProfessionWeaponOp,
 } from "@/gameRules/equipment/operations";
+import type {
+  ProfessionWeaponConfig,
+  ProfessionWeaponTierId,
+} from "@/data/professions/weapons";
 
 type EquipmentContextType = {
   /**
@@ -76,6 +81,12 @@ type EquipmentContextType = {
     character: CharacterId,
     petId: EquipmentId,
     stars: number,
+  ) => boolean;
+  upgradeProfessionWeapon: (
+    character: CharacterId,
+    config: import("@/data/professions/weapons").ProfessionWeaponConfig,
+    fromTier: import("@/data/professions/weapons").ProfessionWeaponTierId,
+    toTier: import("@/data/professions/weapons").ProfessionWeaponTierId,
   ) => boolean;
   newlyUnlockedPetIds: string[];
   acknowledgePets: (ids: string[]) => void;
@@ -264,6 +275,27 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
     [allData],
   );
 
+  const upgradeProfessionWeapon = useCallback(
+    (
+      character: CharacterId,
+      config: ProfessionWeaponConfig,
+      fromTier: ProfessionWeaponTierId,
+      toTier: ProfessionWeaponTierId,
+    ): boolean => {
+      const next = upgradeProfessionWeaponOp(
+        allData,
+        character,
+        config,
+        fromTier,
+        toTier,
+      );
+      if (!next) return false;
+      setAllData(next);
+      return true;
+    },
+    [allData],
+  );
+
   return (
     <EquipmentContext.Provider
       value={{
@@ -281,6 +313,7 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
         unequipAccessoryAtIndex,
         addDrop,
         fusePets,
+        upgradeProfessionWeapon,
         newlyUnlockedPetIds,
         acknowledgePets,
       }}

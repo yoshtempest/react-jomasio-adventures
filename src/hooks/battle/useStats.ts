@@ -185,6 +185,9 @@ export function useBattleStats({
 
   const hasPet = getEquippedItem(player.character, "pet") !== null;
 
+  const equippedWeaponId =
+    getEquippedItem(player.character, "weapon")?.id ?? null;
+
   return {
     player,
     playerClass,
@@ -209,5 +212,6 @@ export function useBattleStats({
     npcArmor,
     HITS_TO_SPECIAL,
     hasPet,
+    equippedWeaponId,
   };
 }
