@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
-import { circularNext, circularPrev, gridMove } from "@/gameRules/menu/navigation";
+import {
+  circularNext,
+  circularPrev,
+  gridMove,
+} from "@/gameRules/menu/navigation";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useItemEffect } from "@/hooks/items/useItemEffect";
 import { useLatestRef } from "@/hooks/useLatestRef";

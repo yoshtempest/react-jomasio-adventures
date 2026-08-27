@@ -43,7 +43,8 @@ function computeSummonDamage(
   );
 
   return Math.round(
-    combatService.calculateNpcDamage(stats.damage, playerClass) * elementMultiplier,
+    combatService.calculateNpcDamage(stats.damage, playerClass) *
+      elementMultiplier,
   );
 }
 
@@ -80,7 +81,8 @@ export function useSummonAI({
     const interval = setInterval(() => {
       if (isPausedRef.current) return;
       if (hitstopRef.current > Date.now()) return;
-      if (freezeUntilRef?.current && freezeUntilRef.current > Date.now()) return;
+      if (freezeUntilRef?.current && freezeUntilRef.current > Date.now())
+        return;
 
       const px = playerXRef.current;
 

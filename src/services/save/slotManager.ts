@@ -17,8 +17,7 @@ export type SlotIndex = 0 | 1;
  * template literal em vez de item da lista.
  */
 export type SlotScopedKey =
-  | (typeof GAME_STATE_KEYS)[number]
-  | `${typeof CONTAINER_KEY_PREFIX}${string}`;
+  (typeof GAME_STATE_KEYS)[number] | `${typeof CONTAINER_KEY_PREFIX}${string}`;
 
 /**
  * Gerencia os slots de save. O backend é injetado no constructor.
@@ -158,16 +157,15 @@ export const GAME_STATE_KEYS = [
   "ground_items",
 ] as const;
 
-export const slotManager = new SlotManager(
-  lazilyResolvedDefaultStorage(),
-);
+export const slotManager = new SlotManager(lazilyResolvedDefaultStorage());
 
 function lazilyResolvedDefaultStorage(): StorageLike {
   return localStorage;
 }
 
 export const getActiveSlot = () => slotManager.getActiveSlot();
-export const setActiveSlot = (slot: SlotIndex) => slotManager.setActiveSlot(slot);
+export const setActiveSlot = (slot: SlotIndex) =>
+  slotManager.setActiveSlot(slot);
 export const slotKey = (key: SlotScopedKey) => slotManager.slotKey(key);
 export const slotKeyFor = (slot: SlotIndex, key: SlotScopedKey) =>
   slotManager.slotKeyFor(slot, key);

@@ -8,7 +8,10 @@ export const FOOD_RESTORE: Record<string, number> = {
 };
 
 /** Bebidas energéticas: foco em recuperar sono, enchendo pouco a fome. */
-export const ENERGETIC_RESTORE: Record<string, { hunger: number; sleep: number }> = {
+export const ENERGETIC_RESTORE: Record<
+  string,
+  { hunger: number; sleep: number }
+> = {
   cafe: { hunger: 5, sleep: 35 },
   energetico: { hunger: 6, sleep: 50 },
   whey_protein: { hunger: 20, sleep: 15 },

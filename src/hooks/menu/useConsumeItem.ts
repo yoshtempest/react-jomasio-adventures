@@ -10,10 +10,7 @@ import { useAudio } from "@/hooks/useAudio";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { sfx } from "@/utils/paths";
 import { activateXpBuff, POTION_CONFIG } from "@/utils/buffs/xpBuff";
-import {
-  FOOD_RESTORE,
-  ENERGETIC_RESTORE,
-} from "@/services/items/itemEffects";
+import { FOOD_RESTORE, ENERGETIC_RESTORE } from "@/services/items/itemEffects";
 
 /**
  * Consuming an item from the inventory.

@@ -44,9 +44,8 @@ export function BattleHUD({
   const { player } = usePlayer();
   const { progress } = useCharacterProgress();
   const playerName = localStorage.getItem("playerName") || "Protagonista";
-  
-  const playerRank = 
-    `${srcRank(getRank(progress[player.character]?.level ?? 1))}`
+
+  const playerRank = `${srcRank(getRank(progress[player.character]?.level ?? 1))}`;
 
   return (
     <>

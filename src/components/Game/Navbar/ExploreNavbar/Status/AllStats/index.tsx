@@ -80,7 +80,10 @@ export function AllStatsView() {
     (0.005 + (titleBonus.enemyMissChance ?? 0) / 100 + luckBonus) * 100;
   const totalMaxHpDamage = bonus.maxHpDamage ?? 0;
   const totalTrueDamage = bonus.trueDamage ?? 0;
-  const maxHpDamageBonus = combatService.calculateMaxHpBonus(userHp, totalMaxHpDamage);
+  const maxHpDamageBonus = combatService.calculateMaxHpBonus(
+    userHp,
+    totalMaxHpDamage,
+  );
 
   const inc =
     selectedIndex !== undefined ? getStatIncreases(selectedIndex) : undefined;

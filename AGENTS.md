@@ -129,21 +129,21 @@ Composição de hooks: `useBattleSystem` → cooldowns, effects, player/NPC batt
 
 ## Organização de Pastas
 
-| Pasta               | Conteúdo                                                                      |
-| ------------------- | ----------------------------------------------------------------------------- |
-| `src/components/`   | UI reutilizável agrupada por domínio                                          |
-| `src/contexts/`     | Providers + hooks de contexto (flat, sem subpastas)                           |
-| `src/hooks/`        | Hooks custom (battle/, player/, scene/, interaction/, menu/, npc/, tutorial/) |
-| `src/utils/types/`  | Definições TS (player/, npc/, maps/)                                          |
-| `src/gameRules/`    | Lógica pura do jogo (battle/, movement/, menu/, npc/)                         |
+| Pasta               | Conteúdo                                                                         |
+| ------------------- | -------------------------------------------------------------------------------- |
+| `src/components/`   | UI reutilizável agrupada por domínio                                             |
+| `src/contexts/`     | Providers + hooks de contexto (flat, sem subpastas)                              |
+| `src/hooks/`        | Hooks custom (battle/, player/, scene/, interaction/, menu/, npc/, tutorial/)    |
+| `src/utils/types/`  | Definições TS (player/, npc/, maps/)                                             |
+| `src/gameRules/`    | Lógica pura do jogo (battle/, movement/, menu/, npc/)                            |
 | `src/services/`     | Classes de regras de negócio (npc/, combat/, items/, save/, engine/, inventory/) |
-| `src/data/`         | Dados estáticos (items/, flags/, quests/, maps/, options/)                    |
-| `src/maps/`         | Matrizes de tile map por local                                                |
-| `src/scenes/`       | Configurações de cena + factories compartilhadas                              |
-| `src/features/`     | Wrappers de cena conectando dados ao SceneBase                                |
-| `src/pages/`        | Páginas de rota (cada uma em pasta com index.tsx)                             |
-| `src/interactions/` | Definições de interação por local (builder pattern)                           |
-| `src/online/`       | Funcionalidades multiplayer                                                   |
+| `src/data/`         | Dados estáticos (items/, flags/, quests/, maps/, options/)                       |
+| `src/maps/`         | Matrizes de tile map por local                                                   |
+| `src/scenes/`       | Configurações de cena + factories compartilhadas                                 |
+| `src/features/`     | Wrappers de cena conectando dados ao SceneBase                                   |
+| `src/pages/`        | Páginas de rota (cada uma em pasta com index.tsx)                                |
+| `src/interactions/` | Definições de interação por local (builder pattern)                              |
+| `src/online/`       | Funcionalidades multiplayer                                                      |
 
 ## Regras Importantes
 

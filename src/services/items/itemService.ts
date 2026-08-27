@@ -1,7 +1,4 @@
-import {
-  getItemAction,
-  rollEncounter,
-} from "./itemEffects";
+import { getItemAction, rollEncounter } from "./itemEffects";
 import { MAX_HUNGER, MAX_SLEEP } from "@/contexts/CharacterProgressContext";
 import { POTION_CONFIG, activateXpBuff } from "@/utils/buffs/xpBuff";
 

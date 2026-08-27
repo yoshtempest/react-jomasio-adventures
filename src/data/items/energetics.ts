@@ -25,8 +25,7 @@ export const ENERGETICS = createItems({
   creatina: {
     image: "/assets/items/creatina.svg",
     name: "Creatina",
-    description:
-      "Monohidratada, obviamente. Recupera 10 de sono e 12 de fome.",
+    description: "Monohidratada, obviamente. Recupera 10 de sono e 12 de fome.",
     type: "consumable",
   },
   coca_cola: {

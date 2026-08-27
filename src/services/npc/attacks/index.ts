@@ -68,9 +68,7 @@ export const npcAttacks = {
   yangKai: new DefaultNpcAttack("yangKai"),
 
   /* Tanque dos crávos */
-  figurantOfDragonKingCult: new DefaultNpcAttack(
-    "figurantOfDragonKingCult",
-  ),
+  figurantOfDragonKingCult: new DefaultNpcAttack("figurantOfDragonKingCult"),
   ains: new DefaultNpcAttack("ains"),
   dragonKing: new DefaultNpcAttack("dragonKing"),
 

@@ -32,8 +32,13 @@ export function useKokusenAnimation() {
     timerRef.current = setTimeout(nextFrame, FRAME_DURATION);
   }, []);
 
-  const kokusenFrame =
-    kokusen.active ? KOKUSEN_FRAMES[kokusen.frame] ?? null : null;
+  const kokusenFrame = kokusen.active
+    ? (KOKUSEN_FRAMES[kokusen.frame] ?? null)
+    : null;
 
-  return { kokusenActive: kokusen.active, kokusenFrame, triggerKokusen: trigger };
+  return {
+    kokusenActive: kokusen.active,
+    kokusenFrame,
+    triggerKokusen: trigger,
+  };
 }

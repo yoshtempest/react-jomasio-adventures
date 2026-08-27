@@ -53,150 +53,156 @@ export function Pets() {
         className={`containerOfNavbar ${styles.petsContainer}`}
       >
         {pets.map((entry, index) => {
-        const isSelected = index === selectedIndex;
-        const isEquipped = equippedId === entry.id;
-        const stats = statsFor(entry);
-        const eligible = highestEligibleStar(entry);
-        const canFuse = eligible > 0;
-        const isFusing = isSelected && pendingStar !== 0;
-        const petNpc = entry.dropNpc ?? entry.id.replace("pet_", "");
-        const imageStars = stats?.stars ?? 1;
-        const isNewUnlocked =
-          entry.owned && newlyUnlockedPetIds.includes(entry.id);
+          const isSelected = index === selectedIndex;
+          const isEquipped = equippedId === entry.id;
+          const stats = statsFor(entry);
+          const eligible = highestEligibleStar(entry);
+          const canFuse = eligible > 0;
+          const isFusing = isSelected && pendingStar !== 0;
+          const petNpc = entry.dropNpc ?? entry.id.replace("pet_", "");
+          const imageStars = stats?.stars ?? 1;
+          const isNewUnlocked =
+            entry.owned && newlyUnlockedPetIds.includes(entry.id);
 
-        return (
-          <div
-            key={entry.id}
-            className={`${styles.pet} ${!entry.owned ? styles.petLocked : ""} ${
-              isEquipped ? styles.equipped : ""
-            } ${isSelected ? styles.selected : ""}`}
-          >
-            {isSelected && <span className={`cursor ${styles.cursor}`}>▼</span>}
-
-            <div className={styles.imageBox}>
-              <img
-                src={petImagePath(petNpc, imageStars)}
-                alt={entry.name}
-                className={styles.petImage}
-                style={entry.owned ? petStarStyle(imageStars) : undefined}
-                data-fallback={petFallbackImagePath(petNpc)}
-                onError={(e) => {
-                  const img = e.currentTarget;
-                  if (img.dataset.fallbackUsed) {
-                    img.src = petFallbackImagePath("goat");
-                  } else {
-                    img.dataset.fallbackUsed = "1";
-                    img.src = img.dataset.fallback || petFallbackImagePath("goat");
-                  }
-                }}
-              />
-              {isNewUnlocked && (
-                <span className={styles.unlockBadge}>Novo!</span>
-              )}
-              {entry.owned && stats && (
-                <>
-                  <div className={styles.starsRow}>
-                    {Array.from({ length: PET_STAR_MAX }, (_, i) => {
-                      const star = i + 1;
-                      const qty = entry.qtyByStar[i] ?? 0;
-                      return (
-                        <div key={star} className={styles.starChip}>
-                          <Star
-                            size={12}
-                            className={
-                              qty > 0 ? styles.starFilled : styles.starEmpty
-                            }
-                          />
-                          {qty > 0 && (
-                            <span className={styles.starQty}>x{qty}</span>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </>
+          return (
+            <div
+              key={entry.id}
+              className={`${styles.pet} ${!entry.owned ? styles.petLocked : ""} ${
+                isEquipped ? styles.equipped : ""
+              } ${isSelected ? styles.selected : ""}`}
+            >
+              {isSelected && (
+                <span className={`cursor ${styles.cursor}`}>▼</span>
               )}
 
-              {isSelected && canFuse && (
-                <span
-                  className={`${styles.fuseBadge} ${
-                    isFusing ? styles.fuseConfirm : ""
-                  }`}
-                >
-                  {isFusing ? "CONFIRMAR FUSÃO?" : `FUNDIR (2x ★${eligible})`}
-                </span>
-              )}
-            </div>
-
-            <div className={styles.flexColumn}>
-              <div className={styles.flexRow}>
-                <h2
-                  className={styles.name}
-                  style={{ color: RANK_COLORS[entry.rank] }}
-                >
-                  {entry.name}
-                </h2>
+              <div className={styles.imageBox}>
+                <img
+                  src={petImagePath(petNpc, imageStars)}
+                  alt={entry.name}
+                  className={styles.petImage}
+                  style={entry.owned ? petStarStyle(imageStars) : undefined}
+                  data-fallback={petFallbackImagePath(petNpc)}
+                  onError={(e) => {
+                    const img = e.currentTarget;
+                    if (img.dataset.fallbackUsed) {
+                      img.src = petFallbackImagePath("goat");
+                    } else {
+                      img.dataset.fallbackUsed = "1";
+                      img.src =
+                        img.dataset.fallback || petFallbackImagePath("goat");
+                    }
+                  }}
+                />
+                {isNewUnlocked && (
+                  <span className={styles.unlockBadge}>Novo!</span>
+                )}
                 {entry.owned && stats && (
                   <>
-                    <p className={styles.statsLine}>Nv.{stats.level}</p>
+                    <div className={styles.starsRow}>
+                      {Array.from({ length: PET_STAR_MAX }, (_, i) => {
+                        const star = i + 1;
+                        const qty = entry.qtyByStar[i] ?? 0;
+                        return (
+                          <div key={star} className={styles.starChip}>
+                            <Star
+                              size={12}
+                              className={
+                                qty > 0 ? styles.starFilled : styles.starEmpty
+                              }
+                            />
+                            {qty > 0 && (
+                              <span className={styles.starQty}>x{qty}</span>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
                   </>
                 )}
-                {getNpcElementTypes(petNpc).map((element) => (
-                  <img
-                    key={element}
-                    src={asset(
-                      `/assets/badges/elements/${element.toLowerCase()}.svg`,
-                    )}
-                    alt={element}
-                    title={element}
-                    className={styles.elementBadge}
-                  />
-                ))}
+
+                {isSelected && canFuse && (
+                  <span
+                    className={`${styles.fuseBadge} ${
+                      isFusing ? styles.fuseConfirm : ""
+                    }`}
+                  >
+                    {isFusing ? "CONFIRMAR FUSÃO?" : `FUNDIR (2x ★${eligible})`}
+                  </span>
+                )}
               </div>
-              {entry.owned && stats && (
-                <>
-                  <div className={styles.flexRow}>
-                    <ProgressBar
-                      value={stats.xp}
-                      max={getPetXPToNextLevel(
-                        stats.level,
-                        getPetClass(entry.id),
+
+              <div className={styles.flexColumn}>
+                <div className={styles.flexRow}>
+                  <h2
+                    className={styles.name}
+                    style={{ color: RANK_COLORS[entry.rank] }}
+                  >
+                    {entry.name}
+                  </h2>
+                  {entry.owned && stats && (
+                    <>
+                      <p className={styles.statsLine}>Nv.{stats.level}</p>
+                    </>
+                  )}
+                  {getNpcElementTypes(petNpc).map((element) => (
+                    <img
+                      key={element}
+                      src={asset(
+                        `/assets/badges/elements/${element.toLowerCase()}.svg`,
                       )}
-                      animationId={`pet-xp-${entry.id}`}
-                      level={stats.level}
+                      alt={element}
+                      title={element}
+                      className={styles.elementBadge}
                     />
-                    <p className={styles.statsLine}>
-                      {stats.xp} /{" "}
-                      {getPetXPToNextLevel(stats.level, getPetClass(entry.id))}
-                    </p>
-                  </div>
-                </>
-              )}
+                  ))}
+                </div>
+                {entry.owned && stats && (
+                  <>
+                    <div className={styles.flexRow}>
+                      <ProgressBar
+                        value={stats.xp}
+                        max={getPetXPToNextLevel(
+                          stats.level,
+                          getPetClass(entry.id),
+                        )}
+                        animationId={`pet-xp-${entry.id}`}
+                        level={stats.level}
+                      />
+                      <p className={styles.statsLine}>
+                        {stats.xp} /{" "}
+                        {getPetXPToNextLevel(
+                          stats.level,
+                          getPetClass(entry.id),
+                        )}
+                      </p>
+                    </div>
+                  </>
+                )}
 
-              {isEquipped && (
-                <span className={styles.equippedBadge}>Equipado</span>
-              )}
+                {isEquipped && (
+                  <span className={styles.equippedBadge}>Equipado</span>
+                )}
 
-              <span className={styles.roleBadge}>
-                {PET_ROLE_LABELS[entry.role]}
-              </span>
+                <span className={styles.roleBadge}>
+                  {PET_ROLE_LABELS[entry.role]}
+                </span>
 
-              <div className={styles.flexRow}>
-                <p
-                  className={styles.rankLabel}
-                  style={{ color: RANK_COLORS[entry.rank] }}
-                >
-                  {RANK_LABELS[entry.rank]}
-                </p>
-                <p className={styles.dropLine}>Drop: {formatDrop(entry)}</p>
+                <div className={styles.flexRow}>
+                  <p
+                    className={styles.rankLabel}
+                    style={{ color: RANK_COLORS[entry.rank] }}
+                  >
+                    {RANK_LABELS[entry.rank]}
+                  </p>
+                  <p className={styles.dropLine}>Drop: {formatDrop(entry)}</p>
+                </div>
+
+                <p className={styles.skillLine}>Passiva: {entry.passiveName}</p>
+                <p className={styles.skillLine}>Skill: {entry.skillName}</p>
               </div>
-
-              <p className={styles.skillLine}>Passiva: {entry.passiveName}</p>
-              <p className={styles.skillLine}>Skill: {entry.skillName}</p>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
       </div>
 
       {fusing && fusingEntry && (

@@ -71,7 +71,10 @@ export class CombatService {
     return Math.round(dmg);
   }
 
-  rollCrit(damage: number, critRate: number): { damage: number; type: DamageType } {
+  rollCrit(
+    damage: number,
+    critRate: number,
+  ): { damage: number; type: DamageType } {
     if (Math.random() * 100 < critRate) {
       return { damage: damage * 2, type: "crit" };
     }
@@ -146,9 +149,7 @@ export class CombatService {
       getNpcElementTypes(npcType),
       CHARACTER_ELEMENT_TYPES[playerCharacter],
     );
-    const finalDmg = Math.round(
-      (isCrit ? dmg * 2 : dmg) * elementMultiplier,
-    );
+    const finalDmg = Math.round((isCrit ? dmg * 2 : dmg) * elementMultiplier);
     const dmgType: DamageType = isCrit ? "crit" : "npc";
 
     return { finalDmg, dmgType };
@@ -161,9 +162,7 @@ export class CombatService {
     cooldown: number,
   ): boolean {
     return (
-      distanceX <= 20 &&
-      distanceY <= 39 &&
-      Date.now() - lastAttack > cooldown
+      distanceX <= 20 && distanceY <= 39 && Date.now() - lastAttack > cooldown
     );
   }
 

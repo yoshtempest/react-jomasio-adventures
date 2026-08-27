@@ -75,13 +75,22 @@ function computeHitDamage({
   isCrit: boolean;
   type: DamageType;
 } {
-  const maxHpBonus = combatService.calculateMaxHpBonus(playerMaxHp, totalMaxHpDamage);
+  const maxHpBonus = combatService.calculateMaxHpBonus(
+    playerMaxHp,
+    totalMaxHpDamage,
+  );
   const dmgWithHpBonus = rawDmg + maxHpBonus;
   const berserkDmg =
     player.character === "samuel" && char.level >= 20
-      ? Math.round(dmgWithHpBonus * combatService.getBerserkMultiplier(playerHP, playerMaxHp))
+      ? Math.round(
+          dmgWithHpBonus *
+            combatService.getBerserkMultiplier(playerHP, playerMaxHp),
+        )
       : dmgWithHpBonus;
-  const { damage: critDmg, type: dmgType } = combatService.rollCrit(berserkDmg, critRate);
+  const { damage: critDmg, type: dmgType } = combatService.rollCrit(
+    berserkDmg,
+    critRate,
+  );
   const armorReduced = combatService.calculateDamageToNpc(critDmg, npcArmor);
   const elementMultiplier = combatService.getElementMultiplier(
     CHARACTER_ELEMENT_TYPES[player.character],

@@ -25,9 +25,7 @@ import { CLASS_DATA } from "@/data/npc/class";
 import { getCharacterStatus } from "@/data/player/stats";
 import { combatService } from "@/services/combat";
 
-
 export function Settings() {
-
   const battleInfoCtx = useBattleInfo();
   const { player } = usePlayer();
   const { progress } = useCharacterProgress();
@@ -41,7 +39,6 @@ export function Settings() {
   const npcRank = battleInfo
     ? formatRank(getRank(battleInfo.npcLevel))
     : playerRank;
-
 
   const playerStats = useMemo(() => {
     const baseChar = progress[player.character];
@@ -93,7 +90,10 @@ export function Settings() {
     const maxHp = 90 + hp * 10;
     const maxHpDamage = equipmentBonus.maxHpDamage ?? 0;
     const trueDamage = equipmentBonus.trueDamage ?? 0;
-    const maxHpDamageBonus = combatService.calculateMaxHpBonus(maxHp, maxHpDamage);
+    const maxHpDamageBonus = combatService.calculateMaxHpBonus(
+      maxHp,
+      maxHpDamage,
+    );
 
     return {
       maxHp,
@@ -116,8 +116,14 @@ export function Settings() {
 
     const playerTypes = CHARACTER_ELEMENT_TYPES[player.character] ?? [];
     const npcTypes = getNpcElementTypes(battleInfo.npcType);
-    const playerElementMultiplier = combatService.getElementMultiplier(playerTypes, npcTypes);
-    const npcElementMultiplier = combatService.getElementMultiplier(npcTypes, playerTypes);
+    const playerElementMultiplier = combatService.getElementMultiplier(
+      playerTypes,
+      npcTypes,
+    );
+    const npcElementMultiplier = combatService.getElementMultiplier(
+      npcTypes,
+      playerTypes,
+    );
 
     const enemyTotal =
       (battleInfo.npcHp + battleInfo.npcDamage + battleInfo.npcArmor) *
@@ -187,56 +193,58 @@ export function Settings() {
       })
     : null;
 
-    return (
-      <div className="containerOfNavbar">
-        <div className={`${styles.battleContainer} `}>
-          {battleInfo && playerStats && classData && playerSummary && (
-            <>
-              <h2 className={styles.center}>Configurações de Batalha</h2>
-              <div className={styles.battleEntities}>
-                <BattleCard
-                  spriteSrc={playerPath(`/${player.character}/default.svg`)}
-                  name={playerName}
-                  level={playerLevel}
-                  rank={playerRank}
-                  stats={playerSummary}
-                />
-                <h2>VS</h2>
-                <BattleCard
-                  spriteSrc={npcPath(`/${battleInfo.npcType}/right.svg`)}
-                  name={getNpcDisplayName(battleInfo.npcType)}
-                  subtitle={
-                    <span className={styles.npcClassLabel}>
-                      Classe:{" "}
-                      <span style={{ color: classData.color }}>
-                        {classData.label}
-                      </span>
+  return (
+    <div className="containerOfNavbar">
+      <div className={`${styles.battleContainer} `}>
+        {battleInfo && playerStats && classData && playerSummary && (
+          <>
+            <h2 className={styles.center}>Configurações de Batalha</h2>
+            <div className={styles.battleEntities}>
+              <BattleCard
+                spriteSrc={playerPath(`/${player.character}/default.svg`)}
+                name={playerName}
+                level={playerLevel}
+                rank={playerRank}
+                stats={playerSummary}
+              />
+              <h2>VS</h2>
+              <BattleCard
+                spriteSrc={npcPath(`/${battleInfo.npcType}/right.svg`)}
+                name={getNpcDisplayName(battleInfo.npcType)}
+                subtitle={
+                  <span className={styles.npcClassLabel}>
+                    Classe:{" "}
+                    <span style={{ color: classData.color }}>
+                      {classData.label}
                     </span>
-                  }
-                  level={battleInfo.npcLevel}
-                  rank={npcRank}
-                  stats={[
-                    { label: "HP", value: Math.round(battleInfo.npcHp) },
-                    { label: "Dano", value: Math.round(battleInfo.npcDamage) },
-                    { label: "Armadura", value: Math.round(battleInfo.npcArmor) },
-                  ]}
-                />
-              </div>
+                  </span>
+                }
+                level={battleInfo.npcLevel}
+                rank={npcRank}
+                stats={[
+                  { label: "HP", value: Math.round(battleInfo.npcHp) },
+                  { label: "Dano", value: Math.round(battleInfo.npcDamage) },
+                  { label: "Armadura", value: Math.round(battleInfo.npcArmor) },
+                ]}
+              />
+            </div>
 
-              <h2 className={styles.marginTop}>Chance de Vitória</h2>
-              <div className={styles.probabilityBar}>
-                <div
-                  className={styles.probabilityFill}
-                  style={{ width: `${displayedWin}%` }}
-                />
-                <span className={styles.probabilityText}>
-                  {Math.round(displayedWin)}%
-                </span>
-              </div>
-              <ComboList characterId={player.character} />
+            <h2 className={styles.marginTop}>Chance de Vitória</h2>
+            <div className={styles.probabilityBar}>
+              <div
+                className={styles.probabilityFill}
+                style={{ width: `${displayedWin}%` }}
+              />
+              <span className={styles.probabilityText}>
+                {Math.round(displayedWin)}%
+              </span>
+            </div>
+            <ComboList characterId={player.character} />
 
             <ElementTable
-              playerElementTypes={CHARACTER_ELEMENT_TYPES[player.character] ?? []}
+              playerElementTypes={
+                CHARACTER_ELEMENT_TYPES[player.character] ?? []
+              }
               npcElementTypes={
                 battleInfo ? getNpcElementTypes(battleInfo.npcType) : []
               }

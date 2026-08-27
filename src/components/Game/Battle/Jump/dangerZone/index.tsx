@@ -23,8 +23,14 @@ export function JumpDangerZone({ landingX }: Props) {
 
   return (
     <>
-      <div className={`${styles.zone} ${styles.edge}`} style={zoneStyle(JUMP_EDGE_RADIUS)} />
-      <div className={`${styles.zone} ${styles.center}`} style={zoneStyle(JUMP_CENTER_RADIUS)} />
+      <div
+        className={`${styles.zone} ${styles.edge}`}
+        style={zoneStyle(JUMP_EDGE_RADIUS)}
+      />
+      <div
+        className={`${styles.zone} ${styles.center}`}
+        style={zoneStyle(JUMP_CENTER_RADIUS)}
+      />
     </>
   );
 }

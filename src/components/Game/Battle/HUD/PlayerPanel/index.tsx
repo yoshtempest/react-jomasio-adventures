@@ -41,7 +41,6 @@ export function PlayerHUDPanel({
           src={playerPath(`/${character}/face.svg`)}
           alt="Player HUD"
           className="hudImage"
-          
         />
         <img
           src={asset(`/assets/badges/ranks/${playerRank}`)}
@@ -53,7 +52,6 @@ export function PlayerHUDPanel({
           <h2 className={`${"hudName"} ${styles.playerName}`}>{playerName}</h2>
           {playerElementTypes && <ElementBadges types={playerElementTypes} />}
         </div>
-
 
         <div className="hudFlexRow">
           <div>

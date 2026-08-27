@@ -36,7 +36,7 @@ export function usePlayerAnimation(
           playSound("marshadowSpecial");
           logPlay("marshadowSpecial");
         }
-  
+
         if (player.character === "riquelme") {
           playSound("riquelsonSpecial");
           logPlay("riquelsonSpecial");
@@ -60,8 +60,7 @@ export function usePlayerAnimation(
     const realDuration = Math.round(gameDuration / scale);
 
     const timer = setTimeout(() => {
-      const wantsToRun =
-        step.next === "preRun" || step.next === "run";
+      const wantsToRun = step.next === "preRun" || step.next === "run";
       if (wantsToRun && canRunRef != null && !canRunRef.current) return;
 
       setPlayer((p) => ({
@@ -71,5 +70,14 @@ export function usePlayerAnimation(
     }, realDuration);
 
     return () => clearTimeout(timer);
-  }, [player.state, player.character, setPlayer, playSound, tenacityRef, canRun, canRunRef, timeScaleInternalRef]);
+  }, [
+    player.state,
+    player.character,
+    setPlayer,
+    playSound,
+    tenacityRef,
+    canRun,
+    canRunRef,
+    timeScaleInternalRef,
+  ]);
 }

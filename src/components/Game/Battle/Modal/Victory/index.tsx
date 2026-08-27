@@ -82,9 +82,7 @@ export function VictoryModal({
               </p>
               <p className={styles.timeRow}>
                 <span className={styles.timeLabel}>Melhor tempo:</span>
-                <span>
-                  {bestTime > 0 ? formatDuration(bestTime) : "0:00"}
-                </span>
+                <span>{bestTime > 0 ? formatDuration(bestTime) : "0:00"}</span>
               </p>
             </div>
           </div>
@@ -92,8 +90,6 @@ export function VictoryModal({
 
         <div ref={scrollRef} className={styles.scrollArea}>
           <div className={styles.flexRow}>
-
-
             <div className={styles.flexColumn}>
               <ActivePotionDisplay />
               <EquipmentDrops equipmentDrops={rewards?.equipmentDrops ?? []} />

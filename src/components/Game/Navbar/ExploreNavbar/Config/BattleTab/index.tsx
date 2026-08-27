@@ -22,7 +22,6 @@ export function BattleTab({
   const isInBattle = player.mode === "battle";
   const battleInfo = battleInfoCtx?.battleInfo;
 
-
   return (
     <div className={styles.battleContainer}>
       {!battleInfo && !isInBattle && (

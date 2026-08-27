@@ -106,18 +106,15 @@ export function useArturKillerQueen({
 
         const bombed: BombTarget[] = [];
         for (const enemy of enemies) {
-          const recall = window.setTimeout(
-            () => {
-              setKillerQueen({
-                active: true,
-                x: behindX(enemy),
-                y: enemy.y,
-                sprite: "idle",
-                opacity: 0,
-              });
-            },
-            260,
-          );
+          const recall = window.setTimeout(() => {
+            setKillerQueen({
+              active: true,
+              x: behindX(enemy),
+              y: enemy.y,
+              sprite: "idle",
+              opacity: 0,
+            });
+          }, 260);
           timers.push(recall);
           await delay(260);
 
@@ -166,7 +163,15 @@ export function useArturKillerQueen({
         timersRef.current = [];
       }
     })();
-  }, [player.character, player.battleDirection, player.x, player.y, player.state, setPlayer, enemies]);
+  }, [
+    player.character,
+    player.battleDirection,
+    player.x,
+    player.y,
+    player.state,
+    setPlayer,
+    enemies,
+  ]);
 
   return {
     killerQueen,

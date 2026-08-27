@@ -24,9 +24,7 @@ export function BattleInventory() {
 
   useEffect(() => {
     setSelectedIndex((prev) =>
-      battleItems.length === 0
-        ? 0
-        : Math.min(prev, battleItems.length - 1),
+      battleItems.length === 0 ? 0 : Math.min(prev, battleItems.length - 1),
     );
   }, [battleItems.length]);
 
@@ -74,8 +72,7 @@ export function BattleInventory() {
   useEffect(() => {
     if (!listRef.current) return;
     const selectedElement = listRef.current.children[selectedIndex] as
-      | HTMLElement
-      | undefined;
+      HTMLElement | undefined;
     selectedElement?.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, [selectedIndex]);
 

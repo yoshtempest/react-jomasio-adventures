@@ -24,8 +24,7 @@ export function NPCHUDPanel({
   isAlfa = false,
   npcElementTypes,
 }: Props) {
-
-  const playerRank = `${srcRank(getRank(npcLevel ?? 1))}`
+  const playerRank = `${srcRank(getRank(npcLevel ?? 1))}`;
   return (
     <div className={styles.container} style={{ right: 10, top: 10 }}>
       <div className={styles.npcInfo}>

@@ -194,13 +194,14 @@ export function BattleEntities({
           src={
             b.phase === "explosion" && explosionSprite
               ? explosionSprite
-              : bombSprite ?? undefined
+              : (bombSprite ?? undefined)
           }
           style={{
             position: "absolute",
             left: b.x * battleScaleX,
             top: b.y * battleScaleY,
-            width: b.phase === "explosion" ? PLAYER_SIZE * 2 : PLAYER_SIZE * 0.9,
+            width:
+              b.phase === "explosion" ? PLAYER_SIZE * 2 : PLAYER_SIZE * 0.9,
             transform: "translate(-50%, -100%)",
             zIndex: 18,
             pointerEvents: "none",

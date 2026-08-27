@@ -48,7 +48,9 @@ export function LootBagModal({
                 <div className={styles.slotContent}>
                   <img
                     className={styles.slotIcon}
-                    src={asset(itemData.image ?? `/assets/items/${item.id}.svg`)}
+                    src={asset(
+                      itemData.image ?? `/assets/items/${item.id}.svg`,
+                    )}
                     alt={itemData.name}
                   />
                   <span className={styles.slotName}>{itemData.name}</span>
@@ -67,7 +69,9 @@ export function LootBagModal({
               key={opt.key}
               className={`${styles.option} ${i === selectedIndex ? styles.optionSelected : ""}`}
             >
-              <span className={styles.optionLabel}>[{opt.key}] {opt.label}</span>
+              <span className={styles.optionLabel}>
+                [{opt.key}] {opt.label}
+              </span>
             </div>
           ))}
         </div>

@@ -97,7 +97,9 @@ export function ProfessionProgressProvider({
     character: Character,
     professionId: ProfessionId,
   ): ProfessionProficiency {
-    return proficiency[character]?.[professionId] ?? DEFAULT_PROFESSION_PROFICIENCY;
+    return (
+      proficiency[character]?.[professionId] ?? DEFAULT_PROFESSION_PROFICIENCY
+    );
   }
 
   function addProficiencyXP(

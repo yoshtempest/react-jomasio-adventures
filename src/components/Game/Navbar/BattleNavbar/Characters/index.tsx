@@ -88,8 +88,7 @@ export function Characters() {
   useEffect(() => {
     if (!listRef.current) return;
     const selectedElement = listRef.current.children[selectedIndex] as
-      | HTMLElement
-      | undefined;
+      HTMLElement | undefined;
     selectedElement?.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, [selectedIndex]);
 

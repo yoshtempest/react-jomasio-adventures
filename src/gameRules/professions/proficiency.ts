@@ -29,13 +29,20 @@ export function isMaxProfessionLevel(_level: number): boolean {
 export function applyProficiencyXP(
   current: ProfessionProficiency | undefined,
   amount: number,
-): { proficiency: ProfessionProficiency; leveledUp: boolean; levelsGained: number } {
+): {
+  proficiency: ProfessionProficiency;
+  leveledUp: boolean;
+  levelsGained: number;
+} {
   let { level, xp } = current ?? DEFAULT_PROFESSION_PROFICIENCY;
   xp += amount;
 
   let levelsGained = 0;
 
-  while (!isMaxProfessionLevel(level) && xp >= getProfessionXPToNextLevel(level)) {
+  while (
+    !isMaxProfessionLevel(level) &&
+    xp >= getProfessionXPToNextLevel(level)
+  ) {
     xp -= getProfessionXPToNextLevel(level);
     level++;
     levelsGained++;
@@ -95,7 +102,9 @@ export function rollGatherLoot(
       const qty = Math.max(1, Math.round(entry.baseQty * multiplier));
       return { itemId: entry.itemId, qty };
     })
-    .filter((entry): entry is { itemId: MaterialId; qty: number } => entry !== null);
+    .filter(
+      (entry): entry is { itemId: MaterialId; qty: number } => entry !== null,
+    );
 
   return {
     items,

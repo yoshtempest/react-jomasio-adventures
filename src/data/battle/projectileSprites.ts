@@ -1,4 +1,8 @@
-import { npcPathPets, npcPathProjectile, playerProjectilePath } from "@/utils/paths";
+import {
+  npcPathPets,
+  npcPathProjectile,
+  playerProjectilePath,
+} from "@/utils/paths";
 
 export const spriteMap: Record<string, string> = {
   dish: npcPathProjectile("/dish.svg"),

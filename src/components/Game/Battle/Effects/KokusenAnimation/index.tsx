@@ -39,9 +39,7 @@ export function KokusenAnimation({
   const scaleX = window.innerWidth / ProjectileConstants.MAP_WIDTH;
   const scaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;
 
-  const src = playerPath(
-    `/riquelme/inFight/attacks/kokusen/${frame}.svg`,
-  );
+  const src = playerPath(`/riquelme/inFight/attacks/kokusen/${frame}.svg`);
 
   return (
     <img

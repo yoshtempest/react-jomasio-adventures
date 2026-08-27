@@ -94,9 +94,7 @@ const ATTACK_FOLDER_ALT = new Set([
 export function resolveBattleSprite(character: string, state: string): string {
   if (
     character === "artur" &&
-    (state === "preSpecial" ||
-      state === "preSpecial2" ||
-      state === "special")
+    (state === "preSpecial" || state === "preSpecial2" || state === "special")
   ) {
     return playerPath(`/artur/inFight/special/arturSeeing.svg`);
   }

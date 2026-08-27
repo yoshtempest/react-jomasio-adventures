@@ -23,15 +23,13 @@ type Settings = {
 function readSettings(): Settings {
   const raw = localStorage.getItem(DIALOGUE_SPEED_KEY);
   let dialogueSpeed: DialogueSpeed = "normal";
-  if (raw === "fast" || raw === "normal" || raw === "slow")
-    dialogueSpeed = raw;
+  if (raw === "fast" || raw === "normal" || raw === "slow") dialogueSpeed = raw;
 
   const showQuestIndicator =
     localStorage.getItem(SHOW_QUEST_INDICATOR_KEY) === "true";
   const showComboAction =
     localStorage.getItem(SHOW_COMBO_ACTION_KEY) !== "false";
-  const showHighlight =
-    localStorage.getItem(SHOW_HIGHLIGHT_KEY) !== "false";
+  const showHighlight = localStorage.getItem(SHOW_HIGHLIGHT_KEY) !== "false";
   const sharedXp = localStorage.getItem(SHARED_XP_KEY) === "true";
 
   const rawDiff = localStorage.getItem(slotKey(DIFFICULTY_KEY));

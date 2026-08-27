@@ -79,9 +79,7 @@ export function useSceneTombstones({ locationId, onMessage }: Params) {
         drops
           .map(({ id, qty }) => {
             const name =
-              CRAFT_MATERIALS[id as MaterialId]?.name ??
-              ITEMS[id]?.name ??
-              id;
+              CRAFT_MATERIALS[id as MaterialId]?.name ?? ITEMS[id]?.name ?? id;
             return `${name} x${qty}`;
           })
           .join(", ") || "nada aproveitável";

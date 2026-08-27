@@ -35,13 +35,8 @@ export function GameControlsProvider({ children }: Props) {
 
   const { player, restoreMode } = usePlayer();
 
-  const {
-    openNavbar,
-    closeNavbar,
-    openScreen,
-    isNavOpen,
-    screen,
-  } = useNavbar();
+  const { openNavbar, closeNavbar, openScreen, isNavOpen, screen } =
+    useNavbar();
 
   const { isBattleNavOpen, toggleBattleNavbar } = useBattleNavbar();
 

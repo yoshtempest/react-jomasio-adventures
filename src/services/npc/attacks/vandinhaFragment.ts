@@ -1,8 +1,5 @@
 import { NpcAttack } from "../npcAttack";
-import {
-  NPC_MELEE_COOLDOWN,
-  NPC_PROJECTILE_COOLDOWN,
-} from "@/data/cooldowns";
+import { NPC_MELEE_COOLDOWN, NPC_PROJECTILE_COOLDOWN } from "@/data/cooldowns";
 import { chasePlayer } from "@/gameRules/npc/movement";
 import { tryMeleeAttack } from "@/gameRules/npc/attack";
 import { canAttack } from "@/gameRules/npc/behavior";

@@ -18,16 +18,21 @@ export function useNavbarMenu() {
   const { playSound } = useSoundEffects();
 
   const isActive = screen === "menu";
-  const { selectedIndex, setSelectedIndex, selectedIndexRef, selectPrev, selectNext } =
-    useCircularSelection({ length: NAVBAR_OPTIONS.length, enabled: isActive });
+  const {
+    selectedIndex,
+    setSelectedIndex,
+    selectedIndexRef,
+    selectPrev,
+    selectNext,
+  } = useCircularSelection({
+    length: NAVBAR_OPTIONS.length,
+    enabled: isActive,
+  });
 
   const openIndex = useCallback(
     (index: number) => {
       playSelect();
-      const selected: NavbarOption = getSelected(
-        NAVBAR_OPTIONS,
-        index,
-      );
+      const selected: NavbarOption = getSelected(NAVBAR_OPTIONS, index);
       setScreen(selected.screen);
       if (selected.confirmSfx) playSound(selected.confirmSfx);
     },

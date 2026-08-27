@@ -181,7 +181,8 @@ export function useNpcBattle({
         return;
       }
       if (
-        (player.state === "idleCrounched" || player.state === "walkCrounched") &&
+        (player.state === "idleCrounched" ||
+          player.state === "walkCrounched") &&
         Math.abs(playerX - npcX) > 80
       ) {
         onDodgeRef?.current?.();
@@ -203,7 +204,11 @@ export function useNpcBattle({
 
       const npc = getNpcStats(npcLevel, npcClass, difficulty, statMultiplier);
       const baseDmg = npc.damage;
-      const dmg = combatService.calculateNpcDamage(baseDmg, playerClass, totalArmor);
+      const dmg = combatService.calculateNpcDamage(
+        baseDmg,
+        playerClass,
+        totalArmor,
+      );
 
       const hpRatio =
         npcMaxHpRef.current > 0 ? npcHpRef.current / npcMaxHpRef.current : 1;
@@ -222,41 +227,43 @@ export function useNpcBattle({
       onHalfHeal?.();
       hitstopRef.current = Date.now() + 50;
 
-    applyBleed(npcType, tenacityReductionRef.current, setPlayer);
+      applyBleed(npcType, tenacityReductionRef.current, setPlayer);
 
-    if (!skipCooldown) {
-      npcCooldown.current = false;
-      setTimeout(() => (npcCooldown.current = true), NPC_MELEE_COOLDOWN);
-    }
-  }, [
-    luckBonus,
-    isEnding,
-    npcCooldown,
-    player.state,
-    player.character,
-    npcLevel,
-    npcClass,
-    playerClass,
-    totalArmor,
-    playerX,
-    playerY,
-    npcX,
-    difficulty,
-    hitstopRef,
-    applyNpcDamage,
-    setPlayer,
-    titleEnemyMissChance,
-    onDamageTakenRef,
-    onDodgeRef,
-    onHalfHeal,
-    spawnDamageRef,
-    npcType,
-    npcPhase,
-    statMultiplier,
-    npcHpRef,
-    npcMaxHpRef,
-    tenacityReductionRef,
-  ]);
+      if (!skipCooldown) {
+        npcCooldown.current = false;
+        setTimeout(() => (npcCooldown.current = true), NPC_MELEE_COOLDOWN);
+      }
+    },
+    [
+      luckBonus,
+      isEnding,
+      npcCooldown,
+      player.state,
+      player.character,
+      npcLevel,
+      npcClass,
+      playerClass,
+      totalArmor,
+      playerX,
+      playerY,
+      npcX,
+      difficulty,
+      hitstopRef,
+      applyNpcDamage,
+      setPlayer,
+      titleEnemyMissChance,
+      onDamageTakenRef,
+      onDodgeRef,
+      onHalfHeal,
+      spawnDamageRef,
+      npcType,
+      npcPhase,
+      statMultiplier,
+      npcHpRef,
+      npcMaxHpRef,
+      tenacityReductionRef,
+    ],
+  );
 
   const npcRangedHit = useCallback(() => {
     if (isEnding.current) return;
@@ -270,7 +277,11 @@ export function useNpcBattle({
 
     const npc = getNpcStats(npcLevel, npcClass, difficulty, statMultiplier);
     const baseDmg = npc.damage;
-    const dmg = combatService.calculateNpcDamage(baseDmg, playerClass, totalArmor);
+    const dmg = combatService.calculateNpcDamage(
+      baseDmg,
+      playerClass,
+      totalArmor,
+    );
 
     const blocked = checkBlocked({
       dmg,
@@ -356,7 +367,11 @@ export function useNpcBattle({
 
       const npc = getNpcStats(npcLevel, npcClass, difficulty, statMultiplier);
       const baseDmg = npc.damage;
-      const dmg = combatService.calculateNpcDamage(baseDmg, playerClass, totalArmor);
+      const dmg = combatService.calculateNpcDamage(
+        baseDmg,
+        playerClass,
+        totalArmor,
+      );
       const elementMultiplier = combatService.getElementMultiplier(
         getNpcElementTypes(npcType),
         CHARACTER_ELEMENT_TYPES[player.character],

@@ -10,7 +10,10 @@ import {
   type ProfessionWeaponTier,
 } from "@/data/professions/weapons";
 
-function scaleStats(base: Partial<EquipmentStats>, index: number): Partial<EquipmentStats> {
+function scaleStats(
+  base: Partial<EquipmentStats>,
+  index: number,
+): Partial<EquipmentStats> {
   const factor = 1 + index * 0.6;
   const result: Partial<EquipmentStats> = {};
   for (const key of Object.keys(base) as (keyof EquipmentStats)[]) {
@@ -28,15 +31,15 @@ function buildRankedWeapon(
   index: number,
   baseStats: Partial<EquipmentStats>,
 ): EquipmentDef {
-    return {
-      id: getProfessionWeaponId(config, tier.id),
-      name: `${config.baseName} ${tier.label}`,
-      slot: "weapon",
-      rank: tier.rank,
-      stats: scaleStats(baseStats, index),
-      craftOnly: true,
-    };
-  }
+  return {
+    id: getProfessionWeaponId(config, tier.id),
+    name: `${config.baseName} ${tier.label}`,
+    slot: "weapon",
+    rank: tier.rank,
+    stats: scaleStats(baseStats, index),
+    craftOnly: true,
+  };
+}
 
 const BASE_TOOL_STATS: Record<string, Partial<EquipmentStats>> = {
   weapon_pickaxe: { strength: 2 },
@@ -235,7 +238,7 @@ export const WEAPONS = [
     stats: { strength: 2 },
     craftOnly: true,
   },
-    {
+  {
     id: "weapon_axe",
     name: "Machado",
     slot: "weapon",

@@ -9,11 +9,7 @@ import type { MaterialId } from "@/data/items/crafting";
  * de drops e cores de raridade já existente no jogo.
  */
 export type ProfessionWeaponTierId =
-  | "comum"
-  | "raro"
-  | "epico"
-  | "boss"
-  | "lendario";
+  "comum" | "raro" | "epico" | "boss" | "lendario";
 
 export type ProfessionWeaponTier = {
   id: ProfessionWeaponTierId;
@@ -28,11 +24,46 @@ export type ProfessionWeaponTier = {
 };
 
 export const PROFESSION_WEAPON_TIERS: readonly ProfessionWeaponTier[] = [
-  { id: "comum", rank: 1, label: "Comum", damageBonus: 0.05, materialDrop: 0.01, materialQty: 1 },
-  { id: "raro", rank: 3, label: "Raro", damageBonus: 0.08, materialDrop: 0.04, materialQty: 2 },
-  { id: "epico", rank: 5, label: "Épico", damageBonus: 0.12, materialDrop: 0.1, materialQty: 3 },
-  { id: "boss", rank: 7, label: "Boss", damageBonus: 0.16, materialDrop: 0.2, materialQty: 4 },
-  { id: "lendario", rank: 9, label: "Lendário", damageBonus: 0.22, materialDrop: 0.35, materialQty: 5 },
+  {
+    id: "comum",
+    rank: 1,
+    label: "Comum",
+    damageBonus: 0.05,
+    materialDrop: 0.01,
+    materialQty: 1,
+  },
+  {
+    id: "raro",
+    rank: 3,
+    label: "Raro",
+    damageBonus: 0.08,
+    materialDrop: 0.04,
+    materialQty: 2,
+  },
+  {
+    id: "epico",
+    rank: 5,
+    label: "Épico",
+    damageBonus: 0.12,
+    materialDrop: 0.1,
+    materialQty: 3,
+  },
+  {
+    id: "boss",
+    rank: 7,
+    label: "Boss",
+    damageBonus: 0.16,
+    materialDrop: 0.2,
+    materialQty: 4,
+  },
+  {
+    id: "lendario",
+    rank: 9,
+    label: "Lendário",
+    damageBonus: 0.22,
+    materialDrop: 0.35,
+    materialQty: 5,
+  },
 ] as const;
 
 export type ProfessionWeaponConfig = {
@@ -81,96 +112,97 @@ const MATERIAL_IDS = {
  * Como cada profissão é a tipagem (elemento) que sua arma enfrenta com
  * vantagem, e o material único de upgrade.
  */
-export const PROFESSION_WEAPONS: Record<ProfessionId, ProfessionWeaponConfig> = {
-  alchemist: {
-    professionId: "alchemist",
-    baseName: "Caldeirão",
-    baseToolId: WEAPON_IDS.alchemist,
-    element: "Pyrus",
-    materialId: MATERIAL_IDS.alchemist,
-    materialName: "Frasco de Alquimia",
-  },
-  chef: {
-    professionId: "chef",
-    baseName: "Panela",
-    baseToolId: WEAPON_IDS.chef,
-    element: "Pyrus",
-    materialId: MATERIAL_IDS.chef,
-    materialName: "Tempero Secreto",
-  },
-  lumberjack: {
-    professionId: "lumberjack",
-    baseName: "Machado",
-    baseToolId: WEAPON_IDS.lumberjack,
-    element: "Natura",
-    materialId: MATERIAL_IDS.lumberjack,
-    materialName: "Casca de Carvalho Ancestral",
-  },
-  farmer: {
-    professionId: "farmer",
-    baseName: "Enxada",
-    baseToolId: WEAPON_IDS.farmer,
-    element: "Subterra",
-    materialId: MATERIAL_IDS.farmer,
-    materialName: "Semente Mágica",
-  },
-  fisher: {
-    professionId: "fisher",
-    baseName: "Vara de Pesca",
-    baseToolId: WEAPON_IDS.fisher,
-    element: "Aquos",
-    materialId: MATERIAL_IDS.fisher,
-    materialName: "Peixe Dourado",
-  },
-  pastryChef: {
-    professionId: "pastryChef",
-    baseName: "Rolo de Massa",
-    baseToolId: WEAPON_IDS.pastryChef,
-    element: "Natura",
-    materialId: MATERIAL_IDS.pastryChef,
-    materialName: "Açúcar de Cristal",
-  },
-  butcher: {
-    professionId: "butcher",
-    baseName: "Cutelo",
-    baseToolId: WEAPON_IDS.butcher,
-    element: "Haos",
-    materialId: MATERIAL_IDS.butcher,
-    materialName: "Carne Nobre",
-  },
-  bodyBuilder: {
-    professionId: "bodyBuilder",
-    baseName: "Halter",
-    baseToolId: WEAPON_IDS.bodyBuilder,
-    element: "Haos",
-    materialId: MATERIAL_IDS.bodyBuilder,
-    materialName: "Proteína Extrema",
-  },
-  mechanic: {
-    professionId: "mechanic",
-    baseName: "Chave Inglesa",
-    baseToolId: WEAPON_IDS.mechanic,
-    element: "Metallum",
-    materialId: MATERIAL_IDS.mechanic,
-    materialName: "Parafuso Especial",
-  },
-  miner: {
-    professionId: "miner",
-    baseName: "Picareta",
-    baseToolId: WEAPON_IDS.miner,
-    element: "Subterra",
-    materialId: MATERIAL_IDS.miner,
-    materialName: "Minério Raro",
-  },
-  painter: {
-    professionId: "painter",
-    baseName: "Pincel",
-    baseToolId: WEAPON_IDS.painter,
-    element: "Psychicus",
-    materialId: MATERIAL_IDS.painter,
-    materialName: "Tinta Rara",
-  },
-};
+export const PROFESSION_WEAPONS: Record<ProfessionId, ProfessionWeaponConfig> =
+  {
+    alchemist: {
+      professionId: "alchemist",
+      baseName: "Caldeirão",
+      baseToolId: WEAPON_IDS.alchemist,
+      element: "Pyrus",
+      materialId: MATERIAL_IDS.alchemist,
+      materialName: "Frasco de Alquimia",
+    },
+    chef: {
+      professionId: "chef",
+      baseName: "Panela",
+      baseToolId: WEAPON_IDS.chef,
+      element: "Pyrus",
+      materialId: MATERIAL_IDS.chef,
+      materialName: "Tempero Secreto",
+    },
+    lumberjack: {
+      professionId: "lumberjack",
+      baseName: "Machado",
+      baseToolId: WEAPON_IDS.lumberjack,
+      element: "Natura",
+      materialId: MATERIAL_IDS.lumberjack,
+      materialName: "Casca de Carvalho Ancestral",
+    },
+    farmer: {
+      professionId: "farmer",
+      baseName: "Enxada",
+      baseToolId: WEAPON_IDS.farmer,
+      element: "Subterra",
+      materialId: MATERIAL_IDS.farmer,
+      materialName: "Semente Mágica",
+    },
+    fisher: {
+      professionId: "fisher",
+      baseName: "Vara de Pesca",
+      baseToolId: WEAPON_IDS.fisher,
+      element: "Aquos",
+      materialId: MATERIAL_IDS.fisher,
+      materialName: "Peixe Dourado",
+    },
+    pastryChef: {
+      professionId: "pastryChef",
+      baseName: "Rolo de Massa",
+      baseToolId: WEAPON_IDS.pastryChef,
+      element: "Natura",
+      materialId: MATERIAL_IDS.pastryChef,
+      materialName: "Açúcar de Cristal",
+    },
+    butcher: {
+      professionId: "butcher",
+      baseName: "Cutelo",
+      baseToolId: WEAPON_IDS.butcher,
+      element: "Haos",
+      materialId: MATERIAL_IDS.butcher,
+      materialName: "Carne Nobre",
+    },
+    bodyBuilder: {
+      professionId: "bodyBuilder",
+      baseName: "Halter",
+      baseToolId: WEAPON_IDS.bodyBuilder,
+      element: "Haos",
+      materialId: MATERIAL_IDS.bodyBuilder,
+      materialName: "Proteína Extrema",
+    },
+    mechanic: {
+      professionId: "mechanic",
+      baseName: "Chave Inglesa",
+      baseToolId: WEAPON_IDS.mechanic,
+      element: "Metallum",
+      materialId: MATERIAL_IDS.mechanic,
+      materialName: "Parafuso Especial",
+    },
+    miner: {
+      professionId: "miner",
+      baseName: "Picareta",
+      baseToolId: WEAPON_IDS.miner,
+      element: "Subterra",
+      materialId: MATERIAL_IDS.miner,
+      materialName: "Minério Raro",
+    },
+    painter: {
+      professionId: "painter",
+      baseName: "Pincel",
+      baseToolId: WEAPON_IDS.painter,
+      element: "Psychicus",
+      materialId: MATERIAL_IDS.painter,
+      materialName: "Tinta Rara",
+    },
+  };
 
 const TIER_SUFFIX: Record<Exclude<ProfessionWeaponTierId, "comum">, string> = {
   raro: "raro",
@@ -211,14 +243,17 @@ export function getBaseProfessionWeaponId(weaponId: string): string | null {
   for (const config of Object.values(PROFESSION_WEAPONS)) {
     if (weaponId === config.baseToolId) return config.baseToolId;
     for (const tier of PROFESSION_WEAPON_TIERS) {
-      if (weaponId === getProfessionWeaponId(config, tier.id)) return config.baseToolId;
+      if (weaponId === getProfessionWeaponId(config, tier.id))
+        return config.baseToolId;
     }
   }
   return null;
 }
 
 /** Identifica o ranque de uma arma de profissão (0..4). Retorna null se não for arma de profissão. */
-export function getProfessionWeaponTier(weaponId: string): ProfessionWeaponTierId | null {
+export function getProfessionWeaponTier(
+  weaponId: string,
+): ProfessionWeaponTierId | null {
   for (const config of Object.values(PROFESSION_WEAPONS)) {
     for (const tier of PROFESSION_WEAPON_TIERS) {
       if (weaponId === getProfessionWeaponId(config, tier.id)) return tier.id;

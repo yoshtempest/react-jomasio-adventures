@@ -92,7 +92,13 @@ export function useBattleOutro({
         state: { from: location.pathname },
       });
     }
-  }, [onVictory, redirectTo, navigate, location.pathname, clearPendingTombstoneSpawn]);
+  }, [
+    onVictory,
+    redirectTo,
+    navigate,
+    location.pathname,
+    clearPendingTombstoneSpawn,
+  ]);
 
   return {
     showVictory,

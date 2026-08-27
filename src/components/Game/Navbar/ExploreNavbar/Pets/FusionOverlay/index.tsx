@@ -94,12 +94,18 @@ export function FusionOverlay({ entry, stars, onComplete }: Props) {
           <div className={styles.mergeArea}>
             <div className={`${styles.sourcePet} ${styles.sourceLeft}`}>
               <PetImg petNpc={petNpc} stars={stars} className={styles.image} />
-              <StarLabel stars={stars} color={getPetStarVisual(stars).auraColor} />
+              <StarLabel
+                stars={stars}
+                color={getPetStarVisual(stars).auraColor}
+              />
               <span className={styles.sourceLabel}>★ {stars}</span>
             </div>
             <div className={`${styles.sourcePet} ${styles.sourceRight}`}>
               <PetImg petNpc={petNpc} stars={stars} className={styles.image} />
-              <StarLabel stars={stars} color={getPetStarVisual(stars).auraColor} />
+              <StarLabel
+                stars={stars}
+                color={getPetStarVisual(stars).auraColor}
+              />
               <span className={styles.sourceLabel}>★ {stars}</span>
             </div>
           </div>
@@ -112,10 +118,7 @@ export function FusionOverlay({ entry, stars, onComplete }: Props) {
               className={styles.image}
               scale={1.15}
             />
-            <StarLabel
-              stars={stars + 1}
-              color={resultVisual.auraColor}
-            />
+            <StarLabel stars={stars + 1} color={resultVisual.auraColor} />
             <h4 className={styles.resultLabel}>Nova versão {stars + 1}★</h4>
           </div>
         )}

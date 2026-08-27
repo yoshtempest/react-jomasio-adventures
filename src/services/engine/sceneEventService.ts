@@ -66,9 +66,7 @@ export class SceneEventService {
       switch (event.type) {
         case "conditional":
           this.run(
-            this.evaluateCondition(event.condition)
-              ? event.then
-              : event.else,
+            this.evaluateCondition(event.condition) ? event.then : event.else,
           );
           break;
 

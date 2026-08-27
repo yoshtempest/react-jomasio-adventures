@@ -80,12 +80,7 @@ export function BattleNavbarProvider({ children }: { children: ReactNode }) {
       return;
     }
     openBattleNavbar();
-  }, [
-    closeBattleNavbar,
-    isBattleNavOpenRef,
-    isClosingRef,
-    openBattleNavbar,
-  ]);
+  }, [closeBattleNavbar, isBattleNavOpenRef, isClosingRef, openBattleNavbar]);
 
   // Fecha sem restaurar modo (usado ao montar/desmontar a cena de batalha).
   const resetBattleNavbar = useCallback(() => {

@@ -113,7 +113,9 @@ export function GroundItemProvider({ children }: { children: ReactNode }) {
 
   const getLootAt = useCallback(
     (locationId: string): GroundLoot[] => {
-      return Object.values(data).filter((loot) => loot.locationId === locationId);
+      return Object.values(data).filter(
+        (loot) => loot.locationId === locationId,
+      );
     },
     [data],
   );

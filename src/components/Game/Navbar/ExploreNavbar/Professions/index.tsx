@@ -126,9 +126,8 @@ export function Professions() {
     }
 
     const fromTier =
-      PROFESSION_WEAPON_TIERS.find(
-        (t) => getTierIndex(t.id) === ownedTierIndex,
-      )?.id ?? "comum";
+      PROFESSION_WEAPON_TIERS.find((t) => getTierIndex(t.id) === ownedTierIndex)
+        ?.id ?? "comum";
     const toTier = getNextProfessionTier(fromTier);
     if (!toTier) {
       playClose();
@@ -230,9 +229,7 @@ export function Professions() {
               : undefined;
           const isSelected = index === selectedIndex;
           const proficiencyEntry = getProficiency(character, profession.id);
-          const xpToNext = getXPToNextProfessionLevel(
-            proficiencyEntry.level,
-          );
+          const xpToNext = getXPToNextProfessionLevel(proficiencyEntry.level);
           const count = (id: string) => getMaterialCount(items, id);
           const can = canCraft(profession.recipe, count);
 
@@ -245,7 +242,9 @@ export function Professions() {
               <div className={styles.info}>
                 <span className={styles.name}>{profession.name}</span>
                 <span className={styles.npc}>{profession.npcName}</span>
-                <span className={styles.element}>Bônus vs {config.element}</span>
+                <span className={styles.element}>
+                  Bônus vs {config.element}
+                </span>
                 <div className={styles.proficiency}>
                   <span className={styles.levelBadge}>
                     Nv {proficiencyEntry.level}
@@ -278,12 +277,12 @@ export function Professions() {
                   {owned &&
                     currentTier &&
                     ownedTierIndex < PROFESSION_WEAPON_TIERS.length - 1 &&
-                      nextTier && (
-                        <span className={styles.ladderNext}>
-                          → {nextTier.label} ×{currentTier.materialQty}{" "}
-                          {config.materialName}
-                        </span>
-                      )}
+                    nextTier && (
+                      <span className={styles.ladderNext}>
+                        → {nextTier.label} ×{currentTier.materialQty}{" "}
+                        {config.materialName}
+                      </span>
+                    )}
                 </div>
               </div>
 

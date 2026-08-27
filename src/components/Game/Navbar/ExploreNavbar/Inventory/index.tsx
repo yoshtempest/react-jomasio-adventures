@@ -162,8 +162,6 @@ export function Inventory() {
     handleChestOutcome(openNextChest(id));
   };
 
-
-
   const handleConfirmDrop = useCallback(
     (qty: number) => {
       if (!dropItem || !player || !currentLocationId) return;
@@ -327,9 +325,7 @@ export function Inventory() {
         )}
       </ul>
 
-      {popupMessage && (
-        <div className={styles.noKeyPopup}>{popupMessage}</div>
-      )}
+      {popupMessage && <div className={styles.noKeyPopup}>{popupMessage}</div>}
 
       {dropItem && (
         <DropItem

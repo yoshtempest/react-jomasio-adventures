@@ -110,9 +110,7 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
   const [newlyUnlockedPetIds, setNewlyUnlockedPetIds] = useState<string[]>([]);
 
   const acknowledgePets = useCallback((ids: string[]) => {
-    setNewlyUnlockedPetIds((prev) =>
-      prev.filter((id) => !ids.includes(id)),
-    );
+    setNewlyUnlockedPetIds((prev) => prev.filter((id) => !ids.includes(id)));
   }, []);
 
   const getEquippedItem = useCallback(

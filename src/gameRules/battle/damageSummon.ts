@@ -51,7 +51,10 @@ export function damageSummon({
   pushDir,
 }: Params) {
   const char = progress[player.character];
-  const raw = combatService.calculatePlayerDamage(char.stats.strength, playerClass);
+  const raw = combatService.calculatePlayerDamage(
+    char.stats.strength,
+    playerClass,
+  );
   const targetSummon = summons.find((s) => s.id === target.id);
   const elementMultiplier = combatService.getElementMultiplier(
     CHARACTER_ELEMENT_TYPES[player.character],

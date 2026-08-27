@@ -63,7 +63,12 @@ export function handlePhase2(
         state.startTime = now;
         npc.jumpLandingX = undefined;
 
-        const dist = getDistance(state.targetX, JUMP_GROUND_Y, playerX, playerY);
+        const dist = getDistance(
+          state.targetX,
+          JUMP_GROUND_Y,
+          playerX,
+          playerY,
+        );
         if (dist <= JUMP_CENTER_RADIUS) {
           onMeleeHit();
         } else if (dist <= JUMP_EDGE_RADIUS) {

@@ -339,9 +339,7 @@ export function ExploreScene({
     }
   }, [resolvedAutoStartDialogue, dialogueSystem, playSansTalking]);
 
-  const interactionLoot = currentLocationId
-    ? getLootAt(currentLocationId)
-    : [];
+  const interactionLoot = currentLocationId ? getLootAt(currentLocationId) : [];
 
   const { interactionHint } = useSceneLayers({
     player,
@@ -580,9 +578,7 @@ export function ExploreScene({
             setActiveLootBag((prev) => {
               if (!prev) return null;
               const next = prev.items
-                .map((i) =>
-                  i.id === first.id ? { ...i, qty: i.qty - 1 } : i,
-                )
+                .map((i) => (i.id === first.id ? { ...i, qty: i.qty - 1 } : i))
                 .filter((i) => i.qty > 0);
               if (next.length === 0) return null;
               return { ...prev, items: next };

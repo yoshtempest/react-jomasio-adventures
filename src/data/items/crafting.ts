@@ -24,7 +24,10 @@ export const CRAFT_MATERIALS = {
   prof_mat_fisher: { id: "prof_mat_fisher", name: "Peixe Dourado" },
   prof_mat_pastryChef: { id: "prof_mat_pastryChef", name: "Açúcar de Cristal" },
   prof_mat_butcher: { id: "prof_mat_butcher", name: "Carne Nobre" },
-  prof_mat_bodyBuilder: { id: "prof_mat_bodyBuilder", name: "Proteína Extrema" },
+  prof_mat_bodyBuilder: {
+    id: "prof_mat_bodyBuilder",
+    name: "Proteína Extrema",
+  },
   prof_mat_mechanic: { id: "prof_mat_mechanic", name: "Parafuso Especial" },
   prof_mat_miner: { id: "prof_mat_miner", name: "Minério Raro" },
   prof_mat_painter: { id: "prof_mat_painter", name: "Tinta Rara" },

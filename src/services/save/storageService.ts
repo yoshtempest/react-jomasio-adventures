@@ -114,7 +114,7 @@ export const storage = new StorageService(getDefaultBackend());
 export const saveCompressed = (key: string, data: unknown): void =>
   storage.saveCompressed(key, data);
 
-export const loadCompressed = <T,>(key: string): T | null =>
+export const loadCompressed = <T>(key: string): T | null =>
   storage.loadCompressed<T>(key);
 
 export const removeKey = (key: string): void => storage.removeKey(key);

@@ -23,7 +23,7 @@ export function FilterBar({
           } ${filterFocused && filterType === f.type ? styles.buttonFocused : ""}`}
           onClick={() => onFilterChange(f.type)}
         >
-          <img src={asset(`${f.src}`)} className={styles.image}/>
+          <img src={asset(`${f.src}`)} className={styles.image} />
           {f.label}
         </button>
       ))}

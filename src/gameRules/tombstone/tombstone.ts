@@ -16,9 +16,11 @@ export const MAP_GRID_ROWS = 13;
  * olhando para cima vê-se a frente da pedra, para baixo o verso,
  * e de lado a lateral.
  */
-export function getTombstoneSpawn(
-  position: TombstoneSpawnPosition,
-): { x: number; y: number; variant: TombstoneVariant } {
+export function getTombstoneSpawn(position: TombstoneSpawnPosition): {
+  x: number;
+  y: number;
+  variant: TombstoneVariant;
+} {
   const { gridX, gridY, direction } = position;
 
   switch (direction) {

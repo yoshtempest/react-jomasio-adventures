@@ -338,7 +338,8 @@ export function BattleScene(props: Props) {
             npcX={npc.x}
             npcY={npc.y}
             npcHeight={
-              TILE_SIZE * getBossSizeMultiplier(npcType, battle.npcPhase, isAlfa)
+              TILE_SIZE *
+              getBossSizeMultiplier(npcType, battle.npcPhase, isAlfa)
             }
           />
         </GameMap>

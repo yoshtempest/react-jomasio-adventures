@@ -10,7 +10,8 @@ export const MATERIALS = createItems({
   oak_wood: {
     image: "/assets/items/woods/oak.svg",
     name: "Madeira de Carvalho",
-    description: "Madeira de carvalho, boa para fazer casas facilmente incendiáveis",
+    description:
+      "Madeira de carvalho, boa para fazer casas facilmente incendiáveis",
     type: "material",
   },
   eucalyptus_wood: {

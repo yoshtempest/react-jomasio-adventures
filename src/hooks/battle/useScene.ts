@@ -163,8 +163,10 @@ function runPetSkill(
         getNpcElementTypes(npcType),
       );
       const dmg = Math.round(
-        combatService.calculateDamageToNpc(baseDamage * effect.multiplier, battle.npcArmor) *
-          elementMultiplier,
+        combatService.calculateDamageToNpc(
+          baseDamage * effect.multiplier,
+          battle.npcArmor,
+        ) * elementMultiplier,
       );
       battle.setNpcHP((hp) => Math.max(0, hp - dmg));
       spawnDamageRef.current?.(dmg, npc.x, npc.y, "pet");
@@ -177,8 +179,10 @@ function runPetSkill(
         getNpcElementTypes(npcType),
       );
       const dmg = Math.round(
-        combatService.calculateDamageToNpc(baseDamage * effect.multiplier, battle.npcArmor) *
-          elementMultiplier,
+        combatService.calculateDamageToNpc(
+          baseDamage * effect.multiplier,
+          battle.npcArmor,
+        ) * elementMultiplier,
       );
       triggerJumpAttack(npc.y, () => {
         battle.setNpcHP((hp) => Math.max(0, hp - dmg));
@@ -278,8 +282,7 @@ export function useBattleScene({
   const { addBattleTime } = usePlayTime();
 
   const { playSound } = useSoundEffects();
-  const { spawnVictoryTombstone, clearPendingTombstoneSpawn } =
-    useTombstones();
+  const { spawnVictoryTombstone, clearPendingTombstoneSpawn } = useTombstones();
 
   const [npcPhase, setNpcPhase] = useState(1);
   const [npcArmorBonus, setNpcArmorBonus] = useState(0);
@@ -421,8 +424,7 @@ export function useBattleScene({
 
   const refs = useBattleRefs();
 
-  const { kokusenActive, kokusenFrame, triggerKokusen } =
-    useKokusenAnimation();
+  const { kokusenActive, kokusenFrame, triggerKokusen } = useKokusenAnimation();
   const onKokusenRef = useLatestRef(triggerKokusen);
 
   const {
@@ -855,28 +857,31 @@ export function useBattleScene({
 
   const { handlePlayerHit, handleSpecialHit, hitTargetList } =
     usePlayerBattleActions({
-    player,
-    npc,
-    summons,
-    setSummons,
-    npcHP: battle.npcHP,
-    npcClass: npcData.class,
-    playerClass,
-    progress,
-    npcLevel,
-    battle,
-    giveSummonRewards,
-    spawnDamageRef: refs.spawnDamageRef,
-    registerHitRef: refs.registerHitRef,
-    setPlayerHP: battle.setPlayerHP,
-    playerHP: battle.playerHP,
-    playerMaxHp: battle.playerMaxHp,
-    totalVampirism: battle.totalVampirism,
-    onNpcPush: (targetX) =>
-      npc.updateNpc({
-        x: Math.max(BATTLE_LIMITS.minX, Math.min(BATTLE_LIMITS.maxX, targetX)),
-      }),
-  });
+      player,
+      npc,
+      summons,
+      setSummons,
+      npcHP: battle.npcHP,
+      npcClass: npcData.class,
+      playerClass,
+      progress,
+      npcLevel,
+      battle,
+      giveSummonRewards,
+      spawnDamageRef: refs.spawnDamageRef,
+      registerHitRef: refs.registerHitRef,
+      setPlayerHP: battle.setPlayerHP,
+      playerHP: battle.playerHP,
+      playerMaxHp: battle.playerMaxHp,
+      totalVampirism: battle.totalVampirism,
+      onNpcPush: (targetX) =>
+        npc.updateNpc({
+          x: Math.max(
+            BATTLE_LIMITS.minX,
+            Math.min(BATTLE_LIMITS.maxX, targetX),
+          ),
+        }),
+    });
 
   const freezeSummonsUntilRef = useRef(0);
 
@@ -906,19 +911,24 @@ export function useBattleScene({
     ];
   }, [player.character, npc.x, npc.y, summons]);
 
-  const { killerQueen, bombTargets, killerQueenSprite, bombSprite, explosionSprite } =
-    useArturKillerQueen({
-      player,
-      setPlayer,
-      enemies: arturEnemies,
-      freezeMainUntilRef: refs.npcStaggerRef,
-      freezeSummonsUntilRef,
-      onAreaDamage: (targets) => {
-        if (targets.length > 0) {
-          hitTargetList(targets, 1, true);
-        }
-      },
-    });
+  const {
+    killerQueen,
+    bombTargets,
+    killerQueenSprite,
+    bombSprite,
+    explosionSprite,
+  } = useArturKillerQueen({
+    player,
+    setPlayer,
+    enemies: arturEnemies,
+    freezeMainUntilRef: refs.npcStaggerRef,
+    freezeSummonsUntilRef,
+    onAreaDamage: (targets) => {
+      if (targets.length > 0) {
+        hitTargetList(targets, 1, true);
+      }
+    },
+  });
 
   const npcMaxHpRef = useLatestRef(battle.npcMaxHp);
   const setNpcHPRef = useLatestRef(battle.setNpcHP);

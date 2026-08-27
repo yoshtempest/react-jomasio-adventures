@@ -23,9 +23,7 @@ type Segment = {
 const HIDE_DELAY = 1800;
 
 function getProfessionName(professionId: ProfessionId) {
-  return (
-    PROFESSIONS.find((p) => p.id === professionId)?.name ?? professionId
-  );
+  return PROFESSIONS.find((p) => p.id === professionId)?.name ?? professionId;
 }
 
 export function XpProfessionNotification() {

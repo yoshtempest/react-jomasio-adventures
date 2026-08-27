@@ -169,22 +169,22 @@ inverso exato dela: se `A` é forte contra `D`, então `D` é fraco contra
 Isso muda a leitura de "Fraco contra" de sete elementos em relação ao texto
 acima. A tabela que vale é esta:
 
-| Elemento | Forte contra | Fraco contra (derivado) |
-| --- | --- | --- |
-| Pyrus | Metallum, Natura | Aquos, Subterra |
-| Aquos | Pyrus, Subterra | Electricus, Natura |
-| Subterra | Pyrus, Electricus, Metallum | Aquos, Ventus, Natura |
-| Ventus | Subterra, Natura | Electricus, Metallum |
-| Darkus | Haos, Nympha, Umbra, Psychicus | Haos, Nympha, Umbra |
-| Electricus | Aquos, Ventus, Natura | Subterra, Metallum |
-| Haos | Darkus, Umbra | Darkus, Metallum, Nympha, Umbra |
-| Metallum | Ventus, Haos, Electricus | Pyrus, Subterra |
-| Natura | Aquos, Subterra | Pyrus, Ventus, Electricus |
-| Psychicus | Umbra, Normalis | Darkus, Umbra |
-| Nympha | Darkus, Haos, Draco | Darkus, Umbra |
-| Draco | Draco, Normalis | Nympha, Draco |
-| Umbra | Darkus, Haos, Psychicus, Nympha | Darkus, Haos, Psychicus |
-| Normalis | — | Psychicus, Draco |
+| Elemento   | Forte contra                    | Fraco contra (derivado)         |
+| ---------- | ------------------------------- | ------------------------------- |
+| Pyrus      | Metallum, Natura                | Aquos, Subterra                 |
+| Aquos      | Pyrus, Subterra                 | Electricus, Natura              |
+| Subterra   | Pyrus, Electricus, Metallum     | Aquos, Ventus, Natura           |
+| Ventus     | Subterra, Natura                | Electricus, Metallum            |
+| Darkus     | Haos, Nympha, Umbra, Psychicus  | Haos, Nympha, Umbra             |
+| Electricus | Aquos, Ventus, Natura           | Subterra, Metallum              |
+| Haos       | Darkus, Umbra                   | Darkus, Metallum, Nympha, Umbra |
+| Metallum   | Ventus, Haos, Electricus        | Pyrus, Subterra                 |
+| Natura     | Aquos, Subterra                 | Pyrus, Ventus, Electricus       |
+| Psychicus  | Umbra, Normalis                 | Darkus, Umbra                   |
+| Nympha     | Darkus, Haos, Draco             | Darkus, Umbra                   |
+| Draco      | Draco, Normalis                 | Nympha, Draco                   |
+| Umbra      | Darkus, Haos, Psychicus, Nympha | Darkus, Haos, Psychicus         |
+| Normalis   | —                               | Psychicus, Draco                |
 
 Para mudar qualquer relação, edite **só** `ELEMENT_STRONG_AGAINST`. A coluna
 da direita se ajusta sozinha.

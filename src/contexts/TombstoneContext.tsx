@@ -27,9 +27,10 @@ type ContextType = {
   /** Na morte do NPC: consome o pending e cria a lápide no tile em frente. */
   spawnVictoryTombstone: (npcType: string) => void;
   /** Ativas + em fade, separadas (render/colisão usam todas; interação só ativas). */
-  getTombstones: (
-    locationId: string,
-  ) => { active: Tombstone[]; fading: Tombstone[] };
+  getTombstones: (locationId: string) => {
+    active: Tombstone[];
+    fading: Tombstone[];
+  };
   /** Marca como coletada: sai do save, fica em fade até poder ser pisada. */
   collectTombstone: (locationId: string, id: string) => boolean;
 };
@@ -68,8 +69,9 @@ export function TombstoneProvider({ children }: { children: ReactNode }) {
     );
 
   /** Lápides coletadas nesta sessão, ainda animando o fade-out. */
-  const [fadingByLocation, setFadingByLocation] =
-    useState<TombstonesSaveData>({});
+  const [fadingByLocation, setFadingByLocation] = useState<TombstonesSaveData>(
+    {},
+  );
 
   const pendingRef = useRef<PendingTombstoneSpawn | null>(null);
   const timersRef = useRef<Set<ReturnType<typeof setTimeout>>>(new Set());
@@ -99,11 +101,7 @@ export function TombstoneProvider({ children }: { children: ReactNode }) {
       if (!pending) return;
       pendingRef.current = null;
 
-      const tombstone = createTombstone(
-        pending.locationId,
-        pending,
-        npcType,
-      );
+      const tombstone = createTombstone(pending.locationId, pending, npcType);
       if (!tombstone) return;
 
       // se já existe lápide no mesmo tile, a nova substitui a antiga

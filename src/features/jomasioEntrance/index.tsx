@@ -185,7 +185,7 @@ export function JomasioEntranceScene({ sceneId }: Props) {
         interactions={interactions}
         interactionLabels={{
           "13,10": "[L] Minerar",
-          "5,7": "[L] Lenhar"
+          "5,7": "[L] Lenhar",
         }}
         itemPickupTiles={[
           {

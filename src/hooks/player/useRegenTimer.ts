@@ -76,15 +76,12 @@ export function useRegenTimer() {
       const healPerTick = (maxHp / 60) * (charProgress.hunger / MAX_HUNGER);
       const next = Math.min(maxHp, hp + healPerTick);
 
-      setBattleHPRef.current(character, next >= maxHp ? null : Math.round(next));
+      setBattleHPRef.current(
+        character,
+        next >= maxHp ? null : Math.round(next),
+      );
     }, REGEN_TICK_MS);
 
     return () => clearInterval(interval);
-  }, [
-    player.mode,
-    characterRef,
-    progressRef,
-    setBattleHPRef,
-    getBonusRef,
-  ]);
+  }, [player.mode, characterRef, progressRef, setBattleHPRef, getBonusRef]);
 }
