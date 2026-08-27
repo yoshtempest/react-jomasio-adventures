@@ -32,7 +32,6 @@ export function ComboAction() {
     <div className={styles.container}>
       <button className={styles.button} onPointerDown={handleDown}>
         <img src={src} alt={combo.label} draggable={false} />
-        <h3>L</h3>
       </button>
     </div>
   );
