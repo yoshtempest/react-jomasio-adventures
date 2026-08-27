@@ -339,6 +339,10 @@ export function ExploreScene({
     }
   }, [resolvedAutoStartDialogue, dialogueSystem, playSansTalking]);
 
+  const interactionLoot = currentLocationId
+    ? getLootAt(currentLocationId)
+    : [];
+
   const { interactionHint } = useSceneLayers({
     player,
     map,
@@ -351,6 +355,7 @@ export function ExploreScene({
     interactionLabels,
     tileDialogues,
     tombstones: collectableTombstones,
+    groundLoots: interactionLoot,
   });
 
   const { TILE_SIZE, cameraX, cameraY, PLAYER_SIZE, MAP_COLS, MAP_ROWS } =
