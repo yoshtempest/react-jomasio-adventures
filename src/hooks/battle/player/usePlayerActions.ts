@@ -290,5 +290,6 @@ export function usePlayerBattleActions({
   return {
     handlePlayerHit,
     handleSpecialHit,
+    hitTargetList,
   };
 }

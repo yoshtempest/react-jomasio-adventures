@@ -44,6 +44,8 @@ export function usePlayerAnimation(
         step = { ...defaultStep, ...override.preSpecial };
       } else if (player.state === "preSpecial2") {
         step = { ...defaultStep, ...override.preSpecial2 };
+      } else if (player.state === "special" && override.special) {
+        step = { ...defaultStep, ...override.special };
       }
     }
 

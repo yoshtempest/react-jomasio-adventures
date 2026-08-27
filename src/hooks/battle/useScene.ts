@@ -34,6 +34,7 @@ import { useChargeAttack } from "@/hooks/battle/charge/useAttack";
 import { usePhaseTransition } from "@/hooks/battle/death/usePhaseTransition";
 import { useCoffinAnimation } from "@/hooks/battle/summon/useCoffinAnimation";
 import { usePlayerSpecialProjectile } from "@/hooks/battle/player/usePlayerSpecialProjectile";
+import { useArturKillerQueen } from "@/hooks/battle/player/useArturKillerQueen";
 import { getSpecialFlowOverride } from "@/data/battle/animationFlow";
 import { useBattleIntro } from "@/hooks/battle/useIntro";
 import { useBattleOutro } from "@/hooks/battle/useOutro";
@@ -852,7 +853,8 @@ export function useBattleScene({
     npcData.class,
   ]);
 
-  const { handlePlayerHit, handleSpecialHit } = usePlayerBattleActions({
+  const { handlePlayerHit, handleSpecialHit, hitTargetList } =
+    usePlayerBattleActions({
     player,
     npc,
     summons,
@@ -876,6 +878,8 @@ export function useBattleScene({
       }),
   });
 
+  const freezeSummonsUntilRef = useRef(0);
+
   useSummonAI({
     summons,
     setSummons,
@@ -889,7 +893,32 @@ export function useBattleScene({
     damagePlayer: battle.damagePlayer,
     spawnDamageRef: refs.spawnDamageRef,
     hitstopRef: refs.hitstopRef,
+    freezeUntilRef: freezeSummonsUntilRef,
   });
+
+  const arturEnemies = useMemo(() => {
+    if (player.character !== "artur") return [];
+    return [
+      { id: "main", x: npc.x, y: npc.y },
+      ...summons
+        .filter((s) => !s.isDying && s.hp > 0)
+        .map((s) => ({ id: s.id, x: s.x, y: s.y })),
+    ];
+  }, [player.character, npc.x, npc.y, summons]);
+
+  const { killerQueen, bombTargets, killerQueenSprite, bombSprite, explosionSprite } =
+    useArturKillerQueen({
+      player,
+      setPlayer,
+      enemies: arturEnemies,
+      freezeMainUntilRef: refs.npcStaggerRef,
+      freezeSummonsUntilRef,
+      onAreaDamage: (targets) => {
+        if (targets.length > 0) {
+          hitTargetList(targets, 1, true);
+        }
+      },
+    });
 
   const npcMaxHpRef = useLatestRef(battle.npcMaxHp);
   const setNpcHPRef = useLatestRef(battle.setNpcHP);
@@ -1079,6 +1108,11 @@ export function useBattleScene({
     controlsDisabled,
     showRetry: difficulty !== "hard" && difficulty !== "insano",
     playerProjectile,
+    killerQueen,
+    bombTargets,
+    killerQueenSprite,
+    bombSprite,
+    explosionSprite,
     kokusenActive,
     kokusenFrame,
   };

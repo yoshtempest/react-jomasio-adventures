@@ -8,6 +8,10 @@ import type { SummonedNpc, NPCBattleState } from "@/utils/types/npc/npc";
 import type { PetState } from "@/hooks/battle/player/usePet";
 import type { CoffinState } from "@/hooks/battle/summon/useCoffinAnimation";
 import type { GroundPaper } from "@/services/npc/attacks/maugrelo/state";
+import type {
+  KillerQueenOverlay,
+  BombTarget,
+} from "@/hooks/battle/player/useArturKillerQueen";
 
 type BattleEntitiesBattle = {
   piercings: { id: number; x: number; y: number }[];
@@ -32,6 +36,11 @@ type Props = {
   grabFlipped?: boolean;
   isAlfa?: boolean;
   playerProjectile?: PlayerSpecialProjectile | null;
+  killerQueen?: KillerQueenOverlay | null;
+  bombTargets?: BombTarget[];
+  killerQueenSprite?: (sprite: KillerQueenOverlay["sprite"]) => string;
+  bombSprite?: string;
+  explosionSprite?: string;
 };
 
 export function BattleEntities({
@@ -47,6 +56,11 @@ export function BattleEntities({
   grabFlipped = false,
   isAlfa = false,
   playerProjectile = null,
+  killerQueen = null,
+  bombTargets = [],
+  killerQueenSprite,
+  bombSprite,
+  explosionSprite,
 }: Props) {
   const battleScaleX = window.innerWidth / ProjectileConstants.MAP_WIDTH;
   const battleScaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;
@@ -156,6 +170,43 @@ export function BattleEntities({
         grabbedUntil={player.grabbedUntil}
         grabFlipped={grabFlipped}
       />
+
+      {killerQueen?.active && killerQueenSprite && (
+        <img
+          src={killerQueenSprite(killerQueen.sprite)}
+          style={{
+            position: "absolute",
+            left: killerQueen.x * battleScaleX,
+            top: killerQueen.y * battleScaleY,
+            width: PLAYER_SIZE * 1.3,
+            transform: "translate(-50%, -100%)",
+            opacity: killerQueen.opacity,
+            transition: "opacity 260ms linear",
+            zIndex: 17,
+            pointerEvents: "none",
+          }}
+        />
+      )}
+
+      {bombTargets.map((b) => (
+        <img
+          key={b.id}
+          src={
+            b.phase === "explosion" && explosionSprite
+              ? explosionSprite
+              : bombSprite ?? undefined
+          }
+          style={{
+            position: "absolute",
+            left: b.x * battleScaleX,
+            top: b.y * battleScaleY,
+            width: b.phase === "explosion" ? PLAYER_SIZE * 2 : PLAYER_SIZE * 0.9,
+            transform: "translate(-50%, -100%)",
+            zIndex: 18,
+            pointerEvents: "none",
+          }}
+        />
+      ))}
 
       {playerProjectile?.phase === "merge" && (
         <>

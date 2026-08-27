@@ -50,6 +50,10 @@ export const animationFlow: Record<PlayerState, AnimationStep | null> = {
 type SpecialFlowOverride = {
   preSpecial: { next: PlayerState; duration: number };
   preSpecial2: { next: PlayerState; duration: number };
+  // Opcional: como `special` normalmente avança sozinho para `idle`, o artur
+  // o segura (duração gigante) durante toda a coreografia da Killer Queen.
+  // O hook `useArturKillerQueen` força `idle` quando a sequência termina.
+  special?: { next: PlayerState; duration: number };
 };
 
 export const CHARACTER_SPECIAL_FLOWS: Partial<
@@ -58,6 +62,11 @@ export const CHARACTER_SPECIAL_FLOWS: Partial<
   riquelme: {
     preSpecial: { next: "preSpecial2", duration: 400 },
     preSpecial2: { next: "special", duration: 800 },
+  },
+  artur: {
+    preSpecial: { next: "preSpecial2", duration: 400 },
+    preSpecial2: { next: "special", duration: 500 },
+    special: { next: "idle", duration: 999999999 },
   },
 };
 

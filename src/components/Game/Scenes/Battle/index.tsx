@@ -97,6 +97,11 @@ export function BattleScene(props: Props) {
     controlsDisabled,
     showRetry,
     playerProjectile,
+    killerQueen,
+    bombTargets,
+    killerQueenSprite,
+    bombSprite,
+    explosionSprite,
     kokusenActive,
     kokusenFrame,
   } = useBattleScene({ ...props, isAlfa, PLAYER_SIZE });
@@ -300,6 +305,11 @@ export function BattleScene(props: Props) {
             grabFlipped={grabFlipped}
             isAlfa={isAlfa}
             playerProjectile={playerProjectile}
+            killerQueen={killerQueen}
+            bombTargets={bombTargets}
+            killerQueenSprite={killerQueenSprite}
+            bombSprite={bombSprite}
+            explosionSprite={explosionSprite}
           />
 
           <ChargeParticles

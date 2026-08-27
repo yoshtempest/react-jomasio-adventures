@@ -22,6 +22,7 @@ type Props = {
     (value: number, x: number, y: number, type: DamageType) => void
   >;
   hitstopRef: React.RefObject<number>;
+  freezeUntilRef?: React.RefObject<number>;
 };
 
 function computeSummonDamage(
@@ -59,6 +60,7 @@ export function useSummonAI({
   damagePlayer,
   spawnDamageRef,
   hitstopRef,
+  freezeUntilRef,
 }: Props) {
   const summonLastAttacksRef = useRef<Record<string, number>>({});
 
@@ -78,6 +80,7 @@ export function useSummonAI({
     const interval = setInterval(() => {
       if (isPausedRef.current) return;
       if (hitstopRef.current > Date.now()) return;
+      if (freezeUntilRef?.current && freezeUntilRef.current > Date.now()) return;
 
       const px = playerXRef.current;
 
@@ -151,6 +154,7 @@ export function useSummonAI({
     playerXRef,
     playerYRef,
     setSummonsRef,
+    freezeUntilRef,
   ]);
 
   useEffect(() => {
