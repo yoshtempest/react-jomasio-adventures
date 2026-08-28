@@ -21,4 +21,9 @@ export const ATTACK_SOUNDS: Partial<
       soundEffectPath("/player/marcelo/sword-slash-4.mp3"),
     ],
   },
+
+  artur: {
+    volume: 1,
+    sounds: [soundEffectPath("/player/artur/ORA!.mp3")],
+  },
 };

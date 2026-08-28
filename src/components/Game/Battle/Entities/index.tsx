@@ -10,6 +10,7 @@ import type { SummonedNpc, NPCBattleState } from "@/utils/types/npc/npc";
 import type { PetState } from "@/hooks/battle/player/usePet";
 import type { CoffinState } from "@/hooks/battle/summon/useCoffinAnimation";
 import type { GroundPaper } from "@/services/npc/attacks/maugrelo/state";
+import type { ExtraPunchVisual } from "@/hooks/battle/player/useArturOraPunch";
 import type {
   KillerQueenOverlay,
   BombTarget,
@@ -43,6 +44,8 @@ type Props = {
   killerQueenSprite?: (sprite: KillerQueenOverlay["sprite"]) => string;
   bombSprite?: string;
   explosionSprite?: string;
+  extraPunches?: ExtraPunchVisual[];
+  extraPunchSprite?: string;
 };
 
 export function BattleEntities({
@@ -63,6 +66,8 @@ export function BattleEntities({
   killerQueenSprite,
   bombSprite,
   explosionSprite,
+  extraPunches = [],
+  extraPunchSprite,
 }: Props) {
   const battleScaleX = window.innerWidth / ProjectileConstants.MAP_WIDTH;
   const battleScaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;
@@ -257,6 +262,23 @@ export function BattleEntities({
               b.phase === "explosion" ? PLAYER_SIZE * 2 : PLAYER_SIZE * 0.9,
             transform: "translate(-50%, -100%)",
             zIndex: 18,
+            pointerEvents: "none",
+          }}
+        />
+      ))}
+
+      {extraPunches.map((p) => (
+        <img
+          key={p.id}
+          src={extraPunchSprite}
+          style={{
+            position: "absolute",
+            left: p.x * battleScaleX,
+            top: p.y * battleScaleY,
+            height: PLAYER_SIZE / 4,
+            width: "auto",
+            transform: "translate(-50%, -100%)",
+            zIndex: 17,
             pointerEvents: "none",
           }}
         />

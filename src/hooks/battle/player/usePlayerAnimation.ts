@@ -50,6 +50,14 @@ export function usePlayerAnimation(
     }
 
     let gameDuration = step.duration;
+    // O ataque do artur só finaliza quando o último punch passa (ORA hold).
+    if (
+      player.state === "attack" &&
+      player.character === "artur" &&
+      player.mode === "battle"
+    ) {
+      gameDuration = Number.MAX_SAFE_INTEGER;
+    }
     if (player.state === "stun" && tenacityRef.current?.current != null) {
       gameDuration = Math.round(
         STUN_BASE_DURATION * (1 - tenacityRef.current.current),
@@ -73,6 +81,7 @@ export function usePlayerAnimation(
   }, [
     player.state,
     player.character,
+    player.mode,
     setPlayer,
     playSound,
     tenacityRef,

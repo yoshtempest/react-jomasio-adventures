@@ -35,6 +35,8 @@ import { usePhaseTransition } from "@/hooks/battle/death/usePhaseTransition";
 import { useCoffinAnimation } from "@/hooks/battle/summon/useCoffinAnimation";
 import { usePlayerSpecialProjectile } from "@/hooks/battle/player/usePlayerSpecialProjectile";
 import { useArturKillerQueen } from "@/hooks/battle/player/useArturKillerQueen";
+import { useArturOraPunch } from "@/hooks/battle/player/useArturOraPunch";
+import { playerPath } from "@/utils/paths";
 import { getSpecialFlowOverride } from "@/data/battle/animationFlow";
 import { useBattleIntro } from "@/hooks/battle/useIntro";
 import { useBattleOutro } from "@/hooks/battle/useOutro";
@@ -678,6 +680,9 @@ export function useBattleScene({
 
   const executePetSkillRef = useRef<() => void>(() => {});
 
+  // Preenchido pelo useArturOraPunch com o multiplicador atual (escala ORA).
+  const arturOraMultiplierRef = useRef<() => number>(() => 1);
+
   const battle = useBattleSystem({
     playerX: player.x,
     playerY: player.y,
@@ -704,6 +709,7 @@ export function useBattleScene({
     onAttackRef,
     onSpecialRef,
     onKokusenRef,
+    arturOraMultiplierRef,
     petId,
     onPetSkillRef: executePetSkillRef,
     isMenuRef: isMenuOpenRef,
@@ -854,7 +860,7 @@ export function useBattleScene({
     npcData.class,
   ]);
 
-  const { handlePlayerHit, handleSpecialHit, hitTargetList } =
+  const { handlePlayerHit, handleSpecialHit, handleExtraPunch, hitTargetList } =
     usePlayerBattleActions({
       player,
       npc,
@@ -909,6 +915,20 @@ export function useBattleScene({
         .map((s) => ({ id: s.id, x: s.x, y: s.y })),
     ];
   }, [player.character, npc.x, npc.y, summons]);
+
+  const {
+    oraPress,
+    punches: extraPunches,
+  } = useArturOraPunch({
+    player,
+    setPlayer,
+    onPunchHit: handleExtraPunch,
+    multiplierRef: arturOraMultiplierRef,
+  });
+
+  const extraPunchSprite = playerPath(
+    "/artur/inFight/attacks/extraPunch.svg",
+  );
 
   const {
     killerQueen,
@@ -1024,6 +1044,7 @@ export function useBattleScene({
       if (freezeActionsUntilRef.current > Date.now()) return;
       if (isGrabbedRef.current && grabFlippedRef.current) return;
       attack();
+      oraPress();
     },
     special: () => {
       if (freezeActionsUntilRef.current > Date.now()) return;
@@ -1151,6 +1172,8 @@ export function useBattleScene({
     killerQueenSprite,
     bombSprite,
     explosionSprite,
+    extraPunches,
+    extraPunchSprite,
     kokusenActive,
     kokusenFrame,
   };

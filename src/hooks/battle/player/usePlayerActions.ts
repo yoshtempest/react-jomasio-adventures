@@ -29,7 +29,11 @@ type Props = {
   battle: {
     playerCooldown: React.RefObject<boolean>;
     isEnding: React.RefObject<boolean>;
-    playerHit: (multiplier?: number, bypassCanPlayerHit?: boolean) => void;
+    playerHit: (
+      multiplier?: number,
+      bypassCanPlayerHit?: boolean,
+      bypassCooldown?: boolean,
+    ) => void;
     specialHit: (multiplier?: number, bypassRangeCheck?: boolean) => void;
     setDelicia: React.Dispatch<React.SetStateAction<number>>;
     hitsToSpecial: number;
@@ -247,6 +251,34 @@ export function usePlayerBattleActions({
     npcClass,
   ]);
 
+  const handleExtraPunch = useCallback(
+    (multiplier: number): { x: number; y: number; isMain: boolean } | null => {
+      if (battle.isEnding.current) return null;
+
+      const targets = getTargets();
+      const mainTarget = targets.find((t) => t.id === "main");
+
+      if (mainTarget && isInAttackRange(mainTarget)) {
+        battle.playerHit(multiplier, true, true);
+        return { x: mainTarget.x, y: mainTarget.y, isMain: true };
+      }
+
+      for (const target of targets) {
+        if (target.id === "main") continue;
+        if (!isInAttackRange(target)) continue;
+
+        const targetSummon = summons.find((summon) => summon.id === target.id);
+        if (!targetSummon) continue;
+
+        hitSummon(target, multiplier);
+        return { x: target.x, y: target.y, isMain: false };
+      }
+
+      return null;
+    },
+    [battle, getTargets, isInAttackRange, summons, hitSummon],
+  );
+
   const handleSpecialHit = useCallback(() => {
     if (!battle.playerCooldown.current || battle.isEnding.current) {
       return;
@@ -290,6 +322,7 @@ export function usePlayerBattleActions({
   return {
     handlePlayerHit,
     handleSpecialHit,
+    handleExtraPunch,
     hitTargetList,
   };
 }

@@ -102,6 +102,8 @@ export function BattleScene(props: Props) {
     killerQueenSprite,
     bombSprite,
     explosionSprite,
+    extraPunches,
+    extraPunchSprite,
     kokusenActive,
     kokusenFrame,
   } = useBattleScene({ ...props, isAlfa, PLAYER_SIZE });
@@ -310,6 +312,8 @@ export function BattleScene(props: Props) {
             killerQueenSprite={killerQueenSprite}
             bombSprite={bombSprite}
             explosionSprite={explosionSprite}
+            extraPunches={extraPunches}
+            extraPunchSprite={extraPunchSprite}
           />
 
           <ChargeParticles

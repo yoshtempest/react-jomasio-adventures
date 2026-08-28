@@ -64,6 +64,7 @@ type Props = {
   onAttackRef?: React.RefObject<() => void>;
   onSpecialRef?: React.RefObject<() => void>;
   onKokusenRef?: React.RefObject<() => void>;
+  arturOraMultiplierRef?: React.RefObject<() => number>;
   petId?: string | null;
   onPetSkillRef?: React.RefObject<() => void>;
   isMenuRef?: React.RefObject<boolean>;
@@ -99,6 +100,7 @@ export function useBattleSystem(props: Props) {
     onAttackRef,
     onSpecialRef,
     onKokusenRef,
+    arturOraMultiplierRef,
     petId = null,
     onPetSkillRef,
     isMenuRef,
@@ -258,6 +260,7 @@ export function useBattleSystem(props: Props) {
     onSpecialRef,
     onKokusenRef,
     onHalfHeal,
+    arturOraMultiplierRef,
   });
 
   const { pet, resetPet, triggerJumpAttack } = usePetBattle({

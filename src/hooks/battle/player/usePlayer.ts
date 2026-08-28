@@ -60,6 +60,8 @@ type Props = {
   hitstopRef: React.RefObject<number>;
   registerHitRef: React.RefObject<(damage: number) => void>;
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;
+  /** Devolve o multiplicador atual do ataque básico do artur (escala ORA). */
+  arturOraMultiplierRef?: React.RefObject<() => number>;
   onBeforeNpcHitRef?: React.RefObject<() => boolean>;
   onDamageDealtRef?: React.RefObject<(amount: number) => void>;
   onAttackRef?: React.RefObject<() => void>;
@@ -100,6 +102,7 @@ export function usePlayerBattle({
   hitstopRef,
   registerHitRef,
   setPlayer,
+  arturOraMultiplierRef,
   onBeforeNpcHitRef,
   onDamageDealtRef,
   onAttackRef,
@@ -113,9 +116,21 @@ export function usePlayerBattle({
   const [stacks, setStacks] = useState(0);
 
   const playerHit = useCallback(
-    (damageMultiplier = 1, bypassCanPlayerHit = false) => {
+    (
+      damageMultiplier = 1,
+      bypassCanPlayerHit = false,
+      bypassCooldown = false,
+    ) => {
       if (isEnding.current) return;
-      if (!playerCooldown.current) return;
+      if (!playerCooldown.current && !bypassCooldown) return;
+
+      // Ataque básico do artur escala pelo count de extraPunches na tela.
+      const mult =
+        arturOraMultiplierRef?.current &&
+        player.character === "artur" &&
+        damageMultiplier === 1
+          ? (arturOraMultiplierRef.current() ?? damageMultiplier)
+          : damageMultiplier;
 
       const guard = evaluateStatusGuards(player);
       if (guard === "frozen") return;
@@ -162,7 +177,7 @@ export function usePlayerBattle({
           playerMaxHp,
           totalMaxHpDamage,
           totalTrueDamage,
-          damageMultiplier,
+          damageMultiplier: mult,
         });
         if (selfDmg > 0) {
           setPlayerHP((hp) => Math.max(0, hp - selfDmg));
@@ -196,7 +211,7 @@ export function usePlayerBattle({
         onDamageDealtRef,
         onAttackRef,
         onKokusenRef,
-        damageMultiplier,
+        damageMultiplier: mult,
         npcX,
         npcY,
         spawnPiercing,
@@ -245,6 +260,7 @@ export function usePlayerBattle({
       onHalfHeal,
       npcClass,
       npcElementTypes,
+      arturOraMultiplierRef,
     ],
   );
 
