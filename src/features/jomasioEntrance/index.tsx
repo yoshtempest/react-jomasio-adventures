@@ -223,7 +223,7 @@ export function JomasioEntranceScene({ sceneId }: Props) {
             x: 13,
             y: 10,
             visible: true,
-            image: "/assets/map/rocha.svg",
+            image: "/assets/map/rock.svg",
           },
         ]}
         popup={popup}
