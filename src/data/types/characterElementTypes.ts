@@ -4,13 +4,13 @@ export const CHARACTER_ELEMENT_TYPES: Record<
   CharacterId,
   readonly ElementType[]
 > = {
-  marcelo: ["Normalis", "Ventus"],
+  marcelo: ["Aquos", "Ventus"],
   eduarda: ["Normalis", "Haos"],
-  lucas: ["Normalis", "Subterra"],
+  lucas: ["Pyrus", "Subterra"],
   samuel: ["Subterra", "Darkus"],
   artur: ["Pyrus", "Psychicus"],
   mayra: ["Darkus", "Umbra"],
-  lucaua: ["Metallum", "Normalis"],
+  lucaua: ["Metallum", "Psychicus"],
   riquelme: ["Aquos", "Umbra"],
   larissa: ["Metallum", "Electricus"],
   camilly: ["Normalis", "Subterra"],
