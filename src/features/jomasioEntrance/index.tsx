@@ -23,16 +23,16 @@ import Talking from "@/components/Game/Interactions/Talking";
 import { JOMASIO_ENTRANCE_SCENES } from "@/scenes/jomasioEntrance";
 import { sceneBackgrounds } from "@/data/scene/background";
 import { ITEMS } from "@/data/items";
-import { GATHER_LOOT_TABLES } from "@/data/professions/gathering";
 import {
-  rollGatherLoot,
-  PROFESSION_XP_PER_GATHER,
-} from "@/gameRules/professions/proficiency";
+  getOresByRockLevel,
+  getLowestOreLevel,
+} from "@/data/professions/oreLevels";
 import {
   WOOD_LEVELS,
   getWoodLevelByTreeLevel,
 } from "@/data/professions/woodLevels";
 import { rollWoodGather } from "@/gameRules/professions/wood";
+import { rollMineGather } from "@/gameRules/professions/mine";
 import { rollProfessionMaterial } from "@/gameRules/professions/weapon";
 
 type Props = {
@@ -72,45 +72,59 @@ export function JomasioEntranceScene({ sceneId }: Props) {
   const hasQuest = (id: string) => quests.some((q) => q.id === id);
 
   const interactions = useMemo(() => {
-    const mineRock = createToolInteraction<MineRockDeps>(
-      "weapon_pickaxe",
-      "Você precisa equipar uma picareta para minerar.",
-      (deps) => {
-        if (Date.now() - lastMineTimeRef.current < MINE_COOLDOWN_MS) {
-          deps.setPopup("A rocha ainda está se recuperando...");
-          return;
-        }
-        lastMineTimeRef.current = Date.now();
+    const mineRock = (rockLevel: number) =>
+      createToolInteraction<MineRockDeps>(
+        "weapon_pickaxe",
+        "Você precisa equipar uma picareta para minerar.",
+        (deps) => {
+          if (Date.now() - lastMineTimeRef.current < MINE_COOLDOWN_MS) {
+            deps.setPopup("A rocha ainda está se recuperando...");
+            return;
+          }
+          lastMineTimeRef.current = Date.now();
 
-        const { level } = deps.getProficiency(deps.character, "miner");
-        const { items: rolled } = rollGatherLoot(
-          GATHER_LOOT_TABLES.miner,
-          level,
-        );
+          const { level } = deps.getProficiency(deps.character, "miner");
 
-        const material = deps.equippedWeaponId
-          ? rollProfessionMaterial(deps.equippedWeaponId)
-          : null;
-        if (material) rolled.push(material);
+          const ores = getOresByRockLevel(rockLevel);
+          if (ores.length === 0) {
+            deps.setPopup("Esta rocha não contém minério conhecido.");
+            return;
+          }
 
-        rolled.forEach(({ itemId, qty }) => deps.addItem({ id: itemId, qty }));
+          if (level < rockLevel) {
+            deps.setPopup(
+              `Você precisa ser Mineiro nv.${rockLevel} para minerar esta rocha. (você é nv.${level})`,
+            );
+            return;
+          }
 
-        const summary = rolled
-          .map(
-            ({ itemId, qty }) =>
-              `${ITEMS[itemId as keyof typeof ITEMS]?.name ?? itemId} x${qty}`,
-          )
-          .join(", ");
+          const result = rollMineGather(rockLevel, level);
+          const rolled = result?.items ?? [];
 
-        deps.setPopup(`Você minerou a rocha! Obteve: ${summary}`);
+          const material = deps.equippedWeaponId
+            ? rollProfessionMaterial(deps.equippedWeaponId)
+            : null;
+          if (material) rolled.push(material);
 
-        deps.addProficiencyXP(
-          deps.character,
-          "miner",
-          PROFESSION_XP_PER_GATHER,
-        );
-      },
-    );
+          rolled.forEach(({ itemId, qty }) => deps.addItem({ id: itemId, qty }));
+
+          const summary = rolled
+            .map(
+              ({ itemId, qty }) =>
+                `${ITEMS[itemId as keyof typeof ITEMS]?.name ?? itemId} x${qty}`,
+            )
+            .join(", ");
+
+          const xpGained = result?.xpGained ?? 0;
+          const xpNote =
+            xpGained > 0 ? ` (+${xpGained} XP de Mineiro)` : "";
+          deps.setPopup(`Você minerou a rocha! Obteve: ${summary}.${xpNote}`);
+
+          if (xpGained > 0) {
+            deps.addProficiencyXP(deps.character, "miner", xpGained);
+          }
+        },
+      );
 
     const chopWood = (treeLevel: number) =>
       createToolInteraction<MineRockDeps>(
@@ -162,7 +176,7 @@ export function JomasioEntranceScene({ sceneId }: Props) {
 
     return {
       "13,10": () =>
-        mineRock({
+        mineRock(getLowestOreLevel())({
           setPopup,
           addItem,
           hasToolEquipped,
