@@ -1,8 +1,8 @@
 export const CLASSES: PlayerClass[] = ["fracote", "idiota", "amostradinho"];
 
 export const SPECIAL_HITS_BY_CLASS = {
-  fracote: 4,
-  default: 6,
+  fracote: 7,
+  default: 9,
 };
 
 export const CLASS_DAMAGE_MODIFIER = {

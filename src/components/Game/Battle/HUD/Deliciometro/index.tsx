@@ -4,11 +4,11 @@ import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import styles from "./styles.module.css";
 
 type Props = {
-  delicia: number; // 0 - 6
+  delicia: number; // 0 - 9
   hitsToSpecial?: number;
 };
 
-export function Deliciometro({ delicia, hitsToSpecial = 6 }: Props) {
+export function Deliciometro({ delicia, hitsToSpecial = 9 }: Props) {
   const angle = (delicia / hitsToSpecial) * 180 - 90;
 
   const hasPlayedRef = useRef(false);
