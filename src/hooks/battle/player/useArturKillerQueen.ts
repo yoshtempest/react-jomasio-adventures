@@ -7,6 +7,7 @@ export type KillerQueenOverlay = {
   y: number;
   sprite: "idle" | "touch" | "prePalm" | "palm";
   opacity: number;
+  flip: boolean;
 };
 
 export type BombTarget = {
@@ -45,6 +46,7 @@ const DEFAULT_OVERLAY: KillerQueenOverlay = {
   y: 0,
   sprite: "idle",
   opacity: 0,
+  flip: false,
 };
 
 const KILLER_QUEEN_SPRITE_FILE: Record<KillerQueenOverlay["sprite"], string> = {
@@ -97,8 +99,10 @@ export function useArturKillerQueen({
 
     const isRight = player.battleDirection === "right";
     const playerSideX = player.x + (isRight ? SPAWN_X_OFFSET : -SPAWN_X_OFFSET);
+    const playerSideFlip = !isRight;
     const behindX = (e: EnemyTarget) =>
-      e.x >= player.x ? e.x - BEHIND_X_OFFSET : e.x + BEHIND_X_OFFSET;
+      e.x >= player.x ? e.x + BEHIND_X_OFFSET : e.x - BEHIND_X_OFFSET;
+    const behindFlip = (e: EnemyTarget) => e.x >= player.x;
 
     const done = Date.now() + TOTAL_FREEZE_MS;
     freezeMainUntilRefRef.current.current = done;
@@ -113,6 +117,7 @@ export function useArturKillerQueen({
           y: player.y,
           sprite: "idle",
           opacity: 0,
+          flip: playerSideFlip,
         });
         await delay(30);
         setKillerQueen((q) => ({ ...q, opacity: 1 }));
@@ -128,6 +133,7 @@ export function useArturKillerQueen({
               y: enemy.y,
               sprite: "idle",
               opacity: 0,
+              flip: behindFlip(enemy),
             });
           }, 260);
           timers.push(recall);
@@ -155,6 +161,7 @@ export function useArturKillerQueen({
           y: player.y,
           sprite: "prePalm",
           opacity: 0,
+          flip: playerSideFlip,
         });
         await delay(30);
         setKillerQueen((q) => ({ ...q, opacity: 1 }));

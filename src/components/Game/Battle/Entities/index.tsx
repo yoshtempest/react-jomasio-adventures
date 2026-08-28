@@ -180,7 +180,7 @@ export function BattleEntities({
             top: killerQueen.y * battleScaleY,
             height: PLAYER_SIZE / 1.5,
             width: "auto",
-            transform: `translate(-50%, -100%) ${player.battleDirection === "left" ? "scaleX(-1)" : ""}`,
+            transform: `translate(-50%, -100%) ${killerQueen.flip ? "scaleX(-1)" : ""}`,
             opacity: killerQueen.opacity,
             transition: "opacity 260ms linear",
             zIndex: 17,
