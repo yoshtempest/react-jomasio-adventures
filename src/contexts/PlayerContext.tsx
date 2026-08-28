@@ -241,7 +241,10 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   );
 
   const moveUpBattle = useCallback(() => battleRef.current.moveUpBattle(), []);
-  const startMoveLeft = useCallback(() => battleRef.current.startMoveLeft(), []);
+  const startMoveLeft = useCallback(
+    () => battleRef.current.startMoveLeft(),
+    [],
+  );
   const stopMoveLeft = useCallback(() => battleRef.current.stopMoveLeft(), []);
   const startMoveRight = useCallback(
     () => battleRef.current.startMoveRight(),
@@ -503,8 +506,5 @@ export function usePlayerActions() {
 export function usePlayer(): PlayerContextType {
   const state = usePlayerState();
   const actions = usePlayerActions();
-  return useMemo(
-    () => ({ ...state, ...actions }),
-    [state, actions],
-  );
+  return useMemo(() => ({ ...state, ...actions }), [state, actions]);
 }

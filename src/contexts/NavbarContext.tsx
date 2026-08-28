@@ -121,9 +121,7 @@ export function NavbarProvider({ children }: { children: ReactNode }) {
   );
 
   return (
-    <NavbarContext.Provider value={value}>
-      {children}
-    </NavbarContext.Provider>
+    <NavbarContext.Provider value={value}>{children}</NavbarContext.Provider>
   );
 }
 

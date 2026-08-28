@@ -256,12 +256,7 @@ export function PlayTimeProvider({ children }: { children: ReactNode }) {
       getTotalBattleTime,
       getVisitedCount,
     }),
-    [
-      data,
-      getTotalPlayTime,
-      getTotalBattleTime,
-      getVisitedCount,
-    ],
+    [data, getTotalPlayTime, getTotalBattleTime, getVisitedCount],
   );
 
   return (
@@ -291,8 +286,5 @@ export function usePlayTimeActions() {
 export function usePlayTime(): ContextType {
   const state = usePlayTimeState();
   const actions = usePlayTimeActions();
-  return useMemo(
-    () => ({ ...state, ...actions }),
-    [state, actions],
-  );
+  return useMemo(() => ({ ...state, ...actions }), [state, actions]);
 }

@@ -100,11 +100,7 @@ export function PWAProvider({ children }: { children: ReactNode }) {
     ],
   );
 
-  return (
-    <PWAContext.Provider value={value}>
-      {children}
-    </PWAContext.Provider>
-  );
+  return <PWAContext.Provider value={value}>{children}</PWAContext.Provider>;
 }
 
 // eslint-disable-next-line react-refresh/only-export-components

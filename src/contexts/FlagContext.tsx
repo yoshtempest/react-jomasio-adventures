@@ -27,36 +27,32 @@ export function FlagProvider({ children }: Props) {
   const [flags, setFlags] = useState<FlagId[]>(loadFlags);
   const flagsRef = useLatestRef(flags);
 
-  const setFlag = useCallback((flag: FlagId) => {
-    if (flagsRef.current.includes(flag)) return;
-    // Fora do updater: StrictMode reexecuta updaters em dev e gravar aqui
-    // duplicaria o efeito. A guarda do ref impede rebuilds desnecessários.
-    if (isUnlockFlag(flag)) saveUnlockDate(flag);
-    setFlags((prev) => {
-      if (prev.includes(flag)) return prev;
-      return [...prev, flag];
-    });
-  }, [flagsRef]);
+  const setFlag = useCallback(
+    (flag: FlagId) => {
+      if (flagsRef.current.includes(flag)) return;
+      // Fora do updater: StrictMode reexecuta updaters em dev e gravar aqui
+      // duplicaria o efeito. A guarda do ref impede rebuilds desnecessários.
+      if (isUnlockFlag(flag)) saveUnlockDate(flag);
+      setFlags((prev) => {
+        if (prev.includes(flag)) return prev;
+        return [...prev, flag];
+      });
+    },
+    [flagsRef],
+  );
 
   useEffect(() => {
     saveFlags(flags);
   }, [flags]);
 
-  const hasFlag = useCallback(
-    (flag: FlagId) => flags.includes(flag),
-    [flags],
-  );
+  const hasFlag = useCallback((flag: FlagId) => flags.includes(flag), [flags]);
 
   const value = useMemo(
     () => ({ flags, setFlag, hasFlag }),
     [flags, setFlag, hasFlag],
   );
 
-  return (
-    <FlagContext.Provider value={value}>
-      {children}
-    </FlagContext.Provider>
-  );
+  return <FlagContext.Provider value={value}>{children}</FlagContext.Provider>;
 }
 
 // eslint-disable-next-line react-refresh/only-export-components

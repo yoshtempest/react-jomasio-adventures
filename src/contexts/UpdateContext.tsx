@@ -78,9 +78,7 @@ export function UpdateProvider({ children }: { children: ReactNode }) {
   );
 
   return (
-    <UpdateContext.Provider value={value}>
-      {children}
-    </UpdateContext.Provider>
+    <UpdateContext.Provider value={value}>{children}</UpdateContext.Provider>
   );
 }
 

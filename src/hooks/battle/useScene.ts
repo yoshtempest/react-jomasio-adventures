@@ -922,24 +922,24 @@ export function useBattleScene({
     player,
     setPlayer,
     enemies: arturEnemies,
-      freezeMainUntilRef: refs.npcStaggerRef,
-      freezeSummonsUntilRef,
-      freezePlayerUntilRef: freezeActionsUntilRef,
-      onAreaDamage: (explosions, allEnemies) => {
-        for (const enemy of allEnemies) {
-          const count = explosions.filter(
-            (c) => Math.hypot(enemy.x - c.x, enemy.y - c.y) <= 200,
-          ).length;
-          if (count > 0) {
-            hitTargetList(
-              [{ id: enemy.id, x: enemy.x, y: enemy.y }],
-              count,
-              true,
-            );
-          }
+    freezeMainUntilRef: refs.npcStaggerRef,
+    freezeSummonsUntilRef,
+    freezePlayerUntilRef: freezeActionsUntilRef,
+    onAreaDamage: (explosions, allEnemies) => {
+      for (const enemy of allEnemies) {
+        const count = explosions.filter(
+          (c) => Math.hypot(enemy.x - c.x, enemy.y - c.y) <= 200,
+        ).length;
+        if (count > 0) {
+          hitTargetList(
+            [{ id: enemy.id, x: enemy.x, y: enemy.y }],
+            count,
+            true,
+          );
         }
-      },
-    });
+      }
+    },
+  });
 
   const npcMaxHpRef = useLatestRef(battle.npcMaxHp);
   const setNpcHPRef = useLatestRef(battle.setNpcHP);

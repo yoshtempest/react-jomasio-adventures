@@ -359,9 +359,7 @@ export function TitleProvider({ children }: { children: ReactNode }) {
   );
 
   return (
-    <TitleContext.Provider value={value}>
-      {children}
-    </TitleContext.Provider>
+    <TitleContext.Provider value={value}>{children}</TitleContext.Provider>
   );
 }
 

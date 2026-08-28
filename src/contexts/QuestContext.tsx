@@ -1,4 +1,11 @@
-import { createContext, useContext, useCallback, useRef, useEffect, useMemo } from "react";
+import {
+  createContext,
+  useContext,
+  useCallback,
+  useRef,
+  useEffect,
+  useMemo,
+} from "react";
 import type { ReactNode } from "react";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { DAILY_QUEST_POOL, WEEKLY_QUEST_POOL } from "@/data/quests";
@@ -56,7 +63,9 @@ export function QuestProvider({ children }: Props) {
     const todayDate = getTodayDate();
     const weekStart = getWeekStart();
     const savedDailyDate = localStorage.getItem(slotKey(DAILY_QUEST_DATE_KEY));
-    const savedWeeklyDate = localStorage.getItem(slotKey(WEEKLY_QUEST_DATE_KEY));
+    const savedWeeklyDate = localStorage.getItem(
+      slotKey(WEEKLY_QUEST_DATE_KEY),
+    );
 
     const current = questsRef.current;
     const hasDaily = current.some((q) => q.frequency === "daily");
@@ -190,9 +199,7 @@ export function QuestProvider({ children }: Props) {
   );
 
   return (
-    <QuestContext.Provider value={value}>
-      {children}
-    </QuestContext.Provider>
+    <QuestContext.Provider value={value}>{children}</QuestContext.Provider>
   );
 }
 

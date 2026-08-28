@@ -108,11 +108,7 @@ export function ProfessionProgressProvider({
   );
 
   const addProficiencyXP = useCallback(
-    (
-      character: Character,
-      professionId: ProfessionId,
-      amount: number,
-    ) => {
+    (character: Character, professionId: ProfessionId, amount: number) => {
       setProficiency((prev) => {
         pendingSoundsRef.current = [];
 

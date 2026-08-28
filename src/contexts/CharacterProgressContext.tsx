@@ -321,10 +321,7 @@ export function CharacterProgressProvider({
 
   // ➕ DISTRIBUIR PONTOS
   const addStat = useCallback(
-    (
-      character: Character,
-      stat: keyof Omit<CharacterStats, "points">,
-    ) => {
+    (character: Character, stat: keyof Omit<CharacterStats, "points">) => {
       setProgress((prev) => {
         const char = prev[character];
 
