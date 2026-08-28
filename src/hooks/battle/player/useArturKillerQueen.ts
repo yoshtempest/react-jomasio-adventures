@@ -47,6 +47,13 @@ const DEFAULT_OVERLAY: KillerQueenOverlay = {
   opacity: 0,
 };
 
+const KILLER_QUEEN_SPRITE_FILE: Record<KillerQueenOverlay["sprite"], string> = {
+  idle: "killerQueenIdle",
+  touch: "touch",
+  prePalm: "prePalm",
+  palm: "palm",
+};
+
 export function useArturKillerQueen({
   player,
   setPlayer,
@@ -200,7 +207,9 @@ export function useArturKillerQueen({
     killerQueen,
     bombTargets,
     killerQueenSprite: (sprite: KillerQueenOverlay["sprite"]) =>
-      playerPath(`/artur/inFight/special/${sprite}.svg`),
+      playerPath(
+        `/artur/inFight/special/${KILLER_QUEEN_SPRITE_FILE[sprite]}.svg`,
+      ),
     bombSprite: npcPathProjectile("/bomb.svg"),
     explosionSprite: npcPathProjectile("/explosion.svg"),
   };
