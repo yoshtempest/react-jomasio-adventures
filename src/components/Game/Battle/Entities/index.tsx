@@ -1,33 +1,27 @@
-import { useEffect, useRef } from "react";
-import { npcPath, npcPathProjectile } from "@/utils/paths";
-import { spriteMap } from "@/data/battle/projectileSprites";
-import { NPCBattle } from "@/components/Game/Entities/Npc/Battle";
-import { ProjectileSprite } from "@/components/Game/Battle/Projectile";
-import { PlayerBattle } from "@/components/Game/Entities/Player/Battle";
 import { ProjectileConstants } from "@/data/projectile";
-import { useSoundEffects } from "@/contexts/SoundEffectsContext";
-import type { SummonedNpc, NPCBattleState } from "@/utils/types/npc/npc";
+import { MainNpc } from "./MainNpc";
+import { NpcProjectile } from "./NpcProjectile";
+import { GroundPaper } from "./GroundPaper";
+import { Coffin } from "./Coffin";
+import { Summon } from "./Summon";
+import { Pet } from "./Pet";
+import { Player } from "./Player";
+import { KillerQueen } from "./KillerQueen";
+import { Bomb } from "./Bomb";
+import { ExtraPunch } from "./ExtraPunch";
+import { SpecialProjectile } from "./SpecialProjectile";
+import type { BattleEntitiesBattle, MainNpcState } from "./types";
+import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { PetState } from "@/hooks/battle/player/usePet";
 import type { CoffinState } from "@/hooks/battle/summon/useCoffinAnimation";
-import type { GroundPaper } from "@/services/npc/attacks/maugrelo/state";
-import type { ExtraPunchVisual } from "@/hooks/battle/player/useArturOraPunch";
 import type {
   KillerQueenOverlay,
   BombTarget,
 } from "@/hooks/battle/player/useArturKillerQueen";
-
-type BattleEntitiesBattle = {
-  piercings: { id: number; x: number; y: number }[];
-  isExploding: boolean;
-  npcPhase: number;
-  isNpcDying: boolean;
-};
+import type { ExtraPunchVisual } from "@/hooks/battle/player/useArturOraPunch";
 
 type Props = {
-  npc: NPCBattleState & {
-    projectile: Projectile | null;
-    groundPapers: GroundPaper[];
-  };
+  npc: MainNpcState;
   player: Player;
   battle: BattleEntitiesBattle;
   npcType: string;
@@ -72,261 +66,77 @@ export function BattleEntities({
   const battleScaleX = window.innerWidth / ProjectileConstants.MAP_WIDTH;
   const battleScaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;
 
-  const { playSound } = useSoundEffects();
-
   const activeBombIds = new Set(bombTargets.map((b) => b.id));
-
-  const prevKillerQueenSpriteRef = useRef<KillerQueenOverlay["sprite"]>("idle");
-
-  useEffect(() => {
-    // killerQueen entrou em palm -> clap.mp3
-    // (prePalm.mp3 é disparado pelo arturSeeing.svg no PlayerBattle)
-    const sprite = killerQueen?.active ? killerQueen.sprite : "idle";
-    if (sprite === "palm" && prevKillerQueenSpriteRef.current !== "palm") {
-      playSound("clap");
-    }
-    prevKillerQueenSpriteRef.current = sprite;
-  }, [killerQueen?.active, killerQueen?.sprite, playSound]);
-
-  const explodedPaperIdsRef = useRef<Set<number>>(new Set());
-
-  useEffect(() => {
-    // paper virou explosion.svg -> explosion.mp3 (uma vez por paper)
-    for (const gp of npc.groundPapers) {
-      if (gp.sprite === "explosion" && !explodedPaperIdsRef.current.has(gp.id)) {
-        explodedPaperIdsRef.current.add(gp.id);
-        playSound("explosion");
-      }
-    }
-    const renderedPaperIds = new Set(npc.groundPapers.map((gp) => gp.id));
-    for (const id of explodedPaperIdsRef.current) {
-      if (!renderedPaperIds.has(id)) explodedPaperIdsRef.current.delete(id);
-    }
-  }, [npc.groundPapers, playSound]);
-
-  const explodedBombIdsRef = useRef<Set<string>>(new Set());
-
-  useEffect(() => {
-    // bomba virou explosion.svg -> explosion.mp3 (uma vez por bomba)
-    for (const b of bombTargets) {
-      if (b.phase === "explosion" && !explodedBombIdsRef.current.has(b.id)) {
-        explodedBombIdsRef.current.add(b.id);
-        playSound("explosion");
-      }
-    }
-    const renderedBombIds = new Set(bombTargets.map((b) => b.id));
-    for (const id of explodedBombIdsRef.current) {
-      if (!renderedBombIds.has(id)) explodedBombIdsRef.current.delete(id);
-    }
-  }, [bombTargets, playSound]);
 
   return (
     <>
-      <NPCBattle
+      <MainNpc
         x={npc.x}
         y={npc.y}
         TILE_SIZE={TILE_SIZE}
         npcType={npcType}
         state={npc.state}
         direction={npc.direction}
-        piercings={battle.piercings}
-        isExploding={battle.isExploding}
+        battle={battle}
         isHidden={activeBombIds.has("main")}
-        npcPhase={battle.npcPhase}
-        isDying={battle.isNpcDying}
         isAlfa={isAlfa}
       />
 
-      {npc.projectile && (
-        <ProjectileSprite projectile={npc.projectile} groundY={player.y} />
-      )}
+      <NpcProjectile projectile={npc.projectile} groundY={player.y} />
 
-      {npc.groundPapers.map((gp) => (
-        <img
-          key={gp.id}
-          src={
-            gp.sprite === "explosion"
-              ? npcPathProjectile("/explosion.svg")
-              : npcPathProjectile("/paper.svg")
-          }
-          style={{
-            position: "absolute",
-            left: gp.x * battleScaleX,
-            top: gp.y * battleScaleY,
-            width: 60,
-            zIndex: 5,
-            pointerEvents: "none",
-          }}
-        />
-      ))}
-
-      {coffins.map((c) => {
-        const coffinSrc =
-          c.phase === "closed"
-            ? npcPath("/hungryKing/coffin.svg")
-            : npcPath("/hungryKing/coffinOpen.svg");
-
-        return (
-          <div
-            key={c.id}
-            style={{
-              position: "absolute",
-              width: TILE_SIZE * 2,
-              height: TILE_SIZE * 2,
-              left: c.x * battleScaleX,
-              top: c.y * battleScaleY,
-              transform: "translate(-50%, -100%)",
-              opacity: c.phase === "fading" ? 0 : 1,
-              transition: "opacity 500ms linear",
-              zIndex: 8,
-            }}
-          >
-            <img
-              src={coffinSrc}
-              style={{
-                width: "100%",
-                height: "100%",
-              }}
-            />
-          </div>
-        );
-      })}
-
-      {summons.map((s) => (
-        <NPCBattle
-          key={s.id}
-          x={s.x}
-          y={s.y}
-          TILE_SIZE={TILE_SIZE}
-          npcType={s.npcType}
-          state={s.state}
-          direction={s.direction}
-          isHidden={activeBombIds.has(s.id)}
-          isDying={s.isDying}
-        />
-      ))}
-
-      {pet && (
-        <NPCBattle
-          x={pet.x}
-          y={pet.y}
-          TILE_SIZE={TILE_SIZE}
-          npcType={pet.npcType}
-          state={pet.state}
-          direction={pet.direction}
-        />
-      )}
-
-      <PlayerBattle
-        character={player.character}
-        x={player.x}
-        y={player.y}
-        PLAYER_SIZE={PLAYER_SIZE}
-        state={player.state}
-        direction={player.battleDirection}
-        grabbedUntil={player.grabbedUntil}
-        grabFlipped={grabFlipped}
+      <GroundPaper
+        papers={npc.groundPapers}
+        battleScaleX={battleScaleX}
+        battleScaleY={battleScaleY}
       />
 
-      {killerQueen?.active && killerQueenSprite && (
-        <img
-          src={killerQueenSprite(killerQueen.sprite)}
-          style={{
-            position: "absolute",
-            left: killerQueen.x * battleScaleX,
-            top: killerQueen.y * battleScaleY,
-            height: PLAYER_SIZE / 1.5,
-            width: "auto",
-            transform: `translate(-50%, -100%) ${killerQueen.flip ? "scaleX(-1)" : ""}`,
-            opacity: killerQueen.opacity,
-            transition: "opacity 260ms linear",
-            zIndex: 17,
-            pointerEvents: "none",
-          }}
-        />
-      )}
+      <Coffin
+        coffins={coffins}
+        TILE_SIZE={TILE_SIZE}
+        battleScaleX={battleScaleX}
+        battleScaleY={battleScaleY}
+      />
 
-      {bombTargets.map((b) => (
-        <img
-          key={b.id}
-          src={
-            b.phase === "explosion" && explosionSprite
-              ? explosionSprite
-              : (bombSprite ?? undefined)
-          }
-          style={{
-            position: "absolute",
-            left: b.x * battleScaleX,
-            top: b.y * battleScaleY,
-            width:
-              b.phase === "explosion" ? PLAYER_SIZE * 2 : PLAYER_SIZE * 0.9,
-            transform: "translate(-50%, -100%)",
-            zIndex: 18,
-            pointerEvents: "none",
-          }}
-        />
-      ))}
+      <Summon
+        summons={summons}
+        hiddenIds={activeBombIds}
+        TILE_SIZE={TILE_SIZE}
+      />
 
-      {extraPunches.map((p) => (
-        <img
-          key={p.id}
-          src={extraPunchSprite}
-          style={{
-            position: "absolute",
-            left: p.x * battleScaleX,
-            top: p.y * battleScaleY,
-            height: PLAYER_SIZE / 4,
-            width: "auto",
-            transform: "translate(-50%, -100%)",
-            zIndex: 17,
-            pointerEvents: "none",
-          }}
-        />
-      ))}
+      <Pet pet={pet} TILE_SIZE={TILE_SIZE} />
 
-      {playerProjectile?.phase === "merge" && (
-        <>
-          <img
-            src={spriteMap.blueSphere}
-            style={{
-              position: "absolute",
-              left: playerProjectile.blueX * battleScaleX,
-              top: playerProjectile.blueY * battleScaleY,
-              width: 40,
-              transform: "translate(-50%, -50%)",
-              zIndex: 15,
-              pointerEvents: "none",
-            }}
-          />
-          <img
-            src={spriteMap.redSphere}
-            style={{
-              position: "absolute",
-              left: playerProjectile.redX * battleScaleX,
-              top: playerProjectile.redY * battleScaleY,
-              width: 40,
-              transform: "translate(-50%, -50%)",
-              zIndex: 15,
-              pointerEvents: "none",
-            }}
-          />
-        </>
-      )}
+      <Player player={player} PLAYER_SIZE={PLAYER_SIZE} grabFlipped={grabFlipped} />
 
-      {playerProjectile?.phase !== "merge" && playerProjectile && (
-        <img
-          src={spriteMap.purpleSphere}
-          style={{
-            position: "absolute",
-            left: playerProjectile.x * battleScaleX,
-            top: playerProjectile.y * battleScaleY,
-            width: playerProjectile.phase === "move" ? 50 : 60,
-            transform: "translate(-50%, -50%)",
-            zIndex: 16,
-            pointerEvents: "none",
-          }}
-        />
-      )}
+      <KillerQueen
+        killerQueen={killerQueen}
+        killerQueenSprite={killerQueenSprite}
+        PLAYER_SIZE={PLAYER_SIZE}
+        battleScaleX={battleScaleX}
+        battleScaleY={battleScaleY}
+      />
+
+      <Bomb
+        bombTargets={bombTargets}
+        bombSprite={bombSprite}
+        explosionSprite={explosionSprite}
+        PLAYER_SIZE={PLAYER_SIZE}
+        battleScaleX={battleScaleX}
+        battleScaleY={battleScaleY}
+      />
+
+      <ExtraPunch
+        extraPunches={extraPunches}
+        extraPunchSprite={extraPunchSprite}
+        PLAYER_SIZE={PLAYER_SIZE}
+        battleScaleX={battleScaleX}
+        battleScaleY={battleScaleY}
+      />
+
+      <SpecialProjectile
+        playerProjectile={playerProjectile}
+        battleScaleX={battleScaleX}
+        battleScaleY={battleScaleY}
+      />
     </>
   );
 }
