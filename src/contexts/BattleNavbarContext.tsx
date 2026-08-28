@@ -2,6 +2,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useMemo,
   useState,
   type ReactNode,
 } from "react";
@@ -89,20 +90,33 @@ export function BattleNavbarProvider({ children }: { children: ReactNode }) {
     closeToggle();
   }, [closeToggle]);
 
+  const value = useMemo(
+    () => ({
+      isBattleNavOpen,
+      isClosing,
+      location,
+      setLocation,
+      openBattleNavbar,
+      closeBattleNavbar,
+      toggleBattleNavbar,
+      finishClose,
+      resetBattleNavbar,
+    }),
+    [
+      isBattleNavOpen,
+      isClosing,
+      location,
+      setLocation,
+      openBattleNavbar,
+      closeBattleNavbar,
+      toggleBattleNavbar,
+      finishClose,
+      resetBattleNavbar,
+    ],
+  );
+
   return (
-    <BattleNavbarContext.Provider
-      value={{
-        isBattleNavOpen,
-        isClosing,
-        location,
-        setLocation,
-        openBattleNavbar,
-        closeBattleNavbar,
-        toggleBattleNavbar,
-        finishClose,
-        resetBattleNavbar,
-      }}
-    >
+    <BattleNavbarContext.Provider value={value}>
       {children}
     </BattleNavbarContext.Provider>
   );

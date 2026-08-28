@@ -20,7 +20,7 @@ import { JumpIndicator } from "@/components/Game/Battle/Jump/indicator";
 import { JumpDangerZone } from "@/components/Game/Battle/Jump/dangerZone";
 import { ComboAction } from "@/components/Game/Battle/Buttons/ComboAction";
 import { useGameAudio } from "@/hooks/game/useGameAudio";
-import { usePlayer } from "@/contexts/PlayerContext";
+import { usePlayerActions } from "@/contexts/PlayerContext";
 import { useTitles } from "@/contexts/TitleContext";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { useBattleNavbar } from "@/contexts/BattleNavbarContext";
@@ -106,7 +106,7 @@ export function BattleScene(props: Props) {
     kokusenFrame,
   } = useBattleScene({ ...props, isAlfa, PLAYER_SIZE });
 
-  const { setBattleCollision } = usePlayer();
+  const { setBattleCollision } = usePlayerActions();
 
   const containerWidth = window.innerWidth * 0.74;
   const containerHeight = window.innerHeight;

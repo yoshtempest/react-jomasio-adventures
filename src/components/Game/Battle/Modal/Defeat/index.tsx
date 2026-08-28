@@ -1,6 +1,6 @@
 import styles from "./styles.module.css";
 import { useEffect, useRef, useCallback } from "react";
-import { usePlayer } from "@/contexts/PlayerContext";
+import { usePlayerActions } from "@/contexts/PlayerContext";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
@@ -34,7 +34,7 @@ export function DefeatModal({
   bestTime,
   showRetry = true,
 }: Props) {
-  const { setMode } = usePlayer();
+  const { setMode } = usePlayerActions();
   const { playSound } = useSoundEffects();
   const { pushControls } = useGameControls();
   const hasPlayedRef = useRef(false);

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
-import { usePlayer } from "@/contexts/PlayerContext";
+import { usePlayerActions } from "@/contexts/PlayerContext";
 import { CHARACTERS } from "@/data/options/characters";
 import {
   circularNext,
@@ -19,7 +19,7 @@ export function useCharacterMenu(
   isOpen: boolean,
   listRef?: React.RefObject<HTMLDivElement | null>,
 ) {
-  const { setCharacter } = usePlayer();
+  const { setCharacter } = usePlayerActions();
   const { pushControls } = useGameControls();
   const { playMove, playSelect } = useMenuSFX();
   const { hasFlag } = useFlags();

@@ -2,6 +2,8 @@ import {
   createContext,
   useContext,
   useEffect,
+  useCallback,
+  useMemo,
   useRef,
   useState,
   type ReactNode,
@@ -86,20 +88,30 @@ function normalizeRecord(
   return data;
 }
 
-type ContextType = {
+type PlayTimeStateContextType = {
   playTime: PlayTimeData;
   battleTime: BattleTimeData;
   visited: VisitedData;
   loginDays: number;
   firstLoginDate: string;
-  addBattleTime: (character: Character, seconds: number) => void;
-  recordTile: (route: string, x: number, y: number) => void;
   getTotalPlayTime: () => number;
   getTotalBattleTime: () => number;
   getVisitedCount: (character: Character) => number;
 };
 
-const PlayTimeContext = createContext<ContextType | null>(null);
+type PlayTimeActionsContextType = {
+  addBattleTime: (character: Character, seconds: number) => void;
+  recordTile: (route: string, x: number, y: number) => void;
+};
+
+type ContextType = PlayTimeStateContextType & PlayTimeActionsContextType;
+
+const PlayTimeStateContext = createContext<PlayTimeStateContextType | null>(
+  null,
+);
+const PlayTimeActionsContext = createContext<PlayTimeActionsContextType | null>(
+  null,
+);
 
 export function PlayTimeProvider({ children }: { children: ReactNode }) {
   const [data, setData] = useState<StoredData>(loadData);
@@ -165,81 +177,122 @@ export function PlayTimeProvider({ children }: { children: ReactNode }) {
     saveData(updated);
   }, []);
 
-  function commit(updated: StoredData) {
+  const commit = useCallback((updated: StoredData) => {
     dataRef.current = updated;
     setData(updated);
     saveData(updated);
-  }
+  }, []);
 
-  function addBattleTime(character: Character, seconds: number) {
-    const updated = {
-      ...dataRef.current,
-      battleTime: {
-        ...dataRef.current.battleTime,
-        [character]: dataRef.current.battleTime[character] + seconds,
-      },
-    };
-    commit(updated);
-  }
+  // ACTIONS (estáveis — não re-renderizam quem só as usa)
+  const addBattleTime = useCallback(
+    (character: Character, seconds: number) => {
+      const updated = {
+        ...dataRef.current,
+        battleTime: {
+          ...dataRef.current.battleTime,
+          [character]: dataRef.current.battleTime[character] + seconds,
+        },
+      };
+      commit(updated);
+    },
+    [commit],
+  );
 
-  function recordTile(route: string, x: number, y: number) {
-    const char = player.character;
-    const key = `${route}:${x},${y}`;
-    const charVisited = dataRef.current.visited[char] ?? [];
-    if (charVisited.includes(key)) return;
+  const recordTile = useCallback(
+    (route: string, x: number, y: number) => {
+      const char = currentCharRef.current;
+      const key = `${route}:${x},${y}`;
+      const charVisited = dataRef.current.visited[char] ?? [];
+      if (charVisited.includes(key)) return;
 
-    commit({
-      ...dataRef.current,
-      visited: {
-        ...dataRef.current.visited,
-        [char]: [...charVisited, key],
-      },
-    });
-  }
+      commit({
+        ...dataRef.current,
+        visited: {
+          ...dataRef.current.visited,
+          [char]: [...charVisited, key],
+        },
+      });
+    },
+    [commit],
+  );
 
-  function getTotalPlayTime(): number {
+  // STATE (ticka a cada segundo)
+  const getTotalPlayTime = useCallback((): number => {
     let total = 0;
     for (const char of CHARACTERS) {
       total += data.playTime[char];
     }
     return total;
-  }
+  }, [data]);
 
-  function getTotalBattleTime(): number {
+  const getTotalBattleTime = useCallback((): number => {
     let total = 0;
     for (const char of CHARACTERS) {
       total += data.battleTime[char];
     }
     return total;
-  }
+  }, [data]);
 
-  function getVisitedCount(character: Character): number {
-    return data.visited[character]?.length ?? 0;
-  }
+  const getVisitedCount = useCallback(
+    (character: Character): number => {
+      return data.visited[character]?.length ?? 0;
+    },
+    [data],
+  );
+
+  const playTimeActionsValue = useMemo(
+    () => ({ addBattleTime, recordTile }),
+    [addBattleTime, recordTile],
+  );
+
+  const playTimeStateValue = useMemo(
+    () => ({
+      playTime: data.playTime,
+      battleTime: data.battleTime,
+      visited: data.visited,
+      loginDays: data.loginDays,
+      firstLoginDate: data.firstLoginDate,
+      getTotalPlayTime,
+      getTotalBattleTime,
+      getVisitedCount,
+    }),
+    [
+      data,
+      getTotalPlayTime,
+      getTotalBattleTime,
+      getVisitedCount,
+    ],
+  );
 
   return (
-    <PlayTimeContext.Provider
-      value={{
-        playTime: data.playTime,
-        battleTime: data.battleTime,
-        visited: data.visited,
-        loginDays: data.loginDays,
-        firstLoginDate: data.firstLoginDate,
-        addBattleTime,
-        recordTile,
-        getTotalPlayTime,
-        getTotalBattleTime,
-        getVisitedCount,
-      }}
-    >
-      {children}
-    </PlayTimeContext.Provider>
+    <PlayTimeStateContext.Provider value={playTimeStateValue}>
+      <PlayTimeActionsContext.Provider value={playTimeActionsValue}>
+        {children}
+      </PlayTimeActionsContext.Provider>
+    </PlayTimeStateContext.Provider>
   );
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
-export function usePlayTime() {
-  const ctx = useContext(PlayTimeContext);
-  if (!ctx) throw new Error("usePlayTime precisa do PlayTimeProvider");
+export function usePlayTimeState() {
+  const ctx = useContext(PlayTimeStateContext);
+  if (!ctx) throw new Error("usePlayTimeState precisa do PlayTimeProvider");
   return ctx;
+}
+
+// eslint-disable-next-line react-refresh/only-export-components
+export function usePlayTimeActions() {
+  const ctx = useContext(PlayTimeActionsContext);
+  if (!ctx) throw new Error("usePlayTimeActions precisa do PlayTimeProvider");
+  return ctx;
+}
+
+// eslint-disable-next-line react-refresh/only-export-components
+export function usePlayTime(): ContextType {
+  const state = usePlayTimeState();
+  const actions = usePlayTimeActions();
+  return useMemo(
+    () => ({ ...state, ...actions }),
+    [state, actions],
+  );
 }

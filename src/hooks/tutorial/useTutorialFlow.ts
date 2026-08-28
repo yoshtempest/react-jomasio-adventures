@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { usePlayer } from "@/contexts/PlayerContext";
+import { usePlayerActions } from "@/contexts/PlayerContext";
 
 export function useTutorialFlow() {
   const [showNameInput, setShowNameInput] = useState(false);
   const [showGenderChoice, setShowGenderChoice] = useState(false);
 
-  const { setMode, setCharacter } = usePlayer();
+  const { setMode, setCharacter } = usePlayerActions();
 
   function openNameInput() {
     setShowNameInput(true);

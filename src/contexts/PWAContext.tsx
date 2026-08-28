@@ -2,6 +2,7 @@ import {
   createContext,
   useContext,
   useEffect,
+  useMemo,
   useState,
   type ReactNode,
 } from "react";
@@ -68,23 +69,39 @@ export function PWAProvider({ children }: { children: ReactNode }) {
     void requestPersistentStorage();
   }, []);
 
+  const value = useMemo(
+    () => ({
+      canInstall,
+      isInstalled: isStandalone,
+      method,
+      isIOS,
+      isManualAndroid,
+      openInChromeIntent,
+      install,
+      recordDecline,
+      showInstalledMessage,
+      setShowInstalledMessage,
+      showInstructions,
+      setShowInstructions,
+    }),
+    [
+      canInstall,
+      isStandalone,
+      method,
+      isIOS,
+      isManualAndroid,
+      openInChromeIntent,
+      install,
+      recordDecline,
+      showInstalledMessage,
+      setShowInstalledMessage,
+      showInstructions,
+      setShowInstructions,
+    ],
+  );
+
   return (
-    <PWAContext.Provider
-      value={{
-        canInstall,
-        isInstalled: isStandalone,
-        method,
-        isIOS,
-        isManualAndroid,
-        openInChromeIntent,
-        install,
-        recordDecline,
-        showInstalledMessage,
-        setShowInstalledMessage,
-        showInstructions,
-        setShowInstructions,
-      }}
-    >
+    <PWAContext.Provider value={value}>
       {children}
     </PWAContext.Provider>
   );

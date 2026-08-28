@@ -4,6 +4,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState,
   type ReactNode,
@@ -64,8 +65,13 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
     return () => clearTimeout(id);
   }, [location, isFading]);
 
+  const value = useMemo(
+    () => ({ isFading, navigateWithFade }),
+    [isFading, navigateWithFade],
+  );
+
   return (
-    <TransitionContext.Provider value={{ isFading, navigateWithFade }}>
+    <TransitionContext.Provider value={value}>
       {children}
       <div
         style={{

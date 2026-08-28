@@ -1,6 +1,8 @@
 import {
   createContext,
   useContext,
+  useCallback,
+  useMemo,
   useRef,
   useEffect,
   type ReactNode,
@@ -15,7 +17,7 @@ import type {
 import { defaultProgress } from "@/data/characters/defaultProgress";
 import {
   normalizeProgress,
-  getXPToNextLevel,
+  getXPToNextLevel as getXPToNextLevelUtil,
 } from "@/utils/character/progress";
 import { getXpBuffMultiplier } from "@/utils/buffs/xpBuff";
 import { DIFFICULTY_XP_MULTIPLIER } from "@/data/player/xp";
@@ -77,258 +79,319 @@ export function CharacterProgressProvider({
   }, [progress, playSound]);
 
   // ⭐ XP + LEVEL + POINTS
-  function addXP(character: Character, amount: number) {
-    const isSunday = new Date().getDay() === 0;
-    const xpBuff = getXpBuffMultiplier();
-    const difficultyMultiplier = DIFFICULTY_XP_MULTIPLIER[difficulty] ?? 1;
-    const finalAmount = Math.floor(
-      amount * (isSunday ? 2 : 1) * xpBuff * difficultyMultiplier,
-    );
+  const addXP = useCallback(
+    (character: Character, amount: number) => {
+      const isSunday = new Date().getDay() === 0;
+      const xpBuff = getXpBuffMultiplier();
+      const difficultyMultiplier = DIFFICULTY_XP_MULTIPLIER[difficulty] ?? 1;
+      const finalAmount = Math.floor(
+        amount * (isSunday ? 2 : 1) * xpBuff * difficultyMultiplier,
+      );
 
-    setProgress((prev) => {
-      pendingSoundsRef.current = [];
+      setProgress((prev) => {
+        pendingSoundsRef.current = [];
 
-      const char = prev[character];
+        const char = prev[character];
 
-      let newXP = char.xp + finalAmount;
-      let newLevel = char.level;
-      let pointsGained = 0;
+        let newXP = char.xp + finalAmount;
+        let newLevel = char.level;
+        let pointsGained = 0;
 
-      let xpNeeded = getXPToNextLevel(newLevel);
+        let xpNeeded = getXPToNextLevelUtil(newLevel);
 
-      let newHunger = char.hunger;
-      let newSleep = char.sleep;
+        let newHunger = char.hunger;
+        let newSleep = char.sleep;
 
-      while (newXP >= xpNeeded) {
-        newXP -= xpNeeded;
-        newLevel++;
-        pointsGained++;
-        newHunger = MAX_HUNGER; // level up → hunger reset to 100%
-        newSleep = MAX_SLEEP; // level up → sleep reset to 100%
-        pendingSoundsRef.current.push("levelUp");
-        xpNeeded = getXPToNextLevel(newLevel);
-      }
+        while (newXP >= xpNeeded) {
+          newXP -= xpNeeded;
+          newLevel++;
+          pointsGained++;
+          newHunger = MAX_HUNGER; // level up → hunger reset to 100%
+          newSleep = MAX_SLEEP; // level up → sleep reset to 100%
+          pendingSoundsRef.current.push("levelUp");
+          xpNeeded = getXPToNextLevelUtil(newLevel);
+        }
 
-      return {
-        ...prev,
-        [character]: {
-          ...char,
-          level: newLevel,
-          xp: newXP,
-          hunger: newHunger,
-          sleep: newSleep,
-          battleHP: pointsGained > 0 ? null : char.battleHP,
-          stats: {
-            ...char.stats,
-            points: char.stats.points + pointsGained,
+        return {
+          ...prev,
+          [character]: {
+            ...char,
+            level: newLevel,
+            xp: newXP,
+            hunger: newHunger,
+            sleep: newSleep,
+            battleHP: pointsGained > 0 ? null : char.battleHP,
+            stats: {
+              ...char.stats,
+              points: char.stats.points + pointsGained,
+            },
           },
-        },
-      };
-    });
-  }
+        };
+      });
+    },
+    [difficulty, setProgress],
+  );
 
   // 💀 INCREMENTAR KILLS
-  function incrementKills(character: Character) {
-    setProgress((prev) => {
-      const char = prev[character];
-      return {
-        ...prev,
-        [character]: {
-          ...char,
-          kills: (char.kills ?? 0) + 1,
-        },
-      };
-    });
-  }
+  const incrementKills = useCallback(
+    (character: Character) => {
+      setProgress((prev) => {
+        const char = prev[character];
+        return {
+          ...prev,
+          [character]: {
+            ...char,
+            kills: (char.kills ?? 0) + 1,
+          },
+        };
+      });
+    },
+    [setProgress],
+  );
 
   // 🪙 MOEDAS
-  function addCoins(character: Character, amount: number) {
-    setProgress((prev) => {
-      const char = prev[character];
-      return {
-        ...prev,
-        [character]: {
-          ...char,
-          coins: (char.coins ?? 0) + amount,
-        },
-      };
-    });
-  }
+  const addCoins = useCallback(
+    (character: Character, amount: number) => {
+      setProgress((prev) => {
+        const char = prev[character];
+        return {
+          ...prev,
+          [character]: {
+            ...char,
+            coins: (char.coins ?? 0) + amount,
+          },
+        };
+      });
+    },
+    [setProgress],
+  );
 
-  function addHyperCoins(character: Character, amount: number) {
-    setProgress((prev) => {
-      const char = prev[character];
-      return {
-        ...prev,
-        [character]: {
-          ...char,
-          hyperCoins: (char.hyperCoins ?? 0) + amount,
-        },
-      };
-    });
-  }
+  const addHyperCoins = useCallback(
+    (character: Character, amount: number) => {
+      setProgress((prev) => {
+        const char = prev[character];
+        return {
+          ...prev,
+          [character]: {
+            ...char,
+            hyperCoins: (char.hyperCoins ?? 0) + amount,
+          },
+        };
+      });
+    },
+    [setProgress],
+  );
 
   // 🍽️ FOME
-  function reduceHunger(character: Character, amount: number) {
-    setProgress((prev) => {
-      const char = prev[character];
-      return {
-        ...prev,
-        [character]: {
-          ...char,
-          hunger: Math.max(0, char.hunger - amount),
-        },
-      };
-    });
-  }
+  const reduceHunger = useCallback(
+    (character: Character, amount: number) => {
+      setProgress((prev) => {
+        const char = prev[character];
+        return {
+          ...prev,
+          [character]: {
+            ...char,
+            hunger: Math.max(0, char.hunger - amount),
+          },
+        };
+      });
+    },
+    [setProgress],
+  );
 
-  function restoreHunger(character: Character, amount: number) {
-    setProgress((prev) => {
-      const char = prev[character];
-      return {
-        ...prev,
-        [character]: {
-          ...char,
-          hunger: Math.min(MAX_HUNGER, char.hunger + amount),
-        },
-      };
-    });
-  }
+  const restoreHunger = useCallback(
+    (character: Character, amount: number) => {
+      setProgress((prev) => {
+        const char = prev[character];
+        return {
+          ...prev,
+          [character]: {
+            ...char,
+            hunger: Math.min(MAX_HUNGER, char.hunger + amount),
+          },
+        };
+      });
+    },
+    [setProgress],
+  );
 
-  function resetHunger(character: Character) {
-    setProgress((prev) => {
-      const char = prev[character];
-      return {
-        ...prev,
-        [character]: { ...char, hunger: MAX_HUNGER },
-      };
-    });
-  }
+  const resetHunger = useCallback(
+    (character: Character) => {
+      setProgress((prev) => {
+        const char = prev[character];
+        return {
+          ...prev,
+          [character]: { ...char, hunger: MAX_HUNGER },
+        };
+      });
+    },
+    [setProgress],
+  );
 
-  function setHunger(character: Character, value: number) {
-    setProgress((prev) => {
-      const char = prev[character];
-      return {
-        ...prev,
-        [character]: {
-          ...char,
-          hunger: Math.max(0, Math.min(MAX_HUNGER, value)),
-        },
-      };
-    });
-  }
+  const setHunger = useCallback(
+    (character: Character, value: number) => {
+      setProgress((prev) => {
+        const char = prev[character];
+        return {
+          ...prev,
+          [character]: {
+            ...char,
+            hunger: Math.max(0, Math.min(MAX_HUNGER, value)),
+          },
+        };
+      });
+    },
+    [setProgress],
+  );
 
   // 😴 SONO
-  function reduceSleep(character: Character, amount: number) {
-    setProgress((prev) => {
-      const char = prev[character];
-      return {
-        ...prev,
-        [character]: {
-          ...char,
-          sleep: Math.max(0, char.sleep - amount),
-        },
-      };
-    });
-  }
+  const reduceSleep = useCallback(
+    (character: Character, amount: number) => {
+      setProgress((prev) => {
+        const char = prev[character];
+        return {
+          ...prev,
+          [character]: {
+            ...char,
+            sleep: Math.max(0, char.sleep - amount),
+          },
+        };
+      });
+    },
+    [setProgress],
+  );
 
-  function restoreSleep(character: Character, amount: number) {
-    setProgress((prev) => {
-      const char = prev[character];
-      return {
-        ...prev,
-        [character]: {
-          ...char,
-          sleep: Math.min(MAX_SLEEP, char.sleep + amount),
-        },
-      };
-    });
-  }
+  const restoreSleep = useCallback(
+    (character: Character, amount: number) => {
+      setProgress((prev) => {
+        const char = prev[character];
+        return {
+          ...prev,
+          [character]: {
+            ...char,
+            sleep: Math.min(MAX_SLEEP, char.sleep + amount),
+          },
+        };
+      });
+    },
+    [setProgress],
+  );
 
-  function resetSleep(character: Character) {
-    setProgress((prev) => {
-      const char = prev[character];
-      return {
-        ...prev,
-        [character]: { ...char, sleep: MAX_SLEEP },
-      };
-    });
-  }
+  const resetSleep = useCallback(
+    (character: Character) => {
+      setProgress((prev) => {
+        const char = prev[character];
+        return {
+          ...prev,
+          [character]: { ...char, sleep: MAX_SLEEP },
+        };
+      });
+    },
+    [setProgress],
+  );
 
-  function setSleep(character: Character, value: number) {
-    setProgress((prev) => {
-      const char = prev[character];
-      return {
-        ...prev,
-        [character]: {
-          ...char,
-          sleep: Math.max(0, Math.min(MAX_SLEEP, value)),
-        },
-      };
-    });
-  }
+  const setSleep = useCallback(
+    (character: Character, value: number) => {
+      setProgress((prev) => {
+        const char = prev[character];
+        return {
+          ...prev,
+          [character]: {
+            ...char,
+            sleep: Math.max(0, Math.min(MAX_SLEEP, value)),
+          },
+        };
+      });
+    },
+    [setProgress],
+  );
 
-  function setBattleHP(character: Character, hp: number | null) {
-    setProgress((prev) => {
-      const char = prev[character];
-      return {
-        ...prev,
-        [character]: { ...char, battleHP: hp },
-      };
-    });
-  }
+  const setBattleHP = useCallback(
+    (character: Character, hp: number | null) => {
+      setProgress((prev) => {
+        const char = prev[character];
+        return {
+          ...prev,
+          [character]: { ...char, battleHP: hp },
+        };
+      });
+    },
+    [setProgress],
+  );
 
   // ➕ DISTRIBUIR PONTOS
-  function addStat(
-    character: Character,
-    stat: keyof Omit<CharacterStats, "points">,
-  ) {
-    setProgress((prev) => {
-      const char = prev[character];
+  const addStat = useCallback(
+    (
+      character: Character,
+      stat: keyof Omit<CharacterStats, "points">,
+    ) => {
+      setProgress((prev) => {
+        const char = prev[character];
 
-      if (char.stats.points <= 0) return prev;
+        if (char.stats.points <= 0) return prev;
 
-      const updatedStats = {
-        ...char.stats,
-        [stat]: (char.stats[stat] || 0) + 1,
-        points: char.stats.points - 1,
-      };
+        const updatedStats = {
+          ...char.stats,
+          [stat]: (char.stats[stat] || 0) + 1,
+          points: char.stats.points - 1,
+        };
 
-      if (stat === "resistance") {
-        updatedStats.tenacity = (char.stats.tenacity || 1) + 1;
-      }
+        if (stat === "resistance") {
+          updatedStats.tenacity = (char.stats.tenacity || 1) + 1;
+        }
 
-      return {
-        ...prev,
-        [character]: {
-          ...char,
-          stats: updatedStats,
-        },
-      };
-    });
-  }
+        return {
+          ...prev,
+          [character]: {
+            ...char,
+            stats: updatedStats,
+          },
+        };
+      });
+    },
+    [setProgress],
+  );
+
+  const value = useMemo(
+    () => ({
+      progress,
+      addXP,
+      addCoins,
+      addHyperCoins,
+      addStat,
+      incrementKills,
+      reduceHunger,
+      restoreHunger,
+      resetHunger,
+      setHunger,
+      reduceSleep,
+      restoreSleep,
+      resetSleep,
+      setSleep,
+      setBattleHP,
+      getXPToNextLevel: getXPToNextLevelUtil,
+    }),
+    [
+      progress,
+      addXP,
+      addCoins,
+      addHyperCoins,
+      addStat,
+      incrementKills,
+      reduceHunger,
+      restoreHunger,
+      resetHunger,
+      setHunger,
+      reduceSleep,
+      restoreSleep,
+      resetSleep,
+      setSleep,
+      setBattleHP,
+    ],
+  );
 
   return (
-    <CharacterProgressContext.Provider
-      value={{
-        progress,
-        addXP,
-        addCoins,
-        addHyperCoins,
-        addStat,
-        incrementKills,
-        reduceHunger,
-        restoreHunger,
-        resetHunger,
-        setHunger,
-        reduceSleep,
-        restoreSleep,
-        resetSleep,
-        setSleep,
-        setBattleHP,
-        getXPToNextLevel,
-      }}
-    >
+    <CharacterProgressContext.Provider value={value}>
       {children}
     </CharacterProgressContext.Provider>
   );

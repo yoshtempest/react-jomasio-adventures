@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { useAudio } from "@/hooks/useAudio";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
-import { usePlayer } from "@/contexts/PlayerContext";
+import { usePlayerActions } from "@/contexts/PlayerContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { FleeButton } from "@/components/Game/Battle/Buttons/Run";
 import { sfx } from "@/utils/paths";
@@ -31,7 +31,7 @@ export function BattleIntro({
   const sfxVolumeRef = useLatestRef(sfxVolume);
   const { pushControls } = useGameControls();
   const { playSound } = useSoundEffects();
-  const { setMode } = usePlayer();
+  const { setMode } = usePlayerActions();
 
   useEffect(() => {
     const audio = sfx(introAudioSrc);

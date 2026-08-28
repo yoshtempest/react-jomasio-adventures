@@ -1,10 +1,11 @@
 import {
   createContext,
-  useContext,
-  useState,
-  useEffect,
   useCallback,
+  useContext,
+  useEffect,
+  useMemo,
   useRef,
+  useState,
   type ReactNode,
 } from "react";
 import type {
@@ -18,6 +19,8 @@ import { loadData, saveData } from "@/utils/titles/storage";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import type { ElementType } from "@/utils/types/battle/element";
+
+const ELEMENT_LEVEL_BONUS = [0, 1, 2, 3, 5, 10] as const;
 
 type ContextType = {
   titlesData: TitlesData;
@@ -95,6 +98,32 @@ export function TitleProvider({ children }: { children: ReactNode }) {
     prevProgressRef.current = curr;
   }, [titlesData.progress, playSound]);
 
+  /**
+   * Bônus agregados por condição, pré-calculados quando o progresso muda.
+   * Antes, cada getter percorria todos os títulos a cada chamada (em
+   * batalha, por hit).
+   */
+  const bonusMaps = useMemo(() => {
+    const byElement = new Map<ElementType, number>();
+    let petDrop = 0;
+    let alfaSpawn = 0;
+    for (const titleId of TITLE_IDS) {
+      const def = TITLES[titleId];
+      const prog = titlesData.progress[titleId];
+      if (!prog || prog.level === 0) continue;
+      const levelBonus = ELEMENT_LEVEL_BONUS[prog.level] ?? 0;
+      if (def.condition.type === "killElement") {
+        const current = byElement.get(def.condition.element) ?? 0;
+        byElement.set(def.condition.element, current + levelBonus);
+      } else if (def.condition.type === "petDrop") {
+        petDrop += levelBonus;
+      } else if (def.condition.type === "killAlfa") {
+        alfaSpawn += levelBonus;
+      }
+    }
+    return { byElement, petDrop, alfaSpawn };
+  }, [titlesData.progress]);
+
   const getBonus = useCallback((): TitleBonusMap => {
     const bonus: TitleBonusMap = {
       damage: 0,
@@ -111,10 +140,10 @@ export function TitleProvider({ children }: { children: ReactNode }) {
     const title = getTitleById(titlesData.equippedId);
     if (!title) return bonus;
 
-    const progress = titlesData.progress[titlesData.equippedId];
-    if (!progress || progress.level === 0) return bonus;
+    const titleProgress = titlesData.progress[titlesData.equippedId];
+    if (!titleProgress || titleProgress.level === 0) return bonus;
 
-    const levelIndex = progress.level - 1;
+    const levelIndex = titleProgress.level - 1;
     const levelDef = title.levels[levelIndex];
     if (!levelDef) return bonus;
 
@@ -129,46 +158,22 @@ export function TitleProvider({ children }: { children: ReactNode }) {
 
   const getElementDamageBonus = useCallback(
     (npcElementTypes: readonly ElementType[]): number => {
-      const ELEMENT_LEVEL_BONUS = [0, 1, 2, 3, 5, 10] as const;
       let totalBonus = 0;
-      for (const titleId of TITLE_IDS) {
-        const def = TITLES[titleId];
-        if (def.condition.type !== "killElement") continue;
-        if (!npcElementTypes.includes(def.condition.element)) continue;
-        const prog = titlesData.progress[titleId];
-        if (!prog || prog.level === 0) continue;
-        totalBonus += ELEMENT_LEVEL_BONUS[prog.level] ?? 0;
+      for (const element of npcElementTypes) {
+        totalBonus += bonusMaps.byElement.get(element) ?? 0;
       }
       return 1 + totalBonus / 100;
     },
-    [titlesData.progress],
+    [bonusMaps],
   );
 
   const getPetDropBonus = useCallback((): number => {
-    const PET_DROP_LEVEL_BONUS = [0, 1, 2, 3, 5, 10] as const;
-    let totalBonus = 0;
-    for (const titleId of TITLE_IDS) {
-      const def = TITLES[titleId];
-      if (def.condition.type !== "petDrop") continue;
-      const prog = titlesData.progress[titleId];
-      if (!prog || prog.level === 0) continue;
-      totalBonus += PET_DROP_LEVEL_BONUS[prog.level] ?? 0;
-    }
-    return 1 + totalBonus / 100;
-  }, [titlesData.progress]);
+    return 1 + bonusMaps.petDrop / 100;
+  }, [bonusMaps]);
 
   const getAlfaSpawnBonus = useCallback((): number => {
-    const ALFA_SPAWN_LEVEL_BONUS = [0, 1, 2, 3, 5, 10] as const;
-    let totalBonus = 0;
-    for (const titleId of TITLE_IDS) {
-      const def = TITLES[titleId];
-      if (def.condition.type !== "killAlfa") continue;
-      const prog = titlesData.progress[titleId];
-      if (!prog || prog.level === 0) continue;
-      totalBonus += ALFA_SPAWN_LEVEL_BONUS[prog.level] ?? 0;
-    }
-    return 1 + totalBonus / 100;
-  }, [titlesData.progress]);
+    return 1 + bonusMaps.alfaSpawn / 100;
+  }, [bonusMaps]);
 
   const incrementKillCounter = useCallback(
     (npcType: string, npcClass: string) => {
@@ -316,26 +321,45 @@ export function TitleProvider({ children }: { children: ReactNode }) {
     setTitlesData((prev) => ({ ...prev, equippedId: null }));
   }, []);
 
+  const value = useMemo(
+    () => ({
+      titlesData,
+      getBonus,
+      getElementDamageBonus,
+      getPetDropBonus,
+      getAlfaSpawnBonus,
+      incrementKillCounter,
+      incrementBlockCounter,
+      incrementDamageTaken,
+      incrementDamageDealt,
+      incrementDodgeCounter,
+      incrementPetDropCounter,
+      incrementAlfaKillCounter,
+      handleDefeat,
+      equipTitle,
+      unequipTitle,
+    }),
+    [
+      titlesData,
+      getBonus,
+      getElementDamageBonus,
+      getPetDropBonus,
+      getAlfaSpawnBonus,
+      incrementKillCounter,
+      incrementBlockCounter,
+      incrementDamageTaken,
+      incrementDamageDealt,
+      incrementDodgeCounter,
+      incrementPetDropCounter,
+      incrementAlfaKillCounter,
+      handleDefeat,
+      equipTitle,
+      unequipTitle,
+    ],
+  );
+
   return (
-    <TitleContext.Provider
-      value={{
-        titlesData,
-        getBonus,
-        getElementDamageBonus,
-        getPetDropBonus,
-        getAlfaSpawnBonus,
-        incrementKillCounter,
-        incrementBlockCounter,
-        incrementDamageTaken,
-        incrementDamageDealt,
-        incrementDodgeCounter,
-        incrementPetDropCounter,
-        incrementAlfaKillCounter,
-        handleDefeat,
-        equipTitle,
-        unequipTitle,
-      }}
-    >
+    <TitleContext.Provider value={value}>
       {children}
     </TitleContext.Provider>
   );

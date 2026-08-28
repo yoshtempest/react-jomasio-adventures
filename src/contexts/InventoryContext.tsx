@@ -1,6 +1,7 @@
 import {
   createContext,
   useContext,
+  useCallback,
   useMemo,
   useRef,
   useState,
@@ -75,48 +76,80 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
     sounds.forEach((s) => playSound(s));
   }, [items, playSound]);
 
-  function commit(next: InventoryItem[], sound: SoundId | null) {
-    latestItemsRef.current = next;
-    if (sound) pendingSoundsRef.current.push(sound);
-    setItems(next);
-  }
+  const commit = useCallback(
+    (next: InventoryItem[], sound: SoundId | null) => {
+      latestItemsRef.current = next;
+      if (sound) pendingSoundsRef.current.push(sound);
+      setItems(next);
+    },
+    [setItems],
+  );
 
-  function addItem(item: InventoryItem): boolean {
-    const result = inventoryService.addItem(latestItemsRef.current, item);
-    commit(result.items, result.sound);
-    return result.added;
-  }
+  const addItem = useCallback(
+    (item: InventoryItem): boolean => {
+      const result = inventoryService.addItem(latestItemsRef.current, item);
+      commit(result.items, result.sound);
+      return result.added;
+    },
+    [inventoryService, commit],
+  );
 
-  function removeItem(id: ItemId, qty = 1) {
-    const result = inventoryService.removeItem(latestItemsRef.current, id, qty);
-    commit(result.items, result.sound);
-  }
+  const removeItem = useCallback(
+    (id: ItemId, qty = 1) => {
+      const result = inventoryService.removeItem(
+        latestItemsRef.current,
+        id,
+        qty,
+      );
+      commit(result.items, result.sound);
+    },
+    [inventoryService, commit],
+  );
 
-  function hasItem(id: ItemId) {
-    return items.some((item) => item.id === id);
-  }
+  const hasItem = useCallback(
+    (id: ItemId) => items.some((item) => item.id === id),
+    [items],
+  );
 
-  function hasSpaceFor(incoming: InventoryItem[]) {
-    return inventoryService.hasSpaceFor(items, incoming);
-  }
+  const hasSpaceFor = useCallback(
+    (incoming: InventoryItem[]) =>
+      inventoryService.hasSpaceFor(items, incoming),
+    [inventoryService, items],
+  );
+
+  const value = useMemo(
+    () => ({
+      items,
+      setItems,
+      addItem,
+      removeItem,
+      hasItem,
+      hasSpaceFor,
+      isOpen,
+      openInventory,
+      closeInventory,
+      toggleInventory,
+      maxSlots,
+      setMaxSlots,
+    }),
+    [
+      items,
+      setItems,
+      addItem,
+      removeItem,
+      hasItem,
+      hasSpaceFor,
+      isOpen,
+      openInventory,
+      closeInventory,
+      toggleInventory,
+      maxSlots,
+      setMaxSlots,
+    ],
+  );
 
   return (
-    <InventoryContext.Provider
-      value={{
-        items,
-        setItems,
-        addItem,
-        removeItem,
-        hasItem,
-        hasSpaceFor,
-        isOpen,
-        openInventory,
-        closeInventory,
-        toggleInventory,
-        maxSlots,
-        setMaxSlots,
-      }}
-    >
+    <InventoryContext.Provider value={value}>
       {children}
     </InventoryContext.Provider>
   );

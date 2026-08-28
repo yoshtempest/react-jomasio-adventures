@@ -190,15 +190,18 @@ export function GameControlsProvider({ children }: Props) {
 
   // PROVIDER
 
+  const value = useMemo(
+    () => ({
+      pushControls,
+      clearControls,
+      closeAllMenus,
+      activeControls,
+    }),
+    [pushControls, clearControls, closeAllMenus, activeControls],
+  );
+
   return (
-    <GameControlsContext.Provider
-      value={{
-        pushControls,
-        clearControls,
-        closeAllMenus,
-        activeControls,
-      }}
-    >
+    <GameControlsContext.Provider value={value}>
       {children}
     </GameControlsContext.Provider>
   );

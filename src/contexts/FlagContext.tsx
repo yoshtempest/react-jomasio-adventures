@@ -1,10 +1,13 @@
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
   type ReactNode,
 } from "react";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { loadFlags, saveFlags } from "@/utils/flag/storage";
 import { isUnlockFlag, saveUnlockDate } from "@/utils/character/unlockDate";
 
@@ -22,25 +25,35 @@ const FlagContext = createContext<FlagContextType | null>(null);
 
 export function FlagProvider({ children }: Props) {
   const [flags, setFlags] = useState<FlagId[]>(loadFlags);
+  const flagsRef = useLatestRef(flags);
 
-  function setFlag(flag: FlagId) {
+  const setFlag = useCallback((flag: FlagId) => {
+    if (flagsRef.current.includes(flag)) return;
+    // Fora do updater: StrictMode reexecuta updaters em dev e gravar aqui
+    // duplicaria o efeito. A guarda do ref impede rebuilds desnecessários.
+    if (isUnlockFlag(flag)) saveUnlockDate(flag);
     setFlags((prev) => {
       if (prev.includes(flag)) return prev;
-      if (isUnlockFlag(flag)) saveUnlockDate(flag);
       return [...prev, flag];
     });
-  }
+  }, [flagsRef]);
 
   useEffect(() => {
     saveFlags(flags);
   }, [flags]);
 
-  function hasFlag(flag: FlagId) {
-    return flags.includes(flag);
-  }
+  const hasFlag = useCallback(
+    (flag: FlagId) => flags.includes(flag),
+    [flags],
+  );
+
+  const value = useMemo(
+    () => ({ flags, setFlag, hasFlag }),
+    [flags, setFlag, hasFlag],
+  );
 
   return (
-    <FlagContext.Provider value={{ flags, setFlag, hasFlag }}>
+    <FlagContext.Provider value={value}>
       {children}
     </FlagContext.Provider>
   );

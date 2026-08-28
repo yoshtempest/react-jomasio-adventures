@@ -2,6 +2,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useMemo,
   useState,
   type ReactNode,
 } from "react";
@@ -71,10 +72,13 @@ export function UpdateProvider({ children }: { children: ReactNode }) {
           ? "uptodate"
           : "idle";
 
+  const value = useMemo(
+    () => ({ status, checkForUpdate, applyUpdate, lastChecked }),
+    [status, checkForUpdate, applyUpdate, lastChecked],
+  );
+
   return (
-    <UpdateContext.Provider
-      value={{ status, checkForUpdate, applyUpdate, lastChecked }}
-    >
+    <UpdateContext.Provider value={value}>
       {children}
     </UpdateContext.Provider>
   );

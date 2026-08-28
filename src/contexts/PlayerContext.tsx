@@ -4,6 +4,7 @@ import {
   useState,
   useEffect,
   useCallback,
+  useMemo,
   useRef,
   type ReactNode,
 } from "react";
@@ -27,9 +28,21 @@ import { slotKey } from "@/services/save/slotManager";
 import { isCharacter } from "@/data/characters/list";
 import { useSettings } from "@/hooks/useSetting";
 
-type PlayerContextType = {
+/**
+ * Estado que muda com alta frequência (a cada movimento/ataque do player).
+ * Quem só lê o player assina este contexto.
+ */
+type PlayerStateContextType = {
   player: Player;
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;
+  playerClass: PlayerClass;
+};
+
+/**
+ * Ações e refs estáveis: identidade não muda entre renders do provider, então
+ * consumidores que só chamam ações não re-renderizam junto com o player.
+ */
+type PlayerActionsContextType = {
   difficulty: NpcDifficulty;
   setDifficulty: (difficulty: NpcDifficulty) => void;
 
@@ -77,7 +90,6 @@ type PlayerContextType = {
   setBattleCollision: (params: CollisionParams) => void;
   setBlockedTiles: (tiles: BlockedTile[]) => void;
 
-  playerClass: PlayerClass;
   chooseClass: (cls: PlayerClass) => void;
 
   lastBlockPressRef: React.RefObject<number>;
@@ -89,7 +101,12 @@ type PlayerContextType = {
   timeScaleRef: React.RefObject<number>;
 };
 
-const PlayerContext = createContext<PlayerContextType | null>(null);
+type PlayerContextType = PlayerStateContextType & PlayerActionsContextType;
+
+const PlayerStateContext = createContext<PlayerStateContextType | null>(null);
+const PlayerActionsContext = createContext<PlayerActionsContextType | null>(
+  null,
+);
 
 export function PlayerProvider({ children }: { children: ReactNode }) {
   const { difficulty, setDifficulty } = useSettings();
@@ -139,27 +156,18 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const { toggleInventory } = useInventory();
   const { toggleNavbar, registerModeHandlers } = useNavbar();
 
-  const {
-    moveUp,
-    moveDown,
-    moveLeft,
-    moveRight,
-    startMoveUpExplore,
-    stopMoveUpExplore,
-    startMoveDownExplore,
-    stopMoveDownExplore,
-    startMoveLeftExplore,
-    stopMoveLeftExplore,
-    startMoveRightExplore,
-    stopMoveRightExplore,
-    clearAllIntervals,
-  } = usePlayerMovement(
+  // Regras de movimento re-criam as funções a cada render; os refs abaixo
+  // garantem que os wrappers estáveis expostos pelo contexto sempre chamem
+  // a versão mais recente.
+  const movement = usePlayerMovement(
     currentMap,
     currentHeightMap,
     player,
     setPlayer,
     blockedTilesRef,
   );
+  const movementRef = useRef(movement);
+  movementRef.current = movement;
 
   const [playerClass, setPlayerClass] = useState<PlayerClass>(() => {
     const saved = localStorage.getItem(slotKey(PLAYER_CLASS_KEY));
@@ -179,25 +187,82 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const playerModeRef = useRef<PlayerMode>(player.mode);
   playerModeRef.current = player.mode;
 
-  const {
-    moveUpBattle,
-    startMoveLeft,
-    stopMoveLeft,
-    startMoveRight,
-    stopMoveRight,
-    blockStart,
-    blockEnd,
-    toggleCrouch,
-    attack: rawAttack,
-    special,
-    dash,
-    setPlayerState,
-  } = useBattleMovement(
+  const battle = useBattleMovement(
     setPlayer,
     battleCollisionRef,
     lastBlockPressRef,
     playerModeRef,
     freezeActionsUntilRef,
+  );
+  const battleRef = useRef(battle);
+  battleRef.current = battle;
+
+  // ── Ações estáveis (useCallback + ref) ──────────────────────────────
+
+  const moveUp = useCallback(() => movementRef.current.moveUp(), []);
+  const moveDown = useCallback(() => movementRef.current.moveDown(), []);
+  const moveLeft = useCallback(() => movementRef.current.moveLeft(), []);
+  const moveRight = useCallback(() => movementRef.current.moveRight(), []);
+  const startMoveUpExplore = useCallback(
+    () => movementRef.current.startMoveUpExplore(),
+    [],
+  );
+  const stopMoveUpExplore = useCallback(
+    () => movementRef.current.stopMoveUpExplore(),
+    [],
+  );
+  const startMoveDownExplore = useCallback(
+    () => movementRef.current.startMoveDownExplore(),
+    [],
+  );
+  const stopMoveDownExplore = useCallback(
+    () => movementRef.current.stopMoveDownExplore(),
+    [],
+  );
+  const startMoveLeftExplore = useCallback(
+    () => movementRef.current.startMoveLeftExplore(),
+    [],
+  );
+  const stopMoveLeftExplore = useCallback(
+    () => movementRef.current.stopMoveLeftExplore(),
+    [],
+  );
+  const startMoveRightExplore = useCallback(
+    () => movementRef.current.startMoveRightExplore(),
+    [],
+  );
+  const stopMoveRightExplore = useCallback(
+    () => movementRef.current.stopMoveRightExplore(),
+    [],
+  );
+  const clearAllIntervals = useCallback(
+    () => movementRef.current.clearAllIntervals(),
+    [],
+  );
+
+  const moveUpBattle = useCallback(() => battleRef.current.moveUpBattle(), []);
+  const startMoveLeft = useCallback(() => battleRef.current.startMoveLeft(), []);
+  const stopMoveLeft = useCallback(() => battleRef.current.stopMoveLeft(), []);
+  const startMoveRight = useCallback(
+    () => battleRef.current.startMoveRight(),
+    [],
+  );
+  const stopMoveRight = useCallback(
+    () => battleRef.current.stopMoveRight(),
+    [],
+  );
+  const blockStart = useCallback(() => battleRef.current.blockStart(), []);
+  const blockEnd = useCallback(() => battleRef.current.blockEnd(), []);
+  const toggleCrouch = useCallback(() => battleRef.current.toggleCrouch(), []);
+  const attack = useCallback(() => battleRef.current.attack(), []);
+  const special = useCallback(() => battleRef.current.special(), []);
+  const dash = useCallback(
+    (direction: "left" | "right") => battleRef.current.dash(direction),
+    [],
+  );
+  const setPlayerState = useCallback(
+    (state: PlayerState) => battleRef.current.setPlayerState(state),
+    [],
   );
 
   const setBattleCollision = useCallback(
@@ -211,33 +276,32 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     blockedTilesRef.current = tiles;
   }, []);
 
-  const attack = () => rawAttack();
-
   useEffect(() => {
     if (player.mode !== "explore") clearAllIntervals();
   }, [player.mode, clearAllIntervals]);
 
-  function setMap(map: number[][]) {
+  const setMap = useCallback((map: number[][]) => {
     setCurrentMap(map);
-  }
+  }, []);
 
-  function setHeightMap(heightMap: number[][]) {
+  const setHeightMap = useCallback((heightMap: number[][]) => {
     setCurrentHeightMap(heightMap);
-  }
+  }, []);
 
-  function chooseClass(cls: PlayerClass) {
+  const chooseClass = useCallback((cls: PlayerClass) => {
     setPlayerClass(cls);
-  }
+  }, []);
 
-  function openInventory() {
-    if (player.mode !== "explore") return;
+  const openInventory = useCallback(() => {
+    if (playerModeRef.current !== "explore") return;
     toggleInventory();
-  }
+  }, [toggleInventory]);
 
-  function openNavbar() {
-    if (player.mode !== "explore" && player.mode !== "menu") return;
+  const openNavbar = useCallback(() => {
+    const mode = playerModeRef.current;
+    if (mode !== "explore" && mode !== "menu") return;
     toggleNavbar();
-  }
+  }, [toggleNavbar]);
 
   const setMode = useCallback(
     (mode: PlayerMode) => {
@@ -263,29 +327,35 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     registerModeHandlers({ restoreMode, setMode });
   }, [registerModeHandlers, restoreMode, setMode]);
 
-  function resetBattleState() {
+  const resetBattleState = useCallback(() => {
     setPlayer((p) => ({ ...p, ...BATTLE_DEFAULT_STATE }));
-  }
+  }, [setPlayer]);
 
-  function setPosition(
-    x: number,
-    y: number,
-    direction: Player["direction"] = "down",
-    height?: number,
-  ) {
-    setPlayer((prev) => ({
-      ...prev,
-      gridX: x,
-      gridY: y,
-      direction,
-      ...(height !== undefined ? { height } : {}),
-    }));
-  }
+  const setPosition = useCallback(
+    (
+      x: number,
+      y: number,
+      direction: Player["direction"] = "down",
+      height?: number,
+    ) => {
+      setPlayer((prev) => ({
+        ...prev,
+        gridX: x,
+        gridY: y,
+        direction,
+        ...(height !== undefined ? { height } : {}),
+      }));
+    },
+    [setPlayer],
+  );
 
-  function setCharacter(character: Player["character"]) {
-    localStorage.setItem(slotKey(CHARACTER_KEY), character);
-    setPlayer((prev) => ({ ...prev, character }));
-  }
+  const setCharacter = useCallback(
+    (character: Player["character"]) => {
+      localStorage.setItem(slotKey(CHARACTER_KEY), character);
+      setPlayer((prev) => ({ ...prev, character }));
+    },
+    [setPlayer],
+  );
 
   const { getEquippedInfo } = useEquipment();
 
@@ -297,71 +367,144 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     );
   }, [getEquippedInfo, player.character, setPlayer]);
 
+  // ── Valores dos contextos ───────────────────────────────────────────
+
+  const stateValue = useMemo(
+    () => ({ player, setPlayer, playerClass }),
+    [player, setPlayer, playerClass],
+  );
+
+  const actionsValue = useMemo(
+    () => ({
+      difficulty,
+      setDifficulty,
+
+      setPosition,
+      setCharacter,
+
+      moveUp,
+      moveDown,
+      moveLeft,
+      moveRight,
+      openInventory,
+      openNavbar,
+
+      moveUpBattle,
+      startMoveLeft,
+      stopMoveLeft,
+      startMoveRight,
+      stopMoveRight,
+      startMoveUpExplore,
+      stopMoveUpExplore,
+      startMoveDownExplore,
+      stopMoveDownExplore,
+      startMoveLeftExplore,
+      stopMoveLeftExplore,
+      startMoveRightExplore,
+      stopMoveRightExplore,
+      blockStart,
+      blockEnd,
+      toggleCrouch,
+      attack,
+      special,
+      dash,
+      setPlayerState,
+
+      setMap,
+      setHeightMap,
+      setMode,
+      restoreMode,
+      resetBattleState,
+      setBattleCollision,
+      setBlockedTiles,
+
+      chooseClass,
+
+      lastBlockPressRef,
+      battleTenacityRef,
+      freezeActionsUntilRef,
+
+      setTimeScale,
+      resetTimeScale,
+      timeScaleRef,
+    }),
+    [
+      difficulty,
+      setDifficulty,
+      setPosition,
+      setCharacter,
+      moveUp,
+      moveDown,
+      moveLeft,
+      moveRight,
+      openInventory,
+      openNavbar,
+      moveUpBattle,
+      startMoveLeft,
+      stopMoveLeft,
+      startMoveRight,
+      stopMoveRight,
+      startMoveUpExplore,
+      stopMoveUpExplore,
+      startMoveDownExplore,
+      stopMoveDownExplore,
+      startMoveLeftExplore,
+      stopMoveLeftExplore,
+      startMoveRightExplore,
+      stopMoveRightExplore,
+      blockStart,
+      blockEnd,
+      toggleCrouch,
+      attack,
+      special,
+      dash,
+      setPlayerState,
+      setMap,
+      setHeightMap,
+      setMode,
+      restoreMode,
+      resetBattleState,
+      setBattleCollision,
+      setBlockedTiles,
+      chooseClass,
+      lastBlockPressRef,
+      battleTenacityRef,
+      freezeActionsUntilRef,
+      setTimeScale,
+      resetTimeScale,
+      timeScaleRef,
+    ],
+  );
+
   return (
-    <PlayerContext.Provider
-      value={{
-        player,
-        setPlayer,
-        setCharacter,
-
-        moveUp,
-        moveDown,
-        moveLeft,
-        moveRight,
-        openInventory,
-        openNavbar,
-
-        moveUpBattle,
-        startMoveLeft,
-        stopMoveLeft,
-        startMoveRight,
-        stopMoveRight,
-        startMoveUpExplore,
-        stopMoveUpExplore,
-        startMoveDownExplore,
-        stopMoveDownExplore,
-        startMoveLeftExplore,
-        stopMoveLeftExplore,
-        startMoveRightExplore,
-        stopMoveRightExplore,
-        blockStart,
-        blockEnd,
-        toggleCrouch,
-        attack,
-        special,
-        dash,
-        setPlayerState,
-
-        resetBattleState,
-        setMap,
-        setHeightMap,
-        setMode,
-        restoreMode,
-        setPosition,
-        setBattleCollision,
-        setBlockedTiles,
-
-        playerClass,
-        chooseClass,
-        difficulty,
-        setDifficulty,
-        lastBlockPressRef,
-        battleTenacityRef,
-        freezeActionsUntilRef,
-
-        setTimeScale,
-        resetTimeScale,
-        timeScaleRef,
-      }}
-    >
-      {children}
-    </PlayerContext.Provider>
+    <PlayerStateContext.Provider value={stateValue}>
+      <PlayerActionsContext.Provider value={actionsValue}>
+        {children}
+      </PlayerActionsContext.Provider>
+    </PlayerStateContext.Provider>
   );
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
-export function usePlayer() {
-  const ctx = useContext(PlayerContext);
-  if (!ctx) throw new Error("usePlayer precisa do PlayerProvider");
+export function usePlayerState() {
+  const ctx = useContext(PlayerStateContext);
+  if (!ctx) throw new Error("usePlayerState precisa do PlayerProvider");
   return ctx;
+}
+
+// eslint-disable-next-line react-refresh/only-export-components
+export function usePlayerActions() {
+  const ctx = useContext(PlayerActionsContext);
+  if (!ctx) throw new Error("usePlayerActions precisa do PlayerProvider");
+  return ctx;
+}
+
+// eslint-disable-next-line react-refresh/only-export-components
+export function usePlayer(): PlayerContextType {
+  const state = usePlayerState();
+  const actions = usePlayerActions();
+  return useMemo(
+    () => ({ ...state, ...actions }),
+    [state, actions],
+  );
 }

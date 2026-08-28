@@ -1,6 +1,8 @@
 import {
   createContext,
   useContext,
+  useCallback,
+  useMemo,
   useRef,
   useEffect,
   type ReactNode,
@@ -48,59 +50,71 @@ export function PetProgressProvider({ children }: { children: ReactNode }) {
     sounds.forEach((s) => playSound(s));
   }, [petProgress, playSound]);
 
-  function getPetProgress(petId: string, stars: number = 1) {
-    return petProgress[petId]?.[stars] ?? PET_DEFAULT_PROGRESS;
-  }
+  const getPetProgress = useCallback(
+    (petId: string, stars: number = 1) => {
+      return petProgress[petId]?.[stars] ?? PET_DEFAULT_PROGRESS;
+    },
+    [petProgress],
+  );
 
-  function addPetXP(petId: string, stars: number, amount: number) {
-    if (amount <= 0) return;
+  const addPetXP = useCallback(
+    (petId: string, stars: number, amount: number) => {
+      if (amount <= 0) return;
 
-    setPetProgress((prev) => {
-      pendingSoundsRef.current = [];
+      setPetProgress((prev) => {
+        pendingSoundsRef.current = [];
 
-      const current = prev[petId]?.[stars] ?? PET_DEFAULT_PROGRESS;
-      const petClass = getPetClass(petId);
+        const current = prev[petId]?.[stars] ?? PET_DEFAULT_PROGRESS;
+        const petClass = getPetClass(petId);
 
-      let newXP = current.xp + amount;
-      let newLevel = current.level;
+        let newXP = current.xp + amount;
+        let newLevel = current.level;
 
-      while (newLevel < PET_MAX_LEVEL) {
-        const xpNeeded = getPetXPToNextLevel(newLevel, petClass);
-        if (newXP < xpNeeded) break;
-        newXP -= xpNeeded;
-        newLevel++;
-        pendingSoundsRef.current.push("levelUp");
-      }
+        while (newLevel < PET_MAX_LEVEL) {
+          const xpNeeded = getPetXPToNextLevel(newLevel, petClass);
+          if (newXP < xpNeeded) break;
+          newXP -= xpNeeded;
+          newLevel++;
+          pendingSoundsRef.current.push("levelUp");
+        }
 
-      if (newLevel >= PET_MAX_LEVEL) newXP = 0;
+        if (newLevel >= PET_MAX_LEVEL) newXP = 0;
 
-      return {
-        ...prev,
-        [petId]: {
-          ...prev[petId],
-          [stars]: { level: newLevel, xp: newXP },
-        },
-      };
-    });
-  }
+        return {
+          ...prev,
+          [petId]: {
+            ...prev[petId],
+            [stars]: { level: newLevel, xp: newXP },
+          },
+        };
+      });
+    },
+    [setPetProgress],
+  );
 
-  function resetPetProgress(petId: string, stars: number) {
-    setPetProgress((prev) => {
-      const byStar = { ...prev[petId] };
-      delete byStar[stars];
-      return { ...prev, [petId]: byStar };
-    });
-  }
+  const resetPetProgress = useCallback(
+    (petId: string, stars: number) => {
+      setPetProgress((prev) => {
+        const byStar = { ...prev[petId] };
+        delete byStar[stars];
+        return { ...prev, [petId]: byStar };
+      });
+    },
+    [setPetProgress],
+  );
+
+  const value = useMemo(
+    () => ({
+      petProgress,
+      getPetProgress,
+      addPetXP,
+      resetPetProgress,
+    }),
+    [petProgress, getPetProgress, addPetXP, resetPetProgress],
+  );
 
   return (
-    <PetProgressContext.Provider
-      value={{
-        petProgress,
-        getPetProgress,
-        addPetXP,
-        resetPetProgress,
-      }}
-    >
+    <PetProgressContext.Provider value={value}>
       {children}
     </PetProgressContext.Provider>
   );

@@ -18,7 +18,7 @@ import { useQuests } from "@/contexts/QuestContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { useBattleNavbar } from "@/contexts/BattleNavbarContext";
 import { useTitles } from "@/contexts/TitleContext";
-import { usePlayTime } from "@/contexts/PlayTimeContext";
+import { usePlayTimeActions } from "@/contexts/PlayTimeContext";
 import { useSettings } from "@/hooks/useSetting";
 import { useTombstones } from "@/contexts/TombstoneContext";
 import { useNpcSetup } from "@/hooks/battle/npc/useSetup";
@@ -280,7 +280,7 @@ export function useBattleScene({
     incrementPetDropCounter,
   } = useTitles();
 
-  const { addBattleTime } = usePlayTime();
+  const { addBattleTime } = usePlayTimeActions();
 
   const { playSound } = useSoundEffects();
   const { spawnVictoryTombstone, clearPendingTombstoneSpawn } = useTombstones();

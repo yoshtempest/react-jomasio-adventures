@@ -4,6 +4,7 @@ import {
   useState,
   useEffect,
   useCallback,
+  useMemo,
   type ReactNode,
 } from "react";
 import type {
@@ -294,28 +295,49 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
     [allData],
   );
 
+  const value = useMemo(
+    () => ({
+      equipmentRevision: allData,
+      getEquippedItem,
+      getEquippedInfo,
+      getEquippedAccessories,
+      getTotalBonus,
+      getCollection,
+      getQuantityTotal,
+      getQuantity,
+      isOwned,
+      equip,
+      unequip,
+      unequipAccessoryAtIndex,
+      addDrop,
+      fusePets,
+      upgradeProfessionWeapon,
+      newlyUnlockedPetIds,
+      acknowledgePets,
+    }),
+    [
+      allData,
+      getEquippedItem,
+      getEquippedInfo,
+      getEquippedAccessories,
+      getTotalBonus,
+      getCollection,
+      getQuantityTotal,
+      getQuantity,
+      isOwned,
+      equip,
+      unequip,
+      unequipAccessoryAtIndex,
+      addDrop,
+      fusePets,
+      upgradeProfessionWeapon,
+      newlyUnlockedPetIds,
+      acknowledgePets,
+    ],
+  );
+
   return (
-    <EquipmentContext.Provider
-      value={{
-        equipmentRevision: allData,
-        getEquippedItem,
-        getEquippedInfo,
-        getEquippedAccessories,
-        getTotalBonus,
-        getCollection,
-        getQuantityTotal,
-        getQuantity,
-        isOwned,
-        equip,
-        unequip,
-        unequipAccessoryAtIndex,
-        addDrop,
-        fusePets,
-        upgradeProfessionWeapon,
-        newlyUnlockedPetIds,
-        acknowledgePets,
-      }}
-    >
+    <EquipmentContext.Provider value={value}>
       {children}
     </EquipmentContext.Provider>
   );

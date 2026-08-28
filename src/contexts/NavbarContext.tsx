@@ -2,6 +2,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useMemo,
   useRef,
   useState,
   type ReactNode,
@@ -92,21 +93,35 @@ export function NavbarProvider({ children }: { children: ReactNode }) {
     modeHandlersRef.current = handlers;
   }, []);
 
+  const value = useMemo(
+    () => ({
+      isNavOpen,
+      isClosing,
+      openNavbar,
+      closeNavbar,
+      toggleNavbar,
+      finishClose,
+      screen,
+      setScreen,
+      openScreen,
+      registerModeHandlers,
+    }),
+    [
+      isNavOpen,
+      isClosing,
+      openNavbar,
+      closeNavbar,
+      toggleNavbar,
+      finishClose,
+      screen,
+      setScreen,
+      openScreen,
+      registerModeHandlers,
+    ],
+  );
+
   return (
-    <NavbarContext.Provider
-      value={{
-        isNavOpen,
-        isClosing,
-        openNavbar,
-        closeNavbar,
-        toggleNavbar,
-        finishClose,
-        screen,
-        setScreen,
-        openScreen,
-        registerModeHandlers,
-      }}
-    >
+    <NavbarContext.Provider value={value}>
       {children}
     </NavbarContext.Provider>
   );

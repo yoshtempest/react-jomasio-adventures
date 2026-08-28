@@ -2,6 +2,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useMemo,
   useRef,
   useState,
   type ReactNode,
@@ -54,7 +55,7 @@ export function GroundItemProvider({ children }: { children: ReactNode }) {
       setData((prev) => {
         const existing = prev[key];
         if (existing) {
-          const merged = [...existing.items];
+          const merged = existing.items.map((item) => ({ ...item }));
           for (const item of items) {
             const found = merged.find((m) => m.id === item.id);
             if (found) {
@@ -106,7 +107,7 @@ export function GroundItemProvider({ children }: { children: ReactNode }) {
         const { [key]: _removed, ...rest } = prev;
         return rest;
       });
-      return loot.items;
+      return loot.items.map((item) => ({ ...item }));
     },
     [setData],
   );
@@ -135,18 +136,29 @@ export function GroundItemProvider({ children }: { children: ReactNode }) {
     [setData],
   );
 
+  const value = useMemo(
+    () => ({
+      addLoot,
+      removeItem,
+      collectAll,
+      getLootAt,
+      clearAll,
+      currentLocationId,
+      setCurrentLocationId,
+    }),
+    [
+      addLoot,
+      removeItem,
+      collectAll,
+      getLootAt,
+      clearAll,
+      currentLocationId,
+      setCurrentLocationId,
+    ],
+  );
+
   return (
-    <GroundItemContext.Provider
-      value={{
-        addLoot,
-        removeItem,
-        collectAll,
-        getLootAt,
-        clearAll,
-        currentLocationId,
-        setCurrentLocationId,
-      }}
-    >
+    <GroundItemContext.Provider value={value}>
       {children}
     </GroundItemContext.Provider>
   );

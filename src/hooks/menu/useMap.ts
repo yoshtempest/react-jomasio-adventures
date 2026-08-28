@@ -1,11 +1,11 @@
-import { usePlayer } from "@/contexts/PlayerContext";
+import { usePlayerActions } from "@/contexts/PlayerContext";
 import { useEffect } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 
 export function useMapMenu() {
   const { pushControls } = useGameControls();
-  const { setMode } = usePlayer();
+  const { setMode } = usePlayerActions();
   const pushControlsRef = useLatestRef(pushControls);
   const setModeRef = useLatestRef(setMode);
 

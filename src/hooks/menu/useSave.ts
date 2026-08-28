@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useNavbar } from "@/contexts/NavbarContext";
-import { usePlayer } from "@/contexts/PlayerContext";
+import { usePlayerActions } from "@/contexts/PlayerContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import {
@@ -52,7 +52,7 @@ function resumeRouteForSlot(slot: SlotIndex): string | null {
 export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
   const { pushControls } = useGameControls();
   const { closeNavbar } = useNavbar();
-  const { setMode } = usePlayer();
+  const { setMode } = usePlayerActions();
   const { playMove, playSelect } = useMenuSFX();
 
   const [selectedIndex, setSelectedIndex] = useState(0);

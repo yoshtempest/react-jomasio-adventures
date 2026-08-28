@@ -6,7 +6,7 @@ import { PCROOM_SCENES } from "@/scenes/pcroom";
 import { createPcsRoom } from "@/interactions/pcsRoom";
 
 import { useInventory } from "@/contexts/InventoryContext";
-import { usePlayer } from "@/contexts/PlayerContext";
+import { usePlayerActions } from "@/contexts/PlayerContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useQuestActions } from "@/hooks/quest/useQuestActions";
 import { useFlags } from "@/contexts/FlagContext";
@@ -28,7 +28,7 @@ export function PcRoomScene({ sceneId }: Props) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { setMode } = usePlayer();
+  const { setMode } = usePlayerActions();
   const { addItem } = useInventory();
   const { giveQuest, progressQuest } = useQuestActions();
   const { hasFlag, setFlag } = useFlags();

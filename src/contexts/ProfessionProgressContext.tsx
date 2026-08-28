@@ -1,6 +1,8 @@
 import {
   createContext,
   useContext,
+  useCallback,
+  useMemo,
   useEffect,
   useRef,
   type ReactNode,
@@ -93,50 +95,59 @@ export function ProfessionProgressProvider({
     sounds.forEach(() => playSound("levelUp"));
   }, [proficiency, playSound]);
 
-  function getProficiency(
-    character: Character,
-    professionId: ProfessionId,
-  ): ProfessionProficiency {
-    return (
-      proficiency[character]?.[professionId] ?? DEFAULT_PROFESSION_PROFICIENCY
-    );
-  }
-
-  function addProficiencyXP(
-    character: Character,
-    professionId: ProfessionId,
-    amount: number,
-  ) {
-    setProficiency((prev) => {
-      pendingSoundsRef.current = [];
-
-      const current = prev[character]?.[professionId];
-      const { proficiency: updated, leveledUp } = applyProficiencyXP(
-        current,
-        amount,
+  const getProficiency = useCallback(
+    (
+      character: Character,
+      professionId: ProfessionId,
+    ): ProfessionProficiency => {
+      return (
+        proficiency[character]?.[professionId] ?? DEFAULT_PROFESSION_PROFICIENCY
       );
+    },
+    [proficiency],
+  );
 
-      if (leveledUp) pendingSoundsRef.current.push("levelUp");
+  const addProficiencyXP = useCallback(
+    (
+      character: Character,
+      professionId: ProfessionId,
+      amount: number,
+    ) => {
+      setProficiency((prev) => {
+        pendingSoundsRef.current = [];
 
-      return {
-        ...prev,
-        [character]: {
-          ...prev[character],
-          [professionId]: updated,
-        },
-      };
-    });
-  }
+        const current = prev[character]?.[professionId];
+        const { proficiency: updated, leveledUp } = applyProficiencyXP(
+          current,
+          amount,
+        );
+
+        if (leveledUp) pendingSoundsRef.current.push("levelUp");
+
+        return {
+          ...prev,
+          [character]: {
+            ...prev[character],
+            [professionId]: updated,
+          },
+        };
+      });
+    },
+    [setProficiency],
+  );
+
+  const value = useMemo(
+    () => ({
+      proficiency,
+      getProficiency,
+      getXPToNextProfessionLevel: getProfessionXPToNextLevel,
+      addProficiencyXP,
+    }),
+    [proficiency, getProficiency, addProficiencyXP],
+  );
 
   return (
-    <ProfessionProgressContext.Provider
-      value={{
-        proficiency,
-        getProficiency,
-        getXPToNextProfessionLevel: getProfessionXPToNextLevel,
-        addProficiencyXP,
-      }}
-    >
+    <ProfessionProgressContext.Provider value={value}>
       {children}
     </ProfessionProgressContext.Provider>
   );

@@ -24,6 +24,12 @@ type BattleInfoContextType = {
 
 const BattleInfoContext = createContext<BattleInfoContextType | null>(null);
 
+const DEFAULT_BATTLE_INFO: BattleInfoContextType = {
+  battleInfo: null,
+  setBattleInfo: () => {},
+  clearBattleInfo: () => {},
+};
+
 export function BattleInfoProvider({ children }: { children: ReactNode }) {
   const [battleInfo, setBattleInfoState] = useState<BattleInfo | null>(null);
 
@@ -48,6 +54,6 @@ export function BattleInfoProvider({ children }: { children: ReactNode }) {
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
-export function useBattleInfo() {
-  return useContext(BattleInfoContext);
+export function useBattleInfo(): BattleInfoContextType {
+  return useContext(BattleInfoContext) ?? DEFAULT_BATTLE_INFO;
 }

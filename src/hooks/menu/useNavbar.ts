@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useNavbar } from "@/contexts/NavbarContext";
 import type { NavbarOption } from "@/utils/types/player/navbar";
-import { usePlayer } from "@/contexts/PlayerContext";
+import { usePlayerActions } from "@/contexts/PlayerContext";
 import { NAVBAR_OPTIONS } from "@/data/options/navbar";
 import { shouldCloseToExplore } from "@/gameRules/menu/flow";
 import { getSelected } from "@/gameRules/menu/selection";
@@ -13,7 +13,7 @@ import { useGameControlsLayer } from "@/hooks/game/useGameControlsLayer";
 
 export function useNavbarMenu() {
   const { closeNavbar, screen, setScreen } = useNavbar();
-  const { setMode } = usePlayer();
+  const { setMode } = usePlayerActions();
   const { playSelect, playClose } = useMenuSFX();
   const { playSound } = useSoundEffects();
 

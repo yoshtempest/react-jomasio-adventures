@@ -4,6 +4,7 @@ import {
   useState,
   useEffect,
   useCallback,
+  useMemo,
   type ReactNode,
 } from "react";
 import type { BestiarySaveData } from "@/utils/types/player/bestiary";
@@ -53,10 +54,13 @@ export function BestiaryProvider({ children }: { children: ReactNode }) {
     [bestiary],
   );
 
+  const value = useMemo(
+    () => ({ bestiary, registerDefeat, hasEncountered, getKills }),
+    [bestiary, registerDefeat, hasEncountered, getKills],
+  );
+
   return (
-    <BestiaryContext.Provider
-      value={{ bestiary, registerDefeat, hasEncountered, getKills }}
-    >
+    <BestiaryContext.Provider value={value}>
       {children}
     </BestiaryContext.Provider>
   );
