@@ -7,6 +7,11 @@ import { PROFESSIONS } from "@/data/professions";
 
 export const PROFESSION_XP_PER_GATHER = 10;
 
+/**
+ * Nível máximo que uma profissão pode alcançar.
+ */
+export const MAX_PROFESSION_LEVEL = 200;
+
 export const DEFAULT_PROFESSION_PROFICIENCY: ProfessionProficiency = {
   level: 1,
   xp: 0,
@@ -17,9 +22,8 @@ export function getProfessionXPToNextLevel(level: number) {
   return level * 25;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function isMaxProfessionLevel(_level: number): boolean {
-  return false;
+export function isMaxProfessionLevel(level: number): boolean {
+  return level >= MAX_PROFESSION_LEVEL;
 }
 
 /**
@@ -58,6 +62,27 @@ export function applyProficiencyXP(
 /** Multiplicador de quantidade de drop: nv1 = 1x, +15% por nível. */
 export function getGatherDropMultiplier(level: number) {
   return 1 + (level - 1) * 0.15;
+}
+
+/**
+ * Multiplicador de XP ao interagir com um item da profissão, baseado na
+ * diferença entre o nível do jogador e o nível do item.
+ *
+ * - nível do jogador < nível do item: não é possível interagir (bloqueado);
+ * - mesma nível: 100% do XP da base;
+ * - jogador mais alto que o item: -9% de XP por nível de diferença,
+ *   com um piso de 10% (nunca menos que 0.1x da base).
+ *
+ * Ex.: Lenhador nv.20 cortando uma madeira de nível 10 recebe 0.1x do XP
+ * que ela provê (10xp de base -> 1xp).
+ */
+export function getGatherXpMultiplier(
+  playerLevel: number,
+  itemLevel: number,
+): number {
+  if (playerLevel < itemLevel) return 0;
+  const penalty = (playerLevel - itemLevel) * 0.09;
+  return Math.max(0.1, 1 - penalty);
 }
 
 /** Chance de coletar material raro: 5% no nv1, +1.5% por nível, teto de 50%. */

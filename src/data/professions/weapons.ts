@@ -95,8 +95,8 @@ const WEAPON_IDS = {
 } as const satisfies Record<ProfessionId, EquipmentId>;
 
 const MATERIAL_IDS = {
-  alchemist: "prof_mat_alchemist",
-  chef: "prof_mat_chef",
+  alchemist: "alchemy_flask",
+  chef: "secret_ingredient",
   lumberjack: "prof_mat_lumberjack",
   farmer: "prof_mat_farmer",
   fisher: "prof_mat_fisher",

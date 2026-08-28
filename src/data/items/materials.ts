@@ -1,41 +1,11 @@
 import { createItems } from "@/utils/items/createItem";
+import { WOODS } from "./woods";
 
 export const MATERIALS = createItems({
   hungry_essence: {
     image: "/assets/items/hungry_essence.svg",
     name: "Essência de Morto",
     description: "A essência de um morto-vivo comum. Fraca, mas serve.",
-    type: "material",
-  },
-  oak_wood: {
-    image: "/assets/items/woods/oak.svg",
-    name: "Madeira de Carvalho",
-    description:
-      "Madeira de carvalho, boa para fazer casas facilmente incendiáveis",
-    type: "material",
-  },
-  eucalyptus_wood: {
-    image: "/assets/items/woods/eucalyptus.svg",
-    name: "Madeira de Eucalipto",
-    description: "Ótima para uma casa na árvore",
-    type: "material",
-  },
-  birch_wood: {
-    image: "/assets/items/woods/birch.svg",
-    name: "Madeira de Bétula",
-    description: "Quem é essa mesmo?",
-    type: "material",
-  },
-  jungle_wood: {
-    image: "/assets/items/woods/jungle.svg",
-    name: "Madeira Selvagem",
-    description: "Madeira selvagem diretamente da floresta amazônica",
-    type: "material",
-  },
-  cherry_wood: {
-    image: "/assets/items/woods/cherry.svg",
-    name: "Madeira de Cerejeira",
-    description: "Oxe, estamos entrando em um anime de romance?",
     type: "material",
   },
   goat_horn: {
@@ -74,14 +44,14 @@ export const MATERIALS = createItems({
     description: "Um fragmento de poder lendário. Dizem que reúne os sete.",
     type: "material",
   },
-  prof_mat_alchemist: {
-    image: "/assets/items/prof_mat_alchemist.svg",
+  alchemy_flask: {
+    image: "/assets/items/alchemy_flask.svg",
     name: "Frasco de Alquimia",
     description: "Essência alquímica para evoluir o Caldeirão.",
     type: "material",
   },
-  prof_mat_chef: {
-    image: "/assets/items/prof_mat_chef.svg",
+  secret_ingredient: {
+    image: "/assets/items/secret_ingredient.svg",
     name: "Tempero Secreto",
     description: "Tempero raro usado para evoluir a Panela.",
     type: "material",
@@ -140,4 +110,5 @@ export const MATERIALS = createItems({
     description: "Tinta especial para evoluir o Pincel.",
     type: "material",
   },
+  ...WOODS,
 } as const);

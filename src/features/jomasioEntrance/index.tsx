@@ -28,6 +28,11 @@ import {
   rollGatherLoot,
   PROFESSION_XP_PER_GATHER,
 } from "@/gameRules/professions/proficiency";
+import {
+  WOOD_LEVELS,
+  getWoodLevelByTreeLevel,
+} from "@/data/professions/woodLevels";
+import { rollWoodGather } from "@/gameRules/professions/wood";
 import { rollProfessionMaterial } from "@/gameRules/professions/weapon";
 
 type Props = {
@@ -107,39 +112,53 @@ export function JomasioEntranceScene({ sceneId }: Props) {
       },
     );
 
-    const chopWood = createToolInteraction<MineRockDeps>(
-      "weapon_axe",
-      "Você precisa equipar um machado para lenhar.",
-      (deps) => {
-        const { level } = deps.getProficiency(deps.character, "lumberjack");
-        const { items: rolled } = rollGatherLoot(
-          GATHER_LOOT_TABLES.lumberjack,
-          level,
-        );
+    const chopWood = (treeLevel: number) =>
+      createToolInteraction<MineRockDeps>(
+        "weapon_axe",
+        "Você precisa equipar um machado para lenhar.",
+        (deps) => {
+          const { level } = deps.getProficiency(
+            deps.character,
+            "lumberjack",
+          );
 
-        const material = deps.equippedWeaponId
-          ? rollProfessionMaterial(deps.equippedWeaponId)
-          : null;
-        if (material) rolled.push(material);
+          const wood = getWoodLevelByTreeLevel(treeLevel);
+          if (!wood) {
+            deps.setPopup("Esta árvore não produz madeira conhecida.");
+            return;
+          }
 
-        rolled.forEach(({ itemId, qty }) => deps.addItem({ id: itemId, qty }));
+          if (level < wood.treeLevel) {
+            deps.setPopup(
+              `Você precisa ser Lenhador nv.${wood.treeLevel} para lenhar esta árvore. (você é nv.${level})`,
+            );
+            return;
+          }
 
-        const summary = rolled
-          .map(
-            ({ itemId, qty }) =>
-              `${ITEMS[itemId as keyof typeof ITEMS]?.name ?? itemId} x${qty}`,
-          )
-          .join(", ");
+          const { items: rolled, xpGained } = rollWoodGather(wood, level);
 
-        deps.setPopup(`Você lenhou a árvore! Obteve: ${summary}`);
+          const material = deps.equippedWeaponId
+            ? rollProfessionMaterial(deps.equippedWeaponId)
+            : null;
+          if (material) rolled.push(material);
 
-        deps.addProficiencyXP(
-          deps.character,
-          "lumberjack",
-          PROFESSION_XP_PER_GATHER,
-        );
-      },
-    );
+          rolled.forEach(({ itemId, qty }) => deps.addItem({ id: itemId, qty }));
+
+          const summary = rolled
+            .map(
+              ({ itemId, qty }) =>
+                `${ITEMS[itemId]?.name ?? itemId} x${qty}`,
+            )
+            .join(", ");
+
+          const xpNote = xpGained > 0 ? ` (+${xpGained} XP de Lenhador)` : "";
+          deps.setPopup(`Você lenhou a árvore! Obteve: ${summary}.${xpNote}`);
+
+          if (xpGained > 0) {
+            deps.addProficiencyXP(deps.character, "lumberjack", xpGained);
+          }
+        },
+      );
 
     return {
       "13,10": () =>
@@ -153,7 +172,7 @@ export function JomasioEntranceScene({ sceneId }: Props) {
           equippedWeaponId,
         }),
       "5,7": () =>
-        chopWood({
+        chopWood(WOOD_LEVELS[0]?.treeLevel ?? 0)({
           setPopup,
           addItem,
           hasToolEquipped,
