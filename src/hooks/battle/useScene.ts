@@ -522,9 +522,7 @@ export function useBattleScene({
         };
       }),
     onGroundPaperHit: () => battle.npcThrowHit(2),
-    onPaperExplode: () => {
-      playSound("boom");
-    },
+    onPaperExplode: () => {},
     onArmorBuff: (x: number, y: number) => {
       setNpcArmorBonus((b) => b + 1);
       refs.spawnDamageRef.current?.(1, x, y, "armor");

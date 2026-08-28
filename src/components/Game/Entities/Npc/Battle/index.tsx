@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { npcPathProjectile } from "@/utils/paths";
 import {
   getSpritePath,
@@ -5,6 +6,7 @@ import {
   getNpcSpriteYOffset,
 } from "@/utils/npc/getSpritePath";
 import { ProjectileConstants } from "@/data/projectile";
+import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 
 type Props = {
   x: number;
@@ -65,6 +67,17 @@ export function NPCBattle({
   isDying = false,
   isAlfa = false,
 }: Props) {
+  const { playSound } = useSoundEffects();
+  const prevIsExplodingRef = useRef(isExploding);
+
+  useEffect(() => {
+    // Troca para o sprite explosion.svg -> explosion.mp3 (uma vez por transição)
+    if (isExploding && !prevIsExplodingRef.current) {
+      playSound("explosion");
+    }
+    prevIsExplodingRef.current = isExploding;
+  }, [isExploding, playSound]);
+
   const scaleX = window.innerWidth / ProjectileConstants.MAP_WIDTH;
   const scaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;
 

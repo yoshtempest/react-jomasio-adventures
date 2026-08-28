@@ -1,9 +1,11 @@
+import { useEffect, useRef } from "react";
 import { npcPath, npcPathProjectile } from "@/utils/paths";
 import { spriteMap } from "@/data/battle/projectileSprites";
 import { NPCBattle } from "@/components/Game/Entities/Npc/Battle";
 import { ProjectileSprite } from "@/components/Game/Battle/Projectile";
 import { PlayerBattle } from "@/components/Game/Entities/Player/Battle";
 import { ProjectileConstants } from "@/data/projectile";
+import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import type { SummonedNpc, NPCBattleState } from "@/utils/types/npc/npc";
 import type { PetState } from "@/hooks/battle/player/usePet";
 import type { CoffinState } from "@/hooks/battle/summon/useCoffinAnimation";
@@ -64,6 +66,54 @@ export function BattleEntities({
 }: Props) {
   const battleScaleX = window.innerWidth / ProjectileConstants.MAP_WIDTH;
   const battleScaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;
+
+  const { playSound } = useSoundEffects();
+
+  const prevKillerQueenSpriteRef = useRef<KillerQueenOverlay["sprite"]>("idle");
+
+  useEffect(() => {
+    // killerQueen entrou em prePalm -> prePalm.mp3; em palm -> clap.mp3
+    const sprite = killerQueen?.active ? killerQueen.sprite : "idle";
+    if (sprite === "touch" && prevKillerQueenSpriteRef.current !== "touch") {
+      playSound("prePalm");
+    }
+    if (sprite === "palm" && prevKillerQueenSpriteRef.current !== "palm") {
+      playSound("clap");
+    }
+    prevKillerQueenSpriteRef.current = sprite;
+  }, [killerQueen?.active, killerQueen?.sprite, playSound]);
+
+  const explodedPaperIdsRef = useRef<Set<number>>(new Set());
+
+  useEffect(() => {
+    // paper virou explosion.svg -> explosion.mp3 (uma vez por paper)
+    for (const gp of npc.groundPapers) {
+      if (gp.sprite === "explosion" && !explodedPaperIdsRef.current.has(gp.id)) {
+        explodedPaperIdsRef.current.add(gp.id);
+        playSound("explosion");
+      }
+    }
+    const renderedPaperIds = new Set(npc.groundPapers.map((gp) => gp.id));
+    for (const id of explodedPaperIdsRef.current) {
+      if (!renderedPaperIds.has(id)) explodedPaperIdsRef.current.delete(id);
+    }
+  }, [npc.groundPapers, playSound]);
+
+  const explodedBombIdsRef = useRef<Set<string>>(new Set());
+
+  useEffect(() => {
+    // bomba virou explosion.svg -> explosion.mp3 (uma vez por bomba)
+    for (const b of bombTargets) {
+      if (b.phase === "explosion" && !explodedBombIdsRef.current.has(b.id)) {
+        explodedBombIdsRef.current.add(b.id);
+        playSound("explosion");
+      }
+    }
+    const renderedBombIds = new Set(bombTargets.map((b) => b.id));
+    for (const id of explodedBombIdsRef.current) {
+      if (!renderedBombIds.has(id)) explodedBombIdsRef.current.delete(id);
+    }
+  }, [bombTargets, playSound]);
 
   return (
     <>
