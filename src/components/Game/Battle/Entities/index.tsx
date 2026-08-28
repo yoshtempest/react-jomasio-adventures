@@ -69,6 +69,8 @@ export function BattleEntities({
 
   const { playSound } = useSoundEffects();
 
+  const activeBombIds = new Set(bombTargets.map((b) => b.id));
+
   const prevKillerQueenSpriteRef = useRef<KillerQueenOverlay["sprite"]>("idle");
 
   useEffect(() => {
@@ -124,6 +126,7 @@ export function BattleEntities({
         direction={npc.direction}
         piercings={battle.piercings}
         isExploding={battle.isExploding}
+        isHidden={activeBombIds.has("main")}
         npcPhase={battle.npcPhase}
         isDying={battle.isNpcDying}
         isAlfa={isAlfa}
@@ -193,6 +196,7 @@ export function BattleEntities({
           npcType={s.npcType}
           state={s.state}
           direction={s.direction}
+          isHidden={activeBombIds.has(s.id)}
           isDying={s.isDying}
         />
       ))}

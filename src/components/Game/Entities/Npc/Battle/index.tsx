@@ -49,6 +49,7 @@ type Props = {
   direction: "left" | "right";
   piercings?: { id: number; x: number; y: number }[];
   isExploding?: boolean;
+  isHidden?: boolean;
   npcPhase?: number;
   isDying?: boolean;
   isAlfa?: boolean;
@@ -63,6 +64,7 @@ export function NPCBattle({
   direction,
   piercings = [],
   isExploding = false,
+  isHidden = false,
   npcPhase = 1,
   isDying = false,
   isAlfa = false,
@@ -100,19 +102,21 @@ export function NPCBattle({
         zIndex: 9,
       }}
     >
-      {/* 🧍 NPC */}
-      <img
-        src={src}
-        style={{
-          width: "100%",
-          height: "100%",
-          transform: `scaleX(${direction === "right" ? -1 : 1})`,
-          position: "absolute",
-          opacity: isDying ? 0 : 1,
-          filter: isDying ? "grayscale(100%)" : "none",
-          transition: "opacity 3s linear, filter 3s linear",
-        }}
-      />
+      {/* 🧍 NPC (oculto quando vira alvo de bomba da killerQueen) */}
+      {!isHidden && (
+        <img
+          src={src}
+          style={{
+            width: "100%",
+            height: "100%",
+            transform: `scaleX(${direction === "right" ? -1 : 1})`,
+            position: "absolute",
+            opacity: isDying ? 0 : 1,
+            filter: isDying ? "grayscale(100%)" : "none",
+            transition: "opacity 3s linear, filter 3s linear",
+          }}
+        />
+      )}
 
       {/* 🗡️ PIERCINGS */}
       {piercings.map((p) => (
