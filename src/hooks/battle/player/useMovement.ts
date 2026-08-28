@@ -34,6 +34,7 @@ export function useBattleMovement(
   collisionRef: React.RefObject<CollisionParams>,
   lastBlockPressRef: React.RefObject<number>,
   playerModeRef?: RefObject<PlayerMode>,
+  freezeActionsUntilRef?: React.RefObject<number>,
 ) {
   const leftIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const rightIntervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -44,6 +45,10 @@ export function useBattleMovement(
   const isJumping = useRef(false);
   const hasDoubleJumped = useRef(false);
   const hasUsedFallingAttack = useRef(false);
+
+  const isFrozenBySpecial = () =>
+    !!freezeActionsUntilRef?.current &&
+    freezeActionsUntilRef.current > Date.now();
 
   const { progress } = useCharacterProgress();
   const progressRef = useLatestRef(progress);
@@ -99,6 +104,7 @@ export function useBattleMovement(
     if (intervalRef.current) return;
 
     intervalRef.current = setInterval(() => {
+      if (isFrozenBySpecial()) return;
       setPlayer((p) => {
         const moved = stepFn(p);
         if (checkHorizontalBlock(moved)) return p;
@@ -118,6 +124,7 @@ export function useBattleMovement(
   }
 
   function startMoveLeft() {
+    if (isFrozenBySpecial()) return;
     startMoveInterval(leftIntervalRef, (p) =>
       moveLeftBattle(p, (progressRef.current[p.character]?.sleep ?? 0) > 0),
     );
@@ -128,6 +135,7 @@ export function useBattleMovement(
   }
 
   function startMoveRight() {
+    if (isFrozenBySpecial()) return;
     startMoveInterval(rightIntervalRef, (p) =>
       moveRightBattle(p, (progressRef.current[p.character]?.sleep ?? 0) > 0),
     );
@@ -138,12 +146,14 @@ export function useBattleMovement(
   }
 
   function setIdleIfNotMoving() {
+    if (isFrozenBySpecial()) return;
     if (!leftIntervalRef.current && !rightIntervalRef.current) {
       setPlayer((p) => idleBattle(p));
     }
   }
 
   function moveUpBattle() {
+    if (isFrozenBySpecial()) return;
     if (!canJump(isJumping.current)) return;
 
     setPlayer((p) => {
@@ -174,6 +184,7 @@ export function useBattleMovement(
   }
 
   function blockStartAction() {
+    if (isFrozenBySpecial()) return;
     if (downLockRef.current) return;
     downLockRef.current = true;
     lastBlockPressRef.current = Date.now();
@@ -190,6 +201,7 @@ export function useBattleMovement(
   }
 
   function toggleCrouch() {
+    if (isFrozenBySpecial()) return;
     setPlayer((p) => {
       if (isPlayerFrozen(p)) return p;
       return crouchToggle(p);
@@ -197,6 +209,7 @@ export function useBattleMovement(
   }
 
   function attack() {
+    if (isFrozenBySpecial()) return;
     setPlayer((p) => {
       if (isPlayerFrozen(p) || isPlayerParalyzed(p)) return p;
       if (p.state === "falling" && !hasUsedFallingAttack.current) {
@@ -216,6 +229,7 @@ export function useBattleMovement(
   }
 
   function special() {
+    if (isFrozenBySpecial()) return;
     setPlayer((p) => {
       if (isPlayerFrozen(p) || isPlayerParalyzed(p)) return p;
       if (p.state === "falling" || p.state === "jump")
@@ -233,6 +247,7 @@ export function useBattleMovement(
   }
 
   function dash(direction: "left" | "right") {
+    if (isFrozenBySpecial()) return;
     if (dashIntervalRef.current) return;
 
     if (leftIntervalRef.current) {

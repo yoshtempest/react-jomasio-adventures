@@ -251,6 +251,7 @@ export function useBattleScene({
     setPlayerState,
     lastBlockPressRef,
     battleTenacityRef,
+    freezeActionsUntilRef,
     setTimeScale,
     timeScaleRef,
   } = usePlayer();
@@ -923,6 +924,7 @@ export function useBattleScene({
     enemies: arturEnemies,
       freezeMainUntilRef: refs.npcStaggerRef,
       freezeSummonsUntilRef,
+      freezePlayerUntilRef: freezeActionsUntilRef,
       onAreaDamage: (explosions, allEnemies) => {
         for (const enemy of allEnemies) {
           const count = explosions.filter(
@@ -1021,32 +1023,51 @@ export function useBattleScene({
 
   useBattleControls({
     attack: () => {
+      if (freezeActionsUntilRef.current > Date.now()) return;
       if (isGrabbedRef.current && grabFlippedRef.current) return;
       attack();
     },
     special: () => {
+      if (freezeActionsUntilRef.current > Date.now()) return;
       if (isGrabbedRef.current && grabFlippedRef.current) return;
       if (battle.delicia < battle.hitsToSpecial) return;
       special();
     },
-    blockStart: () =>
+    blockStart: () => {
+      if (freezeActionsUntilRef.current > Date.now()) return;
       setPlayer((p) => {
         if (p.state === "jump" || p.state === "blockAttack") return p;
         return { ...p, state: "blocked" };
-      }),
+      });
+    },
     blockEnd: () =>
       setPlayer((p) => {
         if (p.state !== "blocked") return p;
         return { ...p, state: "idle" };
       }),
-    handlePlayerHit,
-    handleSpecialHit,
+    handlePlayerHit: () => {
+      if (freezeActionsUntilRef.current > Date.now()) return;
+      handlePlayerHit();
+    },
+    handleSpecialHit: () => {
+      if (freezeActionsUntilRef.current > Date.now()) return;
+      handleSpecialHit();
+    },
     disabled: controlsDisabled,
     playerState: player.state,
     skipSpecialHitOnPress,
-    onChargePress: charge.startCharge,
-    onChargeRelease: charge.releaseCharge,
-    onChargeCancel: charge.cancelCharge,
+    onChargePress: () => {
+      if (freezeActionsUntilRef.current > Date.now()) return;
+      charge.startCharge();
+    },
+    onChargeRelease: () => {
+      if (freezeActionsUntilRef.current > Date.now()) return;
+      charge.releaseCharge();
+    },
+    onChargeCancel: () => {
+      if (freezeActionsUntilRef.current > Date.now()) return;
+      charge.cancelCharge();
+    },
   });
 
   const npcMaxHpForRegen = battle.npcMaxHp;

@@ -28,6 +28,7 @@ type Props = {
   enemies: EnemyTarget[];
   freezeMainUntilRef: React.RefObject<number>;
   freezeSummonsUntilRef: React.RefObject<number>;
+  freezePlayerUntilRef: React.RefObject<number>;
   onAreaDamage: (
     explosions: { x: number; y: number }[],
     allEnemies: EnemyTarget[],
@@ -52,6 +53,7 @@ export function useArturKillerQueen({
   enemies,
   freezeMainUntilRef,
   freezeSummonsUntilRef,
+  freezePlayerUntilRef,
   onAreaDamage,
 }: Props) {
   const [killerQueen, setKillerQueen] =
@@ -66,6 +68,8 @@ export function useArturKillerQueen({
   freezeMainUntilRefRef.current = freezeMainUntilRef;
   const freezeSummonsUntilRefRef = useRef(freezeSummonsUntilRef);
   freezeSummonsUntilRefRef.current = freezeSummonsUntilRef;
+  const freezePlayerUntilRefRef = useRef(freezePlayerUntilRef);
+  freezePlayerUntilRefRef.current = freezePlayerUntilRef;
 
   useEffect(() => {
     const isArtur = player.character === "artur";
@@ -92,6 +96,7 @@ export function useArturKillerQueen({
     const done = Date.now() + TOTAL_FREEZE_MS;
     freezeMainUntilRefRef.current.current = done;
     freezeSummonsUntilRefRef.current.current = done;
+    freezePlayerUntilRefRef.current.current = done;
 
     void (async () => {
       try {
@@ -162,6 +167,7 @@ export function useArturKillerQueen({
 
         freezeMainUntilRefRef.current.current = Date.now();
         freezeSummonsUntilRefRef.current.current = Date.now();
+        freezePlayerUntilRefRef.current.current = Date.now();
 
         setKillerQueen((q) => ({ ...q, opacity: 0 }));
         await delay(250);
@@ -169,6 +175,7 @@ export function useArturKillerQueen({
         setKillerQueen(DEFAULT_OVERLAY);
         setPlayer((p) => ({ ...p, state: "idle" }));
       } finally {
+        freezePlayerUntilRefRef.current.current = Date.now();
         runningRef.current = false;
         timersRef.current = [];
       }
@@ -182,6 +189,12 @@ export function useArturKillerQueen({
     setPlayer,
     enemies,
   ]);
+
+  useEffect(() => {
+    return () => {
+      freezePlayerUntilRefRef.current.current = Date.now();
+    };
+  }, []);
 
   return {
     killerQueen,

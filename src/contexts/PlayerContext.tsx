@@ -82,6 +82,7 @@ type PlayerContextType = {
 
   lastBlockPressRef: React.RefObject<number>;
   battleTenacityRef: React.RefObject<number>;
+  freezeActionsUntilRef: React.RefObject<number>;
 
   setTimeScale: (scale: number) => void;
   resetTimeScale: () => void;
@@ -174,6 +175,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
   const battleCollisionRef = useBattleCollisionRef();
   const lastBlockPressRef = useRef(0);
+  const freezeActionsUntilRef = useRef(0);
   const playerModeRef = useRef<PlayerMode>(player.mode);
   playerModeRef.current = player.mode;
 
@@ -195,6 +197,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     battleCollisionRef,
     lastBlockPressRef,
     playerModeRef,
+    freezeActionsUntilRef,
   );
 
   const setBattleCollision = useCallback(
@@ -344,6 +347,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         setDifficulty,
         lastBlockPressRef,
         battleTenacityRef,
+        freezeActionsUntilRef,
 
         setTimeScale,
         resetTimeScale,
