@@ -105,7 +105,11 @@ export function BattleEntities({
 
       <Pet pet={pet} TILE_SIZE={TILE_SIZE} />
 
-      <Player player={player} PLAYER_SIZE={PLAYER_SIZE} grabFlipped={grabFlipped} />
+      <Player
+        player={player}
+        PLAYER_SIZE={PLAYER_SIZE}
+        grabFlipped={grabFlipped}
+      />
 
       <KillerQueen
         killerQueen={killerQueen}

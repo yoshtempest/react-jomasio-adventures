@@ -8,11 +8,7 @@ type Props = BattleEntityPositioning & {
   papers: GroundPaperState[];
 };
 
-export function GroundPaper({
-  papers,
-  battleScaleX,
-  battleScaleY,
-}: Props) {
+export function GroundPaper({ papers, battleScaleX, battleScaleY }: Props) {
   const { playSound } = useSoundEffects();
 
   const explodedPaperIdsRef = useRef<Set<number>>(new Set());
@@ -20,7 +16,10 @@ export function GroundPaper({
   useEffect(() => {
     // paper virou explosion.svg -> explosion.mp3 (uma vez por paper)
     for (const gp of papers) {
-      if (gp.sprite === "explosion" && !explodedPaperIdsRef.current.has(gp.id)) {
+      if (
+        gp.sprite === "explosion" &&
+        !explodedPaperIdsRef.current.has(gp.id)
+      ) {
         explodedPaperIdsRef.current.add(gp.id);
         playSound("explosion");
       }

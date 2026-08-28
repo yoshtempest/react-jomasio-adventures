@@ -112,7 +112,14 @@ export function useArturOraPunch({
     // Punch em summon não passa pelo applyBasicHit (sem som de ataque).
     if (!target.isMain) playSound("ORA");
     armFinalize();
-  }, [armFinalize, getMultiplier, onPunchHitRef, player.x, player.y, playSound]);
+  }, [
+    armFinalize,
+    getMultiplier,
+    onPunchHitRef,
+    player.x,
+    player.y,
+    playSound,
+  ]);
 
   const oraPress = useCallback(() => {
     if (player.character !== "artur") return;

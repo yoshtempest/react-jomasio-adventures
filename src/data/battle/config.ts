@@ -47,7 +47,7 @@ export const BATTLE_CONFIGS: Record<string, BattleConfig> = {
     victoryDescription: "Você derrotou Deise, a Lich imortal",
     background: sceneBackgrounds.CafeteriaBattle,
     audioSrc: backgroundAudioPath("/battle/DarkSouls.m4a"),
-    introAudioSrc: "/battle/onePunch.mp3"
+    introAudioSrc: "/battle/onePunch.mp3",
   },
   cantina: {
     npcType: "jhowsimar",
@@ -124,7 +124,7 @@ export const BATTLE_CONFIGS: Record<string, BattleConfig> = {
     victoryDescription: "Você salvou Maurão da loucura",
     background: sceneBackgrounds.HallCenterBattle,
     audioSrc: backgroundAudioPath("/battle/KickBack.mp3"),
-    introAudioSrc: "/battle/onePunchGuitar.mp3"
+    introAudioSrc: "/battle/onePunchGuitar.mp3",
   },
   pcroomOne: {
     npcType: "hungryDeath",

@@ -4,13 +4,15 @@ export const ORES = createItems({
   iron_ore: {
     image: "/assets/items/ores/iron_ore.svg",
     name: "Iron Ore",
-    description: "O minério mais básico de todos. Todo mineiro começa por aqui.",
+    description:
+      "O minério mais básico de todos. Todo mineiro começa por aqui.",
     type: "material",
   },
   crystalline_iron_ore: {
     image: "/assets/items/ores/crystalline_iron_ore.svg",
     name: "Crystalline Iron Ore",
-    description: "Uma Iron Ore rara, cristalina e reluzente. Item dropável do Mineiro.",
+    description:
+      "Uma Iron Ore rara, cristalina e reluzente. Item dropável do Mineiro.",
     type: "material",
   },
   tin_ore: {
@@ -58,7 +60,8 @@ export const ORES = createItems({
   trombone_ore: {
     image: "/assets/items/ores/trombone_ore.svg",
     name: "Trombone Ore",
-    description: "Cobre raro que ecoa como um trombone. Item dropável do Mineiro.",
+    description:
+      "Cobre raro que ecoa como um trombone. Item dropável do Mineiro.",
     type: "material",
   },
   shadowy_cobalt: {
@@ -106,7 +109,8 @@ export const ORES = createItems({
   smoked_quartz: {
     image: "/assets/items/ores/smoked_quartz.svg",
     name: "Smoked Quartz",
-    description: "Quartzo defumado, escuro e elegante. Item dropável do Mineiro.",
+    description:
+      "Quartzo defumado, escuro e elegante. Item dropável do Mineiro.",
     type: "material",
   },
   grievous_kroomium: {
@@ -154,7 +158,8 @@ export const ORES = createItems({
   dragonheart_amethyst: {
     image: "/assets/items/ores/dragonheart_amethyst.svg",
     name: "Dragonheart Amethyst",
-    description: "Ametista que pulsa com o coração de um dragão. Item dropável do Mineiro.",
+    description:
+      "Ametista que pulsa com o coração de um dragão. Item dropável do Mineiro.",
     type: "material",
   },
   koral: {
@@ -238,7 +243,8 @@ export const ORES = createItems({
   dull_sapphire: {
     image: "/assets/items/ores/dull_sapphire.svg",
     name: "Dull Sapphire",
-    description: "Safira rara, fosca por fora mas preciosa por dentro. Item dropável do Mineiro.",
+    description:
+      "Safira rara, fosca por fora mas preciosa por dentro. Item dropável do Mineiro.",
     type: "material",
   },
   sovereign_titanium: {
@@ -322,7 +328,8 @@ export const ORES = createItems({
   iridescent_obsidian: {
     image: "/assets/items/ores/iridescent_obsidian.svg",
     name: "Iridescent Obsidian",
-    description: "Obsidiana rara que cintila em mil cores. Item dropável do Mineiro.",
+    description:
+      "Obsidiana rara que cintila em mil cores. Item dropável do Mineiro.",
     type: "material",
   },
   frozen_garnet: {
@@ -382,7 +389,8 @@ export const ORES = createItems({
   diromnathyst: {
     image: "/assets/items/ores/diromnathyst.svg",
     name: "Diromnathyst",
-    description: "A forma rara celestial do Zircomet. Item dropável do Mineiro.",
+    description:
+      "A forma rara celestial do Zircomet. Item dropável do Mineiro.",
     type: "material",
   },
   fragmonnite: {
@@ -394,7 +402,8 @@ export const ORES = createItems({
   ex_lex: {
     image: "/assets/items/ores/ex_lex.svg",
     name: "Ex-Lex",
-    description: "A forma rara suprema da Fragmonnite. Item dropável do Mineiro.",
+    description:
+      "A forma rara suprema da Fragmonnite. Item dropável do Mineiro.",
     type: "material",
   },
 } as const);

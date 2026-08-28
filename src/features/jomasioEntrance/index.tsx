@@ -106,18 +106,18 @@ export function JomasioEntranceScene({ sceneId }: Props) {
             : null;
           if (material) rolled.push(material);
 
-          rolled.forEach(({ itemId, qty }) => deps.addItem({ id: itemId, qty }));
+          rolled.forEach(({ itemId, qty }) =>
+            deps.addItem({ id: itemId, qty }),
+          );
 
           const summary = rolled
             .map(
-              ({ itemId, qty }) =>
-                `${ITEMS[itemId as keyof typeof ITEMS]?.name ?? itemId} x${qty}`,
+              ({ itemId, qty }) => `${ITEMS[itemId]?.name ?? itemId} x${qty}`,
             )
             .join(", ");
 
           const xpGained = result?.xpGained ?? 0;
-          const xpNote =
-            xpGained > 0 ? ` (+${xpGained} XP de Mineiro)` : "";
+          const xpNote = xpGained > 0 ? ` (+${xpGained} XP de Mineiro)` : "";
           deps.setPopup(`Você minerou a rocha! Obteve: ${summary}.${xpNote}`);
 
           if (xpGained > 0) {
@@ -131,10 +131,7 @@ export function JomasioEntranceScene({ sceneId }: Props) {
         "weapon_axe",
         "Você precisa equipar um machado para lenhar.",
         (deps) => {
-          const { level } = deps.getProficiency(
-            deps.character,
-            "lumberjack",
-          );
+          const { level } = deps.getProficiency(deps.character, "lumberjack");
 
           const wood = getWoodLevelByTreeLevel(treeLevel);
           if (!wood) {
@@ -156,12 +153,13 @@ export function JomasioEntranceScene({ sceneId }: Props) {
             : null;
           if (material) rolled.push(material);
 
-          rolled.forEach(({ itemId, qty }) => deps.addItem({ id: itemId, qty }));
+          rolled.forEach(({ itemId, qty }) =>
+            deps.addItem({ id: itemId, qty }),
+          );
 
           const summary = rolled
             .map(
-              ({ itemId, qty }) =>
-                `${ITEMS[itemId]?.name ?? itemId} x${qty}`,
+              ({ itemId, qty }) => `${ITEMS[itemId]?.name ?? itemId} x${qty}`,
             )
             .join(", ");
 

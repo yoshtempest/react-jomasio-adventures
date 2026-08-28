@@ -916,19 +916,14 @@ export function useBattleScene({
     ];
   }, [player.character, npc.x, npc.y, summons]);
 
-  const {
-    oraPress,
-    punches: extraPunches,
-  } = useArturOraPunch({
+  const { oraPress, punches: extraPunches } = useArturOraPunch({
     player,
     setPlayer,
     onPunchHit: handleExtraPunch,
     multiplierRef: arturOraMultiplierRef,
   });
 
-  const extraPunchSprite = playerPath(
-    "/artur/inFight/attacks/extraPunch.svg",
-  );
+  const extraPunchSprite = playerPath("/artur/inFight/attacks/extraPunch.svg");
 
   const {
     killerQueen,
