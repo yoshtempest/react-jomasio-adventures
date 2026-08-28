@@ -22,6 +22,8 @@ export function createSounds() {
     swordDeflected: sfx("player/marcelo/sword-deflected.mp3"),
     jhowsimarVemCa: sfx("npc/jhowsimar/goHere.mp3"),
     marshadowSpecial: sfx("player/marcelo/special.mp3"),
+    blink: sfx("blink.mp3"),
+    explosion: sfx("explosion.mp3"),
     riquelsonSpecial: sfx("player/riquelme/special.mp3"),
     kokusen: sfx("player/riquelme/kokusen.mp3"),
     impact: sfx("impact.mp3"),
