@@ -1,5 +1,7 @@
-import { resolveBattleSprite } from "@/utils/paths";
+import { useEffect, useRef } from "react";
+import { resolveBattleSprite, playerPath } from "@/utils/paths";
 import { ProjectileConstants } from "@/data/projectile";
+import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 
 type Props = {
   x: number;
@@ -34,6 +36,20 @@ export function PlayerBattle({
   const isGrabbed = Date.now() < grabbedUntil && !isFallen && !isCrouching;
   const showFlipped = isGrabbed && grabFlipped;
   const src = resolveBattleSprite(character, resolvedState);
+  const ARTUR_SEEING_SRC = playerPath("/artur/inFight/special/arturSeeing.svg");
+
+  const { playSound } = useSoundEffects();
+  const prePalmPlayedRef = useRef(false);
+
+  useEffect(() => {
+    // Personagem trocou para a imagem arturSeeing.svg -> prePalm.mp3
+    if (src === ARTUR_SEEING_SRC) {
+      if (!prePalmPlayedRef.current) playSound("prePalm");
+      prePalmPlayedRef.current = true;
+    } else {
+      prePalmPlayedRef.current = false;
+    }
+  }, [src, ARTUR_SEEING_SRC, playSound]);
 
   const scaleX = window.innerWidth / ProjectileConstants.MAP_WIDTH;
   const scaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;

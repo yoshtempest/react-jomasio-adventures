@@ -72,11 +72,9 @@ export function BattleEntities({
   const prevKillerQueenSpriteRef = useRef<KillerQueenOverlay["sprite"]>("idle");
 
   useEffect(() => {
-    // killerQueen entrou em prePalm -> prePalm.mp3; em palm -> clap.mp3
+    // killerQueen entrou em palm -> clap.mp3
+    // (prePalm.mp3 é disparado pelo arturSeeing.svg no PlayerBattle)
     const sprite = killerQueen?.active ? killerQueen.sprite : "idle";
-    if (sprite === "touch" && prevKillerQueenSpriteRef.current !== "touch") {
-      playSound("prePalm");
-    }
     if (sprite === "palm" && prevKillerQueenSpriteRef.current !== "palm") {
       playSound("clap");
     }

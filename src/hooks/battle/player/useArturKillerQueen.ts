@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { playerPath, npcPathProjectile } from "@/utils/paths";
+import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 
 export type KillerQueenOverlay = {
   active: boolean;
@@ -69,6 +70,8 @@ export function useArturKillerQueen({
     useState<KillerQueenOverlay>(DEFAULT_OVERLAY);
   const [bombTargets, setBombTargets] = useState<BombTarget[]>([]);
 
+  const { playSound } = useSoundEffects();
+
   const runningRef = useRef(false);
   const timersRef = useRef<number[]>([]);
   const onAreaDamageRef = useRef(onAreaDamage);
@@ -135,6 +138,8 @@ export function useArturKillerQueen({
               opacity: 0,
               flip: behindFlip(enemy),
             });
+            // Apareceu atrás de um alvo (teleporte) -> blink.mp3
+            playSound("blink");
           }, 260);
           timers.push(recall);
           await delay(260);
@@ -202,6 +207,7 @@ export function useArturKillerQueen({
     player.state,
     setPlayer,
     enemies,
+    playSound,
   ]);
 
   useEffect(() => {
