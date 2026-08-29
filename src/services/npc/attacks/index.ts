@@ -10,6 +10,7 @@ import { MauraoAttack } from "./maurao";
 import { MaugreloAttack } from "./maugrelo";
 import { PiupiuAttack } from "./piupiu";
 import { SlimitaAttack } from "./slimita";
+import { SrGuaxinimAttack } from "./srGuaxinim";
 import { VandinhaFragmentAttack } from "./vandinhaFragment";
 
 /**
@@ -33,7 +34,7 @@ export const npcAttacks = {
   slimita: new SlimitaAttack(),
   hungryKing: new HungryKingAttack(),
   denis: new DefaultNpcAttack("denis"),
-  srGuaxinim: new DefaultNpcAttack("srGuaxinim"),
+  srGuaxinim: new SrGuaxinimAttack(),
   neimito: new DefaultNpcAttack("neimito"),
   planetarySisters: new DefaultNpcAttack("planetarySisters"),
   manim: new DefaultNpcAttack("manim"),

@@ -26,11 +26,12 @@ type Props = {
   multiplierRef: React.RefObject<() => number>;
 };
 
-const PUNCH_LIFETIME_MS = 300;
+const PUNCH_LIFETIME_MS = 1000;
 const PUNCH_SPAWN_INTERVAL_MS = 30;
 const PUNCH_FINALIZE_MS = 150;
 const PUNCH_MOVE_TICK_MS = 16;
 const PUNCH_MOVE_FACTOR = 0.22;
+const PUNCH_TARGET_JITTER = 60;
 
 export function useArturOraPunch({
   player,
@@ -103,8 +104,8 @@ export function useArturOraPunch({
         id,
         x: player.x + Math.cos(angle) * radius,
         y: player.y + Math.sin(angle) * radius,
-        targetX: target.x,
-        targetY: target.y,
+        targetX: target.x + (Math.random() - 0.5) * PUNCH_TARGET_JITTER,
+        targetY: target.y + (Math.random() - 0.5) * PUNCH_TARGET_JITTER,
         born: now,
       },
     ]);
@@ -127,7 +128,7 @@ export function useArturOraPunch({
     spawnPunch();
   }, [player.character, player.state, spawnPunch]);
 
-  // Movimento em direção ao alvo + vida de 300ms.
+  // Movimento em direção ao alvo + vida de 1s.
   useEffect(() => {
     const id = window.setInterval(() => {
       const now = Date.now();
