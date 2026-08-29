@@ -23,6 +23,7 @@ export const cantinaOneNpcs = [
     },
     11,
     3,
+    (src) => (src.includes("right.svg") ? 1.3 : undefined),
   ),
   createNpc(npcPath("/brothers/default.svg"), 19, 3),
 ];

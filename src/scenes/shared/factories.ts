@@ -1,3 +1,5 @@
+import type { NpcSizeResolver } from "@/utils/types/maps/exploreScene";
+
 type ConditionalTileOptions = {
   blockedMessage?: string;
 };
@@ -26,7 +28,7 @@ export const createNpc = (
   src: string | NpcSrcResolver,
   gridX: number,
   gridY: number,
-  size?: number,
+  size?: number | NpcSizeResolver,
 ) => ({
   src,
   gridX,

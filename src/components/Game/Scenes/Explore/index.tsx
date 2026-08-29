@@ -191,13 +191,20 @@ export function ExploreScene({
 
   const resolvedNpcs = useMemo(
     () =>
-      npcs.map((npc) => ({
-        ...npc,
-        src:
+      npcs.map((npc) => {
+        const resolvedSrc =
           typeof npc.src === "function"
             ? npc.src({ ...npcContext, dialogueIndex: dialogueSystem.index })
-            : npc.src,
-      })),
+            : npc.src;
+        return {
+          ...npc,
+          src: resolvedSrc,
+          size:
+            typeof npc.size === "function"
+              ? npc.size(resolvedSrc)
+              : npc.size,
+        };
+      }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       npcs,
