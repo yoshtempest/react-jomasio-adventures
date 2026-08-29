@@ -5,6 +5,7 @@ import { useLatestRef } from "@/hooks/useLatestRef";
 import { useTypewriter } from "@/hooks/interaction/useTypewriter";
 import { useSettings } from "@/hooks/useSetting";
 import { useGameControls } from "@/contexts/GameControlsContext";
+import { useBattleOutroSound } from "@/hooks/battle/useOutroSound";
 
 type Props = {
   character: string;
@@ -15,6 +16,8 @@ type Props = {
 export function BattleOutro({ character, type, onNext }: Props) {
   const title = type === "victory" ? "Vitória" : "Derrota";
   const message = getOutroLine(character, type);
+
+  useBattleOutroSound(character, type);
 
   const { dialogueSpeedMs } = useSettings();
   const { displayedText, isComplete, skip } = useTypewriter(
