@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { playerPath } from "@/utils/paths";
-import { getCharacterElementGradient } from "@/data/types/elementGradients";
 import styles from "./styles.module.css";
 
 type Props = {
@@ -9,27 +8,20 @@ type Props = {
 };
 
 export function SpecialIntro({ active, character }: Props) {
-  const [faceFrontFailed, setFaceFrontFailed] = useState(false);
+  const [imageFailed, setImageFailed] = useState(false);
 
   if (!active || !character) return null;
 
-  const gradient = getCharacterElementGradient(character);
-  const faceSrc = faceFrontFailed
-    ? playerPath(`/${character}/face.svg`)
-    : playerPath(`/${character}/faceFront.svg`);
-
   return (
-    <div className={styles.modal}>
-      <div
-        className={styles.band}
-        style={{ background: `linear-gradient(45deg, ${gradient.join(", ")})` }}
-      />
-      <img
-        className={styles.face}
-        src={faceSrc}
-        alt=""
-        onError={() => setFaceFrontFailed(true)}
-      />
+    <div className={styles.overlay}>
+      {!imageFailed && (
+        <img
+          className={styles.image}
+          src={playerPath(`/${character}/specialBackground.svg`)}
+          alt=""
+          onError={() => setImageFailed(true)}
+        />
+      )}
     </div>
   );
 }

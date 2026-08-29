@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
-export const SPECIAL_INTRO_DURATION = 3000;
-export const SPECIAL_INTRO_TIME_SCALE = 0.05;
+export const SPECIAL_INTRO_DURATION = 2400;
+export const SPECIAL_INTRO_TIME_SCALE = 0.1;
 
 type Props = {
   setTimeScale: (scale: number) => void;
@@ -12,6 +12,8 @@ type Props = {
  * Animação de abertura do special: durante `SPECIAL_INTRO_DURATION` o tempo
  * da batalha fica em `SPECIAL_INTRO_TIME_SCALE` e o overlay do personagem é
  * exibido. Ao final, o tempo volta ao normal e a ação do special é ativada.
+ * A duração casa com a animação CSS do SpecialIntro (fade-in 2s + fade-out
+ * rápido), que roda em tempo real independente do time scale.
  */
 export function useSpecialIntro({ setTimeScale, resetTimeScale }: Props) {
   const [specialIntro, setSpecialIntro] = useState<{ character: string } | null>(
