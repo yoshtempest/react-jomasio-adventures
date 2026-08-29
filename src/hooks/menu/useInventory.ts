@@ -118,10 +118,8 @@ export function useInventoryMenu(
           return;
         }
 
-        if (navLength === 0) return;
-
         const row = Math.floor(selectedIndexRef.current / 3);
-        if (row === 0 && filterConfigRef.current) {
+        if ((row === 0 || navLength === 0) && filterConfigRef.current) {
           if (chestReadyRef.current) {
             playMoveRef.current();
             setChestFocused(true);
@@ -132,6 +130,7 @@ export function useInventoryMenu(
           return;
         }
 
+        if (navLength === 0) return;
         playMoveRef.current();
         setSelectedIndex((prev) => gridMove(prev, 3, "up", navLength));
       },
@@ -167,7 +166,17 @@ export function useInventoryMenu(
 
         if (filterFocusedRef.current) return;
 
-        if (navLength === 0) return;
+        if (navLength === 0) {
+          if (filterConfigRef.current) {
+            playMoveRef.current();
+            setFilterFocused(true);
+          } else if (chestReadyRef.current) {
+            playMoveRef.current();
+            setChestFocused(true);
+          }
+          return;
+        }
+
         playMoveRef.current();
         setSelectedIndex((prev) => gridMove(prev, 3, "left", navLength));
       },
