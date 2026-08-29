@@ -87,7 +87,7 @@ export function useSceneLayers({
     if (tombstone) return "[L] Recolher";
 
     const groundLoot = groundLoots?.find((l) => l.x === x && l.y === y);
-    if (groundLoot) return "[L] Interagir";
+    if (groundLoot) return "[L] Pegar";
 
     const plate = plates.find((p) => p.gridX === x && p.gridY === y);
     if (plate) return "[L] Interagir";

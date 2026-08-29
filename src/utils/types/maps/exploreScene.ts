@@ -11,4 +11,5 @@ export type ItemPickupTile = {
   visible: boolean;
   height?: number;
   image?: string;
+  size?: number;
 };

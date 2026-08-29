@@ -489,8 +489,8 @@ export function ExploreScene({
                 alt=""
                 style={{
                   position: "absolute",
-                  width: TILE_SIZE * 0.7,
-                  height: TILE_SIZE * 0.7,
+                  width: TILE_SIZE * (tile.size ?? 0.7),
+                  height: TILE_SIZE * (tile.size ?? 0.7),
                   left: tile.x * TILE_SIZE,
                   top:
                     tile.y * TILE_SIZE * 1.1 -

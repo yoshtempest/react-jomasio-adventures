@@ -221,9 +221,10 @@ export function JomasioEntranceScene({ sceneId }: Props) {
         itemPickupTiles={[
           {
             x: 13,
-            y: 10,
+            y: 9,
             visible: true,
             image: "/assets/map/rock.svg",
+            size: 1.4,
           },
         ]}
         popup={popup}

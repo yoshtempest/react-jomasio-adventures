@@ -6,7 +6,7 @@ export const libraryMessages: Record<string, string> = {
   "16,2":
     "11/03: nosso lorde Samurion nos espancou e chamou de lixo, quanta benevolência, gastar seu precioso tempo conosco, meros famintos.",
   "3,6":
-    "Reza a lenda que um dia irá aparecer um herói e purificar todos os monstros que aqui, um dia foram pessoas...",
+    "Diz a lenda que um dia irá aparecer um herói e purificar todos os monstros que aqui, um dia foram pessoas...",
   "4,6":
     "Já pensou se todos os personagens principais até mesmo aqueles que não se falam, se reunissem para pensar em um jogo?",
   "5,8":

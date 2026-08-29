@@ -19,15 +19,8 @@ export function createBrodiClass(deps: BrodiClassDeps) {
     alreadyPickedMessage:
       "Tá passando a mão na mesa por quê? Não tá vendo que não tem nada aí?",
   });
-  const chestHandler = createPickupHandler({
-    item: { id: "legendary_chest" },
-    flagId: "picked_legendary_chest",
-    pickupMessage: "Um baú! Que sorte",
-    alreadyPickedMessage: "Nada por aqui.",
-  });
 
   messages["7,6"] = () => packageHandler({ ...deps, ...deps.goatMeatDeps });
-  messages["15,11"] = () => chestHandler({ ...deps, ...deps.chestDeps });
 
   return messages;
 }

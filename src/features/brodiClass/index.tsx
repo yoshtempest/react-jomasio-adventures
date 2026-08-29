@@ -53,12 +53,6 @@ export function BrodiClassScene({ sceneId }: Props) {
             visible: !gotGoatMeat,
             image: "/assets/items/goat_meat.svg",
           },
-          {
-            x: 20,
-            y: 11,
-            visible: !gotChest,
-            image: "/assets/items/chests/legendary.svg",
-          },
         ]}
         popup={popup}
         setPopup={setPopup}

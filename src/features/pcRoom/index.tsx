@@ -81,8 +81,9 @@ export function PcRoomScene({ sceneId }: Props) {
         interactions={interactions}
         itemPickupTiles={[
           {
-            x: 10,
-            y: 7,
+            x: 10.6,
+            y: 6.5,
+            size: 0.5,
             visible: !gotKey,
             image: "/assets/items/desired_gear.svg",
           },

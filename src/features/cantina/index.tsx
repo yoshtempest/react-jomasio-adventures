@@ -86,6 +86,7 @@ export function CantinaScene({ sceneId }: Props) {
             y: 3.5,
             visible: !gotKey,
             image: "/assets/items/orange_juice.svg",
+            size: 0.4,
           },
         ]}
         popup={popup}
