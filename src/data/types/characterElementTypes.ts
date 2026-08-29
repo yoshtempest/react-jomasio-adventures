@@ -8,7 +8,7 @@ export const CHARACTER_ELEMENT_TYPES: Record<
   eduarda: ["Normalis", "Haos"],
   lucas: ["Pyrus", "Subterra"],
   samuel: ["Subterra", "Darkus"],
-  artur: ["Pyrus", "Psychicus"],
+  artur: ["Darkus", "Umbra"],
   mayra: ["Darkus", "Umbra"],
   lucaua: ["Metallum", "Psychicus"],
   riquelme: ["Aquos", "Umbra"],
