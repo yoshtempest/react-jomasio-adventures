@@ -8,6 +8,12 @@ import { PROFESSIONS } from "@/data/professions";
 export const PROFESSION_XP_PER_GATHER = 10;
 
 /**
+ * Multiplicador de XP quando a forma rara de um item da profissão dropa
+ * durante a coleta: 10x o XP que a forma normal daria no mesmo interact.
+ */
+export const GATHER_RARE_XP_MULTIPLIER = 10;
+
+/**
  * Nível máximo que uma profissão pode alcançar.
  */
 export const MAX_PROFESSION_LEVEL = 200;
