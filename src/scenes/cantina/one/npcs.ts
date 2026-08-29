@@ -19,7 +19,7 @@ export const cantinaOneNpcs = [
         if (ctx.dialogueIndex === 2) return npcPath("/jhowsimar/wakingUp.svg");
         return npcPath("/jhowsimar/right.svg");
       }
-      return npcPath("/jhowsimar/default.svg");
+      return npcPath("/jhowsimar/default.svg",);
     },
     11,
     3,

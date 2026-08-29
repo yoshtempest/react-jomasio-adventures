@@ -26,10 +26,12 @@ export const createNpc = (
   src: string | NpcSrcResolver,
   gridX: number,
   gridY: number,
+  size?: number,
 ) => ({
   src,
   gridX,
   gridY,
+  ...(size !== undefined ? { size } : {}),
 });
 
 export const createPlate = (
