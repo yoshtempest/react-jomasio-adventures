@@ -12,6 +12,8 @@ type Props = {
   disabled: boolean;
   playerState: PlayerState;
   skipSpecialHitOnPress?: boolean;
+  /** Substitui o fluxo do special no onOpen (ex.: animação de abertura do special). */
+  openSpecial?: () => void;
   onChargePress?: () => void;
   onChargeRelease?: () => void;
   onChargeCancel?: () => void;
@@ -29,6 +31,7 @@ export function useBattleControls({
   disabled,
   playerState,
   skipSpecialHitOnPress = false,
+  openSpecial,
   onChargePress,
   onChargeRelease,
   onChargeCancel,
@@ -41,6 +44,7 @@ export function useBattleControls({
   const blockEndRef = useLatestRef(blockEnd);
   const playerHitRef = useLatestRef(handlePlayerHit);
   const specialHitRef = useLatestRef(handleSpecialHit);
+  const openSpecialRef = useLatestRef(openSpecial);
   const chargePressRef = useLatestRef(onChargePress ?? (() => {}));
   const chargeReleaseRef = useLatestRef(onChargeRelease ?? (() => {}));
   const chargeCancelRef = useLatestRef(onChargeCancel ?? (() => {}));
@@ -100,6 +104,10 @@ export function useBattleControls({
       },
 
       onOpen: () => {
+        if (openSpecialRef.current) {
+          openSpecialRef.current();
+          return;
+        }
         specialRef.current();
         if (!skipSpecialHitRef.current) {
           specialHitRef.current();
@@ -152,5 +160,6 @@ export function useBattleControls({
     playerHitRef,
     specialHitRef,
     specialRef,
+    openSpecialRef,
   ]);
 }

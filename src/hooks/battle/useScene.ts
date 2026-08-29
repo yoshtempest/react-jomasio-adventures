@@ -1,4 +1,11 @@
-import { useRef, useState, useMemo, useEffect, type RefObject } from "react";
+import {
+  useRef,
+  useState,
+  useMemo,
+  useEffect,
+  useCallback,
+  type RefObject,
+} from "react";
 import { useGrabThrow } from "@/hooks/battle/throw/useGrabThrow";
 import { useThrowAnimation } from "@/hooks/battle/throw/useThrowAnimation";
 import { useLatestRef } from "@/hooks/useLatestRef";
@@ -72,6 +79,7 @@ import type { ReplayData } from "@/utils/types/replay";
 import type { SpawnDamageFn } from "@/utils/types/battle/spawnDamageFn";
 import { combatService } from "@/services/combat";
 import { useKokusenAnimation } from "@/hooks/battle/player/useKokusenAnimation";
+import { useSpecialIntro } from "@/hooks/battle/useSpecialIntro";
 
 function computeElapsedBattleTime(
   battleStartRef: RefObject<number>,
@@ -255,6 +263,7 @@ export function useBattleScene({
     battleTenacityRef,
     freezeActionsUntilRef,
     setTimeScale,
+    resetTimeScale,
     timeScaleRef,
   } = usePlayer();
 
@@ -1031,8 +1040,43 @@ export function useBattleScene({
     setTimeScale,
   });
 
+  const { specialIntroActive, specialIntroCharacter, startSpecialIntro } =
+    useSpecialIntro({ setTimeScale, resetTimeScale });
+
   const skipSpecialHitOnPress =
     getSpecialFlowOverride(player.character) !== null;
+
+  const activateSpecial = useCallback(() => {
+    if (freezeActionsUntilRef.current > Date.now()) return;
+    if (isGrabbedRef.current && grabFlippedRef.current) return;
+    special();
+    if (!skipSpecialHitOnPress) {
+      handleSpecialHit();
+    }
+  }, [
+    freezeActionsUntilRef,
+    isGrabbedRef,
+    grabFlippedRef,
+    special,
+    handleSpecialHit,
+    skipSpecialHitOnPress,
+  ]);
+
+  const openSpecial = useCallback(() => {
+    if (freezeActionsUntilRef.current > Date.now()) return;
+    if (isGrabbedRef.current && grabFlippedRef.current) return;
+    if (battle.delicia < battle.hitsToSpecial) return;
+    startSpecialIntro(player.character, activateSpecial);
+  }, [
+    freezeActionsUntilRef,
+    isGrabbedRef,
+    grabFlippedRef,
+    battle.delicia,
+    battle.hitsToSpecial,
+    startSpecialIntro,
+    player.character,
+    activateSpecial,
+  ]);
 
   useBattleControls({
     attack: () => {
@@ -1070,6 +1114,7 @@ export function useBattleScene({
     disabled: controlsDisabled,
     playerState: player.state,
     skipSpecialHitOnPress,
+    openSpecial,
     onChargePress: () => {
       if (freezeActionsUntilRef.current > Date.now()) return;
       charge.startCharge();
@@ -1171,5 +1216,7 @@ export function useBattleScene({
     extraPunchSprite,
     kokusenActive,
     kokusenFrame,
+    specialIntroActive,
+    specialIntroCharacter,
   };
 }

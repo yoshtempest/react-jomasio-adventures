@@ -1,0 +1,43 @@
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.65);
+  overflow: hidden;
+}
+
+.band {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 30vw;
+  height: 100vh;
+  transform: translateX(-50%) rotate(-45deg);
+  transform-origin: bottom center;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.9;
+  box-shadow: 0 0 12vmin rgba(255, 255, 255, 0.35);
+}
+
+.face {
+  position: relative;
+  z-index: 2;
+  width: 30vmin;
+  height: 30vmin;
+  object-fit: contain;
+  animation: float 1.5s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2vh);
+  }
+}

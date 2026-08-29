@@ -16,6 +16,7 @@ import { BattleOutro } from "@/components/Game/Battle/Modal/Outro";
 import { BattleHighlight } from "@/components/Game/Battle/Modal/Highlight";
 import { ChargeParticles } from "@/components/Game/Battle/Effects/ChargeParticles";
 import { KokusenAnimation } from "@/components/Game/Battle/Effects/KokusenAnimation";
+import { SpecialIntro } from "@/components/Game/Battle/Effects/SpecialIntro";
 import { JumpIndicator } from "@/components/Game/Battle/Jump/indicator";
 import { JumpDangerZone } from "@/components/Game/Battle/Jump/dangerZone";
 import { ComboAction } from "@/components/Game/Battle/Buttons/ComboAction";
@@ -106,6 +107,8 @@ export function BattleScene(props: Props) {
     extraPunchSprite,
     kokusenActive,
     kokusenFrame,
+    specialIntroActive,
+    specialIntroCharacter,
   } = useBattleScene({ ...props, isAlfa, PLAYER_SIZE });
 
   const { setBattleCollision } = usePlayerActions();
@@ -348,6 +351,10 @@ export function BattleScene(props: Props) {
           />
         </GameMap>
       </div>
+      <SpecialIntro
+        active={specialIntroActive}
+        character={specialIntroCharacter}
+      />
       {showOutro && !isTraining && (
         <BattleOutro
           character={player.character}
