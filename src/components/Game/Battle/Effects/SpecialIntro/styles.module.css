@@ -2,18 +2,19 @@
   position: fixed;
   inset: 0;
   z-index: 60;
-  width: 100vw;
   display: flex;
   align-items: center;
   justify-content: center;
   background: rgba(0, 0, 0, 0.5);
   animation:
     fadeIn 100ms ease-in forwards,
-    fadeOut 400ms ease-in 2000ms forwards;
+    fadeOut 400ms ease-in 500ms forwards;
 }
 
 .image {
-  width: 80vw;
+  width: 30vw;
+  align-self: center;
+  margin-bottom: 10vh;
   height: auto;
   object-fit: contain;
 }

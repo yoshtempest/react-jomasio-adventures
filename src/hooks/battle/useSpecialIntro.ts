@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
-export const SPECIAL_INTRO_DURATION = 2400;
+export const SPECIAL_INTRO_DURATION = 1000;
 export const SPECIAL_INTRO_TIME_SCALE = 0.1;
 
 type Props = {
