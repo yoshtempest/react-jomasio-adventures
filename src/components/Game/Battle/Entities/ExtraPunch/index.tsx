@@ -22,9 +22,10 @@ export function ExtraPunch({
           src={extraPunchSprite}
           style={{
             position: "absolute",
-            left: p.x * battleScaleX,
-            top: p.y * battleScaleY,
-            height: PLAYER_SIZE / 1.5,
+            left: p.x * battleScaleX / 1.1,
+            top: p.y * battleScaleY / 1.1,
+            height: PLAYER_SIZE / 4,
+            opacity: 0.5,
             width: "auto",
             transform: "translate(-50%, -100%)",
             zIndex: 17,

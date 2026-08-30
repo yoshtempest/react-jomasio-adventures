@@ -26,7 +26,7 @@ type Props = {
   multiplierRef: React.RefObject<() => number>;
 };
 
-const PUNCH_LIFETIME_MS = 1000;
+const PUNCH_LIFETIME_MS = 5000;
 const PUNCH_SPAWN_INTERVAL_MS = 30;
 const PUNCH_FINALIZE_MS = 150;
 const PUNCH_MOVE_TICK_MS = 16;
