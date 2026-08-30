@@ -16,6 +16,7 @@ import { GroundItemProvider } from "@/contexts/GroundItemContext";
 import { PlayerProvider } from "@/contexts/PlayerContext";
 import { BattleNavbarProvider } from "@/contexts/BattleNavbarContext";
 import { GameControlsProvider } from "@/contexts/GameControlsContext";
+import { CharacterUnlockProvider } from "@/contexts/CharacterUnlockContext";
 
 export function GameProviders({ children }: { children: ReactNode }) {
   return (
@@ -36,7 +37,9 @@ export function GameProviders({ children }: { children: ReactNode }) {
                                 <PlayTimeProvider>
                                   <BattleNavbarProvider>
                                     <GameControlsProvider>
-                                      {children}
+                                      <CharacterUnlockProvider>
+                                        {children}
+                                      </CharacterUnlockProvider>
                                     </GameControlsProvider>
                                   </BattleNavbarProvider>
                                 </PlayTimeProvider>

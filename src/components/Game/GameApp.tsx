@@ -5,6 +5,7 @@ import { XPBarNotification } from "@/components/Game/Notification/XPBar";
 import { HungerBarNotification } from "@/components/Game/Notification/HungerBar";
 import { SleepBarNotification } from "@/components/Game/Notification/SleepBar";
 import { XpProfessionNotification } from "@/components/Game/Notification/XpProfession";
+import { CharacterUnlockModal } from "@/components/Game/Unlock/CharacterUnlockModal";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { Navbar } from "@/components/Game/Navbar/ExploreNavbar";
@@ -151,6 +152,7 @@ export function GameApp() {
       <HungerBarNotification />
       <SleepBarNotification />
       <XpProfessionNotification />
+      <CharacterUnlockModal />
       {isOpen && (
         <Suspense fallback={null}>
           <Inventory />
