@@ -142,9 +142,9 @@ export const BESTIARY_DATA = createBestiary({
     attacks: ["Uivo Aterrorizante", "Mordida Sanguinária", "Garra Cortante"],
   },
   duque: {
-    name: "Cachorro de Riquelson",
+    name: "Cachorro de Natsuki",
     description:
-      "O cão de guarda de Riquelson, um dos moradores mais excêntricos de Bocaina. Fiel e mortal.",
+      "O cão de guarda de Natsuki, um dos moradores mais excêntricos de Bocaina. Fiel e mortal.",
     location: "Bocaina",
     attacks: ["Latido Intimidador", "Investida Protetora"],
   },

@@ -32,7 +32,7 @@ export type SoundId =
   | "jhowsimarVemCa"
   | "marshadowSpecial"
   | "ORA"
-  | "riquelsonSpecial"
+  | "natsukiSpecial"
   | "blink"
   | "clap"
   | "srGuaxinimDefeat"
@@ -74,7 +74,7 @@ const SOUND_VOLUMES: Partial<Record<SoundId, number>> = {
   boom: 1.3,
   slimitaJump: 0.3,
   impact: 0.5,
-  riquelsonSpecial: 1.3,
+  natsukiSpecial: 1.3,
   marshadowSpecial: 0.7,
   win: 0.5,
 };

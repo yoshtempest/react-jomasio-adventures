@@ -53,7 +53,7 @@ const CHAR_TO_FLAG: Record<string, FlagId> = {
   camilly: "kamykazeUnlocked",
   lucas: "yvelUnlocked",
   lucaua: "babidiUnlocked",
-  riquelme: "riquelsonUnlocked",
+  riquelme: "natsukiUnlocked",
 };
 
 export function getUnlockedCount(flags: FlagId[]): number {

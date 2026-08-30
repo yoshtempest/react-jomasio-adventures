@@ -136,7 +136,7 @@ export const BATTLE_QUESTS = createQuests({
     progress: 0,
     completed: false,
   },
-  x1_riquelson_dog: {
+  x1_natsuki_dog: {
     name: "Duque",
     image: npcPath("/duque/default.svg"),
     description:

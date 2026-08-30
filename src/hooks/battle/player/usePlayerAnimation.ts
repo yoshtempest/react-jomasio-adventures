@@ -38,8 +38,8 @@ export function usePlayerAnimation(
         }
 
         if (player.character === "riquelme") {
-          playSound("riquelsonSpecial");
-          logPlay("riquelsonSpecial");
+          playSound("natsukiSpecial");
+          logPlay("natsukiSpecial");
         }
         step = { ...defaultStep, ...override.preSpecial };
       } else if (player.state === "preSpecial2") {

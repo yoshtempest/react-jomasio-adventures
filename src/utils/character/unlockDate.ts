@@ -13,7 +13,7 @@ export const UNLOCK_FLAG_TO_CHAR = {
   kamykazeUnlocked: "camilly",
   yvelUnlocked: "lucas",
   babidiUnlocked: "lucaua",
-  riquelsonUnlocked: "riquelme",
+  natsukiUnlocked: "riquelme",
 } as const satisfies Record<string, CharacterId>;
 
 export type UnlockFlagId = keyof typeof UNLOCK_FLAG_TO_CHAR;

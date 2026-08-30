@@ -22,7 +22,7 @@ const CHAR_UNLOCK_FLAGS: Record<string, FlagId> = {
   camilly: "kamykazeUnlocked",
   lucas: "yvelUnlocked",
   lucaua: "babidiUnlocked",
-  riquelme: "riquelsonUnlocked",
+  riquelme: "natsukiUnlocked",
 };
 
 export type DefeatMenuSelection = "retry" | "flee" | "characterSelect";

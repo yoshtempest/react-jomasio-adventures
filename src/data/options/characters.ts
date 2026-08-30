@@ -11,6 +11,6 @@ export const CHARACTERS: CharacterOption[] = [
   { name: "Camy Kaze", image: "camilly", selectable: true },
   { name: "Yvel", image: "lucas", selectable: true },
   { name: "Babidi", image: "lucaua", selectable: true },
-  { name: "Riquelson", image: "riquelme", selectable: true },
+  { name: "Natsuki", image: "riquelme", selectable: true },
   { name: "Levi", image: "levi", selectable: true },
 ];

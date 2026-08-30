@@ -28,7 +28,7 @@ export function createSounds() {
     srGuaxinimDefeat: sfx("player/artur/defeat.mp3"),
     blink: sfx("blink.mp3"),
     explosion: sfx("explosion.mp3"),
-    riquelsonSpecial: sfx("player/riquelme/special.mp3"),
+    natsukiSpecial: sfx("player/riquelme/special.mp3"),
     kokusen: sfx("player/riquelme/kokusen.mp3"),
     impact: sfx("impact.mp3"),
     slimitaJump: sfx("npc/slimita/jump.mp3"),

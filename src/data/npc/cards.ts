@@ -205,9 +205,9 @@ export const NPC_CARDS: Record<string, NpcCard> = {
   ),
   duque: makeCard(
     "duque",
-    "Carta de Cachorro de Riquelson",
+    "Carta de Cachorro de Natsuki",
     "epic",
-    "O cachorro do Riquelson. Ele morde. Muito.",
+    "O cachorro do Natsuki. Ele morde. Muito.",
     "3000000003",
     { coins: 500, hyperCoins: 5, stats: { strength: 8, hp: 4 } },
   ),
