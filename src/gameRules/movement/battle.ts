@@ -23,9 +23,18 @@ export function isPlayerRestrained(player: Player) {
   return false;
 }
 
+/** Artur fica travado (sem mover/crouch/dash) enquanto segura o ataque (attack.svg). */
+export function isPlayerAttackHolding(player: Player) {
+  return (
+    player.character === "artur" &&
+    (player.state === "attack" || player.state === "preAttack")
+  );
+}
+
 export function canAct(player: Player) {
   if (isPlayerFrozen(player)) return false;
   if (isPlayerRestrained(player)) return false;
+  if (isPlayerAttackHolding(player)) return false;
   return (
     player.mode === "battle" &&
     player.state !== "blocked" &&
@@ -138,7 +147,8 @@ export function dashLeftBattle(p: Player): Player {
   if (
     p.mode !== "battle" ||
     isPlayerFrozen(p) ||
-    CROUCHED_STATES.has(p.state)
+    CROUCHED_STATES.has(p.state) ||
+    isPlayerAttackHolding(p)
   ) {
     return p;
   }
@@ -149,7 +159,8 @@ export function dashRightBattle(p: Player): Player {
   if (
     p.mode !== "battle" ||
     isPlayerFrozen(p) ||
-    CROUCHED_STATES.has(p.state)
+    CROUCHED_STATES.has(p.state) ||
+    isPlayerAttackHolding(p)
   ) {
     return p;
   }

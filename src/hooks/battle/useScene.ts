@@ -925,7 +925,7 @@ export function useBattleScene({
     ];
   }, [player.character, npc.x, npc.y, summons]);
 
-  const { oraPress, punches: extraPunches } = useArturOraPunch({
+  const { oraPress, oraRelease, punches: extraPunches } = useArturOraPunch({
     player,
     setPlayer,
     onPunchHit: handleExtraPunch,
@@ -1046,6 +1046,9 @@ export function useBattleScene({
   const skipSpecialHitOnPress =
     getSpecialFlowOverride(player.character) !== null;
 
+  // Artur não usa o charge (segurar onConfirm = ORA ORA). Os demais mantêm.
+  const canCharge = player.character !== "artur";
+
   const activateSpecial = useCallback(() => {
     if (freezeActionsUntilRef.current > Date.now()) return;
     if (isGrabbedRef.current && grabFlippedRef.current) return;
@@ -1115,18 +1118,25 @@ export function useBattleScene({
     playerState: player.state,
     skipSpecialHitOnPress,
     openSpecial,
-    onChargePress: () => {
-      if (freezeActionsUntilRef.current > Date.now()) return;
-      charge.startCharge();
-    },
-    onChargeRelease: () => {
-      if (freezeActionsUntilRef.current > Date.now()) return;
-      charge.releaseCharge();
-    },
-    onChargeCancel: () => {
-      if (freezeActionsUntilRef.current > Date.now()) return;
-      charge.cancelCharge();
-    },
+    onChargePress: canCharge
+      ? () => {
+          if (freezeActionsUntilRef.current > Date.now()) return;
+          charge.startCharge();
+        }
+      : undefined,
+    onChargeRelease: canCharge
+      ? () => {
+          if (freezeActionsUntilRef.current > Date.now()) return;
+          charge.releaseCharge();
+        }
+      : undefined,
+    onChargeCancel: canCharge
+      ? () => {
+          if (freezeActionsUntilRef.current > Date.now()) return;
+          charge.cancelCharge();
+        }
+      : undefined,
+    onComboRelease: oraRelease,
   });
 
   const npcMaxHpForRegen = battle.npcMaxHp;

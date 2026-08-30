@@ -9,6 +9,7 @@ import {
   blockEnd,
   idleBattle,
   crouchToggle,
+  isPlayerAttackHolding,
 } from "@/gameRules/movement/battle";
 
 import { canJump } from "@/gameRules/movement/state";
@@ -106,6 +107,7 @@ export function useBattleMovement(
     intervalRef.current = setInterval(() => {
       if (isFrozenBySpecial()) return;
       setPlayer((p) => {
+        if (isPlayerAttackHolding(p)) return p;
         const moved = stepFn(p);
         if (checkHorizontalBlock(moved)) return p;
         return moved;
@@ -157,6 +159,7 @@ export function useBattleMovement(
     if (!canJump(isJumping.current)) return;
 
     setPlayer((p) => {
+      if (isPlayerAttackHolding(p)) return p;
       if (isPlayerFrozen(p)) return p;
 
       const tree = getSkillTree(p.character);
@@ -189,6 +192,7 @@ export function useBattleMovement(
     downLockRef.current = true;
     lastBlockPressRef.current = Date.now();
     setPlayer((p) => {
+      if (isPlayerAttackHolding(p)) return p;
       if (isPlayerFrozen(p)) return p;
       return blockStart(p);
     });
@@ -197,12 +201,16 @@ export function useBattleMovement(
   function blockEndAction() {
     if (!downLockRef.current) return;
     downLockRef.current = false;
-    setPlayer((p) => blockEnd(p));
+    setPlayer((p) => {
+      if (isPlayerAttackHolding(p)) return p;
+      return blockEnd(p);
+    });
   }
 
   function toggleCrouch() {
     if (isFrozenBySpecial()) return;
     setPlayer((p) => {
+      if (isPlayerAttackHolding(p)) return p;
       if (isPlayerFrozen(p)) return p;
       return crouchToggle(p);
     });
@@ -218,6 +226,9 @@ export function useBattleMovement(
       }
       if (p.state === "blocked") return { ...p, state: "blockAttack" };
       if (p.state !== "idle") return p;
+      if (p.character === "artur") {
+        return { ...p, state: "attack" };
+      }
       if (p.character === "riquelme") {
         return {
           ...p,
@@ -267,6 +278,13 @@ export function useBattleMovement(
     dashIntervalRef.current = setInterval(() => {
       stepCount++;
       setPlayer((p) => {
+        if (isPlayerAttackHolding(p)) {
+          if (dashIntervalRef.current) {
+            clearInterval(dashIntervalRef.current);
+            dashIntervalRef.current = null;
+          }
+          return p;
+        }
         if (stepCount >= steps) {
           if (dashIntervalRef.current) {
             clearInterval(dashIntervalRef.current);

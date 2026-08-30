@@ -17,6 +17,8 @@ type Props = {
   onChargePress?: () => void;
   onChargeRelease?: () => void;
   onChargeCancel?: () => void;
+  /** Chamado no onConfirmRelease quando não há charge (ex.: hold do artur). */
+  onComboRelease?: () => void;
 };
 
 const HOLD_DISCRIMINATOR = 150;
@@ -35,6 +37,7 @@ export function useBattleControls({
   onChargePress,
   onChargeRelease,
   onChargeCancel,
+  onComboRelease,
 }: Props) {
   const { pushControls } = useGameControls();
 
@@ -48,6 +51,7 @@ export function useBattleControls({
   const chargePressRef = useLatestRef(onChargePress ?? (() => {}));
   const chargeReleaseRef = useLatestRef(onChargeRelease ?? (() => {}));
   const chargeCancelRef = useLatestRef(onChargeCancel ?? (() => {}));
+  const comboReleaseRef = useLatestRef(onComboRelease ?? (() => {}));
 
   const hasChargeRef = useLatestRef(!!onChargePress);
   const skipSpecialHitRef = useLatestRef(skipSpecialHitOnPress);
@@ -93,7 +97,9 @@ export function useBattleControls({
             isHoldingCharge = false;
             chargeReleaseRef.current();
           }
-        : undefined,
+        : () => {
+            comboReleaseRef.current();
+          },
 
       onCancel: () => {
         blockStartRef.current();
@@ -157,6 +163,7 @@ export function useBattleControls({
     chargeCancelRef,
     chargePressRef,
     chargeReleaseRef,
+    comboReleaseRef,
     playerHitRef,
     specialHitRef,
     specialRef,

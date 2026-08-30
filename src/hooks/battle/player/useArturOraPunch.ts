@@ -26,12 +26,13 @@ type Props = {
   multiplierRef: React.RefObject<() => number>;
 };
 
-const PUNCH_LIFETIME_MS = 5000;
+const PUNCH_LIFETIME_MS = 500;
 const PUNCH_SPAWN_INTERVAL_MS = 30;
-const PUNCH_FINALIZE_MS = 150;
+const PUNCH_FINALIZE_MS = 300;
 const PUNCH_MOVE_TICK_MS = 16;
 const PUNCH_MOVE_FACTOR = 0.22;
 const PUNCH_TARGET_JITTER = 60;
+const PUNCH_MIN_DISTANCE_MS = 50;
 
 export function useArturOraPunch({
   player,
@@ -50,6 +51,7 @@ export function useArturOraPunch({
   const finalizeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const idCounterRef = useRef(0);
   const lastSpawnRef = useRef(0);
+  const confirmHeldRef = useRef(false);
 
   const getMultiplier = useCallback(() => {
     const active = punchesRef.current.length;
@@ -58,11 +60,17 @@ export function useArturOraPunch({
 
   multiplierRef.current = getMultiplier;
 
-  // Finaliza a animação de ataque 150ms após o último clique.
+  // Enquanto o botão de ataque estiver pressionado, re-arma o timer para o
+  // personagem continuar em attack.svg; ao soltar, sai 300ms depois.
+  const armFinalizeRef = useRef<() => void>(() => {});
   const armFinalize = useCallback(() => {
     if (finalizeTimerRef.current) clearTimeout(finalizeTimerRef.current);
     finalizeTimerRef.current = setTimeout(() => {
       finalizeTimerRef.current = null;
+      if (confirmHeldRef.current) {
+        armFinalizeRef.current();
+        return;
+      }
       setPlayer((p) =>
         p.character === "artur" &&
         p.mode === "battle" &&
@@ -72,10 +80,14 @@ export function useArturOraPunch({
       );
     }, PUNCH_FINALIZE_MS);
   }, [setPlayer]);
+  armFinalizeRef.current = armFinalize;
 
   // Ao entrar na pose de ataque, arma o timer que só desarma com novos cliques.
   useEffect(() => {
-    if (player.character !== "artur" || player.state !== "attack") return;
+    if (player.character !== "artur" || player.state !== "attack") {
+      confirmHeldRef.current = false;
+      return;
+    }
     armFinalize();
   }, [player.character, player.state, armFinalize]);
 
@@ -94,16 +106,33 @@ export function useArturOraPunch({
 
     lastSpawnRef.current = now;
 
-    // Localizações diferentes ao redor do personagem do jogador.
-    const angle = Math.random() * Math.PI * 2;
-    const radius = 25 + Math.random() * 35;
+    // Localizações diferentes ao redor do personagem, sempre respeitando a
+    // distância mínima (50px) dos punches já existentes.
+    let sx = player.x;
+    let sy = player.y;
+    for (let attempt = 0; attempt < 24; attempt++) {
+      const angle = Math.random() * Math.PI * 2;
+      const radius = 25 + Math.random() * 35;
+      const cx = player.x + Math.cos(angle) * radius;
+      const cy = player.y + Math.sin(angle) * radius;
+      if (
+        punchesRef.current.every(
+          (p) => Math.hypot(p.x - cx, p.y - cy) >= PUNCH_MIN_DISTANCE_MS,
+        )
+      ) {
+        sx = cx;
+        sy = cy;
+        break;
+      }
+    }
+
     const id = idCounterRef.current++;
     setPunches((prev) => [
       ...prev,
       {
         id,
-        x: player.x + Math.cos(angle) * radius,
-        y: player.y + Math.sin(angle) * radius,
+        x: sx,
+        y: sy,
         targetX: target.x + (Math.random() - 0.5) * PUNCH_TARGET_JITTER,
         targetY: target.y + (Math.random() - 0.5) * PUNCH_TARGET_JITTER,
         born: now,
@@ -124,11 +153,20 @@ export function useArturOraPunch({
 
   const oraPress = useCallback(() => {
     if (player.character !== "artur") return;
-    if (player.state !== "preAttack" && player.state !== "attack") return;
+    confirmHeldRef.current = true;
+    if (player.state !== "preAttack" && player.state !== "attack") {
+      armFinalize();
+      return;
+    }
     spawnPunch();
-  }, [player.character, player.state, spawnPunch]);
+  }, [player.character, player.state, spawnPunch, armFinalize]);
 
-  // Movimento em direção ao alvo + vida de 1s.
+  const oraRelease = useCallback(() => {
+    confirmHeldRef.current = false;
+    armFinalize();
+  }, [armFinalize]);
+
+  // Movimento em direção ao alvo + vida de 1s + separação mínima de 50px.
   useEffect(() => {
     const id = window.setInterval(() => {
       const now = Date.now();
@@ -144,7 +182,7 @@ export function useArturOraPunch({
           const dy = p.targetY - p.y;
           const dist = Math.hypot(dx, dy);
           if (dist < 2) {
-            next.push(p);
+            next.push({ ...p });
           } else {
             changed = true;
             const step = Math.min(dist, dist * PUNCH_MOVE_FACTOR);
@@ -155,6 +193,29 @@ export function useArturOraPunch({
             });
           }
         }
+
+        if (next.length > 1) {
+          for (let i = 0; i < next.length - 1; i++) {
+            for (let j = i + 1; j < next.length; j++) {
+              const a = next[i]!;
+              const b = next[j]!;
+              const dx = b.x - a.x;
+              const dy = b.y - a.y;
+              const dist = Math.hypot(dx, dy);
+              if (dist > 0 && dist < PUNCH_MIN_DISTANCE_MS) {
+                const push = (PUNCH_MIN_DISTANCE_MS - dist) / 2;
+                const ux = dx / dist;
+                const uy = dy / dist;
+                a.x -= ux * push;
+                a.y -= uy * push;
+                b.x += ux * push;
+                b.y += uy * push;
+                changed = true;
+              }
+            }
+          }
+        }
+
         return changed ? next : prev;
       });
     }, PUNCH_MOVE_TICK_MS);
@@ -166,6 +227,7 @@ export function useArturOraPunch({
 
   return {
     oraPress,
+    oraRelease,
     punches: punchesVisual,
     getMultiplier,
   };

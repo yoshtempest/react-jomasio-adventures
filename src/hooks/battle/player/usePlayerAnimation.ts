@@ -50,13 +50,14 @@ export function usePlayerAnimation(
     }
 
     let gameDuration = step.duration;
-    // O ataque do artur só finaliza quando o último punch passa (ORA hold).
+    // O ataque do artur não auto-avança: o hold (ORA) em useArturOraPunch é o
+    // único responsável por sair da pose de ataque (300ms após o último click).
     if (
       player.state === "attack" &&
       player.character === "artur" &&
       player.mode === "battle"
     ) {
-      gameDuration = Number.MAX_SAFE_INTEGER;
+      return;
     }
     if (player.state === "stun" && tenacityRef.current?.current != null) {
       gameDuration = Math.round(
