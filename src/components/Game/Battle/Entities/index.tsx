@@ -86,6 +86,7 @@ export function BattleEntities({
 
       <GroundPaper
         papers={npc.groundPapers}
+        flyingPaper={npc.flyingPaper}
         battleScaleX={battleScaleX}
         battleScaleY={battleScaleY}
       />

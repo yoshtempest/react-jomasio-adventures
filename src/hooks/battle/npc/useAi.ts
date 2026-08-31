@@ -318,11 +318,13 @@ export function useNpcAI({
   };
 
   const groundPapers = npc.ai?.maugrelo?.groundPapers ?? [];
+  const flyingPaper = npc.ai?.maugrelo?.flyingPaper ?? null;
 
   return {
     ...npc,
     projectile,
     groundPapers,
+    flyingPaper,
     resetNpc,
     updateNpc,
   };

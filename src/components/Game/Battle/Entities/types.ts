@@ -1,5 +1,8 @@
 import type { NPCBattleState } from "@/utils/types/npc/npc";
-import type { GroundPaper } from "@/services/npc/attacks/maugrelo/state";
+import type {
+  GroundPaper,
+  FlyingPaper,
+} from "@/services/npc/attacks/maugrelo/state";
 
 export type BattleEntitiesBattle = {
   piercings: { id: number; x: number; y: number }[];
@@ -16,4 +19,5 @@ export type BattleEntityPositioning = {
 export type MainNpcState = NPCBattleState & {
   projectile: Projectile | null;
   groundPapers: GroundPaper[];
+  flyingPaper: FlyingPaper | null;
 };

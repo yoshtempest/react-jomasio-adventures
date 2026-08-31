@@ -1,14 +1,23 @@
 import { useEffect, useRef } from "react";
 import { npcPathProjectile } from "@/utils/paths";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
-import type { GroundPaper as GroundPaperState } from "@/services/npc/attacks/maugrelo/state";
+import type {
+  GroundPaper as GroundPaperState,
+  FlyingPaper,
+} from "@/services/npc/attacks/maugrelo/state";
 import type { BattleEntityPositioning } from "../types";
 
 type Props = BattleEntityPositioning & {
   papers: GroundPaperState[];
+  flyingPaper: FlyingPaper | null;
 };
 
-export function GroundPaper({ papers, battleScaleX, battleScaleY }: Props) {
+export function GroundPaper({
+  papers,
+  flyingPaper,
+  battleScaleX,
+  battleScaleY,
+}: Props) {
   const { playSound } = useSoundEffects();
 
   const explodedPaperIdsRef = useRef<Set<number>>(new Set());
@@ -32,6 +41,20 @@ export function GroundPaper({ papers, battleScaleX, battleScaleY }: Props) {
 
   return (
     <>
+      {flyingPaper && (
+        <img
+          src={npcPathProjectile("/paper.svg")}
+          style={{
+            position: "absolute",
+            left: flyingPaper.x * battleScaleX,
+            top: flyingPaper.y * battleScaleY,
+            width: 60,
+            zIndex: 5,
+            pointerEvents: "none",
+          }}
+        />
+      )}
+
       {papers.map((gp) => (
         <img
           key={gp.id}
