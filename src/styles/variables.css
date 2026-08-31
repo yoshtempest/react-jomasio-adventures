@@ -1,12 +1,15 @@
 :root {
   --primary-color: #121b31;
+  --secondary-color: #fbbf24;
   --background-color: #0a0500;
   --accent-color: #fbbf24;
   --text-color: #ffffff;
+  --text-primary: #ffffff;
   --text-secondary: #aaaaaa;
   --text-muted: #888888;
   --text-hint: #666666;
   --surface-primary: #1a1a2e;
+  --surface-secondary: #20203a;
   --surface-dark: #111111;
   --surface-card: #1a1a1a;
   --border-default: #333333;
@@ -14,6 +17,9 @@
   --success: #4ade80;
   --danger: #ff4444;
   --gold: #ffd700;
+  --bg-color: var(--background-color);
+
+  --font-primary: system-ui, Avenir, Helvetica, Arial, sans-serif;
 
   --smaller: 0.9375vw; /* 12px */
   --small: 1.25vw; /* 16px */
@@ -24,13 +30,21 @@
   --fs-9: 0.703125vw;
   --fs-10: 0.78125vw;
   --fs-11: 0.859375vw;
+  --fs-12: 0.9375vw;
   --fs-13: 1.015625vw;
   --fs-14: 1.09375vw;
   --fs-15: 1.171875vw;
+  --fs-16: 1.25vw;
   --fs-18: 1.40625vw;
+  --fs-20: 1.5625vw;
   --fs-28: 2.1875vw;
   --fs-36: 2.8125vw;
   --fs-42: 3.28125vw;
+
+  --fs-4: 0.3125vw;
+  --fs-6: 0.46875vw;
+  --fs-075: 0.9375vw;
+  --fs-sm: 0.9375vw;
 
   --fs-070: 0.875vw;
   --fs-080: 1vw;
@@ -56,6 +70,7 @@
   --size-4: 0.3125vw;
   --size-5: 0.390625vw;
   --size-6: 0.46875vw;
+  --size-16: 1.25vw;
   --size-22: 1.71875vw;
   --size-30: 2.34375vw;
   --size-32: 2.5vw;
@@ -121,13 +136,21 @@
     --fs-9: 1.25vh;
     --fs-10: 1.388889vh;
     --fs-11: 1.527778vh;
+    --fs-12: 1.666667vh;
     --fs-13: 1.805556vh;
     --fs-14: 1.944444vh;
     --fs-15: 2.083333vh;
+    --fs-16: 2.222222vh;
     --fs-18: 2.5vh;
+    --fs-20: 2.777778vh;
     --fs-28: 3.888889vh;
     --fs-36: 5vh;
     --fs-42: 5.833333vh;
+
+    --fs-4: 0.555556vh;
+    --fs-6: 0.833333vh;
+    --fs-075: 1.666667vh;
+    --fs-sm: 1.666667vh;
 
     --fs-070: 1.215278vh;
     --fs-080: 1.388889vh;
@@ -153,6 +176,7 @@
     --size-4: 0.555556vh;
     --size-5: 0.694444vh;
     --size-6: 0.833333vh;
+    --size-16: 2.222222vh;
     --size-22: 3.055556vh;
     --size-30: 4.166667vh;
     --size-32: 4.444444vh;

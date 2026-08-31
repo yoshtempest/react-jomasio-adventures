@@ -17,7 +17,7 @@
 }
 
 .rank {
-  font-size: var(--fs-36);
+  font-size: var(--fs-42);
   font-weight: 900;
   line-height: 1;
   transition: color 0.3s;
@@ -55,10 +55,6 @@
   font-size: var(--fs-11);
   font-weight: bold;
   color: rgba(255, 255, 255, 0.6);
-}
-
-.rank {
-  font-size: var(--fs-42);
 }
 
 .rankF {
