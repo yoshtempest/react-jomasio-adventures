@@ -535,6 +535,7 @@ export function useBattleScene({
     onGroundPaperHit: () => battle.npcThrowHit(2),
     onPaperExplode: () => {},
     onArmorBuff: (x: number, y: number) => {
+      playSound("shieldStack");
       setNpcArmorBonus((b) => b + 1);
       refs.spawnDamageRef.current?.(1, x, y, "armor");
     },

@@ -117,7 +117,6 @@ export function handleMeditating(
   npcY: number,
   distanceX: number,
   onArmorBuff: BehaviorContext["onArmorBuff"],
-  playSound: BehaviorContext["playSound"],
 ): BehaviorResult {
   if (distanceX <= MELEE_SWITCH_DISTANCE) {
     ai.actionState = "preMove";
@@ -131,7 +130,6 @@ export function handleMeditating(
     ai.meditationArmorBonus += 1;
     ai.lastArmorBuff = now;
     onArmorBuff?.(npcX, npcY);
-    playSound?.("shieldStack");
   }
 
   return { x: npcX, y: npcY, state: "meditating" as const };
