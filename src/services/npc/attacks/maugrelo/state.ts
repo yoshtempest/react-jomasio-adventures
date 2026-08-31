@@ -34,10 +34,17 @@ export type MaugreloAI = {
   meditationArmorBonus: number;
   lastArmorBuff: number;
   walkingStartTime: number;
-  phase2State: "rising" | "orbiting";
+  phase2State:
+    | "rising"
+    | "orbiting"
+    | "descending"
+    | "landing"
+    | "preMove"
+    | "laser";
   riseStartY: number;
   orbitPapers: OrbitPaper[];
   lastPaperFire: number;
+  phase2StageStart: number;
 };
 
 export const PRE_MOVE_DURATION = 300;
@@ -83,6 +90,9 @@ export const ORBIT_RADIUS = 80;
 export const ORBIT_Y_OFFSET = 100;
 export const ORBIT_COUNT = 9;
 export const ORBIT_FIRE_INTERVAL = 500;
+export const PHASE2_DESCEND_SPEED = 5;
+export const PHASE2_LANDING_DURATION = 300;
+export const PHASE2_PREMOVE_DURATION = 100;
 
 export function initMaugreloAi(npcPhase: number = 1): MaugreloAI {
   return {
@@ -105,6 +115,7 @@ export function initMaugreloAi(npcPhase: number = 1): MaugreloAI {
     riseStartY: 0,
     orbitPapers: [],
     lastPaperFire: 0,
+    phase2StageStart: 0,
   };
 }
 

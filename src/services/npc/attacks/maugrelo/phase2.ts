@@ -7,6 +7,9 @@ import type { MaugreloAI, GroundPaper } from "./state";
 import {
   PHASE2_RISE_DISTANCE,
   PHASE2_RISE_SPEED,
+  PHASE2_DESCEND_SPEED,
+  PHASE2_LANDING_DURATION,
+  PHASE2_PREMOVE_DURATION,
   ORBIT_RADIUS,
   ORBIT_Y_OFFSET,
   ORBIT_COUNT,
@@ -81,6 +84,8 @@ export function maugreloPhase2(
   const { npc } = ctx;
   const now = Date.now();
 
+  const orbitingY = ai.riseStartY - PHASE2_RISE_DISTANCE;
+
   if (ai.phase2State === "rising") {
     if (ai.riseStartY === 0) ai.riseStartY = npc.y;
 
@@ -89,6 +94,7 @@ export function maugreloPhase2(
       ai.phase2State = "orbiting";
       ai.orbitPapers = [];
       distributeOrbitPapers(ai, ORBIT_COUNT);
+      ai.phase2StageStart = now;
     } else {
       return {
         x: npc.x,
@@ -98,10 +104,52 @@ export function maugreloPhase2(
     }
   }
 
-  const orbitingY = ai.riseStartY - PHASE2_RISE_DISTANCE;
-  ai.groundPapers = orbitPositions(ai, npc.x, orbitingY);
+  if (ai.phase2State === "orbiting") {
+    ai.groundPapers = orbitPositions(ai, npc.x, orbitingY);
 
-  handleFirePaper(ai, ctx, npc.x, orbitingY, now);
+    if (ai.orbitPapers.length === 0) {
+      ai.phase2State = "descending";
+      ai.phase2StageStart = now;
+      ai.groundPapers = [];
+    } else {
+      handleFirePaper(ai, ctx, npc.x, orbitingY, now);
+    }
 
-  return { x: npc.x, y: orbitingY, state: "flying" };
+    return { x: npc.x, y: orbitingY, state: "flying" };
+  }
+
+  if (ai.phase2State === "descending") {
+    const x = npc.x;
+    const nextY = npc.y + PHASE2_DESCEND_SPEED;
+
+    if (nextY >= ai.riseStartY) {
+      ai.phase2State = "landing";
+      ai.phase2StageStart = now;
+      return { x, y: ai.riseStartY, state: "landing" };
+    }
+
+    return { x, y: nextY, state: "flying" };
+  }
+
+  if (ai.phase2State === "landing") {
+    if (now - ai.phase2StageStart >= PHASE2_LANDING_DURATION) {
+      ai.phase2State = "preMove";
+      ai.phase2StageStart = now;
+      return { x: npc.x, y: ai.riseStartY, state: "preMove" };
+    }
+
+    return { x: npc.x, y: ai.riseStartY, state: "landing" };
+  }
+
+  if (ai.phase2State === "preMove") {
+    if (now - ai.phase2StageStart >= PHASE2_PREMOVE_DURATION) {
+      ai.phase2State = "laser";
+      ai.phase2StageStart = now;
+      return { x: npc.x, y: ai.riseStartY, state: "laser" };
+    }
+
+    return { x: npc.x, y: ai.riseStartY, state: "preMove" };
+  }
+
+  return { x: npc.x, y: ai.riseStartY, state: "laser" };
 }
