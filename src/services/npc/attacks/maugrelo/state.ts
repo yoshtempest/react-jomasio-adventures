@@ -17,6 +17,7 @@ export type MaugreloAI = {
   actionState: "idle" | "preMove" | "action" | "postAction" | "meditating";
   actionStart: number;
   currentAction: "throw" | "slap" | "push" | null;
+  meleeHitTriggered: boolean;
   lastThrow: number;
   lastSlap: number;
   lastPush: number;
@@ -31,6 +32,8 @@ export type MaugreloAI = {
 
 export const PRE_MOVE_DURATION = 300;
 export const THROW_ACTIVE_DURATION = 200;
+export const SLAP_ACTIVE_DURATION = 300;
+export const PUSH_ACTIVE_DURATION = 300;
 export const POST_ACTION_COOLDOWN = 300;
 
 export const SLAP_RANGE = 50;
@@ -69,6 +72,7 @@ export function initMaugreloAi(): MaugreloAI {
     actionState: "idle",
     actionStart: 0,
     currentAction: null,
+    meleeHitTriggered: false,
     lastThrow: 0,
     lastSlap: 0,
     lastPush: 0,

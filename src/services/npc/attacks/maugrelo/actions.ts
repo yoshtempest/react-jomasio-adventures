@@ -12,6 +12,8 @@ import type { MaugreloAI } from "./state";
 import {
   PRE_MOVE_DURATION,
   THROW_ACTIVE_DURATION,
+  SLAP_ACTIVE_DURATION,
+  PUSH_ACTIVE_DURATION,
   POST_ACTION_COOLDOWN,
   SLAP_RANGE,
   PUSH_RANGE,
@@ -34,6 +36,7 @@ export function handlePreMove(
   playSound: BehaviorContext["playSound"],
 ): BehaviorResult {
   ai.walkingStartTime = 0;
+  ai.meleeHitTriggered = false;
 
   if (now - ai.actionStart >= PRE_MOVE_DURATION) {
     ai.actionState = "action";
@@ -41,7 +44,7 @@ export function handlePreMove(
 
     if (ai.currentAction === "throw") {
       spawnFlyingPaper(npcX, npcY, playerX, ai);
-      playSound?.("knifeAttack");
+      playSound?.("throwPaper");
     }
   }
 
@@ -66,18 +69,28 @@ export function handleAction(
   }
 
   if (ai.currentAction === "slap") {
-    onMeleeHit();
-    playSound?.("knifeAttack");
-    ai.actionState = "postAction";
-    ai.actionStart = now;
+    if (!ai.meleeHitTriggered) {
+      ai.meleeHitTriggered = true;
+      onMeleeHit();
+      playSound?.("slap");
+    }
+    if (now - ai.actionStart >= SLAP_ACTIVE_DURATION) {
+      ai.actionState = "postAction";
+      ai.actionStart = now;
+    }
     return { x: npcX, y: npcY, state: "slap" as const };
   }
 
   if (ai.currentAction === "push") {
-    onPushPlayer?.(npcX);
-    playSound?.("boom");
-    ai.actionState = "postAction";
-    ai.actionStart = now;
+    if (!ai.meleeHitTriggered) {
+      ai.meleeHitTriggered = true;
+      onPushPlayer?.(npcX);
+      playSound?.("boom");
+    }
+    if (now - ai.actionStart >= PUSH_ACTIVE_DURATION) {
+      ai.actionState = "postAction";
+      ai.actionStart = now;
+    }
     return { x: npcX, y: npcY, state: "push" as const };
   }
 
@@ -94,7 +107,7 @@ export function handlePostAction(
     ai.actionState = "idle";
     ai.currentAction = null;
   }
-  return { x: npcX, y: npcY, state: "idle" as const };
+  return { x: npcX, y: npcY };
 }
 
 export function handleMeditating(
@@ -104,6 +117,7 @@ export function handleMeditating(
   npcY: number,
   distanceX: number,
   onArmorBuff: BehaviorContext["onArmorBuff"],
+  playSound: BehaviorContext["playSound"],
 ): BehaviorResult {
   if (distanceX <= MELEE_SWITCH_DISTANCE) {
     ai.actionState = "preMove";
@@ -117,6 +131,7 @@ export function handleMeditating(
     ai.meditationArmorBonus += 1;
     ai.lastArmorBuff = now;
     onArmorBuff?.(npcX, npcY);
+    playSound?.("shieldStack");
   }
 
   return { x: npcX, y: npcY, state: "meditating" as const };
