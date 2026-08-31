@@ -45,7 +45,8 @@ type Props = {
     | "run"
     | "slap"
     | "push"
-    | "meditating";
+    | "meditating"
+    | "flying";
   direction: "left" | "right";
   piercings?: { id: number; x: number; y: number }[];
   isExploding?: boolean;

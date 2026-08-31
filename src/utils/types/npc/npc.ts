@@ -35,7 +35,8 @@ export type NPCBattleState = {
     | "run"
     | "slap"
     | "push"
-    | "meditating";
+    | "meditating"
+    | "flying";
   direction: NPCDirection;
   jumpLandingX?: number;
 

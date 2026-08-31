@@ -13,7 +13,13 @@ export type FlyingPaper = {
   velY: number;
 };
 
+export type OrbitPaper = {
+  id: number;
+  angle: number;
+};
+
 export type MaugreloAI = {
+  knownPhase: number;
   actionState: "idle" | "preMove" | "action" | "postAction" | "meditating";
   actionStart: number;
   currentAction: "throw" | "slap" | "push" | null;
@@ -28,6 +34,10 @@ export type MaugreloAI = {
   meditationArmorBonus: number;
   lastArmorBuff: number;
   walkingStartTime: number;
+  phase2State: "rising" | "orbiting";
+  riseStartY: number;
+  orbitPapers: OrbitPaper[];
+  lastPaperFire: number;
 };
 
 export const PRE_MOVE_DURATION = 300;
@@ -67,8 +77,16 @@ export const PAPER_STEP_RADIUS = 30;
 export const PAPER_STEP_VERTICAL_RANGE = 60;
 export const PAPER_ATTACK_RANGE = 200;
 
-export function initMaugreloAi(): MaugreloAI {
+export const PHASE2_RISE_DISTANCE = 300;
+export const PHASE2_RISE_SPEED = 3;
+export const ORBIT_RADIUS = 80;
+export const ORBIT_Y_OFFSET = 100;
+export const ORBIT_COUNT = 9;
+export const ORBIT_FIRE_INTERVAL = 500;
+
+export function initMaugreloAi(npcPhase: number = 1): MaugreloAI {
   return {
+    knownPhase: npcPhase,
     actionState: "idle",
     actionStart: 0,
     currentAction: null,
@@ -83,5 +101,20 @@ export function initMaugreloAi(): MaugreloAI {
     meditationArmorBonus: 0,
     lastArmorBuff: 0,
     walkingStartTime: 0,
+    phase2State: "rising",
+    riseStartY: 0,
+    orbitPapers: [],
+    lastPaperFire: 0,
   };
+}
+
+export function handlePhaseChange(ai: MaugreloAI, npcPhase: number): void {
+  ai.knownPhase = npcPhase;
+  ai.phase2State = "rising";
+  ai.orbitPapers = [];
+  ai.lastPaperFire = 0;
+  ai.actionState = "idle";
+  ai.currentAction = null;
+  ai.flyingPaper = null;
+  ai.groundPapers = [];
 }
