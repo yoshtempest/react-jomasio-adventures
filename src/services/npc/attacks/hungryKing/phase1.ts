@@ -5,6 +5,7 @@ import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
 import type { NPCBattleState } from "@/utils/types/npc/npc";
 import type { HungryKingAI } from "./state";
 import {
+  MELEE_RANGE,
   JUMP_DURATION,
   JUMP_THRESHOLD,
   JUMP_HEIGHT,
@@ -42,14 +43,14 @@ export function hungryKingPhase1(
 
   // ── idle (normal chase + melee + jump start) ─────
   if (ai.jumpState === "idle") {
-    const { x } = chasePlayer(npc, targetX, targetY);
+    const { x } = chasePlayer(npc, targetX, targetY, 1, MELEE_RANGE);
 
     tryMeleeAttack({
       npcX: npc.x,
       npcY: npc.y,
       playerX: targetX,
       playerY: targetY,
-      range: 40,
+      range: MELEE_RANGE,
       cooldown: NPC_MELEE_COOLDOWN,
       lastAttackRef,
       onHit: onMeleeHit,

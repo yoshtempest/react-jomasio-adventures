@@ -195,7 +195,7 @@ export function handleIdle(
       }
     }
 
-    const { x } = getChaseMovement(npcX, npcY, playerX, playerY);
+    const { x } = getChaseMovement(npcX, npcY, playerX, playerY, 1, SLAP_RANGE);
     return { x, y: npcY };
   }
 
@@ -207,6 +207,13 @@ export function handleIdle(
   const speedMultiplier = isRunning ? NPC_RUNNING_SPEED / NPC_BASE_SPEED : 1;
   const chaseState = isRunning ? ("run" as const) : ("walk" as const);
 
-  const { x } = getChaseMovement(npcX, npcY, playerX, playerY, speedMultiplier);
+  const { x } = getChaseMovement(
+    npcX,
+    npcY,
+    playerX,
+    playerY,
+    speedMultiplier,
+    SLAP_RANGE,
+  );
   return { x, y: npcY, state: chaseState };
 }

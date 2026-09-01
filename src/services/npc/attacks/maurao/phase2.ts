@@ -36,7 +36,7 @@ export function mauraoPhase2(
     }
 
     const dx = targetX - npc.x;
-    const step = Math.min(Math.abs(dx), SPIN_MOVE_SPEED);
+    const step = Math.hypot(dx, 0) <= SPIN_MELEE_RANGE ? 0 : Math.min(Math.abs(dx), SPIN_MOVE_SPEED);
     const newX = npc.x + Math.sign(dx) * step;
 
     if (now - ai.lastSpinHit >= SPIN_HIT_INTERVAL) {
@@ -82,6 +82,6 @@ export function mauraoPhase2(
     return { x: npc.x, y: npc.y, state: "startSpin" as const };
   }
 
-  const { x } = chasePlayer(npc, targetX, playerY);
+  const { x } = chasePlayer(npc, targetX, playerY, 1, SPIN_MELEE_RANGE);
   return { x, y: npc.y };
 }

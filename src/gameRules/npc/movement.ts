@@ -6,6 +6,7 @@ export function chasePlayer(
   playerX: number,
   playerY: number,
   speedMultiplier: number = 1,
+  stopDistance: number = 10,
 ) {
-  return getChaseMovement(npc.x, npc.y, playerX, playerY, speedMultiplier);
+  return getChaseMovement(npc.x, npc.y, playerX, playerY, speedMultiplier, stopDistance);
 }

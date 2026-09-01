@@ -144,6 +144,6 @@ export function mauraoPhase1(
 
   // --- DEFAULT: CHASE ---
 
-  const { x } = chasePlayer(npc, targetX, playerY);
+  const { x } = chasePlayer(npc, targetX, playerY, 1, DASH_RANGE);
   return { x, y: npc.y };
 }

@@ -9,6 +9,7 @@ import type {
 import type { NPCBattleState } from "@/utils/types/npc/npc";
 import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
 
+const MELEE_RANGE = 40;
 const JUMP_COOLDOWN = 3000;
 const JUMP_DURATION = 1200;
 const JUMP_THRESHOLD = 200;
@@ -56,14 +57,14 @@ export class GoatAttack extends NpcAttack {
     }
 
     if (ai.jumpState === "idle") {
-      const { x } = chasePlayer(npc, targetX, targetY);
+      const { x } = chasePlayer(npc, targetX, targetY, 1, MELEE_RANGE);
 
       const hit = tryMeleeAttack({
         npcX: npc.x,
         npcY: npc.y,
         playerX: targetX,
         playerY: targetY,
-        range: 40,
+        range: MELEE_RANGE,
         cooldown: NPC_MELEE_COOLDOWN,
         lastAttackRef,
         onHit: onMeleeHit,

@@ -26,19 +26,21 @@ export abstract class NpcAttack {
   abstract execute(ctx: BehaviorContext): BehaviorResult;
 }
 
+const MELEE_RANGE = 40;
+
 /** Ataque padrão: perseguir o player e dar melee quando perto. */
 export class DefaultNpcAttack extends NpcAttack {
   execute(ctx: BehaviorContext): BehaviorResult {
     const { npc, targetX, targetY, lastAttackRef, onMeleeHit } = ctx;
 
-    const { x } = chasePlayer(npc, targetX, targetY);
+    const { x } = chasePlayer(npc, targetX, targetY, 1, MELEE_RANGE);
 
     tryMeleeAttack({
       npcX: npc.x,
       npcY: npc.y,
       playerX: targetX,
       playerY: targetY,
-      range: 40,
+      range: MELEE_RANGE,
       cooldown: NPC_MELEE_COOLDOWN,
       lastAttackRef,
       onHit: onMeleeHit,

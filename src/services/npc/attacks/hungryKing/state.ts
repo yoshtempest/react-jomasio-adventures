@@ -13,6 +13,7 @@ export type HungryKingAI = {
 import { JUMP_COOLDOWN } from "@/data/cooldowns";
 
 export { JUMP_COOLDOWN };
+export const MELEE_RANGE = 40;
 export const JUMP_DURATION = 1500;
 export const JUMP_THRESHOLD = 200;
 export const JUMP_HEIGHT = 220;

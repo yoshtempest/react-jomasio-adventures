@@ -53,7 +53,7 @@ export class JhowsimarAttack extends NpcAttack {
       }
     }
 
-    const { x } = chasePlayer(npc, targetX, targetY);
+    const { x } = chasePlayer(npc, targetX, targetY, 1, MELEE_RANGE);
     const inRange = isNear(npc.x, npc.y, targetX, targetY, MELEE_RANGE);
     const readyToAttack = canAttack(lastAttackRef, NPC_MELEE_COOLDOWN);
 

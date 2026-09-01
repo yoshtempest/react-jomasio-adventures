@@ -72,7 +72,7 @@ export class VandinhaFragmentAttack extends NpcAttack {
         if (distanceX <= MELEE_RANGE) {
           return { x: npc.x, y: npc.y, state: "walk" as const };
         }
-        const { x } = chasePlayer(npc, targetX, targetY);
+        const { x } = chasePlayer(npc, targetX, targetY, 1, MELEE_RANGE);
         return { x, y: npc.y, state: "walk" as const };
       }
 
@@ -80,7 +80,7 @@ export class VandinhaFragmentAttack extends NpcAttack {
         return { x: npc.x, y: npc.y };
       }
 
-      const { x } = chasePlayer(npc, targetX, targetY);
+      const { x } = chasePlayer(npc, targetX, targetY, 1, MELEE_RANGE);
       return { x, y: npc.y };
     }
 

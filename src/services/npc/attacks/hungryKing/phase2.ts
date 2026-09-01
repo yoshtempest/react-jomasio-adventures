@@ -4,6 +4,7 @@ import { tryMeleeAttack } from "@/gameRules/npc/attack";
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
 import type { NPCBattleState } from "@/utils/types/npc/npc";
 import type { HungryKingAI } from "./state";
+import { MELEE_RANGE } from "./state";
 
 const INVOKING_DURATION = 2000;
 
@@ -27,14 +28,14 @@ export function hungryKingPhase2(
     return { x: npc.x, y: npc.y, state: "pitch" };
   }
 
-  const { x } = chasePlayer(npc, targetX, targetY);
+  const { x } = chasePlayer(npc, targetX, targetY, 1, MELEE_RANGE);
 
   tryMeleeAttack({
     npcX: npc.x,
     npcY: npc.y,
     playerX: targetX,
     playerY: targetY,
-    range: 40,
+    range: MELEE_RANGE,
     cooldown: NPC_MELEE_COOLDOWN,
     lastAttackRef,
     onHit: onMeleeHit,

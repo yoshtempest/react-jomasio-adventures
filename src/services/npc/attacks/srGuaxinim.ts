@@ -24,7 +24,7 @@ export class SrGuaxinimAttack extends NpcAttack {
     const { npc, targetX, targetY, lastAttackRef, onMeleeHit } = ctx;
     const now = Date.now();
 
-    const { x } = chasePlayer(npc, targetX, targetY);
+    const { x } = chasePlayer(npc, targetX, targetY, 1, MELEE_RANGE);
 
     const hit = tryMeleeAttack({
       npcX: npc.x,

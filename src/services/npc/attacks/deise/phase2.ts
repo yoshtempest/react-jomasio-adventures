@@ -62,7 +62,7 @@ export function deisePhase2(ctx: BehaviorContext, ai: DeiseAI): Phase2Result {
     }
 
     // Opening spear in flight — chase during this period
-    const { x } = chasePlayer(npc, targetX, targetY);
+    const { x } = chasePlayer(npc, targetX, targetY, 1, 200);
     const meleeHit = tryMeleeAttack({
       npcX: npc.x,
       npcY: npc.y,
@@ -94,7 +94,7 @@ export function deisePhase2(ctx: BehaviorContext, ai: DeiseAI): Phase2Result {
 
   // ── 3. Movement & melee ──
   if (!projectile || projectile.variant !== "rain") {
-    const { x } = chasePlayer(npc, targetX, targetY);
+    const { x } = chasePlayer(npc, targetX, targetY, 1, 200);
     const meleeHit = tryMeleeAttack({
       npcX: npc.x,
       npcY: npc.y,

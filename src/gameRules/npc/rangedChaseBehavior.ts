@@ -75,7 +75,7 @@ export function rangedChaseBehavior(
     };
   }
 
-  const { x } = chasePlayer(npc, targetX, targetY);
+  const { x } = chasePlayer(npc, targetX, targetY, 1, melee?.range ?? 10);
 
   return {
     x,

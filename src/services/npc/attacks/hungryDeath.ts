@@ -61,11 +61,11 @@ export class HungryDeathAttack extends NpcAttack {
     }
 
     if (now - state.lastGrabEndTime < GRAB_COOLDOWN) {
-      const { x } = chasePlayer(npc, targetX, targetY);
+      const { x } = chasePlayer(npc, targetX, targetY, 1, MELEE_RANGE);
       return { x, y: npc.y };
     }
 
-    const { x } = chasePlayer(npc, targetX, targetY);
+    const { x } = chasePlayer(npc, targetX, targetY, 1, MELEE_RANGE);
     const inRange = isNear(npc.x, npc.y, targetX, targetY, MELEE_RANGE);
 
     if (inRange) {
