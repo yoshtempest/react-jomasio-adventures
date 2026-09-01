@@ -9,7 +9,12 @@ export type GroundPaper = {
 export type StuckPaper = {
   id: number;
   stuckAt: number;
+  /** Quando o papel começou a explodir (explosion.svg). undefined = ainda paper.svg. */
+  explodeAt?: number;
 };
+
+/** Tempo que o papel grudado fica mostrando explosion.svg antes de sumir (fade-out). */
+export const STUCK_EXPLOSION_DISAPPEAR_MS = 300;
 
 export type FlyingPaper = {
   x: number;

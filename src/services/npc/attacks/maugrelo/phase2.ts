@@ -65,6 +65,8 @@ export function handleFirePaper(
 
   if (!fired) return;
 
+  ctx.playSound?.("whooshWind");
+
   const firedX = npcX + ORBIT_RADIUS * Math.cos(fired.angle);
   const firedY = npcY - ORBIT_Y_OFFSET + ORBIT_RADIUS * Math.sin(fired.angle);
 
@@ -229,6 +231,7 @@ export function maugreloPhase2(
     if (now - ai.phase2StageStart >= PHASE2_PREMOVE_DURATION) {
       ai.phase2State = "laser";
       ai.phase2StageStart = now;
+      ctx.playSound?.("laser");
       return { x: npc.x, y: ai.riseStartY, state: "laser" };
     }
 

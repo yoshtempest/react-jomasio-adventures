@@ -210,6 +210,8 @@ export function useNpcAI({
         id: maugrelo.paperIdCounter++,
         stuckAt: Date.now(),
       });
+      playSound("paperPreExplode");
+      logPlay("paperPreExplode");
     },
   );
 

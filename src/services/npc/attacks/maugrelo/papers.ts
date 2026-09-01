@@ -12,6 +12,7 @@ import {
   PAPER_STEP_VERTICAL_RANGE,
   PAPER_ATTACK_RANGE,
   STUCK_PAPER_DURATION,
+  STUCK_EXPLOSION_DISAPPEAR_MS,
 } from "./state";
 
 export function spawnFlyingPaper(
@@ -175,11 +176,17 @@ export function updateStuckPapers(
   let exploded = false;
 
   ai.stuckPapers = ai.stuckPapers.filter((sp) => {
-    if (now - sp.stuckAt >= STUCK_PAPER_DURATION) {
-      exploded = true;
-      return false;
+    if (!sp.explodeAt) {
+      if (now - sp.stuckAt >= STUCK_PAPER_DURATION) {
+        // começa a explodir agora → troca para explosion.svg
+        sp.explodeAt = now;
+        exploded = true;
+      }
+      return true;
     }
-    return true;
+
+    // já está explodindo → some após o fade-out
+    return now - sp.explodeAt < STUCK_EXPLOSION_DISAPPEAR_MS;
   });
 
   if (exploded) {
