@@ -8,9 +8,9 @@ type Props = BattleEntityPositioning & {
 export function Laser({ laser, battleScaleX, battleScaleY }: Props) {
   if (!laser || !laser.active) return null;
 
-  const left = Math.min(laser.fromX, laser.toX) * battleScaleX;
+  const left = Math.min(laser.fromX, laser.toX) * battleScaleX - 70;
   const width = Math.abs(laser.toX - laser.fromX) * battleScaleX;
-  const top = laser.fromY * battleScaleY;
+  const top = laser.fromY * battleScaleY + 5;
 
   return (
     <div

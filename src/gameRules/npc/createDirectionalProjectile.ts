@@ -5,6 +5,8 @@ type CommonParams = {
   targetY: number;
   sprite?: string;
   state?: "walk" | "idle";
+  canCrouchDodge?: boolean;
+  landsOnGround?: boolean;
 };
 
 type PullParams = CommonParams & {
@@ -26,6 +28,8 @@ export function createCommonProjectile({
   targetY,
   sprite,
   state = "walk",
+  canCrouchDodge = true,
+  landsOnGround = false,
 }: CommonParams): ProjectileCommon {
   const dx = targetX - startX;
   const dy = targetY - startY;
@@ -42,6 +46,8 @@ export function createCommonProjectile({
     sprite,
     createdAt: Date.now(),
     state,
+    canCrouchDodge,
+    landsOnGround,
   };
 }
 

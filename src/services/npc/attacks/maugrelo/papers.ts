@@ -79,6 +79,15 @@ export function cleanupExplosions(ai: MaugreloAI, now: number) {
     }
     return true;
   });
+  ai.landedPapers = ai.landedPapers.filter((gp) => {
+    if (
+      gp.sprite === "explosion" &&
+      now - gp.createdAt >= PAPER_EXPLOSION_DURATION
+    ) {
+      return false;
+    }
+    return true;
+  });
 }
 
 export function checkGroundPaperHits(
@@ -90,7 +99,9 @@ export function checkGroundPaperHits(
 ) {
   if (!onGroundPaperHit) return;
 
-  for (const gp of ai.groundPapers) {
+  const allPapers = [...ai.groundPapers, ...ai.landedPapers];
+
+  for (const gp of allPapers) {
     if (gp.sprite === "explosion") continue;
     if (gp.id === ai.lastPaperHitId) continue;
 
@@ -117,7 +128,9 @@ export function checkPaperAttackHits(
 ) {
   if (playerState !== "attack") return;
 
-  for (const gp of ai.groundPapers) {
+  const allPapers = [...ai.groundPapers, ...ai.landedPapers];
+
+  for (const gp of allPapers) {
     if (gp.sprite !== "paper") continue;
     if (gp.id === ai.lastPaperHitId) continue;
 

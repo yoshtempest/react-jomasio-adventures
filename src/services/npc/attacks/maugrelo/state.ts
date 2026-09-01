@@ -38,6 +38,7 @@ export type MaugreloAI = {
   lastPush: number;
   flyingPaper: FlyingPaper | null;
   groundPapers: GroundPaper[];
+  landedPapers: GroundPaper[];
   paperIdCounter: number;
   lastPaperHitId: number;
   meditationArmorBonus: number;
@@ -120,6 +121,7 @@ export function initMaugreloAi(npcPhase: number = 1): MaugreloAI {
     lastPush: 0,
     flyingPaper: null,
     groundPapers: [],
+    landedPapers: [],
     paperIdCounter: 0,
     lastPaperHitId: 0,
     meditationArmorBonus: 0,
@@ -144,6 +146,7 @@ export function handlePhaseChange(ai: MaugreloAI, npcPhase: number): void {
   ai.currentAction = null;
   ai.flyingPaper = null;
   ai.groundPapers = [];
+  ai.landedPapers = [];
   ai.laser = null;
   ai.lastLaserDamage = 0;
 }

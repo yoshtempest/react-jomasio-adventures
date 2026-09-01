@@ -15,38 +15,49 @@ export function useProjectile(
   onHit: () => void,
   hitstopRef: React.RefObject<number>,
   onPullPlayer?: (x: number) => void,
+  onMiss?: (x: number) => void,
 ) {
   const onHitRef = useLatestRef(onHit);
   const onPullPlayerRef = useLatestRef(onPullPlayer);
+  const onMissRef = useLatestRef(onMiss);
 
   useEffect(() => {
     if (!projectile) return;
 
     const interval = setInterval(() => {
       if (hitstopRef.current > Date.now()) return;
-      setProjectile((p) => {
-        if (!p) return null;
 
-        switch (p.variant) {
-          case "common":
-            return handleLinearProjectile(p, {
-              playerX,
-              playerY,
-              playerState,
-              onHit: onHitRef.current,
-            });
-          case "pull":
-            return handleLinearProjectile(p, {
-              playerX,
-              playerY,
-              playerState,
-              onHit: onHitRef.current,
-              onPullPlayer: onPullPlayerRef.current,
-            });
-          case "rain":
-            return handleRain(p, playerX, playerState, onHitRef.current);
-        }
-      });
+      let next: Projectile | null = null;
+      let missX: number | undefined;
+
+      switch (projectile.variant) {
+        case "common":
+          next = handleLinearProjectile(projectile, {
+            playerX,
+            playerY,
+            playerState,
+            onHit: onHitRef.current,
+            onMiss: (x) => {
+              missX = x;
+            },
+          });
+          break;
+        case "pull":
+          next = handleLinearProjectile(projectile, {
+            playerX,
+            playerY,
+            playerState,
+            onHit: onHitRef.current,
+            onPullPlayer: onPullPlayerRef.current,
+          });
+          break;
+        case "rain":
+          next = handleRain(projectile, playerX, playerState, onHitRef.current);
+          break;
+      }
+
+      if (missX != null) onMissRef.current?.(missX);
+      setProjectile(next);
     }, 20);
 
     return () => clearInterval(interval);
@@ -59,6 +70,7 @@ export function useProjectile(
     hitstopRef,
     onHitRef,
     onPullPlayerRef,
+    onMissRef,
   ]);
 }
 
@@ -70,6 +82,7 @@ function handleLinearProjectile(
     playerState: PlayerState;
     onHit: () => void;
     onPullPlayer?: (x: number) => void;
+    onMiss?: (x: number) => void;
   },
 ): ProjectileCommon | ProjectilePull | null {
   if (p.state === "walk") {
@@ -93,6 +106,13 @@ function handleLinearProjectile(
     next.y >
       ProjectileConstants.MAP_HEIGHT + ProjectileConstants.OFFSCREEN_MARGIN
   ) {
+    if (p.variant === "common" && p.landsOnGround) {
+      const landX = Math.max(
+        0,
+        Math.min(ProjectileConstants.MAP_WIDTH, next.x),
+      );
+      opts.onMiss?.(landX);
+    }
     return null;
   }
 
@@ -101,9 +121,11 @@ function handleLinearProjectile(
   const isCrouched =
     opts.playerState === "idleCrounched" ||
     opts.playerState === "walkCrounched";
-  const dodgeProjectile = isDashing || isCrouched;
+  const canCrouchDodge =
+    p.variant === "common" ? (p.canCrouchDodge ?? true) : true;
+  const dodgeProjectile = isDashing || (isCrouched && canCrouchDodge);
 
-  const hitY = isCrouched ? opts.playerY - 30 : opts.playerY;
+  const hitY = isCrouched && canCrouchDodge ? opts.playerY - 30 : opts.playerY;
   const hitDy = Math.abs(hitY - next.y);
 
   if (dx < 40 && hitDy <= 120 && !dodgeProjectile) {

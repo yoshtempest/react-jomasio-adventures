@@ -243,6 +243,8 @@ declare global {
     sprite?: string;
     createdAt: number;
     state: "walk" | "idle";
+    canCrouchDodge?: boolean;
+    landsOnGround?: boolean;
   };
 
   type ProjectilePull = {

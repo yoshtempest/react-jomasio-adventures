@@ -19,6 +19,11 @@ import {
   ORBIT_COUNT,
   ORBIT_FIRE_INTERVAL,
 } from "./state";
+import {
+  cleanupExplosions,
+  checkGroundPaperHits,
+  checkPaperAttackHits,
+} from "./papers";
 
 function distributeOrbitPapers(ai: MaugreloAI, count: number): void {
   ai.orbitPapers = Array.from({ length: count }, (_, i) => ({
@@ -70,6 +75,8 @@ export function handleFirePaper(
       targetY: ctx.playerY,
       sprite: "paper",
       state: "idle",
+      canCrouchDodge: false,
+      landsOnGround: true,
     }),
   );
 
@@ -104,11 +111,13 @@ function updateLaser(ai: MaugreloAI, ctx: BehaviorContext, now: number): void {
   const facingRight = npc.direction === "right";
 
   const inFront = facingRight ? playerX >= fromX : playerX <= fromX;
+  const protectedByPlayer = isPlayerProtected(playerState);
+  const stopsAtPlayer = inFront && !protectedByPlayer;
   const toX = facingRight
-    ? inFront
+    ? stopsAtPlayer
       ? playerX
       : BATTLE_LIMITS.maxX
-    : inFront
+    : stopsAtPlayer
       ? playerX
       : BATTLE_LIMITS.minX;
 
@@ -122,7 +131,7 @@ function updateLaser(ai: MaugreloAI, ctx: BehaviorContext, now: number): void {
   };
 
   if (!inFront) return;
-  if (isPlayerProtected(playerState)) return;
+  if (protectedByPlayer) return;
   if (now - ai.lastLaserDamage < LASER_DAMAGE_INTERVAL) return;
 
   ai.lastLaserDamage = now;
@@ -135,6 +144,23 @@ export function maugreloPhase2(
 ): BehaviorResult {
   const { npc } = ctx;
   const now = Date.now();
+
+  cleanupExplosions(ai, now);
+  checkGroundPaperHits(
+    ai,
+    ctx.playerX,
+    ctx.playerY,
+    ctx.onGroundPaperHit,
+    now,
+  );
+  checkPaperAttackHits(
+    ai,
+    ctx.playerX,
+    ctx.playerState,
+    ctx.playerDirection,
+    ctx.onPaperExplode,
+    now,
+  );
 
   const orbitingY = ai.riseStartY - PHASE2_RISE_DISTANCE;
 
