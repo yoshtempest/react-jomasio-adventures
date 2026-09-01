@@ -107,6 +107,19 @@
   animation: floatBlocked 0.8s ease-out forwards;
 }
 
+.parry {
+  color: var(--gold);
+  font-size: var(--fs-28);
+  font-weight: 900;
+  text-transform: uppercase;
+  text-shadow:
+    0 0 var(--fs-10) rgba(255, 200, 40, 0.8),
+    0 0 var(--low-medium) rgba(255, 200, 40, 0.6),
+    var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8),
+    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8);
+  animation: floatBlocked 0.8s ease-out forwards;
+}
+
 .armor {
   color: #00e5ff;
   font-size: var(--fs-20);

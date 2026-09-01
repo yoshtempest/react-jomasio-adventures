@@ -5,6 +5,20 @@ import {
 } from "@/data/cooldowns";
 import type { SpawnDamageFn } from "@/utils/types/battle/spawnDamageFn";
 
+/**
+ * Janela de tempo (ms) entre pressionar o bloqueio e sofrer o dano para o
+ * parry disparar. Precisa ser um toque bem no timing do hit (0-50ms antes).
+ */
+export const PARRY_WINDOW_MS = 50;
+
+export function isParryPress(
+  lastBlockPressRef: React.RefObject<number>,
+): boolean {
+  const pressTime = lastBlockPressRef.current;
+  if (pressTime <= 0) return false;
+  return Date.now() - pressTime <= PARRY_WINDOW_MS;
+}
+
 export function applyGuardBreak(
   remainingDmg: number,
   damagePlayerHp: (damage: number) => void,
@@ -48,6 +62,7 @@ type HandleBlockingParams = {
   lastBlockPressRef: React.RefObject<number>;
   onFullBlock?: () => void;
   onBlockRef?: React.RefObject<() => void>;
+  onParry?: () => void;
 };
 
 export function handleNpcBlocking({
@@ -66,7 +81,24 @@ export function handleNpcBlocking({
   lastBlockPressRef,
   onFullBlock,
   onBlockRef,
+  onParry,
 }: HandleBlockingParams): boolean {
+  const now = Date.now();
+  const pressTime = lastBlockPressRef.current;
+  const sincePress = pressTime > 0 ? now - pressTime : Infinity;
+
+  if (sincePress <= PARRY_WINDOW_MS) {
+    onParry?.();
+    spawnDamageRef.current?.(0, playerX, playerY - 40, "parry");
+    hitstopRef.current = now + 80;
+    npcStaggerRef.current = now + 500;
+    npcCooldown.current = false;
+    onFullBlock?.();
+    onBlockRef?.current?.();
+    setTimeout(() => (npcCooldown.current = true), NPC_BLOCK_COOLDOWN);
+    return true;
+  }
+
   if (isBlocking) {
     if (blockGauge > 0) {
       if (dmg <= blockGauge) {
@@ -108,9 +140,7 @@ export function handleNpcBlocking({
     return true;
   }
 
-  const recentBlock =
-    lastBlockPressRef.current > 0 &&
-    Date.now() - lastBlockPressRef.current < 300;
+  const recentBlock = sincePress < 300;
 
   if (recentBlock) {
     applyDesperateBlock(

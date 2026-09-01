@@ -34,7 +34,7 @@ export function ReplayDamageNumbers({ damage, frame, npcType, layout }: Props) {
         return (
           <div
             key={index}
-            className={`${styles.dmgNum} ${d.c ? styles.dmgCrit : ""}${d.ty === "miss" ? styles.dmgMiss : ""} ${d.ty === "blocked" ? styles.dmgBlocked : ""}`}
+            className={`${styles.dmgNum} ${d.c ? styles.dmgCrit : ""}${d.ty === "miss" ? styles.dmgMiss : ""} ${d.ty === "blocked" ? styles.dmgBlocked : ""} ${d.ty === "parry" ? styles.dmgParry : ""}`}
             style={{
               left: d.x,
               top: d.y - headOffset,
@@ -43,13 +43,15 @@ export function ReplayDamageNumbers({ damage, frame, npcType, layout }: Props) {
           >
             {d.ty === "blocked"
               ? "BLOCKED!"
-              : d.ty === "miss"
-                ? "MISS!"
-                : d.c
-                  ? `CRIT -${d.v}`
-                  : d.v > 0
-                    ? `-${d.v}`
-                    : "0"}
+              : d.ty === "parry"
+                ? "PARRY!"
+                : d.ty === "miss"
+                  ? "MISS!"
+                  : d.c
+                    ? `CRIT -${d.v}`
+                    : d.v > 0
+                      ? `-${d.v}`
+                      : "0"}
           </div>
         );
       })}

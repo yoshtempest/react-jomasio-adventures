@@ -416,6 +416,7 @@ declare global {
     | "pet"
     | "summon"
     | "blocked"
+    | "parry"
     | "crit"
     | "charge"
     | "reflect"

@@ -20,6 +20,7 @@ const TYPE_CLASS: Record<string, string> = {
   pet: styles.pet!,
   summon: styles.summon!,
   blocked: styles.blocked!,
+  parry: styles.parry!,
   crit: styles.crit!,
   charge: styles.charge!,
   miss: styles.miss!,
@@ -50,6 +51,8 @@ export function DamageNumbers({ numbers, scaleX, scaleY, targets }: Props) {
           >
             {n.type === "blocked" ? (
               "BLOCKED!"
+            ) : n.type === "parry" ? (
+              "PARRY!"
             ) : n.type === "miss" ? (
               "MISS!"
             ) : n.type === "heal" ? (

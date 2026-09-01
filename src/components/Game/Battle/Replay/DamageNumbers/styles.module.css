@@ -27,3 +27,9 @@
   color: #00ffff;
   font-size: var(--fs-11);
 }
+
+.dmgParry {
+  color: var(--gold);
+  font-size: var(--fs-16);
+  font-weight: 900;
+}

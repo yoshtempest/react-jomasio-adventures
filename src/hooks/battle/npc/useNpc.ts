@@ -43,6 +43,7 @@ type Props = {
   onDamageTakenRef?: React.RefObject<(amount: number) => void>;
   onDodgeRef?: React.RefObject<() => void>;
   onHalfHeal?: () => void;
+  onParry?: () => void;
 
   npcType: string;
   npcHp: number;
@@ -81,6 +82,7 @@ export function useNpcBattle({
   onDamageTakenRef,
   onDodgeRef,
   onHalfHeal,
+  onParry,
   npcType,
   npcHp,
   npcMaxHp,
@@ -140,6 +142,7 @@ export function useNpcBattle({
         lastBlockPressRef,
         onFullBlock,
         onBlockRef,
+        onParry,
       });
       if (blocked) return;
 
@@ -165,6 +168,7 @@ export function useNpcBattle({
       lastBlockPressRef,
       onFullBlock,
       onBlockRef,
+      onParry,
     ],
   );
 
@@ -387,6 +391,7 @@ export function useNpcBattle({
         lastBlockPressRef,
         onFullBlock,
         onBlockRef,
+        onParry,
       });
     },
     [
@@ -405,6 +410,7 @@ export function useNpcBattle({
       lastBlockPressRef,
       onFullBlock,
       onBlockRef,
+      onParry,
     ],
   );
 
@@ -505,6 +511,7 @@ function checkBlocked(params: {
   lastBlockPressRef: React.RefObject<number>;
   onFullBlock?: () => void;
   onBlockRef?: React.RefObject<() => void>;
+  onParry?: () => void;
 }): boolean {
   const {
     dmg,
@@ -525,6 +532,7 @@ function checkBlocked(params: {
     lastBlockPressRef,
     onFullBlock,
     onBlockRef,
+    onParry,
   } = params;
 
   const isBlocking =
@@ -547,6 +555,7 @@ function checkBlocked(params: {
     lastBlockPressRef,
     onFullBlock,
     onBlockRef,
+    onParry,
   });
   return blocked;
 }

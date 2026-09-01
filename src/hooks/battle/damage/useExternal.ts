@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
+import { isParryPress } from "@/hooks/battle/npc/useBlocking";
 import type { SpawnDamageFn } from "@/utils/types/battle/spawnDamageFn";
 
 type Props = {
@@ -16,6 +17,8 @@ type Props = {
   spawnDamageRef: React.RefObject<SpawnDamageFn>;
   onBlockRef?: React.RefObject<() => void>;
   oneHitShieldRef?: React.RefObject<boolean>;
+  lastBlockPressRef: React.RefObject<number>;
+  onParry?: () => void;
 };
 
 export function useExternalDamage({
@@ -32,6 +35,8 @@ export function useExternalDamage({
   spawnDamageRef,
   onBlockRef,
   oneHitShieldRef,
+  lastBlockPressRef,
+  onParry,
 }: Props) {
   const playerShieldRef = useLatestRef(playerShield);
 
@@ -64,6 +69,13 @@ export function useExternalDamage({
 
   const damagePlayer = useCallback(
     (damage: number) => {
+      if (isParryPress(lastBlockPressRef)) {
+        onParry?.();
+        onBlockRef?.current?.();
+        spawnDamageRef.current?.(0, playerX, playerY - 40, "parry");
+        return;
+      }
+
       if (player.state === "blocked") {
         onBlockRef?.current?.();
         if (blockGauge > 0) {
@@ -104,6 +116,8 @@ export function useExternalDamage({
       damagePlayerHp,
       spawnDamageRef,
       onBlockRef,
+      onParry,
+      lastBlockPressRef,
     ],
   );
 

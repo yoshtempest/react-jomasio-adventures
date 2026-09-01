@@ -28,6 +28,7 @@ import {
 } from "@/gameRules/battle/equipment";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import { getProfessionWeaponDamageMultiplier } from "@/gameRules/professions/weapon";
+import { gainSpecial } from "@/gameRules/battle/special";
 import {
   applyPlayerStatus,
   clearPlayerStatuses,
@@ -206,22 +207,6 @@ export function useBattleSystem(props: Props) {
     isPaused: isEnding.current,
   });
 
-  const { damagePlayerHp, damagePlayer } = useExternalDamage({
-    playerX,
-    playerY,
-    player,
-    totalArmor,
-    blockGauge,
-    playerShield,
-    setPlayerHP,
-    setPlayerShield,
-    setBlockGauge,
-    setPlayer,
-    spawnDamageRef,
-    onBlockRef,
-    oneHitShieldRef,
-  });
-
   const playerBattle = usePlayerBattle({
     player,
     playerClass,
@@ -261,6 +246,26 @@ export function useBattleSystem(props: Props) {
     onKokusenRef,
     onHalfHeal,
     arturOraMultiplierRef,
+  });
+
+  const { damagePlayerHp, damagePlayer } = useExternalDamage({
+    playerX,
+    playerY,
+    player,
+    totalArmor,
+    blockGauge,
+    playerShield,
+    setPlayerHP,
+    setPlayerShield,
+    setBlockGauge,
+    setPlayer,
+    spawnDamageRef,
+    onBlockRef,
+    oneHitShieldRef,
+    lastBlockPressRef,
+    onParry: () => {
+      playerBattle.setDelicia((d) => gainSpecial(d, HITS_TO_SPECIAL));
+    },
   });
 
   const { pet, resetPet, triggerJumpAttack } = usePetBattle({
@@ -312,6 +317,9 @@ export function useBattleSystem(props: Props) {
     onDamageTakenRef,
     onDodgeRef,
     onHalfHeal,
+    onParry: () => {
+      playerBattle.setDelicia((d) => gainSpecial(d, HITS_TO_SPECIAL));
+    },
     npcType,
     npcHp: npcHP,
     npcMaxHp,
