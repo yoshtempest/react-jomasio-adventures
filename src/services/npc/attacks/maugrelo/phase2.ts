@@ -93,7 +93,6 @@ function isPlayerProtected(playerState: PlayerState): boolean {
   return (
     playerState === "idleCrounched" ||
     playerState === "walkCrounched" ||
-    playerState === "blocked" ||
     playerState === "dash" ||
     playerState === "jump" ||
     playerState === "preJump" ||

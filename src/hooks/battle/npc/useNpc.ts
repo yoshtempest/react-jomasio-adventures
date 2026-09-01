@@ -361,6 +361,53 @@ export function useNpcBattle({
     tenacityReductionRef,
   ]);
 
+  const npcFixedHit = useCallback(
+    (dmg: number) => {
+      if (isEnding.current) return;
+
+      if (player.state !== "blocked") {
+        damagePlayerWithReflect(dmg);
+        spawnDamageRef.current?.(dmg, playerX, playerY, "npc");
+        return;
+      }
+
+      handleNpcBlocking({
+        dmg,
+        isBlocking: true,
+        blockGauge,
+        setBlockGauge,
+        damagePlayerWithReflect,
+        setPlayer,
+        spawnDamageRef,
+        playerX,
+        playerY,
+        hitstopRef,
+        npcStaggerRef,
+        npcCooldown,
+        lastBlockPressRef,
+        onFullBlock,
+        onBlockRef,
+      });
+    },
+    [
+      isEnding,
+      player.state,
+      blockGauge,
+      setBlockGauge,
+      damagePlayerWithReflect,
+      setPlayer,
+      spawnDamageRef,
+      playerX,
+      playerY,
+      hitstopRef,
+      npcStaggerRef,
+      npcCooldown,
+      lastBlockPressRef,
+      onFullBlock,
+      onBlockRef,
+    ],
+  );
+
   const npcThrowHit = useCallback(
     (multiplier: number = 1) => {
       if (isEnding.current) return;
@@ -401,7 +448,7 @@ export function useNpcBattle({
     ],
   );
 
-  return { npcMeleeHit, npcRangedHit, npcThrowHit };
+  return { npcMeleeHit, npcRangedHit, npcThrowHit, npcFixedHit };
 }
 
 function rollNpcDamage(

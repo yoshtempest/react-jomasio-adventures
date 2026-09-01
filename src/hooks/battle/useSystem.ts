@@ -422,6 +422,7 @@ export function useBattleSystem(props: Props) {
     npcMeleeHit: npcBattle.npcMeleeHit,
     npcRangedHit: npcBattle.npcRangedHit,
     npcThrowHit: npcBattle.npcThrowHit,
+    npcFixedHit: npcBattle.npcFixedHit,
     resetBattle,
     damagePlayer,
     damagePlayerHp,
