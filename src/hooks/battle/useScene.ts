@@ -1104,6 +1104,9 @@ export function useBattleScene({
     },
     blockStart: () => {
       if (freezeActionsUntilRef.current > Date.now()) return;
+      if (player.state !== "blocked") {
+        lastBlockPressRef.current = Date.now();
+      }
       setPlayer((p) => {
         if (p.state === "jump" || p.state === "blockAttack") return p;
         return { ...p, state: "blocked" };

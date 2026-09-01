@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import { NPC_MELEE_COOLDOWN } from "@/data/cooldowns";
 import { getNpcStats } from "@/gameRules/npc/npcStats";
 import { isFacingTarget } from "@/gameRules/battle/direction";
-import { handleNpcBlocking } from "./useBlocking";
+import { handleNpcBlocking, isParryPress } from "./useBlocking";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { logPlay } from "@/utils/replay/audioEventLog";
@@ -368,6 +368,28 @@ export function useNpcBattle({
   const npcFixedHit = useCallback(
     (dmg: number) => {
       if (isEnding.current) return;
+
+      if (isParryPress(lastBlockPressRef)) {
+        const parried = handleNpcBlocking({
+          dmg,
+          isBlocking: false,
+          blockGauge,
+          setBlockGauge,
+          damagePlayerWithReflect,
+          setPlayer,
+          spawnDamageRef,
+          playerX,
+          playerY,
+          hitstopRef,
+          npcStaggerRef,
+          npcCooldown,
+          lastBlockPressRef,
+          onFullBlock,
+          onBlockRef,
+          onParry,
+        });
+        if (parried) return;
+      }
 
       if (player.state !== "blocked") {
         damagePlayerWithReflect(dmg);
