@@ -16,10 +16,12 @@ export function useProjectile(
   hitstopRef: React.RefObject<number>,
   onPullPlayer?: (x: number) => void,
   onMiss?: (x: number) => void,
+  onStick?: () => void,
 ) {
   const onHitRef = useLatestRef(onHit);
   const onPullPlayerRef = useLatestRef(onPullPlayer);
   const onMissRef = useLatestRef(onMiss);
+  const onStickRef = useLatestRef(onStick);
 
   useEffect(() => {
     if (!projectile) return;
@@ -29,6 +31,7 @@ export function useProjectile(
 
       let next: Projectile | null = null;
       let missX: number | undefined;
+      let stick = false;
 
       switch (projectile.variant) {
         case "common":
@@ -39,6 +42,9 @@ export function useProjectile(
             onHit: onHitRef.current,
             onMiss: (x) => {
               missX = x;
+            },
+            onStick: () => {
+              stick = true;
             },
           });
           break;
@@ -56,6 +62,7 @@ export function useProjectile(
           break;
       }
 
+      if (stick) onStickRef.current?.();
       if (missX != null) onMissRef.current?.(missX);
       setProjectile(next);
     }, 20);
@@ -71,6 +78,7 @@ export function useProjectile(
     onHitRef,
     onPullPlayerRef,
     onMissRef,
+    onStickRef,
   ]);
 }
 
@@ -83,6 +91,7 @@ function handleLinearProjectile(
     onHit: () => void;
     onPullPlayer?: (x: number) => void;
     onMiss?: (x: number) => void;
+    onStick?: () => void;
   },
 ): ProjectileCommon | ProjectilePull | null {
   if (p.state === "walk") {
@@ -132,7 +141,11 @@ function handleLinearProjectile(
     if (p.variant === "pull") {
       opts.onPullPlayer?.(p.pullTargetX);
     }
-    opts.onHit();
+    if (p.variant === "common" && p.landsOnGround) {
+      opts.onStick?.();
+    } else {
+      opts.onHit();
+    }
     return null;
   }
 

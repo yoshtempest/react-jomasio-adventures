@@ -72,6 +72,7 @@ type Props = {
   onArmorBuff?: (x: number, y: number) => void;
   onLaserHit?: () => void;
   onProjectileMiss?: (x: number) => void;
+  onStuckPaperExplode?: () => void;
 };
 
 export function useNpcAI({
@@ -101,6 +102,7 @@ export function useNpcAI({
   onArmorBuff,
   onLaserHit,
   onProjectileMiss,
+  onStuckPaperExplode,
 }: Props) {
   const [npc, setNpc] = useState<NPCBattleState>({
     x: BATTLE_SPAWN.npc.x,
@@ -147,6 +149,7 @@ export function useNpcAI({
   const onArmorBuffRef = useLatestRef(onArmorBuff);
   const onLaserHitRef = useLatestRef(onLaserHit);
   const onProjectileMissRef = useLatestRef(onProjectileMiss);
+  const onStuckPaperExplodeRef = useLatestRef(onStuckPaperExplode);
 
   const { update: updateProximitySound } = useProximityLoopSound(
     npcTypeRef,
@@ -190,6 +193,15 @@ export function useNpcAI({
         createdAt: Date.now(),
       });
       onProjectileMissRef.current?.(x);
+    },
+    () => {
+      const maugrelo = npcRef.current.ai?.maugrelo;
+      if (!maugrelo) return;
+      if (maugrelo.stuckPapers.length >= 3) return;
+      maugrelo.stuckPapers.push({
+        id: maugrelo.paperIdCounter++,
+        stuckAt: Date.now(),
+      });
     },
   );
 
@@ -259,6 +271,7 @@ export function useNpcAI({
           onPaperExplode: onPaperExplodeRef.current,
           onArmorBuff: onArmorBuffRef.current,
           onLaserHit: onLaserHitRef.current,
+          onStuckPaperExplode: onStuckPaperExplodeRef.current,
         });
 
         const nextX = result.x;
@@ -319,6 +332,7 @@ export function useNpcAI({
     onPaperExplodeRef,
     onArmorBuffRef,
     onLaserHitRef,
+    onStuckPaperExplodeRef,
     playerXRef,
     playerYRef,
     playerStateRef,
@@ -344,6 +358,7 @@ export function useNpcAI({
     ...(npc.ai?.maugrelo?.groundPapers ?? []),
     ...(npc.ai?.maugrelo?.landedPapers ?? []),
   ];
+  const stuckPapers = npc.ai?.maugrelo?.stuckPapers ?? [];
   const flyingPaper = npc.ai?.maugrelo?.flyingPaper ?? null;
   const laser = npc.ai?.maugrelo?.laser ?? null;
 
@@ -351,6 +366,7 @@ export function useNpcAI({
     ...npc,
     projectile,
     groundPapers,
+    stuckPapers,
     flyingPaper,
     laser,
     resetNpc,

@@ -543,6 +543,10 @@ export function useBattleScene({
       battle.damagePlayerHp(1);
       refs.spawnDamageRef.current?.(1, player.x, player.y - 40, "npc");
     },
+    onStuckPaperExplode: () => {
+      battle.npcThrowHit(2);
+      playSound("explosion");
+    },
     obstacles: map?.obstacles,
     hitstopRef: refs.hitstopRef,
     npcStaggerRef: refs.npcStaggerRef,

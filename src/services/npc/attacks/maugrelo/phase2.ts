@@ -23,6 +23,7 @@ import {
   cleanupExplosions,
   checkGroundPaperHits,
   checkPaperAttackHits,
+  updateStuckPapers,
 } from "./papers";
 
 function distributeOrbitPapers(ai: MaugreloAI, count: number): void {
@@ -160,6 +161,13 @@ export function maugreloPhase2(
     ctx.playerDirection,
     ctx.onPaperExplode,
     now,
+  );
+  updateStuckPapers(
+    ai,
+    ctx.playerState,
+    ctx.playerX,
+    now,
+    ctx.onStuckPaperExplode,
   );
 
   const orbitingY = ai.riseStartY - PHASE2_RISE_DISTANCE;

@@ -30,6 +30,7 @@ export type BehaviorContext = {
   onPaperExplode?: () => void;
   onArmorBuff?: (x: number, y: number) => void;
   onLaserHit?: () => void;
+  onStuckPaperExplode?: () => void;
 };
 
 export type BehaviorResult = {

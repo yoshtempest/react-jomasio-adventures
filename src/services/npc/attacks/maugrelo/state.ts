@@ -6,6 +6,11 @@ export type GroundPaper = {
   createdAt: number;
 };
 
+export type StuckPaper = {
+  id: number;
+  stuckAt: number;
+};
+
 export type FlyingPaper = {
   x: number;
   y: number;
@@ -39,6 +44,7 @@ export type MaugreloAI = {
   flyingPaper: FlyingPaper | null;
   groundPapers: GroundPaper[];
   landedPapers: GroundPaper[];
+  stuckPapers: StuckPaper[];
   paperIdCounter: number;
   lastPaperHitId: number;
   meditationArmorBonus: number;
@@ -95,6 +101,7 @@ export const PAPER_STEP_RADIUS = 30;
  */
 export const PAPER_STEP_VERTICAL_RANGE = 60;
 export const PAPER_ATTACK_RANGE = 200;
+export const STUCK_PAPER_DURATION = 3000;
 
 export const PHASE2_RISE_DISTANCE = 300;
 export const PHASE2_RISE_SPEED = 3;
@@ -122,6 +129,7 @@ export function initMaugreloAi(npcPhase: number = 1): MaugreloAI {
     flyingPaper: null,
     groundPapers: [],
     landedPapers: [],
+    stuckPapers: [],
     paperIdCounter: 0,
     lastPaperHitId: 0,
     meditationArmorBonus: 0,
@@ -147,6 +155,7 @@ export function handlePhaseChange(ai: MaugreloAI, npcPhase: number): void {
   ai.flyingPaper = null;
   ai.groundPapers = [];
   ai.landedPapers = [];
+  ai.stuckPapers = [];
   ai.laser = null;
   ai.lastLaserDamage = 0;
 }

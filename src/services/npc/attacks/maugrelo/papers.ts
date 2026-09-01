@@ -11,6 +11,7 @@ import {
   PAPER_STEP_RADIUS,
   PAPER_STEP_VERTICAL_RANGE,
   PAPER_ATTACK_RANGE,
+  STUCK_PAPER_DURATION,
 } from "./state";
 
 export function spawnFlyingPaper(
@@ -145,5 +146,43 @@ export function checkPaperAttackHits(
       onPaperExplode?.();
       break;
     }
+  }
+}
+
+export function updateStuckPapers(
+  ai: MaugreloAI,
+  playerState: PlayerState,
+  playerX: number,
+  now: number,
+  onStuckPaperExplode: (() => void) | undefined,
+) {
+  if (ai.stuckPapers.length === 0) return;
+
+  if (playerState === "dash") {
+    for (const sp of ai.stuckPapers) {
+      ai.landedPapers.push({
+        id: sp.id,
+        x: playerX,
+        y: PAPER_GROUND_Y,
+        sprite: "paper",
+        createdAt: now,
+      });
+    }
+    ai.stuckPapers = [];
+    return;
+  }
+
+  let exploded = false;
+
+  ai.stuckPapers = ai.stuckPapers.filter((sp) => {
+    if (now - sp.stuckAt >= STUCK_PAPER_DURATION) {
+      exploded = true;
+      return false;
+    }
+    return true;
+  });
+
+  if (exploded) {
+    onStuckPaperExplode?.();
   }
 }
