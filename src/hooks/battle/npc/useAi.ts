@@ -70,6 +70,7 @@ type Props = {
   onGroundPaperHit?: () => void;
   onPaperExplode?: () => void;
   onArmorBuff?: (x: number, y: number) => void;
+  onLaserHit?: () => void;
 };
 
 export function useNpcAI({
@@ -97,6 +98,7 @@ export function useNpcAI({
   onGroundPaperHit,
   onPaperExplode,
   onArmorBuff,
+  onLaserHit,
 }: Props) {
   const [npc, setNpc] = useState<NPCBattleState>({
     x: BATTLE_SPAWN.npc.x,
@@ -139,6 +141,7 @@ export function useNpcAI({
   const onGroundPaperHitRef = useLatestRef(onGroundPaperHit);
   const onPaperExplodeRef = useLatestRef(onPaperExplode);
   const onArmorBuffRef = useLatestRef(onArmorBuff);
+  const onLaserHitRef = useLatestRef(onLaserHit);
 
   const { update: updateProximitySound } = useProximityLoopSound(
     npcTypeRef,
@@ -237,6 +240,7 @@ export function useNpcAI({
           onGroundPaperHit: onGroundPaperHitRef.current,
           onPaperExplode: onPaperExplodeRef.current,
           onArmorBuff: onArmorBuffRef.current,
+          onLaserHit: onLaserHitRef.current,
         });
 
         const nextX = result.x;
@@ -296,6 +300,7 @@ export function useNpcAI({
     onGroundPaperHitRef,
     onPaperExplodeRef,
     onArmorBuffRef,
+    onLaserHitRef,
     playerXRef,
     playerYRef,
     playerStateRef,
@@ -319,12 +324,14 @@ export function useNpcAI({
 
   const groundPapers = npc.ai?.maugrelo?.groundPapers ?? [];
   const flyingPaper = npc.ai?.maugrelo?.flyingPaper ?? null;
+  const laser = npc.ai?.maugrelo?.laser ?? null;
 
   return {
     ...npc,
     projectile,
     groundPapers,
     flyingPaper,
+    laser,
     resetNpc,
     updateNpc,
   };

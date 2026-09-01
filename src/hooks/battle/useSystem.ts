@@ -424,6 +424,7 @@ export function useBattleSystem(props: Props) {
     npcThrowHit: npcBattle.npcThrowHit,
     resetBattle,
     damagePlayer,
+    damagePlayerHp,
     isNpcDying,
     playerCooldown,
     isEnding,

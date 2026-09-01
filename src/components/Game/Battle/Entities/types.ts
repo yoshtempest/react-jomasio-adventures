@@ -2,6 +2,7 @@ import type { NPCBattleState } from "@/utils/types/npc/npc";
 import type {
   GroundPaper,
   FlyingPaper,
+  LaserBeam,
 } from "@/services/npc/attacks/maugrelo/state";
 
 export type BattleEntitiesBattle = {
@@ -20,4 +21,5 @@ export type MainNpcState = NPCBattleState & {
   projectile: Projectile | null;
   groundPapers: GroundPaper[];
   flyingPaper: FlyingPaper | null;
+  laser: LaserBeam | null;
 };

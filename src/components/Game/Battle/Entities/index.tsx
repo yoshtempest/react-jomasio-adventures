@@ -2,6 +2,7 @@ import { ProjectileConstants } from "@/data/projectile";
 import { MainNpc } from "./MainNpc";
 import { NpcProjectile } from "./NpcProjectile";
 import { GroundPaper } from "./GroundPaper";
+import { Laser } from "./Laser";
 import { Coffin } from "./Coffin";
 import { Summon } from "./Summon";
 import { Pet } from "./Pet";
@@ -87,6 +88,12 @@ export function BattleEntities({
       <GroundPaper
         papers={npc.groundPapers}
         flyingPaper={npc.flyingPaper}
+        battleScaleX={battleScaleX}
+        battleScaleY={battleScaleY}
+      />
+
+      <Laser
+        laser={npc.laser}
         battleScaleX={battleScaleX}
         battleScaleY={battleScaleY}
       />

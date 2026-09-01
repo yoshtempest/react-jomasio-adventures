@@ -1,4 +1,5 @@
 import { createCommonProjectile } from "@/gameRules/npc/createDirectionalProjectile";
+import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
 import type {
   BehaviorContext,
   BehaviorResult,
@@ -10,6 +11,9 @@ import {
   PHASE2_DESCEND_SPEED,
   PHASE2_LANDING_DURATION,
   PHASE2_PREMOVE_DURATION,
+  PHASE2_LASER_DURATION,
+  LASER_DAMAGE_INTERVAL,
+  LASER_BODY_OFFSET,
   ORBIT_RADIUS,
   ORBIT_Y_OFFSET,
   ORBIT_COUNT,
@@ -77,6 +81,54 @@ export function handleFirePaper(
   ai.lastPaperFire = now;
 }
 
+function isPlayerProtected(playerState: PlayerState): boolean {
+  return (
+    playerState === "idleCrounched" ||
+    playerState === "walkCrounched" ||
+    playerState === "blocked" ||
+    playerState === "dash" ||
+    playerState === "jump" ||
+    playerState === "preJump" ||
+    playerState === "falling" ||
+    playerState === "fallingAttack" ||
+    playerState === "specialInAir" ||
+    playerState === "preSpecialInAir" ||
+    playerState === "specialInAirFinish"
+  );
+}
+
+function updateLaser(ai: MaugreloAI, ctx: BehaviorContext, now: number): void {
+  const { npc, playerX, playerState } = ctx;
+  const fromX = npc.x;
+  const fromY = ai.riseStartY - LASER_BODY_OFFSET;
+  const facingRight = npc.direction === "right";
+
+  const inFront = facingRight ? playerX >= fromX : playerX <= fromX;
+  const toX = facingRight
+    ? inFront
+      ? playerX
+      : BATTLE_LIMITS.maxX
+    : inFront
+      ? playerX
+      : BATTLE_LIMITS.minX;
+
+  ai.laser = {
+    active: true,
+    fromX,
+    fromY,
+    toX,
+    toY: fromY,
+    dirX: facingRight ? 1 : -1,
+  };
+
+  if (!inFront) return;
+  if (isPlayerProtected(playerState)) return;
+  if (now - ai.lastLaserDamage < LASER_DAMAGE_INTERVAL) return;
+
+  ai.lastLaserDamage = now;
+  ctx.onLaserHit?.();
+}
+
 export function maugreloPhase2(
   ctx: BehaviorContext,
   ai: MaugreloAI,
@@ -119,16 +171,15 @@ export function maugreloPhase2(
   }
 
   if (ai.phase2State === "descending") {
-    const x = npc.x;
     const nextY = npc.y + PHASE2_DESCEND_SPEED;
 
     if (nextY >= ai.riseStartY) {
       ai.phase2State = "landing";
       ai.phase2StageStart = now;
-      return { x, y: ai.riseStartY, state: "landing" };
+      return { x: npc.x, y: ai.riseStartY, state: "landing" };
     }
 
-    return { x, y: nextY, state: "flying" };
+    return { x: npc.x, y: nextY, state: "flying" };
   }
 
   if (ai.phase2State === "landing") {
@@ -148,8 +199,23 @@ export function maugreloPhase2(
       return { x: npc.x, y: ai.riseStartY, state: "laser" };
     }
 
+    ai.laser = null;
     return { x: npc.x, y: ai.riseStartY, state: "preMove" };
   }
 
+  if (ai.phase2State === "laser") {
+    if (now - ai.phase2StageStart >= PHASE2_LASER_DURATION) {
+      ai.phase2State = "rising";
+      ai.phase2StageStart = now;
+      ai.riseStartY = npc.y;
+      ai.laser = null;
+      return { x: npc.x, y: ai.riseStartY, state: "flying" };
+    }
+
+    updateLaser(ai, ctx, now);
+    return { x: npc.x, y: ai.riseStartY, state: "laser" };
+  }
+
+  ai.laser = null;
   return { x: npc.x, y: ai.riseStartY, state: "laser" };
 }

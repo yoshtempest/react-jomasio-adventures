@@ -539,6 +539,10 @@ export function useBattleScene({
       setNpcArmorBonus((b) => b + 1);
       refs.spawnDamageRef.current?.(1, x, y, "armor");
     },
+    onLaserHit: () => {
+      battle.damagePlayerHp(1);
+      refs.spawnDamageRef.current?.(1, player.x, player.y - 40, "npc");
+    },
     obstacles: map?.obstacles,
     hitstopRef: refs.hitstopRef,
     npcStaggerRef: refs.npcStaggerRef,

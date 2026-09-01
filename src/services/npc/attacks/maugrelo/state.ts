@@ -18,6 +18,15 @@ export type OrbitPaper = {
   angle: number;
 };
 
+export type LaserBeam = {
+  active: boolean;
+  fromX: number;
+  fromY: number;
+  toX: number;
+  toY: number;
+  dirX: 1 | -1;
+};
+
 export type MaugreloAI = {
   knownPhase: number;
   actionState: "idle" | "preMove" | "action" | "postAction" | "meditating";
@@ -45,6 +54,8 @@ export type MaugreloAI = {
   orbitPapers: OrbitPaper[];
   lastPaperFire: number;
   phase2StageStart: number;
+  laser: LaserBeam | null;
+  lastLaserDamage: number;
 };
 
 export const PRE_MOVE_DURATION = 300;
@@ -93,6 +104,9 @@ export const ORBIT_FIRE_INTERVAL = 500;
 export const PHASE2_DESCEND_SPEED = 5;
 export const PHASE2_LANDING_DURATION = 300;
 export const PHASE2_PREMOVE_DURATION = 100;
+export const PHASE2_LASER_DURATION = 8000;
+export const LASER_DAMAGE_INTERVAL = 50;
+export const LASER_BODY_OFFSET = 120;
 
 export function initMaugreloAi(npcPhase: number = 1): MaugreloAI {
   return {
@@ -116,6 +130,8 @@ export function initMaugreloAi(npcPhase: number = 1): MaugreloAI {
     orbitPapers: [],
     lastPaperFire: 0,
     phase2StageStart: 0,
+    laser: null,
+    lastLaserDamage: 0,
   };
 }
 
@@ -128,4 +144,6 @@ export function handlePhaseChange(ai: MaugreloAI, npcPhase: number): void {
   ai.currentAction = null;
   ai.flyingPaper = null;
   ai.groundPapers = [];
+  ai.laser = null;
+  ai.lastLaserDamage = 0;
 }
