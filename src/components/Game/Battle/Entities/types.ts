@@ -20,6 +20,7 @@ export type BattleEntityPositioning = {
 
 export type MainNpcState = NPCBattleState & {
   projectile: Projectile | null;
+  projectiles: Projectile[];
   groundPapers: GroundPaper[];
   stuckPapers: StuckPaper[];
   flyingPaper: FlyingPaper | null;

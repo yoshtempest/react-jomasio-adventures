@@ -113,10 +113,18 @@ export function useNpcAI({
 
   const npcRef = useLatestRef(npc);
 
-  const [projectile, setProjectile] = useState<Projectile | null>(null);
+  const [projectiles, setProjectiles] = useState<Projectile[]>([]);
   const [forceIdle, setForceIdle] = useState(false);
 
-  const projectileRef = useLatestRef(projectile);
+  const activeProjectile = projectiles[0] ?? null;
+  const projectileRef = useLatestRef(activeProjectile);
+  const setProjectile = useCallback((p: Projectile | null) => {
+    if (p == null) {
+      setProjectiles([]);
+      return;
+    }
+    setProjectiles((prev) => [...prev, p]);
+  }, []);
   const playerXRef = useLatestRef(playerX);
   const playerYRef = useLatestRef(playerY);
   const playerStateRef = useLatestRef(playerState);
@@ -160,8 +168,8 @@ export function useNpcAI({
   );
 
   useProjectile(
-    projectile,
-    setProjectile,
+    projectiles,
+    setProjectiles,
     playerX,
     playerY,
     playerState,
@@ -338,6 +346,7 @@ export function useNpcAI({
     playerStateRef,
     playerDirectionRef,
     projectileRef,
+    setProjectile,
   ]);
 
   const updateNpc = (partial: Partial<NPCBattleState>) => {
@@ -364,7 +373,8 @@ export function useNpcAI({
 
   return {
     ...npc,
-    projectile,
+    projectile: activeProjectile,
+    projectiles,
     groundPapers,
     stuckPapers,
     flyingPaper,

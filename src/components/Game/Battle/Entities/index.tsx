@@ -84,7 +84,7 @@ export function BattleEntities({
         isAlfa={isAlfa}
       />
 
-      <NpcProjectile projectile={npc.projectile} groundY={player.y} />
+      <NpcProjectile projectiles={npc.projectiles} groundY={player.y} />
 
       <GroundPaper
         papers={npc.groundPapers}

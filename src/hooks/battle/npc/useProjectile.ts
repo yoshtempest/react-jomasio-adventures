@@ -4,8 +4,8 @@ import { useLatestRef } from "@/hooks/useLatestRef";
 import { ProjectileConstants } from "@/data/projectile";
 
 export function useProjectile(
-  projectile: Projectile | null,
-  setProjectile: Dispatch<SetStateAction<Projectile | null>>,
+  projectiles: Projectile[],
+  setProjectiles: Dispatch<SetStateAction<Projectile[]>>,
   playerX: number,
   playerY: number,
   playerState: PlayerState,
@@ -24,56 +24,62 @@ export function useProjectile(
   const onStickRef = useLatestRef(onStick);
 
   useEffect(() => {
-    if (!projectile) return;
+    const count = projectiles.length;
+    if (count === 0) return;
 
     const interval = setInterval(() => {
       if (hitstopRef.current > Date.now()) return;
 
-      let next: Projectile | null = null;
-      let missX: number | undefined;
+      const misses: number[] = [];
       let stick = false;
 
-      switch (projectile.variant) {
-        case "common":
-          next = handleLinearProjectile(projectile, {
-            playerX,
-            playerY,
-            playerState,
-            onHit: onHitRef.current,
-            onMiss: (x) => {
-              missX = x;
-            },
-            onStick: () => {
-              stick = true;
-            },
-          });
-          break;
-        case "pull":
-          next = handleLinearProjectile(projectile, {
-            playerX,
-            playerY,
-            playerState,
-            onHit: onHitRef.current,
-            onPullPlayer: onPullPlayerRef.current,
-          });
-          break;
-        case "rain":
-          next = handleRain(projectile, playerX, playerState, onHitRef.current);
-          break;
-      }
+      const next = projectiles
+        .map((p) => {
+          switch (p.variant) {
+            case "common":
+              return handleLinearProjectile(p, {
+                playerX,
+                playerY,
+                playerState,
+                onHit: onHitRef.current,
+                onMiss: (x) => {
+                  misses.push(x);
+                },
+                onStick: () => {
+                  stick = true;
+                },
+              });
+            case "pull":
+              return handleLinearProjectile(p, {
+                playerX,
+                playerY,
+                playerState,
+                onHit: onHitRef.current,
+                onPullPlayer: onPullPlayerRef.current,
+              });
+            case "rain":
+              return handleRain(
+                p,
+                playerX,
+                playerState,
+                onHitRef.current,
+              );
+          }
+        })
+        .filter((p): p is Projectile => p !== null);
 
       if (stick) onStickRef.current?.();
-      if (missX != null) onMissRef.current?.(missX);
-      setProjectile(next);
+      for (const x of misses) onMissRef.current?.(x);
+      setProjectiles(next);
     }, 20);
 
     return () => clearInterval(interval);
   }, [
-    projectile,
+    projectiles,
     playerX,
     playerY,
     playerState,
-    setProjectile,
+    setProjectiles,
     hitstopRef,
     onHitRef,
     onPullPlayerRef,
