@@ -545,7 +545,7 @@ export function useBattleScene({
       battle.npcFixedHit(1);
     },
     onStuckPaperExplode: () => {
-      battle.npcThrowHit(2);
+      battle.npcUnblockableHit(2);
       playSound("explosion");
     },
     onApplyDebuff: (status: NewPlayerStatus) => {

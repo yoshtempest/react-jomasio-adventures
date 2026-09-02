@@ -476,7 +476,67 @@ export function useNpcBattle({
     ],
   );
 
-  return { npcMeleeHit, npcRangedHit, npcThrowHit, npcFixedHit };
+  /**
+   * Dano inbloqueável: o bloqueio normal não reduz nada, mas um parry
+   * (bloqueio pressionado 0-50ms antes do dano) evita todo o dano.
+   */
+  const npcUnblockableHit = useCallback(
+    (dmg: number) => {
+      if (isEnding.current) return;
+
+      if (isParryPress(lastBlockPressRef)) {
+        handleNpcBlocking({
+          dmg,
+          isBlocking: false,
+          blockGauge,
+          setBlockGauge,
+          damagePlayerWithReflect,
+          setPlayer,
+          spawnDamageRef,
+          playerX,
+          playerY,
+          hitstopRef,
+          npcStaggerRef,
+          npcCooldown,
+          lastBlockPressRef,
+          onFullBlock,
+          onBlockRef,
+          onParry,
+        });
+        return;
+      }
+
+      damagePlayerWithReflect(dmg);
+      spawnDamageRef.current?.(dmg, playerX, playerY, "npc");
+      hitstopRef.current = Date.now() + 80;
+      navigator.vibrate?.(80);
+    },
+    [
+      isEnding,
+      blockGauge,
+      setBlockGauge,
+      damagePlayerWithReflect,
+      setPlayer,
+      spawnDamageRef,
+      playerX,
+      playerY,
+      hitstopRef,
+      npcStaggerRef,
+      npcCooldown,
+      lastBlockPressRef,
+      onFullBlock,
+      onBlockRef,
+      onParry,
+    ],
+  );
+
+  return {
+    npcMeleeHit,
+    npcRangedHit,
+    npcThrowHit,
+    npcFixedHit,
+    npcUnblockableHit,
+  };
 }
 
 function rollNpcDamage(
