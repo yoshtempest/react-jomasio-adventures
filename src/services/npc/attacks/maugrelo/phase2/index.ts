@@ -133,6 +133,8 @@ export function maugreloPhase2(
       ai.riseStartY = npc.y;
       ai.laser = null;
       ai.appliedDebuff = null;
+      ctx.playSound?.("writing");
+      ctx.playSound?.("stupid");
       return { x: npc.x, y: ai.riseStartY, state: "debuff" };
     }
 
