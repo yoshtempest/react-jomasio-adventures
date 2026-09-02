@@ -46,6 +46,8 @@ export function createSounds() {
     bite: sfx("npc/hungryDeath/bite.mp3"),
     vandinhaPunch: sfx("npc/vandinhaFragment/punch.mp3"),
     whooshWind: sfx("npc/maugrelo/whoosh-wind.mp3"),
+    writing: sfx("npc/maugrelo/writing.mp3"),
+    stupid: sfx("npc/maugrelo/stupid.mp3"),
     paperPreExplode: sfx("npc/maugrelo/paperPreExplode.mp3"),
     slap: sfx("npc/maugrelo/slap.mp3"),
     laser: sfx("npc/maugrelo/laser.mp3"),

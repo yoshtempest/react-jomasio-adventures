@@ -31,6 +31,8 @@ export type SoundId =
   | "swordDeflected"
   | "jhowsimarVemCa"
   | "marshadowSpecial"
+  | "writing"
+  | "stupid"
   | "whooshWind"
   | "paperPreExplode"
   | "laser"
