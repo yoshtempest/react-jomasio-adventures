@@ -28,6 +28,7 @@ import {
 } from "@/gameRules/battle/equipment";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import { getProfessionWeaponDamageMultiplier } from "@/gameRules/professions/weapon";
+import { THREE_HUNDRED_MS } from "@/data/ms";
 import { gainSpecial } from "@/gameRules/battle/special";
 import {
   applyPlayerStatus,
@@ -550,7 +551,7 @@ function usePlayerPullAnimation(
       setPlayer((p) => {
         if (p.pullStartTime === 0) return p;
         const elapsed = Date.now() - p.pullStartTime;
-        const duration = 300;
+        const duration = THREE_HUNDRED_MS;
         const progress = Math.min(elapsed / duration, 1);
         const eased = 1 - Math.pow(1 - progress, 3);
         const currentX = p.pullFromX + (p.pullToX - p.pullFromX) * eased;

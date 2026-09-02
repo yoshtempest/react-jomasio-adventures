@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import type { RefObject } from "react";
+import { TWO_THOUSAND_MS } from "@/data/ms";
 
 type Props = {
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;
@@ -23,7 +24,7 @@ export function useThrowAnimation({
         if (p.throwStartTime === 0) return p;
 
         const elapsed = Date.now() - p.throwStartTime;
-        const duration = 2000;
+        const duration = TWO_THOUSAND_MS;
         const progress = Math.min(elapsed / duration, 1);
 
         const x = p.throwFromX + (p.throwToX - p.throwFromX) * progress;

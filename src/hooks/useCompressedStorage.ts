@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { saveCompressed, loadCompressed } from "@/services/save/storageService";
 import { slotKey, type SlotScopedKey } from "@/services/save/slotManager";
+import { ONE_THOUSAND_MS } from "@/data/ms";
 
-const WRITE_DELAY_MS = 1000;
+const WRITE_DELAY_MS = ONE_THOUSAND_MS;
 
 /**
  * Estado persistido comprimido, escopado no slot ativo.

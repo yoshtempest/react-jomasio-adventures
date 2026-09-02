@@ -1,7 +1,8 @@
 import { canMoveTo } from "@/gameRules/movement/collision";
 import { canStepTo, getTileHeight } from "@/gameRules/movement/levels";
+import { THREE_HUNDRED_MS } from "@/data/ms";
 
-export const EXPLORE_MOVE_INTERVAL = 300;
+export const EXPLORE_MOVE_INTERVAL = THREE_HUNDRED_MS;
 
 export type ExploreMoveResult = {
   player: Player;

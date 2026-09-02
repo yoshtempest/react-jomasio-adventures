@@ -2,13 +2,14 @@ import { NpcAttack } from "../npcAttack";
 import { NPC_MELEE_COOLDOWN } from "@/data/cooldowns";
 import { chasePlayer } from "@/gameRules/npc/movement";
 import { tryMeleeAttack } from "@/gameRules/npc/attack";
+import { THREE_HUNDRED_MS } from "@/data/ms";
 import type {
   BehaviorContext,
   BehaviorResult,
 } from "@/utils/types/npc/npcBehavior";
 
 const MELEE_RANGE = 40;
-const MELEE_VISUAL_DURATION = 300;
+const MELEE_VISUAL_DURATION = THREE_HUNDRED_MS;
 
 /**
  * Sr. Guaxinim: persegue e dá melee como qualquer NPC default, mas troca o

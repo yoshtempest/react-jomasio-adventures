@@ -7,9 +7,10 @@ import { useNavbar } from "@/contexts/NavbarContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useBackgroundAudio } from "@/hooks/useBackgroundAudio";
 import { useUpdate } from "@/contexts/UpdateContext";
+import { TWO_THOUSAND_MS } from "@/data/ms";
 import loading from "/assets/songs/transitions/loading.mp3";
 
-const MIN_LOADING_MS = 2000;
+const MIN_LOADING_MS = TWO_THOUSAND_MS;
 
 export default function Loading() {
   const navigate = useNavigate();

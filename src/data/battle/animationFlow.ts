@@ -1,4 +1,14 @@
 // PlayerState vem do escopo global (src/utils/types/global.d.ts) — fonte única.
+import {
+  ONE_HUNDRED_MS,
+  ONE_HUNDRED_FIFTY_MS,
+  TWO_HUNDRED_MS,
+  THREE_HUNDRED_MS,
+  FOUR_HUNDRED_MS,
+  FIVE_HUNDRED_MS,
+  EIGHT_HUNDRED_MS,
+} from "@/data/ms";
+
 type AnimationStep = {
   next: PlayerState;
   duration: number; // ms
@@ -7,39 +17,39 @@ type AnimationStep = {
 export const animationFlow: Record<PlayerState, AnimationStep | null> = {
   idle: null,
 
-  crit: { next: "idle", duration: 300 },
+  crit: { next: "idle", duration: THREE_HUNDRED_MS },
 
-  preAttack: { next: "attack", duration: 150 },
-  attack: { next: "idle", duration: 300 },
-  preKick: { next: "kick", duration: 100 },
-  kick: { next: "idle", duration: 300 },
+  preAttack: { next: "attack", duration: ONE_HUNDRED_FIFTY_MS },
+  attack: { next: "idle", duration: THREE_HUNDRED_MS },
+  preKick: { next: "kick", duration: ONE_HUNDRED_MS },
+  kick: { next: "idle", duration: THREE_HUNDRED_MS },
 
-  preWalk: { next: "walk", duration: 100 },
-  walk: { next: "preRun", duration: 200 },
+  preWalk: { next: "walk", duration: ONE_HUNDRED_MS },
+  walk: { next: "preRun", duration: TWO_HUNDRED_MS },
 
-  preRun: { next: "run", duration: 150 },
+  preRun: { next: "run", duration: ONE_HUNDRED_FIFTY_MS },
   run: null, // contínuo
 
   preJump: null,
   jump: null,
   falling: null, // controlado pela gravidade
-  fallingAttack: { next: "falling", duration: 200 },
-  preSpecialInAir: { next: "specialInAir", duration: 100 },
-  specialInAir: { next: "specialInAirFinish", duration: 200 },
-  specialInAirFinish: { next: "idle", duration: 150 },
+  fallingAttack: { next: "falling", duration: TWO_HUNDRED_MS },
+  preSpecialInAir: { next: "specialInAir", duration: ONE_HUNDRED_MS },
+  specialInAir: { next: "specialInAirFinish", duration: TWO_HUNDRED_MS },
+  specialInAirFinish: { next: "idle", duration: ONE_HUNDRED_FIFTY_MS },
 
-  preSpecial: { next: "special", duration: 200 },
+  preSpecial: { next: "special", duration: TWO_HUNDRED_MS },
   preSpecial2: { next: "idle", duration: 0 },
-  special: { next: "idle", duration: 500 },
+  special: { next: "idle", duration: FIVE_HUNDRED_MS },
 
-  dash: { next: "idle", duration: 300 },
+  dash: { next: "idle", duration: THREE_HUNDRED_MS },
 
-  charging: { next: "idle", duration: 500 },
+  charging: { next: "idle", duration: FIVE_HUNDRED_MS },
 
   blocked: null,
-  blockAttack: { next: "idle", duration: 300 },
+  blockAttack: { next: "idle", duration: THREE_HUNDRED_MS },
 
-  stun: { next: "idle", duration: 500 },
+  stun: { next: "idle", duration: FIVE_HUNDRED_MS },
 
   idleCrounched: null,
   walkCrounched: null,
@@ -60,13 +70,13 @@ export const CHARACTER_SPECIAL_FLOWS: Partial<
   Record<CharacterId, SpecialFlowOverride>
 > = {
   riquelme: {
-    preSpecial: { next: "preSpecial2", duration: 400 },
-    preSpecial2: { next: "special", duration: 800 },
+    preSpecial: { next: "preSpecial2", duration: FOUR_HUNDRED_MS },
+    preSpecial2: { next: "special", duration: EIGHT_HUNDRED_MS },
   },
   artur: {
-    preSpecial: { next: "preSpecial2", duration: 400 },
-    preSpecial2: { next: "special", duration: 500 },
-    special: { next: "idle", duration: 999999999 },
+    preSpecial: { next: "preSpecial2", duration: FOUR_HUNDRED_MS },
+    preSpecial2: { next: "special", duration: FIVE_HUNDRED_MS },
+    special: { next: "idle", duration: 999_999_999 },
   },
 };
 

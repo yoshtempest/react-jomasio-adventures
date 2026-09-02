@@ -9,6 +9,7 @@ import { getEquipmentById } from "@/data/equipment";
 import { loadEquipped } from "@/data/equipment/storage";
 import { getEffectiveStats } from "./enhance";
 import { getActiveSetItemIds, SET_MULTIPLIER } from "./sets";
+import { FIVE_THOUSAND_MS } from "@/data/ms";
 
 const WEAPON_CRIT_RATE: Record<EquipmentRank, number> = {
   1: 1,
@@ -158,7 +159,7 @@ function halfHealReductionForRank(rank: EquipmentRank): number {
   return Math.round(((idx - 4) / 6) * 40);
 }
 
-export const HALFHEAL_DURATION_MS = 5000;
+export const HALFHEAL_DURATION_MS = FIVE_THOUSAND_MS;
 
 export function getHalfHealReduction(character: CharacterId): number {
   const equipped = loadEquipped(character);

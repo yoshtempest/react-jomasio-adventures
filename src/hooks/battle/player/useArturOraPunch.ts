@@ -1,6 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import {
+  SIXTEEN_MS,
+  THIRTY_MS,
+  FIFTY_MS,
+  THREE_HUNDRED_MS,
+  FIVE_HUNDRED_MS,
+} from "@/data/ms";
 
 export type ExtraPunchVisual = {
   id: number;
@@ -26,13 +33,13 @@ type Props = {
   multiplierRef: React.RefObject<() => number>;
 };
 
-const PUNCH_LIFETIME_MS = 500;
-const PUNCH_SPAWN_INTERVAL_MS = 30;
-const PUNCH_FINALIZE_MS = 300;
-const PUNCH_MOVE_TICK_MS = 16;
+const PUNCH_LIFETIME_MS = FIVE_HUNDRED_MS;
+const PUNCH_SPAWN_INTERVAL_MS = THIRTY_MS;
+const PUNCH_FINALIZE_MS = THREE_HUNDRED_MS;
+const PUNCH_MOVE_TICK_MS = SIXTEEN_MS;
 const PUNCH_MOVE_FACTOR = 0.22;
 const PUNCH_TARGET_JITTER = 60;
-const PUNCH_MIN_DISTANCE_MS = 50;
+const PUNCH_MIN_DISTANCE_MS = FIFTY_MS;
 
 export function useArturOraPunch({
   player,

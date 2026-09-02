@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
+import { FOUR_HUNDRED_MS, THREE_HUNDRED_FIFTY_MS } from "@/data/ms";
 
 type Props = {
   enabled: boolean;
@@ -25,8 +26,8 @@ export type PetJumpAttack = {
 };
 
 const OFFSET_X = 60;
-const JUMP_DURATION = 400;
-const ATTACK_DURATION = 350;
+const JUMP_DURATION = FOUR_HUNDRED_MS;
+const ATTACK_DURATION = THREE_HUNDRED_FIFTY_MS;
 const RETURN_SPEED = 0.06;
 
 export function usePetBattle({

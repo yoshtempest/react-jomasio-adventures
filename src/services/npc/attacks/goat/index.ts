@@ -2,6 +2,13 @@ import { NpcAttack } from "../../npcAttack";
 import { NPC_MELEE_COOLDOWN } from "@/data/cooldowns";
 import { chasePlayer } from "@/gameRules/npc/movement";
 import { tryMeleeAttack } from "@/gameRules/npc/attack";
+import {
+  FOUR_HUNDRED_MS,
+  FIVE_HUNDRED_MS,
+  SIX_HUNDRED_MS,
+  ONE_THOUSAND_TWO_HUNDRED_MS,
+  THREE_THOUSAND_MS,
+} from "@/data/ms";
 import type {
   BehaviorContext,
   BehaviorResult,
@@ -10,14 +17,14 @@ import type { NPCBattleState } from "@/utils/types/npc/npc";
 import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
 
 const MELEE_RANGE = 40;
-const JUMP_COOLDOWN = 3000;
-const JUMP_DURATION = 1200;
+const JUMP_COOLDOWN = THREE_THOUSAND_MS;
+const JUMP_DURATION = ONE_THOUSAND_TWO_HUNDRED_MS;
 const JUMP_THRESHOLD = 200;
 const JUMP_HEIGHT = 40;
-const JUMP_RISE_MS = 400;
-const JUMP_FLIGHT_MS = 600;
-const JUMP_RECOVERY_MS = 500;
-const MELEE_ATTACK_DURATION = 400;
+const JUMP_RISE_MS = FOUR_HUNDRED_MS;
+const JUMP_FLIGHT_MS = SIX_HUNDRED_MS;
+const JUMP_RECOVERY_MS = FIVE_HUNDRED_MS;
+const MELEE_ATTACK_DURATION = FOUR_HUNDRED_MS;
 
 function getJumpState(elapsed: number): NPCBattleState["state"] {
   if (elapsed < JUMP_RISE_MS) return "jumping";

@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { getSpecialFlowOverride } from "@/data/battle/animationFlow";
 import { ProjectileConstants } from "@/data/projectile";
+import { FOUR_HUNDRED_MS } from "@/data/ms";
 
 const SPHERE_OFFSET_X = 30;
-const FIRE_DURATION = 400;
+const FIRE_DURATION = FOUR_HUNDRED_MS;
 const FIRE_DISTANCE = 500;
 const MERGE_TIME_SCALE = 0.7;
 const MOVE_TIME_SCALE = 0.9;

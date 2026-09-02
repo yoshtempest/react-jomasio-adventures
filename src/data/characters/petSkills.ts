@@ -1,3 +1,5 @@
+import { FIVE_THOUSAND_MS } from "@/data/ms";
+
 export type PetRole = "montaria" | "suporte" | "dano" | "tanker";
 
 export const PET_ROLE_LABELS: Record<PetRole, string> = {
@@ -7,7 +9,7 @@ export const PET_ROLE_LABELS: Record<PetRole, string> = {
   tanker: "Tanker",
 };
 
-export const PET_SKILL_COOLDOWN_MS = 5000;
+export const PET_SKILL_COOLDOWN_MS = FIVE_THOUSAND_MS;
 
 export type PetSkillEffect =
   | { kind: "damage"; multiplier: number }

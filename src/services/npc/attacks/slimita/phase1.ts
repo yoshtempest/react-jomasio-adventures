@@ -2,6 +2,7 @@ import { chasePlayer } from "@/gameRules/npc/movement";
 import { isNear } from "@/gameRules/npc/behavior";
 import { createPullProjectile } from "@/gameRules/npc/createDirectionalProjectile";
 import { NPC_MELEE_COOLDOWN, NPC_PULL_COOLDOWN } from "@/data/cooldowns";
+import { FOUR_HUNDRED_MS, FIVE_HUNDRED_MS } from "@/data/ms";
 
 import { FAR_DISTANCE_X, MELEE_RANGE } from "./state";
 
@@ -56,14 +57,14 @@ export function handlePhase1(
     }
   }
 
-  const RANGED_ATTACK_DURATION = 400;
+  const RANGED_ATTACK_DURATION = FOUR_HUNDRED_MS;
 
   if (projectile || now - state.lastRangedAttack < RANGED_ATTACK_DURATION) {
     const { x } = chasePlayer(npc, targetX, targetY);
     return { x, y: npc.y, state: "rangedAttack" as const };
   }
 
-  const DASH_DURATION = 500;
+  const DASH_DURATION = FIVE_HUNDRED_MS;
   const DASH_EXTRA = 100;
   const DASH_RANGE = 50;
 

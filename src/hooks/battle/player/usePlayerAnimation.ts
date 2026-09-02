@@ -6,8 +6,9 @@ import {
 } from "@/data/battle/animationFlow";
 import { logPlay } from "@/utils/replay/audioEventLog";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import { FIVE_HUNDRED_MS } from "@/data/ms";
 
-const STUN_BASE_DURATION = 500;
+const STUN_BASE_DURATION = FIVE_HUNDRED_MS;
 
 export function usePlayerAnimation(
   player: Player,

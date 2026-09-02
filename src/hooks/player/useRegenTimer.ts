@@ -9,8 +9,9 @@ import { useTitles } from "@/contexts/TitleContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { getEquipmentStatsBonus } from "@/gameRules/battle/equipment";
 import { getRankMultiplier } from "@/gameRules/rank";
+import { ONE_THOUSAND_MS } from "@/data/ms";
 
-const REGEN_TICK_MS = 1000;
+const REGEN_TICK_MS = ONE_THOUSAND_MS;
 
 function computeMaxHp(
   statsHp: number,

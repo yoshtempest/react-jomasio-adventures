@@ -4,12 +4,13 @@ import {
   NPC_RECENT_BLOCK_COOLDOWN,
 } from "@/data/cooldowns";
 import type { SpawnDamageFn } from "@/utils/types/battle/spawnDamageFn";
+import { FIFTY_MS } from "@/data/ms";
 
 /**
  * Janela de tempo (ms) entre pressionar o bloqueio e sofrer o dano para o
  * parry disparar. Precisa ser um toque bem no timing do hit (0-50ms antes).
  */
-export const PARRY_WINDOW_MS = 50;
+export const PARRY_WINDOW_MS = FIFTY_MS;
 
 export function isParryPress(
   lastBlockPressRef: React.RefObject<number>,

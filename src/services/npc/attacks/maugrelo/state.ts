@@ -1,4 +1,18 @@
 import type { NewPlayerStatus } from "@/gameRules/battle/status/statusEffects";
+import {
+  FIFTY_MS,
+  ONE_HUNDRED_MS,
+  TWO_HUNDRED_MS,
+  THREE_HUNDRED_MS,
+  SIX_HUNDRED_MS,
+  EIGHT_HUNDRED_MS,
+  ONE_THOUSAND_TWO_HUNDRED_MS,
+  ONE_THOUSAND_FIVE_HUNDRED_MS,
+  THREE_THOUSAND_MS,
+  FIVE_THOUSAND_MS,
+  EIGHT_THOUSAND_MS,
+  FIVE_HUNDRED_MS,
+} from "@/data/ms";
 
 export type GroundPaper = {
   id: number;
@@ -80,23 +94,23 @@ export type MaugreloAI = {
   pushHitTriggered: boolean;
 };
 
-export const PRE_MOVE_DURATION = 300;
-export const THROW_ACTIVE_DURATION = 200;
-export const SLAP_ACTIVE_DURATION = 300;
-export const PUSH_ACTIVE_DURATION = 300;
-export const POST_ACTION_COOLDOWN = 300;
+export const PRE_MOVE_DURATION = THREE_HUNDRED_MS;
+export const THROW_ACTIVE_DURATION = TWO_HUNDRED_MS;
+export const SLAP_ACTIVE_DURATION = THREE_HUNDRED_MS;
+export const PUSH_ACTIVE_DURATION = THREE_HUNDRED_MS;
+export const POST_ACTION_COOLDOWN = THREE_HUNDRED_MS;
 
 export const SLAP_RANGE = 50;
 export const PUSH_RANGE = 120;
 export const MELEE_SWITCH_DISTANCE = 100;
 
-export const SLAP_COOLDOWN = 1200;
-export const PUSH_COOLDOWN = 1500;
-export const THROW_COOLDOWN = 5000;
+export const SLAP_COOLDOWN = ONE_THOUSAND_TWO_HUNDRED_MS;
+export const PUSH_COOLDOWN = ONE_THOUSAND_FIVE_HUNDRED_MS;
+export const THROW_COOLDOWN = FIVE_THOUSAND_MS;
 
 export const MAX_GROUND_PAPERS = 3;
-export const MEDITATION_ARMOR_INTERVAL = 3000;
-export const RUN_TRANSITION_DELAY = 1500;
+export const MEDITATION_ARMOR_INTERVAL = THREE_THOUSAND_MS;
+export const RUN_TRANSITION_DELAY = ONE_THOUSAND_FIVE_HUNDRED_MS;
 
 export const PAPER_GRAVITY = 0.35;
 export const PAPER_INITIAL_VEL_X = -2.5;
@@ -106,7 +120,7 @@ export const PAPER_GROUND_Y_SPREAD = 30;
 export const PAPER_X_SPREAD = 60;
 export const PAPER_VEL_X_SPREAD = 1.5;
 export const PAPER_MIN_DISTANCE = 50;
-export const PAPER_EXPLOSION_DURATION = 500;
+export const PAPER_EXPLOSION_DURATION = FIVE_HUNDRED_MS;
 export const PAPER_STEP_RADIUS = 30;
 /**
  * Tolerância vertical (eixo Y) para o papel explodir quando o jogador pisa.
@@ -116,24 +130,24 @@ export const PAPER_STEP_RADIUS = 30;
  */
 export const PAPER_STEP_VERTICAL_RANGE = 60;
 export const PAPER_ATTACK_RANGE = 200;
-export const STUCK_PAPER_DURATION = 3000;
+export const STUCK_PAPER_DURATION = THREE_THOUSAND_MS;
 
 export const PHASE2_RISE_DISTANCE = 300;
 export const PHASE2_RISE_SPEED = 3;
 export const ORBIT_RADIUS = 80;
 export const ORBIT_Y_OFFSET = 100;
 export const ORBIT_COUNT = 9;
-export const ORBIT_FIRE_INTERVAL = 500;
+export const ORBIT_FIRE_INTERVAL = FIVE_HUNDRED_MS;
 export const PHASE2_DESCEND_SPEED = 5;
-export const PHASE2_LANDING_DURATION = 300;
-export const PHASE2_PREMOVE_DURATION = 100;
-export const PHASE2_LASER_DURATION = 8000;
-export const PHASE2_DEBUFF_DURATION = 800;
-export const PHASE2_THROW_PAPER_INTERVAL = 600;
+export const PHASE2_LANDING_DURATION = THREE_HUNDRED_MS;
+export const PHASE2_PREMOVE_DURATION = ONE_HUNDRED_MS;
+export const PHASE2_LASER_DURATION = EIGHT_THOUSAND_MS;
+export const PHASE2_DEBUFF_DURATION = EIGHT_HUNDRED_MS;
+export const PHASE2_THROW_PAPER_INTERVAL = SIX_HUNDRED_MS;
 export const PHASE2_THROW_PAPER_COUNT = 3;
 export const PHASE2_CHARGE_SPEED = 4;
-export const PHASE2_PUSH_ACTIVE_DURATION = 300;
-export const LASER_DAMAGE_INTERVAL = 50;
+export const PHASE2_PUSH_ACTIVE_DURATION = THREE_HUNDRED_MS;
+export const LASER_DAMAGE_INTERVAL = FIFTY_MS;
 export const LASER_BODY_OFFSET = 120;
 
 export function initMaugreloAi(npcPhase: number = 1): MaugreloAI {

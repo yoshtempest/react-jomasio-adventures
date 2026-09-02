@@ -1,4 +1,6 @@
-export const COMBO_RESET_MS = 5000;
+import { FIVE_THOUSAND_MS } from "@/data/ms";
+
+export const COMBO_RESET_MS = FIVE_THOUSAND_MS;
 
 export const RANK_THRESHOLDS = [
   { rank: "SS", pct: 95 },

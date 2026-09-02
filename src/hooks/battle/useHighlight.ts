@@ -1,8 +1,9 @@
 import { useCallback, useState } from "react";
 import type { ReplayData, ReplayFrame } from "@/utils/types/replay";
+import { ONE_HUNDRED_MS, FIVE_THOUSAND_MS } from "@/data/ms";
 
-const HIGHLIGHT_DURATION_MS = 5000;
-const FRAME_INTERVAL_MS = 100;
+const HIGHLIGHT_DURATION_MS = FIVE_THOUSAND_MS;
+const FRAME_INTERVAL_MS = ONE_HUNDRED_MS;
 const HIGHLIGHT_FRAMES = HIGHLIGHT_DURATION_MS / FRAME_INTERVAL_MS;
 
 const PLAYER_DAMAGE_TYPES = new Set(["player", "special", "crit"]);

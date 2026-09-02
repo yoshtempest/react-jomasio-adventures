@@ -1,3 +1,5 @@
+import { ONE_THOUSAND_MS } from "@/data/ms";
+
 type StatusUntilKey =
   | "bleedUntil"
   | "burnUntil"
@@ -43,7 +45,7 @@ export const STATUS_LIST: PlayerStatus[] = [
 
 export const BURN_TICK_DAMAGE = 2;
 export const POISON_TICK_DAMAGE = 2;
-export const DOT_TICK_INTERVAL_MS = 1000;
+export const DOT_TICK_INTERVAL_MS = ONE_THOUSAND_MS;
 
 export function isPlayerFrozen(player: Player): boolean {
   return player.frozenUntil > Date.now();

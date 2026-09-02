@@ -1,4 +1,6 @@
-export const CHARGE_TIME = 2000;
+import { TWO_THOUSAND_MS } from "@/data/ms";
+
+export const CHARGE_TIME = TWO_THOUSAND_MS;
 
 export type ChargeParticle = {
   id: number;

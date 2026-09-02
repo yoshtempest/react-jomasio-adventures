@@ -34,12 +34,13 @@ import {
 import { rollWoodGather } from "@/gameRules/professions/wood";
 import { rollMineGather } from "@/gameRules/professions/mine";
 import { rollProfessionMaterial } from "@/gameRules/professions/weapon";
+import { THREE_THOUSAND_MS } from "@/data/ms";
 
 type Props = {
   sceneId: SceneId;
 };
 
-const MINE_COOLDOWN_MS = 3000;
+const MINE_COOLDOWN_MS = THREE_THOUSAND_MS;
 
 type MineRockDeps = ToolDeps & {
   addItem: (item: InventoryItem) => void;

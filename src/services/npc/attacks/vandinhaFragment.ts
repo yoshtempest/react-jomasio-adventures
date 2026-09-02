@@ -5,15 +5,16 @@ import { tryMeleeAttack } from "@/gameRules/npc/attack";
 import { canAttack } from "@/gameRules/npc/behavior";
 import { createCommonProjectile } from "@/gameRules/npc/createDirectionalProjectile";
 import { tryThrowProjectile } from "@/gameRules/npc/projectile";
+import { ONE_HUNDRED_MS, FOUR_HUNDRED_MS } from "@/data/ms";
 import type {
   BehaviorContext,
   BehaviorResult,
 } from "@/utils/types/npc/npcBehavior";
 
 const MELEE_RANGE = 50;
-const MELEE_ATTACK_DURATION = 400;
+const MELEE_ATTACK_DURATION = FOUR_HUNDRED_MS;
 const SWITCH_DISTANCE = 120;
-const IDLE_DURATION = 100;
+const IDLE_DURATION = ONE_HUNDRED_MS;
 
 export class VandinhaFragmentAttack extends NpcAttack {
   constructor() {

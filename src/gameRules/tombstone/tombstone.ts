@@ -1,12 +1,13 @@
 import { npcPath } from "@/utils/paths";
 import { isNpcType } from "@/data/npc/npc";
+import { ONE_THOUSAND_MS } from "@/data/ms";
 import type {
   Tombstone,
   TombstoneSpawnPosition,
   TombstoneVariant,
 } from "@/utils/types/npc/tombstone";
 
-export const TOMBSTONE_FADE_MS = 1000;
+export const TOMBSTONE_FADE_MS = ONE_THOUSAND_MS;
 
 export const MAP_GRID_COLS = 17;
 export const MAP_GRID_ROWS = 13;

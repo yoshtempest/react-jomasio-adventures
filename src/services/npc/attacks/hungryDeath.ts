@@ -1,16 +1,22 @@
 import { NpcAttack } from "../npcAttack";
 import { chasePlayer } from "@/gameRules/npc/movement";
 import { isNear } from "@/gameRules/npc/behavior";
+import {
+  EIGHT_HUNDRED_MS,
+  ONE_THOUSAND_MS,
+  TWO_THOUSAND_MS,
+  FOUR_THOUSAND_MS,
+} from "@/data/ms";
 import type {
   BehaviorContext,
   BehaviorResult,
 } from "@/utils/types/npc/npcBehavior";
 
 const MELEE_RANGE = 50;
-const GRAB_DURATION = 4000;
-const GRAB_GET_DURATION = 1000;
-const MELEE_COOLDOWN = 800;
-const GRAB_COOLDOWN = 2000;
+const GRAB_DURATION = FOUR_THOUSAND_MS;
+const GRAB_GET_DURATION = ONE_THOUSAND_MS;
+const MELEE_COOLDOWN = EIGHT_HUNDRED_MS;
+const GRAB_COOLDOWN = TWO_THOUSAND_MS;
 
 export class HungryDeathAttack extends NpcAttack {
   constructor() {

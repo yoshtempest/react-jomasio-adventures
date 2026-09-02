@@ -1,5 +1,6 @@
 import { chasePlayer } from "@/gameRules/npc/movement";
 import { getDistance } from "@/gameRules/npc/behavior";
+import { FIVE_HUNDRED_MS, ONE_THOUSAND_MS, ONE_THOUSAND_FIVE_HUNDRED_MS } from "@/data/ms";
 
 import {
   JUMP_CENTER_RADIUS,
@@ -23,8 +24,8 @@ export function handlePhase2(
   const { npc, playerX, playerY, targetX, targetY, onMeleeHit } = ctx;
 
   const hpRatio = ctx.npcMaxHp ? (ctx.npcHp ?? ctx.npcMaxHp) / ctx.npcMaxHp : 1;
-  const jumpDuration = 500 + 1500 * hpRatio;
-  const restDuration = 1000;
+  const jumpDuration = FIVE_HUNDRED_MS + ONE_THOUSAND_FIVE_HUNDRED_MS * hpRatio;
+  const restDuration = ONE_THOUSAND_MS;
 
   switch (state.state) {
     case "idle": {

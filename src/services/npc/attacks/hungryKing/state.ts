@@ -11,15 +11,21 @@ export type HungryKingAI = {
 };
 
 import { JUMP_COOLDOWN } from "@/data/cooldowns";
+import {
+  FOUR_HUNDRED_MS,
+  FIVE_HUNDRED_MS,
+  SIX_HUNDRED_MS,
+  ONE_THOUSAND_FIVE_HUNDRED_MS,
+} from "@/data/ms";
 
 export { JUMP_COOLDOWN };
 export const MELEE_RANGE = 40;
-export const JUMP_DURATION = 1500;
+export const JUMP_DURATION = ONE_THOUSAND_FIVE_HUNDRED_MS;
 export const JUMP_THRESHOLD = 200;
 export const JUMP_HEIGHT = 220;
-export const JUMP_RISE_MS = 400;
-export const JUMP_FLIGHT_MS = 600;
-export const JUMP_RECOVERY_MS = 500;
+export const JUMP_RISE_MS = FOUR_HUNDRED_MS;
+export const JUMP_FLIGHT_MS = SIX_HUNDRED_MS;
+export const JUMP_RECOVERY_MS = FIVE_HUNDRED_MS;
 
 export function initHungryKingAi(phase: number): HungryKingAI {
   const now = Date.now();

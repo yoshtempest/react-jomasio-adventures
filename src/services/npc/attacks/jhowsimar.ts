@@ -2,15 +2,16 @@ import { NpcAttack } from "../npcAttack";
 import { NPC_MELEE_COOLDOWN } from "@/data/cooldowns";
 import { chasePlayer } from "@/gameRules/npc/movement";
 import { canAttack, isNear } from "@/gameRules/npc/behavior";
+import { ONE_THOUSAND_MS, THREE_HUNDRED_MS } from "@/data/ms";
 import type {
   BehaviorContext,
   BehaviorResult,
 } from "@/utils/types/npc/npcBehavior";
 
 const MELEE_RANGE = 50;
-const GET_DURATION = 1000;
-const THROW_DURATION = 1000;
-const MELEE_VISUAL_DURATION = 300;
+const GET_DURATION = ONE_THOUSAND_MS;
+const THROW_DURATION = ONE_THOUSAND_MS;
+const MELEE_VISUAL_DURATION = THREE_HUNDRED_MS;
 
 export class JhowsimarAttack extends NpcAttack {
   constructor() {

@@ -4,11 +4,12 @@ import {
   MIN_ACTION_GAP,
   SPEAR_RAIN_COOLDOWN,
 } from "@/data/cooldowns";
+import { ONE_THOUSAND_MS } from "@/data/ms";
 
 export { STAFF_COOLDOWN, SUMMON_COOLDOWN, MIN_ACTION_GAP, SPEAR_RAIN_COOLDOWN };
 
 export const CLOSE_RANGE = 200;
-export const SPEAR_RAIN_WARNING_DURATION = 1000;
+export const SPEAR_RAIN_WARNING_DURATION = ONE_THOUSAND_MS;
 export const SPEAR_RAIN_COUNT = 5;
 
 export type DeiseAI = {
