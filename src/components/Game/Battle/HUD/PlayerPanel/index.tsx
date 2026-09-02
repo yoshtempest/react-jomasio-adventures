@@ -7,8 +7,11 @@ import { playerPath } from "@/utils/paths";
 import type { ElementType } from "@/utils/types/battle/element";
 import styles from "../styles.module.css";
 import { asset } from "@/utils/paths";
+// import { characterFaceStyle } from "@/utils/character/elementFace";
+// import type { CharacterOption } from "@/utils/types/player/character";
 
 type Props = {
+  // characterColor: CharacterOption & { unlockedDate?: string | null };
   character: string;
   playerName: string;
   playerRank: string;
@@ -24,6 +27,7 @@ type Props = {
 };
 
 export function PlayerHUDPanel({
+  // characterColor,
   character,
   playerName,
   playerRank,
@@ -39,11 +43,13 @@ export function PlayerHUDPanel({
 }: Props) {
   return (
     <div className={styles.container} style={{ left: 10, top: 10 }}>
-      <div>
+      <div
+        >
         <img
           src={playerPath(`/${character}/face.svg`)}
           alt="Player HUD"
           className="hudImage"
+          // style={characterFaceStyle(characterColor.image)}
         />
         <img
           src={asset(`/assets/badges/ranks/${playerRank}`)}

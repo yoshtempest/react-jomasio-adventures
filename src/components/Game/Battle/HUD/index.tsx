@@ -4,6 +4,7 @@ import type { SummonedNpc } from "@/utils/types/npc/npc";
 import { getRank, srcRank } from "@/gameRules/rank";
 import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
+// import { CHARACTERS } from "@/data/options/characters";
 import { PlayerHUDPanel } from "./PlayerPanel";
 import { NPCHUDPanel } from "./NpcPanel";
 import { SummonHUDList } from "./SummonList";
@@ -46,11 +47,13 @@ export function BattleHUD({
   const { progress } = useCharacterProgress();
   const playerName = localStorage.getItem("playerName") || "Protagonista";
 
+  // const characterColor = CHARACTERS.find((c) => c.image === player.character);
   const playerRank = `${srcRank(getRank(progress[player.character]?.level ?? 1))}`;
 
   return (
     <>
       <PlayerHUDPanel
+        // characterColor={characterColor!}
         character={player.character}
         playerName={playerName}
         playerRank={playerRank}
