@@ -64,6 +64,7 @@ type HandleBlockingParams = {
   onFullBlock?: () => void;
   onBlockRef?: React.RefObject<() => void>;
   onParry?: () => void;
+  onDamageBlocked?: (blockedDamage: number) => void;
 };
 
 export function handleNpcBlocking({
@@ -83,6 +84,7 @@ export function handleNpcBlocking({
   onFullBlock,
   onBlockRef,
   onParry,
+  onDamageBlocked,
 }: HandleBlockingParams): boolean {
   const now = Date.now();
   const pressTime = lastBlockPressRef.current;
@@ -109,6 +111,7 @@ export function handleNpcBlocking({
         spawnDamageRef.current?.(0, playerX, playerY - 40, "blocked");
         npcCooldown.current = false;
         onFullBlock?.();
+        onDamageBlocked?.(dmg);
         onBlockRef?.current?.();
         setTimeout(() => (npcCooldown.current = true), NPC_BLOCK_COOLDOWN);
         return true;

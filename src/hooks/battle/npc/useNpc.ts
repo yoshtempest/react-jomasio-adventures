@@ -9,11 +9,13 @@ import { logPlay } from "@/utils/replay/audioEventLog";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
 import { combatService } from "@/services/combat";
+import { getBabidiBlockReflect } from "@/gameRules/battle/babidiBlock";
 
 type Props = {
   npcLevel: number;
   npcClass: NPCClass;
   playerClass: PlayerClass;
+  playerLevel: number;
 
   playerX: number;
   playerY: number;
@@ -58,6 +60,7 @@ export function useNpcBattle({
   npcLevel,
   npcClass,
   playerClass,
+  playerLevel,
   totalArmor,
   damagePlayerHp,
   setPlayer,
@@ -114,6 +117,34 @@ export function useNpcBattle({
     [damagePlayerHp, totalReflect, setNpcHP, spawnDamageRef, npcX, npcY],
   );
 
+  const applyBabidiBlockReflect = useCallback(
+    (blockedDamage: number) => {
+      const reflect = getBabidiBlockReflect({
+        character: player.character,
+        playerLevel,
+        npcLevel,
+        blockedDamage,
+        npcHp: npcHpRef.current,
+      });
+      if (!reflect) return;
+
+      setNpcHP((hp) =>
+        reflect.isInstakill ? 0 : Math.max(0, hp - reflect.damage),
+      );
+      spawnDamageRef.current?.(reflect.damage, npcX, npcY, "reflect");
+    },
+    [
+      player.character,
+      playerLevel,
+      npcLevel,
+      npcHpRef,
+      setNpcHP,
+      spawnDamageRef,
+      npcX,
+      npcY,
+    ],
+  );
+
   const onFullBlock = useCallback(() => {
     if (player.character === "marcelo") {
       playSound("swordDeflected");
@@ -143,6 +174,7 @@ export function useNpcBattle({
         onFullBlock,
         onBlockRef,
         onParry,
+        onDamageBlocked: applyBabidiBlockReflect,
       });
       if (blocked) return;
 
@@ -169,6 +201,7 @@ export function useNpcBattle({
       onFullBlock,
       onBlockRef,
       onParry,
+      applyBabidiBlockReflect,
     ],
   );
 
@@ -594,6 +627,7 @@ function checkBlocked(params: {
   onFullBlock?: () => void;
   onBlockRef?: React.RefObject<() => void>;
   onParry?: () => void;
+  onDamageBlocked?: (blockedDamage: number) => void;
 }): boolean {
   const {
     dmg,
@@ -615,6 +649,7 @@ function checkBlocked(params: {
     onFullBlock,
     onBlockRef,
     onParry,
+    onDamageBlocked,
   } = params;
 
   const isBlocking =
@@ -638,6 +673,7 @@ function checkBlocked(params: {
     onFullBlock,
     onBlockRef,
     onParry,
+    onDamageBlocked,
   });
   return blocked;
 }
