@@ -298,6 +298,7 @@ export function useBattleSystem(props: Props) {
     npcLevel,
     npcClass,
     playerClass,
+    playerLevel: char.level,
     playerX,
     playerY,
     npcX,

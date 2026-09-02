@@ -120,6 +120,15 @@
   animation: floatBlocked 0.8s ease-out forwards;
 }
 
+.reflect {
+  color: #7c4dff;
+  text-shadow:
+    0 0 var(--size-6) rgba(124, 77, 255, 0.8),
+    var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8),
+    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8);
+  animation: floatCrit 1s ease-out forwards;
+}
+
 .armor {
   color: #00e5ff;
   font-size: var(--fs-20);

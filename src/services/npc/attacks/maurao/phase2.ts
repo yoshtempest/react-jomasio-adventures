@@ -1,4 +1,4 @@
-import { chasePlayer } from "@/gameRules/npc/movement";
+import { chasePlayer, getBehindPlayerX } from "@/gameRules/npc/movement";
 import { isNear } from "@/gameRules/npc/behavior";
 
 import type { NPCBattleState } from "@/utils/types/npc/npc";
@@ -17,14 +17,22 @@ import {
   SPIN_MOVE_SPEED,
   SPIN_CYCLE_START_THRESHOLD,
   SPIN_CYCLE_END_THRESHOLD,
+  SPIN_TELEPORT_OFFSET,
 } from "./state";
 
+/**
+ * Fase 2 do Maurão: ciclo de giro (girando -> descansando -> ocioso).
+ *
+ * Ao sair de ocioso para girar ele teleporta para trás do jogador, então o
+ * giro nunca começa longe: fugir do alcance deixa de ser saída, e a resposta
+ * passa a ser o bloqueio ou o dash na janela do primeiro hit do giro.
+ */
 export function mauraoPhase2(
   ctx: BehaviorContext,
   ai: MauraoAI,
 ): BehaviorResult {
   const now = Date.now();
-  const { npc, playerX, playerY, targetX, onMeleeHit } = ctx;
+  const { npc, playerX, playerY, playerDirection, targetX, onMeleeHit } = ctx;
 
   if (ai.spinState === "spinning") {
     const elapsed = now - ai.spinStart;
@@ -36,7 +44,10 @@ export function mauraoPhase2(
     }
 
     const dx = targetX - npc.x;
-    const step = Math.hypot(dx, 0) <= SPIN_MELEE_RANGE ? 0 : Math.min(Math.abs(dx), SPIN_MOVE_SPEED);
+    const step =
+      Math.hypot(dx, 0) <= SPIN_MELEE_RANGE
+        ? 0
+        : Math.min(Math.abs(dx), SPIN_MOVE_SPEED);
     const newX = npc.x + Math.sign(dx) * step;
 
     if (now - ai.lastSpinHit >= SPIN_HIT_INTERVAL) {
@@ -69,7 +80,6 @@ export function mauraoPhase2(
     return { x: npc.x, y: npc.y, state: "idle" as const };
   }
 
-  // idle — check if ready to start spinning
   const canStartSpin =
     ai.spinStart === 0 ||
     (ai.spinRestStart !== 0 && now - ai.spinRestStart >= SPIN_REST_DURATION);
@@ -79,7 +89,11 @@ export function mauraoPhase2(
     ai.spinStart = now;
     ai.lastSpinHit = now;
     ai.spinHitCount = 0;
-    return { x: npc.x, y: npc.y, state: "startSpin" as const };
+    return {
+      x: getBehindPlayerX(playerX, playerDirection, SPIN_TELEPORT_OFFSET),
+      y: npc.y,
+      state: "startSpin" as const,
+    };
   }
 
   const { x } = chasePlayer(npc, targetX, playerY, 1, SPIN_MELEE_RANGE);

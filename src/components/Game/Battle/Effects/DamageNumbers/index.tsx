@@ -21,6 +21,7 @@ const TYPE_CLASS: Record<string, string> = {
   summon: styles.summon!,
   blocked: styles.blocked!,
   parry: styles.parry!,
+  reflect: styles.reflect!,
   crit: styles.crit!,
   charge: styles.charge!,
   miss: styles.miss!,

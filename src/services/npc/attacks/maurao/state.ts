@@ -50,6 +50,14 @@ export const SPIN_MOVE_SPEED = 2;
 export const SPIN_CYCLE_START_THRESHOLD = THREE_HUNDRED_THIRTY_THREE_MS;
 export const SPIN_CYCLE_END_THRESHOLD = THREE_HUNDRED_THIRTY_THREE_MS;
 
+/**
+ * Distância (px) atrás do jogador onde Maurão reaparece ao começar a girar.
+ *
+ * Fica além de SPIN_MELEE_RANGE para o teleport não acertar de graça: o
+ * jogador ainda tem a janela do primeiro SPIN_HIT_INTERVAL para reagir.
+ */
+export const SPIN_TELEPORT_OFFSET = 70;
+
 export function initMauraoAi(npcPhase: number): MauraoAI {
   return {
     knownPhase: npcPhase,
