@@ -20,8 +20,12 @@ import {
 } from "../papers";
 import { distributeOrbitPapers } from "./distributeOrbitPapers";
 import { orbitPositions } from "./orbitPositions";
-import { handleFirePaper } from "../actions/handleFirePaper";
+import { handleFirePaper } from "../actions/index";
 import { updateLaser } from "./updateLaser";
+import { handleDebuff } from "../actions/index";
+import { handleThrowPapers } from "../actions/index";
+import { handleCharging } from "../actions/index";
+import { handlePhase2Push } from "../actions/index";
 
 export function maugreloPhase2(
   ctx: BehaviorContext,
@@ -124,17 +128,34 @@ export function maugreloPhase2(
 
   if (ai.phase2State === "laser") {
     if (now - ai.phase2StageStart >= PHASE2_LASER_DURATION) {
-      ai.phase2State = "rising";
+      ai.phase2State = "debuff";
       ai.phase2StageStart = now;
       ai.riseStartY = npc.y;
       ai.laser = null;
-      return { x: npc.x, y: ai.riseStartY, state: "flying" };
+      ai.appliedDebuff = null;
+      return { x: npc.x, y: ai.riseStartY, state: "debuff" };
     }
 
     updateLaser(ai, ctx, now);
     return { x: npc.x, y: ai.riseStartY, state: "laser" };
   }
 
+  if (ai.phase2State === "debuff") {
+    return handleDebuff(ai, ctx, now);
+  }
+
+  if (ai.phase2State === "throwPapers") {
+    return handleThrowPapers(ai, ctx, now);
+  }
+
+  if (ai.phase2State === "charging") {
+    return handleCharging(ai, ctx, now);
+  }
+
+  if (ai.phase2State === "push") {
+    return handlePhase2Push(ai, ctx, now);
+  }
+
   ai.laser = null;
-  return { x: npc.x, y: ai.riseStartY, state: "laser" };
+  return { x: npc.x, y: ai.riseStartY, state: "flying" };
 }

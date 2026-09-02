@@ -78,6 +78,8 @@ import { useBattleRecording } from "@/hooks/battle/recording/useBattleRecording"
 import type { ReplayData } from "@/utils/types/replay";
 import type { SpawnDamageFn } from "@/utils/types/battle/spawnDamageFn";
 import { combatService } from "@/services/combat";
+import { applyPlayerStatus } from "@/gameRules/battle/status/statusEffects";
+import type { NewPlayerStatus } from "@/gameRules/battle/status/statusEffects";
 import { useKokusenAnimation } from "@/hooks/battle/player/useKokusenAnimation";
 import { useSpecialIntro } from "@/hooks/battle/useSpecialIntro";
 
@@ -545,6 +547,9 @@ export function useBattleScene({
     onStuckPaperExplode: () => {
       battle.npcThrowHit(2);
       playSound("explosion");
+    },
+    onApplyDebuff: (status: NewPlayerStatus) => {
+      setPlayer((p) => applyPlayerStatus(p, status));
     },
     obstacles: map?.obstacles,
     hitstopRef: refs.hitstopRef,

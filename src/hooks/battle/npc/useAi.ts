@@ -13,6 +13,7 @@ import { useLatestRef } from "@/hooks/useLatestRef";
 import { logPlay, logStop } from "@/utils/replay/audioEventLog";
 import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
 import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
+import type { NewPlayerStatus } from "@/gameRules/battle/status/statusEffects";
 
 function useProximityLoopSound(
   npcTypeRef: React.RefObject<string>,
@@ -73,6 +74,7 @@ type Props = {
   onLaserHit?: () => void;
   onProjectileMiss?: (x: number) => void;
   onStuckPaperExplode?: () => void;
+  onApplyDebuff?: (status: NewPlayerStatus) => void;
 };
 
 export function useNpcAI({
@@ -103,6 +105,7 @@ export function useNpcAI({
   onLaserHit,
   onProjectileMiss,
   onStuckPaperExplode,
+  onApplyDebuff,
 }: Props) {
   const [npc, setNpc] = useState<NPCBattleState>({
     x: BATTLE_SPAWN.npc.x,
@@ -158,6 +161,7 @@ export function useNpcAI({
   const onLaserHitRef = useLatestRef(onLaserHit);
   const onProjectileMissRef = useLatestRef(onProjectileMiss);
   const onStuckPaperExplodeRef = useLatestRef(onStuckPaperExplode);
+  const onApplyDebuffRef = useLatestRef(onApplyDebuff);
 
   const { update: updateProximitySound } = useProximityLoopSound(
     npcTypeRef,
@@ -282,6 +286,7 @@ export function useNpcAI({
           onArmorBuff: onArmorBuffRef.current,
           onLaserHit: onLaserHitRef.current,
           onStuckPaperExplode: onStuckPaperExplodeRef.current,
+          onApplyDebuff: onApplyDebuffRef.current,
         });
 
         const nextX = result.x;
@@ -343,6 +348,7 @@ export function useNpcAI({
     onArmorBuffRef,
     onLaserHitRef,
     onStuckPaperExplodeRef,
+    onApplyDebuffRef,
     playerXRef,
     playerYRef,
     playerStateRef,

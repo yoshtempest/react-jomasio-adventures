@@ -1,5 +1,6 @@
 import type { NPCBattleState } from "@/utils/types/npc/npc";
 import type { SoundId } from "@/contexts/SoundEffectsContext";
+import type { NewPlayerStatus } from "@/gameRules/battle/status/statusEffects";
 
 export type BehaviorContext = {
   npc: NPCBattleState;
@@ -31,6 +32,7 @@ export type BehaviorContext = {
   onArmorBuff?: (x: number, y: number) => void;
   onLaserHit?: () => void;
   onStuckPaperExplode?: () => void;
+  onApplyDebuff?: (status: NewPlayerStatus) => void;
 };
 
 export type BehaviorResult = {

@@ -1,3 +1,5 @@
+import type { NewPlayerStatus } from "@/gameRules/battle/status/statusEffects";
+
 export type GroundPaper = {
   id: number;
   x: number;
@@ -61,13 +63,21 @@ export type MaugreloAI = {
     | "descending"
     | "landing"
     | "preMove"
-    | "laser";
+    | "laser"
+    | "debuff"
+    | "throwPapers"
+    | "charging"
+    | "push";
   riseStartY: number;
   orbitPapers: OrbitPaper[];
   lastPaperFire: number;
   phase2StageStart: number;
   laser: LaserBeam | null;
   lastLaserDamage: number;
+  appliedDebuff: NewPlayerStatus | null;
+  papersThrownCount: number;
+  lastPaperThrow: number;
+  pushHitTriggered: boolean;
 };
 
 export const PRE_MOVE_DURATION = 300;
@@ -118,6 +128,11 @@ export const PHASE2_DESCEND_SPEED = 5;
 export const PHASE2_LANDING_DURATION = 300;
 export const PHASE2_PREMOVE_DURATION = 100;
 export const PHASE2_LASER_DURATION = 8000;
+export const PHASE2_DEBUFF_DURATION = 800;
+export const PHASE2_THROW_PAPER_INTERVAL = 600;
+export const PHASE2_THROW_PAPER_COUNT = 3;
+export const PHASE2_CHARGE_SPEED = 4;
+export const PHASE2_PUSH_ACTIVE_DURATION = 300;
 export const LASER_DAMAGE_INTERVAL = 50;
 export const LASER_BODY_OFFSET = 120;
 
@@ -147,6 +162,10 @@ export function initMaugreloAi(npcPhase: number = 1): MaugreloAI {
     phase2StageStart: 0,
     laser: null,
     lastLaserDamage: 0,
+    appliedDebuff: null,
+    papersThrownCount: 0,
+    lastPaperThrow: 0,
+    pushHitTriggered: false,
   };
 }
 
@@ -163,4 +182,8 @@ export function handlePhaseChange(ai: MaugreloAI, npcPhase: number): void {
   ai.stuckPapers = [];
   ai.laser = null;
   ai.lastLaserDamage = 0;
+  ai.appliedDebuff = null;
+  ai.papersThrownCount = 0;
+  ai.lastPaperThrow = 0;
+  ai.pushHitTriggered = false;
 }
