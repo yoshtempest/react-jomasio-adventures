@@ -24,18 +24,6 @@
   margin-top: var(--fs-10);
 }
 
-.imageFrame {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 30%;
-  aspect-ratio: 1 / 1;
-  border: var(--size-2) solid var(--primary-color);
-  border-radius: var(--fs-16);
-  overflow: hidden;
-}
-
 .characterImage {
   height: 90%;
   width: auto;
