@@ -20,7 +20,10 @@ import type {
 import { SceneBase } from "@/components/Game/Scenes/Base";
 import Talking from "@/components/Game/Interactions/Talking";
 
-import { JOMASIO_ENTRANCE_SCENES } from "@/scenes/jomasioEntrance";
+import {
+  JOMASIO_ENTRANCE_SCENES,
+  jomasioEntranceRocks,
+} from "@/scenes/jomasioEntrance";
 import { sceneBackgrounds } from "@/data/scene/background";
 import { ITEMS } from "@/data/items";
 import {
@@ -34,6 +37,7 @@ import {
 import { rollWoodGather } from "@/gameRules/professions/wood";
 import { rollMineGather } from "@/gameRules/professions/mine";
 import { rollProfessionMaterial } from "@/gameRules/professions/weapon";
+import { rockGridKey, toRockTiles } from "@/gameRules/movement/rocks";
 import { THREE_THOUSAND_MS } from "@/data/ms";
 
 type Props = {
@@ -41,6 +45,12 @@ type Props = {
 };
 
 const MINE_COOLDOWN_MS = THREE_THOUSAND_MS;
+
+const ROCK_TILES = toRockTiles(jomasioEntranceRocks);
+
+const ROCK_LABELS = Object.fromEntries(
+  jomasioEntranceRocks.map((rock) => [rockGridKey(rock), "[L] Minerar"]),
+);
 
 type MineRockDeps = ToolDeps & {
   addItem: (item: InventoryItem) => void;
@@ -173,17 +183,25 @@ export function JomasioEntranceScene({ sceneId }: Props) {
         },
       );
 
+    const mineDeps = {
+      setPopup,
+      addItem,
+      hasToolEquipped,
+      character: player.character,
+      getProficiency,
+      addProficiencyXP,
+      equippedWeaponId,
+    };
+
+    const rockInteractions = Object.fromEntries(
+      jomasioEntranceRocks.map((rock) => [
+        rockGridKey(rock),
+        () => mineRock(getLowestOreLevel())(mineDeps),
+      ]),
+    );
+
     return {
-      "13,10": () =>
-        mineRock(getLowestOreLevel())({
-          setPopup,
-          addItem,
-          hasToolEquipped,
-          character: player.character,
-          getProficiency,
-          addProficiencyXP,
-          equippedWeaponId,
-        }),
+      ...rockInteractions,
       "5,7": () =>
         chopWood(WOOD_LEVELS[0]?.treeLevel ?? 0)({
           setPopup,
@@ -216,18 +234,10 @@ export function JomasioEntranceScene({ sceneId }: Props) {
         background={sceneBackgrounds.JomasioEntrance}
         interactions={interactions}
         interactionLabels={{
-          "13,10": "[L] Minerar",
+          ...ROCK_LABELS,
           "5,7": "[L] Lenhar",
         }}
-        itemPickupTiles={[
-          {
-            x: 13,
-            y: 9,
-            visible: true,
-            image: "/assets/map/rock.svg",
-            size: 1.4,
-          },
-        ]}
+        itemPickupTiles={ROCK_TILES}
         popup={popup}
         setPopup={setPopup}
         onFinishExtra={() => ({
