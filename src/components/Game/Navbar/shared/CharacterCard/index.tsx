@@ -4,6 +4,7 @@ import { playerPath, asset } from "@/utils/paths";
 import { getRank, formatRank, srcRank } from "@/gameRules/rank";
 import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
 import { getXPToNextLevel } from "@/utils/character/progress";
+import { characterFaceStyle } from "@/utils/character/elementFace";
 import type { CharacterOption } from "@/utils/types/player/character";
 
 type CharacterProgress = {
@@ -38,11 +39,16 @@ export function CharacterCard({
     >
       {isSelected && <span className={`cursor ${styles.cursor}`}>▼</span>}
 
-      <img
-        src={playerPath(`/${character.image}/default.svg`)}
-        className={styles.characterImage}
-        alt={character.name}
-      />
+      <div
+        className={styles.imageFrame}
+        style={characterFaceStyle(character.image)}
+      >
+        <img
+          src={playerPath(`/${character.image}/default.svg`)}
+          className={styles.characterImage}
+          alt={character.name}
+        />
+      </div>
       <div className={styles.flexColumn}>
         <h2 className={styles.text}>
           <span className={styles.levelRow}>
