@@ -4,14 +4,15 @@ export const ELEMENT_STRONG_AGAINST: Record<
   ElementType,
   readonly ElementType[]
 > = {
-  Pyrus: ["Metallum", "Natura"],
+  Pyrus: ["Metallum", "Natura", "Cryo"],
   Aquos: ["Pyrus", "Subterra"],
   Subterra: ["Pyrus", "Electricus", "Metallum"],
   Ventus: ["Subterra", "Natura"],
   Darkus: ["Haos", "Nympha", "Umbra", "Psychicus"],
+  Cryo: ["Subterra", "Ventus", "Draco"],
   Electricus: ["Aquos", "Ventus", "Natura"],
   Haos: ["Darkus", "Umbra"],
-  Metallum: ["Ventus", "Haos", "Electricus"],
+  Metallum: ["Ventus", "Haos", "Electricus", "Cryo"],
   Natura: ["Aquos", "Subterra"],
   Psychicus: ["Umbra", "Normalis"],
   Nympha: ["Darkus", "Haos", "Draco"],

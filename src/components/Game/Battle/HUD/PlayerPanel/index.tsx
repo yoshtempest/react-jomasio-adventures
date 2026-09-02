@@ -1,6 +1,7 @@
 import { HealthBar } from "@/components/Game/Battle/HUD/HealthBar";
 import { Deliciometro } from "@/components/Game/Battle/HUD/Deliciometro";
 import { BlockGauge } from "@/components/Game/Battle/HUD/BlockGauge";
+import { EnergyBar } from "@/components/Game/Battle/HUD/EnergyBar";
 import { ElementBadges } from "@/components/Game/Battle/HUD/ElementBadges";
 import { playerPath } from "@/utils/paths";
 import type { ElementType } from "@/utils/types/battle/element";
@@ -19,6 +20,7 @@ type Props = {
   hitsToSpecial: number;
   blockGauge: number;
   blockLimit: number;
+  energy?: number;
 };
 
 export function PlayerHUDPanel({
@@ -33,6 +35,7 @@ export function PlayerHUDPanel({
   hitsToSpecial,
   blockGauge,
   blockLimit,
+  energy,
 }: Props) {
   return (
     <div className={styles.container} style={{ left: 10, top: 10 }}>
@@ -67,6 +70,7 @@ export function PlayerHUDPanel({
               </div>
             )}
             <BlockGauge blockGauge={blockGauge} blockLimit={blockLimit} />
+            {energy != null && <EnergyBar label="FLUXO" value={energy} />}
           </div>
           <Deliciometro delicia={delicia} hitsToSpecial={hitsToSpecial} />
         </div>

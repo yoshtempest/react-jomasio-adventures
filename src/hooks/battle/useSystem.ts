@@ -29,6 +29,7 @@ import {
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import { getProfessionWeaponDamageMultiplier } from "@/gameRules/professions/weapon";
 import { THREE_HUNDRED_MS } from "@/data/ms";
+import { useEnergy } from "@/hooks/battle/useEnergy";
 import { gainSpecial } from "@/gameRules/battle/special";
 import {
   applyPlayerStatus,
@@ -198,6 +199,8 @@ export function useBattleSystem(props: Props) {
     setPlayerShield,
   } = useBattleHP(playerMaxHp, npcMaxHp, totalShield, savedPlayerHP);
 
+  const energy = useEnergy(player, playerMaxHp, setPlayerShield);
+
   const petSkillDef = petId ? getPetSkillDefinition(petId) : null;
   const petIsBattle =
     hasPet && petSkillDef !== null && petSkillDef.role !== "montaria";
@@ -267,6 +270,7 @@ export function useBattleSystem(props: Props) {
     onParry: () => {
       playerBattle.setDelicia((d) => gainSpecial(d, HITS_TO_SPECIAL));
     },
+    onDamageTaken: energy.consumeOnDamage,
   });
 
   const { pet, resetPet, triggerJumpAttack } = usePetBattle({
@@ -378,6 +382,7 @@ export function useBattleSystem(props: Props) {
     resetPet();
     resetPetSkill();
     resetPetPassive();
+    energy.resetEnergy();
     setPlayer((p) => ({
       ...clearPlayerStatuses(p),
       halfHealUntil: 0,
@@ -419,6 +424,7 @@ export function useBattleSystem(props: Props) {
     playerMaxHp,
     playerShield,
     setPlayerShield,
+    energy: energy.enabled ? energy.energy : undefined,
     npcHP,
     setNpcHP,
     npcMaxHp,

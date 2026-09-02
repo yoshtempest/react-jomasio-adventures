@@ -19,6 +19,7 @@ type Props = {
   oneHitShieldRef?: React.RefObject<boolean>;
   lastBlockPressRef: React.RefObject<number>;
   onParry?: () => void;
+  onDamageTaken?: () => void;
 };
 
 export function useExternalDamage({
@@ -37,11 +38,14 @@ export function useExternalDamage({
   oneHitShieldRef,
   lastBlockPressRef,
   onParry,
+  onDamageTaken,
 }: Props) {
   const playerShieldRef = useLatestRef(playerShield);
+  const onDamageTakenRef = useLatestRef(onDamageTaken);
 
   const damagePlayerHp = useCallback(
     (damage: number) => {
+      onDamageTakenRef.current?.();
       if (oneHitShieldRef?.current) {
         oneHitShieldRef.current = false;
         spawnDamageRef.current?.(0, playerX, playerY - 40, "blocked");
@@ -64,6 +68,7 @@ export function useExternalDamage({
       spawnDamageRef,
       playerX,
       playerY,
+      onDamageTakenRef,
     ],
   );
 

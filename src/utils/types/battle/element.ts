@@ -10,6 +10,7 @@ export type ElementType =
   | "Natura"
   | "Psychicus"
   | "Nympha"
+  | "Cryo"
   | "Draco"
   | "Umbra"
   | "Normalis";

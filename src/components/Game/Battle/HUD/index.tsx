@@ -17,6 +17,7 @@ type BattleHUDState = {
   hitsToSpecial: number;
   blockGauge: number;
   blockLimit: number;
+  energy?: number;
 };
 
 type NpcStats = {
@@ -61,6 +62,7 @@ export function BattleHUD({
         hitsToSpecial={battle.hitsToSpecial}
         blockGauge={battle.blockGauge}
         blockLimit={battle.blockLimit}
+        energy={battle.energy}
       />
 
       {npcType && (
