@@ -1,6 +1,8 @@
 import { createItems } from "@/utils/items/createItem";
 import { WOODS } from "./woods";
 import { ORES } from "./ores";
+import { FISHES } from "./fishes";
+import { WEIGHTS } from "./weights";
 
 export const MATERIALS = createItems({
   hungry_essence: {
@@ -113,4 +115,6 @@ export const MATERIALS = createItems({
   },
   ...WOODS,
   ...ORES,
+  ...FISHES,
+  ...WEIGHTS,
 } as const);
