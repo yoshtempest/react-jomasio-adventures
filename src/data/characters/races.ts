@@ -183,7 +183,7 @@ function combinations(races: readonly Race[]): MixedPair[] {
 
 /** Definição de raça de cada personagem jogável. */
 export const CHARACTER_RACES: Record<CharacterId, CharacterRace> = {
-  marcelo: { races: ["Human", "Obscurian"], extraTypes: ["Ventus"] },
+  marcelo: { races: ["Human", "Obscurian"] },
   eduarda: { races: ["Human", "Luminar"] },
   lucas: { races: ["Human"] },
   samuel: { races: ["Human", "Terran"] },

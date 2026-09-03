@@ -21,6 +21,7 @@ export const ELEMENT_GRADIENTS: Record<ElementType, readonly string[]> = {
   Draco: ["#c62828", "#ffb74d", "#66bb6a"],
   Umbra: ["#2a0040", "#6a1b9a", "#15001f"],
   Normalis: ["#eceff1", "#ffffff", "#b0bec5"],
+  Cryo: ["#e0f7fa", "#b3e5fc", "#81d4fa"],
 };
 
 const DEFAULT_GRADIENT = ["#eceff1", "#ffffff", "#b0bec5"];

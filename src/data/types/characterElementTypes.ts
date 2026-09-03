@@ -4,6 +4,8 @@ import {
   resolveCharacterElementTypes,
 } from "@/data/characters/races";
 
+const CHARACTER_IDS = Object.keys(CHARACTER_RACES) as CharacterId[];
+
 /**
  * Tipagens elementais de cada personagem.
  *
@@ -15,9 +17,10 @@ import {
 export const CHARACTER_ELEMENT_TYPES: Record<
   CharacterId,
   readonly ElementType[]
-> = Object.fromEntries(
-  (Object.keys(CHARACTER_RACES) as CharacterId[]).map((id) => [
-    id,
-    resolveCharacterElementTypes(CHARACTER_RACES[id]),
-  ]),
-) as Record<CharacterId, readonly ElementType[]>;
+> = CHARACTER_IDS.reduce(
+  (acc, id) => {
+    acc[id] = resolveCharacterElementTypes(CHARACTER_RACES[id]);
+    return acc;
+  },
+  {} as Record<CharacterId, ElementType[]>,
+);
