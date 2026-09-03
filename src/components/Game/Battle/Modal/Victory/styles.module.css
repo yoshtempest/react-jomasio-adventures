@@ -1,11 +1,15 @@
 .modal {
-  width: 60vw;
-  max-height: 85vh;
   padding: var(--medium) var(--size-32);
   display: flex;
   flex-direction: column;
   overflow: hidden;
   gap: var(--low-medium);
+  width: 30vw;
+  height: 100vh;
+  max-height: 100vh;
+  opacity: 0.9;
+  border-left: var(--size-2) solid var(--text-color);
+  border-right: var(--size-2) solid var(--text-color);
   animation: modalScaleIn 0.5s ease-out;
 }
 
@@ -24,6 +28,7 @@
 .header {
   display: flex;
   align-items: center;
+  margin-top: var(--medium);
   gap: var(--low-medium);
 }
 

@@ -1,12 +1,16 @@
 .modal {
-  width: 30%;
-  height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: var(--medium);
   padding: var(--size-32);
+  width: 30vw;
+  height: 100vh;
+  max-height: 100vh;
+  opacity: 0.9;
+  border-left: var(--size-2) solid var(--text-color);
+  border-right: var(--size-2) solid var(--text-color);
   animation: modalScaleIn 0.5s ease-out;
 }
 
