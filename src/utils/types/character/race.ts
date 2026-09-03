@@ -86,7 +86,7 @@ export type SubRace = (typeof SUB_RACES)[Race][number];
  * `tipagens efetivas = herança(races) ∪ extraTypes`.
  */
 export type CharacterRace = {
-  races: readonly [Race, ...Race[]];
+  races: readonly Race[];
   subRace?: SubRace;
   extraTypes?: readonly ElementType[];
 };
