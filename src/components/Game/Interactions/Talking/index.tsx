@@ -102,6 +102,7 @@ export default function Talking({
       <div className="talking">
         <h1>{name}</h1>
         <h2>{displayedText}</h2>
+        {isComplete && <span className="talkingNextHint" />}
       </div>
       {src && (
         <img className="talkingImage" src={resolveAsset(src)} alt={name} />

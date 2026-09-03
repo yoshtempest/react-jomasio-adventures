@@ -27,6 +27,27 @@
   border: var(--size-1) solid var(--background-color);
   border-radius: var(--size-2);
   overflow-wrap: break-word;
+  position: relative;
+}
+
+.talkingNextHint {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  width: 16px;
+  height: 16px;
+  background-color: #ffffff;
+  border-radius: 2px;
+  animation: talkingNextHint 300ms infinite;
+}
+
+@keyframes talkingNextHint {
+  0% {
+    transform: scale(0.4);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .talkingImage {
