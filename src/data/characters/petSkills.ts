@@ -14,6 +14,11 @@ export const PET_SKILL_COOLDOWN_MS = FIVE_THOUSAND_MS;
 export type PetSkillEffect =
   | { kind: "damage"; multiplier: number }
   | { kind: "jumpAttack"; multiplier: number }
+  | {
+      kind: "teleportBite";
+      multiplier: number;
+      bleedMs: number;
+    }
   | { kind: "summon"; npcType: string }
   | { kind: "shield"; amount: number }
   | { kind: "heal"; amount: number }
@@ -39,7 +44,12 @@ export type PetSkillDefinition = {
   skillEffect: PetSkillEffect;
 };
 
-const BATTLE_SPRITES = new Set(["hungryKing", "piupiu", "leviathan"]);
+const BATTLE_SPRITES = new Set([
+  "hungryKing",
+  "piupiu",
+  "leviathan",
+  "hungryDeath",
+]);
 
 function def(
   petId: string,
@@ -196,10 +206,15 @@ export const PET_SKILLS: Record<string, PetSkillDefinition> = {
     },
     {
       name: "Devora Tudo",
-      description: "Causa dano triplo ao inimigo.",
+      description:
+        "Teleporta na frente do inimigo com maior vida, morde e o faz sangrar por 5s.",
       cooldownMs: PET_SKILL_COOLDOWN_MS,
     },
-    { kind: "damage", multiplier: 3 },
+    {
+      kind: "teleportBite",
+      multiplier: 3,
+      bleedMs: 5000,
+    },
   ),
   pet_piupiu: def(
     "pet_piupiu",

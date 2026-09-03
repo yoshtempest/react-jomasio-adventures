@@ -77,8 +77,12 @@ import {
 import { useBattleRecording } from "@/hooks/battle/recording/useBattleRecording";
 import type { ReplayData } from "@/utils/types/replay";
 import type { SpawnDamageFn } from "@/utils/types/battle/spawnDamageFn";
+import type { SummonedNpc } from "@/utils/types/npc/npc";
 import { combatService } from "@/services/combat";
-import { applyPlayerStatus } from "@/gameRules/battle/status/statusEffects";
+import {
+  applyPlayerStatus,
+  DOT_TICK_INTERVAL_MS,
+} from "@/gameRules/battle/status/statusEffects";
 import type { NewPlayerStatus } from "@/gameRules/battle/status/statusEffects";
 import { useKokusenAnimation } from "@/hooks/battle/player/useKokusenAnimation";
 import { useSpecialIntro } from "@/hooks/battle/useSpecialIntro";
@@ -146,6 +150,15 @@ function runPetSkill(
     npc: ReturnType<typeof useNpcAI>;
     summonNpc: (npcType: string, overrideX?: number) => void;
     triggerJumpAttack: (npcY: number, cb: (damage: number) => void) => void;
+    triggerTeleportBite: (
+      targetX: number,
+      targetY: number,
+      cb: (damage: number) => void,
+    ) => void;
+    applyNpcBleed: (durationMs: number) => void;
+    summons: SummonedNpc[];
+    setSummons: React.Dispatch<React.SetStateAction<SummonedNpc[]>>;
+    summonsBleedUntilRef: React.RefObject<Record<string, number>>;
     playSound: (
       sound: SoundId,
       loop?: boolean,
@@ -164,6 +177,11 @@ function runPetSkill(
     npc,
     summonNpc,
     triggerJumpAttack,
+    triggerTeleportBite,
+    applyNpcBleed,
+    summons,
+    setSummons,
+    summonsBleedUntilRef,
     playSound,
   } = deps;
   const effect = def.skillEffect;
@@ -199,6 +217,70 @@ function runPetSkill(
       triggerJumpAttack(npc.y, () => {
         battle.setNpcHP((hp) => Math.max(0, hp - dmg));
         spawnDamageRef.current?.(dmg, npc.x, npc.y, "pet");
+      });
+      break;
+    }
+    case "teleportBite": {
+      const baseDamage = getPetBaseDamage(petLevel, petStars);
+      const enemies: {
+        id: string;
+        npcType: string;
+        x: number;
+        y: number;
+        maxHp: number;
+      }[] = [];
+      if (battle.npcHP > 0) {
+        enemies.push({
+          id: "main",
+          npcType,
+          x: npc.x,
+          y: npc.y,
+          maxHp: battle.npcMaxHp,
+        });
+      }
+      for (const s of summons) {
+        if (s.isDying || s.hp <= 0) continue;
+        enemies.push({ id: s.id, npcType: s.npcType, x: s.x, y: s.y, maxHp: s.maxHp });
+      }
+      if (enemies.length === 0) break;
+
+      const target = enemies.reduce((best, e) =>
+        e.maxHp > best.maxHp ? e : best,
+      );
+
+      const targetElementMultiplier = combatService.getElementMultiplier(
+        getNpcElementTypes(def.npcType),
+        getNpcElementTypes(target.npcType),
+      );
+      const dmg = Math.round(
+        combatService.calculateDamageToNpc(
+          baseDamage * effect.multiplier,
+          battle.npcArmor,
+        ) * targetElementMultiplier,
+      );
+
+      triggerTeleportBite(target.x, target.y, () => {
+        if (target.id === "main") {
+          battle.setNpcHP((hp) => Math.max(0, hp - dmg));
+          applyNpcBleed(effect.bleedMs);
+          spawnDamageRef.current?.(dmg, target.x, target.y, "pet");
+          return;
+        }
+        setSummons((prev) =>
+          prev.map((s) =>
+            s.id === target.id
+              ? { ...s, hp: Math.max(0, s.hp - dmg) }
+              : s,
+          ),
+        );
+        summonsBleedUntilRef.current = {
+          ...summonsBleedUntilRef.current,
+          [target.id]: Math.max(
+            summonsBleedUntilRef.current[target.id] ?? 0,
+            Date.now() + effect.bleedMs,
+          ),
+        };
+        spawnDamageRef.current?.(dmg, target.x, target.y, "pet");
       });
       break;
     }
@@ -377,6 +459,8 @@ export function useBattleScene({
       playerX: player.x,
       playerGroundY: player.groundY,
     });
+
+  const summonsBleedUntilRef = useRef<Record<string, number>>({});
 
   const {
     coffins,
@@ -753,6 +837,11 @@ export function useBattleScene({
       npc,
       summonNpc,
       triggerJumpAttack: battle.triggerJumpAttack,
+      triggerTeleportBite: battle.triggerTeleportBite,
+      applyNpcBleed: battle.applyNpcBleed,
+      summons,
+      setSummons,
+      summonsBleedUntilRef,
       playSound,
     });
   };
@@ -979,6 +1068,40 @@ export function useBattleScene({
   const npcMaxHpRef = useLatestRef(battle.npcMaxHp);
   const setNpcHPRef = useLatestRef(battle.setNpcHP);
   const isEndingRef = useLatestRef(battle.isEnding);
+
+  const summonsRef = useLatestRef(summons);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (isEndingRef.current || isPausedRef.current) return;
+      const bleedMap = summonsBleedUntilRef.current;
+      if (
+        !summonsRef.current.some((s) => (bleedMap[s.id] ?? 0) > Date.now())
+      ) {
+        return;
+      }
+
+      const bleeding = summonsRef.current.filter(
+        (s) => (bleedMap[s.id] ?? 0) > Date.now(),
+      );
+      setSummons((prev) =>
+        prev.map((s) =>
+          (bleedMap[s.id] ?? 0) > Date.now()
+            ? { ...s, hp: Math.max(0, s.hp - 2) }
+            : s,
+        ),
+      );
+      for (const s of bleeding) {
+        refs.spawnDamageRef.current?.(2, s.x, s.y, "bleed");
+      }
+
+      const now = Date.now();
+      for (const id of Object.keys(bleedMap)) {
+        const until = bleedMap[id];
+        if (until !== undefined && until <= now) delete bleedMap[id];
+      }
+    }, DOT_TICK_INTERVAL_MS);
+    return () => clearInterval(interval);
+  }, [setSummons, isEndingRef, isPausedRef, summonsRef, summonsBleedUntilRef, refs]);
 
   usePhaseTransition({
     npcPhase: battle.npcPhase,

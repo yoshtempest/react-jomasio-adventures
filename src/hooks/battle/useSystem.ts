@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { battleBehaviors } from "@/gameRules/battle/behaviors/player";
 import {
   getPetSkillDefinition,
@@ -190,6 +190,10 @@ export function useBattleSystem(props: Props) {
   const burnUntilRef = useLatestRef(player.burnUntil);
   const poisonUntilRef = useLatestRef(player.poisonUntil);
 
+  const npcBleedUntilRef = useRef(0);
+  const npcBleedXRef = useLatestRef(npcX);
+  const npcBleedYRef = useLatestRef(npcY);
+
   const {
     playerHP,
     setPlayerHP,
@@ -273,14 +277,15 @@ export function useBattleSystem(props: Props) {
     onDamageTaken: energy.consumeOnDamage,
   });
 
-  const { pet, resetPet, triggerJumpAttack } = usePetBattle({
-    enabled: petIsBattle,
-    playerX,
-    playerY,
-    npcX,
-    isPaused: isEnding.current,
-    spriteNpcType: petSkillDef?.battleSprite ?? "goat",
-  });
+  const { pet, resetPet, triggerJumpAttack, triggerTeleportBite } =
+    usePetBattle({
+      enabled: petIsBattle,
+      playerX,
+      playerY,
+      npcX,
+      isPaused: isEnding.current,
+      spriteNpcType: petSkillDef?.battleSprite ?? "goat",
+    });
 
   const {
     remaining: petSkillRemaining,
@@ -361,6 +366,16 @@ export function useBattleSystem(props: Props) {
     poisonUntilRef,
   });
 
+  useNpcBleedTicks({
+    isEnding,
+    isMenuRef,
+    setNpcHP,
+    spawnDamageRef,
+    npcBleedXRef,
+    npcBleedYRef,
+    npcBleedUntilRef,
+  });
+
   usePlayerPullAnimation(setPlayer, isMenuRef);
 
   const resetBattle = () => {
@@ -383,6 +398,7 @@ export function useBattleSystem(props: Props) {
     resetPet();
     resetPetSkill();
     resetPetPassive();
+    npcBleedUntilRef.current = 0;
     energy.resetEnergy();
     setPlayer((p) => ({
       ...clearPlayerStatuses(p),
@@ -419,6 +435,13 @@ export function useBattleSystem(props: Props) {
     ],
   );
 
+  const applyNpcBleed = useCallback((durationMs: number) => {
+    npcBleedUntilRef.current = Math.max(
+      npcBleedUntilRef.current,
+      Date.now() + durationMs,
+    );
+  }, []);
+
   return {
     playerHP,
     setPlayerHP,
@@ -450,6 +473,8 @@ export function useBattleSystem(props: Props) {
     isExploding: effects.isExploding,
     pet,
     triggerJumpAttack,
+    triggerTeleportBite,
+    applyNpcBleed,
     petSkill: petSkillDef
       ? {
           definition: petSkillDef,
@@ -544,6 +569,52 @@ function useStatusDotTicks(params: {
     bleedUntilRef,
     burnUntilRef,
     poisonUntilRef,
+    spawnDamageRef,
+  ]);
+}
+
+function useNpcBleedTicks(params: {
+  isEnding: React.RefObject<boolean>;
+  isMenuRef?: React.RefObject<boolean>;
+  setNpcHP: React.Dispatch<React.SetStateAction<number>>;
+  spawnDamageRef: React.RefObject<
+    (value: number, x: number, y: number, type: DamageType) => void
+  >;
+  npcBleedXRef: React.RefObject<number>;
+  npcBleedYRef: React.RefObject<number>;
+  npcBleedUntilRef: React.RefObject<number>;
+}) {
+  const {
+    isEnding,
+    isMenuRef,
+    setNpcHP,
+    spawnDamageRef,
+    npcBleedXRef,
+    npcBleedYRef,
+    npcBleedUntilRef,
+  } = params;
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (isEnding.current || isMenuRef?.current) return;
+      if (npcBleedUntilRef.current > Date.now()) {
+        setNpcHP((hp) => Math.max(0, hp - 2));
+        spawnDamageRef.current?.(
+          2,
+          npcBleedXRef.current,
+          npcBleedYRef.current,
+          "bleed",
+        );
+      }
+    }, DOT_TICK_INTERVAL_MS);
+    return () => clearInterval(interval);
+  }, [
+    setNpcHP,
+    isEnding,
+    isMenuRef,
+    npcBleedXRef,
+    npcBleedYRef,
+    npcBleedUntilRef,
     spawnDamageRef,
   ]);
 }
