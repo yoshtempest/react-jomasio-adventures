@@ -11,6 +11,8 @@ export const PET_ROLE_LABELS: Record<PetRole, string> = {
 
 export const PET_SKILL_COOLDOWN_MS = FIVE_THOUSAND_MS;
 
+export const PET_ROOT_DURATION_MS = 1000;
+
 export type PetSkillEffect =
   | { kind: "damage"; multiplier: number }
   | { kind: "jumpAttack"; multiplier: number }

@@ -52,6 +52,7 @@ import { useNpcTargeting } from "@/hooks/battle/npc/useNpcTargeting";
 import { useBattleInfo } from "@/contexts/BattleInfoContext";
 import {
   getPetSkillDefinition,
+  PET_ROOT_DURATION_MS,
   type PetSkillDefinition,
 } from "@/data/characters/petSkills";
 import { getPetBaseDamage } from "@/data/characters/petProgress";
@@ -159,6 +160,9 @@ function runPetSkill(
     summons: SummonedNpc[];
     setSummons: React.Dispatch<React.SetStateAction<SummonedNpc[]>>;
     summonsBleedUntilRef: React.RefObject<Record<string, number>>;
+    npcRootedUntilRef: React.RefObject<number>;
+    rootedSummonsUntilRef: React.RefObject<Record<string, number>>;
+    rootDurationMs: number;
     playSound: (
       sound: SoundId,
       loop?: boolean,
@@ -182,6 +186,9 @@ function runPetSkill(
     summons,
     setSummons,
     summonsBleedUntilRef,
+    npcRootedUntilRef,
+    rootedSummonsUntilRef,
+    rootDurationMs,
     playSound,
   } = deps;
   const effect = def.skillEffect;
@@ -263,6 +270,7 @@ function runPetSkill(
         if (target.id === "main") {
           battle.setNpcHP((hp) => Math.max(0, hp - dmg));
           applyNpcBleed(effect.bleedMs);
+          npcRootedUntilRef.current = Date.now() + rootDurationMs;
           spawnDamageRef.current?.(dmg, target.x, target.y, "pet");
           return;
         }
@@ -278,6 +286,13 @@ function runPetSkill(
           [target.id]: Math.max(
             summonsBleedUntilRef.current[target.id] ?? 0,
             Date.now() + effect.bleedMs,
+          ),
+        };
+        rootedSummonsUntilRef.current = {
+          ...rootedSummonsUntilRef.current,
+          [target.id]: Math.max(
+            rootedSummonsUntilRef.current[target.id] ?? 0,
+            Date.now() + rootDurationMs,
           ),
         };
         spawnDamageRef.current?.(dmg, target.x, target.y, "pet");
@@ -579,6 +594,9 @@ export function useBattleScene({
   targeting.npcAiHpRef.current = npcStats.hp;
   targeting.npcAiMaxHpRef.current = npcStats.hp;
 
+  const npcRootedUntilRef = useRef(0);
+  const rootedSummonsUntilRef = useRef<Record<string, number>>({});
+
   const npc = useNpcAI({
     playerX: player.x,
     playerY: player.y,
@@ -638,6 +656,7 @@ export function useBattleScene({
     obstacles: map?.obstacles,
     hitstopRef: refs.hitstopRef,
     npcStaggerRef: refs.npcStaggerRef,
+    rootedUntilRef: npcRootedUntilRef,
     npcHpRef: targeting.npcAiHpRef,
     npcMaxHpRef: targeting.npcAiMaxHpRef,
     npcBlockedRef: targeting.npcBlockedRef,
@@ -842,6 +861,9 @@ export function useBattleScene({
       summons,
       setSummons,
       summonsBleedUntilRef,
+      npcRootedUntilRef,
+      rootedSummonsUntilRef,
+      rootDurationMs: PET_ROOT_DURATION_MS,
       playSound,
     });
   };
@@ -1015,6 +1037,7 @@ export function useBattleScene({
     spawnDamageRef: refs.spawnDamageRef,
     hitstopRef: refs.hitstopRef,
     freezeUntilRef: freezeSummonsUntilRef,
+    rootedSummonsUntilRef,
   });
 
   const arturEnemies = useMemo(() => {
@@ -1298,6 +1321,9 @@ export function useBattleScene({
     clearSummons();
     clearCoffins();
     coffinStartedRef.current = false;
+    npcRootedUntilRef.current = 0;
+    rootedSummonsUntilRef.current = {};
+    summonsBleedUntilRef.current = {};
     if (isAlfa) {
       summonNpc(npcType);
       summonNpc(npcType);

@@ -23,6 +23,7 @@ type Props = {
   >;
   hitstopRef: React.RefObject<number>;
   freezeUntilRef?: React.RefObject<number>;
+  rootedSummonsUntilRef?: React.RefObject<Record<string, number>>;
 };
 
 function computeSummonDamage(
@@ -62,6 +63,7 @@ export function useSummonAI({
   spawnDamageRef,
   hitstopRef,
   freezeUntilRef,
+  rootedSummonsUntilRef,
 }: Props) {
   const summonLastAttacksRef = useRef<Record<string, number>>({});
 
@@ -98,9 +100,12 @@ export function useSummonAI({
 
           const direction: "left" | "right" = dx > 0 ? "right" : "left";
 
+          const rooted =
+            (rootedSummonsUntilRef?.current?.[s.id] ?? 0) > Date.now();
+
           let newX = s.x;
 
-          if (Math.abs(dx) > 40) {
+          if (!rooted && Math.abs(dx) > 40) {
             newX += dx > 0 ? speed : -speed;
           }
 
@@ -157,6 +162,7 @@ export function useSummonAI({
     playerYRef,
     setSummonsRef,
     freezeUntilRef,
+    rootedSummonsUntilRef,
   ]);
 
   useEffect(() => {

@@ -61,6 +61,7 @@ type Props = {
   obstacles?: BattleObstacle[];
   hitstopRef: React.RefObject<number>;
   npcStaggerRef: React.RefObject<number>;
+  rootedUntilRef?: React.RefObject<number>;
   npcHpRef?: React.RefObject<number>;
   npcMaxHpRef?: React.RefObject<number>;
   npcBlockedRef?: React.RefObject<boolean>;
@@ -92,6 +93,7 @@ export function useNpcAI({
   obstacles,
   hitstopRef,
   npcStaggerRef,
+  rootedUntilRef,
   npcHpRef,
   npcMaxHpRef,
   npcBlockedRef,
@@ -289,7 +291,8 @@ export function useNpcAI({
           onApplyDebuff: onApplyDebuffRef.current,
         });
 
-        const nextX = result.x;
+        const rooted = (rootedUntilRef?.current ?? 0) > Date.now();
+        const nextX = rooted ? n.x : result.x;
         const nextY = result.y ?? n.y;
         const direction = getNpcDirection(nextX, playerXRef.current);
         const distanceX = Math.abs(n.x - playerXRef.current);
@@ -323,6 +326,7 @@ export function useNpcAI({
   }, [
     hitstopRef,
     npcStaggerRef,
+    rootedUntilRef,
     npcPhaseRef,
     npcBlockedRef,
     npcHpRef,
