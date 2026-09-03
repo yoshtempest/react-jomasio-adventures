@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
-import { npcPathProjectile } from "@/utils/paths";
+import { useEffect, useRef, useState } from "react";
+import { npcPath, npcPathProjectile } from "@/utils/paths";
 import {
   getSpritePath,
   getBossSizeMultiplier,
@@ -78,6 +78,20 @@ export function NPCBattle({
   const { playSound } = useSoundEffects();
   const prevIsExplodingRef = useRef(isExploding);
 
+  const isHungryDeathRunning = npcType === "hungryDeath" && state === "run";
+  const [runFrame, setRunFrame] = useState(0);
+
+  useEffect(() => {
+    if (!isHungryDeathRunning) {
+      setRunFrame(0);
+      return;
+    }
+    const interval = setInterval(() => {
+      setRunFrame((f) => (f + 1) % 3);
+    }, 100);
+    return () => clearInterval(interval);
+  }, [isHungryDeathRunning]);
+
   useEffect(() => {
     // Troca para o sprite explosion.svg -> explosion.mp3 (uma vez por transição)
     if (isExploding && !prevIsExplodingRef.current) {
@@ -94,7 +108,11 @@ export function NPCBattle({
 
   const basePath = getSpritePath(npcType, state, npcPhase);
 
-  const src = isExploding ? npcPathProjectile("/explosion.svg") : `${basePath}`;
+  const src = isExploding
+    ? npcPathProjectile("/explosion.svg")
+    : isHungryDeathRunning
+      ? npcPath(`/hungryDeath/run${runFrame + 1}.svg`)
+      : `${basePath}`;
 
   return (
     <div

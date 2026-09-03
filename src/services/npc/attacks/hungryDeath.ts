@@ -13,10 +13,29 @@ import type {
 } from "@/utils/types/npc/npcBehavior";
 
 const MELEE_RANGE = 50;
+const RUN_THRESHOLD = 150;
+const RUN_SPEED_MULTIPLIER = 1.3;
 const GRAB_DURATION = FOUR_THOUSAND_MS;
 const GRAB_GET_DURATION = ONE_THOUSAND_MS;
 const MELEE_COOLDOWN = EIGHT_HUNDRED_MS;
 const GRAB_COOLDOWN = TWO_THOUSAND_MS;
+
+function chase(
+  npc: BehaviorContext["npc"],
+  targetX: number,
+  targetY: number,
+): { x: number; state: "run" | "walk" } {
+  const distanceX = Math.abs(npc.x - targetX);
+  const running = distanceX > RUN_THRESHOLD;
+  const { x } = chasePlayer(
+    npc,
+    targetX,
+    targetY,
+    running ? RUN_SPEED_MULTIPLIER : 1,
+    MELEE_RANGE,
+  );
+  return { x, state: running ? "run" : "walk" };
+}
 
 export class HungryDeathAttack extends NpcAttack {
   constructor() {
@@ -67,11 +86,11 @@ export class HungryDeathAttack extends NpcAttack {
     }
 
     if (now - state.lastGrabEndTime < GRAB_COOLDOWN) {
-      const { x } = chasePlayer(npc, targetX, targetY, 1, MELEE_RANGE);
-      return { x, y: npc.y };
+      const { x, state: runState } = chase(npc, targetX, targetY);
+      return { x, y: npc.y, state: runState };
     }
 
-    const { x } = chasePlayer(npc, targetX, targetY, 1, MELEE_RANGE);
+    const { x, state: runState } = chase(npc, targetX, targetY);
     const inRange = isNear(npc.x, npc.y, targetX, targetY, MELEE_RANGE);
 
     if (inRange) {
@@ -83,6 +102,6 @@ export class HungryDeathAttack extends NpcAttack {
       return { x: npc.x, y: npc.y, state: "get" as const };
     }
 
-    return { x, y: npc.y };
+    return { x, y: npc.y, state: runState };
   }
 }
