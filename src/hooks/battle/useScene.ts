@@ -15,7 +15,7 @@ import { useNpcAI } from "@/hooks/battle/npc/useAi";
 import { useBattleSystem } from "@/hooks/battle/useSystem";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { usePetProgress } from "@/contexts/PetProgressContext";
-import { petStarsFromEnhance } from "@/data/characters/petProgress";
+import { PET_STAR_MULTIPLIER, petStarsFromEnhance } from "@/data/characters/petProgress";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { useNavigate, useLocation } from "react-router";
 import { useSoundEffects, type SoundId } from "@/contexts/SoundEffectsContext";
@@ -143,6 +143,13 @@ function runPetSkill(
   deps: {
     petLevel: number;
     petStars: number;
+    playerLevel: number;
+    groundY: number;
+    beginCoffinSequence: (
+      spawnPositions: number[],
+      groundY: number,
+      onSpawn: (npcType: string, x: number) => void,
+    ) => void;
     npcType: string;
     playerX: number;
     playerY: number;
@@ -173,6 +180,9 @@ function runPetSkill(
   const {
     petLevel,
     petStars,
+    playerLevel,
+    groundY,
+    beginCoffinSequence,
     npcType,
     playerX,
     playerY,
@@ -299,9 +309,23 @@ function runPetSkill(
       });
       break;
     }
-    case "summon":
-      summonNpc(effect.npcType);
+    case "summon": {
+      if (def.petId === "pet_hungryKing") {
+        const starMultiplier = PET_STAR_MULTIPLIER ** (petStars - 1);
+        beginCoffinSequence(
+          [playerX + 200],
+          groundY,
+          (_npcType: string, x: number) =>
+            summonNpc(effect.npcType, x, {
+              level: playerLevel,
+              statMultiplier: starMultiplier,
+            }),
+        );
+      } else {
+        summonNpc(effect.npcType);
+      }
       break;
+    }
     case "shield":
       battle.setPlayerShield((shield) => shield + effect.amount);
       break;
@@ -848,6 +872,9 @@ export function useBattleScene({
     runPetSkill(petSkillDef, {
       petLevel,
       petStars,
+      playerLevel,
+      groundY: player.groundY,
+      beginCoffinSequence,
       npcType,
       playerX: player.x,
       playerY: player.y,

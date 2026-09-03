@@ -15,7 +15,7 @@ export const pet_hungryKing: PetSkillDefinition = def(
   {
     name: "Invocar Morto de Fome",
     description: "Invoca um Morto de Fome para lutar ao seu lado.",
-    cooldownMs: PET_SKILL_COOLDOWN_MS,
+    cooldownMs: 20000,
   },
   { kind: "summon", npcType: "hungryDeath" },
 );

@@ -36,7 +36,12 @@ function computeSummonDamage(
   const data = NPCS[s.npcType];
   if (!data) return null;
 
-  const stats = getNpcStats(npcLevel, data.class, difficulty);
+  const stats = getNpcStats(
+    s.level ?? npcLevel,
+    data.class,
+    difficulty,
+    s.statMultiplier ?? 1,
+  );
 
   const elementMultiplier = combatService.getElementMultiplier(
     getNpcElementTypes(s.npcType),

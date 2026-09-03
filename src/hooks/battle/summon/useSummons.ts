@@ -30,12 +30,19 @@ export function useSummons({
   }, []);
 
   const summonNpc = useCallback(
-    (npcType: string, overrideX?: number) => {
+    (
+      npcType: string,
+      overrideX?: number,
+      options?: { level?: number; statMultiplier?: number },
+    ) => {
       if (!isNpcType(npcType)) return;
 
       const data = NPCS[npcType];
 
-      const maxHp = getNpcStats(npcLevel, data.class, difficulty).hp;
+      const level = options?.level ?? npcLevel;
+      const statMultiplier = options?.statMultiplier ?? 1;
+
+      const maxHp = getNpcStats(level, data.class, difficulty, statMultiplier).hp;
 
       const spawnX =
         overrideX ??
@@ -57,6 +64,8 @@ export function useSummons({
           hp: maxHp,
           maxHp,
           isDying: false,
+          level,
+          statMultiplier,
         },
       ]);
     },

@@ -140,4 +140,8 @@ export type SummonedNpc = {
   hp: number;
   maxHp: number;
   isDying: boolean;
+  /** Nível efetivo do summon (pet hungryKing usa o nível do personagem). */
+  level?: number;
+  /** Multiplicador de stats (pet hungryKing escala com as estrelas). */
+  statMultiplier?: number;
 };

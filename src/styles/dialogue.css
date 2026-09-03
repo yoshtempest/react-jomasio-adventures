@@ -19,15 +19,31 @@
   width: 100%;
   min-width: 0;
   padding: 0% 1%;
-  max-height: fit-content;
+  height: 20vh;
+  max-height: 20vh;
   text-align: left;
   margin-top: 65vh;
   bottom: 0;
   z-index: 999;
   border: var(--size-1) solid var(--background-color);
+  opacity: 0.9;
+  border-top: var(--size-2) solid var(--text-color);
+  border-bottom: var(--size-2) solid var(--text-color);
   border-radius: var(--size-2);
   overflow-wrap: break-word;
   position: relative;
+}
+
+.talking h1 {
+  margin: 0.5vw;
+  font-size: var(--low-medium);
+}
+
+.talking h2 {
+  font-size: var(--small);
+  font-weight: 500;
+  margin: 0.5vw;
+  margin-top: 0.8vw;
 }
 
 .talkingNextHint {
