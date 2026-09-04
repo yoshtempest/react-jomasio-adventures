@@ -5,7 +5,7 @@ import { useEquipment } from "@/contexts/EquipmentContext";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
-import { openChest, type ChestDropResult } from "@/data/items/chests";
+import { openChest, type ChestDropResult } from "@/data/items/chests/chests";
 import { DAILY_CHEST_KEY } from "@/data/storageKeys";
 import { slotKey } from "@/services/save/slotManager";
 import { DAILY_CHEST_COOLDOWN_MS } from "@/data/cooldowns";

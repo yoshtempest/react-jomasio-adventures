@@ -13,7 +13,7 @@ import {
   CHEST_OPENED_SPRITES,
   DAILY_CHEST_CLOSED_SPRITE,
   DAILY_CHEST_OPENED_SPRITE,
-} from "@/data/items/chestItems";
+} from "@/data/items/chests/chestItems";
 import { Chest } from "./Chest";
 import { FilterBar } from "./FilterBar";
 import { ListItem } from "./ListItem";

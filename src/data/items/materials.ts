@@ -1,8 +1,8 @@
 import { createItems } from "@/utils/items/createItem";
-import { WOODS } from "./woods";
-import { ORES } from "./ores";
-import { FISHES } from "./fishes";
-import { WEIGHTS } from "./weights";
+import { WOODS } from "./profession/woods";
+import { ORES } from "./profession/ores";
+import { FISHES } from "./profession/fishes";
+import { WEIGHTS } from "./profession/weights";
 
 export const MATERIALS = createItems({
   hungry_essence: {
