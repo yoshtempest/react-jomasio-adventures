@@ -11,7 +11,7 @@ import type { useNpcSetup } from "@/hooks/battle/npc/useSetup";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { CharactersProgress } from "@/data/characters/defaultProgress";
 import type { ReplayData } from "@/utils/types/replay";
-import type { Navigate as NavigateFn } from "react-router";
+import type { NavigateFunction } from "react-router";
 
 type Battle = ReturnType<typeof useBattleSystem>;
 type Npc = ReturnType<typeof useNpcAI>;
@@ -39,7 +39,7 @@ export type BattleSceneApi = {
   handleCloseOutro: () => void;
   handleRetry: () => void;
   handleContinue: () => void;
-  navigate: typeof NavigateFn;
+  navigate: NavigateFunction;
   showIntro: boolean;
   skipIntro: () => void;
   skipVictoryDelay: boolean;
@@ -55,7 +55,7 @@ export type BattleSceneApi = {
   grabFlipped: boolean;
   getReplayData: () => ReplayData | null;
   isRecording: boolean;
-  training: boolean;
+  training: boolean | undefined;
   controlsDisabled: boolean;
   showRetry: boolean;
   playerProjectile: ReturnType<typeof usePlayerSpecialProjectile>["playerProjectile"];
