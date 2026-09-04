@@ -8,6 +8,7 @@ import { asset } from "@/utils/paths";
 import { loadGame } from "@/services/save/saveService";
 import { hasAnySave } from "@/services/save/slotManager";
 import { sceneBackgrounds } from "@/data/scene/background";
+import { ParticlesBackground } from "@/components/ParticlesBackground";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -50,8 +51,9 @@ export default function Home() {
       className="Master"
       style={{ backgroundImage: `url(${sceneBackgrounds.Home})` }}
     >
-      <img src={asset("/assets/logo.svg")} alt="logo" className="logo" />
+      <img src={asset("/assets/logo.svg")} alt="logo" className={styles.logo} />
       <p className={styles.continue}>Faça o L para continuar</p>
+      <ParticlesBackground />
     </div>
   );
 }

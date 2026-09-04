@@ -8,10 +8,18 @@
   }
 }
 
+.logo {
+  position: relative;
+  width: 20vw;
+  z-index: 1;
+}
+
 .continue {
   color: var(--text-color);
   font-size: var(--low-medium);
   margin-top: var(--size-32);
   text-shadow: 0 0 var(--smaller) rgba(255, 255, 255, 0.4);
   animation: pulse 2s ease-in-out infinite;
+  position: relative;
+  z-index: 1;
 }

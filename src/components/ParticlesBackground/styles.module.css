@@ -1,0 +1,45 @@
+.layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.particle {
+  --p-size: 4px;
+  --p-left: 50;
+  --p-duration: 8s;
+  --p-delay: 0s;
+  --p-opacity: 0.6;
+  --p-hue: 40;
+
+  position: absolute;
+  left: calc(var(--p-left) * 1vw);
+  bottom: 10vh;
+  width: var(--p-size);
+  height: var(--p-size);
+  border-radius: 50%;
+  background: hsl(var(--p-hue) 90% 70%);
+  box-shadow: 0 0 calc(var(--p-size) * 2) hsl(var(--p-hue) 90% 70% / 0.8);
+  opacity: 0;
+  animation: rise var(--p-duration) linear var(--p-delay) infinite;
+  z-index: 0;
+}
+
+@keyframes rise {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  10% {
+    opacity: var(--p-opacity);
+  }
+  90% {
+    opacity: var(--p-opacity);
+  }
+  100% {
+    transform: translate3d(calc(100vw - var(--p-left) * 1vw), -150vh, 0);
+    opacity: 0;
+  }
+}
