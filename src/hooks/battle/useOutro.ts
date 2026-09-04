@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useVictory } from "@/hooks/battle/victory/useVictory";
-import { useHighlight } from "@/hooks/battle/useHighlight";
+import { useHighlight } from "@/hooks/battle/highlight/useHighlight";
 import { useTombstones } from "@/contexts/TombstoneContext";
 import type { ReplayData } from "@/utils/types/replay";
 

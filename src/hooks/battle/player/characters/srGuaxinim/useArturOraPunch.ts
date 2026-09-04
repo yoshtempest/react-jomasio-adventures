@@ -2,27 +2,15 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import {
-  SIXTEEN_MS,
-  THIRTY_MS,
-  FIFTY_MS,
-  THREE_HUNDRED_MS,
-  FIVE_HUNDRED_MS,
-} from "@/data/ms";
-
-export type ExtraPunchVisual = {
-  id: number;
-  x: number;
-  y: number;
-};
-
-type OraPunch = ExtraPunchVisual & {
-  targetX: number;
-  targetY: number;
-  born: number;
-};
-
-/** Resultado do hit do punch: posição do alvo atingido + se era o NPC principal. */
-export type PunchHitResult = { x: number; y: number; isMain: boolean } | null;
+  PUNCH_FINALIZE_MS,
+  PUNCH_LIFETIME_MS,
+  PUNCH_MOVE_FACTOR,
+  PUNCH_MOVE_TICK_MS,
+  PUNCH_MIN_DISTANCE_MS,
+  PUNCH_SPAWN_INTERVAL_MS,
+  PUNCH_TARGET_JITTER
+} from "@/data/characters/srGuaxinim";
+import type { PunchHitResult, OraPunch } from "@/utils/types/character/srGuaxinim";
 
 type Props = {
   player: Player;
@@ -32,14 +20,6 @@ type Props = {
   /** Ref preenchido com o multiplicador atual do ataque básico do artur. */
   multiplierRef: React.RefObject<() => number>;
 };
-
-const PUNCH_LIFETIME_MS = FIVE_HUNDRED_MS;
-const PUNCH_SPAWN_INTERVAL_MS = THIRTY_MS;
-const PUNCH_FINALIZE_MS = THREE_HUNDRED_MS;
-const PUNCH_MOVE_TICK_MS = SIXTEEN_MS;
-const PUNCH_MOVE_FACTOR = 0.22;
-const PUNCH_TARGET_JITTER = 60;
-const PUNCH_MIN_DISTANCE_MS = FIFTY_MS;
 
 export function useArturOraPunch({
   player,

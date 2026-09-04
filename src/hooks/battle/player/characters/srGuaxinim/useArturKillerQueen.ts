@@ -1,28 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { playerPath, npcPathProjectile } from "@/utils/paths";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
-
-export type KillerQueenOverlay = {
-  active: boolean;
-  x: number;
-  y: number;
-  sprite: "idle" | "touch" | "prePalm" | "palm";
-  opacity: number;
-  flip: boolean;
-};
-
-export type BombTarget = {
-  id: string;
-  x: number;
-  y: number;
-  phase: "bomb" | "explosion";
-};
-
-export type EnemyTarget = {
-  id: string;
-  x: number;
-  y: number;
-};
+import type { KillerQueenOverlay, EnemyTarget } from "@/utils/types/character/srGuaxinim";
+import {
+  DEFAULT_OVERLAY,
+  BEHIND_X_OFFSET,
+  SPAWN_X_OFFSET,
+  TOTAL_FREEZE_MS,
+  KILLER_QUEEN_SPRITE_FILE
+} from "@/data/characters/srGuaxinim";
 
 type Props = {
   player: Player;
@@ -35,26 +21,6 @@ type Props = {
     explosions: { x: number; y: number }[],
     allEnemies: EnemyTarget[],
   ) => void;
-};
-
-const SPAWN_X_OFFSET = 55;
-const BEHIND_X_OFFSET = 45;
-const TOTAL_FREEZE_MS = 10000;
-
-const DEFAULT_OVERLAY: KillerQueenOverlay = {
-  active: false,
-  x: 0,
-  y: 0,
-  sprite: "idle",
-  opacity: 0,
-  flip: false,
-};
-
-const KILLER_QUEEN_SPRITE_FILE: Record<KillerQueenOverlay["sprite"], string> = {
-  idle: "killerQueenIdle",
-  touch: "touch",
-  prePalm: "prePalm",
-  palm: "palm",
 };
 
 export function useArturKillerQueen({

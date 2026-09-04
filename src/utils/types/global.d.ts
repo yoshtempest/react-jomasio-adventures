@@ -442,4 +442,11 @@ declare global {
   };
 
   type GroundItemsSaveData = Record<string, GroundLoot>;
+
+  type BombTarget = {
+    id: string;
+    x: number;
+    y: number;
+    phase: "bomb" | "explosion";
+  };
 }

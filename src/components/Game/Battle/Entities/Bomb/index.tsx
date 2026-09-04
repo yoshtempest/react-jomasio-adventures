@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
-import type { BombTarget } from "@/hooks/battle/player/characters/srGuaxinim/useArturKillerQueen";
 import type { BattleEntityPositioning } from "../types";
 
 type Props = BattleEntityPositioning & {

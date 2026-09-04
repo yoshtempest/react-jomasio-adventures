@@ -16,11 +16,8 @@ import type { BattleEntitiesBattle, MainNpcState } from "./types";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { PetState } from "@/hooks/battle/player/pets/usePet";
 import type { CoffinState } from "@/hooks/battle/summon/useCoffinAnimation";
-import type {
-  KillerQueenOverlay,
-  BombTarget,
-} from "@/hooks/battle/player/characters/srGuaxinim/useArturKillerQueen";
-import type { ExtraPunchVisual } from "@/hooks/battle/player/characters/srGuaxinim/useArturOraPunch";
+import type { KillerQueenOverlay } from "@/utils/types/character/srGuaxinim";
+import type { ExtraPunchVisual } from "@/utils/types/character/srGuaxinim";
 
 type Props = {
   npc: MainNpcState;

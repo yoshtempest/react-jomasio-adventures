@@ -1,5 +1,4 @@
 import { useEffect, useState, useCallback } from "react";
-import type { RefObject, Dispatch, SetStateAction } from "react";
 
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
@@ -12,46 +11,11 @@ import {
   circularNext,
   circularPrev,
 } from "@/gameRules/menu/navigation";
+import { CHAR_UNLOCK_FLAGS } from "@/data/flags/charUnlockFlags";
+import { menuCycleHandler } from "@/hooks/battle/defeat/menuCycleHandler";
+import { DEFEAT_MENU_NEXT, DEFEAT_MENU_PREV } from "@/data/options/defeat";
+import type { DefeatMenuSelection, View } from "@/utils/types/battle/defeat";
 
-const CHAR_UNLOCK_FLAGS: Record<string, FlagId> = {
-  samuel: "samurionUnlocked",
-  artur: "srGuaxinimUnlocked",
-  emanuel: "ematronUnlocked",
-  larissa: "laricellUnlocked",
-  mayra: "yraUnlocked",
-  camilly: "kamykazeUnlocked",
-  lucas: "yvelUnlocked",
-  lucaua: "babidiUnlocked",
-  riquelme: "natsukiUnlocked",
-};
-
-export type DefeatMenuSelection = "retry" | "flee" | "characterSelect";
-type View = "menu" | "characterSelect";
-
-const DEFEAT_MENU_NEXT: Record<DefeatMenuSelection, DefeatMenuSelection> = {
-  retry: "flee",
-  flee: "characterSelect",
-  characterSelect: "retry",
-};
-
-const DEFEAT_MENU_PREV: Record<DefeatMenuSelection, DefeatMenuSelection> = {
-  retry: "characterSelect",
-  characterSelect: "flee",
-  flee: "retry",
-};
-
-function menuCycleHandler(
-  viewRef: RefObject<View>,
-  playMoveRef: RefObject<() => void>,
-  setMenuSelectionRef: RefObject<Dispatch<SetStateAction<DefeatMenuSelection>>>,
-  table: Record<DefeatMenuSelection, DefeatMenuSelection>,
-) {
-  return () => {
-    if (viewRef.current !== "menu") return;
-    playMoveRef.current();
-    setMenuSelectionRef.current((prev) => table[prev]);
-  };
-}
 
 export function useDefeatCharacterSelect(isOpen: boolean) {
   const { player, setCharacter } = usePlayer();

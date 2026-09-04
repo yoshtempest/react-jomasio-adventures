@@ -11,7 +11,7 @@ import { FleeButton } from "@/components/Game/Battle/Buttons/Run";
 import {
   useDefeatCharacterSelect,
   type DefeatMenuSelection,
-} from "@/hooks/battle/useDefeatCharacterSelect";
+} from "@/hooks/battle/defeat/useDefeatCharacterSelect";
 
 type Props = {
   isOpen: boolean;
