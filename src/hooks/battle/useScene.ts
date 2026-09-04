@@ -15,11 +15,10 @@ import { useNpcAI } from "@/hooks/battle/npc/useAi";
 import { useBattleSystem } from "@/hooks/battle/useSystem";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { usePetProgress } from "@/contexts/PetProgressContext";
-import { PET_STAR_MULTIPLIER, petStarsFromEnhance } from "@/data/characters/petProgress";
+import { petStarsFromEnhance } from "@/data/characters/petProgress";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { useNavigate, useLocation } from "react-router";
-import { useSoundEffects, type SoundId } from "@/contexts/SoundEffectsContext";
-import { logPlay } from "@/utils/replay/audioEventLog";
+import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
 import { useNavbar } from "@/contexts/NavbarContext";
@@ -53,10 +52,7 @@ import { useBattleInfo } from "@/contexts/BattleInfoContext";
 import {
   getPetSkillDefinition,
   PET_ROOT_DURATION_MS,
-  type PetSkillDefinition,
 } from "@/data/characters/petSkills";
-import { getPetBaseDamage } from "@/data/characters/petProgress";
-import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
 import { CHARACTERS } from "@/data/characters/list";
@@ -76,9 +72,12 @@ import {
   incrementAttacksUsedStats,
 } from "@/utils/rewards/battleStats";
 import { useBattleRecording } from "@/hooks/battle/recording/useBattleRecording";
+import { useRewind } from "@/hooks/battle/rewind/useRewind";
+import {
+  buildSummonWrapper,
+  runPetSkill,
+} from "@/gameRules/battle/petSkill";
 import type { ReplayData, ReplayFrame } from "@/utils/types/replay";
-import type { SpawnDamageFn } from "@/utils/types/battle/spawnDamageFn";
-import type { SummonedNpc } from "@/utils/types/npc/npc";
 import { combatService } from "@/services/combat";
 import {
   applyPlayerStatus,
@@ -87,8 +86,7 @@ import {
 import type { NewPlayerStatus } from "@/gameRules/battle/status/statusEffects";
 import { useKokusenAnimation } from "@/hooks/battle/player/useKokusenAnimation";
 import { useSpecialIntro } from "@/hooks/battle/useSpecialIntro";
-import { getCharacterPassive } from "@/data/characters/passives";
-import type { NPCBattleState } from "@/utils/types/npc/npc";
+import type { BattleSceneApi } from "@/utils/types/battle/scene";
 
 function computeElapsedBattleTime(
   battleStartRef: RefObject<number>,
@@ -104,292 +102,6 @@ function computeElapsedBattleTime(
   return elapsed;
 }
 
-type RewindSnapshot = {
-  at: number;
-  playerHP: number;
-  playerShield: number;
-  npcHP: number;
-  npcPhase: number;
-  delicia: number;
-  playerX: number;
-  playerY: number;
-  playerState: PlayerState;
-  playerBattleDirection: Direction;
-  npcX: number;
-  npcY: number;
-  npcState: NPCBattleState["state"];
-  npcDirection: NPCBattleState["direction"];
-  projectiles: Projectile[];
-  summons: SummonedNpc[];
-};
-
-const REWIND_INTERVAL_MS = 200;
-const REWIND_BUFFER_MS = 12_000;
-const REWIND_PLAYBACK_MS = 100;
-
-function findRewindTarget(
-  snapshots: { at: number; snap: RewindSnapshot }[],
-  now: number,
-  targetMs: number,
-): RewindSnapshot | null {
-  const target = now - targetMs;
-  let closest: { at: number; snap: RewindSnapshot } | null = null;
-  for (const entry of snapshots) {
-    if (entry.at > now) continue;
-    if (closest == null || Math.abs(entry.at - target) < Math.abs(closest.at - target)) {
-      closest = entry;
-    }
-  }
-  return closest ? closest.snap : null;
-}
-
-function buildSummonWrapper(params: {
-  npcType: string;
-  npcPhaseRef: RefObject<number>;
-  coffinStartedRef: RefObject<boolean>;
-  playSound: (sound: SoundId, loop?: boolean, volumeOverride?: number) => void;
-  beginCoffinSequence: (
-    spawnPositions: number[],
-    groundY: number,
-    onSpawn: (npcType: string, x: number) => void,
-  ) => void;
-  player: Player;
-  summonNpcRef: RefObject<(npcType: string, overrideX?: number) => void>;
-}): (summonType: string) => void {
-  return (summonType: string) => {
-    if (
-      params.npcType === "hungryKing" &&
-      params.npcPhaseRef.current === 2 &&
-      summonType === "hungryDeath"
-    ) {
-      if (!params.coffinStartedRef.current) {
-        params.coffinStartedRef.current = true;
-        params.playSound("summon");
-        logPlay("summon");
-        params.beginCoffinSequence(
-          [550, 650, 750],
-          params.player.groundY,
-          (_npcType: string, x: number) =>
-            params.summonNpcRef.current("hungryDeath", x),
-        );
-      }
-    } else {
-      params.summonNpcRef.current(summonType);
-    }
-  };
-}
-
-function runPetSkill(
-  def: PetSkillDefinition,
-  deps: {
-    petLevel: number;
-    petStars: number;
-    playerLevel: number;
-    groundY: number;
-    beginCoffinSequence: (
-      spawnPositions: number[],
-      groundY: number,
-      onSpawn: (npcType: string, x: number) => void,
-    ) => void;
-    npcType: string;
-    playerX: number;
-    playerY: number;
-    battle: ReturnType<typeof useBattleSystem>;
-    spawnDamageRef: RefObject<SpawnDamageFn>;
-    npc: ReturnType<typeof useNpcAI>;
-    summonNpc: (
-      npcType: string,
-      overrideX?: number,
-      options?: { level?: number; statMultiplier?: number },
-    ) => void;
-    triggerJumpAttack: (npcY: number, cb: (damage: number) => void) => void;
-    triggerTeleportBite: (
-      targetX: number,
-      targetY: number,
-      cb: (damage: number) => void,
-    ) => void;
-    applyNpcBleed: (durationMs: number) => void;
-    summons: SummonedNpc[];
-    setSummons: React.Dispatch<React.SetStateAction<SummonedNpc[]>>;
-    summonsBleedUntilRef: React.RefObject<Record<string, number>>;
-    npcRootedUntilRef: React.RefObject<number>;
-    rootedSummonsUntilRef: React.RefObject<Record<string, number>>;
-    rootDurationMs: number;
-    playSound: (
-      sound: SoundId,
-      loop?: boolean,
-      volumeOverride?: number,
-    ) => void;
-  },
-): void {
-  const {
-    petLevel,
-    petStars,
-    playerLevel,
-    groundY,
-    beginCoffinSequence,
-    npcType,
-    playerX,
-    playerY,
-    battle,
-    spawnDamageRef,
-    npc,
-    summonNpc,
-    triggerJumpAttack,
-    triggerTeleportBite,
-    applyNpcBleed,
-    summons,
-    setSummons,
-    summonsBleedUntilRef,
-    npcRootedUntilRef,
-    rootedSummonsUntilRef,
-    rootDurationMs,
-    playSound,
-  } = deps;
-  const effect = def.skillEffect;
-  switch (effect.kind) {
-    case "damage": {
-      const baseDamage = getPetBaseDamage(petLevel, petStars);
-      const elementMultiplier = combatService.getElementMultiplier(
-        getNpcElementTypes(def.npcType),
-        getNpcElementTypes(npcType),
-      );
-      const dmg = Math.round(
-        combatService.calculateDamageToNpc(
-          baseDamage * effect.multiplier,
-          battle.npcArmor,
-        ) * elementMultiplier,
-      );
-      battle.setNpcHP((hp) => Math.max(0, hp - dmg));
-      spawnDamageRef.current?.(dmg, npc.x, npc.y, "pet");
-      break;
-    }
-    case "jumpAttack": {
-      const baseDamage = getPetBaseDamage(petLevel, petStars);
-      const elementMultiplier = combatService.getElementMultiplier(
-        getNpcElementTypes(def.npcType),
-        getNpcElementTypes(npcType),
-      );
-      const dmg = Math.round(
-        combatService.calculateDamageToNpc(
-          baseDamage * effect.multiplier,
-          battle.npcArmor,
-        ) * elementMultiplier,
-      );
-      triggerJumpAttack(npc.y, () => {
-        battle.setNpcHP((hp) => Math.max(0, hp - dmg));
-        spawnDamageRef.current?.(dmg, npc.x, npc.y, "pet");
-      });
-      break;
-    }
-    case "teleportBite": {
-      const baseDamage = getPetBaseDamage(petLevel, petStars);
-      const enemies: {
-        id: string;
-        npcType: string;
-        x: number;
-        y: number;
-        maxHp: number;
-      }[] = [];
-      if (battle.npcHP > 0) {
-        enemies.push({
-          id: "main",
-          npcType,
-          x: npc.x,
-          y: npc.y,
-          maxHp: battle.npcMaxHp,
-        });
-      }
-      for (const s of summons) {
-        if (s.isDying || s.hp <= 0) continue;
-        enemies.push({ id: s.id, npcType: s.npcType, x: s.x, y: s.y, maxHp: s.maxHp });
-      }
-      if (enemies.length === 0) break;
-
-      const target = enemies.reduce((best, e) =>
-        e.maxHp > best.maxHp ? e : best,
-      );
-
-      const targetElementMultiplier = combatService.getElementMultiplier(
-        getNpcElementTypes(def.npcType),
-        getNpcElementTypes(target.npcType),
-      );
-      const dmg = Math.round(
-        combatService.calculateDamageToNpc(
-          baseDamage * effect.multiplier,
-          battle.npcArmor,
-        ) * targetElementMultiplier,
-      );
-
-      triggerTeleportBite(target.x, target.y, () => {
-        if (target.id === "main") {
-          battle.setNpcHP((hp) => Math.max(0, hp - dmg));
-          applyNpcBleed(effect.bleedMs);
-          npcRootedUntilRef.current = Date.now() + rootDurationMs;
-          spawnDamageRef.current?.(dmg, target.x, target.y, "pet");
-          return;
-        }
-        setSummons((prev) =>
-          prev.map((s) =>
-            s.id === target.id
-              ? { ...s, hp: Math.max(0, s.hp - dmg) }
-              : s,
-          ),
-        );
-        summonsBleedUntilRef.current = {
-          ...summonsBleedUntilRef.current,
-          [target.id]: Math.max(
-            summonsBleedUntilRef.current[target.id] ?? 0,
-            Date.now() + effect.bleedMs,
-          ),
-        };
-        rootedSummonsUntilRef.current = {
-          ...rootedSummonsUntilRef.current,
-          [target.id]: Math.max(
-            rootedSummonsUntilRef.current[target.id] ?? 0,
-            Date.now() + rootDurationMs,
-          ),
-        };
-        spawnDamageRef.current?.(dmg, target.x, target.y, "pet");
-      });
-      break;
-    }
-    case "summon": {
-      if (def.petId === "pet_hungryKing") {
-        const starMultiplier = PET_STAR_MULTIPLIER ** (petStars - 1);
-        beginCoffinSequence(
-          [playerX + 200],
-          groundY,
-          (_npcType: string, x: number) =>
-            summonNpc(effect.npcType, x, {
-              level: playerLevel,
-              statMultiplier: starMultiplier,
-            }),
-        );
-      } else {
-        summonNpc(effect.npcType);
-      }
-      break;
-    }
-    case "shield":
-      battle.setPlayerShield((shield) => shield + effect.amount);
-      break;
-    case "heal":
-      battle.setPlayerHP((hp) =>
-        Math.min(battle.playerMaxHp, hp + effect.amount),
-      );
-      spawnDamageRef.current?.(effect.amount, playerX, playerY - 40, "heal");
-      break;
-    case "healPercent": {
-      const pct = effect.perStar[petStars - 1] ?? effect.perStar[0] ?? 0;
-      const heal = Math.round((battle.playerMaxHp * pct) / 100);
-      battle.setPlayerHP((hp) => Math.min(battle.playerMaxHp, hp + heal));
-      spawnDamageRef.current?.(heal, playerX, playerY - 40, "heal");
-      break;
-    }
-  }
-  playSound("summon");
-}
 
 type Props = {
   npcType: string;
@@ -754,11 +466,6 @@ export function useBattleScene({
     return false;
   };
 
-  const rewindSnapshotsRef = useRef<{ at: number; snap: RewindSnapshot }[]>(
-    [],
-  );
-  const rewindUsedRef = useRef(false);
-  const rewindTargetRef = useRef<RewindSnapshot | null>(null);
   const performRewindRef = useRef<() => boolean>(() => false);
 
   const onPlayerDeathRef = useLatestRef(() => {
@@ -1066,172 +773,24 @@ export function useBattleScene({
     }
   }, [showVictory, showDefeat, isRecording, stopRecording]);
 
-  const applyRewind = (target: RewindSnapshot) => {
-    battle.setPlayerHP(target.playerHP);
-    battle.setPlayerShield(target.playerShield);
-    battle.setNpcHP(target.npcHP);
-    setNpcPhase(target.npcPhase);
-    battle.setDelicia(target.delicia);
-    setPlayer((p) => ({
-      ...p,
-      x: target.playerX,
-      y: target.playerY,
-      state: target.playerState,
-      battleDirection: target.playerBattleDirection,
-      grabbedUntil: 0,
-      pullFromX: 0,
-      pullToX: 0,
-      pullStartTime: 0,
-    }));
-    npc.setNpc((n) => ({
-      ...n,
-      x: target.npcX,
-      y: target.npcY,
-      state: target.npcState,
-      direction: target.npcDirection,
-    }));
-    npc.setProjectiles(target.projectiles);
-    setSummons(target.summons);
-    battle.isEnding.current = false;
-    resetCombo();
-  };
-
-  const onRewindCompleteRef = useLatestRef(() => {
-    if (rewindTargetRef.current) {
-      applyRewind(rewindTargetRef.current);
-    }
-    rewindTargetRef.current = null;
-    setRewindFrames(null);
-  });
-
-  const applyFrameToLive = (frame: ReplayFrame) => {
-    setPlayer((p) => ({
-      ...p,
-      x: frame.px,
-      y: frame.py,
-      state: frame.ps,
-      battleDirection: frame.pd,
-    }));
-    npc.setNpc((n) => ({
-      ...n,
-      x: frame.nx,
-      y: frame.ny,
-      state: frame.ns,
-      direction: frame.ndir,
-    }));
-    battle.setPlayerHP(frame.php);
-    battle.setPlayerShield(frame.pshield);
-    battle.setNpcHP(frame.nhp);
-    battle.setDelicia(frame.del);
-    setSummons(
-      frame.sm.map((s) => ({
-        id: s.id,
-        npcType: s.t,
-        x: s.x,
-        y: s.y,
-        direction: s.dir,
-        state: s.st,
-        hp: s.hp,
-        maxHp: s.hp,
-        isDying: false,
-      })),
-    );
-  };
-
-  const rewindIndexRef = useRef(0);
-  const applyFrameToLiveRef = useLatestRef(applyFrameToLive);
-
-  useEffect(() => {
-    if (!rewindFrames || rewindFrames.length === 0) return;
-    rewindIndexRef.current = rewindFrames.length - 1;
-
-    const interval = setInterval(() => {
-      const idx = rewindIndexRef.current;
-      const frame = rewindFrames[idx];
-      if (frame) {
-        applyFrameToLiveRef.current(frame);
-        rewindIndexRef.current = idx - 1;
-        if (idx <= 0) {
-          clearInterval(interval);
-          onRewindCompleteRef.current();
-          return;
-        }
-      }
-    }, REWIND_PLAYBACK_MS);
-
-    return () => clearInterval(interval);
-  }, [rewindFrames, applyFrameToLiveRef, onRewindCompleteRef]);
-
-  performRewindRef.current = () => {
-    const passive = getCharacterPassive(player.character);
-    if (passive.effect.kind !== "rewindTime") return false;
-    if (rewindUsedRef.current) return false;
-
-    const target = findRewindTarget(
-      rewindSnapshotsRef.current,
-      Date.now(),
-      passive.effect.rewindMs,
-    );
-    if (!target) return false;
-
-    rewindUsedRef.current = true;
-    rewindTargetRef.current = target;
-    battle.isEnding.current = true;
-
-    const windowReplay = getReplayWindow(passive.effect.rewindMs);
-    if (!windowReplay || windowReplay.frames.length === 0) {
-      applyRewind(target);
-      rewindTargetRef.current = null;
-      return true;
-    }
-
-    setRewindFrames(windowReplay.frames);
-    return true;
-  };
-
-  useEffect(() => {
-    rewindSnapshotsRef.current = [];
-    rewindUsedRef.current = false;
-
-    const interval = setInterval(() => {
-      const p = playerSnapshotRef.current;
-      const n = npcSnapshotRef.current;
-      const b = battleSnapshotRef.current;
-      if (!p || !n || !b) return;
-
-      const snap: RewindSnapshot = {
-        at: Date.now(),
-        playerHP: b.playerHP,
-        playerShield: b.playerShield,
-        npcHP: b.npcHP,
-        npcPhase: b.npcPhase,
-        delicia: b.delicia,
-        playerX: p.x,
-        playerY: p.y,
-        playerState: p.state,
-        playerBattleDirection: p.battleDirection,
-        npcX: n.x,
-        npcY: n.y,
-        npcState: n.state,
-        npcDirection: n.direction,
-        projectiles: [...npcProjectilesSnapshotRef.current],
-        summons: summonsSnapshotRef.current,
-      };
-      rewindSnapshotsRef.current.push({ at: snap.at, snap });
-      const cutoff = snap.at - REWIND_BUFFER_MS;
-      rewindSnapshotsRef.current = rewindSnapshotsRef.current.filter(
-        (entry) => entry.snap.at >= cutoff,
-      );
-    }, REWIND_INTERVAL_MS);
-
-    return () => clearInterval(interval);
-  }, [
+  const { reset: resetRewind } = useRewind({
+    character: player.character,
+    rewindFrames,
+    setRewindFrames,
+    performRewindRef,
+    setPlayer,
+    setNpcPhase,
+    setSummons,
     playerSnapshotRef,
     npcSnapshotRef,
     battleSnapshotRef,
     npcProjectilesSnapshotRef,
     summonsSnapshotRef,
-  ]);
+    battle,
+    npc,
+    resetCombo,
+    getReplayWindow,
+  });
 
   useEffect(() => {
     battleTenacityRef.current = battle.tenacityReduction;
@@ -1582,10 +1141,7 @@ export function useBattleScene({
 
   function handleRetry() {
     charge.cancelCharge();
-    rewindUsedRef.current = false;
-    rewindSnapshotsRef.current = [];
-    rewindTargetRef.current = null;
-    setRewindFrames(null);
+    resetRewind();
     setShowDefeat(false);
     clearSummons();
     clearCoffins();
@@ -1662,5 +1218,5 @@ export function useBattleScene({
     kokusenFrame,
     specialIntroActive,
     specialIntroCharacter,
-  };
+  } satisfies BattleSceneApi;
 }
