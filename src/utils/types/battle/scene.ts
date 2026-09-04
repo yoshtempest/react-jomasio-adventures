@@ -23,6 +23,7 @@ export type BattleSceneApi = {
   npcStats: ReturnType<typeof useNpcSetup>["npcStats"];
   npcLevel: number;
   summons: SummonedNpc[];
+  allies: SummonedNpc[];
   coffins: ReturnType<typeof useCoffinAnimation>["coffins"];
   pet: Battle["pet"];
   petSkill: Battle["petSkill"];

@@ -69,7 +69,7 @@ export type PetSkillRunDeps = {
   };
   spawnDamageRef: RefObject<SpawnDamageFn>;
   npc: { x: number; y: number };
-  summonNpc: (
+  summonAlly: (
     npcType: string,
     overrideX?: number,
     options?: { level?: number; statMultiplier?: number },
@@ -107,7 +107,7 @@ export function runPetSkill(def: PetSkillDefinition, deps: PetSkillRunDeps): voi
     battle,
     spawnDamageRef,
     npc,
-    summonNpc,
+    summonAlly,
     triggerJumpAttack,
     triggerTeleportBite,
     applyNpcBleed,
@@ -234,13 +234,13 @@ export function runPetSkill(def: PetSkillDefinition, deps: PetSkillRunDeps): voi
           [playerX + 200],
           groundY,
           (_npcType: string, x: number) =>
-            summonNpc(effect.npcType, x, {
+            summonAlly(effect.npcType, x, {
               level: playerLevel,
               statMultiplier: starMultiplier,
             }),
         );
       } else {
-        summonNpc(effect.npcType);
+        summonAlly(effect.npcType);
       }
       break;
     }

@@ -6,6 +6,7 @@ import { StuckPapers } from "./StuckPapers";
 import { Laser } from "./Laser";
 import { Coffin } from "./Coffin";
 import { Summon } from "./Summon";
+import { Ally } from "./Ally";
 import { Pet } from "./Pet";
 import { Player } from "./Player";
 import { KillerQueen } from "./KillerQueen";
@@ -25,6 +26,7 @@ type Props = {
   battle: BattleEntitiesBattle;
   npcType: string;
   summons: SummonedNpc[];
+  allies: SummonedNpc[];
   coffins: CoffinState[];
   pet: PetState;
   TILE_SIZE: number;
@@ -47,6 +49,7 @@ export function BattleEntities({
   battle,
   npcType,
   summons,
+  allies = [],
   coffins,
   pet,
   TILE_SIZE,
@@ -116,6 +119,8 @@ export function BattleEntities({
         hiddenIds={activeBombIds}
         TILE_SIZE={TILE_SIZE}
       />
+
+      <Ally allies={allies} TILE_SIZE={TILE_SIZE} />
 
       <Pet pet={pet} TILE_SIZE={TILE_SIZE} />
 

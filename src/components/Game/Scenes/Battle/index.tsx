@@ -65,6 +65,7 @@ export function BattleScene(props: Props) {
     npcStats,
     npcLevel,
     summons,
+    allies,
     coffins,
     pet,
     petSkill,
@@ -261,6 +262,7 @@ export function BattleScene(props: Props) {
         npcType={npcType}
         npcLevel={npcLevel}
         summons={summons}
+        allies={allies}
         isAlfa={isAlfa}
       />
       <ComboDisplay
@@ -303,6 +305,7 @@ export function BattleScene(props: Props) {
             battle={battle}
             npcType={npcType}
             summons={summons}
+            allies={allies}
             coffins={coffins}
             pet={pet}
             TILE_SIZE={TILE_SIZE}

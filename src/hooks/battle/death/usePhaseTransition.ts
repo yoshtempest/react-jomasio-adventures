@@ -11,6 +11,7 @@ type Props = {
     resetNpc: (stateOverride?: NPCBattleState["state"]) => void;
   };
   clearSummons: () => void;
+  clearAllies: () => void;
   setIsPhaseTransitioning: (v: boolean) => void;
 };
 
@@ -20,6 +21,7 @@ export function usePhaseTransition({
   setPlayer,
   npc,
   clearSummons,
+  clearAllies,
   setIsPhaseTransitioning,
 }: Props) {
   const phaseTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
@@ -30,6 +32,7 @@ export function usePhaseTransition({
     if (npcPhase !== 2) return;
 
     clearSummons();
+    clearAllies();
     setIsPhaseTransitioning(true);
 
     const startPlayerX = player.x;

@@ -1,0 +1,27 @@
+.container {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--size-4);
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.name {
+  color: var(--accent-color);
+  text-align: right;
+  font-size: var(--small);
+  margin: 0;
+  text-shadow: 0 0 var(--size-4) rgba(0, 0, 0, 0.8);
+}
+
+.image {
+  width: 3vw;
+  height: 3vw;
+  object-fit: contain;
+}

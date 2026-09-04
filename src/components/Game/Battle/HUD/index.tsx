@@ -8,6 +8,7 @@ import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import { PlayerHUDPanel } from "./PlayerPanel";
 import { NPCHUDPanel } from "./NpcPanel";
 import { SummonHUDList } from "./SummonList";
+import { AllyHUDList } from "./AllyList";
 
 type BattleHUDState = {
   playerHP: number;
@@ -32,6 +33,7 @@ type Props = {
   npcType?: string;
   npcLevel?: number;
   summons?: SummonedNpc[];
+  allies?: SummonedNpc[];
   isAlfa?: boolean;
 };
 
@@ -41,6 +43,7 @@ export function BattleHUD({
   npcType,
   npcLevel,
   summons,
+  allies,
   isAlfa = false,
 }: Props) {
   const { player } = usePlayer();
@@ -82,6 +85,8 @@ export function BattleHUD({
       {summons && summons.length > 0 && (
         <SummonHUDList summons={summons} npcType={npcType} />
       )}
+
+      {allies && allies.length > 0 && <AllyHUDList allies={allies} />}
     </>
   );
 }

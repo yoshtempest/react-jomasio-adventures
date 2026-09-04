@@ -32,6 +32,8 @@ import { useBattleRewards } from "@/hooks/battle/rewards/useRewards";
 import { useSummons } from "@/hooks/battle/summon/useSummons";
 import { usePlayerBattleActions } from "@/hooks/battle/player/usePlayerActions";
 import { useSummonAI } from "@/hooks/battle/summon/useAi";
+import { useAllies } from "@/hooks/battle/summon/useAllies";
+import { useAllyAI } from "@/hooks/battle/summon/useAllyAI";
 import { useBattleControls } from "@/hooks/battle/useControls";
 import { useComboSystem } from "@/hooks/battle/useComboSystem";
 import { useBattleRefs } from "@/hooks/battle/useRefs";
@@ -258,6 +260,13 @@ export function useBattleScene({
     });
 
   const summonsBleedUntilRef = useRef<Record<string, number>>({});
+
+  const { allies, setAllies, summonAlly, clearAllies } = useAllies({
+    npcLevel,
+    difficulty,
+    playerX: player.x,
+    playerGroundY: player.groundY,
+  });
 
   const {
     coffins,
@@ -652,7 +661,7 @@ export function useBattleScene({
       battle,
       spawnDamageRef: refs.spawnDamageRef,
       npc,
-      summonNpc,
+      summonAlly,
       triggerJumpAttack: battle.triggerJumpAttack,
       triggerTeleportBite: battle.triggerTeleportBite,
       applyNpcBleed: battle.applyNpcBleed,
@@ -864,6 +873,23 @@ export function useBattleScene({
     rootedSummonsUntilRef,
   });
 
+  useAllyAI({
+    allies,
+    setAllies,
+    enemySummons: summons,
+    setEnemySummons: setSummons,
+    isPaused,
+    isEnding: battle.isEnding.current,
+    enemyNpc: { x: npc.x, y: npc.y, npcType },
+    npcHp: battle.npcHP,
+    npcArmor: battle.npcArmor,
+    setNpcHP: battle.setNpcHP,
+    npcLevel,
+    difficulty,
+    spawnDamageRef: refs.spawnDamageRef,
+    hitstopRef: refs.hitstopRef,
+  });
+
   const arturEnemies = useMemo(() => {
     if (player.character !== "artur") return [];
     return [
@@ -956,6 +982,7 @@ export function useBattleScene({
     setPlayer,
     npc,
     clearSummons,
+    clearAllies,
     setIsPhaseTransitioning,
   });
 
@@ -1144,6 +1171,7 @@ export function useBattleScene({
     resetRewind();
     setShowDefeat(false);
     clearSummons();
+    clearAllies();
     clearCoffins();
     coffinStartedRef.current = false;
     npcRootedUntilRef.current = 0;
@@ -1171,6 +1199,7 @@ export function useBattleScene({
     npcStats,
     npcLevel,
     summons,
+    allies,
     coffins,
     pet: battle.pet,
     petSkill: battle.petSkill,
