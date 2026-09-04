@@ -1,9 +1,9 @@
 import type { useBattleSystem } from "@/hooks/battle/useSystem";
 import type { useNpcAI } from "@/hooks/battle/npc/useAi";
 import type { useChargeAttack } from "@/hooks/battle/charge/useAttack";
-import type { useArturOraPunch } from "@/hooks/battle/player/useArturOraPunch";
-import type { useArturKillerQueen } from "@/hooks/battle/player/useArturKillerQueen";
-import type { useKokusenAnimation } from "@/hooks/battle/player/useKokusenAnimation";
+import type { useArturOraPunch } from "@/hooks/battle/player/characters/srGuaxinim/useArturOraPunch";
+import type { useArturKillerQueen } from "@/hooks/battle/player/characters/srGuaxinim/useArturKillerQueen";
+import type { useKokusenAnimation } from "@/hooks/battle/player/characters/Natsuki/useKokusenAnimation";
 import type { useSpecialIntro } from "@/hooks/battle/useSpecialIntro";
 import type { usePlayerSpecialProjectile } from "@/hooks/battle/player/usePlayerSpecialProjectile";
 import type { useCoffinAnimation } from "@/hooks/battle/summon/useCoffinAnimation";

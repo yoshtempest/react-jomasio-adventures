@@ -40,8 +40,8 @@ import { useChargeAttack } from "@/hooks/battle/charge/useAttack";
 import { usePhaseTransition } from "@/hooks/battle/death/usePhaseTransition";
 import { useCoffinAnimation } from "@/hooks/battle/summon/useCoffinAnimation";
 import { usePlayerSpecialProjectile } from "@/hooks/battle/player/usePlayerSpecialProjectile";
-import { useArturKillerQueen } from "@/hooks/battle/player/useArturKillerQueen";
-import { useArturOraPunch } from "@/hooks/battle/player/useArturOraPunch";
+import { useArturKillerQueen } from "@/hooks/battle/player/characters/srGuaxinim/useArturKillerQueen";
+import { useArturOraPunch } from "@/hooks/battle/player/characters/srGuaxinim/useArturOraPunch";
 import { playerPath } from "@/utils/paths";
 import { getSpecialFlowOverride } from "@/data/battle/animationFlow";
 import { useBattleIntro } from "@/hooks/battle/useIntro";
@@ -84,7 +84,7 @@ import {
   DOT_TICK_INTERVAL_MS,
 } from "@/gameRules/battle/status/statusEffects";
 import type { NewPlayerStatus } from "@/gameRules/battle/status/statusEffects";
-import { useKokusenAnimation } from "@/hooks/battle/player/useKokusenAnimation";
+import { useKokusenAnimation } from "@/hooks/battle/player/characters/Natsuki/useKokusenAnimation";
 import { useSpecialIntro } from "@/hooks/battle/useSpecialIntro";
 import type { BattleSceneApi } from "@/utils/types/battle/scene";
 

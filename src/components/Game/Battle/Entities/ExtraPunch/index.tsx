@@ -1,4 +1,4 @@
-import type { ExtraPunchVisual } from "@/hooks/battle/player/useArturOraPunch";
+import type { ExtraPunchVisual } from "@/hooks/battle/player/characters/srGuaxinim/useArturOraPunch";
 import type { BattleEntityPositioning } from "../types";
 
 type Props = BattleEntityPositioning & {

@@ -1,5 +1,5 @@
 import { NPCBattle } from "@/components/Game/Entities/Npc/Battle";
-import type { PetState } from "@/hooks/battle/player/usePet";
+import type { PetState } from "@/hooks/battle/player/pets/usePet";
 
 type Props = {
   pet: PetState;

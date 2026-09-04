@@ -5,8 +5,8 @@ import {
   PET_SKILL_COOLDOWN_MS,
 } from "@/data/characters/petSkills";
 import { useLatestRef } from "@/hooks/useLatestRef";
-import { usePetSkillCooldown } from "@/hooks/battle/player/usePetSkill";
-import { usePetPassive } from "@/hooks/battle/player/usePetPassive";
+import { usePetSkillCooldown } from "@/hooks/battle/player/pets/usePetSkill";
+import { usePetPassive } from "@/hooks/battle/player/pets/usePetPassive";
 
 import { useBattleStats } from "@/hooks/battle/useStats";
 import { useBattleHP } from "@/hooks/battle/death/useHP";
@@ -15,7 +15,7 @@ import { useBattleEffects } from "@/hooks/battle/useEffects";
 import { usePlayerBattle } from "@/hooks/battle/player/usePlayer";
 import { useNpcBattle } from "@/hooks/battle/npc/useNpc";
 import { useBattleLifecycle } from "@/hooks/battle/death/useLifecycle";
-import { usePetBattle } from "@/hooks/battle/player/usePet";
+import { usePetBattle } from "@/hooks/battle/player/pets/usePet";
 import { useDamageNumbers } from "@/hooks/battle/damage/useNumbers";
 import { useExternalDamage } from "@/hooks/battle/damage/useExternal";
 import { useBlockGauge } from "@/hooks/battle/useBlockGauge";
