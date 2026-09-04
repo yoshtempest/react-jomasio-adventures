@@ -226,6 +226,25 @@ export function useBattleRecording({
     };
   }, []);
 
+  const getReplayWindow = useCallback(
+    (windowMs: number): ReplayData | null => {
+      if (framesRef.current.length === 0 || !metadataRef.current) return null;
+      const frames = framesRef.current;
+      const last = frames[frames.length - 1]!.t;
+      const startT = last - windowMs;
+      const windowFrames = frames.filter((f) => f.t >= startT);
+      if (windowFrames.length === 0) return null;
+      return {
+        id: `rewind_${Date.now()}`,
+        ...metadataRef.current,
+        duration: windowMs,
+        frames: windowFrames,
+        audioEvents: [],
+      };
+    },
+    [],
+  );
+
   useEffect(() => {
     return () => {
       if (intervalRef.current) {
@@ -239,5 +258,6 @@ export function useBattleRecording({
     startRecording,
     stopRecording,
     getReplayData,
+    getReplayWindow,
   };
 }

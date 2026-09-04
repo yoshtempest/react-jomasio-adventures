@@ -76,7 +76,7 @@ import {
   incrementAttacksUsedStats,
 } from "@/utils/rewards/battleStats";
 import { useBattleRecording } from "@/hooks/battle/recording/useBattleRecording";
-import type { ReplayData } from "@/utils/types/replay";
+import type { ReplayData, ReplayFrame } from "@/utils/types/replay";
 import type { SpawnDamageFn } from "@/utils/types/battle/spawnDamageFn";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import { combatService } from "@/services/combat";
@@ -125,6 +125,7 @@ type RewindSnapshot = {
 
 const REWIND_INTERVAL_MS = 200;
 const REWIND_BUFFER_MS = 12_000;
+const REWIND_PLAYBACK_MS = 100;
 
 function findRewindTarget(
   snapshots: { at: number; snap: RewindSnapshot }[],
@@ -466,6 +467,7 @@ export function useBattleScene({
 
   const battleStartRef = useRef(Date.now());
   const savedPlayerHPRef = useRef(progress[player.character]?.battleHP ?? null);
+  const [rewindFrames, setRewindFrames] = useState<ReplayFrame[] | null>(null);
   const [defeatElapsed, setDefeatElapsed] = useState(0);
   const [victoryElapsed, setVictoryElapsed] = useState(0);
   const [bestTime, setBestTime] = useState(loadBestTime(npcType));
@@ -650,6 +652,7 @@ export function useBattleScene({
     showIntro ||
     showOutro != null ||
     showHighlight ||
+    rewindFrames != null ||
     isConfigOpen ||
     isBattleNavOpen;
   const isPausedRef = useLatestRef(isPaused);
@@ -751,16 +754,22 @@ export function useBattleScene({
     [],
   );
   const rewindUsedRef = useRef(false);
+  const rewindTargetRef = useRef<RewindSnapshot | null>(null);
   const performRewindRef = useRef<() => boolean>(() => false);
 
   const onPlayerDeathRef = useLatestRef(() => {
+    if (rewindFrames != null) {
+      battle.isEnding.current = true;
+      return;
+    }
+
     if (training) {
       battle.resetBattle();
       return;
     }
 
     if (performRewindRef.current()) {
-      refs.spawnDamageRef.current?.(0, player.x, player.y, "heal");
+      battle.isEnding.current = true;
       return;
     }
 
@@ -1014,8 +1023,13 @@ export function useBattleScene({
 
   const npcProjectilesSnapshotRef = useLatestRef(npc.projectiles);
 
-  const { isRecording, startRecording, stopRecording, getReplayData } =
-    useBattleRecording({
+  const {
+    isRecording,
+    startRecording,
+    stopRecording,
+    getReplayData,
+    getReplayWindow,
+  } = useBattleRecording({
       playerRef: playerSnapshotRef,
       npcRef: npcSnapshotRef,
       battleRef: battleSnapshotRef,
@@ -1048,19 +1062,7 @@ export function useBattleScene({
     }
   }, [showVictory, showDefeat, isRecording, stopRecording]);
 
-  performRewindRef.current = () => {
-    const passive = getCharacterPassive(player.character);
-    if (passive.effect.kind !== "rewindTime") return false;
-    if (rewindUsedRef.current) return false;
-
-    const target = findRewindTarget(
-      rewindSnapshotsRef.current,
-      Date.now(),
-      passive.effect.rewindMs,
-    );
-    if (!target) return false;
-
-    rewindUsedRef.current = true;
+  const applyRewind = (target: RewindSnapshot) => {
     battle.setPlayerHP(target.playerHP);
     battle.setPlayerShield(target.playerShield);
     battle.setNpcHP(target.npcHP);
@@ -1088,6 +1090,94 @@ export function useBattleScene({
     setSummons(target.summons);
     battle.isEnding.current = false;
     resetCombo();
+  };
+
+  const onRewindCompleteRef = useLatestRef(() => {
+    if (rewindTargetRef.current) {
+      applyRewind(rewindTargetRef.current);
+    }
+    rewindTargetRef.current = null;
+    setRewindFrames(null);
+  });
+
+  const applyFrameToLive = (frame: ReplayFrame) => {
+    setPlayer((p) => ({
+      ...p,
+      x: frame.px,
+      y: frame.py,
+      state: frame.ps,
+      battleDirection: frame.pd,
+    }));
+    npc.setNpc((n) => ({
+      ...n,
+      x: frame.nx,
+      y: frame.ny,
+      state: frame.ns,
+      direction: frame.ndir,
+    }));
+    battle.setPlayerHP(frame.php);
+    battle.setPlayerShield(frame.pshield);
+    battle.setNpcHP(frame.nhp);
+    battle.setDelicia(frame.del);
+    setSummons(
+      frame.sm.map((s) => ({
+        id: s.id,
+        npcType: s.t,
+        x: s.x,
+        y: s.y,
+        direction: s.dir,
+        state: s.st,
+        hp: s.hp,
+        maxHp: s.hp,
+        isDying: false,
+      })),
+    );
+  };
+
+  const rewindIndexRef = useRef(0);
+  const applyFrameToLiveRef = useLatestRef(applyFrameToLive);
+
+  useEffect(() => {
+    if (!rewindFrames || rewindFrames.length === 0) return;
+    rewindIndexRef.current = rewindFrames.length - 1;
+
+    const interval = setInterval(() => {
+      const idx = rewindIndexRef.current;
+      applyFrameToLiveRef.current(rewindFrames[idx]);
+      rewindIndexRef.current = idx - 1;
+      if (idx <= 0) {
+        clearInterval(interval);
+        onRewindCompleteRef.current();
+      }
+    }, REWIND_PLAYBACK_MS);
+
+    return () => clearInterval(interval);
+  }, [rewindFrames, applyFrameToLiveRef, onRewindCompleteRef]);
+
+  performRewindRef.current = () => {
+    const passive = getCharacterPassive(player.character);
+    if (passive.effect.kind !== "rewindTime") return false;
+    if (rewindUsedRef.current) return false;
+
+    const target = findRewindTarget(
+      rewindSnapshotsRef.current,
+      Date.now(),
+      passive.effect.rewindMs,
+    );
+    if (!target) return false;
+
+    rewindUsedRef.current = true;
+    rewindTargetRef.current = target;
+    battle.isEnding.current = true;
+
+    const windowReplay = getReplayWindow(passive.effect.rewindMs);
+    if (!windowReplay || windowReplay.frames.length === 0) {
+      applyRewind(target);
+      rewindTargetRef.current = null;
+      return true;
+    }
+
+    setRewindFrames(windowReplay.frames);
     return true;
   };
 
@@ -1486,6 +1576,8 @@ export function useBattleScene({
     charge.cancelCharge();
     rewindUsedRef.current = false;
     rewindSnapshotsRef.current = [];
+    rewindTargetRef.current = null;
+    setRewindFrames(null);
     setShowDefeat(false);
     clearSummons();
     clearCoffins();
