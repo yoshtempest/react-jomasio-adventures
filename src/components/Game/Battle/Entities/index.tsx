@@ -151,6 +151,7 @@ export function BattleEntities({
         PLAYER_SIZE={PLAYER_SIZE}
         battleScaleX={battleScaleX}
         battleScaleY={battleScaleY}
+        isFacingLeft={player.battleDirection === "left"}
       />
 
       <SpecialProjectile

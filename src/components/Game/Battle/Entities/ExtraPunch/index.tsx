@@ -5,6 +5,7 @@ type Props = BattleEntityPositioning & {
   extraPunches: ExtraPunchVisual[];
   extraPunchSprite?: string;
   PLAYER_SIZE: number;
+  isFacingLeft?: boolean;
 };
 
 export function ExtraPunch({
@@ -13,6 +14,7 @@ export function ExtraPunch({
   PLAYER_SIZE,
   battleScaleX,
   battleScaleY,
+  isFacingLeft = false,
 }: Props) {
   return (
     <>
@@ -22,12 +24,12 @@ export function ExtraPunch({
           src={extraPunchSprite}
           style={{
             position: "absolute",
-            left: p.x * battleScaleX / 1.1,
+            left: p.x * battleScaleX / (isFacingLeft ? 0.9 : 1.1),
             top: p.y * battleScaleY / 1.1,
             height: PLAYER_SIZE / 4,
             opacity: 0.5,
             width: "auto",
-            transform: "translate(-50%, -100%)",
+            transform: `translate(-50%, -100%) scaleX(${isFacingLeft ? -1 : 1})`,
             zIndex: 17,
             pointerEvents: "none",
           }}
