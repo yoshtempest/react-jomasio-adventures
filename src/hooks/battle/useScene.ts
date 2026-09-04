@@ -75,10 +75,8 @@ import {
 } from "@/utils/rewards/battleStats";
 import { useBattleRecording } from "@/hooks/battle/recording/useBattleRecording";
 import { useRewind } from "@/hooks/battle/rewind/useRewind";
-import {
-  buildSummonWrapper,
-  runPetSkill,
-} from "@/gameRules/battle/petSkill";
+import { runPetSkill } from "@/gameRules/battle/petSkill/petSkill";
+import { buildSummonWrapper } from "@/gameRules/battle/petSkill/buildSummonWrapper";
 import type { ReplayData, ReplayFrame } from "@/utils/types/replay";
 import { combatService } from "@/services/combat";
 import {
