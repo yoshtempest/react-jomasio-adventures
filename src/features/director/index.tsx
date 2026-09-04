@@ -15,6 +15,7 @@ import { useAudio } from "@/hooks/useAudio";
 import { sceneBackgrounds } from "@/data/scene/background";
 
 import Talking from "@/components/Game/Interactions/Talking";
+import { ImageModal } from "@/components/Game/Interactions/ImageModal";
 
 type Props = {
   sceneId: SceneId;
@@ -30,6 +31,9 @@ export function DirectorScene({ sceneId }: Props) {
   const { hasFlag, setFlag } = useFlags();
 
   const [popup, setPopup] = useState<string | null>(null);
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+  const [imageMessage, setImageMessage] = useState<string | null>(null);
+  const [imageName, setImageName] = useState<string | null>(null);
   const gotKey = hasFlag("picked_director_key");
 
   const { sfxVolume } = useAudio();
@@ -59,6 +63,11 @@ export function DirectorScene({ sceneId }: Props) {
         removeItem,
         navigate: navigateFrom,
         setPopup: (msg) => setPopup(msg),
+        showImage: (src, message, name) => {
+          setImageSrc(src);
+          setImageMessage(message ?? null);
+          setImageName(name ?? null);
+        },
         gotKey,
         setFlag,
         progressQuest,
@@ -101,6 +110,19 @@ export function DirectorScene({ sceneId }: Props) {
 
       {/* ✅ popup continua fora */}
       {popup && <Talking name="Sistema" message={popup} />}
+
+      {imageSrc && (
+        <ImageModal
+          src={imageSrc}
+          message={imageMessage ?? undefined}
+          name={imageName ?? undefined}
+          onClose={() => {
+            setImageSrc(null);
+            setImageMessage(null);
+            setImageName(null);
+          }}
+        />
+      )}
     </>
   );
 }

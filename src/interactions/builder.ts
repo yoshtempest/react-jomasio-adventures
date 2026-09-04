@@ -7,6 +7,8 @@ import type {
   ExchangeHandlerConfig,
   ContainerDeps,
   ToolDeps,
+  ImageDeps,
+  ImageHandlerConfig,
 } from "@/utils/types/interaction";
 
 export function createInteractionMap<TDeps extends BaseDeps>(
@@ -80,5 +82,13 @@ export function createToolInteraction<TDeps extends ToolDeps>(
       return;
     }
     onUse(deps);
+  };
+}
+
+export function createImageHandler<TDeps extends ImageDeps>(
+  config: ImageHandlerConfig,
+) {
+  return (deps: TDeps) => {
+    deps.showImage(config.src, config.message, config.name);
   };
 }

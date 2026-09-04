@@ -5,8 +5,6 @@ export const directorMessages: Record<string, string> = {
   "6,3":
     "Diário de Reincardion cap 2... Encontrei a chave, mas fui pego por Jhow Simar e jogado aqui novamente...",
   "10,3": "Maiiira se escreve com y, não com i..",
-  "11,3":
-    "Uma imagem de Vandinha montada em um dinossauro... Como tiraram essa foto?",
   "17,5": "Uma carta de 20 anos atrás... Pedido de afastamento por Slimita...",
   "8,3": "Chaves? Chaves! Aquele do barril, e pensar que teria uma foto aqui",
   "9,5": "Pontos fracos de alguém chamado Manin... Por que está em branco?",

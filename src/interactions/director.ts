@@ -1,14 +1,16 @@
 import { directorMessages } from "@/data/dialogues/director/messages";
-import { createInteractionMap, createPickupHandler } from "./builder";
+import { createInteractionMap, createPickupHandler, createImageHandler } from "./builder";
 import type {
   PickupDeps,
   InventoryDeps,
   QuestDeps,
+  ImageDeps,
 } from "@/utils/types/interaction";
 
 type DirectorDeps = PickupDeps &
   InventoryDeps &
-  QuestDeps & {
+  QuestDeps &
+  ImageDeps & {
     playSFX?: (src: string, volume?: number) => void;
   };
 
@@ -16,6 +18,12 @@ export function createDirector(deps: DirectorDeps) {
   const { progressQuest } = deps;
 
   return createInteractionMap(directorMessages, deps, {
+    "11,3": createImageHandler({
+      src: "/assets/history/vandinhaInTiranosaur.svg",
+      message:
+        "Uma imagem de Vandinha montada em um Tiranossauro... Como conseguiram tirar essa foto?",
+    }),
+
     "4,2": ({ hasItem, setPopup, navigate, playSFX }) => {
       if (hasItem("director_key")) {
         setPopup("Você usou a chave.");

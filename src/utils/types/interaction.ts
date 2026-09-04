@@ -29,6 +29,10 @@ export type ToolDeps = BaseDeps & {
   hasToolEquipped: (toolId: EquipmentId) => boolean;
 };
 
+export type ImageDeps = BaseDeps & {
+  showImage: (src: string, message?: string, name?: string) => void;
+};
+
 export type PickupHandlerConfig = {
   item: InventoryItem;
   flagId: FlagId;
@@ -42,4 +46,10 @@ export type ExchangeHandlerConfig = {
   requiredItem: ItemId;
   item: InventoryItem;
   successMessage: string;
+};
+
+export type ImageHandlerConfig = {
+  src: string;
+  message?: string;
+  name?: string;
 };
