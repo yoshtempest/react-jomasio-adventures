@@ -197,7 +197,11 @@ function runPetSkill(
     battle: ReturnType<typeof useBattleSystem>;
     spawnDamageRef: RefObject<SpawnDamageFn>;
     npc: ReturnType<typeof useNpcAI>;
-    summonNpc: (npcType: string, overrideX?: number) => void;
+    summonNpc: (
+      npcType: string,
+      overrideX?: number,
+      options?: { level?: number; statMultiplier?: number },
+    ) => void;
     triggerJumpAttack: (npcY: number, cb: (damage: number) => void) => void;
     triggerTeleportBite: (
       targetX: number,
@@ -1143,11 +1147,15 @@ export function useBattleScene({
 
     const interval = setInterval(() => {
       const idx = rewindIndexRef.current;
-      applyFrameToLiveRef.current(rewindFrames[idx]);
-      rewindIndexRef.current = idx - 1;
-      if (idx <= 0) {
-        clearInterval(interval);
-        onRewindCompleteRef.current();
+      const frame = rewindFrames[idx];
+      if (frame) {
+        applyFrameToLiveRef.current(frame);
+        rewindIndexRef.current = idx - 1;
+        if (idx <= 0) {
+          clearInterval(interval);
+          onRewindCompleteRef.current();
+          return;
+        }
       }
     }, REWIND_PLAYBACK_MS);
 
