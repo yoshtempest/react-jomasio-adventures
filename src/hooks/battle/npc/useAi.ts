@@ -393,5 +393,7 @@ export function useNpcAI({
     laser,
     resetNpc,
     updateNpc,
+    setNpc,
+    setProjectiles,
   };
 }
