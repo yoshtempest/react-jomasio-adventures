@@ -1,5 +1,13 @@
-export { getEnhanceBonus, getEffectiveStats, equipmentSeed } from "./enhance";
+import {
+  HEAT_RESISTANCE_LABEL,
+  COLD_RESISTANCE_LABEL,
+  BLIND_RESISTANCE_LABEL,
+  RESISTANCE_DROP_CHANCE,
+  RESISTANCE_REDUCTION_PER_PIECE_PCT
+} from "@/data/equipment/statResistance";
+import type { EquipmentResistances } from "./resistances/getItemResistances";
 
+export { getEnhanceBonus, getEffectiveStats, equipmentSeed } from "./enhance";
 
 export {
   SET_SLOTS,
@@ -29,10 +37,13 @@ export {
   getEquippedResistances,
   reduceDurationByResistance,
   reduceTickDamage,
+} from "./resistances";
+
+export {
   HEAT_RESISTANCE_LABEL,
   COLD_RESISTANCE_LABEL,
   BLIND_RESISTANCE_LABEL,
   RESISTANCE_DROP_CHANCE,
   RESISTANCE_REDUCTION_PER_PIECE_PCT,
   type EquipmentResistances,
-} from "./resistances";
+}
