@@ -12,6 +12,8 @@ export type EquipmentRank = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0 | "EX";
 
 export type EquipmentStats = StatBlock;
 
+export type EquipmentBonus = Omit<StatBlock, "armor">;
+
 /**
  * Forma bruta usada pelos arquivos de dados em `src/data/equipment/`.
  * `id` é `string` aqui; a union fechada `EquipmentId` é derivada do

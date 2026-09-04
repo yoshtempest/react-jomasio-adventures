@@ -7,7 +7,7 @@ import { ARMOR_SLOTS } from "@/data/equipment/definitions";
 import { getEquipmentById } from "@/data/equipment";
 import { loadEquipped } from "@/data/equipment/storage";
 import { equipmentSeed } from "./enhance";
-import { RANK_INDEX } from "./stats";
+import { RANK_INDEX } from "@/data/equipment/definitions";
 
 export type EquipmentResistances = {
   heat: boolean;

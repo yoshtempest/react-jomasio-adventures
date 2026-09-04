@@ -37,6 +37,20 @@ export const EQUIPMENT_RANKS = [
   "EX",
 ] as const satisfies readonly EquipmentRank[];
 
+export const RANK_INDEX: Record<EquipmentRank, number> = {
+  1: 0,
+  2: 1,
+  3: 2,
+  4: 3,
+  5: 4,
+  6: 5,
+  7: 6,
+  8: 7,
+  9: 8,
+  0: 9,
+  EX: 10,
+};
+
 export const MAX_ACCESSORIES = 9;
 export const ACCESSORY_UNLOCKED_COUNT = 1;
 
@@ -91,4 +105,18 @@ export const SLOT_LABELS: Record<EquipmentSlot, string> = {
   accessory: "Acessório",
   bag: "Bolsa",
   pet: "Pet",
+};
+
+export const WEAPON_CRIT_RATE: Record<EquipmentRank, number> = {
+  1: 1,
+  2: 2,
+  3: 3,
+  4: 5,
+  5: 7,
+  6: 10,
+  7: 13,
+  8: 16,
+  9: 20,
+  0: 25,
+  EX: 30,
 };
