@@ -96,6 +96,14 @@
     calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8);
 }
 
+.freeze {
+  color: #7dd3fc;
+  text-shadow:
+    0 0 var(--size-6) rgba(125, 211, 252, 0.8),
+    var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8),
+    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8);
+}
+
 .blocked {
   color: #00ffff;
   font-size: var(--small);
