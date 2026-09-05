@@ -1188,6 +1188,7 @@ export function useBattleScene({
     if (grabbedTimerRef.current) clearTimeout(grabbedTimerRef.current);
     grabbedTimerRef.current = null;
     setIsGrabbed(false);
+    startRecording();
   }
 
   return {
