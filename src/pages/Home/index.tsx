@@ -8,11 +8,21 @@ import { asset } from "@/utils/paths";
 import { loadGame } from "@/services/save/saveService";
 import { hasAnySave } from "@/services/save/slotManager";
 import { sceneBackgrounds } from "@/data/scene/background";
+import { useFlags } from "@/contexts/FlagContext";
+import {
+  CANTINA_ROUTES,
+  JOMASIO_ENTRANCE_ROUTES,
+} from "@/scenes/shared/routes";
 import { ParticlesBackground } from "@/components/ParticlesBackground";
+
+function isJomasioEntranceRoute(route: string): boolean {
+  return route.toLowerCase().startsWith("/jomasioentrance");
+}
 
 export default function Home() {
   const navigate = useNavigate();
   const { pushControls } = useGameControls();
+  const { hasFlag } = useFlags();
 
   useBackgroundAudio(undertale);
 
@@ -25,18 +35,24 @@ export default function Home() {
 
   const handleConfirm = useCallback(() => {
     const save = loadGame();
+    const startedChapterOne = hasFlag("chapterOne");
+    const fallbackRoute = startedChapterOne
+      ? CANTINA_ROUTES.ONE
+      : JOMASIO_ENTRANCE_ROUTES.ONE;
+
     if (
       save?.lastRoute &&
       save.lastRoute !== "/home" &&
       save.lastRoute !== "/combatTutorial" &&
       !save.lastRoute.startsWith("/replay") &&
-      !save.lastRoute.includes("battle")
+      !save.lastRoute.includes("battle") &&
+      !(startedChapterOne && isJomasioEntranceRoute(save.lastRoute))
     ) {
       void navigate(save.lastRoute);
     } else {
-      void navigate("/jomasioEntrance");
+      void navigate(fallbackRoute);
     }
-  }, [navigate]);
+  }, [navigate, hasFlag]);
 
   useEffect(() => {
     const remove = pushControls({

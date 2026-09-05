@@ -21,6 +21,10 @@ export const PCROOM_ROUTES = {
   SEVEN: "/pcroom/seven",
 };
 
+export const JOMASIO_ENTRANCE_ROUTES = {
+  ONE: "/jomasioentrance/one",
+};
+
 export const CANTINA_ROUTES = {
   ONE: "/cantina/one",
   TWO: "/cantina/two",

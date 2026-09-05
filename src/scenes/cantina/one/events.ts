@@ -1,4 +1,5 @@
 export const cantinaOneEvents: SceneEvent[] = [
+  { type: "setFlag", flagId: "chapterOne" },
   {
     type: "conditional",
     condition: {
