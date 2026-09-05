@@ -1,7 +1,7 @@
 .mapOverlay {
   position: fixed;
   top: 0;
-  width: 74vw;
+  width: var(--game-viewport-width);
   height: 100%;
   display: flex;
   justify-content: center;

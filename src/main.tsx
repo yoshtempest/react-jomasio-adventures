@@ -6,10 +6,13 @@ import "./styles/index.css";
 
 import { AppProviders } from "@/contexts/AppProviders";
 import { AppRoutes } from "@/pages/AppRoutes";
+import { applyGameViewportWidth } from "@/data/grid";
 
 type ContainerWithRoot = HTMLElement & {
   _reactRoot: ReturnType<typeof createRoot>;
 };
+
+applyGameViewportWidth(document.documentElement);
 
 const container = document.getElementById("root")!;
 const root =

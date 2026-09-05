@@ -1,5 +1,6 @@
 import { npcPath } from "@/utils/paths";
 import { isNpcType } from "@/data/npc/npc";
+import { MAP_GRID_COLS, MAP_GRID_ROWS } from "@/data/grid";
 import { ONE_THOUSAND_MS } from "@/data/ms";
 import type {
   Tombstone,
@@ -9,8 +10,7 @@ import type {
 
 export const TOMBSTONE_FADE_MS = ONE_THOUSAND_MS;
 
-export const MAP_GRID_COLS = 17;
-export const MAP_GRID_ROWS = 13;
+
 
 /**
  * A lápide nasce no tile em frente ao jogador (onde o NPC estava):

@@ -1,3 +1,4 @@
+import { GAME_VIEWPORT_WIDTH_RATIO } from "@/data/grid";
 import { ProjectileConstants } from "@/data/projectile";
 
 const MAP_COLS = 17;
@@ -5,7 +6,7 @@ const MAP_ROWS = 13;
 const SCALE_FIX = 1.4;
 
 export function getReplayLayout(w: number, h: number) {
-  const cw = w * 0.74;
+  const cw = w * GAME_VIEWPORT_WIDTH_RATIO;
   const ch = h;
 
   const TILE = Math.min(cw / MAP_COLS, ch / MAP_ROWS) * SCALE_FIX;

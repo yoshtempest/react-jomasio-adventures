@@ -1,6 +1,6 @@
 .classModal {
   flex-direction: column;
-  width: 74vw;
+  width: var(--game-viewport-width);
 }
 
 .classList {
