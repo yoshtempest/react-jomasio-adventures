@@ -17,6 +17,28 @@
   font-weight: 900;
 }
 
+.critText {
+  position: relative;
+  z-index: 1;
+  padding: 0.15em 0.4em;
+  color: #ff0044;
+  background: #ffffff;
+  clip-path: polygon(
+    50% 0%,
+    61% 20%,
+    100% 8%,
+    80% 44%,
+    100% 80%,
+    61% 68%,
+    50% 100%,
+    39% 68%,
+    0% 80%,
+    20% 44%,
+    0% 8%,
+    39% 20%
+  );
+}
+
 .dmgMiss {
   color: #aaa;
   font-size: var(--fs-11);

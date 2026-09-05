@@ -48,7 +48,11 @@ export function ReplayDamageNumbers({ damage, frame, npcType, layout }: Props) {
                 : d.ty === "miss"
                   ? "MISS!"
                   : d.c
-                    ? `CRIT -${d.v}`
+                    ? (
+                        <span className={styles.critText}>
+                          {`CRIT -${d.v}`}
+                        </span>
+                      )
                     : d.v > 0
                       ? `-${d.v}`
                       : "0"}
