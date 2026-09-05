@@ -57,6 +57,7 @@ import { useArturKillerQueen } from "@/hooks/battle/player/characters/srGuaxinim
 import { useArturOraPunch } from "@/hooks/battle/player/characters/srGuaxinim/useArturOraPunch";
 import { playerPath } from "@/utils/paths";
 import { getSpecialFlowOverride } from "@/data/battle/animationFlow";
+import { CHARGE_ATTACK_MIN_LEVEL } from "@/data/battle/charge";
 import { useBattleIntro } from "@/hooks/battle/useIntro";
 import { useBattleOutro } from "@/hooks/battle/useOutro";
 import { useBattleSync } from "@/hooks/battle/useSync";
