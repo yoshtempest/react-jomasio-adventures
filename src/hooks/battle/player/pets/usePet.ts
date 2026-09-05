@@ -2,8 +2,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import {
   FOUR_HUNDRED_MS,
-  THREE_HUNDRED_FIFTY_MS,
   FIVE_HUNDRED_MS,
+  ONE_THOUSAND_MS,
+  THREE_THOUSAND_MS,
 } from "@/data/ms";
 
 type Props = {
@@ -26,7 +27,8 @@ export type PetState = {
     | "jumping"
     | "jumpAttack"
     | "meleeAttack"
-    | "get";
+    | "get"
+    | "run";
   npcType: string;
 } | null;
 
@@ -38,11 +40,12 @@ export type PetJumpAttack = {
 
 const OFFSET_X = 60;
 const JUMP_DURATION = FOUR_HUNDRED_MS;
-const ATTACK_DURATION = THREE_HUNDRED_FIFTY_MS;
+const ATTACK_DURATION = FIVE_HUNDRED_MS;
 const RETURN_SPEED = 0.06;
 const BITE_FRONT_OFFSET = 50;
-const GET_DURATION = FIVE_HUNDRED_MS;
-const BITE_DURATION = THREE_HUNDRED_FIFTY_MS;
+const BITE_DURATION = ONE_THOUSAND_MS;
+const RUN_DURATION = FIVE_HUNDRED_MS;
+const RETURN_DURATION = THREE_THOUSAND_MS;
 
 export function usePetBattle({
   enabled,
@@ -68,8 +71,13 @@ export function usePetBattle({
   const jumpToRef = useRef({ x: 0, y: 0 });
   const jumpCallbackRef = useRef<((damage: number) => void) | null>(null);
 
-  const bitePhaseRef = useRef<"idle" | "get" | "melee" | "returning">("idle");
+  const bitePhaseRef = useRef<"idle" | "running" | "melee" | "returning">(
+    "idle",
+  );
   const biteStartRef = useRef(0);
+  const biteFromRef = useRef({ x: 0, y: 0 });
+  const biteToRef = useRef({ x: 0, y: 0 });
+  const biteReturnFromRef = useRef({ x: 0, y: 0 });
   const biteCallbackRef = useRef<((damage: number) => void) | null>(null);
 
   useEffect(() => {
@@ -179,26 +187,45 @@ export function usePetBattle({
       }
 
       const bp = bitePhaseRef.current;
-      if (bp === "get" || bp === "melee" || bp === "returning") {
+      if (bp === "running" || bp === "melee" || bp === "returning") {
         setPet((prev) => {
           if (!prev) return prev;
           const now = Date.now();
 
-          if (bp === "get") {
-            if (now - biteStartRef.current >= GET_DURATION) {
+          if (bp === "running") {
+            const elapsed = now - biteStartRef.current;
+            const t = Math.min(elapsed / RUN_DURATION, 1);
+            const eased = 1 - Math.pow(1 - t, 3);
+            const x =
+              biteFromRef.current.x +
+              (biteToRef.current.x - biteFromRef.current.x) * eased;
+            const y =
+              biteFromRef.current.y +
+              (biteToRef.current.y - biteFromRef.current.y) * eased;
+            const dir: "left" | "right" =
+              biteToRef.current.x > prev.x ? "right" : "left";
+            if (t >= 1) {
               bitePhaseRef.current = "melee";
               biteStartRef.current = now;
               biteCallbackRef.current?.(0);
               biteCallbackRef.current = null;
-              return { ...prev, state: "meleeAttack" };
+              return {
+                ...prev,
+                x: biteToRef.current.x,
+                y: biteToRef.current.y,
+                direction: dir,
+                state: "meleeAttack",
+              };
             }
-            return { ...prev, state: "get" };
+            return { ...prev, x, y, direction: dir, state: "run" };
           }
 
           if (bp === "melee") {
             if (now - biteStartRef.current >= BITE_DURATION) {
               bitePhaseRef.current = "returning";
-              return { ...prev, state: "walk" };
+              biteStartRef.current = now;
+              biteReturnFromRef.current = { x: prev.x, y: prev.y };
+              return { ...prev, state: "run" };
             }
             return { ...prev, state: "meleeAttack" };
           }
@@ -206,10 +233,16 @@ export function usePetBattle({
           if (bp === "returning") {
             const targetX = playerXRef.current - OFFSET_X;
             const targetY = playerYRef.current;
-            const dx = targetX - prev.x;
-            const dy = targetY - prev.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < 2) {
+            const elapsed = now - biteStartRef.current;
+            const t = Math.min(elapsed / RETURN_DURATION, 1);
+            const x =
+              biteReturnFromRef.current.x +
+              (targetX - biteReturnFromRef.current.x) * t;
+            const y =
+              biteReturnFromRef.current.y +
+              (targetY - biteReturnFromRef.current.y) * t;
+            const dir: "left" | "right" = targetX > prev.x ? "right" : "left";
+            if (t >= 1) {
               bitePhaseRef.current = "idle";
               return {
                 ...prev,
@@ -220,13 +253,7 @@ export function usePetBattle({
                 state: "idle",
               };
             }
-            return {
-              ...prev,
-              x: prev.x + dx * RETURN_SPEED,
-              y: prev.y + dy * RETURN_SPEED,
-              direction: dx > 0 ? "right" : "left",
-              state: "walk",
-            };
+            return { ...prev, x, y, direction: dir, state: "run" };
           }
 
           return prev;
@@ -280,10 +307,12 @@ export function usePetBattle({
         if (!prev) return prev;
         const x = targetX - BITE_FRONT_OFFSET;
         const dir: "left" | "right" = targetX > prev.x ? "right" : "left";
-        bitePhaseRef.current = "get";
+        bitePhaseRef.current = "running";
         biteStartRef.current = Date.now();
+        biteFromRef.current = { x: prev.x, y: prev.y };
+        biteToRef.current = { x, y: targetY };
         biteCallbackRef.current = callback;
-        return { ...prev, x, y: targetY, direction: dir, state: "get" };
+        return { ...prev, direction: dir, state: "run" };
       });
     },
     [],
