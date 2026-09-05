@@ -1,0 +1,75 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fs-8);
+  width: 100%;
+}
+
+.title {
+  text-align: center;
+}
+
+.scroll {
+  overflow-x: auto;
+  width: 100%;
+}
+
+.table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: var(--fs-14);
+  color: var(--text-color);
+}
+
+.table th,
+.table td {
+  border: var(--size-2) solid var(--primary-color);
+  padding: var(--fs-8);
+  text-align: left;
+  vertical-align: top;
+}
+
+.table thead th {
+  text-align: center;
+  text-wrap: nowrap;
+}
+
+.attacker {
+  text-wrap: nowrap;
+}
+
+.superHeader {
+  color: var(--success);
+}
+
+.weakHeader {
+  color: var(--danger);
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--size-4);
+}
+
+.tag {
+  border: var(--size-1) solid var(--border-default);
+  border-radius: var(--size-4);
+  padding: 0 var(--fs-6);
+  color: var(--text-color);
+  text-wrap: nowrap;
+}
+
+.superCell .tag {
+  color: var(--success);
+  border-color: var(--success);
+}
+
+.weakCell .tag {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.none {
+  color: var(--text-hint);
+}
