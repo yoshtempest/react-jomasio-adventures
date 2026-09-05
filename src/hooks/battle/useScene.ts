@@ -39,6 +39,7 @@ import { useComboSystem } from "@/hooks/battle/useComboSystem";
 import { useBattleRefs } from "@/hooks/battle/useRefs";
 import { useBattleKillCounter } from "@/hooks/battle/death/useKillCounter";
 import { useChargeAttack } from "@/hooks/battle/charge/useAttack";
+import { CHARGE_ATTACK_MIN_LEVEL } from "@/data/battle/charge";
 import { usePhaseTransition } from "@/hooks/battle/death/usePhaseTransition";
 import { useCoffinAnimation } from "@/hooks/battle/summon/useCoffinAnimation";
 import { usePlayerSpecialProjectile } from "@/hooks/battle/player/usePlayerSpecialProjectile";
@@ -1055,7 +1056,8 @@ export function useBattleScene({
     getSpecialFlowOverride(player.character) !== null;
 
   // Artur não usa o charge (segurar onConfirm = ORA ORA). Os demais mantêm.
-  const canCharge = player.character !== "artur";
+  const canCharge =
+    player.character !== "artur" && playerLevel >= CHARGE_ATTACK_MIN_LEVEL;
 
   const activateSpecial = useCallback(() => {
     if (freezeActionsUntilRef.current > Date.now()) return;
