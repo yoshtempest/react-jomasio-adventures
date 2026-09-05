@@ -26,7 +26,7 @@ export const JOMASIO_ENTRANCE_ROUTES = {
 };
 
 export const CHAPTER_ROUTES = {
-  ONE: "/jomasioentrance/one",
+  ONE: "/chapter/one",
 };
 
 export const CANTINA_ROUTES = {
