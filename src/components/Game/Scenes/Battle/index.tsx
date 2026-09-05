@@ -32,6 +32,7 @@ import { ProjectileConstants } from "@/data/projectile";
 import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
 import { getBossSizeMultiplier } from "@/utils/npc/getSpritePath";
 import { npcPath } from "@/utils/paths";
+import { GAME_VIEWPORT_WIDTH_RATIO } from "@/data/grid";
 
 type Props = {
   npcType: string;
@@ -114,7 +115,7 @@ export function BattleScene(props: Props) {
 
   const { setBattleCollision } = usePlayerActions();
 
-  const containerWidth = window.innerWidth * 0.74;
+  const containerWidth = window.innerWidth * GAME_VIEWPORT_WIDTH_RATIO;
   const containerHeight = window.innerHeight;
 
   const initialBgPosRef = useRef({
