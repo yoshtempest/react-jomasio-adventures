@@ -8,10 +8,8 @@ import { formatDuration } from "@/utils/formatDuration";
 import { playerPath } from "@/utils/paths";
 import { ActivePotionDisplay } from "@/components/Game/Battle/ActivePotionDisplay";
 import { FleeButton } from "@/components/Game/Battle/Buttons/Run";
-import {
-  useDefeatCharacterSelect,
-  type DefeatMenuSelection,
-} from "@/hooks/battle/defeat/useDefeatCharacterSelect";
+import { useDefeatCharacterSelect } from "@/hooks/battle/defeat/useDefeatCharacterSelect";
+import type { DefeatMenuSelection } from "@/utils/types/battle/defeat";
 
 type Props = {
   isOpen: boolean;
