@@ -93,6 +93,7 @@ type PlayerActionsContextType = {
   chooseClass: (cls: PlayerClass) => void;
 
   lastBlockPressRef: React.RefObject<number>;
+  lastAttackPressRef: React.RefObject<number>;
   battleTenacityRef: React.RefObject<number>;
   freezeActionsUntilRef: React.RefObject<number>;
 
@@ -183,6 +184,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
   const battleCollisionRef = useBattleCollisionRef();
   const lastBlockPressRef = useRef(0);
+  const lastAttackPressRef = useRef(0);
   const freezeActionsUntilRef = useRef(0);
   const playerModeRef = useRef<PlayerMode>(player.mode);
   playerModeRef.current = player.mode;
@@ -193,6 +195,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     lastBlockPressRef,
     playerModeRef,
     freezeActionsUntilRef,
+    lastAttackPressRef,
   );
   const battleRef = useRef(battle);
   battleRef.current = battle;
@@ -424,6 +427,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       chooseClass,
 
       lastBlockPressRef,
+      lastAttackPressRef,
       battleTenacityRef,
       freezeActionsUntilRef,
 
@@ -471,6 +475,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       setBlockedTiles,
       chooseClass,
       lastBlockPressRef,
+      lastAttackPressRef,
       battleTenacityRef,
       freezeActionsUntilRef,
       setTimeScale,

@@ -40,6 +40,7 @@ type Props = {
   blockGauge: number;
   setBlockGauge: React.Dispatch<React.SetStateAction<number>>;
   lastBlockPressRef: React.RefObject<number>;
+  lastAttackPressRef?: React.RefObject<number>;
   onBlockRef?: React.RefObject<() => void>;
   titleEnemyMissChance?: number;
   onDamageTakenRef?: React.RefObject<(amount: number) => void>;
@@ -80,6 +81,7 @@ export function useNpcBattle({
   blockGauge,
   setBlockGauge,
   lastBlockPressRef,
+  lastAttackPressRef,
   onBlockRef,
   titleEnemyMissChance = 0,
   onDamageTakenRef,
@@ -171,6 +173,7 @@ export function useNpcBattle({
         npcStaggerRef,
         npcCooldown,
         lastBlockPressRef,
+        lastAttackPressRef,
         onFullBlock,
         onBlockRef,
         onParry,
@@ -198,6 +201,7 @@ export function useNpcBattle({
       npcStaggerRef,
       npcCooldown,
       lastBlockPressRef,
+      lastAttackPressRef,
       onFullBlock,
       onBlockRef,
       onParry,
@@ -337,6 +341,7 @@ export function useNpcBattle({
       npcStaggerRef,
       npcCooldown,
       lastBlockPressRef,
+      lastAttackPressRef,
       onFullBlock,
       onBlockRef,
     });
@@ -386,6 +391,7 @@ export function useNpcBattle({
     blockGauge,
     setBlockGauge,
     lastBlockPressRef,
+    lastAttackPressRef,
     damagePlayerWithReflect,
     onFullBlock,
     onHalfHeal,
@@ -402,7 +408,7 @@ export function useNpcBattle({
     (dmg: number) => {
       if (isEnding.current) return;
 
-      if (isParryPress(lastBlockPressRef)) {
+      if (isParryPress(lastBlockPressRef, lastAttackPressRef)) {
         const parried = handleNpcBlocking({
           dmg,
           isBlocking: false,
@@ -417,6 +423,7 @@ export function useNpcBattle({
           npcStaggerRef,
           npcCooldown,
           lastBlockPressRef,
+          lastAttackPressRef,
           onFullBlock,
           onBlockRef,
           onParry,
@@ -444,6 +451,7 @@ export function useNpcBattle({
         npcStaggerRef,
         npcCooldown,
         lastBlockPressRef,
+        lastAttackPressRef,
         onFullBlock,
         onBlockRef,
         onParry,
@@ -463,6 +471,7 @@ export function useNpcBattle({
       npcStaggerRef,
       npcCooldown,
       lastBlockPressRef,
+      lastAttackPressRef,
       onFullBlock,
       onBlockRef,
       onParry,
@@ -517,7 +526,7 @@ export function useNpcBattle({
     (dmg: number) => {
       if (isEnding.current) return;
 
-      if (isParryPress(lastBlockPressRef)) {
+      if (isParryPress(lastBlockPressRef, lastAttackPressRef)) {
         handleNpcBlocking({
           dmg,
           isBlocking: false,
@@ -532,6 +541,7 @@ export function useNpcBattle({
           npcStaggerRef,
           npcCooldown,
           lastBlockPressRef,
+          lastAttackPressRef,
           onFullBlock,
           onBlockRef,
           onParry,
@@ -557,6 +567,7 @@ export function useNpcBattle({
       npcStaggerRef,
       npcCooldown,
       lastBlockPressRef,
+      lastAttackPressRef,
       onFullBlock,
       onBlockRef,
       onParry,
@@ -624,6 +635,7 @@ function checkBlocked(params: {
   npcStaggerRef: React.RefObject<number>;
   npcCooldown: React.RefObject<boolean>;
   lastBlockPressRef: React.RefObject<number>;
+  lastAttackPressRef?: React.RefObject<number>;
   onFullBlock?: () => void;
   onBlockRef?: React.RefObject<() => void>;
   onParry?: () => void;
@@ -646,6 +658,7 @@ function checkBlocked(params: {
     npcStaggerRef,
     npcCooldown,
     lastBlockPressRef,
+    lastAttackPressRef,
     onFullBlock,
     onBlockRef,
     onParry,
@@ -670,6 +683,7 @@ function checkBlocked(params: {
     npcStaggerRef,
     npcCooldown,
     lastBlockPressRef,
+    lastAttackPressRef,
     onFullBlock,
     onBlockRef,
     onParry,
