@@ -1,6 +1,6 @@
 .screen {
   position: fixed;
-  width: 74vw;
+  width: var(--game-viewport-width);
   height: 100dvh;
   background-size: cover;
   background-position: center;

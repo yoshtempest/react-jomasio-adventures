@@ -6,6 +6,7 @@ import type {
   QuestDeps,
   ImageDeps,
 } from "@/utils/types/interaction";
+import { POPUP_MESSAGES } from "@/data/messages";
 
 type DirectorDeps = PickupDeps &
   InventoryDeps &
@@ -26,7 +27,7 @@ export function createDirector(deps: DirectorDeps) {
 
     "4,2": ({ hasItem, setPopup, navigate, playSFX }) => {
       if (hasItem("director_key")) {
-        setPopup("Você usou a chave.");
+        setPopup(POPUP_MESSAGES.KEY_USED);
         progressQuest("director_escape", 1);
         playSFX?.("/assets/songs/transitions/doorOpen.mp3", 0.6);
 
@@ -35,7 +36,7 @@ export function createDirector(deps: DirectorDeps) {
           navigate?.("/cantina/one");
         }, 1000);
       } else {
-        setPopup("Essa porta está trancada.");
+        setPopup(POPUP_MESSAGES.DOOR_LOCKED);
       }
     },
 

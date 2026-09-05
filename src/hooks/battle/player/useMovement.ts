@@ -36,6 +36,7 @@ export function useBattleMovement(
   lastBlockPressRef: React.RefObject<number>,
   playerModeRef?: RefObject<PlayerMode>,
   freezeActionsUntilRef?: React.RefObject<number>,
+  lastAttackPressRef?: React.RefObject<number>,
 ) {
   const leftIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const rightIntervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -218,6 +219,7 @@ export function useBattleMovement(
 
   function attack() {
     if (isFrozenBySpecial()) return;
+    if (lastAttackPressRef) lastAttackPressRef.current = Date.now();
     setPlayer((p) => {
       if (isPlayerFrozen(p) || isPlayerParalyzed(p)) return p;
       if (p.state === "falling" && !hasUsedFallingAttack.current) {

@@ -1,4 +1,6 @@
 :root {
+  /* Sobrescrita em runtime por applyGameViewportWidth (src/data/grid.ts). */
+  --game-viewport-width: 74vw;
   --primary-color: #121b31;
   --secondary-color: #fbbf24;
   --background-color: #0a0500;

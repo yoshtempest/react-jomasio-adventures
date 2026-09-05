@@ -4,6 +4,7 @@ import {
 } from "@/scenes/shared/factories";
 import { HALL_ROUTES, HELLROOM_ROUTES } from "@/scenes/shared/routes";
 import { hasQuest } from "@/scenes/shared/helpers";
+import { BLOCKED_MESSAGES } from "@/data/messages";
 
 export const hellTiles = [
   createDoorTile(8, 12, HALL_ROUTES.CENTER_ONE),
@@ -22,7 +23,7 @@ export const hellTiles = [
       return null;
     },
     {
-      blockedMessage: "Porta trancada",
+      blockedMessage: BLOCKED_MESSAGES.LOCKED_DOOR,
     },
   ),
   createConditionalTile(

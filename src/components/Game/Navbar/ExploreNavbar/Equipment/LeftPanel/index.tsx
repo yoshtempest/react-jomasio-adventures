@@ -6,11 +6,16 @@ import { SLOT_LABELS, RANK_COLORS } from "@/data/equipment/definitions";
 import { FILTER_LABELS } from "@/utils/equipment/equipmentMenu";
 import {
   getItemResistances,
+  getWeaponEnchantment,
   HEAT_RESISTANCE_LABEL,
   COLD_RESISTANCE_LABEL,
   BLIND_RESISTANCE_LABEL,
   RESISTANCE_REDUCTION_PER_PIECE_PCT,
 } from "@/gameRules/battle/equipment";
+import {
+  ENCHANTMENT_LABELS,
+  ENCHANTMENT_PROC_CHANCE,
+} from "@/data/equipment/enchantments";
 import styles from "./styles.module.css";
 import { useEquipmentMenu } from "@/hooks/menu/equipment/useEquipment";
 
@@ -109,6 +114,11 @@ export function LeftPanel() {
                       if (res.blind)
                         labels.push(
                           `${BLIND_RESISTANCE_LABEL} ${RESISTANCE_REDUCTION_PER_PIECE_PCT}%`,
+                        );
+                      const enchantment = getWeaponEnchantment(info.id);
+                      if (enchantment)
+                        labels.push(
+                          `${ENCHANTMENT_LABELS[enchantment]} ${ENCHANTMENT_PROC_CHANCE * 100}%`,
                         );
                       if (labels.length === 0) return null;
                       return (

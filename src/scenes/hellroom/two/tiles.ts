@@ -1,6 +1,7 @@
 import { createConditionalTile } from "@/scenes/shared/factories";
 import { HALL_ROUTES } from "@/scenes/shared/routes";
 import { hasFlag } from "@/scenes/shared/helpers";
+import { BLOCKED_MESSAGES } from "@/data/messages";
 
 export const hellRoomTwoTiles = [
   createConditionalTile(
@@ -13,7 +14,7 @@ export const hellRoomTwoTiles = [
       return null;
     },
     {
-      blockedMessage: "Porta trancada",
+      blockedMessage: BLOCKED_MESSAGES.LOCKED_DOOR,
     },
   ),
 ];

@@ -32,6 +32,8 @@ export {
   RANK_INDEX,
 } from "./stats";
 
+export { getWeaponEnchantment, rollEnchantmentProc } from "./enchantments";
+
 export {
   getItemResistances,
   getEquippedResistances,

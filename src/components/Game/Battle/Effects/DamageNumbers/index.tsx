@@ -27,6 +27,7 @@ const TYPE_CLASS: Record<string, string> = {
   miss: styles.miss!,
   burn: styles.burn!,
   poison: styles.poison!,
+  freeze: styles.freeze!,
   confuse: styles.confuse!,
   armor: styles.armor!,
   heal: styles.heal!,
