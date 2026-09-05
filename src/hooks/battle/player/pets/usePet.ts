@@ -4,7 +4,6 @@ import {
   FOUR_HUNDRED_MS,
   FIVE_HUNDRED_MS,
   ONE_THOUSAND_MS,
-  THREE_THOUSAND_MS,
 } from "@/data/ms";
 
 type Props = {
@@ -44,8 +43,10 @@ const ATTACK_DURATION = FIVE_HUNDRED_MS;
 const RETURN_SPEED = 0.06;
 const BITE_FRONT_OFFSET = 50;
 const BITE_DURATION = ONE_THOUSAND_MS;
-const RUN_DURATION = FIVE_HUNDRED_MS;
-const RETURN_DURATION = THREE_THOUSAND_MS;
+const PET_CHARGE_SPEED = 500;
+const PET_RETURN_SPEED = 240;
+const PET_FOLLOW_SPEED = 120;
+const FOLLOW_CUSHION = 90;
 
 export function usePetBattle({
   enabled,
@@ -103,6 +104,8 @@ export function usePetBattle({
 
     const interval = setInterval(() => {
       if (isPausedRef.current) return;
+
+      const now = Date.now();
 
       const jp = jumpPhaseRef.current;
       if (jp === "jumping" || jp === "attacking" || jp === "returning") {
@@ -187,78 +190,103 @@ export function usePetBattle({
       }
 
       const bp = bitePhaseRef.current;
-      if (bp === "running" || bp === "melee" || bp === "returning") {
-        setPet((prev) => {
-          if (!prev) return prev;
-          const now = Date.now();
-
-          if (bp === "running") {
-            const elapsed = now - biteStartRef.current;
-            const t = Math.min(elapsed / RUN_DURATION, 1);
-            const eased = 1 - Math.pow(1 - t, 3);
-            const x =
-              biteFromRef.current.x +
-              (biteToRef.current.x - biteFromRef.current.x) * eased;
-            const y =
-              biteFromRef.current.y +
-              (biteToRef.current.y - biteFromRef.current.y) * eased;
-            const dir: "left" | "right" =
-              biteToRef.current.x > prev.x ? "right" : "left";
-            if (t >= 1) {
-              bitePhaseRef.current = "melee";
-              biteStartRef.current = now;
-              biteCallbackRef.current?.(0);
-              biteCallbackRef.current = null;
-              return {
-                ...prev,
-                x: biteToRef.current.x,
-                y: biteToRef.current.y,
-                direction: dir,
-                state: "meleeAttack",
-              };
-            }
-            return { ...prev, x, y, direction: dir, state: "run" };
+      if (bp !== "idle") {
+        if (bp === "running") {
+          const elapsed = now - biteStartRef.current;
+          const dist = Math.hypot(
+            biteToRef.current.x - biteFromRef.current.x,
+            biteToRef.current.y - biteFromRef.current.y,
+          );
+          const duration = Math.max(1, (dist / PET_CHARGE_SPEED) * 1000);
+          const t = Math.min(elapsed / duration, 1);
+          const x =
+            biteFromRef.current.x +
+            (biteToRef.current.x - biteFromRef.current.x) * t;
+          const y =
+            biteFromRef.current.y +
+            (biteToRef.current.y - biteFromRef.current.y) * t;
+          const dir: "left" | "right" =
+            biteToRef.current.x > biteFromRef.current.x ? "right" : "left";
+          if (t >= 1) {
+            bitePhaseRef.current = "melee";
+            biteStartRef.current = now;
+            biteCallbackRef.current?.(0);
+            biteCallbackRef.current = null;
+            setPet((prev) =>
+              prev
+                ? {
+                    ...prev,
+                    x: biteToRef.current.x,
+                    y: biteToRef.current.y,
+                    direction: dir,
+                    state: "meleeAttack",
+                  }
+                : prev,
+            );
+            return;
           }
+          setPet((prev) =>
+            prev ? { ...prev, x, y, direction: dir, state: "run" } : prev,
+          );
+          return;
+        }
 
-          if (bp === "melee") {
-            if (now - biteStartRef.current >= BITE_DURATION) {
-              bitePhaseRef.current = "returning";
-              biteStartRef.current = now;
-              biteReturnFromRef.current = { x: prev.x, y: prev.y };
-              return { ...prev, state: "run" };
-            }
-            return { ...prev, state: "meleeAttack" };
+        if (bp === "melee") {
+          if (now - biteStartRef.current >= BITE_DURATION) {
+            bitePhaseRef.current = "returning";
+            biteStartRef.current = now;
+            biteReturnFromRef.current = {
+              x: biteToRef.current.x,
+              y: biteToRef.current.y,
+            };
           }
+          setPet((prev) =>
+            prev ? { ...prev, state: "meleeAttack" } : prev,
+          );
+          return;
+        }
 
-          if (bp === "returning") {
-            const targetX = playerXRef.current - OFFSET_X;
-            const targetY = playerYRef.current;
-            const elapsed = now - biteStartRef.current;
-            const t = Math.min(elapsed / RETURN_DURATION, 1);
-            const x =
-              biteReturnFromRef.current.x +
-              (targetX - biteReturnFromRef.current.x) * t;
-            const y =
-              biteReturnFromRef.current.y +
-              (targetY - biteReturnFromRef.current.y) * t;
-            const dir: "left" | "right" = targetX > prev.x ? "right" : "left";
-            if (t >= 1) {
-              bitePhaseRef.current = "idle";
-              return {
-                ...prev,
-                x: targetX,
-                y: targetY,
-                direction:
-                  npcXRef.current - playerXRef.current > 0 ? "right" : "left",
-                state: "idle",
-              };
-            }
-            return { ...prev, x, y, direction: dir, state: "run" };
+        if (bp === "returning") {
+          const targetX = playerXRef.current - OFFSET_X;
+          const targetY = playerYRef.current;
+          const elapsed = now - biteStartRef.current;
+          const dist = Math.hypot(
+            targetX - biteReturnFromRef.current.x,
+            targetY - biteReturnFromRef.current.y,
+          );
+          const duration = Math.max(1, (dist / PET_RETURN_SPEED) * 1000);
+          const t = Math.min(elapsed / duration, 1);
+          const x =
+            biteReturnFromRef.current.x +
+            (targetX - biteReturnFromRef.current.x) * t;
+          const y =
+            biteReturnFromRef.current.y +
+            (targetY - biteReturnFromRef.current.y) * t;
+          const dir: "left" | "right" =
+            targetX > biteReturnFromRef.current.x ? "right" : "left";
+          if (t >= 1) {
+            bitePhaseRef.current = "idle";
+            setPet((prev) =>
+              prev
+                ? {
+                    ...prev,
+                    x: targetX,
+                    y: targetY,
+                    direction:
+                      npcXRef.current - playerXRef.current > 0
+                        ? "right"
+                        : "left",
+                    state: "idle",
+                  }
+                : prev,
+            );
+            return;
           }
-
-          return prev;
-        });
-        return;
+          setPet((prev) =>
+            prev ? { ...prev, x, y, direction: dir, state: "run" } : prev,
+          );
+          return;
+        }
       }
 
       const targetX = playerXRef.current - OFFSET_X;
@@ -267,16 +295,28 @@ export function usePetBattle({
 
       setPet((prev) => {
         if (!prev) return prev;
-        const nearTarget = Math.abs(prev.x - targetX) < 1;
-        const sameY = prev.y === playerYRef.current;
-        if (nearTarget && sameY && prev.direction === direction) return prev;
-        const nextX = nearTarget ? targetX : prev.x + (targetX - prev.x) * 0.25;
+        const dx = targetX - prev.x;
+        const dy = playerYRef.current - prev.y;
+        const step = PET_FOLLOW_SPEED / 50;
+        const near =
+          Math.abs(dx) < FOLLOW_CUSHION && Math.abs(dy) < FOLLOW_CUSHION;
+        if (near) {
+          if (prev.state === "idle" && prev.direction === direction) return prev;
+          return { ...prev, direction, state: "idle" };
+        }
+        const dir: "left" | "right" = dx > 0 ? "right" : "left";
+        const nextX =
+          Math.abs(dx) <= step ? targetX : prev.x + Math.sign(dx) * step;
+        const nextY =
+          Math.abs(dy) <= step
+            ? playerYRef.current
+            : prev.y + Math.sign(dy) * step;
         return {
           ...prev,
           x: nextX,
-          y: playerYRef.current,
-          direction,
-          state: "idle",
+          y: nextY,
+          direction: dir,
+          state: "walk",
         };
       });
     }, 20);
