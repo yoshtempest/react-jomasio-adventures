@@ -1,6 +1,6 @@
 import { CANTINA_ROUTES } from "@/scenes/shared/routes";
 
-export const CHAPTER_SCREEN_DURATION_MS = 5000;
+export const CHAPTER_SCREEN_DURATION_MS = 3000;
 
 export type ChapterId = "one";
 

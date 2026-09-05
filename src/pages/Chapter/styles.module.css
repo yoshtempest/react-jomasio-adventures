@@ -14,7 +14,7 @@
   text-align: center;
   padding: 0 1rem;
   animation: fadeIn 1500ms ease-in forwards,
-    fadeOut 3500ms ease-in 1500ms forwards;
+    fadeOut 1500ms ease-in 1500ms forwards;
 }
 
 @keyframes fadeIn {
