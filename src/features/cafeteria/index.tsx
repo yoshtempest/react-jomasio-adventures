@@ -15,6 +15,7 @@ import { useContainer } from "@/hooks/container/useContainer";
 
 import { Container } from "@/components/Game/Map/Container";
 import Talking from "@/components/Game/Interactions/Talking";
+import { INTERACTION_LABELS } from "@/data/messages";
 
 type Props = {
   sceneId: SceneId;
@@ -85,7 +86,7 @@ export function CafeteriaScene({ sceneId }: Props) {
         scene={scene}
         background={scene.background}
         interactions={interactions}
-        interactionLabels={{ "15,4": "[L] Abrir" }}
+        interactionLabels={{ "15,4": INTERACTION_LABELS.OPEN }}
         popup={popup}
         setPopup={setPopup}
       />

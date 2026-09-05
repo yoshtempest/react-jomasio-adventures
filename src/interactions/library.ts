@@ -3,6 +3,7 @@ import { createInteractionMap, createPickupHandler } from "./builder";
 import type { PickupDeps } from "@/utils/types/interaction";
 import { hasQuest } from "@/scenes/shared/helpers";
 import { LIBRARY_ROUTES } from "@/scenes/shared/routes";
+import { POPUP_MESSAGES } from "@/data/messages";
 
 type LibraryDeps = Omit<PickupDeps, "gotKey" | "setFlag"> & {
   quests: { id: string }[];
@@ -34,11 +35,11 @@ export function createLibrary(deps: LibraryDeps) {
 
   messages["14,2"] = () => {
     if (hasQuest(deps.quests, "save_ematron")) {
-      deps.setPopup("O livro revela uma passagem secreta!");
+      deps.setPopup(POPUP_MESSAGES.BOOK_SECRET_PASSAGE);
       deps.navigate?.(LIBRARY_ROUTES.TWO);
       return;
     }
-    deps.setPopup("Um livro empoeirado. Nada de especial.");
+    deps.setPopup(POPUP_MESSAGES.BOOK_ORDINARY);
   };
 
   return messages;

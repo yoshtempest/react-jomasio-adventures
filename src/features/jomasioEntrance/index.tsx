@@ -39,6 +39,13 @@ import { rollMineGather } from "@/gameRules/professions/mine";
 import { rollProfessionMaterial } from "@/gameRules/professions/weapon";
 import { rockGridKey, toRockTiles } from "@/gameRules/movement/rocks";
 import { THREE_THOUSAND_MS } from "@/data/ms";
+import {
+  INTERACTION_LABELS,
+  POPUP_MESSAGES,
+  TOOL_REQUIRED_MESSAGES,
+  gatherResult,
+  professionLevelRequired,
+} from "@/data/messages";
 
 type Props = {
   sceneId: SceneId;
@@ -49,7 +56,7 @@ const MINE_COOLDOWN_MS = THREE_THOUSAND_MS;
 const ROCK_TILES = toRockTiles(jomasioEntranceRocks);
 
 const ROCK_LABELS = Object.fromEntries(
-  jomasioEntranceRocks.map((rock) => [rockGridKey(rock), "[L] Minerar"]),
+  jomasioEntranceRocks.map((rock) => [rockGridKey(rock), INTERACTION_LABELS.MINE]),
 );
 
 type MineRockDeps = ToolDeps & {
@@ -86,10 +93,10 @@ export function JomasioEntranceScene({ sceneId }: Props) {
     const mineRock = (rockLevel: number) =>
       createToolInteraction<MineRockDeps>(
         "weapon_pickaxe",
-        "Você precisa equipar uma picareta para minerar.",
+        TOOL_REQUIRED_MESSAGES.PICKAXE,
         (deps) => {
           if (Date.now() - lastMineTimeRef.current < MINE_COOLDOWN_MS) {
-            deps.setPopup("A rocha ainda está se recuperando...");
+            deps.setPopup(POPUP_MESSAGES.ROCK_ON_COOLDOWN);
             return;
           }
           lastMineTimeRef.current = Date.now();
@@ -98,13 +105,18 @@ export function JomasioEntranceScene({ sceneId }: Props) {
 
           const ores = getOresByRockLevel(rockLevel);
           if (ores.length === 0) {
-            deps.setPopup("Esta rocha não contém minério conhecido.");
+            deps.setPopup(POPUP_MESSAGES.ROCK_WITHOUT_ORE);
             return;
           }
 
           if (level < rockLevel) {
             deps.setPopup(
-              `Você precisa ser Mineiro nv.${rockLevel} para minerar esta rocha. (você é nv.${level})`,
+              professionLevelRequired(
+                "Mineiro",
+                rockLevel,
+                level,
+                "minerar esta rocha",
+              ),
             );
             return;
           }
@@ -128,8 +140,14 @@ export function JomasioEntranceScene({ sceneId }: Props) {
             .join(", ");
 
           const xpGained = result?.xpGained ?? 0;
-          const xpNote = xpGained > 0 ? ` (+${xpGained} XP de Mineiro)` : "";
-          deps.setPopup(`Você minerou a rocha! Obteve: ${summary}.${xpNote}`);
+          deps.setPopup(
+            gatherResult(
+              "Você minerou a rocha!",
+              summary,
+              xpGained,
+              "Mineiro",
+            ),
+          );
 
           if (xpGained > 0) {
             deps.addProficiencyXP(deps.character, "miner", xpGained);
@@ -140,19 +158,24 @@ export function JomasioEntranceScene({ sceneId }: Props) {
     const chopWood = (treeLevel: number) =>
       createToolInteraction<MineRockDeps>(
         "weapon_axe",
-        "Você precisa equipar um machado para lenhar.",
+        TOOL_REQUIRED_MESSAGES.AXE,
         (deps) => {
           const { level } = deps.getProficiency(deps.character, "lumberjack");
 
           const wood = getWoodLevelByTreeLevel(treeLevel);
           if (!wood) {
-            deps.setPopup("Esta árvore não produz madeira conhecida.");
+            deps.setPopup(POPUP_MESSAGES.TREE_WITHOUT_WOOD);
             return;
           }
 
           if (level < wood.treeLevel) {
             deps.setPopup(
-              `Você precisa ser Lenhador nv.${wood.treeLevel} para lenhar esta árvore. (você é nv.${level})`,
+              professionLevelRequired(
+                "Lenhador",
+                wood.treeLevel,
+                level,
+                "lenhar esta árvore",
+              ),
             );
             return;
           }
@@ -174,8 +197,14 @@ export function JomasioEntranceScene({ sceneId }: Props) {
             )
             .join(", ");
 
-          const xpNote = xpGained > 0 ? ` (+${xpGained} XP de Lenhador)` : "";
-          deps.setPopup(`Você lenhou a árvore! Obteve: ${summary}.${xpNote}`);
+          deps.setPopup(
+            gatherResult(
+              "Você lenhou a árvore!",
+              summary,
+              xpGained,
+              "Lenhador",
+            ),
+          );
 
           if (xpGained > 0) {
             deps.addProficiencyXP(deps.character, "lumberjack", xpGained);
@@ -235,7 +264,7 @@ export function JomasioEntranceScene({ sceneId }: Props) {
         interactions={interactions}
         interactionLabels={{
           ...ROCK_LABELS,
-          "5,7": "[L] Lenhar",
+          "5,7": INTERACTION_LABELS.CHOP,
         }}
         itemPickupTiles={ROCK_TILES}
         popup={popup}
