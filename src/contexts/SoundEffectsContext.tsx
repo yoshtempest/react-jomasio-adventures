@@ -35,6 +35,8 @@ export type SoundId =
   | "stupid"
   | "whooshWind"
   | "paperPreExplode"
+  | "groundPaperPreExplode"
+  | "chapterSuspense"
   | "laser"
   | "throwPaper"
   | "slap"

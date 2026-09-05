@@ -23,6 +23,20 @@ export function GroundPaper({
   const { playSound } = useSoundEffects();
 
   const explodedPaperIdsRef = useRef<Set<number>>(new Set());
+  const armedPaperIdsRef = useRef<Set<number>>(new Set());
+
+  useEffect(() => {
+    for (const gp of papers) {
+      if (gp.armedAt != null && !armedPaperIdsRef.current.has(gp.id)) {
+        armedPaperIdsRef.current.add(gp.id);
+        playSound("groundPaperPreExplode");
+      }
+    }
+    const renderedPaperIds = new Set(papers.map((gp) => gp.id));
+    for (const id of armedPaperIdsRef.current) {
+      if (!renderedPaperIds.has(id)) armedPaperIdsRef.current.delete(id);
+    }
+  }, [papers, playSound]);
 
   useEffect(() => {
     // paper virou explosion.svg -> explosion.mp3 (uma vez por paper)

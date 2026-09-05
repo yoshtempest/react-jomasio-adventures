@@ -49,6 +49,8 @@ export function createSounds() {
     writing: sfx("npc/maugrelo/writing.mp3"),
     stupid: sfx("npc/maugrelo/stupid.mp3"),
     paperPreExplode: sfx("npc/maugrelo/paperPreExplode.mp3"),
+    groundPaperPreExplode: sfx("npc/maugrelo/groundPaperPreExplode.mp3"),
+    chapterSuspense: sfx("chapterSuspense.mp3"),
     slap: sfx("npc/maugrelo/slap.mp3"),
     laser: sfx("npc/maugrelo/laser.mp3"),
     throwPaper: sfx("npc/maugrelo/throwPaper.mp3"),
