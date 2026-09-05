@@ -5,6 +5,7 @@ import {
   CAFETERIA_ROUTES,
 } from "@/scenes/shared/routes";
 import { hasQuest } from "@/scenes/shared/helpers";
+import { BLOCKED_MESSAGES } from "@/data/messages";
 
 export const cantinaOneTiles = [
   createConditionalTile(
@@ -17,7 +18,7 @@ export const cantinaOneTiles = [
       return null;
     },
     {
-      blockedMessage: "Passagem bloqueada",
+      blockedMessage: BLOCKED_MESSAGES.BLOCKED_PASSAGE,
     },
   ),
   createConditionalTile(
@@ -30,7 +31,7 @@ export const cantinaOneTiles = [
       return null;
     },
     {
-      blockedMessage: "Passagem bloqueada",
+      blockedMessage: BLOCKED_MESSAGES.BLOCKED_PASSAGE,
     },
   ),
   createConditionalTile(
@@ -43,7 +44,7 @@ export const cantinaOneTiles = [
       return null;
     },
     {
-      blockedMessage: "Porta trancada",
+      blockedMessage: BLOCKED_MESSAGES.LOCKED_DOOR,
     },
   ),
   createConditionalTile(
@@ -58,7 +59,7 @@ export const cantinaOneTiles = [
       return null;
     },
     {
-      blockedMessage: "Porta trancada",
+      blockedMessage: BLOCKED_MESSAGES.LOCKED_DOOR,
     },
   ),
 ];

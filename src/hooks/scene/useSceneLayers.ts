@@ -4,6 +4,7 @@ import { isNpcInFront } from "@/utils/isNpcInFront";
 import { isPositionInFront, parseGridKey } from "@/utils/isPositionInFront";
 import { canStepTo } from "@/gameRules/movement/levels";
 import type { ItemPickupTile } from "@/utils/types/maps/exploreScene";
+import { INTERACTION_LABELS } from "@/data/messages";
 
 type Player = {
   gridX: number;
@@ -66,31 +67,31 @@ export function useSceneLayers({
     if (!canStepTo(player.height, heightMap, x, y)) return null;
 
     const npc = npcs.find((n) => isNpcInFront(player, n));
-    if (npc) return "[L] Conversar";
+    if (npc) return INTERACTION_LABELS.TALK;
 
     const hasInteractionKey = interactionKeys?.some((key) => {
       const pos = parseGridKey(key);
       return pos ? isPositionInFront(player, pos.x, pos.y) : false;
     });
     if (hasInteractionKey) {
-      return interactionLabels?.[`${x},${y}`] ?? "[L] Interagir";
+      return interactionLabels?.[`${x},${y}`] ?? INTERACTION_LABELS.INTERACT;
     }
 
     const pickup = itemPickupTiles?.find(
       (t) => t.visible && isPositionInFront(player, t.x, t.y),
     );
-    if (pickup) return "[L] Pegar";
+    if (pickup) return INTERACTION_LABELS.PICK_UP;
 
-    if (tileDialogues?.[`${x},${y}`]) return "[L] Interagir";
+    if (tileDialogues?.[`${x},${y}`]) return INTERACTION_LABELS.INTERACT;
 
     const tombstone = tombstones?.find((t) => t.x === x && t.y === y);
-    if (tombstone) return "[L] Recolher";
+    if (tombstone) return INTERACTION_LABELS.COLLECT;
 
     const groundLoot = groundLoots?.find((l) => l.x === x && l.y === y);
-    if (groundLoot) return "[L] Pegar";
+    if (groundLoot) return INTERACTION_LABELS.PICK_UP;
 
     const plate = plates.find((p) => p.gridX === x && p.gridY === y);
-    if (plate) return "[L] Interagir";
+    if (plate) return INTERACTION_LABELS.INTERACT;
 
     return null;
   }, [
