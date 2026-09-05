@@ -51,22 +51,36 @@ export function useDialogue(dialogues: Dialogue[], onFinish?: () => void) {
     [],
   );
 
+  /**
+   * Encerra o diálogo e dispara o callback de término correspondente — o do
+   * sub-diálogo quando há um em curso, senão o `onFinish` do diálogo raiz.
+   */
+  const finish = useCallback(() => {
+    setIsOpen(false);
+    const wasSubDialogue = customDialoguesRef.current !== null;
+    const customOnFinish = customOnFinishRef.current;
+    setCustomDialogues(null);
+    customOnFinishRef.current = null;
+    if (wasSubDialogue) {
+      customOnFinish?.();
+    } else {
+      onFinish?.();
+    }
+  }, [onFinish, customDialoguesRef]);
+
   const next = useCallback(() => {
     if (index >= processedDialogues.length - 1) {
-      setIsOpen(false);
-      const wasSubDialogue = customDialoguesRef.current !== null;
-      const customOnFinish = customOnFinishRef.current;
-      setCustomDialogues(null);
-      customOnFinishRef.current = null;
-      if (wasSubDialogue) {
-        customOnFinish?.();
-      } else {
-        onFinish?.();
-      }
+      finish();
       return;
     }
     setIndex((prev) => prev + 1);
-  }, [index, processedDialogues.length, onFinish, customDialoguesRef]);
+  }, [index, processedDialogues.length, finish]);
+
+  /** Corta o diálogo restante e vai direto para o término. */
+  const skip = useCallback(() => {
+    setIndex(0);
+    finish();
+  }, [finish]);
 
   const dialogue = useMemo(() => {
     return processedDialogues[index];
@@ -87,6 +101,7 @@ export function useDialogue(dialogues: Dialogue[], onFinish?: () => void) {
       isOpen,
       start,
       next,
+      skip,
       isLast,
       index,
       length: processedDialogues.length,
@@ -97,6 +112,7 @@ export function useDialogue(dialogues: Dialogue[], onFinish?: () => void) {
       isOpen,
       start,
       next,
+      skip,
       isLast,
       index,
       processedDialogues.length,

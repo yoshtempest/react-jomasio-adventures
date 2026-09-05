@@ -9,6 +9,17 @@ import {
   SCREEN_SHORTCUT_KEYS,
 } from "@/data/keyActions";
 
+/**
+ * Ações em que o auto-repeat do teclado não pode virar repetição.
+ *
+ * Segurar `L` disparava `onConfirm` dezenas de vezes por segundo, o que
+ * atropelava diálogo inteiro em menos de um segundo e tornava impossível
+ * distinguir um toque de um toque longo — que é o gesto de pular cutscene.
+ * Direcional fica de fora de propósito: repetir é o comportamento
+ * esperado ao segurar a seta num menu ou na batalha.
+ */
+const NO_AUTO_REPEAT_ACTIONS = new Set(["onConfirm", "onCancel"]);
+
 type GameKeyboardOptions = {
   controlsRef: RefObject<GameControlLayer>;
   playerModeRef: RefObject<string>;
@@ -45,6 +56,7 @@ export function useGameKeyboard({
       const action = KEY_ACTIONS[e.key];
 
       if (action) {
+        if (e.repeat && NO_AUTO_REPEAT_ACTIONS.has(action)) return;
         controls[action]?.();
         return;
       }
