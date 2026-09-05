@@ -3,6 +3,7 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { useNavigate } from "react-router";
 import { useBattleInfo } from "@/contexts/BattleInfoContext";
 import { CardRedeem } from "./CardRedeem";
+import { ElementChart } from "./ElementChart";
 
 type Props = {
   showComboAction: boolean;
@@ -56,6 +57,8 @@ export function BattleTab({
           <CardRedeem isSelected={selectedIndex === 3} />
         </>
       )}
+
+      <ElementChart />
     </div>
   );
 }
