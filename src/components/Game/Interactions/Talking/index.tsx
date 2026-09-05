@@ -14,6 +14,7 @@ interface Props {
   autoAdvanceOnSound?: boolean;
   onNext?: () => void;
   onSoundEnd?: () => void;
+  imageClassName?: string;
 }
 
 export default function Talking({
@@ -24,6 +25,7 @@ export default function Talking({
   autoAdvanceOnSound,
   onNext,
   onSoundEnd,
+  imageClassName,
 }: Props) {
   const { dialogueSpeedMs } = useSettings();
   const { sfxVolume } = useAudio();
@@ -105,7 +107,11 @@ export default function Talking({
         {isComplete && <span className="talkingNextHint" />}
       </div>
       {src && (
-        <img className="talkingImage" src={resolveAsset(src)} alt={name} />
+        <img
+          className={`talkingImage ${imageClassName ?? ""}`.trim()}
+          src={resolveAsset(src)}
+          alt={name}
+        />
       )}
     </div>
   );

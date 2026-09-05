@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import Talking from "@/components/Game/Interactions/Talking";
 import { ChoiceBox } from "@/components/Game/Interactions/ChoiceBox";
-import SOS from "/assets/songs/background/battle/SOSFromEarth.m4a";
+import STFDialogue from "/assets/songs/background/STFDialogue.mp3";
 import { useBackgroundAudio } from "@/hooks/useBackgroundAudio";
 import { useNavigate } from "react-router";
 import { useCutscene } from "@/hooks/interaction/useCutscene";
@@ -10,13 +10,14 @@ import { firstCutsceneDialogue } from "@/data/dialogues/firstCutscene";
 
 import { sceneBackgrounds } from "@/data/scene/background";
 import { useNavbar } from "@/contexts/NavbarContext";
+import styles from "./styles.module.css";
 
 export default function FirstCutscene() {
   const navigate = useNavigate();
   const { play: playSansTalking } = useSansTalking(false);
   const { closeNavbar } = useNavbar();
 
-  useBackgroundAudio(SOS);
+  useBackgroundAudio(STFDialogue);
 
   useEffect(() => {
     closeNavbar();
@@ -42,6 +43,7 @@ export default function FirstCutscene() {
           name={dialogue.name}
           message={dialogue.message}
           src={dialogue.src}
+          imageClassName={styles.silhouette}
         />
       )}
 
