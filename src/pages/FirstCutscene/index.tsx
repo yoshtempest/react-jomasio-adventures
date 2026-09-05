@@ -37,7 +37,13 @@ export default function FirstCutscene() {
       className="Master"
       style={{ backgroundImage: `url(${sceneBackgrounds.FirstCutscene})` }}
     >
-      {dialogue && <Talking name={dialogue.name} message={dialogue.message} />}
+      {dialogue && (
+        <Talking
+          name={dialogue.name}
+          message={dialogue.message}
+          src={dialogue.src}
+        />
+      )}
 
       {cutscene.isSkipPromptOpen && (
         <ChoiceBox
