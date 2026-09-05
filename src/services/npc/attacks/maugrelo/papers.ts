@@ -8,6 +8,7 @@ import {
   PAPER_VEL_X_SPREAD,
   PAPER_MIN_DISTANCE,
   PAPER_EXPLOSION_DURATION,
+  PAPER_BLINK_DURATION,
   PAPER_STEP_RADIUS,
   PAPER_STEP_VERTICAL_RANGE,
   PAPER_ATTACK_RANGE,
@@ -92,6 +93,12 @@ export function cleanupExplosions(ai: MaugreloAI, now: number) {
   });
 }
 
+/**
+ * Pisar num papel **arma** o papel em vez de explodi-lo: ele fica piscando por
+ * `PAPER_BLINK_DURATION` e só então `updateArmedPapers` troca para
+ * explosion.svg e aplica o dano. É essa janela que permite ao jogador desarmar
+ * o papel com um ataque (`checkPaperAttackHits`) antes de levar dano.
+ */
 export function checkGroundPaperHits(
   ai: MaugreloAI,
   playerX: number,
@@ -105,17 +112,48 @@ export function checkGroundPaperHits(
 
   for (const gp of allPapers) {
     if (gp.sprite === "explosion") continue;
-    if (gp.id === ai.lastPaperHitId) continue;
+    if (gp.armedAt != null) continue;
 
     const dx = Math.abs(playerX - gp.x);
     const dy = Math.abs(playerY - gp.y);
 
     if (dx < PAPER_STEP_RADIUS && dy <= PAPER_STEP_VERTICAL_RANGE) {
-      gp.sprite = "explosion";
-      gp.createdAt = now;
-      ai.lastPaperHitId = gp.id;
-      onGroundPaperHit();
+      gp.armedAt = now;
       break;
+    }
+  }
+}
+
+/**
+ * Fecha o ciclo do papel armado: terminada a piscada, o papel vira
+ * explosion.svg. O dano só sai se o jogador ainda estiver em cima do papel no
+ * instante da explosão — sair de perto é a segunda forma de escapar, ao lado
+ * de desarmar o papel com um ataque. Papel desarmado a tempo já está com
+ * `sprite === "explosion"` e não chega aqui.
+ */
+export function updateArmedPapers(
+  ai: MaugreloAI,
+  playerX: number,
+  playerY: number,
+  onGroundPaperHit: (() => void) | undefined,
+  now: number,
+) {
+  const allPapers = [...ai.groundPapers, ...ai.landedPapers];
+
+  for (const gp of allPapers) {
+    if (gp.sprite !== "paper") continue;
+    if (gp.armedAt == null) continue;
+    if (now - gp.armedAt < PAPER_BLINK_DURATION) continue;
+
+    gp.sprite = "explosion";
+    gp.createdAt = now;
+    ai.lastPaperHitId = gp.id;
+
+    const dx = Math.abs(playerX - gp.x);
+    const dy = Math.abs(playerY - gp.y);
+
+    if (dx < PAPER_STEP_RADIUS && dy <= PAPER_STEP_VERTICAL_RANGE) {
+      onGroundPaperHit?.();
     }
   }
 }

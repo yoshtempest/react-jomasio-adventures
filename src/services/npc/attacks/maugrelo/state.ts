@@ -8,6 +8,7 @@ import {
   EIGHT_HUNDRED_MS,
   ONE_THOUSAND_TWO_HUNDRED_MS,
   ONE_THOUSAND_FIVE_HUNDRED_MS,
+  TWO_THOUSAND_MS,
   THREE_THOUSAND_MS,
   FIVE_THOUSAND_MS,
   EIGHT_THOUSAND_MS,
@@ -20,6 +21,8 @@ export type GroundPaper = {
   y: number;
   sprite: "paper" | "explosion";
   createdAt: number;
+  /** Quando o papel foi armado (pisado). undefined = ainda inerte. */
+  armedAt?: number;
 };
 
 export type StuckPaper = {
@@ -121,6 +124,8 @@ export const PAPER_X_SPREAD = 60;
 export const PAPER_VEL_X_SPREAD = 1.5;
 export const PAPER_MIN_DISTANCE = 50;
 export const PAPER_EXPLOSION_DURATION = FIVE_HUNDRED_MS;
+/** Tempo que o papel pisado pisca antes de virar explosion.svg e causar dano. */
+export const PAPER_BLINK_DURATION = TWO_THOUSAND_MS;
 export const PAPER_STEP_RADIUS = 30;
 /**
  * Tolerância vertical (eixo Y) para o papel explodir quando o jogador pisa.
