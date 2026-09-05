@@ -3,6 +3,7 @@ import { useCombatTasks } from "@/hooks/tutorial/useCombatTasks";
 import { useCutscene } from "@/hooks/interaction/useCutscene";
 import { npcPath } from "@/utils/paths";
 import Talking from "@/components/Game/Interactions/Talking";
+import { ChoiceBox } from "@/components/Game/Interactions/ChoiceBox";
 import { BattleScene } from "@/components/Game/Scenes/Battle";
 import { combatTutorialDialogue } from "@/data/dialogues/combatTutorial/one";
 import { TASKS } from "@/gameRules/tutorial/combatTasks";
@@ -30,6 +31,16 @@ export default function CombatTutorial() {
             name={dialogue.name}
             message={dialogue.message}
             src={dialogue.src}
+          />
+        )}
+
+        {cutscene.isSkipPromptOpen && (
+          <ChoiceBox
+            prompt="Tem certeza que deseja pular a cutscene?"
+            options={["Sim", "Não"]}
+            onSelect={(index) =>
+              index === 0 ? cutscene.confirmSkip() : cutscene.cancelSkip()
+            }
           />
         )}
       </div>

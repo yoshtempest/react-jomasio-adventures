@@ -98,6 +98,16 @@ export default function Tutorial() {
     >
       {dialogue && <Talking name={dialogue.name} message={dialogue.message} />}
 
+      {cutscene.isSkipPromptOpen && (
+        <ChoiceBox
+          prompt="Tem certeza que deseja pular a cutscene?"
+          options={["Sim", "Não"]}
+          onSelect={(index) =>
+            index === 0 ? cutscene.confirmSkip() : cutscene.cancelSkip()
+          }
+        />
+      )}
+
       {flow.showGenderChoice && (
         <ChoiceBox
           prompt="Você é macho ou fêmea?"
