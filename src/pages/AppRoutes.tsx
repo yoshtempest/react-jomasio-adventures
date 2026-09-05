@@ -14,6 +14,8 @@ const CombatTutorial = lazyLoad(() => import("@/pages/CombatTutorial"));
 
 const JomasioEntrancePage = lazyLoad(() => import("@/pages/JomasioEntrance"));
 
+const ChapterPage = lazyLoad(() => import("@/pages/Chapter"));
+
 const CantinaPage = lazyLoad(() => import("@/pages/Cantina"));
 
 const DirectorPage = lazyLoad(() => import("@/pages/Director"));
@@ -46,6 +48,7 @@ const nonBattlePages = [
   CombatTutorial,
   Home,
   JomasioEntrancePage,
+  ChapterPage,
   CantinaPage,
   HallPage,
   PcRoomPage,
@@ -86,6 +89,8 @@ export function AppRoutes() {
               <Route path="center/battle" element={<BattlePage />} />
               <Route path="pandemony/battle" element={<BattlePage />} />
             </Route>
+
+            <Route path="chapter/:id" element={<ChapterPage />} />
 
             <Route path="jomasioentrance">
               <Route index element={<Navigate to="/jomasioentrance/one" />} />

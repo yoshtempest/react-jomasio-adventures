@@ -21,6 +21,10 @@ export const PCROOM_ROUTES = {
   SEVEN: "/pcroom/seven",
 };
 
+export const CHAPTER_ROUTES = {
+  ONE: "/chapter/one",
+};
+
 export const CANTINA_ROUTES = {
   ONE: "/cantina/one",
   TWO: "/cantina/two",
