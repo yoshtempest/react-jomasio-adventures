@@ -1,0 +1,13 @@
+.blink {
+  animation: paperBlink 500ms steps(1, end) infinite;
+}
+
+@keyframes paperBlink {
+  0% {
+    filter: none;
+  }
+
+  50% {
+    filter: brightness(0) invert(1);
+  }
+}

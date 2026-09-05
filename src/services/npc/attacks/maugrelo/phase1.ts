@@ -7,6 +7,7 @@ import {
   updateFlyingPaper,
   cleanupExplosions,
   checkGroundPaperHits,
+  updateArmedPapers,
   checkPaperAttackHits,
 } from "./papers";
 import {
@@ -40,6 +41,7 @@ export function maugreloPhase1(
   updateFlyingPaper(ai);
   cleanupExplosions(ai, now);
   checkGroundPaperHits(ai, playerX, playerY, onGroundPaperHit, now);
+  updateArmedPapers(ai, playerX, playerY, onGroundPaperHit, now);
   checkPaperAttackHits(
     ai,
     playerX,

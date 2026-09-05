@@ -7,6 +7,8 @@ import type {
 } from "@/services/npc/attacks/maugrelo/state";
 import type { BattleEntityPositioning } from "../types";
 
+import styles from "./styles.module.css";
+
 type Props = BattleEntityPositioning & {
   papers: GroundPaperState[];
   flyingPaper: FlyingPaper | null;
@@ -58,6 +60,9 @@ export function GroundPaper({
       {papers.map((gp) => (
         <img
           key={gp.id}
+          className={
+            gp.sprite === "paper" && gp.armedAt != null ? styles.blink : ""
+          }
           src={
             gp.sprite === "explosion"
               ? npcPathProjectile("/explosion.svg")

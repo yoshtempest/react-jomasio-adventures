@@ -3,6 +3,8 @@ import { STUCK_EXPLOSION_DISAPPEAR_MS } from "@/services/npc/attacks/maugrelo/st
 import type { StuckPaper } from "@/services/npc/attacks/maugrelo/state";
 import type { BattleEntityPositioning } from "../types";
 
+import styles from "./styles.module.css";
+
 type Props = BattleEntityPositioning & {
   papers: StuckPaper[];
   playerX: number;
@@ -28,6 +30,7 @@ export function StuckPapers({
         return (
           <img
             key={sp.id}
+            className={exploding ? "" : styles.blink}
             src={
               exploding
                 ? npcPathProjectile("/explosion.svg")

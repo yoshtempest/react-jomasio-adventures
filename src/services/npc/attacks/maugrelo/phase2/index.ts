@@ -15,6 +15,7 @@ import {
 import {
   cleanupExplosions,
   checkGroundPaperHits,
+  updateArmedPapers,
   checkPaperAttackHits,
   updateStuckPapers,
 } from "../papers";
@@ -42,6 +43,7 @@ export function maugreloPhase2(
     ctx.onGroundPaperHit,
     now,
   );
+  updateArmedPapers(ai, ctx.playerX, ctx.playerY, ctx.onGroundPaperHit, now);
   checkPaperAttackHits(
     ai,
     ctx.playerX,
