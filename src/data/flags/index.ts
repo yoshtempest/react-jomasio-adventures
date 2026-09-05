@@ -40,4 +40,5 @@ export const FLAGS = {
   picked_common_chest: { id: "picked_common_chest" },
   picked_legendary_chest: { id: "picked_legendary_chest" },
   mined_entrance_rock: { id: "mined_entrance_rock" },
+  chapterOne: { id: "chapterOne" },
 } as const;
