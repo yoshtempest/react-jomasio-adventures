@@ -425,6 +425,7 @@ declare global {
     | "bleed"
     | "burn"
     | "poison"
+    | "freeze"
     | "confuse"
     | "armor"
     | "heal";

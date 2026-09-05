@@ -39,7 +39,17 @@ import { useComboSystem } from "@/hooks/battle/useComboSystem";
 import { useBattleRefs } from "@/hooks/battle/useRefs";
 import { useBattleKillCounter } from "@/hooks/battle/death/useKillCounter";
 import { useChargeAttack } from "@/hooks/battle/charge/useAttack";
-import { CHARGE_ATTACK_MIN_LEVEL } from "@/data/battle/charge";
+import {
+  getWeaponEnchantment,
+  rollEnchantmentProc,
+} from "@/gameRules/battle/equipment";
+import {
+  ENCHANTMENTS,
+  ENCHANTMENT_DURATION_MS,
+  ENCHANTMENT_TICK_DAMAGE,
+  ENCHANTMENT_TICK_INTERVAL_MS,
+  type Enchantment,
+} from "@/data/equipment/enchantments";
 import { usePhaseTransition } from "@/hooks/battle/death/usePhaseTransition";
 import { useCoffinAnimation } from "@/hooks/battle/summon/useCoffinAnimation";
 import { usePlayerSpecialProjectile } from "@/hooks/battle/player/usePlayerSpecialProjectile";
@@ -684,7 +694,38 @@ export function useBattleScene({
     registerHit,
     resetCombo,
   } = useComboSystem({ npcMaxHp: battle.npcMaxHp });
-  refs.registerHitRef.current = registerHit;
+  const weaponInfo = getEquippedInfo(player.character, "weapon");
+  const weaponEnchantment = weaponInfo
+    ? getWeaponEnchantment(weaponInfo.id)
+    : null;
+  const weaponEnchantmentRef = useLatestRef(weaponEnchantment);
+
+  /** Fim de cada status aplicado pelo encantamento da arma no NPC. */
+  const npcEnchantUntilRef = useRef<Record<Enchantment, number>>({
+    burn: 0,
+    freeze: 0,
+    poison: 0,
+    bleed: 0,
+  });
+
+  refs.registerHitRef.current = (damage: number) => {
+    registerHit(damage);
+
+    const enchantment = weaponEnchantmentRef.current;
+    if (!rollEnchantmentProc(enchantment) || !enchantment) return;
+
+    const until = Date.now() + ENCHANTMENT_DURATION_MS[enchantment];
+    npcEnchantUntilRef.current[enchantment] = until;
+
+    if (enchantment === "freeze") {
+      refs.npcStaggerRef.current = Math.max(
+        refs.npcStaggerRef.current,
+        until,
+      );
+    }
+
+    refs.spawnDamageRef.current?.(0, npc.x, npc.y, enchantment);
+  };
   refs.spawnDamageRef.current = battle.spawnDamageNumber;
 
   const playerSnapshotRef = useLatestRef({
@@ -977,6 +1018,38 @@ export function useBattleScene({
     return () => clearInterval(interval);
   }, [setSummons, isEndingRef, isPausedRef, summonsRef, summonsBleedUntilRef, refs]);
 
+  /**
+   * Dano contínuo dos status aplicados pelo encantamento da arma.
+   *
+   * `freeze` não tem tick de dano: o efeito dele é manter o NPC parado, o que
+   * já acontece via `npcStaggerRef`.
+   */
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (isEndingRef.current || isPausedRef.current) return;
+
+      const now = Date.now();
+      let total = 0;
+      let lastType: Enchantment | null = null;
+
+      for (const enchantment of ENCHANTMENTS) {
+        if (npcEnchantUntilRef.current[enchantment] <= now) continue;
+        const tick = ENCHANTMENT_TICK_DAMAGE[enchantment];
+        if (tick <= 0) continue;
+        total += tick;
+        lastType = enchantment;
+      }
+
+      if (total <= 0 || !lastType) return;
+
+      setNpcHPRef.current((hp) => Math.max(0, hp - total));
+      const snapshot = npcSnapshotRef.current;
+      refs.spawnDamageRef.current?.(total, snapshot.x, snapshot.y, lastType);
+    }, ENCHANTMENT_TICK_INTERVAL_MS);
+
+    return () => clearInterval(interval);
+  }, [isEndingRef, isPausedRef, setNpcHPRef, refs, npcSnapshotRef]);
+
   usePhaseTransition({
     npcPhase: battle.npcPhase,
     player,
@@ -1177,6 +1250,7 @@ export function useBattleScene({
     clearCoffins();
     coffinStartedRef.current = false;
     npcRootedUntilRef.current = 0;
+    npcEnchantUntilRef.current = { burn: 0, freeze: 0, poison: 0, bleed: 0 };
     rootedSummonsUntilRef.current = {};
     summonsBleedUntilRef.current = {};
     if (isAlfa) {
