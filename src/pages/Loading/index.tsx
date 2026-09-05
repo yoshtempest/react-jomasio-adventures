@@ -62,7 +62,7 @@ export default function Loading() {
             sessionStorage.removeItem("replayTarget");
             void navigate(`/replay/${replayTarget}`, { replace: true });
           } else {
-            const target = hasSave() ? "/home" : "/tutorial";
+            const target = hasSave() ? "/home" : "/firstCutscene";
             void navigate(target, { replace: true });
           }
         }

@@ -16,6 +16,8 @@ const JomasioEntrancePage = lazyLoad(() => import("@/pages/JomasioEntrance"));
 
 const ChapterPage = lazyLoad(() => import("@/pages/Chapter"));
 
+const FirstCutscenePage = lazyLoad(() => import("@/pages/FirstCutscene"));
+
 const CantinaPage = lazyLoad(() => import("@/pages/Cantina"));
 
 const DirectorPage = lazyLoad(() => import("@/pages/Director"));
@@ -49,6 +51,7 @@ const nonBattlePages = [
   Home,
   JomasioEntrancePage,
   ChapterPage,
+  FirstCutscenePage,
   CantinaPage,
   HallPage,
   PcRoomPage,
@@ -91,6 +94,8 @@ export function AppRoutes() {
             </Route>
 
             <Route path="chapter/:id" element={<ChapterPage />} />
+
+            <Route path="firstCutscene" element={<FirstCutscenePage />} />
 
             <Route path="jomasioentrance">
               <Route index element={<Navigate to="/jomasioentrance/one" />} />

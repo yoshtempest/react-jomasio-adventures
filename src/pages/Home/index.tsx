@@ -28,7 +28,7 @@ export default function Home() {
 
   useEffect(() => {
     if (!hasAnySave()) {
-      void navigate("/tutorial", { replace: true });
+      void navigate("/firstCutscene", { replace: true });
       return;
     }
   }, [navigate]);

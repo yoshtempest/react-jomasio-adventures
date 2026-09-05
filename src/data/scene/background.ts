@@ -1,6 +1,7 @@
 import { asset, cenariosPath, jomasioPath } from "@/utils/paths";
 
 export const sceneBackgrounds = {
+  FirstCutscene: cenariosPath("/firstCutscene.svg"),
   BrodiClass: jomasioPath("/brodiClass.svg"),
   BrodiClassBattle: jomasioPath("/battle/brodiClass.svg"),
   Cantina: jomasioPath("/cantina.svg"),

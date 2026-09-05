@@ -9,7 +9,7 @@ export default function EntryPoint() {
     if (hasSave()) {
       void navigate("/home", { replace: true });
     } else {
-      void navigate("/tutorial", { replace: true });
+      void navigate("/firstCutscene", { replace: true });
     }
   }, [navigate]);
 
