@@ -151,6 +151,7 @@ export function useBattleScene({
     playerClass,
     setPlayerState,
     lastBlockPressRef,
+    lastAttackPressRef,
     battleTenacityRef,
     freezeActionsUntilRef,
     setTimeScale,
@@ -638,6 +639,7 @@ export function useBattleScene({
     registerHitRef: refs.registerHitRef,
     setPlayer,
     lastBlockPressRef,
+    lastAttackPressRef,
     npcPhaseRef,
     onBeforeNpcHitRef: targeting.onBeforeNpcHitRef,
     onBlockRef,
@@ -1129,7 +1131,8 @@ export function useBattleScene({
     getSpecialFlowOverride(player.character) !== null;
 
   // Artur não usa o charge (segurar onConfirm = ORA ORA). Os demais mantêm.
-  const canCharge = player.character !== "artur";
+  const canCharge =
+    player.character !== "artur" && playerLevel >= CHARGE_ATTACK_MIN_LEVEL;
 
   const activateSpecial = useCallback(() => {
     if (freezeActionsUntilRef.current > Date.now()) return;

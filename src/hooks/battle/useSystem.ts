@@ -58,6 +58,7 @@ type Props = {
   registerHitRef: React.RefObject<(damage: number) => void>;
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;
   lastBlockPressRef: React.RefObject<number>;
+  lastAttackPressRef?: React.RefObject<number>;
   npcPhaseRef: React.RefObject<number>;
   onBeforeNpcHitRef?: React.RefObject<() => boolean>;
   onBlockRef?: React.RefObject<() => void>;
@@ -94,6 +95,7 @@ export function useBattleSystem(props: Props) {
     registerHitRef,
     setPlayer,
     lastBlockPressRef,
+    lastAttackPressRef,
     npcPhaseRef,
     onBeforeNpcHitRef,
     onBlockRef,
@@ -271,6 +273,7 @@ export function useBattleSystem(props: Props) {
     onBlockRef,
     oneHitShieldRef,
     lastBlockPressRef,
+    lastAttackPressRef,
     onParry: () => {
       playerBattle.setDelicia((d) => gainSpecial(d, HITS_TO_SPECIAL));
     },
@@ -323,6 +326,7 @@ export function useBattleSystem(props: Props) {
     blockGauge,
     setBlockGauge,
     lastBlockPressRef,
+    lastAttackPressRef,
     onBlockRef,
     titleEnemyMissChance: titleBonus.enemyMissChance,
     onDamageTakenRef,

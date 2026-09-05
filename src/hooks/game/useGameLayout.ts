@@ -1,10 +1,15 @@
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useState, useEffect, useRef } from "react";
 import { HEIGHT_STEP_OFFSET } from "@/gameRules/movement/levels";
+import {
+  GAME_VIEWPORT_WIDTH_RATIO,
+  MAP_GRID_COLS,
+  MAP_GRID_ROWS,
+} from "@/data/grid";
 
 export function useGameLayout(map?: number[][], scaleFix = 3) {
-  const MAP_COLS = map?.[0]?.length ?? 17;
-  const MAP_ROWS = map?.length ?? 13;
+  const MAP_COLS = map?.[0]?.length ?? MAP_GRID_COLS;
+  const MAP_ROWS = map?.length ?? MAP_GRID_ROWS;
   const CAMERA_SMOOTHING = 0.3;
 
   const { player } = usePlayer();
@@ -22,7 +27,7 @@ export function useGameLayout(map?: number[][], scaleFix = 3) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const containerWidth = dimensions.width * 0.74;
+  const containerWidth = dimensions.width * GAME_VIEWPORT_WIDTH_RATIO;
   const containerHeight = dimensions.height;
 
   const TILE_SIZE =

@@ -6,6 +6,7 @@ import { PandemonyPuzzle } from "@/components/Game/Map/PandemonyPuzzle";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
 import Talking from "@/components/Game/Interactions/Talking";
+import { BLOCKED_MESSAGES } from "@/data/messages";
 
 type Props = {
   sceneId: SceneId;
@@ -29,7 +30,7 @@ export function HallScene({ sceneId }: Props) {
         if (hasPandemony) {
           setShowPuzzle(true);
         } else {
-          setPopup("Porta trancada");
+          setPopup(BLOCKED_MESSAGES.LOCKED_DOOR);
         }
         return true;
       }

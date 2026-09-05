@@ -4,7 +4,7 @@
   top: 5%;
   right: 0;
   gap: 3vw;
-  width: calc(74vw - var(--size-6));
+  width: calc(var(--game-viewport-width) - var(--size-6));
   height: 90vh;
   align-items: flex-start;
   justify-content: center;

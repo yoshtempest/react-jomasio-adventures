@@ -4,20 +4,43 @@ import {
   NPC_RECENT_BLOCK_COOLDOWN,
 } from "@/data/cooldowns";
 import type { SpawnDamageFn } from "@/utils/types/battle/spawnDamageFn";
-import { FIFTY_MS } from "@/data/ms";
+import { FIFTY_MS, ONE_THOUSAND_FIVE_HUNDRED_MS } from "@/data/ms";
 
 /**
- * Janela de tempo (ms) entre pressionar o bloqueio e sofrer o dano para o
+ * Janela de tempo (ms) entre a entrada do jogador e sofrer o dano para o
  * parry disparar. Precisa ser um toque bem no timing do hit (0-50ms antes).
  */
 export const PARRY_WINDOW_MS = FIFTY_MS;
 
+/** Tempo em que o NPC fica impedido de atacar depois de levar um parry. */
+export const PARRY_STAGGER_MS = ONE_THOUSAND_FIVE_HUNDRED_MS;
+
+/**
+ * Tempo desde a entrada de parry mais recente.
+ *
+ * Bloquear e atacar valem igual: as duas entradas abrem a janela, então o
+ * jogador pode dar o parry defendendo no timing ou atacando junto com o
+ * golpe do NPC.
+ */
+export function timeSinceParryInput(
+  ...pressRefs: (React.RefObject<number> | undefined)[]
+): number {
+  const now = Date.now();
+  let elapsed = Infinity;
+
+  for (const ref of pressRefs) {
+    const pressTime = ref?.current ?? 0;
+    if (pressTime <= 0) continue;
+    elapsed = Math.min(elapsed, now - pressTime);
+  }
+
+  return elapsed;
+}
+
 export function isParryPress(
-  lastBlockPressRef: React.RefObject<number>,
+  ...pressRefs: (React.RefObject<number> | undefined)[]
 ): boolean {
-  const pressTime = lastBlockPressRef.current;
-  if (pressTime <= 0) return false;
-  return Date.now() - pressTime <= PARRY_WINDOW_MS;
+  return timeSinceParryInput(...pressRefs) <= PARRY_WINDOW_MS;
 }
 
 export function applyGuardBreak(
@@ -61,6 +84,7 @@ type HandleBlockingParams = {
   npcStaggerRef: React.RefObject<number>;
   npcCooldown: React.RefObject<boolean>;
   lastBlockPressRef: React.RefObject<number>;
+  lastAttackPressRef?: React.RefObject<number>;
   onFullBlock?: () => void;
   onBlockRef?: React.RefObject<() => void>;
   onParry?: () => void;
@@ -81,24 +105,24 @@ export function handleNpcBlocking({
   npcStaggerRef,
   npcCooldown,
   lastBlockPressRef,
+  lastAttackPressRef,
   onFullBlock,
   onBlockRef,
   onParry,
   onDamageBlocked,
 }: HandleBlockingParams): boolean {
   const now = Date.now();
-  const pressTime = lastBlockPressRef.current;
-  const sincePress = pressTime > 0 ? now - pressTime : Infinity;
+  const sincePress = timeSinceParryInput(lastBlockPressRef, lastAttackPressRef);
 
   if (sincePress <= PARRY_WINDOW_MS) {
     onParry?.();
     spawnDamageRef.current?.(0, playerX, playerY - 40, "parry");
     hitstopRef.current = now + 80;
-    npcStaggerRef.current = now + 500;
+    npcStaggerRef.current = now + PARRY_STAGGER_MS;
     npcCooldown.current = false;
     onFullBlock?.();
     onBlockRef?.current?.();
-    setTimeout(() => (npcCooldown.current = true), NPC_BLOCK_COOLDOWN);
+    setTimeout(() => (npcCooldown.current = true), PARRY_STAGGER_MS);
     return true;
   }
 

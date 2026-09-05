@@ -3,6 +3,7 @@ import {
   useContext,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
   type ReactNode,
@@ -160,16 +161,25 @@ export function TombstoneProvider({ children }: { children: ReactNode }) {
     [tombsByLocation, setTombsByLocation],
   );
 
+  const value = useMemo(
+    () => ({
+      prepareTombstoneSpawn,
+      clearPendingTombstoneSpawn,
+      spawnVictoryTombstone,
+      getTombstones,
+      collectTombstone,
+    }),
+    [
+      prepareTombstoneSpawn,
+      clearPendingTombstoneSpawn,
+      spawnVictoryTombstone,
+      getTombstones,
+      collectTombstone,
+    ],
+  );
+
   return (
-    <TombstoneContext.Provider
-      value={{
-        prepareTombstoneSpawn,
-        clearPendingTombstoneSpawn,
-        spawnVictoryTombstone,
-        getTombstones,
-        collectTombstone,
-      }}
-    >
+    <TombstoneContext.Provider value={value}>
       {children}
     </TombstoneContext.Provider>
   );

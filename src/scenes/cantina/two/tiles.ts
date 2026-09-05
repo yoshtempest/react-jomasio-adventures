@@ -8,6 +8,7 @@ import {
   CAFETERIA_ROUTES,
 } from "@/scenes/shared/routes";
 import { hasAnyQuest, hasQuest } from "@/scenes/shared/helpers";
+import { BLOCKED_MESSAGES } from "@/data/messages";
 
 export const cantinaTwoTiles = [
   createDoorTile(2, 2, HALL_ROUTES.CENTER_ONE),
@@ -21,7 +22,7 @@ export const cantinaTwoTiles = [
       return null;
     },
     {
-      blockedMessage: "Porta trancada",
+      blockedMessage: BLOCKED_MESSAGES.LOCKED_DOOR,
     },
   ),
   createConditionalTile(
@@ -36,7 +37,7 @@ export const cantinaTwoTiles = [
       return null;
     },
     {
-      blockedMessage: "Porta trancada",
+      blockedMessage: BLOCKED_MESSAGES.LOCKED_DOOR,
     },
   ),
   createConditionalTile(17, 12, (_player, quests) => {
