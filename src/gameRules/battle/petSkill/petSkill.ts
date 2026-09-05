@@ -17,6 +17,7 @@ export type PetSkillRunDeps = {
   beginCoffinSequence: (
     spawnPositions: number[],
     groundY: number,
+    npcType: string,
     onSpawn: (npcType: string, x: number) => void,
   ) => void;
   npcType: string;
@@ -197,6 +198,7 @@ export function runPetSkill(def: PetSkillDefinition, deps: PetSkillRunDeps): voi
         beginCoffinSequence(
           [playerX + 200],
           groundY,
+          effect.npcType,
           (_npcType: string, x: number) =>
             summonAlly(effect.npcType, x, {
               level: playerLevel,

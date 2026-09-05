@@ -25,6 +25,10 @@ export const JOMASIO_ENTRANCE_ROUTES = {
   ONE: "/jomasioentrance/one",
 };
 
+export const CHAPTER_ROUTES = {
+  ONE: "/jomasioentrance/one",
+};
+
 export const CANTINA_ROUTES = {
   ONE: "/cantina/one",
   TWO: "/cantina/two",

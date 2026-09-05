@@ -1,4 +1,5 @@
 import { npcPath } from "@/utils/paths";
+import { getBossSizeMultiplier } from "@/utils/npc/getSpritePath";
 import type { CoffinState } from "@/hooks/battle/summon/useCoffinAnimation";
 import type { BattleEntityPositioning } from "../types";
 
@@ -21,13 +22,15 @@ export function Coffin({
             ? npcPath("/hungryKing/coffin.svg")
             : npcPath("/hungryKing/coffinOpen.svg");
 
+        const sizeMultiplier = getBossSizeMultiplier(c.npcType);
+
         return (
           <div
             key={c.id}
             style={{
               position: "absolute",
-              width: TILE_SIZE * 2,
-              height: TILE_SIZE * 2,
+              width: TILE_SIZE * sizeMultiplier,
+              height: TILE_SIZE * sizeMultiplier,
               left: c.x * battleScaleX,
               top: c.y * battleScaleY,
               transform: "translate(-50%, -100%)",

@@ -4,6 +4,7 @@ export type CoffinState = {
   id: string;
   x: number;
   y: number;
+  npcType: string;
   phase: "closed" | "open" | "fading";
 };
 
@@ -19,6 +20,7 @@ export function useCoffinAnimation() {
     (
       spawnPositions: number[],
       groundY: number,
+      npcType: string,
       onSpawn: (npcType: string, x: number) => void,
     ) => {
       timersRef.current.forEach(clearTimeout);
@@ -29,6 +31,7 @@ export function useCoffinAnimation() {
           id: `coffin_${i}`,
           x,
           y: groundY,
+          npcType,
           phase: "closed" as const,
         })),
       );
@@ -38,7 +41,7 @@ export function useCoffinAnimation() {
           prev.map((c) => ({ ...c, phase: "open" as const })),
         );
         spawnPositions.forEach((x) => {
-          onSpawn("hungryDeath", x - 50);
+          onSpawn(npcType, x - 50);
         });
       }, 500);
       timersRef.current.push(t1);

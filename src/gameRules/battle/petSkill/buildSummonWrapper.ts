@@ -10,6 +10,7 @@ export function buildSummonWrapper(params: {
   beginCoffinSequence: (
     spawnPositions: number[],
     groundY: number,
+    npcType: string,
     onSpawn: (npcType: string, x: number) => void,
   ) => void;
   player: Player;
@@ -28,6 +29,7 @@ export function buildSummonWrapper(params: {
         params.beginCoffinSequence(
           [550, 650, 750],
           params.player.groundY,
+          "hungryDeath",
           (_npcType: string, x: number) =>
             params.summonNpcRef.current("hungryDeath", x),
         );
