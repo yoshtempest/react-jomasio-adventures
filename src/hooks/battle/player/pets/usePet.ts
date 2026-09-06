@@ -373,5 +373,5 @@ export function usePetBattle({
     });
   }
 
-  return { pet, resetPet, triggerJumpAttack, triggerTeleportBite };
+  return { pet, setPet, resetPet, triggerJumpAttack, triggerTeleportBite };
 }

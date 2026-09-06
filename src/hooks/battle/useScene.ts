@@ -29,6 +29,7 @@ import { useSettings } from "@/hooks/useSetting";
 import { useTombstones } from "@/contexts/TombstoneContext";
 import { useNpcSetup } from "@/hooks/battle/npc/useSetup";
 import { useBattleRewards } from "@/hooks/battle/rewards/useRewards";
+import { useBattleLoot } from "@/hooks/battle/loot/useBattleLoot";
 import { useSummons } from "@/hooks/battle/summon/useSummons";
 import { usePlayerBattleActions } from "@/hooks/battle/player/usePlayerActions";
 import { useSummonAI } from "@/hooks/battle/summon/useAi";
@@ -43,6 +44,7 @@ import {
   getWeaponEnchantment,
   rollEnchantmentProc,
 } from "@/gameRules/battle/equipment";
+import { aggregateRewards } from "@/gameRules/battle/loot/buildLootBags";
 import {
   ENCHANTMENTS,
   ENCHANTMENT_DURATION_MS,
@@ -80,7 +82,6 @@ import {
   incrementDamageDealtStats,
   incrementDamageTakenStats,
   incrementMissesStats,
-  incrementEquipmentDropsStats,
   incrementHitsUsedStats,
   incrementSpecialsUsedStats,
   incrementAttacksUsedStats,
@@ -99,6 +100,7 @@ import type { NewPlayerStatus } from "@/gameRules/battle/status/statusEffects";
 import { useKokusenAnimation } from "@/hooks/battle/player/characters/Natsuki/useKokusenAnimation";
 import { useSpecialIntro } from "@/hooks/battle/useSpecialIntro";
 import type { BattleSceneApi } from "@/utils/types/battle/scene";
+import type { LootBagContents } from "@/utils/types/battle/loot";
 
 function computeElapsedBattleTime(
   battleStartRef: RefObject<number>,
@@ -181,7 +183,6 @@ export function useBattleScene({
     incrementDamageTaken,
     incrementDamageDealt,
     incrementDodgeCounter,
-    incrementPetDropCounter,
   } = useTitles();
 
   const { addBattleTime } = usePlayTimeActions();
@@ -254,13 +255,14 @@ export function useBattleScene({
     progress[player.character].stats.luck + (equipmentBonus.luck ?? 0);
   const luckBonus = combatService.getLuckBonus(totalLuck);
 
-  const { xpReward, giveRewards, giveSummonRewards } = useBattleRewards({
-    npcClass: npcData.class,
-    npcLevel,
-    npcType,
-    luckBonus,
-    isAlfa,
-  });
+  const { xpReward, prepareBattleLoot, grantLootBag, giveSummonRewards } =
+    useBattleRewards({
+      npcClass: npcData.class,
+      npcLevel,
+      npcType,
+      luckBonus,
+      isAlfa,
+    });
 
   const { summons, setSummons, summonNpc, clearSummons, updateNpcPosition } =
     useSummons({
@@ -392,6 +394,7 @@ export function useBattleScene({
     isConfigOpen ||
     isBattleNavOpen;
   const isPausedRef = useLatestRef(isPaused);
+  const lootActiveRef = useRef(false);
   const controlsDisabled = isPaused || isPhaseTransitioning || isThrown;
 
   targeting.npcAiHpRef.current = npcStats.hp;
@@ -409,7 +412,7 @@ export function useBattleScene({
     npcPhaseRef,
     onProjectileHit: () => refs.npcRangedAttackRef.current(),
     onMeleeHit: () => refs.npcMeleeAttackRef.current(),
-    isPaused: isPaused || isPhaseTransitioning,
+    isPaused: isPaused || isPhaseTransitioning || lootActiveRef.current,
     onSummon: onSummonWrapperRef.current,
     onPullPlayer: (npcX: number) =>
       setPlayer((p) => {
@@ -540,16 +543,7 @@ export function useBattleScene({
       return;
     }
     setBattleHP(player.character, battle.playerHP);
-    const rewards = giveRewards();
-    setLastRewards(rewards);
     reduceHunger(player.character, 5);
-    if (rewards.equipmentDrops.length > 0) {
-      incrementEquipmentDropsStats(rewards.equipmentDrops.length);
-    }
-    const hasPetDrop = rewards.equipmentDrops.some((d) =>
-      d.id.startsWith("pet_"),
-    );
-    if (hasPetDrop) incrementPetDropCounter();
     recordWin(player.character);
 
     progressDailyWeekly("win_battle", 1);
@@ -579,13 +573,17 @@ export function useBattleScene({
     addBattleTime(player.character, Math.floor(elapsed / 1000));
     saveBestTime(npcType, elapsed);
     setBestTime(loadBestTime(npcType));
-    triggerVictory();
     spawnVictoryTombstone(npcType);
     killCounter.handleNpcDeath(
       killCounter.npcTypeRef.current,
       killCounter.npcDataRef.current.class,
       isAlfa,
     );
+
+    const lootContents = prepareBattleLoot();
+    battleLootContentsRef.current = lootContents;
+    lootActiveRef.current = true;
+    startBattleLoot(lootContents, player.x, player.y);
   });
 
   const onBlockRef = useLatestRef(() => {
@@ -686,6 +684,25 @@ export function useBattleScene({
       playSound,
     });
   };
+
+  const battleLootContentsRef = useRef<LootBagContents[]>([]);
+  const { bags: lootBags, isActive: lootActive, start: startBattleLoot } =
+    useBattleLoot({
+      playerX: player.x,
+      playerY: player.y,
+      pet: battle.pet,
+      setPet: battle.setPet,
+      isPausedRef,
+      onCollect: grantLootBag,
+      onDone: () => {
+        lootActiveRef.current = false;
+        setLastRewards(
+          aggregateRewards(battleLootContentsRef.current, xpReward),
+        );
+        triggerVictory();
+      },
+      playSound,
+    });
 
   const {
     comboCount,
@@ -902,7 +919,7 @@ export function useBattleScene({
   useSummonAI({
     summons,
     setSummons,
-    isPaused,
+    isPaused: isPaused || lootActiveRef.current,
     playerX: player.x,
     playerY: player.y,
     playerClass,
@@ -1325,5 +1342,8 @@ export function useBattleScene({
     kokusenFrame,
     specialIntroActive,
     specialIntroCharacter,
+    lootBags,
+    lootActive,
+    npcClass: npcData.class,
   } satisfies BattleSceneApi;
 }

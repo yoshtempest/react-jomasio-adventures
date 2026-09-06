@@ -111,6 +111,8 @@ export function BattleScene(props: Props) {
     kokusenFrame,
     specialIntroActive,
     specialIntroCharacter,
+    lootBags,
+    npcClass,
   } = useBattleScene({ ...props, isAlfa, PLAYER_SIZE });
 
   const { setBattleCollision } = usePlayerActions();
@@ -321,6 +323,8 @@ export function BattleScene(props: Props) {
             explosionSprite={explosionSprite}
             extraPunches={extraPunches}
             extraPunchSprite={extraPunchSprite}
+            lootBags={lootBags}
+            npcClass={npcClass}
           />
 
           <ChargeParticles

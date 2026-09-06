@@ -280,7 +280,7 @@ export function useBattleSystem(props: Props) {
     onDamageTaken: energy.consumeOnDamage,
   });
 
-  const { pet, resetPet, triggerJumpAttack, triggerTeleportBite } =
+  const { pet, setPet, resetPet, triggerJumpAttack, triggerTeleportBite } =
     usePetBattle({
       enabled: petIsBattle,
       playerX,
@@ -476,6 +476,7 @@ export function useBattleSystem(props: Props) {
     piercings: effects.piercings,
     isExploding: effects.isExploding,
     pet,
+    setPet,
     triggerJumpAttack,
     triggerTeleportBite,
     applyNpcBleed,

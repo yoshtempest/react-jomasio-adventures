@@ -13,12 +13,14 @@ import { KillerQueen } from "./KillerQueen";
 import { Bomb } from "./Bomb";
 import { ExtraPunch } from "./ExtraPunch";
 import { SpecialProjectile } from "./SpecialProjectile";
+import { LootBag } from "./LootBag";
 import type { BattleEntitiesBattle, MainNpcState } from "./types";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { PetState } from "@/hooks/battle/player/pets/usePet";
 import type { CoffinState } from "@/hooks/battle/summon/useCoffinAnimation";
 import type { KillerQueenOverlay } from "@/utils/types/character/srGuaxinim";
 import type { ExtraPunchVisual } from "@/utils/types/character/srGuaxinim";
+import type { BattleLootBag } from "@/utils/types/battle/loot";
 
 type Props = {
   npc: MainNpcState;
@@ -29,6 +31,8 @@ type Props = {
   allies: SummonedNpc[];
   coffins: CoffinState[];
   pet: PetState;
+  lootBags?: BattleLootBag[];
+  npcClass?: NPCClass;
   TILE_SIZE: number;
   PLAYER_SIZE: number;
   grabFlipped?: boolean;
@@ -52,6 +56,8 @@ export function BattleEntities({
   allies = [],
   coffins,
   pet,
+  lootBags = [],
+  npcClass = "common",
   TILE_SIZE,
   PLAYER_SIZE,
   grabFlipped = false,
@@ -161,6 +167,15 @@ export function BattleEntities({
         battleScaleX={battleScaleX}
         battleScaleY={battleScaleY}
       />
+
+      {lootBags.map((bag) => (
+        <LootBag
+          key={bag.id}
+          bag={bag}
+          TILE_SIZE={TILE_SIZE}
+          npcClass={npcClass}
+        />
+      ))}
     </>
   );
 }

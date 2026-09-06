@@ -73,4 +73,7 @@ export type BattleSceneApi = {
   specialIntroCharacter: ReturnType<
     typeof useSpecialIntro
   >["specialIntroCharacter"];
+  lootBags: import("@/utils/types/battle/loot").BattleLootBag[];
+  lootActive: boolean;
+  npcClass: NPCClass;
 };
