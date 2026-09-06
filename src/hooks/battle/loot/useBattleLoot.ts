@@ -3,10 +3,7 @@ import { useLatestRef } from "@/hooks/useLatestRef";
 import { placeLootBags } from "@/gameRules/battle/loot/buildLootBags";
 import { BATTLE_LOOT_WINDOW_MS } from "@/data/battle/lootbags";
 import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
-import type {
-  BattleLootBag,
-  LootBagContents,
-} from "@/utils/types/battle/loot";
+import type { BattleLootBag, LootBagContents } from "@/utils/types/battle/loot";
 import type { PetState } from "@/hooks/battle/player/pets/usePet";
 import type { SoundId } from "@/contexts/SoundEffectsContext";
 
@@ -15,6 +12,7 @@ const PLAYER_PICKUP_RADIUS = 70;
 const PET_BAG_REACH = 45;
 const PET_FETCH_SPEED = 250;
 const BAG_MARGIN = 40;
+const PICKUP_DELAY_MS = 800;
 
 type Props = {
   playerX: number;
@@ -23,6 +21,7 @@ type Props = {
   setPet: React.Dispatch<React.SetStateAction<PetState>>;
   isPausedRef: React.RefObject<boolean>;
   onCollect: (contents: LootBagContents) => void;
+  onNotify: (contents: LootBagContents, x: number, y: number) => void;
   onDone: () => void;
   playSound: (id: SoundId) => void;
 };
@@ -38,6 +37,7 @@ export function useBattleLoot({
   setPet,
   isPausedRef,
   onCollect,
+  onNotify,
   onDone,
   playSound,
 }: Props) {
@@ -49,6 +49,7 @@ export function useBattleLoot({
   const playerYRef = useLatestRef(playerY);
   const petRef = useLatestRef(pet);
   const onCollectRef = useLatestRef(onCollect);
+  const onNotifyRef = useLatestRef(onNotify);
   const onDoneRef = useLatestRef(onDone);
   const playSoundRef = useLatestRef(playSound);
 
@@ -58,6 +59,7 @@ export function useBattleLoot({
   const collectedIdsRef = useRef<Set<number>>(new Set());
   const activeMsRef = useRef(0);
   const lastTickRef = useRef(0);
+  const startedAtRef = useRef(0);
 
   const fetchPhaseRef = useRef<"idle" | "toBag" | "dragBack">("idle");
   const targetBagIdRef = useRef<number | null>(null);
@@ -70,6 +72,7 @@ export function useBattleLoot({
       fetchPhaseRef.current = "idle";
       targetBagIdRef.current = null;
       lastTickRef.current = Date.now();
+      startedAtRef.current = Date.now();
       setBags(
         placeLootBags(contents, spawnX, spawnY).map((b) => ({
           ...b,
@@ -94,9 +97,10 @@ export function useBattleLoot({
       collectedIdsRef.current.add(id);
       setBags((prev) => prev.filter((b) => b.id !== id));
       onCollectRef.current(bag.contents);
+      onNotifyRef.current(bag.contents, bag.x, bag.y);
       playSoundRef.current("receivedItem");
     },
-    [bagsRef, onCollectRef, playSoundRef],
+    [bagsRef, onCollectRef, onNotifyRef, playSoundRef],
   );
 
   useEffect(() => {
@@ -115,119 +119,129 @@ export function useBattleLoot({
       const py = playerYRef.current;
       const step = speedStep(PET_FETCH_SPEED, TICK_MS);
 
+      const pickupReady = Date.now() - startedAtRef.current >= PICKUP_DELAY_MS;
+
       const openBags = bagsRef.current.filter((b) => b.state === "open");
 
-      // 1) jogador coleta lootbags pisando por cima
-      for (const bag of openBags) {
-        if (
-          fetchPhaseRef.current === "dragBack" &&
-          targetBagIdRef.current === bag.id
-        ) {
-          continue;
-        }
-        if (Math.hypot(bag.x - px, bag.y - py) <= PLAYER_PICKUP_RADIUS) {
-          collectBag(bag.id);
+      // 1) jogador coleta lootbags pisando por cima (após delay inicial)
+      if (pickupReady) {
+        for (const bag of openBags) {
+          if (
+            fetchPhaseRef.current === "dragBack" &&
+            targetBagIdRef.current === bag.id
+          ) {
+            continue;
+          }
+          if (Math.hypot(bag.x - px, bag.y - py) <= PLAYER_PICKUP_RADIUS) {
+            collectBag(bag.id);
+          }
         }
       }
 
       if (doneRef.current) return;
 
-      // 2) pet coleta lootbags automaticamente (vai até a lootbag e arrasta)
-      const petState = petRef.current;
-      if (petState) {
-        if (
-          fetchPhaseRef.current === "idle" &&
-          bagsRef.current.some((b) => b.state === "open")
-        ) {
-          const candidates = bagsRef.current.filter((b) => b.state === "open");
-          const target = candidates.reduce<BattleLootBag>((best, b) =>
-            Math.hypot(b.x - petState.x, b.y - petState.y) <
-            Math.hypot(best.x - petState.x, best.y - petState.y)
-              ? b
-              : best,
-          candidates[0]!);
-          targetBagIdRef.current = target.id;
-          fetchPhaseRef.current = "toBag";
-        }
-
-        if (
-          fetchPhaseRef.current === "toBag" &&
-          targetBagIdRef.current != null
-        ) {
-          const targetBag = bagsRef.current.find(
-            (b) => b.id === targetBagIdRef.current && b.state === "open",
-          );
-          if (!targetBag) {
-            fetchPhaseRef.current = "idle";
-            targetBagIdRef.current = null;
-          } else {
-            const dx = targetBag.x - petState.x;
-            const dy = targetBag.y - petState.y;
-            const dist = Math.hypot(dx, dy);
-            if (dist <= PET_BAG_REACH) {
-              setBags((prev) =>
-                prev.map((b) =>
-                  b.id === targetBag.id ? { ...b, state: "beingDragged" } : b,
-                ),
-              );
-              fetchPhaseRef.current = "dragBack";
-              setPet((prev) => (prev ? { ...prev, state: "idle" } : prev));
-            } else {
-              const nextX =
-                dist <= step ? targetBag.x : petState.x + (dx / dist) * step;
-              const nextY =
-                dist <= step ? targetBag.y : petState.y + (dy / dist) * step;
-              setPet({
-                ...petState,
-                x: nextX,
-                y: nextY,
-                direction: dx > 0 ? "right" : "left",
-                state: "walk",
-              });
-            }
+      // 2) pet coleta lootbags automaticamente (vai até a lootbag e arrasta) — após delay
+      if (pickupReady) {
+        const petState = petRef.current;
+        if (petState) {
+          if (
+            fetchPhaseRef.current === "idle" &&
+            bagsRef.current.some((b) => b.state === "open")
+          ) {
+            const candidates = bagsRef.current.filter(
+              (b) => b.state === "open",
+            );
+            const target = candidates.reduce<BattleLootBag>(
+              (best, b) =>
+                Math.hypot(b.x - petState.x, b.y - petState.y) <
+                Math.hypot(best.x - petState.x, best.y - petState.y)
+                  ? b
+                  : best,
+              candidates[0]!,
+            );
+            targetBagIdRef.current = target.id;
+            fetchPhaseRef.current = "toBag";
           }
-        }
 
-        if (
-          fetchPhaseRef.current === "dragBack" &&
-          targetBagIdRef.current != null
-        ) {
-          const dragBag = bagsRef.current.find(
-            (b) => b.id === targetBagIdRef.current,
-          );
-          if (dragBag) {
-            if (
-              Math.hypot(dragBag.x - px, dragBag.y - py) <=
-              PLAYER_PICKUP_RADIUS
-            ) {
-              collectBag(dragBag.id);
+          if (
+            fetchPhaseRef.current === "toBag" &&
+            targetBagIdRef.current != null
+          ) {
+            const targetBag = bagsRef.current.find(
+              (b) => b.id === targetBagIdRef.current && b.state === "open",
+            );
+            if (!targetBag) {
               fetchPhaseRef.current = "idle";
               targetBagIdRef.current = null;
-              setPet((prev) => (prev ? { ...prev, state: "idle" } : prev));
             } else {
-              const dx = px - petState.x;
-              const dy = py - petState.y;
+              const dx = targetBag.x - petState.x;
+              const dy = targetBag.y - petState.y;
               const dist = Math.hypot(dx, dy);
-              const nextX =
-                dist <= step ? px : petState.x + (dx / dist) * step;
-              const nextY =
-                dist <= step ? py : petState.y + (dy / dist) * step;
-              setPet({
-                ...petState,
-                x: nextX,
-                y: nextY,
-                direction: dx > 0 ? "right" : "left",
-                state: "walk",
-              });
-              setBags((prev) =>
-                prev.map((b) =>
-                  b.id === dragBag.id ? { ...b, x: nextX, y: nextY } : b,
-                ),
-              );
+              if (dist <= PET_BAG_REACH) {
+                setBags((prev) =>
+                  prev.map((b) =>
+                    b.id === targetBag.id ? { ...b, state: "beingDragged" } : b,
+                  ),
+                );
+                fetchPhaseRef.current = "dragBack";
+                setPet((prev) => (prev ? { ...prev, state: "idle" } : prev));
+              } else {
+                const nextX =
+                  dist <= step ? targetBag.x : petState.x + (dx / dist) * step;
+                const nextY =
+                  dist <= step ? targetBag.y : petState.y + (dy / dist) * step;
+                setPet({
+                  ...petState,
+                  x: nextX,
+                  y: nextY,
+                  direction: dx > 0 ? "right" : "left",
+                  state: "walk",
+                });
+              }
             }
-          } else {
-            fetchPhaseRef.current = "idle";
-            targetBagIdRef.current = null;
+          }
+
+          if (
+            fetchPhaseRef.current === "dragBack" &&
+            targetBagIdRef.current != null
+          ) {
+            const dragBag = bagsRef.current.find(
+              (b) => b.id === targetBagIdRef.current,
+            );
+            if (dragBag) {
+              if (
+                Math.hypot(dragBag.x - px, dragBag.y - py) <=
+                PLAYER_PICKUP_RADIUS
+              ) {
+                collectBag(dragBag.id);
+                fetchPhaseRef.current = "idle";
+                targetBagIdRef.current = null;
+                setPet((prev) => (prev ? { ...prev, state: "idle" } : prev));
+              } else {
+                const dx = px - petState.x;
+                const dy = py - petState.y;
+                const dist = Math.hypot(dx, dy);
+                const nextX =
+                  dist <= step ? px : petState.x + (dx / dist) * step;
+                const nextY =
+                  dist <= step ? py : petState.y + (dy / dist) * step;
+                setPet({
+                  ...petState,
+                  x: nextX,
+                  y: nextY,
+                  direction: dx > 0 ? "right" : "left",
+                  state: "walk",
+                });
+                setBags((prev) =>
+                  prev.map((b) =>
+                    b.id === dragBag.id ? { ...b, x: nextX, y: nextY } : b,
+                  ),
+                );
+              }
+            } else {
+              fetchPhaseRef.current = "idle";
+              targetBagIdRef.current = null;
+            }
           }
         }
       }
@@ -256,6 +270,7 @@ export function useBattleLoot({
     bagsRef,
     collectBag,
     onDoneRef,
+    onNotifyRef,
     setPet,
   ]);
 

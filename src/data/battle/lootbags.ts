@@ -1,7 +1,7 @@
 import { COIN_REWARDS } from "./drops";
 
 /** Janela de coleta de lootbags após derrotar o inimigo principal. */
-export const BATTLE_LOOT_WINDOW_MS = 5000;
+export const BATTLE_LOOT_WINDOW_MS = 3000;
 
 /** Quantidade de lootbags dropadas por classe do inimigo. */
 export const LOOTBAG_COUNT: Record<NPCClass, readonly [number, number]> = {

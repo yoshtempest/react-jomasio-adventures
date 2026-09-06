@@ -90,7 +90,7 @@ export function placeLootBags(
   spawnX: number,
   spawnY: number,
 ): BattleLootBag[] {
-  const spread = 70;
+  const spread = 200;
   return contents.map((bagContents) => {
     bagIdCounter += 1;
     const angle = (bagIdCounter / Math.max(1, contents.length)) * Math.PI * 2;

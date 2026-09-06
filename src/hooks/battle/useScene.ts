@@ -30,6 +30,7 @@ import { useTombstones } from "@/contexts/TombstoneContext";
 import { useNpcSetup } from "@/hooks/battle/npc/useSetup";
 import { useBattleRewards } from "@/hooks/battle/rewards/useRewards";
 import { useBattleLoot } from "@/hooks/battle/loot/useBattleLoot";
+import { useLootNotifications } from "@/hooks/battle/loot/useLootNotifications";
 import { useSummons } from "@/hooks/battle/summon/useSummons";
 import { usePlayerBattleActions } from "@/hooks/battle/player/usePlayerActions";
 import { useSummonAI } from "@/hooks/battle/summon/useAi";
@@ -686,6 +687,11 @@ export function useBattleScene({
   };
 
   const battleLootContentsRef = useRef<LootBagContents[]>([]);
+  const {
+    notifications: lootNotifications,
+    spawnLootNotification,
+    clearNotifications: clearLootNotifications,
+  } = useLootNotifications();
   const { bags: lootBags, isActive: lootActive, start: startBattleLoot } =
     useBattleLoot({
       playerX: player.x,
@@ -694,6 +700,7 @@ export function useBattleScene({
       setPet: battle.setPet,
       isPausedRef,
       onCollect: grantLootBag,
+      onNotify: spawnLootNotification,
       onDone: () => {
         lootActiveRef.current = false;
         setLastRewards(
@@ -1344,6 +1351,8 @@ export function useBattleScene({
     specialIntroCharacter,
     lootBags,
     lootActive,
+    lootNotifications,
+    clearLootNotifications,
     npcClass: npcData.class,
   } satisfies BattleSceneApi;
 }

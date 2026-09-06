@@ -1,0 +1,63 @@
+.notification {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  pointer-events: none;
+  z-index: 100;
+  animation: lootFloat 2s ease-out forwards;
+}
+
+.entry {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.6);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 215, 0, 0.35),
+    0 2px 4px rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
+}
+
+.icon {
+  width: 1.2vw;
+  height: 1.2vw;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.qty {
+  color: #ffd700;
+  font-weight: bold;
+  font-size: var(--small);
+  text-shadow: var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8);
+}
+
+.name {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: var(--small);
+  text-shadow: var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8);
+}
+
+@keyframes lootFloat {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(0.8);
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(calc(-1 * var(--size-4))) scale(1);
+  }
+  80% {
+    opacity: 1;
+    transform: translateY(calc(-1 * var(--size-16))) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(calc(-1 * var(--size-22))) scale(0.9);
+  }
+}

@@ -75,5 +75,7 @@ export type BattleSceneApi = {
   >["specialIntroCharacter"];
   lootBags: import("@/utils/types/battle/loot").BattleLootBag[];
   lootActive: boolean;
+  lootNotifications: import("@/utils/types/battle/loot").LootNotification[];
+  clearLootNotifications: () => void;
   npcClass: NPCClass;
 };

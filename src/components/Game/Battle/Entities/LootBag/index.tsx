@@ -36,8 +36,8 @@ export function LootBag({ bag, TILE_SIZE, npcClass }: Props) {
     <div
       className={styles.lootBag}
       style={{
-        width: TILE_SIZE * 0.8,
-        height: TILE_SIZE * 0.8,
+        width: TILE_SIZE * 0.5,
+        height: TILE_SIZE * 0.5,
         left: bag.x * scaleX,
         top: bag.y * scaleY,
         transform: "translate(-50%, -100%)",

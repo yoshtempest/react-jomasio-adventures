@@ -7,6 +7,7 @@ import { useBattleScene } from "@/hooks/battle/useScene";
 import { BattleEntities } from "@/components/Game/Battle/Entities";
 import { BattleMap } from "@/components/Game/Map/Battle";
 import { DamageNumbers } from "@/components/Game/Battle/Effects/DamageNumbers";
+import { LootPickup } from "@/components/Game/Battle/Effects/LootPickup";
 import { ComboDisplay } from "@/components/Game/Battle/Effects/ComboDisplay";
 import { StatusEffects } from "@/components/Game/Battle/Effects/StatusEffects";
 import { VictoryModal } from "@/components/Game/Battle/Modal/Victory";
@@ -112,6 +113,7 @@ export function BattleScene(props: Props) {
     specialIntroActive,
     specialIntroCharacter,
     lootBags,
+    lootNotifications,
     npcClass,
   } = useBattleScene({ ...props, isAlfa, PLAYER_SIZE });
 
@@ -345,6 +347,12 @@ export function BattleScene(props: Props) {
             scaleX={battleScaleX}
             scaleY={battleScaleY}
             targets={damageTargets}
+          />
+
+          <LootPickup
+            notifications={lootNotifications}
+            scaleX={battleScaleX}
+            scaleY={battleScaleY}
           />
 
           <KokusenAnimation

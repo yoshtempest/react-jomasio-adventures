@@ -14,3 +14,16 @@ export type BattleLootBag = {
   contents: LootBagContents;
   state: "open" | "beingDragged";
 };
+
+export type LootNotifyEntry = {
+  icon: string;
+  qty: number;
+  name: string;
+};
+
+export type LootNotification = {
+  id: number;
+  x: number;
+  y: number;
+  entries: LootNotifyEntry[];
+};
