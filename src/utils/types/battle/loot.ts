@@ -11,6 +11,12 @@ export type BattleLootBag = {
   id: number;
   x: number;
   y: number;
+  targetX: number;
+  targetY: number;
+  dropStartX: number;
+  dropStartY: number;
+  dropStartAt: number;
+  dropDuration: number;
   contents: LootBagContents;
   state: "open" | "beingDragged";
 };

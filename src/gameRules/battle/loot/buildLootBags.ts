@@ -3,10 +3,7 @@ import {
   rollHyperCoinAmount,
   HYPERCOIN_DROP_CHANCE,
 } from "@/data/battle/lootbags";
-import type {
-  LootBagContents,
-  BattleLootBag,
-} from "@/utils/types/battle/loot";
+import type { LootBagContents, BattleLootBag } from "@/utils/types/battle/loot";
 
 type RolledLoot = {
   npcClass: NPCClass;
@@ -39,10 +36,7 @@ export function buildLootBags(rolled: RolledLoot): LootBagContents[] {
   const { npcClass, coinReward, chestDrop, keyDrop } = rolled;
   const bagCount = rollLootBagCount(npcClass);
 
-  const itemGroups = distributeRoundRobin(
-    shuffle(rolled.itemDrops),
-    bagCount,
-  );
+  const itemGroups = distributeRoundRobin(shuffle(rolled.itemDrops), bagCount);
   const equipGroups = distributeRoundRobin(
     shuffle(rolled.equipmentDrops),
     bagCount,
@@ -96,10 +90,18 @@ export function placeLootBags(
     const angle = (bagIdCounter / Math.max(1, contents.length)) * Math.PI * 2;
     const offsetX = Math.round(Math.cos(angle) * spread);
     const offsetY = Math.round(Math.sin(angle) * spread * 0.4);
+    const targetX = Math.round(spawnX + offsetX);
+    const targetY = spawnY + offsetY;
     return {
       id: bagIdCounter,
-      x: Math.round(spawnX + offsetX),
-      y: spawnY + offsetY,
+      x: targetX,
+      y: targetY,
+      targetX,
+      targetY,
+      dropStartX: spawnX,
+      dropStartY: spawnY,
+      dropStartAt: 0,
+      dropDuration: 0,
       contents: bagContents,
       state: "open" as const,
     };
@@ -136,7 +138,8 @@ export function aggregateRewards(
     }
   }
 
-  const chestDrop = bags.map((b) => b.chestDrop).find((c) => c !== null) ?? null;
+  const chestDrop =
+    bags.map((b) => b.chestDrop).find((c) => c !== null) ?? null;
   const keyDrop = bags.map((b) => b.keyDrop).find((k) => k !== null) ?? null;
 
   return {

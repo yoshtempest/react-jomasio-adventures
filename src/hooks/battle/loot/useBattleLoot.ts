@@ -12,7 +12,9 @@ const PLAYER_PICKUP_RADIUS = 70;
 const PET_BAG_REACH = 45;
 const PET_FETCH_SPEED = 250;
 const BAG_MARGIN = 40;
-const PICKUP_DELAY_MS = 800;
+const PICKUP_DELAY_MS = 900;
+const DROP_DURATION_MS = 800;
+const DROP_ARC_HEIGHT = 80;
 
 type Props = {
   playerX: number;
@@ -28,6 +30,10 @@ type Props = {
 
 function speedStep(speed: number, tickMs: number) {
   return speed / (1000 / tickMs);
+}
+
+function easeOutCubic(t: number) {
+  return 1 - Math.pow(1 - t, 3);
 }
 
 export function useBattleLoot({
@@ -71,17 +77,26 @@ export function useBattleLoot({
       activeMsRef.current = 0;
       fetchPhaseRef.current = "idle";
       targetBagIdRef.current = null;
-      lastTickRef.current = Date.now();
-      startedAtRef.current = Date.now();
+      const now = Date.now();
+      lastTickRef.current = now;
+      startedAtRef.current = now;
       setBags(
-        placeLootBags(contents, spawnX, spawnY).map((b) => ({
-          ...b,
-          x: Math.max(
+        placeLootBags(contents, spawnX, spawnY).map((b) => {
+          const targetX = Math.max(
             BATTLE_LIMITS.minX + BAG_MARGIN,
-            Math.min(BATTLE_LIMITS.maxX - BAG_MARGIN, b.x),
-          ),
-          y: Math.max(BAG_MARGIN, b.y),
-        })),
+            Math.min(BATTLE_LIMITS.maxX - BAG_MARGIN, b.targetX),
+          );
+          const targetY = Math.max(BAG_MARGIN, b.targetY);
+          return {
+            ...b,
+            targetX,
+            targetY,
+            x: spawnX,
+            y: spawnY,
+            dropStartAt: now,
+            dropDuration: DROP_DURATION_MS,
+          };
+        }),
       );
       isActiveRef.current = true;
       setIsActive(true);
@@ -114,6 +129,28 @@ export function useBattleLoot({
       const now = Date.now();
       activeMsRef.current += now - lastTickRef.current;
       lastTickRef.current = now;
+
+      // 0) animação das lootbags saindo do inimigo: sobem em arco e caem no alvo
+      if (bagsRef.current.some((b) => now - b.dropStartAt < b.dropDuration)) {
+        setBags((prev) =>
+          prev.map((b) => {
+            const elapsed = now - b.dropStartAt;
+            if (elapsed >= b.dropDuration) {
+              return { ...b, x: b.targetX, y: b.targetY };
+            }
+            const t = elapsed / b.dropDuration;
+            const eased = easeOutCubic(t);
+            return {
+              ...b,
+              x: b.dropStartX + (b.targetX - b.dropStartX) * eased,
+              y:
+                b.dropStartY +
+                (b.targetY - b.dropStartY) * eased -
+                DROP_ARC_HEIGHT * Math.sin(Math.PI * t),
+            };
+          }),
+        );
+      }
 
       const px = playerXRef.current;
       const py = playerYRef.current;

@@ -117,7 +117,6 @@ function computeElapsedBattleTime(
   return elapsed;
 }
 
-
 type Props = {
   npcType: string;
   redirectTo?: string;
@@ -584,7 +583,7 @@ export function useBattleScene({
     const lootContents = prepareBattleLoot();
     battleLootContentsRef.current = lootContents;
     lootActiveRef.current = true;
-    startBattleLoot(lootContents, player.x, player.y);
+    startBattleLoot(lootContents, npc.x, npc.y);
   });
 
   const onBlockRef = useLatestRef(() => {
@@ -692,24 +691,25 @@ export function useBattleScene({
     spawnLootNotification,
     clearNotifications: clearLootNotifications,
   } = useLootNotifications();
-  const { bags: lootBags, isActive: lootActive, start: startBattleLoot } =
-    useBattleLoot({
-      playerX: player.x,
-      playerY: player.y,
-      pet: battle.pet,
-      setPet: battle.setPet,
-      isPausedRef,
-      onCollect: grantLootBag,
-      onNotify: spawnLootNotification,
-      onDone: () => {
-        lootActiveRef.current = false;
-        setLastRewards(
-          aggregateRewards(battleLootContentsRef.current, xpReward),
-        );
-        triggerVictory();
-      },
-      playSound,
-    });
+  const {
+    bags: lootBags,
+    isActive: lootActive,
+    start: startBattleLoot,
+  } = useBattleLoot({
+    playerX: player.x,
+    playerY: player.y,
+    pet: battle.pet,
+    setPet: battle.setPet,
+    isPausedRef,
+    onCollect: grantLootBag,
+    onNotify: spawnLootNotification,
+    onDone: () => {
+      lootActiveRef.current = false;
+      setLastRewards(aggregateRewards(battleLootContentsRef.current, xpReward));
+      triggerVictory();
+    },
+    playSound,
+  });
 
   const {
     comboCount,
@@ -743,10 +743,7 @@ export function useBattleScene({
     npcEnchantUntilRef.current[enchantment] = until;
 
     if (enchantment === "freeze") {
-      refs.npcStaggerRef.current = Math.max(
-        refs.npcStaggerRef.current,
-        until,
-      );
+      refs.npcStaggerRef.current = Math.max(refs.npcStaggerRef.current, until);
     }
 
     refs.spawnDamageRef.current?.(0, npc.x, npc.y, enchantment);
@@ -817,22 +814,22 @@ export function useBattleScene({
     getReplayData,
     getReplayWindow,
   } = useBattleRecording({
-      playerRef: playerSnapshotRef,
-      npcRef: npcSnapshotRef,
-      battleRef: battleSnapshotRef,
-      damageNumbersRef: damageNumbersSnapshotRef,
-      summonsRef: summonsSnapshotRef,
-      petRef: petSnapshotRef,
-      comboRef: comboSnapshotRef,
-      comboActionRef,
-      npcType: training ? "__training" : npcType,
-      npcLevel,
-      npcClass: npcData.class,
-      playerCharacter: player.character,
-      playerLevel,
-      background: background ?? "",
-      audioSrc,
-    });
+    playerRef: playerSnapshotRef,
+    npcRef: npcSnapshotRef,
+    battleRef: battleSnapshotRef,
+    damageNumbersRef: damageNumbersSnapshotRef,
+    summonsRef: summonsSnapshotRef,
+    petRef: petSnapshotRef,
+    comboRef: comboSnapshotRef,
+    comboActionRef,
+    npcType: training ? "__training" : npcType,
+    npcLevel,
+    npcClass: npcData.class,
+    playerCharacter: player.character,
+    playerLevel,
+    background: background ?? "",
+    audioSrc,
+  });
 
   const wasIntroActiveRef = useRef(showIntro);
 
@@ -967,7 +964,11 @@ export function useBattleScene({
     ];
   }, [player.character, npc.x, npc.y, summons]);
 
-  const { oraPress, oraRelease, punches: extraPunches } = useArturOraPunch({
+  const {
+    oraPress,
+    oraRelease,
+    punches: extraPunches,
+  } = useArturOraPunch({
     player,
     setPlayer,
     onPunchHit: handleExtraPunch,
@@ -1014,9 +1015,7 @@ export function useBattleScene({
     const interval = setInterval(() => {
       if (isEndingRef.current || isPausedRef.current) return;
       const bleedMap = summonsBleedUntilRef.current;
-      if (
-        !summonsRef.current.some((s) => (bleedMap[s.id] ?? 0) > Date.now())
-      ) {
+      if (!summonsRef.current.some((s) => (bleedMap[s.id] ?? 0) > Date.now())) {
         return;
       }
 
@@ -1041,7 +1040,14 @@ export function useBattleScene({
       }
     }, DOT_TICK_INTERVAL_MS);
     return () => clearInterval(interval);
-  }, [setSummons, isEndingRef, isPausedRef, summonsRef, summonsBleedUntilRef, refs]);
+  }, [
+    setSummons,
+    isEndingRef,
+    isPausedRef,
+    summonsRef,
+    summonsBleedUntilRef,
+    refs,
+  ]);
 
   /**
    * Dano contínuo dos status aplicados pelo encantamento da arma.
