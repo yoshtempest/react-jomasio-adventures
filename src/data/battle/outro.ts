@@ -10,7 +10,7 @@ export const OUTRO_LINES: Record<string, OutroLines> = {
   },
   lucaua: {
     victory: "Ai sim Lupita!",
-    defeat: "Vai matar a cachorra mesmo?",
+    defeat: "Wubba lubba dub dub!",
   },
   emanuel: {
     victory: "Siuuu!",
