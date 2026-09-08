@@ -18,9 +18,10 @@ export const PROJECTILE_CUT_SPEED = 17;
  * - Superior: sobe para a esquerda (~135° no sentido trigonométrico)
  * - Inferior: desce para a esquerda (~225°)
  */
-export const PROJECTILE_CUT_DIRECTIONS = {
-  upper: { x: -Math.SQRT1_2, y: -Math.SQRT1_2 },
-  lower: { x: -Math.SQRT1_2, y: Math.SQRT1_2 },
+/** Direções dos fragmentos (magnitude) após o corte, em coordenadas de tela. */
+const PROJECTILE_CUT_VECTORS = {
+  upper: { y: -Math.SQRT1_2 },
+  lower: { y: Math.SQRT1_2 },
 } as const;
 
 type CutParams = {
@@ -87,7 +88,10 @@ export function createSlicedProjectile(
   x = p.x,
   y = p.y,
 ): ProjectileCut {
-  const { upper, lower } = PROJECTILE_CUT_DIRECTIONS;
+  const { upper, lower } = PROJECTILE_CUT_VECTORS;
+
+  const horizontalSign = p.dirX < 0 ? -1 : 1;
+  const horizontal = horizontalSign * Math.SQRT1_2;
 
   return {
     variant: "cut",
@@ -100,9 +104,9 @@ export function createSlicedProjectile(
     state: "idle",
     upper: { x, y },
     lower: { x, y },
-    upperDirX: upper.x,
+    upperDirX: horizontal,
     upperDirY: upper.y,
-    lowerDirX: lower.x,
+    lowerDirX: horizontal,
     lowerDirY: lower.y,
   };
 }
