@@ -228,7 +228,7 @@ declare global {
   };
 
   // ── NPC ─────────────────────────────────────────────────
-  type NPCClass = "common" | "rare" | "epic" | "boss" | "legendary";
+  type NPCClass = "common" | "rare" | "epic" | "boss" | "legendary" | "supreme" | "omega";
   type NpcDifficulty = "easy" | "medium" | "hard" | "insano";
   type EquipmentRank = EquipmentRankDef;
 
@@ -280,7 +280,27 @@ declare global {
     spears: FallingSpear[];
   };
 
-  type Projectile = ProjectileCommon | ProjectilePull | ProjectileRain;
+  /** Projétil cortado pelo ataque normal do Marshadow, dividido em duas partes. */
+  type ProjectileCut = {
+    variant: "cut";
+    x: number;
+    y: number;
+    startX: number;
+    startY: number;
+    sprite?: string;
+    createdAt: number;
+    state: "idle";
+    /** Fragmento superior (sobe, ~135°). */
+    upper: { x: number; y: number };
+    /** Fragmento inferior (desce, ~225°). */
+    lower: { x: number; y: number };
+    upperDirX: number;
+    upperDirY: number;
+    lowerDirX: number;
+    lowerDirY: number;
+  };
+
+  type Projectile = ProjectileCommon | ProjectilePull | ProjectileRain | ProjectileCut;
 
   // ── Player ──────────────────────────────────────────────
   type PlayerState =

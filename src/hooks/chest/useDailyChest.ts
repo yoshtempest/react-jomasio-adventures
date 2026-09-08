@@ -11,7 +11,7 @@ import { slotKey } from "@/services/save/slotManager";
 import { DAILY_CHEST_COOLDOWN_MS } from "@/data/cooldowns";
 import { useCountdown } from "@/hooks/useCountdown";
 
-const TIER_ORDER: NPCClass[] = ["common", "rare", "epic", "boss", "legendary"];
+const TIER_ORDER: NPCClass[] = ["common", "rare", "epic", "boss", "legendary", "supreme", "omega"];
 
 function pickTierForLevel(level: number): NPCClass {
   if (level <= 20) {

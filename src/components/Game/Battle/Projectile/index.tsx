@@ -8,6 +8,14 @@ type Props = {
 
 function getSpriteKey(projectile: Projectile): string {
   if (projectile.variant === "rain") return projectile.sprite ?? "spear";
+  if (projectile.variant === "cut") {
+    if (projectile.sprite === "goat") {
+      return projectile.state === "idle" ? "goat-idle" : "goat-walk";
+    }
+    return projectile.sprite && spriteMap[projectile.sprite]
+      ? projectile.sprite
+      : "spoon";
+  }
 
   const sprite = projectile.sprite;
   if (sprite === "goat") {
@@ -22,6 +30,37 @@ export function ProjectileSprite({ projectile, groundY = 600 }: Props) {
   const scaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;
   const spriteKey = getSpriteKey(projectile);
   const src = spriteMap[spriteKey];
+
+  if (projectile.variant === "cut") {
+    return (
+      <>
+        <img
+          src={src}
+          style={{
+            position: "absolute",
+            left: projectile.upper.x * scaleX,
+            top: projectile.upper.y * scaleY,
+            width: 50,
+            clipPath: "polygon(0 0, 100% 0, 0 100%)",
+            zIndex: 9999,
+            pointerEvents: "none",
+          }}
+        />
+        <img
+          src={src}
+          style={{
+            position: "absolute",
+            left: projectile.lower.x * scaleX,
+            top: projectile.lower.y * scaleY,
+            width: 50,
+            clipPath: "polygon(100% 0, 100% 100%, 0 100%)",
+            zIndex: 9999,
+            pointerEvents: "none",
+          }}
+        />
+      </>
+    );
+  }
 
   if (projectile.variant === "rain") {
     const now = Date.now();

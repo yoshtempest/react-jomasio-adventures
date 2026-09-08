@@ -46,6 +46,8 @@ const CLASS_RANGES: Record<
   epic: { atk: [400, 699], def: [300, 599] },
   boss: { atk: [600, 899], def: [500, 799] },
   legendary: { atk: [800, 999], def: [700, 999] },
+  supreme: { atk: [9999, 9999], def: [9999, 9999] },
+  omega: { atk: [99999, 99999], def: [99999, 99999] },
 };
 
 function makeCard(

@@ -408,6 +408,8 @@ export function useBattleScene({
     playerY: player.y,
     playerState: player.state,
     playerDirection: player.battleDirection,
+    playerCharacter: player.character,
+    npcClass: npcData.class,
     npcType,
     npcPhaseRef,
     onProjectileHit: () => refs.npcRangedAttackRef.current(),

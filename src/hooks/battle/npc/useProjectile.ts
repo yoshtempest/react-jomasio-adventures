@@ -2,6 +2,11 @@ import { useEffect } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { ProjectileConstants } from "@/data/projectile";
+import {
+  shouldCutProjectile,
+  createSlicedProjectile,
+  updateSlicedProjectile,
+} from "@/gameRules/npc/projectileCut";
 
 export function useProjectile(
   projectiles: Projectile[],
@@ -17,6 +22,8 @@ export function useProjectile(
   onPullPlayer?: (x: number) => void,
   onMiss?: (x: number) => void,
   onStick?: () => void,
+  playerCharacter?: string,
+  npcClass: NPCClass = "common",
 ) {
   const onHitRef = useLatestRef(onHit);
   const onPullPlayerRef = useLatestRef(onPullPlayer);
@@ -41,6 +48,9 @@ export function useProjectile(
                 playerX,
                 playerY,
                 playerState,
+                playerCharacter,
+                playerDirection: _playerDirection,
+                npcClass,
                 onHit: onHitRef.current,
                 onMiss: (x) => {
                   misses.push(x);
@@ -54,9 +64,14 @@ export function useProjectile(
                 playerX,
                 playerY,
                 playerState,
+                playerCharacter,
+                playerDirection: _playerDirection,
+                npcClass,
                 onHit: onHitRef.current,
                 onPullPlayer: onPullPlayerRef.current,
               });
+            case "cut":
+              return updateSlicedProjectile(p);
             case "rain":
               return handleRain(
                 p,
@@ -79,6 +94,9 @@ export function useProjectile(
     playerX,
     playerY,
     playerState,
+    playerCharacter,
+_playerDirection,
+    npcClass,
     setProjectiles,
     hitstopRef,
     onHitRef,
@@ -94,12 +112,15 @@ function handleLinearProjectile(
     playerX: number;
     playerY: number;
     playerState: PlayerState;
+    playerCharacter?: string;
+    playerDirection?: Direction;
+    npcClass: NPCClass;
     onHit: () => void;
     onPullPlayer?: (x: number) => void;
     onMiss?: (x: number) => void;
     onStick?: () => void;
   },
-): ProjectileCommon | ProjectilePull | null {
+): ProjectileCommon | ProjectilePull | ProjectileCut | null {
   if (p.state === "walk") {
     if (Date.now() - p.createdAt >= 500) {
       return { ...p, state: "idle" };
@@ -144,6 +165,19 @@ function handleLinearProjectile(
   const hitDy = Math.abs(hitY - next.y);
 
   if (dx < 40 && hitDy <= 120 && !dodgeProjectile) {
+    const cut = shouldCutProjectile({
+      projectile: p,
+      playerX: opts.playerX,
+      playerY: opts.playerY,
+      playerState: opts.playerState,
+      playerCharacter: opts.playerCharacter ?? "",
+      playerDirection: opts.playerDirection ?? "left",
+      npcClass: opts.npcClass,
+    });
+    if (cut) {
+      return createSlicedProjectile(p, next.x, next.y);
+    }
+
     if (p.variant === "pull") {
       opts.onPullPlayer?.(p.pullTargetX);
     }

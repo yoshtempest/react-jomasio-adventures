@@ -51,6 +51,8 @@ type Props = {
   playerY: number;
   playerState: PlayerState;
   playerDirection: Direction;
+  playerCharacter: string;
+  npcClass: NPCClass;
   onProjectileHit: () => void;
   onMeleeHit: () => void;
   isPaused?: boolean;
@@ -83,6 +85,8 @@ export function useNpcAI({
   playerY,
   playerState,
   playerDirection,
+  playerCharacter,
+  npcClass,
   onMeleeHit,
   onProjectileHit,
   isPaused,
@@ -219,6 +223,8 @@ export function useNpcAI({
       playSound("paperPreExplode");
       logPlay("paperPreExplode");
     },
+    playerCharacter,
+    npcClass,
   );
 
   const resetNpc = (stateOverride?: NPCBattleState["state"]) => {
