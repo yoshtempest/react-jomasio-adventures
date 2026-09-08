@@ -67,6 +67,8 @@ export type BattleSceneApi = {
   explosionSprite: ReturnType<typeof useArturKillerQueen>["explosionSprite"];
   extraPunches: ReturnType<typeof useArturOraPunch>["punches"];
   extraPunchSprite: string;
+  lucasWeapon: LucasWeapon | undefined;
+  switchWeapon: () => void;
   kokusenActive: ReturnType<typeof useKokusenAnimation>["kokusenActive"];
   kokusenFrame: ReturnType<typeof useKokusenAnimation>["kokusenFrame"];
   specialIntroActive: ReturnType<typeof useSpecialIntro>["specialIntroActive"];

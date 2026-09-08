@@ -337,6 +337,15 @@ declare global {
 
   type PlayerClass = "fracote" | "idiota" | "amostradinho" | null;
 
+  type LucasWeapon =
+    | "withDoubleSwords"
+    | "withSniper"
+    | "withPistol"
+    | "withSpear"
+    | "withKunais"
+    | "withStaff"
+    | "withPocketKnife";
+
   type Player = {
     gridX: number;
     gridY: number;

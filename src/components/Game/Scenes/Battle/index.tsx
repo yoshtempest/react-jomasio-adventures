@@ -1,5 +1,6 @@
 import { BattleHUD } from "@/components/Game/Battle/HUD";
 import { PetSkillButton } from "@/components/Game/Battle/Buttons/PetSkill";
+import { WeaponSwitchButton } from "@/components/Game/Battle/Buttons/WeaponSwitch";
 import { GameMap } from "@/components/Game/Map/Game";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useGameLayout } from "@/hooks/game/useGameLayout";
@@ -108,6 +109,8 @@ export function BattleScene(props: Props) {
     explosionSprite,
     extraPunches,
     extraPunchSprite,
+    lucasWeapon,
+    switchWeapon,
     kokusenActive,
     kokusenFrame,
     specialIntroActive,
@@ -325,6 +328,7 @@ export function BattleScene(props: Props) {
             explosionSprite={explosionSprite}
             extraPunches={extraPunches}
             extraPunchSprite={extraPunchSprite}
+            weapon={lucasWeapon}
             lootBags={lootBags}
             npcClass={npcClass}
           />
@@ -427,6 +431,14 @@ export function BattleScene(props: Props) {
           cooldownMs={petSkill.definition.skill.cooldownMs}
           disabled={controlsDisabled}
           onClick={petSkill.trigger}
+        />
+      )}
+
+      {player.character === "lucas" && (
+        <WeaponSwitchButton
+          weapon={lucasWeapon}
+          disabled={controlsDisabled}
+          onClick={switchWeapon}
         />
       )}
 

@@ -1,0 +1,44 @@
+.button {
+  position: absolute;
+  right: 2vw;
+  bottom: 11vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: var(--size-6) var(--size-22);
+
+  border: var(--size-2) solid rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-color);
+
+  cursor: pointer;
+
+  backdrop-filter: blur(var(--size-5));
+  z-index: 19;
+  width: 6vw;
+  height: 6vw;
+}
+
+.button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
+.disabled {
+  border-color: var(--border-medium);
+}
+
+.weaponName {
+  font-size: var(--fs-13);
+  font-weight: bold;
+  text-shadow: 0 0 4px var(--background-color);
+}

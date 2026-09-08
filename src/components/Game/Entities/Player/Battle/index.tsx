@@ -10,6 +10,7 @@ type Props = {
   state: PlayerState;
   direction: Direction;
   character: CharacterId;
+  weapon?: LucasWeapon;
   grabbedUntil?: number;
   grabFlipped?: boolean;
 };
@@ -26,6 +27,7 @@ export function PlayerBattle({
   state,
   direction,
   character,
+  weapon,
   grabbedUntil = 0,
   grabFlipped = false,
 }: Props) {
@@ -35,7 +37,7 @@ export function PlayerBattle({
   const isFallen = state === "fallen";
   const isGrabbed = Date.now() < grabbedUntil && !isFallen && !isCrouching;
   const showFlipped = isGrabbed && grabFlipped;
-  const src = resolveBattleSprite(character, resolvedState);
+  const src = resolveBattleSprite(character, resolvedState, weapon);
   const ARTUR_SEEING_SRC = playerPath("/artur/inFight/special/arturSeeing.svg");
 
   const { playSound } = useSoundEffects();

@@ -91,7 +91,11 @@ const ATTACK_FOLDER_ALT = new Set([
   "emanuel",
 ]);
 
-export function resolveBattleSprite(character: string, state: string): string {
+export function resolveBattleSprite(
+  character: string,
+  state: string,
+  weapon?: LucasWeapon,
+): string {
   if (
     character === "artur" &&
     (state === "preSpecial" || state === "preSpecial2" || state === "special")
@@ -100,11 +104,17 @@ export function resolveBattleSprite(character: string, state: string): string {
   }
   const folder = STATE_FOLDER[state];
   if (folder === undefined || folder === null) {
+    if (character === "lucas" && weapon) {
+      return playerPath(`/${character}/inFight/${weapon}/${state}.svg`);
+    }
     return playerPath(`/${character}/inFight/${state}.svg`);
   }
   const resolved =
     folder === "attack" && ATTACK_FOLDER_ALT.has(character)
       ? "attacks"
       : folder;
+  if (character === "lucas" && weapon) {
+    return playerPath(`/${character}/inFight/${weapon}/${resolved}/${state}.svg`);
+  }
   return playerPath(`/${character}/inFight/${resolved}/${state}.svg`);
 }

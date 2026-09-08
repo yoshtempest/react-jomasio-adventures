@@ -45,6 +45,7 @@ type Props = {
   explosionSprite?: string;
   extraPunches?: ExtraPunchVisual[];
   extraPunchSprite?: string;
+  weapon?: LucasWeapon;
 };
 
 export function BattleEntities({
@@ -70,6 +71,7 @@ export function BattleEntities({
   explosionSprite,
   extraPunches = [],
   extraPunchSprite,
+  weapon,
 }: Props) {
   const battleScaleX = window.innerWidth / ProjectileConstants.MAP_WIDTH;
   const battleScaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;
@@ -133,6 +135,7 @@ export function BattleEntities({
       <Player
         player={player}
         PLAYER_SIZE={PLAYER_SIZE}
+        weapon={weapon}
         grabFlipped={grabFlipped}
       />
 

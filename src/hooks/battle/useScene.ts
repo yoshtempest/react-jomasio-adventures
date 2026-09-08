@@ -58,7 +58,7 @@ import { useCoffinAnimation } from "@/hooks/battle/summon/useCoffinAnimation";
 import { usePlayerSpecialProjectile } from "@/hooks/battle/player/usePlayerSpecialProjectile";
 import { useArturKillerQueen } from "@/hooks/battle/player/characters/srGuaxinim/useArturKillerQueen";
 import { useArturOraPunch } from "@/hooks/battle/player/characters/srGuaxinim/useArturOraPunch";
-import { playerPath } from "@/utils/paths";
+import { useLucasWeaponSwitch } from "@/hooks/battle/player/characters/lucas/useLucasWeaponSwitch";import { playerPath } from "@/utils/paths";
 import { getSpecialFlowOverride } from "@/data/battle/animationFlow";
 import { CHARGE_ATTACK_MIN_LEVEL } from "@/data/battle/charge";
 import { useBattleIntro } from "@/hooks/battle/useIntro";
@@ -979,6 +979,12 @@ export function useBattleScene({
 
   const extraPunchSprite = playerPath("/artur/inFight/attacks/extraPunch.svg");
 
+  const { weapon: lucasWeapon, switchWeapon } = useLucasWeaponSwitch({
+    character: player.character,
+    isEndingRef: battle.isEnding,
+    hitstopRef: refs.hitstopRef,
+  });
+
   const {
     killerQueen,
     bombTargets,
@@ -1353,6 +1359,8 @@ export function useBattleScene({
     explosionSprite,
     extraPunches,
     extraPunchSprite,
+    lucasWeapon,
+    switchWeapon,
     kokusenActive,
     kokusenFrame,
     specialIntroActive,
