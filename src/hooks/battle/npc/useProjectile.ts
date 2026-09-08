@@ -164,7 +164,7 @@ function handleLinearProjectile(
   const hitY = isCrouched && canCrouchDodge ? opts.playerY - 30 : opts.playerY;
   const hitDy = Math.abs(hitY - next.y);
 
-  if (dx < 40 && hitDy <= 120 && !dodgeProjectile) {
+  if (dx < 40 && hitDy <= 160 && !dodgeProjectile) {
     const cut = shouldCutProjectile({
       projectile: p,
       playerX: opts.playerX,
