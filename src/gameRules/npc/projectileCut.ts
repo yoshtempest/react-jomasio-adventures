@@ -1,9 +1,10 @@
 import { ProjectileConstants } from "@/data/projectile";
 import { isPlayerInRange } from "@/gameRules/battle/range";
 import { isFacingTarget } from "@/gameRules/battle/direction";
+import { NPC_CLASS_VERTICAL_BONUS } from "@/gameRules/battle/rangeConfig";
 
 /** Chance de 10% do Marshadow cortar um projétil com o ataque normal. */
-export const MARSHADOW_CUT_CHANCE = 0.1;
+export const MARSHADOW_CUT_CHANCE = 1;
 
 /** boolean marcado como "marshadow" (characterId "marcelo"). */
 export const MARSHADOW_CHARACTER_ID = "marcelo";
@@ -64,6 +65,8 @@ export function shouldCutProjectile({
   );
   if (!inRange) return false;
 
+  const verticalRange = 150 + (NPC_CLASS_VERTICAL_BONUS[npcClass] ?? 0);
+
   const facing = isFacingTarget(
     playerX,
     playerY,
@@ -71,6 +74,7 @@ export function shouldCutProjectile({
     projectile.y,
     playerDirection,
     npcClass,
+    verticalRange,
   );
   if (!facing) return false;
 

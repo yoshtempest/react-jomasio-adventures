@@ -7,11 +7,13 @@ export function isFacingTarget(
   npcY: number,
   direction: Direction,
   npcClass: NPCClass = "common",
+  dyToleranceOverride?: number,
 ) {
   const dx = npcX - playerX;
   const dy = npcY - playerY;
 
-  const dyTolerance = 50 + (NPC_CLASS_VERTICAL_BONUS[npcClass] ?? 0);
+  const dyTolerance =
+    dyToleranceOverride ?? 50 + (NPC_CLASS_VERTICAL_BONUS[npcClass] ?? 0);
 
   switch (direction) {
     case "right":
