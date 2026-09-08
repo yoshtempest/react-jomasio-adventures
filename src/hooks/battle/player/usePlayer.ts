@@ -4,6 +4,7 @@ import {
   PLAYER_SPECIAL_COOLDOWN,
 } from "@/data/cooldowns";
 import { canPlayerHit } from "@/gameRules/battle/combat";
+import { LUCAS_WEAPON_RANGES } from "@/data/characters/lucasWeapons";
 import {
   applyBasicHit,
   applySpecialHit,
@@ -35,6 +36,7 @@ type Props = {
   playerState: PlayerState;
   npcClass: NPCClass;
   npcElementTypes: readonly ElementType[];
+  weapon?: LucasWeapon;
 
   HITS_TO_SPECIAL: number;
 
@@ -92,6 +94,7 @@ export function usePlayerBattle({
   playerState,
   npcClass,
   npcElementTypes,
+  weapon,
   spawnPiercing,
   triggerExplosion,
   titleDamageBonus,
@@ -147,6 +150,9 @@ export function usePlayerBattle({
           direction: player.battleDirection,
           isSpecial: false,
           npcClass,
+          rangeOverride: weapon
+            ? LUCAS_WEAPON_RANGES[weapon]
+            : undefined,
         })
       ) {
         return;
@@ -260,6 +266,7 @@ export function usePlayerBattle({
       onHalfHeal,
       npcClass,
       npcElementTypes,
+      weapon,
       arturOraMultiplierRef,
     ],
   );
@@ -285,6 +292,9 @@ export function usePlayerBattle({
           direction: player.battleDirection,
           isSpecial: true,
           npcClass,
+          rangeOverride: weapon
+            ? LUCAS_WEAPON_RANGES[weapon]
+            : undefined,
         })
       ) {
         return;
@@ -409,6 +419,7 @@ export function usePlayerBattle({
       elementDamageBonus,
       npcClass,
       npcElementTypes,
+      weapon,
     ],
   );
 

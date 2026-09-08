@@ -2,6 +2,7 @@ import { useRef, useCallback, useEffect } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { PLAYER_CHARGE_DASH_COOLDOWN } from "@/data/cooldowns";
 import { isPlayerInRange } from "@/gameRules/battle/range";
+import { LUCAS_WEAPON_RANGES } from "@/data/characters/lucasWeapons";
 import {
   DASH_DURATION,
   DASH_INTERVAL,
@@ -42,6 +43,7 @@ type Props = {
   playerHP: number;
   playerMaxHp: number;
   totalVampirism: number;
+  weapon?: LucasWeapon;
 };
 
 export function useChargeDash(props: Props) {
@@ -77,6 +79,7 @@ export function useChargeDash(props: Props) {
   const playerHpRef = useLatestRef(props.playerHP);
   const dashCharRef = useLatestRef(props.char);
   const vampirismRef = useLatestRef(props.totalVampirism);
+  const weaponRef = useLatestRef(props.weapon);
   const wasCritRef = useRef(false);
 
   const cleanup = useCallback(() => {
@@ -244,6 +247,9 @@ export function useChargeDash(props: Props) {
               false,
               false,
               target.id === "main" ? npcClass : "common",
+              dashCharacter === "lucas" && weaponRef.current
+                ? LUCAS_WEAPON_RANGES[weaponRef.current]
+                : undefined,
             )
           ) {
             applyDashHit(target, critDmg, critType);

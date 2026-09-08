@@ -13,6 +13,7 @@ export function canPlayerHit(params: {
   direction: Direction;
   isSpecial: boolean;
   npcClass?: NPCClass;
+  rangeOverride?: number;
 }) {
   if (CROUCHED_STATES.has(params.playerState)) return false;
 
@@ -27,6 +28,7 @@ export function canPlayerHit(params: {
       params.isSpecial,
       false,
       params.npcClass,
+      params.rangeOverride,
     ) &&
     isFacingTarget(
       params.playerX,

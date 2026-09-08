@@ -9,7 +9,7 @@ export const LUCAS_WEAPON_SWITCH_DURATION_MS = 600;
 
 type Props = {
   character: CharacterId;
-  isEndingRef: React.RefObject<boolean>;
+  isEndingRef?: React.RefObject<boolean>;
   hitstopRef: React.RefObject<number>;
 };
 
@@ -31,7 +31,7 @@ export function useLucasWeaponSwitch({
 
   const switchWeapon = useCallback(() => {
     if (!available) return;
-    if (isEndingRef.current) return;
+    if (isEndingRef?.current) return;
     if (switchingRef.current) return;
 
     switchingRef.current = true;

@@ -14,6 +14,7 @@ export function isPlayerInRange(
   isSpecial: boolean,
   isBlock = false,
   npcClass: NPCClass = "common",
+  rangeOverride?: number,
 ) {
   if (
     !isBlock &&
@@ -27,11 +28,12 @@ export function isPlayerInRange(
   if (!ranges) return false;
 
   const rangeX =
-    (isSpecial
-      ? ranges.specialHitRange
-      : isBlock
-        ? ranges.blockHitRange
-        : ranges.normalHitRange) + (NPC_CLASS_HITBOX_BONUS[npcClass] ?? 0);
+    (rangeOverride ??
+      (isSpecial
+        ? ranges.specialHitRange
+        : isBlock
+          ? ranges.blockHitRange
+          : ranges.normalHitRange)) + (NPC_CLASS_HITBOX_BONUS[npcClass] ?? 0);
 
   const dx = Math.abs(playerX - npcX);
   const dy = Math.abs(playerY - npcY);

@@ -58,7 +58,8 @@ import { useCoffinAnimation } from "@/hooks/battle/summon/useCoffinAnimation";
 import { usePlayerSpecialProjectile } from "@/hooks/battle/player/usePlayerSpecialProjectile";
 import { useArturKillerQueen } from "@/hooks/battle/player/characters/srGuaxinim/useArturKillerQueen";
 import { useArturOraPunch } from "@/hooks/battle/player/characters/srGuaxinim/useArturOraPunch";
-import { useLucasWeaponSwitch } from "@/hooks/battle/player/characters/lucas/useLucasWeaponSwitch";import { playerPath } from "@/utils/paths";
+import { useLucasWeaponSwitch } from "@/hooks/battle/player/characters/lucas/useLucasWeaponSwitch";
+import { playerPath } from "@/utils/paths";
 import { getSpecialFlowOverride } from "@/data/battle/animationFlow";
 import { CHARGE_ATTACK_MIN_LEVEL } from "@/data/battle/charge";
 import { useBattleIntro } from "@/hooks/battle/useIntro";
@@ -340,6 +341,11 @@ export function useBattleScene({
   useGameAudio({ src: audioSrc, loop: true, volume: 0.5 });
 
   const refs = useBattleRefs();
+
+  const { weapon: lucasWeapon, switchWeapon } = useLucasWeaponSwitch({
+    character: player.character,
+    hitstopRef: refs.hitstopRef,
+  });
 
   const { kokusenActive, kokusenFrame, triggerKokusen } = useKokusenAnimation();
   const onKokusenRef = useLatestRef(triggerKokusen);
@@ -657,6 +663,7 @@ export function useBattleScene({
     savedPlayerHP: savedPlayerHPRef.current,
     npcStatMultiplier: isAlfa ? 2 : 1,
     npcArmorBonus,
+    weapon: lucasWeapon,
   });
 
   executePetSkillRef.current = () => {
@@ -901,6 +908,7 @@ export function useBattleScene({
       npcHP: battle.npcHP,
       npcClass: npcData.class,
       playerClass,
+      weapon: lucasWeapon,
       progress,
       npcLevel,
       battle,
@@ -979,11 +987,6 @@ export function useBattleScene({
 
   const extraPunchSprite = playerPath("/artur/inFight/attacks/extraPunch.svg");
 
-  const { weapon: lucasWeapon, switchWeapon } = useLucasWeaponSwitch({
-    character: player.character,
-    isEndingRef: battle.isEnding,
-    hitstopRef: refs.hitstopRef,
-  });
 
   const {
     killerQueen,
@@ -1127,6 +1130,7 @@ export function useBattleScene({
     playerHP: battle.playerHP,
     playerMaxHp: battle.playerMaxHp,
     totalVampirism: battle.totalVampirism,
+    weapon: lucasWeapon,
   });
 
   useBattleSync({

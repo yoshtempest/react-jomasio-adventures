@@ -75,6 +75,7 @@ type Props = {
   savedPlayerHP?: number | null;
   npcStatMultiplier?: number;
   npcArmorBonus?: number;
+  weapon?: LucasWeapon;
 };
 
 export function useBattleSystem(props: Props) {
@@ -112,6 +113,7 @@ export function useBattleSystem(props: Props) {
     savedPlayerHP,
     npcStatMultiplier = 1,
     npcArmorBonus = 0,
+    weapon,
   } = props;
 
   const [npcPhase, setNpcPhase] = useState(1);
@@ -256,6 +258,7 @@ export function useBattleSystem(props: Props) {
     onKokusenRef,
     onHalfHeal,
     arturOraMultiplierRef,
+    weapon,
   });
 
   const { damagePlayerHp, damagePlayer } = useExternalDamage({

@@ -14,6 +14,17 @@ export type LucasWeapon = (typeof LUCAS_WEAPONS)[number];
 /** Arma inicial do Lucas no começo da batalha. */
 export const DEFAULT_LUCAS_WEAPON: LucasWeapon = "withDoubleSwords";
 
+/** Alcance de ataque (px) por arma do Lucas — adaptativo conforme a arma equipada. */
+export const LUCAS_WEAPON_RANGES: Record<LucasWeapon, number> = {
+  withDoubleSwords: 140,
+  withSniper: 2000,
+  withPistol: 400,
+  withSpear: 160,
+  withKunais: 300,
+  withStaff: 500,
+  withPocketKnife: 110,
+};
+
 /** Nomes amigáveis das armas do Lucas. */
 export const LUCAS_WEAPON_LABELS: Record<LucasWeapon, string> = {
   withDoubleSwords: "Espadas Duplas",

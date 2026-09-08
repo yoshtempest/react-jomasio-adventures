@@ -40,6 +40,7 @@ type Props = {
   playerHP: number;
   playerMaxHp: number;
   totalVampirism: number;
+  weapon?: LucasWeapon;
 };
 
 export function useChargeAttack(props: Props) {
@@ -71,6 +72,7 @@ export function useChargeAttack(props: Props) {
     playerHP,
     playerMaxHp,
     totalVampirism,
+    weapon,
   } = props;
 
   const { playSound, stopSound } = useSoundEffects();
@@ -103,6 +105,7 @@ export function useChargeAttack(props: Props) {
     playerHP,
     playerMaxHp,
     totalVampirism,
+    weapon,
   });
 
   const chargeStartRef = useRef(0);

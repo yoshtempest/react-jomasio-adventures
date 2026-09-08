@@ -9,6 +9,7 @@ import { isPlayerInRange } from "@/gameRules/battle/range";
 import { NPC_CLASS_HITBOX_BONUS } from "@/gameRules/battle/rangeConfig";
 import { isFacingTarget } from "@/gameRules/battle/direction";
 import { damageSummon } from "@/gameRules/battle/damageSummon";
+import { LUCAS_WEAPON_RANGES } from "@/data/characters/lucasWeapons";
 import { useBuildTargetList } from "./usePlayerTargeting";
 
 import type { SummonedNpc } from "@/utils/types/npc/npc";
@@ -24,6 +25,7 @@ type Props = {
   npcHP: number;
   npcClass: NPCClass;
   playerClass: PlayerClass;
+  weapon?: LucasWeapon;
   progress: CharactersProgress;
   npcLevel: number;
   battle: {
@@ -62,6 +64,7 @@ export function usePlayerBattleActions({
   npcHP,
   npcClass,
   playerClass,
+  weapon,
   progress,
   battle,
   setSummons,
@@ -88,6 +91,7 @@ export function usePlayerBattleActions({
     npcHP,
     summons,
     npcClass,
+    weapon,
   );
 
   const hitSummon = useCallback(
@@ -195,6 +199,9 @@ export function usePlayerBattleActions({
             false,
             true,
             target.id === "main" ? npcClass : "common",
+            weapon && player.character === "lucas"
+              ? LUCAS_WEAPON_RANGES[weapon]
+              : undefined,
           ) &&
           isFacingTarget(
             player.x,
@@ -249,6 +256,7 @@ export function usePlayerBattleActions({
     hitSummon,
     hitTargetList,
     npcClass,
+    weapon,
   ]);
 
   const handleExtraPunch = useCallback(
