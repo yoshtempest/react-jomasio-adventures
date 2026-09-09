@@ -12,6 +12,8 @@ export const CHEST_DROP_CHANCE: Record<NPCClass, number> = {
   epic: 0.4,
   boss: 0.55,
   legendary: 0.7,
+  supreme: 0.85,
+  omega: 1,
 };
 
 export const KEY_DROP_CHANCE: Record<NPCClass, number> = {
@@ -20,4 +22,6 @@ export const KEY_DROP_CHANCE: Record<NPCClass, number> = {
   epic: 0.2,
   boss: 0.25,
   legendary: 0.35,
+  supreme: 0.5,
+  omega: 0.7,
 };

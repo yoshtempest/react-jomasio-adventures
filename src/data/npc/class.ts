@@ -19,6 +19,14 @@ export const CLASS_DATA = {
     label: "Lendário",
     color: "#ff4500",
   },
+  supreme: {
+    label: "Supremo",
+    color: "#ffd700",
+  },
+  omega: {
+    label: "Ômega",
+    color: "#b22222",
+  },
 } as const;
 
 export type NPCClass = keyof typeof CLASS_DATA;

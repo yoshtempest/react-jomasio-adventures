@@ -100,6 +100,47 @@ export const CHEST_DROP_TABLES: Record<NPCClass, ChestDropTable> = {
     },
     petDropChance: 0.2,
   },
+  supreme: {
+    materialWeights: {
+      boss_soul: 60,
+      legendary_fragment: 100,
+      xp_potion_legendary: 5,
+    },
+    equipmentRankWeights: {
+      1: 0,
+      2: 0,
+      3: 0,
+      4: 0,
+      5: 5,
+      6: 10,
+      7: 15,
+      8: 20,
+      9: 25,
+      0: 15,
+      EX: 10,
+    },
+    petDropChance: 0.3,
+  },
+  omega: {
+    materialWeights: {
+      legendary_fragment: 100,
+      xp_potion_legendary: 10,
+    },
+    equipmentRankWeights: {
+      1: 0,
+      2: 0,
+      3: 0,
+      4: 0,
+      5: 0,
+      6: 5,
+      7: 10,
+      8: 15,
+      9: 25,
+      0: 25,
+      EX: 20,
+    },
+    petDropChance: 0.5,
+  },
 };
 
 export type ChestDropResult = {

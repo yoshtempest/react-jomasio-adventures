@@ -10,5 +10,9 @@ export function calculateXP(level: number, npcClass: NPCClass): number {
       return level * 10;
     case "legendary":
       return level * 20;
+    case "supreme":
+      return level * 40;
+    case "omega":
+      return level * 80;
   }
 }

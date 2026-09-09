@@ -88,6 +88,40 @@ export const DROP_CONFIG: Record<NPCClass, DropConfig> = {
       EX: 5,
     },
   },
+
+  supreme: {
+    baseChance: 0.9,
+    rankWeights: {
+      1: 0,
+      2: 0,
+      3: 0,
+      4: 2,
+      5: 5,
+      6: 10,
+      7: 15,
+      8: 20,
+      9: 22,
+      0: 16,
+      EX: 10,
+    },
+  },
+
+  omega: {
+    baseChance: 1,
+    rankWeights: {
+      1: 0,
+      2: 0,
+      3: 0,
+      4: 0,
+      5: 2,
+      6: 5,
+      7: 10,
+      8: 15,
+      9: 25,
+      0: 25,
+      EX: 18,
+    },
+  },
 };
 
 const SLOT_CHANCE: Record<NPCClass, number> = {
@@ -96,6 +130,8 @@ const SLOT_CHANCE: Record<NPCClass, number> = {
   epic: 0.4,
   boss: 0.55,
   legendary: 0.7,
+  supreme: 0.85,
+  omega: 1,
 };
 
 const RANKS: EquipmentRank[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, "EX"];

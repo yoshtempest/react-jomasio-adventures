@@ -39,6 +39,8 @@ export const CHEST_OPENED_SPRITES: Record<NPCClass, string> = {
   epic: "/assets/items/chests/epicOpened.svg",
   boss: "/assets/items/chests/bossOpened.svg",
   legendary: "/assets/items/chests/legendaryOpened.svg",
+  supreme: "/assets/items/chests/supremeOpened.svg",
+  omega: "/assets/items/chests/omegaOpened.svg",
 };
 
 /** Registro baú → tier de batalha. Fonte única para derivar tier e chave. */

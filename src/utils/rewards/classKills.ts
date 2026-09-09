@@ -11,6 +11,8 @@ const classKillsStorage = createSlotJsonStorage(
     epic: 0,
     boss: 0,
     legendary: 0,
+    supreme: 0,
+    omega: 0,
   }),
 );
 

@@ -6,6 +6,8 @@ export const PET_XP_BASE: Record<NPCClass, number> = {
   epic: 50,
   boss: 75,
   legendary: 100,
+  supreme: 200,
+  omega: 400,
 };
 
 export function getPetXPToNextLevel(level: number, petClass: NPCClass): number {

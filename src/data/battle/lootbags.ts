@@ -10,6 +10,8 @@ export const LOOTBAG_COUNT: Record<NPCClass, readonly [number, number]> = {
   epic: [4, 5],
   boss: [5, 6],
   legendary: [6, 8],
+  supreme: [8, 10],
+  omega: [11, 13],
 };
 
 /** Chance de hypercoins aparecerem no loot de cada classe. */
@@ -19,6 +21,8 @@ export const HYPERCOIN_DROP_CHANCE: Record<NPCClass, number> = {
   epic: 0.2,
   boss: 0.3,
   legendary: 0.5,
+  supreme: 0.7,
+  omega: 0.9,
 };
 
 /** Faixa de hypercoins dropadas por classe (antes do bônus de nível). */
@@ -28,6 +32,8 @@ export const HYPERCOIN_AMOUNT: Record<NPCClass, readonly [number, number]> = {
   epic: [6, 12],
   boss: [10, 24],
   legendary: [18, 40],
+  supreme: [40, 80],
+  omega: [80, 160],
 };
 
 /** Fração da recompensa de kwanzas alocada por lootbag (distribuição proporcional). */
@@ -39,6 +45,8 @@ export const LOOTBAG_SPRITES: Record<NPCClass, string> = {
   epic: "/assets/items/lootBag/epic.svg",
   boss: "/assets/items/lootBag/boss.svg",
   legendary: "/assets/items/lootBag/legendary.svg",
+  supreme: "/assets/items/lootBag/supreme.svg",
+  omega: "/assets/items/lootBag/omega.svg",
 };
 
 export function rollLootBagCount(npcClass: NPCClass): number {
