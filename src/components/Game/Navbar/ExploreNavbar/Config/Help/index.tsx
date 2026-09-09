@@ -1,6 +1,6 @@
-import styles from "../styles.module.css";
+import styles from "@/components/Game/Navbar/ExploreNavbar/Config/styles.module.css";
 import InstallButton from "@/components/PWA";
-import { UpdateButton } from "../UpdateButton";
+import { UpdateButton } from "@/components/Game/Navbar/ExploreNavbar/Config/UpdateButton";
 
 type Props = {
   selectedColumn: number;

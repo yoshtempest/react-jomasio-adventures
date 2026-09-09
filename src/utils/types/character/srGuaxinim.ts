@@ -1,7 +1,7 @@
 export type EnemyTarget = {
-    id: string;
-    x: number;
-    y: number;
+  id: string;
+  x: number;
+  y: number;
 };
 
 export type KillerQueenOverlay = {

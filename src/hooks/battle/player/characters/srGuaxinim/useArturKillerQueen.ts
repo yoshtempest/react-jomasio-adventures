@@ -1,13 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { playerPath, npcPathProjectile } from "@/utils/paths";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
-import type { KillerQueenOverlay, EnemyTarget } from "@/utils/types/character/srGuaxinim";
+import type {
+  KillerQueenOverlay,
+  EnemyTarget,
+} from "@/utils/types/character/srGuaxinim";
 import {
   DEFAULT_OVERLAY,
   BEHIND_X_OFFSET,
   SPAWN_X_OFFSET,
   TOTAL_FREEZE_MS,
-  KILLER_QUEEN_SPRITE_FILE
+  KILLER_QUEEN_SPRITE_FILE,
 } from "@/data/characters/srGuaxinim";
 
 type Props = {

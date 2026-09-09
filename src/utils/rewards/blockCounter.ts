@@ -1,38 +1,23 @@
 import { BLOCKS_KEY } from "@/data/storageKeys";
-import { slotKey } from "@/services/save/slotManager";
+import { createSlotJsonStorage } from "@/utils/rewards/createSlotJsonStorage";
 
 export type BlockData = {
   total: number;
   perCharacter: Record<string, number>;
 };
 
-function createDefault(): BlockData {
-  return { total: 0, perCharacter: {} };
-}
-
-function loadBlocks(): BlockData {
-  try {
-    const raw = localStorage.getItem(slotKey(BLOCKS_KEY));
-    if (!raw) return createDefault();
-    return JSON.parse(raw) as BlockData;
-  } catch {
-    return createDefault();
-  }
-}
-
-function saveBlocks(data: BlockData): void {
-  try {
-    localStorage.setItem(slotKey(BLOCKS_KEY), JSON.stringify(data));
-  } catch {}
-}
+const blocksStorage = createSlotJsonStorage(BLOCKS_KEY, (): BlockData => ({
+  total: 0,
+  perCharacter: {},
+}));
 
 export function incrementBlockCount(character: string): void {
-  const data = loadBlocks();
+  const data = blocksStorage.load();
   data.total += 1;
   data.perCharacter[character] = (data.perCharacter[character] ?? 0) + 1;
-  saveBlocks(data);
+  blocksStorage.save(data);
 }
 
 export function getBlockCount(): BlockData {
-  return loadBlocks();
+  return blocksStorage.load();
 }

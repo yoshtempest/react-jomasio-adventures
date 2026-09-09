@@ -1,5 +1,5 @@
 import { spriteMap } from "@/data/battle/projectileSprites";
-import type { BattleEntityPositioning } from "../types";
+import type { BattleEntityPositioning } from "@/components/Game/Battle/Entities/types";
 
 type Props = BattleEntityPositioning & {
   playerProjectile: PlayerSpecialProjectile | null;

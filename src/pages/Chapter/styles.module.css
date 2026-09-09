@@ -13,7 +13,8 @@
   font-size: clamp(1.25rem, 5vw, 2.5rem);
   text-align: center;
   padding: 0 1rem;
-  animation: fadeIn 1500ms ease-in forwards,
+  animation:
+    fadeIn 1500ms ease-in forwards,
     fadeOut 1500ms ease-in 1500ms forwards;
 }
 

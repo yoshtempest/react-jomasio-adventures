@@ -1,5 +1,5 @@
 import type { LaserBeam } from "@/services/npc/attacks/maugrelo/state";
-import type { BattleEntityPositioning } from "../types";
+import type { BattleEntityPositioning } from "@/components/Game/Battle/Entities/types";
 
 type Props = BattleEntityPositioning & {
   laser: LaserBeam | null;

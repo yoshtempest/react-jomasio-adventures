@@ -1,7 +1,7 @@
 import type { ChestOpenResult } from "@/hooks/chest/useChestOpening";
 import type { DailyChestResult } from "@/hooks/chest/useDailyChest";
 import type { Dispatch, SetStateAction } from "react";
-import { ChestRewards } from "../ChestRewards";
+import { ChestRewards } from "@/components/Game/Navbar/ExploreNavbar/Inventory/ChestRewards";
 
 type Props = {
   dailyResult: DailyChestResult | null;

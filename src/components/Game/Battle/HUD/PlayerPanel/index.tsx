@@ -5,7 +5,7 @@ import { EnergyBar } from "@/components/Game/Battle/HUD/EnergyBar";
 import { ElementBadges } from "@/components/Game/Battle/HUD/ElementBadges";
 import { playerPath } from "@/utils/paths";
 import type { ElementType } from "@/utils/types/battle/element";
-import styles from "../styles.module.css";
+import styles from "@/components/Game/Battle/HUD/styles.module.css";
 import { asset } from "@/utils/paths";
 // import { characterFaceStyle } from "@/utils/character/elementFace";
 // import type { CharacterOption } from "@/utils/types/player/character";
@@ -43,8 +43,7 @@ export function PlayerHUDPanel({
 }: Props) {
   return (
     <div className={styles.container} style={{ left: 10, top: 10 }}>
-      <div
-        >
+      <div>
         <img
           src={playerPath(`/${character}/face.svg`)}
           alt="Player HUD"

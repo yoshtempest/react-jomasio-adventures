@@ -20,4 +20,4 @@ export {
   handlePhase2Push,
   handleThrowPapers,
   handleCharging,
-}
+};

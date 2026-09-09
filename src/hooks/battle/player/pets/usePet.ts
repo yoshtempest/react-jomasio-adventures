@@ -1,10 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
-import {
-  FOUR_HUNDRED_MS,
-  FIVE_HUNDRED_MS,
-  ONE_THOUSAND_MS,
-} from "@/data/ms";
+import { FOUR_HUNDRED_MS, FIVE_HUNDRED_MS, ONE_THOUSAND_MS } from "@/data/ms";
 
 type Props = {
   enabled: boolean;
@@ -240,9 +236,7 @@ export function usePetBattle({
               y: biteToRef.current.y,
             };
           }
-          setPet((prev) =>
-            prev ? { ...prev, state: "meleeAttack" } : prev,
-          );
+          setPet((prev) => (prev ? { ...prev, state: "meleeAttack" } : prev));
           return;
         }
 
@@ -301,7 +295,8 @@ export function usePetBattle({
         const near =
           Math.abs(dx) < FOLLOW_CUSHION && Math.abs(dy) < FOLLOW_CUSHION;
         if (near) {
-          if (prev.state === "idle" && prev.direction === direction) return prev;
+          if (prev.state === "idle" && prev.direction === direction)
+            return prev;
           return { ...prev, direction, state: "idle" };
         }
         const dir: "left" | "right" = dx > 0 ? "right" : "left";

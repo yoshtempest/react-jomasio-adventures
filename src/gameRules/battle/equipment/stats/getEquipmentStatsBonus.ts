@@ -1,9 +1,8 @@
 import { loadEquipped } from "@/data/equipment/storage";
-import { getActiveSetItemIds } from "../sets";
+import { getActiveSetItemIds } from "@/gameRules/battle/equipment/sets";
 import { eachEquippedItem } from "./eachEquippedItem";
 import { addItemBonus } from "./addItemBonus";
 import type { EquipmentBonus } from "@/utils/types/player/equipment";
-
 
 export function getEquipmentStatsBonus(character: CharacterId): EquipmentBonus {
   const equipped = loadEquipped(character);

@@ -1,4 +1,4 @@
-import { NpcAttack } from "../npcAttack";
+import { NpcAttack } from "@/services/npc/npcAttack";
 import { chasePlayer } from "@/gameRules/npc/movement";
 import { isNear } from "@/gameRules/npc/behavior";
 import {

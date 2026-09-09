@@ -2,9 +2,9 @@ import type {
   BehaviorContext,
   BehaviorResult,
 } from "@/utils/types/npc/npcBehavior";
-import type { MaugreloAI } from "../state";
-import { PRE_MOVE_DURATION } from "../state";
-import { spawnFlyingPaper } from "../papers";
+import type { MaugreloAI } from "@/services/npc/attacks/maugrelo/state";
+import { PRE_MOVE_DURATION } from "@/services/npc/attacks/maugrelo/state";
+import { spawnFlyingPaper } from "@/services/npc/attacks/maugrelo/papers";
 
 export function handlePreMove(
   ai: MaugreloAI,

@@ -1,5 +1,5 @@
 import { BookOpen } from "lucide-react";
-import shared from "../../styles.module.css";
+import shared from "@/pages/Landing/styles.module.css";
 import styles from "./styles.module.css";
 
 export function About() {

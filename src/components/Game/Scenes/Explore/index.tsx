@@ -200,9 +200,7 @@ export function ExploreScene({
           ...npc,
           src: resolvedSrc,
           size:
-            typeof npc.size === "function"
-              ? npc.size(resolvedSrc)
-              : npc.size,
+            typeof npc.size === "function" ? npc.size(resolvedSrc) : npc.size,
         };
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps

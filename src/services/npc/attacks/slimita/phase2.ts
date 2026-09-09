@@ -1,6 +1,10 @@
 import { chasePlayer } from "@/gameRules/npc/movement";
 import { getDistance } from "@/gameRules/npc/behavior";
-import { FIVE_HUNDRED_MS, ONE_THOUSAND_MS, ONE_THOUSAND_FIVE_HUNDRED_MS } from "@/data/ms";
+import {
+  FIVE_HUNDRED_MS,
+  ONE_THOUSAND_MS,
+  ONE_THOUSAND_FIVE_HUNDRED_MS,
+} from "@/data/ms";
 
 import {
   JUMP_CENTER_RADIUS,

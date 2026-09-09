@@ -1,4 +1,4 @@
-import type { ElementType } from "../battle/element";
+import type { ElementType } from "@/utils/types/battle/element";
 import type { TitleId } from "@/data/titles";
 
 export type TitleCondition =

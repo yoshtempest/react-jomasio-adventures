@@ -4,7 +4,7 @@ import { hellroomThreeNpcs } from "./npcs";
 import { getHellroomThreeDialogue } from "./dialogue";
 import { hellroomThreeEvents } from "./events";
 import { hellRoomThree } from "@/maps/hellroom/three";
-import { hellRoomTwoTiles } from "../two/tiles";
+import { hellRoomTwoTiles } from "@/scenes/hellroom/two/tiles";
 
 export const threeScene: SceneConfig = {
   id: "three",

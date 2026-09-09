@@ -1,4 +1,4 @@
-import { useSyncExternalStore, useCallback, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import type { DialogueSpeed } from "@/utils/settings";
 import { SPEED_MAP } from "@/data/settings/dialogueSpeed";
 import {
@@ -10,6 +10,7 @@ import {
   DIFFICULTY_KEY,
 } from "@/data/storageKeys";
 import { slotKey } from "@/services/save/slotManager";
+import { createExternalStore } from "@/utils/createExternalStore";
 
 type Settings = {
   dialogueSpeed: DialogueSpeed;
@@ -53,25 +54,7 @@ function readSettings(): Settings {
   };
 }
 
-let cached = readSettings();
-
-const listeners = new Set<() => void>();
-
-function subscribe(listener: () => void): () => void {
-  listeners.add(listener);
-  return () => {
-    listeners.delete(listener);
-  };
-}
-
-function getSnapshot(): Settings {
-  return cached;
-}
-
-function emitChange(): void {
-  cached = readSettings();
-  for (const l of listeners) l();
-}
+const settingsStore = createExternalStore(readSettings);
 
 export type SettingsReturn = Settings & {
   dialogueSpeedMs: number;
@@ -84,36 +67,36 @@ export type SettingsReturn = Settings & {
 };
 
 export function useSettings(): SettingsReturn {
-  const s = useSyncExternalStore(subscribe, getSnapshot);
+  const s = settingsStore.useValue();
 
   const setDialogueSpeed = useCallback((speed: DialogueSpeed) => {
     localStorage.setItem(DIALOGUE_SPEED_KEY, speed);
-    emitChange();
+    settingsStore.emitChange();
   }, []);
 
   const setShowQuestIndicator = useCallback((show: boolean) => {
     localStorage.setItem(SHOW_QUEST_INDICATOR_KEY, String(show));
-    emitChange();
+    settingsStore.emitChange();
   }, []);
 
   const setShowComboAction = useCallback((show: boolean) => {
     localStorage.setItem(SHOW_COMBO_ACTION_KEY, String(show));
-    emitChange();
+    settingsStore.emitChange();
   }, []);
 
   const setShowHighlight = useCallback((show: boolean) => {
     localStorage.setItem(SHOW_HIGHLIGHT_KEY, String(show));
-    emitChange();
+    settingsStore.emitChange();
   }, []);
 
   const setSharedXp = useCallback((shared: boolean) => {
     localStorage.setItem(SHARED_XP_KEY, String(shared));
-    emitChange();
+    settingsStore.emitChange();
   }, []);
 
   const setDifficulty = useCallback((difficulty: NpcDifficulty) => {
     localStorage.setItem(slotKey(DIFFICULTY_KEY), difficulty);
-    emitChange();
+    settingsStore.emitChange();
   }, []);
 
   return useMemo(

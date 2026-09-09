@@ -3,11 +3,9 @@ import {
   useContext,
   useCallback,
   useMemo,
-  useRef,
-  useEffect,
   type ReactNode,
 } from "react";
-import { useSoundEffects, type SoundId } from "@/contexts/SoundEffectsContext";
+import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { PET_PROGRESS_KEY } from "@/data/storageKeys";
 import type { PetsProgress } from "@/data/characters/petProgress";
 import {
@@ -19,6 +17,7 @@ import {
   getPetClass,
 } from "@/utils/character/petProgress";
 import { useCompressedStorage } from "@/hooks/useCompressedStorage";
+import { useQueuedSounds } from "@/hooks/useQueuedSounds";
 import { PET_MAX_LEVEL } from "@/data/characters/petProgress";
 
 type ContextType = {
@@ -43,12 +42,7 @@ export function PetProgressProvider({ children }: { children: ReactNode }) {
 
   const { playSound } = useSoundEffects();
 
-  const pendingSoundsRef = useRef<SoundId[]>([]);
-
-  useEffect(() => {
-    const sounds = pendingSoundsRef.current.splice(0);
-    sounds.forEach((s) => playSound(s));
-  }, [petProgress, playSound]);
+  const { push, clear } = useQueuedSounds(playSound, petProgress);
 
   const getPetProgress = useCallback(
     (petId: string, stars: number = 1) => {
@@ -62,7 +56,7 @@ export function PetProgressProvider({ children }: { children: ReactNode }) {
       if (amount <= 0) return;
 
       setPetProgress((prev) => {
-        pendingSoundsRef.current = [];
+        clear();
 
         const current = prev[petId]?.[stars] ?? PET_DEFAULT_PROGRESS;
         const petClass = getPetClass(petId);
@@ -75,7 +69,7 @@ export function PetProgressProvider({ children }: { children: ReactNode }) {
           if (newXP < xpNeeded) break;
           newXP -= xpNeeded;
           newLevel++;
-          pendingSoundsRef.current.push("levelUp");
+          push("levelUp");
         }
 
         if (newLevel >= PET_MAX_LEVEL) newXP = 0;
@@ -89,7 +83,7 @@ export function PetProgressProvider({ children }: { children: ReactNode }) {
         };
       });
     },
-    [setPetProgress],
+    [setPetProgress, clear, push],
   );
 
   const resetPetProgress = useCallback(

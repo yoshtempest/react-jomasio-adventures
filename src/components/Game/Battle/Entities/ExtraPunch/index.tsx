@@ -1,5 +1,5 @@
 import type { ExtraPunchVisual } from "@/utils/types/character/srGuaxinim";
-import type { BattleEntityPositioning } from "../types";
+import type { BattleEntityPositioning } from "@/components/Game/Battle/Entities/types";
 
 type Props = BattleEntityPositioning & {
   extraPunches: ExtraPunchVisual[];
@@ -24,8 +24,8 @@ export function ExtraPunch({
           src={extraPunchSprite}
           style={{
             position: "absolute",
-            left: p.x * battleScaleX / (isFacingLeft ? 0.9 : 1.1),
-            top: p.y * battleScaleY / 1.1,
+            left: (p.x * battleScaleX) / (isFacingLeft ? 0.9 : 1.1),
+            top: (p.y * battleScaleY) / 1.1,
             height: PLAYER_SIZE / 4,
             opacity: 0.5,
             width: "auto",

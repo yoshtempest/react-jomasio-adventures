@@ -16,7 +16,6 @@ import { menuCycleHandler } from "@/hooks/battle/defeat/menuCycleHandler";
 import { DEFEAT_MENU_NEXT, DEFEAT_MENU_PREV } from "@/data/options/defeat";
 import type { DefeatMenuSelection, View } from "@/utils/types/battle/defeat";
 
-
 export function useDefeatCharacterSelect(isOpen: boolean) {
   const { player, setCharacter } = usePlayer();
   const { hasFlag } = useFlags();

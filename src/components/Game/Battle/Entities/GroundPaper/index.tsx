@@ -5,7 +5,7 @@ import type {
   GroundPaper as GroundPaperState,
   FlyingPaper,
 } from "@/services/npc/attacks/maugrelo/state";
-import type { BattleEntityPositioning } from "../types";
+import type { BattleEntityPositioning } from "@/components/Game/Battle/Entities/types";
 
 import styles from "./styles.module.css";
 

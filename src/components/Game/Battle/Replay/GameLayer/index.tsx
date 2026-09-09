@@ -1,14 +1,14 @@
-import { ComboDisplay } from "../ComboDisplay";
-import { ComboAction } from "../ComboAction";
+import { ComboDisplay } from "@/components/Game/Battle/Replay/ComboDisplay";
+import { ComboAction } from "@/components/Game/Battle/Replay/ComboAction";
 import styles from "./styles.module.css";
 import { ProjectileConstants } from "@/data/projectile";
-import { ReplayNpcSprite } from "../NpcSprite";
-import { ReplayPlayerSprite } from "../PlayerSprite";
-import { ReplayDamageNumbers } from "../DamageNumbers";
+import { ReplayNpcSprite } from "@/components/Game/Battle/Replay/NpcSprite";
+import { ReplayPlayerSprite } from "@/components/Game/Battle/Replay/PlayerSprite";
+import { ReplayDamageNumbers } from "@/components/Game/Battle/Replay/DamageNumbers";
 import type { ReplayFrame } from "@/utils/types/replay";
 import type { ReplayData } from "@/utils/types/replay";
-import { ReplaySummons } from "../Summons";
-import { ReplayPet } from "../Pet";
+import { ReplaySummons } from "@/components/Game/Battle/Replay/Summons";
+import { ReplayPet } from "@/components/Game/Battle/Replay/Pet";
 
 type Props = {
   replay: ReplayData;

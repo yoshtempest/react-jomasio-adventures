@@ -1,4 +1,8 @@
-export { PET_ROLE_LABELS, PET_ROOT_DURATION_MS, PET_SKILL_COOLDOWN_MS } from "./constants";
+export {
+  PET_ROLE_LABELS,
+  PET_ROOT_DURATION_MS,
+  PET_SKILL_COOLDOWN_MS,
+} from "./constants";
 export {
   getPetRole,
   getPetSkillDefinition,

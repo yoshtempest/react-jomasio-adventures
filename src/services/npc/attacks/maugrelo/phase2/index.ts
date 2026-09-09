@@ -2,7 +2,7 @@ import type {
   BehaviorContext,
   BehaviorResult,
 } from "@/utils/types/npc/npcBehavior";
-import type { MaugreloAI } from "../state";
+import type { MaugreloAI } from "@/services/npc/attacks/maugrelo/state";
 import {
   PHASE2_RISE_DISTANCE,
   PHASE2_RISE_SPEED,
@@ -11,22 +11,22 @@ import {
   PHASE2_PREMOVE_DURATION,
   PHASE2_LASER_DURATION,
   ORBIT_COUNT,
-} from "../state";
+} from "@/services/npc/attacks/maugrelo/state";
 import {
   cleanupExplosions,
   checkGroundPaperHits,
   updateArmedPapers,
   checkPaperAttackHits,
   updateStuckPapers,
-} from "../papers";
+} from "@/services/npc/attacks/maugrelo/papers";
 import { distributeOrbitPapers } from "./distributeOrbitPapers";
 import { orbitPositions } from "./orbitPositions";
-import { handleFirePaper } from "../actions/index";
+import { handleFirePaper } from "@/services/npc/attacks/maugrelo/actions/index";
 import { updateLaser } from "./updateLaser";
-import { handleDebuff } from "../actions/index";
-import { handleThrowPapers } from "../actions/index";
-import { handleCharging } from "../actions/index";
-import { handlePhase2Push } from "../actions/index";
+import { handleDebuff } from "@/services/npc/attacks/maugrelo/actions/index";
+import { handleThrowPapers } from "@/services/npc/attacks/maugrelo/actions/index";
+import { handleCharging } from "@/services/npc/attacks/maugrelo/actions/index";
+import { handlePhase2Push } from "@/services/npc/attacks/maugrelo/actions/index";
 
 export function maugreloPhase2(
   ctx: BehaviorContext,
@@ -36,13 +36,7 @@ export function maugreloPhase2(
   const now = Date.now();
 
   cleanupExplosions(ai, now);
-  checkGroundPaperHits(
-    ai,
-    ctx.playerX,
-    ctx.playerY,
-    ctx.onGroundPaperHit,
-    now,
-  );
+  checkGroundPaperHits(ai, ctx.playerX, ctx.playerY, ctx.onGroundPaperHit, now);
   updateArmedPapers(ai, ctx.playerX, ctx.playerY, ctx.onGroundPaperHit, now);
   checkPaperAttackHits(
     ai,

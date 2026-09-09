@@ -41,21 +41,19 @@ export function ReplayDamageNumbers({ damage, frame, npcType, layout }: Props) {
               zIndex: 100,
             }}
           >
-            {d.ty === "blocked"
-              ? "BLOCKED!"
-              : d.ty === "parry"
-                ? "PARRY!"
-                : d.ty === "miss"
-                  ? "MISS!"
-                  : d.c
-                    ? (
-                        <span className={styles.critText}>
-                          {`CRIT -${d.v}`}
-                        </span>
-                      )
-                    : d.v > 0
-                      ? `-${d.v}`
-                      : "0"}
+            {d.ty === "blocked" ? (
+              "BLOCKED!"
+            ) : d.ty === "parry" ? (
+              "PARRY!"
+            ) : d.ty === "miss" ? (
+              "MISS!"
+            ) : d.c ? (
+              <span className={styles.critText}>{`CRIT -${d.v}`}</span>
+            ) : d.v > 0 ? (
+              `-${d.v}`
+            ) : (
+              "0"
+            )}
           </div>
         );
       })}

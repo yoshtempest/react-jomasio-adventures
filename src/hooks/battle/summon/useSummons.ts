@@ -42,7 +42,12 @@ export function useSummons({
       const level = options?.level ?? npcLevel;
       const statMultiplier = options?.statMultiplier ?? 1;
 
-      const maxHp = getNpcStats(level, data.class, difficulty, statMultiplier).hp;
+      const maxHp = getNpcStats(
+        level,
+        data.class,
+        difficulty,
+        statMultiplier,
+      ).hp;
 
       const spawnX =
         overrideX ??

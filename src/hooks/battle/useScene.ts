@@ -987,7 +987,6 @@ export function useBattleScene({
 
   const extraPunchSprite = playerPath("/artur/inFight/attacks/extraPunch.svg");
 
-
   const {
     killerQueen,
     bombTargets,

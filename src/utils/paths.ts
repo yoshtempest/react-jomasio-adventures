@@ -114,7 +114,9 @@ export function resolveBattleSprite(
       ? "attacks"
       : folder;
   if (character === "lucas" && weapon) {
-    return playerPath(`/${character}/inFight/${weapon}/${resolved}/${state}.svg`);
+    return playerPath(
+      `/${character}/inFight/${weapon}/${resolved}/${state}.svg`,
+    );
   }
   return playerPath(`/${character}/inFight/${resolved}/${state}.svg`);
 }

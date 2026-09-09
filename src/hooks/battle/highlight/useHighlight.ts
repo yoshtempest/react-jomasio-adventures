@@ -2,7 +2,6 @@ import { useCallback, useState } from "react";
 import type { ReplayData } from "@/utils/types/replay";
 import { extractHighlightFrames } from "./extractHighlightFrames";
 
-
 export function useHighlight() {
   const [highlightData, setHighlightData] = useState<ReplayData | null>(null);
 

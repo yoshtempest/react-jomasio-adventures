@@ -1,5 +1,5 @@
 import { ProgressBar } from "@/components/Game/ProgressBar";
-import styles from "../styles.module.css";
+import styles from "@/components/Game/Navbar/ExploreNavbar/Player/styles.module.css";
 
 type Mission = {
   id: string;

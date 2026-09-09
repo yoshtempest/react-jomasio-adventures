@@ -1,6 +1,5 @@
-import ScenePage from "@/components/Game/Scenes/ScenePage";
+import { createScenePage } from "@/utils/createScenePage";
 import { CafeteriaScene } from "@/features/cafeteria";
 
-export default function CafeteriaPage() {
-  return <ScenePage SceneComponent={CafeteriaScene} />;
-}
+// eslint-disable-next-line react-refresh/only-export-components
+export default createScenePage(CafeteriaScene);

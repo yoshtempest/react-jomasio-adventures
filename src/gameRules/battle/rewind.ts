@@ -15,7 +15,10 @@ export function findRewindTarget(
   let closest: RewindSnap | null = null;
   for (const entry of snapshots) {
     if (entry.at > now) continue;
-    if (closest == null || Math.abs(entry.at - target) < Math.abs(closest.at - target)) {
+    if (
+      closest == null ||
+      Math.abs(entry.at - target) < Math.abs(closest.at - target)
+    ) {
       closest = entry;
     }
   }

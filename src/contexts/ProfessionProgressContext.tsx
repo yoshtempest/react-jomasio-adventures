@@ -3,8 +3,6 @@ import {
   useContext,
   useCallback,
   useMemo,
-  useEffect,
-  useRef,
   type ReactNode,
 } from "react";
 import type { Character } from "@/utils/types/player/player";
@@ -18,6 +16,7 @@ import { CHARACTERS } from "@/data/characters/list";
 import { PROFESSION_PROGRESS_KEY } from "@/data/storageKeys";
 import { useCompressedStorage } from "@/hooks/useCompressedStorage";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import { useQueuedSounds } from "@/hooks/useQueuedSounds";
 import {
   applyProficiencyXP,
   getProfessionXPToNextLevel,
@@ -88,12 +87,7 @@ export function ProfessionProgressProvider({
   );
   const { playSound } = useSoundEffects();
 
-  const pendingSoundsRef = useRef<"levelUp"[]>([]);
-
-  useEffect(() => {
-    const sounds = pendingSoundsRef.current.splice(0);
-    sounds.forEach(() => playSound("levelUp"));
-  }, [proficiency, playSound]);
+  const { push, clear } = useQueuedSounds(playSound, proficiency);
 
   const getProficiency = useCallback(
     (
@@ -110,7 +104,7 @@ export function ProfessionProgressProvider({
   const addProficiencyXP = useCallback(
     (character: Character, professionId: ProfessionId, amount: number) => {
       setProficiency((prev) => {
-        pendingSoundsRef.current = [];
+        clear();
 
         const current = prev[character]?.[professionId];
         const { proficiency: updated, leveledUp } = applyProficiencyXP(
@@ -118,7 +112,7 @@ export function ProfessionProgressProvider({
           amount,
         );
 
-        if (leveledUp) pendingSoundsRef.current.push("levelUp");
+        if (leveledUp) push("levelUp");
 
         return {
           ...prev,
@@ -129,7 +123,7 @@ export function ProfessionProgressProvider({
         };
       });
     },
-    [setProficiency],
+    [setProficiency, clear, push],
   );
 
   const value = useMemo(

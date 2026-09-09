@@ -59,10 +59,14 @@ export type BattleSceneApi = {
   training: boolean | undefined;
   controlsDisabled: boolean;
   showRetry: boolean;
-  playerProjectile: ReturnType<typeof usePlayerSpecialProjectile>["playerProjectile"];
+  playerProjectile: ReturnType<
+    typeof usePlayerSpecialProjectile
+  >["playerProjectile"];
   killerQueen: ReturnType<typeof useArturKillerQueen>["killerQueen"];
   bombTargets: ReturnType<typeof useArturKillerQueen>["bombTargets"];
-  killerQueenSprite: ReturnType<typeof useArturKillerQueen>["killerQueenSprite"];
+  killerQueenSprite: ReturnType<
+    typeof useArturKillerQueen
+  >["killerQueenSprite"];
   bombSprite: ReturnType<typeof useArturKillerQueen>["bombSprite"];
   explosionSprite: ReturnType<typeof useArturKillerQueen>["explosionSprite"];
   extraPunches: ReturnType<typeof useArturOraPunch>["punches"];

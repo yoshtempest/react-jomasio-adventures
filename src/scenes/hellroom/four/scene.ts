@@ -3,7 +3,7 @@ import { getHellroomFourInitialPosition } from "./position";
 import { hellroomFourNpcs } from "./npcs";
 import { getHellroomFourDialogue } from "./dialogue";
 import { hellRoomFour } from "@/maps/hellroom/four";
-import { hellRoomTwoTiles } from "../two/tiles";
+import { hellRoomTwoTiles } from "@/scenes/hellroom/two/tiles";
 
 export const fourScene: SceneConfig = {
   id: "four",

@@ -7,7 +7,8 @@ export const firstCutsceneDialogue = [
   {
     src: portrait("lula"),
     name: "???",
-    message: "Se estamos falando de milhões de pessoas, eu quero deixar uma coisa bem clara: fome é ferramenta política. E eu vou enganar o povo!",
+    message:
+      "Se estamos falando de milhões de pessoas, eu quero deixar uma coisa bem clara: fome é ferramenta política. E eu vou enganar o povo!",
   },
   {
     src: portrait("bolsonaro"),
@@ -17,7 +18,8 @@ export const firstCutsceneDialogue = [
   {
     src: portrait("doflamingo"),
     name: "???",
-    message: "Fufufufu... Fome, medo, desespero... essas coisas movem multidões.",
+    message:
+      "Fufufufu... Fome, medo, desespero... essas coisas movem multidões.",
   },
   {
     src: portrait("aizen"),
@@ -33,17 +35,20 @@ export const firstCutsceneDialogue = [
   {
     src: portrait("light"),
     name: "???",
-    message: "...Quando as pessoas acreditam que perderam o controle sobre suas próprias vidas, tornam-se muito mais fáceis de manipular.",
+    message:
+      "...Quando as pessoas acreditam que perderam o controle sobre suas próprias vidas, tornam-se muito mais fáceis de manipular.",
   },
   {
     src: portrait("muzan"),
     name: "???",
-    message: "Humanos são frágeis. Sempre foram. Basta pressioná-los e eles revelam sua verdadeira natureza.",
+    message:
+      "Humanos são frágeis. Sempre foram. Basta pressioná-los e eles revelam sua verdadeira natureza.",
   },
   {
     src: portrait("sukuna"),
     name: "???",
-    message: "Hah! Vocês estão complicando demais. Humanos famintos fazem o que for necessário para sobreviver...",
+    message:
+      "Hah! Vocês estão complicando demais. Humanos famintos fazem o que for necessário para sobreviver...",
   },
   {
     src: portrait("sukuna"),
@@ -53,7 +58,8 @@ export const firstCutsceneDialogue = [
   {
     src: portrait("alucard"),
     name: "???",
-    message: "Que espetáculo deprimente... Uma sala cheia de monstros discutindo como transformar sofrimento humano em entretenimento.",
+    message:
+      "Que espetáculo deprimente... Uma sala cheia de monstros discutindo como transformar sofrimento humano em entretenimento.",
   },
   {
     src: portrait("cell"),
@@ -64,7 +70,8 @@ export const firstCutsceneDialogue = [
   {
     src: portrait("alucard"),
     name: "???",
-    message: "E eu reconheço algo ainda mais interessante: todos vocês precisam de humanos para provar que são superiores a eles.",
+    message:
+      "E eu reconheço algo ainda mais interessante: todos vocês precisam de humanos para provar que são superiores a eles.",
   },
   {
     name: "Silêncio",
@@ -78,7 +85,8 @@ export const firstCutsceneDialogue = [
   {
     src: portrait("tomura"),
     name: "???",
-    message: "Vocês ficam falando de controle, poder e manipulação... mas no final tudo isso destrói aquilo que vocês dizem querer controlar.",
+    message:
+      "Vocês ficam falando de controle, poder e manipulação... mas no final tudo isso destrói aquilo que vocês dizem querer controlar.",
   },
   {
     src: portrait("doflamingo"),
@@ -88,7 +96,8 @@ export const firstCutsceneDialogue = [
   {
     src: portrait("tomura"),
     name: "???",
-    message: "Não. Só acho irritante destruir tudo antes de poder aproveitar o caos.",
+    message:
+      "Não. Só acho irritante destruir tudo antes de poder aproveitar o caos.",
   },
   {
     src: portrait("lula"),
@@ -98,7 +107,8 @@ export const firstCutsceneDialogue = [
   {
     src: portrait("lula"),
     name: "???",
-    message: "POR QUE devemos manipular o povo utilizando a fome? Em um país com tanta gente inteligente...",
+    message:
+      "POR QUE devemos manipular o povo utilizando a fome? Em um país com tanta gente inteligente...",
   },
   {
     src: portrait("bolsonaro"),
@@ -128,29 +138,30 @@ export const firstCutsceneDialogue = [
   {
     src: portrait("cell"),
     name: "???",
-    message:
-      "Finalmente.",
+    message: "Finalmente.",
   },
   {
     src: portrait("light"),
     name: "???",
-    message: "Digam me seus nomes e anotarei aqui no papel para inscrição de votação desse ano.",
+    message:
+      "Digam me seus nomes e anotarei aqui no papel para inscrição de votação desse ano.",
   },
   {
     src: portrait("doflamingo"),
     name: "???",
-    message: "Quem controla os recursos controla o jogo. Talvez nossas conclusões sejam simplesmente incompatíveis.",
+    message:
+      "Quem controla os recursos controla o jogo. Talvez nossas conclusões sejam simplesmente incompatíveis.",
   },
   {
     src: portrait("doflamingo"),
     name: "???",
-    message: "Não pretendo perder mais tempo tentando convencer pessoas que não entendem como o poder funciona.",
+    message:
+      "Não pretendo perder mais tempo tentando convencer pessoas que não entendem como o poder funciona.",
   },
   {
     src: portrait("aizen"),
     name: "???",
-    message:
-      "Interessante.",
+    message: "Interessante.",
   },
   {
     src: portrait("lula"),
@@ -182,14 +193,12 @@ export const firstCutsceneDialogue = [
   {
     src: portrait("aizen"),
     name: "???",
-    message:
-      "Eu não preciso acreditar.",
+    message: "Eu não preciso acreditar.",
   },
   {
     src: portrait("aizen"),
     name: "???",
-    message:
-      "Até outra ocasião.",
+    message: "Até outra ocasião.",
   },
   {
     src: portrait("light"),
@@ -199,7 +208,8 @@ export const firstCutsceneDialogue = [
   {
     src: portrait("light"),
     name: "???",
-    message: "Para mim, ficou evidente que nenhum sistema funciona quando todos possuem objetivos incompatíveis.",
+    message:
+      "Para mim, ficou evidente que nenhum sistema funciona quando todos possuem objetivos incompatíveis.",
   },
   {
     src: portrait("bolsonaro"),
@@ -224,7 +234,8 @@ export const firstCutsceneDialogue = [
   {
     src: portrait("light"),
     name: "???",
-    message: "Talvez o problema seja quem possui o direito de decidir o que é 'certo'",
+    message:
+      "Talvez o problema seja quem possui o direito de decidir o que é 'certo'",
   },
   {
     src: portrait("muzan"),

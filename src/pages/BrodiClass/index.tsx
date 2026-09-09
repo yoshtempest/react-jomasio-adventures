@@ -1,6 +1,5 @@
-import ScenePage from "@/components/Game/Scenes/ScenePage";
+import { createScenePage } from "@/utils/createScenePage";
 import { BrodiClassScene } from "@/features/brodiClass";
 
-export default function BrodiClassPage() {
-  return <ScenePage SceneComponent={BrodiClassScene} />;
-}
+// eslint-disable-next-line react-refresh/only-export-components
+export default createScenePage(BrodiClassScene);

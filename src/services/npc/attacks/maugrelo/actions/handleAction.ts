@@ -2,12 +2,12 @@ import type {
   BehaviorContext,
   BehaviorResult,
 } from "@/utils/types/npc/npcBehavior";
-import type { MaugreloAI } from "../state";
+import type { MaugreloAI } from "@/services/npc/attacks/maugrelo/state";
 import {
   THROW_ACTIVE_DURATION,
   SLAP_ACTIVE_DURATION,
   PUSH_ACTIVE_DURATION,
-} from "../state";
+} from "@/services/npc/attacks/maugrelo/state";
 
 export function handleAction(
   ai: MaugreloAI,

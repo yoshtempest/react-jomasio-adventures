@@ -1,7 +1,7 @@
 import { npcPath } from "@/utils/paths";
 import { getBossSizeMultiplier } from "@/utils/npc/getSpritePath";
 import type { CoffinState } from "@/hooks/battle/summon/useCoffinAnimation";
-import type { BattleEntityPositioning } from "../types";
+import type { BattleEntityPositioning } from "@/components/Game/Battle/Entities/types";
 
 type Props = BattleEntityPositioning & {
   coffins: CoffinState[];

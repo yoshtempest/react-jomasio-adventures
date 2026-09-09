@@ -117,8 +117,10 @@ export function useAllyAI({
         );
 
         return Math.round(
-          combatService.calculateDamageToNpc(stats.damage, npcArmorRef.current) *
-            elementMultiplier,
+          combatService.calculateDamageToNpc(
+            stats.damage,
+            npcArmorRef.current,
+          ) * elementMultiplier,
         );
       };
 

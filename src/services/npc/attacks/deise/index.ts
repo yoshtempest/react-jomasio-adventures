@@ -1,4 +1,4 @@
-import { NpcAttack } from "../../npcAttack";
+import { NpcAttack } from "@/services/npc/npcAttack";
 import { initDeiseAi, handlePhaseChange } from "./state";
 import { deisePhase1 } from "./phase1";
 import { deisePhase2 } from "./phase2";

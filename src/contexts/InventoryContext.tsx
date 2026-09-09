@@ -5,7 +5,6 @@ import {
   useMemo,
   useRef,
   useState,
-  useEffect,
   type ReactNode,
 } from "react";
 import type { InventoryItem } from "@/utils/types/player/inventory";
@@ -13,6 +12,7 @@ import { useSoundEffects, type SoundId } from "@/contexts/SoundEffectsContext";
 import { INVENTORY_KEY } from "@/data/storageKeys";
 import { useCompressedStorage } from "@/hooks/useCompressedStorage";
 import { useToggle } from "@/hooks/useToggle";
+import { useQueuedSounds } from "@/hooks/useQueuedSounds";
 import { InventoryService } from "@/services/inventory";
 
 type InventoryContextType = {
@@ -69,20 +69,15 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
   const latestItemsRef = useRef(items);
   latestItemsRef.current = items;
 
-  const pendingSoundsRef = useRef<SoundId[]>([]);
-
-  useEffect(() => {
-    const sounds = pendingSoundsRef.current.splice(0);
-    sounds.forEach((s) => playSound(s));
-  }, [items, playSound]);
+  const { pushIf } = useQueuedSounds(playSound, items);
 
   const commit = useCallback(
     (next: InventoryItem[], sound: SoundId | null) => {
       latestItemsRef.current = next;
-      if (sound) pendingSoundsRef.current.push(sound);
+      pushIf(sound);
       setItems(next);
     },
-    [setItems],
+    [setItems, pushIf],
   );
 
   const addItem = useCallback(

@@ -1,5 +1,5 @@
 import { useRef, useEffect } from "react";
-import styles from "../styles.module.css";
+import styles from "@/components/Game/Navbar/ExploreNavbar/Player/styles.module.css";
 import { CHARACTERS } from "@/data/characters/list";
 import { CHARACTERS as CHARACTER_OPTIONS } from "@/data/options/characters";
 

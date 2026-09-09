@@ -2,12 +2,13 @@ import type { ReplayData } from "@/utils/types/replay";
 import { getPeakDamageFrameIndex } from "./getPeakDamageFrameIndex";
 import { FIVE_THOUSAND_MS, ONE_HUNDRED_MS } from "@/data/ms";
 
-
 const HIGHLIGHT_DURATION_MS = FIVE_THOUSAND_MS;
 const FRAME_INTERVAL_MS = ONE_HUNDRED_MS;
 const HIGHLIGHT_FRAMES = HIGHLIGHT_DURATION_MS / FRAME_INTERVAL_MS;
 
-export function extractHighlightFrames(replayData: ReplayData): ReplayData | null {
+export function extractHighlightFrames(
+  replayData: ReplayData,
+): ReplayData | null {
   const { frames } = replayData;
   if (frames.length === 0) return null;
 

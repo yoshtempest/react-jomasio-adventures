@@ -3,7 +3,7 @@ import {
   COLD_RESISTANCE_LABEL,
   BLIND_RESISTANCE_LABEL,
   RESISTANCE_DROP_CHANCE,
-  RESISTANCE_REDUCTION_PER_PIECE_PCT
+  RESISTANCE_REDUCTION_PER_PIECE_PCT,
 } from "@/data/equipment/statResistance";
 import type { EquipmentResistances } from "./resistances/getItemResistances";
 
@@ -48,4 +48,4 @@ export {
   RESISTANCE_DROP_CHANCE,
   RESISTANCE_REDUCTION_PER_PIECE_PCT,
   type EquipmentResistances,
-}
+};

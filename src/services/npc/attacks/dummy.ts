@@ -1,4 +1,4 @@
-import { NpcAttack } from "../npcAttack";
+import { NpcAttack } from "@/services/npc/npcAttack";
 import { NPC_MELEE_COOLDOWN } from "@/data/cooldowns";
 import { tryMeleeAttack } from "@/gameRules/npc/attack";
 import type {

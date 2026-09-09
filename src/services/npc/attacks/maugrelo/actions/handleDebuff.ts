@@ -2,8 +2,8 @@ import type {
   BehaviorContext,
   BehaviorResult,
 } from "@/utils/types/npc/npcBehavior";
-import type { MaugreloAI } from "../state";
-import { PHASE2_DEBUFF_DURATION } from "../state";
+import type { MaugreloAI } from "@/services/npc/attacks/maugrelo/state";
+import { PHASE2_DEBUFF_DURATION } from "@/services/npc/attacks/maugrelo/state";
 import { STATUS_LIST } from "@/gameRules/battle/status/statusEffects";
 import type { NewPlayerStatus } from "@/gameRules/battle/status/statusEffects";
 

@@ -11,6 +11,7 @@ import { isFacingTarget } from "@/gameRules/battle/direction";
 import { damageSummon } from "@/gameRules/battle/damageSummon";
 import { LUCAS_WEAPON_RANGES } from "@/data/characters/lucasWeapons";
 import { useBuildTargetList } from "./usePlayerTargeting";
+import { resetCooldownRef } from "@/utils/battle/cooldown";
 
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { CharactersProgress } from "@/data/characters/defaultProgress";
@@ -166,12 +167,9 @@ export function usePlayerBattleActions({
 
       if (!hitMain) {
         playAttackSound(player.character);
-        battle.playerCooldown.current = false;
-        setTimeout(
-          () => {
-            battle.playerCooldown.current = true;
-          },
+        resetCooldownRef(
           isSpecial ? PLAYER_SPECIAL_COOLDOWN : PLAYER_BASIC_COOLDOWN,
+          battle.playerCooldown,
         );
       }
     },
@@ -240,10 +238,7 @@ export function usePlayerBattleActions({
       playAttackSound(player.character);
       hitSummon(target, 1);
 
-      battle.playerCooldown.current = false;
-      setTimeout(() => {
-        battle.playerCooldown.current = true;
-      }, PLAYER_BASIC_COOLDOWN);
+      resetCooldownRef(PLAYER_BASIC_COOLDOWN, battle.playerCooldown);
 
       return;
     }

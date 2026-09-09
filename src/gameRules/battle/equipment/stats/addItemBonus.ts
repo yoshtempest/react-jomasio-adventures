@@ -1,6 +1,9 @@
-import type { EquipmentBonus, EquippedItemInfo } from "@/utils/types/player/equipment";
-import { getEffectiveStats } from "../enhance";
-import { SET_MULTIPLIER } from "../sets";
+import type {
+  EquipmentBonus,
+  EquippedItemInfo,
+} from "@/utils/types/player/equipment";
+import { getEffectiveStats } from "@/gameRules/battle/equipment/enhance";
+import { SET_MULTIPLIER } from "@/gameRules/battle/equipment/sets";
 
 export function addItemBonus(
   bonus: EquipmentBonus,

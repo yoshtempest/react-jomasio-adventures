@@ -1,5 +1,9 @@
 import { directorMessages } from "@/data/dialogues/director/messages";
-import { createInteractionMap, createPickupHandler, createImageHandler } from "./builder";
+import {
+  createInteractionMap,
+  createPickupHandler,
+  createImageHandler,
+} from "./builder";
 import type {
   PickupDeps,
   InventoryDeps,

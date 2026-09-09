@@ -1,11 +1,11 @@
 import type { ReplayData } from "@/utils/types/replay";
-import { HudPlayer } from "../HudPlayer";
-import { HudNpc } from "../HudNpc";
-import { ReplayGameLayer } from "../GameLayer";
+import { HudPlayer } from "@/components/Game/Battle/Replay/HudPlayer";
+import { HudNpc } from "@/components/Game/Battle/Replay/HudNpc";
+import { ReplayGameLayer } from "@/components/Game/Battle/Replay/GameLayer";
 import { getReplayLayout } from "@/utils/replay/replayLayout";
-import styles from "../styles.module.css";
+import styles from "@/components/Game/Battle/Replay/styles.module.css";
 import type { ReplayFrame } from "@/utils/types/replay";
-import { ReplayBackground } from "../Background";
+import { ReplayBackground } from "@/components/Game/Battle/Replay/Background";
 
 type Props = {
   replay: ReplayData;

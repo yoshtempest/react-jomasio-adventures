@@ -3,8 +3,7 @@ import type { CharacterId, CHARACTERS } from "@/data/characters/list";
 export type CharacterPassiveId = "rewindTime" | "notImplemented";
 
 export type CharacterPassiveKind =
-  | { kind: "rewindTime"; rewindMs: number }
-  | { kind: "notImplemented" };
+  { kind: "rewindTime"; rewindMs: number } | { kind: "notImplemented" };
 
 export type CharacterPassive = {
   id: CharacterPassiveId;

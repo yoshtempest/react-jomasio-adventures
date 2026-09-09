@@ -3,8 +3,7 @@ import { loadEquipped } from "@/data/equipment/storage";
 import { halfHealReductionForRank } from "@/gameRules/battle/equipment/stats/halfHealReductionForRank";
 import { FIVE_THOUSAND_MS } from "@/data/ms";
 
-
-export const HALFHEAL_DURATION_MS =  FIVE_THOUSAND_MS
+export const HALFHEAL_DURATION_MS = FIVE_THOUSAND_MS;
 
 export function getHalfHealReduction(character: CharacterId): number {
   const equipped = loadEquipped(character);

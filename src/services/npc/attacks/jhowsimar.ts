@@ -1,4 +1,4 @@
-import { NpcAttack } from "../npcAttack";
+import { NpcAttack } from "@/services/npc/npcAttack";
 import { NPC_MELEE_COOLDOWN } from "@/data/cooldowns";
 import { chasePlayer } from "@/gameRules/npc/movement";
 import { canAttack, isNear } from "@/gameRules/npc/behavior";

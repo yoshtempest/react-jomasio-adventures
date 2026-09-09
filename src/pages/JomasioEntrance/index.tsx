@@ -1,6 +1,5 @@
-import ScenePage from "@/components/Game/Scenes/ScenePage";
+import { createScenePage } from "@/utils/createScenePage";
 import { JomasioEntranceScene } from "@/features/jomasioEntrance/index";
 
-export default function JomasioEntrancePage() {
-  return <ScenePage SceneComponent={JomasioEntranceScene} />;
-}
+// eslint-disable-next-line react-refresh/only-export-components
+export default createScenePage(JomasioEntranceScene);

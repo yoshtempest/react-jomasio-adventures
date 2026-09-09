@@ -1,4 +1,4 @@
-import { NpcAttack } from "../../npcAttack";
+import { NpcAttack } from "@/services/npc/npcAttack";
 import { initMauraoAi, handlePhaseChange } from "./state";
 import { mauraoPhase1 } from "./phase1";
 import { mauraoPhase2 } from "./phase2";

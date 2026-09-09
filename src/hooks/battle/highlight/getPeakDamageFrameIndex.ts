@@ -1,6 +1,5 @@
 import type { ReplayFrame } from "@/utils/types/replay";
 
-
 const PLAYER_DAMAGE_TYPES = new Set(["player", "special", "crit"]);
 
 export function getPeakDamageFrameIndex(frames: ReplayFrame[]): number {

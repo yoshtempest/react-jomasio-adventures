@@ -68,7 +68,9 @@ export function useEnergy(
   const consumeOnDamage = useCallback(() => {
     if (!isMarshadow) return;
     if (energyRef.current >= ENERGY_MAX) {
-      const shield = Math.round((maxHpRef.current * ENERGY_SHIELD_PERCENT) / 100);
+      const shield = Math.round(
+        (maxHpRef.current * ENERGY_SHIELD_PERCENT) / 100,
+      );
       setPlayerShieldRef.current((s) => s + shield);
       setEnergy(0);
     }

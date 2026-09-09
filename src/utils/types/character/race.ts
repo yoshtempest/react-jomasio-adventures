@@ -54,10 +54,22 @@ export const RACE_ELEMENT_HERITAGE: Record<Race, readonly ElementType[]> = {
 /** Sub-raça dentro de uma raça (ex.: Tritão, dentre os Marítimos). */
 export const SUB_RACES = {
   Human: ["Padrão", "Mestiço", "Despertado"],
-  Draconian: ["Dragão", "Wyvern", "Draconiano Verde", "Draconiano Glacial", "Draconiano Ígneo"],
+  Draconian: [
+    "Dragão",
+    "Wyvern",
+    "Draconiano Verde",
+    "Draconiano Glacial",
+    "Draconiano Ígneo",
+  ],
   Maritime: ["Tritão", "Sereiano", "Homem-peixe", "Serpente Marinha"],
   Ignian: ["Chamante", "Cindariam", "Magma", "Forjado", "Flamejante"],
-  Terran: ["Homem-toupeira", "Gigante de Pedra", "Golemide", "Anão", "Criatura Subterrânea"],
+  Terran: [
+    "Homem-toupeira",
+    "Gigante de Pedra",
+    "Golemide",
+    "Anão",
+    "Criatura Subterrânea",
+  ],
   Aerial: ["Humano Alado", "Harpia", "Espírito do Vento", "Seraphim Alado"],
   Glacial: ["Neviano", "Abominável", "Glacius"],
   Voltian: ["Raio Vivo", "Trovejante", "Biomecânico"],

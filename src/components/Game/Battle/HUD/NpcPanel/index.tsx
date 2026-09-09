@@ -3,7 +3,7 @@ import { ElementBadges } from "@/components/Game/Battle/HUD/ElementBadges";
 import { npcPath } from "@/utils/paths";
 import { getNpcDisplayName } from "@/data/npc/displayNames";
 import type { ElementType } from "@/utils/types/battle/element";
-import styles from "../styles.module.css";
+import styles from "@/components/Game/Battle/HUD/styles.module.css";
 import { asset } from "@/utils/paths";
 import { getRank, srcRank } from "@/gameRules/rank";
 

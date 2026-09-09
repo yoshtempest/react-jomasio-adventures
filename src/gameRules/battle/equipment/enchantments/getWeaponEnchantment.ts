@@ -6,8 +6,8 @@ import {
   MIN_ENCHANTMENT_RANK,
   type Enchantment,
 } from "@/data/equipment/enchantments";
-import { equipmentSeed } from "../enhance";
-import { advanceSeed } from "../resistances/advanceSeed";
+import { equipmentSeed } from "@/gameRules/battle/equipment/enhance";
+import { advanceSeed } from "@/gameRules/battle/equipment/resistances/advanceSeed";
 
 /**
  * Bits altos da seed, como valor positivo.

@@ -1,5 +1,5 @@
 import styles from "./styles.module.css";
-import { StatItem } from "../StatItem";
+import { StatItem } from "@/components/Game/Navbar/BattleNavbar/Settings/StatItem";
 import type { ReactNode } from "react";
 
 type Stat = {

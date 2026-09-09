@@ -1,6 +1,6 @@
 import type { BehaviorResult } from "@/utils/types/npc/npcBehavior";
-import type { MaugreloAI } from "../state";
-import { POST_ACTION_COOLDOWN } from "../state";
+import type { MaugreloAI } from "@/services/npc/attacks/maugrelo/state";
+import { POST_ACTION_COOLDOWN } from "@/services/npc/attacks/maugrelo/state";
 
 export function handlePostAction(
   ai: MaugreloAI,

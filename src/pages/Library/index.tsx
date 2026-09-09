@@ -1,6 +1,5 @@
-import ScenePage from "@/components/Game/Scenes/ScenePage";
+import { createScenePage } from "@/utils/createScenePage";
 import { LibraryScene } from "@/features/library/index";
 
-export default function LibraryPage() {
-  return <ScenePage SceneComponent={LibraryScene} />;
-}
+// eslint-disable-next-line react-refresh/only-export-components
+export default createScenePage(LibraryScene);

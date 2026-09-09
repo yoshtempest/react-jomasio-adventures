@@ -3,12 +3,10 @@ import {
   useContext,
   useCallback,
   useMemo,
-  useRef,
-  useEffect,
   type ReactNode,
 } from "react";
 import type { Character } from "@/utils/types/player/player";
-import { useSoundEffects, type SoundId } from "@/contexts/SoundEffectsContext";
+import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { CHARACTER_PROGRESS_KEY } from "@/data/storageKeys";
 import type {
   CharacterStats,
@@ -23,6 +21,7 @@ import { getXpBuffMultiplier } from "@/utils/buffs/xpBuff";
 import { DIFFICULTY_XP_MULTIPLIER } from "@/data/player/xp";
 import { useCompressedStorage } from "@/hooks/useCompressedStorage";
 import { useSettings } from "@/hooks/useSetting";
+import { useQueuedSounds } from "@/hooks/useQueuedSounds";
 
 export const MAX_HUNGER = 100;
 export const MAX_SLEEP = 100;
@@ -71,12 +70,7 @@ export function CharacterProgressProvider({
   const { difficulty } = useSettings();
   const { playSound } = useSoundEffects();
 
-  const pendingSoundsRef = useRef<SoundId[]>([]);
-
-  useEffect(() => {
-    const sounds = pendingSoundsRef.current.splice(0);
-    sounds.forEach((s) => playSound(s));
-  }, [progress, playSound]);
+  const { push, clear } = useQueuedSounds(playSound, progress);
 
   // ⭐ XP + LEVEL + POINTS
   const addXP = useCallback(
@@ -89,7 +83,7 @@ export function CharacterProgressProvider({
       );
 
       setProgress((prev) => {
-        pendingSoundsRef.current = [];
+        clear();
 
         const char = prev[character];
 
@@ -108,7 +102,7 @@ export function CharacterProgressProvider({
           pointsGained++;
           newHunger = MAX_HUNGER; // level up → hunger reset to 100%
           newSleep = MAX_SLEEP; // level up → sleep reset to 100%
-          pendingSoundsRef.current.push("levelUp");
+          push("levelUp");
           xpNeeded = getXPToNextLevelUtil(newLevel);
         }
 
@@ -129,7 +123,7 @@ export function CharacterProgressProvider({
         };
       });
     },
-    [difficulty, setProgress],
+    [difficulty, setProgress, clear, push],
   );
 
   // 💀 INCREMENTAR KILLS

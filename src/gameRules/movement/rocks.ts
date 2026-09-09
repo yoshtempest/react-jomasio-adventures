@@ -1,8 +1,4 @@
-import {
-  ROCK_CLASSES,
-  ROCK_IMAGE,
-  type RockSize,
-} from "@/data/scene/rocks";
+import { ROCK_CLASSES, ROCK_IMAGE, type RockSize } from "@/data/scene/rocks";
 import type { ItemPickupTile } from "@/utils/types/maps/exploreScene";
 
 export type SceneRock = {

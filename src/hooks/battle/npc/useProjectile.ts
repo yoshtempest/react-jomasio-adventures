@@ -73,12 +73,7 @@ export function useProjectile(
             case "cut":
               return updateSlicedProjectile(p);
             case "rain":
-              return handleRain(
-                p,
-                playerX,
-                playerState,
-                onHitRef.current,
-              );
+              return handleRain(p, playerX, playerState, onHitRef.current);
           }
         })
         .filter((p): p is Projectile => p !== null);
@@ -95,7 +90,7 @@ export function useProjectile(
     playerY,
     playerState,
     playerCharacter,
-_playerDirection,
+    _playerDirection,
     npcClass,
     setProjectiles,
     hitstopRef,

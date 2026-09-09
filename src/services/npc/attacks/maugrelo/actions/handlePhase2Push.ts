@@ -2,8 +2,8 @@ import type {
   BehaviorContext,
   BehaviorResult,
 } from "@/utils/types/npc/npcBehavior";
-import type { MaugreloAI } from "../state";
-import { PHASE2_PUSH_ACTIVE_DURATION } from "../state";
+import type { MaugreloAI } from "@/services/npc/attacks/maugrelo/state";
+import { PHASE2_PUSH_ACTIVE_DURATION } from "@/services/npc/attacks/maugrelo/state";
 
 export function handlePhase2Push(
   ai: MaugreloAI,

@@ -1,7 +1,7 @@
 import { npcPathProjectile } from "@/utils/paths";
 import { STUCK_EXPLOSION_DISAPPEAR_MS } from "@/services/npc/attacks/maugrelo/state";
 import type { StuckPaper } from "@/services/npc/attacks/maugrelo/state";
-import type { BattleEntityPositioning } from "../types";
+import type { BattleEntityPositioning } from "@/components/Game/Battle/Entities/types";
 
 import styles from "./styles.module.css";
 
@@ -25,7 +25,9 @@ export function StuckPapers({
         const elapsed = exploding
           ? Math.max(0, Date.now() - (sp.explodeAt ?? 0))
           : 0;
-        const opacity = exploding ? Math.max(0, 1 - elapsed / STUCK_EXPLOSION_DISAPPEAR_MS) : 1;
+        const opacity = exploding
+          ? Math.max(0, 1 - elapsed / STUCK_EXPLOSION_DISAPPEAR_MS)
+          : 1;
 
         return (
           <img

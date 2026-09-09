@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
-import type { BattleEntityPositioning } from "../types";
+import type { BattleEntityPositioning } from "@/components/Game/Battle/Entities/types";
 
 type Props = BattleEntityPositioning & {
   bombTargets: BombTarget[];

@@ -49,9 +49,7 @@ export function LootBag({ bag, TILE_SIZE, npcClass }: Props) {
         src={asset(LOOTBAG_SPRITES[npcClass])}
         alt="Lootbag"
       />
-      {badge && (
-        <img className={styles.badge} src={asset(badge)} alt="item" />
-      )}
+      {badge && <img className={styles.badge} src={asset(badge)} alt="item" />}
     </div>
   );
 }

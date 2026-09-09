@@ -1,4 +1,8 @@
-import { ONE_THOUSAND_MS, THREE_THOUSAND_MS, FIVE_THOUSAND_MS } from "@/data/ms";
+import {
+  ONE_THOUSAND_MS,
+  THREE_THOUSAND_MS,
+  FIVE_THOUSAND_MS,
+} from "@/data/ms";
 
 /** Status negativo que uma arma encantada pode aplicar no inimigo. */
 export const ENCHANTMENTS = ["burn", "freeze", "poison", "bleed"] as const;

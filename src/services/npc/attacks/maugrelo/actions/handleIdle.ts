@@ -4,10 +4,8 @@ import {
   NPC_RUNNING_SPEED,
   NPC_BASE_SPEED,
 } from "@/gameRules/movement/constants";
-import type {
-  BehaviorResult,
-} from "@/utils/types/npc/npcBehavior";
-import type { MaugreloAI } from "../state";
+import type { BehaviorResult } from "@/utils/types/npc/npcBehavior";
+import type { MaugreloAI } from "@/services/npc/attacks/maugrelo/state";
 import {
   SLAP_RANGE,
   PUSH_RANGE,
@@ -17,7 +15,7 @@ import {
   THROW_COOLDOWN,
   MAX_GROUND_PAPERS,
   RUN_TRANSITION_DELAY,
-} from "../state";
+} from "@/services/npc/attacks/maugrelo/state";
 
 export function handleIdle(
   ai: MaugreloAI,

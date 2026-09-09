@@ -2,11 +2,11 @@ import type {
   BehaviorContext,
   BehaviorResult,
 } from "@/utils/types/npc/npcBehavior";
-import type { MaugreloAI } from "../state";
+import type { MaugreloAI } from "@/services/npc/attacks/maugrelo/state";
 import {
   MELEE_SWITCH_DISTANCE,
   MEDITATION_ARMOR_INTERVAL,
-} from "../state";
+} from "@/services/npc/attacks/maugrelo/state";
 
 export function handleMeditating(
   ai: MaugreloAI,

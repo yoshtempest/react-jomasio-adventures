@@ -1,14 +1,17 @@
-
 import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
-import type { MaugreloAI } from "../state";
+import type { MaugreloAI } from "@/services/npc/attacks/maugrelo/state";
 import {
   LASER_DAMAGE_INTERVAL,
   LASER_BODY_OFFSET,
-} from "../state";
+} from "@/services/npc/attacks/maugrelo/state";
 import { isPlayerProtected } from "./isPlayerProtected";
 
-export function updateLaser(ai: MaugreloAI, ctx: BehaviorContext, now: number): void {
+export function updateLaser(
+  ai: MaugreloAI,
+  ctx: BehaviorContext,
+  now: number,
+): void {
   const { npc, playerX, playerState } = ctx;
   const fromX = npc.x;
   const fromY = ai.riseStartY - LASER_BODY_OFFSET;

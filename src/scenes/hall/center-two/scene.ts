@@ -1,11 +1,11 @@
 import { hallTwoCenter } from "@/maps/hall/centerTwo";
 import { MUSICS } from "@/scenes/shared/music";
-import { centerOneTiles } from "../center-one/tiles";
-import { getCenterOneInitialPosition } from "../center-one/position";
+import { centerOneTiles } from "@/scenes/hall/center-one/tiles";
+import { getCenterOneInitialPosition } from "@/scenes/hall/center-one/position";
 import { centerTwoNpcs } from "./npcs";
 import { getHallCenterDialogue } from "./dialogue";
 import { hallCenterTwoEvents } from "./events";
-import { centerOnePlates } from "../center-one/plate";
+import { centerOnePlates } from "@/scenes/hall/center-one/plate";
 import { sceneBackgrounds } from "@/data/scene/background";
 
 export const centerTwoScene: SceneConfig = {

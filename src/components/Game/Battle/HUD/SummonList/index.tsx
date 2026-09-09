@@ -1,7 +1,7 @@
 import { HealthBar } from "@/components/Game/Battle/HUD/HealthBar";
 import { npcPath } from "@/utils/paths";
 import { getNpcDisplayName } from "@/data/npc/displayNames";
-import styles from "../styles.module.css";
+import styles from "@/components/Game/Battle/HUD/styles.module.css";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 
 type Props = {

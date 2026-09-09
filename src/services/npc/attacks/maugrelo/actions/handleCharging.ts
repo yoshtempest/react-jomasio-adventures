@@ -2,8 +2,11 @@ import type {
   BehaviorContext,
   BehaviorResult,
 } from "@/utils/types/npc/npcBehavior";
-import type { MaugreloAI } from "../state";
-import { PHASE2_CHARGE_SPEED, PUSH_RANGE } from "../state";
+import type { MaugreloAI } from "@/services/npc/attacks/maugrelo/state";
+import {
+  PHASE2_CHARGE_SPEED,
+  PUSH_RANGE,
+} from "@/services/npc/attacks/maugrelo/state";
 
 export function handleCharging(
   ai: MaugreloAI,

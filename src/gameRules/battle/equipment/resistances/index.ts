@@ -6,7 +6,6 @@ import { isEpicOrHigher } from "./isEpicOrHigher";
 import { reduceDurationByResistance } from "./reduceDurationByResistance";
 import { reduceTickDamage } from "./reduceTickDamage";
 
-
 export {
   advanceSeed,
   eachArmorItem,
@@ -15,4 +14,4 @@ export {
   isEpicOrHigher,
   reduceDurationByResistance,
   reduceTickDamage,
-}
+};

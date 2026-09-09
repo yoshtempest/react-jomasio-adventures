@@ -1,10 +1,17 @@
-import type { MaugreloAI, GroundPaper } from "../state";
+import type {
+  MaugreloAI,
+  GroundPaper,
+} from "@/services/npc/attacks/maugrelo/state";
 import {
   ORBIT_RADIUS,
   ORBIT_Y_OFFSET,
-} from "../state";
+} from "@/services/npc/attacks/maugrelo/state";
 
-export function orbitPositions(ai: MaugreloAI, npcX: number, npcY: number): GroundPaper[] {
+export function orbitPositions(
+  ai: MaugreloAI,
+  npcX: number,
+  npcY: number,
+): GroundPaper[] {
   const now = Date.now();
   const centerY = npcY - ORBIT_Y_OFFSET;
   return ai.orbitPapers.map((op) => ({

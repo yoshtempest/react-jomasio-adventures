@@ -128,8 +128,7 @@ export function handlePhase1(
 
   const dx = targetX - npc.x;
   const dir = dx > 0 ? 1 : -1;
-  const newX =
-    Math.abs(dx) <= DASH_RANGE ? npc.x : npc.x + dir * HOP_SPEED;
+  const newX = Math.abs(dx) <= DASH_RANGE ? npc.x : npc.x + dir * HOP_SPEED;
 
   if (hopElapsed >= HOP_DURATION) {
     state.phase1HopState = "ground";

@@ -1,4 +1,4 @@
-import styles from "../styles.module.css";
+import styles from "@/components/Game/Battle/Replay/styles.module.css";
 import { resolveBattleSprite } from "@/utils/paths";
 import type { ReplayFrame } from "@/utils/types/replay";
 

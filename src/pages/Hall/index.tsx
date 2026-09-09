@@ -1,6 +1,5 @@
-import ScenePage from "@/components/Game/Scenes/ScenePage";
+import { createScenePage } from "@/utils/createScenePage";
 import { HallScene } from "@/features/hall";
 
-export default function HallPage() {
-  return <ScenePage SceneComponent={HallScene} />;
-}
+// eslint-disable-next-line react-refresh/only-export-components
+export default createScenePage(HallScene);

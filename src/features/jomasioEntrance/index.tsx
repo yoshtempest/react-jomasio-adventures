@@ -56,7 +56,10 @@ const MINE_COOLDOWN_MS = THREE_THOUSAND_MS;
 const ROCK_TILES = toRockTiles(jomasioEntranceRocks);
 
 const ROCK_LABELS = Object.fromEntries(
-  jomasioEntranceRocks.map((rock) => [rockGridKey(rock), INTERACTION_LABELS.MINE]),
+  jomasioEntranceRocks.map((rock) => [
+    rockGridKey(rock),
+    INTERACTION_LABELS.MINE,
+  ]),
 );
 
 type MineRockDeps = ToolDeps & {
@@ -141,12 +144,7 @@ export function JomasioEntranceScene({ sceneId }: Props) {
 
           const xpGained = result?.xpGained ?? 0;
           deps.setPopup(
-            gatherResult(
-              "Você minerou a rocha!",
-              summary,
-              xpGained,
-              "Mineiro",
-            ),
+            gatherResult("Você minerou a rocha!", summary, xpGained, "Mineiro"),
           );
 
           if (xpGained > 0) {

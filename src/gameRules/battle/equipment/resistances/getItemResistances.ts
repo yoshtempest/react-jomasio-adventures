@@ -1,10 +1,9 @@
 import { ARMOR_SLOTS } from "@/data/equipment/definitions";
 import { getEquipmentById } from "@/data/equipment";
-import { equipmentSeed } from "../enhance";
+import { equipmentSeed } from "@/gameRules/battle/equipment/enhance";
 import { advanceSeed } from "./advanceSeed";
 import { RESISTANCE_DROP_CHANCE } from "@/data/equipment/statResistance";
 import { isEpicOrHigher } from "./isEpicOrHigher";
-
 
 export type EquipmentResistances = {
   heat: boolean;

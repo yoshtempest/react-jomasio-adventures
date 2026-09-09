@@ -24,11 +24,7 @@ type ContextType = {
 
 const CharacterUnlockContext = createContext<ContextType | null>(null);
 
-export function CharacterUnlockProvider({
-  children,
-}: {
-  children: ReactNode;
-}) {
+export function CharacterUnlockProvider({ children }: { children: ReactNode }) {
   const { flags } = useFlags();
 
   const [queue, setQueue] = useState<CharacterId[]>([]);

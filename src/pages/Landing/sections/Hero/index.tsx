@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router";
 import { ChevronDown, Gamepad2 } from "lucide-react";
 import { asset } from "@/utils/paths";
-import shared from "../../styles.module.css";
+import shared from "@/pages/Landing/styles.module.css";
 import styles from "./styles.module.css";
 
 export function Hero() {

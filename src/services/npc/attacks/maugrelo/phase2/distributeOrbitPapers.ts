@@ -1,4 +1,4 @@
-import type { MaugreloAI } from "../state";
+import type { MaugreloAI } from "@/services/npc/attacks/maugrelo/state";
 
 export function distributeOrbitPapers(ai: MaugreloAI, count: number): void {
   ai.orbitPapers = Array.from({ length: count }, (_, i) => ({

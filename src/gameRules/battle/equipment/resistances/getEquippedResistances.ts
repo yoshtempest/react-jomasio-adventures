@@ -3,7 +3,6 @@ import { eachArmorItem } from "./eachArmorItem";
 import { getItemResistances } from "./getItemResistances";
 import { RESISTANCE_REDUCTION_PER_PIECE_PCT } from "@/data/equipment/statResistance";
 
-
 export function getEquippedResistances(character: CharacterId): {
   heat: number;
   cold: number;

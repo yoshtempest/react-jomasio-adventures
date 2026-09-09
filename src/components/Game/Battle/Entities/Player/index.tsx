@@ -7,7 +7,12 @@ type Props = {
   grabFlipped?: boolean;
 };
 
-export function Player({ player, PLAYER_SIZE, weapon, grabFlipped = false }: Props) {
+export function Player({
+  player,
+  PLAYER_SIZE,
+  weapon,
+  grabFlipped = false,
+}: Props) {
   return (
     <PlayerBattle
       character={player.character}

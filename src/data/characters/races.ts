@@ -1,9 +1,6 @@
 import type { ElementType } from "@/utils/types/battle/element";
 import type { CharacterRace } from "@/utils/types/character/race";
-import {
-  RACE_ELEMENT_HERITAGE,
-  type Race,
-} from "@/utils/types/character/race";
+import { RACE_ELEMENT_HERITAGE, type Race } from "@/utils/types/character/race";
 
 /** Nome amigável de cada raça. */
 export const RACE_LABELS: Record<Race, string> = {
@@ -89,8 +86,7 @@ export const RACE_META: Record<Race, RaceMeta> = {
   },
   Psychic: {
     element: "Psychicus",
-    description:
-      "Telepatia, telecinese, manipulação mental e precognição.",
+    description: "Telepatia, telecinese, manipulação mental e precognição.",
   },
   Nimian: {
     element: "Nympha",
@@ -128,7 +124,9 @@ export function getRaceElementTypes(races: readonly Race[]): ElementType[] {
  * quantas raças e extras o personagem tiver (ex.: Humano + Draconiano +
  * Igniano = Normalis + Draco + Pyrus).
  */
-export function resolveCharacterElementTypes(race: CharacterRace): ElementType[] {
+export function resolveCharacterElementTypes(
+  race: CharacterRace,
+): ElementType[] {
   const result = getRaceElementTypes(race.races);
   for (const type of race.extraTypes ?? []) {
     if (!result.includes(type)) result.push(type);

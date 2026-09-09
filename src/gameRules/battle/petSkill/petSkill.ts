@@ -52,14 +52,13 @@ export type PetSkillRunDeps = {
   npcRootedUntilRef: RefObject<number>;
   rootedSummonsUntilRef: RefObject<Record<string, number>>;
   rootDurationMs: number;
-  playSound: (
-    sound: SoundId,
-    loop?: boolean,
-    volumeOverride?: number,
-  ) => void;
+  playSound: (sound: SoundId, loop?: boolean, volumeOverride?: number) => void;
 };
 
-export function runPetSkill(def: PetSkillDefinition, deps: PetSkillRunDeps): void {
+export function runPetSkill(
+  def: PetSkillDefinition,
+  deps: PetSkillRunDeps,
+): void {
   const {
     petLevel,
     petStars,
@@ -140,7 +139,13 @@ export function runPetSkill(def: PetSkillDefinition, deps: PetSkillRunDeps): voi
       }
       for (const s of summons) {
         if (s.isDying || s.hp <= 0) continue;
-        enemies.push({ id: s.id, npcType: s.npcType, x: s.x, y: s.y, maxHp: s.maxHp });
+        enemies.push({
+          id: s.id,
+          npcType: s.npcType,
+          x: s.x,
+          y: s.y,
+          maxHp: s.maxHp,
+        });
       }
       if (enemies.length === 0) break;
 
@@ -169,9 +174,7 @@ export function runPetSkill(def: PetSkillDefinition, deps: PetSkillRunDeps): voi
         }
         setSummons((prev) =>
           prev.map((s) =>
-            s.id === target.id
-              ? { ...s, hp: Math.max(0, s.hp - dmg) }
-              : s,
+            s.id === target.id ? { ...s, hp: Math.max(0, s.hp - dmg) } : s,
           ),
         );
         summonsBleedUntilRef.current = {

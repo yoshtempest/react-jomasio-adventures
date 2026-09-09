@@ -1,6 +1,6 @@
 import { Sword, Zap, Shield, Sparkles, ScrollText } from "lucide-react";
 import { bosses } from "@/data/landing";
-import shared from "../../styles.module.css";
+import shared from "@/pages/Landing/styles.module.css";
 import styles from "./styles.module.css";
 
 export function Combat() {

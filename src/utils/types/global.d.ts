@@ -228,7 +228,8 @@ declare global {
   };
 
   // ── NPC ─────────────────────────────────────────────────
-  type NPCClass = "common" | "rare" | "epic" | "boss" | "legendary" | "supreme" | "omega";
+  type NPCClass =
+    "common" | "rare" | "epic" | "boss" | "legendary" | "supreme" | "omega";
   type NpcDifficulty = "easy" | "medium" | "hard" | "insano";
   type EquipmentRank = EquipmentRankDef;
 
@@ -300,7 +301,8 @@ declare global {
     lowerDirY: number;
   };
 
-  type Projectile = ProjectileCommon | ProjectilePull | ProjectileRain | ProjectileCut;
+  type Projectile =
+    ProjectileCommon | ProjectilePull | ProjectileRain | ProjectileCut;
 
   // ── Player ──────────────────────────────────────────────
   type PlayerState =

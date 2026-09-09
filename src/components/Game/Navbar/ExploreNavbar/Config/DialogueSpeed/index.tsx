@@ -1,4 +1,4 @@
-import styles from "../styles.module.css";
+import styles from "@/components/Game/Navbar/ExploreNavbar/Config/styles.module.css";
 import { DIALOGUE_SPEED_LIST, SPEED_LABEL } from "@/utils/settings";
 import type { DialogueSpeed } from "@/utils/settings";
 

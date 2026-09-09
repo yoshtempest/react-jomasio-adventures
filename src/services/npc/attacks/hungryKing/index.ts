@@ -1,4 +1,4 @@
-import { NpcAttack } from "../../npcAttack";
+import { NpcAttack } from "@/services/npc/npcAttack";
 import { initHungryKingAi, handlePhaseChange } from "./state";
 import { hungryKingPhase1 } from "./phase1";
 import { hungryKingPhase2 } from "./phase2";

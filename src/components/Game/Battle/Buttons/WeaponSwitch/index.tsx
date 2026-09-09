@@ -8,7 +8,11 @@ type Props = {
   onClick: () => void;
 };
 
-export function WeaponSwitchButton({ weapon, disabled = false, onClick }: Props) {
+export function WeaponSwitchButton({
+  weapon,
+  disabled = false,
+  onClick,
+}: Props) {
   if (!weapon) return null;
 
   const label = LUCAS_WEAPON_LABELS[weapon];

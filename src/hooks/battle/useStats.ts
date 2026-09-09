@@ -61,7 +61,8 @@ function buildCharacterStats(
 
 type Props = {
   npcLevel: number;
-  npcClass: "common" | "rare" | "epic" | "boss" | "legendary" | "supreme" | "omega";
+  npcClass:
+    "common" | "rare" | "epic" | "boss" | "legendary" | "supreme" | "omega";
   difficulty: NpcDifficulty;
   npcPhase: number;
   npcStatMultiplier?: number;

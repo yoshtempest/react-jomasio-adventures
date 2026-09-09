@@ -22,6 +22,7 @@ import type { CharacterProgress } from "@/data/characters/defaultProgress";
 import type { ElementType } from "@/utils/types/battle/element";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { logPlay } from "@/utils/replay/audioEventLog";
+import { resetCooldownRef } from "@/utils/battle/cooldown";
 
 type Props = {
   player: Player;
@@ -150,9 +151,7 @@ export function usePlayerBattle({
           direction: player.battleDirection,
           isSpecial: false,
           npcClass,
-          rangeOverride: weapon
-            ? LUCAS_WEAPON_RANGES[weapon]
-            : undefined,
+          rangeOverride: weapon ? LUCAS_WEAPON_RANGES[weapon] : undefined,
         })
       ) {
         return;
@@ -160,12 +159,12 @@ export function usePlayerBattle({
 
       if (guard === "blind") {
         spawnDamageRef.current?.(0, npcX, npcY, "miss");
-        resetCooldown(PLAYER_BASIC_COOLDOWN, playerCooldown);
+        resetCooldownRef(PLAYER_BASIC_COOLDOWN, playerCooldown);
         return;
       }
 
       if (onBeforeNpcHitRef?.current?.()) {
-        resetCooldown(PLAYER_BASIC_COOLDOWN, playerCooldown);
+        resetCooldownRef(PLAYER_BASIC_COOLDOWN, playerCooldown);
         return;
       }
 
@@ -189,7 +188,7 @@ export function usePlayerBattle({
           setPlayerHP((hp) => Math.max(0, hp - selfDmg));
           spawnDamageRef.current?.(selfDmg, playerX, playerY, "confuse");
         }
-        resetCooldown(PLAYER_BASIC_COOLDOWN, playerCooldown);
+        resetCooldownRef(PLAYER_BASIC_COOLDOWN, playerCooldown);
         return;
       }
 
@@ -228,7 +227,7 @@ export function usePlayerBattle({
 
       if (onHalfHeal) onHalfHeal();
 
-      resetCooldown(PLAYER_BASIC_COOLDOWN, playerCooldown);
+      resetCooldownRef(PLAYER_BASIC_COOLDOWN, playerCooldown);
     },
     [
       isEnding,
@@ -292,9 +291,7 @@ export function usePlayerBattle({
           direction: player.battleDirection,
           isSpecial: true,
           npcClass,
-          rangeOverride: weapon
-            ? LUCAS_WEAPON_RANGES[weapon]
-            : undefined,
+          rangeOverride: weapon ? LUCAS_WEAPON_RANGES[weapon] : undefined,
         })
       ) {
         return;
@@ -303,12 +300,12 @@ export function usePlayerBattle({
       if (guard === "blind") {
         spawnDamageRef.current?.(0, npcX, npcY, "miss");
         setDelicia(0);
-        resetCooldown(PLAYER_SPECIAL_COOLDOWN, playerCooldown);
+        resetCooldownRef(PLAYER_SPECIAL_COOLDOWN, playerCooldown);
         return;
       }
 
       if (onBeforeNpcHitRef?.current?.()) {
-        resetCooldown(PLAYER_SPECIAL_COOLDOWN, playerCooldown);
+        resetCooldownRef(PLAYER_SPECIAL_COOLDOWN, playerCooldown);
         return;
       }
 
@@ -333,7 +330,7 @@ export function usePlayerBattle({
           spawnDamageRef.current?.(selfDmg, playerX, playerY, "confuse");
         }
         setDelicia(0);
-        resetCooldown(PLAYER_SPECIAL_COOLDOWN, playerCooldown);
+        resetCooldownRef(PLAYER_SPECIAL_COOLDOWN, playerCooldown);
         return;
       }
 
@@ -378,7 +375,7 @@ export function usePlayerBattle({
 
       if (onHalfHeal) onHalfHeal();
 
-      resetCooldown(PLAYER_SPECIAL_COOLDOWN, playerCooldown);
+      resetCooldownRef(PLAYER_SPECIAL_COOLDOWN, playerCooldown);
     },
     [
       isEnding,
@@ -440,14 +437,4 @@ function evaluateStatusGuards(
   if (isPlayerBlind(player)) return "blind";
   if (isPlayerConfused(player) && Math.random() < 0.5) return "confused";
   return "ok";
-}
-
-function resetCooldown(
-  cooldownMs: number,
-  playerCooldown: React.RefObject<boolean>,
-) {
-  playerCooldown.current = false;
-  setTimeout(() => {
-    playerCooldown.current = true;
-  }, cooldownMs);
 }

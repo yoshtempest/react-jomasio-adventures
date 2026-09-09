@@ -1,7 +1,10 @@
-import type { EquippedItems, EquipmentStats } from "@/utils/types/player/equipment";
+import type {
+  EquippedItems,
+  EquipmentStats,
+} from "@/utils/types/player/equipment";
 import { eachEquippedItem } from "./eachEquippedItem";
-import { getEffectiveStats } from "../enhance";
-import { SET_MULTIPLIER } from "../sets";
+import { getEffectiveStats } from "@/gameRules/battle/equipment/enhance";
+import { SET_MULTIPLIER } from "@/gameRules/battle/equipment/sets";
 
 export function sumEquippedStat(
   equipped: EquippedItems,

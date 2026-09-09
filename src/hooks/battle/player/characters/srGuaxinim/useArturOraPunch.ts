@@ -8,9 +8,12 @@ import {
   PUNCH_MOVE_TICK_MS,
   PUNCH_MIN_DISTANCE_MS,
   PUNCH_SPAWN_INTERVAL_MS,
-  PUNCH_TARGET_JITTER
+  PUNCH_TARGET_JITTER,
 } from "@/data/characters/srGuaxinim";
-import type { PunchHitResult, OraPunch } from "@/utils/types/character/srGuaxinim";
+import type {
+  PunchHitResult,
+  OraPunch,
+} from "@/utils/types/character/srGuaxinim";
 
 type Props = {
   player: Player;

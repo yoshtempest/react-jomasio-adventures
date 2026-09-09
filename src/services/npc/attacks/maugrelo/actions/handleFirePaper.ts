@@ -1,11 +1,11 @@
 import { createCommonProjectile } from "@/gameRules/npc/createDirectionalProjectile";
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
-import type { MaugreloAI } from "../state";
+import type { MaugreloAI } from "@/services/npc/attacks/maugrelo/state";
 import {
   ORBIT_RADIUS,
   ORBIT_Y_OFFSET,
   ORBIT_FIRE_INTERVAL,
-} from "../state";
+} from "@/services/npc/attacks/maugrelo/state";
 
 export function handleFirePaper(
   ai: MaugreloAI,

@@ -1,5 +1,6 @@
-import { useSyncExternalStore, useCallback, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { SFX_KEY, BGM_KEY } from "@/data/storageKeys";
+import { createExternalStore } from "@/utils/createExternalStore";
 
 type AudioSettings = {
   sfxVolume: number;
@@ -18,25 +19,7 @@ function readAudio(): AudioSettings {
   return { sfxVolume, bgmVolume };
 }
 
-let cached = readAudio();
-
-const listeners = new Set<() => void>();
-
-function subscribe(listener: () => void): () => void {
-  listeners.add(listener);
-  return () => {
-    listeners.delete(listener);
-  };
-}
-
-function getSnapshot(): AudioSettings {
-  return cached;
-}
-
-function emitChange(): void {
-  cached = readAudio();
-  for (const l of listeners) l();
-}
+const audioStore = createExternalStore(readAudio);
 
 export type AudioReturn = AudioSettings & {
   setSfxVolume: (value: number) => void;
@@ -44,16 +27,16 @@ export type AudioReturn = AudioSettings & {
 };
 
 export function useAudio(): AudioReturn {
-  const s = useSyncExternalStore(subscribe, getSnapshot);
+  const s = audioStore.useValue();
 
   const setSfxVolume = useCallback((value: number) => {
     localStorage.setItem(SFX_KEY, String(value));
-    emitChange();
+    audioStore.emitChange();
   }, []);
 
   const setBgmVolume = useCallback((value: number) => {
     localStorage.setItem(BGM_KEY, String(value));
-    emitChange();
+    audioStore.emitChange();
   }, []);
 
   return useMemo(

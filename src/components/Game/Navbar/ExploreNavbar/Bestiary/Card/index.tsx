@@ -1,4 +1,4 @@
-import styles from "../styles.module.css";
+import styles from "@/components/Game/Navbar/ExploreNavbar/Bestiary/styles.module.css";
 import { npcPath, asset } from "@/utils/paths";
 import { CLASS_DATA } from "@/data/npc/class";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";

@@ -1,6 +1,6 @@
 import { getSpritePath } from "@/utils/npc/getSpritePath";
 import type { ReplayData } from "@/utils/types/replay";
-import styles from "../styles.module.css";
+import styles from "@/components/Game/Battle/Replay/styles.module.css";
 
 type Summon = ReplayData["frames"][number]["sm"][number];
 

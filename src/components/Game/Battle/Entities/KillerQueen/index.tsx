@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import type { KillerQueenOverlay } from "@/utils/types/character/srGuaxinim";
-import type { BattleEntityPositioning } from "../types";
+import type { BattleEntityPositioning } from "@/components/Game/Battle/Entities/types";
 
 type Props = BattleEntityPositioning & {
   killerQueen: KillerQueenOverlay | null;

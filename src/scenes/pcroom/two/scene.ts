@@ -3,7 +3,7 @@ import { MUSICS } from "@/scenes/shared/music";
 import { getPcRoomTwoDialogue } from "./dialogue";
 import { pcRoomTwoNpcs } from "./npcs";
 import { pcRoomTwoEvents } from "./events";
-import { pcRoomOneTiles } from "../one/tiles";
+import { pcRoomOneTiles } from "@/scenes/pcroom/one/tiles";
 import { getPcRoomTwoInitialPosition } from "./position";
 
 export const twoScene: SceneConfig = {

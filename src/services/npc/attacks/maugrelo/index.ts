@@ -1,8 +1,5 @@
 import { NpcAttack } from "@/services/npc/npcAttack";
-import {
-  initMaugreloAi,
-  handlePhaseChange,
-} from "./state";
+import { initMaugreloAi, handlePhaseChange } from "./state";
 import { maugreloPhase1 } from "./phase1";
 import { maugreloPhase2 } from "./phase2";
 import type {

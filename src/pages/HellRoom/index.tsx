@@ -1,6 +1,5 @@
-import ScenePage from "@/components/Game/Scenes/ScenePage";
+import { createScenePage } from "@/utils/createScenePage";
 import { HellScene } from "@/features/hellRoom";
 
-export default function HellRoomPage() {
-  return <ScenePage SceneComponent={HellScene} />;
-}
+// eslint-disable-next-line react-refresh/only-export-components
+export default createScenePage(HellScene);

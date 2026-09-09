@@ -7,10 +7,7 @@ import { useQuests } from "@/contexts/QuestContext";
 import { useSettings } from "@/hooks/useSetting";
 import { useFlags } from "@/contexts/FlagContext";
 import { useTitles } from "@/contexts/TitleContext";
-import {
-  CHEST_DROP_CHANCE,
-  KEY_DROP_CHANCE,
-} from "@/data/battle/drops";
+import { CHEST_DROP_CHANCE, KEY_DROP_CHANCE } from "@/data/battle/drops";
 import { calculateXP } from "@/gameRules/battle/calculateXp";
 import {
   PET_XP_MULTIPLIER,
@@ -81,12 +78,7 @@ export function useBattleRewards({
   ) {
     const equipmentDrops: EquipmentDropInfo[] = rollMultiple(
       () =>
-        rollEquipmentDrops(
-          npcClass,
-          grantAddDrop,
-          player.character,
-          luckBonus,
-        ),
+        rollEquipmentDrops(npcClass, grantAddDrop, player.character, luckBonus),
       dropRolls,
     ).flat();
 
@@ -99,7 +91,9 @@ export function useBattleRewards({
     return equipmentDrops;
   }
 
-  function collectMaterialDrops(grantAddItem: (item: InventoryItem) => boolean) {
+  function collectMaterialDrops(
+    grantAddItem: (item: InventoryItem) => boolean,
+  ) {
     const itemDrops: ItemDropInfo[] = [];
 
     for (const drop of rollMultiple(
@@ -132,7 +126,11 @@ export function useBattleRewards({
         );
       }
       if (!keyDrop) {
-        keyDrop = rollKeyDrop(npcClass, grantAddItem, KEY_DROP_CHANCE[npcClass]);
+        keyDrop = rollKeyDrop(
+          npcClass,
+          grantAddItem,
+          KEY_DROP_CHANCE[npcClass],
+        );
       }
       return null;
     }, dropRolls);
@@ -197,11 +195,7 @@ export function useBattleRewards({
     if (!petInfo) return;
     const petXpAmount = Math.floor(xpReward * PET_XP_MULTIPLIER);
     if (petXpAmount > 0)
-      addPetXP(
-        petInfo.id,
-        petStarsFromEnhance(petInfo.enhance),
-        petXpAmount,
-      );
+      addPetXP(petInfo.id, petStarsFromEnhance(petInfo.enhance), petXpAmount);
   }
 
   /**

@@ -1,6 +1,5 @@
-import ScenePage from "@/components/Game/Scenes/ScenePage";
+import { createScenePage } from "@/utils/createScenePage";
 import { CantinaScene } from "@/features/cantina/index";
 
-export default function CantinaPage() {
-  return <ScenePage SceneComponent={CantinaScene} />;
-}
+// eslint-disable-next-line react-refresh/only-export-components
+export default createScenePage(CantinaScene);

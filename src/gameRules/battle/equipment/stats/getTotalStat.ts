@@ -1,6 +1,6 @@
 import type { EquipmentStats } from "@/utils/types/player/equipment";
 import { loadEquipped } from "@/data/equipment/storage";
-import { getActiveSetItemIds } from "../sets";
+import { getActiveSetItemIds } from "@/gameRules/battle/equipment/sets";
 import { sumEquippedStat } from "./sumEquippedStat";
 
 export function getTotalStat(

@@ -3,11 +3,11 @@ import type {
   BehaviorContext,
   BehaviorResult,
 } from "@/utils/types/npc/npcBehavior";
-import type { MaugreloAI } from "../state";
+import type { MaugreloAI } from "@/services/npc/attacks/maugrelo/state";
 import {
   PHASE2_THROW_PAPER_INTERVAL,
   PHASE2_THROW_PAPER_COUNT,
-} from "../state";
+} from "@/services/npc/attacks/maugrelo/state";
 
 export function handleThrowPapers(
   ai: MaugreloAI,

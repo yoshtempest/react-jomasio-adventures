@@ -1,5 +1,5 @@
 import { NPCBattle } from "@/components/Game/Entities/Npc/Battle";
-import type { BattleEntitiesBattle } from "../types";
+import type { BattleEntitiesBattle } from "@/components/Game/Battle/Entities/types";
 
 type Props = {
   x: number;

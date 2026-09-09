@@ -10,8 +10,6 @@ import type {
 
 export const TOMBSTONE_FADE_MS = ONE_THOUSAND_MS;
 
-
-
 /**
  * A lápide nasce no tile em frente ao jogador (onde o NPC estava):
  * olhando para cima vê-se a frente da pedra, para baixo o verso,

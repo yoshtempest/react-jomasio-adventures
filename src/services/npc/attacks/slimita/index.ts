@@ -1,4 +1,4 @@
-import { NpcAttack } from "../../npcAttack";
+import { NpcAttack } from "@/services/npc/npcAttack";
 import { getSlimitaState } from "@/gameRules/npc/slimitaState";
 import { handlePhase1 } from "./phase1";
 import { handlePhase2 } from "./phase2";

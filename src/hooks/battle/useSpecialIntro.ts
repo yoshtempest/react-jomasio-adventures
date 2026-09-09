@@ -17,9 +17,9 @@ type Props = {
  * rápido), que roda em tempo real independente do time scale.
  */
 export function useSpecialIntro({ setTimeScale, resetTimeScale }: Props) {
-  const [specialIntro, setSpecialIntro] = useState<{ character: string } | null>(
-    null,
-  );
+  const [specialIntro, setSpecialIntro] = useState<{
+    character: string;
+  } | null>(null);
   const activeRef = useRef(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const onActivateRef = useRef<(() => void) | null>(null);

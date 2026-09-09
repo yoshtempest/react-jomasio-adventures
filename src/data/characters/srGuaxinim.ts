@@ -1,4 +1,3 @@
-
 import {
   SIXTEEN_MS,
   THIRTY_MS,
@@ -29,7 +28,10 @@ export const DEFAULT_OVERLAY: KillerQueenOverlay = {
   flip: false,
 };
 
-export const KILLER_QUEEN_SPRITE_FILE: Record<KillerQueenOverlay["sprite"], string> = {
+export const KILLER_QUEEN_SPRITE_FILE: Record<
+  KillerQueenOverlay["sprite"],
+  string
+> = {
   idle: "killerQueenIdle",
   touch: "touch",
   prePalm: "prePalm",

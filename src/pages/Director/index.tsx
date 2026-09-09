@@ -1,6 +1,5 @@
-import ScenePage from "@/components/Game/Scenes/ScenePage";
+import { createScenePage } from "@/utils/createScenePage";
 import { DirectorScene } from "@/features/director/index";
 
-export default function DirectorPage() {
-  return <ScenePage SceneComponent={DirectorScene} />;
-}
+// eslint-disable-next-line react-refresh/only-export-components
+export default createScenePage(DirectorScene);
