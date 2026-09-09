@@ -67,6 +67,8 @@ import { useBattleOutro } from "@/hooks/battle/useOutro";
 import { useBattleSync } from "@/hooks/battle/useSync";
 import { useNpcTargeting } from "@/hooks/battle/npc/useNpcTargeting";
 import { useBattleInfo } from "@/contexts/BattleInfoContext";
+import { useBattleMana } from "@/contexts/BattleManaContext";
+import { LUCAS_WEAPON_SWITCH_MANA_COST } from "@/gameRules/battle/mana";
 import {
   getPetSkillDefinition,
   PET_ROOT_DURATION_MS,
@@ -163,8 +165,13 @@ export function useBattleScene({
     timeScaleRef,
   } = usePlayer();
 
-  const { progress, reduceHunger, getXPToNextLevel, setBattleHP } =
-    useCharacterProgress();
+  const {
+    progress,
+    reduceHunger,
+    getXPToNextLevel,
+    setBattleHP,
+    setBattleMana,
+  } = useCharacterProgress();
   const playerLevel = progress[player.character]?.level ?? 1;
   const { getPetProgress } = usePetProgress();
   const { getEquippedInfo } = useEquipment();
@@ -347,6 +354,15 @@ export function useBattleScene({
     hitstopRef: refs.hitstopRef,
   });
 
+  const battleMana = useBattleMana();
+  const battleManaRef = useLatestRef(battleMana);
+
+  const handleWeaponSwitch = useCallback(() => {
+    const mana = battleManaRef.current;
+    if (mana && !mana.consumeMana(LUCAS_WEAPON_SWITCH_MANA_COST)) return;
+    switchWeapon();
+  }, [battleManaRef, switchWeapon]);
+
   const { kokusenActive, kokusenFrame, triggerKokusen } = useKokusenAnimation();
   const onKokusenRef = useLatestRef(triggerKokusen);
 
@@ -523,6 +539,7 @@ export function useBattleScene({
     if (isHardMode && allOthersDefeated) {
       for (const c of CHARACTERS) {
         setBattleHP(c, 1);
+        setBattleMana(c, null);
       }
       setMode("explore");
       void navigate(-1);
@@ -530,6 +547,7 @@ export function useBattleScene({
     }
 
     setBattleHP(player.character, null);
+    setBattleMana(player.character, null);
     incrementDeath(player.character);
     handleDefeat();
     recordDefeat();
@@ -551,6 +569,13 @@ export function useBattleScene({
       return;
     }
     setBattleHP(player.character, battle.playerHP);
+    const mana = battleManaRef.current;
+    if (mana) {
+      setBattleMana(
+        player.character,
+        mana.playerMana >= mana.playerMaxMana ? null : mana.playerMana,
+      );
+    }
     reduceHunger(player.character, 5);
     recordWin(player.character);
 
@@ -1363,7 +1388,7 @@ export function useBattleScene({
     extraPunches,
     extraPunchSprite,
     lucasWeapon,
-    switchWeapon,
+    switchWeapon: handleWeaponSwitch,
     kokusenActive,
     kokusenFrame,
     specialIntroActive,

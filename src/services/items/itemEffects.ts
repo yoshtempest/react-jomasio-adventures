@@ -19,6 +19,12 @@ export const ENERGETIC_RESTORE: Record<
   coca_cola: { hunger: 10, sleep: 25 },
 };
 
+/** Mana restaurada por poção (use em batalha). */
+export const MANA_RESTORE: Record<string, number> = {
+  mana_potion_small: 50,
+  mana_potion_great: 100,
+};
+
 export const GOOD_POWDER_ENCOUNTERS = [
   { npcType: "vandinhaFragment", route: "/battle/vandinhafragment" },
   { npcType: "hungryDeath", route: "/battle/hungry" },

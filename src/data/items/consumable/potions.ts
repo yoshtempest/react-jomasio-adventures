@@ -31,4 +31,16 @@ export const POTIONS = createItems({
     description: "Multiplica o XP ganho em 3x por 30 minutos.",
     type: "consumable",
   },
+  mana_potion_small: {
+    image: "/assets/items/manaPotion/small.svg",
+    name: "Poção de Mana",
+    description: "Poção azul restauradora. Recupera 50 de mana em batalha.",
+    type: "consumable",
+  },
+  mana_potion_great: {
+    image: "/assets/items/manaPotion/great.svg",
+    name: "Poção de Mana Grande",
+    description: "Poção de mana reforçada. Recupera 100 de mana em batalha.",
+    type: "consumable",
+  },
 } as const);

@@ -36,6 +36,8 @@ export function normalizeProgress(data: unknown): CharactersProgress {
       },
       battleHP:
         typeof savedChar?.battleHP === "number" ? savedChar.battleHP : null,
+      battleMana:
+        typeof savedChar?.battleMana === "number" ? savedChar.battleMana : null,
     };
   }
   return safe;

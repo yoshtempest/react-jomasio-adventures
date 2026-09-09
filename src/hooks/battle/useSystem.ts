@@ -28,8 +28,13 @@ import {
 } from "@/gameRules/battle/equipment";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import { getProfessionWeaponDamageMultiplier } from "@/gameRules/professions/weapon";
-import { THREE_HUNDRED_MS } from "@/data/ms";
+import { THREE_HUNDRED_MS, ONE_THOUSAND_MS } from "@/data/ms";
 import { useEnergy } from "@/hooks/battle/useEnergy";
+import {
+  useBattleMana,
+  type BattleManaApi,
+} from "@/contexts/BattleManaContext";
+import { MANA_REGEN_PER_SECOND } from "@/gameRules/battle/mana";
 import { gainSpecial } from "@/gameRules/battle/special";
 import {
   applyPlayerStatus,
@@ -210,6 +215,9 @@ export function useBattleSystem(props: Props) {
 
   const energy = useEnergy(player, playerMaxHp, setPlayerShield);
 
+  const battleMana = useBattleMana();
+  const battleManaRef = useLatestRef(battleMana);
+
   const petSkillDef = petId ? getPetSkillDefinition(petId) : null;
   const petIsBattle =
     hasPet && petSkillDef !== null && petSkillDef.role !== "montaria";
@@ -386,6 +394,8 @@ export function useBattleSystem(props: Props) {
 
   usePlayerPullAnimation(setPlayer, isMenuRef);
 
+  useManaRegenTick(battleManaRef, isEnding, isMenuRef);
+
   const resetBattle = () => {
     setPlayerHP(playerMaxHp);
     setPlayerShield(totalShield);
@@ -408,6 +418,7 @@ export function useBattleSystem(props: Props) {
     resetPetPassive();
     npcBleedUntilRef.current = 0;
     energy.resetEnergy();
+    battleMana?.resetMana();
     setPlayer((p) => ({
       ...clearPlayerStatuses(p),
       halfHealUntil: 0,
@@ -457,6 +468,8 @@ export function useBattleSystem(props: Props) {
     playerShield,
     setPlayerShield,
     energy: energy.enabled ? energy.energy : undefined,
+    mana: battleMana?.playerMana,
+    manaMax: battleMana?.playerMaxMana,
     npcHP,
     setNpcHP,
     npcMaxHp,
@@ -650,4 +663,19 @@ function usePlayerPullAnimation(
     }, 16);
     return () => clearInterval(interval);
   }, [setPlayer, isMenuRef]);
+}
+
+function useManaRegenTick(
+  battleManaRef: React.RefObject<BattleManaApi | null>,
+  isEnding: React.RefObject<boolean>,
+  isMenuRef?: React.RefObject<boolean>,
+) {
+  useEffect(() => {
+    if (!battleManaRef.current) return;
+    const interval = setInterval(() => {
+      if (isEnding.current || isMenuRef?.current) return;
+      battleManaRef.current?.restoreMana(MANA_REGEN_PER_SECOND);
+    }, ONE_THOUSAND_MS);
+    return () => clearInterval(interval);
+  }, [battleManaRef, isEnding, isMenuRef]);
 }

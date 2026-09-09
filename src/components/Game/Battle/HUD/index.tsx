@@ -20,6 +20,8 @@ type BattleHUDState = {
   blockGauge: number;
   blockLimit: number;
   energy?: number;
+  mana?: number;
+  manaMax?: number;
 };
 
 type NpcStats = {
@@ -69,6 +71,8 @@ export function BattleHUD({
         blockGauge={battle.blockGauge}
         blockLimit={battle.blockLimit}
         energy={battle.energy}
+        mana={battle.mana}
+        maxMana={battle.manaMax}
       />
 
       {npcType && (

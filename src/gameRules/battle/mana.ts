@@ -1,0 +1,45 @@
+import type { EquipmentRank } from "@/utils/types/player/equipment";
+import { loadEquipped } from "@/data/equipment/storage";
+import { getEquipmentById } from "@/data/equipment";
+import { eachEquippedItem } from "@/gameRules/battle/equipment/stats/eachEquippedItem";
+
+export const MAX_MANA_BASE = 100;
+export const LUCAS_WEAPON_SWITCH_MANA_COST = 50;
+export const MANA_REGEN_PER_SECOND = 1;
+
+/**
+ * Palavras-chave usadas pela regra genérica de mana: qualquer equipamento
+ * (cajado na mão, pingente no slot) cujo nome contenha uma delas concede
+ * mana pelo valor do rank.
+ */
+const MANA_KEYWORDS = ["cajado", "mago", "arquimago", "pingente"] as const;
+
+const MANA_BONUS_BY_RANK: Partial<Record<EquipmentRank, number>> = {
+  1: 5,
+  2: 8,
+  3: 10,
+  4: 12,
+  5: 15,
+  6: 18,
+  7: 20,
+  8: 25,
+  9: 30,
+  0: 35,
+  EX: 40,
+};
+
+export function getManaBonusFromEquipment(character: CharacterId): number {
+  let total = 0;
+  for (const info of eachEquippedItem(loadEquipped(character))) {
+    const def = getEquipmentById(info.id);
+    if (!def) continue;
+    const name = def.name.toLowerCase();
+    if (!MANA_KEYWORDS.some((keyword) => name.includes(keyword))) continue;
+    total += MANA_BONUS_BY_RANK[def.rank] ?? 0;
+  }
+  return total;
+}
+
+export function getMaxMana(character: CharacterId): number {
+  return MAX_MANA_BASE + getManaBonusFromEquipment(character);
+}

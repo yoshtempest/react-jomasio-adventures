@@ -21,6 +21,7 @@ export type CharacterProgress = {
   hyperCoins: number;
   stats: CharacterStats;
   battleHP?: number | null;
+  battleMana?: number | null;
 };
 
 export type CharactersProgress = Record<Character, CharacterProgress>;

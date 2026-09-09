@@ -12,9 +12,10 @@ import { CHARACTERS } from "@/data/options/characters";
 import { npcPath, playerPath } from "@/utils/paths";
 import { getRank, formatRank, getRankMultiplier } from "@/gameRules/rank";
 import { getEquipmentStatsBonus } from "@/gameRules/battle/equipment";
+import { getMaxMana } from "@/gameRules/battle/mana";
 import { ProgressBar } from "@/components/Game/ProgressBar";
 import styles from "./styles.module.css";
-import { Drumstick, Heart, Moon } from "lucide-react";
+import { Drumstick, Heart, Moon, Sparkles } from "lucide-react";
 
 const HUNGRY_THRESHOLD = 20;
 
@@ -55,6 +56,8 @@ export function CharacterInfo() {
   const playerMaxHp =
     90 + Math.round(effectiveHp * rankMultiplier * hungerMultiplier) * 10;
   const currentHP = charProgress.battleHP ?? playerMaxHp;
+  const maxMana = getMaxMana(character);
+  const currentMana = charProgress.battleMana ?? maxMana;
 
   return (
     <div className="StatusColumn">
@@ -110,6 +113,21 @@ export function CharacterInfo() {
                 ? "orange"
                 : "red"
           }
+        />
+      </div>
+      <div className={styles.hungerContainer}>
+        <div className={styles.hungerText}>
+          <Sparkles />
+          <span>Mana</span>
+          <span>
+            {currentMana}/{maxMana}
+          </span>
+        </div>
+        <ProgressBar
+          value={currentMana}
+          max={maxMana}
+          animationId={`char-mana-${player.character}`}
+          color="#7fc7ff"
         />
       </div>
       <div className={styles.hungerContainer}>

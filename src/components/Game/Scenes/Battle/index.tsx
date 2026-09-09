@@ -27,6 +27,8 @@ import { usePlayerActions } from "@/contexts/PlayerContext";
 import { useTitles } from "@/contexts/TitleContext";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { useBattleNavbar } from "@/contexts/BattleNavbarContext";
+import { useBattleMana } from "@/contexts/BattleManaContext";
+import { LUCAS_WEAPON_SWITCH_MANA_COST } from "@/gameRules/battle/mana";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import { TrainingOverlay } from "@/components/Game/Battle/TrainingOverlay";
@@ -223,6 +225,7 @@ export function BattleScene(props: Props) {
   });
   const battleAudioRef = useLatestRef(battleAudio);
   const { isBattleNavOpen } = useBattleNavbar();
+  const battleMana = useBattleMana();
 
   useEffect(() => {
     const shouldPlay =
@@ -437,7 +440,11 @@ export function BattleScene(props: Props) {
       {player.character === "lucas" && (
         <WeaponSwitchButton
           weapon={lucasWeapon}
-          disabled={controlsDisabled}
+          disabled={
+            controlsDisabled ||
+            (battleMana != null &&
+              battleMana.playerMana < LUCAS_WEAPON_SWITCH_MANA_COST)
+          }
           onClick={switchWeapon}
         />
       )}

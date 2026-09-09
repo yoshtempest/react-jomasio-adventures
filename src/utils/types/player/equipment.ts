@@ -28,6 +28,7 @@ export type EquipmentDef = {
   bonusSlots?: number;
   set?: string;
   craftOnly?: boolean;
+  class?: string;
 };
 
 export type Equipment = EquipmentDef & { id: EquipmentId };

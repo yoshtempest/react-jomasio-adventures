@@ -8,6 +8,7 @@ import {
 import { useTitles } from "@/contexts/TitleContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { getEquipmentStatsBonus } from "@/gameRules/battle/equipment";
+import { getMaxMana } from "@/gameRules/battle/mana";
 import { getRankMultiplier } from "@/gameRules/rank";
 import { ONE_THOUSAND_MS } from "@/data/ms";
 
@@ -42,12 +43,13 @@ function computeMaxHp(
  */
 export function useRegenTimer() {
   const { player } = usePlayer();
-  const { progress, setBattleHP } = useCharacterProgress();
+  const { progress, setBattleHP, setBattleMana } = useCharacterProgress();
   const { getBonus } = useTitles();
 
   const progressRef = useLatestRef(progress);
   const characterRef = useLatestRef(player.character);
   const setBattleHPRef = useLatestRef(setBattleHP);
+  const setBattleManaRef = useLatestRef(setBattleMana);
   const getBonusRef = useLatestRef(getBonus);
 
   useEffect(() => {
@@ -57,6 +59,19 @@ export function useRegenTimer() {
       const character = characterRef.current;
       const charProgress = progressRef.current[character];
       if (!charProgress) return;
+
+      const currentMana = charProgress.battleMana;
+      if (currentMana != null) {
+        const maxMana = getMaxMana(character);
+        if (currentMana >= maxMana) {
+          setBattleManaRef.current(character, null);
+        } else {
+          setBattleManaRef.current(
+            character,
+            Math.min(maxMana, currentMana + 1),
+          );
+        }
+      }
 
       const hp = charProgress.battleHP;
       if (hp == null) return;
@@ -84,5 +99,12 @@ export function useRegenTimer() {
     }, REGEN_TICK_MS);
 
     return () => clearInterval(interval);
-  }, [player.mode, characterRef, progressRef, setBattleHPRef, getBonusRef]);
+  }, [
+    player.mode,
+    characterRef,
+    progressRef,
+    setBattleHPRef,
+    setBattleManaRef,
+    getBonusRef,
+  ]);
 }

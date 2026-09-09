@@ -51,6 +51,7 @@ type ContextType = {
   resetSleep: (character: Character) => void;
   setSleep: (character: Character, value: number) => void;
   setBattleHP: (character: Character, hp: number | null) => void;
+  setBattleMana: (character: Character, mana: number | null) => void;
   getXPToNextLevel: (level: number) => number;
 };
 
@@ -115,6 +116,7 @@ export function CharacterProgressProvider({
             hunger: newHunger,
             sleep: newSleep,
             battleHP: pointsGained > 0 ? null : char.battleHP,
+            battleMana: pointsGained > 0 ? null : char.battleMana,
             stats: {
               ...char.stats,
               points: char.stats.points + pointsGained,
@@ -313,6 +315,19 @@ export function CharacterProgressProvider({
     [setProgress],
   );
 
+  const setBattleMana = useCallback(
+    (character: Character, mana: number | null) => {
+      setProgress((prev) => {
+        const char = prev[character];
+        return {
+          ...prev,
+          [character]: { ...char, battleMana: mana },
+        };
+      });
+    },
+    [setProgress],
+  );
+
   // ➕ DISTRIBUIR PONTOS
   const addStat = useCallback(
     (character: Character, stat: keyof Omit<CharacterStats, "points">) => {
@@ -360,6 +375,7 @@ export function CharacterProgressProvider({
       resetSleep,
       setSleep,
       setBattleHP,
+      setBattleMana,
       getXPToNextLevel: getXPToNextLevelUtil,
     }),
     [
@@ -378,6 +394,7 @@ export function CharacterProgressProvider({
       resetSleep,
       setSleep,
       setBattleHP,
+      setBattleMana,
     ],
   );
 

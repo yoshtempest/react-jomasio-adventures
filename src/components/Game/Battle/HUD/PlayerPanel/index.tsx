@@ -24,6 +24,8 @@ type Props = {
   blockGauge: number;
   blockLimit: number;
   energy?: number;
+  mana?: number;
+  maxMana?: number;
 };
 
 export function PlayerHUDPanel({
@@ -40,6 +42,8 @@ export function PlayerHUDPanel({
   blockGauge,
   blockLimit,
   energy,
+  mana,
+  maxMana,
 }: Props) {
   return (
     <div className={styles.container} style={{ left: 10, top: 10 }}>
@@ -76,6 +80,9 @@ export function PlayerHUDPanel({
             )}
             <BlockGauge blockGauge={blockGauge} blockLimit={blockLimit} />
             {energy != null && <EnergyBar label="FLUXO" value={energy} />}
+            {mana != null && maxMana != null && (
+              <EnergyBar label="MANA" value={mana} max={maxMana} />
+            )}
           </div>
           <Deliciometro delicia={delicia} hitsToSpecial={hitsToSpecial} />
         </div>

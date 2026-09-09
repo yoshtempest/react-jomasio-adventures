@@ -6,11 +6,16 @@ import {
   MAX_HUNGER,
   MAX_SLEEP,
 } from "@/contexts/CharacterProgressContext";
+import { useBattleMana } from "@/contexts/BattleManaContext";
 import { useAudio } from "@/hooks/useAudio";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { sfx } from "@/utils/paths";
 import { activateXpBuff, POTION_CONFIG } from "@/utils/buffs/xpBuff";
-import { FOOD_RESTORE, ENERGETIC_RESTORE } from "@/services/items/itemEffects";
+import {
+  FOOD_RESTORE,
+  ENERGETIC_RESTORE,
+  MANA_RESTORE,
+} from "@/services/items/itemEffects";
 
 /**
  * Consuming an item from the inventory.
@@ -27,6 +32,7 @@ export function useConsumeItem() {
   const { player } = usePlayer();
   const { progress, restoreHunger, restoreSleep } = useCharacterProgress();
   const { sfxVolume } = useAudio();
+  const battleMana = useBattleMana();
 
   const sfxVolumeRef = useLatestRef(sfxVolume);
 
@@ -35,7 +41,8 @@ export function useConsumeItem() {
     const foodAmount = FOOD_RESTORE[id];
     const potion = POTION_CONFIG[id];
     const energetic = ENERGETIC_RESTORE[id];
-    if (!foodAmount && !potion && !energetic) return false;
+    const manaAmount = MANA_RESTORE[id];
+    if (!foodAmount && !potion && !energetic && !manaAmount) return false;
 
     if (foodAmount) {
       const currentHunger = progress[player.character]?.hunger ?? 0;
@@ -51,6 +58,11 @@ export function useConsumeItem() {
         return false;
       restoreSleep(player.character, energetic.sleep);
       restoreHunger(player.character, energetic.hunger);
+    }
+
+    if (manaAmount) {
+      if (!battleMana) return false;
+      battleMana.restoreMana(manaAmount);
     }
 
     const audio = sfx(
