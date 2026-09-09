@@ -1,0 +1,1 @@
+import{Ai as e,Ii as t,Li as n}from"./index-B4gbedFZ.js";import{t as r}from"./useGameAudio-CNXkSlti.js";var i=n(t());function a(t,n=.3){let a=(0,i.useMemo)(()=>({src:t,loop:!0,volume:n}),[t,n]),o=r(a),s=e(o);return(0,i.useEffect)(()=>{let e=s.current;if(!e.isPlaying())return e.play()?.catch(()=>{}),()=>e.stop()},[t,s]),o}export{a as t};
