@@ -1,0 +1,78 @@
+import type { EquipmentDef } from "@/utils/types/player/equipment";
+
+export const STAFFS = [
+  {
+    id: "weapon_cajado_runas",
+    name: "Cajado de Runas",
+    slot: "weapon",
+    rank: 3,
+    stats: { intelligence: 3 },
+  },
+  {
+    id: "weapon_cajado_arcano",
+    name: "Cajado Arcano",
+    slot: "weapon",
+    rank: 5,
+    stats: { strength: 1, intelligence: 3, vampirism: 1, trueDamage: 1 },
+  },
+  {
+    id: "weapon_cetro_real",
+    name: "Cetro Real",
+    slot: "weapon",
+    rank: 7,
+    stats: { strength: 2, intelligence: 3, vampirism: 2, trueDamage: 2 },
+  },
+  {
+    id: "weapon_cetro_real",
+    name: "Cetro Grande",
+    slot: "weapon",
+    rank: 8,
+    stats: {
+      strength: 2,
+      intelligence: 3,
+      vampirism: 2,
+      maxHpDamage: 1,
+      trueDamage: 3,
+    },
+  },
+  {
+    id: "weapon_cajado_aprendiz",
+    name: "Cajado do Aprendiz",
+    slot: "weapon",
+    rank: 1,
+    class: "arma",
+    stats: { intelligence: 1 },
+  },
+  {
+    id: "weapon_cajado_mago",
+    name: "Cajado do Mago",
+    slot: "weapon",
+    rank: 3,
+    class: "arma",
+    stats: { intelligence: 2, shield: 1 },
+  },
+  {
+    id: "weapon_cajado_arquimago",
+    name: "Cajado do Arquimago",
+    slot: "weapon",
+    rank: 5,
+    class: "arma",
+    stats: { intelligence: 3, shield: 2, maxHpDamage: 1 },
+  },
+  {
+    id: "weapon_cajado_mago_mestre",
+    name: "Cajado do Mago Mestre",
+    slot: "weapon",
+    rank: 7,
+    class: "arma",
+    stats: { intelligence: 4, shield: 3, maxHpDamage: 1, trueDamage: 1 },
+  },
+  {
+    id: "weapon_cajado_real_arquimago",
+    name: "Cajado Real do Arquimago",
+    slot: "weapon",
+    rank: 9,
+    class: "arma",
+    stats: { intelligence: 5, shield: 5, maxHpDamage: 2, trueDamage: 2 },
+  },
+] as const satisfies readonly EquipmentDef[];
