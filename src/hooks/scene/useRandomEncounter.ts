@@ -20,6 +20,14 @@ function pickEncounter(encounters: EncounterDef[]): string {
   return encounters[encounters.length - 1]!.route;
 }
 
+function rollNpcLevel(
+  range: readonly [number, number] | undefined,
+): number | undefined {
+  if (!range) return undefined;
+  const [min, max] = range;
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 export function useRandomEncounter(config: RandomEncounterConfig) {
   const configRef = useLatestRef(config);
 
@@ -101,7 +109,9 @@ export function useRandomEncounter(config: RandomEncounterConfig) {
           locationId: cfg.locationId,
         });
       }
-      void navigate(route, { state: { alfa: true } });
+      void navigate(route, {
+        state: { alfa: true, npcLevel: rollNpcLevel(cfg.npcLevelRange) },
+      });
       return;
     }
 
@@ -116,7 +126,9 @@ export function useRandomEncounter(config: RandomEncounterConfig) {
         });
       }
       const route = pickEncounter(cfg.encounters);
-      void navigate(route);
+      void navigate(route, {
+        state: { npcLevel: rollNpcLevel(cfg.npcLevelRange) },
+      });
     }
   }, [
     player.gridX,

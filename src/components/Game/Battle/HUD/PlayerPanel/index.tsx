@@ -15,6 +15,7 @@ type Props = {
   character: string;
   playerName: string;
   playerRank: string;
+  playerLevel: number;
   playerElementTypes?: readonly ElementType[];
   hp: number;
   maxHp: number;
@@ -33,6 +34,7 @@ export function PlayerHUDPanel({
   character,
   playerName,
   playerRank,
+  playerLevel,
   playerElementTypes,
   hp,
   maxHp,
@@ -61,7 +63,7 @@ export function PlayerHUDPanel({
       </div>
       <div className={styles.playerInfo}>
         <div className={styles.nameRow}>
-          <h2 className={`${"hudName"} ${styles.playerName}`}>{playerName}</h2>
+          <h2 className={`${"hudName"} ${styles.playerName}`}>{playerName} - Nv.{playerLevel}</h2>
           {playerElementTypes && <ElementBadges types={playerElementTypes} />}
         </div>
 

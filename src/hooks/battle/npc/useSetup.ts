@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { NPCS, isNpcType, type NPCData } from "@/data/npc/npc";
-import { generateNpcLevel } from "@/gameRules/battle/generateNpcLevel";
 import { getNpcStats } from "@/gameRules/npc/npcStats";
 
 type NpcSetupResult = {
@@ -12,12 +11,12 @@ type NpcSetupResult = {
 export function useNpcSetup(
   npcType: string,
   difficulty: NpcDifficulty,
-  playerLevel: number = 1,
+  npcLevel: number,
   multiplier: number = 1,
 ): NpcSetupResult {
   const npcData = isNpcType(npcType) ? NPCS[npcType] : NPCS.dummy;
-  const [npcLevel] = useState(() => generateNpcLevel(playerLevel));
-  const npcStats = getNpcStats(npcLevel, npcData.class, difficulty, multiplier);
+  const [level] = useState(() => npcLevel);
+  const npcStats = getNpcStats(level, npcData.class, difficulty, multiplier);
 
-  return { npcData, npcLevel, npcStats };
+  return { npcData, npcLevel: level, npcStats };
 }

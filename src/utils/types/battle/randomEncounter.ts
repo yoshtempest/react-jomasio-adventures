@@ -9,6 +9,7 @@ export type RandomEncounterConfig = {
   storageKey: SlotScopedKey;
   blockedTiles?: { x: number; y: number }[];
   encounters: EncounterDef[];
+  npcLevelRange?: readonly [number, number];
   encounterChance?: number;
   alfaChance?: number;
   locationId?: string;

@@ -36,6 +36,7 @@ export default function BattlePage() {
   const originRoute = (location.state as { battleOrigin?: string } | null)
     ?.battleOrigin;
   const isAlfa = (location.state as { alfa?: boolean } | null)?.alfa === true;
+  const npcLevel = (location.state as { npcLevel?: number } | null)?.npcLevel;
   const background =
     (originRoute ? getBattleBackgroundFromRoute(originRoute) : "") ||
     config?.background;
@@ -52,6 +53,7 @@ export default function BattlePage() {
     <BattleProviders>
       <BattleScene
         npcType={config.npcType}
+        npcLevel={npcLevel}
         redirectTo={config.redirectTo}
         onVictory={handleVictory}
         victoryDescription={config.victoryDescription}

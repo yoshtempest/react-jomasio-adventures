@@ -50,6 +50,7 @@ type Props = {
   map?: BattleMapConfig;
   training?: boolean;
   isAlfa?: boolean;
+  npcLevel?: number;
   children?: ReactNode;
 };
 

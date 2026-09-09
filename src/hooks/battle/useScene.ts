@@ -28,6 +28,7 @@ import { usePlayTimeActions } from "@/contexts/PlayTimeContext";
 import { useSettings } from "@/hooks/useSetting";
 import { useTombstones } from "@/contexts/TombstoneContext";
 import { useNpcSetup } from "@/hooks/battle/npc/useSetup";
+import { getNpcLevel } from "@/data/npc/levels";
 import { useBattleRewards } from "@/hooks/battle/rewards/useRewards";
 import { useBattleLoot } from "@/hooks/battle/loot/useBattleLoot";
 import { useLootNotifications } from "@/hooks/battle/loot/useLootNotifications";
@@ -129,6 +130,7 @@ type Props = {
   background?: string;
   training?: boolean;
   isAlfa?: boolean;
+  npcLevel?: number;
   PLAYER_SIZE: number;
 };
 
@@ -141,6 +143,7 @@ export function useBattleScene({
   background,
   training,
   isAlfa = false,
+  npcLevel: npcLevelProp,
   PLAYER_SIZE,
 }: Props) {
   const navigate = useNavigate();
@@ -228,7 +231,7 @@ export function useBattleScene({
   const { npcData, npcLevel, npcStats } = useNpcSetup(
     npcType,
     difficulty,
-    playerLevel,
+    npcLevelProp ?? getNpcLevel(npcType),
     isAlfa ? 2 : 1,
   );
 

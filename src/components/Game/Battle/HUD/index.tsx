@@ -54,6 +54,7 @@ export function BattleHUD({
 
   // const characterColor = CHARACTERS.find((c) => c.image === player.character);
   const playerRank = `${srcRank(getRank(progress[player.character]?.level ?? 1))}`;
+  const playerLevel = (progress[player.character]?.level ?? 1)
 
   return (
     <>
@@ -62,6 +63,7 @@ export function BattleHUD({
         character={player.character}
         playerName={playerName}
         playerRank={playerRank}
+        playerLevel={playerLevel}
         playerElementTypes={CHARACTER_ELEMENT_TYPES[player.character]}
         hp={battle.playerHP}
         maxHp={battle.playerMaxHp}
