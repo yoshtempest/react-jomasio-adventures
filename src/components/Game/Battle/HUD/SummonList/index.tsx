@@ -22,7 +22,10 @@ export function SummonHUDList({ summons, npcType }: Props) {
           style={{ right: 10, top: 10 + (i + 1) * 100 }}
         >
           <div className={styles.npcInfo}>
-            <h2 className={styles.name}>{getNpcDisplayName(s.npcType)}</h2>
+            <h2 className={styles.name}>
+              {getNpcDisplayName(s.npcType)}
+              {s.level !== undefined && ` - Nv.${s.level}`}
+            </h2>
             <HealthBar hp={s.hp} maxHp={s.maxHp} reversed />
           </div>
           <img

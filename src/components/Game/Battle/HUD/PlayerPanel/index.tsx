@@ -63,7 +63,9 @@ export function PlayerHUDPanel({
       </div>
       <div className={styles.playerInfo}>
         <div className={styles.nameRow}>
-          <h2 className={`${"hudName"} ${styles.playerName}`}>{playerName} - Nv.{playerLevel}</h2>
+          <h2 className={`${"hudName"} ${styles.playerName}`}>
+            {playerName} - Nv.{playerLevel}
+          </h2>
           {playerElementTypes && <ElementBadges types={playerElementTypes} />}
         </div>
 

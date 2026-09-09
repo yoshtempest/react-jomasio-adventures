@@ -21,7 +21,10 @@ export function AllyHUDList({ allies }: Props) {
           style={{ left: 10, top: 10 + i * 96 }}
         >
           <div className={styles.info}>
-            <h2 className={styles.name}>{getNpcDisplayName(a.npcType)}</h2>
+            <h2 className={styles.name}>
+              {getNpcDisplayName(a.npcType)}
+              {a.level !== undefined && ` - Nv.${a.level}`}
+            </h2>
             <HealthBar hp={a.hp} maxHp={a.maxHp} reversed={false} />
           </div>
           <img
