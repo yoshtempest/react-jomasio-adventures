@@ -18,15 +18,11 @@ import {
   getTierIndex,
   type ProfessionWeaponTierId,
 } from "@/data/professions/weapons";
-import {
-  canCraft,
-  getMaterialCount,
-  getMissingMaterials,
-} from "@/gameRules/professions/craft";
-import { getNextProfessionTier } from "@/gameRules/professions/weapon";
+import { canCraft, getMaterialCount } from "@/gameRules/professions/craft";
 import { asset } from "@/utils/paths";
 import styles from "./styles.module.css";
 import { ProgressBar } from "@/components/Game/ProgressBar";
+import { ProfessionDetail } from "./ProfessionDetail";
 
 function getOwnedTierIndex(
   isOwned: (id: EquipmentId) => boolean,
@@ -50,22 +46,15 @@ function getOwnedTierIndex(
 
 export function Professions() {
   const { player } = usePlayer();
-  const {
-    addDrop,
-    isOwned,
-    getEquippedItem,
-    getQuantity,
-    equip,
-    upgradeProfessionWeapon,
-  } = useEquipment();
-  const { items, removeItem } = useInventory();
+  const { isOwned, getEquippedItem } = useEquipment();
+  const { items } = useInventory();
   const { getProficiency, getXPToNextProfessionLevel } =
     useProfessionProgress();
-  const { playMove, playSelect, playClose } = useMenuSFX();
+  const { playMove, playClose } = useMenuSFX();
   const { pushControls } = useGameControls();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [message, setMessage] = useState<string | null>(null);
+  const [openProfession, setOpenProfession] = useState<number | null>(null);
   const listRef = useRef<HTMLUListElement | null>(null);
 
   const character = player.character;
@@ -77,101 +66,12 @@ export function Professions() {
     selectedIndexRef.current = selectedIndex;
   }, [selectedIndex]);
 
-  const configRef = useRef<(index: number) => void>(() => {});
-  configRef.current = (index: number) => {
-    const profession = PROFESSIONS[index];
-    if (!profession) return;
-
-    const config = PROFESSION_WEAPONS[profession.id];
-    if (!config) return;
-
-    const baseOwned = isOwnedAny(config.baseToolId);
-    const ownedTierIndex = getOwnedTierIndex(
-      isOwnedAny,
-      equippedWeaponId,
-      config,
-    );
-
-    if (!baseOwned) {
-      const count = (id: string) => getMaterialCount(items, id);
-
-      if (ownedTierIndex >= 0) {
-        playClose();
-        setMessage("Você já possui uma versão desta ferramenta.");
-        return;
-      }
-
-      if (!canCraft(profession.recipe, count)) {
-        playClose();
-        const missing = getMissingMaterials(profession.recipe, count)
-          .map((m) => {
-            const def = ITEMS[m.id as keyof typeof ITEMS];
-            const name = def ? def.name : m.id;
-            return `${name} (${m.owned}/${m.required})`;
-          })
-          .join(", ");
-        setMessage(`Faltam materiais: ${missing}`);
-        return;
-      }
-
-      for (const [id, qty] of Object.entries(profession.recipe)) {
-        for (let i = 0; i < (qty ?? 1); i++) {
-          removeItem(id as ItemId);
-        }
-      }
-      addDrop(character, profession.toolId);
-      playSelect();
-      setMessage(`Ferramenta craftada: ${profession.toolName}`);
-      return;
-    }
-
-    const fromTier =
-      PROFESSION_WEAPON_TIERS.find((t) => getTierIndex(t.id) === ownedTierIndex)
-        ?.id ?? "comum";
-    const toTier = getNextProfessionTier(fromTier);
-    if (!toTier) {
-      playClose();
-      setMessage("Você já evoluiu sua ferramenta ao máximo!");
-      return;
-    }
-
-    const tierDef = PROFESSION_WEAPON_TIERS.find((t) => t.id === fromTier);
-    if (!tierDef) return;
-
-    const materialCount = getMaterialCount(items, config.materialId);
-    if (materialCount < tierDef.materialQty) {
-      playClose();
-      setMessage(
-        `Faltam materiais: ${config.materialName} (${materialCount}/${tierDef.materialQty})`,
-      );
-      return;
-    }
-
-    for (let i = 0; i < tierDef.materialQty; i++) {
-      removeItem(config.materialId);
-    }
-
-    const sourceWeaponId = getProfessionWeaponId(config, fromTier);
-    const wasEquipped = equippedWeaponId === sourceWeaponId;
-    const sourceOnlyInEquip =
-      wasEquipped && getQuantity(character, sourceWeaponId, 0) === 0;
-
-    if (upgradeProfessionWeapon(character, config, fromTier, toTier)) {
-      if (sourceOnlyInEquip) {
-        equip(character, getProfessionWeaponId(config, toTier));
-      }
-    }
-
-    const toLabel =
-      PROFESSION_WEAPON_TIERS.find((t) => t.id === toTier)?.label ?? "";
-    playSelect();
-    setMessage(`Ferramenta evoluída: ${config.baseName} ${toLabel}!`);
-  };
-
   const playMoveRef = useLatestRef(playMove);
+  const playCloseRef = useLatestRef(playClose);
   const pushControlsRef = useLatestRef(pushControls);
 
   useEffect(() => {
+    if (openProfession !== null) return;
     const remove = pushControlsRef.current({
       onUp: () => {
         playMoveRef.current();
@@ -186,20 +86,39 @@ export function Professions() {
         return true;
       },
       onConfirm: () => {
-        configRef.current(selectedIndexRef.current);
+        setOpenProfession(selectedIndexRef.current);
         return true;
       },
       blockGlobalOpen: true,
     });
     return remove;
-  }, [playMoveRef, pushControlsRef]);
+  }, [playMoveRef, playCloseRef, pushControlsRef, openProfession]);
 
   useEffect(() => {
     if (!listRef.current) return;
     const el = listRef.current.children[selectedIndex] as
-      HTMLElement | undefined;
+      | HTMLElement
+      | undefined;
     el?.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, [selectedIndex]);
+
+  if (openProfession !== null) {
+    const profession = PROFESSIONS[openProfession];
+    const config = profession ? PROFESSION_WEAPONS[profession.id] : undefined;
+    if (profession && config) {
+      return (
+        <div className="containerOfNavbar">
+          <ProfessionDetail
+            profession={profession}
+            config={config}
+            items={items}
+            onClose={() => setOpenProfession(null)}
+          />
+        </div>
+      );
+    }
+    setOpenProfession(null);
+  }
 
   return (
     <div className="containerOfNavbar">
@@ -237,7 +156,7 @@ export function Professions() {
             <li
               key={profession.id}
               className={`${styles.item} ${isSelected ? styles.selected : ""}`}
-              onClick={() => configRef.current(index)}
+              onClick={() => setOpenProfession(index)}
             >
               <div className={styles.info}>
                 <span className={styles.name}>{profession.name}</span>
@@ -340,8 +259,6 @@ export function Professions() {
           );
         })}
       </ul>
-
-      {message && <div className={styles.message}>{message}</div>}
     </div>
   );
 }
