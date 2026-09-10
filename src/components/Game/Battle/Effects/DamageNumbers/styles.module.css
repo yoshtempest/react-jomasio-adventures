@@ -48,8 +48,7 @@
 }
 
 .crit {
-  color: #ff0044;
-  font-size: var(--size-32);
+  font-size: var(--small);
   font-weight: 900;
   text-shadow:
     0 0 var(--fs-10) #ff0044,
@@ -58,15 +57,12 @@
     calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8),
     var(--size-1) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8),
     calc(-1 * var(--size-1)) var(--size-1) 0 rgba(0, 0, 0, 0.8);
-  animation: floatCrit 1s ease-out forwards;
 }
 
-.critText {
-  position: relative;
-  z-index: 1;
-  padding: 0.15em 0.4em;
-  color: #ff0044;
-  background: #ffffff;
+.critBackground {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   clip-path: polygon(
     50% 0%,
     61% 20%,
@@ -81,6 +77,20 @@
     0% 8%,
     39% 20%
   );
+  animation: floatCrit 1s ease-out forwards;
+  background-color: var(--accent-color);
+}
+
+.critText {
+  position: relative;
+  z-index: 1;
+  aspect-ratio: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1em;
+  color: var(--background-color);
+  margin-bottom: 3vh;
 }
 
 .miss {
@@ -192,7 +202,7 @@
     transform: translateY(0) scale(1.3);
   }
   50% {
-    opacity: 1;
+    opacity: 0.8;
     transform: translateY(calc(-1 * var(--size-30))) scale(1.5);
   }
   100% {

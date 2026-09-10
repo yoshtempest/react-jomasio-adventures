@@ -52,9 +52,11 @@ export function DamageNumbers({ numbers, scaleX, scaleY, targets }: Props) {
             }}
           >
             {n.type === "crit" ? (
-              <span className={styles.critText}>
-                {n.value > 0 ? `-${n.value}` : "0"}
-              </span>
+              <div className={styles.critBackground}>
+                <span className={styles.critText}>
+                  {n.value > 0 ? `-${n.value}` : "0"}
+                </span>
+              </div>
             ) : n.type === "blocked" ? (
               "BLOCKED!"
             ) : n.type === "parry" ? (

@@ -77,6 +77,10 @@
   align-items: center;
 }
 
+.row button{
+  opacity: 0.9;
+}
+
 @media (orientation: portrait) {
   .open {
     width: 3.6vh;
