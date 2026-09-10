@@ -2,6 +2,7 @@ import { LOOTBAG_SPRITES } from "@/data/battle/lootbags";
 import { ITEMS } from "@/data/items";
 import { asset } from "@/utils/paths";
 import type { BattleLootBag } from "@/utils/types/battle/loot";
+import type { EquipmentSlot } from "@/utils/types/player/equipment";
 
 import styles from "./styles.module.css";
 
@@ -9,6 +10,17 @@ type Props = {
   bag: BattleLootBag;
   TILE_SIZE: number;
   npcClass: NPCClass;
+};
+
+const EQUIP_SLOT_ICON: Record<EquipmentSlot, string> = {
+  weapon: "/assets/equipments/weapons.svg",
+  helmet: "/assets/equipments/helmet.svg",
+  chestplate: "/assets/equipments/chestplate.svg",
+  pants: "/assets/equipments/pants.svg",
+  boots: "/assets/equipments/boots.svg",
+  accessory: "/assets/equipments/acessorys.svg",
+  bag: "/assets/equipments/bags.svg",
+  pet: "/assets/equipments/pets.svg",
 };
 
 function bagBadgeIcon(bag: BattleLootBag): string | null {
@@ -21,6 +33,10 @@ function bagBadgeIcon(bag: BattleLootBag): string | null {
   }
   if (bag.contents.coins > 0) {
     return ITEMS.kwanzas.image;
+  }
+  const equip = bag.contents.equipmentDrops[0];
+  if (equip) {
+    return EQUIP_SLOT_ICON[equip.slot];
   }
   const item = bag.contents.itemDrops[0];
   if (item && item.image) return item.image;
