@@ -16,16 +16,18 @@ export function FilterBar({
   return (
     <div className={`${styles.container} hideScrollbar`}>
       {FILTER_LABELS.map((f) => (
-        <button
-          key={f.type}
-          className={`${styles.button} ${
-            filterType === f.type ? styles.buttonActive : ""
-          } ${filterFocused && filterType === f.type ? styles.buttonFocused : ""}`}
-          onClick={() => onFilterChange(f.type)}
-        >
-          <img src={asset(`${f.src}`)} className={styles.image} />
-          {f.label}
-        </button>
+        <span key={f.type} className={styles.item}>
+          {f.separator && <div className={styles.separator} />}
+          <button
+            className={`${styles.button} ${
+              filterType === f.type ? styles.buttonActive : ""
+            } ${filterFocused && filterType === f.type ? styles.buttonFocused : ""}`}
+            onClick={() => onFilterChange(f.type)}
+          >
+            <img src={asset(`${f.src}`)} className={styles.image} />
+            {f.label}
+          </button>
+        </span>
       ))}
     </div>
   );

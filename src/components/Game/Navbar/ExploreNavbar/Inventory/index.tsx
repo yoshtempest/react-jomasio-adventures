@@ -21,6 +21,7 @@ import { RewardsView } from "./RewardsView";
 import { ChestOpeningAnimation } from "./ChestOpeningAnimation";
 import { useItemEffect } from "@/hooks/items/useItemEffect";
 import { FILTER_LABELS } from "@/data/inventory/labels";
+import { PROFESSION_ITEMS } from "@/data/professions/professionItems";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { CHARACTERS } from "@/data/characters/list";
 import type { InventoryItem } from "@/utils/types/player/inventory";
@@ -67,16 +68,22 @@ export function Inventory() {
     [currencyItems, items],
   );
 
-  const filteredItems = useMemo(
-    () =>
-      filterType === "all"
-        ? itemsWithCurrency
-        : itemsWithCurrency.filter((item) => {
-            const itemData = item ? ITEMS[item.id] : null;
-            return itemData?.type === filterType;
-          }),
-    [filterType, itemsWithCurrency],
-  );
+  const filteredItems = useMemo(() => {
+    if (filterType === "all") return itemsWithCurrency;
+    if (filterType.startsWith("prof_")) {
+      const professionId = filterType.slice(5);
+      const professionItemIds =
+        PROFESSION_ITEMS[professionId as keyof typeof PROFESSION_ITEMS];
+      if (!professionItemIds) return itemsWithCurrency;
+      return itemsWithCurrency.filter((item) =>
+        professionItemIds.has(item.id),
+      );
+    }
+    return itemsWithCurrency.filter((item) => {
+      const itemData = item ? ITEMS[item.id] : null;
+      return itemData?.type === filterType;
+    });
+  }, [filterType, itemsWithCurrency]);
 
   const filterConfig = useMemo<FilterConfig | null>(
     () => ({
