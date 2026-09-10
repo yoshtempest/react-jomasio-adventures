@@ -30,6 +30,8 @@ export function getOwnedTierIndex(
 export function professionIcon(id: string): string {
   if (id === "lumberjack") return "/assets/badges/professions/farmer.svg";
   if (id === "chef") return "/assets/badges/professions/pastryChef.svg";
+  if (id === "butcher") return "/assets/badges/professions/butcher.svg";
+  if (id === "bodyBuilder") return "/assets/badges/professions/bodybuilder.svg";
   return `/assets/badges/professions/${id}.svg`;
 }
 
