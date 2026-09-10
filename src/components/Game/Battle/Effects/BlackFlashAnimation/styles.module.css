@@ -1,0 +1,17 @@
+.overlay {
+  position: absolute;
+  pointer-events: none;
+  z-index: 12;
+  height: 10%;
+  animation: blink 500ms steps(2, end) infinite;
+}
+
+@keyframes blink {
+  0% {
+    filter: none;
+  }
+
+  50% {
+    filter: brightness(0) invert(1);
+  }
+}

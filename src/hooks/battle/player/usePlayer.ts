@@ -70,6 +70,7 @@ type Props = {
   onAttackRef?: React.RefObject<() => void>;
   onSpecialRef?: React.RefObject<() => void>;
   onKokusenRef?: React.RefObject<() => void>;
+  onBlackFlashRef?: React.RefObject<() => void>;
   onHalfHeal?: () => void;
 };
 
@@ -112,6 +113,7 @@ export function usePlayerBattle({
   onAttackRef,
   onSpecialRef,
   onKokusenRef,
+  onBlackFlashRef,
   onHalfHeal,
 }: Props) {
   const { playSound } = useSoundEffects();
@@ -216,6 +218,7 @@ export function usePlayerBattle({
         onDamageDealtRef,
         onAttackRef,
         onKokusenRef,
+        onBlackFlashRef,
         damageMultiplier: mult,
         npcX,
         npcY,
@@ -262,6 +265,7 @@ export function usePlayerBattle({
       setPlayer,
       onAttackRef,
       onKokusenRef,
+      onBlackFlashRef,
       onHalfHeal,
       npcClass,
       npcElementTypes,
@@ -363,6 +367,7 @@ export function usePlayerBattle({
         onDamageDealtRef,
         onSpecialRef,
         onKokusenRef,
+        onBlackFlashRef,
         damageMultiplier,
         npcX,
         npcY,
@@ -410,6 +415,7 @@ export function usePlayerBattle({
       setPlayer,
       onSpecialRef,
       onKokusenRef,
+      onBlackFlashRef,
       onHalfHeal,
       playSound,
       titleDamageBonus,

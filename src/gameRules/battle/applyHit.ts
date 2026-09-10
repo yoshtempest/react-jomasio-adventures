@@ -32,6 +32,7 @@ type BaseHitParams = {
   onAttackRef?: React.RefObject<() => void>;
   onSpecialRef?: React.RefObject<() => void>;
   onKokusenRef?: React.RefObject<() => void>;
+  onBlackFlashRef?: React.RefObject<() => void>;
 };
 
 type DamageCalcParams = {
@@ -178,8 +179,10 @@ export function applyBasicHit(params: BasicHitParams) {
   if (isCrit && params.player.character !== "riquelme")
     params.setPlayer((p) => ({ ...p, state: "crit" }));
 
-  if (isCrit && params.player.character === "riquelme")
+  if (isCrit && params.player.character === "riquelme") {
     params.onKokusenRef?.current?.();
+    params.onBlackFlashRef?.current?.();
+  }
 
   params.behavior.onBasicHit({
     damage: trueDmg,
@@ -221,8 +224,10 @@ export function applySpecialHit(params: SpecialHitParams) {
   if (isCrit && params.player.character !== "riquelme")
     params.setPlayer((p) => ({ ...p, state: "crit" }));
 
-  if (isCrit && params.player.character === "riquelme")
+  if (isCrit && params.player.character === "riquelme") {
     params.onKokusenRef?.current?.();
+    params.onBlackFlashRef?.current?.();
+  }
 
   params.behavior.onSpecialHit({
     damage: trueDmg,

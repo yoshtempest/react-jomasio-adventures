@@ -103,6 +103,7 @@ import {
 } from "@/gameRules/battle/status/statusEffects";
 import type { NewPlayerStatus } from "@/gameRules/battle/status/statusEffects";
 import { useKokusenAnimation } from "@/hooks/battle/player/characters/Natsuki/useKokusenAnimation";
+import { useBlackFlashAnimation } from "@/hooks/battle/player/characters/Natsuki/useBlackFlashAnimation";
 import { useSpecialIntro } from "@/hooks/battle/useSpecialIntro";
 import type { BattleSceneApi } from "@/utils/types/battle/scene";
 import type { LootBagContents } from "@/utils/types/battle/loot";
@@ -368,6 +369,13 @@ export function useBattleScene({
 
   const { kokusenActive, kokusenFrame, triggerKokusen } = useKokusenAnimation();
   const onKokusenRef = useLatestRef(triggerKokusen);
+
+  const {
+    blackFlashActive,
+    blackFlashVariant,
+    triggerBlackFlash,
+  } = useBlackFlashAnimation();
+  const onBlackFlashRef = useLatestRef(triggerBlackFlash);
 
   const {
     isGrabbedRef,
@@ -684,6 +692,7 @@ export function useBattleScene({
     onAttackRef,
     onSpecialRef,
     onKokusenRef,
+    onBlackFlashRef,
     arturOraMultiplierRef,
     petId,
     onPetSkillRef: executePetSkillRef,
@@ -1394,6 +1403,8 @@ export function useBattleScene({
     switchWeapon: handleWeaponSwitch,
     kokusenActive,
     kokusenFrame,
+    blackFlashActive,
+    blackFlashVariant,
     specialIntroActive,
     specialIntroCharacter,
     lootBags,

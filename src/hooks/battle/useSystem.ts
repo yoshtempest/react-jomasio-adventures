@@ -74,6 +74,7 @@ type Props = {
   onAttackRef?: React.RefObject<() => void>;
   onSpecialRef?: React.RefObject<() => void>;
   onKokusenRef?: React.RefObject<() => void>;
+  onBlackFlashRef?: React.RefObject<() => void>;
   arturOraMultiplierRef?: React.RefObject<() => number>;
   petId?: string | null;
   onPetSkillRef?: React.RefObject<() => void>;
@@ -112,6 +113,7 @@ export function useBattleSystem(props: Props) {
     onAttackRef,
     onSpecialRef,
     onKokusenRef,
+    onBlackFlashRef,
     arturOraMultiplierRef,
     petId = null,
     onPetSkillRef,
@@ -265,6 +267,7 @@ export function useBattleSystem(props: Props) {
     onAttackRef,
     onSpecialRef,
     onKokusenRef,
+    onBlackFlashRef,
     onHalfHeal,
     arturOraMultiplierRef,
     weapon,

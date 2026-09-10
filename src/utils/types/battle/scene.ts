@@ -4,6 +4,7 @@ import type { useChargeAttack } from "@/hooks/battle/charge/useAttack";
 import type { useArturOraPunch } from "@/hooks/battle/player/characters/srGuaxinim/useArturOraPunch";
 import type { useArturKillerQueen } from "@/hooks/battle/player/characters/srGuaxinim/useArturKillerQueen";
 import type { useKokusenAnimation } from "@/hooks/battle/player/characters/Natsuki/useKokusenAnimation";
+import type { useBlackFlashAnimation } from "@/hooks/battle/player/characters/Natsuki/useBlackFlashAnimation";
 import type { useSpecialIntro } from "@/hooks/battle/useSpecialIntro";
 import type { usePlayerSpecialProjectile } from "@/hooks/battle/player/usePlayerSpecialProjectile";
 import type { useCoffinAnimation } from "@/hooks/battle/summon/useCoffinAnimation";
@@ -75,6 +76,12 @@ export type BattleSceneApi = {
   switchWeapon: () => void;
   kokusenActive: ReturnType<typeof useKokusenAnimation>["kokusenActive"];
   kokusenFrame: ReturnType<typeof useKokusenAnimation>["kokusenFrame"];
+  blackFlashActive: ReturnType<
+    typeof useBlackFlashAnimation
+  >["blackFlashActive"];
+  blackFlashVariant: ReturnType<
+    typeof useBlackFlashAnimation
+  >["blackFlashVariant"];
   specialIntroActive: ReturnType<typeof useSpecialIntro>["specialIntroActive"];
   specialIntroCharacter: ReturnType<
     typeof useSpecialIntro

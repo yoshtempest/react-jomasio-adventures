@@ -18,6 +18,7 @@ import { BattleOutro } from "@/components/Game/Battle/Modal/Outro";
 import { BattleHighlight } from "@/components/Game/Battle/Modal/Highlight";
 import { ChargeParticles } from "@/components/Game/Battle/Effects/ChargeParticles";
 import { KokusenAnimation } from "@/components/Game/Battle/Effects/KokusenAnimation";
+import { BlackFlashAnimation } from "@/components/Game/Battle/Effects/BlackFlashAnimation";
 import { SpecialIntro } from "@/components/Game/Battle/Effects/SpecialIntro";
 import { JumpIndicator } from "@/components/Game/Battle/Jump/indicator";
 import { JumpDangerZone } from "@/components/Game/Battle/Jump/dangerZone";
@@ -116,6 +117,8 @@ export function BattleScene(props: Props) {
     switchWeapon,
     kokusenActive,
     kokusenFrame,
+    blackFlashActive,
+    blackFlashVariant,
     specialIntroActive,
     specialIntroCharacter,
     lootBags,
@@ -372,6 +375,13 @@ export function BattleScene(props: Props) {
               TILE_SIZE *
               getBossSizeMultiplier(npcType, battle.npcPhase, isAlfa)
             }
+          />
+
+          <BlackFlashAnimation
+            active={blackFlashActive}
+            variant={blackFlashVariant}
+            playerX={player.x}
+            playerY={player.y}
           />
         </GameMap>
       </div>
