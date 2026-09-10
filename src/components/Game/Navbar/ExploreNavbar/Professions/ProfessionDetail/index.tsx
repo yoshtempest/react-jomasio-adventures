@@ -27,7 +27,11 @@ const STAT_LABELS: Record<string, string> = {
   trueDamage: "Dano Real",
 };
 
-const WEAPON_ICON = "/assets/equipments/weapons.svg";
+function professionIcon(id: string): string {
+  if (id === "lumberjack") return "/assets/badges/professions/farmer.svg";
+  if (id === "chef") return "/assets/badges/professions/pastryChef.svg";
+  return `/assets/badges/professions/${id}.svg`;
+}
 
 type Props = {
   profession: ProfessionInfo;
@@ -214,7 +218,7 @@ export function ProfessionDetail({
           <div className={styles.detailHeader}>
             <img
               className={styles.detailIcon}
-              src={asset(WEAPON_ICON)}
+              src={asset(professionIcon(profession.id))}
               alt=""
             />
             <div>
