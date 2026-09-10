@@ -91,10 +91,19 @@ const ATTACK_FOLDER_ALT = new Set([
   "emanuel",
 ]);
 
+export type MarceloBattleForm = "default" | "vastolordForm";
+
+/**
+ * Estados que possuem sprite na pasta `vastolordForm/` do marcelo. Os demais
+ * caem na pasta `default/` quando a forma está ativa.
+ */
+const MARCELO_VASTOLORD_STATES = new Set(["walk", "preRun", "run"]);
+
 export function resolveBattleSprite(
   character: string,
   state: string,
   weapon?: LucasWeapon,
+  form?: MarceloBattleForm,
 ): string {
   if (
     character === "artur" &&
@@ -107,6 +116,9 @@ export function resolveBattleSprite(
     if (character === "lucas" && weapon) {
       return playerPath(`/${character}/inFight/${weapon}/${state}.svg`);
     }
+    if (character === "marcelo") {
+      return playerPath(`/${character}/inFight/default/${state}.svg`);
+    }
     return playerPath(`/${character}/inFight/${state}.svg`);
   }
   const resolved =
@@ -116,6 +128,16 @@ export function resolveBattleSprite(
   if (character === "lucas" && weapon) {
     return playerPath(
       `/${character}/inFight/${weapon}/${resolved}/${state}.svg`,
+    );
+  }
+  if (character === "marcelo") {
+    if (form === "vastolordForm" && MARCELO_VASTOLORD_STATES.has(state)) {
+      return playerPath(
+        `/${character}/inFight/vastolordForm/movement/${state}.svg`,
+      );
+    }
+    return playerPath(
+      `/${character}/inFight/default/${resolved}/${state}.svg`,
     );
   }
   return playerPath(`/${character}/inFight/${resolved}/${state}.svg`);

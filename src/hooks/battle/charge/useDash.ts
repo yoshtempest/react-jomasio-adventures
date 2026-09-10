@@ -44,6 +44,8 @@ type Props = {
   playerMaxHp: number;
   totalVampirism: number;
   weapon?: LucasWeapon;
+  /** Multiplicador da Forma Vastolord aplicado no dano do dash. */
+  vastolordMultiplierRef?: React.RefObject<() => number>;
 };
 
 export function useChargeDash(props: Props) {
@@ -64,6 +66,7 @@ export function useChargeDash(props: Props) {
     setNpcHP,
     hitsToSpecial,
     setSummons,
+    vastolordMultiplierRef,
   } = props;
 
   const dashIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -134,10 +137,12 @@ export function useChargeDash(props: Props) {
           CHARACTER_ELEMENT_TYPES[dashCharacter],
           npcElementTypesRef.current,
         );
+        const vastolordMult = vastolordMultiplierRef?.current?.() ?? 1;
         const dmg = Math.round(
           combatService.calculateDamageToNpc(critDmg, npcArmor) *
             elementMultiplier *
-            elementDamageBonus,
+            elementDamageBonus *
+            vastolordMult,
         );
         setNpcHP((hp) => Math.max(0, hp - dmg));
         if (vampirismRef.current > 0) {
@@ -167,7 +172,10 @@ export function useChargeDash(props: Props) {
           summon ? getNpcElementTypes(summon.npcType) : [],
         );
         const summonDmg = Math.round(
-          critDmg * elementMultiplier * elementDamageBonus,
+          critDmg *
+            elementMultiplier *
+            elementDamageBonus *
+            (vastolordMultiplierRef?.current?.() ?? 1),
         );
         spawnDamageRef.current?.(
           summonDmg,

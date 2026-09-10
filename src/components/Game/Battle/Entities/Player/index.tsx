@@ -5,6 +5,7 @@ type Props = {
   PLAYER_SIZE: number;
   weapon?: LucasWeapon;
   grabFlipped?: boolean;
+  form?: "vastolordForm";
 };
 
 export function Player({
@@ -12,6 +13,7 @@ export function Player({
   PLAYER_SIZE,
   weapon,
   grabFlipped = false,
+  form,
 }: Props) {
   return (
     <PlayerBattle
@@ -24,6 +26,7 @@ export function Player({
       weapon={weapon}
       grabbedUntil={player.grabbedUntil}
       grabFlipped={grabFlipped}
+      form={form}
     />
   );
 }

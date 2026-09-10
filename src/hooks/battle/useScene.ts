@@ -104,6 +104,12 @@ import {
 import type { NewPlayerStatus } from "@/gameRules/battle/status/statusEffects";
 import { useKokusenAnimation } from "@/hooks/battle/player/characters/Natsuki/useKokusenAnimation";
 import { useBlackFlashAnimation } from "@/hooks/battle/player/characters/Natsuki/useBlackFlashAnimation";
+import {
+  useVastolordForm,
+  VASTOLORD_MULTIPLIER,
+  VASTOLORD_DURATION_MS,
+} from "@/hooks/battle/player/characters/marcelo/useVastolordForm";
+import { getCharacterPassive } from "@/data/characters/passives";
 import { useSpecialIntro } from "@/hooks/battle/useSpecialIntro";
 import type { BattleSceneApi } from "@/utils/types/battle/scene";
 import type { LootBagContents } from "@/utils/types/battle/loot";
@@ -430,6 +436,51 @@ export function useBattleScene({
   const lootActiveRef = useRef(false);
   const controlsDisabled = isPaused || isPhaseTransitioning || isThrown;
 
+  const vastolordActiveRef = useRef(false);
+  const vastolordUsedRef = useRef(false);
+  const vastolordMultiplierRef = useRef<() => number>(() => 1);
+  const vastolordEndingRef = useRef<{ current: boolean }>({ current: false });
+
+  const vastolordPassive = getCharacterPassive(player.character).effect;
+  const vastolordDurationMs =
+    vastolordPassive.kind === "vastolordForm"
+      ? vastolordPassive.durationMs
+      : VASTOLORD_DURATION_MS;
+
+  const {
+    vastolordActive,
+    vastolordRemainingMs,
+    triggerVastolord,
+    resetVastolord,
+  } = useVastolordForm({
+    enabled: player.character === "marcelo" && !training,
+    durationMs: vastolordDurationMs,
+    isPausedRef,
+    isEndingRef: vastolordEndingRef,
+    onExpire: () => runDefeat(),
+  });
+  vastolordActiveRef.current = vastolordActive;
+  vastolordMultiplierRef.current = () =>
+    vastolordActive ? VASTOLORD_MULTIPLIER : 1;
+
+  function runDefeat() {
+    setBattleHP(player.character, null);
+    setBattleMana(player.character, null);
+    incrementDeath(player.character);
+    handleDefeat();
+    recordDefeat();
+    clearPendingTombstoneSpawn();
+    setShowDefeat(true);
+    const elapsed = computeElapsedBattleTime(
+      battleStartRef,
+      prevModeRef,
+      pauseStartRef,
+      pauseDurationRef,
+    );
+    setDefeatElapsed(elapsed);
+    addBattleTime(player.character, Math.floor(elapsed / 1000));
+  }
+
   targeting.npcAiHpRef.current = npcStats.hp;
   targeting.npcAiMaxHpRef.current = npcStats.hp;
 
@@ -526,6 +577,23 @@ export function useBattleScene({
 
   const performRewindRef = useRef<() => boolean>(() => false);
 
+  /**
+   * Passiva Forma Vastolord do marcelo: em vez de perder a batalha, revive com
+   * 100% de HP e entra na forma por 10s (uma vez por batalha).
+   */
+  const tryVastolordRevivalRef = useLatestRef(() => {
+    const passive = getCharacterPassive(player.character);
+    if (passive.effect.kind !== "vastolordForm") return false;
+    if (vastolordUsedRef.current || vastolordActiveRef.current) return false;
+
+    vastolordUsedRef.current = true;
+    battle.isEnding.current = false;
+    battle.setPlayerHP(battle.playerMaxHp);
+    setPlayer((p) => ({ ...p, state: "idle" }));
+    triggerVastolord();
+    return true;
+  });
+
   const onPlayerDeathRef = useLatestRef(() => {
     if (rewindFrames != null) {
       battle.isEnding.current = true;
@@ -539,6 +607,10 @@ export function useBattleScene({
 
     if (performRewindRef.current()) {
       battle.isEnding.current = true;
+      return;
+    }
+
+    if (tryVastolordRevivalRef.current()) {
       return;
     }
 
@@ -557,21 +629,7 @@ export function useBattleScene({
       return;
     }
 
-    setBattleHP(player.character, null);
-    setBattleMana(player.character, null);
-    incrementDeath(player.character);
-    handleDefeat();
-    recordDefeat();
-    clearPendingTombstoneSpawn();
-    setShowDefeat(true);
-    const elapsed = computeElapsedBattleTime(
-      battleStartRef,
-      prevModeRef,
-      pauseStartRef,
-      pauseDurationRef,
-    );
-    setDefeatElapsed(elapsed);
-    addBattleTime(player.character, Math.floor(elapsed / 1000));
+    runDefeat();
   });
 
   const onNpcDeathRef = useLatestRef(() => {
@@ -694,6 +752,8 @@ export function useBattleScene({
     onKokusenRef,
     onBlackFlashRef,
     arturOraMultiplierRef,
+    vastolordMultiplierRef,
+    vastolordActive,
     petId,
     onPetSkillRef: executePetSkillRef,
     isMenuRef: isMenuOpenRef,
@@ -702,6 +762,8 @@ export function useBattleScene({
     npcArmorBonus,
     weapon: lucasWeapon,
   });
+
+  vastolordEndingRef.current = battle.isEnding;
 
   executePetSkillRef.current = () => {
     if (!petSkillDef || battle.isEnding.current) return;
@@ -1167,6 +1229,7 @@ export function useBattleScene({
     playerMaxHp: battle.playerMaxHp,
     totalVampirism: battle.totalVampirism,
     weapon: lucasWeapon,
+    vastolordMultiplierRef,
   });
 
   useBattleSync({
@@ -1324,6 +1387,8 @@ export function useBattleScene({
     charge.cancelCharge();
     resetRewind();
     setShowDefeat(false);
+    resetVastolord();
+    vastolordUsedRef.current = false;
     clearSummons();
     clearAllies();
     clearCoffins();
@@ -1405,6 +1470,8 @@ export function useBattleScene({
     kokusenFrame,
     blackFlashActive,
     blackFlashVariant,
+    vastolordActive,
+    vastolordRemainingMs,
     specialIntroActive,
     specialIntroCharacter,
     lootBags,

@@ -41,6 +41,8 @@ type Props = {
   playerMaxHp: number;
   totalVampirism: number;
   weapon?: LucasWeapon;
+  /** Multiplicador da Forma Vastolord aplicado no dano do dash. */
+  vastolordMultiplierRef?: React.RefObject<() => number>;
 };
 
 export function useChargeAttack(props: Props) {
@@ -73,6 +75,7 @@ export function useChargeAttack(props: Props) {
     playerMaxHp,
     totalVampirism,
     weapon,
+    vastolordMultiplierRef,
   } = props;
 
   const { playSound, stopSound } = useSoundEffects();
@@ -106,6 +109,7 @@ export function useChargeAttack(props: Props) {
     playerMaxHp,
     totalVampirism,
     weapon,
+    vastolordMultiplierRef,
   });
 
   const chargeStartRef = useRef(0);

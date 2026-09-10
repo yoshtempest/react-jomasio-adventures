@@ -65,6 +65,8 @@ type Props = {
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;
   /** Devolve o multiplicador atual do ataque básico do artur (escala ORA). */
   arturOraMultiplierRef?: React.RefObject<() => number>;
+  /** Devolve o multiplicador atual da Forma Vastolord do marcelo. */
+  vastolordMultiplierRef?: React.RefObject<() => number>;
   onBeforeNpcHitRef?: React.RefObject<() => boolean>;
   onDamageDealtRef?: React.RefObject<(amount: number) => void>;
   onAttackRef?: React.RefObject<() => void>;
@@ -108,6 +110,7 @@ export function usePlayerBattle({
   registerHitRef,
   setPlayer,
   arturOraMultiplierRef,
+  vastolordMultiplierRef,
   onBeforeNpcHitRef,
   onDamageDealtRef,
   onAttackRef,
@@ -131,12 +134,14 @@ export function usePlayerBattle({
       if (!playerCooldown.current && !bypassCooldown) return;
 
       // Ataque básico do artur escala pelo count de extraPunches na tela.
+      // Forma Vastolord multiplica o dano do marcelo por 4.
+      const vastolordMult = vastolordMultiplierRef?.current?.() ?? 1;
       const mult =
-        arturOraMultiplierRef?.current &&
+        (arturOraMultiplierRef?.current &&
         player.character === "artur" &&
         damageMultiplier === 1
           ? (arturOraMultiplierRef.current() ?? damageMultiplier)
-          : damageMultiplier;
+          : damageMultiplier) * vastolordMult;
 
       const guard = evaluateStatusGuards(player);
       if (guard === "frozen") return;
@@ -271,6 +276,7 @@ export function usePlayerBattle({
       npcElementTypes,
       weapon,
       arturOraMultiplierRef,
+      vastolordMultiplierRef,
     ],
   );
 
@@ -279,6 +285,9 @@ export function usePlayerBattle({
       if (isEnding.current) return;
       if (!playerCooldown.current) return;
       if (delicia < HITS_TO_SPECIAL) return;
+
+      const vastolordMult = vastolordMultiplierRef?.current?.() ?? 1;
+      const totalMultiplier = damageMultiplier * vastolordMult;
 
       const guard = evaluateStatusGuards(player);
       if (guard === "frozen") return;
@@ -326,7 +335,7 @@ export function usePlayerBattle({
           playerMaxHp,
           totalMaxHpDamage,
           totalTrueDamage,
-          damageMultiplier,
+          damageMultiplier: totalMultiplier,
           stacks,
         });
         if (selfDmg > 0) {
@@ -368,7 +377,7 @@ export function usePlayerBattle({
         onSpecialRef,
         onKokusenRef,
         onBlackFlashRef,
-        damageMultiplier,
+        damageMultiplier: totalMultiplier,
         npcX,
         npcY,
         stacks,
@@ -423,6 +432,7 @@ export function usePlayerBattle({
       npcClass,
       npcElementTypes,
       weapon,
+      vastolordMultiplierRef,
     ],
   );
 

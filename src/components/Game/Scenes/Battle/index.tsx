@@ -19,6 +19,7 @@ import { BattleHighlight } from "@/components/Game/Battle/Modal/Highlight";
 import { ChargeParticles } from "@/components/Game/Battle/Effects/ChargeParticles";
 import { KokusenAnimation } from "@/components/Game/Battle/Effects/KokusenAnimation";
 import { BlackFlashAnimation } from "@/components/Game/Battle/Effects/BlackFlashAnimation";
+import { VastolordTimer } from "@/components/Game/Battle/Effects/VastolordTimer";
 import { SpecialIntro } from "@/components/Game/Battle/Effects/SpecialIntro";
 import { JumpIndicator } from "@/components/Game/Battle/Jump/indicator";
 import { JumpDangerZone } from "@/components/Game/Battle/Jump/dangerZone";
@@ -119,6 +120,8 @@ export function BattleScene(props: Props) {
     kokusenFrame,
     blackFlashActive,
     blackFlashVariant,
+    vastolordActive,
+    vastolordRemainingMs,
     specialIntroActive,
     specialIntroCharacter,
     lootBags,
@@ -336,6 +339,7 @@ export function BattleScene(props: Props) {
             extraPunches={extraPunches}
             extraPunchSprite={extraPunchSprite}
             weapon={lucasWeapon}
+            playerForm={vastolordActive ? "vastolordForm" : undefined}
             lootBags={lootBags}
             npcClass={npcClass}
           />
@@ -383,6 +387,10 @@ export function BattleScene(props: Props) {
             playerX={player.x}
             playerY={player.y}
           />
+
+          {vastolordActive && (
+            <VastolordTimer remainingMs={vastolordRemainingMs} />
+          )}
         </GameMap>
       </div>
       <SpecialIntro

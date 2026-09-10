@@ -82,6 +82,8 @@ export type BattleSceneApi = {
   blackFlashVariant: ReturnType<
     typeof useBlackFlashAnimation
   >["blackFlashVariant"];
+  vastolordActive: boolean;
+  vastolordRemainingMs: number;
   specialIntroActive: ReturnType<typeof useSpecialIntro>["specialIntroActive"];
   specialIntroCharacter: ReturnType<
     typeof useSpecialIntro

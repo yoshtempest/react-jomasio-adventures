@@ -13,6 +13,8 @@ type Props = {
   weapon?: LucasWeapon;
   grabbedUntil?: number;
   grabFlipped?: boolean;
+  /** Pasta de sprites do marcelo (ex: Forma Vastolord). */
+  form?: "vastolordForm";
 };
 
 const CROUCH_STATE_MAP: Record<string, string> = {
@@ -30,6 +32,7 @@ export function PlayerBattle({
   weapon,
   grabbedUntil = 0,
   grabFlipped = false,
+  form,
 }: Props) {
   const resolvedState =
     CROUCH_STATE_MAP[state] ?? (state === "charging" ? "idle" : state);
@@ -37,7 +40,7 @@ export function PlayerBattle({
   const isFallen = state === "fallen";
   const isGrabbed = Date.now() < grabbedUntil && !isFallen && !isCrouching;
   const showFlipped = isGrabbed && grabFlipped;
-  const src = resolveBattleSprite(character, resolvedState, weapon);
+  const src = resolveBattleSprite(character, resolvedState, weapon, form);
   const ARTUR_SEEING_SRC = playerPath("/artur/inFight/special/arturSeeing.svg");
 
   const { playSound } = useSoundEffects();

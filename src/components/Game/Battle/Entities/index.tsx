@@ -46,6 +46,8 @@ type Props = {
   extraPunches?: ExtraPunchVisual[];
   extraPunchSprite?: string;
   weapon?: LucasWeapon;
+  /** Pasta de sprites do marcelo durante a Forma Vastolord. */
+  playerForm?: "vastolordForm";
 };
 
 export function BattleEntities({
@@ -72,6 +74,7 @@ export function BattleEntities({
   extraPunches = [],
   extraPunchSprite,
   weapon,
+  playerForm,
 }: Props) {
   const battleScaleX = window.innerWidth / ProjectileConstants.MAP_WIDTH;
   const battleScaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;
@@ -137,6 +140,7 @@ export function BattleEntities({
         PLAYER_SIZE={PLAYER_SIZE}
         weapon={weapon}
         grabFlipped={grabFlipped}
+        form={playerForm}
       />
 
       <KillerQueen

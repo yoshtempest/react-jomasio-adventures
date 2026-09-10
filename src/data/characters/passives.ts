@@ -1,9 +1,11 @@
 import type { CharacterId, CHARACTERS } from "@/data/characters/list";
 
-export type CharacterPassiveId = "rewindTime" | "notImplemented";
+export type CharacterPassiveId = "rewindTime" | "vastolordForm" | "notImplemented";
 
 export type CharacterPassiveKind =
-  { kind: "rewindTime"; rewindMs: number } | { kind: "notImplemented" };
+  | { kind: "rewindTime"; rewindMs: number }
+  | { kind: "vastolordForm"; durationMs: number }
+  | { kind: "notImplemented" };
 
 export type CharacterPassive = {
   id: CharacterPassiveId;
@@ -23,12 +25,13 @@ export const CHARACTER_PASSIVES: Record<
 > = {
   marcelo: {
     characterId: "marcelo",
-    id: "notImplemented",
-    name: "Passiva (a definir)",
-    description: "Passiva do personagem ainda não definida.",
+    id: "vastolordForm",
+    name: "Forma Vastolord",
+    description:
+      "Ao morrer, desperta a Forma Vastolord por 10s, recuperando 100% do HP e multiplicando dano e armadura por 4. Se o inimigo não for derrotado a tempo, perde a batalha.",
     unlockedAtLevel: 1,
-    oncePerBattle: false,
-    effect: NOT_IMPLEMENTED,
+    oncePerBattle: true,
+    effect: { kind: "vastolordForm", durationMs: 10_000 },
   },
   eduarda: {
     characterId: "eduarda",

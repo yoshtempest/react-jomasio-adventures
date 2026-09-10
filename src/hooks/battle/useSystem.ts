@@ -9,6 +9,7 @@ import { usePetSkillCooldown } from "@/hooks/battle/player/pets/usePetSkill";
 import { usePetPassive } from "@/hooks/battle/player/pets/usePetPassive";
 
 import { useBattleStats } from "@/hooks/battle/useStats";
+import { VASTOLORD_MULTIPLIER } from "@/hooks/battle/player/characters/marcelo/useVastolordForm";
 import { useBattleHP } from "@/hooks/battle/death/useHP";
 import { useBattleCooldowns } from "@/hooks/battle/useCooldowns";
 import { useBattleEffects } from "@/hooks/battle/useEffects";
@@ -76,6 +77,10 @@ type Props = {
   onKokusenRef?: React.RefObject<() => void>;
   onBlackFlashRef?: React.RefObject<() => void>;
   arturOraMultiplierRef?: React.RefObject<() => number>;
+  /** Aplica o multiplicador da Forma Vastolord no dano do marcelo. */
+  vastolordMultiplierRef?: React.RefObject<() => number>;
+  /** Forma Vastolord ativa: multiplica a armadura do marcelo por 4. */
+  vastolordActive?: boolean;
   petId?: string | null;
   onPetSkillRef?: React.RefObject<() => void>;
   isMenuRef?: React.RefObject<boolean>;
@@ -115,6 +120,8 @@ export function useBattleSystem(props: Props) {
     onKokusenRef,
     onBlackFlashRef,
     arturOraMultiplierRef,
+    vastolordMultiplierRef,
+    vastolordActive = false,
     petId = null,
     onPetSkillRef,
     isMenuRef,
@@ -270,6 +277,7 @@ export function useBattleSystem(props: Props) {
     onBlackFlashRef,
     onHalfHeal,
     arturOraMultiplierRef,
+    vastolordMultiplierRef,
     weapon,
   });
 
@@ -277,7 +285,9 @@ export function useBattleSystem(props: Props) {
     playerX,
     playerY,
     player,
-    totalArmor,
+    totalArmor: vastolordActive
+      ? totalArmor * VASTOLORD_MULTIPLIER
+      : totalArmor,
     blockGauge,
     playerShield,
     setPlayerHP,
