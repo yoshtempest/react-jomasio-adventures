@@ -118,7 +118,9 @@ export function CharacterInfo() {
       <div className={styles.hungerContainer}>
         <div className={styles.hungerText}>
           <Sparkles />
-          <span>Mana</span>
+          <span>
+            {character === "riquelme" ? "Energia Amaldiçoada" : "Mana"}
+          </span>
           <span>
             {currentMana}/{maxMana}
           </span>
@@ -127,7 +129,7 @@ export function CharacterInfo() {
           value={currentMana}
           max={maxMana}
           animationId={`char-mana-${player.character}`}
-          color="#7fc7ff"
+          color={character === "riquelme" ? "#e84118" : "#7fc7ff"}
         />
       </div>
       <div className={styles.hungerContainer}>

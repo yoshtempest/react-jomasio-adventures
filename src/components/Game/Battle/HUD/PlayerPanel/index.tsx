@@ -83,9 +83,14 @@ export function PlayerHUDPanel({
               </div>
             )}
             <BlockGauge blockGauge={blockGauge} blockLimit={blockLimit} />
-            {energy != null && <EnergyBar label="FLUXO" value={energy} />}
+            {energy != null && <EnergyBar label="REIRYOKU" value={energy} />}
             {mana != null && maxMana != null && (
-              <EnergyBar label="MANA" value={mana} max={maxMana} />
+              <EnergyBar
+                label={character === "riquelme" ? "ENERGIA AMALDIÇOADA" : "MANA"}
+                value={mana}
+                max={maxMana}
+                tone={character === "riquelme" ? "cursed" : "mana"}
+              />
             )}
           </div>
           <Deliciometro delicia={delicia} hitsToSpecial={hitsToSpecial} />

@@ -1,6 +1,7 @@
 import { BattleHUD } from "@/components/Game/Battle/HUD";
 import { PetSkillButton } from "@/components/Game/Battle/Buttons/PetSkill";
 import { WeaponSwitchButton } from "@/components/Game/Battle/Buttons/WeaponSwitch";
+import { CursedEnergyButton } from "@/components/Game/Battle/Buttons/CursedEnergy";
 import { GameMap } from "@/components/Game/Map/Game";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useGameLayout } from "@/hooks/game/useGameLayout";
@@ -31,6 +32,7 @@ import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { useBattleNavbar } from "@/contexts/BattleNavbarContext";
 import { useBattleMana } from "@/contexts/BattleManaContext";
 import { LUCAS_WEAPON_SWITCH_MANA_COST } from "@/gameRules/battle/mana";
+import { CURSED_ENERGY_HEAL_RATIO } from "@/gameRules/battle/cursedEnergy";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import { TrainingOverlay } from "@/components/Game/Battle/TrainingOverlay";
@@ -116,6 +118,7 @@ export function BattleScene(props: Props) {
     extraPunchSprite,
     lucasWeapon,
     switchWeapon,
+    convertCursedEnergy,
     kokusenActive,
     kokusenFrame,
     blackFlashActive,
@@ -465,6 +468,19 @@ export function BattleScene(props: Props) {
               battleMana.playerMana < LUCAS_WEAPON_SWITCH_MANA_COST)
           }
           onClick={switchWeapon}
+        />
+      )}
+
+      {player.character === "riquelme" && (
+        <CursedEnergyButton
+          energy={battleMana?.playerMana ?? 0}
+          energyMax={battleMana?.playerMaxMana ?? 100}
+          disabled={
+            controlsDisabled ||
+            (battleMana?.playerMana ?? 0) < CURSED_ENERGY_HEAL_RATIO ||
+            battle.playerHP >= battle.playerMaxHp
+          }
+          onClick={convertCursedEnergy}
         />
       )}
 

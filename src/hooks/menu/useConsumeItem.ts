@@ -61,7 +61,7 @@ export function useConsumeItem() {
     }
 
     if (manaAmount) {
-      if (!battleMana) return false;
+      if (!battleMana || player.character === "riquelme") return false;
       battleMana.restoreMana(manaAmount);
     }
 

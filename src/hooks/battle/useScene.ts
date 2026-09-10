@@ -71,6 +71,10 @@ import { useBattleInfo } from "@/contexts/BattleInfoContext";
 import { useBattleMana } from "@/contexts/BattleManaContext";
 import { LUCAS_WEAPON_SWITCH_MANA_COST } from "@/gameRules/battle/mana";
 import {
+  CURSED_ENERGY_HEAL_RATIO,
+  cursedEnergyFromDamage,
+} from "@/gameRules/battle/cursedEnergy";
+import {
   getPetSkillDefinition,
   PET_ROOT_DURATION_MS,
 } from "@/data/characters/petSkills";
@@ -447,6 +451,11 @@ export function useBattleScene({
       ? vastolordPassive.durationMs
       : VASTOLORD_DURATION_MS;
 
+  const cursedEnergyParams =
+    getCharacterPassive(player.character).effect.kind === "cursedEnergy"
+      ? true
+      : false;
+
   const {
     vastolordActive,
     vastolordRemainingMs,
@@ -765,6 +774,22 @@ export function useBattleScene({
 
   vastolordEndingRef.current = battle.isEnding;
 
+  const handleCursedEnergyConversion = useCallback(() => {
+    if (!cursedEnergyParams) return;
+    const mana = battleManaRef.current;
+    if (!mana || battle.isEnding.current) return;
+    const maxHeal = battle.playerMaxHp - battle.playerHP;
+    if (maxHeal <= 0) return;
+    const heal = Math.min(
+      Math.floor(mana.playerMana / CURSED_ENERGY_HEAL_RATIO),
+      maxHeal,
+    );
+    if (heal <= 0) return;
+    if (!mana.consumeMana(heal * CURSED_ENERGY_HEAL_RATIO)) return;
+    battle.setPlayerHP((hp) => Math.min(battle.playerMaxHp, hp + heal));
+    playSound("drinkingPotion");
+  }, [battleManaRef, battle, cursedEnergyParams, playSound]);
+
   executePetSkillRef.current = () => {
     if (!petSkillDef || battle.isEnding.current) return;
     runPetSkill(petSkillDef, {
@@ -843,6 +868,10 @@ export function useBattleScene({
 
   refs.registerHitRef.current = (damage: number) => {
     registerHit(damage);
+
+    if (cursedEnergyParams) {
+      battleManaRef.current?.restoreMana(cursedEnergyFromDamage(damage));
+    }
 
     const enchantment = weaponEnchantmentRef.current;
     if (!rollEnchantmentProc(enchantment) || !enchantment) return;
@@ -1466,6 +1495,7 @@ export function useBattleScene({
     extraPunchSprite,
     lucasWeapon,
     switchWeapon: handleWeaponSwitch,
+    convertCursedEnergy: handleCursedEnergyConversion,
     kokusenActive,
     kokusenFrame,
     blackFlashActive,

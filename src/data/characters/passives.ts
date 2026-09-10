@@ -1,10 +1,15 @@
 import type { CharacterId, CHARACTERS } from "@/data/characters/list";
 
-export type CharacterPassiveId = "rewindTime" | "vastolordForm" | "notImplemented";
+export type CharacterPassiveId =
+  | "rewindTime"
+  | "vastolordForm"
+  | "cursedEnergy"
+  | "notImplemented";
 
 export type CharacterPassiveKind =
   | { kind: "rewindTime"; rewindMs: number }
   | { kind: "vastolordForm"; durationMs: number }
+  | { kind: "cursedEnergy" }
   | { kind: "notImplemented" };
 
 export type CharacterPassive = {
@@ -90,12 +95,13 @@ export const CHARACTER_PASSIVES: Record<
   },
   riquelme: {
     characterId: "riquelme",
-    id: "notImplemented",
-    name: "Passiva (a definir)",
-    description: "Passiva do personagem ainda não definida.",
+    id: "cursedEnergy",
+    name: "Energia Amaldiçoada",
+    description:
+      "Não usa mana: a energia amaldiçoada não regenera com o tempo e não existem poções dela. Ganha 1 de energia amaldiçoada a cada 5 de dano causado. O botão extra converte a energia amaldiçoada em vida (5 de energia por 1 de HP).",
     unlockedAtLevel: 1,
     oncePerBattle: false,
-    effect: NOT_IMPLEMENTED,
+    effect: { kind: "cursedEnergy" },
   },
   larissa: {
     characterId: "larissa",
