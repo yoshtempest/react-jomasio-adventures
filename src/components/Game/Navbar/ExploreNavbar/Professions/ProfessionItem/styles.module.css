@@ -1,0 +1,149 @@
+.item {
+  display: grid;
+  grid-template-columns: 1fr auto 1.5fr auto;
+  align-items: center;
+  gap: var(--smaller);
+  padding: var(--fs-8) var(--smaller);
+  border-bottom: var(--size-1) solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  border-radius: var(--fs-8);
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+.item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.selected {
+  background: rgba(251, 191, 36, 0.12);
+  outline: var(--size-1) solid var(--accent-color);
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.name {
+  font-weight: bold;
+  font-size: var(--fs-090);
+}
+
+.npc {
+  color: var(--text-secondary);
+  font-size: var(--fs-085);
+}
+
+.element {
+  font-size: var(--fs-075);
+  color: var(--accent-color);
+}
+
+.proficiency {
+  display: flex;
+  align-items: center;
+  gap: var(--fs-8);
+  margin-top: var(--fs-8);
+}
+
+.levelBadge {
+  color: var(--accent-color);
+  font-size: var(--fs-085);
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.xpText {
+  color: var(--text-muted);
+  font-size: var(--fs-8);
+  white-space: nowrap;
+}
+
+.tool {
+  display: flex;
+  align-items: center;
+  gap: var(--fs-8);
+  color: var(--text-color);
+  font-size: var(--fs-090);
+  white-space: nowrap;
+}
+
+.toolIcon {
+  width: var(--low-medium);
+  height: var(--low-medium);
+}
+
+.recipe {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fs-8);
+  min-width: 0;
+}
+
+.material {
+  display: flex;
+  align-items: center;
+  gap: var(--fs-8);
+  font-size: var(--fs-085);
+  white-space: nowrap;
+}
+
+.have {
+  color: var(--success);
+}
+
+.missing {
+  color: var(--danger);
+}
+
+.status {
+  font-size: var(--fs-085);
+  color: var(--text-secondary);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.statusReady {
+  color: var(--accent-color);
+  font-weight: bold;
+}
+
+.statusDone {
+  color: var(--success);
+}
+
+.ladder {
+  display: flex;
+  align-items: center;
+  gap: var(--fs-6);
+  margin-top: var(--fs-8);
+  flex-wrap: wrap;
+}
+
+.ladderStep {
+  width: var(--fs-8);
+  height: var(--fs-8);
+  border-radius: 50%;
+  border: var(--size-1) solid var(--text-secondary);
+  background: transparent;
+}
+
+.ladderReached {
+  background: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+.ladderCurrent {
+  outline: var(--size-1) solid var(--text-primary);
+  outline-offset: var(--size-1);
+}
+
+.ladderNext {
+  font-size: var(--fs-075);
+  color: var(--text-secondary);
+  margin-left: var(--fs-6);
+}

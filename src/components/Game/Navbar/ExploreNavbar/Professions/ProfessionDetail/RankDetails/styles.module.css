@@ -1,0 +1,106 @@
+.rightPanel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--fs-10);
+  padding: var(--fs-8);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--fs-8);
+  border: var(--size-1) solid rgba(255, 255, 255, 0.06);
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.detailHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--fs-10);
+}
+
+.detailIcon {
+  width: var(--fs-32);
+  height: var(--fs-32);
+}
+
+.detailName {
+  display: block;
+  font-size: var(--fs-110);
+  font-weight: bold;
+}
+
+.detailRank {
+  display: block;
+  font-size: var(--fs-080);
+  color: var(--text-muted);
+}
+
+.bonusSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fs-6);
+}
+
+.bonusRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bonusLabel {
+  font-size: var(--fs-085);
+  color: var(--text-secondary);
+}
+
+.bonusValue {
+  font-size: var(--fs-090);
+  font-weight: bold;
+  color: var(--accent-color);
+}
+
+.statsBlock {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--fs-6);
+  padding: var(--fs-8);
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: var(--fs-6);
+}
+
+.statRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--fs-085);
+}
+
+.statLabel {
+  color: var(--text-secondary);
+}
+
+.statValue {
+  font-weight: bold;
+}
+
+.actionRow {
+  margin-top: auto;
+  padding-top: var(--fs-8);
+  border-top: var(--size-1) solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.statusOwned {
+  color: var(--accent-color);
+  font-weight: bold;
+  font-size: var(--fs-090);
+}
+
+.statusCraftable {
+  color: var(--success);
+  font-weight: bold;
+  font-size: var(--fs-090);
+}
+
+.statusLocked {
+  color: var(--text-muted);
+  font-size: var(--fs-090);
+}

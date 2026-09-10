@@ -1,0 +1,55 @@
+.craftSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fs-6);
+}
+
+.craftTitle {
+  font-size: var(--fs-085);
+  font-weight: bold;
+  color: var(--text-secondary);
+}
+
+.materialsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fs-6);
+}
+
+.materialRow {
+  display: flex;
+  align-items: center;
+  gap: var(--fs-8);
+  padding: var(--fs-6) var(--fs-8);
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: var(--fs-6);
+}
+
+.materialImg {
+  width: var(--fs-20);
+  height: var(--fs-20);
+  flex-shrink: 0;
+}
+
+.materialName {
+  font-size: var(--fs-085);
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.materialQty {
+  font-size: var(--fs-085);
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.matEnough {
+  color: var(--success);
+}
+
+.matMissing {
+  color: var(--danger);
+}

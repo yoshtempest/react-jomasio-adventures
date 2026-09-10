@@ -1,0 +1,52 @@
+.tierItem {
+  display: flex;
+  align-items: center;
+  gap: var(--fs-8);
+  padding: var(--fs-8) var(--fs-10);
+  border-left: 3px solid transparent;
+  border-radius: var(--fs-6);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.tierItem:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.tierSelected {
+  background: rgba(251, 191, 36, 0.1);
+  outline: var(--size-1) solid var(--accent-color);
+}
+
+.tierDot {
+  width: var(--fs-10);
+  height: var(--fs-10);
+  border-radius: 50%;
+  border: var(--size-1) solid rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
+}
+
+.tierInfo {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.tierName {
+  font-size: var(--fs-090);
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tierRank {
+  font-size: var(--fs-075);
+  color: var(--text-muted);
+}
+
+.ownedBadge {
+  margin-left: auto;
+  color: var(--accent-color);
+  font-size: var(--fs-090);
+}
