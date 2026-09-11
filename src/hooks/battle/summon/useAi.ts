@@ -6,6 +6,11 @@ import type { SummonedNpc } from "@/utils/types/npc/npc";
 import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import { combatService } from "@/services/combat";
+import {
+  HONORED_ONE_FLEE_DISTANCE,
+  HONORED_ONE_FLEE_STEP,
+} from "@/gameRules/battle/cursedEnergy";
+import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
 
 type Props = {
   summons: SummonedNpc[];
@@ -24,6 +29,7 @@ type Props = {
   hitstopRef: React.RefObject<number>;
   freezeUntilRef?: React.RefObject<number>;
   rootedSummonsUntilRef?: React.RefObject<Record<string, number>>;
+  honoredFleeRef?: React.RefObject<boolean>;
 };
 
 function computeSummonDamage(
@@ -69,6 +75,7 @@ export function useSummonAI({
   hitstopRef,
   freezeUntilRef,
   rootedSummonsUntilRef,
+  honoredFleeRef,
 }: Props) {
   const summonLastAttacksRef = useRef<Record<string, number>>({});
 
@@ -86,12 +93,39 @@ export function useSummonAI({
 
   useEffect(() => {
     const interval = setInterval(() => {
+      const px = playerXRef.current;
+
+      // Passiva "O Abençoado": summons inimigos recuam do jogador (roda mesmo
+      // com o AI pausado, pois a batalha está congelada durante a sequência).
+      if (honoredFleeRef?.current) {
+        setSummonsRef.current((prev) =>
+          prev.map((s) => {
+            if (s.isDying || s.hp <= 0) return s;
+            const dist = Math.abs(s.x - px);
+            if (dist >= HONORED_ONE_FLEE_DISTANCE) return s;
+            const step = Math.min(
+              HONORED_ONE_FLEE_DISTANCE - dist,
+              HONORED_ONE_FLEE_STEP,
+            );
+            const awayDir = s.x >= px ? 1 : -1;
+            return {
+              ...s,
+              x: Math.max(
+                BATTLE_LIMITS.minX,
+                Math.min(BATTLE_LIMITS.maxX, s.x + awayDir * step),
+              ),
+              direction: awayDir > 0 ? "right" : "left",
+              state: "walk",
+            };
+          }),
+        );
+        return;
+      }
+
       if (isPausedRef.current) return;
       if (hitstopRef.current > Date.now()) return;
       if (freezeUntilRef?.current && freezeUntilRef.current > Date.now())
         return;
-
-      const px = playerXRef.current;
 
       setSummonsRef.current((prev) =>
         prev.map((s) => {
@@ -168,6 +202,7 @@ export function useSummonAI({
     setSummonsRef,
     freezeUntilRef,
     rootedSummonsUntilRef,
+    honoredFleeRef,
   ]);
 
   useEffect(() => {

@@ -212,6 +212,7 @@ export function useNpcBattle({
   const npcMeleeHit = useCallback(
     (multiplier = 1) => {
       if (isEnding.current) return;
+      if (player.state === "mostHonored") return;
 
       const skipCooldown = npcType === "maurao" && npcPhase >= 2;
 
@@ -308,6 +309,7 @@ export function useNpcBattle({
 
   const npcRangedHit = useCallback(() => {
     if (isEnding.current) return;
+    if (player.state === "mostHonored") return;
     if (!npcCooldown.current) return;
     if (player.state === "dash") return;
     if (
@@ -407,6 +409,7 @@ export function useNpcBattle({
   const npcFixedHit = useCallback(
     (dmg: number) => {
       if (isEnding.current) return;
+      if (player.state === "mostHonored") return;
 
       if (isParryPress(lastBlockPressRef, lastAttackPressRef)) {
         const parried = handleNpcBlocking({
@@ -481,6 +484,7 @@ export function useNpcBattle({
   const npcThrowHit = useCallback(
     (multiplier: number = 1) => {
       if (isEnding.current) return;
+      if (player.state === "mostHonored") return;
 
       const npc = getNpcStats(npcLevel, npcClass, difficulty, statMultiplier);
       const baseDmg = npc.damage;
@@ -502,6 +506,7 @@ export function useNpcBattle({
     },
     [
       isEnding,
+      player.state,
       npcLevel,
       npcClass,
       playerClass,
@@ -525,6 +530,7 @@ export function useNpcBattle({
   const npcUnblockableHit = useCallback(
     (dmg: number) => {
       if (isEnding.current) return;
+      if (player.state === "mostHonored") return;
 
       if (isParryPress(lastBlockPressRef, lastAttackPressRef)) {
         handleNpcBlocking({
@@ -556,6 +562,7 @@ export function useNpcBattle({
     },
     [
       isEnding,
+      player.state,
       blockGauge,
       setBlockGauge,
       damagePlayerWithReflect,

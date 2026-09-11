@@ -478,7 +478,6 @@ export function BattleScene(props: Props) {
         (honoredOneActive ? (
           <BlinkButton
             energy={battleMana?.playerMana ?? 0}
-            energyMax={battleMana?.playerMaxMana ?? 100}
             disabled={
               controlsDisabled ||
               (battleMana?.playerMana ?? 0) < BLINK_ENERGY_COST

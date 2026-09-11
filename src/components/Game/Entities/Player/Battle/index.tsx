@@ -1,7 +1,8 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { resolveBattleSprite, playerPath } from "@/utils/paths";
 import { ProjectileConstants } from "@/data/projectile";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import { HONORED_ONE_RISE_MS } from "@/gameRules/battle/cursedEnergy";
 
 type Props = {
   x: number;
@@ -46,6 +47,31 @@ export function PlayerBattle({
   const { playSound } = useSoundEffects();
   const prePalmPlayedRef = useRef(false);
 
+  /**
+   * Passiva "O Abençoado": durante mostHonored.svg o sprite gira devagar até
+   * 90° ao longo da fase de subida (~5s); ao cair (estado muda para "falling")
+   * o ângulo volta a 0°.
+   */
+  const [rotationDeg, setRotationDeg] = useState(0);
+  const isMostHonored = state === "mostHonored";
+
+  useEffect(() => {
+    if (!isMostHonored) {
+      setRotationDeg(0);
+      return;
+    }
+
+    const start = performance.now();
+    let raf = 0;
+    const loop = (now: number) => {
+      const progress = Math.min(1, (now - start) / HONORED_ONE_RISE_MS);
+      setRotationDeg(90 * progress);
+      if (progress < 1) raf = requestAnimationFrame(loop);
+    };
+    raf = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(raf);
+  }, [isMostHonored]);
+
   useEffect(() => {
     // Personagem trocou para a imagem arturSeeing.svg -> prePalm.mp3
     if (src === ARTUR_SEEING_SRC) {
@@ -89,7 +115,7 @@ export function PlayerBattle({
           transform: `
               translateX(-50%) 
               scaleX(${direction === "left" ? -1 : 1})
-              ${
+              ${rotationDeg > 0 ? `rotate(${rotationDeg}deg) ` : ""}${
                 showFlipped
                   ? "scaleY(-1) translate(-50%, 80%)"
                   : isCrouching
@@ -100,7 +126,9 @@ export function PlayerBattle({
               }
             `,
           transformOrigin:
-            isCrouching || showFlipped ? "bottom center" : undefined,
+            isCrouching || showFlipped || isMostHonored
+              ? "bottom center"
+              : undefined,
           pointerEvents: "none",
         }}
       />

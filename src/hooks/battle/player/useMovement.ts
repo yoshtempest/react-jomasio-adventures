@@ -37,6 +37,9 @@ export function useBattleMovement(
   playerModeRef?: RefObject<PlayerMode>,
   freezeActionsUntilRef?: React.RefObject<number>,
   lastAttackPressRef?: React.RefObject<number>,
+  honoredRiseStartRef?: RefObject<number>,
+  honoredRiseStartYRef?: RefObject<number>,
+  honoredFallRef?: RefObject<boolean>,
 ) {
   const leftIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const rightIntervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -63,6 +66,9 @@ export function useBattleMovement(
     hasDoubleJumped,
     hasUsedFallingAttack,
     playerModeRef,
+    honoredRiseStartRef,
+    honoredRiseStartYRef,
+    honoredFallRef,
   );
 
   const idleTimeout = useMemo(() => idleTimeoutRef.current, []);

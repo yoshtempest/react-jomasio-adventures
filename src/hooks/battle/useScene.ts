@@ -75,6 +75,7 @@ import {
   BLINK_ENERGY_COST,
   BLINK_DISTANCE,
   HONORED_ONE_DURATION_MS,
+  HONORED_ONE_RISE_MS,
   cursedEnergyFromDamage,
 } from "@/gameRules/battle/cursedEnergy";
 import {
@@ -181,6 +182,9 @@ export function useBattleScene({
     setTimeScale,
     resetTimeScale,
     timeScaleRef,
+    honoredRiseStartRef,
+    honoredRiseStartYRef,
+    honoredFallRef,
   } = usePlayer();
 
   const {
@@ -384,11 +388,8 @@ export function useBattleScene({
   const { kokusenActive, kokusenFrame, triggerKokusen } = useKokusenAnimation();
   const onKokusenRef = useLatestRef(triggerKokusen);
 
-  const {
-    blackFlashActive,
-    blackFlashVariant,
-    triggerBlackFlash,
-  } = useBlackFlashAnimation();
+  const { blackFlashActive, blackFlashVariant, triggerBlackFlash } =
+    useBlackFlashAnimation();
   const onBlackFlashRef = useLatestRef(triggerBlackFlash);
 
   const {
@@ -439,6 +440,8 @@ export function useBattleScene({
   /** Janela da sequência "O Mais Honrado": congela toda a batalha. */
   const [mostHonoredFreeze, setMostHonoredFreeze] = useState(false);
   const honoredOneTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  /** Durante a sequência, os inimigos recuam até ficarem a >=300px em x. */
+  const honoredFleeRef = useRef(false);
 
   const activateHonoredOne = useCallback(() => {
     honoredOneActiveRef.current = true;
@@ -573,6 +576,7 @@ export function useBattleScene({
     hitstopRef: refs.hitstopRef,
     npcStaggerRef: refs.npcStaggerRef,
     rootedUntilRef: npcRootedUntilRef,
+    honoredFleeRef,
     npcHpRef: targeting.npcAiHpRef,
     npcMaxHpRef: targeting.npcAiMaxHpRef,
     npcBlockedRef: targeting.npcBlockedRef,
@@ -749,15 +753,22 @@ export function useBattleScene({
   /**
    * Passiva O Abençoado do riquelme: o primeiro golpe letal em uma batalha não
    * mata — o personagem sobrevive com 1 de vida. A batalha congela (NPCs,
-   * projéteis, controles e fluxo) e o sprite em batalha troca para
-   * mostHonored.svg durante a duração de honored-one.mp3 (~7.3s). Ao final, o
-   * personagem volta ao idle, a energia amaldiçoada regenera 100%/1s e o botão
-   * de conversão vira o blink.
+   * projéteis, controles e fluxo) e o sprite troca para mostHonored.svg com a
+   * seguinte coreografia:
+   * 1. ~~5s: o riquelme sobe 400px em y girando ~90° enquanto os inimigos
+   *    próximos recuam até ficarem a >=300px em x;
+   * 2. a rotação volta a 0° e ele cai do alto com falling.svg;
+   * 3. ao aterrissar vira idleCrounched.svg e só então a batalha volta ao
+   *    normal — a energia amaldiçoada regenera 100%/1s e o botão de conversão
+   *    vira o blink.
    */
   const surviveLethalHitRef = useLatestRef(() => {
     if (!honoredOneEnabled || honoredOneUsedRef.current) return false;
     honoredOneUsedRef.current = true;
 
+    honoredRiseStartRef.current = Date.now();
+    honoredRiseStartYRef.current = player.y;
+    honoredFleeRef.current = true;
     setPlayer((p) => ({ ...p, state: "mostHonored", velY: 0 }));
     refs.hitstopRef.current = Date.now() + HONORED_ONE_DURATION_MS;
     setTimeScale(0.01);
@@ -767,16 +778,48 @@ export function useBattleScene({
     if (honoredOneTimerRef.current) {
       clearTimeout(honoredOneTimerRef.current);
     }
+
+    // Fim da fase de subida/rotação: o riquelme cai do alto; a física cuida da
+    // queda e o pouso em `idleCrounched` destrava a batalha (ver efeito abaixo).
     honoredOneTimerRef.current = setTimeout(() => {
       honoredOneTimerRef.current = null;
-      setPlayer((p) => ({ ...p, state: "idle" }));
-      setMostHonoredFreeze(false);
-      resetTimeScale();
-      activateHonoredOne();
-    }, HONORED_ONE_DURATION_MS);
+      honoredFallRef.current = true;
+      setPlayer((p) => ({
+        ...p,
+        state: "falling",
+        velY: 2,
+        y: Math.max(0, p.y + 2),
+      }));
+    }, HONORED_ONE_RISE_MS);
 
     return true;
   });
+
+  /**
+   * Fim da coreografia honored-one: ao aterrissar (estado `idleCrounched`
+   * vindo da queda), a batalha volta ao normal de uma vez.
+   */
+  useEffect(() => {
+    if (!honoredFallRef.current) return;
+    if (player.state !== "idleCrounched") return;
+
+    honoredFallRef.current = false;
+    honoredRiseStartRef.current = 0;
+    honoredFleeRef.current = false;
+    refs.hitstopRef.current = 0;
+    setMostHonoredFreeze(false);
+    resetTimeScale();
+    activateHonoredOne();
+  }, [
+    player.state,
+    honoredFallRef,
+    honoredRiseStartRef,
+    honoredFleeRef,
+    refs,
+    setMostHonoredFreeze,
+    resetTimeScale,
+    activateHonoredOne,
+  ]);
 
   useEffect(() => {
     return () => {
@@ -784,9 +827,12 @@ export function useBattleScene({
         clearTimeout(honoredOneTimerRef.current);
         honoredOneTimerRef.current = null;
       }
+      honoredRiseStartRef.current = 0;
+      honoredFleeRef.current = false;
+      honoredFallRef.current = false;
       resetTimeScale();
     };
-  }, [resetTimeScale]);
+  }, [resetTimeScale, honoredRiseStartRef, honoredFleeRef, honoredFallRef]);
 
   const battle = useBattleSystem({
     playerX: player.x,
@@ -1148,6 +1194,7 @@ export function useBattleScene({
     hitstopRef: refs.hitstopRef,
     freezeUntilRef: freezeSummonsUntilRef,
     rootedSummonsUntilRef,
+    honoredFleeRef,
   });
 
   useAllyAI({
@@ -1513,6 +1560,9 @@ export function useBattleScene({
     setHonoredOneActive(false);
     setMostHonoredFreeze(false);
     resetTimeScale();
+    honoredRiseStartRef.current = 0;
+    honoredFleeRef.current = false;
+    honoredFallRef.current = false;
     if (honoredOneTimerRef.current) {
       clearTimeout(honoredOneTimerRef.current);
       honoredOneTimerRef.current = null;

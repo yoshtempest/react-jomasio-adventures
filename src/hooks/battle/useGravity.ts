@@ -1,5 +1,9 @@
 import { useEffect, useRef, type RefObject } from "react";
 import { getLandingY, getGroundAtX } from "@/gameRules/battle/obstacles";
+import {
+  HONORED_ONE_RISE_MS,
+  HONORED_ONE_RISE_Y,
+} from "@/gameRules/battle/cursedEnergy";
 import type { CollisionParams } from "@/utils/types/battle/collision";
 
 export type { CollisionParams };
@@ -12,9 +16,23 @@ export function useBattleGravity(
   hasDoubleJumped: RefObject<boolean>,
   hasUsedFallingAttack?: RefObject<boolean>,
   playerModeRef?: RefObject<PlayerMode>,
+  honoredRiseStartRef?: RefObject<number>,
+  honoredRiseStartYRef?: RefObject<number>,
+  honoredFallRef?: RefObject<boolean>,
 ) {
   const playerModeInternalRef = useRef(playerModeRef?.current ?? "explore");
   if (playerModeRef) playerModeInternalRef.current = playerModeRef.current;
+
+  const honoredRiseStartInternalRef = useRef(honoredRiseStartRef?.current ?? 0);
+  if (honoredRiseStartRef)
+    honoredRiseStartInternalRef.current = honoredRiseStartRef.current;
+  const honoredRiseStartYInternalRef = useRef(
+    honoredRiseStartYRef?.current ?? 0,
+  );
+  if (honoredRiseStartYRef)
+    honoredRiseStartYInternalRef.current = honoredRiseStartYRef.current;
+  const honoredFallInternalRef = useRef(honoredFallRef?.current ?? false);
+  if (honoredFallRef) honoredFallInternalRef.current = honoredFallRef.current;
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -29,9 +47,23 @@ export function useBattleGravity(
           return { ...p, velY: 0 };
         }
 
-        // Passiva "O Abençoado": o personagem fica imóvel (e suspenso no ar se
-        // o golpe letal pegou no pulo) durante a sequência honored-one.
+        // Passiva "O Abençoado": fase de subida do honored-one — o personagem
+        // sobe 400px em y enquanto os inimigos recuam. A queda é feita pela
+        // física normal com o estado `falling`.
         if (p.state === "mostHonored") {
+          const start = honoredRiseStartInternalRef.current;
+          if (start > 0) {
+            const progress = Math.min(
+              1,
+              (Date.now() - start) / HONORED_ONE_RISE_MS,
+            );
+            const targetY = Math.max(
+              0,
+              honoredRiseStartYInternalRef.current -
+                HONORED_ONE_RISE_Y * progress,
+            );
+            return { ...p, velY: 0, y: targetY };
+          }
           return { ...p, velY: 0 };
         }
 
@@ -63,7 +95,11 @@ export function useBattleGravity(
               y: landingY,
               velY: 0,
               groundY: landingY,
-              state: wasAirborne ? "idle" : p.state,
+              state: wasAirborne
+                ? honoredFallInternalRef.current
+                  ? "idleCrounched"
+                  : "idle"
+                : p.state,
             };
           }
         } else {
@@ -78,7 +114,11 @@ export function useBattleGravity(
               ...p,
               y: p.groundY,
               velY: 0,
-              state: wasAirborne ? "idle" : p.state,
+              state: wasAirborne
+                ? honoredFallInternalRef.current
+                  ? "idleCrounched"
+                  : "idle"
+                : p.state,
             };
           }
         }
@@ -109,5 +149,8 @@ export function useBattleGravity(
     hasDoubleJumped,
     hasUsedFallingAttack,
     playerModeRef,
+    honoredRiseStartRef,
+    honoredRiseStartYRef,
+    honoredFallRef,
   ]);
 }

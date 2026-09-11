@@ -4,18 +4,15 @@ import styles from "./styles.module.css";
 
 type Props = {
   energy: number;
-  energyMax: number;
   disabled?: boolean;
   onClick: () => void;
 };
 
 export function BlinkButton({
   energy,
-  energyMax,
   disabled = false,
   onClick,
 }: Props) {
-  const pct = energyMax > 0 ? Math.round((energy / energyMax) * 100) : 0;
 
   return (
     <button
@@ -24,7 +21,6 @@ export function BlinkButton({
       disabled={disabled}
       title={`Blink: teleporte curto à frente (custa ${BLINK_ENERGY_COST} de energia amaldiçoada)`}
     >
-      <span className={styles.energyBar} style={{ width: `${pct}%` }} />
       <span className={styles.value}>{Math.round(energy)}</span>
       <span className={styles.label}>
         <Zap size={14} />

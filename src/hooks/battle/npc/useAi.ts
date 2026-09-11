@@ -13,6 +13,10 @@ import { useLatestRef } from "@/hooks/useLatestRef";
 import { logPlay, logStop } from "@/utils/replay/audioEventLog";
 import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
 import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
+import {
+  HONORED_ONE_FLEE_DISTANCE,
+  HONORED_ONE_FLEE_STEP,
+} from "@/gameRules/battle/cursedEnergy";
 import type { NewPlayerStatus } from "@/gameRules/battle/status/statusEffects";
 
 function useProximityLoopSound(
@@ -64,6 +68,7 @@ type Props = {
   hitstopRef: React.RefObject<number>;
   npcStaggerRef: React.RefObject<number>;
   rootedUntilRef?: React.RefObject<number>;
+  honoredFleeRef?: React.RefObject<boolean>;
   npcHpRef?: React.RefObject<number>;
   npcMaxHpRef?: React.RefObject<number>;
   npcBlockedRef?: React.RefObject<boolean>;
@@ -98,6 +103,7 @@ export function useNpcAI({
   hitstopRef,
   npcStaggerRef,
   rootedUntilRef,
+  honoredFleeRef,
   npcHpRef,
   npcMaxHpRef,
   npcBlockedRef,
@@ -242,6 +248,40 @@ export function useNpcAI({
   useEffect(() => {
     const interval = setInterval(() => {
       setNpc((n) => {
+        // Passiva "O Abençoado": inimigos próximos recuam até ficarem a
+        // HONORED_ONE_FLEE_DISTANCE de distância em x (roda mesmo com o AI
+        // pausado/hitstop, já que a batalha está congelada).
+        if (honoredFleeRef?.current) {
+          const distanceX = Math.abs(n.x - playerXRef.current);
+          if (distanceX < HONORED_ONE_FLEE_DISTANCE) {
+            const step = Math.min(
+              HONORED_ONE_FLEE_DISTANCE - distanceX,
+              HONORED_ONE_FLEE_STEP,
+            );
+            const awayDir = n.x >= playerXRef.current ? 1 : -1;
+            const nextX = Math.max(
+              BATTLE_LIMITS.minX,
+              Math.min(BATTLE_LIMITS.maxX, n.x + awayDir * step),
+            );
+            const collision = applyObstacleCollision(
+              nextX,
+              n.y,
+              obstaclesRef.current,
+            );
+            return {
+              ...n,
+              x: Math.max(
+                BATTLE_LIMITS.minX,
+                Math.min(BATTLE_LIMITS.maxX, collision.x),
+              ),
+              y: collision.y,
+              direction: getNpcDirection(nextX, playerXRef.current),
+              state: n.state === "block" ? "block" : "walk",
+            };
+          }
+          return n;
+        }
+
         if (isPausedRef.current) return n;
         if (hitstopRef.current > Date.now()) return n;
 
@@ -333,6 +373,7 @@ export function useNpcAI({
     hitstopRef,
     npcStaggerRef,
     rootedUntilRef,
+    honoredFleeRef,
     npcPhaseRef,
     npcBlockedRef,
     npcHpRef,

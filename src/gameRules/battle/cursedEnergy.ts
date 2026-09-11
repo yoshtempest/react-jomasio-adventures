@@ -16,10 +16,23 @@ export const BLINK_DISTANCE = 200;
 
 /**
  * Duração da sequência "O Mais Honrado" (passiva O Abençoado), em ms. Casa com
- * a duração real de honored-one.mp3 (~7.345s): durante esse tempo a batalha
- * congela e o sprite do riquelme fica em mostHonored.svg.
+ * a duração real de honored-one.mp3 (~7.345s). É usada como janela de hitstop
+ * (congela projéteis e ações) enquanto a coreografia roda; o fim efetivo da
+ * sequência acontece quando o riquelme aterrissa em `idleCrounched`.
  */
 export const HONORED_ONE_DURATION_MS = 7345;
+
+/** Duração da fase de subida/rotação do "O Mais Honrado", em ms. */
+export const HONORED_ONE_RISE_MS = 5_000;
+
+/** Altura que o riquelme sobe no ar durante a fase de subida, em px. */
+export const HONORED_ONE_RISE_Y = 400;
+
+/** Distância mínima em x que os inimigos devem manter do jogador durante a sequência. */
+export const HONORED_ONE_FLEE_DISTANCE = 300;
+
+/** Passo máximo por tick (20ms) do recuo dos inimigos durante a sequência. */
+export const HONORED_ONE_FLEE_STEP = 16;
 
 export function cursedEnergyFromDamage(damage: number): number {
   return Math.floor(damage / CURSED_ENERGY_DAMAGE_RATIO);

@@ -97,6 +97,13 @@ type PlayerActionsContextType = {
   battleTenacityRef: React.RefObject<number>;
   freezeActionsUntilRef: React.RefObject<number>;
 
+  /** Sequência "O Mais Honrado": instante de início da subida (0 = inativa). */
+  honoredRiseStartRef: React.RefObject<number>;
+  /** Sequência "O Mais Honrado": y do jogador no instante em que ela disparou. */
+  honoredRiseStartYRef: React.RefObject<number>;
+  /** Sequência "O Mais Honrado": true enquanto o riquelme está caindo (pouso vira idleCrounched). */
+  honoredFallRef: React.RefObject<boolean>;
+
   setTimeScale: (scale: number) => void;
   resetTimeScale: () => void;
   timeScaleRef: React.RefObject<number>;
@@ -189,6 +196,10 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const playerModeRef = useRef<PlayerMode>(player.mode);
   playerModeRef.current = player.mode;
 
+  const honoredRiseStartRef = useRef(0);
+  const honoredRiseStartYRef = useRef(0);
+  const honoredFallRef = useRef(false);
+
   const battle = useBattleMovement(
     setPlayer,
     battleCollisionRef,
@@ -196,6 +207,9 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     playerModeRef,
     freezeActionsUntilRef,
     lastAttackPressRef,
+    honoredRiseStartRef,
+    honoredRiseStartYRef,
+    honoredFallRef,
   );
   const battleRef = useRef(battle);
   battleRef.current = battle;
@@ -431,6 +445,10 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       battleTenacityRef,
       freezeActionsUntilRef,
 
+      honoredRiseStartRef,
+      honoredRiseStartYRef,
+      honoredFallRef,
+
       setTimeScale,
       resetTimeScale,
       timeScaleRef,
@@ -478,6 +496,9 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       lastAttackPressRef,
       battleTenacityRef,
       freezeActionsUntilRef,
+      honoredRiseStartRef,
+      honoredRiseStartYRef,
+      honoredFallRef,
       setTimeScale,
       resetTimeScale,
       timeScaleRef,
