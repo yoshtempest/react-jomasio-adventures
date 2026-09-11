@@ -1,1 +1,0 @@
-import{ft as e,pt as t}from"./index-Lo63-y1F.js";const n=Object.keys(e).reduce((n,r)=>(n[r]=t(e[r]),n),{});export{n as t};

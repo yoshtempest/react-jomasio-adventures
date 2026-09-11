@@ -1,1 +1,0 @@
-import{Gi as e,Ri as t,Wi as n}from"./index-Lo63-y1F.js";import{t as r}from"./useGameAudio-0TBGxSZ-.js";var i=e(n());function a(e,n=.3){let a=(0,i.useMemo)(()=>({src:e,loop:!0,volume:n}),[e,n]),o=r(a),s=t(o);return(0,i.useEffect)(()=>{let e=s.current;if(!e.isPlaying())return e.play()?.catch(()=>{}),()=>e.stop()},[e,s]),o}export{a as t};

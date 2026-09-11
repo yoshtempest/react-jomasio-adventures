@@ -1,0 +1,1 @@
+import{fr as e}from"./index-B9lr-jsF.js";function t(){let{addQuest:t,updateProgress:n}=e();return{giveQuest:t,progressQuest:n}}export{t};
