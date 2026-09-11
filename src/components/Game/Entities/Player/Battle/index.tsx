@@ -65,7 +65,7 @@ export function PlayerBattle({
     let raf = 0;
     const loop = (now: number) => {
       const progress = Math.min(1, (now - start) / HONORED_ONE_RISE_MS);
-      setRotationDeg(90 * progress);
+      setRotationDeg(-90 * progress);
       if (progress < 1) raf = requestAnimationFrame(loop);
     };
     raf = requestAnimationFrame(loop);
@@ -115,7 +115,7 @@ export function PlayerBattle({
           transform: `
               translateX(-50%) 
               scaleX(${direction === "left" ? -1 : 1})
-              ${rotationDeg > 0 ? `rotate(${rotationDeg}deg) ` : ""}${
+              ${rotationDeg !== 0 ? `rotate(${rotationDeg}deg) ` : ""}${
                 showFlipped
                   ? "scaleY(-1) translate(-50%, 80%)"
                   : isCrouching
