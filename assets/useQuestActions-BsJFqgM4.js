@@ -1,0 +1,1 @@
+import{ur as e}from"./index-Lo63-y1F.js";function t(){let{addQuest:t,updateProgress:n}=e();return{giveQuest:t,progressQuest:n}}export{t};

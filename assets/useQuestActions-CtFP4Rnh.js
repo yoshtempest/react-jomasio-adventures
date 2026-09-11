@@ -1,1 +1,0 @@
-import{nr as e}from"./index-B4gbedFZ.js";function t(){let{addQuest:t,updateProgress:n}=e();return{giveQuest:t,progressQuest:n}}export{t};
