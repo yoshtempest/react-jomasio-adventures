@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from "react-router";
 import { BattleScene } from "@/components/Game/Scenes/Battle";
+import { BattleProviders } from "@/components/Game/Battle/BattleProviders";
 import { NPCS, isNpcType } from "@/data/npc/npc";
 import { sceneBackgrounds } from "@/data/scene/background";
 import { backgroundAudioPath } from "@/utils/paths";
@@ -13,12 +14,14 @@ export default function BattleTester() {
   }
 
   return (
-    <BattleScene
-      npcType={npcId}
-      onVictory={() => navigate(-1)}
-      victoryDescription={`Você derrotou ${npcId}`}
-      background={sceneBackgrounds.CombatTutorial}
-      audioSrc={backgroundAudioPath("/battle/StreetFighter5KenTheme.m4a")}
-    />
+    <BattleProviders>
+      <BattleScene
+        npcType={npcId}
+        onVictory={() => navigate(-1)}
+        victoryDescription={`Você derrotou ${npcId}`}
+        background={sceneBackgrounds.CombatTutorial}
+        audioSrc={backgroundAudioPath("/battle/StreetFighter5KenTheme.m4a")}
+      />
+    </BattleProviders>
   );
 }

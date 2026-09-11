@@ -5,6 +5,7 @@ import { npcPath } from "@/utils/paths";
 import Talking from "@/components/Game/Interactions/Talking";
 import { ChoiceBox } from "@/components/Game/Interactions/ChoiceBox";
 import { BattleScene } from "@/components/Game/Scenes/Battle";
+import { BattleProviders } from "@/components/Game/Battle/BattleProviders";
 import { combatTutorialDialogue } from "@/data/dialogues/combatTutorial/one";
 import { TASKS } from "@/gameRules/tutorial/combatTasks";
 import KickBack from "/assets/songs/background/battle/KickBack.mp3";
@@ -48,15 +49,17 @@ export default function CombatTutorial() {
   }
 
   return (
-    <BattleScene
-      npcType="dummy"
-      redirectTo="/home"
-      victoryDescription="Você derrotou o boneco de treino!"
-      background={sceneBackgrounds.CombatTutorial}
-      audioSrc={KickBack}
-    >
-      <CombatTutorialTasks />
-    </BattleScene>
+    <BattleProviders>
+      <BattleScene
+        npcType="dummy"
+        redirectTo="/home"
+        victoryDescription="Você derrotou o boneco de treino!"
+        background={sceneBackgrounds.CombatTutorial}
+        audioSrc={KickBack}
+      >
+        <CombatTutorialTasks />
+      </BattleScene>
+    </BattleProviders>
   );
 }
 
