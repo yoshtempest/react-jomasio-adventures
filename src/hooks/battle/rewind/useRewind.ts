@@ -161,8 +161,8 @@ export function useRewind({
   }, [rewindFrames, applyFrameToLiveRef, onRewindCompleteRef]);
 
   performRewindRef.current = () => {
-    const passive = getCharacterPassive(character);
-    if (passive.effect.kind !== "rewindTime") return false;
+    const passive = getCharacterPassive(character, "rewindTime");
+    if (!passive) return false;
     if (rewindUsedRef.current) return false;
     const target = findRewindTarget(
       rewindSnapshotsRef.current,

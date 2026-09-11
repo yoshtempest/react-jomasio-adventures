@@ -111,6 +111,9 @@ export function resolveBattleSprite(
   ) {
     return playerPath(`/artur/inFight/special/arturSeeing.svg`);
   }
+  if (state === "mostHonored" && character === "riquelme") {
+    return playerPath(`/riquelme/inFight/mostHonored.svg`);
+  }
   const folder = STATE_FOLDER[state];
   if (folder === undefined || folder === null) {
     if (character === "lucas" && weapon) {

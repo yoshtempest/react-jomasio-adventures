@@ -72,6 +72,9 @@ import { useBattleMana } from "@/contexts/BattleManaContext";
 import { LUCAS_WEAPON_SWITCH_MANA_COST } from "@/gameRules/battle/mana";
 import {
   CURSED_ENERGY_HEAL_RATIO,
+  BLINK_ENERGY_COST,
+  BLINK_DISTANCE,
+  HONORED_ONE_DURATION_MS,
   cursedEnergyFromDamage,
 } from "@/gameRules/battle/cursedEnergy";
 import {
@@ -80,6 +83,7 @@ import {
 } from "@/data/characters/petSkills";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
+import { ONE_THOUSAND_MS } from "@/data/ms";
 import { CHARACTERS } from "@/data/characters/list";
 import { getEquipmentStatsBonus } from "@/gameRules/battle/equipment";
 import { saveGame } from "@/services/save/saveService";
@@ -427,6 +431,20 @@ export function useBattleScene({
   const isConfigOpen = isNavOpen && navScreen === "config";
   const isMenuOpen = isNavOpen || isBattleNavOpen;
   const isMenuOpenRef = useLatestRef(isMenuOpen);
+  const honoredOneEnabled =
+    getCharacterPassive(player.character, "honoredOne") != null && !training;
+  const honoredOneUsedRef = useRef(false);
+  const honoredOneActiveRef = useRef(false);
+  const [honoredOneActive, setHonoredOneActive] = useState(false);
+  /** Janela da sequência "O Mais Honrado": congela toda a batalha. */
+  const [mostHonoredFreeze, setMostHonoredFreeze] = useState(false);
+  const honoredOneTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const activateHonoredOne = useCallback(() => {
+    honoredOneActiveRef.current = true;
+    setHonoredOneActive(true);
+  }, []);
+
   const isPaused =
     showVictory ||
     showDefeat ||
@@ -435,7 +453,8 @@ export function useBattleScene({
     showHighlight ||
     rewindFrames != null ||
     isConfigOpen ||
-    isBattleNavOpen;
+    isBattleNavOpen ||
+    mostHonoredFreeze;
   const isPausedRef = useLatestRef(isPaused);
   const lootActiveRef = useRef(false);
   const controlsDisabled = isPaused || isPhaseTransitioning || isThrown;
@@ -445,16 +464,12 @@ export function useBattleScene({
   const vastolordMultiplierRef = useRef<() => number>(() => 1);
   const vastolordEndingRef = useRef<{ current: boolean }>({ current: false });
 
-  const vastolordPassive = getCharacterPassive(player.character).effect;
   const vastolordDurationMs =
-    vastolordPassive.kind === "vastolordForm"
-      ? vastolordPassive.durationMs
-      : VASTOLORD_DURATION_MS;
+    getCharacterPassive(player.character, "vastolordForm")?.effect.durationMs ??
+    VASTOLORD_DURATION_MS;
 
   const cursedEnergyParams =
-    getCharacterPassive(player.character).effect.kind === "cursedEnergy"
-      ? true
-      : false;
+    getCharacterPassive(player.character, "cursedEnergy") != null;
 
   const {
     vastolordActive,
@@ -591,8 +606,7 @@ export function useBattleScene({
    * 100% de HP e entra na forma por 10s (uma vez por batalha).
    */
   const tryVastolordRevivalRef = useLatestRef(() => {
-    const passive = getCharacterPassive(player.character);
-    if (passive.effect.kind !== "vastolordForm") return false;
+    if (!getCharacterPassive(player.character, "vastolordForm")) return false;
     if (vastolordUsedRef.current || vastolordActiveRef.current) return false;
 
     vastolordUsedRef.current = true;
@@ -732,6 +746,48 @@ export function useBattleScene({
   // Preenchido pelo useArturOraPunch com o multiplicador atual (escala ORA).
   const arturOraMultiplierRef = useRef<() => number>(() => 1);
 
+  /**
+   * Passiva O Abençoado do riquelme: o primeiro golpe letal em uma batalha não
+   * mata — o personagem sobrevive com 1 de vida. A batalha congela (NPCs,
+   * projéteis, controles e fluxo) e o sprite em batalha troca para
+   * mostHonored.svg durante a duração de honored-one.mp3 (~7.3s). Ao final, o
+   * personagem volta ao idle, a energia amaldiçoada regenera 100%/1s e o botão
+   * de conversão vira o blink.
+   */
+  const surviveLethalHitRef = useLatestRef(() => {
+    if (!honoredOneEnabled || honoredOneUsedRef.current) return false;
+    honoredOneUsedRef.current = true;
+
+    setPlayer((p) => ({ ...p, state: "mostHonored", velY: 0 }));
+    refs.hitstopRef.current = Date.now() + HONORED_ONE_DURATION_MS;
+    setTimeScale(0.01);
+    setMostHonoredFreeze(true);
+    playSound("honoredOne");
+
+    if (honoredOneTimerRef.current) {
+      clearTimeout(honoredOneTimerRef.current);
+    }
+    honoredOneTimerRef.current = setTimeout(() => {
+      honoredOneTimerRef.current = null;
+      setPlayer((p) => ({ ...p, state: "idle" }));
+      setMostHonoredFreeze(false);
+      resetTimeScale();
+      activateHonoredOne();
+    }, HONORED_ONE_DURATION_MS);
+
+    return true;
+  });
+
+  useEffect(() => {
+    return () => {
+      if (honoredOneTimerRef.current) {
+        clearTimeout(honoredOneTimerRef.current);
+        honoredOneTimerRef.current = null;
+      }
+      resetTimeScale();
+    };
+  }, [resetTimeScale]);
+
   const battle = useBattleSystem({
     playerX: player.x,
     playerY: player.y,
@@ -766,10 +822,12 @@ export function useBattleScene({
     petId,
     onPetSkillRef: executePetSkillRef,
     isMenuRef: isMenuOpenRef,
+    isPausedRef,
     savedPlayerHP: savedPlayerHPRef.current,
     npcStatMultiplier: isAlfa ? 2 : 1,
     npcArmorBonus,
     weapon: lucasWeapon,
+    surviveLethalHitRef,
   });
 
   vastolordEndingRef.current = battle.isEnding;
@@ -789,6 +847,23 @@ export function useBattleScene({
     battle.setPlayerHP((hp) => Math.min(battle.playerMaxHp, hp + heal));
     playSound("drinkingPotion");
   }, [battleManaRef, battle, cursedEnergyParams, playSound]);
+
+  const handleBlink = useCallback(() => {
+    if (!honoredOneActiveRef.current) return;
+    const mana = battleManaRef.current;
+    if (!mana || battle.isEnding.current) return;
+    if (mana.playerMana < BLINK_ENERGY_COST) return;
+    if (!mana.consumeMana(BLINK_ENERGY_COST)) return;
+    playSound("blink");
+    setPlayer((p) => {
+      const dir = p.battleDirection === "left" ? -1 : 1;
+      const targetX = Math.max(
+        BATTLE_LIMITS.minX,
+        Math.min(BATTLE_LIMITS.maxX, p.x + dir * BLINK_DISTANCE),
+      );
+      return { ...p, x: targetX, state: "dash" };
+    });
+  }, [battleManaRef, battle, honoredOneActiveRef, playSound, setPlayer]);
 
   executePetSkillRef.current = () => {
     if (!petSkillDef || battle.isEnding.current) return;
@@ -1148,6 +1223,21 @@ export function useBattleScene({
   const setNpcHPRef = useLatestRef(battle.setNpcHP);
   const isEndingRef = useLatestRef(battle.isEnding);
 
+  /**
+   * Passiva O Abençoado: enquanto ativa, a energia amaldiçoada do riquelme
+   * regenera 100% a cada 1s pelo resto da batalha.
+   */
+  useEffect(() => {
+    if (!honoredOneActive) return;
+    const mana = battleManaRef.current;
+    if (!mana) return;
+    const interval = setInterval(() => {
+      if (isEndingRef.current || isPausedRef.current) return;
+      battleManaRef.current?.restoreMana(battleManaRef.current.playerMaxMana);
+    }, ONE_THOUSAND_MS);
+    return () => clearInterval(interval);
+  }, [honoredOneActive, battleManaRef, isEndingRef, isPausedRef]);
+
   const summonsRef = useLatestRef(summons);
   useEffect(() => {
     const interval = setInterval(() => {
@@ -1418,6 +1508,15 @@ export function useBattleScene({
     setShowDefeat(false);
     resetVastolord();
     vastolordUsedRef.current = false;
+    honoredOneUsedRef.current = false;
+    honoredOneActiveRef.current = false;
+    setHonoredOneActive(false);
+    setMostHonoredFreeze(false);
+    resetTimeScale();
+    if (honoredOneTimerRef.current) {
+      clearTimeout(honoredOneTimerRef.current);
+      honoredOneTimerRef.current = null;
+    }
     clearSummons();
     clearAllies();
     clearCoffins();
@@ -1496,6 +1595,8 @@ export function useBattleScene({
     lucasWeapon,
     switchWeapon: handleWeaponSwitch,
     convertCursedEnergy: handleCursedEnergyConversion,
+    blink: handleBlink,
+    honoredOneActive,
     kokusenActive,
     kokusenFrame,
     blackFlashActive,

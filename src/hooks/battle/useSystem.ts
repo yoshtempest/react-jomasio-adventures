@@ -84,10 +84,14 @@ type Props = {
   petId?: string | null;
   onPetSkillRef?: React.RefObject<() => void>;
   isMenuRef?: React.RefObject<boolean>;
+  /** Pausa global (menu/intro/victory/passiva O Abençoado): pausa os ticks de dano. */
+  isPausedRef?: React.RefObject<boolean>;
   savedPlayerHP?: number | null;
   npcStatMultiplier?: number;
   npcArmorBonus?: number;
   weapon?: LucasWeapon;
+  /** Passiva O Abençoado: quando retorna true, o golpe letal reduz a vida a 1. */
+  surviveLethalHitRef?: React.RefObject<() => boolean>;
 };
 
 export function useBattleSystem(props: Props) {
@@ -125,10 +129,12 @@ export function useBattleSystem(props: Props) {
     petId = null,
     onPetSkillRef,
     isMenuRef,
+    isPausedRef,
     savedPlayerHP,
     npcStatMultiplier = 1,
     npcArmorBonus = 0,
     weapon,
+    surviveLethalHitRef,
   } = props;
 
   const [npcPhase, setNpcPhase] = useState(1);
@@ -290,6 +296,7 @@ export function useBattleSystem(props: Props) {
       : totalArmor,
     blockGauge,
     playerShield,
+    playerHP,
     setPlayerHP,
     setPlayerShield,
     setBlockGauge,
@@ -303,6 +310,7 @@ export function useBattleSystem(props: Props) {
       playerBattle.setDelicia((d) => gainSpecial(d, HITS_TO_SPECIAL));
     },
     onDamageTaken: energy.consumeOnDamage,
+    surviveLethalHitRef,
   });
 
   const { pet, setPet, resetPet, triggerJumpAttack, triggerTeleportBite } =
@@ -385,6 +393,7 @@ export function useBattleSystem(props: Props) {
   useStatusDotTicks({
     isEnding,
     isMenuRef,
+    isPausedRef,
     setPlayerHP,
     spawnDamageRef,
     burnTickDamage,
@@ -398,6 +407,7 @@ export function useBattleSystem(props: Props) {
   useNpcBleedTicks({
     isEnding,
     isMenuRef,
+    isPausedRef,
     setNpcHP,
     spawnDamageRef,
     npcBleedXRef,
@@ -412,6 +422,7 @@ export function useBattleSystem(props: Props) {
     isEnding,
     isMenuRef,
     player.character !== "riquelme",
+    isPausedRef,
   );
 
   const resetBattle = () => {
@@ -543,6 +554,7 @@ export function useBattleSystem(props: Props) {
 function useStatusDotTicks(params: {
   isEnding: React.RefObject<boolean>;
   isMenuRef?: React.RefObject<boolean>;
+  isPausedRef?: React.RefObject<boolean>;
   setPlayerHP: React.Dispatch<React.SetStateAction<number>>;
   spawnDamageRef: React.RefObject<
     (value: number, x: number, y: number, type: DamageType) => void
@@ -557,6 +569,7 @@ function useStatusDotTicks(params: {
   const {
     isEnding,
     isMenuRef,
+    isPausedRef,
     setPlayerHP,
     spawnDamageRef,
     burnTickDamage,
@@ -569,7 +582,7 @@ function useStatusDotTicks(params: {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (isEnding.current || isMenuRef?.current) return;
+      if (isEnding.current || isMenuRef?.current || isPausedRef?.current) return;
       if (bleedUntilRef.current > Date.now()) {
         setPlayerHP((hp) => Math.max(0, hp - 2));
         spawnDamageRef.current?.(
@@ -603,6 +616,7 @@ function useStatusDotTicks(params: {
     setPlayerHP,
     isEnding,
     isMenuRef,
+    isPausedRef,
     burnTickDamage,
     bleedXRef,
     bleedYRef,
@@ -616,6 +630,7 @@ function useStatusDotTicks(params: {
 function useNpcBleedTicks(params: {
   isEnding: React.RefObject<boolean>;
   isMenuRef?: React.RefObject<boolean>;
+  isPausedRef?: React.RefObject<boolean>;
   setNpcHP: React.Dispatch<React.SetStateAction<number>>;
   spawnDamageRef: React.RefObject<
     (value: number, x: number, y: number, type: DamageType) => void
@@ -627,6 +642,7 @@ function useNpcBleedTicks(params: {
   const {
     isEnding,
     isMenuRef,
+    isPausedRef,
     setNpcHP,
     spawnDamageRef,
     npcBleedXRef,
@@ -636,7 +652,7 @@ function useNpcBleedTicks(params: {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (isEnding.current || isMenuRef?.current) return;
+      if (isEnding.current || isMenuRef?.current || isPausedRef?.current) return;
       if (npcBleedUntilRef.current > Date.now()) {
         setNpcHP((hp) => Math.max(0, hp - 2));
         spawnDamageRef.current?.(
@@ -652,6 +668,7 @@ function useNpcBleedTicks(params: {
     setNpcHP,
     isEnding,
     isMenuRef,
+    isPausedRef,
     npcBleedXRef,
     npcBleedYRef,
     npcBleedUntilRef,
@@ -688,13 +705,14 @@ function useManaRegenTick(
   isEnding: React.RefObject<boolean>,
   isMenuRef?: React.RefObject<boolean>,
   enabled = true,
+  isPausedRef?: React.RefObject<boolean>,
 ) {
   useEffect(() => {
     if (!enabled || !battleManaRef.current) return;
     const interval = setInterval(() => {
-      if (isEnding.current || isMenuRef?.current) return;
+      if (isEnding.current || isMenuRef?.current || isPausedRef?.current) return;
       battleManaRef.current?.restoreMana(MANA_REGEN_PER_SECOND);
     }, ONE_THOUSAND_MS);
     return () => clearInterval(interval);
-  }, [battleManaRef, isEnding, isMenuRef, enabled]);
+  }, [battleManaRef, isEnding, isMenuRef, enabled, isPausedRef]);
 }

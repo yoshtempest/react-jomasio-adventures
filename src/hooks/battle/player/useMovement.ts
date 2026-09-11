@@ -162,6 +162,7 @@ export function useBattleMovement(
     setPlayer((p) => {
       if (isPlayerAttackHolding(p)) return p;
       if (isPlayerFrozen(p)) return p;
+      if (p.state === "mostHonored") return p;
 
       const tree = getSkillTree(p.character);
       const skill = tree.skills.find((s) => s.id === "doubleJump");
@@ -222,6 +223,7 @@ export function useBattleMovement(
     if (lastAttackPressRef) lastAttackPressRef.current = Date.now();
     setPlayer((p) => {
       if (isPlayerFrozen(p) || isPlayerParalyzed(p)) return p;
+      if (p.state === "mostHonored") return p;
       if (p.state === "falling" && !hasUsedFallingAttack.current) {
         hasUsedFallingAttack.current = true;
         return { ...p, state: "fallingAttack" };
@@ -245,6 +247,7 @@ export function useBattleMovement(
     if (isFrozenBySpecial()) return;
     setPlayer((p) => {
       if (isPlayerFrozen(p) || isPlayerParalyzed(p)) return p;
+      if (p.state === "mostHonored") return p;
       if (p.state === "falling" || p.state === "jump")
         return { ...p, state: "preSpecialInAir" };
       if (p.state !== "idle") return p;
@@ -280,6 +283,13 @@ export function useBattleMovement(
     dashIntervalRef.current = setInterval(() => {
       stepCount++;
       setPlayer((p) => {
+        if (p.state === "mostHonored") {
+          if (dashIntervalRef.current) {
+            clearInterval(dashIntervalRef.current);
+            dashIntervalRef.current = null;
+          }
+          return p;
+        }
         if (isPlayerAttackHolding(p)) {
           if (dashIntervalRef.current) {
             clearInterval(dashIntervalRef.current);

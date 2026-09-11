@@ -10,6 +10,7 @@ type Props = {
   totalArmor: number;
   blockGauge: number;
   playerShield: number;
+  playerHP: number;
   setPlayerHP: React.Dispatch<React.SetStateAction<number>>;
   setPlayerShield: React.Dispatch<React.SetStateAction<number>>;
   setBlockGauge: React.Dispatch<React.SetStateAction<number>>;
@@ -21,6 +22,8 @@ type Props = {
   lastAttackPressRef?: React.RefObject<number>;
   onParry?: () => void;
   onDamageTaken?: () => void;
+  /** Passiva O Abençoado: se retornar true, o golpe letal reduz a vida a 1. */
+  surviveLethalHitRef?: React.RefObject<() => boolean>;
 };
 
 export function useExternalDamage({
@@ -30,6 +33,7 @@ export function useExternalDamage({
   totalArmor,
   blockGauge,
   playerShield,
+  playerHP,
   setPlayerHP,
   setPlayerShield,
   setBlockGauge,
@@ -41,36 +45,48 @@ export function useExternalDamage({
   lastAttackPressRef,
   onParry,
   onDamageTaken,
+  surviveLethalHitRef,
 }: Props) {
   const playerShieldRef = useLatestRef(playerShield);
+  const playerHPRef = useLatestRef(playerHP);
   const onDamageTakenRef = useLatestRef(onDamageTaken);
 
   const damagePlayerHp = useCallback(
-    (damage: number) => {
+    (damage: number): boolean => {
       onDamageTakenRef.current?.();
       if (oneHitShieldRef?.current) {
         oneHitShieldRef.current = false;
         spawnDamageRef.current?.(0, playerX, playerY - 40, "blocked");
-        return;
+        return false;
       }
       const shield = playerShieldRef.current;
       if (shield >= damage) {
         setPlayerShield((s) => s - damage);
-        return;
+        return false;
       }
       setPlayerShield(0);
       const remaining = damage - shield;
+      if (
+        playerHPRef.current - remaining <= 0 &&
+        surviveLethalHitRef?.current?.()
+      ) {
+        setPlayerHP(1);
+        return true;
+      }
       setPlayerHP((hp) => Math.max(0, hp - remaining));
+      return false;
     },
     [
       setPlayerHP,
       setPlayerShield,
       playerShieldRef,
+      playerHPRef,
       oneHitShieldRef,
       spawnDamageRef,
       playerX,
       playerY,
       onDamageTakenRef,
+      surviveLethalHitRef,
     ],
   );
 
@@ -93,8 +109,10 @@ export function useExternalDamage({
           }
           const remaining = damage - blockGauge;
           setBlockGauge(0);
-          damagePlayerHp(remaining);
-          setPlayer((p) => ({ ...p, state: "stun" }));
+          const survived = damagePlayerHp(remaining);
+          if (!survived) {
+            setPlayer((p) => ({ ...p, state: "stun" }));
+          }
           spawnDamageRef.current?.(remaining, playerX, playerY, "summon");
           return;
         }

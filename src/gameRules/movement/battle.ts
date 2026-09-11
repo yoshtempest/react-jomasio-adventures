@@ -40,7 +40,8 @@ export function canAct(player: Player) {
     player.state !== "blocked" &&
     player.state !== "stun" &&
     player.state !== "dash" &&
-    player.state !== "charging"
+    player.state !== "charging" &&
+    player.state !== "mostHonored"
   );
 }
 
@@ -49,7 +50,11 @@ export function isInBattle(player: Player) {
 }
 
 export function canExitState(player: Player) {
-  return player.state !== "blocked" && player.state !== "stun";
+  return (
+    player.state !== "blocked" &&
+    player.state !== "stun" &&
+    player.state !== "mostHonored"
+  );
 }
 
 const MOVEMENT_STATES = new Set(["walk", "preRun", "run"]);
@@ -107,7 +112,7 @@ export function moveRightBattle(player: Player, canRun = true): Player {
 
 export function blockStart(p: Player): Player {
   if (!isInBattle(p)) return p;
-  if (p.state === "jump") return p;
+  if (p.state === "jump" || p.state === "mostHonored") return p;
 
   return {
     ...p,
@@ -117,7 +122,7 @@ export function blockStart(p: Player): Player {
 
 export function blockEnd(p: Player): Player {
   if (!isInBattle(p)) return p;
-  if (p.state === "jump") return p;
+  if (p.state === "jump" || p.state === "mostHonored") return p;
 
   return {
     ...p,
@@ -146,6 +151,7 @@ export function specialBattle(p: Player): Player {
 export function dashLeftBattle(p: Player): Player {
   if (
     p.mode !== "battle" ||
+    p.state === "mostHonored" ||
     isPlayerFrozen(p) ||
     CROUCHED_STATES.has(p.state) ||
     isPlayerAttackHolding(p)
@@ -158,6 +164,7 @@ export function dashLeftBattle(p: Player): Player {
 export function dashRightBattle(p: Player): Player {
   if (
     p.mode !== "battle" ||
+    p.state === "mostHonored" ||
     isPlayerFrozen(p) ||
     CROUCHED_STATES.has(p.state) ||
     isPlayerAttackHolding(p)
@@ -180,13 +187,17 @@ export function idleBattle(p: Player): Player {
   return {
     ...p,
     state:
-      p.state === "jump" || p.state === "dash" || p.state === "charging"
+      p.state === "jump" ||
+      p.state === "dash" ||
+      p.state === "charging" ||
+      p.state === "mostHonored"
         ? p.state
         : "idle",
   };
 }
 
 export function crouchToggle(player: Player): Player {
+  if (player.state === "mostHonored") return player;
   if (player.state === "preJump") {
     return { ...player, velY: 0, state: "falling" };
   }

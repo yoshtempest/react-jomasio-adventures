@@ -333,7 +333,8 @@ declare global {
     | "walkCrounched"
     | "fallen"
     | "kick"
-    | "preKick";
+    | "preKick"
+    | "mostHonored";
 
   type PlayerMode = "explore" | "battle" | "select" | "ui" | "map" | "menu";
 

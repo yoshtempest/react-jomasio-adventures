@@ -55,6 +55,11 @@ export const animationFlow: Record<PlayerState, AnimationStep | null> = {
   walkCrounched: null,
 
   fallen: null,
+
+  // Passiva "O Abençoado" do riquelme: estado mantido pelo time scale/timer
+  // durante a sequência do honored-one, não avança sozinho — o useScene força
+  // `idle` quando o áudio termina.
+  mostHonored: null,
 };
 
 type SpecialFlowOverride = {

@@ -29,6 +29,12 @@ export function useBattleGravity(
           return { ...p, velY: 0 };
         }
 
+        // Passiva "O Abençoado": o personagem fica imóvel (e suspenso no ar se
+        // o golpe letal pegou no pulo) durante a sequência honored-one.
+        if (p.state === "mostHonored") {
+          return { ...p, velY: 0 };
+        }
+
         const { map } = collisionRef.current;
         const obstacles = map?.obstacles ?? [];
 

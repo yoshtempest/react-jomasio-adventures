@@ -75,6 +75,8 @@ export type BattleSceneApi = {
   lucasWeapon: LucasWeapon | undefined;
   switchWeapon: () => void;
   convertCursedEnergy: () => void;
+  blink: () => void;
+  honoredOneActive: boolean;
   kokusenActive: ReturnType<typeof useKokusenAnimation>["kokusenActive"];
   kokusenFrame: ReturnType<typeof useKokusenAnimation>["kokusenFrame"];
   blackFlashActive: ReturnType<
