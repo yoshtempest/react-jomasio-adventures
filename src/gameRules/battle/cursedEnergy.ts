@@ -1,9 +1,11 @@
 /**
  * Regras da energia amaldiçoada do Riquelme.
  *
- * A energia amaldiçoada substitui a mana: não regenera com o tempo, não tem
- * poções e é carregada ao causar dano em inimigos. A conversão em vida é feita
- * pelo botão extra da passiva.
+ * A energia amaldiçoada substitui a mana: normalmente não regenera com o tempo,
+ * não tem poções e é carregada ao causar dano em inimigos. A conversão em vida
+ * é feita pelo botão extra da passiva. Única exceção à regra de regeneração: a
+ * passiva O Abençoado recupera 10/s a partir do início da sequência honored-one
+ * pelo resto da batalha.
  */
 export const CURSED_ENERGY_DAMAGE_RATIO = 5;
 export const CURSED_ENERGY_HEAL_RATIO = 5;
@@ -33,6 +35,12 @@ export const HONORED_ONE_FLEE_DISTANCE = 300;
 
 /** Passo máximo por tick (20ms) do recuo dos inimigos durante a sequência. */
 export const HONORED_ONE_FLEE_STEP = 16;
+
+/**
+ * Recuperação passiva de energia amaldiçoada por segundo após o início da
+ * sequência "O Mais Honrado" (válida pelo resto da batalha).
+ */
+export const HONORED_ONE_REGEN_PER_SECOND = 10;
 
 export function cursedEnergyFromDamage(damage: number): number {
   return Math.floor(damage / CURSED_ENERGY_DAMAGE_RATIO);
