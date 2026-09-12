@@ -85,7 +85,7 @@ import {
 } from "@/data/characters/petSkills";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
-import { ONE_THOUSAND_MS } from "@/data/ms";
+import { FIFTY_MS } from "@/data/ms";
 import { CHARACTERS } from "@/data/characters/list";
 import { getEquipmentStatsBonus } from "@/gameRules/battle/equipment";
 import { saveGame } from "@/services/save/saveService";
@@ -442,6 +442,7 @@ export function useBattleScene({
   const [honoredRegenActive, setHonoredRegenActive] = useState(false);
   /** Janela da sequência "O Mais Honrado": congela toda a batalha. */
   const [mostHonoredFreeze, setMostHonoredFreeze] = useState(false);
+  const mostHonoredFreezeRef = useLatestRef(mostHonoredFreeze);
   const honoredOneTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   /** Durante a sequência, os inimigos recuam até ficarem a >=300px em x. */
   const honoredFleeRef = useRef(false);
@@ -1284,38 +1285,28 @@ export function useBattleScene({
     if (!honoredRegenActive) return;
     const mana = battleManaRef.current;
     if (!mana) return;
-    // TEMP-DEBUG honored-regen
-    console.log(
-      "[honored-regen] effect mounted: mana=" + mana.playerMana + "/" + mana.playerMaxMana,
-    );
     const interval = setInterval(() => {
-      if (isEndingRef.current || isPausedRef.current) {
-        // TEMP-DEBUG honored-regen
-        console.log(
-          "[honored-regen] tick skipped: isEnding=" + isEndingRef.current + ", isPaused=" + isPausedRef.current,
-        );
+      if (
+        isEndingRef.current.current ||
+        (isPausedRef.current && !mostHonoredFreezeRef.current)
+      ) {
         return;
       }
-      // TEMP-DEBUG honored-regen
-      console.log(
-        "[honored-regen] tick: mana-before=" + battleManaRef.current?.playerMana,
-      );
       battleManaRef.current?.restoreMana(HONORED_ONE_REGEN_PER_SECOND);
-      // TEMP-DEBUG honored-regen
-      const after = battleManaRef.current?.playerMana;
-      console.log("[honored-regen] tick: mana-after=" + after);
-    }, ONE_THOUSAND_MS);
-    return () => {
-      // TEMP-DEBUG honored-regen
-      console.log("[honored-regen] effect cleaned up");
-      clearInterval(interval);
-    };
-  }, [honoredRegenActive, battleManaRef, isEndingRef, isPausedRef]);
+    }, FIFTY_MS);
+    return () => clearInterval(interval);
+  }, [
+    honoredRegenActive,
+    battleManaRef,
+    isEndingRef,
+    isPausedRef,
+    mostHonoredFreezeRef,
+  ]);
 
   const summonsRef = useLatestRef(summons);
   useEffect(() => {
     const interval = setInterval(() => {
-      if (isEndingRef.current || isPausedRef.current) return;
+      if (isEndingRef.current.current || isPausedRef.current) return;
       const bleedMap = summonsBleedUntilRef.current;
       if (!summonsRef.current.some((s) => (bleedMap[s.id] ?? 0) > Date.now())) {
         return;
@@ -1359,7 +1350,7 @@ export function useBattleScene({
    */
   useEffect(() => {
     const interval = setInterval(() => {
-      if (isEndingRef.current || isPausedRef.current) return;
+      if (isEndingRef.current.current || isPausedRef.current) return;
 
       const now = Date.now();
       let total = 0;

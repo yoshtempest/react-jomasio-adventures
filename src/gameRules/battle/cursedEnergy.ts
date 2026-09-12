@@ -40,7 +40,7 @@ export const HONORED_ONE_FLEE_STEP = 16;
  * Recuperação passiva de energia amaldiçoada por segundo após o início da
  * sequência "O Mais Honrado" (válida pelo resto da batalha).
  */
-export const HONORED_ONE_REGEN_PER_SECOND = 10;
+export const HONORED_ONE_REGEN_PER_SECOND = 1;
 
 export function cursedEnergyFromDamage(damage: number): number {
   return Math.floor(damage / CURSED_ENERGY_DAMAGE_RATIO);
