@@ -1,10 +1,26 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import type { SyntheticEvent } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useTypewriter } from "@/hooks/interaction/useTypewriter";
 import { useSettings } from "@/hooks/useSetting";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useAudio } from "@/hooks/useAudio";
 import { resolveAsset } from "@/utils/paths";
+
+/**
+ * Expressão de player: /assets/player/<char>/expressions/<expr>.svg.
+ * Como alguns personagens não possuem a pasta expressions/, o fallback
+ * precisa cair no default.svg da raiz do personagem, não em expressions/.
+ */
+const PLAYER_EXPRESSION_RE = /(\/assets\/player\/[^/]+)\/expressions\/[^/]+$/;
+
+function resolveFallbackPath(resolvedSrc: string): string {
+  const expression = resolvedSrc.match(PLAYER_EXPRESSION_RE);
+  if (expression) {
+    return `${expression[1]}/default.svg`;
+  }
+  return resolvedSrc.replace(/[^/]*$/, "default.svg");
+}
 
 interface Props {
   name: string;
@@ -34,6 +50,20 @@ export default function Talking({
     dialogueSpeedMs,
   );
   const { pushControls } = useGameControls();
+
+  const resolvedSrc = useMemo(() => (src ? resolveAsset(src) : ""), [src]);
+  const fallbackSrc = useMemo(
+    () => (resolvedSrc ? resolveAsset(resolveFallbackPath(resolvedSrc)) : ""),
+    [resolvedSrc],
+  );
+
+  const handleImageError = (e: SyntheticEvent<HTMLImageElement>) => {
+    const img = e.currentTarget;
+    if (img.dataset.talkingFallback === "true") return;
+    img.dataset.talkingFallback = "true";
+    img.onerror = null;
+    if (fallbackSrc) img.src = fallbackSrc;
+  };
 
   const [animate, setAnimate] = useState(true);
   const prevNameRef = useRef(name);
@@ -106,11 +136,13 @@ export default function Talking({
         <h2>{displayedText}</h2>
         {isComplete && <span className="talkingNextHint" />}
       </div>
-      {src && (
+      {resolvedSrc && (
         <img
+          key={resolvedSrc}
           className={`talkingImage ${imageClassName ?? ""}`.trim()}
-          src={resolveAsset(src)}
+          src={resolvedSrc}
           alt={name}
+          onError={handleImageError}
         />
       )}
     </div>
