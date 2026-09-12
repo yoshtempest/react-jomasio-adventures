@@ -1,0 +1,1 @@
+import{pr as e}from"./index-798weP2k.js";function t(){let{addQuest:t,updateProgress:n}=e();return{giveQuest:t,progressQuest:n}}export{t};

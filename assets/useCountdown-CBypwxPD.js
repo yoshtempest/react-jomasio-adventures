@@ -1,0 +1,1 @@
+import{Ji as e,qi as t}from"./index-798weP2k.js";var n=e(t());function r(e,t){let r=(0,n.useCallback)(()=>e-(Date.now()-t),[e,t]),[i,a]=(0,n.useState)(r);return(0,n.useEffect)(()=>{a(r());let e=setInterval(()=>a(r()),1e3);return()=>clearInterval(e)},[r]),Math.max(0,i)}export{r as t};

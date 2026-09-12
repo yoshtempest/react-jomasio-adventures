@@ -1,0 +1,1 @@
+import{Xr as e,Yr as t,Zr as n}from"./index-798weP2k.js";var r=`replays`;function i(){return t(r)}function a(){return e(i())??[]}function o(e){let t=a();return t.length>=10?!1:(t.push(e),n(i(),t),!0)}function s(e){let t=a().filter(t=>t.id!==e);n(i(),t)}function c(e){return a().find(t=>t.id===e)??null}export{o as i,c as n,a as r,s as t};
