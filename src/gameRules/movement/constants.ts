@@ -19,6 +19,8 @@ export const BATTLE_LIMITS = {
   maxX: 950,
 };
 
+export const BLOCK_ATTACK_PUSH_DISTANCE = 20;
+
 export const JUMP_DURATION = FOUR_HUNDRED_FIFTY_MS;
 
 export const ATTACK_DURATION = TWO_HUNDRED_FIFTY_MS;

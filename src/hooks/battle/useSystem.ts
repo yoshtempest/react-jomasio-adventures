@@ -76,6 +76,7 @@ type Props = {
   onSpecialRef?: React.RefObject<() => void>;
   onKokusenRef?: React.RefObject<() => void>;
   onBlackFlashRef?: React.RefObject<() => void>;
+  onCriticalPushRef?: React.RefObject<() => void>;
   arturOraMultiplierRef?: React.RefObject<() => number>;
   /** Aplica o multiplicador da Forma Vastolord no dano do marcelo. */
   vastolordMultiplierRef?: React.RefObject<() => number>;
@@ -123,6 +124,7 @@ export function useBattleSystem(props: Props) {
     onSpecialRef,
     onKokusenRef,
     onBlackFlashRef,
+    onCriticalPushRef,
     arturOraMultiplierRef,
     vastolordMultiplierRef,
     vastolordActive = false,
@@ -281,6 +283,7 @@ export function useBattleSystem(props: Props) {
     onSpecialRef,
     onKokusenRef,
     onBlackFlashRef,
+    onCriticalPushRef,
     onHalfHeal,
     arturOraMultiplierRef,
     vastolordMultiplierRef,

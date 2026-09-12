@@ -9,7 +9,9 @@ import { isPlayerInRange } from "@/gameRules/battle/range";
 import { NPC_CLASS_HITBOX_BONUS } from "@/gameRules/battle/rangeConfig";
 import { isFacingTarget } from "@/gameRules/battle/direction";
 import { damageSummon } from "@/gameRules/battle/damageSummon";
+import { BLOCK_ATTACK_PUSH_DISTANCE } from "@/gameRules/movement/constants";
 import { LUCAS_WEAPON_RANGES } from "@/data/characters/lucasWeapons";
+import { PlayerSpecialConstants } from "@/data/projectile";
 import { useBuildTargetList } from "./usePlayerTargeting";
 import { resetCooldownRef } from "@/utils/battle/cooldown";
 
@@ -153,7 +155,7 @@ export function usePlayerBattleActions({
           if (isSpecial) {
             battle.specialHit(multiplier, true);
           } else {
-            onNpcPush?.(npc.x + pushDir * 20);
+            onNpcPush?.(npc.x + pushDir * BLOCK_ATTACK_PUSH_DISTANCE);
             battle.playerHit(multiplier, true);
           }
           continue;
@@ -312,6 +314,38 @@ export function usePlayerBattleActions({
       return;
     }
 
+    if (player.character === "riquelme") {
+      const dir = player.battleDirection === "right" ? 1 : -1;
+      const inProjectileLine = (target: { x: number }) => {
+        const dx = target.x - player.x;
+        return (
+          (dir === 1 ? dx >= 0 : dx <= 0) &&
+          Math.abs(dx) <= PlayerSpecialConstants.FIRE_DISTANCE
+        );
+      };
+
+      const pathTargets = targets.filter(inProjectileLine);
+      const mainTarget = pathTargets.find((target) => target.id === "main");
+      const summonTargets = pathTargets.filter((target) => target.id !== "main");
+
+      let hitAny = false;
+
+      if (mainTarget) {
+        battle.specialHit();
+        hitAny = true;
+      }
+
+      for (const target of summonTargets) {
+        const targetSummon = summons.find((summon) => summon.id === target.id);
+        if (!targetSummon) continue;
+        hitSummon(target, 1, dir);
+        hitAny = true;
+      }
+
+      if (!hitAny) battle.setDelicia(0);
+      return;
+    }
+
     for (const target of targets) {
       if (target.id === "main") {
         battle.specialHit();
@@ -320,7 +354,18 @@ export function usePlayerBattleActions({
     }
 
     battle.setDelicia(0);
-  }, [battle, getTargets, player.state, player.x, hitTargetList, npcClass]);
+  }, [
+    battle,
+    getTargets,
+    player.state,
+    player.x,
+    player.battleDirection,
+    player.character,
+    summons,
+    hitSummon,
+    hitTargetList,
+    npcClass,
+  ]);
 
   return {
     handlePlayerHit,

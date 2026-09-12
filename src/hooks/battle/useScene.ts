@@ -84,7 +84,10 @@ import {
   PET_ROOT_DURATION_MS,
 } from "@/data/characters/petSkills";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
-import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
+import {
+  BATTLE_LIMITS,
+  BLOCK_ATTACK_PUSH_DISTANCE,
+} from "@/gameRules/movement/constants";
 import { FIFTY_MS } from "@/data/ms";
 import { CHARACTERS } from "@/data/characters/list";
 import { getEquipmentStatsBonus } from "@/gameRules/battle/equipment";
@@ -113,7 +116,10 @@ import {
 } from "@/gameRules/battle/status/statusEffects";
 import type { NewPlayerStatus } from "@/gameRules/battle/status/statusEffects";
 import { useKokusenAnimation } from "@/hooks/battle/player/characters/Natsuki/useKokusenAnimation";
-import { useBlackFlashAnimation } from "@/hooks/battle/player/characters/Natsuki/useBlackFlashAnimation";
+import {
+  useBlackFlashAnimation,
+  BLACK_FLASH_TIME_SCALE,
+} from "@/hooks/battle/player/characters/Natsuki/useBlackFlashAnimation";
 import {
   useVastolordForm,
   VASTOLORD_MULTIPLIER,
@@ -393,6 +399,14 @@ export function useBattleScene({
     useBlackFlashAnimation();
   const onBlackFlashRef = useLatestRef(triggerBlackFlash);
 
+  useEffect(() => {
+    if (blackFlashActive) {
+      setTimeScale(BLACK_FLASH_TIME_SCALE);
+    } else {
+      resetTimeScale();
+    }
+  }, [blackFlashActive, setTimeScale, resetTimeScale]);
+
   const {
     isGrabbedRef,
     grabFlipped,
@@ -587,6 +601,35 @@ export function useBattleScene({
     onGrabPlayer,
     onThrowStart,
     onThrowPlayer,
+  });
+
+  const onCriticalPushRef = useLatestRef(() => {
+    const dir = player.battleDirection === "right" ? 1 : -1;
+
+    npc.updateNpc({
+      x: Math.max(
+        BATTLE_LIMITS.minX,
+        Math.min(
+          BATTLE_LIMITS.maxX,
+          npc.x + dir * BLOCK_ATTACK_PUSH_DISTANCE,
+        ),
+      ),
+    });
+
+    setSummons((prev) =>
+      prev
+        .filter((s) => !s.isDying)
+        .map((s) => ({
+          ...s,
+          x: Math.max(
+            BATTLE_LIMITS.minX,
+            Math.min(
+              BATTLE_LIMITS.maxX,
+              s.x + dir * BLOCK_ATTACK_PUSH_DISTANCE,
+            ),
+          ),
+        })),
+    );
   });
 
   targeting.onBeforeNpcHitRef.current = () => {
@@ -869,6 +912,7 @@ export function useBattleScene({
     onSpecialRef,
     onKokusenRef,
     onBlackFlashRef,
+    onCriticalPushRef,
     arturOraMultiplierRef,
     vastolordMultiplierRef,
     vastolordActive,

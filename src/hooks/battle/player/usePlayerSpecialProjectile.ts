@@ -1,13 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { getSpecialFlowOverride } from "@/data/battle/animationFlow";
-import { ProjectileConstants } from "@/data/projectile";
-import { FOUR_HUNDRED_MS } from "@/data/ms";
+import { PlayerSpecialConstants, ProjectileConstants } from "@/data/projectile";
 
-const SPHERE_OFFSET_X = 30;
-const FIRE_DURATION = FOUR_HUNDRED_MS;
-const FIRE_DISTANCE = 500;
-const MERGE_TIME_SCALE = 0.7;
-const MOVE_TIME_SCALE = 0.9;
+const SPHERE_OFFSET_X = PlayerSpecialConstants.SPHERE_OFFSET_X;
+const FIRE_DURATION = PlayerSpecialConstants.FIRE_DURATION;
+const MERGE_TIME_SCALE = PlayerSpecialConstants.MERGE_TIME_SCALE;
+const MOVE_TIME_SCALE = PlayerSpecialConstants.MOVE_TIME_SCALE;
 
 type Props = {
   player: Player;
@@ -201,7 +199,7 @@ export function usePlayerSpecialProjectile({
 
         projectileRef.current = {
           ...p,
-          x: p.startX + dir * FIRE_DISTANCE * t,
+          x: p.startX + dir * PlayerSpecialConstants.FIRE_DISTANCE * t,
         };
 
         if (!firedRef.current) {

@@ -2,7 +2,10 @@ import {
   incrementAttacksUsedStats,
   incrementHitsUsedStats,
 } from "@/utils/rewards/battleStats";
-import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
+import {
+  BATTLE_LIMITS,
+  BLOCK_ATTACK_PUSH_DISTANCE,
+} from "@/gameRules/movement/constants";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { CharactersProgress } from "@/data/characters/defaultProgress";
 import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
@@ -100,7 +103,7 @@ export function damageSummon({
               ? {
                   x: Math.max(
                     BATTLE_LIMITS.minX,
-                    Math.min(BATTLE_LIMITS.maxX, summon.x + pushDir * 20),
+                    Math.min(BATTLE_LIMITS.maxX, summon.x + pushDir * BLOCK_ATTACK_PUSH_DISTANCE),
                   ),
                 }
               : {}),

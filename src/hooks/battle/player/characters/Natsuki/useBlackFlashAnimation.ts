@@ -2,6 +2,7 @@ import { useState, useCallback, useRef } from "react";
 
 const BLACK_FLASH_VARIANTS = ["one", "two"] as const;
 const FLASH_DURATION = 300;
+export const BLACK_FLASH_TIME_SCALE = 0.5;
 
 export function useBlackFlashAnimation() {
   const [blackFlash, setBlackFlash] = useState<{
