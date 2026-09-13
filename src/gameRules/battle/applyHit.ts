@@ -126,13 +126,17 @@ export function calculateBasicHitDamage(params: DamageCalcParams): {
 export function calculateSpecialHitDamage(
   params: Omit<DamageCalcParams, "titleDamageBonus"> & { stacks: number },
 ): { damage: number; isCrit: boolean; type: DamageType } {
-  const rawDmg =
-    params.player.character === "larissa"
-      ? params.stacks * 5
-      : combatService.calculateSpecialDamage(
-          params.char.stats.intelligence,
-          params.playerClass,
-        );
+  let rawDmg: number;
+  if (params.player.character === "larissa") {
+    rawDmg = params.stacks * 5;
+  } else {
+    const baseSpecial = combatService.calculateSpecialDamage(
+      params.char.stats.intelligence,
+      params.playerClass,
+    );
+    rawDmg =
+      params.player.character === "riquelme" ? baseSpecial * 2 : baseSpecial;
+  }
 
   return computeHitDamage({ ...params, rawDmg });
 }
