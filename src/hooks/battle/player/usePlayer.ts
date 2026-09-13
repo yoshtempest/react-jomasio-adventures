@@ -252,6 +252,7 @@ export function usePlayerBattle({
         onDivergentFistConsumedRef?.current?.();
         setTimeout(() => {
           if (isEnding.current) return;
+          onCriticalPushRef?.current?.();
           runBasicHit();
         }, DIVERGENT_FIST_DELAY_MS);
       }

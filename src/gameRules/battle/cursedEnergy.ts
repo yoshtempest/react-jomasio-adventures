@@ -28,8 +28,14 @@ export const BLINK_AFTERIMAGE_MS = 300;
 /** Custo do Punho Divergente em energia amaldiçoada. */
 export const DIVERGENT_FIST_COST = 25;
 
-/** Atraso da segunda instância de dano do Punho Divergente, em ms. */
-export const DIVERGENT_FIST_DELAY_MS = 120;
+/** Atraso da segunda instância de dano do Punho Divergente, em ms. O inimigo é empurrado e recebe o dano quando o sprite `four.svg` da animação é atingido. */
+export const DIVERGENT_FIST_DELAY_MS = 200;
+
+/** Número de sprites da animação do Punho Divergente (one.svg → eight.svg). */
+export const DIVERGENT_FIST_SPRITE_COUNT = 8;
+
+/** Duração de exibição de cada sprite da animação do Punho Divergente, em ms. */
+export const DIVERGENT_FIST_FRAME_MS = 50;
 
 /**
  * Duração da sequência "O Mais Honrado" (passiva O Abençoado), em ms. Casa com

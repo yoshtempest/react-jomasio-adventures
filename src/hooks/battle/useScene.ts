@@ -122,6 +122,7 @@ import {
   BLACK_FLASH_TIME_SCALE,
 } from "@/hooks/battle/player/characters/Natsuki/useBlackFlashAnimation";
 import { useBlinkAnimation } from "@/hooks/battle/player/characters/Natsuki/useBlinkAnimation";
+import { useDivergentFistAnimation } from "@/hooks/battle/player/characters/Natsuki/useDivergentFistAnimation";
 import {
   useVastolordForm,
   VASTOLORD_MULTIPLIER,
@@ -414,11 +415,17 @@ export function useBattleScene({
 
   const [divergentFistActive, setDivergentFistActive] = useState(false);
   const divergentFistRef = useRef(false);
+  const {
+    divergentFistFrame,
+    triggerDivergentFist,
+    clearDivergentFist,
+  } = useDivergentFistAnimation();
 
   const onDivergentFistConsumed = useCallback(() => {
     setDivergentFistActive(false);
     forcePunchRef.current = false;
-  }, [forcePunchRef]);
+    triggerDivergentFist();
+  }, [forcePunchRef, triggerDivergentFist]);
   const onDivergentFistConsumedRef = useLatestRef(onDivergentFistConsumed);
 
   const {
@@ -1672,6 +1679,7 @@ export function useBattleScene({
     setMostHonoredFreeze(false);
     resetTimeScale();
     clearBlink();
+    clearDivergentFist();
     divergentFistRef.current = false;
     setDivergentFistActive(false);
     forcePunchRef.current = false;
@@ -1764,6 +1772,7 @@ export function useBattleScene({
     blinkVisual,
     divergentFistActive,
     activateDivergentFist: handleActivateDivergentFist,
+    divergentFistFrame,
     honoredOneActive,
     kokusenActive,
     kokusenFrame,

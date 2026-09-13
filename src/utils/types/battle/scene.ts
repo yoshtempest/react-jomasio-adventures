@@ -79,6 +79,7 @@ export type BattleSceneApi = {
   blinkVisual: import("@/hooks/battle/player/characters/Natsuki/useBlinkAnimation").BlinkVisual | null;
   divergentFistActive: boolean;
   activateDivergentFist: () => void;
+  divergentFistFrame: number | null;
   honoredOneActive: boolean;
   kokusenActive: ReturnType<typeof useKokusenAnimation>["kokusenActive"];
   kokusenFrame: ReturnType<typeof useKokusenAnimation>["kokusenFrame"];

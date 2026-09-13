@@ -21,6 +21,7 @@ import { BattleOutro } from "@/components/Game/Battle/Modal/Outro";
 import { BattleHighlight } from "@/components/Game/Battle/Modal/Highlight";
 import { ChargeParticles } from "@/components/Game/Battle/Effects/ChargeParticles";
 import { KokusenAnimation } from "@/components/Game/Battle/Effects/KokusenAnimation";
+import { DivergentFistAnimation } from "@/components/Game/Battle/Effects/DivergentFistAnimation";
 import { BlackFlashAnimation } from "@/components/Game/Battle/Effects/BlackFlashAnimation";
 import { VastolordTimer } from "@/components/Game/Battle/Effects/VastolordTimer";
 import { SpecialIntro } from "@/components/Game/Battle/Effects/SpecialIntro";
@@ -125,6 +126,7 @@ export function BattleScene(props: Props) {
     blinkVisual,
     divergentFistActive,
     activateDivergentFist,
+    divergentFistFrame,
     honoredOneActive,
     kokusenActive,
     kokusenFrame,
@@ -384,6 +386,16 @@ export function BattleScene(props: Props) {
           <KokusenAnimation
             active={kokusenActive}
             frame={kokusenFrame}
+            npcX={npc.x}
+            npcY={npc.y}
+            npcHeight={
+              TILE_SIZE *
+              getBossSizeMultiplier(npcType, battle.npcPhase, isAlfa)
+            }
+          />
+
+          <DivergentFistAnimation
+            frame={divergentFistFrame}
             npcX={npc.x}
             npcY={npc.y}
             npcHeight={
