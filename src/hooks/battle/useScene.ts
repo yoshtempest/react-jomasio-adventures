@@ -701,6 +701,7 @@ export function useBattleScene({
     }
 
     if (performRewindRef.current()) {
+      playSound("returningTime");
       battle.isEnding.current = true;
       return;
     }
