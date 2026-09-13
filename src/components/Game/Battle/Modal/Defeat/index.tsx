@@ -176,8 +176,11 @@ export function DefeatModal({
                   onClick={() => selectCharacter(i)}
                 >
                   <img
-                    src={playerPath(`/${char.image}/default.svg`)}
+                    src={playerPath(`/${char.image}/expressions/defeat.svg`)}
                     className={styles.characterImage}
+                    onError={(e) => {
+                      e.currentTarget.src = playerPath(`/${char.image}/expressions/default.svg`);
+                    }}
                   />
                   <p className={styles.characterName}>{char.name}</p>
                 </button>

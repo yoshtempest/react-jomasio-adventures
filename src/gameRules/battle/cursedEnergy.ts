@@ -16,6 +16,15 @@ export const BLINK_ENERGY_COST = 10;
 /** Distância do teleporte curto do blink, em px. */
 export const BLINK_DISTANCE = 200;
 
+/** Atraso antes do blink teleportar: a imagem vira silhueta preta no local de origem. */
+export const BLINK_UNTIL_TELEPORT_MS = 50;
+
+/** Duração da transição silhueta preta → branca no destino do blink, em ms. */
+export const BLINK_SILHOUETTE_FADE_MS = 100;
+
+/** Duração da silhueta preta deixada no local de origem do blink, em ms. */
+export const BLINK_AFTERIMAGE_MS = 300;
+
 /**
  * Duração da sequência "O Mais Honrado" (passiva O Abençoado), em ms. Casa com
  * a duração real de honored-one.mp3 (~7.345s). É usada como janela de hitstop

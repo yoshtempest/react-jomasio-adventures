@@ -1,16 +1,16 @@
 import { playerPath } from "@/utils/paths";
 
 export const characterSprites = {
-  marcelo: playerPath("/marcelo/default.svg"),
-  eduarda: playerPath("/eduarda/default.svg"),
-  lucas: playerPath("/lucas/default.svg"),
-  artur: playerPath("/artur/default.svg"),
-  camilly: playerPath("/camilly/default.svg"),
-  emanuel: playerPath("/emanuel/default.svg"),
-  mayra: playerPath("/mayra/default.svg"),
-  riquelme: playerPath("/riquelme/default.svg"),
-  samuel: playerPath("/samuel/default.svg"),
-  larissa: playerPath("/larissa/default.svg"),
-  lucaua: playerPath("/lucaua/default.svg"),
-  levi: playerPath("/levi/default.svg"),
+  marcelo: playerPath("/marcelo/expressions/default.svg"),
+  eduarda: playerPath("/eduarda/expressions/default.svg"),
+  lucas: playerPath("/lucas/expressions/default.svg"),
+  artur: playerPath("/arturexpressions//default.svg"),
+  camilly: playerPath("/camilly/expressions/default.svg"),
+  emanuel: playerPath("/emanuel/expressions/default.svg"),
+  mayra: playerPath("/mayra/expressions/default.svg"),
+  riquelme: playerPath("/riquelme/expressions/default.svg"),
+  samuel: playerPath("/samuel/expressions/default.svg"),
+  larissa: playerPath("/larissa/expressions/default.svg"),
+  lucaua: playerPath("/lucaua/expressions/default.svg"),
+  levi: playerPath("/levi/expressions/default.svg"),
 };

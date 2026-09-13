@@ -120,6 +120,7 @@ import {
   useBlackFlashAnimation,
   BLACK_FLASH_TIME_SCALE,
 } from "@/hooks/battle/player/characters/Natsuki/useBlackFlashAnimation";
+import { useBlinkAnimation } from "@/hooks/battle/player/characters/Natsuki/useBlinkAnimation";
 import {
   useVastolordForm,
   VASTOLORD_MULTIPLIER,
@@ -406,6 +407,8 @@ export function useBattleScene({
       resetTimeScale();
     }
   }, [blackFlashActive, setTimeScale, resetTimeScale]);
+
+  const { blinkVisual, triggerBlink, clearBlink } = useBlinkAnimation();
 
   const {
     isGrabbedRef,
@@ -952,15 +955,29 @@ export function useBattleScene({
     if (mana.playerMana < BLINK_ENERGY_COST) return;
     if (!mana.consumeMana(BLINK_ENERGY_COST)) return;
     playSound("blink");
-    setPlayer((p) => {
-      const dir = p.battleDirection === "left" ? -1 : 1;
-      const targetX = Math.max(
-        BATTLE_LIMITS.minX,
-        Math.min(BATTLE_LIMITS.maxX, p.x + dir * BLINK_DISTANCE),
-      );
-      return { ...p, x: targetX, state: "dash" };
-    });
-  }, [battleManaRef, battle, honoredOneActiveRef, playSound, setPlayer]);
+    const dir = player.battleDirection === "left" ? -1 : 1;
+    const targetX = Math.max(
+      BATTLE_LIMITS.minX,
+      Math.min(BATTLE_LIMITS.maxX, player.x + dir * BLINK_DISTANCE),
+    );
+    triggerBlink(
+      { x: player.x, y: player.y },
+      { x: targetX, y: player.y },
+      { direction: player.battleDirection, state: player.state },
+      () => setPlayer((p) => ({ ...p, x: targetX, state: "dash" })),
+    );
+  }, [
+    battleManaRef,
+    battle,
+    honoredOneActiveRef,
+    player.battleDirection,
+    player.state,
+    player.x,
+    player.y,
+    playSound,
+    setPlayer,
+    triggerBlink,
+  ]);
 
   executePetSkillRef.current = () => {
     if (!petSkillDef || battle.isEnding.current) return;
@@ -1623,6 +1640,7 @@ export function useBattleScene({
     setHonoredRegenActive(false);
     setMostHonoredFreeze(false);
     resetTimeScale();
+    clearBlink();
     honoredRiseStartRef.current = 0;
     honoredFleeRef.current = false;
     honoredFallRef.current = false;
@@ -1709,6 +1727,7 @@ export function useBattleScene({
     switchWeapon: handleWeaponSwitch,
     convertCursedEnergy: handleCursedEnergyConversion,
     blink: handleBlink,
+    blinkVisual,
     honoredOneActive,
     kokusenActive,
     kokusenFrame,

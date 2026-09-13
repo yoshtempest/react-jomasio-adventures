@@ -121,6 +121,7 @@ export function BattleScene(props: Props) {
     switchWeapon,
     convertCursedEnergy,
     blink,
+    blinkVisual,
     honoredOneActive,
     kokusenActive,
     kokusenFrame,
@@ -346,6 +347,7 @@ export function BattleScene(props: Props) {
             extraPunchSprite={extraPunchSprite}
             weapon={lucasWeapon}
             playerForm={vastolordActive ? "vastolordForm" : undefined}
+            blinkVisual={blinkVisual}
             lootBags={lootBags}
             npcClass={npcClass}
           />

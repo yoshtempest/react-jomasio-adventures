@@ -14,6 +14,7 @@ import { Bomb } from "./Bomb";
 import { ExtraPunch } from "./ExtraPunch";
 import { SpecialProjectile } from "./SpecialProjectile";
 import { LootBag } from "./LootBag";
+import { BlinkAfterimage } from "@/components/Game/Battle/Effects/BlinkAfterimage";
 import type { BattleEntitiesBattle, MainNpcState } from "./types";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { PetState } from "@/hooks/battle/player/pets/usePet";
@@ -21,6 +22,7 @@ import type { CoffinState } from "@/hooks/battle/summon/useCoffinAnimation";
 import type { KillerQueenOverlay } from "@/utils/types/character/srGuaxinim";
 import type { ExtraPunchVisual } from "@/utils/types/character/srGuaxinim";
 import type { BattleLootBag } from "@/utils/types/battle/loot";
+import type { BlinkVisual } from "@/hooks/battle/player/characters/Natsuki/useBlinkAnimation";
 
 type Props = {
   npc: MainNpcState;
@@ -48,6 +50,8 @@ type Props = {
   weapon?: LucasWeapon;
   /** Pasta de sprites do marcelo durante a Forma Vastolord. */
   playerForm?: "vastolordForm";
+  /** Estado da coreografia do blink do riquelme (silhuetas de origem/destino). */
+  blinkVisual?: BlinkVisual | null;
 };
 
 export function BattleEntities({
@@ -75,6 +79,7 @@ export function BattleEntities({
   extraPunchSprite,
   weapon,
   playerForm,
+  blinkVisual = null,
 }: Props) {
   const battleScaleX = window.innerWidth / ProjectileConstants.MAP_WIDTH;
   const battleScaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;
@@ -141,7 +146,16 @@ export function BattleEntities({
         weapon={weapon}
         grabFlipped={grabFlipped}
         form={playerForm}
+        blinkVisual={blinkVisual}
       />
+
+      {blinkVisual && player.character === "riquelme" && (
+        <BlinkAfterimage
+          visual={blinkVisual}
+          PLAYER_SIZE={PLAYER_SIZE}
+          character={player.character}
+        />
+      )}
 
       <KillerQueen
         killerQueen={killerQueen}

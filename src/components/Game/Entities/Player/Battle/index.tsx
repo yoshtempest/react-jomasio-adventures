@@ -3,6 +3,11 @@ import { resolveBattleSprite, playerPath } from "@/utils/paths";
 import { ProjectileConstants } from "@/data/projectile";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { HONORED_ONE_RISE_MS } from "@/gameRules/battle/cursedEnergy";
+import {
+  BLINK_UNTIL_TELEPORT_MS,
+  BLINK_SILHOUETTE_FADE_MS,
+} from "@/gameRules/battle/cursedEnergy";
+import styles from "./styles.module.css";
 
 type Props = {
   x: number;
@@ -16,6 +21,8 @@ type Props = {
   grabFlipped?: boolean;
   /** Pasta de sprites do marcelo (ex: Forma Vastolord). */
   form?: "vastolordForm";
+  /** Silhueta do blink do riquelme: preta (antes do teleporte) ou branca (chegando). */
+  blinkSilhouette?: "black" | "white" | null;
 };
 
 const CROUCH_STATE_MAP: Record<string, string> = {
@@ -34,6 +41,7 @@ export function PlayerBattle({
   grabbedUntil = 0,
   grabFlipped = false,
   form,
+  blinkSilhouette = null,
 }: Props) {
   const resolvedState =
     CROUCH_STATE_MAP[state] ?? (state === "charging" ? "idle" : state);
@@ -43,6 +51,20 @@ export function PlayerBattle({
   const showFlipped = isGrabbed && grabFlipped;
   const src = resolveBattleSprite(character, resolvedState, weapon, form);
   const ARTUR_SEEING_SRC = playerPath("/artur/inFight/special/arturSeeing.svg");
+
+  const blinkClass =
+    blinkSilhouette === "black"
+      ? styles.blinkBlack
+      : blinkSilhouette === "white"
+        ? styles.blinkWhite
+        : "";
+
+  const blinkDuration =
+    blinkClass === styles.blinkBlack
+      ? `${BLINK_UNTIL_TELEPORT_MS}ms`
+      : blinkClass === styles.blinkWhite
+        ? `${BLINK_SILHOUETTE_FADE_MS}ms`
+        : undefined;
 
   const { playSound } = useSoundEffects();
   const prePalmPlayedRef = useRef(false);
@@ -106,7 +128,9 @@ export function PlayerBattle({
     >
       <img
         src={src}
+        className={blinkClass}
         style={{
+          animationDuration: blinkDuration,
           position: "absolute",
           width: "auto",
           height: "100%",

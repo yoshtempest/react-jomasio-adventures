@@ -1,4 +1,5 @@
 import { PlayerBattle } from "@/components/Game/Entities/Player/Battle";
+import type { BlinkVisual } from "@/hooks/battle/player/characters/Natsuki/useBlinkAnimation";
 
 type Props = {
   player: Player;
@@ -6,6 +7,7 @@ type Props = {
   weapon?: LucasWeapon;
   grabFlipped?: boolean;
   form?: "vastolordForm";
+  blinkVisual?: BlinkVisual | null;
 };
 
 export function Player({
@@ -14,7 +16,15 @@ export function Player({
   weapon,
   grabFlipped = false,
   form,
+  blinkVisual = null,
 }: Props) {
+  const blinkSilhouette =
+    player.character === "riquelme" && blinkVisual
+      ? blinkVisual.teleported
+        ? "white"
+        : "black"
+      : null;
+
   return (
     <PlayerBattle
       character={player.character}
@@ -27,6 +37,7 @@ export function Player({
       grabbedUntil={player.grabbedUntil}
       grabFlipped={grabFlipped}
       form={form}
+      blinkSilhouette={blinkSilhouette}
     />
   );
 }

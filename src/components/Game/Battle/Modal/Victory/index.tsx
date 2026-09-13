@@ -64,7 +64,7 @@ export function VictoryModal({
       <div className={`modal ${styles.modal}`}>
         <div className={styles.header}>
           <img
-            src={playerPath(`/${character}/default.svg`)}
+            src={playerPath(`/${character}/expressions/default.svg`)}
             alt={character}
             className={styles.characterImage}
           />

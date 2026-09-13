@@ -1,0 +1,27 @@
+.afterimage {
+  z-index: 9;
+  pointer-events: none;
+}
+
+.afterimage img {
+  filter: brightness(0);
+  animation: blinkAfterimage 300ms linear forwards;
+}
+
+@keyframes blinkAfterimage {
+  0% {
+    opacity: 0;
+  }
+
+  16.67% {
+    opacity: 1;
+  }
+
+  83.33% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}

@@ -201,7 +201,7 @@ export function Settings() {
             <h2 className={styles.center}>Configurações de Batalha</h2>
             <div className={styles.battleEntities}>
               <BattleCard
-                spriteSrc={playerPath(`/${player.character}/default.svg`)}
+                spriteSrc={playerPath(`/${player.character}/expressions/default.svg`)}
                 name={playerName}
                 level={playerLevel}
                 rank={playerRank}

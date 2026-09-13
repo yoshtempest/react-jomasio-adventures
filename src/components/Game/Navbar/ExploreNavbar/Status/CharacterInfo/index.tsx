@@ -67,7 +67,7 @@ export function CharacterInfo() {
             src={playerPath(
               isHungry
                 ? `/${player.character}/expressions/hungry.svg`
-                : `/${player.character}/default.svg`,
+                : `/${player.character}/expressions/default.svg`,
             )}
             className={styles.image}
             onError={handleImageError}

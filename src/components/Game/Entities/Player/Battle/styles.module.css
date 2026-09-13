@@ -1,0 +1,27 @@
+.blinkBlack {
+  animation: toBlackSilhouette 50ms linear forwards;
+}
+
+.blinkWhite {
+  animation: fromWhiteSilhouette 100ms linear forwards;
+}
+
+@keyframes toBlackSilhouette {
+  from {
+    filter: none;
+  }
+
+  to {
+    filter: brightness(0);
+  }
+}
+
+@keyframes fromWhiteSilhouette {
+  from {
+    filter: brightness(0) invert(1);
+  }
+
+  to {
+    filter: none;
+  }
+}

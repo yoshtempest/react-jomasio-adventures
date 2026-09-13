@@ -39,7 +39,7 @@ export function CharacterCard({
       {isSelected && <span className={`cursor ${styles.cursor}`}>▼</span>}
 
       <img
-        src={playerPath(`/${character.image}/default.svg`)}
+        src={playerPath(`/${character.image}/expressions/default.svg`)}
         className={styles.characterImage}
         alt={character.name}
       />

@@ -55,30 +55,34 @@ export const bosses = [
 export const characters = [
   {
     name: "Marcelo",
-    image: playerPath("/marcelo/default.svg"),
+    image: playerPath("/marcelo/expressions/default.svg"),
     class: "Espadachim",
   },
   {
     name: "Artur",
-    image: playerPath("/artur/default.svg"),
+    image: playerPath("/artur/expressions/default.svg"),
     class: "Explosivo",
   },
   {
     name: "Eduarda",
-    image: playerPath("/eduarda/default.svg"),
+    image: playerPath("/eduarda/expressions/default.svg"),
     class: "Inquisidora",
   },
   {
     name: "Riquelme",
-    image: playerPath("/riquelme/default.svg"),
+    image: playerPath("/riquelme/expressions/default.svg"),
     class: "Tanque",
   },
   {
     name: "Emanuel",
-    image: playerPath("/emanuel/default.svg"),
+    image: playerPath("/emanuel/expressions/default.svg"),
     class: "Atacante",
   },
-  { name: "Lucas", image: playerPath("/lucas/default.svg"), class: "Boxeador" },
+  {
+    name: "Lucas",
+    image: playerPath("/lucas/expressions/default.svg"),
+    class: "Boxeador"
+  },
   {
     name: "Lucauã",
     image: playerPath("/lucaua/default.svg"),
