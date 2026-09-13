@@ -44,10 +44,7 @@ import { ENCHANTMENT_DURATION_MS, type Enchantment } from "@/data/equipment/ench
 import { usePhaseTransition } from "@/hooks/battle/death/usePhaseTransition";
 import { useCoffinAnimation } from "@/hooks/battle/summon/useCoffinAnimation";
 import { usePlayerSpecialProjectile } from "@/hooks/battle/player/usePlayerSpecialProjectile";
-import { useArturKillerQueen } from "@/hooks/battle/player/characters/srGuaxinim/useArturKillerQueen";
-import { useArturOraPunch } from "@/hooks/battle/player/characters/srGuaxinim/useArturOraPunch";
 import { useLucasWeaponSwitch } from "@/hooks/battle/player/characters/lucas/useLucasWeaponSwitch";
-import { playerPath } from "@/utils/paths";
 import { getSpecialFlowOverride } from "@/data/battle/animationFlow";
 import { CHARGE_ATTACK_MIN_LEVEL } from "@/data/battle/charge";
 import { useBattleIntro } from "@/hooks/battle/useIntro";
@@ -57,11 +54,7 @@ import { useNpcTargeting } from "@/hooks/battle/npc/useNpcTargeting";
 import { useBattleInfo } from "@/contexts/BattleInfoContext";
 import { useBattleMana } from "@/contexts/BattleManaContext";
 import { LUCAS_WEAPON_SWITCH_MANA_COST } from "@/gameRules/battle/mana";
-import {
-  HONORED_ONE_DURATION_MS,
-  HONORED_ONE_RISE_MS,
-  cursedEnergyFromDamage,
-} from "@/gameRules/battle/cursedEnergy";
+import { cursedEnergyFromDamage } from "@/gameRules/battle/cursedEnergy";
 import {
   getPetSkillDefinition,
   PET_ROOT_DURATION_MS,
@@ -75,8 +68,7 @@ import { CHARACTERS } from "@/data/characters/list";
 import { getEquipmentStatsBonus } from "@/gameRules/battle/equipment";
 import { saveGame } from "@/services/save/saveService";
 import { loadBestTime, saveBestTime } from "@/utils/bestTime";
-import { incrementDeath } from "@/utils/rewards/deathCounter";
-import { recordWin, recordDefeat } from "@/utils/rewards/streakStats";
+import { recordWin } from "@/utils/rewards/streakStats";
 import { useBattleRecording } from "@/hooks/battle/recording/useBattleRecording";
 import { useRewind } from "@/hooks/battle/rewind/useRewind";
 import { runPetSkill } from "@/gameRules/battle/petSkill/petSkill";
@@ -101,7 +93,6 @@ import {
 } from "@/hooks/battle/player/characters/marcelo/useVastolordForm";
 import { getCharacterPassive } from "@/data/characters/passives";
 import { useSpecialIntro } from "@/hooks/battle/useSpecialIntro";
-import type { BattleSceneApi } from "@/utils/types/battle/scene";
 import type { LootBagContents } from "@/utils/types/battle/loot";
 import { computeElapsedBattleTime } from "@/hooks/battle/computeElapsedBattleTime";
 import { useStatCallbacks } from "@/hooks/battle/useStatCallbacks";
@@ -109,6 +100,10 @@ import { useBattleSnapshots } from "@/hooks/battle/useBattleSnapshots";
 import { useActiveSkills } from "@/hooks/battle/useActiveSkills";
 import { useStatusDots } from "@/hooks/battle/useStatusDots";
 import { useTrainingEffects } from "@/hooks/battle/useTrainingEffects";
+import { useHonoredOne } from "@/hooks/battle/useHonoredOne";
+import { useDefeatFlow } from "@/hooks/battle/useDefeatFlow";
+import { useArturBattle } from "@/hooks/battle/useArturBattle";
+import { buildBattleSceneApi } from "@/hooks/battle/buildBattleSceneApi";
 
 type Props = {
   npcType: string;
@@ -202,7 +197,6 @@ export function useBattleScene({
   const battleStartRef = useRef(Date.now());
   const savedPlayerHPRef = useRef(progress[player.character]?.battleHP ?? null);
   const [rewindFrames, setRewindFrames] = useState<ReplayFrame[] | null>(null);
-  const [defeatElapsed, setDefeatElapsed] = useState(0);
   const [victoryElapsed, setVictoryElapsed] = useState(0);
   const [bestTime, setBestTime] = useState(loadBestTime(npcType));
 
@@ -433,22 +427,29 @@ export function useBattleScene({
   const isMenuOpenRef = useLatestRef(isMenuOpen);
   const honoredOneEnabled =
     getCharacterPassive(player.character, "honoredOne") != null && !training;
-  const honoredOneUsedRef = useRef(false);
-  const honoredOneActiveRef = useRef(false);
-  const [honoredOneActive, setHonoredOneActive] = useState(false);
-  /** Regeneração passiva de energia amaldiçoada (10/s) valendo pelo resto da batalha. */
-  const [honoredRegenActive, setHonoredRegenActive] = useState(false);
-  /** Janela da sequência "O Mais Honrado": congela toda a batalha. */
-  const [mostHonoredFreeze, setMostHonoredFreeze] = useState(false);
-  const mostHonoredFreezeRef = useLatestRef(mostHonoredFreeze);
-  const honoredOneTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  /** Durante a sequência, os inimigos recuam até ficarem a >=300px em x. */
-  const honoredFleeRef = useRef(false);
 
-  const activateHonoredOne = useCallback(() => {
-    honoredOneActiveRef.current = true;
-    setHonoredOneActive(true);
-  }, []);
+  const {
+    honoredOneActiveRef,
+    honoredOneActive,
+    honoredRegenActive,
+    mostHonoredFreeze,
+    mostHonoredFreezeRef,
+    honoredFleeRef,
+    surviveLethalHitRef,
+    resetHonoredOne,
+  } = useHonoredOne({
+    enabled: honoredOneEnabled,
+    player,
+    setPlayer,
+    playSound,
+    refs,
+    setTimeScale,
+    resetTimeScale,
+    battleManaRef,
+    honoredRiseStartRef,
+    honoredRiseStartYRef,
+    honoredFallRef,
+  });
 
   const isPaused =
     showVictory ||
@@ -468,6 +469,7 @@ export function useBattleScene({
   const vastolordUsedRef = useRef(false);
   const vastolordMultiplierRef = useRef<() => number>(() => 1);
   const vastolordEndingRef = useRef<{ current: boolean }>({ current: false });
+  const runDefeatRef = useRef<() => void>(() => {});
 
   const vastolordDurationMs =
     getCharacterPassive(player.character, "vastolordForm")?.effect.durationMs ??
@@ -486,29 +488,11 @@ export function useBattleScene({
     durationMs: vastolordDurationMs,
     isPausedRef,
     isEndingRef: vastolordEndingRef,
-    onExpire: () => runDefeat(),
+    onExpire: () => runDefeatRef.current(),
   });
   vastolordActiveRef.current = vastolordActive;
   vastolordMultiplierRef.current = () =>
     vastolordActive ? VASTOLORD_MULTIPLIER : 1;
-
-  function runDefeat() {
-    setBattleHP(player.character, null);
-    setBattleMana(player.character, null);
-    incrementDeath(player.character);
-    handleDefeat();
-    recordDefeat();
-    clearPendingTombstoneSpawn();
-    setShowDefeat(true);
-    const elapsed = computeElapsedBattleTime(
-      battleStartRef,
-      prevModeRef,
-      pauseStartRef,
-      pauseDurationRef,
-    );
-    setDefeatElapsed(elapsed);
-    addBattleTime(player.character, Math.floor(elapsed / 1000));
-  }
 
   targeting.npcAiHpRef.current = npcStats.hp;
   targeting.npcAiMaxHpRef.current = npcStats.hp;
@@ -688,7 +672,7 @@ export function useBattleScene({
       return;
     }
 
-    runDefeat();
+    runDefeatRef.current();
   });
 
   const onNpcDeathRef = useLatestRef(() => {
@@ -766,93 +750,6 @@ export function useBattleScene({
 
   // Preenchido pelo useArturOraPunch com o multiplicador atual (escala ORA).
   const arturOraMultiplierRef = useRef<() => number>(() => 1);
-
-  /**
-   * Passiva O Abençoado do riquelme: o primeiro golpe letal em uma batalha não
-   * mata — o personagem sobrevive com 1 de vida. A batalha congela (NPCs,
-   * projéteis, controles e fluxo) e o sprite troca para mostHonored.svg com a
-   * seguinte coreografia:
-   * 1. ~~5s: o riquelme sobe 400px em y girando ~90° enquanto os inimigos
-   *    próximos recuam até ficarem a >=300px em x;
-   * 2. a rotação volta a 0° e ele cai do alto com falling.svg;
-   * 3. ao aterrissar vira idleCrounched.svg e só então a batalha volta ao
-   *    normal — a energia amaldiçoada regenera 100%/1s e o botão de conversão
-   *    vira o blink.
-   */
-  const surviveLethalHitRef = useLatestRef(() => {
-    if (!honoredOneEnabled || honoredOneUsedRef.current) return false;
-    honoredOneUsedRef.current = true;
-
-    honoredRiseStartRef.current = Date.now();
-    honoredRiseStartYRef.current = player.y;
-    honoredFleeRef.current = true;
-    setHonoredRegenActive(true);
-    // TEMP-DEBUG honored-regen
-    console.log("[honored-regen] sequence start: setHonoredRegenActive(true), mana=", battleManaRef.current?.playerMana);
-    setPlayer((p) => ({ ...p, state: "mostHonored", velY: 0 }));
-    refs.hitstopRef.current = Date.now() + HONORED_ONE_DURATION_MS;
-    setTimeScale(0.01);
-    setMostHonoredFreeze(true);
-    playSound("honoredOne");
-
-    if (honoredOneTimerRef.current) {
-      clearTimeout(honoredOneTimerRef.current);
-    }
-
-    // Fim da fase de subida/rotação: o riquelme cai do alto; a física cuida da
-    // queda e o pouso em `idleCrounched` destrava a batalha (ver efeito abaixo).
-    honoredOneTimerRef.current = setTimeout(() => {
-      honoredOneTimerRef.current = null;
-      honoredFallRef.current = true;
-      setPlayer((p) => ({
-        ...p,
-        state: "falling",
-        velY: 2,
-        y: Math.max(0, p.y + 2),
-      }));
-    }, HONORED_ONE_RISE_MS);
-
-    return true;
-  });
-
-  /**
-   * Fim da coreografia honored-one: ao aterrissar (estado `idleCrounched`
-   * vindo da queda), a batalha volta ao normal de uma vez.
-   */
-  useEffect(() => {
-    if (!honoredFallRef.current) return;
-    if (player.state !== "idleCrounched") return;
-
-    honoredFallRef.current = false;
-    honoredRiseStartRef.current = 0;
-    honoredFleeRef.current = false;
-    refs.hitstopRef.current = 0;
-    setMostHonoredFreeze(false);
-    resetTimeScale();
-    activateHonoredOne();
-  }, [
-    player.state,
-    honoredFallRef,
-    honoredRiseStartRef,
-    honoredFleeRef,
-    refs,
-    setMostHonoredFreeze,
-    resetTimeScale,
-    activateHonoredOne,
-  ]);
-
-  useEffect(() => {
-    return () => {
-      if (honoredOneTimerRef.current) {
-        clearTimeout(honoredOneTimerRef.current);
-        honoredOneTimerRef.current = null;
-      }
-      honoredRiseStartRef.current = 0;
-      honoredFleeRef.current = false;
-      honoredFallRef.current = false;
-      resetTimeScale();
-    };
-  }, [resetTimeScale, honoredRiseStartRef, honoredFleeRef, honoredFallRef]);
 
   const battle = useBattleSystem({
     playerX: player.x,
@@ -1188,42 +1085,22 @@ export function useBattleScene({
     hitstopRef: refs.hitstopRef,
   });
 
-  const arturEnemies = useMemo(() => {
-    if (player.character !== "artur") return [];
-    return [
-      { id: "main", x: npc.x, y: npc.y },
-      ...summons
-        .filter((s) => !s.isDying && s.hp > 0)
-        .map((s) => ({ id: s.id, x: s.x, y: s.y })),
-    ];
-  }, [player.character, npc.x, npc.y, summons]);
-
   const {
     oraPress,
     oraRelease,
-    punches: extraPunches,
-  } = useArturOraPunch({
-    player,
-    setPlayer,
-    onPunchHit: handleExtraPunch,
-    multiplierRef: arturOraMultiplierRef,
-  });
-
-  const extraPunchSprite = playerPath("/artur/inFight/attacks/extraPunch.svg");
-
-  const {
+    extraPunches,
+    extraPunchSprite,
     killerQueen,
     bombTargets,
     killerQueenSprite,
     bombSprite,
     explosionSprite,
-  } = useArturKillerQueen({
+  } = useArturBattle({
     player,
     setPlayer,
-    enemies: arturEnemies,
-    freezeMainUntilRef: refs.npcStaggerRef,
-    freezeSummonsUntilRef,
-    freezePlayerUntilRef: freezeActionsUntilRef,
+    npc,
+    summons,
+    onPunchHit: handleExtraPunch,
     onAreaDamage: (explosions, allEnemies) => {
       for (const enemy of allEnemies) {
         const count = explosions.filter(
@@ -1238,6 +1115,10 @@ export function useBattleScene({
         }
       }
     },
+    arturOraMultiplierRef,
+    refs,
+    freezeSummonsUntilRef,
+    freezeActionsUntilRef,
   });
 
   const npcMaxHpRef = useLatestRef(battle.npcMaxHp);
@@ -1446,60 +1327,57 @@ export function useBattleScene({
     isPausedRef,
   });
 
-  function handleRetry() {
-    charge.cancelCharge();
-    resetRewind();
-    setShowDefeat(false);
-    resetVastolord();
-    vastolordUsedRef.current = false;
-    honoredOneUsedRef.current = false;
-    honoredOneActiveRef.current = false;
-    setHonoredOneActive(false);
-    setHonoredRegenActive(false);
-    setMostHonoredFreeze(false);
-    resetTimeScale();
-    clearBlink();
-    clearDivergentFist();
-    divergentFistRef.current = false;
-    setDivergentFistActive(false);
-    forcePunchRef.current = false;
-    honoredRiseStartRef.current = 0;
-    honoredFleeRef.current = false;
-    honoredFallRef.current = false;
-    if (honoredOneTimerRef.current) {
-      clearTimeout(honoredOneTimerRef.current);
-      honoredOneTimerRef.current = null;
-    }
-    clearSummons();
-    clearAllies();
-    clearCoffins();
-    coffinStartedRef.current = false;
-    npcRootedUntilRef.current = 0;
-    npcEnchantUntilRef.current = { burn: 0, freeze: 0, poison: 0, bleed: 0 };
-    rootedSummonsUntilRef.current = {};
-    summonsBleedUntilRef.current = {};
-    if (isAlfa) {
-      summonNpc(npcType);
-      summonNpc(npcType);
-    }
-    battle.resetBattle();
-    npc.resetNpc();
-    resetBattleState();
-    resetCombo();
-    battleStartRef.current = Date.now();
-    pauseDurationRef.current = 0;
-    if (grabbedTimerRef.current) clearTimeout(grabbedTimerRef.current);
-    grabbedTimerRef.current = null;
-    setIsGrabbed(false);
-    startRecording();
-  }
+  const { handleRetry, defeatElapsed } = useDefeatFlow({
+    player,
+    setBattleHP,
+    setBattleMana,
+    handleDefeat,
+    clearPendingTombstoneSpawn,
+    setShowDefeat,
+    addBattleTime,
+    battleStartRef,
+    prevModeRef,
+    pauseStartRef,
+    pauseDurationRef,
+    runDefeatRef,
+    resetRewind,
+    charge,
+    startRecording,
+    resetVastolord,
+    vastolordUsedRef,
+    resetHonoredOne,
+    resetTimeScale,
+    clearBlink,
+    clearDivergentFist,
+    divergentFistRef,
+    setDivergentFistActive,
+    forcePunchRef,
+    clearSummons,
+    clearAllies,
+    clearCoffins,
+    coffinStartedRef,
+    npcRootedUntilRef,
+    rootedSummonsUntilRef,
+    summonsBleedUntilRef,
+    npcEnchantUntilRef,
+    isAlfa,
+    summonNpc,
+    npcType,
+    battle,
+    npc,
+    resetBattleState,
+    resetCombo,
+    grabbedTimerRef,
+    setIsGrabbed,
+  });
 
-  return {
+  return buildBattleSceneApi({
     player,
     npc,
     battle,
     npcStats,
     npcLevel,
+    npcClass: npcData.class,
     summons,
     allies,
     coffins,
@@ -1566,6 +1444,5 @@ export function useBattleScene({
     lootActive,
     lootNotifications,
     clearLootNotifications,
-    npcClass: npcData.class,
-  } satisfies BattleSceneApi;
+  });
 }
