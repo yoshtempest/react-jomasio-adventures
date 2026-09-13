@@ -9,11 +9,7 @@ colocar um "Ready? Fight!" no começo da batalha
 
 Quando o personagem morre ou vence, adicionar animação e somente então aparecer a fala do personagem.
 
-flexibilizar o tamanho em que os itens aparecem na tela como pickupTiles, visualmente (o suco de laranja está gigante por exemplo)
-
 criar imagens para deixar as conversas mais animadas ao invés de apenas uma imagem de cada personagem no diálogo.
-
-adicionar pergunta de gênero para que o jogador responda ao Duque Cê e então o jogador jogue o combatTutorial com Marshadow ou Drika (não somente com marshadow)
 
 continuar a história na brodiclass
 
@@ -47,7 +43,3 @@ criar imagem de todas as ferramentas
 criar animação de craft de ferramentas
 
 adicionar imagem dos profissionais de cada profissão (O jogador têrá que dialogar com eles para evoluir suas ferramentas de ranque)
-
-fazer imagem das medalhas de todos os ranques
-
-maugrelo deve riscar o quadro que nem death note risca o caderno

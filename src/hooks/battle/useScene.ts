@@ -1,11 +1,4 @@
-import {
-  useRef,
-  useState,
-  useMemo,
-  useEffect,
-  useCallback,
-  type RefObject,
-} from "react";
+import { useRef, useState, useMemo, useEffect, useCallback } from "react";
 import { useGrabThrow } from "@/hooks/battle/throw/useGrabThrow";
 import { useThrowAnimation } from "@/hooks/battle/throw/useThrowAnimation";
 import { useLatestRef } from "@/hooks/useLatestRef";
@@ -47,13 +40,7 @@ import {
   rollEnchantmentProc,
 } from "@/gameRules/battle/equipment";
 import { aggregateRewards } from "@/gameRules/battle/loot/buildLootBags";
-import {
-  ENCHANTMENTS,
-  ENCHANTMENT_DURATION_MS,
-  ENCHANTMENT_TICK_DAMAGE,
-  ENCHANTMENT_TICK_INTERVAL_MS,
-  type Enchantment,
-} from "@/data/equipment/enchantments";
+import { ENCHANTMENT_DURATION_MS, type Enchantment } from "@/data/equipment/enchantments";
 import { usePhaseTransition } from "@/hooks/battle/death/usePhaseTransition";
 import { useCoffinAnimation } from "@/hooks/battle/summon/useCoffinAnimation";
 import { usePlayerSpecialProjectile } from "@/hooks/battle/player/usePlayerSpecialProjectile";
@@ -71,13 +58,8 @@ import { useBattleInfo } from "@/contexts/BattleInfoContext";
 import { useBattleMana } from "@/contexts/BattleManaContext";
 import { LUCAS_WEAPON_SWITCH_MANA_COST } from "@/gameRules/battle/mana";
 import {
-  CURSED_ENERGY_HEAL_RATIO,
-  BLINK_ENERGY_COST,
-  BLINK_DISTANCE,
-  DIVERGENT_FIST_COST,
   HONORED_ONE_DURATION_MS,
   HONORED_ONE_RISE_MS,
-  HONORED_ONE_REGEN_PER_SECOND,
   cursedEnergyFromDamage,
 } from "@/gameRules/battle/cursedEnergy";
 import {
@@ -89,22 +71,12 @@ import {
   BATTLE_LIMITS,
   BLOCK_ATTACK_PUSH_DISTANCE,
 } from "@/gameRules/movement/constants";
-import { FIFTY_MS } from "@/data/ms";
 import { CHARACTERS } from "@/data/characters/list";
 import { getEquipmentStatsBonus } from "@/gameRules/battle/equipment";
 import { saveGame } from "@/services/save/saveService";
 import { loadBestTime, saveBestTime } from "@/utils/bestTime";
 import { incrementDeath } from "@/utils/rewards/deathCounter";
-import { incrementBlockCount } from "@/utils/rewards/blockCounter";
 import { recordWin, recordDefeat } from "@/utils/rewards/streakStats";
-import {
-  incrementDamageDealtStats,
-  incrementDamageTakenStats,
-  incrementMissesStats,
-  incrementHitsUsedStats,
-  incrementSpecialsUsedStats,
-  incrementAttacksUsedStats,
-} from "@/utils/rewards/battleStats";
 import { useBattleRecording } from "@/hooks/battle/recording/useBattleRecording";
 import { useRewind } from "@/hooks/battle/rewind/useRewind";
 import { runPetSkill } from "@/gameRules/battle/petSkill/petSkill";
@@ -113,7 +85,6 @@ import type { ReplayData, ReplayFrame } from "@/utils/types/replay";
 import { combatService } from "@/services/combat";
 import {
   applyPlayerStatus,
-  DOT_TICK_INTERVAL_MS,
 } from "@/gameRules/battle/status/statusEffects";
 import type { NewPlayerStatus } from "@/gameRules/battle/status/statusEffects";
 import { useKokusenAnimation } from "@/hooks/battle/player/characters/Natsuki/useKokusenAnimation";
@@ -132,20 +103,12 @@ import { getCharacterPassive } from "@/data/characters/passives";
 import { useSpecialIntro } from "@/hooks/battle/useSpecialIntro";
 import type { BattleSceneApi } from "@/utils/types/battle/scene";
 import type { LootBagContents } from "@/utils/types/battle/loot";
-
-function computeElapsedBattleTime(
-  battleStartRef: RefObject<number>,
-  prevModeRef: RefObject<PlayerMode>,
-  pauseStartRef: RefObject<number>,
-  pauseDurationRef: RefObject<number>,
-): number {
-  let elapsed = Date.now() - battleStartRef.current;
-  if (prevModeRef.current === "menu") {
-    elapsed += Date.now() - pauseStartRef.current;
-  }
-  elapsed -= pauseDurationRef.current;
-  return elapsed;
-}
+import { computeElapsedBattleTime } from "@/hooks/battle/computeElapsedBattleTime";
+import { useStatCallbacks } from "@/hooks/battle/useStatCallbacks";
+import { useBattleSnapshots } from "@/hooks/battle/useBattleSnapshots";
+import { useActiveSkills } from "@/hooks/battle/useActiveSkills";
+import { useStatusDots } from "@/hooks/battle/useStatusDots";
+import { useTrainingEffects } from "@/hooks/battle/useTrainingEffects";
 
 type Props = {
   npcType: string;
@@ -784,34 +747,19 @@ export function useBattleScene({
     startBattleLoot(lootContents, npc.x, npc.y);
   });
 
-  const onBlockRef = useLatestRef(() => {
-    incrementBlockCount(player.character);
-    incrementBlockCounter();
-  });
-
-  const onDamageTakenRef = useLatestRef((amount: number) => {
-    incrementDamageTaken(amount);
-    incrementDamageTakenStats(player.character, amount);
-  });
-
-  const onDodgeRef = useLatestRef(() => {
-    incrementDodgeCounter();
-    incrementMissesStats(player.character);
-  });
-
-  const onDamageDealtRef = useLatestRef((amount: number) => {
-    incrementDamageDealt(amount);
-    incrementDamageDealtStats(player.character, amount);
-  });
-
-  const onAttackRef = useLatestRef(() => {
-    incrementAttacksUsedStats(player.character);
-    incrementHitsUsedStats(player.character);
-  });
-
-  const onSpecialRef = useLatestRef(() => {
-    incrementSpecialsUsedStats(player.character);
-    incrementHitsUsedStats(player.character);
+  const {
+    onBlockRef,
+    onDamageTakenRef,
+    onDodgeRef,
+    onDamageDealtRef,
+    onAttackRef,
+    onSpecialRef,
+  } = useStatCallbacks({
+    playerCharacter: player.character,
+    incrementBlockCounter,
+    incrementDamageTaken,
+    incrementDodgeCounter,
+    incrementDamageDealt,
   });
 
   const executePetSkillRef = useRef<() => void>(() => {});
@@ -953,70 +901,24 @@ export function useBattleScene({
 
   vastolordEndingRef.current = battle.isEnding;
 
-  const handleCursedEnergyConversion = useCallback(() => {
-    if (!cursedEnergyParams) return;
-    const mana = battleManaRef.current;
-    if (!mana || battle.isEnding.current) return;
-    const maxHeal = battle.playerMaxHp - battle.playerHP;
-    if (maxHeal <= 0) return;
-    const heal = Math.min(
-      Math.floor(mana.playerMana / CURSED_ENERGY_HEAL_RATIO),
-      maxHeal,
-    );
-    if (heal <= 0) return;
-    if (!mana.consumeMana(heal * CURSED_ENERGY_HEAL_RATIO)) return;
-    battle.setPlayerHP((hp) => Math.min(battle.playerMaxHp, hp + heal));
-    playSound("drinkingPotion");
-  }, [battleManaRef, battle, cursedEnergyParams, playSound]);
-
-  const handleBlink = useCallback(() => {
-    if (!honoredOneActiveRef.current) return;
-    const mana = battleManaRef.current;
-    if (!mana || battle.isEnding.current) return;
-    if (mana.playerMana < BLINK_ENERGY_COST) return;
-    if (!mana.consumeMana(BLINK_ENERGY_COST)) return;
-    playSound("blink");
-    const dir = player.battleDirection === "left" ? -1 : 1;
-    const targetX = Math.max(
-      BATTLE_LIMITS.minX,
-      Math.min(BATTLE_LIMITS.maxX, player.x + dir * BLINK_DISTANCE),
-    );
-    triggerBlink(
-      { x: player.x, y: player.y },
-      { x: targetX, y: player.y },
-      { direction: player.battleDirection, state: player.state },
-      () => setPlayer((p) => ({ ...p, x: targetX })),
-    );
-  }, [
-    battleManaRef,
+  const {
+    handleCursedEnergyConversion,
+    handleBlink,
+    handleActivateDivergentFist,
+  } = useActiveSkills({
+    cursedEnergyEnabled: cursedEnergyParams,
     battle,
+    battleManaRef,
+    player,
     honoredOneActiveRef,
-    player.battleDirection,
-    player.state,
-    player.x,
-    player.y,
-    playSound,
     setPlayer,
-    triggerBlink,
-  ]);
-
-  const handleActivateDivergentFist = useCallback(() => {
-    if (divergentFistActive) return;
-    const mana = battleManaRef.current;
-    if (!mana || battle.isEnding.current) return;
-    if (mana.playerMana < DIVERGENT_FIST_COST) return;
-    if (!mana.consumeMana(DIVERGENT_FIST_COST)) return;
-    divergentFistRef.current = true;
-    forcePunchRef.current = true;
-    setDivergentFistActive(true);
-    playSound("blink");
-  }, [
-    divergentFistActive,
-    battleManaRef,
-    battle,
-    forcePunchRef,
     playSound,
-  ]);
+    triggerBlink,
+    divergentFistActive,
+    divergentFistRef,
+    forcePunchRef,
+    setDivergentFistActive,
+  });
 
   executePetSkillRef.current = () => {
     if (!petSkillDef || battle.isEnding.current) return;
@@ -1115,62 +1017,27 @@ export function useBattleScene({
   };
   refs.spawnDamageRef.current = battle.spawnDamageNumber;
 
-  const playerSnapshotRef = useLatestRef({
-    x: player.x,
-    y: player.y,
-    state: player.state,
-    battleDirection: player.battleDirection,
-    character: player.character,
-    direction: player.direction,
-    grabbedUntil: player.grabbedUntil ?? 0,
-  });
-
-  const npcSnapshotRef = useLatestRef({
-    x: npc.x,
-    y: npc.y,
-    state: npc.state,
-    direction: npc.direction,
-    jumpLandingX: npc.jumpLandingX,
-  });
-
-  const battleSnapshotRef = useLatestRef({
-    playerHP: battle.playerHP,
-    playerMaxHp: battle.playerMaxHp,
-    playerShield: battle.playerShield,
-    npcHP: battle.npcHP,
-    npcMaxHp: battle.npcMaxHp,
-    npcPhase: battle.npcPhase ?? 1,
-    delicia: battle.delicia,
-    hitsToSpecial: battle.hitsToSpecial,
-    blockGauge: battle.blockGauge,
-    blockLimit: battle.blockLimit,
-  });
-
-  const petData = battle.pet;
-  const petSnapshotRef = useLatestRef(petData);
-
-  const COMBO_ACTION_STATES: Partial<Record<PlayerState, string>> = {
-    blocked: "blockAttack",
-    falling: "fallingAttack",
-  };
-  const comboActionSprite =
-    !controlsDisabled && player.state in COMBO_ACTION_STATES
-      ? (COMBO_ACTION_STATES[player.state] ?? null)
-      : null;
-  const comboActionRef = useLatestRef(comboActionSprite);
-
-  const comboSnapshotRef = useLatestRef({
-    count: comboCount,
-    rank: comboRank,
-    progress: comboProgressValue,
+  const {
+    playerSnapshotRef,
+    npcSnapshotRef,
+    battleSnapshotRef,
+    petSnapshotRef,
+    comboSnapshotRef,
+    comboActionRef,
+    damageNumbersSnapshotRef,
+    summonsSnapshotRef,
+    npcProjectilesSnapshotRef,
+  } = useBattleSnapshots({
+    player,
+    npc,
+    battle,
+    comboCount,
+    comboRank,
+    comboProgress: comboProgressValue,
     nextRank,
+    summons,
+    controlsDisabled,
   });
-
-  const damageNumbersSnapshotRef = useLatestRef(battle.damageNumbers);
-
-  const summonsSnapshotRef = useLatestRef(summons);
-
-  const npcProjectilesSnapshotRef = useLatestRef(npc.projectiles);
 
   const {
     isRecording,
@@ -1377,102 +1244,21 @@ export function useBattleScene({
   const setNpcHPRef = useLatestRef(battle.setNpcHP);
   const isEndingRef = useLatestRef(battle.isEnding);
 
-  /**
-   * Passiva O Abençoado: a partir do início da sequência honored-one, a
-   * energia amaldiçoada do riquelme regenera 10/s pelo resto da batalha.
-   */
-  useEffect(() => {
-    if (!honoredRegenActive) return;
-    const mana = battleManaRef.current;
-    if (!mana) return;
-    const interval = setInterval(() => {
-      if (
-        isEndingRef.current.current ||
-        (isPausedRef.current && !mostHonoredFreezeRef.current)
-      ) {
-        return;
-      }
-      battleManaRef.current?.restoreMana(HONORED_ONE_REGEN_PER_SECOND);
-    }, FIFTY_MS);
-    return () => clearInterval(interval);
-  }, [
+  useStatusDots({
     honoredRegenActive,
     battleManaRef,
     isEndingRef,
     isPausedRef,
     mostHonoredFreezeRef,
-  ]);
-
-  const summonsRef = useLatestRef(summons);
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (isEndingRef.current.current || isPausedRef.current) return;
-      const bleedMap = summonsBleedUntilRef.current;
-      if (!summonsRef.current.some((s) => (bleedMap[s.id] ?? 0) > Date.now())) {
-        return;
-      }
-
-      const bleeding = summonsRef.current.filter(
-        (s) => (bleedMap[s.id] ?? 0) > Date.now(),
-      );
-      setSummons((prev) =>
-        prev.map((s) =>
-          (bleedMap[s.id] ?? 0) > Date.now()
-            ? { ...s, hp: Math.max(0, s.hp - 2) }
-            : s,
-        ),
-      );
-      for (const s of bleeding) {
-        refs.spawnDamageRef.current?.(2, s.x, s.y, "bleed");
-      }
-
-      const now = Date.now();
-      for (const id of Object.keys(bleedMap)) {
-        const until = bleedMap[id];
-        if (until !== undefined && until <= now) delete bleedMap[id];
-      }
-    }, DOT_TICK_INTERVAL_MS);
-    return () => clearInterval(interval);
-  }, [
-    setSummons,
-    isEndingRef,
-    isPausedRef,
-    summonsRef,
     summonsBleedUntilRef,
-    refs,
-  ]);
-
-  /**
-   * Dano contínuo dos status aplicados pelo encantamento da arma.
-   *
-   * `freeze` não tem tick de dano: o efeito dele é manter o NPC parado, o que
-   * já acontece via `npcStaggerRef`.
-   */
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (isEndingRef.current.current || isPausedRef.current) return;
-
-      const now = Date.now();
-      let total = 0;
-      let lastType: Enchantment | null = null;
-
-      for (const enchantment of ENCHANTMENTS) {
-        if (npcEnchantUntilRef.current[enchantment] <= now) continue;
-        const tick = ENCHANTMENT_TICK_DAMAGE[enchantment];
-        if (tick <= 0) continue;
-        total += tick;
-        lastType = enchantment;
-      }
-
-      if (total <= 0 || !lastType) return;
-
-      setNpcHPRef.current((hp) => Math.max(0, hp - total));
-      const snapshot = npcSnapshotRef.current;
-      refs.spawnDamageRef.current?.(total, snapshot.x, snapshot.y, lastType);
-    }, ENCHANTMENT_TICK_INTERVAL_MS);
-
-    return () => clearInterval(interval);
-  }, [isEndingRef, isPausedRef, setNpcHPRef, refs, npcSnapshotRef]);
+    setSummons,
+    summons,
+    setNpcHP: battle.setNpcHP,
+    npcX: npc.x,
+    npcY: npc.y,
+    spawnDamageRef: refs.spawnDamageRef,
+    npcEnchantUntilRef,
+  });
 
   usePhaseTransition({
     npcPhase: battle.npcPhase,
@@ -1653,19 +1439,12 @@ export function useBattleScene({
     onComboRelease: oraRelease,
   });
 
-  const npcMaxHpForRegen = battle.npcMaxHp;
-  const setNpcHpForRegen = battle.setNpcHP;
-  useEffect(() => {
-    if (!training) return;
-    const id = setInterval(() => {
-      if (isPausedRef.current) return;
-      setNpcHpForRegen((hp) => {
-        const next = hp + npcMaxHpForRegen * 0.5;
-        return next > npcMaxHpForRegen ? npcMaxHpForRegen : next;
-      });
-    }, 1000);
-    return () => clearInterval(id);
-  }, [training, npcMaxHpForRegen, setNpcHpForRegen, isPausedRef]);
+  useTrainingEffects({
+    training,
+    npcMaxHp: battle.npcMaxHp,
+    setNpcHP: battle.setNpcHP,
+    isPausedRef,
+  });
 
   function handleRetry() {
     charge.cancelCharge();
