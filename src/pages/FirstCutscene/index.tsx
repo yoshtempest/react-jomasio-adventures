@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { SkipForward } from "lucide-react";
 import Talking from "@/components/Game/Interactions/Talking";
 import { ChoiceBox } from "@/components/Game/Interactions/ChoiceBox";
 import STFDialogue from "/assets/songs/background/STFDialogue.mp3";
@@ -38,6 +39,17 @@ export default function FirstCutscene() {
       className="Master"
       style={{ backgroundImage: `url(${sceneBackgrounds.FirstCutscene})` }}
     >
+      {!cutscene.isSkipPromptOpen && (
+        <button
+          className={styles.skipButton}
+          onClick={cutscene.openSkipPrompt}
+          title="Pular cutscene"
+        >
+          <SkipForward size={16} />
+          Pular cutscene
+        </button>
+      )}
+
       {dialogue && (
         <Talking
           name={dialogue.name}

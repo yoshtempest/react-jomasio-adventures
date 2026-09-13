@@ -1,3 +1,31 @@
 .silhouette {
   filter: brightness(5%) drop-shadow(1px 0 0 #fff);
 }
+
+.skipButton {
+  position: absolute;
+  top: var(--size-16);
+  right: var(--size-16);
+  z-index: 20;
+
+  display: flex;
+  align-items: center;
+  gap: var(--size-2);
+
+  padding: var(--size-5) var(--size-10);
+
+  border: var(--size-2) solid rgba(255, 255, 255, 0.4);
+  border-radius: var(--size-3);
+
+  background: rgba(0, 0, 0, 0.4);
+  color: var(--text-color);
+  font-size: var(--fs-14);
+  font-weight: bold;
+
+  cursor: pointer;
+  backdrop-filter: blur(var(--size-3));
+}
+
+.skipButton:hover {
+  background: rgba(0, 0, 0, 0.65);
+}

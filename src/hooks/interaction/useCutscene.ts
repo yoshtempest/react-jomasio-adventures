@@ -92,6 +92,12 @@ export function useCutscene({
     setIsSkipPromptOpen(false);
   }, []);
 
+  /** Abre o prompt de confirmação de pulo (usado pelo botão de pular). */
+  const openSkipPrompt = useCallback(() => {
+    clearHoldTimer();
+    setIsSkipPromptOpen(true);
+  }, [clearHoldTimer]);
+
   const pushControlsRef = useLatestRef(pushControls);
 
   // 🔥 CORREÇÃO AQUI
@@ -124,5 +130,6 @@ export function useCutscene({
     isSkipPromptOpen,
     confirmSkip,
     cancelSkip,
+    openSkipPrompt,
   };
 }
