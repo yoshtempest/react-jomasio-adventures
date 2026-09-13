@@ -242,7 +242,7 @@ export function useSaveMenu(listRef?: React.RefObject<HTMLDivElement | null>) {
           if (free === undefined) return false;
           setActiveSlot(free);
           clearSlot(free);
-          sessionStorage.setItem("saveSwitchTarget", "/tutorial");
+          sessionStorage.setItem("saveSwitchTarget", "/firstCutscene");
           window.location.replace(import.meta.env.BASE_URL);
         } else if (item.key === "back") {
           closeNavbarRef.current();
