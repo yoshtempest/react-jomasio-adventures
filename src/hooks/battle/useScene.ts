@@ -74,6 +74,7 @@ import {
   CURSED_ENERGY_HEAL_RATIO,
   BLINK_ENERGY_COST,
   BLINK_DISTANCE,
+  DIVERGENT_FIST_COST,
   HONORED_ONE_DURATION_MS,
   HONORED_ONE_RISE_MS,
   HONORED_ONE_REGEN_PER_SECOND,
@@ -187,6 +188,7 @@ export function useBattleScene({
     lastAttackPressRef,
     battleTenacityRef,
     freezeActionsUntilRef,
+    forcePunchRef,
     setTimeScale,
     resetTimeScale,
     timeScaleRef,
@@ -409,6 +411,15 @@ export function useBattleScene({
   }, [blackFlashActive, setTimeScale, resetTimeScale]);
 
   const { blinkVisual, triggerBlink, clearBlink } = useBlinkAnimation();
+
+  const [divergentFistActive, setDivergentFistActive] = useState(false);
+  const divergentFistRef = useRef(false);
+
+  const onDivergentFistConsumed = useCallback(() => {
+    setDivergentFistActive(false);
+    forcePunchRef.current = false;
+  }, [forcePunchRef]);
+  const onDivergentFistConsumedRef = useLatestRef(onDivergentFistConsumed);
 
   const {
     isGrabbedRef,
@@ -919,6 +930,8 @@ export function useBattleScene({
     arturOraMultiplierRef,
     vastolordMultiplierRef,
     vastolordActive,
+    divergentFistRef,
+    onDivergentFistConsumedRef,
     petId,
     onPetSkillRef: executePetSkillRef,
     isMenuRef: isMenuOpenRef,
@@ -977,6 +990,24 @@ export function useBattleScene({
     playSound,
     setPlayer,
     triggerBlink,
+  ]);
+
+  const handleActivateDivergentFist = useCallback(() => {
+    if (divergentFistActive) return;
+    const mana = battleManaRef.current;
+    if (!mana || battle.isEnding.current) return;
+    if (mana.playerMana < DIVERGENT_FIST_COST) return;
+    if (!mana.consumeMana(DIVERGENT_FIST_COST)) return;
+    divergentFistRef.current = true;
+    forcePunchRef.current = true;
+    setDivergentFistActive(true);
+    playSound("blink");
+  }, [
+    divergentFistActive,
+    battleManaRef,
+    battle,
+    forcePunchRef,
+    playSound,
   ]);
 
   executePetSkillRef.current = () => {
@@ -1641,6 +1672,9 @@ export function useBattleScene({
     setMostHonoredFreeze(false);
     resetTimeScale();
     clearBlink();
+    divergentFistRef.current = false;
+    setDivergentFistActive(false);
+    forcePunchRef.current = false;
     honoredRiseStartRef.current = 0;
     honoredFleeRef.current = false;
     honoredFallRef.current = false;
@@ -1728,6 +1762,8 @@ export function useBattleScene({
     convertCursedEnergy: handleCursedEnergyConversion,
     blink: handleBlink,
     blinkVisual,
+    divergentFistActive,
+    activateDivergentFist: handleActivateDivergentFist,
     honoredOneActive,
     kokusenActive,
     kokusenFrame,

@@ -5,6 +5,7 @@ import {
 } from "@/data/cooldowns";
 import { canPlayerHit } from "@/gameRules/battle/combat";
 import { LUCAS_WEAPON_RANGES } from "@/data/characters/lucasWeapons";
+import { DIVERGENT_FIST_DELAY_MS } from "@/gameRules/battle/cursedEnergy";
 import {
   applyBasicHit,
   applySpecialHit,
@@ -67,6 +68,10 @@ type Props = {
   arturOraMultiplierRef?: React.RefObject<() => number>;
   /** Devolve o multiplicador atual da Forma Vastolord do marcelo. */
   vastolordMultiplierRef?: React.RefObject<() => number>;
+  /** Punho Divergente do riquelme: true quando o próximo ataque dobra o dano. */
+  divergentFistRef?: React.RefObject<boolean>;
+  /** Dispara quando o Punho Divergente é consumido pelo golpe. */
+  onDivergentFistConsumedRef?: React.RefObject<() => void>;
   onBeforeNpcHitRef?: React.RefObject<() => boolean>;
   onDamageDealtRef?: React.RefObject<(amount: number) => void>;
   onAttackRef?: React.RefObject<() => void>;
@@ -112,6 +117,8 @@ export function usePlayerBattle({
   setPlayer,
   arturOraMultiplierRef,
   vastolordMultiplierRef,
+  divergentFistRef,
+  onDivergentFistConsumedRef,
   onBeforeNpcHitRef,
   onDamageDealtRef,
   onAttackRef,
@@ -201,40 +208,53 @@ export function usePlayerBattle({
         return;
       }
 
-      applyBasicHit({
-        player,
-        playerClass,
-        char,
-        behavior,
-        titleDamageBonus,
-        elementDamageBonus,
-        critRate,
-        npcArmor,
-        npcElementTypes,
-        playerHP,
-        playerMaxHp,
-        totalVampirism,
-        totalMaxHpDamage,
-        totalTrueDamage,
-        setNpcHP,
-        setPlayerHP,
-        setPlayer,
-        spawnDamageRef,
-        registerHitRef,
-        hitstopRef,
-        onDamageDealtRef,
-        onAttackRef,
-        onKokusenRef,
-        onBlackFlashRef,
-        onCriticalPushRef,
-        damageMultiplier: mult,
-        npcX,
-        npcY,
-        spawnPiercing,
-        setDelicia,
-        setStacks,
-        HITS_TO_SPECIAL,
-      });
+      const runBasicHit = () =>
+        applyBasicHit({
+          player,
+          playerClass,
+          char,
+          behavior,
+          titleDamageBonus,
+          elementDamageBonus,
+          critRate,
+          npcArmor,
+          npcElementTypes,
+          playerHP,
+          playerMaxHp,
+          totalVampirism,
+          totalMaxHpDamage,
+          totalTrueDamage,
+          setNpcHP,
+          setPlayerHP,
+          setPlayer,
+          spawnDamageRef,
+          registerHitRef,
+          hitstopRef,
+          onDamageDealtRef,
+          onAttackRef,
+          onKokusenRef,
+          onBlackFlashRef,
+          onCriticalPushRef,
+          damageMultiplier: mult,
+          npcX,
+          npcY,
+          spawnPiercing,
+          setDelicia,
+          setStacks,
+          HITS_TO_SPECIAL,
+        });
+
+      const isDivergentFist = divergentFistRef?.current === true;
+      runBasicHit();
+
+      if (isDivergentFist) {
+        divergentFistRef.current = false;
+        onDivergentFistConsumedRef?.current?.();
+        setTimeout(() => {
+          if (isEnding.current) return;
+          runBasicHit();
+        }, DIVERGENT_FIST_DELAY_MS);
+      }
 
       if (onHalfHeal) onHalfHeal();
 
@@ -281,6 +301,8 @@ export function usePlayerBattle({
       weapon,
       arturOraMultiplierRef,
       vastolordMultiplierRef,
+      divergentFistRef,
+      onDivergentFistConsumedRef,
     ],
   );
 

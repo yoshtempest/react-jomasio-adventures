@@ -3,6 +3,7 @@ import { PetSkillButton } from "@/components/Game/Battle/Buttons/PetSkill";
 import { WeaponSwitchButton } from "@/components/Game/Battle/Buttons/WeaponSwitch";
 import { CursedEnergyButton } from "@/components/Game/Battle/Buttons/CursedEnergy";
 import { BlinkButton } from "@/components/Game/Battle/Buttons/Blink";
+import { DivergentFistButton } from "@/components/Game/Battle/Buttons/DivergentFist";
 import { GameMap } from "@/components/Game/Map/Game";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useGameLayout } from "@/hooks/game/useGameLayout";
@@ -33,7 +34,7 @@ import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { useBattleNavbar } from "@/contexts/BattleNavbarContext";
 import { useBattleMana } from "@/contexts/BattleManaContext";
 import { LUCAS_WEAPON_SWITCH_MANA_COST } from "@/gameRules/battle/mana";
-import { CURSED_ENERGY_HEAL_RATIO, BLINK_ENERGY_COST } from "@/gameRules/battle/cursedEnergy";
+import { CURSED_ENERGY_HEAL_RATIO, BLINK_ENERGY_COST, DIVERGENT_FIST_COST } from "@/gameRules/battle/cursedEnergy";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import { TrainingOverlay } from "@/components/Game/Battle/TrainingOverlay";
@@ -122,6 +123,8 @@ export function BattleScene(props: Props) {
     convertCursedEnergy,
     blink,
     blinkVisual,
+    divergentFistActive,
+    activateDivergentFist,
     honoredOneActive,
     kokusenActive,
     kokusenFrame,
@@ -473,6 +476,18 @@ export function BattleScene(props: Props) {
               battleMana.playerMana < LUCAS_WEAPON_SWITCH_MANA_COST)
           }
           onClick={switchWeapon}
+        />
+      )}
+
+      {player.character === "riquelme" && (
+        <DivergentFistButton
+          energy={battleMana?.playerMana ?? 0}
+          active={divergentFistActive}
+          disabled={
+            controlsDisabled ||
+            (battleMana?.playerMana ?? 0) < DIVERGENT_FIST_COST
+          }
+          onClick={activateDivergentFist}
         />
       )}
 

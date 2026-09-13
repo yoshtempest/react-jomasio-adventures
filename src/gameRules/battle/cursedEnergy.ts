@@ -25,6 +25,12 @@ export const BLINK_SILHOUETTE_FADE_MS = 100;
 /** Duração da silhueta preta deixada no local de origem do blink, em ms. */
 export const BLINK_AFTERIMAGE_MS = 300;
 
+/** Custo do Punho Divergente em energia amaldiçoada. */
+export const DIVERGENT_FIST_COST = 25;
+
+/** Atraso da segunda instância de dano do Punho Divergente, em ms. */
+export const DIVERGENT_FIST_DELAY_MS = 120;
+
 /**
  * Duração da sequência "O Mais Honrado" (passiva O Abençoado), em ms. Casa com
  * a duração real de honored-one.mp3 (~7.345s). É usada como janela de hitstop

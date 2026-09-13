@@ -40,6 +40,7 @@ export function useBattleMovement(
   honoredRiseStartRef?: RefObject<number>,
   honoredRiseStartYRef?: RefObject<number>,
   honoredFallRef?: RefObject<boolean>,
+  forcePunchRef?: RefObject<boolean>,
 ) {
   const leftIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const rightIntervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -240,9 +241,10 @@ export function useBattleMovement(
         return { ...p, state: "attack" };
       }
       if (p.character === "riquelme") {
+        const isKick = !forcePunchRef?.current && Math.random() > 0.5;
         return {
           ...p,
-          state: Math.random() > 0.5 ? "preKick" : "preAttack",
+          state: isKick ? "preKick" : "preAttack",
         };
       }
       return { ...p, state: "preAttack" };

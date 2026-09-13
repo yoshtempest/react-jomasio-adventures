@@ -97,6 +97,9 @@ type PlayerActionsContextType = {
   battleTenacityRef: React.RefObject<number>;
   freezeActionsUntilRef: React.RefObject<number>;
 
+  /** Punho Divergente do riquelme: true força o próximo ataque a ser um soco. */
+  forcePunchRef: React.RefObject<boolean>;
+
   /** Sequência "O Mais Honrado": instante de início da subida (0 = inativa). */
   honoredRiseStartRef: React.RefObject<number>;
   /** Sequência "O Mais Honrado": y do jogador no instante em que ela disparou. */
@@ -196,6 +199,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const playerModeRef = useRef<PlayerMode>(player.mode);
   playerModeRef.current = player.mode;
 
+  const forcePunchRef = useRef(false);
+
   const honoredRiseStartRef = useRef(0);
   const honoredRiseStartYRef = useRef(0);
   const honoredFallRef = useRef(false);
@@ -210,6 +215,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     honoredRiseStartRef,
     honoredRiseStartYRef,
     honoredFallRef,
+    forcePunchRef,
   );
   const battleRef = useRef(battle);
   battleRef.current = battle;
@@ -445,6 +451,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       battleTenacityRef,
       freezeActionsUntilRef,
 
+      forcePunchRef,
+
       honoredRiseStartRef,
       honoredRiseStartYRef,
       honoredFallRef,
@@ -496,6 +504,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       lastAttackPressRef,
       battleTenacityRef,
       freezeActionsUntilRef,
+      forcePunchRef,
       honoredRiseStartRef,
       honoredRiseStartYRef,
       honoredFallRef,

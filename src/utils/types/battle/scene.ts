@@ -77,6 +77,8 @@ export type BattleSceneApi = {
   convertCursedEnergy: () => void;
   blink: () => void;
   blinkVisual: import("@/hooks/battle/player/characters/Natsuki/useBlinkAnimation").BlinkVisual | null;
+  divergentFistActive: boolean;
+  activateDivergentFist: () => void;
   honoredOneActive: boolean;
   kokusenActive: ReturnType<typeof useKokusenAnimation>["kokusenActive"];
   kokusenFrame: ReturnType<typeof useKokusenAnimation>["kokusenFrame"];

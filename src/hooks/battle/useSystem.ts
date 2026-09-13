@@ -82,6 +82,9 @@ type Props = {
   vastolordMultiplierRef?: React.RefObject<() => number>;
   /** Forma Vastolord ativa: multiplica a armadura do marcelo por 4. */
   vastolordActive?: boolean;
+  /** Punho Divergente: true quando ativado, consome no próximo golpe básico. */
+  divergentFistRef?: React.RefObject<boolean>;
+  onDivergentFistConsumedRef?: React.RefObject<() => void>;
   petId?: string | null;
   onPetSkillRef?: React.RefObject<() => void>;
   isMenuRef?: React.RefObject<boolean>;
@@ -129,6 +132,8 @@ export function useBattleSystem(props: Props) {
     vastolordMultiplierRef,
     vastolordActive = false,
     petId = null,
+    divergentFistRef,
+    onDivergentFistConsumedRef,
     onPetSkillRef,
     isMenuRef,
     isPausedRef,
@@ -287,6 +292,8 @@ export function useBattleSystem(props: Props) {
     onHalfHeal,
     arturOraMultiplierRef,
     vastolordMultiplierRef,
+    divergentFistRef,
+    onDivergentFistConsumedRef,
     weapon,
   });
 
