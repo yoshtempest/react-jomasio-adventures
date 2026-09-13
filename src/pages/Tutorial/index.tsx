@@ -31,30 +31,6 @@ export default function Tutorial() {
     cutscene.next();
   });
 
-  useEffect(() => {
-    if (!flow.showNameInput) return;
-
-    const input = inputRef.current;
-
-    if (!input) return;
-
-    // foco inicial
-    input.focus();
-
-    // mantém foco mesmo se perder
-    const handleBlur = () => {
-      setTimeout(() => {
-        input.focus();
-      }, 0);
-    };
-
-    input.addEventListener("blur", handleBlur);
-
-    return () => {
-      input.removeEventListener("blur", handleBlur);
-    };
-  }, [flow.showNameInput]);
-
   useBackgroundAudio(SOS);
 
   useEffect(() => {
@@ -145,11 +121,15 @@ export default function Tutorial() {
                 }}
               />
 
-              <SendHorizontal
+              <button
+                type="button"
                 className={styles.sendButton}
-                color="black"
+                aria-label="Enviar nome"
+                onMouseDown={(e) => e.preventDefault()}
                 onClick={nameInput.submit}
-              />
+              >
+                <SendHorizontal color="black" />
+              </button>
             </div>
           </div>
         </div>

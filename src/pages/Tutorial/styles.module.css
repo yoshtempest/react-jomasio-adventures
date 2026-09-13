@@ -1,5 +1,6 @@
 .overlay {
   align-items: flex-start;
+  z-index: 10000 !important;
 }
 
 .relative {
@@ -23,7 +24,20 @@
 .sendButton {
   position: absolute;
   right: 3%;
-  background-color: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--fs-6);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sendButton:active {
+  transform: scale(0.9);
 }
 
 @media (orientation: portrait) {

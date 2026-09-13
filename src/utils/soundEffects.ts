@@ -22,6 +22,7 @@ export function createSounds() {
     swordDeflected: sfx("player/marcelo/sword-deflected.mp3"),
     jhowsimarVemCa: sfx("npc/jhowsimar/goHere.mp3"),
     marshadowSpecial: sfx("player/marcelo/special.mp3"),
+    returningTime:sfx("player/artur/returning-time.mp3"),
     honoredOne: sfx("player/riquelme/honored-one.mp3"),
     ORA: sfx("player/artur/ORA!.mp3"),
     clap: sfx("player/artur/clap.mp3"),

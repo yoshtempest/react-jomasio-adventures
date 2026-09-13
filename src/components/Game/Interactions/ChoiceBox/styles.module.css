@@ -1,6 +1,7 @@
 .overlay {
   inset: 0;
   margin-left: 13vw;
+  z-index: 10000 !important;
 }
 
 .box {
