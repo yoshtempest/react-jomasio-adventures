@@ -1,0 +1,1 @@
+import{Ji as e,ea as t,ta as n}from"./index-GzJSqvbS.js";import{t as r}from"./useGameAudio-CmCddVrd.js";var i=n(t());function a(t,n=.3){let a=(0,i.useMemo)(()=>({src:t,loop:!0,volume:n}),[t,n]),o=r(a),s=e(o);return(0,i.useEffect)(()=>{let e=s.current;if(!e.isPlaying())return e.play()?.catch(()=>{}),()=>e.stop()},[t,s]),o}export{a as t};

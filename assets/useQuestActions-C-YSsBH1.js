@@ -1,0 +1,1 @@
+import{br as e}from"./index-GzJSqvbS.js";function t(){let{addQuest:t,updateProgress:n}=e();return{giveQuest:t,progressQuest:n}}export{t};
