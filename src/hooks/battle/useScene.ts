@@ -964,7 +964,7 @@ export function useBattleScene({
       { x: player.x, y: player.y },
       { x: targetX, y: player.y },
       { direction: player.battleDirection, state: player.state },
-      () => setPlayer((p) => ({ ...p, x: targetX, state: "dash" })),
+      () => setPlayer((p) => ({ ...p, x: targetX })),
     );
   }, [
     battleManaRef,
