@@ -54,7 +54,10 @@ export function useActiveSkills({
     if (!mana.consumeMana(heal * CURSED_ENERGY_HEAL_RATIO)) return;
     battle.setPlayerHP((hp) => Math.min(battle.playerMaxHp, hp + heal));
     playSound("drinkingPotion");
-  }, [battleManaRef, battle, cursedEnergyEnabled, playSound]);
+    if (player.character === "riquelme") {
+      setPlayer((p) => ({ ...p, state: "heal" }));
+    }
+  }, [battleManaRef, battle, cursedEnergyEnabled, player.character, playSound, setPlayer]);
 
   const handleBlink = useCallback(() => {
     if (!honoredOneActiveRef.current) return;

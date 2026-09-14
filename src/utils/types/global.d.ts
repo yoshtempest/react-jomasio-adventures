@@ -334,7 +334,8 @@ declare global {
     | "fallen"
     | "kick"
     | "preKick"
-    | "mostHonored";
+    | "mostHonored"
+    | "heal";
 
   type PlayerMode = "explore" | "battle" | "select" | "ui" | "map" | "menu";
 

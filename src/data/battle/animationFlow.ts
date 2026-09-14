@@ -60,6 +60,10 @@ export const animationFlow: Record<PlayerState, AnimationStep | null> = {
   // durante a sequência do honored-one, não avança sozinho — o useScene força
   // `idle` quando o áudio termina.
   mostHonored: null,
+
+  // Conversão de energia amaldiçoada em cura do riquelme: troca para o sprite
+  // heal.svg por 300ms e volta para idle.
+  heal: { next: "idle", duration: THREE_HUNDRED_MS },
 };
 
 type SpecialFlowOverride = {
