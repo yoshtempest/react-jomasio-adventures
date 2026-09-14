@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useCallback, useRef } from "react";
 import { battleBehaviors } from "@/gameRules/battle/behaviors/player";
 import {
   getPetSkillDefinition,
@@ -29,23 +29,20 @@ import {
 } from "@/gameRules/battle/equipment";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import { getProfessionWeaponDamageMultiplier } from "@/gameRules/professions/weapon";
-import { THREE_HUNDRED_MS, ONE_THOUSAND_MS } from "@/data/ms";
 import { useEnergy } from "@/hooks/battle/effects/useEnergy";
-import {
-  useBattleMana,
-  type BattleManaApi,
-} from "@/contexts/BattleManaContext";
-import { MANA_REGEN_PER_SECOND } from "@/gameRules/battle/mana";
+import { useBattleMana } from "@/contexts/BattleManaContext";
 import { gainSpecial } from "@/gameRules/battle/special";
 import {
   applyPlayerStatus,
   clearPlayerStatuses,
   STATUS_DURATIONS_MS,
   BURN_TICK_DAMAGE,
-  POISON_TICK_DAMAGE,
-  DOT_TICK_INTERVAL_MS,
   type NewPlayerStatus,
 } from "@/gameRules/battle/status/statusEffects";
+import { useStatusDotTicks } from "@/hooks/battle/time/ticks/useStatusDotsTicks";
+import { useNpcBleedTicks } from "@/hooks/battle/time/ticks/useNpcBleedTicks";
+import { useManaRegenTick } from "@/hooks/battle/time/ticks/useManaRegenTick";
+import { usePlayerPullAnimation } from "../player/usePlayerPullAnimation";
 
 type Props = {
   playerX: number;
@@ -559,170 +556,4 @@ export function useBattleSystem(props: Props) {
     halfHealReduction,
     applyStatus,
   };
-}
-
-function useStatusDotTicks(params: {
-  isEnding: React.RefObject<boolean>;
-  isMenuRef?: React.RefObject<boolean>;
-  isPausedRef?: React.RefObject<boolean>;
-  setPlayerHP: React.Dispatch<React.SetStateAction<number>>;
-  spawnDamageRef: React.RefObject<
-    (value: number, x: number, y: number, type: DamageType) => void
-  >;
-  burnTickDamage: number;
-  bleedXRef: React.RefObject<number>;
-  bleedYRef: React.RefObject<number>;
-  bleedUntilRef: React.RefObject<number>;
-  burnUntilRef: React.RefObject<number>;
-  poisonUntilRef: React.RefObject<number>;
-}) {
-  const {
-    isEnding,
-    isMenuRef,
-    isPausedRef,
-    setPlayerHP,
-    spawnDamageRef,
-    burnTickDamage,
-    bleedXRef,
-    bleedYRef,
-    bleedUntilRef,
-    burnUntilRef,
-    poisonUntilRef,
-  } = params;
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (isEnding.current || isMenuRef?.current || isPausedRef?.current) return;
-      if (bleedUntilRef.current > Date.now()) {
-        setPlayerHP((hp) => Math.max(0, hp - 2));
-        spawnDamageRef.current?.(
-          2,
-          bleedXRef.current,
-          bleedYRef.current,
-          "bleed",
-        );
-      }
-      if (burnUntilRef.current > Date.now()) {
-        setPlayerHP((hp) => Math.max(0, hp - burnTickDamage));
-        spawnDamageRef.current?.(
-          burnTickDamage,
-          bleedXRef.current,
-          bleedYRef.current,
-          "burn",
-        );
-      }
-      if (poisonUntilRef.current > Date.now()) {
-        setPlayerHP((hp) => Math.max(0, hp - POISON_TICK_DAMAGE));
-        spawnDamageRef.current?.(
-          POISON_TICK_DAMAGE,
-          bleedXRef.current,
-          bleedYRef.current,
-          "poison",
-        );
-      }
-    }, DOT_TICK_INTERVAL_MS);
-    return () => clearInterval(interval);
-  }, [
-    setPlayerHP,
-    isEnding,
-    isMenuRef,
-    isPausedRef,
-    burnTickDamage,
-    bleedXRef,
-    bleedYRef,
-    bleedUntilRef,
-    burnUntilRef,
-    poisonUntilRef,
-    spawnDamageRef,
-  ]);
-}
-
-function useNpcBleedTicks(params: {
-  isEnding: React.RefObject<boolean>;
-  isMenuRef?: React.RefObject<boolean>;
-  isPausedRef?: React.RefObject<boolean>;
-  setNpcHP: React.Dispatch<React.SetStateAction<number>>;
-  spawnDamageRef: React.RefObject<
-    (value: number, x: number, y: number, type: DamageType) => void
-  >;
-  npcBleedXRef: React.RefObject<number>;
-  npcBleedYRef: React.RefObject<number>;
-  npcBleedUntilRef: React.RefObject<number>;
-}) {
-  const {
-    isEnding,
-    isMenuRef,
-    isPausedRef,
-    setNpcHP,
-    spawnDamageRef,
-    npcBleedXRef,
-    npcBleedYRef,
-    npcBleedUntilRef,
-  } = params;
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (isEnding.current || isMenuRef?.current || isPausedRef?.current) return;
-      if (npcBleedUntilRef.current > Date.now()) {
-        setNpcHP((hp) => Math.max(0, hp - 2));
-        spawnDamageRef.current?.(
-          2,
-          npcBleedXRef.current,
-          npcBleedYRef.current,
-          "bleed",
-        );
-      }
-    }, DOT_TICK_INTERVAL_MS);
-    return () => clearInterval(interval);
-  }, [
-    setNpcHP,
-    isEnding,
-    isMenuRef,
-    isPausedRef,
-    npcBleedXRef,
-    npcBleedYRef,
-    npcBleedUntilRef,
-    spawnDamageRef,
-  ]);
-}
-
-function usePlayerPullAnimation(
-  setPlayer: React.Dispatch<React.SetStateAction<Player>>,
-  isMenuRef?: React.RefObject<boolean>,
-) {
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (isMenuRef?.current) return;
-      setPlayer((p) => {
-        if (p.pullStartTime === 0) return p;
-        const elapsed = Date.now() - p.pullStartTime;
-        const duration = THREE_HUNDRED_MS;
-        const progress = Math.min(elapsed / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        const currentX = p.pullFromX + (p.pullToX - p.pullFromX) * eased;
-        if (progress >= 1) {
-          return { ...p, x: p.pullToX, pullStartTime: 0 };
-        }
-        return { ...p, x: currentX };
-      });
-    }, 16);
-    return () => clearInterval(interval);
-  }, [setPlayer, isMenuRef]);
-}
-
-function useManaRegenTick(
-  battleManaRef: React.RefObject<BattleManaApi | null>,
-  isEnding: React.RefObject<boolean>,
-  isMenuRef?: React.RefObject<boolean>,
-  enabled = true,
-  isPausedRef?: React.RefObject<boolean>,
-) {
-  useEffect(() => {
-    if (!enabled || !battleManaRef.current) return;
-    const interval = setInterval(() => {
-      if (isEnding.current || isMenuRef?.current || isPausedRef?.current) return;
-      battleManaRef.current?.restoreMana(MANA_REGEN_PER_SECOND);
-    }, ONE_THOUSAND_MS);
-    return () => clearInterval(interval);
-  }, [battleManaRef, isEnding, isMenuRef, enabled, isPausedRef]);
 }
