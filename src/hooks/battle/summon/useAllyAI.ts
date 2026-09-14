@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 
 import { useLatestRef } from "@/hooks/useLatestRef";
-import { NPCS } from "@/data/npc/npc";
+import { NPCS } from "@/data/npc";
 import { getNpcStats } from "@/gameRules/npc/npcStats";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import { combatService } from "@/services/combat";

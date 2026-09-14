@@ -17,16 +17,16 @@ import { useDailyReward } from "@/hooks/rewards/useDailyReward";
 import { useMonthlyPass } from "@/hooks/useMonthlyPass";
 import { useQuests } from "@/contexts/QuestContext";
 import { SIDE_QUESTS } from "@/data/quests/sidequests";
-import { getDeaths } from "@/utils/rewards/deathCounter";
-import { getStreakStats } from "@/utils/rewards/streakStats";
-import { getBlockCount } from "@/utils/rewards/blockCounter";
 import {
+  getDeaths,
+  getStreakStats,
+  getBlockCount,
   getDamageDealtStats,
   getDamageTakenStats,
   getHitsUsedStats,
   getSpecialsUsedStats,
   getAttacksUsedStats,
-} from "@/utils/rewards/battleStats";
+} from "@/utils/rewards";
 import { StatRow } from "./StatRow";
 import { PlayerRewards } from "./PlayerRewards";
 import { DailyRewardSection } from "./DailyReward";

@@ -1,4 +1,4 @@
-import type { NpcType } from "@/data/npc/npc";
+import type { NpcType } from "@/data/npc";
 
 /** Sprite da lápide relativo à direção que o jogador olhava na batalha. */
 export type TombstoneVariant = "front" | "back" | "side";

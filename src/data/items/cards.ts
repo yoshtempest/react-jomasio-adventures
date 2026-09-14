@@ -1,7 +1,6 @@
 import { createItems } from "@/utils/items/createItem";
-import { NPC_CARDS } from "@/data/npc/cards";
+import { NPC_CARDS, CLASS_DATA } from "@/data/npc";
 import { npcPath } from "@/utils/paths";
-import { CLASS_DATA } from "@/data/npc/class";
 
 function cardImage(npcType: string): string {
   return npcPath(`/${npcType}/right.svg`);

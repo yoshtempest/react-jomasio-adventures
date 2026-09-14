@@ -1,8 +1,7 @@
 import styles from "@/components/Game/Navbar/ExploreNavbar/Bestiary/styles.module.css";
 import { npcPath, asset } from "@/utils/paths";
-import { CLASS_DATA } from "@/data/npc/class";
+import { CLASS_DATA, type NPCClass } from "@/data/npc";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
-import type { NPCClass } from "@/data/npc/class";
 
 type DropItem = {
   name: string;

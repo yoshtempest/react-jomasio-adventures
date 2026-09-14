@@ -1,4 +1,4 @@
-import { NPCS, isNpcType } from "@/data/npc/npc";
+import { NPCS, isNpcType } from "@/data/npc";
 import { TITLES, TITLE_IDS } from "@/data/titles";
 import { CRAFT_DROP_TABLES } from "@/data/items/crafting";
 import { DROP_CONFIG } from "@/data/equipment/drops";

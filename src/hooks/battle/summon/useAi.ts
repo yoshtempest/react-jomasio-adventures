@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
-import { NPCS } from "@/data/npc/npc";
+import { NPCS } from "@/data/npc";
 import { getNpcStats } from "@/gameRules/npc/npcStats";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";

@@ -1,7 +1,7 @@
 import styles from "./styles.module.css";
 import { useState, useCallback } from "react";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
-import { NPC_CARDS } from "@/data/npc/cards";
+import { NPC_CARDS } from "@/data/npc";
 import { REDEEMED_CARDS_KEY } from "@/data/storageKeys";
 
 /**

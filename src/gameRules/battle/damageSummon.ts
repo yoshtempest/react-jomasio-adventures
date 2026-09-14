@@ -1,7 +1,7 @@
 import {
   incrementAttacksUsedStats,
   incrementHitsUsedStats,
-} from "@/utils/rewards/battleStats";
+} from "@/utils/rewards";
 import {
   BATTLE_LIMITS,
   BLOCK_ATTACK_PUSH_DISTANCE,

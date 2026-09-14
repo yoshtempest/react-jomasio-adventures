@@ -1,5 +1,5 @@
 import styles from "./styles.module.css";
-import { getNpcDisplayName } from "@/data/npc/displayNames";
+import { getNpcDisplayName } from "@/data/npc";
 import { npcPath, playerPath } from "@/utils/paths";
 import { ComboList } from "@/components/Game/Navbar/ExploreNavbar/Status/ComboList";
 import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
@@ -21,7 +21,7 @@ import {
 } from "@/gameRules/battle/equipment";
 import { formatRank, getRank, getRankMultiplier } from "@/gameRules/rank";
 import { getHungerMultiplier } from "@/contexts/CharacterProgressContext";
-import { CLASS_DATA } from "@/data/npc/class";
+import { CLASS_DATA } from "@/data/npc";
 import { getCharacterStatus } from "@/data/player/stats";
 import { combatService } from "@/services/combat";
 

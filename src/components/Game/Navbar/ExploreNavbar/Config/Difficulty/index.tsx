@@ -1,6 +1,6 @@
 import { Lock } from "lucide-react";
 import styles from "@/components/Game/Navbar/ExploreNavbar/Config/styles.module.css";
-import { DIFFICULTY_LABEL } from "@/data/npc/difficultyLabels";
+import { DIFFICULTY_LABEL } from "@/data/npc";
 
 type Props = {
   difficultyList: NpcDifficulty[];

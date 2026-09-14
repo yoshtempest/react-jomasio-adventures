@@ -6,7 +6,7 @@ import { useTitles } from "@/contexts/TitleContext";
 import { usePlayTime } from "@/contexts/PlayTimeContext";
 import { useFlags } from "@/contexts/FlagContext";
 import { useBestiary } from "@/contexts/BestiaryContext";
-import { getClassKills } from "@/utils/rewards/classKills";
+import { getClassKills } from "@/utils/rewards";
 import {
   getProgress,
   getUnlockedCount,

@@ -1,7 +1,7 @@
 import { QUESTS } from "@/data/quests";
 import { ITEMS } from "@/data/items";
 import { FLAGS } from "@/data/flags";
-import { NPC_CLASSES } from "@/data/npc/npc";
+import { NPC_CLASSES } from "@/data/npc";
 import type { RewardId as RewardIdDef } from "@/data/rewards";
 import type { EquipmentId as EquipmentIdDef } from "@/data/equipment";
 import type {

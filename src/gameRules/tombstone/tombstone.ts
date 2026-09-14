@@ -1,5 +1,5 @@
 import { npcPath } from "@/utils/paths";
-import { isNpcType } from "@/data/npc/npc";
+import { isNpcType } from "@/data/npc";
 import { MAP_GRID_COLS, MAP_GRID_ROWS } from "@/data/grid";
 import { ONE_THOUSAND_MS } from "@/data/ms";
 import type {

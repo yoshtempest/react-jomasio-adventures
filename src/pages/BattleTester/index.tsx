@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router";
 import { BattleScene } from "@/components/Game/Scenes/Battle";
 import { BattleProviders } from "@/components/Game/Battle/BattleProviders";
-import { NPCS, isNpcType } from "@/data/npc/npc";
+import { NPCS, isNpcType } from "@/data/npc";
 import { sceneBackgrounds } from "@/data/scene/background";
 import { backgroundAudioPath } from "@/utils/paths";
 

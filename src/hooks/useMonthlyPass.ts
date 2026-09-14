@@ -9,9 +9,11 @@ import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useTitles } from "@/contexts/TitleContext";
 import { usePlayTime } from "@/contexts/PlayTimeContext";
 import { slotKey } from "@/services/save/slotManager";
-import { getClassKills } from "@/utils/rewards/classKills";
-import { getBlockCount } from "@/utils/rewards/blockCounter";
-import { getDamageDealtStats } from "@/utils/rewards/battleStats";
+import {
+  getClassKills,
+  getBlockCount,
+  getDamageDealtStats,
+} from "@/utils/rewards";
 
 function getCurrentMonth(): string {
   const d = new Date();

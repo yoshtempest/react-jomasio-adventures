@@ -1,5 +1,5 @@
 import { npcPath } from "@/utils/paths";
-import { bossScales, npcSpriteYOffset } from "@/data/npc/bossScales";
+import { bossScales, npcSpriteYOffset } from "@/data/npc";
 
 export function getSpritePath(
   npcType: string,

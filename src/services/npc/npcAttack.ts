@@ -1,5 +1,5 @@
 import { NPC_MELEE_COOLDOWN } from "@/data/cooldowns";
-import type { NpcType } from "@/data/npc/npc";
+import type { NpcType } from "@/data/npc";
 import { chasePlayer } from "@/gameRules/npc/movement";
 import { tryMeleeAttack } from "@/gameRules/npc/attack";
 import type {

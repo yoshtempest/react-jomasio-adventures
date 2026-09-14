@@ -1,6 +1,6 @@
 import styles from "./styles.module.css";
 import { playerPath } from "@/utils/paths";
-import { getNpcDisplayName } from "@/data/npc/displayNames";
+import { getNpcDisplayName } from "@/data/npc";
 import { useVictoryVisibility } from "@/hooks/battle/victory/useVisibility";
 import { useVictoryKeyboard } from "@/hooks/battle/victory/useKeyboard";
 import { EquipmentDrops } from "@/components/Game/Battle/Drops/Equipment";

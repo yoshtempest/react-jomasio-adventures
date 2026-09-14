@@ -1,4 +1,4 @@
-import type { NpcType } from "@/data/npc/npc";
+import type { NpcType } from "@/data/npc";
 import { DefaultNpcAttack, NpcAttack } from "@/services/npc/npcAttack";
 import { DummyAttack } from "./dummy";
 import { DeiseAttack } from "./deise";

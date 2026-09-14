@@ -1,6 +1,6 @@
 import { HealthBar } from "@/components/Game/Battle/HUD/HealthBar";
 import { npcPath } from "@/utils/paths";
-import { getNpcDisplayName } from "@/data/npc/displayNames";
+import { getNpcDisplayName } from "@/data/npc";
 import { formatRank, getRank } from "@/gameRules/rank";
 import styles from "./styles.module.css";
 

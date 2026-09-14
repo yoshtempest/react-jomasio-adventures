@@ -4,7 +4,7 @@ import { PET_DROPS } from "@/data/characters/petDrops";
 import { rollCraftDrops, CRAFT_MATERIALS } from "@/data/items/crafting";
 import type { MaterialId } from "@/data/items/crafting";
 import { ITEMS } from "@/data/items";
-import { rollCardDrop, NPC_CARDS } from "@/data/npc/cards";
+import { rollCardDrop, NPC_CARDS } from "@/data/npc";
 import type { InventoryItem } from "@/utils/types/player/inventory";
 
 export function rollEnhance(): number {

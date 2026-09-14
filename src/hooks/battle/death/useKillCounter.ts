@@ -3,7 +3,7 @@ import { useTitles } from "@/contexts/TitleContext";
 import { useBestiary } from "@/contexts/BestiaryContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
-import { incrementClassKill } from "@/utils/rewards/classKills";
+import { incrementClassKill } from "@/utils/rewards";
 
 export function useBattleKillCounter() {
   const { incrementKillCounter, incrementAlfaKillCounter } = useTitles();

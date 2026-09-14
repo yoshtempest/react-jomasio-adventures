@@ -1,15 +1,15 @@
 import { isCharRewardId, type RewardDef } from "@/data/rewards";
 import { REWARDS_KEY } from "@/data/storageKeys";
 import { slotKey } from "@/services/save/slotManager";
-import { getBlockCount } from "@/utils/rewards/blockCounter";
 import {
+  getBlockCount,
   getDamageDealtStats,
   getDamageTakenStats,
   getMissesStats,
   getHitsUsedStats,
   getSpecialsUsedStats,
   getAttacksUsedStats,
-} from "@/utils/rewards/battleStats";
+} from "@/utils/rewards";
 
 export type RewardsProgress = Record<string, number>;
 

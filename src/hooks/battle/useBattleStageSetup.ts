@@ -15,7 +15,7 @@ import { usePlayTimeActions } from "@/contexts/PlayTimeContext";
 import { useSettings } from "@/hooks/useSetting";
 import { useTombstones } from "@/contexts/TombstoneContext";
 import { useNpcSetup } from "@/hooks/battle/npc/useSetup";
-import { getNpcLevel } from "@/data/npc/levels";
+import { getNpcLevel } from "@/data/npc";
 import { useBattleRewards } from "@/hooks/battle/rewards/useRewards";
 import { useSummons } from "@/hooks/battle/summon/useSummons";
 import { useAllies } from "@/hooks/battle/summon/useAllies";

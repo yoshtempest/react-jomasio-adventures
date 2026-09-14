@@ -9,7 +9,7 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { useTombstones } from "@/contexts/TombstoneContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { goodPowderDialogue } from "@/data/dialogues/goodPowder";
-import { getNpcDisplayName } from "@/data/npc/displayNames";
+import { getNpcDisplayName } from "@/data/npc";
 import { npcPath } from "@/utils/paths";
 import { getTileInFront } from "@/utils/getTileInFront";
 import type { DialogueSystem } from "@/utils/types/sceneHooks";

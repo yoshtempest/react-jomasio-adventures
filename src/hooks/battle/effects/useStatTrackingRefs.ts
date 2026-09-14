@@ -1,13 +1,13 @@
 import { useLatestRef } from "@/hooks/useLatestRef";
-import { incrementBlockCount } from "@/utils/rewards/blockCounter";
 import {
+  incrementBlockCount,
   incrementDamageDealtStats,
   incrementDamageTakenStats,
   incrementMissesStats,
   incrementHitsUsedStats,
   incrementSpecialsUsedStats,
   incrementAttacksUsedStats,
-} from "@/utils/rewards/battleStats";
+} from "@/utils/rewards";
 
 type Params = {
   playerCharacter: CharacterId;

@@ -5,8 +5,7 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { useProfessionProgress } from "@/contexts/ProfessionProgressContext";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { useHasToolEquipped } from "@/hooks/interaction/useHasToolEquipped";
-import { NPCS } from "@/data/npc/npc";
-import { getNpcDisplayName } from "@/data/npc/displayNames";
+import { NPCS, getNpcDisplayName } from "@/data/npc";
 import {
   rollCraftDrops,
   CRAFT_MATERIALS,

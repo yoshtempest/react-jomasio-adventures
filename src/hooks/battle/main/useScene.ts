@@ -20,7 +20,7 @@ import { aggregateRewards } from "@/gameRules/battle/loot/buildLootBags";
 import { CHARACTERS } from "@/data/characters/list";
 import { saveGame } from "@/services/save/saveService";
 import { loadBestTime, saveBestTime } from "@/utils/bestTime";
-import { recordWin } from "@/utils/rewards/streakStats";
+import { recordWin } from "@/utils/rewards";
 import { computeElapsedBattleTime } from "@/hooks/battle/time/computeElapsedBattleTime";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import type { LootBagContents } from "@/utils/types/battle/loot";

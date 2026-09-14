@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NPCS, isNpcType, type NPCData } from "@/data/npc/npc";
+import { NPCS, isNpcType, type NPCData } from "@/data/npc";
 import { getNpcStats } from "@/gameRules/npc/npcStats";
 
 type NpcSetupResult = {
