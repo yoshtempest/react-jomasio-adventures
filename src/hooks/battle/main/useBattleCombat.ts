@@ -1,118 +1,112 @@
-import { useRef, useState, useMemo, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useRef, type RefObject } from "react";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useGrabThrow } from "@/hooks/battle/throw/useGrabThrow";
 import { useThrowAnimation } from "@/hooks/battle/throw/useThrowAnimation";
-import { useLatestRef } from "@/hooks/useLatestRef";
-import { useGameAudio } from "@/hooks/game/useGameAudio";
+import { useSpecialIntro } from "@/hooks/battle/modals/useSpecialIntro";
 import { useNpcAI } from "@/hooks/battle/npc/useAi";
-import { useBattleSystem } from "@/hooks/battle/useSystem";
-import { useNavigate, useLocation } from "react-router";
-import { useBattleNavbar } from "@/contexts/BattleNavbarContext";
+import { useBattleSystem } from "@/hooks/battle/main/useSystem";
 import { useNpcTargeting } from "@/hooks/battle/npc/useNpcTargeting";
-import { useBattleMana } from "@/contexts/BattleManaContext";
-import { useBattleLoot } from "@/hooks/battle/loot/useBattleLoot";
-import { useLootNotifications } from "@/hooks/battle/loot/useLootNotifications";
 import { usePlayerBattleActions } from "@/hooks/battle/player/usePlayerActions";
 import { useSummonAI } from "@/hooks/battle/summon/useAi";
 import { useAllyAI } from "@/hooks/battle/summon/useAllyAI";
 import { useBattleControls } from "@/hooks/battle/useControls";
-import { useComboSystem } from "@/hooks/battle/useComboSystem";
-import { useBattleRefs } from "@/hooks/battle/useRefs";
+import { useComboSystem } from "@/hooks/battle/effects/useComboSystem";
+import { useBattleRefs } from "@/hooks/battle/utilities/useRefs";
 import { useBattleKillCounter } from "@/hooks/battle/death/useKillCounter";
 import { useChargeAttack } from "@/hooks/battle/charge/useAttack";
-import {
-  getWeaponEnchantment,
-  rollEnchantmentProc,
-} from "@/gameRules/battle/equipment";
-import { aggregateRewards } from "@/gameRules/battle/loot/buildLootBags";
-import { ENCHANTMENT_DURATION_MS, type Enchantment } from "@/data/equipment/enchantments";
 import { usePhaseTransition } from "@/hooks/battle/death/usePhaseTransition";
 import { usePlayerSpecialProjectile } from "@/hooks/battle/player/usePlayerSpecialProjectile";
-import { useLucasWeaponSwitch } from "@/hooks/battle/player/characters/lucas/useLucasWeaponSwitch";
+import { useLucasWeaponSwitch } from "@/hooks/battle/player/characters/yvel/useLucasWeaponSwitch";
+import { useBattleSync } from "@/hooks/battle/useSync";
+import { useBattleNavbar } from "@/contexts/BattleNavbarContext";
+import { useStatCallbacks } from "@/hooks/battle/effects/useStatCallbacks";
+import { useActiveSkills } from "@/hooks/battle/utilities/useActiveSkills";
+import { useStatusDots } from "@/hooks/battle/effects/useStatusDots";
+import { useTrainingEffects } from "@/hooks/battle/effects/useTrainingEffects";
+import { useArturBattle } from "@/hooks/battle/player/characters/srGuaxinim/useArturBattle";
+import { getWeaponEnchantment, rollEnchantmentProc } from "@/gameRules/battle/equipment";
+import { ENCHANTMENT_DURATION_MS, type Enchantment } from "@/data/equipment/enchantments";
 import { getSpecialFlowOverride } from "@/data/battle/animationFlow";
 import { CHARGE_ATTACK_MIN_LEVEL } from "@/data/battle/charge";
-import { useBattleOutro } from "@/hooks/battle/useOutro";
-import { useBattleSync } from "@/hooks/battle/useSync";
-import { useBattleStageSetup } from "@/hooks/battle/useBattleStageSetup";
 import { LUCAS_WEAPON_SWITCH_MANA_COST } from "@/gameRules/battle/mana";
 import { cursedEnergyFromDamage } from "@/gameRules/battle/cursedEnergy";
 import { PET_ROOT_DURATION_MS } from "@/data/characters/petSkills";
-import type { BattleMapConfig } from "@/utils/types/maps/battle";
-import {
-  BATTLE_LIMITS,
-  BLOCK_ATTACK_PUSH_DISTANCE,
-} from "@/gameRules/movement/constants";
-import { CHARACTERS } from "@/data/characters/list";
-import { saveGame } from "@/services/save/saveService";
-import { loadBestTime, saveBestTime } from "@/utils/bestTime";
-import { recordWin } from "@/utils/rewards/streakStats";
-import { useBattleRecording } from "@/hooks/battle/recording/useBattleRecording";
-import { useRewind } from "@/hooks/battle/rewind/useRewind";
 import { runPetSkill } from "@/gameRules/battle/petSkill/petSkill";
-import {
-  applyPlayerStatus,
-} from "@/gameRules/battle/status/statusEffects";
+import { applyPlayerStatus } from "@/gameRules/battle/status/statusEffects";
+import { BATTLE_LIMITS, BLOCK_ATTACK_PUSH_DISTANCE } from "@/gameRules/movement/constants";
+import { useBattleStageSetup } from "@/hooks/battle/useBattleStageSetup";
 import type { NewPlayerStatus } from "@/gameRules/battle/status/statusEffects";
-import { useKokusenAnimation } from "@/hooks/battle/player/characters/Natsuki/useKokusenAnimation";
-import {
-  useBlackFlashAnimation,
-  BLACK_FLASH_TIME_SCALE,
-} from "@/hooks/battle/player/characters/Natsuki/useBlackFlashAnimation";
-import { useBlinkAnimation } from "@/hooks/battle/player/characters/Natsuki/useBlinkAnimation";
-import { useDivergentFistAnimation } from "@/hooks/battle/player/characters/Natsuki/useDivergentFistAnimation";
-import {
-  useVastolordForm,
-  VASTOLORD_MULTIPLIER,
-  VASTOLORD_DURATION_MS,
-} from "@/hooks/battle/player/characters/marcelo/useVastolordForm";
-import { getCharacterPassive } from "@/data/characters/passives";
-import { useSpecialIntro } from "@/hooks/battle/useSpecialIntro";
-import type { LootBagContents } from "@/utils/types/battle/loot";
-import { computeElapsedBattleTime } from "@/hooks/battle/computeElapsedBattleTime";
-import { useStatCallbacks } from "@/hooks/battle/useStatCallbacks";
-import { useBattleSnapshots } from "@/hooks/battle/useBattleSnapshots";
-import { useActiveSkills } from "@/hooks/battle/useActiveSkills";
-import { useStatusDots } from "@/hooks/battle/useStatusDots";
-import { useTrainingEffects } from "@/hooks/battle/useTrainingEffects";
-import { useHonoredOne } from "@/hooks/battle/useHonoredOne";
-import { useDefeatFlow } from "@/hooks/battle/useDefeatFlow";
-import { useArturBattle } from "@/hooks/battle/useArturBattle";
-import { buildBattleSceneApi } from "@/hooks/battle/buildBattleSceneApi";
+import type { BattleObstacle } from "@/utils/types/maps/battle";
+import type { BattleManaApi } from "@/contexts/BattleManaContext";
+import type { useBlinkAnimation } from "@/hooks/battle/player/characters/natsuki/useBlinkAnimation";
 
 type Props = {
+  setup: ReturnType<typeof useBattleStageSetup>;
+  refs: ReturnType<typeof useBattleRefs>;
   npcType: string;
-  redirectTo?: string;
-  audioSrc: string;
-  onVictory?: () => void;
-  map?: BattleMapConfig;
-  background?: string;
-  training?: boolean;
-  isAlfa?: boolean;
-  npcLevel?: number;
+  isAlfa: boolean;
+  training: boolean;
+  obstacles?: BattleObstacle[];
   PLAYER_SIZE: number;
+  lootActiveRef: RefObject<boolean>;
+  onPlayerDeathRef: RefObject<() => void>;
+  onNpcDeathRef: RefObject<() => void>;
+  battleManaRef: RefObject<BattleManaApi | null>;
+  isPausedRef: RefObject<boolean>;
+  isMenuOpenRef: RefObject<boolean>;
+  honoredOneActiveRef: RefObject<boolean>;
+  honoredFleeRef: RefObject<boolean>;
+  surviveLethalHitRef: RefObject<() => boolean>;
+  honoredRegenActive: boolean;
+  mostHonoredFreezeRef: RefObject<boolean>;
+  vastolordMultiplierRef: RefObject<() => number>;
+  vastolordActive: boolean;
+  cursedEnergyEnabled: boolean;
+  onKokusenRef: RefObject<() => void>;
+  onBlackFlashRef: RefObject<() => void>;
+  onDivergentFistConsumedRef: RefObject<() => void>;
+  triggerBlink: ReturnType<typeof useBlinkAnimation>["triggerBlink"];
+  divergentFistActive: boolean;
+  divergentFistRef: RefObject<boolean>;
+  setDivergentFistActive: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export function useBattleScene({
+export function useBattleCombat({
+  setup,
+  refs,
   npcType,
-  redirectTo,
-  audioSrc,
-  onVictory,
-  map,
-  background,
+  isAlfa,
   training,
-  isAlfa = false,
-  npcLevel: npcLevelProp,
+  obstacles,
   PLAYER_SIZE,
+  lootActiveRef,
+  onPlayerDeathRef,
+  onNpcDeathRef,
+  battleManaRef,
+  isPausedRef,
+  isMenuOpenRef,
+  honoredOneActiveRef,
+  honoredFleeRef,
+  surviveLethalHitRef,
+  honoredRegenActive,
+  mostHonoredFreezeRef,
+  vastolordMultiplierRef,
+  vastolordActive,
+  cursedEnergyEnabled,
+  onKokusenRef,
+  onBlackFlashRef,
+  onDivergentFistConsumedRef,
+  triggerBlink,
+  divergentFistActive,
+  divergentFistRef,
+  setDivergentFistActive,
 }: Props) {
-  const navigate = useNavigate();
-  const location = useLocation();
-
   const {
     player,
     setPlayer,
     setMode,
     attack,
     special,
-    resetBattleState,
     difficulty,
     playerClass,
     setPlayerState,
@@ -124,66 +118,22 @@ export function useBattleScene({
     setTimeScale,
     resetTimeScale,
     timeScaleRef,
-    honoredRiseStartRef,
-    honoredRiseStartYRef,
-    honoredFallRef,
     progress,
-    reduceHunger,
-    setBattleHP,
-    setBattleMana,
     playerLevel,
     getEquippedInfo,
-    showHighlightEnabled,
-    petStars,
-    petLevel,
-    petId,
-    petSkillDef,
-    inventoryItems,
-    closeInventory,
-    quests,
-    progressDailyWeekly,
-    closeNavbar,
-    isNavOpen,
-    navScreen,
-    isBattleNavOpen,
-    handleDefeat,
-    incrementBlockCounter,
-    incrementDamageTaken,
-    incrementDamageDealt,
-    incrementDodgeCounter,
-    addBattleTime,
     playSound,
-    spawnVictoryTombstone,
-    clearPendingTombstoneSpawn,
-    setNpcPhase,
-    npcArmorBonus,
-    setNpcArmorBonus,
-    npcPhaseRef,
-    isPhaseTransitioning,
-    setIsPhaseTransitioning,
-    battleStartRef,
-    savedPlayerHPRef,
-    rewindFrames,
-    setRewindFrames,
-    victoryElapsed,
-    setVictoryElapsed,
-    bestTime,
-    setBestTime,
-    prevModeRef,
-    pauseStartRef,
-    pauseDurationRef,
-    showIntro,
-    skipIntro,
     npcData,
     npcLevel,
     npcStats,
-    xpReward,
-    prepareBattleLoot,
-    grantLootBag,
-    giveSummonRewards,
+    npcPhaseRef,
+    setNpcPhase,
+    npcArmorBonus,
+    setNpcArmorBonus,
+    isPhaseTransitioning,
+    setIsPhaseTransitioning,
+    savedPlayerHPRef,
     summons,
     setSummons,
-    summonNpc,
     clearSummons,
     updateNpcPosition,
     summonsBleedUntilRef,
@@ -191,90 +141,33 @@ export function useBattleScene({
     setAllies,
     summonAlly,
     clearAllies,
-    coffins,
     beginCoffinSequence,
-    clearCoffins,
-    coffinStartedRef,
     onSummonWrapperRef,
-    charProgress,
-    missingXp,
-    getReplayDataRef,
-  } = useBattleStageSetup({
-    npcType,
-    npcLevelProp,
-    isAlfa,
-  });
-
-  const {
-    showVictory,
-    triggerVictory,
-    showDefeat,
-    setShowDefeat,
-    showOutro,
-    showHighlight,
-    highlightData,
-    handleCloseHighlight,
-    skipVictoryDelay,
-    lastRewards,
-    setLastRewards,
-    handleCloseOutro,
-    handleContinue,
-  } = useBattleOutro({
-    redirectTo,
-    onVictory,
-    getReplayData: () => getReplayDataRef.current(),
-    showHighlightEnabled,
-  });
-
-  useGameAudio({ src: audioSrc, loop: true, volume: 0.5 });
-
-  const refs = useBattleRefs();
+    petId,
+    petSkillDef,
+    petLevel,
+    petStars,
+    closeInventory,
+    closeNavbar,
+    giveSummonRewards,
+    incrementBlockCounter,
+    incrementDamageTaken,
+    incrementDodgeCounter,
+    incrementDamageDealt,
+    inventoryItems,
+    quests,
+  } = setup;
 
   const { weapon: lucasWeapon, switchWeapon } = useLucasWeaponSwitch({
     character: player.character,
     hitstopRef: refs.hitstopRef,
   });
 
-  const battleMana = useBattleMana();
-  const battleManaRef = useLatestRef(battleMana);
-
   const handleWeaponSwitch = useCallback(() => {
     const mana = battleManaRef.current;
     if (mana && !mana.consumeMana(LUCAS_WEAPON_SWITCH_MANA_COST)) return;
     switchWeapon();
   }, [battleManaRef, switchWeapon]);
-
-  const { kokusenActive, kokusenFrame, triggerKokusen } = useKokusenAnimation();
-  const onKokusenRef = useLatestRef(triggerKokusen);
-
-  const { blackFlashActive, blackFlashVariant, triggerBlackFlash } =
-    useBlackFlashAnimation();
-  const onBlackFlashRef = useLatestRef(triggerBlackFlash);
-
-  useEffect(() => {
-    if (blackFlashActive) {
-      setTimeScale(BLACK_FLASH_TIME_SCALE);
-    } else {
-      resetTimeScale();
-    }
-  }, [blackFlashActive, setTimeScale, resetTimeScale]);
-
-  const { blinkVisual, triggerBlink, clearBlink } = useBlinkAnimation();
-
-  const [divergentFistActive, setDivergentFistActive] = useState(false);
-  const divergentFistRef = useRef(false);
-  const {
-    divergentFistFrame,
-    triggerDivergentFist,
-    clearDivergentFist,
-  } = useDivergentFistAnimation();
-
-  const onDivergentFistConsumed = useCallback(() => {
-    setDivergentFistActive(false);
-    forcePunchRef.current = false;
-    triggerDivergentFist();
-  }, [forcePunchRef, triggerDivergentFist]);
-  const onDivergentFistConsumedRef = useLatestRef(onDivergentFistConsumed);
 
   const {
     isGrabbedRef,
@@ -313,83 +206,11 @@ export function useBattleScene({
     killCounter.npcDataRef.current = npcData;
   }
 
-  const isConfigOpen = isNavOpen && navScreen === "config";
-  const isMenuOpen = isNavOpen || isBattleNavOpen;
-  const isMenuOpenRef = useLatestRef(isMenuOpen);
-  const honoredOneEnabled =
-    getCharacterPassive(player.character, "honoredOne") != null && !training;
-
-  const {
-    honoredOneActiveRef,
-    honoredOneActive,
-    honoredRegenActive,
-    mostHonoredFreeze,
-    mostHonoredFreezeRef,
-    honoredFleeRef,
-    surviveLethalHitRef,
-    resetHonoredOne,
-  } = useHonoredOne({
-    enabled: honoredOneEnabled,
-    player,
-    setPlayer,
-    playSound,
-    refs,
-    setTimeScale,
-    resetTimeScale,
-    battleManaRef,
-    honoredRiseStartRef,
-    honoredRiseStartYRef,
-    honoredFallRef,
-  });
-
-  const isPaused =
-    showVictory ||
-    showDefeat ||
-    showIntro ||
-    showOutro != null ||
-    showHighlight ||
-    rewindFrames != null ||
-    isConfigOpen ||
-    isBattleNavOpen ||
-    mostHonoredFreeze;
-  const isPausedRef = useLatestRef(isPaused);
-  const lootActiveRef = useRef(false);
-  const controlsDisabled = isPaused || isPhaseTransitioning || isThrown;
-
-  const vastolordActiveRef = useRef(false);
-  const vastolordUsedRef = useRef(false);
-  const vastolordMultiplierRef = useRef<() => number>(() => 1);
-  const vastolordEndingRef = useRef<{ current: boolean }>({ current: false });
-  const runDefeatRef = useRef<() => void>(() => {});
-
-  const vastolordDurationMs =
-    getCharacterPassive(player.character, "vastolordForm")?.effect.durationMs ??
-    VASTOLORD_DURATION_MS;
-
-  const cursedEnergyParams =
-    getCharacterPassive(player.character, "cursedEnergy") != null;
-
-  const {
-    vastolordActive,
-    vastolordRemainingMs,
-    triggerVastolord,
-    resetVastolord,
-  } = useVastolordForm({
-    enabled: player.character === "marcelo" && !training,
-    durationMs: vastolordDurationMs,
-    isPausedRef,
-    isEndingRef: vastolordEndingRef,
-    onExpire: () => runDefeatRef.current(),
-  });
-  vastolordActiveRef.current = vastolordActive;
-  vastolordMultiplierRef.current = () =>
-    vastolordActive ? VASTOLORD_MULTIPLIER : 1;
+  const npcRootedUntilRef = useRef(0);
+  const rootedSummonsUntilRef = useRef<Record<string, number>>({});
 
   targeting.npcAiHpRef.current = npcStats.hp;
   targeting.npcAiMaxHpRef.current = npcStats.hp;
-
-  const npcRootedUntilRef = useRef(0);
-  const rootedSummonsUntilRef = useRef<Record<string, number>>({});
 
   const npc = useNpcAI({
     playerX: player.x,
@@ -402,7 +223,7 @@ export function useBattleScene({
     npcPhaseRef,
     onProjectileHit: () => refs.npcRangedAttackRef.current(),
     onMeleeHit: () => refs.npcMeleeAttackRef.current(),
-    isPaused: isPaused || isPhaseTransitioning || lootActiveRef.current,
+    isPaused: isPausedRef.current || isPhaseTransitioning || lootActiveRef.current,
     onSummon: onSummonWrapperRef.current,
     onPullPlayer: (npcX: number) =>
       setPlayer((p) => {
@@ -449,7 +270,7 @@ export function useBattleScene({
     onApplyDebuff: (status: NewPlayerStatus) => {
       setPlayer((p) => applyPlayerStatus(p, status));
     },
-    obstacles: map?.obstacles,
+    obstacles,
     hitstopRef: refs.hitstopRef,
     npcStaggerRef: refs.npcStaggerRef,
     rootedUntilRef: npcRootedUntilRef,
@@ -508,119 +329,6 @@ export function useBattleScene({
     }
     return false;
   };
-
-  const performRewindRef = useRef<() => boolean>(() => false);
-
-  /**
-   * Passiva Forma Vastolord do marcelo: em vez de perder a batalha, revive com
-   * 100% de HP e entra na forma por 10s (uma vez por batalha).
-   */
-  const tryVastolordRevivalRef = useLatestRef(() => {
-    if (!getCharacterPassive(player.character, "vastolordForm")) return false;
-    if (vastolordUsedRef.current || vastolordActiveRef.current) return false;
-
-    vastolordUsedRef.current = true;
-    battle.isEnding.current = false;
-    battle.setPlayerHP(battle.playerMaxHp);
-    setPlayer((p) => ({ ...p, state: "idle" }));
-    triggerVastolord();
-    return true;
-  });
-
-  const onPlayerDeathRef = useLatestRef(() => {
-    if (rewindFrames != null) {
-      battle.isEnding.current = true;
-      return;
-    }
-
-    if (training) {
-      battle.resetBattle();
-      return;
-    }
-
-    if (performRewindRef.current()) {
-      playSound("returningTime");
-      battle.isEnding.current = true;
-      return;
-    }
-
-    if (tryVastolordRevivalRef.current()) {
-      return;
-    }
-
-    const isHardMode = difficulty === "hard" || difficulty === "insano";
-    const allOthersDefeated = CHARACTERS.filter(
-      (c) => c !== player.character,
-    ).every((c) => progress[c]?.battleHP === 0);
-
-    if (isHardMode && allOthersDefeated) {
-      for (const c of CHARACTERS) {
-        setBattleHP(c, 1);
-        setBattleMana(c, null);
-      }
-      setMode("explore");
-      void navigate(-1);
-      return;
-    }
-
-    runDefeatRef.current();
-  });
-
-  const onNpcDeathRef = useLatestRef(() => {
-    if (training) {
-      battle.setNpcHP(battle.npcMaxHp);
-      return;
-    }
-    setBattleHP(player.character, battle.playerHP);
-    const mana = battleManaRef.current;
-    if (mana) {
-      setBattleMana(
-        player.character,
-        mana.playerMana >= mana.playerMaxMana ? null : mana.playerMana,
-      );
-    }
-    reduceHunger(player.character, 5);
-    recordWin(player.character);
-
-    progressDailyWeekly("win_battle", 1);
-    progressDailyWeekly("kill_any", 1);
-
-    const npcClass = killCounter.npcDataRef.current.class;
-    if (npcClass === "common") progressDailyWeekly("kill_common", 1);
-    else if (npcClass === "rare") progressDailyWeekly("kill_rare", 1);
-    else if (npcClass === "epic") progressDailyWeekly("kill_epic", 1);
-    else if (npcClass === "boss") progressDailyWeekly("kill_boss", 1);
-
-    const d = saveDataRef.current;
-    saveGame({
-      lastRoute: location.pathname,
-      inventory: d.items,
-      quests: d.quests,
-      playerClass: d.playerClass,
-      character: d.character,
-    });
-    const elapsed = computeElapsedBattleTime(
-      battleStartRef,
-      prevModeRef,
-      pauseStartRef,
-      pauseDurationRef,
-    );
-    setVictoryElapsed(elapsed);
-    addBattleTime(player.character, Math.floor(elapsed / 1000));
-    saveBestTime(npcType, elapsed);
-    setBestTime(loadBestTime(npcType));
-    spawnVictoryTombstone(npcType);
-    killCounter.handleNpcDeath(
-      killCounter.npcTypeRef.current,
-      killCounter.npcDataRef.current.class,
-      isAlfa,
-    );
-
-    const lootContents = prepareBattleLoot();
-    battleLootContentsRef.current = lootContents;
-    lootActiveRef.current = true;
-    startBattleLoot(lootContents, npc.x, npc.y);
-  });
 
   const {
     onBlockRef,
@@ -687,14 +395,12 @@ export function useBattleScene({
     surviveLethalHitRef,
   });
 
-  vastolordEndingRef.current = battle.isEnding;
-
   const {
     handleCursedEnergyConversion,
     handleBlink,
     handleActivateDivergentFist,
   } = useActiveSkills({
-    cursedEnergyEnabled: cursedEnergyParams,
+    cursedEnergyEnabled,
     battle,
     battleManaRef,
     player,
@@ -736,32 +442,6 @@ export function useBattleScene({
     });
   };
 
-  const battleLootContentsRef = useRef<LootBagContents[]>([]);
-  const {
-    notifications: lootNotifications,
-    spawnLootNotification,
-    clearNotifications: clearLootNotifications,
-  } = useLootNotifications();
-  const {
-    bags: lootBags,
-    isActive: lootActive,
-    start: startBattleLoot,
-  } = useBattleLoot({
-    playerX: player.x,
-    playerY: player.y,
-    pet: battle.pet,
-    setPet: battle.setPet,
-    isPausedRef,
-    onCollect: grantLootBag,
-    onNotify: spawnLootNotification,
-    onDone: () => {
-      lootActiveRef.current = false;
-      setLastRewards(aggregateRewards(battleLootContentsRef.current, xpReward));
-      triggerVictory();
-    },
-    playSound,
-  });
-
   const {
     comboCount,
     comboRank,
@@ -787,7 +467,7 @@ export function useBattleScene({
   refs.registerHitRef.current = (damage: number) => {
     registerHit(damage);
 
-    if (cursedEnergyParams) {
+    if (cursedEnergyEnabled) {
       battleManaRef.current?.restoreMana(cursedEnergyFromDamage(damage));
     }
 
@@ -804,111 +484,6 @@ export function useBattleScene({
     refs.spawnDamageRef.current?.(0, npc.x, npc.y, enchantment);
   };
   refs.spawnDamageRef.current = battle.spawnDamageNumber;
-
-  const {
-    playerSnapshotRef,
-    npcSnapshotRef,
-    battleSnapshotRef,
-    petSnapshotRef,
-    comboSnapshotRef,
-    comboActionRef,
-    damageNumbersSnapshotRef,
-    summonsSnapshotRef,
-    npcProjectilesSnapshotRef,
-  } = useBattleSnapshots({
-    player,
-    npc,
-    battle,
-    comboCount,
-    comboRank,
-    comboProgress: comboProgressValue,
-    nextRank,
-    summons,
-    controlsDisabled,
-  });
-
-  const {
-    isRecording,
-    startRecording,
-    stopRecording,
-    getReplayData,
-    getReplayWindow,
-  } = useBattleRecording({
-    playerRef: playerSnapshotRef,
-    npcRef: npcSnapshotRef,
-    battleRef: battleSnapshotRef,
-    damageNumbersRef: damageNumbersSnapshotRef,
-    summonsRef: summonsSnapshotRef,
-    petRef: petSnapshotRef,
-    comboRef: comboSnapshotRef,
-    comboActionRef,
-    npcType: training ? "__training" : npcType,
-    npcLevel,
-    npcClass: npcData.class,
-    playerCharacter: player.character,
-    playerLevel,
-    background: background ?? "",
-    audioSrc,
-  });
-
-  const wasIntroActiveRef = useRef(showIntro);
-
-  useEffect(() => {
-    if (wasIntroActiveRef.current && !showIntro) {
-      startRecording();
-    }
-    wasIntroActiveRef.current = showIntro;
-  }, [showIntro, startRecording]);
-
-  useEffect(() => {
-    if ((showVictory || showDefeat) && isRecording) {
-      stopRecording();
-    }
-  }, [showVictory, showDefeat, isRecording, stopRecording]);
-
-  const { reset: resetRewind } = useRewind({
-    character: player.character,
-    rewindFrames,
-    setRewindFrames,
-    performRewindRef,
-    setPlayer,
-    setNpcPhase,
-    setSummons,
-    playerSnapshotRef,
-    npcSnapshotRef,
-    battleSnapshotRef,
-    npcProjectilesSnapshotRef,
-    summonsSnapshotRef,
-    battle,
-    npc,
-    resetCombo,
-    getReplayWindow,
-  });
-
-  useEffect(() => {
-    battleTenacityRef.current = battle.tenacityReduction;
-  }, [battle.tenacityReduction, battleTenacityRef]);
-
-  const defeatProgress: number = useMemo(() => {
-    if (showDefeat) {
-      const totalPhases = npcData.class === "boss" ? 2 : 1;
-      const currentPhase = battle.npcPhase ?? 1;
-      const completedPhases = Math.max(0, currentPhase - 1);
-      const hpProgress =
-        battle.npcMaxHp > 0
-          ? (battle.npcMaxHp - battle.npcHP) / battle.npcMaxHp
-          : 0;
-      const raw = (completedPhases + hpProgress) / totalPhases;
-      return Math.min(1, Math.max(0, raw));
-    }
-    return 0;
-  }, [
-    showDefeat,
-    battle.npcHP,
-    battle.npcMaxHp,
-    battle.npcPhase,
-    npcData.class,
-  ]);
 
   const { handlePlayerHit, handleSpecialHit, handleExtraPunch, hitTargetList } =
     usePlayerBattleActions({
@@ -944,7 +519,7 @@ export function useBattleScene({
   useSummonAI({
     summons,
     setSummons,
-    isPaused: isPaused || lootActiveRef.current,
+    isPaused: isPausedRef.current || lootActiveRef.current,
     playerX: player.x,
     playerY: player.y,
     playerClass,
@@ -964,7 +539,7 @@ export function useBattleScene({
     setAllies,
     enemySummons: summons,
     setEnemySummons: setSummons,
-    isPaused,
+    isPaused: isPausedRef.current,
     isEnding: battle.isEnding.current,
     enemyNpc: { x: npc.x, y: npc.y, npcType },
     npcHp: battle.npcHP,
@@ -1118,6 +693,8 @@ export function useBattleScene({
   const canCharge =
     player.character !== "artur" && playerLevel >= CHARGE_ATTACK_MIN_LEVEL;
 
+  const controlsDisabled = isPausedRef.current || isPhaseTransitioning || isThrown;
+
   const activateSpecial = useCallback(() => {
     if (freezeActionsUntilRef.current > Date.now()) return;
     if (isGrabbedRef.current && grabFlippedRef.current) return;
@@ -1218,122 +795,42 @@ export function useBattleScene({
     isPausedRef,
   });
 
-  const { handleRetry, defeatElapsed } = useDefeatFlow({
-    player,
-    setBattleHP,
-    setBattleMana,
-    handleDefeat,
-    clearPendingTombstoneSpawn,
-    setShowDefeat,
-    addBattleTime,
-    battleStartRef,
-    prevModeRef,
-    pauseStartRef,
-    pauseDurationRef,
-    runDefeatRef,
-    resetRewind,
-    charge,
-    startRecording,
-    resetVastolord,
-    vastolordUsedRef,
-    resetHonoredOne,
-    resetTimeScale,
-    clearBlink,
-    clearDivergentFist,
-    divergentFistRef,
-    setDivergentFistActive,
-    forcePunchRef,
-    clearSummons,
-    clearAllies,
-    clearCoffins,
-    coffinStartedRef,
-    npcRootedUntilRef,
-    rootedSummonsUntilRef,
-    summonsBleedUntilRef,
-    npcEnchantUntilRef,
-    isAlfa,
-    summonNpc,
-    npcType,
+  useEffect(() => {
+    battleTenacityRef.current = battle.tenacityReduction;
+  }, [battle.tenacityReduction, battleTenacityRef]);
+
+  return {
     battle,
     npc,
-    resetBattleState,
-    resetCombo,
+    charge,
+    lucasWeapon,
+    switchWeapon: handleWeaponSwitch,
+    grabFlipped,
     grabbedTimerRef,
     setIsGrabbed,
-  });
-
-  return buildBattleSceneApi({
-    player,
-    npc,
-    battle,
-    npcStats,
-    npcLevel,
-    npcClass: npcData.class,
-    summons,
-    allies,
-    coffins,
-    pet: battle.pet,
-    petSkill: battle.petSkill,
-    charProgress,
-    missingXp,
-    xpReward,
-    lastRewards,
-    showVictory,
-    showDefeat,
-    showOutro,
-    showHighlight,
-    highlightData,
-    handleCloseHighlight,
-    handleCloseOutro,
-    handleRetry,
-    handleContinue,
-    navigate,
-    showIntro,
-    skipIntro,
-    skipVictoryDelay,
+    killCounter,
+    saveDataRef,
+    npcRootedUntilRef,
+    rootedSummonsUntilRef,
+    npcEnchantUntilRef,
+    controlsDisabled,
     comboCount,
     comboRank,
     comboProgress: comboProgressValue,
     nextRank,
-    charge,
-    defeatElapsed,
-    victoryElapsed,
-    bestTime,
-    defeatProgress,
-    grabFlipped,
-    getReplayData,
-    isRecording,
-    training,
-    controlsDisabled,
-    showRetry: difficulty !== "hard" && difficulty !== "insano",
+    resetCombo,
+    handleCursedEnergyConversion,
+    handleBlink,
+    handleActivateDivergentFist,
     playerProjectile,
+    specialIntroActive,
+    specialIntroCharacter,
+    extraPunches,
+    extraPunchSprite,
     killerQueen,
     bombTargets,
     killerQueenSprite,
     bombSprite,
     explosionSprite,
-    extraPunches,
-    extraPunchSprite,
-    lucasWeapon,
-    switchWeapon: handleWeaponSwitch,
-    convertCursedEnergy: handleCursedEnergyConversion,
-    blink: handleBlink,
-    blinkVisual,
-    divergentFistActive,
-    activateDivergentFist: handleActivateDivergentFist,
-    divergentFistFrame,
-    honoredOneActive,
-    kokusenActive,
-    kokusenFrame,
-    blackFlashActive,
-    blackFlashVariant,
-    vastolordActive,
-    vastolordRemainingMs,
-    specialIntroActive,
-    specialIntroCharacter,
-    lootBags,
-    lootActive,
-    lootNotifications,
-    clearLootNotifications,
-  });
+  };
 }

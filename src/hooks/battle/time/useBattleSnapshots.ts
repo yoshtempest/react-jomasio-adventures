@@ -1,6 +1,6 @@
 import { useLatestRef } from "@/hooks/useLatestRef";
 import type { useNpcAI } from "@/hooks/battle/npc/useAi";
-import type { useBattleSystem } from "@/hooks/battle/useSystem";
+import type { useBattleSystem } from "@/hooks/battle/main/useSystem";
 import type { ComboRank } from "@/utils/types/battle/combo";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type {

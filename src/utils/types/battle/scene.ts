@@ -1,11 +1,11 @@
-import type { useBattleSystem } from "@/hooks/battle/useSystem";
+import type { useBattleSystem } from "@/hooks/battle/main/useSystem";
 import type { useNpcAI } from "@/hooks/battle/npc/useAi";
 import type { useChargeAttack } from "@/hooks/battle/charge/useAttack";
 import type { useArturOraPunch } from "@/hooks/battle/player/characters/srGuaxinim/useArturOraPunch";
 import type { useArturKillerQueen } from "@/hooks/battle/player/characters/srGuaxinim/useArturKillerQueen";
-import type { useKokusenAnimation } from "@/hooks/battle/player/characters/Natsuki/useKokusenAnimation";
-import type { useBlackFlashAnimation } from "@/hooks/battle/player/characters/Natsuki/useBlackFlashAnimation";
-import type { useSpecialIntro } from "@/hooks/battle/useSpecialIntro";
+import type { useKokusenAnimation } from "@/hooks/battle/player/characters/natsuki/useKokusenAnimation";
+import type { useBlackFlashAnimation } from "@/hooks/battle/player/characters/natsuki/useBlackFlashAnimation";
+import type { useSpecialIntro } from "@/hooks/battle/modals/useSpecialIntro";
 import type { usePlayerSpecialProjectile } from "@/hooks/battle/player/usePlayerSpecialProjectile";
 import type { useCoffinAnimation } from "@/hooks/battle/summon/useCoffinAnimation";
 import type { useNpcSetup } from "@/hooks/battle/npc/useSetup";
@@ -76,7 +76,7 @@ export type BattleSceneApi = {
   switchWeapon: () => void;
   convertCursedEnergy: () => void;
   blink: () => void;
-  blinkVisual: import("@/hooks/battle/player/characters/Natsuki/useBlinkAnimation").BlinkVisual | null;
+  blinkVisual: import("@/hooks/battle/player/characters/natsuki/useBlinkAnimation").BlinkVisual | null;
   divergentFistActive: boolean;
   activateDivergentFist: () => void;
   divergentFistFrame: number | null;

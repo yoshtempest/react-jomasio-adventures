@@ -18,7 +18,7 @@ import { DASH_DURATION, DASH_INTERVAL } from "@/gameRules/movement/constants";
 import {
   useBattleGravity,
   type CollisionParams,
-} from "@/hooks/battle/useGravity";
+} from "@/hooks/battle/utilities/useGravity";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { getSkillTree } from "@/data/passiveSkills";

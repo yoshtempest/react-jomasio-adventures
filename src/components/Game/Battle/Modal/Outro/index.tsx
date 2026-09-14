@@ -5,7 +5,7 @@ import { useLatestRef } from "@/hooks/useLatestRef";
 import { useTypewriter } from "@/hooks/interaction/useTypewriter";
 import { useSettings } from "@/hooks/useSetting";
 import { useGameControls } from "@/contexts/GameControlsContext";
-import { useBattleOutroSound } from "@/hooks/battle/useOutroSound";
+import { useBattleOutroSound } from "@/hooks/battle/modals/useOutroSound";
 
 type Props = {
   character: string;

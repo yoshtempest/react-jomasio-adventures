@@ -8,8 +8,8 @@ import {
 import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
 import type { BattleManaApi } from "@/contexts/BattleManaContext";
 import type { SoundId } from "@/contexts/SoundEffectsContext";
-import type { useBattleSystem } from "@/hooks/battle/useSystem";
-import type { useBlinkAnimation } from "@/hooks/battle/player/characters/Natsuki/useBlinkAnimation";
+import type { useBattleSystem } from "@/hooks/battle/main/useSystem";
+import type { useBlinkAnimation } from "@/hooks/battle/player/characters/natsuki/useBlinkAnimation";
 
 type Props = {
   cursedEnergyEnabled: boolean;

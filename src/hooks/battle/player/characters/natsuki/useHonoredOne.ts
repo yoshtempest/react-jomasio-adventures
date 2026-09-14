@@ -6,7 +6,7 @@ import {
 } from "@/gameRules/battle/cursedEnergy";
 import type { BattleManaApi } from "@/contexts/BattleManaContext";
 import type { SoundId } from "@/contexts/SoundEffectsContext";
-import type { useBattleRefs } from "@/hooks/battle/useRefs";
+import type { useBattleRefs } from "@/hooks/battle/utilities/useRefs";
 
 type Props = {
   enabled: boolean;

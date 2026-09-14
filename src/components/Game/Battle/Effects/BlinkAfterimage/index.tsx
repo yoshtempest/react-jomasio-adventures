@@ -1,7 +1,7 @@
 import { resolveBattleSprite } from "@/utils/paths";
 import { ProjectileConstants } from "@/data/projectile";
 import { BLINK_AFTERIMAGE_MS } from "@/gameRules/battle/cursedEnergy";
-import type { BlinkVisual } from "@/hooks/battle/player/characters/Natsuki/useBlinkAnimation";
+import type { BlinkVisual } from "@/hooks/battle/player/characters/natsuki/useBlinkAnimation";
 import styles from "./styles.module.css";
 
 type Props = {

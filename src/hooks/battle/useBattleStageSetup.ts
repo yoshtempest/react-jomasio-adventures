@@ -26,7 +26,7 @@ import { combatService } from "@/services/combat";
 import { loadBestTime } from "@/utils/bestTime";
 import { buildSummonWrapper } from "@/gameRules/battle/petSkill/buildSummonWrapper";
 import { useBattleInfo } from "@/contexts/BattleInfoContext";
-import { useBattleIntro } from "@/hooks/battle/useIntro";
+import { useBattleIntro } from "@/hooks/battle/modals/useIntro";
 import type { ReplayData, ReplayFrame } from "@/utils/types/replay";
 
 type Props = {

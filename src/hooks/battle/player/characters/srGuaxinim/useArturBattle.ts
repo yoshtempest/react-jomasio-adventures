@@ -4,7 +4,7 @@ import { useArturOraPunch } from "@/hooks/battle/player/characters/srGuaxinim/us
 import { useArturKillerQueen } from "@/hooks/battle/player/characters/srGuaxinim/useArturKillerQueen";
 import type { PunchHitResult } from "@/utils/types/character/srGuaxinim";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
-import type { useBattleRefs } from "@/hooks/battle/useRefs";
+import type { useBattleRefs } from "@/hooks/battle/utilities/useRefs";
 
 type Props = {
   player: Player;

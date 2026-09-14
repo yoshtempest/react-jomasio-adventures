@@ -1,5 +1,5 @@
 import { PlayerBattle } from "@/components/Game/Entities/Player/Battle";
-import type { BlinkVisual } from "@/hooks/battle/player/characters/Natsuki/useBlinkAnimation";
+import type { BlinkVisual } from "@/hooks/battle/player/characters/natsuki/useBlinkAnimation";
 
 type Props = {
   player: Player;

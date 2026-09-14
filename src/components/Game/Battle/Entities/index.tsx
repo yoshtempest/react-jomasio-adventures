@@ -22,7 +22,7 @@ import type { CoffinState } from "@/hooks/battle/summon/useCoffinAnimation";
 import type { KillerQueenOverlay } from "@/utils/types/character/srGuaxinim";
 import type { ExtraPunchVisual } from "@/utils/types/character/srGuaxinim";
 import type { BattleLootBag } from "@/utils/types/battle/loot";
-import type { BlinkVisual } from "@/hooks/battle/player/characters/Natsuki/useBlinkAnimation";
+import type { BlinkVisual } from "@/hooks/battle/player/characters/natsuki/useBlinkAnimation";
 
 type Props = {
   npc: MainNpcState;

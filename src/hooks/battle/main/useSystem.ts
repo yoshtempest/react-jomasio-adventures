@@ -9,17 +9,17 @@ import { usePetSkillCooldown } from "@/hooks/battle/player/pets/usePetSkill";
 import { usePetPassive } from "@/hooks/battle/player/pets/usePetPassive";
 
 import { useBattleStats } from "@/hooks/battle/useStats";
-import { VASTOLORD_MULTIPLIER } from "@/hooks/battle/player/characters/marcelo/useVastolordForm";
+import { VASTOLORD_MULTIPLIER } from "@/hooks/battle/player/characters/marshadow/useVastolordForm";
 import { useBattleHP } from "@/hooks/battle/death/useHP";
-import { useBattleCooldowns } from "@/hooks/battle/useCooldowns";
-import { useBattleEffects } from "@/hooks/battle/useEffects";
+import { useBattleCooldowns } from "@/hooks/battle/utilities/useCooldowns";
+import { useBattleEffects } from "@/hooks/battle/effects/useEffects";
 import { usePlayerBattle } from "@/hooks/battle/player/usePlayer";
 import { useNpcBattle } from "@/hooks/battle/npc/useNpc";
 import { useBattleLifecycle } from "@/hooks/battle/death/useLifecycle";
 import { usePetBattle } from "@/hooks/battle/player/pets/usePet";
 import { useDamageNumbers } from "@/hooks/battle/damage/useNumbers";
 import { useExternalDamage } from "@/hooks/battle/damage/useExternal";
-import { useBlockGauge } from "@/hooks/battle/useBlockGauge";
+import { useBlockGauge } from "@/hooks/battle/effects/useBlockGauge";
 import {
   getHalfHealReduction,
   HALFHEAL_DURATION_MS,
@@ -30,7 +30,7 @@ import {
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import { getProfessionWeaponDamageMultiplier } from "@/gameRules/professions/weapon";
 import { THREE_HUNDRED_MS, ONE_THOUSAND_MS } from "@/data/ms";
-import { useEnergy } from "@/hooks/battle/useEnergy";
+import { useEnergy } from "@/hooks/battle/effects/useEnergy";
 import {
   useBattleMana,
   type BattleManaApi,

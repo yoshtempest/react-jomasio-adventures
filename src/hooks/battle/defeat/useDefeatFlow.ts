@@ -1,11 +1,11 @@
 import { useCallback, useState, type RefObject } from "react";
-import { computeElapsedBattleTime } from "@/hooks/battle/computeElapsedBattleTime";
+import { computeElapsedBattleTime } from "@/hooks/battle/time/computeElapsedBattleTime";
 import { incrementDeath } from "@/utils/rewards/deathCounter";
 import { recordDefeat } from "@/utils/rewards/streakStats";
 import type { CharacterId } from "@/data/characters/list";
 import type { Enchantment } from "@/data/equipment/enchantments";
 import type { useChargeAttack } from "@/hooks/battle/charge/useAttack";
-import type { useBattleSystem } from "@/hooks/battle/useSystem";
+import type { useBattleSystem } from "@/hooks/battle/main/useSystem";
 import type { useNpcAI } from "@/hooks/battle/npc/useAi";
 
 type Props = {
