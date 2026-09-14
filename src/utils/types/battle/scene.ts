@@ -76,7 +76,9 @@ export type BattleSceneApi = {
   switchWeapon: () => void;
   convertCursedEnergy: () => void;
   blink: () => void;
-  blinkVisual: import("@/hooks/battle/player/characters/natsuki/useBlinkAnimation").BlinkVisual | null;
+  blinkVisual:
+    | import("@/hooks/battle/player/characters/natsuki/useBlinkAnimation").BlinkVisual
+    | null;
   divergentFistActive: boolean;
   activateDivergentFist: () => void;
   divergentFistFrame: number | null;

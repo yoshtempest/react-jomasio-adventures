@@ -26,10 +26,7 @@ export function FilterBar({
   }, [filterType]);
 
   return (
-    <div
-      ref={containerRef}
-      className={`${styles.container} hideScrollbar`}
-    >
+    <div ref={containerRef} className={`${styles.container} hideScrollbar`}>
       {FILTER_LABELS.map((f) => (
         <span key={f.type} className={styles.item}>
           {f.separator && <div className={styles.separator} />}

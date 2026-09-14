@@ -326,7 +326,9 @@ export function usePlayerBattleActions({
 
       const pathTargets = targets.filter(inProjectileLine);
       const mainTarget = pathTargets.find((target) => target.id === "main");
-      const summonTargets = pathTargets.filter((target) => target.id !== "main");
+      const summonTargets = pathTargets.filter(
+        (target) => target.id !== "main",
+      );
 
       let hitAny = false;
 

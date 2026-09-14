@@ -29,9 +29,7 @@ export function TierItem({ tier, baseName, selected, owned, maxOwned }: Props) {
         >
           {baseName} {tier.label}
         </span>
-        <span className={styles.tierRank}>
-          Ranque {RANK_LABELS[tier.rank]}
-        </span>
+        <span className={styles.tierRank}>Ranque {RANK_LABELS[tier.rank]}</span>
       </div>
       {owned && <span className={styles.ownedBadge}>★</span>}
     </div>

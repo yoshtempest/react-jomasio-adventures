@@ -26,7 +26,8 @@ export function useNpcBleedTicks(params: {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (isEnding.current || isMenuRef?.current || isPausedRef?.current) return;
+      if (isEnding.current || isMenuRef?.current || isPausedRef?.current)
+        return;
       if (npcBleedUntilRef.current > Date.now()) {
         setNpcHP((hp) => Math.max(0, hp - 2));
         spawnDamageRef.current?.(

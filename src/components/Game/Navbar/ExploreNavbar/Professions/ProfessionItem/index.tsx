@@ -7,8 +7,11 @@ import {
 import { ITEMS } from "@/data/items";
 import { canCraft, getMaterialCount } from "@/gameRules/professions/craft";
 import { asset } from "@/utils/paths";
-import { getOwnedTierIndex } from "../professionUtils";
-import type { ProfessionInfo, ProfessionProficiency } from "@/utils/types/player/profession";
+import { getOwnedTierIndex } from "@/components/Game/Navbar/ExploreNavbar/Professions/professionUtils";
+import type {
+  ProfessionInfo,
+  ProfessionProficiency,
+} from "@/utils/types/player/profession";
 import type { Character } from "@/utils/types/player/player";
 import { ProgressBar } from "@/components/Game/ProgressBar";
 import styles from "./styles.module.css";
@@ -49,12 +52,9 @@ export function ProfessionItem({
   );
   const owned = ownedTierIndex >= 0;
   const currentTier =
-    ownedTierIndex >= 0
-      ? PROFESSION_WEAPON_TIERS[ownedTierIndex]
-      : undefined;
+    ownedTierIndex >= 0 ? PROFESSION_WEAPON_TIERS[ownedTierIndex] : undefined;
   const nextTier =
-    ownedTierIndex >= 0 &&
-    ownedTierIndex < PROFESSION_WEAPON_TIERS.length - 1
+    ownedTierIndex >= 0 && ownedTierIndex < PROFESSION_WEAPON_TIERS.length - 1
       ? PROFESSION_WEAPON_TIERS[ownedTierIndex + 1]
       : undefined;
   const count = (id: string) => getMaterialCount(items, id);

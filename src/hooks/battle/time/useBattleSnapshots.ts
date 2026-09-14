@@ -91,9 +91,7 @@ export function useBattleSnapshots({
 
   const summonsSnapshotRef = useLatestRef<SummonedNpc[]>(summons);
 
-  const npcProjectilesSnapshotRef = useLatestRef<Projectile[]>(
-    npc.projectiles,
-  );
+  const npcProjectilesSnapshotRef = useLatestRef<Projectile[]>(npc.projectiles);
 
   return {
     playerSnapshotRef,

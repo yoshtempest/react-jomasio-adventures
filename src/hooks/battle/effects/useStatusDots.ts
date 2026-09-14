@@ -76,9 +76,7 @@ export function useStatusDots({
     const interval = setInterval(() => {
       if (isEndingRef.current.current || isPausedRef.current) return;
       const bleedMap = summonsBleedUntilRef.current;
-      if (
-        !summonsRef.current.some((s) => (bleedMap[s.id] ?? 0) > Date.now())
-      ) {
+      if (!summonsRef.current.some((s) => (bleedMap[s.id] ?? 0) > Date.now())) {
         return;
       }
 

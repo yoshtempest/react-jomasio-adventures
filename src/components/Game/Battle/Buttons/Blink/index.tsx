@@ -8,12 +8,7 @@ type Props = {
   onClick: () => void;
 };
 
-export function BlinkButton({
-  energy,
-  disabled = false,
-  onClick,
-}: Props) {
-
+export function BlinkButton({ energy, disabled = false, onClick }: Props) {
   return (
     <button
       className={`${styles.button} ${disabled ? styles.disabled : ""}`}

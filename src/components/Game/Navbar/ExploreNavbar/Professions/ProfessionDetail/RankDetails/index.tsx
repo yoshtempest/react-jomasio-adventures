@@ -6,10 +6,13 @@ import {
   type ProfessionWeaponConfig,
 } from "@/data/professions/weapons";
 import { asset } from "@/utils/paths";
-import { getStatLabel, professionIcon } from "../../professionUtils";
+import {
+  getStatLabel,
+  professionIcon,
+} from "@/components/Game/Navbar/ExploreNavbar/Professions/professionUtils";
 import type { ProfessionInfo } from "@/utils/types/player/profession";
 import type { InventoryItem } from "@/utils/types/player/inventory";
-import { MaterialList } from "../MaterialList";
+import { MaterialList } from "@/components/Game/Navbar/ExploreNavbar/Professions/ProfessionDetail/MaterialList";
 import styles from "./styles.module.css";
 
 type Props = {
@@ -64,10 +67,7 @@ export function RankDetails({
           alt=""
         />
         <div>
-          <span
-            className={styles.detailName}
-            style={{ color: rankColor }}
-          >
+          <span className={styles.detailName} style={{ color: rankColor }}>
             {config.baseName} {selectedTier.label}
           </span>
           <span className={styles.detailRank}>
@@ -78,9 +78,7 @@ export function RankDetails({
 
       <div className={styles.bonusSection}>
         <div className={styles.bonusRow}>
-          <span className={styles.bonusLabel}>
-            Bônus vs {config.element}
-          </span>
+          <span className={styles.bonusLabel}>Bônus vs {config.element}</span>
           <span className={styles.bonusValue}>
             +{(selectedTier.damageBonus * 100).toFixed(0)}%
           </span>

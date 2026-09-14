@@ -81,7 +81,7 @@ export const characters = [
   {
     name: "Lucas",
     image: playerPath("/lucas/expressions/default.svg"),
-    class: "Boxeador"
+    class: "Boxeador",
   },
   {
     name: "Lucauã",

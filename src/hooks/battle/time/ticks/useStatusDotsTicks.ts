@@ -35,7 +35,8 @@ export function useStatusDotTicks(params: {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (isEnding.current || isMenuRef?.current || isPausedRef?.current) return;
+      if (isEnding.current || isMenuRef?.current || isPausedRef?.current)
+        return;
       if (bleedUntilRef.current > Date.now()) {
         setPlayerHP((hp) => Math.max(0, hp - 2));
         spawnDamageRef.current?.(

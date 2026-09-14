@@ -34,8 +34,7 @@ export function ProfessionDetail({
   useEffect(() => {
     if (!listRef.current) return;
     const el = listRef.current.children[selectedIndex] as
-      | HTMLElement
-      | undefined;
+      HTMLElement | undefined;
     el?.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, [selectedIndex]);
 

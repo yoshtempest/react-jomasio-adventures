@@ -24,8 +24,14 @@ import { useActiveSkills } from "@/hooks/battle/utilities/useActiveSkills";
 import { useStatusDots } from "@/hooks/battle/effects/useStatusDots";
 import { useTrainingEffects } from "@/hooks/battle/effects/useTrainingEffects";
 import { useArturBattle } from "@/hooks/battle/player/characters/srGuaxinim/useArturBattle";
-import { getWeaponEnchantment, rollEnchantmentProc } from "@/gameRules/battle/equipment";
-import { ENCHANTMENT_DURATION_MS, type Enchantment } from "@/data/equipment/enchantments";
+import {
+  getWeaponEnchantment,
+  rollEnchantmentProc,
+} from "@/gameRules/battle/equipment";
+import {
+  ENCHANTMENT_DURATION_MS,
+  type Enchantment,
+} from "@/data/equipment/enchantments";
 import { getSpecialFlowOverride } from "@/data/battle/animationFlow";
 import { CHARGE_ATTACK_MIN_LEVEL } from "@/data/battle/charge";
 import { LUCAS_WEAPON_SWITCH_MANA_COST } from "@/gameRules/battle/mana";
@@ -33,7 +39,10 @@ import { cursedEnergyFromDamage } from "@/gameRules/battle/cursedEnergy";
 import { PET_ROOT_DURATION_MS } from "@/data/characters/petSkills";
 import { runPetSkill } from "@/gameRules/battle/petSkill/petSkill";
 import { applyPlayerStatus } from "@/gameRules/battle/status/statusEffects";
-import { BATTLE_LIMITS, BLOCK_ATTACK_PUSH_DISTANCE } from "@/gameRules/movement/constants";
+import {
+  BATTLE_LIMITS,
+  BLOCK_ATTACK_PUSH_DISTANCE,
+} from "@/gameRules/movement/constants";
 import { useBattleStageSetup } from "@/hooks/battle/useBattleStageSetup";
 import type { NewPlayerStatus } from "@/gameRules/battle/status/statusEffects";
 import type { BattleObstacle } from "@/utils/types/maps/battle";
@@ -223,7 +232,8 @@ export function useBattleCombat({
     npcPhaseRef,
     onProjectileHit: () => refs.npcRangedAttackRef.current(),
     onMeleeHit: () => refs.npcMeleeAttackRef.current(),
-    isPaused: isPausedRef.current || isPhaseTransitioning || lootActiveRef.current,
+    isPaused:
+      isPausedRef.current || isPhaseTransitioning || lootActiveRef.current,
     onSummon: onSummonWrapperRef.current,
     onPullPlayer: (npcX: number) =>
       setPlayer((p) => {
@@ -289,10 +299,7 @@ export function useBattleCombat({
     npc.updateNpc({
       x: Math.max(
         BATTLE_LIMITS.minX,
-        Math.min(
-          BATTLE_LIMITS.maxX,
-          npc.x + dir * BLOCK_ATTACK_PUSH_DISTANCE,
-        ),
+        Math.min(BATTLE_LIMITS.maxX, npc.x + dir * BLOCK_ATTACK_PUSH_DISTANCE),
       ),
     });
 
@@ -693,7 +700,8 @@ export function useBattleCombat({
   const canCharge =
     player.character !== "artur" && playerLevel >= CHARGE_ATTACK_MIN_LEVEL;
 
-  const controlsDisabled = isPausedRef.current || isPhaseTransitioning || isThrown;
+  const controlsDisabled =
+    isPausedRef.current || isPhaseTransitioning || isThrown;
 
   const activateSpecial = useCallback(() => {
     if (freezeActionsUntilRef.current > Date.now()) return;

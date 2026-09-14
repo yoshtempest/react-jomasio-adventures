@@ -44,7 +44,11 @@ export function useArturBattle({
     ];
   }, [player.character, npc.x, npc.y, summons]);
 
-  const { oraPress, oraRelease, punches: extraPunches } = useArturOraPunch({
+  const {
+    oraPress,
+    oraRelease,
+    punches: extraPunches,
+  } = useArturOraPunch({
     player,
     setPlayer,
     onPunchHit,

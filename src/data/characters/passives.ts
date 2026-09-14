@@ -24,9 +24,8 @@ export type CharacterPassive = {
   effect: CharacterPassiveKind;
 };
 
-export type CharacterPassiveOfKind<
-  K extends CharacterPassiveKind["kind"],
-> = CharacterPassive & { effect: Extract<CharacterPassiveKind, { kind: K }> };
+export type CharacterPassiveOfKind<K extends CharacterPassiveKind["kind"]> =
+  CharacterPassive & { effect: Extract<CharacterPassiveKind, { kind: K }> };
 
 const NOT_IMPLEMENTED: CharacterPassiveKind = { kind: "notImplemented" };
 
@@ -187,9 +186,7 @@ export function getCharacterPassives(
   return CHARACTER_PASSIVES[characterId];
 }
 
-export function getCharacterPassive<
-  K extends CharacterPassiveKind["kind"],
->(
+export function getCharacterPassive<K extends CharacterPassiveKind["kind"]>(
   characterId: CharacterId,
   kind: K,
 ): CharacterPassiveOfKind<K> | undefined {

@@ -15,7 +15,6 @@ export function DivergentFistButton({
   disabled = false,
   onClick,
 }: Props) {
-
   return (
     <button
       className={`${styles.button} ${active ? styles.active : ""} ${

@@ -213,7 +213,9 @@ export function Player() {
                   alt={charLabel(char)}
                   className={styles.charFace}
                   onError={(e) => {
-                    e.currentTarget.src = playerPath(`/${char}/expressions/default.svg`);
+                    e.currentTarget.src = playerPath(
+                      `/${char}/expressions/default.svg`,
+                    );
                   }}
                 />
               </span>

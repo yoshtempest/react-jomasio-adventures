@@ -35,7 +35,11 @@ import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { useBattleNavbar } from "@/contexts/BattleNavbarContext";
 import { useBattleMana } from "@/contexts/BattleManaContext";
 import { LUCAS_WEAPON_SWITCH_MANA_COST } from "@/gameRules/battle/mana";
-import { CURSED_ENERGY_HEAL_RATIO, BLINK_ENERGY_COST, DIVERGENT_FIST_COST } from "@/gameRules/battle/cursedEnergy";
+import {
+  CURSED_ENERGY_HEAL_RATIO,
+  BLINK_ENERGY_COST,
+  DIVERGENT_FIST_COST,
+} from "@/gameRules/battle/cursedEnergy";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import { TrainingOverlay } from "@/components/Game/Battle/TrainingOverlay";

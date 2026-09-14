@@ -99,14 +99,14 @@ export const PETS = [
     rank: 0,
     stats: {},
   },
-    {
+  {
     id: "pet_flyingCloud",
     name: "Nuvem voadora",
     slot: "pet",
     rank: 0,
     stats: {},
   },
-    {
+  {
     id: "pet_crows",
     name: "2 corvos",
     slot: "pet",

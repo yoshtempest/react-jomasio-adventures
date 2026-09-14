@@ -103,7 +103,10 @@ export function damageSummon({
               ? {
                   x: Math.max(
                     BATTLE_LIMITS.minX,
-                    Math.min(BATTLE_LIMITS.maxX, summon.x + pushDir * BLOCK_ATTACK_PUSH_DISTANCE),
+                    Math.min(
+                      BATTLE_LIMITS.maxX,
+                      summon.x + pushDir * BLOCK_ATTACK_PUSH_DISTANCE,
+                    ),
                   ),
                 }
               : {}),

@@ -75,9 +75,7 @@ export function Inventory() {
       const professionItemIds =
         PROFESSION_ITEMS[professionId as keyof typeof PROFESSION_ITEMS];
       if (!professionItemIds) return itemsWithCurrency;
-      return itemsWithCurrency.filter((item) =>
-        professionItemIds.has(item.id),
-      );
+      return itemsWithCurrency.filter((item) => professionItemIds.has(item.id));
     }
     return itemsWithCurrency.filter((item) => {
       const itemData = item ? ITEMS[item.id] : null;

@@ -71,5 +71,10 @@ export function useVastolordForm({
     return () => window.clearInterval(interval);
   }, [vastolordActive, isPausedRef, isEndingRef, onExpireRef]);
 
-  return { vastolordActive, vastolordRemainingMs, triggerVastolord, resetVastolord };
+  return {
+    vastolordActive,
+    vastolordRemainingMs,
+    triggerVastolord,
+    resetVastolord,
+  };
 }

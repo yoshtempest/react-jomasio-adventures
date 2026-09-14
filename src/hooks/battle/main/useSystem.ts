@@ -42,7 +42,7 @@ import {
 import { useStatusDotTicks } from "@/hooks/battle/time/ticks/useStatusDotsTicks";
 import { useNpcBleedTicks } from "@/hooks/battle/time/ticks/useNpcBleedTicks";
 import { useManaRegenTick } from "@/hooks/battle/time/ticks/useManaRegenTick";
-import { usePlayerPullAnimation } from "../player/usePlayerPullAnimation";
+import { usePlayerPullAnimation } from "@/hooks/battle/player/usePlayerPullAnimation";
 
 type Props = {
   playerX: number;

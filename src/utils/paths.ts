@@ -139,9 +139,7 @@ export function resolveBattleSprite(
         `/${character}/inFight/vastolordForm/movement/${state}.svg`,
       );
     }
-    return playerPath(
-      `/${character}/inFight/default/${resolved}/${state}.svg`,
-    );
+    return playerPath(`/${character}/inFight/default/${resolved}/${state}.svg`);
   }
   return playerPath(`/${character}/inFight/${resolved}/${state}.svg`);
 }

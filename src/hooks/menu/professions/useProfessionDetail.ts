@@ -172,7 +172,14 @@ export function useProfessionDetail({ profession, config, onClose }: Props) {
       blockGlobalOpen: true,
     });
     return remove;
-  }, [playMoveRef, playCloseRef, pushControlsRef, craftTierRef, onCloseRef, selectedIndexRef]);
+  }, [
+    playMoveRef,
+    playCloseRef,
+    pushControlsRef,
+    craftTierRef,
+    onCloseRef,
+    selectedIndexRef,
+  ]);
 
   useEffect(() => {
     if (!message) return;

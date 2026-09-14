@@ -8,9 +8,7 @@ import { useProfessionProgress } from "@/contexts/ProfessionProgressContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { PROFESSIONS } from "@/data/professions";
-import {
-  PROFESSION_WEAPONS,
-} from "@/data/professions/weapons";
+import { PROFESSION_WEAPONS } from "@/data/professions/weapons";
 import { ProfessionItem } from "./ProfessionItem";
 import styles from "./styles.module.css";
 import { ProfessionDetail } from "./ProfessionDetail";
@@ -68,8 +66,7 @@ export function Professions() {
   useEffect(() => {
     if (!listRef.current) return;
     const el = listRef.current.children[selectedIndex] as
-      | HTMLElement
-      | undefined;
+      HTMLElement | undefined;
     el?.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, [selectedIndex]);
 

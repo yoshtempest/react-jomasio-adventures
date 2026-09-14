@@ -179,7 +179,9 @@ export function DefeatModal({
                     src={playerPath(`/${char.image}/expressions/defeat.svg`)}
                     className={styles.characterImage}
                     onError={(e) => {
-                      e.currentTarget.src = playerPath(`/${char.image}/expressions/default.svg`);
+                      e.currentTarget.src = playerPath(
+                        `/${char.image}/expressions/default.svg`,
+                      );
                     }}
                   />
                   <p className={styles.characterName}>{char.name}</p>

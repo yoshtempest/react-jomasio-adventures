@@ -1,4 +1,10 @@
-import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type RefObject,
+} from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import {
   HONORED_ONE_DURATION_MS,
@@ -65,12 +71,7 @@ export function useHonoredOne({
       clearTimeout(honoredOneTimerRef.current);
       honoredOneTimerRef.current = null;
     }
-  }, [
-    honoredRiseStartRef,
-    honoredFleeRef,
-    honoredFallRef,
-    honoredOneTimerRef,
-  ]);
+  }, [honoredRiseStartRef, honoredFleeRef, honoredFallRef, honoredOneTimerRef]);
 
   /**
    * Passiva O Abençoado do riquelme: o primeiro golpe letal em uma batalha não

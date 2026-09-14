@@ -27,7 +27,12 @@ type Props = {
  * sobre o inimigo, cada sprite com `DIVERGENT_FIST_FRAME_MS` de duração. O
  * inimigo é empurrado e recebe a segunda instância de dano no sprite `four`.
  */
-export function DivergentFistAnimation({ frame, npcX, npcY, npcHeight }: Props) {
+export function DivergentFistAnimation({
+  frame,
+  npcX,
+  npcY,
+  npcHeight,
+}: Props) {
   if (frame == null) return null;
 
   const spriteName =

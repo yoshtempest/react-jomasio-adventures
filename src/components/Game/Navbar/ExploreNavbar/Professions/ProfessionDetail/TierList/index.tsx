@@ -3,7 +3,7 @@ import {
   PROFESSION_WEAPON_TIERS,
   type ProfessionWeaponConfig,
 } from "@/data/professions/weapons";
-import { TierItem } from "../TierItem";
+import { TierItem } from "@/components/Game/Navbar/ExploreNavbar/Professions/ProfessionDetail/TierItem";
 import styles from "./styles.module.css";
 
 type Props = {

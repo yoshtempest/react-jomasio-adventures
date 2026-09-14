@@ -86,7 +86,9 @@ export function PlayerHUDPanel({
             {energy != null && <EnergyBar label="REIRYOKU" value={energy} />}
             {mana != null && maxMana != null && (
               <EnergyBar
-                label={character === "riquelme" ? "ENERGIA AMALDIÇOADA" : "MANA"}
+                label={
+                  character === "riquelme" ? "ENERGIA AMALDIÇOADA" : "MANA"
+                }
                 value={mana}
                 max={maxMana}
                 tone={character === "riquelme" ? "cursed" : "mana"}

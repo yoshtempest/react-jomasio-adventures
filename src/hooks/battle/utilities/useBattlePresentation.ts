@@ -60,11 +60,8 @@ export function useBattlePresentation({
 
   const [divergentFistActive, setDivergentFistActive] = useState(false);
   const divergentFistRef = useRef(false);
-  const {
-    divergentFistFrame,
-    triggerDivergentFist,
-    clearDivergentFist,
-  } = useDivergentFistAnimation();
+  const { divergentFistFrame, triggerDivergentFist, clearDivergentFist } =
+    useDivergentFistAnimation();
 
   const onDivergentFistConsumed = useCallback(() => {
     setDivergentFistActive(false);
