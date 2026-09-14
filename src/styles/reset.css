@@ -37,6 +37,7 @@ body {
 button {
   background-color: var(--primary-color);
   border: var(--size-1) solid var(--surface-dark);
+  color: var(--text-color);
 }
 
 h1 {
