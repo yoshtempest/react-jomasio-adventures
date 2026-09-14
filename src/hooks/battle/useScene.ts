@@ -2,33 +2,17 @@ import { useRef, useState, useMemo, useEffect, useCallback } from "react";
 import { useGrabThrow } from "@/hooks/battle/throw/useGrabThrow";
 import { useThrowAnimation } from "@/hooks/battle/throw/useThrowAnimation";
 import { useLatestRef } from "@/hooks/useLatestRef";
-import { usePlayer } from "@/contexts/PlayerContext";
 import { useGameAudio } from "@/hooks/game/useGameAudio";
 import { useNpcAI } from "@/hooks/battle/npc/useAi";
 import { useBattleSystem } from "@/hooks/battle/useSystem";
-import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
-import { usePetProgress } from "@/contexts/PetProgressContext";
-import { petStarsFromEnhance } from "@/data/characters/petProgress";
-import { useEquipment } from "@/contexts/EquipmentContext";
 import { useNavigate, useLocation } from "react-router";
-import { useSoundEffects } from "@/contexts/SoundEffectsContext";
-import { useInventory } from "@/contexts/InventoryContext";
-import { useQuests } from "@/contexts/QuestContext";
-import { useNavbar } from "@/contexts/NavbarContext";
 import { useBattleNavbar } from "@/contexts/BattleNavbarContext";
-import { useTitles } from "@/contexts/TitleContext";
-import { usePlayTimeActions } from "@/contexts/PlayTimeContext";
-import { useSettings } from "@/hooks/useSetting";
-import { useTombstones } from "@/contexts/TombstoneContext";
-import { useNpcSetup } from "@/hooks/battle/npc/useSetup";
-import { getNpcLevel } from "@/data/npc/levels";
-import { useBattleRewards } from "@/hooks/battle/rewards/useRewards";
+import { useNpcTargeting } from "@/hooks/battle/npc/useNpcTargeting";
+import { useBattleMana } from "@/contexts/BattleManaContext";
 import { useBattleLoot } from "@/hooks/battle/loot/useBattleLoot";
 import { useLootNotifications } from "@/hooks/battle/loot/useLootNotifications";
-import { useSummons } from "@/hooks/battle/summon/useSummons";
 import { usePlayerBattleActions } from "@/hooks/battle/player/usePlayerActions";
 import { useSummonAI } from "@/hooks/battle/summon/useAi";
-import { useAllies } from "@/hooks/battle/summon/useAllies";
 import { useAllyAI } from "@/hooks/battle/summon/useAllyAI";
 import { useBattleControls } from "@/hooks/battle/useControls";
 import { useComboSystem } from "@/hooks/battle/useComboSystem";
@@ -42,39 +26,28 @@ import {
 import { aggregateRewards } from "@/gameRules/battle/loot/buildLootBags";
 import { ENCHANTMENT_DURATION_MS, type Enchantment } from "@/data/equipment/enchantments";
 import { usePhaseTransition } from "@/hooks/battle/death/usePhaseTransition";
-import { useCoffinAnimation } from "@/hooks/battle/summon/useCoffinAnimation";
 import { usePlayerSpecialProjectile } from "@/hooks/battle/player/usePlayerSpecialProjectile";
 import { useLucasWeaponSwitch } from "@/hooks/battle/player/characters/lucas/useLucasWeaponSwitch";
 import { getSpecialFlowOverride } from "@/data/battle/animationFlow";
 import { CHARGE_ATTACK_MIN_LEVEL } from "@/data/battle/charge";
-import { useBattleIntro } from "@/hooks/battle/useIntro";
 import { useBattleOutro } from "@/hooks/battle/useOutro";
 import { useBattleSync } from "@/hooks/battle/useSync";
-import { useNpcTargeting } from "@/hooks/battle/npc/useNpcTargeting";
-import { useBattleInfo } from "@/contexts/BattleInfoContext";
-import { useBattleMana } from "@/contexts/BattleManaContext";
+import { useBattleStageSetup } from "@/hooks/battle/useBattleStageSetup";
 import { LUCAS_WEAPON_SWITCH_MANA_COST } from "@/gameRules/battle/mana";
 import { cursedEnergyFromDamage } from "@/gameRules/battle/cursedEnergy";
-import {
-  getPetSkillDefinition,
-  PET_ROOT_DURATION_MS,
-} from "@/data/characters/petSkills";
+import { PET_ROOT_DURATION_MS } from "@/data/characters/petSkills";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import {
   BATTLE_LIMITS,
   BLOCK_ATTACK_PUSH_DISTANCE,
 } from "@/gameRules/movement/constants";
 import { CHARACTERS } from "@/data/characters/list";
-import { getEquipmentStatsBonus } from "@/gameRules/battle/equipment";
 import { saveGame } from "@/services/save/saveService";
 import { loadBestTime, saveBestTime } from "@/utils/bestTime";
 import { recordWin } from "@/utils/rewards/streakStats";
 import { useBattleRecording } from "@/hooks/battle/recording/useBattleRecording";
 import { useRewind } from "@/hooks/battle/rewind/useRewind";
 import { runPetSkill } from "@/gameRules/battle/petSkill/petSkill";
-import { buildSummonWrapper } from "@/gameRules/battle/petSkill/buildSummonWrapper";
-import type { ReplayData, ReplayFrame } from "@/utils/types/replay";
-import { combatService } from "@/services/combat";
 import {
   applyPlayerStatus,
 } from "@/gameRules/battle/status/statusEffects";
@@ -154,165 +127,83 @@ export function useBattleScene({
     honoredRiseStartRef,
     honoredRiseStartYRef,
     honoredFallRef,
-  } = usePlayer();
-
-  const {
     progress,
     reduceHunger,
-    getXPToNextLevel,
     setBattleHP,
     setBattleMana,
-  } = useCharacterProgress();
-  const playerLevel = progress[player.character]?.level ?? 1;
-  const { getPetProgress } = usePetProgress();
-  const { getEquippedInfo } = useEquipment();
-  const { showHighlight: showHighlightEnabled } = useSettings();
-  const petInfo = getEquippedInfo(player.character, "pet");
-  const petStars = petInfo ? petStarsFromEnhance(petInfo.enhance) : 1;
-  const petLevel = petInfo ? getPetProgress(petInfo.id, petStars).level : 1;
-  const petId = petInfo?.id ?? null;
-  const petSkillDef = petId ? getPetSkillDefinition(petId) : null;
-  const { items: inventoryItems, closeInventory } = useInventory();
-  const { quests, progressDailyWeekly } = useQuests();
-  const { closeNavbar, isNavOpen, screen: navScreen } = useNavbar();
-  const { isBattleNavOpen } = useBattleNavbar();
-  const {
+    playerLevel,
+    getEquippedInfo,
+    showHighlightEnabled,
+    petStars,
+    petLevel,
+    petId,
+    petSkillDef,
+    inventoryItems,
+    closeInventory,
+    quests,
+    progressDailyWeekly,
+    closeNavbar,
+    isNavOpen,
+    navScreen,
+    isBattleNavOpen,
     handleDefeat,
     incrementBlockCounter,
     incrementDamageTaken,
     incrementDamageDealt,
     incrementDodgeCounter,
-  } = useTitles();
-
-  const { addBattleTime } = usePlayTimeActions();
-
-  const { playSound } = useSoundEffects();
-  const { spawnVictoryTombstone, clearPendingTombstoneSpawn } = useTombstones();
-
-  const [npcPhase, setNpcPhase] = useState(1);
-  const [npcArmorBonus, setNpcArmorBonus] = useState(0);
-  const npcPhaseRef = useLatestRef(npcPhase);
-  const [isPhaseTransitioning, setIsPhaseTransitioning] = useState(false);
-
-  const battleStartRef = useRef(Date.now());
-  const savedPlayerHPRef = useRef(progress[player.character]?.battleHP ?? null);
-  const [rewindFrames, setRewindFrames] = useState<ReplayFrame[] | null>(null);
-  const [victoryElapsed, setVictoryElapsed] = useState(0);
-  const [bestTime, setBestTime] = useState(loadBestTime(npcType));
-
-  const prevModeRef = useRef(player.mode);
-  const pauseStartRef = useRef(0);
-  const pauseDurationRef = useRef(0);
-
-  useEffect(() => {
-    if (prevModeRef.current !== "menu" && player.mode === "menu") {
-      pauseStartRef.current = Date.now();
-    } else if (prevModeRef.current === "menu" && player.mode !== "menu") {
-      pauseDurationRef.current += Date.now() - pauseStartRef.current;
-    }
-    prevModeRef.current = player.mode;
-  }, [player.mode]);
-
-  const { showIntro, skipIntro } = useBattleIntro();
-
-  const { npcData, npcLevel, npcStats } = useNpcSetup(
-    npcType,
-    difficulty,
-    npcLevelProp ?? getNpcLevel(npcType),
-    isAlfa ? 2 : 1,
-  );
-
-  const battleInfoCtx = useBattleInfo();
-  const battleInfoCtxRef = useLatestRef(battleInfoCtx);
-
-  useEffect(() => {
-    const battleInfo = battleInfoCtxRef.current;
-    battleInfo?.setBattleInfo({
-      npcType,
-      npcLevel,
-      npcClass: npcData.class,
-      npcHp: npcStats.hp,
-      npcDamage: npcStats.damage,
-      npcArmor: npcStats.armor,
-    });
-    return () => {
-      battleInfo?.clearBattleInfo();
-    };
-  }, [
-    npcType,
+    addBattleTime,
+    playSound,
+    spawnVictoryTombstone,
+    clearPendingTombstoneSpawn,
+    setNpcPhase,
+    npcArmorBonus,
+    setNpcArmorBonus,
+    npcPhaseRef,
+    isPhaseTransitioning,
+    setIsPhaseTransitioning,
+    battleStartRef,
+    savedPlayerHPRef,
+    rewindFrames,
+    setRewindFrames,
+    victoryElapsed,
+    setVictoryElapsed,
+    bestTime,
+    setBestTime,
+    prevModeRef,
+    pauseStartRef,
+    pauseDurationRef,
+    showIntro,
+    skipIntro,
+    npcData,
     npcLevel,
-    npcData.class,
-    npcStats.hp,
-    npcStats.damage,
-    npcStats.armor,
-    battleInfoCtxRef,
-  ]);
-
-  const equipmentBonus = getEquipmentStatsBonus(player.character);
-  const totalLuck =
-    progress[player.character].stats.luck + (equipmentBonus.luck ?? 0);
-  const luckBonus = combatService.getLuckBonus(totalLuck);
-
-  const { xpReward, prepareBattleLoot, grantLootBag, giveSummonRewards } =
-    useBattleRewards({
-      npcClass: npcData.class,
-      npcLevel,
-      npcType,
-      luckBonus,
-      isAlfa,
-    });
-
-  const { summons, setSummons, summonNpc, clearSummons, updateNpcPosition } =
-    useSummons({
-      npcLevel,
-      difficulty,
-      playerX: player.x,
-      playerGroundY: player.groundY,
-    });
-
-  const summonsBleedUntilRef = useRef<Record<string, number>>({});
-
-  const { allies, setAllies, summonAlly, clearAllies } = useAllies({
-    npcLevel,
-    difficulty,
-    playerX: player.x,
-    playerGroundY: player.groundY,
-  });
-
-  const {
+    npcStats,
+    xpReward,
+    prepareBattleLoot,
+    grantLootBag,
+    giveSummonRewards,
+    summons,
+    setSummons,
+    summonNpc,
+    clearSummons,
+    updateNpcPosition,
+    summonsBleedUntilRef,
+    allies,
+    setAllies,
+    summonAlly,
+    clearAllies,
     coffins,
-    beginSequence: beginCoffinSequence,
+    beginCoffinSequence,
     clearCoffins,
-  } = useCoffinAnimation();
-
-  const coffinStartedRef = useRef(false);
-  const summonNpcRef = useLatestRef(summonNpc);
-
-  const alfaSummonsSpawnedRef = useRef(false);
-  useEffect(() => {
-    if (!isAlfa || alfaSummonsSpawnedRef.current) return;
-    alfaSummonsSpawnedRef.current = true;
-    summonNpc(npcType);
-    summonNpc(npcType);
-  }, [isAlfa, npcType, summonNpc]);
-
-  const onSummonWrapperRef = useLatestRef(
-    buildSummonWrapper({
-      npcType,
-      npcPhaseRef,
-      coffinStartedRef,
-      playSound,
-      beginCoffinSequence,
-      player,
-      summonNpcRef,
-    }),
-  );
-
-  const charProgress = progress[player.character];
-  const xpNeeded = getXPToNextLevel(charProgress.level);
-  const missingXp = xpNeeded - charProgress.xp;
-
-  const getReplayDataRef = useLatestRef<() => ReplayData | null>(() => null);
+    coffinStartedRef,
+    onSummonWrapperRef,
+    charProgress,
+    missingXp,
+    getReplayDataRef,
+  } = useBattleStageSetup({
+    npcType,
+    npcLevelProp,
+    isAlfa,
+  });
 
   const {
     showVictory,
