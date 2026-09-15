@@ -24,6 +24,7 @@ import { useActiveSkills } from "@/hooks/battle/utilities/useActiveSkills";
 import { useStatusDots } from "@/hooks/battle/effects/useStatusDots";
 import { useTrainingEffects } from "@/hooks/battle/effects/useTrainingEffects";
 import { useArturBattle } from "@/hooks/battle/player/characters/srGuaxinim/useArturBattle";
+import { useEmanuelClone } from "@/hooks/battle/player/characters/ematron/useEmanuelClone";
 import {
   getWeaponEnchantment,
   rollEnchantmentProc,
@@ -828,6 +829,27 @@ export function useBattleCombat({
     battleTenacityRef.current = battle.tenacityReduction;
   }, [battle.tenacityReduction, battleTenacityRef]);
 
+  const cloneDisabledRef = useLatestRef(controlsDisabled);
+
+  const {
+    cloneVisual: emanuelClone,
+    press: clonePress,
+    release: cloneRelease,
+    canUse: cloneUsable,
+  } = useEmanuelClone({
+    player,
+    setPlayer,
+    battleManaRef,
+    obstacles,
+    freezeActionsUntilRef,
+    setTimeScale,
+    resetTimeScale,
+    playSound,
+    isPausedRef,
+    disabledRef: cloneDisabledRef,
+    battleEndedRef: battle.isEnding,
+  });
+
   return {
     battle,
     npc,
@@ -861,5 +883,9 @@ export function useBattleCombat({
     killerQueenSprite,
     bombSprite,
     explosionSprite,
+    emanuelClone,
+    clonePress,
+    cloneRelease,
+    cloneUsable,
   };
 }

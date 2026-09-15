@@ -405,6 +405,10 @@ export function useBattleScene({
     killerQueenSprite,
     bombSprite,
     explosionSprite,
+    emanuelClone,
+    clonePress,
+    cloneRelease,
+    cloneUsable,
   } = combat;
 
   vastolordEndingRef.current = battle.isEnding;
@@ -657,5 +661,9 @@ export function useBattleScene({
     lootActive,
     lootNotifications,
     clearLootNotifications,
+    emanuelClone,
+    clonePress,
+    cloneRelease,
+    cloneUsable,
   });
 }

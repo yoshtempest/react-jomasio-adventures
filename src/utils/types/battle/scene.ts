@@ -9,6 +9,7 @@ import type { useSpecialIntro } from "@/hooks/battle/modals/useSpecialIntro";
 import type { usePlayerSpecialProjectile } from "@/hooks/battle/player/usePlayerSpecialProjectile";
 import type { useCoffinAnimation } from "@/hooks/battle/summon/useCoffinAnimation";
 import type { useNpcSetup } from "@/hooks/battle/npc/useSetup";
+import type { useEmanuelClone } from "@/hooks/battle/player/characters/ematron/useEmanuelClone";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { CharactersProgress } from "@/data/characters/defaultProgress";
 import type { ReplayData } from "@/utils/types/replay";
@@ -102,4 +103,8 @@ export type BattleSceneApi = {
   lootNotifications: import("@/utils/types/battle/loot").LootNotification[];
   clearLootNotifications: () => void;
   npcClass: NPCClass;
+  emanuelClone: ReturnType<typeof useEmanuelClone>["cloneVisual"];
+  clonePress: () => void;
+  cloneRelease: () => void;
+  cloneUsable: boolean;
 };

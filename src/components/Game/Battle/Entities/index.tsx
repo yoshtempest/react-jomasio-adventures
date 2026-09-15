@@ -9,6 +9,7 @@ import { Summon } from "./Summon";
 import { Ally } from "./Ally";
 import { Pet } from "./Pet";
 import { Player } from "./Player";
+import { EmanuelClone } from "./EmanuelClone";
 import { KillerQueen } from "./KillerQueen";
 import { Bomb } from "./Bomb";
 import { ExtraPunch } from "./ExtraPunch";
@@ -23,6 +24,7 @@ import type { KillerQueenOverlay } from "@/utils/types/character/srGuaxinim";
 import type { ExtraPunchVisual } from "@/utils/types/character/srGuaxinim";
 import type { BattleLootBag } from "@/utils/types/battle/loot";
 import type { BlinkVisual } from "@/hooks/battle/player/characters/natsuki/useBlinkAnimation";
+import type { EmanuelCloneVisual } from "@/utils/types/character/emanuel";
 
 type Props = {
   npc: MainNpcState;
@@ -52,6 +54,8 @@ type Props = {
   playerForm?: "vastolordForm";
   /** Estado da coreografia do blink do riquelme (silhuetas de origem/destino). */
   blinkVisual?: BlinkVisual | null;
+  /** Cópia de silhueta do Emanuel durante o hold da instância. */
+  emanuelClone?: EmanuelCloneVisual | null;
 };
 
 export function BattleEntities({
@@ -80,6 +84,7 @@ export function BattleEntities({
   weapon,
   playerForm,
   blinkVisual = null,
+  emanuelClone = null,
 }: Props) {
   const battleScaleX = window.innerWidth / ProjectileConstants.MAP_WIDTH;
   const battleScaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;
@@ -155,6 +160,10 @@ export function BattleEntities({
           PLAYER_SIZE={PLAYER_SIZE}
           character={player.character}
         />
+      )}
+
+      {emanuelClone && player.character === "emanuel" && (
+        <EmanuelClone clone={emanuelClone} PLAYER_SIZE={PLAYER_SIZE} />
       )}
 
       <KillerQueen

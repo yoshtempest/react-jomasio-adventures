@@ -4,6 +4,7 @@ import { WeaponSwitchButton } from "@/components/Game/Battle/Buttons/WeaponSwitc
 import { CursedEnergyButton } from "@/components/Game/Battle/Buttons/CursedEnergy";
 import { BlinkButton } from "@/components/Game/Battle/Buttons/Blink";
 import { DivergentFistButton } from "@/components/Game/Battle/Buttons/DivergentFist";
+import { EmanuelCloneButton } from "@/components/Game/Battle/Buttons/EmanuelClone";
 import { GameMap } from "@/components/Game/Map/Game";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useGameLayout } from "@/hooks/game/useGameLayout";
@@ -143,6 +144,10 @@ export function BattleScene(props: Props) {
     lootBags,
     lootNotifications,
     npcClass,
+    emanuelClone,
+    clonePress,
+    cloneRelease,
+    cloneUsable,
   } = useBattleScene({ ...props, isAlfa, PLAYER_SIZE });
 
   const { setBattleCollision } = usePlayerActions();
@@ -359,6 +364,7 @@ export function BattleScene(props: Props) {
             blinkVisual={blinkVisual}
             lootBags={lootBags}
             npcClass={npcClass}
+            emanuelClone={emanuelClone}
           />
 
           <ChargeParticles
@@ -529,6 +535,15 @@ export function BattleScene(props: Props) {
             onClick={convertCursedEnergy}
           />
         ))}
+
+      {player.character === "emanuel" && (
+        <EmanuelCloneButton
+          energy={battleMana?.playerMana ?? 0}
+          disabled={controlsDisabled || !cloneUsable}
+          onPress={clonePress}
+          onRelease={cloneRelease}
+        />
+      )}
 
       {isTraining && <TrainingOverlay onLeave={() => navigate(-1)} />}
 
