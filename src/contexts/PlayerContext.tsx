@@ -113,6 +113,8 @@ type PlayerActionsContextType = {
   emanuelComboMultiplierRef: React.RefObject<number>;
   /** Combo do emanuel: true quando o último press avançou o combo. */
   emanuelComboActiveRef: React.RefObject<boolean>;
+  /** Combo do emanuel: índice do último step avançado no press. */
+  emanuelComboStepIndexRef: React.RefObject<number>;
 
   setTimeScale: (scale: number) => void;
   resetTimeScale: () => void;
@@ -150,6 +152,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const playerRef = useLatestRef(player);
   const emanuelComboMultiplierRef = emanuelCombo.multiplierRef;
   const emanuelComboActiveRef = emanuelCombo.activeRef;
+  const emanuelComboStepIndexRef = emanuelCombo.stepIndexRef;
   const resetEmanuelCombo = emanuelCombo.reset;
 
   useEffect(() => {
@@ -478,6 +481,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       honoredFallRef,
       emanuelComboMultiplierRef,
       emanuelComboActiveRef,
+      emanuelComboStepIndexRef,
 
       setTimeScale,
       resetTimeScale,
@@ -532,6 +536,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       honoredFallRef,
       emanuelComboMultiplierRef,
       emanuelComboActiveRef,
+      emanuelComboStepIndexRef,
       setTimeScale,
       resetTimeScale,
       timeScaleRef,

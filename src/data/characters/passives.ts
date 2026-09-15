@@ -165,7 +165,7 @@ export const CHARACTER_PASSIVES: Record<
       id: "combo",
       name: "Combo",
       description:
-        "Ataques básicos consecutivos executam o combo: soco, gancho, chute baixo e finalizador aéreo. Pressionar atacar de novo dentro de 300ms encadeia o próximo golpe com dano crescente (1x até 1.5x). Parar por mais de 300ms volta ao primeiro golpe.",
+        "Ataques básicos consecutivos executam o combo: soco, gancho, chute baixo e finalizador aéreo. A cada golpe o Emanuel avança em direção ao inimigo e o empurra para trás. Pressionar atacar de novo dentro de 300ms encadeia o próximo golpe com dano crescente (1x até 1.5x). Parar por mais de 300ms volta ao primeiro golpe.",
       unlockedAtLevel: 1,
       oncePerBattle: false,
       effect: { kind: "combo", windowMs: EMANUEL_COMBO_WINDOW_MS },

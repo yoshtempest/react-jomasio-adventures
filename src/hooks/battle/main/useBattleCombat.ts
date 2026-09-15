@@ -126,6 +126,7 @@ export function useBattleCombat({
     forcePunchRef,
     emanuelComboMultiplierRef,
     emanuelComboActiveRef,
+    emanuelComboStepIndexRef,
     setTimeScale,
     resetTimeScale,
     timeScaleRef,
@@ -521,8 +522,24 @@ export function useBattleCombat({
             Math.min(BATTLE_LIMITS.maxX, targetX),
           ),
         }),
+      onComboAdvance: (forwardDistance, targetX) =>
+        setPlayer((p) => {
+          if (p.mode !== "battle" || forwardDistance <= 0) return p;
+          const direction = targetX >= p.x ? 1 : -1;
+          const stepToX = Math.max(
+            BATTLE_LIMITS.minX,
+            Math.min(BATTLE_LIMITS.maxX, p.x + direction * forwardDistance),
+          );
+          const toX =
+            direction === 1
+              ? Math.min(stepToX, targetX)
+              : Math.max(stepToX, targetX);
+          if (toX === p.x) return p;
+          return { ...p, pullFromX: p.x, pullToX: toX, pullStartTime: Date.now() };
+        }),
       emanuelComboMultiplierRef,
       emanuelComboActiveRef,
+      emanuelComboStepIndexRef,
     });
 
   const freezeSummonsUntilRef = useRef(0);

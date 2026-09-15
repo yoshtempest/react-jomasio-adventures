@@ -14,6 +14,7 @@ import { LUCAS_WEAPON_RANGES } from "@/data/characters/lucasWeapons";
 import { PlayerSpecialConstants } from "@/data/projectile";
 import { useBuildTargetList } from "./usePlayerTargeting";
 import { resetCooldownRef } from "@/utils/battle/cooldown";
+import { EMANUEL_COMBO_STEPS } from "@/data/characters/emanuel";
 
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { CharactersProgress } from "@/data/characters/defaultProgress";
@@ -62,6 +63,10 @@ type Props = {
   emanuelComboMultiplierRef?: React.RefObject<number>;
   /** true quando o último press do emanuel AVANÇOU o combo. */
   emanuelComboActiveRef?: React.RefObject<boolean>;
+  /** Índice do último step do combo do emanuel (lido no press). */
+  emanuelComboStepIndexRef?: React.RefObject<number>;
+  /** Avança o player um passo em direção ao alvo atingido (combo do emanuel). */
+  onComboAdvance?: (forwardDistance: number, targetX: number) => void;
 };
 
 export function usePlayerBattleActions({
@@ -85,6 +90,8 @@ export function usePlayerBattleActions({
   onNpcPush,
   emanuelComboMultiplierRef,
   emanuelComboActiveRef,
+  emanuelComboStepIndexRef,
+  onComboAdvance,
 }: Props) {
   const fallingAttackUsedRef = useRef(false);
 
@@ -240,6 +247,11 @@ export function usePlayerBattleActions({
     // Priority 1: hit main NPC (boss) if in range
     if (mainTarget && isInAttackRange(mainTarget)) {
       if (isEmanuelComboHit) {
+        const stepIndex = emanuelComboStepIndexRef?.current ?? 0;
+        const step = EMANUEL_COMBO_STEPS[stepIndex] ?? EMANUEL_COMBO_STEPS[0];
+        const pushDir = player.battleDirection === "right" ? 1 : -1;
+        onNpcPush?.(npc.x + pushDir * step.pushDistance);
+        onComboAdvance?.(step.forwardDistance, mainTarget.x);
         battle.playerHit(comboMultiplier, false, true);
       } else if (player.state === "falling" && !fallingAttackUsedRef.current) {
         fallingAttackUsedRef.current = true;
@@ -259,9 +271,19 @@ export function usePlayerBattleActions({
       if (!targetSummon) continue;
 
       playAttackSound(player.character);
-      hitSummon(target, isEmanuelComboHit ? comboMultiplier : 1);
+      const pushDir = player.battleDirection === "right" ? 1 : -1;
+      hitSummon(
+        target,
+        isEmanuelComboHit ? comboMultiplier : 1,
+        isEmanuelComboHit ? pushDir : undefined,
+      );
 
-      if (!isEmanuelComboHit) {
+      if (isEmanuelComboHit) {
+        const stepIndex = emanuelComboStepIndexRef?.current ?? 0;
+        const step =
+          EMANUEL_COMBO_STEPS[stepIndex] ?? EMANUEL_COMBO_STEPS[0];
+        onComboAdvance?.(step.forwardDistance, target.x);
+      } else {
         resetCooldownRef(PLAYER_BASIC_COOLDOWN, battle.playerCooldown);
       }
 
@@ -277,8 +299,12 @@ export function usePlayerBattleActions({
     hitTargetList,
     npcClass,
     weapon,
+    npc.x,
+    onNpcPush,
     emanuelComboMultiplierRef,
     emanuelComboActiveRef,
+    emanuelComboStepIndexRef,
+    onComboAdvance,
   ]);
 
   const handleExtraPunch = useCallback(
