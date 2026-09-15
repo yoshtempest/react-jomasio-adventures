@@ -8,6 +8,7 @@ import { EMANUEL_AIR_LAUNCH_MS } from "@/data/characters/emanuel";
 import { logPlay } from "@/utils/replay/audioEventLog";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { FIVE_HUNDRED_MS } from "@/data/ms";
+import { PLAYER_JUMP_FORCE } from "@/gameRules/movement/constants";
 import type { EmanuelComboApi } from "@/hooks/battle/player/characters/ematron/useEmanuelCombo";
 
 const STUN_BASE_DURATION = FIVE_HUNDRED_MS;
@@ -70,7 +71,7 @@ export function usePlayerAnimation(
     if (
       comboStep &&
       player.state === "preAttack" &&
-      comboStep.windupState === "preAttack"
+      comboStep.windupState !== "jump"
     ) {
       step = { ...defaultStep, next: comboStep.state };
     }
@@ -117,10 +118,33 @@ export function usePlayerAnimation(
       const wantsToRun = step.next === "preRun" || step.next === "run";
       if (wantsToRun && canRunRef != null && !canRunRef.current) return;
 
-      setPlayer((p) => ({
-        ...p,
-        state: step.next,
-      }));
+      setPlayer((p) => {
+        // Fim de um golpe do combo do emanuel (punch/hook/lowKick): se houve
+        // press durante o golpe (buffer), encadeia o próximo step em vez de
+        // voltar ao idle — cada sprite cumpre sua duração no animationFlow.
+        if (
+          p.character === "emanuel" &&
+          p.mode === "battle" &&
+          (p.state === "punch" ||
+            p.state === "hook" ||
+            p.state === "lowKick")
+        ) {
+          const combo = emanuelComboRef.current;
+          const queuedIndex = combo?.queuedStepIndexRef.current;
+          if (combo && queuedIndex != null) {
+            const queuedStep = combo.steps[queuedIndex];
+            combo.queuedStepIndexRef.current = null;
+            if (queuedStep?.windupState === "jump") {
+              combo.airActiveRef.current = true;
+              return { ...p, velY: PLAYER_JUMP_FORCE, state: "jump" };
+            }
+            // Ground steps: preAttack (punch/hook) ou lowKick direto no sprite.
+            combo.airActiveRef.current = false;
+            return { ...p, state: queuedStep?.windupState ?? "preAttack" };
+          }
+        }
+        return { ...p, state: step.next };
+      });
     }, realDuration);
 
     return () => clearTimeout(timer);

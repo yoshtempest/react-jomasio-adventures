@@ -12,6 +12,8 @@ export function useEmanuelCombo() {
   const multiplierRef = useRef(1);
   const airActiveRef = useRef(false);
   const activeRef = useRef(false);
+  /** Step aguardando exibição: press durante um golpe do combo em exibição. */
+  const queuedStepIndexRef = useRef<number | null>(null);
 
   const advance = useCallback((now: number): EmanuelComboStep => {
     const withinWindow =
@@ -32,6 +34,7 @@ export function useEmanuelCombo() {
     lastPressAtRef.current = 0;
     airActiveRef.current = false;
     activeRef.current = false;
+    queuedStepIndexRef.current = null;
   }, []);
 
   return {
@@ -41,6 +44,7 @@ export function useEmanuelCombo() {
     multiplierRef,
     airActiveRef,
     activeRef,
+    queuedStepIndexRef,
     advance,
     reset,
   };

@@ -15,6 +15,7 @@ import {
 import { canJump } from "@/gameRules/movement/state";
 import { isHorizontallyBlocked } from "@/gameRules/battle/obstacles";
 import { DASH_DURATION, DASH_INTERVAL } from "@/gameRules/movement/constants";
+import { PLAYER_JUMP_FORCE } from "@/gameRules/movement/constants";
 import {
   useBattleGravity,
   type CollisionParams,
@@ -63,7 +64,7 @@ export function useBattleMovement(
   const { progress } = useCharacterProgress();
   const progressRef = useLatestRef(progress);
 
-  const jumpForce = -16;
+  const jumpForce = PLAYER_JUMP_FORCE;
 
   useBattleGravity(
     setPlayer,
@@ -273,17 +274,32 @@ export function useBattleMovement(
           return { ...p, state: "fallingAttack" };
         }
 
-        if (comboWindup === "jump") {
-          emanuelCombo.airActiveRef.current = true;
-          hasUsedFallingAttack.current = false;
-          hasDoubleJumped.current = false;
-          return { ...p, velY: jumpForce, state: "jump" };
-        }
-
         if (comboWindup != null) {
-          if (comboWindup === "preAttack") {
-            emanuelCombo.airActiveRef.current = false;
+          // Buffer de combo: press durante um golpe do combo em exibição
+          // (punch/hook/lowKick) não corta o sprite — o próximo step aguarda o
+          // fim da animação atual no usePlayerAnimation.
+          if (
+            p.state === "punch" ||
+            p.state === "hook" ||
+            p.state === "lowKick"
+          ) {
+            emanuelCombo.queuedStepIndexRef.current =
+              emanuelCombo.stepIndexRef.current;
+            return p;
           }
+
+          if (comboWindup === "jump") {
+            emanuelCombo.airActiveRef.current = true;
+            hasUsedFallingAttack.current = false;
+            hasDoubleJumped.current = false;
+            return { ...p, velY: jumpForce, state: "jump" };
+          }
+
+          // Transição "limpa": nenhum golpe em exibição sendo bufferizado —
+          // descarta buffer obsoleto (ex.: interrompido por dash/block/jump) e
+          // entra no step diretamente (preAttack ou lowKick, ambos em solo).
+          emanuelCombo.queuedStepIndexRef.current = null;
+          emanuelCombo.airActiveRef.current = false;
           return { ...p, state: comboWindup };
         }
 

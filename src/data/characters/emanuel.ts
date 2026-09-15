@@ -36,7 +36,7 @@ export const EMANUEL_COMBO_STEPS = [
   {
     state: "lowKick",
     multiplier: 1.3,
-    windupState: "preAttack",
+    windupState: "lowKick",
     pushDistance: 42,
     forwardDistance: 44,
   },
