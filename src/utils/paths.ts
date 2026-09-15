@@ -78,7 +78,7 @@ export function sfx(path: string) {
 
 const ATTACK_FOLDER_ALT = new Set([
   "marcelo",
-  "eduarda",
+  "artur",
   "riquelme",
   "lucaua",
   "levi",
@@ -86,12 +86,40 @@ const ATTACK_FOLDER_ALT = new Set([
   "larissa",
   "camilly",
   "mayra",
-  "artur",
-  "samuel",
   "emanuel",
 ]);
 
 export type MarceloBattleForm = "default" | "vastolordForm";
+
+// Emanuel não tem as pastas de movimento na raiz do `inFight/` (diferente do
+// riquelme/marcelo que têm `inFight/idle/`, `inFight/jump/` + `.svg` soltos).
+// Tudo que é movimento fica aninhado em `inFight/movement/`:
+//   idle  → inFight/movement/idle/idle.svg
+//   jump  → inFight/movement/jump/jump.svg
+//   run   → inFight/movement/movement/run.svg
+// Isso exige um mapeamento por character + estado (o STATE_FOLDER genérico
+// retorna "idle"/"jump"/"movement" como pasta raiz do inFight → 404 p/ emanuel).
+const CHARACTER_STATE_FOLDER_ALT: Record<
+  string,
+  Record<string, string>
+> = {
+  emanuel: {
+    idle: "movement/idle",
+    idleCrounched: "movement/idle",
+    walk: "movement/movement",
+    run: "movement/movement",
+    preWalk: "movement/movement",
+    preRun: "movement/movement",
+    jump: "movement/jump",
+    preJump: "movement/jump",
+    falling: "movement/jump",
+  },
+  marcelo: {
+    // O marcelo NÃO tem pasta de movimento própria na raiz do inFight:
+    // as animações de andar/atacar ficam em `inFight/default/${state}.svg`
+    // (tratado no branch abaixo via default/), então aqui já cai o override.
+  },
+};
 
 /**
  * Estados que possuem sprite na pasta `vastolordForm/` do marcelo. Os demais
@@ -124,10 +152,14 @@ export function resolveBattleSprite(
     }
     return playerPath(`/${character}/inFight/${state}.svg`);
   }
+  // O emanuel aninha TODO o movimento em `inFight/movement/` (idle/jump/run
+  // não ficam na raiz do inFight como no riquelme/marcelo). O override por
+  // character + estado resolve isso (ex.: idle → movement/idle).
   const resolved =
-    folder === "attack" && ATTACK_FOLDER_ALT.has(character)
+    CHARACTER_STATE_FOLDER_ALT[character]?.[state] ??
+    (folder === "attack" && ATTACK_FOLDER_ALT.has(character)
       ? "attacks"
-      : folder;
+      : folder);
   if (character === "lucas" && weapon) {
     return playerPath(
       `/${character}/inFight/${weapon}/${resolved}/${state}.svg`,

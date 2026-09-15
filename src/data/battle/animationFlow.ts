@@ -1,4 +1,5 @@
 // PlayerState vem do escopo global (src/utils/types/global.d.ts) — fonte única.
+import { EMANUEL_AIR_GRAB_DURATION_MS } from "@/data/characters/emanuel";
 import {
   ONE_HUNDRED_MS,
   ONE_HUNDRED_FIFTY_MS,
@@ -23,6 +24,11 @@ export const animationFlow: Record<PlayerState, AnimationStep | null> = {
   attack: { next: "idle", duration: THREE_HUNDRED_MS },
   preKick: { next: "kick", duration: ONE_HUNDRED_MS },
   kick: { next: "idle", duration: THREE_HUNDRED_MS },
+  punch: { next: "idle", duration: THREE_HUNDRED_MS },
+  hook: { next: "idle", duration: THREE_HUNDRED_MS },
+  lowKick: { next: "idle", duration: FIVE_HUNDRED_MS },
+  airGrab: { next: "airKick", duration: EMANUEL_AIR_GRAB_DURATION_MS },
+  airKick: { next: "idle", duration: THREE_HUNDRED_MS },
 
   preWalk: { next: "walk", duration: ONE_HUNDRED_MS },
   walk: { next: "preRun", duration: TWO_HUNDRED_MS },

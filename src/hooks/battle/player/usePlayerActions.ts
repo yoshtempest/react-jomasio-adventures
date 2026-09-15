@@ -58,6 +58,10 @@ type Props = {
   playerMaxHp: number;
   totalVampirism: number;
   onNpcPush?: (targetX: number) => void;
+  /** Multiplicador do último step do combo do emanuel (lido no press). */
+  emanuelComboMultiplierRef?: React.RefObject<number>;
+  /** true quando o último press do emanuel AVANÇOU o combo. */
+  emanuelComboActiveRef?: React.RefObject<boolean>;
 };
 
 export function usePlayerBattleActions({
@@ -79,6 +83,8 @@ export function usePlayerBattleActions({
   playerMaxHp,
   totalVampirism,
   onNpcPush,
+  emanuelComboMultiplierRef,
+  emanuelComboActiveRef,
 }: Props) {
   const fallingAttackUsedRef = useRef(false);
 
@@ -179,7 +185,20 @@ export function usePlayerBattleActions({
   );
 
   const handlePlayerHit = useCallback(() => {
-    if (!battle.playerCooldown.current || battle.isEnding.current) {
+    // Combo do emanuel: o multiplicador vem do passo avançado no último press
+    // (sinal síncrono setado pelo attack() no useBattleMovement). Usamos
+    // bypassCooldown=true porque o pacing do combo é a janela de 300ms, não o
+    // cooldown básico de 400ms.
+    const isEmanuelComboHit =
+      player.character === "emanuel" &&
+      emanuelComboActiveRef?.current === true &&
+      emanuelComboMultiplierRef != null;
+    const comboMultiplier = isEmanuelComboHit
+      ? (emanuelComboMultiplierRef.current ?? 1)
+      : 1;
+
+    if (battle.isEnding.current) return;
+    if (!isEmanuelComboHit && !battle.playerCooldown.current) {
       return;
     }
 
@@ -220,7 +239,9 @@ export function usePlayerBattleActions({
 
     // Priority 1: hit main NPC (boss) if in range
     if (mainTarget && isInAttackRange(mainTarget)) {
-      if (player.state === "falling" && !fallingAttackUsedRef.current) {
+      if (isEmanuelComboHit) {
+        battle.playerHit(comboMultiplier, false, true);
+      } else if (player.state === "falling" && !fallingAttackUsedRef.current) {
         fallingAttackUsedRef.current = true;
         battle.playerHit(1.2);
       } else {
@@ -238,9 +259,11 @@ export function usePlayerBattleActions({
       if (!targetSummon) continue;
 
       playAttackSound(player.character);
-      hitSummon(target, 1);
+      hitSummon(target, isEmanuelComboHit ? comboMultiplier : 1);
 
-      resetCooldownRef(PLAYER_BASIC_COOLDOWN, battle.playerCooldown);
+      if (!isEmanuelComboHit) {
+        resetCooldownRef(PLAYER_BASIC_COOLDOWN, battle.playerCooldown);
+      }
 
       return;
     }
@@ -254,6 +277,8 @@ export function usePlayerBattleActions({
     hitTargetList,
     npcClass,
     weapon,
+    emanuelComboMultiplierRef,
+    emanuelComboActiveRef,
   ]);
 
   const handleExtraPunch = useCallback(

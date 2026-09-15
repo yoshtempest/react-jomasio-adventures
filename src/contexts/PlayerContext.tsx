@@ -10,6 +10,7 @@ import {
 } from "react";
 import { usePlayerMovement } from "@/hooks/player/usePlayerMovement";
 import { useBattleMovement } from "@/hooks/battle/player/useMovement";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import {
   EXPLORE_MOVE_INTERVAL,
   type BlockedTile,
@@ -20,6 +21,7 @@ import { useNavbar } from "@/contexts/NavbarContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { usePlayerAnimation } from "@/hooks/battle/player/usePlayerAnimation";
+import { useEmanuelCombo } from "@/hooks/battle/player/characters/ematron/useEmanuelCombo";
 import { useTimeScale } from "@/hooks/battle/time/useTimeScale";
 import { BATTLE_DEFAULT_STATE } from "@/gameRules/battle/defaultState";
 import { useBattleCollisionRef } from "@/hooks/battle/utilities/useBattleCollisionRef";
@@ -107,6 +109,11 @@ type PlayerActionsContextType = {
   /** Sequência "O Mais Honrado": true enquanto o riquelme está caindo (pouso vira idleCrounched). */
   honoredFallRef: React.RefObject<boolean>;
 
+  /** Combo do emanuel: multiplicador do último step avançado no press. */
+  emanuelComboMultiplierRef: React.RefObject<number>;
+  /** Combo do emanuel: true quando o último press avançou o combo. */
+  emanuelComboActiveRef: React.RefObject<boolean>;
+
   setTimeScale: (scale: number) => void;
   resetTimeScale: () => void;
   timeScaleRef: React.RefObject<number>;
@@ -139,12 +146,23 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const battleTenacityRef = useRef(0);
   const { progress } = useCharacterProgress();
   const { timeScaleRef, setTimeScale, resetTimeScale } = useTimeScale();
+  const emanuelCombo = useEmanuelCombo();
+  const playerRef = useLatestRef(player);
+  const emanuelComboMultiplierRef = emanuelCombo.multiplierRef;
+  const emanuelComboActiveRef = emanuelCombo.activeRef;
+  const resetEmanuelCombo = emanuelCombo.reset;
+
+  useEffect(() => {
+    resetEmanuelCombo();
+  }, [player.character, player.mode, resetEmanuelCombo]);
+
   usePlayerAnimation(
     player,
     setPlayer,
     battleTenacityRef,
     (progress[player.character]?.sleep ?? 0) > 0,
     timeScaleRef,
+    emanuelCombo,
   );
 
   const movingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -216,6 +234,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     honoredRiseStartYRef,
     honoredFallRef,
     forcePunchRef,
+    emanuelCombo,
+    playerRef,
   );
   const battleRef = useRef(battle);
   battleRef.current = battle;
@@ -456,6 +476,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       honoredRiseStartRef,
       honoredRiseStartYRef,
       honoredFallRef,
+      emanuelComboMultiplierRef,
+      emanuelComboActiveRef,
 
       setTimeScale,
       resetTimeScale,
@@ -508,6 +530,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       honoredRiseStartRef,
       honoredRiseStartYRef,
       honoredFallRef,
+      emanuelComboMultiplierRef,
+      emanuelComboActiveRef,
       setTimeScale,
       resetTimeScale,
       timeScaleRef,

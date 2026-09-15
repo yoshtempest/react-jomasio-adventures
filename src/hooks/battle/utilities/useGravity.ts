@@ -126,7 +126,9 @@ export function useBattleGravity(
         const isAirSpecial =
           p.state === "preSpecialInAir" ||
           p.state === "specialInAir" ||
-          p.state === "specialInAirFinish";
+          p.state === "specialInAirFinish" ||
+          p.state === "airGrab" ||
+          p.state === "airKick";
         return {
           ...p,
           y: newY,

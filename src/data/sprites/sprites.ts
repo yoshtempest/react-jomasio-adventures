@@ -111,4 +111,12 @@ export const STATE_FOLDER: Record<string, string | null> = {
   stun: null,
   charging: null,
   fallen: null,
+
+  // Combo do emanuel: golpes resolvem para a pasta `attacks/` via
+  // ATTACK_FOLDER_ALT (mesmo mecanismo do preAttack/attack padrão).
+  punch: "attack",
+  hook: "attack",
+  lowKick: "attack",
+  airGrab: "attack",
+  airKick: "attack",
 };

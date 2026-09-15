@@ -1,10 +1,12 @@
 import type { CharacterId, CHARACTERS } from "@/data/characters/list";
+import { EMANUEL_COMBO_WINDOW_MS } from "@/data/characters/emanuel";
 
 export type CharacterPassiveId =
   | "rewindTime"
   | "vastolordForm"
   | "cursedEnergy"
   | "honoredOne"
+  | "combo"
   | "notImplemented";
 
 export type CharacterPassiveKind =
@@ -12,6 +14,7 @@ export type CharacterPassiveKind =
   | { kind: "vastolordForm"; durationMs: number }
   | { kind: "cursedEnergy" }
   | { kind: "honoredOne" }
+  | { kind: "combo"; windowMs: number }
   | { kind: "notImplemented" };
 
 export type CharacterPassive = {
@@ -159,12 +162,13 @@ export const CHARACTER_PASSIVES: Record<
   emanuel: [
     {
       characterId: "emanuel",
-      id: "notImplemented",
-      name: "Passiva (a definir)",
-      description: "Passiva do personagem ainda não definida.",
+      id: "combo",
+      name: "Combo",
+      description:
+        "Ataques básicos consecutivos executam o combo: soco, gancho, chute baixo e finalizador aéreo. Pressionar atacar de novo dentro de 300ms encadeia o próximo golpe com dano crescente (1x até 1.5x). Parar por mais de 300ms volta ao primeiro golpe.",
       unlockedAtLevel: 1,
       oncePerBattle: false,
-      effect: NOT_IMPLEMENTED,
+      effect: { kind: "combo", windowMs: EMANUEL_COMBO_WINDOW_MS },
     },
   ],
   levi: [

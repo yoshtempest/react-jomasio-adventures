@@ -26,6 +26,8 @@ import {
   isPlayerFrozen,
   isPlayerParalyzed,
 } from "@/gameRules/battle/status/statusEffects";
+import { EMANUEL_COMBO_STATES } from "@/data/characters/emanuel";
+import type { EmanuelComboApi } from "@/hooks/battle/player/characters/ematron/useEmanuelCombo";
 
 const PLAYER_COLLISION_W = 30;
 const PLAYER_COLLISION_H = 50;
@@ -41,6 +43,8 @@ export function useBattleMovement(
   honoredRiseStartYRef?: RefObject<number>,
   honoredFallRef?: RefObject<boolean>,
   forcePunchRef?: RefObject<boolean>,
+  emanuelCombo?: EmanuelComboApi,
+  playerRef?: RefObject<Player>,
 ) {
   const leftIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const rightIntervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -228,9 +232,64 @@ export function useBattleMovement(
   function attack() {
     if (isFrozenBySpecial()) return;
     if (lastAttackPressRef) lastAttackPressRef.current = Date.now();
+
+    let comboWindup: PlayerState | null = null;
+
+    const current = playerRef?.current;
+    const isEmanuelAttack =
+      current?.character === "emanuel" && current.mode === "battle";
+
+    if (isEmanuelAttack && emanuelCombo) {
+      emanuelCombo.activeRef.current = false;
+      const state = current.state;
+      const comboEligible =
+        state === "idle" ||
+        state === "preAttack" ||
+        state === "attack" ||
+        EMANUEL_COMBO_STATES.has(state) ||
+        ((state === "falling" || state === "jump") &&
+          emanuelCombo.airActiveRef.current);
+
+      if (!isPlayerFrozen(current) && !isPlayerParalyzed(current) && comboEligible) {
+        const step = emanuelCombo.advance(Date.now());
+        emanuelCombo.activeRef.current = true;
+        comboWindup = step.windupState;
+      }
+    }
+
     setPlayer((p) => {
       if (isPlayerFrozen(p) || isPlayerParalyzed(p)) return p;
       if (p.state === "mostHonored") return p;
+
+      if (isEmanuelAttack && emanuelCombo) {
+        if (p.state === "blocked") return { ...p, state: "blockAttack" };
+
+        if (
+          p.state === "falling" &&
+          !emanuelCombo.airActiveRef.current &&
+          !hasUsedFallingAttack.current
+        ) {
+          hasUsedFallingAttack.current = true;
+          return { ...p, state: "fallingAttack" };
+        }
+
+        if (comboWindup === "jump") {
+          emanuelCombo.airActiveRef.current = true;
+          hasUsedFallingAttack.current = false;
+          hasDoubleJumped.current = false;
+          return { ...p, velY: jumpForce, state: "jump" };
+        }
+
+        if (comboWindup != null) {
+          if (comboWindup === "preAttack") {
+            emanuelCombo.airActiveRef.current = false;
+          }
+          return { ...p, state: comboWindup };
+        }
+
+        return p;
+      }
+
       if (p.state === "falling" && !hasUsedFallingAttack.current) {
         hasUsedFallingAttack.current = true;
         return { ...p, state: "fallingAttack" };

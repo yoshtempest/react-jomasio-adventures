@@ -4,9 +4,11 @@ import {
   animationFlow,
   getSpecialFlowOverride,
 } from "@/data/battle/animationFlow";
+import { EMANUEL_AIR_LAUNCH_MS } from "@/data/characters/emanuel";
 import { logPlay } from "@/utils/replay/audioEventLog";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { FIVE_HUNDRED_MS } from "@/data/ms";
+import type { EmanuelComboApi } from "@/hooks/battle/player/characters/ematron/useEmanuelCombo";
 
 const STUN_BASE_DURATION = FIVE_HUNDRED_MS;
 
@@ -16,11 +18,37 @@ export function usePlayerAnimation(
   battleTenacityRef?: React.RefObject<number>,
   canRun?: boolean,
   timeScaleRef?: React.RefObject<number>,
+  emanuelCombo?: EmanuelComboApi,
 ) {
   const tenacityRef = useLatestRef(battleTenacityRef);
   const canRunRef = useLatestRef(canRun);
   const timeScaleInternalRef = useLatestRef(timeScaleRef);
+  const emanuelComboRef = useLatestRef(emanuelCombo);
   const { playSound } = useSoundEffects();
+
+  // Sequência aérea do combo do emanuel: o windup aéreo em `jump` é replicado
+  // em `airGrab` após um breve impulso (o dano já foi aplicado no press).
+  useEffect(() => {
+    if (
+      player.state !== "jump" ||
+      player.character !== "emanuel" ||
+      player.mode !== "battle"
+    )
+      return;
+    const combo = emanuelComboRef.current;
+    if (!combo?.airActiveRef.current) return;
+
+    const timer = setTimeout(() => {
+      combo.airActiveRef.current = false;
+      setPlayer((p) =>
+        p.state === "jump" && p.character === "emanuel"
+          ? { ...p, state: "airGrab" }
+          : p,
+      );
+    }, EMANUEL_AIR_LAUNCH_MS);
+
+    return () => clearTimeout(timer);
+  }, [player.state, player.character, player.mode, setPlayer, emanuelComboRef]);
 
   useEffect(() => {
     if (player.state === "jump" || player.state === "falling") return;
@@ -30,6 +58,22 @@ export function usePlayerAnimation(
 
     const override = getSpecialFlowOverride(player.character);
     let step = defaultStep;
+
+    // Combo do emanuel: o windup `preAttack` resolve para o golpe atual do
+    // combo (punch/hook/lowKick) em vez do `attack` genérico.
+    const comboStep =
+      player.character === "emanuel" && player.mode === "battle"
+        ? emanuelComboRef.current?.steps[
+            emanuelComboRef.current.stepIndexRef.current
+          ]
+        : undefined;
+    if (
+      comboStep &&
+      player.state === "preAttack" &&
+      comboStep.windupState === "preAttack"
+    ) {
+      step = { ...defaultStep, next: comboStep.state };
+    }
 
     if (override) {
       if (player.state === "preSpecial") {
@@ -90,5 +134,6 @@ export function usePlayerAnimation(
     canRun,
     canRunRef,
     timeScaleInternalRef,
+    emanuelComboRef,
   ]);
 }

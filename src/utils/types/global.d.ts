@@ -335,7 +335,12 @@ declare global {
     | "kick"
     | "preKick"
     | "mostHonored"
-    | "heal";
+    | "heal"
+    | "punch"
+    | "hook"
+    | "lowKick"
+    | "airGrab"
+    | "airKick";
 
   type PlayerMode = "explore" | "battle" | "select" | "ui" | "map" | "menu";
 

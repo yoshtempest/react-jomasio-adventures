@@ -124,6 +124,8 @@ export function useBattleCombat({
     battleTenacityRef,
     freezeActionsUntilRef,
     forcePunchRef,
+    emanuelComboMultiplierRef,
+    emanuelComboActiveRef,
     setTimeScale,
     resetTimeScale,
     timeScaleRef,
@@ -519,6 +521,8 @@ export function useBattleCombat({
             Math.min(BATTLE_LIMITS.maxX, targetX),
           ),
         }),
+      emanuelComboMultiplierRef,
+      emanuelComboActiveRef,
     });
 
   const freezeSummonsUntilRef = useRef(0);
