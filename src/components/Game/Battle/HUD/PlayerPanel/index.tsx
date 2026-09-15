@@ -7,12 +7,13 @@ import { playerPath } from "@/utils/paths";
 import type { ElementType } from "@/utils/types/battle/element";
 import styles from "@/components/Game/Battle/HUD/styles.module.css";
 import { asset } from "@/utils/paths";
+import { hasManaBar } from "@/gameRules/battle/mana";
 // import { characterFaceStyle } from "@/utils/character/elementFace";
 // import type { CharacterOption } from "@/utils/types/player/character";
 
 type Props = {
   // characterColor: CharacterOption & { unlockedDate?: string | null };
-  character: string;
+  character: CharacterId;
   playerName: string;
   playerRank: string;
   playerLevel: number;
@@ -84,10 +85,16 @@ export function PlayerHUDPanel({
             )}
             <BlockGauge blockGauge={blockGauge} blockLimit={blockLimit} />
             {energy != null && <EnergyBar label="REIRYOKU" value={energy} />}
-            {mana != null && maxMana != null && (
+            {hasManaBar(character) && mana != null && maxMana != null && (
               <EnergyBar
                 label={
-                  character === "riquelme" ? "ENERGIA AMALDIÇOADA" : "MANA"
+                  character === "riquelme"
+                    ? "ENERGIA AMALDIÇOADA"
+                    : character === "emanuel"
+                      ? "KI"
+                      : character === "marcelo"
+                      ? "REIRYOKU"
+                      : "MANA"
                 }
                 value={mana}
                 max={maxMana}

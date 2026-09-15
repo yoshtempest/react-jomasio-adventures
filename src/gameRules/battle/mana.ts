@@ -43,3 +43,18 @@ export function getManaBonusFromEquipment(character: CharacterId): number {
 export function getMaxMana(character: CharacterId): number {
   return MAX_MANA_BASE + getManaBonusFromEquipment(character);
 }
+
+/**
+ * Personagens que exibem barra de mana genérica. Exceção: o marcelo usa a
+ * barra de energia de fluxo (carregada ao caminhar, ver useEnergy.ts) no
+ * lugar do mana — e esta barra não deve aparecer em duelos a seu lado.
+ */
+export function hasManaBar(character: CharacterId): boolean {
+  return character !== "marcelo";
+}
+
+export function getEnergyName(character: CharacterId): string {
+  if (character === "riquelme") return "Energia Amaldiçoada";
+  if (character === "emanuel") return "Ki";
+  return "Mana";
+}

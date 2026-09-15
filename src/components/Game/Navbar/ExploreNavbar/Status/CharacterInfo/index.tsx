@@ -12,7 +12,7 @@ import { CHARACTERS } from "@/data/options/characters";
 import { npcPath, playerPath } from "@/utils/paths";
 import { getRank, formatRank, getRankMultiplier } from "@/gameRules/rank";
 import { getEquipmentStatsBonus } from "@/gameRules/battle/equipment";
-import { getMaxMana } from "@/gameRules/battle/mana";
+import { getMaxMana, getEnergyName, hasManaBar } from "@/gameRules/battle/mana";
 import { ProgressBar } from "@/components/Game/ProgressBar";
 import styles from "./styles.module.css";
 import { Drumstick, Heart, Moon, Sparkles } from "lucide-react";
@@ -115,23 +115,23 @@ export function CharacterInfo() {
           }
         />
       </div>
-      <div className={styles.hungerContainer}>
-        <div className={styles.hungerText}>
-          <Sparkles />
-          <span>
-            {character === "riquelme" ? "Energia Amaldiçoada" : "Mana"}
-          </span>
-          <span>
-            {currentMana}/{maxMana}
-          </span>
+      {hasManaBar(character) && (
+        <div className={styles.hungerContainer}>
+          <div className={styles.hungerText}>
+            <Sparkles />
+            <span>{getEnergyName(character)}</span>
+            <span>
+              {currentMana}/{maxMana}
+            </span>
+          </div>
+          <ProgressBar
+            value={currentMana}
+            max={maxMana}
+            animationId={`char-mana-${player.character}`}
+            color={character === "riquelme" ? "#e84118" : "#7fc7ff"}
+          />
         </div>
-        <ProgressBar
-          value={currentMana}
-          max={maxMana}
-          animationId={`char-mana-${player.character}`}
-          color={character === "riquelme" ? "#e84118" : "#7fc7ff"}
-        />
-      </div>
+      )}
       <div className={styles.hungerContainer}>
         <div className={styles.hungerText}>
           <Drumstick />
