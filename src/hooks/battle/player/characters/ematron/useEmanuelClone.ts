@@ -260,7 +260,7 @@ export function useEmanuelClone({
       const stepY = (dy / len) * EMANUEL_CLONE_MOVE_PX;
 
       const obstacles = obstaclesRef.current;
-      let nx = Math.max(
+      const nx = Math.max(
         BATTLE_LIMITS.minX,
         Math.min(BATTLE_LIMITS.maxX, xRef.current + stepX),
       );
@@ -279,11 +279,12 @@ export function useEmanuelClone({
     }, EMANUEL_CLONE_MOVE_TICK_MS);
 
     return () => clearInterval(id);
-  }, [cancelRef, setCloneVisual, shouldCancelRef]);
+  }, [cancelRef, obstaclesRef, setCloneVisual, shouldCancelRef]);
 
   useEffect(() => {
+    const cancel = cancelRef.current;
     return () => {
-      if (activeRef.current) cancelRef.current();
+      if (activeRef.current) cancel();
     };
   }, [cancelRef]);
 
