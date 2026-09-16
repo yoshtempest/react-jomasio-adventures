@@ -60,6 +60,8 @@ export function useBattleStageSetup({ npcType, npcLevelProp, isAlfa }: Props) {
     honoredRiseStartRef,
     honoredRiseStartYRef,
     honoredFallRef,
+    genkiDamaRiseStartRef,
+    genkiDamaRiseStartYRef,
   } = usePlayer();
 
   const {
@@ -244,6 +246,8 @@ export function useBattleStageSetup({ npcType, npcLevelProp, isAlfa }: Props) {
     honoredRiseStartRef,
     honoredRiseStartYRef,
     honoredFallRef,
+    genkiDamaRiseStartRef,
+    genkiDamaRiseStartYRef,
     progress,
     reduceHunger,
     setBattleHP,

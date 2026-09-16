@@ -10,6 +10,7 @@ import { Ally } from "./Ally";
 import { Pet } from "./Pet";
 import { Player } from "./Player";
 import { EmanuelClone } from "./EmanuelClone";
+import { GenkiDama } from "./GenkiDama";
 import { KillerQueen } from "./KillerQueen";
 import { Bomb } from "./Bomb";
 import { ExtraPunch } from "./ExtraPunch";
@@ -25,6 +26,7 @@ import type { ExtraPunchVisual } from "@/utils/types/character/srGuaxinim";
 import type { BattleLootBag } from "@/utils/types/battle/loot";
 import type { BlinkVisual } from "@/hooks/battle/player/characters/natsuki/useBlinkAnimation";
 import type { EmanuelCloneVisual } from "@/utils/types/character/emanuel";
+import type { GenkiDamaVisual } from "@/utils/types/character/emanuel";
 
 type Props = {
   npc: MainNpcState;
@@ -56,6 +58,8 @@ type Props = {
   blinkVisual?: BlinkVisual | null;
   /** Cópia de silhueta do Emanuel durante o hold da instância. */
   emanuelClone?: EmanuelCloneVisual | null;
+  /** Esfera da Genki Dama do Emanuel (preparando ou voando). */
+  genkiDamaVisual?: GenkiDamaVisual | null;
 };
 
 export function BattleEntities({
@@ -85,6 +89,7 @@ export function BattleEntities({
   playerForm,
   blinkVisual = null,
   emanuelClone = null,
+  genkiDamaVisual = null,
 }: Props) {
   const battleScaleX = window.innerWidth / ProjectileConstants.MAP_WIDTH;
   const battleScaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;
@@ -165,6 +170,14 @@ export function BattleEntities({
 
       {emanuelClone && player.character === "emanuel" && (
         <EmanuelClone clone={emanuelClone} PLAYER_SIZE={PLAYER_SIZE} />
+      )}
+
+      {genkiDamaVisual && player.character === "emanuel" && (
+        <GenkiDama
+          visual={genkiDamaVisual}
+          battleScaleX={battleScaleX}
+          battleScaleY={battleScaleY}
+        />
       )}
 
       <KillerQueen

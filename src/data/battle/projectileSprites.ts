@@ -16,4 +16,5 @@ export const spriteMap: Record<string, string> = {
   blueSphere: playerProjectilePath("/blueSphere.svg"),
   redSphere: playerProjectilePath("/redSphere.svg"),
   purpleSphere: playerProjectilePath("/purpleSphere.svg"),
+  genkiDama: playerProjectilePath("/genkiDama.svg"),
 };

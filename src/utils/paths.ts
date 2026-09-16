@@ -142,6 +142,11 @@ export function resolveBattleSprite(
   if (state === "mostHonored" && character === "riquelme") {
     return playerPath(`/riquelme/inFight/mostHonored.svg`);
   }
+  // Genki Dama do emanuel: a fase de subida usa o sprite `falling.svg` (não
+  // existe `genkiDamaRising.svg`) — o custo fica na pasta de movimento/jump.
+  if (state === "genkiDamaRising" && character === "emanuel") {
+    return playerPath(`/emanuel/inFight/movement/jump/falling.svg`);
+  }
   const folder = STATE_FOLDER[state];
   if (folder === undefined || folder === null) {
     if (character === "lucas" && weapon) {

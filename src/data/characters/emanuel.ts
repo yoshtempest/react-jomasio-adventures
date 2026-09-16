@@ -31,6 +31,36 @@ export const EMANUEL_KI_CHARGE_TICK_MS = 100;
 /** Quantidade de Ki restaurada por tick da carga. */
 export const EMANUEL_KI_CHARGE_PER_TICK = 1;
 
+// ── Habilidade Genki Dama ────────────────────────────────────────────────────
+/** Custo inicial (Ki) para iniciar a habilidade. */
+export const GENKI_DAMA_INITIAL_COST = 10;
+/** Duração da subida até o topo (2.5s). */
+export const GENKI_DAMA_RISE_MS = 2500;
+/** Altura total da subida em y (300px). */
+export const GENKI_DAMA_RISE_Y = 300;
+/** Intervalo de dreno inicial enquanto segura: 1 Ki por 200ms. */
+export const GENKI_DAMA_DRAIN_START_INTERVAL_MS = 200;
+/** Intervalo de dreno final enquanto segura: 1 Ki por 40ms. */
+export const GENKI_DAMA_DRAIN_END_INTERVAL_MS = 40;
+/** Tempo para o dreno rampar do intervalo inicial ao final (5s). */
+export const GENKI_DAMA_DRAIN_RAMP_MS = 5000;
+/** Intervalo de crescimento da instância da Genki Dama (1x por segundo). */
+export const GENKI_DAMA_GROW_INTERVAL_MS = 1000;
+/** Multiplicador de tamanho por segundo no sprite preparingGenkiDama (1.2x). */
+export const GENKI_DAMA_GROW_MULTIPLIER = 1.2;
+/** Teto do multiplicador de dano (7x o dano do ataque básico). */
+export const GENKI_DAMA_MAX_DAMAGE_MULTIPLIER = 7;
+/** Duração do voo da Genki Dama até o inimigo. */
+export const GENKI_DAMA_THROW_MS = 500;
+/** Raio de área base (scale unitário); escala com o tamanho da Genki Dama. */
+export const GENKI_DAMA_BASE_RADIUS = 120;
+/** Tempo exibindo idleCrounched ao pousar antes de voltar para idle. */
+export const GENKI_DAMA_LAND_CROUCH_MS = 150;
+/** Tamanho base (px) do sprite da Genki Dama. */
+export const GENKI_DAMA_BASE_SIZE = 44;
+/** Altura da Genki Dama acima do personagem durante o preparing. */
+export const GENKI_DAMA_HOVER_OFFSET = 70;
+
 export type EmanuelComboStep = {
   state: PlayerState;
   multiplier: number;

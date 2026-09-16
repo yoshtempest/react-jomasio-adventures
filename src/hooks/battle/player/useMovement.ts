@@ -46,6 +46,8 @@ export function useBattleMovement(
   forcePunchRef?: RefObject<boolean>,
   emanuelCombo?: EmanuelComboApi,
   playerRef?: RefObject<Player>,
+  genkiDamaRiseStartRef?: RefObject<number>,
+  genkiDamaRiseStartYRef?: RefObject<number>,
 ) {
   const leftIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const rightIntervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -75,6 +77,8 @@ export function useBattleMovement(
     honoredRiseStartRef,
     honoredRiseStartYRef,
     honoredFallRef,
+    genkiDamaRiseStartRef,
+    genkiDamaRiseStartYRef,
   );
 
   const idleTimeout = useMemo(() => idleTimeoutRef.current, []);

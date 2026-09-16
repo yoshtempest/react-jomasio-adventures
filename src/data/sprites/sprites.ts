@@ -122,4 +122,8 @@ export const STATE_FOLDER: Record<string, string | null> = {
   lowKick: "attack",
   airGrab: "attack",
   airKick: "attack",
+  // Genki Dama do emanuel: estados do hold ficam na pasta `attacks/`.
+  genkiDamaRising: null, // sprite resolvido como falling (movement) em paths.ts
+  preparingGenkiDama: "attacks",
+  throwGenkiDama: "attacks",
 };

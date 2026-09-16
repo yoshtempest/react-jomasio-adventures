@@ -42,7 +42,10 @@ export function canAct(player: Player) {
     player.state !== "dash" &&
     player.state !== "charging" &&
     player.state !== "chargingKi" &&
-    player.state !== "mostHonored"
+    player.state !== "mostHonored" &&
+    player.state !== "genkiDamaRising" &&
+    player.state !== "preparingGenkiDama" &&
+    player.state !== "throwGenkiDama"
   );
 }
 
@@ -192,7 +195,10 @@ export function idleBattle(p: Player): Player {
       p.state === "dash" ||
       p.state === "charging" ||
       p.state === "chargingKi" ||
-      p.state === "mostHonored"
+      p.state === "mostHonored" ||
+      p.state === "genkiDamaRising" ||
+      p.state === "preparingGenkiDama" ||
+      p.state === "throwGenkiDama"
         ? p.state
         : "idle",
   };

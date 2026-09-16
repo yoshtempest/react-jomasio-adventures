@@ -341,7 +341,10 @@ declare global {
     | "hook"
     | "lowKick"
     | "airGrab"
-    | "airKick";
+    | "airKick"
+    | "genkiDamaRising"
+    | "preparingGenkiDama"
+    | "throwGenkiDama";
 
   type PlayerMode = "explore" | "battle" | "select" | "ui" | "map" | "menu";
 

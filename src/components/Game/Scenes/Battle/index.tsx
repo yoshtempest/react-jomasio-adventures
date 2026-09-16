@@ -6,6 +6,7 @@ import { BlinkButton } from "@/components/Game/Battle/Buttons/Blink";
 import { DivergentFistButton } from "@/components/Game/Battle/Buttons/DivergentFist";
 import { EmanuelCloneButton } from "@/components/Game/Battle/Buttons/EmanuelClone";
 import { EmanuelKiChargeButton } from "@/components/Game/Battle/Buttons/EmanuelKiCharge";
+import { EmanuelGenkiDamaButton } from "@/components/Game/Battle/Buttons/EmanuelGenkiDama";
 import { GameMap } from "@/components/Game/Map/Game";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useGameLayout } from "@/hooks/game/useGameLayout";
@@ -152,6 +153,10 @@ export function BattleScene(props: Props) {
     kiChargePress,
     kiChargeRelease,
     kiChargeUsable,
+    genkiDamaVisual,
+    genkiDamaPress,
+    genkiDamaRelease,
+    genkiDamaUsable,
   } = useBattleScene({ ...props, isAlfa, PLAYER_SIZE });
 
   const { setBattleCollision } = usePlayerActions();
@@ -369,6 +374,7 @@ export function BattleScene(props: Props) {
             lootBags={lootBags}
             npcClass={npcClass}
             emanuelClone={emanuelClone}
+            genkiDamaVisual={genkiDamaVisual}
           />
 
           <ChargeParticles
@@ -556,6 +562,15 @@ export function BattleScene(props: Props) {
           disabled={controlsDisabled || !kiChargeUsable}
           onPress={kiChargePress}
           onRelease={kiChargeRelease}
+        />
+      )}
+
+      {player.character === "emanuel" && (
+        <EmanuelGenkiDamaButton
+          energy={battleMana?.playerMana ?? 0}
+          disabled={controlsDisabled || !genkiDamaUsable}
+          onPress={genkiDamaPress}
+          onRelease={genkiDamaRelease}
         />
       )}
 

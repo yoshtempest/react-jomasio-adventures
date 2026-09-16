@@ -74,6 +74,12 @@ export const animationFlow: Record<PlayerState, AnimationStep | null> = {
   // Conversão de energia amaldiçoada em cura do riquelme: troca para o sprite
   // heal.svg por 300ms e volta para idle.
   heal: { next: "idle", duration: THREE_HUNDRED_MS },
+
+  // Genki Dama do emanuel: estados controlados pelo hold (useEmanuelGenkiDama),
+  // não avançam sozinhos — o hook troca os sprites conforme a fase.
+  genkiDamaRising: null,
+  preparingGenkiDama: null,
+  throwGenkiDama: null,
 };
 
 type SpecialFlowOverride = {

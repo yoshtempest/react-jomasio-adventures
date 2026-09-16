@@ -26,6 +26,8 @@ import { useTrainingEffects } from "@/hooks/battle/effects/useTrainingEffects";
 import { useArturBattle } from "@/hooks/battle/player/characters/srGuaxinim/useArturBattle";
 import { useEmanuelClone } from "@/hooks/battle/player/characters/ematron/useEmanuelClone";
 import { useEmanuelKiCharge } from "@/hooks/battle/player/characters/ematron/useEmanuelKiCharge";
+import { useEmanuelGenkiDama } from "@/hooks/battle/player/characters/ematron/useEmanuelGenkiDama";
+import { damageSummon } from "@/gameRules/battle/damageSummon";
 import {
   getWeaponEnchantment,
   rollEnchantmentProc,
@@ -126,6 +128,9 @@ export function useBattleCombat({
     battleTenacityRef,
     freezeActionsUntilRef,
     forcePunchRef,
+    honoredFallRef,
+    genkiDamaRiseStartRef,
+    genkiDamaRiseStartYRef,
     emanuelComboMultiplierRef,
     emanuelComboActiveRef,
     emanuelComboStepIndexRef,
@@ -865,6 +870,74 @@ export function useBattleCombat({
     battleEndedRef: battle.isEnding,
   });
 
+  const handleGenkiDamaExplode = useCallback(
+    (x: number, y: number, radius: number, multiplier: number) => {
+      if (battle.isEnding.current) return;
+
+      if (Math.hypot(npc.x - x, npc.y - y) <= radius) {
+        battle.playerHit(multiplier, true, true);
+      }
+
+      for (const summon of summons) {
+        if (Math.hypot(summon.x - x, summon.y - y) > radius) continue;
+        damageSummon({
+          target: { id: summon.id, x: summon.x, y: summon.y },
+          multiplier,
+          player,
+          playerClass,
+          progress,
+          playerHP: battle.playerHP,
+          playerMaxHp: battle.playerMaxHp,
+          totalVampirism: battle.totalVampirism,
+          summons,
+          setSummons,
+          giveSummonRewards,
+          spawnDamageRef: refs.spawnDamageRef,
+          registerHitRef: refs.registerHitRef,
+          setPlayerHP: battle.setPlayerHP,
+          deliciaSetter: battle.setDelicia,
+          hitsToSpecial: battle.hitsToSpecial,
+        });
+      }
+    },
+    [
+      battle,
+      npc.x,
+      npc.y,
+      player,
+      playerClass,
+      progress,
+      refs,
+      setSummons,
+      summons,
+      giveSummonRewards,
+    ],
+  );
+
+  const handleGenkiDamaExplodeRef = useLatestRef(handleGenkiDamaExplode);
+
+  const {
+    genkiDamaVisual,
+    press: genkiDamaPress,
+    release: genkiDamaRelease,
+    canUse: genkiDamaUsable,
+  } = useEmanuelGenkiDama({
+    player,
+    setPlayer,
+    battleManaRef,
+    freezeActionsUntilRef,
+    honoredFallRef,
+    genkiDamaRiseStartRef,
+    genkiDamaRiseStartYRef,
+    npc,
+    onExplode: (x, y, radius, multiplier) =>
+      handleGenkiDamaExplodeRef.current(x, y, radius, multiplier),
+    playSound,
+    isPausedRef,
+    disabledRef: cloneDisabledRef,
+    battleEndedRef: battle.isEnding,
+  });
+
   return {
     battle,
     npc,
@@ -905,5 +978,9 @@ export function useBattleCombat({
     kiChargePress,
     kiChargeRelease,
     kiChargeUsable,
+    genkiDamaVisual,
+    genkiDamaPress,
+    genkiDamaRelease,
+    genkiDamaUsable,
   };
 }

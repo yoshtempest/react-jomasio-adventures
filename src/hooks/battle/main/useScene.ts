@@ -412,6 +412,10 @@ export function useBattleScene({
     kiChargePress,
     kiChargeRelease,
     kiChargeUsable,
+    genkiDamaVisual,
+    genkiDamaPress,
+    genkiDamaRelease,
+    genkiDamaUsable,
   } = combat;
 
   vastolordEndingRef.current = battle.isEnding;
@@ -671,5 +675,9 @@ export function useBattleScene({
     kiChargePress,
     kiChargeRelease,
     kiChargeUsable,
+    genkiDamaVisual,
+    genkiDamaPress,
+    genkiDamaRelease,
+    genkiDamaUsable,
   });
 }

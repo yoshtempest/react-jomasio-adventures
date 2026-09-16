@@ -109,6 +109,11 @@ type PlayerActionsContextType = {
   /** Sequência "O Mais Honrado": true enquanto o riquelme está caindo (pouso vira idleCrounched). */
   honoredFallRef: React.RefObject<boolean>;
 
+  /** Genki Dama do emanuel: instante de início da subida (0 = inativa). */
+  genkiDamaRiseStartRef: React.RefObject<number>;
+  /** Genki Dama do emanuel: y do jogador no instante em que ela disparou. */
+  genkiDamaRiseStartYRef: React.RefObject<number>;
+
   /** Combo do emanuel: multiplicador do último step avançado no press. */
   emanuelComboMultiplierRef: React.RefObject<number>;
   /** Combo do emanuel: true quando o último press avançou o combo. */
@@ -226,6 +231,9 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const honoredRiseStartYRef = useRef(0);
   const honoredFallRef = useRef(false);
 
+  const genkiDamaRiseStartRef = useRef(0);
+  const genkiDamaRiseStartYRef = useRef(0);
+
   const battle = useBattleMovement(
     setPlayer,
     battleCollisionRef,
@@ -239,6 +247,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     forcePunchRef,
     emanuelCombo,
     playerRef,
+    genkiDamaRiseStartRef,
+    genkiDamaRiseStartYRef,
   );
   const battleRef = useRef(battle);
   battleRef.current = battle;
@@ -483,6 +493,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       honoredRiseStartRef,
       honoredRiseStartYRef,
       honoredFallRef,
+      genkiDamaRiseStartRef,
+      genkiDamaRiseStartYRef,
       emanuelComboMultiplierRef,
       emanuelComboActiveRef,
       emanuelComboStepIndexRef,
@@ -538,6 +550,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       honoredRiseStartRef,
       honoredRiseStartYRef,
       honoredFallRef,
+      genkiDamaRiseStartRef,
+      genkiDamaRiseStartYRef,
       emanuelComboMultiplierRef,
       emanuelComboActiveRef,
       emanuelComboStepIndexRef,

@@ -4,6 +4,10 @@ import {
   HONORED_ONE_RISE_MS,
   HONORED_ONE_RISE_Y,
 } from "@/gameRules/battle/cursedEnergy";
+import {
+  GENKI_DAMA_RISE_MS,
+  GENKI_DAMA_RISE_Y,
+} from "@/data/characters/emanuel";
 import type { CollisionParams } from "@/utils/types/battle/collision";
 
 export type { CollisionParams };
@@ -19,6 +23,8 @@ export function useBattleGravity(
   honoredRiseStartRef?: RefObject<number>,
   honoredRiseStartYRef?: RefObject<number>,
   honoredFallRef?: RefObject<boolean>,
+  genkiDamaRiseStartRef?: RefObject<number>,
+  genkiDamaRiseStartYRef?: RefObject<number>,
 ) {
   const playerModeInternalRef = useRef(playerModeRef?.current ?? "explore");
   if (playerModeRef) playerModeInternalRef.current = playerModeRef.current;
@@ -33,6 +39,17 @@ export function useBattleGravity(
     honoredRiseStartYInternalRef.current = honoredRiseStartYRef.current;
   const honoredFallInternalRef = useRef(honoredFallRef?.current ?? false);
   if (honoredFallRef) honoredFallInternalRef.current = honoredFallRef.current;
+
+  const genkiDamaRiseStartInternalRef = useRef(
+    genkiDamaRiseStartRef?.current ?? 0,
+  );
+  if (genkiDamaRiseStartRef)
+    genkiDamaRiseStartInternalRef.current = genkiDamaRiseStartRef.current;
+  const genkiDamaRiseStartYInternalRef = useRef(
+    genkiDamaRiseStartYRef?.current ?? 0,
+  );
+  if (genkiDamaRiseStartYRef)
+    genkiDamaRiseStartYInternalRef.current = genkiDamaRiseStartYRef.current;
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -65,6 +82,37 @@ export function useBattleGravity(
             return { ...p, velY: 0, y: targetY };
           }
           return { ...p, velY: 0 };
+        }
+
+        // Genki Dama do emanuel: a subida é manual (300px em 2.5s). Enquanto
+        // prepara (preparingGenkiDama) e durante o arremesso (throwGenkiDama)
+        // o personagem é segurado no topo; a queda só acontece quando o hook
+        // troca para o estado `falling` no release.
+        if (p.state === "genkiDamaRising") {
+          const start = genkiDamaRiseStartInternalRef.current;
+          if (start > 0) {
+            const progress = Math.min(
+              1,
+              (Date.now() - start) / GENKI_DAMA_RISE_MS,
+            );
+            const targetY = Math.max(
+              0,
+              genkiDamaRiseStartYInternalRef.current -
+                GENKI_DAMA_RISE_Y * progress,
+            );
+            return { ...p, velY: 0, y: targetY };
+          }
+          return { ...p, velY: 0 };
+        }
+        if (
+          p.state === "preparingGenkiDama" ||
+          p.state === "throwGenkiDama"
+        ) {
+          const topY = Math.max(
+            0,
+            genkiDamaRiseStartYInternalRef.current - GENKI_DAMA_RISE_Y,
+          );
+          return { ...p, velY: 0, y: topY };
         }
 
         const { map } = collisionRef.current;
@@ -154,5 +202,7 @@ export function useBattleGravity(
     honoredRiseStartRef,
     honoredRiseStartYRef,
     honoredFallRef,
+    genkiDamaRiseStartRef,
+    genkiDamaRiseStartYRef,
   ]);
 }
