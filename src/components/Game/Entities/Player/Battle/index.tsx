@@ -23,6 +23,8 @@ type Props = {
   form?: "vastolordForm";
   /** Silhueta do blink do riquelme: preta (antes do teleporte) ou branca (chegando). */
   blinkSilhouette?: "black" | "white" | null;
+  /** Emanuel segurando a instância: usa o sprite de teleporte no lugar do estado atual. */
+  teleportSprite?: boolean;
 };
 
 const CROUCH_STATE_MAP: Record<string, string> = {
@@ -42,6 +44,7 @@ export function PlayerBattle({
   grabFlipped = false,
   form,
   blinkSilhouette = null,
+  teleportSprite = false,
 }: Props) {
   const resolvedState =
     CROUCH_STATE_MAP[state] ?? (state === "charging" ? "idle" : state);
@@ -49,7 +52,10 @@ export function PlayerBattle({
   const isFallen = state === "fallen";
   const isGrabbed = Date.now() < grabbedUntil && !isFallen && !isCrouching;
   const showFlipped = isGrabbed && grabFlipped;
-  const src = resolveBattleSprite(character, resolvedState, weapon, form);
+  const src =
+    teleportSprite && character === "emanuel"
+      ? playerPath(`/emanuel/inFight/attacks/teleport.svg`)
+      : resolveBattleSprite(character, resolvedState, weapon, form);
   const ARTUR_SEEING_SRC = playerPath("/artur/inFight/special/arturSeeing.svg");
 
   const blinkClass =

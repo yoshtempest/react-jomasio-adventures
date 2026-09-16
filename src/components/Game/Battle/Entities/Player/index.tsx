@@ -8,6 +8,8 @@ type Props = {
   grabFlipped?: boolean;
   form?: "vastolordForm";
   blinkVisual?: BlinkVisual | null;
+  /** Emanuel segurando a instância: troca o sprite para teleport.svg. */
+  teleportSprite?: boolean;
 };
 
 export function Player({
@@ -17,6 +19,7 @@ export function Player({
   grabFlipped = false,
   form,
   blinkVisual = null,
+  teleportSprite = false,
 }: Props) {
   const blinkSilhouette =
     player.character === "riquelme" && blinkVisual
@@ -38,6 +41,7 @@ export function Player({
       grabFlipped={grabFlipped}
       form={form}
       blinkSilhouette={blinkSilhouette}
+      teleportSprite={teleportSprite}
     />
   );
 }

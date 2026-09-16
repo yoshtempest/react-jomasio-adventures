@@ -152,6 +152,7 @@ export function BattleEntities({
         grabFlipped={grabFlipped}
         form={playerForm}
         blinkVisual={blinkVisual}
+        teleportSprite={emanuelClone != null}
       />
 
       {blinkVisual && player.character === "riquelme" && (
