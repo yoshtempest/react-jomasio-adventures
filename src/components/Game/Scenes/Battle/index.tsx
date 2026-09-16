@@ -5,6 +5,7 @@ import { CursedEnergyButton } from "@/components/Game/Battle/Buttons/CursedEnerg
 import { BlinkButton } from "@/components/Game/Battle/Buttons/Blink";
 import { DivergentFistButton } from "@/components/Game/Battle/Buttons/DivergentFist";
 import { EmanuelCloneButton } from "@/components/Game/Battle/Buttons/EmanuelClone";
+import { EmanuelKiChargeButton } from "@/components/Game/Battle/Buttons/EmanuelKiCharge";
 import { GameMap } from "@/components/Game/Map/Game";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useGameLayout } from "@/hooks/game/useGameLayout";
@@ -148,6 +149,9 @@ export function BattleScene(props: Props) {
     clonePress,
     cloneRelease,
     cloneUsable,
+    kiChargePress,
+    kiChargeRelease,
+    kiChargeUsable,
   } = useBattleScene({ ...props, isAlfa, PLAYER_SIZE });
 
   const { setBattleCollision } = usePlayerActions();
@@ -542,6 +546,16 @@ export function BattleScene(props: Props) {
           disabled={controlsDisabled || !cloneUsable}
           onPress={clonePress}
           onRelease={cloneRelease}
+        />
+      )}
+
+      {player.character === "emanuel" && (
+        <EmanuelKiChargeButton
+          energy={battleMana?.playerMana ?? 0}
+          energyMax={battleMana?.playerMaxMana ?? 100}
+          disabled={controlsDisabled || !kiChargeUsable}
+          onPress={kiChargePress}
+          onRelease={kiChargeRelease}
         />
       )}
 

@@ -369,7 +369,11 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   );
 
   const restoreMode = useCallback(() => {
-    setPlayer((p) => ({ ...p, mode: previousModeRef.current }));
+    // Nunca derrubar o mode "battle": fechar uma navbar da exploração durante
+    // o início de uma batalha não pode reverter o mode da cena de luta.
+    setPlayer((p) =>
+      p.mode === "battle" ? p : { ...p, mode: previousModeRef.current },
+    );
   }, [setPlayer]);
 
   useEffect(() => {

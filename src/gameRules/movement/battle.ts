@@ -41,6 +41,7 @@ export function canAct(player: Player) {
     player.state !== "stun" &&
     player.state !== "dash" &&
     player.state !== "charging" &&
+    player.state !== "chargingKi" &&
     player.state !== "mostHonored"
   );
 }
@@ -190,6 +191,7 @@ export function idleBattle(p: Player): Player {
       p.state === "jump" ||
       p.state === "dash" ||
       p.state === "charging" ||
+      p.state === "chargingKi" ||
       p.state === "mostHonored"
         ? p.state
         : "idle",

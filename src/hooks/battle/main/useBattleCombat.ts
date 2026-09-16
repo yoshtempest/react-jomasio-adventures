@@ -25,6 +25,7 @@ import { useStatusDots } from "@/hooks/battle/effects/useStatusDots";
 import { useTrainingEffects } from "@/hooks/battle/effects/useTrainingEffects";
 import { useArturBattle } from "@/hooks/battle/player/characters/srGuaxinim/useArturBattle";
 import { useEmanuelClone } from "@/hooks/battle/player/characters/ematron/useEmanuelClone";
+import { useEmanuelKiCharge } from "@/hooks/battle/player/characters/ematron/useEmanuelKiCharge";
 import {
   getWeaponEnchantment,
   rollEnchantmentProc,
@@ -850,6 +851,20 @@ export function useBattleCombat({
     battleEndedRef: battle.isEnding,
   });
 
+  const {
+    press: kiChargePress,
+    release: kiChargeRelease,
+    canUse: kiChargeUsable,
+  } = useEmanuelKiCharge({
+    player,
+    setPlayer,
+    battleManaRef,
+    freezeActionsUntilRef,
+    isPausedRef,
+    disabledRef: cloneDisabledRef,
+    battleEndedRef: battle.isEnding,
+  });
+
   return {
     battle,
     npc,
@@ -887,5 +902,8 @@ export function useBattleCombat({
     clonePress,
     cloneRelease,
     cloneUsable,
+    kiChargePress,
+    kiChargeRelease,
+    kiChargeUsable,
   };
 }

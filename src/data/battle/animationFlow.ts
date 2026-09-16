@@ -52,6 +52,10 @@ export const animationFlow: Record<PlayerState, AnimationStep | null> = {
 
   charging: { next: "idle", duration: FIVE_HUNDRED_MS },
 
+  // Carga de Ki do emanuel: estado controlado pelo hold do botão (useEmanuelKiCharge),
+  // não avança sozinho — o release volta para idle.
+  chargingKi: null,
+
   blocked: null,
   blockAttack: { next: "idle", duration: THREE_HUNDRED_MS },
 

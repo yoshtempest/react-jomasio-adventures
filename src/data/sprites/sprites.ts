@@ -110,6 +110,9 @@ export const STATE_FOLDER: Record<string, string | null> = {
   blocked: null,
   stun: null,
   charging: null,
+  // Carga de Ki do emanuel: resolves para a pasta `attacks/` (same file exists
+  // só lá: `inFight/attacks/chargingKi.svg`).
+  chargingKi: "attacks",
   fallen: null,
 
   // Combo do emanuel: golpes resolvem para a pasta `attacks/` via

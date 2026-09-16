@@ -409,6 +409,9 @@ export function useBattleScene({
     clonePress,
     cloneRelease,
     cloneUsable,
+    kiChargePress,
+    kiChargeRelease,
+    kiChargeUsable,
   } = combat;
 
   vastolordEndingRef.current = battle.isEnding;
@@ -665,5 +668,8 @@ export function useBattleScene({
     clonePress,
     cloneRelease,
     cloneUsable,
+    kiChargePress,
+    kiChargeRelease,
+    kiChargeUsable,
   });
 }

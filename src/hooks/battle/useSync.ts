@@ -120,10 +120,12 @@ export function useBattleSync({
 
   // Set battle mode and close overlays on mount
   useEffect(() => {
-    setModeRef.current("battle");
     closeInventoryRef.current();
     closeNavbarRef.current();
     resetBattleNavbarRef.current();
+    // setMode(battle) por último: closeNavbar/restoreMode (navbar de exploração
+    // aberta ao entrar na batalha) não podem sobrescrever o mode da luta.
+    setModeRef.current("battle");
   }, [setModeRef, closeInventoryRef, closeNavbarRef, resetBattleNavbarRef]);
 
   // Safety: fecha a BattleNavbar ao desmontar (sem restaurar modo).

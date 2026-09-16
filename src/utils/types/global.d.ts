@@ -315,6 +315,7 @@ declare global {
     | "special"
     | "dash"
     | "charging"
+    | "chargingKi"
     | "preAttack"
     | "preWalk"
     | "preJump"

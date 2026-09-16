@@ -107,4 +107,7 @@ export type BattleSceneApi = {
   clonePress: () => void;
   cloneRelease: () => void;
   cloneUsable: boolean;
+  kiChargePress: () => void;
+  kiChargeRelease: () => void;
+  kiChargeUsable: boolean;
 };

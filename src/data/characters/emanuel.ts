@@ -25,6 +25,12 @@ export const EMANUEL_CLONE_MOVE_PX = 10;
 export const EMANUEL_CLONE_COLLISION_W = 30;
 export const EMANUEL_CLONE_COLLISION_H = 50;
 
+// ── Habilidade de carga de Ki ────────────────────────────────────────────────
+/** Intervalo do tick de recarga: +1 de Ki a cada 100ms enquanto segura. */
+export const EMANUEL_KI_CHARGE_TICK_MS = 100;
+/** Quantidade de Ki restaurada por tick da carga. */
+export const EMANUEL_KI_CHARGE_PER_TICK = 1;
+
 export type EmanuelComboStep = {
   state: PlayerState;
   multiplier: number;
