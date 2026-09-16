@@ -159,6 +159,7 @@ export function useEmanuelClone({
         groundY: ground,
         velY: 0,
         state: "idle",
+        battleDirection: dirRef.current,
       };
     });
 
