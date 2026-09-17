@@ -60,6 +60,12 @@ export const GENKI_DAMA_LAND_CROUCH_MS = 150;
 export const GENKI_DAMA_BASE_SIZE = 44;
 /** Altura da Genki Dama acima do personagem durante o preparing. */
 export const GENKI_DAMA_HOVER_OFFSET = 70;
+/** Proporção altura/largura do sprite `genkiDama.svg` (761x642). */
+export const GENKI_DAMA_SPRITE_ASPECT = 642 / 761;
+/** Multiplicador de tamanho do chargeEffect em relação à Genki Dama (sempre maior). */
+export const GENKI_DAMA_CHARGE_EFFECT_SIZE_MULTIPLIER = 1.6;
+/** Proporção altura/largura do sprite `chargeEffect.svg` (1000x667). */
+export const GENKI_DAMA_CHARGE_EFFECT_ASPECT = 667 / 1000;
 
 export type EmanuelComboStep = {
   state: PlayerState;

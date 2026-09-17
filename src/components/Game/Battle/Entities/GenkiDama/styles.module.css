@@ -1,0 +1,29 @@
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes blink {
+  0% {
+    filter: none;
+  }
+
+  50% {
+    filter: brightness(0) invert(1);
+  }
+}
+
+.chargeEffect {
+  position: absolute;
+  pointer-events: none;
+  animation: spin 1s linear infinite, blink 2s linear infinite;
+  transform: translate(-50%, -50%);
+}
+
+.genkiDama {
+  pointer-events: none;
+  animation: spin 1s linear infinite, blink 2s linear infinite;
+}

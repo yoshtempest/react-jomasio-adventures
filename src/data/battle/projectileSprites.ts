@@ -1,6 +1,7 @@
 import {
   npcPathPets,
   npcPathProjectile,
+  playerPath,
   playerProjectilePath,
 } from "@/utils/paths";
 
@@ -17,4 +18,5 @@ export const spriteMap: Record<string, string> = {
   redSphere: playerProjectilePath("/redSphere.svg"),
   purpleSphere: playerProjectilePath("/purpleSphere.svg"),
   genkiDama: playerProjectilePath("/genkiDama.svg"),
+  genkiDamaChargeEffect: playerPath("/emanuel/inFight/attacks/chargeEffect.svg"),
 };
