@@ -29,6 +29,12 @@ export function useProjectile(
   const onPullPlayerRef = useLatestRef(onPullPlayer);
   const onMissRef = useLatestRef(onMiss);
   const onStickRef = useLatestRef(onStick);
+  const playerXRef = useLatestRef(playerX);
+  const playerYRef = useLatestRef(playerY);
+  const playerStateRef = useLatestRef(playerState);
+  const playerCharacterRef = useLatestRef(playerCharacter);
+  const playerDirectionRef = useLatestRef(_playerDirection);
+  const npcClassRef = useLatestRef(npcClass);
 
   useEffect(() => {
     const count = projectiles.length;
@@ -45,12 +51,12 @@ export function useProjectile(
           switch (p.variant) {
             case "common":
               return handleLinearProjectile(p, {
-                playerX,
-                playerY,
-                playerState,
-                playerCharacter,
-                playerDirection: _playerDirection,
-                npcClass,
+                playerX: playerXRef.current,
+                playerY: playerYRef.current,
+                playerState: playerStateRef.current,
+                playerCharacter: playerCharacterRef.current,
+                playerDirection: playerDirectionRef.current,
+                npcClass: npcClassRef.current,
                 onHit: onHitRef.current,
                 onMiss: (x) => {
                   misses.push(x);
@@ -61,19 +67,24 @@ export function useProjectile(
               });
             case "pull":
               return handleLinearProjectile(p, {
-                playerX,
-                playerY,
-                playerState,
-                playerCharacter,
-                playerDirection: _playerDirection,
-                npcClass,
+                playerX: playerXRef.current,
+                playerY: playerYRef.current,
+                playerState: playerStateRef.current,
+                playerCharacter: playerCharacterRef.current,
+                playerDirection: playerDirectionRef.current,
+                npcClass: npcClassRef.current,
                 onHit: onHitRef.current,
                 onPullPlayer: onPullPlayerRef.current,
               });
             case "cut":
               return updateSlicedProjectile(p);
             case "rain":
-              return handleRain(p, playerX, playerState, onHitRef.current);
+              return handleRain(
+                p,
+                playerXRef.current,
+                playerStateRef.current,
+                onHitRef.current,
+              );
           }
         })
         .filter((p): p is Projectile => p !== null);
@@ -86,18 +97,18 @@ export function useProjectile(
     return () => clearInterval(interval);
   }, [
     projectiles,
-    playerX,
-    playerY,
-    playerState,
-    playerCharacter,
-    _playerDirection,
-    npcClass,
     setProjectiles,
     hitstopRef,
     onHitRef,
     onPullPlayerRef,
     onMissRef,
     onStickRef,
+    playerXRef,
+    playerYRef,
+    playerStateRef,
+    playerCharacterRef,
+    playerDirectionRef,
+    npcClassRef,
   ]);
 }
 
