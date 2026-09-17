@@ -8,6 +8,7 @@ import { useLatestRef } from "@/hooks/useLatestRef";
 import { logPlay } from "@/utils/replay/audioEventLog";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
+import { isPlayerFloating } from "@/gameRules/movement/battle";
 import { combatService } from "@/services/combat";
 import { getBabidiBlockReflect } from "@/gameRules/battle/babidiBlock";
 
@@ -212,7 +213,7 @@ export function useNpcBattle({
   const npcMeleeHit = useCallback(
     (multiplier = 1) => {
       if (isEnding.current) return;
-      if (player.state === "mostHonored") return;
+      if (player.state === "mostHonored" || isPlayerFloating(player.state)) return;
 
       const skipCooldown = npcType === "maurao" && npcPhase >= 2;
 

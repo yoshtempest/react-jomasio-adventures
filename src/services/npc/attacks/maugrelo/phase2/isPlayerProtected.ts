@@ -1,3 +1,5 @@
+import { isPlayerFloating } from "@/gameRules/movement/battle";
+
 export function isPlayerProtected(playerState: PlayerState): boolean {
   return (
     playerState === "idleCrounched" ||
@@ -9,6 +11,7 @@ export function isPlayerProtected(playerState: PlayerState): boolean {
     playerState === "fallingAttack" ||
     playerState === "specialInAir" ||
     playerState === "preSpecialInAir" ||
-    playerState === "specialInAirFinish"
+    playerState === "specialInAirFinish" ||
+    isPlayerFloating(playerState)
   );
 }

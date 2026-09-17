@@ -53,6 +53,18 @@ export function isInBattle(player: Player) {
   return player.mode === "battle";
 }
 
+/**
+ * Estados da Genki Dama do Emanuel em que o personagem flutua para o alto e a
+ * hitbox sobe junto — golpes de chão (melee, laser) não alcançam.
+ */
+export function isPlayerFloating(state: PlayerState) {
+  return (
+    state === "genkiDamaRising" ||
+    state === "preparingGenkiDama" ||
+    state === "throwGenkiDama"
+  );
+}
+
 export function canExitState(player: Player) {
   return (
     player.state !== "blocked" &&
