@@ -27,9 +27,6 @@ export function BattleTab({
     <div className={styles.battleContainer}>
       {!battleInfo && !isInBattle && (
         <>
-          <p className={styles.empty}>
-            Abra as configurações durante uma batalha para ver as informações.
-          </p>
           <div
             className={`${styles.toggleItem} ${selectedIndex === 0 ? styles.selected : ""}`}
           >
