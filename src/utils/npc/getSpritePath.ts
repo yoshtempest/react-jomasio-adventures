@@ -8,17 +8,23 @@ export function getSpritePath(
 ): string {
   if (npcType === "deise") {
     if (npcPhase === 2) {
-      return npcPath(`/deise/phase2/${state}.svg`);
+      // A transição de fase (usePhaseTransition) força o estado "pitch", mas
+      // a Deise não tem `phase2/pitch.svg` → resolvia para 404 e ela ficava
+      // invisível por um instante. Cai em idle.svg (sprite `pitch` inexistente).
+      const phase2State = state === "pitch" ? "idle" : state;
+      return npcPath(`/deise/phase2/${phase2State}.svg`);
     }
     return npcPath(`/deise/${state}.svg`);
   }
 
   if (npcType === "slimita") {
     if (npcPhase === 2) {
-      if (state === "jumping") {
+      // O estado "pitch" (transição de fase) não tem sprite → cai em idle.svg.
+      const phase2State = state === "pitch" ? "idle" : state;
+      if (phase2State === "jumping") {
         return npcPath("/slimita/phase2/air.svg");
       }
-      return npcPath(`/slimita/phase2/${state}.svg`);
+      return npcPath(`/slimita/phase2/${phase2State}.svg`);
     }
     return npcPath(`/slimita/${state}.svg`);
   }
@@ -29,7 +35,9 @@ export function getSpritePath(
 
   if (npcType === "maurao") {
     if (npcPhase === 2) {
-      return npcPath(`/maurao/phase2/${state}.svg`);
+      // O estado "pitch" (transição de fase) não tem sprite → cai em idle.svg.
+      const phase2State = state === "pitch" ? "idle" : state;
+      return npcPath(`/maurao/phase2/${phase2State}.svg`);
     }
     return npcPath(`/maurao/${state}.svg`);
   }
