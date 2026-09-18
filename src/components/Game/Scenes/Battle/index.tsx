@@ -37,6 +37,7 @@ import { useTitles } from "@/contexts/TitleContext";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { useBattleNavbar } from "@/contexts/BattleNavbarContext";
 import { useBattleMana } from "@/contexts/BattleManaContext";
+import { useCameraShake } from "@/hooks/battle/effects/useCameraShake";
 import { LUCAS_WEAPON_SWITCH_MANA_COST } from "@/gameRules/battle/mana";
 import {
   CURSED_ENERGY_HEAL_RATIO,
@@ -195,6 +196,8 @@ export function BattleScene(props: Props) {
   const worldOffsetY =
     (containerHeight * 0.5 * (bgPosY - initialBgPosRef.current.y)) / 100;
 
+  const shake = useCameraShake(battle.damageNumbers);
+
   const battleScaleX = window.innerWidth / ProjectileConstants.MAP_WIDTH;
   const battleScaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;
 
@@ -299,7 +302,7 @@ export function BattleScene(props: Props) {
           ? {
               backgroundImage: `url(${background})`,
               backgroundSize: "150% 150%",
-              backgroundPosition: `${bgPosX}% ${bgPosY}%`,
+              backgroundPosition: `calc(${bgPosX}% + ${shake.x}px) calc(${bgPosY}% + ${shake.y}px)`,
             }
           : undefined
       }
@@ -336,8 +339,8 @@ export function BattleScene(props: Props) {
           TILE_SIZE={TILE_SIZE}
           cols={MAP_COLS}
           rows={MAP_ROWS}
-          cameraX={worldOffsetX}
-          cameraY={worldOffsetY}
+          cameraX={worldOffsetX + shake.x}
+          cameraY={worldOffsetY + shake.y}
         >
           {map && <BattleMap map={map} />}
 
