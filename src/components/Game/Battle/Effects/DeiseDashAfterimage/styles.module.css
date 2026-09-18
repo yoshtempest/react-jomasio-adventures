@@ -1,0 +1,13 @@
+.afterimage {
+  animation: deiseAfterimageIn 300ms ease-out forwards;
+}
+
+@keyframes deiseAfterimageIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 0.85;
+  }
+}

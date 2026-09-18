@@ -34,6 +34,7 @@ export const TWO_THOUSAND_MS = 2000;
 export const THREE_THOUSAND_MS = 3000;
 export const FOUR_THOUSAND_MS = 4000;
 export const FIVE_THOUSAND_MS = 5000;
+export const SIX_THOUSAND_MS = 6000;
 export const SEVEN_THOUSAND_MS = 7000;
 export const EIGHT_THOUSAND_MS = 8000;
 

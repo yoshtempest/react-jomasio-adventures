@@ -1,4 +1,4 @@
-import { playerPath } from "@/utils/paths";
+import { effectsPath } from "@/utils/paths";
 import { ProjectileConstants } from "@/data/projectile";
 import styles from "./styles.module.css";
 
@@ -26,6 +26,8 @@ type Props = {
  * Sobreposição do Punho Divergente do riquelme: exibe `one.svg` → `eight.svg`
  * sobre o inimigo, cada sprite com `DIVERGENT_FIST_FRAME_MS` de duração. O
  * inimigo é empurrado e recebe a segunda instância de dano no sprite `four`.
+ * Os sprites vivem em `assets/effects/divergent/` (compartilhados — podem ser
+ * usados por outros NPCs/efeitos sem depender da pasta do riquelme).
  */
 export function DivergentFistAnimation({
   frame,
@@ -46,9 +48,7 @@ export function DivergentFistAnimation({
   const imgHeight = npcHeight * 2;
   const imgWidth = imgHeight * SPRITE_ASPECT;
 
-  const src = playerPath(
-    `/riquelme/inFight/attacks/divergent/${spriteName}.svg`,
-  );
+  const src = effectsPath(`/divergent/${spriteName}.svg`);
 
   return (
     <img

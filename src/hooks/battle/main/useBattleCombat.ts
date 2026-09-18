@@ -273,6 +273,17 @@ export function useBattleCombat({
           pullStartTime: Date.now(),
         };
       }),
+    onRamPushPlayer: (direction: "left" | "right", toX: number) =>
+      setPlayer((p) => {
+        if (p.mode !== "battle") return p;
+        const x = Math.max(
+          BATTLE_LIMITS.minX,
+          Math.min(BATTLE_LIMITS.maxX, toX),
+        );
+        return { ...p, x, battleDirection: direction };
+      }),
+    lastBlockPressRef,
+    lastAttackPressRef,
     onGroundPaperHit: () => battle.npcThrowHit(2),
     onPaperExplode: () => {},
     onArmorBuff: (x: number, y: number) => {

@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { getNpcAttack } from "@/services/npc";
 import { useProjectile } from "./useProjectile";
+import { isParryPress } from "@/hooks/battle/npc/useBlocking";
 import {
   getNpcDirection,
   getNpcState,
@@ -76,6 +77,9 @@ type Props = {
   onThrowStart?: (npcX: number, npcDirection: "left" | "right") => void;
   onThrowPlayer?: (damageMultiplier: number) => void;
   onPushPlayer?: (npcX: number) => void;
+  onRamPushPlayer?: (direction: "left" | "right", toX: number) => void;
+  lastBlockPressRef?: React.RefObject<number>;
+  lastAttackPressRef?: React.RefObject<number>;
   onGroundPaperHit?: () => void;
   onPaperExplode?: () => void;
   onArmorBuff?: (x: number, y: number) => void;
@@ -111,6 +115,9 @@ export function useNpcAI({
   onThrowStart,
   onThrowPlayer,
   onPushPlayer,
+  onRamPushPlayer,
+  lastBlockPressRef,
+  lastAttackPressRef,
   onGroundPaperHit,
   onPaperExplode,
   onArmorBuff,
@@ -167,6 +174,7 @@ export function useNpcAI({
   const onThrowStartRef = useLatestRef(onThrowStart);
   const onThrowPlayerRef = useLatestRef(onThrowPlayer);
   const onPushPlayerRef = useLatestRef(onPushPlayer);
+  const onRamPushPlayerRef = useLatestRef(onRamPushPlayer);
   const onGroundPaperHitRef = useLatestRef(onGroundPaperHit);
   const onPaperExplodeRef = useLatestRef(onPaperExplode);
   const onArmorBuffRef = useLatestRef(onArmorBuff);
@@ -329,6 +337,10 @@ export function useNpcAI({
           onThrowStart: (x, d) => onThrowStartRef.current?.(x, d),
           onThrowPlayer: (mult) => onThrowPlayerRef.current?.(mult),
           onPushPlayer: (x) => onPushPlayerRef.current?.(x),
+          onRamPushPlayer: (direction, toX) =>
+            onRamPushPlayerRef.current?.(direction, toX),
+          isPlayerParrying: () =>
+            isParryPress(lastBlockPressRef, lastAttackPressRef),
           onGroundPaperHit: onGroundPaperHitRef.current,
           onPaperExplode: onPaperExplodeRef.current,
           onArmorBuff: onArmorBuffRef.current,
@@ -394,6 +406,9 @@ export function useNpcAI({
     onThrowPlayerRef,
     onThrowStartRef,
     onPushPlayerRef,
+    onRamPushPlayerRef,
+    lastBlockPressRef,
+    lastAttackPressRef,
     onGroundPaperHitRef,
     onPaperExplodeRef,
     onArmorBuffRef,

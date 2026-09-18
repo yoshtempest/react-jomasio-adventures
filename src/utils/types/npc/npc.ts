@@ -65,12 +65,17 @@ export type NPCBattleState = {
     };
     deise?: {
       knownPhase: number;
-      phase2OpeningDone: boolean;
-      phase2PitchEnd: number;
       lastStaffThrow: number;
       lastSummon: number;
       lastAction: number;
-      lastSpearRain: number;
+      dashState: "idle" | "windUp" | "dashing" | "postDash";
+      dashStart: number;
+      dashStartX: number;
+      dashDirection: "left" | "right";
+      dashEndX: number;
+      lastDash: number;
+      lastDashDamage: number;
+      postDashStart: number;
     };
     hungryKing?: {
       knownPhase: number;

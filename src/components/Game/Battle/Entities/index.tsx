@@ -17,6 +17,7 @@ import { ExtraPunch } from "./ExtraPunch";
 import { SpecialProjectile } from "./SpecialProjectile";
 import { LootBag } from "./LootBag";
 import { BlinkAfterimage } from "@/components/Game/Battle/Effects/BlinkAfterimage";
+import { DeiseDashAfterimage } from "@/components/Game/Battle/Effects/DeiseDashAfterimage";
 import type { BattleEntitiesBattle, MainNpcState } from "./types";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { PetState } from "@/hooks/battle/player/pets/usePet";
@@ -111,6 +112,17 @@ export function BattleEntities({
       />
 
       <NpcProjectile projectiles={npc.projectiles} groundY={player.y} />
+
+      {npc.ai?.deise?.dashState === "dashing" && (
+        <DeiseDashAfterimage
+          npcX={npc.x}
+          npcY={npc.y}
+          direction={npc.direction}
+          npcType={npcType}
+          npcPhase={battle.npcPhase}
+          TILE_SIZE={TILE_SIZE}
+        />
+      )}
 
       <GroundPaper
         papers={npc.groundPapers}

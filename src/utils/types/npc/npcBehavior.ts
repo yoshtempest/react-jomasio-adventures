@@ -27,6 +27,10 @@ export type BehaviorContext = {
   onThrowStart?: (npcX: number, npcDirection: "left" | "right") => void;
   onThrowPlayer?: (damageMultiplier: number) => void;
   onPushPlayer?: (npcX: number) => void;
+  /** Empurra o jogador para `toX` (sem tween) na direção informada. */
+  onRamPushPlayer?: (direction: "left" | "right", toX: number) => void;
+  /** true quando o jogador tocou block/attack nos últimos 0-50ms (janela de parry). */
+  isPlayerParrying?: () => boolean;
   onGroundPaperHit?: () => void;
   onPaperExplode?: () => void;
   onArmorBuff?: (x: number, y: number) => void;
