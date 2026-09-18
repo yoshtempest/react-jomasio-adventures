@@ -1,3 +1,9 @@
+@property --delicia-rotation {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
 .container {
   position: relative;
   width: var(--size-50);
@@ -6,9 +12,75 @@
   background: var(--border-default);
 }
 
+.border {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: conic-gradient(
+    from var(--delicia-rotation),
+    transparent 0deg,
+    var(--accent-color) 18deg,
+    var(--gold) 36deg,
+    transparent 54deg
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  animation: delicia-rotate 1.6s linear infinite;
+}
+
+.border.full {
+  animation:
+    delicia-rotate 1.6s linear infinite,
+    delicia-blink 0.35s linear infinite;
+}
+
 .image {
   width: 100%;
   height: 100%;
+}
+
+.fullContainer {
+  animation:
+    delicia-container 2s linear infinite;
+  box-shadow:
+    0 0 2px rgba(255, 255, 255, 0.9),
+    0 0 6px rgba(0, 255, 255, 0.45);
+  border-width: var(--size-1);
+}
+
+@keyframes delicia-rotate {
+  to {
+    --delicia-rotation: 360deg;
+  }
+}
+
+@keyframes delicia-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.25;
+  }
+}
+
+@keyframes delicia-container {
+  0%,
+  100% {
+    filter: brightness(0.9);
+  }
+
+  50% {
+    filter: brightness(1.1);
+  }
 }
 
 .needle {

@@ -10,6 +10,8 @@ type Props = {
 
 export function Deliciometro({ delicia, hitsToSpecial = 9 }: Props) {
   const angle = (delicia / hitsToSpecial) * 180 - 90;
+  const charge = Math.min(1, delicia / hitsToSpecial);
+  const isFull = delicia >= hitsToSpecial;
 
   const hasPlayedRef = useRef(false);
   const { playSound } = useSoundEffects();
@@ -28,7 +30,14 @@ export function Deliciometro({ delicia, hitsToSpecial = 9 }: Props) {
   }, [delicia, hitsToSpecial, playSound]);
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${isFull ? styles.fullContainer : ""}`}>
+      <div
+        className={`${styles.border} ${isFull ? styles.full : ""}`}
+        style={{
+          opacity: 0.4 + charge * 0.9,
+          padding: `${1 + charge * 2}px`,
+        }}
+      />
       <img src={asset("/assets/deliciometro.svg")} className={styles.image} />
       <div
         className={styles.needle}
