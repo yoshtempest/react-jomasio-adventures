@@ -30,6 +30,10 @@ export const EMANUEL_CLONE_COLLISION_H = 50;
 export const EMANUEL_KI_CHARGE_TICK_MS = 100;
 /** Quantidade de Ki restaurada por tick da carga. */
 export const EMANUEL_KI_CHARGE_PER_TICK = 1;
+/** Tamanho base do effect `chargingKiEffect.svg` em relação ao personagem (1.2x). */
+export const EMANUEL_KI_CHARGE_EFFECT_SIZE_MULTIPLIER = 1.2;
+/** Proporção altura/largura do sprite `chargingKiEffect.svg` (600x508). */
+export const EMANUEL_KI_CHARGE_EFFECT_ASPECT = 508 / 600;
 
 // ── Habilidade Genki Dama ────────────────────────────────────────────────────
 /** Custo inicial (Ki) para iniciar a habilidade. */

@@ -2,11 +2,15 @@ import { useEffect, useRef, useState } from "react";
 import { resolveBattleSprite, playerPath } from "@/utils/paths";
 import { ProjectileConstants } from "@/data/projectile";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
-import { HONORED_ONE_RISE_MS } from "@/gameRules/battle/cursedEnergy";
 import {
+  HONORED_ONE_RISE_MS,
   BLINK_UNTIL_TELEPORT_MS,
   BLINK_SILHOUETTE_FADE_MS,
 } from "@/gameRules/battle/cursedEnergy";
+import {
+  EMANUEL_KI_CHARGE_EFFECT_ASPECT,
+  EMANUEL_KI_CHARGE_EFFECT_SIZE_MULTIPLIER,
+} from "@/data/characters/emanuel";
 import styles from "./styles.module.css";
 
 type Props = {
@@ -48,6 +52,7 @@ export function PlayerBattle({
 }: Props) {
   const resolvedState =
     CROUCH_STATE_MAP[state] ?? (state === "charging" ? "idle" : state);
+  const isChargingKi = character === "emanuel" && state === "chargingKi";
   const isCrouching = state === "idleCrounched" || state === "walkCrounched";
   const isFallen = state === "fallen";
   const isGrabbed = Date.now() < grabbedUntil && !isFallen && !isCrouching;
@@ -119,6 +124,10 @@ export function PlayerBattle({
   const WIDTH = (ProjectileConstants.MAP_WIDTH * SCALE) / 1.5;
   const HEIGHT = (ProjectileConstants.MAP_HEIGHT * SCALE) / 1.5;
 
+  const chargingEffectHeight = HEIGHT * EMANUEL_KI_CHARGE_EFFECT_SIZE_MULTIPLIER;
+  const chargingEffectWidth =
+    chargingEffectHeight / EMANUEL_KI_CHARGE_EFFECT_ASPECT;
+
   return (
     <div
       style={{
@@ -132,6 +141,19 @@ export function PlayerBattle({
         overflow: "visible", // important to dont cut the image
       }}
     >
+      {isChargingKi && (
+        <img
+          src={playerPath("/emanuel/inFight/attacks/chargingKiEffect.svg")}
+          className={styles.chargingKiEffect}
+          style={{
+            height: chargingEffectHeight,
+            width: chargingEffectWidth,
+            left: "50%",
+            bottom: 0,
+            transform: "translateX(-50%)",
+          }}
+        />
+      )}
       <img
         src={src}
         className={blinkClass}
