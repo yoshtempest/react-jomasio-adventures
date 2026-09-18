@@ -6,7 +6,6 @@ import { ElementBadges } from "@/components/Game/Battle/HUD/ElementBadges";
 import { playerPath } from "@/utils/paths";
 import type { ElementType } from "@/utils/types/battle/element";
 import styles from "@/components/Game/Battle/HUD/styles.module.css";
-import { asset } from "@/utils/paths";
 import { hasManaBar } from "@/gameRules/battle/mana";
 // import { characterFaceStyle } from "@/utils/character/elementFace";
 // import type { CharacterOption } from "@/utils/types/player/character";
@@ -34,7 +33,6 @@ export function PlayerHUDPanel({
   // characterColor,
   character,
   playerName,
-  playerRank,
   playerLevel,
   playerElementTypes,
   hp,
@@ -57,10 +55,7 @@ export function PlayerHUDPanel({
           className="hudImage"
           // style={characterFaceStyle(characterColor.image)}
         />
-        <img
-          src={asset(`/assets/badges/ranks/${playerRank}`)}
-          className={`${styles.rankBadge} ${styles.playerRankBadge}`}
-        />
+        <BlockGauge blockGauge={blockGauge} blockLimit={blockLimit} />
       </div>
       <div className={styles.playerInfo}>
         <div className={styles.nameRow}>
@@ -83,7 +78,7 @@ export function PlayerHUDPanel({
                 />
               </div>
             )}
-            <BlockGauge blockGauge={blockGauge} blockLimit={blockLimit} />
+            
             {energy != null && <EnergyBar label="REIRYOKU" value={energy} />}
             {hasManaBar(character) && mana != null && maxMana != null && (
               <EnergyBar
@@ -101,8 +96,8 @@ export function PlayerHUDPanel({
                 tone={character === "riquelme" ? "cursed" : "mana"}
               />
             )}
+            <Deliciometro delicia={delicia} hitsToSpecial={hitsToSpecial} />
           </div>
-          <Deliciometro delicia={delicia} hitsToSpecial={hitsToSpecial} />
         </div>
       </div>
     </div>

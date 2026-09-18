@@ -1,10 +1,14 @@
 .container {
   position: relative;
-  width: var(--size-200);
+  width: var(--size-300);
   height: var(--low-medium);
   border: var(--size-2) solid var(--surface-dark);
   background: var(--border-default);
+  background: #071b24;
   overflow: hidden;
+  box-shadow:
+    0 0 2px rgba(255, 255, 255, 0.9),
+    0 0 6px rgba(0, 255, 255, 0.45);
 }
 
 .fill {
@@ -12,6 +16,7 @@
   transition:
     width 0.2s,
     background 0.2s;
+  position: relative;
 }
 
 .text {
@@ -28,4 +33,37 @@
   font-weight: bold;
   text-shadow: var(--size-1) var(--size-1) var(--size-2) var(--surface-dark);
   pointer-events: none;
+}
+
+.fill::after {
+  content: "";
+
+  position: absolute;
+  top: 0;
+
+  width: 35%;
+  height: 100%;
+
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.15) 25%,
+    rgba(255, 255, 255, 0.8) 50%,
+    rgba(255, 255, 255, 0.15) 75%,
+    transparent 100%
+  );
+
+  transform: skewX(-20deg);
+
+  animation: healthBarShine 1.8s linear infinite;
+}
+
+@keyframes healthBarShine {
+  from {
+    left: 0%;
+  }
+
+  to {
+    left: 100%;
+  }
 }

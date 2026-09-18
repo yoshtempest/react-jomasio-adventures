@@ -19,7 +19,7 @@ export function BlockGauge({ blockGauge, blockLimit }: Props) {
         }}
       />
       <div className={styles.text}>
-        BLOCK {blockGauge}/{blockLimit}
+        block {blockGauge}/{blockLimit}
       </div>
     </div>
   );

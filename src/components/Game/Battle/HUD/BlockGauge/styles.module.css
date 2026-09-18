@@ -1,11 +1,12 @@
 .colorEffect {
   margin-top: var(--size-2);
-  width: var(--size-200);
+  width: 100%;
   height: var(--smaller);
   border: var(--size-1) solid #5599ff;
   background-color: #1a3355;
   overflow: hidden;
   position: relative;
+  border-radius: var(--size-2);
 }
 
 .fill {

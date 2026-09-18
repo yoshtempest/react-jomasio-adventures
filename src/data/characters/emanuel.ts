@@ -49,9 +49,9 @@ export const GENKI_DAMA_DRAIN_END_INTERVAL_MS = 40;
 /** Tempo para o dreno rampar do intervalo inicial ao final (5s). */
 export const GENKI_DAMA_DRAIN_RAMP_MS = 5000;
 /** Intervalo de crescimento da instância da Genki Dama (1x por segundo). */
-export const GENKI_DAMA_GROW_INTERVAL_MS = 1000;
+export const GENKI_DAMA_GROW_INTERVAL_MS = 1;
 /** Multiplicador de tamanho por segundo no sprite preparingGenkiDama (1.2x). */
-export const GENKI_DAMA_GROW_MULTIPLIER = 1.2;
+export const GENKI_DAMA_GROW_MULTIPLIER = 1.0015;
 /** Teto do multiplicador de dano (7x o dano do ataque básico). */
 export const GENKI_DAMA_MAX_DAMAGE_MULTIPLIER = 7;
 /** Duração do voo da Genki Dama até o inimigo. */
