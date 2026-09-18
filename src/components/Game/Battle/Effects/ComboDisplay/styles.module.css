@@ -1,3 +1,21 @@
+@keyframes comboSlideFromRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes comboSlideToRight {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
 .container {
   position: absolute;
   bottom: 38vh;
@@ -8,6 +26,11 @@
   z-index: 50;
   pointer-events: none;
   user-select: none;
+  animation: comboSlideFromRight 0.3s ease-out;
+}
+
+.container.exiting {
+  animation: comboSlideToRight 0.3s ease-in forwards;
 }
 
 .header {

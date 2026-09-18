@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { DamageNumber } from "@/hooks/battle/damage/useNumbers";
 
-const MAX_INTENSITY = 70;
+const MAX_INTENSITY = 50;
 const MAX_DAMAGE_FOR_INTENSITY = 200;
-const INTENSITY_PER_DAMAGE = 0.35;
+const INTENSITY_PER_DAMAGE = 0.25;
 const SHAKE_DECAY = 0.88;
 const MIN_INTENSITY = 0.1;
 
