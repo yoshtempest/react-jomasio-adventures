@@ -22,10 +22,3 @@
   align-items: center;
   justify-content: center;
 }
-
-@media (orientation: portrait) {
-  .toggle {
-    bottom: 40%;
-    left: 35%;
-  }
-}

@@ -1,5 +1,6 @@
 import styles from "./styles.module.css";
 import { ProjectileConstants } from "@/data/projectile";
+import { getViewportSize } from "@/utils/viewport";
 import {
   JUMP_CENTER_RADIUS,
   JUMP_EDGE_RADIUS,
@@ -11,8 +12,8 @@ type Props = {
 };
 
 export function JumpDangerZone({ landingX }: Props) {
-  const scaleX = window.innerWidth / ProjectileConstants.MAP_WIDTH;
-  const scaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;
+  const scaleX = getViewportSize().width / ProjectileConstants.MAP_WIDTH;
+  const scaleY = getViewportSize().height / ProjectileConstants.MAP_HEIGHT;
 
   const zoneStyle = (radius: number) => ({
     left: landingX * scaleX,

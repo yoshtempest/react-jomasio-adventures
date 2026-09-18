@@ -1,5 +1,6 @@
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useState, useEffect, useRef } from "react";
+import { useViewport } from "@/hooks/game/useViewport";
 import { HEIGHT_STEP_OFFSET } from "@/gameRules/movement/levels";
 import {
   GAME_VIEWPORT_WIDTH_RATIO,
@@ -14,21 +15,10 @@ export function useGameLayout(map?: number[][], scaleFix = 3) {
 
   const { player } = usePlayer();
 
-  const [dimensions, setDimensions] = useState(() => ({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  }));
+  const { width: viewportWidth, height: viewportHeight } = useViewport();
 
-  useEffect(() => {
-    function handleResize() {
-      setDimensions({ width: window.innerWidth, height: window.innerHeight });
-    }
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  const containerWidth = dimensions.width * GAME_VIEWPORT_WIDTH_RATIO;
-  const containerHeight = dimensions.height;
+  const containerWidth = viewportWidth * GAME_VIEWPORT_WIDTH_RATIO;
+  const containerHeight = viewportHeight;
 
   const TILE_SIZE =
     Math.min(containerWidth / MAP_COLS, containerHeight / MAP_ROWS) * scaleFix;
@@ -106,8 +96,8 @@ export function useGameLayout(map?: number[][], scaleFix = 3) {
 
   const PLAYER_SIZE = TILE_SIZE * 1.4;
 
-  const scaleX = dimensions.width / 1280;
-  const scaleY = dimensions.height / 720;
+  const scaleX = viewportWidth / 1280;
+  const scaleY = viewportHeight / 720;
 
   return {
     TILE_SIZE,

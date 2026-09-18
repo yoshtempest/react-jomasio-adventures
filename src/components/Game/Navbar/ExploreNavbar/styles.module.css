@@ -66,9 +66,9 @@
 }
 
 @media (orientation: portrait) {
+  /* Orientação forçada landscape: troca vw ↔ vh nos eixos. */
   .navbar {
-    right: 0%;
-    width: 30vw;
-    height: 30vh;
+    width: 15vh;
+    height: 93vw;
   }
 }

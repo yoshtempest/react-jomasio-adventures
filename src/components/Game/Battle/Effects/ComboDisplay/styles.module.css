@@ -115,3 +115,10 @@
 .rankSS {
   color: #00ffff;
 }
+
+@media (orientation: portrait) {
+  .container {
+    bottom: 38vw;
+    right: 2vh;
+  }
+}

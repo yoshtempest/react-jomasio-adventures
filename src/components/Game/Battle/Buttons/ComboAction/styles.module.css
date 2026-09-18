@@ -38,12 +38,9 @@
 }
 
 @media (orientation: portrait) {
-  .container {
-    bottom: 55%;
-    left: 4%;
-  }
+  /* Orientação forçada landscape: só troca a unidade do eixo horizontal. */
   .button {
-    width: 12vw;
-    height: 12vw;
+    width: 6vh;
+    height: 6vh;
   }
 }

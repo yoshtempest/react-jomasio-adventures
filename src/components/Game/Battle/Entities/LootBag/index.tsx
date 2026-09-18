@@ -1,6 +1,7 @@
 import { LOOTBAG_SPRITES } from "@/data/battle/lootbags";
 import { ITEMS } from "@/data/items";
 import { asset } from "@/utils/paths";
+import { getViewportSize } from "@/utils/viewport";
 import type { BattleLootBag } from "@/utils/types/battle/loot";
 import type { EquipmentSlot } from "@/utils/types/player/equipment";
 
@@ -44,8 +45,8 @@ function bagBadgeIcon(bag: BattleLootBag): string | null {
 }
 
 export function LootBag({ bag, TILE_SIZE, npcClass }: Props) {
-  const scaleX = window.innerWidth / 1000;
-  const scaleY = window.innerHeight / 600;
+  const scaleX = getViewportSize().width / 1000;
+  const scaleY = getViewportSize().height / 600;
   const badge = bagBadgeIcon(bag);
 
   return (

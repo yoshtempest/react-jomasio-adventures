@@ -1,5 +1,6 @@
 import { effectsPath } from "@/utils/paths";
 import { ProjectileConstants } from "@/data/projectile";
+import { getViewportSize } from "@/utils/viewport";
 import {
   getBossSizeMultiplier,
   getNpcSpriteYOffset,
@@ -33,8 +34,8 @@ export function DeiseDashAfterimage({
   npcPhase,
   TILE_SIZE,
 }: Props) {
-  const scaleX = window.innerWidth / ProjectileConstants.MAP_WIDTH;
-  const scaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;
+  const scaleX = getViewportSize().width / ProjectileConstants.MAP_WIDTH;
+  const scaleY = getViewportSize().height / ProjectileConstants.MAP_HEIGHT;
 
   const sizeMultiplier = getBossSizeMultiplier(npcType, npcPhase);
   const yOffset = getNpcSpriteYOffset(npcType);

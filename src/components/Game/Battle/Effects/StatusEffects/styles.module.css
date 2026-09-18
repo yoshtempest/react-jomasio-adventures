@@ -24,3 +24,10 @@
 .status span {
   font-style: italic;
 }
+
+@media (orientation: portrait) {
+  .container {
+    bottom: 3vw;
+    right: 15vh;
+  }
+}

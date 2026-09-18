@@ -82,19 +82,14 @@
 }
 
 @media (orientation: portrait) {
+  /* Orientação forçada landscape: só troca a unidade do eixo horizontal. */
   .open {
     width: 3.6vh;
     height: 1.2vh;
   }
   .button {
-    display: flex;
-    width: 5.4vh;
-    height: 5.4vh;
-    font-size: var(--small);
-  }
-  .gameButtons {
-    margin-top: 40vh;
-    right: 7%;
+    width: 3.6vh;
+    height: 3.6vh;
   }
 }
 

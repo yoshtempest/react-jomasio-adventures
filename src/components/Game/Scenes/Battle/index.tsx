@@ -52,6 +52,7 @@ import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
 import { getBossSizeMultiplier } from "@/utils/npc/getSpritePath";
 import { npcPath } from "@/utils/paths";
 import { GAME_VIEWPORT_WIDTH_RATIO } from "@/data/grid";
+import { getViewportSize } from "@/utils/viewport";
 
 type Props = {
   npcType: string;
@@ -162,15 +163,16 @@ export function BattleScene(props: Props) {
 
   const { setBattleCollision } = usePlayerActions();
 
-  const containerWidth = window.innerWidth * GAME_VIEWPORT_WIDTH_RATIO;
-  const containerHeight = window.innerHeight;
+  const { width: screenWidth, height: screenHeight } = getViewportSize();
+  const containerWidth = screenWidth * GAME_VIEWPORT_WIDTH_RATIO;
+  const containerHeight = screenHeight;
 
   const initialBgPosRef = useRef({
     x: (BATTLE_SPAWN.player.x / ProjectileConstants.MAP_WIDTH) * 100,
     y: (BATTLE_SPAWN.player.y / ProjectileConstants.MAP_HEIGHT) * 100,
   });
 
-  const maxOffsetX = window.innerWidth - containerWidth;
+  const maxOffsetX = screenWidth - containerWidth;
   const bgXMin = initialBgPosRef.current.x;
   const bgXMax =
     initialBgPosRef.current.x + (maxOffsetX * 200) / containerWidth;
@@ -198,8 +200,8 @@ export function BattleScene(props: Props) {
 
   const shake = useCameraShake(battle.damageNumbers);
 
-  const battleScaleX = window.innerWidth / ProjectileConstants.MAP_WIDTH;
-  const battleScaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;
+  const battleScaleX = screenWidth / ProjectileConstants.MAP_WIDTH;
+  const battleScaleY = screenHeight / ProjectileConstants.MAP_HEIGHT;
 
   const damageTargets = [
     { x: player.x, y: player.y, h: PLAYER_SIZE / 1.5 },

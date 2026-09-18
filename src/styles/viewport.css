@@ -1,0 +1,163 @@
+/**
+ * Orientação forçada landscape.
+ *
+ * O jogo foi projetado para landscape (referência 1280×720). Quando o
+ * aparelho está em portrait, o `.viewportRoot` é rotacionado 90° e o layout
+ * passa a raciocinar em coordenadas de um viewport virtual de W=100vh ×
+ * H=100vw. As variáveis de design (--size-*, --fs-*) são redefinidas em `vh`
+ * no bloco portrait de `variables.css`, e os helpers JS em `utils/viewport.ts`
+ * trocam os eixos de `innerWidth`/`innerHeight`.
+ */
+
+.viewportRoot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--background-color);
+}
+
+@media (orientation: portrait) {
+  .viewportRoot {
+    top: 0;
+    left: 100vw;
+    width: 100vh;
+    height: 100vw;
+    transform-origin: top left;
+    transform: rotate(90deg);
+  }
+
+  /* Eixos do .app passam a ser os do viewport virtual (trocados). */
+  .app {
+    width: 100vh;
+    height: 100vw;
+  }
+
+  .navbarClip {
+    height: 100vw;
+  }
+
+  .Master {
+    height: 100vw;
+  }
+
+  .containerOfNavbar {
+    height: 90vw;
+  }
+
+  .loading-screen {
+    height: 100vw;
+  }
+
+  .authContainer {
+    min-height: 100vw;
+  }
+
+  /* diálogo de cutscene — troca vw ↔ vh */
+  .talkingContainer {
+    width: 50vh;
+    max-width: 50vh;
+  }
+
+  .talking {
+    height: 20vw;
+    max-height: 20vw;
+    margin-top: 65vw;
+  }
+
+  .talking h1 {
+    margin: 0.5vh;
+  }
+
+  .talking h2 {
+    margin: 0.5vh;
+    margin-top: 0.8vh;
+  }
+
+  .talkingImage {
+    height: 30vw;
+  }
+
+  /* dpad — lados trocados */
+  .dpad {
+    width: 8vh;
+    height: 8vh;
+  }
+
+  .inner {
+    width: 3vh;
+    height: 3vh;
+  }
+
+  .dpadArrow {
+    border-width: 0.8vh;
+  }
+
+  .dpadArrowUp {
+    top: 0.5vh;
+  }
+
+  .dpadArrowDown {
+    bottom: 0.5vh;
+  }
+
+  .dpadArrowLeft {
+    left: 0.5vh;
+  }
+
+  .dpadArrowRight {
+    right: 0.5vh;
+  }
+
+  /* HUD */
+  .hudImage {
+    width: 12vw;
+    height: 12vw;
+  }
+
+  .hudName {
+    margin-bottom: 1vw;
+  }
+
+  /* navegador/abas */
+  .tabs {
+    margin-top: 3vw;
+  }
+
+  .tab {
+    gap: 0.5vh;
+    width: 8vh;
+    height: 4vh;
+  }
+
+  .statusMainContainer {
+    gap: 0.5vh;
+  }
+
+  .statusMainContainer img {
+    width: 3vh !important;
+  }
+
+  .StatusColumn p {
+    margin-top: 2vw;
+  }
+
+  .InventoryItem {
+    height: 10vw;
+  }
+
+  .modal {
+    gap: 1vw;
+  }
+
+  .barNotification {
+    width: 22vh;
+  }
+
+  .logo {
+    width: 20vh;
+    height: 33vw;
+  }
+}

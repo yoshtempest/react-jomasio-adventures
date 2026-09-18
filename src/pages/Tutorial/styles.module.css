@@ -42,6 +42,6 @@
 
 @media (orientation: portrait) {
   .relative input {
-    width: 50vw;
+    width: 50vh;
   }
 }

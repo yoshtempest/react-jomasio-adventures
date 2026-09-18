@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { resolveBattleSprite, playerPath } from "@/utils/paths";
 import { ProjectileConstants } from "@/data/projectile";
+import { getViewportSize } from "@/utils/viewport";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import {
   HONORED_ONE_RISE_MS,
@@ -115,8 +116,8 @@ export function PlayerBattle({
     }
   }, [src, ARTUR_SEEING_SRC, playSound]);
 
-  const scaleX = window.innerWidth / ProjectileConstants.MAP_WIDTH;
-  const scaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;
+  const scaleX = getViewportSize().width / ProjectileConstants.MAP_WIDTH;
+  const scaleY = getViewportSize().height / ProjectileConstants.MAP_HEIGHT;
 
   // PLAYER_SIZE vira escala relativa
   const SCALE = PLAYER_SIZE / ProjectileConstants.MAP_HEIGHT;

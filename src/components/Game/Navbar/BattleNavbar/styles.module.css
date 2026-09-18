@@ -65,9 +65,10 @@
 }
 
 @media (orientation: portrait) {
+  /* Orientação forçada landscape: troca vw ↔ vh nos eixos. */
   .battleNavbar {
-    top: 35vh;
-    height: 30vh;
-    width: 30vw;
+    top: 27vw;
+    width: 15vh;
+    height: 46vw;
   }
 }

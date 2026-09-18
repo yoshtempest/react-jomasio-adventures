@@ -7,6 +7,7 @@ import {
 } from "@/utils/npc/getSpritePath";
 import { ProjectileConstants } from "@/data/projectile";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import { getViewportSize } from "@/utils/viewport";
 
 type Props = {
   x: number;
@@ -100,8 +101,8 @@ export function NPCBattle({
     prevIsExplodingRef.current = isExploding;
   }, [isExploding, playSound]);
 
-  const scaleX = window.innerWidth / ProjectileConstants.MAP_WIDTH;
-  const scaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;
+  const scaleX = getViewportSize().width / ProjectileConstants.MAP_WIDTH;
+  const scaleY = getViewportSize().height / ProjectileConstants.MAP_HEIGHT;
 
   const sizeMultiplier = getBossSizeMultiplier(npcType, npcPhase, isAlfa);
   const yOffset = getNpcSpriteYOffset(npcType);

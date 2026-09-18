@@ -7,6 +7,8 @@
  * exigia achar todas as cópias, e uma esquecida deixa a tela desalinhada.
  */
 
+import { isPortraitViewport } from "@/utils/viewport";
+
 /** Colunas do grid quando a cena não declara mapa próprio. */
 export const MAP_GRID_COLS = 17;
 
@@ -25,10 +27,21 @@ export const GAME_VIEWPORT_WIDTH_VAR = "--game-viewport-width";
  * CSS não importa constante de TS, então os `74vw` espalhados pelas folhas
  * eram cópia manual de `GAME_VIEWPORT_WIDTH_RATIO`. Escrever a variável no
  * boot inverte a dependência: o valor sai daqui e o CSS só consome.
+ *
+ * Em portrait a aplicação é rotacionada (landscape forçado) e o eixo
+ * horizontal vira `100vh`; por isso a unidade é trocada para `vh`.
  */
 export function applyGameViewportWidth(root: HTMLElement): void {
+  const unit = isPortraitViewport() ? "vh" : "vw";
   root.style.setProperty(
     GAME_VIEWPORT_WIDTH_VAR,
-    `${GAME_VIEWPORT_WIDTH_RATIO * 100}vw`,
+    `${GAME_VIEWPORT_WIDTH_RATIO * 100}${unit}`,
   );
+
+  if (!root.dataset.viewportListening) {
+    root.dataset.viewportListening = "true";
+    const apply = () => applyGameViewportWidth(root);
+    window.addEventListener("resize", apply);
+    window.addEventListener("orientationchange", apply);
+  }
 }

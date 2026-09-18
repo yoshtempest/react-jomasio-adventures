@@ -1,4 +1,5 @@
 import { ProjectileConstants } from "@/data/projectile";
+import { getViewportSize } from "@/utils/viewport";
 import { MainNpc } from "./MainNpc";
 import { NpcProjectile } from "./NpcProjectile";
 import { GroundPaper } from "./GroundPaper";
@@ -92,8 +93,8 @@ export function BattleEntities({
   emanuelClone = null,
   genkiDamaVisual = null,
 }: Props) {
-  const battleScaleX = window.innerWidth / ProjectileConstants.MAP_WIDTH;
-  const battleScaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;
+  const battleScaleX = getViewportSize().width / ProjectileConstants.MAP_WIDTH;
+  const battleScaleY = getViewportSize().height / ProjectileConstants.MAP_HEIGHT;
 
   const activeBombIds = new Set(bombTargets.map((b) => b.id));
 

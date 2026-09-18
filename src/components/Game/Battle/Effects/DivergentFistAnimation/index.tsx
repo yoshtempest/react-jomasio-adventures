@@ -1,5 +1,6 @@
 import { effectsPath } from "@/utils/paths";
 import { ProjectileConstants } from "@/data/projectile";
+import { getViewportSize } from "@/utils/viewport";
 import styles from "./styles.module.css";
 
 const DIVERGENT_FIST_SPRITE_NAMES = [
@@ -42,8 +43,8 @@ export function DivergentFistAnimation({
       Math.min(frame, DIVERGENT_FIST_SPRITE_NAMES.length - 1)
     ];
 
-  const scaleX = window.innerWidth / ProjectileConstants.MAP_WIDTH;
-  const scaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;
+  const scaleX = getViewportSize().width / ProjectileConstants.MAP_WIDTH;
+  const scaleY = getViewportSize().height / ProjectileConstants.MAP_HEIGHT;
 
   const imgHeight = npcHeight * 2;
   const imgWidth = imgHeight * SPRITE_ASPECT;

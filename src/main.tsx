@@ -20,11 +20,13 @@ const root =
   ((container as ContainerWithRoot)._reactRoot = createRoot(container));
 
 root.render(
-  <StrictMode>
-    <HashRouter>
-      <AppProviders>
-        <AppRoutes />
-      </AppProviders>
-    </HashRouter>
-  </StrictMode>,
+  <div className="viewportRoot">
+    <StrictMode>
+      <HashRouter>
+        <AppProviders>
+          <AppRoutes />
+        </AppProviders>
+      </HashRouter>
+    </StrictMode>
+  </div>,
 );

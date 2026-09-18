@@ -128,97 +128,102 @@
 }
 
 @media (orientation: portrait) {
+  /**
+   * Orientação forçada landscape (`styles/viewport.css`): o app é rotacionado
+   * 90° e o eixo horizontal passa a ser o lado longo (100vh). As variáveis de
+   * design são os MESMOS coeficientes do layout landscape, expressos em `vh`.
+   */
   :root {
-    --smaller: 1.666667vh;
-    --small: 2.222222vh;
-    --low-medium: 2.777778vh;
-    --medium: 3.333333vh;
+    --smaller: 0.9375vh;
+    --small: 1.25vh;
+    --low-medium: 1.5625vh;
+    --medium: 1.875vh;
 
-    --fs-8: 1.111111vh;
-    --fs-9: 1.25vh;
-    --fs-10: 1.388889vh;
-    --fs-11: 1.527778vh;
-    --fs-12: 1.666667vh;
-    --fs-13: 1.805556vh;
-    --fs-14: 1.944444vh;
-    --fs-15: 2.083333vh;
-    --fs-16: 2.222222vh;
-    --fs-18: 2.5vh;
-    --fs-20: 2.777778vh;
-    --fs-28: 3.888889vh;
-    --fs-36: 5vh;
-    --fs-42: 5.833333vh;
+    --fs-8: 0.625vh;
+    --fs-9: 0.703125vh;
+    --fs-10: 0.78125vh;
+    --fs-11: 0.859375vh;
+    --fs-12: 0.9375vh;
+    --fs-13: 1.015625vh;
+    --fs-14: 1.09375vh;
+    --fs-15: 1.171875vh;
+    --fs-16: 1.25vh;
+    --fs-18: 1.40625vh;
+    --fs-20: 1.5625vh;
+    --fs-28: 2.1875vh;
+    --fs-36: 2.8125vh;
+    --fs-42: 3.28125vh;
 
-    --fs-4: 0.555556vh;
-    --fs-6: 0.833333vh;
-    --fs-075: 1.666667vh;
-    --fs-sm: 1.666667vh;
+    --fs-4: 0.3125vh;
+    --fs-6: 0.46875vh;
+    --fs-075: 0.9375vh;
+    --fs-sm: 0.9375vh;
 
-    --fs-070: 1.215278vh;
-    --fs-080: 1.388889vh;
-    --fs-085: 1.472222vh;
-    --fs-090: 1.5625vh;
-    --fs-110: 1.909722vh;
-    --fs-115: 1.993056vh;
-    --fs-120: 2.083333vh;
-    --fs-130: 2.256944vh;
-    --fs-140: 2.430556vh;
-    --fs-160: 2.777778vh;
-    --fs-240: 4.166667vh;
-    --fs-500: 8.680556vh;
+    --fs-070: 0.875vh;
+    --fs-080: 1vh;
+    --fs-085: 1.0625vh;
+    --fs-090: 1.125vh;
+    --fs-110: 1.375vh;
+    --fs-115: 1.4375vh;
+    --fs-120: 1.5vh;
+    --fs-130: 1.625vh;
+    --fs-140: 1.75vh;
+    --fs-160: 2vh;
+    --fs-240: 3vh;
+    --fs-500: 6.25vh;
 
-    --fs-080vw: 1.111111vh;
-    --fs-120vw: 1.666667vh;
+    --fs-080vw: 0.8vh;
+    --fs-120vw: 1.2vh;
 
-    /* Espaçamento e tamanho — fórmula: (px / 720) * 100 */
-    --size-05px: 0.069444vh;
-    --size-1: 0.138889vh;
-    --size-2: 0.277778vh;
-    --size-3: 0.416667vh;
-    --size-4: 0.555556vh;
-    --size-5: 0.694444vh;
-    --size-6: 0.833333vh;
-    --size-16: 2.222222vh;
-    --size-22: 3.055556vh;
-    --size-30: 4.166667vh;
-    --size-32: 4.444444vh;
-    --size-40: 5.555556vh;
-    --size-48: 6.666667vh;
-    --size-50: 6.944444vh;
-    --size-55: 7.638889vh;
-    --size-56: 7.777778vh;
-    --size-60: 8.333333vh;
-    --size-64: 8.888889vh;
-    --size-72: 10vh;
-    --size-75: 10.416667vh;
-    --size-90: 12.5vh;
-    --size-96: 13.333333vh;
-    --size-105: 14.583333vh;
-    --size-110: 15.277778vh;
-    --size-120: 16.666667vh;
-    --size-130: 18.055556vh;
-    --size-140: 19.444444vh;
-    --size-150: 20.833333vh;
-    --size-160: 22.222222vh;
-    --size-200: 27.777778vh;
-    --size-240: 33.333333vh;
-    --size-260: 36.111111vh;
-    --size-280: 38.888889vh;
-    --size-300: 41.666667vh;
-    --size-320: 44.444444vh;
-    --size-360: 50vh;
-    --size-400: 55.555556vh;
-    --size-420: 58.333333vh;
-    --size-480: 66.666667vh;
-    --size-560: 77.777778vh;
-    --size-768: 106.666667vh;
-    --size-1200: 166.666667vh;
-    --size-1280: 177.777778vh;
+    /* Espaçamento e tamanho — fórmula: (px / 1280) * 100 */
+    --size-05px: 0.0390625vh;
+    --size-1: 0.078125vh;
+    --size-2: 0.15625vh;
+    --size-3: 0.234375vh;
+    --size-4: 0.3125vh;
+    --size-5: 0.390625vh;
+    --size-6: 0.46875vh;
+    --size-16: 1.25vh;
+    --size-22: 1.71875vh;
+    --size-30: 2.34375vh;
+    --size-32: 2.5vh;
+    --size-40: 3.125vh;
+    --size-48: 3.75vh;
+    --size-50: 3.90625vh;
+    --size-55: 4.296875vh;
+    --size-56: 4.375vh;
+    --size-60: 4.6875vh;
+    --size-64: 5vh;
+    --size-72: 5.625vh;
+    --size-75: 5.859375vh;
+    --size-90: 7.03125vh;
+    --size-96: 7.5vh;
+    --size-105: 8.203125vh;
+    --size-110: 8.59375vh;
+    --size-120: 9.375vh;
+    --size-130: 10.15625vh;
+    --size-140: 10.9375vh;
+    --size-150: 11.71875vh;
+    --size-160: 12.5vh;
+    --size-200: 15.625vh;
+    --size-240: 18.75vh;
+    --size-260: 20.3125vh;
+    --size-280: 21.875vh;
+    --size-300: 23.4375vh;
+    --size-320: 25vh;
+    --size-360: 28.125vh;
+    --size-400: 31.25vh;
+    --size-420: 32.8125vh;
+    --size-480: 37.5vh;
+    --size-560: 43.75vh;
+    --size-768: 60vh;
+    --size-1200: 93.75vh;
+    --size-1280: 100vh;
 
-    --size-020r: 0.347222vh;
-    --size-025r: 0.434028vh;
-    --size-030r: 0.520833vh;
-    --size-035r: 0.607639vh;
-    --size-040r: 0.694444vh;
+    --size-020r: 0.25vh;
+    --size-025r: 0.3125vh;
+    --size-030r: 0.375vh;
+    --size-035r: 0.4375vh;
+    --size-040r: 0.5vh;
   }
 }

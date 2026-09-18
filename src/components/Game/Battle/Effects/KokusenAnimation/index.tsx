@@ -3,6 +3,7 @@ import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { logPlay } from "@/utils/replay/audioEventLog";
 import { playerPath } from "@/utils/paths";
 import { ProjectileConstants } from "@/data/projectile";
+import { getViewportSize } from "@/utils/viewport";
 import styles from "./styles.module.css";
 
 type Props = {
@@ -36,8 +37,8 @@ export function KokusenAnimation({
 
   if (!active || !frame) return null;
 
-  const scaleX = window.innerWidth / ProjectileConstants.MAP_WIDTH;
-  const scaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;
+  const scaleX = getViewportSize().width / ProjectileConstants.MAP_WIDTH;
+  const scaleY = getViewportSize().height / ProjectileConstants.MAP_HEIGHT;
 
   const src = playerPath(`/riquelme/inFight/attacks/kokusen/${frame}.svg`);
 

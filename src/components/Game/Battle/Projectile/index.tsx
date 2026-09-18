@@ -1,5 +1,6 @@
 import { spriteMap } from "@/data/battle/projectileSprites";
 import { ProjectileConstants } from "@/data/projectile";
+import { getViewportSize } from "@/utils/viewport";
 
 type Props = {
   projectile: Projectile;
@@ -26,8 +27,8 @@ function getSpriteKey(projectile: Projectile): string {
 }
 
 export function ProjectileSprite({ projectile, groundY = 600 }: Props) {
-  const scaleX = window.innerWidth / ProjectileConstants.MAP_WIDTH;
-  const scaleY = window.innerHeight / ProjectileConstants.MAP_HEIGHT;
+  const scaleX = getViewportSize().width / ProjectileConstants.MAP_WIDTH;
+  const scaleY = getViewportSize().height / ProjectileConstants.MAP_HEIGHT;
   const spriteKey = getSpriteKey(projectile);
   const src = spriteMap[spriteKey];
 
