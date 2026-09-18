@@ -352,7 +352,8 @@ export function useNpcAI({
         const rooted = (rootedUntilRef?.current ?? 0) > Date.now();
         const nextX = rooted ? n.x : result.x;
         const nextY = result.y ?? n.y;
-        const direction = getNpcDirection(nextX, playerXRef.current);
+        const direction =
+          result.direction ?? getNpcDirection(nextX, playerXRef.current);
         const distanceX = Math.abs(n.x - playerXRef.current);
 
         updateProximitySound(n.x, n.y);

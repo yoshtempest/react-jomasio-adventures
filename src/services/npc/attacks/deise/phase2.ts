@@ -17,6 +17,7 @@ type Phase2Result = {
   x: number;
   y: number;
   state?: "idle" | "walk";
+  direction?: "left" | "right";
 };
 
 function dashDirectionTo(playerX: number, npcX: number): "left" | "right" {
@@ -34,10 +35,11 @@ function dashToEnd(direction: "left" | "right"): number {
  * instância do efeito `four.svg` sobre ela, no lado para o qual está virada
  * (ver `DeiseDashAfterimage`). Em contato com o jogador ela causa dano a cada
  * `DASH_DAMAGE_INTERVAL_MS` e empurra/arrasta o jogador na frente dela pelo
- * caminho. A única forma de evitar o arrasto é dar parry (block/attack 0-50ms
- * antes do contato), que estanca a Deise e interrompe o dash. Ao chegar na
- * outra ponta ela fica `DASH_POST_IDLE_MS` (3s) parada sem atacar, dando ao
- * jogador uma janela para causar dano.
+ * caminho. O parry (block/attack 0-50ms antes do contato) evita o arrasto sem
+ * interromper o dash: ela apenas segue a trajetória até a outra ponta — lá o
+ * estado muda para `idle` (sem `direction`), e o `useNpcAI` a vira de volta ao
+ * jogador. Ao chegar na outra ponta ela fica `DASH_POST_IDLE_MS` (3s) parada
+ * sem atacar, dando ao jogador uma janela para causar dano.
  */
 export function deisePhase2(ctx: BehaviorContext, ai: DeiseAI): Phase2Result {
   const {
@@ -80,11 +82,17 @@ export function deisePhase2(ctx: BehaviorContext, ai: DeiseAI): Phase2Result {
       if (now - ai.lastDashDamage >= DASH_DAMAGE_INTERVAL_MS) {
         ai.lastDashDamage = now;
         playSound?.("impact", false);
-        onMeleeHit();
+        // Parry NÃO interrompe o dash: o `onMeleeHit` (que dispararia o
+        // stagger do parry e travaria/teleportaria a trajetória) só roda
+        // quando o jogador NÃO está com o parry no timing.
+        if (!parrying) {
+          onMeleeHit();
+        }
       }
 
       if (!parrying) {
-        const gap = ai.dashDirection === "right" ? DASH_PUSH_GAP : -DASH_PUSH_GAP;
+        const gap =
+          ai.dashDirection === "right" ? DASH_PUSH_GAP : -DASH_PUSH_GAP;
         const pushX = Math.max(
           BATTLE_LIMITS.minX,
           Math.min(BATTLE_LIMITS.maxX, newX + gap),
@@ -97,10 +105,18 @@ export function deisePhase2(ctx: BehaviorContext, ai: DeiseAI): Phase2Result {
       ai.dashState = "postDash";
       ai.postDashStart = now;
       ai.lastDash = now;
+      // Sem direction no postDash: o useNpcAI calcula virada ao jogador.
       return { x: newX, y: npc.y, state: "idle" };
     }
 
-    return { x: newX, y: npc.y, state: "walk" };
+    // Durante o dash não vira ao jogador ao atravessá-lo: mantém a direção
+    // da corrida o trajeto inteiro (o afterimage acompanha a mesma direção).
+    return {
+      x: newX,
+      y: npc.y,
+      state: "walk",
+      direction: ai.dashDirection,
+    };
   }
 
   // ── postDash: ociosa depois de chegar na outra ponta ──

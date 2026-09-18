@@ -43,4 +43,6 @@ export type BehaviorResult = {
   x: number;
   y?: number;
   state?: NPCBattleState["state"];
+  /** Direção do sprite. Quando ausente, o `useNpcAI` calcula voltada ao jogador. */
+  direction?: "left" | "right";
 };
