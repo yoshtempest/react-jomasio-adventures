@@ -14,7 +14,10 @@ import { LUCAS_WEAPON_RANGES } from "@/data/characters/lucasWeapons";
 import { PlayerSpecialConstants } from "@/data/projectile";
 import { useBuildTargetList } from "./usePlayerTargeting";
 import { resetCooldownRef } from "@/utils/battle/cooldown";
-import { EMANUEL_COMBO_STEPS } from "@/data/characters/emanuel";
+import {
+  EMANUEL_COMBO_STEPS,
+  EMANUEL_COMBO_STATES,
+} from "@/data/characters/emanuel";
 
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { CharactersProgress } from "@/data/characters/defaultProgress";
@@ -63,6 +66,8 @@ type Props = {
   emanuelComboMultiplierRef?: React.RefObject<number>;
   /** true quando o último press do emanuel AVANÇOU o combo. */
   emanuelComboActiveRef?: React.RefObject<boolean>;
+  /** Combo do emanuel: true durante a sequência aérea (airKick windup). */
+  emanuelComboAirActiveRef?: React.RefObject<boolean>;
   /** Índice do último step do combo do emanuel (lido no press). */
   emanuelComboStepIndexRef?: React.RefObject<number>;
   /** Avança o player um passo em direção ao alvo atingido (combo do emanuel). */
@@ -90,6 +95,7 @@ export function usePlayerBattleActions({
   onNpcPush,
   emanuelComboMultiplierRef,
   emanuelComboActiveRef,
+  emanuelComboAirActiveRef,
   emanuelComboStepIndexRef,
   onComboAdvance,
 }: Props) {
@@ -204,6 +210,21 @@ export function usePlayerBattleActions({
       ? (emanuelComboMultiplierRef.current ?? 1)
       : 1;
 
+    // Uma instância de dano por sprite do combo do emanuel: presses repetidos
+    // durante a exibição de um golpe (mash/hold) que NÃO avançaram o combo não
+    // podem vazar dano pelo caminho normal (cooldown básico de 400ms).
+    if (
+      player.character === "emanuel" &&
+      player.mode === "battle" &&
+      !isEmanuelComboHit &&
+      (player.state === "preAttack" ||
+        EMANUEL_COMBO_STATES.has(player.state) ||
+        (player.state === "jump" &&
+          emanuelComboAirActiveRef?.current === true))
+    ) {
+      return;
+    }
+
     if (battle.isEnding.current) return;
     if (!isEmanuelComboHit && !battle.playerCooldown.current) {
       return;
@@ -303,6 +324,7 @@ export function usePlayerBattleActions({
     onNpcPush,
     emanuelComboMultiplierRef,
     emanuelComboActiveRef,
+    emanuelComboAirActiveRef,
     emanuelComboStepIndexRef,
     onComboAdvance,
   ]);

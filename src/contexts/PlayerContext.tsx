@@ -118,6 +118,8 @@ type PlayerActionsContextType = {
   emanuelComboMultiplierRef: React.RefObject<number>;
   /** Combo do emanuel: true quando o último press avançou o combo. */
   emanuelComboActiveRef: React.RefObject<boolean>;
+  /** Combo do emanuel: true durante a sequência aérea (airKick windup). */
+  emanuelComboAirActiveRef: React.RefObject<boolean>;
   /** Combo do emanuel: índice do último step avançado no press. */
   emanuelComboStepIndexRef: React.RefObject<number>;
 
@@ -157,6 +159,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const playerRef = useLatestRef(player);
   const emanuelComboMultiplierRef = emanuelCombo.multiplierRef;
   const emanuelComboActiveRef = emanuelCombo.activeRef;
+  const emanuelComboAirActiveRef = emanuelCombo.airActiveRef;
   const emanuelComboStepIndexRef = emanuelCombo.stepIndexRef;
   const resetEmanuelCombo = emanuelCombo.reset;
 
@@ -497,6 +500,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       genkiDamaRiseStartYRef,
       emanuelComboMultiplierRef,
       emanuelComboActiveRef,
+      emanuelComboAirActiveRef,
       emanuelComboStepIndexRef,
 
       setTimeScale,
@@ -554,6 +558,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       genkiDamaRiseStartYRef,
       emanuelComboMultiplierRef,
       emanuelComboActiveRef,
+      emanuelComboAirActiveRef,
       emanuelComboStepIndexRef,
       setTimeScale,
       resetTimeScale,

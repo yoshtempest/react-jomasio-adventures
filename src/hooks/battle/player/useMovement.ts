@@ -33,6 +33,22 @@ import type { EmanuelComboApi } from "@/hooks/battle/player/characters/ematron/u
 const PLAYER_COLLISION_W = 30;
 const PLAYER_COLLISION_H = 50;
 
+/**
+ * Chave do sprite do combo do emanuel para o gate de "uma instância de dano
+ * por sprite": os windups (preAttack/airGrab/jump/falling) mapeiam para o golpe
+ * que estão apresentando, para que presses repetidos dentro do MESMO golpe
+ * sejam ignorados.
+ */
+function emanuelComboSpriteKey(state: PlayerState, combo: EmanuelComboApi) {
+  if (state === "airGrab" || state === "airKick") return "airKick";
+  if (state === "jump" || state === "falling") return "airKick";
+  if (state === "preAttack") {
+    const step = combo.steps[combo.stepIndexRef.current] ?? combo.steps[0];
+    return step?.state ?? "idle";
+  }
+  return state;
+}
+
 export function useBattleMovement(
   setPlayer: React.Dispatch<React.SetStateAction<Player>>,
   collisionRef: React.RefObject<CollisionParams>,
@@ -247,17 +263,31 @@ export function useBattleMovement(
     if (isEmanuelAttack && emanuelCombo) {
       emanuelCombo.activeRef.current = false;
       const state = current.state;
+      const airComboActive =
+        (state === "falling" || state === "jump") &&
+        emanuelCombo.airActiveRef.current;
+      const midComboDisplay =
+        state === "preAttack" || EMANUEL_COMBO_STATES.has(state) || airComboActive;
+
       const comboEligible =
-        state === "idle" ||
-        state === "preAttack" ||
-        state === "attack" ||
-        EMANUEL_COMBO_STATES.has(state) ||
-        ((state === "falling" || state === "jump") &&
-          emanuelCombo.airActiveRef.current);
+        state === "idle" || state === "attack" || midComboDisplay;
 
       if (!isPlayerFrozen(current) && !isPlayerParalyzed(current) && comboEligible) {
+        // Uma instância de dano por sprite do combo: o 1º press de um golpe em
+        // exibição avança/encadeia o próximo step; presses repetidos no MESMO
+        // sprite (mash/hold) são ignorados — não cortam a animação nem aplicam
+        // dano extra (o handlePlayerHit também barra o caminho do cooldown).
+        const spriteKey = emanuelComboSpriteKey(state, emanuelCombo);
+        if (
+          midComboDisplay &&
+          emanuelCombo.lastSpriteKeyRef.current === spriteKey
+        ) {
+          return;
+        }
+
         const step = emanuelCombo.advance(Date.now());
         emanuelCombo.activeRef.current = true;
+        emanuelCombo.lastSpriteKeyRef.current = spriteKey;
         comboWindup = step.windupState;
       }
     }

@@ -133,6 +133,7 @@ export function useBattleCombat({
     genkiDamaRiseStartYRef,
     emanuelComboMultiplierRef,
     emanuelComboActiveRef,
+    emanuelComboAirActiveRef,
     emanuelComboStepIndexRef,
     setTimeScale,
     resetTimeScale,
@@ -557,6 +558,7 @@ export function useBattleCombat({
         }),
       emanuelComboMultiplierRef,
       emanuelComboActiveRef,
+      emanuelComboAirActiveRef,
       emanuelComboStepIndexRef,
     });
 

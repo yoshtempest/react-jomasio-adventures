@@ -14,6 +14,12 @@ export function useEmanuelCombo() {
   const activeRef = useRef(false);
   /** Step aguardando exibição: press durante um golpe do combo em exibição. */
   const queuedStepIndexRef = useRef<number | null>(null);
+  /**
+   * Chave do sprite em que o último press avançou o combo (punch/hook/lowKick/
+   * airKick). Gate de "uma instância de dano por sprite": presses repetidos no
+   * mesmo sprite são ignorados até o sprite mudar.
+   */
+  const lastSpriteKeyRef = useRef<string | null>(null);
 
   const advance = useCallback((now: number): EmanuelComboStep => {
     const withinWindow =
@@ -35,6 +41,7 @@ export function useEmanuelCombo() {
     airActiveRef.current = false;
     activeRef.current = false;
     queuedStepIndexRef.current = null;
+    lastSpriteKeyRef.current = null;
   }, []);
 
   return {
@@ -45,6 +52,7 @@ export function useEmanuelCombo() {
     airActiveRef,
     activeRef,
     queuedStepIndexRef,
+    lastSpriteKeyRef,
     advance,
     reset,
   };
