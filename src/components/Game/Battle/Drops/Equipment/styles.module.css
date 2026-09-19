@@ -1,16 +1,3 @@
-.dropRank {
-  font-size: var(--fs-11);
-  font-weight: 700;
-  text-transform: uppercase;
-  min-width: var(--size-64);
-}
-
-.dropSlot {
-  font-size: var(--smaller);
-  color: #777;
-  margin-left: auto;
-}
-
 .enhanceBadge {
   font-size: var(--smaller);
   color: var(--gold);

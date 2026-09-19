@@ -1,9 +1,9 @@
 import styles from "./styles.module.css";
 import {
-  RANK_COLORS,
   RANK_LABELS,
   SLOT_LABELS,
 } from "@/data/equipment/definitions";
+import { RANKS } from "@/gameRules/rank";
 import {
   getItemResistances,
   HEAT_RESISTANCE_LABEL,
@@ -11,6 +11,8 @@ import {
   BLIND_RESISTANCE_LABEL,
   RESISTANCE_REDUCTION_PER_PIECE_PCT,
 } from "@/gameRules/battle/equipment";
+import { FILTER_LABELS } from "@/utils/equipment/equipmentMenu";
+import { asset } from "@/utils/paths";
 import type { EquipmentDropInfo } from "@/hooks/battle/rewards/useRewards";
 
 type Props = {
@@ -40,14 +42,24 @@ export function EquipmentDrops({ equipmentDrops }: Props) {
               `${BLIND_RESISTANCE_LABEL} ${RESISTANCE_REDUCTION_PER_PIECE_PCT}%`,
             );
 
+          const rank = RANKS.find((r) => String(r.id) === String(eq.rank));
+
           return (
             <div key={eq.id} className="dropItem">
-              <span
-                className={styles.dropRank}
-                style={{ color: RANK_COLORS[eq.rank] }}
-              >
-                {RANK_LABELS[eq.rank]}
-              </span>
+              {rank && (
+                <img
+                  className="dropIcon"
+                  src={asset(`/assets/badges/ranks/${rank.src}`)}
+                  alt={RANK_LABELS[eq.rank]}
+                  title={RANK_LABELS[eq.rank]}
+                />
+              )}
+              <img
+                className="dropIcon"
+                src={asset(FILTER_LABELS[eq.slot])}
+                alt={SLOT_LABELS[eq.slot]}
+                title={SLOT_LABELS[eq.slot]}
+              />
               <span className="dropName">
                 {eq.name}
                 {eq.enhance > 0 ? (
@@ -63,7 +75,6 @@ export function EquipmentDrops({ equipmentDrops }: Props) {
                   ))}
                 </span>
               )}
-              <span className={styles.dropSlot}>({SLOT_LABELS[eq.slot]})</span>
             </div>
           );
         })}
