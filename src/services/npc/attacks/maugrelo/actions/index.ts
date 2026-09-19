@@ -8,6 +8,7 @@ import { handleDebuff } from "./handleDebuff";
 import { handlePhase2Push } from "./handlePhase2Push";
 import { handleThrowPapers } from "./handleThrowPapers";
 import { handleCharging } from "./handleCharging";
+import { handleVulnerable } from "./handleVulnerable";
 
 export {
   handleAction,
@@ -20,4 +21,5 @@ export {
   handlePhase2Push,
   handleThrowPapers,
   handleCharging,
+  handleVulnerable,
 };

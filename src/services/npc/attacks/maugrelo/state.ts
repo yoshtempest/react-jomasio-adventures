@@ -81,6 +81,7 @@ export type MaugreloAI = {
     | "landing"
     | "preMove"
     | "laser"
+    | "vulnerable"
     | "debuff"
     | "throwPapers"
     | "charging"
@@ -147,6 +148,8 @@ export const PHASE2_DESCEND_SPEED = 5;
 export const PHASE2_LANDING_DURATION = THREE_HUNDRED_MS;
 export const PHASE2_PREMOVE_DURATION = ONE_HUNDRED_MS;
 export const PHASE2_LASER_DURATION = EIGHT_THOUSAND_MS;
+/** Janela de vulnerabilidade após o laser: o Maugrelo "não faz nada" e o jogador pode atacar. */
+export const PHASE2_VULNERABLE_DURATION = THREE_THOUSAND_MS;
 export const PHASE2_DEBUFF_DURATION = EIGHT_HUNDRED_MS;
 export const PHASE2_THROW_PAPER_INTERVAL = SIX_HUNDRED_MS;
 export const PHASE2_THROW_PAPER_COUNT = 3;

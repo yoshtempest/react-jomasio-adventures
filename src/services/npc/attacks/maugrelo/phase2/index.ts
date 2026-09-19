@@ -27,6 +27,7 @@ import { handleDebuff } from "@/services/npc/attacks/maugrelo/actions/index";
 import { handleThrowPapers } from "@/services/npc/attacks/maugrelo/actions/index";
 import { handleCharging } from "@/services/npc/attacks/maugrelo/actions/index";
 import { handlePhase2Push } from "@/services/npc/attacks/maugrelo/actions/index";
+import { handleVulnerable } from "@/services/npc/attacks/maugrelo/actions/index";
 
 export function maugreloPhase2(
   ctx: BehaviorContext,
@@ -124,18 +125,20 @@ export function maugreloPhase2(
 
   if (ai.phase2State === "laser") {
     if (now - ai.phase2StageStart >= PHASE2_LASER_DURATION) {
-      ai.phase2State = "debuff";
+      ai.phase2State = "vulnerable";
       ai.phase2StageStart = now;
       ai.riseStartY = npc.y;
       ai.laser = null;
       ai.appliedDebuff = null;
-      ctx.playSound?.("writing");
-      ctx.playSound?.("stupid");
-      return { x: npc.x, y: ai.riseStartY, state: "debuff" };
+      return { x: npc.x, y: ai.riseStartY, state: "idle" };
     }
 
     updateLaser(ai, ctx, now);
     return { x: npc.x, y: ai.riseStartY, state: "laser" };
+  }
+
+  if (ai.phase2State === "vulnerable") {
+    return handleVulnerable(ai, ctx, now);
   }
 
   if (ai.phase2State === "debuff") {
