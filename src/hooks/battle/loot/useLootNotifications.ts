@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { ITEMS } from "@/data/items";
+import { SLOT_ICONS } from "@/utils/equipment/equipmentMenu";
 import type {
   LootBagContents,
   LootNotification,
@@ -37,9 +38,8 @@ function contentsToEntries(contents: LootBagContents): LootNotifyEntry[] {
   }
 
   for (const drop of contents.equipmentDrops) {
-    const equipData = ITEMS[drop.id as keyof typeof ITEMS];
     entries.push({
-      icon: equipData?.image ?? `/assets/items/${drop.id}.svg`,
+      icon: SLOT_ICONS[drop.slot],
       qty: 1,
       name: `${drop.name} +${drop.enhance}`,
     });

@@ -39,3 +39,15 @@ export const FILTER_LABELS: Record<EquipmentFilter, string> = {
   bag: "/assets/equipments/bags.svg",
   pet: "/assets/equipments/pets.svg",
 };
+
+/** Ícone do slot de equipamento (não do item em si). */
+export const SLOT_ICONS: Record<EquipmentSlot, string> = {
+  weapon: FILTER_LABELS.weapon,
+  helmet: FILTER_LABELS.helmet,
+  chestplate: FILTER_LABELS.chestplate,
+  pants: FILTER_LABELS.pants,
+  boots: FILTER_LABELS.boots,
+  accessory: FILTER_LABELS.accessory,
+  bag: FILTER_LABELS.bag,
+  pet: FILTER_LABELS.pet,
+};
