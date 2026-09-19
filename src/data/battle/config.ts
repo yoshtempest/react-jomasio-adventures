@@ -185,6 +185,15 @@ export const BATTLE_CONFIGS: Record<string, BattleConfig> = {
     background: sceneBackgrounds.CantinaBattle,
     audioSrc: backgroundAudioPath("/battle/StreetFighter5KenTheme.m4a"),
   },
+  hungryDog: {
+    npcType: "hungryDog",
+    onVictory: ({ navigate }) => {
+      void navigate(-1);
+    },
+    victoryDescription: "Você derrotou um cão morto de fome!",
+    background: sceneBackgrounds.FootballCourtBattle,
+    audioSrc: backgroundAudioPath("/battle/StreetFighter5KenTheme.m4a"),
+  },
   piupiu: {
     npcType: "piupiu",
     onVictory: ({ navigate }) => {
@@ -246,6 +255,7 @@ export const ROUTE_TO_BATTLE_KEY: Record<string, string> = {
   "/pcroom/battle/three": "pcroomThree",
   "/battle/goat": "goat",
   "/battle/hungry": "hungry",
+  "/battle/hungryDog": "hungryDog",
   "/battle/jhowsimar": "jhowsimar",
   "/battle/piupiu": "piupiu",
   "/battle/rice": "rice",

@@ -52,7 +52,20 @@ const NPC_DISPLAY_NAMES: Record<NpcType, string> = {
   theDevourerOfWorlds: "O devorador de mundos",
 };
 
-export function getNpcDisplayName(npcType: string): string {
+/**
+ * Nome próprio dos NPCs alfa, no lugar do prefixo "ALFA ".
+ * Sem entrada aqui, o alfa cai no fallback `ALFA <nome>`.
+ */
+const NPC_ALFA_NAMES: Partial<Record<NpcType, string>> = {
+  hungryDeath: "Edson",
+  hungryDog: "Black Mouth",
+  vandinhaFragment: "Vandinha Fragmentada",
+  goat: "King Bodão",
+};
+
+export function getNpcDisplayName(npcType: string, isAlfa = false): string {
   if (!isNpcType(npcType)) return npcType;
-  return NPC_DISPLAY_NAMES[npcType] ?? npcType;
+  const base = NPC_DISPLAY_NAMES[npcType] ?? npcType;
+  if (!isAlfa) return base;
+  return NPC_ALFA_NAMES[npcType] ?? `ALFA ${base}`;
 }

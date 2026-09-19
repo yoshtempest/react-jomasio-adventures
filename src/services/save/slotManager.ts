@@ -155,6 +155,7 @@ export const GAME_STATE_KEYS = [
   "visitedLocations",
   "tombstones",
   "ground_items",
+  "footballcourt_dog_spots",
 ] as const;
 
 export const slotManager = new SlotManager(lazilyResolvedDefaultStorage());

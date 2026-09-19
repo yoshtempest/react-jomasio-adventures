@@ -5,6 +5,7 @@ import { ONE_THOUSAND_MS } from "@/data/ms";
 import type {
   Tombstone,
   TombstoneSpawnPosition,
+  TombstoneTarget,
   TombstoneVariant,
 } from "@/utils/types/npc/tombstone";
 
@@ -45,12 +46,17 @@ function clampToGrid(value: number, max: number) {
 /** Cria a lápide de um NPC derrotado; null se npcType inválido. */
 export function createTombstone(
   locationId: string,
-  position: TombstoneSpawnPosition,
+  position: TombstoneTarget,
   npcType: string,
 ): Tombstone | null {
   if (!isNpcType(npcType)) return null;
 
-  const spawn = getTombstoneSpawn(position);
+  // tile fixo: a lápide nasce exatamente onde o NPC morreu (ex: cães do
+  // football court). Caso contrário, no tile em frente ao jogador.
+  const spawn: { x: number; y: number; variant: TombstoneVariant } =
+    "x" in position && "y" in position
+      ? { x: position.x, y: position.y, variant: "front" }
+      : getTombstoneSpawn(position);
   const x = clampToGrid(spawn.x, MAP_GRID_COLS);
   const y = clampToGrid(spawn.y, MAP_GRID_ROWS);
 

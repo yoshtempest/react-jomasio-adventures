@@ -71,8 +71,8 @@ export function VictoryModal({
           <div>
             <h1>Vitória!</h1>
             <p>
-              Você derrotou um {isAlfa ? "ALFA " : ""}
-              {getNpcDisplayName(enemyType)} - nv.{enemyLevel}
+              Você derrotou um {getNpcDisplayName(enemyType, isAlfa)} - nv.
+              {enemyLevel}
             </p>
 
             <div className={styles.timeSection}>

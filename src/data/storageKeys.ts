@@ -38,3 +38,4 @@ export const SHOW_HIGHLIGHT_KEY = "showHighlight";
 export const SHARED_XP_KEY = "sharedXp";
 export const REDEEMED_CARDS_KEY = "redeemed_cards";
 export const GROUND_ITEMS_KEY = "ground_items";
+export const FOOTBALLCOURT_DOGS_KEY = "footballcourt_dog_spots";

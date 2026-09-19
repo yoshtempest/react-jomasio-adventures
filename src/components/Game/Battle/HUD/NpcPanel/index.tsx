@@ -36,8 +36,7 @@ export function NPCHUDPanel({
         <div className={`${styles.nameRow} ${styles.nameRowEnd}`}>
           {npcElementTypes && <ElementBadges types={npcElementTypes} />}
           <h2 className={`${"hudName"} ${styles.name}`}>
-            {isAlfa ? "ALFA " : ""}
-            {getNpcDisplayName(npcType)} - Nv.{npcLevel}
+            {getNpcDisplayName(npcType, isAlfa)} - Nv.{npcLevel}
           </h2>
         </div>
 

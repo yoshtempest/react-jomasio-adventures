@@ -19,7 +19,14 @@ export type TombstoneSpawnPosition = {
   direction: Direction;
 };
 
-export type PendingTombstoneSpawn = TombstoneSpawnPosition & {
+/**
+ * Alvo da lápide: pode vir da posição do jogador (tile em frente) ou de um
+ * tile fixo — usado quando o NPC derrotado está preso a um lugar do mapa
+ * (ex: cães mortos de fome do football court).
+ */
+export type TombstoneTarget = TombstoneSpawnPosition | { x: number; y: number };
+
+export type PendingTombstoneSpawn = TombstoneTarget & {
   locationId: string;
 };
 

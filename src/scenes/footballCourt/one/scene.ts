@@ -5,6 +5,7 @@ import { getFootballCourtOneDialogue } from "./dialogue";
 import { footballCourtOneNpcs } from "./npcs";
 import { footballCourtOneEvents } from "./events";
 import { footballCourtOneTiles } from "./tiles";
+import { FOOTBALLCOURT_DOG_LOCATION_ID } from "@/hooks/scene/useFootballCourtDogs";
 
 export const oneScene: SceneConfig = {
   id: "one",
@@ -15,4 +16,5 @@ export const oneScene: SceneConfig = {
   audio: { src: MUSICS.default },
   initialPosition: getFootballCourtOneInitialPosition,
   tiles: footballCourtOneTiles,
+  tombstoneLocationId: FOOTBALLCOURT_DOG_LOCATION_ID,
 };

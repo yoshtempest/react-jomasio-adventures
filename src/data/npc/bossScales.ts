@@ -1,8 +1,8 @@
 export const bossScales: Record<string, { base: number; phase2: number }> = {
-  deise: { base: 1.8, phase2: 3 },
-  slimita: { base: 1.6, phase2: 4 },
-  hungryKing: { base: 3, phase2: 5 },
-  maurao: { base: 2.2, phase2: 3 },
+  deise: { base: 1.8, phase2: 2.6 },
+  slimita: { base: 1.6, phase2: 2.2 },
+  hungryKing: { base: 2, phase2: 2.2 },
+  maurao: { base: 1.5, phase2: 1.8 },
   maugrelo: { base: 1, phase2: 1 },
 };
 
