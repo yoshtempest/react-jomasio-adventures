@@ -171,7 +171,7 @@ export function useEmanuelClone({
       };
     });
 
-    playSoundRef.current("blink");
+    playSoundRef.current("emanuelTeleport");
     setCloneVisual(null);
   }, [
     battleManaRef,

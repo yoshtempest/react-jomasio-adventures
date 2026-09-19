@@ -24,6 +24,8 @@ export function createSounds() {
     marshadowSpecial: sfx("player/marcelo/special.mp3"),
     returningTime: sfx("player/artur/returning-time.mp3"),
     honoredOne: sfx("player/riquelme/honored-one.mp3"),
+    emanuelTeleport: sfx("player/emanuel/teleport.mp3"),
+    throwGenkiDama: sfx("player/emanuel/throwGenkiDama.mp3"),
     ORA: sfx("player/artur/ORA!.mp3"),
     clap: sfx("player/artur/clap.mp3"),
     prePalm: sfx("player/artur/prePalm.mp3"),
