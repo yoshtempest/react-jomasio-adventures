@@ -13,12 +13,15 @@ export const FOOTBALLCOURT_DOG_LOCATION_ID = "footballCourt";
  * Cães mortos de fome do campo: NPCs fixos que levam direto à batalha.
  * Permanecem nos mesmos locais até serem derrotados; ao ganhar, uma lápide
  * nasce no tile do cão (detectada aqui via tombstones) e outro cão ocupa
- * um novo ponto aleatório livre.
+ * um novo ponto aleatório livre. Cada cão tem 10% de chance de ser alfa
+ * (Black Mouth) e, nesse caso, renderiza 1.5x maior no modo explore.
  */
 export const FOOTBALLCOURT_DOG_COUNT = 3;
 
 const BATTLE_ROUTE = "/battle/hungryDog";
 const DOG_LEVEL_RANGE: readonly [number, number] = [5, 8];
+const DOG_ALFA_CHANCE = 0.1;
+const DOG_ALFA_SIZE = 1.5 * 1.7;
 
 /** Pontos candidatos: tiles andáveis do mapa footballCourt/one, espalhados. */
 const DOG_SPOTS: readonly { x: number; y: number }[] = [
@@ -34,7 +37,7 @@ const DOG_SPOTS: readonly { x: number; y: number }[] = [
   { x: 14, y: 10 },
 ];
 
-type DogSpot = { x: number; y: number };
+type DogSpot = { x: number; y: number; alfa: boolean };
 
 const NO_DOGS: DogSpot[] = [];
 
@@ -57,7 +60,8 @@ function normalizeDogSpots(data: DogSpot[]): DogSpot[] {
       (spot) =>
         spot &&
         typeof spot.x === "number" &&
-        typeof spot.y === "number",
+        typeof spot.y === "number" &&
+        typeof spot.alfa === "boolean",
     ),
   );
 }
@@ -71,6 +75,10 @@ function shuffle<T>(arr: readonly T[]): T[] {
     a[j] = placeholder;
   }
   return a;
+}
+
+function rollDogAlfa(): boolean {
+  return Math.random() < DOG_ALFA_CHANCE;
 }
 
 function reconcileSpots(
@@ -87,7 +95,12 @@ function reconcileSpots(
   );
 
   const need = FOOTBALLCOURT_DOG_COUNT - kept.length;
-  const added = need > 0 ? shuffle(available).slice(0, need) : [];
+  const added =
+    need > 0
+      ? shuffle(available)
+          .slice(0, need)
+          .map((spot) => ({ x: spot.x, y: spot.y, alfa: rollDogAlfa() }))
+      : [];
 
   return [...kept, ...added];
 }
@@ -126,7 +139,10 @@ export function useFootballCourtDogs() {
       spots.length === rawSpots.length &&
       spots.every((spot) =>
         rawSpots.some(
-          (raw) => raw.x === spot.x && raw.y === spot.y,
+          (raw) =>
+            raw.x === spot.x &&
+            raw.y === spot.y &&
+            raw.alfa === spot.alfa,
         ),
       );
     if (same) return;
@@ -139,6 +155,7 @@ export function useFootballCourtDogs() {
         gridX: spot.x,
         gridY: spot.y,
         src: npcPath("/hungryDog/default.svg"),
+        size: spot.alfa ? DOG_ALFA_SIZE : undefined,
         interaction: () => {
           prepareTombstoneSpawn({
             x: spot.x,
@@ -149,6 +166,7 @@ export function useFootballCourtDogs() {
             state: {
               battleOrigin: location.pathname,
               npcLevel: rollDogLevel(),
+              ...(spot.alfa ? { alfa: true } : {}),
             },
           });
         },
