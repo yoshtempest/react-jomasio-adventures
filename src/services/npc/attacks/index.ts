@@ -4,6 +4,7 @@ import { DummyAttack } from "./dummy";
 import { DeiseAttack } from "./deise";
 import { GoatAttack } from "./goat";
 import { HungryDeathAttack } from "./hungryDeath";
+import { HungryDogAttack } from "./hungryDog";
 import { HungryKingAttack } from "./hungryKing";
 import { JhowsimarAttack } from "./jhowsimar";
 import { MauraoAttack } from "./maurao";
@@ -42,7 +43,7 @@ export const npcAttacks = {
   maugrelo: new MaugreloAttack(),
 
   /* Bocaina */
-  hungryDog: new DefaultNpcAttack("hungryDog"),
+  hungryDog: new HungryDogAttack(),
   lupita: new DefaultNpcAttack("lupita"),
   duque: new DefaultNpcAttack("duque"),
   baiano: new DefaultNpcAttack("baiano"),

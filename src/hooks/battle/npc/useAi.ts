@@ -65,6 +65,9 @@ type Props = {
   npcPhaseRef: React.RefObject<number>;
   onSummon?: (npcType: string) => void;
   onPullPlayer?: (x: number) => void;
+  isAlfa?: boolean;
+  onSummonFromRight?: (npcType: string) => void;
+  onDragPlayer?: (npcX: number, npcY: number) => void;
   obstacles?: BattleObstacle[];
   hitstopRef: React.RefObject<number>;
   npcStaggerRef: React.RefObject<number>;
@@ -103,6 +106,9 @@ export function useNpcAI({
   npcPhaseRef,
   onSummon,
   onPullPlayer,
+  isAlfa,
+  onSummonFromRight,
+  onDragPlayer,
   obstacles,
   hitstopRef,
   npcStaggerRef,
@@ -158,6 +164,9 @@ export function useNpcAI({
   const onMeleeHitRef = useLatestRef(onMeleeHit);
   const onSummonRef = useLatestRef(onSummon);
   const onPullPlayerRef = useLatestRef(onPullPlayer);
+  const isAlfaRef = useLatestRef(isAlfa);
+  const onSummonFromRightRef = useLatestRef(onSummonFromRight);
+  const onDragPlayerRef = useLatestRef(onDragPlayer);
   const lastAttackRef = useRef(0);
   const summonTimerRef = useRef(0);
   const obstaclesRef = useLatestRef(obstacles ?? []);
@@ -247,6 +256,7 @@ export function useNpcAI({
       y: BATTLE_SPAWN.npc.y,
       state: stateOverride ?? "walk",
       direction: "left",
+      hidden: false,
     });
 
     setProjectile(null);
@@ -329,6 +339,10 @@ export function useNpcAI({
           setForceIdle,
           onSummon: onSummonRef.current,
           onPullPlayer: onPullPlayerRef.current,
+          isAlfa: isAlfaRef.current,
+          onSummonFromRight: (npcType) =>
+            onSummonFromRightRef.current?.(npcType),
+          onDragPlayer: (npcX, npcY) => onDragPlayerRef.current?.(npcX, npcY),
           summonTimerRef,
           playSound: loggedPlaySound,
           npcHp: npcHpRef?.current ?? 0,
@@ -372,6 +386,7 @@ export function useNpcAI({
           ),
           y: collision.y,
           direction,
+          hidden: result.hidden ?? n.hidden,
           state: result.state ?? getNpcState(distanceX, forceIdleRef.current),
         };
       });
@@ -404,6 +419,9 @@ export function useNpcAI({
     onProjectileHitRef,
     onPullPlayerRef,
     onSummonRef,
+    isAlfaRef,
+    onSummonFromRightRef,
+    onDragPlayerRef,
     onThrowPlayerRef,
     onThrowStartRef,
     onPushPlayerRef,

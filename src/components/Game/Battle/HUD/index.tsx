@@ -39,6 +39,8 @@ type Props = {
   summons?: SummonedNpc[];
   allies?: SummonedNpc[];
   isAlfa?: boolean;
+  /** Gauge do special do NPC (alfas). undefined = sem special. */
+  npcSpecialGauge?: number;
 };
 
 export function BattleHUD({
@@ -49,6 +51,7 @@ export function BattleHUD({
   summons,
   allies,
   isAlfa = false,
+  npcSpecialGauge,
 }: Props) {
   const { player } = usePlayer();
   const { progress } = useCharacterProgress();
@@ -89,6 +92,7 @@ export function BattleHUD({
           npcElementTypes={getNpcElementTypes(npcType)}
           blockGauge={npcType === "piupiu" ? battle.npcBlockGauge : undefined}
           blockLimit={npcType === "piupiu" ? battle.npcBlockLimit : undefined}
+          specialGauge={npcSpecialGauge}
         />
       )}
 

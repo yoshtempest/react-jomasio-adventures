@@ -344,6 +344,11 @@ export function BattleScene(props: Props) {
         summons={summons}
         allies={allies}
         isAlfa={isAlfa}
+        npcSpecialGauge={
+          isAlfa && npcType === "hungryDog"
+            ? npc.ai?.hungryDog?.specialGauge
+            : undefined
+        }
       />
       <ComboDisplay
         count={comboCount}

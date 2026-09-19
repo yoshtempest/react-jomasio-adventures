@@ -10,6 +10,7 @@ type Props = {
   direction: "left" | "right";
   battle: BattleEntitiesBattle;
   isHidden: boolean;
+  isUnderground: boolean;
   isAlfa: boolean;
 };
 
@@ -22,6 +23,7 @@ export function MainNpc({
   direction,
   battle,
   isHidden,
+  isUnderground,
   isAlfa,
 }: Props) {
   return (
@@ -35,6 +37,7 @@ export function MainNpc({
       piercings={battle.piercings}
       isExploding={battle.isExploding}
       isHidden={isHidden}
+      isUnderground={isUnderground}
       npcPhase={battle.npcPhase}
       isDying={battle.isNpcDying}
       isAlfa={isAlfa}

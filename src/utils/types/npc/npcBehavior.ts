@@ -37,12 +37,20 @@ export type BehaviorContext = {
   onLaserHit?: () => void;
   onStuckPaperExplode?: () => void;
   onApplyDebuff?: (status: NewPlayerStatus) => void;
+  /** true quando o NPC da batalha é um alfa (sprites de alfa, special etc). */
+  isAlfa?: boolean;
+  /** Spawna um aliado surgindo da direita, fora da vista (entry correndo). */
+  onSummonFromRight?: (npcType: string) => void;
+  /** Inicia o arrasto do jogador (x e y) junto ao NPC após o pulo do alfa. */
+  onDragPlayer?: (npcX: number, npcY: number) => void;
 };
 
 export type BehaviorResult = {
   x: number;
   y?: number;
   state?: NPCBattleState["state"];
+  /** Quando presente, sobrepõe/limpa a flag `hidden` do NPC. */
+  hidden?: boolean;
   /** Direção do sprite. Quando ausente, o `useNpcAI` calcula voltada ao jogador. */
   direction?: "left" | "right";
 };

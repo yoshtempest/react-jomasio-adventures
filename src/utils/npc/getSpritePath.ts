@@ -1,11 +1,43 @@
 import { npcPath } from "@/utils/paths";
 import { bossScales, npcSpriteYOffset } from "@/data/npc";
 
+/**
+ * Estados emitidos pela batalha → sprites presentes na pasta `alfa/`.
+ * Estados sem sprite no alfa (hit/default/attack...) caem em idle.svg, que é
+ * o fallback garantido de todo alfa.
+ */
+const ALFA_SPRITE_STATES: Record<string, string> = {
+  idle: "idle",
+  default: "idle",
+  hit: "idle",
+  block: "idle",
+  meleeAttack: "idle",
+  attack: "idle",
+  preAttack: "idle",
+  walk: "walk",
+  run: "run",
+  jumping: "jump",
+  inJump: "jump",
+  jumpAttack: "jump",
+  landing: "jump",
+  invoking: "invoking",
+  dig: "dig",
+  entering: "entering",
+  entered: "entered",
+  special: "special",
+};
+
 export function getSpritePath(
   npcType: string,
   state: string,
   npcPhase: number = 1,
+  isAlfa: boolean = false,
 ): string {
+  if (isAlfa) {
+    const sprite = ALFA_SPRITE_STATES[state] ?? "idle";
+    return npcPath(`/${npcType}/alfa/${sprite}.svg`);
+  }
+
   if (npcType === "deise") {
     if (npcPhase === 2) {
       // A transição de fase (usePhaseTransition) força o estado "pitch", mas

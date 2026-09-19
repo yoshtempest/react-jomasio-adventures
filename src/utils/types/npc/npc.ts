@@ -41,9 +41,15 @@ export type NPCBattleState = {
     | "laser"
     | "debuff"
     | "throwPapers"
-    | "charging";
+    | "charging"
+    | "invoking"
+    | "dig"
+    | "entering"
+    | "entered";
   direction: NPCDirection;
   jumpLandingX?: number;
+  /** Oculta o NPC (ex: alfa cavando no subsolo). Persiste até ser limpo. */
+  hidden?: boolean;
 
   ai?: {
     slimita?: {
@@ -132,6 +138,7 @@ export type NPCBattleState = {
       spinHitCount: number;
     };
     maugrelo?: import("@/services/npc/attacks/maugrelo/state").MaugreloAI;
+    hungryDog?: import("@/services/npc/attacks/hungryDog/state").HungryDogAI;
   };
 };
 

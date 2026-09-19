@@ -14,7 +14,7 @@ import { useRewind } from "@/hooks/battle/rewind/useRewind";
 import { useBattleSnapshots } from "@/hooks/battle/time/useBattleSnapshots";
 import { useHonoredOne } from "@/hooks/battle/player/characters/natsuki/useHonoredOne";
 import { useDefeatFlow } from "@/hooks/battle/defeat/useDefeatFlow";
-import { useCameraSequence } from "@/hooks/battle/effects/useCameraSequence";
+import { useCameraSequence, type CameraFocus } from "@/hooks/battle/effects/useCameraSequence";
 import { buildBattleSceneApi } from "@/hooks/battle/utilities/buildBattleSceneApi";
 import { getCharacterPassive } from "@/data/characters/passives";
 import { aggregateRewards } from "@/gameRules/battle/loot/buildLootBags";
@@ -606,6 +606,13 @@ export function useBattleScene({
     setIsGrabbed,
   });
 
+  // Intro do alfa hungryDog: câmera foca no alfa enquanto ele invoca (2s),
+  // sem congelar a batalha (a animação é dirigida pela IA do NPC).
+  const alfaIntroFocus: CameraFocus | null =
+    isAlfa && npcType === "hungryDog" && npc.ai?.hungryDog?.phase === "intro"
+      ? { entity: "npc", zoom: 1 }
+      : null;
+
   return buildBattleSceneApi({
     player,
     npc,
@@ -671,7 +678,7 @@ export function useBattleScene({
     kokusenFrame,
     blackFlashActive,
     blackFlashVariant,
-    cameraFocus: cameraFocus.focus,
+    cameraFocus: cameraFocus.focus ?? alfaIntroFocus,
     vastolordActive,
     vastolordRemainingMs,
     specialIntroActive,

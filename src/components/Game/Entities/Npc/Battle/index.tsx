@@ -52,11 +52,17 @@ type Props = {
     | "laser"
     | "debuff"
     | "throwPapers"
-    | "charging";
+    | "charging"
+    | "invoking"
+    | "dig"
+    | "entering"
+    | "entered";
   direction: "left" | "right";
   piercings?: { id: number; x: number; y: number }[];
   isExploding?: boolean;
   isHidden?: boolean;
+  /** Fade-out/in para o NPC underground (alfas cavando): opacity com transição. */
+  isUnderground?: boolean;
   npcPhase?: number;
   isDying?: boolean;
   isAlfa?: boolean;
@@ -72,6 +78,7 @@ export function NPCBattle({
   piercings = [],
   isExploding = false,
   isHidden = false,
+  isUnderground = false,
   npcPhase = 1,
   isDying = false,
   isAlfa = false,
@@ -107,7 +114,7 @@ export function NPCBattle({
   const sizeMultiplier = getBossSizeMultiplier(npcType, npcPhase, isAlfa);
   const yOffset = getNpcSpriteYOffset(npcType);
 
-  const basePath = getSpritePath(npcType, state, npcPhase);
+  const basePath = getSpritePath(npcType, state, npcPhase, isAlfa);
 
   const src = isExploding
     ? npcPathProjectile("/explosion.svg")
@@ -136,9 +143,11 @@ export function NPCBattle({
             height: "100%",
             transform: `scaleX(${direction === "right" ? -1 : 1})`,
             position: "absolute",
-            opacity: isDying ? 0 : 1,
+            opacity: isDying || isUnderground ? 0 : 1,
             filter: isDying ? "grayscale(100%)" : "none",
-            transition: "opacity 3s linear, filter 3s linear",
+            transition: isUnderground
+              ? "opacity 0.4s linear"
+              : "opacity 3s linear, filter 3s linear",
           }}
         />
       )}

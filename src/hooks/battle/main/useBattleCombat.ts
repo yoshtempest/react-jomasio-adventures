@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, type RefObject } from "react";
+import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useGrabThrow } from "@/hooks/battle/throw/useGrabThrow";
 import { useThrowAnimation } from "@/hooks/battle/throw/useThrowAnimation";
@@ -52,6 +52,7 @@ import {
   BLOCK_ATTACK_PUSH_DISTANCE,
 } from "@/gameRules/movement/constants";
 import { useBattleStageSetup } from "@/hooks/battle/useBattleStageSetup";
+import { INTRO_MS } from "@/services/npc/attacks/hungryDog/state";
 import type { NewPlayerStatus } from "@/gameRules/battle/status/statusEffects";
 import type { BattleObstacle } from "@/utils/types/maps/battle";
 import type { BattleManaApi } from "@/contexts/BattleManaContext";
@@ -159,6 +160,7 @@ export function useBattleCombat({
     summons,
     setSummons,
     clearSummons,
+    summonNpcRef,
     updateNpcPosition,
     summonsBleedUntilRef,
     allies,
@@ -236,6 +238,21 @@ export function useBattleCombat({
   targeting.npcAiHpRef.current = npcStats.hp;
   targeting.npcAiMaxHpRef.current = npcStats.hp;
 
+  // ── Alfa intro (hungryDog): jogador travado enquanto o alfa invoca. ──────
+  const alfaIntroFiredRef = useRef(false);
+
+  // ── Special dig do alfa: o jogador é arrastado em x e y junto ao pulo. ──
+  const ALFA_DRAG_MS = 500;
+  const [isDragging, setIsDragging] = useState(false);
+  const dragEndAtRef = useRef(0);
+  const dragHitDoneRef = useRef(false);
+  const onDragPlayer = useCallback(() => {
+    dragEndAtRef.current = Date.now() + ALFA_DRAG_MS;
+    dragHitDoneRef.current = false;
+    setIsDragging(true);
+  }, []);
+  const dragBattleRef = useRef<ReturnType<typeof useBattleSystem> | null>(null);
+
   const npc = useNpcAI({
     playerX: player.x,
     playerY: player.y,
@@ -250,6 +267,10 @@ export function useBattleCombat({
     isPaused:
       isPausedRef.current || isPhaseTransitioning || lootActiveRef.current,
     onSummon: onSummonWrapperRef.current,
+    isAlfa,
+    onSummonFromRight: (summonType: string) =>
+      summonNpcRef.current(summonType, BATTLE_LIMITS.maxX + 600),
+    onDragPlayer,
     onPullPlayer: (npcX: number) =>
       setPlayer((p) => {
         const direction = npcX > p.x ? 1 : -1;
@@ -318,6 +339,55 @@ export function useBattleCombat({
     onThrowStart,
     onThrowPlayer,
   });
+
+  // Segue o NPC durante o arrasto (x e y) enquanto o alfa foge.
+  const npcRef = useLatestRef(npc);
+
+  // Intro do alfa hungryDog: o jogador fica travado (movimento + ações)
+  // enquanto o alfa invoca. A IA do NPC continua rodando (é quem anima).
+  const alfaIntroActive =
+    isAlfa && npcType === "hungryDog" && npc.ai?.hungryDog?.phase === "intro";
+
+  useEffect(() => {
+    if (!alfaIntroActive || alfaIntroFiredRef.current) return;
+    alfaIntroFiredRef.current = true;
+    freezeActionsUntilRef.current = Date.now() + INTRO_MS + 150;
+  }, [alfaIntroActive, freezeActionsUntilRef]);
+
+  useEffect(() => {
+    if (!isDragging) return;
+
+    const interval = setInterval(() => {
+      if (isMenuOpenRef.current) return;
+
+      if (Date.now() >= dragEndAtRef.current) {
+        setIsDragging(false);
+        setPlayer((p) => ({ ...p, y: p.groundY, state: "idle" }));
+        return;
+      }
+
+      if (!dragHitDoneRef.current) {
+        dragHitDoneRef.current = true;
+        dragBattleRef.current?.npcFixedHit(1);
+      }
+
+      const n = npcRef.current;
+      const fromX = n.x - 8;
+      const toX = Math.max(
+        BATTLE_LIMITS.minX,
+        Math.min(BATTLE_LIMITS.maxX, fromX),
+      );
+      setPlayer((p) => ({
+        ...p,
+        x: toX,
+        y: n.y + 4,
+        state: "fallen",
+        battleDirection: n.x >= p.x ? "right" : "left",
+      }));
+    }, 16);
+
+    return () => clearInterval(interval);
+  }, [isDragging, isMenuOpenRef, setPlayer, npcRef]);
 
   const onCriticalPushRef = useLatestRef(() => {
     const dir = player.battleDirection === "right" ? 1 : -1;
@@ -533,6 +603,7 @@ export function useBattleCombat({
     refs.spawnDamageRef.current?.(0, npc.x, npc.y, enchantment);
   };
   refs.spawnDamageRef.current = battle.spawnDamageNumber;
+  dragBattleRef.current = battle;
 
   const { handlePlayerHit, handleSpecialHit, handleExtraPunch, hitTargetList } =
     usePlayerBattleActions({
@@ -767,7 +838,11 @@ export function useBattleCombat({
     player.character !== "artur" && playerLevel >= CHARGE_ATTACK_MIN_LEVEL;
 
   const controlsDisabled =
-    isPausedRef.current || isPhaseTransitioning || isThrown;
+    isPausedRef.current ||
+    isPhaseTransitioning ||
+    isThrown ||
+    alfaIntroActive ||
+    isDragging;
 
   const activateSpecial = useCallback(() => {
     if (freezeActionsUntilRef.current > Date.now()) return;

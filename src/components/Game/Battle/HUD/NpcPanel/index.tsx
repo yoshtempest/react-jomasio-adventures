@@ -1,5 +1,6 @@
 import { HealthBar } from "@/components/Game/Battle/HUD/HealthBar";
 import { BlockGauge } from "@/components/Game/Battle/HUD/BlockGauge";
+import { AlfaSpecialGauge } from "@/components/Game/Battle/HUD/AlfaSpecialGauge";
 import { ElementBadges } from "@/components/Game/Battle/HUD/ElementBadges";
 import { npcPath } from "@/utils/paths";
 import { getNpcDisplayName } from "@/data/npc";
@@ -17,6 +18,7 @@ type Props = {
   npcElementTypes?: readonly ElementType[];
   blockGauge?: number;
   blockLimit?: number;
+  specialGauge?: number;
 };
 
 export function NPCHUDPanel({
@@ -28,6 +30,7 @@ export function NPCHUDPanel({
   npcElementTypes,
   blockGauge,
   blockLimit,
+  specialGauge,
 }: Props) {
   const playerRank = `${srcRank(getRank(npcLevel ?? 1))}`;
   return (
@@ -57,6 +60,7 @@ export function NPCHUDPanel({
         {blockGauge != null && blockLimit != null && (
           <BlockGauge blockGauge={blockGauge} blockLimit={blockLimit} />
         )}
+        {specialGauge != null && <AlfaSpecialGauge gauge={specialGauge} />}
       </div>
     </div>
   );

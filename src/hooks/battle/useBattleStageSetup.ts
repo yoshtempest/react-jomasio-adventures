@@ -199,7 +199,10 @@ export function useBattleStageSetup({ npcType, npcLevelProp, isAlfa }: Props) {
 
   const alfaSummonsSpawnedRef = useRef(false);
   useEffect(() => {
-    if (!isAlfa || alfaSummonsSpawnedRef.current) return;
+    // O alfa hungryDog usa o cenário "invocação": os aliados surgem correndo
+    // pela direita durante a intro (2s), então não spawna summons no início.
+    if (!isAlfa || npcType === "hungryDog" || alfaSummonsSpawnedRef.current)
+      return;
     alfaSummonsSpawnedRef.current = true;
     summonNpc(npcType);
     summonNpc(npcType);

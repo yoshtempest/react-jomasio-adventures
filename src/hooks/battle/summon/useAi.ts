@@ -133,7 +133,12 @@ export function useSummonAI({
             return s;
           }
 
-          const speed = Math.abs(s.x - px) > 200 ? 3 : 1.5;
+          const speed =
+            s.x > BATTLE_LIMITS.maxX
+              ? 6
+              : Math.abs(s.x - px) > 200
+                ? 3
+                : 1.5;
 
           const dx = px - s.x;
 

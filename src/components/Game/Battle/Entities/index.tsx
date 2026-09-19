@@ -110,6 +110,7 @@ export function BattleEntities({
         direction={npc.direction}
         battle={battle}
         isHidden={activeBombIds.has("main")}
+        isUnderground={npc.hidden ?? false}
         isAlfa={isAlfa}
       />
 
