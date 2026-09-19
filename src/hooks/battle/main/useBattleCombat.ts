@@ -574,7 +574,12 @@ export function useBattleCombat({
               ? Math.min(stepToX, targetX)
               : Math.max(stepToX, targetX);
           if (toX === p.x) return p;
-          return { ...p, pullFromX: p.x, pullToX: toX, pullStartTime: Date.now() };
+          return {
+            ...p,
+            pullFromX: p.x,
+            pullToX: toX,
+            pullStartTime: Date.now(),
+          };
         }),
       emanuelComboMultiplierRef,
       emanuelComboActiveRef,

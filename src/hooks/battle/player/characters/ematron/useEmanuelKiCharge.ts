@@ -57,10 +57,7 @@ export function useEmanuelKiCharge({
   );
 
   const shouldCancelRef = useLatestRef(
-    () =>
-      disabledRef.current ||
-      isPausedRef.current ||
-      battleEndedRef.current,
+    () => disabledRef.current || isPausedRef.current || battleEndedRef.current,
   );
 
   const release = useCallback(() => {

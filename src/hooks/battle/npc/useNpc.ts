@@ -213,7 +213,8 @@ export function useNpcBattle({
   const npcMeleeHit = useCallback(
     (multiplier = 1) => {
       if (isEnding.current) return;
-      if (player.state === "mostHonored" || isPlayerFloating(player.state)) return;
+      if (player.state === "mostHonored" || isPlayerFloating(player.state))
+        return;
 
       const skipCooldown = npcType === "maurao" && npcPhase >= 2;
 

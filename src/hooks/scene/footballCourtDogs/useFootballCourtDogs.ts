@@ -6,7 +6,13 @@ import { useCompressedStorage } from "@/hooks/useCompressedStorage";
 import { FOOTBALLCOURT_DOGS_KEY } from "@/data/storageKeys";
 import { npcPath } from "@/utils/paths";
 import type { SceneNPCData } from "@/utils/types/maps/exploreScene";
-import { NO_DOGS, tileKey, type DogSpot, DOG_ALFA_SIZE, BATTLE_ROUTE } from "./constants";
+import {
+  NO_DOGS,
+  tileKey,
+  type DogSpot,
+  DOG_ALFA_SIZE,
+  BATTLE_ROUTE,
+} from "./constants";
 import { normalizeDogSpots } from "./normalizeDogSpots";
 import { reconcileSpots } from "./reconcileSpots";
 import { rollDogLevel } from "./rollDogLevel";
@@ -21,7 +27,6 @@ export const FOOTBALLCOURT_DOG_LOCATION_ID = "footballCourt";
  * (Black Mouth) e, nesse caso, renderiza 1.5x maior no modo explore.
  */
 
-
 export function useFootballCourtDogs() {
   const { getTombstones, prepareTombstoneSpawn } = useTombstones();
   const { navigateWithFade } = useTransitionCtx();
@@ -29,9 +34,7 @@ export function useFootballCourtDogs() {
 
   const tombstoneTiles = useMemo(
     () =>
-      new Set(
-        getTombstones(FOOTBALLCOURT_DOG_LOCATION_ID).active.map(tileKey),
-      ),
+      new Set(getTombstones(FOOTBALLCOURT_DOG_LOCATION_ID).active.map(tileKey)),
     [getTombstones],
   );
 
@@ -52,9 +55,7 @@ export function useFootballCourtDogs() {
       spots.every((spot) =>
         rawSpots.some(
           (raw) =>
-            raw.x === spot.x &&
-            raw.y === spot.y &&
-            raw.alfa === spot.alfa,
+            raw.x === spot.x && raw.y === spot.y && raw.alfa === spot.alfa,
         ),
       );
     if (same) return;

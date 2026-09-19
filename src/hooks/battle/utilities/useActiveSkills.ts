@@ -57,7 +57,14 @@ export function useActiveSkills({
     if (player.character === "riquelme") {
       setPlayer((p) => ({ ...p, state: "heal" }));
     }
-  }, [battleManaRef, battle, cursedEnergyEnabled, player.character, playSound, setPlayer]);
+  }, [
+    battleManaRef,
+    battle,
+    cursedEnergyEnabled,
+    player.character,
+    playSound,
+    setPlayer,
+  ]);
 
   const handleBlink = useCallback(() => {
     if (!honoredOneActiveRef.current) return;

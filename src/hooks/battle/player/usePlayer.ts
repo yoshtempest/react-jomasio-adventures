@@ -205,7 +205,12 @@ export function usePlayerBattle({
           setNpcHP((hp) => Math.max(0, hp - blockResult.remainingDamage));
           registerHitRef.current?.(blockResult.remainingDamage);
           onDamageDealtRef?.current?.(blockResult.remainingDamage);
-          spawnDamageRef.current?.(blockResult.remainingDamage, npcX, npcY, "npc");
+          spawnDamageRef.current?.(
+            blockResult.remainingDamage,
+            npcX,
+            npcY,
+            "npc",
+          );
         }
         return;
       }
@@ -395,7 +400,12 @@ export function usePlayerBattle({
           setNpcHP((hp) => Math.max(0, hp - blockResult.remainingDamage));
           registerHitRef.current?.(blockResult.remainingDamage);
           onDamageDealtRef?.current?.(blockResult.remainingDamage);
-          spawnDamageRef.current?.(blockResult.remainingDamage, npcX, npcY, "npc");
+          spawnDamageRef.current?.(
+            blockResult.remainingDamage,
+            npcX,
+            npcY,
+            "npc",
+          );
         }
         return;
       }

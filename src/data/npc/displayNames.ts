@@ -62,7 +62,7 @@ const NPC_ALFA_NAMES: Partial<Record<NpcType, string>> = {
   vandinhaFragment: "Vandinha Fragmentada",
   goat: "King Bodão",
   piupiu: "Rei Piu",
-  rice: "Arroz Frito"
+  rice: "Arroz Frito",
 };
 
 export function getNpcDisplayName(npcType: string, isAlfa = false): string {

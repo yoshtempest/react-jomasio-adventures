@@ -30,7 +30,9 @@ export function Deliciometro({ delicia, hitsToSpecial = 9 }: Props) {
   }, [delicia, hitsToSpecial, playSound]);
 
   return (
-    <div className={`${styles.container} ${isFull ? styles.fullContainer : ""}`}>
+    <div
+      className={`${styles.container} ${isFull ? styles.fullContainer : ""}`}
+    >
       <div
         className={`${styles.border} ${isFull ? styles.full : ""}`}
         style={{

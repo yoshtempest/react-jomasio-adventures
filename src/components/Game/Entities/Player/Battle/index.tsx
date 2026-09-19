@@ -125,7 +125,8 @@ export function PlayerBattle({
   const WIDTH = (ProjectileConstants.MAP_WIDTH * SCALE) / 1.5;
   const HEIGHT = (ProjectileConstants.MAP_HEIGHT * SCALE) / 1.5;
 
-  const chargingEffectHeight = HEIGHT * EMANUEL_KI_CHARGE_EFFECT_SIZE_MULTIPLIER;
+  const chargingEffectHeight =
+    HEIGHT * EMANUEL_KI_CHARGE_EFFECT_SIZE_MULTIPLIER;
   const chargingEffectWidth =
     chargingEffectHeight / EMANUEL_KI_CHARGE_EFFECT_ASPECT;
 

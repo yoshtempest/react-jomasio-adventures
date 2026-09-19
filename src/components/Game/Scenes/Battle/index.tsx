@@ -178,15 +178,11 @@ export function BattleScene(props: Props) {
   const bgXMax =
     initialBgPosRef.current.x + (maxOffsetX * 200) / containerWidth;
 
-  const focusEntity =
-    cameraFocus?.entity === "npc" ? npc : player;
+  const focusEntity = cameraFocus?.entity === "npc" ? npc : player;
 
   const targetBgX = Math.max(
     bgXMin,
-    Math.min(
-      (focusEntity.x / ProjectileConstants.MAP_WIDTH) * 100,
-      bgXMax,
-    ),
+    Math.min((focusEntity.x / ProjectileConstants.MAP_WIDTH) * 100, bgXMax),
   );
   const targetBgY = Math.max(
     0,

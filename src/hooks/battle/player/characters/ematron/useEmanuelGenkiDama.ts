@@ -1,4 +1,10 @@
-import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type RefObject,
+} from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import {
   isPlayerFrozen,
@@ -69,9 +75,8 @@ export function useEmanuelGenkiDama({
   disabledRef,
   battleEndedRef,
 }: Props) {
-  const [genkiDamaVisual, setGenkiDamaVisual] = useState<GenkiDamaVisual | null>(
-    null,
-  );
+  const [genkiDamaVisual, setGenkiDamaVisual] =
+    useState<GenkiDamaVisual | null>(null);
 
   const activeRef = useRef(false);
   const phaseRef = useRef<"rising" | "preparing" | "throwing">("rising");
@@ -108,10 +113,7 @@ export function useEmanuelGenkiDama({
   );
 
   const shouldCancelRef = useLatestRef(
-    () =>
-      disabledRef.current ||
-      isPausedRef.current ||
-      battleEndedRef.current,
+    () => disabledRef.current || isPausedRef.current || battleEndedRef.current,
   );
 
   const clearTimers = useCallback(() => {
@@ -219,7 +221,8 @@ export function useEmanuelGenkiDama({
       setPlayerRef.current((p) =>
         p.mode !== "battle" ? p : { ...p, state: "throwGenkiDama" },
       );
-      const startVisual = genkiDamaVisual ??
+      const startVisual =
+        genkiDamaVisual ??
         (() => {
           const p = playerRef.current;
           return {
@@ -335,9 +338,7 @@ export function useEmanuelGenkiDama({
       }
       const phase = phaseRef.current;
       if (phase === "rising") {
-        if (
-          Date.now() - genkiDamaRiseStartRef.current >= GENKI_DAMA_RISE_MS
-        ) {
+        if (Date.now() - genkiDamaRiseStartRef.current >= GENKI_DAMA_RISE_MS) {
           enterPreparingRef.current();
         }
         return;

@@ -27,10 +27,8 @@ export function GameMap({
   focusX,
   focusY,
 }: Props) {
-  const anchorX =
-    focusX != null ? focusX - cameraX : 0;
-  const anchorY =
-    focusY != null ? focusY - cameraY : 0;
+  const anchorX = focusX != null ? focusX - cameraX : 0;
+  const anchorY = focusY != null ? focusY - cameraY : 0;
 
   return (
     <div

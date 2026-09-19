@@ -4,7 +4,11 @@ import {
   NPC_RECENT_BLOCK_COOLDOWN,
 } from "@/data/cooldowns";
 import type { SpawnDamageFn } from "@/utils/types/battle/spawnDamageFn";
-import { FIFTY_MS, ONE_THOUSAND_FIVE_HUNDRED_MS, THREE_HUNDRED_MS } from "@/data/ms";
+import {
+  FIFTY_MS,
+  ONE_THOUSAND_FIVE_HUNDRED_MS,
+  THREE_HUNDRED_MS,
+} from "@/data/ms";
 
 /**
  * Janela de tempo (ms) entre a entrada do jogador e sofrer o dano para o
@@ -22,8 +26,7 @@ export const NPC_BLOCK_MIN_PCT = 0.1;
 export const NPC_BLOCK_HOLD_MS = THREE_HUNDRED_MS;
 
 export type NpcBlockResult =
-  | { blocked: false }
-  | { blocked: true; remainingDamage: number };
+  { blocked: false } | { blocked: true; remainingDamage: number };
 
 /**
  * Chamado antes de o dano do jogador ser aplicado no NPC. Recebe um getter

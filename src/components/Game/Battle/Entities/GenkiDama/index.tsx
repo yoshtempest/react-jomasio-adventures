@@ -20,7 +20,7 @@ type Props = {
  * O tamanho base cresce pelo multiplicador de escala (1.2x por segundo).
  */
 export function GenkiDama({ visual, battleScaleX, battleScaleY }: Props) {
-  const size = GENKI_DAMA_BASE_SIZE * visual.scale      ;
+  const size = GENKI_DAMA_BASE_SIZE * visual.scale;
   const genkiHeight = size * GENKI_DAMA_SPRITE_ASPECT;
   const effectSize = size * GENKI_DAMA_CHARGE_EFFECT_SIZE_MULTIPLIER;
 

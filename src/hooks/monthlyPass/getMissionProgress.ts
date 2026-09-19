@@ -1,8 +1,5 @@
 import type { MonthlyMissionDef } from "@/data/rewards/monthlyPass";
-import {
-  getBlockCount,
-  getDamageDealtStats,
-} from "@/utils/rewards";
+import { getBlockCount, getDamageDealtStats } from "@/utils/rewards";
 
 export function getMissionProgress(
   def: MonthlyMissionDef,

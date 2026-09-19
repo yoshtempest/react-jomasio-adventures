@@ -1,5 +1,5 @@
 import type { AudioSettings } from "./constants";
-import { SFX_KEY, BGM_KEY} from "@/data/storageKeys";
+import { SFX_KEY, BGM_KEY } from "@/data/storageKeys";
 
 export function readAudio(): AudioSettings {
   const rawSfx = localStorage.getItem(SFX_KEY);

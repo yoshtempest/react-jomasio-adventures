@@ -21,4 +21,5 @@ export type DogSpot = { x: number; y: number; alfa: boolean };
 
 export const NO_DOGS: DogSpot[] = [];
 
-export const tileKey = (spot: { x: number; y: number }) => `${spot.x},${spot.y}`;
+export const tileKey = (spot: { x: number; y: number }) =>
+  `${spot.x},${spot.y}`;

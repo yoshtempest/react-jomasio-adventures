@@ -104,10 +104,7 @@ export type MarceloBattleForm = "default" | "vastolordForm";
 //   run   → inFight/movement/movement/run.svg
 // Isso exige um mapeamento por character + estado (o STATE_FOLDER genérico
 // retorna "idle"/"jump"/"movement" como pasta raiz do inFight → 404 p/ emanuel).
-const CHARACTER_STATE_FOLDER_ALT: Record<
-  string,
-  Record<string, string>
-> = {
+const CHARACTER_STATE_FOLDER_ALT: Record<string, Record<string, string>> = {
   emanuel: {
     idle: "movement/idle",
     idleCrounched: "movement/idle",

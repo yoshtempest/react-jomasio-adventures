@@ -94,7 +94,8 @@ export function BattleEntities({
   genkiDamaVisual = null,
 }: Props) {
   const battleScaleX = getViewportSize().width / ProjectileConstants.MAP_WIDTH;
-  const battleScaleY = getViewportSize().height / ProjectileConstants.MAP_HEIGHT;
+  const battleScaleY =
+    getViewportSize().height / ProjectileConstants.MAP_HEIGHT;
 
   const activeBombIds = new Set(bombTargets.map((b) => b.id));
 

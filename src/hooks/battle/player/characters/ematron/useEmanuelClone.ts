@@ -1,4 +1,10 @@
-import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type RefObject,
+} from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
@@ -6,7 +12,10 @@ import {
   getGroundAtX,
   isHorizontallyBlocked,
 } from "@/gameRules/battle/obstacles";
-import { isPlayerFrozen, isPlayerParalyzed } from "@/gameRules/battle/status/statusEffects";
+import {
+  isPlayerFrozen,
+  isPlayerParalyzed,
+} from "@/gameRules/battle/status/statusEffects";
 import type { BattleManaApi } from "@/contexts/BattleManaContext";
 import type { SoundId } from "@/contexts/SoundEffectsContext";
 import type { BattleObstacle } from "@/utils/types/maps/battle";
@@ -60,7 +69,9 @@ export function useEmanuelClone({
 }: Props) {
   const { pushControls } = useGameControls();
 
-  const [cloneVisual, setCloneVisual] = useState<EmanuelCloneVisual | null>(null);
+  const [cloneVisual, setCloneVisual] = useState<EmanuelCloneVisual | null>(
+    null,
+  );
 
   const activeRef = useRef(false);
   const startXRef = useRef(player.x);
@@ -99,10 +110,7 @@ export function useEmanuelClone({
   );
 
   const shouldCancelRef = useLatestRef(
-    () =>
-      disabledRef.current ||
-      isPausedRef.current ||
-      battleEndedRef.current,
+    () => disabledRef.current || isPausedRef.current || battleEndedRef.current,
   );
 
   const cancel = useCallback(() => {
@@ -237,7 +245,14 @@ export function useEmanuelClone({
 
     removeLayerRef.current = pushControlsRef.current(layer);
     playSoundRef.current("blink");
-  }, [canUseRef, freezeActionsUntilRef, playSoundRef, playerRef, pushControlsRef, setTimeScaleRef]);
+  }, [
+    canUseRef,
+    freezeActionsUntilRef,
+    playSoundRef,
+    playerRef,
+    pushControlsRef,
+    setTimeScaleRef,
+  ]);
 
   useEffect(() => {
     const id = setInterval(() => {

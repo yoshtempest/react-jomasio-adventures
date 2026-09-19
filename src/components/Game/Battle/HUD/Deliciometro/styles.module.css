@@ -47,8 +47,7 @@
 }
 
 .fullContainer {
-  animation:
-    delicia-container 2s linear infinite;
+  animation: delicia-container 2s linear infinite;
   box-shadow:
     0 0 2px rgba(255, 255, 255, 0.9),
     0 0 6px rgba(0, 255, 255, 0.45);

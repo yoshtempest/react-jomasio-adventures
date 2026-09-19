@@ -1,4 +1,9 @@
-import { type DogSpot, tileKey, DOG_SPOTS, FOOTBALLCOURT_DOG_COUNT } from "./constants";
+import {
+  type DogSpot,
+  tileKey,
+  DOG_SPOTS,
+  FOOTBALLCOURT_DOG_COUNT,
+} from "./constants";
 import { uniqueByTile } from "./uniqueByTile";
 import { shuffle } from "./shuffle";
 import { rollDogAlfa } from "./rollDogAlfa";

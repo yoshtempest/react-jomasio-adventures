@@ -267,12 +267,18 @@ export function useBattleMovement(
         (state === "falling" || state === "jump") &&
         emanuelCombo.airActiveRef.current;
       const midComboDisplay =
-        state === "preAttack" || EMANUEL_COMBO_STATES.has(state) || airComboActive;
+        state === "preAttack" ||
+        EMANUEL_COMBO_STATES.has(state) ||
+        airComboActive;
 
       const comboEligible =
         state === "idle" || state === "attack" || midComboDisplay;
 
-      if (!isPlayerFrozen(current) && !isPlayerParalyzed(current) && comboEligible) {
+      if (
+        !isPlayerFrozen(current) &&
+        !isPlayerParalyzed(current) &&
+        comboEligible
+      ) {
         // Uma instância de dano por sprite do combo: o 1º press de um golpe em
         // exibição avança/encadeia o próximo step; presses repetidos no MESMO
         // sprite (mash/hold) são ignorados — não cortam a animação nem aplicam

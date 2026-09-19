@@ -5,7 +5,6 @@ import { JESO_FOOD_COOLDOWN_MS } from "@/data/cooldowns";
 import { useCountdown } from "@/hooks/useCountdown";
 import { getRandomFoodIds } from "./getRandomFoodIds";
 
-
 export function useJesoFoodCooldown() {
   const [lastDelivery, setLastDelivery] = useState(() => {
     try {

@@ -55,9 +55,7 @@ export function EmanuelKiChargeButton({
         <Zap size={14} />
         CARGA DE KI
       </span>
-      <span className={styles.cost}>
-        +{EMANUEL_KI_CHARGE_PER_TICK}/100ms
-      </span>
+      <span className={styles.cost}>+{EMANUEL_KI_CHARGE_PER_TICK}/100ms</span>
     </button>
   );
 }

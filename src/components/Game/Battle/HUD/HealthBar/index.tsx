@@ -53,7 +53,10 @@ export function HealthBar({ hp, maxHp = 100, reversed = false }: Props) {
       if (graceTimerRef.current) clearTimeout(graceTimerRef.current);
       setDraining(false);
       setVisibleHp((v) => Math.max(v, prev));
-      graceTimerRef.current = setTimeout(() => setDraining(true), IDLE_GRACE_MS);
+      graceTimerRef.current = setTimeout(
+        () => setDraining(true),
+        IDLE_GRACE_MS,
+      );
     }
   }, [hp]);
 

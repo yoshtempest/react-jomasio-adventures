@@ -19,7 +19,9 @@
 .chargeEffect {
   position: absolute;
   pointer-events: none;
-  animation: spin 1s linear infinite, blink 2s linear infinite;
+  animation:
+    spin 1s linear infinite,
+    blink 2s linear infinite;
 }
 
 .genkiDama {

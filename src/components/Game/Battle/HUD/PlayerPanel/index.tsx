@@ -78,7 +78,7 @@ export function PlayerHUDPanel({
                 />
               </div>
             )}
-            
+
             {energy != null && <EnergyBar label="REIRYOKU" value={energy} />}
             {hasManaBar(character) && mana != null && maxMana != null && (
               <EnergyBar
@@ -88,8 +88,8 @@ export function PlayerHUDPanel({
                     : character === "emanuel"
                       ? "KI"
                       : character === "marcelo"
-                      ? "REIRYOKU"
-                      : "MANA"
+                        ? "REIRYOKU"
+                        : "MANA"
                 }
                 value={mana}
                 max={maxMana}

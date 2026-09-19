@@ -125,9 +125,7 @@ export function usePlayerAnimation(
         if (
           p.character === "emanuel" &&
           p.mode === "battle" &&
-          (p.state === "punch" ||
-            p.state === "hook" ||
-            p.state === "lowKick")
+          (p.state === "punch" || p.state === "hook" || p.state === "lowKick")
         ) {
           const combo = emanuelComboRef.current;
           const queuedIndex = combo?.queuedStepIndexRef.current;

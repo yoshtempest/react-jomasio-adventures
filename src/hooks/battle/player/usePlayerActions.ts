@@ -219,8 +219,7 @@ export function usePlayerBattleActions({
       !isEmanuelComboHit &&
       (player.state === "preAttack" ||
         EMANUEL_COMBO_STATES.has(player.state) ||
-        (player.state === "jump" &&
-          emanuelComboAirActiveRef?.current === true))
+        (player.state === "jump" && emanuelComboAirActiveRef?.current === true))
     ) {
       return;
     }
@@ -301,8 +300,7 @@ export function usePlayerBattleActions({
 
       if (isEmanuelComboHit) {
         const stepIndex = emanuelComboStepIndexRef?.current ?? 0;
-        const step =
-          EMANUEL_COMBO_STEPS[stepIndex] ?? EMANUEL_COMBO_STEPS[0];
+        const step = EMANUEL_COMBO_STEPS[stepIndex] ?? EMANUEL_COMBO_STEPS[0];
         onComboAdvance?.(step.forwardDistance, target.x);
       } else {
         resetCooldownRef(PLAYER_BASIC_COOLDOWN, battle.playerCooldown);

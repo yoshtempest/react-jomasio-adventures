@@ -104,10 +104,7 @@ export function useBattleGravity(
           }
           return { ...p, velY: 0 };
         }
-        if (
-          p.state === "preparingGenkiDama" ||
-          p.state === "throwGenkiDama"
-        ) {
+        if (p.state === "preparingGenkiDama" || p.state === "throwGenkiDama") {
           const topY = Math.max(
             0,
             genkiDamaRiseStartYInternalRef.current - GENKI_DAMA_RISE_Y,
