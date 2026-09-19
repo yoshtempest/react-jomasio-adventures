@@ -11,6 +11,7 @@ import type { useCoffinAnimation } from "@/hooks/battle/summon/useCoffinAnimatio
 import type { useNpcSetup } from "@/hooks/battle/npc/useSetup";
 import type { useEmanuelClone } from "@/hooks/battle/player/characters/ematron/useEmanuelClone";
 import type { useEmanuelGenkiDama } from "@/hooks/battle/player/characters/ematron/useEmanuelGenkiDama";
+import type { CameraFocus } from "@/hooks/battle/effects/useCameraSequence";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { CharactersProgress } from "@/data/characters/defaultProgress";
 import type { ReplayData } from "@/utils/types/replay";
@@ -93,6 +94,7 @@ export type BattleSceneApi = {
   blackFlashVariant: ReturnType<
     typeof useBlackFlashAnimation
   >["blackFlashVariant"];
+  cameraFocus: CameraFocus;
   vastolordActive: boolean;
   vastolordRemainingMs: number;
   specialIntroActive: ReturnType<typeof useSpecialIntro>["specialIntroActive"];

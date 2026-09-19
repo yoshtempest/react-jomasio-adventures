@@ -13,10 +13,32 @@
 
 .fill {
   height: 100%;
-  transition:
-    width 0.2s,
-    background 0.2s;
+  transition: background 0.2s;
   position: relative;
+}
+
+/* Parcela de vida perdida ainda não reduzida (aguarda a janela sem dano). */
+.loss {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    hsl(0, 90%, 62%) 0%,
+    hsl(350, 95%, 48%) 50%,
+    hsl(0, 85%, 55%) 100%
+  );
+  box-shadow: inset 0 0 0 var(--size-1) rgba(255, 255, 255, 0.25);
+  animation: healthBarLossPulse 0.35s ease-in-out infinite alternate;
+}
+
+@keyframes healthBarLossPulse {
+  from {
+    opacity: 0.9;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .text {

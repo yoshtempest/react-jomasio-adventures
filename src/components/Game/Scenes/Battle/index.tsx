@@ -141,6 +141,7 @@ export function BattleScene(props: Props) {
     kokusenFrame,
     blackFlashActive,
     blackFlashVariant,
+    cameraFocus,
     vastolordActive,
     vastolordRemainingMs,
     specialIntroActive,
@@ -177,13 +178,19 @@ export function BattleScene(props: Props) {
   const bgXMax =
     initialBgPosRef.current.x + (maxOffsetX * 200) / containerWidth;
 
+  const focusEntity =
+    cameraFocus?.entity === "npc" ? npc : player;
+
   const targetBgX = Math.max(
     bgXMin,
-    Math.min((player.x / ProjectileConstants.MAP_WIDTH) * 100, bgXMax),
+    Math.min(
+      (focusEntity.x / ProjectileConstants.MAP_WIDTH) * 100,
+      bgXMax,
+    ),
   );
   const targetBgY = Math.max(
     0,
-    Math.min((player.y / ProjectileConstants.MAP_HEIGHT) * 100, 100),
+    Math.min((focusEntity.y / ProjectileConstants.MAP_HEIGHT) * 100, 100),
   );
 
   const [bgPosX, setBgPosX] = useState(targetBgX);
@@ -198,7 +205,31 @@ export function BattleScene(props: Props) {
   const worldOffsetY =
     (containerHeight * 0.5 * (bgPosY - initialBgPosRef.current.y)) / 100;
 
+  const zoom = cameraFocus?.zoom ?? 1;
+  const focusX = cameraFocus?.entity === "npc" ? npc.x : player.x;
+  const focusY = cameraFocus?.entity === "npc" ? npc.y : player.y;
+
   const shake = useCameraShake(battle.damageNumbers);
+
+  const bgBaseW = containerWidth * 1.5;
+  const bgBaseH = containerHeight * 1.5;
+  const focusScreenX = focusX - (worldOffsetX + shake.x);
+  const focusScreenY = focusY - (worldOffsetY + shake.y);
+
+  const denomX = containerWidth - zoom * bgBaseW;
+  const denomY = containerHeight - zoom * bgBaseH;
+  const adjustedBgX =
+    denomX === 0
+      ? bgPosX
+      : (zoom * (containerWidth - bgBaseW) * bgPosX +
+          100 * (1 - zoom) * focusScreenX) /
+        denomX;
+  const adjustedBgY =
+    denomY === 0
+      ? bgPosY
+      : (zoom * (containerHeight - bgBaseH) * bgPosY +
+          100 * (1 - zoom) * focusScreenY) /
+        denomY;
 
   const battleScaleX = screenWidth / ProjectileConstants.MAP_WIDTH;
   const battleScaleY = screenHeight / ProjectileConstants.MAP_HEIGHT;
@@ -303,8 +334,8 @@ export function BattleScene(props: Props) {
         background
           ? {
               backgroundImage: `url(${background})`,
-              backgroundSize: "150% 150%",
-              backgroundPosition: `calc(${bgPosX}% + ${shake.x}px) calc(${bgPosY}% + ${shake.y}px)`,
+              backgroundSize: `calc(150% * ${zoom})`,
+              backgroundPosition: `calc(${adjustedBgX}% + ${shake.x}px) calc(${adjustedBgY}% + ${shake.y}px)`,
             }
           : undefined
       }
@@ -343,6 +374,9 @@ export function BattleScene(props: Props) {
           rows={MAP_ROWS}
           cameraX={worldOffsetX + shake.x}
           cameraY={worldOffsetY + shake.y}
+          zoom={zoom}
+          focusX={focusX}
+          focusY={focusY}
         >
           {map && <BattleMap map={map} />}
 

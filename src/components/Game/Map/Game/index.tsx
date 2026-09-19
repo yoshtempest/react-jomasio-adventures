@@ -7,6 +7,11 @@ type Props = {
   cameraY?: number;
   backgroundUrl?: string;
   backgroundSize?: string;
+  /** Fator de zoom aplicado ao mundo (1 = sem zoom). */
+  zoom?: number;
+  /** Ponto do mundo (em px) que deve permanecer fixo durante o zoom. */
+  focusX?: number;
+  focusY?: number;
 };
 
 export function GameMap({
@@ -18,7 +23,15 @@ export function GameMap({
   cameraY = 0,
   backgroundUrl,
   backgroundSize = "cover",
+  zoom = 1,
+  focusX,
+  focusY,
 }: Props) {
+  const anchorX =
+    focusX != null ? focusX - cameraX : 0;
+  const anchorY =
+    focusY != null ? focusY - cameraY : 0;
+
   return (
     <div
       style={{
@@ -27,7 +40,8 @@ export function GameMap({
         top: 0,
         width: cols * TILE_SIZE,
         height: rows * TILE_SIZE,
-        transform: `translate(${-cameraX}px, ${-cameraY}px)`,
+        transform: `translate(${anchorX}px, ${anchorY}px) scale(${zoom}) translate(${-anchorX}px, ${-anchorY}px) translate(${-cameraX}px, ${-cameraY}px)`,
+        transformOrigin: "0 0",
         backgroundImage: backgroundUrl ? `url(${backgroundUrl})` : undefined,
         backgroundSize,
         backgroundRepeat: "no-repeat",

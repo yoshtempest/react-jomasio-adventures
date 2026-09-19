@@ -14,6 +14,7 @@ import { useRewind } from "@/hooks/battle/rewind/useRewind";
 import { useBattleSnapshots } from "@/hooks/battle/time/useBattleSnapshots";
 import { useHonoredOne } from "@/hooks/battle/player/characters/natsuki/useHonoredOne";
 import { useDefeatFlow } from "@/hooks/battle/defeat/useDefeatFlow";
+import { useCameraSequence } from "@/hooks/battle/effects/useCameraSequence";
 import { buildBattleSceneApi } from "@/hooks/battle/utilities/buildBattleSceneApi";
 import { getCharacterPassive } from "@/data/characters/passives";
 import { aggregateRewards } from "@/gameRules/battle/loot/buildLootBags";
@@ -85,6 +86,7 @@ export function useBattleScene({
     playSound,
     spawnVictoryTombstone,
     clearPendingTombstoneSpawn,
+    npcPhase,
     setNpcPhase,
     battleStartRef,
     prevModeRef,
@@ -175,17 +177,7 @@ export function useBattleScene({
     honoredFallRef,
   });
 
-  const isPaused =
-    showVictory ||
-    showDefeat ||
-    showIntro ||
-    showOutro != null ||
-    showHighlight ||
-    rewindFrames != null ||
-    isConfigOpen ||
-    isBattleNavOpen ||
-    mostHonoredFreeze;
-  const isPausedRef = useLatestRef(isPaused);
+  const isPausedRef = useRef(false);
   const lootActiveRef = useRef(false);
 
   const vastolordEndingRef = useRef<{ current: boolean }>({ current: false });
@@ -225,6 +217,25 @@ export function useBattleScene({
     vastolordEndingRef,
     runDefeatRef,
   });
+
+  const cameraFocus = useCameraSequence({
+    npcPhase,
+    vastolordActive,
+    enabled: rewindFrames == null && !showVictory && !showDefeat,
+  });
+
+  const isPaused =
+    showVictory ||
+    showDefeat ||
+    showIntro ||
+    showOutro != null ||
+    showHighlight ||
+    rewindFrames != null ||
+    isConfigOpen ||
+    isBattleNavOpen ||
+    mostHonoredFreeze ||
+    cameraFocus.isFrozen;
+  isPausedRef.current = isPaused;
 
   const performRewindRef = useRef<() => boolean>(() => false);
 
@@ -660,6 +671,7 @@ export function useBattleScene({
     kokusenFrame,
     blackFlashActive,
     blackFlashVariant,
+    cameraFocus: cameraFocus.focus,
     vastolordActive,
     vastolordRemainingMs,
     specialIntroActive,
