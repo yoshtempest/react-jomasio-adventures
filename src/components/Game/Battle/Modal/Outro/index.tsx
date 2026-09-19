@@ -3,7 +3,7 @@ import { playerPath } from "@/utils/paths";
 import { getOutroLine } from "@/data/battle/outro";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useTypewriter } from "@/hooks/interaction/useTypewriter";
-import { useSettings } from "@/hooks/useSetting";
+import { useSettings } from "@/hooks/settings/useSetting";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useBattleOutroSound } from "@/hooks/battle/modals/useOutroSound";
 

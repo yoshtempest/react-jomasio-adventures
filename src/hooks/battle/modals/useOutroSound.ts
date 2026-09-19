@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useAudio } from "@/hooks/useAudio";
+import { useAudio } from "@/hooks/audio/useAudio";
 import { soundEffectPath } from "@/utils/paths";
 
 const OUTRO_SOUND_VOLUME = 1;

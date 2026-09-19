@@ -4,7 +4,7 @@ import Talking from "@/components/Game/Interactions/Talking";
 import { ChoiceBox } from "@/components/Game/Interactions/ChoiceBox";
 import styles from "./styles.module.css";
 import SOS from "/assets/songs/background/battle/SOSFromEarth.m4a";
-import { useBackgroundAudio } from "@/hooks/useBackgroundAudio";
+import { useBackgroundAudio } from "@/hooks/audio/useBackgroundAudio";
 import { useNavigate } from "react-router";
 import { useCutscene } from "@/hooks/interaction/useCutscene";
 import { useSansTalking } from "@/hooks/interaction/useSansTalking";

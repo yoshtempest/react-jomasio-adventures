@@ -2,9 +2,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { SyntheticEvent } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useTypewriter } from "@/hooks/interaction/useTypewriter";
-import { useSettings } from "@/hooks/useSetting";
+import { useSettings } from "@/hooks/settings/useSetting";
 import { useGameControls } from "@/contexts/GameControlsContext";
-import { useAudio } from "@/hooks/useAudio";
+import { useAudio } from "@/hooks/audio/useAudio";
 import { resolveAsset } from "@/utils/paths";
 
 /**

@@ -1,7 +1,7 @@
 import { npcPath, playerPath } from "@/utils/paths";
 import styles from "./styles.module.css";
 import { useEffect, useRef } from "react";
-import { useAudio } from "@/hooks/useAudio";
+import { useAudio } from "@/hooks/audio/useAudio";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { usePlayerActions } from "@/contexts/PlayerContext";

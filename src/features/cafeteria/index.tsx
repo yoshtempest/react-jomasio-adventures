@@ -10,7 +10,7 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { useQuestActions } from "@/hooks/quest/useQuestActions";
 import { useFlags } from "@/contexts/FlagContext";
 
-import { useRandomEncounter } from "@/hooks/scene/useRandomEncounter";
+import { useRandomEncounter } from "@/hooks/scene/randomEncounter/useRandomEncounter";
 import { useContainer } from "@/hooks/container/useContainer";
 
 import { Container } from "@/components/Game/Map/Container";

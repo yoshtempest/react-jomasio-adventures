@@ -10,61 +10,7 @@ import {
   DIFFICULTY_KEY,
 } from "@/data/storageKeys";
 import { slotKey } from "@/services/save/slotManager";
-import { createExternalStore } from "@/utils/createExternalStore";
-
-type Settings = {
-  dialogueSpeed: DialogueSpeed;
-  showQuestIndicator: boolean;
-  showComboAction: boolean;
-  showHighlight: boolean;
-  sharedXp: boolean;
-  difficulty: NpcDifficulty;
-};
-
-function readSettings(): Settings {
-  const raw = localStorage.getItem(DIALOGUE_SPEED_KEY);
-  let dialogueSpeed: DialogueSpeed = "normal";
-  if (raw === "fast" || raw === "normal" || raw === "slow") dialogueSpeed = raw;
-
-  const showQuestIndicator =
-    localStorage.getItem(SHOW_QUEST_INDICATOR_KEY) === "true";
-  const showComboAction =
-    localStorage.getItem(SHOW_COMBO_ACTION_KEY) !== "false";
-  const showHighlight = localStorage.getItem(SHOW_HIGHLIGHT_KEY) !== "false";
-  const sharedXp = localStorage.getItem(SHARED_XP_KEY) === "true";
-
-  const rawDiff = localStorage.getItem(slotKey(DIFFICULTY_KEY));
-  let difficulty: NpcDifficulty = "medium";
-  if (
-    rawDiff === "easy" ||
-    rawDiff === "medium" ||
-    rawDiff === "hard" ||
-    rawDiff === "insano"
-  ) {
-    difficulty = rawDiff;
-  }
-
-  return {
-    dialogueSpeed,
-    showQuestIndicator,
-    showComboAction,
-    showHighlight,
-    sharedXp,
-    difficulty,
-  };
-}
-
-const settingsStore = createExternalStore(readSettings);
-
-export type SettingsReturn = Settings & {
-  dialogueSpeedMs: number;
-  setDialogueSpeed: (speed: DialogueSpeed) => void;
-  setShowQuestIndicator: (show: boolean) => void;
-  setShowComboAction: (show: boolean) => void;
-  setShowHighlight: (show: boolean) => void;
-  setSharedXp: (shared: boolean) => void;
-  setDifficulty: (difficulty: NpcDifficulty) => void;
-};
+import { type SettingsReturn, settingsStore } from "./constants";
 
 export function useSettings(): SettingsReturn {
   const s = settingsStore.useValue();

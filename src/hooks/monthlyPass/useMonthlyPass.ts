@@ -1,76 +1,15 @@
 import { useState, useCallback } from "react";
-import {
-  MONTHLY_MISSIONS,
-  type MonthlyMissionDef,
-} from "@/data/rewards/monthlyPass";
-import { MONTHLY_PASS_KEY } from "@/data/storageKeys";
+import { MONTHLY_MISSIONS } from "@/data/rewards/monthlyPass";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useTitles } from "@/contexts/TitleContext";
 import { usePlayTime } from "@/contexts/PlayTimeContext";
-import { slotKey } from "@/services/save/slotManager";
-import {
-  getClassKills,
-  getBlockCount,
-  getDamageDealtStats,
-} from "@/utils/rewards";
-
-function getCurrentMonth(): string {
-  const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
-}
-
-type StoredPass = {
-  month: string;
-  claimed: string[];
-};
-
-function loadPass(): StoredPass {
-  try {
-    const raw = localStorage.getItem(slotKey(MONTHLY_PASS_KEY));
-    if (!raw) return { month: getCurrentMonth(), claimed: [] };
-    const parsed = JSON.parse(raw) as StoredPass;
-    if (parsed.month !== getCurrentMonth()) {
-      return { month: getCurrentMonth(), claimed: [] };
-    }
-    return parsed;
-  } catch {
-    return { month: getCurrentMonth(), claimed: [] };
-  }
-}
-
-function savePass(data: StoredPass): void {
-  try {
-    localStorage.setItem(slotKey(MONTHLY_PASS_KEY), JSON.stringify(data));
-  } catch {}
-}
-
-function getMissionProgress(
-  def: MonthlyMissionDef,
-  totalKills: number,
-  totalPlayTime: number,
-  loginDays: number,
-  classKills: Record<string, number>,
-): number {
-  switch (def.id) {
-    case "kill_enemies":
-      return totalKills;
-    case "play_time":
-      return Math.floor(totalPlayTime / 3600);
-    case "kill_boss":
-      return classKills.boss ?? 0;
-    case "kill_legendary":
-      return classKills.legendary ?? 0;
-    case "damage_dealt":
-      return getDamageDealtStats().total;
-    case "blocks":
-      return getBlockCount().total;
-    case "login_days":
-      return loginDays;
-    default:
-      return 0;
-  }
-}
+import { getClassKills } from "@/utils/rewards";
+import type { StoredPass } from "./types";
+import { getCurrentMonth } from "./getCurrentMonth";
+import { loadPass } from "./loadPass";
+import { getMissionProgress } from "./getMissionProgress";
+import { savePass } from "./savePass";
 
 export function useMonthlyPass() {
   const { player } = usePlayer();

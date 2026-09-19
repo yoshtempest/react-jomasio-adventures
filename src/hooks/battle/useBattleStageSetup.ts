@@ -12,7 +12,7 @@ import { useNavbar } from "@/contexts/NavbarContext";
 import { useBattleNavbar } from "@/contexts/BattleNavbarContext";
 import { useTitles } from "@/contexts/TitleContext";
 import { usePlayTimeActions } from "@/contexts/PlayTimeContext";
-import { useSettings } from "@/hooks/useSetting";
+import { useSettings } from "@/hooks/settings/useSetting";
 import { useTombstones } from "@/contexts/TombstoneContext";
 import { useNpcSetup } from "@/hooks/battle/npc/useSetup";
 import { getNpcLevel } from "@/data/npc";

@@ -3,7 +3,7 @@ import { FOOTBALLCOURT_SCENES } from "@/scenes/footballCourt";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
 import { sceneBackgrounds } from "@/data/scene/background";
-import { useFootballCourtDogs } from "@/hooks/scene/useFootballCourtDogs";
+import { useFootballCourtDogs } from "@/hooks/scene/footballCourtDogs/useFootballCourtDogs";
 import { useMemo } from "react";
 
 type Props = {

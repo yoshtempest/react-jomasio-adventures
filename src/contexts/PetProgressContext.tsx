@@ -17,7 +17,7 @@ import {
   getPetClass,
 } from "@/utils/character/petProgress";
 import { useCompressedStorage } from "@/hooks/useCompressedStorage";
-import { useQueuedSounds } from "@/hooks/useQueuedSounds";
+import { useQueuedSounds } from "@/hooks/audio/useQueuedSounds";
 import { PET_MAX_LEVEL } from "@/data/characters/petProgress";
 
 type ContextType = {

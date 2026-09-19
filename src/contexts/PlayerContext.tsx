@@ -28,7 +28,7 @@ import { useBattleCollisionRef } from "@/hooks/battle/utilities/useBattleCollisi
 import { CHARACTER_KEY, PLAYER_CLASS_KEY } from "@/data/storageKeys";
 import { slotKey } from "@/services/save/slotManager";
 import { isCharacter } from "@/data/characters/list";
-import { useSettings } from "@/hooks/useSetting";
+import { useSettings } from "@/hooks/settings/useSetting";
 
 /**
  * Estado que muda com alta frequência (a cada movimento/ataque do player).

@@ -4,7 +4,7 @@ import { usePetProgress } from "@/contexts/PetProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
-import { useSettings } from "@/hooks/useSetting";
+import { useSettings } from "@/hooks/settings/useSetting";
 import { useFlags } from "@/contexts/FlagContext";
 import { useTitles } from "@/contexts/TitleContext";
 import { CHEST_DROP_CHANCE, KEY_DROP_CHANCE } from "@/data/battle/drops";

@@ -15,7 +15,7 @@ import Talking from "@/components/Game/Interactions/Talking";
 import { JesoFoodBadge } from "@/components/Game/Map/JesoFoodBadge";
 import { cantinaJesoDialogue } from "@/data/dialogues/cantina/jeso";
 import { cantinaJesoTwoDialogue } from "@/data/dialogues/cantina/jesoTwo";
-import { useJesoFoodCooldown } from "@/hooks/useJesoFoodCooldown";
+import { useJesoFoodCooldown } from "@/hooks/jesoFood/useJesoFoodCooldown";
 
 type Props = {
   sceneId: SceneId;

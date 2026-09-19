@@ -20,8 +20,8 @@ import {
 import { getXpBuffMultiplier } from "@/utils/buffs/xpBuff";
 import { DIFFICULTY_XP_MULTIPLIER } from "@/data/player/xp";
 import { useCompressedStorage } from "@/hooks/useCompressedStorage";
-import { useSettings } from "@/hooks/useSetting";
-import { useQueuedSounds } from "@/hooks/useQueuedSounds";
+import { useSettings } from "@/hooks/settings/useSetting";
+import { useQueuedSounds } from "@/hooks/audio/useQueuedSounds";
 
 export const MAX_HUNGER = 100;
 export const MAX_SLEEP = 100;

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useAudio } from "@/hooks/useAudio";
+import { useAudio } from "@/hooks/audio/useAudio";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { resolveAsset } from "@/utils/paths";
 

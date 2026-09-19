@@ -5,28 +5,9 @@ import { useTitles } from "@/contexts/TitleContext";
 import { useTombstones } from "@/contexts/TombstoneContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { slotKey } from "@/services/save/slotManager";
-import type {
-  RandomEncounterConfig,
-  EncounterDef,
-} from "@/utils/types/battle/randomEncounter";
-
-function pickEncounter(encounters: EncounterDef[]): string {
-  const totalWeight = encounters.reduce((sum, e) => sum + e.weight, 0);
-  let roll = Math.random() * totalWeight;
-  for (const e of encounters) {
-    roll -= e.weight;
-    if (roll <= 0) return e.route;
-  }
-  return encounters[encounters.length - 1]!.route;
-}
-
-function rollNpcLevel(
-  range: readonly [number, number] | undefined,
-): number | undefined {
-  if (!range) return undefined;
-  const [min, max] = range;
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+import type { RandomEncounterConfig } from "@/utils/types/battle/randomEncounter";
+import { pickEncounter } from "./pickEncounter";
+import { rollNpcLevel } from "./rollNpcLevel";
 
 export function useRandomEncounter(config: RandomEncounterConfig) {
   const configRef = useLatestRef(config);

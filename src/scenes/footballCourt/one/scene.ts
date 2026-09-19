@@ -5,7 +5,7 @@ import { getFootballCourtOneDialogue } from "./dialogue";
 import { footballCourtOneNpcs } from "./npcs";
 import { footballCourtOneEvents } from "./events";
 import { footballCourtOneTiles } from "./tiles";
-import { FOOTBALLCOURT_DOG_LOCATION_ID } from "@/hooks/scene/useFootballCourtDogs";
+import { FOOTBALLCOURT_DOG_LOCATION_ID } from "@/hooks/scene/footballCourtDogs/useFootballCourtDogs";
 
 export const oneScene: SceneConfig = {
   id: "one",

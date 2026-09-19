@@ -3,7 +3,7 @@ import { SkipForward } from "lucide-react";
 import Talking from "@/components/Game/Interactions/Talking";
 import { ChoiceBox } from "@/components/Game/Interactions/ChoiceBox";
 import STFDialogue from "/assets/songs/background/STFDialogue.mp3";
-import { useBackgroundAudio } from "@/hooks/useBackgroundAudio";
+import { useBackgroundAudio } from "@/hooks/audio/useBackgroundAudio";
 import { useNavigate } from "react-router";
 import { useCutscene } from "@/hooks/interaction/useCutscene";
 import { useSansTalking } from "@/hooks/interaction/useSansTalking";

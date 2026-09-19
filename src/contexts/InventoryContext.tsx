@@ -12,7 +12,7 @@ import { useSoundEffects, type SoundId } from "@/contexts/SoundEffectsContext";
 import { INVENTORY_KEY } from "@/data/storageKeys";
 import { useCompressedStorage } from "@/hooks/useCompressedStorage";
 import { useToggle } from "@/hooks/useToggle";
-import { useQueuedSounds } from "@/hooks/useQueuedSounds";
+import { useQueuedSounds } from "@/hooks/audio/useQueuedSounds";
 import { InventoryService } from "@/services/inventory";
 
 type InventoryContextType = {

@@ -14,7 +14,7 @@ import { FLAGS } from "@/data/flags";
 import { BESTIARY_NPC_ORDER } from "@/data/bestiary";
 import { useRewards } from "@/hooks/rewards/useRewards";
 import { useDailyReward } from "@/hooks/rewards/useDailyReward";
-import { useMonthlyPass } from "@/hooks/useMonthlyPass";
+import { useMonthlyPass } from "@/hooks/monthlyPass/useMonthlyPass";
 import { useQuests } from "@/contexts/QuestContext";
 import { SIDE_QUESTS } from "@/data/quests/sidequests";
 import {

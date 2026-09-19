@@ -7,7 +7,7 @@ import {
   MAX_SLEEP,
 } from "@/contexts/CharacterProgressContext";
 import { useBattleMana } from "@/contexts/BattleManaContext";
-import { useAudio } from "@/hooks/useAudio";
+import { useAudio } from "@/hooks/audio/useAudio";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { sfx } from "@/utils/paths";
 import { activateXpBuff, POTION_CONFIG } from "@/utils/buffs/xpBuff";

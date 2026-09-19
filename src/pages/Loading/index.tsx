@@ -5,7 +5,7 @@ import { hasSave } from "@/services/save/saveService";
 import styles from "./styles.module.css";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
-import { useBackgroundAudio } from "@/hooks/useBackgroundAudio";
+import { useBackgroundAudio } from "@/hooks/audio/useBackgroundAudio";
 import { useUpdate } from "@/contexts/UpdateContext";
 import { TWO_THOUSAND_MS } from "@/data/ms";
 import loading from "/assets/songs/transitions/loading.mp3";

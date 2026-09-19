@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { usePlayer } from "@/contexts/PlayerContext";
-import { useAudio } from "@/hooks/useAudio";
+import { useAudio } from "@/hooks/audio/useAudio";
 
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
-import { useSettings } from "@/hooks/useSetting";
+import { useSettings } from "@/hooks/settings/useSetting";
 import { useUpdate } from "@/contexts/UpdateContext";
 import { usePWA } from "@/contexts/PWAContext";
 import type { ConfigTab } from "@/data/config/tabs";

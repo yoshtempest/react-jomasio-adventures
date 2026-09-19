@@ -12,7 +12,7 @@ import { useNavigate, useLocation } from "react-router";
 
 import { LIBRARY_RETURN_KEY } from "@/data/storageKeys";
 
-import { useRandomEncounter } from "@/hooks/scene/useRandomEncounter";
+import { useRandomEncounter } from "@/hooks/scene/randomEncounter/useRandomEncounter";
 
 import Talking from "@/components/Game/Interactions/Talking";
 

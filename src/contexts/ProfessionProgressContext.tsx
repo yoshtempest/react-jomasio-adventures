@@ -16,7 +16,7 @@ import { CHARACTERS } from "@/data/characters/list";
 import { PROFESSION_PROGRESS_KEY } from "@/data/storageKeys";
 import { useCompressedStorage } from "@/hooks/useCompressedStorage";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
-import { useQueuedSounds } from "@/hooks/useQueuedSounds";
+import { useQueuedSounds } from "@/hooks/audio/useQueuedSounds";
 import {
   applyProficiencyXP,
   getProfessionXPToNextLevel,

@@ -1,19 +1,10 @@
 import { useState, useCallback } from "react";
 import { JESO_FOOD_KEY } from "@/data/storageKeys";
 import { slotKey } from "@/services/save/slotManager";
-import { FOODS } from "@/data/items/consumable/food";
 import { JESO_FOOD_COOLDOWN_MS } from "@/data/cooldowns";
 import { useCountdown } from "@/hooks/useCountdown";
+import { getRandomFoodIds } from "./getRandomFoodIds";
 
-function getRandomFoodIds(count: number): string[] {
-  const foodIds = Object.keys(FOODS);
-  const result: string[] = [];
-  for (let i = 0; i < count; i++) {
-    const randomIndex = Math.floor(Math.random() * foodIds.length);
-    result.push(foodIds[randomIndex]!);
-  }
-  return result;
-}
 
 export function useJesoFoodCooldown() {
   const [lastDelivery, setLastDelivery] = useState(() => {
