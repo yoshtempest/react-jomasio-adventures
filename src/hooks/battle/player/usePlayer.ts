@@ -24,6 +24,7 @@ import type { ElementType } from "@/utils/types/battle/element";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { logPlay } from "@/utils/replay/audioEventLog";
 import { resetCooldownRef } from "@/utils/battle/cooldown";
+import type { OnBeforeNpcHit } from "@/hooks/battle/npc/useBlocking";
 
 type Props = {
   player: Player;
@@ -72,7 +73,7 @@ type Props = {
   divergentFistRef?: React.RefObject<boolean>;
   /** Dispara quando o Punho Divergente é consumido pelo golpe. */
   onDivergentFistConsumedRef?: React.RefObject<() => void>;
-  onBeforeNpcHitRef?: React.RefObject<() => boolean>;
+  onBeforeNpcHitRef?: React.RefObject<OnBeforeNpcHit>;
   onDamageDealtRef?: React.RefObject<(amount: number) => void>;
   onAttackRef?: React.RefObject<() => void>;
   onSpecialRef?: React.RefObject<() => void>;
@@ -179,8 +180,33 @@ export function usePlayerBattle({
         return;
       }
 
-      if (onBeforeNpcHitRef?.current?.()) {
+      const blockResult = onBeforeNpcHitRef?.current?.(() => {
+        const { damage } = calculateBasicHitDamage({
+          player,
+          playerClass,
+          char,
+          titleDamageBonus,
+          elementDamageBonus,
+          critRate,
+          npcArmor,
+          npcElementTypes,
+          playerHP,
+          playerMaxHp,
+          totalMaxHpDamage,
+          totalTrueDamage,
+          damageMultiplier: mult,
+        });
+        return damage;
+      });
+
+      if (blockResult?.blocked) {
         resetCooldownRef(PLAYER_BASIC_COOLDOWN, playerCooldown);
+        if (blockResult.remainingDamage > 0) {
+          setNpcHP((hp) => Math.max(0, hp - blockResult.remainingDamage));
+          registerHitRef.current?.(blockResult.remainingDamage);
+          onDamageDealtRef?.current?.(blockResult.remainingDamage);
+          spawnDamageRef.current?.(blockResult.remainingDamage, npcX, npcY, "npc");
+        }
         return;
       }
 
@@ -344,8 +370,33 @@ export function usePlayerBattle({
         return;
       }
 
-      if (onBeforeNpcHitRef?.current?.()) {
+      const blockResult = onBeforeNpcHitRef?.current?.(() => {
+        const { damage } = calculateSpecialHitDamage({
+          player,
+          playerClass,
+          char,
+          elementDamageBonus,
+          critRate,
+          npcArmor,
+          npcElementTypes,
+          playerHP,
+          playerMaxHp,
+          totalMaxHpDamage,
+          totalTrueDamage,
+          damageMultiplier: totalMultiplier,
+          stacks,
+        });
+        return damage;
+      });
+
+      if (blockResult?.blocked) {
         resetCooldownRef(PLAYER_SPECIAL_COOLDOWN, playerCooldown);
+        if (blockResult.remainingDamage > 0) {
+          setNpcHP((hp) => Math.max(0, hp - blockResult.remainingDamage));
+          registerHitRef.current?.(blockResult.remainingDamage);
+          onDamageDealtRef?.current?.(blockResult.remainingDamage);
+          spawnDamageRef.current?.(blockResult.remainingDamage, npcX, npcY, "npc");
+        }
         return;
       }
 

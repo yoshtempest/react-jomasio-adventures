@@ -7,6 +7,7 @@ import {
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { usePetSkillCooldown } from "@/hooks/battle/player/pets/usePetSkill";
 import { usePetPassive } from "@/hooks/battle/player/pets/usePetPassive";
+import type { OnBeforeNpcHit } from "@/hooks/battle/npc/useBlocking";
 
 import { useBattleStats } from "@/hooks/battle/useStats";
 import { VASTOLORD_MULTIPLIER } from "@/hooks/battle/player/characters/marshadow/useVastolordForm";
@@ -64,7 +65,7 @@ type Props = {
   lastBlockPressRef: React.RefObject<number>;
   lastAttackPressRef?: React.RefObject<number>;
   npcPhaseRef: React.RefObject<number>;
-  onBeforeNpcHitRef?: React.RefObject<() => boolean>;
+  onBeforeNpcHitRef?: React.RefObject<OnBeforeNpcHit>;
   onBlockRef?: React.RefObject<() => void>;
   onDamageTakenRef?: React.RefObject<(amount: number) => void>;
   onDodgeRef?: React.RefObject<() => void>;
@@ -174,6 +175,13 @@ export function useBattleSystem(props: Props) {
 
   const { blockGauge, setBlockGauge, blockLimit, resetBlockGauge } =
     useBlockGauge(char.level, totalArmor);
+
+  const {
+    blockGauge: npcBlockGauge,
+    setBlockGauge: setNpcBlockGauge,
+    blockLimit: npcBlockLimit,
+    resetBlockGauge: resetNpcBlockGauge,
+  } = useBlockGauge(npcLevel, npcArmor);
 
   const behavior = (battleBehaviors[player.character] ||
     battleBehaviors.default)!;
@@ -436,6 +444,7 @@ export function useBattleSystem(props: Props) {
     setPlayerHP(playerMaxHp);
     setPlayerShield(totalShield);
     resetBlockGauge();
+    resetNpcBlockGauge();
     setNpcHP(npcMaxHp);
     setNpcPhase(1);
     playerBattle.setDelicia(0);
@@ -552,6 +561,9 @@ export function useBattleSystem(props: Props) {
     elementDamageBonus: professionElementDamageBonus,
     blockGauge,
     blockLimit,
+    npcBlockGauge,
+    setNpcBlockGauge,
+    npcBlockLimit,
     tenacityReduction: stats.tenacityReduction,
     halfHealReduction,
     applyStatus,

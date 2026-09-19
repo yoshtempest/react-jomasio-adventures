@@ -27,6 +27,10 @@ import { useArturBattle } from "@/hooks/battle/player/characters/srGuaxinim/useA
 import { useEmanuelClone } from "@/hooks/battle/player/characters/ematron/useEmanuelClone";
 import { useEmanuelKiCharge } from "@/hooks/battle/player/characters/ematron/useEmanuelKiCharge";
 import { useEmanuelGenkiDama } from "@/hooks/battle/player/characters/ematron/useEmanuelGenkiDama";
+import {
+  NPC_BLOCK_HOLD_MS,
+  NPC_BLOCK_MIN_PCT,
+} from "@/hooks/battle/npc/useBlocking";
 import { damageSummon } from "@/gameRules/battle/damageSummon";
 import {
   getWeaponEnchantment,
@@ -341,22 +345,38 @@ export function useBattleCombat({
     );
   });
 
-  targeting.onBeforeNpcHitRef.current = () => {
-    if (npcType !== "piupiu") return false;
+  targeting.onBeforeNpcHitRef.current = (getDamage) => {
+    if (npcType !== "piupiu") return { blocked: false };
     const distanceX = Math.abs(npc.x - player.x);
     const distanceY = Math.abs(npc.y - player.y);
-    if (distanceX > 50 || distanceY > 150) return false;
-    if (Math.random() < 0.8) {
+    if (distanceX > 50 || distanceY > 150) return { blocked: false };
+
+    const gauge = battle.npcBlockGauge;
+    const limit = battle.npcBlockLimit;
+    if (limit <= 0 || gauge < limit * NPC_BLOCK_MIN_PCT) {
+      return { blocked: false };
+    }
+
+    const dmg = getDamage();
+
+    if (dmg <= gauge) {
+      battle.setNpcBlockGauge((g) => Math.max(0, g - dmg));
       targeting.npcBlockedRef.current = true;
       npc.updateNpc({ state: "block" });
       refs.spawnDamageRef.current?.(0, npc.x, npc.y, "blocked");
       clearTimeout(targeting.npcBlockTimerRef.current);
       targeting.npcBlockTimerRef.current = setTimeout(() => {
         targeting.npcBlockedRef.current = false;
-      }, 300);
-      return true;
+      }, NPC_BLOCK_HOLD_MS);
+      return { blocked: true, remainingDamage: 0 };
     }
-    return false;
+
+    const remaining = dmg - gauge;
+    battle.setNpcBlockGauge(0);
+    targeting.npcBlockedRef.current = false;
+    npc.updateNpc({ state: "hit" });
+    refs.spawnDamageRef.current?.(remaining, npc.x, npc.y, "npc");
+    return { blocked: true, remainingDamage: remaining };
   };
 
   const {

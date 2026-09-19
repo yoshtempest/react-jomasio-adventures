@@ -19,6 +19,8 @@ type BattleHUDState = {
   hitsToSpecial: number;
   blockGauge: number;
   blockLimit: number;
+  npcBlockGauge: number;
+  npcBlockLimit: number;
   energy?: number;
   mana?: number;
   manaMax?: number;
@@ -85,6 +87,12 @@ export function BattleHUD({
           npcMaxHp={npcStats.hp}
           isAlfa={isAlfa}
           npcElementTypes={getNpcElementTypes(npcType)}
+          blockGauge={
+            npcType === "piupiu" ? battle.npcBlockGauge : undefined
+          }
+          blockLimit={
+            npcType === "piupiu" ? battle.npcBlockLimit : undefined
+          }
         />
       )}
 

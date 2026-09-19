@@ -27,15 +27,7 @@
   width: 2.5vw;
   position: absolute;
   bottom: 0;
-  margin-bottom: -2vw;
-}
-
-.playerRankBadge {
-  right: 0;
-  margin-right: -1vw;
-}
-
-.npcRankBadge {
+  margin-bottom: 4vw;
   left: 0;
   margin-left: -1vw;
 }

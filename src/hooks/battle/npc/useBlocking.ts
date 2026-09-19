@@ -4,7 +4,7 @@ import {
   NPC_RECENT_BLOCK_COOLDOWN,
 } from "@/data/cooldowns";
 import type { SpawnDamageFn } from "@/utils/types/battle/spawnDamageFn";
-import { FIFTY_MS, ONE_THOUSAND_FIVE_HUNDRED_MS } from "@/data/ms";
+import { FIFTY_MS, ONE_THOUSAND_FIVE_HUNDRED_MS, THREE_HUNDRED_MS } from "@/data/ms";
 
 /**
  * Janela de tempo (ms) entre a entrada do jogador e sofrer o dano para o
@@ -14,6 +14,22 @@ export const PARRY_WINDOW_MS = FIFTY_MS;
 
 /** Tempo em que o NPC fica impedido de atacar depois de levar um parry. */
 export const PARRY_STAGGER_MS = ONE_THOUSAND_FIVE_HUNDRED_MS;
+
+/** Fracão mínima do gauge (%) para o NPC tentar bloquear o jogador. */
+export const NPC_BLOCK_MIN_PCT = 0.1;
+
+/** Tempo que o NPC fica na pose de "block" após absorver um golpe. */
+export const NPC_BLOCK_HOLD_MS = THREE_HUNDRED_MS;
+
+export type NpcBlockResult =
+  | { blocked: false }
+  | { blocked: true; remainingDamage: number };
+
+/**
+ * Chamado antes de o dano do jogador ser aplicado no NPC. Recebe um getter
+ * do dano real do golpe (computado sob demanda) e decide se o NPC bloqueia.
+ */
+export type OnBeforeNpcHit = (getDamage: () => number) => NpcBlockResult;
 
 /**
  * Tempo desde a entrada de parry mais recente.
