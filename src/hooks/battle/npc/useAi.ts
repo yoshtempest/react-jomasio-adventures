@@ -9,7 +9,8 @@ import {
 } from "@/gameRules/battle/npc/npcPosition";
 import type { NPCBattleState } from "@/utils/types/npc/npc";
 import type { BattleObstacle } from "@/utils/types/maps/battle";
-import { useSoundEffects, type SoundId } from "@/contexts/SoundEffectsContext";
+import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import type { SoundId } from "@/utils/audio/soundId";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { logPlay, logStop } from "@/utils/replay/audioEventLog";
 import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";

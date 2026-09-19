@@ -11,7 +11,7 @@ import {
   HONORED_ONE_RISE_MS,
 } from "@/gameRules/battle/cursedEnergy";
 import type { BattleManaApi } from "@/contexts/BattleManaContext";
-import type { SoundId } from "@/contexts/SoundEffectsContext";
+import type { SoundId } from "@/utils/audio/soundId";
 import type { useBattleRefs } from "@/hooks/battle/utilities/useRefs";
 
 type Props = {

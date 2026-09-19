@@ -5,7 +5,7 @@ import { BATTLE_LOOT_WINDOW_MS } from "@/data/battle/lootbags";
 import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
 import type { BattleLootBag, LootBagContents } from "@/utils/types/battle/loot";
 import type { PetState } from "@/hooks/battle/player/pets/usePet";
-import type { SoundId } from "@/contexts/SoundEffectsContext";
+import type { SoundId } from "@/utils/audio/soundId";
 
 const TICK_MS = 20;
 const PLAYER_PICKUP_RADIUS = 70;

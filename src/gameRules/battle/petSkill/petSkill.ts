@@ -1,5 +1,5 @@
 import type { RefObject } from "react";
-import type { SoundId } from "@/contexts/SoundEffectsContext";
+import type { SoundId } from "@/utils/audio/soundId";
 
 import { PET_STAR_MULTIPLIER } from "@/data/characters/petProgress";
 import { getPetBaseDamage } from "@/data/characters/petProgress";

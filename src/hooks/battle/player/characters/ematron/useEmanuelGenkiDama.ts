@@ -25,7 +25,7 @@ import {
   GENKI_DAMA_THROW_MS,
 } from "@/data/characters/emanuel";
 import type { BattleManaApi } from "@/contexts/BattleManaContext";
-import type { SoundId } from "@/contexts/SoundEffectsContext";
+import type { SoundId } from "@/utils/audio/soundId";
 import type { GenkiDamaVisual } from "@/utils/types/character/emanuel";
 
 type Props = {

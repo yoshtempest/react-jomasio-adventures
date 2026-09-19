@@ -1,6 +1,6 @@
 import { logPlay } from "@/utils/replay/audioEventLog";
 import type { RefObject } from "react";
-import type { SoundId } from "@/contexts/SoundEffectsContext";
+import type { SoundId } from "@/utils/audio/soundId";
 
 export function buildSummonWrapper(params: {
   npcType: string;

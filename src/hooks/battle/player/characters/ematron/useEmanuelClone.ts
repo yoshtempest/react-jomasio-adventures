@@ -17,7 +17,7 @@ import {
   isPlayerParalyzed,
 } from "@/gameRules/battle/status/statusEffects";
 import type { BattleManaApi } from "@/contexts/BattleManaContext";
-import type { SoundId } from "@/contexts/SoundEffectsContext";
+import type { SoundId } from "@/utils/audio/soundId";
 import type { BattleObstacle } from "@/utils/types/maps/battle";
 import type { EmanuelCloneVisual } from "@/utils/types/character/emanuel";
 import {

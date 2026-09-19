@@ -8,7 +8,8 @@ import {
   type ReactNode,
 } from "react";
 import type { InventoryItem } from "@/utils/types/player/inventory";
-import { useSoundEffects, type SoundId } from "@/contexts/SoundEffectsContext";
+import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import type { SoundId } from "@/utils/audio/soundId";
 import { INVENTORY_KEY } from "@/data/storageKeys";
 import { useCompressedStorage } from "@/hooks/useCompressedStorage";
 import { useToggle } from "@/hooks/useToggle";
