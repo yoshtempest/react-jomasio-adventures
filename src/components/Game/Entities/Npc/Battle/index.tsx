@@ -147,7 +147,7 @@ export function NPCBattle({
             filter: isDying ? "grayscale(100%)" : "none",
             transition: isUnderground
               ? "opacity 0.4s linear"
-              : "opacity 3s linear, filter 3s linear",
+              : "opacity 1s linear, filter 1s linear",
           }}
         />
       )}
