@@ -622,9 +622,9 @@ export function BattleScene(props: Props) {
         />
       )}
 
-      {player.character === "marcelo" && vastolordLaserUsable && (
+      {player.character === "marcelo" && vastolordActive && (
         <VastolordLaserButton
-          disabled={controlsDisabled || !vastolordLaserUsable}
+          disabled={!vastolordLaserUsable}
           onClick={vastolordLaserPress}
         />
       )}

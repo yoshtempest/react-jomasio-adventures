@@ -22,7 +22,7 @@ import type { NPCBattleState, SummonedNpc } from "@/utils/types/npc/npc";
 /** Duração total do feixe (3s) — o marcelo fica travado no sprite laser.svg. */
 export const VASTOLORD_LASER_DURATION_MS = THREE_THOUSAND_MS;
 /** Intervalo de dano/empurrão: 1% do dano base a cada 20ms de contato. */
-export const VASTOLORD_LASER_TICK_MS = 20;
+export const VASTOLORD_LASER_TICK_MS = 1;
 /** Fração do dano base aplicada por tick (1%). */
 export const VASTOLORD_LASER_DAMAGE_RATIO = 0.01;
 /** Distância (px no plano lógico) que o feixe empurra o inimigo por tick. */
