@@ -12,7 +12,7 @@ type Props = {
   enabled?: boolean;
 };
 
-const CAMERA_FOCUS_MS = THREE_THOUSAND_MS;
+export const CAMERA_FOCUS_MS = THREE_THOUSAND_MS;
 const TRANSFORM_ZOOM = 1.2;
 
 /**

@@ -14,7 +14,11 @@ import { useRewind } from "@/hooks/battle/rewind/useRewind";
 import { useBattleSnapshots } from "@/hooks/battle/time/useBattleSnapshots";
 import { useHonoredOne } from "@/hooks/battle/player/characters/natsuki/useHonoredOne";
 import { useDefeatFlow } from "@/hooks/battle/defeat/useDefeatFlow";
-import { useCameraSequence, type CameraFocus } from "@/hooks/battle/effects/useCameraSequence";
+import {
+  useCameraSequence,
+  CAMERA_FOCUS_MS,
+  type CameraFocus,
+} from "@/hooks/battle/effects/useCameraSequence";
 import { buildBattleSceneApi } from "@/hooks/battle/utilities/buildBattleSceneApi";
 import { getCharacterPassive } from "@/data/characters/passives";
 import { aggregateRewards } from "@/gameRules/battle/loot/buildLootBags";
@@ -72,6 +76,7 @@ export function useBattleScene({
     honoredRiseStartRef,
     honoredRiseStartYRef,
     honoredFallRef,
+    freezeActionsUntilRef,
     progress,
     reduceHunger,
     setBattleHP,
@@ -223,6 +228,16 @@ export function useBattleScene({
     vastolordActive,
     enabled: rewindFrames == null && !showVictory && !showDefeat,
   });
+
+  // Enquanto a câmera está focada (troca de fase do boss / transformação
+  // vastolord), o jogador fica travado: movimento, ataque e ações são
+  // bloqueados por `freezeActionsUntilRef` (lido no useBattleMovement e nos
+  // handlers de ataque). O ataque já é bloqueado por `isPaused`, mas o
+  // movimento só respeita o freeze — este efeito cobre esse gap.
+  useEffect(() => {
+    if (!cameraFocus.isFrozen) return;
+    freezeActionsUntilRef.current = Date.now() + CAMERA_FOCUS_MS;
+  }, [cameraFocus.isFrozen, freezeActionsUntilRef]);
 
   const isPaused =
     showVictory ||
