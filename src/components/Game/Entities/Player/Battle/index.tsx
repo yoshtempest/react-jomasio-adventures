@@ -58,11 +58,30 @@ export function PlayerBattle({
   const isFallen = state === "fallen";
   const isGrabbed = Date.now() < grabbedUntil && !isFallen && !isCrouching;
   const showFlipped = isGrabbed && grabFlipped;
-  const src =
+  const baseSrc =
     teleportSprite && character === "emanuel"
       ? playerPath(`/emanuel/inFight/attacks/teleport.svg`)
       : resolveBattleSprite(character, resolvedState, weapon, form);
+  const [src, setSrc] = useState(baseSrc);
   const ARTUR_SEEING_SRC = playerPath("/artur/inFight/special/arturSeeing.svg");
+
+  useEffect(() => {
+    setSrc(baseSrc);
+  }, [baseSrc]);
+
+  // Personagens sem `preRun.svg`/`preJump.svg` caem para o sprite base
+  // (`run.svg`/`jump.svg`) ao invés de quebrar com 404.
+  const handleSpriteError = () => {
+    const fallbackState =
+      resolvedState === "preRun"
+        ? "run"
+        : resolvedState === "preJump"
+          ? "jump"
+          : null;
+    if (fallbackState) {
+      setSrc(resolveBattleSprite(character, fallbackState, weapon, form));
+    }
+  };
 
   const blinkClass =
     blinkSilhouette === "black"
@@ -158,6 +177,7 @@ export function PlayerBattle({
       )}
       <img
         src={src}
+        onError={handleSpriteError}
         className={blinkClass}
         style={{
           animationDuration: blinkDuration,
