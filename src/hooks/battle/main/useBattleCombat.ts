@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type RefObject } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useGrabThrow } from "@/hooks/battle/throw/useGrabThrow";
 import { useThrowAnimation } from "@/hooks/battle/throw/useThrowAnimation";
@@ -28,6 +28,12 @@ import { useEmanuelClone } from "@/hooks/battle/player/characters/ematron/useEma
 import { useEmanuelKiCharge } from "@/hooks/battle/player/characters/ematron/useEmanuelKiCharge";
 import { useEmanuelGenkiDama } from "@/hooks/battle/player/characters/ematron/useEmanuelGenkiDama";
 import { useVastolordLaser } from "@/hooks/battle/player/characters/marshadow/useVastolordLaser";
+import {
+  VASTOLORD_DAMAGE_EXTEND_MS,
+  VASTOLORD_DAMAGE_EXTEND_RATIO,
+  VASTOLORD_KILL_EXTEND_MS,
+} from "@/hooks/battle/player/characters/marshadow/useVastolordForm";
+import { combatService } from "@/services/combat";
 import {
   NPC_BLOCK_HOLD_MS,
   NPC_BLOCK_MIN_PCT,
@@ -80,6 +86,8 @@ type Props = {
   mostHonoredFreezeRef: RefObject<boolean>;
   vastolordMultiplierRef: RefObject<() => number>;
   vastolordActive: boolean;
+  /** Aumenta a duração restante da Forma Vastolord (passiva do marcelo). */
+  extendVastolordRef: RefObject<(ms: number) => void>;
   cursedEnergyEnabled: boolean;
   onKokusenRef: RefObject<() => void>;
   onBlackFlashRef: RefObject<() => void>;
@@ -111,6 +119,7 @@ export function useBattleCombat({
   mostHonoredFreezeRef,
   vastolordMultiplierRef,
   vastolordActive,
+  extendVastolordRef,
   cursedEnergyEnabled,
   onKokusenRef,
   onBlackFlashRef,
@@ -481,7 +490,12 @@ export function useBattleCombat({
     npcType,
     difficulty,
     onPlayerDeath: () => onPlayerDeathRef.current(),
-    onNpcDeath: () => onNpcDeathRef.current(),
+    onNpcDeath: () => {
+      if (vastolordActive) {
+        extendVastolordRef.current(VASTOLORD_KILL_EXTEND_MS);
+      }
+      onNpcDeathRef.current();
+    },
     hitstopRef: refs.hitstopRef,
     npcStaggerRef: refs.npcStaggerRef,
     registerHitRef: refs.registerHitRef,
@@ -584,8 +598,33 @@ export function useBattleCombat({
     bleed: 0,
   });
 
+  // Passiva da Forma Vastolord: a cada 10% do dano base causado a qualquer
+  // inimigo, a duração da forma aumenta 0.1s. Dano é acumulado num ref e
+  // convertido em extensões (com sobra) dentro de registerHit.
+  const vastolordBaseDamage = useMemo(
+    () =>
+      combatService.calculatePlayerDamage(
+        battle.char.stats.strength,
+        playerClass,
+      ),
+    [battle.char, playerClass],
+  );
+  const vastolordDamageAccumulatorRef = useRef(0);
+
   refs.registerHitRef.current = (damage: number) => {
     registerHit(damage);
+
+    if (vastolordActive) {
+      vastolordDamageAccumulatorRef.current += damage;
+      const threshold =
+        vastolordBaseDamage * VASTOLORD_DAMAGE_EXTEND_RATIO;
+      if (threshold >= 1) {
+        while (vastolordDamageAccumulatorRef.current >= threshold) {
+          vastolordDamageAccumulatorRef.current -= threshold;
+          extendVastolordRef.current(VASTOLORD_DAMAGE_EXTEND_MS);
+        }
+      }
+    }
 
     if (cursedEnergyEnabled) {
       battleManaRef.current?.restoreMana(cursedEnergyFromDamage(damage));
@@ -677,6 +716,11 @@ export function useBattleCombat({
     freezeUntilRef: freezeSummonsUntilRef,
     rootedSummonsUntilRef,
     honoredFleeRef,
+    onSummonKilled: () => {
+      if (vastolordActive) {
+        extendVastolordRef.current(VASTOLORD_KILL_EXTEND_MS);
+      }
+    },
   });
 
   useAllyAI({
@@ -1003,13 +1047,13 @@ export function useBattleCombat({
           playerHP: battle.playerHP,
           playerMaxHp: battle.playerMaxHp,
           totalVampirism: battle.totalVampirism,
-          summons,
-          setSummons,
-          giveSummonRewards,
-          spawnDamageRef: refs.spawnDamageRef,
-          registerHitRef: refs.registerHitRef,
-          setPlayerHP: battle.setPlayerHP,
-          deliciaSetter: battle.setDelicia,
+summons,
+      setSummons,
+      giveSummonRewards,
+      spawnDamageRef: refs.spawnDamageRef,
+      registerHitRef: refs.registerHitRef,
+      setPlayerHP: battle.setPlayerHP,
+      deliciaSetter: battle.setDelicia,
           hitsToSpecial: battle.hitsToSpecial,
         });
       }
@@ -1065,9 +1109,10 @@ export function useBattleCombat({
     npc,
     summons,
     setSummons,
-    setNpcHP: battle.setNpcHP,
+setNpcHP: battle.setNpcHP,
     giveSummonRewards,
     spawnDamageNumber: battle.spawnDamageNumber,
+    registerHitRef: refs.registerHitRef,
     freezeActionsUntilRef,
     isPausedRef,
     battleEndedRef: battle.isEnding,

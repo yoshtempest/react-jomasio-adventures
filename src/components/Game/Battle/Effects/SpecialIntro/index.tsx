@@ -22,12 +22,6 @@ export function SpecialIntro({ active, character }: Props) {
         <div className={`${styles.streak} ${styles.streakThree}`} />
       </div>
       {!imageFailed && (
-        // <img
-        //   className={styles.image}
-        //   src={playerPath(`/${character}/specialBackground.svg`)}
-        //   alt=""
-        //   onError={() => setImageFailed(true)}
-        // />
         <div className={styles.characterContainer}>
           <img
             src={playerPath(`/${character}/specialBackground.svg`)}

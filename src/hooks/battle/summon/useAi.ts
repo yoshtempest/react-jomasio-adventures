@@ -28,6 +28,8 @@ type Props = {
   >;
   hitstopRef: React.RefObject<number>;
   freezeUntilRef?: React.RefObject<number>;
+  /** Chamado quando um summon inimigo morre (hp <= 0) por qualquer fonte. */
+  onSummonKilled?: () => void;
   rootedSummonsUntilRef?: React.RefObject<Record<string, number>>;
   honoredFleeRef?: React.RefObject<boolean>;
 };
@@ -76,6 +78,7 @@ export function useSummonAI({
   freezeUntilRef,
   rootedSummonsUntilRef,
   honoredFleeRef,
+  onSummonKilled,
 }: Props) {
   const summonLastAttacksRef = useRef<Record<string, number>>({});
 
@@ -90,6 +93,7 @@ export function useSummonAI({
   const playerClassRef = useLatestRef(playerClass);
   const damagePlayerRef = useLatestRef(damagePlayer);
   const setSummonsRef = useLatestRef(setSummons);
+  const onSummonKilledRef = useLatestRef(onSummonKilled);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -217,6 +221,8 @@ export function useSummonAI({
       return;
     }
 
+    dying.forEach(() => onSummonKilledRef.current?.());
+
     const timeouts = dying.map((summon) => {
       setSummons((prev) =>
         prev.map((s) => (s.id === summon.id ? { ...s, isDying: true } : s)),
@@ -230,5 +236,5 @@ export function useSummonAI({
     return () => {
       timeouts.forEach(clearTimeout);
     };
-  }, [summons, setSummons]);
+  }, [summons, setSummons, onSummonKilledRef]);
 }

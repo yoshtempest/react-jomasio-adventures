@@ -213,6 +213,7 @@ export function useBattleScene({
     transformationFrame,
     triggerVastolord,
     resetVastolord,
+    extendVastolord,
     vastolordUsedRef,
     vastolordActiveRef,
     vastolordMultiplierRef,
@@ -224,6 +225,8 @@ export function useBattleScene({
     vastolordEndingRef,
     runDefeatRef,
   });
+
+  const extendVastolordRef = useLatestRef(extendVastolord);
 
   const cameraFocus = useCameraSequence({
     npcPhase,
@@ -404,6 +407,7 @@ export function useBattleScene({
     mostHonoredFreezeRef,
     vastolordMultiplierRef,
     vastolordActive,
+    extendVastolordRef,
     cursedEnergyEnabled: cursedEnergyParams,
     onKokusenRef,
     onBlackFlashRef,

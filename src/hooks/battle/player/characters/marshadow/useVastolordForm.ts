@@ -6,6 +6,13 @@ export const VASTOLORD_MULTIPLIER = 4;
 export const VASTOLORD_DURATION_MS = 10_000;
 const VASTOLORD_TICK_MS = 100;
 
+/** Extensão de duração: +0.1s a cada 10% do dano base causado a um inimigo. */
+export const VASTOLORD_DAMAGE_EXTEND_MS = 50;
+/** Fração do dano base que gera uma extensão de VASTOLORD_DAMAGE_EXTEND_MS. */
+export const VASTOLORD_DAMAGE_EXTEND_RATIO = 0.1;
+/** Extensão de duração ao matar qualquer inimigo (inclusive summons) na forma. */
+export const VASTOLORD_KILL_EXTEND_MS = 3 * ONE_THOUSAND_MS;
+
 /** Duração total da animação de transformação (`transformating/*`). */
 export const VASTOLORD_TRANSFORM_MS = FOUR_THOUSAND_MS;
 /** Tempo de cada quadro da transformação (screamOne→screamTwo→screamThree→transformated). */
@@ -29,6 +36,8 @@ export type VastolordFormApi = {
   transformationFrame: number | null;
   triggerVastolord: () => void;
   resetVastolord: () => void;
+  /** Aumenta a duração restante da forma em `ms` (sem efeito fora dela). */
+  extendVastolord: (ms: number) => void;
 };
 
 /**
@@ -99,6 +108,15 @@ export function useVastolordForm({
     setTransformationFrame(null);
   }, []);
 
+  const extendVastolord = useCallback(
+    (ms: number) => {
+      if (!vastolordActive) return;
+      remainingRef.current = Math.max(0, remainingRef.current) + ms;
+      setVastolordRemainingMs(remainingRef.current);
+    },
+    [vastolordActive],
+  );
+
   useEffect(() => {
     return () => {
       if (transformFrameTimerRef.current) {
@@ -132,5 +150,6 @@ export function useVastolordForm({
     transformationFrame,
     triggerVastolord,
     resetVastolord,
+    extendVastolord,
   };
 }

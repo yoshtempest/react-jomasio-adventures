@@ -67,6 +67,8 @@ type Props = {
     y: number,
     type: DamageType,
   ) => void;
+  /** Registra dano causado pelo player (combo/energia amaldiçoada/passivas). */
+  registerHitRef: RefObject<(damage: number) => void>;
   freezeActionsUntilRef: RefObject<number>;
   isPausedRef: RefObject<boolean>;
   battleEndedRef: RefObject<boolean>;
@@ -100,6 +102,7 @@ export function useVastolordLaser({
   setNpcHP,
   giveSummonRewards,
   spawnDamageNumber,
+  registerHitRef,
   freezeActionsUntilRef,
   isPausedRef,
   battleEndedRef,
@@ -207,6 +210,7 @@ export function useVastolordLaser({
       if (mainNpc.y >= top && mainNpc.y <= bottom) {
         setNpcHP((hp) => Math.max(0, hp - applied));
         spawnDamageNumber(applied, mainNpc.x, mainNpc.y, "npc");
+        registerHitRef.current?.(applied);
         const dir = mainNpc.x >= playerRef.current.x ? 1 : -1;
         mainNpc.updateNpc({
           x: clampX(mainNpc.x + dir * VASTOLORD_LASER_PUSH_PX),
@@ -221,6 +225,7 @@ export function useVastolordLaser({
         changed = true;
         const newHp = Math.max(0, s.hp - applied);
         spawnDamageNumber(applied, s.x, s.y, "summon");
+        registerHitRef.current?.(applied);
         if (newHp <= 0) {
           killed = true;
           return null;
@@ -246,6 +251,7 @@ export function useVastolordLaser({
       giveSummonRewards,
       npcRef,
       playerRef,
+      registerHitRef,
       setNpcHP,
       setSummons,
       shouldCancelRef,
