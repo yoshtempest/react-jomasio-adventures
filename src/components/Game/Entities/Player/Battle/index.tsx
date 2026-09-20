@@ -26,6 +26,8 @@ type Props = {
   grabFlipped?: boolean;
   /** Pasta de sprites do marcelo (ex: Forma Vastolord). */
   form?: "vastolordForm";
+  /** Quadro da transformação do marcelo (0=screamOne … 3=transformated) ou null. */
+  transformationFrame?: number | null;
   /** Silhueta do blink do riquelme: preta (antes do teleporte) ou branca (chegando). */
   blinkSilhouette?: "black" | "white" | null;
   /** Emanuel segurando a instância: usa o sprite de teleporte no lugar do estado atual. */
@@ -36,6 +38,14 @@ const CROUCH_STATE_MAP: Record<string, string> = {
   idleCrounched: "idleCrounched",
   walkCrounched: "walkCrounched",
 };
+
+/** Ordem dos sprites da transformação do marcelo (`vastolordForm/transformating`). */
+const TRANSFORMATION_FRAMES = [
+  "screamOne",
+  "screamTwo",
+  "screamThree",
+  "transformated",
+] as const;
 
 export function PlayerBattle({
   x,
@@ -48,6 +58,7 @@ export function PlayerBattle({
   grabbedUntil = 0,
   grabFlipped = false,
   form,
+  transformationFrame = null,
   blinkSilhouette = null,
   teleportSprite = false,
 }: Props) {
@@ -58,10 +69,19 @@ export function PlayerBattle({
   const isFallen = state === "fallen";
   const isGrabbed = Date.now() < grabbedUntil && !isFallen && !isCrouching;
   const showFlipped = isGrabbed && grabFlipped;
+  const transformationSrc =
+    form === "vastolordForm" && transformationFrame != null
+      ? playerPath(
+          `/marcelo/inFight/vastolordForm/transformating/${
+            TRANSFORMATION_FRAMES[transformationFrame] ?? "screamOne"
+          }.svg`,
+        )
+      : "";
   const baseSrc =
-    teleportSprite && character === "emanuel"
+    transformationSrc ||
+    (teleportSprite && character === "emanuel"
       ? playerPath(`/emanuel/inFight/attacks/teleport.svg`)
-      : resolveBattleSprite(character, resolvedState, weapon, form);
+      : resolveBattleSprite(character, resolvedState, weapon, form));
   const [src, setSrc] = useState(baseSrc);
   const ARTUR_SEEING_SRC = playerPath("/artur/inFight/special/arturSeeing.svg");
 

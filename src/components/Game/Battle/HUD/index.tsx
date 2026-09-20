@@ -41,6 +41,8 @@ type Props = {
   isAlfa?: boolean;
   /** Gauge do special do NPC (alfas). undefined = sem special. */
   npcSpecialGauge?: number;
+  /** Forma especial ativa (Forma Vastolord): troca a face do HUD do jogador. */
+  playerForm?: "vastolordForm";
 };
 
 export function BattleHUD({
@@ -52,6 +54,7 @@ export function BattleHUD({
   allies,
   isAlfa = false,
   npcSpecialGauge,
+  playerForm,
 }: Props) {
   const { player } = usePlayer();
   const { progress } = useCharacterProgress();
@@ -66,6 +69,7 @@ export function BattleHUD({
       <PlayerHUDPanel
         // characterColor={characterColor!}
         character={player.character}
+        playerForm={playerForm}
         playerName={playerName}
         playerRank={playerRank}
         playerLevel={playerLevel}

@@ -7,6 +7,8 @@ type Props = {
   weapon?: LucasWeapon;
   grabFlipped?: boolean;
   form?: "vastolordForm";
+  /** Quadro da transformação do marcelo (0=screamOne … 3=transformated) ou null. */
+  transformationFrame?: number | null;
   blinkVisual?: BlinkVisual | null;
   /** Emanuel segurando a instância: troca o sprite para teleport.svg. */
   teleportSprite?: boolean;
@@ -18,6 +20,7 @@ export function Player({
   weapon,
   grabFlipped = false,
   form,
+  transformationFrame = null,
   blinkVisual = null,
   teleportSprite = false,
 }: Props) {
@@ -40,6 +43,7 @@ export function Player({
       grabbedUntil={player.grabbedUntil}
       grabFlipped={grabFlipped}
       form={form}
+      transformationFrame={transformationFrame}
       blinkSilhouette={blinkSilhouette}
       teleportSprite={teleportSprite}
     />

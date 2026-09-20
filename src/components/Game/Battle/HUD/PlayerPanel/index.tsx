@@ -13,6 +13,8 @@ import { hasManaBar } from "@/gameRules/battle/mana";
 type Props = {
   // characterColor: CharacterOption & { unlockedDate?: string | null };
   character: CharacterId;
+  /** Forma especial ativa (Forma Vastolord do marcelo): troca a face para a da forma. */
+  playerForm?: "vastolordForm";
   playerName: string;
   playerRank: string;
   playerLevel: number;
@@ -32,6 +34,7 @@ type Props = {
 export function PlayerHUDPanel({
   // characterColor,
   character,
+  playerForm,
   playerName,
   playerLevel,
   playerElementTypes,
@@ -50,7 +53,11 @@ export function PlayerHUDPanel({
     <div className={styles.container} style={{ left: 10, top: 10 }}>
       <div>
         <img
-          src={playerPath(`/${character}/face.svg`)}
+          src={
+            playerForm === "vastolordForm"
+              ? playerPath(`/${character}/inFight/vastolordForm/face.svg`)
+              : playerPath(`/${character}/face.svg`)
+          }
           alt="Player HUD"
           className="hudImage"
           // style={characterFaceStyle(characterColor.image)}

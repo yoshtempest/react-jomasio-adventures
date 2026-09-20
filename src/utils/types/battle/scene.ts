@@ -97,6 +97,8 @@ export type BattleSceneApi = {
   cameraFocus: CameraFocus;
   vastolordActive: boolean;
   vastolordRemainingMs: number;
+  /** Quadro da transformação do marcelo (0=screamOne … 3=transformated) ou null. */
+  vastolordTransformationFrame: number | null;
   specialIntroActive: ReturnType<typeof useSpecialIntro>["specialIntroActive"];
   specialIntroCharacter: ReturnType<
     typeof useSpecialIntro

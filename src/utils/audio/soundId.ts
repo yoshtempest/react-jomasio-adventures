@@ -18,6 +18,7 @@ export type SoundId =
   | "swordDeflected"
   | "jhowsimarVemCa"
   | "marshadowSpecial"
+  | "vastolordTransformation"
   | "emanuelTeleport"
   | "throwGenkiDama"
   | "returningTime"

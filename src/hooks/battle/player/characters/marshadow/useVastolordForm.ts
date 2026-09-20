@@ -1,9 +1,16 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
+import { FOUR_THOUSAND_MS, ONE_THOUSAND_MS } from "@/data/ms";
 
 export const VASTOLORD_MULTIPLIER = 4;
 export const VASTOLORD_DURATION_MS = 10_000;
 const VASTOLORD_TICK_MS = 100;
+
+/** Duração total da animação de transformação (`transformating/*`). */
+export const VASTOLORD_TRANSFORM_MS = FOUR_THOUSAND_MS;
+/** Tempo de cada quadro da transformação (screamOne→screamTwo→screamThree→transformated). */
+export const VASTOLORD_TRANSFORM_FRAME_MS = ONE_THOUSAND_MS;
+export const VASTOLORD_TRANSFORM_FRAME_COUNT = 4;
 
 type Props = {
   enabled: boolean;
@@ -18,6 +25,8 @@ type Props = {
 export type VastolordFormApi = {
   vastolordActive: boolean;
   vastolordRemainingMs: number;
+  /** Quadro atual da transformação (0=screamOne … 3=transformated) ou `null`. */
+  transformationFrame: number | null;
   triggerVastolord: () => void;
   resetVastolord: () => void;
 };
@@ -26,6 +35,11 @@ export type VastolordFormApi = {
  * Passiva do marcelo: ao morrer, desperta a Forma Vastolord por `durationMs`.
  * A barra de vida volta a 100%, dano e armadura multiplicam por 4 e, se o
  * inimigo não for derrotado dentro do prazo, o jogador perde a batalha.
+ *
+ * A transformação ativa a sequência de sprites `transformating/` por
+ * `VASTOLORD_TRANSFORM_MS` (1s por quadro), ao fim da qual o sprite volta ao
+ * `idle` da forma. `vastolordActive` já é verdadeiro durante a animação — os
+ * sprites do marcelo passam a vir exclusivamente de `vastolordForm/`.
  */
 export function useVastolordForm({
   enabled,
@@ -36,7 +50,13 @@ export function useVastolordForm({
 }: Props): VastolordFormApi {
   const [vastolordActive, setVastolordActive] = useState(false);
   const [vastolordRemainingMs, setVastolordRemainingMs] = useState(0);
+  const [transformationFrame, setTransformationFrame] = useState<number | null>(
+    null,
+  );
   const remainingRef = useRef(0);
+  const transformFrameTimerRef = useRef<ReturnType<typeof setInterval> | null>(
+    null,
+  );
   const onExpireRef = useLatestRef(onExpire);
 
   const triggerVastolord = useCallback(() => {
@@ -44,12 +64,47 @@ export function useVastolordForm({
     remainingRef.current = durationMs;
     setVastolordRemainingMs(durationMs);
     setVastolordActive(true);
+
+    // Animação da transformação: screamOne → screamTwo → screamThree →
+    // transformated, 1s por quadro; ao fim (`VASTOLORD_TRANSFORM_MS`) o
+    // sprite volta ao idle da forma.
+    if (transformFrameTimerRef.current) {
+      clearInterval(transformFrameTimerRef.current);
+      transformFrameTimerRef.current = null;
+    }
+    let frame = 0;
+    setTransformationFrame(0);
+    transformFrameTimerRef.current = setInterval(() => {
+      frame += 1;
+      if (frame >= VASTOLORD_TRANSFORM_FRAME_COUNT) {
+        if (transformFrameTimerRef.current) {
+          clearInterval(transformFrameTimerRef.current);
+          transformFrameTimerRef.current = null;
+        }
+        setTransformationFrame(null);
+        return;
+      }
+      setTransformationFrame(frame);
+    }, VASTOLORD_TRANSFORM_FRAME_MS);
   }, [enabled, durationMs]);
 
   const resetVastolord = useCallback(() => {
     remainingRef.current = 0;
     setVastolordRemainingMs(0);
     setVastolordActive(false);
+    if (transformFrameTimerRef.current) {
+      clearInterval(transformFrameTimerRef.current);
+      transformFrameTimerRef.current = null;
+    }
+    setTransformationFrame(null);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (transformFrameTimerRef.current) {
+        clearInterval(transformFrameTimerRef.current);
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -74,6 +129,7 @@ export function useVastolordForm({
   return {
     vastolordActive,
     vastolordRemainingMs,
+    transformationFrame,
     triggerVastolord,
     resetVastolord,
   };

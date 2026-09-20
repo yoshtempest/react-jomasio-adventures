@@ -81,6 +81,7 @@ export function useBattlePresentation({
   const {
     vastolordActive,
     vastolordRemainingMs,
+    transformationFrame,
     triggerVastolord,
     resetVastolord,
   } = useVastolordForm({
@@ -114,6 +115,7 @@ export function useBattlePresentation({
     onDivergentFistConsumedRef,
     vastolordActive,
     vastolordRemainingMs,
+    transformationFrame,
     triggerVastolord,
     resetVastolord,
     vastolordUsedRef,

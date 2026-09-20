@@ -56,6 +56,8 @@ type Props = {
   weapon?: LucasWeapon;
   /** Pasta de sprites do marcelo durante a Forma Vastolord. */
   playerForm?: "vastolordForm";
+  /** Quadro da transformação do marcelo (0=screamOne … 3=transformated) ou null. */
+  transformationFrame?: number | null;
   /** Estado da coreografia do blink do riquelme (silhuetas de origem/destino). */
   blinkVisual?: BlinkVisual | null;
   /** Cópia de silhueta do Emanuel durante o hold da instância. */
@@ -89,6 +91,7 @@ export function BattleEntities({
   extraPunchSprite,
   weapon,
   playerForm,
+  transformationFrame = null,
   blinkVisual = null,
   emanuelClone = null,
   genkiDamaVisual = null,
@@ -171,6 +174,7 @@ export function BattleEntities({
         weapon={weapon}
         grabFlipped={grabFlipped}
         form={playerForm}
+        transformationFrame={transformationFrame}
         blinkVisual={blinkVisual}
         teleportSprite={emanuelClone != null}
       />

@@ -124,10 +124,31 @@ const CHARACTER_STATE_FOLDER_ALT: Record<string, Record<string, string>> = {
 };
 
 /**
- * Estados que possuem sprite na pasta `vastolordForm/` do marcelo. Os demais
- * caem na pasta `default/` quando a forma está ativa.
+ * Sprites da Forma Vastolord do marcelo: depois que a transformação começa, o
+ * personagem SÓ pode usar sprites de `vastolordForm/` até o fim da batalha.
+ * Os estados que não têm sprite dedicado no folder caem no `idle` da forma.
  */
-const MARCELO_VASTOLORD_STATES = new Set(["walk", "preRun", "run"]);
+const MARCELO_VASTOLORD_SPRITES: Record<string, string> = {
+  idle: "idle/idle",
+  idleCrounched: "idle/idle",
+  walk: "movement/walk",
+  preWalk: "movement/walk",
+  preRun: "movement/preRun",
+  run: "movement/run",
+  dash: "movement/run",
+  preAttack: "attacks/attack",
+  attack: "attacks/attack",
+  crit: "attacks/attack",
+  blockAttack: "attacks/attack",
+  kick: "attacks/attack",
+  preKick: "attacks/attack",
+  punch: "attacks/attack",
+  hook: "attacks/attack",
+  lowKick: "attacks/attack",
+  airGrab: "attacks/attack",
+  airKick: "attacks/attack",
+  fallingAttack: "attacks/fallingAttack",
+};
 
 export function resolveBattleSprite(
   character: string,
@@ -148,6 +169,14 @@ export function resolveBattleSprite(
   // existe `genkiDamaRising.svg`) — o custo fica na pasta de movimento/jump.
   if (state === "genkiDamaRising" && character === "emanuel") {
     return playerPath(`/emanuel/inFight/movement/jump/falling.svg`);
+  }
+  // Forma Vastolord do marcelo: a partir da transformação, TODOS os sprites
+  // vêm da pasta `vastolordForm/` — nenhum estado volta ao `default/`.
+  if (character === "marcelo" && form === "vastolordForm") {
+    const sprite = MARCELO_VASTOLORD_SPRITES[state];
+    return playerPath(
+      `/marcelo/inFight/vastolordForm/${sprite ?? "idle/idle"}.svg`,
+    );
   }
   const folder = STATE_FOLDER[state];
   if (folder === undefined || folder === null) {
@@ -173,11 +202,6 @@ export function resolveBattleSprite(
     );
   }
   if (character === "marcelo") {
-    if (form === "vastolordForm" && MARCELO_VASTOLORD_STATES.has(state)) {
-      return playerPath(
-        `/${character}/inFight/vastolordForm/movement/${state}.svg`,
-      );
-    }
     return playerPath(`/${character}/inFight/default/${resolved}/${state}.svg`);
   }
   return playerPath(`/${character}/inFight/${resolved}/${state}.svg`);

@@ -144,6 +144,7 @@ export function BattleScene(props: Props) {
     cameraFocus,
     vastolordActive,
     vastolordRemainingMs,
+    vastolordTransformationFrame,
     specialIntroActive,
     specialIntroCharacter,
     lootBags,
@@ -344,6 +345,7 @@ export function BattleScene(props: Props) {
         summons={summons}
         allies={allies}
         isAlfa={isAlfa}
+        playerForm={vastolordActive ? "vastolordForm" : undefined}
         npcSpecialGauge={
           isAlfa && npcType === "hungryDog"
             ? npc.ai?.hungryDog?.specialGauge
@@ -410,6 +412,7 @@ export function BattleScene(props: Props) {
             extraPunchSprite={extraPunchSprite}
             weapon={lucasWeapon}
             playerForm={vastolordActive ? "vastolordForm" : undefined}
+            transformationFrame={vastolordTransformationFrame}
             blinkVisual={blinkVisual}
             lootBags={lootBags}
             npcClass={npcClass}

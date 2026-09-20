@@ -9,6 +9,7 @@ import { useBattleOutro } from "@/hooks/battle/modals/useOutro";
 import { useBattleStageSetup } from "@/hooks/battle/useBattleStageSetup";
 import { useBattleCombat } from "@/hooks/battle/main/useBattleCombat";
 import { useBattlePresentation } from "@/hooks/battle/utilities/useBattlePresentation";
+import { VASTOLORD_TRANSFORM_MS } from "@/hooks/battle/player/characters/marshadow/useVastolordForm";
 import { useBattleRecording } from "@/hooks/battle/recording/useBattleRecording";
 import { useRewind } from "@/hooks/battle/rewind/useRewind";
 import { useBattleSnapshots } from "@/hooks/battle/time/useBattleSnapshots";
@@ -209,6 +210,7 @@ export function useBattleScene({
     onDivergentFistConsumedRef,
     vastolordActive,
     vastolordRemainingMs,
+    transformationFrame,
     triggerVastolord,
     resetVastolord,
     vastolordUsedRef,
@@ -233,10 +235,15 @@ export function useBattleScene({
   // vastolord), o jogador fica travado: movimento, ataque e ações são
   // bloqueados por `freezeActionsUntilRef` (lido no useBattleMovement e nos
   // handlers de ataque). O ataque já é bloqueado por `isPaused`, mas o
-  // movimento só respeita o freeze — este efeito cobre esse gap.
+  // movimento só respeita o freeze — este efeito cobre esse gap. Usamos
+  // `Math.max` para nunca encurtar um freeze já ativo (ex.: os 4s da
+  // transformação vastolord começam antes do foco da câmera).
   useEffect(() => {
     if (!cameraFocus.isFrozen) return;
-    freezeActionsUntilRef.current = Date.now() + CAMERA_FOCUS_MS;
+    freezeActionsUntilRef.current = Math.max(
+      freezeActionsUntilRef.current,
+      Date.now() + CAMERA_FOCUS_MS,
+    );
   }, [cameraFocus.isFrozen, freezeActionsUntilRef]);
 
   const isPaused =
@@ -249,14 +256,18 @@ export function useBattleScene({
     isConfigOpen ||
     isBattleNavOpen ||
     mostHonoredFreeze ||
-    cameraFocus.isFrozen;
+    cameraFocus.isFrozen ||
+    transformationFrame != null;
   isPausedRef.current = isPaused;
 
   const performRewindRef = useRef<() => boolean>(() => false);
 
   /**
    * Passiva Forma Vastolord do marcelo: em vez de perder a batalha, revive com
-   * 100% de HP e entra na forma por 10s (uma vez por batalha).
+   * 100% de HP e entra na forma por 10s (uma vez por batalha). A morte dispara
+   * a animação de transformação (4s de `transformating/*`) com o som dedicado;
+   * durante ela o jogador fica travado (`freezeActionsUntilRef`) e a batalha
+   * pausada (`transformationFrame != null` no isPaused).
    */
   const tryVastolordRevivalRef = useLatestRef(() => {
     if (!getCharacterPassive(player.character, "vastolordForm")) return false;
@@ -266,6 +277,11 @@ export function useBattleScene({
     battle.isEnding.current = false;
     battle.setPlayerHP(battle.playerMaxHp);
     setPlayer((p) => ({ ...p, state: "idle" }));
+    playSound("vastolordTransformation");
+    freezeActionsUntilRef.current = Math.max(
+      freezeActionsUntilRef.current,
+      Date.now() + VASTOLORD_TRANSFORM_MS,
+    );
     triggerVastolord();
     return true;
   });
@@ -696,6 +712,7 @@ export function useBattleScene({
     cameraFocus: cameraFocus.focus ?? alfaIntroFocus,
     vastolordActive,
     vastolordRemainingMs,
+    vastolordTransformationFrame: transformationFrame,
     specialIntroActive,
     specialIntroCharacter,
     lootBags,
