@@ -344,7 +344,8 @@ declare global {
     | "airKick"
     | "genkiDamaRising"
     | "preparingGenkiDama"
-    | "throwGenkiDama";
+    | "throwGenkiDama"
+    | "laser";
 
   type PlayerMode = "explore" | "battle" | "select" | "ui" | "map" | "menu";
 

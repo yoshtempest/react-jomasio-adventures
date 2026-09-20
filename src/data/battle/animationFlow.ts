@@ -80,6 +80,10 @@ export const animationFlow: Record<PlayerState, AnimationStep | null> = {
   genkiDamaRising: null,
   preparingGenkiDama: null,
   throwGenkiDama: null,
+
+  // Laser da Forma Vastolord do marcelo: estado mantido pelo hook por 3s
+  // (useVastolordLaser), que restaura o idle quando o feixe termina.
+  laser: null,
 };
 
 type SpecialFlowOverride = {

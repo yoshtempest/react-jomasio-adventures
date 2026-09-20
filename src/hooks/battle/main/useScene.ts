@@ -458,6 +458,9 @@ export function useBattleScene({
     genkiDamaPress,
     genkiDamaRelease,
     genkiDamaUsable,
+    vastolordLaser,
+    vastolordLaserPress,
+    vastolordLaserUsable,
   } = combat;
 
   vastolordEndingRef.current = battle.isEnding;
@@ -730,5 +733,8 @@ export function useBattleScene({
     genkiDamaPress,
     genkiDamaRelease,
     genkiDamaUsable,
+    vastolordLaser,
+    vastolordLaserPress,
+    vastolordLaserUsable,
   });
 }

@@ -11,6 +11,7 @@ import type { useCoffinAnimation } from "@/hooks/battle/summon/useCoffinAnimatio
 import type { useNpcSetup } from "@/hooks/battle/npc/useSetup";
 import type { useEmanuelClone } from "@/hooks/battle/player/characters/ematron/useEmanuelClone";
 import type { useEmanuelGenkiDama } from "@/hooks/battle/player/characters/ematron/useEmanuelGenkiDama";
+import type { useVastolordLaser } from "@/hooks/battle/player/characters/marshadow/useVastolordLaser";
 import type { CameraFocus } from "@/hooks/battle/effects/useCameraSequence";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { CharactersProgress } from "@/data/characters/defaultProgress";
@@ -119,4 +120,7 @@ export type BattleSceneApi = {
   genkiDamaPress: () => void;
   genkiDamaRelease: () => void;
   genkiDamaUsable: boolean;
+  vastolordLaser: ReturnType<typeof useVastolordLaser>["beam"];
+  vastolordLaserPress: () => void;
+  vastolordLaserUsable: boolean;
 };

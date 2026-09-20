@@ -27,6 +27,7 @@ import { useArturBattle } from "@/hooks/battle/player/characters/srGuaxinim/useA
 import { useEmanuelClone } from "@/hooks/battle/player/characters/ematron/useEmanuelClone";
 import { useEmanuelKiCharge } from "@/hooks/battle/player/characters/ematron/useEmanuelKiCharge";
 import { useEmanuelGenkiDama } from "@/hooks/battle/player/characters/ematron/useEmanuelGenkiDama";
+import { useVastolordLaser } from "@/hooks/battle/player/characters/marshadow/useVastolordLaser";
 import {
   NPC_BLOCK_HOLD_MS,
   NPC_BLOCK_MIN_PCT,
@@ -1051,6 +1052,29 @@ export function useBattleCombat({
     battleEndedRef: battle.isEnding,
   });
 
+  const {
+    beam: vastolordLaser,
+    press: vastolordLaserPress,
+    usable: vastolordLaserUsable,
+  } = useVastolordLaser({
+    player,
+    setPlayer,
+    vastolordActive,
+    char: battle.char,
+    playerClass,
+    npc,
+    summons,
+    setSummons,
+    setNpcHP: battle.setNpcHP,
+    giveSummonRewards,
+    spawnDamageNumber: battle.spawnDamageNumber,
+    freezeActionsUntilRef,
+    isPausedRef,
+    battleEndedRef: battle.isEnding,
+    disabledRef: cloneDisabledRef,
+    playSound,
+  });
+
   return {
     battle,
     npc,
@@ -1095,5 +1119,8 @@ export function useBattleCombat({
     genkiDamaPress,
     genkiDamaRelease,
     genkiDamaUsable,
+    vastolordLaser,
+    vastolordLaserPress,
+    vastolordLaserUsable,
   };
 }

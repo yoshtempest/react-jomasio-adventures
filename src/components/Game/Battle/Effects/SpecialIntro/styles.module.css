@@ -1,38 +1,270 @@
 .overlay {
   position: fixed;
   inset: 0;
-  z-index: 60;
+  z-index: 9999;
+
+  overflow: hidden;
+  pointer-events: none;
+
+  background: rgba(10, 10, 15, 0.15);
+
+  animation: overlayAppear 1000ms ease-out forwards;
+}
+
+/* =========================
+   PERSONAGEM
+========================= */
+
+.characterContainer {
+  position: absolute;
+  inset: 0;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.5);
-  animation:
-    fadeIn 100ms ease-in forwards,
-    fadeOut 400ms ease-in 500ms forwards;
+
+  overflow: hidden;
 }
 
-.image {
-  width: 30vw;
-  align-self: center;
-  margin-bottom: 10vh;
-  height: auto;
+.character {
+  position: relative;
+
+  width: 40vw;
+  max-height: auto;
+
   object-fit: contain;
+
+  z-index: 20;
+
+  animation:
+    characterEnter 1000ms cubic-bezier(0.2, 0.8, 0.2, 1)
+    forwards;
 }
 
-@keyframes fadeIn {
-  from {
+/* =========================
+   FAIXA SUPERIOR
+========================= */
+
+.topMotion,
+.bottomMotion {
+  position: absolute;
+  left: -20%;
+  width: 140%;
+
+  z-index: 3;
+
+  pointer-events: none;
+
+background:
+  repeating-linear-gradient(
+    -12deg,
+    transparent 0px,
+    transparent 12px,
+    rgba(10, 0, 20, 0.95) 13px,
+    rgba(140, 0, 255, 1) 19px,
+    transparent 20px,
+    transparent 35px
+  );
+
+  filter: blur(0.4px);
+}
+
+.topMotion {
+  top: -30px;
+  height: 150px;
+
+  transform: skewX(-12deg);
+
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 65%,
+    75% 75%,
+    50% 60%,
+    25% 80%,
+    0 60%
+  );
+
+  background-color: #e60012;
+
+  animation: topMotion 1000ms ease-out forwards;
+}
+
+.bottomMotion {
+  bottom: -30px;
+  height: 150px;
+
+  transform: skewX(-12deg);
+
+  clip-path: polygon(
+    0 35%,
+    25% 20%,
+    50% 40%,
+    75% 25%,
+    100% 35%,
+    100% 100%,
+    0 100%
+  );
+
+  background-color: #e60012;
+
+  animation: bottomMotion 1000ms ease-out forwards;
+}
+
+/* =========================
+   FAIXAS INDIVIDUAIS
+========================= */
+
+.streak {
+  position: absolute;
+
+  height: 8px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 0 8px #ffffff,
+    0 0 20px #ff1a1a;
+
+  transform: skewX(-20deg);
+
+  animation: streakMove 500ms ease-out forwards;
+}
+
+.streakOne {
+  top: 25%;
+  left: -10%;
+
+  width: 45%;
+}
+
+.streakTwo {
+  top: 50%;
+  left: 30%;
+
+  width: 35%;
+  height: 5px;
+}
+
+.streakThree {
+  top: 75%;
+  left: 60%;
+
+  width: 50%;
+  height: 10px;
+}
+
+/* =========================
+   FLASH
+========================= */
+
+.flash {
+  position: absolute;
+  inset: 0;
+
+  z-index: 10;
+
+  background: #ffffff;
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  animation: flashEffect 180ms ease-out forwards;
+}
+
+/* =========================
+   ANIMAÇÕES
+========================= */
+
+@keyframes overlayAppear {
+  0% {
     opacity: 0;
   }
-  to {
+
+  15% {
+    opacity: 1;
+  }
+
+  100% {
     opacity: 1;
   }
 }
 
-@keyframes fadeOut {
-  from {
+@keyframes characterEnter {
+  0% {
+    opacity: 0;
+
+    transform: translateX(100px) scale(1.1);
+    filter: brightness(2);
+  }
+
+  20% {
     opacity: 1;
   }
-  to {
+
+  100% {
+    opacity: 1;
+
+    transform: translateX(0) scale(1);
+    filter: brightness(1);
+  }
+}
+
+@keyframes topMotion {
+  0% {
+    transform: translateX(-100%) skewX(-12deg);
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(0) skewX(-12deg);
+    opacity: 1;
+  }
+}
+
+@keyframes bottomMotion {
+  0% {
+    transform: translateX(100%) skewX(-12deg);
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(0) skewX(-12deg);
+    opacity: 1;
+  }
+}
+
+@keyframes streakMove {
+  0% {
+    transform: translateX(-100%) skewX(-20deg);
+    opacity: 0;
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(100%) skewX(-20deg);
+    opacity: 0;
+  }
+}
+
+@keyframes flashEffect {
+  0% {
+    opacity: 0.8;
+  }
+
+  100% {
     opacity: 0;
   }
 }

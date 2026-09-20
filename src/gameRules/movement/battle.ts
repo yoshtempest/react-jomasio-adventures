@@ -45,7 +45,8 @@ export function canAct(player: Player) {
     player.state !== "mostHonored" &&
     player.state !== "genkiDamaRising" &&
     player.state !== "preparingGenkiDama" &&
-    player.state !== "throwGenkiDama"
+    player.state !== "throwGenkiDama" &&
+    player.state !== "laser"
   );
 }
 
@@ -210,7 +211,8 @@ export function idleBattle(p: Player): Player {
       p.state === "mostHonored" ||
       p.state === "genkiDamaRising" ||
       p.state === "preparingGenkiDama" ||
-      p.state === "throwGenkiDama"
+      p.state === "throwGenkiDama" ||
+      p.state === "laser"
         ? p.state
         : "idle",
   };

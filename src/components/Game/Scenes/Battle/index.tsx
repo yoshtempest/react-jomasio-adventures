@@ -7,6 +7,7 @@ import { DivergentFistButton } from "@/components/Game/Battle/Buttons/DivergentF
 import { EmanuelCloneButton } from "@/components/Game/Battle/Buttons/EmanuelClone";
 import { EmanuelKiChargeButton } from "@/components/Game/Battle/Buttons/EmanuelKiCharge";
 import { EmanuelGenkiDamaButton } from "@/components/Game/Battle/Buttons/EmanuelGenkiDama";
+import { VastolordLaserButton } from "@/components/Game/Battle/Buttons/VastolordLaser";
 import { GameMap } from "@/components/Game/Map/Game";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useGameLayout } from "@/hooks/game/useGameLayout";
@@ -161,6 +162,9 @@ export function BattleScene(props: Props) {
     genkiDamaPress,
     genkiDamaRelease,
     genkiDamaUsable,
+    vastolordLaser,
+    vastolordLaserPress,
+    vastolordLaserUsable,
   } = useBattleScene({ ...props, isAlfa, PLAYER_SIZE });
 
   const { setBattleCollision } = usePlayerActions();
@@ -418,6 +422,7 @@ export function BattleScene(props: Props) {
             npcClass={npcClass}
             emanuelClone={emanuelClone}
             genkiDamaVisual={genkiDamaVisual}
+            vastolordLaser={vastolordLaser}
           />
 
           <ChargeParticles
@@ -614,6 +619,13 @@ export function BattleScene(props: Props) {
           disabled={controlsDisabled || !genkiDamaUsable}
           onPress={genkiDamaPress}
           onRelease={genkiDamaRelease}
+        />
+      )}
+
+      {player.character === "marcelo" && vastolordLaserUsable && (
+        <VastolordLaserButton
+          disabled={controlsDisabled || !vastolordLaserUsable}
+          onClick={vastolordLaserPress}
         />
       )}
 

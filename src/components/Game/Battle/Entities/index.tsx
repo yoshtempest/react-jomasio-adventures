@@ -12,6 +12,7 @@ import { Pet } from "./Pet";
 import { Player } from "./Player";
 import { EmanuelClone } from "./EmanuelClone";
 import { GenkiDama } from "./GenkiDama";
+import { VastolordLaser } from "./VastolordLaser";
 import { KillerQueen } from "./KillerQueen";
 import { Bomb } from "./Bomb";
 import { ExtraPunch } from "./ExtraPunch";
@@ -29,6 +30,7 @@ import type { BattleLootBag } from "@/utils/types/battle/loot";
 import type { BlinkVisual } from "@/hooks/battle/player/characters/natsuki/useBlinkAnimation";
 import type { EmanuelCloneVisual } from "@/utils/types/character/emanuel";
 import type { GenkiDamaVisual } from "@/utils/types/character/emanuel";
+import type { VastolordLaserBeam } from "@/hooks/battle/player/characters/marshadow/useVastolordLaser";
 
 type Props = {
   npc: MainNpcState;
@@ -64,6 +66,8 @@ type Props = {
   emanuelClone?: EmanuelCloneVisual | null;
   /** Esfera da Genki Dama do Emanuel (preparando ou voando). */
   genkiDamaVisual?: GenkiDamaVisual | null;
+  /** Feixe do Laser da Forma Vastolord do marcelo. */
+  vastolordLaser?: VastolordLaserBeam | null;
 };
 
 export function BattleEntities({
@@ -95,6 +99,7 @@ export function BattleEntities({
   blinkVisual = null,
   emanuelClone = null,
   genkiDamaVisual = null,
+  vastolordLaser = null,
 }: Props) {
   const battleScaleX = getViewportSize().width / ProjectileConstants.MAP_WIDTH;
   const battleScaleY =
@@ -194,6 +199,14 @@ export function BattleEntities({
       {genkiDamaVisual && player.character === "emanuel" && (
         <GenkiDama
           visual={genkiDamaVisual}
+          battleScaleX={battleScaleX}
+          battleScaleY={battleScaleY}
+        />
+      )}
+
+      {vastolordLaser && player.character === "marcelo" && (
+        <VastolordLaser
+          beam={vastolordLaser}
           battleScaleX={battleScaleX}
           battleScaleY={battleScaleY}
         />

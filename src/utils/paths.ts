@@ -148,6 +148,8 @@ const MARCELO_VASTOLORD_SPRITES: Record<string, string> = {
   airGrab: "attacks/attack",
   airKick: "attacks/attack",
   fallingAttack: "attacks/fallingAttack",
+  /** Habilidade Laser da Forma Vastolord: segura o sprite de disparo por 3s. */
+  laser: "attacks/laser",
 };
 
 export function resolveBattleSprite(
