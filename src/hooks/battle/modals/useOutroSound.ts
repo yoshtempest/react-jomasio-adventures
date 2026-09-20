@@ -41,7 +41,10 @@ export function useBattleOutroSound(
     audio.addEventListener("error", handleError);
 
     audio.src = primarySrc;
-    audio.play().catch(playFallback);
+    // Fallback só no evento `error` do elemento (falha real de carregamento/404).
+    // A rejeição da promessa de play() não indica 404 — ocorre por autoplay
+    // policy, interrupção ou cleanup do effect — e não deve tocar o fallback.
+    audio.play().catch(() => {});
 
     return () => {
       audio.removeEventListener("error", handleError);
