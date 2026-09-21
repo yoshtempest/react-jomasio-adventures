@@ -12,6 +12,8 @@ type Props = {
   blinkVisual?: BlinkVisual | null;
   /** Emanuel segurando a instância: troca o sprite para teleport.svg. */
   teleportSprite?: boolean;
+  /** Durante o specialBackground: troca o sprite para preAtomic.svg. */
+  preAtomic?: boolean;
 };
 
 export function Player({
@@ -23,6 +25,7 @@ export function Player({
   transformationFrame = null,
   blinkVisual = null,
   teleportSprite = false,
+  preAtomic = false,
 }: Props) {
   const blinkSilhouette =
     player.character === "riquelme" && blinkVisual
@@ -46,6 +49,7 @@ export function Player({
       transformationFrame={transformationFrame}
       blinkSilhouette={blinkSilhouette}
       teleportSprite={teleportSprite}
+      preAtomic={preAtomic}
     />
   );
 }

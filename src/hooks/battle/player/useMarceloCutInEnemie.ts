@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ONE_THOUSAND_MS, FIVE_THOUSAND_MS, TWO_HUNDRED_MS } from "@/data/ms";
+import { TWO_HUNDRED_MS, FIVE_THOUSAND_MS } from "@/data/ms";
 import { playerPath, asset } from "@/utils/paths";
 
 /** CutInEnemie aparece por 1s sobre o NPC atingido. */

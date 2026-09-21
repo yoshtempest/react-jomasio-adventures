@@ -1,7 +1,8 @@
+/* O specialBackground sobrepõe o fundo da batalha, mas fica ATRÁS do jogador e
+   dos NPCs (o SpecialIntro é renderizado antes do `.SceneMap` na cena). */
 .overlay {
-  position: fixed;
+  position: absolute;
   inset: 0;
-  z-index: 9999;
 
   overflow: hidden;
   pointer-events: none;

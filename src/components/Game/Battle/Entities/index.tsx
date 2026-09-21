@@ -73,6 +73,8 @@ type Props = {
   cutInEnemie?: CutInEnemieOverlay | null;
   /** NPC em sangramento (bloodIcon acima da imagem). */
   npcBleeding?: boolean;
+  /** Durante o specialBackground: jogador troca para o sprite preAtomic.svg. */
+  preAtomic?: boolean;
 };
 
 export function BattleEntities({
@@ -107,6 +109,7 @@ export function BattleEntities({
   vastolordLaser = null,
   cutInEnemie = null,
   npcBleeding = false,
+  preAtomic = false,
 }: Props) {
   const battleScaleX = getViewportSize().width / ProjectileConstants.MAP_WIDTH;
   const battleScaleY =
@@ -191,6 +194,7 @@ export function BattleEntities({
         transformationFrame={transformationFrame}
         blinkVisual={blinkVisual}
         teleportSprite={emanuelClone != null}
+        preAtomic={preAtomic}
       />
 
       {blinkVisual && player.character === "riquelme" && (

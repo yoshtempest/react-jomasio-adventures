@@ -32,6 +32,8 @@ type Props = {
   blinkSilhouette?: "black" | "white" | null;
   /** Emanuel segurando a instância: usa o sprite de teleporte no lugar do estado atual. */
   teleportSprite?: boolean;
+  /** Durante o specialBackground: usa o sprite preAtomic.svg (marcelo). */
+  preAtomic?: boolean;
 };
 
 const CROUCH_STATE_MAP: Record<string, string> = {
@@ -61,6 +63,7 @@ export function PlayerBattle({
   transformationFrame = null,
   blinkSilhouette = null,
   teleportSprite = false,
+  preAtomic = false,
 }: Props) {
   const resolvedState =
     CROUCH_STATE_MAP[state] ?? (state === "charging" ? "idle" : state);
@@ -69,6 +72,14 @@ export function PlayerBattle({
   const isFallen = state === "fallen";
   const isGrabbed = Date.now() < grabbedUntil && !isFallen && !isCrouching;
   const showFlipped = isGrabbed && grabFlipped;
+
+  // Durante o specialBackground o marcelo troca para o sprite preAtomic.svg
+  // (animação do special ainda não implementada — sprite estático por ora).
+  const preAtomicSrc =
+    preAtomic && character === "marcelo"
+      ? playerPath(`/marcelo/inFight/default/attacks/preAtomic.svg`)
+      : "";
+
   const transformationSrc =
     form === "vastolordForm" && transformationFrame != null
       ? playerPath(
@@ -78,6 +89,7 @@ export function PlayerBattle({
         )
       : "";
   const baseSrc =
+    preAtomicSrc ||
     transformationSrc ||
     (teleportSprite && character === "emanuel"
       ? playerPath(`/emanuel/inFight/attacks/teleport.svg`)

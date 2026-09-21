@@ -375,6 +375,13 @@ export function BattleScene(props: Props) {
         />
       )}
 
+      {/* Renderizado antes do `.SceneMap`: fica acima do fundo da batalha,
+          mas abaixo do jogador/NPCs (que são filhos do SceneMap). */}
+      <SpecialIntro
+        active={specialIntroActive}
+        character={specialIntroCharacter}
+      />
+
       <div className="SceneMap">
         <GameMap
           TILE_SIZE={TILE_SIZE}
@@ -426,6 +433,7 @@ export function BattleScene(props: Props) {
             vastolordLaser={vastolordLaser}
             cutInEnemie={battle.cutInEnemie}
             npcBleeding={battle.npcBleeding}
+            preAtomic={specialIntroActive}
           />
 
           <ChargeParticles
@@ -487,10 +495,6 @@ export function BattleScene(props: Props) {
           )}
         </GameMap>
       </div>
-      <SpecialIntro
-        active={specialIntroActive}
-        character={specialIntroCharacter}
-      />
       {showOutro && !isTraining && (
         <BattleOutro
           character={player.character}
