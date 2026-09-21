@@ -103,7 +103,10 @@ export function BattleIntro({
         />
       </div>
 
-      <div className={styles.vs}>VS</div>
+      <div className={styles.center}>
+        <div className={`${styles.combatText} ${styles.ready}`}>Ready?</div>
+        <div className={`${styles.combatText} ${styles.fight}`}>Fight!</div>
+      </div>
 
       <div className={styles.right}>
         {isAlfa && <div className={styles.alfaBadge}>ALFA</div>}

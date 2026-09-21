@@ -1,6 +1,6 @@
 .left,
 .right {
-  width: 35vw;
+  width: 30vw;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -28,14 +28,64 @@
   transform: scaleX(-1);
 }
 
-.vs {
+/* Texto central "Ready? → Fight!": ocupa a mesma faixa central (ex-"VS").
+   Sobrepostos (position absolute) para o "Fight!" surgir no mesmo lugar. */
+.center {
+  position: relative;
+
+  width: 30vw;
+  height: 22vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  pointer-events: none;
+}
+
+.combatText {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+  inset: 0;
+
   font-size: var(--fs-500);
-  font-weight: bold;
-  color: var(--text-color);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+
+  /* Cor amarela com gradiente linear (legível em qualquer cenario). */
+  background: linear-gradient(
+    to bottom,
+    #fff8c2 0%,
+    #ffd900 45%,
+    #ff9d00 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+
+  /* Borda preta ao redor do texto. */
+  -webkit-text-stroke: 4px #000;
+  paint-order: stroke fill;
+  -webkit-paint-order: stroke fill;
+}
+
+/* "Ready?": nasce grande e diminui até o tamanho normal, depois some para o
+   "Fight!" entrar. */
+.ready {
+  animation: readyShrink 1.15s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+/* "Fight!": aparece logo após o "Ready?" (delay casa com o readyShrink). */
+.fight {
+  opacity: 0;
 
   animation:
-    pulse 800ms infinite,
-    zoom 500ms ease;
+    fightAppear 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) 1.15s forwards,
+    fightShake 0.4s ease 1.6s forwards;
 }
 
 .alfaBadge {
@@ -86,13 +136,58 @@
   width: 10vw;
 }
 
-@keyframes pulse {
+@keyframes readyShrink {
+  0% {
+    opacity: 0;
+    transform: scale(2.2);
+  }
+
+  12% {
+    opacity: 1;
+  }
+
+  55% {
+    transform: scale(1.08);
+  }
+
+  75% {
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+@keyframes fightAppear {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+
+  40% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+
+  60% {
+    transform: scale(0.95);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fightShake {
   0% {
     transform: scale(1);
   }
 
-  50% {
-    transform: scale(1.2);
+  25% {
+    transform: scale(1.06);
   }
 
   100% {
