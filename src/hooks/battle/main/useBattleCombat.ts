@@ -1103,6 +1103,7 @@ summons,
   } = useVastolordLaser({
     player,
     setPlayer,
+    PLAYER_SIZE,
     vastolordActive,
     char: battle.char,
     playerClass,

@@ -13,6 +13,8 @@ import {
   isPlayerFrozen,
   isPlayerParalyzed,
 } from "@/gameRules/battle/status/statusEffects";
+import { getViewportSize } from "@/utils/viewport";
+import { ProjectileConstants } from "@/data/projectile";
 import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
 import { THREE_THOUSAND_MS } from "@/data/ms";
 import { combatService } from "@/services/combat";
@@ -27,24 +29,46 @@ export const VASTOLORD_LASER_TICK_MS = 1;
 export const VASTOLORD_LASER_DAMAGE_RATIO = 0.01;
 /** Distância (px no plano lógico) que o feixe empurra o inimigo por tick. */
 export const VASTOLORD_LASER_PUSH_PX = 10;
-/** Distância do topo do feixe até a base do jogador (player.y). */
-export const VASTOLORD_LASER_TOP_GAP = 200;
-/** Folga abaixo de player.y ainda considerada dentro do feixe. */
-export const VASTOLORD_LASER_BOTTOM_SLACK = 20;
 /** Altura do sprite vastolordLaser.svg (1000x243) em px lógicos. */
 export const VASTOLORD_LASER_BEAM_HEIGHT = 243;
 
+/**
+ * Altura renderizada do sprite do jogador (px lógicos do plano 1000x600).
+ * O sprite é desenhado em um contêiner de PLAYER_SIZE/1.5 px (ver PlayerBattle)
+ * escalado pelo mesmo battleScaleY usado no feixe — é essa medida que ancora o
+ * laser na imagem do personagem em qualquer resolução.
+ */
+export function vastolordPlayerSpriteHeight(PLAYER_SIZE: number): number {
+  const battleScaleY =
+    getViewportSize().height / ProjectileConstants.MAP_HEIGHT;
+  return PLAYER_SIZE / 1.5 / battleScaleY;
+}
+
+/**
+ * Topo do feixe (px lógicos) a partir de player.y: o laser é centralizado na
+ * imagem do personagem — o centro vertical do feixe coincide com o centro
+ * vertical do sprite renderizado (o marcelo na Forma Vastolord).
+ */
+export function vastolordLaserTop(beamY: number, PLAYER_SIZE: number): number {
+  const spriteHeight = vastolordPlayerSpriteHeight(PLAYER_SIZE);
+  return beamY - spriteHeight / 2 - VASTOLORD_LASER_BEAM_HEIGHT / 2;
+}
+
 /** Feixe ativo do Laser da Forma Vastolord. */
 export type VastolordLaserBeam = {
+  /** Limite esquerdo do feixe (px lógicos): 0 ou o x do jogador. */
   fromX: number;
+  /** Limite direito do feixe (px lógicos): o x do jogador ou a largura do mapa. */
   toX: number;
-  /** y do jogador no instante do disparo (base do feixe). */
+  /** y do jogador no instante do disparo (pés) — centro do feixe = centro do sprite acima dele. */
   y: number;
 };
 
 type Props = {
   player: Player;
   setPlayer: Dispatch<SetStateAction<Player>>;
+  /** PLAYER_SIZE do layout — ancora o feixe na imagem renderizada do personagem. */
+  PLAYER_SIZE: number;
   /** Forma Vastolord ativa (o botão só aparece/liga dentro dela). */
   vastolordActive: boolean;
   /** Personagem do jogador (stats usadas para o dano base do feixe). */
@@ -84,15 +108,18 @@ type VastolordLaserApi = {
 
 /**
  * Laser da Forma Vastolord do marcelo (uma vez por forma): o personagem troca
- * para o sprite `laser.svg` e um feixe (`vastolordLaser.svg`) cruza o mapa de
- * uma ponta à outra por 3s. A cada 20ms, todo inimigo na faixa do feixe sofre
- * 1% do dano base do personagem e é empurrado 10px para longe do jogador
- * (parando nas bordas via BATTLE_LIMITS). O jogador fica travado no disparo
- * durante os 3s; a habilidade só pode ser usada UMA vez por forma.
+ * para o sprite `laser.svg` e um feixe (`vastolordLaser.svg`) sai do personagem
+ * até a ponta do mapa na direção que ele mira, por 3s, centralizado na imagem
+ * do personagem (centro do feixe alinhado ao centro vertical do sprite
+ * renderizado). A cada 20ms, todo inimigo dentro da faixa do feixe sofre 1% do
+ * dano base do personagem e é empurrado 10px para longe do jogador (parando
+ * nas bordas via BATTLE_LIMITS). O jogador fica travado no disparo durante os
+ * 3s; a habilidade só pode ser usada UMA vez por forma.
  */
 export function useVastolordLaser({
   player,
   setPlayer,
+  PLAYER_SIZE,
   vastolordActive,
   char,
   playerClass,
@@ -200,14 +227,20 @@ export function useVastolordLaser({
       if (applied < 1) return;
       accRef.current -= applied;
 
-      const beamY = beamRef.current?.y;
-      if (beamY == null) return;
-      const top = beamY - VASTOLORD_LASER_TOP_GAP;
-      const bottom = beamY + VASTOLORD_LASER_BOTTOM_SLACK;
+      const beamData = beamRef.current;
+      if (!beamData) return;
+      const { y: beamY, fromX, toX } = beamData;
+      const top = vastolordLaserTop(beamY, PLAYER_SIZE);
+      const bottom = top + VASTOLORD_LASER_BEAM_HEIGHT;
 
       // NPC principal: dano + empurrão para longe do jogador (clampado).
       const mainNpc = npcRef.current;
-      if (mainNpc.y >= top && mainNpc.y <= bottom) {
+      if (
+        mainNpc.y >= top &&
+        mainNpc.y <= bottom &&
+        mainNpc.x >= fromX &&
+        mainNpc.x <= toX
+      ) {
         setNpcHP((hp) => Math.max(0, hp - applied));
         spawnDamageNumber(applied, mainNpc.x, mainNpc.y, "npc");
         registerHitRef.current?.(applied);
@@ -221,7 +254,15 @@ export function useVastolordLaser({
       let changed = false;
       let killed = false;
       const nextSummons = summonsRef.current.map((s) => {
-        if (s.isDying || s.y < top || s.y > bottom) return s;
+        if (
+          s.isDying ||
+          s.y < top ||
+          s.y > bottom ||
+          s.x < fromX ||
+          s.x > toX
+        ) {
+          return s;
+        }
         changed = true;
         const newHp = Math.max(0, s.hp - applied);
         spawnDamageNumber(applied, s.x, s.y, "summon");
@@ -244,6 +285,7 @@ export function useVastolordLaser({
         giveSummonRewards("rare");
       }
     }, [
+      PLAYER_SIZE,
       baseDamageRef,
       beamRef,
       clampX,
@@ -273,9 +315,11 @@ export function useVastolordLaser({
       freezeActionsUntilRef.current,
       Date.now() + VASTOLORD_LASER_DURATION_MS,
     );
+    // O feixe sai do personagem até a ponta do mapa na direção que ele mira.
+    const isFacingLeft = p.battleDirection === "left";
     setBeam({
-      fromX: BATTLE_LIMITS.minX,
-      toX: BATTLE_LIMITS.maxX,
+      fromX: isFacingLeft ? 0 : p.x,
+      toX: isFacingLeft ? p.x : ProjectileConstants.MAP_WIDTH,
       y: p.y,
     });
     setPlayer((pp) =>

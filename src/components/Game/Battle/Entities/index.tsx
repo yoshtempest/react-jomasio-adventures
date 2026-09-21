@@ -207,6 +207,7 @@ export function BattleEntities({
       {vastolordLaser && player.character === "marcelo" && (
         <VastolordLaser
           beam={vastolordLaser}
+          PLAYER_SIZE={PLAYER_SIZE}
           battleScaleX={battleScaleX}
           battleScaleY={battleScaleY}
         />
