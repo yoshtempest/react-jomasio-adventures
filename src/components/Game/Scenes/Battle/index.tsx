@@ -424,6 +424,8 @@ export function BattleScene(props: Props) {
             emanuelClone={emanuelClone}
             genkiDamaVisual={genkiDamaVisual}
             vastolordLaser={vastolordLaser}
+            cutInEnemie={battle.cutInEnemie}
+            npcBleeding={battle.npcBleeding}
           />
 
           <ChargeParticles

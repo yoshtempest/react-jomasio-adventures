@@ -1,5 +1,6 @@
 import { NPCBattle } from "@/components/Game/Entities/Npc/Battle";
 import type { BattleEntitiesBattle } from "@/components/Game/Battle/Entities/types";
+import type { CutInEnemieOverlay } from "@/hooks/battle/player/useMarceloCutInEnemie";
 
 type Props = {
   x: number;
@@ -12,6 +13,8 @@ type Props = {
   isHidden: boolean;
   isUnderground: boolean;
   isAlfa: boolean;
+  cutInEnemie?: CutInEnemieOverlay | null;
+  npcBleeding?: boolean;
 };
 
 export function MainNpc({
@@ -25,6 +28,8 @@ export function MainNpc({
   isHidden,
   isUnderground,
   isAlfa,
+  cutInEnemie = null,
+  npcBleeding = false,
 }: Props) {
   return (
     <NPCBattle
@@ -41,6 +46,8 @@ export function MainNpc({
       npcPhase={battle.npcPhase}
       isDying={battle.isNpcDying}
       isAlfa={isAlfa}
+      cutInEnemie={cutInEnemie}
+      npcBleeding={npcBleeding}
     />
   );
 }

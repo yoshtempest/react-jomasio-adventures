@@ -31,6 +31,7 @@ import type { BlinkVisual } from "@/hooks/battle/player/characters/natsuki/useBl
 import type { EmanuelCloneVisual } from "@/utils/types/character/emanuel";
 import type { GenkiDamaVisual } from "@/utils/types/character/emanuel";
 import type { VastolordLaserBeam } from "@/hooks/battle/player/characters/marshadow/useVastolordLaser";
+import type { CutInEnemieOverlay } from "@/hooks/battle/player/useMarceloCutInEnemie";
 
 type Props = {
   npc: MainNpcState;
@@ -68,6 +69,10 @@ type Props = {
   genkiDamaVisual?: GenkiDamaVisual | null;
   /** Feixe do Laser da Forma Vastolord do marcelo. */
   vastolordLaser?: VastolordLaserBeam | null;
+  /** CutInEnemie do marcelo sobrepondo o NPC atingido. */
+  cutInEnemie?: CutInEnemieOverlay | null;
+  /** NPC em sangramento (bloodIcon acima da imagem). */
+  npcBleeding?: boolean;
 };
 
 export function BattleEntities({
@@ -100,6 +105,8 @@ export function BattleEntities({
   emanuelClone = null,
   genkiDamaVisual = null,
   vastolordLaser = null,
+  cutInEnemie = null,
+  npcBleeding = false,
 }: Props) {
   const battleScaleX = getViewportSize().width / ProjectileConstants.MAP_WIDTH;
   const battleScaleY =
@@ -120,6 +127,8 @@ export function BattleEntities({
         isHidden={activeBombIds.has("main")}
         isUnderground={npc.hidden ?? false}
         isAlfa={isAlfa}
+        cutInEnemie={cutInEnemie}
+        npcBleeding={npcBleeding}
       />
 
       <NpcProjectile projectiles={npc.projectiles} groundY={player.y} />

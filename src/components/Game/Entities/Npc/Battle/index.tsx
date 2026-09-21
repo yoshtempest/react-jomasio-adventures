@@ -8,6 +8,11 @@ import {
 import { ProjectileConstants } from "@/data/projectile";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { getViewportSize } from "@/utils/viewport";
+import {
+  MARCELO_CUT_IN_ENEMIE_SRC,
+  BLOOD_ICON_SRC,
+  type CutInEnemieOverlay,
+} from "@/hooks/battle/player/useMarceloCutInEnemie";
 
 type Props = {
   x: number;
@@ -66,6 +71,10 @@ type Props = {
   npcPhase?: number;
   isDying?: boolean;
   isAlfa?: boolean;
+  /** CutInEnemie do marcelo sobrepondo o NPC (aparece por 1s no ataque). */
+  cutInEnemie?: CutInEnemieOverlay | null;
+  /** NPC em sangramento: mostra o bloodIcon acima da imagem. */
+  npcBleeding?: boolean;
 };
 
 export function NPCBattle({
@@ -82,6 +91,8 @@ export function NPCBattle({
   npcPhase = 1,
   isDying = false,
   isAlfa = false,
+  cutInEnemie = null,
+  npcBleeding = false,
 }: Props) {
   const { playSound } = useSoundEffects();
   const prevIsExplodingRef = useRef(isExploding);
@@ -168,6 +179,40 @@ export function NPCBattle({
           }}
         />
       ))}
+
+      {/* ✂️ CUT-IN ENEMIE do marcelo: strike sobre o NPC (1s, ângulo aleatório) */}
+      {cutInEnemie && (
+        <img
+          key={cutInEnemie.key}
+          src={MARCELO_CUT_IN_ENEMIE_SRC}
+          style={{
+            position: "absolute",
+            width: TILE_SIZE * sizeMultiplier * 0.5,
+            left: "50%",
+            top: TILE_SIZE * 0.35,
+            transform: `translate(-50%, -50%) rotate(${cutInEnemie.rotation}deg)`,
+            pointerEvents: "none",
+            zIndex: 3,
+          }}
+        />
+      )}
+
+      {/* 🩸 BLOOD ICON: NPC em sangramento mostra o ícone acima da imagem */}
+      {npcBleeding && (
+        <img
+          src={BLOOD_ICON_SRC}
+          style={{
+            position: "absolute",
+            width: TILE_SIZE * 0.1,
+            height: TILE_SIZE * 0.1,
+            left: "50%",
+            top: -TILE_SIZE * 0.45,
+            transform: "translateX(-50%)",
+            pointerEvents: "none",
+            zIndex: 3,
+          }}
+        />
+      )}
     </div>
   );
 }

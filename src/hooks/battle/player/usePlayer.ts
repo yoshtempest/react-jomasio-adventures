@@ -80,6 +80,8 @@ type Props = {
   onKokusenRef?: React.RefObject<() => void>;
   onBlackFlashRef?: React.RefObject<() => void>;
   onCriticalPushRef?: React.RefObject<() => void>;
+  /** Dispara quando o marcelo (forma padrão) acerta um ataque básico no NPC. */
+  onMarceloDefaultHitRef?: React.RefObject<() => void>;
   onHalfHeal?: () => void;
 };
 
@@ -127,6 +129,7 @@ export function usePlayerBattle({
   onKokusenRef,
   onBlackFlashRef,
   onCriticalPushRef,
+  onMarceloDefaultHitRef,
   onHalfHeal,
 }: Props) {
   const { playSound } = useSoundEffects();
@@ -155,6 +158,14 @@ export function usePlayerBattle({
 
       const guard = evaluateStatusGuards(player);
       if (guard === "frozen") return;
+
+      // CutInEnemie + chance de sangramento: só no ataque básico do marcelo em
+      // forma padrão (Forma Vastolord multiplica o dano, então é excluída).
+      const isMarceloDefaultHit =
+        player.character === "marcelo" && vastolordMult === 1;
+      const notifyMarceloDefaultHit = () => {
+        if (isMarceloDefaultHit) onMarceloDefaultHitRef?.current?.();
+      };
 
       if (
         !bypassCanPlayerHit &&
@@ -211,6 +222,7 @@ export function usePlayerBattle({
             npcY,
             "npc",
           );
+          notifyMarceloDefaultHit();
         }
         return;
       }
@@ -276,6 +288,7 @@ export function usePlayerBattle({
         });
 
       const isDivergentFist = divergentFistRef?.current === true;
+      notifyMarceloDefaultHit();
       runBasicHit();
 
       if (isDivergentFist) {
@@ -327,6 +340,7 @@ export function usePlayerBattle({
       onKokusenRef,
       onBlackFlashRef,
       onCriticalPushRef,
+      onMarceloDefaultHitRef,
       onHalfHeal,
       npcClass,
       npcElementTypes,

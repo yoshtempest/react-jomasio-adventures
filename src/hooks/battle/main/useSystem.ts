@@ -44,6 +44,7 @@ import { useStatusDotTicks } from "@/hooks/battle/time/ticks/useStatusDotsTicks"
 import { useNpcBleedTicks } from "@/hooks/battle/time/ticks/useNpcBleedTicks";
 import { useManaRegenTick } from "@/hooks/battle/time/ticks/useManaRegenTick";
 import { usePlayerPullAnimation } from "@/hooks/battle/player/usePlayerPullAnimation";
+import { useMarceloCutInEnemie } from "@/hooks/battle/player/useMarceloCutInEnemie";
 
 type Props = {
   playerX: number;
@@ -231,6 +232,9 @@ export function useBattleSystem(props: Props) {
   const npcBleedXRef = useLatestRef(npcX);
   const npcBleedYRef = useLatestRef(npcY);
 
+  /** Preenchido pelo useMarceloCutInEnemie (disparado no ataque do marcelo). */
+  const marceloCutInTriggerRef = useRef<() => void>(() => {});
+
   const {
     playerHP,
     setPlayerHP,
@@ -300,6 +304,7 @@ export function useBattleSystem(props: Props) {
     divergentFistRef,
     onDivergentFistConsumedRef,
     weapon,
+    onMarceloDefaultHitRef: marceloCutInTriggerRef,
   });
 
   const { damagePlayerHp, damagePlayer } = useExternalDamage({
@@ -440,6 +445,19 @@ export function useBattleSystem(props: Props) {
     isPausedRef,
   );
 
+  const applyNpcBleed = useCallback((durationMs: number) => {
+    npcBleedUntilRef.current = Math.max(
+      npcBleedUntilRef.current,
+      Date.now() + durationMs,
+    );
+  }, []);
+
+  // CutInEnemie do marcelo (forma padrão): sprite sobre o NPC atingido + chance
+  // acumulativa de sangramento. Estado renderizado via `battle.cutInEnemie` e
+  // `battle.npcBleeding`.
+  const marceloCutIn = useMarceloCutInEnemie({ isEnding, applyNpcBleed });
+  marceloCutInTriggerRef.current = marceloCutIn.trigger;
+
   const resetBattle = () => {
     setPlayerHP(playerMaxHp);
     setPlayerShield(totalShield);
@@ -462,6 +480,7 @@ export function useBattleSystem(props: Props) {
     resetPetSkill();
     resetPetPassive();
     npcBleedUntilRef.current = 0;
+    marceloCutIn.reset();
     energy.resetEnergy();
     battleMana?.resetMana();
     setPlayer((p) => ({
@@ -499,13 +518,6 @@ export function useBattleSystem(props: Props) {
     ],
   );
 
-  const applyNpcBleed = useCallback((durationMs: number) => {
-    npcBleedUntilRef.current = Math.max(
-      npcBleedUntilRef.current,
-      Date.now() + durationMs,
-    );
-  }, []);
-
   return {
     playerHP,
     setPlayerHP,
@@ -537,6 +549,8 @@ export function useBattleSystem(props: Props) {
     isEnding,
     piercings: effects.piercings,
     isExploding: effects.isExploding,
+    cutInEnemie: marceloCutIn.cutInEnemie,
+    npcBleeding: marceloCutIn.npcBleeding,
     pet,
     setPet,
     triggerJumpAttack,
