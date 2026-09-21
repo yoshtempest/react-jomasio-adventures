@@ -1,6 +1,4 @@
 import { useCallback, type RefObject } from "react";
-import { getSelected } from "@/gameRules/menu/selection";
-import { DIALOGUE_SPEED_LIST, type DialogueSpeed } from "@/utils/settings";
 import type { ConfigTab } from "@/data/config/tabs";
 
 interface UseConfigActionsParams {
@@ -17,7 +15,6 @@ interface UseConfigActionsParams {
   modeRef: RefObject<string>;
   playSelectRef: RefObject<() => void>;
   playCloseRef: RefObject<() => void>;
-  setDialogueSpeedRef: RefObject<(s: DialogueSpeed) => void>;
   setShowQuestIndicatorRef: RefObject<(v: boolean) => void>;
   setSharedXpRef: RefObject<(v: boolean) => void>;
   checkForUpdateRef: RefObject<() => void>;
@@ -46,7 +43,6 @@ export function useConfigActions({
   modeRef,
   playSelectRef,
   playCloseRef,
-  setDialogueSpeedRef,
   setShowQuestIndicatorRef,
   setSharedXpRef,
   checkForUpdateRef,
@@ -71,11 +67,6 @@ export function useConfigActions({
     const idx = selectedIndexRef.current;
 
     if (activeTabRef.current === "geral") {
-      if (col === 1) {
-        const selected = getSelected(DIALOGUE_SPEED_LIST, idx);
-        setDialogueSpeedRef.current(selected);
-      }
-
       if (col === 2) {
         if (idx === 0) {
           setShowQuestIndicatorRef.current(!showQuestIndicator);
@@ -133,7 +124,6 @@ export function useConfigActions({
     selectedColumnRef,
     selectedIndexRef,
     playSelectRef,
-    setDialogueSpeedRef,
     setShowQuestIndicatorRef,
     setSharedXpRef,
     setScreen,

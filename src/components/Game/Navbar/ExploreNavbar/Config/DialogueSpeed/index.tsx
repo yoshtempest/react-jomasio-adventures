@@ -1,35 +1,55 @@
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import styles from "@/components/Game/Navbar/ExploreNavbar/Config/styles.module.css";
-import { DIALOGUE_SPEED_LIST, SPEED_LABEL } from "@/utils/settings";
+import { SPEED_LABEL } from "@/utils/settings";
 import type { DialogueSpeed } from "@/utils/settings";
 
 type Props = {
   selectedIndex: number;
   selectedColumn: number;
   activeSpeed: DialogueSpeed;
+  onPrev: () => void;
+  onNext: () => void;
 };
 
 export function DialogueSpeedSection({
   selectedIndex,
   selectedColumn,
   activeSpeed,
+  onPrev,
+  onNext,
 }: Props) {
+  const isSelected = selectedColumn === 1 && selectedIndex === 0;
+
   return (
-    <div className={styles.speedContainer}>
+    <div className={styles.compactContainer}>
       <h2 className={styles.marginTop}>Diálogo:</h2>
-      <div className={styles.speedOptions}>
-        {DIALOGUE_SPEED_LIST.map((speed, index) => {
-          const isSelected = selectedColumn === 1 && index === selectedIndex;
-          const isActive = speed === activeSpeed;
-          return (
-            <div
-              key={speed}
-              className={`${styles.item} ${isSelected ? styles.selected : ""} ${isActive ? styles.active : ""}`}
-            >
-              {isSelected && <span className={styles.cursor}>▼</span>}
-              <h2>{SPEED_LABEL[speed].toUpperCase()}</h2>
-            </div>
-          );
-        })}
+
+      <div className={styles.compactSelector}>
+        {isSelected && <span className={styles.cursor}>▼</span>}
+
+        <button
+          type="button"
+          className={`${styles.triangle} ${styles.triangleBlink}`}
+          onClick={onPrev}
+          aria-label="Velocidade de diálogo anterior"
+        >
+          <ChevronLeft size={28} />
+        </button>
+
+        <div
+          className={`${styles.item} ${styles.active} ${isSelected ? styles.selected : ""}`}
+        >
+          <h2>{SPEED_LABEL[activeSpeed].toUpperCase()}</h2>
+        </div>
+
+        <button
+          type="button"
+          className={`${styles.triangle} ${styles.triangleBlink}`}
+          onClick={onNext}
+          aria-label="Próxima velocidade de diálogo"
+        >
+          <ChevronRight size={28} />
+        </button>
       </div>
     </div>
   );

@@ -30,6 +30,7 @@ export function Config() {
     activeTab,
     isOnTab,
     cycleDifficulty,
+    cycleDialogueSpeed,
   } = useConfigSelection(true);
   const dialogueSystem = useDialogue(configsDialogue);
   const dialogueSystemRef = useLatestRef(dialogueSystem);
@@ -79,6 +80,8 @@ export function Config() {
             selectedIndex={selectedIndex}
             selectedColumn={selectedColumn}
             activeSpeed={dialogueSpeed}
+            onPrev={() => cycleDialogueSpeed(-1)}
+            onNext={() => cycleDialogueSpeed(1)}
           />
 
           <HelpSection

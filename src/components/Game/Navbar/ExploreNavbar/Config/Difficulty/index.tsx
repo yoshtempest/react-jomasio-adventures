@@ -20,10 +20,10 @@ export function DifficultySection({
   const isSelected = selectedColumn === 0 && selectedIndex === 0;
 
   return (
-    <div className={styles.difficultyContainer}>
+    <div className={styles.compactContainer}>
       <h2 className={styles.marginTop}>Dificuldade:</h2>
 
-      <div className={styles.difficultySelector}>
+      <div className={styles.compactSelector}>
         {isSelected && <span className={styles.cursor}>▼</span>}
 
         <button

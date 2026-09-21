@@ -18,6 +18,10 @@ import {
   getColumnMaxIndex,
 } from "./configConstants";
 import { useConfigActions } from "./useConfigActions";
+import {
+  DIALOGUE_SPEED_LIST,
+  type DialogueSpeed,
+} from "@/utils/settings";
 
 export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   const navigate = useNavigate();
@@ -27,6 +31,7 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   const { sfxVolume, setSfxVolume, bgmVolume, setBgmVolume } = useAudio();
   const {
     setDialogueSpeed,
+    dialogueSpeed,
     showQuestIndicator,
     setShowQuestIndicator,
     showComboAction,
@@ -103,6 +108,7 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
 
   const modeRef = useLatestRef(player.mode);
   const activeDifficultyRef = useLatestRef(activeDifficulty);
+  const activeSpeedRef = useLatestRef(dialogueSpeed);
 
   /** Cicla a dificuldade ativa (usado pelos triângulos e pelas setas do card). */
   const cycleDifficulty = useCallback(
@@ -115,6 +121,19 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
       playMoveRef.current();
     },
     [activeDifficultyRef, setDifficultyRef, playMoveRef],
+  );
+
+  /** Cicla a velocidade de diálogo ativa (triângulos e setas do card). */
+  const cycleDialogueSpeed = useCallback(
+    (dir: 1 | -1) => {
+      const current = DIALOGUE_SPEED_LIST.indexOf(activeSpeedRef.current);
+      const next = DIALOGUE_SPEED_LIST[
+        (current + dir + DIALOGUE_SPEED_LIST.length) % DIALOGUE_SPEED_LIST.length
+      ] as DialogueSpeed;
+      setDialogueSpeedRef.current(next);
+      playMoveRef.current();
+    },
+    [activeSpeedRef, setDialogueSpeedRef, playMoveRef],
   );
 
   const { handleConfirm, handleCancel } = useConfigActions({
@@ -130,7 +149,6 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
     modeRef,
     playSelectRef,
     playCloseRef,
-    setDialogueSpeedRef,
     setShowQuestIndicatorRef,
     setSharedXpRef,
     checkForUpdateRef,
@@ -221,6 +239,12 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
           return;
         }
 
+        // Coluna 1 (tab geral) = card único de velocidade de diálogo: setas ciclam.
+        if (col === 1) {
+          cycleDialogueSpeed(1);
+          return;
+        }
+
         if (col === 3) {
           setSfxVolumeRef.current(Math.min(sfxVolume + 10, 100));
           return;
@@ -255,6 +279,12 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
         // Coluna 0 (tab geral) = card único de dificuldade: setas ciclam.
         if (col === 0) {
           cycleDifficulty(-1);
+          return;
+        }
+
+        // Coluna 1 (tab geral) = card único de velocidade de diálogo: setas ciclam.
+        if (col === 1) {
+          cycleDialogueSpeed(-1);
           return;
         }
 
@@ -321,6 +351,7 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
     selectedColumnRef,
     selectedIndexRef,
     cycleDifficulty,
+    cycleDialogueSpeed,
   ]);
 
   return {
@@ -335,5 +366,6 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
     activeTab,
     isOnTab,
     cycleDifficulty,
+    cycleDialogueSpeed,
   };
 }
