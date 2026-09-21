@@ -244,6 +244,8 @@ export function useBattleCombat({
 
   const npcRootedUntilRef = useRef(0);
   const rootedSummonsUntilRef = useRef<Record<string, number>>({});
+  /** +1 stack de VastolordLaser ao derrotar um inimigo com a forma ativa. */
+  const addVastolordLaserChargeRef = useRef<() => void>(() => {});
 
   targeting.npcAiHpRef.current = npcStats.hp;
   targeting.npcAiMaxHpRef.current = npcStats.hp;
@@ -493,6 +495,7 @@ export function useBattleCombat({
     onNpcDeath: () => {
       if (vastolordActive) {
         extendVastolordRef.current(VASTOLORD_KILL_EXTEND_MS);
+        addVastolordLaserChargeRef.current();
       }
       onNpcDeathRef.current();
     },
@@ -719,6 +722,7 @@ export function useBattleCombat({
     onSummonKilled: () => {
       if (vastolordActive) {
         extendVastolordRef.current(VASTOLORD_KILL_EXTEND_MS);
+        addVastolordLaserChargeRef.current();
       }
     },
   });
@@ -1100,6 +1104,8 @@ summons,
     beam: vastolordLaser,
     press: vastolordLaserPress,
     usable: vastolordLaserUsable,
+    stacks: vastolordLaserStacks,
+    addCharge: addVastolordLaserCharge,
   } = useVastolordLaser({
     player,
     setPlayer,
@@ -1120,6 +1126,8 @@ setNpcHP: battle.setNpcHP,
     disabledRef: cloneDisabledRef,
     playSound,
   });
+
+  addVastolordLaserChargeRef.current = addVastolordLaserCharge;
 
   return {
     battle,
@@ -1168,5 +1176,6 @@ setNpcHP: battle.setNpcHP,
     vastolordLaser,
     vastolordLaserPress,
     vastolordLaserUsable,
+    vastolordLaserStacks,
   };
 }

@@ -56,6 +56,23 @@
   white-space: nowrap;
 }
 
+.charges {
+  position: absolute;
+  top: calc(var(--size-5) * -1);
+  right: calc(var(--size-5) * -1);
+
+  min-width: var(--size-9);
+  padding: 0 var(--size-1);
+
+  border-radius: var(--size-8);
+  background-color: rgba(127, 29, 29, 0.9);
+  color: #fff;
+  font-size: var(--fs-9);
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 0 6px rgba(248, 113, 113, 0.8);
+}
+
 @keyframes laserGlow {
   0%,
   100% {

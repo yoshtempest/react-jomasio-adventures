@@ -165,6 +165,7 @@ export function BattleScene(props: Props) {
     vastolordLaser,
     vastolordLaserPress,
     vastolordLaserUsable,
+    vastolordLaserStacks,
   } = useBattleScene({ ...props, isAlfa, PLAYER_SIZE });
 
   const { setBattleCollision } = usePlayerActions();
@@ -624,6 +625,7 @@ export function BattleScene(props: Props) {
 
       {player.character === "marcelo" && vastolordActive && (
         <VastolordLaserButton
+          charges={vastolordLaserStacks}
           disabled={!vastolordLaserUsable}
           onClick={vastolordLaserPress}
         />

@@ -465,6 +465,7 @@ export function useBattleScene({
     vastolordLaser,
     vastolordLaserPress,
     vastolordLaserUsable,
+    vastolordLaserStacks,
   } = combat;
 
   vastolordEndingRef.current = battle.isEnding;
@@ -740,5 +741,6 @@ export function useBattleScene({
     vastolordLaser,
     vastolordLaserPress,
     vastolordLaserUsable,
+    vastolordLaserStacks,
   });
 }

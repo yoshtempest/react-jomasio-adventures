@@ -31,6 +31,11 @@ export const VASTOLORD_LASER_DAMAGE_RATIO = 0.01;
 export const VASTOLORD_LASER_PUSH_PX = 10;
 /** Altura do sprite vastolordLaser.svg (1000x243) em px lógicos. */
 export const VASTOLORD_LASER_BEAM_HEIGHT = 243;
+/**
+ * Stacks iniciais de Laser ao entrar na Forma Vastolord: cada inimigo
+ * derrotado (incluindo minions) durante a forma adiciona +1 stack.
+ */
+export const VASTOLORD_LASER_START_STACKS = 1;
 
 /**
  * Altura renderizada do sprite do jogador (px lógicos do plano 1000x600).
@@ -104,6 +109,10 @@ type VastolordLaserApi = {
   beam: VastolordLaserBeam | null;
   press: () => void;
   usable: boolean;
+  /** Stacks de Laser disponíveis na Forma Vastolord (cada kill adiciona +1). */
+  stacks: number;
+  /** +1 stack ao derrotar um inimigo (incluindo minions) na forma. */
+  addCharge: () => void;
 };
 
 /**
@@ -137,10 +146,11 @@ export function useVastolordLaser({
   playSound,
 }: Props): VastolordLaserApi {
   const [beam, setBeam] = useState<VastolordLaserBeam | null>(null);
+  /** Stacks de Laser durante a forma: começa em 1, cada kill adiciona +1,
+   * cada disparo consome 1. Reativo p/ o botão reabilitar após kills. */
+  const [laserStacks, setLaserStacks] = useState(0);
 
   const activeRef = useRef(false);
-  /** Uso único por forma — resetado quando vastolordActive sai. */
-  const laserUsedRef = useRef(false);
   const shotStartRef = useRef(0);
   const accRef = useRef(0);
   const tickTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -163,7 +173,7 @@ export function useVastolordLaser({
     player.state === "idle" &&
     Math.abs(player.y - player.groundY) < 1 &&
     vastolordActive &&
-    !laserUsedRef.current &&
+    laserStacks > 0 &&
     !isPlayerFrozen(player) &&
     !isPlayerParalyzed(player) &&
     freezeActionsUntilRef.current <= Date.now();
@@ -209,6 +219,11 @@ export function useVastolordLaser({
       Math.max(BATTLE_LIMITS.minX, Math.min(BATTLE_LIMITS.maxX, x)),
     [],
   );
+
+  /** +1 stack de Laser por inimigo derrotado durante a Forma Vastolord. */
+  const addCharge = useCallback(() => {
+    setLaserStacks((s) => s + 1);
+  }, []);
 
   const tickRef = useLatestRef(
     useCallback(() => {
@@ -283,9 +298,11 @@ export function useVastolordLaser({
       }
       if (killed) {
         giveSummonRewards("rare");
+        addCharge();
       }
     }, [
       PLAYER_SIZE,
+      addCharge,
       baseDamageRef,
       beamRef,
       clampX,
@@ -307,7 +324,7 @@ export function useVastolordLaser({
     if (!usableRef.current) return;
 
     activeRef.current = true;
-    laserUsedRef.current = true;
+    setLaserStacks((s) => Math.max(0, s - 1));
     accRef.current = 0;
     const p = playerRef.current;
     shotStartRef.current = Date.now();
@@ -342,11 +359,9 @@ export function useVastolordLaser({
     usableRef,
   ]);
 
-  // Uso único por forma: o gate volta a liberar quando a forma sai.
+  // Stacks: a forma libera VASTOLORD_LASER_START_STACKS ao entrar e zera ao sair.
   useEffect(() => {
-    if (!vastolordActive && !activeRef.current) {
-      laserUsedRef.current = false;
-    }
+    setLaserStacks(vastolordActive ? VASTOLORD_LASER_START_STACKS : 0);
   }, [vastolordActive]);
 
   useEffect(() => {
@@ -360,5 +375,7 @@ export function useVastolordLaser({
     beam,
     press,
     usable: usableRef.current,
+    stacks: laserStacks,
+    addCharge,
   };
 }
