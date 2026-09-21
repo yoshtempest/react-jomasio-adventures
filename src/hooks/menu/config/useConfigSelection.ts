@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { usePlayer } from "@/contexts/PlayerContext";
@@ -23,7 +23,7 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   const navigate = useNavigate();
   const { pushControls } = useGameControls();
 
-  const { setDifficulty, player } = usePlayer();
+  const { setDifficulty, difficulty: activeDifficulty, player } = usePlayer();
   const { sfxVolume, setSfxVolume, bgmVolume, setBgmVolume } = useAudio();
   const {
     setDialogueSpeed,
@@ -102,6 +102,20 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   const navigateRef = useLatestRef(navigate);
 
   const modeRef = useLatestRef(player.mode);
+  const activeDifficultyRef = useLatestRef(activeDifficulty);
+
+  /** Cicla a dificuldade ativa (usado pelos triângulos e pelas setas do card). */
+  const cycleDifficulty = useCallback(
+    (dir: 1 | -1) => {
+      const current = DIFFICULTY.indexOf(activeDifficultyRef.current);
+      const next = DIFFICULTY[
+        (current + dir + DIFFICULTY.length) % DIFFICULTY.length
+      ] as NpcDifficulty;
+      setDifficultyRef.current(next);
+      playMoveRef.current();
+    },
+    [activeDifficultyRef, setDifficultyRef, playMoveRef],
+  );
 
   const { handleConfirm, handleCancel } = useConfigActions({
     showQuestIndicator,
@@ -116,7 +130,6 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
     modeRef,
     playSelectRef,
     playCloseRef,
-    setDifficultyRef,
     setDialogueSpeedRef,
     setShowQuestIndicatorRef,
     setSharedXpRef,
@@ -202,6 +215,12 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
           return;
         }
 
+        // Coluna 0 (tab geral) = card único de dificuldade: setas ciclam.
+        if (col === 0) {
+          cycleDifficulty(1);
+          return;
+        }
+
         if (col === 3) {
           setSfxVolumeRef.current(Math.min(sfxVolume + 10, 100));
           return;
@@ -232,6 +251,12 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
         }
 
         const col = selectedColumnRef.current;
+
+        // Coluna 0 (tab geral) = card único de dificuldade: setas ciclam.
+        if (col === 0) {
+          cycleDifficulty(-1);
+          return;
+        }
 
         if (col === 3) {
           setSfxVolumeRef.current(Math.max(sfxVolume - 10, 0));
@@ -295,6 +320,7 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
     screenRef,
     selectedColumnRef,
     selectedIndexRef,
+    cycleDifficulty,
   ]);
 
   return {
@@ -308,5 +334,6 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
     sharedXp,
     activeTab,
     isOnTab,
+    cycleDifficulty,
   };
 }

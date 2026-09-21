@@ -42,6 +42,43 @@
   gap: var(--low-medium);
 }
 
+/* Card único de dificuldade: triângulos ◀ ▶ piscando + texto central. */
+.difficultySelector {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  gap: var(--size-4);
+}
+
+.triangle {
+  background: none;
+  border: none;
+  padding: var(--fs-8);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--accent-color);
+  cursor: pointer;
+}
+
+.triangleBlink {
+  animation: triangleBlink 0.9s ease-in-out infinite;
+}
+
+@keyframes triangleBlink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.15;
+  }
+}
+
 .item {
   display: flex;
   justify-content: center;
@@ -66,56 +103,6 @@
   top: calc(-1 * var(--size-5));
   left: 50%;
   transform: translateX(-50%);
-}
-
-.locked {
-  opacity: 0.4;
-  border-color: var(--border-medium);
-  cursor: not-allowed;
-  filter: grayscale(0.8);
-  display: flex;
-  align-items: center;
-  gap: var(--size-6);
-  background: repeating-linear-gradient(
-    45deg,
-    rgba(255, 255, 255, 0.02) 0px,
-    rgba(255, 255, 255, 0.02) var(--size-4),
-    rgba(0, 0, 0, 0.1) var(--size-4),
-    rgba(0, 0, 0, 0.1) var(--fs-8)
-  );
-  position: relative;
-  overflow: hidden;
-}
-
-.locked::before,
-.locked::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: var(--smaller);
-  background: radial-gradient(
-    circle at 50% 50%,
-    #555 var(--size-1),
-    transparent var(--size-1)
-  );
-  background-size: var(--size-6) var(--smaller);
-  opacity: 0.5;
-}
-
-.locked::before {
-  left: calc(-1 * var(--size-6));
-  border-right: var(--size-2) solid var(--border-medium);
-}
-
-.locked::after {
-  right: calc(-1 * var(--size-6));
-  border-left: var(--size-2) solid var(--border-medium);
-}
-
-.chainLeft,
-.chainRight {
-  display: none;
 }
 
 .volumeContainer {

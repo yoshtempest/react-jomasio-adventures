@@ -2,7 +2,6 @@ import { useCallback, type RefObject } from "react";
 import { getSelected } from "@/gameRules/menu/selection";
 import { DIALOGUE_SPEED_LIST, type DialogueSpeed } from "@/utils/settings";
 import type { ConfigTab } from "@/data/config/tabs";
-import { DIFFICULTY } from "./configConstants";
 
 interface UseConfigActionsParams {
   showQuestIndicator: boolean;
@@ -18,7 +17,6 @@ interface UseConfigActionsParams {
   modeRef: RefObject<string>;
   playSelectRef: RefObject<() => void>;
   playCloseRef: RefObject<() => void>;
-  setDifficultyRef: RefObject<(d: NpcDifficulty) => void>;
   setDialogueSpeedRef: RefObject<(s: DialogueSpeed) => void>;
   setShowQuestIndicatorRef: RefObject<(v: boolean) => void>;
   setSharedXpRef: RefObject<(v: boolean) => void>;
@@ -48,7 +46,6 @@ export function useConfigActions({
   modeRef,
   playSelectRef,
   playCloseRef,
-  setDifficultyRef,
   setDialogueSpeedRef,
   setShowQuestIndicatorRef,
   setSharedXpRef,
@@ -74,11 +71,6 @@ export function useConfigActions({
     const idx = selectedIndexRef.current;
 
     if (activeTabRef.current === "geral") {
-      if (col === 0) {
-        const selected = getSelected(DIFFICULTY, idx);
-        setDifficultyRef.current(selected);
-      }
-
       if (col === 1) {
         const selected = getSelected(DIALOGUE_SPEED_LIST, idx);
         setDialogueSpeedRef.current(selected);
@@ -141,7 +133,6 @@ export function useConfigActions({
     selectedColumnRef,
     selectedIndexRef,
     playSelectRef,
-    setDifficultyRef,
     setDialogueSpeedRef,
     setShowQuestIndicatorRef,
     setSharedXpRef,

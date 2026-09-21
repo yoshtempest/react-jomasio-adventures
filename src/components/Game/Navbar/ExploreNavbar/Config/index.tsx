@@ -20,7 +20,6 @@ export function Config() {
   const { difficulty } = usePlayer();
   const { dialogueSpeed } = useSettings();
   const {
-    difficulty: difficultyList,
     selectedIndex,
     selectedColumn,
     screen,
@@ -30,6 +29,7 @@ export function Config() {
     sharedXp,
     activeTab,
     isOnTab,
+    cycleDifficulty,
   } = useConfigSelection(true);
   const dialogueSystem = useDialogue(configsDialogue);
   const dialogueSystemRef = useLatestRef(dialogueSystem);
@@ -68,10 +68,11 @@ export function Config() {
       {activeTab === "geral" && (
         <div className={styles.container}>
           <DifficultySection
-            difficultyList={difficultyList}
             selectedIndex={selectedIndex}
             selectedColumn={selectedColumn}
             activeDifficulty={difficulty}
+            onPrev={() => cycleDifficulty(-1)}
+            onNext={() => cycleDifficulty(1)}
           />
 
           <DialogueSpeedSection
