@@ -31,6 +31,8 @@ export function ProjectileSprite({ projectile, groundY = 600 }: Props) {
   const scaleY = getViewportSize().height / ProjectileConstants.MAP_HEIGHT;
   const spriteKey = getSpriteKey(projectile);
   const src = spriteMap[spriteKey];
+  const isBurst = projectile.variant === "burst";
+  const spriteWidth = isBurst ? 300 : 100;
 
   if (projectile.variant === "cut") {
     return (
@@ -119,7 +121,7 @@ export function ProjectileSprite({ projectile, groundY = 600 }: Props) {
         position: "absolute",
         left: projectile.x * scaleX,
         top: projectile.y * scaleY,
-        width: 100,
+        width: spriteWidth,
         zIndex: 9999,
         pointerEvents: "none",
       }}
