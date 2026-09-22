@@ -211,7 +211,14 @@ export function BattleScene(props: Props) {
   const focusX = cameraFocus?.entity === "npc" ? npc.x : player.x;
   const focusY = cameraFocus?.entity === "npc" ? npc.y : player.y;
 
-  const shake = useCameraShake(battle.damageNumbers);
+  const burstShakeActive = npc.projectiles.some(
+    (p) =>
+      p.variant === "burst" &&
+      !p.exploded &&
+      (p.dirX > 0 ? p.x < player.x : p.x > player.x),
+  );
+
+  const shake = useCameraShake(battle.damageNumbers, burstShakeActive);
 
   const bgBaseW = containerWidth * 1.5;
   const bgBaseH = containerHeight * 1.5;

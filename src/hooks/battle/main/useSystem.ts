@@ -538,6 +538,7 @@ export function useBattleSystem(props: Props) {
     specialHit: playerBattle.specialHit,
     npcMeleeHit: npcBattle.npcMeleeHit,
     npcRangedHit: npcBattle.npcRangedHit,
+    npcBurstHit: npcBattle.npcBurstHit,
     npcThrowHit: npcBattle.npcThrowHit,
     npcFixedHit: npcBattle.npcFixedHit,
     npcUnblockableHit: npcBattle.npcUnblockableHit,

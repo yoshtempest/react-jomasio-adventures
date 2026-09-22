@@ -301,8 +301,25 @@ declare global {
     lowerDirY: number;
   };
 
+  /**
+   * Burst do hungryKing (fase 2): atravessa a arena na direção que o rei
+   * encara até a ponta do mapa; ao passar pelo jogador vira `burstExplosion`
+   * por um instante (causando 10% do dano base + push de 50px x/y).
+   */
+  type ProjectileBurst = {
+    variant: "burst";
+    x: number;
+    y: number;
+    dirX: number;
+    createdAt: number;
+    sprite: "burst" | "burstExplosion";
+    /** true quando atingiu o jogador — começa a animação de explosão. */
+    exploded: boolean;
+    explodedAt?: number;
+  };
+
   type Projectile =
-    ProjectileCommon | ProjectilePull | ProjectileRain | ProjectileCut;
+    ProjectileCommon | ProjectilePull | ProjectileRain | ProjectileCut | ProjectileBurst;
 
   // ── Player ──────────────────────────────────────────────
   type PlayerState =

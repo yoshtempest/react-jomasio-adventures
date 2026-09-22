@@ -92,6 +92,9 @@ export type NPCBattleState = {
       lastJump: number;
       landingTime: number;
       summonEndTime: number;
+      burstState: "idle" | "windup";
+      burstStartTime: number;
+      lastBurst: number;
       lastSpriteState?: string;
     };
     vandinha?: {

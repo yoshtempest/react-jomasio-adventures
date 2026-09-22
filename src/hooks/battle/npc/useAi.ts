@@ -91,6 +91,8 @@ type Props = {
   onProjectileMiss?: (x: number) => void;
   onStuckPaperExplode?: () => void;
   onApplyDebuff?: (status: NewPlayerStatus) => void;
+  /** Hit da burst do hungryKing (fase 2): 10% do dano base + push de 50px. */
+  onBurstHit?: (pushDir: number) => void;
 };
 
 export function useNpcAI({
@@ -132,6 +134,7 @@ export function useNpcAI({
   onProjectileMiss,
   onStuckPaperExplode,
   onApplyDebuff,
+  onBurstHit,
 }: Props) {
   const [npc, setNpc] = useState<NPCBattleState>({
     x: BATTLE_SPAWN.npc.x,
@@ -192,6 +195,7 @@ export function useNpcAI({
   const onProjectileMissRef = useLatestRef(onProjectileMiss);
   const onStuckPaperExplodeRef = useLatestRef(onStuckPaperExplode);
   const onApplyDebuffRef = useLatestRef(onApplyDebuff);
+  const onBurstHitRef = useLatestRef(onBurstHit);
 
   const { update: updateProximitySound } = useProximityLoopSound(
     npcTypeRef,
@@ -249,6 +253,7 @@ export function useNpcAI({
     },
     playerCharacter,
     npcClass,
+    (pushDir: number) => onBurstHitRef.current?.(pushDir),
   );
 
   const resetNpc = (stateOverride?: NPCBattleState["state"]) => {

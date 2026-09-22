@@ -7,12 +7,17 @@ export type HungryKingAI = {
   lastJump: number;
   landingTime: number;
   summonEndTime: number;
+  /** Estado do ataque burst a distância (windup = sprite attack.svg). */
+  burstState: "idle" | "windup";
+  burstStartTime: number;
+  lastBurst: number;
   lastSpriteState?: string;
 };
 
 import { JUMP_COOLDOWN } from "@/data/cooldowns";
 import {
   FOUR_HUNDRED_MS,
+  FOUR_THOUSAND_MS,
   FIVE_HUNDRED_MS,
   SIX_HUNDRED_MS,
   ONE_THOUSAND_FIVE_HUNDRED_MS,
@@ -31,6 +36,13 @@ export const JUMP_RECOVERY_MS = FIVE_HUNDRED_MS;
 /** Duração da invocação na entrada da fase 2 (câmera focada no rei). */
 export const INVOCATION_MS = TWO_THOUSAND_MS;
 
+/** Distância mínima (px) para o rei lançar a burst em vez de atacar de perto. */
+export const BURST_MIN_RANGE = 100;
+/** Windup do burst: o rei segura o sprite `attack.svg` antes de disparar. */
+export const BURST_WINDUP_MS = SIX_HUNDRED_MS;
+/** Intervalo entre dois bursts (inclui o perseguir o jogador no meio). */
+export const BURST_COOLDOWN = FOUR_THOUSAND_MS;
+
 export function initHungryKingAi(phase: number): HungryKingAI {
   const now = Date.now();
   return {
@@ -42,6 +54,9 @@ export function initHungryKingAi(phase: number): HungryKingAI {
     lastJump: 0,
     landingTime: now,
     summonEndTime: 0,
+    burstState: "idle",
+    burstStartTime: 0,
+    lastBurst: 0,
   };
 }
 
@@ -49,4 +64,6 @@ export function handlePhaseChange(ai: HungryKingAI, newPhase: number) {
   ai.knownPhase = newPhase;
   ai.hasSummoned = false;
   ai.jumpState = "idle";
+  ai.burstState = "idle";
+  ai.lastBurst = 0;
 }

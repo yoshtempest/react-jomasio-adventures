@@ -25,6 +25,7 @@ type SyncProps = {
   refs: {
     npcRangedAttackRef: RefObject<() => void>;
     npcMeleeAttackRef: RefObject<() => void>;
+    npcBurstAttackRef: RefObject<(pushDir: number) => void>;
     npcThrowAttackRef: RefObject<() => void>;
   };
   charge: { cancelCharge: () => void };
@@ -32,6 +33,7 @@ type SyncProps = {
   halfHealReduction: number;
   battleNpcRangedHit: () => void;
   battleNpcMeleeHit: () => void;
+  battleNpcBurstHit: (pushDir: number) => void;
   battleNpcThrowHit: (multiplier: number) => void;
 };
 
@@ -56,6 +58,7 @@ export function useBattleSync({
   halfHealReduction,
   battleNpcRangedHit,
   battleNpcMeleeHit,
+  battleNpcBurstHit,
   battleNpcThrowHit,
 }: SyncProps) {
   // NPC HP sync — lets AI behaviors read current NPC HP
@@ -113,6 +116,10 @@ export function useBattleSync({
   refs.npcMeleeAttackRef.current = () => {
     if (player.state === "charging") charge.cancelCharge();
     battleNpcMeleeHit();
+  };
+  refs.npcBurstAttackRef.current = (pushDir: number) => {
+    if (player.state === "charging") charge.cancelCharge();
+    battleNpcBurstHit(pushDir);
   };
   refs.npcThrowAttackRef.current = () => {
     battleNpcThrowHit(1.5);

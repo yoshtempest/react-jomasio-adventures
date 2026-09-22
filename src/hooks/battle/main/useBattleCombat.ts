@@ -279,6 +279,7 @@ export function useBattleCombat({
     isPaused:
       isPausedRef.current || isPhaseTransitioning || lootActiveRef.current,
     onSummon: onSummonWrapperRef.current,
+    onBurstHit: (pushDir: number) => refs.npcBurstAttackRef.current(pushDir),
     isAlfa,
     onSummonFromRight: (summonType: string) =>
       summonNpcRef.current(summonType, BATTLE_LIMITS.maxX + 600),
@@ -863,6 +864,7 @@ export function useBattleCombat({
     halfHealReduction: battle.halfHealReduction,
     battleNpcRangedHit: battle.npcRangedHit,
     battleNpcMeleeHit: battle.npcMeleeHit,
+    battleNpcBurstHit: battle.npcBurstHit,
     battleNpcThrowHit: battle.npcThrowHit,
   });
 

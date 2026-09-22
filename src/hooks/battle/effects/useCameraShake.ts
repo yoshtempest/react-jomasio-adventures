@@ -6,21 +6,30 @@ const MAX_DAMAGE_FOR_INTENSITY = 200;
 const INTENSITY_PER_DAMAGE = 0.25;
 const SHAKE_DECAY = 0.88;
 const MIN_INTENSITY = 0.1;
+/** Intensidade do tremor enquanto a burst do hungryKing atravessa a arena. */
+const EXTERNAL_SHAKE_INTENSITY = 1;
 
-export function useCameraShake(damageNumbers: DamageNumber[]) {
+export function useCameraShake(
+  damageNumbers: DamageNumber[],
+  externalShake = false,
+) {
   const intensityRef = useRef(0);
   const runningRef = useRef(false);
   const rafRef = useRef(0);
   const seenIdsRef = useRef<Set<number>>(new Set());
   const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const externalShakeRef = useRef(externalShake);
+  externalShakeRef.current = externalShake;
 
   const startLoop = useCallback(() => {
     if (runningRef.current) return;
     runningRef.current = true;
 
     const step = () => {
-      const intensity = intensityRef.current;
-      if (intensity <= MIN_INTENSITY) {
+      const live = externalShakeRef.current;
+      // Enquanto a burst está ativa não acumula: fixa a intensidade base.
+      const intensity = live ? EXTERNAL_SHAKE_INTENSITY : intensityRef.current;
+      if (intensity <= MIN_INTENSITY && !live) {
         intensityRef.current = 0;
         runningRef.current = false;
         setOffset({ x: 0, y: 0 });
@@ -36,6 +45,13 @@ export function useCameraShake(damageNumbers: DamageNumber[]) {
 
     rafRef.current = requestAnimationFrame(step);
   }, []);
+
+  useEffect(() => {
+    if (externalShake && !runningRef.current) {
+      intensityRef.current = EXTERNAL_SHAKE_INTENSITY;
+      startLoop();
+    }
+  }, [externalShake, startLoop]);
 
   useEffect(() => {
     const seen = seenIdsRef.current;

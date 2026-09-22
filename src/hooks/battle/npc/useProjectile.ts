@@ -24,11 +24,13 @@ export function useProjectile(
   onStick?: () => void,
   playerCharacter?: string,
   npcClass: NPCClass = "common",
+  onBurstHit?: (pushDir: number) => void,
 ) {
   const onHitRef = useLatestRef(onHit);
   const onPullPlayerRef = useLatestRef(onPullPlayer);
   const onMissRef = useLatestRef(onMiss);
   const onStickRef = useLatestRef(onStick);
+  const onBurstHitRef = useLatestRef(onBurstHit);
   const playerXRef = useLatestRef(playerX);
   const playerYRef = useLatestRef(playerY);
   const playerStateRef = useLatestRef(playerState);
@@ -85,6 +87,13 @@ export function useProjectile(
                 playerStateRef.current,
                 onHitRef.current,
               );
+            case "burst":
+              return handleBurstProjectile(p, {
+                playerX: playerXRef.current,
+                playerY: playerYRef.current,
+                playerState: playerStateRef.current,
+                onBurstHit: onBurstHitRef.current,
+              });
           }
         })
         .filter((p): p is Projectile => p !== null);
@@ -103,6 +112,7 @@ export function useProjectile(
     onPullPlayerRef,
     onMissRef,
     onStickRef,
+    onBurstHitRef,
     playerXRef,
     playerYRef,
     playerStateRef,
@@ -243,4 +253,59 @@ function handleRain(
   if (allDone) return null;
 
   return { ...p, spears: newSpears };
+}
+
+/**
+ * Burst do hungryKing (fase 2): viaja na horizontal até a ponta do mapa;
+ * ao passar pelo jogador vira `burstExplosion` (dano + push de 50px x/y) e
+ * some após um instante.
+ */
+function handleBurstProjectile(
+  p: ProjectileBurst,
+  opts: {
+    playerX: number;
+    playerY: number;
+    playerState: PlayerState;
+    onBurstHit: ((pushDir: number) => void) | undefined;
+  },
+): ProjectileBurst | null {
+  if (p.exploded) {
+    if (Date.now() - (p.explodedAt ?? p.createdAt) >= ProjectileConstants.BURST_EXPLOSION_MS) {
+      return null;
+    }
+    return p;
+  }
+
+  const next = {
+    ...p,
+    x: p.x + p.dirX * ProjectileConstants.BURST_SPEED,
+  };
+
+  if (
+    next.x < -ProjectileConstants.OFFSCREEN_MARGIN ||
+    next.x > ProjectileConstants.MAP_WIDTH + ProjectileConstants.OFFSCREEN_MARGIN
+  ) {
+    return null;
+  }
+
+  const isDashing = opts.playerState === "dash";
+  const isCrouched =
+    opts.playerState === "idleCrounched" || opts.playerState === "walkCrounched";
+  if (isDashing || isCrouched) return next;
+
+  const hitY = isCrouched ? opts.playerY - 30 : opts.playerY;
+  const hitDy = Math.abs(hitY - next.y);
+  const dx = Math.abs(opts.playerX - next.x);
+
+  if (dx < 60 && hitDy <= 140) {
+    opts.onBurstHit?.(p.dirX);
+    return {
+      ...next,
+      exploded: true,
+      explodedAt: Date.now(),
+      sprite: "burstExplosion",
+    };
+  }
+
+  return next;
 }

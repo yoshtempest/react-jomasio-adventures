@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { NPC_MELEE_COOLDOWN } from "@/data/cooldowns";
 import { getNpcStats } from "@/gameRules/npc/npcStats";
 import { isFacingTarget } from "@/gameRules/battle/direction";
+import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
 import { handleNpcBlocking, isParryPress } from "./useBlocking";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
@@ -583,9 +584,54 @@ export function useNpcBattle({
     ],
   );
 
+  // Hit da burst do hungryKing (fase 2): 10% do dano base do NPC aplicado como
+  // dano + empurra o jogador 50px em x (direção da burst) e 50px em y (a
+  // gravidade derruba com animação falling.svg). O dodge/agachamento já é
+  // tratado no projétil (useProjectile).
+  const npcBurstHit = useCallback(
+    (pushDir: number) => {
+      if (isEnding.current) return;
+      if (player.state === "mostHonored" || isPlayerFloating(player.state))
+        return;
+
+      const npc = getNpcStats(npcLevel, npcClass, difficulty, statMultiplier);
+      const burstDmg = Math.max(1, Math.round(npc.damage * 0.1));
+
+      applyNpcDamage(burstDmg, playerX, playerY, "npc");
+      playSound("explosion");
+      logPlay("explosion");
+      hitstopRef.current = Date.now() + 50;
+      navigator.vibrate?.(80);
+
+      setPlayer((p) => {
+        if (p.mode !== "battle") return p;
+        const newX = Math.max(
+          BATTLE_LIMITS.minX,
+          Math.min(BATTLE_LIMITS.maxX, p.x + pushDir * 50),
+        );
+        return { ...p, x: newX, y: Math.max(0, p.y - 50), velY: 0, state: "falling" };
+      });
+    },
+    [
+      isEnding,
+      player.state,
+      npcLevel,
+      npcClass,
+      difficulty,
+      statMultiplier,
+      playerX,
+      playerY,
+      applyNpcDamage,
+      playSound,
+      hitstopRef,
+      setPlayer,
+    ],
+  );
+
   return {
     npcMeleeHit,
     npcRangedHit,
+    npcBurstHit,
     npcThrowHit,
     npcFixedHit,
     npcUnblockableHit,
