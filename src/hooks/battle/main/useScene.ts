@@ -28,6 +28,7 @@ import { saveGame } from "@/services/save/saveService";
 import { loadBestTime, saveBestTime } from "@/utils/bestTime";
 import { recordWin } from "@/utils/rewards";
 import { computeElapsedBattleTime } from "@/hooks/battle/time/computeElapsedBattleTime";
+import { INVOCATION_MS } from "@/services/npc/attacks/hungryKing/state";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import type { LootBagContents } from "@/utils/types/battle/loot";
 
@@ -119,6 +120,7 @@ export function useBattleScene({
     clearAllies,
     clearCoffins,
     coffinStartedRef,
+    onSummonWrapperRef,
     summonsBleedUntilRef,
     progressDailyWeekly,
     charProgress,
@@ -228,10 +230,16 @@ export function useBattleScene({
 
   const extendVastolordRef = useLatestRef(extendVastolord);
 
+  // Fase 2 do hungryKing: a câmera foca o rei exatamente durante a invocação
+  // (os hungryDeaths spawnam ao redor dele); depois desfoca para o jogador.
+  const cameraFocusMs =
+    npcType === "hungryKing" && npcPhase === 2 ? INVOCATION_MS : CAMERA_FOCUS_MS;
+
   const cameraFocus = useCameraSequence({
     npcPhase,
     vastolordActive,
     enabled: rewindFrames == null && !showVictory && !showDefeat,
+    focusMs: cameraFocusMs,
   });
 
   // Enquanto a câmera está focada (troca de fase do boss / transformação
@@ -245,9 +253,9 @@ export function useBattleScene({
     if (!cameraFocus.isFrozen) return;
     freezeActionsUntilRef.current = Math.max(
       freezeActionsUntilRef.current,
-      Date.now() + CAMERA_FOCUS_MS,
+      Date.now() + cameraFocusMs,
     );
-  }, [cameraFocus.isFrozen, freezeActionsUntilRef]);
+  }, [cameraFocus.isFrozen, freezeActionsUntilRef, cameraFocusMs]);
 
   const isPaused =
     showVictory ||
@@ -469,6 +477,33 @@ export function useBattleScene({
   } = combat;
 
   vastolordEndingRef.current = battle.isEnding;
+
+  // Invocação do hungryKing na entrada da fase 2. A câmera está focada nele
+  // (e a IA pausada), então a invocação é disparada aqui, no início do foco:
+  // o rei entra na pose "pitch" e os hungryDeaths surgem ao redor dele.
+  const hungryKingInvokeRef = useRef(false);
+  useEffect(() => {
+    if (npcPhase === 1) {
+      hungryKingInvokeRef.current = false;
+      return;
+    }
+    if (npcType !== "hungryKing" || npcPhase !== 2) return;
+    if (!cameraFocus.isFrozen || hungryKingInvokeRef.current) return;
+    hungryKingInvokeRef.current = true;
+
+    npc.updateNpc({ state: "pitch" });
+
+    // Ajusta a IA antes de desfocar: knownPhase evita o handlePhaseChange
+    // resetar hasSummoned; summonEndTime encerra a pose "pitch" na hora.
+    const hkAi = npc.ai?.hungryKing;
+    if (hkAi) {
+      hkAi.knownPhase = 2;
+      hkAi.hasSummoned = true;
+      hkAi.summonEndTime = Date.now() + INVOCATION_MS;
+    }
+
+    onSummonWrapperRef.current("hungryDeath");
+  }, [cameraFocus.isFrozen, npcPhase, npcType, npc, onSummonWrapperRef]);
 
   const {
     notifications: lootNotifications,

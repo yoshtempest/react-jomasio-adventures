@@ -1,6 +1,8 @@
 import { logPlay } from "@/utils/replay/audioEventLog";
 import type { RefObject } from "react";
 import type { SoundId } from "@/utils/audio/soundId";
+import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
+import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
 
 export function buildSummonWrapper(params: {
   npcType: string;
@@ -26,8 +28,15 @@ export function buildSummonWrapper(params: {
         params.coffinStartedRef.current = true;
         params.playSound("summon");
         logPlay("summon");
+        // Caixões ao redor do hungryKing (fase 2 o rei fica em BATTLE_SPAWN.npc)
+        const kingX = BATTLE_SPAWN.npc.x;
+        const positions = [
+          Math.max(BATTLE_LIMITS.minX, kingX - 120),
+          kingX,
+          Math.min(BATTLE_LIMITS.maxX, kingX + 120),
+        ];
         params.beginCoffinSequence(
-          [550, 650, 750],
+          positions,
           params.player.groundY,
           "hungryDeath",
           (_npcType: string, x: number) =>

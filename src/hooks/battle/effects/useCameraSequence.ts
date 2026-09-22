@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { THREE_THOUSAND_MS } from "@/data/ms";
 
 export type CameraFocus = {
@@ -10,6 +10,8 @@ type Props = {
   npcPhase: number;
   vastolordActive: boolean;
   enabled?: boolean;
+  /** Duração do foco (default: CAMERA_FOCUS_MS). Some fases usam um tempo próprio. */
+  focusMs?: number;
 };
 
 export const CAMERA_FOCUS_MS = THREE_THOUSAND_MS;
@@ -18,7 +20,7 @@ const TRANSFORM_ZOOM = 1.2;
 /**
  * Sequência de foco da câmera durante a batalha:
  * - Quando o boss entra em outra fase, a câmera acompanha o boss e a batalha
- *   congela por `CAMERA_FOCUS_MS`; ao fim, a câmera volta para o jogador.
+ *   congela por `focusMs`; ao fim, a câmera volta para o jogador.
  * - Quando o jogador se transforma (ex: marshadow -> vastolord), o mesmo foco
  *   acontece com um leve zoom de `TRANSFORM_ZOOM`.
  */
@@ -26,19 +28,20 @@ export function useCameraSequence({
   npcPhase,
   vastolordActive,
   enabled = true,
+  focusMs = CAMERA_FOCUS_MS,
 }: Props) {
   const [focus, setFocus] = useState<CameraFocus>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const prevNpcPhaseRef = useRef(npcPhase);
   const prevVastolordRef = useRef(vastolordActive);
 
-  const scheduleEnd = () => {
+  const scheduleEnd = useCallback(() => {
     if (timerRef.current) clearTimeout(timerRef.current);
     timerRef.current = setTimeout(() => {
       timerRef.current = null;
       setFocus(null);
-    }, CAMERA_FOCUS_MS);
-  };
+    }, focusMs);
+  }, [focusMs]);
 
   useEffect(() => {
     if (!enabled) {
@@ -67,7 +70,7 @@ export function useCameraSequence({
       return;
     }
     prevVastolordRef.current = vastolordActive;
-  }, [npcPhase, vastolordActive, enabled]);
+  }, [npcPhase, vastolordActive, enabled, scheduleEnd]);
 
   useEffect(() => {
     return () => {

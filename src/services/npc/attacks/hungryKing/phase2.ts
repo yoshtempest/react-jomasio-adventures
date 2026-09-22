@@ -1,13 +1,10 @@
 import { NPC_MELEE_COOLDOWN } from "@/data/cooldowns";
 import { chasePlayer } from "@/gameRules/npc/movement";
 import { tryMeleeAttack } from "@/gameRules/npc/attack";
-import { TWO_THOUSAND_MS } from "@/data/ms";
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
 import type { NPCBattleState } from "@/utils/types/npc/npc";
 import type { HungryKingAI } from "./state";
-import { MELEE_RANGE } from "./state";
-
-const INVOKING_DURATION = TWO_THOUSAND_MS;
+import { INVOCATION_MS, MELEE_RANGE } from "./state";
 
 export function hungryKingPhase2(
   ctx: BehaviorContext,
@@ -21,7 +18,7 @@ export function hungryKingPhase2(
     onSummon?.("hungryDeath");
     onSummon?.("hungryDeath");
     onSummon?.("hungryDeath");
-    ai.summonEndTime = Date.now() + INVOKING_DURATION;
+    ai.summonEndTime = Date.now() + INVOCATION_MS;
     return { x: npc.x, y: npc.y, state: "pitch" };
   }
 

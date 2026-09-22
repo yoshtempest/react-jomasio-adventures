@@ -16,6 +16,7 @@ import {
   FIVE_HUNDRED_MS,
   SIX_HUNDRED_MS,
   ONE_THOUSAND_FIVE_HUNDRED_MS,
+  TWO_THOUSAND_MS,
 } from "@/data/ms";
 
 export { JUMP_COOLDOWN };
@@ -26,6 +27,9 @@ export const JUMP_HEIGHT = 220;
 export const JUMP_RISE_MS = FOUR_HUNDRED_MS;
 export const JUMP_FLIGHT_MS = SIX_HUNDRED_MS;
 export const JUMP_RECOVERY_MS = FIVE_HUNDRED_MS;
+
+/** Duração da invocação na entrada da fase 2 (câmera focada no rei). */
+export const INVOCATION_MS = TWO_THOUSAND_MS;
 
 export function initHungryKingAi(phase: number): HungryKingAI {
   const now = Date.now();
