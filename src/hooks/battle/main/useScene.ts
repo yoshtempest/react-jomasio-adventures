@@ -695,7 +695,7 @@ export function useBattleScene({
     isRecording,
     training,
     controlsDisabled,
-    showRetry: difficulty !== "hard" && difficulty !== "insano",
+    showRetry: true,
     playerProjectile,
     killerQueen,
     bombTargets,
