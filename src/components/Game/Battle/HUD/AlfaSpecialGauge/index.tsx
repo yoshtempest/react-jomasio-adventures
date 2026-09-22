@@ -22,7 +22,7 @@ export function AlfaSpecialGauge({ gauge }: Props) {
         }}
       />
       <div className={styles.text}>
-        {ready ? "special pronta!" : `special ${Math.round(pct)}%`}
+        {ready && `special ${Math.round(pct)}%`}
       </div>
     </div>
   );

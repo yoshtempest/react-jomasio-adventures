@@ -6,7 +6,6 @@ import type {
 } from "@/utils/types/npc/npcBehavior";
 import {
   BEHIND_OFFSET,
-  EMERGE_HOP_HEIGHT,
   UNDERGROUND_MS,
   type HungryDogAI,
 } from "../state";
@@ -28,7 +27,7 @@ export function handleUnderground(
       ai.emergeBaseY = npc.y;
       return {
         x: ai.emergeFromX,
-        y: ai.emergeBaseY - EMERGE_HOP_HEIGHT,
+        y: ai.emergeBaseY,
         state: "jumping",
         hidden: false,
       };

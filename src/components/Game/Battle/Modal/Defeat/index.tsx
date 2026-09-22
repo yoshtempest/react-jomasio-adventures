@@ -148,11 +148,10 @@ export function DefeatModal({
         </div>
         <ActivePotionDisplay />
         <div className={styles.buttonContainer}>
-          {showRetry && (
-            <button className={menuBtnClass("retry")} onClick={executeSelected}>
-              Tentar novamente
-            </button>
-          )}
+          
+          <button className={menuBtnClass("retry")} onClick={executeSelected}>
+            Tentar novamente
+          </button>
 
           <FleeButton
             onClick={executeSelected}

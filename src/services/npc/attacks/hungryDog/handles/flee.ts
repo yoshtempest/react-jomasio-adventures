@@ -34,8 +34,11 @@ export function handleFlee(
     if (elapsed >= FLEE_MS) {
       ai.phase = "chase";
       ai.phaseStart = now;
-      return { x: nextX, y: npc.y, state: "walk" };
+      // Ancora no chão (emergeBaseY): npc.y já pode estar elevado do pulo
+      // anterior e, se propagado, o alfa sobe sem nunca voltar.
+      return { x: nextX, y: ai.emergeBaseY, state: "walk" };
     }
 
-    return { x: nextX, y: npc.y + hop, state: "run" };
+    // hop relativo ao chão — nunca a npc.y, para o pulo não acumular y.
+    return { x: nextX, y: ai.emergeBaseY + hop, state: "run" };
   }

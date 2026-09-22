@@ -44,7 +44,7 @@ import { useStatusDotTicks } from "@/hooks/battle/time/ticks/useStatusDotsTicks"
 import { useNpcBleedTicks } from "@/hooks/battle/time/ticks/useNpcBleedTicks";
 import { useManaRegenTick } from "@/hooks/battle/time/ticks/useManaRegenTick";
 import { usePlayerPullAnimation } from "@/hooks/battle/player/usePlayerPullAnimation";
-import { useMarceloCutInEnemie } from "@/hooks/battle/player/useMarceloCutInEnemie";
+import { useMarceloCutInEnemie } from "@/hooks/battle/player/characters/marshadow/useMarceloCutInEnemie";
 
 type Props = {
   playerX: number;

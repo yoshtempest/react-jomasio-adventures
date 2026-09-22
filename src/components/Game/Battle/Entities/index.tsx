@@ -31,7 +31,7 @@ import type { BlinkVisual } from "@/hooks/battle/player/characters/natsuki/useBl
 import type { EmanuelCloneVisual } from "@/utils/types/character/emanuel";
 import type { GenkiDamaVisual } from "@/utils/types/character/emanuel";
 import type { VastolordLaserBeam } from "@/hooks/battle/player/characters/marshadow/useVastolordLaser";
-import type { CutInEnemieOverlay } from "@/hooks/battle/player/useMarceloCutInEnemie";
+import type { CutInEnemieOverlay } from "@/hooks/battle/player/characters/marshadow/useMarceloCutInEnemie";
 
 type Props = {
   npc: MainNpcState;

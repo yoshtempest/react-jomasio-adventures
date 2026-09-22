@@ -1,6 +1,6 @@
 import { NPCBattle } from "@/components/Game/Entities/Npc/Battle";
 import type { BattleEntitiesBattle } from "@/components/Game/Battle/Entities/types";
-import type { CutInEnemieOverlay } from "@/hooks/battle/player/useMarceloCutInEnemie";
+import type { CutInEnemieOverlay } from "@/hooks/battle/player/characters/marshadow/useMarceloCutInEnemie";
 
 type Props = {
   x: number;

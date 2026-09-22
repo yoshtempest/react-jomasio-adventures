@@ -12,7 +12,7 @@ import {
   MARCELO_CUT_IN_ENEMIE_SRC,
   BLOOD_ICON_SRC,
   type CutInEnemieOverlay,
-} from "@/hooks/battle/player/useMarceloCutInEnemie";
+} from "@/hooks/battle/player/characters/marshadow/useMarceloCutInEnemie";
 
 type Props = {
   x: number;
