@@ -9,6 +9,7 @@ import {
   type SetStateAction,
 } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
+import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import {
   isPlayerFrozen,
   isPlayerParalyzed,
@@ -145,6 +146,7 @@ export function useVastolordLaser({
   disabledRef,
   playSound,
 }: Props): VastolordLaserApi {
+  const { stopSound } = useSoundEffects();
   const [beam, setBeam] = useState<VastolordLaserBeam | null>(null);
   /** Stacks de Laser durante a forma: começa em 1, cada kill adiciona +1,
    * cada disparo consome 1. Reativo p/ o botão reabilitar após kills. */
@@ -203,6 +205,7 @@ export function useVastolordLaser({
   /** Encerra o feixe (fim dos 3s ou cancelamento) e restaura o idle. */
   const finish = useCallback(() => {
     activeRef.current = false;
+    stopSound("laser");
     clearTimer();
     accRef.current = 0;
     shotStartRef.current = 0;
@@ -210,7 +213,7 @@ export function useVastolordLaser({
     setPlayer((p) =>
       p.mode !== "battle" || p.state !== "laser" ? p : { ...p, state: "idle" },
     );
-  }, [clearTimer, setPlayer]);
+  }, [clearTimer, setPlayer, stopSound]);
 
   const finishRef = useLatestRef(finish);
 
@@ -342,7 +345,8 @@ export function useVastolordLaser({
     setPlayer((pp) =>
       pp.mode !== "battle" ? pp : { ...pp, state: "laser" },
     );
-    playSound("laser");
+    // O som do feixe fica em loop enquanto o laser estiver ativo.
+    playSound("laser", true);
 
     clearTimer();
     tickTimerRef.current = setInterval(
@@ -367,9 +371,10 @@ export function useVastolordLaser({
   useEffect(() => {
     return () => {
       clearTimer();
+      stopSound("laser");
       activeRef.current = false;
     };
-  }, [clearTimer]);
+  }, [clearTimer, stopSound]);
 
   return {
     beam,

@@ -35,77 +35,70 @@ export const SCENE_MEMORIES: Record<string, Dialogue[]> = {
     ],
     [
       "protagonista",
-      "Mas se é aqui que essa fome se cura, então sem pestanejar: bora.",
+      "Mas se é aqui que essa fome se cura, então bora.",
     ],
   ]),
 
   "/hall/one": defineDialogue([
     [
       "protagonista",
-      "O corredor do Jorjão... foi aqui que eu fui caçado pela Deise por três anos seguidos.",
-    ],
-  ]),
-
-  "/hall/left-one": defineDialogue([
-    [
-      "protagonista",
-      "Essa parte de trás do hall... tinha um cheiro de armário velho que eu nunca esquentei.",
+      "O corredor do Jorjão... foi por aqui que eu vivi 2 anos de minha vida.. milhares de vezes que fui e voltei nesse corredor.. sem nada pra fazer...",
     ],
   ]),
 
   "/hall/center-one": defineDialogue([
     [
       "protagonista",
-      "O meio do hall... era o ponto de encontro antes de todo mundo se mandar pra sala.",
+      "O meio do corredor... era o ponto de encontro antes de todo mundo se mandar pra sala.",
     ],
   ]),
 
   "/hall/center-front": defineDialogue([
     [
       "protagonista",
-      "A entrada principal... lembro do diretor espiando daqui, doido pra dar um tempo.",
+      "A passagem para o conselho.. Lembro de sempre cortar caminho por aqui quando a fila da merenda estava enorme",
     ],
   ]),
 
   "/hall/thirdclass": defineDialogue([
     [
       "protagonista",
-      "A sala do terceiro ano... aqui eu fingia que estudava e só conseguia dormir.",
+      "A sala do terceiro ano... nunca gostei desse lugar.",
     ],
   ]),
 
   "/brodiclass/one": defineDialogue([
     [
       "protagonista",
-      "A sala do Brodi... o cheiro de giz e as risadas do fundão nunca saíram da minha cabeça.",
+      "A sala do Brodi... As risadas do fundão nunca saíram da minha cabeça... Tu gosta? Quantos por cento?",
     ],
   ]),
 
   "/library/one": defineDialogue([
     [
       "protagonista",
-      "A biblioteca... a gente falava que ia ler, mas era só pra dormir no silêncio.",
+      "A biblioteca... a gente falava que ia ler, mas era só pra mexer no celular ou dormir no silêncio.",
     ],
   ]),
 
   "/library/two": defineDialogue([
     [
       "protagonista",
-      "Essa parte escondida da biblioteca... se eu não me engano, tem coisa errada aqui.",
+      "Essa parte escondida da biblioteca... se eu não me engano, alguém já tentou se esconder da diretora por aqui.. HAHAHA, foi hilário",
     ],
   ]),
 
   "/pcroom/one": defineDialogue([
     [
       "protagonista",
-      "A sala dos computadores... estudar era a última opção quando o pessoal disputava a Net.",
+      "A sala dos computadores... estudar era a última opção quando o pessoal colocava as músicas.",
     ],
   ]),
 
-  "/director/one": defineDialogue([
+  "/director/two": defineDialogue([
     [
       "protagonista",
-      "A sala do diretor... só de sentir o ar daqui, meu corpo já lembra do medo.",
+      "A diretoria... só de sentir o ar daqui, meu corpo já lembra do cansaço.",
     ],
   ]),
 
@@ -116,17 +109,21 @@ export const SCENE_MEMORIES: Record<string, Dialogue[]> = {
     ],
   ]),
 
-  "/cantina/two": defineDialogue([
+  "/cantina/one": defineDialogue([
     [
       "protagonista",
-      "A cantina... nunca entendi por que essa fome começou logo nesse lugar.",
+      "O pátio... nunca entendi por que fazer 6 filas sendo que o pessoal da porta sempre entrava na cantina e pegava primeiro...",
+    ],
+    [
+      "protagonista",
+      "Entrada somente para funcionários, HA, que piada sem graça. Ninguém respeitava as regras..",
     ],
   ]),
 
-  "/cafeteria/four": defineDialogue([
+  "/cafeteria/one": defineDialogue([
     [
       "protagonista",
-      "A cafeteria... o cheiro de mortadela continua me assombrando até hoje.",
+      "A cantina... o cheiro de bode me faz lembrar das discussões por causa da comida.",
     ],
   ]),
 };
