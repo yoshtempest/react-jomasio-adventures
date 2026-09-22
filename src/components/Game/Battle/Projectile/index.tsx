@@ -32,7 +32,10 @@ export function ProjectileSprite({ projectile, groundY = 600 }: Props) {
   const spriteKey = getSpriteKey(projectile);
   const src = spriteMap[spriteKey];
   const isBurst = projectile.variant === "burst";
-  const spriteWidth = isBurst ? 300 : 100;
+  const spriteWidth = isBurst ? 250 : 100;
+  // A burst viaja com o centro do sprite alinhado à linha de voo, subindo o
+  // visual até o centro do jogador (outros projéteis seguem âncora top-left).
+  const spriteTransform = isBurst ? "translateY(-50%)" : undefined;
 
   if (projectile.variant === "cut") {
     return (
@@ -122,6 +125,7 @@ export function ProjectileSprite({ projectile, groundY = 600 }: Props) {
         left: projectile.x * scaleX,
         top: projectile.y * scaleY,
         width: spriteWidth,
+        transform: spriteTransform,
         zIndex: 9999,
         pointerEvents: "none",
       }}
