@@ -153,6 +153,7 @@ export const GAME_STATE_KEYS = [
   "difficulty",
   "replays",
   "visitedLocations",
+  "scene_memories_seen",
   "tombstones",
   "ground_items",
   "footballcourt_dog_spots",

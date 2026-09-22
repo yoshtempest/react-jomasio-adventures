@@ -42,6 +42,16 @@ import { asset } from "@/utils/paths";
 import { InteractionPrompt } from "@/components/Game/Interactions/InteractionPrompt";
 import { CutsceneVideo } from "@/components/Game/Map/Cutscene";
 import type { ItemPickupTile } from "@/utils/types/maps/exploreScene";
+import {
+  getSceneMemory,
+  hasSeenSceneMemory,
+  markSceneMemorySeen,
+} from "@/utils/sceneMemory";
+import {
+  SCENE_MEMORY_WALKS,
+  type SceneMemoryWalkTarget,
+} from "@/data/dialogues/sceneMemories";
+import { useAutoWalk } from "@/hooks/scene/useAutoWalk";
 
 type QuestHighlightTile = { x: number; y: number };
 type QuestNpcPosition = { gridX: number; gridY: number };
@@ -93,8 +103,15 @@ export function ExploreScene({
   cutscene?: SceneCutscene;
   tombstoneLocationId?: string;
 }) {
-  const { player, playerClass, setMap, setHeightMap, setPosition, setMode } =
-    usePlayer();
+  const {
+    player,
+    playerClass,
+    setMap,
+    setHeightMap,
+    setPosition,
+    setMode,
+    setPlayer,
+  } = usePlayer();
   const { pushControls } = useGameControls();
   const { navigateWithFade } = useTransitionCtx();
   const location = useLocation();
@@ -343,6 +360,50 @@ export function ExploreScene({
       }
     }
   }, [resolvedAutoStartDialogue, dialogueSystem, playSansTalking]);
+
+  useEffect(() => {
+    if (resolvedAutoStartDialogue) return;
+
+    const route = location.pathname;
+    const memory = getSceneMemory(route);
+    if (!memory || hasSeenSceneMemory(route)) return;
+
+    markSceneMemorySeen(route);
+    dialogueSystem.start(memory, () => {
+      const walkIn = SCENE_MEMORY_WALKS[route];
+      if (walkIn) setWalkInTarget(walkIn);
+    });
+    if (!dialogueSystem.nextSoundSrc) {
+      playSansTalking();
+    }
+  }, [resolvedAutoStartDialogue, location.pathname, dialogueSystem, playSansTalking]);
+
+  const [walkInTarget, setWalkInTarget] = useState<SceneMemoryWalkTarget | null>(
+    null,
+  );
+
+  useAutoWalk({
+    active: walkInTarget !== null,
+    target: walkInTarget ?? { x: player.gridX, y: player.gridY },
+    player,
+    setPlayer,
+    map,
+    heightMap,
+    onArrived: () => setWalkInTarget(null),
+  });
+
+  useEffect(() => {
+    if (!walkInTarget) return;
+    const remove = pushControls({
+      onUp: () => true,
+      onDown: () => true,
+      onLeft: () => true,
+      onRight: () => true,
+      onConfirm: () => true,
+      onCancel: () => true,
+    });
+    return remove;
+  }, [walkInTarget, pushControls]);
 
   const interactionLoot = currentLocationId ? getLootAt(currentLocationId) : [];
 
