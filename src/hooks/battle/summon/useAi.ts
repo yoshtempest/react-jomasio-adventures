@@ -12,6 +12,9 @@ import {
 } from "@/gameRules/battle/cursedEnergy";
 import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
 
+/** Velocidade acima da qual o hungryDog é considerado correndo (usa run.svg). */
+const HUNGRY_DOG_RUN_SPEED = 1.5;
+
 type Props = {
   summons: SummonedNpc[];
   setSummons: React.Dispatch<React.SetStateAction<SummonedNpc[]>>;
@@ -157,6 +160,11 @@ export function useSummonAI({
             newX += dx > 0 ? speed : -speed;
           }
 
+          const running =
+            !rooted &&
+            s.npcType === "hungryDog" &&
+            speed > HUNGRY_DOG_RUN_SPEED;
+
           if (Math.abs(dx) <= 40) {
             const now = Date.now();
 
@@ -190,7 +198,7 @@ export function useSummonAI({
             ...s,
             x: newX,
             direction,
-            state: Math.abs(dx) > 80 ? "walk" : "idle",
+            state: Math.abs(dx) > 80 ? (running ? "run" : "walk") : "idle",
           };
         }),
       );

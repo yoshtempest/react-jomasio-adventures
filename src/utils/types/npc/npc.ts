@@ -151,7 +151,7 @@ export type SummonedNpc = {
   x: number;
   y: number;
   direction: NPCDirection;
-  state: "idle" | "walk" | "attack";
+  state: "idle" | "walk" | "run" | "attack";
   hp: number;
   maxHp: number;
   isDying: boolean;
