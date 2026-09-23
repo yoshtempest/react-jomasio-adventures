@@ -364,7 +364,9 @@ declare global {
     | "throwGenkiDama"
     | "laser"
     | "preparingAtomic"
-    | "finalizatingAtomic";
+    | "finalizatingAtomic"
+    | "preMugetsu"
+    | "mugetsu";
 
   type PlayerMode = "explore" | "battle" | "select" | "ui" | "map" | "menu";
 

@@ -34,6 +34,10 @@ export function playerPath(path: string) {
   return asset(`/assets/player/${path}`);
 }
 
+export function playerPathMarshadowHabilities(path: string) {
+  return asset(`/assets/player/marcelo/inFight/default/habilities/${path}`);
+}
+
 export function npcPath(path: string) {
   const cleanPath = path.replace(/^\/+/, "");
   const npcType = cleanPath.split("/")[0]!;
@@ -183,8 +187,21 @@ export function resolveBattleSprite(
           ? "finalizating"
           : null;
     if (atomicSprite) {
-      return playerPath(
-        `/marcelo/inFight/default/habilities/atomic/${atomicSprite}.svg`,
+      return playerPathMarshadowHabilities(
+        `/atomic/${atomicSprite}.svg`,
+      );
+    }
+    // Expansão de Domínio do marcelo: os sprites da sequência ficam na pasta
+    // `habilities/domainExpansion/` (não existe `default/preMugetsu.svg`).
+    const domainSprite =
+      state === "preMugetsu"
+        ? "preMugetsu"
+        : state === "mugetsu"
+          ? "mugetsu"
+          : null;
+    if (domainSprite) {
+      return playerPathMarshadowHabilities(
+        `/domainExpansion/${domainSprite}.svg`,
       );
     }
   }

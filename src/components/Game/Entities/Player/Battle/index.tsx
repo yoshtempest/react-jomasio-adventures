@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { resolveBattleSprite, playerPath } from "@/utils/paths";
+import { resolveBattleSprite, playerPath, playerPathMarshadowHabilities } from "@/utils/paths";
 import { ProjectileConstants } from "@/data/projectile";
 import { getViewportSize } from "@/utils/viewport";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
@@ -38,6 +38,8 @@ type Props = {
   atomicHalo?: boolean;
   /** Flash no sprite quando a explosion.svg da habilidade aparece. */
   atomicFlash?: boolean;
+  /** Blink do teleporte da Expansão de Domínio do marcelo. */
+  mugetsuBlink?: "out" | "in" | null;
 };
 
 const CROUCH_STATE_MAP: Record<string, string> = {
@@ -70,6 +72,7 @@ export function PlayerBattle({
   preAtomic = false,
   atomicHalo = false,
   atomicFlash = false,
+  mugetsuBlink = null,
 }: Props) {
   const resolvedState =
     CROUCH_STATE_MAP[state] ?? (state === "charging" ? "idle" : state);
@@ -85,7 +88,7 @@ export function PlayerBattle({
   // do estado.
   const preAtomicSrc =
     preAtomic && character === "marcelo" && state === "idle"
-      ? playerPath(`/marcelo/inFight/default/habilities/atomic/starting.svg`)
+      ? playerPathMarshadowHabilities(`/atomic/starting.svg`)
       : "";
 
   const transformationSrc =
@@ -218,7 +221,13 @@ export function PlayerBattle({
       <img
         src={src}
         onError={handleSpriteError}
-        className={`${blinkClass} ${atomicFlash ? styles.atomicFlash : ""}`}
+        className={`${blinkClass} ${atomicFlash ? styles.atomicFlash : ""} ${
+          mugetsuBlink === "out"
+            ? styles.mugetsuBlinkOut
+            : mugetsuBlink === "in"
+              ? styles.mugetsuBlinkIn
+              : ""
+        }`}
         style={{
           animationDuration: blinkDuration,
           position: "absolute",
@@ -248,7 +257,7 @@ export function PlayerBattle({
       />
       {atomicHalo && character === "marcelo" && (
         <img
-          src={playerPath("/marcelo/inFight/default/habilities/atomic/halo.svg")}
+          src={playerPathMarshadowHabilities("/atomic/halo.svg")}
           alt=""
           style={{
             position: "absolute",

@@ -4,7 +4,7 @@ import {
   getBossSizeMultiplier,
   getNpcSpriteYOffset,
 } from "@/utils/npc/getSpritePath";
-import { playerPath } from "@/utils/paths";
+import { playerPathMarshadowHabilities } from "@/utils/paths";
 import { MARCELO_CUT_IN_ENEMIE_SRC } from "@/hooks/battle/player/characters/marshadow/useMarceloCutInEnemie";
 import type {
   AtomicCut,
@@ -26,7 +26,7 @@ type Props = {
 
 function explosionSrc(phase: AtomicExplosion["phase"]): string {
   const file = phase === "starting" ? "startingExplosion" : "explosion";
-  return playerPath(`/marcelo/inFight/default/habilities/atomic/${file}.svg`);
+  return playerPathMarshadowHabilities(`/atomic/${file}.svg`);
 }
 
 /**

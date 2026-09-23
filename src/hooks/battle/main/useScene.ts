@@ -482,6 +482,12 @@ export function useBattleScene({
     atomicUsable,
     atomicRemaining,
     specialIntroAbility,
+    mugetsuSweep,
+    domainExpansionActive,
+    mugetsuBlink,
+    domainExpansionPress,
+    domainExpansionUsable,
+    domainExpansionRemaining,
   } = combat;
 
   vastolordEndingRef.current = battle.isEnding;
@@ -793,5 +799,11 @@ export function useBattleScene({
     atomicPress,
     atomicUsable,
     atomicRemaining,
+    mugetsuSweep,
+    domainExpansionActive,
+    mugetsuBlink,
+    domainExpansionPress,
+    domainExpansionUsable,
+    domainExpansionRemaining,
   });
 }

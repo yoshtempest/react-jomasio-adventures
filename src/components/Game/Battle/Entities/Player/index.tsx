@@ -18,6 +18,8 @@ type Props = {
   atomicHalo?: boolean;
   /** Flash no sprite quando a explosion.svg da habilidade aparece. */
   atomicFlash?: boolean;
+  /** Blink do teleporte da Expansão de Domínio do marcelo. */
+  mugetsuBlink?: "out" | "in" | null;
 };
 
 export function Player({
@@ -32,6 +34,7 @@ export function Player({
   preAtomic = false,
   atomicHalo = false,
   atomicFlash = false,
+  mugetsuBlink = null,
 }: Props) {
   const blinkSilhouette =
     player.character === "riquelme" && blinkVisual
@@ -58,6 +61,7 @@ export function Player({
       preAtomic={preAtomic}
       atomicHalo={atomicHalo}
       atomicFlash={atomicFlash}
+      mugetsuBlink={mugetsuBlink}
     />
   );
 }

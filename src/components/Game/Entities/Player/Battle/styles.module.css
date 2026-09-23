@@ -17,6 +17,14 @@
   animation: atomicFlash 400ms linear;
 }
 
+.mugetsuBlinkOut {
+  animation: mugetsuBlinkOut 300ms linear forwards;
+}
+
+.mugetsuBlinkIn {
+  animation: mugetsuBlinkIn 250ms linear forwards;
+}
+
 @keyframes atomicFlash {
   0%,
   100% {
@@ -66,5 +74,25 @@
 
   to {
     filter: none;
+  }
+}
+
+@keyframes mugetsuBlinkOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0.15;
+  }
+}
+
+@keyframes mugetsuBlinkIn {
+  from {
+    opacity: 0.15;
+  }
+
+  to {
+    opacity: 1;
   }
 }

@@ -13,6 +13,7 @@ import type { useEmanuelClone } from "@/hooks/battle/player/characters/ematron/u
 import type { useEmanuelGenkiDama } from "@/hooks/battle/player/characters/ematron/useEmanuelGenkiDama";
 import type { useVastolordLaser } from "@/hooks/battle/player/characters/marshadow/useVastolordLaser";
 import type { useAtomic } from "@/hooks/battle/player/characters/marshadow/useAtomic";
+import type { useDomainExpansion } from "@/hooks/battle/player/characters/marshadow/useDomainExpansion";
 import type { CameraFocus } from "@/hooks/battle/effects/useCameraSequence";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { CharactersProgress } from "@/data/characters/defaultProgress";
@@ -132,4 +133,12 @@ export type BattleSceneApi = {
   atomicPress: () => void;
   atomicUsable: boolean;
   atomicRemaining: number;
+  mugetsuSweep: ReturnType<typeof useDomainExpansion>["mugetsuSweep"];
+  domainExpansionActive: ReturnType<
+    typeof useDomainExpansion
+  >["domainExpansionActive"];
+  mugetsuBlink: ReturnType<typeof useDomainExpansion>["mugetsuBlink"];
+  domainExpansionPress: () => void;
+  domainExpansionUsable: boolean;
+  domainExpansionRemaining: number;
 };

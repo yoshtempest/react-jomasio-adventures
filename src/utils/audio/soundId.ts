@@ -19,6 +19,7 @@ export type SoundId =
   | "jhowsimarVemCa"
   | "preMarshadowSpecial"
   | "marshadowSpecial"
+  | "mugetsu"
   | "vastolordTransformation"
   | "emanuelTeleport"
   | "chargingKi"

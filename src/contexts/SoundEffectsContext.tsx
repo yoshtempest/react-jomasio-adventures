@@ -27,6 +27,7 @@ const SOUND_VOLUMES: Partial<Record<SoundId, number>> = {
   impact: 0.5,
   natsukiSpecial: 1.3,
   marshadowSpecial: 0.7,
+  mugetsu: 2,
   win: 0.5,
 };
 

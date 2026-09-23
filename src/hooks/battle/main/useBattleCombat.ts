@@ -34,6 +34,7 @@ import {
   ATOMIC_AREA_MULTIPLIER,
   type AtomicBoomPayload,
 } from "@/hooks/battle/player/characters/marshadow/useAtomic";
+import { useDomainExpansion } from "@/hooks/battle/player/characters/marshadow/useDomainExpansion";
 import {
   VASTOLORD_DAMAGE_EXTEND_MS,
   VASTOLORD_DAMAGE_EXTEND_RATIO,
@@ -1242,6 +1243,51 @@ setNpcHP: battle.setNpcHP,
     playSound,
   });
 
+  // Expansão de Domínio do marcelo -------------------------------------------
+  // Mata TODOS os inimigos instantaneamente (100% da vida máxima) quando o
+  // mugetsuEffect os toca. A victória só é disparada quando a varredura chega
+  // na outra ponta do mapa — por isso onNpcDeath é chamado direto aqui, com o
+  // isEnding já setado pelo hook durante a varredura (bloqueando o lifecycle).
+  const handleDomainExpansionKill = useCallback(() => {
+    if (vastolordActive) {
+      extendVastolordRef.current(VASTOLORD_KILL_EXTEND_MS);
+      addVastolordLaserChargeRef.current();
+    }
+    onNpcDeathRef.current();
+  }, [
+    addVastolordLaserChargeRef,
+    extendVastolordRef,
+    onNpcDeathRef,
+    vastolordActive,
+  ]);
+
+  const {
+    mugetsuSweep,
+    domainExpansionActive,
+    mugetsuBlink,
+    press: domainExpansionPress,
+    usable: domainExpansionUsable,
+    remaining: domainExpansionRemaining,
+  } = useDomainExpansion({
+    player,
+    setPlayer,
+    npc,
+    summons,
+    setSummons,
+    setNpcHP: battle.setNpcHP,
+    npcMaxHp: battle.npcMaxHp,
+    giveSummonRewards,
+    spawnDamageNumber: battle.spawnDamageNumber,
+    registerHitRef: refs.registerHitRef,
+    freezeActionsUntilRef,
+    isPausedRef,
+    battleEndedRef: battle.isEnding,
+    disabledRef: cloneDisabledRef,
+    startSpecialIntro,
+    onNpcKilled: handleDomainExpansionKill,
+    playSound,
+  });
+
   return {
     battle,
     npc,
@@ -1298,5 +1344,11 @@ setNpcHP: battle.setNpcHP,
     atomicUsable,
     atomicRemaining,
     specialIntroAbility,
+    mugetsuSweep,
+    domainExpansionActive,
+    mugetsuBlink,
+    domainExpansionPress,
+    domainExpansionUsable,
+    domainExpansionRemaining,
   };
 }

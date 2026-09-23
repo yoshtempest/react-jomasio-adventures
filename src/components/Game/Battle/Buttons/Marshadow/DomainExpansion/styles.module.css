@@ -1,0 +1,34 @@
+.button {
+  right: 18vw;
+  border: var(--size-2) solid rgba(167, 139, 250, 0.5);
+  background-image: url("public/assets/player/marcelo/inFight/default/habilities/domainExpansion/background.svg");
+  animation: domainGlow 1.5s ease-in-out infinite;
+}
+
+.button:hover:not(:disabled) {
+  border-color: rgba(167, 139, 250, 0.9);
+}
+
+.ready {
+  border-color: rgba(167, 139, 250, 0.8);
+}
+
+.label {
+  color: #c4b5fd;
+}
+
+.cooldown {
+  font-size: var(--fs-16);
+  font-weight: bold;
+  color: #c4b5fd;
+}
+
+@keyframes domainGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 4px rgba(167, 139, 250, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 18px rgba(167, 139, 250, 0.8);
+  }
+}

@@ -9,6 +9,7 @@ import { EmanuelKiChargeButton } from "@/components/Game/Battle/Buttons/Ematron/
 import { EmanuelGenkiDamaButton } from "@/components/Game/Battle/Buttons/Ematron/GenkiDama";
 import { VastolordLaserButton } from "@/components/Game/Battle/Buttons/Marshadow/VastolordLaser";
 import { AtomicButton } from "@/components/Game/Battle/Buttons/Marshadow/Atomic";
+import { DomainExpansionButton } from "@/components/Game/Battle/Buttons/Marshadow/DomainExpansion";
 import { GameMap } from "@/components/Game/Map/Game";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useGameLayout } from "@/hooks/game/useGameLayout";
@@ -53,7 +54,7 @@ import { TrainingOverlay } from "@/components/Game/Battle/TrainingOverlay";
 import { ProjectileConstants } from "@/data/projectile";
 import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
 import { getBossSizeMultiplier } from "@/utils/npc/getSpritePath";
-import { npcPath } from "@/utils/paths";
+import { npcPath, playerPathMarshadowHabilities } from "@/utils/paths";
 import { GAME_VIEWPORT_WIDTH_RATIO } from "@/data/grid";
 import { getViewportSize } from "@/utils/viewport";
 
@@ -176,6 +177,12 @@ export function BattleScene(props: Props) {
     atomicPress,
     atomicUsable,
     atomicRemaining,
+    mugetsuSweep,
+    domainExpansionActive,
+    mugetsuBlink,
+    domainExpansionPress,
+    domainExpansionUsable,
+    domainExpansionRemaining,
   } = useBattleScene({ ...props, isAlfa, PLAYER_SIZE });
 
   // Especial do alfa: enquanto ele usa a habilidade (ex: special dig do
@@ -201,13 +208,19 @@ export function BattleScene(props: Props) {
 
   const focusEntity = cameraFocus?.entity === "npc" ? npc : player;
 
+  // Durante a Expansão de Domínio a câmera acompanha a frente do mugetsuEffect
+  // (e não o jogador) enquanto ele varre o mapa de uma ponta à outra.
+  const focus = mugetsuSweep
+    ? { x: mugetsuSweep.x, y: ProjectileConstants.MAP_HEIGHT / 2 }
+    : { x: focusEntity.x, y: focusEntity.y };
+
   const targetBgX = Math.max(
     bgXMin,
-    Math.min((focusEntity.x / ProjectileConstants.MAP_WIDTH) * 100, bgXMax),
+    Math.min((focus.x / ProjectileConstants.MAP_WIDTH) * 100, bgXMax),
   );
   const targetBgY = Math.max(
     0,
-    Math.min((focusEntity.y / ProjectileConstants.MAP_HEIGHT) * 100, 100),
+    Math.min((focus.y / ProjectileConstants.MAP_HEIGHT) * 100, 100),
   );
 
   const [bgPosX, setBgPosX] = useState(targetBgX);
@@ -223,8 +236,8 @@ export function BattleScene(props: Props) {
     (containerHeight * 0.5 * (bgPosY - initialBgPosRef.current.y)) / 100;
 
   const zoom = cameraFocus?.zoom ?? 1;
-  const focusX = cameraFocus?.entity === "npc" ? npc.x : player.x;
-  const focusY = cameraFocus?.entity === "npc" ? npc.y : player.y;
+  const focusX = focus.x;
+  const focusY = focus.y;
 
   const burstShakeActive = npc.projectiles.some(
     (p) =>
@@ -257,6 +270,14 @@ export function BattleScene(props: Props) {
 
   const battleScaleX = screenWidth / ProjectileConstants.MAP_WIDTH;
   const battleScaleY = screenHeight / ProjectileConstants.MAP_HEIGHT;
+
+  // Expansão de Domínio: o background da batalha troca para expansion.svg do
+  // marcelo durante toda a habilidade (preMugetsu → mugetsu → varredura).
+  const effectiveBackground = domainExpansionActive
+    ? playerPathMarshadowHabilities(
+        "/domainExpansion/expansion.svg",
+      )
+    : background;
 
   const damageTargets = [
     { x: player.x, y: player.y, h: PLAYER_SIZE / 1.5 },
@@ -355,9 +376,9 @@ export function BattleScene(props: Props) {
     <div
       className={`Master ${className ?? ""}`}
       style={
-        background
+        effectiveBackground
           ? {
-              backgroundImage: `url(${background})`,
+              backgroundImage: `url(${effectiveBackground})`,
               backgroundSize: `calc(150% * ${zoom})`,
               backgroundPosition: `calc(${adjustedBgX}% + ${shake.x}px) calc(${adjustedBgY}% + ${shake.y}px)`,
             }
@@ -463,6 +484,8 @@ export function BattleScene(props: Props) {
             atomicExplosion={atomicExplosion}
             atomicCuts={atomicCuts}
             atomicFlash={atomicFlash}
+            mugetsuSweep={mugetsuSweep}
+            mugetsuBlink={mugetsuBlink}
           />
 
           <ChargeParticles
@@ -672,6 +695,15 @@ export function BattleScene(props: Props) {
           remaining={atomicRemaining}
           disabled={controlsDisabled}
           onClick={atomicPress}
+        />
+      )}
+
+      {player.character === "marcelo" && (
+        <DomainExpansionButton
+          ready={domainExpansionUsable}
+          remaining={domainExpansionRemaining}
+          disabled={controlsDisabled}
+          onClick={domainExpansionPress}
         />
       )}
 

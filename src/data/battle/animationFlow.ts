@@ -89,6 +89,11 @@ export const animationFlow: Record<PlayerState, AnimationStep | null> = {
   // (useAtomic), que restaura o idle quando a animação termina.
   preparingAtomic: null,
   finalizatingAtomic: null,
+
+  // Expansão de Domínio do marcelo: estados da sequência controlados pelo hook
+  // (useDomainExpansion), que restaura o idle quando o mugetsuEffect termina.
+  preMugetsu: null,
+  mugetsu: null,
 };
 
 type SpecialFlowOverride = {

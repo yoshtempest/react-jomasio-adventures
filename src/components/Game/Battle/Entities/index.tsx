@@ -22,6 +22,7 @@ import { LootBag } from "./LootBag";
 import { BlinkAfterimage } from "@/components/Game/Battle/Effects/BlinkAfterimage";
 import { DeiseDashAfterimage } from "@/components/Game/Battle/Effects/DeiseDashAfterimage";
 import { AtomicEffects } from "@/components/Game/Battle/Effects/Atomic";
+import { DomainExpansionEffects } from "@/components/Game/Battle/Effects/DomainExpansion";
 import type { BattleEntitiesBattle, MainNpcState } from "./types";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { PetState } from "@/hooks/battle/player/pets/usePet";
@@ -38,6 +39,10 @@ import type {
   AtomicExplosion,
   AtomicCut,
 } from "@/hooks/battle/player/characters/marshadow/useAtomic";
+import type {
+  MugetsuSweep,
+  MugetsuBlink,
+} from "@/hooks/battle/player/characters/marshadow/useDomainExpansion";
 
 type Props = {
   npc: MainNpcState;
@@ -89,6 +94,10 @@ type Props = {
   atomicExplosion?: AtomicExplosion | null;
   /** CutInEnemie sobre cada inimigo atingido dentro do raio. */
   atomicCuts?: AtomicCut[];
+  /** Varredura do mugetsuEffect da Expansão de Domínio do marcelo. */
+  mugetsuSweep?: MugetsuSweep | null;
+  /** Blink do teleporte da Expansão de Domínio. */
+  mugetsuBlink?: MugetsuBlink;
 };
 
 export function BattleEntities({
@@ -128,6 +137,8 @@ export function BattleEntities({
   atomicFlash = false,
   atomicExplosion = null,
   atomicCuts = [],
+  mugetsuSweep = null,
+  mugetsuBlink = null,
 }: Props) {
   const battleScaleX = getViewportSize().width / ProjectileConstants.MAP_WIDTH;
   const battleScaleY =
@@ -220,6 +231,7 @@ export function BattleEntities({
         preAtomic={preAtomic}
         atomicHalo={atomicHalo}
         atomicFlash={atomicFlash}
+        mugetsuBlink={mugetsuBlink}
       />
 
       <AtomicEffects
@@ -229,6 +241,14 @@ export function BattleEntities({
         mainNpcType={npcType}
         bossSizeMultiplier={bossSizeMultiplier}
       />
+
+      {mugetsuSweep && (
+        <DomainExpansionEffects
+          sweep={mugetsuSweep}
+          battleScaleX={battleScaleX}
+          battleScaleY={battleScaleY}
+        />
+      )}
 
       {blinkVisual && player.character === "riquelme" && (
         <BlinkAfterimage
