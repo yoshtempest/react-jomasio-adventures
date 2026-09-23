@@ -153,7 +153,10 @@ export function useDefeatFlow({
     npcEnchantUntilRef.current = { burn: 0, freeze: 0, poison: 0, bleed: 0 };
     rootedSummonsUntilRef.current = {};
     summonsBleedUntilRef.current = {};
-    if (isAlfa) {
+    // O alfa hungryDog invoca os minions na intro dele, que reaparece no retry
+    // (resetNpc apaga npc.ai → phase volta para "intro"). Pré-summonar aqui
+    // dobraria os minions: 2 direto no meio + 2 da intro da nova tentativa.
+    if (isAlfa && npcType !== "hungryDog") {
       summonNpc(npcType);
       summonNpc(npcType);
     }
