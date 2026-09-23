@@ -9,6 +9,8 @@ import {
   EMANUEL_KI_CHARGE_TICK_MS,
 } from "@/data/characters/emanuel";
 import type { BattleManaApi } from "@/contexts/BattleManaContext";
+import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import type { SoundId } from "@/utils/audio/soundId";
 
 type Props = {
   player: Player;
@@ -16,6 +18,7 @@ type Props = {
   battleManaRef: RefObject<BattleManaApi | null>;
   freezeActionsUntilRef: RefObject<number>;
   isPausedRef: RefObject<boolean>;
+  playSound: (sound: SoundId, loop?: boolean, volumeOverride?: number) => void;
   /** true quando os controles gerais de batalha estão desabilitados (pause, transição de fase, throw). */
   disabledRef: RefObject<boolean>;
   battleEndedRef: RefObject<boolean>;
@@ -29,6 +32,7 @@ type Props = {
  */
 export function useEmanuelKiCharge({
   player,
+  playSound,
   setPlayer,
   battleManaRef,
   freezeActionsUntilRef,
@@ -38,6 +42,9 @@ export function useEmanuelKiCharge({
 }: Props) {
   const activeRef = useRef(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const playSoundRef = useLatestRef(playSound);
+  const { stopSound } = useSoundEffects();
+  const stopSoundRef = useLatestRef(stopSound);
 
   const setPlayerRef = useLatestRef(setPlayer);
 
@@ -63,6 +70,7 @@ export function useEmanuelKiCharge({
   const release = useCallback(() => {
     if (!activeRef.current) return;
     activeRef.current = false;
+    stopSoundRef.current("chargingKi");
     if (timerRef.current) {
       clearInterval(timerRef.current);
       timerRef.current = null;
@@ -73,7 +81,7 @@ export function useEmanuelKiCharge({
         ? p
         : { ...p, state: "idle" },
     );
-  }, [freezeActionsUntilRef, setPlayerRef]);
+  }, [freezeActionsUntilRef, setPlayerRef, stopSoundRef]);
 
   const releaseRef = useLatestRef(release);
 
@@ -87,6 +95,7 @@ export function useEmanuelKiCharge({
     setPlayerRef.current((p) =>
       p.mode !== "battle" ? p : { ...p, state: "chargingKi" },
     );
+    playSoundRef.current("chargingKi", true);
 
     if (timerRef.current) clearInterval(timerRef.current);
     timerRef.current = setInterval(() => {
@@ -100,6 +109,7 @@ export function useEmanuelKiCharge({
     battleManaRef,
     canUseRef,
     freezeActionsUntilRef,
+    playSoundRef,
     releaseRef,
     shouldCancelRef,
     setPlayerRef,

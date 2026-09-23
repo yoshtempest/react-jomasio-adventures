@@ -1040,6 +1040,7 @@ export function useBattleCombat({
     battleManaRef,
     freezeActionsUntilRef,
     isPausedRef,
+    playSound,
     disabledRef: cloneDisabledRef,
     battleEndedRef: battle.isEnding,
   });

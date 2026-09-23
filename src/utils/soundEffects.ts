@@ -27,6 +27,7 @@ export function createSounds() {
     returningTime: sfx("player/artur/returning-time.mp3"),
     honoredOne: sfx("player/riquelme/honored-one.mp3"),
     emanuelTeleport: sfx("player/emanuel/teleport.mp3"),
+    chargingKi: sfx("player/emanuel/chargingKi.mp3"),
     throwGenkiDama: sfx("player/emanuel/throwGenkiDama.mp3"),
     ORA: sfx("player/artur/ORA!.mp3"),
     clap: sfx("player/artur/clap.mp3"),

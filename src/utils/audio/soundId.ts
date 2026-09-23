@@ -21,6 +21,7 @@ export type SoundId =
   | "marshadowSpecial"
   | "vastolordTransformation"
   | "emanuelTeleport"
+  | "chargingKi"
   | "throwGenkiDama"
   | "returningTime"
   | "honoredOne"
