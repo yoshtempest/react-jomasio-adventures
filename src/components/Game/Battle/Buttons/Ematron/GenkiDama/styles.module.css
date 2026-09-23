@@ -1,0 +1,48 @@
+.button {
+  right: 18vw;
+  border: var(--size-2) solid rgba(129, 140, 248, 0.5);
+  background: rgba(129, 140, 248, 0.15);
+  animation: glow 1.5s ease-in-out infinite;
+}
+
+.button:hover:not(:disabled) {
+  background: rgba(129, 140, 248, 0.35);
+}
+
+.depleted {
+  opacity: 0.6;
+}
+
+.value,
+.label,
+.cost {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.value {
+  font-size: var(--fs-18);
+  font-weight: bold;
+  color: #a5b4fc;
+}
+
+.label {
+  color: #e0e7ff;
+}
+
+.cost {
+  font-size: var(--fs-11);
+  font-weight: bold;
+  color: #c7d2fe;
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    box-shadow: 0 0 4px rgba(129, 140, 248, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 16px rgba(129, 140, 248, 0.6);
+  }
+}

@@ -11,13 +11,13 @@ type Props = {
 export function BlinkButton({ energy, disabled = false, onClick }: Props) {
   return (
     <button
-      className={`${styles.button} ${disabled ? styles.disabled : ""}`}
+      className={`abilityButton ${styles.button} ${disabled ? "abilityDisabled" : ""}`}
       onClick={onClick}
       disabled={disabled}
       title={`Blink: teleporte curto à frente (custa ${BLINK_ENERGY_COST} de energia amaldiçoada)`}
     >
       <span className={styles.value}>{Math.round(energy)}</span>
-      <span className={styles.label}>
+      <span className={`abilityLabel ${styles.label}`}>
         <Zap size={14} />
         BLINK
       </span>

@@ -26,8 +26,8 @@ export function EmanuelCloneButton({
 
   return (
     <button
-      className={`${styles.button} ${noKi ? styles.depleted : ""} ${
-        disabled ? styles.disabled : ""
+      className={`abilityButton ${styles.button} ${noKi ? styles.depleted : ""} ${
+        disabled ? "abilityDisabled" : ""
       }`}
       disabled={disabled}
       title="Instância: segure para criar a cópia fantasma e mova pela arena; solte para teleportar até ela (custa até 50 de Ki pela distância)"
@@ -47,7 +47,7 @@ export function EmanuelCloneButton({
       onPointerCancel={() => onRelease()}
     >
       <span className={styles.value}>{Math.round(energy)}</span>
-      <span className={styles.label}>
+      <span className={`abilityLabel ${styles.label}`}>
         <Ghost size={14} />
         INSTÂNCIA
       </span>

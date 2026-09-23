@@ -24,8 +24,8 @@ export function PetSkillButton({
 
   return (
     <button
-      className={`${styles.button} ${ready ? styles.ready : ""} ${
-        disabled ? styles.disabled : ""
+      className={`abilityButton ${styles.button} ${ready ? styles.ready : ""} ${
+        disabled ? "abilityDisabled" : ""
       }`}
       style={{
         backgroundImage: imageUrl ? `url("${imageUrl}")` : undefined,

@@ -30,8 +30,8 @@ export function EmanuelKiChargeButton({
 
   return (
     <button
-      className={`${styles.button} ${full ? styles.full : ""} ${
-        disabled ? styles.disabled : ""
+      className={`abilityButton ${styles.button} ${full ? styles.full : ""} ${
+        disabled ? "abilityDisabled" : ""
       }`}
       disabled={disabled}
       title={`Carga de Ki: segure para recarregar +${EMANUEL_KI_CHARGE_PER_TICK} de Ki a cada ${EMANUEL_KI_CHARGE_TICK_MS}ms (o personagem fica parado sem poder agir)`}
@@ -51,7 +51,7 @@ export function EmanuelKiChargeButton({
       onPointerCancel={() => onRelease()}
     >
       <span className={styles.value}>{Math.round(energy)}</span>
-      <span className={styles.label}>
+      <span className={`abilityLabel ${styles.label}`}>
         <Zap size={14} />
         CARGA DE KI
       </span>

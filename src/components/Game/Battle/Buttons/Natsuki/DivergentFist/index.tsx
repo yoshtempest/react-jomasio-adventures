@@ -17,15 +17,15 @@ export function DivergentFistButton({
 }: Props) {
   return (
     <button
-      className={`${styles.button} ${active ? styles.active : ""} ${
-        disabled ? styles.disabled : ""
+      className={`abilityButton ${styles.button} ${active ? styles.active : ""} ${
+        disabled ? "abilityDisabled" : ""
       }`}
       onClick={onClick}
       disabled={disabled}
       title={`Punho Divergente: o próximo golpe é um soco com 100% de chance de causar 2 instâncias de dano (custa ${DIVERGENT_FIST_COST} de energia amaldiçoada)`}
     >
       <span className={styles.value}>{Math.round(energy)}</span>
-      <span className={styles.label}>
+      <span className={`abilityLabel ${styles.label}`}>
         <HandFist size={14} />
         PUNHO
       </span>

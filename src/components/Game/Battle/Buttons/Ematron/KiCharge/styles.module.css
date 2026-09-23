@@ -1,0 +1,48 @@
+.button {
+  right: 10vw;
+  border: var(--size-2) solid rgba(250, 204, 21, 0.5);
+  background: rgba(250, 204, 21, 0.15);
+  animation: glow 1.5s ease-in-out infinite;
+}
+
+.button:hover:not(:disabled) {
+  background: rgba(250, 204, 21, 0.35);
+}
+
+.full {
+  opacity: 0.6;
+}
+
+.value,
+.label,
+.cost {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.value {
+  font-size: var(--fs-18);
+  font-weight: bold;
+  color: #facc15;
+}
+
+.label {
+  color: #fef9c3;
+}
+
+.cost {
+  font-size: var(--fs-11);
+  font-weight: bold;
+  color: #fde047;
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    box-shadow: 0 0 4px rgba(250, 204, 21, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 16px rgba(250, 204, 21, 0.6);
+  }
+}

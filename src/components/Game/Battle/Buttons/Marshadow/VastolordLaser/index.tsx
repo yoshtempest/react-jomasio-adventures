@@ -24,7 +24,7 @@ export function VastolordLaserButton({
 
   return (
     <button
-      className={`${styles.button} ${disabled ? styles.disabled : ""}`}
+      className={`abilityButton ${styles.button} ${disabled ? "abilityDisabled" : ""}`}
       style={{
         backgroundImage: `url("${imageUrl}")`,
         backgroundSize: "cover",
@@ -37,7 +37,7 @@ export function VastolordLaserButton({
       {charges > 1 && (
         <span className={styles.charges}>{charges}x</span>
       )}
-      <span className={styles.label}>
+      <span className={`abilityLabel ${styles.label}`}>
         <Zap size={13} />
         VASTOLORD LASER
       </span>

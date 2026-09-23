@@ -28,8 +28,8 @@ export function EmanuelGenkiDamaButton({
 
   return (
     <button
-      className={`${styles.button} ${noKi ? styles.depleted : ""} ${
-        disabled ? styles.disabled : ""
+      className={`abilityButton ${styles.button} ${noKi ? styles.depleted : ""} ${
+        disabled ? "abilityDisabled" : ""
       }`}
       disabled={disabled}
       title={`Genki Dama: segure para flutuar e reunir energia na esfera (cresce a cada segundo; solte para arremessar). Custa ${GENKI_DAMA_INITIAL_COST} de Ki + dreno contínuo enquanto segura. Dano máximo: ${GENKI_DAMA_MAX_DAMAGE_MULTIPLIER}x o ataque básico`}
@@ -49,7 +49,7 @@ export function EmanuelGenkiDamaButton({
       onPointerCancel={() => onRelease()}
     >
       <span className={styles.value}>{Math.round(energy)}</span>
-      <span className={styles.label}>
+      <span className={`abilityLabel ${styles.label}`}>
         <Orbit size={14} />
         GENKI DAMA
       </span>

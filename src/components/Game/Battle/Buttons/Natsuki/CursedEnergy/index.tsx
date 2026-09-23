@@ -19,7 +19,7 @@ export function CursedEnergyButton({
 
   return (
     <button
-      className={`${styles.button} ${disabled ? styles.disabled : ""}`}
+      className={`abilityButton ${styles.button} ${disabled ? "abilityDisabled" : ""}`}
       onClick={onClick}
       disabled={disabled}
       title="Converte energia amaldiçoada em vida (5 energia = 1 HP)"

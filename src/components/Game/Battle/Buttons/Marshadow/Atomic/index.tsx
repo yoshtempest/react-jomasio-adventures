@@ -24,14 +24,14 @@ export function AtomicButton({
 
   return (
     <button
-      className={`${styles.button} ${ready ? styles.ready : ""} ${
-        disabled ? styles.disabled : ""
+      className={`abilityButton ${styles.button} ${ready ? styles.ready : ""} ${
+        disabled ? "abilityDisabled" : ""
       }`}
       onClick={onClick}
       disabled={locked}
       title="I Am Atomic: explosão centrada no inimigo com maior vida máxima, causando dano especial em todos os inimigos num raio de 300px (2x no alvo). Cooldown de 20s."
     >
-      <span className={styles.label}>
+      <span className={`abilityLabel ${styles.label}`}>
         <Atom size={13} />
         I AM ATOMIC
       </span>

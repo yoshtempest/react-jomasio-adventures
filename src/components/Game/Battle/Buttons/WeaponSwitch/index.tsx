@@ -20,7 +20,7 @@ export function WeaponSwitchButton({
 
   return (
     <button
-      className={`${styles.button} ${disabled ? styles.disabled : ""}`}
+      className={`abilityButton ${styles.button} ${disabled ? "abilityDisabled" : ""}`}
       style={{
         backgroundImage: `url("${imageUrl}")`,
         backgroundSize: "cover",
