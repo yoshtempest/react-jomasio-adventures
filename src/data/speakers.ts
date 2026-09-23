@@ -6,9 +6,8 @@ export const SPEAKERS = {
   slimita: { name: "Slimita", base: "/slimita", pose: "right" },
   neimito: { name: "Neimito", base: "/neimito", pose: "right" },
   remedinha: { name: "Remedinha", base: "/remedinha", pose: "right" },
-  deise: { name: "Deise", base: "/deise", pose: "right" },
+  deise: { name: "Coquus Necromanticus", base: "/deise", pose: "right" },
   denis: { name: "Denis", base: "/denis", pose: "angry" },
-  bruninho: { name: "Bruninho", base: "/bruninho", pose: "right" },
   victor: { name: "Victor", base: "/victor", pose: "sitting" },
   juju: { name: "Juju", base: "/juju", pose: "right" },
   jhowSimar: { name: "Jhow Simar", base: "/jhowsimar", pose: "right" },
@@ -28,12 +27,6 @@ export const SPEAKERS = {
     kind: "player",
     base: "/marcelo",
     pose: "default",
-  },
-  marcelinho: {
-    name: "Marcelinho",
-    kind: "player",
-    base: "/marcelo",
-    pose: "nakamura",
   },
   yvel: { name: "Yvel", kind: "player", base: "/lucas", pose: "default" },
   samurion: {
