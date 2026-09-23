@@ -60,7 +60,7 @@ export function BattleOutro({ character, type, onNext }: Props) {
         </div>
         <img
           className="talkingImage"
-          src={playerPath(`/${character}/${type}.svg`)}
+          src={playerPath(`/${character}/expressions/${type}.svg`)}
           alt={character}
         />
       </div>

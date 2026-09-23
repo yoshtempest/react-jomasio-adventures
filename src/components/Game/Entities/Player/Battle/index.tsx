@@ -77,7 +77,7 @@ export function PlayerBattle({
   // (animação do special ainda não implementada — sprite estático por ora).
   const preAtomicSrc =
     preAtomic && character === "marcelo"
-      ? playerPath(`/marcelo/inFight/default/attacks/preAtomic.svg`)
+      ? playerPath(`/marcelo/inFight/default/habilities/starting.svg`)
       : "";
 
   const transformationSrc =
