@@ -14,6 +14,9 @@ type Props = {
 
 const SPAWN_POSITIONS = [550, 650, 750];
 
+/** Distância (px) entre summons que usam `overrideX` para não sobrepor. */
+const OVERRIDE_SPAWN_GAP = 100;
+
 export function useSummons({
   npcLevel,
   difficulty,
@@ -49,11 +52,14 @@ export function useSummons({
         statMultiplier,
       ).hp;
 
-      const spawnX =
-        overrideX ??
-        SPAWN_POSITIONS[nextSpawnIndex.current % SPAWN_POSITIONS.length] ??
-        npcXRef.current;
+      const spawnIndex = nextSpawnIndex.current;
       nextSpawnIndex.current += 1;
+
+      const spawnX =
+        overrideX !== undefined
+          ? overrideX + spawnIndex * OVERRIDE_SPAWN_GAP
+          : SPAWN_POSITIONS[spawnIndex % SPAWN_POSITIONS.length] ??
+            npcXRef.current;
 
       const spawnId = nextSpawnIndex.current;
 
