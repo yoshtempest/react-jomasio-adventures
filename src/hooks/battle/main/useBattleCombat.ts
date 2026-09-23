@@ -29,6 +29,12 @@ import { useEmanuelKiCharge } from "@/hooks/battle/player/characters/ematron/use
 import { useEmanuelGenkiDama } from "@/hooks/battle/player/characters/ematron/useEmanuelGenkiDama";
 import { useVastolordLaser } from "@/hooks/battle/player/characters/marshadow/useVastolordLaser";
 import {
+  useAtomic,
+  ATOMIC_TARGET_MULTIPLIER,
+  ATOMIC_AREA_MULTIPLIER,
+  type AtomicBoomPayload,
+} from "@/hooks/battle/player/characters/marshadow/useAtomic";
+import {
   VASTOLORD_DAMAGE_EXTEND_MS,
   VASTOLORD_DAMAGE_EXTEND_RATIO,
   VASTOLORD_KILL_EXTEND_MS,
@@ -878,8 +884,12 @@ export function useBattleCombat({
     setTimeScale,
   });
 
-  const { specialIntroActive, specialIntroCharacter, startSpecialIntro } =
-    useSpecialIntro({ setTimeScale, resetTimeScale });
+  const {
+    specialIntroActive,
+    specialIntroCharacter,
+    specialIntroAbility,
+    startSpecialIntro,
+  } = useSpecialIntro({ setTimeScale, resetTimeScale });
 
   const skipSpecialHitOnPress =
     getSpecialFlowOverride(player.character) !== null;
@@ -1131,6 +1141,106 @@ setNpcHP: battle.setNpcHP,
 
   addVastolordLaserChargeRef.current = addVastolordLaserCharge;
 
+  // "I Am Atomic" do marcelo -------------------------------------------------
+  // Proporção especial/básico: a explosão deve causar "2x o dano de especial".
+  // O playerHit aplica o multiplicador sobre o dano básico (full pipeline:
+  // crítico/armadura/elemento), então fatorá-lo pela proporção produz o dano
+  // equivalente ao de um especial (sem consumir delícia/cooldown).
+  const atomicSpecialRatio = useMemo(() => {
+    const special = combatService.calculateSpecialDamage(
+      battle.char.stats.intelligence,
+      playerClass,
+    );
+    const basic = combatService.calculatePlayerDamage(
+      battle.char.stats.strength,
+      playerClass,
+    );
+    return basic > 0 ? special / basic : 1;
+  }, [battle.char.stats.intelligence, battle.char.stats.strength, playerClass]);
+
+  const handleAtomicBoom = useCallback(
+    (payload: AtomicBoomPayload) => {
+      if (battle.isEnding.current) return;
+
+      const { targetId, hitMain, hitSummonIds } = payload;
+
+      // NPC principal: dano especial — 2x se for o alvo (maior vida máxima).
+      if (hitMain) {
+        const factor =
+          targetId === "main"
+            ? ATOMIC_TARGET_MULTIPLIER
+            : ATOMIC_AREA_MULTIPLIER;
+        battle.playerHit(factor * atomicSpecialRatio, true, true);
+      }
+
+      for (const summon of summons) {
+        if (!hitSummonIds.includes(summon.id)) continue;
+        const factor =
+          targetId === summon.id
+            ? ATOMIC_TARGET_MULTIPLIER
+            : ATOMIC_AREA_MULTIPLIER;
+        damageSummon({
+          target: { id: summon.id, x: summon.x, y: summon.y },
+          multiplier: factor * atomicSpecialRatio,
+          player,
+          playerClass,
+          progress,
+          playerHP: battle.playerHP,
+          playerMaxHp: battle.playerMaxHp,
+          totalVampirism: battle.totalVampirism,
+          summons,
+          setSummons,
+          giveSummonRewards,
+          spawnDamageRef: refs.spawnDamageRef,
+          registerHitRef: refs.registerHitRef,
+          setPlayerHP: battle.setPlayerHP,
+          deliciaSetter: battle.setDelicia,
+          hitsToSpecial: battle.hitsToSpecial,
+        });
+      }
+    },
+    [
+      atomicSpecialRatio,
+      battle,
+      giveSummonRewards,
+      player,
+      playerClass,
+      progress,
+      refs,
+      setSummons,
+      summons,
+    ],
+  );
+
+  const handleAtomicBoomRef = useLatestRef(handleAtomicBoom);
+  const marceloCutInTriggerLatest = useLatestRef(battle.marceloCutInTrigger);
+
+  const {
+    halo: atomicHalo,
+    explosion: atomicExplosion,
+    cuts: atomicCuts,
+    flash: atomicFlash,
+    press: atomicPress,
+    usable: atomicUsable,
+    remaining: atomicRemaining,
+  } = useAtomic({
+    player,
+    setPlayer,
+    npc,
+    npcType,
+    npcMaxHp: battle.npcMaxHp,
+    npcHp: battle.npcHP,
+    summons,
+    startSpecialIntro,
+    onBoom: handleAtomicBoomRef.current,
+    onNpcCutInRef: marceloCutInTriggerLatest,
+    freezeActionsUntilRef,
+    isPausedRef,
+    battleEndedRef: battle.isEnding,
+    disabledRef: cloneDisabledRef,
+    playSound,
+  });
+
   return {
     battle,
     npc,
@@ -1179,5 +1289,13 @@ setNpcHP: battle.setNpcHP,
     vastolordLaserPress,
     vastolordLaserUsable,
     vastolordLaserStacks,
+    atomicHalo,
+    atomicExplosion,
+    atomicCuts,
+    atomicFlash,
+    atomicPress,
+    atomicUsable,
+    atomicRemaining,
+    specialIntroAbility,
   };
 }

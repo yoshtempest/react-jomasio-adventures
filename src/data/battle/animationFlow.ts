@@ -84,6 +84,11 @@ export const animationFlow: Record<PlayerState, AnimationStep | null> = {
   // Laser da Forma Vastolord do marcelo: estado mantido pelo hook por 3s
   // (useVastolordLaser), que restaura o idle quando o feixe termina.
   laser: null,
+
+  // "I Am Atomic" do marcelo: estados da sequência controlados pelo hook
+  // (useAtomic), que restaura o idle quando a animação termina.
+  preparingAtomic: null,
+  finalizatingAtomic: null,
 };
 
 type SpecialFlowOverride = {

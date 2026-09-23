@@ -17,6 +17,7 @@ export type SoundId =
   | "closeMenu"
   | "swordDeflected"
   | "jhowsimarVemCa"
+  | "preMarshadowSpecial"
   | "marshadowSpecial"
   | "vastolordTransformation"
   | "emanuelTeleport"

@@ -172,6 +172,22 @@ export function resolveBattleSprite(
   if (state === "genkiDamaRising" && character === "emanuel") {
     return playerPath(`/emanuel/inFight/movement/jump/falling.svg`);
   }
+  // "I Am Atomic" do marcelo: os sprites da sequência ficam na pasta
+  // `habilities/atomic/` (não existe `default/preparingAtomic.svg`). Os nomes
+  // dos arquivos são preparing.svg/finalizating.svg.
+  if (character === "marcelo") {
+    const atomicSprite =
+      state === "preparingAtomic"
+        ? "preparing"
+        : state === "finalizatingAtomic"
+          ? "finalizating"
+          : null;
+    if (atomicSprite) {
+      return playerPath(
+        `/marcelo/inFight/default/habilities/atomic/${atomicSprite}.svg`,
+      );
+    }
+  }
   // Forma Vastolord do marcelo: a partir da transformação, TODOS os sprites
   // vêm da pasta `vastolordForm/` — nenhum estado volta ao `default/`.
   if (character === "marcelo" && form === "vastolordForm") {

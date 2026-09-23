@@ -34,6 +34,10 @@ type Props = {
   teleportSprite?: boolean;
   /** Durante o specialBackground: usa o sprite preAtomic.svg (marcelo). */
   preAtomic?: boolean;
+  /** Halo.svg acima do sprite durante preparing/finalizating do "I Am Atomic". */
+  atomicHalo?: boolean;
+  /** Flash no sprite quando a explosion.svg da habilidade aparece. */
+  atomicFlash?: boolean;
 };
 
 const CROUCH_STATE_MAP: Record<string, string> = {
@@ -64,6 +68,8 @@ export function PlayerBattle({
   blinkSilhouette = null,
   teleportSprite = false,
   preAtomic = false,
+  atomicHalo = false,
+  atomicFlash = false,
 }: Props) {
   const resolvedState =
     CROUCH_STATE_MAP[state] ?? (state === "charging" ? "idle" : state);
@@ -73,11 +79,13 @@ export function PlayerBattle({
   const isGrabbed = Date.now() < grabbedUntil && !isFallen && !isCrouching;
   const showFlipped = isGrabbed && grabFlipped;
 
-  // Durante o specialBackground o marcelo troca para o sprite preAtomic.svg
-  // (animação do special ainda não implementada — sprite estático por ora).
+  // Durante o specialBackground o marcelo troca para o sprite starting.svg do
+  // "I Am Atomic" (primeiro passo da sequência da habilidade). Só vale quando
+  // o jogador está idle — durante preparing/finalizating quem manda é o sprite
+  // do estado.
   const preAtomicSrc =
-    preAtomic && character === "marcelo"
-      ? playerPath(`/marcelo/inFight/default/habilities/starting.svg`)
+    preAtomic && character === "marcelo" && state === "idle"
+      ? playerPath(`/marcelo/inFight/default/habilities/atomic/starting.svg`)
       : "";
 
   const transformationSrc =
@@ -210,7 +218,7 @@ export function PlayerBattle({
       <img
         src={src}
         onError={handleSpriteError}
-        className={blinkClass}
+        className={`${blinkClass} ${atomicFlash ? styles.atomicFlash : ""}`}
         style={{
           animationDuration: blinkDuration,
           position: "absolute",
@@ -238,6 +246,21 @@ export function PlayerBattle({
           pointerEvents: "none",
         }}
       />
+      {atomicHalo && character === "marcelo" && (
+        <img
+          src={playerPath("/marcelo/inFight/default/habilities/atomic/halo.svg")}
+          alt=""
+          style={{
+            position: "absolute",
+            width: "auto",
+            height: "130%",
+            left: "50%",
+            bottom: 0,
+            transform: "translateX(-50%)",
+            pointerEvents: "none",
+          }}
+        />
+      )}
     </div>
   );
 }

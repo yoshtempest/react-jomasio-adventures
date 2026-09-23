@@ -14,6 +14,10 @@ type Props = {
   teleportSprite?: boolean;
   /** Durante o specialBackground: troca o sprite para preAtomic.svg. */
   preAtomic?: boolean;
+  /** Halo.svg acima do sprite durante preparing/finalizating do "I Am Atomic". */
+  atomicHalo?: boolean;
+  /** Flash no sprite quando a explosion.svg da habilidade aparece. */
+  atomicFlash?: boolean;
 };
 
 export function Player({
@@ -26,6 +30,8 @@ export function Player({
   blinkVisual = null,
   teleportSprite = false,
   preAtomic = false,
+  atomicHalo = false,
+  atomicFlash = false,
 }: Props) {
   const blinkSilhouette =
     player.character === "riquelme" && blinkVisual
@@ -50,6 +56,8 @@ export function Player({
       blinkSilhouette={blinkSilhouette}
       teleportSprite={teleportSprite}
       preAtomic={preAtomic}
+      atomicHalo={atomicHalo}
+      atomicFlash={atomicFlash}
     />
   );
 }

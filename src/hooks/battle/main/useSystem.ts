@@ -552,6 +552,8 @@ export function useBattleSystem(props: Props) {
     isExploding: effects.isExploding,
     cutInEnemie: marceloCutIn.cutInEnemie,
     npcBleeding: marceloCutIn.npcBleeding,
+    /** Dispara o CutInEnemie do marcelo sobre o NPC principal (com chance de sangrar). */
+    marceloCutInTrigger: marceloCutIn.trigger,
     pet,
     setPet,
     triggerJumpAttack,

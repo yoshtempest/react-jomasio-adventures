@@ -13,6 +13,28 @@
   animation: fromWhiteSilhouette 100ms linear forwards;
 }
 
+.atomicFlash {
+  animation: atomicFlash 400ms linear;
+}
+
+@keyframes atomicFlash {
+  0%,
+  100% {
+    opacity: 1;
+    filter: none;
+  }
+
+  30% {
+    opacity: 0.2;
+    filter: brightness(3) saturate(0);
+  }
+
+  60% {
+    opacity: 1;
+    filter: brightness(1.4);
+  }
+}
+
 @keyframes kiChargePulse {
   0% {
     transform: translateX(-50%) scale(1);

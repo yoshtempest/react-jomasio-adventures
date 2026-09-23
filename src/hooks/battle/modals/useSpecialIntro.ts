@@ -19,18 +19,19 @@ type Props = {
 export function useSpecialIntro({ setTimeScale, resetTimeScale }: Props) {
   const [specialIntro, setSpecialIntro] = useState<{
     character: string;
+    ability?: string;
   } | null>(null);
   const activeRef = useRef(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const onActivateRef = useRef<(() => void) | null>(null);
 
   const startSpecialIntro = useCallback(
-    (character: string, onActivate: () => void) => {
+    (character: string, onActivate: () => void, ability?: string) => {
       if (activeRef.current) return;
 
       activeRef.current = true;
       onActivateRef.current = onActivate;
-      setSpecialIntro({ character });
+      setSpecialIntro({ character, ability });
       setTimeScale(SPECIAL_INTRO_TIME_SCALE);
 
       if (timerRef.current) clearTimeout(timerRef.current);
@@ -60,6 +61,7 @@ export function useSpecialIntro({ setTimeScale, resetTimeScale }: Props) {
   return {
     specialIntroActive: specialIntro !== null,
     specialIntroCharacter: specialIntro?.character ?? null,
+    specialIntroAbility: specialIntro?.ability ?? null,
     startSpecialIntro,
   };
 }

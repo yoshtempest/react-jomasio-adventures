@@ -1,0 +1,21 @@
+.anchor {
+  position: absolute;
+  pointer-events: none;
+  z-index: 12;
+}
+
+.explosion {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  height: auto;
+  pointer-events: none;
+}
+
+.cut {
+  position: absolute;
+  left: 50%;
+  height: auto;
+  pointer-events: none;
+}

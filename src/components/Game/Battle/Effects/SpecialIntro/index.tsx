@@ -5,12 +5,20 @@ import styles from "./styles.module.css";
 type Props = {
   active: boolean;
   character: string | null;
+  /** Habilidade com background próprio (ex: "atomic" → habilities/atomic/background.svg). */
+  ability?: string | null;
 };
 
-export function SpecialIntro({ active, character }: Props) {
+export function SpecialIntro({ active, character, ability = null }: Props) {
   const [imageFailed, setImageFailed] = useState(false);
 
   if (!active || !character) return null;
+
+  const backgroundSrc = ability
+    ? playerPath(
+        `/${character}/inFight/default/habilities/${ability}/background.svg`,
+      )
+    : playerPath(`/${character}/specialBackground.svg`);
 
   return (
     <div className={styles.overlay} role="presentation">
@@ -24,7 +32,7 @@ export function SpecialIntro({ active, character }: Props) {
       {!imageFailed && (
         <div className={styles.characterContainer}>
           <img
-            src={playerPath(`/${character}/specialBackground.svg`)}
+            src={backgroundSrc}
             alt=""
             className={styles.character}
             onError={() => setImageFailed(true)}

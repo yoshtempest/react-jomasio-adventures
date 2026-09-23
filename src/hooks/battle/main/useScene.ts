@@ -474,6 +474,14 @@ export function useBattleScene({
     vastolordLaserPress,
     vastolordLaserUsable,
     vastolordLaserStacks,
+    atomicHalo,
+    atomicExplosion,
+    atomicCuts,
+    atomicFlash,
+    atomicPress,
+    atomicUsable,
+    atomicRemaining,
+    specialIntroAbility,
   } = combat;
 
   vastolordEndingRef.current = battle.isEnding;
@@ -777,5 +785,13 @@ export function useBattleScene({
     vastolordLaserPress,
     vastolordLaserUsable,
     vastolordLaserStacks,
+    specialIntroAbility,
+    atomicHalo,
+    atomicExplosion,
+    atomicCuts,
+    atomicFlash,
+    atomicPress,
+    atomicUsable,
+    atomicRemaining,
   });
 }

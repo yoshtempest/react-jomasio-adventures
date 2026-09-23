@@ -8,6 +8,7 @@ import { EmanuelCloneButton } from "@/components/Game/Battle/Buttons/EmanuelClon
 import { EmanuelKiChargeButton } from "@/components/Game/Battle/Buttons/EmanuelKiCharge";
 import { EmanuelGenkiDamaButton } from "@/components/Game/Battle/Buttons/EmanuelGenkiDama";
 import { VastolordLaserButton } from "@/components/Game/Battle/Buttons/VastolordLaser";
+import { AtomicButton } from "@/components/Game/Battle/Buttons/Atomic";
 import { GameMap } from "@/components/Game/Map/Game";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useGameLayout } from "@/hooks/game/useGameLayout";
@@ -166,6 +167,14 @@ export function BattleScene(props: Props) {
     vastolordLaserPress,
     vastolordLaserUsable,
     vastolordLaserStacks,
+    specialIntroAbility,
+    atomicHalo,
+    atomicExplosion,
+    atomicCuts,
+    atomicFlash,
+    atomicPress,
+    atomicUsable,
+    atomicRemaining,
   } = useBattleScene({ ...props, isAlfa, PLAYER_SIZE });
 
   const { setBattleCollision } = usePlayerActions();
@@ -387,6 +396,7 @@ export function BattleScene(props: Props) {
       <SpecialIntro
         active={specialIntroActive}
         character={specialIntroCharacter}
+        ability={specialIntroAbility}
       />
 
       <div className="SceneMap">
@@ -441,6 +451,10 @@ export function BattleScene(props: Props) {
             cutInEnemie={battle.cutInEnemie}
             npcBleeding={battle.npcBleeding}
             preAtomic={specialIntroActive}
+            atomicHalo={atomicHalo}
+            atomicExplosion={atomicExplosion}
+            atomicCuts={atomicCuts}
+            atomicFlash={atomicFlash}
           />
 
           <ChargeParticles
@@ -641,6 +655,15 @@ export function BattleScene(props: Props) {
           charges={vastolordLaserStacks}
           disabled={!vastolordLaserUsable}
           onClick={vastolordLaserPress}
+        />
+      )}
+
+      {player.character === "marcelo" && (
+        <AtomicButton
+          ready={atomicUsable}
+          remaining={atomicRemaining}
+          disabled={controlsDisabled}
+          onClick={atomicPress}
         />
       )}
 

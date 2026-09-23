@@ -362,7 +362,9 @@ declare global {
     | "genkiDamaRising"
     | "preparingGenkiDama"
     | "throwGenkiDama"
-    | "laser";
+    | "laser"
+    | "preparingAtomic"
+    | "finalizatingAtomic";
 
   type PlayerMode = "explore" | "battle" | "select" | "ui" | "map" | "menu";
 

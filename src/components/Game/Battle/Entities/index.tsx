@@ -1,5 +1,6 @@
 import { ProjectileConstants } from "@/data/projectile";
 import { getViewportSize } from "@/utils/viewport";
+import { getBossSizeMultiplier } from "@/utils/npc/getSpritePath";
 import { MainNpc } from "./MainNpc";
 import { NpcProjectile } from "./NpcProjectile";
 import { GroundPaper } from "./GroundPaper";
@@ -20,6 +21,7 @@ import { SpecialProjectile } from "./SpecialProjectile";
 import { LootBag } from "./LootBag";
 import { BlinkAfterimage } from "@/components/Game/Battle/Effects/BlinkAfterimage";
 import { DeiseDashAfterimage } from "@/components/Game/Battle/Effects/DeiseDashAfterimage";
+import { AtomicEffects } from "@/components/Game/Battle/Effects/Atomic";
 import type { BattleEntitiesBattle, MainNpcState } from "./types";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { PetState } from "@/hooks/battle/player/pets/usePet";
@@ -32,6 +34,10 @@ import type { EmanuelCloneVisual } from "@/utils/types/character/emanuel";
 import type { GenkiDamaVisual } from "@/utils/types/character/emanuel";
 import type { VastolordLaserBeam } from "@/hooks/battle/player/characters/marshadow/useVastolordLaser";
 import type { CutInEnemieOverlay } from "@/hooks/battle/player/characters/marshadow/useMarceloCutInEnemie";
+import type {
+  AtomicExplosion,
+  AtomicCut,
+} from "@/hooks/battle/player/characters/marshadow/useAtomic";
 
 type Props = {
   npc: MainNpcState;
@@ -75,6 +81,14 @@ type Props = {
   npcBleeding?: boolean;
   /** Durante o specialBackground: jogador troca para o sprite preAtomic.svg. */
   preAtomic?: boolean;
+  /** Halo.svg acima do jogador durante preparing/finalizating do "I Am Atomic". */
+  atomicHalo?: boolean;
+  /** Flash no sprite do jogador na explosão do "I Am Atomic". */
+  atomicFlash?: boolean;
+  /** Explosão centrada no alvo (inimigo de maior vida máxima). */
+  atomicExplosion?: AtomicExplosion | null;
+  /** CutInEnemie sobre cada inimigo atingido dentro do raio. */
+  atomicCuts?: AtomicCut[];
 };
 
 export function BattleEntities({
@@ -110,12 +124,21 @@ export function BattleEntities({
   cutInEnemie = null,
   npcBleeding = false,
   preAtomic = false,
+  atomicHalo = false,
+  atomicFlash = false,
+  atomicExplosion = null,
+  atomicCuts = [],
 }: Props) {
   const battleScaleX = getViewportSize().width / ProjectileConstants.MAP_WIDTH;
   const battleScaleY =
     getViewportSize().height / ProjectileConstants.MAP_HEIGHT;
 
   const activeBombIds = new Set(bombTargets.map((b) => b.id));
+  const bossSizeMultiplier = getBossSizeMultiplier(
+    npcType,
+    battle.npcPhase,
+    isAlfa,
+  );
 
   return (
     <>
@@ -195,6 +218,16 @@ export function BattleEntities({
         blinkVisual={blinkVisual}
         teleportSprite={emanuelClone != null}
         preAtomic={preAtomic}
+        atomicHalo={atomicHalo}
+        atomicFlash={atomicFlash}
+      />
+
+      <AtomicEffects
+        explosion={atomicExplosion}
+        cuts={atomicCuts}
+        TILE_SIZE={TILE_SIZE}
+        mainNpcType={npcType}
+        bossSizeMultiplier={bossSizeMultiplier}
       />
 
       {blinkVisual && player.character === "riquelme" && (

@@ -21,6 +21,7 @@ export function createSounds() {
     chargeAttack: sfx("player/chargeAttack.mp3"),
     swordDeflected: sfx("player/marcelo/sword-deflected.mp3"),
     jhowsimarVemCa: sfx("npc/jhowsimar/goHere.mp3"),
+    preMarshadowSpecial: sfx("player/marcelo/preSpecial.mp3"),
     marshadowSpecial: sfx("player/marcelo/special.mp3"),
     vastolordTransformation: sfx("player/marcelo/vastolordTransformation.mp3"),
     returningTime: sfx("player/artur/returning-time.mp3"),
