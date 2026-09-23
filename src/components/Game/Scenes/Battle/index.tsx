@@ -30,6 +30,7 @@ import { DivergentFistAnimation } from "@/components/Game/Battle/Effects/Diverge
 import { BlackFlashAnimation } from "@/components/Game/Battle/Effects/BlackFlashAnimation";
 import { VastolordTimer } from "@/components/Game/Battle/Effects/VastolordTimer";
 import { SpecialIntro } from "@/components/Game/Battle/Effects/SpecialIntro";
+import { AlfaAbility } from "@/components/Game/Battle/Effects/AlfaAbility";
 import { JumpIndicator } from "@/components/Game/Battle/Jump/indicator";
 import { JumpDangerZone } from "@/components/Game/Battle/Jump/dangerZone";
 import { ComboAction } from "@/components/Game/Battle/Buttons/ComboAction";
@@ -176,6 +177,11 @@ export function BattleScene(props: Props) {
     atomicUsable,
     atomicRemaining,
   } = useBattleScene({ ...props, isAlfa, PLAYER_SIZE });
+
+  // Especial do alfa: enquanto ele usa a habilidade (ex: special dig do
+  // hungryDog, quando a gauge enche), o overlay `alfa/background.svg` aparece.
+  const alfaDigActive =
+    isAlfa && npcType === "hungryDog" && npc.ai?.hungryDog?.phase === "dig";
 
   const { setBattleCollision } = usePlayerActions();
 
@@ -398,6 +404,8 @@ export function BattleScene(props: Props) {
         character={specialIntroCharacter}
         ability={specialIntroAbility}
       />
+
+      <AlfaAbility active={alfaDigActive} npcType={npcType} />
 
       <div className="SceneMap">
         <GameMap

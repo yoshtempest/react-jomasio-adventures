@@ -1,6 +1,5 @@
-import { useState } from "react";
 import { playerPath } from "@/utils/paths";
-import styles from "./styles.module.css";
+import { AbilityOverlay } from "@/components/Game/Battle/Effects/AbilityOverlay";
 
 type Props = {
   active: boolean;
@@ -10,8 +9,6 @@ type Props = {
 };
 
 export function SpecialIntro({ active, character, ability = null }: Props) {
-  const [imageFailed, setImageFailed] = useState(false);
-
   if (!active || !character) return null;
 
   const backgroundSrc = ability
@@ -20,30 +17,5 @@ export function SpecialIntro({ active, character, ability = null }: Props) {
       )
     : playerPath(`/${character}/specialBackground.svg`);
 
-  return (
-    <div className={styles.overlay} role="presentation">
-      <div className={styles.flash} />
-
-      <div className={styles.topMotion}>
-        <div className={`${styles.streak} ${styles.streakOne}`} />
-        <div className={`${styles.streak} ${styles.streakTwo}`} />
-        <div className={`${styles.streak} ${styles.streakThree}`} />
-      </div>
-      {!imageFailed && (
-        <div className={styles.characterContainer}>
-          <img
-            src={backgroundSrc}
-            alt=""
-            className={styles.character}
-            onError={() => setImageFailed(true)}
-          />
-        </div>
-      )}
-      <div className={styles.bottomMotion}>
-        <div className={`${styles.streak} ${styles.streakOne}`} />
-        <div className={`${styles.streak} ${styles.streakTwo}`} />
-        <div className={`${styles.streak} ${styles.streakThree}`} />
-      </div>
-    </div>
-  );
+  return <AbilityOverlay active={active} src={backgroundSrc} />;
 }
