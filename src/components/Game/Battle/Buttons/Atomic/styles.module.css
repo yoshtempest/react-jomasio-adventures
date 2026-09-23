@@ -14,7 +14,10 @@
   border: var(--size-2) solid rgba(251, 191, 36, 0.5);
   border-radius: 50%;
 
-  background-color: rgba(120, 53, 15, 0.15);
+  background-image: url("public/assets/player/marcelo/inFight/default/habilities/atomic/background.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   color: var(--text-color);
 
   cursor: pointer;
