@@ -68,21 +68,24 @@ export function Config() {
 
       {activeTab === "geral" && (
         <div className={styles.container}>
-          <DifficultySection
-            selectedIndex={selectedIndex}
-            selectedColumn={selectedColumn}
-            activeDifficulty={difficulty}
-            onPrev={() => cycleDifficulty(-1)}
-            onNext={() => cycleDifficulty(1)}
-          />
+          <div>
+            <DifficultySection
+              selectedIndex={selectedIndex}
+              selectedColumn={selectedColumn}
+              activeDifficulty={difficulty}
+              onPrev={() => cycleDifficulty(-1)}
+              onNext={() => cycleDifficulty(1)}
+            />
 
-          <DialogueSpeedSection
-            selectedIndex={selectedIndex}
-            selectedColumn={selectedColumn}
-            activeSpeed={dialogueSpeed}
-            onPrev={() => cycleDialogueSpeed(-1)}
-            onNext={() => cycleDialogueSpeed(1)}
-          />
+            <DialogueSpeedSection
+              selectedIndex={selectedIndex}
+              selectedColumn={selectedColumn}
+              activeSpeed={dialogueSpeed}
+              onPrev={() => cycleDialogueSpeed(-1)}
+              onNext={() => cycleDialogueSpeed(1)}
+            />
+          </div>
+
 
           <HelpSection
             selectedColumn={selectedColumn}
