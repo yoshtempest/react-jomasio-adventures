@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { getNpcAttack } from "@/services/npc";
 import { useProjectile } from "./useProjectile";
-import { isParryPress } from "@/hooks/battle/npc/useBlocking";
+import { isParryPress } from "@/hooks/battle/npc/isParryPress";
 import {
   getNpcDirection,
   getNpcState,
@@ -10,7 +10,6 @@ import {
 import type { NPCBattleState } from "@/utils/types/npc/npc";
 import type { BattleObstacle } from "@/utils/types/maps/battle";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
-import type { SoundId } from "@/utils/audio/soundId";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { logPlay, logStop } from "@/utils/replay/audioEventLog";
 import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
@@ -21,37 +20,7 @@ import {
 } from "@/gameRules/battle/cursedEnergy";
 import type { NewPlayerStatus } from "@/gameRules/battle/status/statusEffects";
 import { ProjectileHpConstants } from "@/data/projectile";
-
-function useProximityLoopSound(
-  npcTypeRef: React.RefObject<string>,
-  playerXRef: React.RefObject<number>,
-  playerYRef: React.RefObject<number>,
-  playSound: (sound: SoundId, loop?: boolean, volumeOverride?: number) => void,
-  stopSound: (sound: SoundId) => void,
-) {
-  const playingRef = useRef(false);
-
-  const update = useCallback(
-    (npcX: number, npcY: number) => {
-      if (npcTypeRef.current !== "jhowsimar") return;
-      const inRange =
-        Math.abs(npcX - playerXRef.current) <= 50 &&
-        Math.abs(playerYRef.current - npcY) <= 150;
-      if (!inRange && !playingRef.current) {
-        playingRef.current = true;
-        playSound("jhowsimarVemCa", true);
-        logPlay("jhowsimarVemCa", true);
-      } else if (inRange && playingRef.current) {
-        playingRef.current = false;
-        stopSound("jhowsimarVemCa");
-        logStop("jhowsimarVemCa");
-      }
-    },
-    [npcTypeRef, playerXRef, playerYRef, playSound, stopSound],
-  );
-
-  return { update };
-}
+import { useProximityLoopSound } from "./useProximityLoopSound";
 
 type Props = {
   playerX: number;

@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 import { NPC_MELEE_COOLDOWN } from "@/data/cooldowns";
 import { getNpcStats } from "@/gameRules/npc/npcStats";
-import { isFacingTarget } from "@/gameRules/battle/direction";
 import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
-import { handleNpcBlocking, isParryPress } from "./useBlocking";
+import { handleNpcBlocking } from "./useBlocking";
+import { isParryPress } from "./isParryPress";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { logPlay } from "@/utils/replay/audioEventLog";
@@ -12,6 +12,9 @@ import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
 import { isPlayerFloating } from "@/gameRules/movement/battle";
 import { combatService } from "@/services/combat";
 import { getBabidiBlockReflect } from "@/gameRules/battle/babidiBlock";
+import { checkBlocked } from "./checkBlocked";
+import { rollNpcDamage } from "./rollNpcDamage";
+import { applyBleed } from "./apply/applyBleed";
 
 type Props = {
   npcLevel: number;
@@ -636,113 +639,4 @@ export function useNpcBattle({
     npcFixedHit,
     npcUnblockableHit,
   };
-}
-
-function rollNpcDamage(
-  dmg: number,
-  hpRatio: number,
-  npcType: string,
-  npcPhase: number,
-  playerCharacter: CharacterId,
-): { finalDmg: number; dmgType: DamageType } {
-  const clampedRatio = Math.max(0, Math.min(1, hpRatio));
-  let critChance = 1;
-  if (npcType === "slimita" && npcPhase >= 2) {
-    critChance = 1 + (1 - clampedRatio) * 9;
-  }
-  const isCrit = Math.random() * 100 < critChance;
-  const elementMultiplier = combatService.getElementMultiplier(
-    getNpcElementTypes(npcType),
-    CHARACTER_ELEMENT_TYPES[playerCharacter],
-  );
-  const finalDmg = Math.round((isCrit ? dmg * 2 : dmg) * elementMultiplier);
-  const dmgType: DamageType = isCrit ? "crit" : "npc";
-  return { finalDmg, dmgType };
-}
-
-function applyBleed(
-  npcType: string,
-  tenacityReduction: number,
-  setPlayer: React.Dispatch<React.SetStateAction<Player>>,
-) {
-  if (npcType === "hungryDeath" || npcType === "maurao") {
-    const bleedMs = Math.round(5000 * (1 - tenacityReduction));
-    setPlayer((p) => ({ ...p, bleedUntil: Date.now() + bleedMs }));
-  }
-}
-
-function checkBlocked(params: {
-  dmg: number;
-  playerState: PlayerState;
-  playerBattleDirection: Direction;
-  playerX: number;
-  playerY: number;
-  npcX: number;
-  npcY: number;
-  blockGauge: number;
-  setBlockGauge: React.Dispatch<React.SetStateAction<number>>;
-  damagePlayerWithReflect: (damage: number) => void;
-  setPlayer: React.Dispatch<React.SetStateAction<Player>>;
-  spawnDamageRef: React.RefObject<
-    (value: number, x: number, y: number, type: DamageType) => void
-  >;
-  hitstopRef: React.RefObject<number>;
-  npcStaggerRef: React.RefObject<number>;
-  npcCooldown: React.RefObject<boolean>;
-  lastBlockPressRef: React.RefObject<number>;
-  lastAttackPressRef?: React.RefObject<number>;
-  onFullBlock?: () => void;
-  onBlockRef?: React.RefObject<() => void>;
-  onParry?: () => void;
-  onDamageBlocked?: (blockedDamage: number) => void;
-}): boolean {
-  const {
-    dmg,
-    playerState,
-    playerBattleDirection,
-    playerX,
-    playerY,
-    npcX,
-    npcY,
-    blockGauge,
-    setBlockGauge,
-    damagePlayerWithReflect,
-    setPlayer,
-    spawnDamageRef,
-    hitstopRef,
-    npcStaggerRef,
-    npcCooldown,
-    lastBlockPressRef,
-    lastAttackPressRef,
-    onFullBlock,
-    onBlockRef,
-    onParry,
-    onDamageBlocked,
-  } = params;
-
-  const isBlocking =
-    playerState === "blocked" &&
-    isFacingTarget(playerX, playerY, npcX, npcY, playerBattleDirection);
-
-  const blocked = handleNpcBlocking({
-    dmg,
-    isBlocking,
-    blockGauge,
-    setBlockGauge,
-    damagePlayerWithReflect,
-    setPlayer,
-    spawnDamageRef,
-    playerX,
-    playerY,
-    hitstopRef,
-    npcStaggerRef,
-    npcCooldown,
-    lastBlockPressRef,
-    lastAttackPressRef,
-    onFullBlock,
-    onBlockRef,
-    onParry,
-    onDamageBlocked,
-  });
-  return blocked;
 }

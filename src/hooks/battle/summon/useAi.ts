@@ -1,16 +1,12 @@
 import { useEffect, useRef } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
-import { NPCS } from "@/data/npc";
-import { getNpcStats } from "@/gameRules/npc/npcStats";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
-import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
-import { getNpcElementTypes } from "@/data/types/npcElementTypes";
-import { combatService } from "@/services/combat";
 import {
   HONORED_ONE_FLEE_DISTANCE,
   HONORED_ONE_FLEE_STEP,
 } from "@/gameRules/battle/cursedEnergy";
 import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
+import { computeSummonDamage } from "./computeSummonDamage";
 
 /** Velocidade acima da qual o hungryDog é considerado correndo (usa run.svg). */
 const HUNGRY_DOG_RUN_SPEED = 1.5;
@@ -36,34 +32,6 @@ type Props = {
   rootedSummonsUntilRef?: React.RefObject<Record<string, number>>;
   honoredFleeRef?: React.RefObject<boolean>;
 };
-
-function computeSummonDamage(
-  s: SummonedNpc,
-  npcLevel: number,
-  difficulty: NpcDifficulty,
-  playerClass: PlayerClass,
-  playerCharacter: CharacterId,
-): number | null {
-  const data = NPCS[s.npcType];
-  if (!data) return null;
-
-  const stats = getNpcStats(
-    s.level ?? npcLevel,
-    data.class,
-    difficulty,
-    s.statMultiplier ?? 1,
-  );
-
-  const elementMultiplier = combatService.getElementMultiplier(
-    getNpcElementTypes(s.npcType),
-    CHARACTER_ELEMENT_TYPES[playerCharacter],
-  );
-
-  return Math.round(
-    combatService.calculateNpcDamage(stats.damage, playerClass) *
-      elementMultiplier,
-  );
-}
 
 export function useSummonAI({
   summons,

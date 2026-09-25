@@ -9,6 +9,10 @@ import {
   ONE_THOUSAND_FIVE_HUNDRED_MS,
   THREE_HUNDRED_MS,
 } from "@/data/ms";
+import { timeSinceParryInput } from "./timeSinceParryInput";
+import { applyGuardBreak } from "./apply/applyGuardBreak";
+import { applyDesperateBlock } from "./apply/applyDesperateBlock";
+
 
 /**
  * Janela de tempo (ms) entre a entrada do jogador e sofrer o dano para o
@@ -33,61 +37,6 @@ export type NpcBlockResult =
  * do dano real do golpe (computado sob demanda) e decide se o NPC bloqueia.
  */
 export type OnBeforeNpcHit = (getDamage: () => number) => NpcBlockResult;
-
-/**
- * Tempo desde a entrada de parry mais recente.
- *
- * Bloquear e atacar valem igual: as duas entradas abrem a janela, então o
- * jogador pode dar o parry defendendo no timing ou atacando junto com o
- * golpe do NPC.
- */
-export function timeSinceParryInput(
-  ...pressRefs: (React.RefObject<number> | undefined)[]
-): number {
-  const now = Date.now();
-  let elapsed = Infinity;
-
-  for (const ref of pressRefs) {
-    const pressTime = ref?.current ?? 0;
-    if (pressTime <= 0) continue;
-    elapsed = Math.min(elapsed, now - pressTime);
-  }
-
-  return elapsed;
-}
-
-export function isParryPress(
-  ...pressRefs: (React.RefObject<number> | undefined)[]
-): boolean {
-  return timeSinceParryInput(...pressRefs) <= PARRY_WINDOW_MS;
-}
-
-export function applyGuardBreak(
-  remainingDmg: number,
-  damagePlayerHp: (damage: number) => void,
-  setPlayer: React.Dispatch<React.SetStateAction<Player>>,
-  spawnDamageRef: React.RefObject<SpawnDamageFn>,
-  playerX: number,
-  playerY: number,
-) {
-  damagePlayerHp(remainingDmg);
-  setPlayer((p) => ({ ...p, state: "stun" }));
-  spawnDamageRef.current?.(remainingDmg, playerX, playerY, "npc");
-}
-
-export function applyDesperateBlock(
-  dmg: number,
-  damagePlayerHp: (damage: number) => void,
-  setPlayer: React.Dispatch<React.SetStateAction<Player>>,
-  spawnDamageRef: React.RefObject<SpawnDamageFn>,
-  playerX: number,
-  playerY: number,
-) {
-  const halved = Math.max(1, Math.round(dmg / 2));
-  damagePlayerHp(halved);
-  setPlayer((p) => ({ ...p, state: "stun" }));
-  spawnDamageRef.current?.(halved, playerX, playerY, "npc");
-}
 
 type HandleBlockingParams = {
   dmg: number;

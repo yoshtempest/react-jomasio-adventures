@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
-import { isParryPress } from "@/hooks/battle/npc/useBlocking";
+import { isParryPress } from "@/hooks/battle/npc/isParryPress";
 import type { SpawnDamageFn } from "@/utils/types/battle/spawnDamageFn";
 
 type Props = {
