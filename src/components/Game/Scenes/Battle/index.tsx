@@ -26,10 +26,10 @@ import { BattleIntro } from "@/components/Game/Battle/Modal/Intro";
 import { BattleOutro } from "@/components/Game/Battle/Modal/Outro";
 import { BattleHighlight } from "@/components/Game/Battle/Modal/Highlight";
 import { ChargeParticles } from "@/components/Game/Battle/Effects/ChargeParticles";
-import { KokusenAnimation } from "@/components/Game/Battle/Effects/KokusenAnimation";
-import { DivergentFistAnimation } from "@/components/Game/Battle/Effects/DivergentFistAnimation";
-import { BlackFlashAnimation } from "@/components/Game/Battle/Effects/BlackFlashAnimation";
-import { VastolordTimer } from "@/components/Game/Battle/Effects/VastolordTimer";
+import { KokusenAnimation } from "@/components/Game/Battle/Effects/Natsuki/KokusenAnimation";
+import { DivergentFistAnimation } from "@/components/Game/Battle/Effects/Natsuki/DivergentFistAnimation";
+import { BlackFlashAnimation } from "@/components/Game/Battle/Effects/Natsuki/BlackFlashAnimation";
+import { VastolordTimer } from "@/components/Game/Battle/Effects/Marshadow/VastolordTimer";
 import { SpecialIntro } from "@/components/Game/Battle/Effects/SpecialIntro";
 import { DomainExpansionBackground } from "@/components/Game/Battle/Effects/DomainExpansionBackground";
 import { AlfaAbility } from "@/components/Game/Battle/Effects/AlfaAbility";
@@ -211,9 +211,11 @@ export function BattleScene(props: Props) {
   const focusEntity = cameraFocus?.entity === "npc" ? npc : player;
 
   // Durante a Expansão de Domínio a câmera acompanha a frente do mugetsuEffect
-  // (e não o jogador) enquanto ele varre o mapa de uma ponta à outra.
+  // (e não o jogador) enquanto ele varre o mapa de uma ponta à outra. O Y fica
+  // ancorado no chão (y do jogador): centralizar no meio do mapa subiria a
+  // câmera de mais e esconderia o jogador, que está em BATTLE_SPAWN.player.y.
   const focus = mugetsuSweep
-    ? { x: mugetsuSweep.x, y: ProjectileConstants.MAP_HEIGHT / 2 }
+    ? { x: mugetsuSweep.x, y: player.y }
     : { x: focusEntity.x, y: focusEntity.y };
 
   const targetBgX = Math.max(
@@ -237,7 +239,36 @@ export function BattleScene(props: Props) {
   const worldOffsetY =
     (containerHeight * 0.5 * (bgPosY - initialBgPosRef.current.y)) / 100;
 
-  const zoom = cameraFocus?.zoom ?? 1;
+  const baseZoom = cameraFocus?.zoom ?? 1;
+  // Expansão de Domínio: leve zoomOut de 1.4x enquanto a habilidade está ativa
+  // — o mugetsuEffect é gigante em altura e o zoom revela mais do mapa.
+  const domainZoom = domainExpansionActive ? 1 / 1.4 : 1;
+  const zoomTarget = baseZoom * domainZoom;
+
+  const [zoom, setZoom] = useState(zoomTarget);
+  const zoomTargetRef = useRef(zoomTarget);
+  zoomTargetRef.current = zoomTarget;
+
+  useEffect(() => {
+    const diff = Math.abs(zoom - zoomTargetRef.current);
+    if (diff < 0.001) {
+      if (zoom !== zoomTargetRef.current) {
+        setZoom(zoomTargetRef.current);
+      }
+      return;
+    }
+
+    const id = requestAnimationFrame(() => {
+      setZoom((prev) => {
+        const t = zoomTargetRef.current;
+        const next = prev + (t - prev) * 0.12;
+        return Math.abs(next - t) < 0.001 ? t : next;
+      });
+    });
+
+    return () => cancelAnimationFrame(id);
+  }, [zoom, zoomTarget]);
+
   const focusX = focus.x;
   const focusY = focus.y;
 
