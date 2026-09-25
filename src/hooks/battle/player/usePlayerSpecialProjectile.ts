@@ -79,6 +79,7 @@ export function usePlayerSpecialProjectile({
             : x - SPHERE_OFFSET_X,
         redY: headY,
         direction: battleDirection,
+        indestructible: true,
       };
       phaseStartRef.current = Date.now();
       setRenderTick((t) => t + 1);

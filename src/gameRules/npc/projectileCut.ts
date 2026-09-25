@@ -1,4 +1,4 @@
-import { ProjectileConstants } from "@/data/projectile";
+import { ProjectileConstants, ProjectileHpConstants } from "@/data/projectile";
 import { isPlayerInRange } from "@/gameRules/battle/range";
 import { isFacingTarget } from "@/gameRules/battle/direction";
 import { NPC_CLASS_VERTICAL_BONUS } from "@/gameRules/battle/rangeConfig";
@@ -108,6 +108,9 @@ export function createSlicedProjectile(
     upperDirY: upper.y,
     lowerDirX: horizontal,
     lowerDirY: lower.y,
+    hp: ProjectileHpConstants.CUT_FRAGMENT_HP,
+    maxHp: ProjectileHpConstants.CUT_FRAGMENT_HP,
+    indestructible: false,
   };
 }
 

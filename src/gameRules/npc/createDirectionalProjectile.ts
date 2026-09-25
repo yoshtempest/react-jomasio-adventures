@@ -1,3 +1,5 @@
+import { ProjectileHpConstants } from "@/data/projectile";
+
 type CommonParams = {
   startX: number;
   startY: number;
@@ -7,6 +9,9 @@ type CommonParams = {
   state?: "walk" | "idle";
   canCrouchDodge?: boolean;
   landsOnGround?: boolean;
+  hp?: number;
+  maxHp?: number;
+  indestructible?: boolean;
 };
 
 type PullParams = CommonParams & {
@@ -19,6 +24,9 @@ type RainParams = {
   sprite?: string;
   warningDuration: number;
   spearPositions: number[];
+  hp?: number;
+  maxHp?: number;
+  indestructible?: boolean;
 };
 
 export function createCommonProjectile({
@@ -30,6 +38,9 @@ export function createCommonProjectile({
   state = "walk",
   canCrouchDodge = true,
   landsOnGround = false,
+  hp = ProjectileHpConstants.DEFAULT_HP,
+  maxHp = hp,
+  indestructible = false,
 }: CommonParams): ProjectileCommon {
   const dx = targetX - startX;
   const dy = targetY - startY;
@@ -48,6 +59,9 @@ export function createCommonProjectile({
     state,
     canCrouchDodge,
     landsOnGround,
+    hp,
+    maxHp,
+    indestructible,
   };
 }
 
@@ -59,6 +73,9 @@ export function createPullProjectile({
   sprite,
   state = "walk",
   pullTargetX,
+  hp = ProjectileHpConstants.DEFAULT_HP,
+  maxHp = hp,
+  indestructible = false,
 }: PullParams): ProjectilePull {
   const dx = targetX - startX;
   const dy = targetY - startY;
@@ -76,6 +93,9 @@ export function createPullProjectile({
     createdAt: Date.now(),
     state,
     pullTargetX,
+    hp,
+    maxHp,
+    indestructible,
   };
 }
 
@@ -85,6 +105,9 @@ export function createRainProjectile({
   sprite = "spear",
   warningDuration,
   spearPositions,
+  hp = ProjectileHpConstants.DEFAULT_HP,
+  maxHp = hp,
+  indestructible = false,
 }: RainParams): ProjectileRain {
   return {
     variant: "rain",
@@ -97,5 +120,8 @@ export function createRainProjectile({
     warningDuration,
     sprite,
     spears: spearPositions.map((pos) => ({ x: pos, y: -50 })),
+    hp,
+    maxHp,
+    indestructible,
   };
 }

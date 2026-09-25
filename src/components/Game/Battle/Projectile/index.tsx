@@ -1,6 +1,7 @@
 import { spriteMap } from "@/data/battle/projectileSprites";
 import { ProjectileConstants } from "@/data/projectile";
 import { getViewportSize } from "@/utils/viewport";
+import styles from "./styles.module.css";
 
 type Props = {
   projectile: Projectile;
@@ -24,6 +25,52 @@ function getSpriteKey(projectile: Projectile): string {
   }
 
   return sprite && spriteMap[sprite] ? sprite : "spoon";
+}
+
+function HpBar({
+  x,
+  y,
+  scaleX,
+  scaleY,
+  hp,
+  maxHp,
+}: {
+  x: number;
+  y: number;
+  scaleX: number;
+  scaleY: number;
+  hp: number;
+  maxHp: number;
+}) {
+  const pct = Math.max(0, Math.min(1, hp / maxHp));
+  return (
+    <div
+      className={styles.hpBar}
+      style={{ left: x * scaleX, top: y * scaleY }}
+    >
+      <div className={styles.hpBarFill} style={{ width: `${pct * 100}%` }} />
+    </div>
+  );
+}
+
+function renderHpBar(
+  projectile: Projectile,
+  x: number,
+  y: number,
+  scaleX: number,
+  scaleY: number,
+) {
+  if (projectile.indestructible) return null;
+  return (
+    <HpBar
+      x={x}
+      y={y}
+      scaleX={scaleX}
+      scaleY={scaleY}
+      hp={projectile.hp}
+      maxHp={projectile.maxHp}
+    />
+  );
 }
 
 export function ProjectileSprite({ projectile, groundY = 600 }: Props) {
@@ -64,6 +111,13 @@ export function ProjectileSprite({ projectile, groundY = 600 }: Props) {
             pointerEvents: "none",
           }}
         />
+        {renderHpBar(
+          projectile,
+          projectile.upper.x,
+          projectile.upper.y,
+          scaleX,
+          scaleY,
+        )}
       </>
     );
   }
@@ -96,6 +150,7 @@ export function ProjectileSprite({ projectile, groundY = 600 }: Props) {
       );
     }
 
+    const leadSpear = projectile.spears[0];
     return (
       <>
         {projectile.spears.map((spear, i) => (
@@ -113,22 +168,32 @@ export function ProjectileSprite({ projectile, groundY = 600 }: Props) {
             }}
           />
         ))}
+        {renderHpBar(
+          projectile,
+          leadSpear?.x ?? projectile.x,
+          leadSpear?.y ?? 420,
+          scaleX,
+          scaleY,
+        )}
       </>
     );
   }
 
   return (
-    <img
-      src={src}
-      style={{
-        position: "absolute",
-        left: projectile.x * scaleX,
-        top: projectile.y * scaleY,
-        width: spriteWidth,
-        transform: spriteTransform,
-        zIndex: 9999,
-        pointerEvents: "none",
-      }}
-    />
+    <>
+      <img
+        src={src}
+        style={{
+          position: "absolute",
+          left: projectile.x * scaleX,
+          top: projectile.y * scaleY,
+          width: spriteWidth,
+          transform: spriteTransform,
+          zIndex: 9999,
+          pointerEvents: "none",
+        }}
+      />
+      {renderHpBar(projectile, projectile.x, projectile.y, scaleX, scaleY)}
+    </>
   );
 }

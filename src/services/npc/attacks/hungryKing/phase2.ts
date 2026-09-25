@@ -1,4 +1,5 @@
 import { NPC_MELEE_COOLDOWN } from "@/data/cooldowns";
+import { ProjectileHpConstants } from "@/data/projectile";
 import { chasePlayer } from "@/gameRules/npc/movement";
 import { tryMeleeAttack } from "@/gameRules/npc/attack";
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
@@ -28,6 +29,9 @@ function createBurstProjectile(
     createdAt: createdAt ?? Date.now(),
     sprite: "burst",
     exploded: false,
+    hp: ProjectileHpConstants.DEFAULT_HP,
+    maxHp: ProjectileHpConstants.DEFAULT_HP,
+    indestructible: false,
   };
 }
 

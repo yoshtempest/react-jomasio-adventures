@@ -272,6 +272,9 @@ export function useBattleCombat({
   }, []);
   const dragBattleRef = useRef<ReturnType<typeof useBattleSystem> | null>(null);
 
+  // Esfera do Riquelme em voo — consumida pelo useProjectile para colisões.
+  const playerProjectileRef = useRef<PlayerSpecialProjectile | null>(null);
+
   const npc = useNpcAI({
     playerX: player.x,
     playerY: player.y,
@@ -287,6 +290,7 @@ export function useBattleCombat({
       isPausedRef.current || isPhaseTransitioning || lootActiveRef.current,
     onSummon: onSummonWrapperRef.current,
     onBurstHit: (pushDir: number) => refs.npcBurstAttackRef.current(pushDir),
+    playerProjectileRef,
     isAlfa,
     onSummonFromRight: (summonType: string) =>
       summonNpcRef.current(summonType, BATTLE_LIMITS.maxX + 600),
@@ -884,6 +888,10 @@ export function useBattleCombat({
     timeScaleRef,
     setTimeScale,
   });
+
+  useEffect(() => {
+    playerProjectileRef.current = playerProjectile;
+  }, [playerProjectile]);
 
   const {
     specialIntroActive,

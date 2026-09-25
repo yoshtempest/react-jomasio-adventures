@@ -1,0 +1,18 @@
+.hpBar {
+  position: absolute;
+  width: 46px;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 3px;
+  overflow: hidden;
+  transform: translate(-50%, -100%);
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.hpBarFill {
+  height: 100%;
+  background: linear-gradient(180deg, #ff6b4a, #e03a1f);
+  transition: width 80ms linear;
+}

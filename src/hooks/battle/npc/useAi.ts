@@ -93,6 +93,8 @@ type Props = {
   onApplyDebuff?: (status: NewPlayerStatus) => void;
   /** Hit da burst do hungryKing (fase 2): 10% do dano base + push de 50px. */
   onBurstHit?: (pushDir: number) => void;
+  /** Esfera do Riquelme no estado atual (para colisão com projéteis inimigos). */
+  playerProjectileRef?: React.RefObject<PlayerSpecialProjectile | null>;
 };
 
 export function useNpcAI({
@@ -135,6 +137,7 @@ export function useNpcAI({
   onStuckPaperExplode,
   onApplyDebuff,
   onBurstHit,
+  playerProjectileRef,
 }: Props) {
   const [npc, setNpc] = useState<NPCBattleState>({
     x: BATTLE_SPAWN.npc.x,
@@ -188,6 +191,11 @@ export function useNpcAI({
   const onThrowPlayerRef = useLatestRef(onThrowPlayer);
   const onPushPlayerRef = useLatestRef(onPushPlayer);
   const onRamPushPlayerRef = useLatestRef(onRamPushPlayer);
+
+  const onProjectileDestroyed = useCallback(() => {
+    playSound("smash");
+    logPlay("smash");
+  }, [playSound]);
   const onGroundPaperHitRef = useLatestRef(onGroundPaperHit);
   const onPaperExplodeRef = useLatestRef(onPaperExplode);
   const onArmorBuffRef = useLatestRef(onArmorBuff);
@@ -254,6 +262,8 @@ export function useNpcAI({
     playerCharacter,
     npcClass,
     (pushDir: number) => onBurstHitRef.current?.(pushDir),
+    playerProjectileRef,
+    onProjectileDestroyed,
   );
 
   const resetNpc = (stateOverride?: NPCBattleState["state"]) => {

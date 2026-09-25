@@ -233,7 +233,15 @@ declare global {
   type NpcDifficulty = "easy" | "medium" | "hard" | "insano";
   type EquipmentRank = EquipmentRankDef;
 
-  type ProjectileCommon = {
+  /** HP de projéteis destrutíveis (attack do jogador, colisão, NPC). */
+  type ProjectileHp = {
+    hp: number;
+    maxHp: number;
+    /** Indestrutível: não pode ser destruído nem cortado (ex: esfera do Riquelme). */
+    indestructible: boolean;
+  };
+
+  type ProjectileCommon = ProjectileHp & {
     variant: "common";
     x: number;
     y: number;
@@ -248,7 +256,7 @@ declare global {
     landsOnGround?: boolean;
   };
 
-  type ProjectilePull = {
+  type ProjectilePull = ProjectileHp & {
     variant: "pull";
     x: number;
     y: number;
@@ -268,7 +276,7 @@ declare global {
     hit?: boolean;
   };
 
-  type ProjectileRain = {
+  type ProjectileRain = ProjectileHp & {
     variant: "rain";
     x: number;
     y: number;
@@ -282,7 +290,7 @@ declare global {
   };
 
   /** Projétil cortado pelo ataque normal do Marshadow, dividido em duas partes. */
-  type ProjectileCut = {
+  type ProjectileCut = ProjectileHp & {
     variant: "cut";
     x: number;
     y: number;
@@ -306,7 +314,7 @@ declare global {
    * encara até a ponta do mapa; ao passar pelo jogador vira `burstExplosion`
    * por um instante (causando 10% do dano base + push de 50px x/y).
    */
-  type ProjectileBurst = {
+  type ProjectileBurst = ProjectileHp & {
     variant: "burst";
     x: number;
     y: number;
@@ -427,6 +435,8 @@ declare global {
     redX: number;
     redY: number;
     direction: Direction;
+    /** A esfera do Riquelme é indestrutível: não sofre dano nem some ao colidir. */
+    indestructible: boolean;
   };
 
   // ── Quest ───────────────────────────────────────────────
