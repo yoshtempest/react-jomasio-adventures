@@ -181,6 +181,7 @@ export function BattleScene(props: Props) {
     mugetsuSweep,
     domainExpansionActive,
     mugetsuBlink,
+    disintegrating,
     domainExpansionPress,
     domainExpansionUsable,
     domainExpansionRemaining,
@@ -488,6 +489,7 @@ export function BattleScene(props: Props) {
             atomicFlash={atomicFlash}
             mugetsuSweep={mugetsuSweep}
             mugetsuBlink={mugetsuBlink}
+            disintegrating={disintegrating}
           />
 
           <ChargeParticles

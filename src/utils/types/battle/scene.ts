@@ -138,6 +138,9 @@ export type BattleSceneApi = {
     typeof useDomainExpansion
   >["domainExpansionActive"];
   mugetsuBlink: ReturnType<typeof useDomainExpansion>["mugetsuBlink"];
+  disintegrating: ReturnType<
+    typeof useDomainExpansion
+  >["disintegrating"];
   domainExpansionPress: () => void;
   domainExpansionUsable: boolean;
   domainExpansionRemaining: number;

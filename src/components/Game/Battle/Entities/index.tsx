@@ -23,6 +23,7 @@ import { BlinkAfterimage } from "@/components/Game/Battle/Effects/BlinkAfterimag
 import { DeiseDashAfterimage } from "@/components/Game/Battle/Effects/DeiseDashAfterimage";
 import { AtomicEffects } from "@/components/Game/Battle/Effects/Atomic";
 import { DomainExpansionEffects } from "@/components/Game/Battle/Effects/DomainExpansion";
+import { MugetsuDisintegration } from "@/components/Game/Battle/Effects/MugetsuDisintegration";
 import type { BattleEntitiesBattle, MainNpcState } from "./types";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { PetState } from "@/hooks/battle/player/pets/usePet";
@@ -42,6 +43,7 @@ import type {
 import type {
   MugetsuSweep,
   MugetsuBlink,
+  MugetsuDisintegrationTarget,
 } from "@/hooks/battle/player/characters/marshadow/useDomainExpansion";
 
 type Props = {
@@ -98,6 +100,8 @@ type Props = {
   mugetsuSweep?: MugetsuSweep | null;
   /** Blink do teleporte da Expansão de Domínio. */
   mugetsuBlink?: MugetsuBlink;
+  /** Alvos sendo desintegrados em pó pela varredura. */
+  disintegrating?: MugetsuDisintegrationTarget[];
 };
 
 export function BattleEntities({
@@ -139,6 +143,7 @@ export function BattleEntities({
   atomicCuts = [],
   mugetsuSweep = null,
   mugetsuBlink = null,
+  disintegrating = [],
 }: Props) {
   const battleScaleX = getViewportSize().width / ProjectileConstants.MAP_WIDTH;
   const battleScaleY =
@@ -247,6 +252,14 @@ export function BattleEntities({
           sweep={mugetsuSweep}
           battleScaleX={battleScaleX}
           battleScaleY={battleScaleY}
+        />
+      )}
+
+      {disintegrating.length > 0 && (
+        <MugetsuDisintegration
+          targets={disintegrating}
+          sweep={mugetsuSweep}
+          TILE_SIZE={TILE_SIZE}
         />
       )}
 

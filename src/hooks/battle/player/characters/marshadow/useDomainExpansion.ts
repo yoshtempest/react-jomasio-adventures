@@ -32,12 +32,19 @@ export const DOMAIN_EXPANSION_SWEEP_SPEED = 0.8;
 export const DOMAIN_EXPANSION_SWEEP_MS = Math.ceil(
   (BATTLE_LIMITS.maxX - BATTLE_LIMITS.minX) / DOMAIN_EXPANSION_SWEEP_SPEED,
 );
+/**
+ * Duração da desintegração dos alvos tocados: o sprite é picotado em pixels
+ * que escurecem com a passagem do mugetsuEffect e depois voam como pó.
+ * A habilidade só encerra quando o pó do último alvo termina.
+ */
+export const DOMAIN_EXPANSION_DISINTEGRATION_MS = 3000;
 /** Congelamento total das ações do jogador durante a habilidade. */
 export const DOMAIN_EXPANSION_TOTAL_MS =
   DOMAIN_EXPANSION_PRE_MS +
   DOMAIN_EXPANSION_MUGETSU_MS +
   DOMAIN_EXPANSION_SWEEP_MS +
-  250;
+  250 +
+  DOMAIN_EXPANSION_DISINTEGRATION_MS;
 
 /** Estado da varredura do mugetsuEffect pela batalha. */
 export type MugetsuSweep = {
@@ -55,6 +62,24 @@ export type MugetsuSweep = {
 /** Fase do blink visual do teleporte: "out" (some) → "in" (vem). */
 export type MugetsuBlink = "out" | "in" | null;
 
+/** Alvo sendo desintegrado pela varredura (sprite vira pixels pretos e pó). */
+export type MugetsuDisintegrationTarget = {
+  /** "main" para o NPC principal; summonId para os summons. */
+  id: string;
+  npcType: string;
+  /** Estado do sprite no instante do toque (para resolver o sprite). */
+  state: string;
+  npcPhase: number;
+  isAlfa: boolean;
+  /** Centro do alvo (px lógicos) — a passagem da varredura usa esses eixos. */
+  x: number;
+  /** Pés do alvo (px lógicos). */
+  y: number;
+  /** Direção da varredura no toque (define o vento do pó). */
+  direction: "left" | "right";
+  startedAt: number;
+};
+
 type Props = {
   player: Player;
   setPlayer: Dispatch<SetStateAction<Player>>;
@@ -62,8 +87,13 @@ type Props = {
   npc: {
     x: number;
     y: number;
+    state: NPCBattleState["state"];
     updateNpc: (partial: Partial<NPCBattleState>) => void;
   };
+  /** Dados do NPC principal para registrar a desintegração no toque. */
+  mainNpcType: string;
+  mainNpcPhase: number;
+  isAlfa: boolean;
   /** Summons inimigos — todos os cruzados pela varredura morrem. */
   summons: SummonedNpc[];
   setSummons: Dispatch<SetStateAction<SummonedNpc[]>>;
@@ -101,6 +131,8 @@ type DomainExpansionApi = {
   domainExpansionActive: boolean;
   /** Fase do blink do teleporte do jogador. */
   mugetsuBlink: MugetsuBlink;
+  /** Alvos (NPC principal + summons) sendo desintegrados em pó. */
+  disintegrating: MugetsuDisintegrationTarget[];
   press: () => void;
   usable: boolean;
   /** Cooldown restante em segundos (0 quando pronto). */
@@ -120,6 +152,9 @@ export function useDomainExpansion({
   player,
   setPlayer,
   npc,
+  mainNpcType,
+  mainNpcPhase,
+  isAlfa,
   summons,
   setSummons,
   setNpcHP,
@@ -138,11 +173,18 @@ export function useDomainExpansion({
   const [mugetsuSweep, setMugetsuSweep] = useState<MugetsuSweep | null>(null);
   const [domainExpansionActive, setDomainExpansionActive] = useState(false);
   const [mugetsuBlink, setMugetsuBlink] = useState<MugetsuBlink>(null);
+  const [disintegrating, setDisintegrating] = useState<
+    MugetsuDisintegrationTarget[]
+  >([]);
   const [remaining, setRemaining] = useState(0);
 
   const activeRef = useRef(false);
   const readyAtRef = useRef(0);
   const sweepStartRef = useRef(0);
+  /** True quando a varredura chegou na outra ponta (resta só o pó voar). */
+  const sweepEndedRef = useRef(false);
+  /** Conta síncrona de alvos ainda desintegrando (independe do state commit). */
+  const pendingDisintegrationsRef = useRef(0);
   const npcKilledRef = useRef(false);
   const killedSummonIdsRef = useRef(new Set<string>());
   const completeFiredRef = useRef(false);
@@ -155,6 +197,9 @@ export function useDomainExpansion({
   const sweepRef = useLatestRef(mugetsuSweep);
   const npcMaxHpRef = useLatestRef(npcMaxHp);
   const onNpcKilledRef = useLatestRef(onNpcKilled);
+  const mainNpcTypeRef = useLatestRef(mainNpcType);
+  const mainNpcPhaseRef = useLatestRef(mainNpcPhase);
+  const isAlfaRef = useLatestRef(isAlfa);
 
   const canUse =
     player.character === "marcelo" &&
@@ -194,15 +239,39 @@ export function useDomainExpansion({
     }
   }, []);
 
-  /** Encerra a habilidade (fim da varredura ou cancelamento) e restaura o idle. */
+  /**
+   * Registra um alvo sendo desintegrado pela varredura. O recorde (e o pó)
+   * persiste por `DOMAIN_EXPANSION_DISINTEGRATION_MS`; ao remover o último
+   * alvo, o tick encerra a habilidade (só aí a vitória é disparada).
+   */
+  const registerDisintegration = useCallback(
+    (target: MugetsuDisintegrationTarget) => {
+      pendingDisintegrationsRef.current += 1;
+      setDisintegrating((prev) =>
+        prev.some((t) => t.id === target.id) ? prev : [...prev, target],
+      );
+      timersRef.current.push(
+        setTimeout(() => {
+          pendingDisintegrationsRef.current -= 1;
+          setDisintegrating((prev) => prev.filter((t) => t.id !== target.id));
+        }, DOMAIN_EXPANSION_DISINTEGRATION_MS),
+      );
+    },
+    [],
+  );
+
+  /** Encerra a habilidade (fim da varredura + pó ou cancelamento) e restaura o idle. */
   const finish = useCallback(() => {
     activeRef.current = false;
     clearTimers();
     clearTimer();
     sweepStartRef.current = 0;
+    sweepEndedRef.current = false;
+    pendingDisintegrationsRef.current = 0;
     setMugetsuSweep(null);
     setMugetsuBlink(null);
     setDomainExpansionActive(false);
+    setDisintegrating([]);
     setPlayer((p) =>
       p.mode !== "battle" ||
       (p.state !== "preMugetsu" && p.state !== "mugetsu")
@@ -240,7 +309,9 @@ export function useDomainExpansion({
       const sweep = sweepRef.current;
       if (!sweep) return;
 
-      // NPC principal: HP → 0 no toque, mas a vitória só vem no fim da varredura.
+      // NPC principal: HP → 0 no toque, mas a vitória só vem no fim da
+      // varredura + desintegração. O sprite-base some (hidden) e o canvas de
+      // desintegração assume o visual a partir de agora.
       const main = npcRef.current;
       if (!npcKilledRef.current && hasCrossed(main.x, sweep, frontX)) {
         npcKilledRef.current = true;
@@ -248,10 +319,22 @@ export function useDomainExpansion({
         setNpcHP(0);
         spawnDamageNumber(damage, main.x, main.y, "special");
         registerHitRef.current?.(damage);
-        main.updateNpc({ state: "hit" });
+        registerDisintegration({
+          id: "main",
+          npcType: mainNpcTypeRef.current,
+          state: main.state,
+          npcPhase: mainNpcPhaseRef.current,
+          isAlfa: isAlfaRef.current,
+          x: main.x,
+          y: main.y,
+          direction: sweep.direction,
+          startedAt: Date.now(),
+        });
+        main.updateNpc({ state: "hit", hidden: true });
       }
 
-      // Summons inimigos: removidos (com recompensa rare) no toque.
+      // Summons inimigos: removidos (com recompensa rare) no toque — o visual
+      // da morte passa a ser a desintegração (recorde no momento do corte).
       const killedIds = killedSummonIdsRef.current;
       let changed = false;
       let killed = false;
@@ -263,6 +346,17 @@ export function useDomainExpansion({
         killed = true;
         spawnDamageNumber(s.maxHp, s.x, s.y, "summon");
         registerHitRef.current?.(s.maxHp);
+        registerDisintegration({
+          id: s.id,
+          npcType: s.npcType,
+          state: s.state,
+          npcPhase: 1,
+          isAlfa: false,
+          x: s.x,
+          y: s.y,
+          direction: sweep.direction,
+          startedAt: Date.now(),
+        });
         return null;
       });
       if (changed) {
@@ -275,8 +369,12 @@ export function useDomainExpansion({
     [
       giveSummonRewards,
       hasCrossed,
+      isAlfaRef,
+      mainNpcPhaseRef,
+      mainNpcTypeRef,
       npcMaxHpRef,
       npcRef,
+      registerDisintegration,
       registerHitRef,
       setNpcHP,
       setSummons,
@@ -290,6 +388,14 @@ export function useDomainExpansion({
 
   const tickRef = useLatestRef(
     useCallback(() => {
+      // Varredura já chegou na outra ponta: falta só o pó dos alvos voar.
+      if (sweepEndedRef.current) {
+        if (pendingDisintegrationsRef.current === 0) {
+          finishRef.current();
+        }
+        return;
+      }
+
       const sweep = sweepRef.current;
       if (!sweep) return;
 
@@ -305,16 +411,25 @@ export function useDomainExpansion({
       );
 
       applyKillAtRef.current(frontX);
-      setMugetsuSweep((prev) =>
-        prev ? { ...prev, x: frontX } : prev,
-      );
 
       const reachedEnd =
         (sweep.direction === "right" && frontX >= sweep.toX) ||
         (sweep.direction === "left" && frontX <= sweep.toX);
+
       if (reachedEnd) {
-        finishRef.current();
+        sweepEndedRef.current = true;
+        // Some o efeito visual da varredura; o mundo segue coberto pelo
+        // overlay da expansão até a última desintegração acabar.
+        setMugetsuSweep(null);
+        if (pendingDisintegrationsRef.current === 0) {
+          finishRef.current();
+        }
+        return;
       }
+
+      setMugetsuSweep((prev) =>
+        prev ? { ...prev, x: frontX } : prev,
+      );
     }, [
       applyKillAtRef,
       finishRef,
@@ -337,9 +452,12 @@ export function useDomainExpansion({
     setMugetsuSweep(null);
     setMugetsuBlink(null);
     setDomainExpansionActive(true);
+    setDisintegrating([]);
     npcKilledRef.current = false;
     killedSummonIdsRef.current.clear();
     completeFiredRef.current = false;
+    sweepEndedRef.current = false;
+    pendingDisintegrationsRef.current = 0;
 
     // Teleporte para a ponta mais próxima: a varredura percorre o mapa inteiro.
     const p = playerRef.current;
@@ -468,6 +586,7 @@ export function useDomainExpansion({
     mugetsuSweep,
     domainExpansionActive,
     mugetsuBlink,
+    disintegrating,
     press,
     usable,
     remaining,
