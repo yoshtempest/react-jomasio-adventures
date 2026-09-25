@@ -62,6 +62,7 @@ export function Player({
       atomicHalo={atomicHalo}
       atomicFlash={atomicFlash}
       mugetsuBlink={mugetsuBlink}
+      levelUpParticles
     />
   );
 }

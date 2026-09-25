@@ -2,6 +2,7 @@ import { playerPath } from "@/utils/paths";
 import { EXPLORE_MOVE_INTERVAL } from "@/gameRules/movement/explore";
 import { HEIGHT_STEP_OFFSET } from "@/gameRules/movement/levels";
 import { getEntityZIndex } from "@/utils/entityDepth";
+import { LevelUpParticles } from "@/components/Game/LevelUpParticles";
 
 type Props = {
   character: CharacterId;
@@ -38,19 +39,23 @@ export function Player({
   const src = playerPath(spritePath);
 
   return (
-    <img
-      src={src}
+    <div
       style={{
         position: "absolute",
         width: PLAYER_SIZE,
         height: PLAYER_SIZE,
-        objectFit: "contain",
         left: gridX * TILE_SIZE - 11,
         top: gridY * TILE_SIZE - height * TILE_SIZE * HEIGHT_STEP_OFFSET,
         transform: `translate(-10%, -20%) scaleX(${direction === "left" ? -1 : 1})`,
         zIndex: getEntityZIndex(gridY),
         transition: `left ${EXPLORE_MOVE_INTERVAL}ms, top ${EXPLORE_MOVE_INTERVAL}ms`,
       }}
-    />
+    >
+      <img
+        src={src}
+        style={{ width: "100%", height: "100%", objectFit: "contain" }}
+      />
+      <LevelUpParticles character={character} size={PLAYER_SIZE} />
+    </div>
   );
 }

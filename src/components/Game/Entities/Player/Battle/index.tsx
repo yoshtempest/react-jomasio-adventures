@@ -3,6 +3,7 @@ import { resolveBattleSprite, playerPath, playerPathMarshadowHabilities } from "
 import { ProjectileConstants } from "@/data/projectile";
 import { getViewportSize } from "@/utils/viewport";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import { LevelUpParticles } from "@/components/Game/LevelUpParticles";
 import {
   HONORED_ONE_RISE_MS,
   BLINK_UNTIL_TELEPORT_MS,
@@ -40,6 +41,8 @@ type Props = {
   atomicFlash?: boolean;
   /** Blink do teleporte da Expansão de Domínio do marcelo. */
   mugetsuBlink?: "out" | "in" | null;
+  /** Mostra as partículas de level up ao redor do sprite (só o jogador real). */
+  levelUpParticles?: boolean;
 };
 
 const CROUCH_STATE_MAP: Record<string, string> = {
@@ -73,6 +76,7 @@ export function PlayerBattle({
   atomicHalo = false,
   atomicFlash = false,
   mugetsuBlink = null,
+  levelUpParticles = false,
 }: Props) {
   const resolvedState =
     CROUCH_STATE_MAP[state] ?? (state === "charging" ? "idle" : state);
@@ -269,6 +273,10 @@ export function PlayerBattle({
             pointerEvents: "none",
           }}
         />
+      )}
+
+      {levelUpParticles && (
+        <LevelUpParticles character={character} size={Math.round(HEIGHT)} />
       )}
     </div>
   );
