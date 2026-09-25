@@ -571,6 +571,7 @@ export function useBattleSystem(props: Props) {
     spawnDamageNumber,
     char,
     critRate,
+    totalArmor,
     npcArmor,
     totalVampirism,
     totalReflect,

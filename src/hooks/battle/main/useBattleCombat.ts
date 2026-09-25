@@ -42,6 +42,11 @@ import {
 } from "@/hooks/battle/player/characters/marshadow/useVastolordForm";
 import { combatService } from "@/services/combat";
 import {
+  projectProjectileDamage,
+  getProjectileDestructionHp,
+} from "@/gameRules/npc/projectileHp";
+import { ProjectileHpConstants } from "@/data/projectile";
+import {
   NPC_BLOCK_HOLD_MS,
   NPC_BLOCK_MIN_PCT,
 } from "@/hooks/battle/npc/useBlocking";
@@ -275,6 +280,10 @@ export function useBattleCombat({
   // Esfera do Riquelme em voo — consumida pelo useProjectile para colisões.
   const playerProjectileRef = useRef<PlayerSpecialProjectile | null>(null);
 
+  // Vida de projéteis NPC destrutíveis (1/3 do dano que causariam) — usa ref
+  // porque o battle (fonte de totalArmor) só existe depois do useNpcAI.
+  const projectileHpRef = useRef<number>(ProjectileHpConstants.DEFAULT_HP);
+
   const npc = useNpcAI({
     playerX: player.x,
     playerY: player.y,
@@ -291,6 +300,7 @@ export function useBattleCombat({
     onSummon: onSummonWrapperRef.current,
     onBurstHit: (pushDir: number) => refs.npcBurstAttackRef.current(pushDir),
     playerProjectileRef,
+    projectileHpRef,
     isAlfa,
     onSummonFromRight: (summonType: string) =>
       summonNpcRef.current(summonType, BATTLE_LIMITS.maxX + 600),
@@ -543,6 +553,20 @@ export function useBattleCombat({
     weapon: lucasWeapon,
     surviveLethalHitRef,
   });
+
+  // Vida dos projéteis destrutíveis = 1/3 do dano que causariam no jogador.
+  const projectedProjectileDamage = useMemo(
+    () =>
+      projectProjectileDamage({
+        npcDamage: npcStats.damage,
+        playerClass,
+        totalArmor: battle.totalArmor,
+        npcType,
+        playerCharacter: player.character,
+      }),
+    [npcStats.damage, playerClass, battle.totalArmor, npcType, player.character],
+  );
+  projectileHpRef.current = getProjectileDestructionHp(projectedProjectileDamage);
 
   const {
     handleCursedEnergyConversion,

@@ -20,6 +20,7 @@ import {
   HONORED_ONE_FLEE_STEP,
 } from "@/gameRules/battle/cursedEnergy";
 import type { NewPlayerStatus } from "@/gameRules/battle/status/statusEffects";
+import { ProjectileHpConstants } from "@/data/projectile";
 
 function useProximityLoopSound(
   npcTypeRef: React.RefObject<string>,
@@ -95,6 +96,8 @@ type Props = {
   onBurstHit?: (pushDir: number) => void;
   /** Esfera do Riquelme no estado atual (para colisão com projéteis inimigos). */
   playerProjectileRef?: React.RefObject<PlayerSpecialProjectile | null>;
+  /** Vida dos projéteis destrutíveis (1/3 do dano que causariam no jogador). */
+  projectileHpRef?: React.RefObject<number>;
 };
 
 export function useNpcAI({
@@ -138,6 +141,7 @@ export function useNpcAI({
   onApplyDebuff,
   onBurstHit,
   playerProjectileRef,
+  projectileHpRef,
 }: Props) {
   const [npc, setNpc] = useState<NPCBattleState>({
     x: BATTLE_SPAWN.npc.x,
@@ -153,13 +157,17 @@ export function useNpcAI({
 
   const activeProjectile = projectiles[0] ?? null;
   const projectileRef = useLatestRef(activeProjectile);
-  const setProjectile = useCallback((p: Projectile | null) => {
-    if (p == null) {
-      setProjectiles([]);
-      return;
-    }
-    setProjectiles((prev) => [...prev, p]);
-  }, []);
+  const setProjectile = useCallback(
+    (p: Projectile | null) => {
+      if (p == null) {
+        setProjectiles([]);
+        return;
+      }
+      const hp = projectileHpRef?.current ?? ProjectileHpConstants.DEFAULT_HP;
+      setProjectiles((prev) => [...prev, { ...p, hp, maxHp: hp }]);
+    },
+    [projectileHpRef],
+  );
   const playerXRef = useLatestRef(playerX);
   const playerYRef = useLatestRef(playerY);
   const playerStateRef = useLatestRef(playerState);
