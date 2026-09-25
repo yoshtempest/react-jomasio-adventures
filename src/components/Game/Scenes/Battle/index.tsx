@@ -31,6 +31,7 @@ import { DivergentFistAnimation } from "@/components/Game/Battle/Effects/Diverge
 import { BlackFlashAnimation } from "@/components/Game/Battle/Effects/BlackFlashAnimation";
 import { VastolordTimer } from "@/components/Game/Battle/Effects/VastolordTimer";
 import { SpecialIntro } from "@/components/Game/Battle/Effects/SpecialIntro";
+import { DomainExpansionBackground } from "@/components/Game/Battle/Effects/DomainExpansionBackground";
 import { AlfaAbility } from "@/components/Game/Battle/Effects/AlfaAbility";
 import { JumpIndicator } from "@/components/Game/Battle/Jump/indicator";
 import { JumpDangerZone } from "@/components/Game/Battle/Jump/dangerZone";
@@ -54,7 +55,7 @@ import { TrainingOverlay } from "@/components/Game/Battle/TrainingOverlay";
 import { ProjectileConstants } from "@/data/projectile";
 import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
 import { getBossSizeMultiplier } from "@/utils/npc/getSpritePath";
-import { npcPath, playerPathMarshadowHabilities } from "@/utils/paths";
+import { npcPath } from "@/utils/paths";
 import { GAME_VIEWPORT_WIDTH_RATIO } from "@/data/grid";
 import { getViewportSize } from "@/utils/viewport";
 
@@ -271,13 +272,10 @@ export function BattleScene(props: Props) {
   const battleScaleX = screenWidth / ProjectileConstants.MAP_WIDTH;
   const battleScaleY = screenHeight / ProjectileConstants.MAP_HEIGHT;
 
-  // Expansão de Domínio: o background da batalha troca para expansion.svg do
-  // marcelo durante toda a habilidade (preMugetsu → mugetsu → varredura).
-  const effectiveBackground = domainExpansionActive
-    ? playerPathMarshadowHabilities(
-        "/domainExpansion/expansion.svg",
-      )
-    : background;
+  // Expansão de Domínio: o fundo da batalha permanece o original — quem cobre
+  // a cena é o overlay `background.svg` (DomainExpansionBackground), surgindo
+  // sendo renderizado de baixo para cima durante a habilidade inteira.
+  const effectiveBackground = background;
 
   const damageTargets = [
     { x: player.x, y: player.y, h: PLAYER_SIZE / 1.5 },
@@ -385,6 +383,10 @@ export function BattleScene(props: Props) {
           : undefined
       }
     >
+      {/* Preenchimento do domínio: primeiro filho do `.Master` para cobrir só
+          o fundo da batalha (pintado de baixo para cima), ficando abaixo do
+          HUD, do SceneMap e das intros por ordem de DOM + z-index 0. */}
+      <DomainExpansionBackground active={domainExpansionActive} />
       <BattleHUD
         battle={battle}
         npcStats={npcStats}

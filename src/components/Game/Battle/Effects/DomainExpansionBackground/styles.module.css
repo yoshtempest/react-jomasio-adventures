@@ -1,0 +1,32 @@
+/* Preenchimento de domínio: o expansion.svg da Expansão de Domínio cobre o
+   fundo da batalha por cima (sem trocar a imagem de fundo), surgindo sendo
+   "renderizado" de baixo para cima — o clip começa 100% do topo (nada visível)
+   e o topo encolhe até 0, revelando a imagem do chão para o teto.
+   z-index 0 + primeiro filho do `.Master`: pinta logo acima do fundo, abaixo
+   de todo o resto (HUD, SceneMap, intros) que vem depois na ordem de DOM. */
+.overlay {
+  position: absolute;
+  inset: 0;
+
+  z-index: 0;
+
+  pointer-events: none;
+
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
+  will-change: clip-path;
+
+  animation: renderBottomToTop 1000ms ease-out forwards;
+}
+
+@keyframes renderBottomToTop {
+  0% {
+    clip-path: inset(100% 0 0 0);
+  }
+
+  100% {
+    clip-path: inset(0 0 0 0);
+  }
+}
