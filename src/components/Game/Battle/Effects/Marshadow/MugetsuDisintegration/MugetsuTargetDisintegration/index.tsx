@@ -12,6 +12,7 @@ import {
   type MugetsuSweep,
 } from "@/hooks/battle/player/characters/marshadow/useDomainExpansion";
 import { cellRand } from "../cellRand";
+import { getSilhouetteMask } from "./silhouetteMask";
 
 const GRID_COLS = 12;
 const GRID_ROWS = 12;
@@ -26,9 +27,10 @@ type TargetProps = {
 
 /**
  * Desintegração de um alvo tocado pela varredura (3s): o sprite é renderizado
- * num canvas e picotado numa grade de pixels; conforme o mugetsuEffect passa,
- * os pixels viram pretos; quando o alvo é engolido por inteiro, os pixels saem
- * voando (vento da varredura + subida) e somem como pó.
+ * num canvas e picotado numa grade de pixels (só nas células com desenho do
+ * sprite — a silhueta); conforme o mugetsuEffect passa, os pixels viram pretos;
+ * quando o alvo é engolido por inteiro, os pixels saem voando (vento da
+ * varredura + subida) e somem como pó.
  */
 export function MugetsuTargetDisintegration({ target, sweep, TILE_SIZE }: TargetProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -36,6 +38,11 @@ export function MugetsuTargetDisintegration({ target, sweep, TILE_SIZE }: Target
   const dustStartRef = useRef<number | null>(null);
   const idleTriedRef = useRef(false);
   const rafRef = useRef(0);
+  /**
+   * Células do sprite com pixel visível (undefined = ainda não lida, null =
+   * indisponível → grade cheia). Recalculado quando o sprite muda.
+   */
+  const maskRef = useRef<Uint8Array | null | undefined>(undefined);
   const sweepRef = useRef(sweep);
   sweepRef.current = sweep;
 
@@ -48,6 +55,7 @@ export function MugetsuTargetDisintegration({ target, sweep, TILE_SIZE }: Target
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
+    maskRef.current = undefined;
 
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const scaleX = getViewportSize().width / ProjectileConstants.MAP_WIDTH;
@@ -85,7 +93,11 @@ export function MugetsuTargetDisintegration({ target, sweep, TILE_SIZE }: Target
       const img = imageRef.current;
       if (img && img.complete && img.naturalWidth > 0) {
         ctx.drawImage(img, margin, margin, w, w);
+        if (maskRef.current === undefined) {
+          maskRef.current = getSilhouetteMask(img, GRID_COLS, GRID_ROWS);
+        }
       }
+      const mask = maskRef.current;
 
       const frontX = sweepRef.current?.x ?? null;
       const left = target.x - logicWidth / 2;
@@ -115,6 +127,8 @@ export function MugetsuTargetDisintegration({ target, sweep, TILE_SIZE }: Target
 
       for (let col = 0; col < GRID_COLS; col++) {
         for (let row = 0; row < GRID_ROWS; row++) {
+          // Fora da silhueta do sprite: nada a picotar (fundo transparente).
+          if (mask && !mask[row * GRID_COLS + col]) continue;
           const cellCenterX = left + ((col + 0.5) / GRID_COLS) * logicWidth;
           const covered =
             frontX == null
