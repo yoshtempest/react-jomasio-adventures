@@ -4,6 +4,7 @@ import {
   createSlicedProjectile,
 } from "@/gameRules/npc/projectileCut";
 import { tryMeleeIntercept } from "../tryMeleeIntercept";
+import type { StrikeOpts } from "../apply/applyPlayerStrike";
 
 export type LinearOpts = {
   playerX: number;
@@ -14,10 +15,15 @@ export type LinearOpts = {
   npcClass: NPCClass;
   sphere?: PlayerSpecialProjectile;
   onDestroyed?: () => void;
+  claimToken?: StrikeOpts["claimToken"];
+  resolveHit?: StrikeOpts["resolveHit"];
+  spawnDamage?: StrikeOpts["spawnDamage"];
   onHit: () => void;
   onPullPlayer?: (x: number) => void;
   onMiss?: (x: number) => void;
   onStick?: () => void;
+  /** Multiplicador de tempo da entidade (regra `gameRules/battle/tempo`). */
+  speedScale?: number;
 };
 
 export function handleLinearProjectile(
@@ -31,10 +37,11 @@ export function handleLinearProjectile(
     return p;
   }
 
+  const speed = ProjectileConstants.SPEED * (opts.speedScale ?? 1);
   const next = {
     ...p,
-    x: p.x + p.dirX * ProjectileConstants.SPEED,
-    y: p.y + p.dirY * ProjectileConstants.SPEED,
+    x: p.x + p.dirX * speed,
+    y: p.y + p.dirY * speed,
   };
 
   // Colisão com a esfera do Riquelme em voo: a esfera (indestrutível) aniquila
@@ -51,8 +58,9 @@ export function handleLinearProjectile(
     return null;
   }
 
-  // Ataque do jogador intercepta o projétil no alcance: o Marcelo divide em
-  // duas partes (corte nunca destrói); os demais causam dano de HP.
+  // Golpe do jogador (básico ou special) intercepta o projétil no alcance: o
+  // Marcelo divide em duas partes (corte nunca destrói); os demais causam o
+  // dano real do ataque.
   const intercepted = tryMeleeIntercept(p, next, opts);
   if (intercepted !== undefined) return intercepted;
 

@@ -4,21 +4,23 @@ import { useArturOraPunch } from "@/hooks/battle/player/characters/srGuaxinim/us
 import { useArturKillerQueen } from "@/hooks/battle/player/characters/srGuaxinim/useArturKillerQueen";
 import type { PunchHitResult } from "@/utils/types/character/srGuaxinim";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
+import type { ProjectileStrike } from "@/utils/types/battle/projectileHit";
 import type { useBattleRefs } from "@/hooks/battle/utilities/useRefs";
 
 type Props = {
   player: Player;
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;
-  npc: { x: number; y: number };
+  npc: { x: number; y: number; projectiles: Projectile[] };
   summons: SummonedNpc[];
   onPunchHit: (multiplier: number) => PunchHitResult;
   onAreaDamage: (
     explosions: { x: number; y: number }[],
     allEnemies: { id: string; x: number; y: number }[],
   ) => void;
+  /** Aplica o dano da explosão nos projéteis que a Queen transformou em bomba. */
+  onBombProjectiles: (strikes: ProjectileStrike[]) => void;
   arturOraMultiplierRef: React.RefObject<() => number>;
   refs: ReturnType<typeof useBattleRefs>;
-  freezeSummonsUntilRef: React.RefObject<number>;
   freezeActionsUntilRef: React.RefObject<number>;
 };
 
@@ -29,9 +31,9 @@ export function useArturBattle({
   summons,
   onPunchHit,
   onAreaDamage,
+  onBombProjectiles,
   arturOraMultiplierRef,
   refs,
-  freezeSummonsUntilRef,
   freezeActionsUntilRef,
 }: Props) {
   const enemies = useMemo(() => {
@@ -67,9 +69,10 @@ export function useArturBattle({
     player,
     setPlayer,
     enemies,
-    freezeMainUntilRef: refs.npcStaggerRef,
-    freezeSummonsUntilRef,
+    projectiles: npc.projectiles,
+    tempoRef: refs.tempoRef,
     freezePlayerUntilRef: freezeActionsUntilRef,
+    onBombProjectiles,
     onAreaDamage,
   });
 

@@ -8,6 +8,13 @@ import {
   type SetStateAction,
 } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
+import { getProjectileCenter } from "@/gameRules/npc/projectileDamage";
+import {
+  applyTempo,
+  clearTempo,
+  freezeWorldSpec,
+  type TempoEffect,
+} from "@/gameRules/battle/tempo";
 import {
   isPlayerFrozen,
   isPlayerParalyzed,
@@ -18,6 +25,8 @@ import type { NPCBattleState, SummonedNpc } from "@/utils/types/npc/npc";
 
 /** Cooldown da Expansão de Domínio (45s). */
 export const DOMAIN_EXPANSION_COOLDOWN_MS = 45_000;
+/** Id do efeito de tempo da Expansão de Domínio (regra `gameRules/battle/tempo`). */
+export const DOMAIN_EXPANSION_TEMPO_ID = "marshadow:domainExpansion";
 /** Fase preMugetsu (blink visual + teleporte para a ponta mais próxima): 600ms. */
 export const DOMAIN_EXPANSION_PRE_MS = 600;
 /** Fase mugetsu (sprite mugetsu.svg) antes da varredura: 700ms. */
@@ -97,6 +106,9 @@ type Props = {
   /** Summons inimigos — todos os cruzados pela varredura morrem. */
   summons: SummonedNpc[];
   setSummons: Dispatch<SetStateAction<SummonedNpc[]>>;
+  /** Projéteis inimigos — a varredura desintegra os que a frente alcança. */
+  projectiles: Projectile[];
+  setProjectiles: Dispatch<SetStateAction<Projectile[]>>;
   setNpcHP: Dispatch<SetStateAction<number>>;
   /** Vida máxima do NPC principal — o dano exibido é 100% dela. */
   npcMaxHp: number;
@@ -110,6 +122,8 @@ type Props = {
   /** Registra dano causado (combo/energia amaldiçoada/passivas). */
   registerHitRef: RefObject<(damage: number) => void>;
   freezeActionsUntilRef: RefObject<number>;
+  /** Efeitos de tempo da batalha (regra `gameRules/battle/tempo`). */
+  tempoRef: RefObject<TempoEffect[]>;
   isPausedRef: RefObject<boolean>;
   battleEndedRef: RefObject<boolean>;
   disabledRef: RefObject<boolean>;
@@ -157,12 +171,15 @@ export function useDomainExpansion({
   isAlfa,
   summons,
   setSummons,
+  projectiles,
+  setProjectiles,
   setNpcHP,
   npcMaxHp,
   giveSummonRewards,
   spawnDamageNumber,
   registerHitRef,
   freezeActionsUntilRef,
+  tempoRef,
   isPausedRef,
   battleEndedRef,
   disabledRef,
@@ -187,6 +204,7 @@ export function useDomainExpansion({
   const pendingDisintegrationsRef = useRef(0);
   const npcKilledRef = useRef(false);
   const killedSummonIdsRef = useRef(new Set<string>());
+  const disintegratedProjectileIdsRef = useRef(new Set<string>());
   const completeFiredRef = useRef(false);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   const tickTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -194,6 +212,7 @@ export function useDomainExpansion({
   const playerRef = useLatestRef(player);
   const npcRef = useLatestRef(npc);
   const summonsRef = useLatestRef(summons);
+  const projectilesRef = useLatestRef(projectiles);
   const sweepRef = useLatestRef(mugetsuSweep);
   const npcMaxHpRef = useLatestRef(npcMaxHp);
   const onNpcKilledRef = useLatestRef(onNpcKilled);
@@ -268,6 +287,7 @@ export function useDomainExpansion({
     sweepStartRef.current = 0;
     sweepEndedRef.current = false;
     pendingDisintegrationsRef.current = 0;
+    tempoRef.current = clearTempo(tempoRef.current, DOMAIN_EXPANSION_TEMPO_ID);
     setMugetsuSweep(null);
     setMugetsuBlink(null);
     setDomainExpansionActive(false);
@@ -282,7 +302,7 @@ export function useDomainExpansion({
       completeFiredRef.current = true;
       onNpcKilledRef.current();
     }
-  }, [clearTimers, clearTimer, onNpcKilledRef, setPlayer]);
+  }, [clearTimers, clearTimer, onNpcKilledRef, setPlayer, tempoRef]);
 
   const finishRef = useLatestRef(finish);
 
@@ -365,6 +385,24 @@ export function useDomainExpansion({
       if (killed) {
         giveSummonRewards("rare");
       }
+
+      // Projéteis inimigos: a varredura desintegra o que a frente alcança (mesmo
+      // critério X-only do NPC). O número de dano mostra o HP integral do
+      // projétil, como no NPC/summon; `registerHit` fica de fora para o combo não
+      // contar a destruction de um prato como dano do jogador.
+      const disintegrated = disintegratedProjectileIdsRef.current;
+      const crossedProjectiles = projectilesRef.current.filter(
+        (p) => !disintegrated.has(p.id) && hasCrossed(p.x, sweep, frontX),
+      );
+      if (crossedProjectiles.length > 0) {
+        const ids = new Set(crossedProjectiles.map((p) => p.id));
+        for (const id of ids) disintegrated.add(id);
+        setProjectiles((prev) => prev.filter((p) => !ids.has(p.id)));
+        for (const p of crossedProjectiles) {
+          const point = getProjectileCenter(p);
+          spawnDamageNumber(p.hp, point.x, point.y, "special");
+        }
+      }
     },
     [
       giveSummonRewards,
@@ -374,9 +412,11 @@ export function useDomainExpansion({
       mainNpcTypeRef,
       npcMaxHpRef,
       npcRef,
+      projectilesRef,
       registerDisintegration,
       registerHitRef,
       setNpcHP,
+      setProjectiles,
       setSummons,
       spawnDamageNumber,
       summonsRef,
@@ -444,6 +484,12 @@ export function useDomainExpansion({
     activeRef.current = true;
     readyAtRef.current = Date.now() + DOMAIN_EXPANSION_COOLDOWN_MS;
     setRemaining(DOMAIN_EXPANSION_COOLDOWN_MS / 1000);
+    // Regra de tempo: a Expansão de Domínio para o mundo inteiro. O player fica
+    // de fora do `TempoKind` — o lock de ação dele é o `freezeActionsUntilRef`.
+    tempoRef.current = applyTempo(
+      tempoRef.current,
+      freezeWorldSpec(DOMAIN_EXPANSION_TEMPO_ID, DOMAIN_EXPANSION_TOTAL_MS),
+    );
     freezeActionsUntilRef.current = Math.max(
       freezeActionsUntilRef.current,
       Date.now() + DOMAIN_EXPANSION_TOTAL_MS,
@@ -455,6 +501,7 @@ export function useDomainExpansion({
     setDisintegrating([]);
     npcKilledRef.current = false;
     killedSummonIdsRef.current.clear();
+    disintegratedProjectileIdsRef.current.clear();
     completeFiredRef.current = false;
     sweepEndedRef.current = false;
     pendingDisintegrationsRef.current = 0;
@@ -562,6 +609,7 @@ export function useDomainExpansion({
     setPlayer,
     shouldCancelRef,
     startSpecialIntro,
+    tempoRef,
     tickRef,
     usableRef,
   ]);

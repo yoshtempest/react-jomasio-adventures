@@ -13,6 +13,7 @@ import type { SummonedNpc } from "@/utils/types/npc/npc";
 import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import { combatService } from "@/services/combat";
+import { applyHitstop, type TempoEffect } from "@/gameRules/battle/tempo";
 
 type Props = {
   player: Player;
@@ -28,7 +29,7 @@ type Props = {
   elementDamageBonus: number;
   setNpcHP: React.Dispatch<React.SetStateAction<number>>;
   playerCooldown: React.RefObject<boolean>;
-  hitstopRef: React.RefObject<number>;
+  tempoRef: React.RefObject<TempoEffect[]>;
   spawnDamageRef: React.RefObject<
     (value: number, x: number, y: number, type: DamageType) => void
   >;
@@ -58,7 +59,7 @@ export function useChargeDash(props: Props) {
     npcArmor,
     npcClass,
     playerCooldown,
-    hitstopRef,
+    tempoRef,
     spawnDamageRef,
     registerHitRef,
     setPlayer,
@@ -160,7 +161,7 @@ export function useChargeDash(props: Props) {
           critType === "crit" ? "crit" : "charge",
         );
         registerHitRef.current?.(dmg);
-        hitstopRef.current = Date.now() + 80;
+        tempoRef.current = applyHitstop(tempoRef.current, 80);
         playerCooldown.current = false;
         setTimeout(() => {
           playerCooldown.current = true;
@@ -184,7 +185,7 @@ export function useChargeDash(props: Props) {
           critType === "crit" ? "crit" : "charge",
         );
         registerHitRef.current?.(summonDmg);
-        hitstopRef.current = Date.now() + 80;
+        tempoRef.current = applyHitstop(tempoRef.current, 80);
 
         if (vampirismRef.current > 0) {
           const heal = Math.round((summonDmg * vampirismRef.current) / 100);

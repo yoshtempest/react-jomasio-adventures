@@ -1,19 +1,21 @@
 import { isPlayerInRange } from "@/gameRules/battle/range";
+import { isSpecialStrikeState, isStrikeState } from "@/gameRules/battle/strikeState";
 import {
   shouldCutProjectile,
   createSlicedProjectile,
   MARSHADOW_CHARACTER_ID,
 } from "@/gameRules/npc/projectileCut";
+import { getProjectileDamagePoint } from "@/gameRules/npc/projectileDamage";
 import type { LinearOpts } from "./handle/handleLinearProjectile";
-import { applyMeleeDamage } from "./apply/applyMeleeDamage";
-
+import { applyPlayerStrike } from "./apply/applyPlayerStrike";
 
 /**
- * Interceptação por ataque do jogador (projéteis common/pull).
+ * Interceptação pelo golpe do jogador (projéteis common/pull).
  *
  * - Marcelo: a corte passiva desvia o projétil dividindo em 2 — nunca o
  *   destrói. Projéteis indestrutíveis não podem ser cortados.
- * - Demais personagens: o ataque causa dano de HP, destruindo ao zerar.
+ * - Demais personagens: o golpe (básico ou special) causa o dano real do
+ *   ataque, destruindo o projétil ao zerar o HP.
  *
  * Retorna null (destruído), um projétil cortado, ou undefined (segue sem
  * interceptação).
@@ -23,24 +25,25 @@ export function tryMeleeIntercept(
   next: ProjectileCommon | ProjectilePull,
   opts: LinearOpts,
 ): ProjectileCommon | ProjectilePull | ProjectileCut | null | undefined {
-  if (opts.playerState !== "attack") return undefined;
   if (p.indestructible) return undefined;
+  if (!isStrikeState(opts.playerState)) return undefined;
 
+  const isSpecial = isSpecialStrikeState(opts.playerState);
   const inRange = isPlayerInRange(
     opts.playerX,
     opts.playerY,
     next.x,
     next.y,
-    "attack",
+    opts.playerState,
     opts.playerCharacter ?? "",
-    false,
+    isSpecial,
     false,
     opts.npcClass,
   );
   if (!inRange) return undefined;
 
   const isMarcelo = opts.playerCharacter === MARSHADOW_CHARACTER_ID;
-  if (isMarcelo) {
+  if (isMarcelo && !isSpecial) {
     const cut = shouldCutProjectile({
       projectile: next,
       playerX: opts.playerX,
@@ -54,5 +57,13 @@ export function tryMeleeIntercept(
     return undefined;
   }
 
-  return applyMeleeDamage(next, opts.onDestroyed);
+  const struck = applyPlayerStrike(next, {
+    playerState: opts.playerState,
+    claimToken: opts.claimToken,
+    resolveHit: opts.resolveHit,
+    spawnDamage: opts.spawnDamage,
+    point: getProjectileDamagePoint(next),
+    onDestroyed: opts.onDestroyed,
+  });
+  return struck.hit ? struck.projectile : undefined;
 }

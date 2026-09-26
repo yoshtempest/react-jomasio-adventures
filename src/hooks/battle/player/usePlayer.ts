@@ -4,6 +4,7 @@ import {
   PLAYER_SPECIAL_COOLDOWN,
 } from "@/data/cooldowns";
 import { canPlayerHit } from "@/gameRules/battle/combat";
+import { isSpecialStrikeState } from "@/gameRules/battle/strikeState";
 import { LUCAS_WEAPON_RANGES } from "@/data/characters/lucasWeapons";
 import { DIVERGENT_FIST_DELAY_MS } from "@/gameRules/battle/cursedEnergy";
 import {
@@ -25,6 +26,13 @@ import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { logPlay } from "@/utils/replay/audioEventLog";
 import { resetCooldownRef } from "@/utils/battle/cooldown";
 import type { OnBeforeNpcHit } from "@/hooks/battle/npc/useBlocking";
+import type {
+  ProjectileHit,
+  ProjectileHitDamageFn,
+  ProjectileHitResolveOptions,
+} from "@/utils/types/battle/projectileHit";
+import type { SpecialHitOptions } from "@/utils/types/battle/specialHitOptions";
+import { type TempoEffect } from "@/gameRules/battle/tempo";
 
 type Props = {
   player: Player;
@@ -51,6 +59,8 @@ type Props = {
   totalMaxHpDamage: number;
   totalTrueDamage: number;
   playerCooldown: React.RefObject<boolean>;
+  /** Recebe o resolvedor do dano do golpe ativo (lido pelo useProjectile). */
+  playerHitDamageRef: React.RefObject<ProjectileHitDamageFn>;
   isEnding: React.RefObject<boolean>;
 
   spawnPiercing: () => void;
@@ -62,7 +72,7 @@ type Props = {
   spawnDamageRef: React.RefObject<
     (value: number, x: number, y: number, type: DamageType) => void
   >;
-  hitstopRef: React.RefObject<number>;
+  tempoRef: React.RefObject<TempoEffect[]>;
   registerHitRef: React.RefObject<(damage: number) => void>;
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;
   /** Devolve o multiplicador atual do ataque básico do artur (escala ORA). */
@@ -99,6 +109,7 @@ export function usePlayerBattle({
   totalMaxHpDamage,
   totalTrueDamage,
   playerCooldown,
+  playerHitDamageRef,
   isEnding,
   playerX,
   playerY,
@@ -115,7 +126,7 @@ export function usePlayerBattle({
   critRate,
   npcArmor,
   spawnDamageRef,
-  hitstopRef,
+  tempoRef,
   registerHitRef,
   setPlayer,
   arturOraMultiplierRef,
@@ -272,7 +283,7 @@ export function usePlayerBattle({
           setPlayer,
           spawnDamageRef,
           registerHitRef,
-          hitstopRef,
+          tempoRef,
           onDamageDealtRef,
           onAttackRef,
           onKokusenRef,
@@ -323,7 +334,7 @@ export function usePlayerBattle({
       titleDamageBonus,
       elementDamageBonus,
       spawnDamageRef,
-      hitstopRef,
+      tempoRef,
       registerHitRef,
       onDamageDealtRef,
       critRate,
@@ -353,10 +364,18 @@ export function usePlayerBattle({
   );
 
   const specialHit = useCallback(
-    (damageMultiplier = 1, bypassRangeCheck = false) => {
+    (
+      damageMultiplier = 1,
+      bypassRangeCheck = false,
+      options?: SpecialHitOptions,
+    ) => {
       if (isEnding.current) return;
-      if (!playerCooldown.current) return;
-      if (delicia < HITS_TO_SPECIAL) return;
+      // Explosão de área (Killer Queen) é a cauda de um special que já pagou a
+      // carga e o cooldown: reprovar aqui deixaria a área inteira inerte.
+      if (!options?.bypassCharge) {
+        if (!playerCooldown.current) return;
+        if (delicia < HITS_TO_SPECIAL) return;
+      }
 
       const vastolordMult = vastolordMultiplierRef?.current?.() ?? 1;
       const totalMultiplier = damageMultiplier * vastolordMult;
@@ -474,9 +493,9 @@ export function usePlayerBattle({
         setPlayer,
         spawnDamageRef,
         registerHitRef,
-        hitstopRef,
+        tempoRef,
         onDamageDealtRef,
-        onSpecialRef,
+        onSpecialRef: options?.bypassCharge ? undefined : onSpecialRef,
         onKokusenRef,
         onBlackFlashRef,
         onCriticalPushRef,
@@ -489,6 +508,11 @@ export function usePlayerBattle({
         setDelicia,
         hitsToSpecial: HITS_TO_SPECIAL,
       });
+
+      // A cauda do special não cura de novo nem rearma o cooldown: a Queen já
+      // congelou o jogador por ~5s, e travar o ataque ao final dela seria um
+      // custo invisível.
+      if (options?.bypassCharge) return;
 
       if (onHalfHeal) onHalfHeal();
 
@@ -517,7 +541,7 @@ export function usePlayerBattle({
       stacks,
       triggerExplosion,
       spawnDamageRef,
-      hitstopRef,
+      tempoRef,
       registerHitRef,
       onDamageDealtRef,
       critRate,
@@ -539,6 +563,98 @@ export function usePlayerBattle({
       vastolordMultiplierRef,
     ],
   );
+
+  /**
+   * Dano do golpe ativo para o estado informado, resolvido pelo mesmo pipeline
+   * de `playerHit`/`specialHit`. Consumido pelo `useProjectile` para que um
+   * projétil levar exatamente o dano que o NPC levaria. `null` = o golpe não
+   * causa dano agora (special sem carga, jogador congelado/cego).
+   */
+  const resolveProjectileHit = useCallback(
+    (
+      strikeState: PlayerState,
+      options?: ProjectileHitResolveOptions,
+    ): ProjectileHit | null => {
+      // Guardas determinísticos: "confused" fica de fora de propósito (o
+      // `evaluateStatusGuards` sorteia 50% e o projétil não deve divergir do
+      // que o `playerHit` decide).
+      if (
+        isPlayerFrozen(player) ||
+        isPlayerParalyzed(player) ||
+        isPlayerBlind(player)
+      ) {
+        return null;
+      }
+
+      if (isSpecialStrikeState(strikeState)) {
+        if (!options?.bypassCharge && delicia < HITS_TO_SPECIAL) return null;
+        const { damage } = calculateSpecialHitDamage({
+          player,
+          playerClass,
+          char,
+          elementDamageBonus,
+          critRate,
+          npcArmor,
+          npcElementTypes,
+          playerHP,
+          playerMaxHp,
+          totalMaxHpDamage,
+          totalTrueDamage,
+          damageMultiplier: vastolordMultiplierRef?.current?.() ?? 1,
+          stacks,
+        });
+        return { damage, type: "projectile" };
+      }
+
+      // Escala ORA do artur (só no ataque básico com multiplicador 1) e a Forma
+      // Vastolord do marcelo — mesma conta do `playerHit`.
+      const vastolordMult = vastolordMultiplierRef?.current?.() ?? 1;
+      const mult =
+        (arturOraMultiplierRef?.current && player.character === "artur"
+          ? arturOraMultiplierRef.current()
+          : 1) * vastolordMult;
+
+      const { damage } = calculateBasicHitDamage({
+        player,
+        playerClass,
+        char,
+        titleDamageBonus,
+        elementDamageBonus,
+        critRate,
+        npcArmor,
+        npcElementTypes,
+        playerHP,
+        playerMaxHp,
+        totalMaxHpDamage,
+        totalTrueDamage,
+        damageMultiplier: mult,
+      });
+      return { damage, type: "projectile" };
+    },
+    [
+      player,
+      playerClass,
+      char,
+      titleDamageBonus,
+      elementDamageBonus,
+      critRate,
+      npcArmor,
+      npcElementTypes,
+      playerHP,
+      playerMaxHp,
+      totalMaxHpDamage,
+      totalTrueDamage,
+      delicia,
+      stacks,
+      HITS_TO_SPECIAL,
+      arturOraMultiplierRef,
+      vastolordMultiplierRef,
+    ],
+  );
+
+  // Escrito a cada render (padrão do battle) para o useProjectile, montado antes
+  // deste hook, conseguir ler o dano do golpe vigente.
+  playerHitDamageRef.current = resolveProjectileHit;
 
   return {
     delicia,

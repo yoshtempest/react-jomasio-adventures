@@ -18,7 +18,6 @@ type Props = {
   battleManaRef: RefObject<BattleManaApi | null>;
   isEndingRef: RefObject<{ current: boolean }>;
   isPausedRef: RefObject<boolean>;
-  mostHonoredFreezeRef: RefObject<boolean>;
   setSummons: React.Dispatch<React.SetStateAction<SummonedNpc[]>>;
   summonsBleedUntilRef: RefObject<Record<string, number>>;
   summons: SummonedNpc[];
@@ -34,7 +33,6 @@ export function useStatusDots({
   battleManaRef,
   isEndingRef,
   isPausedRef,
-  mostHonoredFreezeRef,
   setSummons,
   summonsBleedUntilRef,
   summons,
@@ -54,22 +52,13 @@ export function useStatusDots({
     const mana = battleManaRef.current;
     if (!mana) return;
     const interval = setInterval(() => {
-      if (
-        isEndingRef.current.current ||
-        (isPausedRef.current && !mostHonoredFreezeRef.current)
-      ) {
+      if (isEndingRef.current.current || isPausedRef.current) {
         return;
       }
       battleManaRef.current?.restoreMana(HONORED_ONE_REGEN_PER_SECOND);
     }, FIFTY_MS);
     return () => clearInterval(interval);
-  }, [
-    honoredRegenActive,
-    battleManaRef,
-    isEndingRef,
-    isPausedRef,
-    mostHonoredFreezeRef,
-  ]);
+  }, [honoredRegenActive, battleManaRef, isEndingRef, isPausedRef]);
 
   /** Dano contínuo de bleed nos summons (status aplicado por pet skill). */
   useEffect(() => {

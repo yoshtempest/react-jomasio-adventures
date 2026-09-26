@@ -9,6 +9,7 @@ import {
   isPlayerFrozen,
   isPlayerParalyzed,
 } from "@/gameRules/battle/status/statusEffects";
+import { type TempoEffect } from "@/gameRules/battle/tempo";
 
 type Props = {
   player: Player;
@@ -25,7 +26,7 @@ type Props = {
   setNpcHP: React.Dispatch<React.SetStateAction<number>>;
   playerCooldown: React.RefObject<boolean>;
   isEnding: React.RefObject<boolean>;
-  hitstopRef: React.RefObject<number>;
+  tempoRef: React.RefObject<TempoEffect[]>;
   spawnDamageRef: React.RefObject<
     (value: number, x: number, y: number, type: DamageType) => void
   >;
@@ -61,7 +62,7 @@ export function useChargeAttack(props: Props) {
     setNpcHP,
     playerCooldown,
     isEnding,
-    hitstopRef,
+    tempoRef,
     spawnDamageRef,
     registerHitRef,
     setPlayerState,
@@ -95,7 +96,7 @@ export function useChargeAttack(props: Props) {
     elementDamageBonus,
     setNpcHP,
     playerCooldown,
-    hitstopRef,
+    tempoRef,
     spawnDamageRef,
     registerHitRef,
     setPlayer,

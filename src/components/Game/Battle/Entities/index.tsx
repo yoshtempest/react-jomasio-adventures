@@ -173,7 +173,11 @@ export function BattleEntities({
         npcBleeding={npcBleeding}
       />
 
-      <NpcProjectile projectiles={npc.projectiles} groundY={player.y} />
+      <NpcProjectile
+        projectiles={npc.projectiles}
+        groundY={player.y}
+        hiddenIds={activeBombIds}
+      />
 
       {npc.ai?.deise?.dashState === "dashing" && (
         <DeiseDashAfterimage

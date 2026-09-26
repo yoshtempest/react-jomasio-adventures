@@ -1,5 +1,7 @@
 import { ProjectileHpConstants } from "@/data/projectile";
 
+import { nextProjectileId } from "./projectileId";
+
 type CommonParams = {
   startX: number;
   startY: number;
@@ -48,6 +50,7 @@ export function createCommonProjectile({
 
   return {
     variant: "common",
+    id: nextProjectileId(),
     x: startX,
     y: startY,
     startX,
@@ -83,6 +86,7 @@ export function createPullProjectile({
 
   return {
     variant: "pull",
+    id: nextProjectileId(),
     x: startX,
     y: startY,
     startX,
@@ -111,6 +115,7 @@ export function createRainProjectile({
 }: RainParams): ProjectileRain {
   return {
     variant: "rain",
+    id: nextProjectileId(),
     x,
     y,
     startX: x,

@@ -44,6 +44,16 @@ export const DIVERGENT_FIST_FRAME_MS = 50;
  * sequência acontece quando o riquelme aterrissa em `idleCrounched`.
  */
 export const HONORED_ONE_DURATION_MS = 7345;
+/** Id do efeito de tempo de O Mais Honrado (regra `gameRules/battle/tempo`). */
+export const HONORED_ONE_TEMPO_ID = "riquelme:honoredOne";
+
+/**
+ * Multiplicadores do efeito de tempo de O Mais Honrado: o mundo continua se
+ * movendo, mas a 1/4 da velocidade, e os ataques saem de crase 3x mais longos.
+ * É o "slow-motion" que substitui o antigo congelamento duro da sequência.
+ */
+export const HONORED_ONE_TEMPO_SPEED = 0.25;
+export const HONORED_ONE_TEMPO_COOLDOWN = 3;
 
 /** Duração da fase de subida/rotação do "O Mais Honrado", em ms. */
 export const HONORED_ONE_RISE_MS = 5_000;

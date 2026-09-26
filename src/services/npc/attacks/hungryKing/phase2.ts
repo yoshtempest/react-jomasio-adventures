@@ -1,6 +1,7 @@
 import { NPC_MELEE_COOLDOWN } from "@/data/cooldowns";
 import { ProjectileHpConstants } from "@/data/projectile";
 import { chasePlayer } from "@/gameRules/npc/movement";
+import { nextProjectileId } from "@/gameRules/npc/projectileId";
 import { tryMeleeAttack } from "@/gameRules/npc/attack";
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
 import type { NPCBattleState } from "@/utils/types/npc/npc";
@@ -22,6 +23,7 @@ function createBurstProjectile(
   const dirX = direction === "right" ? 1 : -1;
   return {
     variant: "burst",
+    id: nextProjectileId(),
     // Sai da frente do rei, na altura da boca.
     x: npcX + dirX * 40,
     y: npcY - 60,

@@ -73,7 +73,6 @@ export function useBattleScene({
     resetBattleState,
     difficulty,
     forcePunchRef,
-    setTimeScale,
     resetTimeScale,
     honoredRiseStartRef,
     honoredRiseStartYRef,
@@ -166,8 +165,6 @@ export function useBattleScene({
     honoredOneActiveRef,
     honoredOneActive,
     honoredRegenActive,
-    mostHonoredFreeze,
-    mostHonoredFreezeRef,
     honoredFleeRef,
     surviveLethalHitRef,
     resetHonoredOne,
@@ -177,7 +174,7 @@ export function useBattleScene({
     setPlayer,
     playSound,
     refs,
-    setTimeScale,
+    freezeActionsUntilRef,
     resetTimeScale,
     battleManaRef,
     honoredRiseStartRef,
@@ -266,7 +263,6 @@ export function useBattleScene({
     rewindFrames != null ||
     isConfigOpen ||
     isBattleNavOpen ||
-    mostHonoredFreeze ||
     cameraFocus.isFrozen ||
     transformationFrame != null;
   isPausedRef.current = isPaused;
@@ -412,7 +408,6 @@ export function useBattleScene({
     honoredFleeRef,
     surviveLethalHitRef,
     honoredRegenActive,
-    mostHonoredFreezeRef,
     vastolordMultiplierRef,
     vastolordActive,
     extendVastolordRef,

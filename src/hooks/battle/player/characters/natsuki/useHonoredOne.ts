@@ -9,7 +9,16 @@ import { useLatestRef } from "@/hooks/useLatestRef";
 import {
   HONORED_ONE_DURATION_MS,
   HONORED_ONE_RISE_MS,
+  HONORED_ONE_TEMPO_COOLDOWN,
+  HONORED_ONE_TEMPO_ID,
+  HONORED_ONE_TEMPO_SPEED,
 } from "@/gameRules/battle/cursedEnergy";
+import {
+  applyTempo,
+  clearTempo,
+  slowWorldSpec,
+  PLAYER_SPHERE_TEMPO_ID,
+} from "@/gameRules/battle/tempo";
 import type { BattleManaApi } from "@/contexts/BattleManaContext";
 import type { SoundId } from "@/utils/audio/soundId";
 import type { useBattleRefs } from "@/hooks/battle/utilities/useRefs";
@@ -20,7 +29,8 @@ type Props = {
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;
   playSound: (sound: SoundId, loop?: boolean, volumeOverride?: number) => void;
   refs: ReturnType<typeof useBattleRefs>;
-  setTimeScale: (scale: number) => void;
+  /** O player não é `TempoKind`: o gate de ação dele é este lock. */
+  freezeActionsUntilRef: RefObject<number>;
   resetTimeScale: () => void;
   battleManaRef: RefObject<BattleManaApi | null>;
   honoredRiseStartRef: RefObject<number>;
@@ -34,7 +44,7 @@ export function useHonoredOne({
   setPlayer,
   playSound,
   refs,
-  setTimeScale,
+  freezeActionsUntilRef,
   resetTimeScale,
   battleManaRef,
   honoredRiseStartRef,
@@ -46,9 +56,6 @@ export function useHonoredOne({
   const [honoredOneActive, setHonoredOneActive] = useState(false);
   /** Regeneração passiva de energia amaldiçoada (10/s) valendo pelo resto da batalha. */
   const [honoredRegenActive, setHonoredRegenActive] = useState(false);
-  /** Janela da sequência "O Mais Honrado": congela toda a batalha. */
-  const [mostHonoredFreeze, setMostHonoredFreeze] = useState(false);
-  const mostHonoredFreezeRef = useLatestRef(mostHonoredFreeze);
   const honoredOneTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   /** Durante a sequência, os inimigos recuam até ficarem a >=300px em x. */
   const honoredFleeRef = useRef(false);
@@ -63,7 +70,6 @@ export function useHonoredOne({
     honoredOneActiveRef.current = false;
     setHonoredOneActive(false);
     setHonoredRegenActive(false);
-    setMostHonoredFreeze(false);
     honoredRiseStartRef.current = 0;
     honoredFleeRef.current = false;
     honoredFallRef.current = false;
@@ -99,9 +105,26 @@ export function useHonoredOne({
       battleManaRef.current?.playerMana,
     );
     setPlayer((p) => ({ ...p, state: "mostHonored", velY: 0 }));
-    refs.hitstopRef.current = Date.now() + HONORED_ONE_DURATION_MS;
-    setTimeScale(0.01);
-    setMostHonoredFreeze(true);
+    // Regra de tempo: o mundo inteiro sai do tempo normal, **exceto a esfera do
+    // riquelme** — ela é a única coisa que continua em 1x enquanto ele sobe. O
+    // player fica de fora do `TempoKind`, então o lock de ação dele é escrito à
+    // mão (é o mesmo ref que câmera/vastolord/etc já usam).
+    refs.tempoRef.current = applyTempo(
+      refs.tempoRef.current,
+      slowWorldSpec(
+        HONORED_ONE_TEMPO_ID,
+        HONORED_ONE_DURATION_MS,
+        {
+          speed: HONORED_ONE_TEMPO_SPEED,
+          cooldown: HONORED_ONE_TEMPO_COOLDOWN,
+        },
+        [PLAYER_SPHERE_TEMPO_ID],
+      ),
+    );
+    freezeActionsUntilRef.current = Math.max(
+      freezeActionsUntilRef.current,
+      Date.now() + HONORED_ONE_DURATION_MS,
+    );
     playSound("honoredOne");
 
     if (honoredOneTimerRef.current) {
@@ -135,9 +158,13 @@ export function useHonoredOne({
     honoredFallRef.current = false;
     honoredRiseStartRef.current = 0;
     honoredFleeRef.current = false;
-    refs.hitstopRef.current = 0;
-    setMostHonoredFreeze(false);
-    resetTimeScale();
+    refs.tempoRef.current = clearTempo(
+      refs.tempoRef.current,
+      HONORED_ONE_TEMPO_ID,
+    );
+    // A sequência acabou no pouso: o slow e o lock do player valem só até
+    // aqui, senão o riquelme ficaria travado no resto dos ~7.3s do efeito.
+    freezeActionsUntilRef.current = Date.now();
     activateHonoredOne();
   }, [
     player.state,
@@ -145,8 +172,7 @@ export function useHonoredOne({
     honoredRiseStartRef,
     honoredFleeRef,
     refs,
-    setMostHonoredFreeze,
-    resetTimeScale,
+    freezeActionsUntilRef,
     activateHonoredOne,
   ]);
 
@@ -170,9 +196,6 @@ export function useHonoredOne({
     setHonoredOneActive,
     honoredRegenActive,
     setHonoredRegenActive,
-    mostHonoredFreeze,
-    setMostHonoredFreeze,
-    mostHonoredFreezeRef,
     honoredOneTimerRef,
     honoredFleeRef,
     activateHonoredOne,

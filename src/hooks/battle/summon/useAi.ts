@@ -7,6 +7,12 @@ import {
 } from "@/gameRules/battle/cursedEnergy";
 import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
 import { computeSummonDamage } from "./computeSummonDamage";
+import {
+  applyHitstop,
+  getTempo,
+  scaleCooldown,
+  type TempoEffect,
+} from "@/gameRules/battle/tempo";
 
 /** Velocidade acima da qual o hungryDog é considerado correndo (usa run.svg). */
 const HUNGRY_DOG_RUN_SPEED = 1.5;
@@ -25,7 +31,7 @@ type Props = {
   spawnDamageRef: React.RefObject<
     (value: number, x: number, y: number, type: DamageType) => void
   >;
-  hitstopRef: React.RefObject<number>;
+  tempoRef: React.RefObject<TempoEffect[]>;
   freezeUntilRef?: React.RefObject<number>;
   /** Chamado quando um summon inimigo morre (hp <= 0) por qualquer fonte. */
   onSummonKilled?: () => void;
@@ -45,7 +51,7 @@ export function useSummonAI({
   difficulty,
   damagePlayer,
   spawnDamageRef,
-  hitstopRef,
+  tempoRef,
   freezeUntilRef,
   rootedSummonsUntilRef,
   honoredFleeRef,
@@ -98,7 +104,6 @@ export function useSummonAI({
       }
 
       if (isPausedRef.current) return;
-      if (hitstopRef.current > Date.now()) return;
       if (freezeUntilRef?.current && freezeUntilRef.current > Date.now())
         return;
 
@@ -108,12 +113,21 @@ export function useSummonAI({
             return s;
           }
 
+          // Regra de tempo: a classe decide, o summon é isento só se o efeito
+          // listar o id dele em `exempt`.
+          const tempo = getTempo(tempoRef.current, "summon", s.id);
+          if (tempo.speed === 0) return s;
+
+          // A escala de tempo afeta o deslocamento, não o estado do sprite:
+          // `speed` segue sendo a velocidade "de projeto" (o hungryDog só corre
+          // quando a distância pede), `moveStep` é o que o tempo do mundo mede.
           const speed =
             s.x > BATTLE_LIMITS.maxX
               ? 6
               : Math.abs(s.x - px) > 200
                 ? 3
                 : 1.5;
+          const moveStep = speed * tempo.speed;
 
           const dx = px - s.x;
 
@@ -125,7 +139,7 @@ export function useSummonAI({
           let newX = s.x;
 
           if (!rooted && Math.abs(dx) > 40) {
-            newX += dx > 0 ? speed : -speed;
+            newX += dx > 0 ? moveStep : -moveStep;
           }
 
           const running =
@@ -138,7 +152,7 @@ export function useSummonAI({
 
             const lastAttack = summonLastAttacksRef.current[s.id] ?? 0;
 
-            if (now - lastAttack >= 800) {
+            if (now - lastAttack >= scaleCooldown(tempo, 800)) {
               summonLastAttacksRef.current[s.id] = now;
 
               const damage = computeSummonDamage(
@@ -157,7 +171,7 @@ export function useSummonAI({
                   playerYRef.current,
                   "summon",
                 );
-                hitstopRef.current = Date.now() + 40;
+                tempoRef.current = applyHitstop(tempoRef.current, 40);
               }
             }
           }
@@ -174,7 +188,7 @@ export function useSummonAI({
 
     return () => clearInterval(interval);
   }, [
-    hitstopRef,
+    tempoRef,
     spawnDamageRef,
     damagePlayerRef,
     difficultyRef,

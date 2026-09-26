@@ -1,5 +1,6 @@
 import { isFacingTarget } from "@/gameRules/battle/direction";
 import { handleNpcBlocking } from "./useBlocking";
+import { type TempoEffect } from "@/gameRules/battle/tempo";
 
 export function checkBlocked(params: {
   dmg: number;
@@ -16,7 +17,7 @@ export function checkBlocked(params: {
   spawnDamageRef: React.RefObject<
     (value: number, x: number, y: number, type: DamageType) => void
   >;
-  hitstopRef: React.RefObject<number>;
+  tempoRef: React.RefObject<TempoEffect[]>;
   npcStaggerRef: React.RefObject<number>;
   npcCooldown: React.RefObject<boolean>;
   lastBlockPressRef: React.RefObject<number>;
@@ -39,7 +40,7 @@ export function checkBlocked(params: {
     damagePlayerWithReflect,
     setPlayer,
     spawnDamageRef,
-    hitstopRef,
+    tempoRef,
     npcStaggerRef,
     npcCooldown,
     lastBlockPressRef,
@@ -64,7 +65,7 @@ export function checkBlocked(params: {
     spawnDamageRef,
     playerX,
     playerY,
-    hitstopRef,
+    tempoRef,
     npcStaggerRef,
     npcCooldown,
     lastBlockPressRef,

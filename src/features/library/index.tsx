@@ -65,7 +65,7 @@ export function LibraryScene({ sceneId }: Props) {
     ],
     encounters: [
       { route: "/battle/hungry", weight: 19 },
-      { route: "/battle/vandinhafragment", weight: 1 },
+      { route: "/battle/vandinhafragment", weight: 100 },
     ],
     npcLevelRange: sceneId === "secret-passage" ? [8, 12] : [1, 4],
     encounterChance: 0.1,

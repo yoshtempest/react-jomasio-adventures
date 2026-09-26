@@ -235,6 +235,8 @@ declare global {
 
   /** HP de projéteis destrutíveis (attack do jogador, colisão, NPC). */
   type ProjectileHp = {
+    /** Identidade estável do projétil (alvo da Killer Queen, key do React). */
+    id: string;
     hp: number;
     maxHp: number;
     /** Indestrutível: não pode ser destruído nem cortado (ex: esfera do Riquelme). */
@@ -423,6 +425,8 @@ declare global {
   };
 
   type PlayerSpecialProjectile = {
+    /** Id estável: a regra de tempo do O Mais Honrado isente a esfera por ele. */
+    id: string;
     phase: "merge" | "move" | "fire";
     x: number;
     y: number;
@@ -490,6 +494,7 @@ declare global {
     | "pet"
     | "summon"
     | "ally"
+    | "projectile"
     | "blocked"
     | "parry"
     | "crit"

@@ -1,10 +1,26 @@
-import { useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import type { Dispatch, SetStateAction } from "react";
+
+import type { SpawnDamageFn } from "@/utils/types/battle/spawnDamageFn";
+import {
+  PLAYER_BASIC_COOLDOWN,
+  PLAYER_SPECIAL_COOLDOWN,
+} from "@/data/cooldowns";
+import { isSpecialStrikeState } from "@/gameRules/battle/strikeState";
+import { resetCooldownRef } from "@/utils/battle/cooldown";
+import { getProjectileCenter } from "@/gameRules/npc/projectileDamage";
 import { useLatestRef } from "@/hooks/useLatestRef";
+import { applyPlayerStrike } from "./apply/applyPlayerStrike";
 import { handleBurstProjectile } from "./handle/handleBurstProjectile";
 import { handleLinearProjectile } from "./handle/handleLinearProjectile";
 import { handleCut } from "./handle/handleCut"
 import { handleRain } from "./handle/handleRain";
+import type {
+  ProjectileHitDamageFn,
+  ProjectileHitResolveOptions,
+  ProjectileStrike,
+} from "@/utils/types/battle/projectileHit";
+import { getTempo, type TempoEffect } from "@/gameRules/battle/tempo";
 
 export function useProjectile(
   projectiles: Projectile[],
@@ -16,7 +32,7 @@ export function useProjectile(
   _npcX: number,
   _npcY: number,
   onHit: () => void,
-  hitstopRef: React.RefObject<number>,
+  tempoRef: React.RefObject<TempoEffect[]>,
   onPullPlayer?: (x: number) => void,
   onMiss?: (x: number) => void,
   onStick?: () => void,
@@ -25,6 +41,9 @@ export function useProjectile(
   onBurstHit?: (pushDir: number) => void,
   playerProjectileRef?: React.RefObject<PlayerSpecialProjectile | null>,
   onProjectileDestroyed?: () => void,
+  spawnDamageRef?: React.RefObject<SpawnDamageFn>,
+  playerCooldownRef?: React.RefObject<boolean>,
+  playerHitDamageRef?: React.RefObject<ProjectileHitDamageFn>,
 ) {
   const onHitRef = useLatestRef(onHit);
   const onPullPlayerRef = useLatestRef(onPullPlayer);
@@ -41,13 +60,94 @@ export function useProjectile(
   const npcXRef = useLatestRef(_npcX);
   const npcYRef = useLatestRef(_npcY);
 
+  const destroy = useCallback(() => {
+    onProjectileDestroyedRef.current?.();
+  }, [onProjectileDestroyedRef]);
+
+  // 1 instância de dano por golpe: `playerCooldown` é o mesmo token que o
+  // `handlePlayerHit` consome ao acertar NPC/summon. Sem este claim o loop
+  // de 20ms causaria dano a cada tick enquanto o estado é de golpe (hold do
+  // artur = dezenas de instâncias e projétil destruído na hora).
+  const claimToken = useCallback(
+    (state: PlayerState) => {
+      if (playerCooldownRef?.current === false) return false;
+      if (playerCooldownRef) {
+        resetCooldownRef(
+          isSpecialStrikeState(state)
+            ? PLAYER_SPECIAL_COOLDOWN
+            : PLAYER_BASIC_COOLDOWN,
+          playerCooldownRef,
+        );
+      }
+      return true;
+    },
+    [playerCooldownRef],
+  );
+
+  const resolveHit = useCallback(
+    (playerState: PlayerState, options?: ProjectileHitResolveOptions) =>
+      playerHitDamageRef?.current?.(playerState, options) ?? null,
+    [playerHitDamageRef],
+  );
+
+  const spawnDamage = useCallback(
+    (damage: number, x: number, y: number, type: DamageType) => {
+      spawnDamageRef?.current?.(damage, x, y, type);
+    },
+    [spawnDamageRef],
+  );
+
+  const strike = useMemo(
+    () => ({ claimToken, resolveHit, spawnDamage }),
+    [claimToken, resolveHit, spawnDamage],
+  );
+
+  /**
+   * Golpe de área já disparado contra projéteis instanciados (explosão do
+   * Killer Queen): aplica o dano real do special, mostra o damage number e
+   * destroi o projétil quando o dano zera o HP.
+   *
+   * Não consome o token de cooldown: a explosão é UMA instância radial, já
+   * paga pelo special ao abrir — o token existe para segurar o loop de 20ms,
+   * não para limitar quantos alvos o mesmo golpe pode atingir.
+   */
+  const strikeProjectiles = useCallback(
+    (strikes: ProjectileStrike[]) => {
+      if (strikes.length === 0) return;
+      const multiplierById = new Map(strikes.map((s) => [s.id, s.multiplier]));
+      const state = playerStateRef.current;
+      // Uma resolução para a explosão inteira: o valor base é o mesmo para
+      // todos os projéteis atingidos (o crítico é sorteado uma vez).
+      const base = resolveHit(state, { bypassCharge: true });
+      if (!base || base.damage <= 0) return;
+
+      setProjectiles((prev) =>
+        prev.flatMap((p) => {
+          const multiplier = multiplierById.get(p.id);
+          if (multiplier === undefined) return [p];
+          const hit =
+            multiplier === 1
+              ? base
+              : { ...base, damage: Math.round(base.damage * multiplier) };
+          const struck = applyPlayerStrike(p, {
+            playerState: state,
+            resolveHit: () => hit,
+            spawnDamage,
+            point: getProjectileCenter(p),
+            onDestroyed: destroy,
+          });
+          return struck.hit ? (struck.projectile ? [struck.projectile] : []) : [p];
+        }),
+      );
+    },
+    [destroy, playerStateRef, resolveHit, setProjectiles, spawnDamage],
+  );
+
   useEffect(() => {
     const count = projectiles.length;
     if (count === 0) return;
 
     const interval = setInterval(() => {
-      if (hitstopRef.current > Date.now()) return;
-
       const misses: number[] = [];
       let stick = false;
 
@@ -56,10 +156,15 @@ export function useProjectile(
         playerProjectileRef?.current?.phase === "fire"
           ? playerProjectileRef.current
           : undefined;
-      const destroy = () => onProjectileDestroyedRef.current?.();
 
       const next = projectiles
         .map((p) => {
+          // Regra de tempo da batalha: projétil congelado (hitstop, Killer
+          // Queen, Expansão de Domínio, O Mais Honrado) não se move, não
+          // colide com o jogador e não toma dano. O id só importa para o
+          // `exempt` do efeito.
+          const tempo = getTempo(tempoRef.current, "projectile", p.id);
+          if (tempo.speed === 0) return p;
           switch (p.variant) {
             case "common":
               return handleLinearProjectile(p, {
@@ -71,6 +176,7 @@ export function useProjectile(
                 npcClass: npcClassRef.current,
                 sphere,
                 onDestroyed: destroy,
+                ...strike,
                 onHit: onHitRef.current,
                 onMiss: (x) => {
                   misses.push(x);
@@ -78,6 +184,7 @@ export function useProjectile(
                 onStick: () => {
                   stick = true;
                 },
+                speedScale: tempo.speed,
               });
             case "pull":
               return handleLinearProjectile(p, {
@@ -89,8 +196,10 @@ export function useProjectile(
                 npcClass: npcClassRef.current,
                 sphere,
                 onDestroyed: destroy,
+                ...strike,
                 onHit: onHitRef.current,
                 onPullPlayer: onPullPlayerRef.current,
+                speedScale: tempo.speed,
               });
             case "cut":
               return handleCut(p, {
@@ -106,6 +215,8 @@ export function useProjectile(
                 playerStateRef.current,
                 onHitRef.current,
                 destroy,
+                strike,
+                tempo.speed,
               );
             case "burst":
               return handleBurstProjectile(p, {
@@ -116,7 +227,9 @@ export function useProjectile(
                 npcClass: npcClassRef.current,
                 sphere,
                 onDestroyed: destroy,
+                ...strike,
                 onBurstHit: onBurstHitRef.current,
+                speedScale: tempo.speed,
               });
           }
         })
@@ -131,13 +244,12 @@ export function useProjectile(
   }, [
     projectiles,
     setProjectiles,
-    hitstopRef,
+    tempoRef,
     onHitRef,
     onPullPlayerRef,
     onMissRef,
     onStickRef,
     onBurstHitRef,
-    onProjectileDestroyedRef,
     playerXRef,
     playerYRef,
     playerStateRef,
@@ -147,5 +259,9 @@ export function useProjectile(
     npcXRef,
     npcYRef,
     playerProjectileRef,
+    strike,
+    destroy,
   ]);
+
+  return { strikeProjectiles };
 }

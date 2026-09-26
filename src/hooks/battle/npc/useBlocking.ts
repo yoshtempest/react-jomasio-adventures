@@ -12,6 +12,7 @@ import {
 import { timeSinceParryInput } from "./timeSinceParryInput";
 import { applyGuardBreak } from "./apply/applyGuardBreak";
 import { applyDesperateBlock } from "./apply/applyDesperateBlock";
+import { applyHitstop, type TempoEffect } from "@/gameRules/battle/tempo";
 
 
 /**
@@ -48,7 +49,7 @@ type HandleBlockingParams = {
   spawnDamageRef: React.RefObject<SpawnDamageFn>;
   playerX: number;
   playerY: number;
-  hitstopRef: React.RefObject<number>;
+  tempoRef: React.RefObject<TempoEffect[]>;
   npcStaggerRef: React.RefObject<number>;
   npcCooldown: React.RefObject<boolean>;
   lastBlockPressRef: React.RefObject<number>;
@@ -69,7 +70,7 @@ export function handleNpcBlocking({
   spawnDamageRef,
   playerX,
   playerY,
-  hitstopRef,
+  tempoRef,
   npcStaggerRef,
   npcCooldown,
   lastBlockPressRef,
@@ -85,7 +86,7 @@ export function handleNpcBlocking({
   if (sincePress <= PARRY_WINDOW_MS) {
     onParry?.();
     spawnDamageRef.current?.(0, playerX, playerY - 40, "parry");
-    hitstopRef.current = now + 80;
+    tempoRef.current = applyHitstop(tempoRef.current, 80, now);
     npcStaggerRef.current = now + PARRY_STAGGER_MS;
     npcCooldown.current = false;
     onFullBlock?.();
@@ -98,7 +99,7 @@ export function handleNpcBlocking({
     if (blockGauge > 0) {
       if (dmg <= blockGauge) {
         setBlockGauge((g) => Math.max(0, g - dmg));
-        hitstopRef.current = Date.now() + 60;
+        tempoRef.current = applyHitstop(tempoRef.current, 60);
         npcStaggerRef.current = Date.now() + 500;
         spawnDamageRef.current?.(0, playerX, playerY - 40, "blocked");
         npcCooldown.current = false;
@@ -119,7 +120,7 @@ export function handleNpcBlocking({
         playerX,
         playerY,
       );
-      hitstopRef.current = Date.now() + 80;
+      tempoRef.current = applyHitstop(tempoRef.current, 80);
       npcCooldown.current = false;
       onBlockRef?.current?.();
       setTimeout(() => (npcCooldown.current = true), NPC_GUARD_BREAK_COOLDOWN);
@@ -129,7 +130,7 @@ export function handleNpcBlocking({
     const halved = Math.max(1, Math.round(dmg / 2));
     damagePlayerWithReflect(halved);
     spawnDamageRef.current?.(halved, playerX, playerY, "npc");
-    hitstopRef.current = Date.now() + 40;
+    tempoRef.current = applyHitstop(tempoRef.current, 40);
     npcCooldown.current = false;
     onBlockRef?.current?.();
     setTimeout(() => (npcCooldown.current = true), NPC_BLOCK_COOLDOWN);
@@ -147,7 +148,7 @@ export function handleNpcBlocking({
       playerX,
       playerY,
     );
-    hitstopRef.current = Date.now() + 60;
+    tempoRef.current = applyHitstop(tempoRef.current, 60);
     npcCooldown.current = false;
     onBlockRef?.current?.();
     setTimeout(() => (npcCooldown.current = true), NPC_RECENT_BLOCK_COOLDOWN);

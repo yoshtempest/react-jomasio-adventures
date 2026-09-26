@@ -33,6 +33,7 @@ import { getProfessionWeaponDamageMultiplier } from "@/gameRules/professions/wea
 import { useEnergy } from "@/hooks/battle/effects/useEnergy";
 import { useBattleMana } from "@/contexts/BattleManaContext";
 import { gainSpecial } from "@/gameRules/battle/special";
+import type { ProjectileHitDamageFn } from "@/utils/types/battle/projectileHit";
 import {
   applyPlayerStatus,
   clearPlayerStatuses,
@@ -45,6 +46,7 @@ import { useNpcBleedTicks } from "@/hooks/battle/time/ticks/useNpcBleedTicks";
 import { useManaRegenTick } from "@/hooks/battle/time/ticks/useManaRegenTick";
 import { usePlayerPullAnimation } from "@/hooks/battle/player/usePlayerPullAnimation";
 import { useMarceloCutInEnemie } from "@/hooks/battle/player/characters/marshadow/useMarceloCutInEnemie";
+import { type TempoEffect } from "@/gameRules/battle/tempo";
 
 type Props = {
   playerX: number;
@@ -59,8 +61,12 @@ type Props = {
   onNpcDeath: () => void;
   playerState: PlayerState;
   difficulty: NpcDifficulty;
-  hitstopRef: React.RefObject<number>;
+  tempoRef: React.RefObject<TempoEffect[]>;
   npcStaggerRef: React.RefObject<number>;
+  /** Token de 1 instância de dano por golpe (criado no useBattleRefs). */
+  playerCooldown: React.RefObject<boolean>;
+  /** Dano do golpe ativo para projéteis inimigos (criado no useBattleRefs). */
+  playerHitDamageRef: React.RefObject<ProjectileHitDamageFn>;
   registerHitRef: React.RefObject<(damage: number) => void>;
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;
   lastBlockPressRef: React.RefObject<number>;
@@ -110,8 +116,10 @@ export function useBattleSystem(props: Props) {
     difficulty,
     onPlayerDeath,
     onNpcDeath,
-    hitstopRef,
+    tempoRef,
     npcStaggerRef,
+    playerCooldown,
+    playerHitDamageRef,
     registerHitRef,
     setPlayer,
     lastBlockPressRef,
@@ -214,7 +222,7 @@ export function useBattleSystem(props: Props) {
         }
       : undefined;
 
-  const { playerCooldown, npcCooldown, isEnding } = useBattleCooldowns();
+  const { npcCooldown, isEnding } = useBattleCooldowns();
 
   const effects = useBattleEffects({ character: player.character });
 
@@ -280,6 +288,7 @@ export function useBattleSystem(props: Props) {
     totalMaxHpDamage,
     totalTrueDamage,
     playerCooldown,
+    playerHitDamageRef,
     isEnding,
     spawnPiercing: effects.spawnPiercing,
     triggerExplosion: effects.triggerExplosion,
@@ -288,7 +297,7 @@ export function useBattleSystem(props: Props) {
     critRate: stats.critRate,
     npcArmor,
     spawnDamageRef,
-    hitstopRef,
+    tempoRef,
     registerHitRef,
     setPlayer,
     onBeforeNpcHitRef,
@@ -374,7 +383,7 @@ export function useBattleSystem(props: Props) {
     difficulty,
     isEnding,
     spawnDamageRef,
-    hitstopRef,
+    tempoRef,
     npcStaggerRef,
     blockGauge,
     setBlockGauge,

@@ -19,7 +19,11 @@ export const ProjectileHpConstants = {
   DEFAULT_HP: 6,
   /** HP dos fragmentos cortados pelo Marcelo. */
   CUT_FRAGMENT_HP: 2,
-  /** Dano de um tick de ataque do jogador sobre projéteis no alcance. */
+  /**
+   * Dano de fallback quando não há golpe do jogador resolvido (ex: treino, antes
+   * do `usePlayer` montar). Em batalha o dano aplicado é o do golpe ativo, pelo
+   * pipeline de `playerHit`/`specialHit`.
+   */
   PLAYER_MELEE_DAMAGE: 4,
   /** Alcance horizontal da esfera do Riquelme em voo para destruir projéteis. */
   SPHERE_HIT_RANGE_X: 60,

@@ -1,5 +1,9 @@
 import { ProjectileConstants, ProjectileHpConstants } from "@/data/projectile";
 import { isPlayerInRange } from "@/gameRules/battle/range";
+import { isSpecialStrikeState, isStrikeState } from "@/gameRules/battle/strikeState";
+import { getProjectileDamagePoint } from "@/gameRules/npc/projectileDamage";
+import { applyPlayerStrike } from "../apply/applyPlayerStrike";
+import type { StrikeOpts } from "../apply/applyPlayerStrike";
 
 /**
  * Burst do hungryKing (fase 2): viaja na horizontal até a ponta do mapa;
@@ -16,7 +20,12 @@ export function handleBurstProjectile(
     npcClass: NPCClass;
     sphere?: PlayerSpecialProjectile;
     onDestroyed?: () => void;
+    claimToken?: StrikeOpts["claimToken"];
+    resolveHit?: StrikeOpts["resolveHit"];
+    spawnDamage?: StrikeOpts["spawnDamage"];
     onBurstHit: ((pushDir: number) => void) | undefined;
+    /** Multiplicador de tempo da entidade (regra `gameRules/battle/tempo`). */
+    speedScale?: number;
   },
 ): ProjectileBurst | null {
   if (p.exploded) {
@@ -28,7 +37,9 @@ export function handleBurstProjectile(
 
   const next = {
     ...p,
-    x: p.x + p.dirX * ProjectileConstants.BURST_SPEED,
+    x:
+      p.x +
+      p.dirX * ProjectileConstants.BURST_SPEED * (opts.speedScale ?? 1),
   };
 
   // Colisão com a esfera do Riquelme em voo.
@@ -44,26 +55,32 @@ export function handleBurstProjectile(
     return null;
   }
 
-  // Ataque do jogador: burst é destrutível por dano de HP (corte não se aplica).
-  if (!next.indestructible && opts.playerState === "attack") {
+  // Golpe do jogador (básico ou special): burst é destrutível pelo dano real do
+  // ataque (corte não se aplica).
+  if (!next.indestructible && isStrikeState(opts.playerState)) {
     const inRange = isPlayerInRange(
       opts.playerX,
       opts.playerY,
       next.x,
       next.y,
-      "attack",
+      opts.playerState,
       opts.playerCharacter ?? "",
-      false,
+      isSpecialStrikeState(opts.playerState),
       false,
       opts.npcClass,
     );
     if (inRange) {
-      const hp = next.hp - ProjectileHpConstants.PLAYER_MELEE_DAMAGE;
-      if (hp <= 0) {
-        opts.onDestroyed?.();
-        return null;
-      }
-      return { ...next, hp };
+      const struck = applyPlayerStrike(next, {
+        playerState: opts.playerState,
+        claimToken: opts.claimToken,
+        resolveHit: opts.resolveHit,
+        spawnDamage: opts.spawnDamage,
+        point: getProjectileDamagePoint(next),
+        onDestroyed: opts.onDestroyed,
+      });
+      // Golpe já gasto neste ataque (ou sem dano): a burst segue o trajeto
+      // normal, sem número e sem perder HP.
+      if (struck.hit) return struck.projectile;
     }
   }
 

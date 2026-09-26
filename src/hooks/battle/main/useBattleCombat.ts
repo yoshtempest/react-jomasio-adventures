@@ -95,7 +95,6 @@ type Props = {
   honoredFleeRef: RefObject<boolean>;
   surviveLethalHitRef: RefObject<() => boolean>;
   honoredRegenActive: boolean;
-  mostHonoredFreezeRef: RefObject<boolean>;
   vastolordMultiplierRef: RefObject<() => number>;
   vastolordActive: boolean;
   /** Aumenta a duração restante da Forma Vastolord (passiva do marcelo). */
@@ -128,7 +127,6 @@ export function useBattleCombat({
   honoredFleeRef,
   surviveLethalHitRef,
   honoredRegenActive,
-  mostHonoredFreezeRef,
   vastolordMultiplierRef,
   vastolordActive,
   extendVastolordRef,
@@ -208,7 +206,7 @@ export function useBattleCombat({
 
   const { weapon: lucasWeapon, switchWeapon } = useLucasWeaponSwitch({
     character: player.character,
-    hitstopRef: refs.hitstopRef,
+    tempoRef: refs.tempoRef,
   });
 
   const handleWeaponSwitch = useCallback(() => {
@@ -301,6 +299,9 @@ export function useBattleCombat({
     onBurstHit: (pushDir: number) => refs.npcBurstAttackRef.current(pushDir),
     playerProjectileRef,
     projectileHpRef,
+    spawnDamageRef: refs.spawnDamageRef,
+    playerCooldownRef: refs.playerCooldown,
+    playerHitDamageRef: refs.playerHitDamageRef,
     isAlfa,
     onSummonFromRight: (summonType: string) =>
       summonNpcRef.current(summonType, BATTLE_LIMITS.maxX + 600),
@@ -362,7 +363,7 @@ export function useBattleCombat({
       setPlayer((p) => applyPlayerStatus(p, status));
     },
     obstacles,
-    hitstopRef: refs.hitstopRef,
+    tempoRef: refs.tempoRef,
     npcStaggerRef: refs.npcStaggerRef,
     rootedUntilRef: npcRootedUntilRef,
     honoredFleeRef,
@@ -521,8 +522,10 @@ export function useBattleCombat({
       }
       onNpcDeathRef.current();
     },
-    hitstopRef: refs.hitstopRef,
+    tempoRef: refs.tempoRef,
     npcStaggerRef: refs.npcStaggerRef,
+    playerCooldown: refs.playerCooldown,
+    playerHitDamageRef: refs.playerHitDamageRef,
     registerHitRef: refs.registerHitRef,
     setPlayer,
     lastBlockPressRef,
@@ -751,7 +754,7 @@ export function useBattleCombat({
     difficulty,
     damagePlayer: battle.damagePlayer,
     spawnDamageRef: refs.spawnDamageRef,
-    hitstopRef: refs.hitstopRef,
+    tempoRef: refs.tempoRef,
     freezeUntilRef: freezeSummonsUntilRef,
     rootedSummonsUntilRef,
     honoredFleeRef,
@@ -777,7 +780,7 @@ export function useBattleCombat({
     npcLevel,
     difficulty,
     spawnDamageRef: refs.spawnDamageRef,
-    hitstopRef: refs.hitstopRef,
+    tempoRef: refs.tempoRef,
   });
 
   const {
@@ -802,9 +805,12 @@ export function useBattleCombat({
           (c) => Math.hypot(enemy.x - c.x, enemy.y - c.y) <= 200,
         ).length;
         if (count > 0) {
+          // `true` = bypassCharge: a explosão é a cauda do special que já
+          // consumiu a delícia, então cobra-la aqui matava todo o dano de área.
           hitTargetList(
             [{ id: enemy.id, x: enemy.x, y: enemy.y }],
             count,
+            true,
             true,
           );
         }
@@ -812,8 +818,10 @@ export function useBattleCombat({
     },
     arturOraMultiplierRef,
     refs,
-    freezeSummonsUntilRef,
     freezeActionsUntilRef,
+    onBombProjectiles: (strikes) => {
+      npc.strikeProjectiles(strikes);
+    },
   });
 
   const npcMaxHpRef = useLatestRef(battle.npcMaxHp);
@@ -825,7 +833,6 @@ export function useBattleCombat({
     battleManaRef,
     isEndingRef,
     isPausedRef,
-    mostHonoredFreezeRef,
     summonsBleedUntilRef,
     setSummons,
     summons,
@@ -862,7 +869,7 @@ export function useBattleCombat({
     setNpcHP: battle.setNpcHP,
     playerCooldown: battle.playerCooldown,
     isEnding: battle.isEnding,
-    hitstopRef: refs.hitstopRef,
+    tempoRef: refs.tempoRef,
     spawnDamageRef: refs.spawnDamageRef,
     registerHitRef: refs.registerHitRef,
     setPlayerState,
@@ -1310,12 +1317,15 @@ setNpcHP: battle.setNpcHP,
     isAlfa,
     summons,
     setSummons,
+    projectiles: npc.projectiles,
+    setProjectiles: npc.setProjectiles,
     setNpcHP: battle.setNpcHP,
     npcMaxHp: battle.npcMaxHp,
     giveSummonRewards,
     spawnDamageNumber: battle.spawnDamageNumber,
     registerHitRef: refs.registerHitRef,
     freezeActionsUntilRef,
+    tempoRef: refs.tempoRef,
     isPausedRef,
     battleEndedRef: battle.isEnding,
     disabledRef: cloneDisabledRef,

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { getSpecialFlowOverride } from "@/data/battle/animationFlow";
 import { PlayerSpecialConstants, ProjectileConstants } from "@/data/projectile";
+import { PLAYER_SPHERE_TEMPO_ID } from "@/gameRules/battle/tempo";
 
 const SPHERE_OFFSET_X = PlayerSpecialConstants.SPHERE_OFFSET_X;
 const FIRE_DURATION = PlayerSpecialConstants.FIRE_DURATION;
@@ -61,6 +62,7 @@ export function usePlayerSpecialProjectile({
       }
 
       projectileRef.current = {
+        id: PLAYER_SPHERE_TEMPO_ID,
         phase: "merge",
         x,
         y: headY,

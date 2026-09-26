@@ -19,6 +19,7 @@ const TYPE_CLASS: Record<string, string> = {
   special: styles.special!,
   pet: styles.pet!,
   summon: styles.summon!,
+  projectile: styles.projectile!,
   blocked: styles.blocked!,
   parry: styles.parry!,
   reflect: styles.reflect!,
@@ -34,13 +35,23 @@ const TYPE_CLASS: Record<string, string> = {
 };
 
 const HEAD_GAP = 8;
+/** Tipos que não pertencem a um personagem: ficam no ponto do projétil. */
+const NO_SNAP_TYPES = new Set<string>(["projectile"]);
+const NO_SNAP_OFFSET = 20;
 
 export function DamageNumbers({ numbers, scaleX, scaleY, targets }: Props) {
   return (
     <>
       {numbers.map((n) => {
-        const target = findDamageTarget(n.x, n.y, targets);
-        const headOffset = target ? target.h + HEAD_GAP : 80;
+        const noSnap = NO_SNAP_TYPES.has(n.type);
+        const target = noSnap
+          ? undefined
+          : findDamageTarget(n.x, n.y, targets);
+        const headOffset = noSnap
+          ? NO_SNAP_OFFSET
+          : target
+            ? target.h + HEAD_GAP
+            : 80;
         return (
           <div
             key={n.id}

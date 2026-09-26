@@ -18,6 +18,8 @@ export const PUNCH_MIN_DISTANCE_MS = FIFTY_MS;
 export const SPAWN_X_OFFSET = 55;
 export const BEHIND_X_OFFSET = 45;
 export const TOTAL_FREEZE_MS = 10000;
+/** Id do efeito de tempo da Killer Queen (regra `gameRules/battle/tempo`). */
+export const KILLER_QUEEN_TEMPO_ID = "artur:killerQueen";
 
 export const DEFAULT_OVERLAY: KillerQueenOverlay = {
   active: false,

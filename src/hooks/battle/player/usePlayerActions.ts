@@ -20,6 +20,7 @@ import {
 } from "@/data/characters/emanuel";
 
 import type { SummonedNpc } from "@/utils/types/npc/npc";
+import type { SpecialHitOptions } from "@/utils/types/battle/specialHitOptions";
 import type { CharactersProgress } from "@/data/characters/defaultProgress";
 
 type Props = {
@@ -43,7 +44,11 @@ type Props = {
       bypassCanPlayerHit?: boolean,
       bypassCooldown?: boolean,
     ) => void;
-    specialHit: (multiplier?: number, bypassRangeCheck?: boolean) => void;
+    specialHit: (
+      multiplier?: number,
+      bypassRangeCheck?: boolean,
+      options?: SpecialHitOptions,
+    ) => void;
     setDelicia: React.Dispatch<React.SetStateAction<number>>;
     hitsToSpecial: number;
   };
@@ -164,6 +169,8 @@ export function usePlayerBattleActions({
       targets: { id: string; x: number; y: number }[],
       multiplier: number,
       isSpecial: boolean,
+      /** Cauda de um special já disparado (explosão): não cobra carga de novo. */
+      bypassCharge?: boolean,
     ) => {
       let hitMain = false;
       const pushDir = player.battleDirection === "right" ? 1 : -1;
@@ -172,7 +179,7 @@ export function usePlayerBattleActions({
         if (target.id === "main") {
           hitMain = true;
           if (isSpecial) {
-            battle.specialHit(multiplier, true);
+            battle.specialHit(multiplier, true, { bypassCharge });
           } else {
             onNpcPush?.(npc.x + pushDir * BLOCK_ATTACK_PUSH_DISTANCE);
             battle.playerHit(multiplier, true);
@@ -186,7 +193,7 @@ export function usePlayerBattleActions({
         hitSummon(target, multiplier, isSpecial ? undefined : pushDir);
       }
 
-      if (!hitMain) {
+      if (!hitMain && !bypassCharge) {
         playAttackSound(player.character);
         resetCooldownRef(
           isSpecial ? PLAYER_SPECIAL_COOLDOWN : PLAYER_BASIC_COOLDOWN,

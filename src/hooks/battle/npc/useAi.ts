@@ -19,8 +19,11 @@ import {
   HONORED_ONE_FLEE_STEP,
 } from "@/gameRules/battle/cursedEnergy";
 import type { NewPlayerStatus } from "@/gameRules/battle/status/statusEffects";
+import type { SpawnDamageFn } from "@/utils/types/battle/spawnDamageFn";
+import type { ProjectileHitDamageFn } from "@/utils/types/battle/projectileHit";
 import { ProjectileHpConstants } from "@/data/projectile";
 import { useProximityLoopSound } from "./useProximityLoopSound";
+import { getTempo, NPC_TEMPO_ID, type TempoEffect } from "@/gameRules/battle/tempo";
 
 type Props = {
   playerX: number;
@@ -40,7 +43,7 @@ type Props = {
   onSummonFromRight?: (npcType: string) => void;
   onDragPlayer?: (npcX: number, npcY: number) => void;
   obstacles?: BattleObstacle[];
-  hitstopRef: React.RefObject<number>;
+  tempoRef: React.RefObject<TempoEffect[]>;
   npcStaggerRef: React.RefObject<number>;
   rootedUntilRef?: React.RefObject<number>;
   honoredFleeRef?: React.RefObject<boolean>;
@@ -67,6 +70,13 @@ type Props = {
   playerProjectileRef?: React.RefObject<PlayerSpecialProjectile | null>;
   /** Vida dos projéteis destrutíveis (1/3 do dano que causariam no jogador). */
   projectileHpRef?: React.RefObject<number>;
+  /** Damage numbers do jogador acertando projéteis inimigos. */
+  spawnDamageRef?: React.RefObject<SpawnDamageFn>;
+  /** Token de 1 instância de dano por golpe — projéteis só levam 1 por ataque. */
+  playerCooldownRef?: React.RefObject<boolean>;
+  /** Dano real do golpe ativo (básico ou special) aplicado nos projéteis. */
+  playerHitDamageRef?: React.RefObject<ProjectileHitDamageFn>;
+  /** Timestamp até onde os projéteis ficam congelados (Killer Queen). */
 };
 
 export function useNpcAI({
@@ -87,7 +97,7 @@ export function useNpcAI({
   onSummonFromRight,
   onDragPlayer,
   obstacles,
-  hitstopRef,
+  tempoRef,
   npcStaggerRef,
   rootedUntilRef,
   honoredFleeRef,
@@ -111,6 +121,9 @@ export function useNpcAI({
   onBurstHit,
   playerProjectileRef,
   projectileHpRef,
+  spawnDamageRef,
+  playerCooldownRef,
+  playerHitDamageRef,
 }: Props) {
   const [npc, setNpc] = useState<NPCBattleState>({
     x: BATTLE_SPAWN.npc.x,
@@ -190,7 +203,7 @@ export function useNpcAI({
     stopSound,
   );
 
-  useProjectile(
+  const { strikeProjectiles } = useProjectile(
     projectiles,
     setProjectiles,
     playerX,
@@ -210,7 +223,7 @@ export function useNpcAI({
       }
       onProjectileHit();
     },
-    hitstopRef,
+    tempoRef,
     onPullPlayer,
     (x: number) => {
       const maugrelo = npcRef.current.ai?.maugrelo;
@@ -241,6 +254,9 @@ export function useNpcAI({
     (pushDir: number) => onBurstHitRef.current?.(pushDir),
     playerProjectileRef,
     onProjectileDestroyed,
+    spawnDamageRef,
+    playerCooldownRef,
+    playerHitDamageRef,
   );
 
   const resetNpc = (stateOverride?: NPCBattleState["state"]) => {
@@ -294,7 +310,8 @@ export function useNpcAI({
         }
 
         if (isPausedRef.current) return n;
-        if (hitstopRef.current > Date.now()) return n;
+        const npcTempo = getTempo(tempoRef.current, "npc", NPC_TEMPO_ID);
+        if (npcTempo.speed === 0) return n;
 
         if (npcBlockedRef?.current) {
           return {
@@ -357,7 +374,13 @@ export function useNpcAI({
         });
 
         const rooted = (rootedUntilRef?.current ?? 0) > Date.now();
-        const nextX = rooted ? n.x : result.x;
+        // Regra de tempo: o `execute` de cada NPC devolve a posição final do
+        // tick. Escalar o delta aqui (em vez de editar os 20 `chasePlayer`)
+        // faz o slow-movement valer para todo comportamento — perseguir,
+        // dash, investida — sem que cada um precise saber da regra.
+        const scaledX =
+          n.x + (result.x - n.x) * npcTempo.speed;
+        const nextX = rooted ? n.x : scaledX;
         const nextY = result.y ?? n.y;
         const direction =
           result.direction ?? getNpcDirection(nextX, playerXRef.current);
@@ -391,7 +414,7 @@ export function useNpcAI({
       logStop("jhowsimarVemCa");
     };
   }, [
-    hitstopRef,
+    tempoRef,
     npcStaggerRef,
     rootedUntilRef,
     honoredFleeRef,
@@ -469,5 +492,6 @@ export function useNpcAI({
     updateNpc,
     setNpc,
     setProjectiles,
+    strikeProjectiles,
   };
 }

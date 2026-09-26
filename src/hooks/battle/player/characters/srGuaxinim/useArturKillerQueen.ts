@@ -1,6 +1,16 @@
 import { useEffect, useRef, useState } from "react";
+
 import { playerPath, npcPathProjectile } from "@/utils/paths";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import { getProjectileCenter } from "@/gameRules/npc/projectileDamage";
+import { isProjectileId } from "@/gameRules/npc/projectileId";
+import {
+  applyTempo,
+  clearTempo,
+  freezeWorldSpec,
+  type TempoEffect,
+} from "@/gameRules/battle/tempo";
+import type { ProjectileStrike } from "@/utils/types/battle/projectileHit";
 import type {
   KillerQueenOverlay,
   EnemyTarget,
@@ -10,16 +20,23 @@ import {
   BEHIND_X_OFFSET,
   SPAWN_X_OFFSET,
   TOTAL_FREEZE_MS,
+  KILLER_QUEEN_TEMPO_ID,
   KILLER_QUEEN_SPRITE_FILE,
 } from "@/data/characters/srGuaxinim";
 
 type Props = {
   player: Player;
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;
+  /** NPC principal + summons: alvos que levam dano de área. */
   enemies: EnemyTarget[];
-  freezeMainUntilRef: React.RefObject<number>;
-  freezeSummonsUntilRef: React.RefObject<number>;
+  /** Projéteis do NPC: congelados e transformados em bomba. */
+  projectiles: Projectile[];
+  /** Efeitos de tempo da batalha (regra `gameRules/battle/tempo`). */
+  tempoRef: React.RefObject<TempoEffect[]>;
+  /** O player não é `TempoKind`: o lock de ação dele é o `freezeActionsUntilRef`. */
   freezePlayerUntilRef: React.RefObject<number>;
+  /** Aplica o dano de área da explosão nos projéteis que viraram bomba. */
+  onBombProjectiles: (strikes: ProjectileStrike[]) => void;
   onAreaDamage: (
     explosions: { x: number; y: number }[],
     allEnemies: EnemyTarget[],
@@ -30,9 +47,10 @@ export function useArturKillerQueen({
   player,
   setPlayer,
   enemies,
-  freezeMainUntilRef,
-  freezeSummonsUntilRef,
+  projectiles,
+  tempoRef,
   freezePlayerUntilRef,
+  onBombProjectiles,
   onAreaDamage,
 }: Props) {
   const [killerQueen, setKillerQueen] =
@@ -45,10 +63,10 @@ export function useArturKillerQueen({
   const timersRef = useRef<number[]>([]);
   const onAreaDamageRef = useRef(onAreaDamage);
   onAreaDamageRef.current = onAreaDamage;
-  const freezeMainUntilRefRef = useRef(freezeMainUntilRef);
-  freezeMainUntilRefRef.current = freezeMainUntilRef;
-  const freezeSummonsUntilRefRef = useRef(freezeSummonsUntilRef);
-  freezeSummonsUntilRefRef.current = freezeSummonsUntilRef;
+  const onBombProjectilesRef = useRef(onBombProjectiles);
+  onBombProjectilesRef.current = onBombProjectiles;
+  const tempoRefRef = useRef(tempoRef);
+  tempoRefRef.current = tempoRef;
   const freezePlayerUntilRefRef = useRef(freezePlayerUntilRef);
   freezePlayerUntilRefRef.current = freezePlayerUntilRef;
 
@@ -77,9 +95,25 @@ export function useArturKillerQueen({
     const behindFlip = (e: EnemyTarget) => e.x >= player.x;
 
     const done = Date.now() + TOTAL_FREEZE_MS;
-    freezeMainUntilRefRef.current.current = done;
-    freezeSummonsUntilRefRef.current.current = done;
+    // Regra de tempo: um único efeito congela o mundo inteiro (npc, summons,
+    // allies, pet e projéteis). O player fica de fora do `TempoKind` — o lock
+    // de ação dele é o `freezeActionsUntilRef`, compartilhado por outras
+    // habilidades.
+    tempoRefRef.current.current = applyTempo(
+      tempoRefRef.current.current,
+      freezeWorldSpec(KILLER_QUEEN_TEMPO_ID, TOTAL_FREEZE_MS),
+    );
     freezePlayerUntilRefRef.current.current = done;
+
+    // Snapshot dos alvos no instante em que o special começa: inimigos +
+    // projéteis destrutíveis. A partir daqui os projéteis ficam congelados, então
+    // as posições não mudam mais durante a sequência.
+    const targets: EnemyTarget[] = [
+      ...enemies,
+      ...projectiles
+        .filter((p) => !p.indestructible)
+        .map((p) => ({ id: p.id, ...getProjectileCenter(p) })),
+    ];
 
     void (async () => {
       try {
@@ -97,7 +131,8 @@ export function useArturKillerQueen({
         setKillerQueen((q) => ({ ...q, opacity: 0 }));
 
         const bombed: BombTarget[] = [];
-        for (const enemy of enemies) {
+        const bombedProjectileIds: string[] = [];
+        for (const enemy of targets) {
           const recall = window.setTimeout(() => {
             setKillerQueen({
               active: true,
@@ -124,6 +159,7 @@ export function useArturKillerQueen({
             y: enemy.y,
             phase: "bomb",
           });
+          if (isProjectileId(enemy.id)) bombedProjectileIds.push(enemy.id);
           setBombTargets([...bombed]);
           setKillerQueen((q) => ({ ...q, opacity: 0 }));
           await delay(250);
@@ -146,16 +182,38 @@ export function useArturKillerQueen({
         setBombTargets((prev) =>
           prev.map((b) => ({ ...b, phase: "explosion" })),
         );
+        // Dano de área da explosão: os projéteis bomba levam o dano real do
+        // special (mesmo pipeline dos inimigos) e só somem se o dano zerar o
+        // HP — quem explode é a própria bomba que nasceu no projétil.
+        onBombProjectilesRef.current(
+          bombedProjectileIds.map((id) => {
+            const target = targets.find((t) => t.id === id);
+            const count = Math.max(
+              1,
+              bombed.filter(
+                (b) =>
+                  target != null &&
+                  Math.hypot(target.x - b.x, target.y - b.y) <= 200,
+              ).length,
+            );
+            return { id, multiplier: count };
+          }),
+        );
         onAreaDamageRef.current(
-          bombed.map((b) => ({ x: b.x, y: b.y })),
+          bombed
+            .filter((b) => !isProjectileId(b.id))
+            .map((b) => ({ x: b.x, y: b.y })),
           enemies,
         );
 
         await delay(450);
 
-        freezeMainUntilRefRef.current.current = Date.now();
-        freezeSummonsUntilRefRef.current.current = Date.now();
-        freezePlayerUntilRefRef.current.current = Date.now();
+        const unfreeze = Date.now();
+        tempoRefRef.current.current = clearTempo(
+          tempoRefRef.current.current,
+          KILLER_QUEEN_TEMPO_ID,
+        );
+        freezePlayerUntilRefRef.current.current = unfreeze;
 
         setKillerQueen((q) => ({ ...q, opacity: 0 }));
         await delay(250);
@@ -164,6 +222,10 @@ export function useArturKillerQueen({
         setPlayer((p) => ({ ...p, state: "idle" }));
       } finally {
         freezePlayerUntilRefRef.current.current = Date.now();
+        tempoRefRef.current.current = clearTempo(
+          tempoRefRef.current.current,
+          KILLER_QUEEN_TEMPO_ID,
+        );
         runningRef.current = false;
         timersRef.current = [];
       }
@@ -176,12 +238,17 @@ export function useArturKillerQueen({
     player.state,
     setPlayer,
     enemies,
+    projectiles,
     playSound,
   ]);
 
   useEffect(() => {
     return () => {
       freezePlayerUntilRefRef.current.current = Date.now();
+      tempoRefRef.current.current = clearTempo(
+        tempoRefRef.current.current,
+        KILLER_QUEEN_TEMPO_ID,
+      );
     };
   }, []);
 

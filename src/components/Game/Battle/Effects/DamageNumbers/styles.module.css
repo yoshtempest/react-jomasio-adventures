@@ -34,6 +34,17 @@
   color: #ff8844;
 }
 
+.projectile {
+  color: #ff6b6b;
+  font-size: var(--fs-20);
+  text-shadow:
+    0 0 var(--size-6) rgba(255, 107, 107, 0.8),
+    var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8),
+    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8),
+    var(--size-1) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8),
+    calc(-1 * var(--size-1)) var(--size-1) 0 rgba(0, 0, 0, 0.8);
+}
+
 .charge {
   color: #00bfff;
   font-size: var(--fs-28);
