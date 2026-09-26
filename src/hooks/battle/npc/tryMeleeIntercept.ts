@@ -4,8 +4,8 @@ import {
   shouldCutProjectile,
   createSlicedProjectile,
   MARSHADOW_CHARACTER_ID,
-} from "@/gameRules/npc/projectileCut";
-import { getProjectileDamagePoint } from "@/gameRules/npc/projectileDamage";
+} from "@/gameRules/npc/projectile/cutProjectile/projectileCut";
+import { getProjectileDamagePoint } from "@/gameRules/npc/projectile/projectileDamage";
 import type { LinearOpts } from "./handle/handleLinearProjectile";
 import { applyPlayerStrike } from "./apply/applyPlayerStrike";
 

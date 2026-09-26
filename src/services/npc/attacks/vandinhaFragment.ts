@@ -3,7 +3,7 @@ import { NPC_MELEE_COOLDOWN, NPC_PROJECTILE_COOLDOWN } from "@/data/cooldowns";
 import { chasePlayer } from "@/gameRules/npc/movement";
 import { tryMeleeAttack } from "@/gameRules/npc/attack";
 import { canAttack } from "@/gameRules/npc/behavior";
-import { createCommonProjectile } from "@/gameRules/npc/createDirectionalProjectile";
+import { createCommonProjectile } from "@/gameRules/npc/projectile/directionalProjectile";
 import { tryThrowProjectile } from "@/gameRules/npc/projectile";
 import { ONE_HUNDRED_MS, FOUR_HUNDRED_MS } from "@/data/ms";
 import type {

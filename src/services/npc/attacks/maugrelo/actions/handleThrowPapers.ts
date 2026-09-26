@@ -1,4 +1,4 @@
-import { createCommonProjectile } from "@/gameRules/npc/createDirectionalProjectile";
+import { createCommonProjectile } from "@/gameRules/npc/projectile/directionalProjectile";
 import type {
   BehaviorContext,
   BehaviorResult,

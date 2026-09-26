@@ -3,7 +3,7 @@ import { isPlayerInRange } from "@/gameRules/battle/range";
 import { isFacingTarget } from "@/gameRules/battle/direction";
 import { NPC_CLASS_VERTICAL_BONUS } from "@/gameRules/battle/rangeConfig";
 
-import { nextProjectileId } from "./projectileId";
+import { nextProjectileId } from "../projectileId";
 
 /** Chance de 10% do Marshadow cortar um projétil com o ataque normal. */
 export const MARSHADOW_CUT_CHANCE = 1;

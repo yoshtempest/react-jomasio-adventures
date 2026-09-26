@@ -1,5 +1,5 @@
 import { ProjectileHpConstants } from "@/data/projectile";
-import { updateSlicedProjectile } from "@/gameRules/npc/projectileCut";
+import { updateSlicedProjectile } from "@/gameRules/npc/projectile/cutProjectile/projectileCut";
 
 /**
  * Fragmentos cortados pelo Marcelo avançam até saírem da tela. Quando um

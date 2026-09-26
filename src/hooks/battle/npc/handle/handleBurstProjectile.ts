@@ -1,7 +1,7 @@
 import { ProjectileConstants, ProjectileHpConstants } from "@/data/projectile";
 import { isPlayerInRange } from "@/gameRules/battle/range";
 import { isSpecialStrikeState, isStrikeState } from "@/gameRules/battle/strikeState";
-import { getProjectileDamagePoint } from "@/gameRules/npc/projectileDamage";
+import { getProjectileDamagePoint } from "@/gameRules/npc/projectile/projectileDamage";
 import { applyPlayerStrike } from "../apply/applyPlayerStrike";
 import type { StrikeOpts } from "../apply/applyPlayerStrike";
 

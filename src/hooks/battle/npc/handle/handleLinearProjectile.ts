@@ -2,7 +2,7 @@ import { ProjectileConstants, ProjectileHpConstants } from "@/data/projectile";
 import {
   shouldCutProjectile,
   createSlicedProjectile,
-} from "@/gameRules/npc/projectileCut";
+} from "@/gameRules/npc/projectile/cutProjectile/projectileCut";
 import { tryMeleeIntercept } from "../tryMeleeIntercept";
 import type { StrikeOpts } from "../apply/applyPlayerStrike";
 

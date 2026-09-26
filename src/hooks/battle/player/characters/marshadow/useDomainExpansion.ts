@@ -8,7 +8,7 @@ import {
   type SetStateAction,
 } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
-import { getProjectileCenter } from "@/gameRules/npc/projectileDamage";
+import { getProjectileCenter } from "@/gameRules/npc/projectile/projectileDamage";
 import {
   applyTime,
   clearTime,

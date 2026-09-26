@@ -1,6 +1,6 @@
 import { chasePlayer } from "@/gameRules/npc/movement";
 import { isNear } from "@/gameRules/npc/behavior";
-import { createPullProjectile } from "@/gameRules/npc/createDirectionalProjectile";
+import { createPullProjectile } from "@/gameRules/npc/projectile/directionalProjectile";
 import { NPC_MELEE_COOLDOWN, NPC_PULL_COOLDOWN } from "@/data/cooldowns";
 import { FOUR_HUNDRED_MS, FIVE_HUNDRED_MS } from "@/data/ms";
 

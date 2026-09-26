@@ -1,7 +1,7 @@
 import { NPC_MELEE_COOLDOWN } from "@/data/cooldowns";
 import { ProjectileHpConstants } from "@/data/projectile";
 import { chasePlayer } from "@/gameRules/npc/movement";
-import { nextProjectileId } from "@/gameRules/npc/projectileId";
+import { nextProjectileId } from "@/gameRules/npc/projectile/projectileId";
 import { tryMeleeAttack } from "@/gameRules/npc/attack";
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
 import type { NPCBattleState } from "@/utils/types/npc/npc";

@@ -1,7 +1,7 @@
 import { NPC_MELEE_COOLDOWN, NPC_PROJECTILE_COOLDOWN } from "@/data/cooldowns";
 import { chasePlayer } from "@/gameRules/npc/movement";
 import { isNear } from "@/gameRules/npc/behavior";
-import { createCommonProjectile } from "@/gameRules/npc/createDirectionalProjectile";
+import { createCommonProjectile } from "@/gameRules/npc/projectile/directionalProjectile";
 import type {
   BehaviorContext,
   BehaviorResult,

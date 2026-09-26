@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 
 import { playerPath, npcPathProjectile } from "@/utils/paths";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
-import { getProjectileCenter } from "@/gameRules/npc/projectileDamage";
-import { isProjectileId } from "@/gameRules/npc/projectileId";
+import { getProjectileCenter } from "@/gameRules/npc/projectile/projectileDamage";
+import { isProjectileId } from "@/gameRules/npc/projectile/projectileId";
 import {
   applyTime,
   clearTime,

@@ -8,7 +8,7 @@ import {
 } from "@/data/cooldowns";
 import { isSpecialStrikeState } from "@/gameRules/battle/strikeState";
 import { resetCooldownRef } from "@/utils/battle/cooldown";
-import { getProjectileCenter } from "@/gameRules/npc/projectileDamage";
+import { getProjectileCenter } from "@/gameRules/npc/projectile/projectileDamage";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { applyPlayerStrike } from "./apply/applyPlayerStrike";
 import { handleBurstProjectile } from "./handle/handleBurstProjectile";

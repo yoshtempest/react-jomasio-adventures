@@ -44,7 +44,7 @@ import { combatService } from "@/services/combat";
 import {
   projectProjectileDamage,
   getProjectileDestructionHp,
-} from "@/gameRules/npc/projectileHp";
+} from "@/gameRules/npc/projectile/projectileHp";
 import { ProjectileHpConstants } from "@/data/projectile";
 import {
   NPC_BLOCK_HOLD_MS,
