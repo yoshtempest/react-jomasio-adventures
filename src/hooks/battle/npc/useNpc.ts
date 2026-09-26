@@ -17,11 +17,11 @@ import { rollNpcDamage } from "./rollNpcDamage";
 import { applyBleed } from "./apply/applyBleed";
 import {
   applyHitstop,
-  getTempo,
-  NPC_TEMPO_ID,
+  getTime,
+  NPC_TIME_ID,
   scaleCooldown,
-  type TempoEffect,
-} from "@/gameRules/battle/tempo";
+  type TimeEffect,
+} from "@/gameRules/battle/time";
 
 type Props = {
   npcLevel: number;
@@ -47,7 +47,7 @@ type Props = {
   spawnDamageRef: React.RefObject<
     (value: number, x: number, y: number, type: DamageType) => void
   >;
-  tempoRef: React.RefObject<TempoEffect[]>;
+  timeRef: React.RefObject<TimeEffect[]>;
   npcStaggerRef: React.RefObject<number>;
   blockGauge: number;
   setBlockGauge: React.Dispatch<React.SetStateAction<number>>;
@@ -88,7 +88,7 @@ export function useNpcBattle({
   difficulty,
   isEnding,
   spawnDamageRef,
-  tempoRef,
+  timeRef,
   npcStaggerRef,
   blockGauge,
   setBlockGauge,
@@ -114,10 +114,10 @@ export function useNpcBattle({
   const npcMaxHpRef = useLatestRef(npcMaxHp);
   const tenacityReductionRef = useLatestRef(tenacityReduction);
 
-  /** Estado de tempo do NPC principal (regra `gameRules/battle/tempo`). */
-  const npcTempo = useCallback(
-    () => getTempo(tempoRef.current, "npc", NPC_TEMPO_ID),
-    [tempoRef],
+  /** Estado de time do NPC principal (regra `gameRules/battle/time`). */
+  const npcTime = useCallback(
+    () => getTime(timeRef.current, "npc", NPC_TIME_ID),
+    [timeRef],
   );
 
   const damagePlayerWithReflect = useCallback(
@@ -187,7 +187,7 @@ export function useNpcBattle({
         damagePlayerWithReflect,
         setPlayer,
         spawnDamageRef,
-        tempoRef,
+        timeRef,
         npcStaggerRef,
         npcCooldown,
         lastBlockPressRef,
@@ -215,7 +215,7 @@ export function useNpcBattle({
       player.battleDirection,
       blockGauge,
       setBlockGauge,
-      tempoRef,
+      timeRef,
       npcStaggerRef,
       npcCooldown,
       lastBlockPressRef,
@@ -260,7 +260,7 @@ export function useNpcBattle({
           npcCooldown.current = false;
           setTimeout(
             () => (npcCooldown.current = true),
-            scaleCooldown(npcTempo(), NPC_MELEE_COOLDOWN),
+            scaleCooldown(npcTime(), NPC_MELEE_COOLDOWN),
           );
         }
         return;
@@ -289,7 +289,7 @@ export function useNpcBattle({
       applyNpcDamage(scaledDmg, tx, ty, dmgType);
       onDamageTakenRef?.current?.(scaledDmg);
       onHalfHeal?.();
-      tempoRef.current = applyHitstop(tempoRef.current, 50);
+      timeRef.current = applyHitstop(timeRef.current, 50);
 
       applyBleed(npcType, tenacityReductionRef.current, setPlayer);
 
@@ -297,7 +297,7 @@ export function useNpcBattle({
         npcCooldown.current = false;
         setTimeout(
           () => (npcCooldown.current = true),
-          scaleCooldown(npcTempo(), NPC_MELEE_COOLDOWN),
+          scaleCooldown(npcTime(), NPC_MELEE_COOLDOWN),
         );
       }
     },
@@ -305,7 +305,7 @@ export function useNpcBattle({
       luckBonus,
       isEnding,
       npcCooldown,
-      npcTempo,
+      npcTime,
       player.state,
       player.character,
       npcLevel,
@@ -316,7 +316,7 @@ export function useNpcBattle({
       playerY,
       npcX,
       difficulty,
-      tempoRef,
+      timeRef,
       applyNpcDamage,
       setPlayer,
       titleEnemyMissChance,
@@ -365,7 +365,7 @@ export function useNpcBattle({
       damagePlayerWithReflect,
       setPlayer,
       spawnDamageRef,
-      tempoRef,
+      timeRef,
       npcStaggerRef,
       npcCooldown,
       lastBlockPressRef,
@@ -389,7 +389,7 @@ export function useNpcBattle({
     navigator.vibrate?.(40);
     spawnDamageRef.current?.(finalDmg, playerX, playerY, dmgType);
     onHalfHeal?.();
-    tempoRef.current = applyHitstop(tempoRef.current, 30);
+    timeRef.current = applyHitstop(timeRef.current, 30);
 
     if (npcType === "maurao") {
       applyBleed(npcType, tenacityReductionRef.current, setPlayer);
@@ -414,7 +414,7 @@ export function useNpcBattle({
     npcY,
     difficulty,
     spawnDamageRef,
-    tempoRef,
+    timeRef,
     npcStaggerRef,
     blockGauge,
     setBlockGauge,
@@ -448,7 +448,7 @@ export function useNpcBattle({
           spawnDamageRef,
           playerX,
           playerY,
-          tempoRef,
+          timeRef,
           npcStaggerRef,
           npcCooldown,
           lastBlockPressRef,
@@ -476,7 +476,7 @@ export function useNpcBattle({
         spawnDamageRef,
         playerX,
         playerY,
-        tempoRef,
+        timeRef,
         npcStaggerRef,
         npcCooldown,
         lastBlockPressRef,
@@ -496,7 +496,7 @@ export function useNpcBattle({
       spawnDamageRef,
       playerX,
       playerY,
-      tempoRef,
+      timeRef,
       npcStaggerRef,
       npcCooldown,
       lastBlockPressRef,
@@ -527,7 +527,7 @@ export function useNpcBattle({
 
       damagePlayerWithReflect(finalDmg);
       spawnDamageRef.current?.(finalDmg, playerX, playerY, "npc");
-      tempoRef.current = applyHitstop(tempoRef.current, 80);
+      timeRef.current = applyHitstop(timeRef.current, 80);
       navigator.vibrate?.(80);
     },
     [
@@ -542,7 +542,7 @@ export function useNpcBattle({
       spawnDamageRef,
       playerX,
       playerY,
-      tempoRef,
+      timeRef,
       statMultiplier,
       player.character,
       npcType,
@@ -569,7 +569,7 @@ export function useNpcBattle({
           spawnDamageRef,
           playerX,
           playerY,
-          tempoRef,
+          timeRef,
           npcStaggerRef,
           npcCooldown,
           lastBlockPressRef,
@@ -583,7 +583,7 @@ export function useNpcBattle({
 
       damagePlayerWithReflect(dmg);
       spawnDamageRef.current?.(dmg, playerX, playerY, "npc");
-      tempoRef.current = applyHitstop(tempoRef.current, 80);
+      timeRef.current = applyHitstop(timeRef.current, 80);
       navigator.vibrate?.(80);
     },
     [
@@ -596,7 +596,7 @@ export function useNpcBattle({
       spawnDamageRef,
       playerX,
       playerY,
-      tempoRef,
+      timeRef,
       npcStaggerRef,
       npcCooldown,
       lastBlockPressRef,
@@ -623,7 +623,7 @@ export function useNpcBattle({
       applyNpcDamage(burstDmg, playerX, playerY, "npc");
       playSound("explosion");
       logPlay("explosion");
-      tempoRef.current = applyHitstop(tempoRef.current, 50);
+      timeRef.current = applyHitstop(timeRef.current, 50);
       navigator.vibrate?.(80);
 
       setPlayer((p) => {
@@ -646,7 +646,7 @@ export function useNpcBattle({
       playerY,
       applyNpcDamage,
       playSound,
-      tempoRef,
+      timeRef,
       setPlayer,
     ],
   );

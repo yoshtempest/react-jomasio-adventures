@@ -9,10 +9,10 @@ import { combatService } from "@/services/combat";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import {
   applyHitstop,
-  getTempo,
+  getTime,
   scaleCooldown,
-  type TempoEffect,
-} from "@/gameRules/battle/tempo";
+  type TimeEffect,
+} from "@/gameRules/battle/time";
 
 type EnemyTarget = {
   id: string;
@@ -37,7 +37,7 @@ type Props = {
   spawnDamageRef: React.RefObject<
     (value: number, x: number, y: number, type: DamageType) => void
   >;
-  tempoRef: React.RefObject<TempoEffect[]>;
+  timeRef: React.RefObject<TimeEffect[]>;
 };
 
 const ALLY_ATTACK_COOLDOWN = 800;
@@ -58,7 +58,7 @@ export function useAllyAI({
   npcLevel,
   difficulty,
   spawnDamageRef,
-  tempoRef,
+  timeRef,
 }: Props) {
   const allyLastAttacksRef = useRef<Record<string, number>>({});
 
@@ -74,7 +74,7 @@ export function useAllyAI({
   const npcLevelRef = useLatestRef(npcLevel);
   const difficultyRef = useLatestRef(difficulty);
   const spawnDamageRefRef = useLatestRef(spawnDamageRef);
-  const tempoRefRef = useLatestRef(tempoRef);
+  const timeRefRef = useLatestRef(timeRef);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -133,14 +133,14 @@ export function useAllyAI({
         prev.map((ally) => {
           if (ally.isDying || ally.hp <= 0) return ally;
 
-          // Regra de tempo: a classe decide, o ally é isento só se o efeito
+          // Regra de time: a classe decide, o ally é isento só se o efeito
           // listar o id dele em `exempt`.
-          const tempo = getTempo(
-            tempoRefRef.current.current,
+          const time = getTime(
+            timeRefRef.current.current,
             "ally",
             ally.id,
           );
-          if (tempo.speed === 0) return ally;
+          if (time.speed === 0) return ally;
 
           const nearest = enemies.reduce<EnemyTarget | null>((best, e) => {
             const d = Math.hypot(e.x - ally.x, e.y - ally.y);
@@ -158,13 +158,13 @@ export function useAllyAI({
           let newX = ally.x;
 
           if (dist > ALLY_ATTACK_RANGE) {
-            const moveStep = ALLY_MOVE_SPEED * tempo.speed;
+            const moveStep = ALLY_MOVE_SPEED * time.speed;
             newX += dx > 0 ? moveStep : -moveStep;
           } else {
             const now = Date.now();
             const lastAttack = allyLastAttacksRef.current[ally.id] ?? 0;
 
-            if (now - lastAttack >= scaleCooldown(tempo, ALLY_ATTACK_COOLDOWN)) {
+            if (now - lastAttack >= scaleCooldown(time, ALLY_ATTACK_COOLDOWN)) {
               allyLastAttacksRef.current[ally.id] = now;
 
               const damage = getAllyDamage(ally, nearest.npcType);
@@ -188,8 +188,8 @@ export function useAllyAI({
                   "ally",
                 );
               }
-              tempoRefRef.current.current = applyHitstop(
-                tempoRefRef.current.current,
+              timeRefRef.current.current = applyHitstop(
+                timeRefRef.current.current,
                 20,
               );
             }
@@ -219,7 +219,7 @@ export function useAllyAI({
     npcLevelRef,
     difficultyRef,
     spawnDamageRefRef,
-    tempoRefRef,
+    timeRefRef,
   ]);
 
   useEffect(() => {

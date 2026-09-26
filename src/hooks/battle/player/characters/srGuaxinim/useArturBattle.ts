@@ -70,7 +70,7 @@ export function useArturBattle({
     setPlayer,
     enemies,
     projectiles: npc.projectiles,
-    tempoRef: refs.tempoRef,
+    timeRef: refs.timeRef,
     freezePlayerUntilRef: freezeActionsUntilRef,
     onBombProjectiles,
     onAreaDamage,

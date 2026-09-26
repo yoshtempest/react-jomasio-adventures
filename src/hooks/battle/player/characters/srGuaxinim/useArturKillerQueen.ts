@@ -5,11 +5,11 @@ import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { getProjectileCenter } from "@/gameRules/npc/projectileDamage";
 import { isProjectileId } from "@/gameRules/npc/projectileId";
 import {
-  applyTempo,
-  clearTempo,
+  applyTime,
+  clearTime,
   freezeWorldSpec,
-  type TempoEffect,
-} from "@/gameRules/battle/tempo";
+  type TimeEffect,
+} from "@/gameRules/battle/time";
 import type { ProjectileStrike } from "@/utils/types/battle/projectileHit";
 import type {
   KillerQueenOverlay,
@@ -20,7 +20,7 @@ import {
   BEHIND_X_OFFSET,
   SPAWN_X_OFFSET,
   TOTAL_FREEZE_MS,
-  KILLER_QUEEN_TEMPO_ID,
+  KILLER_QUEEN_TIME_ID,
   KILLER_QUEEN_SPRITE_FILE,
 } from "@/data/characters/srGuaxinim";
 
@@ -31,9 +31,9 @@ type Props = {
   enemies: EnemyTarget[];
   /** Projéteis do NPC: congelados e transformados em bomba. */
   projectiles: Projectile[];
-  /** Efeitos de tempo da batalha (regra `gameRules/battle/tempo`). */
-  tempoRef: React.RefObject<TempoEffect[]>;
-  /** O player não é `TempoKind`: o lock de ação dele é o `freezeActionsUntilRef`. */
+  /** Efeitos de time da batalha (regra `gameRules/battle/time`). */
+  timeRef: React.RefObject<TimeEffect[]>;
+  /** O player não é `TimeKind`: o lock de ação dele é o `freezeActionsUntilRef`. */
   freezePlayerUntilRef: React.RefObject<number>;
   /** Aplica o dano de área da explosão nos projéteis que viraram bomba. */
   onBombProjectiles: (strikes: ProjectileStrike[]) => void;
@@ -48,7 +48,7 @@ export function useArturKillerQueen({
   setPlayer,
   enemies,
   projectiles,
-  tempoRef,
+  timeRef,
   freezePlayerUntilRef,
   onBombProjectiles,
   onAreaDamage,
@@ -65,8 +65,8 @@ export function useArturKillerQueen({
   onAreaDamageRef.current = onAreaDamage;
   const onBombProjectilesRef = useRef(onBombProjectiles);
   onBombProjectilesRef.current = onBombProjectiles;
-  const tempoRefRef = useRef(tempoRef);
-  tempoRefRef.current = tempoRef;
+  const timeRefRef = useRef(timeRef);
+  timeRefRef.current = timeRef;
   const freezePlayerUntilRefRef = useRef(freezePlayerUntilRef);
   freezePlayerUntilRefRef.current = freezePlayerUntilRef;
 
@@ -95,13 +95,13 @@ export function useArturKillerQueen({
     const behindFlip = (e: EnemyTarget) => e.x >= player.x;
 
     const done = Date.now() + TOTAL_FREEZE_MS;
-    // Regra de tempo: um único efeito congela o mundo inteiro (npc, summons,
-    // allies, pet e projéteis). O player fica de fora do `TempoKind` — o lock
+    // Regra de time: um único efeito congela o mundo inteiro (npc, summons,
+    // allies, pet e projéteis). O player fica de fora do `TimeKind` — o lock
     // de ação dele é o `freezeActionsUntilRef`, compartilhado por outras
     // habilidades.
-    tempoRefRef.current.current = applyTempo(
-      tempoRefRef.current.current,
-      freezeWorldSpec(KILLER_QUEEN_TEMPO_ID, TOTAL_FREEZE_MS),
+    timeRefRef.current.current = applyTime(
+      timeRefRef.current.current,
+      freezeWorldSpec(KILLER_QUEEN_TIME_ID, TOTAL_FREEZE_MS),
     );
     freezePlayerUntilRefRef.current.current = done;
 
@@ -209,9 +209,9 @@ export function useArturKillerQueen({
         await delay(450);
 
         const unfreeze = Date.now();
-        tempoRefRef.current.current = clearTempo(
-          tempoRefRef.current.current,
-          KILLER_QUEEN_TEMPO_ID,
+        timeRefRef.current.current = clearTime(
+          timeRefRef.current.current,
+          KILLER_QUEEN_TIME_ID,
         );
         freezePlayerUntilRefRef.current.current = unfreeze;
 
@@ -222,9 +222,9 @@ export function useArturKillerQueen({
         setPlayer((p) => ({ ...p, state: "idle" }));
       } finally {
         freezePlayerUntilRefRef.current.current = Date.now();
-        tempoRefRef.current.current = clearTempo(
-          tempoRefRef.current.current,
-          KILLER_QUEEN_TEMPO_ID,
+        timeRefRef.current.current = clearTime(
+          timeRefRef.current.current,
+          KILLER_QUEEN_TIME_ID,
         );
         runningRef.current = false;
         timersRef.current = [];
@@ -245,9 +245,9 @@ export function useArturKillerQueen({
   useEffect(() => {
     return () => {
       freezePlayerUntilRefRef.current.current = Date.now();
-      tempoRefRef.current.current = clearTempo(
-        tempoRefRef.current.current,
-        KILLER_QUEEN_TEMPO_ID,
+      timeRefRef.current.current = clearTime(
+        timeRefRef.current.current,
+        KILLER_QUEEN_TIME_ID,
       );
     };
   }, []);

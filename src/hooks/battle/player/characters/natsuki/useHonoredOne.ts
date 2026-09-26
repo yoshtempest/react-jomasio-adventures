@@ -9,16 +9,16 @@ import { useLatestRef } from "@/hooks/useLatestRef";
 import {
   HONORED_ONE_DURATION_MS,
   HONORED_ONE_RISE_MS,
-  HONORED_ONE_TEMPO_COOLDOWN,
-  HONORED_ONE_TEMPO_ID,
-  HONORED_ONE_TEMPO_SPEED,
+  HONORED_ONE_TIME_COOLDOWN,
+  HONORED_ONE_TIME_ID,
+  HONORED_ONE_TIME_SPEED,
 } from "@/gameRules/battle/cursedEnergy";
 import {
-  applyTempo,
-  clearTempo,
+  applyTime,
+  clearTime,
   slowWorldSpec,
-  PLAYER_SPHERE_TEMPO_ID,
-} from "@/gameRules/battle/tempo";
+  PLAYER_SPHERE_TIME_ID,
+} from "@/gameRules/battle/time";
 import type { BattleManaApi } from "@/contexts/BattleManaContext";
 import type { SoundId } from "@/utils/audio/soundId";
 import type { useBattleRefs } from "@/hooks/battle/utilities/useRefs";
@@ -29,7 +29,7 @@ type Props = {
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;
   playSound: (sound: SoundId, loop?: boolean, volumeOverride?: number) => void;
   refs: ReturnType<typeof useBattleRefs>;
-  /** O player não é `TempoKind`: o gate de ação dele é este lock. */
+  /** O player não é `TimeKind`: o gate de ação dele é este lock. */
   freezeActionsUntilRef: RefObject<number>;
   resetTimeScale: () => void;
   battleManaRef: RefObject<BattleManaApi | null>;
@@ -105,20 +105,20 @@ export function useHonoredOne({
       battleManaRef.current?.playerMana,
     );
     setPlayer((p) => ({ ...p, state: "mostHonored", velY: 0 }));
-    // Regra de tempo: o mundo inteiro sai do tempo normal, **exceto a esfera do
+    // Regra de time: o mundo inteiro sai do time normal, **exceto a esfera do
     // riquelme** — ela é a única coisa que continua em 1x enquanto ele sobe. O
-    // player fica de fora do `TempoKind`, então o lock de ação dele é escrito à
+    // player fica de fora do `TimeKind`, então o lock de ação dele é escrito à
     // mão (é o mesmo ref que câmera/vastolord/etc já usam).
-    refs.tempoRef.current = applyTempo(
-      refs.tempoRef.current,
+    refs.timeRef.current = applyTime(
+      refs.timeRef.current,
       slowWorldSpec(
-        HONORED_ONE_TEMPO_ID,
+        HONORED_ONE_TIME_ID,
         HONORED_ONE_DURATION_MS,
         {
-          speed: HONORED_ONE_TEMPO_SPEED,
-          cooldown: HONORED_ONE_TEMPO_COOLDOWN,
+          speed: HONORED_ONE_TIME_SPEED,
+          cooldown: HONORED_ONE_TIME_COOLDOWN,
         },
-        [PLAYER_SPHERE_TEMPO_ID],
+        [PLAYER_SPHERE_TIME_ID],
       ),
     );
     freezeActionsUntilRef.current = Math.max(
@@ -158,9 +158,9 @@ export function useHonoredOne({
     honoredFallRef.current = false;
     honoredRiseStartRef.current = 0;
     honoredFleeRef.current = false;
-    refs.tempoRef.current = clearTempo(
-      refs.tempoRef.current,
-      HONORED_ONE_TEMPO_ID,
+    refs.timeRef.current = clearTime(
+      refs.timeRef.current,
+      HONORED_ONE_TIME_ID,
     );
     // A sequência acabou no pouso: o slow e o lock do player valem só até
     // aqui, senão o riquelme ficaria travado no resto dos ~7.3s do efeito.

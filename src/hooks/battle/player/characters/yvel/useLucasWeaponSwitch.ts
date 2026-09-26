@@ -4,14 +4,14 @@ import {
   rollNextLucasWeapon,
   type LucasWeapon,
 } from "@/data/characters/lucasWeapons";
-import { applyHitstop, type TempoEffect } from "@/gameRules/battle/tempo";
+import { applyHitstop, type TimeEffect } from "@/gameRules/battle/time";
 
 export const LUCAS_WEAPON_SWITCH_DURATION_MS = 600;
 
 type Props = {
   character: CharacterId;
   isEndingRef?: React.RefObject<boolean>;
-  tempoRef: React.RefObject<TempoEffect[]>;
+  timeRef: React.RefObject<TimeEffect[]>;
 };
 
 /**
@@ -22,7 +22,7 @@ type Props = {
 export function useLucasWeaponSwitch({
   character,
   isEndingRef,
-  tempoRef,
+  timeRef,
 }: Props) {
   const [weapon, setWeapon] = useState<LucasWeapon>(DEFAULT_LUCAS_WEAPON);
   const switchingRef = useRef(false);
@@ -36,7 +36,7 @@ export function useLucasWeaponSwitch({
     if (switchingRef.current) return;
 
     switchingRef.current = true;
-    tempoRef.current = applyHitstop(tempoRef.current, LUCAS_WEAPON_SWITCH_DURATION_MS);
+    timeRef.current = applyHitstop(timeRef.current, LUCAS_WEAPON_SWITCH_DURATION_MS);
 
     const next = rollNextLucasWeapon(weapon);
     setWeapon(next);
@@ -46,7 +46,7 @@ export function useLucasWeaponSwitch({
       switchingRef.current = false;
       timerRef.current = null;
     }, LUCAS_WEAPON_SWITCH_DURATION_MS);
-  }, [available, isEndingRef, tempoRef, weapon]);
+  }, [available, isEndingRef, timeRef, weapon]);
 
   useEffect(() => {
     if (available) {

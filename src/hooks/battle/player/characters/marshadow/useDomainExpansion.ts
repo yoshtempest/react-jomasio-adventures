@@ -10,11 +10,11 @@ import {
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { getProjectileCenter } from "@/gameRules/npc/projectileDamage";
 import {
-  applyTempo,
-  clearTempo,
+  applyTime,
+  clearTime,
   freezeWorldSpec,
-  type TempoEffect,
-} from "@/gameRules/battle/tempo";
+  type TimeEffect,
+} from "@/gameRules/battle/time";
 import {
   isPlayerFrozen,
   isPlayerParalyzed,
@@ -25,8 +25,8 @@ import type { NPCBattleState, SummonedNpc } from "@/utils/types/npc/npc";
 
 /** Cooldown da Expansão de Domínio (45s). */
 export const DOMAIN_EXPANSION_COOLDOWN_MS = 45_000;
-/** Id do efeito de tempo da Expansão de Domínio (regra `gameRules/battle/tempo`). */
-export const DOMAIN_EXPANSION_TEMPO_ID = "marshadow:domainExpansion";
+/** Id do efeito de time da Expansão de Domínio (regra `gameRules/battle/time`). */
+export const DOMAIN_EXPANSION_TIME_ID = "marshadow:domainExpansion";
 /** Fase preMugetsu (blink visual + teleporte para a ponta mais próxima): 600ms. */
 export const DOMAIN_EXPANSION_PRE_MS = 600;
 /** Fase mugetsu (sprite mugetsu.svg) antes da varredura: 700ms. */
@@ -122,8 +122,8 @@ type Props = {
   /** Registra dano causado (combo/energia amaldiçoada/passivas). */
   registerHitRef: RefObject<(damage: number) => void>;
   freezeActionsUntilRef: RefObject<number>;
-  /** Efeitos de tempo da batalha (regra `gameRules/battle/tempo`). */
-  tempoRef: RefObject<TempoEffect[]>;
+  /** Efeitos de time da batalha (regra `gameRules/battle/time`). */
+  timeRef: RefObject<TimeEffect[]>;
   isPausedRef: RefObject<boolean>;
   battleEndedRef: RefObject<boolean>;
   disabledRef: RefObject<boolean>;
@@ -179,7 +179,7 @@ export function useDomainExpansion({
   spawnDamageNumber,
   registerHitRef,
   freezeActionsUntilRef,
-  tempoRef,
+  timeRef,
   isPausedRef,
   battleEndedRef,
   disabledRef,
@@ -287,7 +287,7 @@ export function useDomainExpansion({
     sweepStartRef.current = 0;
     sweepEndedRef.current = false;
     pendingDisintegrationsRef.current = 0;
-    tempoRef.current = clearTempo(tempoRef.current, DOMAIN_EXPANSION_TEMPO_ID);
+    timeRef.current = clearTime(timeRef.current, DOMAIN_EXPANSION_TIME_ID);
     setMugetsuSweep(null);
     setMugetsuBlink(null);
     setDomainExpansionActive(false);
@@ -302,7 +302,7 @@ export function useDomainExpansion({
       completeFiredRef.current = true;
       onNpcKilledRef.current();
     }
-  }, [clearTimers, clearTimer, onNpcKilledRef, setPlayer, tempoRef]);
+  }, [clearTimers, clearTimer, onNpcKilledRef, setPlayer, timeRef]);
 
   const finishRef = useLatestRef(finish);
 
@@ -484,11 +484,11 @@ export function useDomainExpansion({
     activeRef.current = true;
     readyAtRef.current = Date.now() + DOMAIN_EXPANSION_COOLDOWN_MS;
     setRemaining(DOMAIN_EXPANSION_COOLDOWN_MS / 1000);
-    // Regra de tempo: a Expansão de Domínio para o mundo inteiro. O player fica
-    // de fora do `TempoKind` — o lock de ação dele é o `freezeActionsUntilRef`.
-    tempoRef.current = applyTempo(
-      tempoRef.current,
-      freezeWorldSpec(DOMAIN_EXPANSION_TEMPO_ID, DOMAIN_EXPANSION_TOTAL_MS),
+    // Regra de time: a Expansão de Domínio para o mundo inteiro. O player fica
+    // de fora do `TimeKind` — o lock de ação dele é o `freezeActionsUntilRef`.
+    timeRef.current = applyTime(
+      timeRef.current,
+      freezeWorldSpec(DOMAIN_EXPANSION_TIME_ID, DOMAIN_EXPANSION_TOTAL_MS),
     );
     freezeActionsUntilRef.current = Math.max(
       freezeActionsUntilRef.current,
@@ -609,7 +609,7 @@ export function useDomainExpansion({
     setPlayer,
     shouldCancelRef,
     startSpecialIntro,
-    tempoRef,
+    timeRef,
     tickRef,
     usableRef,
   ]);

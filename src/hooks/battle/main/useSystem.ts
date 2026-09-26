@@ -46,7 +46,7 @@ import { useNpcBleedTicks } from "@/hooks/battle/time/ticks/useNpcBleedTicks";
 import { useManaRegenTick } from "@/hooks/battle/time/ticks/useManaRegenTick";
 import { usePlayerPullAnimation } from "@/hooks/battle/player/usePlayerPullAnimation";
 import { useMarceloCutInEnemie } from "@/hooks/battle/player/characters/marshadow/useMarceloCutInEnemie";
-import { type TempoEffect } from "@/gameRules/battle/tempo";
+import { type TimeEffect } from "@/gameRules/battle/time";
 
 type Props = {
   playerX: number;
@@ -61,7 +61,7 @@ type Props = {
   onNpcDeath: () => void;
   playerState: PlayerState;
   difficulty: NpcDifficulty;
-  tempoRef: React.RefObject<TempoEffect[]>;
+  timeRef: React.RefObject<TimeEffect[]>;
   npcStaggerRef: React.RefObject<number>;
   /** Token de 1 instância de dano por golpe (criado no useBattleRefs). */
   playerCooldown: React.RefObject<boolean>;
@@ -116,7 +116,7 @@ export function useBattleSystem(props: Props) {
     difficulty,
     onPlayerDeath,
     onNpcDeath,
-    tempoRef,
+    timeRef,
     npcStaggerRef,
     playerCooldown,
     playerHitDamageRef,
@@ -297,7 +297,7 @@ export function useBattleSystem(props: Props) {
     critRate: stats.critRate,
     npcArmor,
     spawnDamageRef,
-    tempoRef,
+    timeRef,
     registerHitRef,
     setPlayer,
     onBeforeNpcHitRef,
@@ -383,7 +383,7 @@ export function useBattleSystem(props: Props) {
     difficulty,
     isEnding,
     spawnDamageRef,
-    tempoRef,
+    timeRef,
     npcStaggerRef,
     blockGauge,
     setBlockGauge,

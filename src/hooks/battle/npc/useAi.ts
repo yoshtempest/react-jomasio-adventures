@@ -23,7 +23,7 @@ import type { SpawnDamageFn } from "@/utils/types/battle/spawnDamageFn";
 import type { ProjectileHitDamageFn } from "@/utils/types/battle/projectileHit";
 import { ProjectileHpConstants } from "@/data/projectile";
 import { useProximityLoopSound } from "./useProximityLoopSound";
-import { getTempo, NPC_TEMPO_ID, type TempoEffect } from "@/gameRules/battle/tempo";
+import { getTime, NPC_TIME_ID, type TimeEffect } from "@/gameRules/battle/time";
 
 type Props = {
   playerX: number;
@@ -43,7 +43,7 @@ type Props = {
   onSummonFromRight?: (npcType: string) => void;
   onDragPlayer?: (npcX: number, npcY: number) => void;
   obstacles?: BattleObstacle[];
-  tempoRef: React.RefObject<TempoEffect[]>;
+  timeRef: React.RefObject<TimeEffect[]>;
   npcStaggerRef: React.RefObject<number>;
   rootedUntilRef?: React.RefObject<number>;
   honoredFleeRef?: React.RefObject<boolean>;
@@ -97,7 +97,7 @@ export function useNpcAI({
   onSummonFromRight,
   onDragPlayer,
   obstacles,
-  tempoRef,
+  timeRef,
   npcStaggerRef,
   rootedUntilRef,
   honoredFleeRef,
@@ -223,7 +223,7 @@ export function useNpcAI({
       }
       onProjectileHit();
     },
-    tempoRef,
+    timeRef,
     onPullPlayer,
     (x: number) => {
       const maugrelo = npcRef.current.ai?.maugrelo;
@@ -310,8 +310,8 @@ export function useNpcAI({
         }
 
         if (isPausedRef.current) return n;
-        const npcTempo = getTempo(tempoRef.current, "npc", NPC_TEMPO_ID);
-        if (npcTempo.speed === 0) return n;
+        const npcTime = getTime(timeRef.current, "npc", NPC_TIME_ID);
+        if (npcTime.speed === 0) return n;
 
         if (npcBlockedRef?.current) {
           return {
@@ -374,12 +374,12 @@ export function useNpcAI({
         });
 
         const rooted = (rootedUntilRef?.current ?? 0) > Date.now();
-        // Regra de tempo: o `execute` de cada NPC devolve a posição final do
+        // Regra de time: o `execute` de cada NPC devolve a posição final do
         // tick. Escalar o delta aqui (em vez de editar os 20 `chasePlayer`)
         // faz o slow-movement valer para todo comportamento — perseguir,
         // dash, investida — sem que cada um precise saber da regra.
         const scaledX =
-          n.x + (result.x - n.x) * npcTempo.speed;
+          n.x + (result.x - n.x) * npcTime.speed;
         const nextX = rooted ? n.x : scaledX;
         const nextY = result.y ?? n.y;
         const direction =
@@ -414,7 +414,7 @@ export function useNpcAI({
       logStop("jhowsimarVemCa");
     };
   }, [
-    tempoRef,
+    timeRef,
     npcStaggerRef,
     rootedUntilRef,
     honoredFleeRef,

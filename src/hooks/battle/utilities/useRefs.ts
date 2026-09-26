@@ -4,7 +4,7 @@ import { ProjectileHpConstants } from "@/data/projectile";
 
 import type { SpawnDamageFn } from "@/utils/types/battle/spawnDamageFn";
 import type { ProjectileHitDamageFn } from "@/utils/types/battle/projectileHit";
-import type { TempoEffect } from "@/gameRules/battle/tempo";
+import type { TimeEffect } from "@/gameRules/battle/time";
 
 export function useBattleRefs() {
   const npcRangedAttackRef = useRef<() => void>(() => {});
@@ -13,11 +13,11 @@ export function useBattleRefs() {
   const npcThrowAttackRef = useRef<() => void>(() => {});
   const playerYRef = useRef(0);
   /**
-   * Efeitos de tempo da batalha (regra `gameRules/battle/tempo`): hitstop,
+   * Efeitos de time da batalha (regra `gameRules/battle/time`): hitstop,
    * congelamento da Killer Queen, Expansão de Domínio, O Mais Honrado.
    * Substitui os antigos `hitstopRef` + `projectilesFreezeUntilRef`.
    */
-  const tempoRef = useRef<TempoEffect[]>([]);
+  const timeRef = useRef<TimeEffect[]>([]);
   const npcStaggerRef = useRef(0);
   const spawnDamageRef = useRef<SpawnDamageFn>(() => {});
   const registerHitRef = useRef<(damage: number) => void>(() => {});
@@ -44,7 +44,7 @@ export function useBattleRefs() {
     npcBurstAttackRef,
     npcThrowAttackRef,
     playerYRef,
-    tempoRef,
+    timeRef,
     npcStaggerRef,
     spawnDamageRef,
     registerHitRef,

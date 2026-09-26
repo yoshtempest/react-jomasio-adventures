@@ -32,7 +32,7 @@ import type {
   ProjectileHitResolveOptions,
 } from "@/utils/types/battle/projectileHit";
 import type { SpecialHitOptions } from "@/utils/types/battle/specialHitOptions";
-import { type TempoEffect } from "@/gameRules/battle/tempo";
+import { type TimeEffect } from "@/gameRules/battle/time";
 
 type Props = {
   player: Player;
@@ -72,7 +72,7 @@ type Props = {
   spawnDamageRef: React.RefObject<
     (value: number, x: number, y: number, type: DamageType) => void
   >;
-  tempoRef: React.RefObject<TempoEffect[]>;
+  timeRef: React.RefObject<TimeEffect[]>;
   registerHitRef: React.RefObject<(damage: number) => void>;
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;
   /** Devolve o multiplicador atual do ataque básico do artur (escala ORA). */
@@ -126,7 +126,7 @@ export function usePlayerBattle({
   critRate,
   npcArmor,
   spawnDamageRef,
-  tempoRef,
+  timeRef,
   registerHitRef,
   setPlayer,
   arturOraMultiplierRef,
@@ -283,7 +283,7 @@ export function usePlayerBattle({
           setPlayer,
           spawnDamageRef,
           registerHitRef,
-          tempoRef,
+          timeRef,
           onDamageDealtRef,
           onAttackRef,
           onKokusenRef,
@@ -334,7 +334,7 @@ export function usePlayerBattle({
       titleDamageBonus,
       elementDamageBonus,
       spawnDamageRef,
-      tempoRef,
+      timeRef,
       registerHitRef,
       onDamageDealtRef,
       critRate,
@@ -493,7 +493,7 @@ export function usePlayerBattle({
         setPlayer,
         spawnDamageRef,
         registerHitRef,
-        tempoRef,
+        timeRef,
         onDamageDealtRef,
         onSpecialRef: options?.bypassCharge ? undefined : onSpecialRef,
         onKokusenRef,
@@ -541,7 +541,7 @@ export function usePlayerBattle({
       stacks,
       triggerExplosion,
       spawnDamageRef,
-      tempoRef,
+      timeRef,
       registerHitRef,
       onDamageDealtRef,
       critRate,

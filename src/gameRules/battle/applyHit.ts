@@ -4,7 +4,7 @@ import type { CharacterProgress } from "@/data/characters/defaultProgress";
 import type { ElementType } from "@/utils/types/battle/element";
 import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
 import { combatService } from "@/services/combat";
-import { applyHitstop, type TempoEffect } from "@/gameRules/battle/tempo";
+import { applyHitstop, type TimeEffect } from "@/gameRules/battle/time";
 
 type BaseHitParams = {
   player: Player;
@@ -28,7 +28,7 @@ type BaseHitParams = {
     (value: number, x: number, y: number, type: DamageType) => void
   >;
   registerHitRef: React.RefObject<(damage: number) => void>;
-  tempoRef: React.RefObject<TempoEffect[]>;
+  timeRef: React.RefObject<TimeEffect[]>;
   onDamageDealtRef?: React.RefObject<(amount: number) => void>;
   onAttackRef?: React.RefObject<() => void>;
   onSpecialRef?: React.RefObject<() => void>;
@@ -163,7 +163,7 @@ function finishHit(
   params.registerHitRef.current?.(damage);
   params.onDamageDealtRef?.current?.(damage);
   onActionRef?.current?.();
-  params.tempoRef.current = applyHitstop(params.tempoRef.current, hitstop);
+  params.timeRef.current = applyHitstop(params.timeRef.current, hitstop);
 
   if (params.totalVampirism > 0) {
     const heal = Math.round((damage * params.totalVampirism) / 100);

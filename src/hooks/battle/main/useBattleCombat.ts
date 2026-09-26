@@ -206,7 +206,7 @@ export function useBattleCombat({
 
   const { weapon: lucasWeapon, switchWeapon } = useLucasWeaponSwitch({
     character: player.character,
-    tempoRef: refs.tempoRef,
+    timeRef: refs.timeRef,
   });
 
   const handleWeaponSwitch = useCallback(() => {
@@ -363,7 +363,7 @@ export function useBattleCombat({
       setPlayer((p) => applyPlayerStatus(p, status));
     },
     obstacles,
-    tempoRef: refs.tempoRef,
+    timeRef: refs.timeRef,
     npcStaggerRef: refs.npcStaggerRef,
     rootedUntilRef: npcRootedUntilRef,
     honoredFleeRef,
@@ -522,7 +522,7 @@ export function useBattleCombat({
       }
       onNpcDeathRef.current();
     },
-    tempoRef: refs.tempoRef,
+    timeRef: refs.timeRef,
     npcStaggerRef: refs.npcStaggerRef,
     playerCooldown: refs.playerCooldown,
     playerHitDamageRef: refs.playerHitDamageRef,
@@ -754,7 +754,7 @@ export function useBattleCombat({
     difficulty,
     damagePlayer: battle.damagePlayer,
     spawnDamageRef: refs.spawnDamageRef,
-    tempoRef: refs.tempoRef,
+    timeRef: refs.timeRef,
     freezeUntilRef: freezeSummonsUntilRef,
     rootedSummonsUntilRef,
     honoredFleeRef,
@@ -780,7 +780,7 @@ export function useBattleCombat({
     npcLevel,
     difficulty,
     spawnDamageRef: refs.spawnDamageRef,
-    tempoRef: refs.tempoRef,
+    timeRef: refs.timeRef,
   });
 
   const {
@@ -869,7 +869,7 @@ export function useBattleCombat({
     setNpcHP: battle.setNpcHP,
     playerCooldown: battle.playerCooldown,
     isEnding: battle.isEnding,
-    tempoRef: refs.tempoRef,
+    timeRef: refs.timeRef,
     spawnDamageRef: refs.spawnDamageRef,
     registerHitRef: refs.registerHitRef,
     setPlayerState,
@@ -1325,7 +1325,7 @@ setNpcHP: battle.setNpcHP,
     spawnDamageNumber: battle.spawnDamageNumber,
     registerHitRef: refs.registerHitRef,
     freezeActionsUntilRef,
-    tempoRef: refs.tempoRef,
+    timeRef: refs.timeRef,
     isPausedRef,
     battleEndedRef: battle.isEnding,
     disabledRef: cloneDisabledRef,

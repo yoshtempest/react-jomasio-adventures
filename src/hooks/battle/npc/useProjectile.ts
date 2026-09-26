@@ -20,7 +20,7 @@ import type {
   ProjectileHitResolveOptions,
   ProjectileStrike,
 } from "@/utils/types/battle/projectileHit";
-import { getTempo, type TempoEffect } from "@/gameRules/battle/tempo";
+import { getTime, type TimeEffect } from "@/gameRules/battle/time";
 
 export function useProjectile(
   projectiles: Projectile[],
@@ -32,7 +32,7 @@ export function useProjectile(
   _npcX: number,
   _npcY: number,
   onHit: () => void,
-  tempoRef: React.RefObject<TempoEffect[]>,
+  timeRef: React.RefObject<TimeEffect[]>,
   onPullPlayer?: (x: number) => void,
   onMiss?: (x: number) => void,
   onStick?: () => void,
@@ -159,12 +159,12 @@ export function useProjectile(
 
       const next = projectiles
         .map((p) => {
-          // Regra de tempo da batalha: projétil congelado (hitstop, Killer
+          // Regra de time da batalha: projétil congelado (hitstop, Killer
           // Queen, Expansão de Domínio, O Mais Honrado) não se move, não
           // colide com o jogador e não toma dano. O id só importa para o
           // `exempt` do efeito.
-          const tempo = getTempo(tempoRef.current, "projectile", p.id);
-          if (tempo.speed === 0) return p;
+          const time = getTime(timeRef.current, "projectile", p.id);
+          if (time.speed === 0) return p;
           switch (p.variant) {
             case "common":
               return handleLinearProjectile(p, {
@@ -184,7 +184,7 @@ export function useProjectile(
                 onStick: () => {
                   stick = true;
                 },
-                speedScale: tempo.speed,
+                speedScale: time.speed,
               });
             case "pull":
               return handleLinearProjectile(p, {
@@ -199,7 +199,7 @@ export function useProjectile(
                 ...strike,
                 onHit: onHitRef.current,
                 onPullPlayer: onPullPlayerRef.current,
-                speedScale: tempo.speed,
+                speedScale: time.speed,
               });
             case "cut":
               return handleCut(p, {
@@ -216,7 +216,7 @@ export function useProjectile(
                 onHitRef.current,
                 destroy,
                 strike,
-                tempo.speed,
+                time.speed,
               );
             case "burst":
               return handleBurstProjectile(p, {
@@ -229,7 +229,7 @@ export function useProjectile(
                 onDestroyed: destroy,
                 ...strike,
                 onBurstHit: onBurstHitRef.current,
-                speedScale: tempo.speed,
+                speedScale: time.speed,
               });
           }
         })
@@ -244,7 +244,7 @@ export function useProjectile(
   }, [
     projectiles,
     setProjectiles,
-    tempoRef,
+    timeRef,
     onHitRef,
     onPullPlayerRef,
     onMissRef,
