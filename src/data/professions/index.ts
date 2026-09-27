@@ -81,14 +81,6 @@ export const PROFESSIONS: ProfessionInfo[] = [
     toolName: "Picareta",
     recipe: { hungry_essence: 5, goat_horn: 2 },
   },
-  {
-    id: "painter",
-    name: "Pintor",
-    npcName: "???",
-    toolId: "weapon_paint",
-    toolName: "Pincel",
-    recipe: { hungry_essence: 3, figurant_totem: 2 },
-  },
 ];
 
 export function getProfessionByToolId(

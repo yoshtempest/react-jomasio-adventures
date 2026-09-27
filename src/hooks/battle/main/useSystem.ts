@@ -250,7 +250,7 @@ export function useBattleSystem(props: Props) {
     setNpcHP,
     playerShield,
     setPlayerShield,
-  } = useBattleHP(playerMaxHp, npcMaxHp, totalShield, savedPlayerHP);
+  } = useBattleHP(playerMaxHp, npcMaxHp, totalShield, savedPlayerHP, char.level);
 
   const energy = useEnergy(player, playerMaxHp, setPlayerShield);
 

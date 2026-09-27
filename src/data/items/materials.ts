@@ -107,12 +107,6 @@ export const MATERIALS = createItems({
     description: "Minério valioso para evoluir a Picareta.",
     type: "material",
   },
-  prof_mat_painter: {
-    image: "/assets/items/prof_mat_painter.svg",
-    name: "Tinta Rara",
-    description: "Tinta especial para evoluir o Pincel.",
-    type: "material",
-  },
   ...WOODS,
   ...ORES,
   ...FISHES,

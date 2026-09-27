@@ -45,7 +45,6 @@ const ALL_PROFESSIONS: ProfessionId[] = [
   "bodyBuilder",
   "mechanic",
   "miner",
-  "painter",
 ];
 
 function buildProfessionItems(): Record<ProfessionId, ReadonlySet<string>> {

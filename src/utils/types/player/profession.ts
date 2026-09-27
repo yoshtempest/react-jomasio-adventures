@@ -11,8 +11,7 @@ export type ProfessionId =
   | "chef"
   | "bodyBuilder"
   | "mechanic"
-  | "miner"
-  | "painter";
+  | "miner";
 
 export type CraftRecipe = Partial<Record<MaterialId, number>>;
 

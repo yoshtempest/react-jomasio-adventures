@@ -25,7 +25,6 @@ export const CRAFT_MATERIALS = {
   },
   prof_mat_mechanic: { id: "prof_mat_mechanic", name: "Parafuso Especial" },
   prof_mat_miner: { id: "prof_mat_miner", name: "Minério Raro" },
-  prof_mat_painter: { id: "prof_mat_painter", name: "Tinta Rara" },
 } as const satisfies Record<string, { id: ItemId; name: string }>;
 
 export type MaterialId = keyof typeof CRAFT_MATERIALS;

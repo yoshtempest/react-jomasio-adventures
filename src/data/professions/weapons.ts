@@ -91,7 +91,6 @@ const WEAPON_IDS = {
   bodyBuilder: "weapon_dumbbell",
   mechanic: "weapon_adjustable_wrench",
   miner: "weapon_pickaxe",
-  painter: "weapon_paint",
 } as const satisfies Record<ProfessionId, EquipmentId>;
 
 const MATERIAL_IDS = {
@@ -105,7 +104,6 @@ const MATERIAL_IDS = {
   bodyBuilder: "prof_mat_bodyBuilder",
   mechanic: "prof_mat_mechanic",
   miner: "prof_mat_miner",
-  painter: "prof_mat_painter",
 } as const satisfies Record<ProfessionId, MaterialId>;
 
 /**
@@ -193,14 +191,6 @@ export const PROFESSION_WEAPONS: Record<ProfessionId, ProfessionWeaponConfig> =
       element: "Subterra",
       materialId: MATERIAL_IDS.miner,
       materialName: "Minério Raro",
-    },
-    painter: {
-      professionId: "painter",
-      baseName: "Pincel",
-      baseToolId: WEAPON_IDS.painter,
-      element: "Psychicus",
-      materialId: MATERIAL_IDS.painter,
-      materialName: "Tinta Rara",
     },
   };
 

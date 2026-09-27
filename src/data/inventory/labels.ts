@@ -77,9 +77,4 @@ export const FILTER_LABELS: {
     label: "Mineiro",
     src: "/assets/badges/professions/miner.svg",
   },
-  {
-    type: "prof_painter",
-    label: "Pintor",
-    src: "/assets/badges/professions/painter.svg",
-  },
 ];
