@@ -45,3 +45,26 @@ export function getUnlockDate(charId: string): string | null {
   const dates = loadUnlockDates();
   return dates[charId] ?? null;
 }
+
+const UNKNOWN_DATE = "??/??/????";
+
+/**
+ * Data em que o personagem foi desbloqueado no save atual.
+ *
+ * Prioriza a data gravada por `saveUnlockDate` (o momento em que a flag de
+ * desbloqueio disparou) e cai para a data do primeiro login quando o
+ * personagem não tem registro — é o que acontece com quem já vinha
+ * disponível desde a criação do save.
+ */
+export function getCharacterUnlockDate(
+  charId: string,
+  firstLoginDate: string,
+): string {
+  return formatUnlockDate(getUnlockDate(charId) ?? firstLoginDate);
+}
+
+/** Formata um ISO date para `dd/mm/aaaa`, ou `??/??/????` se não houver data. */
+export function formatUnlockDate(isoDate: string | null | undefined): string {
+  if (!isoDate) return UNKNOWN_DATE;
+  return new Date(isoDate).toLocaleDateString("pt-BR");
+}

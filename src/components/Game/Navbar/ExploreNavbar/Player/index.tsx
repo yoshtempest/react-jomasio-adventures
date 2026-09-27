@@ -27,6 +27,7 @@ import {
   getSpecialsUsedStats,
   getAttacksUsedStats,
 } from "@/utils/rewards";
+import { getCharacterUnlockDate } from "@/utils/character/unlockDate";
 import { StatRow } from "./StatRow";
 import { PlayerRewards } from "./PlayerRewards";
 import { DailyRewardSection } from "./DailyReward";
@@ -50,6 +51,7 @@ export function Player() {
     getTotalPlayTime,
     getTotalBattleTime,
     loginDays,
+    firstLoginDate,
   } = usePlayTime();
   const { bestiary } = useBestiary();
   const { titlesData } = useTitles();
@@ -143,8 +145,11 @@ export function Player() {
     attacksUsed: attacksUsedStats.total,
   });
 
+  const unlockDate = getCharacterUnlockDate(selectedChar, firstLoginDate);
+
   const characterStats = getCharacterStats({
     totalPlayTime: playTime[selectedChar],
+    unlockedDate: unlockDate,
     totalBattleTime: battleTime[selectedChar] ?? 0,
     coins: progress[selectedChar]?.coins ?? 0,
     hyperCoins: progress[selectedChar]?.hyperCoins ?? 0,

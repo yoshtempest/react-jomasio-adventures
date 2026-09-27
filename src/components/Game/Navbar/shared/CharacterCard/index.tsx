@@ -12,10 +12,9 @@ type CharacterProgress = {
 };
 
 type CharacterCardProps = {
-  character: CharacterOption & { unlockedDate?: string | null };
+  character: CharacterOption;
   isSelected: boolean;
   progress: CharacterProgress;
-  showUnlockDate?: boolean;
   showInUse?: boolean;
   inUse?: boolean;
 };
@@ -24,7 +23,6 @@ export function CharacterCard({
   character,
   isSelected,
   progress,
-  showUnlockDate = false,
   showInUse = false,
   inUse = false,
 }: CharacterCardProps) {
@@ -86,14 +84,6 @@ export function CharacterCard({
         <p className={styles.text}>
           {progress.xp} / {xpNeeded} XP
         </p>
-        {showUnlockDate && (
-          <p className={styles.text}>
-            Desbloqueado em:{" "}
-            {character.unlockedDate
-              ? new Date(character.unlockedDate).toLocaleDateString("pt-BR")
-              : "??/??/????"}
-          </p>
-        )}
         {showInUse && inUse && <p className={styles.inUse}>Em uso</p>}
       </div>
     </div>

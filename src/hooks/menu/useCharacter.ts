@@ -12,8 +12,6 @@ import { getSelectableCharacters } from "@/gameRules/menu/selectableCharacters";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { useFlags } from "@/contexts/FlagContext";
-import { usePlayTime } from "@/contexts/PlayTimeContext";
-import { getUnlockDate } from "@/utils/character/unlockDate";
 
 export function useCharacterMenu(
   isOpen: boolean,
@@ -23,7 +21,6 @@ export function useCharacterMenu(
   const { pushControls } = useGameControls();
   const { playMove, playSelect } = useMenuSFX();
   const { hasFlag } = useFlags();
-  const { firstLoginDate } = usePlayTime();
 
   const flags = {
     samurionUnlocked: hasFlag("samurionUnlocked"),
@@ -40,9 +37,6 @@ export function useCharacterMenu(
       (c.image === "samuel" && flags.samurionUnlocked) ||
       (c.image === "lucas" && flags.yvelUnlocked) ||
       (c.image === "artur" && flags.srGuaxinimUnlocked),
-    unlockedDate: c.selectable
-      ? firstLoginDate || null
-      : getUnlockDate(c.image),
   }));
 
   const [selectedIndex, setSelectedIndex] = useState(0);

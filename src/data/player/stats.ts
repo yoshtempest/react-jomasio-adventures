@@ -35,6 +35,7 @@ type SummaryStatsProps = {
 
 type CharacterStatsProps = {
   totalPlayTime: number;
+  unlockedDate: string;
   totalBattleTime: number;
   coins: number;
   hyperCoins: number;
@@ -105,6 +106,7 @@ export function getSummaryStats(data: SummaryStatsProps) {
 export function getCharacterStats(data: CharacterStatsProps) {
   return [
     stat("Tempo total", formatTime(data.totalPlayTime)),
+    stat("Data de desbloqueio", data.unlockedDate),
     stat("Tempo em batalha", formatTime(data.totalBattleTime)),
     stat("Kwanzas", data.coins),
     stat("HyperCoins", data.hyperCoins),

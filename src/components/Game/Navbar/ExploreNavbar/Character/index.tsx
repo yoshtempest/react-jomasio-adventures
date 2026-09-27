@@ -30,7 +30,6 @@ export function Character() {
             character={char}
             isSelected={isSelected}
             progress={charProgress}
-            showUnlockDate
           />
         );
       })}
