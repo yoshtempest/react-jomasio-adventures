@@ -147,3 +147,8 @@
   color: var(--text-secondary);
   margin-left: var(--fs-6);
 }
+
+.image {
+  width: 60%;
+  height: var(--size-240);
+}

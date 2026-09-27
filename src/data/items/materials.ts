@@ -77,12 +77,6 @@ export const MATERIALS = createItems({
     description: "Um peixe raro e dourado para evoluir a Vara de Pesca.",
     type: "material",
   },
-  prof_mat_pastryChef: {
-    image: "/assets/items/prof_mat_pastryChef.svg",
-    name: "Açúcar de Cristal",
-    description: "Açúcar refinado para evoluir o Rolo de Massa.",
-    type: "material",
-  },
   prof_mat_butcher: {
     image: "/assets/items/prof_mat_butcher.svg",
     name: "Carne Nobre",

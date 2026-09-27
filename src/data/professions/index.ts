@@ -42,14 +42,6 @@ export const PROFESSIONS: ProfessionInfo[] = [
     recipe: { hungry_essence: 4, rare_scale: 2 },
   },
   {
-    id: "pastryChef",
-    name: "Confeiteiro",
-    npcName: "Jucimaria",
-    toolId: "weapon_rolling_pin",
-    toolName: "Rolo de Massa",
-    recipe: { hungry_essence: 4 },
-  },
-  {
     id: "butcher",
     name: "Açougueiro",
     npcName: "Tim",

@@ -53,11 +53,6 @@ export const FILTER_LABELS: {
     src: "/assets/badges/professions/fisher.svg",
   },
   {
-    type: "prof_pastryChef",
-    label: "Confeiteiro",
-    src: "/assets/badges/professions/pastryChef.svg",
-  },
-  {
     type: "prof_butcher",
     label: "Açougueiro",
     src: "/assets/badges/professions/butscher.svg",

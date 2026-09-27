@@ -6,7 +6,7 @@ import {
 } from "@/data/professions/weapons";
 import { ITEMS } from "@/data/items";
 import { canCraft, getMaterialCount } from "@/gameRules/professions/craft";
-import { asset } from "@/utils/paths";
+import { asset, npcPath } from "@/utils/paths";
 import { getOwnedTierIndex } from "@/components/Game/Navbar/ExploreNavbar/Professions/professionUtils";
 import type {
   ProfessionInfo,
@@ -65,46 +65,51 @@ export function ProfessionItem({
       className={`${styles.item} ${selected ? styles.selected : ""}`}
       onClick={onOpen}
     >
-      <div className={styles.info}>
-        <span className={styles.name}>{profession.name}</span>
-        <span className={styles.npc}>{profession.npcName}</span>
-        <span className={styles.element}>Bônus vs {config.element}</span>
-        <div className={styles.proficiency}>
-          <span className={styles.levelBadge}>Nv {proficiency.level}</span>
-          <ProgressBar
-            value={proficiency.xp}
-            max={xpToNext}
-            animationId={`prof-xp-${character}-${profession.id}`}
-            level={proficiency.level}
-          />
-          <span className={styles.xpText}>
-            {proficiency.xp}/{xpToNext}
-          </span>
-        </div>
+      <img
+        src={npcPath(`/professionals/${profession.id}.svg`)}
+        className={styles.image}
+      />
+      <div>
+        <div className={styles.info}>
+          <span className={styles.name}>{profession.name}</span>
+          <span className={styles.npc}>{profession.npcName}</span>
+          <span className={styles.element}>Bônus vs {config.element}</span>
+          <div className={styles.proficiency}>
+            <span className={styles.levelBadge}>Nv {proficiency.level}</span>
+            <ProgressBar
+              value={proficiency.xp}
+              max={xpToNext}
+              animationId={`prof-xp-${character}-${profession.id}`}
+              level={proficiency.level}
+            />
+            <span className={styles.xpText}>
+              {proficiency.xp}/{xpToNext}
+            </span>
+          </div>
 
-        <div className={styles.ladder}>
-          {PROFESSION_WEAPON_TIERS.map((tier) => {
-            const idx = getTierIndex(tier.id);
-            const reached = idx <= ownedTierIndex;
-            return (
-              <span
-                key={tier.id}
-                title={tier.label}
-                className={`${styles.ladderStep} ${
-                  reached ? styles.ladderReached : ""
-                } ${idx === ownedTierIndex ? styles.ladderCurrent : ""}`}
-              />
-            );
-          })}
-          {owned &&
-            currentTier &&
-            ownedTierIndex < PROFESSION_WEAPON_TIERS.length - 1 &&
-            nextTier && (
-              <span className={styles.ladderNext}>
-                → {nextTier.label} ×{currentTier.materialQty}{" "}
-                {config.materialName}
-              </span>
-            )}
+          <div className={styles.ladder}>
+            {PROFESSION_WEAPON_TIERS.map((tier) => {
+              const idx = getTierIndex(tier.id);
+              const reached = idx <= ownedTierIndex;
+              return (
+                <span
+                  key={tier.id}
+                  title={tier.label}
+                  className={`${styles.ladderStep} ${
+                    reached ? styles.ladderReached : ""
+                  } ${idx === ownedTierIndex ? styles.ladderCurrent : ""}`}
+                />
+              );
+            })}
+            {owned &&
+              currentTier &&
+              ownedTierIndex < PROFESSION_WEAPON_TIERS.length - 1 &&
+              nextTier && (
+                <span className={styles.ladderNext}>
+                  → {nextTier.label} ×{currentTier.materialQty}{" "}
+                  {config.materialName}
+                </span>
+              )}
         </div>
       </div>
 
@@ -156,6 +161,7 @@ export function ProfessionItem({
               ? "Máximo"
               : "Evoluir"}
       </span>
+      </div>
     </li>
   );
 }

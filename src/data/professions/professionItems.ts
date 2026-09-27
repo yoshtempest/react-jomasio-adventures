@@ -40,7 +40,6 @@ const ALL_PROFESSIONS: ProfessionId[] = [
   "lumberjack",
   "farmer",
   "fisher",
-  "pastryChef",
   "butcher",
   "bodyBuilder",
   "mechanic",

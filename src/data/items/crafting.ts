@@ -17,7 +17,6 @@ export const CRAFT_MATERIALS = {
   },
   prof_mat_farmer: { id: "prof_mat_farmer", name: "Semente Mágica" },
   prof_mat_fisher: { id: "prof_mat_fisher", name: "Peixe Dourado" },
-  prof_mat_pastryChef: { id: "prof_mat_pastryChef", name: "Açúcar de Cristal" },
   prof_mat_butcher: { id: "prof_mat_butcher", name: "Carne Nobre" },
   prof_mat_bodyBuilder: {
     id: "prof_mat_bodyBuilder",

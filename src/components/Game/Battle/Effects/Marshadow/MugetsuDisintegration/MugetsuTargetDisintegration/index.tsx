@@ -32,15 +32,20 @@ type TargetProps = {
  * quando o alvo é engolido por inteiro, os pixels saem voando (vento da
  * varredura + subida) e somem como pó.
  */
-export function MugetsuTargetDisintegration({ target, sweep, TILE_SIZE }: TargetProps) {
+export function MugetsuTargetDisintegration({
+  target,
+  sweep,
+  TILE_SIZE,
+}: TargetProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const imageRef = useRef<HTMLImageElement | null>(null);
   const dustStartRef = useRef<number | null>(null);
   const idleTriedRef = useRef(false);
   const rafRef = useRef(0);
   /**
-   * Células do sprite com pixel visível (undefined = ainda não lida, null =
-   * indisponível → grade cheia). Recalculado quando o sprite muda.
+   * Células do sprite com pixel visível (undefined = ainda não lida → nenhum
+   * quadradinho, null = indisponível → grade cheia). Recalculado quando o
+   * sprite muda.
    */
   const maskRef = useRef<Uint8Array | null | undefined>(undefined);
   const sweepRef = useRef(sweep);
@@ -51,11 +56,14 @@ export function MugetsuTargetDisintegration({ target, sweep, TILE_SIZE }: Target
   );
 
   useEffect(() => {
+    maskRef.current = undefined;
+  }, [src]);
+
+  useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    maskRef.current = undefined;
 
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const scaleX = getViewportSize().width / ProjectileConstants.MAP_WIDTH;
@@ -98,6 +106,11 @@ export function MugetsuTargetDisintegration({ target, sweep, TILE_SIZE }: Target
         }
       }
       const mask = maskRef.current;
+
+      // Máscara ainda não lida (sprite carregando): sem quadradinho nenhum.
+      // Cair na grade aqui pintaria de preto o fundo transparente do sprite,
+      // que é exatamente o que a silhueta existe para evitar.
+      if (mask === undefined) return;
 
       const frontX = sweepRef.current?.x ?? null;
       const left = target.x - logicWidth / 2;
@@ -240,7 +253,17 @@ export function MugetsuTargetDisintegration({ target, sweep, TILE_SIZE }: Target
             ),
           );
         }}
-        style={{ display: "none" }}
+        style={{
+          // Não usar `display: none`: browsers podem adiar a decodificação de
+          // imagem não renderizada, e a máscara de silhueta é lida dela. Sem
+          // pixels lidos a grade cai inteira e o picotado invade o fundo
+          // transparente do sprite.
+          position: "absolute",
+          width: 1,
+          height: 1,
+          opacity: 0,
+          pointerEvents: "none",
+        }}
       />
     </div>
   );

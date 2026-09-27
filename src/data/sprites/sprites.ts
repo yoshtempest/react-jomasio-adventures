@@ -1,4 +1,4 @@
-type NpcCategory = "ally" | "enemies" | "pets";
+type NpcCategory = "ally" | "enemies" | "pets" | "professionals";
 
 export const NPC_CATEGORY: Record<string, NpcCategory> = {
   blackao: "ally",
@@ -80,6 +80,14 @@ export const NPC_CATEGORY: Record<string, NpcCategory> = {
   duque: "pets",
   turkey: "pets",
   zecaUrubu: "pets",
+  miner: "professionals",
+  alchemist: "professionals",
+  bodyBuilder: "professionals",
+  butcher: "professionals",
+  farmer: "professionals",
+  chef: "professionals",
+  lumberjack: "professionals",
+  fisher: "professionals",
 };
 
 export const STATE_FOLDER: Record<string, string | null> = {

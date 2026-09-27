@@ -5,7 +5,6 @@ export type ProfessionId =
   | "alchemist"
   | "farmer"
   | "fisher"
-  | "pastryChef"
   | "butcher"
   | "lumberjack"
   | "chef"
