@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
-import { usePlayerActions } from "@/contexts/PlayerContext";
+import { usePlayer } from "@/contexts/PlayerContext";
 import { CHARACTERS } from "@/data/options/characters";
 import {
   circularNext,
@@ -17,7 +17,8 @@ export function useCharacterMenu(
   isOpen: boolean,
   listRef?: React.RefObject<HTMLDivElement | null>,
 ) {
-  const { setCharacter } = usePlayerActions();
+  const { player, setCharacter } = usePlayer();
+  const playerCharacter = player.character;
   const { pushControls } = useGameControls();
   const { playMove, playSelect } = useMenuSFX();
   const { hasFlag } = useFlags();
@@ -39,7 +40,12 @@ export function useCharacterMenu(
       (c.image === "artur" && flags.srGuaxinimUnlocked),
   }));
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(() =>
+    Math.max(
+      0,
+      selectableCharacters.findIndex((c) => c.image === playerCharacter),
+    ),
+  );
   const selectedIndexRef = useRef(selectedIndex);
 
   useEffect(() => {

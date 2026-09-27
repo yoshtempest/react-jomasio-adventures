@@ -107,8 +107,6 @@ export function Characters() {
             character={char}
             isSelected={isSelected}
             progress={charProgress}
-            showInUse
-            inUse={char.image === player.character}
           />
         );
       })}

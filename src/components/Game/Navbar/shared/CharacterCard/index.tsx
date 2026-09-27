@@ -3,6 +3,7 @@ import { ProgressBar } from "@/components/Game/ProgressBar";
 import { playerPath, asset } from "@/utils/paths";
 import { getRank, formatRank, srcRank } from "@/gameRules/rank";
 import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
+import { usePlayer } from "@/contexts/PlayerContext";
 import { getXPToNextLevel } from "@/utils/character/progress";
 import type { CharacterOption } from "@/utils/types/player/character";
 
@@ -15,17 +16,15 @@ type CharacterCardProps = {
   character: CharacterOption;
   isSelected: boolean;
   progress: CharacterProgress;
-  showInUse?: boolean;
-  inUse?: boolean;
 };
 
 export function CharacterCard({
   character,
   isSelected,
   progress,
-  showInUse = false,
-  inUse = false,
 }: CharacterCardProps) {
+  const { player } = usePlayer();
+  const isEquipped = player.character === character.image;
   const xpNeeded = getXPToNextLevel(progress.level);
 
   return (
@@ -84,7 +83,7 @@ export function CharacterCard({
         <p className={styles.text}>
           {progress.xp} / {xpNeeded} XP
         </p>
-        {showInUse && inUse && <p className={styles.inUse}>Em uso</p>}
+        {isEquipped && <p className={styles.inUse}>Em uso</p>}
       </div>
     </div>
   );
