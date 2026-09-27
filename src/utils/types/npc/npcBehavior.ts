@@ -1,5 +1,5 @@
 import type { NPCBattleState } from "@/utils/types/npc/npc";
-import type { SoundId } from "@/contexts/SoundEffectsContext";
+import type { SoundId } from "@/utils/audio/soundId";
 import type { NewPlayerStatus } from "@/gameRules/battle/status/statusEffects";
 
 export type BehaviorContext = {

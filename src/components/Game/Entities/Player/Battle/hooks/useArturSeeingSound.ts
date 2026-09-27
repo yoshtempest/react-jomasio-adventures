@@ -18,5 +18,5 @@ export function useArturSeeingSound(src: string) {
     } else {
       prePalmPlayedRef.current = false;
     }
-  }, [src, playSound]);
+  }, [src, playSound, ARTUR_SEEING_SRC]);
 }
