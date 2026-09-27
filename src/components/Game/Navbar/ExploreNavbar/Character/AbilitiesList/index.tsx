@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Zap, ShieldCheck, Clock, Coins, Sparkles } from "lucide-react";
 
-import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 
 import { getCharacterAbilities } from "@/data/characters/abilities";
@@ -15,9 +14,14 @@ function formatCooldown(cooldownMs: number) {
   return `${cooldownMs / 1000}s`;
 }
 
-function AbilityMeta({ ability }: { ability: CharacterAbility }) {
-  const { player } = usePlayer();
-  const energyName = getEnergyName(player.character);
+function AbilityMeta({
+  ability,
+  characterId,
+}: {
+  ability: CharacterAbility;
+  characterId: CharacterId;
+}) {
+  const energyName = getEnergyName(characterId);
 
   if (ability.kind === "active") {
     return (
@@ -51,13 +55,17 @@ function AbilityMeta({ ability }: { ability: CharacterAbility }) {
   );
 }
 
-export function AbilitiesList() {
-  const { player } = usePlayer();
+export function AbilitiesList({
+  characterId,
+  onClose,
+}: {
+  characterId: CharacterId;
+  onClose: () => void;
+}) {
   const { progress } = useCharacterProgress();
-  const character = player.character;
-  const level = progress[character]?.level ?? 1;
+  const level = progress[characterId]?.level ?? 1;
 
-  const abilities = getCharacterAbilities(character);
+  const abilities = getCharacterAbilities(characterId);
   const totalItems = abilities.length;
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -92,7 +100,12 @@ export function AbilitiesList() {
 
   return (
     <div className="containerOfNavbar" style={{ overflow: "hidden" }}>
-      <h2>Habilidades</h2>
+      <div className={styles.viewHeader}>
+        <h2>Habilidades</h2>
+        <button className={styles.backButton} onClick={onClose}>
+          Voltar
+        </button>
+      </div>
       <div ref={containerRef} className={styles.container}>
         {abilities.length === 0 && (
           <p className={styles.empty}>
@@ -127,7 +140,7 @@ export function AbilitiesList() {
               <p className={styles.description}>{ability.description}</p>
 
               <div className={styles.metaRow}>
-                <AbilityMeta ability={ability} />
+                <AbilityMeta ability={ability} characterId={characterId} />
               </div>
             </div>
           );

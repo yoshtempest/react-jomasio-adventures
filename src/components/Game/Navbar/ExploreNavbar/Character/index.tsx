@@ -3,14 +3,25 @@ import styles from "./styles.module.css";
 import { useCharacterMenu } from "@/hooks/menu/useCharacter";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { CharacterCard } from "@/components/Game/Navbar/shared/CharacterCard";
+import { AbilitiesList } from "./AbilitiesList";
 
 export function Character() {
   const { progress } = useCharacterProgress();
   const listRef = useRef<HTMLDivElement>(null);
-  const { characters, selectableCharacters, selectedIndex } = useCharacterMenu(
-    true,
-    listRef,
-  );
+  const {
+    characters,
+    selectableCharacters,
+    selectedIndex,
+    abilitiesFor,
+    openAbilities,
+    closeAbilities,
+  } = useCharacterMenu(true, listRef);
+
+  if (abilitiesFor) {
+    return (
+      <AbilitiesList characterId={abilitiesFor} onClose={closeAbilities} />
+    );
+  }
 
   return (
     <div
@@ -30,6 +41,7 @@ export function Character() {
             character={char}
             isSelected={isSelected}
             progress={charProgress}
+            onShowAbilities={openAbilities}
           />
         );
       })}

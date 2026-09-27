@@ -16,12 +16,15 @@ type CharacterCardProps = {
   character: CharacterOption;
   isSelected: boolean;
   progress: CharacterProgress;
+  /** Abre a lista de habilidades deste personagem. */
+  onShowAbilities?: (characterId: CharacterId) => void;
 };
 
 export function CharacterCard({
   character,
   isSelected,
   progress,
+  onShowAbilities,
 }: CharacterCardProps) {
   const { player } = usePlayer();
   const isEquipped = player.character === character.image;
@@ -84,6 +87,11 @@ export function CharacterCard({
           {progress.xp} / {xpNeeded} XP
         </p>
         {isEquipped && <p className={styles.inUse}>Em uso</p>}
+        {onShowAbilities && character.selectable && (
+          <button onClick={() => onShowAbilities(character.image)}>
+            Habilidades
+          </button>
+        )}
       </div>
     </div>
   );

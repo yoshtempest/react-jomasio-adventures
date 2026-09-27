@@ -121,7 +121,7 @@ export const CHARACTER_PASSIVES: Record<
       id: "cursedEnergy",
       name: "Energia Amaldiçoada",
       description:
-        "Não usa mana: a energia amaldiçoada não regenera com o tempo e não existem poções dela. Ganha 1 de energia amaldiçoada a cada 5 de dano causado. O botão extra converte a energia amaldiçoada em vida (5 de energia por 1 de HP).",
+        "Não usa mana: a energia amaldiçoada não regenera com o tempo e não existem poções dela. Ganha 1 de energia amaldiçoada a cada 5 de dano causado.",
       unlockedAtLevel: 1,
       oncePerBattle: false,
       effect: { kind: "cursedEnergy" },
@@ -129,9 +129,9 @@ export const CHARACTER_PASSIVES: Record<
     {
       characterId: "riquelme",
       id: "honoredOne",
-      name: "O Abençoado",
+      name: "O Mais Honrado",
       description:
-        "Uma vez por batalha, ao sofrer um golpe que seria letal, sobrevive com 1 de vida.",
+        "Uma vez por batalha, ao sofrer um golpe que seria letal, sobrevive com 1 de vida. Após isso, a regeração de energia amaldiçoada passa a ocorrer e em alta velocidade.",
       unlockedAtLevel: 1,
       oncePerBattle: true,
       effect: { kind: "honoredOne" },

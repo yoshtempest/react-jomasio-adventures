@@ -10,6 +10,7 @@ import {
 import { getSelected } from "@/gameRules/menu/selection";
 import { getSelectableCharacters } from "@/gameRules/menu/selectableCharacters";
 import { useLatestRef } from "@/hooks/useLatestRef";
+import { useStableCallback } from "@/hooks/useStableCallback";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { useFlags } from "@/contexts/FlagContext";
 
@@ -40,6 +41,9 @@ export function useCharacterMenu(
       (c.image === "artur" && flags.srGuaxinimUnlocked),
   }));
 
+  // Personagem cujas habilidades estão em tela (null = mostrando os cards).
+  const [abilitiesFor, setAbilitiesFor] = useState<CharacterId | null>(null);
+
   const [selectedIndex, setSelectedIndex] = useState(() =>
     Math.max(
       0,
@@ -61,6 +65,10 @@ export function useCharacterMenu(
 
   // 🎮 CONTROLES
   useEffect(() => {
+    // Com a lista de habilidades aberta quem responde por up/down é ela — as
+    // duas camadas ativas juntas fariam o cursor andar em paralelo.
+    if (abilitiesFor) return;
+
     const controls = {
       onRight: () => {
         playMoveRef.current();
@@ -105,19 +113,31 @@ export function useCharacterMenu(
 
     const remove = pushControlsRef.current(controls);
     return () => remove();
-  }, [playMoveRef, playSelectRef, pushControlsRef, selectableCharactersRef]);
+  }, [
+    playMoveRef,
+    playSelectRef,
+    pushControlsRef,
+    selectableCharactersRef,
+    abilitiesFor,
+  ]);
 
   useEffect(() => {
+    if (abilitiesFor) return;
     if (!isOpen || !listRef?.current) return;
     const container = listRef.current;
     const selectedElement = container.children[selectedIndex] as HTMLElement;
     if (!selectedElement) return;
     selectedElement.scrollIntoView({ behavior: "smooth", block: "nearest" });
-  }, [isOpen, selectedIndex, listRef]);
+  }, [isOpen, selectedIndex, listRef, abilitiesFor]);
+
+  const closeAbilities = useStableCallback(() => setAbilitiesFor(null));
 
   return {
     characters,
     selectableCharacters,
     selectedIndex,
+    abilitiesFor,
+    openAbilities: setAbilitiesFor,
+    closeAbilities,
   };
 }

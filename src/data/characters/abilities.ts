@@ -65,7 +65,7 @@ export const CHARACTER_ACTIVE_ABILITIES: Partial<
     {
       kind: "active",
       id: "cursedEnergyConversion",
-      name: "Converter Energia",
+      name: "Conversão de Energia",
       description: `Converte energia amaldiçoada em vida (${CURSED_ENERGY_HEAL_RATIO} de energia por 1 de HP).`,
       requires: "some enquanto O Abençoado estiver ativo",
     },

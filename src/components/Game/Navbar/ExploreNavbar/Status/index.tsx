@@ -3,7 +3,6 @@ import { CharacterInfo } from "./CharacterInfo";
 import { CharacterStats } from "./CharacterStats";
 import { AvailableStats } from "./AvailableStats";
 import { EquipmentList } from "./EquipmentList";
-import { AbilitiesList } from "./AbilitiesList";
 import { RankList } from "./RankList";
 import { SkillTreeView } from "./SkillTreeView";
 import { AllStatsView } from "./AllStats";
@@ -11,10 +10,6 @@ import styles from "./styles.module.css";
 
 export function Status() {
   const { selectedIndex, view } = useStatusMenu(true);
-
-  if (view === "abilities") {
-    return <AbilitiesList />;
-  }
 
   if (view === "skillTree") {
     return <SkillTreeView />;

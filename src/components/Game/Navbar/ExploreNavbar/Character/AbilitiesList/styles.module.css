@@ -3,7 +3,8 @@
   flex-direction: column;
   overflow-y: auto;
   flex: 1;
-  width: 100%;
+  width: 90%;
+  height: auto;
   padding: var(--small);
   gap: var(--smaller);
 }
@@ -75,4 +76,21 @@
   font-size: var(--smaller);
   color: var(--text-secondary);
   font-style: italic;
+}
+
+.viewHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--fs-8);
+}
+
+.backButton {
+  padding: var(--size-2) var(--fs-14);
+  font-size: var(--fs-12);
+  font-weight: bold;
+  color: var(--text-color);
+  background-color: transparent;
+  border: var(--size-1) solid var(--border-default);
+  border-radius: var(--size-6);
 }

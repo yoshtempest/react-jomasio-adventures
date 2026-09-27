@@ -10,8 +10,7 @@ import { useGameControlsLayer } from "@/hooks/game/useGameControlsLayer";
 
 const OPTIONS = STATS;
 
-export type StatusView =
-  "stats" | "abilities" | "skillTree" | "ranks" | "allStats";
+export type StatusView = "stats" | "skillTree" | "ranks" | "allStats";
 
 /**
  * Linhas navegáveis abaixo dos stats. São data-driven de propósito: inserir
@@ -26,24 +25,18 @@ export const STATUS_SUB_ROWS: {
 }[] = [
   {
     index: STATS.length,
-    label: "Habilidades",
-    icon: "/assets/status/skills.svg",
-    view: "abilities",
-  },
-  {
-    index: STATS.length + 1,
     label: "Árvore de Habilidades",
     icon: "/assets/status/xp.svg",
     view: "skillTree",
   },
   {
-    index: STATS.length + 2,
+    index: STATS.length + 1,
     label: "Ranques",
     icon: "/assets/status/ranks.svg",
     view: "ranks",
   },
   {
-    index: STATS.length + 3,
+    index: STATS.length + 2,
     label: "Todos os Status",
     icon: "/assets/status/skills.svg",
     view: "allStats",

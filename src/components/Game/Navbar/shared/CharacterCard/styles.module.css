@@ -72,13 +72,32 @@ p {
   margin-top: 8%;
 }
 
+.flexColumn button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--size-6);
+  background-color: transparent;
+  font-weight: bold;
+  height: 4vh;
+  width: 50%;
+}
+
 .progressContainer {
   margin-top: 5%;
   width: 80%;
 }
 
 .inUse {
+  position: absolute;
   font-size: var(--small);
+  right: 0;
+  bottom: 0;
+  margin: 1vw;
+  background-color: var(--surface-card);
+  width: 15%;
+  text-align: center;
+  border-radius: var(--size-6);
   color: var(--accent-color);
 }
 
