@@ -8,6 +8,7 @@ import {
   type SetStateAction,
 } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
+import { ATOMIC_COOLDOWN_MS } from "@/data/characters/marshadow";
 import {
   ONE_HUNDRED_MS,
   TWO_HUNDRED_MS,
@@ -21,8 +22,6 @@ import {
 import type { SoundId } from "@/utils/audio/soundId";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 
-/** Cooldown da habilidade "I Am Atomic" (20s). */
-export const ATOMIC_COOLDOWN_MS = 20_000;
 /** Raio da explosão (px lógicos) a partir do inimigo com maior vida máxima. */
 export const ATOMIC_RADIUS = 300;
 /** Fase "starting" (sprite starting.svg via preAtomic): 100ms. */

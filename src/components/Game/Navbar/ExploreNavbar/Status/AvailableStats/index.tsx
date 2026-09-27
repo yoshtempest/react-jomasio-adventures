@@ -1,8 +1,11 @@
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
-import styles from "./styles.module.css";
+
+import { STATUS_SUB_ROWS } from "@/hooks/menu/useStatus";
 import { asset } from "@/utils/paths";
+
+import styles from "./styles.module.css";
 
 type AvailableStatsProps = {
   selectedIndex: number;
@@ -85,26 +88,17 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
         </p>
       </div>
 
-      <div className={selectedIndex === 5 ? "active" : ""}>
-        <p className={styles.subBtn}>
-          <img src={asset("/assets/status/skills.svg")} />
-          Habilidades
-        </p>
-      </div>
-
-      <div className={selectedIndex === 6 ? "active" : ""}>
-        <p className={styles.subBtn}>
-          <img src={asset("/assets/status/ranks.svg")} />
-          Ranques
-        </p>
-      </div>
-
-      <div className={selectedIndex === 7 ? "active" : ""}>
-        <p className={styles.subBtn}>
-          <img src={asset("/assets/status/skills.svg")} />
-          Todos os Status
-        </p>
-      </div>
+      {STATUS_SUB_ROWS.map((row) => (
+        <div
+          key={row.view}
+          className={selectedIndex === row.index ? "active" : ""}
+        >
+          <p className={styles.subBtn}>
+            <img src={asset(row.icon)} />
+            {row.label}
+          </p>
+        </div>
+      ))}
     </div>
   );
 }

@@ -4,7 +4,7 @@ export const PROFESSIONS: ProfessionInfo[] = [
   {
     id: "alchemist",
     name: "Alquimista",
-    npcName: "Val Val",
+    npcName: "Val Janica",
     toolId: "weapon_cauldron",
     toolName: "Caldeirão",
     recipe: { hungry_essence: 3, rare_scale: 2 },
@@ -12,7 +12,7 @@ export const PROFESSIONS: ProfessionInfo[] = [
   {
     id: "chef",
     name: "Cozinheiro",
-    npcName: "???",
+    npcName: "Ellison e Rurin",
     toolId: "weapon_pan",
     toolName: "Rolo de Massa",
     recipe: { hungry_essence: 4 },
@@ -20,7 +20,7 @@ export const PROFESSIONS: ProfessionInfo[] = [
   {
     id: "lumberjack",
     name: "Lenhador",
-    npcName: "???",
+    npcName: "Jack, o Lenhador",
     toolId: "weapon_axe",
     toolName: "Rolo de Massa",
     recipe: { hungry_essence: 4 },
@@ -28,7 +28,7 @@ export const PROFESSIONS: ProfessionInfo[] = [
   {
     id: "farmer",
     name: "Agricultor",
-    npcName: "Cendeiro",
+    npcName: "Cendeiro (Jovem)",
     toolId: "weapon_hoe",
     toolName: "Enxada",
     recipe: { hungry_essence: 5 },
@@ -36,7 +36,7 @@ export const PROFESSIONS: ProfessionInfo[] = [
   {
     id: "fisher",
     name: "Pescador",
-    npcName: "???",
+    npcName: "Um Cara Tranquilo",
     toolId: "weapon_fishing_rod",
     toolName: "Vara de Pesca",
     recipe: { hungry_essence: 4, rare_scale: 2 },
@@ -44,7 +44,7 @@ export const PROFESSIONS: ProfessionInfo[] = [
   {
     id: "butcher",
     name: "Açougueiro",
-    npcName: "Tim",
+    npcName: "Vikir, o ajudante",
     toolId: "weapon_cleaver",
     toolName: "Cutelo",
     recipe: { goat_horn: 3, hungry_essence: 2 },
@@ -52,7 +52,7 @@ export const PROFESSIONS: ProfessionInfo[] = [
   {
     id: "bodyBuilder",
     name: "BodyBuilder",
-    npcName: "Franciane",
+    npcName: "Daniel Park",
     toolId: "weapon_dumbbell",
     toolName: "Halter",
     recipe: { goat_horn: 4 },
@@ -68,7 +68,7 @@ export const PROFESSIONS: ProfessionInfo[] = [
   {
     id: "miner",
     name: "Mineiro",
-    npcName: "???",
+    npcName: "Seo Joo-Heon",
     toolId: "weapon_pickaxe",
     toolName: "Picareta",
     recipe: { hungry_essence: 5, goat_horn: 2 },

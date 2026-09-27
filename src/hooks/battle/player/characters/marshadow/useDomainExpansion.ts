@@ -8,6 +8,7 @@ import {
   type SetStateAction,
 } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
+import { DOMAIN_EXPANSION_COOLDOWN_MS } from "@/data/characters/marshadow";
 import { getProjectileCenter } from "@/gameRules/npc/projectile/projectileDamage";
 import {
   applyTime,
@@ -23,8 +24,6 @@ import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
 import type { SoundId } from "@/utils/audio/soundId";
 import type { NPCBattleState, SummonedNpc } from "@/utils/types/npc/npc";
 
-/** Cooldown da Expansão de Domínio (45s). */
-export const DOMAIN_EXPANSION_COOLDOWN_MS = 45_000;
 /** Id do efeito de time da Expansão de Domínio (regra `gameRules/battle/time`). */
 export const DOMAIN_EXPANSION_TIME_ID = "marshadow:domainExpansion";
 /** Fase preMugetsu (blink visual + teleporte para a ponta mais próxima): 600ms. */

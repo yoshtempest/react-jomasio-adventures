@@ -1,0 +1,78 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  flex: 1;
+  width: 100%;
+  padding: var(--small);
+  gap: var(--smaller);
+}
+
+.card {
+  padding: var(--fs-10) var(--smaller);
+  border: var(--size-1) solid var(--border-default);
+  border-radius: var(--size-6);
+}
+
+.selected {
+  border-color: #fbbf24;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--size-6);
+  margin-bottom: var(--size-4);
+}
+
+.name {
+  font-size: var(--fs-14);
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.badge {
+  margin-left: auto;
+  padding: 0 var(--size-6);
+  font-size: var(--fs-11);
+  font-weight: 700;
+  border-radius: var(--size-4);
+  border: var(--size-1) solid transparent;
+}
+
+.badgeActive {
+  color: #fbbf24;
+  border-color: #fbbf24;
+}
+
+.badgePassive {
+  color: #4ade80;
+  border-color: #4ade80;
+}
+
+.description {
+  font-size: var(--smaller);
+  color: var(--text-secondary);
+}
+
+.metaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--fs-8);
+  margin-top: var(--size-4);
+}
+
+.meta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--size-2);
+  font-size: var(--fs-11);
+  color: var(--text-hint);
+}
+
+.empty {
+  font-size: var(--smaller);
+  color: var(--text-secondary);
+  font-style: italic;
+}
