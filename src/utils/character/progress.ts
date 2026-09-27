@@ -1,10 +1,36 @@
-import type { CharactersProgress } from "@/data/characters/defaultProgress";
+import type {
+  CharacterStats,
+  CharactersProgress,
+} from "@/data/characters/defaultProgress";
 import { defaultProgress } from "@/data/characters/defaultProgress";
 import { CHARACTERS } from "@/data/characters/list";
+import { LEVEL_UP_STATS } from "@/data/player/statList";
 
 export function getXPToNextLevel(level: number) {
   if (level <= 10) return level * 10;
   return level * 10 + 90;
+}
+
+/**
+ * Aplica o ganho de level up: +1 ponto disponível e +1 em todos os stats
+ * automáticos (exceto sorte) por nível ganho.
+ */
+export function applyLevelUpStats(
+  stats: CharacterStats,
+  levelsGained: number,
+): CharacterStats {
+  if (levelsGained <= 0) return stats;
+
+  const next: CharacterStats = {
+    ...stats,
+    points: stats.points + levelsGained,
+  };
+
+  for (const stat of LEVEL_UP_STATS) {
+    next[stat] = (stats[stat] ?? 0) + levelsGained;
+  }
+
+  return next;
 }
 
 export function normalizeProgress(data: unknown): CharactersProgress {

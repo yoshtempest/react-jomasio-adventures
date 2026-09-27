@@ -15,6 +15,7 @@ import type {
 import { defaultProgress } from "@/data/characters/defaultProgress";
 import {
   normalizeProgress,
+  applyLevelUpStats,
   getXPToNextLevel as getXPToNextLevelUtil,
 } from "@/utils/character/progress";
 import { getXpBuffMultiplier } from "@/utils/buffs/xpBuff";
@@ -90,7 +91,7 @@ export function CharacterProgressProvider({
 
         let newXP = char.xp + finalAmount;
         let newLevel = char.level;
-        let pointsGained = 0;
+        let levelsGained = 0;
 
         let xpNeeded = getXPToNextLevelUtil(newLevel);
 
@@ -100,7 +101,7 @@ export function CharacterProgressProvider({
         while (newXP >= xpNeeded) {
           newXP -= xpNeeded;
           newLevel++;
-          pointsGained++;
+          levelsGained++;
           newHunger = MAX_HUNGER; // level up → hunger reset to 100%
           newSleep = MAX_SLEEP; // level up → sleep reset to 100%
           push("levelUp");
@@ -115,12 +116,9 @@ export function CharacterProgressProvider({
             xp: newXP,
             hunger: newHunger,
             sleep: newSleep,
-            battleHP: pointsGained > 0 ? null : char.battleHP,
-            battleMana: pointsGained > 0 ? null : char.battleMana,
-            stats: {
-              ...char.stats,
-              points: char.stats.points + pointsGained,
-            },
+            battleHP: levelsGained > 0 ? null : char.battleHP,
+            battleMana: levelsGained > 0 ? null : char.battleMana,
+            stats: applyLevelUpStats(char.stats, levelsGained),
           },
         };
       });

@@ -12,3 +12,16 @@ export const STATS = [
   "resistance",
   "luck",
 ] as const satisfies readonly (keyof Omit<CharacterStats, "points">)[];
+
+/**
+ * Stats que sobem automaticamente a cada level up (além do ponto disponível).
+ * `tenacity` entra aqui mesmo não sendo distribuível pelo menu, e `luck` é
+ * deliberadamente excluída — só sobe com pontos.
+ */
+export const LEVEL_UP_STATS = [
+  "hp",
+  "strength",
+  "intelligence",
+  "resistance",
+  "tenacity",
+] as const satisfies readonly (keyof Omit<CharacterStats, "points" | "luck">)[];
