@@ -6,9 +6,15 @@ export function useBattleHP(
   initialShield: number = 0,
   savedPlayerHP?: number | null,
   playerLevel?: number,
+  playerCharacter?: CharacterId,
 ) {
   const prevMaxHpRef = useRef(playerMaxHp);
-  const prevLevelRef = useRef(playerLevel);
+  // O nível anterior vem junto do personagem a que pertence: trocar de
+  // personagem durante a batalha muda o número sem que ele tenha subido.
+  const prevLevelRef = useRef<{ character?: CharacterId; level?: number }>({
+    character: playerCharacter,
+    level: playerLevel,
+  });
   const [playerHP, setPlayerHP] = useState(() => {
     if (savedPlayerHP != null && savedPlayerHP > 0) {
       return Math.min(savedPlayerHP, playerMaxHp);
@@ -29,12 +35,13 @@ export function useBattleHP(
   // Subir de nível cura para 100% — dentro de batalha o HP vive neste
   // state, então o `battleHP: null` gravado pelo addXP não chega aqui.
   useEffect(() => {
-    const prevLevel = prevLevelRef.current;
-    prevLevelRef.current = playerLevel;
-    if (playerLevel == null || prevLevel == null) return;
-    if (playerLevel <= prevLevel) return;
+    const prev = prevLevelRef.current;
+    prevLevelRef.current = { character: playerCharacter, level: playerLevel };
+    if (playerLevel == null || prev.level == null) return;
+    if (playerCharacter !== prev.character) return;
+    if (playerLevel <= prev.level) return;
     setPlayerHP(playerMaxHp);
-  }, [playerLevel, playerMaxHp]);
+  }, [playerLevel, playerCharacter, playerMaxHp]);
 
   useEffect(() => {
     setNpcHP(npcMaxHp);

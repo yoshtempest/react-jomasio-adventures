@@ -27,7 +27,8 @@ type Particle = {
 function makeParticles(size: number): Particle[] {
   const particles: Particle[] = [];
   for (let i = 0; i < PARTICLES_PER_BURST; i++) {
-    const angle = (i / PARTICLES_PER_BURST) * Math.PI * 2 + Math.random() * 0.45;
+    const angle =
+      (i / PARTICLES_PER_BURST) * Math.PI * 2 + Math.random() * 0.45;
     const radius = size * (0.38 + Math.random() * 0.3);
     particles.push({
       key: i,
@@ -51,19 +52,35 @@ export function LevelUpParticles({ character, size }: Props) {
   const { progress } = useCharacterProgress();
   const level = progress[character]?.level ?? 1;
 
-  const prevLevelRef = useRef(level);
+  // O nível anterior precisa vir acompanhado do personagem a que pertence:
+  // trocar de personagem troca o número sem que ele tenha subido de nível.
+  const prevRef = useRef<{ character: CharacterId; level: number }>({
+    character,
+    level,
+  });
   const particlesRef = useRef<Particle[]>([]);
   const [burstKey, setBurstKey] = useState(0);
 
   useEffect(() => {
-    if (level > prevLevelRef.current) {
-      prevLevelRef.current = level;
-      particlesRef.current = makeParticles(size);
-      setBurstKey((key) => key + 1);
-    } else {
-      prevLevelRef.current = level;
+    const prev = prevRef.current;
+    const leveledUp = character === prev.character && level > prev.level;
+
+    // Reancora sempre — inclusive na troca de personagem, que só reconstrói
+    // a referência sem disparar nada.
+    prevRef.current = { character, level };
+
+    if (!leveledUp) {
+      // As partículas do personagem anterior não podem sobrar no novo sprite.
+      if (character !== prev.character) {
+        particlesRef.current = [];
+        setBurstKey(0);
+      }
+      return;
     }
-  }, [level, size]);
+
+    particlesRef.current = makeParticles(size);
+    setBurstKey((key) => key + 1);
+  }, [character, level, size]);
 
   if (burstKey === 0) return null;
 

@@ -19,8 +19,13 @@ export function XPBarNotification() {
 
   const charProgress = progress[player.character];
 
-  const prevXPRef = useRef(charProgress.xp);
-  const prevLevelRef = useRef(charProgress.level);
+  // XP/nível anteriores vêm junto do personagem a que pertencem: trocar de
+  // personagem troca os dois números sem que ele tenha ganhado XP.
+  const prevRef = useRef({
+    character: player.character,
+    xp: charProgress.xp,
+    level: charProgress.level,
+  });
 
   const [visible, setVisible] = useState(false);
   const [displayPct, setDisplayPct] = useState(0);
@@ -38,18 +43,38 @@ export function XPBarNotification() {
   }, []);
 
   useEffect(() => {
-    const oldXP = prevXPRef.current;
-    const oldLevel = prevLevelRef.current;
+    const prev = prevRef.current;
     const newXP = charProgress.xp;
     const newLevel = charProgress.level;
 
-    prevXPRef.current = newXP;
-    prevLevelRef.current = newLevel;
+    // Reancora sempre — inclusive na troca de personagem, que só reconstroi a
+    // referencia sem animar nada.
+    prevRef.current = {
+      character: player.character,
+      xp: newXP,
+      level: newLevel,
+    };
+
+    function stopAnim() {
+      if (animRef.current) cancelAnimationFrame(animRef.current);
+      if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+    }
+
+    // Trocar de personagem não é ganho de XP: descarta a barra em andamento em
+    // vez de animar do personagem anterior para o novo.
+    if (player.character !== prev.character) {
+      stopAnim();
+      setVisible(false);
+      setShowArrow(false);
+      return;
+    }
+
+    const oldXP = prev.xp;
+    const oldLevel = prev.level;
 
     if (oldXP === newXP && oldLevel === newLevel) return;
 
-    if (animRef.current) cancelAnimationFrame(animRef.current);
-    if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+    stopAnim();
 
     const segments: Segment[] = [];
     const levelsGained = newLevel - oldLevel;
@@ -132,7 +157,7 @@ export function XPBarNotification() {
     }
 
     animRef.current = requestAnimationFrame(tick);
-  }, [charProgress.xp, charProgress.level, getXPToNextLevel]);
+  }, [player.character, charProgress.xp, charProgress.level, getXPToNextLevel]);
 
   if (!visible) return null;
 
