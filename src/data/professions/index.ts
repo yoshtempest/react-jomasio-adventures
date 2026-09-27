@@ -44,7 +44,7 @@ export const PROFESSIONS: ProfessionInfo[] = [
   {
     id: "butcher",
     name: "Açougueiro",
-    npcName: "Vikir, o ajudante",
+    npcName: "Vikir, o caçador",
     toolId: "weapon_cleaver",
     toolName: "Cutelo",
     recipe: { goat_horn: 3, hungry_essence: 2 },

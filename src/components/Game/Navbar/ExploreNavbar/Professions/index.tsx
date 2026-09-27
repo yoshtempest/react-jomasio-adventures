@@ -45,11 +45,23 @@ export function Professions() {
       onUp: () => {
         playMoveRef.current();
         setSelectedIndex(
+          (prev) => (prev - 2 + PROFESSIONS.length) % PROFESSIONS.length,
+        );
+        return true;
+      },
+      onLeft: () => {
+        playMoveRef.current();
+        setSelectedIndex(
           (prev) => (prev - 1 + PROFESSIONS.length) % PROFESSIONS.length,
         );
         return true;
       },
       onDown: () => {
+        playMoveRef.current();
+        setSelectedIndex((prev) => (prev + 2) % PROFESSIONS.length);
+        return true;
+      },
+      onRight: () => {
         playMoveRef.current();
         setSelectedIndex((prev) => (prev + 1) % PROFESSIONS.length);
         return true;

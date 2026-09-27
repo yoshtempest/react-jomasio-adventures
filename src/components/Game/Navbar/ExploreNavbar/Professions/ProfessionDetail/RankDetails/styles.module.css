@@ -8,6 +8,7 @@
   border-radius: var(--fs-8);
   border: var(--size-1) solid rgba(255, 255, 255, 0.06);
   min-height: 0;
+  width: 50vw;
   overflow-y: auto;
 }
 
