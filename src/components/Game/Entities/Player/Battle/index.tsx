@@ -1,282 +1,137 @@
-import { useEffect, useRef, useState } from "react";
-import { resolveBattleSprite, playerPath, playerPathMarshadowHabilities } from "@/utils/paths";
-import { ProjectileConstants } from "@/data/projectile";
-import { getViewportSize } from "@/utils/viewport";
-import { useSoundEffects } from "@/contexts/SoundEffectsContext";
-import { LevelUpParticles } from "@/components/Game/LevelUpParticles";
-import {
-  HONORED_ONE_RISE_MS,
-  BLINK_UNTIL_TELEPORT_MS,
-  BLINK_SILHOUETTE_FADE_MS,
-} from "@/gameRules/battle/cursedEnergy";
-import {
-  EMANUEL_KI_CHARGE_EFFECT_ASPECT,
-  EMANUEL_KI_CHARGE_EFFECT_SIZE_MULTIPLIER,
-} from "@/data/characters/emanuel";
 import styles from "./styles.module.css";
+import type { PlayerBattleProps } from "./types";
+import { useBattleSprite } from "./hooks/useBattleSprite";
+import { useHonoredRotation } from "./hooks/useHonoredRotation";
+import { useArturSeeingSound } from "./hooks/useArturSeeingSound";
+import { getPlayerDimensions } from "./utils/getPlayerDimensions";
+import { getPlayerTransform } from "./utils/getPlayerTransform";
+import { getBlinkConfig } from "./utils/getBlink";
+import { ChargingKiEffect } from "./ChargingKiEffect";
+import { BattleSprite } from "./BattleSprite";
+import { AtomicHalo } from "./AtomicHalo";
+import { LevelUpParticles } from "@/components/Game/LevelUpParticles";
 
-type Props = {
-  x: number;
-  y: number;
-  PLAYER_SIZE: number;
-  state: PlayerState;
-  direction: Direction;
-  character: CharacterId;
-  weapon?: LucasWeapon;
-  grabbedUntil?: number;
-  grabFlipped?: boolean;
-  /** Pasta de sprites do marcelo (ex: Forma Vastolord). */
-  form?: "vastolordForm";
-  /** Quadro da transformação do marcelo (0=screamOne … 3=transformated) ou null. */
-  transformationFrame?: number | null;
-  /** Silhueta do blink do riquelme: preta (antes do teleporte) ou branca (chegando). */
-  blinkSilhouette?: "black" | "white" | null;
-  /** Emanuel segurando a instância: usa o sprite de teleporte no lugar do estado atual. */
-  teleportSprite?: boolean;
-  /** Durante o specialBackground: usa o sprite preAtomic.svg (marcelo). */
-  preAtomic?: boolean;
-  /** Halo.svg acima do sprite durante preparing/finalizating do "I Am Atomic". */
-  atomicHalo?: boolean;
-  /** Flash no sprite quando a explosion.svg da habilidade aparece. */
-  atomicFlash?: boolean;
-  /** Blink do teleporte da Expansão de Domínio do marcelo. */
-  mugetsuBlink?: "out" | "in" | null;
-  /** Mostra as partículas de level up ao redor do sprite (só o jogador real). */
-  levelUpParticles?: boolean;
-};
+export function PlayerBattle(props: PlayerBattleProps) {
+  const {
+    x,
+    y,
+    PLAYER_SIZE,
+    state,
+    direction,
+    character,
+    weapon,
+    grabbedUntil = 0,
+    grabFlipped = false,
+    form,
+    transformationFrame = null,
+    blinkSilhouette = null,
+    teleportSprite = false,
+    preAtomic = false,
+    atomicHalo = false,
+    atomicFlash = false,
+    mugetsuBlink = null,
+    levelUpParticles = false,
+  } = props;
 
-const CROUCH_STATE_MAP: Record<string, string> = {
-  idleCrounched: "idleCrounched",
-  walkCrounched: "walkCrounched",
-};
+  const isChargingKi =
+    character === "emanuel" && state === "chargingKi";
 
-/** Ordem dos sprites da transformação do marcelo (`vastolordForm/transformating`). */
-const TRANSFORMATION_FRAMES = [
-  "screamOne",
-  "screamTwo",
-  "screamThree",
-  "transformated",
-] as const;
+  const isCrouching =
+    state === "idleCrounched" ||
+    state === "walkCrounched";
 
-export function PlayerBattle({
-  x,
-  y,
-  PLAYER_SIZE,
-  state,
-  direction,
-  character,
-  weapon,
-  grabbedUntil = 0,
-  grabFlipped = false,
-  form,
-  transformationFrame = null,
-  blinkSilhouette = null,
-  teleportSprite = false,
-  preAtomic = false,
-  atomicHalo = false,
-  atomicFlash = false,
-  mugetsuBlink = null,
-  levelUpParticles = false,
-}: Props) {
-  const resolvedState =
-    CROUCH_STATE_MAP[state] ?? (state === "charging" ? "idle" : state);
-  const isChargingKi = character === "emanuel" && state === "chargingKi";
-  const isCrouching = state === "idleCrounched" || state === "walkCrounched";
   const isFallen = state === "fallen";
-  const isGrabbed = Date.now() < grabbedUntil && !isFallen && !isCrouching;
+
+  const isGrabbed =
+    Date.now() < grabbedUntil &&
+    !isFallen &&
+    !isCrouching;
+
   const showFlipped = isGrabbed && grabFlipped;
 
-  // Durante o specialBackground o marcelo troca para o sprite starting.svg do
-  // "I Am Atomic" (primeiro passo da sequência da habilidade). Só vale quando
-  // o jogador está idle — durante preparing/finalizating quem manda é o sprite
-  // do estado.
-  const preAtomicSrc =
-    preAtomic && character === "marcelo" && state === "idle"
-      ? playerPathMarshadowHabilities(`/atomic/starting.svg`)
-      : "";
+  const {
+    src,
+    handleSpriteError,
+  } = useBattleSprite({
+    character,
+    state,
+    weapon,
+    form,
+    transformationFrame,
+    teleportSprite,
+    preAtomic,
+  });
 
-  const transformationSrc =
-    form === "vastolordForm" && transformationFrame != null
-      ? playerPath(
-          `/marcelo/inFight/vastolordForm/transformating/${
-            TRANSFORMATION_FRAMES[transformationFrame] ?? "screamOne"
-          }.svg`,
-        )
-      : "";
-  const baseSrc =
-    preAtomicSrc ||
-    transformationSrc ||
-    (teleportSprite && character === "emanuel"
-      ? playerPath(`/emanuel/inFight/attacks/teleport.svg`)
-      : resolveBattleSprite(character, resolvedState, weapon, form));
-  const [src, setSrc] = useState(baseSrc);
-  const ARTUR_SEEING_SRC = playerPath("/artur/inFight/special/arturSeeing.svg");
-
-  useEffect(() => {
-    setSrc(baseSrc);
-  }, [baseSrc]);
-
-  // Personagens sem `preRun.svg`/`preJump.svg` caem para o sprite base
-  // (`run.svg`/`jump.svg`) ao invés de quebrar com 404.
-  const handleSpriteError = () => {
-    const fallbackState =
-      resolvedState === "preRun"
-        ? "run"
-        : resolvedState === "preJump"
-          ? "jump"
-          : null;
-    if (fallbackState) {
-      setSrc(resolveBattleSprite(character, fallbackState, weapon, form));
-    }
-  };
-
-  const blinkClass =
-    blinkSilhouette === "black"
-      ? styles.blinkBlack
-      : blinkSilhouette === "white"
-        ? styles.blinkWhite
-        : "";
-
-  const blinkDuration =
-    blinkClass === styles.blinkBlack
-      ? `${BLINK_UNTIL_TELEPORT_MS}ms`
-      : blinkClass === styles.blinkWhite
-        ? `${BLINK_SILHOUETTE_FADE_MS}ms`
-        : undefined;
-
-  const { playSound } = useSoundEffects();
-  const prePalmPlayedRef = useRef(false);
-
-  /**
-   * Passiva "O Abençoado": durante mostHonored.svg o sprite gira devagar até
-   * 90° ao longo da fase de subida (~5s); ao cair (estado muda para "falling")
-   * o ângulo volta a 0°.
-   */
-  const [rotationDeg, setRotationDeg] = useState(0);
   const isMostHonored = state === "mostHonored";
 
-  useEffect(() => {
-    if (!isMostHonored) {
-      setRotationDeg(0);
-      return;
-    }
+  const rotationDeg = useHonoredRotation(isMostHonored);
 
-    const start = performance.now();
-    let raf = 0;
-    const loop = (now: number) => {
-      const progress = Math.min(1, (now - start) / HONORED_ONE_RISE_MS);
-      setRotationDeg(-90 * progress);
-      if (progress < 1) raf = requestAnimationFrame(loop);
-    };
-    raf = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(raf);
-  }, [isMostHonored]);
+  useArturSeeingSound(src);
 
-  useEffect(() => {
-    // Personagem trocou para a imagem arturSeeing.svg -> prePalm.mp3
-    if (src === ARTUR_SEEING_SRC) {
-      if (!prePalmPlayedRef.current) playSound("prePalm");
-      prePalmPlayedRef.current = true;
-    } else {
-      prePalmPlayedRef.current = false;
-    }
-  }, [src, ARTUR_SEEING_SRC, playSound]);
+  const dimensions = getPlayerDimensions(PLAYER_SIZE);
 
-  const scaleX = getViewportSize().width / ProjectileConstants.MAP_WIDTH;
-  const scaleY = getViewportSize().height / ProjectileConstants.MAP_HEIGHT;
+  const blink = getBlinkConfig(blinkSilhouette);
 
-  // PLAYER_SIZE vira escala relativa
-  const SCALE = PLAYER_SIZE / ProjectileConstants.MAP_HEIGHT;
+  const transform = getPlayerTransform({
+    direction,
+    rotationDeg,
+    showFlipped,
+    isCrouching,
+    isFallen,
+  });
 
-  const WIDTH = (ProjectileConstants.MAP_WIDTH * SCALE) / 1.5;
-  const HEIGHT = (ProjectileConstants.MAP_HEIGHT * SCALE) / 1.5;
+  const transformOrigin =
+    isCrouching || showFlipped || isMostHonored
+      ? "bottom center"
+      : undefined;
 
-  const chargingEffectHeight =
-    HEIGHT * EMANUEL_KI_CHARGE_EFFECT_SIZE_MULTIPLIER;
-  const chargingEffectWidth =
-    chargingEffectHeight / EMANUEL_KI_CHARGE_EFFECT_ASPECT;
+  const spriteClassName = [
+    blink.className,
+    atomicFlash ? styles.atomicFlash : "",
+    mugetsuBlink === "out" ? styles.mugetsuBlinkOut : "",
+    mugetsuBlink === "in" ? styles.mugetsuBlinkIn : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <div
       style={{
         position: "absolute",
-        width: WIDTH,
-        height: HEIGHT,
-        left: x * scaleX,
-        top: y * scaleY,
-        transform: "translate(-50%, -100%)", // grab the feet on the ground
+        width: dimensions.width,
+        height: dimensions.height,
+        left: x * dimensions.scaleX,
+        top: y * dimensions.scaleY,
+        transform: "translate(-50%, -100%)",
         zIndex: 10,
-        overflow: "visible", // important to dont cut the image
+        overflow: "visible",
       }}
     >
       {isChargingKi && (
-        <img
-          src={playerPath("/emanuel/inFight/attacks/chargingKiEffect.svg")}
-          className={styles.chargingKiEffect}
-          style={{
-            height: chargingEffectHeight,
-            width: chargingEffectWidth,
-            left: "50%",
-            bottom: 0,
-            transform: "translateX(-50%)",
-          }}
-        />
-      )}
-      <img
-        src={src}
-        onError={handleSpriteError}
-        className={`${blinkClass} ${atomicFlash ? styles.atomicFlash : ""} ${
-          mugetsuBlink === "out"
-            ? styles.mugetsuBlinkOut
-            : mugetsuBlink === "in"
-              ? styles.mugetsuBlinkIn
-              : ""
-        }`}
-        style={{
-          animationDuration: blinkDuration,
-          position: "absolute",
-          width: "auto",
-          height: "100%",
-          left: "50%",
-          bottom: 0,
-          transform: `
-              translateX(-50%) 
-              scaleX(${direction === "left" ? -1 : 1})
-              ${rotationDeg !== 0 ? `rotate(${rotationDeg}deg) ` : ""}${
-                showFlipped
-                  ? "scaleY(-1) translate(-50%, 80%)"
-                  : isCrouching
-                    ? "scale(0.7)"
-                    : isFallen
-                      ? "scale(0.7) translate(0, 20%)"
-                      : ""
-              }
-            `,
-          transformOrigin:
-            isCrouching || showFlipped || isMostHonored
-              ? "bottom center"
-              : undefined,
-          pointerEvents: "none",
-        }}
-      />
-      {atomicHalo && character === "marcelo" && (
-        <img
-          src={playerPathMarshadowHabilities("/atomic/halo.svg")}
-          alt=""
-          style={{
-            position: "absolute",
-            width: "auto",
-            height: "130%",
-            left: "50%",
-            bottom: 0,
-            transform: "translateX(-50%)",
-            pointerEvents: "none",
-          }}
+        <ChargingKiEffect
+          width={dimensions.chargingEffectWidth}
+          height={dimensions.chargingEffectHeight}
         />
       )}
 
+      <BattleSprite
+        src={src}
+        className={spriteClassName}
+        blinkDuration={blink.duration}
+        transform={transform}
+        transformOrigin={transformOrigin}
+        onError={handleSpriteError}
+      />
+
+      {atomicHalo && character === "marcelo" && (
+        <AtomicHalo />
+      )}
+
       {levelUpParticles && (
-        <LevelUpParticles character={character} size={Math.round(HEIGHT)} />
+        <LevelUpParticles
+          character={character}
+          size={Math.round(dimensions.height)}
+        />
       )}
     </div>
   );
