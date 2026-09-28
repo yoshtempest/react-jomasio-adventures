@@ -724,7 +724,7 @@ export function BattleScene(props: Props) {
         />
       )}
 
-      {player.character === "marcelo" && (
+      {!vastolordActive && player.character === "marcelo" &&  (
         <AtomicButton
           ready={atomicUsable}
           remaining={atomicRemaining}
@@ -733,7 +733,7 @@ export function BattleScene(props: Props) {
         />
       )}
 
-      {player.character === "marcelo" && (
+      {!vastolordActive && player.character === "marcelo" && (
         <DomainExpansionButton
           ready={domainExpansionUsable}
           remaining={domainExpansionRemaining}
