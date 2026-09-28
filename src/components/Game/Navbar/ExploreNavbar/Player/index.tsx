@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import styles from "./styles.module.css";
-import { asset, playerPath } from "@/utils/paths";
+import { playerPath, itemFilterPath } from "@/utils/paths";
 import { usePlayerMenu } from "@/hooks/menu/usePlayer";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { usePlayTime } from "@/contexts/PlayTimeContext";
@@ -200,7 +200,7 @@ export function Player() {
         <div ref={scrollRef} className={`${styles.container} hideScrollbar`}>
           <div className={styles.charSelectRow}>
             <img
-              src={asset(`/assets/items/all.svg`)}
+              src={itemFilterPath("all.svg")}
               alt="Todos"
               className={` ${styles.charFace} ${isSummaryView ? styles.charBtnActive : ""}`}
             />

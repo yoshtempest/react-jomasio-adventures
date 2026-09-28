@@ -1,6 +1,6 @@
 import styles from "./styles.module.css";
 import { ProgressBar } from "@/components/Game/ProgressBar";
-import { playerPath, asset } from "@/utils/paths";
+import { playerPath, elementBadgePath, rankBadgePath } from "@/utils/paths";
 import { getRank, formatRank, srcRank } from "@/gameRules/rank";
 import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
 import { usePlayer } from "@/contexts/PlayerContext";
@@ -53,9 +53,7 @@ export function CharacterCard({
               CHARACTER_ELEMENT_TYPES[character.image]?.map((element) => (
                 <img
                   key={element}
-                  src={asset(
-                    `/assets/badges/elements/${element.toLowerCase()}.svg`,
-                  )}
+                  src={elementBadgePath(`${element.toLowerCase()}.svg`)}
                   alt={element}
                   title={element}
                   className={styles.elementBadge}
@@ -66,9 +64,7 @@ export function CharacterCard({
         {character.selectable && (
           <div className={styles.rankRow}>
             <img
-              src={asset(
-                `/assets/badges/ranks/${srcRank(getRank(progress.level))}`,
-              )}
+              src={rankBadgePath(srcRank(getRank(progress.level)))}
               className={styles.rankBadge}
             />
             <p className={styles.rank}>{formatRank(getRank(progress.level))}</p>

@@ -1,7 +1,7 @@
 import styles from "./styles.module.css";
 import undertale from "/assets/songs/background/UndertaleGameOver.m4a";
 import { useBackgroundAudio } from "@/hooks/audio/useBackgroundAudio";
-import { asset } from "@/utils/paths";
+import { rootAssetPath } from "@/utils/paths";
 import { useGameModeMenu } from "@/hooks/menu/useGameMode";
 
 export default function Intro() {
@@ -11,7 +11,7 @@ export default function Intro() {
 
   return (
     <div className={`Master ${styles.image}`}>
-      <img src={asset("/assets/logo.svg")} alt="logo" className="logo" />
+      <img src={rootAssetPath("logo.svg")} alt="logo" className="logo" />
 
       <div className={styles.menu}>
         {options.map((option, index) => (

@@ -1,6 +1,4 @@
-import {
-  type ProfessionWeaponConfig,
-} from "@/data/professions/weapons";
+import { type ProfessionWeaponConfig } from "@/data/professions/weapons";
 import { npcPath, professionBadgePath } from "@/utils/paths";
 import type {
   ProfessionInfo,
@@ -31,7 +29,6 @@ export function ProfessionItem({
   xpToNext,
   onOpen,
 }: Props) {
-
   return (
     <li
       className={`${styles.item} ${selected ? styles.selected : ""}`}

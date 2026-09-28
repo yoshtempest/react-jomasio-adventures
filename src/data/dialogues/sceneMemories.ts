@@ -33,10 +33,7 @@ export const SCENE_MEMORIES: Record<string, Dialogue[]> = {
       "protagonista",
       "O Seth Jorjão... quem diria que eu ia pisar nesse presídio-escola de novo.",
     ],
-    [
-      "protagonista",
-      "Mas se é aqui que essa fome se cura, então bora.",
-    ],
+    ["protagonista", "Mas se é aqui que essa fome se cura, então bora."],
   ]),
 
   "/hall/one": defineDialogue([
@@ -61,10 +58,7 @@ export const SCENE_MEMORIES: Record<string, Dialogue[]> = {
   ]),
 
   "/hall/thirdclass": defineDialogue([
-    [
-      "protagonista",
-      "A sala do terceiro ano... nunca gostei desse lugar.",
-    ],
+    ["protagonista", "A sala do terceiro ano... nunca gostei desse lugar."],
   ]),
 
   "/brodiclass/one": defineDialogue([

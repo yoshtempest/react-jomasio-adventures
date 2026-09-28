@@ -1,6 +1,7 @@
+import { itemPath } from "@/utils/paths";
+
 import { ITEMS } from "@/data/items";
 import { useDropControls } from "@/hooks/menu/useDropControls";
-import { asset } from "@/utils/paths";
 import type { InventoryItem } from "@/utils/types/player/inventory";
 
 import styles from "./styles.module.css";
@@ -33,7 +34,7 @@ export function DropItem({ isOpen, item, onDrop, onClose }: Props) {
         <div className={styles.itemPreview}>
           <img
             className={styles.itemIcon}
-            src={asset(itemData.image ?? `/assets/items/${item.id}.svg`)}
+            src={itemData.image ?? itemPath(`${item.id}.svg`)}
             alt={itemData.name}
           />
           <span className={styles.itemName}>{itemData.name}</span>

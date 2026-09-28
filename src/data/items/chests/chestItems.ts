@@ -1,32 +1,34 @@
+import { chestPath } from "@/utils/paths";
+
 import { createItems } from "@/utils/items/createItem";
 
 export const CHESTS = createItems({
   common_chest: {
-    image: "/assets/items/chests/common.svg",
+    image: chestPath("common.svg"),
     name: "Baú Simples",
     description: "Um baú de madeira. Quem sabe o que tem dentro?",
     type: "chest",
   },
   rare_chest: {
-    image: "/assets/items/chests/rare.svg",
+    image: chestPath("rare.svg"),
     name: "Baú Raro",
     description: "Um baú prateado. Parece ter coisas valiosas.",
     type: "chest",
   },
   epic_chest: {
-    image: "/assets/items/chests/epic.svg",
+    image: chestPath("epic.svg"),
     name: "Baú Épico",
     description: "Um baú energizado. Coisas poderosas o aguardam.",
     type: "chest",
   },
   boss_chest: {
-    image: "/assets/items/chests/boss.svg",
+    image: chestPath("boss.svg"),
     name: "Baú de Chefão",
     description: "Um baú imponente. Apenas os fortes o abrem.",
     type: "chest",
   },
   legendary_chest: {
-    image: "/assets/items/chests/legendary.svg",
+    image: chestPath("legendary.svg"),
     name: "Baú Lendário",
     description: "Um baú místico. Dizem que contém itens lendários.",
     type: "chest",
@@ -34,13 +36,13 @@ export const CHESTS = createItems({
 } as const);
 
 export const CHEST_OPENED_SPRITES: Record<NPCClass, string> = {
-  common: "/assets/items/chests/commomOpened.svg",
-  rare: "/assets/items/chests/rareOpened.svg",
-  epic: "/assets/items/chests/epicOpened.svg",
-  boss: "/assets/items/chests/bossOpened.svg",
-  legendary: "/assets/items/chests/legendaryOpened.svg",
-  supreme: "/assets/items/chests/supremeOpened.svg",
-  omega: "/assets/items/chests/omegaOpened.svg",
+  common: chestPath("commomOpened.svg"),
+  rare: chestPath("rareOpened.svg"),
+  epic: chestPath("epicOpened.svg"),
+  boss: chestPath("bossOpened.svg"),
+  legendary: chestPath("legendaryOpened.svg"),
+  supreme: chestPath("supremeOpened.svg"),
+  omega: chestPath("omegaOpened.svg"),
 };
 
 /** Registro baú → tier de batalha. Fonte única para derivar tier e chave. */
@@ -62,6 +64,5 @@ export function getKeyIdForChest(chestId: ChestItemId): ItemId {
   return `${CHEST_TIER_BY_ITEM[chestId]}_key` as ItemId;
 }
 
-export const DAILY_CHEST_CLOSED_SPRITE = "/assets/items/chests/default.svg";
-export const DAILY_CHEST_OPENED_SPRITE =
-  "/assets/items/chests/defaultOpened.svg";
+export const DAILY_CHEST_CLOSED_SPRITE = chestPath("default.svg");
+export const DAILY_CHEST_OPENED_SPRITE = chestPath("defaultOpened.svg");

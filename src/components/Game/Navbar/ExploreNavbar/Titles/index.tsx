@@ -4,7 +4,6 @@ import { useTitleMenu } from "@/hooks/menu/useTitle";
 import { useTitles } from "@/contexts/TitleContext";
 import { TITLES } from "@/data/titles/index";
 import { STAT_LABEL } from "@/data/titles/statLabel";
-import { asset } from "@/utils/paths";
 
 export function TitlesScreen() {
   const { titlesData } = useTitles();
@@ -49,7 +48,7 @@ export function TitlesScreen() {
               }`}
             >
               <div className={styles.iconBox}>
-                <img src={asset(def.icon)} alt="" className={styles.iconImg} />
+                <img src={def.icon} alt="" className={styles.iconImg} />
               </div>
 
               <div className={styles.info}>

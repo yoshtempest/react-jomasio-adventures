@@ -329,7 +329,11 @@ declare global {
   };
 
   type Projectile =
-    ProjectileCommon | ProjectilePull | ProjectileRain | ProjectileCut | ProjectileBurst;
+    | ProjectileCommon
+    | ProjectilePull
+    | ProjectileRain
+    | ProjectileCut
+    | ProjectileBurst;
 
   // ── Player ──────────────────────────────────────────────
   type PlayerState =

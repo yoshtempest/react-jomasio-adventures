@@ -1,10 +1,6 @@
 import { createPlate } from "@/scenes/shared/factories";
+import { platePath } from "@/utils/paths";
 
 export const jomasioEntrancePlates = [
-  createPlate(
-    "/assets/plates/boss.svg",
-    8,
-    7,
-    "Presíd- Escola Saudável Jorjão",
-  ),
+  createPlate(platePath("boss.svg"), 8, 7, "Presíd- Escola Saudável Jorjão"),
 ];

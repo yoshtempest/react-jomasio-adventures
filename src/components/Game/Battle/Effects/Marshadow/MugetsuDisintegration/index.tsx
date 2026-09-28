@@ -4,7 +4,6 @@ import {
 } from "@/hooks/battle/player/characters/marshadow/useDomainExpansion";
 import { MugetsuTargetDisintegration } from "./MugetsuTargetDisintegration";
 
-
 type Props = {
   targets: MugetsuDisintegrationTarget[];
   /** Varredura ativa (null após chegar na ponta — todo alvo já coberto). */

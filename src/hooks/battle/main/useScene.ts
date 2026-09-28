@@ -230,7 +230,9 @@ export function useBattleScene({
   // Fase 2 do hungryKing: a câmera foca o rei exatamente durante a invocação
   // (os hungryDeaths spawnam ao redor dele); depois desfoca para o jogador.
   const cameraFocusMs =
-    npcType === "hungryKing" && npcPhase === 2 ? INVOCATION_MS : CAMERA_FOCUS_MS;
+    npcType === "hungryKing" && npcPhase === 2
+      ? INVOCATION_MS
+      : CAMERA_FOCUS_MS;
 
   const cameraFocus = useCameraSequence({
     npcPhase,

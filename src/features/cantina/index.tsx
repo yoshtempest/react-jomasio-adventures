@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { SceneBase } from "@/components/Game/Scenes/Base";
 import { CANTINA_SCENES } from "@/scenes/cantina";
 import { createCantina } from "@/interactions/cantina";
-import { npcPath } from "@/utils/paths";
+import { npcPath, itemPath } from "@/utils/paths";
 
 import { useInventory } from "@/contexts/InventoryContext";
 import { useFlags } from "@/contexts/FlagContext";
@@ -85,7 +85,7 @@ export function CantinaScene({ sceneId }: Props) {
             x: 16.8,
             y: 3.5,
             visible: !gotKey,
-            image: "/assets/items/orange_juice.svg",
+            image: itemPath("orange_juice.svg"),
             size: 0.4,
           },
         ]}

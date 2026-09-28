@@ -1,4 +1,10 @@
-import { asset, jomasioPath, playerPath, npcPath } from "@/utils/paths";
+import {
+  jomasioPath,
+  playerPath,
+  npcPath,
+  itemPath,
+  rootAssetPath,
+} from "@/utils/paths";
 
 export const locations = [
   { name: "Hall", image: jomasioPath("/hall/one.svg") },
@@ -110,12 +116,12 @@ export const funnyMoments = [
   {
     title: "O Peru",
     desc: "Tu num é nem gente Peru! Glu Glu Glu Glu Glu",
-    image: asset("/assets/items/peru.svg"),
+    image: itemPath("peru.svg"),
   },
   {
     title: "Deliciômetro",
     desc: "Meça o nível de delícia da sua gameplay com este medidor sagrado.",
-    image: asset("/assets/deliciometro.svg"),
+    image: rootAssetPath("deliciometro.svg"),
   },
   {
     title: "Morto de Fome",
@@ -125,6 +131,6 @@ export const funnyMoments = [
   {
     title: "Leite Suspeito",
     desc: "Achou um leite na cantina? Melhor pensar duas vezes antes de beber.",
-    image: asset("/assets/items/suspect_milk.svg"),
+    image: itemPath("suspect_milk.svg"),
   },
 ];

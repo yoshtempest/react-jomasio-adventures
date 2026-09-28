@@ -1,3 +1,5 @@
+import { itemPath } from "@/utils/paths";
+
 import { useEffect, useMemo, useRef, useState } from "react";
 import styles from "./styles.module.css";
 import { useInventory } from "@/contexts/InventoryContext";
@@ -8,7 +10,6 @@ import { useGameControlsLayer } from "@/hooks/game/useGameControlsLayer";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { useConsumeItem } from "@/hooks/menu/useConsumeItem";
-import { asset } from "@/utils/paths";
 import type { InventoryItem } from "@/utils/types/player/inventory";
 
 export function BattleInventory() {
@@ -78,9 +79,7 @@ export function BattleInventory() {
 
   function getItemImage(item: InventoryItem) {
     const itemData = ITEMS[item.id];
-    return itemData?.image
-      ? asset(itemData.image)
-      : asset(`/assets/items/${item.id}.svg`);
+    return itemData?.image ? itemData.image : itemPath(`${item.id}.svg`);
   }
 
   return (

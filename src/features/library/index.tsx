@@ -1,3 +1,4 @@
+import { itemPath, chestPath } from "@/utils/paths";
 import { useCallback, useMemo, useState } from "react";
 
 import { SceneBase } from "@/components/Game/Scenes/Base";
@@ -88,13 +89,13 @@ export function LibraryScene({ sceneId }: Props) {
             x: 15,
             y: 9,
             visible: !gotPackage,
-            image: "/assets/items/package_01.svg",
+            image: itemPath("package_01.svg"),
           },
           {
             x: 3,
             y: 5,
             visible: !gotChest,
-            image: "/assets/items/chests/rare.svg",
+            image: chestPath("rare.svg"),
           },
         ]}
         popup={popup}

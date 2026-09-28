@@ -9,7 +9,7 @@ import { useLatestRef } from "@/hooks/useLatestRef";
 import { useQuestActions } from "@/hooks/quest/useQuestActions";
 import { useFlags } from "@/contexts/FlagContext";
 import { useNavigate, useLocation } from "react-router";
-import { asset } from "@/utils/paths";
+import { asset, keyPath } from "@/utils/paths";
 import { useAudio } from "@/hooks/audio/useAudio";
 
 import { sceneBackgrounds } from "@/data/scene/background";
@@ -101,7 +101,7 @@ export function DirectorScene({ sceneId }: Props) {
             y: 5,
             height: 2,
             visible: !gotKey,
-            image: "/assets/items/keys/director.svg",
+            image: keyPath("director.svg"),
           },
         ]}
         popup={popup}

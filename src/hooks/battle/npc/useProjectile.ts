@@ -13,7 +13,7 @@ import { useLatestRef } from "@/hooks/useLatestRef";
 import { applyPlayerStrike } from "./apply/applyPlayerStrike";
 import { handleBurstProjectile } from "./handle/handleBurstProjectile";
 import { handleLinearProjectile } from "./handle/handleLinearProjectile";
-import { handleCut } from "./handle/handleCut"
+import { handleCut } from "./handle/handleCut";
 import { handleRain } from "./handle/handleRain";
 import type {
   ProjectileHitDamageFn,
@@ -136,7 +136,11 @@ export function useProjectile(
             point: getProjectileCenter(p),
             onDestroyed: destroy,
           });
-          return struck.hit ? (struck.projectile ? [struck.projectile] : []) : [p];
+          return struck.hit
+            ? struck.projectile
+              ? [struck.projectile]
+              : []
+            : [p];
         }),
       );
     },

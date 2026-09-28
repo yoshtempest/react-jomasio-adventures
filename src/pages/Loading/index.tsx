@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router";
-import { asset } from "@/utils/paths";
+import { rootAssetPath } from "@/utils/paths";
 import { hasSave } from "@/services/save/saveService";
 import styles from "./styles.module.css";
 import { useNavbar } from "@/contexts/NavbarContext";
@@ -82,7 +82,7 @@ export default function Loading() {
   return (
     <div
       className={styles.screen}
-      style={{ backgroundImage: `url(${asset("/assets/loading.svg")})` }}
+      style={{ backgroundImage: `url(${rootAssetPath("loading.svg")})` }}
     >
       <div className={styles.barTrack}>
         <div

@@ -158,10 +158,7 @@ export function useHonoredOne({
     honoredFallRef.current = false;
     honoredRiseStartRef.current = 0;
     honoredFleeRef.current = false;
-    refs.timeRef.current = clearTime(
-      refs.timeRef.current,
-      HONORED_ONE_TIME_ID,
-    );
+    refs.timeRef.current = clearTime(refs.timeRef.current, HONORED_ONE_TIME_ID);
     // A sequência acabou no pouso: o slow e o lock do player valem só até
     // aqui, senão o riquelme ficaria travado no resto dos ~7.3s do efeito.
     freezeActionsUntilRef.current = Date.now();

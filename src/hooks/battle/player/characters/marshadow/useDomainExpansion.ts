@@ -292,8 +292,7 @@ export function useDomainExpansion({
     setDomainExpansionActive(false);
     setDisintegrating([]);
     setPlayer((p) =>
-      p.mode !== "battle" ||
-      (p.state !== "preMugetsu" && p.state !== "mugetsu")
+      p.mode !== "battle" || (p.state !== "preMugetsu" && p.state !== "mugetsu")
         ? p
         : { ...p, state: "idle" },
     );
@@ -442,8 +441,7 @@ export function useDomainExpansion({
       const direction = sweep.direction === "right" ? 1 : -1;
       const frontX = Math.max(
         Math.min(
-          sweep.fromX +
-            direction * DOMAIN_EXPANSION_SWEEP_SPEED * elapsed,
+          sweep.fromX + direction * DOMAIN_EXPANSION_SWEEP_SPEED * elapsed,
           Math.max(sweep.fromX, sweep.toX),
         ),
         Math.min(sweep.fromX, sweep.toX),
@@ -466,14 +464,8 @@ export function useDomainExpansion({
         return;
       }
 
-      setMugetsuSweep((prev) =>
-        prev ? { ...prev, x: frontX } : prev,
-      );
-    }, [
-      applyKillAtRef,
-      finishRef,
-      sweepRef,
-    ]),
+      setMugetsuSweep((prev) => (prev ? { ...prev, x: frontX } : prev));
+    }, [applyKillAtRef, finishRef, sweepRef]),
   );
 
   const press = useCallback(() => {

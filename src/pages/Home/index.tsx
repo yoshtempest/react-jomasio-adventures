@@ -4,7 +4,7 @@ import { useGameControls } from "@/contexts/GameControlsContext";
 import styles from "./styles.module.css";
 import undertale from "/assets/songs/background/UndertaleGameOver.m4a";
 import { useBackgroundAudio } from "@/hooks/audio/useBackgroundAudio";
-import { asset } from "@/utils/paths";
+import { rootAssetPath } from "@/utils/paths";
 import { loadGame } from "@/services/save/saveService";
 import { hasAnySave } from "@/services/save/slotManager";
 import { sceneBackgrounds } from "@/data/scene/background";
@@ -67,7 +67,7 @@ export default function Home() {
       className="Master"
       style={{ backgroundImage: `url(${sceneBackgrounds.Home})` }}
     >
-      <img src={asset("/assets/logo.svg")} alt="logo" className={styles.logo} />
+      <img src={rootAssetPath("logo.svg")} alt="logo" className={styles.logo} />
       <p className={styles.continue}>Faça o L para continuar</p>
       <ParticlesBackground />
     </div>

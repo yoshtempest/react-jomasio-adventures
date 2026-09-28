@@ -32,10 +32,12 @@ export function ReplayDamageNumbers({ damage, frame, npcType, layout }: Props) {
       {damage.map((d, index) => {
         // Projéteis não pertencem a um personagem: ficam no ponto do projétil.
         const noSnap = d.ty === "projectile";
-        const target = noSnap
-          ? undefined
-          : findDamageTarget(d.x, d.y, targets);
-        const headOffset = noSnap ? NO_SNAP_OFFSET : target ? target.h + HEAD_GAP : 80;
+        const target = noSnap ? undefined : findDamageTarget(d.x, d.y, targets);
+        const headOffset = noSnap
+          ? NO_SNAP_OFFSET
+          : target
+            ? target.h + HEAD_GAP
+            : 80;
         return (
           <div
             key={index}

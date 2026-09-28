@@ -33,9 +33,7 @@ export function DomainExpansionEffects({
 
   return (
     <img
-      src={playerPathMarshadowHabilities(
-        "/domainExpansion/mugetsuEffect.svg",
-      )}
+      src={playerPathMarshadowHabilities("/domainExpansion/mugetsuEffect.svg")}
       alt=""
       draggable={false}
       style={{

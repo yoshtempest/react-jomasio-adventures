@@ -1,3 +1,5 @@
+import { soundEffectPath } from "@/utils/paths";
+
 import { defineDialogue } from "@/data/dialogues/defineDialogue";
 
 export const hallJailsonTwoDialogue = defineDialogue([
@@ -13,7 +15,7 @@ export const hallJailsonTwoDialogue = defineDialogue([
     who: "protagonista",
     message: "Como assim caralho?",
     expression: "rascal",
-    soundSrc: "/assets/songs/soundEffects/player/howYouSaid.mp3",
+    soundSrc: soundEffectPath("player/howYouSaid.mp3"),
   },
   [
     "slimita",

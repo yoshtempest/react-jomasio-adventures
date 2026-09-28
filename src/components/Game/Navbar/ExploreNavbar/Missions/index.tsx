@@ -4,7 +4,6 @@ import type { QuestTab } from "@/utils/types/player/quest";
 import styles from "./styles.module.css";
 import { QuestCard } from "@/components/Game/Quest/Card";
 import { useEffect, useRef, useState } from "react";
-import { asset } from "@/utils/paths";
 import {
   getTimeUntilMidnight,
   getTimeUntilMonday,
@@ -55,12 +54,8 @@ export function Mission() {
             className={`${"tab"} ${activeTab === key ? "tabActive" : ""} ${selectedIndex === i ? "tabSelected" : ""}`}
             onClick={() => switchTab(key)}
           >
-            <img
-              src={asset(TAB_ICONS[key])}
-              alt={key}
-              className={styles.tabIcon}
-            />
-            ({tabCountMap[key]})
+            <img src={TAB_ICONS[key]} alt={key} className={styles.tabIcon} />(
+            {tabCountMap[key]})
           </button>
         ))}
         {(activeTab === "daily" || activeTab === "weekly") && (

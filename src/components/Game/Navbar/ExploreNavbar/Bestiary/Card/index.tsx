@@ -1,5 +1,5 @@
 import styles from "@/components/Game/Navbar/ExploreNavbar/Bestiary/styles.module.css";
-import { npcPath, asset } from "@/utils/paths";
+import { npcPath, elementBadgePath } from "@/utils/paths";
 import { CLASS_DATA, type NPCClass } from "@/data/npc";
 import {
   getNpcElementTypes,
@@ -74,9 +74,7 @@ export function BestiaryCard({
               {getNpcElementTypes(npcType).map((element) => (
                 <img
                   key={element}
-                  src={asset(
-                    `/assets/badges/elements/${element.toLowerCase()}.svg`,
-                  )}
+                  src={elementBadgePath(`${element.toLowerCase()}.svg`)}
                   alt={element}
                   title={element}
                   className={styles.elementBadge}

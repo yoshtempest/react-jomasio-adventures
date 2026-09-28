@@ -5,7 +5,6 @@ import styles from "./styles.module.css";
 import { useBattleNavbarMenu } from "@/hooks/battle/useBattleNavbarMenu";
 import { useBattleNavbar } from "@/contexts/BattleNavbarContext";
 import type { BattleNavScreen } from "@/utils/types/player/battleNavbar";
-import { asset } from "@/utils/paths";
 
 function lazyNamed<K extends string>(
   load: () => Promise<Record<K, ComponentType>>,
@@ -51,7 +50,7 @@ export function BattleNavbar() {
               }`}
               onClick={() => onSelect(index)}
             >
-              <img className={styles.icon} src={asset(item.icon)} alt="" />
+              <img className={styles.icon} src={item.icon} alt="" />
               {item.label}
             </li>
           ))}

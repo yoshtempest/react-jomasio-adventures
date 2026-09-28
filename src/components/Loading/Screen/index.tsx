@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { asset } from "@/utils/paths";
+import { rootAssetPath } from "@/utils/paths";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 
 export function LoadingScreen() {
@@ -11,7 +11,7 @@ export function LoadingScreen() {
 
   return (
     <div className="loading-screen">
-      <img className="loading-logo" src={asset("/assets/logo.svg")} />
+      <img className="loading-logo" src={rootAssetPath("logo.svg")} />
     </div>
   );
 }

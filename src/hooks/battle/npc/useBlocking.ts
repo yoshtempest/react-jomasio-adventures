@@ -14,7 +14,6 @@ import { applyGuardBreak } from "./apply/applyGuardBreak";
 import { applyDesperateBlock } from "./apply/applyDesperateBlock";
 import { applyHitstop, type TimeEffect } from "@/gameRules/battle/time";
 
-
 /**
  * Janela de time (ms) entre a entrada do jogador e sofrer o dano para o
  * parry disparar. Precisa ser um toque bem no timing do hit (0-50ms antes).

@@ -1,38 +1,44 @@
+import { equipmentIconPath, navbarIconPath } from "@/utils/paths";
+
 export const NAVBAR_OPTIONS = [
-  { icon: "/assets/navbar/player.svg", label: "Jogador", screen: "player" },
+  { icon: navbarIconPath("player.svg"), label: "Jogador", screen: "player" },
   {
-    icon: "/assets/navbar/character.svg",
+    icon: navbarIconPath("character.svg"),
     label: "Personagem",
     screen: "character",
     confirmSfx: "chooseYourCharacter",
   },
-  { icon: "/assets/navbar/status.svg", label: "Status", screen: "status" },
+  { icon: navbarIconPath("status.svg"), label: "Status", screen: "status" },
   {
-    icon: "/assets/navbar/equipments.svg",
+    icon: navbarIconPath("equipments.svg"),
     label: "Equipamentos",
     screen: "equipment",
   },
   {
-    icon: "/assets/navbar/backpack.svg",
+    icon: navbarIconPath("backpack.svg"),
     label: "Mochila",
     screen: "inventory",
   },
-  { icon: "/assets/navbar/quests.svg", label: "Missões", screen: "missions" },
+  { icon: navbarIconPath("quests.svg"), label: "Missões", screen: "missions" },
   {
-    icon: "/assets/navbar/deliciaDex.svg",
+    icon: navbarIconPath("deliciaDex.svg"),
     label: "DelíciaDex",
     screen: "bestiary",
   },
   {
-    icon: "/assets/navbar/professions.svg",
+    icon: navbarIconPath("professions.svg"),
     label: "Profissões",
     screen: "professions",
   },
-  { icon: "/assets/navbar/titles.svg", label: "Títulos", screen: "titles" },
-  { icon: "/assets/equipments/pets.svg", label: "Pets", screen: "pets" },
-  { icon: "/assets/navbar/saves.svg", label: "Saves", screen: "saves" },
+  { icon: navbarIconPath("titles.svg"), label: "Títulos", screen: "titles" },
   {
-    icon: "/assets/navbar/configs.svg",
+    icon: equipmentIconPath("pets.svg"),
+    label: "Pets",
+    screen: "pets",
+  },
+  { icon: navbarIconPath("saves.svg"), label: "Saves", screen: "saves" },
+  {
+    icon: navbarIconPath("configs.svg"),
     label: "Configurações",
     screen: "config",
   },

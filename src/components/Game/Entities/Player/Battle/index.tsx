@@ -33,26 +33,17 @@ export function PlayerBattle(props: PlayerBattleProps) {
     levelUpParticles = false,
   } = props;
 
-  const isChargingKi =
-    character === "emanuel" && state === "chargingKi";
+  const isChargingKi = character === "emanuel" && state === "chargingKi";
 
-  const isCrouching =
-    state === "idleCrounched" ||
-    state === "walkCrounched";
+  const isCrouching = state === "idleCrounched" || state === "walkCrounched";
 
   const isFallen = state === "fallen";
 
-  const isGrabbed =
-    Date.now() < grabbedUntil &&
-    !isFallen &&
-    !isCrouching;
+  const isGrabbed = Date.now() < grabbedUntil && !isFallen && !isCrouching;
 
   const showFlipped = isGrabbed && grabFlipped;
 
-  const {
-    src,
-    handleSpriteError,
-  } = useBattleSprite({
+  const { src, handleSpriteError } = useBattleSprite({
     character,
     state,
     weapon,
@@ -81,9 +72,7 @@ export function PlayerBattle(props: PlayerBattleProps) {
   });
 
   const transformOrigin =
-    isCrouching || showFlipped || isMostHonored
-      ? "bottom center"
-      : undefined;
+    isCrouching || showFlipped || isMostHonored ? "bottom center" : undefined;
 
   const spriteClassName = [
     blink.className,
@@ -123,9 +112,7 @@ export function PlayerBattle(props: PlayerBattleProps) {
         onError={handleSpriteError}
       />
 
-      {atomicHalo && character === "marcelo" && (
-        <AtomicHalo />
-      )}
+      {atomicHalo && character === "marcelo" && <AtomicHalo />}
 
       {levelUpParticles && (
         <LevelUpParticles

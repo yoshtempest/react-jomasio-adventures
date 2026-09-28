@@ -1,3 +1,5 @@
+import { soundEffectPath } from "@/utils/paths";
+
 import { defineDialogue } from "@/data/dialogues/defineDialogue";
 
 export const hallJailsonFourDialogue = defineDialogue([
@@ -5,13 +7,13 @@ export const hallJailsonFourDialogue = defineDialogue([
     who: "jailson",
     message:
       "Agora eu tô a fim de relaxar, tu num quer me trazer um suco de laranja não?",
-    soundSrc: "/assets/songs/soundEffects/npc/iWantToRelax.mp3",
+    soundSrc: soundEffectPath("npc/iWantToRelax.mp3"),
   },
   {
     who: "protagonista",
     message: "Como assim caralho?",
     expression: "rascal",
-    soundSrc: "/assets/songs/soundEffects/player/inWhatSense.mp3",
+    soundSrc: soundEffectPath("player/inWhatSense.mp3"),
   },
   ["jailson", "Relaxar ué"],
   ["protagonista", "Onde tá o suco de laranja?", "crossArms"],

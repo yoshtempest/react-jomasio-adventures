@@ -1,6 +1,5 @@
 import { useActivePotion } from "@/hooks/useActivePotion";
 import styles from "./styles.module.css";
-import { asset } from "@/utils/paths";
 import { formatDuration } from "@/utils/formatDuration";
 
 export function ActivePotionDisplay() {
@@ -10,7 +9,7 @@ export function ActivePotionDisplay() {
   return (
     <div className={styles.potionSection}>
       <img
-        src={asset(activePotion.image)}
+        src={activePotion.image}
         alt={activePotion.name}
         className={styles.potionImage}
       />

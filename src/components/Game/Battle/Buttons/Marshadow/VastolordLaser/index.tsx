@@ -34,9 +34,7 @@ export function VastolordLaserButton({
       disabled={disabled}
       title="Laser Vastolord: feixe que cruza o mapa por 3s causando 1% do dano base a cada 20ms de contato e empurrando o inimigo. Cada inimigo derrotado na forma concede +1 stack de laser."
     >
-      {charges > 1 && (
-        <span className={styles.charges}>{charges}x</span>
-      )}
+      {charges > 1 && <span className={styles.charges}>{charges}x</span>}
       <span className={`abilityLabel ${styles.label}`}>
         <Zap size={13} />
         VASTOLORD LASER

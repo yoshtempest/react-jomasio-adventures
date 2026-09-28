@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { Star } from "lucide-react";
-import { asset } from "@/utils/paths";
+import { elementBadgePath } from "@/utils/paths";
 import { RANK_COLORS, RANK_LABELS } from "@/data/equipment/definitions";
 import { PET_STAR_MAX } from "@/data/characters/petProgress";
 import { PET_ROLE_LABELS } from "@/data/characters/petSkills";
@@ -147,9 +147,7 @@ export function Pets() {
                   {getNpcElementTypes(petNpc).map((element) => (
                     <img
                       key={element}
-                      src={asset(
-                        `/assets/badges/elements/${element.toLowerCase()}.svg`,
-                      )}
+                      src={elementBadgePath(`${element.toLowerCase()}.svg`)}
                       alt={element}
                       title={element}
                       className={styles.elementBadge}

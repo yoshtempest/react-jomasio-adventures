@@ -1,8 +1,5 @@
 import styles from "./styles.module.css";
-import {
-  RANK_LABELS,
-  SLOT_LABELS,
-} from "@/data/equipment/definitions";
+import { RANK_LABELS, SLOT_LABELS } from "@/data/equipment/definitions";
 import { RANKS } from "@/gameRules/rank";
 import {
   getItemResistances,
@@ -12,7 +9,7 @@ import {
   RESISTANCE_REDUCTION_PER_PIECE_PCT,
 } from "@/gameRules/battle/equipment";
 import { FILTER_LABELS } from "@/utils/equipment/equipmentMenu";
-import { asset } from "@/utils/paths";
+import { rankBadgePath } from "@/utils/paths";
 import type { EquipmentDropInfo } from "@/hooks/battle/rewards/useRewards";
 
 type Props = {
@@ -46,17 +43,17 @@ export function EquipmentDrops({ equipmentDrops }: Props) {
 
           return (
             <div key={eq.id} className="dropItem">
-              {rank && (
+              {rank?.src && (
                 <img
                   className="dropIcon"
-                  src={asset(`/assets/badges/ranks/${rank.src}`)}
+                  src={rankBadgePath(rank.src)}
                   alt={RANK_LABELS[eq.rank]}
                   title={RANK_LABELS[eq.rank]}
                 />
               )}
               <img
                 className="dropIcon"
-                src={asset(FILTER_LABELS[eq.slot])}
+                src={FILTER_LABELS[eq.slot]}
                 alt={SLOT_LABELS[eq.slot]}
                 title={SLOT_LABELS[eq.slot]}
               />

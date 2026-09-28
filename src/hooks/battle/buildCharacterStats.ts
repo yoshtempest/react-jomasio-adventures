@@ -3,7 +3,6 @@ import { getHungerMultiplier } from "@/contexts/CharacterProgressContext";
 import type { CharacterProgress } from "@/data/characters/defaultProgress";
 import type { TitleBonusMap } from "@/utils/types/player/titles";
 
-
 export function buildCharacterStats(
   baseChar: CharacterProgress,
   equipment: ReturnType<typeof getEquipmentStatsBonus>,

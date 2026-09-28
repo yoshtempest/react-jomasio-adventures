@@ -1,3 +1,5 @@
+import { equipmentIconPath } from "@/utils/paths";
+
 import type { Equipment } from "@/utils/types/player/equipment";
 
 export type EquipmentMenuItem =
@@ -29,15 +31,15 @@ export const FILTER_TABS = [
 export type EquipmentFilter = (typeof FILTER_TABS)[number];
 
 export const FILTER_LABELS: Record<EquipmentFilter, string> = {
-  all: "/assets/equipments/all.svg",
-  weapon: "/assets/equipments/weapons.svg",
-  helmet: "/assets/equipments/helmet.svg",
-  chestplate: "/assets/equipments/chestplate.svg",
-  pants: "/assets/equipments/pants.svg",
-  boots: "/assets/equipments/boots.svg",
-  accessory: "/assets/equipments/acessorys.svg",
-  bag: "/assets/equipments/bags.svg",
-  pet: "/assets/equipments/pets.svg",
+  all: equipmentIconPath("all.svg"),
+  weapon: equipmentIconPath("weapons.svg"),
+  helmet: equipmentIconPath("helmet.svg"),
+  chestplate: equipmentIconPath("chestplate.svg"),
+  pants: equipmentIconPath("pants.svg"),
+  boots: equipmentIconPath("boots.svg"),
+  accessory: equipmentIconPath("acessorys.svg"),
+  bag: equipmentIconPath("bags.svg"),
+  pet: equipmentIconPath("pets.svg"),
 };
 
 /** Ícone do slot de equipamento (não do item em si). */

@@ -39,7 +39,9 @@ export function DifficultySection({
           className={`${styles.item} ${styles.active} ${isSelected ? styles.selected : ""}`}
         >
           <h2>
-            {(DIFFICULTY_LABEL[activeDifficulty] ?? activeDifficulty).toUpperCase()}
+            {(
+              DIFFICULTY_LABEL[activeDifficulty] ?? activeDifficulty
+            ).toUpperCase()}
           </h2>
         </div>
 

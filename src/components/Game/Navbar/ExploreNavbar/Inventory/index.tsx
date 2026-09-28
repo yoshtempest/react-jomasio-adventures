@@ -1,3 +1,4 @@
+import { chestPath } from "@/utils/paths";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useInventory } from "@/contexts/InventoryContext";
 import { useInventoryMenu } from "@/hooks/menu/useInventory";
@@ -259,7 +260,7 @@ export function Inventory() {
   if (openingChest) {
     const closedSrc = openingChest.isDaily
       ? DAILY_CHEST_CLOSED_SPRITE
-      : `/assets/items/chests/${openingChest.tier}.svg`;
+      : chestPath(`${openingChest.tier}.svg`);
     const openedSrc = openingChest.isDaily
       ? DAILY_CHEST_OPENED_SPRITE
       : CHEST_OPENED_SPRITES[openingChest.tier];

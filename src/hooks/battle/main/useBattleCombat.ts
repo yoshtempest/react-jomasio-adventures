@@ -1,4 +1,11 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type RefObject } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type RefObject,
+} from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useGrabThrow } from "@/hooks/battle/throw/useGrabThrow";
 import { useThrowAnimation } from "@/hooks/battle/throw/useThrowAnimation";
@@ -567,9 +574,17 @@ export function useBattleCombat({
         npcType,
         playerCharacter: player.character,
       }),
-    [npcStats.damage, playerClass, battle.totalArmor, npcType, player.character],
+    [
+      npcStats.damage,
+      playerClass,
+      battle.totalArmor,
+      npcType,
+      player.character,
+    ],
   );
-  projectileHpRef.current = getProjectileDestructionHp(projectedProjectileDamage);
+  projectileHpRef.current = getProjectileDestructionHp(
+    projectedProjectileDamage,
+  );
 
   const {
     handleCursedEnergyConversion,
@@ -658,8 +673,7 @@ export function useBattleCombat({
 
     if (vastolordActive) {
       vastolordDamageAccumulatorRef.current += damage;
-      const threshold =
-        vastolordBaseDamage * VASTOLORD_DAMAGE_EXTEND_RATIO;
+      const threshold = vastolordBaseDamage * VASTOLORD_DAMAGE_EXTEND_RATIO;
       if (threshold >= 1) {
         while (vastolordDamageAccumulatorRef.current >= threshold) {
           vastolordDamageAccumulatorRef.current -= threshold;
@@ -1104,13 +1118,13 @@ export function useBattleCombat({
           playerHP: battle.playerHP,
           playerMaxHp: battle.playerMaxHp,
           totalVampirism: battle.totalVampirism,
-summons,
-      setSummons,
-      giveSummonRewards,
-      spawnDamageRef: refs.spawnDamageRef,
-      registerHitRef: refs.registerHitRef,
-      setPlayerHP: battle.setPlayerHP,
-      deliciaSetter: battle.setDelicia,
+          summons,
+          setSummons,
+          giveSummonRewards,
+          spawnDamageRef: refs.spawnDamageRef,
+          registerHitRef: refs.registerHitRef,
+          setPlayerHP: battle.setPlayerHP,
+          deliciaSetter: battle.setDelicia,
           hitsToSpecial: battle.hitsToSpecial,
         });
       }
@@ -1169,7 +1183,7 @@ summons,
     npc,
     summons,
     setSummons,
-setNpcHP: battle.setNpcHP,
+    setNpcHP: battle.setNpcHP,
     giveSummonRewards,
     spawnDamageNumber: battle.spawnDamageNumber,
     registerHitRef: refs.registerHitRef,

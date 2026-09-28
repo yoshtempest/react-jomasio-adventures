@@ -1,6 +1,7 @@
+import { itemPath } from "@/utils/paths";
+
 import { ITEMS } from "@/data/items";
 import { useLootBagControls } from "@/hooks/menu/useLootBagControls";
-import { asset } from "@/utils/paths";
 
 import styles from "./styles.module.css";
 
@@ -48,9 +49,7 @@ export function LootBagModal({
                 <div className={styles.slotContent}>
                   <img
                     className={styles.slotIcon}
-                    src={asset(
-                      itemData.image ?? `/assets/items/${item.id}.svg`,
-                    )}
+                    src={itemData.image ?? itemPath(`${item.id}.svg`)}
                     alt={itemData.name}
                   />
                   <span className={styles.slotName}>{itemData.name}</span>

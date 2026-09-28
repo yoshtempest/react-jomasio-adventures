@@ -1,3 +1,5 @@
+import { professionBadgePath } from "@/utils/paths";
+
 import type { ProfessionId } from "@/utils/types/player/profession";
 
 /**
@@ -8,15 +10,15 @@ import type { ProfessionId } from "@/utils/types/player/profession";
  * por template a partir do id.
  */
 export const PROFESSION_BADGES: Record<ProfessionId, string> = {
-  alchemist: "/alchemist.svg",
-  farmer: "/farmer.svg",
-  fisher: "/fisher.svg",
-  butcher: "/butcher.svg",
-  lumberjack: "/farmer.svg",
-  chef: "/chef.svg",
-  bodyBuilder: "/bodyBuilder.svg",
-  mechanic: "/mechanic.svg",
-  miner: "/miner.svg",
+  alchemist: professionBadgePath("alchemist.svg"),
+  farmer: professionBadgePath("farmer.svg"),
+  fisher: professionBadgePath("fisher.svg"),
+  butcher: professionBadgePath("butcher.svg"),
+  lumberjack: professionBadgePath("farmer.svg"),
+  chef: professionBadgePath("chef.svg"),
+  bodyBuilder: professionBadgePath("bodyBuilder.svg"),
+  mechanic: professionBadgePath("mechanic.svg"),
+  miner: professionBadgePath("miner.svg"),
 };
 
 export function getProfessionBadge(profession: ProfessionId): string {

@@ -1,3 +1,5 @@
+import { soundEffectPath } from "@/utils/paths";
+
 import { defineDialogue } from "@/data/dialogues/defineDialogue";
 
 export const cantinaDialogue = defineDialogue([
@@ -6,7 +8,7 @@ export const cantinaDialogue = defineDialogue([
   {
     who: "jhowSimar",
     message: "Pega a lapada pega",
-    soundSrc: "/assets/songs/soundEffects/npc/jhowsimar/getTheLapada.mp3",
+    soundSrc: soundEffectPath("npc/jhowsimar/getTheLapada.mp3"),
     autoAdvanceOnSound: true,
   },
 ]);

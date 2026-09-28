@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
 import { ChevronDown, Gamepad2 } from "lucide-react";
-import { asset } from "@/utils/paths";
+import { rootAssetPath } from "@/utils/paths";
 import shared from "@/pages/Landing/styles.module.css";
 import styles from "./styles.module.css";
 
@@ -12,7 +12,7 @@ export function Hero() {
       <div className={styles.heroOverlay} />
       <div className={styles.heroContent}>
         <img
-          src={asset("/assets/logo.svg")}
+          src={rootAssetPath("logo.svg")}
           alt="Jomasio Adventures"
           className={styles.logo}
         />

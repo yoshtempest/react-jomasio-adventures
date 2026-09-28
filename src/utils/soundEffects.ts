@@ -1,4 +1,4 @@
-import { asset, sfx } from "@/utils/paths";
+import { sfx, transitionPath } from "@/utils/paths";
 
 export function createSounds() {
   return {
@@ -12,7 +12,7 @@ export function createSounds() {
     deliciometroIsFull: sfx("player/deliciometroIsFull.mp3"),
     questUpdated: sfx("player/questUpdated.mp3"),
     levelUp: sfx("player/levelUp.mp3"),
-    loading: new Audio(asset("/assets/songs/transitions/blink.mp3")),
+    loading: new Audio(transitionPath("blink.mp3")),
     moveMenu: sfx("menu/move.mp3"),
     chooseYourCharacter: sfx("menu/chooseYourCharacter.mp3"),
     selectMenu: sfx("menu/select.mp3"),
@@ -40,8 +40,8 @@ export function createSounds() {
     kokusen: sfx("player/riquelme/kokusen.mp3"),
     impact: sfx("impact.mp3"),
     slimitaJump: sfx("npc/slimita/jump.mp3"),
-    equip: new Audio(asset("/assets/songs/transitions/equip.mp3")),
-    unequip: new Audio(asset("/assets/songs/transitions/unequip.mp3")),
+    equip: new Audio(transitionPath("equip.mp3")),
+    unequip: new Audio(transitionPath("unequip.mp3")),
     unlockedTitle: sfx("player/unlockedTitle.mp3"),
     eating: sfx("player/eating.mp3"),
     drinkingPotion: sfx("player/drinkingPotion.mp3"),

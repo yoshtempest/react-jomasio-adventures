@@ -18,7 +18,6 @@ import {
 } from "@/utils/equipment/equipmentMenu";
 import { RANK_COLORS, RANK_LABELS } from "@/data/equipment/definitions";
 import styles from "./styles.module.css";
-import { asset } from "@/utils/paths";
 
 export function RightPanel() {
   const { player } = usePlayer();
@@ -43,10 +42,7 @@ export function RightPanel() {
               key={tab}
               className={`${styles.filterTab} ${isActive ? styles.filterTabActive : ""} ${isSelected ? "EquipmentSelected" : ""}`}
             >
-              <img
-                className={styles.equipmentImage}
-                src={asset(FILTER_LABELS[tab])}
-              />
+              <img className={styles.equipmentImage} src={FILTER_LABELS[tab]} />
             </div>
           );
         })}
@@ -70,10 +66,7 @@ export function RightPanel() {
               className={`${styles.collectedCard} ${isSelected ? "EquipmentSelected" : ""}`}
             >
               <div className="EquipmentItemRow">
-                <img
-                  className="slotTag"
-                  src={asset(FILTER_LABELS[entry.item.slot])}
-                />
+                <img className="slotTag" src={FILTER_LABELS[entry.item.slot]} />
                 {entry.arrow === "up" && (
                   <ArrowUp size={14} className={styles.arrowUp} />
                 )}

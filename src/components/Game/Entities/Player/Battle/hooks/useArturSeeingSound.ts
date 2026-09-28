@@ -2,7 +2,6 @@ import { useEffect, useRef } from "react";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { playerPath } from "@/utils/paths";
 
-
 export function useArturSeeingSound(src: string) {
   const { playSound } = useSoundEffects();
   const prePalmPlayedRef = useRef(false);

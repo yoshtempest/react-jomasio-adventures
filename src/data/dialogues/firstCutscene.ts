@@ -1,7 +1,6 @@
-import { asset } from "@/utils/paths";
+import { cutscenePath } from "@/utils/paths";
 
-const portrait = (name: string) =>
-  asset(`/assets/history/cutscenes/firstCutscene/${name}.svg`);
+const portrait = (name: string) => cutscenePath(`firstCutscene/${name}.svg`);
 
 export const firstCutsceneDialogue = [
   {

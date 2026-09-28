@@ -125,7 +125,9 @@ export type BattleSceneApi = {
   vastolordLaser: ReturnType<typeof useVastolordLaser>["beam"];
   vastolordLaserPress: () => void;
   vastolordLaserUsable: boolean;
-  specialIntroAbility: ReturnType<typeof useSpecialIntro>["specialIntroAbility"];
+  specialIntroAbility: ReturnType<
+    typeof useSpecialIntro
+  >["specialIntroAbility"];
   atomicHalo: ReturnType<typeof useAtomic>["halo"];
   atomicExplosion: ReturnType<typeof useAtomic>["explosion"];
   atomicCuts: ReturnType<typeof useAtomic>["cuts"];
@@ -138,9 +140,7 @@ export type BattleSceneApi = {
     typeof useDomainExpansion
   >["domainExpansionActive"];
   mugetsuBlink: ReturnType<typeof useDomainExpansion>["mugetsuBlink"];
-  disintegrating: ReturnType<
-    typeof useDomainExpansion
-  >["disintegrating"];
+  disintegrating: ReturnType<typeof useDomainExpansion>["disintegrating"];
   domainExpansionPress: () => void;
   domainExpansionUsable: boolean;
   domainExpansionRemaining: number;

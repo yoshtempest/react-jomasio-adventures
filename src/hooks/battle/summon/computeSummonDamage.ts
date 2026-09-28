@@ -5,7 +5,6 @@ import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import { combatService } from "@/services/combat";
 
-
 export function computeSummonDamage(
   s: SummonedNpc,
   npcLevel: number,

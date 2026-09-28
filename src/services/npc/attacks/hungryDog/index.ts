@@ -6,10 +6,7 @@ import type {
   BehaviorContext,
   BehaviorResult,
 } from "@/utils/types/npc/npcBehavior";
-import {
-  MELEE_RANGE,
-  initHungryDogAi,
-} from "./state";
+import { MELEE_RANGE, initHungryDogAi } from "./state";
 import { handleChase } from "./handles/chase";
 import { handleDig } from "./handles/dig";
 import { handleEmerge } from "./handles/emerge";

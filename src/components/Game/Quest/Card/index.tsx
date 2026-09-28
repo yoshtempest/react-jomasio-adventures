@@ -1,12 +1,12 @@
 import styles from "./styles.module.css";
-import { asset } from "@/utils/paths";
+import { statusIconPath, itemPath, coinPath } from "@/utils/paths";
 import { FREQ_LABEL } from "@/data/quests/frequencies";
 
 const REWARD_ICON: Partial<Record<QuestRewardsType, string>> = {
-  xp: "/assets/status/xp.svg",
-  item: "/assets/items/all.svg",
-  coin: "/assets/items/coins/kwanzas.svg",
-  hyperCoin: "/assets/items/coins/hypercoins.svg",
+  xp: statusIconPath("xp.svg"),
+  item: itemPath("all.svg"),
+  coin: coinPath("kwanzas.svg"),
+  hyperCoin: coinPath("hypercoins.svg"),
 };
 
 type Props = {
@@ -44,7 +44,7 @@ export function QuestCard({ quest, selected }: Props) {
         </span>
         <span className={styles.reward}>
           {quest.rewards}
-          {icon && <img src={asset(icon)} className={styles.rewardIcon} />}
+          {icon && <img src={icon} className={styles.rewardIcon} />}
         </span>
       </div>
     </div>

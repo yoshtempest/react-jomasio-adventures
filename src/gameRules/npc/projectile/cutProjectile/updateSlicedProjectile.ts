@@ -1,6 +1,5 @@
 import { ProjectileConstants } from "@/data/projectile";
 
-
 /** Velocidade dos fragmentos depois do corte. */
 export const PROJECTILE_CUT_SPEED = 17;
 

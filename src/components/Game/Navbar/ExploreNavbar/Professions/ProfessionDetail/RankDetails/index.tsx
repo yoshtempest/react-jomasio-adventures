@@ -5,7 +5,6 @@ import {
   getProfessionWeaponId,
   type ProfessionWeaponConfig,
 } from "@/data/professions/weapons";
-import { professionBadgePath } from "@/utils/paths";
 import {
   getStatLabel,
   professionIcon,
@@ -63,7 +62,7 @@ export function RankDetails({
       <div className={styles.detailHeader}>
         <img
           className={styles.detailIcon}
-          src={professionBadgePath(professionIcon(profession.id))}
+          src={professionIcon(profession.id)}
           alt=""
         />
         <div>

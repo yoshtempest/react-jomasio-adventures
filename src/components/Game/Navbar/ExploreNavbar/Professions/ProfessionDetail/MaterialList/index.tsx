@@ -3,7 +3,6 @@ import {
   PROFESSION_WEAPON_TIERS,
   type ProfessionWeaponConfig,
 } from "@/data/professions/weapons";
-import { asset } from "@/utils/paths";
 import type { CraftRecipe } from "@/utils/types/player/profession";
 import type { InventoryItem } from "@/utils/types/player/inventory";
 import styles from "./styles.module.css";
@@ -34,7 +33,7 @@ function MaterialRow({
   return (
     <div className={styles.materialRow}>
       {image && (
-        <img className={styles.materialImg} src={asset(image)} alt={name} />
+        <img className={styles.materialImg} src={image} alt={name} />
       )}
       <span className={styles.materialName}>{name}</span>
       <span

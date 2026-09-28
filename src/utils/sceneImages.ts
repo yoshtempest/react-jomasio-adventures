@@ -1,4 +1,9 @@
-import { jomasioPath, resolveAsset } from "@/utils/paths";
+import {
+  cenariosPath,
+  jomasioPath,
+  resolveAsset,
+  rootAssetPath,
+} from "@/utils/paths";
 
 type SceneInfo = {
   label: string;
@@ -30,11 +35,11 @@ const routeSceneMap: Record<string, SceneInfo> = {
     label: "Biblioteca",
     image: jomasioPath("/library/default.svg"),
   },
-  "/home": { label: "Tela Inicial", image: "/assets/logo.svg" },
-  "/battle": { label: "Batalha", image: "/assets/mainGame.svg" },
+  "/home": { label: "Tela Inicial", image: rootAssetPath("logo.svg") },
+  "/battle": { label: "Batalha", image: rootAssetPath("mainGame.svg") },
   "/technoblade": {
     label: "Sala Technoblade",
-    image: "/assets/cenarios/technoblade.svg",
+    image: cenariosPath("technoblade.svg"),
   },
   "/director": {
     label: "Sala do Diretor",
@@ -79,7 +84,7 @@ export function getSceneInfo(route: string): SceneInfo {
   const match = routeSceneMap[route] ?? routeSceneMap[base];
   if (match) return match;
 
-  return { label: route, image: "/assets/logo.svg" };
+  return { label: route, image: rootAssetPath("logo.svg") };
 }
 
 export function getSceneImage(route: string): string {

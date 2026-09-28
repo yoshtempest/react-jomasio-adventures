@@ -1,3 +1,5 @@
+import { itemPath } from "@/utils/paths";
+
 import { ITEMS } from "@/data/items";
 import { SLOT_ICONS } from "@/utils/equipment/equipmentMenu";
 import type {
@@ -5,7 +7,9 @@ import type {
   LootNotifyEntry,
 } from "@/utils/types/battle/loot";
 
-export function contentsToEntries(contents: LootBagContents): LootNotifyEntry[] {
+export function contentsToEntries(
+  contents: LootBagContents,
+): LootNotifyEntry[] {
   const entries: LootNotifyEntry[] = [];
 
   if (contents.coins > 0) {
@@ -27,7 +31,7 @@ export function contentsToEntries(contents: LootBagContents): LootNotifyEntry[] 
   for (const drop of contents.itemDrops) {
     const itemData = ITEMS[drop.id];
     entries.push({
-      icon: drop.image ?? itemData?.image ?? `/assets/items/${drop.id}.svg`,
+      icon: drop.image ?? itemData?.image ?? itemPath(`${drop.id}.svg`),
       qty: drop.qty,
       name: drop.name,
     });
@@ -44,7 +48,7 @@ export function contentsToEntries(contents: LootBagContents): LootNotifyEntry[] 
   if (contents.chestDrop) {
     const chestData = ITEMS[contents.chestDrop.id];
     entries.push({
-      icon: chestData?.image ?? `/assets/items/${contents.chestDrop.id}.svg`,
+      icon: chestData?.image ?? itemPath(`${contents.chestDrop.id}.svg`),
       qty: 1,
       name: contents.chestDrop.name,
     });
@@ -53,7 +57,7 @@ export function contentsToEntries(contents: LootBagContents): LootNotifyEntry[] 
   if (contents.keyDrop) {
     const keyData = ITEMS[contents.keyDrop.id];
     entries.push({
-      icon: keyData?.image ?? `/assets/items/${contents.keyDrop.id}.svg`,
+      icon: keyData?.image ?? itemPath(`${contents.keyDrop.id}.svg`),
       qty: 1,
       name: contents.keyDrop.name,
     });

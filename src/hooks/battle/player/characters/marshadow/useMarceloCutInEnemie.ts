@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { TWO_HUNDRED_MS, FIVE_THOUSAND_MS } from "@/data/ms";
-import { playerPath, asset } from "@/utils/paths";
+import { playerPath, statusIconPath } from "@/utils/paths";
 
 /** CutInEnemie aparece por 1s sobre o NPC atingido. */
 export const MARCELO_CUT_IN_DURATION_MS = TWO_HUNDRED_MS;
@@ -12,7 +12,7 @@ export const MARCELO_CUT_IN_ENEMIE_SRC = playerPath(
   "/marcelo/inFight/default/attacks/cutInEnemie.svg",
 );
 /** Ícone de sangrado exibido acima do NPC em status de sangramento. */
-export const BLOOD_ICON_SRC = asset("/assets/status/bloodIcon.svg");
+export const BLOOD_ICON_SRC = statusIconPath("bloodIcon.svg");
 
 export type CutInEnemieOverlay = {
   /** Contador de ativações — vira a chave React para reiniciar o sprite. */

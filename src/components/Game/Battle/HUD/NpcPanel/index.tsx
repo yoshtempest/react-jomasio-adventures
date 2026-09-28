@@ -2,11 +2,10 @@ import { HealthBar } from "@/components/Game/Battle/HUD/HealthBar";
 import { BlockGauge } from "@/components/Game/Battle/HUD/BlockGauge";
 import { AlfaSpecialGauge } from "@/components/Game/Battle/HUD/AlfaSpecialGauge";
 import { ElementBadges } from "@/components/Game/Battle/HUD/ElementBadges";
-import { npcPath } from "@/utils/paths";
+import { npcPath, rankBadgePath } from "@/utils/paths";
 import { getNpcDisplayName } from "@/data/npc";
 import type { ElementType } from "@/utils/types/battle/element";
 import styles from "@/components/Game/Battle/HUD/styles.module.css";
-import { asset } from "@/utils/paths";
 import { getRank, srcRank } from "@/gameRules/rank";
 
 type Props = {
@@ -47,10 +46,7 @@ export function NPCHUDPanel({
       </div>
       <div>
         {npcLevel !== undefined && (
-          <img
-            src={asset(`/assets/badges/ranks/${playerRank}`)}
-            className={styles.rankBadge}
-          />
+          <img src={rankBadgePath(playerRank)} className={styles.rankBadge} />
         )}
         <img
           src={npcPath(`/${npcType}/face.svg`)}

@@ -135,11 +135,7 @@ export function useAllyAI({
 
           // Regra de time: a classe decide, o ally é isento só se o efeito
           // listar o id dele em `exempt`.
-          const time = getTime(
-            timeRefRef.current.current,
-            "ally",
-            ally.id,
-          );
+          const time = getTime(timeRefRef.current.current, "ally", ally.id);
           if (time.speed === 0) return ally;
 
           const nearest = enemies.reduce<EnemyTarget | null>((best, e) => {

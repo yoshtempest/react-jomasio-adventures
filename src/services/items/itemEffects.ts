@@ -1,3 +1,5 @@
+import { soundEffectPath, transitionPath } from "@/utils/paths";
+
 import { POTION_CONFIG } from "@/utils/buffs/xpBuff";
 
 /** Fome restaurada por comida. */
@@ -49,10 +51,10 @@ export type ItemAction =
   | { kind: "energetic"; hunger: number; sleep: number; sfxSrc: string };
 
 const SFX = {
-  encounter: "/assets/songs/transitions/undertaleToBattle.mp3",
-  openMap: "/assets/songs/transitions/openMap.mp3",
-  potion: "/assets/songs/soundEffects/player/drinkingPotion.mp3",
-  eating: "/assets/songs/soundEffects/player/eating.mp3",
+  encounter: transitionPath("undertaleToBattle.mp3"),
+  openMap: transitionPath("openMap.mp3"),
+  potion: soundEffectPath("player/drinkingPotion.mp3"),
+  eating: soundEffectPath("player/eating.mp3"),
 } as const;
 
 /**

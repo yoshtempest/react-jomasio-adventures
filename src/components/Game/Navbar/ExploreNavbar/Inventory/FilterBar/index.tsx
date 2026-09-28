@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { FILTER_LABELS } from "@/data/inventory/labels";
 import styles from "./styles.module.css";
-import { itemsPath, professionBadgePath } from "@/utils/paths";
+import { itemFilterPath, professionBadgePath } from "@/utils/paths";
 
 type Props = {
   filterType: string;
@@ -41,9 +41,10 @@ export function FilterBar({
               src={
                 f.type.startsWith("prof_")
                   ? professionBadgePath(f.src)
-                  : itemsPath(f.src)
+                  : itemFilterPath(f.src)
               }
-            className={styles.image} />
+              className={styles.image}
+            />
             {f.label}
           </button>
         </span>

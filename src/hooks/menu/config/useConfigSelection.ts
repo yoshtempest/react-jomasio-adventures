@@ -18,10 +18,7 @@ import {
   getColumnMaxIndex,
 } from "./configConstants";
 import { useConfigActions } from "./useConfigActions";
-import {
-  DIALOGUE_SPEED_LIST,
-  type DialogueSpeed,
-} from "@/utils/settings";
+import { DIALOGUE_SPEED_LIST, type DialogueSpeed } from "@/utils/settings";
 
 export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   const navigate = useNavigate();
@@ -128,7 +125,8 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
     (dir: 1 | -1) => {
       const current = DIALOGUE_SPEED_LIST.indexOf(activeSpeedRef.current);
       const next = DIALOGUE_SPEED_LIST[
-        (current + dir + DIALOGUE_SPEED_LIST.length) % DIALOGUE_SPEED_LIST.length
+        (current + dir + DIALOGUE_SPEED_LIST.length) %
+          DIALOGUE_SPEED_LIST.length
       ] as DialogueSpeed;
       setDialogueSpeedRef.current(next);
       playMoveRef.current();

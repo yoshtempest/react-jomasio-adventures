@@ -31,8 +31,7 @@ export type StrikeOpts = {
 };
 
 export type StrikeResult<T> =
-  | { hit: false }
-  | { hit: true; projectile: T | null };
+  { hit: false } | { hit: true; projectile: T | null };
 
 const NO_HIT = { hit: false } as const;
 

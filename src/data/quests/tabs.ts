@@ -1,10 +1,12 @@
+import { questIconPath } from "@/utils/paths";
+
 import type { QuestTab } from "@/utils/types/player/quest";
 
 export const TAB_ICONS: Record<QuestTab, string> = {
-  active: "/assets/quests/inProgress.svg",
-  completed: "/assets/quests/conclued.svg",
-  daily: "/assets/quests/daily.svg",
-  weekly: "/assets/quests/weekly.svg",
+  active: questIconPath("inProgress.svg"),
+  completed: questIconPath("conclued.svg"),
+  daily: questIconPath("daily.svg"),
+  weekly: questIconPath("weekly.svg"),
 };
 
 export const TAB_KEYS: QuestTab[] = ["active", "completed", "daily", "weekly"];

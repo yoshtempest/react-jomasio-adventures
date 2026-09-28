@@ -22,7 +22,7 @@ export function ListItem({ item, isSelected, rejected }: Props) {
             src={
               itemData.image
                 ? `${import.meta.env.BASE_URL}${itemData.image.replace(/^\//, "")}`
-                : `${import.meta.env.BASE_URL}assets/items/${item.id}.svg`
+                : `${import.meta.env.BASE_URL}${item.id}.svg`
             }
             alt={itemData.name}
           />

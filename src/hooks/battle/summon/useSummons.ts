@@ -58,8 +58,8 @@ export function useSummons({
       const spawnX =
         overrideX !== undefined
           ? overrideX + spawnIndex * OVERRIDE_SPAWN_GAP
-          : SPAWN_POSITIONS[spawnIndex % SPAWN_POSITIONS.length] ??
-            npcXRef.current;
+          : (SPAWN_POSITIONS[spawnIndex % SPAWN_POSITIONS.length] ??
+            npcXRef.current);
 
       const spawnId = nextSpawnIndex.current;
 

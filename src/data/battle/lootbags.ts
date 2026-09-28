@@ -1,3 +1,5 @@
+import { lootBagPath } from "@/utils/paths";
+
 import { COIN_REWARDS } from "./drops";
 
 /** Janela de coleta de lootbags após derrotar o inimigo principal. */
@@ -40,13 +42,13 @@ export const HYPERCOIN_AMOUNT: Record<NPCClass, readonly [number, number]> = {
 export const LOTBAG_COIN_SHARE = 0.2;
 
 export const LOOTBAG_SPRITES: Record<NPCClass, string> = {
-  common: "/assets/items/lootBag/common.svg",
-  rare: "/assets/items/lootBag/rare.svg",
-  epic: "/assets/items/lootBag/epic.svg",
-  boss: "/assets/items/lootBag/boss.svg",
-  legendary: "/assets/items/lootBag/legendary.svg",
-  supreme: "/assets/items/lootBag/supreme.svg",
-  omega: "/assets/items/lootBag/omega.svg",
+  common: lootBagPath("common.svg"),
+  rare: lootBagPath("rare.svg"),
+  epic: lootBagPath("epic.svg"),
+  boss: lootBagPath("boss.svg"),
+  legendary: lootBagPath("legendary.svg"),
+  supreme: lootBagPath("supreme.svg"),
+  omega: lootBagPath("omega.svg"),
 };
 
 export function rollLootBagCount(npcClass: NPCClass): number {

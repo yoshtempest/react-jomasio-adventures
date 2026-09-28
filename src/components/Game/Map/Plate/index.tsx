@@ -1,5 +1,3 @@
-import { asset } from "@/utils/paths";
-
 type Props = {
   gridX: number;
   gridY: number;
@@ -10,7 +8,7 @@ type Props = {
 export function Plate({ gridX, gridY, TILE_SIZE, src }: Props) {
   return (
     <img
-      src={asset(src)}
+      src={src}
       alt=""
       style={{
         position: "absolute",

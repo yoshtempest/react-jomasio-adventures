@@ -632,7 +632,13 @@ export function useNpcBattle({
           BATTLE_LIMITS.minX,
           Math.min(BATTLE_LIMITS.maxX, p.x + pushDir * 50),
         );
-        return { ...p, x: newX, y: Math.max(0, p.y - 50), velY: 0, state: "falling" };
+        return {
+          ...p,
+          x: newX,
+          y: Math.max(0, p.y - 50),
+          velY: 0,
+          state: "falling",
+        };
       });
     },
     [

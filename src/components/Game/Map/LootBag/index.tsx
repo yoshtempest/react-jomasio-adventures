@@ -1,8 +1,8 @@
-import { asset } from "@/utils/paths";
+import { lootBagPath } from "@/utils/paths";
 
 import styles from "./styles.module.css";
 
-const LOOTBAG_SPRITE = "/assets/items/lootBag/common.svg";
+const LOOTBAG_SPRITE = lootBagPath("common.svg");
 
 type Props = {
   gridX: number;
@@ -14,7 +14,7 @@ export function LootBag({ gridX, gridY, tileSize }: Props) {
   return (
     <img
       className={styles.lootBag}
-      src={asset(LOOTBAG_SPRITE)}
+      src={LOOTBAG_SPRITE}
       alt="Saco de loot"
       style={{
         left: gridX * tileSize,

@@ -1,3 +1,4 @@
+import { itemPath } from "@/utils/paths";
 import { useMemo, useState } from "react";
 
 import { SceneBase } from "@/components/Game/Scenes/Base";
@@ -51,7 +52,7 @@ export function BrodiClassScene({ sceneId }: Props) {
             x: 10,
             y: 8,
             visible: !gotGoatMeat,
-            image: "/assets/items/goat_meat.svg",
+            image: itemPath("goat_meat.svg"),
           },
         ]}
         popup={popup}

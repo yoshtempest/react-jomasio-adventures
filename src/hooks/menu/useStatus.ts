@@ -1,3 +1,4 @@
+import { statusIconPath } from "@/utils/paths";
 import { useState } from "react";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { usePlayer } from "@/contexts/PlayerContext";
@@ -26,19 +27,19 @@ export const STATUS_SUB_ROWS: {
   {
     index: STATS.length,
     label: "Árvore de Habilidades",
-    icon: "/assets/status/xp.svg",
+    icon: statusIconPath("xp.svg"),
     view: "skillTree",
   },
   {
     index: STATS.length + 1,
     label: "Ranques",
-    icon: "/assets/status/ranks.svg",
+    icon: statusIconPath("ranks.svg"),
     view: "ranks",
   },
   {
     index: STATS.length + 2,
     label: "Todos os Status",
-    icon: "/assets/status/skills.svg",
+    icon: statusIconPath("skills.svg"),
     view: "allStats",
   },
 ];

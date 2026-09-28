@@ -11,9 +11,7 @@ const DAMAGE_ANCHOR_WIDTH: Record<Projectile["variant"], number> = {
 const RAIN_IMPACT_Y = 550;
 
 export type DamageableProjectile =
-  | ProjectileCommon
-  | ProjectilePull
-  | ProjectileBurst;
+  ProjectileCommon | ProjectilePull | ProjectileBurst;
 
 /**
  * Centro visual do projétil: onde o damage number aparece e onde a Killer Queen
@@ -35,8 +33,9 @@ export function getProjectileCenter(p: Projectile): { x: number; y: number } {
  * Ponto onde o damage number de um projétil deve aparecer: centralizado
  * horizontalmente sobre o sprite (projéteis usam âncora top-left).
  */
-export function getProjectileDamagePoint(
-  p: DamageableProjectile,
-): { x: number; y: number } {
+export function getProjectileDamagePoint(p: DamageableProjectile): {
+  x: number;
+  y: number;
+} {
   return getProjectileCenter(p);
 }

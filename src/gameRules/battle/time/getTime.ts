@@ -1,4 +1,9 @@
-import { type TimeEffect, type TimeKind, type BattleTime, NEUTRAL_TIME } from ".";
+import {
+  type TimeEffect,
+  type TimeKind,
+  type BattleTime,
+  NEUTRAL_TIME,
+} from ".";
 
 /**
  * Estado de tempo de uma entidade agora: o pior caso entre os efeitos ativos que

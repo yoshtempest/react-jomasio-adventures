@@ -1,21 +1,15 @@
 import { playerPath } from "@/utils/paths";
 import styles from "../styles.module.css";
 
-
 interface ChargingKiEffectProps {
   width: number;
   height: number;
 }
 
-export function ChargingKiEffect({
-  width,
-  height,
-}: ChargingKiEffectProps) {
+export function ChargingKiEffect({ width, height }: ChargingKiEffectProps) {
   return (
     <img
-      src={playerPath(
-        "/emanuel/inFight/attacks/chargingKiEffect.svg",
-      )}
+      src={playerPath("/emanuel/inFight/attacks/chargingKiEffect.svg")}
       className={styles.chargingKiEffect}
       style={{
         height,

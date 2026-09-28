@@ -342,9 +342,7 @@ export function useVastolordLaser({
       toX: isFacingLeft ? p.x : ProjectileConstants.MAP_WIDTH,
       y: p.y,
     });
-    setPlayer((pp) =>
-      pp.mode !== "battle" ? pp : { ...pp, state: "laser" },
-    );
+    setPlayer((pp) => (pp.mode !== "battle" ? pp : { ...pp, state: "laser" }));
     // O som do feixe fica em loop enquanto o laser estiver ativo.
     playSound("laser", true);
 

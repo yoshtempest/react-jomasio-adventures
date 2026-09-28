@@ -63,7 +63,12 @@ export const BESTIARY_DATA = createBestiary({
     description:
       "O irmão mais novo de Maurão. Magro mas traiçoeiro, ataca com golpes rápidos e venenosos.",
     location: "Jomasio",
-    attacks: ["Um tapa na... Careca", "Nunca vi uma pessoa BURRA assim", "Papéis explosivos", "Laser"],
+    attacks: [
+      "Um tapa na... Careca",
+      "Nunca vi uma pessoa BURRA assim",
+      "Papéis explosivos",
+      "Laser",
+    ],
   },
   hungryKing: {
     name: "Rei Faminto",

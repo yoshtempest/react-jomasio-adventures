@@ -2,7 +2,7 @@ import styles from "./styles.module.css";
 import type { DamageNumber } from "@/hooks/battle/damage/useNumbers";
 import type { DamageTarget } from "@/utils/battle/findDamageTarget";
 import { findDamageTarget } from "@/utils/battle/findDamageTarget";
-import { asset } from "@/utils/paths";
+import { titleBadgePath } from "@/utils/paths";
 
 export type { DamageTarget } from "@/utils/battle/findDamageTarget";
 
@@ -44,9 +44,7 @@ export function DamageNumbers({ numbers, scaleX, scaleY, targets }: Props) {
     <>
       {numbers.map((n) => {
         const noSnap = NO_SNAP_TYPES.has(n.type);
-        const target = noSnap
-          ? undefined
-          : findDamageTarget(n.x, n.y, targets);
+        const target = noSnap ? undefined : findDamageTarget(n.x, n.y, targets);
         const headOffset = noSnap
           ? NO_SNAP_OFFSET
           : target
@@ -79,7 +77,7 @@ export function DamageNumbers({ numbers, scaleX, scaleY, targets }: Props) {
             ) : n.type === "armor" ? (
               <>
                 <img
-                  src={asset("/assets/badges/titles/blockAttacks.svg")}
+                  src={titleBadgePath("blockAttacks.svg")}
                   className={styles.image}
                 />
                 +1

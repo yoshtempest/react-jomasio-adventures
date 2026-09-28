@@ -5,7 +5,6 @@ import type {
 } from "@/utils/types/battle/loot";
 import { contentsToEntries } from "./contentsToEntries";
 
-
 const NOTIFICATION_DURATION_MS = 2000;
 
 export function useLootNotifications() {

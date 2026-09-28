@@ -32,8 +32,7 @@ export function AtomicButton({
       title="I Am Atomic: explosão centrada no inimigo com maior vida máxima, causando dano especial em todos os inimigos num raio de 300px (2x no alvo). Cooldown de 20s."
     >
       <span className={`abilityLabel ${styles.label}`}>
-        <Atom size={13} />
-        I AM ATOMIC
+        <Atom size={13} />I AM ATOMIC
       </span>
       {!ready && remaining > 0 && (
         <span className={styles.cooldown}>{remaining.toFixed(1)}s</span>

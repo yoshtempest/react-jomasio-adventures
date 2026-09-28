@@ -15,7 +15,6 @@ import { getRankMultiplier } from "@/gameRules/rank";
 import { combatService } from "@/services/combat";
 import { buildCharacterStats } from "./buildCharacterStats";
 
-
 type Props = {
   npcLevel: number;
   npcClass:

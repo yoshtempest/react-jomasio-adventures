@@ -37,9 +37,7 @@
 
   z-index: 20;
 
-  animation:
-    characterEnter 1000ms cubic-bezier(0.2, 0.8, 0.2, 1)
-    forwards;
+  animation: characterEnter 1000ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
 /* =========================
@@ -56,16 +54,15 @@
 
   pointer-events: none;
 
-  background:
-    repeating-linear-gradient(
-      -12deg,
-      transparent 0px,
-      transparent 12px,
-      rgba(10, 0, 20, 0.95) 13px,
-      rgba(140, 0, 255, 1) 19px,
-      transparent 20px,
-      transparent 35px
-    );
+  background: repeating-linear-gradient(
+    -12deg,
+    transparent 0px,
+    transparent 12px,
+    rgba(10, 0, 20, 0.95) 13px,
+    rgba(140, 0, 255, 1) 19px,
+    transparent 20px,
+    transparent 35px
+  );
 
   filter: blur(0.4px);
 }
@@ -76,15 +73,7 @@
 
   transform: skewX(-12deg);
 
-  clip-path: polygon(
-    0 0,
-    100% 0,
-    100% 65%,
-    75% 75%,
-    50% 60%,
-    25% 80%,
-    0 60%
-  );
+  clip-path: polygon(0 0, 100% 0, 100% 65%, 75% 75%, 50% 60%, 25% 80%, 0 60%);
 
   background-color: #e60012;
 

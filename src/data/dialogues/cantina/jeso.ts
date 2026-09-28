@@ -1,3 +1,5 @@
+import { soundEffectPath } from "@/utils/paths";
+
 import { defineDialogue } from "@/data/dialogues/defineDialogue";
 
 export const cantinaJesoDialogue = defineDialogue([
@@ -6,7 +8,7 @@ export const cantinaJesoDialogue = defineDialogue([
     who: "protagonista",
     message: "Tô cagado de fome",
     expression: "hungry",
-    soundSrc: "/assets/songs/soundEffects/player/imFuckingStarving.mp3",
+    soundSrc: soundEffectPath("player/imFuckingStarving.mp3"),
   },
   [
     "jeso",

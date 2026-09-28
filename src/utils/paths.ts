@@ -22,16 +22,117 @@ export function resolveAsset(path?: string) {
   return path;
 }
 
+/* -------------------------------------------------------------------------- */
+/* Categorias de asset                                                         */
+/* -------------------------------------------------------------------------- */
+
+/*
+ * Constantes e dados do jogo guardam só o NOME do arquivo
+ * (`"miner.svg"`); a pasta mora aqui. Antes cada call site repetia a string
+ * "/assets/algumaPasta/" na mão, o que quebrava em silêncio quando a pasta
+ * mudava. Invariante: se o dado já chamou uma função daqui, o consumidor
+ * usa o valor direto — nunca `asset()` em cima, que prefixaria o BASE_URL
+ * duas vezes.
+ */
+
+export function rootAssetPath(name: string): string {
+  return asset(`/assets/${name}`);
+}
+
+export function itemPath(name: string): string {
+  return asset(`/assets/items/${name}`);
+}
+
+export function itemFilterPath(name: string): string {
+  return asset(`/assets/items/filter/${name}`);
+}
+
+export function chestPath(name: string): string {
+  return asset(`/assets/items/chests/${name}`);
+}
+
+export function keyPath(name: string): string {
+  return asset(`/assets/items/keys/${name}`);
+}
+
+export function coinPath(name: string): string {
+  return asset(`/assets/items/coins/${name}`);
+}
+
+export function xpPotionPath(name: string): string {
+  return asset(`/assets/items/xpPotion/${name}`);
+}
+
+export function manaPotionPath(name: string): string {
+  return asset(`/assets/items/manaPotion/${name}`);
+}
+
+export function lootBagPath(name: string): string {
+  return asset(`/assets/items/lootBag/${name}`);
+}
+
+export function titleBadgePath(name: string): string {
+  return asset(`/assets/badges/titles/${name}`);
+}
+
+export function elementBadgePath(name: string): string {
+  return asset(`/assets/badges/elements/${name}`);
+}
+
+export function professionBadgePath(name: string): string {
+  return asset(`/assets/badges/professions/${name}`);
+}
+
+export function rankBadgePath(name: string): string {
+  return asset(`/assets/badges/ranks/${name}`);
+}
+
+export function statusIconPath(name: string): string {
+  return asset(`/assets/status/${name}`);
+}
+
+export function navbarIconPath(name: string): string {
+  return asset(`/assets/navbar/${name}`);
+}
+
+export function equipmentIconPath(name: string): string {
+  return asset(`/assets/equipments/${name}`);
+}
+
+export function questIconPath(name: string): string {
+  return asset(`/assets/quests/${name}`);
+}
+
+export function platePath(name: string): string {
+  return asset(`/assets/plates/${name}`);
+}
+
+export function videoPath(name: string): string {
+  return asset(`/assets/videos/${name}`);
+}
+
+export function mapAssetPath(name: string): string {
+  return asset(`/assets/map/${name}`);
+}
+
+export function historyPath(name: string): string {
+  return asset(`/assets/history/${name}`);
+}
+
+export function cutscenePath(name: string): string {
+  return asset(`/assets/history/cutscenes/${name}`);
+}
+
+export function transitionPath(name: string): string {
+  return asset(`/assets/songs/transitions/${name}`);
+}
+
 export function cenariosPath(path: string) {
   return asset(`/assets/cenarios/${path}`);
 }
 
 export function jomasioPath(path: string) {
   return cenariosPath(`/jomasio/${path}`);
-}
-
-export function professionBadgePath(path: string) {
-  return asset(`/assets/badges/professions/${path}`);
 }
 
 export function itemsPath(path: string) {
@@ -195,9 +296,7 @@ export function resolveBattleSprite(
           ? "finalizating"
           : null;
     if (atomicSprite) {
-      return playerPathMarshadowHabilities(
-        `/atomic/${atomicSprite}.svg`,
-      );
+      return playerPathMarshadowHabilities(`/atomic/${atomicSprite}.svg`);
     }
     // Expansão de Domínio do marcelo: os sprites da sequência ficam na pasta
     // `habilities/domainExpansion/` (não existe `default/preMugetsu.svg`).

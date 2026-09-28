@@ -145,9 +145,12 @@ export function useAtomic({
   const activeRef = useRef(false);
   const readyAtRef = useRef(0);
   const cutKeyRef = useRef(0);
-  const targetRef = useRef<
-    { id: string; x: number; y: number; npcType: string } | null
-  >(null);
+  const targetRef = useRef<{
+    id: string;
+    x: number;
+    y: number;
+    npcType: string;
+  } | null>(null);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   const npcRef = useLatestRef(npc);
@@ -311,9 +314,7 @@ export function useAtomic({
         }
         const target = targetRef.current ?? findTarget();
 
-        setExplosion((prev) =>
-          prev ? { ...prev, phase: "explosion" } : prev,
-        );
+        setExplosion((prev) => (prev ? { ...prev, phase: "explosion" } : prev));
         setFlash(true);
         playSound("marshadowSpecial");
 
@@ -346,8 +347,7 @@ export function useAtomic({
           ]);
           timersRef.current.push(
             setTimeout(
-              () =>
-                setCuts((prev) => prev.filter((c) => c.key !== cutKey)),
+              () => setCuts((prev) => prev.filter((c) => c.key !== cutKey)),
               ATOMIC_CUT_DURATION_MS,
             ),
           );

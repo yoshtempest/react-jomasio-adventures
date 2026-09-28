@@ -38,7 +38,7 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
 import { useFlags } from "@/contexts/FlagContext";
 import { useGroundItems } from "@/contexts/GroundItemContext";
-import { asset } from "@/utils/paths";
+import { chestPath } from "@/utils/paths";
 import { InteractionPrompt } from "@/components/Game/Interactions/InteractionPrompt";
 import { CutsceneVideo } from "@/components/Game/Map/Cutscene";
 import type { ItemPickupTile } from "@/utils/types/maps/exploreScene";
@@ -376,11 +376,15 @@ export function ExploreScene({
     if (!dialogueSystem.nextSoundSrc) {
       playSansTalking();
     }
-  }, [resolvedAutoStartDialogue, location.pathname, dialogueSystem, playSansTalking]);
+  }, [
+    resolvedAutoStartDialogue,
+    location.pathname,
+    dialogueSystem,
+    playSansTalking,
+  ]);
 
-  const [walkInTarget, setWalkInTarget] = useState<SceneMemoryWalkTarget | null>(
-    null,
-  );
+  const [walkInTarget, setWalkInTarget] =
+    useState<SceneMemoryWalkTarget | null>(null);
 
   useAutoWalk({
     active: walkInTarget !== null,
@@ -507,7 +511,7 @@ export function ExploreScene({
                 }}
               >
                 <CutsceneVideo
-                  src={asset(cutscene.videoSrc)}
+                  src={cutscene.videoSrc}
                   width={videoWidth}
                   height={videoHeight}
                   onEnded={handleCutsceneEnd}
@@ -547,11 +551,7 @@ export function ExploreScene({
             tile.visible && (
               <img
                 key={`item-${tile.x}-${tile.y}`}
-                src={
-                  tile.image
-                    ? asset(tile.image)
-                    : asset("/assets/items/chests/default.svg")
-                }
+                src={tile.image ?? chestPath("default.svg")}
                 alt=""
                 style={{
                   position: "absolute",

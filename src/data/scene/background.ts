@@ -1,4 +1,4 @@
-import { asset, cenariosPath, jomasioPath } from "@/utils/paths";
+import { cenariosPath, jomasioPath, rootAssetPath } from "@/utils/paths";
 
 export const sceneBackgrounds = {
   FirstCutscene: cenariosPath("/firstCutscene.svg"),
@@ -13,7 +13,7 @@ export const sceneBackgrounds = {
   JomasioEntrance: jomasioPath("/jomasioEntrance.svg"),
   FootballCourt: jomasioPath("/footballCourt.svg"),
   FootballCourtBattle: jomasioPath("/battle/footballCourt.svg"),
-  Home: asset("/assets/mainGame.svg"),
+  Home: rootAssetPath("mainGame.svg"),
   HallOne: jomasioPath("/hall/one.svg"),
   HallJailson: jomasioPath("/hall/two.svg"),
   HallHell: jomasioPath("/hall/hell.svg"),

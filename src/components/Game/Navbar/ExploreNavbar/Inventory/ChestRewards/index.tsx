@@ -6,7 +6,7 @@ import {
   RANK_LABELS,
   SLOT_LABELS,
 } from "@/data/equipment/definitions";
-import { asset } from "@/utils/paths";
+import { asset, itemPath } from "@/utils/paths";
 import { MATERIALS } from "@/data/items/materials";
 import { ITEMS } from "@/data/items";
 import { FILTER_LABELS } from "@/utils/equipment/equipmentMenu";
@@ -41,7 +41,7 @@ export function ChestRewards({
   const materialImage = (id: string) =>
     MATERIALS[id as keyof typeof MATERIALS]?.image ??
     ITEMS[id as keyof typeof ITEMS]?.image ??
-    `/assets/items/${id}.svg`;
+    itemPath(`${id}.svg`);
 
   return (
     <div className="containerOfNavbar">
@@ -71,7 +71,7 @@ export function ChestRewards({
             <div key={`${eq.id}-${index}`} className={styles.dropRow}>
               <img
                 className="dropIcon"
-                src={asset(FILTER_LABELS[eq.slot])}
+                src={FILTER_LABELS[eq.slot]}
                 alt={eq.name}
               />
               <span style={{ color: RANK_COLORS[eq.rank] }}>

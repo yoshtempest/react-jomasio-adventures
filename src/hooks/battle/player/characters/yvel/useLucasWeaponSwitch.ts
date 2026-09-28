@@ -36,7 +36,10 @@ export function useLucasWeaponSwitch({
     if (switchingRef.current) return;
 
     switchingRef.current = true;
-    timeRef.current = applyHitstop(timeRef.current, LUCAS_WEAPON_SWITCH_DURATION_MS);
+    timeRef.current = applyHitstop(
+      timeRef.current,
+      LUCAS_WEAPON_SWITCH_DURATION_MS,
+    );
 
     const next = rollNextLucasWeapon(weapon);
     setWeapon(next);

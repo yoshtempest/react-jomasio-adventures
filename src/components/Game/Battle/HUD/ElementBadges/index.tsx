@@ -1,5 +1,5 @@
 import type { ElementType } from "@/utils/types/battle/element";
-import { asset } from "@/utils/paths";
+import { elementBadgePath } from "@/utils/paths";
 import styles from "./styles.module.css";
 
 type Props = {
@@ -12,7 +12,7 @@ export function ElementBadges({ types }: Props) {
       {types.map((type) => (
         <img
           key={type}
-          src={asset(`/assets/badges/elements/${type.toLowerCase()}.svg`)}
+          src={elementBadgePath(`${type.toLowerCase()}.svg`)}
           alt={type}
           title={type}
           className={styles.badge}

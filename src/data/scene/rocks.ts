@@ -1,3 +1,5 @@
+import { mapAssetPath } from "@/utils/paths";
+
 export const ROCK_SIZES = ["small", "medium", "large"] as const;
 
 export type RockSize = (typeof ROCK_SIZES)[number];
@@ -32,4 +34,4 @@ export const ROCK_CLASSES: Record<RockSize, RockClass> = {
   large: { height: 3, scale: 1.8, climbable: false },
 };
 
-export const ROCK_IMAGE = "/assets/map/rock.svg";
+export const ROCK_IMAGE = mapAssetPath("rock.svg");

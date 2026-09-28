@@ -122,11 +122,7 @@ export function useSummonAI({
           // `speed` segue sendo a velocidade "de projeto" (o hungryDog só corre
           // quando a distância pede), `moveStep` é o que o time do mundo mede.
           const speed =
-            s.x > BATTLE_LIMITS.maxX
-              ? 6
-              : Math.abs(s.x - px) > 200
-                ? 3
-                : 1.5;
+            s.x > BATTLE_LIMITS.maxX ? 6 : Math.abs(s.x - px) > 200 ? 3 : 1.5;
           const moveStep = speed * time.speed;
 
           const dx = px - s.x;

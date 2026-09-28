@@ -7,7 +7,7 @@ import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { useTitles } from "@/contexts/TitleContext";
 import { getTotalArmor, getWeaponCritRate } from "@/gameRules/battle/equipment";
-import { asset } from "@/utils/paths";
+import { navbarIconPath, statusIconPath, titleBadgePath } from "@/utils/paths";
 import { combatService } from "@/services/combat";
 
 export function AllStatsView() {
@@ -119,12 +119,12 @@ export function AllStatsView() {
       <div ref={containerRef} className={styles.containerMaster}>
         <div className={`StatusColumn ${styles.container}`}>
           <div className={`statusMainContainer ${styles.mainContainer}`}>
-            <img src={asset("/assets/navbar/status.svg")} />
+            <img src={navbarIconPath("status.svg")} />
             <h2 className="StatusTitle">Status</h2>
           </div>
           <div>
             <div>
-              <img src={asset("/assets/status/hp.svg")} />
+              <img src={statusIconPath("hp.svg")} />
               <p>
                 HP total: {userHp}
                 {inc?.hp ? (
@@ -135,7 +135,7 @@ export function AllStatsView() {
               </p>
             </div>
             <div>
-              <img src={asset("/assets/status/basicDamage.svg")} />
+              <img src={statusIconPath("basicDamage.svg")} />
               <p>
                 Dano normal: {userNormalAttackDamage}
                 {inc?.normalDmg ? (
@@ -146,7 +146,7 @@ export function AllStatsView() {
               </p>
             </div>
             <div>
-              <img src={asset("/assets/status/specialDamage.svg")} />
+              <img src={statusIconPath("specialDamage.svg")} />
               <p>
                 Dano especial: {userSpecialDamage}
                 {inc?.specialDmg ? (
@@ -157,7 +157,7 @@ export function AllStatsView() {
               </p>
             </div>
             <div>
-              <img src={asset("/assets/status/armor.svg")} />
+              <img src={statusIconPath("armor.svg")} />
               <p>
                 Armadura: {userArmor}
                 {inc?.armor ? (
@@ -168,7 +168,7 @@ export function AllStatsView() {
               </p>
             </div>
             <div>
-              <img src={asset("/assets/status/tenacity.svg")} />
+              <img src={statusIconPath("tenacity.svg")} />
               <p>
                 Tenacidade: {userTenacity}%
                 {inc?.tenacity ? (
@@ -182,7 +182,7 @@ export function AllStatsView() {
 
           <div>
             <div>
-              <img src={asset("/assets/status/luckChance.svg")} />
+              <img src={statusIconPath("luckChance.svg")} />
               <p>
                 Sorte: {userLuck}%
                 {inc?.luck ? (
@@ -193,7 +193,7 @@ export function AllStatsView() {
               </p>
             </div>
             <div>
-              <img src={asset("/assets/status/critical.svg")} />
+              <img src={statusIconPath("critical.svg")} />
               <p>
                 Crítico: {critRate.toFixed(1)}%
                 {inc?.crit ? (
@@ -204,7 +204,7 @@ export function AllStatsView() {
               </p>
             </div>
             <div>
-              <img src={asset("/assets/badges/titles/enemyMissAttacks.svg")} />
+              <img src={titleBadgePath("enemyMissAttacks.svg")} />
               <p>
                 Esquiva: {missChance.toFixed(1)}%
                 {inc?.evade ? (
@@ -215,15 +215,15 @@ export function AllStatsView() {
               </p>
             </div>
             <div>
-              <img src={asset("/assets/status/shield.svg")} />
+              <img src={statusIconPath("shield.svg")} />
               <p>Escudo: {totalShield}</p>
             </div>
             <div>
-              <img src={asset("/assets/status/hp.svg")} />
+              <img src={statusIconPath("hp.svg")} />
               <p>Dano com base no HP: +{maxHpDamageBonus}</p>
             </div>
             <div>
-              <img src={asset("/assets/status/basicDamage.svg")} />
+              <img src={statusIconPath("basicDamage.svg")} />
               <p>Dano Verdadeiro: {totalTrueDamage}</p>
             </div>
           </div>

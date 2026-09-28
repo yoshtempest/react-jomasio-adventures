@@ -1,4 +1,4 @@
-import { asset } from "@/utils/paths";
+import { rootAssetPath } from "@/utils/paths";
 import { useEffect, useRef } from "react";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import styles from "./styles.module.css";
@@ -40,7 +40,7 @@ export function Deliciometro({ delicia, hitsToSpecial = 9 }: Props) {
           padding: `${1 + charge * 2}px`,
         }}
       />
-      <img src={asset("/assets/deliciometro.svg")} className={styles.image} />
+      <img src={rootAssetPath("deliciometro.svg")} className={styles.image} />
       <div
         className={styles.needle}
         style={{

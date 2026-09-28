@@ -724,7 +724,7 @@ export function BattleScene(props: Props) {
         />
       )}
 
-      {!vastolordActive && player.character === "marcelo" &&  (
+      {!vastolordActive && player.character === "marcelo" && (
         <AtomicButton
           ready={atomicUsable}
           remaining={atomicRemaining}

@@ -1,6 +1,7 @@
+import { itemPath } from "@/utils/paths";
+
 import { ITEMS } from "@/data/items";
 import { useInventory } from "@/contexts/InventoryContext";
-import { asset } from "@/utils/paths";
 
 import type { ContainerSlot } from "@/utils/types/container";
 
@@ -25,7 +26,7 @@ function SlotContent({ slot }: { slot: ContainerSlot }) {
     <div className={styles.slotContent}>
       <img
         className={styles.slotIcon}
-        src={asset(itemData.image ?? `/assets/items/${slot.id}.svg`)}
+        src={itemData.image ?? itemPath(`${slot.id}.svg`)}
         alt={itemData.name}
       />
       <span className={styles.slotName}>{itemData.name}</span>

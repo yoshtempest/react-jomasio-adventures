@@ -1,3 +1,4 @@
+import { videoPath } from "@/utils/paths";
 import { cafeteriaTwo } from "@/maps/cafeteria/two";
 import { MUSICS } from "@/scenes/shared/music";
 import { getCafeteriaTwoInitialPosition } from "./position";
@@ -15,7 +16,7 @@ export const twoScene: SceneConfig = {
   autoStartDialogue: true,
   events: cafeteriaTwoEvents,
   cutscene: {
-    videoSrc: "/assets/videos/denisburn.webm",
+    videoSrc: videoPath("denisburn.webm"),
     npcGridX: 18,
     npcGridY: 4.6,
   },

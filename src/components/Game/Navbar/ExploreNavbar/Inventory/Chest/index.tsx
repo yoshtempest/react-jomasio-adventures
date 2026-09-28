@@ -2,7 +2,7 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { CHARACTERS } from "@/data/characters/list";
 import styles from "./styles.module.css";
-import { asset } from "@/utils/paths";
+import { chestPath } from "@/utils/paths";
 import { formatDurationHms } from "@/utils/formatDuration";
 
 type Props = {
@@ -40,10 +40,7 @@ export function Chest({ isFocused, isReady, timeLeft, onOpen }: Props) {
         }`}
       >
         <div className={styles.dailyChestInfo}>
-          <img
-            className={styles.image}
-            src={asset("/assets/items/chests/default.svg")}
-          />
+          <img className={styles.image} src={chestPath("default.svg")} />
           <span className={styles.dailyChestTitle}>
             Baú Diário -{" "}
             {isReady ? (

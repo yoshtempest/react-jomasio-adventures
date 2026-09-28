@@ -1,6 +1,6 @@
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { CHARACTERS } from "@/data/options/characters";
-import { asset, playerPath } from "@/utils/paths";
+import { playerPath, rankBadgePath } from "@/utils/paths";
 import { getRank, getRankIndex, RANKS } from "@/gameRules/rank";
 import styles from "./styles.module.css";
 
@@ -21,10 +21,12 @@ export function RankList() {
             <div key={String(rank.id)} className={styles.rankRow}>
               <div className={styles.rankInfo}>
                 <div className={styles.flexRow}>
-                  <img
-                    src={asset(`/assets/badges/ranks/${rank.src}`)}
-                    className={styles.image}
-                  />
+                  {rank.src && (
+                    <img
+                      src={rankBadgePath(rank.src)}
+                      className={styles.image}
+                    />
+                  )}
                   <div className={styles.rankChars}>
                     {chars.map((c) => {
                       const charLevel = progress[c.image]?.level ?? 1;

@@ -1,5 +1,8 @@
 import { isPlayerInRange } from "@/gameRules/battle/range";
-import { isSpecialStrikeState, isStrikeState } from "@/gameRules/battle/strikeState";
+import {
+  isSpecialStrikeState,
+  isStrikeState,
+} from "@/gameRules/battle/strikeState";
 import {
   shouldCutProjectile,
   createSlicedProjectile,

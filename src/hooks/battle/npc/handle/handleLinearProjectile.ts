@@ -51,8 +51,7 @@ export function handleLinearProjectile(
     !next.indestructible &&
     Math.abs(opts.sphere.x - next.x) <=
       ProjectileHpConstants.SPHERE_HIT_RANGE_X &&
-    Math.abs(opts.sphere.y - next.y) <=
-      ProjectileHpConstants.SPHERE_HIT_RANGE_Y
+    Math.abs(opts.sphere.y - next.y) <= ProjectileHpConstants.SPHERE_HIT_RANGE_Y
   ) {
     opts.onDestroyed?.();
     return null;

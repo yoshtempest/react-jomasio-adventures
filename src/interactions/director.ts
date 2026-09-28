@@ -1,3 +1,5 @@
+import { historyPath, transitionPath } from "@/utils/paths";
+
 import { directorMessages } from "@/data/dialogues/director/messages";
 import {
   createInteractionMap,
@@ -24,7 +26,7 @@ export function createDirector(deps: DirectorDeps) {
 
   return createInteractionMap(directorMessages, deps, {
     "11,3": createImageHandler({
-      src: "/assets/history/vandinhaInTiranosaur.svg",
+      src: historyPath("vandinhaInTiranosaur.svg"),
       message:
         "Uma imagem de Vandinha montada em um Tiranossauro... Como conseguiram tirar essa foto?",
     }),
@@ -33,10 +35,10 @@ export function createDirector(deps: DirectorDeps) {
       if (hasItem("director_key")) {
         setPopup(POPUP_MESSAGES.KEY_USED);
         progressQuest("director_escape", 1);
-        playSFX?.("/assets/songs/transitions/doorOpen.mp3", 0.6);
+        playSFX?.(transitionPath("doorOpen.mp3"), 0.6);
 
         setTimeout(() => {
-          playSFX?.("/assets/songs/transitions/undertaleToBattle.mp3", 0.6);
+          playSFX?.(transitionPath("undertaleToBattle.mp3"), 0.6);
           navigate?.("/cantina/one");
         }, 1000);
       } else {

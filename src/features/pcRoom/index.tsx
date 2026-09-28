@@ -1,3 +1,4 @@
+import { itemPath } from "@/utils/paths";
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 
@@ -85,7 +86,7 @@ export function PcRoomScene({ sceneId }: Props) {
             y: 6.5,
             size: 0.5,
             visible: !gotKey,
-            image: "/assets/items/desired_gear.svg",
+            image: itemPath("desired_gear.svg"),
           },
         ]}
         popup={popup}

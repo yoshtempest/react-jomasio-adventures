@@ -3,7 +3,7 @@ import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 
 import { STATUS_SUB_ROWS } from "@/hooks/menu/useStatus";
-import { asset } from "@/utils/paths";
+import { statusIconPath } from "@/utils/paths";
 
 import styles from "./styles.module.css";
 
@@ -31,7 +31,7 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
   return (
     <div className={`StatusColumn ${styles.container}`}>
       <div className="statusMainContainer">
-        <img src={asset("/assets/status/disponiblePoints.svg")} />
+        <img src={statusIconPath("disponiblePoints.svg")} />
         <h2 className="StatusTitle">Pontos: {stats.points}</h2>
       </div>
       <div
@@ -39,7 +39,7 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
         style={selectedIndex === 0 ? { flexWrap: "wrap" } : undefined}
       >
         <p>
-          <img src={asset("/assets/status/hp.svg")} />
+          <img src={statusIconPath("hp.svg")} />
           Vida: {stats.hp}
           {bonus.hp > 0 ? <span> +{bonus.hp}</span> : ""}
         </p>
@@ -50,7 +50,7 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
         style={selectedIndex === 1 ? { flexWrap: "wrap" } : undefined}
       >
         <p>
-          <img src={asset("/assets/status/strenght.svg")} />
+          <img src={statusIconPath("strenght.svg")} />
           Força: {stats.strength}
           {bonus.strength > 0 ? <span> +{bonus.strength}</span> : ""}
         </p>
@@ -61,7 +61,7 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
         style={selectedIndex === 2 ? { flexWrap: "wrap" } : undefined}
       >
         <p>
-          <img src={asset("/assets/status/intelligence.svg")} />
+          <img src={statusIconPath("intelligence.svg")} />
           Inteligência: {stats.intelligence}
           {bonus.intelligence > 0 ? <span> +{bonus.intelligence}</span> : ""}
         </p>
@@ -72,7 +72,7 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
         style={selectedIndex === 3 ? { flexWrap: "wrap" } : undefined}
       >
         <p>
-          <img src={asset("/assets/status/armor.svg")} />
+          <img src={statusIconPath("armor.svg")} />
           Resistência: {stats.resistance ?? 1}
         </p>
       </div>
@@ -82,7 +82,7 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
         style={selectedIndex === 4 ? { flexWrap: "wrap" } : undefined}
       >
         <p>
-          <img src={asset("/assets/status/luckChance.svg")} />
+          <img src={statusIconPath("luckChance.svg")} />
           Sorte: {stats.luck ?? 1}
           {bonus.luck > 0 ? <span> +{bonus.luck}</span> : ""}
         </p>
@@ -94,7 +94,7 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
           className={selectedIndex === row.index ? "active" : ""}
         >
           <p className={styles.subBtn}>
-            <img src={asset(row.icon)} />
+            <img src={row.icon} />
             {row.label}
           </p>
         </div>

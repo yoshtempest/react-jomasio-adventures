@@ -74,5 +74,13 @@ export function useAutoWalk({
     }, EXPLORE_MOVE_INTERVAL);
 
     return () => clearInterval(intervalId);
-  }, [active, setPlayer, playerRef, mapRef, heightMapRef, targetRef, onArrivedRef]);
+  }, [
+    active,
+    setPlayer,
+    playerRef,
+    mapRef,
+    heightMapRef,
+    targetRef,
+    onArrivedRef,
+  ]);
 }

@@ -32,20 +32,12 @@ export function resolvePlayerSprite({
         ? "idle"
         : state;
 
-  if (
-    preAtomic &&
-    character === "marcelo" &&
-    state === "idle"
-  ) {
+  if (preAtomic && character === "marcelo" && state === "idle") {
     return playerPathMarshadowHabilities("/atomic/starting.svg");
   }
 
-  if (
-    form === "vastolordForm" &&
-    transformationFrame != null
-  ) {
-    const frame =
-      TRANSFORMATION_FRAMES[transformationFrame] ?? "screamOne";
+  if (form === "vastolordForm" && transformationFrame != null) {
+    const frame = TRANSFORMATION_FRAMES[transformationFrame] ?? "screamOne";
 
     return playerPath(
       `/marcelo/inFight/vastolordForm/transformating/${frame}.svg`,
@@ -56,10 +48,5 @@ export function resolvePlayerSprite({
     return playerPath("/emanuel/inFight/attacks/teleport.svg");
   }
 
-  return resolveBattleSprite(
-    character,
-    resolvedState,
-    weapon,
-    form,
-  );
+  return resolveBattleSprite(character, resolvedState, weapon, form);
 }

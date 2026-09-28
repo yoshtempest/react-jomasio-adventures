@@ -1,4 +1,3 @@
-
 import { isPlayerInRange } from "@/gameRules/battle/range";
 import { isFacingTarget } from "@/gameRules/battle/direction";
 import { NPC_CLASS_VERTICAL_BONUS } from "@/gameRules/battle/rangeConfig";
@@ -16,7 +15,6 @@ type CutParams = {
 
 /** Chance de 10% do Marshadow cortar um projétil com o ataque normal. */
 export const MARSHADOW_CUT_CHANCE = 1;
-
 
 /**
  * Direções dos fragmentos após o corte (coordenadas de tela, +y para baixo).

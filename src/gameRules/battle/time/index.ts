@@ -15,8 +15,8 @@ export {
   getTime,
   isTimeFrozen,
   scaleCooldown,
-  slowWorldSpec
-}
+  slowWorldSpec,
+};
 
 /**
  * REGRA DE TIME DA BATALHA
@@ -117,4 +117,3 @@ export const NEUTRAL_TIME: BattleTime = { speed: 1, cooldown: 1 };
 
 /** Id do efeito global de hitstop (impacto). */
 export const HITSTOP_ID = "hitstop";
-

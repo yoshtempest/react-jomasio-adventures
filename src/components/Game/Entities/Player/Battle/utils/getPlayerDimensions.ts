@@ -14,32 +14,24 @@ export interface PlayerDimensions {
   chargingEffectHeight: number;
 }
 
-export function getPlayerDimensions(
-  playerSize: number,
-): PlayerDimensions {
+export function getPlayerDimensions(playerSize: number): PlayerDimensions {
   const viewport = getViewportSize();
 
-  const scaleX =
-    viewport.width / ProjectileConstants.MAP_WIDTH;
+  const scaleX = viewport.width / ProjectileConstants.MAP_WIDTH;
 
-  const scaleY =
-    viewport.height / ProjectileConstants.MAP_HEIGHT;
+  const scaleY = viewport.height / ProjectileConstants.MAP_HEIGHT;
 
-  const scale =
-    playerSize / ProjectileConstants.MAP_HEIGHT;
+  const scale = playerSize / ProjectileConstants.MAP_HEIGHT;
 
-  const width =
-    (ProjectileConstants.MAP_WIDTH * scale) / 1.5;
+  const width = (ProjectileConstants.MAP_WIDTH * scale) / 1.5;
 
-  const height =
-    (ProjectileConstants.MAP_HEIGHT * scale) / 1.5;
+  const height = (ProjectileConstants.MAP_HEIGHT * scale) / 1.5;
 
   const chargingEffectHeight =
     height * EMANUEL_KI_CHARGE_EFFECT_SIZE_MULTIPLIER;
 
   const chargingEffectWidth =
-    chargingEffectHeight /
-    EMANUEL_KI_CHARGE_EFFECT_ASPECT;
+    chargingEffectHeight / EMANUEL_KI_CHARGE_EFFECT_ASPECT;
 
   return {
     scaleX,

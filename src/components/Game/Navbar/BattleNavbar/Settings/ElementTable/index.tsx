@@ -1,7 +1,7 @@
 import styles from "./styles.module.css";
 import { ELEMENT_STRONG_AGAINST } from "@/data/types/elementChart";
 import type { ElementType } from "@/utils/types/battle/element";
-import { asset } from "@/utils/paths";
+import { elementBadgePath } from "@/utils/paths";
 
 const ELEMENT_TYPES = Object.keys(ELEMENT_STRONG_AGAINST) as ElementType[];
 
@@ -65,9 +65,7 @@ export function ElementTable({ playerElementTypes, npcElementTypes }: Props) {
             <div key={type} className={rowClass}>
               <div className={styles.typeCell}>
                 <img
-                  src={asset(
-                    `/assets/badges/elements/${type.toLowerCase()}.svg`,
-                  )}
+                  src={elementBadgePath(`${type.toLowerCase()}.svg`)}
                   className={styles.icon}
                 />
 
@@ -88,9 +86,7 @@ export function ElementTable({ playerElementTypes, npcElementTypes }: Props) {
                 ) : (
                   causes.map((t) => (
                     <img
-                      src={asset(
-                        `/assets/badges/elements/${t.toLowerCase()}.svg`,
-                      )}
+                      src={elementBadgePath(`${t.toLowerCase()}.svg`)}
                       className={styles.icon}
                     />
                   ))
@@ -102,9 +98,7 @@ export function ElementTable({ playerElementTypes, npcElementTypes }: Props) {
                 ) : (
                   receives.map((t) => (
                     <img
-                      src={asset(
-                        `/assets/badges/elements/${t.toLowerCase()}.svg`,
-                      )}
+                      src={elementBadgePath(`${t.toLowerCase()}.svg`)}
                       className={styles.icon}
                     />
                   ))

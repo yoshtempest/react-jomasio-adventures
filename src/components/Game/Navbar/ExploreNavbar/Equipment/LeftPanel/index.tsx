@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { Lock } from "lucide-react";
 import { usePlayer } from "@/contexts/PlayerContext";
-import { playerPath, asset } from "@/utils/paths";
+import { playerPath } from "@/utils/paths";
 import { SLOT_LABELS, RANK_COLORS } from "@/data/equipment/definitions";
 import { FILTER_LABELS } from "@/utils/equipment/equipmentMenu";
 import {
@@ -49,11 +49,10 @@ export function LeftPanel() {
               ? `Acessório ${entry.index + 1}`
               : SLOT_LABELS[entry.slot];
 
-          const slotIcon = asset(
+          const slotIcon =
             entry.type === "accessory-slot"
               ? FILTER_LABELS.accessory
-              : FILTER_LABELS[entry.slot],
-          );
+              : FILTER_LABELS[entry.slot];
 
           const key =
             entry.type === "accessory-slot"

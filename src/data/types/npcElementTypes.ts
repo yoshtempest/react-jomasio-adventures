@@ -1,6 +1,9 @@
 import type { ElementType } from "@/utils/types/battle/element";
 import type { CharacterRace } from "@/utils/types/character/race";
-import { resolveCharacterElementTypes, getRaceLabel } from "@/data/characters/races";
+import {
+  resolveCharacterElementTypes,
+  getRaceLabel,
+} from "@/data/characters/races";
 
 /** Pets têm elementos mas não são NPCs de batalha. */
 export type PetElementKey = "turkey" | "rapariga" | "zecaUrubu" | "mosquito";

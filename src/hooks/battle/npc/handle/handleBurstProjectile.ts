@@ -1,6 +1,9 @@
 import { ProjectileConstants, ProjectileHpConstants } from "@/data/projectile";
 import { isPlayerInRange } from "@/gameRules/battle/range";
-import { isSpecialStrikeState, isStrikeState } from "@/gameRules/battle/strikeState";
+import {
+  isSpecialStrikeState,
+  isStrikeState,
+} from "@/gameRules/battle/strikeState";
 import { getProjectileDamagePoint } from "@/gameRules/npc/projectile/projectileDamage";
 import { applyPlayerStrike } from "../apply/applyPlayerStrike";
 import type { StrikeOpts } from "../apply/applyPlayerStrike";
@@ -29,7 +32,10 @@ export function handleBurstProjectile(
   },
 ): ProjectileBurst | null {
   if (p.exploded) {
-    if (Date.now() - (p.explodedAt ?? p.createdAt) >= ProjectileConstants.BURST_EXPLOSION_MS) {
+    if (
+      Date.now() - (p.explodedAt ?? p.createdAt) >=
+      ProjectileConstants.BURST_EXPLOSION_MS
+    ) {
       return null;
     }
     return p;
@@ -37,9 +43,7 @@ export function handleBurstProjectile(
 
   const next = {
     ...p,
-    x:
-      p.x +
-      p.dirX * ProjectileConstants.BURST_SPEED * (opts.speedScale ?? 1),
+    x: p.x + p.dirX * ProjectileConstants.BURST_SPEED * (opts.speedScale ?? 1),
   };
 
   // Colisão com a esfera do Riquelme em voo.
@@ -48,8 +52,7 @@ export function handleBurstProjectile(
     !next.indestructible &&
     Math.abs(opts.sphere.x - next.x) <=
       ProjectileHpConstants.SPHERE_HIT_RANGE_X &&
-    Math.abs(opts.sphere.y - next.y) <=
-      ProjectileHpConstants.SPHERE_HIT_RANGE_Y
+    Math.abs(opts.sphere.y - next.y) <= ProjectileHpConstants.SPHERE_HIT_RANGE_Y
   ) {
     opts.onDestroyed?.();
     return null;
@@ -86,14 +89,16 @@ export function handleBurstProjectile(
 
   if (
     next.x < -ProjectileConstants.OFFSCREEN_MARGIN ||
-    next.x > ProjectileConstants.MAP_WIDTH + ProjectileConstants.OFFSCREEN_MARGIN
+    next.x >
+      ProjectileConstants.MAP_WIDTH + ProjectileConstants.OFFSCREEN_MARGIN
   ) {
     return null;
   }
 
   const isDashing = opts.playerState === "dash";
   const isCrouched =
-    opts.playerState === "idleCrounched" || opts.playerState === "walkCrounched";
+    opts.playerState === "idleCrounched" ||
+    opts.playerState === "walkCrounched";
   if (isDashing || isCrouched) return next;
 
   const hitY = isCrouched ? opts.playerY - 30 : opts.playerY;

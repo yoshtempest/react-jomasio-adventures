@@ -13,13 +13,9 @@ export function getPlayerTransform({
   isCrouching,
   isFallen,
 }: GetPlayerTransformParams): string {
-  const directionScale =
-    direction === "left" ? -1 : 1;
+  const directionScale = direction === "left" ? -1 : 1;
 
-  const rotation =
-    rotationDeg !== 0
-      ? `rotate(${rotationDeg}deg)`
-      : "";
+  const rotation = rotationDeg !== 0 ? `rotate(${rotationDeg}deg)` : "";
 
   const stateTransform = showFlipped
     ? "scaleY(-1) translate(-50%, 80%)"

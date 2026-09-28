@@ -1,17 +1,19 @@
+import { navbarIconPath } from "@/utils/paths";
+
 export const BATTLE_NAVBAR_OPTIONS = [
   {
-    icon: "/assets/navbar/character.svg",
+    icon: navbarIconPath("character.svg"),
     label: "Personagens",
     screen: "characters",
     confirmSfx: "chooseYourCharacter",
   },
   {
-    icon: "/assets/navbar/backpack.svg",
+    icon: navbarIconPath("backpack.svg"),
     label: "Inventário",
     screen: "inventory",
   },
   {
-    icon: "/assets/navbar/configs.svg",
+    icon: navbarIconPath("configs.svg"),
     label: "Configurações",
     screen: "settings",
   },

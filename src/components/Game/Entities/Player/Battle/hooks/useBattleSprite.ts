@@ -58,14 +58,7 @@ export function useBattleSprite({
       return;
     }
 
-    setSrc(
-      resolveBattleSprite(
-        character,
-        fallbackState,
-        weapon,
-        form,
-      ),
-    );
+    setSrc(resolveBattleSprite(character, fallbackState, weapon, form));
   };
 
   return {

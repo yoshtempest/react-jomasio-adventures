@@ -7,17 +7,17 @@ export type RankInfo = {
 };
 
 export const RANKS: RankInfo[] = [
-  { id: 1, label: "Errante", src: "/wandering.svg" },
-  { id: 2, label: "Iniciado", src: "/initiate.svg" },
-  { id: 3, label: "Adepto", src: "/fan.svg" },
-  { id: 4, label: "Ascendente", src: "/ascendant.svg" },
-  { id: 5, label: "Veterano", src: "/senior.svg" },
-  { id: 6, label: "Elite", src: "/elit.svg" },
-  { id: 7, label: "Lendário", src: "/legendary.svg" },
-  { id: 8, label: "Mítico", src: "/mythical.svg" },
-  { id: 9, label: "Celestial", src: "/celestial.svg" },
-  { id: 0, label: "Transcendente", src: "/transcendent.svg" },
-  { id: "EX", label: "Divino", src: "/divine.svg" },
+  { id: 1, label: "Errante", src: "wandering.svg" },
+  { id: 2, label: "Iniciado", src: "initiate.svg" },
+  { id: 3, label: "Adepto", src: "fan.svg" },
+  { id: 4, label: "Ascendente", src: "ascendant.svg" },
+  { id: 5, label: "Veterano", src: "senior.svg" },
+  { id: 6, label: "Elite", src: "elit.svg" },
+  { id: 7, label: "Lendário", src: "legendary.svg" },
+  { id: 8, label: "Mítico", src: "mythical.svg" },
+  { id: 9, label: "Celestial", src: "celestial.svg" },
+  { id: 0, label: "Transcendente", src: "transcendent.svg" },
+  { id: "EX", label: "Divino", src: "divine.svg" },
 ];
 
 export function getRank(level: number): RankInfo {

@@ -378,8 +378,7 @@ export function useNpcAI({
         // tick. Escalar o delta aqui (em vez de editar os 20 `chasePlayer`)
         // faz o slow-movement valer para todo comportamento — perseguir,
         // dash, investida — sem que cada um precise saber da regra.
-        const scaledX =
-          n.x + (result.x - n.x) * npcTime.speed;
+        const scaledX = n.x + (result.x - n.x) * npcTime.speed;
         const nextX = rooted ? n.x : scaledX;
         const nextY = result.y ?? n.y;
         const direction =

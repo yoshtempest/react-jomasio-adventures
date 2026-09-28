@@ -4,7 +4,7 @@ import { usePlayerActions } from "@/contexts/PlayerContext";
 import { useFlags } from "@/contexts/FlagContext";
 import { circularNext, circularPrev } from "@/gameRules/menu/navigation";
 import { getSelected } from "@/gameRules/menu/selection";
-import { asset } from "@/utils/paths";
+import { soundEffectPath } from "@/utils/paths";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 
@@ -49,9 +49,7 @@ export function useClassSelection(isActive: boolean, onConfirm?: () => void) {
         const selected = getSelected(CLASSES, selectedIndexRef.current);
         if (selected === "amostradinho") {
           const audio = new Audio(
-            asset(
-              "/assets/songs/soundEffects/player/ifClassIsAmostradinho.mp3",
-            ),
+            soundEffectPath("player/ifClassIsAmostradinho.mp3"),
           );
           audio.play().catch(() => {});
         }

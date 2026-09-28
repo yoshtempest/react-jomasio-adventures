@@ -5,7 +5,6 @@ import styles from "./styles.module.css";
 import { useNavbarMenu } from "@/hooks/menu/useNavbar";
 import { useNavbar } from "@/contexts/NavbarContext";
 import type { MenuScreen } from "@/utils/types/player/navbar";
-import { asset } from "@/utils/paths";
 
 function lazyNamed<K extends string>(
   load: () => Promise<Record<K, ComponentType>>,
@@ -52,7 +51,7 @@ export function Navbar() {
               }`}
               onClick={() => onSelect(index)}
             >
-              <img className={styles.icon} src={asset(item.icon)} alt="" />
+              <img className={styles.icon} src={item.icon} alt="" />
               {item.label}
             </li>
           ))}

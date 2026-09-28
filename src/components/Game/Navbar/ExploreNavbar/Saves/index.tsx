@@ -1,3 +1,4 @@
+import { rootAssetPath } from "@/utils/paths";
 import { useRef } from "react";
 import { useSaveMenu } from "@/hooks/menu/useSave";
 import { isSlotUsed } from "@/services/save/slotManager";
@@ -66,7 +67,7 @@ export function Saves() {
               const save = used ? loadGameForSlot(slot) : null;
               const sceneImage = save?.lastRoute
                 ? getSceneImage(save.lastRoute)
-                : "/assets/logo.svg";
+                : rootAssetPath("logo.svg");
               const sceneLabel = save?.lastRoute
                 ? getSceneLabel(save.lastRoute)
                 : "Sem progresso";
