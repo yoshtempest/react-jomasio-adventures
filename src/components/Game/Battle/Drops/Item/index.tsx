@@ -1,3 +1,5 @@
+import { itemPath } from "@/utils/paths";
+
 import styles from "./styles.module.css";
 
 type Props = {
@@ -15,11 +17,7 @@ export function ItemDrops({ itemDrops }: Props) {
           <div key={item.id} className="dropItem">
             <img
               className="dropIcon"
-              src={
-                item.image
-                  ? `${import.meta.env.BASE_URL}${item.image.replace(/^\//, "")}`
-                  : `${import.meta.env.BASE_URL}assets/items/${item.id}.svg`
-              }
+              src={item.image ?? itemPath(`${item.id}.svg`)}
               alt={item.name}
             />
             <span className="dropName">{item.name}</span>

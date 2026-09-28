@@ -1,3 +1,4 @@
+import { resolveAsset } from "@/utils/paths";
 import { useRef, useCallback } from "react";
 import { useAudio } from "@/hooks/audio/useAudio";
 import { useLatestRef } from "@/hooks/useLatestRef";
@@ -10,7 +11,7 @@ export function useSFXPool() {
 
   const playSFX = useCallback(
     (src: string, volume = 1) => {
-      const resolved = `${import.meta.env.BASE_URL}${src.replace(/^\//, "")}`;
+      const resolved = resolveAsset(src);
       let audio = poolRef.current.get(resolved);
 
       if (!audio) {

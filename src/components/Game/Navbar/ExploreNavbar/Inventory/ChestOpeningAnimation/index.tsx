@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
-import { asset } from "@/utils/paths";
 import styles from "./styles.module.css";
 
 type Props = {
@@ -58,7 +57,7 @@ export function ChestOpeningAnimation({
           className={`${styles.chest} ${
             phase === "closed" ? styles.closed : styles.opened
           }`}
-          src={asset(src)}
+          src={src}
           alt="Baú"
         />
       </div>

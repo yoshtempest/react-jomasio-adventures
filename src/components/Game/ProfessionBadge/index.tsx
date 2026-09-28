@@ -1,6 +1,4 @@
 import { useProfessionBadge } from "@/contexts/ProfessionBadgeContext";
-import { asset } from "@/utils/paths";
-
 import styles from "./styles.module.css";
 
 /**
@@ -21,7 +19,7 @@ export function ProfessionBadge() {
       {badges.map((badge) => (
         <img
           key={badge.id}
-          src={asset(badge.src)}
+          src={badge.src}
           alt=""
           className={styles.badge}
         />

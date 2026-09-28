@@ -10,7 +10,7 @@ import { useItemEffect } from "@/hooks/items/useItemEffect";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useMenuSFX } from "@/hooks/menu/useMenuSFX";
 import { useAudio } from "@/hooks/audio/useAudio";
-import { asset } from "@/utils/paths";
+import { resolveAsset } from "@/utils/paths";
 import type { FilterConfig } from "@/utils/types/inventory/filterConfig";
 
 export function useInventoryMenu(
@@ -32,7 +32,7 @@ export function useInventoryMenu(
   const sfxPoolRef = useRef(new Map<string, HTMLAudioElement>());
 
   const playSFX = (src: string, volume = 1) => {
-    const resolved = asset(src);
+    const resolved = resolveAsset(src);
     let audio = sfxPoolRef.current.get(resolved);
 
     if (!audio) {

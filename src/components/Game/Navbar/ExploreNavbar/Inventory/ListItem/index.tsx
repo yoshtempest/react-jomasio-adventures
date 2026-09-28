@@ -1,4 +1,5 @@
 import { ITEMS } from "@/data/items";
+import { itemPath } from "@/utils/paths";
 import type { InventoryItem } from "@/utils/types/player/inventory";
 import styles from "./styles.module.css";
 
@@ -19,11 +20,7 @@ export function ListItem({ item, isSelected, rejected }: Props) {
         <div className={styles.itemRow}>
           <img
             className={styles.icon}
-            src={
-              itemData.image
-                ? `${import.meta.env.BASE_URL}${itemData.image.replace(/^\//, "")}`
-                : `${import.meta.env.BASE_URL}${item.id}.svg`
-            }
+            src={itemData.image ?? itemPath(`${item.id}.svg`)}
             alt={itemData.name}
           />
 

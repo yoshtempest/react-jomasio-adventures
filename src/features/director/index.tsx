@@ -9,7 +9,7 @@ import { useLatestRef } from "@/hooks/useLatestRef";
 import { useQuestActions } from "@/hooks/quest/useQuestActions";
 import { useFlags } from "@/contexts/FlagContext";
 import { useNavigate, useLocation } from "react-router";
-import { asset, keyPath } from "@/utils/paths";
+import { keyPath, resolveAsset } from "@/utils/paths";
 import { useAudio } from "@/hooks/audio/useAudio";
 
 import { sceneBackgrounds } from "@/data/scene/background";
@@ -41,7 +41,7 @@ export function DirectorScene({ sceneId }: Props) {
 
   const playSFX = useCallback(
     (src: string, volume = 1) => {
-      const audio = new Audio(asset(src));
+      const audio = new Audio(resolveAsset(src));
       audio.volume = volume * (sfxVolumeRef.current / 100);
       audio.play().catch(() => {});
     },

@@ -6,7 +6,7 @@ import {
   RANK_LABELS,
   SLOT_LABELS,
 } from "@/data/equipment/definitions";
-import { asset, itemPath } from "@/utils/paths";
+import { itemPath } from "@/utils/paths";
 import { MATERIALS } from "@/data/items/materials";
 import { ITEMS } from "@/data/items";
 import { FILTER_LABELS } from "@/utils/equipment/equipmentMenu";
@@ -54,7 +54,7 @@ export function ChestRewards({
             <div key={m.id} className={styles.dropRow}>
               <img
                 className="dropIcon"
-                src={asset(materialImage(m.id))}
+                src={materialImage(m.id)}
                 alt={m.name}
               />
               <span>{m.name}</span>
@@ -94,7 +94,7 @@ export function ChestRewards({
             <div key={pet.id} className={styles.dropRow}>
               <img
                 className="dropIcon"
-                src={asset(FILTER_LABELS.pet)}
+                src={FILTER_LABELS.pet}
                 alt={pet.name}
               />
               <span style={{ color: RANK_COLORS[pet.rank] }}>
