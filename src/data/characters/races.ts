@@ -21,6 +21,15 @@ export const RACE_LABELS: Record<Race, string> = {
   Umbrian: "Umbriano",
 };
 
+/**
+ * Nome de exibição da raça de uma criatura.
+ *
+ * Mestiços listam todas as linhagens herdadas (ex.: "Humano / Obscuriano").
+ */
+export function getRaceLabel(race: CharacterRace): string {
+  return race.races.map((r) => RACE_LABELS[r]).join(" / ");
+}
+
 type RaceMeta = {
   /** Afinidade/tipagem principal herdada da raça. */
   element: ElementType;

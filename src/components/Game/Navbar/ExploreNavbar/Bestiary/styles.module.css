@@ -92,6 +92,7 @@
 .metaRow {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: var(--fs-8);
   margin-top: var(--size-2);
 }
@@ -99,6 +100,11 @@
 .classBadge {
   font-size: var(--fs-11);
   font-weight: bold;
+}
+
+.raceBadge {
+  font-size: var(--fs-11);
+  color: var(--text-secondary);
 }
 
 .killCount {

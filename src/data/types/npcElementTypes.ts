@@ -1,6 +1,6 @@
 import type { ElementType } from "@/utils/types/battle/element";
 import type { CharacterRace } from "@/utils/types/character/race";
-import { resolveCharacterElementTypes } from "@/data/characters/races";
+import { resolveCharacterElementTypes, getRaceLabel } from "@/data/characters/races";
 
 /** Pets têm elementos mas não são NPCs de batalha. */
 export type PetElementKey = "turkey" | "rapariga" | "zecaUrubu" | "mosquito";
@@ -104,4 +104,10 @@ export function getNpcElementTypes(npcType: string): readonly ElementType[] {
   return (
     NPC_ELEMENT_TYPES[npcType as keyof typeof NPC_ELEMENT_TYPES] ?? ["Normalis"]
   );
+}
+
+/** Nome de exibição da raça do NPC (string vazia se não houver raça definida). */
+export function getNpcRaceLabel(npcType: string): string {
+  const race = NPC_RACES[npcType as keyof typeof NPC_RACES];
+  return race ? getRaceLabel(race) : "";
 }

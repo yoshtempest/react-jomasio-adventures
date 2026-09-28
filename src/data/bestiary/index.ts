@@ -63,14 +63,14 @@ export const BESTIARY_DATA = createBestiary({
     description:
       "O irmão mais novo de Maurão. Magro mas traiçoeiro, ataca com golpes rápidos e venenosos.",
     location: "Jomasio",
-    attacks: ["Um tapa na... Careca", "Cegar"],
+    attacks: ["Um tapa na... Careca", "Nunca vi uma pessoa BURRA assim", "Papéis explosivos", "Laser"],
   },
   hungryKing: {
     name: "Rei Faminto",
     description:
       "O governante dos mortos de fome, um ser colossal que consome tudo em seu caminho. Líder do culto ao rei dragão.",
     location: "Jomasio",
-    attacks: ["Hulk Smash", "Explosão energética", "Hora de acordar!"],
+    attacks: ["Hulk Smash", "Explosão energética", "Invocação do Mal"],
   },
   srGuaxinim: {
     name: "Sr. Guaxinim",

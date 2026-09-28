@@ -9,6 +9,7 @@ import {
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { useTitles } from "@/contexts/TitleContext";
 import { CHARACTERS } from "@/data/options/characters";
+import { getCharacterRace, getRaceLabel } from "@/data/characters/races";
 import { npcPath, playerPath } from "@/utils/paths";
 import { getRank, formatRank, getRankMultiplier } from "@/gameRules/rank";
 import { getEquipmentStatsBonus } from "@/gameRules/battle/equipment";
@@ -29,6 +30,7 @@ export function CharacterInfo() {
   const charProgress = progress[player.character];
   const xpNeeded = getXPToNextLevel(charProgress.level);
   const characterData = CHARACTERS.find((c) => c.image === player.character);
+  const raceLabel = getRaceLabel(getCharacterRace(character));
 
   const isHungry = charProgress.hunger <= HUNGRY_THRESHOLD;
   const [showImage, setShowImage] = useState(true);
@@ -85,6 +87,7 @@ export function CharacterInfo() {
       </h2>
       <h2 className={styles.rank}>{formatRank(getRank(charProgress.level))}</h2>
       <h2>Classe: {playerClass}</h2>
+      <h2>Raça: {raceLabel}</h2>
       <ProgressBar
         value={charProgress.xp}
         max={xpNeeded}
