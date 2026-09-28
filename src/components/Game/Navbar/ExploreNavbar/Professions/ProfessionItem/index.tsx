@@ -1,7 +1,7 @@
 import {
   type ProfessionWeaponConfig,
 } from "@/data/professions/weapons";
-import { asset, npcPath } from "@/utils/paths";
+import { npcPath, professionBadgePath } from "@/utils/paths";
 import type {
   ProfessionInfo,
   ProfessionProficiency,
@@ -45,7 +45,7 @@ export function ProfessionItem({
         <span className={styles.npc}>{profession.npcName}</span>
         <div className={styles.flexRow}>
           <img
-            src={asset(`/assets/badges/professions/${profession.id}.svg`)}
+            src={professionBadgePath(`/${profession.id}.svg`)}
             alt=""
             className={styles.toolIcon}
           />

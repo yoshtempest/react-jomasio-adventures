@@ -6,6 +6,8 @@ import {
   type ProfessionWeaponConfig,
   type ProfessionWeaponTierId,
 } from "@/data/professions/weapons";
+import { PROFESSION_BADGES } from "@/data/professions/badge";
+import type { ProfessionId } from "@/utils/types/player/profession";
 
 export function getOwnedTierIndex(
   isOwned: (id: EquipmentId) => boolean,
@@ -28,9 +30,8 @@ export function getOwnedTierIndex(
 }
 
 export function professionIcon(id: string): string {
-  if (id === "lumberjack") return "/assets/badges/professions/farmer.svg";
-  if (id === "butcher") return "/assets/badges/professions/butcher.svg";
-  return `/assets/badges/professions/${id}.svg`;
+  const badge = PROFESSION_BADGES[id as ProfessionId];
+  return badge ?? "";
 }
 
 export function getStatLabel(key: string): string {

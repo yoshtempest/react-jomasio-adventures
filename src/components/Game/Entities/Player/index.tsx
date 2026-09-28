@@ -3,6 +3,7 @@ import { EXPLORE_MOVE_INTERVAL } from "@/gameRules/movement/explore";
 import { HEIGHT_STEP_OFFSET } from "@/gameRules/movement/levels";
 import { getEntityZIndex } from "@/utils/entityDepth";
 import { LevelUpParticles } from "@/components/Game/LevelUpParticles";
+import { ProfessionBadge } from "@/components/Game/ProfessionBadge";
 
 type Props = {
   character: CharacterId;
@@ -56,6 +57,7 @@ export function Player({
         style={{ width: "100%", height: "100%", objectFit: "contain" }}
       />
       <LevelUpParticles character={character} size={PLAYER_SIZE} />
+      <ProfessionBadge />
     </div>
   );
 }

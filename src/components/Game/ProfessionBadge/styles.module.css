@@ -1,0 +1,31 @@
+.badge {
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  width: var(--size-40);
+  height: var(--size-40);
+  object-fit: contain;
+  image-rendering: pixelated;
+  pointer-events: none;
+  filter: drop-shadow(0 0 var(--size-4) rgba(0, 0, 0, 0.6));
+  animation: floatBadge 1s ease-out forwards;
+}
+
+@keyframes floatBadge {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.4);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(calc(-1 * var(--low-medium))) scale(1.2);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(calc(-1 * var(--size-40))) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(calc(-1 * var(--size-60))) scale(0.9);
+  }
+}

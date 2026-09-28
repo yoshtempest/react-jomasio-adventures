@@ -30,6 +30,14 @@ export function jomasioPath(path: string) {
   return cenariosPath(`/jomasio/${path}`);
 }
 
+export function professionBadgePath(path: string) {
+  return asset(`/assets/badges/professions/${path}`);
+}
+
+export function itemsPath(path: string) {
+  return asset(`/assets/items/${path}`);
+}
+
 export function playerPath(path: string) {
   return asset(`/assets/player/${path}`);
 }

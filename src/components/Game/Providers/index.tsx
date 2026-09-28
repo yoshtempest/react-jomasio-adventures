@@ -11,6 +11,7 @@ import { TitleProvider } from "@/contexts/TitleContext";
 import { BestiaryProvider } from "@/contexts/BestiaryContext";
 import { PetProgressProvider } from "@/contexts/PetProgressContext";
 import { ProfessionProgressProvider } from "@/contexts/ProfessionProgressContext";
+import { ProfessionBadgeProvider } from "@/contexts/ProfessionBadgeContext";
 import { TombstoneProvider } from "@/contexts/TombstoneContext";
 import { GroundItemProvider } from "@/contexts/GroundItemContext";
 import { PlayerProvider } from "@/contexts/PlayerContext";
@@ -28,27 +29,29 @@ export function GameProviders({ children }: { children: ReactNode }) {
               <CharacterProgressProvider>
                 <PetProgressProvider>
                   <ProfessionProgressProvider>
-                    <TombstoneProvider>
-                      <GroundItemProvider>
-                        <EquipmentProvider>
-                          <TitleProvider>
-                            <BestiaryProvider>
-                              <PlayerProvider>
-                                <PlayTimeProvider>
-                                  <BattleNavbarProvider>
-                                    <GameControlsProvider>
-                                      <CharacterUnlockProvider>
-                                        {children}
-                                      </CharacterUnlockProvider>
-                                    </GameControlsProvider>
-                                  </BattleNavbarProvider>
-                                </PlayTimeProvider>
-                              </PlayerProvider>
-                            </BestiaryProvider>
-                          </TitleProvider>
-                        </EquipmentProvider>
-                      </GroundItemProvider>
-                    </TombstoneProvider>
+                    <ProfessionBadgeProvider>
+                      <TombstoneProvider>
+                        <GroundItemProvider>
+                          <EquipmentProvider>
+                            <TitleProvider>
+                              <BestiaryProvider>
+                                <PlayerProvider>
+                                  <PlayTimeProvider>
+                                    <BattleNavbarProvider>
+                                      <GameControlsProvider>
+                                        <CharacterUnlockProvider>
+                                          {children}
+                                        </CharacterUnlockProvider>
+                                      </GameControlsProvider>
+                                    </BattleNavbarProvider>
+                                  </PlayTimeProvider>
+                                </PlayerProvider>
+                              </BestiaryProvider>
+                            </TitleProvider>
+                          </EquipmentProvider>
+                        </GroundItemProvider>
+                      </TombstoneProvider>
+                    </ProfessionBadgeProvider>
                   </ProfessionProgressProvider>
                 </PetProgressProvider>
               </CharacterProgressProvider>

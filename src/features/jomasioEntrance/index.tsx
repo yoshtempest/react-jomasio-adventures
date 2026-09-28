@@ -4,6 +4,7 @@ import { useInventory } from "@/contexts/InventoryContext";
 import { useQuests } from "@/contexts/QuestContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useProfessionProgress } from "@/contexts/ProfessionProgressContext";
+import { useProfessionBadge } from "@/contexts/ProfessionBadgeContext";
 import {
   useHasToolEquipped,
   useEquippedWeaponId,
@@ -75,6 +76,7 @@ type MineRockDeps = ToolDeps & {
     amount: number,
   ) => void;
   equippedWeaponId: string | null;
+  showProfessionBadge: (profession: ProfessionId) => void;
 };
 
 export function JomasioEntranceScene({ sceneId }: Props) {
@@ -86,6 +88,7 @@ export function JomasioEntranceScene({ sceneId }: Props) {
   const { getProficiency, addProficiencyXP } = useProfessionProgress();
   const hasToolEquipped = useHasToolEquipped();
   const equippedWeaponId = useEquippedWeaponId();
+  const { showProfessionBadge } = useProfessionBadge();
 
   const [popup, setPopup] = useState<string | null>(null);
   const lastMineTimeRef = useRef(0);
@@ -126,6 +129,8 @@ export function JomasioEntranceScene({ sceneId }: Props) {
 
           const result = rollMineGather(rockLevel, level);
           const rolled = result?.items ?? [];
+
+          deps.showProfessionBadge("miner");
 
           const material = deps.equippedWeaponId
             ? rollProfessionMaterial(deps.equippedWeaponId)
@@ -180,6 +185,8 @@ export function JomasioEntranceScene({ sceneId }: Props) {
 
           const { items: rolled, xpGained } = rollWoodGather(wood, level);
 
+          deps.showProfessionBadge("lumberjack");
+
           const material = deps.equippedWeaponId
             ? rollProfessionMaterial(deps.equippedWeaponId)
             : null;
@@ -210,7 +217,7 @@ export function JomasioEntranceScene({ sceneId }: Props) {
         },
       );
 
-    const mineDeps = {
+    const gatherDeps: MineRockDeps = {
       setPopup,
       addItem,
       hasToolEquipped,
@@ -218,27 +225,19 @@ export function JomasioEntranceScene({ sceneId }: Props) {
       getProficiency,
       addProficiencyXP,
       equippedWeaponId,
+      showProfessionBadge,
     };
 
     const rockInteractions = Object.fromEntries(
       jomasioEntranceRocks.map((rock) => [
         rockGridKey(rock),
-        () => mineRock(getLowestOreLevel())(mineDeps),
+        () => mineRock(getLowestOreLevel())(gatherDeps),
       ]),
     );
 
     return {
       ...rockInteractions,
-      "5,7": () =>
-        chopWood(WOOD_LEVELS[0]?.treeLevel ?? 0)({
-          setPopup,
-          addItem,
-          hasToolEquipped,
-          character: player.character,
-          getProficiency,
-          addProficiencyXP,
-          equippedWeaponId,
-        }),
+      "5,7": () => chopWood(WOOD_LEVELS[0]?.treeLevel ?? 0)(gatherDeps),
     };
   }, [
     setPopup,
@@ -248,6 +247,7 @@ export function JomasioEntranceScene({ sceneId }: Props) {
     getProficiency,
     addProficiencyXP,
     equippedWeaponId,
+    showProfessionBadge,
   ]);
 
   if (!scene) {
