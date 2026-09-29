@@ -13,6 +13,8 @@ export const STATS = [
   "luck",
 ] as const satisfies readonly (keyof Omit<CharacterStats, "points">)[];
 
+export type StatPrimaryKey = (typeof STATS)[number];
+
 /**
  * Stats que sobem automaticamente a cada level up (além do ponto disponível).
  * `tenacity` entra aqui mesmo não sendo distribuível pelo menu, e `luck` é

@@ -29,3 +29,9 @@
   color: var(--text-secondary);
   font-style: italic;
 }
+
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+  background-color: red;
+}

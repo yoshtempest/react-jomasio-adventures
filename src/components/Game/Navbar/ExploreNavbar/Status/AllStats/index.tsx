@@ -2,22 +2,17 @@ import { useRef, useEffect, useState } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { usePassiveSkills } from "@/hooks/usePassiveSkills";
 import { useGameControlsLayer } from "@/hooks/game/useGameControlsLayer";
+import {
+  getStatIncreases,
+  useDerivedStats,
+} from "@/hooks/player/useDerivedStats";
 import styles from "./styles.module.css";
-import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
-import { useEquipment } from "@/contexts/EquipmentContext";
-import { useTitles } from "@/contexts/TitleContext";
-import { getTotalArmor, getWeaponCritRate } from "@/gameRules/battle/equipment";
 import { navbarIconPath, statusIconPath, titleBadgePath } from "@/utils/paths";
-import { combatService } from "@/services/combat";
 
 export function AllStatsView() {
   const { player } = usePlayer();
   const { skills } = usePassiveSkills(player.character);
   const totalItems = skills.length;
-  const character = player.character;
-  const { progress } = useCharacterProgress();
-  const { getTotalBonus } = useEquipment();
-  const { getBonus } = useTitles();
 
   const containerRef = useRef<HTMLDivElement>(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -49,70 +44,11 @@ export function AllStatsView() {
     [totalItems],
   );
 
-  const stats = progress[character]?.stats ?? {
-    hp: 1,
-    strength: 1,
-    intelligence: 1,
-    resistance: 1,
-    tenacity: 1,
-    luck: 1,
-    points: 0,
-  };
-  const bonus = getTotalBonus(character);
-  const titleBonus = getBonus();
-
-  const totalHp = stats.hp + bonus.hp + titleBonus.hp;
-  const totalStrength = stats.strength + bonus.strength + titleBonus.strength;
-  const totalIntelligence =
-    stats.intelligence + bonus.intelligence + titleBonus.intelligence;
-
-  const userHp = 90 + totalHp * 10;
-  const userSpecialDamage = 15 + totalIntelligence * 2;
-  const userNormalAttackDamage = 6 + totalStrength;
-  const userArmor = getTotalArmor(character, stats.resistance);
-  const totalShield = bonus.shield + titleBonus.shield;
-  const userTenacity = stats.tenacity + bonus.tenacity;
-  const userLuck = (stats.luck ?? 1) + (bonus.luck ?? 0);
-  const luckBonus = combatService.getLuckBonus(userLuck);
-  const weaponCritRate = getWeaponCritRate(character);
-  const critRate = 1 + weaponCritRate + luckBonus * 100;
-  const missChance =
-    (0.005 + (titleBonus.enemyMissChance ?? 0) / 100 + luckBonus) * 100;
-  const totalMaxHpDamage = bonus.maxHpDamage ?? 0;
-  const totalTrueDamage = bonus.trueDamage ?? 0;
-  const maxHpDamageBonus = combatService.calculateMaxHpBonus(
-    userHp,
-    totalMaxHpDamage,
-  );
-
+  const derived = useDerivedStats();
   const inc =
-    selectedIndex !== undefined ? getStatIncreases(selectedIndex) : undefined;
-
-  function getStatIncreases(index: number): Record<string, number> {
-    switch (index) {
-      case 0:
-        return { hp: 10 };
-      case 1:
-        return { normalDmg: 1 };
-      case 2:
-        return { specialDmg: 2 };
-      case 3:
-        return { armor: 2, tenacity: 1 };
-      case 4: {
-        const currentLuck = (stats.luck ?? 1) + (bonus.luck ?? 0);
-        const currentLuckBonus = combatService.getLuckBonus(currentLuck);
-        const nextLuckBonus = combatService.getLuckBonus(currentLuck + 1);
-        const diff = nextLuckBonus - currentLuckBonus;
-        return {
-          luck: 1,
-          crit: Math.round(diff * 100 * 10) / 10,
-          evade: Math.round(diff * 100 * 10) / 10,
-        };
-      }
-      default:
-        return {};
-    }
-  }
+    selectedIndex !== undefined
+      ? getStatIncreases(selectedIndex, derived)
+      : undefined;
 
   return (
     <div className="containerOfNavbar" style={{ overflow: "hidden" }}>
@@ -126,7 +62,7 @@ export function AllStatsView() {
             <div>
               <img src={statusIconPath("hp.svg")} />
               <p>
-                HP total: {userHp}
+                HP total: {derived.hp}
                 {inc?.hp ? (
                   <span className={styles.increase}> +{inc.hp}</span>
                 ) : (
@@ -137,7 +73,7 @@ export function AllStatsView() {
             <div>
               <img src={statusIconPath("basicDamage.svg")} />
               <p>
-                Dano normal: {userNormalAttackDamage}
+                Dano normal: {derived.normalDmg}
                 {inc?.normalDmg ? (
                   <span className={styles.increase}> +{inc.normalDmg}</span>
                 ) : (
@@ -148,7 +84,7 @@ export function AllStatsView() {
             <div>
               <img src={statusIconPath("specialDamage.svg")} />
               <p>
-                Dano especial: {userSpecialDamage}
+                Dano especial: {derived.specialDmg}
                 {inc?.specialDmg ? (
                   <span className={styles.increase}> +{inc.specialDmg}</span>
                 ) : (
@@ -159,7 +95,7 @@ export function AllStatsView() {
             <div>
               <img src={statusIconPath("armor.svg")} />
               <p>
-                Armadura: {userArmor}
+                Armadura: {derived.armor}
                 {inc?.armor ? (
                   <span className={styles.increase}> +{inc.armor}</span>
                 ) : (
@@ -170,7 +106,7 @@ export function AllStatsView() {
             <div>
               <img src={statusIconPath("tenacity.svg")} />
               <p>
-                Tenacidade: {userTenacity}%
+                Tenacidade: {derived.tenacity}%
                 {inc?.tenacity ? (
                   <span className={styles.increase}> +{inc.tenacity}</span>
                 ) : (
@@ -184,7 +120,7 @@ export function AllStatsView() {
             <div>
               <img src={statusIconPath("luckChance.svg")} />
               <p>
-                Sorte: {userLuck}%
+                Sorte: {derived.luck}%
                 {inc?.luck ? (
                   <span className={styles.increase}> +{inc.luck}</span>
                 ) : (
@@ -195,7 +131,7 @@ export function AllStatsView() {
             <div>
               <img src={statusIconPath("critical.svg")} />
               <p>
-                Crítico: {critRate.toFixed(1)}%
+                Crítico: {derived.crit.toFixed(1)}%
                 {inc?.crit ? (
                   <span className={styles.increase}> +{inc.crit}</span>
                 ) : (
@@ -206,7 +142,7 @@ export function AllStatsView() {
             <div>
               <img src={titleBadgePath("enemyMissAttacks.svg")} />
               <p>
-                Esquiva: {missChance.toFixed(1)}%
+                Esquiva: {derived.evade.toFixed(1)}%
                 {inc?.evade ? (
                   <span className={styles.increase}> +{inc.evade}</span>
                 ) : (
@@ -216,15 +152,15 @@ export function AllStatsView() {
             </div>
             <div>
               <img src={statusIconPath("shield.svg")} />
-              <p>Escudo: {totalShield}</p>
+              <p>Escudo: {derived.shield}</p>
             </div>
             <div>
               <img src={statusIconPath("hp.svg")} />
-              <p>Dano com base no HP: +{maxHpDamageBonus}</p>
+              <p>Dano com base no HP: +{derived.maxHpDamageBonus}</p>
             </div>
             <div>
               <img src={statusIconPath("basicDamage.svg")} />
-              <p>Dano Verdadeiro: {totalTrueDamage}</p>
+              <p>Dano Verdadeiro: {derived.trueDamage}</p>
             </div>
           </div>
         </div>

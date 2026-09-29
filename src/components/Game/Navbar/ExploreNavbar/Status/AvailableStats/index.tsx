@@ -3,7 +3,9 @@ import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 
 import { STATUS_SUB_ROWS } from "@/hooks/menu/useStatus";
+import { STATS_MENU_ROWS } from "@/data/player/statEffects";
 import { statusIconPath } from "@/utils/paths";
+import { SelectedStatEffect } from "./SelectedStatEffect";
 
 import styles from "./styles.module.css";
 
@@ -34,59 +36,27 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
         <img src={statusIconPath("disponiblePoints.svg")} />
         <h2 className="StatusTitle">Pontos: {stats.points}</h2>
       </div>
-      <div
-        className={selectedIndex === 0 ? "active" : ""}
-        style={selectedIndex === 0 ? { flexWrap: "wrap" } : undefined}
-      >
-        <p>
-          <img src={statusIconPath("hp.svg")} />
-          Vida: {stats.hp}
-          {bonus.hp > 0 ? <span> +{bonus.hp}</span> : ""}
-        </p>
-      </div>
 
-      <div
-        className={selectedIndex === 1 ? "active" : ""}
-        style={selectedIndex === 1 ? { flexWrap: "wrap" } : undefined}
-      >
-        <p>
-          <img src={statusIconPath("strenght.svg")} />
-          Força: {stats.strength}
-          {bonus.strength > 0 ? <span> +{bonus.strength}</span> : ""}
-        </p>
-      </div>
+      {STATS_MENU_ROWS.map((row, index) => {
+        const isSelected = selectedIndex === index;
+        const value = stats[row.key] ?? 1;
+        const rowBonus = row.bonusKey ? bonus[row.bonusKey] : 0;
 
-      <div
-        className={selectedIndex === 2 ? "active" : ""}
-        style={selectedIndex === 2 ? { flexWrap: "wrap" } : undefined}
-      >
-        <p>
-          <img src={statusIconPath("intelligence.svg")} />
-          Inteligência: {stats.intelligence}
-          {bonus.intelligence > 0 ? <span> +{bonus.intelligence}</span> : ""}
-        </p>
-      </div>
-
-      <div
-        className={selectedIndex === 3 ? "active" : ""}
-        style={selectedIndex === 3 ? { flexWrap: "wrap" } : undefined}
-      >
-        <p>
-          <img src={statusIconPath("armor.svg")} />
-          Resistência: {stats.resistance ?? 1}
-        </p>
-      </div>
-
-      <div
-        className={selectedIndex === 4 ? "active" : ""}
-        style={selectedIndex === 4 ? { flexWrap: "wrap" } : undefined}
-      >
-        <p>
-          <img src={statusIconPath("luckChance.svg")} />
-          Sorte: {stats.luck ?? 1}
-          {bonus.luck > 0 ? <span> +{bonus.luck}</span> : ""}
-        </p>
-      </div>
+        return (
+            <div
+              className={isSelected ? "active" : ""}
+              style={isSelected ? { flexWrap: "wrap" } : undefined}
+              key={row.key}
+            >
+              <p>
+                <img src={row.icon} />
+                {row.label}: {value}
+                {rowBonus > 0 ? <span> +{rowBonus}</span> : ""}
+              </p>
+              {isSelected && <SelectedStatEffect selectedIndex={index} />}
+            </div>
+        );
+      })}
 
       {STATUS_SUB_ROWS.map((row) => (
         <div

@@ -17,12 +17,7 @@ export function ProfessionBadge() {
   return (
     <>
       {badges.map((badge) => (
-        <img
-          key={badge.id}
-          src={badge.src}
-          alt=""
-          className={styles.badge}
-        />
+        <img key={badge.id} src={badge.src} alt="" className={styles.badge} />
       ))}
     </>
   );

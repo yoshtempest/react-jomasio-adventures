@@ -1,6 +1,5 @@
 import { useStatusMenu } from "@/hooks/menu/useStatus";
 import { CharacterInfo } from "./CharacterInfo";
-import { CharacterStats } from "./CharacterStats";
 import { AvailableStats } from "./AvailableStats";
 import { EquipmentList } from "./EquipmentList";
 import { RankList } from "./RankList";
@@ -29,7 +28,6 @@ export function Status() {
 
       <div className={styles.flexRow}>
         <CharacterInfo />
-        <CharacterStats selectedIndex={selectedIndex} />
         <AvailableStats selectedIndex={selectedIndex} />
         <EquipmentList />
       </div>

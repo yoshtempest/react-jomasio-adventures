@@ -1,0 +1,30 @@
+.effect {
+  display: flex;
+  flex-direction: column;
+  /* recua sob a linha do stat para leitura como "sub-item" dele */
+  margin: 0.25vw 0 0.5vw 1vw;
+  padding-left: 0.5vw;
+  border-left: 2px solid var(--accent-color);
+}
+
+.effectRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.effectRow img {
+  width: 1.75vw;
+  margin-right: 0.4vw;
+  opacity: 0.85;
+}
+
+.effectRow p {
+  display: flex;
+  color: var(--text-secondary);
+}
+
+.increase {
+  color: var(--success);
+  font-weight: bold;
+}
