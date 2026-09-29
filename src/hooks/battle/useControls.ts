@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
+import { getComboAction } from "@/data/battle/comboActions";
 
 type Props = {
   attack: () => void;
@@ -69,10 +70,9 @@ export function useBattleControls({
 
     const controls = {
       onConfirm: () => {
-        const comboState =
-          playerStateRef.current === "blocked" ||
-          playerStateRef.current === "falling";
-        if (hasCharge && !comboState) {
+        // Nos estados de combo o confirm vira ataque direto, nunca carga.
+        const isComboState = getComboAction(playerStateRef.current) !== null;
+        if (hasCharge && !isComboState) {
           if (holdTimer || isHoldingCharge) return;
           holdTimer = setTimeout(() => {
             chargePressRef.current();

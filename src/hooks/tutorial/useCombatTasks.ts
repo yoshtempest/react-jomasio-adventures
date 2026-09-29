@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useNavigate } from "react-router";
+import { isAttackPose } from "@/gameRules/battle/playerStates";
 import type { Task, TaskInstruction } from "@/gameRules/tutorial/combatTasks";
 import {
   TASK_INSTRUCTIONS,
@@ -43,8 +44,7 @@ export function useCombatTasks() {
 
   useEffect(() => {
     if (currentTask !== "attack") return;
-    if (player.state === "preAttack" || player.state === "attack")
-      setCurrentTask("special");
+    if (isAttackPose(player.state)) setCurrentTask("special");
   }, [player.state, currentTask]);
 
   useEffect(() => {

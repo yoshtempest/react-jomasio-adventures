@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { resolveBattleSprite } from "@/utils/paths";
+import { resolveSpriteState } from "@/gameRules/battle/playerStates";
 
 import { resolvePlayerSprite } from "../utils/resolvePlayerSprite";
 
@@ -23,12 +24,7 @@ export function useBattleSprite({
   teleportSprite,
   preAtomic,
 }: UseBattleSpriteParams) {
-  const resolvedState =
-    state === "idleCrounched" || state === "walkCrounched"
-      ? state
-      : state === "charging"
-        ? "idle"
-        : state;
+  const resolvedState = resolveSpriteState(state);
 
   const baseSrc = resolvePlayerSprite({
     character,

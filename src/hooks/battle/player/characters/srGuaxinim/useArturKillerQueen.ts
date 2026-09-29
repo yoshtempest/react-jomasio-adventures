@@ -10,6 +10,7 @@ import {
   freezeWorldSpec,
   type TimeEffect,
 } from "@/gameRules/battle/time";
+import { isSpecialTrigger } from "@/gameRules/battle/playerStates";
 import type { ProjectileStrike } from "@/utils/types/battle/projectileHit";
 import type {
   KillerQueenOverlay,
@@ -72,10 +73,7 @@ export function useArturKillerQueen({
 
   useEffect(() => {
     const isArtur = player.character === "artur";
-    const isActive =
-      player.state === "preSpecial" ||
-      player.state === "preSpecial2" ||
-      player.state === "special";
+    const isActive = isSpecialTrigger(player.state);
 
     if (!isArtur || !isActive || runningRef.current) return;
 

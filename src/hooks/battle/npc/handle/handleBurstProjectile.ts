@@ -1,9 +1,10 @@
 import { ProjectileConstants, ProjectileHpConstants } from "@/data/projectile";
 import { isPlayerInRange } from "@/gameRules/battle/range";
 import {
-  isSpecialStrikeState,
-  isStrikeState,
-} from "@/gameRules/battle/strikeState";
+  isSpecialStrike,
+  isStrike,
+  isCrouched,
+} from "@/gameRules/battle/playerStates";
 import { getProjectileDamagePoint } from "@/gameRules/npc/projectile/projectileDamage";
 import { applyPlayerStrike } from "../apply/applyPlayerStrike";
 import type { StrikeOpts } from "../apply/applyPlayerStrike";
@@ -60,7 +61,7 @@ export function handleBurstProjectile(
 
   // Golpe do jogador (básico ou special): burst é destrutível pelo dano real do
   // ataque (corte não se aplica).
-  if (!next.indestructible && isStrikeState(opts.playerState)) {
+  if (!next.indestructible && isStrike(opts.playerState)) {
     const inRange = isPlayerInRange(
       opts.playerX,
       opts.playerY,
@@ -68,7 +69,7 @@ export function handleBurstProjectile(
       next.y,
       opts.playerState,
       opts.playerCharacter ?? "",
-      isSpecialStrikeState(opts.playerState),
+      isSpecialStrike(opts.playerState),
       false,
       opts.npcClass,
     );
@@ -96,12 +97,10 @@ export function handleBurstProjectile(
   }
 
   const isDashing = opts.playerState === "dash";
-  const isCrouched =
-    opts.playerState === "idleCrounched" ||
-    opts.playerState === "walkCrounched";
-  if (isDashing || isCrouched) return next;
+  const isCrouchedState = isCrouched(opts.playerState);
+  if (isDashing || isCrouchedState) return next;
 
-  const hitY = isCrouched ? opts.playerY - 30 : opts.playerY;
+  const hitY = isCrouchedState ? opts.playerY - 30 : opts.playerY;
   const hitDy = Math.abs(hitY - next.y);
   const dx = Math.abs(opts.playerX - next.x);
 

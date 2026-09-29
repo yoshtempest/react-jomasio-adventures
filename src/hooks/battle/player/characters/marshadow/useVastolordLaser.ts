@@ -17,6 +17,7 @@ import {
 import { getViewportSize } from "@/utils/viewport";
 import { ProjectileConstants } from "@/data/projectile";
 import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
+import { isLaser } from "@/gameRules/battle/playerStates";
 import { THREE_THOUSAND_MS } from "@/data/ms";
 import { combatService } from "@/services/combat";
 import type { SoundId } from "@/utils/audio/soundId";
@@ -211,7 +212,7 @@ export function useVastolordLaser({
     shotStartRef.current = 0;
     setBeam(null);
     setPlayer((p) =>
-      p.mode !== "battle" || p.state !== "laser" ? p : { ...p, state: "idle" },
+      p.mode !== "battle" || !isLaser(p.state) ? p : { ...p, state: "idle" },
     );
   }, [clearTimer, setPlayer, stopSound]);
 

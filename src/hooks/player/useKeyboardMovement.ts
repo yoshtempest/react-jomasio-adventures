@@ -3,6 +3,7 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { isMovementLocked } from "@/gameRules/movement/state";
+import { isPlayerRestrained } from "@/gameRules/battle/playerStates";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useDashDetection } from "./useDashDetection";
@@ -166,10 +167,7 @@ export function useKeyboardMovement() {
     };
   }, [pressRef, releaseRef]);
 
-  const isGrabbed = () =>
-    (playerRef.current.grabbedUntil != null &&
-      Date.now() < (playerRef.current.grabbedUntil ?? 0)) ||
-    playerRef.current.state === "fallen";
+  const isGrabbed = () => isPlayerRestrained(playerRef.current);
 
   useEffect(() => {
     const controls = {

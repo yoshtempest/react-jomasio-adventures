@@ -1,4 +1,5 @@
 import { useLatestRef } from "@/hooks/useLatestRef";
+import { getComboAction } from "@/data/battle/comboActions";
 import type { useNpcAI } from "@/hooks/battle/npc/useAi";
 import type { useBattleSystem } from "@/hooks/battle/main/useSystem";
 import type { ComboRank } from "@/utils/types/battle/combo";
@@ -10,11 +11,6 @@ import type {
   PetSnap,
   PlayerSnap,
 } from "@/utils/types/replay";
-
-const COMBO_ACTION_STATES: Partial<Record<PlayerState, string>> = {
-  blocked: "blockAttack",
-  falling: "fallingAttack",
-};
 
 type Props = {
   player: Player;
@@ -79,10 +75,9 @@ export function useBattleSnapshots({
     nextRank,
   });
 
-  const comboActionSprite =
-    !controlsDisabled && player.state in COMBO_ACTION_STATES
-      ? (COMBO_ACTION_STATES[player.state] ?? null)
-      : null;
+  const comboActionSprite = !controlsDisabled
+    ? (getComboAction(player.state)?.sprite ?? null)
+    : null;
   const comboActionRef = useLatestRef(comboActionSprite);
 
   const damageNumbersSnapshotRef = useLatestRef<DamageNum[]>(

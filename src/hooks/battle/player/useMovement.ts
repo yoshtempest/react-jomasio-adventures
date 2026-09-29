@@ -27,8 +27,14 @@ import {
   isPlayerFrozen,
   isPlayerParalyzed,
 } from "@/gameRules/battle/status/statusEffects";
-import { EMANUEL_COMBO_STATES } from "@/data/characters/emanuel";
 import type { EmanuelComboApi } from "@/hooks/battle/player/characters/ematron/useEmanuelCombo";
+import {
+  isAirFalling,
+  isAirMelee,
+  isCombo,
+  isGroundCombo,
+  isInvulnerable,
+} from "@/gameRules/battle/playerStates";
 
 const PLAYER_COLLISION_W = 30;
 const PLAYER_COLLISION_H = 50;
@@ -40,8 +46,8 @@ const PLAYER_COLLISION_H = 50;
  * sejam ignorados.
  */
 function emanuelComboSpriteKey(state: PlayerState, combo: EmanuelComboApi) {
-  if (state === "airGrab" || state === "airKick") return "airKick";
-  if (state === "jump" || state === "falling") return "airKick";
+  if (isAirMelee(state)) return "airKick";
+  if (isAirFalling(state)) return "airKick";
   if (state === "preAttack") {
     const step = combo.steps[combo.stepIndexRef.current] ?? combo.steps[0];
     return step?.state ?? "idle";
@@ -194,7 +200,7 @@ export function useBattleMovement(
     setPlayer((p) => {
       if (isPlayerAttackHolding(p)) return p;
       if (isPlayerFrozen(p)) return p;
-      if (p.state === "mostHonored") return p;
+      if (isInvulnerable(p.state)) return p;
 
       const tree = getSkillTree(p.character);
       const skill = tree.skills.find((s) => s.id === "doubleJump");
@@ -264,12 +270,9 @@ export function useBattleMovement(
       emanuelCombo.activeRef.current = false;
       const state = current.state;
       const airComboActive =
-        (state === "falling" || state === "jump") &&
-        emanuelCombo.airActiveRef.current;
+        isAirFalling(state) && emanuelCombo.airActiveRef.current;
       const midComboDisplay =
-        state === "preAttack" ||
-        EMANUEL_COMBO_STATES.has(state) ||
-        airComboActive;
+        state === "preAttack" || isCombo(state) || airComboActive;
 
       const comboEligible =
         state === "idle" || state === "attack" || midComboDisplay;
@@ -300,7 +303,7 @@ export function useBattleMovement(
 
     setPlayer((p) => {
       if (isPlayerFrozen(p) || isPlayerParalyzed(p)) return p;
-      if (p.state === "mostHonored") return p;
+      if (isInvulnerable(p.state)) return p;
 
       if (isEmanuelAttack && emanuelCombo) {
         if (p.state === "blocked") return { ...p, state: "blockAttack" };
@@ -318,11 +321,7 @@ export function useBattleMovement(
           // Buffer de combo: press durante um golpe do combo em exibição
           // (punch/hook/lowKick) não corta o sprite — o próximo step aguarda o
           // fim da animação atual no usePlayerAnimation.
-          if (
-            p.state === "punch" ||
-            p.state === "hook" ||
-            p.state === "lowKick"
-          ) {
+          if (isGroundCombo(p.state)) {
             emanuelCombo.queuedStepIndexRef.current =
               emanuelCombo.stepIndexRef.current;
             return p;
@@ -370,9 +369,8 @@ export function useBattleMovement(
     if (isFrozenBySpecial()) return;
     setPlayer((p) => {
       if (isPlayerFrozen(p) || isPlayerParalyzed(p)) return p;
-      if (p.state === "mostHonored") return p;
-      if (p.state === "falling" || p.state === "jump")
-        return { ...p, state: "preSpecialInAir" };
+      if (isInvulnerable(p.state)) return p;
+      if (isAirFalling(p.state)) return { ...p, state: "preSpecialInAir" };
       if (p.state !== "idle") return p;
       return { ...p, state: "preSpecial" };
     });
@@ -406,7 +404,7 @@ export function useBattleMovement(
     dashIntervalRef.current = setInterval(() => {
       stepCount++;
       setPlayer((p) => {
-        if (p.state === "mostHonored") {
+        if (isInvulnerable(p.state)) {
           if (dashIntervalRef.current) {
             clearInterval(dashIntervalRef.current);
             dashIntervalRef.current = null;

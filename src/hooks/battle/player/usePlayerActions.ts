@@ -8,16 +8,18 @@ import { playAttackSound } from "@/utils/audio/playAttackSound";
 import { isPlayerInRange } from "@/gameRules/battle/range";
 import { NPC_CLASS_HITBOX_BONUS } from "@/gameRules/battle/rangeConfig";
 import { isFacingTarget } from "@/gameRules/battle/direction";
+import {
+  isAirFalling,
+  isAirSpecial,
+  isCombo,
+} from "@/gameRules/battle/playerStates";
 import { damageSummon } from "@/gameRules/battle/damageSummon";
 import { BLOCK_ATTACK_PUSH_DISTANCE } from "@/gameRules/movement/constants";
 import { LUCAS_WEAPON_RANGES } from "@/data/characters/lucasWeapons";
 import { PlayerSpecialConstants } from "@/data/projectile";
 import { useBuildTargetList } from "./usePlayerTargeting";
 import { resetCooldownRef } from "@/utils/battle/cooldown";
-import {
-  EMANUEL_COMBO_STEPS,
-  EMANUEL_COMBO_STATES,
-} from "@/data/characters/emanuel";
+import { EMANUEL_COMBO_STEPS } from "@/data/characters/emanuel";
 
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { SpecialHitOptions } from "@/utils/types/battle/specialHitOptions";
@@ -225,7 +227,7 @@ export function usePlayerBattleActions({
       player.mode === "battle" &&
       !isEmanuelComboHit &&
       (player.state === "preAttack" ||
-        EMANUEL_COMBO_STATES.has(player.state) ||
+        isCombo(player.state) ||
         (player.state === "jump" && emanuelComboAirActiveRef?.current === true))
     ) {
       return;
@@ -369,14 +371,11 @@ export function usePlayerBattleActions({
 
     const targets = getTargets();
 
-    const isAirSpecial =
-      player.state === "falling" ||
-      player.state === "jump" ||
-      player.state === "preSpecialInAir" ||
-      player.state === "specialInAir" ||
-      player.state === "specialInAirFinish";
+    // Golpe aéreo: no ar (subindo ou caindo) ou na sequência do special aéreo.
+    const isAirStrike =
+      isAirFalling(player.state) || isAirSpecial(player.state);
 
-    if (isAirSpecial) {
+    if (isAirStrike) {
       const inRangeTargets = targets.filter(
         (target) =>
           Math.abs(player.x - target.x) <

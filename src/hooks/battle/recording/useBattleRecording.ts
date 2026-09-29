@@ -26,7 +26,7 @@ type Props = {
     progress: number;
     nextRank: ComboRank | null;
   }>;
-  comboActionRef: React.RefObject<string | null>;
+  comboActionRef: React.RefObject<PlayerState | null>;
   npcType: string;
   npcLevel: number;
   npcClass: NPCClass;

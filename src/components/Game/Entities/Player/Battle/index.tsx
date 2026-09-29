@@ -10,6 +10,7 @@ import { ChargingKiEffect } from "./ChargingKiEffect";
 import { BattleSprite } from "./BattleSprite";
 import { AtomicHalo } from "./AtomicHalo";
 import { LevelUpParticles } from "@/components/Game/LevelUpParticles";
+import { isCrouched } from "@/gameRules/battle/playerStates";
 
 export function PlayerBattle(props: PlayerBattleProps) {
   const {
@@ -35,7 +36,7 @@ export function PlayerBattle(props: PlayerBattleProps) {
 
   const isChargingKi = character === "emanuel" && state === "chargingKi";
 
-  const isCrouching = state === "idleCrounched" || state === "walkCrounched";
+  const isCrouching = isCrouched(state);
 
   const isFallen = state === "fallen";
 

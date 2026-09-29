@@ -336,51 +336,85 @@ declare global {
     | ProjectileBurst;
 
   // ── Player ──────────────────────────────────────────────
-  type PlayerState =
-    | "idle"
-    | "walk"
-    | "attack"
-    | "jump"
-    | "blocked"
-    | "stun"
-    | "special"
-    | "dash"
-    | "charging"
-    | "chargingKi"
-    | "preAttack"
-    | "preWalk"
-    | "preJump"
-    | "preSpecial"
-    | "preSpecial2"
-    | "preRun"
-    | "run"
-    | "crit"
-    | "falling"
-    | "fallingAttack"
-    | "preSpecialInAir"
-    | "specialInAir"
-    | "specialInAirFinish"
-    | "blockAttack"
-    | "idleCrounched"
-    | "walkCrounched"
-    | "fallen"
-    | "kick"
-    | "preKick"
-    | "mostHonored"
-    | "heal"
-    | "punch"
-    | "hook"
-    | "lowKick"
-    | "airGrab"
-    | "airKick"
-    | "genkiDamaRising"
-    | "preparingGenkiDama"
-    | "throwGenkiDama"
-    | "laser"
-    | "preparingAtomic"
-    | "finalizatingAtomic"
-    | "preMugetsu"
-    | "mugetsu";
+  // PlayerState é a união de dois blocos semânticos: `PlayerCanActState` (o
+  // jogador conduz o personagem) e `PlayerCantActState` (o estado trava o
+  // jogador — reação, defesa ou habilidade em andamento). Cada bloco é a união
+  // dos grupos abaixo, que por sua vez dão nome às famílias de estados.
+  //
+  // Os `Set`s e predicados desses grupos ficam em
+  // `src/gameRules/battle/playerStates.ts` — nenhum outro arquivo deve repetir
+  // a lista de literais. `animationFlow` é `Record<PlayerState, …>` exaustivo,
+  // então um estado novo sem entrada quebra a compilação.
+
+  /** Locomoção no chão (a variante `pre*` é o windup da animação). */
+  type PlayerMoveState = "walk" | "preWalk" | "run" | "preRun";
+  /** Agachado — abaixa a hitbox, golpes altos passam por cima. */
+  type PlayerCrouchState = "idleCrounched" | "walkCrounched";
+  /** Espera / recuperação. */
+  type PlayerIdleState = "idle" | "heal";
+  /** No ar — a gravidade está no comando. */
+  type PlayerAirState = "preJump" | "jump" | "falling" | "fallingAttack";
+  /** Special aéreo. */
+  type PlayerAirSpecialState =
+    "preSpecialInAir" | "specialInAir" | "specialInAirFinish";
+  /** Golpe aéreo do combo (`airGrab` é a exibição do windup em `jump`). */
+  type PlayerAirMeleeState = "airGrab" | "airKick";
+  /** Ataque básico: windup → golpe. */
+  type PlayerBasicAttackState =
+    "preAttack" | "attack" | "crit" | "preKick" | "kick";
+  /** Golpes de solo do combo do emanuel. */
+  type PlayerComboState = "punch" | "hook" | "lowKick";
+  /** Special de solo, do windup (`preSpecial*`) ao golpe (`special`). */
+  type PlayerSpecialState = "preSpecial" | "preSpecial2" | "special";
+  /** Genki Dama do emanuel — o personagem sobe e fica flutuando. */
+  type PlayerGenkiDamaState =
+    "genkiDamaRising" | "preparingGenkiDama" | "throwGenkiDama";
+  /** "I Am Atomic" do marcelo. */
+  type PlayerAtomicState = "preparingAtomic" | "finalizatingAtomic";
+  /** Expansão de Domínio do marcelo. */
+  type PlayerDomainExpansionState = "preMugetsu" | "mugetsu";
+  /** Laser da Forma Vastolord do marcelo. */
+  type PlayerLaserState = "laser";
+  /** Passiva "O Abençoado" (riquelme) — invencível enquanto sobe. */
+  type PlayerHonoredState = "mostHonored";
+  /** Locomoção com compromisso: dash e carga de ki. */
+  type PlayerChargeState = "dash" | "charging" | "chargingKi";
+  /** Defesa: bloqueio e a contra-ofensiva que sai dele. */
+  type PlayerBlockState = "blocked" | "blockAttack";
+  /** Reações que tiram o controle: atordoamento e contenção no chão. */
+  type PlayerHitState = "stun" | "fallen";
+
+  /**
+   * Estados que seguram o personagem e travam novas ações: qualquer
+   * `PlayerChargeState`, o O Abençoado e as habilidades de cast longas
+   * (Genki Dama e o Laser da Forma Vastolord).
+   */
+  type PlayerActionLockState =
+    | PlayerChargeState
+    | PlayerHonoredState
+    | PlayerGenkiDamaState
+    | PlayerLaserState;
+
+  /** O jogador não age: trava de ação, defesa ou reação a dano. */
+  type PlayerCantActState =
+    | PlayerActionLockState
+    | PlayerBlockState
+    | PlayerHitState
+    | PlayerAtomicState
+    | PlayerDomainExpansionState;
+
+  type PlayerCanActState =
+    | PlayerIdleState
+    | PlayerMoveState
+    | PlayerCrouchState
+    | PlayerAirState
+    | PlayerAirSpecialState
+    | PlayerAirMeleeState
+    | PlayerBasicAttackState
+    | PlayerComboState
+    | PlayerSpecialState;
+
+  type PlayerState = PlayerCanActState | PlayerCantActState;
 
   type PlayerMode = "explore" | "battle" | "select" | "ui" | "map" | "menu";
 

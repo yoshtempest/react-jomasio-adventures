@@ -53,7 +53,7 @@ export type ReplayFrame = {
   petdir: "left" | "right" | null;
   petType: string | null;
 
-  comboAction: string | null;
+  comboAction: PlayerState | null;
 };
 
 export type AudioLogEvent = {

@@ -1,4 +1,5 @@
 import { NPC_CATEGORY, STATE_FOLDER } from "@/data/sprites/sprites";
+import { isSpecialTrigger, stateData } from "@/gameRules/battle/playerStates";
 
 export function asset(path: string) {
   if (path.startsWith("/")) {
@@ -217,7 +218,10 @@ export type MarceloBattleForm = "default" | "vastolordForm";
 //   run   → inFight/movement/movement/run.svg
 // Isso exige um mapeamento por character + estado (o STATE_FOLDER genérico
 // retorna "idle"/"jump"/"movement" como pasta raiz do inFight → 404 p/ emanuel).
-const CHARACTER_STATE_FOLDER_ALT: Record<string, Record<string, string>> = {
+const CHARACTER_STATE_FOLDER_ALT: Record<
+  string,
+  Partial<Record<PlayerState, string>>
+> = {
   emanuel: {
     idle: "movement/idle",
     idleCrounched: "movement/idle",
@@ -241,7 +245,7 @@ const CHARACTER_STATE_FOLDER_ALT: Record<string, Record<string, string>> = {
  * personagem SÓ pode usar sprites de `vastolordForm/` até o fim da batalha.
  * Os estados que não têm sprite dedicado no folder caem no `idle` da forma.
  */
-const MARCELO_VASTOLORD_SPRITES: Record<string, string> = {
+const MARCELO_VASTOLORD_SPRITES: Partial<Record<PlayerState, string>> = {
   idle: "idle/idle",
   idleCrounched: "idle/idle",
   walk: "movement/walk",
@@ -265,16 +269,30 @@ const MARCELO_VASTOLORD_SPRITES: Record<string, string> = {
   laser: "attacks/laser",
 };
 
+/**
+ * "I Am Atomic": os arquivos da sequência são `preparing.svg` /
+ * `finalizating.svg`, em `habilities/atomic/`.
+ */
+const ATOMIC_SPRITES: Partial<Record<PlayerAtomicState, string>> = {
+  preparingAtomic: "preparing",
+  finalizatingAtomic: "finalizating",
+};
+
+/** Expansão de Domínio: `habilities/domainExpansion/`. */
+const DOMAIN_EXPANSION_SPRITES: Partial<
+  Record<PlayerDomainExpansionState, string>
+> = {
+  preMugetsu: "preMugetsu",
+  mugetsu: "mugetsu",
+};
+
 export function resolveBattleSprite(
   character: string,
-  state: string,
+  state: PlayerState,
   weapon?: LucasWeapon,
   form?: MarceloBattleForm,
 ): string {
-  if (
-    character === "artur" &&
-    (state === "preSpecial" || state === "preSpecial2" || state === "special")
-  ) {
+  if (character === "artur" && isSpecialTrigger(state)) {
     return playerPath(`/artur/inFight/special/arturSeeing.svg`);
   }
   if (state === "mostHonored" && character === "riquelme") {
@@ -285,27 +303,15 @@ export function resolveBattleSprite(
   if (state === "genkiDamaRising" && character === "emanuel") {
     return playerPath(`/emanuel/inFight/movement/jump/falling.svg`);
   }
-  // "I Am Atomic" do marcelo: os sprites da sequência ficam na pasta
-  // `habilities/atomic/` (não existe `default/preparingAtomic.svg`). Os nomes
-  // dos arquivos são preparing.svg/finalizating.svg.
+  // Habilidades do marcelo: os sprites da sequência ficam em pastas próprias
+  // (`habilities/atomic/`, `habilities/domainExpansion/`) — não existe
+  // `default/preparingAtomic.svg` nem `default/preMugetsu.svg`.
   if (character === "marcelo") {
-    const atomicSprite =
-      state === "preparingAtomic"
-        ? "preparing"
-        : state === "finalizatingAtomic"
-          ? "finalizating"
-          : null;
+    const atomicSprite = stateData(ATOMIC_SPRITES, state);
     if (atomicSprite) {
       return playerPathMarshadowHabilities(`/atomic/${atomicSprite}.svg`);
     }
-    // Expansão de Domínio do marcelo: os sprites da sequência ficam na pasta
-    // `habilities/domainExpansion/` (não existe `default/preMugetsu.svg`).
-    const domainSprite =
-      state === "preMugetsu"
-        ? "preMugetsu"
-        : state === "mugetsu"
-          ? "mugetsu"
-          : null;
+    const domainSprite = stateData(DOMAIN_EXPANSION_SPRITES, state);
     if (domainSprite) {
       return playerPathMarshadowHabilities(
         `/domainExpansion/${domainSprite}.svg`,
@@ -315,13 +321,11 @@ export function resolveBattleSprite(
   // Forma Vastolord do marcelo: a partir da transformação, TODOS os sprites
   // vêm da pasta `vastolordForm/` — nenhum estado volta ao `default/`.
   if (character === "marcelo" && form === "vastolordForm") {
-    const sprite = MARCELO_VASTOLORD_SPRITES[state];
-    return playerPath(
-      `/marcelo/inFight/vastolordForm/${sprite ?? "idle/idle"}.svg`,
-    );
+    const sprite = stateData(MARCELO_VASTOLORD_SPRITES, state) ?? "idle/idle";
+    return playerPath(`/marcelo/inFight/vastolordForm/${sprite}.svg`);
   }
-  const folder = STATE_FOLDER[state];
-  if (folder === undefined || folder === null) {
+  const folder = stateData(STATE_FOLDER, state);
+  if (folder === null) {
     if (character === "lucas" && weapon) {
       return playerPath(`/${character}/inFight/${weapon}/${state}.svg`);
     }
@@ -334,7 +338,7 @@ export function resolveBattleSprite(
   // não ficam na raiz do inFight como no riquelme/marcelo). O override por
   // character + estado resolve isso (ex.: idle → movement/idle).
   const resolved =
-    CHARACTER_STATE_FOLDER_ALT[character]?.[state] ??
+    stateData(CHARACTER_STATE_FOLDER_ALT[character], state) ??
     (folder === "attack" && ATTACK_FOLDER_ALT.has(character)
       ? "attacks"
       : folder);

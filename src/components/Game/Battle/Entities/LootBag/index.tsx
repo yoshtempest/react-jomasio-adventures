@@ -1,6 +1,5 @@
 import { LOOTBAG_SPRITES } from "@/data/battle/lootbags";
 import { ITEMS } from "@/data/items";
-import { asset } from "@/utils/paths";
 import { getViewportSize } from "@/utils/viewport";
 import { SLOT_ICONS } from "@/utils/equipment/equipmentMenu";
 import type { BattleLootBag } from "@/utils/types/battle/loot";
@@ -52,10 +51,10 @@ export function LootBag({ bag, TILE_SIZE, npcClass }: Props) {
     >
       <img
         className={styles.sprite}
-        src={asset(LOOTBAG_SPRITES[npcClass])}
+        src={LOOTBAG_SPRITES[npcClass]}
         alt="Lootbag"
       />
-      {badge && <img className={styles.badge} src={asset(badge)} alt="item" />}
+      {badge && <img className={styles.badge} src={badge} alt="item" />}
     </div>
   );
 }

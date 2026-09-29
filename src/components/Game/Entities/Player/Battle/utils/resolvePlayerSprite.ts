@@ -3,6 +3,7 @@ import {
   playerPath,
   playerPathMarshadowHabilities,
 } from "@/utils/paths";
+import { resolveSpriteState } from "@/gameRules/battle/playerStates";
 
 import { TRANSFORMATION_FRAMES } from "../constants";
 
@@ -25,12 +26,7 @@ export function resolvePlayerSprite({
   teleportSprite,
   preAtomic,
 }: ResolvePlayerSpriteParams): string {
-  const resolvedState =
-    state === "idleCrounched" || state === "walkCrounched"
-      ? state
-      : state === "charging"
-        ? "idle"
-        : state;
+  const resolvedState = resolveSpriteState(state);
 
   if (preAtomic && character === "marcelo" && state === "idle") {
     return playerPathMarshadowHabilities("/atomic/starting.svg");

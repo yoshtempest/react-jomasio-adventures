@@ -1,4 +1,5 @@
 import { ProjectileConstants, ProjectileHpConstants } from "@/data/projectile";
+import { isCrouched } from "@/gameRules/battle/playerStates";
 import {
   shouldCutProjectile,
   createSlicedProjectile,
@@ -83,14 +84,13 @@ export function handleLinearProjectile(
 
   const dx = Math.abs(opts.playerX - next.x);
   const isDashing = opts.playerState === "dash";
-  const isCrouched =
-    opts.playerState === "idleCrounched" ||
-    opts.playerState === "walkCrounched";
+  const isCrouchedState = isCrouched(opts.playerState);
   const canCrouchDodge =
     p.variant === "common" ? (p.canCrouchDodge ?? true) : true;
-  const dodgeProjectile = isDashing || (isCrouched && canCrouchDodge);
+  const dodgeProjectile = isDashing || (isCrouchedState && canCrouchDodge);
 
-  const hitY = isCrouched && canCrouchDodge ? opts.playerY - 30 : opts.playerY;
+  const hitY =
+    isCrouchedState && canCrouchDodge ? opts.playerY - 30 : opts.playerY;
   const hitDy = Math.abs(hitY - next.y);
 
   if (dx < 40 && hitDy <= 160 && !dodgeProjectile) {

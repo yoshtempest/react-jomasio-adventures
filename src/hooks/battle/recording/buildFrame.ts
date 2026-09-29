@@ -22,7 +22,7 @@ type FrameSnapshots = {
     progress: number;
     nextRank: ComboRank | null;
   } | null;
-  comboAction: string | null;
+  comboAction: PlayerState | null;
 };
 
 export function buildFrame(snaps: FrameSnapshots, t: number): ReplayFrame {

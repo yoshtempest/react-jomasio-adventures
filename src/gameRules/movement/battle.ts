@@ -7,74 +7,39 @@ import {
   isPlayerFrozen,
   isPlayerParalyzed,
 } from "@/gameRules/battle/status/statusEffects";
+import {
+  CANNOT_ACT_STATES,
+  CROUCHED_STATES,
+  IDLE_PRESERVED_STATES,
+  MOVE_STATES,
+  canStartSpecialFrom,
+  hasHorizontalControl,
+  isAttackPose,
+  isIdleBlocked,
+  isPlayerRestrained,
+} from "@/gameRules/battle/playerStates";
 
 const CROUCHED_STEP = 4;
-const CROUCHED_STATES = new Set<PlayerState>([
-  "idleCrounched",
-  "walkCrounched",
-]);
-
-export function isPlayerRestrained(player: Player) {
-  if (player.grabbedUntil != null && Date.now() < player.grabbedUntil) {
-    return true;
-  }
-  if (player.throwStartTime > 0) return true;
-  if (player.state === "fallen") return true;
-  return false;
-}
 
 /** Artur fica travado (sem mover/crouch/dash) enquanto segura o ataque (attack.svg). */
 export function isPlayerAttackHolding(player: Player) {
-  return (
-    player.character === "artur" &&
-    (player.state === "attack" || player.state === "preAttack")
-  );
+  return player.character === "artur" && isAttackPose(player.state);
 }
 
 export function canAct(player: Player) {
   if (isPlayerFrozen(player)) return false;
   if (isPlayerRestrained(player)) return false;
   if (isPlayerAttackHolding(player)) return false;
-  return (
-    player.mode === "battle" &&
-    player.state !== "blocked" &&
-    player.state !== "stun" &&
-    player.state !== "dash" &&
-    player.state !== "charging" &&
-    player.state !== "chargingKi" &&
-    player.state !== "mostHonored" &&
-    player.state !== "genkiDamaRising" &&
-    player.state !== "preparingGenkiDama" &&
-    player.state !== "throwGenkiDama" &&
-    player.state !== "laser"
-  );
+  return player.mode === "battle" && !CANNOT_ACT_STATES.has(player.state);
 }
 
 export function isInBattle(player: Player) {
   return player.mode === "battle";
 }
 
-/**
- * Estados da Genki Dama do Emanuel em que o personagem flutua para o alto e a
- * hitbox sobe junto — golpes de chão (melee, laser) não alcançam.
- */
-export function isPlayerFloating(state: PlayerState) {
-  return (
-    state === "genkiDamaRising" ||
-    state === "preparingGenkiDama" ||
-    state === "throwGenkiDama"
-  );
-}
-
 export function canExitState(player: Player) {
-  return (
-    player.state !== "blocked" &&
-    player.state !== "stun" &&
-    player.state !== "mostHonored"
-  );
+  return canStartSpecialFrom(player.state);
 }
-
-const MOVEMENT_STATES = new Set(["walk", "preRun", "run"]);
 
 type MoveOptions = { canRun?: boolean; state?: PlayerState };
 
@@ -83,9 +48,9 @@ function resolveMovementState(
   canRun: boolean,
 ): PlayerState {
   // Sono zerado: só andar — nunca evolui para preRun/run (run.svg).
-  if (!canRun && MOVEMENT_STATES.has(state)) return "walk";
+  if (!canRun && MOVE_STATES.has(state)) return "walk";
   if (state === "jump") return "jump";
-  if (MOVEMENT_STATES.has(state)) return state;
+  if (MOVE_STATES.has(state)) return state;
   if (CROUCHED_STATES.has(state)) return "walkCrounched";
   if (state === "preJump") return "preJump";
   return "walk";
@@ -129,7 +94,7 @@ export function moveRightBattle(player: Player, canRun = true): Player {
 
 export function blockStart(p: Player): Player {
   if (!isInBattle(p)) return p;
-  if (p.state === "jump" || p.state === "mostHonored") return p;
+  if (!hasHorizontalControl(p.state)) return p;
 
   return {
     ...p,
@@ -139,7 +104,7 @@ export function blockStart(p: Player): Player {
 
 export function blockEnd(p: Player): Player {
   if (!isInBattle(p)) return p;
-  if (p.state === "jump" || p.state === "mostHonored") return p;
+  if (!hasHorizontalControl(p.state)) return p;
 
   return {
     ...p,
@@ -168,7 +133,7 @@ export function specialBattle(p: Player): Player {
 export function dashLeftBattle(p: Player): Player {
   if (
     p.mode !== "battle" ||
-    p.state === "mostHonored" ||
+    !hasHorizontalControl(p.state) ||
     isPlayerFrozen(p) ||
     CROUCHED_STATES.has(p.state) ||
     isPlayerAttackHolding(p)
@@ -181,7 +146,7 @@ export function dashLeftBattle(p: Player): Player {
 export function dashRightBattle(p: Player): Player {
   if (
     p.mode !== "battle" ||
-    p.state === "mostHonored" ||
+    !hasHorizontalControl(p.state) ||
     isPlayerFrozen(p) ||
     CROUCHED_STATES.has(p.state) ||
     isPlayerAttackHolding(p)
@@ -191,11 +156,8 @@ export function dashRightBattle(p: Player): Player {
   return moveAxis(p, "right", DASH_STEP, BATTLE_LIMITS.maxX, { state: "dash" });
 }
 
-export { CROUCHED_STATES };
-
 export function idleBattle(p: Player): Player {
-  if (p.state === "blocked" || p.state === "stun") return p;
-  if (p.state === "fallen") return p;
+  if (isIdleBlocked(p.state)) return p;
 
   if (CROUCHED_STATES.has(p.state)) {
     return { ...p, state: "idleCrounched" };
@@ -203,18 +165,7 @@ export function idleBattle(p: Player): Player {
 
   return {
     ...p,
-    state:
-      p.state === "jump" ||
-      p.state === "dash" ||
-      p.state === "charging" ||
-      p.state === "chargingKi" ||
-      p.state === "mostHonored" ||
-      p.state === "genkiDamaRising" ||
-      p.state === "preparingGenkiDama" ||
-      p.state === "throwGenkiDama" ||
-      p.state === "laser"
-        ? p.state
-        : "idle",
+    state: IDLE_PRESERVED_STATES.has(p.state) ? p.state : "idle",
   };
 }
 

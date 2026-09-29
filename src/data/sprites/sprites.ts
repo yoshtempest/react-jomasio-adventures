@@ -90,7 +90,7 @@ export const NPC_CATEGORY: Record<string, NpcCategory> = {
   fisher: "professionals",
 };
 
-export const STATE_FOLDER: Record<string, string | null> = {
+export const STATE_FOLDER: Partial<Record<PlayerState, string | null>> = {
   idle: "idle",
   idleCrounched: "idle",
   attack: "attack",

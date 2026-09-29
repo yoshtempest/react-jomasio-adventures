@@ -8,6 +8,11 @@ import {
   GENKI_DAMA_RISE_MS,
   GENKI_DAMA_RISE_Y,
 } from "@/data/characters/emanuel";
+import {
+  isAirFrozen,
+  isGenkiDamaHold,
+  isLanding,
+} from "@/gameRules/battle/playerStates";
 import type { CollisionParams } from "@/utils/types/battle/collision";
 
 export type { CollisionParams };
@@ -104,7 +109,7 @@ export function useBattleGravity(
           }
           return { ...p, velY: 0 };
         }
-        if (p.state === "preparingGenkiDama" || p.state === "throwGenkiDama") {
+        if (isGenkiDamaHold(p.state)) {
           const topY = Math.max(
             0,
             genkiDamaRiseStartYInternalRef.current - GENKI_DAMA_RISE_Y,
@@ -131,10 +136,7 @@ export function useBattleGravity(
           if (newY >= landingY) {
             hasDoubleJumped.current = false;
             if (hasUsedFallingAttack) hasUsedFallingAttack.current = false;
-            const wasAirborne =
-              p.state === "jump" ||
-              p.state === "preJump" ||
-              p.state === "falling";
+            const wasAirborne = isLanding(p.state);
             return {
               ...p,
               y: landingY,
@@ -151,10 +153,7 @@ export function useBattleGravity(
           if (newY >= p.groundY) {
             hasDoubleJumped.current = false;
             if (hasUsedFallingAttack) hasUsedFallingAttack.current = false;
-            const wasAirborne =
-              p.state === "jump" ||
-              p.state === "preJump" ||
-              p.state === "falling";
+            const wasAirborne = isLanding(p.state);
             return {
               ...p,
               y: p.groundY,
@@ -168,17 +167,11 @@ export function useBattleGravity(
           }
         }
 
-        const isAirSpecial =
-          p.state === "preSpecialInAir" ||
-          p.state === "specialInAir" ||
-          p.state === "specialInAirFinish" ||
-          p.state === "airGrab" ||
-          p.state === "airKick";
         return {
           ...p,
           y: newY,
           velY: newVelY,
-          state: isAirSpecial
+          state: isAirFrozen(p.state)
             ? p.state
             : newVelY > 0
               ? "falling"

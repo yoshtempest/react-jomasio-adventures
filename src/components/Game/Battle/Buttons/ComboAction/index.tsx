@@ -2,24 +2,15 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useSettings } from "@/hooks/settings/useSetting";
 import { resolveBattleSprite } from "@/utils/paths";
+import { getComboAction } from "@/data/battle/comboActions";
 import styles from "./styles.module.css";
-
-type ComboConfig = {
-  sprite: string;
-  label: string;
-};
-
-const COMBO_STATES: Partial<Record<PlayerState, ComboConfig>> = {
-  blocked: { sprite: "blockAttack", label: "Atacar" },
-  falling: { sprite: "fallingAttack", label: "Atacar" },
-};
 
 export function ComboAction() {
   const { player } = usePlayer();
   const { activeControls } = useGameControls();
   const { showComboAction } = useSettings();
 
-  const combo = COMBO_STATES[player.state];
+  const combo = getComboAction(player.state);
   if (!combo || !showComboAction) return null;
 
   const src = resolveBattleSprite(player.character, combo.sprite);

@@ -2,17 +2,16 @@ import { resolveBattleSprite } from "@/utils/paths";
 import styles from "./styles.module.css";
 
 type Props = {
-  action: string;
+  action: PlayerState;
   charId: string;
 };
 
 export function ComboAction({ action, charId }: Props) {
-  const stateName = action.replace(".svg", "");
   return (
     <div className={styles.comboActionBox}>
       <div className={styles.comboActionBtn}>
         <img
-          src={resolveBattleSprite(charId, stateName)}
+          src={resolveBattleSprite(charId, action)}
           alt="Combo"
           draggable={false}
         />

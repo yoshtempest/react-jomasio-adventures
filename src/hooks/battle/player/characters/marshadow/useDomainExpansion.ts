@@ -21,6 +21,7 @@ import {
   isPlayerParalyzed,
 } from "@/gameRules/battle/status/statusEffects";
 import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
+import { isDomainExpansion } from "@/gameRules/battle/playerStates";
 import type { SoundId } from "@/utils/audio/soundId";
 import type { NPCBattleState, SummonedNpc } from "@/utils/types/npc/npc";
 
@@ -292,7 +293,7 @@ export function useDomainExpansion({
     setDomainExpansionActive(false);
     setDisintegrating([]);
     setPlayer((p) =>
-      p.mode !== "battle" || (p.state !== "preMugetsu" && p.state !== "mugetsu")
+      p.mode !== "battle" || !isDomainExpansion(p.state)
         ? p
         : { ...p, state: "idle" },
     );
