@@ -1,7 +1,7 @@
 import styles from "@/components/Game/Battle/Replay/styles.module.css";
 import { resolveBattleSprite } from "@/utils/paths";
 import {
-  isCrouched,
+  ALL_PREDICATES,
   resolveSpriteState,
 } from "@/gameRules/battle/playerStates";
 import type { ReplayFrame } from "@/utils/types/replay";
@@ -12,7 +12,7 @@ type Props = {
 };
 
 export function ReplayPlayerSprite({ frame, playerSize }: Props) {
-  const isCrouching = isCrouched(frame.ps);
+  const isCrouching = ALL_PREDICATES.isCrouched(frame.ps);
 
   const isFallen = frame.ps === "fallen";
 

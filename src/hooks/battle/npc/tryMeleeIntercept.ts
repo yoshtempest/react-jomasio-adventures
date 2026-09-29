@@ -1,5 +1,5 @@
 import { isPlayerInRange } from "@/gameRules/battle/range";
-import { isSpecialStrike, isStrike } from "@/gameRules/battle/playerStates";
+import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
 import {
   shouldCutProjectile,
   createSlicedProjectile,
@@ -26,9 +26,9 @@ export function tryMeleeIntercept(
   opts: LinearOpts,
 ): ProjectileCommon | ProjectilePull | ProjectileCut | null | undefined {
   if (p.indestructible) return undefined;
-  if (!isStrike(opts.playerState)) return undefined;
+  if (!ALL_PREDICATES.isStrike(opts.playerState)) return undefined;
 
-  const isSpecial = isSpecialStrike(opts.playerState);
+  const isSpecial = ALL_PREDICATES.isSpecialStrike(opts.playerState);
   const inRange = isPlayerInRange(
     opts.playerX,
     opts.playerY,

@@ -1,5 +1,5 @@
 import { ProjectileConstants, ProjectileHpConstants } from "@/data/projectile";
-import { isCrouched, isStrike } from "@/gameRules/battle/playerStates";
+import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
 import { applyPlayerStrike } from "../apply/applyPlayerStrike";
 import type { StrikeOpts } from "../apply/applyPlayerStrike";
 
@@ -23,11 +23,11 @@ export function handleRain(
   }
 
   const isDashing = playerState === "dash";
-  const isCrouchedState = isCrouched(playerState);
+  const isCrouchedState = ALL_PREDICATES.isCrouched(playerState);
 
   // Golpe do jogador (básico ou special) causa o dano real do ataque na chuva
   // inteira, usando a lança mais próxima dentro do alcance como âncora.
-  if (!p.indestructible && isStrike(playerState) && strike) {
+  if (!p.indestructible && ALL_PREDICATES.isStrike(playerState) && strike) {
     const spear = p.spears
       .filter(
         (s) =>

@@ -1,6 +1,6 @@
 import { isPlayerInRange } from "@/gameRules/battle/range";
 import { isFacingTarget } from "@/gameRules/battle/direction";
-import { isCrouched } from "@/gameRules/battle/playerStates";
+import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
 
 export function canPlayerHit(params: {
   playerX: number;
@@ -14,7 +14,7 @@ export function canPlayerHit(params: {
   npcClass?: NPCClass;
   rangeOverride?: number;
 }) {
-  if (isCrouched(params.playerState)) return false;
+  if (ALL_PREDICATES.isCrouched(params.playerState)) return false;
 
   return (
     isPlayerInRange(

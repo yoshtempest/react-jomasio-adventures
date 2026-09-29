@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
-import { isAttackPose } from "@/gameRules/battle/playerStates";
+import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
 import {
   PUNCH_FINALIZE_MS,
   PUNCH_LIFETIME_MS,
@@ -63,7 +63,7 @@ export function useArturOraPunch({
         return;
       }
       setPlayer((p) =>
-        p.character === "artur" && p.mode === "battle" && isAttackPose(p.state)
+        p.character === "artur" && p.mode === "battle" && ALL_PREDICATES.isAttackPose(p.state)
           ? { ...p, state: "idle" }
           : p,
       );
@@ -143,7 +143,7 @@ export function useArturOraPunch({
   const oraPress = useCallback(() => {
     if (player.character !== "artur") return;
     confirmHeldRef.current = true;
-    if (!isAttackPose(player.state)) {
+    if (!ALL_PREDICATES.isAttackPose(player.state)) {
       armFinalize();
       return;
     }

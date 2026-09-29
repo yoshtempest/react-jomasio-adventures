@@ -8,14 +8,8 @@ import {
   isPlayerParalyzed,
 } from "@/gameRules/battle/status/statusEffects";
 import {
-  CANNOT_ACT_STATES,
-  CROUCHED_STATES,
-  IDLE_PRESERVED_STATES,
-  MOVE_STATES,
-  canStartSpecialFrom,
-  hasHorizontalControl,
-  isAttackPose,
-  isIdleBlocked,
+  ALL_PREDICATES,
+  ALL_STATES,
   isPlayerRestrained,
 } from "@/gameRules/battle/playerStates";
 
@@ -23,14 +17,14 @@ const CROUCHED_STEP = 4;
 
 /** Artur fica travado (sem mover/crouch/dash) enquanto segura o ataque (attack.svg). */
 export function isPlayerAttackHolding(player: Player) {
-  return player.character === "artur" && isAttackPose(player.state);
+  return player.character === "artur" && ALL_PREDICATES.isAttackPose(player.state);
 }
 
 export function canAct(player: Player) {
   if (isPlayerFrozen(player)) return false;
   if (isPlayerRestrained(player)) return false;
   if (isPlayerAttackHolding(player)) return false;
-  return player.mode === "battle" && !CANNOT_ACT_STATES.has(player.state);
+  return player.mode === "battle" && !ALL_STATES.CANNOT_ACT_STATES.has(player.state);
 }
 
 export function isInBattle(player: Player) {
@@ -38,7 +32,7 @@ export function isInBattle(player: Player) {
 }
 
 export function canExitState(player: Player) {
-  return canStartSpecialFrom(player.state);
+  return ALL_PREDICATES.canStartSpecialFrom(player.state);
 }
 
 type MoveOptions = { canRun?: boolean; state?: PlayerState };
@@ -48,16 +42,16 @@ function resolveMovementState(
   canRun: boolean,
 ): PlayerState {
   // Sono zerado: só andar — nunca evolui para preRun/run (run.svg).
-  if (!canRun && MOVE_STATES.has(state)) return "walk";
+  if (!canRun && ALL_STATES.MOVE_STATES.has(state)) return "walk";
   if (state === "jump") return "jump";
-  if (MOVE_STATES.has(state)) return state;
-  if (CROUCHED_STATES.has(state)) return "walkCrounched";
+  if (ALL_STATES.MOVE_STATES.has(state)) return state;
+  if (ALL_STATES.CROUCHED_STATES.has(state)) return "walkCrounched";
   if (state === "preJump") return "preJump";
   return "walk";
 }
 
 function getStep(player: Player): number {
-  const base = CROUCHED_STATES.has(player.state) ? CROUCHED_STEP : BATTLE_STEP;
+  const base = ALL_STATES.CROUCHED_STATES.has(player.state) ? CROUCHED_STEP : BATTLE_STEP;
   const speed = isPlayerParalyzed(player) ? Math.round(base / 2) : base;
   return Math.round(speed * player.movementSpeed);
 }
@@ -94,7 +88,7 @@ export function moveRightBattle(player: Player, canRun = true): Player {
 
 export function blockStart(p: Player): Player {
   if (!isInBattle(p)) return p;
-  if (!hasHorizontalControl(p.state)) return p;
+  if (!ALL_PREDICATES.hasHorizontalControl(p.state)) return p;
 
   return {
     ...p,
@@ -104,7 +98,7 @@ export function blockStart(p: Player): Player {
 
 export function blockEnd(p: Player): Player {
   if (!isInBattle(p)) return p;
-  if (!hasHorizontalControl(p.state)) return p;
+  if (!ALL_PREDICATES.hasHorizontalControl(p.state)) return p;
 
   return {
     ...p,
@@ -133,9 +127,9 @@ export function specialBattle(p: Player): Player {
 export function dashLeftBattle(p: Player): Player {
   if (
     p.mode !== "battle" ||
-    !hasHorizontalControl(p.state) ||
+    !ALL_PREDICATES.hasHorizontalControl(p.state) ||
     isPlayerFrozen(p) ||
-    CROUCHED_STATES.has(p.state) ||
+    ALL_STATES.CROUCHED_STATES.has(p.state) ||
     isPlayerAttackHolding(p)
   ) {
     return p;
@@ -146,9 +140,9 @@ export function dashLeftBattle(p: Player): Player {
 export function dashRightBattle(p: Player): Player {
   if (
     p.mode !== "battle" ||
-    !hasHorizontalControl(p.state) ||
+    !ALL_PREDICATES.hasHorizontalControl(p.state) ||
     isPlayerFrozen(p) ||
-    CROUCHED_STATES.has(p.state) ||
+    ALL_STATES.CROUCHED_STATES.has(p.state) ||
     isPlayerAttackHolding(p)
   ) {
     return p;
@@ -157,15 +151,15 @@ export function dashRightBattle(p: Player): Player {
 }
 
 export function idleBattle(p: Player): Player {
-  if (isIdleBlocked(p.state)) return p;
+  if (ALL_PREDICATES.isIdleBlocked(p.state)) return p;
 
-  if (CROUCHED_STATES.has(p.state)) {
+  if (ALL_STATES.CROUCHED_STATES.has(p.state)) {
     return { ...p, state: "idleCrounched" };
   }
 
   return {
     ...p,
-    state: IDLE_PRESERVED_STATES.has(p.state) ? p.state : "idle",
+    state: ALL_STATES.IDLE_PRESERVED_STATES.has(p.state) ? p.state : "idle",
   };
 }
 
@@ -181,7 +175,7 @@ export function crouchToggle(player: Player): Player {
     return player;
   }
 
-  if (CROUCHED_STATES.has(player.state)) {
+  if (ALL_STATES.CROUCHED_STATES.has(player.state)) {
     return { ...player, state: "idle" };
   }
 

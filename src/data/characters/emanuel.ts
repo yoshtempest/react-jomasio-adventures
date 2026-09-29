@@ -3,7 +3,7 @@ import {
   ONE_HUNDRED_FIFTY_MS,
   THREE_HUNDRED_MS,
 } from "@/data/ms";
-import { COMBO_STATES } from "@/gameRules/battle/playerStates";
+import { ALL_STATES } from "@/gameRules/battle/playerStates";
 
 export const EMANUEL_COMBO_WINDOW_MS = THREE_HUNDRED_MS;
 export const EMANUEL_AIR_LAUNCH_MS = ONE_HUNDRED_MS;
@@ -117,4 +117,4 @@ export const EMANUEL_COMBO_STEPS = [
  * Estados em que o combo está em exibição (golpe de solo ou golpe aéreo).
  * Derivado dos grupos de estado para não repetir literais.
  */
-export const EMANUEL_COMBO_STATES = COMBO_STATES;
+export const EMANUEL_COMBO_STATES = ALL_STATES.COMBO_STATES;

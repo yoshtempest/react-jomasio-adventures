@@ -9,11 +9,7 @@ import { logPlay } from "@/utils/replay/audioEventLog";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { FIVE_HUNDRED_MS } from "@/data/ms";
 import { PLAYER_JUMP_FORCE } from "@/gameRules/movement/constants";
-import {
-  isGroundCombo,
-  isLanding,
-  isRunState,
-} from "@/gameRules/battle/playerStates";
+import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
 import type { EmanuelComboApi } from "@/hooks/battle/player/characters/ematron/useEmanuelCombo";
 
 const STUN_BASE_DURATION = FIVE_HUNDRED_MS;
@@ -57,7 +53,7 @@ export function usePlayerAnimation(
   }, [player.state, player.character, player.mode, setPlayer, emanuelComboRef]);
 
   useEffect(() => {
-    if (isLanding(player.state)) return;
+    if (ALL_PREDICATES.isLanding(player.state)) return;
 
     const defaultStep = animationFlow[player.state];
     if (!defaultStep) return;
@@ -120,7 +116,7 @@ export function usePlayerAnimation(
     const realDuration = Math.round(gameDuration / scale);
 
     const timer = setTimeout(() => {
-      const wantsToRun = isRunState(step.next);
+      const wantsToRun = ALL_PREDICATES.isRunState(step.next);
       if (wantsToRun && canRunRef != null && !canRunRef.current) return;
 
       setPlayer((p) => {
@@ -130,7 +126,7 @@ export function usePlayerAnimation(
         if (
           p.character === "emanuel" &&
           p.mode === "battle" &&
-          isGroundCombo(p.state)
+          ALL_PREDICATES.isGroundCombo(p.state)
         ) {
           const combo = emanuelComboRef.current;
           const queuedIndex = combo?.queuedStepIndexRef.current;

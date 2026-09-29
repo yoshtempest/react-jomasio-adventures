@@ -19,7 +19,7 @@ import {
   isPlayerFrozen,
   isPlayerParalyzed,
 } from "@/gameRules/battle/status/statusEffects";
-import { isAtomic } from "@/gameRules/battle/playerStates";
+import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
 import type { SoundId } from "@/utils/audio/soundId";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 
@@ -201,7 +201,7 @@ export function useAtomic({
     setCuts([]);
     targetRef.current = null;
     setPlayer((p) =>
-      p.mode !== "battle" || !isAtomic(p.state) ? p : { ...p, state: "idle" },
+      p.mode !== "battle" || !ALL_PREDICATES.isAtomic(p.state) ? p : { ...p, state: "idle" },
     );
   }, [clearTimers, setPlayer]);
 

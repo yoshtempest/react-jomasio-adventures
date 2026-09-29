@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { getSpecialFlowOverride } from "@/data/battle/animationFlow";
 import { PlayerSpecialConstants, ProjectileConstants } from "@/data/projectile";
 import { PLAYER_SPHERE_TIME_ID } from "@/gameRules/battle/time";
-import { isSpecialTrigger } from "@/gameRules/battle/playerStates";
+import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
 
 const SPHERE_OFFSET_X = PlayerSpecialConstants.SPHERE_OFFSET_X;
 const FIRE_DURATION = PlayerSpecialConstants.FIRE_DURATION;
@@ -38,7 +38,7 @@ export function usePlayerSpecialProjectile({
   const setTimeScaleRef = useRef(setTimeScale);
   setTimeScaleRef.current = setTimeScale;
 
-  const isSpecialAnimating = isSpecialTrigger(player.state);
+  const isSpecialAnimating = ALL_PREDICATES.isSpecialTrigger(player.state);
 
   const hasCustomFlow = getSpecialFlowOverride(player.character) !== null;
 

@@ -8,11 +8,7 @@ import {
   GENKI_DAMA_RISE_MS,
   GENKI_DAMA_RISE_Y,
 } from "@/data/characters/emanuel";
-import {
-  isAirFrozen,
-  isGenkiDamaHold,
-  isLanding,
-} from "@/gameRules/battle/playerStates";
+import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
 import type { CollisionParams } from "@/utils/types/battle/collision";
 
 export type { CollisionParams };
@@ -109,7 +105,7 @@ export function useBattleGravity(
           }
           return { ...p, velY: 0 };
         }
-        if (isGenkiDamaHold(p.state)) {
+        if (ALL_PREDICATES.isGenkiDamaHold(p.state)) {
           const topY = Math.max(
             0,
             genkiDamaRiseStartYInternalRef.current - GENKI_DAMA_RISE_Y,
@@ -136,7 +132,7 @@ export function useBattleGravity(
           if (newY >= landingY) {
             hasDoubleJumped.current = false;
             if (hasUsedFallingAttack) hasUsedFallingAttack.current = false;
-            const wasAirborne = isLanding(p.state);
+            const wasAirborne = ALL_PREDICATES.isLanding(p.state);
             return {
               ...p,
               y: landingY,
@@ -153,7 +149,7 @@ export function useBattleGravity(
           if (newY >= p.groundY) {
             hasDoubleJumped.current = false;
             if (hasUsedFallingAttack) hasUsedFallingAttack.current = false;
-            const wasAirborne = isLanding(p.state);
+            const wasAirborne = ALL_PREDICATES.isLanding(p.state);
             return {
               ...p,
               y: p.groundY,
@@ -171,7 +167,7 @@ export function useBattleGravity(
           ...p,
           y: newY,
           velY: newVelY,
-          state: isAirFrozen(p.state)
+          state: ALL_PREDICATES.isAirFrozen(p.state)
             ? p.state
             : newVelY > 0
               ? "falling"

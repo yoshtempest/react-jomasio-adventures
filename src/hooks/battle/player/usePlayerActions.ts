@@ -8,11 +8,7 @@ import { playAttackSound } from "@/utils/audio/playAttackSound";
 import { isPlayerInRange } from "@/gameRules/battle/range";
 import { NPC_CLASS_HITBOX_BONUS } from "@/gameRules/battle/rangeConfig";
 import { isFacingTarget } from "@/gameRules/battle/direction";
-import {
-  isAirFalling,
-  isAirSpecial,
-  isCombo,
-} from "@/gameRules/battle/playerStates";
+import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
 import { damageSummon } from "@/gameRules/battle/damageSummon";
 import { BLOCK_ATTACK_PUSH_DISTANCE } from "@/gameRules/movement/constants";
 import { LUCAS_WEAPON_RANGES } from "@/data/characters/lucasWeapons";
@@ -227,7 +223,7 @@ export function usePlayerBattleActions({
       player.mode === "battle" &&
       !isEmanuelComboHit &&
       (player.state === "preAttack" ||
-        isCombo(player.state) ||
+        ALL_PREDICATES.isCombo(player.state) ||
         (player.state === "jump" && emanuelComboAirActiveRef?.current === true))
     ) {
       return;
@@ -373,7 +369,7 @@ export function usePlayerBattleActions({
 
     // Golpe aéreo: no ar (subindo ou caindo) ou na sequência do special aéreo.
     const isAirStrike =
-      isAirFalling(player.state) || isAirSpecial(player.state);
+      ALL_PREDICATES.isAirFalling(player.state) || ALL_PREDICATES.isAirSpecial(player.state);
 
     if (isAirStrike) {
       const inRangeTargets = targets.filter(

@@ -6,7 +6,7 @@ import {
   PLAYER_BASIC_COOLDOWN,
   PLAYER_SPECIAL_COOLDOWN,
 } from "@/data/cooldowns";
-import { isSpecialStrike } from "@/gameRules/battle/playerStates";
+import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
 import { resetCooldownRef } from "@/utils/battle/cooldown";
 import { getProjectileCenter } from "@/gameRules/npc/projectile/projectileDamage";
 import { useLatestRef } from "@/hooks/useLatestRef";
@@ -73,7 +73,7 @@ export function useProjectile(
       if (playerCooldownRef?.current === false) return false;
       if (playerCooldownRef) {
         resetCooldownRef(
-          isSpecialStrike(state)
+          ALL_PREDICATES.isSpecialStrike(state)
             ? PLAYER_SPECIAL_COOLDOWN
             : PLAYER_BASIC_COOLDOWN,
           playerCooldownRef,

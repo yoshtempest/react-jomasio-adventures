@@ -21,7 +21,7 @@ import {
   isPlayerParalyzed,
 } from "@/gameRules/battle/status/statusEffects";
 import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
-import { isDomainExpansion } from "@/gameRules/battle/playerStates";
+import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
 import type { SoundId } from "@/utils/audio/soundId";
 import type { NPCBattleState, SummonedNpc } from "@/utils/types/npc/npc";
 
@@ -293,7 +293,7 @@ export function useDomainExpansion({
     setDomainExpansionActive(false);
     setDisintegrating([]);
     setPlayer((p) =>
-      p.mode !== "battle" || !isDomainExpansion(p.state)
+      p.mode !== "battle" || !ALL_PREDICATES.isDomainExpansion(p.state)
         ? p
         : { ...p, state: "idle" },
     );

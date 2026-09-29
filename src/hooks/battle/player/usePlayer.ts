@@ -4,7 +4,7 @@ import {
   PLAYER_SPECIAL_COOLDOWN,
 } from "@/data/cooldowns";
 import { canPlayerHit } from "@/gameRules/battle/combat";
-import { isSpecialStrike } from "@/gameRules/battle/playerStates";
+import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
 import { LUCAS_WEAPON_RANGES } from "@/data/characters/lucasWeapons";
 import { DIVERGENT_FIST_DELAY_MS } from "@/gameRules/battle/cursedEnergy";
 import {
@@ -586,7 +586,7 @@ export function usePlayerBattle({
         return null;
       }
 
-      if (isSpecialStrike(strikeState)) {
+      if (ALL_PREDICATES.isSpecialStrike(strikeState)) {
         if (!options?.bypassCharge && delicia < HITS_TO_SPECIAL) return null;
         const { damage } = calculateSpecialHitDamage({
           player,

@@ -1,9 +1,5 @@
 import {
-  AIR_SPECIAL_STATES,
-  AIRBORNE_STATES,
-  CROUCHED_STATES,
-  DASH_STATES,
-  GENKI_DAMA_STATES,
+  ALL_STATES,
   unionOf,
 } from "@/gameRules/battle/playerStates";
 
@@ -12,11 +8,11 @@ import {
  * no ar, dash, special aéreo ou flutuando na Genki Dama.
  */
 const PROTECTED_STATES = unionOf(
-  CROUCHED_STATES,
-  DASH_STATES,
-  AIRBORNE_STATES,
-  AIR_SPECIAL_STATES,
-  GENKI_DAMA_STATES,
+  ALL_STATES.CROUCHED_STATES,
+  ALL_STATES.DASH_STATES,
+  ALL_STATES.AIRBORNE_STATES,
+  ALL_STATES.AIR_SPECIAL_STATES,
+  ALL_STATES.GENKI_DAMA_STATES,
 );
 
 export function isPlayerProtected(playerState: PlayerState): boolean {

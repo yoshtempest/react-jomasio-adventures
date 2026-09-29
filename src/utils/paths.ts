@@ -1,5 +1,5 @@
 import { NPC_CATEGORY, STATE_FOLDER } from "@/data/sprites/sprites";
-import { isSpecialTrigger, stateData } from "@/gameRules/battle/playerStates";
+import { ALL_PREDICATES, stateData } from "@/gameRules/battle/playerStates";
 
 export function asset(path: string) {
   if (path.startsWith("/")) {
@@ -292,7 +292,7 @@ export function resolveBattleSprite(
   weapon?: LucasWeapon,
   form?: MarceloBattleForm,
 ): string {
-  if (character === "artur" && isSpecialTrigger(state)) {
+  if (character === "artur" && ALL_PREDICATES.isSpecialTrigger(state)) {
     return playerPath(`/artur/inFight/special/arturSeeing.svg`);
   }
   if (state === "mostHonored" && character === "riquelme") {

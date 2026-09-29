@@ -9,12 +9,7 @@ import { useLatestRef } from "@/hooks/useLatestRef";
 import { logPlay } from "@/utils/replay/audioEventLog";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
-import {
-  isCrouched,
-  isDashing,
-  isInvulnerable,
-  isNpcUnhittable,
-} from "@/gameRules/battle/playerStates";
+import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
 import { combatService } from "@/services/combat";
 import { getBabidiBlockReflect } from "@/gameRules/battle/babidiBlock";
 import { checkBlocked } from "./checkBlocked";
@@ -235,17 +230,17 @@ export function useNpcBattle({
   const npcMeleeHit = useCallback(
     (multiplier = 1) => {
       if (isEnding.current) return;
-      if (isNpcUnhittable(player.state)) return;
+      if (ALL_PREDICATES.isNpcUnhittable(player.state)) return;
 
       const skipCooldown = npcType === "maurao" && npcPhase >= 2;
 
       if (!skipCooldown && !npcCooldown.current) return;
 
-      if (isDashing(player.state)) {
+      if (ALL_PREDICATES.isDashing(player.state)) {
         onDodgeRef?.current?.();
         return;
       }
-      if (isCrouched(player.state) && Math.abs(playerX - npcX) > 80) {
+      if (ALL_PREDICATES.isCrouched(player.state) && Math.abs(playerX - npcX) > 80) {
         onDodgeRef?.current?.();
         return;
       }
@@ -335,10 +330,10 @@ export function useNpcBattle({
 
   const npcRangedHit = useCallback(() => {
     if (isEnding.current) return;
-    if (isInvulnerable(player.state)) return;
+    if (ALL_PREDICATES.isInvulnerable(player.state)) return;
     if (!npcCooldown.current) return;
-    if (isDashing(player.state)) return;
-    if (isCrouched(player.state) && Math.abs(playerX - npcX) > 80) return;
+    if (ALL_PREDICATES.isDashing(player.state)) return;
+    if (ALL_PREDICATES.isCrouched(player.state) && Math.abs(playerX - npcX) > 80) return;
 
     const npc = getNpcStats(npcLevel, npcClass, difficulty, statMultiplier);
     const baseDmg = npc.damage;
@@ -431,7 +426,7 @@ export function useNpcBattle({
   const npcFixedHit = useCallback(
     (dmg: number) => {
       if (isEnding.current) return;
-      if (isInvulnerable(player.state)) return;
+      if (ALL_PREDICATES.isInvulnerable(player.state)) return;
 
       if (isParryPress(lastBlockPressRef, lastAttackPressRef)) {
         const parried = handleNpcBlocking({
@@ -506,7 +501,7 @@ export function useNpcBattle({
   const npcThrowHit = useCallback(
     (multiplier: number = 1) => {
       if (isEnding.current) return;
-      if (isInvulnerable(player.state)) return;
+      if (ALL_PREDICATES.isInvulnerable(player.state)) return;
 
       const npc = getNpcStats(npcLevel, npcClass, difficulty, statMultiplier);
       const baseDmg = npc.damage;
@@ -552,7 +547,7 @@ export function useNpcBattle({
   const npcUnblockableHit = useCallback(
     (dmg: number) => {
       if (isEnding.current) return;
-      if (isInvulnerable(player.state)) return;
+      if (ALL_PREDICATES.isInvulnerable(player.state)) return;
 
       if (isParryPress(lastBlockPressRef, lastAttackPressRef)) {
         handleNpcBlocking({
@@ -610,7 +605,7 @@ export function useNpcBattle({
   const npcBurstHit = useCallback(
     (pushDir: number) => {
       if (isEnding.current) return;
-      if (isNpcUnhittable(player.state)) return;
+      if (ALL_PREDICATES.isNpcUnhittable(player.state)) return;
 
       const npc = getNpcStats(npcLevel, npcClass, difficulty, statMultiplier);
       const burstDmg = Math.max(1, Math.round(npc.damage * 0.1));
