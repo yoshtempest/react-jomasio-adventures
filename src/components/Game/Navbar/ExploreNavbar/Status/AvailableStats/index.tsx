@@ -1,8 +1,6 @@
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
-
-import { STATUS_SUB_ROWS } from "@/hooks/menu/useStatus";
 import { STATS_MENU_ROWS } from "@/data/player/statEffects";
 import { statusIconPath } from "@/utils/paths";
 import { SelectedStatEffect } from "./SelectedStatEffect";
@@ -57,18 +55,6 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
             </div>
         );
       })}
-
-      {STATUS_SUB_ROWS.map((row) => (
-        <div
-          key={row.view}
-          className={selectedIndex === row.index ? "active" : ""}
-        >
-          <p className={styles.subBtn}>
-            <img src={row.icon} />
-            {row.label}
-          </p>
-        </div>
-      ))}
     </div>
   );
 }

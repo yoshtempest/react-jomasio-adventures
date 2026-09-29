@@ -26,25 +26,13 @@ export const STATUS_SUB_ROWS: {
 }[] = [
   {
     index: STATS.length,
-    label: "Árvore de Habilidades",
-    icon: statusIconPath("xp.svg"),
-    view: "skillTree",
-  },
-  {
-    index: STATS.length + 1,
     label: "Ranques",
     icon: statusIconPath("ranks.svg"),
     view: "ranks",
   },
-  {
-    index: STATS.length + 2,
-    label: "Todos os Status",
-    icon: statusIconPath("skills.svg"),
-    view: "allStats",
-  },
 ];
 
-const TOTAL_OPTIONS = STATS.length + STATUS_SUB_ROWS.length;
+const TOTAL_OPTIONS = STATS.length;
 
 export function useStatusMenu(isOpen: boolean) {
   const { addStat, progress } = useCharacterProgress();

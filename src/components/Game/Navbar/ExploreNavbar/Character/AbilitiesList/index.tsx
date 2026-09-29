@@ -7,6 +7,8 @@ import { getCharacterAbilities } from "@/data/characters/abilities";
 import { getEnergyName } from "@/gameRules/battle/mana";
 import { useGameControlsLayer } from "@/hooks/game/useGameControlsLayer";
 import type { CharacterAbility } from "@/utils/types/player/abilities";
+import { PassiveSkills } from "@/components/Game/Battle/PassiveSkills";
+import { usePlayer } from "@/contexts/PlayerContext";
 
 import styles from "./styles.module.css";
 
@@ -64,6 +66,7 @@ export function AbilitiesList({
 }) {
   const { progress } = useCharacterProgress();
   const level = progress[characterId]?.level ?? 1;
+  const { player } = usePlayer();
 
   const abilities = getCharacterAbilities(characterId);
   const totalItems = abilities.length;
@@ -145,6 +148,7 @@ export function AbilitiesList({
             </div>
           );
         })}
+        <PassiveSkills characterId={player.character} startIndex={0} />
       </div>
     </div>
   );
