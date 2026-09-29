@@ -20,7 +20,8 @@ import {
   getTotalReflect,
 } from "@/gameRules/battle/equipment";
 import { formatRank, getRank, getRankMultiplier } from "@/gameRules/rank";
-import { getHungerMultiplier } from "@/contexts/CharacterProgressContext";
+
+import { getHungerMultiplier } from "@/data/player/hunger";
 import { CLASS_DATA } from "@/data/npc";
 import { getCharacterStatus } from "@/data/player/stats";
 import { combatService } from "@/services/combat";

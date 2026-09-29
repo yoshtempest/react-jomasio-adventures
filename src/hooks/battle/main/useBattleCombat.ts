@@ -35,11 +35,11 @@ import { useEmanuelClone } from "@/hooks/battle/player/characters/ematron/useEma
 import { useEmanuelKiCharge } from "@/hooks/battle/player/characters/ematron/useEmanuelKiCharge";
 import { useEmanuelGenkiDama } from "@/hooks/battle/player/characters/ematron/useEmanuelGenkiDama";
 import { useVastolordLaser } from "@/hooks/battle/player/characters/marshadow/useVastolordLaser";
+import type { AtomicBoomPayload } from "@/utils/types/battle/atomic";
 import {
   useAtomic,
   ATOMIC_TARGET_MULTIPLIER,
   ATOMIC_AREA_MULTIPLIER,
-  type AtomicBoomPayload,
 } from "@/hooks/battle/player/characters/marshadow/useAtomic";
 import { useDomainExpansion } from "@/hooks/battle/player/characters/marshadow/useDomainExpansion";
 import {
@@ -80,6 +80,7 @@ import {
 import { useBattleStageSetup } from "@/hooks/battle/useBattleStageSetup";
 import { INTRO_MS } from "@/services/npc/attacks/hungryDog/state";
 import type { NewPlayerStatus } from "@/gameRules/battle/status/statusEffects";
+import { clampX } from "@/gameRules/movement/clampX";
 import type { BattleObstacle } from "@/utils/types/maps/battle";
 import type { BattleManaApi } from "@/contexts/BattleManaContext";
 import type { useBlinkAnimation } from "@/hooks/battle/player/characters/natsuki/useBlinkAnimation";
@@ -316,10 +317,7 @@ export function useBattleCombat({
     onPullPlayer: (npcX: number) =>
       setPlayer((p) => {
         const direction = npcX > p.x ? 1 : -1;
-        const pullToX = Math.max(
-          BATTLE_LIMITS.minX,
-          Math.min(BATTLE_LIMITS.maxX, p.x + direction * 200),
-        );
+        const pullToX = clampX(p.x + direction * 200);
         return {
           ...p,
           pullFromX: p.x,
@@ -330,10 +328,7 @@ export function useBattleCombat({
     onPushPlayer: (npcX: number) =>
       setPlayer((p) => {
         const direction = npcX > p.x ? -1 : 1;
-        const pushToX = Math.max(
-          BATTLE_LIMITS.minX,
-          Math.min(BATTLE_LIMITS.maxX, p.x + direction * 200),
-        );
+        const pushToX = clampX(p.x + direction * 200);
         return {
           ...p,
           pullFromX: p.x,
@@ -344,10 +339,7 @@ export function useBattleCombat({
     onRamPushPlayer: (direction: "left" | "right", toX: number) =>
       setPlayer((p) => {
         if (p.mode !== "battle") return p;
-        const x = Math.max(
-          BATTLE_LIMITS.minX,
-          Math.min(BATTLE_LIMITS.maxX, toX),
-        );
+        const x = clampX(toX);
         return { ...p, x, battleDirection: direction };
       }),
     lastBlockPressRef,
@@ -415,10 +407,7 @@ export function useBattleCombat({
 
       const n = npcRef.current;
       const fromX = n.x - 8;
-      const toX = Math.max(
-        BATTLE_LIMITS.minX,
-        Math.min(BATTLE_LIMITS.maxX, fromX),
-      );
+      const toX = clampX(fromX);
       setPlayer((p) => ({
         ...p,
         x: toX,
@@ -435,10 +424,7 @@ export function useBattleCombat({
     const dir = player.battleDirection === "right" ? 1 : -1;
 
     npc.updateNpc({
-      x: Math.max(
-        BATTLE_LIMITS.minX,
-        Math.min(BATTLE_LIMITS.maxX, npc.x + dir * BLOCK_ATTACK_PUSH_DISTANCE),
-      ),
+      x: clampX(npc.x + dir * BLOCK_ATTACK_PUSH_DISTANCE),
     });
 
     setSummons((prev) =>
@@ -446,13 +432,7 @@ export function useBattleCombat({
         .filter((s) => !s.isDying)
         .map((s) => ({
           ...s,
-          x: Math.max(
-            BATTLE_LIMITS.minX,
-            Math.min(
-              BATTLE_LIMITS.maxX,
-              s.x + dir * BLOCK_ATTACK_PUSH_DISTANCE,
-            ),
-          ),
+          x: clampX(s.x + dir * BLOCK_ATTACK_PUSH_DISTANCE),
         })),
     );
   });
@@ -723,19 +703,13 @@ export function useBattleCombat({
       totalVampirism: battle.totalVampirism,
       onNpcPush: (targetX) =>
         npc.updateNpc({
-          x: Math.max(
-            BATTLE_LIMITS.minX,
-            Math.min(BATTLE_LIMITS.maxX, targetX),
-          ),
+          x: clampX(targetX),
         }),
       onComboAdvance: (forwardDistance, targetX) =>
         setPlayer((p) => {
           if (p.mode !== "battle" || forwardDistance <= 0) return p;
           const direction = targetX >= p.x ? 1 : -1;
-          const stepToX = Math.max(
-            BATTLE_LIMITS.minX,
-            Math.min(BATTLE_LIMITS.maxX, p.x + direction * forwardDistance),
-          );
+          const stepToX = clampX(p.x + direction * forwardDistance);
           const toX =
             direction === 1
               ? Math.min(stepToX, targetX)

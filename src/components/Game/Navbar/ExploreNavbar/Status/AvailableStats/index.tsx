@@ -41,18 +41,18 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
         const rowBonus = row.bonusKey ? bonus[row.bonusKey] : 0;
 
         return (
-            <div
-              className={isSelected ? "active" : ""}
-              style={isSelected ? { flexWrap: "wrap" } : undefined}
-              key={row.key}
-            >
-              <p>
-                <img src={row.icon} />
-                {row.label}: {value}
-                {rowBonus > 0 ? <span> +{rowBonus}</span> : ""}
-              </p>
-              {isSelected && <SelectedStatEffect selectedIndex={index} />}
-            </div>
+          <div
+            className={isSelected ? "active" : ""}
+            style={isSelected ? { flexWrap: "wrap" } : undefined}
+            key={row.key}
+          >
+            <p>
+              <img src={row.icon} />
+              {row.label}: {value}
+              {rowBonus > 0 ? <span> +{rowBonus}</span> : ""}
+            </p>
+            {isSelected && <SelectedStatEffect selectedIndex={index} />}
+          </div>
         );
       })}
     </div>

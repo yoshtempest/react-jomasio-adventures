@@ -1,6 +1,7 @@
 import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
 import { chasePlayer } from "@/gameRules/npc/movement";
 import { isNear } from "@/gameRules/npc/behavior";
+import { clampX } from "@/gameRules/movement/clampX";
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
 import type { DeiseAI } from "./state";
 import {
@@ -93,10 +94,7 @@ export function deisePhase2(ctx: BehaviorContext, ai: DeiseAI): Phase2Result {
       if (!parrying) {
         const gap =
           ai.dashDirection === "right" ? DASH_PUSH_GAP : -DASH_PUSH_GAP;
-        const pushX = Math.max(
-          BATTLE_LIMITS.minX,
-          Math.min(BATTLE_LIMITS.maxX, newX + gap),
-        );
+        const pushX = clampX(newX + gap);
         onRamPushPlayer?.(ai.dashDirection, pushX);
       }
     }

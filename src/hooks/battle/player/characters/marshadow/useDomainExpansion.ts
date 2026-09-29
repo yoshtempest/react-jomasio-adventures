@@ -16,78 +16,26 @@ import {
   freezeWorldSpec,
   type TimeEffect,
 } from "@/gameRules/battle/time";
-import {
-  isPlayerFrozen,
-  isPlayerParalyzed,
-} from "@/gameRules/battle/status/statusEffects";
 import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
 import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
 import type { SoundId } from "@/utils/audio/soundId";
 import type { NPCBattleState, SummonedNpc } from "@/utils/types/npc/npc";
-
-/** Id do efeito de time da Expansão de Domínio (regra `gameRules/battle/time`). */
-export const DOMAIN_EXPANSION_TIME_ID = "marshadow:domainExpansion";
-/** Fase preMugetsu (blink visual + teleporte para a ponta mais próxima): 600ms. */
-export const DOMAIN_EXPANSION_PRE_MS = 600;
-/** Fase mugetsu (sprite mugetsu.svg) antes da varredura: 700ms. */
-export const DOMAIN_EXPANSION_MUGETSU_MS = 700;
-/** Alguns dos 600ms de preMugetsu: some (preto veio do blink). */
-export const DOMAIN_EXPANSION_BLINK_OUT_MS = 300;
-/** Fade-in do sprite no local de chegada do teleporte. */
-export const DOMAIN_EXPANSION_BLINK_IN_MS = 250;
-/** Velocidade da varredura do mugetsuEffect (px lógicos por ms). */
-export const DOMAIN_EXPANSION_SWEEP_SPEED = 0.8;
-/** Duração da varredura de uma ponta à outra do mapa (950 - 80 = 870px). */
-export const DOMAIN_EXPANSION_SWEEP_MS = Math.ceil(
-  (BATTLE_LIMITS.maxX - BATTLE_LIMITS.minX) / DOMAIN_EXPANSION_SWEEP_SPEED,
-);
-/**
- * Duração da desintegração dos alvos tocados: o sprite é picotado em pixels
- * que escurecem com a passagem do mugetsuEffect e depois voam como pó.
- * A habilidade só encerra quando o pó do último alvo termina.
- */
-export const DOMAIN_EXPANSION_DISINTEGRATION_MS = 3000;
-/** Congelamento total das ações do jogador durante a habilidade. */
-export const DOMAIN_EXPANSION_TOTAL_MS =
-  DOMAIN_EXPANSION_PRE_MS +
-  DOMAIN_EXPANSION_MUGETSU_MS +
-  DOMAIN_EXPANSION_SWEEP_MS +
-  250 +
-  DOMAIN_EXPANSION_DISINTEGRATION_MS;
-
-/** Estado da varredura do mugetsuEffect pela batalha. */
-export type MugetsuSweep = {
-  /** Frente da varredura (px lógicos) — define o dano e o foco da câmera. */
-  x: number;
-  /** Ponta de partida (posição do jogador após o teleporte). */
-  fromX: number;
-  /** Outra ponta do mapa — a varredura termina aqui. */
-  toX: number;
-  direction: "left" | "right";
-  /** Referência vertical (pés do jogador no instante do disparo). */
-  y: number;
-};
-
-/** Fase do blink visual do teleporte: "out" (some) → "in" (vem). */
-export type MugetsuBlink = "out" | "in" | null;
-
-/** Alvo sendo desintegrado pela varredura (sprite vira pixels pretos e pó). */
-export type MugetsuDisintegrationTarget = {
-  /** "main" para o NPC principal; summonId para os summons. */
-  id: string;
-  npcType: string;
-  /** Estado do sprite no instante do toque (para resolver o sprite). */
-  state: string;
-  npcPhase: number;
-  isAlfa: boolean;
-  /** Centro do alvo (px lógicos) — a passagem da varredura usa esses eixos. */
-  x: number;
-  /** Pés do alvo (px lógicos). */
-  y: number;
-  /** Direção da varredura no toque (define o vento do pó). */
-  direction: "left" | "right";
-  startedAt: number;
-};
+import { useSkillGuard } from "@/hooks/battle/player/characters/useSkillGuard";
+import {
+  DOMAIN_EXPANSION_BLINK_IN_MS,
+  DOMAIN_EXPANSION_BLINK_OUT_MS,
+  DOMAIN_EXPANSION_DISINTEGRATION_MS,
+  DOMAIN_EXPANSION_MUGETSU_MS,
+  DOMAIN_EXPANSION_PRE_MS,
+  DOMAIN_EXPANSION_TIME_ID,
+  DOMAIN_EXPANSION_TOTAL_MS,
+  DOMAIN_EXPANSION_SWEEP_SPEED,
+} from "@/data/characters/marshadowDomainExpansion";
+import type {
+  MugetsuBlink,
+  MugetsuDisintegrationTarget,
+  MugetsuSweep,
+} from "@/utils/types/battle/mugetsu";
 
 type Props = {
   player: Player;
@@ -220,31 +168,16 @@ export function useDomainExpansion({
   const mainNpcPhaseRef = useLatestRef(mainNpcPhase);
   const isAlfaRef = useLatestRef(isAlfa);
 
-  const canUse =
-    player.character === "marcelo" &&
-    player.mode === "battle" &&
-    player.state === "idle" &&
-    Math.abs(player.y - player.groundY) < 1 &&
-    !isPlayerFrozen(player) &&
-    !isPlayerParalyzed(player) &&
-    freezeActionsUntilRef.current <= Date.now() &&
-    readyAtRef.current <= Date.now() &&
-    !activeRef.current;
-
-  const usable =
-    canUse &&
-    !disabledRef.current &&
-    !isPausedRef.current &&
-    !battleEndedRef.current;
-  const usableRef = useLatestRef(usable);
-
-  const shouldCancelRef = useLatestRef(
-    () =>
-      disabledRef.current ||
-      isPausedRef.current ||
-      battleEndedRef.current ||
-      !activeRef.current,
-  );
+  const { usable, usableRef, shouldCancelRef } = useSkillGuard({
+    player,
+    character: "marcelo",
+    freezeActionsUntilRef,
+    disabledRef,
+    isPausedRef,
+    battleEndedRef,
+    extraCanUse: () => readyAtRef.current <= Date.now() && !activeRef.current,
+    extraCancel: () => !activeRef.current,
+  });
 
   const clearTimers = useCallback(() => {
     for (const timer of timersRef.current) clearTimeout(timer);

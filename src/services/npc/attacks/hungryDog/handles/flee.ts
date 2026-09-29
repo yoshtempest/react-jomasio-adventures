@@ -1,10 +1,13 @@
-import { clampX } from "../clampX";
+import { clampX } from "@/services/npc/attacks/hungryDog/clampX";
 import type {
   BehaviorContext,
   BehaviorResult,
 } from "@/utils/types/npc/npcBehavior";
-import { FLEE_MS, type HungryDogAI } from "../state";
-import { rechargeSpecial } from "../rechargeSpecial";
+import {
+  FLEE_MS,
+  type HungryDogAI,
+} from "@/services/npc/attacks/hungryDog/state";
+import { rechargeSpecial } from "@/services/npc/attacks/hungryDog/rechargeSpecial";
 
 const FLEE_STEP = 7;
 const FLEE_HOP_MS = 500;

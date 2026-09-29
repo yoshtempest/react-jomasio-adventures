@@ -1,6 +1,6 @@
 import { ProjectileHpConstants } from "@/data/projectile";
 
-import { nextProjectileId } from "../projectileId";
+import { nextProjectileId } from "@/gameRules/npc/projectile/projectileId";
 
 const PROJECTILE_CUT_VECTORS = {
   upper: { y: -Math.SQRT1_2 },

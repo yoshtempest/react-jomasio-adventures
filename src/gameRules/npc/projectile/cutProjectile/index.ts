@@ -4,5 +4,6 @@ import { updateSlicedProjectile } from "./updateSlicedProjectile";
 
 export { createSlicedProjectile, shouldCutProjectile, updateSlicedProjectile };
 
-/** boolean marcado como "marshadow" (characterId "marcelo"). */
-export const MARSHADOW_CHARACTER_ID = "marcelo";
+// A constante vive em `./constants` para o helper não fechar ciclo em runtime
+// com este barrel. Re-exportada aqui para manter a API pública do módulo.
+export { MARSHADOW_CHARACTER_ID } from "./constants";

@@ -323,6 +323,16 @@ export function useBattleSystem(props: Props) {
     onMarceloDefaultHitRef: marceloCutInTriggerRef,
   });
 
+  /**
+   * Parry conta como acerto para carregar o special — mesma regra de
+   * `onBasicHit` nos behaviors de personagem (`gameRules/battle/behaviors`).
+   * Declarado uma vez porque o bloqueio do player e o do NPC o consomem.
+   */
+  const { setDelicia } = playerBattle;
+  const onParry = useCallback(() => {
+    setDelicia((d) => gainSpecial(d, HITS_TO_SPECIAL));
+  }, [setDelicia, HITS_TO_SPECIAL]);
+
   const { damagePlayerHp, damagePlayer } = useExternalDamage({
     playerX,
     playerY,
@@ -342,9 +352,7 @@ export function useBattleSystem(props: Props) {
     oneHitShieldRef,
     lastBlockPressRef,
     lastAttackPressRef,
-    onParry: () => {
-      playerBattle.setDelicia((d) => gainSpecial(d, HITS_TO_SPECIAL));
-    },
+    onParry,
     onDamageTaken: energy.consumeOnDamage,
     surviveLethalHitRef,
   });
@@ -401,9 +409,7 @@ export function useBattleSystem(props: Props) {
     onDamageTakenRef,
     onDodgeRef,
     onHalfHeal,
-    onParry: () => {
-      playerBattle.setDelicia((d) => gainSpecial(d, HITS_TO_SPECIAL));
-    },
+    onParry,
     npcType,
     npcHp: npcHP,
     npcMaxHp,

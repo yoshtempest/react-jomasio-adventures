@@ -1,4 +1,4 @@
-import { canAct } from "../can/act";
+import { canAct } from "@/gameRules/movement/battle/can/act";
 
 export function attackBattle(p: Player): Player {
   if (!canAct(p)) return p;

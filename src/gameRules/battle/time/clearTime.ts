@@ -1,4 +1,4 @@
-import { type TimeEffect } from ".";
+import { type TimeEffect } from "./types";
 
 /** Encerra um efeito antes do prazo (cleanup de habilidade). */
 export function clearTime(effects: TimeEffect[], id: string): TimeEffect[] {

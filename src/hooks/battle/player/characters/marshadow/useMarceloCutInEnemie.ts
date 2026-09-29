@@ -1,18 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { TWO_HUNDRED_MS, FIVE_THOUSAND_MS } from "@/data/ms";
-import { playerPath, statusIconPath } from "@/utils/paths";
-
-/** CutInEnemie aparece por 1s sobre o NPC atingido. */
-export const MARCELO_CUT_IN_DURATION_MS = TWO_HUNDRED_MS;
-/** Duração do sangramento aplicado pelo CutInEnemie do marcelo. */
-export const MARCELO_BLEED_DURATION_MS = FIVE_THOUSAND_MS;
-
-/** Sprite de strike do marcelo (forma padrão) sobrepondo o inimigo. */
-export const MARCELO_CUT_IN_ENEMIE_SRC = playerPath(
-  "/marcelo/inFight/default/attacks/cutInEnemie.svg",
-);
-/** Ícone de sangrado exibido acima do NPC em status de sangramento. */
-export const BLOOD_ICON_SRC = statusIconPath("bloodIcon.svg");
+import {
+  MARCELO_BLEED_DURATION_MS,
+  MARCELO_CUT_IN_DURATION_MS,
+} from "@/data/characters/marshadowCutIn";
 
 export type CutInEnemieOverlay = {
   /** Contador de ativações — vira a chave React para reiniciar o sprite. */

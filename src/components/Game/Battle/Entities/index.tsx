@@ -34,17 +34,14 @@ import type { BattleLootBag } from "@/utils/types/battle/loot";
 import type { BlinkVisual } from "@/hooks/battle/player/characters/natsuki/useBlinkAnimation";
 import type { EmanuelCloneVisual } from "@/utils/types/character/emanuel";
 import type { GenkiDamaVisual } from "@/utils/types/character/emanuel";
-import type { VastolordLaserBeam } from "@/hooks/battle/player/characters/marshadow/useVastolordLaser";
-import type { CutInEnemieOverlay } from "@/hooks/battle/player/characters/marshadow/useMarceloCutInEnemie";
-import type {
-  AtomicExplosion,
-  AtomicCut,
-} from "@/hooks/battle/player/characters/marshadow/useAtomic";
+import type { VastolordLaserBeam } from "@/gameRules/battle/vastolordLaser";
+import type { CutInEnemieOverlay } from "@/utils/types/battle/cutInEnemie";
+import type { AtomicExplosion, AtomicCut } from "@/utils/types/battle/atomic";
 import type {
   MugetsuSweep,
   MugetsuBlink,
   MugetsuDisintegrationTarget,
-} from "@/hooks/battle/player/characters/marshadow/useDomainExpansion";
+} from "@/utils/types/battle/mugetsu";
 
 type Props = {
   npc: MainNpcState;

@@ -11,8 +11,8 @@ import {
   SPECIAL_MAX,
   SPECIAL_REUSE_COOLDOWN_MS,
   type HungryDogAI,
-} from "../state";
-import { rechargeSpecial } from "../rechargeSpecial";
+} from "@/services/npc/attacks/hungryDog/state";
+import { rechargeSpecial } from "@/services/npc/attacks/hungryDog/rechargeSpecial";
 
 export function handleChase(
   ctx: BehaviorContext,

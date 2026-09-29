@@ -1,5 +1,3 @@
-import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
-
-export function clampX(x: number): number {
-  return Math.max(BATTLE_LIMITS.minX, Math.min(BATTLE_LIMITS.maxX, x));
-}
+// A implementação do clamp de arena é canônica em `gameRules/movement/clampX`.
+// Este arquivo re-exporta para o caminho antigo não quebrar.
+export { clampX } from "@/gameRules/movement/clampX";

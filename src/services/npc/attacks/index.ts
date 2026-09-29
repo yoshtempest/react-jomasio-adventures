@@ -1,18 +1,55 @@
 import type { NpcType } from "@/data/npc";
-import { DefaultNpcAttack, NpcAttack } from "@/services/npc/npcAttack";
-import { DummyAttack } from "./dummy";
+import { NpcAttack } from "@/services/npc/npcAttack";
+import { AinsAttack } from "./ains";
+import { BaalAttack } from "./baal";
+import { BaianoAttack } from "./baiano";
+import { CrocodileAttack } from "./crocodile";
 import { DeiseAttack } from "./deise";
+import { DenisAttack } from "./denis";
+import { DragonKingAttack } from "./dragonKing";
+import { DummyAttack } from "./dummy";
+import { DuqueAttack } from "./duque";
+import { ElitCrocodileAttack } from "./elitCrocodile";
+import { FigurantOfBaalCultAttack } from "./figurantOfBaalCult";
+import { FigurantOfDragonKingCultAttack } from "./figurantOfDragonKingCult";
+import { FigurantOfMobyDickCultAttack } from "./figurantOfMobyDickCult";
+import { FischerAttack } from "./fischer";
 import { GoatAttack } from "./goat";
+import { HungryCowAttack } from "./hungryCow";
 import { HungryDeathAttack } from "./hungryDeath";
 import { HungryDogAttack } from "./hungryDog";
+import { HungryFishAttack } from "./hungryFish";
 import { HungryKingAttack } from "./hungryKing";
+import { HungryPigAttack } from "./hungryPig";
 import { JhowsimarAttack } from "./jhowsimar";
-import { MauraoAttack } from "./maurao";
+import { LeviathanAttack } from "./leviathan";
+import { LupitaAttack } from "./lupita";
+import { MadameAttack } from "./madame";
+import { ManimAttack } from "./manim";
 import { MaugreloAttack } from "./maugrelo";
+import { MauraoAttack } from "./maurao";
+import { MobyDickAttack } from "./mobyDick";
+import { MuyMachoAttack } from "./muyMacho";
+import { NecromancerAttack } from "./necromancer";
+import { NeimitoAttack } from "./neimito";
 import { PiupiuAttack } from "./piupiu";
+import { PlanetarySistersAttack } from "./planetarySisters";
+import { RiceAttack } from "./rice";
 import { SlimitaAttack } from "./slimita";
+import { SpiritMotocyclerAttack } from "./spiritMotocycler";
 import { SrGuaxinimAttack } from "./srGuaxinim";
+import { TechnobladeAttack } from "./technoblade";
+import { TheBlackKnightAttack } from "./theBlackKnight";
+import { TheChaosCreatorAttack } from "./theChaosCreator";
+import { TheDevourerOfWorldsAttack } from "./theDevourerOfWorlds";
+import { TheFirstNightmareAttack } from "./theFirstNightmare";
+import { TheMasterPieceAttack } from "./theMasterPiece";
+import { TheStrongestManUnderTheHeavensAttack } from "./theStrongestManUnderTheHeavens";
+import { TimAttack } from "./tim";
+import { TrueVandinhaAttack } from "./trueVandinha";
+import { UntrackedMonsterAttack } from "./untrackedMonster";
 import { VandinhaFragmentAttack } from "./vandinhaFragment";
+import { YangKaiAttack } from "./yangKai";
 
 /**
  * Registry de ataques por NPC. `satisfies Record<NpcType, NpcAttack>` faz
@@ -25,72 +62,76 @@ export const npcAttacks = {
   /* Jomasio */
   hungryDeath: new HungryDeathAttack(),
   piupiu: new PiupiuAttack(),
-  rice: new DefaultNpcAttack("rice"),
+  rice: new RiceAttack("rice"),
   jhowsimar: new JhowsimarAttack(),
   goat: new GoatAttack(),
   vandinhaFragment: new VandinhaFragmentAttack(),
-  trueVandinha: new DefaultNpcAttack("trueVandinha"),
+  trueVandinha: new TrueVandinhaAttack("trueVandinha"),
   deise: new DeiseAttack(),
-  necromancer: new DefaultNpcAttack("necromancer"),
+  necromancer: new NecromancerAttack("necromancer"),
   slimita: new SlimitaAttack(),
   hungryKing: new HungryKingAttack(),
-  denis: new DefaultNpcAttack("denis"),
+  denis: new DenisAttack("denis"),
   srGuaxinim: new SrGuaxinimAttack(),
-  neimito: new DefaultNpcAttack("neimito"),
-  planetarySisters: new DefaultNpcAttack("planetarySisters"),
-  manim: new DefaultNpcAttack("manim"),
+  neimito: new NeimitoAttack("neimito"),
+  planetarySisters: new PlanetarySistersAttack("planetarySisters"),
+  manim: new ManimAttack("manim"),
   maurao: new MauraoAttack(),
   maugrelo: new MaugreloAttack(),
 
   /* Bocaina */
   hungryDog: new HungryDogAttack(),
-  lupita: new DefaultNpcAttack("lupita"),
-  duque: new DefaultNpcAttack("duque"),
-  baiano: new DefaultNpcAttack("baiano"),
-  spiritMotocycler: new DefaultNpcAttack("spiritMotocycler"),
-  tim: new DefaultNpcAttack("tim"),
-  muyMacho: new DefaultNpcAttack("muyMacho"),
+  lupita: new LupitaAttack("lupita"),
+  duque: new DuqueAttack("duque"),
+  baiano: new BaianoAttack("baiano"),
+  spiritMotocycler: new SpiritMotocyclerAttack("spiritMotocycler"),
+  tim: new TimAttack("tim"),
+  muyMacho: new MuyMachoAttack("muyMacho"),
 
   /* Lagoa grande */
-  hungryFish: new DefaultNpcAttack("hungryFish"),
-  hungryCow: new DefaultNpcAttack("hungryCow"),
-  fischer: new DefaultNpcAttack("fischer"),
-  leviathan: new DefaultNpcAttack("leviathan"),
+  hungryFish: new HungryFishAttack("hungryFish"),
+  hungryCow: new HungryCowAttack("hungryCow"),
+  fischer: new FischerAttack("fischer"),
+  leviathan: new LeviathanAttack("leviathan"),
 
   /* Cachoeiras */
-  figurantOfBaalCult: new DefaultNpcAttack("figurantOfBaalCult"),
-  baal: new DefaultNpcAttack("baal"),
-  madame: new DefaultNpcAttack("madame"),
+  figurantOfBaalCult: new FigurantOfBaalCultAttack("figurantOfBaalCult"),
+  baal: new BaalAttack("baal"),
+  madame: new MadameAttack("madame"),
 
   /* Barragem */
-  figurantOfMobyDickCult: new DefaultNpcAttack("figurantOfMobyDickCult"),
-  crocodile: new DefaultNpcAttack("crocodile"),
-  elitCrocodile: new DefaultNpcAttack("elitCrocodile"),
-  mobyDick: new DefaultNpcAttack("mobyDick"),
-  yangKai: new DefaultNpcAttack("yangKai"),
+  figurantOfMobyDickCult: new FigurantOfMobyDickCultAttack(
+    "figurantOfMobyDickCult",
+  ),
+  crocodile: new CrocodileAttack("crocodile"),
+  elitCrocodile: new ElitCrocodileAttack("elitCrocodile"),
+  mobyDick: new MobyDickAttack("mobyDick"),
+  yangKai: new YangKaiAttack("yangKai"),
 
   /* Tanque dos crávos */
-  figurantOfDragonKingCult: new DefaultNpcAttack("figurantOfDragonKingCult"),
-  ains: new DefaultNpcAttack("ains"),
-  dragonKing: new DefaultNpcAttack("dragonKing"),
+  figurantOfDragonKingCult: new FigurantOfDragonKingCultAttack(
+    "figurantOfDragonKingCult",
+  ),
+  ains: new AinsAttack("ains"),
+  dragonKing: new DragonKingAttack("dragonKing"),
 
   /* Lagoa do Canto */
-  hungryPig: new DefaultNpcAttack("hungryPig"),
-  technoblade: new DefaultNpcAttack("technoblade"),
+  hungryPig: new HungryPigAttack("hungryPig"),
+  technoblade: new TechnobladeAttack("technoblade"),
 
   /* Training */
   dummy: new DummyAttack(),
 
   /* Indefinido */
-  theDevourerOfWorlds: new DefaultNpcAttack("theDevourerOfWorlds"),
-  theStrongestManUnderTheHeavens: new DefaultNpcAttack(
+  theDevourerOfWorlds: new TheDevourerOfWorldsAttack("theDevourerOfWorlds"),
+  theStrongestManUnderTheHeavens: new TheStrongestManUnderTheHeavensAttack(
     "theStrongestManUnderTheHeavens",
   ),
-  theBlackKnight: new DefaultNpcAttack("theBlackKnight"),
-  untrackedMonster: new DefaultNpcAttack("untrackedMonster"),
-  theMasterPiece: new DefaultNpcAttack("theMasterPiece"),
-  theChaosCreator: new DefaultNpcAttack("theChaosCreator"),
-  theFirstNightmare: new DefaultNpcAttack("theFirstNightmare"),
+  theBlackKnight: new TheBlackKnightAttack("theBlackKnight"),
+  untrackedMonster: new UntrackedMonsterAttack("untrackedMonster"),
+  theMasterPiece: new TheMasterPieceAttack("theMasterPiece"),
+  theChaosCreator: new TheChaosCreatorAttack("theChaosCreator"),
+  theFirstNightmare: new TheFirstNightmareAttack("theFirstNightmare"),
 } satisfies Record<NpcType, NpcAttack>;
 
 /**

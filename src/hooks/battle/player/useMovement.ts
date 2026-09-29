@@ -266,7 +266,9 @@ export function useBattleMovement(
       const airComboActive =
         ALL_PREDICATES.isAirFalling(state) && emanuelCombo.airActiveRef.current;
       const midComboDisplay =
-        state === "preAttack" || ALL_PREDICATES.isCombo(state) || airComboActive;
+        state === "preAttack" ||
+        ALL_PREDICATES.isCombo(state) ||
+        airComboActive;
 
       const comboEligible =
         state === "idle" || state === "attack" || midComboDisplay;
@@ -364,7 +366,8 @@ export function useBattleMovement(
     setPlayer((p) => {
       if (isPlayerFrozen(p) || isPlayerParalyzed(p)) return p;
       if (ALL_PREDICATES.isInvulnerable(p.state)) return p;
-      if (ALL_PREDICATES.isAirFalling(p.state)) return { ...p, state: "preSpecialInAir" };
+      if (ALL_PREDICATES.isAirFalling(p.state))
+        return { ...p, state: "preSpecialInAir" };
       if (p.state !== "idle") return p;
       return { ...p, state: "preSpecial" };
     });

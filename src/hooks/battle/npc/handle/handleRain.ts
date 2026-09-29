@@ -1,7 +1,7 @@
 import { ProjectileConstants, ProjectileHpConstants } from "@/data/projectile";
 import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
-import { applyPlayerStrike } from "../apply/applyPlayerStrike";
-import type { StrikeOpts } from "../apply/applyPlayerStrike";
+import { applyPlayerStrike } from "@/hooks/battle/npc/apply/applyPlayerStrike";
+import type { StrikeOpts } from "@/hooks/battle/npc/apply/applyPlayerStrike";
 
 export function handleRain(
   p: ProjectileRain,

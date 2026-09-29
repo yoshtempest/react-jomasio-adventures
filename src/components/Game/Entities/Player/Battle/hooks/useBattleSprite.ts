@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { resolveBattleSprite } from "@/utils/paths";
 import { resolveSpriteState } from "@/gameRules/battle/playerStates";
 
-import { resolvePlayerSprite } from "../utils/resolvePlayerSprite";
+import { resolvePlayerSprite } from "@/components/Game/Entities/Player/Battle/utils/resolvePlayerSprite";
 
 interface UseBattleSpriteParams {
   character: CharacterId;

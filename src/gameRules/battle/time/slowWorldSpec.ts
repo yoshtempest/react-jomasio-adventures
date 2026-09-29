@@ -1,4 +1,4 @@
-import { type TimeKind, type TimeSpec, ALL_TIME_KINDS } from ".";
+import { type TimeKind, type TimeSpec, ALL_TIME_KINDS } from "./types";
 
 /**
  * Spec de "desacelera o mundo inteiro" — o tick continua rodando, mas movimento

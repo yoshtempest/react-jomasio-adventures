@@ -6,12 +6,12 @@ import {
   getSpritePath,
 } from "@/utils/npc/getSpritePath";
 import { ProjectileConstants } from "@/data/projectile";
-import {
-  DOMAIN_EXPANSION_DISINTEGRATION_MS,
-  type MugetsuDisintegrationTarget,
-  type MugetsuSweep,
-} from "@/hooks/battle/player/characters/marshadow/useDomainExpansion";
-import { cellRand } from "../cellRand";
+import { DOMAIN_EXPANSION_DISINTEGRATION_MS } from "@/data/characters/marshadowDomainExpansion";
+import type {
+  MugetsuDisintegrationTarget,
+  MugetsuSweep,
+} from "@/utils/types/battle/mugetsu";
+import { cellRand } from "@/components/Game/Battle/Effects/Marshadow/MugetsuDisintegration/cellRand";
 import { getSilhouetteMask } from "./silhouetteMask";
 
 const GRID_COLS = 12;

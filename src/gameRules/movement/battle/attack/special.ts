@@ -1,4 +1,4 @@
-import { canExitState } from "../can/exitState";
+import { canExitState } from "@/gameRules/movement/battle/can/exitState";
 
 export function specialBattle(p: Player): Player {
   if (!canExitState(p)) return p;

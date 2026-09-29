@@ -1,5 +1,6 @@
 import { getChaseMovement } from "@/gameRules/movement/npc";
-import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
+
+import { clampX } from "@/gameRules/movement/clampX";
 import type { NPCBattleState } from "@/utils/types/npc/npc";
 
 export function chasePlayer(
@@ -33,5 +34,5 @@ export function getBehindPlayerX(
 ): number {
   const behindX =
     playerDirection === "right" ? playerX - offset : playerX + offset;
-  return Math.max(BATTLE_LIMITS.minX, Math.min(BATTLE_LIMITS.maxX, behindX));
+  return clampX(behindX);
 }

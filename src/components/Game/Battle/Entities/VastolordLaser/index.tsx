@@ -1,9 +1,9 @@
 import { playerProjectilePath } from "@/utils/paths";
+import { VASTOLORD_LASER_BEAM_HEIGHT } from "@/data/characters/marshadowLaser";
 import {
-  VASTOLORD_LASER_BEAM_HEIGHT,
   vastolordLaserTop,
   type VastolordLaserBeam,
-} from "@/hooks/battle/player/characters/marshadow/useVastolordLaser";
+} from "@/gameRules/battle/vastolordLaser";
 import type { BattleEntityPositioning } from "@/components/Game/Battle/Entities/types";
 
 type Props = BattleEntityPositioning & {

@@ -1,4 +1,4 @@
-import { type TimeSpec, ALL_TIME_KINDS } from ".";
+import { type TimeSpec, ALL_TIME_KINDS } from "./types";
 
 /**
  * Spec de "congela o mundo inteiro" — atalho para as habilidades de área

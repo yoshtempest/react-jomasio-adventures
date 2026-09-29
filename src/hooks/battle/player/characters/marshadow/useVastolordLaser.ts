@@ -10,66 +10,25 @@ import {
 } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
-import {
-  isPlayerFrozen,
-  isPlayerParalyzed,
-} from "@/gameRules/battle/status/statusEffects";
-import { getViewportSize } from "@/utils/viewport";
 import { ProjectileConstants } from "@/data/projectile";
-import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
 import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
-import { THREE_THOUSAND_MS } from "@/data/ms";
+import { clampX } from "@/gameRules/movement/clampX";
 import { combatService } from "@/services/combat";
 import type { SoundId } from "@/utils/audio/soundId";
 import type { NPCBattleState, SummonedNpc } from "@/utils/types/npc/npc";
-
-/** Duração total do feixe (3s) — o marcelo fica travado no sprite laser.svg. */
-export const VASTOLORD_LASER_DURATION_MS = THREE_THOUSAND_MS;
-/** Intervalo de dano/empurrão: 1% do dano base a cada 20ms de contato. */
-export const VASTOLORD_LASER_TICK_MS = 1;
-/** Fração do dano base aplicada por tick (1%). */
-export const VASTOLORD_LASER_DAMAGE_RATIO = 0.01;
-/** Distância (px no plano lógico) que o feixe empurra o inimigo por tick. */
-export const VASTOLORD_LASER_PUSH_PX = 10;
-/** Altura do sprite vastolordLaser.svg (1000x243) em px lógicos. */
-export const VASTOLORD_LASER_BEAM_HEIGHT = 243;
-/**
- * Stacks iniciais de Laser ao entrar na Forma Vastolord: cada inimigo
- * derrotado (incluindo minions) durante a forma adiciona +1 stack.
- */
-export const VASTOLORD_LASER_START_STACKS = 1;
-
-/**
- * Altura renderizada do sprite do jogador (px lógicos do plano 1000x600).
- * O sprite é desenhado em um contêiner de PLAYER_SIZE/1.5 px (ver PlayerBattle)
- * escalado pelo mesmo battleScaleY usado no feixe — é essa medida que ancora o
- * laser na imagem do personagem em qualquer resolução.
- */
-export function vastolordPlayerSpriteHeight(PLAYER_SIZE: number): number {
-  const battleScaleY =
-    getViewportSize().height / ProjectileConstants.MAP_HEIGHT;
-  return PLAYER_SIZE / 1.5 / battleScaleY;
-}
-
-/**
- * Topo do feixe (px lógicos) a partir de player.y: o laser é centralizado na
- * imagem do personagem — o centro vertical do feixe coincide com o centro
- * vertical do sprite renderizado (o marcelo na Forma Vastolord).
- */
-export function vastolordLaserTop(beamY: number, PLAYER_SIZE: number): number {
-  const spriteHeight = vastolordPlayerSpriteHeight(PLAYER_SIZE);
-  return beamY - spriteHeight / 2 - VASTOLORD_LASER_BEAM_HEIGHT / 2;
-}
-
-/** Feixe ativo do Laser da Forma Vastolord. */
-export type VastolordLaserBeam = {
-  /** Limite esquerdo do feixe (px lógicos): 0 ou o x do jogador. */
-  fromX: number;
-  /** Limite direito do feixe (px lógicos): o x do jogador ou a largura do mapa. */
-  toX: number;
-  /** y do jogador no instante do disparo (pés) — centro do feixe = centro do sprite acima dele. */
-  y: number;
-};
+import { useSkillGuard } from "@/hooks/battle/player/characters/useSkillGuard";
+import {
+  VASTOLORD_LASER_DAMAGE_RATIO,
+  VASTOLORD_LASER_DURATION_MS,
+  VASTOLORD_LASER_PUSH_PX,
+  VASTOLORD_LASER_BEAM_HEIGHT,
+  VASTOLORD_LASER_START_STACKS,
+  VASTOLORD_LASER_TICK_MS,
+} from "@/data/characters/marshadowLaser";
+import {
+  vastolordLaserTop,
+  type VastolordLaserBeam,
+} from "@/gameRules/battle/vastolordLaser";
 
 type Props = {
   player: Player;
@@ -170,31 +129,16 @@ export function useVastolordLaser({
   );
   const baseDamageRef = useLatestRef(baseDamage);
 
-  const canUse =
-    player.character === "marcelo" &&
-    player.mode === "battle" &&
-    player.state === "idle" &&
-    Math.abs(player.y - player.groundY) < 1 &&
-    vastolordActive &&
-    laserStacks > 0 &&
-    !isPlayerFrozen(player) &&
-    !isPlayerParalyzed(player) &&
-    freezeActionsUntilRef.current <= Date.now();
-
-  const usable =
-    canUse &&
-    !disabledRef.current &&
-    !isPausedRef.current &&
-    !battleEndedRef.current;
-  const usableRef = useLatestRef(usable);
-
-  const shouldCancelRef = useLatestRef(
-    () =>
-      disabledRef.current ||
-      isPausedRef.current ||
-      battleEndedRef.current ||
-      !vastolordActiveRef.current,
-  );
+  const { usableRef, shouldCancelRef } = useSkillGuard({
+    player,
+    character: "marcelo",
+    freezeActionsUntilRef,
+    disabledRef,
+    isPausedRef,
+    battleEndedRef,
+    extraCanUse: () => vastolordActive && laserStacks > 0,
+    extraCancel: () => !vastolordActiveRef.current,
+  });
 
   const clearTimer = useCallback(() => {
     if (tickTimerRef.current != null) {
@@ -212,17 +156,13 @@ export function useVastolordLaser({
     shotStartRef.current = 0;
     setBeam(null);
     setPlayer((p) =>
-      p.mode !== "battle" || !ALL_PREDICATES.isLaser(p.state) ? p : { ...p, state: "idle" },
+      p.mode !== "battle" || !ALL_PREDICATES.isLaser(p.state)
+        ? p
+        : { ...p, state: "idle" },
     );
   }, [clearTimer, setPlayer, stopSound]);
 
   const finishRef = useLatestRef(finish);
-
-  const clampX = useCallback(
-    (x: number) =>
-      Math.max(BATTLE_LIMITS.minX, Math.min(BATTLE_LIMITS.maxX, x)),
-    [],
-  );
 
   /** +1 stack de Laser por inimigo derrotado durante a Forma Vastolord. */
   const addCharge = useCallback(() => {
@@ -309,7 +249,6 @@ export function useVastolordLaser({
       addCharge,
       baseDamageRef,
       beamRef,
-      clampX,
       finishRef,
       giveSummonRewards,
       npcRef,

@@ -1,4 +1,4 @@
-import type { TimeEffect, TimeSpec } from ".";
+import type { TimeEffect, TimeSpec } from "./types";
 
 /**
  * Aplica/renova um efeito (upsert por `id`) e devolve a nova lista. Devolver

@@ -1,12 +1,7 @@
-
-
 import { usePlayer } from "@/contexts/PlayerContext";
-import {
-  useCharacterProgress,
-  getHungerMultiplier,
-  MAX_HUNGER,
-  MAX_SLEEP,
-} from "@/contexts/CharacterProgressContext";
+import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
+import { MAX_HUNGER, getHungerMultiplier } from "@/data/player/hunger";
+import { MAX_SLEEP } from "@/data/player/sleep";
 import { useTitles } from "@/contexts/TitleContext";
 import { getRankMultiplier } from "@/gameRules/rank";
 import { getEquipmentStatsBonus } from "@/gameRules/battle/equipment";
@@ -39,95 +34,95 @@ export function BarsInfos() {
 
   return (
     <div className={styles.container}>
+      <ProgressBar
+        value={charProgress.xp}
+        max={xpNeeded}
+        animationId={`char-xp-${player.character}`}
+        level={charProgress.level}
+      />
+      <p className={styles.xpText}>
+        XP: {charProgress.xp}/{xpNeeded} — Nv.{charProgress.level + 1}
+      </p>
+      <div className={styles.hungerContainer}>
+        <div className={styles.hungerText}>
+          <Heart />
+          <span>HP</span>
+          <span>
+            {currentHP}/{playerMaxHp}
+          </span>
+        </div>
         <ProgressBar
-            value={charProgress.xp}
-            max={xpNeeded}
-            animationId={`char-xp-${player.character}`}
-            level={charProgress.level}
+          value={currentHP}
+          max={playerMaxHp}
+          animationId={`char-hp-${player.character}`}
+          color={
+            currentHP > playerMaxHp * 0.5
+              ? "var(--success)"
+              : currentHP > playerMaxHp * 0.2
+                ? "orange"
+                : "red"
+          }
         />
-        <p className={styles.xpText}>
-            XP: {charProgress.xp}/{xpNeeded} — Nv.{charProgress.level + 1}
-        </p>
-        <div className={styles.hungerContainer}>
-            <div className={styles.hungerText}>
-            <Heart />
-            <span>HP</span>
-            <span>
-                {currentHP}/{playerMaxHp}
-            </span>
-            </div>
-            <ProgressBar
-            value={currentHP}
-            max={playerMaxHp}
-            animationId={`char-hp-${player.character}`}
-            color={
-                currentHP > playerMaxHp * 0.5
-                ? "var(--success)"
-                : currentHP > playerMaxHp * 0.2
-                    ? "orange"
-                    : "red"
-            }
-            />
-        </div>
-        {hasManaBar(character) && (
-            <div className={styles.hungerContainer}>
-            <div className={styles.hungerText}>
-                <Sparkles />
-                <span>{getEnergyName(character)}</span>
-                <span>
-                {currentMana}/{maxMana}
-                </span>
-            </div>
-            <ProgressBar
-                value={currentMana}
-                max={maxMana}
-                animationId={`char-mana-${player.character}`}
-                color={character === "riquelme" ? "#e84118" : "#7fc7ff"}
-            />
-            </div>
-        )}
-        <div className={styles.hungerContainer}>
-            <div className={styles.hungerText}>
-            <Drumstick />
-            <span>Fome</span>
-            <span>
-                {charProgress.hunger}/{MAX_HUNGER}
-            </span>
-            </div>
-            <ProgressBar
-            value={charProgress.hunger}
-            max={MAX_HUNGER}
-            animationId={`char-hunger-${player.character}`}
-            color={
-                charProgress.hunger > 50
-                ? "var(--success)"
-                : charProgress.hunger > 20
-                    ? "orange"
-                    : "red"
-            }
-            />
-        </div>
-        <div className={styles.hungerContainer}>
-            <div className={styles.hungerText}>
-            <Moon />
-            <span>Sono</span>
-            <span>
-                {charProgress.sleep}/{MAX_SLEEP}
-            </span>
-            </div>
-            <ProgressBar
-            value={charProgress.sleep}
-            max={MAX_SLEEP}
-            animationId={`char-sleep-${player.character}`}
-            color={
-                charProgress.sleep > 50
-                ? "var(--success)"
-                : charProgress.sleep > 20
-                    ? "orange"
-                    : "red"
-            }
-            />
-        </div>
       </div>
-  )
+      {hasManaBar(character) && (
+        <div className={styles.hungerContainer}>
+          <div className={styles.hungerText}>
+            <Sparkles />
+            <span>{getEnergyName(character)}</span>
+            <span>
+              {currentMana}/{maxMana}
+            </span>
+          </div>
+          <ProgressBar
+            value={currentMana}
+            max={maxMana}
+            animationId={`char-mana-${player.character}`}
+            color={character === "riquelme" ? "#e84118" : "#7fc7ff"}
+          />
+        </div>
+      )}
+      <div className={styles.hungerContainer}>
+        <div className={styles.hungerText}>
+          <Drumstick />
+          <span>Fome</span>
+          <span>
+            {charProgress.hunger}/{MAX_HUNGER}
+          </span>
+        </div>
+        <ProgressBar
+          value={charProgress.hunger}
+          max={MAX_HUNGER}
+          animationId={`char-hunger-${player.character}`}
+          color={
+            charProgress.hunger > 50
+              ? "var(--success)"
+              : charProgress.hunger > 20
+                ? "orange"
+                : "red"
+          }
+        />
+      </div>
+      <div className={styles.hungerContainer}>
+        <div className={styles.hungerText}>
+          <Moon />
+          <span>Sono</span>
+          <span>
+            {charProgress.sleep}/{MAX_SLEEP}
+          </span>
+        </div>
+        <ProgressBar
+          value={charProgress.sleep}
+          max={MAX_SLEEP}
+          animationId={`char-sleep-${player.character}`}
+          color={
+            charProgress.sleep > 50
+              ? "var(--success)"
+              : charProgress.sleep > 20
+                ? "orange"
+                : "red"
+          }
+        />
+      </div>
+    </div>
+  );
 }

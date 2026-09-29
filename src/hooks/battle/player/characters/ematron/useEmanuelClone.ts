@@ -12,10 +12,6 @@ import {
   getGroundAtX,
   isHorizontallyBlocked,
 } from "@/gameRules/battle/obstacles";
-import {
-  isPlayerFrozen,
-  isPlayerParalyzed,
-} from "@/gameRules/battle/status/statusEffects";
 import type { BattleManaApi } from "@/contexts/BattleManaContext";
 import type { SoundId } from "@/utils/audio/soundId";
 import type { BattleObstacle } from "@/utils/types/maps/battle";
@@ -30,6 +26,7 @@ import {
   EMANUEL_CLONE_MOVE_TICK_MS,
   EMANUEL_CLONE_TIME_SCALE,
 } from "@/data/characters/emanuel";
+import { useSkillGuard } from "@/hooks/battle/player/characters/useSkillGuard";
 
 type Props = {
   player: Player;
@@ -93,25 +90,16 @@ export function useEmanuelClone({
   const resetTimeScaleRef = useLatestRef(resetTimeScale);
   const setPlayerRef = useLatestRef(setPlayer);
 
-  const canUse =
-    player.character === "emanuel" &&
-    player.mode === "battle" &&
-    player.state === "idle" &&
-    Math.abs(player.y - player.groundY) < 1 &&
-    !isPlayerFrozen(player) &&
-    !isPlayerParalyzed(player) &&
-    freezeActionsUntilRef.current <= Date.now();
-  const canUseRef = useLatestRef(
-    canUse &&
-      !disabledRef.current &&
-      !isPausedRef.current &&
-      !battleEndedRef.current &&
+  const { usableRef: canUseRef, shouldCancelRef } = useSkillGuard({
+    player,
+    character: "emanuel",
+    freezeActionsUntilRef,
+    disabledRef,
+    isPausedRef,
+    battleEndedRef,
+    extraUsable: () =>
       (battleManaRef.current?.playerMana ?? 0) >= EMANUEL_CLONE_MIN_KI,
-  );
-
-  const shouldCancelRef = useLatestRef(
-    () => disabledRef.current || isPausedRef.current || battleEndedRef.current,
-  );
+  });
 
   const cancel = useCallback(() => {
     if (!activeRef.current) return;

@@ -1,7 +1,7 @@
 import { useRef, useState, useCallback, useEffect } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
-import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
 
+import { clampX } from "@/gameRules/movement/clampX";
 type Props = {
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;
   npcThrowAttackRef: React.RefObject<() => void>;
@@ -36,10 +36,7 @@ export function useGrabThrow({ setPlayer, npcThrowAttackRef }: Props) {
       setIsThrown(true);
       setPlayer((p) => {
         const dirAway = npcX > p.x ? -1 : 1;
-        const throwToX = Math.max(
-          BATTLE_LIMITS.minX,
-          Math.min(BATTLE_LIMITS.maxX, p.x + dirAway * 300),
-        );
+        const throwToX = clampX(p.x + dirAway * 300);
         return {
           ...p,
           throwStartTime: Date.now(),

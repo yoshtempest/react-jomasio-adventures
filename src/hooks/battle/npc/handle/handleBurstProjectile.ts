@@ -2,8 +2,8 @@ import { ProjectileConstants, ProjectileHpConstants } from "@/data/projectile";
 import { isPlayerInRange } from "@/gameRules/battle/range";
 import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
 import { getProjectileDamagePoint } from "@/gameRules/npc/projectile/projectileDamage";
-import { applyPlayerStrike } from "../apply/applyPlayerStrike";
-import type { StrikeOpts } from "../apply/applyPlayerStrike";
+import { applyPlayerStrike } from "@/hooks/battle/npc/apply/applyPlayerStrike";
+import type { StrikeOpts } from "@/hooks/battle/npc/apply/applyPlayerStrike";
 
 /**
  * Burst do hungryKing (fase 2): viaja na horizontal até a ponta do mapa;

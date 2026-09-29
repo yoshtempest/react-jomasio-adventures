@@ -4,8 +4,8 @@ import {
   shouldCutProjectile,
   createSlicedProjectile,
 } from "@/gameRules/npc/projectile/cutProjectile";
-import { tryMeleeIntercept } from "../tryMeleeIntercept";
-import type { StrikeOpts } from "../apply/applyPlayerStrike";
+import { tryMeleeIntercept } from "@/hooks/battle/npc/tryMeleeIntercept";
+import type { StrikeOpts } from "@/hooks/battle/npc/apply/applyPlayerStrike";
 
 export type LinearOpts = {
   playerX: number;

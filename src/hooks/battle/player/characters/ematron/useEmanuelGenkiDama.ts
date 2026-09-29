@@ -7,10 +7,6 @@ import {
 } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import {
-  isPlayerFrozen,
-  isPlayerParalyzed,
-} from "@/gameRules/battle/status/statusEffects";
-import {
   GENKI_DAMA_BASE_RADIUS,
   GENKI_DAMA_DRAIN_END_INTERVAL_MS,
   GENKI_DAMA_DRAIN_RAMP_MS,
@@ -27,6 +23,7 @@ import {
 import type { BattleManaApi } from "@/contexts/BattleManaContext";
 import type { SoundId } from "@/utils/audio/soundId";
 import type { GenkiDamaVisual } from "@/utils/types/character/emanuel";
+import { useSkillGuard } from "@/hooks/battle/player/characters/useSkillGuard";
 
 type Props = {
   player: Player;
@@ -96,25 +93,16 @@ export function useEmanuelGenkiDama({
   const onExplodeRef = useLatestRef(onExplode);
   const playSoundRef = useLatestRef(playSound);
 
-  const canUse =
-    player.character === "emanuel" &&
-    player.mode === "battle" &&
-    player.state === "idle" &&
-    Math.abs(player.y - player.groundY) < 1 &&
-    !isPlayerFrozen(player) &&
-    !isPlayerParalyzed(player) &&
-    freezeActionsUntilRef.current <= Date.now();
-  const canUseRef = useLatestRef(
-    canUse &&
-      !disabledRef.current &&
-      !isPausedRef.current &&
-      !battleEndedRef.current &&
+  const { usableRef: canUseRef, shouldCancelRef } = useSkillGuard({
+    player,
+    character: "emanuel",
+    freezeActionsUntilRef,
+    disabledRef,
+    isPausedRef,
+    battleEndedRef,
+    extraUsable: () =>
       (battleManaRef.current?.playerMana ?? 0) >= GENKI_DAMA_INITIAL_COST,
-  );
-
-  const shouldCancelRef = useLatestRef(
-    () => disabledRef.current || isPausedRef.current || battleEndedRef.current,
-  );
+  });
 
   const clearTimers = useCallback(() => {
     if (holdTickerRef.current) {

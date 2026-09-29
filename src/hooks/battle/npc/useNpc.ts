@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { NPC_MELEE_COOLDOWN } from "@/data/cooldowns";
 import { getNpcStats } from "@/gameRules/npc/npcStats";
-import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
+
 import { handleNpcBlocking } from "./useBlocking";
 import { isParryPress } from "./isParryPress";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
@@ -23,6 +23,7 @@ import {
   type TimeEffect,
 } from "@/gameRules/battle/time";
 
+import { clampX } from "@/gameRules/movement/clampX";
 type Props = {
   npcLevel: number;
   npcClass: NPCClass;
@@ -240,7 +241,10 @@ export function useNpcBattle({
         onDodgeRef?.current?.();
         return;
       }
-      if (ALL_PREDICATES.isCrouched(player.state) && Math.abs(playerX - npcX) > 80) {
+      if (
+        ALL_PREDICATES.isCrouched(player.state) &&
+        Math.abs(playerX - npcX) > 80
+      ) {
         onDodgeRef?.current?.();
         return;
       }
@@ -333,7 +337,11 @@ export function useNpcBattle({
     if (ALL_PREDICATES.isInvulnerable(player.state)) return;
     if (!npcCooldown.current) return;
     if (ALL_PREDICATES.isDashing(player.state)) return;
-    if (ALL_PREDICATES.isCrouched(player.state) && Math.abs(playerX - npcX) > 80) return;
+    if (
+      ALL_PREDICATES.isCrouched(player.state) &&
+      Math.abs(playerX - npcX) > 80
+    )
+      return;
 
     const npc = getNpcStats(npcLevel, npcClass, difficulty, statMultiplier);
     const baseDmg = npc.damage;
@@ -618,10 +626,7 @@ export function useNpcBattle({
 
       setPlayer((p) => {
         if (p.mode !== "battle") return p;
-        const newX = Math.max(
-          BATTLE_LIMITS.minX,
-          Math.min(BATTLE_LIMITS.maxX, p.x + pushDir * 50),
-        );
+        const newX = clampX(p.x + pushDir * 50);
         return {
           ...p,
           x: newX,

@@ -1,5 +1,5 @@
 import { playerPath } from "@/utils/paths";
-import styles from "../styles.module.css";
+import styles from "@/components/Game/Entities/Player/Battle/styles.module.css";
 
 interface ChargingKiEffectProps {
   width: number;

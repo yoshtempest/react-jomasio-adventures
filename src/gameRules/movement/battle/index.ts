@@ -33,5 +33,5 @@ export {
   canAct,
   canExitState,
   dashLeftBattle,
-  dashRightBattle
-}
+  dashRightBattle,
+};

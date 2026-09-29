@@ -3,7 +3,7 @@ import {
   BLINK_UNTIL_TELEPORT_MS,
 } from "@/gameRules/battle/cursedEnergy";
 
-import styles from "../styles.module.css";
+import styles from "@/components/Game/Entities/Player/Battle/styles.module.css";
 
 interface BlinkConfig {
   className?: string;

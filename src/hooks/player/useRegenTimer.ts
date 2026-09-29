@@ -1,10 +1,7 @@
 import { useEffect } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
-import {
-  useCharacterProgress,
-  getHungerMultiplier,
-  MAX_HUNGER,
-} from "@/contexts/CharacterProgressContext";
+import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
+import { MAX_HUNGER, getHungerMultiplier } from "@/data/player/hunger";
 import { useTitles } from "@/contexts/TitleContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { getEquipmentStatsBonus } from "@/gameRules/battle/equipment";

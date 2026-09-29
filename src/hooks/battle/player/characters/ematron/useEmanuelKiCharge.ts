@@ -1,16 +1,13 @@
 import { useCallback, useEffect, useRef, type RefObject } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import {
-  isPlayerFrozen,
-  isPlayerParalyzed,
-} from "@/gameRules/battle/status/statusEffects";
-import {
   EMANUEL_KI_CHARGE_PER_TICK,
   EMANUEL_KI_CHARGE_TICK_MS,
 } from "@/data/characters/emanuel";
 import type { BattleManaApi } from "@/contexts/BattleManaContext";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import type { SoundId } from "@/utils/audio/soundId";
+import { useSkillGuard } from "@/hooks/battle/player/characters/useSkillGuard";
 
 type Props = {
   player: Player;
@@ -48,24 +45,14 @@ export function useEmanuelKiCharge({
 
   const setPlayerRef = useLatestRef(setPlayer);
 
-  const canUse =
-    player.character === "emanuel" &&
-    player.mode === "battle" &&
-    player.state === "idle" &&
-    Math.abs(player.y - player.groundY) < 1 &&
-    !isPlayerFrozen(player) &&
-    !isPlayerParalyzed(player) &&
-    freezeActionsUntilRef.current <= Date.now();
-  const canUseRef = useLatestRef(
-    canUse &&
-      !disabledRef.current &&
-      !isPausedRef.current &&
-      !battleEndedRef.current,
-  );
-
-  const shouldCancelRef = useLatestRef(
-    () => disabledRef.current || isPausedRef.current || battleEndedRef.current,
-  );
+  const { usableRef: canUseRef, shouldCancelRef } = useSkillGuard({
+    player,
+    character: "emanuel",
+    freezeActionsUntilRef,
+    disabledRef,
+    isPausedRef,
+    battleEndedRef,
+  });
 
   const release = useCallback(() => {
     if (!activeRef.current) return;

@@ -5,7 +5,7 @@ import {
 } from "@/utils/paths";
 import { resolveSpriteState } from "@/gameRules/battle/playerStates";
 
-import { TRANSFORMATION_FRAMES } from "../constants";
+import { TRANSFORMATION_FRAMES } from "@/components/Game/Entities/Player/Battle/constants";
 
 interface ResolvePlayerSpriteParams {
   character: CharacterId;

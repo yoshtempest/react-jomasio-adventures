@@ -1,10 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Utensils } from "lucide-react";
 import { usePlayer } from "@/contexts/PlayerContext";
-import {
-  useCharacterProgress,
-  MAX_HUNGER,
-} from "@/contexts/CharacterProgressContext";
+import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
+import { MAX_HUNGER } from "@/data/player/hunger";
 import styles from "./styles.module.css";
 
 const ANIM_DURATION = 1200;

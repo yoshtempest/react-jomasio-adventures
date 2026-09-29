@@ -15,13 +15,15 @@ import {
   FOUR_HUNDRED_FIFTY_MS,
   ONE_THOUSAND_MS,
 } from "@/data/ms";
-import {
-  isPlayerFrozen,
-  isPlayerParalyzed,
-} from "@/gameRules/battle/status/statusEffects";
 import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
 import type { SoundId } from "@/utils/audio/soundId";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
+import { useSkillGuard } from "@/hooks/battle/player/characters/useSkillGuard";
+import type {
+  AtomicBoomPayload,
+  AtomicCut,
+  AtomicExplosion,
+} from "@/utils/types/battle/atomic";
 
 /** Raio da explosão (px lógicos) a partir do inimigo com maior vida máxima. */
 export const ATOMIC_RADIUS = 300;
@@ -39,36 +41,6 @@ export const ATOMIC_TOTAL_DURATION_MS = ONE_THOUSAND_MS;
 export const ATOMIC_TARGET_MULTIPLIER = 2;
 /** Multiplicador do dano especial nos demais inimigos dentro do raio. */
 export const ATOMIC_AREA_MULTIPLIER = 1;
-
-/** Explosão da explosão atômica centrada no alvo (inimigo de maior vida máxima). */
-export type AtomicExplosion = {
-  x: number;
-  y: number;
-  npcType: string;
-  phase: "starting" | "explosion";
-};
-
-/** CutInEnemie sobre um inimigo atingido dentro do raio. */
-export type AtomicCut = {
-  /** Contador de ativações — vira a chave React para reiniciar o sprite. */
-  key: number;
-  x: number;
-  y: number;
-  npcType: string;
-  /** Ângulo aleatório (0 a 90 graus) do strike sobre o inimigo. */
-  rotation: number;
-};
-
-/** Inimigos atingidos pelo dano (aplicado no useBattleCombat). */
-export type AtomicBoomPayload = {
-  /** id do alvo ("main" ou summon): recebe dano em dobro. */
-  targetId: string;
-  targetX: number;
-  targetY: number;
-  /** NPC principal atingido (sofre dano + CutInEnemie com chance de sangrar). */
-  hitMain: boolean;
-  hitSummonIds: string[];
-};
 
 type Props = {
   player: Player;
@@ -161,31 +133,16 @@ export function useAtomic({
   const summonsRef = useLatestRef(summons);
   const onBoomRef = useLatestRef(onBoom);
 
-  const canUse =
-    player.character === "marcelo" &&
-    player.mode === "battle" &&
-    player.state === "idle" &&
-    Math.abs(player.y - player.groundY) < 1 &&
-    !isPlayerFrozen(player) &&
-    !isPlayerParalyzed(player) &&
-    freezeActionsUntilRef.current <= Date.now() &&
-    readyAtRef.current <= Date.now() &&
-    !activeRef.current;
-
-  const usable =
-    canUse &&
-    !disabledRef.current &&
-    !isPausedRef.current &&
-    !battleEndedRef.current;
-  const usableRef = useLatestRef(usable);
-
-  const shouldCancelRef = useLatestRef(
-    () =>
-      disabledRef.current ||
-      isPausedRef.current ||
-      battleEndedRef.current ||
-      !activeRef.current,
-  );
+  const { usable, usableRef, shouldCancelRef } = useSkillGuard({
+    player,
+    character: "marcelo",
+    freezeActionsUntilRef,
+    disabledRef,
+    isPausedRef,
+    battleEndedRef,
+    extraCanUse: () => readyAtRef.current <= Date.now() && !activeRef.current,
+    extraCancel: () => !activeRef.current,
+  });
 
   const clearTimers = useCallback(() => {
     for (const timer of timersRef.current) clearTimeout(timer);
@@ -201,7 +158,9 @@ export function useAtomic({
     setCuts([]);
     targetRef.current = null;
     setPlayer((p) =>
-      p.mode !== "battle" || !ALL_PREDICATES.isAtomic(p.state) ? p : { ...p, state: "idle" },
+      p.mode !== "battle" || !ALL_PREDICATES.isAtomic(p.state)
+        ? p
+        : { ...p, state: "idle" },
     );
   }, [clearTimers, setPlayer]);
 

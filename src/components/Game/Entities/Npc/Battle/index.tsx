@@ -11,8 +11,8 @@ import { getViewportSize } from "@/utils/viewport";
 import {
   MARCELO_CUT_IN_ENEMIE_SRC,
   BLOOD_ICON_SRC,
-  type CutInEnemieOverlay,
-} from "@/hooks/battle/player/characters/marshadow/useMarceloCutInEnemie";
+} from "@/data/characters/marshadowCutIn";
+import type { CutInEnemieOverlay } from "@/utils/types/battle/cutInEnemie";
 
 type Props = {
   x: number;

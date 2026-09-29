@@ -1,8 +1,8 @@
 import { isPlayerFrozen } from "@/gameRules/battle/status/statusEffects";
 import { ALL_PREDICATES, ALL_STATES } from "@/gameRules/battle/playerStates";
-import { isPlayerAttackHolding } from "../attack/isPlayerAttackHolding";
-import { BATTLE_LIMITS, DASH_STEP } from "../../constants";
-import { moveAxis } from "../move/axis";
+import { isPlayerAttackHolding } from "@/gameRules/movement/battle/attack/isPlayerAttackHolding";
+import { BATTLE_LIMITS, DASH_STEP } from "@/gameRules/movement/constants";
+import { moveAxis } from "@/gameRules/movement/battle/move/axis";
 
 export function dashLeftBattle(p: Player): Player {
   if (

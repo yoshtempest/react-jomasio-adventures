@@ -369,7 +369,8 @@ export function usePlayerBattleActions({
 
     // Golpe aéreo: no ar (subindo ou caindo) ou na sequência do special aéreo.
     const isAirStrike =
-      ALL_PREDICATES.isAirFalling(player.state) || ALL_PREDICATES.isAirSpecial(player.state);
+      ALL_PREDICATES.isAirFalling(player.state) ||
+      ALL_PREDICATES.isAirSpecial(player.state);
 
     if (isAirStrike) {
       const inRangeTargets = targets.filter(

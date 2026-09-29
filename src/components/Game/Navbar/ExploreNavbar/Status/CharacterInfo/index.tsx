@@ -8,7 +8,6 @@ import { npcPath, playerPath } from "@/utils/paths";
 import { getRank, formatRank } from "@/gameRules/rank";
 import styles from "./styles.module.css";
 
-
 const HUNGRY_THRESHOLD = 20;
 
 export function CharacterInfo() {

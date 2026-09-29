@@ -2,10 +2,8 @@ import {
   incrementAttacksUsedStats,
   incrementHitsUsedStats,
 } from "@/utils/rewards";
-import {
-  BATTLE_LIMITS,
-  BLOCK_ATTACK_PUSH_DISTANCE,
-} from "@/gameRules/movement/constants";
+import { BLOCK_ATTACK_PUSH_DISTANCE } from "@/gameRules/movement/constants";
+import { clampX } from "@/gameRules/movement/clampX";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { CharactersProgress } from "@/data/characters/defaultProgress";
 import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
@@ -101,13 +99,7 @@ export function damageSummon({
             hp: newHp,
             ...(pushDir != null
               ? {
-                  x: Math.max(
-                    BATTLE_LIMITS.minX,
-                    Math.min(
-                      BATTLE_LIMITS.maxX,
-                      summon.x + pushDir * BLOCK_ATTACK_PUSH_DISTANCE,
-                    ),
-                  ),
+                  x: clampX(summon.x + pushDir * BLOCK_ATTACK_PUSH_DISTANCE),
                 }
               : {}),
           }

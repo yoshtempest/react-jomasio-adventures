@@ -1,5 +1,6 @@
 import { getEquipmentStatsBonus } from "@/gameRules/battle/equipment";
-import { getHungerMultiplier } from "@/contexts/CharacterProgressContext";
+
+import { getHungerMultiplier } from "@/data/player/hunger";
 import type { CharacterProgress } from "@/data/characters/defaultProgress";
 import type { TitleBonusMap } from "@/utils/types/player/titles";
 

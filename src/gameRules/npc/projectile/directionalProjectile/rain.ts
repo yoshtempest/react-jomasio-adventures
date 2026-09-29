@@ -1,6 +1,6 @@
 import { ProjectileHpConstants } from "@/data/projectile";
 
-import { nextProjectileId } from "../projectileId";
+import { nextProjectileId } from "@/gameRules/npc/projectile/projectileId";
 import type { RainParams } from "./types";
 
 export function createRainProjectile({

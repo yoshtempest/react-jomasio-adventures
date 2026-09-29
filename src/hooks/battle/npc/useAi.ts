@@ -13,7 +13,7 @@ import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { logPlay, logStop } from "@/utils/replay/audioEventLog";
 import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
-import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
+
 import {
   HONORED_ONE_FLEE_DISTANCE,
   HONORED_ONE_FLEE_STEP,
@@ -25,6 +25,7 @@ import { ProjectileHpConstants } from "@/data/projectile";
 import { useProximityLoopSound } from "./useProximityLoopSound";
 import { getTime, NPC_TIME_ID, type TimeEffect } from "@/gameRules/battle/time";
 
+import { clampX } from "@/gameRules/movement/clampX";
 type Props = {
   playerX: number;
   playerY: number;
@@ -286,10 +287,7 @@ export function useNpcAI({
               HONORED_ONE_FLEE_STEP,
             );
             const awayDir = n.x >= playerXRef.current ? 1 : -1;
-            const nextX = Math.max(
-              BATTLE_LIMITS.minX,
-              Math.min(BATTLE_LIMITS.maxX, n.x + awayDir * step),
-            );
+            const nextX = clampX(n.x + awayDir * step);
             const collision = applyObstacleCollision(
               nextX,
               n.y,
@@ -297,10 +295,7 @@ export function useNpcAI({
             );
             return {
               ...n,
-              x: Math.max(
-                BATTLE_LIMITS.minX,
-                Math.min(BATTLE_LIMITS.maxX, collision.x),
-              ),
+              x: clampX(collision.x),
               y: collision.y,
               direction: getNpcDirection(nextX, playerXRef.current),
               state: n.state === "block" ? "block" : "walk",
@@ -395,10 +390,7 @@ export function useNpcAI({
 
         return {
           ...n,
-          x: Math.max(
-            BATTLE_LIMITS.minX,
-            Math.min(BATTLE_LIMITS.maxX, collision.x),
-          ),
+          x: clampX(collision.x),
           y: collision.y,
           direction,
           hidden: result.hidden ?? n.hidden,
@@ -461,13 +453,7 @@ export function useNpcAI({
     setNpc((n) => ({
       ...n,
       ...partial,
-      x:
-        partial.x != null
-          ? Math.max(
-              BATTLE_LIMITS.minX,
-              Math.min(BATTLE_LIMITS.maxX, partial.x),
-            )
-          : n.x,
+      x: partial.x != null ? clampX(partial.x) : n.x,
     }));
   };
 

@@ -1,5 +1,5 @@
-import { BATTLE_LIMITS } from "../../constants";
-import { canAct } from "../can/act";
+import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
+import { canAct } from "@/gameRules/movement/battle/can/act";
 import { getStep } from "./getStep";
 import { moveAxis } from "./axis";
 

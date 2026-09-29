@@ -1,10 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Moon } from "lucide-react";
 import { usePlayer } from "@/contexts/PlayerContext";
-import {
-  useCharacterProgress,
-  MAX_SLEEP,
-} from "@/contexts/CharacterProgressContext";
+import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
+import { MAX_SLEEP } from "@/data/player/sleep";
 import styles from "./styles.module.css";
 
 const ANIM_DURATION = 1200;

@@ -1,6 +1,6 @@
 import { playerPathMarshadowHabilities } from "@/utils/paths";
 import { ProjectileConstants } from "@/data/projectile";
-import type { MugetsuSweep } from "@/hooks/battle/player/characters/marshadow/useDomainExpansion";
+import type { MugetsuSweep } from "@/utils/types/battle/mugetsu";
 
 type Props = {
   sweep: MugetsuSweep | null;

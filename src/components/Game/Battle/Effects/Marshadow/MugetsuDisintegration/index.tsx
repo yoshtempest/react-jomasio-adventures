@@ -1,7 +1,7 @@
-import {
-  type MugetsuDisintegrationTarget,
-  type MugetsuSweep,
-} from "@/hooks/battle/player/characters/marshadow/useDomainExpansion";
+import type {
+  MugetsuDisintegrationTarget,
+  MugetsuSweep,
+} from "@/utils/types/battle/mugetsu";
 import { MugetsuTargetDisintegration } from "./MugetsuTargetDisintegration";
 
 type Props = {

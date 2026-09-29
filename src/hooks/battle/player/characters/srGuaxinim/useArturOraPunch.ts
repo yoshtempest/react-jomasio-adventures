@@ -63,7 +63,9 @@ export function useArturOraPunch({
         return;
       }
       setPlayer((p) =>
-        p.character === "artur" && p.mode === "battle" && ALL_PREDICATES.isAttackPose(p.state)
+        p.character === "artur" &&
+        p.mode === "battle" &&
+        ALL_PREDICATES.isAttackPose(p.state)
           ? { ...p, state: "idle" }
           : p,
       );

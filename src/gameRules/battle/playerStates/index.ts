@@ -15,5 +15,5 @@ export {
   resolveSpriteState,
   isPlayerRestrained,
   ALL_STATES,
-  ALL_PREDICATES
-}
+  ALL_PREDICATES,
+};

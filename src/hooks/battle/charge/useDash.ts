@@ -15,6 +15,7 @@ import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import { combatService } from "@/services/combat";
 import { applyHitstop, type TimeEffect } from "@/gameRules/battle/time";
 
+import { clampX } from "@/gameRules/movement/clampX";
 type Props = {
   player: Player;
   npcX: number;
@@ -213,10 +214,7 @@ export function useChargeDash(props: Props) {
 
       setPlayer((p) => {
         const step = dir === "left" ? -DASH_STEP : DASH_STEP;
-        const newX = Math.max(
-          BATTLE_LIMITS.minX,
-          Math.min(BATTLE_LIMITS.maxX, p.x + step),
-        );
+        const newX = clampX(p.x + step);
 
         const rawDmg = combatService.calculatePlayerDamage(
           char.stats.strength,

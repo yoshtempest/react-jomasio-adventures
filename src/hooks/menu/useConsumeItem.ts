@@ -1,11 +1,9 @@
 import { useRef } from "react";
 import { useInventory } from "@/contexts/InventoryContext";
 import { usePlayer } from "@/contexts/PlayerContext";
-import {
-  useCharacterProgress,
-  MAX_HUNGER,
-  MAX_SLEEP,
-} from "@/contexts/CharacterProgressContext";
+import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
+import { MAX_HUNGER } from "@/data/player/hunger";
+import { MAX_SLEEP } from "@/data/player/sleep";
 import { useBattleMana } from "@/contexts/BattleManaContext";
 import { useAudio } from "@/hooks/audio/useAudio";
 import { useLatestRef } from "@/hooks/useLatestRef";

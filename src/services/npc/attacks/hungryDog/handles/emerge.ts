@@ -1,9 +1,13 @@
-import { clampX } from "../clampX";
+import { clampX } from "@/services/npc/attacks/hungryDog/clampX";
 import type {
   BehaviorContext,
   BehaviorResult,
 } from "@/utils/types/npc/npcBehavior";
-import { EMERGE_HOP_HEIGHT, EMERGE_LEAP_MS, type HungryDogAI } from "../state";
+import {
+  EMERGE_HOP_HEIGHT,
+  EMERGE_LEAP_MS,
+  type HungryDogAI,
+} from "@/services/npc/attacks/hungryDog/state";
 
 export function handleEmerge(
   ctx: BehaviorContext,

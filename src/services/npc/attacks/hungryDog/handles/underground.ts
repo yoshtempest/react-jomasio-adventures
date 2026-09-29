@@ -1,10 +1,14 @@
 import { getBehindPlayerX } from "@/gameRules/npc/movement";
-import { clampX } from "../clampX";
+import { clampX } from "@/services/npc/attacks/hungryDog/clampX";
 import type {
   BehaviorContext,
   BehaviorResult,
 } from "@/utils/types/npc/npcBehavior";
-import { BEHIND_OFFSET, UNDERGROUND_MS, type HungryDogAI } from "../state";
+import {
+  BEHIND_OFFSET,
+  UNDERGROUND_MS,
+  type HungryDogAI,
+} from "@/services/npc/attacks/hungryDog/state";
 
 export function handleUnderground(
   ctx: BehaviorContext,

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { placeLootBags } from "@/gameRules/battle/loot/buildLootBags";
 import { BATTLE_LOOT_WINDOW_MS } from "@/data/battle/lootbags";
-import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
+import { clampX } from "@/gameRules/movement/clampX";
 import type { BattleLootBag, LootBagContents } from "@/utils/types/battle/loot";
 import type { PetState } from "@/hooks/battle/player/pets/usePet";
 import type { SoundId } from "@/utils/audio/soundId";
@@ -82,10 +82,7 @@ export function useBattleLoot({
       startedAtRef.current = now;
       setBags(
         placeLootBags(contents, spawnX, spawnY).map((b) => {
-          const targetX = Math.max(
-            BATTLE_LIMITS.minX + BAG_MARGIN,
-            Math.min(BATTLE_LIMITS.maxX - BAG_MARGIN, b.targetX),
-          );
+          const targetX = clampX(b.targetX, BAG_MARGIN);
           const targetY = Math.max(BAG_MARGIN, b.targetY);
           return {
             ...b,

@@ -1,6 +1,6 @@
 import { ProjectileHpConstants } from "@/data/projectile";
 
-import { nextProjectileId } from "../projectileId";
+import { nextProjectileId } from "@/gameRules/npc/projectile/projectileId";
 import type { PullParams } from "./types";
 
 export function createPullProjectile({

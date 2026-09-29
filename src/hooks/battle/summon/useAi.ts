@@ -14,6 +14,7 @@ import {
   type TimeEffect,
 } from "@/gameRules/battle/time";
 
+import { clampX } from "@/gameRules/movement/clampX";
 /** Velocidade acima da qual o hungryDog é considerado correndo (usa run.svg). */
 const HUNGRY_DOG_RUN_SPEED = 1.5;
 
@@ -91,10 +92,7 @@ export function useSummonAI({
             const awayDir = s.x >= px ? 1 : -1;
             return {
               ...s,
-              x: Math.max(
-                BATTLE_LIMITS.minX,
-                Math.min(BATTLE_LIMITS.maxX, s.x + awayDir * step),
-              ),
+              x: clampX(s.x + awayDir * step),
               direction: awayDir > 0 ? "right" : "left",
               state: "walk",
             };

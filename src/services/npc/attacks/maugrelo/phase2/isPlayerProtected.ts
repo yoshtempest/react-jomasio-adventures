@@ -1,7 +1,4 @@
-import {
-  ALL_STATES,
-  unionOf,
-} from "@/gameRules/battle/playerStates";
+import { ALL_STATES, unionOf } from "@/gameRules/battle/playerStates";
 
 /**
  * Jogador protegido do laser de varredura do maugrelo (fase 2): agachado,

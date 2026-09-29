@@ -2,7 +2,11 @@ import type {
   BehaviorContext,
   BehaviorResult,
 } from "@/utils/types/npc/npcBehavior";
-import { INTRO_MS, INTRO_SUMMON_COUNT, type HungryDogAI } from "../state";
+import {
+  INTRO_MS,
+  INTRO_SUMMON_COUNT,
+  type HungryDogAI,
+} from "@/services/npc/attacks/hungryDog/state";
 
 export function handleIntro(
   ctx: BehaviorContext,

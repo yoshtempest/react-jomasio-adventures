@@ -4,6 +4,7 @@ import {
   PLAYER_SPECIAL_COOLDOWN,
 } from "@/data/cooldowns";
 import { canPlayerHit } from "@/gameRules/battle/combat";
+import { evaluateStatusGuards } from "@/gameRules/battle/status/evaluateStatusGuards";
 import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
 import { LUCAS_WEAPON_RANGES } from "@/data/characters/lucasWeapons";
 import { DIVERGENT_FIST_DELAY_MS } from "@/gameRules/battle/cursedEnergy";
@@ -15,7 +16,6 @@ import {
 } from "@/gameRules/battle/applyHit";
 import {
   isPlayerBlind,
-  isPlayerConfused,
   isPlayerFrozen,
   isPlayerParalyzed,
 } from "@/gameRules/battle/status/statusEffects";
@@ -24,6 +24,7 @@ import type { CharacterProgress } from "@/data/characters/defaultProgress";
 import type { ElementType } from "@/utils/types/battle/element";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { logPlay } from "@/utils/replay/audioEventLog";
+import { runHitPrelude } from "@/hooks/battle/player/runHitPrelude";
 import { resetCooldownRef } from "@/utils/battle/cooldown";
 import type { OnBeforeNpcHit } from "@/hooks/battle/npc/useBlocking";
 import type {
@@ -196,71 +197,42 @@ export function usePlayerBattle({
         return;
       }
 
-      if (guard === "blind") {
-        spawnDamageRef.current?.(0, npcX, npcY, "miss");
-        resetCooldownRef(PLAYER_BASIC_COOLDOWN, playerCooldown);
-        return;
-      }
-
-      const blockResult = onBeforeNpcHitRef?.current?.(() => {
-        const { damage } = calculateBasicHitDamage({
-          player,
-          playerClass,
-          char,
-          titleDamageBonus,
-          elementDamageBonus,
-          critRate,
-          npcArmor,
-          npcElementTypes,
-          playerHP,
-          playerMaxHp,
-          totalMaxHpDamage,
-          totalTrueDamage,
-          damageMultiplier: mult,
-        });
-        return damage;
+      // Cegueira, bloqueio e confusão formam a mesma passagem para todo golpe
+      // do jogador; o básico só acrescenta o cut-in do marcelo quando bloqueado.
+      const outcome = runHitPrelude({
+        guard,
+        calculateDamage: (targetElements) =>
+          calculateBasicHitDamage({
+            player,
+            playerClass,
+            char,
+            titleDamageBonus,
+            elementDamageBonus,
+            critRate,
+            npcArmor,
+            npcElementTypes: targetElements,
+            playerHP,
+            playerMaxHp,
+            totalMaxHpDamage,
+            totalTrueDamage,
+            damageMultiplier: mult,
+          }),
+        npcElements: npcElementTypes,
+        cooldownMs: PLAYER_BASIC_COOLDOWN,
+        playerCooldown,
+        onBlocked: notifyMarceloDefaultHit,
+        onBeforeNpcHitRef,
+        setNpcHP,
+        setPlayerHP,
+        registerHitRef,
+        onDamageDealtRef,
+        spawnDamageRef,
+        npcX,
+        npcY,
+        playerX,
+        playerY,
       });
-
-      if (blockResult?.blocked) {
-        resetCooldownRef(PLAYER_BASIC_COOLDOWN, playerCooldown);
-        if (blockResult.remainingDamage > 0) {
-          setNpcHP((hp) => Math.max(0, hp - blockResult.remainingDamage));
-          registerHitRef.current?.(blockResult.remainingDamage);
-          onDamageDealtRef?.current?.(blockResult.remainingDamage);
-          spawnDamageRef.current?.(
-            blockResult.remainingDamage,
-            npcX,
-            npcY,
-            "npc",
-          );
-          notifyMarceloDefaultHit();
-        }
-        return;
-      }
-
-      if (guard === "confused") {
-        const { damage: selfDmg } = calculateBasicHitDamage({
-          player,
-          playerClass,
-          char,
-          titleDamageBonus,
-          elementDamageBonus,
-          critRate,
-          npcArmor,
-          npcElementTypes: [],
-          playerHP,
-          playerMaxHp,
-          totalMaxHpDamage,
-          totalTrueDamage,
-          damageMultiplier: mult,
-        });
-        if (selfDmg > 0) {
-          setPlayerHP((hp) => Math.max(0, hp - selfDmg));
-          spawnDamageRef.current?.(selfDmg, playerX, playerY, "confuse");
-        }
-        resetCooldownRef(PLAYER_BASIC_COOLDOWN, playerCooldown);
-        return;
-      }
+      if (outcome.kind !== "proceed") return;
 
       const runBasicHit = () =>
         applyBasicHit({
@@ -401,72 +373,44 @@ export function usePlayerBattle({
         return;
       }
 
-      if (guard === "blind") {
-        spawnDamageRef.current?.(0, npcX, npcY, "miss");
-        setDelicia(0);
-        resetCooldownRef(PLAYER_SPECIAL_COOLDOWN, playerCooldown);
-        return;
-      }
-
-      const blockResult = onBeforeNpcHitRef?.current?.(() => {
-        const { damage } = calculateSpecialHitDamage({
-          player,
-          playerClass,
-          char,
-          elementDamageBonus,
-          critRate,
-          npcArmor,
-          npcElementTypes,
-          playerHP,
-          playerMaxHp,
-          totalMaxHpDamage,
-          totalTrueDamage,
-          damageMultiplier: totalMultiplier,
-          stacks,
-        });
-        return damage;
+      // Mesma passagem do ataque básico (cegueira, bloqueio, confusão). O
+      // special zera a delícia nos desfechos que gastaram o combo, mas não
+      // avisa o cut-in do marcelo: esse aviso é exclusivo do golpe básico.
+      const outcome = runHitPrelude({
+        guard,
+        calculateDamage: (targetElements) =>
+          calculateSpecialHitDamage({
+            player,
+            playerClass,
+            char,
+            elementDamageBonus,
+            critRate,
+            npcArmor,
+            npcElementTypes: targetElements,
+            playerHP,
+            playerMaxHp,
+            totalMaxHpDamage,
+            totalTrueDamage,
+            damageMultiplier: totalMultiplier,
+            stacks,
+          }),
+        npcElements: npcElementTypes,
+        cooldownMs: PLAYER_SPECIAL_COOLDOWN,
+        playerCooldown,
+        onBlind: () => setDelicia(0),
+        onSelfDamage: () => setDelicia(0),
+        onBeforeNpcHitRef,
+        setNpcHP,
+        setPlayerHP,
+        registerHitRef,
+        onDamageDealtRef,
+        spawnDamageRef,
+        npcX,
+        npcY,
+        playerX,
+        playerY,
       });
-
-      if (blockResult?.blocked) {
-        resetCooldownRef(PLAYER_SPECIAL_COOLDOWN, playerCooldown);
-        if (blockResult.remainingDamage > 0) {
-          setNpcHP((hp) => Math.max(0, hp - blockResult.remainingDamage));
-          registerHitRef.current?.(blockResult.remainingDamage);
-          onDamageDealtRef?.current?.(blockResult.remainingDamage);
-          spawnDamageRef.current?.(
-            blockResult.remainingDamage,
-            npcX,
-            npcY,
-            "npc",
-          );
-        }
-        return;
-      }
-
-      if (guard === "confused") {
-        const { damage: selfDmg } = calculateSpecialHitDamage({
-          player,
-          playerClass,
-          char,
-          elementDamageBonus,
-          critRate,
-          npcArmor,
-          npcElementTypes: [],
-          playerHP,
-          playerMaxHp,
-          totalMaxHpDamage,
-          totalTrueDamage,
-          damageMultiplier: totalMultiplier,
-          stacks,
-        });
-        if (selfDmg > 0) {
-          setPlayerHP((hp) => Math.max(0, hp - selfDmg));
-          spawnDamageRef.current?.(selfDmg, playerX, playerY, "confuse");
-        }
-        setDelicia(0);
-        resetCooldownRef(PLAYER_SPECIAL_COOLDOWN, playerCooldown);
-        return;
-      }
+      if (outcome.kind !== "proceed") return;
 
       if (player.character === "riquelme") {
         playSound("impact");
@@ -664,13 +608,4 @@ export function usePlayerBattle({
     playerHit,
     specialHit,
   };
-}
-
-function evaluateStatusGuards(
-  player: Player,
-): "frozen" | "blind" | "confused" | "ok" {
-  if (isPlayerFrozen(player) || isPlayerParalyzed(player)) return "frozen";
-  if (isPlayerBlind(player)) return "blind";
-  if (isPlayerConfused(player) && Math.random() < 0.5) return "confused";
-  return "ok";
 }

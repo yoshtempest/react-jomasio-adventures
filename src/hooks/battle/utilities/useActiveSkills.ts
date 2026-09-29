@@ -5,7 +5,8 @@ import {
   CURSED_ENERGY_HEAL_RATIO,
   DIVERGENT_FIST_COST,
 } from "@/gameRules/battle/cursedEnergy";
-import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
+
+import { clampX } from "@/gameRules/movement/clampX";
 import type { BattleManaApi } from "@/contexts/BattleManaContext";
 import type { SoundId } from "@/utils/audio/soundId";
 import type { useBattleSystem } from "@/hooks/battle/main/useSystem";
@@ -74,10 +75,7 @@ export function useActiveSkills({
     if (!mana.consumeMana(BLINK_ENERGY_COST)) return;
     playSound("blink");
     const dir = player.battleDirection === "left" ? -1 : 1;
-    const targetX = Math.max(
-      BATTLE_LIMITS.minX,
-      Math.min(BATTLE_LIMITS.maxX, player.x + dir * BLINK_DISTANCE),
-    );
+    const targetX = clampX(player.x + dir * BLINK_DISTANCE);
     triggerBlink(
       { x: player.x, y: player.y },
       { x: targetX, y: player.y },

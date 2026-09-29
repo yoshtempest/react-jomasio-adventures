@@ -1,5 +1,5 @@
 import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
-import { isInBattle } from "../isInBattle";
+import { isInBattle } from "@/gameRules/movement/battle/isInBattle";
 
 export function blockEnd(p: Player): Player {
   if (!isInBattle(p)) return p;

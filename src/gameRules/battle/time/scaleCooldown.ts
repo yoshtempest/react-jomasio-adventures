@@ -1,4 +1,4 @@
-import { type BattleTime } from ".";
+import { type BattleTime } from "./types";
 
 /**
  * Escala um time em ms pelo multiplicador de cooldown da entidade. Concentrar

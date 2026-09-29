@@ -1,7 +1,7 @@
 .container {
-    display: flex;
-    width: 15%;
-    flex-direction: column;
+  display: flex;
+  width: 15%;
+  flex-direction: column;
 }
 
 .xpText {

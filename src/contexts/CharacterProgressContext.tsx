@@ -23,15 +23,8 @@ import { DIFFICULTY_XP_MULTIPLIER } from "@/data/player/xp";
 import { useCompressedStorage } from "@/hooks/useCompressedStorage";
 import { useSettings } from "@/hooks/settings/useSetting";
 import { useQueuedSounds } from "@/hooks/audio/useQueuedSounds";
-
-export const MAX_HUNGER = 100;
-export const MAX_SLEEP = 100;
-
-// eslint-disable-next-line react-refresh/only-export-components
-export function getHungerMultiplier(hunger: number): number {
-  const clamped = Math.max(0, Math.min(MAX_HUNGER, hunger));
-  return 0.5 + clamped / (MAX_HUNGER * 2);
-}
+import { MAX_HUNGER } from "@/data/player/hunger";
+import { MAX_SLEEP } from "@/data/player/sleep";
 
 type ContextType = {
   progress: CharactersProgress;

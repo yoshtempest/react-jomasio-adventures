@@ -8,7 +8,7 @@ import {
   DIG_ENTERING_MS,
   DIG_TOTAL_MS,
   type HungryDogAI,
-} from "../state";
+} from "@/services/npc/attacks/hungryDog/state";
 
 export function handleDig(
   ctx: BehaviorContext,
