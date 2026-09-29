@@ -1,4 +1,3 @@
-import { statusIconPath } from "@/utils/paths";
 import { useState } from "react";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { usePlayer } from "@/contexts/PlayerContext";
@@ -18,19 +17,6 @@ export type StatusView = "stats" | "skillTree" | "ranks" | "allStats";
  * uma linha aqui desloca todas as outras, e `AvailableStats` /
  * `onConfirm` leem estes mesmos índices em vez de repetir números mágicos.
  */
-export const STATUS_SUB_ROWS: {
-  index: number;
-  label: string;
-  icon: string;
-  view: StatusView;
-}[] = [
-  {
-    index: STATS.length,
-    label: "Ranques",
-    icon: statusIconPath("ranks.svg"),
-    view: "ranks",
-  },
-];
 
 const TOTAL_OPTIONS = STATS.length;
 
@@ -52,11 +38,6 @@ export function useStatusMenu(isOpen: boolean) {
     if (view !== "stats") return true;
     playSelect();
     const index = selectedIndexRef.current;
-    const subRow = STATUS_SUB_ROWS.find((row) => row.index === index);
-    if (subRow) {
-      setView(subRow.view);
-      return true;
-    }
     const stat = OPTIONS[index]!;
     const char = progress[player.character];
     if (!canSpendPoints(char.stats.points)) return true;

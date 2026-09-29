@@ -14,7 +14,6 @@ import { getMaxMana, getEnergyName, hasManaBar } from "@/gameRules/battle/mana";
 import { ProgressBar } from "@/components/Game/ProgressBar";
 import styles from "./styles.module.css";
 import { Drumstick, Heart, Moon, Sparkles } from "lucide-react";
-import { STATUS_SUB_ROWS } from "@/hooks/menu/useStatus";
 
 export function BarsInfos() {
   const { player } = usePlayer();
@@ -129,16 +128,6 @@ export function BarsInfos() {
             }
             />
         </div>
-        {STATUS_SUB_ROWS.map((row) => (
-            <div
-                key={row.view}
-            >
-            <p className={styles.subBtn}>
-                <img src={row.icon} />
-                {row.label}
-            </p>
-            </div>
-        ))}
       </div>
   )
 }
