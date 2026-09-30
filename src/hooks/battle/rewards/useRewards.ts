@@ -24,7 +24,7 @@ import {
   rollKeyDrop,
   rollPetDrop,
   rollNpcCardDrop,
-} from "./useDrops";
+} from "./drops";
 import { buildLootBags } from "@/gameRules/battle/loot/buildLootBags";
 import { getCoinReward } from "@/data/battle/lootbags";
 import type { LootBagContents } from "@/utils/types/battle/loot";
