@@ -16,9 +16,9 @@
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(10, 5, 0, 0.3) 0%,
-    rgba(10, 5, 0, 0.7) 50%,
-    rgba(10, 5, 0, 0.95) 100%
+    var(--shade-30) 0%,
+    var(--shade-70) 50%,
+    var(--shade-95) 100%
   );
 }
 
@@ -34,16 +34,16 @@
 }
 
 .logo {
-  width: min(40vw, var(--size-400));
+  width: min(var(--size-512), var(--size-400));
   height: auto;
-  filter: drop-shadow(0 0 var(--size-30) rgba(18, 27, 49, 0.8));
+  filter: drop-shadow(0 0 var(--size-30) var(--primary-80));
 }
 
 .subtitle {
   max-width: var(--size-560);
   font-size: var(--fs-115);
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--white-80);
 }
 
 .scrollIndicator {
@@ -53,5 +53,5 @@
   gap: var(--fs-8);
   margin-top: var(--size-48);
   font-size: var(--fs-085);
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--white-50);
 }

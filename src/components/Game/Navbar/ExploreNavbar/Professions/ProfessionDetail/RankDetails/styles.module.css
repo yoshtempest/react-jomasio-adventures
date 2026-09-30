@@ -4,11 +4,11 @@
   flex-direction: column;
   gap: var(--fs-10);
   padding: var(--fs-8);
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--white-03);
   border-radius: var(--fs-8);
-  border: var(--size-1) solid rgba(255, 255, 255, 0.06);
+  border: var(--size-1) solid var(--white-06);
   min-height: 0;
-  width: 50vw;
+  width: var(--size-640);
   overflow-y: auto;
 }
 
@@ -63,7 +63,7 @@
   grid-template-columns: 1fr 1fr;
   gap: var(--fs-6);
   padding: var(--fs-8);
-  background: rgba(0, 0, 0, 0.15);
+  background: var(--overlay-15);
   border-radius: var(--fs-6);
 }
 
@@ -85,7 +85,7 @@
 .actionRow {
   margin-top: auto;
   padding-top: var(--fs-8);
-  border-top: var(--size-1) solid rgba(255, 255, 255, 0.1);
+  border-top: var(--size-1) solid var(--white-10);
   text-align: center;
 }
 

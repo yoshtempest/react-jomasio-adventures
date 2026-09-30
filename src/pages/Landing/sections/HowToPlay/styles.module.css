@@ -36,7 +36,7 @@
   margin: 0;
   line-height: 1.5;
   font-size: var(--fs-14);
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--white-60);
 }
 
 @media (max-width: 768px) {

@@ -16,23 +16,23 @@
   top: 0;
   left: 0;
   height: 100%;
-  background: linear-gradient(90deg, #4caf50, #8bc34a);
+  background: linear-gradient(90deg, var(--green-500), var(--green-400));
   border-radius: var(--fs-8);
-  box-shadow: 0 0 var(--fs-8) rgba(76, 175, 80, 0.5);
+  box-shadow: 0 0 var(--fs-8) var(--green-500-50);
 }
 
 .arrow {
-  color: #8bc34a;
+  color: var(--green-400);
   animation: bounceUp 2ms ease-in-out infinite;
   display: flex;
   align-items: center;
-  filter: drop-shadow(0 0 var(--size-4) rgba(139, 195, 74, 2));
+  filter: drop-shadow(0 0 var(--size-4) var(--green-400));
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateX(-50%) translateY(8px);
+    transform: translateX(-50%) translateY(var(--size-8));
   }
   to {
     opacity: 1;

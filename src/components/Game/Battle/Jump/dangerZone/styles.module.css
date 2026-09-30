@@ -16,19 +16,19 @@
 }
 
 .edge {
-  background: rgba(255, 70, 70, 0.16);
-  border: var(--size-2) dashed rgba(255, 85, 68, 0.8);
+  background: var(--red-hot-16);
+  border: var(--size-2) dashed var(--red-warm-80);
   animation: dangerPulse 0.9s ease-in-out infinite;
 }
 
 .center {
   background: radial-gradient(
     ellipse at center,
-    rgba(255, 30, 30, 0.55),
-    rgba(180, 0, 0, 0.35)
+    var(--red-vivid-55),
+    var(--red-deep-35)
   );
-  border: var(--size-2) solid #ff2222;
-  box-shadow: 0 0 var(--size-6) rgba(255, 0, 0, 0.5);
+  border: var(--size-2) solid var(--c-ff2222);
+  box-shadow: 0 0 var(--size-6) var(--red-pure-50);
   animation: dangerPulse 0.45s ease-in-out infinite;
   background-color: red;
   margin-top: -11vh;

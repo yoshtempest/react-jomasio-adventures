@@ -1,11 +1,11 @@
 .button {
-  border: var(--size-2) solid rgba(255, 215, 0, 0.5);
-  background: rgba(255, 215, 0, 0.15);
+  border: var(--size-2) solid var(--gold-50);
+  background: var(--gold-15);
   animation: glow 1s ease-in-out infinite;
 }
 
 .button:hover:not(:disabled) {
-  background: rgba(255, 215, 0, 0.35);
+  background: var(--gold-35);
 }
 
 .value,
@@ -18,25 +18,25 @@
 .value {
   font-size: var(--fs-18);
   font-weight: bold;
-  color: #ffd700;
+  color: var(--gold);
 }
 
 .label {
-  color: #fff3c4;
+  color: var(--gold-pale);
 }
 
 .cost {
   font-size: var(--fs-11);
   font-weight: bold;
-  color: #ff9f43;
+  color: var(--orange-soft);
 }
 
 @keyframes glow {
   0%,
   100% {
-    box-shadow: 0 0 4px rgba(255, 215, 0, 0.3);
+    box-shadow: 0 0 var(--size-4) var(--gold-30);
   }
   50% {
-    box-shadow: 0 0 16px rgba(255, 215, 0, 0.7);
+    box-shadow: 0 0 var(--size-16) var(--gold-70);
   }
 }

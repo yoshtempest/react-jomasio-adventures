@@ -24,10 +24,10 @@
 
 .rankBadge {
   display: flex;
-  width: 2.5vw;
+  width: var(--size-32);
   position: absolute;
   bottom: 0;
-  margin-bottom: 4vw;
+  margin-bottom: var(--size-51);
   left: 0;
   margin-left: -1vw;
 }

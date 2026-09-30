@@ -11,13 +11,13 @@
   justify-content: space-between;
   padding: var(--fs-8) 0;
   font-size: var(--fs-110);
-  border-bottom: var(--size-1) solid rgba(255, 255, 255, 0.2);
+  border-bottom: var(--size-1) solid var(--white-20);
   margin-bottom: var(--fs-8);
 }
 
 .backBtn {
   background: none;
-  border: var(--size-1) solid rgba(255, 255, 255, 0.2);
+  border: var(--size-1) solid var(--white-20);
   color: var(--text-secondary);
   font-size: var(--fs-085);
   padding: var(--fs-6) var(--fs-12);
@@ -26,7 +26,7 @@
 }
 
 .backBtn:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--white-05);
   color: var(--text-primary);
 }
 
@@ -56,6 +56,6 @@
   text-align: center;
   font-size: var(--fs-085);
   color: var(--text-secondary);
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--white-05);
   border-radius: var(--fs-8);
 }

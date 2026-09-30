@@ -5,9 +5,9 @@
   justify-content: center;
   gap: var(--medium);
   padding: var(--size-32);
-  width: 30vw;
-  height: 100vh;
-  max-height: 100vh;
+  width: var(--size-384);
+  height: var(--vh-100);
+  max-height: var(--vh-100);
   opacity: 0.9;
   border-left: var(--size-2) solid var(--text-color);
   border-right: var(--size-2) solid var(--text-color);
@@ -31,14 +31,14 @@
 .bar {
   width: 100%;
   height: var(--fs-080);
-  background: #333;
+  background: var(--border-default);
   border-radius: var(--size-040r);
   overflow: hidden;
 }
 
 .fill {
   height: 100%;
-  background: linear-gradient(90deg, #e74c3c, #e67e22);
+  background: linear-gradient(90deg, var(--red-500), var(--pumpkin));
   border-radius: var(--size-040r);
   transition: width 0.3s ease;
 }

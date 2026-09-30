@@ -26,8 +26,8 @@
   width: var(--size-200);
   height: var(--size-40);
   border-radius: 50%;
-  background: rgba(255, 30, 30, 0.4);
-  border: var(--size-2) solid #ff3333;
+  background: var(--red-vivid-40);
+  border: var(--size-2) solid var(--red-bright);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -40,6 +40,6 @@
   color: var(--text-color);
   font-weight: bold;
   font-size: var(--medium);
-  text-shadow: 0 0 var(--size-6) #ff0000;
+  text-shadow: 0 0 var(--size-6) var(--red-pure);
   animation: shake 0.4s ease-in-out infinite;
 }

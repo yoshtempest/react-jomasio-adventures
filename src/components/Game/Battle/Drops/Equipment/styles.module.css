@@ -15,8 +15,8 @@
   font-size: var(--smaller);
   font-weight: 700;
   color: var(--gold);
-  background: rgba(255, 215, 0, 0.12);
-  border: var(--size-1) solid rgba(255, 215, 0, 0.4);
+  background: var(--gold-12);
+  border: var(--size-1) solid var(--gold-40);
   border-radius: var(--size-4);
   padding: 0 var(--size-4);
   white-space: nowrap;

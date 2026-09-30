@@ -10,7 +10,7 @@
   padding: var(--fs-8) var(--smaller);
   border-radius: var(--size-4);
   text-align: center;
-  width: 25vw;
+  width: var(--size-320);
   align-self: center;
   border: var(--size-2) solid var(--primary-color);
   text-wrap: nowrap;

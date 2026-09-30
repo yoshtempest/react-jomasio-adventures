@@ -1,34 +1,34 @@
 .button {
-  right: 10vw;
-  border: var(--size-2) solid rgba(251, 191, 36, 0.5);
+  right: var(--size-128);
+  border: var(--size-2) solid var(--accent-50);
   background-image: url("public/assets/player/marcelo/inFight/default/habilities/atomic/background.svg");
   animation: atomicGlow 1.5s ease-in-out infinite;
 }
 
 .button:hover:not(:disabled) {
-  border-color: rgba(251, 191, 36, 0.9);
+  border-color: var(--accent-90);
 }
 
 .ready {
-  border-color: rgba(251, 191, 36, 0.8);
+  border-color: var(--accent-80);
 }
 
 .label {
-  color: #fde68a;
+  color: var(--ability-aurora);
 }
 
 .cooldown {
   font-size: var(--fs-16);
   font-weight: bold;
-  color: #fde68a;
+  color: var(--ability-aurora);
 }
 
 @keyframes atomicGlow {
   0%,
   100% {
-    box-shadow: 0 0 4px rgba(251, 191, 36, 0.3);
+    box-shadow: 0 0 var(--size-4) var(--accent-30);
   }
   50% {
-    box-shadow: 0 0 18px rgba(251, 191, 36, 0.8);
+    box-shadow: 0 0 var(--size-18) var(--accent-80);
   }
 }

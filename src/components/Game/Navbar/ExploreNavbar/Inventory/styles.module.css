@@ -30,9 +30,9 @@
   bottom: 20%;
   left: 50%;
   transform: translateX(-50%);
-  background: #1a1a1a;
-  color: #e74c3c;
-  border: var(--size-1) solid #e74c3c;
+  background: var(--surface-card);
+  color: var(--red-500);
+  border: var(--size-1) solid var(--red-500);
   padding: var(--size-4) var(--fs-8);
   border-radius: var(--size-4);
   font-size: var(--fs-12);

@@ -1,11 +1,11 @@
 .button {
-  border: var(--size-2) solid rgba(34, 211, 238, 0.5);
-  background: rgba(34, 211, 238, 0.15);
+  border: var(--size-2) solid var(--ability-ematron-50);
+  background: var(--ability-ematron-15);
   animation: glow 1.5s ease-in-out infinite;
 }
 
 .button:hover:not(:disabled) {
-  background: rgba(34, 211, 238, 0.35);
+  background: var(--ability-ematron-35);
 }
 
 .depleted {
@@ -23,25 +23,25 @@
 .value {
   font-size: var(--fs-18);
   font-weight: bold;
-  color: #22d3ee;
+  color: var(--ability-ematron);
 }
 
 .label {
-  color: #cffafe;
+  color: var(--ability-ematron-pale);
 }
 
 .cost {
   font-size: var(--fs-11);
   font-weight: bold;
-  color: #7dd3fc;
+  color: var(--ability-freeze);
 }
 
 @keyframes glow {
   0%,
   100% {
-    box-shadow: 0 0 4px rgba(34, 211, 238, 0.25);
+    box-shadow: 0 0 var(--size-4) var(--ability-ematron-25);
   }
   50% {
-    box-shadow: 0 0 16px rgba(34, 211, 238, 0.6);
+    box-shadow: 0 0 var(--size-16) var(--ability-ematron-60);
   }
 }

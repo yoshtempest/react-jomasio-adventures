@@ -3,18 +3,18 @@
   align-items: center;
   gap: var(--fs-8);
   padding: var(--fs-8) var(--fs-10);
-  border-left: 3px solid transparent;
+  border-left: var(--size-3) solid transparent;
   border-radius: var(--fs-6);
   cursor: pointer;
   transition: background 0.15s;
 }
 
 .tierItem:hover {
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--white-04);
 }
 
 .tierSelected {
-  background: rgba(251, 191, 36, 0.1);
+  background: var(--accent-10);
   outline: var(--size-1) solid var(--accent-color);
 }
 
@@ -22,7 +22,7 @@
   width: var(--fs-10);
   height: var(--fs-10);
   border-radius: 50%;
-  border: var(--size-1) solid rgba(255, 255, 255, 0.2);
+  border: var(--size-1) solid var(--white-20);
   flex-shrink: 0;
 }
 

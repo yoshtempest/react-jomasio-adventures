@@ -1,6 +1,6 @@
 .fontSize {
   font-size: var(--smaller);
-  gap: 0.4vw;
+  gap: var(--vw-0-4);
 }
 
 .italic {

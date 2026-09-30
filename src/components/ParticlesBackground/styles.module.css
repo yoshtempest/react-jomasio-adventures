@@ -7,6 +7,8 @@
 }
 
 .particle {
+  /* Valor sobrescrito por inline style (index.tsx); o JS sempre manda em px,
+     entao aqui fica o fallback literal, nao um token. */
   --p-size: 4px;
   --p-left: 50;
   --p-duration: 8s;
@@ -15,8 +17,8 @@
   --p-hue: 40;
 
   position: absolute;
-  left: calc(var(--p-left) * 1vw);
-  bottom: 10vh;
+  left: calc(var(--p-left) * var(--size-13));
+  bottom: var(--vh-10);
   width: var(--p-size);
   height: var(--p-size);
   border-radius: 50%;
@@ -39,7 +41,7 @@
     opacity: var(--p-opacity);
   }
   100% {
-    transform: translate3d(calc(100vw - var(--p-left) * 1vw), -150vh, 0);
+    transform: translate3d(calc(var(--size-1280) - var(--p-left) * var(--size-13)), -150vh, 0);
     opacity: 0;
   }
 }

@@ -1,7 +1,7 @@
 .page {
-  max-width: 100vw;
+  max-width: var(--size-1280);
   min-height: 100dvh;
-  color: #e0e0e0;
+  color: var(--white-dim);
   font-family: inherit;
 }
 
@@ -11,7 +11,7 @@
 }
 
 .darkSection {
-  background: #080308;
+  background: var(--landing-bg);
 }
 
 .sectionInner {
@@ -31,7 +31,7 @@
 .sectionDesc {
   margin: calc(-1 * var(--medium)) 0 var(--size-40);
   font-size: var(--small);
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--white-60);
 }
 
 @keyframes bounce {

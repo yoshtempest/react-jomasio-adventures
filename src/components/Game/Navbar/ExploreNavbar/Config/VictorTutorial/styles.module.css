@@ -1,7 +1,7 @@
 .button {
   display: flex;
-  width: 2.4vw;
-  height: 2.4vw;
+  width: var(--size-31);
+  height: var(--size-31);
   font-size: var(--fs-080vw);
   font-weight: bold;
   align-items: center;
@@ -10,15 +10,15 @@
 
 .open {
   display: flex;
-  width: 2.4vw;
-  height: 0.8vw;
+  width: var(--size-31);
+  height: var(--vw-0-8);
   border-radius: var(--fs-10);
 }
 
 .talking {
   display: flex;
   position: absolute;
-  margin-bottom: 45vw;
+  margin-bottom: var(--size-576);
   align-self: center;
 }
 
@@ -27,7 +27,7 @@
   height: 100%;
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.95);
+  background: var(--overlay-95);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -55,8 +55,8 @@
 .movement {
   display: grid;
 
-  grid-template-columns: 2.4vw 2.4vw 2.4vw;
-  grid-template-rows: 2.4vw 2.4vw 2.4vw;
+  grid-template-columns: var(--size-31) var(--size-31) var(--size-31);
+  grid-template-rows: var(--size-31) var(--size-31) var(--size-31);
   align-self: center;
 
   grid-template-areas:

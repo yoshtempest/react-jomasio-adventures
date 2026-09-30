@@ -8,24 +8,24 @@
 }
 
 .arrowUp {
-  color: #4caf50;
+  color: var(--green-500);
   flex-shrink: 0;
 }
 
 .arrowDown {
-  color: #f44336;
+  color: var(--red-solid);
   flex-shrink: 0;
 }
 
 .stats {
   font-size: var(--fs-11);
-  color: #ccc;
+  color: var(--text-bright);
 }
 
 .qtyBadge {
   font-size: var(--fs-10);
   color: var(--text-muted);
-  background: #222;
+  background: var(--surface-deep);
   padding: var(--size-1) var(--size-5);
   border-radius: var(--size-4);
   white-space: nowrap;
@@ -52,8 +52,8 @@
   font-size: var(--fs-10);
   font-weight: 700;
   color: var(--gold);
-  background: rgba(255, 215, 0, 0.12);
-  border: var(--size-1) solid rgba(255, 215, 0, 0.4);
+  background: var(--gold-12);
+  border: var(--size-1) solid var(--gold-40);
   border-radius: var(--size-4);
   padding: var(--size-1) var(--size-5);
   white-space: nowrap;
@@ -88,7 +88,7 @@
 
 .filterTabActive {
   color: var(--text-color);
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--overlay-50);
 }
 
 .itemsContainer {

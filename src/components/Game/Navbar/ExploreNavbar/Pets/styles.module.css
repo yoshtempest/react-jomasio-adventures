@@ -7,12 +7,12 @@
 .pet {
   display: flex;
   flex-direction: row;
-  gap: 2vw;
+  gap: var(--size-26);
   position: relative;
   align-items: center;
   justify-content: center;
   width: 99.2%;
-  height: 34vh;
+  height: var(--vh-34);
   border: var(--size-2) solid var(--primary-color);
   border-radius: var(--fs-16);
   background: var(--surface-primary);
@@ -25,7 +25,7 @@
 
 .equipped {
   border-color: var(--accent-color);
-  background: #2a1a0e;
+  background: var(--surface-panel);
 }
 
 .selected {
@@ -165,12 +165,12 @@
   padding: var(--size-2) var(--size-6);
   border-radius: var(--size-3);
   background: var(--success);
-  color: #000;
+  color: var(--black);
   font-weight: bold;
 }
 
 .fuseConfirm {
-  background: #fbbf24;
+  background: var(--secondary-color);
 }
 
 .unlockBadge {
@@ -178,10 +178,10 @@
   font-size: var(--fs-10);
   padding: var(--size-1) var(--size-4);
   border-radius: var(--size-3);
-  background: linear-gradient(135deg, #fbbf24, #f59e0b);
-  color: #000;
+  background: linear-gradient(135deg, var(--secondary-color), var(--bar-hunger));
+  color: var(--black);
   font-weight: bold;
-  box-shadow: 0 0 12px rgba(251, 191, 36, 0.7);
+  box-shadow: 0 0 var(--size-12) var(--accent-70);
   animation: unlockPulse 1.2s ease-in-out infinite;
 }
 
@@ -200,8 +200,8 @@
   font-size: var(--fs-10);
   padding: var(--size-2) var(--size-6);
   border-radius: var(--size-3);
-  background: #fbbf24;
-  color: #000;
+  background: var(--secondary-color);
+  color: var(--black);
   font-weight: bold;
   bottom: 0;
   right: 0;

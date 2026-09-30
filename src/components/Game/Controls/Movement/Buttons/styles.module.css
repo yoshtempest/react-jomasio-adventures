@@ -1,8 +1,8 @@
 .movement {
   display: grid;
 
-  grid-template-columns: 3.6vw 3.6vw 3.6vw;
-  grid-template-rows: 3.6vw 3.6vw 3.6vw;
+  grid-template-columns: var(--size-46) var(--size-46) var(--size-46);
+  grid-template-rows: var(--size-46) var(--size-46) var(--size-46);
 
   position: fixed;
   align-self: center;
@@ -41,9 +41,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.45);
+  background: var(--overlay-45);
   border: none;
-  border-radius: 1.2vw;
+  border-radius: var(--vw-1-2);
   padding: 0;
   cursor: pointer;
 }
@@ -61,6 +61,6 @@
 
 .movement button:active,
 .movement button.pressed {
-  background: rgba(255, 255, 255, 0.35);
+  background: var(--white-35);
   transform: scale(0.9);
 }

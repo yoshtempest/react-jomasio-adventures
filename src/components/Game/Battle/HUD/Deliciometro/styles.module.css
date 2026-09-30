@@ -25,12 +25,12 @@
     transparent 54deg
   );
   -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
+    linear-gradient(var(--white) 0 0) content-box,
+    linear-gradient(var(--white) 0 0);
   -webkit-mask-composite: xor;
   mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
+    linear-gradient(var(--white) 0 0) content-box,
+    linear-gradient(var(--white) 0 0);
   mask-composite: exclude;
   animation: delicia-rotate 1.6s linear infinite;
 }
@@ -49,8 +49,8 @@
 .fullContainer {
   animation: delicia-container 2s linear infinite;
   box-shadow:
-    0 0 2px rgba(255, 255, 255, 0.9),
-    0 0 6px rgba(0, 255, 255, 0.45);
+    0 0 var(--size-2) var(--white-90),
+    0 0 var(--size-6) var(--cyan-bright-45);
   border-width: var(--size-1);
 }
 

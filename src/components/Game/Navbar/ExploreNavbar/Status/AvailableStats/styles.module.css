@@ -1,5 +1,5 @@
 .container {
-  width: 14vw;
+  width: var(--size-179);
 }
 
 .container div {
@@ -9,8 +9,8 @@
 
 .container img {
   display: flex;
-  width: 2vw;
-  margin-right: 0.5vw;
+  width: var(--size-26);
+  margin-right: var(--size-040r);
 }
 
 .container p {

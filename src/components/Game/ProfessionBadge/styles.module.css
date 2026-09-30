@@ -7,7 +7,7 @@
   object-fit: contain;
   image-rendering: pixelated;
   pointer-events: none;
-  filter: drop-shadow(0 0 var(--size-4) rgba(0, 0, 0, 0.6));
+  filter: drop-shadow(0 0 var(--size-4) var(--overlay-60));
   animation: floatBadge 1s ease-out forwards;
 }
 

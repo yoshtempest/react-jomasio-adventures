@@ -8,6 +8,6 @@
 }
 
 .time {
-  color: #888;
+  color: var(--text-muted);
   font-size: var(--fs-12);
 }

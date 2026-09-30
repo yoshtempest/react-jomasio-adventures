@@ -15,7 +15,7 @@
 
 .combatIcon {
   margin-bottom: var(--small);
-  color: #4a7cff;
+  color: var(--blue-strong);
 }
 
 .combatCard h3 {
@@ -28,7 +28,7 @@
   margin: 0;
   line-height: 1.6;
   font-size: var(--fs-090);
-  color: rgba(255, 255, 255, 0.65);
+  color: var(--white-65);
 }
 
 .bossesTitle {
@@ -50,8 +50,8 @@
   align-items: center;
   gap: var(--fs-8);
   padding: var(--low-medium) var(--smaller);
-  background: rgba(18, 27, 49, 0.3);
-  border: var(--size-1) solid rgba(255, 255, 255, 0.06);
+  background: var(--primary-30);
+  border: var(--size-1) solid var(--white-06);
   border-radius: var(--smaller);
   text-align: center;
   transition:
@@ -60,7 +60,7 @@
 }
 
 .bossCard:hover {
-  border-color: rgba(255, 100, 100, 0.3);
+  border-color: var(--red-soft-30);
   transform: translateY(calc(-1 * var(--size-2)));
 }
 
@@ -73,7 +73,7 @@
 
 .bossDesc {
   font-size: var(--fs-080);
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--white-50);
 }
 
 @media (max-width: 768px) {

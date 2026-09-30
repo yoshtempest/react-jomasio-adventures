@@ -25,19 +25,19 @@
 
 .description {
   font-size: var(--fs-11);
-  color: #999;
+  color: var(--grey-mid);
   font-weight: normal;
   line-height: 1.3;
   word-wrap: break-word;
 }
 
 .noKey {
-  color: #e74c3c;
+  color: var(--red-500);
   font-size: var(--fs-080);
 }
 
 .rejected {
-  border: var(--size-2) solid #e74c3c;
+  border: var(--size-2) solid var(--red-500);
   animation: shake 0.4s ease-in-out;
 }
 
@@ -50,12 +50,12 @@
     transform: translateX(-4px);
   }
   40% {
-    transform: translateX(4px);
+    transform: translateX(var(--size-4));
   }
   60% {
     transform: translateX(-3px);
   }
   80% {
-    transform: translateX(3px);
+    transform: translateX(var(--size-3));
   }
 }

@@ -6,7 +6,7 @@
   color: var(--text-hint);
   white-space: nowrap;
   margin-left: -2vw;
-  margin-top: 5vh;
+  margin-top: var(--vh-5);
 }
 
 .ready {

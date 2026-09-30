@@ -11,8 +11,8 @@
 
 .relative input {
   background-color: var(--text-color);
-  width: 30vw;
-  height: 6vh;
+  width: var(--size-384);
+  height: var(--vh-6);
   padding: var(--fs-8);
   border-radius: var(--size-6);
   border: none;

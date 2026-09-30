@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 2vh;
+  margin: var(--vh-2);
 }
 
 .dailyChest {
@@ -11,15 +11,15 @@
   align-items: center;
   justify-content: center;
   padding: var(--fs-10) var(--fs-14);
-  background: linear-gradient(135deg, #1a1a3e, #2a1a2e);
-  border: var(--size-1) solid #5a3a5e;
+  background: linear-gradient(135deg, var(--surface-chest), var(--surface-magic));
+  border: var(--size-1) solid var(--border-legendary);
   border-radius: var(--fs-8);
   width: 80%;
 }
 
 .dailyChestFocused {
-  border-color: #ffd700;
-  box-shadow: 0 0 var(--fs-10) rgba(255, 215, 0, 0.6);
+  border-color: var(--gold);
+  box-shadow: 0 0 var(--fs-10) var(--gold-60);
 }
 
 .dailyChestInfo {
@@ -33,12 +33,12 @@
 .dailyChestTitle {
   font-size: var(--fs-15);
   font-weight: bold;
-  color: #f0d080;
+  color: var(--gold-light);
 }
 
 .dailyChestReady {
   font-size: var(--smaller);
-  color: #4caf50;
+  color: var(--green-500);
   font-weight: bold;
 }
 

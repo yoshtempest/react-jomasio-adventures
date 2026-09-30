@@ -7,8 +7,8 @@
 
 .icon {
   display: flex;
-  width: 3vw;
-  height: 3vw;
+  width: var(--size-38);
+  height: var(--size-38);
 }
 
 .title {
@@ -53,7 +53,7 @@
   padding: var(--fs-8) var(--smaller);
   border: var(--size-1) solid var(--border-default);
   border-radius: var(--size-5);
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--overlay-20);
 }
 
 .playerRow {
@@ -85,12 +85,12 @@
 
 .playerBadge {
   background: var(--success);
-  color: #000;
+  color: var(--black);
 }
 
 .npcBadge {
   background: var(--danger);
-  color: #fff;
+  color: var(--white);
 }
 
 .relationCell {

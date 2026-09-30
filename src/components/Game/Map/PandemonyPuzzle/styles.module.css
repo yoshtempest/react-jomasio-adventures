@@ -4,7 +4,7 @@
 
 .modal {
   background: var(--surface-primary);
-  border: var(--size-2) solid #b8860b;
+  border: var(--size-2) solid var(--gold-deep);
   border-radius: var(--smaller);
   padding: var(--size-32);
   min-width: var(--size-360);
@@ -24,7 +24,7 @@
 
 .instruction {
   font-size: var(--fs-14);
-  color: #ccc;
+  color: var(--text-bright);
   text-align: center;
   line-height: 1.4;
 }
@@ -44,7 +44,7 @@
   padding: var(--smaller);
   border: var(--size-2) solid var(--border-default);
   border-radius: var(--fs-8);
-  background: #16213e;
+  background: var(--surface-modal);
   transition: border-color 0.15s;
 }
 
@@ -68,15 +68,15 @@
   font-size: var(--fs-18);
   font-weight: bold;
   color: var(--text-color);
-  background: #0f3460;
+  background: var(--surface-puzzle);
   border: var(--size-2) solid var(--border-medium);
   border-radius: var(--fs-8);
   transition: all 0.15s;
 }
 
 .symbolActive {
-  background: #533483;
-  border-color: #b8860b;
+  background: var(--surface-modal-alt);
+  border-color: var(--gold-deep);
   transform: scale(1.05);
 }
 
@@ -91,9 +91,9 @@
 }
 
 .solved {
-  color: #4caf50;
+  color: var(--green-500);
 }
 
 .unsolved {
-  color: #ff9800;
+  color: var(--orange-deep);
 }

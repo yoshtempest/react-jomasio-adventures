@@ -1,16 +1,16 @@
 .button {
-  bottom: 10vh;
-  border: var(--size-2) solid rgba(255, 255, 255, 0.25);
-  background: rgba(255, 255, 255, 0.1);
+  bottom: var(--vh-10);
+  border: var(--size-2) solid var(--white-25);
+  background: var(--white-10);
 }
 
 .button:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--white-20);
 }
 
 .ready {
   border-color: var(--accent-color);
-  background: rgba(251, 191, 36, 0.15);
+  background: var(--accent-15);
 }
 
 .skillName {

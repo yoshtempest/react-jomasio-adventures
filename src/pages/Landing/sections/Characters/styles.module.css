@@ -10,8 +10,8 @@
   align-items: center;
   gap: var(--fs-8);
   padding: var(--low-medium) var(--fs-8);
-  background: rgba(18, 27, 49, 0.3);
-  border: var(--size-1) solid rgba(255, 255, 255, 0.06);
+  background: var(--primary-30);
+  border: var(--size-1) solid var(--white-06);
   border-radius: var(--smaller);
   text-align: center;
   transition:
@@ -21,9 +21,9 @@
 }
 
 .characterCard:hover {
-  border-color: rgba(255, 255, 255, 0.15);
+  border-color: var(--white-15);
   transform: translateY(calc(-1 * var(--size-3)));
-  box-shadow: 0 var(--fs-8) var(--low-medium) rgba(0, 0, 0, 0.4);
+  box-shadow: 0 var(--fs-8) var(--low-medium) var(--overlay-40);
 }
 
 .characterImage {
@@ -35,7 +35,7 @@
 
 .characterClass {
   font-size: var(--smaller);
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--white-45);
   text-transform: uppercase;
   letter-spacing: var(--size-1);
 }

@@ -12,7 +12,7 @@
 }
 
 .funnyCard:hover {
-  border-color: rgba(255, 200, 50, 0.2);
+  border-color: var(--gold-amber-20);
 }
 
 .funnyImage {
@@ -34,7 +34,7 @@
   margin: 0;
   line-height: 1.6;
   font-size: var(--fs-090);
-  color: rgba(255, 255, 255, 0.65);
+  color: var(--white-65);
 }
 
 @media (max-width: 768px) {

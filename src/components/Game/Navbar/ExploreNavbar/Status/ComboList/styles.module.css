@@ -40,10 +40,10 @@
   padding: 0 var(--size-6);
   font-size: var(--fs-11);
   font-weight: 700;
-  color: #000;
-  background: #e0e0e0;
+  color: var(--black);
+  background: var(--white-dim);
   border-radius: var(--size-4);
-  border: var(--size-1) solid #bbb;
+  border: var(--size-1) solid var(--grey-light);
 }
 
 .sprites {
@@ -56,7 +56,7 @@
   width: var(--size-40);
   height: var(--size-40);
   object-fit: contain;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--white-05);
   border-radius: var(--size-4);
 }
 
@@ -79,7 +79,7 @@
 .flexRow {
   display: flex;
   flex-direction: row;
-  gap: 0.5vw;
+  gap: var(--size-040r);
 }
 
 .flexRow p {

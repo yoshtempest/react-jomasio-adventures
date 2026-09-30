@@ -13,12 +13,12 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 3vw;
+  gap: var(--size-38);
 }
 
 .sprite {
-  width: 8vw;
-  height: 8vw;
+  width: var(--size-102);
+  height: var(--size-102);
   object-fit: contain;
   image-rendering: pixelated;
 }
@@ -50,5 +50,5 @@
   font-size: var(--fs-14);
   font-weight: bold;
   color: var(--text-color);
-  text-shadow: 0 0 var(--size-4) rgba(0, 0, 0, 0.8);
+  text-shadow: 0 0 var(--size-4) var(--overlay-80);
 }

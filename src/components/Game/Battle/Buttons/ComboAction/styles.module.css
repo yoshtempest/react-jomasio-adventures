@@ -10,8 +10,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 6vw;
-  height: 6vw;
+  width: var(--size-77);
+  height: var(--size-77);
   border-radius: 50%;
   overflow: hidden;
   padding: 0;
@@ -26,7 +26,7 @@
 
 .button:active {
   transform: scale(0.88);
-  background: rgba(255, 255, 255, 0.3);
+  background: var(--white-30);
 }
 
 .button img {

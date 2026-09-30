@@ -21,7 +21,7 @@
   align-items: center;
   gap: var(--fs-8);
   padding: var(--fs-6) var(--fs-8);
-  background: rgba(0, 0, 0, 0.15);
+  background: var(--overlay-15);
   border-radius: var(--fs-6);
 }
 

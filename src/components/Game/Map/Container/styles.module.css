@@ -1,6 +1,6 @@
 .modal {
   background: var(--surface-primary);
-  border: var(--size-2) solid #b8860b;
+  border: var(--size-2) solid var(--gold-deep);
   border-radius: var(--smaller);
   padding: var(--size-32);
   display: flex;
@@ -9,7 +9,7 @@
   align-self: center;
   gap: var(--low-medium);
 
-  max-height: 80vh;
+  max-height: var(--vh-80);
   overflow-y: auto;
 }
 
@@ -32,7 +32,7 @@
   justify-content: center;
   min-height: var(--size-72);
   padding: var(--smaller);
-  background: #16213e;
+  background: var(--surface-modal);
   border: var(--size-2) solid var(--border-default);
   border-radius: var(--fs-8);
   transition:
@@ -41,7 +41,7 @@
 }
 
 .slotSelected {
-  background: #533483;
+  background: var(--surface-modal-alt);
   border-color: var(--gold);
 }
 

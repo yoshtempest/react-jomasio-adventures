@@ -2,8 +2,8 @@
   margin-top: var(--size-2);
   width: var(--size-200);
   height: var(--smaller);
-  border: var(--size-1) solid #00c8e0;
-  background-color: #0a2a33;
+  border: var(--size-1) solid var(--sky-bright);
+  background-color: var(--surface-energy);
   overflow: hidden;
   position: relative;
 }

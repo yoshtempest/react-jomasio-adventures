@@ -5,10 +5,10 @@
   font-size: var(--low-medium);
   pointer-events: none;
   text-shadow:
-    var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8),
-    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8),
-    var(--size-1) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8),
-    calc(-1 * var(--size-1)) var(--size-1) 0 rgba(0, 0, 0, 0.8);
+    var(--size-1) var(--size-1) 0 var(--overlay-80),
+    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 var(--overlay-80),
+    var(--size-1) calc(-1 * var(--size-1)) 0 var(--overlay-80),
+    calc(-1 * var(--size-1)) var(--size-1) 0 var(--overlay-80);
   z-index: 100;
   animation: floatUp 1s ease-out forwards;
 }
@@ -22,39 +22,39 @@
 }
 
 .special {
-  color: #ff8800;
+  color: var(--number-burn);
   font-size: var(--fs-28);
 }
 
 .pet {
-  color: #44ff44;
+  color: var(--number-heal);
 }
 
 .summon {
-  color: #ff8844;
+  color: var(--number-summon);
 }
 
 .projectile {
-  color: #ff6b6b;
+  color: var(--red-glow);
   font-size: var(--fs-20);
   text-shadow:
-    0 0 var(--size-6) rgba(255, 107, 107, 0.8),
-    var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8),
-    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8),
-    var(--size-1) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8),
-    calc(-1 * var(--size-1)) var(--size-1) 0 rgba(0, 0, 0, 0.8);
+    0 0 var(--size-6) var(--red-glow-80),
+    var(--size-1) var(--size-1) 0 var(--overlay-80),
+    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 var(--overlay-80),
+    var(--size-1) calc(-1 * var(--size-1)) 0 var(--overlay-80),
+    calc(-1 * var(--size-1)) var(--size-1) 0 var(--overlay-80);
 }
 
 .charge {
-  color: #00bfff;
+  color: var(--sky-deep);
   font-size: var(--fs-28);
   text-shadow:
-    0 0 var(--fs-10) rgba(0, 191, 255, 0.8),
-    0 0 var(--low-medium) rgba(0, 191, 255, 0.6),
-    var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8),
-    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8),
-    var(--size-1) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8),
-    calc(-1 * var(--size-1)) var(--size-1) 0 rgba(0, 0, 0, 0.8);
+    0 0 var(--fs-10) var(--sky-deep-80),
+    0 0 var(--low-medium) var(--sky-deep-60),
+    var(--size-1) var(--size-1) 0 var(--overlay-80),
+    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 var(--overlay-80),
+    var(--size-1) calc(-1 * var(--size-1)) 0 var(--overlay-80),
+    calc(-1 * var(--size-1)) var(--size-1) 0 var(--overlay-80);
   animation: floatCrit 1s ease-out forwards;
 }
 
@@ -62,12 +62,12 @@
   font-size: var(--small);
   font-weight: 900;
   text-shadow:
-    0 0 var(--fs-10) #ff0044,
-    0 0 var(--low-medium) #ff0044,
-    var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8),
-    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8),
-    var(--size-1) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8),
-    calc(-1 * var(--size-1)) var(--size-1) 0 rgba(0, 0, 0, 0.8);
+    0 0 var(--fs-10) var(--number-crit),
+    0 0 var(--low-medium) var(--number-crit),
+    var(--size-1) var(--size-1) 0 var(--overlay-80),
+    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 var(--overlay-80),
+    var(--size-1) calc(-1 * var(--size-1)) 0 var(--overlay-80),
+    calc(-1 * var(--size-1)) var(--size-1) 0 var(--overlay-80);
 }
 
 .critBackground {
@@ -101,60 +101,60 @@
   justify-content: center;
   padding: 1em;
   color: var(--background-color);
-  margin-bottom: 3vh;
+  margin-bottom: var(--vh-3);
 }
 
 .miss {
-  color: #aaaaaa;
+  color: var(--text-secondary);
   font-size: var(--small);
   text-transform: uppercase;
   font-style: italic;
   text-shadow:
-    0 0 var(--size-6) rgba(170, 170, 170, 0.6),
-    var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8),
-    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8);
+    0 0 var(--size-6) var(--text-secondary-60),
+    var(--size-1) var(--size-1) 0 var(--overlay-80),
+    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 var(--overlay-80);
 }
 
 .confuse {
-  color: #c084fc;
+  color: var(--ability-vastolord-soft);
   text-shadow:
-    0 0 var(--size-6) rgba(192, 132, 252, 0.8),
-    var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8),
-    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8);
+    0 0 var(--size-6) var(--ability-vastolord-soft-80),
+    var(--size-1) var(--size-1) 0 var(--overlay-80),
+    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 var(--overlay-80);
 }
 
 .burn {
-  color: #ff8800;
+  color: var(--number-burn);
   text-shadow:
-    0 0 var(--size-6) rgba(255, 136, 0, 0.8),
-    var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8),
-    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8);
+    0 0 var(--size-6) var(--number-burn-80),
+    var(--size-1) var(--size-1) 0 var(--overlay-80),
+    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 var(--overlay-80);
 }
 
 .poison {
-  color: #44ff44;
+  color: var(--number-heal);
   text-shadow:
-    0 0 var(--size-6) rgba(68, 255, 68, 0.8),
-    var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8),
-    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8);
+    0 0 var(--size-6) var(--number-heal-80),
+    var(--size-1) var(--size-1) 0 var(--overlay-80),
+    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 var(--overlay-80);
 }
 
 .freeze {
-  color: #7dd3fc;
+  color: var(--ability-freeze);
   text-shadow:
-    0 0 var(--size-6) rgba(125, 211, 252, 0.8),
-    var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8),
-    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8);
+    0 0 var(--size-6) var(--ability-freeze-80),
+    var(--size-1) var(--size-1) 0 var(--overlay-80),
+    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 var(--overlay-80);
 }
 
 .blocked {
-  color: #00ffff;
+  color: var(--cyan-bright);
   font-size: var(--small);
   text-transform: uppercase;
   text-shadow:
-    0 0 var(--size-6) rgba(0, 255, 255, 0.8),
-    var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8),
-    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8);
+    0 0 var(--size-6) var(--cyan-bright-80),
+    var(--size-1) var(--size-1) 0 var(--overlay-80),
+    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 var(--overlay-80);
   animation: floatBlocked 0.8s ease-out forwards;
 }
 
@@ -164,47 +164,47 @@
   font-weight: 900;
   text-transform: uppercase;
   text-shadow:
-    0 0 var(--fs-10) rgba(255, 200, 40, 0.8),
-    0 0 var(--low-medium) rgba(255, 200, 40, 0.6),
-    var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8),
-    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8);
+    0 0 var(--fs-10) var(--gold-amber-80),
+    0 0 var(--low-medium) var(--gold-amber-60),
+    var(--size-1) var(--size-1) 0 var(--overlay-80),
+    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 var(--overlay-80);
   animation: floatBlocked 0.8s ease-out forwards;
 }
 
 .reflect {
-  color: #7c4dff;
+  color: var(--ability-vastolord-deep);
   text-shadow:
-    0 0 var(--size-6) rgba(124, 77, 255, 0.8),
-    var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8),
-    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8);
+    0 0 var(--size-6) var(--ability-vastolord-deep-80),
+    var(--size-1) var(--size-1) 0 var(--overlay-80),
+    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 var(--overlay-80);
   animation: floatCrit 1s ease-out forwards;
 }
 
 .armor {
-  color: #00e5ff;
+  color: var(--sky-vivid);
   font-size: var(--fs-20);
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: var(--size-2);
   text-shadow:
-    0 0 var(--size-6) rgba(0, 229, 255, 0.8),
-    var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8),
-    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8);
+    0 0 var(--size-6) var(--sky-vivid-80),
+    var(--size-1) var(--size-1) 0 var(--overlay-80),
+    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 var(--overlay-80);
   animation: floatCrit 1s ease-out forwards;
 }
 
 .heal {
-  color: #44ff44;
+  color: var(--number-heal);
   font-size: var(--fs-20);
   text-shadow:
-    0 0 var(--size-6) rgba(68, 255, 68, 0.8),
-    var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8),
-    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8);
+    0 0 var(--size-6) var(--number-heal-80),
+    var(--size-1) var(--size-1) 0 var(--overlay-80),
+    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 var(--overlay-80);
   animation: floatCrit 1s ease-out forwards;
 }
 
 .image {
-  width: 2vw;
+  width: var(--size-26);
 }
 
 @keyframes floatCrit {

@@ -3,7 +3,7 @@
   padding: var(--fs-8);
   border: var(--size-2) solid var(--border-default);
   border-radius: var(--size-4);
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--overlay-20);
   position: relative;
 }
 
@@ -39,7 +39,7 @@
   color: var(--text-color);
   font-size: var(--fs-14);
   text-align: center;
-  letter-spacing: 2px;
+  letter-spacing: var(--size-2);
 }
 
 .cardInput::placeholder {

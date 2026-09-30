@@ -194,7 +194,7 @@
     38% 5%,
     45% 8%
   );
-  border: var(--size-2) solid #ffcc00;
+  border: var(--size-2) solid var(--gold-lemon);
   opacity: 0.3;
   animation: ssjInnerFlame 0.5s ease-in-out infinite alternate-reverse;
 }

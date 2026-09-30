@@ -8,12 +8,12 @@
 }
 
 .image {
-  height: 40vh;
+  height: var(--vh-40);
   z-index: 100;
 }
 
 .petImage {
-  height: 30vh;
+  height: var(--vh-30);
   object-fit: contain;
   transform: scaleX(-1);
   image-rendering: pixelated;

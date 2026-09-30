@@ -1,6 +1,6 @@
 .modal {
   background: var(--surface-primary);
-  border: var(--size-2) solid #b8860b;
+  border: var(--size-2) solid var(--gold-deep);
   border-radius: var(--smaller);
   padding: var(--size-32);
   display: flex;

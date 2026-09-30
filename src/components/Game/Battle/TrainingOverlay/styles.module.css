@@ -4,10 +4,10 @@
   right: var(--size-16);
   z-index: 25;
   top: 0;
-  margin-top: 5vh;
-  background: rgba(0, 0, 0, 0.6);
+  margin-top: var(--vh-5);
+  background: var(--overlay-60);
   color: var(--text-color);
-  border: var(--size-2) solid rgba(255, 255, 255, 0.2);
+  border: var(--size-2) solid var(--white-20);
   border-radius: var(--smaller);
   padding: var(--small) var(--medium);
   font-size: var(--fs-14);
@@ -20,8 +20,8 @@
 
 .leaveButton:hover,
 .leaveButton:focus {
-  background: rgba(0, 0, 0, 0.85);
-  border-color: rgba(255, 255, 255, 0.4);
+  background: var(--overlay-85);
+  border-color: var(--white-40);
 }
 
 .statusPanel {
@@ -33,16 +33,16 @@
   flex-direction: row;
   flex-wrap: wrap;
   gap: var(--size-6);
-  background: rgba(0, 0, 0, 0.6);
+  background: var(--overlay-60);
   border-radius: var(--smaller);
   padding: var(--size-6);
   backdrop-filter: blur(var(--size-4));
 }
 
 .statusButton {
-  background: rgba(0, 0, 0, 0.6);
+  background: var(--overlay-60);
   color: var(--text-color);
-  border: var(--size-2) solid rgba(255, 255, 255, 0.2);
+  border: var(--size-2) solid var(--white-20);
   border-radius: var(--smaller);
   padding: var(--small) var(--medium);
   font-size: var(--fs-14);
@@ -53,6 +53,6 @@
 
 .statusButton:hover,
 .statusButton:focus {
-  background: rgba(0, 0, 0, 0.85);
-  border-color: rgba(255, 255, 255, 0.4);
+  background: var(--overlay-85);
+  border-color: var(--white-40);
 }

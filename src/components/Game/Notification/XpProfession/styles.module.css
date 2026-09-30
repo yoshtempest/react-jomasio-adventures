@@ -14,16 +14,16 @@
 .icon {
   display: flex;
   align-items: center;
-  color: #60a5fa;
-  filter: drop-shadow(0 0 var(--size-4) rgba(96, 165, 250, 0.5));
+  color: var(--bar-profession-light);
+  filter: drop-shadow(0 0 var(--size-4) var(--bar-profession-light-50));
 }
 
 .arrow {
-  color: #93c5fd;
+  color: var(--bar-profession-bright);
   animation: bounceUp 2ms ease-in-out infinite;
   display: flex;
   align-items: center;
-  filter: drop-shadow(0 0 var(--size-4) rgba(147, 197, 253, 2));
+  filter: drop-shadow(0 0 var(--size-4) var(--bar-profession-bright));
 }
 
 .fill {
@@ -31,15 +31,15 @@
   top: 0;
   left: 0;
   height: 100%;
-  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+  background: linear-gradient(90deg, var(--bar-profession), var(--bar-profession-light));
   border-radius: var(--fs-8);
-  box-shadow: 0 0 var(--fs-8) rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 var(--fs-8) var(--bar-profession-50);
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateX(-50%) translateY(8px);
+    transform: translateX(-50%) translateY(var(--size-8));
   }
   to {
     opacity: 1;

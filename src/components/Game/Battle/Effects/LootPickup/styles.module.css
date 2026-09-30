@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: var(--size-2);
   pointer-events: none;
   z-index: 100;
   animation: lootFloat 2s ease-out forwards;
@@ -12,35 +12,35 @@
 .entry {
   display: flex;
   align-items: center;
-  gap: 4px;
-  padding: 2px 8px;
-  border-radius: 10px;
-  background: rgba(0, 0, 0, 0.6);
+  gap: var(--size-4);
+  padding: var(--size-2) var(--size-8);
+  border-radius: var(--size-10);
+  background: var(--overlay-60);
   box-shadow:
-    inset 0 0 0 1px rgba(255, 215, 0, 0.35),
-    0 2px 4px rgba(0, 0, 0, 0.5);
+    inset 0 0 0 var(--size-1) var(--gold-35),
+    0 var(--size-2) var(--size-4) var(--overlay-50);
   white-space: nowrap;
 }
 
 .icon {
-  width: 1.2vw;
-  height: 1.2vw;
+  width: var(--vw-1-2);
+  height: var(--vw-1-2);
   object-fit: contain;
   image-rendering: pixelated;
 }
 
 .qty {
-  color: #ffd700;
+  color: var(--gold);
   font-weight: bold;
   font-size: var(--small);
-  text-shadow: var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8);
+  text-shadow: var(--size-1) var(--size-1) 0 var(--overlay-80);
 }
 
 .name {
-  color: #ffffff;
+  color: var(--white);
   font-weight: 600;
   font-size: var(--small);
-  text-shadow: var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8);
+  text-shadow: var(--size-1) var(--size-1) 0 var(--overlay-80);
 }
 
 @keyframes lootFloat {

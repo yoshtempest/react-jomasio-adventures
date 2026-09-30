@@ -6,7 +6,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--size-6);
-  max-height: 70vh;
+  max-height: var(--vh-70);
   overflow-y: auto;
 }
 
@@ -15,20 +15,20 @@
   gap: var(--low-medium);
   align-items: center;
   padding: var(--fs-8) var(--smaller);
-  background: #1a1a1a;
-  border: var(--size-1) solid #333;
+  background: var(--surface-card);
+  border: var(--size-1) solid var(--border-default);
   border-radius: var(--size-6);
   cursor: pointer;
   transition: background 0.15s;
 }
 
 .card:hover {
-  background: #252525;
+  background: var(--c-252525);
 }
 
 .selected {
   border-color: var(--gold);
-  background: #1f1f10;
+  background: var(--surface-olive);
 }
 
 .cardSprites {
@@ -48,7 +48,7 @@
 .vsText {
   font-size: var(--fs-12);
   font-weight: 700;
-  color: #888;
+  color: var(--text-muted);
 }
 
 .cardInfo {
@@ -66,12 +66,12 @@
 
 .cardMeta {
   font-size: var(--fs-12);
-  color: #aaa;
+  color: var(--text-secondary);
 }
 
 .cardDate {
   font-size: var(--fs-11);
-  color: #666;
+  color: var(--text-hint);
 }
 
 .cardActions {
@@ -80,9 +80,9 @@
 }
 
 .actionBtn {
-  background: #333;
-  color: #ccc;
-  border: var(--size-1) solid #555;
+  background: var(--border-default);
+  color: var(--text-bright);
+  border: var(--size-1) solid var(--border-medium);
   border-radius: var(--size-4);
   padding: var(--size-4) var(--fs-10);
   cursor: pointer;
@@ -90,35 +90,35 @@
 }
 
 .actionBtn:hover {
-  background: #444;
-  color: #fff;
+  background: var(--border-strong);
+  color: var(--white);
 }
 
 .actionDanger {
-  border-color: #a33;
-  color: #f66;
+  border-color: var(--red-800);
+  color: var(--red-soft);
 }
 
 .actionDanger:hover {
-  background: #422;
+  background: var(--c-442222);
 }
 
 .empty {
   text-align: center;
   padding: var(--medium);
-  color: #888;
+  color: var(--text-muted);
 }
 
 .hint {
   font-size: var(--fs-12);
-  color: #555;
+  color: var(--border-medium);
   margin-top: var(--size-4);
 }
 
 .confirmBox {
   text-align: center;
   padding: var(--small);
-  color: #ccc;
+  color: var(--text-bright);
 }
 
 .confirmActions {
@@ -129,24 +129,24 @@
 }
 
 .confirmBtn {
-  background: #333;
-  color: #ccc;
-  border: var(--size-1) solid #555;
+  background: var(--border-default);
+  color: var(--text-bright);
+  border: var(--size-1) solid var(--border-medium);
   border-radius: var(--size-4);
   padding: var(--size-6) var(--fs-14);
   cursor: pointer;
 }
 
 .confirmBtn:hover {
-  background: #444;
-  color: #fff;
+  background: var(--border-strong);
+  color: var(--white);
 }
 
 .confirmDanger {
-  border-color: #a33;
-  color: #f66;
+  border-color: var(--red-800);
+  color: var(--red-soft);
 }
 
 .confirmDanger:hover {
-  background: #422;
+  background: var(--c-442222);
 }

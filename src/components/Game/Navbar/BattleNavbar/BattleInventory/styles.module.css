@@ -20,12 +20,12 @@
 
 .itemRow.selected {
   border-color: var(--accent-color);
-  background: rgba(255, 215, 0, 0.06);
+  background: var(--gold-06);
 }
 
 .icon {
-  width: 2.5vw;
-  min-width: 2.5vw;
+  width: var(--size-32);
+  min-width: var(--size-32);
   image-rendering: pixelated;
 }
 
@@ -42,7 +42,7 @@
 
 .description {
   font-size: var(--fs-8);
-  color: #999;
+  color: var(--grey-mid);
 }
 
 .empty {
@@ -60,7 +60,7 @@
     transform: translateX(-0.5vw);
   }
   75% {
-    transform: translateX(0.5vw);
+    transform: translateX(var(--size-040r));
   }
 }
 

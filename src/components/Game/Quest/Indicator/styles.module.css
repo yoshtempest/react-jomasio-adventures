@@ -49,7 +49,6 @@
   justify-content: center;
   animation: pulse 1s ease-in-out infinite;
   pointer-events: none;
-  box-shadow: 0 0 var(--size-6) rgba(var(--accent-color));
   line-height: 1;
 }
 

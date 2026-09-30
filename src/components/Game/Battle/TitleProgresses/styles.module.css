@@ -18,14 +18,14 @@
 
 .name {
   font-size: var(--fs-13);
-  color: #ddd;
+  color: var(--c-dddddd);
   min-width: var(--size-120);
 }
 
 .bar {
   flex: 1;
   height: var(--fs-10);
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--white-10);
   border-radius: var(--size-5);
   overflow: hidden;
 }

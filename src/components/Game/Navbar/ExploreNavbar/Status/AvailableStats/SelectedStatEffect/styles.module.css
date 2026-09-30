@@ -2,9 +2,9 @@
   display: flex;
   flex-direction: column;
   /* recua sob a linha do stat para leitura como "sub-item" dele */
-  margin: 0.25vw 0 0.5vw 1vw;
-  padding-left: 0.5vw;
-  border-left: 2px solid var(--accent-color);
+  margin: var(--size-020r) 0 var(--size-040r) var(--size-13);
+  padding-left: var(--size-040r);
+  border-left: var(--size-2) solid var(--accent-color);
 }
 
 .effectRow {
@@ -14,8 +14,8 @@
 }
 
 .effectRow img {
-  width: 1.75vw;
-  margin-right: 0.4vw;
+  width: var(--size-22);
+  margin-right: var(--vw-0-4);
   opacity: 0.85;
 }
 

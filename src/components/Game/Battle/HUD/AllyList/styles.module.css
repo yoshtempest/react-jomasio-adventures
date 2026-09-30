@@ -17,11 +17,11 @@
   text-align: right;
   font-size: var(--small);
   margin: 0;
-  text-shadow: 0 0 var(--size-4) rgba(0, 0, 0, 0.8);
+  text-shadow: 0 0 var(--size-4) var(--overlay-80);
 }
 
 .image {
-  width: 3vw;
-  height: 3vw;
+  width: var(--size-38);
+  height: var(--size-38);
   object-fit: contain;
 }

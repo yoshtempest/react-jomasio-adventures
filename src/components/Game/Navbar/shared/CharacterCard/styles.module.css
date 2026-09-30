@@ -6,12 +6,12 @@
 .character {
   display: flex;
   flex-direction: row;
-  gap: 1.5vw;
+  gap: var(--size-19);
   position: relative;
   align-items: center;
   justify-content: center;
   width: 99.2%;
-  height: 40vh;
+  height: var(--vh-40);
   border: var(--size-2) solid var(--primary-color);
   border-radius: var(--fs-16);
 }
@@ -59,13 +59,13 @@ p {
 
 .rankBadge {
   display: flex;
-  width: 2vw;
+  width: var(--size-26);
 }
 
 .rankRow {
   display: flex;
   flex-direction: row;
-  gap: 1vw;
+  gap: var(--size-13);
 }
 
 .flexColumn {
@@ -79,7 +79,7 @@ p {
   border-radius: var(--size-6);
   background-color: transparent;
   font-weight: bold;
-  height: 4vh;
+  height: var(--vh-4);
   width: 50%;
 }
 
@@ -93,7 +93,7 @@ p {
   font-size: var(--small);
   right: 0;
   bottom: 0;
-  margin: 1vw;
+  margin: var(--size-13);
   background-color: var(--surface-card);
   width: 15%;
   text-align: center;

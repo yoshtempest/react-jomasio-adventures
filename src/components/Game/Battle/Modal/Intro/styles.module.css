@@ -1,6 +1,6 @@
 .left,
 .right {
-  width: 30vw;
+  width: var(--size-384);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,8 +33,8 @@
 .center {
   position: relative;
 
-  width: 30vw;
-  height: 22vh;
+  width: var(--size-384);
+  height: var(--vh-22);
 
   display: flex;
   align-items: center;
@@ -57,13 +57,13 @@
   letter-spacing: 0.04em;
 
   /* Cor amarela com gradiente linear (legível em qualquer cenario). */
-  background: linear-gradient(to bottom, #fff8c2 0%, #ffd900 45%, #ff9d00 100%);
+  background: linear-gradient(to bottom, var(--cream) 0%, var(--gold-lemon-deep) 45%, var(--amber-deep) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 
   /* Borda preta ao redor do texto. */
-  -webkit-text-stroke: 4px #000;
+  -webkit-text-stroke: var(--size-4) var(--black);
   paint-order: stroke fill;
   -webkit-paint-order: stroke fill;
 }
@@ -91,10 +91,10 @@
 
   padding: var(--smaller) var(--small);
 
-  border: 2px solid var(--background-color);
+  border: var(--size-2) solid var(--background-color);
   border-radius: var(--smaller);
 
-  background: rgba(255, 0, 0, 0.7);
+  background: var(--red-pure-70);
   color: var(--text-color);
 
   font-size: var(--small);
@@ -106,15 +106,15 @@
 
 .skip {
   position: fixed;
-  right: 2vw;
-  bottom: 2vh;
+  right: var(--size-26);
+  bottom: var(--vh-2);
 
   padding: var(--small) var(--medium);
 
   border: none;
   border-radius: var(--smaller);
 
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--white-15);
   color: var(--text-color);
 
   font-size: var(--small);
@@ -125,10 +125,10 @@
 
 .fleeContainer {
   position: fixed;
-  left: 2vw;
-  bottom: 2vh;
+  left: var(--size-26);
+  bottom: var(--vh-2);
 
-  width: 10vw;
+  width: var(--size-128);
 }
 
 @keyframes readyShrink {

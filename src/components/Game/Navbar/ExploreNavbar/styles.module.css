@@ -25,8 +25,8 @@
   z-index: 9999999;
   top: 0;
   right: 0;
-  width: 15vw;
-  height: 93vh;
+  width: var(--size-192);
+  height: var(--vh-93);
   align-items: center;
   justify-content: center;
   background: linear-gradient(
@@ -57,12 +57,12 @@
   font-size: var(--small);
   color: var(--text-color);
   padding: var(--fs-8);
-  gap: 0.8vw;
+  gap: var(--vw-0-8);
   cursor: pointer;
 }
 
 .icon {
-  width: 2vw;
+  width: var(--size-26);
 }
 
 @media (orientation: portrait) {

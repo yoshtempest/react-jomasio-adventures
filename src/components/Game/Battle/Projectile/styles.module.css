@@ -1,10 +1,10 @@
 .hpBar {
   position: absolute;
-  width: 46px;
-  height: 6px;
-  background: rgba(0, 0, 0, 0.55);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  border-radius: 3px;
+  width: var(--size-46);
+  height: var(--size-6);
+  background: var(--overlay-55);
+  border: var(--size-1) solid var(--white-35);
+  border-radius: var(--size-3);
   overflow: hidden;
   transform: translate(-50%, -100%);
   z-index: 9999;
@@ -13,6 +13,6 @@
 
 .hpBarFill {
   height: 100%;
-  background: linear-gradient(180deg, #ff6b4a, #e03a1f);
+  background: linear-gradient(180deg, var(--red-warm), var(--ability-natsuki-deep));
   transition: width 80ms linear;
 }

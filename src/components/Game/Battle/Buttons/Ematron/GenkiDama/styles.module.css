@@ -1,12 +1,12 @@
 .button {
-  right: 18vw;
-  border: var(--size-2) solid rgba(129, 140, 248, 0.5);
-  background: rgba(129, 140, 248, 0.15);
+  right: var(--size-230);
+  border: var(--size-2) solid var(--indigo-soft-50);
+  background: var(--indigo-soft-15);
   animation: glow 1.5s ease-in-out infinite;
 }
 
 .button:hover:not(:disabled) {
-  background: rgba(129, 140, 248, 0.35);
+  background: var(--indigo-soft-35);
 }
 
 .depleted {
@@ -24,25 +24,25 @@
 .value {
   font-size: var(--fs-18);
   font-weight: bold;
-  color: #a5b4fc;
+  color: var(--indigo-light);
 }
 
 .label {
-  color: #e0e7ff;
+  color: var(--indigo-mist);
 }
 
 .cost {
   font-size: var(--fs-11);
   font-weight: bold;
-  color: #c7d2fe;
+  color: var(--indigo-pale);
 }
 
 @keyframes glow {
   0%,
   100% {
-    box-shadow: 0 0 4px rgba(129, 140, 248, 0.25);
+    box-shadow: 0 0 var(--size-4) var(--indigo-soft-25);
   }
   50% {
-    box-shadow: 0 0 16px rgba(129, 140, 248, 0.6);
+    box-shadow: 0 0 var(--size-16) var(--indigo-soft-60);
   }
 }

@@ -1,5 +1,5 @@
 .container {
-  max-height: 80vh;
+  max-height: var(--vh-80);
   overflow-y: auto;
   padding: var(--fs-8);
 }
@@ -34,7 +34,7 @@
 .charBtnActive {
   border-color: var(--accent-color);
   color: var(--text-color);
-  background: #2a1a0e;
+  background: var(--surface-panel);
 }
 
 .section {
@@ -74,13 +74,13 @@
 }
 
 .rewardsButton:hover {
-  background: #2a1a0e;
+  background: var(--surface-panel);
 }
 
 .rewardRowSelected {
   outline: var(--size-2) solid var(--accent-color);
   outline-offset: calc(-1 * var(--size-2));
-  background: #2a1a0e;
+  background: var(--surface-panel);
 }
 
 .questRow {
@@ -125,22 +125,22 @@
 .questValue {
   font-size: var(--fs-11);
   font-weight: bold;
-  color: #f0d080;
+  color: var(--gold-light);
 }
 
 .claimBtn {
   padding: var(--size-3) var(--fs-10);
-  border: var(--size-1) solid #5a3a5e;
+  border: var(--size-1) solid var(--border-legendary);
   border-radius: var(--size-4);
-  background: linear-gradient(135deg, #3a2a4e, #4a2a3e);
-  color: #f0d080;
+  background: linear-gradient(135deg, var(--surface-magic-alt), var(--surface-rose-deep));
+  color: var(--gold-light);
   cursor: pointer;
   font-size: var(--fs-11);
   font-weight: bold;
 }
 
 .claimBtn:hover {
-  background: linear-gradient(135deg, #4a3a5e, #5a3a4e);
+  background: linear-gradient(135deg, var(--surface-magic-soft), var(--surface-rose));
 }
 
 .claimBtnDone {
@@ -195,7 +195,7 @@
 
 .dailyRewards {
   font-size: var(--fs-11);
-  color: #f0d080;
+  color: var(--gold-light);
 }
 
 .dailyTimer {

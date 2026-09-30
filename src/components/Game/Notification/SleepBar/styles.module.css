@@ -14,8 +14,8 @@
 .icon {
   display: flex;
   align-items: center;
-  color: #8b7cf6;
-  filter: drop-shadow(0 0 var(--size-4) rgba(139, 124, 246, 0.5));
+  color: var(--ability-marshadow);
+  filter: drop-shadow(0 0 var(--size-4) var(--ability-marshadow-50));
 }
 
 .fill {
@@ -23,15 +23,15 @@
   top: 0;
   left: 0;
   height: 100%;
-  background: linear-gradient(90deg, #6d5bd0, #8b7cf6);
+  background: linear-gradient(90deg, var(--ability-marshadow-deep), var(--ability-marshadow));
   border-radius: var(--fs-8);
-  box-shadow: 0 0 var(--fs-8) rgba(109, 91, 208, 0.5);
+  box-shadow: 0 0 var(--fs-8) var(--ability-marshadow-deep-50);
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateX(-50%) translateY(8px);
+    transform: translateX(-50%) translateY(var(--size-8));
   }
   to {
     opacity: 1;

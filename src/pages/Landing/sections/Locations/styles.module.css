@@ -16,7 +16,7 @@
 
 .locationCard:hover {
   transform: translateY(calc(-1 * var(--size-4)));
-  box-shadow: 0 var(--fs-8) var(--medium) rgba(0, 0, 0, 0.5);
+  box-shadow: 0 var(--fs-8) var(--medium) var(--overlay-50);
 }
 
 .locationImage {
@@ -35,7 +35,7 @@
   padding: var(--smaller);
   font-weight: 600;
   font-size: var(--fs-14);
-  background: linear-gradient(transparent, rgba(10, 5, 0, 0.9));
+  background: linear-gradient(transparent, var(--shade-90));
   color: var(--text-color);
 }
 

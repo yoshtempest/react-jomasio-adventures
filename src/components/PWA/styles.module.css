@@ -17,7 +17,7 @@
   background: var(--primary-color);
   border: var(--size-2) solid var(--background-color);
   border-radius: var(--fs-8);
-  padding: 3vw;
+  padding: var(--size-38);
   text-align: center;
   max-width: var(--size-300);
 }

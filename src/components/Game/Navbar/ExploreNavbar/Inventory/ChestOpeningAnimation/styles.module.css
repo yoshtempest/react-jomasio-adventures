@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.7);
+  background: var(--overlay-70);
 }
 
 .stage {
@@ -15,7 +15,7 @@
 }
 
 .chest {
-  width: min(45vh, 300px);
+  width: min(var(--vh-45), var(--size-300));
   height: auto;
 }
 

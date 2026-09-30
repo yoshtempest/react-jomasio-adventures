@@ -15,28 +15,28 @@
 .barTrack {
   width: var(--size-280);
   height: var(--fs-8);
-  background: #2a1a0a;
+  background: var(--surface-panel-alt);
   border-radius: var(--size-4);
   overflow: hidden;
-  border: var(--size-1) solid #5a3a1a;
+  border: var(--size-1) solid var(--wood-dark);
 }
 
 .barFill {
   height: 100%;
-  background: linear-gradient(90deg, #c89b3c, #e8c56a);
+  background: linear-gradient(90deg, var(--gold-muted), var(--gold-soft));
   border-radius: var(--size-4);
   transition: width 0.1s linear;
 }
 
 .barDone {
-  background: linear-gradient(90deg, #4caf50, #81c784);
+  background: linear-gradient(90deg, var(--green-500), var(--green-300));
   transition: width 0.3s ease;
 }
 
 .label {
   margin: var(--fs-8) 0 0;
   font-size: var(--fs-090);
-  color: #a08050;
+  color: var(--wood);
   font-family: "Courier New", monospace;
   letter-spacing: 0.1em;
 }
@@ -44,7 +44,7 @@
 .updateStatus {
   margin: var(--size-025r) 0 0;
   font-size: var(--fs-070);
-  color: #806030;
+  color: var(--c-806030);
   font-family: "Courier New", monospace;
   letter-spacing: 0.05em;
 }

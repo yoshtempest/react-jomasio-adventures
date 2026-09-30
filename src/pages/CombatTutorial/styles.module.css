@@ -16,11 +16,11 @@
 .taskBox {
   display: flex;
   position: relative;
-  background: rgba(0, 0, 0, 0.8);
-  border: var(--size-2) solid rgba(255, 255, 255, 0.3);
+  background: var(--overlay-80);
+  border: var(--size-2) solid var(--white-30);
   border-radius: var(--smaller);
   align-items: center;
-  width: 20vw;
+  width: var(--size-256);
   padding: var(--small);
   backdrop-filter: blur(var(--size-4));
 }
@@ -37,7 +37,7 @@
   font-weight: 600;
   margin: 0;
   margin-left: 30%;
-  text-shadow: 0 0 var(--fs-8) rgba(255, 255, 255, 0.3);
+  text-shadow: 0 0 var(--fs-8) var(--white-30);
 }
 
 .steps {
@@ -50,17 +50,17 @@
   width: var(--fs-10);
   height: var(--fs-10);
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--white-20);
   transition: all 0.3s ease;
 }
 
 .dotDone {
   background: var(--success);
-  box-shadow: 0 0 var(--size-6) rgba(74, 222, 128, 0.6);
+  box-shadow: 0 0 var(--size-6) var(--success-60);
 }
 
 .dotActive {
   background: var(--text-color);
-  box-shadow: 0 0 var(--fs-10) rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 var(--fs-10) var(--white-80);
   transform: scale(1.3);
 }

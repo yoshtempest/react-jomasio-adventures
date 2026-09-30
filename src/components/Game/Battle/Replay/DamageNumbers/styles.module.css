@@ -5,14 +5,14 @@
   font-size: var(--low-medium);
   color: var(--danger);
   text-shadow:
-    var(--size-1) var(--size-1) 0 rgba(0, 0, 0, 0.8),
-    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 rgba(0, 0, 0, 0.8);
+    var(--size-1) var(--size-1) 0 var(--overlay-80),
+    calc(-1 * var(--size-1)) calc(-1 * var(--size-1)) 0 var(--overlay-80);
   pointer-events: none;
   white-space: nowrap;
 }
 
 .dmgCrit {
-  color: #ff0044;
+  color: var(--number-crit);
   font-size: var(--size-22);
   font-weight: 900;
 }
@@ -21,8 +21,8 @@
   position: relative;
   z-index: 1;
   padding: 0.15em 0.4em;
-  color: #ff0044;
-  background: #ffffff;
+  color: var(--number-crit);
+  background: var(--white);
   clip-path: polygon(
     50% 0%,
     61% 20%,
@@ -40,13 +40,13 @@
 }
 
 .dmgMiss {
-  color: #aaa;
+  color: var(--text-secondary);
   font-size: var(--fs-11);
   font-style: italic;
 }
 
 .dmgBlocked {
-  color: #00ffff;
+  color: var(--cyan-bright);
   font-size: var(--fs-11);
 }
 

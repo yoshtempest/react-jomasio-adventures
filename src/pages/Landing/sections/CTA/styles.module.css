@@ -11,7 +11,7 @@
 .ctaOverlay {
   position: absolute;
   inset: 0;
-  background: rgba(10, 5, 0, 0.85);
+  background: var(--shade-85);
 }
 
 .ctaContent {
@@ -32,7 +32,7 @@
 .ctaDesc {
   max-width: var(--size-480);
   font-size: var(--fs-110);
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--white-70);
   line-height: 1.6;
 }
 

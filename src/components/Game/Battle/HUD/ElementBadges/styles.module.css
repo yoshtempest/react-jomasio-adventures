@@ -10,5 +10,5 @@
   width: var(--fs-120);
   height: var(--fs-120);
   object-fit: contain;
-  filter: drop-shadow(0 0 var(--size-2) rgba(0, 0, 0, 0.4));
+  filter: drop-shadow(0 0 var(--size-2) var(--overlay-40));
 }

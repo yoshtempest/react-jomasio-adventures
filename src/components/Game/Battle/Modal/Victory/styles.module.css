@@ -4,9 +4,9 @@
   flex-direction: column;
   overflow: hidden;
   gap: var(--low-medium);
-  width: 30vw;
-  height: 100vh;
-  max-height: 100vh;
+  width: var(--size-384);
+  height: var(--vh-100);
+  max-height: var(--vh-100);
   opacity: 0.9;
   border-left: var(--size-2) solid var(--text-color);
   border-right: var(--size-2) solid var(--text-color);
@@ -45,7 +45,7 @@
 
 .header p {
   margin: var(--size-4) 0 0;
-  color: #ccc;
+  color: var(--text-bright);
 }
 
 .rankText {
@@ -56,13 +56,13 @@
 .flexRow {
   display: flex;
   flex-direction: row;
-  gap: 4vw;
+  gap: var(--size-51);
 }
 
 .flexColumn {
   display: flex;
   flex-direction: column;
-  gap: 2vh;
+  gap: var(--vh-2);
 }
 
 .noProgress {
@@ -88,7 +88,7 @@
 }
 
 .buttonSaved {
-  background: #2d6b2d;
+  background: var(--green-900);
   cursor: default;
 }
 
@@ -106,7 +106,7 @@
   width: 100%;
   display: flex;
   flex-direction: row;
-  gap: 2vw;
+  gap: var(--size-26);
 }
 
 .timeRow {

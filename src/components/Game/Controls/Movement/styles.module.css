@@ -4,13 +4,13 @@
   left: 10%;
   bottom: 80%;
 
-  width: 4vh;
-  height: 4vh;
+  width: var(--vh-4);
+  height: var(--vh-4);
 
   border: none;
-  border-radius: 0.8vh;
+  border-radius: var(--vh-0-8);
 
-  background: rgba(0, 0, 0, 0.55);
+  background: var(--overlay-55);
   color: var(--text-color);
   border: var(--size-1) solid var(--text-color);
 

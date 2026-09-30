@@ -7,17 +7,17 @@
   align-items: center;
   justify-content: center;
 
-  background: rgba(0, 0, 0, 0.6);
+  background: var(--overlay-60);
   cursor: pointer;
 }
 
 .image {
   top: 0;
-  margin-bottom: 20vh;
-  max-width: 60vw;
-  max-height: 60vh;
+  margin-bottom: var(--vh-20);
+  max-width: var(--size-768);
+  max-height: var(--vh-60);
   object-fit: contain;
   border-radius: var(--small);
-  border: 1px solid var(--text-color);
-  box-shadow: 0 0 var(--size-32) rgba(0, 0, 0, 0.8);
+  border: var(--size-1) solid var(--text-color);
+  box-shadow: 0 0 var(--size-32) var(--overlay-80);
 }

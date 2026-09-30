@@ -1,29 +1,29 @@
 .button {
-  border: var(--size-2) solid rgba(255, 255, 255, 0.25);
-  background: rgba(255, 255, 255, 0.1);
+  border: var(--size-2) solid var(--white-25);
+  background: var(--white-10);
 }
 
 .button:hover:not(:disabled) {
-  background: rgba(120, 20, 30, 0.6);
+  background: var(--red-deep-60);
 }
 
 .title {
   position: relative;
   font-size: var(--fs-13);
   font-weight: bold;
-  text-shadow: 0 0 4px var(--background-color);
+  text-shadow: 0 0 var(--size-4) var(--background-color);
 }
 
 .value {
   position: relative;
   font-size: var(--fs-18);
   font-weight: bold;
-  color: #ff6b81;
+  color: var(--red-rose);
 }
 
 .heal {
   position: relative;
   font-size: var(--fs-13);
   font-weight: bold;
-  color: #ffd1d8;
+  color: var(--rose-mist);
 }

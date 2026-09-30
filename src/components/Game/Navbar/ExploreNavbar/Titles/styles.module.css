@@ -1,5 +1,5 @@
 .container {
-  max-height: 80vh;
+  max-height: var(--vh-80);
   width: 80%;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -17,7 +17,7 @@
   gap: var(--fs-8);
   padding: var(--fs-8);
   border-radius: var(--size-4);
-  border: var(--size-1) solid #444;
+  border: var(--size-1) solid var(--border-strong);
   background: var(--surface-primary);
   cursor: default;
 }
@@ -34,7 +34,7 @@
 
 .titleCardEquipped {
   border-color: var(--accent-color);
-  background: #2a1a0e;
+  background: var(--surface-panel);
 }
 
 .selected {
@@ -100,8 +100,8 @@
   font-size: var(--fs-10);
   padding: var(--size-2) var(--size-6);
   border-radius: var(--size-3);
-  background: #fbbf24;
-  color: #000;
+  background: var(--secondary-color);
+  color: var(--black);
   font-weight: bold;
   flex-shrink: 0;
 }
@@ -111,7 +111,7 @@
   padding: var(--size-4) var(--fs-8);
   border-radius: var(--size-3);
   background: var(--success);
-  color: #000;
+  color: var(--black);
   font-weight: bold;
   cursor: pointer;
   border: none;
@@ -119,7 +119,7 @@
 }
 
 .equipButton:hover {
-  background: #22c55e;
+  background: var(--green-600);
 }
 
 .bonusText {

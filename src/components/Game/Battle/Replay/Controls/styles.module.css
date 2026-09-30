@@ -7,9 +7,9 @@
 }
 
 .ctrlBtn {
-  background: #222;
-  color: #ccc;
-  border: var(--size-1) solid #444;
+  background: var(--surface-deep);
+  color: var(--text-bright);
+  border: var(--size-1) solid var(--border-strong);
   border-radius: var(--size-6);
   padding: var(--size-5) var(--fs-10);
   cursor: pointer;
@@ -18,19 +18,19 @@
 
 .ctrlBtn:hover,
 .speedBtn:hover {
-  background: #333;
-  color: #fff;
+  background: var(--border-default);
+  color: var(--white);
 }
 
 .ctrlBtnSelected {
   background: var(--gold);
-  color: #000;
+  color: var(--black);
   border-color: var(--gold);
 }
 
 .speedBtnSelected {
   background: var(--gold);
-  color: #000;
+  color: var(--black);
   border-color: var(--gold);
 }
 
@@ -42,8 +42,8 @@
 
 .speedBtn {
   background: transparent;
-  color: #888;
-  border: var(--size-1) solid #444;
+  color: var(--text-muted);
+  border: var(--size-1) solid var(--border-strong);
   border-radius: var(--size-4);
   padding: var(--size-2) var(--fs-8);
   cursor: pointer;
@@ -52,6 +52,6 @@
 
 .speedActive {
   background: var(--gold);
-  color: #000;
+  color: var(--black);
   border-color: var(--gold);
 }

@@ -7,7 +7,7 @@
   overflow: hidden;
   pointer-events: none;
 
-  background: rgba(10, 10, 15, 0.15);
+  background: var(--surface-indigo-15);
 
   animation: overlayAppear 1000ms ease-out forwards;
 }
@@ -30,7 +30,7 @@
 .character {
   position: relative;
 
-  width: 40vw;
+  width: var(--size-512);
   max-height: auto;
 
   object-fit: contain;
@@ -56,33 +56,33 @@
 
   background: repeating-linear-gradient(
     -12deg,
-    transparent 0px,
-    transparent 12px,
-    rgba(10, 0, 20, 0.95) 13px,
-    rgba(140, 0, 255, 1) 19px,
-    transparent 20px,
-    transparent 35px
+    transparent 0,
+    transparent var(--size-12),
+    var(--surface-void-95) var(--size-13),
+    var(--c-8c00ff) var(--size-19),
+    transparent var(--size-20),
+    transparent var(--size-35)
   );
 
-  filter: blur(0.4px);
+  filter: blur(var(--px-0-4));
 }
 
 .topMotion {
   top: -30px;
-  height: 150px;
+  height: var(--size-150);
 
   transform: skewX(-12deg);
 
   clip-path: polygon(0 0, 100% 0, 100% 65%, 75% 75%, 50% 60%, 25% 80%, 0 60%);
 
-  background-color: #e60012;
+  background-color: var(--red-600);
 
   animation: topMotion 1000ms ease-out forwards;
 }
 
 .bottomMotion {
   bottom: -30px;
-  height: 150px;
+  height: var(--size-150);
 
   transform: skewX(-12deg);
 
@@ -96,7 +96,7 @@
     0 100%
   );
 
-  background-color: #e60012;
+  background-color: var(--red-600);
 
   animation: bottomMotion 1000ms ease-out forwards;
 }
@@ -108,13 +108,13 @@
 .streak {
   position: absolute;
 
-  height: 8px;
+  height: var(--size-8);
 
-  background: #ffffff;
+  background: var(--white);
 
   box-shadow:
-    0 0 8px #ffffff,
-    0 0 20px #ff1a1a;
+    0 0 var(--size-8) var(--white),
+    0 0 var(--size-20) var(--red-vivid);
 
   transform: skewX(-20deg);
 
@@ -133,7 +133,7 @@
   left: 30%;
 
   width: 35%;
-  height: 5px;
+  height: var(--size-5);
 }
 
 .streakThree {
@@ -141,7 +141,7 @@
   left: 60%;
 
   width: 50%;
-  height: 10px;
+  height: var(--size-10);
 }
 
 /* =========================
@@ -154,7 +154,7 @@
 
   z-index: 10;
 
-  background: #ffffff;
+  background: var(--white);
 
   opacity: 0;
 
@@ -185,7 +185,7 @@
   0% {
     opacity: 0;
 
-    transform: translateX(100px) scale(1.1);
+    transform: translateX(var(--size-100)) scale(1.1);
     filter: brightness(2);
   }
 

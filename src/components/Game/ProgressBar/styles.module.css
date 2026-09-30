@@ -1,7 +1,7 @@
 .bar {
   position: relative;
   width: 100%;
-  background: var(--border-default, #333);
+  background: var(--border-default, var(--border-default));
   border-radius: var(--size-4);
 }
 
@@ -10,7 +10,7 @@
   top: 0;
   left: 0;
   height: 100%;
-  background: var(--success, #4caf50);
+  background: var(--success, var(--green-500));
   transition: width 0.3s ease;
   border-radius: var(--size-4);
 }
@@ -24,8 +24,8 @@
   right: var(--size-2);
   bottom: calc(100% + var(--size-4));
   display: flex;
-  color: #8bc34a;
-  filter: drop-shadow(0 0 var(--size-4) rgba(139, 195, 74, 2));
+  color: var(--green-400);
+  filter: drop-shadow(0 0 var(--size-4) var(--green-400));
   animation: bounceUp 0.8s ease-in-out infinite;
   z-index: 1;
   pointer-events: none;
@@ -47,7 +47,7 @@
   top: 50%;
   transform: translateY(-50%);
   font-size: var(--fs-11);
-  color: #fff;
+  color: var(--white);
   z-index: 1;
   white-space: nowrap;
 }
@@ -58,7 +58,7 @@
   top: 50%;
   transform: translateY(-50%);
   font-size: var(--fs-11);
-  color: #fff;
+  color: var(--white);
   z-index: 1;
   white-space: nowrap;
 }

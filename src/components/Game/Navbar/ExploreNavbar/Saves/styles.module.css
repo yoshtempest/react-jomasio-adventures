@@ -21,7 +21,7 @@
   margin-bottom: var(--fs-8);
   border: var(--size-2) solid var(--border-medium);
   border-radius: var(--size-6);
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--overlay-20);
   transition:
     border-color 0.2s,
     background 0.2s;
@@ -29,7 +29,7 @@
 
 .slotCard.selected {
   border-color: var(--text-color);
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--white-08);
 }
 
 .slotCard.active {
@@ -109,17 +109,17 @@
 
 .action.selected {
   border-color: var(--text-color);
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--white-10);
 }
 
 .actionDanger {
-  border-color: #c0392b;
-  color: #e74c3c;
+  border-color: var(--red-700);
+  color: var(--red-500);
 }
 
 .actionDanger.selected {
-  border-color: #e74c3c;
-  background: rgba(231, 76, 60, 0.15);
+  border-color: var(--red-500);
+  background: var(--red-500-15);
 }
 
 .backAction {

@@ -10,7 +10,7 @@
   position: absolute;
   left: 50%;
   top: 50%;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   animation: levelUpBurst 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
@@ -20,9 +20,9 @@
   top: 50%;
   width: 55%;
   height: 55%;
-  border: 2px solid rgba(255, 215, 0, 0.85);
+  border: var(--size-2) solid var(--gold-85);
   border-radius: 50%;
-  box-shadow: 0 0 14px rgba(255, 215, 0, 0.55);
+  box-shadow: 0 0 var(--size-14) var(--gold-55);
   animation: levelUpRing 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 

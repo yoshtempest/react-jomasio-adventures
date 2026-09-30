@@ -3,9 +3,9 @@
   flex-direction: row;
   top: 5%;
   right: 0;
-  gap: 3vw;
+  gap: var(--size-38);
   width: calc(var(--game-viewport-width) - var(--size-6));
-  height: 90vh;
+  height: var(--vh-90);
   align-items: flex-start;
   justify-content: center;
   border-radius: var(--size-5);
@@ -14,13 +14,13 @@
 .flexColumn {
   display: flex;
   flex-direction: column;
-  gap: 1vw;
+  gap: var(--size-13);
 }
 
 .flexRow {
   display: flex;
   flex-direction: row;
-  gap: 0.2vw;
+  gap: var(--vw-0-2);
 }
 
 .empty {
@@ -86,7 +86,7 @@
   padding: var(--fs-8) var(--smaller);
   border-radius: var(--size-5);
   border: var(--size-2) solid var(--primary-color);
-  min-width: 6vw;
+  min-width: var(--size-77);
 }
 
 .selected {

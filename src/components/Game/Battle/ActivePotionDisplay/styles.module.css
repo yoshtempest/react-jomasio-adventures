@@ -3,7 +3,7 @@
   align-items: center;
   gap: var(--size-6);
   padding: var(--size-6) var(--fs-8);
-  background: rgba(0, 0, 0, 0.3);
+  background: var(--overlay-30);
   border-radius: var(--size-6);
   font-size: var(--smaller);
 }
@@ -16,10 +16,10 @@
 
 .potionName {
   flex: 1;
-  color: #a8e6ff;
+  color: var(--sky-pale);
 }
 
 .potionTimer {
   font-variant-numeric: tabular-nums;
-  color: #ffd700;
+  color: var(--gold);
 }

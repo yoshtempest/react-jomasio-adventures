@@ -2,7 +2,7 @@
   position: relative;
   width: 100%;
   height: var(--size-6);
-  background: #222;
+  background: var(--surface-deep);
   border-radius: var(--size-3);
   overflow: visible;
 }

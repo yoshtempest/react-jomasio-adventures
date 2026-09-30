@@ -5,7 +5,7 @@
 .section h4 {
   margin: 0 0 var(--size-035r);
   font-size: var(--fs-090);
-  color: #ccc;
+  color: var(--text-bright);
 }
 
 .dropRow {
@@ -17,7 +17,7 @@
 }
 
 .enhance {
-  color: #4caf50;
+  color: var(--green-500);
   font-size: var(--fs-080);
 }
 
@@ -32,5 +32,5 @@
 }
 
 .actionSelected {
-  outline: var(--size-2) solid #f0d080;
+  outline: var(--size-2) solid var(--gold-light);
 }

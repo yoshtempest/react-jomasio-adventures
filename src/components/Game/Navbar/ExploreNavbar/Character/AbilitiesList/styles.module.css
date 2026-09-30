@@ -16,8 +16,8 @@
 }
 
 .selected {
-  border-color: #fbbf24;
-  background-color: rgba(0, 0, 0, 0.4);
+  border-color: var(--secondary-color);
+  background-color: var(--overlay-40);
 }
 
 .header {
@@ -43,13 +43,13 @@
 }
 
 .badgeActive {
-  color: #fbbf24;
-  border-color: #fbbf24;
+  color: var(--secondary-color);
+  border-color: var(--secondary-color);
 }
 
 .badgePassive {
-  color: #4ade80;
-  border-color: #4ade80;
+  color: var(--success);
+  border-color: var(--success);
 }
 
 .description {

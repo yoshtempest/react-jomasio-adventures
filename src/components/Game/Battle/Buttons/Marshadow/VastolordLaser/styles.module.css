@@ -1,16 +1,16 @@
 .button {
-  border: var(--size-2) solid rgba(248, 113, 113, 0.6);
-  background-color: rgba(127, 29, 29, 0.15);
+  border: var(--size-2) solid var(--red-300-60);
+  background-color: var(--red-950-15);
   animation: laserGlow 1.5s ease-in-out infinite;
 }
 
 .button:hover:not(:disabled) {
-  border-color: rgba(248, 113, 113, 0.9);
-  background-color: rgba(127, 29, 29, 0.35);
+  border-color: var(--red-300-90);
+  background-color: var(--red-950-35);
 }
 
 .label {
-  color: #fecaca;
+  color: var(--red-mist);
 }
 
 .charges {
@@ -22,20 +22,20 @@
   padding: 0 var(--size-1);
 
   border-radius: var(--size-8);
-  background-color: rgba(127, 29, 29, 0.9);
-  color: #fff;
+  background-color: var(--red-950-90);
+  color: var(--white);
   font-size: var(--fs-9);
   font-weight: bold;
   text-align: center;
-  box-shadow: 0 0 6px rgba(248, 113, 113, 0.8);
+  box-shadow: 0 0 var(--size-6) var(--red-300-80);
 }
 
 @keyframes laserGlow {
   0%,
   100% {
-    box-shadow: 0 0 4px rgba(248, 113, 113, 0.3);
+    box-shadow: 0 0 var(--size-4) var(--red-300-30);
   }
   50% {
-    box-shadow: 0 0 16px rgba(248, 113, 113, 0.7);
+    box-shadow: 0 0 var(--size-16) var(--red-300-70);
   }
 }
