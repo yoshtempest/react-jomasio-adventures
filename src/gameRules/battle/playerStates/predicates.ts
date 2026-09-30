@@ -23,6 +23,7 @@ export const isGenkiDamaHold = isOf(ALL_STATES.GENKI_DAMA_HOLD_STATES);
 export const isAtomic = isOf(ALL_STATES.ATOMIC_STATES);
 export const isDomainExpansion = isOf(ALL_STATES.DOMAIN_EXPANSION_STATES);
 export const isLaser = isOf(ALL_STATES.LASER_STATES);
+export const isGranReyCero = isOf(ALL_STATES.GRAN_REY_CERO_STATES);
 export const isBlock = isOf(ALL_STATES.BLOCK_STATES);
 export const isHitReaction = isOf(ALL_STATES.HIT_REACTION_STATES);
 export const isActionLocked = isOf(ALL_STATES.ACTION_LOCK_STATES);
@@ -67,6 +68,7 @@ export const ALL_PREDICATES = {
   isAtomic,
   isDomainExpansion,
   isLaser,
+  isGranReyCero,
 
   // Defesa e reação
   isBlock,

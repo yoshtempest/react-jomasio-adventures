@@ -375,6 +375,8 @@ declare global {
   type PlayerDomainExpansionState = "preMugetsu" | "mugetsu";
   /** Laser da Forma Vastolord do marcelo. */
   type PlayerLaserState = "laser";
+  /** "Gran Rey Cero" do marcelo. */
+  type PlayerGranReyCeroState = "granReyCero";
   /** Passiva "O Abençoado" (riquelme) — invencível enquanto sobe. */
   type PlayerHonoredState = "mostHonored";
   /** Locomoção com compromisso: dash e carga de ki. */
@@ -387,13 +389,14 @@ declare global {
   /**
    * Estados que seguram o personagem e travam novas ações: qualquer
    * `PlayerChargeState`, o O Abençoado e as habilidades de cast longas
-   * (Genki Dama e o Laser da Forma Vastolord).
+   * (Genki Dama, o Laser da Forma Vastolord e o Gran Rey Cero).
    */
   type PlayerActionLockState =
     | PlayerChargeState
     | PlayerHonoredState
     | PlayerGenkiDamaState
-    | PlayerLaserState;
+    | PlayerLaserState
+    | PlayerGranReyCeroState;
 
   /** O jogador não age: trava de ação, defesa ou reação a dano. */
   type PlayerCantActState =

@@ -286,6 +286,11 @@ const DOMAIN_EXPANSION_SPRITES: Partial<
   mugetsu: "mugetsu",
 };
 
+/** "Gran Rey Cero": `habilities/granReyCero/granReyCero.svg`. */
+const GRAN_REY_CERO_SPRITES: Partial<Record<PlayerGranReyCeroState, string>> = {
+  granReyCero: "granReyCero",
+};
+
 export function resolveBattleSprite(
   character: string,
   state: PlayerState,
@@ -304,8 +309,9 @@ export function resolveBattleSprite(
     return playerPath(`/emanuel/inFight/movement/jump/falling.svg`);
   }
   // Habilidades do marcelo: os sprites da sequência ficam em pastas próprias
-  // (`habilities/atomic/`, `habilities/domainExpansion/`) — não existe
-  // `default/preparingAtomic.svg` nem `default/preMugetsu.svg`.
+  // (`habilities/atomic/`, `habilities/domainExpansion/`,
+  // `habilities/granReyCero/`) — não existe `default/preparingAtomic.svg` nem
+  // `default/preMugetsu.svg`.
   if (character === "marcelo") {
     const atomicSprite = stateData(ATOMIC_SPRITES, state);
     if (atomicSprite) {
@@ -315,6 +321,12 @@ export function resolveBattleSprite(
     if (domainSprite) {
       return playerPathMarshadowHabilities(
         `/domainExpansion/${domainSprite}.svg`,
+      );
+    }
+    const granReyCeroSprite = stateData(GRAN_REY_CERO_SPRITES, state);
+    if (granReyCeroSprite) {
+      return playerPathMarshadowHabilities(
+        `/granReyCero/${granReyCeroSprite}.svg`,
       );
     }
   }

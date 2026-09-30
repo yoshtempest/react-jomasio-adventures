@@ -35,6 +35,7 @@ import { useEmanuelClone } from "@/hooks/battle/player/characters/ematron/useEma
 import { useEmanuelKiCharge } from "@/hooks/battle/player/characters/ematron/useEmanuelKiCharge";
 import { useEmanuelGenkiDama } from "@/hooks/battle/player/characters/ematron/useEmanuelGenkiDama";
 import { useVastolordLaser } from "@/hooks/battle/player/characters/marshadow/useVastolordLaser";
+import { useGranReyCero } from "@/hooks/battle/player/characters/marshadow/useGranReyCero";
 import type { AtomicBoomPayload } from "@/utils/types/battle/atomic";
 import {
   useAtomic,
@@ -1322,6 +1323,33 @@ export function useBattleCombat({
     playSound,
   });
 
+  // "Gran Rey Cero" do marcelo ------------------------------------------------
+  // Lâmina de 500px que corre por quadro; disponível na forma normal (os
+  // sprites ficam em `habilities/granReyCero/`, fora da pasta vastolordForm).
+  const {
+    effect: granReyCeroEffect,
+    press: granReyCeroPress,
+    usable: granReyCeroUsable,
+    remaining: granReyCeroRemaining,
+  } = useGranReyCero({
+    player,
+    setPlayer,
+    char: battle.char,
+    playerClass,
+    npc,
+    summons,
+    setSummons,
+    setNpcHP: battle.setNpcHP,
+    giveSummonRewards,
+    spawnDamageNumber: battle.spawnDamageNumber,
+    registerHitRef: refs.registerHitRef,
+    freezeActionsUntilRef,
+    isPausedRef,
+    battleEndedRef: battle.isEnding,
+    disabledRef: cloneDisabledRef,
+    playSound,
+  });
+
   return {
     battle,
     npc,
@@ -1384,6 +1412,10 @@ export function useBattleCombat({
     domainExpansionPress,
     domainExpansionUsable,
     domainExpansionRemaining,
+    granReyCeroEffect,
+    granReyCeroPress,
+    granReyCeroUsable,
+    granReyCeroRemaining,
     disintegrating,
   };
 }

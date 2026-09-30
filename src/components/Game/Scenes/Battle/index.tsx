@@ -10,6 +10,7 @@ import { EmanuelGenkiDamaButton } from "@/components/Game/Battle/Buttons/Ematron
 import { VastolordLaserButton } from "@/components/Game/Battle/Buttons/Marshadow/VastolordLaser";
 import { AtomicButton } from "@/components/Game/Battle/Buttons/Marshadow/Atomic";
 import { DomainExpansionButton } from "@/components/Game/Battle/Buttons/Marshadow/DomainExpansion";
+import { GranReyCeroButton } from "@/components/Game/Battle/Buttons/Marshadow/GranReyCero";
 import { GameMap } from "@/components/Game/Map/Game";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useGameLayout } from "@/hooks/game/useGameLayout";
@@ -185,6 +186,10 @@ export function BattleScene(props: Props) {
     domainExpansionPress,
     domainExpansionUsable,
     domainExpansionRemaining,
+    granReyCeroEffect,
+    granReyCeroPress,
+    granReyCeroUsable,
+    granReyCeroRemaining,
   } = useBattleScene({ ...props, isAlfa, PLAYER_SIZE });
 
   // Especial do alfa: enquanto ele usa a habilidade (ex: special dig do
@@ -511,6 +516,7 @@ export function BattleScene(props: Props) {
             emanuelClone={emanuelClone}
             genkiDamaVisual={genkiDamaVisual}
             vastolordLaser={vastolordLaser}
+          granReyCeroEffect={granReyCeroEffect}
             cutInEnemie={battle.cutInEnemie}
             npcBleeding={battle.npcBleeding}
             preAtomic={specialIntroActive}
@@ -739,6 +745,15 @@ export function BattleScene(props: Props) {
           remaining={domainExpansionRemaining}
           disabled={controlsDisabled}
           onClick={domainExpansionPress}
+        />
+      )}
+
+      {!vastolordActive && player.character === "marcelo" && (
+        <GranReyCeroButton
+          ready={granReyCeroUsable}
+          remaining={granReyCeroRemaining}
+          disabled={controlsDisabled}
+          onClick={granReyCeroPress}
         />
       )}
 

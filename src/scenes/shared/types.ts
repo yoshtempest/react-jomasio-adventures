@@ -26,6 +26,7 @@ import type { useEmanuelGenkiDama } from "@/hooks/battle/player/characters/ematr
 import type { useVastolordLaser } from "@/hooks/battle/player/characters/marshadow/useVastolordLaser";
 import type { useAtomic } from "@/hooks/battle/player/characters/marshadow/useAtomic";
 import type { useDomainExpansion } from "@/hooks/battle/player/characters/marshadow/useDomainExpansion";
+import type { useGranReyCero } from "@/hooks/battle/player/characters/marshadow/useGranReyCero";
 import type { CameraFocus } from "@/hooks/battle/effects/useCameraSequence";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { CharactersProgress } from "@/data/characters/defaultProgress";
@@ -156,4 +157,8 @@ export type BattleSceneApi = {
   domainExpansionPress: () => void;
   domainExpansionUsable: boolean;
   domainExpansionRemaining: number;
+  granReyCeroEffect: ReturnType<typeof useGranReyCero>["effect"];
+  granReyCeroPress: () => void;
+  granReyCeroUsable: boolean;
+  granReyCeroRemaining: number;
 };

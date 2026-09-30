@@ -11,6 +11,10 @@ import {
   ATOMIC_COOLDOWN_MS,
   DOMAIN_EXPANSION_COOLDOWN_MS,
 } from "@/data/characters/marshadow";
+import {
+  GRAN_REY_CERO_AOE_RADIUS,
+  GRAN_REY_CERO_COOLDOWN_MS,
+} from "@/data/characters/granReyCero";
 import { LUCAS_WEAPONS } from "@/data/characters/lucasWeapons";
 import { LUCAS_WEAPON_SWITCH_MANA_COST } from "@/gameRules/battle/mana";
 import {
@@ -114,6 +118,13 @@ export const CHARACTER_ACTIVE_ABILITIES: Partial<
       description:
         "Teleporta para a ponta mais próxima do mapa e varre tudo, matando todos os inimigos instantaneamente (100% da vida máxima).",
       cooldownMs: DOMAIN_EXPANSION_COOLDOWN_MS,
+    },
+    {
+      kind: "active",
+      id: "granReyCero",
+      name: "Gran Rey Cero",
+      description: `Lâmina que corre 500px na direção de mira. Ao encostar, para e rasteja, causando dano contínuo e empurrando todo inimigo num raio de ${GRAN_REY_CERO_AOE_RADIUS}px da ponta.`,
+      cooldownMs: GRAN_REY_CERO_COOLDOWN_MS,
     },
   ],
 };

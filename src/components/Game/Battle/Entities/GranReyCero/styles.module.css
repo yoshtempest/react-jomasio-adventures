@@ -1,0 +1,20 @@
+/* Lâmina do "Gran Rey Cero": o deslocamento é por `left` (nunca por
+   `transform`), que já carrega o espelhamento do `scaleX(-1)` inline — por isso
+   a animação de fade usa `opacity`, e não `transform`. */
+
+/* A duração do fade espelha `GRAN_REY_CERO_FADE_OUT_MS` (450ms) — o hook
+   derruba a lâmina no mesmo instante em que esta animação termina. */
+
+
+.fading {
+  animation: granReyCeroFadeOut 450ms ease-out forwards;
+}
+
+@keyframes granReyCeroFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

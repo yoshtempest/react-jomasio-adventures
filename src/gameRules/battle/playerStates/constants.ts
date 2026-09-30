@@ -111,6 +111,9 @@ export const DOMAIN_EXPANSION_STATES = stateSet<PlayerDomainExpansionState>(
 );
 /** Laser da Forma Vastolord (marcelo). */
 export const LASER_STATES = stateSet<PlayerLaserState>("laser");
+/** "Gran Rey Cero" (marcelo). */
+export const GRAN_REY_CERO_STATES =
+  stateSet<PlayerGranReyCeroState>("granReyCero");
 
 // ── Defesa e reação ───────────────────────────────────────
 /** Defesa: bloqueio e a contra-ofensiva que sai dele. */
@@ -134,6 +137,7 @@ export const ACTION_LOCK_STATES = stateSet<PlayerActionLockState>(
   "preparingGenkiDama",
   "throwGenkiDama",
   "laser",
+  "granReyCero",
 );
 /** O jogador não age: trava de ação, defesa ou reação a dano. */
 export const CANNOT_ACT_STATES = unionOf(
@@ -210,6 +214,7 @@ export const ALL_STATES = {
   ATOMIC_STATES,
   DOMAIN_EXPANSION_STATES,
   LASER_STATES,
+  GRAN_REY_CERO_STATES,
 
   // Defesa e reação
   BLOCK_STATES,

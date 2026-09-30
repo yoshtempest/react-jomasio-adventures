@@ -85,6 +85,10 @@ export const animationFlow: Record<PlayerState, AnimationStep | null> = {
   // (useVastolordLaser), que restaura o idle quando o feixe termina.
   laser: null,
 
+  // "Gran Rey Cero" do marcelo: estado mantido pelo hook enquanto a lâmina
+  // corre/rasteja (useGranReyCero), que restaura o idle no fade-out.
+  granReyCero: null,
+
   // "I Am Atomic" do marcelo: estados da sequência controlados pelo hook
   // (useAtomic), que restaura o idle quando a animação termina.
   preparingAtomic: null,

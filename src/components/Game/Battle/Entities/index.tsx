@@ -14,6 +14,7 @@ import { Player } from "./Player";
 import { EmanuelClone } from "./EmanuelClone";
 import { GenkiDama } from "./GenkiDama";
 import { VastolordLaser } from "./VastolordLaser";
+import { GranReyCero } from "./GranReyCero";
 import { KillerQueen } from "./KillerQueen";
 import { Bomb } from "./Bomb";
 import { ExtraPunch } from "./ExtraPunch";
@@ -35,6 +36,7 @@ import type { BlinkVisual } from "@/hooks/battle/player/characters/natsuki/useBl
 import type { EmanuelCloneVisual } from "@/utils/types/character/emanuel";
 import type { GenkiDamaVisual } from "@/utils/types/character/emanuel";
 import type { VastolordLaserBeam } from "@/gameRules/battle/vastolordLaser";
+import type { GranReyCeroEffect } from "@/gameRules/battle/granReyCero";
 import type { CutInEnemieOverlay } from "@/utils/types/battle/cutInEnemie";
 import type { AtomicExplosion, AtomicCut } from "@/utils/types/battle/atomic";
 import type {
@@ -79,6 +81,7 @@ type Props = {
   genkiDamaVisual?: GenkiDamaVisual | null;
   /** Feixe do Laser da Forma Vastolord do marcelo. */
   vastolordLaser?: VastolordLaserBeam | null;
+  granReyCeroEffect?: GranReyCeroEffect | null;
   /** CutInEnemie do marcelo sobrepondo o NPC atingido. */
   cutInEnemie?: CutInEnemieOverlay | null;
   /** NPC em sangramento (bloodIcon acima da imagem). */
@@ -131,6 +134,7 @@ export function BattleEntities({
   emanuelClone = null,
   genkiDamaVisual = null,
   vastolordLaser = null,
+  granReyCeroEffect = null,
   cutInEnemie = null,
   npcBleeding = false,
   preAtomic = false,
@@ -287,6 +291,18 @@ export function BattleEntities({
       {vastolordLaser && player.character === "marcelo" && (
         <VastolordLaser
           beam={vastolordLaser}
+          PLAYER_SIZE={PLAYER_SIZE}
+          battleScaleX={battleScaleX}
+          battleScaleY={battleScaleY}
+        />
+      )}
+
+      {granReyCeroEffect && player.character === "marcelo" && (
+        <GranReyCero
+          tipX={granReyCeroEffect.tipX}
+          tipY={granReyCeroEffect.tipY}
+          dirX={granReyCeroEffect.dirX}
+          fading={granReyCeroEffect.fading}
           PLAYER_SIZE={PLAYER_SIZE}
           battleScaleX={battleScaleX}
           battleScaleY={battleScaleY}

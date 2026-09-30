@@ -486,6 +486,10 @@ export function useBattleScene({
     domainExpansionPress,
     domainExpansionUsable,
     domainExpansionRemaining,
+    granReyCeroEffect,
+    granReyCeroPress,
+    granReyCeroUsable,
+    granReyCeroRemaining,
   } = combat;
 
   vastolordEndingRef.current = battle.isEnding;
@@ -804,5 +808,9 @@ export function useBattleScene({
     domainExpansionPress,
     domainExpansionUsable,
     domainExpansionRemaining,
+    granReyCeroEffect,
+    granReyCeroPress,
+    granReyCeroUsable,
+    granReyCeroRemaining,
   });
 }
