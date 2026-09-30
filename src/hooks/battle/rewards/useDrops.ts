@@ -86,7 +86,7 @@ export function rollChestDrop(
   npcClass: NPCClass,
   addItem: (item: InventoryItem) => boolean,
   chance: number,
-): { id: string; name: string } | null {
+): ChestKeyDropInfo | null {
   if (Math.random() >= chance) return null;
 
   const chestId = `${npcClass}_chest` as const;
@@ -94,14 +94,15 @@ export function rollChestDrop(
   if (!def) return null;
 
   addItem({ id: def.id });
-  return { id: def.id, name: def.name };
+  const image = "image" in def ? def.image : undefined;
+  return { id: def.id, name: def.name, image };
 }
 
 export function rollKeyDrop(
   npcClass: NPCClass,
   addItem: (item: InventoryItem) => boolean,
   chance: number,
-): { id: string; name: string } | null {
+): ChestKeyDropInfo | null {
   if (Math.random() >= chance) return null;
 
   const keyId = `${npcClass}_key` as const;
@@ -109,7 +110,8 @@ export function rollKeyDrop(
   if (!def) return null;
 
   addItem({ id: def.id });
-  return { id: def.id, name: def.name };
+  const image = "image" in def ? def.image : undefined;
+  return { id: def.id, name: def.name, image };
 }
 
 export function rollPetDrop(

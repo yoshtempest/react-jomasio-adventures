@@ -114,8 +114,8 @@ export function useBattleRewards({
   function collectChestAndKeyDrops(
     grantAddItem: (item: InventoryItem) => boolean,
   ) {
-    let chestDrop: { id: string; name: string } | null = null;
-    let keyDrop: { id: string; name: string } | null = null;
+    let chestDrop: ChestKeyDropInfo | null = null;
+    let keyDrop: ChestKeyDropInfo | null = null;
 
     rollMultiple(() => {
       if (!chestDrop) {

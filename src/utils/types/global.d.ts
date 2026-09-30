@@ -519,13 +519,24 @@ declare global {
     qty: number;
   };
 
+  /**
+   * Baú/Chave que caiu na batalha. `image` é resolvido no sorteio (o registro
+   * `ITEMS` já traz o sprite pronto via `chestPath`/`keyPath`) para o modal de
+   * vitória só precisar desenhar — o mesmo caminho de `ItemDropInfo`.
+   */
+  type ChestKeyDropInfo = {
+    id: ItemId;
+    name: string;
+    image?: string;
+  };
+
   type RewardInfo = {
     coinReward: number;
     xpReward: number;
     equipmentDrops: EquipmentDropInfo[];
     itemDrops: ItemDropInfo[];
-    chestDrop: { id: ItemId; name: string } | null;
-    keyDrop: { id: ItemId; name: string } | null;
+    chestDrop: ChestKeyDropInfo | null;
+    keyDrop: ChestKeyDropInfo | null;
   };
 
   type DamageType =

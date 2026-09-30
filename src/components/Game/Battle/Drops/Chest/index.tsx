@@ -1,10 +1,14 @@
-import styles from "./styles.module.css";
-
 type Props = {
-  chestDrop: { id: string; name: string } | null;
-  keyDrop: { id: string; name: string } | null;
+  chestDrop: ChestKeyDropInfo | null;
+  keyDrop: ChestKeyDropInfo | null;
 };
 
+/**
+ * Seção "Baús e Chaves" do modal de vitória. O ícone é o sprite do próprio item
+ * sorteado (o registro `ITEMS` já entrega `image` via `chestPath`/`keyPath`),
+ * então o baú raro que caiu aparece raro — igual ao `ItemDrops`, que também
+ * consome a imagem já resolvida pelo sorteio.
+ */
 export function ChestDrops({ chestDrop, keyDrop }: Props) {
   if (!chestDrop && !keyDrop) return null;
 
@@ -14,13 +18,23 @@ export function ChestDrops({ chestDrop, keyDrop }: Props) {
       <div className="dropsList">
         {chestDrop && (
           <div className="dropItem">
-            <span className={styles.dropIcon}></span>
+            <img
+              className="dropIcon"
+              src={chestDrop.image}
+              alt={chestDrop.name}
+              title={chestDrop.name}
+            />
             <span className="dropName">{chestDrop.name}</span>
           </div>
         )}
         {keyDrop && (
           <div className="dropItem">
-            <span className={styles.dropIcon}></span>
+            <img
+              className="dropIcon"
+              src={keyDrop.image}
+              alt={keyDrop.name}
+              title={keyDrop.name}
+            />
             <span className="dropName">{keyDrop.name}</span>
           </div>
         )}

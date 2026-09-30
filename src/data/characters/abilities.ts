@@ -123,7 +123,7 @@ export const CHARACTER_ACTIVE_ABILITIES: Partial<
       kind: "active",
       id: "granReyCero",
       name: "Gran Rey Cero",
-      description: `Lâmina que corre 500px na direção de mira. Ao encostar, para e rasteja, causando dano contínuo e empurrando todo inimigo num raio de ${GRAN_REY_CERO_AOE_RADIUS}px da ponta.`,
+      description: `Lâmina que percorre grande distância na direção de mira. Ao encostar, para e rasteja, causando dano contínuo e empurrando todo inimigo num raio de ${GRAN_REY_CERO_AOE_RADIUS}px da ponta.`,
       cooldownMs: GRAN_REY_CERO_COOLDOWN_MS,
     },
   ],

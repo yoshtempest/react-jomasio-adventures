@@ -36,8 +36,8 @@ export function GranReyCero({
   battleScaleY,
   PLAYER_SIZE,
 }: Props) {
-  const width = GRAN_REY_CERO_EFFECT_WIDTH ; battleScaleX;
-  const height = GRAN_REY_CERO_EFFECT_HEIGHT * battleScaleY;
+  const width = GRAN_REY_CERO_EFFECT_WIDTH;
+  const height = GRAN_REY_CERO_EFFECT_HEIGHT;
   // O sprite é mais largo que o caminho (652px de largura para 500px de
   // percurso): a ponta alinhada em `tipX` deixa o corpo transbordar para trás
   // da origem, que é de onde a lâmina veio. Na escala em X só é preciso
