@@ -1,4 +1,4 @@
-type NpcCategory = "ally" | "enemies" | "pets" | "professionals";
+type NpcCategory = "ally" | "enemies" | "pets" | "professionals" | "characters";
 
 export const NPC_CATEGORY: Record<string, NpcCategory> = {
   blackao: "ally",
@@ -88,6 +88,15 @@ export const NPC_CATEGORY: Record<string, NpcCategory> = {
   chef: "professionals",
   lumberjack: "professionals",
   fisher: "professionals",
+
+  babidi: "characters",
+  drika: "characters",
+  ematron: "characters",
+  kamykaze: "characters",
+  srGuaxi: "characters",
+  yra: "characters",
+  marshadow: "characters",
+  riquelson: "characters",
 };
 
 export const STATE_FOLDER: Partial<Record<PlayerState, string | null>> = {
