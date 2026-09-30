@@ -227,10 +227,7 @@ export function useGranReyCero({
     let changed = false;
     let killed = false;
     const nextSummons = summonsRef.current.map((s) => {
-      if (
-        s.isDying ||
-        !granReyCeroHits(blade.tipX, blade.tipY, s.x, s.y)
-      ) {
+      if (s.isDying || !granReyCeroHits(blade.tipX, blade.tipY, s.x, s.y)) {
         return s;
       }
       changed = true;

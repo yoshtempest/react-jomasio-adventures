@@ -5,7 +5,6 @@
 /* A duração do fade espelha `GRAN_REY_CERO_FADE_OUT_MS` (450ms) — o hook
    derruba a lâmina no mesmo instante em que esta animação termina. */
 
-
 .fading {
   animation: granReyCeroFadeOut 450ms ease-out forwards;
 }

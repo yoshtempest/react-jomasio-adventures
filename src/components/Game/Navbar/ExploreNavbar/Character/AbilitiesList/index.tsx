@@ -152,7 +152,7 @@ export function AbilitiesList({
         <div className={styles.title}>
           <span className={styles.titleMain}>Gran Rey</span>
           <span className={styles.titleSub}>Cero</span>
-      </div>
+        </div>
       </div>
     </div>
   );

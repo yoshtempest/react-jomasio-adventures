@@ -11,7 +11,11 @@
   align-items: center;
   justify-content: center;
   padding: var(--fs-10) var(--fs-14);
-  background: linear-gradient(135deg, var(--surface-chest), var(--surface-magic));
+  background: linear-gradient(
+    135deg,
+    var(--surface-chest),
+    var(--surface-magic)
+  );
   border: var(--size-1) solid var(--border-legendary);
   border-radius: var(--fs-8);
   width: 80%;

@@ -132,15 +132,15 @@ input (teclado + touch: `JoystickMovement` / `ButtonsMovement`).
 `scenes/<loc>/<sceneId>/` — um arquivo por papel, todos default-ou-named
 exportados e plugged em `scene.ts`:
 
-| Arquivo      | Conteúdo                                                        |
-| ------------ | --------------------------------------------------------------- |
-| `scene.ts`   | `SceneConfig`: `id`, `background`, `map`, `tiles`, `npcs`, `events`, `dialogueData`, `initialPosition`, `audio`, `scaleFix` |
-| `tiles.ts`   | `createDoorTile` / `createConditionalTile(x, y, getRoute)`        |
-| `npcs.ts`    | `createNpc(npcPath("/x/default.svg"), gridX, gridY, size?)`      |
-| `position.ts`| `initialPosition: ExplorePosition` ou `(lastPage) => …`          |
-| `dialogue.ts`| `get<Scene>Dialogue(context): Dialogue[]`                        |
-| `events.ts`  | `SceneEvent[]` declarativo                                       |
-| `plate.ts`   | placas de chão (`createPlate`) — opcional                       |
+| Arquivo       | Conteúdo                                                                                                                    |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `scene.ts`    | `SceneConfig`: `id`, `background`, `map`, `tiles`, `npcs`, `events`, `dialogueData`, `initialPosition`, `audio`, `scaleFix` |
+| `tiles.ts`    | `createDoorTile` / `createConditionalTile(x, y, getRoute)`                                                                  |
+| `npcs.ts`     | `createNpc(npcPath("/x/default.svg"), gridX, gridY, size?)`                                                                 |
+| `position.ts` | `initialPosition: ExplorePosition` ou `(lastPage) => …`                                                                     |
+| `dialogue.ts` | `get<Scene>Dialogue(context): Dialogue[]`                                                                                   |
+| `events.ts`   | `SceneEvent[]` declarativo                                                                                                  |
+| `plate.ts`    | placas de chão (`createPlate`) — opcional                                                                                   |
 
 Depois registre em `scenes/<loc>/index.ts` (`Partial<Record<SceneId, SceneConfig>>`).
 `SceneId` é uma **union global** em `utils/types/global.d.ts` — cena nova sem
@@ -168,8 +168,8 @@ recursivos). Evento novo = union + `case` no service.
 
 ```ts
 export const d = defineDialogue([
-  ["jailson", "Olá"],                    // [who, message]
-  ["protagonista", "Oi", "talking"],     // + expression
+  ["jailson", "Olá"], // [who, message]
+  ["protagonista", "Oi", "talking"], // + expression
   { who: "victor", pose: "sitting", message: "...", soundSrc: "..." }, // pose/sound/name
 ]);
 ```
@@ -249,18 +249,18 @@ Classes com constructor e backend injetado; nada de React.
 
 ## Convenções
 
-| Categoria        | Convenção                                    | Exemplo                              |
-| ---------------- | -------------------------------------------- | ------------------------------------ |
-| Componente       | pasta `PascalCase/index.tsx` (ou `X.tsx`)    | `SceneBase`, `Game/Scenes/Base`      |
-| Página           | `pages/<PascalCase>/index.tsx`, default exp. | `pages/Hall/index.tsx`               |
-| Feature          | `features/<lowercase>/index.tsx`, named exp. | `HallScene`                          |
-| Contexto         | `PascalCaseContext.tsx`                      | `PlayerContext.tsx`                  |
-| Hook             | `useNome.ts` / `useNome.tsx`, sempre `function` | `useGameAudio.ts`                 |
-| Service          | classe PascalCase com DI no constructor     | `CombatService`                      |
-| Registry/factory | `index.ts` com `satisfies Record<K, V>`      | `services/npc/attacks/index.ts`      |
-| Dados            | `SCREAMING_SNAKE` p/ tabelas, `camelCase.ts` | `NPC_CLASSES`, `data/items/index.ts` |
-| Utilitário/tipo  | `camelCase.ts`                               | `saveGame.ts`, `player.ts`           |
-| CSS module       | sempre `styles.module.css`                   |                                        |
+| Categoria        | Convenção                                       | Exemplo                              |
+| ---------------- | ----------------------------------------------- | ------------------------------------ |
+| Componente       | pasta `PascalCase/index.tsx` (ou `X.tsx`)       | `SceneBase`, `Game/Scenes/Base`      |
+| Página           | `pages/<PascalCase>/index.tsx`, default exp.    | `pages/Hall/index.tsx`               |
+| Feature          | `features/<lowercase>/index.tsx`, named exp.    | `HallScene`                          |
+| Contexto         | `PascalCaseContext.tsx`                         | `PlayerContext.tsx`                  |
+| Hook             | `useNome.ts` / `useNome.tsx`, sempre `function` | `useGameAudio.ts`                    |
+| Service          | classe PascalCase com DI no constructor         | `CombatService`                      |
+| Registry/factory | `index.ts` com `satisfies Record<K, V>`         | `services/npc/attacks/index.ts`      |
+| Dados            | `SCREAMING_SNAKE` p/ tabelas, `camelCase.ts`    | `NPC_CLASSES`, `data/items/index.ts` |
+| Utilitário/tipo  | `camelCase.ts`                                  | `saveGame.ts`, `player.ts`           |
+| CSS module       | sempre `styles.module.css`                      |                                      |
 
 - **Nenhum** arrow function em componente, hook ou provider: `export function X()`
   (197 componentes, 217 hooks). Default export só em `pages/*` e em 3

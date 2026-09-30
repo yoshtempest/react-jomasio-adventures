@@ -13,6 +13,10 @@
 
 .hpBarFill {
   height: 100%;
-  background: linear-gradient(180deg, var(--red-warm), var(--ability-natsuki-deep));
+  background: linear-gradient(
+    180deg,
+    var(--red-warm),
+    var(--ability-natsuki-deep)
+  );
   transition: width 80ms linear;
 }

@@ -41,7 +41,11 @@
     opacity: var(--p-opacity);
   }
   100% {
-    transform: translate3d(calc(var(--size-1280) - var(--p-left) * var(--size-13)), -150vh, 0);
+    transform: translate3d(
+      calc(var(--size-1280) - var(--p-left) * var(--size-13)),
+      -150vh,
+      0
+    );
     opacity: 0;
   }
 }

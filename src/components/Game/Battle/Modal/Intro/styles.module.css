@@ -57,7 +57,12 @@
   letter-spacing: 0.04em;
 
   /* Cor amarela com gradiente linear (legível em qualquer cenario). */
-  background: linear-gradient(to bottom, var(--cream) 0%, var(--gold-lemon-deep) 45%, var(--amber-deep) 100%);
+  background: linear-gradient(
+    to bottom,
+    var(--cream) 0%,
+    var(--gold-lemon-deep) 45%,
+    var(--amber-deep) 100%
+  );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;

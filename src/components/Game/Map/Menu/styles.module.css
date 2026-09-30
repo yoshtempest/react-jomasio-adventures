@@ -99,7 +99,8 @@
 
 .faceShifted {
   right: calc(
-    var(--size-4) + clamp(var(--fs-13), var(--size-18), var(--fs-18)) + var(--size-4)
+    var(--size-4) + clamp(var(--fs-13), var(--size-18), var(--fs-18)) +
+      var(--size-4)
   );
 }
 

@@ -14,4 +14,4 @@ export {
   rollMaterialDrops,
   rollNpcCardDrop,
   rollPetDrop,
-}
+};

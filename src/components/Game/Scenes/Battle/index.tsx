@@ -516,7 +516,7 @@ export function BattleScene(props: Props) {
             emanuelClone={emanuelClone}
             genkiDamaVisual={genkiDamaVisual}
             vastolordLaser={vastolordLaser}
-          granReyCeroEffect={granReyCeroEffect}
+            granReyCeroEffect={granReyCeroEffect}
             cutInEnemie={battle.cutInEnemie}
             npcBleeding={battle.npcBleeding}
             preAtomic={specialIntroActive}

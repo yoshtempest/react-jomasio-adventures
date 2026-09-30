@@ -23,7 +23,11 @@
   top: 0;
   left: 0;
   height: 100%;
-  background: linear-gradient(90deg, var(--ability-marshadow-deep), var(--ability-marshadow));
+  background: linear-gradient(
+    90deg,
+    var(--ability-marshadow-deep),
+    var(--ability-marshadow)
+  );
   border-radius: var(--fs-8);
   box-shadow: 0 0 var(--fs-8) var(--ability-marshadow-deep-50);
 }

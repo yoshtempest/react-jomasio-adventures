@@ -39,6 +39,7 @@ export function AbilityOverlay({ active, src }: Props) {
             className={styles.character}
             onError={() => setImageFailed(true)}
           />
+          {/* <span>{ability.name}</span> */}
         </div>
       )}
       <div className={styles.bottomMotion}>

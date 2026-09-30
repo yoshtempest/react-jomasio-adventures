@@ -2,7 +2,6 @@ import type { InventoryItem } from "@/utils/types/player/inventory";
 import { ITEMS } from "@/data/items";
 import { NPC_CARDS, rollCardDrop } from "@/data/npc";
 
-
 export function rollNpcCardDrop(
   npcType: string,
   addItem: (item: InventoryItem) => boolean,

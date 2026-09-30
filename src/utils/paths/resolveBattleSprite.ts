@@ -1,0 +1,85 @@
+import { STATE_FOLDER } from "@/data/sprites/sprites";
+import { ALL_PREDICATES, stateData } from "@/gameRules/battle/playerStates";
+import { ATOMIC_SPRITES } from "./constants";
+import { ATTACK_FOLDER_ALT } from "./constants";
+import { CHARACTER_STATE_FOLDER_ALT } from "./constants";
+import { DOMAIN_EXPANSION_SPRITES } from "./constants";
+import { GRAN_REY_CERO_SPRITES } from "./constants";
+import { MARCELO_VASTOLORD_SPRITES } from "./constants";
+import { playerPath } from "./playerPath";
+import { playerPathMarshadowHabilities } from "./playerPathMarshadowHabilities";
+import type { MarceloBattleForm } from "./types";
+
+export function resolveBattleSprite(
+  character: string,
+  state: PlayerState,
+  weapon?: LucasWeapon,
+  form?: MarceloBattleForm,
+): string {
+  if (character === "artur" && ALL_PREDICATES.isSpecialTrigger(state)) {
+    return playerPath(`/artur/inFight/special/arturSeeing.svg`);
+  }
+  if (state === "mostHonored" && character === "riquelme") {
+    return playerPath(`/riquelme/inFight/mostHonored.svg`);
+  }
+  // Genki Dama do emanuel: a fase de subida usa o sprite `falling.svg` (não
+  // existe `genkiDamaRising.svg`) — o custo fica na pasta de movimento/jump.
+  if (state === "genkiDamaRising" && character === "emanuel") {
+    return playerPath(`/emanuel/inFight/movement/jump/falling.svg`);
+  }
+  // Habilidades do marcelo: os sprites da sequência ficam em pastas próprias
+  // (`habilities/atomic/`, `habilities/domainExpansion/`,
+  // `habilities/granReyCero/`) — não existe `default/preparingAtomic.svg` nem
+  // `default/preMugetsu.svg`.
+  if (character === "marcelo") {
+    const atomicSprite = stateData(ATOMIC_SPRITES, state);
+    if (atomicSprite) {
+      return playerPathMarshadowHabilities(`/atomic/${atomicSprite}.svg`);
+    }
+    const domainSprite = stateData(DOMAIN_EXPANSION_SPRITES, state);
+    if (domainSprite) {
+      return playerPathMarshadowHabilities(
+        `/domainExpansion/${domainSprite}.svg`,
+      );
+    }
+    const granReyCeroSprite = stateData(GRAN_REY_CERO_SPRITES, state);
+    if (granReyCeroSprite) {
+      return playerPathMarshadowHabilities(
+        `/granReyCero/${granReyCeroSprite}.svg`,
+      );
+    }
+  }
+  // Forma Vastolord do marcelo: a partir da transformação, TODOS os sprites
+  // vêm da pasta `vastolordForm/` — nenhum estado volta ao `default/`.
+  if (character === "marcelo" && form === "vastolordForm") {
+    const sprite = stateData(MARCELO_VASTOLORD_SPRITES, state) ?? "idle/idle";
+    return playerPath(`/marcelo/inFight/vastolordForm/${sprite}.svg`);
+  }
+  const folder = stateData(STATE_FOLDER, state);
+  if (folder === null) {
+    if (character === "lucas" && weapon) {
+      return playerPath(`/${character}/inFight/${weapon}/${state}.svg`);
+    }
+    if (character === "marcelo") {
+      return playerPath(`/${character}/inFight/default/${state}.svg`);
+    }
+    return playerPath(`/${character}/inFight/${state}.svg`);
+  }
+  // O emanuel aninha TODO o movimento em `inFight/movement/` (idle/jump/run
+  // não ficam na raiz do inFight como no riquelme/marcelo). O override por
+  // character + estado resolve isso (ex.: idle → movement/idle).
+  const resolved =
+    stateData(CHARACTER_STATE_FOLDER_ALT[character], state) ??
+    (folder === "attack" && ATTACK_FOLDER_ALT.has(character)
+      ? "attacks"
+      : folder);
+  if (character === "lucas" && weapon) {
+    return playerPath(
+      `/${character}/inFight/${weapon}/${resolved}/${state}.svg`,
+    );
+  }
+  if (character === "marcelo") {
+    return playerPath(`/${character}/inFight/default/${resolved}/${state}.svg`);
+  }
+  return playerPath(`/${character}/inFight/${resolved}/${state}.svg`);
+}

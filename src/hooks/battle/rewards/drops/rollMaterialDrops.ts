@@ -1,6 +1,10 @@
 import type { InventoryItem } from "@/utils/types/player/inventory";
 import { ITEMS } from "@/data/items";
-import { CRAFT_MATERIALS, rollCraftDrops, type MaterialId } from "@/data/items/crafting";
+import {
+  CRAFT_MATERIALS,
+  rollCraftDrops,
+  type MaterialId,
+} from "@/data/items/crafting";
 
 export function rollMaterialDrops(
   npcClass: NPCClass,

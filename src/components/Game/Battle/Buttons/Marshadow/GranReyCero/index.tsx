@@ -43,7 +43,8 @@ export function GranReyCeroButton({
       title={`Gran Rey Cero: a lâmina corre 500px na direção de mira, parando para rastejar e cortar todo inimigo num raio de ${GRAN_REY_CERO_AOE_RADIUS}px. Cooldown de 20s.`}
     >
       <span className={`abilityLabel ${styles.label}`}>
-        <Sword size={13} />GRAN REY CERO
+        <Sword size={13} />
+        GRAN REY CERO
       </span>
       {!ready && remaining > 0 && (
         <span className={styles.cooldown}>{remaining.toFixed(1)}s</span>
