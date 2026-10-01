@@ -6,6 +6,7 @@ import {
   SHOW_QUEST_INDICATOR_KEY,
   SHOW_COMBO_ACTION_KEY,
   SHOW_HIGHLIGHT_KEY,
+  SHOW_ABILITY_INTRO_KEY,
   SHARED_XP_KEY,
   DIFFICULTY_KEY,
 } from "@/data/storageKeys";
@@ -35,6 +36,11 @@ export function useSettings(): SettingsReturn {
     settingsStore.emitChange();
   }, []);
 
+  const setShowAbilityIntro = useCallback((show: boolean) => {
+    localStorage.setItem(SHOW_ABILITY_INTRO_KEY, String(show));
+    settingsStore.emitChange();
+  }, []);
+
   const setSharedXp = useCallback((shared: boolean) => {
     localStorage.setItem(SHARED_XP_KEY, String(shared));
     settingsStore.emitChange();
@@ -53,6 +59,7 @@ export function useSettings(): SettingsReturn {
       setShowQuestIndicator,
       setShowComboAction,
       setShowHighlight,
+      setShowAbilityIntro,
       setSharedXp,
       setDifficulty,
     }),
@@ -62,6 +69,7 @@ export function useSettings(): SettingsReturn {
       setShowQuestIndicator,
       setShowComboAction,
       setShowHighlight,
+      setShowAbilityIntro,
       setSharedXp,
       setDifficulty,
     ],

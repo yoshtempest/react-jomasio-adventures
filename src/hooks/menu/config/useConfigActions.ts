@@ -6,6 +6,7 @@ interface UseConfigActionsParams {
   sharedXp: boolean;
   showComboAction: boolean;
   showHighlight: boolean;
+  showAbilityIntro: boolean;
 
   screenRef: RefObject<"menu" | "tutorial">;
   isOnTabRef: RefObject<boolean>;
@@ -25,6 +26,7 @@ interface UseConfigActionsParams {
   setShowInstructionsRef: RefObject<(v: boolean) => void>;
   setShowComboActionRef: RefObject<(v: boolean) => void>;
   setShowHighlightRef: RefObject<(v: boolean) => void>;
+  setShowAbilityIntroRef: RefObject<(v: boolean) => void>;
   navigateRef: RefObject<(path: string) => void>;
   onConfirmRef: RefObject<(() => void) | undefined>;
   setScreen: (s: "menu" | "tutorial") => void;
@@ -35,6 +37,7 @@ export function useConfigActions({
   sharedXp,
   showComboAction,
   showHighlight,
+  showAbilityIntro,
   screenRef,
   isOnTabRef,
   activeTabRef,
@@ -53,6 +56,7 @@ export function useConfigActions({
   setShowInstructionsRef,
   setShowComboActionRef,
   setShowHighlightRef,
+  setShowAbilityIntroRef,
   navigateRef,
   onConfirmRef,
   setScreen,
@@ -106,6 +110,10 @@ export function useConfigActions({
       }
 
       if (idx === 2) {
+        setShowAbilityIntroRef.current(!showAbilityIntro);
+      }
+
+      if (idx === 3) {
         navigateRef.current("/training");
       }
     }
@@ -118,6 +126,7 @@ export function useConfigActions({
     sharedXp,
     showComboAction,
     showHighlight,
+    showAbilityIntro,
     screenRef,
     isOnTabRef,
     activeTabRef,
@@ -135,6 +144,7 @@ export function useConfigActions({
     setShowInstructionsRef,
     setShowComboActionRef,
     setShowHighlightRef,
+    setShowAbilityIntroRef,
     navigateRef,
     onConfirmRef,
   ]);

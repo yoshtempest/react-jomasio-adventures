@@ -12,6 +12,7 @@ import {
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { SPECIAL_INTRO_DURATION } from "@/hooks/battle/modals/useSpecialIntro";
+import { useSettings } from "@/hooks/settings/useSetting";
 import type { MarceloBattleForm } from "@/utils/paths";
 import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
 import { clampX } from "@/gameRules/movement/clampX";
@@ -118,6 +119,7 @@ export function useGranReyCero({
   playSound,
 }: Props): GranReyCeroApi {
   const { stopSound } = useSoundEffects();
+  const { showAbilityIntro } = useSettings();
   const [effect, setEffect] = useState<GranReyCeroEffect | null>(null);
   const [remaining, setRemaining] = useState(0);
 
@@ -425,12 +427,16 @@ export function useGranReyCero({
     // custo da habilidade, mesmo com a lâmina saindo depois.
     readyAtRef.current = Date.now() + GRAN_REY_CERO_COOLDOWN_MS;
     setRemaining(GRAN_REY_CERO_COOLDOWN_MS / 1000);
-    // O intro segura o personagem antes da lâmina (senão ele andaria ou viraria
-    // de lado durante o slow-motion e o corte sairia na direção errada).
-    freezeActionsUntilRef.current = Math.max(
-      freezeActionsUntilRef.current,
-      Date.now() + SPECIAL_INTRO_DURATION,
-    );
+    // O lock do intro segura o personagem antes da lâmina (senão ele andaria
+    // ou viraria de lado durante o slow-motion e o corte sairia na direção
+    // errada). Com o intro desligado na config não há nada para segurar: a
+    // lâmina sai na hora e o próprio `fire` trava o player durante o corte.
+    if (showAbilityIntro) {
+      freezeActionsUntilRef.current = Math.max(
+        freezeActionsUntilRef.current,
+        Date.now() + SPECIAL_INTRO_DURATION,
+      );
+    }
 
     // O specialIntro (1s) mostra o background da habilidade; a lâmina entra
     // logo depois. Se já houver um intro em andamento o callback não roda,
@@ -438,7 +444,13 @@ export function useGranReyCero({
     if (!startSpecialIntro("marcelo", () => fireRef.current(), "granReyCero")) {
       fireRef.current();
     }
-  }, [fireRef, freezeActionsUntilRef, startSpecialIntro, usableRef]);
+  }, [
+    fireRef,
+    freezeActionsUntilRef,
+    showAbilityIntro,
+    startSpecialIntro,
+    usableRef,
+  ]);
 
   // Tick do cooldown restante do botão (20s).
   useEffect(() => {

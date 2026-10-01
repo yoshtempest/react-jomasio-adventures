@@ -5,6 +5,7 @@ import {
   SHOW_QUEST_INDICATOR_KEY,
   SHOW_COMBO_ACTION_KEY,
   SHOW_HIGHLIGHT_KEY,
+  SHOW_ABILITY_INTRO_KEY,
   SHARED_XP_KEY,
   DIFFICULTY_KEY,
 } from "@/data/storageKeys";
@@ -20,6 +21,10 @@ export function readSettings(): Settings {
   const showComboAction =
     localStorage.getItem(SHOW_COMBO_ACTION_KEY) !== "false";
   const showHighlight = localStorage.getItem(SHOW_HIGHLIGHT_KEY) !== "false";
+  // Default ON: o jogo sempre mostrou o intro, então só o "false" explícito
+  // desliga — chaves ausentes (jogador novo, save antigo) mantêm a animação.
+  const showAbilityIntro =
+    localStorage.getItem(SHOW_ABILITY_INTRO_KEY) !== "false";
   const sharedXp = localStorage.getItem(SHARED_XP_KEY) === "true";
 
   const rawDiff = localStorage.getItem(slotKey(DIFFICULTY_KEY));
@@ -38,6 +43,7 @@ export function readSettings(): Settings {
     showQuestIndicator,
     showComboAction,
     showHighlight,
+    showAbilityIntro,
     sharedXp,
     difficulty,
   };

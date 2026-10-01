@@ -36,6 +36,7 @@ export const VISITED_LOCATIONS_KEY = "visitedLocations";
 export const SCENE_MEMORIES_KEY = "scene_memories_seen";
 export const SHOW_COMBO_ACTION_KEY = "showComboAction";
 export const SHOW_HIGHLIGHT_KEY = "showHighlight";
+export const SHOW_ABILITY_INTRO_KEY = "showAbilityIntro";
 export const SHARED_XP_KEY = "sharedXp";
 export const REDEEMED_CARDS_KEY = "redeemed_cards";
 export const GROUND_ITEMS_KEY = "ground_items";

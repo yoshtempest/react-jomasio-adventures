@@ -7,6 +7,8 @@ export type Settings = {
   showQuestIndicator: boolean;
   showComboAction: boolean;
   showHighlight: boolean;
+  /** Intro visual de abertura das habilidades do jogador (SpecialIntro). */
+  showAbilityIntro: boolean;
   sharedXp: boolean;
   difficulty: NpcDifficulty;
 };
@@ -19,6 +21,7 @@ export type SettingsReturn = Settings & {
   setShowQuestIndicator: (show: boolean) => void;
   setShowComboAction: (show: boolean) => void;
   setShowHighlight: (show: boolean) => void;
+  setShowAbilityIntro: (show: boolean) => void;
   setSharedXp: (shared: boolean) => void;
   setDifficulty: (difficulty: NpcDifficulty) => void;
 };

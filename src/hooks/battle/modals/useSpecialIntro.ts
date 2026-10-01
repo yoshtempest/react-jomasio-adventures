@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ONE_THOUSAND_MS } from "@/data/ms";
 import type { MarceloBattleForm } from "@/utils/paths";
+import { useSettings } from "@/hooks/settings/useSetting";
 
 export const SPECIAL_INTRO_DURATION = ONE_THOUSAND_MS;
 export const SPECIAL_INTRO_TIME_SCALE = 0.1;
@@ -17,12 +18,18 @@ type Props = {
  * A duração casa com a animação CSS do SpecialIntro (fade-in 2s + fade-out
  * rápido), que roda em tempo real independente do time scale.
  *
- * `startSpecialIntro` devolve `false` quando já existe um intro em andamento
- * (o `onActivate` passado nunca roda). Quem consome o retorno precisa então
- * executar a ação por conta própria — do contrário a habilidade some junto com
- * o recurso que ela consumiu no `press`.
+ * A configuração `showAbilityIntro` (Config › Batalha) desliga a animação
+ * inteira: nada de overlay nem de slow-motion, e a ação é ativada na hora. O
+ * lock de 1s que a animação impõe também não pode ficar — o jogador ficaria
+ * parado sem ver nada.
+ *
+ * `startSpecialIntro` devolve se ele assumiu a ativação. `false` significa que
+ * já existe um intro em andamento e o `onActivate` passado nunca roda: quem
+ * consome precisa executar a ação por conta própria, senão a habilidade some
+ * junto com o recurso que ela consumiu no `press`.
  */
 export function useSpecialIntro({ setTimeScale, resetTimeScale }: Props) {
+  const { showAbilityIntro } = useSettings();
   const [specialIntro, setSpecialIntro] = useState<{
     character: string;
     ability?: string;
@@ -39,6 +46,13 @@ export function useSpecialIntro({ setTimeScale, resetTimeScale }: Props) {
       ability?: string,
       form?: MarceloBattleForm,
     ) => {
+      // Intro desligado na config: a ação sai imediatamente, sem overlay e
+      // sem slow-motion (a habilidade já trava o player por conta própria).
+      if (!showAbilityIntro) {
+        onActivate();
+        return true;
+      }
+
       if (activeRef.current) return false;
 
       activeRef.current = true;
@@ -61,7 +75,7 @@ export function useSpecialIntro({ setTimeScale, resetTimeScale }: Props) {
 
       return true;
     },
-    [setTimeScale, resetTimeScale],
+    [setTimeScale, resetTimeScale, showAbilityIntro],
   );
 
   useEffect(() => {

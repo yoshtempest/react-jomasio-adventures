@@ -35,6 +35,8 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
     setShowComboAction,
     showHighlight,
     setShowHighlight,
+    showAbilityIntro,
+    setShowAbilityIntro,
     sharedXp,
     setSharedXp,
   } = useSettings();
@@ -93,6 +95,7 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
   const setShowQuestIndicatorRef = useLatestRef(setShowQuestIndicator);
   const setShowComboActionRef = useLatestRef(setShowComboAction);
   const setShowHighlightRef = useLatestRef(setShowHighlight);
+  const setShowAbilityIntroRef = useLatestRef(setShowAbilityIntro);
   const setSharedXpRef = useLatestRef(setSharedXp);
   const checkForUpdateRef = useLatestRef(checkForUpdate);
   const installRef = useLatestRef(install);
@@ -139,6 +142,7 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
     sharedXp,
     showComboAction,
     showHighlight,
+    showAbilityIntro,
     screenRef,
     isOnTabRef,
     activeTabRef,
@@ -157,6 +161,7 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
     setShowInstructionsRef,
     setShowComboActionRef,
     setShowHighlightRef,
+    setShowAbilityIntroRef,
     navigateRef,
     onConfirmRef,
     setScreen,
@@ -360,6 +365,7 @@ export function useConfigSelection(isActive: boolean, onConfirm?: () => void) {
     showQuestIndicator,
     showComboAction,
     showHighlight,
+    showAbilityIntro,
     sharedXp,
     activeTab,
     isOnTab,

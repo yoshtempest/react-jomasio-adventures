@@ -8,12 +8,14 @@ import { ElementChart } from "./ElementChart";
 type Props = {
   showComboAction: boolean;
   showHighlight: boolean;
+  showAbilityIntro: boolean;
   selectedIndex: number;
 };
 
 export function BattleTab({
   showComboAction,
   showHighlight,
+  showAbilityIntro,
   selectedIndex,
 }: Props) {
   const battleInfoCtx = useBattleInfo();
@@ -43,6 +45,14 @@ export function BattleTab({
             className={`${styles.toggleItem} ${selectedIndex === 2 ? styles.selected : ""}`}
           >
             {selectedIndex === 2 && <span className={styles.cursor}>▼</span>}
+            <h2>
+              Exibir intro de habilidade: {showAbilityIntro ? "ON" : "OFF"}
+            </h2>
+          </div>
+          <div
+            className={`${styles.toggleItem} ${selectedIndex === 3 ? styles.selected : ""}`}
+          >
+            {selectedIndex === 3 && <span className={styles.cursor}>▼</span>}
             <button
               className={styles.trainingButton}
               onClick={() => navigate("/training")}
@@ -51,7 +61,7 @@ export function BattleTab({
               Modo Treino
             </button>
           </div>
-          <CardRedeem isSelected={selectedIndex === 3} />
+          <CardRedeem isSelected={selectedIndex === 4} />
         </>
       )}
 

@@ -11,6 +11,7 @@ import {
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { SPECIAL_INTRO_DURATION } from "@/hooks/battle/modals/useSpecialIntro";
+import { useSettings } from "@/hooks/settings/useSetting";
 import type { MarceloBattleForm } from "@/utils/paths";
 import { ProjectileConstants } from "@/data/projectile";
 import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
@@ -119,6 +120,7 @@ export function useVastolordLaser({
   playSound,
 }: Props): VastolordLaserApi {
   const { stopSound } = useSoundEffects();
+  const { showAbilityIntro } = useSettings();
   const [beam, setBeam] = useState<VastolordLaserBeam | null>(null);
   /** Stacks de Laser durante a forma: começa em 1, cada kill adiciona +1,
    * cada disparo consome 1. Reativo p/ o botão reabilitar após kills. */
@@ -325,12 +327,16 @@ export function useVastolordLaser({
     // A stack é consumida no ato: o intro já conta como o custo, mesmo se o
     // feixe só sair um segundo depois.
     setLaserStacks((s) => Math.max(0, s - 1));
-    // O intro segura o personagem antes do feixe (senão ele andaria/ viraria
-    // de lado durante o slow-motion e o feixe sairia na direção errada).
-    freezeActionsUntilRef.current = Math.max(
-      freezeActionsUntilRef.current,
-      Date.now() + SPECIAL_INTRO_DURATION,
-    );
+    // O lock do intro segura o personagem antes do feixe (senão ele andaria/
+    // viraria de lado durante o slow-motion e o feixe sairia na direção errada).
+    // Com o intro desligado na config não há nada para segurar: o feixe sai
+    // na hora e o próprio `fire` trava o player pelos 3s do feixe.
+    if (showAbilityIntro) {
+      freezeActionsUntilRef.current = Math.max(
+        freezeActionsUntilRef.current,
+        Date.now() + SPECIAL_INTRO_DURATION,
+      );
+    }
 
     // O specialIntro (1s em slow-motion) mostra o background do laser; o feixe
     // entra logo depois. Se já houver um intro em andamento o callback não
@@ -345,7 +351,13 @@ export function useVastolordLaser({
     ) {
       fireRef.current();
     }
-  }, [freezeActionsUntilRef, fireRef, startSpecialIntro, usableRef]);
+  }, [
+    freezeActionsUntilRef,
+    fireRef,
+    showAbilityIntro,
+    startSpecialIntro,
+    usableRef,
+  ]);
 
   // Stacks: a forma libera VASTOLORD_LASER_START_STACKS ao entrar e zera ao sair.
   useEffect(() => {

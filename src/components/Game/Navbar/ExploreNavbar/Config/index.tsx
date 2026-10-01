@@ -26,6 +26,7 @@ export function Config() {
     showQuestIndicator,
     showComboAction,
     showHighlight,
+    showAbilityIntro,
     sharedXp,
     activeTab,
     isOnTab,
@@ -109,6 +110,7 @@ export function Config() {
         <BattleTab
           showComboAction={showComboAction}
           showHighlight={showHighlight}
+          showAbilityIntro={showAbilityIntro}
           selectedIndex={selectedIndex}
         />
       )}
