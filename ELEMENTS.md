@@ -199,3 +199,41 @@ A diferença é que isso virou consequência declarada da tabela de
 vantagem, em vez de acidente de duas listas desencontradas. Se a intenção
 for que opostos se anulem (1x), a mudança é em `CombatService`, não
 aqui.
+
+---
+
+## Multi-tipagem: média geométrica
+
+Uma criatura pode ter várias colunas ao mesmo tempo (mestiço = uma por raça,
+despertar = mais uma). O multiplicador elemental é avaliado **par a par**
+(atacante × defensor) e o resultado era multiplicado cru: três colunas fortes
+davam `1.5³ = 3,375x`, e duas fracas davam `0,5² = 0,25x` — misturar raças
+virava a build mais forte e mais frágil do jogo sem nenhuma decisão de design
+por trás.
+
+Agora `CombatService.getElementMultiplier` aplica **média geométrica** sobre os
+pares avaliados:
+
+```
+multiplicador = (produto dos pares) ^ (1 / nº de pares)
+```
+
+| Tipagens               | 1 par | 2 pares | 3 pares |
+| ---------------------- | ----- | ------- | ------- |
+| Todas favoráveis       | 1,5x  | 1,22x   | 1,14x   |
+| Mistas (forte + fraco) | 1,5x  | 0,87x   | 0,91x   |
+| Todas desfavoráveis    | 0,5x  | 0,71x   | 0,79x   |
+
+O que muda na leitura: multi-tipagem continua sendo **vantagem**, mas ela
+compensa em **alcance** (o elemento passa a valer contra metade da tabela) e
+não em **potência**. Uma coluna só contra uma coluna só continua sendo 1,5x —
+ou seja, o melhor caso de alguém sem mistura é igual ao pior caso de alguém
+totalmente misturado, e não há mais build que multiplica 3,375x.
+
+Como na tabela de vantagem o sistema é assimétrico, misturar forte e fraco
+não se cancela: fica perto de 1x (vantagem pequena), não exatamente 1x. Isso é
+intencional — Darkus e Haos são mutualmente fortes, e opostos que se anulam
+seria uma mudança de regra diferente (ver `CombatService`).
+
+Para voltar ao produto cru (comportamento anterior a esta regra), construa o
+service com `normalizeTypingMultiplier: false`.

@@ -26,7 +26,9 @@ export function ElementTable({ playerElementTypes, npcElementTypes }: Props) {
     <div className={styles.table}>
       <h2 className={styles.title}>Tabela de Tipagens</h2>
       <p className={styles.hint}>
-        Dano super efetivo = ×1.5. Múltiplas tipagens multiplicam o dano.
+        Dano super efetivo = ×1.5. Com várias tipagens o multiplicador é a média
+        geométrica dos pares: duas colunas fuertes dão ×1.22, não ×2.25 —
+        multi-tipagem amplia o alcance do elemento, não o dano bruto.
       </p>
 
       <div className={styles.legend}>

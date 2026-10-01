@@ -247,6 +247,41 @@ Classes com constructor e backend injetado; nada de React.
 - Ordem de `z-index` alta é intencional (navbar 9999999, overlays 99999999) —
   não "limpe" sem entender.
 
+## Raças em batalha
+
+Raça deixou de ser só herança elemental. O caminho de leitura é sempre:
+
+```
+RACE_TRAITS (data)  →  getCharacterTraitSummary / getNpcTraitSummary
+                     →  funil de dano (stats / dano / imunidade)
+                     →  onRaceHitRef (empurrão, sangramento)
+```
+
+- **Registro**: `data/characters/races/traits/constants.ts` (`RACE_TRAITS`, um
+  array por `Race`). Trait nova = entrada nova no union `RaceTrait`
+  (`utils/types/character/raceTrait.ts`) + `case` no `switch` de
+  `summarizeRaceTraits`. Nada é lido direto do registro no combate — só o
+  resumo fundido.
+- **Fusão**: multiplicadores multiplicam entre raças, status se unem (Set),
+  empurrão/sangramento ficam com o maior valor. Resumo memoizado por
+  personagem/NPC (`summary.ts`) porque roda dentro de state updater.
+- **Funis de dano** (não adicione um quarto caminho): player→NPC em
+  `computeHitDamage` (cobre básico, special e habilidades) e
+  `useChargeDash`; NPC→player em `getNpcVsPlayerMultiplier`
+  (`gameRules/battle/raceDamage.ts`), que `rollNpcDamage`, `npcThrowHit`,
+  `projectileHp` e `computeSummonDamage` já consomem.
+- **Tipagem por nível**: qualquer caminho que resolve dano usa
+  `getCharacterElementTypesAtLevel(character, level)`. `CHARACTER_ELEMENT_TYPES`
+  é a versão estática, sem despertar — só para UI que não conhece o nível.
+- **Imunidade**: dentro de `applyPlayerStatus`, nunca no chamador. Status novo
+  precisa entrar em `PlayerStatus` (`utils/types/battle/status.ts`).
+- **No acerto**: traits posicionais (empurrão/sangramento) passam por
+  `onRaceHitRef`, montado em `useBattleCombat` (tem o `npc.updateNpc` e o
+  `applyNpcBleed`). Dispara só com `damage > 0`.
+- **Awakening**: `data/characters/races/awakening.ts` é o único lugar que
+  popula `extraTypes`, e popula por nível.
+- Balanceamento da tabela e a regra de média geométrica: `ELEMENTS.md`.
+
 ## Convenções
 
 | Categoria        | Convenção                                       | Exemplo                              |
@@ -283,8 +318,12 @@ até você preencher — use isso a seu favor:
 - `data/npc/npc.ts` `NPC_CLASSES` → `NpcType`; força `data/npc/displayNames.ts`
   (`Record<NpcType, string>`) e `services/npc/attacks/index.ts`.
 - `data/characters/list.ts` `CHARACTERS` → `CharacterId`; força
-  `data/characters/races.ts` (`Record<CharacterId, CharacterRace>`, de onde sai a
-  tipagem elemental em `data/types/characterElementTypes.ts`).
+  `data/characters/races/character.ts` (`Record<CharacterId, CharacterRace>`, de
+  onde sai a tipagem elemental em `data/types/characterElementTypes.ts`).
+- `utils/types/character/race.ts` `Race` → `RACE_TRAITS`
+  (`data/characters/races/traits/constants.ts`, como
+  `satisfies Record<Race, readonly RaceTrait[]>`): raça nova não compila sem
+  trait de combate declarada.
 - `utils/types/global.d.ts`: `SceneId`, `PlayerState` (com `animationFlow` em
   `data/battle/animationFlow.ts` como `Record<PlayerState, …>`), `DialogueExpression`,
   `NPCClass`, `Projectile` (union por `variant`), `ItemId`/`QuestId`/`FlagId`

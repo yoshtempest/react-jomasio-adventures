@@ -14,6 +14,9 @@ export function finishHit(
   onActionRef?.current?.();
   params.timeRef.current = applyHitstop(params.timeRef.current, hitstop);
 
+  // Só acerto com dano vale traits de on-hit: dano 0 (block) não empurra.
+  if (damage > 0) params.onRaceHitRef?.current?.();
+
   if (params.totalVampirism > 0) {
     const heal = Math.round((damage * params.totalVampirism) / 100);
     if (heal > 0)

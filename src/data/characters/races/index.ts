@@ -13,3 +13,9 @@ export { RACE_LABELS } from "@/data/characters/races/labels";
 export { MIXED_RACE_NAMES } from "@/data/characters/races/mixedNames";
 export type { MixedPair } from "@/data/characters/races/combinations";
 export { RACE_META } from "@/data/characters/races/meta";
+export {
+  RACE_AWAKENINGS,
+  applyAwakening,
+  getRaceAwakening,
+} from "@/data/characters/races/awakening";
+export type { RaceAwakening } from "@/data/characters/races/awakening";

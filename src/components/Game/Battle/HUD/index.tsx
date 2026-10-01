@@ -2,7 +2,7 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import { getRank, srcRank } from "@/gameRules/rank";
-import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
+import { getCharacterElementTypesAtLevel } from "@/data/types/characterElementTypes";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 // import { CHARACTERS } from "@/data/options/characters";
 import { PlayerHUDPanel } from "./PlayerPanel";
@@ -73,7 +73,11 @@ export function BattleHUD({
         playerName={playerName}
         playerRank={playerRank}
         playerLevel={playerLevel}
-        playerElementTypes={CHARACTER_ELEMENT_TYPES[player.character]}
+        // Com nível: o despertar racial já vale e precisa aparecer no HUD.
+        playerElementTypes={getCharacterElementTypesAtLevel(
+          player.character,
+          playerLevel,
+        )}
         hp={battle.playerHP}
         maxHp={battle.playerMaxHp}
         shield={battle.playerShield}

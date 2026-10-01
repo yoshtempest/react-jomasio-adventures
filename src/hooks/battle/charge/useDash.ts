@@ -10,7 +10,8 @@ import {
   BATTLE_LIMITS,
 } from "@/gameRules/movement/constants";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
-import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
+import { getCharacterElementTypesAtLevel } from "@/data/types/characterElementTypes";
+import { getCharacterTraitSummary } from "@/data/characters/races/traits";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import { combatService } from "@/services/combat";
 import { applyHitstop, type TimeEffect } from "@/gameRules/battle/time";
@@ -105,6 +106,8 @@ export function useChargeDash(props: Props) {
     let stepCount = 0;
     const dashY = player.y;
     const dashCharacter = player.character;
+    // Lido uma vez por dash: nível no momento do golpe, igual ao funil de melee.
+    const dashLevel = dashCharRef.current.level;
 
     const buildDashTargets = () => {
       const targets: { id: string; x: number; y: number }[] = [];
@@ -135,15 +138,21 @@ export function useChargeDash(props: Props) {
       setDeliciaRef.current((d) => Math.min(d + 1, hitsToSpecial));
 
       if (target.id === "main") {
+        // Mesmas três correções do funil de melee (`computeHitDamage`): tipagem
+        // resolvida com nível (despertar), traits raciais e multiplicadores.
+        // Dash que ignorasse isso viraria o único golpe sem regra racial.
         const elementMultiplier = combatService.getElementMultiplier(
-          CHARACTER_ELEMENT_TYPES[dashCharacter],
+          getCharacterElementTypesAtLevel(dashCharacter, dashLevel),
           npcElementTypesRef.current,
         );
+        const raceDamageMultiplier =
+          getCharacterTraitSummary(dashCharacter).damageDealtMultiplier;
         const vastolordMult = vastolordMultiplierRef?.current?.() ?? 1;
         const dmg = Math.round(
           combatService.calculateDamageToNpc(critDmg, npcArmor) *
             elementMultiplier *
             elementDamageBonus *
+            raceDamageMultiplier *
             vastolordMult,
         );
         setNpcHP((hp) => Math.max(0, hp - dmg));
@@ -170,13 +179,16 @@ export function useChargeDash(props: Props) {
       } else {
         const summon = summonsRef.current.find((s) => s.id === target.id);
         const elementMultiplier = combatService.getElementMultiplier(
-          CHARACTER_ELEMENT_TYPES[dashCharacter],
+          getCharacterElementTypesAtLevel(dashCharacter, dashLevel),
           summon ? getNpcElementTypes(summon.npcType) : [],
         );
+        const raceDamageMultiplier =
+          getCharacterTraitSummary(dashCharacter).damageDealtMultiplier;
         const summonDmg = Math.round(
           critDmg *
             elementMultiplier *
             elementDamageBonus *
+            raceDamageMultiplier *
             (vastolordMultiplierRef?.current?.() ?? 1),
         );
         spawnDamageRef.current?.(

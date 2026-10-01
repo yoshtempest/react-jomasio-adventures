@@ -100,6 +100,9 @@ O escopo atual abrange:
 | RF24 | O sistema de batalha deve suportar 3 variantes de projéteis NPC: comum, pull (com atração) e rain (chuva de lanças) | Alta       |
 | RF25 | O sistema deve suportar um puzzle de Pandemônio (quebra-cabeça) para progressão de história                         | Baixa      |
 | RF26 | O sistema deve exibir um overlay de mapa ao pressionar o modo mapa                                                  | Baixa      |
+| RF27 | O sistema deve aplicar traits de batalha por raça (dano, stats, imunidade, empurrão, sangramento) em jogador e NPC  | Alta       |
+| RF28 | O personagem deve despertar uma tipagem adicional ao atingir o nível definido para sua raça                         | Média      |
+| RF29 | O menu de Status deve listar as raças, traits ativas e o despertar do personagem                                    | Média      |
 
 ### 3.2 Requisitos Não Funcionais
 
@@ -132,6 +135,13 @@ O escopo atual abrange:
 | RN12 | Eventos de cena são processados em pipeline via `runSceneEvents()`                                                 |
 | RN13 | O projétil do tipo "pull" atrai o jogador em direção ao NPC                                                        |
 | RN14 | O projétil do tipo "rain" cria uma chuva de lanças com tempo de aviso                                              |
+| RN15 | Toda raça tem ao menos uma trait de combate declarada; trait nova exige entrada no registro                        |
+| RN16 | As traits de uma criatura fundem as raças de que ela é composta (multiplicadores multiplicam, status se unem)      |
+| RN17 | O bônus racial de stat é aplicado antes da curva de rank e do modificador de fome (constituição, não progressão)   |
+| RN18 | O despertar racial só vale a partir do nível declarado e apenas **acrescenta** tipagem, nunca substitui a herdada  |
+| RN19 | O multiplicador elemental com multi-tipagem é a média geométrica dos pares avaliados, não o produto                |
+| RN20 | Imunidade racial de status é conferida em `applyPlayerStatus`, valendo para qualquer fonte de status               |
+| RN21 | Traits de "no acerto" (empurrão, sangramento) só disparam quando o golpe causa dano — block não empurra            |
 
 ### 3.4 Restrições de Hardware
 

@@ -4,6 +4,7 @@ import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
 import { CHARACTERS } from "@/data/options/characters";
 import { getCharacterRace, getRaceLabel } from "@/data/characters/races";
+import { RaceTraits } from "@/components/Game/Navbar/shared/RaceTraits";
 import { npcPath, playerPath } from "@/utils/paths";
 import { getRank, formatRank } from "@/gameRules/rank";
 import styles from "./styles.module.css";
@@ -63,6 +64,13 @@ export function CharacterInfo() {
       <h2 className={styles.rank}>{formatRank(getRank(charProgress.level))}</h2>
       <h2>Classe: {playerClass}</h2>
       <h2>Raça: {raceLabel}</h2>
+
+      {/*
+       * `raceLabel` acima é a raça primária (compatibilidade com save antigo e
+       * com o resto do menu); o painel abaixo lista todas as raças do
+       * mestiço, com traits e despertar já resolvidos para o nível atual.
+       */}
+      <RaceTraits character={character} level={charProgress.level} />
     </div>
   );
 }

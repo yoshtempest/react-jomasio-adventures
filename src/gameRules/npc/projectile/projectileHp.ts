@@ -1,5 +1,4 @@
-import { getNpcElementTypes } from "@/data/types/npcElementTypes";
-import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
+import { getNpcVsPlayerMultiplier } from "@/gameRules/battle/raceDamage";
 import { combatService } from "@/services/combat";
 
 type ProjectProjectileDamageParams = {
@@ -8,12 +7,18 @@ type ProjectProjectileDamageParams = {
   totalArmor: number;
   npcType: string;
   playerCharacter: CharacterId;
+  /** Nível do player — sem ele o despertar racial não entra na conta. */
+  playerLevel?: number;
 };
 
 /**
  * Dano determinístico que um projétil causaria caso acertasse o jogador,
  * espelhando o pipeline de `npcRangedHit` (base do NPC + redução de armadura
- * + multiplicador elemental) sem a aleatoriedade de crítico.
+ * + multiplicador elemental/racial) sem a aleatoriedade de crítico.
+ *
+ * Usado só para escalar a vida dos projéteis destrutíveis, então erro aqui
+ * aparece como "o projétil morre com um golpe a mais ou a menos", nunca como
+ * dano errado ao jogador.
  */
 export function projectProjectileDamage({
   npcDamage,
@@ -21,17 +26,16 @@ export function projectProjectileDamage({
   totalArmor,
   npcType,
   playerCharacter,
+  playerLevel = 0,
 }: ProjectProjectileDamageParams): number {
   const dmg = combatService.calculateNpcDamage(
     npcDamage,
     playerClass,
     totalArmor,
   );
-  const elementMultiplier = combatService.getElementMultiplier(
-    getNpcElementTypes(npcType),
-    CHARACTER_ELEMENT_TYPES[playerCharacter],
+  return Math.round(
+    dmg * getNpcVsPlayerMultiplier(npcType, playerCharacter, playerLevel),
   );
-  return Math.round(dmg * elementMultiplier);
 }
 
 /** Vida de um projétil destrutível: 1/3 do dano que causaria no jogador. */

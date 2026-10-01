@@ -7,8 +7,7 @@ import { isParryPress } from "./isParryPress";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { logPlay } from "@/utils/replay/audioEventLog";
-import { getNpcElementTypes } from "@/data/types/npcElementTypes";
-import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
+import { getNpcVsPlayerMultiplier } from "@/gameRules/battle/raceDamage";
 import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
 import { combatService } from "@/services/combat";
 import { getBabidiBlockReflect } from "@/gameRules/battle/babidiBlock";
@@ -281,6 +280,7 @@ export function useNpcBattle({
         npcType,
         npcPhase,
         player.character,
+        playerLevel,
       );
 
       const scaledDmg = Math.round(finalDmg * multiplier);
@@ -307,6 +307,7 @@ export function useNpcBattle({
       npcTime,
       player.state,
       player.character,
+      playerLevel,
       npcLevel,
       npcClass,
       playerClass,
@@ -382,6 +383,7 @@ export function useNpcBattle({
       npcType,
       npcPhase,
       player.character,
+      playerLevel,
     );
 
     damagePlayerWithReflect(finalDmg);
@@ -402,6 +404,7 @@ export function useNpcBattle({
     player.state,
     player.battleDirection,
     player.character,
+    playerLevel,
     npcLevel,
     npcClass,
     playerClass,
@@ -518,11 +521,13 @@ export function useNpcBattle({
         playerClass,
         totalArmor,
       );
-      const elementMultiplier = combatService.getElementMultiplier(
-        getNpcElementTypes(npcType),
-        CHARACTER_ELEMENT_TYPES[player.character],
+      // Mesmo funil do melee: arremessar não pode ser a forma de fugir da raça
+      // do NPC nem da resistência do player.
+      const finalDmg = Math.round(
+        dmg *
+          multiplier *
+          getNpcVsPlayerMultiplier(npcType, player.character, playerLevel),
       );
-      const finalDmg = Math.round(dmg * multiplier * elementMultiplier);
 
       damagePlayerWithReflect(finalDmg);
       spawnDamageRef.current?.(finalDmg, playerX, playerY, "npc");
@@ -544,6 +549,7 @@ export function useNpcBattle({
       timeRef,
       statMultiplier,
       player.character,
+      playerLevel,
       npcType,
     ],
   );

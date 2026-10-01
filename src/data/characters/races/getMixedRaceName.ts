@@ -4,8 +4,6 @@ import { pairKey } from "@/data/characters/races/pairKey";
 import type { MixedPair } from "@/data/characters/races/combinations";
 import type { Race } from "@/utils/types/character/race";
 
-
-
 /**
  * Busca um nome de mestiço para um conjunto de raças, se existir nome
  * registrado para a combinação.

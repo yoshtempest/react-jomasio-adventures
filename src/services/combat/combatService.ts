@@ -1,4 +1,4 @@
-import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
+import { getCharacterElementTypesAtLevel } from "@/data/types/characterElementTypes";
 import {
   ELEMENT_STRONG_AGAINST,
   ELEMENT_WEAK_AGAINST,
@@ -13,6 +13,15 @@ export type CombatServiceConfig = {
   notVeryEffectiveMultiplier?: number;
   /** Constante de saturação da fórmula de sorte. */
   luckK?: number;
+  /**
+   * Normaliza o multiplicador elemental pelo número de pares avaliados.
+   *
+   * `true` (padrão) usa média geométrica: uma criatura com duas colunas fortes
+   * bate `1.5^0.5 ≈ 1.22` em vez de `2.25`, e uma com duas fracas cai para
+   * `0.71` em vez de `0.25`. `false` volta ao produto cru, que é o comportamento
+   * histórico do jogo (multi-tipagem vira explosão numérica).
+   */
+  normalizeTypingMultiplier?: boolean;
 };
 
 type NpcHitParams = {
@@ -23,6 +32,8 @@ type NpcHitParams = {
   difficulty: NpcDifficulty;
   npcType: string;
   playerCharacter: CharacterId;
+  /** Nível do player — necessário para saber se o despertar racial já vigora. */
+  playerLevel?: number;
   npcPhase: number;
   npcHp: number;
   npcMaxHp: number;
@@ -38,11 +49,13 @@ export class CombatService {
   readonly superEffectiveMultiplier: number;
   readonly notVeryEffectiveMultiplier: number;
   readonly luckK: number;
+  readonly normalizeTypingMultiplier: boolean;
 
   constructor(config: CombatServiceConfig = {}) {
     this.superEffectiveMultiplier = config.superEffectiveMultiplier ?? 1.5;
     this.notVeryEffectiveMultiplier = config.notVeryEffectiveMultiplier ?? 0.5;
     this.luckK = config.luckK ?? 199;
+    this.normalizeTypingMultiplier = config.normalizeTypingMultiplier ?? true;
   }
 
   // --- Dano do player -------------------------------------------------
@@ -131,6 +144,7 @@ export class CombatService {
     difficulty,
     npcType,
     playerCharacter,
+    playerLevel = 0,
     npcPhase,
     npcHp,
     npcMaxHp,
@@ -147,7 +161,7 @@ export class CombatService {
     const isCrit = Math.random() * 100 < critChance;
     const elementMultiplier = this.getElementMultiplier(
       getNpcElementTypes(npcType),
-      CHARACTER_ELEMENT_TYPES[playerCharacter],
+      getCharacterElementTypesAtLevel(playerCharacter, playerLevel),
     );
     const finalDmg = Math.round((isCrit ? dmg * 2 : dmg) * elementMultiplier);
     const dmgType: DamageType = isCrit ? "crit" : "npc";
@@ -168,14 +182,27 @@ export class CombatService {
 
   // --- Elementos / sorte / cooldown ------------------------------------
 
+  /**
+   * Multiplicador elemental entre duas criaturas.
+   *
+   * Cada par (atacante × defensor) contribui `superEffective` ou
+   * `notVeryEffective`. Com multi-tipagem o produto cru dispara — 3 colunas
+   * fortes dão `1.5³ = 3.375×` — então, por padrão, o resultado passa por média
+   * geométrica sobre os pares avaliados. O efeito continua sendo "elemento forte
+   * ajuda, elemento fraco atrapalha", mas a vantagem não escala com quantas
+   * raças a criatura tem: ela paga em **alcance** (contra 1 coluna é o dobro do
+   * valor), não em **potência**.
+   */
   getElementMultiplier(
     attackerTypes: readonly ElementType[],
     defenderTypes: readonly ElementType[],
   ): number {
     let multiplier = 1;
+    let pairs = 0;
 
     for (const attacker of attackerTypes) {
       for (const defender of defenderTypes) {
+        pairs += 1;
         if (ELEMENT_STRONG_AGAINST[attacker].includes(defender)) {
           multiplier *= this.superEffectiveMultiplier;
         } else if (ELEMENT_WEAK_AGAINST[attacker].includes(defender)) {
@@ -184,7 +211,8 @@ export class CombatService {
       }
     }
 
-    return multiplier;
+    if (!this.normalizeTypingMultiplier || pairs <= 1) return multiplier;
+    return Math.pow(multiplier, 1 / pairs);
   }
 
   getLuckBonus(totalLuck: number): number {

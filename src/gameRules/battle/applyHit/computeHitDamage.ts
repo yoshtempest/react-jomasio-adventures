@@ -1,7 +1,15 @@
-import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
+import { getCharacterElementTypesAtLevel } from "@/data/types/characterElementTypes";
+import { getCharacterTraitSummary } from "@/data/characters/races/traits";
 import { combatService } from "@/services/combat";
 import type { ComputeHitDamageParams } from "./types";
 
+/**
+ * Funil único do dano do player contra NPC: básico, especial e tudo que
+ * reaproveita `applyBasicHit`/`applySpecialHit` sai daqui.
+ *
+ * É também o único lugar que resolve tipagem **com nível** — sem isso o
+ * despertar racial existiria só na ficha.
+ */
 export function computeHitDamage({
   player,
   char,
@@ -38,12 +46,19 @@ export function computeHitDamage({
   );
   const armorReduced = combatService.calculateDamageToNpc(critDmg, npcArmor);
   const elementMultiplier = combatService.getElementMultiplier(
-    CHARACTER_ELEMENT_TYPES[player.character],
+    getCharacterElementTypesAtLevel(player.character, char.level),
     npcElementTypes,
   );
+  const raceDamageMultiplier = getCharacterTraitSummary(
+    player.character,
+  ).damageDealtMultiplier;
   const trueDmg =
     Math.round(
-      armorReduced * damageMultiplier * elementMultiplier * elementDamageBonus,
+      armorReduced *
+        damageMultiplier *
+        elementMultiplier *
+        elementDamageBonus *
+        raceDamageMultiplier,
     ) + totalTrueDamage;
 
   return { damage: trueDmg, isCrit: dmgType === "crit", type: dmgType };

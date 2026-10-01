@@ -6,8 +6,9 @@ import { BLOCK_ATTACK_PUSH_DISTANCE } from "@/gameRules/movement/constants";
 import { clampX } from "@/gameRules/movement/clampX";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { CharactersProgress } from "@/data/characters/defaultProgress";
-import { CHARACTER_ELEMENT_TYPES } from "@/data/types/characterElementTypes";
-import { NPC_ELEMENT_TYPES } from "@/data/types/npcElementTypes";
+import { getCharacterElementTypesAtLevel } from "@/data/types/characterElementTypes";
+import { getNpcElementTypes } from "@/data/types/npcElementTypes";
+import { getCharacterTraitSummary } from "@/data/characters/races/traits";
 import { combatService } from "@/services/combat";
 
 type Params = {
@@ -57,16 +58,25 @@ export function damageSummon({
     playerClass,
   );
   const targetSummon = summons.find((s) => s.id === target.id);
+  const targetTypes = targetSummon
+    ? getNpcElementTypes(targetSummon.npcType)
+    : [];
   const elementMultiplier = combatService.getElementMultiplier(
-    CHARACTER_ELEMENT_TYPES[player.character],
-    targetSummon ? (NPC_ELEMENT_TYPES[targetSummon.npcType] ?? []) : [],
+    getCharacterElementTypesAtLevel(player.character, char.level),
+    targetTypes,
   );
+  // Mesma trait racial do funil de melee: golpear summon não pode ser o jeito de
+  // escapar do bônus de dano da raça.
+  const raceDamageMultiplier = getCharacterTraitSummary(
+    player.character,
+  ).damageDealtMultiplier;
   const dmg = Math.round(
     (player.character === "samuel" && char.level >= 20
       ? raw * combatService.getBerserkMultiplier(playerHP, playerMaxHp)
       : raw) *
       multiplier *
-      elementMultiplier,
+      elementMultiplier *
+      raceDamageMultiplier,
   );
 
   spawnDamageRef.current?.(

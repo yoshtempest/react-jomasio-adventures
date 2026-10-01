@@ -82,6 +82,8 @@ type Props = {
   onKokusenRef?: React.RefObject<() => void>;
   onBlackFlashRef?: React.RefObject<() => void>;
   onCriticalPushRef?: React.RefObject<() => void>;
+  /** Traits raciais de no acerto (empurrão/sangramento), montadas pela cena. */
+  onRaceHitRef?: React.RefObject<() => void>;
   arturOraMultiplierRef?: React.RefObject<() => number>;
   /** Aplica o multiplicador da Forma Vastolord no dano do marcelo. */
   vastolordMultiplierRef?: React.RefObject<() => number>;
@@ -135,6 +137,7 @@ export function useBattleSystem(props: Props) {
     onKokusenRef,
     onBlackFlashRef,
     onCriticalPushRef,
+    onRaceHitRef,
     arturOraMultiplierRef,
     vastolordMultiplierRef,
     vastolordActive = false,
@@ -165,6 +168,7 @@ export function useBattleSystem(props: Props) {
     player,
     playerClass,
     char,
+    raceTraits,
     totalArmor,
     totalShield,
     totalVampirism,
@@ -314,6 +318,7 @@ export function useBattleSystem(props: Props) {
     onKokusenRef,
     onBlackFlashRef,
     onCriticalPushRef,
+    onRaceHitRef,
     onHalfHeal,
     arturOraMultiplierRef,
     vastolordMultiplierRef,
@@ -592,6 +597,7 @@ export function useBattleSystem(props: Props) {
     damageNumbers,
     spawnDamageNumber,
     char,
+    raceTraits,
     critRate,
     totalArmor,
     npcArmor,

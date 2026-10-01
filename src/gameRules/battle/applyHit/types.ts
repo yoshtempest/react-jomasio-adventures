@@ -32,6 +32,14 @@ export type BaseHitParams = {
   onKokusenRef?: React.RefObject<() => void>;
   onBlackFlashRef?: React.RefObject<() => void>;
   onCriticalPushRef?: React.RefObject<() => void>;
+  /**
+   * Executa as traits raciais de "no acerto" (empurrão, sangramento).
+   *
+   * Optional porque nem todo golpe tem o efeito — hits de summons, por
+   * exemplo, não devem empurrar o alvo. Vem pronto de `useBattleCombat`, que é
+   * quem tem acesso ao NPC e ao `applyNpcBleed`.
+   */
+  onRaceHitRef?: React.RefObject<() => void>;
 };
 
 export type DamageCalcParams = {

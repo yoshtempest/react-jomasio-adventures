@@ -26,6 +26,8 @@ type Props = {
   playerY: number;
   playerClass: PlayerClass;
   playerCharacter: CharacterId;
+  /** Nível do player: necessário para o despertar racial entrar no dano. */
+  playerLevel: number;
   npcLevel: number;
   difficulty: NpcDifficulty;
   damagePlayer: (damage: number) => void;
@@ -48,6 +50,7 @@ export function useSummonAI({
   playerY,
   playerClass,
   playerCharacter,
+  playerLevel,
   npcLevel,
   difficulty,
   damagePlayer,
@@ -63,6 +66,7 @@ export function useSummonAI({
   const playerXRef = useLatestRef(playerX);
   const playerYRef = useLatestRef(playerY);
   const playerCharacterRef = useLatestRef(playerCharacter);
+  const playerLevelRef = useLatestRef(playerLevel);
 
   const isPausedRef = useLatestRef(isPaused);
 
@@ -155,6 +159,7 @@ export function useSummonAI({
                 difficultyRef.current,
                 playerClassRef.current,
                 playerCharacterRef.current,
+                playerLevelRef.current,
               );
 
               if (damage !== null) {
@@ -189,6 +194,7 @@ export function useSummonAI({
     isPausedRef,
     npcLevelRef,
     playerCharacterRef,
+    playerLevelRef,
     playerClassRef,
     playerXRef,
     playerYRef,

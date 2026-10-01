@@ -12,6 +12,7 @@ import { getTenacityReduction } from "@/gameRules/battle/tenacity";
 import { getNpcStats } from "@/gameRules/npc/npcStats";
 import { getMaxSpecial } from "@/gameRules/battle/special";
 import { getRankMultiplier } from "@/gameRules/rank";
+import { getCharacterTraitSummary } from "@/data/characters/races/traits";
 import { combatService } from "@/services/combat";
 import { buildCharacterStats } from "./buildCharacterStats";
 
@@ -71,10 +72,21 @@ export function useBattleStats({
     return getBonus();
   }, [getBonus]);
 
-  const totalArmor = equipment.armor + titleBonus.armor;
-  const totalShield = equipmentBonus.shield + titleBonus.shield;
-  const totalVampirism = equipmentBonus.vampirism;
-  const totalReflect = equipmentBonus.reflect;
+  // Stats raciais entram nos mesmos totais de equipamento/título — é por isso
+  // que `RaceStatBonus` não inventa campos novos: vampirismo do Silvan e
+  // armadura do Ferrian usam exatamente o pipeline que o item já usava.
+  const raceTraits = useMemo(
+    () => getCharacterTraitSummary(player.character),
+    [player.character],
+  );
+  const raceStats = raceTraits.stats;
+
+  const totalArmor =
+    equipment.armor + titleBonus.armor + (raceStats.armor ?? 0);
+  const totalShield =
+    equipmentBonus.shield + titleBonus.shield + (raceStats.shield ?? 0);
+  const totalVampirism = equipmentBonus.vampirism + (raceStats.vampirism ?? 0);
+  const totalReflect = equipmentBonus.reflect + (raceStats.reflect ?? 0);
 
   const totalMaxHpDamage = useMemo(() => {
     return equipmentBonus.maxHpDamage ?? 0;
@@ -108,8 +120,14 @@ export function useBattleStats({
 
   const char = useMemo(
     () =>
-      buildCharacterStats(baseChar, equipmentBonus, titleBonus, rankMultiplier),
-    [baseChar, equipmentBonus, titleBonus, rankMultiplier],
+      buildCharacterStats(
+        baseChar,
+        equipmentBonus,
+        titleBonus,
+        rankMultiplier,
+        raceStats,
+      ),
+    [baseChar, equipmentBonus, titleBonus, rankMultiplier, raceStats],
   );
 
   const playerMaxHp = useMemo(() => {
@@ -156,6 +174,7 @@ export function useBattleStats({
     totalShield,
     totalVampirism,
     totalReflect,
+    raceTraits,
     totalMaxHpDamage,
     totalTrueDamage,
     totalTenacity,
