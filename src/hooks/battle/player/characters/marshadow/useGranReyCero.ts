@@ -11,6 +11,8 @@ import {
 
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import { SPECIAL_INTRO_DURATION } from "@/hooks/battle/modals/useSpecialIntro";
+import type { MarceloBattleForm } from "@/utils/paths";
 import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
 import { clampX } from "@/gameRules/movement/clampX";
 import { combatService } from "@/services/combat";
@@ -63,6 +65,13 @@ type Props = {
   isPausedRef: RefObject<boolean>;
   battleEndedRef: RefObject<boolean>;
   disabledRef: RefObject<boolean>;
+  /** specialIntro: abre o background da habilidade (habilities/granReyCero/...). */
+  startSpecialIntro: (
+    character: string,
+    onActivate: () => void,
+    ability?: string,
+    form?: MarceloBattleForm,
+  ) => boolean;
   playSound: (sound: SoundId, loop?: boolean, volumeOverride?: number) => void;
 };
 
@@ -75,13 +84,15 @@ type GranReyCeroApi = {
 };
 
 /**
- * "Gran Rey Cero" do marcelo: a lâmina nasce no personagem e corre 500px na
- * direção em que ele mira, com orçamento de 2s. Ao encostar num inimigo ela
- * para de correr e passa a rastejar devagar, aplicando 5% do dano base a cada
- * 200ms em TODO inimigo num raio de 50px da ponta de corte (não só no alvo:
- * quem a lâmina atravessa também sangra) e empurrando 5px para longe do
- * jogador. As 10 instâncias fecham a lâmina; se ela perder o alvo antes, o
- * orçamento de 2s volta a correr e ela retoma o caminho até o fim.
+ * "Gran Rey Cero" do marcelo: o `press` abre o `SpecialIntro` (background
+ * `habilities/granReyCero/` por 1s em slow-motion, com o personagem travado) e,
+ * ao fim do intro, a lâmina nasce no personagem e corre 500px na direção em que
+ * ele mira, com orçamento de 2s. Ao encostar num inimigo ela para de correr e
+ * passa a rastejar devagar, aplicando 5% do dano base a cada 200ms em TODO
+ * inimigo num raio de 50px da ponta de corte (não só no alvo: quem a lâmina
+ * atravessa também sangra) e empurrando 5px para longe do jogador. As 10
+ * instâncias fecham a lâmina; se ela perder o alvo antes, o orçamento de 2s
+ * volta a correr e ela retoma o caminho até o fim.
  *
  * O movimento é por quadro (`requestAnimationFrame`) e não por `setInterval`
  * como o laser: aqui a posição precisa ser contínua, e o dano continua
@@ -103,6 +114,7 @@ export function useGranReyCero({
   isPausedRef,
   battleEndedRef,
   disabledRef,
+  startSpecialIntro,
   playSound,
 }: Props): GranReyCeroApi {
   const { stopSound } = useSoundEffects();
@@ -357,11 +369,15 @@ export function useGranReyCero({
 
   frameRef.current = frame;
 
-  const press = useCallback(() => {
-    if (activeRef.current) return;
-    if (!usableRef.current) return;
+  /** Lança a lâmina: fixas origem/direção, troca o sprite e inicia o quadro. */
+  const fire = useCallback(() => {
+    // O intro (1s) terminou em pausa/fim de batalha: o cooldown já foi gasto no
+    // `press`, mas a lâmina não sai.
+    if (shouldCancelRef.current()) {
+      activeRef.current = false;
+      return;
+    }
 
-    activeRef.current = true;
     const p = playerRef.current;
     // Direção do corte = direção de mira.
     const dirX = p.battleDirection === "left" ? -1 : 1;
@@ -381,8 +397,6 @@ export function useGranReyCero({
     );
     playSound("marshadowSpecial");
 
-    readyAtRef.current = Date.now() + GRAN_REY_CERO_COOLDOWN_MS;
-    setRemaining(GRAN_REY_CERO_COOLDOWN_MS / 1000);
     freezeActionsUntilRef.current = Math.max(
       freezeActionsUntilRef.current,
       Date.now() + GRAN_REY_CERO_LOCK_WINDOW_MS,
@@ -397,8 +411,34 @@ export function useGranReyCero({
     playSound,
     playerRef,
     setPlayer,
-    usableRef,
+    shouldCancelRef,
   ]);
+
+  const fireRef = useLatestRef(fire);
+
+  const press = useCallback(() => {
+    if (activeRef.current) return;
+    if (!usableRef.current) return;
+
+    activeRef.current = true;
+    // O cooldown começa no `press`: o intro (1s em slow-motion) já é parte do
+    // custo da habilidade, mesmo com a lâmina saindo depois.
+    readyAtRef.current = Date.now() + GRAN_REY_CERO_COOLDOWN_MS;
+    setRemaining(GRAN_REY_CERO_COOLDOWN_MS / 1000);
+    // O intro segura o personagem antes da lâmina (senão ele andaria ou viraria
+    // de lado durante o slow-motion e o corte sairia na direção errada).
+    freezeActionsUntilRef.current = Math.max(
+      freezeActionsUntilRef.current,
+      Date.now() + SPECIAL_INTRO_DURATION,
+    );
+
+    // O specialIntro (1s) mostra o background da habilidade; a lâmina entra
+    // logo depois. Se já houver um intro em andamento o callback não roda,
+    // então o corte acontece na hora.
+    if (!startSpecialIntro("marcelo", () => fireRef.current(), "granReyCero")) {
+      fireRef.current();
+    }
+  }, [fireRef, freezeActionsUntilRef, startSpecialIntro, usableRef]);
 
   // Tick do cooldown restante do botão (20s).
   useEffect(() => {

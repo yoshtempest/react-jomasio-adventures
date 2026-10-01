@@ -10,6 +10,8 @@ import {
 } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import { SPECIAL_INTRO_DURATION } from "@/hooks/battle/modals/useSpecialIntro";
+import type { MarceloBattleForm } from "@/utils/paths";
 import { ProjectileConstants } from "@/data/projectile";
 import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
 import { clampX } from "@/gameRules/movement/clampX";
@@ -63,6 +65,13 @@ type Props = {
   isPausedRef: RefObject<boolean>;
   battleEndedRef: RefObject<boolean>;
   disabledRef: RefObject<boolean>;
+  /** specialIntro: abre o background da habilidade (vastolordForm/habilities/laser/...). */
+  startSpecialIntro: (
+    character: string,
+    onActivate: () => void,
+    ability?: string,
+    form?: MarceloBattleForm,
+  ) => boolean;
   playSound: (sound: SoundId, loop?: boolean, volumeOverride?: number) => void;
 };
 
@@ -77,10 +86,12 @@ type VastolordLaserApi = {
 };
 
 /**
- * Laser da Forma Vastolord do marcelo (uma vez por forma): o personagem troca
- * para o sprite `laser.svg` e um feixe (`vastolordLaser.svg`) sai do personagem
- * até a ponta do mapa na direção que ele mira, por 3s, centralizado na imagem
- * do personagem (centro do feixe alinhado ao centro vertical do sprite
+ * Laser da Forma Vastolord do marcelo (uma vez por forma): o `press` consome o
+ * stack e abre o `SpecialIntro` (background `vastolordForm/habilities/laser/`
+ * por 1s em slow-motion, com o personagem travado); ao fim do intro o
+ * personagem troca para o sprite `laser.svg` e um feixe (`vastolordLaser.svg`)
+ * sai até a ponta do mapa na direção que ele mira, por 3s, centralizado na
+ * imagem do personagem (centro do feixe alinhado ao centro vertical do sprite
  * renderizado). A cada 20ms, todo inimigo dentro da faixa do feixe sofre 1% do
  * dano base do personagem e é empurrado 10px para longe do jogador (parando
  * nas bordas via BATTLE_LIMITS). O jogador fica travado no disparo durante os
@@ -104,6 +115,7 @@ export function useVastolordLaser({
   isPausedRef,
   battleEndedRef,
   disabledRef,
+  startSpecialIntro,
   playSound,
 }: Props): VastolordLaserApi {
   const { stopSound } = useSoundEffects();
@@ -262,12 +274,14 @@ export function useVastolordLaser({
     ]),
   );
 
-  const press = useCallback(() => {
-    if (activeRef.current) return;
-    if (!usableRef.current) return;
-
-    activeRef.current = true;
-    setLaserStacks((s) => Math.max(0, s - 1));
+  /** Dispara o feixe: estado "laser", sprite, som em loop e o tick de dano. */
+  const fire = useCallback(() => {
+    // O intro (1s) terminou em pausa/fim de batalha ou a forma já expirou: o
+    // stack foi gasto no `press`, mas o feixe não sai.
+    if (shouldCancelRef.current()) {
+      activeRef.current = false;
+      return;
+    }
     accRef.current = 0;
     const p = playerRef.current;
     shotStartRef.current = Date.now();
@@ -297,9 +311,41 @@ export function useVastolordLaser({
     playSound,
     playerRef,
     setPlayer,
+    shouldCancelRef,
     tickRef,
-    usableRef,
   ]);
+
+  const fireRef = useLatestRef(fire);
+
+  const press = useCallback(() => {
+    if (activeRef.current) return;
+    if (!usableRef.current) return;
+
+    activeRef.current = true;
+    // A stack é consumida no ato: o intro já conta como o custo, mesmo se o
+    // feixe só sair um segundo depois.
+    setLaserStacks((s) => Math.max(0, s - 1));
+    // O intro segura o personagem antes do feixe (senão ele andaria/ viraria
+    // de lado durante o slow-motion e o feixe sairia na direção errada).
+    freezeActionsUntilRef.current = Math.max(
+      freezeActionsUntilRef.current,
+      Date.now() + SPECIAL_INTRO_DURATION,
+    );
+
+    // O specialIntro (1s em slow-motion) mostra o background do laser; o feixe
+    // entra logo depois. Se já houver um intro em andamento o callback não
+    // roda, então o disparo acontece na hora.
+    if (
+      !startSpecialIntro(
+        "marcelo",
+        () => fireRef.current(),
+        "laser",
+        "vastolordForm",
+      )
+    ) {
+      fireRef.current();
+    }
+  }, [freezeActionsUntilRef, fireRef, startSpecialIntro, usableRef]);
 
   // Stacks: a forma libera VASTOLORD_LASER_START_STACKS ao entrar e zera ao sair.
   useEffect(() => {

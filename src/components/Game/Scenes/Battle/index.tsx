@@ -172,6 +172,7 @@ export function BattleScene(props: Props) {
     vastolordLaserUsable,
     vastolordLaserStacks,
     specialIntroAbility,
+    specialIntroForm,
     atomicHalo,
     atomicExplosion,
     atomicCuts,
@@ -420,10 +421,6 @@ export function BattleScene(props: Props) {
           : undefined
       }
     >
-      {/* Preenchimento do domínio: primeiro filho do `.Master` para cobrir só
-          o fundo da batalha (pintado de baixo para cima), ficando abaixo do
-          HUD, do SceneMap e das intros por ordem de DOM + z-index 0. */}
-      <DomainExpansionBackground active={domainExpansionActive} />
       <BattleHUD
         battle={battle}
         npcStats={npcStats}
@@ -457,12 +454,18 @@ export function BattleScene(props: Props) {
         />
       )}
 
+      {/* Preenchimento do domínio: primeiro filho do `.Master` para cobrir só
+          o fundo da batalha (pintado de baixo para cima), ficando abaixo do
+          HUD, do SceneMap e das intros por ordem de DOM + z-index 0. */}
+      <DomainExpansionBackground active={domainExpansionActive} />
+
       {/* Renderizado antes do `.SceneMap`: fica acima do fundo da batalha,
           mas abaixo do jogador/NPCs (que são filhos do SceneMap). */}
       <SpecialIntro
         active={specialIntroActive}
         character={specialIntroCharacter}
         ability={specialIntroAbility}
+        form={specialIntroForm}
       />
 
       <AlfaAbility active={alfaDigActive} npcType={npcType} />

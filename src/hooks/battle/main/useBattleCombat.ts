@@ -917,6 +917,7 @@ export function useBattleCombat({
     specialIntroActive,
     specialIntroCharacter,
     specialIntroAbility,
+    specialIntroForm,
     startSpecialIntro,
   } = useSpecialIntro({ setTimeScale, resetTimeScale });
 
@@ -1166,6 +1167,7 @@ export function useBattleCombat({
     isPausedRef,
     battleEndedRef: battle.isEnding,
     disabledRef: cloneDisabledRef,
+    startSpecialIntro,
     playSound,
   });
 
@@ -1347,6 +1349,7 @@ export function useBattleCombat({
     isPausedRef,
     battleEndedRef: battle.isEnding,
     disabledRef: cloneDisabledRef,
+    startSpecialIntro,
     playSound,
   });
 
@@ -1376,6 +1379,7 @@ export function useBattleCombat({
     playerProjectile,
     specialIntroActive,
     specialIntroCharacter,
+    specialIntroForm,
     extraPunches,
     extraPunchSprite,
     killerQueen,

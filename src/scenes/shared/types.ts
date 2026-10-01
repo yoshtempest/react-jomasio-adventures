@@ -119,6 +119,8 @@ export type BattleSceneApi = {
   specialIntroCharacter: ReturnType<
     typeof useSpecialIntro
   >["specialIntroCharacter"];
+  /** Forma do personagem no intro (o background do laser vive em vastolordForm/). */
+  specialIntroForm: ReturnType<typeof useSpecialIntro>["specialIntroForm"];
   lootBags: import("@/utils/types/battle/loot").BattleLootBag[];
   lootActive: boolean;
   lootNotifications: import("@/utils/types/battle/loot").LootNotification[];

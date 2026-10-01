@@ -28,6 +28,7 @@ export { jomasioPath } from "./jomasioPath";
 export { itemsPath } from "./itemsPath";
 export { playerPath } from "./playerPath";
 export { playerPathMarshadowHabilities } from "./playerPathMarshadowHabilities";
+export { playerAbilityBackgroundPath } from "./playerAbilityBackgroundPath";
 export { npcPath } from "./npcPath";
 export { npcPathAlly } from "./npcPathAlly";
 export { npcPathPets } from "./npcPathPets";
