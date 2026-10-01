@@ -32,7 +32,7 @@ export function EnergyBar({ label, value, max = 100, tone = "mana" }: Props) {
         }}
       />
       <div className={styles.text}>
-        {label} {Math.round(value)}
+        {label} {Math.round(value)} / {Math.round(max)}
       </div>
     </div>
   );
