@@ -17,14 +17,14 @@ export type Race =
   | "Terran"
   | "Aerial"
   | "Glacial"
-  | "Voltian"
+  | "Raykou"
   | "Luminar"
   | "Ferrian"
   | "Silvan"
   | "Psychic"
   | "Nimian"
   | "Obscurian"
-  | "Umbrian";
+  | "Phantom";
 
 /**
  * Herança elemental de cada raça (tipagens inatas mínimas).
@@ -41,14 +41,14 @@ export const RACE_ELEMENT_HERITAGE: Record<Race, readonly ElementType[]> = {
   Terran: ["Subterra"],
   Aerial: ["Ventus"],
   Glacial: ["Cryo"],
-  Voltian: ["Electricus"],
+  Raykou: ["Electricus"],
   Luminar: ["Haos"],
   Ferrian: ["Metallum"],
   Silvan: ["Natura"],
   Psychic: ["Psychicus"],
   Nimian: ["Nympha"],
   Obscurian: ["Darkus"],
-  Umbrian: ["Umbra"],
+  Phantom: ["Umbra"],
 };
 
 /** Sub-raça dentro de uma raça (ex.: Tritão, dentre os Marítimos). */
@@ -72,14 +72,14 @@ export const SUB_RACES = {
   ],
   Aerial: ["Humano Alado", "Harpia", "Espírito do Vento", "Seraphim Alado"],
   Glacial: ["Neviano", "Abominável", "Glacius"],
-  Voltian: ["Raio Vivo", "Trovejante", "Biomecânico"],
+  Raykou: ["Raio Vivo", "Trovejante", "Biomecânico"],
   Luminar: ["Anjo", "Serafim", "Celestial", "Semideus"],
   Ferrian: ["Ferrum", "Alloy", "Mercúrio", "Autômato"],
   Silvan: ["Elfo", "Ente", "Druida", "Homem-planta", "Espírito da Floresta"],
   Psychic: ["Telepata", "Medallista", "Precognitivo"],
   Nimian: ["Ninfa", "Fada", "Espírito", "Dryad"],
   Obscurian: ["Sombra", "Espectro", "Penumbra"],
-  Umbrian: ["Vazio", "Aeterno", "Névoa"],
+  Phantom: ["Vazio", "Aeterno", "Névoa"],
 } as const satisfies Record<Race, readonly string[]>;
 
 /** União de todas as sub-raças definidas. */

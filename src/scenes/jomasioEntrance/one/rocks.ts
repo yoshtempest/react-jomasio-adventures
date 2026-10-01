@@ -1,7 +1,7 @@
 import type { SceneRock } from "@/gameRules/movement/rocks";
 
 /**
- * Rochas da entrada de Jomasio.
+ * Rochas da entrada do Jomásio.
  *
  * A rocha grande em (13,10) é a parede que o jogador minera de fora; a
  * pequena em (10,10) é escalável (leva o jogador para a altura 1) e a média

@@ -26,11 +26,11 @@ export const NPC_RACES = {
   jhowsimar: { races: ["Human"] },
   goat: { races: ["Human", "Obscurian"] },
   vandinhaFragment: { races: ["Human", "Psychic"] },
-  trueVandinha: { races: ["Obscurian", "Umbrian"] },
+  trueVandinha: { races: ["Obscurian", "Phantom"] },
   deise: { races: ["Human", "Obscurian"] },
   necromancer: { races: ["Obscurian", "Ignian"] },
-  slimita: { races: ["Maritime", "Umbrian"] },
-  hungryKing: { races: ["Umbrian", "Obscurian"] },
+  slimita: { races: ["Maritime", "Phantom"] },
+  hungryKing: { races: ["Phantom", "Obscurian"] },
   denis: { races: ["Ignian", "Human"] },
   srGuaxinim: { races: ["Human", "Psychic"] },
   neimito: { races: ["Ignian", "Psychic"] },
@@ -44,7 +44,7 @@ export const NPC_RACES = {
   lupita: { races: ["Ignian", "Obscurian"] },
   duque: { races: ["Ignian", "Luminar"] },
   baiano: { races: ["Human"] },
-  spiritMotocycler: { races: ["Umbrian", "Ignian"] },
+  spiritMotocycler: { races: ["Phantom", "Ignian"] },
   tim: { races: ["Obscurian", "Aerial"] },
   muyMacho: { races: ["Human", "Terran"] },
 
@@ -63,12 +63,12 @@ export const NPC_RACES = {
   figurantOfMobyDickCult: { races: ["Maritime", "Psychic"] },
   crocodile: { races: ["Maritime", "Terran"] },
   elitCrocodile: { races: ["Maritime", "Terran"] },
-  mobyDick: { races: ["Maritime", "Umbrian"] },
+  mobyDick: { races: ["Maritime", "Phantom"] },
   yangKai: { races: ["Psychic", "Terran"] },
 
   /* Tanque dos crávos */
   figurantOfDragonKingCult: { races: ["Ignian"] },
-  ains: { races: ["Obscurian", "Umbrian"] },
+  ains: { races: ["Obscurian", "Phantom"] },
   dragonKing: { races: ["Draconian", "Ignian"] },
 
   /* Lagoa do Canto */
@@ -84,7 +84,7 @@ export const NPC_RACES = {
   untrackedMonster: { races: ["Obscurian", "Luminar"] },
   theMasterPiece: { races: ["Ferrian"] },
   theChaosCreator: { races: ["Obscurian"] },
-  theFirstNightmare: { races: ["Draconian", "Umbrian"] },
+  theFirstNightmare: { races: ["Draconian", "Phantom"] },
   theDevourerOfWorlds: { races: ["Draconian", "Obscurian"] },
 
   /* Pets (sem NPC de batalha próprio) */

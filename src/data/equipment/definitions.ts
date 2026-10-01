@@ -69,15 +69,15 @@ export function createEmptyEquipped(): EquippedItems {
 }
 
 export const RANK_LABELS: Record<EquipmentRank, string> = {
-  1: "Errante",
-  2: "Iniciado",
-  3: "Adepto",
-  4: "Ascendente",
-  5: "Veterano",
-  6: "Elite",
-  7: "Lendário",
+  1: "Mequetrefe",
+  2: "Capenga",
+  3: "Básico",
+  4: "Modesto",
+  5: "Excepcional",
+  6: "Superior",
+  7: "Elite",
   8: "Mítico",
-  9: "Celestial",
+  9: "Lendário",
   0: "Transcendente",
   EX: "Divino",
 };

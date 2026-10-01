@@ -5,14 +5,14 @@ export const BESTIARY_DATA = createBestiary({
   jhowsimar: {
     name: "Jhowsimar",
     description:
-      "Um lutador de rua enigmático que protege os becos de Jomasio. Ninguém sabe sua verdadeira origem.",
+      "Um lutador de rua enigmático que protege os becos do Jomásio. Ninguém sabe sua verdadeira origem.",
     location: "Jomasio",
     attacks: ["Agarro", "E te Jooj"],
   },
   hungryDeath: {
     name: "Morto de Fome",
     description:
-      "Um zumbi faminto que vagueia pelas ruas de Jomasio em busca de carne fresca. Dizem que era um estudante que passou tempo demais sem comer.",
+      "Um zumbi faminto que vagueia pelas ruas do Jomásio em busca de carne fresca. Dizem que era um estudante que passou tempo demais sem comer.",
     location: "Jomasio",
     attacks: ["Agarrão Faminto", "Mordida Cheia de Fome"],
   },
@@ -26,14 +26,14 @@ export const BESTIARY_DATA = createBestiary({
   goat: {
     name: "Bode",
     description:
-      "Um bode demoníaco que aparece nos arredores de Jomasio. Seus olhos brilham vermelho sob a lua cheia.",
+      "Um bode demoníaco que aparece nos arredores do Jomásio. Seus olhos brilham vermelho sob a lua cheia.",
     location: "Jomasio",
     attacks: ["Chifrada Infernal", "Cabeçada"],
   },
   piupiu: {
     name: "Piupiu",
     description:
-      "Um pombo enorme e agressivo que domina os telhados de Jomasio. Não se deixe enganar pelo tamanho — ele é mais perigoso do que parece.",
+      "Um pombo enorme e agressivo que domina os telhados do Jomásio. Não se deixe enganar pelo tamanho — ele é mais perigoso do que parece.",
     location: "Jomasio",
     attacks: ["Bicada Certeira", "Revoada de Penas"],
   },
@@ -54,7 +54,7 @@ export const BESTIARY_DATA = createBestiary({
   slimita: {
     name: "Slimita",
     description:
-      "Uma criatura pegajosa e elástica que habita os esgotos de Jomasio. Ela pode se esticar e achatar para esmagar suas vítimas.",
+      "Uma criatura pegajosa e elástica que habita os esgotos do Jomásio. Ela pode se esticar e achatar para esmagar suas vítimas.",
     location: "Jomasio",
     attacks: ["Salto Pegajoso", "Cospe arma", "Esmagamento"],
   },
@@ -80,7 +80,7 @@ export const BESTIARY_DATA = createBestiary({
   srGuaxinim: {
     name: "Sr. Guaxinim",
     description:
-      "Um guaxinim inteligente que comanda uma gangue de animais nas ruas de Jomasio. Não subestime sua astúcia.",
+      "Um guaxinim inteligente que comanda uma gangue de animais nas ruas do Jomásio. Não subestime sua astúcia.",
     location: "Jomasio",
     attacks: ["Garras Afiadas", "Investida Sorrateira"],
   },
@@ -94,7 +94,7 @@ export const BESTIARY_DATA = createBestiary({
   maurao: {
     name: "Maurão",
     description:
-      "Um brutamonte que aterroriza os arredores de Jomasio. Corpo enorme e pouca paciência.",
+      "Um brutamonte que aterroriza os arredores do Jomásio. Corpo enorme e pouca paciência.",
     location: "Jomasio",
     attacks: [
       "Olha a faca",
@@ -112,7 +112,7 @@ export const BESTIARY_DATA = createBestiary({
   planetarySisters: {
     name: "Irmãs Planetárias",
     description:
-      "Três irmãs que controlam forças celestiais. Juntas, são um dos maiores desafios de Jomasio.",
+      "Três irmãs que controlam forças celestiais. Juntas, são um dos maiores desafios do Jomásio.",
     location: "Jomasio",
     attacks: ["Fúria Solar", "Maré Lunar", "Tempestade Estelar"],
   },

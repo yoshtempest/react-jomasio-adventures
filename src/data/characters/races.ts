@@ -11,14 +11,14 @@ export const RACE_LABELS: Record<Race, string> = {
   Terran: "Terrano",
   Aerial: "Aério",
   Glacial: "Glaciano",
-  Voltian: "Voltiano",
+  Raykou: "Voltiano",
   Luminar: "Luminar",
   Ferrian: "Ferriano",
   Silvan: "Silvano",
   Psychic: "Psíquico",
   Nimian: "Nimiano",
   Obscurian: "Obscuriano",
-  Umbrian: "Umbriano",
+  Phantom: "Sobrenatural",
 };
 
 /**
@@ -73,7 +73,7 @@ export const RACE_META: Record<Race, RaceMeta> = {
     description:
       "Nascidos em regiões congeladas, resistem ao frio e dominam o gelo.",
   },
-  Voltian: {
+  Raykou: {
     element: "Electricus",
     description:
       "Conduzem eletricidade pelo corpo, podendo formar criaturas quase biomecânicas.",
@@ -106,7 +106,7 @@ export const RACE_META: Record<Race, RaceMeta> = {
     element: "Darkus",
     description: "Manipula sombras e tudo o que esconde a luz.",
   },
-  Umbrian: {
+  Phantom: {
     element: "Umbra",
     description:
       "Diferente dos Obscurianos: manipula o vazio e as trevas absolutas.",
@@ -150,14 +150,14 @@ const MIXED_RACE_NAMES: Record<string, string> = {
   "Ignian,Ferrian": "Forjado",
   "Ignian,Silvan": "Flamejante",
   "Glacial,Draconian": "Dragão Glacial",
-  "Voltian,Maritime": "Conduviva",
-  "Voltian,Ferrian": "Biomecânico",
+  "Raykou,Maritime": "Conduviva",
+  "Raykou,Ferrian": "Biomecânico",
   "Draconian,Human": "Meio-Dragão",
   "Draconian,Silvan": "Draconiano Verde",
   "Draconian,Glacial": "Draconiano Glacial",
   "Draconian,Ignian": "Draconiano Ígneo",
   "Terran,Ferrian": "Muralha de Ferro",
-  "Psychic,Umbrian": "Ecos do Vazio",
+  "Psychic,Phantom": "Ecos do Vazio",
 };
 
 function pairKey(a: Race, b: Race): string {
@@ -194,13 +194,13 @@ export const CHARACTER_RACES: Record<CharacterId, CharacterRace> = {
   eduarda: { races: ["Human", "Luminar"] },
   lucas: { races: ["Human"] },
   samuel: { races: ["Human", "Terran"] },
-  artur: { races: ["Human", "Obscurian", "Umbrian"] },
-  mayra: { races: ["Human", "Maritime", "Umbrian"] },
+  artur: { races: ["Human", "Obscurian", "Phantom"] },
+  mayra: { races: ["Human", "Maritime", "Phantom"] },
   lucaua: { races: ["Human", "Ferrian", "Psychic"] },
   riquelme: { races: ["Human", "Luminar", "Obscurian"] },
-  larissa: { races: ["Human", "Ferrian", "Voltian"] },
+  larissa: { races: ["Human", "Ferrian", "Raykou"] },
   camilly: { races: ["Human"] },
-  emanuel: { races: ["Human", "Aerial", "Voltian"] },
+  emanuel: { races: ["Human", "Aerial", "Raykou"] },
   levi: { races: ["Human", "Draconian"] },
 };
 
