@@ -1,0 +1,15 @@
+export { CHARACTER_RACES } from "@/data/characters/races/character";
+export { resolveCharacterElementTypes } from "@/data/characters/races/resolveCharacterElementTypes";
+export type { ElementType } from "@/utils/types/battle/element";
+export type { Race, CharacterRace } from "@/utils/types/character/race";
+export { getRaceElementTypes } from "@/data/characters/races/getRaceElementTypes";
+export { getCharacterElementTypes } from "@/data/characters/races/getCharacterElementTypes";
+export { getCharacterRace } from "@/data/characters/races/getCharacterRace";
+export { getRaceLabel } from "@/data/characters/races/getLabel";
+export { getMixedRaceName } from "@/data/characters/races/getMixedRaceName";
+export { combinations } from "@/data/characters/races/combinations";
+export { pairKey } from "@/data/characters/races/pairKey";
+export { RACE_LABELS } from "@/data/characters/races/labels";
+export { MIXED_RACE_NAMES } from "@/data/characters/races/mixedNames";
+export type { MixedPair } from "@/data/characters/races/combinations";
+export { RACE_META } from "@/data/characters/races/meta";
