@@ -11,7 +11,8 @@ import styles from "./styles.module.css";
 type Props = {
   title?: string;
   subtitle?: string;
-  description: string;
+  description?: string;
+  numberedCount?: number;
   onClose: () => void;
 };
 
@@ -19,6 +20,7 @@ export function MessageCard({
   title,
   subtitle,
   description,
+  numberedCount,
   onClose,
 }: Props) {
   // ── camada de input: o topo da pilha engole tudo e confirm/cancel fecham ──
@@ -57,7 +59,14 @@ export function MessageCard({
         <div className={styles.textOverlay}>
           {title && <h1 className={styles.title}>{title}</h1>}
           {subtitle && <h2 className={styles.subtitle}>{subtitle}</h2>}
-          <div className={styles.description}>{description}</div>
+          {description && <div className={styles.description}>{description}</div>}
+          {numberedCount !== undefined && (
+            <ul className={styles.numberedList}>
+              {Array.from({ length: numberedCount }, (_, index) => (
+                <li key={index}>{`${index + 1} -`}</li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
     </div>

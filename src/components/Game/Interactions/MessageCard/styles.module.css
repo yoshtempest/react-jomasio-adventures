@@ -70,3 +70,21 @@
   pointer-events: none;
   color: var(--c-442222);
 }
+
+/* ── lista numerada em colunas (Manuscrito: só os números, sem texto) ── */
+.numberedList {
+  flex: 1;
+  columns: 1;
+  column-gap: clamp(1rem, 4vw, 3rem);
+  padding: 0 clamp(0.5rem, 2vw, 1.5rem);
+  list-style: none;
+  font-size: clamp(0.75rem, 1.8vw, 1rem);
+  line-height: 1.6;
+  color: var(--c-442222);
+  overflow-y: auto;
+  pointer-events: none;
+}
+
+.numberedList > li {
+  break-inside: avoid;
+}

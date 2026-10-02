@@ -15,19 +15,18 @@ import type {
   MessageDeps,
 } from "@/utils/types/interaction";
 import { POPUP_MESSAGES } from "@/data/messages";
-import { useFlags } from "@/contexts/FlagContext";
 
 type DirectorDeps = PickupDeps &
   InventoryDeps &
   QuestDeps &
   ImageDeps &
   MessageDeps & {
+    hasFlag: (id: FlagId) => boolean;
     playSFX?: (src: string, volume?: number) => void;
   };
 
 export function createDirector(deps: DirectorDeps) {
-  const { progressQuest } = deps;
-  const { hasFlag } = useFlags();
+  const { progressQuest, hasFlag } = deps;
 
   return createInteractionMap(directorMessages, deps, {
     "11,3": createImageHandler({
@@ -59,9 +58,10 @@ export function createDirector(deps: DirectorDeps) {
       description: "Me laarga, eu não aguento mais trabalhar aqui, eu não sou vagabunda, eu trabalho mas eu trabalho na minha hora, isso aqui tá parecendo uma escravidão... Eu só queria férias e um aumento, mas não, eu tenho que trabalhar até morrer, eu não aguento mais, alguem me tira daqui, eu não aguento, eu não aguento, eu aguentooo...",
     }),
     "9,5": createMessageCardHandler({
-      title: "Manuscrito",
-      subtitle: "Pontos fracos de Manin:",
-      description: "1 - ",
+      title: "Pontos fracos de Manim:",
+      subtitle: "Lista de todos os pontos fracos encontrados",
+      // A graça é a lista existir e não ter nada escrito ao lado.
+      numberedCount: 11,
     }),
     "10,5": createMessageCardHandler({
       title: "Lembranças",

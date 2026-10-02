@@ -4,6 +4,7 @@ import { SceneBase } from "@/components/Game/Scenes/Base";
 import { CANTINA_SCENES } from "@/scenes/cantina";
 import { createCantina } from "@/interactions/cantina";
 import { npcPath, itemPath } from "@/utils/paths";
+import type { MessageCardConfig } from "@/utils/types/interaction";
 
 import { useInventory } from "@/contexts/InventoryContext";
 import { useFlags } from "@/contexts/FlagContext";
@@ -29,11 +30,8 @@ export function CantinaScene({ sceneId }: Props) {
   const { hasFlag, setFlag } = useFlags();
 
   const [popup, setPopup] = useState<string | null>(null);
-  const [messageCardConfig, setMessageCardConfig] = useState<{
-    title?: string;
-    subtitle?: string;
-    description: string;
-  } | null>(null);
+  const [messageCardConfig, setMessageCardConfig] =
+    useState<MessageCardConfig | null>(null);
   const gotKey = hasFlag("picked_orange_juice");
 
   // ✅ interações específicas da cantina
@@ -118,6 +116,7 @@ export function CantinaScene({ sceneId }: Props) {
           title={messageCardConfig.title}
           subtitle={messageCardConfig.subtitle}
           description={messageCardConfig.description}
+          numberedCount={messageCardConfig.numberedCount}
           onClose={() => setMessageCardConfig(null)}
         />
       )}

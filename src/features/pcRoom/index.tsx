@@ -1,4 +1,5 @@
 import { itemPath } from "@/utils/paths";
+import type { MessageCardConfig } from "@/utils/types/interaction";
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 
@@ -37,11 +38,8 @@ export function PcRoomScene({ sceneId }: Props) {
 
   const [showClassModal, setShowClassModal] = useState(false);
   const [popup, setPopup] = useState<string | null>(null);
-  const [messageCardConfig, setMessageCardConfig] = useState<{
-    title?: string;
-    subtitle?: string;
-    description: string;
-  } | null>(null);
+  const [messageCardConfig, setMessageCardConfig] =
+    useState<MessageCardConfig | null>(null);
   const gotKey = hasFlag("picked_desired_gear");
 
   // ✅ sistema de seleção de classe
@@ -148,6 +146,7 @@ export function PcRoomScene({ sceneId }: Props) {
           title={messageCardConfig.title}
           subtitle={messageCardConfig.subtitle}
           description={messageCardConfig.description}
+          numberedCount={messageCardConfig.numberedCount}
           onClose={() => setMessageCardConfig(null)}
         />
       )}

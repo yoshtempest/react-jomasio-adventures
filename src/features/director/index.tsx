@@ -10,6 +10,7 @@ import { useQuestActions } from "@/hooks/quest/useQuestActions";
 import { useFlags } from "@/contexts/FlagContext";
 import { useNavigate, useLocation } from "react-router";
 import { keyPath, resolveAsset } from "@/utils/paths";
+import type { MessageCardConfig } from "@/utils/types/interaction";
 import { useAudio } from "@/hooks/audio/useAudio";
 
 import { sceneBackgrounds } from "@/data/scene/background";
@@ -35,11 +36,8 @@ export function DirectorScene({ sceneId }: Props) {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [imageMessage, setImageMessage] = useState<string | null>(null);
   const [imageName, setImageName] = useState<string | null>(null);
-  const [messageCardConfig, setMessageCardConfig] = useState<{
-    title?: string;
-    subtitle?: string;
-    description: string;
-  } | null>(null);
+  const [messageCardConfig, setMessageCardConfig] =
+    useState<MessageCardConfig | null>(null);
   const gotKey = hasFlag("picked_director_key");
 
   const { sfxVolume } = useAudio();
@@ -79,6 +77,7 @@ export function DirectorScene({ sceneId }: Props) {
         },
         gotKey,
         setFlag,
+        hasFlag,
         progressQuest,
         playSFX,
       }),
@@ -89,6 +88,7 @@ export function DirectorScene({ sceneId }: Props) {
       navigateFrom,
       gotKey,
       setFlag,
+      hasFlag,
       progressQuest,
       playSFX,
     ],
@@ -138,6 +138,7 @@ export function DirectorScene({ sceneId }: Props) {
           title={messageCardConfig.title}
           subtitle={messageCardConfig.subtitle}
           description={messageCardConfig.description}
+          numberedCount={messageCardConfig.numberedCount}
           onClose={() => setMessageCardConfig(null)}
         />
       )}

@@ -42,7 +42,10 @@ export type MessageDeps = BaseDeps & {
 export type MessageCardConfig = {
   title?: string;
   subtitle?: string;
-  description: string;
+  description?: string;
+  // Lista numerada até N, sem texto: existe pra Manuscrito dos "pontos fracos"
+  // de alguém que não tem ponto fraco algum — o número é o conteúdo.
+  numberedCount?: number;
 };
 
 export type PickupHandlerConfig = {
