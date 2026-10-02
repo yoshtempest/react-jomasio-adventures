@@ -15,6 +15,11 @@
   max-height: 5vh;
 }
 
+/*
+ * A linha do stat é um `button`: clicar é o que marca o stat. O fundo do
+ * botão global (`--primary-color`) ficaria sólido demais aqui, então volta a
+ * ser transparente — o estado marcado é o `.active` da linha.
+ */
 .statLabel {
   padding: 2%;
   display: flex;
@@ -28,6 +33,20 @@
   min-width: 0;
 
   white-space: nowrap;
+
+  background: none;
+  border: none;
+  text-align: left;
+}
+
+.statLabel:hover {
+  border-color: var(--accent-color);
+}
+
+/* Botão desabilitado (sem stat marcado ou sem pontos) não deve parecer clicável. */
+.statLabel:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .statLabel span {

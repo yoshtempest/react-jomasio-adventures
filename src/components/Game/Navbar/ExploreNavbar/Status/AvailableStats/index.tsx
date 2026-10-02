@@ -1,6 +1,7 @@
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
+import { canSpendPoints } from "@/gameRules/menu/validation";
 import { STATS_MENU_ROWS } from "@/data/player/statEffects";
 import { statusIconPath } from "@/utils/paths";
 import { SelectedStatEffect } from "./SelectedStatEffect";
@@ -8,10 +9,17 @@ import { SelectedStatEffect } from "./SelectedStatEffect";
 import styles from "./styles.module.css";
 
 type AvailableStatsProps = {
-  selectedIndex: number;
+  /** `null` = nenhum stat marcado; nada é gasto até o jogador escolher. */
+  selectedIndex: number | null;
+  onSelectStat: (index: number) => void;
+  onConfirmStat: () => void;
 };
 
-export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
+export function AvailableStats({
+  selectedIndex,
+  onSelectStat,
+  onConfirmStat,
+}: AvailableStatsProps) {
   const { player } = usePlayer();
   const character = player.character;
   const { progress } = useCharacterProgress();
@@ -27,6 +35,8 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
     points: 0,
   };
   const bonus = getTotalBonus(character);
+  const hasPoints = canSpendPoints(stats.points);
+  const canConfirm = selectedIndex !== null && hasPoints;
 
   return (
     <div className={`StatusColumn ${styles.container}`}>
@@ -35,7 +45,14 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
           <img src={statusIconPath("disponiblePoints.svg")} />
           <h2 className="StatusTitle">Pontos disponíveis: {stats.points}</h2>
         </div>
-        <button>Confirmar</button>
+        <button
+          type="button"
+          className="statusButton"
+          onClick={onConfirmStat}
+          disabled={!canConfirm}
+        >
+          Confirmar
+        </button>
       </div>
       <div className={styles.statsGrid}>
       {STATS_MENU_ROWS.map((row, index) => {
@@ -50,7 +67,12 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
           }`}
             key={row.key}
           >
-            <p className={styles.statLabel}>
+            <button
+              type="button"
+              className={styles.statLabel}
+              onClick={() => onSelectStat(index)}
+              aria-pressed={isSelected}
+            >
               <img src={row.icon} />
               <span>
                 {row.label}: {value}
@@ -61,7 +83,7 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
                   </span>
                 )}
               </span>
-            </p>
+            </button>
             {isSelected && <SelectedStatEffect selectedIndex={index} />}
           </div>
         );

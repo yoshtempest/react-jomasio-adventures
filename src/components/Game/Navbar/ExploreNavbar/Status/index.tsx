@@ -5,7 +5,7 @@ import { EquipmentList } from "./EquipmentList";
 import styles from "./styles.module.css";
 
 export function Status() {
-  const { selectedIndex } = useStatusMenu(true);
+  const { selectedIndex, selectStat, confirmStat } = useStatusMenu(true);
 
   return (
     <div className="containerOfNavbar">
@@ -13,7 +13,11 @@ export function Status() {
       <div className={styles.flexRow}>
         <CharacterInfo />
         <div className={`${styles.flexRow} ${styles.statsAndEquipment}`}>
-          <AvailableStats selectedIndex={selectedIndex} />
+          <AvailableStats
+            selectedIndex={selectedIndex}
+            onSelectStat={selectStat}
+            onConfirmStat={confirmStat}
+          />
           <EquipmentList />
         </div>
       </div>

@@ -17,7 +17,7 @@ export function EquipmentList() {
           <img src={equipmentIconPath("all.svg")} />
           <h2 className="StatusTitle">Equipamentos</h2>
         </div>
-        <button>Ver equipamentos</button>
+        <button className="statusButton">Ver equipamentos</button>
       </div>
       <div className={styles.equipmentGrid}>
         {EQUIPMENT_SLOTS.map((slot) => {

@@ -21,6 +21,22 @@
   gap: var(--size-6);
 }
 
+.statusButton {
+  display: flex;
+  background: transparent;
+  color: cyan;
+  border: none;
+  font-size: var(--fs-14);
+  align-items: center;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+/* .statusButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+} */
+
 .statusMainContainer img {
   width: 3vw ;
 }
