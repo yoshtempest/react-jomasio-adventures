@@ -47,6 +47,6 @@
 
 .active {
   display: flex;
-  background-color: var(--primary-color);
+  border-bottom: var(--size-1) solid var(--accent-color);
   scale: 1.1;
 }
