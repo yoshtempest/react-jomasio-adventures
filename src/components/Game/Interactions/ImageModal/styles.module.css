@@ -9,6 +9,7 @@
 
   background: var(--overlay-60);
   cursor: pointer;
+  animation: messageCardFadeIn 300ms ease-in-out forwards;
 }
 
 .image {
@@ -20,4 +21,14 @@
   border-radius: var(--small);
   border: var(--size-1) solid var(--text-color);
   box-shadow: 0 0 var(--size-32) var(--overlay-80);
+}
+
+@keyframes messageCardFadeIn {
+  from {
+    opacity: 0.15;
+  }
+
+  to {
+    opacity: 1;
+  }
 }

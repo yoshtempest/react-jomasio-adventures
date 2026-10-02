@@ -9,6 +9,7 @@ export const oneScene: SceneConfig = {
   id: "one",
   dialogueData: getDirectorDialogue,
   initialPosition: getDirectorOneInitialPosition,
+  autoStartDialogue: true,
   map: blocked,
   scaleFix: 1.6,
   events: directorEvents,

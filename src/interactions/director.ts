@@ -35,6 +35,12 @@ export function createDirector(deps: DirectorDeps) {
         "Uma imagem de Vandinha montada em um Tiranossauro... Como conseguiram tirar essa foto?",
     }),
 
+    "8,3": createImageHandler({
+      src: historyPath("chaves.svg"),
+      message:
+        "Chaves? Chaves! Aquele do barril, e pensar que teria uma foto aqui",
+    }),
+
     "7,3": createMessageCardHandler({
       title: "Carta",
       subtitle: "Reincardion",

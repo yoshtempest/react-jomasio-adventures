@@ -3,7 +3,7 @@ import { defineDialogue } from "@/data/dialogues/defineDialogue";
 export const directorDialogue = defineDialogue([
   [
     "protagonista",
-    "Que lugar é esse? Parece uma cela de prisão...",
+    "Tinha que ser... Só porque eu estava com meu Nokia Tijolão na cintura, Jhowsimar me prendeu e me jogou nessa cela.",
     "crossArms",
   ],
   ["janelaSistema", "Janela de sistema desbloqueada!"],

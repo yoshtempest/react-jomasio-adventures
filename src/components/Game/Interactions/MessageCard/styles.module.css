@@ -9,6 +9,7 @@
 
   background: var(--overlay-60);
   cursor: pointer;
+  animation: messageCardFadeIn 300ms ease-in-out forwards;
 }
 
 .cardContainer {
@@ -87,4 +88,14 @@
 
 .numberedList > li {
   break-inside: avoid;
+}
+
+@keyframes messageCardFadeIn {
+  from {
+    opacity: 0.15;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
