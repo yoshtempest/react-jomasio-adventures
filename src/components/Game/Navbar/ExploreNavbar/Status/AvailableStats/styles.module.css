@@ -10,7 +10,7 @@
 .statItem {
   display: flex;
   align-items: center;
-  position: relative;
+
   min-width: 0;
   max-height: 5vh;
 }
@@ -66,6 +66,6 @@
 
 .active {
   display: flex;
-  border-bottom: var(--size-1) solid var(--accent-color);
+  border-left: var(--size-2) solid var(--accent-color);
   scale: 1.1;
 }

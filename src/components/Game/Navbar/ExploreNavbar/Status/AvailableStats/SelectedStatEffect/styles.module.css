@@ -1,11 +1,34 @@
+/*
+ * Overlay do stat marcado.
+ *
+ * `left`/`top` não posicionam nada sem `position` — sem o `absolute` esta
+ * caixa continuava no fluxo (empurrando as linhas vizinhas) e, como
+ * posicionado não era, as linhas seguintes do grid e a coluna de equipamentos
+ * pintavam por cima. Absoluta, ela sai do fluxo e passa a ser pintada na
+ * camada dos posicionados, acima do texto em volta.
+ *
+ * O ancora é o `.statItem` (o `relative` da linha do stat), não a linha
+ * inteira do grid — daí o `translateY(100%)`, que joga a caixa logo abaixo do
+ * stat selecionado.
+ */
 .effect {
-  display: flex;
+  position: absolute;
+  top: 0;
   left: 0;
+  /* Acima das linhas vizinhas, que são estáticas. */
+  z-index: 2;
+
+  display: flex;
   flex-direction: column;
+
   /* recua sob a linha do stat para leitura como "sub-item" dele */
   background-color: var(--bg-color);
+  /* o fundo acompanha só o texto, em vez de virar uma faixa na largura da
+     célula do grid */
+  width: max-content;
+  max-width: none;
   padding: 0 var(--small);
-  transform: translateX(-35%) translateY(100%);
+  transform: translateX(-38%) translateY(10%);
   margin: var(--low-medium);
   border-left: var(--size-2) solid var(--accent-color);
   scale: 0.7;
