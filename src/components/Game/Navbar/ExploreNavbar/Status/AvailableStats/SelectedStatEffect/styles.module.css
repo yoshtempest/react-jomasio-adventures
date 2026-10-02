@@ -1,10 +1,13 @@
 .effect {
   display: flex;
+  position: fixed;
   flex-direction: column;
   /* recua sob a linha do stat para leitura como "sub-item" dele */
-  margin: var(--size-020r) 0 var(--size-040r) var(--size-13);
-  padding-left: var(--size-040r);
+  background-color: var(--bg-color);
+  padding: 0 var(--small);
+  margin: var(--low-medium);
   border-left: var(--size-2) solid var(--accent-color);
+  scale: 0.7;
 }
 
 .effectRow {

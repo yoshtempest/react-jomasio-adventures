@@ -34,7 +34,7 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
         <img src={statusIconPath("disponiblePoints.svg")} />
         <h2 className="StatusTitle">Pontos: {stats.points}</h2>
       </div>
-
+      <div className={styles.statsGrid}>
       {STATS_MENU_ROWS.map((row, index) => {
         const isSelected = selectedIndex === index;
         const value = stats[row.key] ?? 1;
@@ -42,19 +42,28 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
 
         return (
           <div
-            className={isSelected ? "active" : ""}
-            style={isSelected ? { flexWrap: "wrap" } : undefined}
+          className={`${styles.statItem} ${
+            isSelected ? styles.active : ""
+          }`}
             key={row.key}
           >
-            <p>
+            <p className={styles.statLabel}>
               <img src={row.icon} />
-              {row.label}: {value}
-              {rowBonus > 0 ? <span> +{rowBonus}</span> : ""}
+              <span>
+                {row.label}: {value}
+
+                {rowBonus > 0 && (
+                  <span className={styles.bonus}>
+                    +{rowBonus}
+                  </span>
+                )}
+              </span>
             </p>
             {isSelected && <SelectedStatEffect selectedIndex={index} />}
           </div>
         );
       })}
+      </div>
     </div>
   );
 }

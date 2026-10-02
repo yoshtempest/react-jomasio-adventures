@@ -1,37 +1,43 @@
-.container {
-  width: var(--size-179);
+.statsGrid {
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 8px 16px;
+
+  width: 100%;
 }
 
-.container div {
+.statItem {
   display: flex;
-  flex-direction: row;
+  align-items: center;
+  min-width: 0;
 }
 
-.container img {
+.statLabel {
   display: flex;
-  width: var(--size-26);
-  margin-right: var(--size-040r);
+  align-items: center;
+  align-self: center;
+
+  gap: 6px;
+
+  margin: 0;
+
+  min-width: 0;
+
+  white-space: nowrap;
 }
 
-.container p {
+.statLabel img {
+  width: var(--medium);
+  height: var(--medium);
+
+  flex-shrink: 0;
+}
+
+.active {
   display: flex;
-}
-
-.subBtn {
-  color: var(--accent-color);
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: var(--fs-8);
-}
-
-.tip {
-  font-size: var(--fs-11);
-  color: var(--text-secondary);
-  font-style: italic;
-}
-
-.flexColumn {
-  display: flex;
-  flex-direction: column;
-  background-color: red;
+  background-color: var(--primary-color);
+  align-items: flex-start;
+  scale: 1.1;
 }

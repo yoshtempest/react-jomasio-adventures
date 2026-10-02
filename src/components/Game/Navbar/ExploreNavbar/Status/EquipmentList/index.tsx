@@ -16,19 +16,21 @@ export function EquipmentList() {
         <img src={equipmentIconPath("all.svg")} />
         <h2 className="StatusTitle">Equipamentos</h2>
       </div>
-      {EQUIPMENT_SLOTS.map((slot) => {
-        const item = getEquippedItem(character, slot);
-        return (
-          <p key={slot} className={styles.fontSize}>
-            <img className="slotTag" src={FILTER_LABELS[slot]} />
-            {item ? (
-              <span style={{ color: RANK_COLORS[item.rank] }}>{item.name}</span>
-            ) : (
-              <span className={styles.italic}>Vazio</span>
-            )}
-          </p>
-        );
-      })}
+      <div className={styles.equipmentGrid}>
+        {EQUIPMENT_SLOTS.map((slot) => {
+          const item = getEquippedItem(character, slot);
+          return (
+            <p key={slot} className={styles.fontSize}>
+              <img className="slotTag" src={FILTER_LABELS[slot]} />
+              {item ? (
+                <span style={{ color: RANK_COLORS[item.rank] }}>{item.name}</span>
+              ) : (
+                <span className={styles.italic}>Vazio</span>
+              )}
+            </p>
+          );
+        })}
+      </div>
     </div>
   );
 }

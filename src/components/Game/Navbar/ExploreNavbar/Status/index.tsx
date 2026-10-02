@@ -12,8 +12,10 @@ export function Status() {
 
       <div className={styles.flexRow}>
         <CharacterInfo />
-        <AvailableStats selectedIndex={selectedIndex} />
-        <EquipmentList />
+        <div className={`${styles.flexRow} ${styles.statsAndEquipment}`}>
+          <AvailableStats selectedIndex={selectedIndex} />
+          <EquipmentList />
+        </div>
       </div>
     </div>
   );

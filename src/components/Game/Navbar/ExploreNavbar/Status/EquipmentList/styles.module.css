@@ -1,4 +1,12 @@
+.equipmentGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: 100%;
+}
+
 .fontSize {
+  display: flex;
+  align-items: center;
   font-size: var(--smaller);
   gap: var(--vw-0-4);
 }
