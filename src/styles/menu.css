@@ -8,26 +8,25 @@
 .statusMainContainer {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   gap: 0.5vw;
+  width: 95%;
   border-bottom: var(--size-1) solid var(--border-default);
 }
 
-.statusMainContainer h2 {
-  border-bottom: none;
-  padding-bottom: none;
+.statusHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--size-6);
 }
 
 .statusMainContainer img {
-  width: 3vw !important;
+  width: 3vw ;
 }
 
 .StatusColumn span {
   color: var(--success);
-}
-
-.StatusColumn p {
-  white-space: nowrap;
-  margin-top: 2vh;
 }
 
 .EquipmentSelected {

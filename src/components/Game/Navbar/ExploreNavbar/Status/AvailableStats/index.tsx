@@ -31,8 +31,11 @@ export function AvailableStats({ selectedIndex }: AvailableStatsProps) {
   return (
     <div className={`StatusColumn ${styles.container}`}>
       <div className="statusMainContainer">
-        <img src={statusIconPath("disponiblePoints.svg")} />
-        <h2 className="StatusTitle">Pontos: {stats.points}</h2>
+        <div className="statusHeader">
+          <img src={statusIconPath("disponiblePoints.svg")} />
+          <h2 className="StatusTitle">Pontos disponíveis: {stats.points}</h2>
+        </div>
+        <button>Confirmar</button>
       </div>
       <div className={styles.statsGrid}>
       {STATS_MENU_ROWS.map((row, index) => {

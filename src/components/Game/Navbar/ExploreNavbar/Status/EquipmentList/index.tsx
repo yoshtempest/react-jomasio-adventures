@@ -13,8 +13,11 @@ export function EquipmentList() {
   return (
     <div className="StatusColumn">
       <div className="statusMainContainer">
-        <img src={equipmentIconPath("all.svg")} />
-        <h2 className="StatusTitle">Equipamentos</h2>
+        <div className="statusHeader">
+          <img src={equipmentIconPath("all.svg")} />
+          <h2 className="StatusTitle">Equipamentos</h2>
+        </div>
+        <button>Ver equipamentos</button>
       </div>
       <div className={styles.equipmentGrid}>
         {EQUIPMENT_SLOTS.map((slot) => {

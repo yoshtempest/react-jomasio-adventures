@@ -1,10 +1,11 @@
 .effect {
   display: flex;
-  position: fixed;
+  left: 0;
   flex-direction: column;
   /* recua sob a linha do stat para leitura como "sub-item" dele */
   background-color: var(--bg-color);
   padding: 0 var(--small);
+  transform: translateX(-35%) translateY(100%);
   margin: var(--low-medium);
   border-left: var(--size-2) solid var(--accent-color);
   scale: 0.7;
@@ -25,6 +26,7 @@
 .effectRow p {
   display: flex;
   color: var(--text-secondary);
+  text-wrap: nowrap;
 }
 
 .increase {
