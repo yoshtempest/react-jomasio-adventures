@@ -3,6 +3,7 @@
   flex-direction: column;
   gap: var(--fs-8);
   width: 100%;
+  margin-bottom: 3vh;
 }
 
 .title {
@@ -35,6 +36,9 @@
 }
 
 .attacker {
+  display: flex;
+  align-items: center;
+  gap: var(--fs-8);
   text-wrap: nowrap;
 }
 
@@ -52,22 +56,24 @@
   gap: var(--size-4);
 }
 
-.tag {
-  border: var(--size-1) solid var(--border-default);
+/*
+ * Ícone puro: o nome do elemento só aparece na coluna da esquerda, então o
+ * badge precisa se sustentar sozinho — o `title` carrega o nome no hover.
+ */
+.icon {
+  width: var(--size-24);
+  height: var(--size-24);
+}
+
+/* Anel colorido: com a coluna só em ícones, é o que diz super/fraco. */
+.superCell .icon {
+  box-shadow: 0 0 0 var(--size-1) var(--success);
   border-radius: var(--size-4);
-  padding: 0 var(--fs-6);
-  color: var(--text-color);
-  text-wrap: nowrap;
 }
 
-.superCell .tag {
-  color: var(--success);
-  border-color: var(--success);
-}
-
-.weakCell .tag {
-  color: var(--danger);
-  border-color: var(--danger);
+.weakCell .icon {
+  box-shadow: 0 0 0 var(--size-1) var(--danger);
+  border-radius: var(--size-4);
 }
 
 .none {

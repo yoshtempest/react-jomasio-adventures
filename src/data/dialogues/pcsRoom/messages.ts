@@ -23,5 +23,5 @@ export const pcsRoomMessages: Record<string, string> = {
   "16,4":
     "O jogo tem auto-save então não se preoucupe em perde progresso.",
   "17,4":
-    "Ataque normal, especial, awakening, classes, leveis, posição, alcance, bloqueio, pulo... Há muitas variáveis durante a batalha.",
+    "Ataque normal, especial, habilidades, classes, leveis, posição, alcance, bloqueio, pulo... Há muitas variáveis durante a batalha.",
 };

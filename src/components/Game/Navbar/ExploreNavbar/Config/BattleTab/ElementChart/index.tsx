@@ -2,16 +2,37 @@ import { useMemo } from "react";
 import { getElementChart } from "@/gameRules/battle/elementRelations";
 import type { ElementType } from "@/utils/types/battle/element";
 import styles from "./styles.module.css";
+import { elementBadgePath } from "@/utils/paths/elementBadgePath";
 
-function ElementCell({ elements }: { elements: ElementType[] }) {
+/**
+ * Ícone do elemento.
+ *
+ * O asset é minúsculo (`pyrus.svg`) e o `ElementType` é capitalizado
+ * (`Pyrus`), então a baixa é feita aqui — toda tabela e todo badge que
+ * resuelve elemento passa por este componente.
+ */
+function ElementBadge({ element }: { element: ElementType }) {
+  return (
+    <img
+      src={elementBadgePath(`${element.toLowerCase()}.svg`)}
+      alt={element}
+      title={element}
+      className={styles.icon}
+    />
+  );
+}
+
+/**
+ * Célula só com ícones: é a leitura rápida da tabela, o nome fica no `title`
+ * do próprio ícone para não repetir 15 vezes o mesmo texto em cada linha.
+ */
+function IconList({ elements }: { elements: ElementType[] }) {
   if (elements.length === 0) return <span className={styles.none}>—</span>;
 
   return (
     <span className={styles.list}>
       {elements.map((element) => (
-        <span key={element} className={styles.tag}>
-          {element}
-        </span>
+        <ElementBadge key={element} element={element} />
       ))}
     </span>
   );
@@ -42,16 +63,17 @@ export function ElementChart() {
             {chart.map((row) => (
               <tr key={row.attacker}>
                 <th scope="row" className={styles.attacker}>
-                  {row.attacker}
+                  <ElementBadge element={row.attacker} />
+                  <span>{row.attacker}</span>
                 </th>
                 <td className={styles.superCell}>
-                  <ElementCell elements={row.superEffective} />
+                  <IconList elements={row.superEffective} />
                 </td>
                 <td>
-                  <ElementCell elements={row.normal} />
+                  <IconList elements={row.normal} />
                 </td>
                 <td className={styles.weakCell}>
-                  <ElementCell elements={row.notEffective} />
+                  <IconList elements={row.notEffective} />
                 </td>
               </tr>
             ))}
