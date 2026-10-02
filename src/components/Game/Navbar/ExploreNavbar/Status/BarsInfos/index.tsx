@@ -43,12 +43,15 @@ export function BarsInfos() {
       <p className={styles.xpText}>
         XP: {charProgress.xp}/{xpNeeded} — Nv.{charProgress.level + 1}
       </p>
-      <div className={styles.hungerContainer}>
-        <div className={styles.hungerText}>
-          <Heart />
-          <span>HP</span>
-          <span>
-            {currentHP}/{playerMaxHp}
+      <div className={styles.statusContainer}>
+        <div className={styles.statusHeader}>
+          <div className={styles.statusName}>
+            <Heart />
+            <span>HP</span>
+          </div>
+          <span className={styles.statusValue}>
+            <strong>{currentHP}</strong>
+            <span> / {playerMaxHp}</span>
           </span>
         </div>
         <ProgressBar
@@ -65,12 +68,15 @@ export function BarsInfos() {
         />
       </div>
       {hasManaBar(character) && (
-        <div className={styles.hungerContainer}>
-          <div className={styles.hungerText}>
-            <Sparkles />
-            <span>{getEnergyName(character)}</span>
-            <span>
-              {currentMana}/{maxMana}
+        <div className={styles.statusContainer}>
+          <div className={styles.statusHeader}>
+            <div className={styles.statusName}>
+              <Sparkles />
+              <span>{getEnergyName(character)}</span>
+            </div>
+            <span className={styles.statusValue}>
+              <strong>{currentMana}</strong>
+              <span> / {maxMana}</span>
             </span>
           </div>
           <ProgressBar
@@ -81,12 +87,15 @@ export function BarsInfos() {
           />
         </div>
       )}
-      <div className={styles.hungerContainer}>
-        <div className={styles.hungerText}>
-          <Drumstick />
-          <span>Fome</span>
-          <span>
-            {charProgress.hunger}/{MAX_HUNGER}
+      <div className={styles.statusContainer}>
+        <div className={styles.statusHeader}>
+          <div className={styles.statusName}>
+            <Drumstick />
+            <span>Fome</span>
+          </div>
+          <span className={styles.statusValue}>
+            <strong>{charProgress.hunger}</strong>
+            <span> / {MAX_HUNGER}</span>
           </span>
         </div>
         <ProgressBar
@@ -102,12 +111,15 @@ export function BarsInfos() {
           }
         />
       </div>
-      <div className={styles.hungerContainer}>
-        <div className={styles.hungerText}>
-          <Moon />
-          <span>Sono</span>
-          <span>
-            {charProgress.sleep}/{MAX_SLEEP}
+      <div className={styles.statusContainer}>
+        <div className={styles.statusHeader}>
+          <div className={styles.statusName}>
+            <Moon />
+            <span>Sono</span>
+          </div>
+          <span className={styles.statusValue}>
+            <strong>{charProgress.sleep}</strong>
+            <span> / {MAX_SLEEP}</span>
           </span>
         </div>
         <ProgressBar

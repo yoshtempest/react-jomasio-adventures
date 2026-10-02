@@ -4,6 +4,60 @@
   flex-direction: column;
 }
 
+.statusContainer {
+  width: 100%;
+  margin-top: var(--fs-8);
+}
+
+.statusHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  margin-bottom: 4px;
+
+  font-family: var(--font-inter);
+}
+
+.statusName {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+
+  color: var(--foreground);
+}
+
+.statusName svg {
+  width: 15px;
+  height: 15px;
+  stroke-width: 2.5;
+}
+
+.statusValue {
+  display: flex;
+  align-items: baseline;
+
+  font-size: 0.75rem;
+  font-weight: 500;
+
+  color: var(--foreground);
+  opacity: 0.75;
+}
+
+.statusValue strong {
+  font-size: 0.85rem;
+  font-weight: 800;
+
+  color: var(--foreground);
+  opacity: 1;
+}
+
 .xpText {
   font-size: var(--fs-11);
   color: var(--text-muted);
@@ -11,18 +65,4 @@
   text-align: center;
 }
 
-.hungerContainer {
-  width: 100%;
-  margin-top: var(--fs-8);
-}
 
-.hungerText {
-  display: flex;
-  justify-content: space-between;
-  font-size: var(--fs-11);
-  color: var(--text-muted);
-}
-
-.hungerText span {
-  color: var(--text-muted);
-}
