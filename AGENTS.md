@@ -247,39 +247,32 @@ Classes com constructor e backend injetado; nada de React.
 - Ordem de `z-index` alta é intencional (navbar 9999999, overlays 99999999) —
   não "limpe" sem entender.
 
-## Raças em batalha
+## Elementos em batalha
 
-Raça deixou de ser só herança elemental. O caminho de leitura é sempre:
+Não existe raça: a tipagem elemental é o único eixo de diferença entre
+criaturas. O caminho de leitura é sempre:
 
 ```
-RACE_TRAITS (data)  →  getCharacterTraitSummary / getNpcTraitSummary
-                     →  funil de dano (stats / dano / imunidade)
-                     →  onRaceHitRef (empurrão, sangramento)
+CHARACTER_ELEMENT_TYPES / NPC_TYPINGS (data)
+                      →  funil de dano (elemental por nível)
 ```
 
-- **Registro**: `data/characters/races/traits/constants.ts` (`RACE_TRAITS`, um
-  array por `Race`). Trait nova = entrada nova no union `RaceTrait`
-  (`utils/types/character/raceTrait.ts`) + `case` no `switch` de
-  `summarizeRaceTraits`. Nada é lido direto do registro no combate — só o
-  resumo fundido.
-- **Fusão**: multiplicadores multiplicam entre raças, status se unem (Set),
-  empurrão/sangramento ficam com o maior valor. Resumo memoizado por
-  personagem/NPC (`summary.ts`) porque roda dentro de state updater.
+- **Registro**: `data/types/characterElementTypes.ts`
+  (`CHARACTER_ELEMENT_TYPES`, um array por `CharacterId`) e
+  `data/types/npcElementTypes.ts` (`NPC_TYPINGS`, `Partial` por
+  `NpcType | PetElementKey`; NPC sem entrada cai em `Normalis`). Lista
+  literal — multi-tipagem é livre, quantas colunas quiser.
 - **Funis de dano** (não adicione um quarto caminho): player→NPC em
-  `computeHitDamage` (cobre básico, special e habilidades) e
-  `useChargeDash`; NPC→player em `getNpcVsPlayerMultiplier`
-  (`gameRules/battle/raceDamage.ts`), que `rollNpcDamage`, `npcThrowHit`,
-  `projectileHp` e `computeSummonDamage` já consomem.
-- **Tipagem por nível**: qualquer caminho que resolve dano usa
-  `getCharacterElementTypesAtLevel(character, level)`. `CHARACTER_ELEMENT_TYPES`
-  é a versão estática, sem despertar — só para UI que não conhece o nível.
-- **Imunidade**: dentro de `applyPlayerStatus`, nunca no chamador. Status novo
-  precisa entrar em `PlayerStatus` (`utils/types/battle/status.ts`).
-- **No acerto**: traits posicionais (empurrão/sangramento) passam por
-  `onRaceHitRef`, montado em `useBattleCombat` (tem o `npc.updateNpc` e o
-  `applyNpcBleed`). Dispara só com `damage > 0`.
-- **Awakening**: `data/characters/races/awakening.ts` é o único lugar que
-  popula `extraTypes`, e popula por nível.
+  `computeHitDamage` (cobre básico, special e habilidades), `damageSummon` e
+  `useDash`; NPC→player em `getNpcVsPlayerMultiplier`
+  (`gameRules/battle/npcVsPlayerDamage.ts`), que `rollNpcDamage`,
+  `npcThrowHit`, `projectileHp` e `computeSummonDamage` já consomem.
+- **Tipagem**: não há progressão elemental por nível. Todo caminho de dano e
+  toda UI leem a mesma função, `getCharacterElementTypes(character)` — se um
+  lugar resolver tipagem por conta própria, é bug.
+- **Status**: imunidade não vem de dado nenhum; `applyPlayerStatus` é o ponto
+  único de entrada e status novo precisa entrar em `PlayerStatus`
+  (`utils/types/battle/status.ts`).
 - Balanceamento da tabela e a regra de média geométrica: `ELEMENTS.md`.
 
 ## Convenções
@@ -318,12 +311,9 @@ até você preencher — use isso a seu favor:
 - `data/npc/npc.ts` `NPC_CLASSES` → `NpcType`; força `data/npc/displayNames.ts`
   (`Record<NpcType, string>`) e `services/npc/attacks/index.ts`.
 - `data/characters/list.ts` `CHARACTERS` → `CharacterId`; força
-  `data/characters/races/character.ts` (`Record<CharacterId, CharacterRace>`, de
-  onde sai a tipagem elemental em `data/types/characterElementTypes.ts`).
-- `utils/types/character/race.ts` `Race` → `RACE_TRAITS`
-  (`data/characters/races/traits/constants.ts`, como
-  `satisfies Record<Race, readonly RaceTrait[]>`): raça nova não compila sem
-  trait de combate declarada.
+  `CHARACTER_ELEMENT_TYPES` (`data/types/characterElementTypes.ts`, como
+  `satisfies Record<CharacterId, readonly ElementType[]>`): personagem novo não
+  compila sem tipagem elemental declarada.
 - `utils/types/global.d.ts`: `SceneId`, `PlayerState` (com `animationFlow` em
   `data/battle/animationFlow.ts` como `Record<PlayerState, …>`), `DialogueExpression`,
   `NPCClass`, `Projectile` (union por `variant`), `ItemId`/`QuestId`/`FlagId`
@@ -370,7 +360,7 @@ não-battle.
 (`hooks/scene/useExploreLocation`).
 
 **Novo NPC**: `NPC_CLASSES` → `displayNames` → `attacks/<npcType>.ts` +
-registry → (opcional) `data/npc/levels.ts`, `bossScales.ts`, `NPC_RACES` em
+registry → (opcional) `data/npc/levels.ts`, `bossScales.ts`, `NPC_TYPINGS` em
 `data/types/npcElementTypes.ts` → sprites em `public/assets/npc/<type>/<state>.svg`
 e `NPC_CATEGORY` em `data/sprites/sprites.ts` → `BATTLE_CONFIGS` + rota se for
 lutável → `data/npc/cards.ts`/`displayNames` para bestiary.

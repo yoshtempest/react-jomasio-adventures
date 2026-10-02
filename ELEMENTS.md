@@ -204,12 +204,12 @@ aqui.
 
 ## Multi-tipagem: média geométrica
 
-Uma criatura pode ter várias colunas ao mesmo tempo (mestiço = uma por raça,
-despertar = mais uma). O multiplicador elemental é avaliado **par a par**
-(atacante × defensor) e o resultado era multiplicado cru: três colunas fortes
-davam `1.5³ = 3,375x`, e duas fracas davam `0,5² = 0,25x` — misturar raças
-virava a build mais forte e mais frágil do jogo sem nenhuma decisão de design
-por trás.
+Uma criatura pode ter várias colunas ao mesmo tempo (a tipagem declarada
+pode ter quantas quiser). O multiplicador elemental é
+avaliado **par a par** (atacante × defensor) e o resultado era multiplicado
+cru: três colunas fortes davam `1.5³ = 3,375x`, e duas fracas davam
+`0,5² = 0,25x` — acumular tipagem virava a build mais forte e mais frágil do
+jogo sem nenhuma decisão de design por trás.
 
 Agora `CombatService.getElementMultiplier` aplica **média geométrica** sobre os
 pares avaliados:
@@ -227,8 +227,8 @@ multiplicador = (produto dos pares) ^ (1 / nº de pares)
 O que muda na leitura: multi-tipagem continua sendo **vantagem**, mas ela
 compensa em **alcance** (o elemento passa a valer contra metade da tabela) e
 não em **potência**. Uma coluna só contra uma coluna só continua sendo 1,5x —
-ou seja, o melhor caso de alguém sem mistura é igual ao pior caso de alguém
-totalmente misturado, e não há mais build que multiplica 3,375x.
+ou seja, o melhor caso de uma tipagem só é igual ao pior caso de alguém com
+várias, e não há mais build que multiplica 3,375x.
 
 Como na tabela de vantagem o sistema é assimétrico, misturar forte e fraco
 não se cancela: fica perto de 1x (vantagem pequena), não exatamente 1x. Isso é

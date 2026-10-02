@@ -91,8 +91,6 @@ type Props = {
   onKokusenRef?: React.RefObject<() => void>;
   onBlackFlashRef?: React.RefObject<() => void>;
   onCriticalPushRef?: React.RefObject<() => void>;
-  /** Traits raciais de no acerto (empurrão/sangramento). */
-  onRaceHitRef?: React.RefObject<() => void>;
   /** Dispara quando o marcelo (forma padrão) acerta um ataque básico no NPC. */
   onMarceloDefaultHitRef?: React.RefObject<() => void>;
   onHalfHeal?: () => void;
@@ -143,7 +141,6 @@ export function usePlayerBattle({
   onKokusenRef,
   onBlackFlashRef,
   onCriticalPushRef,
-  onRaceHitRef,
   onMarceloDefaultHitRef,
   onHalfHeal,
 }: Props) {
@@ -264,7 +261,6 @@ export function usePlayerBattle({
           onKokusenRef,
           onBlackFlashRef,
           onCriticalPushRef,
-          onRaceHitRef,
           damageMultiplier: mult,
           npcX,
           npcY,
@@ -327,7 +323,6 @@ export function usePlayerBattle({
       onKokusenRef,
       onBlackFlashRef,
       onCriticalPushRef,
-      onRaceHitRef,
       onMarceloDefaultHitRef,
       onHalfHeal,
       npcClass,
@@ -448,7 +443,6 @@ export function usePlayerBattle({
         onKokusenRef,
         onBlackFlashRef,
         onCriticalPushRef,
-        onRaceHitRef,
         damageMultiplier: totalMultiplier,
         npcX,
         npcY,
@@ -503,7 +497,6 @@ export function usePlayerBattle({
       onKokusenRef,
       onBlackFlashRef,
       onCriticalPushRef,
-      onRaceHitRef,
       onHalfHeal,
       playSound,
       titleDamageBonus,

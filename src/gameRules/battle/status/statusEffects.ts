@@ -3,7 +3,6 @@ import type {
   NewPlayerStatus,
   PlayerStatus,
 } from "@/utils/types/battle/status";
-import { getCharacterTraitSummary } from "@/data/characters/races/traits";
 
 // Reexportado para manter o import histórico de todo o código que já consumia
 // os status daqui; a definição canônica passou a morar em `utils/types`.
@@ -79,18 +78,13 @@ export function isPlayerPoisoned(player: Player): boolean {
  * Aplica um status no player.
  *
  * Ponto único de entrada: TODA aplicação de status passa por aqui (NPC, cut-in,
- * overlay de treino, armas), então é também o lugar onde a imunidade racial é
- * conferida. Sem isso cada chamador precisaria checar traits e bastaria um
- * deles esquecer.
+ * overlay de treino, armas).
  */
 export function applyPlayerStatus(
   player: Player,
   status: NewPlayerStatus,
   durationMs?: number,
 ): Player {
-  const { immuneStatuses } = getCharacterTraitSummary(player.character);
-  if (immuneStatuses.includes(status)) return player;
-
   const until = Date.now() + (durationMs ?? STATUS_DURATIONS_MS[status]);
   return { ...player, [STATUS_UNTIL_FIELD[status]]: until };
 }

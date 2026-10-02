@@ -1,11 +1,10 @@
-import { getNpcVsPlayerMultiplier } from "@/gameRules/battle/raceDamage";
+import { getNpcVsPlayerMultiplier } from "@/gameRules/battle/npcVsPlayerDamage";
 
 /**
  * Funil do dano de NPC contra o player.
  *
  * Passa por aqui todo golpe corpo a corpo do NPC (os dois caminhos de melee em
- * `useNpc`). O nível do player chega por parâmetro — e não por contexto — para
- * a função continuar pura e testável; sem ele o despertar racial não entraria.
+ * `useNpc`).
  */
 export function rollNpcDamage(
   dmg: number,
@@ -13,7 +12,6 @@ export function rollNpcDamage(
   npcType: string,
   npcPhase: number,
   playerCharacter: CharacterId,
-  playerLevel: number = 0,
 ): { finalDmg: number; dmgType: DamageType } {
   const clampedRatio = Math.max(0, Math.min(1, hpRatio));
   let critChance = 1;
@@ -23,7 +21,7 @@ export function rollNpcDamage(
   const isCrit = Math.random() * 100 < critChance;
   const finalDmg = Math.round(
     (isCrit ? dmg * 2 : dmg) *
-      getNpcVsPlayerMultiplier(npcType, playerCharacter, playerLevel),
+      getNpcVsPlayerMultiplier(npcType, playerCharacter),
   );
   const dmgType: DamageType = isCrit ? "crit" : "npc";
   return { finalDmg, dmgType };

@@ -1,48 +1,31 @@
 import type { ElementType } from "@/utils/types/battle/element";
-import {
-  CHARACTER_RACES,
-  applyAwakening,
-  resolveCharacterElementTypes,
-} from "@/data/characters/races";
-
-const CHARACTER_IDS = Object.keys(CHARACTER_RACES) as CharacterId[];
 
 /**
  * Tipagens elementais de cada personagem.
  *
- * Fonte única: a raça do personagem (`CHARACTER_RACES`). A tipagem efetiva
- * é resolvida pela herança racial (e tipagens adicionais/mestiças), não por
- * uma tabela hardcoded. Alterar a raça de um personagem reflete aqui e,
- * por consequência, em toda a batalha.
+ * Fonte única e literal: a lista é a tipagem do personagem. Alterar a tipagem
+ * de um personagem reflete aqui e, por consequência, em toda a batalha.
  *
- * Esta é a versão **sem** despertar — serve para UI que não conhece o nível
- * do personagem (cards, fichas). Todo caminho que resolve dano tem que usar
- * `getCharacterElementTypesAtLevel`, senão o despertar só existiria no texto.
+ * Não há progressão elemental: a lista vale do nível 1 ao fim do jogo.
  */
-export const CHARACTER_ELEMENT_TYPES: Record<
-  CharacterId,
-  readonly ElementType[]
-> = CHARACTER_IDS.reduce(
-  (acc, id) => {
-    acc[id] = resolveCharacterElementTypes(CHARACTER_RACES[id]);
-    return acc;
-  },
-  {} as Record<CharacterId, ElementType[]>,
-);
+export const CHARACTER_ELEMENT_TYPES = {
+  marcelo: ["Normalis", "Darkus"],
+  eduarda: ["Normalis", "Haos"],
+  lucas: ["Normalis"],
+  samuel: ["Normalis", "Subterra"],
+  artur: ["Normalis", "Darkus", "Umbra"],
+  mayra: ["Normalis", "Aquos", "Umbra"],
+  lucaua: ["Normalis", "Metallum", "Psychicus"],
+  riquelme: ["Normalis", "Haos", "Darkus"],
+  larissa: ["Normalis", "Metallum", "Electricus"],
+  camilly: ["Normalis"],
+  emanuel: ["Normalis", "Ventus", "Electricus"],
+  levi: ["Normalis", "Draco"],
+} as const satisfies Record<CharacterId, readonly ElementType[]>;
 
-/**
- * Tipagens efetivas no nível dado (herança racial + despertar).
- *
- * É a função que o combate usa: sem o nível, não dá para saber se o despertar
- * já venceu.
- */
-export function getCharacterElementTypesAtLevel(
+/** Tipagem elemental do personagem — o que o funil de dano e a UI leem. */
+export function getCharacterElementTypes(
   character: CharacterId,
-  level: number,
-): ElementType[] {
-  return applyAwakening(
-    resolveCharacterElementTypes(CHARACTER_RACES[character]),
-    character,
-    level,
-  );
+): readonly ElementType[] {
+  return CHARACTER_ELEMENT_TYPES[character];
 }

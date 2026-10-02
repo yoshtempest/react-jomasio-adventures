@@ -72,7 +72,6 @@ import { CHARGE_ATTACK_MIN_LEVEL } from "@/data/battle/charge";
 import { LUCAS_WEAPON_SWITCH_MANA_COST } from "@/gameRules/battle/mana";
 import { cursedEnergyFromDamage } from "@/gameRules/battle/cursedEnergy";
 import { PET_ROOT_DURATION_MS } from "@/data/characters/petSkills";
-import { RACE_BLEED_DURATION_MS } from "@/data/characters/races/traits/constants";
 import { runPetSkill } from "@/gameRules/battle/petSkill/petSkill";
 import { applyPlayerStatus } from "@/gameRules/battle/status/statusEffects";
 import {
@@ -439,28 +438,6 @@ export function useBattleCombat({
     );
   });
 
-  /**
-   * Traits raciais de "no acerto" (`pushOnHit` / `bleedOnHit`).
-   *
-   * Fica em `useBattleCombat` — e não em `applyHit` — porque precisa de duas
-   * coisas que só a cena tem: a posição do NPC (`npc.updateNpc`) e o
-   * `applyNpcBleed` que vive no tick system. Traits que não são posicionais
-   * (stats, dano, imunidade) não passam por aqui; elas são lidas direto do
-   * registro no funil de dano.
-   */
-  const onRaceHitRef = useLatestRef(() => {
-    const { pushOnHitDistance, bleedOnHitChance } = battle.raceTraits;
-
-    if (pushOnHitDistance > 0) {
-      const dir = player.battleDirection === "right" ? 1 : -1;
-      npc.updateNpc({ x: clampX(npc.x + dir * pushOnHitDistance) });
-    }
-
-    if (bleedOnHitChance > 0 && Math.random() < bleedOnHitChance) {
-      battle.applyNpcBleed(RACE_BLEED_DURATION_MS);
-    }
-  });
-
   targeting.onBeforeNpcHitRef.current = (getDamage) => {
     if (npcType !== "piupiu") return { blocked: false };
     const distanceX = Math.abs(npc.x - player.x);
@@ -552,7 +529,6 @@ export function useBattleCombat({
     onKokusenRef,
     onBlackFlashRef,
     onCriticalPushRef,
-    onRaceHitRef,
     arturOraMultiplierRef,
     vastolordMultiplierRef,
     vastolordActive,
@@ -578,7 +554,6 @@ export function useBattleCombat({
         totalArmor: battle.totalArmor,
         npcType,
         playerCharacter: player.character,
-        playerLevel: battle.char?.level ?? 1,
       }),
     [
       npcStats.damage,
@@ -586,7 +561,6 @@ export function useBattleCombat({
       battle.totalArmor,
       npcType,
       player.character,
-      battle.char?.level,
     ],
   );
   projectileHpRef.current = getProjectileDestructionHp(
@@ -765,7 +739,6 @@ export function useBattleCombat({
     playerY: player.y,
     playerClass,
     playerCharacter: player.character,
-    playerLevel: battle.char?.level ?? 1,
     npcLevel,
     difficulty,
     damagePlayer: battle.damagePlayer,

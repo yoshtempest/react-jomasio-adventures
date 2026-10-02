@@ -1,4 +1,4 @@
-import { getCharacterElementTypesAtLevel } from "@/data/types/characterElementTypes";
+import { getCharacterElementTypes } from "@/data/types/characterElementTypes";
 import {
   ELEMENT_STRONG_AGAINST,
   ELEMENT_WEAK_AGAINST,
@@ -32,8 +32,6 @@ type NpcHitParams = {
   difficulty: NpcDifficulty;
   npcType: string;
   playerCharacter: CharacterId;
-  /** Nível do player — necessário para saber se o despertar racial já vigora. */
-  playerLevel?: number;
   npcPhase: number;
   npcHp: number;
   npcMaxHp: number;
@@ -144,7 +142,6 @@ export class CombatService {
     difficulty,
     npcType,
     playerCharacter,
-    playerLevel = 0,
     npcPhase,
     npcHp,
     npcMaxHp,
@@ -161,7 +158,7 @@ export class CombatService {
     const isCrit = Math.random() * 100 < critChance;
     const elementMultiplier = this.getElementMultiplier(
       getNpcElementTypes(npcType),
-      getCharacterElementTypesAtLevel(playerCharacter, playerLevel),
+      getCharacterElementTypes(playerCharacter),
     );
     const finalDmg = Math.round((isCrit ? dmg * 2 : dmg) * elementMultiplier);
     const dmgType: DamageType = isCrit ? "crit" : "npc";
@@ -190,7 +187,7 @@ export class CombatService {
    * fortes dão `1.5³ = 3.375×` — então, por padrão, o resultado passa por média
    * geométrica sobre os pares avaliados. O efeito continua sendo "elemento forte
    * ajuda, elemento fraco atrapalha", mas a vantagem não escala com quantas
-   * raças a criatura tem: ela paga em **alcance** (contra 1 coluna é o dobro do
+   * tipagens a criatura tem: ela paga em **alcance** (contra 1 coluna é o dobro do
    * valor), não em **potência**.
    */
   getElementMultiplier(

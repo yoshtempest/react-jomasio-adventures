@@ -2,9 +2,8 @@ import styles from "./styles.module.css";
 import { getNpcDisplayName } from "@/data/npc";
 import { npcPath, playerPath } from "@/utils/paths";
 import { ComboList } from "@/components/Game/Navbar/ExploreNavbar/Status/ComboList";
-import { getCharacterElementTypesAtLevel } from "@/data/types/characterElementTypes";
+import { getCharacterElementTypes } from "@/data/types/characterElementTypes";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
-import { getNpcTraitSummary } from "@/data/types/npcRaceTraits";
 import { BattleCard } from "./BattleCard";
 import { ElementTable } from "./ElementTable";
 
@@ -22,7 +21,6 @@ import {
 } from "@/gameRules/battle/equipment";
 import { formatRank, getRank, getRankMultiplier } from "@/gameRules/rank";
 import { buildCharacterStats } from "@/hooks/battle/buildCharacterStats";
-import { getCharacterTraitSummary } from "@/data/characters/races/traits";
 
 import { CLASS_DATA } from "@/data/npc";
 import { getCharacterStatus } from "@/data/player/stats";
@@ -43,16 +41,9 @@ export function Settings() {
     ? formatRank(getRank(battleInfo.npcLevel))
     : playerRank;
 
-  /**
-   * Tipagens efetivas com o despertar aplicado.
-   *
-   * A UI usa a mesma função do funil de dano (`getCharacterElementTypesAtLevel`)
-   * — se a tela mostrasse a versão sem despertar, a tabela elemental da battle
-   * estaria mentindo sobre o dano que o jogador realmente causa.
-   */
   const playerElementTypes = useMemo(
-    () => getCharacterElementTypesAtLevel(player.character, playerLevel),
-    [player.character, playerLevel],
+    () => getCharacterElementTypes(player.character),
+    [player.character],
   );
 
   /**
@@ -60,8 +51,7 @@ export function Settings() {
    *
    * Reusa `buildCharacterStats` em vez de repetir a fórmula: antes esta tela
    * duplicava a conta de stats e já mostrava valores diferentes da batalha real
-   * sempre que uma fonte de bônus era acrescentada. Agora traits raciais entram por
-   * aqui sozinhas.
+   * sempre que uma fonte de bônus era acrescentada.
    */
   const playerStats = useMemo(() => {
     const baseChar = progress[player.character];
@@ -70,30 +60,22 @@ export function Settings() {
     const equipmentBonus = getEquipmentStatsBonus(player.character);
     const titleBonus = getBonus();
     const rankMultiplier = getRankMultiplier(baseChar.level);
-    const raceStats = getCharacterTraitSummary(player.character).stats;
 
     const char = buildCharacterStats(
       baseChar,
       equipmentBonus,
       titleBonus,
       rankMultiplier,
-      raceStats,
     ).stats;
 
     const { hp, strength, intelligence, resistance, tenacity, luck } = char;
     const luckBonus = combatService.getLuckBonus(luck);
     const armor =
       getTotalArmor(player.character, baseChar.stats.resistance) +
-      titleBonus.armor +
-      (raceStats.armor ?? 0);
-    const shield =
-      getTotalShield(player.character) +
-      titleBonus.shield +
-      (raceStats.shield ?? 0);
-    const vampirism =
-      getTotalVampirism(player.character) + (raceStats.vampirism ?? 0);
-    const reflect =
-      getTotalReflect(player.character) + (raceStats.reflect ?? 0);
+      titleBonus.armor;
+    const shield = getTotalShield(player.character) + titleBonus.shield;
+    const vampirism = getTotalVampirism(player.character);
+    const reflect = getTotalReflect(player.character);
     const maxHp = 90 + hp * 10;
     const maxHpDamage = equipmentBonus.maxHpDamage ?? 0;
     const trueDamage = equipmentBonus.trueDamage ?? 0;
@@ -122,15 +104,15 @@ export function Settings() {
     if (!battleInfo || !playerStats || !battleInfo) return null;
 
     const npcTypes = getNpcElementTypes(battleInfo.npcType);
-    const race = getCharacterTraitSummary(player.character);
 
-    const playerElementMultiplier =
-      combatService.getElementMultiplier(playerElementTypes, npcTypes) *
-      race.damageDealtMultiplier;
-    const npcElementMultiplier =
-      combatService.getElementMultiplier(npcTypes, playerElementTypes) *
-      race.damageTakenMultiplier *
-      getNpcTraitSummary(battleInfo.npcType).damageDealtMultiplier;
+    const playerElementMultiplier = combatService.getElementMultiplier(
+      playerElementTypes,
+      npcTypes,
+    );
+    const npcElementMultiplier = combatService.getElementMultiplier(
+      npcTypes,
+      playerElementTypes,
+    );
 
     const enemyTotal =
       (battleInfo.npcHp + battleInfo.npcDamage + battleInfo.npcArmor) *
@@ -150,7 +132,7 @@ export function Settings() {
       playerElementMultiplier;
     if (playerTotal + enemyTotal === 0) return 50;
     return Math.round((playerTotal / (playerTotal + enemyTotal)) * 100);
-  }, [battleInfo, playerStats, player.character, playerElementTypes]);
+  }, [battleInfo, playerStats, playerElementTypes]);
 
   const [displayedWin, setDisplayedWin] = useState(0);
   const displayedWinRef = useRef(0);

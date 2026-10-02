@@ -1,116 +1,96 @@
 import type { ElementType } from "@/utils/types/battle/element";
-import type { CharacterRace } from "@/utils/types/character/race";
-import {
-  resolveCharacterElementTypes,
-  getRaceLabel,
-} from "@/data/characters/races";
 
 /** Pets têm elementos mas não são NPCs de batalha. */
 export type PetElementKey = "turkey" | "rapariga" | "zecaUrubu" | "mosquito";
 
 /**
- * Definição de raça de cada NPC.
+ * Tipagens elementais de cada NPC.
  *
- * Fonte única de tipagem dos NPCs: `getNpcElementTypes` resolve a herança
- * racial (e tipagens adicionais/mestiças), não uma lista hardcoded. Cada
- * NPC tem `races` (linhagem) e `extraTypes` opcionais.
+ * Fonte única de tipagem dos NPCs: `getNpcElementTypes` lê esta tabela, não uma
+ * resolução indireta. A lista pode ter quantas tipagens quiser — multi-tipagem
+ * elemental pura.
  *
- * Use `CH`/`Maritime`... abreviações humanas são inválidas — as raças são
- * as mesmas unions dos personagens.
+ * `Partial` de propósito: NPC novo não é obrigado a declarar tipagem, e
+ * `getNpcElementTypes` cai em `Normalis` quando a chave não existe.
  */
-export const NPC_RACES = {
+export const NPC_TYPINGS = {
   /* Jomasio */
-  hungryDeath: { races: ["Human", "Obscurian"] },
-  piupiu: { races: ["Aerial", "Human"] },
-  rice: { races: ["Silvan"] },
-  jhowsimar: { races: ["Human"] },
-  goat: { races: ["Human", "Obscurian"] },
-  vandinhaFragment: { races: ["Human", "Psychic"] },
-  trueVandinha: { races: ["Obscurian", "Phantom"] },
-  deise: { races: ["Human", "Obscurian"] },
-  necromancer: { races: ["Obscurian", "Ignian"] },
-  slimita: { races: ["Maritime", "Phantom"] },
-  hungryKing: { races: ["Phantom", "Obscurian"] },
-  denis: { races: ["Ignian", "Human"] },
-  srGuaxinim: { races: ["Human", "Psychic"] },
-  neimito: { races: ["Ignian", "Psychic"] },
-  planetarySisters: { races: ["Human"] },
-  manim: { races: ["Psychic", "Human"] },
-  maurao: { races: ["Ignian", "Obscurian"] },
-  maugrelo: { races: ["Human", "Ignian"] },
+  hungryDeath: ["Normalis", "Darkus"],
+  piupiu: ["Ventus", "Normalis"],
+  rice: ["Natura"],
+  jhowsimar: ["Normalis"],
+  goat: ["Normalis", "Darkus"],
+  vandinhaFragment: ["Normalis", "Psychicus"],
+  trueVandinha: ["Darkus", "Umbra"],
+  deise: ["Normalis", "Darkus"],
+  necromancer: ["Darkus", "Pyrus"],
+  slimita: ["Aquos", "Umbra"],
+  hungryKing: ["Umbra", "Darkus"],
+  denis: ["Pyrus", "Normalis"],
+  srGuaxinim: ["Normalis", "Psychicus"],
+  neimito: ["Pyrus", "Psychicus"],
+  planetarySisters: ["Normalis"],
+  manim: ["Psychicus", "Normalis"],
+  maurao: ["Pyrus", "Darkus"],
+  maugrelo: ["Normalis", "Pyrus"],
 
   /* Bocaina */
-  hungryDog: { races: ["Human"] },
-  lupita: { races: ["Ignian", "Obscurian"] },
-  duque: { races: ["Ignian", "Luminar"] },
-  baiano: { races: ["Human"] },
-  spiritMotocycler: { races: ["Phantom", "Ignian"] },
-  tim: { races: ["Obscurian", "Aerial"] },
-  muyMacho: { races: ["Human", "Terran"] },
+  hungryDog: ["Normalis"],
+  lupita: ["Pyrus", "Darkus"],
+  duque: ["Pyrus", "Haos"],
+  baiano: ["Normalis"],
+  spiritMotocycler: ["Umbra", "Pyrus"],
+  tim: ["Darkus", "Ventus"],
+  muyMacho: ["Normalis", "Subterra"],
 
   /* Lagoa grande */
-  hungryFish: { races: ["Maritime"] },
-  hungryCow: { races: ["Human", "Silvan"] },
-  fischer: { races: ["Human", "Maritime"] },
-  leviathan: { races: ["Maritime", "Draconian"] },
+  hungryFish: ["Aquos"],
+  hungryCow: ["Normalis", "Natura"],
+  fischer: ["Normalis", "Aquos"],
+  leviathan: ["Aquos", "Draco"],
 
   /* Cachoeiras */
-  figurantOfBaalCult: { races: ["Obscurian"] },
-  baal: { races: ["Obscurian", "Ignian"] },
-  madame: { races: ["Silvan", "Obscurian"] },
+  figurantOfBaalCult: ["Darkus"],
+  baal: ["Darkus", "Pyrus"],
+  madame: ["Natura", "Darkus"],
 
   /* Barragem */
-  figurantOfMobyDickCult: { races: ["Maritime", "Psychic"] },
-  crocodile: { races: ["Maritime", "Terran"] },
-  elitCrocodile: { races: ["Maritime", "Terran"] },
-  mobyDick: { races: ["Maritime", "Phantom"] },
-  yangKai: { races: ["Psychic", "Terran"] },
+  figurantOfMobyDickCult: ["Aquos", "Psychicus"],
+  crocodile: ["Aquos", "Subterra"],
+  elitCrocodile: ["Aquos", "Subterra"],
+  mobyDick: ["Aquos", "Umbra"],
+  yangKai: ["Psychicus", "Subterra"],
 
   /* Tanque dos crávos */
-  figurantOfDragonKingCult: { races: ["Ignian"] },
-  ains: { races: ["Obscurian", "Phantom"] },
-  dragonKing: { races: ["Draconian", "Ignian"] },
+  figurantOfDragonKingCult: ["Pyrus"],
+  ains: ["Darkus", "Umbra"],
+  dragonKing: ["Draco", "Pyrus"],
 
   /* Lagoa do Canto */
-  hungryPig: { races: ["Human", "Terran"] },
-  technoblade: { races: ["Human", "Ferrian"] },
+  hungryPig: ["Normalis", "Subterra"],
+  technoblade: ["Normalis", "Metallum"],
 
   /* Training */
-  dummy: { races: ["Human"] },
+  dummy: ["Normalis"],
 
   /* Indefinido */
-  theStrongestManUnderTheHeavens: { races: ["Human"] },
-  theBlackKnight: { races: ["Obscurian"] },
-  untrackedMonster: { races: ["Obscurian", "Luminar"] },
-  theMasterPiece: { races: ["Ferrian"] },
-  theChaosCreator: { races: ["Obscurian"] },
-  theFirstNightmare: { races: ["Draconian", "Phantom"] },
-  theDevourerOfWorlds: { races: ["Draconian", "Obscurian"] },
+  theStrongestManUnderTheHeavens: ["Normalis"],
+  theBlackKnight: ["Darkus"],
+  untrackedMonster: ["Darkus", "Haos"],
+  theMasterPiece: ["Metallum"],
+  theChaosCreator: ["Darkus"],
+  theFirstNightmare: ["Draco", "Umbra"],
+  theDevourerOfWorlds: ["Draco", "Darkus"],
 
   /* Pets (sem NPC de batalha próprio) */
-  turkey: { races: ["Human", "Terran"] },
-  rapariga: { races: ["Human", "Luminar"] },
-  zecaUrubu: { races: ["Human", "Aerial"] },
-  mosquito: { races: ["Aerial", "Silvan"] },
-} as const satisfies Partial<Record<NpcType | PetElementKey, CharacterRace>>;
-
-export const NPC_ELEMENT_TYPES: Partial<
+  turkey: ["Normalis", "Subterra"],
+  rapariga: ["Normalis", "Haos"],
+  zecaUrubu: ["Normalis", "Ventus"],
+  mosquito: ["Ventus", "Natura"],
+} as const satisfies Partial<
   Record<NpcType | PetElementKey, readonly ElementType[]>
-> = Object.fromEntries(
-  (Object.keys(NPC_RACES) as Array<keyof typeof NPC_RACES>).map((key) => [
-    key,
-    resolveCharacterElementTypes(NPC_RACES[key]),
-  ]),
-);
+>;
 
 export function getNpcElementTypes(npcType: string): readonly ElementType[] {
-  return (
-    NPC_ELEMENT_TYPES[npcType as keyof typeof NPC_ELEMENT_TYPES] ?? ["Normalis"]
-  );
-}
-
-/** Nome de exibição da raça do NPC (string vazia se não houver raça definida). */
-export function getNpcRaceLabel(npcType: string): string {
-  const race = NPC_RACES[npcType as keyof typeof NPC_RACES];
-  return race ? getRaceLabel(race) : "";
+  return NPC_TYPINGS[npcType as keyof typeof NPC_TYPINGS] ?? ["Normalis"];
 }

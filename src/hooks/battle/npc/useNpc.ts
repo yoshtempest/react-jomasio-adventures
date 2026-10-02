@@ -7,7 +7,7 @@ import { isParryPress } from "./isParryPress";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { logPlay } from "@/utils/replay/audioEventLog";
-import { getNpcVsPlayerMultiplier } from "@/gameRules/battle/raceDamage";
+import { getNpcVsPlayerMultiplier } from "@/gameRules/battle/npcVsPlayerDamage";
 import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
 import { combatService } from "@/services/combat";
 import { getBabidiBlockReflect } from "@/gameRules/battle/babidiBlock";
@@ -280,7 +280,6 @@ export function useNpcBattle({
         npcType,
         npcPhase,
         player.character,
-        playerLevel,
       );
 
       const scaledDmg = Math.round(finalDmg * multiplier);
@@ -307,7 +306,6 @@ export function useNpcBattle({
       npcTime,
       player.state,
       player.character,
-      playerLevel,
       npcLevel,
       npcClass,
       playerClass,
@@ -383,7 +381,6 @@ export function useNpcBattle({
       npcType,
       npcPhase,
       player.character,
-      playerLevel,
     );
 
     damagePlayerWithReflect(finalDmg);
@@ -404,7 +401,6 @@ export function useNpcBattle({
     player.state,
     player.battleDirection,
     player.character,
-    playerLevel,
     npcLevel,
     npcClass,
     playerClass,
@@ -521,12 +517,12 @@ export function useNpcBattle({
         playerClass,
         totalArmor,
       );
-      // Mesmo funil do melee: arremessar não pode ser a forma de fugir da raça
+      // Mesmo funil do melee: arremessar não pode fugir da tabela elemental
       // do NPC nem da resistência do player.
       const finalDmg = Math.round(
         dmg *
           multiplier *
-          getNpcVsPlayerMultiplier(npcType, player.character, playerLevel),
+          getNpcVsPlayerMultiplier(npcType, player.character),
       );
 
       damagePlayerWithReflect(finalDmg);
@@ -549,7 +545,6 @@ export function useNpcBattle({
       timeRef,
       statMultiplier,
       player.character,
-      playerLevel,
       npcType,
     ],
   );

@@ -1,10 +1,7 @@
 import styles from "@/components/Game/Navbar/ExploreNavbar/Bestiary/styles.module.css";
 import { npcPath, elementBadgePath } from "@/utils/paths";
 import { CLASS_DATA, type NPCClass } from "@/data/npc";
-import {
-  getNpcElementTypes,
-  getNpcRaceLabel,
-} from "@/data/types/npcElementTypes";
+import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 
 type DropItem = {
   name: string;
@@ -38,8 +35,6 @@ export function BestiaryCard({
   linkedTitles,
   isSelected,
 }: Props) {
-  const raceLabel = getNpcRaceLabel(npcType);
-
   return (
     <div
       className={`${styles.card} ${
@@ -90,9 +85,6 @@ export function BestiaryCard({
                 >
                   {CLASS_DATA[npcClass].label}
                 </span>
-              )}
-              {raceLabel && (
-                <span className={styles.raceBadge}>Raça: {raceLabel}</span>
               )}
               <span className={styles.killCount}>
                 {kills} {kills === 1 ? "vez" : "vezes"} derrotado

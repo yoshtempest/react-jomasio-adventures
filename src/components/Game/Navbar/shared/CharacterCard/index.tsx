@@ -2,7 +2,7 @@ import styles from "./styles.module.css";
 import { ProgressBar } from "@/components/Game/ProgressBar";
 import { playerPath, elementBadgePath, rankBadgePath } from "@/utils/paths";
 import { getRank, formatRank, srcRank } from "@/gameRules/rank";
-import { getCharacterElementTypesAtLevel } from "@/data/types/characterElementTypes";
+import { getCharacterElementTypes } from "@/data/types/characterElementTypes";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { getXPToNextLevel } from "@/utils/character/progress";
 import type { CharacterOption } from "@/utils/types/player/character";
@@ -50,10 +50,7 @@ export function CharacterCard({
               ? `${character.name} - Nv.${progress.level}`
               : "???"}
             {character.selectable &&
-              getCharacterElementTypesAtLevel(
-                character.image,
-                progress.level,
-              )?.map((element) => (
+              getCharacterElementTypes(character.image)?.map((element) => (
                 <img
                   key={element}
                   src={elementBadgePath(`${element.toLowerCase()}.svg`)}

@@ -1,6 +1,6 @@
 import { NPCS } from "@/data/npc";
 import { getNpcStats } from "@/gameRules/npc/npcStats";
-import { getNpcVsPlayerMultiplier } from "@/gameRules/battle/raceDamage";
+import { getNpcVsPlayerMultiplier } from "@/gameRules/battle/npcVsPlayerDamage";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import { combatService } from "@/services/combat";
 
@@ -10,7 +10,6 @@ export function computeSummonDamage(
   difficulty: NpcDifficulty,
   playerClass: PlayerClass,
   playerCharacter: CharacterId,
-  playerLevel: number = 0,
 ): number | null {
   const data = NPCS[s.npcType];
   if (!data) return null;
@@ -22,11 +21,11 @@ export function computeSummonDamage(
     s.statMultiplier ?? 1,
   );
 
-  // O conjure define o dano do summon, mas a criaturasummonada ainda tem race:
-  // `getNpcVsPlayerMultiplier` aplica elemento, trait do NPC e resistência do
-  // player — resistida racial não pode ser burcada por invocar.
+  // O conjure define o dano do summon, mas a criatura invocada tem tipagem
+  // própria: `getNpcVsPlayerMultiplier` aplica o elemento do NPC contra o do
+  // player — invocar não pode ser o jeito de burlar a tabela elemental.
   return Math.round(
     combatService.calculateNpcDamage(stats.damage, playerClass) *
-      getNpcVsPlayerMultiplier(s.npcType, playerCharacter, playerLevel),
+      getNpcVsPlayerMultiplier(s.npcType, playerCharacter),
   );
 }
