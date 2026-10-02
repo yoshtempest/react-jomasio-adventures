@@ -18,6 +18,7 @@ import { useClassSelection } from "@/hooks/menu/useClassSelection";
 import Talking from "@/components/Game/Interactions/Talking";
 import { MessageCard } from "@/components/Game/Interactions/MessageCard";
 import { sceneBackgrounds } from "@/data/scene/background";
+import { ImageModal } from "@/components/Game/Interactions/ImageModal";
 
 import styles from "./styles.module.css";
 
@@ -35,6 +36,9 @@ export function PcRoomScene({ sceneId }: Props) {
   const { addItem } = useInventory();
   const { giveQuest, progressQuest } = useQuestActions();
   const { hasFlag, setFlag } = useFlags();
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+  const [imageMessage, setImageMessage] = useState<string | null>(null);
+  const [imageName, setImageName] = useState<string | null>(null);
 
   const [showClassModal, setShowClassModal] = useState(false);
   const [popup, setPopup] = useState<string | null>(null);
@@ -72,6 +76,11 @@ export function PcRoomScene({ sceneId }: Props) {
         setFlag,
         showMessageCard: (config) => {
           setMessageCardConfig(config);
+        },
+        showImage: (src, message, name) => {
+          setImageSrc(src);
+          setImageMessage(message ?? null);
+          setImageName(name ?? null);
         },
       }),
     [addItem, gotKey, setFlag],
@@ -140,6 +149,19 @@ export function PcRoomScene({ sceneId }: Props) {
 
       {/* 💬 popup */}
       {popup && <Talking name="Sistema" message={popup} />}
+
+      {imageSrc && (
+        <ImageModal
+          src={imageSrc}
+          message={imageMessage ?? undefined}
+          name={imageName ?? undefined}
+          onClose={() => {
+            setImageSrc(null);
+            setImageMessage(null);
+            setImageName(null);
+          }}
+        />
+      )}
 
       {messageCardConfig && (
         <MessageCard

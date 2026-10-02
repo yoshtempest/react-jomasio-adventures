@@ -6,14 +6,8 @@ export const pcsRoomMessages: Record<string, string> = {
   "7,2": "11? O que isso significa?",
   "11,2": "Ao ficar com fome por muito tempo os famintos começam a ouvir vozes",
   "12,2": "As vozes não param, é preciso remédios",
-  "13,2":
-    "Doutor tampinha afirma que Vodka contêm pouquissimos nutrientes, portanto deve ser ingerida em grande quantidades",
   "14,2":
     "O jorjão pode ser estranho e assustador mas pelo menos é livre dos perigos que tem do lado de fora",
-  "15,2": "Damn Reincarnation cap novo? MENTIRA!",
-  "16,2":
-    "Diário de Reincardion cap 3... Aprendi a usar a internet, mas aqui não tem internet, triste, não?",
-
   "5,4":
     "Um homem louco começou uma conversa aqui, ele alega ser do culto do bode",
   "6,4":
