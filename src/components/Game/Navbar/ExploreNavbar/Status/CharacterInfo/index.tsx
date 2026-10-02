@@ -7,6 +7,7 @@ import { CharacterElements } from "@/components/Game/Navbar/ExploreNavbar/Status
 import { npcPath, playerPath } from "@/utils/paths";
 import { getRank, formatRank } from "@/gameRules/rank";
 import styles from "./styles.module.css";
+import { BarsInfos } from "../BarsInfos";
 
 const HUNGRY_THRESHOLD = 20;
 
@@ -36,7 +37,7 @@ export function CharacterInfo() {
   const petNpcType = petItem?.id.replace("pet_", "");
 
   return (
-    <div className="StatusColumn">
+    <div className={`StatusColumn ${styles.characterInfo}`}>
       <div className={styles.imagesRow}>
         {showImage && (
           <img
@@ -45,7 +46,7 @@ export function CharacterInfo() {
                 ? `/${player.character}/expressions/hungry.svg`
                 : `/${player.character}/expressions/default.svg`,
             )}
-            className={styles.image}
+            className={styles.characterImage}
             onError={handleImageError}
           />
         )}
@@ -56,12 +57,23 @@ export function CharacterInfo() {
           />
         )}
       </div>
-      <h2>
-        {characterData?.name} - Nv.{charProgress.level}
+      <div className={styles.characterOverlay}>
+        <div className={styles.characterTitle}>
+          <h2 className={styles.characterName}>
+            {characterData?.name}
+          </h2>
+          <span className={styles.level}>
+            Nv. {charProgress.level}
+          </span>
+        </div>
         <CharacterElements character={character} />
-      </h2>
-      <h2 className={styles.rank}>{formatRank(getRank(charProgress.level))}</h2>
-      <h2>Classe: {playerClass}</h2>
+        <h2 className={styles.rank}>{formatRank(getRank(charProgress.level))}</h2>
+        <div className={styles.class}>
+          <span>Classe:</span>
+          <strong>{playerClass}</strong>
+        </div>
+        <BarsInfos />
+      </div>
     </div>
   );
 }

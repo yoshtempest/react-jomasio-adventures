@@ -1,7 +1,13 @@
 .container {
   display: flex;
-  width: 15%;
+  width: 100%;
   flex-direction: column;
+}
+
+.statusIcon {
+  display: flex;
+  height: var(--medium);
+  width: var(--medium);
 }
 
 .statusContainer {

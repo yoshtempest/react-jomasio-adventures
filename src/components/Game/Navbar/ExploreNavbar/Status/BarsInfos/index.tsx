@@ -9,6 +9,7 @@ import { getMaxMana, getEnergyName, hasManaBar } from "@/gameRules/battle/mana";
 import { ProgressBar } from "@/components/Game/ProgressBar";
 import styles from "./styles.module.css";
 import { Drumstick, Heart, Moon, Sparkles } from "lucide-react";
+import { statusIconPath } from "@/utils/paths";
 
 export function BarsInfos() {
   const { player } = usePlayer();
@@ -34,15 +35,24 @@ export function BarsInfos() {
 
   return (
     <div className={styles.container}>
+      <div className={styles.statusContainer}>
+      <div className={styles.statusHeader}>
+      <div className={styles.statusName}>
+        <img src={statusIconPath("xp.svg")} alt="XP" className={styles.statusIcon} />
+        <span>XP</span>
+      </div>
+      <span className={styles.statusValue}>
+        <strong>{charProgress.xp}</strong>
+        <span> / {xpNeeded}</span>
+      </span>
+      </div>
       <ProgressBar
         value={charProgress.xp}
         max={xpNeeded}
         animationId={`char-xp-${player.character}`}
         level={charProgress.level}
       />
-      <p className={styles.xpText}>
-        XP: {charProgress.xp}/{xpNeeded} — Nv.{charProgress.level + 1}
-      </p>
+      </div>
       <div className={styles.statusContainer}>
         <div className={styles.statusHeader}>
           <div className={styles.statusName}>
