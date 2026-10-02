@@ -7,6 +7,7 @@ import {
 } from "./builder";
 import type { PickupDeps, MessageDeps, ImageDeps } from "@/utils/types/interaction";
 import { historyPath } from "@/utils/paths/historyPath";
+import { MUSICS } from "@/scenes/shared/music";
 
 export function createPcsRoom(deps: PickupDeps & MessageDeps & ImageDeps) {
   return createInteractionMap(pcsRoomMessages, deps, {
@@ -29,6 +30,7 @@ export function createPcsRoom(deps: PickupDeps & MessageDeps & ImageDeps) {
     "13,4": createImageHandler({
       src: historyPath("mosquitoOrchestra.svg"),
       message: "Mosquito orquestra ao vivo",
+      music: MUSICS.finoSenores,
     }),
 
     "15,2": createImageHandler({

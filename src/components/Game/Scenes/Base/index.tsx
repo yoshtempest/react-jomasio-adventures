@@ -48,6 +48,11 @@ type SceneBaseProps = {
   scene: SceneConfig;
   className?: string;
   background?: string;
+  /**
+   * Trilha que substitui a da cena enquanto durar (modal aberto, por
+   * exemplo). Sem ela, vale `scene.audio`.
+   */
+  audioOverride?: AudioConfig;
 
   interactions?: Record<string, () => void>;
   itemPickupTiles?: ItemPickupTile[];
@@ -75,6 +80,7 @@ export function SceneBase({
   scene,
   className,
   background,
+  audioOverride,
   interactions,
   itemPickupTiles,
   interactionLabels,
@@ -145,6 +151,8 @@ export function SceneBase({
         <ExploreScene
           key={scene.id}
           {...scene}
+          // Depois do spread: o override do feature ganha do `scene.audio`.
+          audio={audioOverride ?? scene.audio}
           background={background}
           initialPosition={spawn}
           lastPage={lastPage}

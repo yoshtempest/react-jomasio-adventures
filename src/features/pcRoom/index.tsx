@@ -39,12 +39,23 @@ export function PcRoomScene({ sceneId }: Props) {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [imageMessage, setImageMessage] = useState<string | null>(null);
   const [imageName, setImageName] = useState<string | null>(null);
+  const [imageMusic, setImageMusic] = useState<string | null>(null);
 
   const [showClassModal, setShowClassModal] = useState(false);
   const [popup, setPopup] = useState<string | null>(null);
   const [messageCardConfig, setMessageCardConfig] =
     useState<MessageCardConfig | null>(null);
   const gotKey = hasFlag("picked_desired_gear");
+
+  /**
+   * A interação "Mosquito orquestra ao vivo" pede uma trilha própria; com o
+   * modal aberto ela substitui a música da cena, e ao fechar a cena volta a
+   * tocar a dela.
+   */
+  const audioOverride = useMemo<AudioConfig | undefined>(
+    () => (imageMusic ? { src: imageMusic } : undefined),
+    [imageMusic],
+  );
 
   // ✅ sistema de seleção de classe
   const { classes, selectedIndex } = useClassSelection(showClassModal, () => {
@@ -77,10 +88,11 @@ export function PcRoomScene({ sceneId }: Props) {
         showMessageCard: (config) => {
           setMessageCardConfig(config);
         },
-        showImage: (src, message, name) => {
+        showImage: (src, message, name, music) => {
           setImageSrc(src);
           setImageMessage(message ?? null);
           setImageName(name ?? null);
+          setImageMusic(music ?? null);
         },
       }),
     [addItem, gotKey, setFlag],
@@ -95,6 +107,7 @@ export function PcRoomScene({ sceneId }: Props) {
       <SceneBase
         scene={scene}
         background={sceneBackgrounds.PcsRoom}
+        audioOverride={audioOverride}
         interactions={interactions}
         itemPickupTiles={[
           {
@@ -159,6 +172,7 @@ export function PcRoomScene({ sceneId }: Props) {
             setImageSrc(null);
             setImageMessage(null);
             setImageName(null);
+            setImageMusic(null);
           }}
         />
       )}

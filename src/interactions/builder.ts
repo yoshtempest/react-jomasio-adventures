@@ -91,7 +91,7 @@ export function createImageHandler<TDeps extends ImageDeps>(
   config: ImageHandlerConfig,
 ) {
   return (deps: TDeps) => {
-    deps.showImage(config.src, config.message, config.name);
+    deps.showImage(config.src, config.message, config.name, config.music);
   };
 }
 

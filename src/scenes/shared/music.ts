@@ -3,6 +3,7 @@ import JailsonTheme from "/assets/songs/background/JailsonTheme.m4a";
 import MonkeyCircle from "/assets/songs/background/MonkeyCircle.m4a";
 import ToothlessDancing from "/assets/songs/background/ToothlessDancing.m4a";
 import Hell from "/assets/songs/background/Hell.mp3";
+import FinoSenores from "/assets/songs/background/FinoSenores.mp3";
 
 export const MUSICS = {
   default: LavenderTown,
@@ -10,4 +11,5 @@ export const MUSICS = {
   monkeyCircle: MonkeyCircle,
   ToothlessDancing: ToothlessDancing,
   hell: Hell,
+  finoSenores: FinoSenores,
 };

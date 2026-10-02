@@ -30,7 +30,17 @@ export type ToolDeps = BaseDeps & {
 };
 
 export type ImageDeps = BaseDeps & {
-  showImage: (src: string, message?: string, name?: string) => void;
+  /**
+   * `music` é a trilha que toca enquanto o modal estiver aberto: a cena já
+   * resolve a própria música, então o feature usa esse valor como override
+   * do áudio da cena e volta a anterior quando o modal fecha.
+   */
+  showImage: (
+    src: string,
+    message?: string,
+    name?: string,
+    music?: string,
+  ) => void;
 };
 
 export type MessageDeps = BaseDeps & {
@@ -67,6 +77,8 @@ export type ImageHandlerConfig = {
   src: string;
   message?: string;
   name?: string;
+  /** Trilha que substitui a da cena enquanto o modal estiver aberto. */
+  music?: string;
 };
 
 export type MessageHandlerConfig = MessageCardConfig;
