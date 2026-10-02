@@ -5,11 +5,23 @@
   width: 80%;
 }
 
+.toggleContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: var(--fs-8);
+  margin-bottom: var(--fs-8);
+}
+
+
+
 .toggleItem {
+  display: flex;
   position: relative;
   padding: var(--fs-8) var(--smaller);
   border-radius: var(--size-4);
   text-align: center;
+  align-items: center;
   width: var(--size-320);
   align-self: center;
   border: var(--size-2) solid var(--primary-color);
@@ -36,14 +48,13 @@
 
 .trainingButton {
   display: block;
-  margin: var(--fs-8) auto 0;
-  padding: var(--fs-8) var(--medium);
-  background: var(--primary-color);
+  padding: var(--fs-13) var(--medium);
+  background: none;
   color: var(--text-color);
-  border: var(--size-2) solid var(--border-default);
+  border: none;
   border-radius: var(--size-4);
-  font-size: var(--fs-14);
-  font-weight: 600;
+  font-size: var(--small);
+  font-weight: bold;
   cursor: pointer;
   transition: opacity 0.15s ease;
 }
