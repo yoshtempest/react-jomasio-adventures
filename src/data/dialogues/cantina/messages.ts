@@ -9,12 +9,10 @@ export const cantinaMessages: Record<string, string> = {
   "4,8":
     "Dizem as vozes, que uma vez, um certo rapaz quebrou uma certa porta no chute, mas que mundo mais violento em...",
   "3,4": "O Seth Jorjão se passa em 3 grandes capítulos...",
-  "8,3":
+  "8,4":
     "Uma carta de tutorial: Olá jogador, sou Reincardion e gostaria de lhe mostrar um tutorial sobre como jogar.",
   "9,4":
     "Outra carta de tutorial: Entretanto essa carta não tem muito espaço... então fica pra próxima, beleza?",
-  "8,4":
-    "Um dia tem 1440 minutos, então se você gasta 8 horas dormindo, só lhe restam 960 minutos.",
   "16,4":
     "Malando é malandro Denis é mané, tenho certeza então pode crer que é!",
   "16,6":

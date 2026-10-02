@@ -5,24 +5,29 @@ import {
   createInteractionMap,
   createPickupHandler,
   createImageHandler,
+  createMessageCardHandler,
 } from "./builder";
 import type {
   PickupDeps,
   InventoryDeps,
   QuestDeps,
   ImageDeps,
+  MessageDeps,
 } from "@/utils/types/interaction";
 import { POPUP_MESSAGES } from "@/data/messages";
+import { useFlags } from "@/contexts/FlagContext";
 
 type DirectorDeps = PickupDeps &
   InventoryDeps &
   QuestDeps &
-  ImageDeps & {
+  ImageDeps &
+  MessageDeps & {
     playSFX?: (src: string, volume?: number) => void;
   };
 
 export function createDirector(deps: DirectorDeps) {
   const { progressQuest } = deps;
+  const { hasFlag } = useFlags();
 
   return createInteractionMap(directorMessages, deps, {
     "11,3": createImageHandler({
@@ -31,17 +36,60 @@ export function createDirector(deps: DirectorDeps) {
         "Uma imagem de Vandinha montada em um Tiranossauro... Como conseguiram tirar essa foto?",
     }),
 
-    "4,2": ({ hasItem, setPopup, navigate, playSFX }) => {
+    "7,3": createMessageCardHandler({
+      title: "Carta",
+      subtitle: "Reincardion",
+      description:
+        "Uma carta amassada: 'Reincardion, o que aconteceu com a ovelha afogada?'",
+    }),
+    "12,5": createMessageCardHandler({
+      title: "Carta",
+      subtitle: "Desconhecido",
+      description: "Uma carta escrito: 'tu matou a ovelha afogada, rapaz?'",
+    }),
+    "6,3": createMessageCardHandler({
+      title: "Diário de Reincardion",
+      subtitle: "Cap 2",
+      description:
+        "Encontrei a chave, mas fui pego por Jhow Simar e jogado aqui novamente...",
+    }),
+    "17,5": createMessageCardHandler({
+      title: "Carta de 20 anos atrás",
+      subtitle: "Pedido de afastamento por Slimita",
+      description: "Me laarga, eu não aguento mais trabalhar aqui, eu não sou vagabunda, eu trabalho mas eu trabalho na minha hora, isso aqui tá parecendo uma escravidão... Eu só queria férias e um aumento, mas não, eu tenho que trabalhar até morrer, eu não aguento mais, alguem me tira daqui, eu não aguento, eu não aguento, eu aguentooo...",
+    }),
+    "9,5": createMessageCardHandler({
+      title: "Manuscrito",
+      subtitle: "Pontos fracos de Manin:",
+      description: "1 - ",
+    }),
+    "10,5": createMessageCardHandler({
+      title: "Lembranças",
+      description:
+        "Lembranças de um passado distante... as pessoas pareciam não passar fome...",
+    }),
+    "11,5": createMessageCardHandler({
+      title: "Diário de Reincardion",
+      subtitle: "Cap 1",
+      description:
+        "Fui preso nessa cela e estou aqui a dias, sinto fome...",
+    }),
+
+        "4,2": ({ hasItem, setPopup, navigate, playSFX }) => {
       if (hasItem("director_key")) {
         setPopup(POPUP_MESSAGES.KEY_USED);
         progressQuest("director_escape", 1);
         playSFX?.(transitionPath("doorOpen.mp3"), 0.6);
-
         setTimeout(() => {
           playSFX?.(transitionPath("undertaleToBattle.mp3"), 0.6);
-          navigate?.("/cantina/one");
+          if (hasFlag("jhowsimar")) {
+            navigate?.("/cantina/two");
+          } else {
+            navigate?.("/cantina/one");
+          }
         }, 1000);
-      } else {
+      }
+      else {
         setPopup(POPUP_MESSAGES.DOOR_LOCKED);
       }
     },

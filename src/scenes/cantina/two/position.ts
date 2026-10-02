@@ -13,7 +13,7 @@ export function getCantinaTwoInitialPosition(
   }
 
   if (lastPage === "/director/two") {
-    return { x: 10, y: 4, direction: "down" };
+    return { x: 12, y: 3, direction: "down" };
   }
 
   return { x: 11, y: 4, direction: "up" };

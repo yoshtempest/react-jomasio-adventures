@@ -33,6 +33,18 @@ export type ImageDeps = BaseDeps & {
   showImage: (src: string, message?: string, name?: string) => void;
 };
 
+export type MessageDeps = BaseDeps & {
+  showMessageCard: (
+    config: MessageCardConfig,
+  ) => void;
+};
+
+export type MessageCardConfig = {
+  title?: string;
+  subtitle?: string;
+  description: string;
+};
+
 export type PickupHandlerConfig = {
   item: InventoryItem;
   flagId: FlagId;
@@ -53,3 +65,5 @@ export type ImageHandlerConfig = {
   message?: string;
   name?: string;
 };
+
+export type MessageHandlerConfig = MessageCardConfig;

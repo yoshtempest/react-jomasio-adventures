@@ -15,6 +15,7 @@ import { useFlags } from "@/contexts/FlagContext";
 import { useClassSelection } from "@/hooks/menu/useClassSelection";
 
 import Talking from "@/components/Game/Interactions/Talking";
+import { MessageCard } from "@/components/Game/Interactions/MessageCard";
 import { sceneBackgrounds } from "@/data/scene/background";
 
 import styles from "./styles.module.css";
@@ -36,6 +37,11 @@ export function PcRoomScene({ sceneId }: Props) {
 
   const [showClassModal, setShowClassModal] = useState(false);
   const [popup, setPopup] = useState<string | null>(null);
+  const [messageCardConfig, setMessageCardConfig] = useState<{
+    title?: string;
+    subtitle?: string;
+    description: string;
+  } | null>(null);
   const gotKey = hasFlag("picked_desired_gear");
 
   // ✅ sistema de seleção de classe
@@ -66,6 +72,9 @@ export function PcRoomScene({ sceneId }: Props) {
         setPopup,
         gotKey,
         setFlag,
+        showMessageCard: (config) => {
+          setMessageCardConfig(config);
+        },
       }),
     [addItem, gotKey, setFlag],
   );
@@ -133,6 +142,15 @@ export function PcRoomScene({ sceneId }: Props) {
 
       {/* 💬 popup */}
       {popup && <Talking name="Sistema" message={popup} />}
+
+      {messageCardConfig && (
+        <MessageCard
+          title={messageCardConfig.title}
+          subtitle={messageCardConfig.subtitle}
+          description={messageCardConfig.description}
+          onClose={() => setMessageCardConfig(null)}
+        />
+      )}
     </>
   );
 }

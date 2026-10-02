@@ -28,7 +28,7 @@ export const pcsRoomMessages: Record<string, string> = {
     "O desenvolvedor perdeu... Perdeu horas e horas de sua vida criando esse jogo, tenha compreensão com qualquer bug",
   "15,4": "Foram 40 horas de trabalho em 4 dias, ",
   "16,4":
-    "O jogo só é salvo no refeitório, então você precisa jogar pelo menos até chegar lá antes de fechar o jogo",
+    "O jogo tem auto-save então não se preoucupe em perde progresso.",
   "17,4":
     "Ataque normal, especial, awakening, classes, leveis, posição, alcance, bloqueio, pulo... Há muitas variáveis durante a batalha.",
 };

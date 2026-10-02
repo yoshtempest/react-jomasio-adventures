@@ -9,6 +9,8 @@ import type {
   ToolDeps,
   ImageDeps,
   ImageHandlerConfig,
+  MessageDeps,
+  MessageHandlerConfig,
 } from "@/utils/types/interaction";
 
 export function createInteractionMap<TDeps extends BaseDeps>(
@@ -90,5 +92,13 @@ export function createImageHandler<TDeps extends ImageDeps>(
 ) {
   return (deps: TDeps) => {
     deps.showImage(config.src, config.message, config.name);
+  };
+}
+
+export function createMessageCardHandler<TDeps extends MessageDeps>(
+  config: MessageHandlerConfig,
+) {
+  return (deps: TDeps) => {
+    deps.showMessageCard(config);
   };
 }

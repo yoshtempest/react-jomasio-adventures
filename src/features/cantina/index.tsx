@@ -12,6 +12,7 @@ import { cantinaBrothersDialogue } from "@/data/dialogues/cantina/brothers";
 import { sceneBackgrounds } from "@/data/scene/background";
 
 import Talking from "@/components/Game/Interactions/Talking";
+import { MessageCard } from "@/components/Game/Interactions/MessageCard";
 import { JesoFoodBadge } from "@/components/Game/Map/JesoFoodBadge";
 import { cantinaJesoDialogue } from "@/data/dialogues/cantina/jeso";
 import { cantinaJesoTwoDialogue } from "@/data/dialogues/cantina/jesoTwo";
@@ -28,6 +29,11 @@ export function CantinaScene({ sceneId }: Props) {
   const { hasFlag, setFlag } = useFlags();
 
   const [popup, setPopup] = useState<string | null>(null);
+  const [messageCardConfig, setMessageCardConfig] = useState<{
+    title?: string;
+    subtitle?: string;
+    description: string;
+  } | null>(null);
   const gotKey = hasFlag("picked_orange_juice");
 
   // ✅ interações específicas da cantina
@@ -38,8 +44,11 @@ export function CantinaScene({ sceneId }: Props) {
         setPopup,
         gotKey,
         setFlag,
+        showMessageCard: (config) => {
+          setMessageCardConfig(config);
+        },
       }),
-    [addItem, gotKey, setFlag],
+    [addItem, gotKey, setFlag, setMessageCardConfig],
   );
 
   const sceneWithJeso = useMemo(() => {
@@ -103,6 +112,15 @@ export function CantinaScene({ sceneId }: Props) {
 
       {/* ✅ popup continua fora do SceneBase */}
       {popup && <Talking name="Sistema" message={popup} />}
+
+      {messageCardConfig && (
+        <MessageCard
+          title={messageCardConfig.title}
+          subtitle={messageCardConfig.subtitle}
+          description={messageCardConfig.description}
+          onClose={() => setMessageCardConfig(null)}
+        />
+      )}
     </>
   );
 }

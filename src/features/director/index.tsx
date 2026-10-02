@@ -16,6 +16,7 @@ import { sceneBackgrounds } from "@/data/scene/background";
 
 import Talking from "@/components/Game/Interactions/Talking";
 import { ImageModal } from "@/components/Game/Interactions/ImageModal";
+import { MessageCard } from "@/components/Game/Interactions/MessageCard";
 
 type Props = {
   sceneId: SceneId;
@@ -34,6 +35,11 @@ export function DirectorScene({ sceneId }: Props) {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [imageMessage, setImageMessage] = useState<string | null>(null);
   const [imageName, setImageName] = useState<string | null>(null);
+  const [messageCardConfig, setMessageCardConfig] = useState<{
+    title?: string;
+    subtitle?: string;
+    description: string;
+  } | null>(null);
   const gotKey = hasFlag("picked_director_key");
 
   const { sfxVolume } = useAudio();
@@ -67,6 +73,9 @@ export function DirectorScene({ sceneId }: Props) {
           setImageSrc(src);
           setImageMessage(message ?? null);
           setImageName(name ?? null);
+        },
+        showMessageCard: (config) => {
+          setMessageCardConfig(config);
         },
         gotKey,
         setFlag,
@@ -121,6 +130,15 @@ export function DirectorScene({ sceneId }: Props) {
             setImageMessage(null);
             setImageName(null);
           }}
+        />
+      )}
+
+      {messageCardConfig && (
+        <MessageCard
+          title={messageCardConfig.title}
+          subtitle={messageCardConfig.subtitle}
+          description={messageCardConfig.description}
+          onClose={() => setMessageCardConfig(null)}
         />
       )}
     </>
