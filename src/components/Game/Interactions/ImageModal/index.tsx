@@ -10,10 +10,14 @@ type Props = {
 };
 
 export function ImageModal({ src, message, name = "Sistema", onClose }: Props) {
+  // Gif é sprite transparente (ex.: macaco girando): a moldura da imagem
+  // ficaria em volta do nada, então a variante gif remove borda/sombra.
+  const isGif = src.endsWith(".gif");
+
   return (
     <div className={styles.backdrop} onClick={onClose}>
       <img
-        className={styles.image}
+        className={isGif ? `${styles.image} ${styles.gif}` : styles.image}
         src={resolveAsset(src)}
         alt=""
         onClick={(e) => e.stopPropagation()}

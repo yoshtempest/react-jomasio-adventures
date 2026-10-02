@@ -1,5 +1,4 @@
 export const pcsRoomMessages: Record<string, string> = {
-  "4,2": "Macaco girando, eu gosto disso.",
   "5,2": "As irmãs planetárias podem ser vistas a quilomêtros de distância.",
   "6,2":
     "A sinceridade é a fórmula de solução para muitos problemas desnecessários.",

@@ -3,13 +3,18 @@ import {
   createInteractionMap,
   createPickupHandler,
   createMessageCardHandler,
-createImageHandler
+  createImageHandler,
 } from "./builder";
 import type { PickupDeps, MessageDeps, ImageDeps } from "@/utils/types/interaction";
 import { historyPath } from "@/utils/paths/historyPath";
 
 export function createPcsRoom(deps: PickupDeps & MessageDeps & ImageDeps) {
   return createInteractionMap(pcsRoomMessages, deps, {
+    "4,2": createImageHandler({
+      src: historyPath("monkeyCircle.gif"),
+      message: "Macaco girando, eu gosto disso.",
+    }),
+
     "16,2": createMessageCardHandler({
       title: "Diário de Reincardion",
       subtitle: "Cap 3",

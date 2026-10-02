@@ -23,6 +23,16 @@
   box-shadow: 0 0 var(--size-32) var(--overlay-80);
 }
 
+/* Gif: sprite pequeno e transparente, então sem moldura e com upscale nítido */
+.gif {
+  width: min(90vw, var(--size-768));
+  max-height: var(--vh-60);
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  image-rendering: pixelated;
+}
+
 @keyframes messageCardFadeIn {
   from {
     opacity: 0.15;

@@ -1,5 +1,5 @@
 import styles from "./styles.module.css";
-import { CHARACTER_RACES, getMixedRaceName } from "@/data/characters/races";
+import { CHARACTER_RACES} from "@/data/characters/races";
 import { getRaceAwakening } from "@/data/characters/races";
 import { getCharacterElementTypesAtLevel } from "@/data/types/characterElementTypes";
 import {
@@ -67,7 +67,7 @@ export function RaceTraits({ character, level }: Props) {
 
   return (
     <div className={styles.panel}>
-      <h3 className={styles.title}>Raça: {getMixedRaceName(races)}</h3>
+      <h3 className={styles.title}></h3>
 
       <ul className={styles.types}>
         {types.map((type) => (
