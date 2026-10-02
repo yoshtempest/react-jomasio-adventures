@@ -26,6 +26,10 @@ export function createPcsRoom(deps: PickupDeps & MessageDeps & ImageDeps) {
       message:
         "Dicas para manter-se saudável...",
     }),
+    "13,4": createImageHandler({
+      src: historyPath("mosquitoOrchestra.svg"),
+      message: "Mosquito orquestra ao vivo",
+    }),
 
     "15,2": createImageHandler({
       src: historyPath("damnReincarnation.svg"),

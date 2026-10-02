@@ -48,6 +48,9 @@ export function AvailableStats({
         <button
           type="button"
           className="statusButton"
+          // `data-confirm` marca este botão para o clique fora do menu não
+          // limpar a seleção (ver `Status`).
+          data-confirm
           onClick={onConfirmStat}
           disabled={!canConfirm}
         >
@@ -70,6 +73,9 @@ export function AvailableStats({
             <button
               type="button"
               className={styles.statLabel}
+              // `data-stat-row`: só clicar na linha do stat preserva a
+              // seleção; qualquer outro lugar da tela limpa.
+              data-stat-row
               onClick={() => onSelectStat(index)}
               aria-pressed={isSelected}
             >

@@ -61,6 +61,17 @@ export function useStatusMenu(isOpen: boolean) {
     return true;
   });
 
+  /**
+   * Volta a tela ao estado de abertura: nenhum stat marcado.
+   *
+   * Usado no clique fora (ver `Status`) e em qualquer momento em que a
+   * escolha deixa de valer.
+   */
+  const clearStat = useStableCallback(() => {
+    setSelectedIndex(null);
+    return true;
+  });
+
   /** Botão "Confirmar": é aqui que o ponto disponível é realmente usado. */
   const confirmStat = useStableCallback(() => {
     if (!spendStat(selectedIndexRef.current)) return false;
@@ -83,5 +94,6 @@ export function useStatusMenu(isOpen: boolean) {
     options: STATS,
     selectStat,
     confirmStat,
+    clearStat,
   };
 }
