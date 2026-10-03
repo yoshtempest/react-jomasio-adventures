@@ -1,0 +1,71 @@
+/* ── Teleport ─────────────────────────────────────────────
+   Passos do efeito de teleport, globais de propósito: o mesmo par
+   `teleportOut → teleportIn` materializa e dissolve o Victor na abertura do
+   tutorial de Config e o Sistema na cela da diretoria.
+
+   ── Por que as classes de fase são globais e não de CSS Module ──
+   O postcss-modules reescreve o nome da animação de qualquer `@keyframes`
+   referenciado dentro de um `*.module.css` para um nome local com hash, mesmo
+   quando os `@keyframes` vivem fora do módulo. O resultado é silencioso: o
+   `animation: teleportOut ...` vira `animation: _teleportOut_<hash>_1 ...` e
+   simplesmente nunca casa com o `@keyframes teleportOut` global — o efeito
+   some sem erro. Então quem declara `animation` com o nome do keyframe é este
+   arquivo; cada consumidor traz nas próprias classes de módulo só o *layout*
+   da fase (altura, offset, `object-fit`) e o nome da classe global.
+
+   Fases:
+   - `teleportDissolve` — o retrato some se dissolvendo;
+   - `teleportBeamIn`   — o feixe acende revelando o que está atrás;
+   - `teleportSpawn`    — o retrato se materializa no lugar do feixe;
+   - `teleportBeamOut`  — o feixe acende e apaga, e some com o sprite.
+
+   `teleportBeamOut` roda o mesmo `teleportIn` ao contrário: no feixe de entrada
+   a arte já começa opaca e termina opaca, mas invertida a animação começa
+   acesa e termina invisível, que é o que o desaparecimento precisa. */
+
+@keyframes teleportOut {
+  0% {
+    opacity: 1;
+    filter: blur(0) brightness(1);
+  }
+
+  70% {
+    opacity: 0.85;
+    filter: blur(2px) brightness(1.3);
+  }
+
+  100% {
+    opacity: 0;
+    filter: blur(6px) brightness(1.6);
+  }
+}
+
+@keyframes teleportIn {
+  0% {
+    opacity: 0;
+    filter: blur(2px) brightness(3);
+  }
+
+  45% {
+    opacity: 1;
+    filter: blur(0) brightness(1.6);
+  }
+
+  100% {
+    opacity: 1;
+    filter: blur(0) brightness(1);
+  }
+}
+
+.teleportDissolve {
+  animation: teleportOut 240ms ease-in forwards;
+}
+
+.teleportSpawn,
+.teleportBeamIn {
+  animation: teleportIn 320ms forwards;
+}
+
+.teleportBeamOut {
+  animation: teleportIn 320ms reverse forwards;
+}

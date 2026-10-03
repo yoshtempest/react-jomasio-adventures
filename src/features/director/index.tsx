@@ -1,7 +1,8 @@
-import { useMemo, useState, useCallback } from "react";
+import { useMemo, useState, useCallback, useEffect } from "react";
 
 import { SceneBase } from "@/components/Game/Scenes/Base";
 import { DIRECTOR_SCENES } from "@/scenes/director";
+import { getDirectorDialogue } from "@/scenes/director/one/dialogue";
 import { createDirector } from "@/interactions/director";
 
 import { useInventory } from "@/contexts/InventoryContext";
@@ -18,6 +19,8 @@ import { sceneBackgrounds } from "@/data/scene/background";
 import Talking from "@/components/Game/Interactions/Talking";
 import { ImageModal } from "@/components/Game/Interactions/ImageModal";
 import { MessageCard } from "@/components/Game/Interactions/MessageCard";
+
+import { SISTEMA_SPRITE, useSistemaTeleport } from "./useSistemaTeleport";
 
 type Props = {
   sceneId: SceneId;
@@ -94,14 +97,61 @@ export function DirectorScene({ sceneId }: Props) {
     ],
   );
 
-  if (!scene) {
+  // ── Teleport do Sistema ──
+  // Só a cela tem o NPC — na sala do diretor `npcs` é vazio, então o efeito
+  // simplesmente não aparece lá. `appear`/`leave` saem estáveis do hook, o que
+  // mantém o array de diálogo e o efeito de montagem abaixo também estáveis.
+  const isCel = sceneId === "one";
+  const {
+    src: sistemaSrc,
+    className: sistemaClassName,
+    hidden: sistemaHidden,
+    appear: sistemaAppear,
+    leave: sistemaLeave,
+  } = useSistemaTeleport();
+
+  const dialogues = useMemo(
+    () => getDirectorDialogue(sistemaLeave),
+    [sistemaLeave],
+  );
+
+  // Ele começa fora do mapa e se materializa assim que a cena monta, junto com
+  // o `autoStartDialogue` da cena.
+  useEffect(() => {
+    if (!isCel) return;
+    sistemaAppear();
+  }, [isCel, sistemaAppear]);
+
+  const sceneWithSistema = useMemo(() => {
+    if (!scene) return null;
+    if (!isCel) return scene;
+
+    return {
+      ...scene,
+      // `dialogueData` sai do `SceneConfig`: a última fala carrega o
+      // `onConfirm` que faz o Sistema piscar fora.
+      dialogueData: dialogues,
+      npcs: (scene.npcs ?? []).map((npc) =>
+        npc.src === SISTEMA_SPRITE
+          ? {
+              ...npc,
+              src: sistemaSrc,
+              className: sistemaClassName,
+              hidden: sistemaHidden,
+            }
+          : npc,
+      ),
+    };
+  }, [scene, isCel, dialogues, sistemaSrc, sistemaClassName, sistemaHidden]);
+
+  if (!sceneWithSistema) {
     return <div>Scene não encontrada</div>;
   }
 
   return (
     <>
       <SceneBase
-        scene={scene}
+        scene={sceneWithSistema}
         background={sceneBackgrounds.Director}
         interactions={interactions}
         itemPickupTiles={[

@@ -20,9 +20,9 @@ type TeleportPhase = "idle" | "out" | "beam" | "in";
 type TeleportEffectPhase = Exclude<TeleportPhase, "idle">;
 
 /**
- * Janela de cada fase em ms. Espelha as durações em `styles.module.css`; as
- * animações de `beam` são um piscar curto em loop, então um descompasso aqui
- * só corta o efeito no limite da fase, nunca desalinha a conversa.
+ * Janela de cada fase em ms. Espelha as durações das classes em
+ * src/styles/teleport.css; um descompasso aqui só corta o efeito no limite da
+ * fase, nunca desalinha a conversa.
  */
 const TELEPORT_PHASE_MS: Record<TeleportEffectPhase, number> = {
   out: 240,
@@ -43,9 +43,20 @@ const NEXT_TELEPORT_PHASE: Record<TeleportEffectPhase, TeleportPhase> = {
   in: "idle",
 };
 
+/**
+ * Classe global de animação de cada fase. Não pode viver no
+ * `styles.module.css`: o postcss-modules reescreve o nome do `@keyframes`
+ * referenciado por um módulo e a animação deixaria de casar com o keyframe
+ * global em src/styles/teleport.css.
+ */
+const TELEPORT_PHASE_CLASS: Record<TeleportEffectPhase, string> = {
+  out: "teleportDissolve",
+  beam: "teleportBeamIn",
+  in: "teleportSpawn",
+};
+
 export function VictorTutorial() {
-  const [teleportPhase, setTeleportPhase] =
-    useState<TeleportPhase>("idle");
+  const [teleportPhase, setTeleportPhase] = useState<TeleportPhase>("idle");
 
   const { playSound } = useSoundEffects();
 
@@ -113,7 +124,14 @@ export function VictorTutorial() {
           className={`${styles.talking}${isTeleporting ? ` ${styles.teleport}` : ""}`}
           data-teleport-phase={teleportPhase}
         >
-          <Talking {...line} src={portraitSrc} onNext={handleNext} />
+          <Talking
+            {...line}
+            src={portraitSrc}
+            onNext={handleNext}
+            imageClassName={
+              isTeleporting ? TELEPORT_PHASE_CLASS[teleportPhase] : undefined
+            }
+          />
         </div>
       )}
 

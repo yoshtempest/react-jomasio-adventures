@@ -1,0 +1,14 @@
+/* ── Teleport do Sistema (cela da diretoria) ──
+   Só o *layout* das fases fica aqui. A animação é global, declarada em
+   src/styles/teleport.css, junto dos `@keyframes`: o postcss-modules localiza
+   o nome de qualquer animação declarada num `*.module.css` e o efeito pararia
+   de casar com o keyframe global.
+
+   O feixe precisa de `object-fit: contain` porque a caixa do NPC é quadrada e o
+   `teleport.svg` é 2.6:1 — sem isso a arte estica numa coluna. Vale para os
+   dois sentidos do feixe. */
+
+.beam,
+.beamOut {
+  object-fit: contain;
+}
