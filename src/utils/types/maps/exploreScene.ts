@@ -17,6 +17,18 @@ export type SceneNPCData = {
    * pode terminar de rodar com o sprite já invisível.
    */
   hidden?: boolean;
+  /**
+   * Identidade estável do NPC, usada como `key` quando presente. Um NPC que
+   * anda muda de tile a cada passo, e uma `key` derivada da posição remontaria
+   * a imagem a cada passo — o que zera a transição de `moveMs` e faz o NPC
+   * piscar no lugar em vez de deslizar.
+   */
+  id?: string;
+  /**
+   * Duração em ms do deslize entre tiles. Sem ela a posição troca de uma vez,
+   * que é o comportamento de todo NPC parado.
+   */
+  moveMs?: number;
 };
 
 export type ItemPickupTile = {

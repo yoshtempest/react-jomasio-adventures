@@ -21,6 +21,7 @@ import { sceneBackgrounds } from "@/data/scene/background";
 import { ImageModal } from "@/components/Game/Interactions/ImageModal";
 
 import styles from "./styles.module.css";
+import { JANDERSON_IDLE_SPRITE, useJandersonExit } from "./useJandersonExit";
 
 type Props = {
   sceneId: SceneId;
@@ -98,14 +99,55 @@ export function PcRoomScene({ sceneId }: Props) {
     [addItem, gotKey, setFlag],
   );
 
-  if (!scene) {
+  // ── Saída do Janderson ──
+  // Ele só sai andando enquanto o jogador está escolhendo a classe depois do
+  // diálogo; fora disso volta a ficar parado no tile original.
+  const isClassScene = sceneId === "one";
+  const {
+    id: jandersonId,
+    src: jandersonSrc,
+    gridX: jandersonX,
+    gridY: jandersonY,
+    moveMs: jandersonMoveMs,
+  } = useJandersonExit(showClassModal && isClassScene);
+
+  const sceneWithJanderson = useMemo(() => {
+    if (!scene) return null;
+    if (!isClassScene) return scene;
+
+    return {
+      ...scene,
+      npcs: (scene.npcs ?? []).map((npc) =>
+        npc.src === JANDERSON_IDLE_SPRITE
+          ? {
+              ...npc,
+              id: jandersonId,
+              src: jandersonSrc,
+              gridX: jandersonX,
+              gridY: jandersonY,
+              moveMs: jandersonMoveMs,
+            }
+          : npc,
+      ),
+    };
+  }, [
+    scene,
+    isClassScene,
+    jandersonId,
+    jandersonSrc,
+    jandersonX,
+    jandersonY,
+    jandersonMoveMs,
+  ]);
+
+  if (!sceneWithJanderson) {
     return <div>Scene não encontrada</div>;
   }
 
   return (
     <>
       <SceneBase
-        scene={scene}
+        scene={sceneWithJanderson}
         background={sceneBackgrounds.PcsRoom}
         audioOverride={audioOverride}
         interactions={interactions}

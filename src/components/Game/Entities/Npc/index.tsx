@@ -10,6 +10,8 @@ type Props = {
   fading?: boolean;
   className?: string;
   hidden?: boolean;
+  /** Duração do deslize entre tiles; sem ela a posição troca de uma vez. */
+  moveMs?: number;
 };
 
 export function NPC({
@@ -21,6 +23,7 @@ export function NPC({
   fading,
   className,
   hidden,
+  moveMs,
 }: Props) {
   return (
     <img
@@ -38,7 +41,12 @@ export function NPC({
         // animação em CSS vence a opacidade inline enquanto roda, então o fim
         // de um `teleportOut`/`teleportIn` não conflita com nada aqui.
         opacity: hidden || fading ? 0 : 1,
-        transition: "opacity 1s ease-in",
+        // O mesmo deslize do jogador (`Entities/Player`): quem anda só troca o
+        // tile no estado e deixa o CSS andar os pixels. NPC parado não muda de
+        // posição, então a transition só entra quando `moveMs` vem preenchido.
+        transition: moveMs
+          ? `opacity 1s ease-in, left ${moveMs}ms, top ${moveMs}ms`
+          : "opacity 1s ease-in",
       }}
     />
   );

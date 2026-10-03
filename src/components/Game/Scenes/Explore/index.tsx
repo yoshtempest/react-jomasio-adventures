@@ -444,7 +444,10 @@ export function ExploreScene({
       >
         {resolvedNpcs.map((npc) => (
           <NPC
-            key={`${npc.gridX},${npc.gridY}`}
+            // A key sai do `id` quando o NPC declara um: quem anda muda de tile
+            // a cada passo e uma key de posição remontaria a imagem, zerando o
+            // deslize de `moveMs`.
+            key={npc.id ?? `${npc.gridX},${npc.gridY}`}
             {...npc}
             TILE_SIZE={TILE_SIZE}
             fading={
