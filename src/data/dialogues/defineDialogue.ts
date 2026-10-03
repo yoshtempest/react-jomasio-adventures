@@ -13,6 +13,7 @@ type SpeakerLine = {
   name?: string;
   soundSrc?: string;
   autoAdvanceOnSound?: boolean;
+  onConfirm?: () => boolean | void;
 };
 
 export type DialogueLine = DialogueTuple | SpeakerLine | Dialogue;
@@ -26,6 +27,7 @@ type SpeakerOverrides = {
   autoAdvanceOnSound?: boolean;
   pose?: string;
   name?: string;
+  onConfirm?: () => boolean | void;
 };
 
 function resolvePortrait(
@@ -42,6 +44,9 @@ function fromSpeaker(entry: SpeakerEntry, o: SpeakerOverrides): Dialogue {
     ...(o.expression && { expression: o.expression }),
     ...(o.soundSrc && { soundSrc: o.soundSrc }),
     ...(o.autoAdvanceOnSound && { autoAdvanceOnSound: true as const }),
+    // `onConfirm` não é retrato, então atravessa o `fromSpeaker` intacto para
+    // qualquer falante — inclusive quem não tem `base` e portanto não tem `src`.
+    ...(o.onConfirm && { onConfirm: o.onConfirm }),
   };
   const { message } = o;
 

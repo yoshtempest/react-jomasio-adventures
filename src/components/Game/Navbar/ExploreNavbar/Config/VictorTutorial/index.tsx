@@ -1,25 +1,108 @@
 import styles from "./styles.module.css";
 import { MoveUp, MoveDown, MoveLeft, MoveRight } from "lucide-react";
-import { configsDialogue } from "@/data/dialogues/configs";
+import { useEffect, useMemo, useState } from "react";
+
+import { createConfigsDialogue } from "@/data/dialogues/configs";
 import Talking from "@/components/Game/Interactions/Talking";
-import { useEffect } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
+import { useStableCallback } from "@/hooks/useStableCallback";
 import { useDialogue } from "@/hooks/interaction/useDialogue";
+import { npcPath } from "@/utils/paths";
+
+/**
+ * Fases do teleport que abre o tutorial. `out` dissolve o Victor deitado,
+ * `beam` troca o retrato pelo feixe e `in` o materializa em pé — ao fim de `in` a
+ * conversa é retomada e ele finalmente se apresenta.
+ */
+type TeleportPhase = "idle" | "out" | "beam" | "in";
+
+type TeleportEffectPhase = Exclude<TeleportPhase, "idle">;
+
+/**
+ * Janela de cada fase em ms. Espelha as durações em `styles.module.css`; as
+ * animações de `beam` são um piscar curto em loop, então um descompasso aqui
+ * só corta o efeito no limite da fase, nunca desalinha a conversa.
+ */
+const TELEPORT_PHASE_MS: Record<TeleportEffectPhase, number> = {
+  out: 240,
+  beam: 420,
+  in: 320,
+};
+
+/** Arte de cada fase — o feixe é o próprio `teleport.svg` do Victor. */
+const TELEPORT_PHASE_SRC: Record<TeleportEffectPhase, string> = {
+  out: npcPath("/victor/lyingDown.svg"),
+  beam: npcPath("/victor/teleport.svg"),
+  in: npcPath("/victor/talking.svg"),
+};
+
+const NEXT_TELEPORT_PHASE: Record<TeleportEffectPhase, TeleportPhase> = {
+  out: "beam",
+  beam: "in",
+  in: "idle",
+};
 
 export function VictorTutorial() {
-  const dialogueSystem = useDialogue(configsDialogue);
+  const [teleportPhase, setTeleportPhase] =
+    useState<TeleportPhase>("idle");
 
+  /**
+   * `onConfirm` da linha "...": devolve `false` para travar a conversa e deixar
+   * o efeito rodar em paz — o avanço vem da última fase, não do input.
+   */
+  const startTeleport = useStableCallback(() => {
+    setTeleportPhase("out");
+    return false;
+  });
+
+  const dialogues = useMemo(
+    () => createConfigsDialogue(startTeleport),
+    [startTeleport],
+  );
+
+  const dialogueSystem = useDialogue(dialogues);
   const dialogueSystemRef = useLatestRef(dialogueSystem);
 
   useEffect(() => {
     dialogueSystemRef.current.start();
   }, [dialogueSystemRef]);
 
+  // Encadeia out → beam → in → idle e, no fim, devolve a linha ao diálogo.
+  useEffect(() => {
+    if (teleportPhase === "idle") return;
+
+    const nextPhase = NEXT_TELEPORT_PHASE[teleportPhase];
+    const timer = setTimeout(() => {
+      setTeleportPhase(nextPhase);
+      if (nextPhase === "idle") {
+        dialogueSystemRef.current.next();
+      }
+    }, TELEPORT_PHASE_MS[teleportPhase]);
+
+    return () => clearTimeout(timer);
+  }, [teleportPhase, dialogueSystemRef]);
+
+  const handleNext = useStableCallback(() => {
+    // Com o teleport em curso a linha está presa: confirmar de novo não pode
+    // atropelar a animação.
+    if (teleportPhase !== "idle") return;
+    dialogueSystemRef.current.next();
+  });
+
+  const line = dialogueSystem.dialogue;
+  const isTeleporting = teleportPhase !== "idle";
+  const portraitSrc = isTeleporting
+    ? TELEPORT_PHASE_SRC[teleportPhase]
+    : line?.src;
+
   return (
     <div className={styles.tutorialContainer}>
-      {dialogueSystem.isOpen && dialogueSystem.dialogue && (
-        <div className={styles.talking}>
-          <Talking {...dialogueSystem.dialogue} onNext={dialogueSystem.next} />
+      {dialogueSystem.isOpen && line && (
+        <div
+          className={`${styles.talking}${isTeleporting ? ` ${styles.teleport}` : ""}`}
+          data-teleport-phase={teleportPhase}
+        >
+          <Talking {...line} src={portraitSrc} onNext={handleNext} />
         </div>
       )}
 

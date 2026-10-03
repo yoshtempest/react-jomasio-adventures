@@ -1,12 +1,9 @@
 import styles from "./styles.module.css";
-import { useLatestRef } from "@/hooks/useLatestRef";
 import { useConfigSelection } from "@/hooks/menu/config/useConfigSelection";
 import { useAudio } from "@/hooks/audio/useAudio";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useSettings } from "@/hooks/settings/useSetting";
-import { useDialogue } from "@/hooks/interaction/useDialogue";
 import { useEffect, useRef } from "react";
-import { configsDialogue } from "@/data/dialogues/configs";
 import { VictorTutorial } from "@/components/Game/Navbar/ExploreNavbar/Config/VictorTutorial";
 import { CONFIG_TABS, CONFIG_TAB_LABELS } from "@/data/config/tabs";
 import { BattleTab } from "./BattleTab";
@@ -33,15 +30,7 @@ export function Config() {
     cycleDifficulty,
     cycleDialogueSpeed,
   } = useConfigSelection(true);
-  const dialogueSystem = useDialogue(configsDialogue);
-  const dialogueSystemRef = useLatestRef(dialogueSystem);
   const configRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    if (screen === "tutorial") {
-      dialogueSystemRef.current.start();
-    }
-  }, [screen, dialogueSystemRef]);
 
   useEffect(() => {
     if (!configRef.current) return;

@@ -105,6 +105,15 @@ declare global {
     expression?: DialogueExpression;
     soundSrc?: string;
     autoAdvanceOnSound?: boolean;
+    /**
+     * Disparado quando o jogador confirma a linha. Retornar `false` segura o
+     * avanço: a linha só libera para a fala seguinte quando algo chamar `next()`
+     * de novo. É o ponto de apoio para cutscenes em que um retrato precisa
+     * terminar uma animação antes do NPC voltar a falar (ex.: o teleport do
+     * Victor na abertura do tutorial de Config). O callback roda uma vez por
+     * linha, então quem retoma o diálogo não o executa outra vez.
+     */
+    onConfirm?: () => boolean | void;
   };
 
   // ── Scene system ───────────────────────────────────────
