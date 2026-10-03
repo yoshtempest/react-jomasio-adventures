@@ -2,6 +2,7 @@ import styles from "./styles.module.css";
 import { MoveUp, MoveDown, MoveLeft, MoveRight } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
+import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { createConfigsDialogue } from "@/data/dialogues/configs";
 import Talking from "@/components/Game/Interactions/Talking";
 import { useLatestRef } from "@/hooks/useLatestRef";
@@ -46,6 +47,8 @@ export function VictorTutorial() {
   const [teleportPhase, setTeleportPhase] =
     useState<TeleportPhase>("idle");
 
+  const { playSound } = useSoundEffects();
+
   /**
    * `onConfirm` da linha "...": devolve `false` para travar a conversa e deixar
    * o efeito rodar em paz — o avanço vem da última fase, não do input.
@@ -81,6 +84,14 @@ export function VictorTutorial() {
 
     return () => clearTimeout(timer);
   }, [teleportPhase, dialogueSystemRef]);
+
+  // O som entra junto com o feixe: `beam` é a única fase em que o retrato é o
+  // `teleport.svg`, então basta entrar nela para o `blink` casar com a arte.
+  useEffect(() => {
+    if (teleportPhase === "beam") {
+      playSound("blink");
+    }
+  }, [teleportPhase, playSound]);
 
   const handleNext = useStableCallback(() => {
     // Com o teleport em curso a linha está presa: confirmar de novo não pode
