@@ -1,3 +1,5 @@
+import type { DamageArmor } from "@/utils/types/battle/damageKind";
+
 export type NPCDirection = "right" | "left";
 
 export type NPCBattleState = {
@@ -159,4 +161,11 @@ export type SummonedNpc = {
   level?: number;
   /** Multiplicador de stats (pet hungryKing escala com as estrelas). */
   statMultiplier?: number;
+  /**
+   * Armadura nas duas colunas, resolvida no spawn a partir do `npcType`/`level`.
+   * Fica no próprio summon (e não é derivado na hora do golpe) para que todo
+   * caminho de dano leia a mesma defesa — inclusive o funil que era o único a
+   * não reduzir, e os golpes de área que varrem summons.
+   */
+  armor: DamageArmor;
 };

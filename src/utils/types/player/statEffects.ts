@@ -5,7 +5,9 @@ export type StatEffectKey =
   | "hp"
   | "normalDmg"
   | "specialDmg"
-  | "armor"
+  /** Colunas separadas: o jogador precisa ver qual golpe a armadura segura. */
+  | "physicalArmor"
+  | "magicalArmor"
   | "tenacity"
   | "luck"
   | "crit"

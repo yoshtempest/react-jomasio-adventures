@@ -6,6 +6,7 @@ import { BLOCK_ATTACK_PUSH_DISTANCE } from "@/gameRules/movement/constants";
 import { clampX } from "@/gameRules/movement/clampX";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { CharactersProgress } from "@/data/characters/defaultProgress";
+import type { DamageKind } from "@/utils/types/battle/damageKind";
 import { getCharacterElementTypes } from "@/data/types/characterElementTypes";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import { combatService } from "@/services/combat";
@@ -13,6 +14,8 @@ import { combatService } from "@/services/combat";
 type Params = {
   target: { id: string; x: number; y: number };
   multiplier: number;
+  /** Natureza do golpe: summons também têm as duas colunas de armadura. */
+  damageKind: DamageKind;
   player: Player;
   playerClass: PlayerClass;
   progress: CharactersProgress;
@@ -35,6 +38,7 @@ type Params = {
 export function damageSummon({
   target,
   multiplier,
+  damageKind,
   player,
   playerClass,
   progress,
@@ -64,13 +68,19 @@ export function damageSummon({
     getCharacterElementTypes(player.character),
     targetTypes,
   );
-  const dmg = Math.round(
-    (player.character === "samuel" && char.level >= 20
+  // Summon não é atalho: tem tipagem e tem armadura, nas duas colunas, senão
+  // invocar viraria a forma mais barata de ignorar a build de armadura do chefe.
+  // Mesma ordem do funil principal: fúria → armadura → multiplicadores.
+  const berserkRaw =
+    player.character === "samuel" && char.level >= 20
       ? raw * combatService.getBerserkMultiplier(playerHP, playerMaxHp)
-      : raw) *
-      multiplier *
-      elementMultiplier,
+      : raw;
+  const armorReduced = combatService.applyArmor(
+    berserkRaw,
+    damageKind,
+    targetSummon?.armor,
   );
+  const dmg = Math.round(armorReduced * multiplier * elementMultiplier);
 
   spawnDamageRef.current?.(
     dmg,

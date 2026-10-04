@@ -1,3 +1,5 @@
+import type { DamageKind } from "@/utils/types/battle/damageKind";
+
 export type CommonParams = {
   startX: number;
   startY: number;
@@ -10,6 +12,8 @@ export type CommonParams = {
   hp?: number;
   maxHp?: number;
   indestructible?: boolean;
+  /** Natureza do dano ao acertar: define a coluna de armadura furada. */
+  damageType?: DamageKind;
 };
 
 export type PullParams = CommonParams & {
@@ -25,4 +29,6 @@ export type RainParams = {
   hp?: number;
   maxHp?: number;
   indestructible?: boolean;
+  /** Natureza do dano ao acertar: define a coluna de armadura furada. */
+  damageType?: DamageKind;
 };

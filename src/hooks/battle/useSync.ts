@@ -1,5 +1,6 @@
 import { useEffect, type RefObject } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
+import type { DamageKind } from "@/utils/types/battle/damageKind";
 
 type SyncProps = {
   battle: {
@@ -23,16 +24,18 @@ type SyncProps = {
   closeInventoryRef: RefObject<() => void>;
   closeNavbarRef: RefObject<() => void>;
   refs: {
-    npcRangedAttackRef: RefObject<() => void>;
-    npcMeleeAttackRef: RefObject<() => void>;
+    npcRangedAttackRef: RefObject<(damageKind?: DamageKind) => void>;
+    npcMeleeAttackRef: RefObject<
+      (multiplier?: number, damageKind?: DamageKind) => void
+    >;
     npcBurstAttackRef: RefObject<(pushDir: number) => void>;
     npcThrowAttackRef: RefObject<() => void>;
   };
   charge: { cancelCharge: () => void };
   player: { state: string; halfHealUntil: number };
   halfHealReduction: number;
-  battleNpcRangedHit: () => void;
-  battleNpcMeleeHit: () => void;
+  battleNpcRangedHit: (damageKind?: DamageKind) => void;
+  battleNpcMeleeHit: (multiplier?: number, damageKind?: DamageKind) => void;
   battleNpcBurstHit: (pushDir: number) => void;
   battleNpcThrowHit: (multiplier: number) => void;
 };
@@ -109,13 +112,13 @@ export function useBattleSync({
   ]);
 
   // Wire ref callbacks so battle system can trigger NPC ranged/melee hit
-  refs.npcRangedAttackRef.current = () => {
+  refs.npcRangedAttackRef.current = (damageKind) => {
     if (player.state === "charging") charge.cancelCharge();
-    battleNpcRangedHit();
+    battleNpcRangedHit(damageKind);
   };
-  refs.npcMeleeAttackRef.current = () => {
+  refs.npcMeleeAttackRef.current = (multiplier, damageKind) => {
     if (player.state === "charging") charge.cancelCharge();
-    battleNpcMeleeHit();
+    battleNpcMeleeHit(multiplier, damageKind);
   };
   refs.npcBurstAttackRef.current = (pushDir: number) => {
     if (player.state === "charging") charge.cancelCharge();

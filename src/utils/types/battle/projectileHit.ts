@@ -1,3 +1,5 @@
+import type { DamageKind } from "@/utils/types/battle/damageKind";
+
 /**
  * Dano que o golpe do jogador aplicou num projétil, resolvido pelo mesmo
  * pipeline de `playerHit`/`specialHit` usado contra NPC e summons.
@@ -16,6 +18,11 @@ export type ProjectileHitResolveOptions = {
    * gate, ou o projétil nunca levaria dano.
    */
   bypassCharge?: boolean;
+  /**
+   * Natureza do dano do projétil. Ausente = física. Quem dispara o projétil
+   * lê a natureza da habilidade em `getAbilityDamageType(abilityId)`.
+   */
+  damageKind?: DamageKind;
 };
 
 /**

@@ -23,6 +23,8 @@ import {
 } from "@/gameRules/battle/time";
 
 import { clampX } from "@/gameRules/movement/clampX";
+import type { DamageArmor, DamageKind } from "@/utils/types/battle/damageKind";
+
 type Props = {
   npcLevel: number;
   npcClass: NPCClass;
@@ -35,7 +37,7 @@ type Props = {
   npcY: number;
 
   player: Player;
-  totalArmor: number;
+  totalArmor: DamageArmor;
 
   damagePlayerHp: (damage: number) => void;
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;
@@ -228,7 +230,7 @@ export function useNpcBattle({
   );
 
   const npcMeleeHit = useCallback(
-    (multiplier = 1) => {
+    (multiplier = 1, damageKind: DamageKind = "physical") => {
       if (isEnding.current) return;
       if (ALL_PREDICATES.isNpcUnhittable(player.state)) return;
 
@@ -268,6 +270,7 @@ export function useNpcBattle({
       const baseDmg = npc.damage;
       const dmg = combatService.calculateNpcDamage(
         baseDmg,
+        damageKind,
         playerClass,
         totalArmor,
       );
@@ -331,104 +334,108 @@ export function useNpcBattle({
     ],
   );
 
-  const npcRangedHit = useCallback(() => {
-    if (isEnding.current) return;
-    if (ALL_PREDICATES.isInvulnerable(player.state)) return;
-    if (!npcCooldown.current) return;
-    if (ALL_PREDICATES.isDashing(player.state)) return;
-    if (
-      ALL_PREDICATES.isCrouched(player.state) &&
-      Math.abs(playerX - npcX) > 80
-    )
-      return;
+  const npcRangedHit = useCallback(
+    (damageKind: DamageKind = "physical") => {
+      if (isEnding.current) return;
+      if (ALL_PREDICATES.isInvulnerable(player.state)) return;
+      if (!npcCooldown.current) return;
+      if (ALL_PREDICATES.isDashing(player.state)) return;
+      if (
+        ALL_PREDICATES.isCrouched(player.state) &&
+        Math.abs(playerX - npcX) > 80
+      )
+        return;
 
-    const npc = getNpcStats(npcLevel, npcClass, difficulty, statMultiplier);
-    const baseDmg = npc.damage;
-    const dmg = combatService.calculateNpcDamage(
-      baseDmg,
+      const npc = getNpcStats(npcLevel, npcClass, difficulty, statMultiplier);
+      const baseDmg = npc.damage;
+      const dmg = combatService.calculateNpcDamage(
+        baseDmg,
+        damageKind,
+        playerClass,
+        totalArmor,
+      );
+
+      const blocked = checkBlocked({
+        dmg,
+        playerState: player.state,
+        playerBattleDirection: player.battleDirection,
+        playerX,
+        playerY,
+        npcX,
+        npcY,
+        blockGauge,
+        setBlockGauge,
+        damagePlayerWithReflect,
+        setPlayer,
+        spawnDamageRef,
+        timeRef,
+        npcStaggerRef,
+        npcCooldown,
+        lastBlockPressRef,
+        lastAttackPressRef,
+        onFullBlock,
+        onBlockRef,
+      });
+      if (blocked) return;
+
+      const hpRatio =
+        npcMaxHpRef.current > 0 ? npcHpRef.current / npcMaxHpRef.current : 1;
+      const { finalDmg, dmgType } = rollNpcDamage(
+        dmg,
+        hpRatio,
+        npcType,
+        npcPhase,
+        player.character,
+      );
+
+      damagePlayerWithReflect(finalDmg);
+      navigator.vibrate?.(40);
+      spawnDamageRef.current?.(finalDmg, playerX, playerY, dmgType);
+      onHalfHeal?.();
+      timeRef.current = applyHitstop(timeRef.current, 30);
+
+      if (npcType === "maurao") {
+        applyBleed(npcType, tenacityReductionRef.current, setPlayer);
+      }
+
+      npcCooldown.current = false;
+      setTimeout(() => (npcCooldown.current = true), NPC_MELEE_COOLDOWN);
+    },
+    [
+      isEnding,
+      npcCooldown,
+      player.state,
+      player.battleDirection,
+      player.character,
+      npcLevel,
+      npcClass,
       playerClass,
       totalArmor,
-    );
-
-    const blocked = checkBlocked({
-      dmg,
-      playerState: player.state,
-      playerBattleDirection: player.battleDirection,
+      setPlayer,
       playerX,
       playerY,
       npcX,
       npcY,
-      blockGauge,
-      setBlockGauge,
-      damagePlayerWithReflect,
-      setPlayer,
+      difficulty,
       spawnDamageRef,
       timeRef,
       npcStaggerRef,
-      npcCooldown,
+      blockGauge,
+      setBlockGauge,
       lastBlockPressRef,
       lastAttackPressRef,
+      damagePlayerWithReflect,
       onFullBlock,
-      onBlockRef,
-    });
-    if (blocked) return;
-
-    const hpRatio =
-      npcMaxHpRef.current > 0 ? npcHpRef.current / npcMaxHpRef.current : 1;
-    const { finalDmg, dmgType } = rollNpcDamage(
-      dmg,
-      hpRatio,
+      onHalfHeal,
       npcType,
       npcPhase,
-      player.character,
-    );
-
-    damagePlayerWithReflect(finalDmg);
-    navigator.vibrate?.(40);
-    spawnDamageRef.current?.(finalDmg, playerX, playerY, dmgType);
-    onHalfHeal?.();
-    timeRef.current = applyHitstop(timeRef.current, 30);
-
-    if (npcType === "maurao") {
-      applyBleed(npcType, tenacityReductionRef.current, setPlayer);
-    }
-
-    npcCooldown.current = false;
-    setTimeout(() => (npcCooldown.current = true), NPC_MELEE_COOLDOWN);
-  }, [
-    isEnding,
-    npcCooldown,
-    player.state,
-    player.battleDirection,
-    player.character,
-    npcLevel,
-    npcClass,
-    playerClass,
-    totalArmor,
-    setPlayer,
-    playerX,
-    playerY,
-    npcX,
-    npcY,
-    difficulty,
-    spawnDamageRef,
-    timeRef,
-    npcStaggerRef,
-    blockGauge,
-    setBlockGauge,
-    lastBlockPressRef,
-    lastAttackPressRef,
-    damagePlayerWithReflect,
-    onFullBlock,
-    onHalfHeal,
-    npcType,
-    npcPhase,
-    onBlockRef,
-    statMultiplier,
-    npcHpRef,
-    npcMaxHpRef,
-    tenacityReductionRef,
-  ]);
+      onBlockRef,
+      statMultiplier,
+      npcHpRef,
+      npcMaxHpRef,
+      tenacityReductionRef,
+    ],
+  );
 
   const npcFixedHit = useCallback(
     (dmg: number) => {
@@ -506,7 +513,7 @@ export function useNpcBattle({
   );
 
   const npcThrowHit = useCallback(
-    (multiplier: number = 1) => {
+    (multiplier: number = 1, damageKind: DamageKind = "physical") => {
       if (isEnding.current) return;
       if (ALL_PREDICATES.isInvulnerable(player.state)) return;
 
@@ -514,15 +521,14 @@ export function useNpcBattle({
       const baseDmg = npc.damage;
       const dmg = combatService.calculateNpcDamage(
         baseDmg,
+        damageKind,
         playerClass,
         totalArmor,
       );
       // Mesmo funil do melee: arremessar não pode fugir da tabela elemental
-      // do NPC nem da resistência do player.
+      // do NPC, da coluna certa de armadura nem da resistência do player.
       const finalDmg = Math.round(
-        dmg *
-          multiplier *
-          getNpcVsPlayerMultiplier(npcType, player.character),
+        dmg * multiplier * getNpcVsPlayerMultiplier(npcType, player.character),
       );
 
       damagePlayerWithReflect(finalDmg);

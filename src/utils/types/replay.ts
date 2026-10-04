@@ -1,4 +1,5 @@
 import type { ComboRank } from "@/utils/types/battle/combo";
+import type { DamageArmor } from "@/utils/types/battle/damageKind";
 import type {
   NPCBattleState,
   NPCDirection,
@@ -45,6 +46,8 @@ export type ReplayFrame = {
     st: SummonedNpc["state"];
     dir: NPCDirection;
     hp: number;
+    /** Colunas de armadura do summon no momento do frame (usadas pelo rewind). */
+    armor: DamageArmor;
   }[];
 
   petx: number | null;
@@ -125,6 +128,8 @@ export type SummonSnap = {
   state: SummonedNpc["state"];
   direction: NPCDirection;
   hp: number;
+  /** Colunas de armatura no momento do frame (o rewind precisa restaurá-las). */
+  armor: DamageArmor;
 };
 
 export type PetSnap = {

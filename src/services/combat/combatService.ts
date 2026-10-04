@@ -1,11 +1,10 @@
-import { getCharacterElementTypes } from "@/data/types/characterElementTypes";
 import {
   ELEMENT_STRONG_AGAINST,
   ELEMENT_WEAK_AGAINST,
 } from "@/data/types/elementChart";
-import { getNpcElementTypes } from "@/data/types/npcElementTypes";
-import { getNpcStats } from "@/gameRules/npc/npcStats";
+import { getArmorFor, NO_ARMOR } from "@/gameRules/battle/damage/armor";
 import type { ElementType } from "@/utils/types/battle/element";
+import type { DamageArmor, DamageKind } from "@/utils/types/battle/damageKind";
 import type { BaseCharacter, BasePlayer } from "./character";
 
 export type CombatServiceConfig = {
@@ -22,19 +21,6 @@ export type CombatServiceConfig = {
    * histórico do jogo (multi-tipagem vira explosão numérica).
    */
   normalizeTypingMultiplier?: boolean;
-};
-
-type NpcHitParams = {
-  npcLevel: number;
-  npcClass: NPCClass;
-  playerClass: PlayerClass;
-  totalArmor: number;
-  difficulty: NpcDifficulty;
-  npcType: string;
-  playerCharacter: CharacterId;
-  npcPhase: number;
-  npcHp: number;
-  npcMaxHp: number;
 };
 
 /**
@@ -94,9 +80,34 @@ export class CombatService {
 
   // --- Dano aplicado a NPCs -------------------------------------------
 
-  calculateDamageToNpc(damage: number, npcArmor: number = 0): number {
-    if (npcArmor <= 0) return damage;
-    return Math.round((damage * 100) / (100 + npcArmor));
+  /**
+   * Ponto único de redução por armadura do jogo.
+   *
+   * A curva é hiperbólica e saturante (`dmg * 100 / (100 + armadura)`): 100 de
+   * armadura corta pela metade, 400 deixa um quinto. O que decide *qual*
+   * armadura entra é a natureza do golpe — `physical` e `magical` caem em
+   * colunas distintas, `true` não cai em nenhuma e sai ileso.
+   *
+   * Qualquer caminho de dano que reduza armadura por conta própria está
+   * errado: era exatamente isso que mantinha o funil do summon com uma cópia
+   * da fórmula.
+   */
+  applyArmor(
+    damage: number,
+    kind: DamageKind,
+    armor: DamageArmor = NO_ARMOR,
+  ): number {
+    const value = getArmorFor(kind, armor);
+    if (value <= 0) return damage;
+    return Math.round((damage * 100) / (100 + value));
+  }
+
+  calculateDamageToNpc(
+    damage: number,
+    kind: DamageKind,
+    npcArmor: DamageArmor = NO_ARMOR,
+  ): number {
+    return this.applyArmor(damage, kind, npcArmor);
   }
 
   getBerserkMultiplier(currentHP: number, maxHP: number): number {
@@ -113,57 +124,17 @@ export class CombatService {
 
   calculateNpcDamage(
     baseDamage: number,
+    kind: DamageKind,
     playerClass: string | null,
-    defense: number = 0,
+    armor: DamageArmor = NO_ARMOR,
   ) {
-    let dmg = baseDamage;
-
-    if (defense > 0) {
-      dmg *= 100 / (100 + defense);
-    }
+    let dmg = this.applyArmor(baseDamage, kind, armor);
 
     if (playerClass === "idiota") {
       dmg *= 0.8;
     }
 
     return Math.round(dmg);
-  }
-
-  /**
-   * Resolve um hit de NPC contra o player: stats do NPC, defesa/armadura,
-   * crítico (com regra especial de Slimita em fase 2) e multiplicador
-   * elemental.
-   */
-  resolveNpcHit({
-    npcLevel,
-    npcClass,
-    playerClass,
-    totalArmor,
-    difficulty,
-    npcType,
-    playerCharacter,
-    npcPhase,
-    npcHp,
-    npcMaxHp,
-  }: NpcHitParams): { finalDmg: number; dmgType: DamageType } {
-    const npc = getNpcStats(npcLevel, npcClass, difficulty);
-    const dmg = this.calculateNpcDamage(npc.damage, playerClass, totalArmor);
-
-    const hpRatio = npcMaxHp > 0 ? npcHp / npcMaxHp : 1;
-    const clampedRatio = Math.max(0, Math.min(1, hpRatio));
-    let critChance = 1;
-    if (npcType === "slimita" && npcPhase >= 2) {
-      critChance = 1 + (1 - clampedRatio) * 9;
-    }
-    const isCrit = Math.random() * 100 < critChance;
-    const elementMultiplier = this.getElementMultiplier(
-      getNpcElementTypes(npcType),
-      getCharacterElementTypes(playerCharacter),
-    );
-    const finalDmg = Math.round((isCrit ? dmg * 2 : dmg) * elementMultiplier);
-    const dmgType: DamageType = isCrit ? "crit" : "npc";
-
-    return { finalDmg, dmgType };
   }
 
   canNpcAttack(

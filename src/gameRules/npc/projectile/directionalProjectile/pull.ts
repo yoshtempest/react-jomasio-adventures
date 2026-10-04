@@ -14,6 +14,7 @@ export function createPullProjectile({
   hp = ProjectileHpConstants.DEFAULT_HP,
   maxHp = hp,
   indestructible = false,
+  damageType,
 }: PullParams): ProjectilePull {
   const dx = targetX - startX;
   const dy = targetY - startY;
@@ -35,5 +36,6 @@ export function createPullProjectile({
     hp,
     maxHp,
     indestructible,
+    damageType,
   };
 }

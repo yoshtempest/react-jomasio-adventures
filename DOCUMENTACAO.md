@@ -103,6 +103,10 @@ O escopo atual abrange:
 | RF27 | O sistema deve aplicar o multiplicador elemental (média geométrica da multi-tipagem) em todo caminho de dano        | Alta       |
 | RF28 | A tipagem elemental do personagem é fixa do início ao fim do jogo (sem progressão por nível)                         | Média      |
 | RF29 | O menu de Status deve listar as tipagens elementais do personagem                                                     | Média      |
+| RF30 | Toda criatura em batalha (player, NPC, summons, aliados e pets) tem armadura física e mágica separadas           | Alta       |
+| RF31 | Todo golpe declara sua natureza (físico, mágico ou verdadeiro); não declarado significa físico                   | Alta       |
+| RF32 | Dano verdadeiro ignora qualquer armadura                                                                             | Alta       |
+| RF33 | A armadura é aplicada antes do multiplicador elemental                                                                 | Alta       |
 
 ### 3.2 Requisitos Não Funcionais
 
@@ -142,6 +146,12 @@ O escopo atual abrange:
 | RN19 | O multiplicador elemental com multi-tipagem é a média geométrica dos pares avaliados, não o produto                |
 | RN20 | Status é aplicado em um único ponto (`applyPlayerStatus`), valendo para qualquer fonte                             |
 | RN21 | Personagem novo não entra no jogo sem tipagem elemental declarada (trava de compilação)                              |
+| RN22 | A redução de armadura tem um único ponto (`CombatService.applyArmor`) para todo caminho de dano                   |
+| RN23 | `StatBlock.armor` alimenta as duas colunas; `physicalArmor`/`magicalArmor` são o excedente de blindagem parcial    |
+| RN24 | A natureza do golpe vem do dado: `ActiveAbility.damageType` lido por `getAbilityDamageType`, `Projectile.damageType` para NPC, `PetSkillEffect.damageType` para pets |
+| RN25 | O medidor de block consome o golpe bruto e projeta as duas colunas num número (`getBlockArmor`)                     |
+| RN26 | A armadura de um summon é resolvida no spawn e guardada em `SummonedNpc.armor` (inclusive no frame de rewind)         |
+| RN27 | A Expansão de Domínio é o caso canônico de dano verdadeiro e, por isso, ignora armadura                              |
 
 ### 3.4 Restrições de Hardware
 

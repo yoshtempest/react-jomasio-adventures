@@ -26,6 +26,7 @@ import { useProximityLoopSound } from "./useProximityLoopSound";
 import { getTime, NPC_TIME_ID, type TimeEffect } from "@/gameRules/battle/time";
 
 import { clampX } from "@/gameRules/movement/clampX";
+import type { DamageKind } from "@/utils/types/battle/damageKind";
 type Props = {
   playerX: number;
   playerY: number;
@@ -33,8 +34,10 @@ type Props = {
   playerDirection: Direction;
   playerCharacter: string;
   npcClass: NPCClass;
-  onProjectileHit: () => void;
-  onMeleeHit: () => void;
+  /** Projétil acertou: o `Projectile.damageType` diz a natureza do dano. */
+  onProjectileHit: (damageKind?: DamageKind) => void;
+  /** Soco acertou: o segundo argumento diz a natureza do dano. */
+  onMeleeHit: (multiplier?: number, damageKind?: DamageKind) => void;
   isPaused?: boolean;
   npcType: string;
   npcPhaseRef: React.RefObject<number>;
@@ -69,8 +72,8 @@ type Props = {
   onBurstHit?: (pushDir: number) => void;
   /** Esfera do Riquelme no estado atual (para colisão com projéteis inimigos). */
   playerProjectileRef?: React.RefObject<PlayerSpecialProjectile | null>;
-  /** Vida dos projéteis destrutíveis (1/3 do dano que causariam no jogador). */
-  projectileHpRef?: React.RefObject<number>;
+  /** Vida dos projéteis destrutíveis, indexada pela natureza do seu dano. */
+  projectileHpRef?: React.RefObject<Record<DamageKind, number>>;
   /** Damage numbers do jogador acertando projéteis inimigos. */
   spawnDamageRef?: React.RefObject<SpawnDamageFn>;
   /** Token de 1 instância de dano por golpe — projéteis só levam 1 por ataque. */
@@ -146,7 +149,11 @@ export function useNpcAI({
         setProjectiles([]);
         return;
       }
-      const hp = projectileHpRef?.current ?? ProjectileHpConstants.DEFAULT_HP;
+      // A vida sai da natureza do projétil: um disparo mágico não custa o
+      // mesmo número de golpes que um físico contra a mesma armadura.
+      const hp =
+        projectileHpRef?.current?.[p.damageType ?? "physical"] ??
+        ProjectileHpConstants.DEFAULT_HP;
       setProjectiles((prev) => [...prev, { ...p, hp, maxHp: hp }]);
     },
     [projectileHpRef],
@@ -213,7 +220,7 @@ export function useNpcAI({
     playerDirection,
     npc.x,
     npc.y,
-    () => {
+    (damageKind) => {
       if (npcTypeRef.current === "vandinhaFragment") {
         playSound("breakDish");
         logPlay("breakDish");
@@ -222,7 +229,7 @@ export function useNpcAI({
         playSound("knifeCut");
         logPlay("knifeCut");
       }
-      onProjectileHit();
+      onProjectileHit(damageKind);
     },
     timeRef,
     onPullPlayer,

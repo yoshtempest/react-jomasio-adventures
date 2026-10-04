@@ -61,8 +61,14 @@ export const STAT_EFFECTS: {
     index: 3,
     rows: [
       {
-        key: "armor",
-        label: "Armadura",
+        key: "physicalArmor",
+        label: "Armadura física",
+        icon: statusIconPath("armor.svg"),
+        format: "int",
+      },
+      {
+        key: "magicalArmor",
+        label: "Armadura mágica",
         icon: statusIconPath("armor.svg"),
         format: "int",
       },

@@ -275,6 +275,51 @@ CHARACTER_ELEMENT_TYPES / NPC_TYPINGS (data)
   (`utils/types/battle/status.ts`).
 - Balanceamento da tabela e a regra de média geométrica: `ELEMENTS.md`.
 
+## Armadura e natureza do dano
+
+Tipagem elemental ≠ armadura. São dois eixos independentes, e os dois valem para
+**todo ser em batalha** (player, NPC principal, summons inimigos, aliados, pets).
+
+```
+DamageKind (physical | magical | true) + DamageArmor (physical | magical)
+                      →  CombatService.applyArmor (ponto único)
+```
+
+- **Tipos**: `utils/types/battle/damageKind.ts`. `DamageArmor` é o par de
+  colunas; `true` não tem coluna e por isso ignora qualquer armadura. Os
+  combinadores (`NO_ARMOR`, `getArmorFor`, `addArmor`, `scaleArmor`,
+  `getBlockArmor`) ficam em `gameRules/battle/damage/armor.ts`.
+- **Funil único**: `CombatService.applyArmor`. Um caminho de dano que calcula
+  redução por conta própria é bug — foi assim que `useExternal` e
+  `damageSummon` divergiam do melee do NPC.
+- **Dado legado**: `StatBlock.armor` é a base das **duas** colunas;
+  `physicalArmor`/`magicalArmor` são o excedente de quem blindar só um lado.
+  `getTotalArmor` e `getNpcStats` devolvem `DamageArmor` já preenchido.
+- **Quem declara a natureza do golpe**: habilidade em
+  `data/characters/abilities.ts` (`ActiveAbility.damageType`, lido por
+  `getAbilityDamageType(id)` — é a fonte de verdade, GameData e hook não podem
+  discordar); golpe de NPC no registry `services/npc/attacks/<npc>.ts`
+  (`tryMeleeAttack`/`rangedChaseBehavior` + `Projectile.damageType`); efeito de
+  pet em `data/characters/petSkills/types.ts`. **Ausente = física** — é o que
+  preserva o balanceamento de tudo que não foi classificado.
+- **Ordem da conta**: armadura **antes** do multiplicador elemental (e do
+  berserk, no `damageSummon`). Elemento muda _quanto_ o golpe tira, não _se_
+  ele é bloqueado.
+- **Block**: o medidor consome o golpe **bruto**, então ele não conhece coluna —
+  `getBlockArmor` projeta as duas num número (`Math.max`) tanto para o player
+  quanto para o NPC.
+- **Summons**: a armadura é resolvida no spawn e guardada em
+  `SummonedNpc.armor` (inclusive no frame do rewind/replay). Dano entre summons
+  usa a do alvo, não a do NPC principal.
+- **Dano verdadeiro está pronto e sem uso**: nenhum golpe do jogo passa
+  `"true"` pelo funil hoje. A Expansão de Domínio declara `damageType: "true"`
+  no dado, mas é um _execute_ (`setNpcHP(0)`) — não existe conta de dano para a
+  armadura reduzir. Tratar a Expansão como "dano verdadeiro" é leitura errada
+  do que o código faz.
+- **Exceções intencionais** (não são armadura que o golpe deveria furar):
+  execute da Expansão de Domínio, reflexo e o reflect do Babidi, ticks de
+  sangramento e o dummy de treino.
+
 ## Convenções
 
 | Categoria        | Convenção                                       | Exemplo                              |
@@ -319,6 +364,10 @@ até você preencher — use isso a seu favor:
   `NPCClass`, `Projectile` (union por `variant`), `ItemId`/`QuestId`/`FlagId`
   derivados de `data/`.
 - `services/save/slotManager.ts` `GAME_STATE_KEYS` (chave de slot).
+- `ActiveAbility.damageType` não é exaustivo (ausente = física), mas quem
+  declara precisa usar `getAbilityDamageType(id)`: o compilador não força, mas
+  `Projectile.damageType` e `SummonedNpc.armor` quebram o build quando um
+  caminho novo esquece de carregar a coluna.
 
 ## Regras invioláveis (bugs já custaram caro ao mundo)
 

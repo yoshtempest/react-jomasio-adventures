@@ -124,6 +124,9 @@ export function useRewind({
         state: s.st,
         hp: s.hp,
         maxHp: s.hp,
+        // O frame carrega a armadura resolvida no spawn: sem ela a criatura
+        // voltaria do rewind sem defesa nenhuma.
+        armor: s.armor,
         isDying: false,
       })),
     );

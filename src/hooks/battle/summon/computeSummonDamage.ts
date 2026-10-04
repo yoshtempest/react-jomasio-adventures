@@ -3,6 +3,15 @@ import { getNpcStats } from "@/gameRules/npc/npcStats";
 import { getNpcVsPlayerMultiplier } from "@/gameRules/battle/npcVsPlayerDamage";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import { combatService } from "@/services/combat";
+import type { DamageKind } from "@/utils/types/battle/damageKind";
+
+/**
+ * Natureza do golpe de um summon inimigo. Fica aqui porque a mesma natureza
+ * precisa valer em dois lugares: a conta elemental (`computeSummonDamage`) e a
+ * redução de armadura (`damagePlayer` no `useExternal`) — passar uma coisa num
+ * e outra no outro faria o summon furar a coluna errada.
+ */
+export const SUMMON_DAMAGE_KIND: DamageKind = "physical";
 
 export function computeSummonDamage(
   s: SummonedNpc,
@@ -25,7 +34,10 @@ export function computeSummonDamage(
   // própria: `getNpcVsPlayerMultiplier` aplica o elemento do NPC contra o do
   // player — invocar não pode ser o jeito de burlar a tabela elemental.
   return Math.round(
-    combatService.calculateNpcDamage(stats.damage, playerClass) *
-      getNpcVsPlayerMultiplier(s.npcType, playerCharacter),
+    combatService.calculateNpcDamage(
+      stats.damage,
+      SUMMON_DAMAGE_KIND,
+      playerClass,
+    ) * getNpcVsPlayerMultiplier(s.npcType, playerCharacter),
   );
 }

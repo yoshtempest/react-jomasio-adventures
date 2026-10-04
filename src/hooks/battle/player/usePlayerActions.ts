@@ -128,6 +128,7 @@ export function usePlayerBattleActions({
       return damageSummon({
         target,
         multiplier,
+        damageKind: "physical",
         player,
         playerClass,
         progress,

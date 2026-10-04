@@ -1,9 +1,11 @@
+import type { DamageArmor } from "@/utils/types/battle/damageKind";
+
 export function getNpcStats(
   level: number,
   npcClass: NPCClass,
   difficulty: NpcDifficulty,
   multiplier: number = 1,
-) {
+): { hp: number; damage: number; armor: DamageArmor } {
   const baseHp = 90;
   const baseDamage = 5;
 
@@ -50,10 +52,16 @@ export function getNpcStats(
   };
 
   const multipliers = difficultyMultipliers[difficulty][npcClass];
+  const armor = Math.round(level * multipliers.armor * multiplier);
 
   return {
     hp: Math.round((baseHp + level * multipliers.hp) * multiplier),
     damage: Math.round((baseDamage + level * multipliers.dmg) * multiplier),
-    armor: Math.round(level * multipliers.armor * multiplier),
+    /**
+     * Mesma base nas duas colunas, como no equipamento: um NPC nasce
+     * equilibrado e quem quiser um boss só físico ou só mágico declara o
+     * excedente em `services/npc/npcStats/<npcType>.ts`.
+     */
+    armor: { physical: armor, magical: armor },
   };
 }

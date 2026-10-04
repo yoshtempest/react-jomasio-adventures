@@ -17,6 +17,7 @@ import type {
 } from "@/utils/types/player/equipment";
 import type { Condition } from "@/utils/types/maps/conditions";
 import type { Character as CharacterDef } from "@/utils/types/player/player";
+import type { DamageKind as DamageKindDef } from "@/utils/types/battle/damageKind";
 
 export {};
 
@@ -56,7 +57,14 @@ declare global {
     hp: number;
     strength: number;
     intelligence: number;
+    /**
+     * Armadura base: conta para as DUAS colunas (física e mágica). As chaves
+     * abaixo são o excedente de quem blindar só um lado — `physicalArmor`
+     * (couro/placas) e `magicalArmor` (barreira arcana).
+     */
     armor: number;
+    physicalArmor?: number;
+    magicalArmor?: number;
     shield: number;
     vampirism: number;
     reflect: number;
@@ -250,6 +258,11 @@ declare global {
     maxHp: number;
     /** Indestrutível: não pode ser destruído nem cortado (ex: esfera do Riquelme). */
     indestructible: boolean;
+    /**
+     * Natureza do dano ao acertar o player: decide qual coluna de armadura ele
+     * fura. Ausente = física. Quem cria o projétil declara uma vez.
+     */
+    damageType?: DamageKindDef;
   };
 
   type ProjectileCommon = ProjectileHp & {

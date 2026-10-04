@@ -7,13 +7,15 @@ import {
   type ReactNode,
 } from "react";
 
+import type { DamageArmor } from "@/utils/types/battle/damageKind";
+
 type BattleInfo = {
   npcType: string;
   npcLevel: number;
   npcClass: NPCClass;
   npcHp: number;
   npcDamage: number;
-  npcArmor: number;
+  npcArmor: DamageArmor;
 };
 
 type BattleInfoContextType = {

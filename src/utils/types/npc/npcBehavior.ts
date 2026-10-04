@@ -1,6 +1,7 @@
 import type { NPCBattleState } from "@/utils/types/npc/npc";
 import type { SoundId } from "@/utils/audio/soundId";
 import type { NewPlayerStatus } from "@/gameRules/battle/status/statusEffects";
+import type { DamageKind } from "@/utils/types/battle/damageKind";
 
 export type BehaviorContext = {
   npc: NPCBattleState;
@@ -13,7 +14,14 @@ export type BehaviorContext = {
   projectile: Projectile | null;
   setProjectile: (p: Projectile | null) => void;
   lastAttackRef: { current: number };
-  onMeleeHit: (multiplier?: number) => void;
+  /**
+   * Golpe corpo a corpo. O segundo argumento é a natureza do dano e decide
+   * qual coluna de armadura do player ele fura — ausente = físico. Um NPC
+   * que só ataca de longe passa a natureza pelo `onProjectileHit`/`Projectile`
+   * em vez deste.
+   */
+  onMeleeHit: (multiplier?: number, damageKind?: DamageKind) => void;
+  /** Projétil que acertou: o `Projectile.damageType` diz a natureza do dano. */
   onProjectileHit: () => void;
   setForceIdle: (v: boolean) => void;
   npcPhase: number;

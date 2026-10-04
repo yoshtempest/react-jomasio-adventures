@@ -17,6 +17,8 @@ import { ProjectileConstants } from "@/data/projectile";
 import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
 import { clampX } from "@/gameRules/movement/clampX";
 import { combatService } from "@/services/combat";
+import { getAbilityDamageType } from "@/data/characters/abilities";
+import type { DamageArmor } from "@/utils/types/battle/damageKind";
 import type { SoundId } from "@/utils/audio/soundId";
 import type { NPCBattleState, SummonedNpc } from "@/utils/types/npc/npc";
 import { useSkillGuard } from "@/hooks/battle/player/characters/useSkillGuard";
@@ -53,6 +55,8 @@ type Props = {
   summons: SummonedNpc[];
   setSummons: Dispatch<SetStateAction<SummonedNpc[]>>;
   setNpcHP: Dispatch<SetStateAction<number>>;
+  /** Colunas do NPC principal: o feixe é físico e não pode ignorá-las. */
+  npcArmor: DamageArmor;
   giveSummonRewards: (npcClass: NPCClass) => void;
   spawnDamageNumber: (
     value: number,
@@ -75,6 +79,9 @@ type Props = {
   ) => boolean;
   playSound: (sound: SoundId, loop?: boolean, volumeOverride?: number) => void;
 };
+
+/** Natureza do feixe pelo registro de habilidades (o GameData e o hook concordam). */
+const LASER_DAMAGE_KIND = getAbilityDamageType("vastolordLaser");
 
 type VastolordLaserApi = {
   beam: VastolordLaserBeam | null;
@@ -105,6 +112,7 @@ export function useVastolordLaser({
   vastolordActive,
   char,
   playerClass,
+  npcArmor,
   npc,
   summons,
   setSummons,
@@ -142,6 +150,7 @@ export function useVastolordLaser({
     [char.stats.strength, playerClass],
   );
   const baseDamageRef = useLatestRef(baseDamage);
+  const npcArmorRef = useLatestRef(npcArmor);
 
   const { usableRef, shouldCancelRef } = useSkillGuard({
     player,
@@ -214,9 +223,16 @@ export function useVastolordLaser({
         mainNpc.x >= fromX &&
         mainNpc.x <= toX
       ) {
-        setNpcHP((hp) => Math.max(0, hp - applied));
-        spawnDamageNumber(applied, mainNpc.x, mainNpc.y, "npc");
-        registerHitRef.current?.(applied);
+        // `applied` é o acumulado bruto do tick; a armadura entra agora, como
+        // em qualquer outra habilidade.
+        const dmg = combatService.applyArmor(
+          applied,
+          LASER_DAMAGE_KIND,
+          npcArmorRef.current,
+        );
+        setNpcHP((hp) => Math.max(0, hp - dmg));
+        spawnDamageNumber(dmg, mainNpc.x, mainNpc.y, "npc");
+        registerHitRef.current?.(dmg);
         const dir = mainNpc.x >= playerRef.current.x ? 1 : -1;
         mainNpc.updateNpc({
           x: clampX(mainNpc.x + dir * VASTOLORD_LASER_PUSH_PX),
@@ -237,9 +253,14 @@ export function useVastolordLaser({
           return s;
         }
         changed = true;
-        const newHp = Math.max(0, s.hp - applied);
-        spawnDamageNumber(applied, s.x, s.y, "summon");
-        registerHitRef.current?.(applied);
+        const dmg = combatService.applyArmor(
+          applied,
+          LASER_DAMAGE_KIND,
+          s.armor,
+        );
+        const newHp = Math.max(0, s.hp - dmg);
+        spawnDamageNumber(dmg, s.x, s.y, "summon");
+        registerHitRef.current?.(dmg);
         if (newHp <= 0) {
           killed = true;
           return null;
@@ -265,6 +286,7 @@ export function useVastolordLaser({
       beamRef,
       finishRef,
       giveSummonRewards,
+      npcArmorRef,
       npcRef,
       playerRef,
       registerHitRef,

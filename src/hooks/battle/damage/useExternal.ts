@@ -1,13 +1,15 @@
 import { useCallback } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { isParryPress } from "@/hooks/battle/npc/isParryPress";
+import { combatService } from "@/services/combat";
+import type { DamageArmor, DamageKind } from "@/utils/types/battle/damageKind";
 import type { SpawnDamageFn } from "@/utils/types/battle/spawnDamageFn";
 
 type Props = {
   playerX: number;
   playerY: number;
   player: Player;
-  totalArmor: number;
+  totalArmor: DamageArmor;
   blockGauge: number;
   playerShield: number;
   playerHP: number;
@@ -90,8 +92,13 @@ export function useExternalDamage({
     ],
   );
 
+  /**
+   * Dano vindo de fora do NPC principal (summons inimigos). Reduz pela coluna
+   * de armadura que a natureza do golpe dictate — pela MESMA função que o melee
+   * do NPC usa, que era a diferença entre os dois caminhos.
+   */
   const damagePlayer = useCallback(
-    (damage: number) => {
+    (damage: number, damageKind: DamageKind = "physical") => {
       if (isParryPress(lastBlockPressRef, lastAttackPressRef)) {
         onParry?.();
         onBlockRef?.current?.();
@@ -99,6 +106,9 @@ export function useExternalDamage({
         return;
       }
 
+      // O block consome o golpe **bruto**, como já fazia antes da divisão da
+      // armadura: o medidor não sabe de coluna, então a redução acontece
+      // depois que o block decide o que sobra (igual ao melee do NPC).
       if (player.state === "blocked") {
         onBlockRef?.current?.();
         if (blockGauge > 0) {
@@ -123,10 +133,7 @@ export function useExternalDamage({
         return;
       }
 
-      const reduced =
-        totalArmor > 0
-          ? Math.round((damage * 100) / (100 + totalArmor))
-          : damage;
+      const reduced = combatService.applyArmor(damage, damageKind, totalArmor);
       damagePlayerHp(reduced);
       spawnDamageRef.current?.(reduced, playerX, playerY, "summon");
     },

@@ -1,6 +1,7 @@
 import type { BattleBehavior } from "@/utils/types/player/behavior";
 import type { CharacterProgress } from "@/data/characters/defaultProgress";
 import type { ElementType } from "@/utils/types/battle/element";
+import type { DamageArmor, DamageKind } from "@/utils/types/battle/damageKind";
 import type { TimeEffect } from "@/gameRules/battle/time";
 
 export type BaseHitParams = {
@@ -11,7 +12,7 @@ export type BaseHitParams = {
   titleDamageBonus: number;
   elementDamageBonus: number;
   critRate: number;
-  npcArmor: number;
+  npcArmor: DamageArmor;
   npcElementTypes: readonly ElementType[];
   playerHP: number;
   playerMaxHp: number;
@@ -41,13 +42,19 @@ export type DamageCalcParams = {
   titleDamageBonus: number;
   elementDamageBonus: number;
   critRate: number;
-  npcArmor: number;
+  npcArmor: DamageArmor;
   npcElementTypes: readonly ElementType[];
   playerHP: number;
   playerMaxHp: number;
   totalMaxHpDamage: number;
   totalTrueDamage: number;
   damageMultiplier: number;
+  /**
+   * Natureza do golpe: decide qual coluna de armadura do NPC ele fura.
+   * O ataque básico é sempre físico; o special e as habilidades declaram o
+   * seu (ver `CHARACTER_ACTIVE_ABILITIES`).
+   */
+  damageKind: DamageKind;
 };
 
 export type ComputeHitDamageParams = Omit<
@@ -59,6 +66,8 @@ export type ComputeHitDamageParams = Omit<
 
 export type BasicHitParams = BaseHitParams & {
   damageMultiplier: number;
+  /** O ataque básico do marcelo é físico; o resto do jogo também. */
+  damageKind: DamageKind;
   npcX: number;
   npcY: number;
   spawnPiercing: () => void;
@@ -69,6 +78,7 @@ export type BasicHitParams = BaseHitParams & {
 
 export type SpecialHitParams = BaseHitParams & {
   damageMultiplier: number;
+  damageKind: DamageKind;
   npcX: number;
   npcY: number;
   stacks: number;

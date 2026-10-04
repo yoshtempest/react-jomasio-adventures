@@ -12,7 +12,15 @@ export type EquipmentRank = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0 | "EX";
 
 export type EquipmentStats = StatBlock;
 
-export type EquipmentBonus = Omit<StatBlock, "armor">;
+/**
+ * Bônus somado dos stats de todo o equipamento. A armadura fica de fora
+ * (as três colunas) porque não passa por aqui: ela é somada em
+ * `getTotalArmor`, que precisa separar física e mágica.
+ */
+export type EquipmentBonus = Omit<
+  StatBlock,
+  "armor" | "physicalArmor" | "magicalArmor"
+>;
 
 /**
  * Forma bruta usada pelos arquivos de dados em `src/data/equipment/`.

@@ -5,9 +5,47 @@ import { PET_STAR_MULTIPLIER } from "@/data/characters/petProgress";
 import { getPetBaseDamage } from "@/data/characters/petProgress";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import { combatService } from "@/services/combat";
+import { NO_ARMOR } from "@/gameRules/battle/damage/armor";
 import type { PetSkillDefinition } from "@/data/characters/petSkills";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { SpawnDamageFn } from "@/utils/types/battle/spawnDamageFn";
+import type { DamageArmor, DamageKind } from "@/utils/types/battle/damageKind";
+
+/**
+ * Dano de um golpe de pet: armadura pela natureza do golpe primeiro (mesma
+ * ordem do funil player → NPC) e só depois a tabela elemental. Sem isto o pet
+ * ignoraria a armadura mágica de um alvo elemental.
+ */
+function calcPetDamage(opts: {
+  baseDamage: number;
+  multiplier: number;
+  damageType?: DamageKind;
+  armor: DamageArmor;
+  petNpcType: string;
+  targetNpcType: string;
+}): number {
+  const {
+    baseDamage,
+    multiplier,
+    damageType,
+    armor,
+    petNpcType,
+    targetNpcType,
+  } = opts;
+
+  const elementMultiplier = combatService.getElementMultiplier(
+    getNpcElementTypes(petNpcType),
+    getNpcElementTypes(targetNpcType),
+  );
+
+  return Math.round(
+    combatService.calculateDamageToNpc(
+      baseDamage * multiplier,
+      damageType ?? "physical",
+      armor,
+    ) * elementMultiplier,
+  );
+}
 
 export type PetSkillRunDeps = {
   petLevel: number;
@@ -24,7 +62,7 @@ export type PetSkillRunDeps = {
   playerX: number;
   playerY: number;
   battle: {
-    npcArmor: number;
+    npcArmor: DamageArmor;
     npcHP: number;
     npcMaxHp: number;
     setNpcHP: React.Dispatch<React.SetStateAction<number>>;
@@ -87,32 +125,28 @@ export function runPetSkill(
   switch (effect.kind) {
     case "damage": {
       const baseDamage = getPetBaseDamage(petLevel, petStars);
-      const elementMultiplier = combatService.getElementMultiplier(
-        getNpcElementTypes(def.npcType),
-        getNpcElementTypes(npcType),
-      );
-      const dmg = Math.round(
-        combatService.calculateDamageToNpc(
-          baseDamage * effect.multiplier,
-          battle.npcArmor,
-        ) * elementMultiplier,
-      );
+      const dmg = calcPetDamage({
+        baseDamage,
+        multiplier: effect.multiplier,
+        damageType: effect.damageType,
+        armor: battle.npcArmor,
+        petNpcType: def.npcType,
+        targetNpcType: npcType,
+      });
       battle.setNpcHP((hp) => Math.max(0, hp - dmg));
       spawnDamageRef.current?.(dmg, npc.x, npc.y, "pet");
       break;
     }
     case "jumpAttack": {
       const baseDamage = getPetBaseDamage(petLevel, petStars);
-      const elementMultiplier = combatService.getElementMultiplier(
-        getNpcElementTypes(def.npcType),
-        getNpcElementTypes(npcType),
-      );
-      const dmg = Math.round(
-        combatService.calculateDamageToNpc(
-          baseDamage * effect.multiplier,
-          battle.npcArmor,
-        ) * elementMultiplier,
-      );
+      const dmg = calcPetDamage({
+        baseDamage,
+        multiplier: effect.multiplier,
+        damageType: effect.damageType,
+        armor: battle.npcArmor,
+        petNpcType: def.npcType,
+        targetNpcType: npcType,
+      });
       triggerJumpAttack(npc.y, () => {
         battle.setNpcHP((hp) => Math.max(0, hp - dmg));
         spawnDamageRef.current?.(dmg, npc.x, npc.y, "pet");
@@ -153,16 +187,21 @@ export function runPetSkill(
         e.maxHp > best.maxHp ? e : best,
       );
 
-      const targetElementMultiplier = combatService.getElementMultiplier(
-        getNpcElementTypes(def.npcType),
-        getNpcElementTypes(target.npcType),
-      );
-      const dmg = Math.round(
-        combatService.calculateDamageToNpc(
-          baseDamage * effect.multiplier,
-          battle.npcArmor,
-        ) * targetElementMultiplier,
-      );
+      // O alvo pode ser um summon: a armadura dele é a resolvida no spawn,
+      // não a do NPC principal.
+      const targetArmor =
+        target.id === "main"
+          ? battle.npcArmor
+          : (summons.find((s) => s.id === target.id)?.armor ?? NO_ARMOR);
+
+      const dmg = calcPetDamage({
+        baseDamage,
+        multiplier: effect.multiplier,
+        damageType: effect.damageType,
+        armor: targetArmor,
+        petNpcType: def.npcType,
+        targetNpcType: target.npcType,
+      });
 
       triggerTeleportBite(target.x, target.y, () => {
         if (target.id === "main") {

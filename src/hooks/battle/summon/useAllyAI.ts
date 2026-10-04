@@ -7,6 +7,7 @@ import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import { combatService } from "@/services/combat";
 
 import type { SummonedNpc } from "@/utils/types/npc/npc";
+import type { DamageArmor } from "@/utils/types/battle/damageKind";
 import {
   applyHitstop,
   getTime,
@@ -30,7 +31,7 @@ type Props = {
   isEnding: boolean;
   enemyNpc: { x: number; y: number; npcType: string };
   npcHp: number;
-  npcArmor: number;
+  npcArmor: DamageArmor;
   setNpcHP: React.Dispatch<React.SetStateAction<number>>;
   npcLevel: number;
   difficulty: NpcDifficulty;
@@ -124,6 +125,7 @@ export function useAllyAI({
         return Math.round(
           combatService.calculateDamageToNpc(
             stats.damage,
+            "physical",
             npcArmorRef.current,
           ) * elementMultiplier,
         );

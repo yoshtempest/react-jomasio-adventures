@@ -21,6 +21,7 @@ import { usePetBattle } from "@/hooks/battle/player/pets/usePet";
 import { useDamageNumbers } from "@/hooks/battle/damage/useNumbers";
 import { useExternalDamage } from "@/hooks/battle/damage/useExternal";
 import { useBlockGauge } from "@/hooks/battle/effects/useBlockGauge";
+import { getBlockArmor, scaleArmor } from "@/gameRules/battle/damage/armor";
 import {
   getHalfHealReduction,
   HALFHEAL_DURATION_MS,
@@ -183,14 +184,14 @@ export function useBattleSystem(props: Props) {
   } = stats;
 
   const { blockGauge, setBlockGauge, blockLimit, resetBlockGauge } =
-    useBlockGauge(char.level, totalArmor);
+    useBlockGauge(char.level, getBlockArmor(totalArmor));
 
   const {
     blockGauge: npcBlockGauge,
     setBlockGauge: setNpcBlockGauge,
     blockLimit: npcBlockLimit,
     resetBlockGauge: resetNpcBlockGauge,
-  } = useBlockGauge(npcLevel, npcArmor);
+  } = useBlockGauge(npcLevel, getBlockArmor(npcArmor));
 
   const behavior = (battleBehaviors[player.character] ||
     battleBehaviors.default)!;
@@ -338,7 +339,7 @@ export function useBattleSystem(props: Props) {
     playerY,
     player,
     totalArmor: vastolordActive
-      ? totalArmor * VASTOLORD_MULTIPLIER
+      ? scaleArmor(totalArmor, VASTOLORD_MULTIPLIER)
       : totalArmor,
     blockGauge,
     playerShield,

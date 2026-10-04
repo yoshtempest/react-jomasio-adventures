@@ -17,6 +17,8 @@ import type { MarceloBattleForm } from "@/utils/paths";
 import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
 import { clampX } from "@/gameRules/movement/clampX";
 import { combatService } from "@/services/combat";
+import { getAbilityDamageType } from "@/data/characters/abilities";
+import type { DamageArmor } from "@/utils/types/battle/damageKind";
 import type { SoundId } from "@/utils/audio/soundId";
 import type { NPCBattleState, SummonedNpc } from "@/utils/types/npc/npc";
 import { useSkillGuard } from "@/hooks/battle/player/characters/useSkillGuard";
@@ -37,6 +39,9 @@ import {
   type GranReyCeroEffect,
 } from "@/gameRules/battle/granReyCero";
 
+/** Natureza do corte pelo registro de habilidades (o GameData e o hook concordam). */
+const GRAN_REY_CERO_DAMAGE_KIND = getAbilityDamageType("granReyCero");
+
 type Props = {
   player: Player;
   setPlayer: Dispatch<SetStateAction<Player>>;
@@ -53,6 +58,8 @@ type Props = {
   summons: SummonedNpc[];
   setSummons: Dispatch<SetStateAction<SummonedNpc[]>>;
   setNpcHP: Dispatch<SetStateAction<number>>;
+  /** Colunas do NPC principal: o corte é físico e não pode ignorá-las. */
+  npcArmor: DamageArmor;
   giveSummonRewards: (npcClass: NPCClass) => void;
   spawnDamageNumber: (
     value: number,
@@ -104,6 +111,7 @@ export function useGranReyCero({
   setPlayer,
   char,
   playerClass,
+  npcArmor,
   npc,
   summons,
   setSummons,
@@ -151,6 +159,7 @@ export function useGranReyCero({
     [char.stats.strength, playerClass],
   );
   const baseDamageRef = useLatestRef(baseDamage);
+  const npcArmorRef = useLatestRef(npcArmor);
 
   const { usableRef, shouldCancelRef } = useSkillGuard({
     player,
@@ -231,9 +240,16 @@ export function useGranReyCero({
     // NPC principal.
     const mainNpc = npcRef.current;
     if (granReyCeroHits(blade.tipX, blade.tipY, mainNpc.x, mainNpc.y)) {
-      setNpcHP((hp) => Math.max(0, hp - applied));
-      spawnDamageNumber(applied, mainNpc.x, mainNpc.y, "npc");
-      registerHitRef.current?.(applied);
+      // O corte passa pela mesma redução das outras habilidades: o dano bruto
+      // acima é só o acumulador do tick.
+      const dmg = combatService.applyArmor(
+        applied,
+        GRAN_REY_CERO_DAMAGE_KIND,
+        npcArmorRef.current,
+      );
+      setNpcHP((hp) => Math.max(0, hp - dmg));
+      spawnDamageNumber(dmg, mainNpc.x, mainNpc.y, "npc");
+      registerHitRef.current?.(dmg);
       mainNpc.updateNpc({ x: clampX(mainNpc.x + push) });
     }
 
@@ -245,9 +261,14 @@ export function useGranReyCero({
         return s;
       }
       changed = true;
-      const newHp = Math.max(0, s.hp - applied);
-      spawnDamageNumber(applied, s.x, s.y, "summon");
-      registerHitRef.current?.(applied);
+      const dmg = combatService.applyArmor(
+        applied,
+        GRAN_REY_CERO_DAMAGE_KIND,
+        s.armor,
+      );
+      const newHp = Math.max(0, s.hp - dmg);
+      spawnDamageNumber(dmg, s.x, s.y, "summon");
+      registerHitRef.current?.(dmg);
       if (newHp <= 0) {
         killed = true;
         return null;
@@ -264,6 +285,7 @@ export function useGranReyCero({
     baseDamageRef,
     effectRef,
     giveSummonRewards,
+    npcArmorRef,
     npcRef,
     registerHitRef,
     setNpcHP,

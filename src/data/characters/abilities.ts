@@ -27,6 +27,7 @@ import type {
   CharacterAbility,
   PassiveAbility,
 } from "@/utils/types/player/abilities";
+import type { DamageKind } from "@/utils/types/battle/damageKind";
 
 /**
  * Habilidades ativas por personagem — as que viram botão na tela de batalha.
@@ -92,6 +93,7 @@ export const CHARACTER_ACTIVE_ABILITIES: Partial<
       id: "genkiDama",
       name: "Genki Dama",
       description: `Segure para flutuar e reunir energia na esfera (cresce a cada segundo); solte para arremessar. Custa ${GENKI_DAMA_INITIAL_COST} de Ki na largada mais dreno contínuo. Dano máximo: ${GENKI_DAMA_MAX_DAMAGE_MULTIPLIER}x o ataque básico.`,
+      damageType: "magical",
     },
   ],
   marcelo: [
@@ -102,14 +104,16 @@ export const CHARACTER_ACTIVE_ABILITIES: Partial<
       description:
         "Feixe que cruza o mapa causando dano contínuo e empurrando o inimigo. Só existe na Forma Vastolord, e cada inimigo derrotado na forma rende +1 disparo.",
       requires: "Forma Vastolord ativa",
+      damageType: "magical",
     },
     {
       kind: "active",
       id: "iAmAtomic",
       name: "I Am Atomic",
       description:
-        "Explosão centrada no inimigo com maior vida máxima, causando dano especial em todos os inimigos num raio de 300px (2x no alvo).",
+        "Explosão centrada no inimigo com maior vida máxima, causando dano mágico em todos os inimigos num raio de 300px (2x no alvo).",
       cooldownMs: ATOMIC_COOLDOWN_MS,
+      damageType: "magical",
     },
     {
       kind: "active",
@@ -118,6 +122,13 @@ export const CHARACTER_ACTIVE_ABILITIES: Partial<
       description:
         "Teleporta para a ponta mais próxima do mapa e varre tudo, matando todos os inimigos instantaneamente (100% da vida máxima).",
       cooldownMs: DOMAIN_EXPANSION_COOLDOWN_MS,
+      // Sem uso hoje, e é proposital: a Expansão de Domínio é um *execute*
+      // (`setNpcHP(0)`), então não existe conta de dano para a armadura
+      // reduzir. A declaração existe para fixar a semântica da habilidade caso
+      // ela um dia vire dano verdadeiro proporcional — e para deixar explícito
+      // que nada aqui deve ser lido como "o Domínio passa pelo funil".
+      // Nenhum golpe do jogo usa `"true"` ainda; a mecânica está pronta.
+      damageType: "true",
     },
     {
       kind: "active",
@@ -125,6 +136,7 @@ export const CHARACTER_ACTIVE_ABILITIES: Partial<
       name: "Gran Rey Cero",
       description: `Lâmina que percorre grande distância na direção de mira. Ao encostar, para e rasteja, causando dano contínuo e empurrando todo inimigo num raio de ${GRAN_REY_CERO_AOE_RADIUS}px da ponta.`,
       cooldownMs: GRAN_REY_CERO_COOLDOWN_MS,
+      damageType: "physical",
     },
   ],
 };
@@ -158,4 +170,23 @@ export function getCharacterAbilities(
     .map(toPassiveAbility);
 
   return [...passives, ...(CHARACTER_ACTIVE_ABILITIES[characterId] ?? [])];
+}
+
+/**
+ * Índice `abilityId -> natureza do dano`, achatado a partir do registro acima.
+ *
+ * Existe para os hooks de habilidade lerem a mesma verdade que o menu de Status
+ * exibe: um golpe que "deveria" ser mágico e sai físico é bug de dado, não de
+ * hook. Ausente no índice = físico, o caso do ataque básico.
+ */
+const ABILITY_DAMAGE_TYPES: Record<string, DamageKind> = Object.fromEntries(
+  Object.values(CHARACTER_ACTIVE_ABILITIES).flatMap((abilities) =>
+    (abilities ?? [])
+      .filter((ability) => ability.damageType !== undefined)
+      .map((ability) => [ability.id, ability.damageType as DamageKind]),
+  ),
+);
+
+export function getAbilityDamageType(abilityId: string): DamageKind {
+  return ABILITY_DAMAGE_TYPES[abilityId] ?? "physical";
 }

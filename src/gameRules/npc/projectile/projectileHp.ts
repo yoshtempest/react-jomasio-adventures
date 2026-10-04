@@ -1,12 +1,19 @@
 import { getNpcVsPlayerMultiplier } from "@/gameRules/battle/npcVsPlayerDamage";
 import { combatService } from "@/services/combat";
+import {
+  DAMAGE_KINDS,
+  type DamageArmor,
+  type DamageKind,
+} from "@/utils/types/battle/damageKind";
 
 type ProjectProjectileDamageParams = {
   npcDamage: number;
   playerClass: PlayerClass;
-  totalArmor: number;
+  totalArmor: DamageArmor;
   npcType: string;
   playerCharacter: CharacterId;
+  /** Mesma natureza do projétil que vai acertar; define a coluna de armadura. */
+  damageType?: DamageKind;
 };
 
 /**
@@ -24,18 +31,36 @@ export function projectProjectileDamage({
   totalArmor,
   npcType,
   playerCharacter,
+  damageType,
 }: ProjectProjectileDamageParams): number {
   const dmg = combatService.calculateNpcDamage(
     npcDamage,
+    damageType ?? "physical",
     playerClass,
     totalArmor,
   );
-  return Math.round(
-    dmg * getNpcVsPlayerMultiplier(npcType, playerCharacter),
-  );
+  return Math.round(dmg * getNpcVsPlayerMultiplier(npcType, playerCharacter));
 }
 
 /** Vida de um projétil destrutível: 1/3 do dano que causaria no jogador. */
 export function getProjectileDestructionHp(projectedDamage: number): number {
   return Math.max(1, Math.round(projectedDamage / 3));
+}
+
+/**
+ * As três vidas de projétil de uma mesma criatura. Um projétil mágico que
+ * enfrenta uma armadura mágica alta custa menos golpes para derrubar do que
+ * um físico, então a escala precisa ser por natureza — não há "a" vida do
+ * projétil de um NPC que atira dos dois jeitos.
+ */
+export function getProjectileDestructionHpByKind(
+  params: ProjectProjectileDamageParams,
+): Record<DamageKind, number> {
+  const hp = {} as Record<DamageKind, number>;
+  for (const kind of DAMAGE_KINDS) {
+    hp[kind] = getProjectileDestructionHp(
+      projectProjectileDamage({ ...params, damageType: kind }),
+    );
+  }
+  return hp;
 }

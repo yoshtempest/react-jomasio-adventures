@@ -5,6 +5,12 @@ import type { ComputeHitDamageParams } from "./types";
 /**
  * Funil único do dano do player contra NPC: básico, especial e tudo que
  * reaproveita `applyBasicHit`/`applySpecialHit` sai daqui.
+ *
+ * Ordem das reduções (importante: `damageKind` decide a armadura, e a armadura
+ * vem antes de qualquer multiplicador):
+ * HP máximo → fúria do samuel → crítico → **armadura da coluna do golpe** →
+ * elemental → multiplicadores da habilidade → **+ dano verdadeiro do equipamento**
+ * (por último e sem escala, porque é o que existe para furar armadura).
  */
 export function computeHitDamage({
   player,
@@ -18,6 +24,7 @@ export function computeHitDamage({
   totalTrueDamage,
   damageMultiplier,
   elementDamageBonus,
+  damageKind,
   rawDmg,
 }: ComputeHitDamageParams): {
   damage: number;
@@ -40,17 +47,14 @@ export function computeHitDamage({
     berserkDmg,
     critRate,
   );
-  const armorReduced = combatService.calculateDamageToNpc(critDmg, npcArmor);
+  const armorReduced = combatService.applyArmor(critDmg, damageKind, npcArmor);
   const elementMultiplier = combatService.getElementMultiplier(
     getCharacterElementTypes(player.character),
     npcElementTypes,
   );
   const trueDmg =
     Math.round(
-      armorReduced *
-        damageMultiplier *
-        elementMultiplier *
-        elementDamageBonus,
+      armorReduced * damageMultiplier * elementMultiplier * elementDamageBonus,
     ) + totalTrueDamage;
 
   return { damage: trueDmg, isCrit: dmgType === "crit", type: dmgType };

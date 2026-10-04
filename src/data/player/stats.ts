@@ -1,4 +1,5 @@
 import { formatTime } from "@/utils/formatDuration";
+import type { DamageArmor } from "@/utils/types/battle/damageKind";
 
 export type Stat = {
   label: string;
@@ -68,7 +69,7 @@ type CharacterStatusProps = {
   intelligence: number;
   resistance: number;
   tenacity: number;
-  armor: number;
+  armor: DamageArmor;
   shield: number;
   vampirism: number;
   reflect: number;
@@ -139,7 +140,8 @@ export function getCharacterStatus(data: CharacterStatusProps) {
     stat("Inteligência", data.intelligence),
     stat("Resistência", data.resistance),
     stat("Tenacidade", data.tenacity),
-    stat("Armadura", data.armor),
+    stat("Armadura física", data.armor.physical),
+    stat("Armadura mágica", data.armor.magical),
     stat("Escudo", data.shield),
     stat("Vampirismo", data.vampirism),
     stat("Reflexão", data.reflect),

@@ -6,6 +6,7 @@ import {
 } from "@/gameRules/npc/projectile/cutProjectile";
 import { tryMeleeIntercept } from "@/hooks/battle/npc/tryMeleeIntercept";
 import type { StrikeOpts } from "@/hooks/battle/npc/apply/applyPlayerStrike";
+import type { DamageKind } from "@/utils/types/battle/damageKind";
 
 export type LinearOpts = {
   playerX: number;
@@ -19,7 +20,7 @@ export type LinearOpts = {
   claimToken?: StrikeOpts["claimToken"];
   resolveHit?: StrikeOpts["resolveHit"];
   spawnDamage?: StrikeOpts["spawnDamage"];
-  onHit: () => void;
+  onHit: (damageKind?: DamageKind) => void;
   onPullPlayer?: (x: number) => void;
   onMiss?: (x: number) => void;
   onStick?: () => void;
@@ -113,7 +114,7 @@ export function handleLinearProjectile(
     if (p.variant === "common" && p.landsOnGround) {
       opts.onStick?.();
     } else {
-      opts.onHit();
+      opts.onHit(p.damageType);
     }
     return null;
   }

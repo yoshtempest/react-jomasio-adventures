@@ -45,12 +45,8 @@ export function useSummons({
       const level = options?.level ?? npcLevel;
       const statMultiplier = options?.statMultiplier ?? 1;
 
-      const maxHp = getNpcStats(
-        level,
-        data.class,
-        difficulty,
-        statMultiplier,
-      ).hp;
+      const stats = getNpcStats(level, data.class, difficulty, statMultiplier);
+      const maxHp = stats.hp;
 
       const spawnIndex = nextSpawnIndex.current;
       nextSpawnIndex.current += 1;
@@ -77,6 +73,7 @@ export function useSummons({
           isDying: false,
           level,
           statMultiplier,
+          armor: stats.armor,
         },
       ]);
     },

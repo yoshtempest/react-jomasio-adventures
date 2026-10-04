@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import type { DamageKind } from "@/utils/types/battle/damageKind";
 
 import { ProjectileHpConstants } from "@/data/projectile";
 
@@ -7,8 +8,14 @@ import type { ProjectileHitDamageFn } from "@/utils/types/battle/projectileHit";
 import type { TimeEffect } from "@/gameRules/battle/time";
 
 export function useBattleRefs() {
-  const npcRangedAttackRef = useRef<() => void>(() => {});
-  const npcMeleeAttackRef = useRef<() => void>(() => {});
+  // A natureza do golpe viaja junto: melee e projétil declaram no registry de
+  // attacks e o funil precisa dela para escolher a coluna de armadura.
+  const npcRangedAttackRef = useRef<(damageKind?: DamageKind) => void>(
+    () => {},
+  );
+  const npcMeleeAttackRef = useRef<
+    (multiplier?: number, damageKind?: DamageKind) => void
+  >(() => {});
   const npcBurstAttackRef = useRef<(pushDir: number) => void>(() => {});
   const npcThrowAttackRef = useRef<() => void>(() => {});
   const playerYRef = useRef(0);

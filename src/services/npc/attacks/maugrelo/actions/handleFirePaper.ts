@@ -42,6 +42,8 @@ export function handleFirePaper(
       state: "idle",
       canCrouchDodge: false,
       landsOnGround: true,
+      // Papel em chamas: energia, então fura a armadura mágica.
+      damageType: "magical",
     }),
   );
 

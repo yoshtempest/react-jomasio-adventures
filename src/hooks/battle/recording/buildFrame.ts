@@ -83,6 +83,7 @@ export function buildFrame(snaps: FrameSnapshots, t: number): ReplayFrame {
       st: s.state,
       dir: s.direction,
       hp: Math.round(s.hp),
+      armor: { physical: s.armor.physical, magical: s.armor.magical },
     })),
 
     petx: pet ? Math.round(pet.x) : null,

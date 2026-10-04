@@ -25,6 +25,12 @@ import { buildCharacterStats } from "@/hooks/battle/buildCharacterStats";
 import { CLASS_DATA } from "@/data/npc";
 import { getCharacterStatus } from "@/data/player/stats";
 import { combatService } from "@/services/combat";
+import {
+  addArmor,
+  getBlockArmor,
+  NO_ARMOR,
+  scaleArmor,
+} from "@/gameRules/battle/damage/armor";
 
 export function Settings() {
   const battleInfoCtx = useBattleInfo();
@@ -70,9 +76,12 @@ export function Settings() {
 
     const { hp, strength, intelligence, resistance, tenacity, luck } = char;
     const luckBonus = combatService.getLuckBonus(luck);
-    const armor =
-      getTotalArmor(player.character, baseChar.stats.resistance) +
-      titleBonus.armor;
+    // A armadura do título entra nas DUAS colunas: `armor` legado é a base
+    // física e mágica ao mesmo tempo.
+    const armor = addArmor(
+      getTotalArmor(player.character, baseChar.stats.resistance),
+      scaleArmor(NO_ARMOR, titleBonus.armor),
+    );
     const shield = getTotalShield(player.character) + titleBonus.shield;
     const vampirism = getTotalVampirism(player.character);
     const reflect = getTotalReflect(player.character);
@@ -115,7 +124,11 @@ export function Settings() {
     );
 
     const enemyTotal =
-      (battleInfo.npcHp + battleInfo.npcDamage + battleInfo.npcArmor) *
+      // Uma coluna só: o comparativo de poder é um número, e a armadura entra
+      // pela mais alta das duas (a mesma que o block usa).
+      (battleInfo.npcHp +
+        battleInfo.npcDamage +
+        getBlockArmor(battleInfo.npcArmor)) *
       npcElementMultiplier;
     const playerTotal =
       (playerStats.maxHp +
@@ -123,7 +136,7 @@ export function Settings() {
         playerStats.intelligence +
         playerStats.resistance +
         playerStats.tenacity +
-        playerStats.armor +
+        getBlockArmor(playerStats.armor) +
         playerStats.shield +
         playerStats.vampirism +
         playerStats.reflect +
@@ -215,7 +228,14 @@ export function Settings() {
                 stats={[
                   { label: "HP", value: Math.round(battleInfo.npcHp) },
                   { label: "Dano", value: Math.round(battleInfo.npcDamage) },
-                  { label: "Armadura", value: Math.round(battleInfo.npcArmor) },
+                  {
+                    label: "Armadura física",
+                    value: Math.round(battleInfo.npcArmor.physical),
+                  },
+                  {
+                    label: "Armadura mágica",
+                    value: Math.round(battleInfo.npcArmor.magical),
+                  },
                 ]}
               />
             </div>

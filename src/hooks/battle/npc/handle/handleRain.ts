@@ -2,13 +2,14 @@ import { ProjectileConstants, ProjectileHpConstants } from "@/data/projectile";
 import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
 import { applyPlayerStrike } from "@/hooks/battle/npc/apply/applyPlayerStrike";
 import type { StrikeOpts } from "@/hooks/battle/npc/apply/applyPlayerStrike";
+import type { DamageKind } from "@/utils/types/battle/damageKind";
 
 export function handleRain(
   p: ProjectileRain,
   playerX: number,
   playerY: number,
   playerState: PlayerState,
-  onHit: () => void,
+  onHit: (damageKind?: DamageKind) => void,
   onDestroyed?: () => void,
   strike?: Omit<StrikeOpts, "playerState" | "point">,
   /** Multiplicador de tempo da entidade (regra `gameRules/battle/tempo`). */
@@ -66,7 +67,7 @@ export function handleRain(
     ) {
       const dx = Math.abs(playerX - s.x);
       if (dx < 30) {
-        onHit();
+        onHit(p.damageType);
         return { x: s.x, y: newY, hit: true };
       }
     }

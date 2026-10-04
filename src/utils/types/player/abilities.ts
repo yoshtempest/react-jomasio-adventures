@@ -1,3 +1,5 @@
+import type { DamageKind } from "@/utils/types/battle/damageKind";
+
 /**
  * Habilidades dos personagens, na visão do menu de Status.
  *
@@ -26,6 +28,13 @@ export type ActiveAbility = {
   unlockedAtLevel?: number;
   /** O botão só existe enquanto esta condição valer (ex.: Forma Vastolord). */
   requires?: string;
+  /**
+   * Natureza do dano: qual coluna de armadura do alvo ela fura. Ausente = o
+   * golpe é físico, que é o caso do ataque básico e da maioria das
+   * habilidades. Declarar `magical` faz o dano cair na armadura mágica;
+   * `true` ignora as duas.
+   */
+  damageType?: DamageKind;
 };
 
 export type PassiveAbility = {

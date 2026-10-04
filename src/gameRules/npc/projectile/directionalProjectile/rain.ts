@@ -12,6 +12,7 @@ export function createRainProjectile({
   hp = ProjectileHpConstants.DEFAULT_HP,
   maxHp = hp,
   indestructible = false,
+  damageType,
 }: RainParams): ProjectileRain {
   return {
     variant: "rain",
@@ -28,5 +29,6 @@ export function createRainProjectile({
     hp,
     maxHp,
     indestructible,
+    damageType,
   };
 }

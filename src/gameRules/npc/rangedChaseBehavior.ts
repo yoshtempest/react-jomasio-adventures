@@ -3,6 +3,7 @@ import { tryMeleeAttack } from "@/gameRules/npc/attack";
 import { tryThrowProjectile } from "@/gameRules/npc/projectile";
 
 import type { BehaviorContext } from "@/utils/types/npc/npcBehavior";
+import type { DamageKind } from "@/utils/types/battle/damageKind";
 
 type RangedChaseBehaviorOptions = {
   projectileCooldown: number;
@@ -13,7 +14,16 @@ type RangedChaseBehaviorOptions = {
   melee?: {
     range: number;
     cooldown: number;
+    /** Natureza do soco: NPCs que atiram magia quase nunca dão melee físico. */
+    damageKind?: DamageKind;
   };
+
+  /**
+   * Natureza do projétil deste NPC. Fica no comportamento (e não dentro do
+   * `createProjectile`) porque é a mesma informação do melee, e o NPC declara
+   * uma vez se é uma criatura de magia ou de corpo a corpo.
+   */
+  projectileDamageKind?: DamageKind;
 };
 
 export function rangedChaseBehavior(
@@ -31,7 +41,13 @@ export function rangedChaseBehavior(
     onMeleeHit,
   } = ctx;
 
-  const { projectileCooldown, idleDuration, createProjectile, melee } = options;
+  const {
+    projectileCooldown,
+    idleDuration,
+    createProjectile,
+    melee,
+    projectileDamageKind,
+  } = options;
 
   // melee opcional
   if (melee) {
@@ -44,6 +60,7 @@ export function rangedChaseBehavior(
       cooldown: melee.cooldown,
       lastAttackRef,
       onHit: onMeleeHit,
+      damageKind: melee.damageKind,
     });
 
     if (hit) {
@@ -61,7 +78,10 @@ export function rangedChaseBehavior(
     cooldown: projectileCooldown,
     lastAttackRef,
     setProjectile,
-    projectileData: createProjectile(ctx),
+    projectileData: {
+      ...createProjectile(ctx),
+      damageType: projectileDamageKind ?? "physical",
+    },
     setForceIdle,
     idleDuration,
   });

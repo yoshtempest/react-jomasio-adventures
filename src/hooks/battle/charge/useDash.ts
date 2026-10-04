@@ -12,6 +12,7 @@ import {
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import { getCharacterElementTypes } from "@/data/types/characterElementTypes";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
+import type { DamageArmor } from "@/utils/types/battle/damageKind";
 import { combatService } from "@/services/combat";
 import { applyHitstop, type TimeEffect } from "@/gameRules/battle/time";
 
@@ -21,7 +22,7 @@ type Props = {
   npcX: number;
   npcY: number;
   npcType: string;
-  npcArmor: number;
+  npcArmor: DamageArmor;
   npcClass: NPCClass;
   char: { level: number; stats: { strength: number } };
   playerClass: PlayerClass;
@@ -143,7 +144,7 @@ export function useChargeDash(props: Props) {
         );
         const vastolordMult = vastolordMultiplierRef?.current?.() ?? 1;
         const dmg = Math.round(
-          combatService.calculateDamageToNpc(critDmg, npcArmor) *
+          combatService.calculateDamageToNpc(critDmg, "physical", npcArmor) *
             elementMultiplier *
             elementDamageBonus *
             vastolordMult,

@@ -40,6 +40,9 @@ export function useDerivedStats() {
     const totalIntelligence =
       stats.intelligence + bonus.intelligence + titleBonus.intelligence;
 
+    // Duas colunas: o Status mostra ambas, e cada golpe do inimigo fura uma.
+    const armor = getTotalArmor(character, stats.resistance);
+
     const luck = (stats.luck ?? 1) + (bonus.luck ?? 0);
     const luckBonus = combatService.getLuckBonus(luck);
 
@@ -50,7 +53,9 @@ export function useDerivedStats() {
       hp: 90 + totalHp * 10,
       normalDmg: 6 + totalStrength,
       specialDmg: 15 + totalIntelligence * 2,
-      armor: getTotalArmor(character, stats.resistance),
+      armor,
+      physicalArmor: armor.physical,
+      magicalArmor: armor.magical,
       tenacity: stats.tenacity + bonus.tenacity,
       luck,
       luckBonus,
@@ -88,7 +93,8 @@ export function getStatIncreases(
     case 2:
       return { specialDmg: 2 };
     case 3:
-      return { armor: 2, tenacity: 1 };
+      // Resistência alimenta as duas colunas: 1 ponto = +2 em cada.
+      return { physicalArmor: 2, magicalArmor: 2, tenacity: 1 };
     case 4: {
       const diff =
         combatService.getLuckBonus(derived.luck + 1) - derived.luckBonus;

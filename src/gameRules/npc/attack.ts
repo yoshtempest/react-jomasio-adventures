@@ -1,4 +1,5 @@
 import { canAttack, registerAttack, isNear } from "@/gameRules/npc/behavior";
+import type { DamageKind } from "@/utils/types/battle/damageKind";
 
 type MeleeAttackParams = {
   npcX: number;
@@ -8,7 +9,10 @@ type MeleeAttackParams = {
   range: number;
   cooldown: number;
   lastAttackRef: React.RefObject<number>;
-  onHit: () => void;
+  onHit: (multiplier?: number, damageKind?: DamageKind) => void;
+  /** Natureza do golpe; o NPC mágico declara aqui em vez de todo melee. */
+  damageKind?: DamageKind;
+  multiplier?: number;
 };
 
 export function tryMeleeAttack({
@@ -20,6 +24,8 @@ export function tryMeleeAttack({
   cooldown,
   lastAttackRef,
   onHit,
+  damageKind,
+  multiplier,
 }: MeleeAttackParams) {
   const near = isNear(npcX, npcY, playerX, playerY, range);
 
@@ -29,7 +35,7 @@ export function tryMeleeAttack({
     return false;
   }
 
-  onHit();
+  onHit(multiplier, damageKind);
   registerAttack(lastAttackRef);
 
   return true;

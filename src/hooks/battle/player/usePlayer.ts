@@ -33,6 +33,7 @@ import type {
   ProjectileHitResolveOptions,
 } from "@/utils/types/battle/projectileHit";
 import type { SpecialHitOptions } from "@/utils/types/battle/specialHitOptions";
+import type { DamageArmor, DamageKind } from "@/utils/types/battle/damageKind";
 import { type TimeEffect } from "@/gameRules/battle/time";
 
 type Props = {
@@ -69,7 +70,7 @@ type Props = {
   titleDamageBonus: number;
   elementDamageBonus: number;
   critRate: number;
-  npcArmor: number;
+  npcArmor: DamageArmor;
   spawnDamageRef: React.RefObject<
     (value: number, x: number, y: number, type: DamageType) => void
   >;
@@ -154,6 +155,7 @@ export function usePlayerBattle({
       damageMultiplier = 1,
       bypassCanPlayerHit = false,
       bypassCooldown = false,
+      damageKind: DamageKind = "physical",
     ) => {
       if (isEnding.current) return;
       if (!playerCooldown.current && !bypassCooldown) return;
@@ -216,6 +218,7 @@ export function usePlayerBattle({
             totalMaxHpDamage,
             totalTrueDamage,
             damageMultiplier: mult,
+            damageKind,
           }),
         npcElements: npcElementTypes,
         cooldownMs: PLAYER_BASIC_COOLDOWN,
@@ -262,6 +265,7 @@ export function usePlayerBattle({
           onBlackFlashRef,
           onCriticalPushRef,
           damageMultiplier: mult,
+          damageKind,
           npcX,
           npcY,
           spawnPiercing,
@@ -392,6 +396,7 @@ export function usePlayerBattle({
             totalMaxHpDamage,
             totalTrueDamage,
             damageMultiplier: totalMultiplier,
+            damageKind: options?.damageKind ?? "physical",
             stacks,
           }),
         npcElements: npcElementTypes,
@@ -432,6 +437,7 @@ export function usePlayerBattle({
         totalVampirism,
         totalMaxHpDamage,
         totalTrueDamage,
+        damageKind: options?.damageKind ?? "physical",
         setNpcHP,
         setPlayerHP,
         setPlayer,
@@ -545,6 +551,7 @@ export function usePlayerBattle({
           totalMaxHpDamage,
           totalTrueDamage,
           damageMultiplier: vastolordMultiplierRef?.current?.() ?? 1,
+          damageKind: options?.damageKind ?? "physical",
           stacks,
         });
         return { damage, type: "projectile" };
@@ -572,6 +579,7 @@ export function usePlayerBattle({
         totalMaxHpDamage,
         totalTrueDamage,
         damageMultiplier: mult,
+        damageKind: "physical",
       });
       return { damage, type: "projectile" };
     },

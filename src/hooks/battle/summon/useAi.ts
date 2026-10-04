@@ -1,12 +1,13 @@
 import { useEffect, useRef } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
+import type { DamageKind } from "@/utils/types/battle/damageKind";
 import {
   HONORED_ONE_FLEE_DISTANCE,
   HONORED_ONE_FLEE_STEP,
 } from "@/gameRules/battle/cursedEnergy";
 import { BATTLE_LIMITS } from "@/gameRules/movement/constants";
-import { computeSummonDamage } from "./computeSummonDamage";
+import { computeSummonDamage, SUMMON_DAMAGE_KIND } from "./computeSummonDamage";
 import {
   applyHitstop,
   getTime,
@@ -28,7 +29,7 @@ type Props = {
   playerCharacter: CharacterId;
   npcLevel: number;
   difficulty: NpcDifficulty;
-  damagePlayer: (damage: number) => void;
+  damagePlayer: (damage: number, damageKind?: DamageKind) => void;
   spawnDamageRef: React.RefObject<
     (value: number, x: number, y: number, type: DamageType) => void
   >;
@@ -158,7 +159,7 @@ export function useSummonAI({
               );
 
               if (damage !== null) {
-                damagePlayerRef.current(damage);
+                damagePlayerRef.current(damage, SUMMON_DAMAGE_KIND);
                 spawnDamageRef.current?.(
                   damage,
                   playerXRef.current,

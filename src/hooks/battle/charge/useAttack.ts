@@ -3,6 +3,7 @@ import { useChargeParticles } from "@/hooks/battle/charge/useParticles";
 import { useChargeDash } from "@/hooks/battle/charge/useDash";
 import { CHARGE_TIME } from "@/data/battle/charge";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
+import type { DamageArmor } from "@/utils/types/battle/damageKind";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { logPlay, logStop } from "@/utils/replay/audioEventLog";
 import {
@@ -16,7 +17,7 @@ type Props = {
   npcX: number;
   npcY: number;
   npcType: string;
-  npcArmor: number;
+  npcArmor: DamageArmor;
   npcClass: NPCClass;
   char: { level: number; stats: { strength: number } };
   playerClass: PlayerClass;

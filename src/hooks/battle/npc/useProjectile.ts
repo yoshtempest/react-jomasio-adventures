@@ -21,6 +21,7 @@ import type {
   ProjectileStrike,
 } from "@/utils/types/battle/projectileHit";
 import { getTime, type TimeEffect } from "@/gameRules/battle/time";
+import type { DamageKind } from "@/utils/types/battle/damageKind";
 
 export function useProjectile(
   projectiles: Projectile[],
@@ -31,7 +32,7 @@ export function useProjectile(
   _playerDirection: Direction,
   _npcX: number,
   _npcY: number,
-  onHit: () => void,
+  onHit: (damageKind?: DamageKind) => void,
   timeRef: React.RefObject<TimeEffect[]>,
   onPullPlayer?: (x: number) => void,
   onMiss?: (x: number) => void,

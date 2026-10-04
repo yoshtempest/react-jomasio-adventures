@@ -48,11 +48,10 @@ import {
   VASTOLORD_DAMAGE_EXTEND_RATIO,
   VASTOLORD_KILL_EXTEND_MS,
 } from "@/hooks/battle/player/characters/marshadow/useVastolordForm";
+import { getAbilityDamageType } from "@/data/characters/abilities";
+import type { DamageKind } from "@/utils/types/battle/damageKind";
 import { combatService } from "@/services/combat";
-import {
-  projectProjectileDamage,
-  getProjectileDestructionHp,
-} from "@/gameRules/npc/projectile/projectileHp";
+import { getProjectileDestructionHpByKind } from "@/gameRules/npc/projectile/projectileHp";
 import { ProjectileHpConstants } from "@/data/projectile";
 import {
   NPC_BLOCK_HOLD_MS,
@@ -287,9 +286,14 @@ export function useBattleCombat({
   // Esfera do Riquelme em voo — consumida pelo useProjectile para colisões.
   const playerProjectileRef = useRef<PlayerSpecialProjectile | null>(null);
 
-  // Vida de projéteis NPC destrutíveis (1/3 do dano que causariam) — usa ref
-  // porque o battle (fonte de totalArmor) só existe depois do useNpcAI.
-  const projectileHpRef = useRef<number>(ProjectileHpConstants.DEFAULT_HP);
+  // Vida de projéteis NPC destrutíveis (1/3 do dano que causariam), uma por
+  // natureza de dano — usa ref porque o battle (fonte de totalArmor) só existe
+  // depois do useNpcAI.
+  const projectileHpRef = useRef<Record<DamageKind, number>>({
+    physical: ProjectileHpConstants.DEFAULT_HP,
+    magical: ProjectileHpConstants.DEFAULT_HP,
+    true: ProjectileHpConstants.DEFAULT_HP,
+  });
 
   const npc = useNpcAI({
     playerX: player.x,
@@ -300,8 +304,10 @@ export function useBattleCombat({
     npcClass: npcData.class,
     npcType,
     npcPhaseRef,
-    onProjectileHit: () => refs.npcRangedAttackRef.current(),
-    onMeleeHit: () => refs.npcMeleeAttackRef.current(),
+    onProjectileHit: (damageKind) =>
+      refs.npcRangedAttackRef.current(damageKind),
+    onMeleeHit: (multiplier, damageKind) =>
+      refs.npcMeleeAttackRef.current(multiplier, damageKind),
     isPaused:
       isPausedRef.current || isPhaseTransitioning || lootActiveRef.current,
     onSummon: onSummonWrapperRef.current,
@@ -546,26 +552,14 @@ export function useBattleCombat({
   });
 
   // Vida dos projéteis destrutíveis = 1/3 do dano que causariam no jogador.
-  const projectedProjectileDamage = useMemo(
-    () =>
-      projectProjectileDamage({
-        npcDamage: npcStats.damage,
-        playerClass,
-        totalArmor: battle.totalArmor,
-        npcType,
-        playerCharacter: player.character,
-      }),
-    [
-      npcStats.damage,
-      playerClass,
-      battle.totalArmor,
-      npcType,
-      player.character,
-    ],
-  );
-  projectileHpRef.current = getProjectileDestructionHp(
-    projectedProjectileDamage,
-  );
+  // Uma vida por natureza: o projétil lê a própria no `setProjectile`.
+  projectileHpRef.current = getProjectileDestructionHpByKind({
+    npcDamage: npcStats.damage,
+    playerClass,
+    totalArmor: battle.totalArmor,
+    npcType,
+    playerCharacter: player.character,
+  });
 
   const {
     handleCursedEnergyConversion,
@@ -1079,8 +1073,10 @@ export function useBattleCombat({
     (x: number, y: number, radius: number, multiplier: number) => {
       if (battle.isEnding.current) return;
 
+      const genkiDamaDamageKind = getAbilityDamageType("genkiDama");
+
       if (Math.hypot(npc.x - x, npc.y - y) <= radius) {
-        battle.playerHit(multiplier, true, true);
+        battle.playerHit(multiplier, true, true, genkiDamaDamageKind);
       }
 
       for (const summon of summons) {
@@ -1088,6 +1084,7 @@ export function useBattleCombat({
         damageSummon({
           target: { id: summon.id, x: summon.x, y: summon.y },
           multiplier,
+          damageKind: genkiDamaDamageKind,
           player,
           playerClass,
           progress,
@@ -1160,6 +1157,7 @@ export function useBattleCombat({
     summons,
     setSummons,
     setNpcHP: battle.setNpcHP,
+    npcArmor: battle.npcArmor,
     giveSummonRewards,
     spawnDamageNumber: battle.spawnDamageNumber,
     registerHitRef: refs.registerHitRef,
@@ -1202,7 +1200,12 @@ export function useBattleCombat({
           targetId === "main"
             ? ATOMIC_TARGET_MULTIPLIER
             : ATOMIC_AREA_MULTIPLIER;
-        battle.playerHit(factor * atomicSpecialRatio, true, true);
+        battle.playerHit(
+          factor * atomicSpecialRatio,
+          true,
+          true,
+          getAbilityDamageType("iAmAtomic"),
+        );
       }
 
       for (const summon of summons) {
@@ -1214,6 +1217,7 @@ export function useBattleCombat({
         damageSummon({
           target: { id: summon.id, x: summon.x, y: summon.y },
           multiplier: factor * atomicSpecialRatio,
+          damageKind: getAbilityDamageType("iAmAtomic"),
           player,
           playerClass,
           progress,
@@ -1342,6 +1346,7 @@ export function useBattleCombat({
     summons,
     setSummons,
     setNpcHP: battle.setNpcHP,
+    npcArmor: battle.npcArmor,
     giveSummonRewards,
     spawnDamageNumber: battle.spawnDamageNumber,
     registerHitRef: refs.registerHitRef,

@@ -9,10 +9,12 @@ import {
   getTotalArmor,
 } from "@/gameRules/battle/equipment";
 import { getTenacityReduction } from "@/gameRules/battle/tenacity";
+import { addArmor, scaleArmor } from "@/gameRules/battle/damage/armor";
 import { getNpcStats } from "@/gameRules/npc/npcStats";
 import { getMaxSpecial } from "@/gameRules/battle/special";
 import { getRankMultiplier } from "@/gameRules/rank";
 import { combatService } from "@/services/combat";
+import type { DamageArmor } from "@/utils/types/battle/damageKind";
 import { buildCharacterStats } from "./buildCharacterStats";
 
 type Props = {
@@ -71,7 +73,14 @@ export function useBattleStats({
     return getBonus();
   }, [getBonus]);
 
-  const totalArmor = equipment.armor + titleBonus.armor;
+  const totalArmor = useMemo(
+    () =>
+      addArmor(equipment.armor, {
+        physical: titleBonus.armor,
+        magical: titleBonus.armor,
+      }),
+    [equipment.armor, titleBonus.armor],
+  );
   const totalShield = equipmentBonus.shield + titleBonus.shield;
   const totalVampirism = equipmentBonus.vampirism;
   const totalReflect = equipmentBonus.reflect;
@@ -108,12 +117,7 @@ export function useBattleStats({
 
   const char = useMemo(
     () =>
-      buildCharacterStats(
-        baseChar,
-        equipmentBonus,
-        titleBonus,
-        rankMultiplier,
-      ),
+      buildCharacterStats(baseChar, equipmentBonus, titleBonus, rankMultiplier),
     [baseChar, equipmentBonus, titleBonus, rankMultiplier],
   );
 
@@ -125,15 +129,20 @@ export function useBattleStats({
     return getNpcStats(npcLevel, npcClass, difficulty, npcStatMultiplier).hp;
   }, [npcLevel, npcClass, difficulty, npcStatMultiplier]);
 
-  const npcArmor = useMemo(() => {
+  const npcArmor = useMemo<DamageArmor>(() => {
     const stats = getNpcStats(
       npcLevel,
       npcClass,
       difficulty,
       npcStatMultiplier,
     );
-    const base = npcPhase === 2 ? Math.round(stats.armor * 1.5) : stats.armor;
-    return base + npcArmorBonus;
+    // A fase 2 engrossa o boss nas duas colunas; o buff de armadura do goat
+    // também, senão ele protegeria só de um tipo de golpe.
+    const phaseArmor = scaleArmor(stats.armor, npcPhase === 2 ? 1.5 : 1);
+    return addArmor(phaseArmor, {
+      physical: npcArmorBonus,
+      magical: npcArmorBonus,
+    });
   }, [
     npcLevel,
     npcClass,
