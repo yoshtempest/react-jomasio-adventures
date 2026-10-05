@@ -1,0 +1,22 @@
+.hpBar {
+  position: absolute;
+  width: var(--size-46);
+  height: var(--size-6);
+  background: var(--overlay-55);
+  border: var(--size-1) solid var(--white-35);
+  border-radius: var(--size-3);
+  overflow: hidden;
+  transform: translate(-50%, -100%);
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.hpBarFill {
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    var(--red-warm),
+    var(--ability-natsuki-deep)
+  );
+  transition: width 80ms linear;
+}
