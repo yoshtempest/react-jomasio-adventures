@@ -54,6 +54,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import { TrainingOverlay } from "@/components/Game/Battle/TrainingOverlay";
 import { ProjectileConstants } from "@/data/projectile";
+import { PLAYER_SPRITE_DIVISOR } from "@/data/grid";
 import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
 import { getBossSizeMultiplier } from "@/utils/npc/getSpritePath";
 import { npcPath } from "@/utils/paths";
@@ -316,7 +317,11 @@ export function BattleScene(props: Props) {
   const effectiveBackground = background;
 
   const damageTargets = [
-    { x: player.x, y: player.y, h: PLAYER_SIZE / 1.5 },
+    {
+      x: player.x,
+      y: player.y,
+      h: PLAYER_SIZE / PLAYER_SPRITE_DIVISOR,
+    },
     {
       x: npc.x,
       y: npc.y,

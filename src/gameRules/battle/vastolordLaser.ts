@@ -8,19 +8,28 @@
  */
 
 import { VASTOLORD_LASER_BEAM_HEIGHT } from "@/data/characters/marshadowLaser";
+import { PLAYER_SPRITE_DIVISOR } from "@/data/grid";
 
-/** Altura renderizada do sprite do jogador (px lógicos do plano 1000x600). */
-export const VASTOLORD_PLAYER_SPRITE_RATIO = 2.5;
-
-/** Altura do sprite do marcelo em px lógicos, dado o tamanho do tile. */
+/**
+ * Altura renderizada do sprite do marcelo em px lógicos, dado o tamanho do
+ * tile. Tem de ser a MESMA conta de `getPlayerDimensions` (o componente do
+ * player), senão o feixe nasce fora do personagem: o `y` do player e o pe do
+ * sprite (`translate(-50%, -100%)`), e o feixe tem de entrar na altura de
+ * verdade, nao numa altura inventada aqui.
+ */
 export function vastolordPlayerSpriteHeight(playerSize: number): number {
-  return playerSize * VASTOLORD_PLAYER_SPRITE_RATIO;
+  return playerSize / PLAYER_SPRITE_DIVISOR;
 }
 
-/** y do topo do feixe: centralizado no sprite do marcelo. */
+/**
+ * y do topo do feixe: centralizado no sprite do marcelo.
+ *
+ * `beamY` e o y do player (o chao/pe), entao o centro do sprite fica
+ * `spriteHeight / 2` acima dele e o centro do feixe coincide com esse centro.
+ */
 export function vastolordLaserTop(beamY: number, playerSize: number): number {
   const spriteHeight = vastolordPlayerSpriteHeight(playerSize);
-  return beamY - spriteHeight / 2 - VASTOLORD_LASER_BEAM_HEIGHT / 2;
+  return beamY - spriteHeight / 2 - VASTOLORD_LASER_BEAM_HEIGHT / 1.5;
 }
 
 export type VastolordLaserBeam = {

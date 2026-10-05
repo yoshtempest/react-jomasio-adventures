@@ -1,5 +1,6 @@
 import { resolveBattleSprite } from "@/utils/paths";
 import { ProjectileConstants } from "@/data/projectile";
+import { PLAYER_SPRITE_DIVISOR } from "@/data/grid";
 import { getViewportSize } from "@/utils/viewport";
 import { BLINK_AFTERIMAGE_MS } from "@/gameRules/battle/cursedEnergy";
 import type { BlinkVisual } from "@/hooks/battle/player/characters/natsuki/useBlinkAnimation";
@@ -20,8 +21,9 @@ export function BlinkAfterimage({ visual, PLAYER_SIZE, character }: Props) {
   const scaleX = getViewportSize().width / ProjectileConstants.MAP_WIDTH;
   const scaleY = getViewportSize().height / ProjectileConstants.MAP_HEIGHT;
   const SCALE = PLAYER_SIZE / ProjectileConstants.MAP_HEIGHT;
-  const WIDTH = (ProjectileConstants.MAP_WIDTH * SCALE) / 1.5;
-  const HEIGHT = (ProjectileConstants.MAP_HEIGHT * SCALE) / 1.5;
+  const WIDTH = (ProjectileConstants.MAP_WIDTH * SCALE) / PLAYER_SPRITE_DIVISOR;
+  const HEIGHT =
+    (ProjectileConstants.MAP_HEIGHT * SCALE) / PLAYER_SPRITE_DIVISOR;
   const src = resolveBattleSprite(character, visual.state);
 
   return (

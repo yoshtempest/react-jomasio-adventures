@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import { PLAYER_SPRITE_DIVISOR } from "@/data/grid";
 import type { KillerQueenOverlay } from "@/utils/types/character/srGuaxinim";
 import type { BattleEntityPositioning } from "@/components/Game/Battle/Entities/types";
 
@@ -38,7 +39,7 @@ export function KillerQueen({
         position: "absolute",
         left: killerQueen.x * battleScaleX,
         top: killerQueen.y * battleScaleY,
-        height: PLAYER_SIZE / 1.5,
+        height: PLAYER_SIZE / PLAYER_SPRITE_DIVISOR,
         width: "auto",
         transform: `translate(-50%, -100%) ${killerQueen.flip ? "scaleX(-1)" : ""}`,
         opacity: killerQueen.opacity,

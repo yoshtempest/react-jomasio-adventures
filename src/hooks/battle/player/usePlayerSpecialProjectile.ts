@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { getSpecialFlowOverride } from "@/data/battle/animationFlow";
+import { PLAYER_SPRITE_DIVISOR } from "@/data/grid";
 import { PlayerSpecialConstants, ProjectileConstants } from "@/data/projectile";
 import { PLAYER_SPHERE_TIME_ID } from "@/gameRules/battle/time";
 import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
@@ -43,7 +44,8 @@ export function usePlayerSpecialProjectile({
   const hasCustomFlow = getSpecialFlowOverride(player.character) !== null;
 
   const SCALE = PLAYER_SIZE / ProjectileConstants.MAP_HEIGHT;
-  const HEIGHT = (ProjectileConstants.MAP_WIDTH * SCALE) / 1.5;
+  const HEIGHT =
+    (ProjectileConstants.MAP_HEIGHT * SCALE) / PLAYER_SPRITE_DIVISOR;
   const headY = player.y - HEIGHT;
   const centerY = player.y - HEIGHT / 2;
 

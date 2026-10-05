@@ -9,6 +9,19 @@
 
 import { isPortraitViewport } from "@/utils/viewport";
 
+/**
+ * Divisor que converte a caixa "MAP * escala_do_tile" na caixa realmente
+ * renderizada do sprite do personagem: a altura final é `PLAYER_SIZE / 1.5`.
+ *
+ * O número estava repetido em seis arquivos (dimensões do player, hitbox,
+ * KillerQueen, projétil especial e afterimage do Blink) e a geometria do Laser
+ * do Vastolord tinha inventado um `2.5` parallelo achando que o sprite era
+ * `PLAYER_SIZE * 2.5`. Isso botava o feixe ~77px logicos acima da cabeca e a
+ * faixa de dano do feixe ficava acima do chao dos NPCs, entao o laser nao
+ * batia em ninguem. Fonte unica agora.
+ */
+export const PLAYER_SPRITE_DIVISOR = 1.5;
+
 /** Colunas do grid quando a cena não declara mapa próprio. */
 export const MAP_GRID_COLS = 17;
 

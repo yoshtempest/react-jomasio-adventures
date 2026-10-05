@@ -1,4 +1,5 @@
 import { ProjectileConstants } from "@/data/projectile";
+import { PLAYER_SPRITE_DIVISOR } from "@/data/grid";
 import {
   EMANUEL_KI_CHARGE_EFFECT_ASPECT,
   EMANUEL_KI_CHARGE_EFFECT_SIZE_MULTIPLIER,
@@ -23,9 +24,10 @@ export function getPlayerDimensions(playerSize: number): PlayerDimensions {
 
   const scale = playerSize / ProjectileConstants.MAP_HEIGHT;
 
-  const width = (ProjectileConstants.MAP_WIDTH * scale) / 1.5;
+  const width = (ProjectileConstants.MAP_WIDTH * scale) / PLAYER_SPRITE_DIVISOR;
 
-  const height = (ProjectileConstants.MAP_HEIGHT * scale) / 1.5;
+  const height =
+    (ProjectileConstants.MAP_HEIGHT * scale) / PLAYER_SPRITE_DIVISOR;
 
   const chargingEffectHeight =
     height * EMANUEL_KI_CHARGE_EFFECT_SIZE_MULTIPLIER;
