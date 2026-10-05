@@ -26,9 +26,9 @@ export function AvailableStats({
   const { getTotalBonus } = useEquipment();
 
   const stats = progress[character]?.stats ?? {
-    hp: 1,
     strength: 1,
-    intelligence: 1,
+    technique: 1,
+    spirit: 1,
     resistance: 1,
     tenacity: 1,
     luck: 1,

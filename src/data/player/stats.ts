@@ -66,7 +66,8 @@ type ProgressStatsProps = {
 type CharacterStatusProps = {
   hp: number;
   strength: number;
-  intelligence: number;
+  technique: number;
+  spirit: number;
   resistance: number;
   tenacity: number;
   armor: DamageArmor;
@@ -137,7 +138,8 @@ export function getCharacterStatus(data: CharacterStatusProps) {
   const stats = [
     stat("HP", data.hp),
     stat("Força", data.strength),
-    stat("Inteligência", data.intelligence),
+    stat("Técnica", data.technique),
+    stat("Espírito", data.spirit),
     stat("Resistência", data.resistance),
     stat("Tenacidade", data.tenacity),
     stat("Armadura física", data.armor.physical),

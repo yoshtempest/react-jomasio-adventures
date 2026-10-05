@@ -19,7 +19,9 @@ export type TitleBonusStat = {
   stat:
     | "hp"
     | "strength"
-    | "intelligence"
+    | "technique"
+    | "spirit"
+    | "cooldownReduction"
     | "damage"
     | "shield"
     | "armor"
@@ -57,7 +59,9 @@ export type TitleBonusMap = {
   damage: number;
   hp: number;
   strength: number;
-  intelligence: number;
+  technique: number;
+  spirit: number;
+  cooldownReduction: number;
   shield: number;
   armor: number;
   enemyMissChance: number;

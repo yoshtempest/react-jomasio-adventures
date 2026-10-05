@@ -10,6 +10,7 @@ import {
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
+import { useTitles } from "@/contexts/TitleContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { getMaxMana } from "@/gameRules/battle/mana";
 
@@ -30,13 +31,18 @@ const BattleManaContext = createContext<BattleManaContextType>({ api: null });
 export function BattleManaProvider({ children }: { children: ReactNode }) {
   const { player } = usePlayer();
   const { progress } = useCharacterProgress();
-  const { equipmentRevision } = useEquipment();
+  const { getTotalBonus } = useEquipment();
+  const { getBonus } = useTitles();
 
-  const maxMana = useMemo(
-    () => getMaxMana(player.character),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [player.character, equipmentRevision],
-  );
+  const maxMana = useMemo(() => {
+    // Espírito total: stat + equipamento + título. Passar só o stat faria a
+    // barra da batalha ignorar o que o menu de Status mostra.
+    const spirit =
+      (progress[player.character]?.stats.spirit ?? 1) +
+      getTotalBonus(player.character).spirit +
+      getBonus().spirit;
+    return getMaxMana(player.character, spirit);
+  }, [player.character, progress, getTotalBonus, getBonus]);
 
   const [playerMana, setPlayerManaState] = useState(() => {
     const saved = progress[player.character]?.battleMana;

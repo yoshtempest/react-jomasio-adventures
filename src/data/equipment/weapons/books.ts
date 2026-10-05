@@ -6,6 +6,6 @@ export const BOOKS = [
     name: "Livro do Mestre",
     slot: "weapon",
     rank: 1,
-    stats: { intelligence: 2 },
+    stats: { spirit: 2 },
   },
 ] as const satisfies readonly EquipmentDef[];

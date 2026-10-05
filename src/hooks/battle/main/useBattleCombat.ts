@@ -1178,7 +1178,7 @@ export function useBattleCombat({
   // equivalente ao de um especial (sem consumir delícia/cooldown).
   const atomicSpecialRatio = useMemo(() => {
     const special = combatService.calculateSpecialDamage(
-      battle.char.stats.intelligence,
+      battle.char.stats.spirit,
       playerClass,
     );
     const basic = combatService.calculatePlayerDamage(
@@ -1186,7 +1186,7 @@ export function useBattleCombat({
       playerClass,
     );
     return basic > 0 ? special / basic : 1;
-  }, [battle.char.stats.intelligence, battle.char.stats.strength, playerClass]);
+  }, [battle.char.stats.spirit, battle.char.stats.strength, playerClass]);
 
   const handleAtomicBoom = useCallback(
     (payload: AtomicBoomPayload) => {
@@ -1275,6 +1275,7 @@ export function useBattleCombat({
     battleEndedRef: battle.isEnding,
     disabledRef: cloneDisabledRef,
     playSound,
+    cooldownReduction: battle.char.stats.cooldownReduction,
   });
 
   // Expansão de Domínio do marcelo -------------------------------------------
@@ -1327,6 +1328,7 @@ export function useBattleCombat({
     startSpecialIntro,
     onNpcKilled: handleDomainExpansionKill,
     playSound,
+    cooldownReduction: battle.char.stats.cooldownReduction,
   });
 
   // "Gran Rey Cero" do marcelo ------------------------------------------------
@@ -1356,6 +1358,7 @@ export function useBattleCombat({
     disabledRef: cloneDisabledRef,
     startSpecialIntro,
     playSound,
+    cooldownReduction: battle.char.stats.cooldownReduction,
   });
 
   return {

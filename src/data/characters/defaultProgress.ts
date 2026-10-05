@@ -2,9 +2,9 @@ import type { Character } from "@/utils/types/player/player";
 import { CHARACTERS } from "@/data/characters/list";
 
 export type CharacterStats = {
-  hp: number;
   strength: number;
-  intelligence: number;
+  technique: number;
+  spirit: number;
   resistance: number;
   tenacity: number;
   luck: number;
@@ -36,9 +36,9 @@ function createDefaultProgress(): CharacterProgress {
     coins: 0,
     hyperCoins: 0,
     stats: {
-      hp: 1,
       strength: 1,
-      intelligence: 1,
+      technique: 1,
+      spirit: 1,
       resistance: 1,
       tenacity: 1,
       luck: 1,

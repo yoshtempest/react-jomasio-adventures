@@ -10,7 +10,13 @@ export function calculateSpecialHitDamage(
     rawDmg = params.stacks * 5;
   } else {
     const baseSpecial = combatService.calculateSpecialDamage(
-      params.char.stats.intelligence,
+      // Especial mágico lê Espírito; todo o resto lê Técnica. Derivar do
+      // `damageKind` que já vem nos params (e que decide a coluna de armadura
+      // furada) garante que as duas decisões não possam divergir: não existe
+      // caminho que fure a armadura mágica com um dano escalado por Técnica.
+      params.damageKind === "magical"
+        ? params.char.stats.spirit
+        : params.char.stats.technique,
       params.playerClass,
     );
     rawDmg =

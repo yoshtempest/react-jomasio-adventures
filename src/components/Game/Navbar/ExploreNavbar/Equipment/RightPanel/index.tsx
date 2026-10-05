@@ -98,8 +98,14 @@ export function RightPanel() {
               </div>
               <span className={styles.stats}>
                 HP: +{entry.stats.hp} | For: +{entry.stats.strength}
-                {entry.stats.intelligence > 0
-                  ? ` | Int: +${entry.stats.intelligence}`
+                {entry.stats.technique > 0
+                  ? ` | Téc: +${entry.stats.technique}`
+                  : ""}
+                {entry.stats.spirit > 0
+                  ? ` | Esp: +${entry.stats.spirit}`
+                  : ""}
+                {entry.stats.cooldownReduction > 0
+                  ? ` | CDR: +${entry.stats.cooldownReduction}%`
                   : ""}
                 {entry.stats.armor > 0 ? ` | Arm: +${entry.stats.armor}` : ""}
                 {entry.stats.maxHpDamage > 0

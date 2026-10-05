@@ -172,11 +172,11 @@ export const TITLES = createTitles({
     icon: titleBadgePath("huntRaresNpcs.svg"),
     condition: { type: "killNpcClass", npcClass: "rare" },
     levels: [
-      { count: 5, bonus: [{ stat: "intelligence", value: 1 }] },
-      { count: 10, bonus: [{ stat: "intelligence", value: 2 }] },
-      { count: 20, bonus: [{ stat: "intelligence", value: 3 }] },
-      { count: 40, bonus: [{ stat: "intelligence", value: 5 }] },
-      { count: 80, bonus: [{ stat: "intelligence", value: 8 }] },
+      { count: 5, bonus: [{ stat: "technique", value: 1 }] },
+      { count: 10, bonus: [{ stat: "technique", value: 2 }] },
+      { count: 20, bonus: [{ stat: "technique", value: 3 }] },
+      { count: 40, bonus: [{ stat: "technique", value: 5 }] },
+      { count: 80, bonus: [{ stat: "technique", value: 8 }] },
     ],
   },
   matadorDeChefes: {
@@ -202,7 +202,7 @@ export const TITLES = createTitles({
         count: 1,
         bonus: [
           { stat: "strength", value: 1 },
-          { stat: "intelligence", value: 1 },
+          { stat: "technique", value: 1 },
           { stat: "hp", value: 5 },
         ],
       },
@@ -210,7 +210,7 @@ export const TITLES = createTitles({
         count: 3,
         bonus: [
           { stat: "strength", value: 2 },
-          { stat: "intelligence", value: 2 },
+          { stat: "technique", value: 2 },
           { stat: "hp", value: 10 },
         ],
       },
@@ -218,7 +218,7 @@ export const TITLES = createTitles({
         count: 6,
         bonus: [
           { stat: "strength", value: 3 },
-          { stat: "intelligence", value: 3 },
+          { stat: "technique", value: 3 },
           { stat: "hp", value: 15 },
         ],
       },
@@ -226,7 +226,7 @@ export const TITLES = createTitles({
         count: 12,
         bonus: [
           { stat: "strength", value: 5 },
-          { stat: "intelligence", value: 5 },
+          { stat: "technique", value: 5 },
           { stat: "hp", value: 25 },
         ],
       },
@@ -234,7 +234,7 @@ export const TITLES = createTitles({
         count: 25,
         bonus: [
           { stat: "strength", value: 8 },
-          { stat: "intelligence", value: 8 },
+          { stat: "technique", value: 8 },
           { stat: "hp", value: 40 },
         ],
       },
@@ -251,28 +251,28 @@ export const TITLES = createTitles({
         count: 100,
         bonus: [
           { stat: "strength", value: 1 },
-          { stat: "intelligence", value: 1 },
+          { stat: "technique", value: 1 },
         ],
       },
       {
         count: 200,
         bonus: [
           { stat: "strength", value: 2 },
-          { stat: "intelligence", value: 2 },
+          { stat: "technique", value: 2 },
         ],
       },
       {
         count: 500,
         bonus: [
           { stat: "strength", value: 3 },
-          { stat: "intelligence", value: 3 },
+          { stat: "technique", value: 3 },
         ],
       },
       {
         count: 1000,
         bonus: [
           { stat: "strength", value: 5 },
-          { stat: "intelligence", value: 5 },
+          { stat: "technique", value: 5 },
         ],
       },
     ],

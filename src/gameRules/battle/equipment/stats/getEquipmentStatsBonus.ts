@@ -10,7 +10,9 @@ export function getEquipmentStatsBonus(character: CharacterId): EquipmentBonus {
   const bonus: EquipmentBonus = {
     hp: 0,
     strength: 0,
-    intelligence: 0,
+    technique: 0,
+    spirit: 0,
+    cooldownReduction: 0,
     shield: 0,
     vampirism: 0,
     reflect: 0,

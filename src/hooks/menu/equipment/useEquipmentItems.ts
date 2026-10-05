@@ -20,7 +20,8 @@ function totalStats(stats: EquipmentStats): number {
   return (
     stats.hp +
     stats.strength +
-    stats.intelligence +
+    stats.technique +
+    stats.spirit +
     stats.armor +
     stats.shield +
     stats.vampirism +

@@ -16,7 +16,9 @@ export function getEnhanceBonus(
   const bonus: EquipmentStats = {
     hp: 0,
     strength: 0,
-    intelligence: 0,
+    technique: 0,
+    spirit: 0,
+    cooldownReduction: 0,
     armor: 0,
     shield: 0,
     vampirism: 0,
@@ -34,7 +36,8 @@ export function getEnhanceBonus(
   const avail: (keyof EquipmentStats)[] = [];
   if ((item.stats.hp ?? 0) > 0) avail.push("hp");
   if ((item.stats.strength ?? 0) > 0) avail.push("strength");
-  if ((item.stats.intelligence ?? 0) > 0) avail.push("intelligence");
+  if ((item.stats.technique ?? 0) > 0) avail.push("technique");
+  if ((item.stats.spirit ?? 0) > 0) avail.push("spirit");
   if ((item.stats.armor ?? 0) > 0) avail.push("armor");
   if ((item.stats.shield ?? 0) > 0) avail.push("shield");
   if ((item.stats.maxHpDamage ?? 0) > 0) avail.push("maxHpDamage");
@@ -61,7 +64,9 @@ export function getEffectiveStats(
     return {
       hp: 0,
       strength: 0,
-      intelligence: 0,
+      technique: 0,
+      spirit: 0,
+      cooldownReduction: 0,
       armor: 0,
       shield: 0,
       vampirism: 0,
@@ -75,7 +80,9 @@ export function getEffectiveStats(
   return {
     hp: (item.stats.hp ?? 0) + enhanceBonus.hp,
     strength: (item.stats.strength ?? 0) + enhanceBonus.strength,
-    intelligence: (item.stats.intelligence ?? 0) + enhanceBonus.intelligence,
+    technique: (item.stats.technique ?? 0) + enhanceBonus.technique,
+    spirit: (item.stats.spirit ?? 0) + enhanceBonus.spirit,
+    cooldownReduction: item.stats.cooldownReduction ?? 0,
     armor: (item.stats.armor ?? 0) + enhanceBonus.armor,
     shield: (item.stats.shield ?? 0) + enhanceBonus.shield,
     vampirism: item.stats.vampirism ?? 0,

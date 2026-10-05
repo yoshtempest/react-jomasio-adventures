@@ -6,21 +6,21 @@ export const STAFFS = [
     name: "Cajado de Runas",
     slot: "weapon",
     rank: 3,
-    stats: { intelligence: 3 },
+    stats: { spirit: 3 },
   },
   {
     id: "weapon_cajado_arcano",
     name: "Cajado Arcano",
     slot: "weapon",
     rank: 5,
-    stats: { strength: 1, intelligence: 3, vampirism: 1, trueDamage: 1 },
+    stats: { strength: 1, spirit: 3, vampirism: 1, trueDamage: 1 },
   },
   {
     id: "weapon_cetro_real",
     name: "Cetro Real",
     slot: "weapon",
     rank: 7,
-    stats: { strength: 2, intelligence: 3, vampirism: 2, trueDamage: 2 },
+    stats: { strength: 2, spirit: 3, vampirism: 2, trueDamage: 2 },
   },
   {
     id: "weapon_cetro_real",
@@ -29,7 +29,7 @@ export const STAFFS = [
     rank: 8,
     stats: {
       strength: 2,
-      intelligence: 3,
+      spirit: 3,
       vampirism: 2,
       maxHpDamage: 1,
       trueDamage: 3,
@@ -41,7 +41,7 @@ export const STAFFS = [
     slot: "weapon",
     rank: 1,
     class: "arma",
-    stats: { intelligence: 1 },
+    stats: { spirit: 1 },
   },
   {
     id: "weapon_cajado_mago",
@@ -49,7 +49,7 @@ export const STAFFS = [
     slot: "weapon",
     rank: 3,
     class: "arma",
-    stats: { intelligence: 2, shield: 1 },
+    stats: { spirit: 2, shield: 1 },
   },
   {
     id: "weapon_cajado_arquimago",
@@ -57,7 +57,7 @@ export const STAFFS = [
     slot: "weapon",
     rank: 5,
     class: "arma",
-    stats: { intelligence: 3, shield: 2, maxHpDamage: 1 },
+    stats: { spirit: 3, shield: 2, maxHpDamage: 1 },
   },
   {
     id: "weapon_cajado_mago_mestre",
@@ -65,7 +65,7 @@ export const STAFFS = [
     slot: "weapon",
     rank: 7,
     class: "arma",
-    stats: { intelligence: 4, shield: 3, maxHpDamage: 1, trueDamage: 1 },
+    stats: { spirit: 4, shield: 3, maxHpDamage: 1, trueDamage: 1 },
   },
   {
     id: "weapon_cajado_real_arquimago",
@@ -73,6 +73,6 @@ export const STAFFS = [
     slot: "weapon",
     rank: 9,
     class: "arma",
-    stats: { intelligence: 5, shield: 5, maxHpDamage: 2, trueDamage: 2 },
+    stats: { spirit: 5, shield: 5, maxHpDamage: 2, trueDamage: 2 },
   },
 ] as const satisfies readonly EquipmentDef[];

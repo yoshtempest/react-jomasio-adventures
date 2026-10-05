@@ -9,6 +9,7 @@ import {
 } from "react";
 import type {
   Equipment,
+  EquipmentBonus,
   EquippedItemInfo,
 } from "@/utils/types/player/equipment";
 import { EQUIPMENT_SLOTS } from "@/data/equipment/definitions";
@@ -54,18 +55,13 @@ type EquipmentContextType = {
     slot: EquipmentSlot,
   ) => EquippedItemInfo | null;
   getEquippedAccessories: (character: CharacterId) => EquippedItemInfo[];
-  getTotalBonus: (character: CharacterId) => {
-    hp: number;
-    strength: number;
-    intelligence: number;
-    shield: number;
-    vampirism: number;
-    reflect: number;
-    tenacity: number;
-    luck: number;
-    maxHpDamage: number;
-    trueDamage: number;
-  };
+  /**
+   * O tipo vem de `EquipmentBonus` em vez de uma lista escrita à mão: essa
+   * assinatura já divergiu do shape real quando `intelligence` virou
+   * `technique`/`spirit`, e nada reclamou porque o compilador comparava a
+   * assinatura com ela mesma.
+   */
+  getTotalBonus: (character: CharacterId) => EquipmentBonus;
   getCollection: (character: CharacterId) => Record<string, number>;
   getQuantityTotal: (character: CharacterId, id: EquipmentId) => number;
   getQuantity: (
@@ -143,10 +139,15 @@ export function EquipmentProvider({ children }: { children: ReactNode }) {
       const data = getCharacterData(allData, character);
 
       const setItemIds = buildSetItemIds(data.equipped);
-      const bonus = {
+      // A anotação é o que faz o objeto ser checado: sem ela o literal é
+      // apenas inferido, uma chave morta como `intelligence` passava sem
+      // reclamar e `bonus.technique += n` viraria `undefined + n` em runtime.
+      const bonus: EquipmentBonus = {
         hp: 0,
         strength: 0,
-        intelligence: 0,
+        technique: 0,
+        spirit: 0,
+        cooldownReduction: 0,
         shield: 0,
         vampirism: 0,
         reflect: 0,

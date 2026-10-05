@@ -7,6 +7,7 @@ import {
   type ProfessionWeaponTierId,
 } from "@/data/professions/weapons";
 import { PROFESSION_BADGES } from "@/data/professions/badge";
+import type { EquipmentStats } from "@/utils/types/player/equipment";
 import type { ProfessionId } from "@/utils/types/player/profession";
 
 export function getOwnedTierIndex(
@@ -34,19 +35,26 @@ export function professionIcon(id: string): string {
   return badge ?? "";
 }
 
+// Tipado como `Partial<Record<keyof EquipmentStats, string>>` (e não `Record<string,
+// string>`) porque quem chama itera `Object.entries(equipment.stats)`: um
+// `Record<string, …>` aceitaria qualquer chave e um stat novo cairia no
+// fallback mostrando a chave crua para o jogador.
+const STAT_LABELS: Partial<Record<keyof EquipmentStats, string>> = {
+  hp: "HP",
+  strength: "Força",
+  technique: "Técnica",
+  spirit: "Espírito",
+  cooldownReduction: "Redução de cooldown",
+  armor: "Armadura",
+  shield: "Escudo",
+  vampirism: "Vampirismo",
+  reflect: "Reflexão",
+  tenacity: "Tenacidade",
+  luck: "Sorte",
+  maxHpDamage: "Dano HP",
+  trueDamage: "Dano Real",
+};
+
 export function getStatLabel(key: string): string {
-  const labels: Record<string, string> = {
-    hp: "HP",
-    strength: "Força",
-    intelligence: "Inteligência",
-    armor: "Armadura",
-    shield: "Escudo",
-    vampirism: "Vampirismo",
-    reflect: "Reflexão",
-    tenacity: "Tenacidade",
-    luck: "Sorte",
-    maxHpDamage: "Dano HP",
-    trueDamage: "Dano Real",
-  };
-  return labels[key] ?? key;
+  return STAT_LABELS[key as keyof EquipmentStats] ?? key;
 }

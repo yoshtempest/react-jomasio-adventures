@@ -74,7 +74,8 @@ export function Settings() {
       rankMultiplier,
     ).stats;
 
-    const { hp, strength, intelligence, resistance, tenacity, luck } = char;
+    const { hp, strength, technique, spirit, resistance, tenacity, luck } =
+      char;
     const luckBonus = combatService.getLuckBonus(luck);
     // A armadura do título entra nas DUAS colunas: `armor` legado é a base
     // física e mágica ao mesmo tempo.
@@ -96,7 +97,8 @@ export function Settings() {
     return {
       maxHp,
       strength,
-      intelligence,
+      technique,
+      spirit,
       resistance,
       tenacity,
       armor,
@@ -133,7 +135,8 @@ export function Settings() {
     const playerTotal =
       (playerStats.maxHp +
         playerStats.strength +
-        playerStats.intelligence +
+        playerStats.technique +
+        playerStats.spirit +
         playerStats.resistance +
         playerStats.tenacity +
         getBlockArmor(playerStats.armor) +
@@ -183,7 +186,8 @@ export function Settings() {
     ? getCharacterStatus({
         hp: playerStats.maxHp,
         strength: playerStats.strength,
-        intelligence: playerStats.intelligence,
+        technique: playerStats.technique,
+        spirit: playerStats.spirit,
         resistance: playerStats.resistance,
         tenacity: playerStats.tenacity,
         armor: playerStats.armor,

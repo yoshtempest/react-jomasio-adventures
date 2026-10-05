@@ -9,6 +9,7 @@ import {
 } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { DOMAIN_EXPANSION_COOLDOWN_MS } from "@/data/characters/marshadow";
+import { applyCooldownReduction } from "@/gameRules/battle/cooldownReduction";
 import { getProjectileCenter } from "@/gameRules/npc/projectile/projectileDamage";
 import {
   applyTime,
@@ -84,6 +85,13 @@ type Props = {
   /** Disparado APENAS quando a varredura chega na outra ponta do mapa. */
   onNpcKilled: () => void;
   playSound: (sound: SoundId, loop?: boolean, volumeOverride?: number) => void;
+  /**
+   * Redução de cooldown BRUTA (pontos percentuais), já somada de Técnica,
+   * equipamento e título. O hook passa pela curva em `applyCooldownReduction`,
+   * então nenhum caminho precisa saber a fórmula — e trocar a curva não toca
+   * nenhum destes hooks.
+   */
+  cooldownReduction: number;
 };
 
 type DomainExpansionApi = {
@@ -134,6 +142,7 @@ export function useDomainExpansion({
   startSpecialIntro,
   onNpcKilled,
   playSound,
+  cooldownReduction,
 }: Props): DomainExpansionApi {
   const [mugetsuSweep, setMugetsuSweep] = useState<MugetsuSweep | null>(null);
   const [domainExpansionActive, setDomainExpansionActive] = useState(false);
@@ -145,6 +154,7 @@ export function useDomainExpansion({
 
   const activeRef = useRef(false);
   const readyAtRef = useRef(0);
+  const cooldownReductionRef = useLatestRef(cooldownReduction);
   const sweepStartRef = useRef(0);
   /** True quando a varredura chegou na outra ponta (resta só o pó voar). */
   const sweepEndedRef = useRef(false);
@@ -407,8 +417,12 @@ export function useDomainExpansion({
     if (!usableRef.current) return;
 
     activeRef.current = true;
-    readyAtRef.current = Date.now() + DOMAIN_EXPANSION_COOLDOWN_MS;
-    setRemaining(DOMAIN_EXPANSION_COOLDOWN_MS / 1000);
+    const cooldownMs = applyCooldownReduction(
+      DOMAIN_EXPANSION_COOLDOWN_MS,
+      cooldownReductionRef.current,
+    );
+    readyAtRef.current = Date.now() + cooldownMs;
+    setRemaining(cooldownMs / 1000);
     // Regra de time: a Expansão de Domínio para o mundo inteiro. O player fica
     // de fora do `TimeKind` — o lock de ação dele é o `freezeActionsUntilRef`.
     timeRef.current = applyTime(
@@ -528,6 +542,7 @@ export function useDomainExpansion({
     clearTimer,
     cleanupRef,
     clearTimers,
+    cooldownReductionRef,
     freezeActionsUntilRef,
     playSound,
     playerRef,

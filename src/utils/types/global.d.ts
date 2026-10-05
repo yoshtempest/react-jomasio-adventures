@@ -56,7 +56,23 @@ declare global {
   type StatBlock = {
     hp: number;
     strength: number;
-    intelligence: number;
+    /**
+     * Técnica: dano das habilidades ativas de natureza física. Substituiu a
+     * antiga `intelligence`, que alimentava todos os specials.
+     */
+    technique: number;
+    /**
+     * Espírito: dano das habilidades de natureza mágica e energia máxima.
+     * Separado de `technique` porque o special declara de qual dos dois se
+     * alimenta — see `SPECIAL_DMG_STAT` em `data/characters/abilities.ts`.
+     */
+    spirit: number;
+    /**
+     * Redução de cooldown bruta, em pontos percentuais. Passa pela curva
+     * `getCooldownReduction`, então somar mais fontes rende cada vez menos e
+     * o teto efetivo é 90%.
+     */
+    cooldownReduction: number;
     /**
      * Armadura base: conta para as DUAS colunas (física e mágica). As chaves
      * abaixo são o excedente de quem blindar só um lado — `physicalArmor`

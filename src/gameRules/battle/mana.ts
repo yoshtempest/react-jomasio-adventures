@@ -4,6 +4,13 @@ import { getEquipmentById } from "@/data/equipment";
 import { eachEquippedItem } from "@/gameRules/battle/equipment/stats/eachEquippedItem";
 
 export const MAX_MANA_BASE = 100;
+
+/**
+ * Energia máxima ganha por ponto de Espírito. Espírito também dá dano mágico,
+ * então o valor é de propósito modesto — energia é o recurso que decide quantas
+ * habilidades continuam válidas numa luta longa.
+ */
+export const MAX_MANA_PER_SPIRIT_POINT = 5;
 export const LUCAS_WEAPON_SWITCH_MANA_COST = 50;
 export const MANA_REGEN_PER_SECOND = 1;
 
@@ -40,8 +47,17 @@ export function getManaBonusFromEquipment(character: CharacterId): number {
   return total;
 }
 
-export function getMaxMana(character: CharacterId): number {
-  return MAX_MANA_BASE + getManaBonusFromEquipment(character);
+/**
+ * `spirit` é obrigatório de propósito: quando Espírito virou stat de menu,
+ * esquecer de repassá-lo aqui devolveria o pool antigo em silêncio e o jogador
+ * veria a barra de energia não acompanhar o status.
+ */
+export function getMaxMana(character: CharacterId, spirit: number): number {
+  return (
+    MAX_MANA_BASE +
+    getManaBonusFromEquipment(character) +
+    Math.max(0, spirit) * MAX_MANA_PER_SPIRIT_POINT
+  );
 }
 
 /**

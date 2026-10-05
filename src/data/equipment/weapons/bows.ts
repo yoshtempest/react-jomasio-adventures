@@ -6,6 +6,6 @@ export const BOWS = [
     name: "Arco Preciso",
     slot: "weapon",
     rank: 3,
-    stats: { strength: 2, intelligence: 1 },
+    stats: { strength: 2, technique: 1 },
   },
 ] as const satisfies readonly EquipmentDef[];

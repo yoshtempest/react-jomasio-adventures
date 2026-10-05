@@ -58,8 +58,13 @@ export class CombatService {
     return Math.round(dmg);
   }
 
-  calculateSpecialDamage(intelligence: number, playerClass: string | null) {
-    let dmg = 18 + intelligence * 3;
+  /**
+   * `specialStat` é Técnica ou Espírito conforme a natureza do special (ver
+   * `SPECIAL_DMG_STAT`): o parametro deixou de se chamar `intelligence`
+   * porque hoje não existe mais uma stat única de special.
+   */
+  calculateSpecialDamage(specialStat: number, playerClass: string | null) {
+    let dmg = 18 + specialStat * 3;
 
     if (playerClass === "amostradinho") {
       dmg *= 1.1;

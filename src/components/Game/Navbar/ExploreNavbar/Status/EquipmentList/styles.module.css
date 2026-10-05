@@ -2,8 +2,7 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   width: 100%;
-  margin-top: var(--medium);
-  gap: var(--small)
+  margin-top: var(--fs-4);
 }
 
 .fontSize {

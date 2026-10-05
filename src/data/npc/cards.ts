@@ -1,3 +1,5 @@
+import type { CharacterStats } from "@/data/characters/defaultProgress";
+
 export type NpcCard = {
   id: string;
   npcType: string;
@@ -10,8 +12,26 @@ export type NpcCard = {
   reward: CardReward;
 };
 
+/**
+ * Stats que uma carta pode conceder.
+ *
+ * São pontos de stat do PERSONAGEM, não stats de equipamento — por isso o tipo
+ * vem de `CharacterStats` e não de `StatBlock`. A vida entra por `resistance`
+ * porque o stat `hp` saiu do menu quando a vida virou derivada da Resistência.
+ * `armor` é o único campo de equipamento que sobrou aqui: nenhum caminho de
+ * resgate consome os stats da carta, então o valor é só exibição.
+ */
+type CardStatReward = Partial<
+  Pick<
+    CharacterStats,
+    "strength" | "resistance" | "technique" | "spirit" | "tenacity" | "luck"
+  > & {
+    armor: number;
+  }
+>;
+
 export type CardReward = {
-  stats?: Partial<Omit<StatBlock, "shield" | "vampirism" | "reflect">>;
+  stats?: CardStatReward;
   coins?: number;
   hyperCoins?: number;
   items?: { id: string; qty?: number }[];
@@ -79,7 +99,7 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     "common",
     "Ele não quer seu sangue. Ele quer seu lanche.",
     "1000000001",
-    { coins: 50, stats: { hp: 1, strength: 1 } },
+    { coins: 50, stats: { resistance: 1, strength: 1 } },
   ),
   rice: makeCard(
     "rice",
@@ -87,7 +107,7 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     "common",
     "Não é food. É um estilo de vida.",
     "1000000002",
-    { coins: 50, stats: { hp: 1, intelligence: 1 } },
+    { coins: 50, stats: { resistance: 1, technique: 1 } },
   ),
   hungryDog: makeCard(
     "hungryDog",
@@ -103,7 +123,7 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     "common",
     "Tão fraco que morre afogado.",
     "1000000004",
-    { coins: 50, stats: { hp: 2 } },
+    { coins: 50, stats: { resistance: 2 } },
   ),
   hungryCow: makeCard(
     "hungryCow",
@@ -111,7 +131,7 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     "common",
     "Moo? Mais como... morreu.",
     "1000000005",
-    { coins: 75, stats: { hp: 2, strength: 1 } },
+    { coins: 75, stats: { resistance: 2, strength: 1 } },
   ),
   hungryPig: makeCard(
     "hungryPig",
@@ -127,7 +147,7 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     "common",
     "Nem sabia que era culto. Achava que era clube de leitura.",
     "1000000007",
-    { coins: 75, stats: { intelligence: 2 } },
+    { coins: 75, stats: { technique: 2 } },
   ),
   figurantOfMobyDickCult: makeCard(
     "figurantOfMobyDickCult",
@@ -135,7 +155,7 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     "common",
     "Estava aqui só pelo churrasco.",
     "1000000008",
-    { coins: 75, stats: { hp: 1, strength: 1, armor: 1 } },
+    { coins: 75, stats: { resistance: 1, strength: 1, armor: 1 } },
   ),
   figurantOfDragonKingCult: makeCard(
     "figurantOfDragonKingCult",
@@ -143,7 +163,7 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     "common",
     "Acreditou que era cosplay. Foi tarde demais.",
     "1000000009",
-    { coins: 100, stats: { hp: 2, strength: 1, intelligence: 1 } },
+    { coins: 100, stats: { resistance: 2, strength: 1, technique: 1 } },
   ),
   piupiu: makeCard(
     "piupiu",
@@ -159,7 +179,7 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     "rare",
     "O vigia mais assustador que já existiu. Menos que o porteiro da federal.",
     "2000000002",
-    { coins: 200, hyperCoins: 1, stats: { hp: 4, armor: 2 } },
+    { coins: 200, hyperCoins: 1, stats: { resistance: 4, armor: 2 } },
   ),
   goat: makeCard(
     "goat",
@@ -175,7 +195,7 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     "rare",
     "Fischer Price? Não. Fischer Dor.",
     "2000000004",
-    { coins: 200, hyperCoins: 1, stats: { intelligence: 4, luck: 2 } },
+    { coins: 200, hyperCoins: 1, stats: { technique: 4, luck: 2 } },
   ),
   crocodile: makeCard(
     "crocodile",
@@ -183,7 +203,11 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     "rare",
     "Crocodilo de bote? Não. Crocodilo de bote quente.",
     "2000000005",
-    { coins: 250, hyperCoins: 2, stats: { strength: 3, hp: 3, armor: 2 } },
+    {
+      coins: 250,
+      hyperCoins: 2,
+      stats: { strength: 3, resistance: 3, armor: 2 },
+    },
   ),
   vandinhaFragment: makeCard(
     "vandinhaFragment",
@@ -194,7 +218,7 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     {
       coins: 500,
       hyperCoins: 5,
-      stats: { hp: 5, strength: 5, intelligence: 5 },
+      stats: { resistance: 5, strength: 5, technique: 5 },
     },
   ),
   srGuaxinim: makeCard(
@@ -211,7 +235,7 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     "epic",
     "O cachorro do Natsuki. Ele morde. Muito.",
     "3000000003",
-    { coins: 500, hyperCoins: 5, stats: { strength: 8, hp: 4 } },
+    { coins: 500, hyperCoins: 5, stats: { strength: 8, resistance: 4 } },
   ),
   baiano: makeCard(
     "baiano",
@@ -219,7 +243,11 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     "epic",
     "Não é baiano de praia. É baiano de porrada.",
     "3000000004",
-    { coins: 500, hyperCoins: 5, stats: { hp: 6, strength: 6, armor: 4 } },
+    {
+      coins: 500,
+      hyperCoins: 5,
+      stats: { resistance: 6, strength: 6, armor: 4 },
+    },
   ),
   elitCrocodile: makeCard(
     "elitCrocodile",
@@ -230,7 +258,7 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     {
       coins: 600,
       hyperCoins: 6,
-      stats: { strength: 7, armor: 6, tenacity: 3 },
+      stats: { strength: 7, tenacity: 3, armor: 6 },
     },
   ),
   deise: makeCard(
@@ -242,7 +270,7 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     {
       coins: 1000,
       hyperCoins: 10,
-      stats: { hp: 10, intelligence: 10 },
+      stats: { resistance: 10, technique: 10 },
       characterUnlock: "deise",
     },
   ),
@@ -260,7 +288,7 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     "boss",
     "Rei de quê? De passar fome.",
     "4000000003",
-    { coins: 1200, hyperCoins: 12, stats: { hp: 15, strength: 8 } },
+    { coins: 1200, hyperCoins: 12, stats: { resistance: 15, strength: 8 } },
   ),
   neimito: makeCard(
     "neimito",
@@ -268,7 +296,7 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     "boss",
     "Mestre do calor. E de te derreter.",
     "4000000004",
-    { coins: 1200, hyperCoins: 12, stats: { strength: 12, intelligence: 8 } },
+    { coins: 1200, hyperCoins: 12, stats: { strength: 12, technique: 8 } },
   ),
   planetarySisters: makeCard(
     "planetarySisters",
@@ -279,7 +307,7 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     {
       coins: 1200,
       hyperCoins: 12,
-      stats: { hp: 10, strength: 10, intelligence: 10 },
+      stats: { resistance: 10, strength: 10, technique: 10 },
     },
   ),
   maugrelo: makeCard(
@@ -288,7 +316,7 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     "boss",
     "Parece que gosta de apanhar. Estranho.",
     "4000000006",
-    { coins: 1000, hyperCoins: 10, stats: { hp: 20, armor: 10 } },
+    { coins: 1000, hyperCoins: 10, stats: { resistance: 20, armor: 10 } },
   ),
   maurao: makeCard(
     "maurao",
@@ -320,7 +348,11 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     "boss",
     "O nome diz tudo. Macho demais pra morrer.",
     "4000000010",
-    { coins: 1200, hyperCoins: 12, stats: { hp: 15, strength: 12, armor: 5 } },
+    {
+      coins: 1200,
+      hyperCoins: 12,
+      stats: { resistance: 15, strength: 12, armor: 5 },
+    },
   ),
   lupita: makeCard(
     "lupita",
@@ -328,7 +360,7 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     "boss",
     "Lupita. Não confunda com a da novela.",
     "4000000011",
-    { coins: 1000, hyperCoins: 10, stats: { intelligence: 18, luck: 8 } },
+    { coins: 1000, hyperCoins: 10, stats: { technique: 18, luck: 8 } },
   ),
   leviathan: makeCard(
     "leviathan",
@@ -336,7 +368,11 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     "boss",
     "Leviathan. A criatura lendária que habita as profundezas da Lagoa Grande.",
     "4000000012",
-    { coins: 1200, hyperCoins: 12, stats: { hp: 20, armor: 8, tenacity: 6 } },
+    {
+      coins: 1200,
+      hyperCoins: 12,
+      stats: { resistance: 20, tenacity: 6, armor: 8 },
+    },
   ),
   mobyDick: makeCard(
     "mobyDick",
@@ -344,7 +380,7 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     "boss",
     "A baleia mais famosa da literatura. E da porrada.",
     "4000000013",
-    { coins: 1500, hyperCoins: 15, stats: { hp: 25, strength: 10 } },
+    { coins: 1500, hyperCoins: 15, stats: { resistance: 25, strength: 10 } },
   ),
   ains: makeCard(
     "ains",
@@ -352,7 +388,7 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     "boss",
     "OVERLORD. Mas caiu que nem um saco de batata.",
     "4000000014",
-    { coins: 1500, hyperCoins: 15, stats: { intelligence: 20, strength: 10 } },
+    { coins: 1500, hyperCoins: 15, stats: { technique: 20, strength: 10 } },
   ),
   baal: makeCard(
     "baal",
@@ -363,7 +399,7 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     {
       coins: 3000,
       hyperCoins: 30,
-      stats: { hp: 20, strength: 20, intelligence: 20 },
+      stats: { resistance: 20, strength: 20, technique: 20 },
       characterUnlock: "baal",
     },
   ),
@@ -389,7 +425,7 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     {
       coins: 3000,
       hyperCoins: 30,
-      stats: { hp: 30, strength: 20 },
+      stats: { resistance: 30, strength: 20 },
       characterUnlock: "yangKai",
     },
   ),
@@ -402,7 +438,7 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     {
       coins: 3500,
       hyperCoins: 35,
-      stats: { hp: 25, strength: 25, armor: 10 },
+      stats: { resistance: 25, strength: 25, armor: 10 },
       characterUnlock: "dragonKing",
     },
   ),
@@ -428,7 +464,7 @@ export const NPC_CARDS: Record<string, NpcCard> = {
     {
       coins: 4000,
       hyperCoins: 40,
-      stats: { hp: 30, strength: 25, intelligence: 25 },
+      stats: { resistance: 30, strength: 25, technique: 25 },
       characterUnlock: "trueVandinha",
     },
   ),

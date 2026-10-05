@@ -9,6 +9,7 @@ import {
 } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { ATOMIC_COOLDOWN_MS } from "@/data/characters/marshadow";
+import { applyCooldownReduction } from "@/gameRules/battle/cooldownReduction";
 import {
   ONE_HUNDRED_MS,
   TWO_HUNDRED_MS,
@@ -67,6 +68,13 @@ type Props = {
   battleEndedRef: RefObject<boolean>;
   disabledRef: RefObject<boolean>;
   playSound: (sound: SoundId, loop?: boolean, volumeOverride?: number) => void;
+  /**
+   * Redução de cooldown BRUTA (pontos percentuais), já somada de Técnica,
+   * equipamento e título. O hook passa pela curva em `applyCooldownReduction`,
+   * então nenhum caminho precisa saber a fórmula — e trocar a curva não toca
+   * nenhum destes hooks.
+   */
+  cooldownReduction: number;
 };
 
 type AtomicApi = {
@@ -108,6 +116,7 @@ export function useAtomic({
   battleEndedRef,
   disabledRef,
   playSound,
+  cooldownReduction,
 }: Props): AtomicApi {
   const [halo, setHalo] = useState(false);
   const [explosion, setExplosion] = useState<AtomicExplosion | null>(null);
@@ -117,6 +126,7 @@ export function useAtomic({
 
   const activeRef = useRef(false);
   const readyAtRef = useRef(0);
+  const cooldownReductionRef = useLatestRef(cooldownReduction);
   const cutKeyRef = useRef(0);
   const targetRef = useRef<{
     id: string;
@@ -208,8 +218,12 @@ export function useAtomic({
     if (activeRef.current) return;
 
     activeRef.current = true;
-    readyAtRef.current = Date.now() + ATOMIC_COOLDOWN_MS;
-    setRemaining(ATOMIC_COOLDOWN_MS / 1000);
+    const cooldownMs = applyCooldownReduction(
+      ATOMIC_COOLDOWN_MS,
+      cooldownReductionRef.current,
+    );
+    readyAtRef.current = Date.now() + cooldownMs;
+    setRemaining(cooldownMs / 1000);
     freezeActionsUntilRef.current = Math.max(
       freezeActionsUntilRef.current,
       Date.now() + ATOMIC_TOTAL_DURATION_MS,
@@ -330,6 +344,7 @@ export function useAtomic({
   }, [
     cleanupRef,
     clearTimers,
+    cooldownReductionRef,
     findTarget,
     freezeActionsUntilRef,
     npcHpRef,

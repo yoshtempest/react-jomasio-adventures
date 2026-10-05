@@ -11,8 +11,12 @@ import { ONE_THOUSAND_MS } from "@/data/ms";
 
 const REGEN_TICK_MS = ONE_THOUSAND_MS;
 
+/**
+ * `statsResistance` alimenta a vida desde que HP virou stat derivado dela — o
+ * parametro foi renomeado junto para o nome não mentir sobre a origem do valor.
+ */
 function computeMaxHp(
-  statsHp: number,
+  statsResistance: number,
   equipmentHp: number,
   titleHp: number,
   titleAllStatsPct: number,
@@ -21,7 +25,7 @@ function computeMaxHp(
 ): number {
   const allStatsPct = 1 + titleAllStatsPct / 100;
   const effectiveHp =
-    (statsHp + equipmentHp + titleHp) *
+    (statsResistance + equipmentHp + titleHp) *
     allStatsPct *
     rankMultiplier *
     hungerMultiplier;
@@ -59,7 +63,7 @@ export function useRegenTimer() {
 
       const currentMana = charProgress.battleMana;
       if (currentMana != null) {
-        const maxMana = getMaxMana(character);
+        const maxMana = getMaxMana(character, charProgress.stats.spirit);
         if (currentMana >= maxMana) {
           setBattleManaRef.current(character, null);
         } else {
@@ -76,7 +80,7 @@ export function useRegenTimer() {
 
       const titleBonus = getBonusRef.current();
       const maxHp = computeMaxHp(
-        charProgress.stats.hp,
+        charProgress.stats.resistance,
         getEquipmentStatsBonus(character).hp,
         titleBonus.hp,
         titleBonus.percentAllStats,

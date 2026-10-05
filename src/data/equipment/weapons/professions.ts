@@ -44,15 +44,15 @@ function buildRankedWeapon(
 const BASE_TOOL_STATS: Record<string, Partial<EquipmentStats>> = {
   weapon_pickaxe: { strength: 2 },
   weapon_cleaver: { strength: 2 },
-  weapon_fishing_rod: { intelligence: 1 },
+  weapon_fishing_rod: { technique: 1 },
   weapon_hoe: { strength: 1 },
-  weapon_cauldron: { intelligence: 1 },
+  weapon_cauldron: { technique: 1 },
   weapon_rolling_pin: { strength: 1 },
   weapon_dumbbell: { strength: 2 },
   weapon_axe: { strength: 2 },
   weapon_pan: { strength: 2 },
   weapon_adjustable_wrench: { strength: 1 },
-  weapon_paint: { intelligence: 1 },
+  weapon_paint: { technique: 1 },
 } as const satisfies Record<string, Partial<EquipmentStats>>;
 
 const PROFESSION_RANKED_WEAPONS: readonly EquipmentDef[] = Object.values(
@@ -93,7 +93,7 @@ const BASE_TOOLS = [
     name: "Vara de Pesca",
     slot: "weapon",
     rank: 1,
-    stats: { intelligence: 1 },
+    stats: { technique: 1 },
     craftOnly: true,
   },
   {
@@ -109,7 +109,7 @@ const BASE_TOOLS = [
     name: "Caldeirão",
     slot: "weapon",
     rank: 1,
-    stats: { intelligence: 1 },
+    stats: { technique: 1 },
     craftOnly: true,
   },
   {
@@ -157,7 +157,7 @@ const BASE_TOOLS = [
     name: "Pincel",
     slot: "weapon",
     rank: 1,
-    stats: { intelligence: 1 },
+    stats: { technique: 1 },
     craftOnly: true,
   },
 ] as const satisfies readonly EquipmentDef[];

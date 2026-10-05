@@ -33,6 +33,7 @@ import {
   GRAN_REY_CERO_TICK_MS,
   GRAN_REY_CERO_TRAVEL_MS,
 } from "@/data/characters/granReyCero";
+import { applyCooldownReduction } from "@/gameRules/battle/cooldownReduction";
 import {
   granReyCeroDistance,
   granReyCeroHits,
@@ -81,6 +82,13 @@ type Props = {
     form?: MarceloBattleForm,
   ) => boolean;
   playSound: (sound: SoundId, loop?: boolean, volumeOverride?: number) => void;
+  /**
+   * Redução de cooldown BRUTA (pontos percentuais), já somada de Técnica,
+   * equipamento e título. O hook passa pela curva em `applyCooldownReduction`,
+   * então nenhum caminho precisa saber a fórmula — e trocar a curva não toca
+   * nenhum destes hooks.
+   */
+  cooldownReduction: number;
 };
 
 type GranReyCeroApi = {
@@ -125,6 +133,7 @@ export function useGranReyCero({
   disabledRef,
   startSpecialIntro,
   playSound,
+  cooldownReduction,
 }: Props): GranReyCeroApi {
   const { stopSound } = useSoundEffects();
   const { showAbilityIntro } = useSettings();
@@ -133,6 +142,7 @@ export function useGranReyCero({
 
   const activeRef = useRef(false);
   const readyAtRef = useRef(0);
+  const cooldownReductionRef = useLatestRef(cooldownReduction);
   const rafRef = useRef<number | null>(null);
   const lastFrameRef = useRef(0);
   const fadeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -447,8 +457,12 @@ export function useGranReyCero({
     activeRef.current = true;
     // O cooldown começa no `press`: o intro (1s em slow-motion) já é parte do
     // custo da habilidade, mesmo com a lâmina saindo depois.
-    readyAtRef.current = Date.now() + GRAN_REY_CERO_COOLDOWN_MS;
-    setRemaining(GRAN_REY_CERO_COOLDOWN_MS / 1000);
+    const cooldownMs = applyCooldownReduction(
+      GRAN_REY_CERO_COOLDOWN_MS,
+      cooldownReductionRef.current,
+    );
+    readyAtRef.current = Date.now() + cooldownMs;
+    setRemaining(cooldownMs / 1000);
     // O lock do intro segura o personagem antes da lâmina (senão ele andaria
     // ou viraria de lado durante o slow-motion e o corte sairia na direção
     // errada). Com o intro desligado na config não há nada para segurar: a
@@ -468,6 +482,7 @@ export function useGranReyCero({
     }
   }, [
     fireRef,
+    cooldownReductionRef,
     freezeActionsUntilRef,
     showAbilityIntro,
     startSpecialIntro,

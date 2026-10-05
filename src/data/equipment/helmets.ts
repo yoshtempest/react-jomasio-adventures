@@ -20,14 +20,14 @@ export const HELMETS = [
     name: "Faixa de Cabeça",
     slot: "helmet",
     rank: 1,
-    stats: { intelligence: 1, armor: 1 },
+    stats: { technique: 1, armor: 1 },
   },
   {
     id: "helmet_yvel_glasses",
     name: "Yvel glasses",
     slot: "helmet",
     rank: 3,
-    stats: { hp: 1, strength: 1, intelligence: 1, armor: 4 },
+    stats: { hp: 1, strength: 1, technique: 1, armor: 4 },
   },
   {
     id: "helmet_capacete_ferro",

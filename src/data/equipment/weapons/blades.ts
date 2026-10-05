@@ -34,14 +34,14 @@ export const BLADES = [
     name: "Lâmina Arcana",
     slot: "weapon",
     rank: 3,
-    stats: { strength: 1, intelligence: 1 },
+    stats: { strength: 1, technique: 1 },
   },
   {
     id: "weapon_espada_rei",
     name: "Espada do Rei",
     slot: "weapon",
     rank: 5,
-    stats: { strength: 3, intelligence: 1, vampirism: 1, trueDamage: 1 },
+    stats: { strength: 3, technique: 1, vampirism: 1, trueDamage: 1 },
   },
   {
     id: "weapon_martelo_guerra",
@@ -57,7 +57,7 @@ export const BLADES = [
     rank: 9,
     stats: {
       strength: 5,
-      intelligence: 4,
+      technique: 4,
       vampirism: 3,
       maxHpDamage: 2,
       trueDamage: 4,

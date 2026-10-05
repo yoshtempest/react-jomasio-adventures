@@ -1,4 +1,8 @@
-import { STAT_EFFECTS, formatStatValue } from "@/data/player/statEffects";
+import {
+  formatStatValue,
+  getStatEffectRows,
+} from "@/data/player/statEffects";
+import { STATS } from "@/data/player/statList";
 import {
   getStatIncreases,
   useDerivedStats,
@@ -19,14 +23,16 @@ type SelectedStatEffectProps = {
  */
 export function SelectedStatEffect({ selectedIndex }: SelectedStatEffectProps) {
   const derived = useDerivedStats();
-  const effect = STAT_EFFECTS[selectedIndex];
-  const increases = getStatIncreases(selectedIndex, derived);
+  // O menu navega por índice, mas os dados são indexados pelo nome do stat —
+  // `STATS[index]` é a única ponte que não deixa os dois divergirem.
+  const statKey = STATS[selectedIndex];
+  const increases = statKey ? getStatIncreases(statKey, derived) : {};
 
-  if (!effect) return null;
+  if (!statKey) return null;
 
   return (
     <div className={styles.effect}>
-      {effect.rows.map((row) => {
+      {getStatEffectRows(selectedIndex).map((row) => {
         const increase = increases[row.key];
 
         return (

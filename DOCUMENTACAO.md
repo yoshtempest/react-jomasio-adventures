@@ -43,7 +43,7 @@ O escopo atual abrange:
 - **Missões (Quests)**: sistema de missões com progresso, recompensas (XP, itens, moedas), tipos história/secundárias/batalha/diárias/semanais
 - **Inventário**: gerenciamento de itens coletados em mapa
 - **Diálogo**: sistema de diálogo com fallback condicional baseado em estado do jogo (quests, items, flags, personagem)
-- **Progressão**: stats do jogador (HP, força, inteligência, armadura, escudo, vampirismo, reflexão) modificáveis por equipamentos, títulos e classe
+- **Progressão**: stats do jogador (Força, Resistência, Sorte, Técnica, Espírito, Tenacidade, armadura física/mágica, escudo, vampirismo, reflexão, redução de cooldown) modificáveis por pontos de nível, equipamentos, títulos e classe
 - **Salvamento**: save automático com múltiplas chaves em localStorage
 - **Configurações**: dificuldade, volumes de áudio, velocidade de diálogo
 - **Indicador de missões**: seta dourada apontando tiles de saída que levam à missão ativa + "!" amarelo sobre NPCs relevantes
@@ -72,41 +72,50 @@ O escopo atual abrange:
 
 ### 3.1 Requisitos Funcionais
 
-| ID   | Requisito                                                                                                           | Prioridade |
-| ---- | ------------------------------------------------------------------------------------------------------------------- | ---------- |
-| RF01 | O jogador deve se movimentar pelo grid em 4 direções (cima, baixo, esquerda, direita)                               | Alta       |
-| RF02 | O jogador deve interagir com NPCs e objetos ao pressionar o botão de ação                                           | Alta       |
-| RF03 | O sistema deve detectar tiles de transição e navegar entre cenas                                                    | Alta       |
-| RF04 | O sistema deve suportar tiles com rota condicional baseada em estado de missões                                     | Alta       |
-| RF05 | O jogador deve poder entrar em batalha contra NPCs                                                                  | Alta       |
-| RF06 | O sistema de batalha deve suportar ataques, habilidades especiais e sistema de cooldown                             | Alta       |
-| RF07 | O sistema deve gerenciar HP do jogador (HP = 90 + stats.hp × 10)                                                    | Alta       |
-| RF08 | O sistema de missões deve permitir receber, progredir e concluir missões                                            | Alta       |
-| RF09 | O sistema deve gerar missões diárias e semanais automaticamente                                                     | Alta       |
-| RF10 | O jogador deve poder coletar e gerenciar itens no inventário                                                        | Alta       |
-| RF11 | O sistema de diálogo deve exibir falas com nome e avatar                                                            | Alta       |
-| RF12 | O sistema de diálogo deve suportar ramificações condicionais baseadas no estado do jogo                             | Alta       |
-| RF13 | O jogador deve poder abrir um menu de configurações durante o jogo                                                  | Média      |
-| RF14 | O sistema deve permitir ajustar volume de SFX e BGM separadamente                                                   | Média      |
-| RF15 | O sistema deve permitir ajustar a velocidade do diálogo (rápido, normal, devagar)                                   | Média      |
-| RF16 | O sistema deve salvar automaticamente o progresso ao mudar de cena                                                  | Alta       |
-| RF17 | O sistema deve restaurar a posição do jogador ao retornar a uma cena visitada                                       | Média      |
-| RF18 | O sistema de áudio deve tocar BGM de fundo por cena e SFX para ações                                                | Alta       |
-| RF19 | O sistema deve exibir um indicador visual (seta + "!") para missões ativas quando habilitado                        | Baixa      |
-| RF20 | O jogador deve poder alternar o indicador de missões nas configurações                                              | Baixa      |
-| RF21 | O jogo deve funcionar como PWA (instalável, service worker)                                                         | Média      |
-| RF22 | O jogador deve poder selecionar e trocar de personagem                                                              | Média      |
-| RF23 | O sistema deve suportar classes de jogador (fracote, idiota, amostradinho) com stats diferentes                     | Média      |
-| RF24 | O sistema de batalha deve suportar 3 variantes de projéteis NPC: comum, pull (com atração) e rain (chuva de lanças) | Alta       |
-| RF25 | O sistema deve suportar um puzzle de Pandemônio (quebra-cabeça) para progressão de história                         | Baixa      |
-| RF26 | O sistema deve exibir um overlay de mapa ao pressionar o modo mapa                                                  | Baixa      |
-| RF27 | O sistema deve aplicar o multiplicador elemental (média geométrica da multi-tipagem) em todo caminho de dano        | Alta       |
-| RF28 | A tipagem elemental do personagem é fixa do início ao fim do jogo (sem progressão por nível)                         | Média      |
-| RF29 | O menu de Status deve listar as tipagens elementais do personagem                                                     | Média      |
-| RF30 | Toda criatura em batalha (player, NPC, summons, aliados e pets) tem armadura física e mágica separadas           | Alta       |
-| RF31 | Todo golpe declara sua natureza (físico, mágico ou verdadeiro); não declarado significa físico                   | Alta       |
-| RF32 | Dano verdadeiro ignora qualquer armadura                                                                             | Alta       |
-| RF33 | A armadura é aplicada antes do multiplicador elemental                                                                 | Alta       |
+| ID   | Requisito                                                                                                                                       | Prioridade |
+| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| RF01 | O jogador deve se movimentar pelo grid em 4 direções (cima, baixo, esquerda, direita)                                                           | Alta       |
+| RF02 | O jogador deve interagir com NPCs e objetos ao pressionar o botão de ação                                                                       | Alta       |
+| RF03 | O sistema deve detectar tiles de transição e navegar entre cenas                                                                                | Alta       |
+| RF04 | O sistema deve suportar tiles com rota condicional baseada em estado de missões                                                                 | Alta       |
+| RF05 | O jogador deve poder entrar em batalha contra NPCs                                                                                              | Alta       |
+| RF06 | O sistema de batalha deve suportar ataques, habilidades especiais e sistema de cooldown                                                         | Alta       |
+| RF07 | O sistema deve gerenciar HP do jogador (HP = 90 + stats.hp × 10)                                                                                | Alta       |
+| RF08 | O sistema de missões deve permitir receber, progredir e concluir missões                                                                        | Alta       |
+| RF09 | O sistema deve gerar missões diárias e semanais automaticamente                                                                                 | Alta       |
+| RF10 | O jogador deve poder coletar e gerenciar itens no inventário                                                                                    | Alta       |
+| RF11 | O sistema de diálogo deve exibir falas com nome e avatar                                                                                        | Alta       |
+| RF12 | O sistema de diálogo deve suportar ramificações condicionais baseadas no estado do jogo                                                         | Alta       |
+| RF13 | O jogador deve poder abrir um menu de configurações durante o jogo                                                                              | Média      |
+| RF14 | O sistema deve permitir ajustar volume de SFX e BGM separadamente                                                                               | Média      |
+| RF15 | O sistema deve permitir ajustar a velocidade do diálogo (rápido, normal, devagar)                                                               | Média      |
+| RF16 | O sistema deve salvar automaticamente o progresso ao mudar de cena                                                                              | Alta       |
+| RF17 | O sistema deve restaurar a posição do jogador ao retornar a uma cena visitada                                                                   | Média      |
+| RF18 | O sistema de áudio deve tocar BGM de fundo por cena e SFX para ações                                                                            | Alta       |
+| RF19 | O sistema deve exibir um indicador visual (seta + "!") para missões ativas quando habilitado                                                    | Baixa      |
+| RF20 | O jogador deve poder alternar o indicador de missões nas configurações                                                                          | Baixa      |
+| RF21 | O jogo deve funcionar como PWA (instalável, service worker)                                                                                     | Média      |
+| RF22 | O jogador deve poder selecionar e trocar de personagem                                                                                          | Média      |
+| RF23 | O sistema deve suportar classes de jogador (fracote, idiota, amostradinho) com stats diferentes                                                 | Média      |
+| RF24 | O sistema de batalha deve suportar 3 variantes de projéteis NPC: comum, pull (com atração) e rain (chuva de lanças)                             | Alta       |
+| RF25 | O sistema deve suportar um puzzle de Pandemônio (quebra-cabeça) para progressão de história                                                     | Baixa      |
+| RF26 | O sistema deve exibir um overlay de mapa ao pressionar o modo mapa                                                                              | Baixa      |
+| RF27 | O sistema deve aplicar o multiplicador elemental (média geométrica da multi-tipagem) em todo caminho de dano                                    | Alta       |
+| RF28 | A tipagem elemental do personagem é fixa do início ao fim do jogo (sem progressão por nível)                                                    | Média      |
+| RF29 | O menu de Status deve listar as tipagens elementais do personagem                                                                               | Média      |
+| RF30 | Toda criatura em batalha (player, NPC, summons, aliados e pets) tem armadura física e mágica separadas                                          | Alta       |
+| RF31 | Todo golpe declara sua natureza (físico, mágico ou verdadeiro); não declarado significa físico                                                  | Alta       |
+| RF32 | Dano verdadeiro ignora qualquer armadura                                                                                                        | Alta       |
+| RF33 | A armadura é aplicada antes do multiplicador elemental                                                                                          | Alta       |
+| RF34 | O menu de Status distribui 5 stats primários — Força, Resistência, Sorte, Técnica e Espírito — e cada um lista os status derivados que ele move | Alta       |
+| RF35 | A vida máxima é derivada da Resistência (não existe mais stat primário de HP)                                                                   | Alta       |
+| RF36 | O special físico escala com Técnica e o special mágico com Espírito, derivados da natureza do golpe                                             | Alta       |
+| RF37 | O menu de Status mostra, sob cada stat, quanto o próximo ponto move cada status derivado                                                        | Alta       |
+| RF38 | Sorte governa Crítico, Chance de esquiva e a chance de drop extra                                                                               | Média      |
+| RF39 | Espírito aumenta a energia máxima                                                                                                               | Média      |
+| RF40 | existe status de redução de cooldown, concedível por Técnica, equipamento e títulos                                                             | Alta       |
+| RF41 | A redução de cooldown tem retorno decrescente e nunca passa de 90%                                                                              | Alta       |
+| RF42 | A redução de cooldown vale para as habilidades ativas do personagem (não para o ataque básico, nem para cooldowns de NPC, item ou chest)        | Alta       |
 
 ### 3.2 Requisitos Não Funcionais
 
@@ -123,35 +132,41 @@ O escopo atual abrange:
 
 ### 3.3 Regras de Negócio
 
-| ID   | Regra                                                                                                              |
-| ---- | ------------------------------------------------------------------------------------------------------------------ |
-| RN01 | O jogador só pode atravessar tiles de transição se atender às condições da rota (ex: ter determinada missão ativa) |
-| RN02 | Missões diárias resetam diariamente; missões semanais resetam semanalmente                                         |
-| RN03 | O HP máximo do jogador é calculado como `90 + stats.hp × 10`                                                       |
-| RN04 | NPCs de batalha possuem dificuldade categorizada: common, rare, epic, boss, legendary                              |
-| RN05 | A dificuldade do jogo (easy, medium, hard) modifica parâmetros de batalha                                          |
-| RN06 | Uma missão só pode ser concluída quando `progress >= counter`                                                      |
-| RN07 | Não é possível ter a mesma missão mais de uma vez na lista                                                         |
-| RN08 | Recompensas de missões podem ser XP, itens, moedas ou hyperCoins                                                   |
-| RN09 | O personagem do jogador é definido no início da partida e pode ser trocado                                         |
-| RN10 | O sistema de áudio usa AudioContext para sincronização de volume global                                            |
-| RN11 | A posição do jogador em cada cena é salva e restaurada ao retornar                                                 |
-| RN12 | Eventos de cena são processados em pipeline via `runSceneEvents()`                                                 |
-| RN13 | O projétil do tipo "pull" atrai o jogador em direção ao NPC                                                        |
-| RN14 | O projétil do tipo "rain" cria uma chuva de lanças com tempo de aviso                                              |
-| RN15 | Toda criatura declara sua tipagem elemental; NPC sem entrada cai em `Normalis`                                       |
-| RN16 | Não existe raça: tipagem elemental é o único eixo de diferença entre criaturas                                      |
-| RN17 | Todo caminho que resolve dano lê a tipagem em `getCharacterElementTypes` (uma única função, sem versão paralela)      |
-| RN18 | A tipagem do personagem não muda com o nível                                                                          |
-| RN19 | O multiplicador elemental com multi-tipagem é a média geométrica dos pares avaliados, não o produto                |
-| RN20 | Status é aplicado em um único ponto (`applyPlayerStatus`), valendo para qualquer fonte                             |
-| RN21 | Personagem novo não entra no jogo sem tipagem elemental declarada (trava de compilação)                              |
-| RN22 | A redução de armadura tem um único ponto (`CombatService.applyArmor`) para todo caminho de dano                   |
-| RN23 | `StatBlock.armor` alimenta as duas colunas; `physicalArmor`/`magicalArmor` são o excedente de blindagem parcial    |
-| RN24 | A natureza do golpe vem do dado: `ActiveAbility.damageType` lido por `getAbilityDamageType`, `Projectile.damageType` para NPC, `PetSkillEffect.damageType` para pets |
-| RN25 | O medidor de block consome o golpe bruto e projeta as duas colunas num número (`getBlockArmor`)                     |
-| RN26 | A armadura de um summon é resolvida no spawn e guardada em `SummonedNpc.armor` (inclusive no frame de rewind)         |
-| RN27 | A Expansão de Domínio é o caso canônico de dano verdadeiro e, por isso, ignora armadura                              |
+| ID   | Regra                                                                                                                                                                    |
+| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| RN01 | O jogador só pode atravessar tiles de transição se atender às condições da rota (ex: ter determinada missão ativa)                                                       |
+| RN02 | Missões diárias resetam diariamente; missões semanais resetam semanalmente                                                                                               |
+| RN03 | O HP máximo do jogador é calculado como `90 + stats.hp × 10`                                                                                                             |
+| RN04 | NPCs de batalha possuem dificuldade categorizada: common, rare, epic, boss, legendary                                                                                    |
+| RN05 | A dificuldade do jogo (easy, medium, hard) modifica parâmetros de batalha                                                                                                |
+| RN06 | Uma missão só pode ser concluída quando `progress >= counter`                                                                                                            |
+| RN07 | Não é possível ter a mesma missão mais de uma vez na lista                                                                                                               |
+| RN08 | Recompensas de missões podem ser XP, itens, moedas ou hyperCoins                                                                                                         |
+| RN09 | O personagem do jogador é definido no início da partida e pode ser trocado                                                                                               |
+| RN10 | O sistema de áudio usa AudioContext para sincronização de volume global                                                                                                  |
+| RN11 | A posição do jogador em cada cena é salva e restaurada ao retornar                                                                                                       |
+| RN12 | Eventos de cena são processados em pipeline via `runSceneEvents()`                                                                                                       |
+| RN13 | O projétil do tipo "pull" atrai o jogador em direção ao NPC                                                                                                              |
+| RN14 | O projétil do tipo "rain" cria uma chuva de lanças com tempo de aviso                                                                                                    |
+| RN15 | Toda criatura declara sua tipagem elemental; NPC sem entrada cai em `Normalis`                                                                                           |
+| RN16 | Não existe raça: tipagem elemental é o único eixo de diferença entre criaturas                                                                                           |
+| RN17 | Todo caminho que resolve dano lê a tipagem em `getCharacterElementTypes` (uma única função, sem versão paralela)                                                         |
+| RN18 | A tipagem do personagem não muda com o nível                                                                                                                             |
+| RN19 | O multiplicador elemental com multi-tipagem é a média geométrica dos pares avaliados, não o produto                                                                      |
+| RN20 | Status é aplicado em um único ponto (`applyPlayerStatus`), valendo para qualquer fonte                                                                                   |
+| RN21 | Personagem novo não entra no jogo sem tipagem elemental declarada (trava de compilação)                                                                                  |
+| RN22 | A redução de armadura tem um único ponto (`CombatService.applyArmor`) para todo caminho de dano                                                                          |
+| RN23 | `StatBlock.armor` alimenta as duas colunas; `physicalArmor`/`magicalArmor` são o excedente de blindagem parcial                                                          |
+| RN24 | A natureza do golpe vem do dado: `ActiveAbility.damageType` lido por `getAbilityDamageType`, `Projectile.damageType` para NPC, `PetSkillEffect.damageType` para pets     |
+| RN25 | O medidor de block consome o golpe bruto e projeta as duas colunas num número (`getBlockArmor`)                                                                          |
+| RN26 | A armadura de um summon é resolvida no spawn e guardada em `SummonedNpc.armor` (inclusive no frame de rewind)                                                            |
+| RN28 | A soma bruta de CDR passa por `raw * 100 / (100 + raw)` com teto de 90%; `applyCooldownReduction` aplica a curva internamente para nenhum call site converter errado     |
+| RN29 | A natureza do special decide o stat que o escala: `magical` lê Espírito, o resto lê Técnica — a mesma decisão que escolhe a coluna de armadura furada                    |
+| RN30 | `STATS` é a única fonte de ordem do menu; `STAT_EFFECTS` é indexado por `StatPrimaryKey`, então stat novo não compila sem efeito declarado                               |
+| RN31 | O level up sobe Força, Resistência, Espírito e Tenacidade; Sorte e Técnica ficam de fora por alimentarem curvas não-lineares                                             |
+| RN32 | Save antigo migra em `normalizeProgress`: `hp` vira Resistência e `intelligence` vira Técnica **e** Espírito, sem nerf de nenhuma build existente                        |
+| RN33 | Vida e armadura não são somadas em dobro: o bônus de equipamento de armadura mora em `getTotalArmor`, não no bônus somado                                                |
+| RN27 | Dano verdadeiro está implementado e sem uso: nenhum golpe passa `"true"` pelo funil; a Expansão de Domínio declara a natureza no dado mas é um _execute_ (`setNpcHP(0)`) |
 
 ### 3.4 Restrições de Hardware
 

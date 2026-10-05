@@ -24,12 +24,13 @@ function cardDescription(card: (typeof NPC_CARDS)[string]): string {
 
   if (reward.stats) {
     const statNames: Record<string, string> = {
-      hp: "HP",
       strength: "Força",
-      intelligence: "Inteligência",
+      technique: "Técnica",
+      spirit: "Espírito",
       resistance: "Resistência",
       tenacity: "Tenacidade",
       luck: "Sorte",
+      armor: "Armadura",
     };
     for (const [key, val] of Object.entries(reward.stats)) {
       if (val) rewardLines.push(`${statNames[key] ?? key}: +${val}`);

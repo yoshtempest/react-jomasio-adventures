@@ -14,7 +14,9 @@ export function addItemBonus(
   const multiplier = setItemIds.has(info.id) ? SET_MULTIPLIER : 1;
   bonus.hp += Math.round(stats.hp * multiplier);
   bonus.strength += Math.round(stats.strength * multiplier);
-  bonus.intelligence += Math.round(stats.intelligence * multiplier);
+  bonus.technique += Math.round(stats.technique * multiplier);
+  bonus.spirit += Math.round(stats.spirit * multiplier);
+  bonus.cooldownReduction += Math.round(stats.cooldownReduction * multiplier);
   bonus.shield += Math.round(stats.shield * multiplier);
   bonus.vampirism += Math.round(stats.vampirism * multiplier);
   bonus.reflect += Math.round(stats.reflect * multiplier);

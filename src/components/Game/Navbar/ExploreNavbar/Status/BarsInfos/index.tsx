@@ -25,12 +25,17 @@ export function BarsInfos() {
   const rankMultiplier = getRankMultiplier(charProgress.level);
   const hungerMultiplier = getHungerMultiplier(charProgress.hunger);
   const allStatsPct = 1 + titleBonus.percentAllStats / 100;
+  // Vida deriva da Resistência: o stat `hp` saiu do menu de pontos.
   const effectiveHp =
-    (charProgress.stats.hp + equipmentBonus.hp + titleBonus.hp) * allStatsPct;
+    (charProgress.stats.resistance + equipmentBonus.hp + titleBonus.hp) *
+    allStatsPct;
   const playerMaxHp =
     90 + Math.round(effectiveHp * rankMultiplier * hungerMultiplier) * 10;
   const currentHP = charProgress.battleHP ?? playerMaxHp;
-  const maxMana = getMaxMana(character);
+  const maxMana = getMaxMana(
+    character,
+    charProgress.stats.spirit + equipmentBonus.spirit + titleBonus.spirit,
+  );
   const currentMana = charProgress.battleMana ?? maxMana;
 
   return (
