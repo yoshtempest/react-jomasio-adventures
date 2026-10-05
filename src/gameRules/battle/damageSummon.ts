@@ -10,6 +10,7 @@ import type { DamageKind } from "@/utils/types/battle/damageKind";
 import { getCharacterElementTypes } from "@/data/types/characterElementTypes";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import { combatService } from "@/services/combat";
+import { atLeastMinDamage } from "@/gameRules/battle/damage/minDamage";
 
 type Params = {
   target: { id: string; x: number; y: number };
@@ -80,7 +81,7 @@ export function damageSummon({
     damageKind,
     targetSummon?.armor,
   );
-  const dmg = Math.round(armorReduced * multiplier * elementMultiplier);
+  const dmg = atLeastMinDamage(armorReduced * multiplier * elementMultiplier);
 
   spawnDamageRef.current?.(
     dmg,
@@ -98,9 +99,11 @@ export function damageSummon({
     if (heal > 0) setPlayerHP((hp) => Math.min(playerMaxHp, hp + heal));
   }
 
+  // Sem `Math.round` no HP: arredondar aqui apagava a fração acumulada pelas
+  // instancias do golpe (o summon voltava a HP inteiro a cada acerto).
   const newHp = Math.max(
     0,
-    Math.round((summons.find((s) => s.id === target.id)?.hp ?? 0) - dmg),
+    (summons.find((s) => s.id === target.id)?.hp ?? 0) - dmg,
   );
   if (newHp <= 0) giveSummonRewards("rare");
 

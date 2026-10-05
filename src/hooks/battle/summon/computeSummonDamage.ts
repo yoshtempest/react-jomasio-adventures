@@ -1,6 +1,7 @@
 import { NPCS } from "@/data/npc";
 import { getNpcStats } from "@/gameRules/npc/npcStats";
 import { getNpcVsPlayerMultiplier } from "@/gameRules/battle/npcVsPlayerDamage";
+import { atLeastMinDamage } from "@/gameRules/battle/damage/minDamage";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import { combatService } from "@/services/combat";
 import type { DamageKind } from "@/utils/types/battle/damageKind";
@@ -33,7 +34,7 @@ export function computeSummonDamage(
   // O conjure define o dano do summon, mas a criatura invocada tem tipagem
   // própria: `getNpcVsPlayerMultiplier` aplica o elemento do NPC contra o do
   // player — invocar não pode ser o jeito de burlar a tabela elemental.
-  return Math.round(
+  return atLeastMinDamage(
     combatService.calculateNpcDamage(
       stats.damage,
       SUMMON_DAMAGE_KIND,

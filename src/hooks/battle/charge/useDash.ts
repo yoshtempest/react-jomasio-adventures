@@ -14,6 +14,7 @@ import { getCharacterElementTypes } from "@/data/types/characterElementTypes";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import type { DamageArmor } from "@/utils/types/battle/damageKind";
 import { combatService } from "@/services/combat";
+import { atLeastMinDamage } from "@/gameRules/battle/damage/minDamage";
 import { applyHitstop, type TimeEffect } from "@/gameRules/battle/time";
 
 import { clampX } from "@/gameRules/movement/clampX";
@@ -143,7 +144,7 @@ export function useChargeDash(props: Props) {
           npcElementTypesRef.current,
         );
         const vastolordMult = vastolordMultiplierRef?.current?.() ?? 1;
-        const dmg = Math.round(
+        const dmg = atLeastMinDamage(
           combatService.calculateDamageToNpc(critDmg, "physical", npcArmor) *
             elementMultiplier *
             elementDamageBonus *
@@ -176,7 +177,7 @@ export function useChargeDash(props: Props) {
           getCharacterElementTypes(dashCharacter),
           summon ? getNpcElementTypes(summon.npcType) : [],
         );
-        const summonDmg = Math.round(
+        const summonDmg = atLeastMinDamage(
           critDmg *
             elementMultiplier *
             elementDamageBonus *
@@ -203,7 +204,7 @@ export function useChargeDash(props: Props) {
         setSummons((prev) =>
           prev.map((s) =>
             s.id === target.id
-              ? { ...s, hp: Math.max(0, Math.round(s.hp) - summonDmg) }
+              ? { ...s, hp: Math.max(0, s.hp - summonDmg) }
               : s,
           ),
         );
@@ -226,15 +227,13 @@ export function useChargeDash(props: Props) {
         );
         const berserkRaw =
           dashCharacter === "samuel" && dashCharRef.current.level >= 20
-            ? Math.round(
-                rawDmg *
-                  combatService.getBerserkMultiplier(
-                    playerHpRef.current,
-                    playerMaxHpRef.current,
-                  ),
+            ? rawDmg *
+              combatService.getBerserkMultiplier(
+                playerHpRef.current,
+                playerMaxHpRef.current,
               )
             : rawDmg;
-        const chargeDmg = Math.round(berserkRaw * 1.5);
+        const chargeDmg = berserkRaw * 1.5;
         const { damage: critDmg, type: critType } = combatService.rollCrit(
           chargeDmg,
           critRate,

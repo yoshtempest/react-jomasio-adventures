@@ -5,6 +5,7 @@ import { PET_STAR_MULTIPLIER } from "@/data/characters/petProgress";
 import { getPetBaseDamage } from "@/data/characters/petProgress";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import { combatService } from "@/services/combat";
+import { atLeastMinDamage } from "@/gameRules/battle/damage/minDamage";
 import { NO_ARMOR } from "@/gameRules/battle/damage/armor";
 import type { PetSkillDefinition } from "@/data/characters/petSkills";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
@@ -38,7 +39,7 @@ function calcPetDamage(opts: {
     getNpcElementTypes(targetNpcType),
   );
 
-  return Math.round(
+  return atLeastMinDamage(
     combatService.calculateDamageToNpc(
       baseDamage * multiplier,
       damageType ?? "physical",

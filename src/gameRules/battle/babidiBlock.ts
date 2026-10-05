@@ -1,3 +1,5 @@
+import { atLeastMinDamage } from "@/gameRules/battle/damage/minDamage";
+
 /** Personagem do jogador que carrega o Babidi Block. */
 export const BABIDI_CHARACTER = "lucaua";
 
@@ -51,11 +53,12 @@ export function getBabidiBlockReflect({
   }
 
   const multiplier = 1 + Math.max(0, levelGap) * BABIDI_REFLECT_BONUS_PER_LEVEL;
-  const damage = Math.round(
+  // Piso como no resto do jogo: o reflexo que arredondava para 0 apagava o
+  // golpe. `blockedDamage > 0` ja garante que ha o que refletir, entao aqui
+  // nunca e "nao refletiu", e sempre "refletiu pouco".
+  const damage = atLeastMinDamage(
     ((blockedDamage * BABIDI_BLOCK_REFLECT_PERCENT) / 100) * multiplier,
   );
-
-  if (damage <= 0) return null;
 
   return { damage, isInstakill: false };
 }

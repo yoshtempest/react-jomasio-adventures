@@ -17,6 +17,7 @@ import { ProjectileConstants } from "@/data/projectile";
 import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
 import { clampX } from "@/gameRules/movement/clampX";
 import { combatService } from "@/services/combat";
+import { atLeastMinDamage } from "@/gameRules/battle/damage/minDamage";
 import { getAbilityDamageType } from "@/data/characters/abilities";
 import type { DamageArmor } from "@/utils/types/battle/damageKind";
 import type { SoundId } from "@/utils/audio/soundId";
@@ -136,7 +137,10 @@ export function useVastolordLaser({
 
   const activeRef = useRef(false);
   const shotStartRef = useRef(0);
-  const accRef = useRef(0);
+  /** Dano bruto acumulado, fracionado, nunca arredondado. */
+  const rawAccRef = useRef(0);
+  /** Dano JA mitigado acumulado, para o numero/combo sairem inteiros. */
+  const shownAccRef = useRef(0);
   const tickTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const playerRef = useLatestRef(player);
@@ -175,7 +179,8 @@ export function useVastolordLaser({
     activeRef.current = false;
     stopSound("laser");
     clearTimer();
-    accRef.current = 0;
+    rawAccRef.current = 0;
+    shownAccRef.current = 0;
     shotStartRef.current = 0;
     setBeam(null);
     setPlayer((p) =>
@@ -203,17 +208,44 @@ export function useVastolordLaser({
         return;
       }
 
-      // Dano fracionado (1% do dano base por tick) acumulado até virar inteiro.
-      accRef.current += baseDamageRef.current * VASTOLORD_LASER_DAMAGE_RATIO;
-      const applied = Math.floor(accRef.current);
-      if (applied < 1) return;
-      accRef.current -= applied;
+      // ── Acumuladores do feixe ──
+      //
+      // `rawAccRef` acumula o dano BRUTO sem nunca arredondar. Antes o tick
+      // fazia `floor(acc)` e subtraia esse inteiro: contra um alvo blindado a
+      // armadura reduzia o inteiro para 0 e o bruto já tinha sido consumido do
+      // acumulador — o dano não era adiado, era jogado fora. Três segundos de
+      // feixe davam 0. Agora a fração inteira atravessa o funil e o HP recebe
+      // ela inteira.
+      rawAccRef.current += baseDamageRef.current * VASTOLORD_LASER_DAMAGE_RATIO;
 
       const beamData = beamRef.current;
       if (!beamData) return;
       const { y: beamY, fromX, toX } = beamData;
       const top = vastolordLaserTop(beamY, PLAYER_SIZE);
       const bottom = top + VASTOLORD_LASER_BEAM_HEIGHT;
+
+      /**
+       * Fecha um tick: número de dano e combo só quando o dano MITIGADO
+       * acumulado vira um inteiro cheio.
+       *
+       * O HP já foi alterado com a fração exata acima; isto é só a
+       * apresentação. Sem esse limite, `registerHit` (que faz `setComboCount`)
+       * e o DOM do número de dano rodariam uma vez por tick, e o feixe geraria
+       * milhares de nós em 3s.
+       */
+      const reportTick = (
+        dealt: number,
+        x: number,
+        y: number,
+        type: DamageType,
+      ) => {
+        shownAccRef.current += dealt;
+        const whole = Math.floor(shownAccRef.current);
+        if (whole < 1) return;
+        shownAccRef.current -= whole;
+        spawnDamageNumber(whole, x, y, type);
+        registerHitRef.current?.(whole);
+      };
 
       // NPC principal: dano + empurrão para longe do jogador (clampado).
       const mainNpc = npcRef.current;
@@ -223,16 +255,15 @@ export function useVastolordLaser({
         mainNpc.x >= fromX &&
         mainNpc.x <= toX
       ) {
-        // `applied` é o acumulado bruto do tick; a armadura entra agora, como
-        // em qualquer outra habilidade.
-        const dmg = combatService.applyArmor(
-          applied,
-          LASER_DAMAGE_KIND,
-          npcArmorRef.current,
+        // `rawAccRef` é o acumulado bruto; a armadura entra agora, como em
+        // qualquer outra habilidade, e o piso garante o mínimo.
+        const raw = rawAccRef.current;
+        const dmg = atLeastMinDamage(
+          combatService.applyArmor(raw, LASER_DAMAGE_KIND, npcArmorRef.current),
         );
+        rawAccRef.current = 0;
         setNpcHP((hp) => Math.max(0, hp - dmg));
-        spawnDamageNumber(dmg, mainNpc.x, mainNpc.y, "npc");
-        registerHitRef.current?.(dmg);
+        reportTick(dmg, mainNpc.x, mainNpc.y, "npc");
         const dir = mainNpc.x >= playerRef.current.x ? 1 : -1;
         mainNpc.updateNpc({
           x: clampX(mainNpc.x + dir * VASTOLORD_LASER_PUSH_PX),
@@ -253,14 +284,13 @@ export function useVastolordLaser({
           return s;
         }
         changed = true;
-        const dmg = combatService.applyArmor(
-          applied,
-          LASER_DAMAGE_KIND,
-          s.armor,
+        const raw = rawAccRef.current;
+        const dmg = atLeastMinDamage(
+          combatService.applyArmor(raw, LASER_DAMAGE_KIND, s.armor),
         );
+        rawAccRef.current = 0;
         const newHp = Math.max(0, s.hp - dmg);
-        spawnDamageNumber(dmg, s.x, s.y, "summon");
-        registerHitRef.current?.(dmg);
+        reportTick(dmg, s.x, s.y, "summon");
         if (newHp <= 0) {
           killed = true;
           return null;
@@ -306,7 +336,8 @@ export function useVastolordLaser({
       activeRef.current = false;
       return;
     }
-    accRef.current = 0;
+    rawAccRef.current = 0;
+    shownAccRef.current = 0;
     const p = playerRef.current;
     shotStartRef.current = Date.now();
     freezeActionsUntilRef.current = Math.max(

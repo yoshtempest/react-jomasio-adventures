@@ -5,6 +5,7 @@ import { NPCS } from "@/data/npc";
 import { getNpcStats } from "@/gameRules/npc/npcStats";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import { combatService } from "@/services/combat";
+import { atLeastMinDamage } from "@/gameRules/battle/damage/minDamage";
 
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { DamageArmor } from "@/utils/types/battle/damageKind";
@@ -122,7 +123,7 @@ export function useAllyAI({
           getNpcElementTypes(enemyType),
         );
 
-        return Math.round(
+        return atLeastMinDamage(
           combatService.calculateDamageToNpc(
             stats.damage,
             "physical",

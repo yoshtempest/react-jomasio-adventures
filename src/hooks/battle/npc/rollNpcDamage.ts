@@ -1,4 +1,5 @@
 import { getNpcVsPlayerMultiplier } from "@/gameRules/battle/npcVsPlayerDamage";
+import { atLeastMinDamage } from "@/gameRules/battle/damage/minDamage";
 
 /**
  * Funil do dano de NPC contra o player.
@@ -19,7 +20,7 @@ export function rollNpcDamage(
     critChance = 1 + (1 - clampedRatio) * 9;
   }
   const isCrit = Math.random() * 100 < critChance;
-  const finalDmg = Math.round(
+  const finalDmg = atLeastMinDamage(
     (isCrit ? dmg * 2 : dmg) *
       getNpcVsPlayerMultiplier(npcType, playerCharacter),
   );

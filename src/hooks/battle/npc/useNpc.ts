@@ -11,6 +11,7 @@ import { getNpcVsPlayerMultiplier } from "@/gameRules/battle/npcVsPlayerDamage";
 import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
 import { combatService } from "@/services/combat";
 import { getBabidiBlockReflect } from "@/gameRules/battle/babidiBlock";
+import { atLeastMinDamage } from "@/gameRules/battle/damage/minDamage";
 import { checkBlocked } from "./checkBlocked";
 import { rollNpcDamage } from "./rollNpcDamage";
 import { applyBleed } from "./apply/applyBleed";
@@ -128,11 +129,11 @@ export function useNpcBattle({
       if (damage > 0) {
         const reflectPct = Math.min(totalReflect, 10);
         if (reflectPct > 0) {
-          const reflectAmt = Math.round((damage * reflectPct) / 100);
-          if (reflectAmt > 0) {
-            setNpcHP((hp) => Math.max(0, hp - reflectAmt));
-            spawnDamageRef.current?.(reflectAmt, npcX, npcY, "reflect");
-          }
+          // Piso aplicado: um reflexo de 0.4% arredondava para 0 e o golpe
+          // refletido simplesmente nao existia.
+          const reflectAmt = atLeastMinDamage((damage * reflectPct) / 100);
+          setNpcHP((hp) => Math.max(0, hp - reflectAmt));
+          spawnDamageRef.current?.(reflectAmt, npcX, npcY, "reflect");
         }
       }
     },
@@ -285,7 +286,7 @@ export function useNpcBattle({
         player.character,
       );
 
-      const scaledDmg = Math.round(finalDmg * multiplier);
+      const scaledDmg = atLeastMinDamage(finalDmg * multiplier);
 
       applyNpcDamage(scaledDmg, tx, ty, dmgType);
       onDamageTakenRef?.current?.(scaledDmg);
@@ -527,7 +528,7 @@ export function useNpcBattle({
       );
       // Mesmo funil do melee: arremessar não pode fugir da tabela elemental
       // do NPC, da coluna certa de armadura nem da resistência do player.
-      const finalDmg = Math.round(
+      const finalDmg = atLeastMinDamage(
         dmg * multiplier * getNpcVsPlayerMultiplier(npcType, player.character),
       );
 

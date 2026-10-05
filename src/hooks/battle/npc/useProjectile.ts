@@ -22,6 +22,7 @@ import type {
 } from "@/utils/types/battle/projectileHit";
 import { getTime, type TimeEffect } from "@/gameRules/battle/time";
 import type { DamageKind } from "@/utils/types/battle/damageKind";
+import { atLeastMinDamage } from "@/gameRules/battle/damage/minDamage";
 
 export function useProjectile(
   projectiles: Projectile[],
@@ -129,7 +130,10 @@ export function useProjectile(
           const hit =
             multiplier === 1
               ? base
-              : { ...base, damage: Math.round(base.damage * multiplier) };
+              : {
+                  ...base,
+                  damage: atLeastMinDamage(base.damage * multiplier),
+                };
           const struck = applyPlayerStrike(p, {
             playerState: state,
             resolveHit: () => hit,

@@ -46,7 +46,9 @@ export function buildFrame(snaps: FrameSnapshots, t: number): ReplayFrame {
     pd: p.battleDirection,
     pchar: p.character,
     pdir: p.direction,
-    php: Math.round(b.playerHP),
+    // HP sem arredondar: o rewind restaura estes valores no estado real da
+    // batalha, entao arredondar descartaria a fracao (e podia devolver HP).
+    php: b.playerHP,
     pmaxhp: Math.round(b.playerMaxHp),
     pshield: Math.round(b.playerShield),
 
@@ -54,7 +56,7 @@ export function buildFrame(snaps: FrameSnapshots, t: number): ReplayFrame {
     ny: Math.round(n.y),
     ns: n.state,
     ndir: n.direction,
-    nhp: Math.round(b.npcHP),
+    nhp: b.npcHP,
     nmaxhp: Math.round(b.npcMaxHp),
     npcPhase: b.npcPhase,
 

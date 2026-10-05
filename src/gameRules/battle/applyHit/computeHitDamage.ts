@@ -1,5 +1,6 @@
 import { getCharacterElementTypes } from "@/data/types/characterElementTypes";
 import { combatService } from "@/services/combat";
+import { atLeastMinDamage } from "@/gameRules/battle/damage/minDamage";
 import type { ComputeHitDamageParams } from "./types";
 
 /**
@@ -38,10 +39,8 @@ export function computeHitDamage({
   const dmgWithHpBonus = rawDmg + maxHpBonus;
   const berserkDmg =
     player.character === "samuel" && char.level >= 20
-      ? Math.round(
-          dmgWithHpBonus *
-            combatService.getBerserkMultiplier(playerHP, playerMaxHp),
-        )
+      ? dmgWithHpBonus *
+        combatService.getBerserkMultiplier(playerHP, playerMaxHp)
       : dmgWithHpBonus;
   const { damage: critDmg, type: dmgType } = combatService.rollCrit(
     berserkDmg,
@@ -52,10 +51,11 @@ export function computeHitDamage({
     getCharacterElementTypes(player.character),
     npcElementTypes,
   );
-  const trueDmg =
-    Math.round(
-      armorReduced * damageMultiplier * elementMultiplier * elementDamageBonus,
-    ) + totalTrueDamage;
+  // Sem `Math.round`: era aqui que um golpe forte contra um alvo blindado
+  // virava 0 dano. A fração fica para o HP acumular e o piso garante o minimo.
+  const mitigated =
+    armorReduced * damageMultiplier * elementMultiplier * elementDamageBonus;
+  const trueDmg = atLeastMinDamage(mitigated + totalTrueDamage);
 
   return { damage: trueDmg, isCrit: dmgType === "crit", type: dmgType };
 }

@@ -96,6 +96,11 @@ export class CombatService {
    * Qualquer caminho de dano que reduza armadura por conta própria está
    * errado: era exatamente isso que mantinha o funil do summon com uma cópia
    * da fórmula.
+   *
+   * Omitido o arredondamento de propósito. Aqui ele zerava o jogo: com
+   * armadura 400 o dano 1 vira 0.2 e arredondava para 0 — golpe conectado que
+   * não tirava nada e não era adiado para depois. A fração precisa
+   * atravessar o funil para o chamador acumular (ver `damage/minDamage.ts`).
    */
   applyArmor(
     damage: number,
@@ -104,7 +109,7 @@ export class CombatService {
   ): number {
     const value = getArmorFor(kind, armor);
     if (value <= 0) return damage;
-    return Math.round((damage * 100) / (100 + value));
+    return (damage * 100) / (100 + value);
   }
 
   calculateDamageToNpc(
@@ -139,7 +144,7 @@ export class CombatService {
       dmg *= 0.8;
     }
 
-    return Math.round(dmg);
+    return dmg;
   }
 
   canNpcAttack(

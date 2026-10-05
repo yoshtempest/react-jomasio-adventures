@@ -50,6 +50,7 @@ export function DamageNumbers({ numbers, scaleX, scaleY, targets }: Props) {
           : target
             ? target.h + HEAD_GAP
             : 80;
+        const value = Math.round(n.value);
         return (
           <div
             key={n.id}
@@ -63,7 +64,7 @@ export function DamageNumbers({ numbers, scaleX, scaleY, targets }: Props) {
             {n.type === "crit" ? (
               <div className={styles.critBackground}>
                 <span className={styles.critText}>
-                  {n.value > 0 ? `-${n.value}` : "0"}
+                  {value > 0 ? `-${value}` : "0"}
                 </span>
               </div>
             ) : n.type === "blocked" ? (
@@ -73,7 +74,7 @@ export function DamageNumbers({ numbers, scaleX, scaleY, targets }: Props) {
             ) : n.type === "miss" ? (
               "MISS!"
             ) : n.type === "heal" ? (
-              `+${n.value}`
+              `+${value}`
             ) : n.type === "armor" ? (
               <>
                 <img
@@ -82,8 +83,8 @@ export function DamageNumbers({ numbers, scaleX, scaleY, targets }: Props) {
                 />
                 +1
               </>
-            ) : n.value > 0 ? (
-              `-${n.value}`
+            ) : value > 0 ? (
+              `-${value}`
             ) : (
               "0"
             )}

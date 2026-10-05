@@ -123,7 +123,9 @@ export function HealthBar({ hp, maxHp = 100, reversed = false }: Props) {
         />
       )}
       <div className={styles.text}>
-        {Math.round(hp)} / {maxHp}
+        {/* `ceil` e nao `round`: o HP pode ser fracionario (o piso de dano e
+            0.01), e arredondar mostrava "1000 / 1000" com a barra em 99.96%. */}
+        {Math.ceil(hp)} / {maxHp}
       </div>
     </div>
   );
