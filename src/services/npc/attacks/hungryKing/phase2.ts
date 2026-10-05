@@ -14,15 +14,15 @@ import {
   MELEE_RANGE,
 } from "./state";
 
-function createBurstProjectile(
+function createGroundProjectile(
   npcX: number,
   npcY: number,
   direction: "left" | "right",
   createdAt?: number,
-): ProjectileBurst {
+): ProjectileGround {
   const dirX = direction === "right" ? 1 : -1;
   return {
-    variant: "burst",
+    variant: "ground",
     id: nextProjectileId(),
     // Sai da frente do rei, na altura da boca.
     x: npcX + dirX * 40,
@@ -30,7 +30,10 @@ function createBurstProjectile(
     dirX,
     createdAt: createdAt ?? Date.now(),
     sprite: "burst",
-    exploded: false,
+    // Projétil terrestre: detona ao encostar no jogador (dano de impacto + push).
+    detonatesOnHit: true,
+    impactSprite: "burstExplosion",
+    impacted: false,
     hp: ProjectileHpConstants.DEFAULT_HP,
     maxHp: ProjectileHpConstants.DEFAULT_HP,
     indestructible: false,
@@ -76,7 +79,7 @@ export function hungryKingPhase2(
     ai.lastBurst = now;
     if (!projectile) {
       setProjectile(
-        createBurstProjectile(npc.x, npc.y, npc.direction ?? "left"),
+        createGroundProjectile(npc.x, npc.y, npc.direction ?? "left"),
       );
       ctx.playSound?.("smash");
     }

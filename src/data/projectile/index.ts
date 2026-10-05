@@ -7,15 +7,24 @@ export const ProjectileConstants = {
   MAP_WIDTH: 1000,
   MAP_HEIGHT: 600,
   OFFSCREEN_BOTTOM: 800,
-  /** Velocidade da burst do hungryKing (fase 2). */
-  BURST_SPEED: 17,
-  /** Tempo que a burstExplosion fica visível antes de sumir. */
-  BURST_EXPLOSION_MS: 400,
+  /** Velocidade do projétil terrestre (burst do hungryKing na fase 2). */
+  GROUND_SPEED: 17,
+  /** Alcance horizontal do projétil terrestre para acertar o jogador. */
+  GROUND_HIT_RANGE_X: 60,
+  /** Alcance vertical do projétil terrestre (a linha de voo é o chão). */
+  GROUND_HIT_RANGE_Y: 140,
+  /**
+   * Tempo que o projétil terrestre fica no sprite de estrago antes de sumir.
+   * Só vale quando `detonatesOnHit` está ligado.
+   */
+  GROUND_IMPACT_MS: FOUR_HUNDRED_MS,
+  /** Largura do sprite do projétil terrestre (âncora centralizada). */
+  GROUND_SPRITE_WIDTH: 250,
 };
 
 /** Parâmetros de destruição de projéteis (HP, corte e colisões). */
 export const ProjectileHpConstants = {
-  /** HP padrão de projéteis comuns/pull/burst/rain (inteiro). */
+  /** HP padrão de projéteis comuns/pull/ground/rain (inteiro). */
   DEFAULT_HP: 6,
   /** HP dos fragmentos cortados pelo Marcelo. */
   CUT_FRAGMENT_HP: 2,

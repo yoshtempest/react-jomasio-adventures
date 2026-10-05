@@ -350,20 +350,30 @@ declare global {
   };
 
   /**
-   * Burst do hungryKing (fase 2): atravessa a arena na direção que o rei
-   * encara até a ponta do mapa; ao passar pelo jogador vira `burstExplosion`
-   * por um instante (causando 10% do dano base + push de 50px x/y).
+   * Projétil terrestre: rasteja rente ao chão, na horizontal, na direção que o
+   * NPC encara até a ponta do mapa. Agachar **não** desvia — a hitbox abaixada
+   * só engana projétil aéreo (regra `gameRules/npc/projectile/crouchDodge`);
+   * dash continua sendo i-frame para qualquer elevação.
+   *
+   * É o tipo da burst do hungryKing (fase 2). Com `detonatesOnHit` o impacto
+   * vira explosão (dano de impacto + push, via `onBurstHit`) e o projétil troca
+   * para `impactSprite` antes de sumir; sem ele, o impacto é dano direto de
+   * projétil comum e o projétil some na hora.
    */
-  type ProjectileBurst = ProjectileHp & {
-    variant: "burst";
+  type ProjectileGround = ProjectileHp & {
+    variant: "ground";
     x: number;
     y: number;
     dirX: number;
     createdAt: number;
-    sprite: "burst" | "burstExplosion";
-    /** true quando atingiu o jogador — começa a animação de explosão. */
-    exploded: boolean;
-    explodedAt?: number;
+    sprite: string;
+    /** Impacto detona em explosão. Ausente = dano direto e o projétil some. */
+    detonatesOnHit?: boolean;
+    /** Sprite do estrago ao detonar (fallback no próprio sprite sem ele). */
+    impactSprite?: string;
+    /** true quando já atingiu o jogador — no modo detona, inicia o estrago. */
+    impacted: boolean;
+    impactedAt?: number;
   };
 
   type Projectile =
@@ -371,7 +381,7 @@ declare global {
     | ProjectilePull
     | ProjectileRain
     | ProjectileCut
-    | ProjectileBurst;
+    | ProjectileGround;
 
   // ── Player ──────────────────────────────────────────────
   // PlayerState é a união de dois blocos semânticos: `PlayerCanActState` (o

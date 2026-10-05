@@ -11,7 +11,7 @@ import { resetCooldownRef } from "@/utils/battle/cooldown";
 import { getProjectileCenter } from "@/gameRules/npc/projectile/projectileDamage";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { applyPlayerStrike } from "./apply/applyPlayerStrike";
-import { handleBurstProjectile } from "./handle/handleBurstProjectile";
+import { handleGroundProjectile } from "./handle/handleGroundProjectile";
 import { handleLinearProjectile } from "./handle/handleLinearProjectile";
 import { handleCut } from "./handle/handleCut";
 import { handleRain } from "./handle/handleRain";
@@ -227,8 +227,8 @@ export function useProjectile(
                 strike,
                 time.speed,
               );
-            case "burst":
-              return handleBurstProjectile(p, {
+            case "ground":
+              return handleGroundProjectile(p, {
                 playerX: playerXRef.current,
                 playerY: playerYRef.current,
                 playerState: playerStateRef.current,
@@ -237,6 +237,7 @@ export function useProjectile(
                 sphere,
                 onDestroyed: destroy,
                 ...strike,
+                onHit: onHitRef.current,
                 onBurstHit: onBurstHitRef.current,
                 speedScale: time.speed,
               });

@@ -6,7 +6,7 @@ const MAX_DAMAGE_FOR_INTENSITY = 200;
 const INTENSITY_PER_DAMAGE = 0.25;
 const SHAKE_DECAY = 0.88;
 const MIN_INTENSITY = 0.1;
-/** Intensidade do tremor enquanto a burst do hungryKing atravessa a arena. */
+/** Intensidade do tremor enquanto um projétil terrestre detona atravessa a arena. */
 const EXTERNAL_SHAKE_INTENSITY = 1;
 
 export function useCameraShake(
@@ -27,7 +27,8 @@ export function useCameraShake(
 
     const step = () => {
       const live = externalShakeRef.current;
-      // Enquanto a burst está ativa não acumula: fixa a intensidade base.
+      // Enquanto o projétil terrestre está ativo não acumula: fixa a
+      // intensidade base.
       const intensity = live ? EXTERNAL_SHAKE_INTENSITY : intensityRef.current;
       if (intensity <= MIN_INTENSITY && !live) {
         intensityRef.current = 0;

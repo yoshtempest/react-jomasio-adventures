@@ -20,7 +20,9 @@ function getSpriteKey(projectile: Projectile): string {
   }
 
   const sprite = projectile.sprite;
-  if (sprite === "goat") {
+  // `goat` só é usado por `common`/`cut`, que têm estado de caminhada; o
+  // projétil terrestre não tem — ele é fixo rente ao chão.
+  if (sprite === "goat" && projectile.variant !== "ground") {
     return projectile.state === "idle" ? "goat-idle" : "goat-walk";
   }
 
@@ -75,11 +77,11 @@ export function ProjectileSprite({ projectile, groundY = 600 }: Props) {
   const scaleY = getViewportSize().height / ProjectileConstants.MAP_HEIGHT;
   const spriteKey = getSpriteKey(projectile);
   const src = spriteMap[spriteKey];
-  const isBurst = projectile.variant === "burst";
-  const spriteWidth = isBurst ? 250 : 100;
-  // A burst viaja com o centro do sprite alinhado à linha de voo, subindo o
-  // visual até o centro do jogador (outros projéteis seguem âncora top-left).
-  const spriteTransform = isBurst ? "translateY(-50%)" : undefined;
+  const isGround = projectile.variant === "ground";
+  const spriteWidth = isGround ? ProjectileConstants.GROUND_SPRITE_WIDTH : 100;
+  // O projétil terrestre viaja com o centro do sprite alinhado à linha de voo,
+  // subindo o visual até o centro do jogador (os outros seguem âncora top-left).
+  const spriteTransform = isGround ? "translateY(-50%)" : undefined;
 
   if (projectile.variant === "cut") {
     return (

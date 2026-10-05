@@ -279,14 +279,17 @@ export function BattleScene(props: Props) {
   const focusX = focus.x;
   const focusY = focus.y;
 
-  const burstShakeActive = npc.projectiles.some(
+  // Tremor enquanto um projétil terrestre que detona (a burst do hungryKing)
+  // atravessa a arena na direção do jogador.
+  const groundShakeActive = npc.projectiles.some(
     (p) =>
-      p.variant === "burst" &&
-      !p.exploded &&
+      p.variant === "ground" &&
+      p.detonatesOnHit === true &&
+      !p.impacted &&
       (p.dirX > 0 ? p.x < player.x : p.x > player.x),
   );
 
-  const shake = useCameraShake(battle.damageNumbers, burstShakeActive);
+  const shake = useCameraShake(battle.damageNumbers, groundShakeActive);
 
   const bgBaseW = containerWidth * 1.5;
   const bgBaseH = containerHeight * 1.5;

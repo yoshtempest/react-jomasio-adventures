@@ -1,17 +1,19 @@
+import { ProjectileConstants } from "@/data/projectile";
+
 /** Largura do sprite por variant — usada para centralizar o damage number. */
 const DAMAGE_ANCHOR_WIDTH: Record<Projectile["variant"], number> = {
   common: 100,
   pull: 100,
   cut: 100,
   rain: 100,
-  burst: 250,
+  ground: ProjectileConstants.GROUND_SPRITE_WIDTH,
 };
 
 /** Altura em que as lanças da chuva atingem o chão (âncora visual da nuvem). */
 const RAIN_IMPACT_Y = 550;
 
 export type DamageableProjectile =
-  ProjectileCommon | ProjectilePull | ProjectileBurst;
+  ProjectileCommon | ProjectilePull | ProjectileGround;
 
 /**
  * Centro visual do projétil: onde o damage number aparece e onde a Killer Queen

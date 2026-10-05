@@ -22,8 +22,6 @@
 
   width: 100%;
   margin-bottom: 4px;
-
-  font-family: var(--font-inter);
 }
 
 .statusName {
@@ -36,7 +34,7 @@
   letter-spacing: 0.04em;
   text-transform: uppercase;
 
-  color: var(--foreground);
+  color: var(--text-color);
 }
 
 .statusName svg {
@@ -52,7 +50,7 @@
   font-size: 0.75rem;
   font-weight: 500;
 
-  color: var(--foreground);
+  color: var(--text-color);
   opacity: 0.75;
 }
 
@@ -60,7 +58,7 @@
   font-size: 0.85rem;
   font-weight: 800;
 
-  color: var(--foreground);
+  color: var(--text-color);
   opacity: 1;
 }
 

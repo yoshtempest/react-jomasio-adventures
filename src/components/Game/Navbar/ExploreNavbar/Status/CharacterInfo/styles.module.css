@@ -117,7 +117,7 @@
 
   letter-spacing: 0.03em;
 
-  color: var(--foreground);
+  color: var(--text-color);
 
   text-shadow:
     2px 2px 4px rgba(0, 0, 0, 0.45);

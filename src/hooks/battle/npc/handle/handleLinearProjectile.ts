@@ -1,9 +1,13 @@
 import { ProjectileConstants, ProjectileHpConstants } from "@/data/projectile";
-import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
 import {
   shouldCutProjectile,
   createSlicedProjectile,
 } from "@/gameRules/npc/projectile/cutProjectile";
+import {
+  crouchDodgesProjectile,
+  getProjectileHitY,
+  type ProjectileHeight,
+} from "@/gameRules/npc/projectile/crouchDodge";
 import { tryMeleeIntercept } from "@/hooks/battle/npc/tryMeleeIntercept";
 import type { StrikeOpts } from "@/hooks/battle/npc/apply/applyPlayerStrike";
 import type { DamageKind } from "@/utils/types/battle/damageKind";
@@ -85,13 +89,14 @@ export function handleLinearProjectile(
 
   const dx = Math.abs(opts.playerX - next.x);
   const isDashing = opts.playerState === "dash";
-  const isCrouchedState = ALL_PREDICATES.isCrouched(opts.playerState);
-  const canCrouchDodge =
-    p.variant === "common" ? (p.canCrouchDodge ?? true) : true;
-  const dodgeProjectile = isDashing || (isCrouchedState && canCrouchDodge);
+  // Elevação do projétil: `common` declara no dado (`canCrouchDodge: false`
+  // = terrestre, ex: papel em chamas do Maugrelo), `pull` é aéreo.
+  const height: ProjectileHeight =
+    p.variant === "common" && p.canCrouchDodge === false ? "ground" : "air";
+  const dodgeProjectile =
+    isDashing || crouchDodgesProjectile(opts.playerState, height);
 
-  const hitY =
-    isCrouchedState && canCrouchDodge ? opts.playerY - 30 : opts.playerY;
+  const hitY = getProjectileHitY(opts.playerY, opts.playerState, height);
   const hitDy = Math.abs(hitY - next.y);
 
   if (dx < 40 && hitDy <= 160 && !dodgeProjectile) {

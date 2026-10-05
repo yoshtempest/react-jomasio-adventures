@@ -50,7 +50,7 @@
 }
 
 .statLabel span {
-  color: var(--foreground);
+  color: var(--text-color);
 }
 
 .bonus {

@@ -1,5 +1,6 @@
 import { ProjectileConstants, ProjectileHpConstants } from "@/data/projectile";
 import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
+import { crouchDodgesProjectile } from "@/gameRules/npc/projectile/crouchDodge";
 import { applyPlayerStrike } from "@/hooks/battle/npc/apply/applyPlayerStrike";
 import type { StrikeOpts } from "@/hooks/battle/npc/apply/applyPlayerStrike";
 import type { DamageKind } from "@/utils/types/battle/damageKind";
@@ -24,7 +25,8 @@ export function handleRain(
   }
 
   const isDashing = playerState === "dash";
-  const isCrouchedState = ALL_PREDICATES.isCrouched(playerState);
+  // A lança cai do alto: é aérea, então agachar desvia dela.
+  const crouchDodges = crouchDodgesProjectile(playerState, "air");
 
   // Golpe do jogador (básico ou special) causa o dano real do ataque na chuva
   // inteira, usando a lança mais próxima dentro do alcance como âncora.
@@ -63,7 +65,7 @@ export function handleRain(
       newY >= 550 &&
       newY <= ProjectileConstants.OFFSCREEN_BOTTOM &&
       !isDashing &&
-      !isCrouchedState
+      !crouchDodges
     ) {
       const dx = Math.abs(playerX - s.x);
       if (dx < 30) {

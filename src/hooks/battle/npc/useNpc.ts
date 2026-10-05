@@ -341,11 +341,12 @@ export function useNpcBattle({
       if (ALL_PREDICATES.isInvulnerable(player.state)) return;
       if (!npcCooldown.current) return;
       if (ALL_PREDICATES.isDashing(player.state)) return;
-      if (
-        ALL_PREDICATES.isCrouched(player.state) &&
-        Math.abs(playerX - npcX) > 80
-      )
-        return;
+      // Sem checagem de agachamento aqui: este callback só é alcançado pelo
+      // pipeline de projétil (`onProjectileHit` ← `useProjectile`), e cada
+      // handler já decidiu se o agachamento desvia — é lá que mora a elevação
+      // do projétil (`gameRules/npc/projectile/crouchDodge`). Repetir a regra
+      // aqui desfazia tanto o projétil terrestre quanto o
+      // `canCrouchDodge: false` declarado no dado.
 
       const npc = getNpcStats(npcLevel, npcClass, difficulty, statMultiplier);
       const baseDmg = npc.damage;
