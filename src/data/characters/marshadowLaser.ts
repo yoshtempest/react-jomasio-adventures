@@ -21,7 +21,7 @@ export const VASTOLORD_LASER_DURATION_MS = THREE_THOUSAND_MS;
  */
 export const VASTOLORD_LASER_TICK_MS = 1;
 /** Fração do dano base aplicada por tick (1%). */
-export const VASTOLORD_LASER_DAMAGE_RATIO = 0.05;
+export const VASTOLORD_LASER_DAMAGE_RATIO = 0.01;
 /** Distância (px no plano lógico) que o feixe empurra o inimigo por tick. */
 export const VASTOLORD_LASER_PUSH_PX = 10;
 /** Altura do sprite vastolordLaser.svg (1000x243) em px lógicos. */

@@ -84,6 +84,9 @@ type Props = {
 /** Natureza do feixe pelo registro de habilidades (o GameData e o hook concordam). */
 const LASER_DAMAGE_KIND = getAbilityDamageType("vastolordLaser");
 
+/** Chave do NPC principal no acumulador de apresentação (summons usam o id). */
+const MAIN_TARGET_KEY = "main-npc";
+
 type VastolordLaserApi = {
   beam: VastolordLaserBeam | null;
   press: () => void;
@@ -139,8 +142,11 @@ export function useVastolordLaser({
   const shotStartRef = useRef(0);
   /** Dano bruto acumulado, fracionado, nunca arredondado. */
   const rawAccRef = useRef(0);
-  /** Dano JA mitigado acumulado, para o numero/combo sairem inteiros. */
-  const shownAccRef = useRef(0);
+  /**
+   * Dano JA mitigado acumulado POR ALVO, so para o numero/combo sairem
+   * inteiros. Chaveado por id (summon) ou por `MAIN_TARGET_KEY` (chefe).
+   */
+  const shownAccRef = useRef(new Map<string, number>());
   const tickTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const playerRef = useLatestRef(player);
@@ -180,7 +186,7 @@ export function useVastolordLaser({
     stopSound("laser");
     clearTimer();
     rawAccRef.current = 0;
-    shownAccRef.current = 0;
+    shownAccRef.current.clear();
     shotStartRef.current = 0;
     setBeam(null);
     setPlayer((p) =>
@@ -208,15 +214,20 @@ export function useVastolordLaser({
         return;
       }
 
-      // ── Acumuladores do feixe ──
+      // ── Bruto do tick ──
       //
-      // `rawAccRef` acumula o dano BRUTO sem nunca arredondar. Antes o tick
-      // fazia `floor(acc)` e subtraia esse inteiro: contra um alvo blindado a
-      // armadura reduzia o inteiro para 0 e o bruto já tinha sido consumido do
-      // acumulador — o dano não era adiado, era jogado fora. Três segundos de
-      // feixe davam 0. Agora a fração inteira atravessa o funil e o HP recebe
-      // ela inteira.
-      rawAccRef.current += baseDamageRef.current * VASTOLORD_LASER_DAMAGE_RATIO;
+      // `rawAccRef` carrega a FRAÇÃO entre ticks: com dano base baixo o
+      // incremento é menor que 1 e não pode ser jogado fora a cada tick.
+      //
+      // O valor do tick, porém, é local (`rawTick`) e TODOS os alvos na faixa
+      // consomem o mesmo bruto. Zerar o acumulador dentro de cada ramo fazia o
+      // primeiro alvo na faixa levar tudo e os demais receberem zero — o NPC
+      // principal deixava os summons com `raw = 0`, e o piso de 0.01 por tick
+      // explicava os 3 de dano dos minions contra os 200 do chefe.
+      const rawTick =
+        rawAccRef.current +
+        baseDamageRef.current * VASTOLORD_LASER_DAMAGE_RATIO;
+      rawAccRef.current = 0;
 
       const beamData = beamRef.current;
       if (!beamData) return;
@@ -226,23 +237,30 @@ export function useVastolordLaser({
 
       /**
        * Fecha um tick: número de dano e combo só quando o dano MITIGADO
-       * acumulado vira um inteiro cheio.
+       * acumulado DESTE alvo vira um inteiro cheio.
        *
        * O HP já foi alterado com a fração exata acima; isto é só a
        * apresentação. Sem esse limite, `registerHit` (que faz `setComboCount`)
        * e o DOM do número de dano rodariam uma vez por tick, e o feixe geraria
        * milhares de nós em 3s.
+       *
+       * O acumulador é por alvo, não global: com um único acumulador o dano do
+       * summon entrava na conta do chefe e o número aparecia na posição errada.
        */
       const reportTick = (
+        key: string,
         dealt: number,
         x: number,
         y: number,
         type: DamageType,
       ) => {
-        shownAccRef.current += dealt;
-        const whole = Math.floor(shownAccRef.current);
-        if (whole < 1) return;
-        shownAccRef.current -= whole;
+        const acc = (shownAccRef.current.get(key) ?? 0) + dealt;
+        const whole = Math.floor(acc);
+        if (whole < 1) {
+          shownAccRef.current.set(key, acc);
+          return;
+        }
+        shownAccRef.current.set(key, acc - whole);
         spawnDamageNumber(whole, x, y, type);
         registerHitRef.current?.(whole);
       };
@@ -255,15 +273,15 @@ export function useVastolordLaser({
         mainNpc.x >= fromX &&
         mainNpc.x <= toX
       ) {
-        // `rawAccRef` é o acumulado bruto; a armadura entra agora, como em
-        // qualquer outra habilidade, e o piso garante o mínimo.
-        const raw = rawAccRef.current;
         const dmg = atLeastMinDamage(
-          combatService.applyArmor(raw, LASER_DAMAGE_KIND, npcArmorRef.current),
+          combatService.applyArmor(
+            rawTick,
+            LASER_DAMAGE_KIND,
+            npcArmorRef.current,
+          ),
         );
-        rawAccRef.current = 0;
         setNpcHP((hp) => Math.max(0, hp - dmg));
-        reportTick(dmg, mainNpc.x, mainNpc.y, "npc");
+        reportTick(MAIN_TARGET_KEY, dmg, mainNpc.x, mainNpc.y, "npc");
         const dir = mainNpc.x >= playerRef.current.x ? 1 : -1;
         mainNpc.updateNpc({
           x: clampX(mainNpc.x + dir * VASTOLORD_LASER_PUSH_PX),
@@ -284,13 +302,11 @@ export function useVastolordLaser({
           return s;
         }
         changed = true;
-        const raw = rawAccRef.current;
         const dmg = atLeastMinDamage(
-          combatService.applyArmor(raw, LASER_DAMAGE_KIND, s.armor),
+          combatService.applyArmor(rawTick, LASER_DAMAGE_KIND, s.armor),
         );
-        rawAccRef.current = 0;
         const newHp = Math.max(0, s.hp - dmg);
-        reportTick(dmg, s.x, s.y, "summon");
+        reportTick(s.id, dmg, s.x, s.y, "summon");
         if (newHp <= 0) {
           killed = true;
           return null;
@@ -303,7 +319,16 @@ export function useVastolordLaser({
         };
       });
       if (changed) {
-        setSummons(nextSummons.filter((s): s is SummonedNpc => s != null));
+        const alive = nextSummons.filter((s): s is SummonedNpc => s != null);
+        // Poda das chaves dos summons que morreram: sem isto o Map de
+        // apresentação cresce a cada kill da forma.
+        const aliveIds = new Set(alive.map((s) => s.id));
+        for (const key of shownAccRef.current.keys()) {
+          if (key !== MAIN_TARGET_KEY && !aliveIds.has(key)) {
+            shownAccRef.current.delete(key);
+          }
+        }
+        setSummons(alive);
       }
       if (killed) {
         giveSummonRewards("rare");
@@ -337,7 +362,7 @@ export function useVastolordLaser({
       return;
     }
     rawAccRef.current = 0;
-    shownAccRef.current = 0;
+    shownAccRef.current.clear();
     const p = playerRef.current;
     shotStartRef.current = Date.now();
     freezeActionsUntilRef.current = Math.max(
