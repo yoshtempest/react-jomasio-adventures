@@ -1,11 +1,10 @@
-import type { EquipmentDef } from "@/utils/types/player/equipment";
+import { createEquipmentList } from "@/utils/equipment/createEquipmentList";
 
-export const BOOKS = [
+export const BOOKS = createEquipmentList("weapon", [
   {
     id: "weapon_livro_mestre",
     name: "Livro do Mestre",
-    slot: "weapon",
     rank: 1,
     stats: { spirit: 2 },
   },
-] as const satisfies readonly EquipmentDef[];
+]);

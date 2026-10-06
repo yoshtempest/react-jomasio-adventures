@@ -1,59 +1,51 @@
-import type { EquipmentDef } from "@/utils/types/player/equipment";
+import { createEquipmentList } from "@/utils/equipment/createEquipmentList";
 
-export const BLADES = [
+export const BLADES = createEquipmentList("weapon", [
   {
     id: "weapon_espada_ferro",
     name: "Espada de Ferro",
-    slot: "weapon",
     rank: 1,
     stats: { strength: 2 },
   },
   {
     id: "weapon_caneta_azul",
     name: "Caneta Azul",
-    slot: "weapon",
     rank: 1,
     stats: { strength: 1 },
   },
   {
     id: "weapon_bengala_juju",
     name: "Bengala de Juju",
-    slot: "weapon",
     rank: 1,
     stats: { strength: 2 },
   },
   {
     id: "weapon_zanpaku",
     name: "Zanpaku",
-    slot: "weapon",
     rank: 8,
     stats: { strength: 3, technique: 1, vampirism: 5 },
   },
   {
     id: "weapon_zangetsu",
     name: "Zangetsu",
-    slot: "weapon",
     rank: 9,
     stats: { strength: 3, technique: 1, vampirism: 1, trueDamage: 1 },
   },
   {
     id: "weapon_espada_rei",
     name: "Espada do Rei",
-    slot: "weapon",
     rank: 5,
     stats: { strength: 3, technique: 1, vampirism: 1, trueDamage: 1 },
   },
   {
     id: "weapon_chapolim_hammer",
     name: "Marreta do Chapolim",
-    slot: "weapon",
     rank: 7,
     stats: { strength: 4, vampirism: 2, maxHpDamage: 1, trueDamage: 2 },
   },
   {
     id: "weapon_excalibur",
     name: "Excalibur",
-    slot: "weapon",
     rank: 9,
     stats: {
       strength: 5,
@@ -66,7 +58,6 @@ export const BLADES = [
   {
     id: "weapon_caliburn",
     name: "Caliburn",
-    slot: "weapon",
     rank: 9,
     stats: {
       strength: 5,
@@ -79,7 +70,6 @@ export const BLADES = [
   {
     id: "weapon_keyblade",
     name: "Keyblade",
-    slot: "weapon",
     rank: 9,
     stats: {
       strength: 5,
@@ -92,7 +82,6 @@ export const BLADES = [
   {
     id: "weapon_gunblade",
     name: "Gunblade",
-    slot: "weapon",
     rank: 9,
     stats: {
       strength: 5,
@@ -105,7 +94,6 @@ export const BLADES = [
   {
     id: "weapon_buster_sword",
     name: "Buster Sword",
-    slot: "weapon",
     rank: 9,
     stats: {
       strength: 5,
@@ -118,7 +106,6 @@ export const BLADES = [
   {
     id: "weapon_death_scythe",
     name: "Foice da Morte",
-    slot: "weapon",
     rank: 9,
     stats: {
       strength: 5,
@@ -131,7 +118,6 @@ export const BLADES = [
   {
     id: "weapon_nichirin",
     name: "Nichirin",
-    slot: "weapon",
     rank: 9,
     stats: {
       strength: 5,
@@ -144,7 +130,6 @@ export const BLADES = [
   {
     id: "weapon_wado_ichimonji",
     name: "Wado Ichimonji",
-    slot: "weapon",
     rank: 9,
     stats: {
       strength: 5,
@@ -157,7 +142,6 @@ export const BLADES = [
   {
     id: "weapon_enma",
     name: "Enma",
-    slot: "weapon",
     rank: 9,
     stats: {
       strength: 5,
@@ -170,7 +154,6 @@ export const BLADES = [
   {
     id: "weapon_muramasa",
     name: "Muramasa",
-    slot: "weapon",
     rank: 9,
     stats: {
       strength: 5,
@@ -183,7 +166,6 @@ export const BLADES = [
   {
     id: "weapon_dragon_slayer",
     name: "Dragon Slayer",
-    slot: "weapon",
     rank: 9,
     stats: {
       strength: 5,
@@ -196,7 +178,6 @@ export const BLADES = [
   {
     id: "weapon_tessaiga",
     name: "Tessaiga",
-    slot: "weapon",
     rank: 9,
     stats: {
       strength: 5,
@@ -209,7 +190,6 @@ export const BLADES = [
   {
     id: "weapon_thor_hammer",
     name: "Martelo do Thor",
-    slot: "weapon",
     rank: 9,
     stats: {
       strength: 5,
@@ -222,7 +202,6 @@ export const BLADES = [
   {
     id: "weapon_dark_repulser",
     name: "Dark Repulser",
-    slot: "weapon",
     rank: 9,
     stats: {
       strength: 5,
@@ -235,7 +214,6 @@ export const BLADES = [
   {
     id: "weapon_chaos_sword",
     name: "Lâminas do Caos",
-    slot: "weapon",
     rank: 9,
     stats: {
       strength: 5,
@@ -248,7 +226,6 @@ export const BLADES = [
   {
     id: "weapon_leviathan_axe",
     name: "Machado Leviatã",
-    slot: "weapon",
     rank: 9,
     stats: {
       strength: 5,
@@ -261,7 +238,6 @@ export const BLADES = [
   {
     id: "weapon_escanor_axe",
     name: "Machado do Sol",
-    slot: "weapon",
     rank: 9,
     stats: {
       strength: 5,
@@ -271,4 +247,4 @@ export const BLADES = [
       trueDamage: 4,
     },
   },
-] as const satisfies readonly EquipmentDef[];
+]);

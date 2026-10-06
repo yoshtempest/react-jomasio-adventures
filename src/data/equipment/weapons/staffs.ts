@@ -1,38 +1,33 @@
-import type { EquipmentDef } from "@/utils/types/player/equipment";
+import { createEquipmentList } from "@/utils/equipment/createEquipmentList";
 
-export const STAFFS = [
+export const STAFFS = createEquipmentList("weapon", [
   {
     id: "weapon_cajado_runas",
     name: "Cajado de Runas",
-    slot: "weapon",
     rank: 3,
     stats: { spirit: 3 },
   },
   {
     id: "weapon_elder_wand",
     name: "Varinha das Varinhas",
-    slot: "weapon",
     rank: 9,
     stats: { spirit: 30, vampirism: 5, trueDamage: 10 },
   },
   {
     id: "weapon_odin_stuff",
     name: "Cajado de odin",
-    slot: "weapon",
     rank: 9,
     stats: { spirit: 30, vampirism: 5, trueDamage: 10 },
   },
   {
     id: "weapon_cetro_real",
     name: "Cetro Real",
-    slot: "weapon",
     rank: 7,
     stats: { strength: 2, spirit: 3, vampirism: 2, trueDamage: 2 },
   },
   {
     id: "weapon_cetro_real",
     name: "Cetro Grande",
-    slot: "weapon",
     rank: 8,
     stats: {
       strength: 2,
@@ -45,7 +40,6 @@ export const STAFFS = [
   {
     id: "weapon_cajado_aprendiz",
     name: "Cajado do Aprendiz",
-    slot: "weapon",
     rank: 1,
     class: "arma",
     stats: { spirit: 1 },
@@ -53,7 +47,6 @@ export const STAFFS = [
   {
     id: "weapon_cajado_mago",
     name: "Cajado do Mago",
-    slot: "weapon",
     rank: 3,
     class: "arma",
     stats: { spirit: 2, shield: 1 },
@@ -61,7 +54,6 @@ export const STAFFS = [
   {
     id: "weapon_cajado_arquimago",
     name: "Cajado do Arquimago",
-    slot: "weapon",
     rank: 5,
     class: "arma",
     stats: { spirit: 3, shield: 2, maxHpDamage: 1 },
@@ -69,7 +61,6 @@ export const STAFFS = [
   {
     id: "weapon_cajado_mago_mestre",
     name: "Cajado do Mago Mestre",
-    slot: "weapon",
     rank: 7,
     class: "arma",
     stats: { spirit: 4, shield: 3, maxHpDamage: 1, trueDamage: 1 },
@@ -77,9 +68,8 @@ export const STAFFS = [
   {
     id: "weapon_cajado_real_arquimago",
     name: "Cajado Real do Arquimago",
-    slot: "weapon",
     rank: 9,
     class: "arma",
     stats: { spirit: 5, shield: 5, maxHpDamage: 2, trueDamage: 2 },
   },
-] as const satisfies readonly EquipmentDef[];
+]);

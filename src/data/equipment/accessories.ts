@@ -1,24 +1,21 @@
-import type { EquipmentDef } from "@/utils/types/player/equipment";
+import { createEquipmentList } from "@/utils/equipment/createEquipmentList";
 
-export const ACCESSORIES = [
+export const ACCESSORIES = createEquipmentList("accessory", [
   {
     id: "accessory_anel_latao",
     name: "Anel de Latão",
-    slot: "accessory",
     rank: 1,
     stats: { hp: 1, strength: 1, armor: 1, cooldownReduction: 5 },
   },
   {
     id: "accessory_colar_osso",
     name: "Colar de Osso",
-    slot: "accessory",
     rank: 1,
     stats: { hp: 2, cooldownReduction: 5 },
   },
   {
     id: "accessory_anel_prata",
     name: "Anel de Prata",
-    slot: "accessory",
     rank: 3,
     stats: {
       hp: 1,
@@ -32,7 +29,6 @@ export const ACCESSORIES = [
   {
     id: "accessory_anel_ouro",
     name: "Anel de Ouro",
-    slot: "accessory",
     rank: 5,
     stats: {
       hp: 2,
@@ -46,7 +42,6 @@ export const ACCESSORIES = [
   {
     id: "accessory_anel_rei",
     name: "Anel do Rei",
-    slot: "accessory",
     rank: 7,
     stats: {
       hp: 3,
@@ -61,7 +56,6 @@ export const ACCESSORIES = [
   {
     id: "accessory_anel_lendario",
     name: "Anel Lendário",
-    slot: "accessory",
     rank: 9,
     stats: {
       hp: 4,
@@ -76,36 +70,31 @@ export const ACCESSORIES = [
   {
     id: "accessory_pingente_mago",
     name: "Pingente do Mago",
-    slot: "accessory",
     rank: 1,
     stats: { hp: 1, spirit: 1 },
   },
   {
     id: "accessory_pingente_arquimago",
     name: "Pingente do Arquimago",
-    slot: "accessory",
     rank: 3,
     stats: { hp: 2, spirit: 2, shield: 1 },
   },
   {
     id: "accessory_anel_mago",
     name: "Anel do Mago",
-    slot: "accessory",
     rank: 3,
     stats: { hp: 1, spirit: 2, shield: 2 },
   },
   {
     id: "accessory_anel_arquimago",
     name: "Anel do Arquimago",
-    slot: "accessory",
     rank: 7,
     stats: { hp: 3, spirit: 3, shield: 4 },
   },
   {
     id: "accessory_pingente_real",
     name: "Pingente Real do Arquimago",
-    slot: "accessory",
     rank: 9,
     stats: { hp: 4, spirit: 4, shield: 6 },
   },
-] as const satisfies readonly EquipmentDef[];
+]);

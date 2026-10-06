@@ -1,116 +1,100 @@
-import type { EquipmentDef } from "@/utils/types/player/equipment";
+import { createEquipmentList } from "@/utils/equipment/createEquipmentList";
 
-export const PETS = [
+export const PETS = createEquipmentList("pet", [
   {
     id: "pet_turkey",
     name: "Peru",
-    slot: "pet",
     rank: 5,
     stats: {},
   },
   {
     id: "pet_crocodile",
     name: "Crocodilo da lacoste",
-    slot: "pet",
     rank: 5,
     stats: {},
   },
   {
     id: "pet_dog",
     name: "Lupita",
-    slot: "pet",
     rank: 7,
     stats: {},
   },
   {
     id: "pet_cat",
     name: "Rapariga",
-    slot: "pet",
     rank: 5,
     stats: {},
   },
   {
     id: "pet_goat",
     name: "Bodão",
-    slot: "pet",
     rank: 3,
     stats: {},
   },
   {
     id: "pet_duque",
     name: "Duque",
-    slot: "pet",
     rank: 7,
     stats: {},
   },
   {
     id: "pet_leviathan",
     name: "Leviathan",
-    slot: "pet",
     rank: 9,
     stats: {},
   },
   {
     id: "pet_hungryDeath",
     name: "Morto de Fome",
-    slot: "pet",
     rank: 2,
     stats: {},
   },
   {
     id: "pet_piupiu",
     name: "Piupiu",
-    slot: "pet",
     rank: 4,
     stats: {},
   },
   {
     id: "pet_vulture",
     name: "Zeca Urubu",
-    slot: "pet",
     rank: 4,
     stats: {},
   },
   {
     id: "pet_hungryKing",
     name: "Rei dos Mortos de Fome",
-    slot: "pet",
     rank: 5,
     stats: {},
   },
   {
     id: "pet_madame",
     name: "Dona Aranha",
-    slot: "pet",
     rank: 7,
     stats: {},
   },
   {
     id: "pet_mosquito",
     name: "Muriçoca Soca Soca",
-    slot: "pet",
     rank: 7,
     stats: {},
   },
   {
     id: "pet_hawkMother",
     name: "Mãe do Hawk",
-    slot: "pet",
     rank: 0,
     stats: {},
   },
   {
     id: "pet_flyingCloud",
     name: "Nuvem voadora",
-    slot: "pet",
     rank: 0,
     stats: {},
   },
   {
     id: "pet_crows",
     name: "2 corvos",
-    slot: "pet",
     rank: 0,
     stats: {},
   },
-] as const satisfies readonly EquipmentDef[];
+]);

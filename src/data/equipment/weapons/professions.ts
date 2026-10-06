@@ -2,6 +2,7 @@ import type {
   EquipmentDef,
   EquipmentStats,
 } from "@/utils/types/player/equipment";
+import { createEquipmentList } from "@/utils/equipment/createEquipmentList";
 import {
   PROFESSION_WEAPONS,
   PROFESSION_WEAPON_TIERS,
@@ -30,11 +31,10 @@ function buildRankedWeapon(
   tier: ProfessionWeaponTier,
   index: number,
   baseStats: Partial<EquipmentStats>,
-): EquipmentDef {
+): Omit<EquipmentDef, "slot"> {
   return {
     id: getProfessionWeaponId(config, tier.id),
     name: `${config.baseName} ${tier.label}`,
-    slot: "weapon",
     rank: tier.rank,
     stats: scaleStats(baseStats, index),
     craftOnly: true,
@@ -55,27 +55,33 @@ const BASE_TOOL_STATS: Record<string, Partial<EquipmentStats>> = {
   weapon_paint: { technique: 1 },
 } as const satisfies Record<string, Partial<EquipmentStats>>;
 
-const PROFESSION_RANKED_WEAPONS: readonly EquipmentDef[] = Object.values(
-  PROFESSION_WEAPONS,
-).flatMap((config) =>
-  PROFESSION_WEAPON_TIERS.flatMap((tier, index) => {
-    if (tier.id === "comum") return [];
-    return [
-      buildRankedWeapon(
-        config,
-        tier,
-        index,
-        BASE_TOOL_STATS[config.baseToolId] ?? { strength: 1 },
-      ),
-    ];
-  }),
+/**
+ * A anotação de tipo é obrigatória: sem ela a inferência passa por
+ * `baseToolId: EquipmentId`, que é derivado de `EQUIPMENT_DB` — e este arquivo
+ * alimenta esse banco, fechando o ciclo. A anotação curta o ciclo porque o tipo
+ * declarado não depende do inicializador.
+ */
+const PROFESSION_RANKED_WEAPONS: readonly EquipmentDef[] = createEquipmentList(
+  "weapon",
+  Object.values(PROFESSION_WEAPONS).flatMap((config) =>
+    PROFESSION_WEAPON_TIERS.flatMap((tier, index) => {
+      if (tier.id === "comum") return [];
+      return [
+        buildRankedWeapon(
+          config,
+          tier,
+          index,
+          BASE_TOOL_STATS[config.baseToolId] ?? { strength: 1 },
+        ),
+      ];
+    }),
+  ),
 );
 
-const BASE_TOOLS = [
+const BASE_TOOLS = createEquipmentList("weapon", [
   {
     id: "weapon_pickaxe",
     name: "Picareta",
-    slot: "weapon",
     rank: 1,
     stats: { strength: 2 },
     craftOnly: true,
@@ -83,7 +89,6 @@ const BASE_TOOLS = [
   {
     id: "weapon_cleaver",
     name: "Cutelo",
-    slot: "weapon",
     rank: 1,
     stats: { strength: 2 },
     craftOnly: true,
@@ -91,7 +96,6 @@ const BASE_TOOLS = [
   {
     id: "weapon_fishing_rod",
     name: "Vara de Pesca",
-    slot: "weapon",
     rank: 1,
     stats: { technique: 1 },
     craftOnly: true,
@@ -99,7 +103,6 @@ const BASE_TOOLS = [
   {
     id: "weapon_hoe",
     name: "Enxada",
-    slot: "weapon",
     rank: 1,
     stats: { strength: 1 },
     craftOnly: true,
@@ -107,7 +110,6 @@ const BASE_TOOLS = [
   {
     id: "weapon_cauldron",
     name: "Caldeirão",
-    slot: "weapon",
     rank: 1,
     stats: { technique: 1 },
     craftOnly: true,
@@ -115,7 +117,6 @@ const BASE_TOOLS = [
   {
     id: "weapon_rolling_pin",
     name: "Rolo de Massa",
-    slot: "weapon",
     rank: 1,
     stats: { strength: 1 },
     craftOnly: true,
@@ -123,7 +124,6 @@ const BASE_TOOLS = [
   {
     id: "weapon_dumbbell",
     name: "Halter",
-    slot: "weapon",
     rank: 1,
     stats: { strength: 2 },
     craftOnly: true,
@@ -131,7 +131,6 @@ const BASE_TOOLS = [
   {
     id: "weapon_axe",
     name: "Machado",
-    slot: "weapon",
     rank: 1,
     stats: { strength: 2 },
     craftOnly: true,
@@ -139,7 +138,6 @@ const BASE_TOOLS = [
   {
     id: "weapon_pan",
     name: "Panela",
-    slot: "weapon",
     rank: 1,
     stats: { strength: 2 },
     craftOnly: true,
@@ -147,7 +145,6 @@ const BASE_TOOLS = [
   {
     id: "weapon_adjustable_wrench",
     name: "Chave Inglesa",
-    slot: "weapon",
     rank: 1,
     stats: { strength: 1 },
     craftOnly: true,
@@ -155,12 +152,11 @@ const BASE_TOOLS = [
   {
     id: "weapon_paint",
     name: "Pincel",
-    slot: "weapon",
     rank: 1,
     stats: { technique: 1 },
     craftOnly: true,
   },
-] as const satisfies readonly EquipmentDef[];
+]);
 
 export const TOOL_WEAPONS = [
   ...BASE_TOOLS,
