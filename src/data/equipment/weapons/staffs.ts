@@ -9,11 +9,11 @@ export const STAFFS = [
     stats: { spirit: 3 },
   },
   {
-    id: "weapon_cajado_arcano",
-    name: "Cajado Arcano",
+    id: "weapon_elder_wand",
+    name: "Varinha das Varinhas",
     slot: "weapon",
-    rank: 5,
-    stats: { strength: 1, spirit: 3, vampirism: 1, trueDamage: 1 },
+    rank: 9,
+    stats: { spirit: 30, vampirism: 5, trueDamage: 10 },
   },
   {
     id: "weapon_cetro_real",
