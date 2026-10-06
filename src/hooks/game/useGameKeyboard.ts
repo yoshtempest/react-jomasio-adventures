@@ -101,6 +101,11 @@ export function useGameKeyboard({
         // BattleNavbar aberta: ignora os demais atalhos de tela.
         if (isBattleNavOpenRef.current) return;
 
+        // Em batalha os atalhos da ExploreNavbar ficam bloqueados: o
+        // openScreen trocaria o mode para "menu" e montaria o menu de
+        // explore por cima da luta (o config já virou BattleNavbar acima).
+        if (playerModeRef.current === "battle") return;
+
         if (isNavOpenRef.current && screenRef.current === shortcutScreen) {
           closeNavbar();
         } else {
