@@ -8,6 +8,7 @@ import { npcPath, playerPath } from "@/utils/paths";
 import { getRank, formatRank } from "@/gameRules/rank";
 import styles from "./styles.module.css";
 import { BarsInfos } from "../BarsInfos";
+import { StatUpArrows } from "./StatUpArrows";
 
 const HUNGRY_THRESHOLD = 20;
 
@@ -73,6 +74,7 @@ export function CharacterInfo() {
           <strong>{playerClass}</strong>
         </div>
         <BarsInfos />
+        <StatUpArrows />
       </div>
     </div>
   );
