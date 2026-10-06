@@ -199,6 +199,18 @@ export function BattleScene(props: Props) {
   const alfaDigActive =
     isAlfa && npcType === "hungryDog" && npc.ai?.hungryDog?.phase === "dig";
 
+  // Com o resultado definido, o sprite do jogador na arena troca para o mesmo
+  // retrato do BattleOutro (`expressions/victory|defeat.svg`) e permanece
+  // assim até o retry/ida embora — o modal do outro continua intacto. Treino
+  // não monta o BattleOutro, então não troca (mesma condição do render).
+  const outroExpression: "victory" | "defeat" | null = isTraining
+    ? null
+    : showDefeat
+      ? "defeat"
+      : showVictory
+        ? "victory"
+        : null;
+
   const { setBattleCollision } = usePlayerActions();
 
   const { width: screenWidth, height: screenHeight } = getViewportSize();
@@ -531,6 +543,7 @@ export function BattleScene(props: Props) {
             cutInEnemie={battle.cutInEnemie}
             npcBleeding={battle.npcBleeding}
             preAtomic={specialIntroActive}
+            outroExpression={outroExpression}
             atomicHalo={atomicHalo}
             atomicExplosion={atomicExplosion}
             atomicCuts={atomicCuts}

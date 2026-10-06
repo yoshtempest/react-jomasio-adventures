@@ -14,6 +14,8 @@ type Props = {
   teleportSprite?: boolean;
   /** Durante o specialBackground: troca o sprite para preAtomic.svg. */
   preAtomic?: boolean;
+  /** Vitória/derrota: troca o sprite para expressions/<tipo>.svg (battleOutro). */
+  outroExpression?: "victory" | "defeat" | null;
   /** Halo.svg acima do sprite durante preparing/finalizating do "I Am Atomic". */
   atomicHalo?: boolean;
   /** Flash no sprite quando a explosion.svg da habilidade aparece. */
@@ -32,6 +34,7 @@ export function Player({
   blinkVisual = null,
   teleportSprite = false,
   preAtomic = false,
+  outroExpression = null,
   atomicHalo = false,
   atomicFlash = false,
   mugetsuBlink = null,
@@ -59,6 +62,7 @@ export function Player({
       blinkSilhouette={blinkSilhouette}
       teleportSprite={teleportSprite}
       preAtomic={preAtomic}
+      outroExpression={outroExpression}
       atomicHalo={atomicHalo}
       atomicFlash={atomicFlash}
       mugetsuBlink={mugetsuBlink}

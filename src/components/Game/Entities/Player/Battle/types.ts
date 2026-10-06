@@ -13,6 +13,8 @@ export interface PlayerBattleProps {
   blinkSilhouette?: "black" | "white" | null;
   teleportSprite?: boolean;
   preAtomic?: boolean;
+  /** Vitória/derrota: sprite na arena vira expressions/<tipo>.svg. */
+  outroExpression?: "victory" | "defeat" | null;
   atomicHalo?: boolean;
   atomicFlash?: boolean;
   mugetsuBlink?: "out" | "in" | null;

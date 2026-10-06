@@ -88,6 +88,8 @@ type Props = {
   npcBleeding?: boolean;
   /** Durante o specialBackground: jogador troca para o sprite preAtomic.svg. */
   preAtomic?: boolean;
+  /** Vitória/derrota: jogador troca para expressions/<tipo>.svg (battleOutro). */
+  outroExpression?: "victory" | "defeat" | null;
   /** Halo.svg acima do jogador durante preparing/finalizating do "I Am Atomic". */
   atomicHalo?: boolean;
   /** Flash no sprite do jogador na explosão do "I Am Atomic". */
@@ -138,6 +140,7 @@ export function BattleEntities({
   cutInEnemie = null,
   npcBleeding = false,
   preAtomic = false,
+  outroExpression = null,
   atomicHalo = false,
   atomicFlash = false,
   atomicExplosion = null,
@@ -239,6 +242,7 @@ export function BattleEntities({
         blinkVisual={blinkVisual}
         teleportSprite={emanuelClone != null}
         preAtomic={preAtomic}
+        outroExpression={outroExpression}
         atomicHalo={atomicHalo}
         atomicFlash={atomicFlash}
         mugetsuBlink={mugetsuBlink}

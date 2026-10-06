@@ -15,6 +15,7 @@ interface ResolvePlayerSpriteParams {
   transformationFrame?: number | null;
   teleportSprite: boolean;
   preAtomic: boolean;
+  outroExpression?: "victory" | "defeat" | null;
 }
 
 export function resolvePlayerSprite({
@@ -25,8 +26,16 @@ export function resolvePlayerSprite({
   transformationFrame,
   teleportSprite,
   preAtomic,
+  outroExpression = null,
 }: ResolvePlayerSpriteParams): string {
   const resolvedState = resolveSpriteState(state);
+
+  // Fim da batalha: o sprite na arena vira o mesmo retrato que o BattleOutro
+  // exibe (`expressions/victory|defeat.svg`). Vence qualquer outro override
+  // porque, com o resultado definido, nada mais está em andamento.
+  if (outroExpression) {
+    return playerPath(`/${character}/expressions/${outroExpression}.svg`);
+  }
 
   if (preAtomic && character === "marcelo" && state === "idle") {
     return playerPathMarshadowHabilities("/atomic/starting.svg");

@@ -14,6 +14,7 @@ interface UseBattleSpriteParams {
   transformationFrame?: number | null;
   teleportSprite: boolean;
   preAtomic: boolean;
+  outroExpression?: "victory" | "defeat" | null;
 }
 
 export function useBattleSprite({
@@ -24,6 +25,7 @@ export function useBattleSprite({
   transformationFrame,
   teleportSprite,
   preAtomic,
+  outroExpression = null,
 }: UseBattleSpriteParams) {
   const resolvedState = resolveSpriteState(state);
 
@@ -35,6 +37,7 @@ export function useBattleSprite({
     transformationFrame,
     teleportSprite,
     preAtomic,
+    outroExpression,
   });
 
   // Sequência idle do personagem (e forma):1 frame = parado, >1 = animado.
@@ -70,6 +73,25 @@ export function useBattleSprite({
   const src = errorSrc ?? idleFrameSprite(baseSrc, idleFrames, idleFrame);
 
   const handleSpriteError = () => {
+    // Personagens sem `expressions/victory|defeat.svg` quebrariam a imagem na
+    // arena; nesse caso volta para o sprite normal da batalha (o BattleOutro
+    // segue inalterado, com o mesmo retrato que falhar nele).
+    if (outroExpression) {
+      setErrorSrc(
+        resolvePlayerSprite({
+          character,
+          state,
+          weapon,
+          form,
+          transformationFrame,
+          teleportSprite,
+          preAtomic,
+          outroExpression: null,
+        }),
+      );
+      return;
+    }
+
     const fallbackState =
       resolvedState === "preRun"
         ? "run"

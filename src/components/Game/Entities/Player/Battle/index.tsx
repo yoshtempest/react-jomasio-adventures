@@ -28,6 +28,7 @@ export function PlayerBattle(props: PlayerBattleProps) {
     blinkSilhouette = null,
     teleportSprite = false,
     preAtomic = false,
+    outroExpression = null,
     atomicHalo = false,
     atomicFlash = false,
     mugetsuBlink = null,
@@ -52,6 +53,7 @@ export function PlayerBattle(props: PlayerBattleProps) {
     transformationFrame,
     teleportSprite,
     preAtomic,
+    outroExpression,
   });
 
   const isMostHonored = state === "mostHonored";
