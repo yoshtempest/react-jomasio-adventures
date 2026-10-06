@@ -40,4 +40,5 @@ export { soundEffectPath } from "./soundEffectPath";
 export { backgroundAudioPath } from "./backgroundAudioPath";
 export { sfx } from "./sfx";
 export type { MarceloBattleForm } from "./types";
+export { idleFrameSprite } from "./idleFrameSprite";
 export { resolveBattleSprite } from "./resolveBattleSprite";

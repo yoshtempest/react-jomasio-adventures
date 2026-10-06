@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 
-import { resolveBattleSprite } from "@/utils/paths";
+import { idleFrameSprite, resolveBattleSprite } from "@/utils/paths";
 import { resolveSpriteState } from "@/gameRules/battle/playerStates";
+import { getIdleFrames, IDLE_FRAME_MS } from "@/data/sprites/idleFrames";
 
 import { resolvePlayerSprite } from "@/components/Game/Entities/Player/Battle/utils/resolvePlayerSprite";
 
@@ -36,11 +37,37 @@ export function useBattleSprite({
     preAtomic,
   });
 
-  const [src, setSrc] = useState(baseSrc);
+  // Sequência idle do personagem (e forma):1 frame = parado, >1 = animado.
+  const idleFrames = getIdleFrames(character, form);
+
+  // Só o idle "verdadeiro" anima: agachado (`idleCrounched`), carga, ataque e
+  // qualquer outro estado usam o sprite base como antes da animação existir.
+  const animateIdle = state === "idle" && idleFrames.length > 1;
+  const [idleFrame, setIdleFrame] = useState(0);
 
   useEffect(() => {
-    setSrc(baseSrc);
+    if (!animateIdle) {
+      setIdleFrame(0);
+      return;
+    }
+
+    const timer = setInterval(() => {
+      setIdleFrame((current) => (current + 1) % idleFrames.length);
+    }, IDLE_FRAME_MS);
+
+    return () => clearInterval(timer);
+  }, [animateIdle, idleFrames]);
+
+  // Erro de sprite cai num estado "seguro" (run/jump) sem interromper o loop:
+  // o fallback vira um src próprio, não substitui o `baseSrc` que o effect
+  // monitora para limpar o estado quando o estado do personagem muda.
+  const [errorSrc, setErrorSrc] = useState<string | null>(null);
+
+  useEffect(() => {
+    setErrorSrc(null);
   }, [baseSrc]);
+
+  const src = errorSrc ?? idleFrameSprite(baseSrc, idleFrames, idleFrame);
 
   const handleSpriteError = () => {
     const fallbackState =
@@ -54,7 +81,7 @@ export function useBattleSprite({
       return;
     }
 
-    setSrc(resolveBattleSprite(character, fallbackState, weapon, form));
+    setErrorSrc(resolveBattleSprite(character, fallbackState, weapon, form));
   };
 
   return {
