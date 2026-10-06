@@ -1,6 +1,11 @@
 import type { RefObject } from "react";
 
 import { resetCooldownRef } from "@/utils/battle/cooldown";
+import { applyVampirism } from "@/gameRules/battle/vampirism/applyVampirism";
+import type {
+  VampirismSource,
+  VampirismStats,
+} from "@/gameRules/battle/vampirism/applyVampirism";
 import type { OnBeforeNpcHit } from "@/hooks/battle/npc/useBlocking";
 import type { ElementType } from "@/utils/types/battle/element";
 
@@ -28,6 +33,14 @@ export type HitPreludeConfig = {
 
   setNpcHP: (updater: (hp: number) => number) => void;
   setPlayerHP: (updater: (hp: number) => number) => void;
+  /**
+   * Vampirismo para o dano parcial que passa pelo bloqueio. O golpe básico e o
+   * special pagam a mesma passagem, então a origem entra como config.
+   */
+  vampirism: VampirismStats;
+  playerMaxHp: number;
+  /** `basic` só paga o vampirismo normal; `other`, só o universal. */
+  source: VampirismSource;
   registerHitRef: RefObject<(damage: number) => void>;
   onDamageDealtRef?: RefObject<(amount: number) => void>;
   spawnDamageRef: RefObject<
@@ -77,6 +90,9 @@ export function runHitPrelude(config: HitPreludeConfig): HitPreludeResult {
     onBlind,
     onBlocked,
     onSelfDamage,
+    vampirism,
+    playerMaxHp,
+    source,
   } = config;
 
   if (guard === "blind") {
@@ -97,6 +113,15 @@ export function runHitPrelude(config: HitPreludeConfig): HitPreludeResult {
       registerHitRef.current?.(blockResult.remainingDamage);
       onDamageDealtRef?.current?.(blockResult.remainingDamage);
       spawnDamageRef.current?.(blockResult.remainingDamage, npcX, npcY, "npc");
+      // O que sobra do bloqueio é dano causado de verdade, então paga
+      // vampirismo; o que volta por confusão é dano *recebido* e não conta.
+      applyVampirism({
+        damage: blockResult.remainingDamage,
+        source,
+        vampirism,
+        playerMaxHp,
+        setPlayerHP,
+      });
       onBlocked?.();
     }
     return { kind: "handled" };

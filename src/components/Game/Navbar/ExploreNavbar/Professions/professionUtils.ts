@@ -48,6 +48,7 @@ const STAT_LABELS: Partial<Record<keyof EquipmentStats, string>> = {
   armor: "Armadura",
   shield: "Escudo",
   vampirism: "Vampirismo",
+  universalVampirism: "Vampirismo Universal",
   reflect: "Reflexão",
   tenacity: "Tenacidade",
   luck: "Sorte",

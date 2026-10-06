@@ -11,6 +11,11 @@ import { getCharacterElementTypes } from "@/data/types/characterElementTypes";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import { combatService } from "@/services/combat";
 import { atLeastMinDamage } from "@/gameRules/battle/damage/minDamage";
+import { applyVampirism } from "@/gameRules/battle/vampirism/applyVampirism";
+import type {
+  VampirismSource,
+  VampirismStats,
+} from "@/gameRules/battle/vampirism/applyVampirism";
 
 type Params = {
   target: { id: string; x: number; y: number };
@@ -22,7 +27,12 @@ type Params = {
   progress: CharactersProgress;
   playerHP: number;
   playerMaxHp: number;
-  totalVampirism: number;
+  vampirism: VampirismStats;
+  /**
+   * Origem do golpe, decide a cura: o vampirismo normal só paga no ataque
+   * básico, então quem chama precisa declarar qual dos dois foi.
+   */
+  source: VampirismSource;
   summons: SummonedNpc[];
   setSummons: React.Dispatch<React.SetStateAction<SummonedNpc[]>>;
   giveSummonRewards: (npcClass: NPCClass) => void;
@@ -45,7 +55,8 @@ export function damageSummon({
   progress,
   playerHP,
   playerMaxHp,
-  totalVampirism,
+  vampirism,
+  source,
   summons,
   setSummons,
   giveSummonRewards,
@@ -94,10 +105,13 @@ export function damageSummon({
   incrementAttacksUsedStats(player.character);
   incrementHitsUsedStats(player.character);
 
-  if (totalVampirism > 0) {
-    const heal = Math.round((dmg * totalVampirism) / 100);
-    if (heal > 0) setPlayerHP((hp) => Math.min(playerMaxHp, hp + heal));
-  }
+  applyVampirism({
+    damage: dmg,
+    source,
+    vampirism,
+    playerMaxHp,
+    setPlayerHP,
+  });
 
   // Sem `Math.round` no HP: arredondar aqui apagava a fração acumulada pelas
   // instancias do golpe (o summon voltava a HP inteiro a cada acerto).

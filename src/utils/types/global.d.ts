@@ -82,7 +82,17 @@ declare global {
     physicalArmor?: number;
     magicalArmor?: number;
     shield: number;
+    /**
+     * Vampirismo: cura de N% do dano causado, só em ATAQUE BÁSICO. O special, o
+     * dash e as habilidades não contam — para isso existe `universalVampirism`.
+     */
     vampirism: number;
+    /**
+     * Vampirismo universal: cura de N% de QUALQUER dano que o jogador cause —
+     * ataque básico, special, dash, habilidades e reflexão de dano. Não paga por
+     * dano de terceiros (DoT, pets, aliados).
+     */
+    universalVampirism: number;
     reflect: number;
     tenacity: number;
     luck: number;

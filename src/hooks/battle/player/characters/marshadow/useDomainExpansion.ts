@@ -10,6 +10,8 @@ import {
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { DOMAIN_EXPANSION_COOLDOWN_MS } from "@/data/characters/marshadow";
 import { applyCooldownReduction } from "@/gameRules/battle/cooldownReduction";
+import { applyVampirism } from "@/gameRules/battle/vampirism/applyVampirism";
+import type { VampirismStats } from "@/gameRules/battle/vampirism/applyVampirism";
 import { getProjectileCenter } from "@/gameRules/npc/projectile/projectileDamage";
 import {
   applyTime,
@@ -55,6 +57,10 @@ type Props = {
   /** Summons inimigos — todos os cruzados pela varredura morrem. */
   summons: SummonedNpc[];
   setSummons: Dispatch<SetStateAction<SummonedNpc[]>>;
+  /** A varredura é habilidade ativa: paga só o vampirismo universal. */
+  vampirism: VampirismStats;
+  playerMaxHp: number;
+  setPlayerHP: Dispatch<SetStateAction<number>>;
   /** Projéteis inimigos — a varredura desintegra os que a frente alcança. */
   projectiles: Projectile[];
   setProjectiles: Dispatch<SetStateAction<Projectile[]>>;
@@ -127,6 +133,9 @@ export function useDomainExpansion({
   isAlfa,
   summons,
   setSummons,
+  vampirism,
+  playerMaxHp,
+  setPlayerHP,
   projectiles,
   setProjectiles,
   setNpcHP,
@@ -281,6 +290,17 @@ export function useDomainExpansion({
         setNpcHP(0);
         spawnDamageNumber(damage, main.x, main.y, "special");
         registerHitRef.current?.(damage);
+        // O execute não tem conta de dano para a armadura reduzir, mas a
+        // varredura já declara o HP máximo como dano — é esse número que
+        // alimenta o combo. A cura lê o mesmo valor para não divergir do que
+        // o resto da batalha contabiliza como dano causado.
+        applyVampirism({
+          damage,
+          source: "other",
+          vampirism,
+          playerMaxHp,
+          setPlayerHP,
+        });
         registerDisintegration({
           id: "main",
           npcType: mainNpcTypeRef.current,
@@ -308,6 +328,13 @@ export function useDomainExpansion({
         killed = true;
         spawnDamageNumber(s.maxHp, s.x, s.y, "summon");
         registerHitRef.current?.(s.maxHp);
+        applyVampirism({
+          damage: s.maxHp,
+          source: "other",
+          vampirism,
+          playerMaxHp,
+          setPlayerHP,
+        });
         registerDisintegration({
           id: s.id,
           npcType: s.npcType,
@@ -354,15 +381,18 @@ export function useDomainExpansion({
       mainNpcTypeRef,
       npcMaxHpRef,
       npcRef,
+      playerMaxHp,
       projectilesRef,
       registerDisintegration,
       registerHitRef,
       setNpcHP,
+      setPlayerHP,
       setProjectiles,
       setSummons,
       spawnDamageNumber,
       summonsRef,
       sweepRef,
+      vampirism,
     ],
   );
 

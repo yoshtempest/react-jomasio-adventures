@@ -4,6 +4,7 @@ import { getBlockLimit } from "./getBlockLimit";
 import { getEquipmentStatsBonus } from "./getEquipmentStatsBonus";
 import { getTotalReflect } from "./getTotalReflect";
 import { getTotalShield } from "./getTotalShield";
+import { getTotalUniversalVampirism } from "./getTotalUniversalVampirism";
 import { getTotalVampirism } from "./getTotalVampirism";
 import { getWeaponCritRate } from "./getWeaponCritRate";
 import { getTotalStat } from "./getTotalStat";
@@ -22,6 +23,7 @@ export {
   getEquipmentStatsBonus,
   getTotalReflect,
   getTotalShield,
+  getTotalUniversalVampirism,
   getTotalVampirism,
   getWeaponCritRate,
   getTotalStat,

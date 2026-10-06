@@ -10,6 +10,7 @@ import {
 } from "@/gameRules/battle/equipment";
 import { getTenacityReduction } from "@/gameRules/battle/tenacity";
 import { addArmor, scaleArmor } from "@/gameRules/battle/damage/armor";
+import type { VampirismStats } from "@/gameRules/battle/vampirism/applyVampirism";
 import { getNpcStats } from "@/gameRules/npc/npcStats";
 import { getMaxSpecial } from "@/gameRules/battle/special";
 import { getRankMultiplier } from "@/gameRules/rank";
@@ -82,7 +83,15 @@ export function useBattleStats({
     [equipment.armor, titleBonus.armor],
   );
   const totalShield = equipmentBonus.shield + titleBonus.shield;
-  const totalVampirism = equipmentBonus.vampirism;
+  // Os dois modelos andam juntos: um stat novo sem o outro quebrar na
+  // hora de aplicar é pior que os dois na mesma struct.
+  const vampirism = useMemo<VampirismStats>(
+    () => ({
+      vampirism: equipmentBonus.vampirism,
+      universalVampirism: equipmentBonus.universalVampirism,
+    }),
+    [equipmentBonus.vampirism, equipmentBonus.universalVampirism],
+  );
   const totalReflect = equipmentBonus.reflect;
 
   const totalMaxHpDamage = useMemo(() => {
@@ -168,7 +177,7 @@ export function useBattleStats({
     critRate,
     totalArmor,
     totalShield,
-    totalVampirism,
+    vampirism,
     totalReflect,
     totalMaxHpDamage,
     totalTrueDamage,

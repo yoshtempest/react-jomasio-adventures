@@ -1,4 +1,6 @@
 import { applyHitstop } from "@/gameRules/battle/time";
+import { applyVampirism } from "@/gameRules/battle/vampirism/applyVampirism";
+import type { VampirismSource } from "@/gameRules/battle/vampirism/applyVampirism";
 import type { BaseHitParams } from "./types";
 
 export function finishHit(
@@ -6,6 +8,8 @@ export function finishHit(
   damage: number,
   dmgType: DamageType,
   hitstop: number,
+  /** `basic` só entra no vampirismo normal; `other` paga só pelo universal. */
+  source: VampirismSource,
   onActionRef?: React.RefObject<() => void>,
 ) {
   params.spawnDamageRef.current?.(damage, params.npcX, params.npcY, dmgType);
@@ -14,10 +18,11 @@ export function finishHit(
   onActionRef?.current?.();
   params.timeRef.current = applyHitstop(params.timeRef.current, hitstop);
 
-
-  if (params.totalVampirism > 0) {
-    const heal = Math.round((damage * params.totalVampirism) / 100);
-    if (heal > 0)
-      params.setPlayerHP((hp) => Math.min(params.playerMaxHp, hp + heal));
-  }
+  applyVampirism({
+    damage,
+    source,
+    vampirism: params.vampirism,
+    playerMaxHp: params.playerMaxHp,
+    setPlayerHP: params.setPlayerHP,
+  });
 }

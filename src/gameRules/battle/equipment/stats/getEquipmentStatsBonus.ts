@@ -15,6 +15,7 @@ export function getEquipmentStatsBonus(character: CharacterId): EquipmentBonus {
     cooldownReduction: 0,
     shield: 0,
     vampirism: 0,
+    universalVampirism: 0,
     reflect: 0,
     tenacity: 0,
     luck: 0,

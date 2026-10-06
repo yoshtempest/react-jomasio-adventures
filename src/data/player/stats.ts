@@ -73,6 +73,7 @@ type CharacterStatusProps = {
   armor: DamageArmor;
   shield: number;
   vampirism: number;
+  universalVampirism: number;
   reflect: number;
   maxHpDamageBonus?: number;
   trueDamage?: number;
@@ -146,6 +147,7 @@ export function getCharacterStatus(data: CharacterStatusProps) {
     stat("Armadura mágica", data.armor.magical),
     stat("Escudo", data.shield),
     stat("Vampirismo", data.vampirism),
+    stat("Vampirismo Universal", data.universalVampirism),
     stat("Reflexão", data.reflect),
   ];
   if (data.maxHpDamageBonus && data.maxHpDamageBonus > 0) {

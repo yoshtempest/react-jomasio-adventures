@@ -24,6 +24,7 @@ export {
   getBlockLimit,
   getTotalShield,
   getEquipmentStatsBonus,
+  getTotalUniversalVampirism,
   getTotalVampirism,
   getTotalReflect,
   addItemBonus,

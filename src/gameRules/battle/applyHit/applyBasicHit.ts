@@ -34,7 +34,7 @@ export function applyBasicHit(params: BasicHitParams) {
     titleDamageBonus: params.titleDamageBonus,
   });
 
-  finishHit(params, trueDmg, dmgType, 60, params.onAttackRef);
+  finishHit(params, trueDmg, dmgType, 60, "basic", params.onAttackRef);
 
   return trueDmg;
 }

@@ -34,6 +34,8 @@ import {
   GRAN_REY_CERO_TRAVEL_MS,
 } from "@/data/characters/granReyCero";
 import { applyCooldownReduction } from "@/gameRules/battle/cooldownReduction";
+import { applyVampirism } from "@/gameRules/battle/vampirism/applyVampirism";
+import type { VampirismStats } from "@/gameRules/battle/vampirism/applyVampirism";
 import {
   granReyCeroDistance,
   granReyCeroHits,
@@ -61,6 +63,10 @@ type Props = {
   setNpcHP: Dispatch<SetStateAction<number>>;
   /** Colunas do NPC principal: o corte é físico e não pode ignorá-las. */
   npcArmor: DamageArmor;
+  /** O corte é habilidade ativa: paga só o vampirismo universal. */
+  vampirism: VampirismStats;
+  playerMaxHp: number;
+  setPlayerHP: Dispatch<SetStateAction<number>>;
   giveSummonRewards: (npcClass: NPCClass) => void;
   spawnDamageNumber: (
     value: number,
@@ -124,6 +130,9 @@ export function useGranReyCero({
   summons,
   setSummons,
   setNpcHP,
+  vampirism,
+  playerMaxHp,
+  setPlayerHP,
   giveSummonRewards,
   spawnDamageNumber,
   registerHitRef,
@@ -260,6 +269,13 @@ export function useGranReyCero({
       setNpcHP((hp) => Math.max(0, hp - dmg));
       spawnDamageNumber(dmg, mainNpc.x, mainNpc.y, "npc");
       registerHitRef.current?.(dmg);
+      applyVampirism({
+        damage: dmg,
+        source: "other",
+        vampirism,
+        playerMaxHp,
+        setPlayerHP,
+      });
       mainNpc.updateNpc({ x: clampX(mainNpc.x + push) });
     }
 
@@ -279,6 +295,13 @@ export function useGranReyCero({
       const newHp = Math.max(0, s.hp - dmg);
       spawnDamageNumber(dmg, s.x, s.y, "summon");
       registerHitRef.current?.(dmg);
+      applyVampirism({
+        damage: dmg,
+        source: "other",
+        vampirism,
+        playerMaxHp,
+        setPlayerHP,
+      });
       if (newHp <= 0) {
         killed = true;
         return null;
@@ -297,11 +320,14 @@ export function useGranReyCero({
     giveSummonRewards,
     npcArmorRef,
     npcRef,
+    playerMaxHp,
     registerHitRef,
     setNpcHP,
+    setPlayerHP,
     setSummons,
     spawnDamageNumber,
     summonsRef,
+    vampirism,
   ]);
 
   const applyTickRef = useLatestRef(applyTick);

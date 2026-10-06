@@ -16,6 +16,7 @@ import {
   getEquipmentStatsBonus,
   getTotalArmor,
   getTotalShield,
+  getTotalUniversalVampirism,
   getTotalVampirism,
   getTotalReflect,
 } from "@/gameRules/battle/equipment";
@@ -85,6 +86,7 @@ export function Settings() {
     );
     const shield = getTotalShield(player.character) + titleBonus.shield;
     const vampirism = getTotalVampirism(player.character);
+    const universalVampirism = getTotalUniversalVampirism(player.character);
     const reflect = getTotalReflect(player.character);
     const maxHp = 90 + hp * 10;
     const maxHpDamage = equipmentBonus.maxHpDamage ?? 0;
@@ -104,6 +106,7 @@ export function Settings() {
       armor,
       shield,
       vampirism,
+      universalVampirism,
       reflect,
       luckBonus,
       maxHpDamageBonus,
@@ -142,6 +145,7 @@ export function Settings() {
         getBlockArmor(playerStats.armor) +
         playerStats.shield +
         playerStats.vampirism +
+        playerStats.universalVampirism +
         playerStats.reflect +
         playerStats.maxHpDamageBonus +
         playerStats.trueDamage) *
@@ -193,6 +197,7 @@ export function Settings() {
         armor: playerStats.armor,
         shield: playerStats.shield,
         vampirism: playerStats.vampirism,
+        universalVampirism: playerStats.universalVampirism,
         reflect: playerStats.reflect,
         maxHpDamageBonus: playerStats.maxHpDamageBonus,
         trueDamage: playerStats.trueDamage,

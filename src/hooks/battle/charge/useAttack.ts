@@ -11,6 +11,7 @@ import {
   isPlayerParalyzed,
 } from "@/gameRules/battle/status/statusEffects";
 import { type TimeEffect } from "@/gameRules/battle/time";
+import type { VampirismStats } from "@/gameRules/battle/vampirism/applyVampirism";
 
 type Props = {
   player: Player;
@@ -41,7 +42,7 @@ type Props = {
   setPlayerHP: React.Dispatch<React.SetStateAction<number>>;
   playerHP: number;
   playerMaxHp: number;
-  totalVampirism: number;
+  vampirism: VampirismStats;
   weapon?: LucasWeapon;
   /** Multiplicador da Forma Vastolord aplicado no dano do dash. */
   vastolordMultiplierRef?: React.RefObject<() => number>;
@@ -75,7 +76,7 @@ export function useChargeAttack(props: Props) {
     setPlayerHP,
     playerHP,
     playerMaxHp,
-    totalVampirism,
+    vampirism,
     weapon,
     vastolordMultiplierRef,
   } = props;
@@ -109,7 +110,7 @@ export function useChargeAttack(props: Props) {
     setPlayerHP,
     playerHP,
     playerMaxHp,
-    totalVampirism,
+    vampirism,
     weapon,
     vastolordMultiplierRef,
   });

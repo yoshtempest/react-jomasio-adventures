@@ -25,6 +25,7 @@ function totalStats(stats: EquipmentStats): number {
     stats.armor +
     stats.shield +
     stats.vampirism +
+    stats.universalVampirism +
     stats.reflect
   );
 }

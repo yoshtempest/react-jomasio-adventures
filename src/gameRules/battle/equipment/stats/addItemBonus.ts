@@ -19,6 +19,7 @@ export function addItemBonus(
   bonus.cooldownReduction += Math.round(stats.cooldownReduction * multiplier);
   bonus.shield += Math.round(stats.shield * multiplier);
   bonus.vampirism += Math.round(stats.vampirism * multiplier);
+  bonus.universalVampirism += Math.round(stats.universalVampirism * multiplier);
   bonus.reflect += Math.round(stats.reflect * multiplier);
   bonus.tenacity += Math.round((stats.tenacity ?? 0) * multiplier);
   bonus.luck += Math.round((stats.luck ?? 0) * multiplier);

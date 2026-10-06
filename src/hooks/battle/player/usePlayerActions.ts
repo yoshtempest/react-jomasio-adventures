@@ -10,6 +10,10 @@ import { NPC_CLASS_HITBOX_BONUS } from "@/gameRules/battle/rangeConfig";
 import { isFacingTarget } from "@/gameRules/battle/direction";
 import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
 import { damageSummon } from "@/gameRules/battle/damageSummon";
+import type {
+  VampirismSource,
+  VampirismStats,
+} from "@/gameRules/battle/vampirism/applyVampirism";
 import { BLOCK_ATTACK_PUSH_DISTANCE } from "@/gameRules/movement/constants";
 import { LUCAS_WEAPON_RANGES } from "@/data/characters/lucasWeapons";
 import { PlayerSpecialConstants } from "@/data/projectile";
@@ -63,7 +67,7 @@ type Props = {
   setPlayerHP: React.Dispatch<React.SetStateAction<number>>;
   playerHP: number;
   playerMaxHp: number;
-  totalVampirism: number;
+  vampirism: VampirismStats;
   onNpcPush?: (targetX: number) => void;
   /** Multiplicador do último step do combo do emanuel (lido no press). */
   emanuelComboMultiplierRef?: React.RefObject<number>;
@@ -94,7 +98,7 @@ export function usePlayerBattleActions({
   setPlayerHP,
   playerHP,
   playerMaxHp,
-  totalVampirism,
+  vampirism,
   onNpcPush,
   emanuelComboMultiplierRef,
   emanuelComboActiveRef,
@@ -123,18 +127,21 @@ export function usePlayerBattleActions({
     (
       target: { id: string; x: number; y: number },
       multiplier: number,
+      /** `basic` só paga vampirismo normal; o resto, só o universal. */
+      source: VampirismSource,
       pushDir?: number,
     ) => {
       return damageSummon({
         target,
         multiplier,
+        source,
         damageKind: "physical",
         player,
         playerClass,
         progress,
         playerHP,
         playerMaxHp,
-        totalVampirism,
+        vampirism,
         summons,
         setSummons,
         giveSummonRewards,
@@ -152,7 +159,7 @@ export function usePlayerBattleActions({
       progress,
       playerHP,
       playerMaxHp,
-      totalVampirism,
+      vampirism,
       summons,
       setSummons,
       giveSummonRewards,
@@ -189,7 +196,12 @@ export function usePlayerBattleActions({
         const targetSummon = summons.find((summon) => summon.id === target.id);
         if (!targetSummon) continue;
 
-        hitSummon(target, multiplier, isSpecial ? undefined : pushDir);
+        hitSummon(
+          target,
+          multiplier,
+          isSpecial ? "other" : "basic",
+          isSpecial ? undefined : pushDir,
+        );
       }
 
       if (!hitMain && !bypassCharge) {
@@ -301,6 +313,7 @@ export function usePlayerBattleActions({
       hitSummon(
         target,
         isEmanuelComboHit ? comboMultiplier : 1,
+        "basic",
         isEmanuelComboHit ? pushDir : undefined,
       );
 
@@ -352,7 +365,9 @@ export function usePlayerBattleActions({
         const targetSummon = summons.find((summon) => summon.id === target.id);
         if (!targetSummon) continue;
 
-        hitSummon(target, multiplier);
+        // Punch extra do ORA: é golpe de especial (cobra carga de special),
+        // então só o vampirismo universal paga.
+        hitSummon(target, multiplier, "other");
         return { x: target.x, y: target.y, isMain: false };
       }
 
@@ -415,7 +430,7 @@ export function usePlayerBattleActions({
       for (const target of summonTargets) {
         const targetSummon = summons.find((summon) => summon.id === target.id);
         if (!targetSummon) continue;
-        hitSummon(target, 1, dir);
+        hitSummon(target, 1, "other", dir);
         hitAny = true;
       }
 

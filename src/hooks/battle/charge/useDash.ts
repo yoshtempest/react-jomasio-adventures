@@ -14,6 +14,8 @@ import { getCharacterElementTypes } from "@/data/types/characterElementTypes";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import type { DamageArmor } from "@/utils/types/battle/damageKind";
 import { combatService } from "@/services/combat";
+import { applyVampirism } from "@/gameRules/battle/vampirism/applyVampirism";
+import type { VampirismStats } from "@/gameRules/battle/vampirism/applyVampirism";
 import { atLeastMinDamage } from "@/gameRules/battle/damage/minDamage";
 import { applyHitstop, type TimeEffect } from "@/gameRules/battle/time";
 
@@ -46,7 +48,7 @@ type Props = {
   setPlayerHP: React.Dispatch<React.SetStateAction<number>>;
   playerHP: number;
   playerMaxHp: number;
-  totalVampirism: number;
+  vampirism: VampirismStats;
   weapon?: LucasWeapon;
   /** Multiplicador da Forma Vastolord aplicado no dano do dash. */
   vastolordMultiplierRef?: React.RefObject<() => number>;
@@ -85,7 +87,7 @@ export function useChargeDash(props: Props) {
   const playerMaxHpRef = useLatestRef(props.playerMaxHp);
   const playerHpRef = useLatestRef(props.playerHP);
   const dashCharRef = useLatestRef(props.char);
-  const vampirismRef = useLatestRef(props.totalVampirism);
+  const vampirismRef = useLatestRef(props.vampirism);
   const weaponRef = useLatestRef(props.weapon);
   const wasCritRef = useRef(false);
 
@@ -151,14 +153,14 @@ export function useChargeDash(props: Props) {
             vastolordMult,
         );
         setNpcHP((hp) => Math.max(0, hp - dmg));
-        if (vampirismRef.current > 0) {
-          const heal = Math.round((dmg * vampirismRef.current) / 100);
-          if (heal > 0) {
-            setPlayerHPRef.current((hp) =>
-              Math.min(playerMaxHpRef.current, hp + heal),
-            );
-          }
-        }
+        // O dash é golpe de carga, não o ataque básico: paga só o universal.
+        applyVampirism({
+          damage: dmg,
+          source: "other",
+          vampirism: vampirismRef.current,
+          playerMaxHp: playerMaxHpRef.current,
+          setPlayerHP: setPlayerHPRef.current,
+        });
         spawnDamageRef.current?.(
           dmg,
           target.x,
@@ -192,14 +194,13 @@ export function useChargeDash(props: Props) {
         registerHitRef.current?.(summonDmg);
         timeRef.current = applyHitstop(timeRef.current, 80);
 
-        if (vampirismRef.current > 0) {
-          const heal = Math.round((summonDmg * vampirismRef.current) / 100);
-          if (heal > 0) {
-            setPlayerHPRef.current((hp) =>
-              Math.min(playerMaxHpRef.current, hp + heal),
-            );
-          }
-        }
+        applyVampirism({
+          damage: summonDmg,
+          source: "other",
+          vampirism: vampirismRef.current,
+          playerMaxHp: playerMaxHpRef.current,
+          setPlayerHP: setPlayerHPRef.current,
+        });
 
         setSummons((prev) =>
           prev.map((s) =>

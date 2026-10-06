@@ -43,7 +43,8 @@ O escopo atual abrange:
 - **Missões (Quests)**: sistema de missões com progresso, recompensas (XP, itens, moedas), tipos história/secundárias/batalha/diárias/semanais
 - **Inventário**: gerenciamento de itens coletados em mapa
 - **Diálogo**: sistema de diálogo com fallback condicional baseado em estado do jogo (quests, items, flags, personagem)
-- **Progressão**: stats do jogador (Força, Resistência, Sorte, Técnica, Espírito, Tenacidade, armadura física/mágica, escudo, vampirismo, reflexão, redução de cooldown) modificáveis por pontos de nível, equipamentos, títulos e classe
+- **Progressão**: stats do jogador (Força, Resistência, Sorte, Técnica, Espírito, Tenacidade, armadura física/mágica, escudo, vampirismo, vampirismo universal, reflexão, redução de cooldown) modificáveis por pontos de nível, equipamentos, títulos e classe
+- **Vampirismo**: existem dois modelos, e a diferença é _quais golpes pagam_. O **vampirismo** normal cura só a partir do **ataque básico**; o **vampirismo universal** cura a partir de qualquer dano que o **próprio jogador** cause — básico, special, dash, habilidades ativas (Genki Dama, I Am Atomic, Gran Rey Cero, Laser Vastolord, Expansão de Domínio) e reflexão de dano. Nenhum dos dois paga por dano de terceiro: ticks de DoT, dano de pet e de aliados não são golpes do jogador. Todo caminho de dano do jogador converte dano em cura por uma regra única (`applyVampirism`)
 - **Salvamento**: save automático com múltiplas chaves em localStorage
 - **Configurações**: dificuldade, volumes de áudio, velocidade de diálogo
 - **Indicador de missões**: seta dourada apontando tiles de saída que levam à missão ativa + "!" amarelo sobre NPCs relevantes

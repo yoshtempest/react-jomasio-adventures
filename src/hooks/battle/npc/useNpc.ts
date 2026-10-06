@@ -11,6 +11,8 @@ import { getNpcVsPlayerMultiplier } from "@/gameRules/battle/npcVsPlayerDamage";
 import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
 import { combatService } from "@/services/combat";
 import { getBabidiBlockReflect } from "@/gameRules/battle/babidiBlock";
+import { applyVampirism } from "@/gameRules/battle/vampirism/applyVampirism";
+import type { VampirismStats } from "@/gameRules/battle/vampirism/applyVampirism";
 import { atLeastMinDamage } from "@/gameRules/battle/damage/minDamage";
 import { checkBlocked } from "./checkBlocked";
 import { rollNpcDamage } from "./rollNpcDamage";
@@ -44,6 +46,13 @@ type Props = {
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;
   setNpcHP: React.Dispatch<React.SetStateAction<number>>;
   totalReflect: number;
+  /**
+   * A reflexão é dano do PRÓPRIO jogador: paga vampirismo universal. O
+   * normal não entra, porque não é o ataque básico dele.
+   */
+  vampirism: VampirismStats;
+  playerMaxHp: number;
+  setPlayerHP: React.Dispatch<React.SetStateAction<number>>;
   npcCooldown: React.RefObject<boolean>;
   difficulty: NpcDifficulty;
   isEnding: React.RefObject<boolean>;
@@ -82,6 +91,9 @@ export function useNpcBattle({
   setPlayer,
   setNpcHP,
   totalReflect,
+  vampirism,
+  playerMaxHp,
+  setPlayerHP,
   npcCooldown,
   playerX,
   playerY,
@@ -134,10 +146,27 @@ export function useNpcBattle({
           const reflectAmt = atLeastMinDamage((damage * reflectPct) / 100);
           setNpcHP((hp) => Math.max(0, hp - reflectAmt));
           spawnDamageRef.current?.(reflectAmt, npcX, npcY, "reflect");
+          applyVampirism({
+            damage: reflectAmt,
+            source: "other",
+            vampirism,
+            playerMaxHp,
+            setPlayerHP,
+          });
         }
       }
     },
-    [damagePlayerHp, totalReflect, setNpcHP, spawnDamageRef, npcX, npcY],
+    [
+      damagePlayerHp,
+      totalReflect,
+      setNpcHP,
+      spawnDamageRef,
+      npcX,
+      npcY,
+      vampirism,
+      playerMaxHp,
+      setPlayerHP,
+    ],
   );
 
   const applyBabidiBlockReflect = useCallback(
@@ -155,6 +184,13 @@ export function useNpcBattle({
         reflect.isInstakill ? 0 : Math.max(0, hp - reflect.damage),
       );
       spawnDamageRef.current?.(reflect.damage, npcX, npcY, "reflect");
+      applyVampirism({
+        damage: reflect.damage,
+        source: "other",
+        vampirism,
+        playerMaxHp,
+        setPlayerHP,
+      });
     },
     [
       player.character,
@@ -165,6 +201,9 @@ export function useNpcBattle({
       spawnDamageRef,
       npcX,
       npcY,
+      vampirism,
+      playerMaxHp,
+      setPlayerHP,
     ],
   );
 

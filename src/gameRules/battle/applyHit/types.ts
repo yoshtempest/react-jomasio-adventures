@@ -3,6 +3,7 @@ import type { CharacterProgress } from "@/data/characters/defaultProgress";
 import type { ElementType } from "@/utils/types/battle/element";
 import type { DamageArmor, DamageKind } from "@/utils/types/battle/damageKind";
 import type { TimeEffect } from "@/gameRules/battle/time";
+import type { VampirismStats } from "@/gameRules/battle/vampirism/applyVampirism";
 
 export type BaseHitParams = {
   player: Player;
@@ -16,7 +17,7 @@ export type BaseHitParams = {
   npcElementTypes: readonly ElementType[];
   playerHP: number;
   playerMaxHp: number;
-  totalVampirism: number;
+  vampirism: VampirismStats;
   totalMaxHpDamage: number;
   totalTrueDamage: number;
   setNpcHP: React.Dispatch<React.SetStateAction<number>>;

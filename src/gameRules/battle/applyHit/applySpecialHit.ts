@@ -32,7 +32,7 @@ export function applySpecialHit(params: SpecialHitParams) {
     triggerExplosion: params.triggerExplosion,
   });
 
-  finishHit(params, trueDmg, dmgType, 100, params.onSpecialRef);
+  finishHit(params, trueDmg, dmgType, 100, "other", params.onSpecialRef);
 
   return trueDmg;
 }

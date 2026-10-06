@@ -20,6 +20,7 @@ import {
   isPlayerParalyzed,
 } from "@/gameRules/battle/status/statusEffects";
 import type { BattleBehavior } from "@/utils/types/player/behavior";
+import type { VampirismStats } from "@/gameRules/battle/vampirism/applyVampirism";
 import type { CharacterProgress } from "@/data/characters/defaultProgress";
 import type { ElementType } from "@/utils/types/battle/element";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
@@ -57,7 +58,7 @@ type Props = {
   setPlayerHP: React.Dispatch<React.SetStateAction<number>>;
   playerHP: number;
   playerMaxHp: number;
-  totalVampirism: number;
+  vampirism: VampirismStats;
   totalMaxHpDamage: number;
   totalTrueDamage: number;
   playerCooldown: React.RefObject<boolean>;
@@ -107,7 +108,7 @@ export function usePlayerBattle({
   setPlayerHP,
   playerHP,
   playerMaxHp,
-  totalVampirism,
+  vampirism,
   totalMaxHpDamage,
   totalTrueDamage,
   playerCooldown,
@@ -227,6 +228,9 @@ export function usePlayerBattle({
         onBeforeNpcHitRef,
         setNpcHP,
         setPlayerHP,
+        vampirism,
+        playerMaxHp,
+        source: "basic",
         registerHitRef,
         onDamageDealtRef,
         spawnDamageRef,
@@ -250,7 +254,7 @@ export function usePlayerBattle({
           npcElementTypes,
           playerHP,
           playerMaxHp,
-          totalVampirism,
+          vampirism,
           totalMaxHpDamage,
           totalTrueDamage,
           setNpcHP,
@@ -318,7 +322,7 @@ export function usePlayerBattle({
       playerHP,
       setPlayerHP,
       playerMaxHp,
-      totalVampirism,
+      vampirism,
       totalMaxHpDamage,
       totalTrueDamage,
       onBeforeNpcHitRef,
@@ -407,6 +411,9 @@ export function usePlayerBattle({
         onBeforeNpcHitRef,
         setNpcHP,
         setPlayerHP,
+        vampirism,
+        playerMaxHp,
+        source: "other",
         registerHitRef,
         onDamageDealtRef,
         spawnDamageRef,
@@ -434,7 +441,7 @@ export function usePlayerBattle({
         npcElementTypes,
         playerHP,
         playerMaxHp,
-        totalVampirism,
+        vampirism,
         totalMaxHpDamage,
         totalTrueDamage,
         damageKind: options?.damageKind ?? "physical",
@@ -485,7 +492,7 @@ export function usePlayerBattle({
       setNpcHP,
       setPlayerHP,
       playerMaxHp,
-      totalVampirism,
+      vampirism,
       totalMaxHpDamage,
       totalTrueDamage,
       stacks,

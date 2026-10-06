@@ -18,6 +18,8 @@ import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
 import { clampX } from "@/gameRules/movement/clampX";
 import { combatService } from "@/services/combat";
 import { atLeastMinDamage } from "@/gameRules/battle/damage/minDamage";
+import { applyVampirism } from "@/gameRules/battle/vampirism/applyVampirism";
+import type { VampirismStats } from "@/gameRules/battle/vampirism/applyVampirism";
 import { getAbilityDamageType } from "@/data/characters/abilities";
 import type { DamageArmor } from "@/utils/types/battle/damageKind";
 import type { SoundId } from "@/utils/audio/soundId";
@@ -58,6 +60,10 @@ type Props = {
   setNpcHP: Dispatch<SetStateAction<number>>;
   /** Colunas do NPC principal: o feixe é físico e não pode ignorá-las. */
   npcArmor: DamageArmor;
+  /** O feixe é habilidade ativa: paga só o vampirismo universal. */
+  vampirism: VampirismStats;
+  playerMaxHp: number;
+  setPlayerHP: Dispatch<SetStateAction<number>>;
   giveSummonRewards: (npcClass: NPCClass) => void;
   spawnDamageNumber: (
     value: number,
@@ -121,6 +127,9 @@ export function useVastolordLaser({
   summons,
   setSummons,
   setNpcHP,
+  vampirism,
+  playerMaxHp,
+  setPlayerHP,
   giveSummonRewards,
   spawnDamageNumber,
   registerHitRef,
@@ -281,6 +290,13 @@ export function useVastolordLaser({
           ),
         );
         setNpcHP((hp) => Math.max(0, hp - dmg));
+        applyVampirism({
+          damage: dmg,
+          source: "other",
+          vampirism,
+          playerMaxHp,
+          setPlayerHP,
+        });
         reportTick(MAIN_TARGET_KEY, dmg, mainNpc.x, mainNpc.y, "npc");
         const dir = mainNpc.x >= playerRef.current.x ? 1 : -1;
         mainNpc.updateNpc({
@@ -306,6 +322,13 @@ export function useVastolordLaser({
           combatService.applyArmor(rawTick, LASER_DAMAGE_KIND, s.armor),
         );
         const newHp = Math.max(0, s.hp - dmg);
+        applyVampirism({
+          damage: dmg,
+          source: "other",
+          vampirism,
+          playerMaxHp,
+          setPlayerHP,
+        });
         reportTick(s.id, dmg, s.x, s.y, "summon");
         if (newHp <= 0) {
           killed = true;
@@ -343,13 +366,16 @@ export function useVastolordLaser({
       giveSummonRewards,
       npcArmorRef,
       npcRef,
+      playerMaxHp,
       playerRef,
       registerHitRef,
       setNpcHP,
+      setPlayerHP,
       setSummons,
       shouldCancelRef,
       spawnDamageNumber,
       summonsRef,
+      vampirism,
     ]),
   );
 
