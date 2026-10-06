@@ -17,8 +17,8 @@ type Arrow = {
 };
 
 const ARROW_COUNT = 7;
-const LEFT_START = 6;
-const LEFT_SPAN = 38;
+const LEFT_START = 1;
+const LEFT_SPAN = 70;
 
 function makeArrows(): Arrow[] {
   const arrows: Arrow[] = [];

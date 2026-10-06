@@ -17,6 +17,7 @@
   justify-content: center;
 
   pointer-events: none;
+  left: 10%;
 }
 
 /**
@@ -31,22 +32,19 @@
   width: var(--size-16);
   height: var(--size-16);
 
-  color: var(--success);
-
   opacity: 0;
 
   transform: scale(var(--arrow-scale, 1));
 
   filter: drop-shadow(0 0 var(--size-6) var(--success-60));
 
-  animation-name: statUpArrow;
-  animation-timing-function: ease-out;
-  animation-fill-mode: forwards;
+  animation: statUpArrow 1.5s ease-out forwards;
 }
 
 .arrow svg {
   width: 100%;
   height: 100%;
+  color: var(--blue-strong);
 }
 
 /**
