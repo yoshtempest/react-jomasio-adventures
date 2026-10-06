@@ -7,10 +7,16 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import type { InventoryItem } from "@/utils/types/player/inventory";
+import type {
+  AddItemOptions,
+  InventoryItem,
+} from "@/utils/types/player/inventory";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import { useToast } from "@/contexts/ToastContext";
 import type { SoundId } from "@/utils/audio/soundId";
 import { INVENTORY_KEY } from "@/data/storageKeys";
+import { ITEMS } from "@/data/items";
+import { itemPath } from "@/utils/paths";
 import { useCompressedStorage } from "@/hooks/useCompressedStorage";
 import { useToggle } from "@/hooks/useToggle";
 import { useQueuedSounds } from "@/hooks/audio/useQueuedSounds";
@@ -19,7 +25,7 @@ import { InventoryService } from "@/services/inventory";
 type InventoryContextType = {
   items: InventoryItem[];
 
-  addItem: (item: InventoryItem) => boolean;
+  addItem: (item: InventoryItem, options?: AddItemOptions) => boolean;
   removeItem: (id: ItemId, qty?: number) => void;
   hasItem: (id: ItemId) => boolean;
   hasSpaceFor: (incoming: InventoryItem[]) => boolean;
@@ -41,6 +47,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
     [],
   );
   const { playSound } = useSoundEffects();
+  const { showToast } = useToast();
 
   const {
     isOpen,
@@ -82,12 +89,27 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
   );
 
   const addItem = useCallback(
-    (item: InventoryItem): boolean => {
+    (item: InventoryItem, options?: AddItemOptions): boolean => {
       const result = inventoryService.addItem(latestItemsRef.current, item);
       commit(result.items, result.sound);
+
+      // Toast fora do updater, só quando o item realmente entrou (mochila
+      // cheia não notifica). Só coleta no explore liga a flag — ver
+      // AddItemOptions.
+      if (options?.showToast && result.added) {
+        const itemData = ITEMS[item.id];
+        if (itemData) {
+          const qty = item.qty ?? 1;
+          showToast({
+            icon: itemData.image ?? itemPath(`${item.id}.svg`),
+            text: `Você pegou ${itemData.name}${qty > 1 ? ` x${qty}` : ""}!`,
+          });
+        }
+      }
+
       return result.added;
     },
-    [inventoryService, commit],
+    [inventoryService, commit, showToast],
   );
 
   const removeItem = useCallback(

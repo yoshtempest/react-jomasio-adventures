@@ -629,7 +629,7 @@ export function ExploreScene({
               activeLootBag.y,
             );
             for (const item of collected) {
-              addItem({ id: item.id, qty: item.qty });
+              addItem({ id: item.id, qty: item.qty }, { showToast: true });
             }
             setActiveLootBag(null);
           }}
@@ -637,7 +637,7 @@ export function ExploreScene({
             if (!activeLootBag || !currentLocationId) return;
             const first = activeLootBag.items[0];
             if (!first) return;
-            addItem({ id: first.id, qty: 1 });
+            addItem({ id: first.id, qty: 1 }, { showToast: true });
             removeGroundItem(
               currentLocationId,
               activeLootBag.x,

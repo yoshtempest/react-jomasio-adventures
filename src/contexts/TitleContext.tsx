@@ -17,6 +17,7 @@ import type {
 import { TITLES, TITLE_IDS, getTitleById, type TitleId } from "@/data/titles";
 import { loadData, saveData } from "@/utils/titles/storage";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
+import { useToast } from "@/contexts/ToastContext";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import type { ElementType } from "@/utils/types/battle/element";
 
@@ -82,21 +83,36 @@ export function TitleProvider({ children }: { children: ReactNode }) {
   }, [titlesData]);
 
   const { playSound } = useSoundEffects();
+  const { showToast } = useToast();
   const prevProgressRef = useRef(titlesData.progress);
 
+  /**
+   * Dif do progresso renderizado: é o único lugar que enxerga a transição
+   * nível anterior → nível novo (unlock em level 1, upgrade em level > 1).
+   * Dispara som e toast uma vez por tick, mesmo com vários títulos subindo.
+   */
   useEffect(() => {
     const prev = prevProgressRef.current;
     const curr = titlesData.progress;
+    let leveledUp = false;
     for (const id of TITLE_IDS) {
       const prevLevel = prev[id]?.level ?? 0;
       const currLevel = curr[id]?.level ?? 0;
-      if (currLevel > prevLevel) {
-        playSound("unlockedTitle");
-        break;
-      }
+      if (currLevel <= prevLevel) continue;
+
+      const def = TITLES[id];
+      showToast({
+        icon: def.icon,
+        text:
+          currLevel === 1
+            ? `Título ${def.name} desbloqueado!`
+            : `Título ${def.name} evoluiu para Nv.${currLevel}!`,
+      });
+      leveledUp = true;
     }
+    if (leveledUp) playSound("unlockedTitle");
     prevProgressRef.current = curr;
-  }, [titlesData.progress, playSound]);
+  }, [titlesData.progress, playSound, showToast]);
 
   /**
    * Bônus agregados por condição, pré-calculados quando o progresso muda.

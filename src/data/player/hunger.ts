@@ -1,6 +1,13 @@
 /** Teto de fome: 100 = alimentado. */
 export const MAX_HUNGER = 100;
 
+/**
+ * Abaixo ou igual a este valor o personagem é considerado com fome (avatar
+ * troca a expressão, toast de aviso dispara). Fonte única: HUD e notificações
+ * leem a mesma constante.
+ */
+export const HUNGRY_THRESHOLD = 20;
+
 export const HUNGER_TICK_MS = 30_000; // check every 30s
 export const HUNGER_INTERVAL_MS = 60_000; // 1 min
 

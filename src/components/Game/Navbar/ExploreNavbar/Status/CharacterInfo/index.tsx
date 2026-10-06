@@ -6,11 +6,10 @@ import { CHARACTERS } from "@/data/options/characters";
 import { CharacterElements } from "@/components/Game/Navbar/ExploreNavbar/Status/CharacterInfo/CharacterElements";
 import { npcPath, playerPath } from "@/utils/paths";
 import { getRank, formatRank } from "@/gameRules/rank";
+import { HUNGRY_THRESHOLD } from "@/data/player/hunger";
 import styles from "./styles.module.css";
 import { BarsInfos } from "../BarsInfos";
 import { StatUpArrows } from "./StatUpArrows";
-
-const HUNGRY_THRESHOLD = 20;
 
 export function CharacterInfo() {
   const { player, playerClass } = usePlayer();
@@ -60,15 +59,13 @@ export function CharacterInfo() {
       </div>
       <div className={styles.characterOverlay}>
         <div className={styles.characterTitle}>
-          <h2 className={styles.characterName}>
-            {characterData?.name}
-          </h2>
-          <span className={styles.level}>
-            Nv. {charProgress.level}
-          </span>
+          <h2 className={styles.characterName}>{characterData?.name}</h2>
+          <span className={styles.level}>Nv. {charProgress.level}</span>
         </div>
         <CharacterElements character={character} />
-        <h2 className={styles.rank}>{formatRank(getRank(charProgress.level))}</h2>
+        <h2 className={styles.rank}>
+          {formatRank(getRank(charProgress.level))}
+        </h2>
         <div className={styles.class}>
           <span>Classe:</span>
           <strong>{playerClass}</strong>

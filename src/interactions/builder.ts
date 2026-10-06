@@ -41,7 +41,7 @@ export function createPickupHandler(config: PickupHandlerConfig) {
   return (deps: PickupHandlerDeps) => {
     if (!deps.gotKey) {
       deps.setPopup(config.pickupMessage);
-      deps.addItem(config.item);
+      deps.addItem(config.item, { showToast: true });
       if (config.questProgress) {
         deps.progressQuest?.(
           config.questProgress.id,

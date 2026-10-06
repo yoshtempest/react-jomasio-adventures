@@ -72,7 +72,7 @@ export function useSceneTombstones({ locationId, onMessage }: Params) {
         return false;
       }
 
-      drops.forEach(({ id, qty }) => addItem({ id, qty }));
+      drops.forEach(({ id, qty }) => addItem({ id, qty }, { showToast: true }));
 
       const summary =
         drops

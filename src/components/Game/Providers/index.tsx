@@ -1,4 +1,5 @@
 import { type ReactNode } from "react";
+import { ToastProvider } from "@/contexts/ToastContext";
 import { SoundEffectsProvider } from "@/contexts/SoundEffectsContext";
 import { NavbarProvider } from "@/contexts/NavbarContext";
 import { FlagProvider } from "@/contexts/FlagContext";
@@ -21,44 +22,46 @@ import { CharacterUnlockProvider } from "@/contexts/CharacterUnlockContext";
 
 export function GameProviders({ children }: { children: ReactNode }) {
   return (
-    <SoundEffectsProvider>
-      <NavbarProvider>
-        <FlagProvider>
-          <InventoryProvider>
-            <QuestProvider>
-              <CharacterProgressProvider>
-                <PetProgressProvider>
-                  <ProfessionProgressProvider>
-                    <ProfessionBadgeProvider>
-                      <TombstoneProvider>
-                        <GroundItemProvider>
-                          <EquipmentProvider>
-                            <TitleProvider>
-                              <BestiaryProvider>
-                                <PlayerProvider>
-                                  <PlayTimeProvider>
-                                    <BattleNavbarProvider>
-                                      <GameControlsProvider>
-                                        <CharacterUnlockProvider>
-                                          {children}
-                                        </CharacterUnlockProvider>
-                                      </GameControlsProvider>
-                                    </BattleNavbarProvider>
-                                  </PlayTimeProvider>
-                                </PlayerProvider>
-                              </BestiaryProvider>
-                            </TitleProvider>
-                          </EquipmentProvider>
-                        </GroundItemProvider>
-                      </TombstoneProvider>
-                    </ProfessionBadgeProvider>
-                  </ProfessionProgressProvider>
-                </PetProgressProvider>
-              </CharacterProgressProvider>
-            </QuestProvider>
-          </InventoryProvider>
-        </FlagProvider>
-      </NavbarProvider>
-    </SoundEffectsProvider>
+    <ToastProvider>
+      <SoundEffectsProvider>
+        <NavbarProvider>
+          <FlagProvider>
+            <InventoryProvider>
+              <QuestProvider>
+                <CharacterProgressProvider>
+                  <PetProgressProvider>
+                    <ProfessionProgressProvider>
+                      <ProfessionBadgeProvider>
+                        <TombstoneProvider>
+                          <GroundItemProvider>
+                            <EquipmentProvider>
+                              <TitleProvider>
+                                <BestiaryProvider>
+                                  <PlayerProvider>
+                                    <PlayTimeProvider>
+                                      <BattleNavbarProvider>
+                                        <GameControlsProvider>
+                                          <CharacterUnlockProvider>
+                                            {children}
+                                          </CharacterUnlockProvider>
+                                        </GameControlsProvider>
+                                      </BattleNavbarProvider>
+                                    </PlayTimeProvider>
+                                  </PlayerProvider>
+                                </BestiaryProvider>
+                              </TitleProvider>
+                            </EquipmentProvider>
+                          </GroundItemProvider>
+                        </TombstoneProvider>
+                      </ProfessionBadgeProvider>
+                    </ProfessionProgressProvider>
+                  </PetProgressProvider>
+                </CharacterProgressProvider>
+              </QuestProvider>
+            </InventoryProvider>
+          </FlagProvider>
+        </NavbarProvider>
+      </SoundEffectsProvider>
+    </ToastProvider>
   );
 }

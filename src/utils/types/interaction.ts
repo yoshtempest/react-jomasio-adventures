@@ -1,4 +1,7 @@
-import type { InventoryItem } from "@/utils/types/player/inventory";
+import type {
+  AddItemOptions,
+  InventoryItem,
+} from "@/utils/types/player/inventory";
 
 export type BaseDeps = {
   setPopup: (msg: string) => void;
@@ -6,13 +9,13 @@ export type BaseDeps = {
 
 export type InventoryDeps = BaseDeps & {
   hasItem: (id: ItemId) => boolean;
-  addItem: (item: InventoryItem) => void;
+  addItem: (item: InventoryItem, options?: AddItemOptions) => void;
   removeItem: (id: ItemId) => void;
   navigate?: (path: string) => void;
 };
 
 export type PickupDeps = BaseDeps & {
-  addItem: (item: InventoryItem) => void;
+  addItem: (item: InventoryItem, options?: AddItemOptions) => void;
   gotKey?: boolean;
   setFlag?: (flag: FlagId) => void;
 };
@@ -44,9 +47,7 @@ export type ImageDeps = BaseDeps & {
 };
 
 export type MessageDeps = BaseDeps & {
-  showMessageCard: (
-    config: MessageCardConfig,
-  ) => void;
+  showMessageCard: (config: MessageCardConfig) => void;
 };
 
 export type MessageCardConfig = {
