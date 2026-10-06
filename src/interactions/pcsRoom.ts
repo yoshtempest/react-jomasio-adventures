@@ -20,7 +20,7 @@ export function createPcsRoom(deps: PickupDeps & MessageDeps & ImageDeps) {
       title: "Diário de Reincardion",
       subtitle: "Cap 3",
       description:
-        "Aprendi a usar a internet, mas aqui não tem internet, triste, não?",
+        "Aprendi a usar a internet, mas aqui não tem internet, triste, não? Peguei esse hábito de escrever durante o tempo em que estive preso naquela cela, queria que alguem pudesse ler essas cartas, mas ninguem aqui sabe ler, deplorável, realmente deplorável HAHAHAHA.",
     }),
     "13,2": createImageHandler({
       src: historyPath("healthlyTips.svg"),
@@ -31,6 +31,12 @@ export function createPcsRoom(deps: PickupDeps & MessageDeps & ImageDeps) {
       src: historyPath("mosquitoOrchestra.svg"),
       message: "Mosquito orquestra ao vivo",
       music: MUSICS.finoSenores,
+    }),
+    "12,4": createMessageCardHandler({
+      title: "Diário de Reincardion",
+      subtitle: "Cap 4",
+      description:
+        "Chat GPT minha espada tá girando igual um helicoptero, o que devo fazer? Procure atendimento médico urgentemente",
     }),
 
     "15,2": createImageHandler({

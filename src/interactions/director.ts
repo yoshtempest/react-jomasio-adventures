@@ -45,18 +45,18 @@ export function createDirector(deps: DirectorDeps) {
       title: "Carta",
       subtitle: "Reincardion",
       description:
-        "Uma carta amassada: 'Reincardion, o que aconteceu com a ovelha afogada?'",
+        "Uma carta amassada: 'Reincardion, o que aconteceu com a ovelha afogada? Ela morreu mesmo? Fácil assim?'",
     }),
     "12,5": createMessageCardHandler({
       title: "Carta",
       subtitle: "Desconhecido",
-      description: "Uma carta escrito: 'tu matou a ovelha afogada, rapaz?'",
+      description: "Uma carta escrito: 'tu matou a ovelha afogada, rapaz? Agora tu vai levar uma pisa das boas seu muleque'",
     }),
     "6,3": createMessageCardHandler({
       title: "Diário de Reincardion",
       subtitle: "Cap 2",
       description:
-        "Encontrei a chave, mas fui pego por Jhow Simar e jogado aqui novamente...",
+        "Encontrei a chave, mas fui pego por Jhow Simar e jogado aqui novamente... Eles disseram que a punição havia acabado, fui idiota em acreditar nessas palavras, mais um dia aqui, sinto que estou ficando louco HAHAHAH",
     }),
     "17,5": createMessageCardHandler({
       title: "Carta de 20 anos atrás",
@@ -78,7 +78,7 @@ export function createDirector(deps: DirectorDeps) {
       title: "Diário de Reincardion",
       subtitle: "Cap 1",
       description:
-        "Fui preso nessa cela e estou aqui a dias, sinto fome...",
+        "Fui preso nessa cela e estou aqui a dias, sinto fome... Ás vezes eu tento fugir mas nem mesmo Jhow Simar sabe onde está a chave para me tirar daqui, ao mesmo tempo que hilário, isso é triste...",
     }),
 
         "4,2": ({ hasItem, setPopup, navigate, playSFX }) => {

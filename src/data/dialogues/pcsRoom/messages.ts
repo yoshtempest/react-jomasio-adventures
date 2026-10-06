@@ -14,8 +14,7 @@ export const pcsRoomMessages: Record<string, string> = {
   "7,4":
     "Você sabia que no principio, qualquer inimigo tinha uma vida proporcional a pelo menos 5 vidas do jogador?",
   "11,4":
-    "Se você apertar a tecla g ou clicar no retângulo redondo, você pode ver o tutorial",
-  "12,4": "Basta ir nas configs do jogo",
+    "Se você apertar a tecla g ou clicar no retângulo redondo, você pode ver o tutorial, basta ir nas configs do jogo.",
   "14,4":
     "O desenvolvedor perdeu... Perdeu horas e horas de sua vida criando esse jogo, tenha compreensão com qualquer bug",
   "15,4": "Foram 40 horas de trabalho em 4 dias, ",

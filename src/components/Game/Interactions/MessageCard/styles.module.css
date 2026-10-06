@@ -45,16 +45,18 @@
 
 .title {
   text-align: center;
+  color: var(--c-442222);
   font-size: var(--fs-28);
   font-weight: 700;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .subtitle {
   text-align: center;
+  color: var(--c-442222);
   font-size: var(--fs-18);
   font-weight: 600;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .description {
