@@ -207,6 +207,19 @@ export const BLADES = [
     },
   },
   {
+    id: "weapon_thor_hammer",
+    name: "Martelo do Thor",
+    slot: "weapon",
+    rank: 9,
+    stats: {
+      strength: 5,
+      technique: 4,
+      vampirism: 3,
+      maxHpDamage: 2,
+      trueDamage: 4,
+    },
+  },
+  {
     id: "weapon_dark_repulser",
     name: "Dark Repulser",
     slot: "weapon",

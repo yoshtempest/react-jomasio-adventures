@@ -16,6 +16,13 @@ export const STAFFS = [
     stats: { spirit: 30, vampirism: 5, trueDamage: 10 },
   },
   {
+    id: "weapon_odin_stuff",
+    name: "Cajado de odin",
+    slot: "weapon",
+    rank: 9,
+    stats: { spirit: 30, vampirism: 5, trueDamage: 10 },
+  },
+  {
     id: "weapon_cetro_real",
     name: "Cetro Real",
     slot: "weapon",
