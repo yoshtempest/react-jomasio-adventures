@@ -1,15 +1,4 @@
-adicionar baú na hellroom
-colocar bau no hallJailson
-
-criar imagens para o brodiClass dialogue
-
 pensar e criar as habilidades de todos os pets
-
-colocar um "Ready? Fight!" no começo da batalha
-
-Quando o personagem morre ou vence, adicionar animação e somente então aparecer a fala do personagem.
-
-criar imagens para deixar as conversas mais animadas ao invés de apenas uma imagem de cada personagem no diálogo.
 
 continuar a história na brodiclass
 
@@ -18,8 +7,6 @@ criar imagens das salas que estão faltando: ProfessorRoom, second-A class, thir
 Quando o jogador equipa um pet, assim como no jogo pokemon gold, o pet equipado deve aparecer no modo explore e ficar seguindo o jogador.
 
 criar imageFace dos personagens do jogo
-
-criar imagens para expressões de todos os personagens
 
 adicionar pequeno diálogo entre o personagem e o sistema para que o sistema calcule as chances de vitória
 o sistema deve dizer "E ai? Você perderia?" e o jogador "Não viaja"
@@ -37,8 +24,6 @@ adicionar animação para bomba de fumaça antes dos npcs desaparecerem
 o jogador poderá voar no zecaUrubu sobrevoando a cidade após fazer alguma missão relacionada ao ato de voar.
 
 Após o diálogo da brodiClassOne adicionar cutscene na livraria de neimito falando algo "abra kadabra" e as estantes abrindo, neimito e ematron entrando na passagem secreta.
-
-criar imagem de todas as ferramentas
 
 criar animação de craft de ferramentas
 

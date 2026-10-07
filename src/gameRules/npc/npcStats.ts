@@ -1,10 +1,19 @@
+import { getNpcStatusMultipliers } from "@/data/npc/statusMultipliers";
 import type { DamageArmor } from "@/utils/types/battle/damageKind";
 
+/**
+ * Status do NPC: base por nível × classe × dificuldade, multiplicados pelo
+ * `multiplier` global (alfa, estrela de pet) e pelos multiplicadores próprios
+ * do tipo (`NPC_STATUS_MULTIPLIERS`, 5º parâmetro opcional) — que é o que
+ * permite dois bosses da mesma classe terem perfis diferentes (dano, vida e
+ * as duas colunas de armadura podem puxar para lados opostos).
+ */
 export function getNpcStats(
   level: number,
   npcClass: NPCClass,
   difficulty: NpcDifficulty,
   multiplier: number = 1,
+  npcType?: string,
 ): { hp: number; damage: number; armor: DamageArmor } {
   const baseHp = 90;
   const baseDamage = 5;
@@ -52,16 +61,23 @@ export function getNpcStats(
   };
 
   const multipliers = difficultyMultipliers[difficulty][npcClass];
+  const status = getNpcStatusMultipliers(npcType ?? "");
   const armor = Math.round(level * multipliers.armor * multiplier);
 
   return {
-    hp: Math.round((baseHp + level * multipliers.hp) * multiplier),
-    damage: Math.round((baseDamage + level * multipliers.dmg) * multiplier),
+    hp: Math.round((baseHp + level * multipliers.hp) * multiplier * status.hp),
+    damage: Math.round(
+      (baseDamage + level * multipliers.dmg) * multiplier * status.damage,
+    ),
     /**
-     * Mesma base nas duas colunas, como no equipamento: um NPC nasce
-     * equilibrado e quem quiser um boss só físico ou só mágico declara o
-     * excedente em `services/npc/npcStats/<npcType>.ts`.
+     * Mesma base nas duas colunas (como no equipamento), mas os
+     * multiplicadores do NPC separam as colunas: um boss só físico ou com
+     * fraqueza mágica declara o desvio em `NPC_STATUS_MULTIPLIERS`
+     * (`data/npc/statusMultipliers.ts`).
      */
-    armor: { physical: armor, magical: armor },
+    armor: {
+      physical: Math.round(armor * status.physicalArmor),
+      magical: Math.round(armor * status.magicalArmor),
+    },
   };
 }

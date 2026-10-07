@@ -6,3 +6,4 @@ export * from "./displayNames";
 export * from "./levels";
 export * from "./mauraCalcles";
 export * from "./npc";
+export * from "./statusMultipliers";

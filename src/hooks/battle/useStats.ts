@@ -19,6 +19,7 @@ import type { DamageArmor } from "@/utils/types/battle/damageKind";
 import { buildCharacterStats } from "./buildCharacterStats";
 
 type Props = {
+  npcType: string;
   npcLevel: number;
   npcClass:
     "common" | "rare" | "epic" | "boss" | "legendary" | "supreme" | "omega";
@@ -43,6 +44,7 @@ type Props = {
  * companhia recarregavam o storage para recalcular número idêntico.
  */
 export function useBattleStats({
+  npcType,
   npcLevel,
   npcClass,
   difficulty,
@@ -135,8 +137,14 @@ export function useBattleStats({
   }, [char.stats.hp]);
 
   const npcMaxHp = useMemo(() => {
-    return getNpcStats(npcLevel, npcClass, difficulty, npcStatMultiplier).hp;
-  }, [npcLevel, npcClass, difficulty, npcStatMultiplier]);
+    return getNpcStats(
+      npcLevel,
+      npcClass,
+      difficulty,
+      npcStatMultiplier,
+      npcType,
+    ).hp;
+  }, [npcLevel, npcClass, difficulty, npcStatMultiplier, npcType]);
 
   const npcArmor = useMemo<DamageArmor>(() => {
     const stats = getNpcStats(
@@ -144,6 +152,7 @@ export function useBattleStats({
       npcClass,
       difficulty,
       npcStatMultiplier,
+      npcType,
     );
     // A fase 2 engrossa o boss nas duas colunas; o buff de armadura do goat
     // também, senão ele protegeria só de um tipo de golpe.
@@ -153,6 +162,7 @@ export function useBattleStats({
       magical: npcArmorBonus,
     });
   }, [
+    npcType,
     npcLevel,
     npcClass,
     difficulty,

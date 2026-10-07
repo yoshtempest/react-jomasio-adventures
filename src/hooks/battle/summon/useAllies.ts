@@ -36,7 +36,13 @@ export function useAllies({
       const level = options?.level ?? npcLevel;
       const statMultiplier = options?.statMultiplier ?? 1;
 
-      const stats = getNpcStats(level, data.class, difficulty, statMultiplier);
+      const stats = getNpcStats(
+        level,
+        data.class,
+        difficulty,
+        statMultiplier,
+        npcType,
+      );
       const maxHp = stats.hp;
 
       const spawnX = overrideX ?? playerX + ALLY_SPAWN_OFFSET;

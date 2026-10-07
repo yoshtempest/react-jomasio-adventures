@@ -409,7 +409,9 @@ não-battle.
 (`hooks/scene/useExploreLocation`).
 
 **Novo NPC**: `NPC_CLASSES` → `displayNames` → `attacks/<npcType>.ts` +
-registry → (opcional) `data/npc/levels.ts`, `bossScales.ts`, `NPC_TYPINGS` em
+registry → (opcional) `data/npc/levels.ts`, `bossScales.ts`, `statusMultipliers.ts`
+(multiplicadores de status por NPC — dano/vida/armadura física e mágica),
+`NPC_TYPINGS` em
 `data/types/npcElementTypes.ts` → sprites em `public/assets/npc/<type>/<state>.svg`
 e `NPC_CATEGORY` em `data/sprites/sprites.ts` → `BATTLE_CONFIGS` + rota se for
 lutável → `data/npc/cards.ts`/`displayNames` para bestiary.

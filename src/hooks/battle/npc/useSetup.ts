@@ -16,7 +16,13 @@ export function useNpcSetup(
 ): NpcSetupResult {
   const npcData = isNpcType(npcType) ? NPCS[npcType] : NPCS.dummy;
   const [level] = useState(() => npcLevel);
-  const npcStats = getNpcStats(level, npcData.class, difficulty, multiplier);
+  const npcStats = getNpcStats(
+    level,
+    npcData.class,
+    difficulty,
+    multiplier,
+    npcType,
+  );
 
   return { npcData, npcLevel: level, npcStats };
 }

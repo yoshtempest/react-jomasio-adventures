@@ -155,6 +155,7 @@ export function useBattleSystem(props: Props) {
   const [npcPhase, setNpcPhase] = useState(1);
 
   const stats = useBattleStats({
+    npcType,
     npcLevel,
     npcClass,
     difficulty,

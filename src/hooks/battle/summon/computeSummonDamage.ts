@@ -29,6 +29,7 @@ export function computeSummonDamage(
     data.class,
     difficulty,
     s.statMultiplier ?? 1,
+    s.npcType,
   );
 
   // O conjure define o dano do summon, mas a criatura invocada tem tipagem

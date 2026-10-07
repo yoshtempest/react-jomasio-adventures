@@ -114,6 +114,7 @@ export function useAllyAI({
             data.class,
             difficultyRef.current,
             ally.statMultiplier ?? 1,
+            ally.npcType,
           );
           statsCache.set(key, stats);
         }

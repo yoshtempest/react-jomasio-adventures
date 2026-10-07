@@ -306,7 +306,13 @@ export function useNpcBattle({
         return;
       }
 
-      const npc = getNpcStats(npcLevel, npcClass, difficulty, statMultiplier);
+      const npc = getNpcStats(
+        npcLevel,
+        npcClass,
+        difficulty,
+        statMultiplier,
+        npcType,
+      );
       const baseDmg = npc.damage;
       const dmg = combatService.calculateNpcDamage(
         baseDmg,
@@ -387,7 +393,13 @@ export function useNpcBattle({
       // aqui desfazia tanto o projétil terrestre quanto o
       // `canCrouchDodge: false` declarado no dado.
 
-      const npc = getNpcStats(npcLevel, npcClass, difficulty, statMultiplier);
+      const npc = getNpcStats(
+        npcLevel,
+        npcClass,
+        difficulty,
+        statMultiplier,
+        npcType,
+      );
       const baseDmg = npc.damage;
       const dmg = combatService.calculateNpcDamage(
         baseDmg,
@@ -558,7 +570,13 @@ export function useNpcBattle({
       if (isEnding.current) return;
       if (ALL_PREDICATES.isInvulnerable(player.state)) return;
 
-      const npc = getNpcStats(npcLevel, npcClass, difficulty, statMultiplier);
+      const npc = getNpcStats(
+        npcLevel,
+        npcClass,
+        difficulty,
+        statMultiplier,
+        npcType,
+      );
       const baseDmg = npc.damage;
       const dmg = combatService.calculateNpcDamage(
         baseDmg,
@@ -663,7 +681,13 @@ export function useNpcBattle({
       if (isEnding.current) return;
       if (ALL_PREDICATES.isNpcUnhittable(player.state)) return;
 
-      const npc = getNpcStats(npcLevel, npcClass, difficulty, statMultiplier);
+      const npc = getNpcStats(
+        npcLevel,
+        npcClass,
+        difficulty,
+        statMultiplier,
+        npcType,
+      );
       const burstDmg = Math.max(1, Math.round(npc.damage * 0.1));
 
       applyNpcDamage(burstDmg, playerX, playerY, "npc");
@@ -689,6 +713,7 @@ export function useNpcBattle({
       player.state,
       npcLevel,
       npcClass,
+      npcType,
       difficulty,
       statMultiplier,
       playerX,
