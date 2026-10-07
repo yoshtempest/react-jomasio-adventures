@@ -85,6 +85,8 @@ type Props = {
     form?: MarceloBattleForm,
   ) => boolean;
   playSound: (sound: SoundId, loop?: boolean, volumeOverride?: number) => void;
+  /** Chamado quando o press arma a habilidade (carga da Expansão de Domínio). */
+  onUsed?: () => void;
 };
 
 /** Natureza do feixe pelo registro de habilidades (o GameData e o hook concordam). */
@@ -139,6 +141,7 @@ export function useVastolordLaser({
   disabledRef,
   startSpecialIntro,
   playSound,
+  onUsed,
 }: Props): VastolordLaserApi {
   const { stopSound } = useSoundEffects();
   const { showAbilityIntro } = useSettings();
@@ -163,6 +166,7 @@ export function useVastolordLaser({
   const summonsRef = useLatestRef(summons);
   const beamRef = useLatestRef(beam);
   const vastolordActiveRef = useLatestRef(vastolordActive);
+  const onUsedRef = useLatestRef(onUsed);
 
   const baseDamage = useMemo(
     () => combatService.calculatePlayerDamage(char.stats.strength, playerClass),
@@ -427,6 +431,7 @@ export function useVastolordLaser({
     if (activeRef.current) return;
     if (!usableRef.current) return;
 
+    onUsedRef.current?.();
     activeRef.current = true;
     // A stack é consumida no ato: o intro já conta como o custo, mesmo se o
     // feixe só sair um segundo depois.
@@ -458,6 +463,7 @@ export function useVastolordLaser({
   }, [
     freezeActionsUntilRef,
     fireRef,
+    onUsedRef,
     showAbilityIntro,
     startSpecialIntro,
     usableRef,

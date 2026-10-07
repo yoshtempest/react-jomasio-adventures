@@ -37,6 +37,8 @@ type Props = {
   setTimeScale: (scale: number) => void;
   resetTimeScale: () => void;
   playSound: (sound: SoundId, loop?: boolean, volumeOverride?: number) => void;
+  /** Chamado quando o press inicia a instância (carga da Expansão de Domínio). */
+  onUsed?: () => void;
   isPausedRef: RefObject<boolean>;
   /** true quando os controles gerais de batalha estão desabilitados (pause, transição de fase, throw). */
   disabledRef: RefObject<boolean>;
@@ -60,6 +62,7 @@ export function useEmanuelClone({
   setTimeScale,
   resetTimeScale,
   playSound,
+  onUsed,
   isPausedRef,
   disabledRef,
   battleEndedRef,
@@ -83,6 +86,7 @@ export function useEmanuelClone({
   const removeLayerRef = useRef<(() => void) | null>(null);
 
   const pushControlsRef = useLatestRef(pushControls);
+  const onUsedRef = useLatestRef(onUsed);
   const obstaclesRef = useLatestRef(obstacles ?? []);
   const playerRef = useLatestRef(player);
   const playSoundRef = useLatestRef(playSound);
@@ -174,6 +178,7 @@ export function useEmanuelClone({
     if (activeRef.current) return;
     if (!canUseRef.current) return;
 
+    onUsedRef.current?.();
     activeRef.current = true;
     const current = playerRef.current;
     xRef.current = current.x;
@@ -236,6 +241,7 @@ export function useEmanuelClone({
   }, [
     canUseRef,
     freezeActionsUntilRef,
+    onUsedRef,
     playSoundRef,
     playerRef,
     pushControlsRef,

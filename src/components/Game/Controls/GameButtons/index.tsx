@@ -7,14 +7,12 @@ import { useGameControls } from "@/contexts/GameControlsContext";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { useBattleNavbar } from "@/contexts/BattleNavbarContext";
 import { usePlayer } from "@/contexts/PlayerContext";
-import { Settings } from "lucide-react";
 
 function useUiButtonCooldowns() {
   const [cooldowns, setCooldowns] = useState<Record<UIButtonType, boolean>>({
     confirm: false,
     cancel: false,
     open: false,
-    config: false,
   });
   const timersRef = useRef<
     Partial<Record<UIButtonType, ReturnType<typeof setTimeout>>>
@@ -43,8 +41,7 @@ function useUiButtonCooldowns() {
 
 export function GameButtons() {
   const { activeControls, closeAllMenus } = useGameControls();
-  const { openNavbar, openScreen, isNavOpen, screen, closeNavbar } =
-    useNavbar();
+  const { openNavbar } = useNavbar();
   const { isBattleNavOpen, toggleBattleNavbar } = useBattleNavbar();
   const { player } = usePlayer();
   const { cooldowns, trigger } = useUiButtonCooldowns();
@@ -67,6 +64,13 @@ export function GameButtons() {
       return;
     }
 
+    // Em batalha (ou com a BattleNavbar aberta) o open alterna a
+    // BattleNavbar: o special saiu de g/Tab e virou botão de habilidade.
+    if (player.mode === "battle" || isBattleNavOpen) {
+      toggleBattleNavbar();
+      return;
+    }
+
     if (activeControls?.blockGlobalOpen && player.mode === "explore") {
       closeAllMenus();
       return;
@@ -75,18 +79,6 @@ export function GameButtons() {
     if (!activeControls?.blockGlobalOpen && player.mode === "explore") {
       openNavbar();
     }
-  }
-
-  function handleConfig() {
-    if (player.mode === "battle" || isBattleNavOpen) {
-      toggleBattleNavbar();
-      return;
-    }
-    if (isNavOpen && screen === "config") {
-      closeNavbar();
-      return;
-    }
-    openScreen("config");
   }
 
   function handleConfirmDown() {
@@ -110,12 +102,6 @@ export function GameButtons() {
   return (
     <div className={styles.gameButtons}>
       <div className={styles.row}>
-        <button
-          className={`${styles.configs} ${cooldowns.config ? styles.cooldown : ""}`}
-          onPointerDown={handleConfig}
-        >
-          <Settings />
-        </button>
         <button
           className={`${styles.open} ${cooldowns.open ? styles.cooldown : ""}`}
           onPointerDown={handleOpen}

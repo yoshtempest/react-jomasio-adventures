@@ -7,14 +7,13 @@ import {
   GENKI_DAMA_INITIAL_COST,
   GENKI_DAMA_MAX_DAMAGE_MULTIPLIER,
 } from "@/data/characters/emanuel";
-import {
-  ATOMIC_COOLDOWN_MS,
-  DOMAIN_EXPANSION_COOLDOWN_MS,
-} from "@/data/characters/marshadow";
+import { ATOMIC_COOLDOWN_MS } from "@/data/characters/marshadow";
 import {
   GRAN_REY_CERO_AOE_RADIUS,
   GRAN_REY_CERO_COOLDOWN_MS,
 } from "@/data/characters/granReyCero";
+import { DOMAIN_EXPANSIONS } from "@/data/characters/domainExpansions";
+import { SPECIAL_ABILITY_COOLDOWN_MS } from "@/data/cooldowns";
 import { LUCAS_WEAPONS } from "@/data/characters/lucasWeapons";
 import { LUCAS_WEAPON_SWITCH_MANA_COST } from "@/gameRules/battle/mana";
 import {
@@ -37,6 +36,35 @@ import type { DamageKind } from "@/utils/types/battle/damageKind";
  * Adicionar/remover uma habilidade aqui é a única coisa necessária para a
  * battle e para o menu de Status concordarem sobre o que existe.
  */
+
+/** Special universal: todos os personagens têm, com cooldown de 20s. */
+function specialAbility(): ActiveAbility {
+  return {
+    kind: "active",
+    id: "special",
+    name: "Special",
+    description: `Golpe especial do personagem, acionado pelo botão SPECIAL na tela. Cooldown de ${SPECIAL_ABILITY_COOLDOWN_MS / 1000}s.`,
+    cooldownMs: SPECIAL_ABILITY_COOLDOWN_MS,
+  };
+}
+
+/**
+ * Expansão de Domínio do efeito base (`burst`): nome/descrição saem do
+ * registro `DOMAIN_EXPANSIONS`, o dano é especial (mágico). O id é próprio
+ * (`domainBurst`) porque o efeito é outro — o `domainExpansion` do marcelo é
+ * um execute e continua declarando `damageType: "true"`.
+ */
+function domainBurstAbility(characterId: CharacterId): ActiveAbility {
+  const def = DOMAIN_EXPANSIONS[characterId];
+  return {
+    kind: "active",
+    id: "domainBurst",
+    name: def.name,
+    description: def.description,
+    damageType: "magical",
+  };
+}
+
 export const CHARACTER_ACTIVE_ABILITIES: Partial<
   Record<CharacterId, ActiveAbility[]>
 > = {
@@ -48,6 +76,8 @@ export const CHARACTER_ACTIVE_ABILITIES: Partial<
       description: `Troca a arma aleatoriamente entre ${LUCAS_WEAPONS.length} armas, cada uma com seu próprio alcance.`,
       cost: LUCAS_WEAPON_SWITCH_MANA_COST,
     },
+    specialAbility(),
+    domainBurstAbility("lucas"),
   ],
   riquelme: [
     {
@@ -74,6 +104,8 @@ export const CHARACTER_ACTIVE_ABILITIES: Partial<
       description: `Converte energia amaldiçoada em vida (${CURSED_ENERGY_HEAL_RATIO} de energia por 1 de HP).`,
       requires: "some enquanto O Abençoado estiver ativo",
     },
+    specialAbility(),
+    domainBurstAbility("riquelme"),
   ],
   emanuel: [
     {
@@ -95,6 +127,8 @@ export const CHARACTER_ACTIVE_ABILITIES: Partial<
       description: `Segure para flutuar e reunir energia na esfera (cresce a cada segundo); solte para arremessar. Custa ${GENKI_DAMA_INITIAL_COST} de Ki na largada mais dreno contínuo. Dano máximo: ${GENKI_DAMA_MAX_DAMAGE_MULTIPLIER}x o ataque básico.`,
       damageType: "magical",
     },
+    specialAbility(),
+    domainBurstAbility("emanuel"),
   ],
   marcelo: [
     {
@@ -118,10 +152,8 @@ export const CHARACTER_ACTIVE_ABILITIES: Partial<
     {
       kind: "active",
       id: "domainExpansion",
-      name: "Expansão de Domínio",
-      description:
-        "Teleporta para a ponta mais próxima do mapa e varre tudo, matando todos os inimigos instantaneamente (100% da vida máxima).",
-      cooldownMs: DOMAIN_EXPANSION_COOLDOWN_MS,
+      name: DOMAIN_EXPANSIONS.marcelo.name,
+      description: DOMAIN_EXPANSIONS.marcelo.description,
       // Sem uso hoje, e é proposital: a Expansão de Domínio é um *execute*
       // (`setNpcHP(0)`), então não existe conta de dano para a armadura
       // reduzir. A declaração existe para fixar a semântica da habilidade caso
@@ -138,7 +170,16 @@ export const CHARACTER_ACTIVE_ABILITIES: Partial<
       cooldownMs: GRAN_REY_CERO_COOLDOWN_MS,
       damageType: "physical",
     },
+    specialAbility(),
   ],
+  eduarda: [specialAbility(), domainBurstAbility("eduarda")],
+  samuel: [specialAbility(), domainBurstAbility("samuel")],
+  artur: [specialAbility(), domainBurstAbility("artur")],
+  mayra: [specialAbility(), domainBurstAbility("mayra")],
+  lucaua: [specialAbility(), domainBurstAbility("lucaua")],
+  larissa: [specialAbility(), domainBurstAbility("larissa")],
+  camilly: [specialAbility(), domainBurstAbility("camilly")],
+  levi: [specialAbility(), domainBurstAbility("levi")],
 };
 
 function toPassiveAbility(

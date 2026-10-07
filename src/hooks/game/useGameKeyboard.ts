@@ -74,6 +74,13 @@ export function useGameKeyboard({
           return;
         }
 
+        // Em batalha (ou com a BattleNavbar aberta) o open alterna a
+        // BattleNavbar: o special saiu de g/Tab e virou botão de habilidade.
+        if (playerModeRef.current === "battle" || isBattleNavOpenRef.current) {
+          toggleBattleNavbar();
+          return;
+        }
+
         if (controls.blockGlobalOpen && playerModeRef.current === "explore") {
           closeAllMenus();
           return;

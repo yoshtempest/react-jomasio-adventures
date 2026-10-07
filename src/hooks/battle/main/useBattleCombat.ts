@@ -44,11 +44,17 @@ import {
 } from "@/hooks/battle/player/characters/marshadow/useAtomic";
 import { useDomainExpansion } from "@/hooks/battle/player/characters/marshadow/useDomainExpansion";
 import {
+  DOMAIN_BURST_MAIN_MULTIPLIER,
+  DOMAIN_BURST_SUMMON_MULTIPLIER,
+  useDomainExpansionBurst,
+} from "@/hooks/battle/utilities/useDomainExpansionBurst";
+import {
   VASTOLORD_DAMAGE_EXTEND_MS,
   VASTOLORD_DAMAGE_EXTEND_RATIO,
   VASTOLORD_KILL_EXTEND_MS,
 } from "@/hooks/battle/player/characters/marshadow/useVastolordForm";
 import { getAbilityDamageType } from "@/data/characters/abilities";
+import { DOMAIN_EXPANSIONS } from "@/data/characters/domainExpansions";
 import type { DamageKind } from "@/utils/types/battle/damageKind";
 import { combatService } from "@/services/combat";
 import { getProjectileDestructionHpByKind } from "@/gameRules/npc/projectile/projectileHp";
@@ -58,6 +64,8 @@ import {
   NPC_BLOCK_MIN_PCT,
 } from "@/hooks/battle/npc/useBlocking";
 import { damageSummon } from "@/gameRules/battle/damageSummon";
+import { gainAbilityCharge } from "@/gameRules/battle/special";
+import { applyCooldownReduction } from "@/gameRules/battle/cooldownReduction";
 import {
   getWeaponEnchantment,
   rollEnchantmentProc,
@@ -68,9 +76,11 @@ import {
 } from "@/data/equipment/enchantments";
 import { getSpecialFlowOverride } from "@/data/battle/animationFlow";
 import { CHARGE_ATTACK_MIN_LEVEL } from "@/data/battle/charge";
+import { SPECIAL_ABILITY_COOLDOWN_MS } from "@/data/cooldowns";
 import { LUCAS_WEAPON_SWITCH_MANA_COST } from "@/gameRules/battle/mana";
 import { cursedEnergyFromDamage } from "@/gameRules/battle/cursedEnergy";
 import { PET_ROOT_DURATION_MS } from "@/data/characters/petSkills";
+import { TWO_HUNDRED_MS } from "@/data/ms";
 import { runPetSkill } from "@/gameRules/battle/petSkill/petSkill";
 import { applyPlayerStatus } from "@/gameRules/battle/status/statusEffects";
 import {
@@ -216,12 +226,6 @@ export function useBattleCombat({
     character: player.character,
     timeRef: refs.timeRef,
   });
-
-  const handleWeaponSwitch = useCallback(() => {
-    const mana = battleManaRef.current;
-    if (mana && !mana.consumeMana(LUCAS_WEAPON_SWITCH_MANA_COST)) return;
-    switchWeapon();
-  }, [battleManaRef, switchWeapon]);
 
   const {
     isGrabbedRef,
@@ -560,6 +564,21 @@ export function useBattleCombat({
     npcType,
     playerCharacter: player.character,
   });
+
+  // Usar habilidade ativa rende +5 cargas da Expansão de Domínio. Os hooks
+  // chamam de dentro do press (depois dos guards), para não farmar carga
+  // apertando botão em estado inválido.
+  const onAbilityUsed = useCallback(() => {
+    battle.setDelicia((d) => gainAbilityCharge(d, battle.hitsToSpecial));
+  }, [battle]);
+
+  const handleWeaponSwitch = useCallback(() => {
+    const mana = battleManaRef.current;
+    if (mana && !mana.consumeMana(LUCAS_WEAPON_SWITCH_MANA_COST)) return;
+    if (!switchWeapon()) return;
+    // Troca de arma é habilidade do Lucas: concede carga da Expansão.
+    onAbilityUsed();
+  }, [battleManaRef, onAbilityUsed, switchWeapon]);
 
   const {
     handleCursedEnergyConversion,
@@ -945,21 +964,48 @@ export function useBattleCombat({
     skipSpecialHitOnPress,
   ]);
 
+  // Cooldown do botão Special (20s com CDR) — o especial saiu de g/Tab e
+  // virou habilidade de canal único no HUD, como as demais.
+  const [specialRemaining, setSpecialRemaining] = useState(0);
+  const specialReadyAtRef = useRef(0);
+
   const openSpecial = useCallback(() => {
     if (freezeActionsUntilRef.current > Date.now()) return;
     if (isGrabbedRef.current && grabFlippedRef.current) return;
-    if (battle.delicia < battle.hitsToSpecial) return;
-    startSpecialIntro(player.character, activateSpecial);
+    if (specialReadyAtRef.current > Date.now()) return;
+    // `startSpecialIntro` devolve false só quando já existe um intro em
+    // andamento (nesse caso o onActivate nunca roda): o cooldown não arma,
+    // senão o especial sumiria junto com o cooldown pago.
+    const started = startSpecialIntro(player.character, activateSpecial);
+    if (!started) return;
+    const cooldownMs = applyCooldownReduction(
+      SPECIAL_ABILITY_COOLDOWN_MS,
+      battle.char.stats.cooldownReduction,
+    );
+    specialReadyAtRef.current = Date.now() + cooldownMs;
+    setSpecialRemaining(cooldownMs / 1000);
+    // Habilidade ativa usada: a barra da Expansão de Domínio rende +5.
+    battle.setDelicia((d) => gainAbilityCharge(d, battle.hitsToSpecial));
   }, [
     freezeActionsUntilRef,
     isGrabbedRef,
     grabFlippedRef,
-    battle.delicia,
-    battle.hitsToSpecial,
     startSpecialIntro,
     player.character,
     activateSpecial,
+    battle,
   ]);
+
+  // Tick do cooldown restante do botão Special (mesmo intervalo dos
+  // cooldowns do marcelo).
+  useEffect(() => {
+    const id = setInterval(() => {
+      setSpecialRemaining(
+        Math.max(0, (specialReadyAtRef.current - Date.now()) / 1000),
+      );
+    }, TWO_HUNDRED_MS);
+    return () => clearInterval(id);
+  }, []);
 
   useBattleControls({
     attack: () => {
@@ -967,12 +1013,6 @@ export function useBattleCombat({
       if (isGrabbedRef.current && grabFlippedRef.current) return;
       attack();
       oraPress();
-    },
-    special: () => {
-      if (freezeActionsUntilRef.current > Date.now()) return;
-      if (isGrabbedRef.current && grabFlippedRef.current) return;
-      if (battle.delicia < battle.hitsToSpecial) return;
-      special();
     },
     blockStart: () => {
       if (freezeActionsUntilRef.current > Date.now()) return;
@@ -993,14 +1033,8 @@ export function useBattleCombat({
       if (freezeActionsUntilRef.current > Date.now()) return;
       handlePlayerHit();
     },
-    handleSpecialHit: () => {
-      if (freezeActionsUntilRef.current > Date.now()) return;
-      handleSpecialHit();
-    },
     disabled: controlsDisabled,
     playerState: player.state,
-    skipSpecialHitOnPress,
-    openSpecial,
     onChargePress: canCharge
       ? () => {
           if (freezeActionsUntilRef.current > Date.now()) return;
@@ -1049,6 +1083,7 @@ export function useBattleCombat({
     setTimeScale,
     resetTimeScale,
     playSound,
+    onUsed: onAbilityUsed,
     isPausedRef,
     disabledRef: cloneDisabledRef,
     battleEndedRef: battle.isEnding,
@@ -1065,6 +1100,7 @@ export function useBattleCombat({
     freezeActionsUntilRef,
     isPausedRef,
     playSound,
+    onUsed: onAbilityUsed,
     disabledRef: cloneDisabledRef,
     battleEndedRef: battle.isEnding,
   });
@@ -1137,6 +1173,7 @@ export function useBattleCombat({
     onExplode: (x, y, radius, multiplier) =>
       handleGenkiDamaExplodeRef.current(x, y, radius, multiplier),
     playSound,
+    onUsed: onAbilityUsed,
     isPausedRef,
     disabledRef: cloneDisabledRef,
     battleEndedRef: battle.isEnding,
@@ -1172,6 +1209,7 @@ export function useBattleCombat({
     disabledRef: cloneDisabledRef,
     startSpecialIntro,
     playSound,
+    onUsed: onAbilityUsed,
   });
 
   addVastolordLaserChargeRef.current = addVastolordLaserCharge;
@@ -1180,8 +1218,9 @@ export function useBattleCombat({
   // Proporção especial/básico: a explosão deve causar "2x o dano de especial".
   // O playerHit aplica o multiplicador sobre o dano básico (full pipeline:
   // crítico/armadura/elemento), então fatorá-lo pela proporção produz o dano
-  // equivalente ao de um especial (sem consumir delícia/cooldown).
-  const atomicSpecialRatio = useMemo(() => {
+  // equivalente ao de um especial (sem consumir delícia/cooldown). A mesma
+  // proporção alimenta a Expansão de Domínio (burst) dos demais personagens.
+  const specialDamageRatio = useMemo(() => {
     const special = combatService.calculateSpecialDamage(
       battle.char.stats.spirit,
       playerClass,
@@ -1206,7 +1245,7 @@ export function useBattleCombat({
             ? ATOMIC_TARGET_MULTIPLIER
             : ATOMIC_AREA_MULTIPLIER;
         battle.playerHit(
-          factor * atomicSpecialRatio,
+          factor * specialDamageRatio,
           true,
           true,
           getAbilityDamageType("iAmAtomic"),
@@ -1221,7 +1260,7 @@ export function useBattleCombat({
             : ATOMIC_AREA_MULTIPLIER;
         damageSummon({
           target: { id: summon.id, x: summon.x, y: summon.y },
-          multiplier: factor * atomicSpecialRatio,
+          multiplier: factor * specialDamageRatio,
           // Habilidade ativa: só o vampirismo universal paga.
           source: "other",
           damageKind: getAbilityDamageType("iAmAtomic"),
@@ -1243,7 +1282,7 @@ export function useBattleCombat({
       }
     },
     [
-      atomicSpecialRatio,
+      specialDamageRatio,
       battle,
       giveSummonRewards,
       player,
@@ -1282,6 +1321,7 @@ export function useBattleCombat({
     battleEndedRef: battle.isEnding,
     disabledRef: cloneDisabledRef,
     playSound,
+    onUsed: onAbilityUsed,
     cooldownReduction: battle.char.stats.cooldownReduction,
   });
 
@@ -1310,7 +1350,6 @@ export function useBattleCombat({
     disintegrating,
     press: domainExpansionPress,
     usable: domainExpansionUsable,
-    remaining: domainExpansionRemaining,
   } = useDomainExpansion({
     player,
     setPlayer,
@@ -1338,7 +1377,79 @@ export function useBattleCombat({
     startSpecialIntro,
     onNpcKilled: handleDomainExpansionKill,
     playSound,
-    cooldownReduction: battle.char.stats.cooldownReduction,
+    charges: battle.delicia,
+    chargesMax: battle.hitsToSpecial,
+    setDelicia: battle.setDelicia,
+  });
+
+  // Expansão de Domínio (burst) dos demais 11 personagens ---------------------
+  // O uso consome as 40 cargas e causa dano especial em TODOS os inimigos da
+  // arena de uma vez. Sem cutin de intro de propósito: a arte em
+  // `habilities/<skill>/background.svg` só existe para o marcelo.
+  const handleDomainBurst = useCallback(() => {
+    if (battle.isEnding.current) return;
+
+    const burstKind = getAbilityDamageType("domainBurst");
+
+    battle.playerHit(
+      DOMAIN_BURST_MAIN_MULTIPLIER * specialDamageRatio,
+      true,
+      true,
+      burstKind,
+    );
+
+    for (const summon of summons) {
+      damageSummon({
+        target: { id: summon.id, x: summon.x, y: summon.y },
+        multiplier: DOMAIN_BURST_SUMMON_MULTIPLIER * specialDamageRatio,
+        // Habilidade ativa: só o vampirismo universal paga.
+        source: "other",
+        damageKind: burstKind,
+        player,
+        playerClass,
+        progress,
+        playerHP: battle.playerHP,
+        playerMaxHp: battle.playerMaxHp,
+        vampirism: battle.vampirism,
+        summons,
+        setSummons,
+        giveSummonRewards,
+        spawnDamageRef: refs.spawnDamageRef,
+        registerHitRef: refs.registerHitRef,
+        setPlayerHP: battle.setPlayerHP,
+        deliciaSetter: battle.setDelicia,
+        hitsToSpecial: battle.hitsToSpecial,
+      });
+    }
+  }, [
+    battle,
+    giveSummonRewards,
+    player,
+    playerClass,
+    progress,
+    refs,
+    setSummons,
+    specialDamageRatio,
+    summons,
+  ]);
+
+  const domainConfig = DOMAIN_EXPANSIONS[player.character];
+  const {
+    active: domainBurstActive,
+    press: domainBurstPress,
+    usable: domainBurstUsable,
+  } = useDomainExpansionBurst({
+    player,
+    character: player.character,
+    charges: battle.delicia,
+    chargesMax: battle.hitsToSpecial,
+    setDelicia: battle.setDelicia,
+    freezeActionsUntilRef,
+    isPausedRef,
+    battleEndedRef: battle.isEnding,
+    disabledRef: cloneDisabledRef,
+    onBurst: handleDomainBurst,
+    playSound,
   });
 
   // "Gran Rey Cero" do marcelo ------------------------------------------------
@@ -1371,6 +1482,7 @@ export function useBattleCombat({
     disabledRef: cloneDisabledRef,
     startSpecialIntro,
     playSound,
+    onUsed: onAbilityUsed,
     cooldownReduction: battle.char.stats.cooldownReduction,
   });
 
@@ -1430,13 +1542,22 @@ export function useBattleCombat({
     atomicPress,
     atomicUsable,
     atomicRemaining,
+    specialPress: openSpecial,
+    specialUsable: specialRemaining <= 0,
+    specialRemaining,
     specialIntroAbility,
     mugetsuSweep,
     domainExpansionActive,
     mugetsuBlink,
-    domainExpansionPress,
-    domainExpansionUsable,
-    domainExpansionRemaining,
+    // Mesmo par de props para os dois efeitos: o marcelo usa o mugetsu
+    // (cutin + varredura) e os demais o burst (dano em área).
+    domainExpansionPress:
+      domainConfig.kind === "mugetsu" ? domainExpansionPress : domainBurstPress,
+    domainExpansionUsable:
+      domainConfig.kind === "mugetsu"
+        ? domainExpansionUsable
+        : domainBurstUsable,
+    domainBurstActive,
     granReyCeroEffect,
     granReyCeroPress,
     granReyCeroUsable,

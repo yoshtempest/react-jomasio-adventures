@@ -30,10 +30,11 @@ export function useLucasWeaponSwitch({
 
   const available = character === "lucas";
 
-  const switchWeapon = useCallback(() => {
-    if (!available) return;
-    if (isEndingRef?.current) return;
-    if (switchingRef.current) return;
+  /** true quando a troca realmente aconteceu (o chamador decide recompensa). */
+  const switchWeapon = useCallback((): boolean => {
+    if (!available) return false;
+    if (isEndingRef?.current) return false;
+    if (switchingRef.current) return false;
 
     switchingRef.current = true;
     timeRef.current = applyHitstop(
@@ -49,6 +50,7 @@ export function useLucasWeaponSwitch({
       switchingRef.current = false;
       timerRef.current = null;
     }, LUCAS_WEAPON_SWITCH_DURATION_MS);
+    return true;
   }, [available, isEndingRef, timeRef, weapon]);
 
   useEffect(() => {

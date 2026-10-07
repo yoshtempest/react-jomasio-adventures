@@ -161,7 +161,7 @@ export function useBattleStats({
     npcArmorBonus,
   ]);
 
-  const HITS_TO_SPECIAL = getMaxSpecial(playerClass, player.character);
+  const HITS_TO_SPECIAL = getMaxSpecial();
 
   const hasPet = getEquippedItem(player.character, "pet") !== null;
 

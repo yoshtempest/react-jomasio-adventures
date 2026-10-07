@@ -7,9 +7,7 @@ import { defineDialogue } from "@/data/dialogues/defineDialogue";
  * animado enquanto a fala seguinte está bloqueada. Por isso o diálogo é uma
  * factory: o retrato e o tempo da animação vivem no componente, não no dado.
  */
-export const createConfigsDialogue = (
-  onVictorTeleport: () => boolean | void,
-) =>
+export const createConfigsDialogue = (onVictorTeleport: () => boolean | void) =>
   defineDialogue([
     {
       who: "victor",
@@ -25,7 +23,10 @@ export const createConfigsDialogue = (
     },
     { who: "victor", message: "Bem, tipo assim, você-", pose: "pointing" },
     ["protagonista", "NUNCA MAIS FAÇA ISSO!", "angry"],
-    ["victor", "Me perdoe... estou pegando esse péssimo hábito do Juan Derson."],
+    [
+      "victor",
+      "Me perdoe... estou pegando esse péssimo hábito do Juan Derson.",
+    ],
     [
       "victor",
       "Enfim, o Juan Derson deve ter lhe ensinado alguma coisa no ano passado, então, quero seminário para amanhã, boa sorte",

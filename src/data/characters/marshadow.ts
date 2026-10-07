@@ -6,6 +6,3 @@
 
 /** Cooldown da habilidade "I Am Atomic". */
 export const ATOMIC_COOLDOWN_MS = 20_000;
-
-/** Cooldown da Expansão de Domínio. */
-export const DOMAIN_EXPANSION_COOLDOWN_MS = 45_000;

@@ -45,18 +45,13 @@ export function BattleTab({
               className={`${styles.toggleItem} ${selectedIndex === 2 ? styles.selected : ""}`}
             >
               {selectedIndex === 2 && <span className={styles.cursor}>▼</span>}
-              <h2>
-                Intro de habilidade: {showAbilityIntro ? "ON" : "OFF"}
-              </h2>
+              <h2>Intro de habilidade: {showAbilityIntro ? "ON" : "OFF"}</h2>
             </div>
             <div
               className={`${styles.toggleItem} ${selectedIndex === 3 ? styles.selected : ""}`}
             >
               {selectedIndex === 3 && <span className={styles.cursor}>▼</span>}
-              <Link
-                className={styles.trainingButton}
-                to={"/training"}
-              >
+              <Link className={styles.trainingButton} to={"/training"}>
                 Modo Treino
               </Link>
             </div>

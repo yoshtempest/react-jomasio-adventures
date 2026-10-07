@@ -350,12 +350,10 @@ export function usePlayerBattle({
       options?: SpecialHitOptions,
     ) => {
       if (isEnding.current) return;
-      // Explosão de área (Killer Queen) é a cauda de um special que já pagou a
-      // carga e o cooldown: reprovar aqui deixaria a área inteira inerte.
-      if (!options?.bypassCharge) {
-        if (!playerCooldown.current) return;
-        if (delicia < HITS_TO_SPECIAL) return;
-      }
+      // Explosão de área (Killer Queen) é a cauda de um special que já pagou o
+      // cooldown: reprovar aqui deixaria a área inteira inerte. A carga não
+      // entra mais nesta conta — o especial não consome mais delícia.
+      if (!options?.bypassCharge && !playerCooldown.current) return;
 
       const vastolordMult = vastolordMultiplierRef?.current?.() ?? 1;
       const totalMultiplier = damageMultiplier * vastolordMult;
@@ -478,7 +476,6 @@ export function usePlayerBattle({
     [
       isEnding,
       player,
-      delicia,
       HITS_TO_SPECIAL,
       playerCooldown,
       playerX,
@@ -525,7 +522,7 @@ export function usePlayerBattle({
    * Dano do golpe ativo para o estado informado, resolvido pelo mesmo pipeline
    * de `playerHit`/`specialHit`. Consumido pelo `useProjectile` para que um
    * projétil levar exatamente o dano que o NPC levaria. `null` = o golpe não
-   * causa dano agora (special sem carga, jogador congelado/cego).
+   * causa dano agora (jogador congelado/cego).
    */
   const resolveProjectileHit = useCallback(
     (
@@ -544,7 +541,6 @@ export function usePlayerBattle({
       }
 
       if (ALL_PREDICATES.isSpecialStrike(strikeState)) {
-        if (!options?.bypassCharge && delicia < HITS_TO_SPECIAL) return null;
         const { damage } = calculateSpecialHitDamage({
           player,
           playerClass,
@@ -603,9 +599,7 @@ export function usePlayerBattle({
       playerMaxHp,
       totalMaxHpDamage,
       totalTrueDamage,
-      delicia,
       stacks,
-      HITS_TO_SPECIAL,
       arturOraMultiplierRef,
       vastolordMultiplierRef,
     ],

@@ -41,22 +41,26 @@ export function BarsInfos() {
   return (
     <div className={styles.container}>
       <div className={styles.statusContainer}>
-      <div className={styles.statusHeader}>
-      <div className={styles.statusName}>
-        <img src={statusIconPath("xp.svg")} alt="XP" className={styles.statusIcon} />
-        <span>XP</span>
-      </div>
-      <span className={styles.statusValue}>
-        <strong>{charProgress.xp}</strong>
-        <span> / {xpNeeded}</span>
-      </span>
-      </div>
-      <ProgressBar
-        value={charProgress.xp}
-        max={xpNeeded}
-        animationId={`char-xp-${player.character}`}
-        level={charProgress.level}
-      />
+        <div className={styles.statusHeader}>
+          <div className={styles.statusName}>
+            <img
+              src={statusIconPath("xp.svg")}
+              alt="XP"
+              className={styles.statusIcon}
+            />
+            <span>XP</span>
+          </div>
+          <span className={styles.statusValue}>
+            <strong>{charProgress.xp}</strong>
+            <span> / {xpNeeded}</span>
+          </span>
+        </div>
+        <ProgressBar
+          value={charProgress.xp}
+          max={xpNeeded}
+          animationId={`char-xp-${player.character}`}
+          level={charProgress.level}
+        />
       </div>
       <div className={styles.statusContainer}>
         <div className={styles.statusHeader}>

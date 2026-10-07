@@ -9,7 +9,8 @@ import { EmanuelKiChargeButton } from "@/components/Game/Battle/Buttons/Ematron/
 import { EmanuelGenkiDamaButton } from "@/components/Game/Battle/Buttons/Ematron/GenkiDama";
 import { VastolordLaserButton } from "@/components/Game/Battle/Buttons/Marshadow/VastolordLaser";
 import { AtomicButton } from "@/components/Game/Battle/Buttons/Marshadow/Atomic";
-import { DomainExpansionButton } from "@/components/Game/Battle/Buttons/Marshadow/DomainExpansion";
+import { SpecialButton } from "@/components/Game/Battle/Buttons/Special";
+import { DomainExpansionButton } from "@/components/Game/Battle/Buttons/DomainExpansion";
 import { GranReyCeroButton } from "@/components/Game/Battle/Buttons/Marshadow/GranReyCero";
 import { GameMap } from "@/components/Game/Map/Game";
 import { useLatestRef } from "@/hooks/useLatestRef";
@@ -33,6 +34,7 @@ import { BlackFlashAnimation } from "@/components/Game/Battle/Effects/Natsuki/Bl
 import { VastolordTimer } from "@/components/Game/Battle/Effects/Marshadow/VastolordTimer";
 import { SpecialIntro } from "@/components/Game/Battle/Effects/SpecialIntro";
 import { DomainExpansionBackground } from "@/components/Game/Battle/Effects/DomainExpansionBackground";
+import { DomainBurstOverlay } from "@/components/Game/Battle/Effects/DomainBurstOverlay";
 import { AlfaAbility } from "@/components/Game/Battle/Effects/AlfaAbility";
 import { JumpIndicator } from "@/components/Game/Battle/Jump/indicator";
 import { JumpDangerZone } from "@/components/Game/Battle/Jump/dangerZone";
@@ -55,9 +57,10 @@ import type { BattleMapConfig } from "@/utils/types/maps/battle";
 import { TrainingOverlay } from "@/components/Game/Battle/TrainingOverlay";
 import { ProjectileConstants } from "@/data/projectile";
 import { PLAYER_SPRITE_DIVISOR } from "@/data/grid";
+import { DOMAIN_EXPANSIONS } from "@/data/characters/domainExpansions";
 import { BATTLE_SPAWN } from "@/gameRules/battle/spawnPoints";
 import { getBossSizeMultiplier } from "@/utils/npc/getSpritePath";
-import { npcPath } from "@/utils/paths";
+import { npcPath, playerAbilityBackgroundPath } from "@/utils/paths";
 import { GAME_VIEWPORT_WIDTH_RATIO } from "@/data/grid";
 import { getViewportSize } from "@/utils/viewport";
 
@@ -181,18 +184,28 @@ export function BattleScene(props: Props) {
     atomicPress,
     atomicUsable,
     atomicRemaining,
+    specialPress,
+    specialUsable,
+    specialRemaining,
     mugetsuSweep,
     domainExpansionActive,
     mugetsuBlink,
     disintegrating,
     domainExpansionPress,
     domainExpansionUsable,
-    domainExpansionRemaining,
+    domainBurstActive,
     granReyCeroEffect,
     granReyCeroPress,
     granReyCeroUsable,
     granReyCeroRemaining,
   } = useBattleScene({ ...props, isAlfa, PLAYER_SIZE });
+
+  // Domínio do personagem atual: nome/cor/efeito saem de DOMAIN_EXPANSIONS e
+  // alimentam o botão universal e o overlay do burst.
+  const domainConfig = DOMAIN_EXPANSIONS[player.character];
+  const domainBackground = domainConfig.hasBackgroundArt
+    ? playerAbilityBackgroundPath(player.character, "domainExpansion")
+    : undefined;
 
   // Especial do alfa: enquanto ele usa a habilidade (ex: special dig do
   // hungryDog, quando a gauge enche), o overlay `alfa/background.svg` aparece.
@@ -478,6 +491,11 @@ export function BattleScene(props: Props) {
           o fundo da batalha (pintado de baixo para cima), ficando abaixo do
           HUD, do SceneMap e das intros por ordem de DOM + z-index 0. */}
       <DomainExpansionBackground active={domainExpansionActive} />
+      <DomainBurstOverlay
+        active={domainBurstActive}
+        name={domainConfig.name}
+        accent={domainConfig.accent}
+      />
 
       {/* Renderizado antes do `.SceneMap`: fica acima do fundo da batalha,
           mas abaixo do jogador/NPCs (que são filhos do SceneMap). */}
@@ -763,10 +781,20 @@ export function BattleScene(props: Props) {
         />
       )}
 
-      {!vastolordActive && player.character === "marcelo" && (
+      <SpecialButton
+        ready={specialUsable}
+        remaining={specialRemaining}
+        disabled={controlsDisabled}
+        onClick={specialPress}
+      />
+
+      {!vastolordActive && (
         <DomainExpansionButton
+          name={domainConfig.name}
+          description={domainConfig.description}
+          accent={domainConfig.accent}
+          background={domainBackground}
           ready={domainExpansionUsable}
-          remaining={domainExpansionRemaining}
           disabled={controlsDisabled}
           onClick={domainExpansionPress}
         />

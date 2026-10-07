@@ -3,18 +3,21 @@ import { useGameControls } from "@/contexts/GameControlsContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { getComboAction } from "@/data/battle/comboActions";
 
+/**
+ * Layer de input da batalha base.
+ *
+ * Não tem `onOpen`: o special saiu de `g`/Tab e virou botão de habilidade, e
+ * o open agora abre a BattleNavbar (tratado em `useGameKeyboard`/`GameButtons`
+ * fora da layer). Layers empurradas por cima (clone do emanuel, baú) podem
+ * ter `onOpen` próprio — a checagem vem antes do fallback de batalha.
+ */
 type Props = {
   attack: () => void;
-  special: () => void;
   blockStart: () => void;
   blockEnd: () => void;
   handlePlayerHit: () => void;
-  handleSpecialHit: () => void;
   disabled: boolean;
   playerState: PlayerState;
-  skipSpecialHitOnPress?: boolean;
-  /** Substitui o fluxo do special no onOpen (ex.: animação de abertura do special). */
-  openSpecial?: () => void;
   onChargePress?: () => void;
   onChargeRelease?: () => void;
   onChargeCancel?: () => void;
@@ -26,15 +29,11 @@ const HOLD_DISCRIMINATOR = 150;
 
 export function useBattleControls({
   attack,
-  special,
   blockStart,
   blockEnd,
   handlePlayerHit,
-  handleSpecialHit,
   disabled,
   playerState,
-  skipSpecialHitOnPress = false,
-  openSpecial,
   onChargePress,
   onChargeRelease,
   onChargeCancel,
@@ -43,19 +42,15 @@ export function useBattleControls({
   const { pushControls } = useGameControls();
 
   const attackRef = useLatestRef(attack);
-  const specialRef = useLatestRef(special);
   const blockStartRef = useLatestRef(blockStart);
   const blockEndRef = useLatestRef(blockEnd);
   const playerHitRef = useLatestRef(handlePlayerHit);
-  const specialHitRef = useLatestRef(handleSpecialHit);
-  const openSpecialRef = useLatestRef(openSpecial);
   const chargePressRef = useLatestRef(onChargePress ?? (() => {}));
   const chargeReleaseRef = useLatestRef(onChargeRelease ?? (() => {}));
   const chargeCancelRef = useLatestRef(onChargeCancel ?? (() => {}));
   const comboReleaseRef = useLatestRef(onComboRelease ?? (() => {}));
 
   const hasChargeRef = useLatestRef(!!onChargePress);
-  const skipSpecialHitRef = useLatestRef(skipSpecialHitOnPress);
 
   const playerStateRef = useLatestRef(playerState);
 
@@ -109,17 +104,6 @@ export function useBattleControls({
         blockEndRef.current();
       },
 
-      onOpen: () => {
-        if (openSpecialRef.current) {
-          openSpecialRef.current();
-          return;
-        }
-        specialRef.current();
-        if (!skipSpecialHitRef.current) {
-          specialHitRef.current();
-        }
-      },
-
       onUp: hasCharge
         ? () => {
             chargeCancelRef.current();
@@ -154,7 +138,6 @@ export function useBattleControls({
   }, [
     disabled,
     hasChargeRef,
-    skipSpecialHitRef,
     playerStateRef,
     pushControlsRef,
     attackRef,
@@ -165,8 +148,5 @@ export function useBattleControls({
     chargeReleaseRef,
     comboReleaseRef,
     playerHitRef,
-    specialHitRef,
-    specialRef,
-    openSpecialRef,
   ]);
 }

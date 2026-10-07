@@ -68,6 +68,8 @@ type Props = {
   battleEndedRef: RefObject<boolean>;
   disabledRef: RefObject<boolean>;
   playSound: (sound: SoundId, loop?: boolean, volumeOverride?: number) => void;
+  /** Chamado quando o press arma a habilidade (carga da Expansão de Domínio). */
+  onUsed?: () => void;
   /**
    * Redução de cooldown BRUTA (pontos percentuais), já somada de Técnica,
    * equipamento e título. O hook passa pela curva em `applyCooldownReduction`,
@@ -116,6 +118,7 @@ export function useAtomic({
   battleEndedRef,
   disabledRef,
   playSound,
+  onUsed,
   cooldownReduction,
 }: Props): AtomicApi {
   const [halo, setHalo] = useState(false);
@@ -142,6 +145,7 @@ export function useAtomic({
   const npcHpRef = useLatestRef(npcHp);
   const summonsRef = useLatestRef(summons);
   const onBoomRef = useLatestRef(onBoom);
+  const onUsedRef = useLatestRef(onUsed);
 
   const { usable, usableRef, shouldCancelRef } = useSkillGuard({
     player,
@@ -217,6 +221,7 @@ export function useAtomic({
     if (!usableRef.current) return;
     if (activeRef.current) return;
 
+    onUsedRef.current?.();
     activeRef.current = true;
     const cooldownMs = applyCooldownReduction(
       ATOMIC_COOLDOWN_MS,
@@ -351,6 +356,7 @@ export function useAtomic({
     npcRef,
     onNpcCutInRef,
     onBoomRef,
+    onUsedRef,
     playSound,
     setPlayer,
     shouldCancelRef,

@@ -59,7 +59,9 @@ export function MessageCard({
         <div className={styles.textOverlay}>
           {title && <h1 className={styles.title}>{title}</h1>}
           {subtitle && <h2 className={styles.subtitle}>{subtitle}</h2>}
-          {description && <div className={styles.description}>{description}</div>}
+          {description && (
+            <div className={styles.description}>{description}</div>
+          )}
           {numberedCount !== undefined && (
             <ul className={styles.numberedList}>
               {Array.from({ length: numberedCount }, (_, index) => (

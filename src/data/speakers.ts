@@ -27,7 +27,12 @@ export const SPEAKERS = {
     base: "/characters/marshadow",
     pose: "defeat",
   },
-  yvel: { name: "Yvel", kind: "player", base: "/characters/lucas", pose: "default" },
+  yvel: {
+    name: "Yvel",
+    kind: "player",
+    base: "/characters/lucas",
+    pose: "default",
+  },
   samurion: {
     name: "Samurion",
     base: "/samuel",

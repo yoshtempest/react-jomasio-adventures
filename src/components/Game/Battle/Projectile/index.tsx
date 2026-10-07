@@ -4,7 +4,6 @@ import { getViewportSize } from "@/utils/viewport";
 import { getSpriteKey } from "./getSpriteKey";
 import renderHpBar from "./RenderHpBar";
 
-
 type Props = {
   projectile: Projectile;
   groundY?: number;

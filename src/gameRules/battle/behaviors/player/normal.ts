@@ -10,8 +10,9 @@ export const normalBehavior: BattleBehavior = {
     setDelicia((d: number) => gainSpecial(d, HITS_TO_SPECIAL));
   },
 
-  onSpecialHit: ({ damage, setNpcHP, setDelicia, hitsToSpecial }) => {
+  // O special não mexe mais na carga: a barra virou recurso da Expansão de
+  // Domínio, e o especial tem cooldown próprio (botão na tela).
+  onSpecialHit: ({ damage, setNpcHP }) => {
     setNpcHP((hp: number) => Math.max(0, hp - damage));
-    setDelicia(() => gainSpecial(0, hitsToSpecial));
   },
 };

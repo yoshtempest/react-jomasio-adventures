@@ -50,7 +50,8 @@ export function createDirector(deps: DirectorDeps) {
     "12,5": createMessageCardHandler({
       title: "Carta",
       subtitle: "Desconhecido",
-      description: "Uma carta escrito: 'tu matou a ovelha afogada, rapaz? Agora tu vai levar uma pisa das boas seu muleque'",
+      description:
+        "Uma carta escrito: 'tu matou a ovelha afogada, rapaz? Agora tu vai levar uma pisa das boas seu muleque'",
     }),
     "6,3": createMessageCardHandler({
       title: "Diário de Reincardion",
@@ -61,7 +62,8 @@ export function createDirector(deps: DirectorDeps) {
     "17,5": createMessageCardHandler({
       title: "Carta de 20 anos atrás",
       subtitle: "Pedido de afastamento por Slimita",
-      description: "Me laarga, eu não aguento mais trabalhar aqui, eu não sou vagabunda, eu trabalho mas eu trabalho na minha hora, isso aqui tá parecendo uma escravidão... Eu só queria férias e um aumento, mas não, eu tenho que trabalhar até morrer, eu não aguento mais, alguem me tira daqui, eu não aguento, eu não aguento, eu aguentooo...",
+      description:
+        "Me laarga, eu não aguento mais trabalhar aqui, eu não sou vagabunda, eu trabalho mas eu trabalho na minha hora, isso aqui tá parecendo uma escravidão... Eu só queria férias e um aumento, mas não, eu tenho que trabalhar até morrer, eu não aguento mais, alguem me tira daqui, eu não aguento, eu não aguento, eu aguentooo...",
     }),
     "9,5": createMessageCardHandler({
       title: "Pontos fracos de Manim:",
@@ -81,7 +83,7 @@ export function createDirector(deps: DirectorDeps) {
         "Fui preso nessa cela e estou aqui a dias, sinto fome... Ás vezes eu tento fugir mas nem mesmo Jhow Simar sabe onde está a chave para me tirar daqui, ao mesmo tempo que hilário, isso é triste...",
     }),
 
-        "4,2": ({ hasItem, setPopup, navigate, playSFX }) => {
+    "4,2": ({ hasItem, setPopup, navigate, playSFX }) => {
       if (hasItem("director_key")) {
         setPopup(POPUP_MESSAGES.KEY_USED);
         progressQuest("director_escape", 1);
@@ -94,8 +96,7 @@ export function createDirector(deps: DirectorDeps) {
             navigate?.("/cantina/one");
           }
         }, 1000);
-      }
-      else {
+      } else {
         setPopup(POPUP_MESSAGES.DOOR_LOCKED);
       }
     },

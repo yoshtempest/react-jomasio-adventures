@@ -16,6 +16,8 @@ type Props = {
   freezeActionsUntilRef: RefObject<number>;
   isPausedRef: RefObject<boolean>;
   playSound: (sound: SoundId, loop?: boolean, volumeOverride?: number) => void;
+  /** Chamado quando o press inicia a carga (carga da Expansão de Domínio). */
+  onUsed?: () => void;
   /** true quando os controles gerais de batalha estão desabilitados (pause, transição de fase, throw). */
   disabledRef: RefObject<boolean>;
   battleEndedRef: RefObject<boolean>;
@@ -30,6 +32,7 @@ type Props = {
 export function useEmanuelKiCharge({
   player,
   playSound,
+  onUsed,
   setPlayer,
   battleManaRef,
   freezeActionsUntilRef,
@@ -39,6 +42,7 @@ export function useEmanuelKiCharge({
 }: Props) {
   const activeRef = useRef(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const onUsedRef = useLatestRef(onUsed);
   const playSoundRef = useLatestRef(playSound);
   const { stopSound } = useSoundEffects();
   const stopSoundRef = useLatestRef(stopSound);
@@ -76,6 +80,7 @@ export function useEmanuelKiCharge({
     if (activeRef.current) return;
     if (!canUseRef.current) return;
 
+    onUsedRef.current?.();
     activeRef.current = true;
     freezeActionsUntilRef.current = Infinity;
 
@@ -96,6 +101,7 @@ export function useEmanuelKiCharge({
     battleManaRef,
     canUseRef,
     freezeActionsUntilRef,
+    onUsedRef,
     playSoundRef,
     releaseRef,
     shouldCancelRef,

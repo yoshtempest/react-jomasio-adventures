@@ -8,8 +8,6 @@ import {
   type SetStateAction,
 } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
-import { DOMAIN_EXPANSION_COOLDOWN_MS } from "@/data/characters/marshadow";
-import { applyCooldownReduction } from "@/gameRules/battle/cooldownReduction";
 import { applyVampirism } from "@/gameRules/battle/vampirism/applyVampirism";
 import type { VampirismStats } from "@/gameRules/battle/vampirism/applyVampirism";
 import { getProjectileCenter } from "@/gameRules/npc/projectile/projectileDamage";
@@ -91,13 +89,11 @@ type Props = {
   /** Disparado APENAS quando a varredura chega na outra ponta do mapa. */
   onNpcKilled: () => void;
   playSound: (sound: SoundId, loop?: boolean, volumeOverride?: number) => void;
-  /**
-   * Redução de cooldown BRUTA (pontos percentuais), já somada de Técnica,
-   * equipamento e título. O hook passa pela curva em `applyCooldownReduction`,
-   * então nenhum caminho precisa saber a fórmula — e trocar a curva não toca
-   * nenhum destes hooks.
-   */
-  cooldownReduction: number;
+  /** Carga atual da barra da Expansão (o uso consome tudo: vira 0). */
+  charges: number;
+  /** Carga máxima da barra — a habilidade só existe cheia. */
+  chargesMax: number;
+  setDelicia: Dispatch<SetStateAction<number>>;
 };
 
 type DomainExpansionApi = {
@@ -111,8 +107,6 @@ type DomainExpansionApi = {
   disintegrating: MugetsuDisintegrationTarget[];
   press: () => void;
   usable: boolean;
-  /** Cooldown restante em segundos (0 quando pronto). */
-  remaining: number;
 };
 
 /**
@@ -122,7 +116,8 @@ type DomainExpansionApi = {
  * mapa e varre de uma ponta à outra, matando instantaneamente (100% da vida
  * máxima) tudo que toca. A batalha só encerra quando a varredura chega na
  * outra ponta (via onNpcKilled) — por isso o isEnding é setado no spawn do
- * efeito, bloqueando o lifecycle enquanto ela percorre o mapa. Cooldown de 45s.
+ * efeito, bloqueando o lifecycle enquanto ela percorre o mapa. Custo: as 40
+ * cargas da barra da Expansão (sem cooldown próprio).
  */
 export function useDomainExpansion({
   player,
@@ -151,7 +146,9 @@ export function useDomainExpansion({
   startSpecialIntro,
   onNpcKilled,
   playSound,
-  cooldownReduction,
+  charges,
+  chargesMax,
+  setDelicia,
 }: Props): DomainExpansionApi {
   const [mugetsuSweep, setMugetsuSweep] = useState<MugetsuSweep | null>(null);
   const [domainExpansionActive, setDomainExpansionActive] = useState(false);
@@ -159,11 +156,8 @@ export function useDomainExpansion({
   const [disintegrating, setDisintegrating] = useState<
     MugetsuDisintegrationTarget[]
   >([]);
-  const [remaining, setRemaining] = useState(0);
 
   const activeRef = useRef(false);
-  const readyAtRef = useRef(0);
-  const cooldownReductionRef = useLatestRef(cooldownReduction);
   const sweepStartRef = useRef(0);
   /** True quando a varredura chegou na outra ponta (resta só o pó voar). */
   const sweepEndedRef = useRef(false);
@@ -186,6 +180,9 @@ export function useDomainExpansion({
   const mainNpcTypeRef = useLatestRef(mainNpcType);
   const mainNpcPhaseRef = useLatestRef(mainNpcPhase);
   const isAlfaRef = useLatestRef(isAlfa);
+  const chargesRef = useLatestRef(charges);
+  const chargesMaxRef = useLatestRef(chargesMax);
+  const setDeliciaRef = useLatestRef(setDelicia);
 
   const { usable, usableRef, shouldCancelRef } = useSkillGuard({
     player,
@@ -194,7 +191,8 @@ export function useDomainExpansion({
     disabledRef,
     isPausedRef,
     battleEndedRef,
-    extraCanUse: () => readyAtRef.current <= Date.now() && !activeRef.current,
+    extraCanUse: () =>
+      chargesRef.current >= chargesMaxRef.current && !activeRef.current,
     extraCancel: () => !activeRef.current,
   });
 
@@ -447,12 +445,8 @@ export function useDomainExpansion({
     if (!usableRef.current) return;
 
     activeRef.current = true;
-    const cooldownMs = applyCooldownReduction(
-      DOMAIN_EXPANSION_COOLDOWN_MS,
-      cooldownReductionRef.current,
-    );
-    readyAtRef.current = Date.now() + cooldownMs;
-    setRemaining(cooldownMs / 1000);
+    // O custo é a barra inteira: as 40 cargas somem no uso (sem cooldown).
+    setDeliciaRef.current(0);
     // Regra de time: a Expansão de Domínio para o mundo inteiro. O player fica
     // de fora do `TimeKind` — o lock de ação dele é o `freezeActionsUntilRef`.
     timeRef.current = applyTime(
@@ -572,25 +566,17 @@ export function useDomainExpansion({
     clearTimer,
     cleanupRef,
     clearTimers,
-    cooldownReductionRef,
     freezeActionsUntilRef,
     playSound,
     playerRef,
     setPlayer,
+    setDeliciaRef,
     shouldCancelRef,
     startSpecialIntro,
     timeRef,
     tickRef,
     usableRef,
   ]);
-
-  // Tick do cooldown restante do botão (45s).
-  useEffect(() => {
-    const id = setInterval(() => {
-      setRemaining(Math.max(0, (readyAtRef.current - Date.now()) / 1000));
-    }, 200);
-    return () => clearInterval(id);
-  }, []);
 
   useEffect(() => {
     return () => {
@@ -607,6 +593,5 @@ export function useDomainExpansion({
     disintegrating,
     press,
     usable,
-    remaining,
   };
 }

@@ -13,12 +13,7 @@
 
   border-radius: var(--border-radius-size-medium);
 
-  background:
-    linear-gradient(
-      90deg,
-      rgba(0, 0, 0, 0.08),
-      rgba(0, 0, 0, 0.35)
-    );
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.35));
 
   isolation: isolate;
 }
@@ -57,9 +52,7 @@
   user-select: none;
   pointer-events: none;
 
-  filter: drop-shadow(
-    4px 4px 8px rgba(0, 0, 0, 0.35)
-  );
+  filter: drop-shadow(4px 4px 8px rgba(0, 0, 0, 0.35));
 }
 
 .imagesRow::after {
@@ -119,8 +112,7 @@
 
   color: var(--text-color);
 
-  text-shadow:
-    2px 2px 4px rgba(0, 0, 0, 0.45);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.45);
 }
 
 .level {

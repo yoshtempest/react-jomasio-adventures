@@ -101,9 +101,7 @@ export function RightPanel() {
                 {entry.stats.technique > 0
                   ? ` | Téc: +${entry.stats.technique}`
                   : ""}
-                {entry.stats.spirit > 0
-                  ? ` | Esp: +${entry.stats.spirit}`
-                  : ""}
+                {entry.stats.spirit > 0 ? ` | Esp: +${entry.stats.spirit}` : ""}
                 {entry.stats.cooldownReduction > 0
                   ? ` | CDR: +${entry.stats.cooldownReduction}%`
                   : ""}

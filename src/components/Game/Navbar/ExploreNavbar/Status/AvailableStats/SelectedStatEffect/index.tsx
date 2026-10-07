@@ -1,7 +1,4 @@
-import {
-  formatStatValue,
-  getStatEffectRows,
-} from "@/data/player/statEffects";
+import { formatStatValue, getStatEffectRows } from "@/data/player/statEffects";
 import { STATS } from "@/data/player/statList";
 import {
   getStatIncreases,

@@ -16,18 +16,12 @@ export const larissaBehavior: BattleBehavior = {
     spawnPiercing?.();
   },
 
-  onSpecialHit: ({
-    damage,
-    setNpcHP,
-    setStacks,
-    setDelicia,
-    hitsToSpecial,
-    triggerExplosion,
-  }) => {
+  // O special não mexe mais na carga: a barra virou recurso da Expansão de
+  // Domínio, e o especial tem cooldown próprio (botão na tela).
+  onSpecialHit: ({ damage, setNpcHP, setStacks, triggerExplosion }) => {
     setNpcHP((hp: number) => Math.max(0, hp - damage));
     triggerExplosion?.();
     setStacks(0);
-    setDelicia(() => gainSpecial(0, hitsToSpecial));
   },
 
   reset: ({ setStacks, setDelicia }) => {

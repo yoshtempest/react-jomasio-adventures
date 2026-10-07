@@ -1,0 +1,31 @@
+/* Slot --size-400: o botão da Expansão é universal e ocupa a coluna da
+   direita, fora da grade dos demais (special fica em --size-300). A cor vem
+   de `--domain-accent` (inline, por personagem via DOMAIN_EXPANSIONS) — os
+   dois efeitos (mugetsu e burst) compartilham esta folha. */
+.button {
+  right: var(--size-400);
+  border: var(--size-2) solid var(--domain-accent, #8b5cf6);
+  animation: domainGlow 1.5s ease-in-out infinite;
+}
+
+.button:hover:not(:disabled) {
+  filter: brightness(1.25);
+}
+
+.ready {
+  filter: brightness(1.15);
+}
+
+.label {
+  color: var(--domain-accent, #8b5cf6);
+}
+
+@keyframes domainGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 var(--size-4) var(--domain-accent, #8b5cf6);
+  }
+  50% {
+    box-shadow: 0 0 var(--size-18) var(--domain-accent, #8b5cf6);
+  }
+}

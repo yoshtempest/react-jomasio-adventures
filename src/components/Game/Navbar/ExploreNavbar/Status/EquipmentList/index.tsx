@@ -49,7 +49,9 @@ export function EquipmentList() {
             <p key={slot} className={styles.fontSize}>
               <img className="slotTag" src={FILTER_LABELS[slot]} />
               {item ? (
-                <span style={{ color: RANK_COLORS[item.rank] }}>{item.name}</span>
+                <span style={{ color: RANK_COLORS[item.rank] }}>
+                  {item.name}
+                </span>
               ) : (
                 <span className={styles.italic}>Vazio</span>
               )}

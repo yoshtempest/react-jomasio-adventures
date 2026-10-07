@@ -395,8 +395,9 @@ export function usePlayerBattleActions({
           150 + (target.id === "main" ? NPC_CLASS_HITBOX_BONUS[npcClass] : 0),
       );
 
+      // Whiff não zera mais a carga: a barra é só da Expansão de Domínio e o
+      // especial paga com cooldown (botão na tela).
       if (inRangeTargets.length === 0) {
-        battle.setDelicia(0);
         return;
       }
 
@@ -420,21 +421,16 @@ export function usePlayerBattleActions({
         (target) => target.id !== "main",
       );
 
-      let hitAny = false;
-
       if (mainTarget) {
         battle.specialHit();
-        hitAny = true;
       }
 
       for (const target of summonTargets) {
         const targetSummon = summons.find((summon) => summon.id === target.id);
         if (!targetSummon) continue;
         hitSummon(target, 1, "other", dir);
-        hitAny = true;
       }
 
-      if (!hitAny) battle.setDelicia(0);
       return;
     }
 
@@ -444,8 +440,6 @@ export function usePlayerBattleActions({
         return;
       }
     }
-
-    battle.setDelicia(0);
   }, [
     battle,
     getTargets,

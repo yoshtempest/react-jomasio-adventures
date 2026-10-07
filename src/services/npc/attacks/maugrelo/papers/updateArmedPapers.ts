@@ -1,5 +1,5 @@
 import {
-  type MaugreloAI, 
+  type MaugreloAI,
   PAPER_BLINK_DURATION,
   PAPER_STEP_RADIUS,
   PAPER_STEP_VERTICAL_RANGE,

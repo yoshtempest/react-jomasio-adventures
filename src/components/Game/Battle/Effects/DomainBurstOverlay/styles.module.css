@@ -1,0 +1,70 @@
+/* Flash do burst da Expansão de Domínio: tinte da arena + nome no centro,
+   surgindo rápido e sumindo junto com o lock de ação do player (900ms,
+   DOMAIN_BURST_MS). Acima da SceneMap (z50) e abaixo da navbar. */
+.overlay {
+  position: absolute;
+  inset: 0;
+
+  z-index: 50;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  pointer-events: none;
+
+  background: radial-gradient(
+    circle,
+    transparent 25%,
+    rgba(0, 0, 0, 0.45) 100%
+  );
+
+  animation: domainBurst 900ms ease-out forwards;
+}
+
+.name {
+  font-size: var(--fs-36);
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--domain-accent);
+  text-shadow:
+    0 0 var(--size-18) var(--domain-accent),
+    0 var(--size-4) var(--size-8) rgba(0, 0, 0, 0.8);
+
+  animation: domainBurstName 900ms ease-out forwards;
+}
+
+@keyframes domainBurst {
+  0% {
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes domainBurstName {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  18% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  75% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.08);
+  }
+}

@@ -150,6 +150,10 @@ export type BattleSceneApi = {
   atomicPress: () => void;
   atomicUsable: boolean;
   atomicRemaining: number;
+  /** Special universal (todos os personagens): 20s de cooldown com CDR. */
+  specialPress: () => void;
+  specialUsable: boolean;
+  specialRemaining: number;
   mugetsuSweep: ReturnType<typeof useDomainExpansion>["mugetsuSweep"];
   domainExpansionActive: ReturnType<
     typeof useDomainExpansion
@@ -158,7 +162,8 @@ export type BattleSceneApi = {
   disintegrating: ReturnType<typeof useDomainExpansion>["disintegrating"];
   domainExpansionPress: () => void;
   domainExpansionUsable: boolean;
-  domainExpansionRemaining: number;
+  /** Overlay ativo do burst da Expansão (marcelo usa `domainExpansionActive`). */
+  domainBurstActive: boolean;
   granReyCeroEffect: ReturnType<typeof useGranReyCero>["effect"];
   granReyCeroPress: () => void;
   granReyCeroUsable: boolean;

@@ -25,7 +25,9 @@ const MARCELO_IDLE_FRAMES: readonly string[] = ["idle", "idle2", "idle3"];
  * Só entra aqui quem realmente tem essas variantes no disco — cada entrada
  * a menos é uma animação a menos e um 404 a menos em batalha.
  */
-const IDLE_FRAMES_BY_CHARACTER: Partial<Record<CharacterId, readonly string[]>> = {
+const IDLE_FRAMES_BY_CHARACTER: Partial<
+  Record<CharacterId, readonly string[]>
+> = {
   marcelo: MARCELO_IDLE_FRAMES,
 };
 
@@ -35,7 +37,9 @@ const IDLE_FRAMES_BY_CHARACTER: Partial<Record<CharacterId, readonly string[]>> 
  * `vastolordForm/idle/`, então tentar `idle2.svg` ali geraria 404 a cada
  * ciclo da batalha. Formas sem entrada aqui caem na tabela do personagem.
  */
-const IDLE_FRAMES_BY_FORM: Partial<Record<MarceloBattleForm, readonly string[]>> = {
+const IDLE_FRAMES_BY_FORM: Partial<
+  Record<MarceloBattleForm, readonly string[]>
+> = {
   vastolordForm: DEFAULT_IDLE_FRAMES,
 };
 

@@ -7,6 +7,7 @@ import {
 } from "@/gameRules/battle/cursedEnergy";
 
 import { clampX } from "@/gameRules/movement/clampX";
+import { gainAbilityCharge } from "@/gameRules/battle/special";
 import type { BattleManaApi } from "@/contexts/BattleManaContext";
 import type { SoundId } from "@/utils/audio/soundId";
 import type { useBattleSystem } from "@/hooks/battle/main/useSystem";
@@ -54,6 +55,8 @@ export function useActiveSkills({
     if (heal <= 0) return;
     if (!mana.consumeMana(heal * CURSED_ENERGY_HEAL_RATIO)) return;
     battle.setPlayerHP((hp) => Math.min(battle.playerMaxHp, hp + heal));
+    // Usar habilidade concede carga da Expansão de Domínio (custo da barra).
+    battle.setDelicia((d) => gainAbilityCharge(d, battle.hitsToSpecial));
     playSound("drinkingPotion");
     if (player.character === "riquelme") {
       setPlayer((p) => ({ ...p, state: "heal" }));
@@ -73,6 +76,7 @@ export function useActiveSkills({
     if (!mana || battle.isEnding.current) return;
     if (mana.playerMana < BLINK_ENERGY_COST) return;
     if (!mana.consumeMana(BLINK_ENERGY_COST)) return;
+    battle.setDelicia((d) => gainAbilityCharge(d, battle.hitsToSpecial));
     playSound("blink");
     const dir = player.battleDirection === "left" ? -1 : 1;
     const targetX = clampX(player.x + dir * BLINK_DISTANCE);
@@ -101,6 +105,7 @@ export function useActiveSkills({
     if (!mana || battle.isEnding.current) return;
     if (mana.playerMana < DIVERGENT_FIST_COST) return;
     if (!mana.consumeMana(DIVERGENT_FIST_COST)) return;
+    battle.setDelicia((d) => gainAbilityCharge(d, battle.hitsToSpecial));
     divergentFistRef.current = true;
     forcePunchRef.current = true;
     setDivergentFistActive(true);

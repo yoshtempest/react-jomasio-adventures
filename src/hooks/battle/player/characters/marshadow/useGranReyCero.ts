@@ -88,6 +88,8 @@ type Props = {
     form?: MarceloBattleForm,
   ) => boolean;
   playSound: (sound: SoundId, loop?: boolean, volumeOverride?: number) => void;
+  /** Chamado quando o press arma a habilidade (carga da Expansão de Domínio). */
+  onUsed?: () => void;
   /**
    * Redução de cooldown BRUTA (pontos percentuais), já somada de Técnica,
    * equipamento e título. O hook passa pela curva em `applyCooldownReduction`,
@@ -142,6 +144,7 @@ export function useGranReyCero({
   disabledRef,
   startSpecialIntro,
   playSound,
+  onUsed,
   cooldownReduction,
 }: Props): GranReyCeroApi {
   const { stopSound } = useSoundEffects();
@@ -152,6 +155,7 @@ export function useGranReyCero({
   const activeRef = useRef(false);
   const readyAtRef = useRef(0);
   const cooldownReductionRef = useLatestRef(cooldownReduction);
+  const onUsedRef = useLatestRef(onUsed);
   const rafRef = useRef<number | null>(null);
   const lastFrameRef = useRef(0);
   const fadeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -480,6 +484,7 @@ export function useGranReyCero({
     if (activeRef.current) return;
     if (!usableRef.current) return;
 
+    onUsedRef.current?.();
     activeRef.current = true;
     // O cooldown começa no `press`: o intro (1s em slow-motion) já é parte do
     // custo da habilidade, mesmo com a lâmina saindo depois.
@@ -510,6 +515,7 @@ export function useGranReyCero({
     fireRef,
     cooldownReductionRef,
     freezeActionsUntilRef,
+    onUsedRef,
     showAbilityIntro,
     startSpecialIntro,
     usableRef,

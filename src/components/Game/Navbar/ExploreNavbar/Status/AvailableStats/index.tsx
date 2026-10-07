@@ -58,42 +58,39 @@ export function AvailableStats({
         </button>
       </div>
       <div className={styles.statsGrid}>
-      {STATS_MENU_ROWS.map((row, index) => {
-        const isSelected = selectedIndex === index;
-        const value = stats[row.key] ?? 1;
-        const rowBonus = row.bonusKey ? bonus[row.bonusKey] : 0;
+        {STATS_MENU_ROWS.map((row, index) => {
+          const isSelected = selectedIndex === index;
+          const value = stats[row.key] ?? 1;
+          const rowBonus = row.bonusKey ? bonus[row.bonusKey] : 0;
 
-        return (
-          <div
-          className={`${styles.statItem} ${
-            isSelected ? styles.active : ""
-          }`}
-            key={row.key}
-          >
-            <button
-              type="button"
-              className={styles.statLabel}
-              // `data-stat-row`: só clicar na linha do stat preserva a
-              // seleção; qualquer outro lugar da tela limpa.
-              data-stat-row
-              onClick={() => onSelectStat(index)}
-              aria-pressed={isSelected}
+          return (
+            <div
+              className={`${styles.statItem} ${
+                isSelected ? styles.active : ""
+              }`}
+              key={row.key}
             >
-              <img src={row.icon} />
-              <span>
-                {row.label}: {value}
-
-                {rowBonus > 0 && (
-                  <span className={styles.bonus}>
-                    +{rowBonus}
-                  </span>
-                )}
-              </span>
-            </button>
-            {isSelected && <SelectedStatEffect selectedIndex={index} />}
-          </div>
-        );
-      })}
+              <button
+                type="button"
+                className={styles.statLabel}
+                // `data-stat-row`: só clicar na linha do stat preserva a
+                // seleção; qualquer outro lugar da tela limpa.
+                data-stat-row
+                onClick={() => onSelectStat(index)}
+                aria-pressed={isSelected}
+              >
+                <img src={row.icon} />
+                <span>
+                  {row.label}: {value}
+                  {rowBonus > 0 && (
+                    <span className={styles.bonus}>+{rowBonus}</span>
+                  )}
+                </span>
+              </button>
+              {isSelected && <SelectedStatEffect selectedIndex={index} />}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

@@ -37,6 +37,7 @@ export const FIVE_THOUSAND_MS = 5000;
 export const SIX_THOUSAND_MS = 6000;
 export const SEVEN_THOUSAND_MS = 7000;
 export const EIGHT_THOUSAND_MS = 8000;
+export const TWENTY_THOUSAND_MS = 20_000;
 
 export const TEN_MINUTES_MS = 600_000;
 export const SIX_HOURS_MS = 21_600_000;

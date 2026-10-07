@@ -14,7 +14,7 @@ export type CharacterPassiveKind =
   | { kind: "vastolordForm"; durationMs: number }
   | { kind: "cursedEnergy" }
   | { kind: "honoredOne" }
-  | { kind: "clearCut "}
+  | { kind: "clearCut " }
   | { kind: "combo"; windowMs: number }
   | { kind: "notImplemented" };
 

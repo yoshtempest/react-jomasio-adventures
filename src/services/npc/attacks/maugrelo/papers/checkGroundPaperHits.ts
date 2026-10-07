@@ -1,5 +1,8 @@
-import { type MaugreloAI, PAPER_STEP_RADIUS, PAPER_STEP_VERTICAL_RANGE } from "../state";
-
+import {
+  type MaugreloAI,
+  PAPER_STEP_RADIUS,
+  PAPER_STEP_VERTICAL_RANGE,
+} from "../state";
 
 /**
  * Pisar num papel **arma** o papel em vez de explodi-lo: ele fica piscando por

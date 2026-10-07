@@ -41,6 +41,8 @@ type Props = {
   /** Dispara o dano em área na explosão. */
   onExplode: (x: number, y: number, radius: number, multiplier: number) => void;
   playSound: (sound: SoundId, loop?: boolean, volumeOverride?: number) => void;
+  /** Chamado quando o press realmente inicia a Genki Dama (carga da Expansão de Domínio). */
+  onUsed?: () => void;
   isPausedRef: RefObject<boolean>;
   /** true quando os controles gerais de batalha estão desabilitados (pause, transição de fase, throw). */
   disabledRef: RefObject<boolean>;
@@ -68,6 +70,7 @@ export function useEmanuelGenkiDama({
   npc,
   onExplode,
   playSound,
+  onUsed,
   isPausedRef,
   disabledRef,
   battleEndedRef,
@@ -91,6 +94,7 @@ export function useEmanuelGenkiDama({
   const playerRef = useLatestRef(player);
   const npcRef = useLatestRef(npc);
   const onExplodeRef = useLatestRef(onExplode);
+  const onUsedRef = useLatestRef(onUsed);
   const playSoundRef = useLatestRef(playSound);
 
   const { usableRef: canUseRef, shouldCancelRef } = useSkillGuard({
@@ -306,6 +310,7 @@ export function useEmanuelGenkiDama({
     const mana = battleManaRef.current;
     if (!mana || !mana.consumeMana(GENKI_DAMA_INITIAL_COST)) return;
 
+    onUsedRef.current?.();
     activeRef.current = true;
     phaseRef.current = "rising";
     landPendingRef.current = false;
@@ -348,6 +353,7 @@ export function useEmanuelGenkiDama({
     freezeActionsUntilRef,
     genkiDamaRiseStartRef,
     genkiDamaRiseStartYRef,
+    onUsedRef,
     playerRef,
     setPlayerRef,
     shouldCancelRef,
