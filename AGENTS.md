@@ -364,6 +364,8 @@ até você preencher — use isso a seu favor:
   `NPCClass`, `Projectile` (union por `variant`), `ItemId`/`QuestId`/`FlagId`
   derivados de `data/`.
 - `services/save/slotManager.ts` `GAME_STATE_KEYS` (chave de slot).
+- `data/npc/statusMultipliers.ts` `NPC_STATUS_MULTIPLIERS` → `Record<NpcType, …>`:
+  todo NPC precisa dos quatro multiplicadores (dano, armadura física/mágica, vida).
 - `ActiveAbility.damageType` não é exaustivo (ausente = física), mas quem
   declara precisa usar `getAbilityDamageType(id)`: o compilador não força, mas
   `Projectile.damageType` e `SummonedNpc.armor` quebram o build quando um
@@ -409,9 +411,9 @@ não-battle.
 (`hooks/scene/useExploreLocation`).
 
 **Novo NPC**: `NPC_CLASSES` → `displayNames` → `attacks/<npcType>.ts` +
-registry → (opcional) `data/npc/levels.ts`, `bossScales.ts`, `statusMultipliers.ts`
-(multiplicadores de status por NPC — dano/vida/armadura física e mágica),
-`NPC_TYPINGS` em
+registry → `statusMultipliers.ts` (obrigatório: os quatro multiplicadores de
+status do NPC — dano/vida/armadura física e mágica, padrão 1) → (opcional)
+`data/npc/levels.ts`, `bossScales.ts`, `NPC_TYPINGS` em
 `data/types/npcElementTypes.ts` → sprites em `public/assets/npc/<type>/<state>.svg`
 e `NPC_CATEGORY` em `data/sprites/sprites.ts` → `BATTLE_CONFIGS` + rota se for
 lutável → `data/npc/cards.ts`/`displayNames` para bestiary.

@@ -171,7 +171,7 @@ O escopo atual abrange:
 | RN34 | O special virou botão no HUD (`SpecialButton`) com cooldown próprio de 20s (`SPECIAL_ABILITY_COOLDOWN_MS`, reduzido pela CDR); `g`/`Tab` abrem a BattleNavbar e o gear de config saiu do HUD de batalha                                                                                                                                 |
 | RN35 | A barra da Expansão de Domínio vai de 0 a 40: ataque básico rende +1, uso de habilidade rende +5 e o uso da Expansão consome as 40 cargas — errar golpe não zera a barra                                                                                                                                                                |
 | RN36 | A Expansão de Domínio é universal: todo personagem tem botão (`DOMAIN_EXPANSIONS`); o marcelo roda o mugetsu bespoke (`kind: "mugetsu"`) e os demais o burst de dano especial em área (`kind: "burst"`), sem intro de background (só marcelo tem arte)                                                                                  |
-| RN37 | Cada NPC pode declarar multiplicadores próprios de status (`NPC_STATUS_MULTIPLIERS` em `data/npc/statusMultipliers.ts`: dano, armadura física, armadura mágica e vida) que multiplicam o status já calculado por nível × classe × dificuldade — dois bosses da mesma classe ganham perfis diferentes; sem entrada = ×1 nos quatro eixos |
+| RN37 | Todo NPC declara seus quatro multiplicadores de status (`NPC_STATUS_MULTIPLIERS` em `data/npc/statusMultipliers.ts`: dano, armadura física, armadura mágica e vida) sobre o status calculado por nível × classe × dificuldade; tabela exaustiva (NPC novo não compila sem entrada) e valor padrão 1.0 — o ajuste fino é manual, por NPC |
 
 ### 3.4 Restrições de Hardware
 
