@@ -75,6 +75,16 @@ export function useSummonAI({
   const onSummonKilledRef = useLatestRef(onSummonKilled);
 
   useEffect(() => {
+    // `[].map()` devolve array novo — sem o compare o React re-renderizaria a
+    // batalha 50×/s mesmo sem nenhum summon em campo.
+    const apply = (
+      prev: SummonedNpc[],
+      map: (s: SummonedNpc) => SummonedNpc,
+    ) => {
+      const next = prev.map(map);
+      return next.every((s, i) => s === prev[i]) ? prev : next;
+    };
+
     const interval = setInterval(() => {
       const px = playerXRef.current;
 
@@ -82,7 +92,7 @@ export function useSummonAI({
       // com o AI pausado, pois a batalha está congelada durante a sequência).
       if (honoredFleeRef?.current) {
         setSummonsRef.current((prev) =>
-          prev.map((s) => {
+          apply(prev, (s) => {
             if (s.isDying || s.hp <= 0) return s;
             const dist = Math.abs(s.x - px);
             if (dist >= HONORED_ONE_FLEE_DISTANCE) return s;
@@ -107,7 +117,7 @@ export function useSummonAI({
         return;
 
       setSummonsRef.current((prev) =>
-        prev.map((s) => {
+        apply(prev, (s) => {
           if (s.isDying || s.hp <= 0) {
             return s;
           }

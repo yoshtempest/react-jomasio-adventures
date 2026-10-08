@@ -281,129 +281,163 @@ export function useNpcAI({
   };
 
   useEffect(() => {
+    // O `execute` dos ataques tem efeitos colaterais (som, projéteis, hits) e
+    // muta `state`/`ai` no próprio objeto do NPC. Rodar isso dentro do updater
+    // faria o React reexecutar os efeitos duas vezes em StrictMode; o tick
+    // inteiro roda aqui fora, contra o snapshot da ref, e o commit no fim
+    // devolve o mesmo objeto quando nada animou — sem isso a batalha
+    // re-renderiza a 50 Hz mesmo com o NPC parado.
+    const commit = (
+      base: NPCBattleState,
+      next: NPCBattleState,
+      force?: boolean,
+    ) => {
+      if (
+        !force &&
+        next.x === base.x &&
+        next.y === base.y &&
+        next.direction === base.direction &&
+        next.state === base.state &&
+        next.hidden === base.hidden
+      ) {
+        return;
+      }
+      setNpc(next);
+    };
+
     const interval = setInterval(() => {
-      setNpc((n) => {
-        // Passiva "O Abençoado": inimigos próximos recuam até ficarem a
-        // HONORED_ONE_FLEE_DISTANCE de distância em x (roda mesmo com o AI
-        // pausado/hitstop, já que a batalha está congelada).
-        if (honoredFleeRef?.current) {
-          const distanceX = Math.abs(n.x - playerXRef.current);
-          if (distanceX < HONORED_ONE_FLEE_DISTANCE) {
-            const step = Math.min(
-              HONORED_ONE_FLEE_DISTANCE - distanceX,
-              HONORED_ONE_FLEE_STEP,
-            );
-            const awayDir = n.x >= playerXRef.current ? 1 : -1;
-            const nextX = clampX(n.x + awayDir * step);
-            const collision = applyObstacleCollision(
-              nextX,
-              n.y,
-              obstaclesRef.current,
-            );
-            return {
-              ...n,
-              x: clampX(collision.x),
-              y: collision.y,
-              direction: getNpcDirection(nextX, playerXRef.current),
-              state: n.state === "block" ? "block" : "walk",
-            };
-          }
-          return n;
-        }
+      const n = npcRef.current;
 
-        if (isPausedRef.current) return n;
-        const npcTime = getTime(timeRef.current, "npc", NPC_TIME_ID);
-        if (npcTime.speed === 0) return n;
-
-        if (npcBlockedRef?.current) {
-          return {
-            ...n,
-            state: "block",
-          };
-        }
-
-        if (npcStaggerRef.current > Date.now()) {
-          return {
-            ...n,
-            direction: getNpcDirection(n.x, playerXRef.current),
-          };
-        }
-
-        const attack = getNpcAttack(npcTypeRef.current);
-
-        const targetX = playerXRef.current;
-        const targetY = playerYRef.current;
-
-        const result = attack.execute({
-          npc: n,
-          playerX: playerXRef.current,
-          playerY: playerYRef.current,
-          playerState: playerStateRef.current,
-          playerDirection: playerDirectionRef.current,
-          targetX,
-          targetY,
-          npcPhase: npcPhaseRef.current,
-          projectile: projectileRef.current,
-          setProjectile,
-          lastAttackRef,
-          onProjectileHit: onProjectileHitRef.current,
-          onMeleeHit: onMeleeHitRef.current,
-          setForceIdle,
-          onSummon: onSummonRef.current,
-          onPullPlayer: onPullPlayerRef.current,
-          isAlfa: isAlfaRef.current,
-          onSummonFromRight: (npcType) =>
-            onSummonFromRightRef.current?.(npcType),
-          onDragPlayer: (npcX, npcY) => onDragPlayerRef.current?.(npcX, npcY),
-          summonTimerRef,
-          playSound: loggedPlaySound,
-          npcHp: npcHpRef?.current ?? 0,
-          npcMaxHp: npcMaxHpRef?.current ?? 1,
-          onGrabPlayer: (flipped) => onGrabPlayerRef.current?.(flipped),
-          onThrowStart: (x, d) => onThrowStartRef.current?.(x, d),
-          onThrowPlayer: (mult) => onThrowPlayerRef.current?.(mult),
-          onPushPlayer: (x) => onPushPlayerRef.current?.(x),
-          onRamPushPlayer: (direction, toX) =>
-            onRamPushPlayerRef.current?.(direction, toX),
-          isPlayerParrying: () =>
-            isParryPress(lastBlockPressRef, lastAttackPressRef),
-          onGroundPaperHit: onGroundPaperHitRef.current,
-          onPaperExplode: onPaperExplodeRef.current,
-          onArmorBuff: onArmorBuffRef.current,
-          onLaserHit: onLaserHitRef.current,
-          onStuckPaperExplode: onStuckPaperExplodeRef.current,
-          onApplyDebuff: onApplyDebuffRef.current,
-        });
-
-        const rooted = (rootedUntilRef?.current ?? 0) > Date.now();
-        // Regra de time: o `execute` de cada NPC devolve a posição final do
-        // tick. Escalar o delta aqui (em vez de editar os 20 `chasePlayer`)
-        // faz o slow-movement valer para todo comportamento — perseguir,
-        // dash, investida — sem que cada um precise saber da regra.
-        const scaledX = n.x + (result.x - n.x) * npcTime.speed;
-        const nextX = rooted ? n.x : scaledX;
-        const nextY = result.y ?? n.y;
-        const direction =
-          result.direction ?? getNpcDirection(nextX, playerXRef.current);
+      // Passiva "O Abençoado": inimigos próximos recuam até ficarem a
+      // HONORED_ONE_FLEE_DISTANCE de distância em x (roda mesmo com o AI
+      // pausado/hitstop, já que a batalha está congelada).
+      if (honoredFleeRef?.current) {
         const distanceX = Math.abs(n.x - playerXRef.current);
+        if (distanceX < HONORED_ONE_FLEE_DISTANCE) {
+          const step = Math.min(
+            HONORED_ONE_FLEE_DISTANCE - distanceX,
+            HONORED_ONE_FLEE_STEP,
+          );
+          const awayDir = n.x >= playerXRef.current ? 1 : -1;
+          const nextX = clampX(n.x + awayDir * step);
+          const collision = applyObstacleCollision(
+            n.x,
+            n.y,
+            nextX,
+            n.y,
+            obstaclesRef.current,
+          );
+          commit(n, {
+            ...n,
+            x: clampX(collision.x),
+            y: collision.y,
+            direction: getNpcDirection(nextX, playerXRef.current),
+            state: n.state === "block" ? "block" : "walk",
+          });
+        }
+        return;
+      }
 
-        updateProximitySound(n.x, n.y);
+      if (isPausedRef.current) return;
+      const npcTime = getTime(timeRef.current, "npc", NPC_TIME_ID);
+      if (npcTime.speed === 0) return;
 
-        const collision = applyObstacleCollision(
-          nextX,
-          nextY,
-          obstaclesRef.current,
-        );
+      if (npcBlockedRef?.current) {
+        commit(n, { ...n, state: "block" });
+        return;
+      }
 
-        return {
-          ...n,
-          x: clampX(collision.x),
-          y: collision.y,
-          direction,
-          hidden: result.hidden ?? n.hidden,
-          state: result.state ?? getNpcState(distanceX, forceIdleRef.current),
-        };
+      if (npcStaggerRef.current > Date.now()) {
+        commit(n, { ...n, direction: getNpcDirection(n.x, playerXRef.current) });
+        return;
+      }
+
+      const attack = getNpcAttack(npcTypeRef.current);
+
+      const targetX = playerXRef.current;
+      const targetY = playerYRef.current;
+
+      // Snapshot antes do `execute`: os ataques mutam `state`/`ai` no próprio
+      // objeto, então a comparação do commit precisa dos valores originais.
+      const animBase: NPCBattleState = { ...n };
+
+      const result = attack.execute({
+        npc: n,
+        playerX: playerXRef.current,
+        playerY: playerYRef.current,
+        playerState: playerStateRef.current,
+        playerDirection: playerDirectionRef.current,
+        targetX,
+        targetY,
+        npcPhase: npcPhaseRef.current,
+        projectile: projectileRef.current,
+        setProjectile,
+        lastAttackRef,
+        onProjectileHit: onProjectileHitRef.current,
+        onMeleeHit: onMeleeHitRef.current,
+        setForceIdle,
+        onSummon: onSummonRef.current,
+        onPullPlayer: onPullPlayerRef.current,
+        isAlfa: isAlfaRef.current,
+        onSummonFromRight: (npcType) =>
+          onSummonFromRightRef.current?.(npcType),
+        onDragPlayer: (npcX, npcY) => onDragPlayerRef.current?.(npcX, npcY),
+        summonTimerRef,
+        playSound: loggedPlaySound,
+        npcHp: npcHpRef?.current ?? 0,
+        npcMaxHp: npcMaxHpRef?.current ?? 1,
+        onGrabPlayer: (flipped) => onGrabPlayerRef.current?.(flipped),
+        onThrowStart: (x, d) => onThrowStartRef.current?.(x, d),
+        onThrowPlayer: (mult) => onThrowPlayerRef.current?.(mult),
+        onPushPlayer: (x) => onPushPlayerRef.current?.(x),
+        onRamPushPlayer: (direction, toX) =>
+          onRamPushPlayerRef.current?.(direction, toX),
+        isPlayerParrying: () =>
+          isParryPress(lastBlockPressRef, lastAttackPressRef),
+        onGroundPaperHit: onGroundPaperHitRef.current,
+        onPaperExplode: onPaperExplodeRef.current,
+        onArmorBuff: onArmorBuffRef.current,
+        onLaserHit: onLaserHitRef.current,
+        onStuckPaperExplode: onStuckPaperExplodeRef.current,
+        onApplyDebuff: onApplyDebuffRef.current,
       });
+
+      const rooted = (rootedUntilRef?.current ?? 0) > Date.now();
+      // Regra de time: o `execute` de cada NPC devolve a posição final do
+      // tick. Escalar o delta aqui (em vez de editar os 20 `chasePlayer`)
+      // faz o slow-movement valer para todo comportamento — perseguir,
+      // dash, investida — sem que cada um precise saber da regra.
+      const scaledX = n.x + (result.x - n.x) * npcTime.speed;
+      const nextX = rooted ? n.x : scaledX;
+      const nextY = result.y ?? n.y;
+      const direction =
+        result.direction ?? getNpcDirection(nextX, playerXRef.current);
+      const distanceX = Math.abs(n.x - playerXRef.current);
+
+      updateProximitySound(n.x, n.y);
+
+      const collision = applyObstacleCollision(
+        n.x,
+        n.y,
+        nextX,
+        nextY,
+        obstaclesRef.current,
+      );
+
+      const next: NPCBattleState = {
+        ...n,
+        x: clampX(collision.x),
+        y: collision.y,
+        direction,
+        hidden: result.hidden ?? n.hidden,
+        state: result.state ?? getNpcState(distanceX, forceIdleRef.current),
+      };
+
+      // `ai` é uma bolsa mutável em place (papéis do maugrelo, fases…):
+      // sem re-render os arrays derivados ficariam defasados. NPCs com `ai`
+      // seguem sempre commitando; os demais só re-renderizam quando o tick
+      // mudou algo animado.
+      commit(animBase, next, n.ai != null);
     }, 20);
 
     return () => {
@@ -427,6 +461,7 @@ export function useNpcAI({
     forceIdleRef,
     isPausedRef,
     npcTypeRef,
+    npcRef,
     obstaclesRef,
     onGrabPlayerRef,
     onMeleeHitRef,

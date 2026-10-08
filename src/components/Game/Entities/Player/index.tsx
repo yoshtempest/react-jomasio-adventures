@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { playerPath } from "@/utils/paths";
 import { EXPLORE_MOVE_INTERVAL } from "@/gameRules/movement/explore";
 import { HEIGHT_STEP_OFFSET } from "@/gameRules/movement/levels";
@@ -17,7 +18,12 @@ type Props = {
   moving?: boolean;
 };
 
-export function Player({
+/**
+ * `memo`: a cena de exploração re-renderiza a cada passo e as props do
+ * jogador são todas primitivas — sem o bailout, `LevelUpParticles` e
+ * `ProfessionBadge` remontavam junto a cada tile andado.
+ */
+export const Player = memo(function Player({
   character,
   direction,
   gridX,
@@ -60,4 +66,4 @@ export function Player({
       <ProfessionBadge />
     </div>
   );
-}
+});

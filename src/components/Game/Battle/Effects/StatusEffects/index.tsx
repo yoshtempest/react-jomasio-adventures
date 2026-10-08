@@ -35,12 +35,16 @@ export function StatusEffects() {
   const { player } = usePlayer();
   const [, setTick] = useState(0);
 
+  const statuses = getActivePlayerStatuses(player);
+  const statusCount = statuses.length;
+
+  // O tick só existe para atualizar a contagem regressiva: sem status ativo
+  // ele re-renderizava a BattleScene 2×/s à toa.
   useEffect(() => {
+    if (statusCount === 0) return;
     const id = setInterval(() => setTick((t) => t + 1), 500);
     return () => clearInterval(id);
-  }, []);
-
-  const statuses = getActivePlayerStatuses(player);
+  }, [statusCount]);
 
   if (statuses.length === 0) return null;
 

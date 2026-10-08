@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 type Props = {
   gridX: number;
   gridY: number;
@@ -5,7 +7,13 @@ type Props = {
   src: string;
 };
 
-export function Plate({ gridX, gridY, TILE_SIZE, src }: Props) {
+/** Props primitivas + cena que re-renderiza por passo: `memo` barato. */
+export const Plate = memo(function Plate({
+  gridX,
+  gridY,
+  TILE_SIZE,
+  src,
+}: Props) {
   return (
     <img
       src={src}
@@ -21,4 +29,4 @@ export function Plate({ gridX, gridY, TILE_SIZE, src }: Props) {
       }}
     />
   );
-}
+});

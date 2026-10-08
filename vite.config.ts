@@ -49,6 +49,28 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        /**
+         * Vendor em chunk próprio: sem isso, react/router/sdk entram no
+         * `index.js`, que muda de hash a cada deploy de código nosso e derruba
+         * junto 150 kB gzip que o navegador já tinha em cache. `advancedChunks`
+         * (rolldown) no lugar do `manualChunks` (rollup), que esta versão marca
+         * como deprecado.
+         */
+        advancedChunks: {
+          groups: [
+            {
+              name: "vendor",
+              test: /node_modules[\\/]/,
+              priority: 10,
+            },
+          ],
+        },
+      },
+    },
+  },
   server: {
     host: true,
     port: 5173,

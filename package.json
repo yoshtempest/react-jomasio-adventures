@@ -9,7 +9,7 @@
     "dev:server": "npm run dev --prefix server",
     "build": "tsc -b && vite build && npm run build:sw",
     "build:sw": "vite build --config vite.sw.config.ts",
-    "lint": "eslint .",
+    "lint": "eslint . --cache",
     "preview": "vite preview --port 4173",
     "deploy": "gh-pages -d dist"
   },

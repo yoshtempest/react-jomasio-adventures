@@ -147,12 +147,35 @@ export function saveAllData(
   allData: Record<string, CharacterEquipmentData>,
 ): void {
   saveCompressed(slotKey(EQUIP_KEY), allData);
+  // Quem escreve é este módulo; invalidar aqui cobre toda troca de equipamento.
+  equippedCache = null;
+}
+
+/**
+ * Cache de leitura do equipamento.
+ *
+ * `loadEquipped` roda em hot path de batalha (`getHalfHealReduction`,
+ * `getEquippedResistances` no corpo do `useSystem`, `getManaBonusFromEquipment`
+ * por item no loop da mana) e cada chamada pagava LZString + `JSON.parse` +
+ * migração. O cache vale enquanto ninguém grava — equipamento não muda no
+ * meio de uma luta — e é invalidado por chave de slot para não sobreviver a
+ * troca de save.
+ */
+let equippedCache: Record<string, CharacterEquipmentData> | null = null;
+let equippedCacheKey: string | null = null;
+
+function loadAllDataCached(): Record<string, CharacterEquipmentData> {
+  const key = slotKey(EQUIP_KEY);
+  if (equippedCache === null || equippedCacheKey !== key) {
+    equippedCache = loadAllData();
+    equippedCacheKey = key;
+  }
+  return equippedCache;
 }
 
 export function loadEquipped(character: CharacterId): EquippedItems {
   try {
-    const all = loadAllData();
-    const data = all[character];
+    const data = loadAllDataCached()[character];
     if (!data) return createEmptyEquipped();
     return {
       ...data.equipped,

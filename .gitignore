@@ -30,3 +30,6 @@ dist-ssr
 
 .env
 .playwright-mcp/
+
+# ESLint
+.eslintcache

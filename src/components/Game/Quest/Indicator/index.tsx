@@ -1,3 +1,4 @@
+import { memo } from "react";
 import styles from "./styles.module.css";
 
 type QuestArrowProps = {
@@ -6,7 +7,11 @@ type QuestArrowProps = {
   TILE_SIZE: number;
 };
 
-export function QuestArrow({ x, y, TILE_SIZE }: QuestArrowProps) {
+export const QuestArrow = memo(function QuestArrow({
+  x,
+  y,
+  TILE_SIZE,
+}: QuestArrowProps) {
   return (
     <div
       className={styles.arrow}
@@ -20,7 +25,7 @@ export function QuestArrow({ x, y, TILE_SIZE }: QuestArrowProps) {
       ▲
     </div>
   );
-}
+});
 
 type QuestNPCBadgeProps = {
   gridX: number;
@@ -28,7 +33,11 @@ type QuestNPCBadgeProps = {
   TILE_SIZE: number;
 };
 
-export function QuestNPCBadge({ gridX, gridY, TILE_SIZE }: QuestNPCBadgeProps) {
+export const QuestNPCBadge = memo(function QuestNPCBadge({
+  gridX,
+  gridY,
+  TILE_SIZE,
+}: QuestNPCBadgeProps) {
   return (
     <div
       className={styles.badge}
@@ -40,7 +49,7 @@ export function QuestNPCBadge({ gridX, gridY, TILE_SIZE }: QuestNPCBadgeProps) {
       !
     </div>
   );
-}
+});
 
 type QuestDirectionArrowProps = {
   gridX: number;
@@ -64,7 +73,7 @@ const DIRECTION_OFFSET: Record<Direction, { x: number; y: number }> = {
   left: { x: -1, y: 0 },
 };
 
-export function QuestDirectionArrow({
+export const QuestDirectionArrow = memo(function QuestDirectionArrow({
   gridX,
   gridY,
   TILE_SIZE,
@@ -94,4 +103,4 @@ export function QuestDirectionArrow({
       ▶
     </div>
   );
-}
+});

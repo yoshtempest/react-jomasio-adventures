@@ -5,7 +5,6 @@ import {
   useEffect,
   useMemo,
   useRef,
-  useState,
   type ReactNode,
 } from "react";
 import type {
@@ -15,9 +14,11 @@ import type {
   TitleProgress,
 } from "@/utils/types/player/titles";
 import { TITLES, TITLE_IDS, getTitleById, type TitleId } from "@/data/titles";
-import { loadData, saveData } from "@/utils/titles/storage";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 import { useToast } from "@/contexts/ToastContext";
+import { useCompressedStorage } from "@/hooks/useCompressedStorage";
+import { getDefaultData, normalizeData } from "@/utils/titles/storage";
+import { TITLES_KEY } from "@/data/storageKeys";
 import { getNpcElementTypes } from "@/data/types/npcElementTypes";
 import type { ElementType } from "@/utils/types/battle/element";
 
@@ -76,11 +77,13 @@ function incrementTitles(
 }
 
 export function TitleProvider({ children }: { children: ReactNode }) {
-  const [titlesData, setTitlesData] = useState<TitlesData>(loadData);
-
-  useEffect(() => {
-    saveData(titlesData);
-  }, [titlesData]);
+  // Progresso de títulos sobe a cada hit; sem o debounce do hook a escrita
+  // comprimida rodava no mesmo cadência do combate.
+  const [titlesData, setTitlesData] = useCompressedStorage<TitlesData>(
+    TITLES_KEY,
+    getDefaultData(),
+    normalizeData,
+  );
 
   const { playSound } = useSoundEffects();
   const { showToast } = useToast();
@@ -271,7 +274,7 @@ export function TitleProvider({ children }: { children: ReactNode }) {
         };
       });
     },
-    [],
+    [setTitlesData],
   );
 
   const handleDefeat = useCallback(() => {
@@ -302,42 +305,42 @@ export function TitleProvider({ children }: { children: ReactNode }) {
       if (!changed) return prev;
       return { ...prev, progress: nextProgress };
     });
-  }, []);
+  }, [setTitlesData]);
 
   const incrementBlockCounter = useCallback(() => {
     setTitlesData((prev) => incrementTitles(prev, "blockCount", 1));
-  }, []);
+  }, [setTitlesData]);
 
   const incrementDamageTaken = useCallback((amount: number) => {
     setTitlesData((prev) => incrementTitles(prev, "damageTaken", amount));
-  }, []);
+  }, [setTitlesData]);
 
   const incrementDamageDealt = useCallback((amount: number) => {
     setTitlesData((prev) => incrementTitles(prev, "damageDealt", amount));
-  }, []);
+  }, [setTitlesData]);
 
   const incrementDodgeCounter = useCallback(() => {
     setTitlesData((prev) => incrementTitles(prev, "dodgeCount", 1));
-  }, []);
+  }, [setTitlesData]);
 
   const incrementPetDropCounter = useCallback(() => {
     setTitlesData((prev) => incrementTitles(prev, "petDrop", 1));
-  }, []);
+  }, [setTitlesData]);
 
   const incrementAlfaKillCounter = useCallback(() => {
     setTitlesData((prev) => incrementTitles(prev, "killAlfa", 1));
-  }, []);
+  }, [setTitlesData]);
 
   const equipTitle = useCallback((id: TitleId) => {
     setTitlesData((prev) => {
       if ((prev.progress[id]?.level ?? 0) === 0) return prev;
       return { ...prev, equippedId: prev.equippedId === id ? null : id };
     });
-  }, []);
+  }, [setTitlesData]);
 
   const unequipTitle = useCallback(() => {
     setTitlesData((prev) => ({ ...prev, equippedId: null }));
-  }, []);
+  }, [setTitlesData]);
 
   const value = useMemo(
     () => ({

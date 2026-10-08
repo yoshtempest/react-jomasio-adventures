@@ -26,13 +26,24 @@ export type EquipmentId = (typeof EQUIPMENT_DB)[number]["id"];
 
 export const EQUIPMENT_LIST = EQUIPMENT_DB;
 
+/**
+ * Índice por id: `getEquipmentById` é consultado no hot path de batalha
+ * (`mana`, conjuntos de equipamento) e antes fazia **duas** varreduras lineares
+ * por chamada (`isEquipmentId` + `find`). Um `Map` resolve em O(1) e mantém a
+ * checagem de guarda de uma só vez.
+ */
+const EQUIPMENT_BY_ID = new Map<string, Equipment>(
+  EQUIPMENT_DB.map(
+    (entry): [string, Equipment] => [entry.id, entry as Equipment],
+  ),
+);
+
 export function isEquipmentId(value: string): value is EquipmentId {
-  return EQUIPMENT_DB.some((e) => e.id === value);
+  return EQUIPMENT_BY_ID.has(value);
 }
 
 export function getEquipmentById(id: string): Equipment | undefined {
-  if (!isEquipmentId(id)) return undefined;
-  return EQUIPMENT_DB.find((e) => e.id === id);
+  return EQUIPMENT_BY_ID.get(id);
 }
 
 export function getEquipmentBySlot(slot: EquipmentSlot): Equipment[] {

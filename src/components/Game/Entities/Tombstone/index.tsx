@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { getTombstoneSrc } from "@/gameRules/tombstone/tombstone";
 import { getEntityZIndex } from "@/utils/entityDepth";
 import type { TombstoneVariant } from "@/utils/types/npc/tombstone";
@@ -10,7 +11,14 @@ type Props = {
   fading?: boolean;
 };
 
-export function Tombstone({ gridX, gridY, TILE_SIZE, variant, fading }: Props) {
+/** Props primitivas + cena que re-renderiza por passo: `memo` barato. */
+export const Tombstone = memo(function Tombstone({
+  gridX,
+  gridY,
+  TILE_SIZE,
+  variant,
+  fading,
+}: Props) {
   return (
     <img
       src={getTombstoneSrc(variant)}
@@ -28,4 +36,4 @@ export function Tombstone({ gridX, gridY, TILE_SIZE, variant, fading }: Props) {
       }}
     />
   );
-}
+});

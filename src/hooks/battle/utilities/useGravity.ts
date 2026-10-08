@@ -53,16 +53,27 @@ export function useBattleGravity(
     genkiDamaRiseStartYInternalRef.current = genkiDamaRiseStartYRef.current;
 
   useEffect(() => {
+    // Devolve o mesmo objeto quando os campos físicos não mudaram: sem esse
+    // bailout a gravidade reatribuía o player 60×/s mesmo parado no chão,
+    // re-renderizando os ~69 consumidores de `usePlayer()` para sempre.
+    const settle = (base: Player, next: Player) =>
+      next.y === base.y &&
+      next.velY === base.velY &&
+      next.state === base.state &&
+      next.groundY === base.groundY
+        ? base
+        : next;
+
     const interval = setInterval(() => {
       if (playerModeInternalRef.current === "menu") return;
 
       setPlayer((p) => {
         if (p.throwStartTime > 0) {
-          return { ...p, velY: 0, state: "fallen" };
+          return settle(p, { ...p, velY: 0, state: "fallen" });
         }
 
         if (p.state === "fallingAttack") {
-          return { ...p, velY: 0 };
+          return settle(p, { ...p, velY: 0 });
         }
 
         // Passiva "O Abençoado": fase de subida do honored-one — o personagem
@@ -80,9 +91,9 @@ export function useBattleGravity(
               honoredRiseStartYInternalRef.current -
                 HONORED_ONE_RISE_Y * progress,
             );
-            return { ...p, velY: 0, y: targetY };
+            return settle(p, { ...p, velY: 0, y: targetY });
           }
-          return { ...p, velY: 0 };
+          return settle(p, { ...p, velY: 0 });
         }
 
         // Genki Dama do emanuel: a subida é manual (300px em 2.5s). Enquanto
@@ -101,16 +112,16 @@ export function useBattleGravity(
               genkiDamaRiseStartYInternalRef.current -
                 GENKI_DAMA_RISE_Y * progress,
             );
-            return { ...p, velY: 0, y: targetY };
+            return settle(p, { ...p, velY: 0, y: targetY });
           }
-          return { ...p, velY: 0 };
+          return settle(p, { ...p, velY: 0 });
         }
         if (ALL_PREDICATES.isGenkiDamaHold(p.state)) {
           const topY = Math.max(
             0,
             genkiDamaRiseStartYInternalRef.current - GENKI_DAMA_RISE_Y,
           );
-          return { ...p, velY: 0, y: topY };
+          return settle(p, { ...p, velY: 0, y: topY });
         }
 
         const { map } = collisionRef.current;
@@ -124,7 +135,7 @@ export function useBattleGravity(
           const groundBelow = getGroundAtX(p.y + 2, p.x, obstacles);
 
           if (p.velY === 0 && p.y === groundBelow) {
-            return { ...p, groundY: groundBelow };
+            return settle(p, { ...p, groundY: groundBelow });
           }
 
           const landingY = getLandingY(prevY, newY, p.x, obstacles);
@@ -133,7 +144,7 @@ export function useBattleGravity(
             hasDoubleJumped.current = false;
             if (hasUsedFallingAttack) hasUsedFallingAttack.current = false;
             const wasAirborne = ALL_PREDICATES.isLanding(p.state);
-            return {
+            return settle(p, {
               ...p,
               y: landingY,
               velY: 0,
@@ -143,14 +154,14 @@ export function useBattleGravity(
                   ? "idleCrounched"
                   : "idle"
                 : p.state,
-            };
+            });
           }
         } else {
           if (newY >= p.groundY) {
             hasDoubleJumped.current = false;
             if (hasUsedFallingAttack) hasUsedFallingAttack.current = false;
             const wasAirborne = ALL_PREDICATES.isLanding(p.state);
-            return {
+            return settle(p, {
               ...p,
               y: p.groundY,
               velY: 0,
@@ -159,11 +170,11 @@ export function useBattleGravity(
                   ? "idleCrounched"
                   : "idle"
                 : p.state,
-            };
+            });
           }
         }
 
-        return {
+        return settle(p, {
           ...p,
           y: newY,
           velY: newVelY,
@@ -174,7 +185,7 @@ export function useBattleGravity(
               : p.state === "preJump"
                 ? "preJump"
                 : "jump",
-        };
+        });
       });
     }, 16);
 

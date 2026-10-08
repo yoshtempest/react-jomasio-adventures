@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { lootBagPath } from "@/utils/paths";
 
 import styles from "./styles.module.css";
@@ -10,7 +11,12 @@ type Props = {
   tileSize: number;
 };
 
-export function LootBag({ gridX, gridY, tileSize }: Props) {
+/** Props primitivas + cena que re-renderiza por passo: `memo` barato. */
+export const LootBag = memo(function LootBag({
+  gridX,
+  gridY,
+  tileSize,
+}: Props) {
   return (
     <img
       className={styles.lootBag}
@@ -24,4 +30,4 @@ export function LootBag({ gridX, gridY, tileSize }: Props) {
       }}
     />
   );
-}
+});

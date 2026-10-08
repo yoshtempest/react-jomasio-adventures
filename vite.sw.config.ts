@@ -13,7 +13,9 @@ import { defineConfig } from "vite";
 export default defineConfig({
   build: {
     emptyOutDir: false,
-    sourcemap: true,
+    // Sem mapa: `sw.js` tem 5,6 kB e o `.map` mais 16 kB que só poluem o
+    // deploy do GitHub Pages — ninguém depura o worker pelo devtools do browser.
+    sourcemap: false,
     lib: {
       entry: resolve(__dirname, "src/sw.ts"),
       formats: ["iife"],

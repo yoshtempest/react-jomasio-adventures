@@ -75,6 +75,13 @@ function buildReverseAdjacency(): Map<string, Set<string>> {
   return reverse;
 }
 
+/**
+ * Reversa em escopo de módulo: a topologia não muda em runtime e antes era
+ * reconstruída inteira a cada `bfsNextHop` — ou seja, a cada recálculo de
+ * rota de quest.
+ */
+const REVERSE_ADJACENCY = buildReverseAdjacency();
+
 function bfsNextHop(
   startRoute: string,
   targetRoutes: Set<string>,
@@ -83,7 +90,6 @@ function bfsNextHop(
     return startRoute;
   }
 
-  const reverseAdj = buildReverseAdjacency();
   const visited = new Map<string, string>();
 
   const queue: string[] = [...targetRoutes];
@@ -93,7 +99,7 @@ function bfsNextHop(
 
   while (queue.length > 0) {
     const current = queue.shift()!;
-    const predecessors = reverseAdj.get(current);
+    const predecessors = REVERSE_ADJACENCY.get(current);
     if (!predecessors) continue;
 
     for (const pred of predecessors) {

@@ -64,6 +64,7 @@ export function useAllyAI({
 }: Props) {
   const allyLastAttacksRef = useRef<Record<string, number>>({});
 
+  const alliesRef = useLatestRef(allies);
   const isPausedRef = useLatestRef(isPaused);
   const isEndingRef = useLatestRef(isEnding);
   const enemyNpcRef = useLatestRef(enemyNpc);
@@ -79,9 +80,20 @@ export function useAllyAI({
   const timeRefRef = useLatestRef(timeRef);
 
   useEffect(() => {
+    // Sem allies em campo nem vale a pena montar a lista de alvos — e o
+    // `compare` no fim evita que `[].map()` re-renderize a batalha 50×/s.
+    const apply = (
+      prev: SummonedNpc[],
+      map: (a: SummonedNpc) => SummonedNpc,
+    ) => {
+      const next = prev.map(map);
+      return next.every((a, i) => a === prev[i]) ? prev : next;
+    };
+
     const interval = setInterval(() => {
       if (isPausedRef.current) return;
       if (isEndingRef.current) return;
+      if (alliesRef.current.length === 0) return;
 
       const enemies: EnemyTarget[] = [];
       if (npcHpRef.current > 0) {
@@ -134,7 +146,7 @@ export function useAllyAI({
       };
 
       setAlliesRef.current((prev) =>
-        prev.map((ally) => {
+        apply(prev, (ally) => {
           if (ally.isDying || ally.hp <= 0) return ally;
 
           // Regra de time: a classe decide, o ally é isento só se o efeito
@@ -209,6 +221,7 @@ export function useAllyAI({
   }, [
     isPausedRef,
     isEndingRef,
+    alliesRef,
     enemyNpcRef,
     enemySummonsRef,
     npcHpRef,

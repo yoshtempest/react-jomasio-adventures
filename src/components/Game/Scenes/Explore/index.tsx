@@ -1,8 +1,9 @@
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useGameControls } from "@/contexts/GameControlsContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
+import { useStableCallback } from "@/hooks/useStableCallback";
 import { useGameLayout } from "@/hooks/game/useGameLayout";
-import { GameMap } from "@/components/Game/Map/Game";
+import { SmoothCamera } from "@/components/Game/Map/SmoothCamera";
 import { Player } from "@/components/Game/Entities/Player";
 import { NPC } from "@/components/Game/Entities/Npc";
 import { Tombstone } from "@/components/Game/Entities/Tombstone";
@@ -149,14 +150,19 @@ export function ExploreScene({
     }, 0);
   };
 
-  const handleFinish = () => {
+  /**
+   * Estável porque é o `onFinish` de `useDialogue`: uma identidade nova por
+   * render recriava `finish`/`next`/`dialogueSystem` e religava os efeitos que
+   * dependem do sistema de diálogo a cada passo do jogador.
+   */
+  const handleFinish = useStableCallback(() => {
     if (cutscene) {
       cutsceneDoneRef.current = false;
       setCutsceneActive(true);
       return;
     }
     finishScene();
-  };
+  });
 
   const handleCutsceneEnd = () => {
     if (cutsceneDoneRef.current) return;
@@ -189,18 +195,29 @@ export function ExploreScene({
     return remove;
   }, [cutsceneActive, pushControls]);
 
-  const npcContext = {
-    quests,
-    items,
-    flags,
-    character: player.character,
-    lastPage,
-  };
+  /**
+   * Contexto dos diálogos em `useMemo`: ele alimenta `dialogueData` e o
+   * `npc.src`, e um objeto novo por render reprocessava (e re-renderizava) o
+   * sistema de diálogo a cada tile andado.
+   */
+  const npcContext = useMemo(
+    () => ({
+      quests,
+      items,
+      flags,
+      character: player.character,
+      lastPage,
+    }),
+    [quests, items, flags, player.character, lastPage],
+  );
 
-  const resolvedDialogueData =
-    typeof dialogueData === "function"
-      ? dialogueData(npcContext)
-      : dialogueData;
+  const resolvedDialogueData = useMemo(
+    () =>
+      typeof dialogueData === "function"
+        ? dialogueData(npcContext)
+        : dialogueData,
+    [dialogueData, npcContext],
+  );
 
   const dialogueSystem = useDialogue(resolvedDialogueData, handleFinish);
   const { play: playSansTalking } = useSansTalking(dialogueSystem.isOpen);
@@ -237,10 +254,13 @@ export function ExploreScene({
       ? initialPosition(lastPage) // ⚠️ aqui falta o lastPage ainda
       : initialPosition;
 
-  const resolvedAutoStartDialogue =
-    typeof autoStartDialogue === "function"
-      ? autoStartDialogue(npcContext)
-      : autoStartDialogue;
+  const resolvedAutoStartDialogue = useMemo(
+    () =>
+      typeof autoStartDialogue === "function"
+        ? autoStartDialogue(npcContext)
+        : autoStartDialogue,
+    [autoStartDialogue, npcContext],
+  );
 
   const { isReady } = useSceneSetup({
     map,
@@ -409,7 +429,15 @@ export function ExploreScene({
     return remove;
   }, [walkInTarget, pushControls]);
 
-  const interactionLoot = currentLocationId ? getLootAt(currentLocationId) : [];
+  /**
+   * Memo por dupla razão: `getLootAt` já só muda quando o chão muda, e a
+   * identidade estável evita refazer o `filter` a cada render — antes rodava
+   * duas vezes por render (hint + JSX).
+   */
+  const interactionLoot = useMemo(
+    () => (currentLocationId ? getLootAt(currentLocationId) : []),
+    [getLootAt, currentLocationId],
+  );
 
   const { interactionHint } = useSceneLayers({
     player,
@@ -433,12 +461,12 @@ export function ExploreScene({
 
   return (
     <div className={className}>
-      <GameMap
+      <SmoothCamera
         TILE_SIZE={TILE_SIZE}
         cols={MAP_COLS}
         rows={MAP_ROWS}
-        cameraX={cameraX}
-        cameraY={cameraY}
+        targetX={cameraX}
+        targetY={cameraY}
         backgroundUrl={background}
         backgroundSize={backgroundSize}
       >
@@ -571,15 +599,14 @@ export function ExploreScene({
             ),
         )}
 
-        {currentLocationId &&
-          getLootAt(currentLocationId).map((loot) => (
-            <LootBag
-              key={`lootbag-${loot.x}-${loot.y}`}
-              gridX={loot.x}
-              gridY={loot.y}
-              tileSize={TILE_SIZE}
-            />
-          ))}
+        {interactionLoot.map((loot) => (
+          <LootBag
+            key={`lootbag-${loot.x}-${loot.y}`}
+            gridX={loot.x}
+            gridY={loot.y}
+            tileSize={TILE_SIZE}
+          />
+        ))}
 
         {/* <LevelSteps heightMap={heightMap} TILE_SIZE={TILE_SIZE} /> */}
 
@@ -604,7 +631,7 @@ export function ExploreScene({
             direction={questDirection}
           />
         )}
-      </GameMap>
+      </SmoothCamera>
 
       {interactionHint && !dialogueSystem.isOpen && (
         <InteractionPrompt text={interactionHint} />

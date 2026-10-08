@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { resolveAsset } from "@/utils/paths";
 import { getEntityZIndex } from "@/utils/entityDepth";
 
@@ -14,7 +15,12 @@ type Props = {
   moveMs?: number;
 };
 
-export function NPC({
+/**
+ * `memo` porque as props são todas primitivas e a cena re-renderiza a cada
+ * passo do jogador: sem o bailout, cada passo refazia `resolveAsset` de todo
+ * NPC em campo.
+ */
+export const NPC = memo(function NPC({
   gridX,
   gridY,
   TILE_SIZE,
@@ -50,4 +56,4 @@ export function NPC({
       }}
     />
   );
-}
+});

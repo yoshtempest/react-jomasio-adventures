@@ -1,5 +1,4 @@
 import { usePlayer } from "@/contexts/PlayerContext";
-import { useState, useEffect, useRef } from "react";
 import { useViewport } from "@/hooks/game/useViewport";
 import { HEIGHT_STEP_OFFSET } from "@/gameRules/movement/levels";
 import {
@@ -11,7 +10,6 @@ import {
 export function useGameLayout(map?: number[][], scaleFix = 3) {
   const MAP_COLS = map?.[0]?.length ?? MAP_GRID_COLS;
   const MAP_ROWS = map?.length ?? MAP_GRID_ROWS;
-  const CAMERA_SMOOTHING = 0.3;
 
   const { player } = usePlayer();
 
@@ -60,40 +58,6 @@ export function useGameLayout(map?: number[][], scaleFix = 3) {
     ),
   );
 
-  const [cameraX, setCameraX] = useState(targetX);
-  const [cameraY, setCameraY] = useState(targetY);
-
-  const targetRef = useRef({ x: targetX, y: targetY });
-  targetRef.current.x = targetX;
-  targetRef.current.y = targetY;
-
-  useEffect(() => {
-    const dx = Math.abs(cameraX - targetRef.current.x);
-    const dy = Math.abs(cameraY - targetRef.current.y);
-    if (dx < 0.5 && dy < 0.5) {
-      if (cameraX !== targetRef.current.x || cameraY !== targetRef.current.y) {
-        setCameraX(targetRef.current.x);
-        setCameraY(targetRef.current.y);
-      }
-      return;
-    }
-
-    const id = requestAnimationFrame(() => {
-      setCameraX((prev) => {
-        const t = targetRef.current.x;
-        const next = prev + (t - prev) * CAMERA_SMOOTHING;
-        return Math.abs(next - t) < 0.5 ? t : next;
-      });
-      setCameraY((prev) => {
-        const t = targetRef.current.y;
-        const next = prev + (t - prev) * CAMERA_SMOOTHING;
-        return Math.abs(next - t) < 0.5 ? t : next;
-      });
-    });
-
-    return () => cancelAnimationFrame(id);
-  }, [cameraX, cameraY, targetX, targetY]);
-
   const PLAYER_SIZE = TILE_SIZE * 1.4;
 
   const scaleX = viewportWidth / 1280;
@@ -108,8 +72,11 @@ export function useGameLayout(map?: number[][], scaleFix = 3) {
     MAP_HEIGHT,
     offsetX: 0,
     offsetY: 0,
-    cameraX,
-    cameraY,
+    // Alvo da câmera, não a câmera em si: a interpolação mora em
+    // `SmoothCamera` porque mantê-la em estado aqui re-renderizava a
+    // `ExploreScene` inteira a 60 fps só para mudar um `transform`.
+    cameraX: targetX,
+    cameraY: targetY,
     containerWidth,
     containerHeight,
     scaleX,

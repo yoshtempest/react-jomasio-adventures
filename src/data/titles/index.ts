@@ -23,7 +23,12 @@ function createElementTitle(element: ElementType) {
   };
 }
 
-const ELEMENT_LIST = Object.keys({
+/**
+ * `Record<ElementType, true>` em vez de `Object.keys({ … })`: a union tem 15
+ * elementos e o objeto literal tinha 14 — faltava `Cryo`, e o cast mascarava
+ * a omissão. Agora elemento sem linha aqui não compila.
+ */
+const ELEMENT_SET: Record<ElementType, true> = {
   Aquos: true,
   Pyrus: true,
   Subterra: true,
@@ -35,15 +40,21 @@ const ELEMENT_LIST = Object.keys({
   Natura: true,
   Psychicus: true,
   Nympha: true,
+  Cryo: true,
   Draco: true,
   Umbra: true,
   Normalis: true,
-}) as ElementType[];
+};
 
-const ELEMENT_TITLES = {} as Record<`kill${ElementType}`, Omit<TitleDef, "id">>;
-for (const el of ELEMENT_LIST) {
-  ELEMENT_TITLES[`kill${el}`] = createElementTitle(el);
-}
+const ELEMENT_LIST = Object.keys(ELEMENT_SET) as ElementType[];
+
+const ELEMENT_TITLES = ELEMENT_LIST.reduce(
+  (titles, element) => {
+    titles[`kill${element}`] = createElementTitle(element);
+    return titles;
+  },
+  {} as Record<`kill${ElementType}`, Omit<TitleDef, "id">>,
+);
 
 export const TITLES = createTitles({
   ...ELEMENT_TITLES,
