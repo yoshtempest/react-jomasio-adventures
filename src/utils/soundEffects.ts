@@ -23,6 +23,8 @@ export function createSounds() {
     jhowsimarVemCa: sfx("npc/jhowsimar/goHere.mp3"),
     preMarshadowSpecial: sfx("player/marcelo/preSpecial.mp3"),
     marshadowSpecial: sfx("player/marcelo/special.mp3"),
+    getsugaTenshou: sfx("player/marcelo/getsugaTenshou.mp3"),
+    statusLevelUp: sfx("player/statusLevelUp.mp3"),
     mugetsu: sfx("player/marcelo/mugetsu.mp3"),
     vastolordTransformation: sfx("player/marcelo/vastolordTransformation.mp3"),
     returningTime: sfx("player/artur/returning-time.mp3"),

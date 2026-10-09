@@ -17,6 +17,8 @@ export type SoundId =
   | "closeMenu"
   | "swordDeflected"
   | "jhowsimarVemCa"
+  | "statusLevelUp"
+  | "getsugaTenshou"
   | "preMarshadowSpecial"
   | "marshadowSpecial"
   | "mugetsu"

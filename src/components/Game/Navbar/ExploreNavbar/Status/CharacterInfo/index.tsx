@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useCharacterProgress } from "@/contexts/CharacterProgressContext";
 import { useEquipment } from "@/contexts/EquipmentContext";
@@ -9,13 +9,14 @@ import { getRank, formatRank } from "@/gameRules/rank";
 import { HUNGRY_THRESHOLD } from "@/data/player/hunger";
 import styles from "./styles.module.css";
 import { BarsInfos } from "../BarsInfos";
-import { StatUpArrows } from "./StatUpArrows";
+import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 
 export function CharacterInfo() {
   const { player, playerClass } = usePlayer();
   const character = player.character;
   const { progress } = useCharacterProgress();
   const { getEquippedItem } = useEquipment();
+  const { playSound } = useSoundEffects();
 
   const charProgress = progress[player.character];
   const characterData = CHARACTERS.find((c) => c.image === player.character);
@@ -33,6 +34,32 @@ export function CharacterInfo() {
     }
   }, [isHungry]);
 
+  // Flash na silhueta quando o jogador investe um ponto de status. O gasto é
+  // observado pela queda de `stats.points` — `addStat` é o único lugar do jogo
+  // que decrementa o contador (o level up só soma), então comparar com a
+  // referência anterior distingue investir ponto de qualquer outra mudança de
+  // progresso. O contador guarda junto o personagem a que pertence: trocar de
+  // personagem troca os pontos sem que nenhum tenha sido gasto.
+  const stats = charProgress.stats;
+  const prevRef = useRef({ character, points: stats.points });
+  const [flashKey, setFlashKey] = useState(0);
+
+  useEffect(() => {
+    const prev = prevRef.current;
+    const spent = character === prev.character && stats.points < prev.points;
+
+    // Reancora sempre — inclusive na troca de personagem, que só reconstrói a
+    // referência sem disparar nada.
+    prevRef.current = { character, points: stats.points };
+    if (spent) {
+      playSound("statusLevelUp");
+      setFlashKey((key) => key + 1);
+    } else if (character !== prev.character) {
+      // O flash pendente do personagem anterior não pode sobrar no retrato novo.
+      setFlashKey(0);
+    }
+  }, [character, stats]);
+
   const petItem = getEquippedItem(character, "pet");
   const petNpcType = petItem?.id.replace("pet_", "");
 
@@ -41,12 +68,17 @@ export function CharacterInfo() {
       <div className={styles.imagesRow}>
         {showImage && (
           <img
+            // O `key` reancora o `<img>` a cada ponto investido: o remount
+            // reinicia a animação de flash (o `src` é o mesmo e sai do cache).
+            key={flashKey}
             src={playerPath(
               isHungry
                 ? `/${player.character}/expressions/hungry.svg`
                 : `/${player.character}/expressions/default.svg`,
             )}
-            className={styles.characterImage}
+            className={`${styles.characterImage}${
+              flashKey > 0 ? ` ${styles.flash}` : ""
+            }`}
             onError={handleImageError}
           />
         )}
@@ -71,7 +103,6 @@ export function CharacterInfo() {
           <strong>{playerClass}</strong>
         </div>
         <BarsInfos />
-        <StatUpArrows />
       </div>
     </div>
   );

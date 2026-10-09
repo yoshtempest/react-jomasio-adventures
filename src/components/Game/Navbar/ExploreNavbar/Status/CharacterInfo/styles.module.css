@@ -55,6 +55,40 @@
   filter: drop-shadow(4px 4px 8px rgba(0, 0, 0, 0.35));
 }
 
+/**
+ * Flash na silhueta ao investir um ponto de status. O `<img>` é reancorado com
+ * um `key` novo a cada gasto (o React remonta o nó e a animação reinicia), então
+ * não precisa de `animation-fill-mode`: ao terminar, o `filter` base de
+ * `.characterImage` volta a valer.
+ *
+ * Os `@keyframes` ficam no próprio módulo de propósito: o postcss-modules
+ * renomeia a animação junto com a classe, e uma versão global simplesmente nunca
+ * casaria com o `animation-name` hasheado.
+ */
+.flash {
+  animation: characterStatFlash 0.7s ease-out;
+}
+
+@keyframes characterStatFlash {
+  0% {
+    filter: drop-shadow(4px 4px 8px rgba(0, 0, 0, 0.35)) brightness(1);
+  }
+
+  20% {
+    filter: drop-shadow(0 0 22px var(--accent-color)) brightness(2.6)
+      saturate(1.4);
+  }
+
+  60% {
+    filter: drop-shadow(0 0 14px var(--accent-color)) brightness(1.6)
+      saturate(1.2);
+  }
+
+  100% {
+    filter: drop-shadow(4px 4px 8px rgba(0, 0, 0, 0.35)) brightness(1);
+  }
+}
+
 .imagesRow::after {
   content: "";
 

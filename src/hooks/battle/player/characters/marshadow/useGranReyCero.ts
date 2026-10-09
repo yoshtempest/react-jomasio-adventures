@@ -208,7 +208,7 @@ export function useGranReyCero({
   /** Encerra a lâmina e restaura o idle. */
   const finish = useCallback(() => {
     activeRef.current = false;
-    stopSound("marshadowSpecial");
+    stopSound("getsugaTenshou");
     clearTimers();
     travelMsRef.current = 0;
     creepMsRef.current = 0;
@@ -459,7 +459,7 @@ export function useGranReyCero({
     setPlayer((pp) =>
       pp.mode !== "battle" ? pp : { ...pp, state: "granReyCero" },
     );
-    playSound("marshadowSpecial");
+    playSound("getsugaTenshou");
 
     freezeActionsUntilRef.current = Math.max(
       freezeActionsUntilRef.current,
@@ -532,7 +532,7 @@ export function useGranReyCero({
   useEffect(() => {
     return () => {
       clearTimers();
-      stopSound("marshadowSpecial");
+      stopSound("getsugaTenshou");
       activeRef.current = false;
     };
   }, [clearTimers, stopSound]);
