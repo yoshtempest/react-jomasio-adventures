@@ -80,6 +80,7 @@ export function useSummonAI({
   const difficultyRef = useLatestRef(difficulty);
   const playerClassRef = useLatestRef(playerClass);
   const damagePlayerRef = useLatestRef(damagePlayer);
+  const summonsRef = useLatestRef(summons);
   const setSummonsRef = useLatestRef(setSummons);
   const onSummonKilledRef = useLatestRef(onSummonKilled);
 
@@ -125,79 +126,92 @@ export function useSummonAI({
       if (freezeUntilRef?.current && freezeUntilRef.current > Date.now())
         return;
 
-      setSummonsRef.current((prev) =>
-        apply(prev, (s) => {
-          if (s.isDying || s.hp <= 0) {
-            return s;
-          }
+      // O dano é aplicado FORA do updater: dentro do updater o React roda a
+      // função durante o próprio render da batalha, e `damagePlayer` dispara
+      // setState de outros componentes (contadores de título, HP do player) —
+      // o "Cannot update a component while rendering a different component".
+      // O tick coleta os golpes na passada pura e aplica depois do commit.
+      const attackEvents: { damage: number }[] = [];
 
-          // Regra de time: a classe decide, o summon é isento só se o efeito
-          // listar o id dele em `exempt`.
-          const time = getTime(timeRef.current, "summon", s.id);
-          if (time.speed === 0) return s;
+      const next = apply(summonsRef.current, (s) => {
+        if (s.isDying || s.hp <= 0) {
+          return s;
+        }
 
-          // A escala de time afeta o deslocamento, não o estado do sprite:
-          // `speed` segue sendo a velocidade "de projeto" (o hungryDog só corre
-          // quando a distância pede), `moveStep` é o que o time do mundo mede.
-          const speed =
-            s.x > BATTLE_LIMITS.maxX ? 6 : Math.abs(s.x - px) > 200 ? 3 : 1.5;
-          const moveStep = speed * time.speed;
+        // Regra de time: a classe decide, o summon é isento só se o efeito
+        // listar o id dele em `exempt`.
+        const time = getTime(timeRef.current, "summon", s.id);
+        if (time.speed === 0) return s;
 
-          const dx = px - s.x;
+        // A escala de time afeta o deslocamento, não o estado do sprite:
+        // `speed` segue sendo a velocidade "de projeto" (o hungryDog só corre
+        // quando a distância pede), `moveStep` é o que o time do mundo mede.
+        const speed =
+          s.x > BATTLE_LIMITS.maxX ? 6 : Math.abs(s.x - px) > 200 ? 3 : 1.5;
+        const moveStep = speed * time.speed;
 
-          const direction: "left" | "right" = dx > 0 ? "right" : "left";
+        const dx = px - s.x;
 
-          const rooted =
-            (rootedSummonsUntilRef?.current?.[s.id] ?? 0) > Date.now();
+        const direction: "left" | "right" = dx > 0 ? "right" : "left";
 
-          let newX = s.x;
+        const rooted =
+          (rootedSummonsUntilRef?.current?.[s.id] ?? 0) > Date.now();
 
-          if (!rooted && Math.abs(dx) > 40) {
-            newX += dx > 0 ? moveStep : -moveStep;
-          }
+        let newX = s.x;
 
-          const running =
-            !rooted &&
-            s.npcType === "hungryDog" &&
-            speed > HUNGRY_DOG_RUN_SPEED;
+        if (!rooted && Math.abs(dx) > 40) {
+          newX += dx > 0 ? moveStep : -moveStep;
+        }
 
-          if (Math.abs(dx) <= 40) {
-            const now = Date.now();
+        const running =
+          !rooted &&
+          s.npcType === "hungryDog" &&
+          speed > HUNGRY_DOG_RUN_SPEED;
 
-            const lastAttack = summonLastAttacksRef.current[s.id] ?? 0;
+        if (Math.abs(dx) <= 40) {
+          const now = Date.now();
 
-            if (now - lastAttack >= scaleCooldown(time, 800)) {
-              summonLastAttacksRef.current[s.id] = now;
+          const lastAttack = summonLastAttacksRef.current[s.id] ?? 0;
 
-              const damage = computeSummonDamage(
-                s,
-                npcLevelRef.current,
-                difficultyRef.current,
-                playerClassRef.current,
-                playerCharacterRef.current,
-              );
+          if (now - lastAttack >= scaleCooldown(time, 800)) {
+            summonLastAttacksRef.current[s.id] = now;
 
-              if (damage !== null) {
-                damagePlayerRef.current(damage, SUMMON_DAMAGE_KIND);
-                spawnDamageRef.current?.(
-                  damage,
-                  playerXRef.current,
-                  playerYRef.current,
-                  "summon",
-                );
-                timeRef.current = applyHitstop(timeRef.current, 40);
-              }
+            const damage = computeSummonDamage(
+              s,
+              npcLevelRef.current,
+              difficultyRef.current,
+              playerClassRef.current,
+              playerCharacterRef.current,
+            );
+
+            if (damage !== null) {
+              attackEvents.push({ damage });
             }
           }
+        }
 
-          return {
-            ...s,
-            x: newX,
-            direction,
-            state: Math.abs(dx) > 80 ? (running ? "run" : "walk") : "idle",
-          };
-        }),
-      );
+        return {
+          ...s,
+          x: newX,
+          direction,
+          state: Math.abs(dx) > 80 ? (running ? "run" : "walk") : "idle",
+        };
+      });
+
+      for (const { damage } of attackEvents) {
+        damagePlayerRef.current(damage, SUMMON_DAMAGE_KIND);
+        spawnDamageRef.current?.(
+          damage,
+          playerXRef.current,
+          playerYRef.current,
+          "summon",
+        );
+      }
+      if (attackEvents.length > 0) {
+        timeRef.current = applyHitstop(timeRef.current, 40);
+      }
+
+      setSummonsRef.current(next);
     }, 20);
 
     return () => clearInterval(interval);
@@ -212,6 +226,7 @@ export function useSummonAI({
     playerClassRef,
     playerXRef,
     playerYRef,
+    summonsRef,
     setSummonsRef,
     freezeUntilRef,
     rootedSummonsUntilRef,

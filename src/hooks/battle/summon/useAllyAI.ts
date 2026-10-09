@@ -154,76 +154,89 @@ export function useAllyAI({
         );
       };
 
-      setAlliesRef.current((prev) =>
-        apply(prev, (ally) => {
-          if (ally.isDying || ally.hp <= 0) return ally;
+      // O dano é aplicado FORA do updater: `setNpcHP`/`setEnemySummons`
+      // dentro do updater de `setAllies` dispara setState de outros
+      // componentes durante o render da batalha (o "Cannot update a
+      // component while rendering a different component"). O tick coleta os
+      // golpes na passada pura e aplica depois do commit.
+      const attackEvents: { target: EnemyTarget; damage: number }[] = [];
 
-          // Regra de time: a classe decide, o ally é isento só se o efeito
-          // listar o id dele em `exempt`.
-          const time = getTime(timeRefRef.current.current, "ally", ally.id);
-          if (time.speed === 0) return ally;
+      const next = apply(alliesRef.current, (ally) => {
+        if (ally.isDying || ally.hp <= 0) return ally;
 
-          const nearest = enemies.reduce<EnemyTarget | null>((best, e) => {
-            const d = Math.hypot(e.x - ally.x, e.y - ally.y);
-            if (!best) return e;
-            const bd = Math.hypot(best.x - ally.x, best.y - ally.y);
-            return d < bd ? e : best;
-          }, null);
+        // Regra de time: a classe decide, o ally é isento só se o efeito
+        // listar o id dele em `exempt`.
+        const time = getTime(timeRefRef.current.current, "ally", ally.id);
+        if (time.speed === 0) return ally;
 
-          if (!nearest) return ally;
+        const nearest = enemies.reduce<EnemyTarget | null>((best, e) => {
+          const d = Math.hypot(e.x - ally.x, e.y - ally.y);
+          if (!best) return e;
+          const bd = Math.hypot(best.x - ally.x, best.y - ally.y);
+          return d < bd ? e : best;
+        }, null);
 
-          const dx = nearest.x - ally.x;
-          const dist = Math.abs(dx);
-          const direction: "left" | "right" = dx > 0 ? "right" : "left";
+        if (!nearest) return ally;
 
-          let newX = ally.x;
+        const dx = nearest.x - ally.x;
+        const dist = Math.abs(dx);
+        const direction: "left" | "right" = dx > 0 ? "right" : "left";
 
-          if (dist > ALLY_ATTACK_RANGE) {
-            const moveStep = ALLY_MOVE_SPEED * time.speed;
-            newX += dx > 0 ? moveStep : -moveStep;
-          } else {
-            const now = Date.now();
-            const lastAttack = allyLastAttacksRef.current[ally.id] ?? 0;
+        let newX = ally.x;
 
-            if (now - lastAttack >= scaleCooldown(time, ALLY_ATTACK_COOLDOWN)) {
-              allyLastAttacksRef.current[ally.id] = now;
+        if (dist > ALLY_ATTACK_RANGE) {
+          const moveStep = ALLY_MOVE_SPEED * time.speed;
+          newX += dx > 0 ? moveStep : -moveStep;
+        } else {
+          const now = Date.now();
+          const lastAttack = allyLastAttacksRef.current[ally.id] ?? 0;
 
-              const damage = getAllyDamage(ally, nearest.npcType);
+          if (now - lastAttack >= scaleCooldown(time, ALLY_ATTACK_COOLDOWN)) {
+            allyLastAttacksRef.current[ally.id] = now;
 
-              if (damage !== null && damage > 0) {
-                if (nearest.id === "main") {
-                  setNpcHPRef.current((hp) => Math.max(0, hp - damage));
-                } else {
-                  setEnemySummonsRef.current((prev) =>
-                    prev.map((s) =>
-                      s.id === nearest.id
-                        ? { ...s, hp: Math.max(0, s.hp - damage) }
-                        : s,
-                    ),
-                  );
-                }
-                spawnDamageRefRef.current.current?.(
-                  damage,
-                  nearest.x,
-                  nearest.y,
-                  "ally",
-                );
-              }
-              timeRefRef.current.current = applyHitstop(
-                timeRefRef.current.current,
-                20,
-              );
+            const damage = getAllyDamage(ally, nearest.npcType);
+
+            if (damage !== null && damage > 0) {
+              attackEvents.push({ target: nearest, damage });
             }
           }
+        }
 
-          return {
-            ...ally,
-            x: newX,
-            direction,
-            state: dist > 80 ? "walk" : "idle",
-          };
-        }),
-      );
+        return {
+          ...ally,
+          x: newX,
+          direction,
+          state: dist > 80 ? "walk" : "idle",
+        };
+      });
+
+      for (const { target, damage } of attackEvents) {
+        if (target.id === "main") {
+          setNpcHPRef.current((hp) => Math.max(0, hp - damage));
+        } else {
+          setEnemySummonsRef.current((prev) =>
+            prev.map((s) =>
+              s.id === target.id
+                ? { ...s, hp: Math.max(0, s.hp - damage) }
+                : s,
+            ),
+          );
+        }
+        spawnDamageRefRef.current.current?.(
+          damage,
+          target.x,
+          target.y,
+          "ally",
+        );
+      }
+      if (attackEvents.length > 0) {
+        timeRefRef.current.current = applyHitstop(
+          timeRefRef.current.current,
+          20,
+        );
+      }
+
+      setAlliesRef.current(next);
     }, 20);
 
     return () => clearInterval(interval);
