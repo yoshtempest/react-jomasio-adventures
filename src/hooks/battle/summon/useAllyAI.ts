@@ -64,6 +64,15 @@ export function useAllyAI({
 }: Props) {
   const allyLastAttacksRef = useRef<Record<string, number>>({});
 
+  // Timers de remoção dos allies mortos, por id (500ms da animação de dying).
+  // Guardar em ref evita que o re-run imediato do effect (a marcação de
+  // `isDying` troca `allies` e re-dispara o effect) limpe o timer no cleanup
+  // — antes, o cleanup cancelava o timer e o re-run não re-agendava nada, então
+  // o ally ficava em `isDying` para sempre. A limpeza fica só no unmount.
+  const deathTimersRef = useRef<Record<string, ReturnType<typeof setTimeout>>>(
+    {},
+  );
+
   const alliesRef = useLatestRef(allies);
   const isPausedRef = useLatestRef(isPaused);
   const isEndingRef = useLatestRef(isEnding);
@@ -236,22 +245,44 @@ export function useAllyAI({
   ]);
 
   useEffect(() => {
+    // Poda de timers órfãos: um rewind (ou outra fonte) pode ter revivido o
+    // ally antes dos 500ms — só remove quem continua morto no array.
+    const byId = new Map<string, SummonedNpc>(allies.map((a) => [a.id, a]));
+    for (const id of Object.keys(deathTimersRef.current)) {
+      const current = byId.get(id);
+      if (!current || current.hp > 0) {
+        const timer = deathTimersRef.current[id];
+        if (timer) clearTimeout(timer);
+        delete deathTimersRef.current[id];
+      }
+    }
+
     const dying = allies.filter((a) => a.hp <= 0 && !a.isDying);
 
     if (dying.length === 0) return;
 
-    const timeouts = dying.map((ally) => {
+    for (const ally of dying) {
+      if (deathTimersRef.current[ally.id]) continue;
+
       setAllies((prev) =>
         prev.map((a) => (a.id === ally.id ? { ...a, isDying: true } : a)),
       );
 
-      return window.setTimeout(() => {
+      deathTimersRef.current[ally.id] = setTimeout(() => {
+        delete deathTimersRef.current[ally.id];
         setAllies((prev) => prev.filter((a) => a.id !== ally.id));
       }, 500);
-    });
-
-    return () => {
-      timeouts.forEach(clearTimeout);
-    };
+    }
   }, [allies, setAllies]);
+
+  // Limpeza dos timers pendentes no unmount da batalha.
+  useEffect(() => {
+    return () => {
+      for (const id of Object.keys(deathTimersRef.current)) {
+        const timer = deathTimersRef.current[id];
+        if (timer) clearTimeout(timer);
+      }
+      deathTimersRef.current = {};
+    };
+  }, []);
 }

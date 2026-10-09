@@ -16,6 +16,11 @@ export function useGameAudio({ src, loop = true, volume = 0.5 }: Props) {
   const volumeRef = useLatestRef(volume);
   const bgmVolumeRef = useLatestRef(bgmVolume);
 
+  // Listener de re-tentativa do autoplay: quando o browser bloqueia o play por
+  // falta de interação (NotAllowedError), tenta de novo no primeiro gesto do
+  // usuário em vez de spammar o console de erro.
+  const gestureRetryRef = useRef<(() => void) | null>(null);
+
   const isPlaying = () => {
     return !!audioRef.current && !audioRef.current.paused;
   };
@@ -50,13 +55,50 @@ export function useGameAudio({ src, loop = true, volume = 0.5 }: Props) {
     audioRef.current.loop = loop;
   }, [loop]);
 
+  // Limpa o listener de gesto pendente no unmount (regra: sempre limpar).
+  useEffect(() => {
+    return () => {
+      const retry = gestureRetryRef.current;
+      if (retry) {
+        window.removeEventListener("pointerdown", retry, true);
+        window.removeEventListener("keydown", retry, true);
+        gestureRetryRef.current = null;
+      }
+    };
+  }, []);
+
+  // Autoplay bloqueado: agenda uma re-tentativa única no próximo gesto.
+  function retryPlayOnGesture() {
+    if (gestureRetryRef.current) return;
+    const retry = () => {
+      gestureRetryRef.current = null;
+      window.removeEventListener("pointerdown", retry, true);
+      window.removeEventListener("keydown", retry, true);
+      void play();
+    };
+    gestureRetryRef.current = retry;
+    window.addEventListener("pointerdown", retry, true);
+    window.addEventListener("keydown", retry, true);
+  }
+
   const play = async () => {
     if (!audioRef.current) return;
 
     try {
       await audioRef.current.play();
     } catch (err) {
-      if (err instanceof DOMException && err.name === "AbortError") return;
+      if (!(err instanceof DOMException)) {
+        console.error(err);
+        return;
+      }
+      // Interrupção de um play anterior — comportamento normal, ignore.
+      if (err.name === "AbortError") return;
+      // Sem gesto do usuário ainda (política de autoplay) — normal no primeiro
+      // carregamento; re-tenta no primeiro toque/tecla em vez de logar.
+      if (err.name === "NotAllowedError") {
+        retryPlayOnGesture();
+        return;
+      }
       console.error(err);
     }
   };
