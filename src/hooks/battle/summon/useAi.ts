@@ -164,9 +164,7 @@ export function useSummonAI({
         }
 
         const running =
-          !rooted &&
-          s.npcType === "hungryDog" &&
-          speed > HUNGRY_DOG_RUN_SPEED;
+          !rooted && s.npcType === "hungryDog" && speed > HUNGRY_DOG_RUN_SPEED;
 
         if (Math.abs(dx) <= 40) {
           const now = Date.now();

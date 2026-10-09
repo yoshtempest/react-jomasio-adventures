@@ -1,5 +1,5 @@
 import { FOUR_HUNDRED_MS } from "@/data/ms";
-import type { MarceloBattleForm } from "@/utils/paths/types";
+import type { MarceloBattleForm } from "@/utils/paths/characters/marcelo/types";
 
 /**
  * Duração de cada frame da animação idle em batalha. É um respirar, não uma

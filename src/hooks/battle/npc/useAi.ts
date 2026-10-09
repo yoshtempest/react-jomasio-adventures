@@ -348,7 +348,10 @@ export function useNpcAI({
       }
 
       if (npcStaggerRef.current > Date.now()) {
-        commit(n, { ...n, direction: getNpcDirection(n.x, playerXRef.current) });
+        commit(n, {
+          ...n,
+          direction: getNpcDirection(n.x, playerXRef.current),
+        });
         return;
       }
 
@@ -379,8 +382,7 @@ export function useNpcAI({
         onSummon: onSummonRef.current,
         onPullPlayer: onPullPlayerRef.current,
         isAlfa: isAlfaRef.current,
-        onSummonFromRight: (npcType) =>
-          onSummonFromRightRef.current?.(npcType),
+        onSummonFromRight: (npcType) => onSummonFromRightRef.current?.(npcType),
         onDragPlayer: (npcX, npcY) => onDragPlayerRef.current?.(npcX, npcY),
         summonTimerRef,
         playSound: loggedPlaySound,

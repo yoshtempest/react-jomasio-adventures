@@ -74,9 +74,7 @@ export function getNpcStats(
   const armor = Math.round(level * multipliers.armor * multiplier);
 
   return {
-    hp: Math.round(
-      (BASE_HP + level * multipliers.hp) * multiplier * status.hp,
-    ),
+    hp: Math.round((BASE_HP + level * multipliers.hp) * multiplier * status.hp),
     damage: Math.round(
       (BASE_DAMAGE + level * multipliers.dmg) * multiplier * status.damage,
     ),

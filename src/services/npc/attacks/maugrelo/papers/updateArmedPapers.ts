@@ -3,7 +3,7 @@ import {
   PAPER_BLINK_DURATION,
   PAPER_STEP_RADIUS,
   PAPER_STEP_VERTICAL_RANGE,
-} from "../state";
+} from "@/services/npc/attacks/maugrelo/state";
 
 /**
  * Fecha o ciclo do papel armado: terminada a piscada, o papel vira

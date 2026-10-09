@@ -3,7 +3,7 @@ import {
   PAPER_INITIAL_VEL_Y,
   PAPER_X_SPREAD,
   PAPER_VEL_X_SPREAD,
-} from "../state";
+} from "@/services/npc/attacks/maugrelo/state";
 
 export function spawnFlyingPaper(
   npcX: number,

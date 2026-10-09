@@ -1,4 +1,7 @@
-import { type MaugreloAI, PAPER_ATTACK_RANGE } from "../state";
+import {
+  type MaugreloAI,
+  PAPER_ATTACK_RANGE,
+} from "@/services/npc/attacks/maugrelo/state";
 
 export function checkPaperAttackHits(
   ai: MaugreloAI,

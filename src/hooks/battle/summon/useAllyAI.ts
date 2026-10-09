@@ -216,18 +216,11 @@ export function useAllyAI({
         } else {
           setEnemySummonsRef.current((prev) =>
             prev.map((s) =>
-              s.id === target.id
-                ? { ...s, hp: Math.max(0, s.hp - damage) }
-                : s,
+              s.id === target.id ? { ...s, hp: Math.max(0, s.hp - damage) } : s,
             ),
           );
         }
-        spawnDamageRefRef.current.current?.(
-          damage,
-          target.x,
-          target.y,
-          "ally",
-        );
+        spawnDamageRefRef.current.current?.(damage, target.x, target.y, "ally");
       }
       if (attackEvents.length > 0) {
         timeRefRef.current.current = applyHitstop(

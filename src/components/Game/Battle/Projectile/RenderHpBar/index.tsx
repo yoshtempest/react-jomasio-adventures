@@ -1,4 +1,4 @@
-import HpBar from "../HpBar";
+import HpBar from "@/components/Game/Battle/Projectile/HpBar";
 
 export default function renderHpBar(
   projectile: Projectile,

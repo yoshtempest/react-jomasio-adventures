@@ -10,7 +10,7 @@ import type {
   MessageDeps,
   ImageDeps,
 } from "@/utils/types/interaction";
-import { historyPath } from "@/utils/paths/historyPath";
+import { historyPath } from "@/utils/paths/map/historyPath";
 import { MUSICS } from "@/scenes/shared/music";
 
 export function createPcsRoom(deps: PickupDeps & MessageDeps & ImageDeps) {

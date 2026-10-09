@@ -2,7 +2,7 @@ import {
   type MaugreloAI,
   PAPER_STEP_RADIUS,
   PAPER_STEP_VERTICAL_RANGE,
-} from "../state";
+} from "@/services/npc/attacks/maugrelo/state";
 
 /**
  * Pisar num papel **arma** o papel em vez de explodi-lo: ele fica piscando por

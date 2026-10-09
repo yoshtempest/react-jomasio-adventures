@@ -311,13 +311,19 @@ export function TitleProvider({ children }: { children: ReactNode }) {
     setTitlesData((prev) => incrementTitles(prev, "blockCount", 1));
   }, [setTitlesData]);
 
-  const incrementDamageTaken = useCallback((amount: number) => {
-    setTitlesData((prev) => incrementTitles(prev, "damageTaken", amount));
-  }, [setTitlesData]);
+  const incrementDamageTaken = useCallback(
+    (amount: number) => {
+      setTitlesData((prev) => incrementTitles(prev, "damageTaken", amount));
+    },
+    [setTitlesData],
+  );
 
-  const incrementDamageDealt = useCallback((amount: number) => {
-    setTitlesData((prev) => incrementTitles(prev, "damageDealt", amount));
-  }, [setTitlesData]);
+  const incrementDamageDealt = useCallback(
+    (amount: number) => {
+      setTitlesData((prev) => incrementTitles(prev, "damageDealt", amount));
+    },
+    [setTitlesData],
+  );
 
   const incrementDodgeCounter = useCallback(() => {
     setTitlesData((prev) => incrementTitles(prev, "dodgeCount", 1));
@@ -331,12 +337,15 @@ export function TitleProvider({ children }: { children: ReactNode }) {
     setTitlesData((prev) => incrementTitles(prev, "killAlfa", 1));
   }, [setTitlesData]);
 
-  const equipTitle = useCallback((id: TitleId) => {
-    setTitlesData((prev) => {
-      if ((prev.progress[id]?.level ?? 0) === 0) return prev;
-      return { ...prev, equippedId: prev.equippedId === id ? null : id };
-    });
-  }, [setTitlesData]);
+  const equipTitle = useCallback(
+    (id: TitleId) => {
+      setTitlesData((prev) => {
+        if ((prev.progress[id]?.level ?? 0) === 0) return prev;
+        return { ...prev, equippedId: prev.equippedId === id ? null : id };
+      });
+    },
+    [setTitlesData],
+  );
 
   const unequipTitle = useCallback(() => {
     setTitlesData((prev) => ({ ...prev, equippedId: null }));

@@ -8,7 +8,7 @@ import { npcPath, playerPath } from "@/utils/paths";
 import { getRank, formatRank } from "@/gameRules/rank";
 import { HUNGRY_THRESHOLD } from "@/data/player/hunger";
 import styles from "./styles.module.css";
-import { BarsInfos } from "../BarsInfos";
+import { BarsInfos } from "@/components/Game/Navbar/ExploreNavbar/Status/BarsInfos";
 import { useSoundEffects } from "@/contexts/SoundEffectsContext";
 
 export function CharacterInfo() {
@@ -58,7 +58,7 @@ export function CharacterInfo() {
       // O flash pendente do personagem anterior não pode sobrar no retrato novo.
       setFlashKey(0);
     }
-  }, [character, stats]);
+  }, [character, stats, playSound]);
 
   const petItem = getEquippedItem(character, "pet");
   const petNpcType = petItem?.id.replace("pet_", "");

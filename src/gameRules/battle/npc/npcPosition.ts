@@ -19,11 +19,7 @@ export function getNpcState(
  * `isHorizontallyBlocked` é, na prática, o teste de sobreposição com sólidos —
  * `platform` ficam de fora, então NPC atravessa plataforma por cima.
  */
-function collides(
-  x: number,
-  y: number,
-  obstacles: BattleObstacle[],
-): boolean {
+function collides(x: number, y: number, obstacles: BattleObstacle[]): boolean {
   if (obstacles.length === 0) return false;
   return isHorizontallyBlocked(x - 15, y - 50, x + 15, y, obstacles);
 }

@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { getElementChart } from "@/gameRules/battle/elementRelations";
 import type { ElementType } from "@/utils/types/battle/element";
 import styles from "./styles.module.css";
-import { elementBadgePath } from "@/utils/paths/elementBadgePath";
+import { elementBadgePath } from "@/utils/paths/icons/elementBadgePath";
 
 /**
  * Ícone do elemento.

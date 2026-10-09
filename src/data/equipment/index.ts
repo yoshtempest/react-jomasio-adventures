@@ -33,9 +33,10 @@ export const EQUIPMENT_LIST = EQUIPMENT_DB;
  * checagem de guarda de uma só vez.
  */
 const EQUIPMENT_BY_ID = new Map<string, Equipment>(
-  EQUIPMENT_DB.map(
-    (entry): [string, Equipment] => [entry.id, entry as Equipment],
-  ),
+  EQUIPMENT_DB.map((entry): [string, Equipment] => [
+    entry.id,
+    entry as Equipment,
+  ]),
 );
 
 export function isEquipmentId(value: string): value is EquipmentId {
