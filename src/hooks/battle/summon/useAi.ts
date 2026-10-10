@@ -29,7 +29,11 @@ type Props = {
   playerCharacter: CharacterId;
   npcLevel: number;
   difficulty: NpcDifficulty;
-  damagePlayer: (damage: number, damageKind?: DamageKind) => void;
+  damagePlayer: (
+    damage: number,
+    damageKind?: DamageKind,
+    attackerX?: number,
+  ) => void;
   spawnDamageRef: React.RefObject<
     (value: number, x: number, y: number, type: DamageType) => void
   >;
@@ -131,7 +135,7 @@ export function useSummonAI({
       // setState de outros componentes (contadores de título, HP do player) —
       // o "Cannot update a component while rendering a different component".
       // O tick coleta os golpes na passada pura e aplica depois do commit.
-      const attackEvents: { damage: number }[] = [];
+      const attackEvents: { damage: number; attackerX: number }[] = [];
 
       const next = apply(summonsRef.current, (s) => {
         if (s.isDying || s.hp <= 0) {
@@ -183,7 +187,7 @@ export function useSummonAI({
             );
 
             if (damage !== null) {
-              attackEvents.push({ damage });
+              attackEvents.push({ damage, attackerX: s.x });
             }
           }
         }
@@ -196,8 +200,8 @@ export function useSummonAI({
         };
       });
 
-      for (const { damage } of attackEvents) {
-        damagePlayerRef.current(damage, SUMMON_DAMAGE_KIND);
+      for (const { damage, attackerX } of attackEvents) {
+        damagePlayerRef.current(damage, SUMMON_DAMAGE_KIND, attackerX);
         spawnDamageRef.current?.(
           damage,
           playerXRef.current,

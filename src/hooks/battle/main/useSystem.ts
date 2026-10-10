@@ -35,6 +35,7 @@ import { useEnergy } from "@/hooks/battle/effects/useEnergy";
 import { useBattleMana } from "@/contexts/BattleManaContext";
 import { gainSpecial } from "@/gameRules/battle/special";
 import type { ProjectileHitDamageFn } from "@/utils/types/battle/projectileHit";
+import type { LucauaShieldSide } from "@/utils/types/character/lucaua";
 import {
   applyPlayerStatus,
   clearPlayerStatuses,
@@ -74,7 +75,7 @@ type Props = {
   lastAttackPressRef?: React.RefObject<number>;
   npcPhaseRef: React.RefObject<number>;
   onBeforeNpcHitRef?: React.RefObject<OnBeforeNpcHit>;
-  onBlockRef?: React.RefObject<() => void>;
+  onBlockRef?: React.RefObject<(side?: LucauaShieldSide) => void>;
   onDamageTakenRef?: React.RefObject<(amount: number) => void>;
   onDodgeRef?: React.RefObject<() => void>;
   onDamageDealtRef?: React.RefObject<(amount: number) => void>;

@@ -48,6 +48,8 @@ import type {
 import type {
   LucauaAttackVariant,
   LucauaEnergyProjectile,
+  LucauaShieldSide,
+  LucauaShieldSides,
 } from "@/utils/types/character/lucaua";
 
 type Props = {
@@ -113,6 +115,10 @@ type Props = {
   lucauaEnergyProjectiles?: LucauaEnergyProjectile[];
   /** Pose de mão do sprite do ataque básico do lucaua. */
   lucauaAttackVariant?: LucauaAttackVariant;
+  /** Nonces dos shields de bloqueio do lucaua por lado (`0` = inativo). */
+  lucauaShieldSides?: LucauaShieldSides;
+  /** Encerra o shield de um lado quando ele termina o fade-out. */
+  onLucauaShieldEnd?: (side: LucauaShieldSide, nonce: number) => void;
 };
 
 export function BattleEntities({
@@ -159,6 +165,8 @@ export function BattleEntities({
   disintegrating = [],
   lucauaEnergyProjectiles = [],
   lucauaAttackVariant,
+  lucauaShieldSides,
+  onLucauaShieldEnd,
 }: Props) {
   const battleScaleX = getViewportSize().width / ProjectileConstants.MAP_WIDTH;
   const battleScaleY =
@@ -258,6 +266,8 @@ export function BattleEntities({
         atomicFlash={atomicFlash}
         mugetsuBlink={mugetsuBlink}
         lucauaAttackVariant={lucauaAttackVariant}
+        lucauaShieldSides={lucauaShieldSides}
+        onLucauaShieldEnd={onLucauaShieldEnd}
       />
 
       <EnergyProjectile

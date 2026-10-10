@@ -200,6 +200,8 @@ export function BattleScene(props: Props) {
     granReyCeroRemaining,
     lucauaEnergyProjectiles,
     lucauaAttackVariant,
+    lucauaShieldSides,
+    onLucauaShieldEnd,
   } = useBattleScene({ ...props, isAlfa, PLAYER_SIZE });
 
   // Domínio do personagem atual: nome/cor/efeito saem de DOMAIN_EXPANSIONS e
@@ -573,6 +575,8 @@ export function BattleScene(props: Props) {
             disintegrating={disintegrating}
             lucauaEnergyProjectiles={lucauaEnergyProjectiles}
             lucauaAttackVariant={lucauaAttackVariant}
+            lucauaShieldSides={lucauaShieldSides}
+            onLucauaShieldEnd={onLucauaShieldEnd}
           />
 
           <ChargeParticles

@@ -8,6 +8,16 @@
 /** Variante do básico do lucaua: pose da mão do sprite de ataque. */
 export type LucauaAttackVariant = "left" | "right" | "both";
 
+/** Lado do shield de bloqueio do lucaua: espelha o lado de quem ataca. */
+export type LucauaShieldSide = "left" | "right";
+
+/**
+ * Shield de bloqueio por lado. O valor é um nonce: `0` = inativo, `> 0` = ativo.
+ * Cada golpe bloqueado incrementa o nonce do lado para remontar o sprite e
+ * reexecutar a animação de surgimento (o "blink").
+ */
+export type LucauaShieldSides = Record<LucauaShieldSide, number>;
+
 /** Alvo do projétil de energia (NPC principal ou summon inimigo vivo). */
 export type LucauaTarget = {
   id: string;

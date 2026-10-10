@@ -1,6 +1,10 @@
 import { PlayerBattle } from "@/components/Game/Entities/Player/Battle";
 import type { BlinkVisual } from "@/hooks/battle/player/characters/natsuki/useBlinkAnimation";
-import type { LucauaAttackVariant } from "@/utils/types/character/lucaua";
+import type {
+  LucauaAttackVariant,
+  LucauaShieldSide,
+  LucauaShieldSides,
+} from "@/utils/types/character/lucaua";
 
 type Props = {
   player: Player;
@@ -25,6 +29,10 @@ type Props = {
   mugetsuBlink?: "out" | "in" | null;
   /** Pose de mão do sprite do ataque básico do lucaua. */
   lucauaAttackVariant?: LucauaAttackVariant;
+  /** Nonces dos shields de bloqueio do lucaua por lado (`0` = inativo). */
+  lucauaShieldSides?: LucauaShieldSides;
+  /** Encerra o shield de um lado quando ele termina o fade-out. */
+  onLucauaShieldEnd?: (side: LucauaShieldSide, nonce: number) => void;
 };
 
 export function Player({
@@ -42,6 +50,8 @@ export function Player({
   atomicFlash = false,
   mugetsuBlink = null,
   lucauaAttackVariant,
+  lucauaShieldSides,
+  onLucauaShieldEnd,
 }: Props) {
   const blinkSilhouette =
     player.character === "riquelme" && blinkVisual
@@ -71,6 +81,8 @@ export function Player({
       atomicFlash={atomicFlash}
       mugetsuBlink={mugetsuBlink}
       lucauaAttackVariant={lucauaAttackVariant}
+      lucauaShieldSides={lucauaShieldSides}
+      onLucauaShieldEnd={onLucauaShieldEnd}
       levelUpParticles
     />
   );

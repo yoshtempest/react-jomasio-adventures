@@ -29,6 +29,12 @@ export function resolveBattleSprite(
   if (state === "genkiDamaRising" && character === "emanuel") {
     return playerPath(`/emanuel/inFight/movement/jump/falling.svg`);
   }
+  // Lucaua não tem `blocked.svg`: o bloqueio dele é o overlay `shield.svg`
+  // (renderizado pelo `PlayerBattle`). O corpo fica parado no idle enquanto o
+  // shield cobre o lado atacado — sem isso a imagem cairia em 404.
+  if (state === "blocked" && character === "lucaua") {
+    return playerPath(`/lucaua/inFight/idle/idle.svg`);
+  }
   // Habilidades do marcelo: os sprites da sequência ficam em pastas próprias
   // (`habilities/atomic/`, `habilities/domainExpansion/`,
   // `habilities/granReyCero/`) — não existe `default/preparingAtomic.svg` nem

@@ -9,8 +9,14 @@ import { getBlinkConfig } from "./utils/getBlink";
 import { ChargingKiEffect } from "./ChargingKiEffect";
 import { BattleSprite } from "./BattleSprite";
 import { AtomicHalo } from "./AtomicHalo";
+import { LucauaShield } from "./LucauaShield";
 import { LevelUpParticles } from "@/components/Game/LevelUpParticles";
 import { ALL_PREDICATES } from "@/gameRules/battle/playerStates";
+
+import type { LucauaShieldSides } from "@/utils/types/character/lucaua";
+
+/** Nenhum shield do lucaua ativo, usado quando a prop não vem. */
+const NO_LUCAUA_SHIELD: LucauaShieldSides = { left: 0, right: 0 };
 
 export function PlayerBattle(props: PlayerBattleProps) {
   const {
@@ -34,6 +40,8 @@ export function PlayerBattle(props: PlayerBattleProps) {
     mugetsuBlink = null,
     levelUpParticles = false,
     lucauaAttackVariant,
+    lucauaShieldSides = NO_LUCAUA_SHIELD,
+    onLucauaShieldEnd,
   } = props;
 
   const isChargingKi = character === "emanuel" && state === "chargingKi";
@@ -116,6 +124,27 @@ export function PlayerBattle(props: PlayerBattleProps) {
         transformOrigin={transformOrigin}
         onError={handleSpriteError}
       />
+
+      {/* Bloqueio do lucaua: um shield por lado atacado, remontado a cada golpe
+          (nonce) para repetir o blink. O `key` por lado+nonce é o que garante
+          que dois lados coexistam sem que um roube a animação do outro. */}
+      {onLucauaShieldEnd && lucauaShieldSides.left > 0 && (
+        <LucauaShield
+          key={`lucaua-shield-left-${lucauaShieldSides.left}`}
+          side="left"
+          nonce={lucauaShieldSides.left}
+          onEnd={onLucauaShieldEnd}
+        />
+      )}
+
+      {onLucauaShieldEnd && lucauaShieldSides.right > 0 && (
+        <LucauaShield
+          key={`lucaua-shield-right-${lucauaShieldSides.right}`}
+          side="right"
+          nonce={lucauaShieldSides.right}
+          onEnd={onLucauaShieldEnd}
+        />
+      )}
 
       {atomicHalo && character === "marcelo" && <AtomicHalo />}
 

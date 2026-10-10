@@ -1,4 +1,8 @@
-import type { LucauaAttackVariant } from "@/utils/types/character/lucaua";
+import type {
+  LucauaAttackVariant,
+  LucauaShieldSide,
+  LucauaShieldSides,
+} from "@/utils/types/character/lucaua";
 
 export interface PlayerBattleProps {
   x: number;
@@ -23,4 +27,8 @@ export interface PlayerBattleProps {
   levelUpParticles?: boolean;
   /** Pose de mão do sprite do ataque básico do lucaua. */
   lucauaAttackVariant?: LucauaAttackVariant;
+  /** Nonces dos shields de bloqueio do lucaua por lado (`0` = inativo). */
+  lucauaShieldSides?: LucauaShieldSides;
+  /** Encerra o shield de um lado quando ele termina o fade-out. */
+  onLucauaShieldEnd?: (side: LucauaShieldSide, nonce: number) => void;
 }

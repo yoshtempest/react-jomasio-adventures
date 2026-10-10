@@ -15,6 +15,7 @@ import { useBattleSystem } from "@/hooks/battle/main/useSystem";
 import { useNpcTargeting } from "@/hooks/battle/npc/useNpcTargeting";
 import { usePlayerBattleActions } from "@/hooks/battle/player/usePlayerActions";
 import { useLucauaEnergyAttack } from "@/hooks/battle/player/characters/lucaua/useLucauaEnergyAttack";
+import { useLucauaShield } from "@/hooks/battle/player/characters/lucaua/useLucauaShield";
 import { useSummonAI } from "@/hooks/battle/summon/useAi";
 import { useAllyAI } from "@/hooks/battle/summon/useAllyAI";
 import { useBattleControls } from "@/hooks/battle/useControls";
@@ -484,6 +485,8 @@ export function useBattleCombat({
     return { blocked: true, remainingDamage: remaining };
   };
 
+  const lucauaShield = useLucauaShield(player.character);
+
   const {
     onBlockRef,
     onDamageTakenRef,
@@ -497,6 +500,7 @@ export function useBattleCombat({
     incrementDamageTaken,
     incrementDodgeCounter,
     incrementDamageDealt,
+    onBlockSide: lucauaShield.register,
   });
 
   const executePetSkillRef = useRef<() => void>(() => {});
@@ -1587,5 +1591,7 @@ export function useBattleCombat({
     disintegrating,
     lucauaEnergyProjectiles: lucauaEnergy.projectiles,
     lucauaAttackVariant: lucauaEnergy.attackVariant,
+    lucauaShieldSides: lucauaShield.sides,
+    onLucauaShieldEnd: lucauaShield.end,
   };
 }

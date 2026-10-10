@@ -2,8 +2,10 @@ import { useCallback } from "react";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { isParryPress } from "@/hooks/battle/npc/isParryPress";
 import { combatService } from "@/services/combat";
+import { getShieldSide } from "@/gameRules/battle/lucauaShield";
 import type { DamageArmor, DamageKind } from "@/utils/types/battle/damageKind";
 import type { SpawnDamageFn } from "@/utils/types/battle/spawnDamageFn";
+import type { LucauaShieldSide } from "@/utils/types/character/lucaua";
 
 type Props = {
   playerX: number;
@@ -18,7 +20,7 @@ type Props = {
   setBlockGauge: React.Dispatch<React.SetStateAction<number>>;
   setPlayer: React.Dispatch<React.SetStateAction<Player>>;
   spawnDamageRef: React.RefObject<SpawnDamageFn>;
-  onBlockRef?: React.RefObject<() => void>;
+  onBlockRef?: React.RefObject<(side?: LucauaShieldSide) => void>;
   oneHitShieldRef?: React.RefObject<boolean>;
   lastBlockPressRef: React.RefObject<number>;
   lastAttackPressRef?: React.RefObject<number>;
@@ -98,10 +100,13 @@ export function useExternalDamage({
    * do NPC usa, que era a diferença entre os dois caminhos.
    */
   const damagePlayer = useCallback(
-    (damage: number, damageKind: DamageKind = "physical") => {
+    (damage: number, damageKind: DamageKind = "physical", attackerX?: number) => {
+      const shieldSide =
+        attackerX === undefined ? undefined : getShieldSide(attackerX, playerX);
+
       if (isParryPress(lastBlockPressRef, lastAttackPressRef)) {
         onParry?.();
-        onBlockRef?.current?.();
+        onBlockRef?.current?.(shieldSide);
         spawnDamageRef.current?.(0, playerX, playerY - 40, "parry");
         return;
       }
@@ -110,7 +115,7 @@ export function useExternalDamage({
       // armadura: o medidor não sabe de coluna, então a redução acontece
       // depois que o block decide o que sobra (igual ao melee do NPC).
       if (player.state === "blocked") {
-        onBlockRef?.current?.();
+        onBlockRef?.current?.(shieldSide);
         if (blockGauge > 0) {
           if (damage <= blockGauge) {
             setBlockGauge((g) => Math.max(0, g - damage));

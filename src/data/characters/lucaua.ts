@@ -1,3 +1,9 @@
+import {
+  FIVE_HUNDRED_MS,
+  ONE_HUNDRED_TWENTY_MS,
+  TWO_HUNDRED_TWENTY_MS,
+} from "@/data/ms";
+
 /**
  * Constantes do ataque básico do lucaua: projétil de energia (`energyAttack.svg`)
  * disparado da mão a cada golpe — uma mão por vez (alternando entre ataques),
@@ -18,4 +24,18 @@ export const LucauaEnergyConstants = {
   OFFSCREEN_MARGIN: 40,
   /** Largura do sprite renderizado (a altura segue o aspect do arquivo). */
   SPRITE_WIDTH: 100,
+} as const;
+
+/**
+ * Shield de bloqueio do lucaua (`inFight/shield.svg`): substitui o sprite de
+ * bloqueio do personagem. Surge no lado de quem ataca, pisca em silhueta branca
+ * e some sozinho quando o personagem fica um tempo sem ser atacado.
+ */
+export const LucauaShieldConstants = {
+  /** Tempo sem ser atacado antes de começar o fade-out, em ms. */
+  HOLD_MS: FIVE_HUNDRED_MS,
+  /** Duração do fade-out, em ms. */
+  FADE_MS: TWO_HUNDRED_TWENTY_MS,
+  /** Duração do "blink" de surgimento (silhueta branca → imagem normal), em ms. */
+  BLINK_MS: ONE_HUNDRED_TWENTY_MS,
 } as const;

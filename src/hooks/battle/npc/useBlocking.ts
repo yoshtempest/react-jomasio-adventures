@@ -13,6 +13,9 @@ import { timeSinceParryInput } from "./timeSinceParryInput";
 import { applyGuardBreak } from "./apply/applyGuardBreak";
 import { applyDesperateBlock } from "./apply/applyDesperateBlock";
 import { applyHitstop, type TimeEffect } from "@/gameRules/battle/time";
+import { getShieldSide } from "@/gameRules/battle/lucauaShield";
+
+import type { LucauaShieldSide } from "@/utils/types/character/lucaua";
 
 /**
  * Janela de time (ms) entre a entrada do jogador e sofrer o dano para o
@@ -48,13 +51,15 @@ type HandleBlockingParams = {
   spawnDamageRef: React.RefObject<SpawnDamageFn>;
   playerX: number;
   playerY: number;
+  /** X de quem ataca: define o lado em que o shield do lucaua surge. */
+  attackerX: number;
   timeRef: React.RefObject<TimeEffect[]>;
   npcStaggerRef: React.RefObject<number>;
   npcCooldown: React.RefObject<boolean>;
   lastBlockPressRef: React.RefObject<number>;
   lastAttackPressRef?: React.RefObject<number>;
   onFullBlock?: () => void;
-  onBlockRef?: React.RefObject<() => void>;
+  onBlockRef?: React.RefObject<(side?: LucauaShieldSide) => void>;
   onParry?: () => void;
   onDamageBlocked?: (blockedDamage: number) => void;
 };
@@ -69,6 +74,7 @@ export function handleNpcBlocking({
   spawnDamageRef,
   playerX,
   playerY,
+  attackerX,
   timeRef,
   npcStaggerRef,
   npcCooldown,
@@ -89,7 +95,7 @@ export function handleNpcBlocking({
     npcStaggerRef.current = now + PARRY_STAGGER_MS;
     npcCooldown.current = false;
     onFullBlock?.();
-    onBlockRef?.current?.();
+    onBlockRef?.current?.(getShieldSide(attackerX, playerX));
     setTimeout(() => (npcCooldown.current = true), PARRY_STAGGER_MS);
     return true;
   }
@@ -104,7 +110,7 @@ export function handleNpcBlocking({
         npcCooldown.current = false;
         onFullBlock?.();
         onDamageBlocked?.(dmg);
-        onBlockRef?.current?.();
+        onBlockRef?.current?.(getShieldSide(attackerX, playerX));
         setTimeout(() => (npcCooldown.current = true), NPC_BLOCK_COOLDOWN);
         return true;
       }
@@ -121,7 +127,7 @@ export function handleNpcBlocking({
       );
       timeRef.current = applyHitstop(timeRef.current, 80);
       npcCooldown.current = false;
-      onBlockRef?.current?.();
+      onBlockRef?.current?.(getShieldSide(attackerX, playerX));
       setTimeout(() => (npcCooldown.current = true), NPC_GUARD_BREAK_COOLDOWN);
       return true;
     }
@@ -131,7 +137,7 @@ export function handleNpcBlocking({
     spawnDamageRef.current?.(halved, playerX, playerY, "npc");
     timeRef.current = applyHitstop(timeRef.current, 40);
     npcCooldown.current = false;
-    onBlockRef?.current?.();
+    onBlockRef?.current?.(getShieldSide(attackerX, playerX));
     setTimeout(() => (npcCooldown.current = true), NPC_BLOCK_COOLDOWN);
     return true;
   }
@@ -149,7 +155,7 @@ export function handleNpcBlocking({
     );
     timeRef.current = applyHitstop(timeRef.current, 60);
     npcCooldown.current = false;
-    onBlockRef?.current?.();
+    onBlockRef?.current?.(getShieldSide(attackerX, playerX));
     setTimeout(() => (npcCooldown.current = true), NPC_RECENT_BLOCK_COOLDOWN);
     return true;
   }

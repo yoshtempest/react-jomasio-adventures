@@ -35,6 +35,8 @@ import type { NavigateFunction } from "react-router";
 import type {
   LucauaAttackVariant,
   LucauaEnergyProjectile,
+  LucauaShieldSide,
+  LucauaShieldSides,
 } from "@/utils/types/character/lucaua";
 
 type Battle = ReturnType<typeof useBattleSystem>;
@@ -176,4 +178,8 @@ export type BattleSceneApi = {
   lucauaEnergyProjectiles: LucauaEnergyProjectile[];
   /** Variante de mão do sprite do ataque básico do lucaua (pose do golpe atual). */
   lucauaAttackVariant: LucauaAttackVariant;
+  /** Nonces dos shields de bloqueio do lucaua por lado (`0` = inativo). */
+  lucauaShieldSides: LucauaShieldSides;
+  /** Encerra o shield de um lado quando ele termina o fade-out. */
+  onLucauaShieldEnd: (side: LucauaShieldSide, nonce: number) => void;
 };

@@ -27,6 +27,7 @@ import {
 
 import { clampX } from "@/gameRules/movement/clampX";
 import type { DamageArmor, DamageKind } from "@/utils/types/battle/damageKind";
+import type { LucauaShieldSide } from "@/utils/types/character/lucaua";
 
 type Props = {
   npcLevel: number;
@@ -65,7 +66,7 @@ type Props = {
   setBlockGauge: React.Dispatch<React.SetStateAction<number>>;
   lastBlockPressRef: React.RefObject<number>;
   lastAttackPressRef?: React.RefObject<number>;
-  onBlockRef?: React.RefObject<() => void>;
+  onBlockRef?: React.RefObject<(side?: LucauaShieldSide) => void>;
   titleEnemyMissChance?: number;
   onDamageTakenRef?: React.RefObject<(amount: number) => void>;
   onDodgeRef?: React.RefObject<() => void>;
@@ -218,6 +219,7 @@ export function useNpcBattle({
     (dmg: number, tx: number, ty: number, dmgType: DamageType = "npc") => {
       const blocked = checkBlocked({
         dmg,
+        character: player.character,
         playerState: player.state,
         playerBattleDirection: player.battleDirection,
         playerX,
@@ -255,6 +257,7 @@ export function useNpcBattle({
       npcY,
       player.state,
       player.battleDirection,
+      player.character,
       blockGauge,
       setBlockGauge,
       timeRef,
@@ -410,6 +413,7 @@ export function useNpcBattle({
 
       const blocked = checkBlocked({
         dmg,
+        character: player.character,
         playerState: player.state,
         playerBattleDirection: player.battleDirection,
         playerX,
@@ -506,6 +510,7 @@ export function useNpcBattle({
           spawnDamageRef,
           playerX,
           playerY,
+          attackerX: npcX,
           timeRef,
           npcStaggerRef,
           npcCooldown,
@@ -534,6 +539,7 @@ export function useNpcBattle({
         spawnDamageRef,
         playerX,
         playerY,
+        attackerX: npcX,
         timeRef,
         npcStaggerRef,
         npcCooldown,
@@ -554,6 +560,7 @@ export function useNpcBattle({
       spawnDamageRef,
       playerX,
       playerY,
+      npcX,
       timeRef,
       npcStaggerRef,
       npcCooldown,
@@ -634,6 +641,7 @@ export function useNpcBattle({
           spawnDamageRef,
           playerX,
           playerY,
+          attackerX: npcX,
           timeRef,
           npcStaggerRef,
           npcCooldown,
@@ -661,6 +669,7 @@ export function useNpcBattle({
       spawnDamageRef,
       playerX,
       playerY,
+      npcX,
       timeRef,
       npcStaggerRef,
       npcCooldown,

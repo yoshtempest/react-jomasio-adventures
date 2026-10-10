@@ -9,12 +9,16 @@ import {
   incrementSpecialsUsedStats,
 } from "@/utils/rewards";
 
+import type { LucauaShieldSide } from "@/utils/types/character/lucaua";
+
 type Props = {
   playerCharacter: CharacterId;
   incrementBlockCounter: () => void;
   incrementDamageTaken: (amount: number) => void;
   incrementDodgeCounter: () => void;
   incrementDamageDealt: (amount: number) => void;
+  /** Lado do shield de bloqueio do lucaua (repasse do golpe bloqueado). */
+  onBlockSide?: (side?: LucauaShieldSide) => void;
 };
 
 export function useStatCallbacks({
@@ -23,10 +27,12 @@ export function useStatCallbacks({
   incrementDamageTaken,
   incrementDodgeCounter,
   incrementDamageDealt,
+  onBlockSide,
 }: Props) {
-  const onBlockRef = useLatestRef(() => {
+  const onBlockRef = useLatestRef((side?: LucauaShieldSide) => {
     incrementBlockCount(playerCharacter);
     incrementBlockCounter();
+    onBlockSide?.(side);
   });
 
   const onDamageTakenRef = useLatestRef((amount: number) => {
