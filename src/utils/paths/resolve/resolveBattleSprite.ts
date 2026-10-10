@@ -9,12 +9,14 @@ import { MARCELO_VASTOLORD_SPRITES } from "@/utils/paths/player/constants";
 import { playerPath } from "@/utils/paths/player/playerPath";
 import { playerPathMarshadowHabilities } from "@/utils/paths/characters/marcelo/playerPathMarshadowHabilities";
 import type { MarceloBattleForm } from "@/utils/paths/characters/marcelo/types";
+import type { LucauaAttackVariant } from "@/utils/types/character/lucaua";
 
 export function resolveBattleSprite(
   character: string,
   state: PlayerState,
   weapon?: LucasWeapon,
   form?: MarceloBattleForm,
+  lucauaAttackVariant?: LucauaAttackVariant,
 ): string {
   if (character === "artur" && ALL_PREDICATES.isSpecialTrigger(state)) {
     return playerPath(`/artur/inFight/special/arturSeeing.svg`);
@@ -73,6 +75,21 @@ export function resolveBattleSprite(
     (folder === "attack" && ATTACK_FOLDER_ALT.has(character)
       ? "attacks"
       : folder);
+  // Lucaua: o básico é um disparo de energia — os golpes não têm `attack.svg`,
+  // e sim as poses de mão (`leftHandAttack`/`rightHandAttack`, alternadas a
+  // cada golpe, e `bothSidesAttack` quando há inimigos dos dois lados). A
+  // variante chega da batalha; consumidores fora dela (menu de Status, combo,
+  // replay) caem no `rightHandAttack`.
+  if (character === "lucaua" && folder === "attack") {
+    const variant = lucauaAttackVariant ?? "right";
+    const file =
+      variant === "left"
+        ? "leftHandAttack"
+        : variant === "both"
+          ? "bothSidesAttack"
+          : "rightHandAttack";
+    return playerPath(`/lucaua/inFight/attacks/${file}.svg`);
+  }
   if (character === "lucas" && weapon) {
     return playerPath(
       `/${character}/inFight/${weapon}/${resolved}/${state}.svg`,

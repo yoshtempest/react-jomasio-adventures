@@ -494,6 +494,8 @@ export function useBattleScene({
     granReyCeroPress,
     granReyCeroUsable,
     granReyCeroRemaining,
+    lucauaEnergyProjectiles,
+    lucauaAttackVariant,
   } = combat;
 
   vastolordEndingRef.current = battle.isEnding;
@@ -820,5 +822,7 @@ export function useBattleScene({
     granReyCeroPress,
     granReyCeroUsable,
     granReyCeroRemaining,
+    lucauaEnergyProjectiles,
+    lucauaAttackVariant,
   });
 }

@@ -1,5 +1,6 @@
 import { PlayerBattle } from "@/components/Game/Entities/Player/Battle";
 import type { BlinkVisual } from "@/hooks/battle/player/characters/natsuki/useBlinkAnimation";
+import type { LucauaAttackVariant } from "@/utils/types/character/lucaua";
 
 type Props = {
   player: Player;
@@ -22,6 +23,8 @@ type Props = {
   atomicFlash?: boolean;
   /** Blink do teleporte da Expansão de Domínio do marcelo. */
   mugetsuBlink?: "out" | "in" | null;
+  /** Pose de mão do sprite do ataque básico do lucaua. */
+  lucauaAttackVariant?: LucauaAttackVariant;
 };
 
 export function Player({
@@ -38,6 +41,7 @@ export function Player({
   atomicHalo = false,
   atomicFlash = false,
   mugetsuBlink = null,
+  lucauaAttackVariant,
 }: Props) {
   const blinkSilhouette =
     player.character === "riquelme" && blinkVisual
@@ -66,6 +70,7 @@ export function Player({
       atomicHalo={atomicHalo}
       atomicFlash={atomicFlash}
       mugetsuBlink={mugetsuBlink}
+      lucauaAttackVariant={lucauaAttackVariant}
       levelUpParticles
     />
   );

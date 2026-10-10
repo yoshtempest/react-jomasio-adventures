@@ -14,6 +14,7 @@ import { useNpcAI } from "@/hooks/battle/npc/useAi";
 import { useBattleSystem } from "@/hooks/battle/main/useSystem";
 import { useNpcTargeting } from "@/hooks/battle/npc/useNpcTargeting";
 import { usePlayerBattleActions } from "@/hooks/battle/player/usePlayerActions";
+import { useLucauaEnergyAttack } from "@/hooks/battle/player/characters/lucaua/useLucauaEnergyAttack";
 import { useSummonAI } from "@/hooks/battle/summon/useAi";
 import { useAllyAI } from "@/hooks/battle/summon/useAllyAI";
 import { useBattleControls } from "@/hooks/battle/useControls";
@@ -94,6 +95,7 @@ import { clampX } from "@/gameRules/movement/clampX";
 import type { BattleObstacle } from "@/utils/types/maps/battle";
 import type { BattleManaApi } from "@/contexts/BattleManaContext";
 import type { useBlinkAnimation } from "@/hooks/battle/player/characters/natsuki/useBlinkAnimation";
+import type { LucauaTarget } from "@/utils/types/character/lucaua";
 
 type Props = {
   setup: ReturnType<typeof useBattleStageSetup>;
@@ -695,6 +697,14 @@ export function useBattleCombat({
   refs.spawnDamageRef.current = battle.spawnDamageNumber;
   dragBattleRef.current = battle;
 
+  // Lucaua: o básico é um projétil de energia. O press dispara via `fireRef`
+  // (preenchido pelo hook criado logo abaixo) e a colisão resolve o dano via
+  // `onHitRef` (preenchido pelo usePlayerBattleActions com playerHit/damageSummon).
+  const lucauaFireRef = useRef<
+    ((player: Player, targets: LucauaTarget[]) => boolean) | null
+  >(null);
+  const lucauaOnHitRef = useRef<((target: LucauaTarget) => void) | null>(null);
+
   const { handlePlayerHit, handleSpecialHit, handleExtraPunch, hitTargetList } =
     usePlayerBattleActions({
       player,
@@ -740,7 +750,19 @@ export function useBattleCombat({
       emanuelComboActiveRef,
       emanuelComboAirActiveRef,
       emanuelComboStepIndexRef,
+      lucauaFireRef,
+      lucauaOnHitRef,
     });
+
+  const lucauaEnergy = useLucauaEnergyAttack({
+    PLAYER_SIZE,
+    timeRef: refs.timeRef,
+    npc: { x: npc.x, y: npc.y },
+    npcClass: npcData.class,
+    summons,
+    onProjectileHit: (target) => lucauaOnHitRef.current?.(target),
+  });
+  lucauaFireRef.current = lucauaEnergy.fire;
 
   const freezeSummonsUntilRef = useRef(0);
 
@@ -1563,5 +1585,7 @@ export function useBattleCombat({
     granReyCeroUsable,
     granReyCeroRemaining,
     disintegrating,
+    lucauaEnergyProjectiles: lucauaEnergy.projectiles,
+    lucauaAttackVariant: lucauaEnergy.attackVariant,
   };
 }

@@ -5,6 +5,7 @@ import { resolveSpriteState } from "@/gameRules/battle/playerStates";
 import { getIdleFrames, IDLE_FRAME_MS } from "@/data/sprites/idleFrames";
 
 import { resolvePlayerSprite } from "@/components/Game/Entities/Player/Battle/utils/resolvePlayerSprite";
+import type { LucauaAttackVariant } from "@/utils/types/character/lucaua";
 
 interface UseBattleSpriteParams {
   character: CharacterId;
@@ -15,6 +16,7 @@ interface UseBattleSpriteParams {
   teleportSprite: boolean;
   preAtomic: boolean;
   outroExpression?: "victory" | "defeat" | null;
+  lucauaAttackVariant?: LucauaAttackVariant;
 }
 
 export function useBattleSprite({
@@ -26,6 +28,7 @@ export function useBattleSprite({
   teleportSprite,
   preAtomic,
   outroExpression = null,
+  lucauaAttackVariant,
 }: UseBattleSpriteParams) {
   const resolvedState = resolveSpriteState(state);
 
@@ -38,6 +41,7 @@ export function useBattleSprite({
     teleportSprite,
     preAtomic,
     outroExpression,
+    lucauaAttackVariant,
   });
 
   // Sequência idle do personagem (e forma):1 frame = parado, >1 = animado.
@@ -87,6 +91,7 @@ export function useBattleSprite({
           teleportSprite,
           preAtomic,
           outroExpression: null,
+          lucauaAttackVariant,
         }),
       );
       return;
@@ -103,7 +108,7 @@ export function useBattleSprite({
       return;
     }
 
-    setErrorSrc(resolveBattleSprite(character, fallbackState, weapon, form));
+    setErrorSrc(resolveBattleSprite(character, fallbackState, weapon, form, lucauaAttackVariant));
   };
 
   return {

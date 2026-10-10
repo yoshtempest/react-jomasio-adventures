@@ -19,6 +19,7 @@ import { KillerQueen } from "./KillerQueen";
 import { Bomb } from "./Bomb";
 import { ExtraPunch } from "./ExtraPunch";
 import { SpecialProjectile } from "./SpecialProjectile";
+import { EnergyProjectile } from "./EnergyProjectile";
 import { LootBag } from "./LootBag";
 import { BlinkAfterimage } from "@/components/Game/Battle/Effects/Natsuki/BlinkAfterimage";
 import { DeiseDashAfterimage } from "@/components/Game/Battle/Effects/DeiseDashAfterimage";
@@ -44,6 +45,10 @@ import type {
   MugetsuBlink,
   MugetsuDisintegrationTarget,
 } from "@/utils/types/battle/mugetsu";
+import type {
+  LucauaAttackVariant,
+  LucauaEnergyProjectile,
+} from "@/utils/types/character/lucaua";
 
 type Props = {
   npc: MainNpcState;
@@ -104,6 +109,10 @@ type Props = {
   mugetsuBlink?: MugetsuBlink;
   /** Alvos sendo desintegrados em pó pela varredura. */
   disintegrating?: MugetsuDisintegrationTarget[];
+  /** Projéteis de energia do ataque básico do lucaua. */
+  lucauaEnergyProjectiles?: LucauaEnergyProjectile[];
+  /** Pose de mão do sprite do ataque básico do lucaua. */
+  lucauaAttackVariant?: LucauaAttackVariant;
 };
 
 export function BattleEntities({
@@ -148,6 +157,8 @@ export function BattleEntities({
   mugetsuSweep = null,
   mugetsuBlink = null,
   disintegrating = [],
+  lucauaEnergyProjectiles = [],
+  lucauaAttackVariant,
 }: Props) {
   const battleScaleX = getViewportSize().width / ProjectileConstants.MAP_WIDTH;
   const battleScaleY =
@@ -246,6 +257,13 @@ export function BattleEntities({
         atomicHalo={atomicHalo}
         atomicFlash={atomicFlash}
         mugetsuBlink={mugetsuBlink}
+        lucauaAttackVariant={lucauaAttackVariant}
+      />
+
+      <EnergyProjectile
+        projectiles={lucauaEnergyProjectiles}
+        battleScaleX={battleScaleX}
+        battleScaleY={battleScaleY}
       />
 
       <AtomicEffects

@@ -33,6 +33,7 @@ export function PlayerBattle(props: PlayerBattleProps) {
     atomicFlash = false,
     mugetsuBlink = null,
     levelUpParticles = false,
+    lucauaAttackVariant,
   } = props;
 
   const isChargingKi = character === "emanuel" && state === "chargingKi";
@@ -54,6 +55,7 @@ export function PlayerBattle(props: PlayerBattleProps) {
     teleportSprite,
     preAtomic,
     outroExpression,
+    lucauaAttackVariant,
   });
 
   const isMostHonored = state === "mostHonored";

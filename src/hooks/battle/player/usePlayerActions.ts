@@ -24,6 +24,7 @@ import { EMANUEL_COMBO_STEPS } from "@/data/characters/emanuel";
 import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { SpecialHitOptions } from "@/utils/types/battle/specialHitOptions";
 import type { CharactersProgress } from "@/data/characters/defaultProgress";
+import type { LucauaTarget } from "@/utils/types/character/lucaua";
 
 type Props = {
   player: Player;
@@ -79,6 +80,12 @@ type Props = {
   emanuelComboStepIndexRef?: React.RefObject<number>;
   /** Avança o player um passo em direção ao alvo atingido (combo do emanuel). */
   onComboAdvance?: (forwardDistance: number, targetX: number) => void;
+  /** Básico do lucaua: dispara o projétil no press (devolve se disparou). */
+  lucauaFireRef?: React.RefObject<
+    ((player: Player, targets: LucauaTarget[]) => boolean) | null
+  >;
+  /** Colisão do projétil do lucaua com um alvo (resolve o dano básico). */
+  lucauaOnHitRef?: React.RefObject<((target: LucauaTarget) => void) | null>;
 };
 
 export function usePlayerBattleActions({
@@ -105,6 +112,8 @@ export function usePlayerBattleActions({
   emanuelComboAirActiveRef,
   emanuelComboStepIndexRef,
   onComboAdvance,
+  lucauaFireRef,
+  lucauaOnHitRef,
 }: Props) {
   const fallingAttackUsedRef = useRef(false);
 
@@ -169,6 +178,23 @@ export function usePlayerBattleActions({
       battle,
     ],
   );
+
+  // Impacto do projétil de energia do lucaua: o básico não tem fase corpo a
+  // corpo — o golpe É o projétil, resolvido aqui no momento da colisão (NPC
+  // principal via playerHit com bypass de alcance/cooldown; summons pelo mesmo
+  // pipeline do melee). Reatribuído a cada render para manter os closures
+  // frescos (mesmo padrão do `refs.spawnDamageRef` no useBattleCombat).
+  if (lucauaOnHitRef) {
+    lucauaOnHitRef.current = (target) => {
+      if (target.id === "main") {
+        battle.playerHit(1, true, true);
+        return;
+      }
+      const summon = summons.find((s) => s.id === target.id);
+      if (!summon) return;
+      hitSummon({ id: summon.id, x: summon.x, y: summon.y }, 1, "basic");
+    };
+  }
 
   const hitTargetList = useCallback(
     (
@@ -249,6 +275,19 @@ export function usePlayerBattleActions({
 
     const targets = getTargets();
     const mainTarget = targets.find((t) => t.id === "main");
+
+    // Lucaua: o básico é um disparo de energia — o press só gera o projétil
+    // (ninguém leva dano na hora); o dano acontece na colisão, quando o
+    // projétil some no primeiro alvo atingido. O cooldown é consumido no
+    // disparo para o mash não gerar saraivada.
+    if (player.character === "lucaua") {
+      const fired = lucauaFireRef?.current?.(player, targets) ?? false;
+      if (fired) {
+        playAttackSound(player.character);
+        resetCooldownRef(PLAYER_BASIC_COOLDOWN, battle.playerCooldown);
+      }
+      return;
+    }
 
     if (player.state === "blocked") {
       const areaTargets = targets.filter(
@@ -344,6 +383,7 @@ export function usePlayerBattleActions({
     emanuelComboAirActiveRef,
     emanuelComboStepIndexRef,
     onComboAdvance,
+    lucauaFireRef,
   ]);
 
   const handleExtraPunch = useCallback(

@@ -6,6 +6,7 @@ import {
 import { resolveSpriteState } from "@/gameRules/battle/playerStates";
 
 import { TRANSFORMATION_FRAMES } from "@/components/Game/Entities/Player/Battle/constants";
+import type { LucauaAttackVariant } from "@/utils/types/character/lucaua";
 
 interface ResolvePlayerSpriteParams {
   character: CharacterId;
@@ -16,6 +17,7 @@ interface ResolvePlayerSpriteParams {
   teleportSprite: boolean;
   preAtomic: boolean;
   outroExpression?: "victory" | "defeat" | null;
+  lucauaAttackVariant?: LucauaAttackVariant;
 }
 
 export function resolvePlayerSprite({
@@ -27,6 +29,7 @@ export function resolvePlayerSprite({
   teleportSprite,
   preAtomic,
   outroExpression = null,
+  lucauaAttackVariant,
 }: ResolvePlayerSpriteParams): string {
   const resolvedState = resolveSpriteState(state);
 
@@ -53,5 +56,11 @@ export function resolvePlayerSprite({
     return playerPath("/emanuel/inFight/attacks/teleport.svg");
   }
 
-  return resolveBattleSprite(character, resolvedState, weapon, form);
+  return resolveBattleSprite(
+    character,
+    resolvedState,
+    weapon,
+    form,
+    lucauaAttackVariant,
+  );
 }

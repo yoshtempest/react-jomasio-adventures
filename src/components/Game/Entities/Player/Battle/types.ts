@@ -1,3 +1,5 @@
+import type { LucauaAttackVariant } from "@/utils/types/character/lucaua";
+
 export interface PlayerBattleProps {
   x: number;
   y: number;
@@ -19,4 +21,6 @@ export interface PlayerBattleProps {
   atomicFlash?: boolean;
   mugetsuBlink?: "out" | "in" | null;
   levelUpParticles?: boolean;
+  /** Pose de mão do sprite do ataque básico do lucaua. */
+  lucauaAttackVariant?: LucauaAttackVariant;
 }

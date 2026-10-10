@@ -32,6 +32,10 @@ import type { SummonedNpc } from "@/utils/types/npc/npc";
 import type { CharactersProgress } from "@/data/characters/defaultProgress";
 import type { ReplayData } from "@/utils/types/replay";
 import type { NavigateFunction } from "react-router";
+import type {
+  LucauaAttackVariant,
+  LucauaEnergyProjectile,
+} from "@/utils/types/character/lucaua";
 
 type Battle = ReturnType<typeof useBattleSystem>;
 type Npc = ReturnType<typeof useNpcAI>;
@@ -168,4 +172,8 @@ export type BattleSceneApi = {
   granReyCeroPress: () => void;
   granReyCeroUsable: boolean;
   granReyCeroRemaining: number;
+  /** Projéteis de energia do ataque básico do lucaua em voo. */
+  lucauaEnergyProjectiles: LucauaEnergyProjectile[];
+  /** Variante de mão do sprite do ataque básico do lucaua (pose do golpe atual). */
+  lucauaAttackVariant: LucauaAttackVariant;
 };

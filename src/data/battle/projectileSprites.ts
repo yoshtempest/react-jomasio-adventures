@@ -19,6 +19,7 @@ export const spriteMap: Record<string, string> = {
   blueSphere: playerProjectilePath("/blueSphere.svg"),
   redSphere: playerProjectilePath("/redSphere.svg"),
   purpleSphere: playerProjectilePath("/purpleSphere.svg"),
+  energyAttack: playerProjectilePath("/energyAttack.svg"),
   genkiDama: playerProjectilePath("/genkiDama.svg"),
   genkiDamaChargeEffect: playerPath(
     "/emanuel/inFight/attacks/chargeEffect.svg",
